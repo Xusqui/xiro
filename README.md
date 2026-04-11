@@ -421,6 +421,7 @@ Pantalla de entrada con fondo WebGL animado. El usuario elige su rol: **Jugador*
 4. Durante la partida, la interfaz se adapta automáticamente al tipo de pregunta activa
 5. Persistencia de sesión en `localStorage` para reconexión automática
 6. Wake Lock API para evitar que la pantalla del móvil se apague
+7. En modo **Trivial**, se muestra una barra inferior fija con las cuñas por categoría (gris si no conseguida, color sólido si conseguida); se sincroniza en vivo por eventos `trivial-token-update` / `trivial-turn-changed` y se restaura tras `reconnect-player`
 
 **Interfaz por tipo de pregunta:**
 
@@ -851,7 +852,7 @@ Los mayores bloques sin cubrir son los manejadores Socket.IO y servicios Trivial
 <img src="https://xiro.pro/images/chamaleon/pointing.svg" alt="mascota señalando" width="100" align="right">
 
 - 🔄 **Plugin para PowerPoint** — complemento para presentadores que integra partidas XIRO directamente en el slideshow (lobby automático, inicio de pregunta al llegar a la diapositiva, diálogo fullscreen sobre la presentación). *En Progreso.*
-- [ ] **Que no aparezca como partida guardada las derivadas de los tests**
+- 🔄 **Que no aparezca como partida guardada las derivadas de los tests**
 - [ ] **Soporte para nuevos tipos de pregunta**
   - Apuesta de puntos
   - Emparejar columnas
