@@ -65,6 +65,7 @@
 - **Exportación PDF** de juegos personalizados (Puppeteer + Chromium)
 - **Exportación/importación JSON** de bancos de preguntas
 - **Panel de administración** con dos roles (admin / editor)
+- **Control remoto del presentador** desde móvil (solo admin), sincronizado en tiempo real con RedisSyncBus
 - **QR code** generado dinámicamente para que los jugadores se unan
 - **Fuegos artificiales** configurables al finalizar el juego
 - **Historial de partidas** con exportación CSV/JSON individual por sesión (solo admin)
@@ -504,8 +505,54 @@ Asistente en 3 pasos:
 - Personalización de UI (colores, temas)
 - Herramientas: limpiar uploads huérfanos, vaciar caché Redis, borrar logs
 - **Historial de partidas** (solo admin): lista las últimas 100 partidas con PIN, fecha, tipo, jugadores y duración; botón **Ver** que abre el visor gráfico directamente (`?id=`); descarga CSV o JSON por sesión; borrado individual o masivo con modal de confirmación
+- **Juegos en Curso** (solo admin): listado en tiempo real de sesiones activas y botón **Controlar** para abrir `presentador.html?pin=PIN&remote=true` desde móvil
 - **Visor gráfico** de resultados: abre `/xiro-results-viewer.html` para visualizar cualquier CSV exportado con podio animado, estadísticas y detalle por pregunta
 - **Botón PANIC**: reinicia el contenedor Docker completo
+
+### Control remoto del presentador (admin)
+
+Permite controlar una partida proyectada en PC desde otro dispositivo (p.ej. móvil) usando los mismos eventos del presentador principal:
+
+- `next-question`
+- `reveal-answer`
+- `end-game`
+
+Flujo:
+1. Entrar en **Config → Juegos en Curso**.
+2. Pulsar **Controlar** en la sesión deseada.
+3. Se abre `presentador.html?pin=PIN&remote=true` con interfaz táctil simplificada.
+4. El cliente remoto realiza handshake por socket (`join-remote-presenter`) y recibe snapshot inicial.
+
+Seguridad:
+- El control remoto exige **JWT de admin válido** tanto por REST como por socket.
+- Aunque se conozca la URL del presentador remoto, sin token admin el servidor rechaza la unión (`remote-join-failed`).
+
+Implementación técnica:
+- Query CQRS: `app/application/queries/GetActiveSessionsQuery.js` (escaneo Redis `session:*`).
+- Endpoint: `GET /api/admin/active-sessions` en `app/routes/admin.remote.routes.js`.
+- Socket helper: `app/sockets/utils/RemoteControlHelper.js`.
+- Frontend admin: `app/public/js/admin/modules/remote-tab.js`.
+- Frontend presentador móvil: `app/public/js/presenter/presenter-remote.js` + `app/public/css/presenter-remote.css`.
+
+### Rate limit de login admin (reset)
+
+El endpoint `/api/admin-login` está protegido con rate limit (5 intentos / 15 min por IP). Cuando Redis está disponible, el contador se guarda con claves `rl:*`.
+
+Comandos útiles en servidor:
+
+```bash
+# Ver claves bloqueadas
+redis-cli --scan --pattern 'rl:*'
+
+# Ver TTL de una IP
+redis-cli TTL rl:<ip>
+
+# Reset de una IP concreta
+redis-cli DEL rl:<ip>
+
+# Reset global de bloqueos de login
+redis-cli --scan --pattern 'rl:*' | xargs -r redis-cli DEL
+```
 
 ---
 
@@ -651,6 +698,7 @@ Configurables por juego con `use_streaks`, `streak_threshold`, `streak_bonus_per
 - Al recargar la página o reconectarse, el cliente emite `reconnect-player` automáticamente
 - El servidor valida la sesión en Redis, restaura el jugador en la partida y envía un snapshot del estado actual
 - Los presentadores también pueden reconectarse mediante `reconnect-presenter`
+- El control remoto admin puede coexistir con el presentador principal: múltiples sockets de presentador por sala (`join-remote-presenter`) sin expulsar al socket original
 - **Restauración del estado revelado**: si la pregunta actual ya fue revelada cuando el presentador reconecta, el servidor re-emite automáticamente el evento `reveal-answer` con el payload completo hacia ese socket. Esto funciona aunque la reconexión aterrice en un worker diferente al que procesó la revelación, gracias a que el payload se sincroniza vía el canal `question-revealed` de `RedisSyncBus` en el momento de la revelación
 - **Reconexión cross-worker**: cuando un jugador cambia de red (p.ej. WiFi → datos móviles), el cliente obtiene un nuevo socket. Si ese socket aterriza en un worker distinto al que procesó el `join-lobby`, el canal `player-data-sync` de `RedisSyncBus` garantiza que el objeto completo del jugador esté disponible en todos los workers. El guard `isDifferentSocket` en `ReconnectPlayerHandler` acepta cualquier estado activo (no solo `connected`), ya que el socket anterior puede tardar hasta ~80 s en expirar por TCP keepalive
 
@@ -856,7 +904,6 @@ Los mayores bloques sin cubrir son los manejadores Socket.IO y servicios Trivial
 - [ ] **Soporte para nuevos tipos de pregunta**
   - Apuesta de puntos
   - Emparejar columnas
-- [ ] **Control remoto del presentador desde móvil** — vista simplificada (botones siguiente pregunta / revelar / finalizar) accesible desde cualquier dispositivo en la misma red; útil cuando el presentador no está frente al ordenador que proyecta la TV.
 
 ---
 
