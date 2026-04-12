@@ -516,12 +516,17 @@ Permite controlar una partida proyectada en PC desde otro dispositivo (p.ej. mó
 - `next-question`
 - `reveal-answer`
 - `end-game`
+- `pause-timer` / `resume-timer`
 
 Flujo:
 1. Entrar en **Config → Juegos en Curso**.
 2. Pulsar **Controlar** en la sesión deseada.
 3. Se abre `presentador.html?pin=PIN&remote=true` con interfaz táctil simplificada.
 4. El cliente remoto realiza handshake por socket (`join-remote-presenter`) y recibe snapshot inicial.
+
+Funcionalidades de la interfaz remota:
+- Botones de acción: **Siguiente pregunta**, **Revelar respuesta**, **Finalizar juego** y **Terminar partida** (con modal de confirmación)
+- **Temporizador circular** sincronizado con el presentador: muestra la cuenta atrás en tiempo real, cambia a amarillo cuando está pausado y pulsa en rojo en los últimos 5 segundos. Tocarlo pausa o reanuda el temporizador (emite `pause-timer` / `resume-timer`). Se oculta automáticamente al revelar la respuesta.
 
 Seguridad:
 - El control remoto exige **JWT de admin válido** tanto por REST como por socket.
@@ -532,7 +537,7 @@ Implementación técnica:
 - Endpoint: `GET /api/admin/active-sessions` en `app/routes/admin.remote.routes.js`.
 - Socket helper: `app/sockets/utils/RemoteControlHelper.js`.
 - Frontend admin: `app/public/js/admin/modules/remote-tab.js`.
-- Frontend presentador móvil: `app/public/js/presenter/presenter-remote.js` + `app/public/css/presenter-remote.css`.
+- Frontend presentador móvil: `app/public/js/presenter/presenter-remote.js`, `presenter-remote-ui.js` y `app/public/css/presenter-remote.css`.
 
 ### Rate limit de login admin (reset)
 
