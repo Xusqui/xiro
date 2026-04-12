@@ -21,7 +21,7 @@
   <br>
 
   > Self-hosted platform for real-time quiz sessions · 6 question types · 4 game modes
-
+  Try on https://xiro.pro
 </div>
 
 ---
