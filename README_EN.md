@@ -21,7 +21,13 @@
   <br>
 
   > Self-hosted platform for real-time quiz sessions · 6 question types · 4 game modes
-  Try on https://xiro.pro
+
+  <br>
+
+  <a href="https://xiro.pro">
+    <img src="https://img.shields.io/badge/%F0%9F%8E%AE%20Try%20me%20at-xiro.pro-blueviolet?style=for-the-badge&logoColor=white" alt="Try me at xiro.pro">
+  </a>
+
 </div>
 
 ---
