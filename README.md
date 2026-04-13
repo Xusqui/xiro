@@ -22,6 +22,12 @@
 
   > Plataforma self-hosted para sesiones de preguntas y respuestas en tiempo real · 6 tipos de preguntas · 4 modos de juego
 
+  <br>
+
+  <a href="https://xiro.pro">
+    <img src="https://img.shields.io/badge/%F0%9F%8E%AE%20Pru%C3%A9bame%20en-xiro.pro-blueviolet?style=for-the-badge&logoColor=white" alt="Pruébame en xiro.pro">
+  </a>
+
 </div>
 
 ---
