@@ -25,8 +25,12 @@
   <br>
 
   <a href="https://xiro.pro">
-    <img src="https://img.shields.io/badge/%F0%9F%8E%AE%20Try%20me%20at-xiro.pro-blueviolet?style=for-the-badge&logoColor=white" alt="Try me at xiro.pro">
+    <img src="https://img.shields.io/badge/%F0%9F%8E%AE_%20TRY_ME_AT_XIRO.PRO_%F0%9F%8E%AE-8AB817?style=for-the-badge&labelColor=8AB817&logoColor=white" alt="Try me at xiro.pro" height="55">
   </a>
+
+  <br><br>
+
+  <sub>👆 <strong>Live demo</strong> — jump in and play now!</sub>
 
 </div>
 
