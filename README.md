@@ -34,6 +34,8 @@
 
 </div>
 
+> 📖 [Read in English](README_EN.md)
+
 ---
 
 ## Índice
@@ -191,10 +193,10 @@ Mecánica de tablero:
 <img src="https://xiro.pro/images/chamaleon/nerd.svg" alt="mascota nerd" width="100" align="right">
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                   Clientes (Browser)                │
+┌──────────────────────────────────────────────────────┐
+│                   Clientes (Browser)                 │
 │  admin.html  presentador.html  tv.html  jugador.html │
-└───────┬──────────────┬────────────────┬─────────────┘
+└───────┬──────────────┬────────────────┬──────────────┘
         │ REST (JWT)   │ Socket.IO      │ Socket.IO
         ▼              ▼                ▼
 ┌─────────────────────────────────────────────────────┐
@@ -905,8 +907,9 @@ Los mayores bloques sin cubrir son los manejadores Socket.IO y servicios Trivial
 
 ## BUGS
 
-- No se guardan las partidas reales tipo "Trivial Pursuit"
-
+- No aparece la pantalla correspondiente en la pantalla del jugador cuando el presentador cancela un juego o cuando el juego finaliza (DE MOMENTO ARREGLADO)
+- En el trivial, si un jugador consigue una racha y el presentador avanza demasiado rápido al siguiente turno, al jugador que ha conseguido la racha, si es el que le toca tirar el dado, no le aparece el dado, sino la pantalla verde de respuesta correcta. Para poder ver el dado tiene que cargar la página el jugador (DE MOMENTO ARREGLADO)
+- En admin / Config / Juegos en Curso. En ocasiones aparecen juegos que ya han concluído.
 ---
 
 ## Tareas pendientes
@@ -915,7 +918,10 @@ Los mayores bloques sin cubrir son los manejadores Socket.IO y servicios Trivial
 <img src="https://xiro.pro/images/chamaleon/pointing.svg" alt="mascota señalando" width="100" align="right">
 
 - 🔄 **Plugin para PowerPoint** — complemento para presentadores que integra partidas XIRO directamente en el slideshow (lobby automático, inicio de pregunta al llegar a la diapositiva, diálogo fullscreen sobre la presentación). *En Progreso.*
-- 🔄 **Que no aparezca como partida guardada las derivadas de los tests**
+- [ ] **Revisar si IndividualGameMode.js puede eliminarse**
+
+- [ ] **Mover todos los tests dentro de las carpetas __tests__**
+
 - [ ] **Soporte para nuevos tipos de pregunta**
   - Apuesta de puntos
   - Emparejar columnas
@@ -942,3 +948,4 @@ Ideas descartadas por ahora o de largo plazo:
   <br><br>
   <em>XIRO! © Familia Fernández Villatoro</em>
 </div>
+
