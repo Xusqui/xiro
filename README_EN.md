@@ -34,6 +34,8 @@
 
 </div>
 
+> 📖 [Leer en español](README.md)
+
 ---
 
 ## Table of Contents
@@ -905,7 +907,9 @@ The largest uncovered blocks are the Socket.IO handlers and Trivial services (lo
 
 ## BUGS
 
-- Real "Trivial Pursuit" type games are not being saved
+- Player screen does not show the correct view when the presenter cancels a game or when the game ends (TEMPORARILY FIXED)
+- In Trivial, if a player achieves a streak and the presenter advances too quickly to the next turn, the player with the streak (if it is their turn to roll the die) sees the green correct-answer screen instead of the die. The player must reload the page to see the die (TEMPORARILY FIXED)
+- In admin / Config / Games In Progress. Sometimes already-concluded games appear.
 
 ---
 
@@ -915,7 +919,8 @@ The largest uncovered blocks are the Socket.IO handlers and Trivial services (lo
 <img src="https://xiro.pro/images/chamaleon/pointing.svg" alt="pointing mascot" width="100" align="right">
 
 - 🔄 **PowerPoint Plugin** — add-in for presenters that integrates XIRO games directly into the slideshow (automatic lobby, question start upon reaching the slide, fullscreen dialog over the presentation). *In Progress.*
-- 🔄 **Prevent test-derived games from appearing as saved games**
+- [ ] **Review whether IndividualGameMode.js can be removed**
+- [ ] **Move all tests inside __tests__ folders**
 - [ ] **Support for new question types**
   - Point betting
   - Column matching
