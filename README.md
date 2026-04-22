@@ -717,6 +717,7 @@ Configurables por juego con `use_streaks`, `streak_threshold`, `streak_bonus_per
 - Los presentadores también pueden reconectarse mediante `reconnect-presenter`
 - El control remoto admin puede coexistir con el presentador principal: múltiples sockets de presentador por sala (`join-remote-presenter`) sin expulsar al socket original
 - **Restauración del estado revelado**: si la pregunta actual ya fue revelada cuando el presentador reconecta, el servidor re-emite automáticamente el evento `reveal-answer` con el payload completo hacia ese socket. Esto funciona aunque la reconexión aterrice en un worker diferente al que procesó la revelación, gracias a que el payload se sincroniza vía el canal `question-revealed` de `RedisSyncBus` en el momento de la revelación
+- **Resiliencia de transporte del presentador**: el socket del presentador usa `transports: ['websocket', 'polling']` con upgrade automático. Si el handshake WebSocket falla puntualmente (reinicio de backend, proxy, red), cae a long-polling y recupera la conexión sin mostrar error al usuario
 - **Reconexión cross-worker**: cuando un jugador cambia de red (p.ej. WiFi → datos móviles), el cliente obtiene un nuevo socket. Si ese socket aterriza en un worker distinto al que procesó el `join-lobby`, el canal `player-data-sync` de `RedisSyncBus` garantiza que el objeto completo del jugador esté disponible en todos los workers. El guard `isDifferentSocket` en `ReconnectPlayerHandler` acepta cualquier estado activo (no solo `connected`), ya que el socket anterior puede tardar hasta ~80 s en expirar por TCP keepalive
 
 ---
@@ -734,6 +735,7 @@ xiro/
 │   ├── application/            # Capa de aplicación (CQRS)
 │   │   ├── chain/              # Cadenas de responsabilidad
 │   │   ├── commands/           # Comandos de escritura
+│   │   ├── helpers/            # Helpers de aplicación (extracción de respuestas, lookup, rate limiter)
 │   │   ├── queries/            # Consultas de lectura
 │   │   ├── services/           # Servicios de aplicación
 │   │   ├── use-cases/          # Casos de uso
@@ -752,6 +754,7 @@ xiro/
 │   ├── migrations/             # Migraciones SQL (auto-ejecutadas)
 │   ├── public/                 # Frontend estático
 │   │   ├── *.html              # Vistas del juego
+│   │   ├── ppt-addin/          # Add-in para PowerPoint (Office.js)
 │   │   ├── css/                # CSS compilado (Tailwind) + artesanal
 │   │   │   ├── common.css      # Base Tailwind compartida (todas las vistas)
 │   │   │   ├── output-*.css    # Bundles Tailwind por vista (components only)
@@ -776,7 +779,13 @@ xiro/
 │   │       └── tv/             # Módulos de TV (IIFE namespace TVApp)
 │   ├── routes/                 # Enrutadores Express
 │   ├── services/               # Servicios de infraestructura (caché, DB, Redis)
-│   └── sockets/                # Manejadores Socket.IO
+│   └── sockets/                # Capa Socket.IO
+│       ├── handlers/           # Manejadores de eventos por tipo
+│       │   └── trivial/        # Manejadores específicos del Trivial
+│       ├── services/           # Servicios de socket (Trivial, Reconexión, etc.)
+│       ├── sync/               # RedisSyncBus (sincronización entre workers)
+│       ├── utils/              # Utilidades (timers, rankings, equipos, etc.)
+│       └── validators/         # Validadores a nivel socket
 ├── docs/                       # Documentación técnica adicional
 ├── scripts/                    # Scripts de utilidad
 ├── docker-compose.yml          # Orquestación de servicios
@@ -909,7 +918,9 @@ Los mayores bloques sin cubrir son los manejadores Socket.IO y servicios Trivial
 
 - No aparece la pantalla correspondiente en la pantalla del jugador cuando el presentador cancela un juego o cuando el juego finaliza (DE MOMENTO ARREGLADO)
 - En el trivial, si un jugador consigue una racha y el presentador avanza demasiado rápido al siguiente turno, al jugador que ha conseguido la racha, si es el que le toca tirar el dado, no le aparece el dado, sino la pantalla verde de respuesta correcta. Para poder ver el dado tiene que cargar la página el jugador (DE MOMENTO ARREGLADO)
-- En admin / Config / Juegos en Curso. En ocasiones aparecen juegos que ya han concluído.
+- En admin / Config / Juegos en Curso. En ocasiones aparecen juegos que ya han concluído (EN TEORÍA CORREGIDO, REQUIERE MÁS TESTS)
+- El presentador se desconectaba "sin motivo" en el lobby mostrando error de timeout: el socket usaba solo WebSocket sin fallback; si el handshake WS fallaba puntualmente la conexión quedaba muerta. (ARREGLADO 22/04/2026 — `presenter-socket-config.js`: añadido polling como fallback)
+- En 2 de cada 4 preguntas no se auto-revelaba la respuesta al contestar todos los jugadores: la clave Redis del reveal lock no incluía el índice de pregunta, por lo que el lock de la pregunta N bloqueaba a la N+1 durante 8 s. (ARREGLADO 22/04/2026 — `AtomicAnswerCounter.js`: clave scoped por `questionIndex` + helper `releaseRevealLock`)
 ---
 
 ## Tareas pendientes
@@ -948,4 +959,3 @@ Ideas descartadas por ahora o de largo plazo:
   <br><br>
   <em>XIRO! © Familia Fernández Villatoro</em>
 </div>
-
