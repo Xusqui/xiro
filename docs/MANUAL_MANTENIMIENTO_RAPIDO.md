@@ -1,7 +1,7 @@
 # 🛠️ MANUAL DE MANTENIMIENTO RÁPIDO - Xiro!
 
 **Versión**: Post-FASE 3 (Blindaje y Sincronización)  
-**Fecha**: 24 de Enero de 2026
+**Fecha**: 22 de Abril de 2026
 
 ---
 
@@ -181,6 +181,35 @@ tail -5 /volume2/docker/xiro/app/logs/error.log
 ---
 
 ## 4. TROUBLESHOOTING COMÚN
+
+### Problema: Presentador se desconecta "sin motivo" en el lobby
+**Síntoma**: En la consola del navegador aparece `Timeout: Socket no se pudo conectar en 10 segundos`. El presenter muestra pantalla de error.  
+**Causa**: El socket del presentador usaba solo WebSocket sin fallback. Si el handshake WS falla puntualmente (backend reiniciando, proxy, red), la conexión queda muerta.  
+**Solución**: ✅ Corregido en `presenter-socket-config.js` (22/04/2026): `transports: ['websocket', 'polling']` con upgrade automático.
+
+**Diagnóstico si vuelve a ocurrir**:
+```bash
+# Logs del servidor con prefijo DIAG (desconexiones + intentos de reconexion)
+grep '\[DIAG\]' /volume2/docker/xiro/app/logs/pm2-out.log | tail -50
+
+# Buscar el reason exacto del disconnect y si reconnect-presenter llegó al servidor
+grep -E '\[DIAG\].*(disconnect|reconnect-presenter)' /volume2/docker/xiro/app/logs/pm2-out.log | tail -30
+```
+En paralelo, revisar la **consola del navegador** del presentador — los logs muestran el `reason` de desconexión (p.ej. `transport close`, `ping timeout`, `io server disconnect`) y si el token de admin estaba vacío antes de emitir `reconnect-presenter`.
+
+---
+
+### Problema: Auto-reveal no funciona en algunas preguntas
+**Síntoma**: Al contestar todos los jugadores, 1 o 2 preguntas de cada 4 no se auto-revelan. Se revelan pasados ~5-8 segundos por timeout.  
+**Causa**: La clave Redis del reveal lock (`game:reveal-lock:{roomId}`) no incluía el índice de pregunta. El lock de la pregunta N (TTL 8s) bloqueaba a la N+1.  
+**Solución**: ✅ Corregido en `AtomicAnswerCounter.js` (22/04/2026): clave scoped por `questionIndex` (`game:reveal-lock:{roomId}:{questionIndex}`) + helper `releaseRevealLock`.  
+**Verificación**:
+```bash
+grep 'Reveal lock not acquired' /volume2/docker/xiro/app/logs/pm2-out.log | tail -10
+# Si el fix está activo: este mensaje no debe aparecer consecutivamente para índices distintos
+```
+
+---
 
 ### Problema: Servidor crashea por payloads corruptos
 **Síntoma**: Reinicios constantes de PM2  
