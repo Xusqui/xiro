@@ -717,6 +717,7 @@ Configurable per game with `use_streaks`, `streak_threshold`, `streak_bonus_perc
 - Presenters can also reconnect via `reconnect-presenter`
 - The admin remote control can coexist with the main presenter: multiple presenter sockets per room (`join-remote-presenter`) without expelling the original socket
 - **Revealed state restoration**: if the current question was already revealed when the presenter reconnects, the server automatically re-emits the `reveal-answer` event with the full payload to that socket. This works even if the reconnection lands on a different worker than the one that processed the reveal, thanks to the payload being synchronized via the `question-revealed` channel of `RedisSyncBus` at the time of the reveal
+- **Presenter transport resilience**: the presenter socket uses `transports: ['websocket', 'polling']` with automatic upgrade. If the WebSocket handshake fails momentarily (backend restart, proxy, network blip), it falls back to long-polling and recovers the connection without showing an error to the user
 - **Cross-worker reconnection**: when a player changes networks (e.g., WiFi → mobile data), the client gets a new socket. If that socket lands on a different worker than the one that processed the `join-lobby`, the `player-data-sync` channel of `RedisSyncBus` ensures the complete player object is available on all workers. The `isDifferentSocket` guard in `ReconnectPlayerHandler` accepts any active state (not just `connected`), since the previous socket can take up to ~80s to expire due to TCP keepalive
 
 ---
@@ -734,6 +735,7 @@ xiro/
 │   ├── application/            # Application layer (CQRS)
 │   │   ├── chain/              # Chains of responsibility
 │   │   ├── commands/           # Write commands
+│   │   ├── helpers/            # Application helpers (answer extraction, lookup, rate limiter)
 │   │   ├── queries/            # Read queries
 │   │   ├── services/           # Application services
 │   │   ├── use-cases/          # Use cases
@@ -752,6 +754,7 @@ xiro/
 │   ├── migrations/             # SQL migrations (auto-executed)
 │   ├── public/                 # Static frontend
 │   │   ├── *.html              # Game views
+│   │   ├── ppt-addin/          # PowerPoint add-in (Office.js)
 │   │   ├── css/                # Compiled CSS (Tailwind) + handcrafted
 │   │   │   ├── common.css      # Shared Tailwind base (all views)
 │   │   │   ├── output-*.css    # Tailwind bundles per view (components only)
@@ -776,7 +779,13 @@ xiro/
 │   │       └── tv/             # TV modules (IIFE namespace TVApp)
 │   ├── routes/                 # Express routers
 │   ├── services/               # Infrastructure services (cache, DB, Redis)
-│   └── sockets/                # Socket.IO handlers
+│   └── sockets/                # Socket.IO layer
+│       ├── handlers/           # Event handlers by type
+│       │   └── trivial/        # Trivial-specific handlers
+│       ├── services/           # Socket services (Trivial, Reconnection, etc.)
+│       ├── sync/               # RedisSyncBus (cross-worker sync)
+│       ├── utils/              # Utilities (timers, rankings, teams, etc.)
+│       └── validators/         # Socket-level validators
 ├── docs/                       # Additional technical documentation
 ├── scripts/                    # Utility scripts
 ├── docker-compose.yml          # Service orchestration
@@ -909,7 +918,9 @@ The largest uncovered blocks are the Socket.IO handlers and Trivial services (lo
 
 - Player screen does not show the correct view when the presenter cancels a game or when the game ends (TEMPORARILY FIXED)
 - In Trivial, if a player achieves a streak and the presenter advances too quickly to the next turn, the player with the streak (if it is their turn to roll the die) sees the green correct-answer screen instead of the die. The player must reload the page to see the die (TEMPORARILY FIXED)
-- In admin / Config / Games In Progress. Sometimes already-concluded games appear.
+- In admin / Config / Games In Progress. Sometimes already-concluded games appear (THEORETICALLY FIXED, NEEDS MORE TESTS)
+- Presenter would disconnect "without reason" in the lobby showing a timeout error: the socket used only WebSocket without fallback; if the WS handshake failed momentarily the connection went dead. (FIXED 22/04/2026 — `presenter-socket-config.js`: added polling as fallback transport)
+- In 2 out of every 4 questions the answer would not auto-reveal when all players answered: the Redis reveal lock key did not include the question index, so the lock from question N (TTL 8s) blocked question N+1. (FIXED 22/04/2026 — `AtomicAnswerCounter.js`: key scoped by `questionIndex` + `releaseRevealLock` helper)
 
 ---
 
