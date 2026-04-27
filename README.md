@@ -1,10 +1,10 @@
 <div align="center">
 
-  <img src="https://xiro.pro/images/banner-readme.svg" alt="XIRO! — Juego de Preguntas y Respuestas en Tiempo Real" width="100%">
+  <img src="https://xiro.pro/images/banner-readme.svg" alt="XIRO! — Real-Time Quiz Game" width="100%">
 
   <br>
 
-  <img src="https://xiro.pro/images/chamaleon/chamaleon.svg" alt="Xiro mascota" width="130">
+  <img src="https://xiro.pro/images/chamaleon/chamaleon.svg" alt="Xiro mascot" width="130">
 
   <br>
 
@@ -20,181 +20,179 @@
 
   <br>
 
-  > Plataforma self-hosted para sesiones de preguntas y respuestas en tiempo real · 6 tipos de preguntas · 4 modos de juego
+  > Self-hosted platform for real-time quiz sessions · 6 question types · 4 game modes
 
   <br>
 
   <a href="https://xiro.pro">
-    <img src="https://img.shields.io/badge/%F0%9F%8E%AE_%20PRU%C3%89BAME_EN_XIRO.PRO_%F0%9F%8E%AE-8AB817?style=for-the-badge&labelColor=8AB817&logoColor=white" alt="Pruébame en xiro.pro" height="55">
+    <img src="https://img.shields.io/badge/%F0%9F%8E%AE_%20TRY_ME_AT_XIRO.PRO_%F0%9F%8E%AE-8AB817?style=for-the-badge&labelColor=8AB817&logoColor=white" alt="Try me at xiro.pro" height="55">
   </a>
 
-  <br><br>
-
-  <sub>👆 <strong>Demo en vivo</strong> — ¡entra y juega ahora!</sub>
+  <sub>👆 <strong>Live demo</strong> — jump in and play now!</sub>
 
 </div>
 
-> 📖 [Read in English](README_EN.md)
+> 📖 [Leer en español](README_ES.md)
 
 ---
 
-## Índice
+## Table of Contents
 
-1. [Características principales](#características-principales)
-2. [Tipos de preguntas](#tipos-de-preguntas)
-3. [Modos de juego](#modos-de-juego)
-4. [Arquitectura del sistema](#arquitectura-del-sistema)
-5. [Stack tecnológico](#stack-tecnológico)
-6. [Instalación y despliegue](#instalación-y-despliegue)
-7. [Variables de entorno](#variables-de-entorno)
-8. [Vistas del juego](#vistas-del-juego)
-9. [Panel de administración](#panel-de-administración)
-10. [Modo por equipos](#modo-por-equipos)
-11. [Generador IA](#generador-ia)
-12. [Exportación y visualización de resultados](#exportación-y-visualización-de-resultados)
-13. [Sistema de puntuación](#sistema-de-puntuación)
-14. [Reconexión y sesiones](#reconexión-y-sesiones)
-15. [Backup automático y restauración](#backup-automático-y-restauración)
-16. [Estructura del proyecto](#estructura-del-proyecto)
-17. [Tests y cobertura](#tests-y-cobertura)
-18. [Tareas pendientes](#tareas-pendientes)
-
----
-
-## Características principales
-
-<img src="https://xiro.pro/images/chamaleon/party.svg" alt="mascota fiesta" width="110" align="right">
-
-- **Tiempo real** vía Socket.IO con soporte multi-worker (adaptador Redis)
-- **6 tipos de preguntas** con lógica de puntuación diferenciada
-- **4 modos de juego**: Banco de preguntas, Mezcla, Personalizado y Trivial
-- **Modo por equipos** con puntuación y revelación sincronizada
-- **Sistema de rachas** configurable con bonificaciones progresivas
-- **Reconexión transparente** con estado persistido en Redis (TTL 6h)
-- **Reconexión del presentador** con restauración automática del estado de revelación de respuesta, incluso entre workers distintos del clúster PM2
-- **Vista previa de fuegos artificiales** en tiempo real desde el panel de administración (pestaña Config → Fuegos artificiales)
-- **Generador de preguntas con IA** via Groq / LLM
-- **Exportación PDF** de juegos personalizados (Puppeteer + Chromium)
-- **Exportación/importación JSON** de bancos de preguntas
-- **Panel de administración** con dos roles (admin / editor)
-- **Control remoto del presentador** desde móvil (solo admin), sincronizado en tiempo real con RedisSyncBus
-- **QR code** generado dinámicamente para que los jugadores se unan
-- **Fuegos artificiales** configurables al finalizar el juego
-- **Historial de partidas** con exportación CSV/JSON individual por sesión (solo admin)
-- **Visor gráfico de resultados** interactivo en el navegador (podio animado, estadísticas, detalle por pregunta)
-- Despliegue **self-hosted** vía Docker Compose
+1. [Key Features](#key-features)
+2. [Question Types](#question-types)
+3. [Game Modes](#game-modes)
+4. [System Architecture](#system-architecture)
+5. [Tech Stack](#tech-stack)
+6. [Installation and Deployment](#installation-and-deployment)
+7. [Environment Variables](#environment-variables)
+8. [Game Views](#game-views)
+9. [Admin Panel](#admin-panel)
+10. [Team Mode](#team-mode)
+11. [AI Generator](#ai-generator)
+12. [Results Export and Visualization](#results-export-and-visualization)
+13. [Scoring System](#scoring-system)
+14. [Reconnection and Sessions](#reconnection-and-sessions)
+15. [Automatic Backup and Restore](#automatic-backup-and-restore)
+16. [Project Structure](#project-structure)
+17. [Tests and Coverage](#tests-and-coverage)
+18. [Pending Tasks](#pending-tasks)
 
 ---
 
-## Tipos de preguntas
+## Key Features
 
-<img src="https://xiro.pro/images/chamaleon/thinking.svg" alt="mascota pensando" width="100" align="left">
+<img src="https://xiro.pro/images/chamaleon/party.svg" alt="party mascot" width="110" align="right">
+
+- **Real-time** via Socket.IO with multi-worker support (Redis adapter)
+- **6 question types** with differentiated scoring logic
+- **4 game modes**: Question Bank, Mix, Custom, and Trivial
+- **Team mode** with synchronized scoring and answer reveal
+- **Streak system** configurable with progressive bonuses
+- **Transparent reconnection** with state persisted in Redis (TTL 6h)
+- **Presenter reconnection** with automatic answer reveal state restoration, even across different PM2 cluster workers
+- **Real-time fireworks preview** from the admin panel (Config tab → Fireworks)
+- **AI-powered question generator** via Groq / LLM
+- **PDF export** for custom games (Puppeteer + Chromium)
+- **JSON export/import** for question banks
+- **Admin panel** with two roles (admin / editor)
+- **Presenter remote control** from mobile (admin only), synchronized in real-time with RedisSyncBus
+- **QR code** dynamically generated for players to join
+- **Configurable fireworks** at the end of the game
+- **Game history** with individual CSV/JSON export per session (admin only)
+- **Interactive graphical results viewer** in the browser (animated podium, statistics, per-question detail)
+- **Self-hosted** deployment via Docker Compose
+
+---
+
+## Question Types
+
+<img src="https://xiro.pro/images/chamaleon/thinking.svg" alt="thinking mascot" width="100" align="left">
 
 <br>
 
-### `quiz` — Opción múltiple estándar
-<img src="https://xiro.pro/images/chamaleon/love.svg" alt="mascota amor" width="70" align="right">
+### `quiz` — Standard Multiple Choice
+<img src="https://xiro.pro/images/chamaleon/love.svg" alt="love mascot" width="70" align="right">
 
-Pregunta con 2-6 opciones, exactamente una correcta. Puntuación por tiempo: base 20 pts + hasta 20 pts de bonificación por velocidad de respuesta.
+Question with 2–6 options, exactly one correct. Time-based scoring: base 20 pts + up to 20 pts speed bonus.
 
-### `survey` — Encuesta
-<img src="https://xiro.pro/images/chamaleon/searching.svg" alt="mascota buscando" width="70" align="right">
+### `survey` — Survey
+<img src="https://xiro.pro/images/chamaleon/searching.svg" alt="searching mascot" width="70" align="right">
 
-Formato idéntico al quiz pero sin respuesta correcta. No afecta a la puntuación. Usado para recoger opiniones durante la sesión.
+Identical format to quiz but without a correct answer. Does not affect scoring. Used to collect opinions during the session.
 
-### `multiple_choice` — Selección múltiple
-<img src="https://xiro.pro/images/chamaleon/dizzy.svg" alt="mascota mareada" width="70" align="right">
+### `multiple_choice` — Multiple Selection
+<img src="https://xiro.pro/images/chamaleon/dizzy.svg" alt="dizzy mascot" width="70" align="right">
 
-Entre 1 y 6 respuestas pueden ser correctas. El jugador selecciona cualquier subconjunto. Puntuación:
-- `+mc_points_per_correct` por cada correcta seleccionada
-- `−mc_penalty_per_incorrect` por cada incorrecta seleccionada
-- `+mc_perfect_bonus` si se seleccionaron exactamente todas las correctas y ninguna incorrecta
-- La puntuación total puede ser negativa
+Between 1 and 6 answers can be correct. The player selects any subset. Scoring:
+- `+mc_points_per_correct` for each correct answer selected
+- `−mc_penalty_per_incorrect` for each incorrect answer selected
+- `+mc_perfect_bonus` if exactly all correct answers are selected and no incorrect ones
+- Total score can be negative
 
-### `order` — Ordenar secuencia
-<img src="https://xiro.pro/images/chamaleon/planting.svg" alt="mascota plantando" width="70" align="right">
+### `order` — Order Sequence
+<img src="https://xiro.pro/images/chamaleon/planting.svg" alt="planting mascot" width="70" align="right">
 
-El jugador arrastra/reordena una lista de opciones para que coincida con el orden correcto. Puntuación parcial: 20 pts por cada elemento colocado en su posición correcta.
+The player drags/reorders a list of options to match the correct order. Partial scoring: 20 pts for each element placed in its correct position.
 
-### `numeric_approximation` — Aproximación numérica
-<img src="https://xiro.pro/images/chamaleon/pastelero.svg" alt="mascota pastelero" width="70" align="right">
+### `numeric_approximation` — Numeric Approximation
+<img src="https://xiro.pro/images/chamaleon/pastelero.svg" alt="baker mascot" width="70" align="right">
 
-El jugador introduce un número entero. La puntuación depende de la proximidad al valor correcto. Modos de tolerancia configurables:
-- **exact** — solo cuenta la respuesta exacta
-- **percentage** — tolerancia relativa al valor correcto (±X%)
-- **absolute** — tolerancia en unidades absolutas (±N)
-- **relative** — fórmula proporcional con tope opcional (`tolerance_cap`)
+The player enters an integer. Scoring depends on proximity to the correct value. Configurable tolerance modes:
+- **exact** — only the exact answer counts
+- **percentage** — relative tolerance to the correct value (±X%)
+- **absolute** — tolerance in absolute units (±N)
+- **relative** — proportional formula with optional cap (`tolerance_cap`)
 
 <br clear="left">
 
-### `word_scramble` — Anagrama
-<img src="https://xiro.pro/images/chamaleon/yoda.svg" alt="mascota yoda" width="70" align="right">
+### `word_scramble` — Anagram
+<img src="https://xiro.pro/images/chamaleon/yoda.svg" alt="yoda mascot" width="70" align="right">
 
-El jugador ve 10 letras desordenadas (que incluyen todas las letras de la palabra más letras señuelo) y las selecciona en el orden correcto para formar la palabra oculta. Las letras de la palabra están garantizadas en el conjunto. Puntuación: base 20 pts + bonificación por tiempo.
+The player sees 10 scrambled letters (which include all the letters of the word plus decoy letters) and selects them in the correct order to form the hidden word. The word's letters are guaranteed to be in the set. Scoring: base 20 pts + time bonus.
 
-Soporta imagen y audio adjuntos: si la pregunta tiene `tipo_contenido` e `url_recurso`, se muestra el bloque multimedia entre el header y el enunciado (igual que en `quiz`).
+Supports attached image and audio: if the question has `tipo_contenido` and `url_recurso`, the multimedia block is shown between the header and the prompt (same as `quiz`).
 
 ---
 
-## Modos de juego
+## Game Modes
 
-<img src="https://xiro.pro/images/chamaleon/gaming.svg" alt="mascota gaming" width="110" align="right">
+<img src="https://xiro.pro/images/chamaleon/gaming.svg" alt="gaming mascot" width="110" align="right">
 
-### 1. Banco de preguntas
-<img src="https://xiro.pro/images/chamaleon/painting.svg" alt="mascota pintura" width="80" align="right">
+### 1. Question Bank
+<img src="https://xiro.pro/images/chamaleon/painting.svg" alt="painting mascot" width="80" align="right">
 
-Un juego referencia uno o varios bancos. Al iniciarse, las preguntas se extraen de forma aleatoria de todos los bancos vinculados. Flujo clásico tipo Kahoot.
+A game references one or more banks. When started, questions are randomly drawn from all linked banks. Classic Kahoot-style flow.
 
-**Tabla:** `games` → `game_question_banks` → `question_banks`
+**Table:** `games` → `game_question_banks` → `question_banks`
 
-### 2. Mezcla de preguntas
-<img src="https://xiro.pro/images/chamaleon/disguise.svg" alt="mascota disfraz" width="80" align="left">
+### 2. Question Mix
+<img src="https://xiro.pro/images/chamaleon/disguise.svg" alt="disguise mascot" width="80" align="left">
 
-Combina bancos y diapositivas personalizadas. Al configurarlo, el administrador elige qué bancos incluir y cuántas preguntas aleatorias extraer de cada uno.
+Combines banks and custom slides. When configuring, the administrator chooses which banks to include and how many random questions to draw from each.
 
-**Tabla:** `games` con tipo `mix`
+**Table:** `games` with type `mix`
 
 <br clear="left">
 
-### 3. Juego personalizado
-<img src="https://xiro.pro/images/chamaleon/pintor.svg" alt="mascota pintor" width="80" align="right">
+### 3. Custom Game
+<img src="https://xiro.pro/images/chamaleon/pintor.svg" alt="painter mascot" width="80" align="right">
 
-El administrador elige las preguntas una a una desde cualquier banco y las ordena manualmente. Soporta diapositivas intercaladas:
-- **Diapositiva de texto** — título y cuerpo libre
-- **Diapositiva de imagen** — imagen a pantalla completa
-- **Diapositiva de actividad** — pausa para actividad libre; el presentador asigna puntos manualmente
-- **Diapositiva informativa** — texto informativo sin puntuación
+The administrator picks questions one by one from any bank and orders them manually. Supports interleaved slides:
+- **Text slide** — title and free-form body
+- **Image slide** — full-screen image
+- **Activity slide** — pause for free activity; the presenter assigns points manually
+- **Info slide** — informational text without scoring
 
-Permite **exportar a PDF** (todas las diapositivas y preguntas).
+Allows **PDF export** (all slides and questions).
 
-**Tabla:** `custom_games` → `custom_game_questions`
+**Table:** `custom_games` → `custom_game_questions`
 
 ### 4. Trivial
 
-<img src="https://xiro.pro/images/chamaleon/mago.svg" alt="mascota mago" width="90" align="left">
+<img src="https://xiro.pro/images/chamaleon/mago.svg" alt="wizard mascot" width="90" align="left">
 
-Mecánica de tablero:
-- El tablero tiene un anillo exterior de N casillas (múltiplo del número de categorías) y un espacio central.
-- Cada categoría tiene un color y está vinculada a un banco de preguntas.
-- Por turnos, el jugador activo lanza un dado virtual. Las posiciones alcanzables se iluminan en el tablero SVG.
-- Al moverse a una casilla, se presenta una pregunta del banco de esa categoría. **Todos los jugadores responden**.
-- Si el jugador activo acierta, puede volver a lanzar (hasta `MAX_CONSECUTIVE` veces seguidas).
-- Las **casillas objetivo de categoría** (HQ) otorgan una *cuña* si se responde correctamente.
-- **Condición de victoria**: acumular todas las cuñas de todas las categorías.
+Board game mechanics:
+- The board has an outer ring of N squares (multiple of the number of categories) and a central space.
+- Each category has a color and is linked to a question bank.
+- On turns, the active player rolls a virtual die. Reachable positions light up on the SVG board.
+- Upon moving to a square, a question from that category's bank is presented. **All players answer**.
+- If the active player answers correctly, they can roll again (up to `MAX_CONSECUTIVE` consecutive times).
+- **Category headquarters (HQ) squares** grant a *wedge* if answered correctly.
+- **Win condition**: collect all wedges from all categories.
 
-**Tabla:** `trivial_games` → `trivial_categories`
+**Table:** `trivial_games` → `trivial_categories`
 
 <br clear="left">
 
 ---
 
-## Arquitectura del sistema
+## System Architecture
 
-<img src="https://xiro.pro/images/chamaleon/nerd.svg" alt="mascota nerd" width="100" align="right">
+<img src="https://xiro.pro/images/chamaleon/nerd.svg" alt="nerd mascot" width="100" align="right">
 
 ```
 ┌──────────────────────────────────────────────────────┐
-│                   Clientes (Browser)                 │
+│                   Clients (Browser)                  │
 │  admin.html  presentador.html  tv.html  jugador.html │
 └───────┬──────────────┬────────────────┬──────────────┘
         │ REST (JWT)   │ Socket.IO      │ Socket.IO
@@ -215,165 +213,192 @@ Mecánica de tablero:
     ┌──────────┴──────────┐
     ▼                     ▼
 PostgreSQL 15          Redis 8
-(datos persistentes)   (sesiones, pub/sub,
+(persistent data)      (sessions, pub/sub,
                         Socket.IO adapter)
 ```
 
-### Patrones arquitectónicos
+### Architectural Patterns
 
-| Patrón | Implementación |
-|--------|---------------|
-| **Clean Architecture** | Capas: routes → use-cases → domain → services |
-| **CQRS** | Commands para escritura, Queries para lectura |
-| **Chain of Responsibility** | Cada use-case: Idempotencia → Rate Limit → Validación → Comando → Respuesta |
-| **Strategy (doble capa)** | Modo de juego (Individual/Equipo) + Estrategia de puntuación |
-| **Event-Driven** | `EventBus` interno: `GameStarted`, `AnswerSubmitted`, `GameEnded`, etc. |
-| **State Machine** | XState: `idle → lobby → questionActive → scoring → gameEnd` |
-| **Redis Pub/Sub** | `RedisSyncBus` sincroniza estado entre workers de PM2 |
-| **Idempotencia** | Previene respuestas duplicadas con hash Redis (TTL 5 min) |
+| Pattern | Implementation |
+|---------|---------------|
+| **Clean Architecture** | Layers: routes → use-cases → domain → services |
+| **CQRS** | Commands for writes, Queries for reads |
+| **Chain of Responsibility** | Each use-case: Idempotency → Rate Limit → Validation → Command → Response |
+| **Strategy (dual layer)** | Game mode (Individual/Team) + Scoring strategy |
+| **Event-Driven** | Internal `EventBus`: `GameStarted`, `AnswerSubmitted`, `GameEnded`, etc. |
+| **State Machine** | XState **v5**: `idle → lobby → questionActive → scoring → gameEnd` |
+| **Redis Pub/Sub** | `RedisSyncBus` synchronizes state across PM2 workers |
+| **Idempotency** | Prevents duplicate answers with Redis hash (TTL 5 min) |
 
 ### Multi-worker
-PM2 gestiona múltiples workers Node.js. El **adaptador Redis de Socket.IO** enruta eventos entre workers sin sesiones pegajosas. El `RedisSyncBus` propaga cambios de estado (jugadores, puntuaciones) vía canales pub/sub.
+PM2 manages multiple Node.js workers. The **Socket.IO Redis adapter** routes events across workers without sticky sessions. `RedisSyncBus` propagates state changes (players, scores) via pub/sub channels.
 
-Sincronizaciones críticas entre workers:
+Critical cross-worker synchronizations (18 pub/sub channels in `RedisSyncBus`):
 
-| Canal pub/sub | Qué se propaga | Receptor |
-|--------------|----------------|----------|
-| `question-revealed` | Payload completo del presentador (`presenterPayload`) | Todos los workers → `game.revealPayloads[index]`, garantiza que cualquier worker pueda restaurar el estado al reconectar |
-| `session-abandoned` | Señal de fin de juego | Todos los workers → `clearGameTimer(roomId)`, evita que temporizadores residuales disparen eventos tras `end-game` |
-| `player-joined` / `player-left` | Conteo de jugadores activos | Todos los workers → actualiza contadores en presentador y TV |
-| `player-data-sync` | Objeto completo del jugador (al hacer join y al reconectar) | Todos los workers → `players.set(playerId, playerData)`, permite que cualquier worker gestione la reconexión independientemente de cuál procesó el join original |
+| Pub/sub Channel | What is Propagated | Receiver / Effect |
+|----------------|-------------------|-------------------|
+| `lobby-created` | Room creation signal | All workers → initializes `lobbyPlayers.set(roomId, [])` if it doesn't exist |
+| `lobby-player-joined` | `{ roomId, nickname }` | Remote workers → adds nickname to `lobbyPlayers` |
+| `lobby-player-left` | `{ roomId, nickname }` | Remote workers → removes nickname from `lobbyPlayers` |
+| `game-started` | Complete game state (scores, questions, modes, streaks) | All workers → `activeGames.set(roomId, gameState)`, allows any worker to handle answers from the first question |
+| `game-state-updated` | Score delta `{ nickname, score, currentIndex }` | Remote workers → updates `game.scores[nickname]` without overwriting the rest |
+| `next-question-sync` | `{ currentIndex, startTime }` — canonical startTime from the origin worker | **Critical**: all workers share the same epoch for time bonus calculation; without this, remote workers always get `timeBonus = 0` from Q2 onwards |
+| `team-config-sync` | Team configuration | All workers → `teamConfigs.set(roomId, teamConfig)` |
+| `session-abandoned` | `{ roomId }` | Remote workers → deletes `activeGames`, `lobbyPlayers`, `teamConfigs`, players for the room and calls `clearGameTimer`, preventing residual timers |
+| `player-data-sync` | Complete player object (join / reconnect) | Remote workers → `players.set(playerId, playerData)` with `lastSeen` merge; enables cross-worker reconnection |
+| `player-disconnected-sync` | Player with `disconnected` status | Remote workers → updates state without overwriting if already disconnected |
+| `player-answered-sync` | `{ roomId, nickname, correct }` | No-op on receiver: the Socket.IO Redis adapter already propagates the emit |
+| `reveal-answer-sync` | `{ presenterPayload, playerPayload }` | All workers → emits `reveal-answer` to the `:presenter` and `:players` rooms on the local worker |
+| `question-revealed` | `{ questionIndex, presenterPayload, allowLateAnswers }` | Remote workers → marks the question as revealed in `revealedQuestions`, stores `revealPayloads[index]` for presenter reconnections, and calls `clearGameTimer` |
+| `streak-reset-sync` | List of nicknames whose streak is reset (timeout) | Remote workers → sets `playerStreaks[nickname] = 0` without showing an animation |
+| `streak-restored-sync` | `{ nickname, streak, streakInfo }` after reconnection | Remote workers → restores the reconnected player's streak |
+| `timer-paused-sync` | `{ roomId }` | Remote workers → `clearGameTimer(roomId)` to cancel the local countdown |
+| `timer-resumed-sync` | `{ roomId }` | Notification; the timer is only created by the worker that handles the `resume-timer` event |
+| `config-updated` | `{ keys }` — keys modified at runtime | All workers → `runtimeConfig.reload()`; if `LOG_LEVEL` is included, reloads the Winston log level |
 
 ---
 
-## Stack tecnológico
+## Tech Stack
 
-<img src="https://xiro.pro/images/chamaleon/thumbsup.svg" alt="mascota thumbsup" width="100" align="left">
-<img src="https://xiro.pro/images/chamaleon/cool.svg" alt="mascota cool" width="100" align="right">
+<img src="https://xiro.pro/images/chamaleon/thumbsup.svg" alt="thumbsup mascot" width="100" align="left">
+<img src="https://xiro.pro/images/chamaleon/cool.svg" alt="cool mascot" width="100" align="right">
 
-| Capa | Tecnología |
-|------|-----------|
+| Layer | Technology |
+|-------|-----------|
 | **Runtime** | Node.js 20 (Alpine) |
-| **Framework HTTP** | Express.js |
-| **WebSockets** | Socket.IO (WebSocket only en producción) |
-| **Base de datos** | PostgreSQL 15 (pg_trgm para búsqueda de texto) |
-| **Caché / Pub-Sub** | Redis 8 |
-| **Proceso** | PM2 (cluster mode) |
-| **CSS** | Tailwind CSS v3.4 (5 bundles separados por vista) |
-| **PDF** | Puppeteer + Chromium (Alpine) |
-| **IA** | Groq API (`llama-3.3-70b-versatile` por defecto) |
-| **QR Code** | `qr-code-styling` v1.9.2 |
-| **Contenerización** | Docker + Docker Compose |
-| **Validación** | Joi |
-| **Métricas** | Prometheus-compatible (`/metrics`) |
+| **HTTP Framework** | Express.js 4 |
+| **WebSockets** | Socket.IO 4 (WebSocket only in production) |
+| **Database** | PostgreSQL 15 (pg_trgm for text search) |
+| **Cache / Pub-Sub** | Redis 8.4 |
+| **Process Manager** | PM2 (cluster mode, 4 workers) |
+| **State Machine** | XState **v5** (`idle → lobby → questionActive → scoring → gameEnd`) |
+| **CSS** | Tailwind CSS v3.4 (5 separate bundles per view: common, admin, player, presenter, index) |
+| **PDF** | Puppeteer v24 + Chromium 147 (HTML→PDF) · PDFKit (programmatic generation) |
+| **AI** | Groq API (`llama-3.3-70b-versatile` by default) |
+| **QR Code** | Server-side: `qrcode` v1.5.4 (npm) · Client-side: `qr-code-styling` v1.9.2 (CDN) |
+| **Containerization** | Docker + Docker Compose |
+| **Validation** | Joi 18 |
+| **Metrics** | Prometheus-compatible (`/metrics`) |
+| **Uploads** | Multer v2 (PDF, DOCX, TXT up to 10 MB) |
+| **Rate Limiting** | express-rate-limit + rate-limit-redis (Redis-backed) |
 
 ---
 
-## Instalación y despliegue
+## Installation and Deployment
 
-<img src="https://xiro.pro/images/chamaleon/worker.svg" alt="mascota trabajando" width="100" align="left">
+<img src="https://xiro.pro/images/chamaleon/worker.svg" alt="worker mascot" width="100" align="left">
 
 <br>
 
-### Requisitos
-- Docker y Docker Compose instalados
-- Puertos `3000` (app), `5439` (Postgres), `6379` (Redis) disponibles (o red `host`)
+### Requirements
+- Docker and Docker Compose installed
+- Ports `3000` (app), `5439` (Postgres), `6379` (Redis) available (or `host` network)
 
 <br clear="left">
 
-### Pasos
+### Steps
 
 ```bash
-# 1. Clonar el repositorio
+# 1. Clone the repository
 git clone <repo-url> xiro
 cd xiro
 
-# 2. Crear archivo de entorno
-cp app/.env.example app/.env   # o crear manualmente (ver sección Variables de entorno)
+# 2. Create environment file
+cp app/.env.example app/.env   # or create manually (see Environment Variables section)
 
-# 3. Configurar contraseñas (admin.config.js)
-#    Editar app/admin.config.js con ADMIN_PASSWORD y EDITOR_PASSWORD
+# 3. Configure passwords (admin.config.js)
+#    Edit app/admin.config.js with ADMIN_PASSWORD and EDITOR_PASSWORD
 
-# 4. Levantar los servicios
+# 4. Start the services
 docker compose up -d
 
-# 5. La app estará disponible en http://<ip-del-servidor>:3000
+# 5. The app will be available at http://<server-ip>:3000
 ```
 
-Las migraciones SQL se ejecutan automáticamente al arrancar el servidor.
+SQL migrations run automatically on server startup.
 
-### Gestión con manage.sh
+### Management with manage.sh
 
 ```bash
-./manage.sh start    # Inicia todos los servicios
-./manage.sh stop     # Para todos los servicios
-./manage.sh restart  # Reinicia
-./manage.sh logs     # Ver logs en tiempo real
-./manage.sh backup   # Crea un backup de PostgreSQL
-./manage.sh restore  # Restaura un backup
-./manage.sh clean    # Limpia contenedores, volúmenes y caché
+./manage.sh start                              # Start all services
+./manage.sh stop                               # Stop all services
+./manage.sh restart                            # Restart all services
+./manage.sh status                             # Full status + monitor
+./manage.sh logs                               # View logs for all services
+./manage.sh logs backend                       # View logs for a specific service
+./manage.sh backup                             # Create a PostgreSQL backup
+./manage.sh restore backups/filename.sql.gz    # Restore a backup (requires filename)
+./manage.sh update                             # Pull images and rebuild containers
+./manage.sh clean                              # Clean unused Docker resources (prune)
+./manage.sh db                                 # Open interactive psql in xiro_postgres
+./manage.sh stats                              # Show container CPU/RAM usage
+./manage.sh health                             # Backend health check (/health)
 ```
 
-### Compilar CSS (desarrollo)
+### Compile CSS (development)
 
-<img src="https://xiro.pro/images/chamaleon/jardinero.svg" alt="mascota jardinero" width="80" align="right">
+<img src="https://xiro.pro/images/chamaleon/jardinero.svg" alt="gardener mascot" width="80" align="right">
+
+CSS scripts are in the **root** `package.json`, not in `app/`:
 
 ```bash
-cd app
-npm install
-npm run build:css        # Compila todos los bundles Tailwind
-npm run build:css:watch  # Modo watch para desarrollo
+# From the repository root
+npm run build:css          # Compile all Tailwind bundles (minified)
+npm run watch:css          # Watch mode for all bundles in parallel
+npm run build:css:admin    # Compile a single bundle (admin|player|presenter|common|index)
 ```
+
+> Do not edit compiled files (`common.css`, `output-*.css`) directly — they are overwritten on every build.
 
 ---
 
-## Backup automático y restauración
+## Automatic Backup and Restore
 
-<img src="https://xiro.pro/images/chamaleon/afraid.svg" alt="mascota asustada" width="90" align="left">
-<img src="https://xiro.pro/images/chamaleon/pirata.svg" alt="mascota pirata" width="100" align="right">
+<img src="https://xiro.pro/images/chamaleon/afraid.svg" alt="scared mascot" width="90" align="left">
+<img src="https://xiro.pro/images/chamaleon/pirata.svg" alt="pirate mascot" width="100" align="right">
 
-### Funcionamiento
+### How It Works
 
-El servicio `xiro_backup` (contenedor Docker independiente basado en `postgres:15-alpine`) ejecuta `pg_dump` de forma automática según la programación configurada. Los backups se guardan como `.sql.gz` en la carpeta `backups/`.
+The `xiro_backup` service (standalone Docker container based on `postgres:15-alpine`) runs `pg_dump` automatically according to the configured schedule. Backups are saved as `.sql.gz` files in the `backups/` folder.
 
-La configuración es editable desde el **Panel de administración → Configuración → Backup** sin reiniciar nada. El contenedor detecta los cambios en `runtime-overrides.json` cada 30 segundos y recarga el crontab automáticamente.
+The configuration is editable from the **Admin Panel → Configuration → Backup** without restarting anything. The container detects changes in `runtime-overrides.json` every 30 seconds and automatically reloads the crontab.
 
-| Parámetro | Descripción | Por defecto |
-|-----------|-------------|-------------|
-| `BACKUP_SCHEDULE` | Programación cron (`disabled` para desactivar) | `0 2 * * *` (diario 2:00 AM) |
-| `BACKUP_RETENTION_DAYS` | Días que se conservan los backups | `7` |
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `BACKUP_SCHEDULE` | Cron schedule (`disabled` to deactivate) | `0 2 * * *` (daily at 2:00 AM) |
+| `BACKUP_RETENTION_DAYS` | Days to keep backups | `7` |
 
-Opciones de programación disponibles:
-- **Diario** — `0 2 * * *` (cada día a las 2:00 AM)
-- **Semanal** — `0 2 * * 0` (domingos a las 2:00 AM)
-- **Mensual** — `0 2 1 * *` (día 1 de cada mes a las 2:00 AM)
-- **Desactivado** — `disabled`
+Available scheduling options:
+- **Daily** — `0 2 * * *` (every day at 2:00 AM)
+- **Weekly** — `0 2 * * 0` (Sundays at 2:00 AM)
+- **Monthly** — `0 2 1 * *` (1st of each month at 2:00 AM)
+- **Disabled** — `disabled`
 
-### Levantar el servicio de backup
+### Starting the Backup Service
 
 ```bash
-# Primera vez (dar permisos y levantar)
+# First time (set permissions and start)
 chmod +x scripts/docker-backup-entrypoint.sh scripts/docker-backup-run.sh
 docker compose up -d backup
 
-# Ver logs
+# View logs
 docker logs xiro_backup
 
-# Forzar un backup manual inmediato
+# Force an immediate manual backup
 docker exec xiro_backup sh /scripts/docker-backup-run.sh
 
-# Listar backups disponibles
+# List available backups
 ls -lh backups/
 ```
 
-### Restaurar una copia de seguridad
+### Restoring a Backup
 
 ```bash
-# 1. Identificar el backup a restaurar
+# 1. Identify the backup to restore
 ls -lh backups/
 # → xiro_backup_20260319_020000.sql.gz
 
-# 2. Restaurar (sustituye el nombre del archivo)
+# 2. Restore (replace the filename)
 docker exec -i xiro_postgres psql \
   -U "${DB_USER:-postgres}" \
   -p 5439 \
@@ -381,435 +406,435 @@ docker exec -i xiro_postgres psql \
   < <(gunzip -c backups/xiro_backup_20260319_020000.sql.gz)
 ```
 
-> **Nota:** si la restauración debe partir de una base de datos limpia (p.ej. recuperación total tras pérdida de datos), descarta primero las tablas existentes añadiendo la flag `--clean` al psql o recrea el esquema manualmente.
+> **Note:** if the restore needs to start from a clean database (e.g., full recovery after data loss), first drop existing tables by adding the `--clean` flag to psql or manually recreate the schema.
 
-Alternativamente usando `manage.sh`:
+Alternatively using `manage.sh`:
 
 ```bash
-./manage.sh restore
+./manage.sh restore backups/xiro_backup_20260319_020000.sql.gz
 ```
 
 ---
 
-## Variables de entorno
+## Environment Variables
 
-<img src="https://xiro.pro/images/chamaleon/cooking.svg" alt="mascota cocinando" width="100" align="right">
+<img src="https://xiro.pro/images/chamaleon/cooking.svg" alt="cooking mascot" width="100" align="right">
 
-Configuradas en `docker-compose.yml` o en `app/.env`:
+Configured in `docker-compose.yml` or in `app/.env`:
 
-| Variable | Descripción | Por defecto |
-|----------|-------------|-------------|
-| `NODE_ENV` | Entorno de ejecución | `production` |
-| `PORT` | Puerto del servidor | `3000` |
-| `DB_HOST` | Host PostgreSQL | `localhost` |
-| `DB_PORT` | Puerto PostgreSQL | `5439` |
-| `DB_NAME` | Nombre de la BD | `xiro` |
-| `DB_USER` | Usuario PostgreSQL | — |
-| `DB_PASSWORD` | Contraseña PostgreSQL | — |
-| `REDIS_URL` | URL Redis TCP | `redis://localhost:6379` |
-| `REDIS_SOCKET_PATH` | Path socket Unix Redis | `/var/run/redis/redis.sock` |
-| `JWT_SECRET` | Secreto para tokens JWT | — |
-| `CORS_ORIGIN` | Origen permitido CORS | `*` |
-| `GROQ_MODEL` | Modelo Groq para IA | `llama-3.3-70b-versatile` |
-| `BASE_POINTS` | Puntos base por respuesta | `20` |
-| `MAX_TIME_BONUS` | Bonificación máxima por tiempo | `20` |
-| `TEAM_SCORE_LAMBDA` | Peso puntuación individual en equipos | `0.5` |
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `NODE_ENV` | Runtime environment | `production` |
+| `PORT` | Server port | `3000` |
+| `DB_HOST` | PostgreSQL host | `localhost` |
+| `DB_PORT` | PostgreSQL port | `5439` |
+| `DB_NAME` | Database name | `xiro` |
+| `DB_USER` | PostgreSQL user | — |
+| `DB_PASSWORD` | PostgreSQL password | — |
+| `REDIS_URL` | Redis TCP URL | `redis://localhost:6379` |
+| `REDIS_SOCKET_PATH` | Redis Unix socket path | `/var/run/redis/redis.sock` |
+| `JWT_SECRET` | Secret for JWT tokens | — |
+| `CORS_ORIGIN` | Allowed CORS origin | `*` |
+| `GROQ_MODEL` | Groq model for AI | `llama-3.3-70b-versatile` |
+| `BASE_POINTS` | Base points per answer | `20` |
+| `MAX_TIME_BONUS` | Maximum time bonus | `20` |
+| `TEAM_SCORE_LAMBDA` | Individual score weight in teams | `0.5` |
 
 ---
 
-## Vistas del juego
+## Game Views
 
-### `index.html` — Selector de rol
-<img src="https://xiro.pro/images/chamaleon/hello.svg" alt="mascota saludando" width="90" align="right">
+### `index.html` — Role Selector
+<img src="https://xiro.pro/images/chamaleon/hello.svg" alt="hello mascot" width="90" align="right">
 
-Pantalla de entrada con fondo WebGL animado. El usuario elige su rol: **Jugador**, **Presentador** o **TV**. También hay acceso directo a los modos Trivial y Personalizado.
+Entry screen with animated WebGL background. The user chooses their role: **Player**, **Presenter**, or **TV**. There is also direct access to Trivial and Custom modes.
 
-### `jugador.html` — Vista del jugador
+### `jugador.html` — Player View
 
-<img src="https://xiro.pro/images/chamaleon/gamer.svg" alt="mascota gamer" width="100" align="right">
+<img src="https://xiro.pro/images/chamaleon/gamer.svg" alt="gamer mascot" width="100" align="right">
 
-1. **Paso 1**: Introduce el PIN de sesión (formato `PIN-XXXX`) — si se accede con `jugador.html?pin=PIN`, el PIN se rellena automáticamente y se salta directamente al paso del nombre
-2. **Paso 2**: Introduce su nickname (mayúsculas, máx. 15 caracteres)
-3. **Sala de espera**: muestra la lista de jugadores conectados
-4. Durante la partida, la interfaz se adapta automáticamente al tipo de pregunta activa
-5. Persistencia de sesión en `localStorage` para reconexión automática
-6. Wake Lock API para evitar que la pantalla del móvil se apague
-7. En modo **Trivial**, se muestra una barra inferior fija con las cuñas por categoría (gris si no conseguida, color sólido si conseguida); se sincroniza en vivo por eventos `trivial-token-update` / `trivial-turn-changed` y se restaura tras `reconnect-player`
+1. **Step 1**: Enter the session PIN (format `PIN-XXXX`) — if accessed with `jugador.html?pin=PIN`, the PIN is auto-filled and the name step is skipped directly
+2. **Step 2**: Enter their nickname (uppercase, max 15 characters)
+3. **Waiting room**: shows the list of connected players
+4. During the game, the interface automatically adapts to the active question type
+5. Session persistence in `localStorage` for automatic reconnection
+6. Wake Lock API to prevent the mobile screen from turning off
+7. In **Trivial** mode, a fixed bottom bar shows the wedges per category (gray if not obtained, solid color if obtained); synchronized live via `trivial-token-update` / `trivial-turn-changed` events and restored after `reconnect-player`
 
-**Interfaz por tipo de pregunta:**
+**Interface per question type:**
 
-| Tipo | Interfaz |
+| Type | Interface |
 |------|---------|
-| `quiz` / `survey` | Cuadrícula 2×3 de botones con colores (rojo/azul/amarillo/verde/morado/rosa) |
-| `multiple_choice` | Misma cuadrícula pero multi-selección con checkmark verde; botón "Enviar" separado |
-| `order` | Lista draggable (táctil y ratón); badge de posición actualizable; botón "Enviar" |
-| `numeric_approximation` | Campo de texto numérico grande con hint opcional; envío con Enter o botón |
-| `word_scramble` | Cajas vacías (longitud de la palabra) + 10 botones de letras desordenadas |
+| `quiz` / `survey` | 2×3 button grid with colors (red/blue/yellow/green/purple/pink) |
+| `multiple_choice` | Same grid but multi-selection with green checkmark; separate "Submit" button |
+| `order` | Draggable list (touch and mouse); updatable position badge; "Submit" button |
+| `numeric_approximation` | Large numeric text field with optional hint; submit with Enter or button |
+| `word_scramble` | Empty boxes (word length) + 10 scrambled letter buttons |
 
-### `presentador.html` — Vista presentador completa
-<img src="https://xiro.pro/images/chamaleon/musico.svg" alt="mascota músico" width="90" align="left">
+### `presentador.html` — Full Presenter View
+<img src="https://xiro.pro/images/chamaleon/musico.svg" alt="musician mascot" width="90" align="left">
 
-Vista rica con control total de la partida:
-- **Lobby**: selectora de PIN, configuración de equipos, barra lateral con jugadores en tiempo real, QR con logo XIRO embebido
-- **Partida**: temporizador circular, contador de respuestas, revelado de respuesta con tarjeta de justificación y mini-ranking
-- **Final**: podio animado con fuegos artificiales configurables
-- **Trivial**: tablero SVG interactivo con tokens de jugadores animados
-- **Botón Terminar**: disponible en todos los modos durante la partida; muestra modal de confirmación y finaliza el juego mostrando el podio con la clasificación actual. Al confirmar, detiene inmediatamente el temporizador en el cliente y publica `session-abandoned` vía Redis para cancelar cualquier temporizador activo en todos los workers
-- **Mascota de fin de juego**: al mostrar el podio, la mascota `gameover.svg` aparece animada en la esquina inferior izquierda
-- **Botón Abandonar juego**: cancela la sesión y redirige al inicio
+Rich view with full game control:
+- **Lobby**: PIN selector, team configuration, real-time player sidebar, QR with embedded XIRO logo
+- **Game**: circular timer, answer counter, answer reveal with justification card and mini-ranking
+- **End**: animated podium with configurable fireworks
+- **Trivial**: interactive SVG board with animated player tokens
+- **End Button**: available in all modes during the game; shows a confirmation modal and ends the game displaying the podium with the current standings. On confirm, immediately stops the client-side timer and publishes `session-abandoned` via Redis to cancel any active timer on all workers
+- **Game over mascot**: when showing the podium, the `gameover.svg` mascot appears animated in the bottom-left corner
+- **Abandon Game Button**: cancels the session and redirects to home
 
 <br clear="left">
 
-### `tv.html` — Vista TV / proyector
-<img src="https://xiro.pro/images/chamaleon/surfero.svg" alt="mascota surfero" width="90" align="right">
+### `tv.html` — TV / Projector View
+<img src="https://xiro.pro/images/chamaleon/surfero.svg" alt="surfer mascot" width="90" align="right">
 
-Diseñada para pantalla grande. Carga más ligera que la vista presentador. Namespace global `TVApp`. Mismas funcionalidades de tablero Trivial en formato SVG.
-- **Botón Finalizar partida**: modal de confirmación → emit `end-game` → podio
-- **Botón Abortar partida**: modal de confirmación → emit `abandon-game` → redirect a `/tv.html`
-- Ambos botones visibles solo cuando hay sesión activa; implementados en JS vanilla puro (compatible Chrome 38 / WebOS 3.5)
+Designed for large screens. Lighter load than the presenter view. Global namespace `TVApp`. Same Trivial board functionalities in SVG format.
+- **End Game Button**: confirmation modal → emit `end-game` → podium
+- **Abort Game Button**: confirmation modal → emit `abandon-game` → redirect to `/tv.html`
+- Both buttons visible only when there is an active session; implemented in vanilla JS (compatible with Chrome 38 / WebOS 3.5)
 
 ---
 
-## Panel de administración
+## Admin Panel
 
-<img src="https://xiro.pro/images/chamaleon/albanil.svg" alt="mascota constructor" width="100" align="right">
+<img src="https://xiro.pro/images/chamaleon/albanil.svg" alt="builder mascot" width="100" align="right">
 
-Acceso en `/admin.html`. **Login** con contraseña → JWT (12h). Dos roles:
-- **admin**: acceso completo (CRUD + eliminación + reinicio)
-- **editor**: CRUD sin operaciones destructivas
+Access at `/admin.html`. **Login** with password → JWT (12h). Two roles:
+- **admin**: full access (CRUD + deletion + reset)
+- **editor**: CRUD without destructive operations
 
-### Secciones
+### Sections
 
-#### Bancos de Preguntas
-- Crear, editar y eliminar bancos
-- Editor de preguntas con soporte para los 6 tipos
-- Por pregunta: límite de tiempo, multimedia (texto/imagen/audio), justificación, pista (numérico), estrategia de puntuación
-- **Exportar banco** → descarga JSON con nombre y array de preguntas
-- **Importar banco** → drag-and-drop de un archivo JSON
-- **Mezclar bancos** → genera un banco nuevo combinando seleccionados
+#### Question Banks
+- Create, edit, and delete banks
+- Question editor with support for all 6 types
+- Per question: time limit, multimedia (text/image/audio), justification, hint (numeric), scoring strategy
+- **Export bank** → downloads JSON with name and questions array
+- **Import bank** → drag-and-drop a JSON file
+- **Merge banks** → generates a new bank combining selected ones
 
-#### Mezcla de Preguntas
-- Crear juegos que combinen varios bancos con un PIN propio
-- Configurar rachas, bonificaciones dobles, temporizadores, puntuación por equipos
+#### Question Mix
+- Create games that combine multiple banks with their own PIN
+- Configure streaks, double bonuses, timers, team scoring
 
-#### Juegos Personalizados
-- Ordenar preguntas individuales de cualquier banco
-- Insertar diapositivas (texto, imagen, actividad libre, informativa)
-- **Exportar a PDF** (genera el PDF en el servidor con Puppeteer)
-- **Exportar banco JSON** del subconjunto de preguntas
+#### Custom Games
+- Order individual questions from any bank
+- Insert slides (text, image, free activity, informational)
+- **Export to PDF** (generates the PDF on the server with Puppeteer)
+- **Export bank JSON** of the question subset
 
 #### Trivial Pursuit
-- Crear juego Trivial con nombre, PIN y número de casillas exteriores
-- Definir 2-6 categorías con nombre, color y banco vinculado
-- Configurar rachas y bonificaciones dobles
+- Create Trivial game with name, PIN, and number of outer squares
+- Define 2–6 categories with name, color, and linked bank
+- Configure streaks and double bonuses
 
-#### Generador IA
-Asistente en 3 pasos:
-1. **Fuente** — dos modos:
-   - **Subir documento** (PDF, DOCX, TXT hasta 10MB): el texto se extrae en el servidor
-   - **Escribir tema**: campo de texto libre, ej. *"Haz preguntas sobre la Primera República Española"*
-2. Configurar tipos y cantidad de preguntas por tipo, dificultad
-3. Revisar, editar y guardar el banco generado
+#### AI Generator
+3-step assistant:
+1. **Source** — two modes:
+   - **Upload document** (PDF, DOCX, TXT up to 10 MB): text is extracted on the server
+   - **Write a topic**: free text field, e.g. *"Create questions about the First Spanish Republic"*
+2. Configure question types and quantity per type, difficulty
+3. Review, edit, and save the generated bank
 
-#### Sección Config
-- Parámetros de partida, puntuación, logging, conexiones, equipos
-- Fuegos artificiales (físicas, sonido, modo final) — incluye botón **Vista previa** que abre `/fireworks-preview.html` con la configuración actual sin necesidad de iniciar una partida
-- Personalización de UI (colores, temas)
-- Herramientas: limpiar uploads huérfanos, vaciar caché Redis, borrar logs
-- **Historial de partidas** (solo admin): lista las últimas 100 partidas con PIN, fecha, tipo, jugadores y duración; botón **Ver** que abre el visor gráfico directamente (`?id=`); descarga CSV o JSON por sesión; borrado individual o masivo con modal de confirmación
-- **Juegos en Curso** (solo admin): listado en tiempo real de sesiones activas y botón **Controlar** para abrir `presentador.html?pin=PIN&remote=true` desde móvil
-- **Visor gráfico** de resultados: abre `/xiro-results-viewer.html` para visualizar cualquier CSV exportado con podio animado, estadísticas y detalle por pregunta
-- **Botón PANIC**: reinicia el contenedor Docker completo
+#### Config Section
+- Game parameters, scoring, logging, connections, teams
+- Fireworks (physics, sound, end mode) — includes a **Preview** button that opens `/fireworks-preview.html` with the current configuration without needing to start a game
+- UI customization (colors, themes)
+- Tools: clean orphan uploads, flush Redis cache, delete logs
+- **Game History** (admin only): lists the last 100 games with PIN, date, type, players, and duration; **View** button that opens the graphical viewer directly (`?id=`); CSV or JSON download per session; individual or bulk deletion with confirmation modal
+- **Games In Progress** (admin only): real-time listing of active sessions and **Control** button to open `presentador.html?pin=PIN&remote=true` from mobile
+- **Graphical results viewer**: opens `/xiro-results-viewer.html` to visualize any exported CSV with animated podium, statistics, and per-question detail
+- **PANIC Button**: restarts the entire Docker container
 
-### Control remoto del presentador (admin)
+### Presenter Remote Control (admin)
 
-Permite controlar una partida proyectada en PC desde otro dispositivo (p.ej. móvil) usando los mismos eventos del presentador principal:
+Allows controlling a game projected on a PC from another device (e.g., mobile) using the same events as the main presenter:
 
 - `next-question`
 - `reveal-answer`
 - `end-game`
 - `pause-timer` / `resume-timer`
 
-Flujo:
-1. Entrar en **Config → Juegos en Curso**.
-2. Pulsar **Controlar** en la sesión deseada.
-3. Se abre `presentador.html?pin=PIN&remote=true` con interfaz táctil simplificada.
-4. El cliente remoto realiza handshake por socket (`join-remote-presenter`) y recibe snapshot inicial.
+Flow:
+1. Go to **Config → Games In Progress**.
+2. Click **Control** on the desired session.
+3. Opens `presentador.html?pin=PIN&remote=true` with a simplified touch interface.
+4. The remote client performs a socket handshake (`join-remote-presenter`) and receives an initial snapshot.
 
-Funcionalidades de la interfaz remota:
-- Botones de acción: **Siguiente pregunta**, **Revelar respuesta**, **Finalizar juego** y **Terminar partida** (con modal de confirmación)
-- **Temporizador circular** sincronizado con el presentador: muestra la cuenta atrás en tiempo real, cambia a amarillo cuando está pausado y pulsa en rojo en los últimos 5 segundos. Tocarlo pausa o reanuda el temporizador (emite `pause-timer` / `resume-timer`). Se oculta automáticamente al revelar la respuesta.
+Remote interface features:
+- Action buttons: **Next Question**, **Reveal Answer**, **End Game**, and **Finish Game** (with confirmation modal)
+- **Circular timer** synchronized with the presenter: shows the countdown in real-time, turns yellow when paused, and pulses red in the last 5 seconds. Tapping it pauses or resumes the timer (emits `pause-timer` / `resume-timer`). Automatically hides when the answer is revealed.
 
-Seguridad:
-- El control remoto exige **JWT de admin válido** tanto por REST como por socket.
-- Aunque se conozca la URL del presentador remoto, sin token admin el servidor rechaza la unión (`remote-join-failed`).
+Security:
+- Remote control requires a **valid admin JWT** both via REST and socket.
+- Even if the remote presenter URL is known, without an admin token the server rejects the join (`remote-join-failed`).
 
-Implementación técnica:
-- Query CQRS: `app/application/queries/GetActiveSessionsQuery.js` (escaneo Redis `session:*`).
-- Endpoint: `GET /api/admin/active-sessions` en `app/routes/admin.remote.routes.js`.
+Technical implementation:
+- CQRS Query: `app/application/queries/GetActiveSessionsQuery.js` (Redis scan `session:*`).
+- Endpoint: `GET /api/admin/active-sessions` in `app/routes/admin.remote.routes.js`.
 - Socket helper: `app/sockets/utils/RemoteControlHelper.js`.
-- Frontend admin: `app/public/js/admin/modules/remote-tab.js`.
-- Frontend presentador móvil: `app/public/js/presenter/presenter-remote.js`, `presenter-remote-ui.js` y `app/public/css/presenter-remote.css`.
+- Admin frontend: `app/public/js/admin/modules/remote-tab.js`.
+- Mobile presenter frontend: `app/public/js/presenter/presenter-remote.js`, `presenter-remote-ui.js`, and `app/public/css/presenter-remote.css`.
 
-### Rate limit de login admin (reset)
+### Admin Login Rate Limit (reset)
 
-El endpoint `/api/admin-login` está protegido con rate limit (5 intentos / 15 min por IP). Cuando Redis está disponible, el contador se guarda con claves `rl:*`.
+The `/api/admin-login` endpoint is protected with rate limiting (5 attempts / 15 min per IP). When Redis is available, the counter is stored with `rl:*` keys.
 
-Comandos útiles en servidor:
+Useful server commands:
 
 ```bash
-# Ver claves bloqueadas
+# View blocked keys
 redis-cli --scan --pattern 'rl:*'
 
-# Ver TTL de una IP
+# View TTL for an IP
 redis-cli TTL rl:<ip>
 
-# Reset de una IP concreta
+# Reset a specific IP
 redis-cli DEL rl:<ip>
 
-# Reset global de bloqueos de login
+# Global reset of login blocks
 redis-cli --scan --pattern 'rl:*' | xargs -r redis-cli DEL
 ```
 
 ---
 
-## Modo por equipos
+## Team Mode
 
-<img src="https://xiro.pro/images/chamaleon/bailarina.svg" alt="mascota bailarina" width="100" align="left">
+<img src="https://xiro.pro/images/chamaleon/bailarina.svg" alt="dancer mascot" width="100" align="left">
 
-Disponible en todos los modos de juego (Banco, Mezcla, Personalizado, Trivial).
+Available in all game modes (Bank, Mix, Custom, Trivial).
 
-- En la sala de espera, el presentador activa el modo equipos y configura nombres y colores
-- Los jugadores eligen su equipo desde `jugador.html`
-- **Revelación sincronizada**: ningún miembro del equipo ve el resultado hasta que todo el equipo haya respondido
-- Si el equipo completo responde antes del tiempo, el temporizador se detiene
-- **Puntuación de equipo**: suma ponderada de puntuaciones individuales (λ configurable)
-- **Rachas de equipo**: el equipo como unidad puede activar bonificaciones de racha
+- In the waiting room, the presenter enables team mode and configures names and colors
+- Players choose their team from `jugador.html`
+- **Synchronized reveal**: no team member sees the result until the entire team has answered
+- If the full team answers before time runs out, the timer stops
+- **Team scoring**: weighted sum of individual scores (configurable λ)
+- **Team streaks**: the team as a unit can trigger streak bonuses
 
 <br clear="left">
 
 ---
 
-## Generador IA
+## AI Generator
 
-<img src="https://xiro.pro/images/chamaleon/inteligencia-artificial.svg" alt="mascota IA" width="120" align="right">
+<img src="https://xiro.pro/images/chamaleon/inteligencia-artificial.svg" alt="AI mascot" width="120" align="right">
 
-El módulo `app/ai-generator/` genera bancos de preguntas a partir de documentos o prompts libres:
+The `app/ai-generator/` module generates question banks from documents or free prompts:
 
 ```
-Documento / Prompt libre → Extracción / Texto directo → Construcción de prompt → API Groq → Validación → Banco
+Document / Free Prompt → Extraction / Direct Text → Prompt Construction → Groq API → Validation → Bank
 ```
 
-- Soporta los 6 tipos de preguntas en la generación
-- La clave API Groq se almacena en `app/ai-generator/groq-key.json` (editable desde el panel Config)
-- Temperatura: 0.7 para mayor variedad de salidas
-- Timeout: 60s por petición
-- Modelos disponibles: cualquier modelo compatible con la API de Groq (configurable desde el panel)
+- Supports all 6 question types in generation
+- The Groq API key is stored in `app/ai-generator/groq-key.json` (editable from the Config panel)
+- Temperature: 0.7 for greater output variety
+- Timeout: 60s per request
+- Available models: any model compatible with the Groq API (configurable from the panel)
 
 ---
 
-## Exportación y visualización de resultados
+## Results Export and Visualization
 
-<img src="https://xiro.pro/images/chamaleon/gameover.svg" alt="mascota gameover" width="100" align="left">
-<img src="https://xiro.pro/images/chamaleon/busca-tesoros.svg" alt="mascota resultados" width="100" align="right">
+<img src="https://xiro.pro/images/chamaleon/gameover.svg" alt="gameover mascot" width="100" align="left">
+<img src="https://xiro.pro/images/chamaleon/busca-tesoros.svg" alt="results mascot" width="100" align="right">
 
-Cada partida que finaliza (completada o abandonada) se persiste automáticamente en la tabla `game_sessions` de PostgreSQL. No bloquea el flujo del juego: el guardado es asíncrono y los errores se registran sin interrumpir la sesión.
+Every game that finishes (completed or abandoned) is automatically persisted in the `game_sessions` PostgreSQL table. It does not block the game flow: saving is asynchronous and errors are logged without interrupting the session.
 
-### Tabla `game_sessions`
+### `game_sessions` Table
 
-| Campo | Tipo | Descripción |
+| Field | Type | Description |
 |-------|------|-------------|
-| `id` | `SERIAL` | Identificador único |
-| `pin` | `TEXT` | PIN del juego |
+| `id` | `SERIAL` | Unique identifier |
+| `pin` | `TEXT` | Game PIN |
 | `game_type` | `TEXT` | `bank`, `mix`, `custom`, `trivial` |
-| `played_at` | `TIMESTAMPTZ` | Fecha y hora de finalización |
-| `duration_ms` | `INTEGER` | Duración total en milisegundos |
-| `player_count` | `INTEGER` | Número de jugadores |
-| `question_count` | `INTEGER` | Número de preguntas |
-| `reason` | `TEXT` | `completed` o `abandoned` |
-| `final_ranking` | `JSONB` | Ranking final con puntos por jugador |
-| `questions_snapshot` | `JSONB` | Preguntas con opciones y respuesta correcta |
-| `player_answers` | `JSONB` | Respuestas individuales por pregunta (tiempo, puntos, acierto) |
+| `played_at` | `TIMESTAMPTZ` | Completion date and time |
+| `duration_ms` | `INTEGER` | Total duration in milliseconds |
+| `player_count` | `INTEGER` | Number of players |
+| `question_count` | `INTEGER` | Number of questions |
+| `reason` | `TEXT` | `completed` or `abandoned` |
+| `final_ranking` | `JSONB` | Final ranking with points per player |
+| `questions_snapshot` | `JSONB` | Questions with options and correct answer |
+| `player_answers` | `JSONB` | Individual answers per question (time, points, correctness) |
 
-Las respuestas individuales se rastrean en un hash Redis `game:playeranswers:<roomId>` durante la partida y se consolidan al finalizar, incluso en despliegues multi-worker.
+Individual answers are tracked in a Redis hash `game:playeranswers:<roomId>` during the game and consolidated at the end, even in multi-worker deployments.
 
-### Endpoints REST
+### REST Endpoints
 
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| `GET` | `/api/results/history?limit=100` | Lista las últimas N sesiones (sin columnas JSONB pesadas) |
-| `GET` | `/api/results/session/:id/export.csv` | Descarga CSV de la sesión (BOM UTF-8, separador `;`) |
-| `GET` | `/api/results/session/:id/export.json` | Devuelve JSON completo de la sesión *(sin autenticación — necesario para el visor con enlace directo)* |
-| `DELETE` | `/api/results/history` | Borra todas las sesiones *(requiere rol admin)* |
-| `DELETE` | `/api/results/session/:id` | Borra una sesión individual *(requiere rol admin)* |
+| Method | Route | Description |
+|--------|-------|-------------|
+| `GET` | `/api/results/history?limit=100` | Lists the last N sessions (without heavy JSONB columns) |
+| `GET` | `/api/results/session/:id/export.csv` | Downloads session CSV (UTF-8 BOM, `;` separator) |
+| `GET` | `/api/results/session/:id/export.json` | Returns full session JSON *(no authentication — needed for the viewer with direct link)* |
+| `DELETE` | `/api/results/history` | Deletes all sessions *(requires admin role)* |
+| `DELETE` | `/api/results/session/:id` | Deletes an individual session *(requires admin role)* |
 
-### Formato CSV
+### CSV Format
 
-El CSV exportado contiene secciones separadas por cabeceras:
+The exported CSV contains sections separated by headers:
 
 ```
-RANKING FINAL           → posición, jugador, puntos totales
-PREGUNTAS               → índice, enunciado, tipo, respuesta correcta
-DETALLE POR PREGUNTA    → por cada pregunta: jugador, respuesta, tiempo (ms), puntos, acierto
-CATEGORÍAS OBTENIDAS    → (solo Trivial) jugador y cuñas conseguidas
+FINAL RANKING           → position, player, total points
+QUESTIONS               → index, prompt, type, correct answer
+DETAIL PER QUESTION     → per question: player, answer, time (ms), points, correct
+OBTAINED CATEGORIES     → (Trivial only) player and obtained wedges
 ```
 
-### Visor gráfico (`/xiro-results-viewer.html`)
+### Graphical Viewer (`/xiro-results-viewer.html`)
 
-Página HTML standalone (sin dependencias externas) accesible de dos formas:
+Standalone HTML page (no external dependencies) accessible in two ways:
 
-- **Con CSV**: arrastra el archivo descargado a la zona drop — los datos no salen del navegador
-- **Con enlace directo**: `/xiro-results-viewer.html?id=<id>` carga la partida automáticamente desde la BD sin necesidad de descargar nada. Este enlace se puede compartir con cualquier persona sin requerir autenticación
+- **With CSV**: drag the downloaded file to the drop zone — data never leaves the browser
+- **With direct link**: `/xiro-results-viewer.html?id=<id>` loads the game automatically from the DB without needing to download anything. This link can be shared with anyone without requiring authentication
 
-Funcionalidades:
-- **Cabecera**: PIN, fecha, tipo de juego, jugadores, preguntas, estado (completada / abandonada)
-- **Tarjetas de estadísticas**: jugadores, preguntas, % de acierto global, tiempo medio de respuesta, cuñas máximas (Trivial)
-- **Podio animado**: bloques de altura proporcional, corona 👑 al primero, barras de puntuación para todos los jugadores
-- **Cuñas** (Trivial): cuadrícula por jugador con las categorías conseguidas
-- **Acordeón por pregunta**: porcentaje de acierto con barra visual, tabla de respuestas individuales con tiempo y puntos
-- **Confeti** al cargar partidas completadas
-- **Botón imprimir**: todas las preguntas se despliegan automáticamente en la impresión
+Features:
+- **Header**: PIN, date, game type, players, questions, status (completed / abandoned)
+- **Statistics cards**: players, questions, global accuracy %, average response time, maximum wedges (Trivial)
+- **Animated podium**: proportional height blocks, crown 👑 for first place, score bars for all players
+- **Wedges** (Trivial): grid per player with obtained categories
+- **Per-question accordion**: accuracy percentage with visual bar, individual answer table with time and points
+- **Confetti** on loading completed games
+- **Print button**: all questions automatically expand when printing
 
 ---
 
-## Sistema de puntuación
+## Scoring System
 
-<img src="https://xiro.pro/images/chamaleon/quimico.svg" alt="mascota químico" width="110" align="left">
+<img src="https://xiro.pro/images/chamaleon/quimico.svg" alt="chemist mascot" width="110" align="left">
 
 <br>
 
-### Puntuación base
+### Base Scoring
 
-| Tipo | Fórmula |
+| Type | Formula |
 |------|---------|
 | `quiz`, `word_scramble` | `BASE_POINTS + (timeLeft / timeLimit) × MAX_TIME_BONUS` |
-| `multiple_choice` | Suma de aciertos × pts_correcta − errores × pts_penalización + bonus_perfecto |
-| `order` | `BASE_POINTS × posiciones_correctas` |
-| `numeric_approximation` | Proporcional a la proximidad al valor correcto (según modo de tolerancia) |
-| `survey` | 0 (encuesta, sin puntuación) |
+| `multiple_choice` | Sum of correct × pts_per_correct − errors × pts_penalty + perfect_bonus |
+| `order` | `BASE_POINTS × correct_positions` |
+| `numeric_approximation` | Proportional to proximity to the correct value (according to tolerance mode) |
+| `survey` | 0 (survey, no scoring) |
 
-### Estrategias de puntuación (pluggables)
+### Scoring Strategies (pluggable)
 
-| Estrategia | Descripción |
-|-----------|-------------|
-| `time_based` | Base + bonificación por tiempo (por defecto) |
-| `streak_bonus` | `time_based × (1 + multiplicador_racha)` |
-| `betting` | El jugador apuesta sus puntos existentes. **PENDIENTE**|
-| `numeric_approximation` | Puntuación por proximidad |
+| Strategy | Description |
+|----------|-------------|
+| `time_based` | Base + time bonus (default) |
+| `streak_bonus` | `time_based × (1 + streak_multiplier)` |
+| `betting` | The player bets their existing points. **PENDING** |
+| `numeric_approximation` | Proximity-based scoring |
 
-### Rachas
-Configurables por juego con `use_streaks`, `streak_threshold`, `streak_bonus_percentage`:
-- **Racha individual**: N respuestas correctas consecutivas → +X% de bonificación
-- **Racha doble**: M respuestas consecutivas → +Y% adicional (acumulable)
+### Streaks
+Configurable per game with `use_streaks`, `streak_threshold`, `streak_bonus_percentage`:
+- **Individual streak**: N consecutive correct answers → +X% bonus
+- **Double streak**: M consecutive answers → +Y% additional (stackable)
 
 <br clear="left">
 
 ---
 
-## Reconexión y sesiones
+## Reconnection and Sessions
 
-<img src="https://xiro.pro/images/chamaleon/running.svg" alt="mascota corriendo" width="100" align="right">
+<img src="https://xiro.pro/images/chamaleon/running.svg" alt="running mascot" width="100" align="right">
 
-- El estado completo de la partida se persiste en Redis con clave `session:{roomId}` (TTL 6h)
-- Los jugadores almacenan `playerId` (UUID), `sessionId` y `nickname` en `localStorage`
-- Al recargar la página o reconectarse, el cliente emite `reconnect-player` automáticamente
-- El servidor valida la sesión en Redis, restaura el jugador en la partida y envía un snapshot del estado actual
-- Los presentadores también pueden reconectarse mediante `reconnect-presenter`
-- El control remoto admin puede coexistir con el presentador principal: múltiples sockets de presentador por sala (`join-remote-presenter`) sin expulsar al socket original
-- **Restauración del estado revelado**: si la pregunta actual ya fue revelada cuando el presentador reconecta, el servidor re-emite automáticamente el evento `reveal-answer` con el payload completo hacia ese socket. Esto funciona aunque la reconexión aterrice en un worker diferente al que procesó la revelación, gracias a que el payload se sincroniza vía el canal `question-revealed` de `RedisSyncBus` en el momento de la revelación
-- **Resiliencia de transporte del presentador**: el socket del presentador usa `transports: ['websocket', 'polling']` con upgrade automático. Si el handshake WebSocket falla puntualmente (reinicio de backend, proxy, red), cae a long-polling y recupera la conexión sin mostrar error al usuario
-- **Reconexión cross-worker**: cuando un jugador cambia de red (p.ej. WiFi → datos móviles), el cliente obtiene un nuevo socket. Si ese socket aterriza en un worker distinto al que procesó el `join-lobby`, el canal `player-data-sync` de `RedisSyncBus` garantiza que el objeto completo del jugador esté disponible en todos los workers. El guard `isDifferentSocket` en `ReconnectPlayerHandler` acepta cualquier estado activo (no solo `connected`), ya que el socket anterior puede tardar hasta ~80 s en expirar por TCP keepalive
+- The complete game state is persisted in Redis with key `session:{roomId}` (TTL 6h)
+- Players store `playerId` (UUID), `sessionId`, and `nickname` in `localStorage`
+- On page reload or reconnection, the client automatically emits `reconnect-player`
+- The server validates the session in Redis, restores the player in the game, and sends a snapshot of the current state
+- Presenters can also reconnect via `reconnect-presenter`
+- The admin remote control can coexist with the main presenter: multiple presenter sockets per room (`join-remote-presenter`) without expelling the original socket
+- **Revealed state restoration**: if the current question was already revealed when the presenter reconnects, the server automatically re-emits the `reveal-answer` event with the full payload to that socket. This works even if the reconnection lands on a different worker than the one that processed the reveal, thanks to the payload being synchronized via the `question-revealed` channel of `RedisSyncBus` at the time of the reveal
+- **Presenter transport resilience**: the presenter socket uses `transports: ['websocket', 'polling']` with automatic upgrade. If the WebSocket handshake fails momentarily (backend restart, proxy, network blip), it falls back to long-polling and recovers the connection without showing an error to the user
+- **Cross-worker reconnection**: when a player changes networks (e.g., WiFi → mobile data), the client gets a new socket. If that socket lands on a different worker than the one that processed the `join-lobby`, the `player-data-sync` channel of `RedisSyncBus` ensures the complete player object is available on all workers. The `isDifferentSocket` guard in `ReconnectPlayerHandler` accepts any active state (not just `connected`), since the previous socket can take up to ~80s to expire due to TCP keepalive
 
 ---
 
-## Estructura del proyecto
+## Project Structure
 
-<img src="https://xiro.pro/images/chamaleon/branch.svg" alt="mascota branch" width="100" align="right">
+<img src="https://xiro.pro/images/chamaleon/branch.svg" alt="branch mascot" width="100" align="right">
 
 ```
 xiro/
-├── app/                        # Aplicación Node.js
-│   ├── index.js                # Entrada principal (inicialización)
-│   ├── server.js               # Servidor estado-sync (segundo proceso)
-│   ├── ai-generator/           # Módulo generador IA (Groq)
-│   ├── application/            # Capa de aplicación (CQRS)
-│   │   ├── chain/              # Cadenas de responsabilidad
-│   │   ├── commands/           # Comandos de escritura
-│   │   ├── helpers/            # Helpers de aplicación (extracción de respuestas, lookup, rate limiter)
-│   │   ├── queries/            # Consultas de lectura
-│   │   ├── services/           # Servicios de aplicación
-│   │   ├── use-cases/          # Casos de uso
-│   │   └── validators/         # Validaciones de entrada
-│   ├── config/                 # Configuración y constantes
-│   ├── domain/                 # Lógica de dominio
-│   │   ├── events/             # EventBus y manejadores
-│   │   ├── services/           # Servicios de dominio puros
-│   │   ├── state/              # Máquina de estados (XState)
-│   │   └── strategies/         # Strategies (juego y puntuación)
-│   ├── infrastructure/         # Infraestructura
+├── app/                        # Node.js application
+│   ├── index.js                # Main entry point (initialization)
+│   ├── server.js               # State-sync server (second process)
+│   ├── ai-generator/           # AI generator module (Groq)
+│   ├── application/            # Application layer (CQRS)
+│   │   ├── chain/              # Chains of responsibility
+│   │   ├── commands/           # Write commands
+│   │   ├── helpers/            # Application helpers (answer extraction, lookup, rate limiter)
+│   │   ├── queries/            # Read queries
+│   │   ├── services/           # Application services
+│   │   ├── use-cases/          # Use cases
+│   │   └── validators/         # Input validations
+│   ├── config/                 # Configuration and constants
+│   ├── domain/                 # Domain logic
+│   │   ├── events/             # EventBus and handlers
+│   │   ├── services/           # Pure domain services
+│   │   ├── state/              # State machine (XState)
+│   │   └── strategies/         # Strategies (game and scoring)
+│   ├── infrastructure/         # Infrastructure
 │   │   ├── health/             # Health checks
 │   │   ├── resilience/         # Circuit breakers
-│   │   └── shutdown/           # Apagado graceful
-│   ├── middlewares/            # Autenticación, rate limiting, métricas, seguridad
-│   ├── migrations/             # Migraciones SQL (auto-ejecutadas)
-│   ├── public/                 # Frontend estático
-│   │   ├── *.html              # Vistas del juego
-│   │   ├── ppt-addin/          # Add-in para PowerPoint (Office.js)
-│   │   ├── css/                # CSS compilado (Tailwind) + artesanal
-│   │   │   ├── common.css      # Base Tailwind compartida (todas las vistas)
-│   │   │   ├── output-*.css    # Bundles Tailwind por vista (components only)
+│   │   └── shutdown/           # Graceful shutdown
+│   ├── middlewares/            # Authentication, rate limiting, metrics, security
+│   ├── migrations/             # SQL migrations (auto-executed)
+│   ├── public/                 # Static frontend
+│   │   ├── *.html              # Game views
+│   │   ├── ppt-addin/          # PowerPoint add-in (Office.js)
+│   │   ├── css/                # Compiled CSS (Tailwind) + handcrafted
+│   │   │   ├── common.css      # Shared Tailwind base (all views)
+│   │   │   ├── output-*.css    # Tailwind bundles per view (components only)
 │   │   │   ├── jugador-base.css    # ─┐
-│   │   │   ├── jugador-quiz.css    #  ├─ jugador.css dividido en 3 módulos
+│   │   │   ├── jugador-quiz.css    #  ├─ jugador.css split into 3 modules
 │   │   │   ├── jugador-effects.css # ─┘
-│   │   │   ├── tv.css          # CSS standalone para TV/WebOS
+│   │   │   ├── tv.css          # Standalone CSS for TV/WebOS
 │   │   │   └── drag-drop.css, neon.css, dice3d.css, …
 │   │   └── js/
-│   │       ├── admin/          # Módulos del panel de administración
-│   │       ├── core/           # Abstracciones compartidas (EventEmitter, GameState, etc.)
-│   │       ├── fireworks/      # Motor de fuegos artificiales (canvas)
-│   │       ├── player/         # Módulos del jugador (ES modules)
-│   │       ├── presenter/      # Módulos del presentador (ES modules)
-│   │       ├── shared/         # Componentes compartidos
-│   │       │   ├── modal.js    # Modal genérico (ES module)
-│   │       │   └── trivial/    # Lógica del tablero Trivial (sin módulos, Chrome 40+)
-│   │       │       ├── trivial-board-geometry.js   # Constantes + posToXY, isHQ, labelXY, playerColor
+│   │       ├── admin/          # Admin panel modules
+│   │       ├── core/           # Shared abstractions (EventEmitter, GameState, etc.)
+│   │       ├── fireworks/      # Fireworks engine (canvas)
+│   │       ├── player/         # Player modules (ES modules)
+│   │       ├── presenter/      # Presenter modules (ES modules)
+│   │       ├── shared/         # Shared components
+│   │       │   ├── modal.js    # Generic modal (ES module)
+│   │       │   └── trivial/    # Trivial board logic (no modules, Chrome 40+)
+│   │       │       ├── trivial-board-geometry.js   # Constants + posToXY, isHQ, labelXY, playerColor
 │   │       │       ├── trivial-board-builder.js    # renderBoardBackground + SVG scaffold
 │   │       │       ├── trivial-token-renderer.js   # updateBoardTokens, updateBoardTokensTeam
 │   │       │       └── trivial-highlights-renderer.js # updateBoardHighlights, showTurnOrderOverlay
-│   │       └── tv/             # Módulos de TV (IIFE namespace TVApp)
-│   ├── routes/                 # Enrutadores Express
-│   ├── services/               # Servicios de infraestructura (caché, DB, Redis)
-│   └── sockets/                # Capa Socket.IO
-│       ├── handlers/           # Manejadores de eventos por tipo
-│       │   └── trivial/        # Manejadores específicos del Trivial
-│       ├── services/           # Servicios de socket (Trivial, Reconexión, etc.)
-│       ├── sync/               # RedisSyncBus (sincronización entre workers)
-│       ├── utils/              # Utilidades (timers, rankings, equipos, etc.)
-│       └── validators/         # Validadores a nivel socket
-├── docs/                       # Documentación técnica adicional
-├── scripts/                    # Scripts de utilidad
-├── docker-compose.yml          # Orquestación de servicios
-├── Dockerfile                  # Imagen Docker (Node 20 Alpine + Chromium)
-├── manage.sh                   # Script de gestión del sistema
-└── tailwind.config.js          # Configuración Tailwind raíz
+│   │       └── tv/             # TV modules (IIFE namespace TVApp)
+│   ├── routes/                 # Express routers
+│   ├── services/               # Infrastructure services (cache, DB, Redis)
+│   └── sockets/                # Socket.IO layer
+│       ├── handlers/           # Event handlers by type
+│       │   └── trivial/        # Trivial-specific handlers
+│       ├── services/           # Socket services (Trivial, Reconnection, etc.)
+│       ├── sync/               # RedisSyncBus (cross-worker sync)
+│       ├── utils/              # Utilities (timers, rankings, teams, etc.)
+│       └── validators/         # Socket-level validators
+├── docs/                       # Additional technical documentation
+├── scripts/                    # Utility scripts
+├── docker-compose.yml          # Service orchestration
+├── Dockerfile                  # Docker image (Node 20 Alpine + Chromium)
+├── manage.sh                   # System management script
+└── tailwind.config.js          # Root Tailwind configuration
 ```
 
 ---
 
-## Tests y cobertura
+## Tests and Coverage
 
-<img src="https://xiro.pro/images/chamaleon/detective.svg" alt="mascota detective" width="100" align="right">
+<img src="https://xiro.pro/images/chamaleon/detective.svg" alt="detective mascot" width="100" align="right">
 
 ```
-cd app && npm test                        # todos los tests
-cd app && npm test -- --coverage          # con informe de cobertura
-cd app && npm test -- --coverage --silent # silencioso (sin logs del servidor)
+cd app && npm test                        # all tests
+cd app && npm test -- --coverage          # with coverage report
+cd app && npm test -- --coverage --silent # silent (no server logs)
 ```
 
-### Estado actual *(10/04/2026 — Final de sesión)*
+### Current Status *(04/10/2026 — End of Session)*
 
-| Métrica | Global | Objetivo | Estado |
-|---------|--------|----------|--------|
+| Metric | Global | Target | Status |
+|--------|--------|--------|--------|
 | **Suites** | 161 | — | ✅ |
 | **Tests** | 3074 | — | ✅ (+5) |
 | **Statements** | 83.4 % | ≥ 85 % | 🟡 (-1.6%) |
@@ -817,10 +842,10 @@ cd app && npm test -- --coverage --silent # silencioso (sin logs del servidor)
 | **Functions** | 83.72 % | ≥ 85 % | 🟡 (-1.28%) |
 | **Lines** | 84.57 % | ≥ 85 % | 🟡 (-0.43%) |
 
-### Cobertura por capa *(datos de la última ejecución completa)*
+### Coverage per Layer *(data from latest full run)*
 
-| Carpeta | Stmts | Branch | Funcs | Estado |
-|---------|-------|--------|-------|--------|
+| Folder | Stmts | Branch | Funcs | Status |
+|--------|-------|--------|-------|--------|
 | `config/` | 98.76 % | 95.98 % | 96.77 % | ✅ |
 | `middlewares/` | 97.10 % | 97.05 % | 96.55 % | ✅ |
 | `routes/` | 96.31 % | 93.47 % | 95.23 % | ✅ |
@@ -842,120 +867,131 @@ cd app && npm test -- --coverage --silent # silencioso (sin logs del servidor)
 | `sockets/handlers/trivial/` | 22.58 % | 17.64 % | 21.15 % | 🔴 |
 | `sockets/sync/` | 27.02 % | 3.50 % | 26.82 % | 🔴 |
 
-### Tests añadidos en esta sesión *(10/04/2026 — Completada)*
+### Tests Added This Session *(04/10/2026 — Completed)*
 
-| Archivo | Tests | Mejora | Impacto |
-|---------|-------|--------|--------|
-| `routes/__tests__/admin.routes.test.js` | +2 (fix) | clear-logs: corregidos 2 fallos | 43/43 ✅ |
+| File | Tests | Improvement | Impact |
+|------|-------|-------------|--------|
+| `routes/__tests__/admin.routes.test.js` | +2 (fix) | clear-logs: fixed 2 failures | 43/43 ✅ |
 | `sockets/services/ReconnectionService.test.js` | +23 | checkNicknameDuplicate, disconnectOldSocket, updatePlayerState, setupPlayerSocket, reAddToLobbyOrGame, buildPlayerSnapshot, buildPresenterSnapshot, reconnectPlayer, restorePlayerStreaksFromRedis | 87.37% stmts |
 | `application/commands/__tests__/ImprovedStartGameCommand.test.js` | +10 | adapter.validateSync() invalid, adapter.startGame() error, sessionStore.save() fail, custom_game types, quiz types, trivial error, syncBus null | 100% stmts, 91.17% branches |
-| **Total sesión** | **+35** | **Global +5** | **Branches ✅ 72.03%** |
+| **Session total** | **+35** | **Global +5** | **Branches ✅ 72.03%** |
 
-**Logros principales:**
-- ✅ Cruzamos threshold de **Branches** (71.97% → 72.03%)
-- ✅ Corregidos 2 tests fallidos en admin.routes (clear-logs mock issues)
-- ✅ ReconnectionService: amplificado de 27% a 87% statements con helpers + snapshots + reconexión
-- ✅ ImprovedStartGameCommand: perfecto coverage (100% stmts, 91.17% branches)
-- 🟡 Faltan 1.6% Statements, 1.28% Functions, 0.43% Lines para alcanzar 85% global
+**Main achievements:**
+- ✅ Crossed **Branches** threshold (71.97% → 72.03%)
+- ✅ Fixed 2 failing tests in admin.routes (clear-logs mock issues)
+- ✅ ReconnectionService: amplified from 27% to 87% statements with helpers + snapshots + reconnection
+- ✅ ImprovedStartGameCommand: perfect coverage (100% stmts, 91.17% branches)
+- 🟡 Missing 1.6% Statements, 1.28% Functions, 0.43% Lines to reach 85% global
 
-**Próximos pasos para 85% global:**
-1. Ampliar cobertura de `application/use-cases/SubmitAnswerUseCase.js` (68.05% → ~75%)
-2. Ampliar `application/use-cases/ReconnectPlayerUseCase.js` (75% → ~82%)
-3. Mejorar `services/db/game-session.service.js` (29.72% → ~50%)
-4. Pequeños ajustes en `application/commands/ImprovedSubmitAnswerCommand.js` (61.86% → ~70%)
+**Next steps for 85% global:**
+1. Expand coverage of `application/use-cases/SubmitAnswerUseCase.js` (68.05% → ~75%)
+2. Expand `application/use-cases/ReconnectPlayerUseCase.js` (75% → ~82%)
+3. Improve `services/db/game-session.service.js` (29.72% → ~50%)
+4. Minor adjustments to `application/commands/ImprovedSubmitAnswerCommand.js` (61.86% → ~70%)
 
-### Tests añadidos en sesiones previas *(31/03/2026)*
+### Tests Added in Previous Sessions *(03/31/2026)*
 
-| Archivo | Tests | Cobertura lograda |
-|---------|-------|-------------------|
-| `sockets/utils/IndividualModeHelper.test.js` | 18 | Bugs de worker divergence y skip de jugadores desconectados: 100 % de los casos nuevos |
+| File | Tests | Coverage Achieved |
+|------|-------|-------------------|
+| `sockets/utils/IndividualModeHelper.test.js` | 18 | Worker divergence bugs and skipping disconnected players: 100% of new cases |
 
-### Tests añadidos en sesiones previas *(17/03/2026)*
+### Tests Added in Previous Sessions *(03/17/2026)*
 
-| Archivo | Tests | Cobertura lograda |
-|---------|-------|-------------------|
-| `domain/strategies/scoring/__tests__/BettingScoring.test.js` | 25 | `BettingScoring.js` 100 % stmts |
-| `sockets/utils/NicknameNormalizer.test.js` | 15 | `NicknameNormalizer.js` 0 % → 100 % |
-| `domain/services/OrderAnswerService.test.js` | 19 | `OrderAnswerService.js` 11 % → 100 % |
-| `domain/services/LastRankingBuffer.test.js` | 17 | `LastRankingBuffer.js` 39 % → 100 % |
-| `domain/services/MultipleChoiceAnswerStateService.test.js` | 24 | `MultipleChoiceAnswerStateService.js` 2 % → ~90 % |
-| `domain/services/GameStreakApplicator.test.js` | 20 | `GameStreakApplicator.js` 50 % → ~95 % |
-| `domain/services/OrderAnswerStateService.test.js` | 18 | `OrderAnswerStateService.js` 2 % → ~85 % |
+| File | Tests | Coverage Achieved |
+|------|-------|-------------------|
+| `domain/strategies/scoring/__tests__/BettingScoring.test.js` | 25 | `BettingScoring.js` 100% stmts |
+| `sockets/utils/NicknameNormalizer.test.js` | 15 | `NicknameNormalizer.js` 0% → 100% |
+| `domain/services/OrderAnswerService.test.js` | 19 | `OrderAnswerService.js` 11% → 100% |
+| `domain/services/LastRankingBuffer.test.js` | 17 | `LastRankingBuffer.js` 39% → 100% |
+| `domain/services/MultipleChoiceAnswerStateService.test.js` | 24 | `MultipleChoiceAnswerStateService.js` 2% → ~90% |
+| `domain/services/GameStreakApplicator.test.js` | 20 | `GameStreakApplicator.js` 50% → ~95% |
+| `domain/services/OrderAnswerStateService.test.js` | 18 | `OrderAnswerStateService.js` 2% → ~85% |
 
-### Gaps pendientes para alcanzar el 90 % global
+### Remaining Gaps to Reach 90% Global
 
-<img src="https://xiro.pro/images/chamaleon/sleep.svg" alt="mascota dormida" width="80" align="right">
+<img src="https://xiro.pro/images/chamaleon/sleep.svg" alt="sleeping mascot" width="80" align="right">
 
-Los mayores bloques sin cubrir son los manejadores Socket.IO y servicios Trivial (lógica con muchas dependencias externas — Redis, socket, estado compartido). Para llegar al 90 % global se necesita:
+The largest uncovered blocks are the Socket.IO handlers and Trivial services (logic with many external dependencies — Redis, socket, shared state). To reach 90% global the following is needed:
 
-1. **`sockets/services/ReconnectionService.js`** (27 % → objetivo 80 %): mock de Redis + Socket.IO
-2. **`sockets/handlers/SimpleHandlers.js`** (9 % → objetivo 70 %): múltiples handlers de un solo evento, todos con mocks de `io`/`socket`
-3. **`infrastructure/shutdown/GracefulShutdown.js`** (19 % → objetivo 70 %): mock de `process` + `io` + DB
-4. **`application/commands/ImprovedStartGameCommand.js`** (27 % → objetivo 70 %): mock de cadena de handlers
-5. **`sockets/services/TrivialBoardGraph.js` / `TrivialGameState.js`** (1–19 %): lógica pura extraíble
+1. **`sockets/handlers/SimpleHandlers.js`** (9% → target 70%): multiple single-event handlers, all with `io`/`socket` mocks
+2. **`infrastructure/shutdown/GracefulShutdown.js`** (19% → target 70%): mock `process` + `io` + DB
+3. **`sockets/services/TrivialBoardGraph.js` / `TrivialGameState.js`** (1–19%): extractable pure logic
+4. **`application/use-cases/SubmitAnswerUseCase.js`** (~68% → target 80%): branches for question types and team edge cases
+5. **`application/use-cases/ReconnectPlayerUseCase.js`** (~75% → target 85%): cross-worker and stale socket cases
 
----
-
-## Documentación adicional
-
-<img src="https://xiro.pro/images/chamaleon/leyendo.svg" alt="mascota leyendo" width="100" align="right">
-
-| Documento | Descripción |
-|-----------|-------------|
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Descripción detallada de la arquitectura |
-| [docs/CQRS_PATTERN.md](docs/CQRS_PATTERN.md) | Patrón CQRS implementado |
-| [docs/CHAIN_OF_RESPONSIBILITY_PATTERN.md](docs/CHAIN_OF_RESPONSIBILITY_PATTERN.md) | Chains de responsabilidad |
-| [docs/EVENT_DRIVEN_PATTERN.md](docs/EVENT_DRIVEN_PATTERN.md) | Arquitectura de eventos |
-| [docs/GROQ_SETUP.md](docs/GROQ_SETUP.md) | Configuración del generador IA |
-| [docs/LOAD_TESTING_GUIDE.md](docs/LOAD_TESTING_GUIDE.md) | Guía de pruebas de carga |
-| [docs/SYNOLOGY_SETUP.md](docs/SYNOLOGY_SETUP.md) | Configuración en Synology NAS |
-| [docs/CSS_COMPILATION_GUIDE.md](docs/CSS_COMPILATION_GUIDE.md) | Compilación de CSS con Tailwind |
-| [app/application/README.md](app/application/README.md) | Documentación de la capa de aplicación |
+> ✅ **Resolved**: `ReconnectionService.js` (27% → 87% in session 04/10/2026) · `ImprovedStartGameCommand.js` (27% → 100% stmts in session 04/10/2026)
 
 ---
 
-## BUGS
+## Additional Documentation
 
-- No aparece la pantalla correspondiente en la pantalla del jugador cuando el presentador cancela un juego o cuando el juego finaliza (DE MOMENTO ARREGLADO)
-- En el trivial, si un jugador consigue una racha y el presentador avanza demasiado rápido al siguiente turno, al jugador que ha conseguido la racha, si es el que le toca tirar el dado, no le aparece el dado, sino la pantalla verde de respuesta correcta. Para poder ver el dado tiene que cargar la página el jugador (DE MOMENTO ARREGLADO)
-- En admin / Config / Juegos en Curso. En ocasiones aparecen juegos que ya han concluído (EN TEORÍA CORREGIDO, REQUIERE MÁS TESTS)
-- El presentador se desconectaba "sin motivo" en el lobby mostrando error de timeout: el socket usaba solo WebSocket sin fallback; si el handshake WS fallaba puntualmente la conexión quedaba muerta. (ARREGLADO 22/04/2026 — `presenter-socket-config.js`: añadido polling como fallback)
-- En 2 de cada 4 preguntas no se auto-revelaba la respuesta al contestar todos los jugadores: la clave Redis del reveal lock no incluía el índice de pregunta, por lo que el lock de la pregunta N bloqueaba a la N+1 durante 8 s. (ARREGLADO 22/04/2026 — `AtomicAnswerCounter.js`: clave scoped por `questionIndex` + helper `releaseRevealLock`)
----
+<img src="https://xiro.pro/images/chamaleon/leyendo.svg" alt="reading mascot" width="100" align="right">
 
-## Tareas pendientes
-
-<img src="https://xiro.pro/images/chamaleon/jetpack.svg" alt="mascota jetpack" width="100" align="left">
-<img src="https://xiro.pro/images/chamaleon/pointing.svg" alt="mascota señalando" width="100" align="right">
-
-- 🔄 **Plugin para PowerPoint** — complemento para presentadores que integra partidas XIRO directamente en el slideshow (lobby automático, inicio de pregunta al llegar a la diapositiva, diálogo fullscreen sobre la presentación). *En Progreso.*
-- [ ] **Revisar si IndividualGameMode.js puede eliminarse**
-
-- [ ] **Mover todos los tests dentro de las carpetas __tests__**
-
-- [ ] **Soporte para nuevos tipos de pregunta**
-  - Apuesta de puntos
-  - Emparejar columnas
+| Document | Description |
+|----------|-------------|
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Detailed architecture description |
+| [docs/CQRS_PATTERN.md](docs/CQRS_PATTERN.md) | Implemented CQRS pattern |
+| [docs/CHAIN_OF_RESPONSIBILITY_PATTERN.md](docs/CHAIN_OF_RESPONSIBILITY_PATTERN.md) | Chains of responsibility |
+| [docs/EVENT_DRIVEN_PATTERN.md](docs/EVENT_DRIVEN_PATTERN.md) | Event-driven architecture |
+| [docs/GROQ_SETUP.md](docs/GROQ_SETUP.md) | AI generator configuration |
+| [docs/LOAD_TESTING_GUIDE.md](docs/LOAD_TESTING_GUIDE.md) | Load testing guide |
+| [docs/SYNOLOGY_SETUP.md](docs/SYNOLOGY_SETUP.md) | Synology NAS setup |
+| [docs/CSS_COMPILATION_GUIDE.md](docs/CSS_COMPILATION_GUIDE.md) | CSS compilation with Tailwind |
+| [app/application/README.md](app/application/README.md) | Application layer documentation |
 
 ---
 
-## A futuro
+## Open Bugs
 
-<img src="https://xiro.pro/images/chamaleon/astronauta.svg" alt="mascota astronauta" width="110" align="right">
+- **Remote control + slides**: the presenter remote control does not work correctly with slides that are not questions (`comment`, `info`, free activity). The action buttons end up in an incorrect state.
 
-Ideas descartadas por ahora o de largo plazo:
+## Resolved Bug History
 
-- **Refactorizar `onclick` inline a `addEventListener`** — actualmente la CSP tiene `script-src-attr 'unsafe-inline'` porque el JS del presentador genera HTML dinámico con `onclick="funcion(dato_variable)"` (p. ej. `seleccionarPIN('${pin}')`, `seleccionarNumEquipos(2, '${selectedPin}')`, `assignManualPoints('${team.name}', 1, true)`). Eliminar `'unsafe-inline'` de `script-src-attr` requeriría refactorizar todos los templates de string en `presenter-lobby.js`, `presenter-team-config.js`, `presenter-game-ui.js`, `presenter-slides.js`, `presenter-utils.js` y otros para usar `addEventListener` con delegación de eventos o closures. Afecta a ~40 ficheros JS del presentador y la TV. Ver `app/middlewares/security.js` directiva `scriptSrcAttr`.
+| Date | Bug | Fix |
+|------|-----|-----|
+| 04/22/2026 | Presenter would disconnect "without reason" in the lobby (WebSocket timeout) | `presenter-socket-config.js`: added `polling` as transport fallback |
+| 04/22/2026 | In 2 out of every 4 questions the answer would not auto-reveal when all players answered; the reveal lock of question N blocked N+1 for 8 s | `AtomicAnswerCounter.js`: Redis key scoped by `questionIndex` + `releaseRevealLock` helper |
+| 04/23/2026 | Incorrect time-based scoring on remote cluster workers (bonus always 0 from Q2 onwards) | `RedisSyncBus`: `next-question-sync` channel now propagates the canonical `startTime` from the origin worker |
+| — | Player did not see the game end/cancel screen | Fixed in socket event flow |
+| — | Trivial: active player saw the "correct answer" screen instead of the die if the presenter advanced quickly | Fixed in turn transition logic |
+| — | Admin / Games In Progress displayed already-finished games | Fixed in `GetActiveSessionsQuery` (needs more tests) |
 
-- **Sistema de autenticación para jugadores registrados** — los jugadores se unen con nickname anónimo; un sistema de cuentas añadiría historial personal, rankings persistentes y avatares, pero complica significativamente el despliegue self-hosted y el flujo de entrada al juego.
-- **Panel de monitorización integrado (Prometheus + Grafana)** — el endpoint `/metrics` ya expone métricas compatibles con Prometheus, pero añadir Grafana como servicio Docker aumenta considerablemente los requisitos de memoria y complejidad del stack para un despliegue self-hosted en NAS.
+---
+
+## Pending Tasks
+
+<img src="https://xiro.pro/images/chamaleon/jetpack.svg" alt="jetpack mascot" width="100" align="left">
+<img src="https://xiro.pro/images/chamaleon/pointing.svg" alt="pointing mascot" width="100" align="right">
+
+- 🔄 **PowerPoint Plugin** — add-in for presenters that integrates XIRO games directly into the slideshow (automatic lobby, question start upon reaching the slide, fullscreen dialog over the presentation). *In Progress.*
+- [ ] **Review whether IndividualGameMode.js can be removed**
+- [ ] **Option to download logs for a specific game**
+- [ ] **Support for new question types**
+  - Point betting
+  - Column matching
+
+---
+
+## Future Plans
+
+<img src="https://xiro.pro/images/chamaleon/astronauta.svg" alt="astronaut mascot" width="110" align="right">
+
+Ideas discarded for now or long-term:
+
+- **Multilanguage support** — add internationalization (i18n) to the platform.
+
+- **Refactor inline `onclick` to `addEventListener`** — currently the CSP has `script-src-attr 'unsafe-inline'` because the presenter JS generates dynamic HTML with `onclick="function(variable_data)"` (e.g., `seleccionarPIN('${pin}')`, `seleccionarNumEquipos(2, '${selectedPin}')`, `assignManualPoints('${team.name}', 1, true)`). Removing `'unsafe-inline'` from `script-src-attr` would require refactoring all string templates in `presenter-lobby.js`, `presenter-team-config.js`, `presenter-game-ui.js`, `presenter-slides.js`, `presenter-utils.js`, and others to use `addEventListener` with event delegation or closures. Affects ~40 presenter and TV JS files. See `app/middlewares/security.js` directive `scriptSrcAttr`.
+
+- **Authentication system for registered players** — players join with an anonymous nickname; an accounts system would add personal history, persistent rankings, and avatars, but significantly complicates self-hosted deployment and the game entry flow.
+
+- **Integrated monitoring panel (Prometheus + Grafana)** — the `/metrics` endpoint already exposes Prometheus-compatible metrics, but adding Grafana as a Docker service significantly increases memory requirements and stack complexity for self-hosted NAS deployment.
 
 <br clear="right">
 
 ---
 
 <div align="center">
-  <img src="https://xiro.pro/images/chamaleon/thumbs_up.svg" alt="mascota thumbs up" width="80">
+  <img src="https://xiro.pro/images/chamaleon/thumbs_up.svg" alt="thumbs up mascot" width="80">
   <br><br>
-  <em>XIRO! © Familia Fernández Villatoro</em>
+  <em>XIRO! © Fernández Villatoro Family</em>
 </div>
