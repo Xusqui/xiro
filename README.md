@@ -132,6 +132,11 @@ The player sees 10 scrambled letters (which include all the letters of the word 
 
 Supports attached image and audio: if the question has `tipo_contenido` and `url_recurso`, the multimedia block is shown between the header and the prompt (same as `quiz`).
 
+### `matching` — Match Pairs
+<img src="https://xiro.pro/images/chamaleon/cooking.svg" alt="cooking mascot" width="70" align="right">
+
+The player sees two columns: the **left column** shows fixed terms in their original order; the **right column** shows the matching values shuffled randomly. The player drags and reorders the right column until each item on the right is paired with its corresponding term on the left. Partial scoring: `BASE_POINTS` (20 pts) for each correctly matched pair.
+
 ---
 
 ## Game Modes
@@ -470,6 +475,7 @@ Entry screen with animated WebGL background. The user chooses their role: **Play
 | `order` | Draggable list (touch and mouse); updatable position badge; "Submit" button |
 | `numeric_approximation` | Large numeric text field with optional hint; submit with Enter or button |
 | `word_scramble` | Empty boxes (word length) + 10 scrambled letter buttons |
+| `matching` | Two-column layout; right column items are draggable to reorder; "Submit" button |
 
 ### `presentador.html` — Full Presenter View
 <img src="https://xiro.pro/images/chamaleon/musico.svg" alt="musician mascot" width="90" align="left">
@@ -710,6 +716,7 @@ Features:
 | `quiz`, `word_scramble` | `BASE_POINTS + (timeLeft / timeLimit) × MAX_TIME_BONUS` |
 | `multiple_choice` | Sum of correct × pts_per_correct − errors × pts_penalty + perfect_bonus |
 | `order` | `BASE_POINTS × correct_positions` |
+| `matching` | `BASE_POINTS × correctly_matched_pairs` |
 | `numeric_approximation` | Proportional to proximity to the correct value (according to tolerance mode) |
 | `survey` | 0 (survey, no scoring) |
 
@@ -939,7 +946,7 @@ The largest uncovered blocks are the Socket.IO handlers and Trivial services (lo
 | [docs/CSS_COMPILATION_GUIDE.md](docs/CSS_COMPILATION_GUIDE.md) | CSS compilation with Tailwind |
 | [app/application/README.md](app/application/README.md) | Application layer documentation |
 
----
+---https://xiro.pro/jugador.html?session=MATCH-2446
 
 ## Open Bugs
 
@@ -966,7 +973,7 @@ The largest uncovered blocks are the Socket.IO handlers and Trivial services (lo
 - 🔄 **PowerPoint Plugin** — add-in for presenters that integrates XIRO games directly into the slideshow (automatic lobby, question start upon reaching the slide, fullscreen dialog over the presentation). *In Progress.*
 - [ ] **Review whether IndividualGameMode.js can be removed**
 - [ ] **Option to download logs for a specific game**
-- [ ] **Support for new question types**
+- 🔄 **Support for new question types**
   - Point betting
   - Column matching
 
