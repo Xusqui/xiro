@@ -946,11 +946,12 @@ The largest uncovered blocks are the Socket.IO handlers and Trivial services (lo
 | [docs/CSS_COMPILATION_GUIDE.md](docs/CSS_COMPILATION_GUIDE.md) | CSS compilation with Tailwind |
 | [app/application/README.md](app/application/README.md) | Application layer documentation |
 
----https://xiro.pro/jugador.html?session=MATCH-2446
+---
 
 ## Open Bugs
 
-- **Remote control + slides**: the presenter remote control does not work correctly with slides that are not questions (`comment`, `info`, free activity). The action buttons end up in an incorrect state.
+- **Remote control + slides**: the presenter remote control does not work correctly with `free activity` slides, because they do not show the interface to assign points manually.
+- **Remote control. Music**: When switching to a question with music from the remote control, the music does not play on the device.
 
 ## Resolved Bug History
 
@@ -971,11 +972,10 @@ The largest uncovered blocks are the Socket.IO handlers and Trivial services (lo
 <img src="https://xiro.pro/images/chamaleon/pointing.svg" alt="pointing mascot" width="100" align="right">
 
 - 🔄 **PowerPoint Plugin** — add-in for presenters that integrates XIRO games directly into the slideshow (automatic lobby, question start upon reaching the slide, fullscreen dialog over the presentation). *In Progress.*
-- [ ] **Review whether IndividualGameMode.js can be removed**
+- [ ] **IndividualGameMode.js cannot be removed** — use it for individual game mode.
 - [ ] **Option to download logs for a specific game**
-- 🔄 **Support for new question types**
+- [ ] **Support for new question types**
   - Point betting
-  - Column matching
 
 ---
 
