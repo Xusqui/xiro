@@ -207,7 +207,8 @@ Mecánica de tablero:
 │  routes/        sockets/handlers/                   │
 │  ↓                  ↓                               │
 │  application/use-cases/  application/commands/      │
-│  application/queries/    (CQRS)                     │
+│  application/queries/    ├─ ImprovedSubmitAnswer    │
+│                          └─ submit-answer/*.js      │
 │  ↓                                                  │
 │  domain/strategies/  domain/services/               │
 │  domain/state/ (XState)  domain/events/ (EventBus)  │
@@ -767,6 +768,8 @@ xiro/
 │   ├── application/            # Capa de aplicación (CQRS)
 │   │   ├── chain/              # Cadenas de responsabilidad
 │   │   ├── commands/           # Comandos de escritura
+│   │   │   ├── ImprovedSubmitAnswerCommand.js   # Fachada ligera
+│   │   │   └── submit-answer/                  # Flujo modular de submit-answer
 │   │   ├── helpers/            # Helpers de aplicación (extracción de respuestas, lookup, rate limiter)
 │   │   ├── queries/            # Consultas de lectura
 │   │   ├── services/           # Servicios de aplicación
@@ -840,6 +843,8 @@ cd app && npm test -- --coverage --silent # silencioso (sin logs del servidor)
 
 ### Estado actual *(10/04/2026 — Final de sesión)*
 
+> **Nota histórica:** Los porcentajes de esta sección provienen de la última ejecución completa de cobertura **anterior** a la modularización de submit-answer. Tras el refactor, la cobertura de comandos debe seguirse sobre `application/commands/submit-answer/*.js` y la fachada ligera `application/commands/ImprovedSubmitAnswerCommand.js`.
+
 | Métrica | Global | Objetivo | Estado |
 |---------|--------|----------|--------|
 | **Suites** | 161 | — | ✅ |
@@ -894,7 +899,7 @@ cd app && npm test -- --coverage --silent # silencioso (sin logs del servidor)
 1. Ampliar cobertura de `application/use-cases/SubmitAnswerUseCase.js` (68.05% → ~75%)
 2. Ampliar `application/use-cases/ReconnectPlayerUseCase.js` (75% → ~82%)
 3. Mejorar `services/db/game-session.service.js` (29.72% → ~50%)
-4. Pequeños ajustes en `application/commands/ImprovedSubmitAnswerCommand.js` (61.86% → ~70%)
+4. Ampliar cobertura del flujo submit-answer: `application/commands/submit-answer/*.js` + `application/commands/ImprovedSubmitAnswerCommand.js` (fachada ligera), objetivo ~70%+ en tests específicos de comandos
 
 ### Tests añadidos en sesiones previas *(31/03/2026)*
 
