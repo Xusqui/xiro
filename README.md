@@ -207,7 +207,8 @@ Board game mechanics:
 │  routes/        sockets/handlers/                   │
 │  ↓                  ↓                               │
 │  application/use-cases/  application/commands/      │
-│  application/queries/    (CQRS)                     │
+│  application/queries/    ├─ ImprovedSubmitAnswer    │
+│                          └─ submit-answer/*.js      │
 │  ↓                                                  │
 │  domain/strategies/  domain/services/               │
 │  domain/state/ (XState)  domain/events/ (EventBus)  │
@@ -767,6 +768,8 @@ xiro/
 │   ├── application/            # Application layer (CQRS)
 │   │   ├── chain/              # Chains of responsibility
 │   │   ├── commands/           # Write commands
+│   │   │   ├── ImprovedSubmitAnswerCommand.js   # Thin facade
+│   │   │   └── submit-answer/                  # Modular submit-answer flow
 │   │   ├── helpers/            # Application helpers (answer extraction, lookup, rate limiter)
 │   │   ├── queries/            # Read queries
 │   │   ├── services/           # Application services
@@ -840,6 +843,8 @@ cd app && npm test -- --coverage --silent # silent (no server logs)
 
 ### Current Status *(04/10/2026 — End of Session)*
 
+> **Historical note:** The percentages in this section come from the last full coverage run **before** the submit-answer modularization. Since the refactor, command coverage should be tracked across `application/commands/submit-answer/*.js` plus the thin facade `application/commands/ImprovedSubmitAnswerCommand.js`.
+
 | Metric | Global | Target | Status |
 |--------|--------|--------|--------|
 | **Suites** | 161 | — | ✅ |
@@ -894,7 +899,7 @@ cd app && npm test -- --coverage --silent # silent (no server logs)
 1. Expand coverage of `application/use-cases/SubmitAnswerUseCase.js` (68.05% → ~75%)
 2. Expand `application/use-cases/ReconnectPlayerUseCase.js` (75% → ~82%)
 3. Improve `services/db/game-session.service.js` (29.72% → ~50%)
-4. Minor adjustments to `application/commands/ImprovedSubmitAnswerCommand.js` (61.86% → ~70%)
+4. Expand coverage for the submit-answer command flow: `application/commands/submit-answer/*.js` + `application/commands/ImprovedSubmitAnswerCommand.js` (thin facade), targeting ~70%+ in command-specific tests
 
 ### Tests Added in Previous Sessions *(03/31/2026)*
 
