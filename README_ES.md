@@ -74,7 +74,7 @@
 - **Generador de preguntas con IA** via Groq / LLM
 - **Exportación PDF** de juegos personalizados (Puppeteer + Chromium)
 - **Exportación/importación JSON** de bancos de preguntas
-- **Panel de administración** con dos roles (admin / editor)
+- **Panel de administración** con cuentas admin/editor y permisos por propiedad del recurso
 - **Control remoto del presentador** desde móvil (solo admin), sincronizado en tiempo real con RedisSyncBus
 - **QR code** generado dinámicamente para que los jugadores se unan
 - **Fuegos artificiales** configurables al finalizar el juego
@@ -310,13 +310,14 @@ git clone <repo-url> xiro
 cd xiro
 
 # 2. Crear archivo de entorno
-cp app/.env.example app/.env   # o crear manualmente (ver sección Variables de entorno)
+cp .env.example .env   # o crear manualmente (ver sección Variables de entorno)
 
-# 3. Configurar contraseñas (admin.config.js)
-#    Editar app/admin.config.js con ADMIN_PASSWORD y EDITOR_PASSWORD
-
-# 4. Levantar los servicios
+# 3. Levantar los servicios
 docker compose up -d
+
+# 4. Abrir /admin.html
+#    - Si no existen usuarios, registrar la primera cuenta (se crea como admin automáticamente)
+#    - Las cuentas adicionales se crean como editor (requieren confirmación por email)
 
 # 5. La app estará disponible en http://<ip-del-servidor>:3000
 ```
@@ -506,9 +507,18 @@ Diseñada para pantalla grande. Carga más ligera que la vista presentador. Name
 
 <img src="https://xiro.pro/images/chamaleon/albanil.svg" alt="mascota constructor" width="100" align="right">
 
-Acceso en `/admin.html`. **Login** con contraseña → JWT (12h). Dos roles:
-- **admin**: acceso completo (CRUD + eliminación + reinicio)
-- **editor**: CRUD sin operaciones destructivas
+Acceso en `/admin.html`. **Login** con usuario y contraseña → JWT (12h). Dos roles:
+- **admin**: acceso completo a todos los recursos (CRUD + eliminación + reinicio)
+- **editor**: puede crear recursos y solo editar/borrar lo que ha creado
+
+### Modelo de usuarios y propiedad
+
+- La primera cuenta registrada recibe automáticamente el rol **admin**.
+- Las cuentas adicionales se crean con rol **editor** (con flujo de confirmación por email).
+- Los editores solo pueden editar/borrar sus propios bancos de preguntas y juegos.
+- Los editores pueden usar **todos los bancos de preguntas disponibles** al crear una Mezcla, un juego Personalizado o un Trivial.
+- Si un editor no es propietario, los botones **Editar** y **Borrar** se mantienen visibles pero deshabilitados/sombreados.
+- Las tarjetas muestran el creador como **"Creado por NombreDeUsuario"**.
 
 ### Secciones
 
