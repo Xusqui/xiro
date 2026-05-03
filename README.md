@@ -74,7 +74,7 @@
 - **AI-powered question generator** via Groq / LLM
 - **PDF export** for custom games (Puppeteer + Chromium)
 - **JSON export/import** for question banks
-- **Admin panel** with two roles (admin / editor)
+- **Admin panel** with admin/editor accounts and creator-based ownership controls
 - **Presenter remote control** from mobile (admin only), synchronized in real-time with RedisSyncBus
 - **QR code** dynamically generated for players to join
 - **Configurable fireworks** at the end of the game
@@ -310,13 +310,14 @@ git clone <repo-url> xiro
 cd xiro
 
 # 2. Create environment file
-cp app/.env.example app/.env   # or create manually (see Environment Variables section)
+cp .env.example .env   # or create manually (see Environment Variables section)
 
-# 3. Configure passwords (admin.config.js)
-#    Edit app/admin.config.js with ADMIN_PASSWORD and EDITOR_PASSWORD
-
-# 4. Start the services
+# 3. Start the services
 docker compose up -d
+
+# 4. Open /admin.html
+#    - If no users exist, register the first account (it becomes admin automatically)
+#    - Additional accounts are created as editor users (email confirmation required)
 
 # 5. The app will be available at http://<server-ip>:3000
 ```
@@ -506,9 +507,18 @@ Designed for large screens. Lighter load than the presenter view. Global namespa
 
 <img src="https://xiro.pro/images/chamaleon/albanil.svg" alt="builder mascot" width="100" align="right">
 
-Access at `/admin.html`. **Login** with password → JWT (12h). Two roles:
-- **admin**: full access (CRUD + deletion + reset)
-- **editor**: CRUD without destructive operations
+Access at `/admin.html`. **Login** with username and password → JWT (12h). Two roles:
+- **admin**: full access to all resources (CRUD + deletion + reset)
+- **editor**: can create resources and can edit/delete only what they created
+
+### User Model and Ownership
+
+- The first registered account is automatically assigned the **admin** role.
+- Additional accounts are created as **editor** users (with email confirmation flow).
+- Editors can only edit/delete their own question banks and games.
+- Editors can still use **all available question banks** when creating a Mix, Custom game, or Trivial game.
+- If an editor is not the owner, **Edit** and **Delete** buttons stay visible but appear disabled/shaded.
+- Resource cards show creator metadata as **"Created by &lt;username&gt;"**.
 
 ### Sections
 
