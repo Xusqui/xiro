@@ -500,6 +500,7 @@ Designed for large screens. Lighter load than the presenter view. Global namespa
 - **End Game Button**: confirmation modal → emit `end-game` → podium
 - **Abort Game Button**: confirmation modal → emit `abandon-game` → redirect to `/tv.html`
 - Both buttons visible only when there is an active session; implemented in vanilla JS (compatible with Chrome 38 / WebOS 3.5)
+- **TV Access Control**: when admin UI setting `showTvCard` is `false`, the TV card is hidden on `/index.html` and direct access to `/tv.html` returns HTTP `403` (error page)
 
 ---
 
@@ -987,7 +988,6 @@ The largest uncovered blocks are the Socket.IO handlers and Trivial services (lo
 <img src="https://xiro.pro/images/chamaleon/pointing.svg" alt="pointing mascot" width="100" align="right">
 
 - 🔄 **PowerPoint Plugin** — add-in for presenters that integrates XIRO games directly into the slideshow (automatic lobby, question start upon reaching the slide, fullscreen dialog over the presentation). *In Progress.*
-- [ ] **IndividualGameMode.js cannot be removed** — use it for individual game mode.
 - [ ] **Option to download logs for a specific game**
 - [ ] **Support for new question types**
   - Point betting
