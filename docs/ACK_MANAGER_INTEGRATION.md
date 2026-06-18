@@ -2,14 +2,21 @@
 
 ## Resumen
 
-El **AckManager** es un servicio que garantiza la entrega confiable de mensajes críticos en Socket.io mediante:
+El **AckManager** (`app/sockets/services/AckManager.js`) es un servicio que garantiza la
+entrega confiable de mensajes críticos en Socket.IO mediante:
 - **Acknowledgments (ACK)**: Confirmación de recepción por parte del cliente
 - **Retry automático**: Reenvío si no se recibe ACK en el timeout configurado
 - **Tracking**: Monitoreo de mensajes pendientes y estadísticas de entrega
 
+> El AckManager hereda de `EventEmitter` y emite `message-acknowledged` / `message-failed`
+> para monitoreo.
+
 ---
 
 ## Configuración
+
+La instancia global se crea una vez en `app/index.js` y se inyecta como dependencia en
+los handlers de sockets y de eventos de dominio:
 
 ```javascript
 const AckManager = require('./sockets/services/AckManager');
@@ -20,6 +27,14 @@ const ackManager = new AckManager({
     retryDelay: 1000    // 1 segundo entre reintentos
 });
 ```
+
+Flujo de inyección real:
+1. `index.js` crea `ackManager` y registra el listener `message-failed`.
+2. `index.js` lo pasa a `initializeSocketIO(server, { ackManager })` y a
+   `setupSocketHandlers(io, ackManager)`.
+3. `socket.handlers.js` → `createSocketDependencies(ackManager)` lo distribuye a los
+   handlers.
+4. `index.js` lo registra también en `registerShutdownHandlers({ ..., ackManager })`.
 
 ---
 
@@ -42,118 +57,126 @@ if (!success) {
 }
 ```
 
+> `emitWithAck(socket, event, data, options)` admite un cuarto argumento `options`
+> (`options.maxRetries`) para sobrescribir el máximo de reintentos por mensaje.
+> Requiere un **objeto socket** (no un `socketId`); obtén el socket con
+> `io.sockets.sockets.get(socketId)` o `io.in(room).fetchSockets()`.
+
 ---
 
 ## Cliente (Frontend)
 
-El cliente debe **enviar ACK** al recibir el evento:
+El cliente debe **invocar el callback de ACK** al recibir el evento. Por convención en
+este proyecto el callback se invoca de forma defensiva:
 
 ```javascript
-socket.on('answer-result', (data, callback) => {
-    console.log('Answer result received:', data);
-    
-    // Actualizar UI
+socket.on('answer-result', (data, ack) => {
+    // Actualizar UI...
     updateAnswerUI(data);
-    
+
     // IMPORTANTE: Confirmar recepción
-    if (callback) {
-        callback({ ok: true, receivedAt: Date.now() });
-    }
+    if (typeof ack === 'function') ack();
 });
 ```
 
+Los clientes que ya envían ACK:
+- `public/js/player/player-answer.js` → `answer-result`
+- `public/js/presenter/presenter-socket-handlers-game.js` → `game-started`, `answer-result`
+- `public/js/tv/tv-socket-game.js` → `game-started` (y otros eventos de TV)
+
 ---
 
-## Eventos Críticos a Integrar
+## Eventos Críticos integrados
 
-### 1. `answer-result` (Resultado de respuesta)
+> **Estado real:** la cobertura del AckManager es *parcial*. No todos los emisores de un
+> mismo evento usan ACK; muchos siguen usando broadcast tradicional (`io.to(room).emit`).
+> El AckManager solo se aplica cuando se dispone del objeto socket individual.
 
-**Archivos a modificar:**
-- `domain/strategies/IndividualGameMode.js` (línea 44)
-- `domain/strategies/TeamGameMode.js` (líneas 176, 246)
-- `domain/services/AnswerProcessingService.js` (línea 33)
-- `domain/services/TeamRevealService.js` (línea 160)
-- `sockets/utils/TeamManager.js` (línea 38)
+### 1. `game-started`
 
-**Ejemplo de integración:**
+Implementado en `domain/events/handlers/GameStartedHandler.js`
+(`notifyPlayers()` y `notifyPresenter()`). Patrón real: bucle **secuencial** por socket,
+con fallback a broadcast si no hay `ackManager`:
+
 ```javascript
-// ANTES
-io.to(socketId).emit('answer-result', resultPayload);
+async notifyPlayers(roomId, gameConfig, players) {
+    const playersRoom = `${roomId}:players`;
+    const payload = { /* ... */ };
 
-// DESPUÉS
-const socket = io.sockets.sockets.get(socketId);
-if (socket) {
-    const delivered = await ackManager.emitWithAck(
-        socket, 
-        'answer-result', 
-        resultPayload
-    );
-    
-    if (!delivered) {
-        logger.error('Failed to deliver answer result', {
-            socketId,
-            nickname: player.nickname
-        });
-        // Opcional: guardar para reenvío posterior
+    if (this.ackManager) {
+        const sockets = await this.io.in(playersRoom).fetchSockets();
+        let failedCount = 0;
+        for (const socket of sockets) {
+            const delivered = await this.ackManager.emitWithAck(socket, 'game-started', payload);
+            if (!delivered) {
+                failedCount++;
+                this.log('error', 'Failed to deliver game-started to player', {
+                    socketId: socket.id, roomId
+                });
+            }
+        }
+    } else {
+        this.io.to(playersRoom).emit('game-started', payload); // fallback
     }
 }
 ```
 
-### 2. `game-started` (Inicio de juego)
+### 2. `answer-result`
 
-**Archivos a modificar:**
-- `domain/events/handlers/GameStartedHandler.js` (líneas 73, 94)
-- `sockets/handlers/StartGameHandler.js` (líneas 54, 58)
+Cobertura **parcial**. Solo la ruta de *fallback individual* dentro de
+`domain/strategies/TeamGameMode.js` (`_emitFallbackResult()`) usa `emitWithAck`:
 
-**Ejemplo de integración:**
 ```javascript
-// ANTES
-io.to(playersRoom).emit('game-started', payload);
+_emitFallbackResult(io, ackManager, socketId, nickname, resultPayload) {
+    const socket = io.sockets.sockets.get(socketId);
+    if (!socket) return;
 
-// DESPUÉS
-const sockets = await io.in(playersRoom).fetchSockets();
-const promises = sockets.map(socket => 
-    ackManager.emitWithAck(socket, 'game-started', payload)
-);
-
-const results = await Promise.allSettled(promises);
-const failures = results.filter(r => r.status === 'rejected' || r.value === false);
-
-if (failures.length > 0) {
-    logger.warn('Some players did not receive game-started', {
-        roomId,
-        total: sockets.length,
-        failures: failures.length
-    });
+    if (ackManager) {
+        ackManager.emitWithAck(socket, 'answer-result', resultPayload).then(delivered => {
+            if (!delivered) {
+                logger.error('Failed to deliver individual fallback answer-result', { nickname, socketId });
+            }
+        });
+        return;
+    }
+    io.to(socketId).emit('answer-result', resultPayload); // fallback
 }
 ```
 
-### 3. `question-revealed` (Revelación de pregunta)
+Los siguientes emisores de `answer-result` **todavía usan broadcast tradicional** (sin ACK)
+y son candidatos a migrar:
+- `domain/strategies/IndividualGameMode.js` (`_emitAnswerResult`)
+- `domain/services/AnswerProcessingService.js` (payload de respuesta duplicada)
+- `sockets/utils/TeamRevealHelper.js`
+- `sockets/utils/TeamManager.js`
+- `sockets/services/AnswerBatchService.js` (batch al presentador)
 
-**Buscar en el código y aplicar mismo patrón que `game-started`**
+`ackManager` se propaga a las estrategias a través del flujo de `submit-answer`
+(`application/commands/submit-answer/*`) y `SubmitAnswerHandler.js`.
 
 ---
 
 ## Cleanup al Desconectar
 
-Integrar en el handler de desconexión:
+Integrado en `sockets/socket.handlers.js` → `registerDisconnectAndErrorEvents()`:
 
 ```javascript
-socket.on('disconnect', () => {
-    // Limpiar mensajes pendientes de este socket
-    ackManager.cleanupSocket(socket.id);
-    
-    logger.info('Socket disconnected and cleaned up', {
-        socketId: socket.id
-    });
+socket.on('disconnect', (reason) => {
+    if (ackManager && typeof ackManager.cleanupSocket === 'function') {
+        ackManager.cleanupSocket(socket.id);
+    }
+    // ... resto del manejo de desconexión
 });
 ```
+
+`cleanupSocket(socketId)` cancela los timeouts pendientes y resuelve sus promesas con
+`false` para los mensajes de ese socket.
 
 ---
 
 ## Eventos del AckManager
 
-El AckManager emite eventos que puedes escuchar para monitoreo:
+El AckManager emite eventos para monitoreo (es un `EventEmitter`):
 
 ```javascript
 // Mensaje confirmado correctamente
@@ -161,7 +184,8 @@ ackManager.on('message-acknowledged', (data) => {
     logger.debug('Message acknowledged', {
         messageId: data.messageId,
         event: data.event,
-        attempts: data.attempts
+        attempts: data.attempts,
+        ackData: data.ackData
     });
 });
 
@@ -171,13 +195,12 @@ ackManager.on('message-failed', (data) => {
         messageId: data.messageId,
         event: data.event,
         attempts: data.attempts,
-        reason: data.reason
+        reason: data.reason   // 'max_retries_exceeded'
     });
-    
-    // Opcional: Enviar a sistema de alertas
-    // alerting.send('Socket delivery failure', data);
 });
 ```
+
+> `index.js` ya registra un listener de `message-failed` que escribe el error en el log.
 
 ---
 
@@ -191,39 +214,41 @@ console.log({
     acknowledged: stats.acknowledged,
     failed: stats.failed,
     retried: stats.retried,
-    pending: stats.pending,
-    successRate: stats.successRate  // Ej: "95.5%"
+    pending: stats.pending,          // = pendingMessages.size
+    successRate: stats.successRate    // Ej: "95.50%"
 });
 ```
+
+`resetStats()` reinicia los contadores (útil para testing).
 
 ---
 
 ## Testing
 
+Los tests viven en `app/sockets/services/__tests__/AckManager.test.js`.
+
 ```javascript
 describe('Answer submission with ACK', () => {
     let ackManager;
-    
+
     beforeEach(() => {
         ackManager = new AckManager({ timeout: 100, maxRetries: 2 });
     });
-    
+
     afterEach(() => {
         ackManager.cleanup();
     });
-    
+
     it('should deliver answer-result with ACK', async () => {
-        // Simular emisión
         const delivered = await ackManager.emitWithAck(
             mockSocket,
             'answer-result',
             { isCorrect: true, points: 100 }
         );
-        
-        // Simular ACK del cliente
-        const callback = mockSocket.emissions[0].callback;
-        callback({ ok: true });
-        
+
+        // Simular ACK del cliente invocando el callback pasado a socket.emit
+        // ...
+
         expect(delivered).toBe(true);
     });
 });
@@ -233,19 +258,20 @@ describe('Answer submission with ACK', () => {
 
 ## Shutdown Graceful
 
-Al cerrar el servidor:
+El cleanup en el apagado está integrado en
+`infrastructure/shutdown/GracefulShutdown.js` (`registerShutdownHandlers`), que llama a
+`deps.ackManager.cleanup()` como uno de sus pasos:
 
 ```javascript
-process.on('SIGTERM', async () => {
-    logger.info('Shutting down AckManager...');
-    
-    // Limpiar mensajes pendientes
-    ackManager.cleanup();
-    
-    // Cerrar sockets
-    io.close();
-});
+// dentro de registerShutdownHandlers({ server, io, pool, ackManager })
+if (deps.ackManager) {
+    deps.ackManager.cleanup();
+    logger.info('Step 3/6: AckManager cleaned up');
+}
 ```
+
+`cleanup()` limpia todos los timeouts pendientes, resuelve sus promesas con `false`,
+vacía `pendingMessages` y elimina todos los listeners.
 
 ---
 
@@ -258,22 +284,29 @@ process.on('SIGTERM', async () => {
 - Limpieza automática al desconectar
 
 ### ⚠️ Consideraciones
-- Solo usar en eventos **críticos** (answer-result, game-started, question-revealed)
+- Solo usar en eventos **críticos** (p. ej. `game-started`, `answer-result`)
 - No usar en eventos de alta frecuencia (typing, mouse-move, etc.)
-- El cliente DEBE implementar el callback de ACK
+- El cliente DEBE invocar el callback de ACK
+- `emitWithAck` necesita el objeto socket, no un `socketId`
 - Timeout adecuado según latencia esperada (5s es razonable)
 
-### 🔧 Próximos Pasos
-1. Integrar en `IndividualGameMode.processAnswer()`
-2. Integrar en `TeamGameMode.processAnswer()`
-3. Integrar en `GameStartedHandler.notifyPlayers()`
-4. Actualizar clientes (jugador.js, presentador.js) para enviar ACKs
-5. Añadir monitoreo de `message-failed` en sistema de alertas
+### 🔧 Posibles mejoras pendientes
+La integración actual es parcial. Para una cobertura completa de `answer-result` habría
+que migrar los emisores que aún usan broadcast tradicional (ver lista en la sección
+"Eventos Críticos integrados"):
+1. `IndividualGameMode._emitAnswerResult()`
+2. `TeamRevealHelper` y `TeamManager`
+3. `AnswerProcessingService` (respuesta duplicada)
+4. Considerar `emitWithAck` para `new-question` / `reveal-answer` si se requiere garantía
 
 ---
 
 ## Referencias
 
-- Socket.io Acknowledgments: https://socket.io/docs/v4/emitting-events/#acknowledgements
+- Socket.IO Acknowledgments: https://socket.io/docs/v4/emitting-events/#acknowledgements
 - Código: `app/sockets/services/AckManager.js`
-- Tests: `app/sockets/services/AckManager.test.js`
+- Tests: `app/sockets/services/__tests__/AckManager.test.js`
+- Instanciación e inyección: `app/index.js`, `app/sockets/socket.handlers.js`
+- Integraciones: `app/domain/events/handlers/GameStartedHandler.js`,
+  `app/domain/strategies/TeamGameMode.js`
+- Shutdown: `app/infrastructure/shutdown/GracefulShutdown.js`
