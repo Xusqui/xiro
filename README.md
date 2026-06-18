@@ -39,23 +39,24 @@
 ## Table of Contents
 
 1. [Key Features](#key-features)
-2. [Question Types](#question-types)
-3. [Game Modes](#game-modes)
-4. [System Architecture](#system-architecture)
-5. [Tech Stack](#tech-stack)
-6. [Installation and Deployment](#installation-and-deployment)
-7. [Environment Variables](#environment-variables)
-8. [Game Views](#game-views)
-9. [Admin Panel](#admin-panel)
-10. [Team Mode](#team-mode)
-11. [AI Generator](#ai-generator)
-12. [Results Export and Visualization](#results-export-and-visualization)
-13. [Scoring System](#scoring-system)
-14. [Reconnection and Sessions](#reconnection-and-sessions)
-15. [Automatic Backup and Restore](#automatic-backup-and-restore)
-16. [Project Structure](#project-structure)
-17. [Tests and Coverage](#tests-and-coverage)
-18. [Pending Tasks](#pending-tasks)
+2. [Multilingual Platform](#multilingual-platform)
+3. [Question Types](#question-types)
+4. [Game Modes](#game-modes)
+5. [System Architecture](#system-architecture)
+6. [Tech Stack](#tech-stack)
+7. [Installation and Deployment](#installation-and-deployment)
+8. [Environment Variables](#environment-variables)
+9. [Game Views](#game-views)
+10. [Admin Panel](#admin-panel)
+11. [Team Mode](#team-mode)
+12. [AI Generator](#ai-generator)
+13. [Results Export and Visualization](#results-export-and-visualization)
+14. [Scoring System](#scoring-system)
+15. [Reconnection and Sessions](#reconnection-and-sessions)
+16. [Automatic Backup and Restore](#automatic-backup-and-restore)
+17. [Project Structure](#project-structure)
+18. [Tests and Coverage](#tests-and-coverage)
+19. [Pending Tasks](#pending-tasks)
 
 ---
 
@@ -64,6 +65,7 @@
 <img src="https://xiro.pro/images/chamaleon/party.svg" alt="party mascot" width="110" align="right">
 
 - **Real-time** via Socket.IO with multi-worker support (Redis adapter)
+- **Multilingual frontend (ES/EN)** with runtime dictionaries, flag-based language selector, and persisted language preference
 - **6 question types** with differentiated scoring logic
 - **4 game modes**: Question Bank, Mix, Custom, and Trivial
 - **Team mode** with synchronized scoring and answer reveal
@@ -80,7 +82,48 @@
 - **Configurable fireworks** at the end of the game
 - **Game history** with individual CSV/JSON export per session (admin only)
 - **Interactive graphical results viewer** in the browser (animated podium, statistics, per-question detail)
+- **License system** with remote validation, global unlicensed badge, and participant cap in unlicensed mode
 - **Self-hosted** deployment via Docker Compose
+
+---
+
+## Multilingual Platform
+
+XIRO includes a frontend i18n layer for Spanish, English and 8 more languages across all views
+
+### Runtime Behavior
+
+- Language resolution order: URL query (`?lang=`) -> `localStorage` key `xiro_lang` -> browser language -> default `es`
+- Bottom-right switcher shows flag + language name (for example `🇪🇸 Español`, `🇬🇧 English`)
+- The switcher uses a semitransparent glass-style background for better integration with different pages
+- You can switch programmatically at runtime with `window.XiroI18n.setLanguage('en', true)`
+
+### i18n Files
+
+- Core runtime: `app/public/js/i18n/i18n-core.js`
+- DOM auto-translation and dynamic updates: `app/public/js/i18n/i18n-dom.js`
+- Language switcher and UI integration: `app/public/js/i18n/i18n-ui.js`
+- Root dictionaries: `app/public/js/i18n/language_es.json`, `app/public/js/i18n/language_en.json`
+- Literal include dictionaries: `app/public/js/i18n/language_es_literals.json`, `app/public/js/i18n/language_en_literals.json`
+
+### Dictionary Maintenance Workflow
+
+Run from repository root:
+
+```bash
+node scripts/extract-i18n-literals.js
+node scripts/build-i18n-literals.js
+node scripts/translate-en-literals.js
+```
+
+- `extract-i18n-literals.js` scans frontend HTML/JS and updates the literal inventory
+- `build-i18n-literals.js` rebuilds include dictionaries and preserves existing EN translations
+- `translate-en-literals.js` auto-fills missing ES -> EN literals (useful after large content updates)
+
+### Notes
+
+- To hide the switcher on a specific page, set `<body data-i18n-switcher="off">`
+- In the default Docker Compose setup (`app` bind-mounted into the backend container), frontend text/dictionary edits usually only need a hard browser refresh, not a container restart
 
 ---
 
@@ -284,7 +327,7 @@ Critical cross-worker synchronizations (18 pub/sub channels in `RedisSyncBus`):
 | **QR Code** | Server-side: `qrcode` v1.5.4 (npm) · Client-side: `qr-code-styling` v1.9.2 (CDN) |
 | **Containerization** | Docker + Docker Compose |
 | **Validation** | Joi 18 |
-| **Metrics** | Prometheus-compatible (`/metrics`) |
+| **Metrics** | JSON snapshot endpoint (`GET /api/metrics`) — not Prometheus-formatted |
 | **Uploads** | Multer v2 (PDF, DOCX, TXT up to 10 MB) |
 | **Rate Limiting** | express-rate-limit + rate-limit-redis (Redis-backed) |
 
@@ -512,6 +555,16 @@ Access at `/admin.html`. **Login** with username and password → JWT (12h). Two
 - **admin**: full access to all resources (CRUD + deletion + reset)
 - **editor**: can create resources and can edit/delete only what they created
 
+### Registration and Access Flow
+
+1. On load, `/admin.html` checks `GET /api/admin-auth/status`.
+2. If no users exist (`setupRequired=true`), the registration form is shown to create the first account.
+3. `POST /api/admin-register` behavior:
+  - First registered user: created as `admin`, verified immediately, and logged in directly.
+  - Additional users: created as pending registration and must confirm by email.
+4. Email confirmation uses `GET /api/admin-register/confirm?token=...`.
+5. Regular access uses `POST /api/admin-login` with `username + password` (only active and verified users can log in).
+
 ### User Model and Ownership
 
 - The first registered account is automatically assigned the **admin** role.
@@ -526,7 +579,7 @@ Access at `/admin.html`. **Login** with username and password → JWT (12h). Two
 #### Question Banks
 - Create, edit, and delete banks
 - Question editor with support for all 6 types
-- Per question: time limit, multimedia (text/image/audio), justification, hint (numeric), scoring strategy
+- Per question: time limit, multimedia (text/image/audio), **question image** (≤ 100×100 px / 25 KB), justification, hint (numeric), scoring strategy
 - **Export bank** → downloads JSON with name and questions array
 - **Import bank** → drag-and-drop a JSON file
 - **Merge banks** → generates a new bank combining selected ones
@@ -563,6 +616,31 @@ Access at `/admin.html`. **Login** with username and password → JWT (12h). Two
 - **Games In Progress** (admin only): real-time listing of active sessions and **Control** button to open `presentador.html?pin=PIN&remote=true` from mobile
 - **Graphical results viewer**: opens `/xiro-results-viewer.html` to visualize any exported CSV with animated podium, statistics, and per-question detail
 - **PANIC Button**: restarts the entire Docker container
+
+### License System (Config → Licencia)
+
+The Admin panel includes a dedicated **Licencia** tab to manage the product license for the whole instance.
+
+- The saved key is persisted in PostgreSQL table `site_settings` (singleton row `id=1`).
+- Validation is performed against the remote license checker and returns `valid`, `expiresAt`, and `reason`.
+- The panel shows live status and renders active/inactive status art accordingly.
+- Public runtime state is exposed via `GET /api/license/public-status` and consumed by all clients.
+- A global top-left badge is shown across app views whenever the public state is unlicensed.
+- Public status is checked at least once per day and refreshes immediately when `site_settings.updated_at` changes.
+
+Unlicensed mode enforcement:
+
+- Maximum 5 participants per session (HOST + 4 players).
+- The cap is enforced on join flows (`join-lobby` and `join-presenter-lobby`).
+- Reclaim/reconnect for a previously disconnected player is allowed without consuming an extra slot.
+
+License routes:
+
+| Method | Route | Purpose |
+|--------|-------|---------|
+| `GET` | `/api/admin/license` | Read persisted key and validation status (admin only) |
+| `POST` | `/api/admin/license` | Save key and revalidate (admin only) |
+| `GET` | `/api/license/public-status` | Get current public licensed/unlicensed state |
 
 ### Presenter Remote Control (admin)
 
@@ -957,8 +1035,6 @@ The largest uncovered blocks are the Socket.IO handlers and Trivial services (lo
 | [docs/CHAIN_OF_RESPONSIBILITY_PATTERN.md](docs/CHAIN_OF_RESPONSIBILITY_PATTERN.md) | Chains of responsibility |
 | [docs/EVENT_DRIVEN_PATTERN.md](docs/EVENT_DRIVEN_PATTERN.md) | Event-driven architecture |
 | [docs/GROQ_SETUP.md](docs/GROQ_SETUP.md) | AI generator configuration |
-| [docs/LOAD_TESTING_GUIDE.md](docs/LOAD_TESTING_GUIDE.md) | Load testing guide |
-| [docs/SYNOLOGY_SETUP.md](docs/SYNOLOGY_SETUP.md) | Synology NAS setup |
 | [docs/CSS_COMPILATION_GUIDE.md](docs/CSS_COMPILATION_GUIDE.md) | CSS compilation with Tailwind |
 | [app/application/README.md](app/application/README.md) | Application layer documentation |
 
@@ -988,7 +1064,9 @@ The largest uncovered blocks are the Socket.IO handlers and Trivial services (lo
 <img src="https://xiro.pro/images/chamaleon/pointing.svg" alt="pointing mascot" width="100" align="right">
 
 - 🔄 **PowerPoint Plugin** — add-in for presenters that integrates XIRO games directly into the slideshow (automatic lobby, question start upon reaching the slide, fullscreen dialog over the presentation). *In Progress.*
-- [ ] **Option to download logs for a specific game**
+
+- [ ] **Completar traducción**. Queda por traducir los placeholder de los inputs mediante el sistema de internacionalización (i18n).
+
 - [ ] **Support for new question types**
   - Point betting
 
@@ -1001,12 +1079,8 @@ The largest uncovered blocks are the Socket.IO handlers and Trivial services (lo
 Ideas discarded for now or long-term:
 
 - **Multilanguage support** — add internationalization (i18n) to the platform.
-
-- **Refactor inline `onclick` to `addEventListener`** — currently the CSP has `script-src-attr 'unsafe-inline'` because the presenter JS generates dynamic HTML with `onclick="function(variable_data)"` (e.g., `seleccionarPIN('${pin}')`, `seleccionarNumEquipos(2, '${selectedPin}')`, `assignManualPoints('${team.name}', 1, true)`). Removing `'unsafe-inline'` from `script-src-attr` would require refactoring all string templates in `presenter-lobby.js`, `presenter-team-config.js`, `presenter-game-ui.js`, `presenter-slides.js`, `presenter-utils.js`, and others to use `addEventListener` with event delegation or closures. Affects ~40 presenter and TV JS files. See `app/middlewares/security.js` directive `scriptSrcAttr`.
-
 - **Authentication system for registered players** — players join with an anonymous nickname; an accounts system would add personal history, persistent rankings, and avatars, but significantly complicates self-hosted deployment and the game entry flow.
-
-- **Integrated monitoring panel (Prometheus + Grafana)** — the `/metrics` endpoint already exposes Prometheus-compatible metrics, but adding Grafana as a Docker service significantly increases memory requirements and stack complexity for self-hosted NAS deployment.
+- **Integrated monitoring panel (Prometheus + Grafana)** — the `GET /api/metrics` endpoint exposes a plain JSON snapshot (not Prometheus-formatted); adopting Prometheus would require instrumenting `prom-client` in addition to adding Grafana as a Docker service, which significantly increases memory requirements and stack complexity for self-hosted NAS deployment.
 
 <br clear="right">
 
