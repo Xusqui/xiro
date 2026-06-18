@@ -37,17 +37,22 @@ Para garantizar estabilidad y evitar que la API corte el texto JSON (`Expected '
 1. **Lotes Pequeños (Batching):** Se piden un máximo de 3 preguntas simultáneas a la IA.
 2. **Límite de Ingesta:** El PDF subido se limpia y trunca a 11.000 caracteres como máximo para no asfixiar el prompt. Si el modelo localiza apartados valiosos (como "Conclusiones" o "Summary" en varios idiomas), los incluye dinámicamente frente al texto central.
 3. **Memoria Anti-Repetición:** El backend guarda un registro de las preguntas de lotes anteriores y obliga a la IA (usando una temperatura de 0.7) a diversificarse y no repetir contenidos semánticos en las siguientes iteraciones.
-4. **Auto-Reversión (Retries Inteligentes):** Si Groq devuelve un error `429 Rate Limit`, la arquitectura lee los segundos de espera recomendados en el error y "duerme" ese proceso el tiempo justo antes de reintentarlo automáticamente.
+4. **Auto-Reversión (Retries Inteligentes):** Si Groq devuelve un error `429 Rate Limit`, `controller.js` (`getRateLimitWaitTime` + `handleBatchError`) lee los segundos de espera recomendados en el error y "duerme" ese proceso el tiempo justo antes de reintentar el mismo lote, sin contar ese reintento como intento fallido.
 
 ## Arquitectura
+
+Todo el código de generación vive en `app/ai-generator/`, salvo la UI del panel admin:
 
 ```
 routes.js            → status endpoint: usa checkGroqStatus(). Además implementa un Anti-Timeout res.write(' ') cada 15s para evitar bloqueos del Proxy Reverso (Nginx/Synology) en generaciones largas.
 config-routes.js     → GET/POST/DELETE /api/ai-generator/config
-controller.js        → orquesta los bucles de lotes de 3, inyección de memoria histórica y controla interrupciones (AbortController).
+controller.js        → orquesta los bucles de lotes de 3 (BATCH_SIZE), inyección de memoria histórica (preguntas previas excluidas en el prompt) y reintentos ante rate limit / timeout.
 groq-client.js       → HTTP a api.groq.com (módulo https nativo con Temperature adaptada a 0.7).
 groq-config.js       → persiste API key y Modelos en groq-key.json.
-prompt-builder.js    → diseña la estructura agnóstica para extraer preguntas únicas.
+prompt-builder.js    → diseña la estructura agnóstica para extraer preguntas únicas; aquí vive el límite de 11.000 caracteres (MAX_DOC_CHARS).
 document-parser.js   → extrae texto de PDF/DOCX/TXT y busca priorizar las "Conclusiones" multilingüe.
-config-ui.js         → pestaña "IA (Groq)" en el panel de configuración frontal.
+```
+
+```
+public/js/admin/modules/config-ui.js  → pestaña "IA (Groq)" en el panel de configuración frontal (fuera de app/ai-generator/).
 ```
