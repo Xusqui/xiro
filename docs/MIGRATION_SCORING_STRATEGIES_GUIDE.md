@@ -2,17 +2,25 @@
 
 ## 📋 Resumen
 
-Esta migración agrega soporte completo para **estrategias de puntuación configurables** en Xiro! (Phase 17.2).
+Esta migración agrega soporte para **estrategias de puntuación configurables**
+(`time_based`, `streak_bonus`, `betting`) en Xiro!.
 
-**Archivo**: `20260203192100_add_scoring_strategies.sql`
+**Archivo principal**: `app/migrations/20260203192100_add_scoring_strategies.sql` (2026-02-03)
+
+**Estado actual**: ✅ Ya ejecutada. Las migraciones corren automáticamente al arrancar el
+servidor (`npm run migrate` / `migration-runner.js`, ver `CLAUDE.md`), por lo que en
+cualquier entorno que se haya desplegado desde febrero de 2026 las columnas ya existen.
+El checklist al final de este documento refleja el estado real, no el original.
+
+> Esta migración se complementó después con tres migraciones adicionales sobre
+> configuración de rachas — ver sección "Migraciones relacionadas" más abajo.
 
 ---
 
-## ✅ Respuesta a tu pregunta
+## 🧪 Sobre los tests de las estrategias
 
-> **"¿Cómo es posible que pasen los tests si la base de datos no está preparada?"**
-
-**Respuesta**: Los tests que creé son **tests unitarios** que NO requieren base de datos porque:
+Los tests de `domain/strategies/scoring/__tests__/` son **tests unitarios** que NO
+requieren base de datos:
 
 1. Usan **objetos mock/fake** para simular preguntas y juegos
 2. Prueban **lógica pura** (cálculos matemáticos, validaciones)
@@ -37,7 +45,8 @@ const strategy = strategyFactory.createFromQuestion(question, game);
 const result = strategy.calculatePoints({ ... });
 ```
 
-Sin embargo, para que funcione en **PRODUCCIÓN CON BD REAL**, necesitamos esta migración.
+Para que la estrategia configurada se respete en producción (no solo el default
+`time_based`), las columnas de esta migración deben existir en la BD real.
 
 ---
 
@@ -111,6 +120,30 @@ INSERT INTO games (pin) VALUES ('GHI789');
 
 ---
 
+## 🔗 Migraciones relacionadas (posteriores)
+
+Esta migración inicial cubre `streak_threshold`, `streak_bonus_percentage`,
+`team_streak_enabled` y `team_streak_bonus_percentage` en `games`. Tres migraciones
+posteriores añadieron la configuración de **activación** y de **doble racha**,
+replicada también en `question_banks` y en juegos personalizados/trivial:
+
+| Migración | Fecha | Qué añade |
+|-----------|-------|-----------|
+| `20260303000002_add_streak_config.sql` | 2026-03-03 | `games.use_streaks`, `games.use_double_streaks`, `games.double_streak_threshold`, `games.double_streak_bonus_percentage` |
+| `20260303000003_add_streak_config_trivial_custom.sql` | 2026-03-03 | Mismas columnas en tablas de trivial/custom games |
+| `20260303000004_add_streak_config_question_banks.sql` | 2026-03-03 | Mismas columnas en `question_banks` (para que el banco defina el default al crear partidas) |
+
+Estas columnas ya están en uso activo en el código real:
+- Lectura/escritura en `services/db/game.service.js`, `trivial.service.js`,
+  `custom-game.service.js`, `bank.service.js`, `bank-merge.service.js`
+- Lectura unificada en `services/db/streak-config.service.js`
+- Aplicación del bonus en `domain/services/GameStreakApplicator.js`
+- Sincronización entre workers en `sockets/sync/RedisSyncBus.js`
+- UI de configuración en el panel admin: `public/js/admin/modules/juegos-expanded.js`,
+  `bancos-expanded.js`, `trivial-editor.js`, `personalizados-expanded.js`
+
+---
+
 ## 🚀 ¿Cómo ejecutar la migración?
 
 ### Opción 1: Automática (al iniciar servidor)
@@ -122,7 +155,7 @@ npm start
 # Verás en logs:
 # 🔍 Verificando migraciones pendientes...
 # 📋 1 migración(es) pendiente(s)
-# Ejecutando migración: 20260203000001_add_scoring_strategies.sql
+# Ejecutando migración: 20260203192100_add_scoring_strategies.sql
 # ✅ Migración ejecutada exitosamente
 ```
 
@@ -319,7 +352,9 @@ const result = ScoringService.processAnswer({
 
 ## 🔄 Rollback (si es necesario)
 
-Si necesitas revertir la migración:
+`migrations/migrate.js` no tiene un comando `down`/`rollback` automático — el runner
+solo aplica migraciones pendientes. Para revertir hay que ejecutar el SQL inverso
+manualmente:
 
 ```sql
 BEGIN;
@@ -350,24 +385,29 @@ COMMIT;
 
 ## 📚 Documentación Relacionada
 
-- **Código**: `domain/strategies/scoring/`
-- **Tests**: `domain/strategies/scoring/__tests__/`
-- **Resumen Día 4**: `docs/PHASE_17_2_DIA_4_SUMMARY.md`
-- **Roadmap**: `REFACTORING_ROADMAP.md`
+- **Código**: `app/domain/strategies/scoring/` (`ScoringStrategy`, `ScoringStrategyFactory`,
+  `TimeBasedScoring`, `StreakBonusScoring`, `BettingScoring`, `BettingManager`,
+  `NumericApproximationScoring`)
+- **Tests**: `app/domain/strategies/scoring/__tests__/`
+- **Aplicación de rachas**: `app/domain/services/GameStreakApplicator.js`
+- **Lectura de configuración**: `app/services/db/streak-config.service.js`
+
+> Los documentos `PHASE_17_2_DIA_4_SUMMARY.md` y `REFACTORING_ROADMAP.md` referenciados
+> en una versión anterior de esta guía no existen en el repositorio actual.
 
 ---
 
-## ✅ Checklist de Implementación
+## ✅ Checklist de Implementación (estado real)
 
-- [x] Tests unitarios (128 tests pasando)
+- [x] Tests unitarios de estrategias de puntuación
 - [x] Código de estrategias (ScoringStrategy, Factory, Service)
-- [x] Migración de BD creada
-- [ ] **Migración ejecutada en BD** ← **PENDIENTE**
-- [ ] Verificación post-migración
-- [ ] UI para apuestas (jugador.html)
-- [ ] Socket events (submit-bet, all-bets-placed)
-- [ ] Admin panel (configurar estrategias)
-
----
-
-**Siguiente paso**: Ejecutar la migración con `npm start` o `node app/migrations/migrate.js up`
+- [x] Migración de BD creada y **ejecutada**
+- [x] Verificación post-migración (constraints e índice activos)
+- [x] Sistema de **rachas** (streak/double-streak) completamente implementado:
+  servicio de aplicación, lectura de config, sync entre workers y UI de admin
+  para juegos, bancos, trivial y juegos personalizados
+- [ ] UI para apuestas en el cliente jugador (`betting`) — **pendiente**
+- [ ] Socket events de apuestas (`submit-bet`, `all-bets-placed`) — no existen aún
+  en `sockets/`; `BettingScoring`/`BettingManager` están implementados a nivel de
+  dominio pero sin flujo de socket que los dispare desde el cliente
+- [x] Admin panel para configurar estrategias de racha (no así para `betting`)
