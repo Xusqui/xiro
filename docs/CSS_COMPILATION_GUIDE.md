@@ -1,77 +1,86 @@
-# 📋 GUÍA DE COMPILACIÓN CSS SEPARADOS
+# 📋 Guía de Compilación CSS
 
-## ✅ Cambios Realizados
+## Estructura
 
-Se ha modularizado la estructura CSS en un archivo común y archivos específicos por sección:
+El CSS de Tailwind está modularizado en un bundle común (`common.css`) más un bundle
+específico por sección de la app. Cada página HTML carga `common.css` + su bundle
+específico (y, además, sus propios CSS no-Tailwind sueltos, p. ej. `admin.css`,
+`jugador-base.css`, `presenter.css`...).
 
-### 📁 Archivos CREADOS:
-1. ✅ `/css/input-common.css` → Compila a `/css/common.css`
-2. ✅ `/css/input-admin.css` → Compila a `/css/output-admin.css`
-3. ✅ `/css/input-player.css` → Compila a `/css/output-player.css`
-4. ✅ `/css/input-presenter.css` → Compila a `/css/output-presenter.css`
-5. ✅ `/css/input-index.css` → Compila a `/css/output-index.css`
+| Input (Tailwind) | Output | Cargado en |
+|---|---|---|
+| `input-common.css` | `common.css` | admin.html, jugador.html, presentador.html, index.html |
+| `input-admin.css` | `output-admin.css` | admin.html |
+| `input-player.css` | `output-player.css` | jugador.html |
+| `input-presenter.css` | `output-presenter.css` | presentador.html |
+| `input-index.css` | `output-index.css` | index.html |
 
-### 📝 Archivos ACTUALIZADOS:
-1. ✅ `package.json` - Nuevos comandos npm para compilar cada CSS
-2. ✅ `admin.html` - Ahora carga `common.css` + `output-admin.css`
-3. ✅ `jugador.html` - Ahora carga `common.css` + `output-player.css`
-4. ✅ `presentador.html` - Ahora carga `common.css` + `output-presenter.css`
-5. ✅ `index.html` (home) - Ahora carga `common.css` + `output-index.css`
+### Sin Tailwind (sin cambios)
+- `tv.html` usa únicamente `tv.css` — no pasa por el pipeline de Tailwind.
 
-### 🚫 SIN CAMBIOS (como se solicitó):
-- `tv.html` - Sigue usando `tv.css` (no modificado)
+## 🔧 Compilar los CSS
 
----
+Comandos disponibles desde la raíz del repo (ver también `docs/TAILWIND_CSS_GUIA.md`
+para detalle de troubleshooting y safelist):
 
-## 🔧 PRÓXIMO PASO: COMPILAR LOS CSS
-
-Ejecuta un de los siguientes comandos en el servidor `(/volume2/docker/xiro)`:
-
-### Opción 1: Compilar TODO (Recomendado)
+### Compilar TODO (Recomendado tras editar cualquier `input-*.css`)
 ```bash
 npm run build:css
 ```
-Esto compila los archivos CSS en paralelo y genera:
-- `common.css`
-- `output-admin.css`
-- `output-player.css`
-- `output-presenter.css`
-- `output-index.css`
+Genera en paralelo: `common.css`, `output-admin.css`, `output-player.css`,
+`output-presenter.css`, `output-index.css`.
 
-### Opción 2: Compilar individual
+### Compilar un bundle individual
 ```bash
-npm run build:css:admin       # Solo panel admin
-npm run build:css:player      # Solo jugador/home
-npm run build:css:presenter   # Solo presentador
-npm run build:css:common      # Base compartida
-npm run build:css:index       # Solo página de inicio
+npm run build:css:common
+npm run build:css:admin
+npm run build:css:player
+npm run build:css:presenter
+npm run build:css:index
 ```
 
-### Opción 3: WATCH (desarrollo)
+### Watch (desarrollo)
 ```bash
-npm run watch:css             # Recompila automáticamente al cambiar archivos
+npm run watch:css             # todos los bundles en paralelo
 ```
+
+## 📊 Estructura de archivos
+
+```
+app/public/css/
+├── input-common.css ---→ [Tailwind] → common.css
+├── input-admin.css ----→ [Tailwind] → output-admin.css
+├── input-player.css ---→ [Tailwind] → output-player.css
+├── input-presenter.css → [Tailwind] → output-presenter.css
+├── input-index.css ----→ [Tailwind] → output-index.css
+├── tv.css (sin Tailwind)
+└── ... CSS sueltos por página (admin.css, jugador-base.css, presenter.css, etc.)
+```
+
+## ⚠️ Importante
+
+- **Nunca edites los archivos compilados** (`common.css`, `output-*.css`) — se
+  sobrescriben en cada `npm run build:css`. Edita siempre el `input-*.css` correspondiente.
+- Tras editar cualquier `input-*.css` o añadir nuevas clases Tailwind en HTML/JS, hay
+  que recompilar — no hay watch activo en producción.
+- Las clases generadas dinámicamente en JS deben estar en
+  `app/public/_tailwind-safelist.html` para que Tailwind las incluya (ver
+  `docs/TAILWIND_CSS_GUIA.md`).
+
+## ✨ Ventajas de esta estructura
+
+- 🎯 Cada página carga **solo** el CSS Tailwind que necesita
+- 📉 Bundles más pequeños = carga más rápida
+- 🔒 Mejor encapsulación de estilos por sección
+- 🛠️ Más fácil mantener y depurar CSS específico de cada página
 
 ---
 
-## 📊 Estructura después de compilación
+## Referencias
 
-```
-/app/public/css/
-├── input-common.css ---→ [Tailwind] → common.css (cargado en admin/jugador/presentador/index)
-├── input-admin.css ----→ [Tailwind] → output-admin.css (cargado en admin.html)
-├── input-player.css ----→ [Tailwind] → output-player.css (cargado en jugador.html)
-├── input-presenter.css →→ [Tailwind] → output-presenter.css (cargado en presentador.html)
-├── input-index.css ----→ [Tailwind] → output-index.css (cargado en index.html)
-├── tv.css (sin cambios)
-├── jugador.css
-├── drag-drop.css
-└── fireworks.css
-```
-
----
-
-## ⚠️ IMPORTANTE
+- `docs/TAILWIND_CSS_GUIA.md` — comandos detallados, troubleshooting, gestión del safelist
+- `tailwind.config.js` (raíz del repo) — `content` y safelist
+- `app/public/_tailwind-safelist.html` — fuente única de verdad para clases dinámicas
 
 1. ✅ Los archivos `input-*.css` YA ESTÁN CREADOS
 2. ✅ Los HTML YA ESTÁN ACTUALIZADOS
