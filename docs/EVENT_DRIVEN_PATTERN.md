@@ -1,556 +1,329 @@
 # Event-Driven Architecture - Arquitectura Basada en Eventos
 
-**Proyecto**: Xiro!  
-**Patrón**: Event-Driven Architecture  
-**Fecha**: 2 de febrero de 2026
+**Proyecto**: Xiro!
+**Patrón**: Event-Driven Architecture
+**Código**: `app/domain/events/`
 
 ---
 
 ## 📖 Concepto
 
-Arquitectura donde los componentes se comunican mediante **eventos** en lugar de llamadas directas, logrando **desacoplamiento** total entre módulos.
+Arquitectura donde los componentes se comunican mediante **eventos** en lugar de llamadas directas, logrando **desacoplamiento** entre la lógica de negocio (Commands/Use Cases) y los efectos secundarios (broadcasts por socket, persistencia, cache, logging).
 
 ### Ventajas
 - ✅ **Desacoplamiento**: Emisores no conocen a los receptores
-- ✅ **Extensibilidad**: Agregar listeners sin modificar emisores
-- ✅ **Escalabilidad**: Procesamiento asíncrono
-- ✅ **Auditabilidad**: Log completo de eventos
+- ✅ **Extensibilidad**: Agregar handlers sin modificar emisores
+- ✅ **Prioridad configurable**: Orden de ejecución explícito entre handlers
+- ✅ **Auditabilidad**: Métricas de eventos emitidos/errores incorporadas
 - ✅ **Testing**: Mock fácil de EventBus
 
 ---
 
 ## 🏗️ Implementación en Xiro!
 
-### Estructura
+### Estructura real
 
 ```
 app/domain/events/
-├── EventBus.js              # Pub/Sub centralizado (singleton)
-├── GameEvents.js            # Eventos de juego
-├── PlayerEvents.js          # Eventos de jugador
-└── PresenterEvents.js       # Eventos de presentador
+├── DomainEvent.js            # Clase base de todos los eventos de dominio
+├── EventBus.js                # Pub/Sub con wildcards, prioridades, métricas (singleton)
+├── GameEvents.js              # Las 14 clases de eventos del ciclo de vida del juego
+└── handlers/
+    ├── EventHandler.js                # Clase base para handlers (subscribe/unregister/log)
+    ├── GameStartedHandler.js          # game.started
+    ├── QuestionRevealedHandler.js     # question.revealed (+ emite timer.started)
+    ├── PlayerScoredHandler.js         # player.scored
+    ├── GameEndedHandler.js            # game.ended
+    ├── RankingCacheHandler.js         # player.scored, game.ended (cache de ranking)
+    ├── bootstrap.js                   # initializeEventHandlers() / cleanupEventHandlers()
+    └── index.js                       # registerAllHandlers() / unregisterAllHandlers()
 ```
+
+> No existen `PlayerEvents.js` ni `PresenterEvents.js`: **todos** los eventos de dominio
+> viven en `GameEvents.js`. Tampoco existe un evento `question.started`/`question.ended`
+> separado — la pregunta se revela vía `question.revealed`, que internamente emite
+> `timer.started`.
 
 ---
 
 ## 🚌 EventBus - Sistema Pub/Sub
 
 ```javascript
-// app/domain/events/EventBus.js
-const EventEmitter = require('events');
-
-/**
- * Singleton EventBus para comunicación desacoplada
- */
+// app/domain/events/EventBus.js (resumen)
 class EventBus extends EventEmitter {
     constructor() {
         super();
-        this.setMaxListeners(50); // Evitar warnings
+        this.setMaxListeners(100); // clusters con muchos listeners
+        this.metrics = { emitted: new Map(), handled: new Map(), errors: new Map() };
+        this.handlers = new Map(); // eventName -> [{ handler, priority }]
     }
 
-    /**
-     * Emitir evento de dominio
-     * @param {string} eventName - Nombre del evento (ej: 'player.joined')
-     * @param {Object} eventData - Datos del evento
-     */
-    emit(eventName, eventData) {
-        console.log(`[EventBus] Emitting: ${eventName}`, eventData);
-        super.emit(eventName, eventData);
-    }
+    // priority: mayor = se ejecuta primero. Retorna función de unsubscribe.
+    on(eventName, handler, priority = 0) { /* ... */ }
 
-    /**
-     * Suscribirse a evento
-     * @param {string} eventName - Nombre del evento
-     * @param {Function} handler - Función manejadora
-     */
-    on(eventName, handler) {
-        console.log(`[EventBus] Listener registered for: ${eventName}`);
-        super.on(eventName, handler);
-    }
+    once(eventName, handler, priority = 0) { /* ... */ }
+
+    off(eventName, handler) { /* ... */ }
+
+    // Soporta wildcards: 'game.*' escucha 'game.started', '**' escucha todo.
+    // Atrapa errores por handler (un handler roto no detiene a los demás).
+    emit(eventName, event) { /* ... */ }
+
+    // No bloquea: usa setImmediate
+    emitAsync(eventName, event) { /* ... */ }
+
+    getMetrics() { /* emitted / errors / activeListeners */ }
 }
 
-// Singleton: una única instancia global
-module.exports = new EventBus();
+module.exports = new EventBus(); // singleton
 ```
+
+Diferencias clave frente a un `EventEmitter` plano:
+- **Prioridad por handler**: los suscritos con mayor `priority` se ejecutan antes.
+- **Wildcards**: `'game.*'` y `'**'`.
+- **Aislamiento de errores**: si un handler lanza, se captura, se registra en
+  `metrics.errors` y se emite `eventbus.error` (sin recursión infinita); el resto de
+  handlers sigue ejecutándose.
+- **Métricas incorporadas** vía `getMetrics()` — no hace falta instrumentarlas a mano.
 
 ---
 
-## 📢 Eventos de Dominio
+## 📦 DomainEvent — Clase base
 
-### 1. PlayerJoinedEvent
-
-```javascript
-// app/domain/events/PlayerEvents.js
-class PlayerJoinedEvent {
-    constructor({ playerId, nickname, roomId, timestamp }) {
-        this.playerId = playerId;
-        this.nickname = nickname;
-        this.roomId = roomId;
-        this.timestamp = timestamp || Date.now();
-        this.type = 'player.joined';
-    }
-}
-```
-
-**Cuándo se emite**: Cuando un jugador se une exitosamente a un juego
-
-**Emisor**: `JoinGameCommand.execute()`
-
-**Listeners**:
-- Analytics: Registrar nuevo jugador
-- Metrics: Incrementar contador de jugadores
-- Notifications: Notificar a otros jugadores
-
----
-
-### 2. AnswerSubmittedEvent
+Todos los eventos de `GameEvents.js` extienden `DomainEvent`, que aporta `eventName`,
+`timestamp`, `eventId` único y copia las claves del `payload` al propio objeto evento
+(por eso un handler puede leer `event.gameId` o `event.payload.gameId` indistintamente):
 
 ```javascript
-class AnswerSubmittedEvent {
-    constructor({ 
-        gameId, 
-        playerId, 
-        nickname, 
-        questionIndex, 
-        answerIndex, 
-        isCorrect, 
-        points, 
-        elapsedTime 
-    }) {
-        this.gameId = gameId;
-        this.playerId = playerId;
-        this.nickname = nickname;
-        this.questionIndex = questionIndex;
-        this.answerIndex = answerIndex;
-        this.isCorrect = isCorrect;
-        this.points = points;
-        this.elapsedTime = elapsedTime;
+// app/domain/events/DomainEvent.js (resumen)
+class DomainEvent {
+    constructor(eventName, payload) {
+        this.eventName = eventName;
         this.timestamp = Date.now();
-        this.type = 'answer.submitted';
+        this.eventId = `${eventName}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        this.payload = payload;
+        Object.keys(payload || {}).forEach(key => {
+            if (this[key] === undefined) this[key] = payload[key];
+        });
     }
 }
 ```
 
-**Cuándo se emite**: Cuando un jugador envía una respuesta
+---
 
-**Emisor**: `SubmitAnswerCommand.execute()`
+## 📢 Catálogo Real de Eventos (`GameEvents.js`)
 
-**Listeners**:
-- Leaderboard: Actualizar ranking
-- Statistics: Guardar estadísticas
-- Presenter: Notificar progreso
+| Evento | Clase | Payload principal |
+|--------|-------|--------------------|
+| `game.started` | `GameStartedEvent` | gameId, pin, mode, questionCount, playerCount |
+| `question.revealed` | `QuestionRevealedEvent` | roomId, question, questionIndex, timeLimit, totalQuestions, showAnswersToPlayers |
+| `answer.submitted` | `AnswerSubmittedEvent` | gameId, playerId, nickname, questionIndex, answerIndex, isCorrect, timeElapsed |
+| `player.scored` | `PlayerScoredEvent` | gameId, playerId, nickname, pointsEarned, totalScore, isCorrect, scoringDetails |
+| `answer.revealed` | `AnswerRevealedEvent` | gameId, questionIndex, correctIndex, stats |
+| `game.ended` | `GameEndedEvent` | roomId, ranking/finalRanking, totalQuestions, duration, stats, reason |
+| `player.joined` | `PlayerJoinedEvent` | gameId, playerId, nickname, playerCount |
+| `player.disconnected` | `PlayerDisconnectedEvent` | gameId, playerId, nickname, reason |
+| `timer.started` | `TimerStartedEvent` | gameId, questionIndex, timeLimit |
+| `timer.expired` | `TimeExpiredEvent` | gameId, questionIndex, answeredCount, totalPlayers |
+| `player.streak.achieved` | `PlayerStreakAchievedEvent` | gameId, playerId, nickname, streakCount, bonusPercentage |
+| `team.streak.achieved` | `TeamStreakAchievedEvent` | gameId, teamName, streakCount, bonusPercentage, playerCount |
+| `bet.placed` | `BetPlacedEvent` | gameId, playerId, nickname, questionIndex, betAmount, currentScore |
+| `bets.all_placed` | `AllBetsPlacedEvent` | gameId, questionIndex, betCount, totalBetAmount |
+
+> No existen eventos `error.occurred` ni `player.reconnected` como clases de dominio.
+> La reconexión se maneja en `application/use-cases/ReconnectPlayerUseCase.js` sin pasar
+> por un `DomainEvent` dedicado.
 
 ---
 
-### 3. GameStartedEvent
+## 🛠️ EventHandler — Clase base de los handlers
+
+Los handlers **no** se registran como callbacks sueltos (`EventBus.on(...)` disperso por
+el código): cada handler es una clase que extiende `EventHandler`, implementa
+`register()` y usa `this.subscribe(eventName, fn, priority)`:
 
 ```javascript
-class GameStartedEvent {
-    constructor({ gameId, playerCount, questionCount, timestamp }) {
-        this.gameId = gameId;
-        this.playerCount = playerCount;
-        this.questionCount = questionCount;
-        this.timestamp = timestamp || Date.now();
-        this.type = 'game.started';
+// app/domain/events/handlers/EventHandler.js (resumen)
+class EventHandler {
+    constructor(eventBus, io, dependencies = {}) {
+        this.eventBus = eventBus;
+        this.io = io;
+        this.dependencies = dependencies;
+        this.subscriptions = [];
     }
+
+    register() { throw new Error('register() must be implemented by subclass'); }
+
+    unregister() {
+        this.subscriptions.forEach(unsubscribe => unsubscribe());
+        this.subscriptions = [];
+    }
+
+    subscribe(eventName, handler, priority = 5) {
+        const unsubscribe = this.eventBus.on(eventName, handler, priority);
+        this.subscriptions.push(unsubscribe);
+        return unsubscribe;
+    }
+
+    log(level, message, data = {}) { /* usa dependencies.logger o el logger global */ }
 }
 ```
 
-**Cuándo se emite**: Cuando el presentador inicia el juego
+---
 
-**Emisor**: `StartGameCommand.execute()`
+## 🧩 Handlers Reales (`domain/events/handlers/`)
 
-**Listeners**:
-- Timers: Iniciar cronómetros
-- Analytics: Registrar inicio de partida
-- Lobby: Cerrar sala de espera
+| Handler | Escucha | Prioridad | Responsabilidad |
+|---------|---------|-----------|------------------|
+| `GameStartedHandler` | `game.started` | 8 | Solo logging — la emisión real a sockets la hace `StartGameHandler` (capa de sockets), que tiene acceso al `gameState` completo. También expone `notifyPlayers()`/`notifyPresenter()` (con soporte AckManager, ver `ACK_MANAGER_INTEGRATION.md`) |
+| `QuestionRevealedHandler` | `question.revealed` | 8 | Sanitiza la pregunta para jugadores (`sanitizeQuestionForPlayers`), emite `new-question` a jugadores y presentador vía Redis adapter, y emite `timer.started` |
+| `PlayerScoredHandler` | `player.scored` | 7 | Recalcula ranking y lo emite con `BroadcastOptimizer` (debounce ~100ms) a `:presenter` y `:players`; persiste el score en background; expone `forceBroadcastRanking()` para flush inmediato |
+| `GameEndedHandler` | `game.ended` | 9 | Emite `game-ended` (ranking) a jugadores/presentador, persiste stats finales, limpia timers/cache/state machine, y emite `game.cleanup.completed` |
+| `RankingCacheHandler` | `player.scored`, `game.ended` | (default) | Mantiene un caché incremental de ranking (`services/RankingCache.js`) y lo invalida al terminar el juego |
+| `CacheInvalidationService` | (ver `services/CacheInvalidationService.js`) | — | Registrado junto al resto de handlers en `registerAllHandlers()`, sigue el mismo contrato `register()`/`unregister()` |
+
+Registro centralizado en `domain/events/handlers/index.js` →
+`registerAllHandlers(eventBus, io, dependencies)`, invocado desde
+`domain/events/handlers/bootstrap.js` → `initializeEventHandlers(io, dependencies)`
+durante el arranque del servidor. El cleanup simétrico es
+`cleanupEventHandlers()` → `unregisterAllHandlers()`.
 
 ---
 
-### 4. QuestionStartedEvent
-
-```javascript
-class QuestionStartedEvent {
-    constructor({ gameId, questionIndex, questionId, duration, timestamp }) {
-        this.gameId = gameId;
-        this.questionIndex = questionIndex;
-        this.questionId = questionId;
-        this.duration = duration;
-        this.timestamp = timestamp || Date.now();
-        this.type = 'question.started';
-    }
-}
-```
-
-**Cuándo se emite**: Al comenzar una nueva pregunta
-
-**Emisor**: `NextQuestionCommand.execute()`
-
-**Listeners**:
-- Timers: Iniciar cuenta regresiva
-- Players: Resetear estado de respuesta
-- UI: Actualizar interfaz
-
----
-
-### 5. QuestionEndedEvent
-
-```javascript
-class QuestionEndedEvent {
-    constructor({ gameId, questionIndex, answeredCount, totalPlayers, timestamp }) {
-        this.gameId = gameId;
-        this.questionIndex = questionIndex;
-        this.answeredCount = answeredCount;
-        this.totalPlayers = totalPlayers;
-        this.timestamp = timestamp || Date.now();
-        this.type = 'question.ended';
-    }
-}
-```
-
-**Cuándo se emite**: Al terminar el tiempo de una pregunta
-
-**Emisor**: `TimerManager`
-
-**Listeners**:
-- Leaderboard: Mostrar resultados
-- Statistics: Guardar métricas
-- Next Question: Avanzar automáticamente
-
----
-
-### 6. GameEndedEvent
-
-```javascript
-class GameEndedEvent {
-    constructor({ gameId, winner, finalRanking, duration, timestamp }) {
-        this.gameId = gameId;
-        this.winner = winner;
-        this.finalRanking = finalRanking;
-        this.duration = duration;
-        this.timestamp = timestamp || Date.now();
-        this.type = 'game.ended';
-    }
-}
-```
-
-**Cuándo se emite**: Al finalizar el juego
-
-**Emisor**: `EndGameCommand.execute()`
-
-**Listeners**:
-- Database: Guardar resultados
-- Cleanup: Limpiar recursos
-- Notifications: Enviar resumen
-
----
-
-### 7. PlayerDisconnectedEvent
-
-```javascript
-class PlayerDisconnectedEvent {
-    constructor({ playerId, nickname, gameId, timestamp }) {
-        this.playerId = playerId;
-        this.nickname = nickname;
-        this.gameId = gameId;
-        this.timestamp = timestamp || Date.now();
-        this.type = 'player.disconnected';
-    }
-}
-```
-
-**Cuándo se emite**: Cuando un jugador se desconecta
-
-**Emisor**: `DisconnectHandler`
-
-**Listeners**:
-- Game: Marcar jugador como inactivo
-- Notifications: Notificar a otros
-- Cleanup: Remover si aplica
-
----
-
-### 8. PlayerReconnectedEvent
-
-```javascript
-class PlayerReconnectedEvent {
-    constructor({ playerId, nickname, gameId, newSocketId, timestamp }) {
-        this.playerId = playerId;
-        this.nickname = nickname;
-        this.gameId = gameId;
-        this.newSocketId = newSocketId;
-        this.timestamp = timestamp || Date.now();
-        this.type = 'player.reconnected';
-    }
-}
-```
-
-**Cuándo se emite**: Cuando un jugador se reconecta
-
-**Emisor**: `ReconnectPlayerHandler`
-
-**Listeners**:
-- Game: Actualizar socket ID
-- Notifications: Notificar reconexión
-- State: Sincronizar estado
-
----
-
-### 9. TimerExpiredEvent
-
-```javascript
-class TimerExpiredEvent {
-    constructor({ gameId, questionIndex, timerType, timestamp }) {
-        this.gameId = gameId;
-        this.questionIndex = questionIndex;
-        this.timerType = timerType; // 'question' | 'lobby'
-        this.timestamp = timestamp || Date.now();
-        this.type = 'timer.expired';
-    }
-}
-```
-
-**Cuándo se emite**: Cuando expira un temporizador
-
-**Emisor**: `TimerManager`
-
-**Listeners**:
-- Question: Mostrar respuesta correcta
-- Next: Avanzar automáticamente
-- Players: Bloquear respuestas
-
----
-
-### 10. ErrorOccurredEvent
-
-```javascript
-class ErrorOccurredEvent {
-    constructor({ errorType, message, context, severity, timestamp }) {
-        this.errorType = errorType;
-        this.message = message;
-        this.context = context;
-        this.severity = severity; // 'low' | 'medium' | 'high' | 'critical'
-        this.timestamp = timestamp || Date.now();
-        this.type = 'error.occurred';
-    }
-}
-```
-
-**Cuándo se emite**: Cuando ocurre un error significativo
-
-**Emisor**: Cualquier módulo
-
-**Listeners**:
-- Logger: Registrar error
-- Monitoring: Enviar alerta
-- Recovery: Intentar recuperación
-
----
-
-## 🔄 Flujo de Eventos Típico
-
-### Ejemplo: Jugador Envía Respuesta
+## 🔄 Flujo de Eventos Real: Jugador Envía Respuesta
 
 ```
 1. Cliente → Socket.IO: emit('submit-answer', data)
    ↓
-2. SubmitAnswerHandler: recibe evento
+2. SubmitAnswerHandler (sockets/handlers) recibe el evento de socket
    ↓
-3. SubmitAnswerUseCase: ejecuta cadena
+3. SubmitAnswerUseCase ejecuta la Chain of Responsibility
+   (Idempotency → RateLimit → Validation → CommandExecution → Response)
    ↓
-4. SubmitAnswerCommand: valida y ejecuta
+4. ImprovedSubmitAnswerCommand.execute() actualiza el estado y, vía las
+   estrategias de modo de juego (IndividualGameMode/TeamGameMode), emite
+   directamente 'answer-result' al jugador (no siempre pasa por EventBus)
    ↓
-5. EventBus.emit('answer.submitted', event) ← EVENTO EMITIDO
+5. EventBus.emit('player.scored', new PlayerScoredEvent({...}))
    ↓
-6. Listeners reaccionan (en paralelo):
-   - LeaderboardService: actualiza ranking
-   - StatisticsService: guarda stats
-   - PresenterNotifier: notifica a presentador
-   - AnalyticsService: registra métricas
+6. Handlers reaccionan (por prioridad):
+   - PlayerScoredHandler (7): recalcula y broadcastea ranking (debounced)
+   - RankingCacheHandler: actualiza caché incremental de ranking
 ```
+
+> A diferencia de lo que sugeriría un diseño "puro" event-driven, el resultado
+> individual de la respuesta (`answer-result`) se emite **directamente** desde las
+> estrategias de juego, no a través de un evento de dominio — el EventBus se usa para
+> los efectos secundarios derivados (ranking, cache, persistencia), no para cada emisión
+> de socket. Ver `ARCHITECTURE.md` y `CHAIN_OF_RESPONSIBILITY_PATTERN.md`.
 
 ---
 
-## 🎯 Registro de Listeners
-
-### En Inicialización de la App
+## 🎯 Registro de Handlers en la Inicialización Real
 
 ```javascript
-// app/server.js o app/index.js
-const EventBus = require('./domain/events/EventBus');
-const LeaderboardService = require('./services/leaderboard.service');
-const StatisticsService = require('./services/statistics.service');
+// domain/events/handlers/bootstrap.js, invocado durante el startup
+const { initializeEventHandlers } = require('./domain/events/handlers/bootstrap');
 
-// Registrar listeners al iniciar la aplicación
-function setupEventListeners() {
-    // Listener para respuestas
-    EventBus.on('answer.submitted', (event) => {
-        LeaderboardService.updateRanking(event);
-        StatisticsService.saveAnswer(event);
-    });
+initializeEventHandlers(io, {
+    activeGames,      // Map global
+    db,               // servicio de persistencia (opcional)
+    broadcastOptimizer,
+    logger
+});
+```
 
-    // Listener para jugador unido
-    EventBus.on('player.joined', (event) => {
-        console.log(`Nuevo jugador: ${event.nickname}`);
-        // Notificar a analytics, etc.
-    });
-
-    // Listener para fin de juego
-    EventBus.on('game.ended', async (event) => {
-        await StatisticsService.saveGameResults(event);
-        await cleanupResources(event.gameId);
-    });
-
-    // Listener para errores
-    EventBus.on('error.occurred', (event) => {
-        if (event.severity === 'critical') {
-            // Enviar alerta inmediata
-            alertMonitoring(event);
-        }
-    });
+```javascript
+// domain/events/handlers/index.js (resumen real)
+function registerAllHandlers(eventBus, io, dependencies = {}) {
+    const handlers = [
+        new GameStartedHandler(eventBus, io, dependencies),
+        new QuestionRevealedHandler(eventBus, io, dependencies),
+        new PlayerScoredHandler(eventBus, io, dependencies),
+        new GameEndedHandler(eventBus, io, dependencies),
+        new RankingCacheHandler(eventBus, io, dependencies),
+        new CacheInvalidationService(eventBus, io, dependencies)
+    ];
+    handlers.forEach(h => h.register());
+    return handlers;
 }
-
-setupEventListeners();
 ```
 
 ---
 
-## ✅ Mejores Prácticas
+## ✅ Mejores Prácticas (aplicadas en el código real)
 
 ### Emitir Eventos
-
-1. **Emitir después de cambios**: Solo después de modificar estado exitosamente
-2. **Datos inmutables**: El evento debe contener toda la información necesaria
-3. **Timestamp**: Siempre incluir timestamp
-4. **Tipo explícito**: Usar convención `entity.action` (ej: `player.joined`)
-5. **No emitir en cascada**: Evitar que un listener emita otro evento del mismo tipo
+1. Emitir solo después de mutar el estado con éxito (ver `ImprovedSubmitAnswerCommand`).
+2. El payload debe bastar para que el handler no necesite volver a consultar estado
+   (aunque varios handlers sí leen `activeGames` para enriquecer el contexto).
+3. Usar la convención `entity.action` (`game.started`, `player.scored`...).
+4. Las clases `DomainEvent` ya añaden `timestamp` y `eventId` automáticamente.
 
 ### Escuchar Eventos
-
-1. **Listeners independientes**: No deben depender del orden de ejecución
-2. **Idempotentes**: Manejar posibles duplicados
-3. **Manejo de errores**: No lanzar excepciones no manejadas
-4. **Async cuando sea necesario**: Usar async/await para operaciones I/O
-5. **Unsubscribe**: Remover listeners cuando ya no son necesarios
-
----
-
-## 📊 Catálogo Completo de Eventos
-
-| Evento | Tipo | Emisor | Listeners Típicos |
-|--------|------|--------|-------------------|
-| player.joined | PlayerJoinedEvent | JoinGameCommand | Analytics, Metrics, Notifications |
-| answer.submitted | AnswerSubmittedEvent | SubmitAnswerCommand | Leaderboard, Statistics, Presenter |
-| game.started | GameStartedEvent | StartGameCommand | Timers, Analytics, Lobby |
-| question.started | QuestionStartedEvent | NextQuestionCommand | Timers, Players, UI |
-| question.ended | QuestionEndedEvent | TimerManager | Leaderboard, Statistics, Next |
-| game.ended | GameEndedEvent | EndGameCommand | Database, Cleanup, Notifications |
-| player.disconnected | PlayerDisconnectedEvent | DisconnectHandler | Game, Notifications, Cleanup |
-| player.reconnected | PlayerReconnectedEvent | ReconnectPlayerHandler | Game, Notifications, State |
-| timer.expired | TimerExpiredEvent | TimerManager | Question, Next, Players |
-| error.occurred | ErrorOccurredEvent | Any | Logger, Monitoring, Recovery |
+1. Los handlers son clases con `register()`/`unregister()` explícitos, no listeners sueltos.
+2. `EventBus.emit()` ya aísla errores por handler — no es necesario un `try/catch`
+   global, pero cada handler igualmente captura sus propios errores para loguearlos con
+   contexto (`roomId`, `playerId`, etc.).
+3. La prioridad (`subscribe(event, fn, priority)`) determina el orden cuando varios
+   handlers escuchan el mismo evento (p. ej. `GameEndedHandler` con prioridad 9 antes
+   que otros handlers de menor prioridad sobre `game.ended`).
 
 ---
 
 ## 🧪 Testing
 
-### Test de Emisión de Evento
+Los tests reales están co-localizados en `domain/events/__tests__/` (EventBus, DomainEvent)
+y `domain/events/handlers/__tests__/` (uno por handler).
 
 ```javascript
-describe('SubmitAnswerCommand', () => {
-    it('debe emitir evento answer.submitted', async () => {
-        const EventBus = require('../domain/events/EventBus');
-        const eventSpy = jest.spyOn(EventBus, 'emit');
+// Ejemplo de test de EventBus (estructura real)
+describe('EventBus', () => {
+    it('ejecuta handlers en orden de prioridad', () => {
+        const order = [];
+        EventBus.on('test.event', () => order.push('low'), 1);
+        EventBus.on('test.event', () => order.push('high'), 10);
 
-        const command = new SubmitAnswerCommand({
-            pin: '1234',
-            nickname: 'Player1',
-            index: 2
-        });
+        EventBus.emit('test.event', {});
 
-        await command.execute(mockContext);
+        expect(order).toEqual(['high', 'low']);
+    });
 
-        expect(eventSpy).toHaveBeenCalledWith(
-            'answer.submitted',
-            expect.objectContaining({
-                nickname: 'Player1',
-                isCorrect: true,
-                type: 'answer.submitted'
-            })
+    it('aísla errores: un handler roto no bloquea a los demás', () => {
+        const spy = jest.fn();
+        EventBus.on('test.event', () => { throw new Error('boom'); });
+        EventBus.on('test.event', spy);
+
+        EventBus.emit('test.event', {});
+
+        expect(spy).toHaveBeenCalled();
+    });
+});
+```
+
+```javascript
+// Ejemplo de test de handler (estructura real, ver PlayerScoredHandler.test.js)
+describe('PlayerScoredHandler', () => {
+    it('recalcula y broadcastea el ranking al recibir player.scored', async () => {
+        const handler = new PlayerScoredHandler(mockEventBus, mockIo, { activeGames });
+        handler.register();
+
+        await mockEventBus.emit('player.scored', new PlayerScoredEvent({
+            gameId: 'room1', playerId: 'p1', nickname: 'Ana', totalScore: 100
+        }));
+
+        expect(mockBroadcastOptimizer.emit).toHaveBeenCalledWith(
+            'ranking-update', 'room1', expect.any(Object), 'room1:presenter'
         );
     });
 });
 ```
 
-### Test de Listener
-
-```javascript
-describe('LeaderboardService', () => {
-    it('debe actualizar ranking al recibir answer.submitted', () => {
-        const EventBus = require('../domain/events/EventBus');
-        const LeaderboardService = require('../services/leaderboard.service');
-
-        const event = new AnswerSubmittedEvent({
-            gameId: '1234',
-            playerId: 'p1',
-            nickname: 'Player1',
-            points: 850,
-            isCorrect: true
-        });
-
-        // Emitir evento
-        EventBus.emit('answer.submitted', event);
-
-        // Verificar que el ranking se actualizó
-        const ranking = LeaderboardService.getRanking('1234');
-        expect(ranking[0].nickname).toBe('Player1');
-        expect(ranking[0].score).toBeGreaterThan(0);
-    });
-});
-```
-
 ---
 
-## 🔍 Debugging de Eventos
+## Referencias
 
-### Logger de Eventos
-
-```javascript
-// Útil en desarrollo para ver flujo de eventos
-EventBus.on('*', (eventName, eventData) => {
-    console.log(`[Event] ${eventName}`, {
-        timestamp: new Date(eventData.timestamp).toISOString(),
-        data: eventData
-    });
-});
-```
-
-### Métricas de Eventos
-
-```javascript
-const eventMetrics = new Map();
-
-EventBus.on('*', (eventName) => {
-    const count = eventMetrics.get(eventName) || 0;
-    eventMetrics.set(eventName, count + 1);
-});
-
-// Mostrar métricas
-setInterval(() => {
-    console.log('[Event Metrics]', Object.fromEntries(eventMetrics));
-}, 60000); // Cada minuto
-```
-
----
-
-## 🚀 Beneficios Observados
-
-- ✅ **Modularidad**: 10 eventos permiten comunicación sin acoplamiento
-- ✅ **Extensibilidad**: Agregar listeners sin modificar emisores
-- ✅ **Testing**: 100% coverage de eventos
-- ✅ **Auditabilidad**: Log completo de todas las acciones
-- ✅ **Performance**: Procesamiento asíncrono de listeners
-
----
-
-**Event-Driven Architecture permite crecer sin romper** ✨
+- Código: `app/domain/events/` (EventBus, DomainEvent, GameEvents) y `app/domain/events/handlers/`
+- Registro/bootstrap: `app/domain/events/handlers/bootstrap.js`, `index.js`
+- Relación con la cadena de procesamiento de respuestas: `docs/CHAIN_OF_RESPONSIBILITY_PATTERN.md`
+- Entrega garantizada de eventos críticos por socket: `docs/ACK_MANAGER_INTEGRATION.md`
