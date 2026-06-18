@@ -54,6 +54,23 @@ console.log('Caché limpiado');
 
 ---
 
+## 1.5. LIMPIEZA DE CACHÉ DE ASSETS FRONTEND
+
+Si se realizan cambios en los archivos `.js` o `.css` del frontend y los usuarios (jugadores o presentadores) siguen viendo la versión antigua, se debe ejecutar el script para forzar la actualización del caché en los navegadores (Cache Busting).
+
+### Comando de actualización:
+```bash
+cd /volume2/docker/xiro
+npm run update-assets
+# o ejecutando el script directamente:
+node scripts/update-assets-version.js
+```
+
+**Efecto**:
+Busca todos los archivos `.html` en `/app/public/` y añade/actualiza un parámetro `?v=YYYYMMDDHHMMSS` en las importaciones locales de scripts y estilos. Los usuarios descargarán los assets actualizados en su próxima recarga.
+
+---
+
 ## 2. UBICACIÓN DE LOGS CRÍTICOS
 
 ### Estructura de Logs
@@ -122,32 +139,51 @@ cat /volume2/docker/xiro/app/logs/combined.log | grep -E '"level":"(error|warn)"
 
 ### Endpoint de Métricas
 ```
-GET http://localhost:3000/metrics
+GET http://localhost:3000/api/metrics
 ```
 
-**Respuesta JSON**:
+> El endpoint real es `/api/metrics` (definido en `routes/metrics.routes.js`), no
+> `/metrics`. Acepta `?roomId=` opcional para filtrar las métricas de lock distribuido
+> de respuestas a una sala concreta.
+
+**Respuesta JSON real** (estructura agrupada, no plana):
 ```json
 {
-  "timestamp": "2026-01-24T...",
-  "uptime": 3600,
-  "activePlayers": 150,
-  "activeGames": 8,
-  "totalConnections": 152,
-  "memoryUsage": {
-    "rss": 256000000,
-    "heapUsed": 180000000,
-    "heapTotal": 220000000
-  }
+  "system": {
+    "uptime_seconds": 3600,
+    "uptime_formatted": "1h 0m",
+    "memory_mb": 180,
+    "memory_total_mb": 220,
+    "cpu_percent": 12.3
+  },
+  "players": {
+    "active_now": 150,
+    "total_connections_ever": 1820,
+    "total_disconnections": 1670
+  },
+  "games": {
+    "active_now": 8,
+    "total_created": 42,
+    "total_completed": 34
+  },
+  "database": {
+    "total_queries": 5000,
+    "avg_query_time_ms": 12,
+    "errors": 0,
+    "pool": { "total_count": 10, "idle_count": 7, "waiting_count": 0 }
+  },
+  "answer_lock_distributed": { "...": "métricas de lock distribuido por sala" },
+  "reconnect_failed_distributed": { "...": "..." }
 }
 ```
 
 ### 🚨 UMBRALES DE ALERTA
 
-| Métrica | Normal | Precaución | CRÍTICO | Acción |
+| Métrica (ruta real en el JSON) | Normal | Precaución | CRÍTICO | Acción |
 |---------|--------|------------|---------|---------|
-| **activePlayers** | <500 | 500-800 | >800 | Escalar horizontalmente |
-| **activeGames** | <50 | 50-80 | >80 | Limpiar juegos inactivos |
-| **memoryUsage.heapUsed** | <300MB | 300-450MB | >450MB | Reiniciar contenedor |
+| **players.active_now** | <500 | 500-800 | >800 | Escalar horizontalmente |
+| **games.active_now** | <50 | 50-80 | >80 | Limpiar juegos inactivos |
+| **system.memory_mb** | <300MB | 300-450MB | >450MB | Reiniciar contenedor |
 | **CPU (docker stats)** | <40% | 40-70% | >70% | Revisar queries DB |
 
 ### Monitoreo en Tiempo Real
@@ -156,10 +192,10 @@ GET http://localhost:3000/metrics
 docker stats xiro_backend
 
 # Métricas cada 5 segundos
-watch -n 5 'curl -s http://localhost:3000/metrics | jq'
+watch -n 5 'curl -s http://localhost:3000/api/metrics | jq'
 
 # Jugadores activos en tiempo real
-watch -n 2 'curl -s http://localhost:3000/metrics | jq .activePlayers'
+watch -n 2 'curl -s http://localhost:3000/api/metrics | jq .players.active_now'
 ```
 
 ### Comando de Diagnóstico Rápido
@@ -169,7 +205,7 @@ watch -n 2 'curl -s http://localhost:3000/metrics | jq .activePlayers'
 echo "=== DIAGNÓSTICO Xiro! ==="
 echo ""
 echo "🔢 Métricas:"
-curl -s http://localhost:3000/metrics | jq '{players: .activePlayers, games: .activeGames, memory: .memoryUsage.heapUsed}'
+curl -s http://localhost:3000/api/metrics | jq '{players: .players.active_now, games: .games.active_now, memory_mb: .system.memory_mb}'
 echo ""
 echo "📊 Recursos Docker:"
 docker stats xiro_backend --no-stream --format "table {{.CPUPerc}}\t{{.MemUsage}}\t{{.NetIO}}"
@@ -277,11 +313,12 @@ docker-compose restart backend
 
 ### Verificar Salud del Sistema
 ```bash
-# Health check
-curl http://localhost:3000/health
+# Health check (la ruta real es /api/health, no /health)
+curl http://localhost:3000/api/health
 
-# Respuesta esperada:
-# {"status":"healthy","timestamp":"2026-01-24...","database":"connected"}
+# Variantes más ligeras para liveness/readiness probes:
+curl http://localhost:3000/live
+curl http://localhost:3000/ready
 ```
 
 ---
