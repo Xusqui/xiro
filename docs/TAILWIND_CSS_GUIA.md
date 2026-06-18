@@ -1,63 +1,116 @@
-# 🎨 Guía Rápida: Regenerar CSS de Tailwind
+# 🎨 Guía Rápida: Compilar CSS de Tailwind
 
-## ⚠️ Problema Resuelto
+## Estado actual
 
-El CSS se estaba generando incorrectamente porque se estaba usando `@tailwindcss/cli` (v4) en lugar de `tailwindcss` (v3).
+El CSS está modularizado en **5 bundles** independientes (no un único `input.css`/`output.css`).
+Para el detalle de qué bundle carga cada página, ver `docs/CSS_COMPILATION_GUIDE.md`.
 
 ## ✅ Comandos Correctos
 
-### Regenerar CSS (Producción - minificado)
+### Regenerar todos los bundles (Producción - minificado)
 ```bash
 npm run build:css
 ```
 
-O directamente:
+### Regenerar un bundle individual
 ```bash
-npx tailwindcss -i ./app/public/css/input.css -o ./app/public/css/output.css --minify
+npm run build:css:common      # input-common.css    → common.css
+npm run build:css:admin       # input-admin.css      → output-admin.css
+npm run build:css:player      # input-player.css     → output-player.css
+npm run build:css:presenter   # input-presenter.css  → output-presenter.css
+npm run build:css:index       # input-index.css      → output-index.css
 ```
 
 ### Modo Watch (Desarrollo - regenera automáticamente)
 ```bash
-npm run watch:css
+npm run watch:css             # todos los bundles en paralelo
+npm run watch:css:admin       # solo un bundle, p. ej. admin
 ```
 
-O directamente:
-```bash
-npx tailwindcss -i ./app/public/css/input.css -o ./app/public/css/output.css --watch
-```
+Estos comandos viven en el `package.json` de la **raíz del repo** (no en `app/package.json`)
+y se ejecutan con `tailwindcss` (CLI v3) directamente, con
+`BROWSERSLIST_IGNORE_OLD_DATA=1` para evitar el warning de browserslist desactualizado.
 
 ## 🚫 NO Usar
 
 ❌ **INCORRECTO:**
 ```bash
-npx @tailwindcss/cli -i ./app/public/css/input.css -o ./app/public/css/output.css --minify
+npx @tailwindcss/cli -i ./app/public/css/input-admin.css -o ./app/public/css/output-admin.css --minify
 ```
 
-Este comando usa Tailwind v4 (alpha) que tiene una arquitectura completamente diferente y no es compatible con nuestra configuración actual.
+`@tailwindcss/cli` es Tailwind v4 (arquitectura distinta) y no es compatible con la
+configuración actual del proyecto.
 
 ## 📦 Versiones
 
-- **Tailwind CSS**: v3.4.19 (instalado en node_modules)
-- **Configuración**: `tailwind.config.js` con safelist
+- **Tailwind CSS**: v3.4.19 (instalado en `node_modules` de la raíz)
+- **Configuración**: `tailwind.config.js` (raíz del repo)
 
 ## 🔍 Verificación
 
-Después de regenerar, el archivo `output.css` debe:
-- ✅ Pesar aproximadamente **40-45 KB** (minificado)
-- ✅ Contener todas las clases usadas en los archivos HTML y JS
-- ✅ Incluir las clases del safelist configurado
+Después de regenerar, comprueba que el bundle correspondiente:
+- ✅ No esté vacío ni truncado
+- ✅ Contenga las clases usadas en los HTML/JS de esa sección
+- ✅ Incluya las clases del safelist (`_tailwind-safelist.html`)
 
-Si el archivo pesa solo 12-14 KB, significa que estás usando el comando incorrecto.
+Si un bundle pesa muy poco respecto a builds anteriores, sospecha del comando usado
+(Tailwind v4 vs v3) o de que `content` en `tailwind.config.js` no esté escaneando los
+archivos correctos.
 
 ## 📝 Notas Importantes
 
-1. **Archivo Safelist**: El archivo `_tailwind-safelist.html` contiene todas las clases dinámicas que se generan en JavaScript. No eliminarlo.
+1. **Safelist — fuente única de verdad**: las clases dinámicas que se generan en
+   JavaScript (template literals) se listan en `app/public/_tailwind-safelist.html`.
+   `tailwind.config.js` define explícitamente `safelist: []` con el comentario
+   *"No usar este array — fuente única de verdad: `_tailwind-safelist.html`"* — no
+   añadas clases ahí, añádelas siempre al HTML del safelist.
 
-2. **Configuración**: El archivo `tailwind.config.js` tiene configurado:
-   - `content`: Escanea todos los archivos `.html` y `.js` en `app/public/`
-   - `safelist`: Lista de clases que siempre deben incluirse
+2. **`content` en `tailwind.config.js`**: escanea `app/public/*.html` y
+   `app/public/**/*.{html,js}` — cualquier HTML/JS nuevo bajo `public/` ya queda cubierto
+   sin tocar la config.
 
-3. **Clases Dinámicas**: Las clases que se generan dinámicamente en JavaScript (template literals) necesitan estar listadas en el safelist o en un archivo HTML de referencia.
+3. **No edites los archivos compilados** (`common.css`, `output-*.css`) — edita el
+   `input-*.css` correspondiente y recompila. Se sobrescriben en cada build (ver
+   `CLAUDE.md`).
+
+## 🛠️ Troubleshooting
+
+### El CSS no se actualiza
+```bash
+# Elimina el bundle afectado y regenera
+rm app/public/css/output-admin.css
+npm run build:css:admin
+```
+
+### Las clases dinámicas no funcionan
+1. Verifica que la clase esté en `app/public/_tailwind-safelist.html`
+2. Regenera el bundle correspondiente
+
+### Error de browserslist
+```bash
+npx update-browserslist-db@latest
+```
+
+## 🎨 Añadir Nuevas Clases Dinámicas
+
+Si añades nuevas clases generadas dinámicamente en JavaScript:
+
+1. Añádelas a `app/public/_tailwind-safelist.html`:
+```html
+<div class="bg-nuevo-color-600 hover:bg-nuevo-color-700"></div>
+```
+
+2. Regenera el bundle afectado (o todos):
+```bash
+npm run build:css
+```
+
+---
+
+## Referencias
+
+- `docs/CSS_COMPILATION_GUIDE.md` — qué bundle carga cada página y estructura de carpetas
+- `CLAUDE.md` — comandos de CSS resumidos
 
 ## 🛠️ Troubleshooting
 
