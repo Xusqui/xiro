@@ -1,8 +1,8 @@
 # Chain of Responsibility Pattern - Cadena de Responsabilidad
 
-**Proyecto**: Xiro!  
-**Patrón**: Chain of Responsibility  
-**Fecha**: 2 de febrero de 2026
+**Proyecto**: Xiro!
+**Patrón**: Chain of Responsibility
+**Código**: `app/application/chain/`
 
 ---
 
@@ -21,16 +21,23 @@ Patrón que permite pasar requests a través de una **cadena de handlers**, dond
 
 ## 🏗️ Implementación en Xiro!
 
-### Estructura
+### Estructura real
 
 ```
 app/application/chain/
 ├── Handler.js                    # Clase base abstracta
+├── IdempotencyHandler.js          # Devuelve resultado cacheado si la request ya se procesó
+├── RateLimitHandler.js           # Rate limiting (Redis, ya implementado)
 ├── ValidationHandler.js          # Validación de entrada
-├── RateLimitHandler.js          # Rate limiting (futuro)
-├── CommandExecutionHandler.js   # Ejecución de comando
-└── ResponseHandler.js            # Formateo de respuesta
+├── CommandExecutionHandler.js    # Ejecución de comando CQRS
+├── ResponseHandler.js            # Formateo de respuesta + ACK callback
+└── index.js                      # Exports
 ```
+
+> El orden real de la cadena (ver `SubmitAnswerUseCase`) es:
+> **Idempotency → RateLimit → Validation → CommandExecution → Response**,
+> no "Validation → RateLimit → ..." — la idempotencia va primero para devolver el
+> resultado cacheado sin volver a consumir cuota de rate limit ni revalidar.
 
 ---
 
@@ -43,33 +50,21 @@ class Handler {
         this.nextHandler = null;
     }
 
-    /**
-     * Establecer siguiente handler en la cadena
-     * @param {Handler} handler - Siguiente handler
-     * @returns {Handler} El handler pasado (para encadenar)
-     */
     setNext(handler) {
         this.nextHandler = handler;
         return handler; // Permite encadenamiento fluido
     }
 
-    /**
-     * Manejar request
-     * @param {Object} context - Contexto de la request
-     * @returns {Promise<Object>} Resultado del procesamiento
-     */
+    // Las subclases NO implementan handle() desde cero: hacen su trabajo y
+    // luego llaman a `super.handle(context)` para continuar la cadena.
     async handle(context) {
-        throw new Error('handle() debe ser implementado');
-    }
-
-    /**
-     * Pasar al siguiente handler (si existe)
-     * @param {Object} context - Contexto
-     * @returns {Promise<Object>} Resultado del siguiente handler
-     */
-    async passToNext(context) {
         if (this.nextHandler) {
-            return await this.nextHandler.handle(context);
+            const result = await this.nextHandler.handle(context);
+            if (result === undefined || result === null) {
+                // Defensa contra handlers mal implementados que no retornan nada
+                return { success: false, reason: 'internal-error' };
+            }
+            return result;
         }
         return { success: true }; // Fin de la cadena
     }
@@ -78,331 +73,297 @@ class Handler {
 module.exports = Handler;
 ```
 
+> A diferencia de un Chain of Responsibility "de libro" (con `passToNext()` explícito),
+> aquí el propio `Handler.handle()` base ya delega al siguiente. Cada handler concreto
+> sobreescribe `handle()`, hace su trabajo, y termina con `return super.handle(context)`
+> para continuar (o retorna un `{ success: false, ... }` para detener la cadena).
+
 ---
 
-## 🛡️ Handler 1: ValidationHandler
+## 🔒 Handler 1: IdempotencyHandler
 
-**Responsabilidad**: Validar datos de entrada usando schemas Joi
+**Responsabilidad**: Si `context.data.requestId` ya fue procesado, devuelve el resultado
+cacheado sin ejecutar el resto de la cadena. Si no, continúa y cachea el resultado al
+finalizar (vía `IdempotencyService`, Redis con TTL 5 min — ver `application/services/idempotency.js`).
 
 ```javascript
-// app/application/chain/ValidationHandler.js
-const Handler = require('./Handler');
-
-class ValidationHandler extends Handler {
-    /**
-     * @param {Function} validationFn - Función que valida (retorna { valid, errors })
-     */
-    constructor(validationFn) {
+// app/application/chain/IdempotencyHandler.js (resumen)
+class IdempotencyHandler extends Handler {
+    constructor(idempotencyService, contextName = 'unknown') {
         super();
-        this.validationFn = validationFn;
+        this.idempotencyService = idempotencyService;
+        this.contextName = contextName;
     }
 
     async handle(context) {
-        // Ejecutar validación
-        const validation = this.validationFn(context.data);
-
-        // Si la validación falla, detener la cadena
-        if (!validation.valid) {
-            return {
-                success: false,
-                error: 'Validation failed',
-                details: validation.errors
-            };
+        const requestId = context?.data?.requestId;
+        if (!requestId) {
+            return super.handle(context); // sin requestId, no hay idempotencia
         }
 
-        // Si es válido, pasar al siguiente handler
-        return await this.passToNext(context);
+        const cached = await this.idempotencyService.isProcessed(requestId);
+        if (cached) {
+            context.fromCache = true;
+            return cached; // detiene la cadena, no se reejecuta el comando
+        }
+
+        const result = await super.handle(context);
+        if (result && result.success !== false) {
+            await this.idempotencyService.markProcessed(requestId, result);
+        }
+        return result;
     }
 }
-
-module.exports = ValidationHandler;
-```
-
-### Uso en Use Case
-
-```javascript
-// En SubmitAnswerUseCase
-const validationHandler = new ValidationHandler(
-    (data) => validateSocket(schemas.submitAnswer, data)
-);
 ```
 
 ---
 
 ## ⚡ Handler 2: RateLimitHandler
 
-**Responsabilidad**: Limitar tasa de requests por jugador
+**Responsabilidad**: Limitar tasa de requests por socket usando un rate limiter externo
+(Redis-backed, ver `application/helpers/SocketRateLimiterFactory.js`). **No** implementa
+su propia ventana en memoria — delega en `rateLimiter.checkLimit(socketId, operation)`.
 
 ```javascript
-// app/application/chain/RateLimitHandler.js
-const Handler = require('./Handler');
-
+// app/application/chain/RateLimitHandler.js (resumen)
 class RateLimitHandler extends Handler {
-    constructor(maxRequests = 10, windowMs = 1000) {
+    constructor(rateLimiter, operation) {
         super();
-        this.maxRequests = maxRequests;
-        this.windowMs = windowMs;
-        this.requestCounts = new Map(); // playerId → [timestamps]
+        this.rateLimiter = rateLimiter;
+        this.operation = operation;
     }
 
     async handle(context) {
-        const playerId = context.socket?.data?.playerId;
-        
-        if (!playerId) {
-            // Si no hay playerId, pasar (no aplica rate limit)
-            return await this.passToNext(context);
+        const { socket } = context;
+        if (!socket || !socket.id) {
+            return super.handle(context); // sin socket, no aplica
         }
 
-        const now = Date.now();
-        const timestamps = this.requestCounts.get(playerId) || [];
-
-        // Filtrar timestamps dentro de la ventana
-        const recentRequests = timestamps.filter(
-            ts => now - ts < this.windowMs
-        );
-
-        // Verificar límite
-        if (recentRequests.length >= this.maxRequests) {
+        const isAllowed = await this.rateLimiter.checkLimit(socket.id, this.operation);
+        if (!isAllowed) {
             return {
                 success: false,
-                error: 'Rate limit exceeded',
-                retryAfter: this.windowMs
+                reason: 'rate-limit-exceeded',
+                message: 'Demasiadas peticiones. Espera un momento.'
             };
         }
 
-        // Agregar timestamp actual
-        recentRequests.push(now);
-        this.requestCounts.set(playerId, recentRequests);
-
-        // Pasar al siguiente
-        return await this.passToNext(context);
-    }
-
-    // Limpiar timestamps antiguos periódicamente
-    cleanup() {
-        const now = Date.now();
-        for (const [playerId, timestamps] of this.requestCounts.entries()) {
-            const recent = timestamps.filter(ts => now - ts < this.windowMs);
-            if (recent.length === 0) {
-                this.requestCounts.delete(playerId);
-            } else {
-                this.requestCounts.set(playerId, recent);
-            }
-        }
+        return super.handle(context);
     }
 }
+```
 
-module.exports = RateLimitHandler;
+### Uso real
+```javascript
+const rateLimiter = createRedisRateLimiter({ getRedisClient, windowMs: 1000, maxAttempts: 5 });
+const rateLimitHandler = new RateLimitHandler(rateLimiter, 'submit-answer');
 ```
 
 ---
 
-## 🎯 Handler 3: CommandExecutionHandler
+## 🛡️ Handler 3: ValidationHandler
 
-**Responsabilidad**: Ejecutar el Command o Query
+**Responsabilidad**: Validar `context.socket` / `context.data` / `context.playerId`
+(requisitos configurables) y luego ejecutar una `validateFn(data)` específica del caso
+de uso (no necesariamente Joi — en `SubmitAnswerUseCase` son funciones a medida por
+`answerType`). El resultado validado se guarda en `context.validatedData`.
 
 ```javascript
-// app/application/chain/CommandExecutionHandler.js
-const Handler = require('./Handler');
+// app/application/chain/ValidationHandler.js (resumen)
+class ValidationHandler extends Handler {
+    constructor(validateFn, options = {}) {
+        super();
+        this.validateFn = validateFn;
+        this.options = {
+            passFullContext: options.passFullContext === true,
+            requireSocket: options.requireSocket !== false,
+            requireData: options.requireData !== false,
+            requirePlayerId: options.requirePlayerId !== false
+        };
+    }
 
+    handle(context) {
+        const missing = this._validateRequiredContext(context);
+        if (missing) {
+            return { success: false, reason: 'validation-failed', error: missing };
+        }
+
+        const dataToValidate = this.options.passFullContext ? context : (context.data || context);
+        const validation = this.validateFn(dataToValidate);
+
+        if (!validation.valid) {
+            return { success: false, reason: 'validation-failed', errors: validation.errors };
+        }
+
+        context.validatedData = validation.value || context.data || context;
+        return super.handle(context);
+    }
+}
+```
+
+### Uso real en `SubmitAnswerUseCase`
+```javascript
+const validationHandler = new ValidationHandler(validateSubmitAnswerPayload);
+// validateSubmitAnswerPayload despacha a un validador distinto según answerType
+// (numeric, word_scramble, multiple_choice, matching) o usa el schema Joi por defecto
+```
+
+---
+
+## 🎯 Handler 4: CommandExecutionHandler
+
+**Responsabilidad**: Ejecutar el Command CQRS correspondiente con el payload mapeado
+desde el contexto. Siempre continúa la cadena (incluso si el comando falla) para que
+`ResponseHandler` pueda invocar el callback de ACK.
+
+```javascript
+// app/application/chain/CommandExecutionHandler.js (resumen)
 class CommandExecutionHandler extends Handler {
-    /**
-     * @param {Class} CommandClass - Clase del comando a ejecutar
-     * @param {Function} paramsMapper - Función que mapea context a params del comando
-     */
-    constructor(CommandClass, paramsMapper) {
+    constructor(CommandClass, payloadMapper) {
         super();
         this.CommandClass = CommandClass;
-        this.paramsMapper = paramsMapper;
+        this.payloadMapper = payloadMapper;
     }
 
     async handle(context) {
-        try {
-            // Crear instancia del comando con params mapeados
-            const params = this.paramsMapper(context);
-            const command = new this.CommandClass(params);
+        const payload = this.payloadMapper ? this.payloadMapper(context) : context.validatedData;
+        const command = new this.CommandClass(payload);
+        const result = await command.execute(context.dependencies);
 
-            // Validar comando
-            const validation = await command.validate(context.dependencies);
-            if (!validation.valid) {
-                return {
-                    success: false,
-                    error: 'Command validation failed',
-                    details: validation.errors
-                };
-            }
-
-            // Ejecutar comando
-            const result = await command.execute(context.dependencies);
-
-            // Agregar resultado al contexto para próximos handlers
-            context.commandResult = result;
-
-            // Pasar al siguiente handler
-            return await this.passToNext(context);
-
-        } catch (error) {
-            return {
-                success: false,
-                error: 'Command execution failed',
-                message: error.message
-            };
-        }
+        context.commandResult = result;
+        return super.handle(context); // siempre continúa
     }
 }
-
-module.exports = CommandExecutionHandler;
 ```
 
-### Uso en Use Case
+> Nota: a diferencia de lo que podría sugerir el nombre, este handler **no llama** a
+> `command.validate()` por separado — la validación ya ocurrió en `ValidationHandler`.
 
+### Uso real
 ```javascript
 const commandHandler = new CommandExecutionHandler(
-    SubmitAnswerCommand,
-    (context) => ({
-        pin: context.data.pin,
-        nickname: context.data.nickname,
-        index: context.data.index
-    })
+    ImprovedSubmitAnswerCommand,
+    mapSubmitAnswerCommandContext
 );
 ```
 
 ---
 
-## 📤 Handler 4: ResponseHandler
+## 📤 Handler 5: ResponseHandler
 
-**Responsabilidad**: Formatear y enviar respuesta al cliente
+**Responsabilidad**: Formatear la respuesta final con un `responseMapper` opcional,
+invocar el **callback de ACK** de Socket.IO si existe, y emitir `socket.emit('error', ...)`
+si el comando falló.
 
 ```javascript
-// app/application/chain/ResponseHandler.js
-const Handler = require('./Handler');
-
+// app/application/chain/ResponseHandler.js (resumen)
 class ResponseHandler extends Handler {
-    async handle(context) {
-        const { socket, commandResult } = context;
+    constructor(responseMapper) {
+        super();
+        this.responseMapper = responseMapper;
+    }
 
-        if (!commandResult) {
-            // No hay resultado previo, retornar error
-            socket.emit('error', {
-                message: 'No command result available'
-            });
-            return { success: false };
+    handle(context) {
+        const { socket, commandResult, callback } = context;
+        if (!commandResult) return super.handle(context);
+
+        const response = this.responseMapper
+            ? this.responseMapper(commandResult, context)
+            : commandResult;
+
+        if (callback && typeof callback === 'function') {
+            callback(response); // ACK al cliente
         }
 
-        if (commandResult.success) {
-            // Éxito: el comando ya emitió eventos Socket.IO
-            // Solo retornar confirmación
-            return {
-                success: true,
-                data: commandResult
-            };
-        } else {
-            // Error: emitir evento de error
-            socket.emit('error', {
-                message: commandResult.error || 'Command failed',
-                details: commandResult.details
-            });
-            return {
-                success: false,
-                error: commandResult.error
-            };
+        if (!commandResult.success && commandResult.reason && socket) {
+            socket.emit('error', { message: commandResult.message || commandResult.reason });
         }
+
+        return response; // último handler: no llama a super.handle()
     }
 }
-
-module.exports = ResponseHandler;
 ```
 
 ---
 
-## 🔄 Ejemplo Completo: Use Case con Cadena
+## 🔄 Ejemplo Real: SubmitAnswerUseCase
 
 ```javascript
-// app/application/use-cases/SubmitAnswerUseCase.js
+// app/application/use-cases/SubmitAnswerUseCase.js (resumen)
 const {
-    ValidationHandler,
-    RateLimitHandler,
-    CommandExecutionHandler,
-    ResponseHandler
+    ValidationHandler, RateLimitHandler, CommandExecutionHandler,
+    ResponseHandler, IdempotencyHandler
 } = require('../chain');
-const SubmitAnswerCommand = require('../commands/SubmitAnswerCommand');
-const { validateSocket, schemas } = require('../../validation');
 
 class SubmitAnswerUseCase {
     constructor() {
-        this.setupChain();
+        this.pipeline = this.buildPipeline();
     }
 
-    setupChain() {
-        // 1. Validación de entrada
-        const validationHandler = new ValidationHandler(
-            (data) => validateSocket(schemas.submitAnswer, data)
-        );
+    buildPipeline() {
+        const idempotencyService = getIdempotencyService();
+        const idempotencyHandler = idempotencyService
+            ? new IdempotencyHandler(idempotencyService, 'submit-answer')
+            : null;
 
-        // 2. Rate limiting (10 requests por segundo)
-        const rateLimitHandler = new RateLimitHandler(10, 1000);
+        const rateLimiter = createRedisRateLimiter({ getRedisClient, windowMs: 1000, maxAttempts: 5 });
+        const rateLimitHandler = new RateLimitHandler(rateLimiter, 'submit-answer');
+        const validationHandler = new ValidationHandler(validateSubmitAnswerPayload);
+        const commandHandler = new CommandExecutionHandler(ImprovedSubmitAnswerCommand, mapSubmitAnswerCommandContext);
+        const responseHandler = new ResponseHandler(mapSubmitAnswerResponse);
 
-        // 3. Ejecución del comando
-        const commandHandler = new CommandExecutionHandler(
-            SubmitAnswerCommand,
-            (context) => ({
-                pin: context.data.pin,
-                nickname: context.data.nickname,
-                index: context.data.index
-            })
-        );
+        // Orden real: idempotency -> rateLimit -> validation -> command -> response
+        rateLimitHandler.setNext(validationHandler);
+        validationHandler.setNext(commandHandler);
+        commandHandler.setNext(responseHandler);
 
-        // 4. Formateo de respuesta
-        const responseHandler = new ResponseHandler();
-
-        // Encadenar: validation → rateLimit → command → response
-        validationHandler
-            .setNext(rateLimitHandler)
-            .setNext(commandHandler)
-            .setNext(responseHandler);
-
-        // Guardar referencia al primer handler
-        this.chain = validationHandler;
+        if (!idempotencyHandler) return rateLimitHandler;
+        idempotencyHandler.setNext(rateLimitHandler);
+        return idempotencyHandler;
     }
 
-    /**
-     * Ejecutar cadena de handlers
-     */
     async execute(context) {
-        return await this.chain.handle(context);
+        return await this.pipeline.handle(context);
     }
 }
 
 module.exports = SubmitAnswerUseCase;
 ```
 
+> `IdempotencyHandler` es **opcional**: si `getIdempotencyService()` no devuelve un
+> servicio disponible, la cadena arranca directamente en `RateLimitHandler`.
+
+Otros use cases que usan esta cadena: `JoinGameUseCase`, `StartGameUseCase`
+(ver `application/use-cases/`).
+
 ---
 
 ## 🎨 Flujo Visual
 
 ```
-Cliente envía "submit-answer"
+Cliente envía "submit-answer" (con requestId, socket, callback de ACK)
         ↓
-[ValidationHandler]
-   ├─ ✅ Válido → Continuar
-   └─ ❌ Inválido → Detener y retornar error
+[IdempotencyHandler]  (si hay servicio de idempotencia disponible)
+   ├─ 🔁 requestId ya procesado → devolver resultado cacheado, FIN
+   └─ 🆕 nuevo → continuar y cachear el resultado al terminar
         ↓
 [RateLimitHandler]
-   ├─ ✅ Dentro del límite → Continuar
+   ├─ ✅ Dentro del límite (Redis) → Continuar
    └─ ❌ Límite excedido → Detener y retornar error
         ↓
-[CommandExecutionHandler]
-   ├─ Crear SubmitAnswerCommand
-   ├─ Validar comando
-   ├─ ✅ Válido → Ejecutar
-   │   ├─ Modificar estado
-   │   ├─ Emitir eventos
-   │   └─ Retornar resultado
+[ValidationHandler]
+   ├─ ✅ Válido → guarda context.validatedData → Continuar
    └─ ❌ Inválido → Detener y retornar error
         ↓
+[CommandExecutionHandler]
+   ├─ Crear Command (p. ej. ImprovedSubmitAnswerCommand)
+   ├─ Ejecutar → modifica estado, emite eventos de dominio
+   └─ Guardar resultado en context.commandResult (siempre continúa)
+        ↓
 [ResponseHandler]
-   ├─ ✅ Éxito → Confirmar
-   └─ ❌ Error → Emitir error al cliente
+   ├─ Formatear respuesta con responseMapper
+   ├─ Invocar callback de ACK si existe
+   └─ Emitir 'error' al socket si commandResult.success === false
         ↓
    Fin de la cadena
 ```
@@ -412,138 +373,46 @@ Cliente envía "submit-answer"
 ## ✅ Beneficios en el Proyecto
 
 ### 1. Modularidad
-Cada handler es independiente y testeable:
-```javascript
-// Test solo de ValidationHandler
-it('debe rechazar datos inválidos', async () => {
-    const handler = new ValidationHandler(mockValidator);
-    const result = await handler.handle(invalidContext);
-    expect(result.success).toBe(false);
-});
-```
+Cada handler es independiente y testeable (ver `application/chain/__tests__/`).
 
 ### 2. Extensibilidad
-Agregar nuevo handler sin modificar existentes:
-```javascript
-// Nuevo handler de autenticación
-class AuthHandler extends Handler {
-    async handle(context) {
-        if (!context.socket.authenticated) {
-            return { success: false, error: 'Unauthorized' };
-        }
-        return await this.passToNext(context);
-    }
-}
+Se puede insertar un nuevo handler sin modificar los existentes, siempre que respete
+el contrato `handle(context)` / `super.handle(context)` para continuar.
 
-// Insertarlo en la cadena
-validationHandler
-    .setNext(new AuthHandler())  // ← Nuevo handler
-    .setNext(rateLimitHandler)
-    .setNext(commandHandler);
-```
-
-### 3. Orden Flexible
-Cambiar orden de handlers fácilmente:
-```javascript
-// Opción A: Validar primero
-validation → rateLimit → command → response
-
-// Opción B: Rate limit primero (más eficiente)
-rateLimit → validation → command → response
-```
-
-### 4. Reusabilidad
-Mismo handler en múltiples Use Cases:
-```javascript
-// ValidationHandler reutilizado
-const validationHandler1 = new ValidationHandler(schema1);
-const validationHandler2 = new ValidationHandler(schema2);
-```
+### 3. Reusabilidad
+Los mismos handlers (`RateLimitHandler`, `ValidationHandler`, etc.) se instancian con
+distinta configuración en cada use case (`SubmitAnswerUseCase`, `JoinGameUseCase`,
+`StartGameUseCase`).
 
 ---
 
 ## 📊 Handlers del Proyecto
 
-| Handler | Responsabilidad | Input | Output |
-|---------|----------------|-------|--------|
-| ValidationHandler | Validar datos entrada | Schema Joi | ✅/❌ + errores |
-| RateLimitHandler | Limitar tasa requests | Max/Window | ✅/❌ + retry |
-| CommandExecutionHandler | Ejecutar Command/Query | Class + Mapper | Resultado |
-| ResponseHandler | Formatear respuesta | Command result | Socket emit |
+| Handler | Responsabilidad | Constructor | Detiene la cadena si... |
+|---------|----------------|--------------|--------------------------|
+| IdempotencyHandler | Cache de resultados por `requestId` | `(idempotencyService, contextName)` | El `requestId` ya fue procesado |
+| RateLimitHandler | Limitar tasa de requests (Redis) | `(rateLimiter, operation)` | Se excede el límite |
+| ValidationHandler | Validar contexto + payload | `(validateFn, options)` | Falta socket/data/playerId o `validateFn` falla |
+| CommandExecutionHandler | Ejecutar Command CQRS | `(CommandClass, payloadMapper)` | Nunca (siempre continúa) |
+| ResponseHandler | Formatear respuesta + ACK | `(responseMapper)` | Es el último handler |
 
 ---
 
 ## 🧪 Testing
 
-### Test de Handler Individual
+Los tests reales viven en `app/application/chain/__tests__/`, uno por handler, más los
+tests de integración de cada use case en `application/use-cases/__tests__/`.
 
 ```javascript
-describe('ValidationHandler', () => {
-    it('debe pasar si validación exitosa', async () => {
-        const validator = (data) => ({ valid: true, errors: [] });
-        const handler = new ValidationHandler(validator);
-        
-        const nextHandler = {
-            handle: jest.fn().mockResolvedValue({ success: true })
-        };
-        handler.setNext(nextHandler);
+describe('RateLimitHandler', () => {
+    it('detiene la cadena si se excede el límite', async () => {
+        const rateLimiter = { checkLimit: jest.fn().mockResolvedValue(false) };
+        const handler = new RateLimitHandler(rateLimiter, 'submit-answer');
 
-        const result = await handler.handle({ data: {} });
-
-        expect(nextHandler.handle).toHaveBeenCalled();
-        expect(result.success).toBe(true);
-    });
-
-    it('debe detener si validación falla', async () => {
-        const validator = (data) => ({ 
-            valid: false, 
-            errors: ['Invalid data'] 
-        });
-        const handler = new ValidationHandler(validator);
-
-        const result = await handler.handle({ data: {} });
+        const result = await handler.handle({ socket: { id: 's1' } });
 
         expect(result.success).toBe(false);
-        expect(result.details).toContain('Invalid data');
-    });
-});
-```
-
-### Test de Cadena Completa
-
-```javascript
-describe('SubmitAnswerUseCase', () => {
-    it('debe procesar respuesta válida', async () => {
-        const useCase = new SubmitAnswerUseCase();
-        
-        const context = {
-            socket: mockSocket,
-            data: {
-                pin: '1234',
-                nickname: 'Player1',
-                index: 2
-            },
-            dependencies: mockDependencies
-        };
-
-        const result = await useCase.execute(context);
-
-        expect(result.success).toBe(true);
-    });
-
-    it('debe rechazar si validación falla', async () => {
-        const useCase = new SubmitAnswerUseCase();
-        
-        const context = {
-            socket: mockSocket,
-            data: { /* datos inválidos */ },
-            dependencies: mockDependencies
-        };
-
-        const result = await useCase.execute(context);
-
-        expect(result.success).toBe(false);
-        expect(result.error).toBe('Validation failed');
+        expect(result.reason).toBe('rate-limit-exceeded');
     });
 });
 ```
@@ -553,28 +422,21 @@ describe('SubmitAnswerUseCase', () => {
 ## 🎯 Cuándo Usar Chain of Responsibility
 
 ### ✅ Usar cuando:
-- Necesitas procesar request en múltiples pasos
-- Quieres separar validación, ejecución, respuesta
-- El orden de procesamiento es importante
-- Necesitas handlers reutilizables
-- Quieres agregar/remover pasos fácilmente
+- Necesitas procesar la request en múltiples pasos (idempotencia, rate limit, validación...)
+- Quieres separar esas preocupaciones en piezas testeables por separado
+- El orden de procesamiento importa
+- Necesitas handlers reutilizables entre varios use cases
 
 ### ❌ NO usar cuando:
 - Procesamiento simple de un solo paso
-- No hay validaciones o transformaciones
-- Orden no importa
-- Handlers demasiado acoplados
+- No hay validaciones, rate limiting ni idempotencia que aplicar
+- El orden no importa
 
 ---
 
-## 🚀 Próximos Handlers Potenciales
+## Referencias
 
-- [ ] **AuthHandler**: Verificar autenticación
-- [ ] **LoggingHandler**: Registrar requests
-- [ ] **CacheHandler**: Cachear resultados
-- [ ] **MetricsHandler**: Recolectar métricas
-- [ ] **TransactionHandler**: Manejar transacciones DB
-
----
-
-**Chain of Responsibility hace el código flexible y mantenible** ✨
+- Código: `app/application/chain/`
+- Uso real: `app/application/use-cases/SubmitAnswerUseCase.js`, `JoinGameUseCase.js`, `StartGameUseCase.js`
+- Servicio de idempotencia: `app/application/services/idempotency.js`
+- Rate limiter Redis: `app/application/helpers/SocketRateLimiterFactory.js`
