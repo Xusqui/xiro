@@ -3,7 +3,7 @@
  * Genera PDFs con renderizado visual de las preguntas
  */
 
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 const path = require('path');
 const fs = require('fs');
 const logger = require('../config/logger');
@@ -19,19 +19,29 @@ async function generateQuizPDF(gameData, res) {
 
     let browser;
     try {
-        // Iniciar Puppeteer con Chromium instalado
-        browser = await puppeteer.launch({
-            executablePath: '/usr/bin/chromium-browser',
-            args: [
-                '--no-sandbox',
-                '--disable-setuid-sandbox',
-                '--disable-dev-shm-usage',
-                '--disable-gpu',
-                '--disable-software-rasterizer',
-                '--disable-extensions'
-            ],
-            headless: true
-        });
+        const wsEndpoint = process.env.CHROME_WS_ENDPOINT;
+        
+        if (wsEndpoint) {
+            logger.info('Conectando a navegador Chrome remoto (browserless) en: ' + wsEndpoint);
+            browser = await puppeteer.connect({
+                browserWSEndpoint: wsEndpoint
+            });
+        } else {
+            logger.info('Iniciando Chromium local para PDFs');
+            // Iniciar Puppeteer con Chromium instalado localmente (fallback/desarrollo)
+            browser = await puppeteer.launch({
+                executablePath: '/usr/bin/chromium-browser',
+                args: [
+                    '--no-sandbox',
+                    '--disable-setuid-sandbox',
+                    '--disable-dev-shm-usage',
+                    '--disable-gpu',
+                    '--disable-software-rasterizer',
+                    '--disable-extensions'
+                ],
+                headless: true
+            });
+        }
 
         const page = await browser.newPage();
 

@@ -95,6 +95,16 @@ services:
         max-size: "10m"
         max-file: "3"
 
+  chrome:
+    image: browserless/chrome:latest
+    container_name: xiro_chrome
+    restart: unless-stopped
+    networks:
+      - xiro_internal
+    environment:
+      - MAX_CONCURRENT_SESSIONS=5
+      - CONNECTION_TIMEOUT=60000
+
   backend:
     build:
       context: .
@@ -159,6 +169,7 @@ services:
       ALLOWED_ORIGINS: ${ALLOWED_ORIGINS}
       SERVER_HOST: ${SERVER_HOST}
       GROQ_MODEL: ${GROQ_MODEL:-llama-3.3-70b-versatile}
+      CHROME_WS_ENDPOINT: ws://chrome:3000
     depends_on:
       db:
         condition: service_healthy

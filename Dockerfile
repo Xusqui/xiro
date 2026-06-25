@@ -1,20 +1,6 @@
 FROM node:20-alpine
 
-# Instalar Chromium y dependencias necesarias para Puppeteer
-RUN apk add --no-cache \
-    chromium \
-    nss \
-    freetype \
-    harfbuzz \
-    ca-certificates \
-    ttf-freefont \
-    font-noto-emoji
 
-# Configurar variables de entorno para Puppeteer
-# PUPPETEER_SKIP_DOWNLOAD es el nombre correcto desde puppeteer v20+
-ENV PUPPETEER_SKIP_DOWNLOAD=true \
-    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
 # Actualizar npm e instalar PM2 globalmente (solo una vez durante build)
 RUN npm install -g npm@latest && \
