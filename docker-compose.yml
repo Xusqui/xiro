@@ -188,13 +188,14 @@ services:
         max-file: "3"
 
   backup:
-    image: postgres:15-alpine
+    build:
+      context: .
+      dockerfile: Dockerfile.backup
     container_name: xiro_backup
     restart: unless-stopped
     stop_grace_period: 1s
     networks:
       - xiro_internal
-    command: ["sh", "-c", "/scripts/docker-backup-entrypoint.sh 2>&1 | tee -a /app/logs/backup.log"]
     environment:
       DB_PASSWORD_FILE: /run/secrets/db_password
       DB_PASSWORD: ${DB_PASSWORD}
@@ -210,7 +211,6 @@ services:
     volumes:
       - ${XIRO_ROOT:-/volume2/docker/xiro}/backups:/backups
       - ${XIRO_ROOT:-/volume2/docker/xiro}/app/config:/app-config:ro
-      - ./scripts:/scripts:ro
       - ${XIRO_ROOT:-/volume2/docker/xiro}/logs:/app/logs
     depends_on:
       db:

@@ -1,0 +1,14 @@
+FROM postgres:15-alpine
+
+# Crear carpetas necesarias
+RUN mkdir -p /etc/crontabs && chmod 0700 /etc/crontabs
+RUN mkdir -p /app/logs
+
+# Copiar scripts
+COPY scripts/docker-backup-entrypoint.sh /scripts/docker-backup-entrypoint.sh
+COPY scripts/docker-backup-run.sh /scripts/docker-backup-run.sh
+
+# Dar permisos de ejecución
+RUN chmod +x /scripts/docker-backup-entrypoint.sh /scripts/docker-backup-run.sh
+
+ENTRYPOINT ["sh", "-c", "/scripts/docker-backup-entrypoint.sh 2>&1 | tee -a /app/logs/backup.log"]
