@@ -18,7 +18,8 @@ ENV PUPPETEER_SKIP_DOWNLOAD=true \
 
 # Actualizar npm e instalar PM2 globalmente (solo una vez durante build)
 RUN npm install -g npm@latest && \
-    npm install -g pm2
+    npm install -g pm2 && \
+    npm cache clean --force
 
 # Establecer directorio de trabajo
 WORKDIR /usr/src/app
@@ -27,7 +28,8 @@ WORKDIR /usr/src/app
 COPY app/package*.json ./
 
 # Instalar dependencias
-RUN npm ci --only=production
+RUN npm ci --only=production && \
+    npm cache clean --force
 
 # Copiar el código fuente
 COPY app/ ./

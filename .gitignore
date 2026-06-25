@@ -76,3 +76,5 @@ docs/PROPMT_PREPARATORIO.md
 
 # Docker
 .dockerignore
+build-image.sh
+*.tar.gz
