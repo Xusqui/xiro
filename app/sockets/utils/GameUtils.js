@@ -141,7 +141,7 @@ function transitionPlayersToConnected(roomId) {
  * Limpiar juegos inactivos (>4 horas)
  */
 function cleanupInactiveGames() {
-    const FOUR_HOURS = 4 * 60 * 60 * 1000;
+    const inactiveThreshold = runtimeConfig.get('INACTIVE_GAME_THRESHOLD') || (4 * 60 * 60 * 1000);
     const now = Date.now();
 
     for (const [pin, game] of activeGames.entries()) {
@@ -150,8 +150,8 @@ function cleanupInactiveGames() {
         if (!startTs) continue;
 
         const gameAge = now - startTs;
-        if (gameAge > FOUR_HOURS) {
-            logger.debug(`Limpiando juego inactivo (>4h): ${pin}`);
+        if (gameAge > inactiveThreshold) {
+            logger.debug(`Limpiando juego inactivo (> umbral): ${pin}`);
             activeGames.delete(pin);
             clearGameTimer(pin);
             lobbyPlayers.delete(pin);
