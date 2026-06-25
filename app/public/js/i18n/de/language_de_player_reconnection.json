@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "player.reconnection.waiting_next": "Warte auf nächste Frage...",
+    "player.reconnection.failed": "Verbindung konnte nicht wiederhergestellt werden.",
+    "player.reconnection.restoring": "Spielfeld wird wiederhergestellt...",
+    "player.reconnection.already_answered": "du hast bereits geantwortet"
+  }
+}

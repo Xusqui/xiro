@@ -1,0 +1,23 @@
+{
+  "keys": {
+    "presenter.session.understood": "了解",
+    "presenter.session.end_title": "ゲームを終了しますか？",
+    "presenter.session.end_msg": "ゲームが終了し、現在の順位でポディウムが表示されます。",
+    "presenter.session.end_yes": "はい、ゲームを終了",
+    "presenter.session.cancel": "キャンセル",
+    "presenter.session.abandon_title": "ゲームを終了しますか？",
+    "presenter.session.abandon_msg_html": "<span class=\"font-black text-red-300\">{confirmWord}</span> と入力して確認してください。すべてのプレイヤーが退出されます。",
+    "presenter.session.no_session_title": "アクティブなセッションなし",
+    "presenter.session.no_session_msg": "Xiro! のアクティブなセッションがありません。",
+    "presenter.session.abandoned_title": "セッション終了",
+    "presenter.session.abandoned_msg": "セッションが終了しました。",
+    "presenter.session.btn_back_home": "ホームに戻る",
+    "presenter.session.btn_confirm": "確認",
+    "presenter.session.btn_accept": "承認",
+    "presenter.session.error_title": "プレゼンターエラー",
+    "presenter.session.error_unknown": "不明なエラー",
+    "presenter.session.lobby_error_title": "ロビー作成エラー",
+    "presenter.session.lobby_error_msg": "ロビーを作成できませんでした",
+    "presenter.session.start_error_title": "ゲーム開始エラー"
+  }
+}

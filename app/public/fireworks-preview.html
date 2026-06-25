@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="fireworks_preview.page.title">Vista previa — Fuegos Artificiales</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <script defer src="/js/core/umami-loader.js?v=20260625151006"></script>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #000;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            font-family: system-ui, sans-serif;
+        }
+
+        #fireworks-podium-container {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .fireworks-canvas-container {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .fireworks-canvas-container canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            transform: translateZ(0);
+        }
+
+        #close-btn {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.45rem 0.9rem;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        #close-btn:hover {
+            background: rgba(255, 255, 255, 0.22);
+        }
+    </style>
+    <script src="/js/i18n/i18n-core.js?v=20260625151006"></script>
+    <script src="/js/i18n/i18n-dom.js?v=20260625151006"></script>
+    <script src="/js/i18n/i18n-ui.js?v=20260625151006"></script>
+</head>
+
+<body>
+
+    <div id="fireworks-podium-container"></div>
+
+    <button id="close-btn" type="button"><span aria-hidden="true">✕</span> <span
+            data-i18n="fireworks_preview.button.close">Cerrar</span></button>
+
+    <script src="/js/fireworks/utils.js?v=20260625151006"></script>
+    <script src="/js/fireworks/stage.js?v=20260625151006"></script>
+    <script src="/js/fireworks/particles.js?v=20260625151006"></script>
+    <script src="/js/fireworks/shells.js?v=20260625151006"></script>
+    <script src="/js/fireworks/fireworks.js?v=20260625151006"></script>
+    <script>
+        (function () {
+            var params = new URLSearchParams(window.location.search);
+            var _t = window._t || function (key, vars, fallback) {
+                if (window.XiroI18n && typeof window.XiroI18n.t === 'function') {
+                    return window.XiroI18n.t(key, vars || null, fallback || key);
+                }
+                return fallback || key;
+            };
+
+            function p(name, fallback) {
+                var v = params.get(name);
+                return v !== null ? parseFloat(v) : fallback;
+            }
+            function pb(name, fallback) {
+                var v = params.get(name);
+                return v !== null ? v === 'true' : fallback;
+            }
+
+            var config = {
+                shellSize: p('shellSize', 2),
+                finaleMode: pb('finaleMode', true),
+                simSpeed: p('simSpeed', 1),
+                launchIntervalMin: p('launchIntervalMin', 900),
+                launchIntervalMax: p('launchIntervalMax', 1500),
+                maxFinaleCount: p('maxFinaleCount', 32),
+                trailIntensity: p('trailIntensity', 0.175),
+                starWidth: p('starWidth', 3),
+                sparkWidth: p('sparkWidth', 1),
+                soundEnabled: pb('soundEnabled', false)
+            };
+
+            if (typeof FireworksController === 'undefined') {
+                var errorText = _t('fireworks_preview.error.controller_unavailable', null, 'Error: FireworksController no disponible');
+                document.body.innerHTML += '<p style="color:red;padding:2rem">' + errorText + '</p>';
+                return;
+            }
+
+            var fw = new FireworksController('fireworks-podium-container');
+            fw.setShellSize(config.shellSize);
+            fw.setFinaleMode(config.finaleMode);
+            fw.simSpeed = config.simSpeed;
+            fw.launchIntervalMin = config.launchIntervalMin;
+            fw.launchIntervalMax = config.launchIntervalMax;
+            fw.maxFinaleCount = config.maxFinaleCount;
+            fw.trailIntensity = config.trailIntensity;
+            fw.starWidth = config.starWidth;
+            fw.sparkWidth = config.sparkWidth;
+            fw.setSoundEnabled(config.soundEnabled);
+            fw.start();
+
+            var closeBtn = document.getElementById('close-btn');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function () {
+                    window.close();
+                });
+            }
+
+            // Unlock AudioContext on first gesture
+            ['click', 'touchstart', 'keydown', 'pointerdown'].forEach(function (evt) {
+                document.addEventListener(evt, function unlock() {
+                    if (typeof soundManager !== 'undefined' && soundManager._ctx) {
+                        soundManager._ctx.resume();
+                    }
+                }, { once: true, capture: true });
+            });
+        })();
+    </script>
+    <script src="/js/core/site-badge.js?v=20260625151006"></script>
+</body>
+
+</html>

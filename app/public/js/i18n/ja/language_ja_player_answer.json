@@ -1,0 +1,23 @@
+{
+  "keys": {
+    "player.answer.correct": "正解！",
+    "player.answer.wrong": "不正解！",
+    "player.answer.will_it_be_right": "正解かな？",
+    "player.answer.time_up": "時間切れ！",
+    "player.answer.waiting_results": "結果を待っています...",
+    "player.answer.correct_label": "正解：",
+    "player.answer.ranking": "ランキング",
+    "player.answer.sent": "回答送信完了！",
+    "player.answer.waiting_team": "チームを待っています...",
+    "player.answer.players_answered": "人が回答しました",
+    "player.answer.vote_registered": "投票受付完了！",
+    "player.answer.survey_label": "アンケート",
+    "player.answer.yes": "<img src=\"/images/chamaleon/thumbs_up.svg\" class=\"w-32 h-32 mb-4 animate-bounce drop-shadow-lg\" alt=\"👍\">",
+    "player.answer.approximate": "惜しい！",
+    "player.answer.no": "<img src=\"/images/chamaleon/thumbs_down.svg\" class=\"w-32 h-32 mb-4 animate-bounce drop-shadow-lg\" alt=\"👎\">",
+    "player.answer.sending_order": "順番を送信中...",
+    "player.answer.sending_answer": "回答を送信中...",
+    "player.answer.validating": "回答を確認中...",
+    "player.answer.correct_answer_label": "正解："
+  }
+}

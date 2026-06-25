@@ -1,0 +1,11 @@
+{
+  "keys": {
+    "presenter.podio.teams_title": "チーム表彰台",
+    "presenter.podio.final_title": "最終表彰台",
+    "presenter.podio.config_error": "設定の読み込みエラー",
+    "presenter.podio.no": "いいえ",
+    "presenter.podio.pts": "点",
+    "presenter.podio.yes": "はい",
+    "presenter.podio.show_games": "ゲームを表示"
+  }
+}

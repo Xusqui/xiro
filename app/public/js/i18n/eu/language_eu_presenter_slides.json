@@ -1,0 +1,15 @@
+{
+  "keys": {
+    "presenter.slides.to_teams": "taldeei",
+    "presenter.slides.per_team": "taldeko",
+    "presenter.slides.next": "Hurrengoa",
+    "presenter.slides.next_round": "Hurrengo txanda",
+    "presenter.slides.view_ranking": "Rankinga ikusi",
+    "presenter.slides.assign_manually": "Aurkezleak eskuz eman ditzake puntuak",
+    "presenter.slides.assign_points": "Puntuak eman",
+    "presenter.slides.info_no_points": "Informazioa - Punturik gabe",
+    "presenter.slides.points_per_player": "Puntuak jokalari bakoitzari gehitzen zaizkio",
+    "presenter.slides.player_singular": "jokalari",
+    "presenter.slides.player_plural": "jokalari"
+  }
+}

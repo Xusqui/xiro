@@ -1,0 +1,15 @@
+{
+  "keys": {
+    "presenter.remote.tap_pause": "タップして一時停止",
+    "presenter.remote.tap_resume": "タップして再開",
+    "presenter.remote.end_confirm": "今すぐゲームを終了しますか？",
+    "presenter.remote.connect_error": "リモコンとして接続するエラー",
+    "presenter.remote.game_finished": "ゲームが終了しました",
+    "presenter.remote.no_admin_session": "管理者セッションが見つかりません。<br>最初に管理者パネルにログインしてください。",
+    "presenter.remote.game_started": "ゲーム開始",
+    "presenter.remote.final_podium": "最終表彰台",
+    "presenter.remote.end_game": "ゲーム終了",
+    "presenter.remote.btn_end": "ゲームを終了",
+    "presenter.remote.cancel": "キャンセル"
+  }
+}

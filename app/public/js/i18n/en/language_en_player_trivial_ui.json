@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "player.trivial.your_turn": "Your turn!",
+    "player.trivial.cell_label": "Cell",
+    "player.trivial.center_label": "Center",
+    "player.trivial.waiting_for": "Waiting for",
+    "player.trivial.waiting_active": "Waiting for active player",
+    "player.trivial.moving_piece": "Moving piece…",
+    "player.trivial.radio_label": "Radius",
+    "player.trivial.selecting_cell": "Selecting cell…",
+    "player.trivial.tap_dice": "Tap the die to roll",
+    "player.trivial.turn_of": "Turn of"
+  }
+}

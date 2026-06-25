@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "player.reconnection.waiting_next": "等待下一个问题...",
+    "player.reconnection.failed": "无法重新连接。",
+    "player.reconnection.restoring": "正在恢复棋盘...",
+    "player.reconnection.already_answered": "您已经回答了"
+  }
+}

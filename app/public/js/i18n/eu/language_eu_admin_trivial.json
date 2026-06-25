@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "admin.trivial.title": "Bitxikeria Jokoak",
+    "admin.trivial.subtitle": "Sortu taula trivial zure kategoriekin",
+    "admin.trivial.btn_new": "Bitxikeria berria",
+    "admin.trivial.empty": "Oraindik ez dago Trivia jokorik",
+    "admin.trivial.form_edit": "Editatu bitxikeriak",
+    "admin.trivial.form_new": "Bitxikeria berria",
+    "admin.trivial.label_name": "Jolasaren izena",
+    "admin.trivial.label_pin": "PINa",
+    "admin.trivial.ph_pin": "adib. TRV01",
+    "admin.trivial.section_config": "Jokoen ezarpenak",
+    "admin.trivial.label_visible": "Aurkezlearentzat ikusgai",
+    "admin.trivial.label_streaks": "Erabili Streaks"
+  }
+}

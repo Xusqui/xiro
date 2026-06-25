@@ -1,0 +1,9 @@
+{
+  "keys": {
+    "player.media.image_label": "图片",
+    "player.wordscramble.word_length_pre": "",
+    "player.wordscramble.word_length_post": "个字母的单词",
+    "player.wordscramble.reset": "清除",
+    "player.wordscramble.submit": "提交"
+  }
+}

@@ -1,0 +1,224 @@
+version: '3.8'
+
+# Red bridge privada. Solo el servicio backend expone un puerto al host.
+# db y redis NO son accesibles desde fuera del stack Docker.
+networks:
+  xiro_internal:
+    driver: bridge
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: xiro_postgres
+    restart: unless-stopped
+    mem_limit: 8g
+    mem_reservation: 4g
+    shm_size: 1g
+    networks:
+      - xiro_internal
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_INITDB_ARGS: "-E UTF8 --locale=es_ES.UTF-8"
+    volumes:
+      - ${XIRO_ROOT:-/volume2/docker/xiro}/postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -p 5439"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    command: >
+      postgres
+      -c listen_addresses=*
+      -c port=5439
+      -c shared_buffers=4GB
+      -c effective_cache_size=16GB
+      -c maintenance_work_mem=1GB
+      -c checkpoint_completion_target=0.9
+      -c wal_buffers=16MB
+      -c default_statistics_target=100
+      -c random_page_cost=1.1
+      -c effective_io_concurrency=200
+      -c work_mem=32MB
+      -c min_wal_size=1GB
+      -c max_wal_size=4GB
+      -c max_worker_processes=4
+      -c max_parallel_workers_per_gather=2
+      -c max_parallel_workers=4
+      -c max_connections=100
+      -c log_min_duration_statement=1000
+      -c log_line_prefix='%t [%p]: '
+      -c log_timezone='UTC'
+      -c logging_collector=on
+      -c log_directory=log
+      -c log_filename=postgresql-%Y-%m-%d.log
+      -c log_rotation_age=1d
+      -c log_rotation_size=0
+
+  redis:
+    image: redis:8.4.0-alpine
+    container_name: xiro_redis
+    restart: unless-stopped
+    user: "999"
+    mem_limit: 512m
+    mem_reservation: 128m
+    networks:
+      - xiro_internal
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    command:
+      - redis-server
+      - /usr/local/etc/redis/redis.conf
+      - --requirepass
+      - ${REDIS_PASSWORD}
+    volumes:
+      - ${XIRO_ROOT:-/volume2/docker/xiro}/redis.conf:/usr/local/etc/redis/redis.conf:ro
+      - redis_socket:/var/run/redis
+      - redis_data:/data
+      - ${XIRO_ROOT:-/volume2/docker/xiro}/app/logs:/app/logs
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -s /var/run/redis/redis.sock -a \"$REDIS_PASSWORD\" --no-auth-warning ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: xiro_backend
+    working_dir: /usr/src/app
+    restart: unless-stopped
+    mem_limit: 4g
+    mem_reservation: 1g
+    read_only: true
+    tmpfs:
+      - /tmp:size=100M
+    init: true
+    stop_grace_period: 20s
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+    networks:
+      - xiro_internal
+    ports:
+      - "127.0.0.1:${APP_PORT:-3000}:3000"
+    volumes:
+      - ${XIRO_ROOT:-/volume2/docker/xiro}/app:/usr/src/app:ro
+      - ${XIRO_ROOT:-/volume2/docker/xiro}/app/config/ui-overrides.json:/usr/src/app/config/ui-overrides.json
+      - ${XIRO_ROOT:-/volume2/docker/xiro}/app/config/runtime-overrides.json:/usr/src/app/config/runtime-overrides.json
+      - ${XIRO_ROOT:-/volume2/docker/xiro}/app/public/uploads:/usr/src/app/public/uploads
+      - ${XIRO_ROOT:-/volume2/docker/xiro}/logs:/usr/src/app/logs
+      - ${XIRO_ROOT:-/volume2/docker/xiro}/logs:/app/logs
+      - /usr/src/app/node_modules
+      - redis_socket:/var/run/redis
+    env_file:
+      - .env
+    environment:
+      PORT: ${APP_PORT:-3000}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: db
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+      DB_POOL_MIN: ${DB_POOL_MIN}
+      DB_POOL_MAX: ${DB_POOL_MAX}
+      DB_IDLE_TIMEOUT: ${DB_IDLE_TIMEOUT}
+      DB_CONNECTION_TIMEOUT: ${DB_CONNECTION_TIMEOUT}
+      MAX_PLAYERS_PER_GAME: ${MAX_PLAYERS_PER_GAME}
+      MAX_LOBBIES: ${MAX_LOBBIES}
+      QUESTION_TIME_LIMIT: ${QUESTION_TIME_LIMIT}
+      GAME_CLEANUP_INTERVAL: ${GAME_CLEANUP_INTERVAL}
+      CLEANUP_THRESHOLD: ${CLEANUP_THRESHOLD}
+      CLEANUP_INTERVAL: ${CLEANUP_INTERVAL}
+      LOG_LEVEL: ${LOG_LEVEL}
+      LOG_MAX_SIZE: ${LOG_MAX_SIZE}
+      LOG_MAX_FILES: ${LOG_MAX_FILES}
+      SHUTDOWN_TIMEOUT_MS: ${SHUTDOWN_TIMEOUT_MS}
+      SHUTDOWN_NOTIFY_WAIT_MS: ${SHUTDOWN_NOTIFY_WAIT_MS}
+      SHUTDOWN_CLOSE_TIMEOUT_MS: ${SHUTDOWN_CLOSE_TIMEOUT_MS}
+      TEAM_SCORE_LAMBDA: ${TEAM_SCORE_LAMBDA}
+      JWT_SECRET: ${JWT_SECRET}
+      REDIS_URL: redis://redis:6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      CORS_ORIGIN: ${CORS_ORIGIN}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS}
+      SERVER_HOST: ${SERVER_HOST}
+      GROQ_MODEL: ${GROQ_MODEL:-llama-3.3-70b-versatile}
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:$${PORT}/ready"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  backup:
+    image: postgres:15-alpine
+    container_name: xiro_backup
+    restart: unless-stopped
+    stop_grace_period: 1s
+    networks:
+      - xiro_internal
+    command: ["sh", "-c", "/scripts/docker-backup-entrypoint.sh 2>&1 | tee -a /app/logs/backup.log"]
+    environment:
+      DB_PASSWORD_FILE: /run/secrets/db_password
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: db
+      DB_PORT: ${DB_PORT:-5439}
+      DB_USER: ${DB_USER:-postgres}
+      DB_NAME: ${DB_NAME:-xiro_db}
+      BACKUP_SCHEDULE: ${BACKUP_SCHEDULE:-0 2 * * *}
+      BACKUP_RETENTION_DAYS: ${BACKUP_RETENTION_DAYS:-7}
+    secrets:
+      - source: db_password
+        target: db_password
+    volumes:
+      - ${XIRO_ROOT:-/volume2/docker/xiro}/backups:/backups
+      - ${XIRO_ROOT:-/volume2/docker/xiro}/app/config:/app-config:ro
+      - ./scripts:/scripts:ro
+      - ${XIRO_ROOT:-/volume2/docker/xiro}/logs:/app/logs
+    depends_on:
+      db:
+        condition: service_healthy
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
+
+volumes:
+  redis_data:
+  redis_socket:
+    driver: local
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+      o: "uid=999,gid=999,mode=0770"
+
+secrets:
+  db_password:
+    file: ${DB_PASSWORD_SECRET_FILE:-./secrets/db_password.txt.template}

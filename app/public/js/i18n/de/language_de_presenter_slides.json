@@ -1,0 +1,15 @@
+{
+  "keys": {
+    "presenter.slides.to_teams": "an Teams",
+    "presenter.slides.per_team": "pro Team",
+    "presenter.slides.next": "Weiter",
+    "presenter.slides.next_round": "Nächste Runde",
+    "presenter.slides.view_ranking": "Rangliste anzeigen",
+    "presenter.slides.assign_manually": "Der Präsentator kann Punkte manuell vergeben",
+    "presenter.slides.assign_points": "Punkte vergeben",
+    "presenter.slides.info_no_points": "Information - Keine Punkte vergeben",
+    "presenter.slides.points_per_player": "Punkte werden jedem Spieler hinzugefügt",
+    "presenter.slides.player_singular": "Spieler",
+    "presenter.slides.player_plural": "Spieler"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "keys": {
+    "presenter.game.play_audio": "▶ 点击播放音频",
+    "presenter.game.pause_resume": "点击暂停/继续",
+    "presenter.game.question_label": "问题",
+    "presenter.game.next_question": "下一题",
+    "presenter.game.next_round": "下一轮",
+    "presenter.game.view_ranking": "查看排名",
+    "presenter.game.reveal_answer": "揭示答案",
+    "presenter.game.answers_label": "答案:",
+    "presenter.game.audio_playing": "音频播放中",
+    "presenter.game.listen_carefully": "仔细聆听",
+    "presenter.game.no_audio_support": "您的浏览器不支持音频。",
+    "presenter.game.numeric_question": "数值题",
+    "presenter.game.players_write_number": "玩家输入一个整数",
+    "presenter.game.answer_on_reveal": "正确答案将在揭示时显示",
+    "presenter.game.points_by_proximity": "分数根据接近程度计算",
+    "presenter.game.players_see_devices": "玩家在设备上查看选项",
+    "presenter.game.multiple_choice_label": "✓ 多选题"
+  }
+}

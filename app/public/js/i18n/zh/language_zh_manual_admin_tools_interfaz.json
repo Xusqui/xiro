@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "manual_admin.tools.interfaz.title": "界面",
+    "manual_admin.tools.interfaz.desc": "用户界面设置。",
+    "manual_admin.tools.interfaz.tv": "电视卡片",
+    "manual_admin.tools.interfaz.tv_desc": "在主屏幕上显示或隐藏电视版本卡片。"
+  }
+}

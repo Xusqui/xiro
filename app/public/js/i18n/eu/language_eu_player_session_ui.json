@@ -1,0 +1,24 @@
+{
+  "keys": {
+    "player.session_ui.session_not_found": "Saioa Ez Da Aurkitu",
+    "player.session_ui.session_not_found_msg": "Idatzitako kodea ez dator bat aktibo dagoen saio batekin.",
+    "player.session_ui.verify_qr_msg": "Egiaztatu aurkezleak jokoa hasi duela eta erakusten ari den QR kodea eskaneatu.",
+    "player.session_ui.qr_auto_load": "QR zuzena eskaneatzen duzunean, orria automatikoki kargatuko da.",
+    "player.session_ui.retry": "BERRIRO SAIATU",
+    "player.session_ui.reconnecting_title": "DENA PREST, {nickname}!",
+    "player.session_ui.reconnecting_status": "ZURE JOKORAKO BERKONEKTATZEN...",
+    "player.session_ui.reconnecting_subtext": "Aurkezlea hurrengo galderara igaroteko zain",
+    "player.session_ui.connecting": "KONEKTATZEN...",
+    "player.session_ui.connecting_wait": "Itxaron une bat",
+    "player.session_ui.reconnected": "BERKONEKTATUTA!",
+    "player.session_ui.team_label": "TALDEA: {teamName}",
+    "player.session_ui.waiting_game_start": "JOKOAREN HASIERA ITXAROTEN...",
+    "player.session_ui.game_will_start": "PARTIDA AURKEZLEAK JOKOA HASTEN DUENEAN HASIKO DA",
+    "player.session_ui.exit_game": "JOKOARI IRTEN",
+    "player.session_ui.get_ready": "PREST EGON, {nickname}!",
+    "player.session_ui.your_name": "Zure izena?",
+    "player.session_ui.connecting_server": "Zerbitzarira konektatzen...",
+    "player.session_ui.connecting_wait_moment": "Mesedez, itxaron une bat",
+    "player.session_ui.retry_btn": "BERRIRO SAIATU"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "admin.unsaved.title": "⚠️ 有未保存的更改",
+    "admin.unsaved.msg_exit": "您有未保存的更改。现在离开将会丢失这些更改。是否继续？",
+    "admin.unsaved.msg_navigate": "您有未保存的更改。如果继续，这些更改将会丢失。是否继续？",
+    "admin.unsaved.btn_exit": "不保存即离开",
+    "admin.unsaved.btn_keep": "继续编辑",
+    "admin.unsaved.btn_continue": "不保存即继续"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "player.trivial.launch_dice": "! Lanza🎯",
+    "player.trivial.correct_prefix": "¡Acertaste,",
+    "player.trivial.turn_change": "¡Cambio de turno!",
+    "player.trivial.team_scores": "acierta!",
+    "player.trivial.category_chosen": "Categoría elegida. Preparando pregunta...",
+    "player.trivial.team_prefix": "El equipo",
+    "player.trivial.choosing_category": "está eligiendo categoría...",
+    "player.trivial.game_over": "La partida ha terminado.",
+    "player.trivial.moving_preparing": "Moviendo... Preparando pregunta.",
+    "player.trivial.moved_waiting": "se movió. Esperando pregunta...",
+    "player.trivial.turn_label": "Turno de",
+    "player.trivial.roll_again": "Vuelve a tirar…"
+  }
+}

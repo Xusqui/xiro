@@ -1,0 +1,33 @@
+{
+    "keys": {
+        "admin.history.title": "Spielgeschichte",
+        "admin.history.subtitle": "Laden Sie die Ergebnisse aller gespielten Spiele herunter",
+        "admin.history.btn_viewer": "Grafischer Viewer",
+        "admin.history.btn_delete_all": "Alles löschen",
+        "admin.history.loading": "Verlauf wird geladen…",
+        "admin.history.error_download": "Fehler beim Herunterladen",
+        "admin.historial.btn_delete_selected": "Ausgewählte löschen",
+        "admin.historial.confirm_delete_selected_title": "🗑️ {n} Sitzung(en) löschen",
+        "admin.historial.confirm_delete_selected_msg": "Sind Sie sicher, dass Sie die {n} ausgewählten Sitzungen löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+        "admin.historial.confirm_delete_one_title": "🗑️ Sitzung löschen",
+        "admin.historial.confirm_delete_one_msg": "Sind Sie sicher, dass Sie diese Sitzung löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+        "admin.historial.confirm_delete_all_title": "⚠️ Gesamten Verlauf löschen",
+        "admin.historial.confirm_delete_all_msg": "Sind Sie sicher, dass Sie ALLE gespeicherten Sitzungen löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+        "admin.history.error_load": "Fehler beim Laden des Verlaufs",
+        "admin.history.empty_title": "Noch keine Spiele aufgezeichnet",
+        "admin.history.empty_subtitle": "Spiele werden automatisch beim Beenden gespeichert",
+        "admin.history.status_completed": "✓ Abgeschlossen",
+        "admin.history.status_finalized": "✓ Beendet",
+        "admin.history.status_abandoned": "✗ Abgebrochen",
+        "admin.history.status_autosaved": "⏳ Automatisch gespeichert",
+        "admin.history.col_date": "Datum",
+        "admin.history.col_type": "Typ",
+        "admin.history.col_players": "Spieler",
+        "admin.history.col_questions": "Fragen",
+        "admin.history.col_duration": "Dauer",
+        "admin.history.col_status": "Status",
+        "admin.history.col_actions": "Aktionen",
+        "admin.history.footer": "{n} Spiel(e) aufgezeichnet",
+        "admin.history.batch_label": "{n} Spiel(e) ausgewählt"
+    }
+}

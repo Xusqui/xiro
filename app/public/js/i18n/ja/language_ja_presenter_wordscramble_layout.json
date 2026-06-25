@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "presenter.wordscramble.question_label": "質問",
+    "presenter.wordscramble.correct_answer": "正解",
+    "presenter.wordscramble.anagram_label": "アナグラム · 単語を解読",
+    "presenter.wordscramble.available_letters": "使用可能な文字"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "presenter.wordscramble.question_label": "Pregunta",
+    "presenter.wordscramble.correct_answer": "Resposta correcta",
+    "presenter.wordscramble.anagram_label": "Anagrama · Descifra a palabra",
+    "presenter.wordscramble.available_letters": "Letras dispoñibles"
+  }
+}

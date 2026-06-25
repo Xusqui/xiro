@@ -1,0 +1,9 @@
+{
+  "keys": {
+    "player.media.image_label": "Image",
+    "player.wordscramble.word_length_pre": "WORD OF",
+    "player.wordscramble.word_length_post": "LETTERS",
+    "player.wordscramble.reset": "Clear",
+    "player.wordscramble.submit": "Submit"
+  }
+}

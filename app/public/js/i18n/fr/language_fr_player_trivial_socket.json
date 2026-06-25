@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "player.trivial.launch_dice": "! Lance🎯",
+    "player.trivial.correct_prefix": "Tu as trouvé,",
+    "player.trivial.turn_change": "Changement de tour!",
+    "player.trivial.team_scores": "marque!",
+    "player.trivial.category_chosen": "Catégorie choisie. Préparation de la question...",
+    "player.trivial.team_prefix": "Léquipe",
+    "player.trivial.choosing_category": "choisit la catégorie...",
+    "player.trivial.game_over": "La partie est terminée.",
+    "player.trivial.moving_preparing": "Déplacement... Préparation de la question.",
+    "player.trivial.moved_waiting": "déplacé. En attente de la question...",
+    "player.trivial.turn_label": "Tour de",
+    "player.trivial.roll_again": "Relance…"
+  }
+}

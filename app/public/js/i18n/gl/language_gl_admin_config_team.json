@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "admin.config.tab.lambda": "Configuración de equipos",
+    "admin.config.team.names_title": "Nomes dos equipos",
+    "admin.config.team.names_desc": "Nomes suxeridos ao iniciar un xogo por equipos. O presentador pode modificalos antes de cada partida.",
+    "admin.config.team.name_placeholder": "Nome do equipo",
+    "admin.config.team.btn_save": "Gardar nomes",
+    "admin.config.team.btn_reset": "Restaurar por defecto",
+    "admin.config.team.saving": "Gardando…",
+    "admin.config.team.saved_ok": "Nomes gardados correctamente.",
+    "admin.config.team.net_error": "Erro de rede.",
+    "admin.config.team.reset_info": "Valores restaurados. Preme Gardar para aplicar."
+  }
+}

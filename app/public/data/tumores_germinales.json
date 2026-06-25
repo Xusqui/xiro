@@ -1,0 +1,258 @@
+{
+  "name": "Tumores germinales",
+  "type": "quiz",
+  "questions": [
+    {
+      "question_text": "Paciente de 21 años intervenido de Seminoma teste izquierdo de 7 cm que infiltra rete testis. El paciente es muy nervioso y no acepta vigilancia. ¿Qué tratamiento adyuvante recomendarías?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "BEP x1",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Carboplatino AUC 7 x1",
+          "is_correct": true,
+          "justification": "Las guías (SEOM/ESMO) contemplan vigilancia como opción preferente en muchos casos, pero si se elige adyuvancia en seminoma estadio I, la pauta respaldada es carboplatino AUC 7 x 1 ciclo. Esta estrategia se apoya en el ensayo aleatorizado MRC TE19/EORTC 30982."
+        },
+        {
+          "option_text": "EP x2",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "RT 30 Gy de rutina",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Paciente de 31 años con TGNS estadio I operado con infiltración linfovascular, 3,5 cm, no infiltración rete testis. Si se decide adyuvancia, el esquema recomendado es:",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Carboplatino AUC 7 x1",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "BEP x1",
+          "is_correct": true,
+          "justification": "En TGNS estadio I, cuando se opta por adyuvancia (sobre todo ante invasión linfovascular), 1 ciclo de BEP reduce de forma marcada el riesgo de recaída con una carga de toxicidad menor que esquemas más largos."
+        },
+        {
+          "option_text": "BEP x3",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "VIP x 2",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Tras administración de QT con BEP x 3 ciclos, un paciente dx de TGNS con afectación retroperitoneal negativiza marcadores pero presenta por TAC una adenopatía retroperitoneal residual de 3,2 cm, la conducta recomendada es:",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "PET-FDG para decidir",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Observación si no crece",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Linfadenectomía retroperitoneal si factible",
+          "is_correct": true,
+          "justification": "Las guías recomiendan resección completa de masas residuales retroperitoneales ≥1 cm en TGNS cuando los marcadores se han normalizado, debido al riesgo de teratoma o tumor viable."
+        },
+        {
+          "option_text": "Radioterapia sobre retroperitoneo 34Gy",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Tras quimioterapia BEP x 3 ciclos en paciente con seminoma N3, si queda masa residual <3 cm, lo recomendado es:",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "PET-FDG",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Resección quirúrgica si factible",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Seguimiento (vigilancia)",
+          "is_correct": true,
+          "justification": "En seminoma, la mayoría de masas residuales <3 cm representan fibrosis/necrosis, nunca teratoma. El PET-FDG se reserva para masas ≥3 cm."
+        },
+        {
+          "option_text": "2 ciclos adicionales de EP",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "En TGNS estadio III por metástasis pulmonares, buen pronóstico, el tratamiento estándar de 1ª línea es:",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "BEP x3",
+          "is_correct": true,
+          "justification": "Para buen pronóstico según la clasificación IGCCCG, el estándar consolidado en guías es BEP durante 3 ciclos, con altas tasas de curación."
+        },
+        {
+          "option_text": "VIP x4",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "BEP x4",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "EP x2",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Paciente de 47 años fumador 2 paquetes/día, enfisema moderado en tratamiento por Neumología. Diagnosticado de TGNS mal pronóstico. ¿Qué esquema consideras más adecuado?:",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "BEP ×4",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "QT altas dosis",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "EP ×4",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "VIP x 4",
+          "is_correct": true,
+          "justification": "En un paciente con alto riesgo de toxicidad pulmonar (fumador, enfisema), conviene evitar la bleomicina; la alternativa de primera línea más aceptada es VIP por 4 ciclos."
+        }
+      ]
+    },
+    {
+      "question_text": "Tras orquiectomía, la semivida de MT aproximada correcta es:",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "AFP 1-3 días; beta-hCG 5-7 días",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "AFP 5-7 días; beta-hCG 1-3 días",
+          "is_correct": true,
+          "justification": "De forma clásica, la beta-hCG cae rápido (≈1–3 días) mientras que la AFP lo hace más lentamente (≈5–7 días)."
+        },
+        {
+          "option_text": "AFP 10-14 días; beta-hCG 7-10 días",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "AFP 24 h; beta-hCG 24 h",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "En la clasificación S post-orquiectomía, ¿cuál corresponde a S2?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "AFP <1000 y beta-hCG <5000 y LDH <1.5xLSN",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "AFP >10.000 o beta-hCG >50.000 o LDH >10xLSN",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "AFP 1000-10.000 o beta-hCG 5000-50.000 o LDH 1.5-10xLSN",
+          "is_correct": true,
+          "justification": "S2 se define por elevaciones intermedias de marcadores: AFP 1000–10.000 ng/mL, beta-hCG 5000–50.000 UI/L o LDH 1.5–10 veces el LSN."
+        },
+        {
+          "option_text": "Marcadores normales",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Tras fracaso a 1ª línea con BEP x 3 ciclos, una opción de 2ª línea convencional es:",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "EP ×3",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "BEP ×2",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Carboplatino en monoterapia x 3",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "TIP",
+          "is_correct": true,
+          "justification": "En recaída tras cisplatino, el tratamiento estándar es quimioterapia de rescate con combinaciones como TIP (paclitaxel–ifosfamida–cisplatino)."
+        }
+      ]
+    }
+  ]
+}

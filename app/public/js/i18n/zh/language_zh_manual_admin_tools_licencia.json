@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "manual_admin.tools.licencia.title": "许可证",
+    "manual_admin.tools.licencia.desc": "Xiro! 许可证的状态和配置。",
+    "manual_admin.tools.licencia.info": "有效的许可证",
+    "manual_admin.tools.licencia.info_desc": "保存并验证许可证以保持服务处于活动状态。"
+  }
+}

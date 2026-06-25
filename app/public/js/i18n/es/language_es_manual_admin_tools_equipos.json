@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.equipos.title": "Configuración Equipos",
+    "manual_admin.tools.equipos.desc": "Ajustes para las partidas por equipos.",
+    "manual_admin.tools.equipos.lambda": "Suavizado Lambda",
+    "manual_admin.tools.equipos.lambda_desc": "Suavizado bayesiano para equilibrar equipos de distinto tamaño en la puntuación.",
+    "manual_admin.tools.equipos.team_names": "Nombres de los equipos",
+    "manual_admin.tools.equipos.team_names_desc": "Define el prefijo o formato para los nombres de los equipos."
+  }
+}

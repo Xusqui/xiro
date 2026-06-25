@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "player.session.label": "ID de Sesión",
+    "player.session.hint": "El ID aparece en la pantalla del presentador",
+    "player.session.placeholder": "XXXXXX-XXXX",
+    "player.session.submit": "INGRESAR",
+    "player.loading": "Buscando juego…",
+    "player.nickname.label": "¿Tu nombre?",
+    "player.nickname.placeholder": "NOMBRE",
+    "player.nickname.submit": "¡LISTO!"
+  }
+}

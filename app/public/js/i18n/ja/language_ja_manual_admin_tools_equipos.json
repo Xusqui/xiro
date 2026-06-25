@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.equipos.title": "チーム構成",
+    "manual_admin.tools.equipos.desc": "チームゲームの設定。",
+    "manual_admin.tools.equipos.lambda": "ラムダ平滑化",
+    "manual_admin.tools.equipos.lambda_desc": "異なるサイズのチームをスコアリングでバランスさせるためのベイズ平滑化。",
+    "manual_admin.tools.equipos.team_names": "チーム名",
+    "manual_admin.tools.equipos.team_names_desc": "チーム名のプレフィックスまたは形式を定義します。"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "manual_admin.tools.logging.title": "Logging",
+    "manual_admin.tools.logging.desc": "Configuración de los registros del servidor.",
+    "manual_admin.tools.logging.level": "Nivel de log",
+    "manual_admin.tools.logging.level_desc": "Nivel de detalle de los registros (debug, info, warn, error).",
+    "manual_admin.tools.logging.max_size": "Tamaño máximo",
+    "manual_admin.tools.logging.max_size_desc": "Tamaño al cual el archivo de log se rota.",
+    "manual_admin.tools.logging.max_files": "Retención de archivos",
+    "manual_admin.tools.logging.max_files_desc": "Tiempo que se conservan los logs antiguos."
+  }
+}

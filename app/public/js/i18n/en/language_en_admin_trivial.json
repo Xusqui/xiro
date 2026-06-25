@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "admin.trivial.title": "Trivia Games",
+    "admin.trivial.subtitle": "Create Trivial boards with your own categories",
+    "admin.trivial.btn_new": "New Trivia",
+    "admin.trivial.empty": "No Trivia games yet",
+    "admin.trivial.form_edit": "Edit Trivia",
+    "admin.trivial.form_new": "New Trivia",
+    "admin.trivial.label_name": "Game name",
+    "admin.trivial.label_pin": "PIN",
+    "admin.trivial.ph_pin": "e.g. TRV01",
+    "admin.trivial.section_config": "Game settings",
+    "admin.trivial.label_visible": "Visible to the presenter",
+    "admin.trivial.label_streaks": "Use Streaks"
+  }
+}

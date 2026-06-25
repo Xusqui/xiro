@@ -1,0 +1,287 @@
+{
+    "name": "Nombre del banco de preguntas",
+    "type": "quiz",
+    "questions": [
+        {
+            "question_text": "Pregunta 1",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Respuesta 1",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Respuesta 2",
+                    "is_correct": true,
+                    "justification": "Justificación de por qué esta respuesta es correcta."
+                },
+                {
+                    "option_text": "Respuesta 3",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Respuesta 4",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Pregunta 2",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Respuesta 1",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Respuesta 2",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Respuesta 3",
+                    "is_correct": true,
+                    "justification": "Justificación de por qué esta respuesta es correcta."
+                },
+                {
+                    "option_text": "Respuesta 4",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Pregunta con imagen",
+            "type": "quiz",
+            "tipo_contenido": "imagen",
+            "url_recurso": "/uploads/imagen_ejemplo.jpg",
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Opción A",
+                    "is_correct": true,
+                    "justification": "Explicación de la opción correcta"
+                },
+                {
+                    "option_text": "Opción B",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Opción C",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Opción D",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Pregunta con audio",
+            "type": "quiz",
+            "tipo_contenido": "audio",
+            "url_recurso": "/uploads/audio_ejemplo.mp3",
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Opción A",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Opción B",
+                    "is_correct": true,
+                    "justification": "Esta es la respuesta correcta"
+                },
+                {
+                    "option_text": "Opción C",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Opción D",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué te ha parecido esta jornada?",
+            "type": "survey",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Excelente",
+                    "is_correct": false,
+                    "order_index": null,
+                    "justification": null
+                },
+                {
+                    "option_text": "Bueno",
+                    "is_correct": false,
+                    "order_index": null,
+                    "justification": null
+                },
+                {
+                    "option_text": "Regular",
+                    "is_correct": false,
+                    "order_index": null,
+                    "justification": null
+                },
+                {
+                    "option_text": "Malo",
+                    "is_correct": false,
+                    "order_index": null,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Ordena los siguientes pasos del proceso de desarrollo de software:",
+            "type": "order",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "Análisis de requisitos",
+                    "order_index": 0,
+                    "is_correct": false,
+                    "justification": "Tiene xxx unidades, por eso es el primero."
+                },
+                {
+                    "option_text": "Implementación",
+                    "order_index": 2,
+                    "is_correct": false,
+                    "justification": "tiene xxx unidades, por eso es el tercero."
+                },
+                {
+                    "option_text": "Diseño del sistema",
+                    "order_index": 1,
+                    "is_correct": false,
+                    "justification": "tiene xxx unidades, por eso es el segundo."
+                },
+                {
+                    "option_text": "Testing y validación",
+                    "order_index": 3,
+                    "is_correct": false,
+                    "justification": "xxx unidades, por eso es el cuarto."
+                }
+            ]
+        },
+        {
+            "question_text": "¿Cuántos kilómetros tiene el radio medio de la Tierra?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 6371,
+            "maxPoints": 100,
+            "toleranceMode": "hybrid",
+            "toleranceValue": 25,
+            "toleranceCap": 1000,
+            "hint": "Piensa en el valor estándar del radio medio terrestre en kilómetros."
+        },
+        {
+            "question_text": "Animal de gran tamaño, con trompa y colmillos, símbolo de memoria y sabiduría.",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "ELEFANTE"
+        },
+        {
+            "question_text": "Planeta más cercano al Sol.",
+            "type": "word_scramble",
+            "tipo_contenido": "imagen",
+            "url_recurso": "/uploads/imagen_mercurio.jpg",
+            "time_limit": 30,
+            "correctWord": "MERCURIO"
+        },
+        {
+            "question_text": "¿Cuáles de los siguientes son lenguajes de programación orientados a objetos?",
+            "type": "multiple_choice",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 40,
+            "mc_points_per_correct": 10,
+            "mc_penalty_per_incorrect": 10,
+            "mc_perfect_bonus": 20,
+            "options": [
+                {
+                    "option_text": "Java",
+                    "is_correct": true,
+                    "justification": null
+                },
+                {
+                    "option_text": "Python",
+                    "is_correct": true,
+                    "justification": null
+                },
+                {
+                    "option_text": "C",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "JavaScript",
+                    "is_correct": true,
+                    "justification": null
+                },
+                {
+                    "option_text": "HTML",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Empareja cada capital con su país:",
+            "type": "matching",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "Francia",
+                    "match_value": "París",
+                    "is_correct": false,
+                    "order_index": 0
+                },
+                {
+                    "option_text": "Japón",
+                    "match_value": "Tokio",
+                    "is_correct": false,
+                    "order_index": 1
+                },
+                {
+                    "option_text": "Brasil",
+                    "match_value": "Brasilia",
+                    "is_correct": false,
+                    "order_index": 2
+                },
+                {
+                    "option_text": "Egipto",
+                    "match_value": "El Cairo",
+                    "is_correct": false,
+                    "order_index": 3
+                }
+            ]
+        }
+    ]
+}

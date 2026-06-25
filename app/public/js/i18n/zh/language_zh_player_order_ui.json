@@ -1,0 +1,9 @@
+{
+  "keys": {
+    "player.order.instruction": "从上到下拖动排序，然后点击提交",
+    "player.order.submit": "提交"
+  },
+  "literals": {
+    "Arrastra para reordenar": "拖动以重新排序"
+  }
+}

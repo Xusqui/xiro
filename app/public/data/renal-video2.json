@@ -1,0 +1,180 @@
+{
+    "name": "Estadificación y manejo del cáncer vesical",
+    "type": "quiz",
+    "questions": [
+        {
+            "question_text": "¿Cuál es el criterio histológico imprescindible para considerar una RTU adecuada en tumor vesical primario?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Bordes negativos",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Presencia de músculo detrusor en la pieza",
+                    "is_correct": true,
+                    "justification": "La presencia de músculo propio (detrusor) es esencial para una correcta estadificación y para descartar invasión muscular. Su ausencia se asocia a infraestadificación y mayor riesgo de tumor residual."
+                },
+                {
+                    "option_text": "Citología negativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Tamaño menor de 3 cm",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Paciente con T1 alto grado confirmado en RTU. ¿Debe realizarse TC toracoabdominopélvico de extensión?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Siempre",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Nunca",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Solo si sospecha clínica de progresión",
+                    "is_correct": true,
+                    "justification": "El estudio de extensión sistemático está indicado en tumor músculo-invasivo (≥T2). En NMIBC de alto riesgo no es obligatorio salvo sospecha clínica de progresión o enfermedad avanzada."
+                },
+                {
+                    "option_text": "Solo si hay invasión linfovascular",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "En tumor músculo-invasivo (T2), ¿cuál es la prueba de imagen de elección para estadificación locorregional y a distancia?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "RM pélvica más TC torácico",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "TC toracoabdominopélvico con fase excretora",
+                    "is_correct": true,
+                    "justification": "El TC toracoabdominopélvico con fase excretora constituye el estudio estándar inicial para estadificación en tumor músculo-invasivo. El PET-TC no forma parte del estudio inicial rutinario."
+                },
+                {
+                    "option_text": "PET-TC siempre",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Ecografía más TAC abdominal",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿En qué situación está más indicado un PET-TC?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Todos los T2",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Seguimiento rutinario",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Sospecha de enfermedad metastásica no concluyente en TC",
+                    "is_correct": true,
+                    "justification": "El PET-TC no es estudio estándar inicial, pero puede aportar valor en casos seleccionados cuando la TC resulta no concluyente y existe sospecha de enfermedad metastásica."
+                },
+                {
+                    "option_text": "Todo paciente candidato a cistectomía",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Debe realizarse gammagrafía ósea en todos los tumores T2?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Sí",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "No, solo si síntomas o fosfatasa alcalina elevada",
+                    "is_correct": true,
+                    "justification": "Según guías EAU y NCCN, la gammagrafía ósea solo está indicada ante sospecha clínica o alteraciones analíticas sugestivas de afectación ósea."
+                },
+                {
+                    "option_text": "Sí si ganglios positivos",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Solo si T3",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Cuál es el método con mayor tasa de éxito en obstrucción ureteral maligna avanzada?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Catéter doble J",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Nefrostomía percutánea",
+                    "is_correct": true,
+                    "justification": "Las guías recomiendan descompresión urgente ante deterioro renal. Aunque no existe superioridad absoluta, la nefrostomía presenta mayor tasa de éxito en obstrucciones severas o fracaso del doble J y permite restaurar función renal para posibilitar quimioterapia basada en cisplatino."
+                },
+                {
+                    "option_text": "Sonda vesical",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Resección del meato ureteral",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        }
+    ]
+}

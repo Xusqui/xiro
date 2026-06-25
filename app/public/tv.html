@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>XIRO! - Presentador Ultra-Lite</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/css/tv.css?v=20260625151006">
+    <script src="/socket.io/socket.io.js?v=20260625151006"></script>
+    <script>
+        function getOrCreatePlayerId() { var a = localStorage.getItem('xiro_presenter_playerId'); if (!a) { a = generateUUID(); localStorage.setItem('xiro_presenter_playerId', a) } return a }
+        function generateUUID() { var d = new Date().getTime(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) { var r = (d + Math.random() * 16) % 16 | 0; d = Math.floor(d / 16); return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16) }) }
+        var presenterPlayerId = getOrCreatePlayerId();
+    </script>
+    <!-- Fallback para navegadores sin soporte ES6+ completo (ej: WebOS 3.5 / Chrome 53) -->
+    <!-- Estos stubs son sobrescritos por i18n-core.js si carga correctamente -->
+    <script>
+        window._t = window._t || function (k, v, f) { return f != null ? f : (k != null ? String(k) : ''); };
+        window._tHtml = window._tHtml || function (h) { return h != null ? String(h) : ''; };
+        window._tHtmlApply = window._tHtmlApply || function (v) { return v != null ? String(v) : ''; };
+    </script>
+    <script defer src="/js/i18n/i18n-core.js?v=20260625151006"></script>
+    <script defer src="/js/i18n/i18n-dom.js?v=20260625151006"></script>
+    <script defer src="/js/i18n/i18n-ui.js?v=20260625151006"></script>
+</head>
+
+<body>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header"><span data-i18n="tv.sidebar.connected">CONECTADOS:</span> <span
+                id="sidebar-count">0</span></div>
+        <div class="sidebar-content" id="sidebar-list">
+            <div style="color:#999;font-style:italic;text-align:center;padding:20px 10px;font-size:11px"
+                data-i18n="presenter.lobby.waiting">Esperando jugadores...</div>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="container" id="main-container"></div>
+    </div>
+    <div id="countdown-overlay" class="countdown-overlay hidden">
+        <span id="countdown-number" class="countdown-number"></span>
+    </div>
+    <div id="ctrl-partida" style="display:none;position:fixed;top:10px;right:10px;z-index:1000;">
+        <button data-tv-action="finalizar-juego" data-i18n="tv.game.end"
+            style="display:block;margin-bottom:6px;padding:8px 14px;background:#f97316;color:#fff;border:none;border-radius:8px;font-family:Arial,sans-serif;font-size:13px;font-weight:700;cursor:pointer;">Finalizar
+            partida</button>
+        <button data-tv-action="abortar-juego" data-i18n="tv.game.abort"
+            style="display:block;padding:8px 14px;background:#dc2626;color:#fff;border:none;border-radius:8px;font-family:Arial,sans-serif;font-size:13px;font-weight:700;cursor:pointer;">Abortar
+            partida</button>
+    </div>
+    <footer style="position:fixed;bottom:5px;left:5px;color:#666;font-size:10px;z-index:9999">
+        <a href="/about.html" style="color:inherit;text-decoration:underline;" title="Acerca de XIRO!"
+            data-i18n="common.footer.author">Copyright: Familia Fernández Villatoro</a>
+    </footer>
+    <script src="/js/tv/tv-state.js?v=20260625151006"></script>
+    <script src="/js/tv/tv-utils.js?v=20260625151006"></script>
+    <script src="/js/tv/tv-tolerance.js?v=20260625151006"></script>
+    <script src="/js/tv/tv-audio.js?v=20260625151006"></script>
+    <script src="/js/tv/tv-render-slides.js?v=20260625151006"></script>
+    <script src="/js/tv/tv-render-players.js?v=20260625151006"></script>
+    <script src="/js/tv/tv-render-question.js?v=20260625151006"></script>
+    <script src="/js/tv/tv-teams.js?v=20260625151006"></script>
+    <script src="/js/tv/tv-lobby.js?v=20260625151006"></script>
+    <!-- Lógica compartida del tablero Trivial (sin módulos, compatible Chrome 40+) -->
+    <script src="/js/shared/trivial/trivial-board-geometry.js?v=20260625151006"></script>
+    <script src="/js/shared/trivial/trivial-board-builder.js?v=20260625151006"></script>
+    <script src="/js/shared/trivial/trivial-token-renderer.js?v=20260625151006"></script>
+    <script src="/js/shared/trivial/trivial-highlights-renderer.js?v=20260625151006"></script>
+    <script src="/js/tv/tv-trv-state.js?v=20260625151006"></script>
+    <script src="/js/tv/tv-trv-layout.js?v=20260625151006"></script>
+    <script src="/js/tv/tv-trv-board.js?v=20260625151006"></script>
+    <script src="/js/tv/tv-trv-tokens.js?v=20260625151006"></script>
+    <script src="/js/tv/tv-trv-highlights.js?v=20260625151006"></script>
+    <script src="/js/tv/tv-trv-socket.js?v=20260625151006"></script>
+    <script src="/js/tv/tv-socket-connection.js?v=20260625151006"></script>
+    <script src="/js/tv/tv-socket-game.js?v=20260625151006"></script>
+    <script src="/js/tv/tv-socket-answers.js?v=20260625151006"></script>
+    <script src="/js/tv/tv-podio.js?v=20260625151006"></script>
+    <script src="/js/tv/tv-main.js?v=20260625151006"></script>
+    <script src="/js/core/site-badge.js?v=20260625151006"></script>
+</body>
+
+</html>

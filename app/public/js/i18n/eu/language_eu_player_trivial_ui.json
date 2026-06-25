@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "player.trivial.your_turn": "Zure txanda!",
+    "player.trivial.cell_label": "Koadroa",
+    "player.trivial.center_label": "Erdigunea",
+    "player.trivial.waiting_for": "Zain:",
+    "player.trivial.waiting_active": "Jokalari aktiboaren zain",
+    "player.trivial.moving_piece": "Fitxa mugitzen…",
+    "player.trivial.radio_label": "Erradioa",
+    "player.trivial.selecting_cell": "Koadroa aukeratzen…",
+    "player.trivial.tap_dice": "Sakatu dadoa botatzeko",
+    "player.trivial.turn_of": "Txanda:"
+  }
+}

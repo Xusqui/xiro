@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.equipos.title": "Teams Configuration",
+    "manual_admin.tools.equipos.desc": "Settings for team games.",
+    "manual_admin.tools.equipos.lambda": "Lambda Smoothing",
+    "manual_admin.tools.equipos.lambda_desc": "Bayesian smoothing to balance teams of different sizes in scoring.",
+    "manual_admin.tools.equipos.team_names": "Team Names",
+    "manual_admin.tools.equipos.team_names_desc": "Define the prefix or format for team names."
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.equipos.title": "团队配置",
+    "manual_admin.tools.equipos.desc": "团队游戏设置。",
+    "manual_admin.tools.equipos.lambda": "Lambda 平滑",
+    "manual_admin.tools.equipos.lambda_desc": "贝叶斯平滑以平衡不同规模的团队评分。",
+    "manual_admin.tools.equipos.team_names": "队伍名称",
+    "manual_admin.tools.equipos.team_names_desc": "定义队伍名称的前缀或格式。"
+  }
+}

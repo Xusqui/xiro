@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "admin.trivial.title": "Xogos de Trivia",
+    "admin.trivial.subtitle": "Crea taboleiros triviais coas túas propias categorías",
+    "admin.trivial.btn_new": "Nova Trivia",
+    "admin.trivial.empty": "Aínda non hai xogos de Trivia",
+    "admin.trivial.form_edit": "Editar Trivia",
+    "admin.trivial.form_new": "Nova Trivia",
+    "admin.trivial.label_name": "Nome do xogo",
+    "admin.trivial.label_pin": "PIN",
+    "admin.trivial.ph_pin": "p.ex. TRV01",
+    "admin.trivial.section_config": "Configuración do xogo",
+    "admin.trivial.label_visible": "Visible para o presentador",
+    "admin.trivial.label_streaks": "Usa raias"
+  }
+}

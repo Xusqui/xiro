@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "player.session.label": "Session ID",
+    "player.session.hint": "The ID appears on the host screen",
+    "player.session.placeholder": "XXXXXX-XXXX",
+    "player.session.submit": "ENTER",
+    "player.loading": "Searching game...",
+    "player.nickname.label": "Your name?",
+    "player.nickname.placeholder": "NAME",
+    "player.nickname.submit": "READY!"
+  }
+}

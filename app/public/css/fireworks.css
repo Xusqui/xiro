@@ -1,0 +1,39 @@
+/**
+ * Estilos para el sistema de fuegos artificiales
+ * 
+ * mix-blend-mode: screen en el contenedor RAÍZ (#fireworks-podium-container):
+ * - Negro (fondo del canvas) = completamente invisible
+ * - Colores brillantes (partículas) = visibles
+ * - El ranking debajo se ve perfectamente
+ */
+
+/* Contenedor RAÍZ - aquí va el blend mode */
+#fireworks-podium-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: screen;
+}
+
+/* Contenedor interno de canvas - SIN blend mode propio, SIN z-index */
+.fireworks-canvas-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.fireworks-canvas-container canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: translateZ(0);
+}

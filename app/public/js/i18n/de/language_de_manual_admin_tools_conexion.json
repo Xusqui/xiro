@@ -1,0 +1,18 @@
+{
+  "keys": {
+    "manual_admin.tools.conexion.title": "Verbindung & Sitzungen",
+    "manual_admin.tools.conexion.desc": "Netzwerk-, CORS- und Analytics-Einstellungen.",
+    "manual_admin.tools.conexion.reconnection": "Wiederverbindungs-Timeout",
+    "manual_admin.tools.conexion.reconnection_desc": "Minuten, die der Server den Status eines getrennten Spielers speichert.",
+    "manual_admin.tools.conexion.cleanup": "Bereinigungsintervall",
+    "manual_admin.tools.conexion.cleanup_desc": "Häufigkeit der Bereinigung inaktiver Spiele aus dem Speicher.",
+    "manual_admin.tools.conexion.cors": "CORS-Ursprünge",
+    "manual_admin.tools.conexion.cors_desc": "Zulässige HTTP-Ursprünge.",
+    "manual_admin.tools.conexion.ws": "WebSocket-Ursprünge",
+    "manual_admin.tools.conexion.ws_desc": "Zulässige Ursprünge für Echtzeitverbindungen.",
+    "manual_admin.tools.conexion.umami": "Umami Analytics",
+    "manual_admin.tools.conexion.umami_desc": "Konfiguration von Umami URL und Website-ID.",
+    "manual_admin.tools.conexion.top_players": "Spieler auf der Bestenliste",
+    "manual_admin.tools.conexion.top_players_desc": "Wie viele Spieler die Rangliste während des Spiels anzeigt."
+  }
+}

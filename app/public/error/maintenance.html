@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="error.maintenance.page.title">Mantenimiento · XIRO</title>
+    <link rel="icon" href="/favicon.svg">
+    <link rel="stylesheet" href="/css/common.css?v=20260625151006">
+    <style>
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-18px)
+            }
+        }
+
+        .mascot-float {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        .gear-spin {
+            animation: spin 6s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes progress {
+            0% {
+                width: 0%
+            }
+
+            100% {
+                width: 100%
+            }
+        }
+
+        .progress-bar {
+            animation: progress 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.3
+            }
+        }
+
+        .pulse-dot {
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        .err-wrap {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .err-aside {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem;
+        }
+
+        .err-aside img {
+            width: 100%;
+            max-width: 26rem;
+            object-fit: contain;
+            max-height: 45vh;
+        }
+
+        .err-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 3.5rem 2rem;
+        }
+
+        .err-icon {
+            font-size: clamp(5rem, 15vw, 9rem);
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        .err-title {
+            font-size: clamp(1.75rem, 4vw, 3rem);
+            font-weight: 700;
+            color: #f1f5f9;
+            margin-bottom: 1.5rem;
+        }
+
+        .err-desc {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: #94a3b8;
+            line-height: 1.75;
+            margin-bottom: 2.5rem;
+            max-width: 28rem;
+        }
+
+        .err-logo {
+            margin-top: auto;
+            padding-top: 3rem;
+            opacity: .6;
+        }
+
+        .err-logo img {
+            height: 4rem;
+        }
+
+        @media (min-width:1024px) {
+            .err-wrap {
+                flex-direction: row;
+            }
+
+            .err-aside {
+                width: 50%;
+                min-height: 100vh;
+                padding: 4rem;
+                flex-shrink: 0;
+            }
+
+            .err-aside img {
+                max-width: none;
+                width: 75%;
+                max-height: 80vh;
+            }
+
+            .err-body {
+                width: 50%;
+                min-height: 100vh;
+                align-items: flex-start;
+                text-align: left;
+                padding: 4rem 5rem;
+            }
+        }
+    </style>
+    <script src="/js/i18n/i18n-core.js?v=20260625151006"></script>
+    <script src="/js/i18n/i18n-dom.js?v=20260625151006"></script>
+    <script src="/js/i18n/i18n-ui.js?v=20260625151006"></script>
+</head>
+
+<body class="bg-slate-900 font-sans">
+    <div class="err-wrap">
+
+        <div class="err-aside" style="background:linear-gradient(135deg,#120a1e 0%,rgba(88,28,135,0.3) 100%)">
+            <img src="/images/chamaleon/errors/503.webp" alt="Camaleón XIRO — Sistema en mantenimiento"
+                class="mascot-float drop-shadow-2xl">
+        </div>
+
+        <div class="err-body">
+            <!-- Icono de engranaje en lugar de código numérico -->
+            <p class="err-icon" aria-hidden="true"><span class="gear-spin">⚙️</span></p>
+
+            <!-- Badge de estado -->
+            <div class="inline-flex items-center gap-2 mb-6"
+                style="background:rgba(88,28,135,0.35);border:1px solid rgba(168,85,247,0.4);color:#d8b4fe;font-size:.875rem;font-weight:500;padding:.375rem 1rem;border-radius:9999px">
+                <span class="pulse-dot"
+                    style="width:.5rem;height:.5rem;border-radius:9999px;background:#c084fc;display:inline-block"></span>
+                <span data-i18n="error.maintenance.badge.active_mode">Modo mantenimiento activo</span>
+            </div>
+
+            <h1 data-i18n="error.maintenance.heading" class="err-title">Estamos mejorando XIRO</h1>
+            <p data-i18n-html="error.maintenance.description_html" class="err-desc">
+                El sistema está realizando tareas de mantenimiento o backup.<br>
+                Vuelve en unos minutos, ¡el camaleón estará listo muy pronto!
+            </p>
+
+            <!-- Barra de progreso -->
+            <div style="width:100%;max-width:20rem;margin-bottom:2rem">
+                <div style="height:6px;background:#1e293b;border-radius:9999px;overflow:hidden">
+                    <div class="progress-bar"
+                        style="height:100%;background:linear-gradient(to right,#9333ea,#06b6d4,#9333ea);border-radius:9999px">
+                    </div>
+                </div>
+            </div>
+
+            <p data-i18n="error.maintenance.contact_note" style="color:#475569;font-size:.875rem">
+                Si el problema persiste, contacta al administrador del sistema.
+            </p>
+
+            <div class="err-logo">
+                <img src="/images/logo.svg" alt="XIRO" aria-hidden="true">
+            </div>
+        </div>
+
+    </div>
+    <script src="/js/core/site-badge.js?v=20260625151006"></script>
+</body>
+
+</html>

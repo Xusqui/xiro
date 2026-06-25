@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "player.game_flow.exit_title": "Irten jokotik",
+    "player.game_flow.exit_msg": "Ziur jokotik irten nahi duzula? Zure erabiltzaile-izena kaleratuko da.",
+    "player.game_flow.btn_exit": "Irten",
+    "player.game_flow.session_ended": "Saioa amaitu da",
+    "player.game_flow.presenter_left": "Aurkezleak saioa utzi du.",
+    "player.game_flow.btn_cancel": "Utzi",
+    "player.game_flow.btn_back": "Atzera"
+  },
+  "literals": {
+    "Reconectando automáticamente...": "Automatikoki berriro konektatzen...",
+    "Servidor Reiniciando": "Zerbitzaria berrabiarazten",
+    "No cierres esta ventana. La partida continuará automáticamente.": "Ez itxi leiho hau. Partida automatikoki jarraituko du."
+  }
+}

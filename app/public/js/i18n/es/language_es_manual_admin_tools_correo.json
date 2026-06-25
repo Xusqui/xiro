@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.correo.title": "Correo / Contacto",
+    "manual_admin.tools.correo.desc": "Configuración del servidor SMTP y formularios.",
+    "manual_admin.tools.correo.smtp": "Servidor SMTP",
+    "manual_admin.tools.correo.smtp_desc": "Configuración de host, puerto, seguridad y credenciales para el envío de correos.",
+    "manual_admin.tools.correo.secret": "Secreto de contacto",
+    "manual_admin.tools.correo.secret_desc": "Clave HMAC para firmar tokens antibot."
+  }
+}

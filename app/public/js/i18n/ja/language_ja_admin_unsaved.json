@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "admin.unsaved.title": "⚠️ 未保存の変更があります",
+    "admin.unsaved.msg_exit": "未保存の変更があります。今すぐ離れると変更が失われます。続けますか？",
+    "admin.unsaved.msg_navigate": "未保存の変更があります。続行すると変更が失われます。続けますか？",
+    "admin.unsaved.btn_exit": "保存せずに離れる",
+    "admin.unsaved.btn_keep": "編集を続ける",
+    "admin.unsaved.btn_continue": "保存せずに続ける"
+  }
+}

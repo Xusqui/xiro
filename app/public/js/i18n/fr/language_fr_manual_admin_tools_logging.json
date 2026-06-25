@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "manual_admin.tools.logging.title": "Journaux",
+    "manual_admin.tools.logging.desc": "Configuration des journaux du serveur.",
+    "manual_admin.tools.logging.level": "Niveau de journal",
+    "manual_admin.tools.logging.level_desc": "Niveau de détail (debug, info, warn, error).",
+    "manual_admin.tools.logging.max_size": "Taille max",
+    "manual_admin.tools.logging.max_size_desc": "Taille à laquelle le fichier journal est pivoté.",
+    "manual_admin.tools.logging.max_files": "Rétention",
+    "manual_admin.tools.logging.max_files_desc": "Durée de conservation des anciens journaux."
+  }
+}

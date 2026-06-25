@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "manual_admin.tools.interfaz.title": "Interface",
+    "manual_admin.tools.interfaz.desc": "Axustes da interface de usuario.",
+    "manual_admin.tools.interfaz.tv": "Tarxeta TV",
+    "manual_admin.tools.interfaz.tv_desc": "Mostra ou oculta a tarxeta á versión TV na pantalla de inicio."
+  }
+}

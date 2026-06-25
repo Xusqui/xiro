@@ -1,0 +1,33 @@
+{
+    "keys": {
+        "admin.history.title": "Jokoaren historia",
+        "admin.history.subtitle": "Deskargatu jokatutako edozein jokoren emaitzak",
+        "admin.history.btn_viewer": "Ikusle grafikoa",
+        "admin.history.btn_delete_all": "Ezabatu guztiak",
+        "admin.history.loading": "Historia kargatzen…",
+        "admin.history.error_download": "Errore bat gertatu da deskargatzean",
+        "admin.historial.btn_delete_selected": "Hautatuak ezabatu",
+        "admin.historial.confirm_delete_selected_title": "🗑️ {n} saio(ak) ezabatu",
+        "admin.historial.confirm_delete_selected_msg": "Ziur zaude hautatutako {n} saioak ezabatu nahi dituzula? Ekintza hau ezin da desegin.",
+        "admin.historial.confirm_delete_one_title": "🗑️ Saioa ezabatu",
+        "admin.historial.confirm_delete_one_msg": "Ziur zaude saio hau ezabatu nahi duzula? Ekintza hau ezin da desegin.",
+        "admin.historial.confirm_delete_all_title": "⚠️ Historia guztia ezabatu",
+        "admin.historial.confirm_delete_all_msg": "Ziur zaude gordetako SAIO GUZTIAK ezabatu nahi dituzula? Ekintza hau ezin da desegin.",
+        "admin.history.error_load": "Errorea historia kargatzean",
+        "admin.history.empty_title": "Oraindik ez dago partida erregistraturik",
+        "admin.history.empty_subtitle": "Partidak automatikoki gordetzen dira amaitzean",
+        "admin.history.status_completed": "✓ Osatua",
+        "admin.history.status_finalized": "✓ Amaituta",
+        "admin.history.status_abandoned": "✗ Utzitakoa",
+        "admin.history.status_autosaved": "⏳ Auto-gordeta",
+        "admin.history.col_date": "Data",
+        "admin.history.col_type": "Mota",
+        "admin.history.col_players": "Jokalariak",
+        "admin.history.col_questions": "Galderak",
+        "admin.history.col_duration": "Iraupena",
+        "admin.history.col_status": "Egoera",
+        "admin.history.col_actions": "Ekintzak",
+        "admin.history.footer": "{n} partida erregistratu",
+        "admin.history.batch_label": "{n} partida hautatuta"
+    }
+}

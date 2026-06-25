@@ -1,0 +1,7 @@
+{
+  "keys": {
+    "presenter.lobby.presenter_error": "主持人错误",
+    "presenter.lobby.unknown_error": "未知错误",
+    "presenter.lobby.create_error": "无法创建大厅"
+  }
+}

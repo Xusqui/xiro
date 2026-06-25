@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es" class="page-index">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="index.title">XIRO! - Inicio</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./css/common.css?v=20260625151006">
+    <link rel="stylesheet" href="./css/output-index.css?v=20260625151006">
+    <link rel="stylesheet" href="./css/index-style.css?v=20260625151006">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    <script defer src="/js/core/umami-loader.js?v=20260625151006"></script>
+    <script src="/js/i18n/i18n-core.js?v=20260625151006"></script>
+    <script src="/js/i18n/i18n-dom.js?v=20260625151006"></script>
+    <script src="/js/i18n/i18n-ui.js?v=20260625151006"></script>
+</head>
+
+<body
+    class="bg-gradient-to-br from-purple-700 via-purple-600 to-indigo-700 min-h-screen flex flex-col items-center justify-center font-sans text-white p-4">
+    <canvas id="webgl-canvas"></canvas>
+    <div class="w-full max-w-6xl text-center">
+        <!-- Logo -->
+        <div class="flex items-center justify-center gap-8 mb-12">
+            <img src="./images/logo.svg" alt="XIRO! Logo" class="h-20"
+                style="filter: drop-shadow(3px 3px 1px rgb(0 0 0 / 0.5));">
+            <!-- <img src="./images/aecc.svg" alt="Asociación española contra el Cáncer" class="h-20"
+                style="filter: drop-shadow(3px 3px 1px rgb(0 0 0 / 0.5));"> -->
+        </div>
+
+        <!-- Título Principal -->
+        <h1 class="text-4xl md:text-5xl font-black mb-4 text-white drop-shadow-lg" data-i18n="index.heading">
+            Bienvenido a XIRO!
+        </h1>
+        <p class="text-xl md:text-2xl mb-12 text-purple-100 font-medium" data-i18n="index.subtitle">
+            Selecciona tu modo de acceso
+        </p>
+
+        <!-- Cards de Acceso -->
+        <div id="cards-grid" class="max-w-6xl mx-auto">
+
+            <!-- Card Jugador -->
+            <a href="./jugador.html" class="card group block">
+                <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-10 text-slate-800 border-b-8 flex flex-col items-center justify-between"
+                    style="height: 400px; border-bottom-color: #8ab817;">
+                    <div class="flex-1 flex flex-col items-center justify-center">
+                        <div class="icon-wrapper mb-6 p-6 rounded-full" style="background-color: #e7f4c0;">
+                            <i class="fas fa-gamepad text-6xl" style="color: #8ab817;"></i>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-black mb-3 text-slate-800" data-i18n="index.player.title">
+                            Jugador</h2>
+                        <p class="text-slate-600 text-base md:text-lg mb-4" data-i18n="index.player.desc">
+                            Únete a una partida con tu código PIN
+                        </p>
+                    </div>
+                    <div>
+                        <span class="inline-flex items-center font-bold text-lg group-hover:gap-2 transition-all"
+                            style="color: #8ab817;">
+                            <span data-i18n="index.player.cta">Jugar ahora</span>
+                            <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="mt-2 text-xs text-slate-400 hover:text-slate-600 cursor-pointer transition"
+                            data-i18n="index.player.manual" data-index-manual-target="/manual-jugador.html">
+                            . . .
+                        </span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Card Presentador -->
+            <a href="./presentador.html" id="card-presenter" class="card group block">
+                <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-10 text-slate-800 border-b-8 flex flex-col items-center justify-between"
+                    style="height: 400px; border-bottom-color: #f9b518;">
+                    <div class="flex-1 flex flex-col items-center justify-center">
+                        <div class="icon-wrapper mb-6 p-6 rounded-full" style="background-color: #fff0c2;">
+                            <i class="fas fa-tv text-6xl" style="color: #f9b518;"></i>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-black mb-3 text-slate-800"
+                            data-i18n="index.presenter.title">Presentador</h2>
+                        <p class="text-slate-600 text-base md:text-lg mb-4" data-i18n="index.presenter.desc">
+                            Controla y proyecta el juego en pantalla
+                        </p>
+                    </div>
+                    <div>
+                        <span class="inline-flex items-center font-bold text-lg group-hover:gap-2 transition-all"
+                            style="color: #f9b518;">
+                            <span data-i18n="index.presenter.cta">Iniciar presentación</span>
+                            <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="mt-2 text-xs text-slate-400 hover:text-slate-600 cursor-pointer transition"
+                            data-i18n="index.presenter.manual" id="enlaceManual"
+                            data-index-manual-target="/manual-presentador.html">
+                            . . .
+                        </span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Card Presentador Lite -->
+            <a href="./tv.html" id="card-tv" class="card group block">
+                <div style="height: 400px;"
+                    class="bg-white rounded-3xl shadow-2xl p-8 md:p-10 text-slate-800 border-b-8 border-cyan-500 hover:border-cyan-600 flex flex-col items-center justify-between">
+                    <div class="flex-1 flex flex-col items-center justify-center">
+                        <div class="icon-wrapper mb-6 p-6 rounded-full" style="background-color: #cffafe;">
+                            <i class="fas fa-desktop text-6xl" style="color: #0891b2;"></i>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-black mb-3 text-slate-800" data-i18n="index.tv.title">
+                            Versión TV</h2>
+                        <p class="text-slate-600 text-base md:text-lg mb-4" data-i18n="index.tv.desc">
+                            Versión ligera para TVs y navegadores antiguos
+                        </p>
+                    </div>
+                    <div>
+                        <span class="inline-flex items-center font-bold text-lg group-hover:gap-2 transition-all"
+                            style="color: #0891b2;">
+                            <span data-i18n="index.tv.cta">Versión compatible</span>
+                            <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Card Administración -->
+            <a href="./admin.html" class="card group block">
+                <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-10 text-slate-800 border-b-8 flex flex-col items-center justify-between"
+                    style="height: 400px; border-bottom-color: #e65453;">
+                    <div class="flex-1 flex flex-col items-center justify-center">
+                        <div class="icon-wrapper mb-6 p-6 rounded-full" style="background-color: #ffd8d8;">
+                            <i class="fas fa-cog text-6xl" style="color: #e65453;"></i>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-black mb-3 text-slate-800" data-i18n="index.admin.title">
+                            Administración</h2>
+                        <p class="text-slate-600 text-base md:text-lg mb-4" data-i18n="index.admin.desc">
+                            Gestiona preguntas y configuración
+                        </p>
+                    </div>
+                    <div>
+                        <span class="inline-flex items-center font-bold text-lg group-hover:gap-2 transition-all"
+                            style="color: #e65453;">
+                            <span data-i18n="index.admin.cta">Acceder al panel</span>
+                            <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="mt-2 text-xs text-slate-400 hover:text-slate-600 cursor-pointer transition"
+                            data-i18n="index.admin.manual" data-index-manual-target="/manual-admin.html">
+                            . . .
+                        </span>
+                    </div>
+                </div>
+            </a>
+
+
+
+        </div>
+
+        <img src="./images/chamaleon/chamaleon.svg" alt="Camaleón" class="player-chameleon">
+
+        <!-- Footer -->
+        <div class="mt-12 text-purple-100 text-sm space-y-2">
+            <!--<p class="font-medium">Juego interactivo creado para la III Reunión de Residentes de Oncología Médica</p>-->
+            <p data-i18n="common.footer.copyright">&copy; 2026 XIRO!. Sistema de quiz interactivo.</p>
+            <p class="text-xs mt-1">
+                <a href="./about.html" class="hover:text-white transition-colors underline underline-offset-2"
+                    data-i18n="common.footer.author">Copyright: Familia Fernández Villatoro</a>
+                &nbsp;·&nbsp;
+                <a href="./contact.html" class="hover:text-white transition-colors underline underline-offset-2"><i
+                        class="fas fa-envelope mr-1"></i><span data-i18n="common.footer.contact">Contacto</span></a>
+            </p>
+        </div>
+    </div>
+
+    <script src="/js/core/smart-prefetch.js?v=20260625151006"></script>
+    <script src="/js/core/index-init.js?v=20260625151006"></script>
+    <script src="/js/core/site-badge.js?v=20260625151006"></script>
+</body>
+
+</html>

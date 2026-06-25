@@ -1,0 +1,15 @@
+{
+  "keys": {
+    "presenter.slides.to_teams": "to teams",
+    "presenter.slides.per_team": "per Team",
+    "presenter.slides.next": "Next",
+    "presenter.slides.next_round": "Next Round",
+    "presenter.slides.view_ranking": "View Ranking",
+    "presenter.slides.assign_manually": "The presenter can manually assign points",
+    "presenter.slides.assign_points": "Assign Points",
+    "presenter.slides.info_no_points": "Information - No points assigned",
+    "presenter.slides.points_per_player": "Points are added to each player",
+    "presenter.slides.player_singular": "player",
+    "presenter.slides.player_plural": "players"
+  }
+}

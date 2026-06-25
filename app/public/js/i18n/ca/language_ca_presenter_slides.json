@@ -1,0 +1,15 @@
+{
+  "keys": {
+    "presenter.slides.to_teams": "als equips",
+    "presenter.slides.per_team": "per equip",
+    "presenter.slides.next": "Següent",
+    "presenter.slides.next_round": "Ronda següent",
+    "presenter.slides.view_ranking": "Veure el rànquing",
+    "presenter.slides.assign_manually": "El presentador pot assignar punts manualment",
+    "presenter.slides.assign_points": "Assignar punts",
+    "presenter.slides.info_no_points": "Informació - Sense punts assignats",
+    "presenter.slides.points_per_player": "Els punts s'afegeixen a cada jugador",
+    "presenter.slides.player_singular": "jugador",
+    "presenter.slides.player_plural": "jugadors"
+  }
+}

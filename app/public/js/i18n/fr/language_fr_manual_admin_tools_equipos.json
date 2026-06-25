@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.equipos.title": "Équipes",
+    "manual_admin.tools.equipos.desc": "Paramètres des parties en équipes.",
+    "manual_admin.tools.equipos.lambda": "Lissage Lambda",
+    "manual_admin.tools.equipos.lambda_desc": "Lissage bayésien pour équilibrer les équipes de tailles différentes.",
+    "manual_admin.tools.equipos.team_names": "Noms des équipes",
+    "manual_admin.tools.equipos.team_names_desc": "Définissez le préfixe ou le format pour les noms des équipes."
+  }
+}

@@ -1,0 +1,258 @@
+{
+  "name": "Cáncer de Próstata",
+  "type": "quiz",
+  "questions": [
+    {
+      "question_text": "En el contexto del cáncer de próstata metastásico hormono-sensible (CPHSm), ¿qué demostró el ensayo PEACE-1 con el triplete (TDA+Docetaxel+Abiraterona)?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "El triplete mejoró la supervivencia global en comparación con TDA + Docetaxel.",
+          "is_correct": true,
+          "justification": "El estudio PEACE-1 mostró que añadir abiraterona a TDA + docetaxel redujo el riesgo de muerte en un 25% (HR 0,75) y el riesgo de progresión radiográfica en un 50% (HR 0,50)."
+        },
+        {
+          "option_text": "El triplete aumentó modestamente la toxicidad, principalmente de tipo hematológico.",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "C) La radioterapia a la próstata es el componente más crucial del tratamiento triple.",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "D) Añadir Docetaxel a la TDA no mejora la supervivencia.",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué agente está asociado con un beneficio de supervivencia y está específicamente dirigido a las metástasis óseas en pacientes con CPCRm sintomático?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Cabazitaxel.",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Radium-223.",
+          "is_correct": true,
+          "justification": "El ensayo ALSYMPCA demostró que el Radium-223 mejoró la supervivencia global en una mediana de 3,6 meses y redujo el riesgo de muerte en un 30% frente a placebo en pacientes con metástasis óseas sintomáticas."
+        },
+        {
+          "option_text": "Ácido zoledrónico.",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Denosumab.",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Para los pacientes con Cáncer de próstata metastásico resistente a la castración (CPCRm), el tratamiento con inhibidores de PARP (olaparib/talazoparib/niraparib) es más eficaz en pacientes con una característica molecular específica. ¿Cuál es?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Presencia de metástasis viscerales (hígado o pulmón).",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Alteraciones en los genes de reparación de la recombinación homóloga (HRR).",
+          "is_correct": true,
+          "justification": "Estudios como PROpel, MAGNITUDE y TALAPRO-2 confirman que el beneficio clínico es significativamente mayor o exclusivo en pacientes con mutaciones en genes HRR, especialmente BRCA."
+        },
+        {
+          "option_text": "Alta expresión de PSMA en la PET.",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Un tiempo de duplicación del PSA (PSA-DT) rápido.",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "En el ensayo ARASENS (mHSPC), ¿qué conclusión fundamental se extrajo sobre el uso de Darolutamida + TDA + Docetaxel?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Mejoró la supervivencia libre de progresión, pero no la supervivencia global.",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "La adición de darolutamida mejoró significativamente la supervivencia global (OS) y el tiempo hasta la resistencia a la castración.",
+          "is_correct": true,
+          "justification": "ARASENS demostró que este triplete reduce el riesgo de muerte en un 32% (HR 0,68) sin aumentar significativamente la toxicidad de la quimioterapia."
+        },
+        {
+          "option_text": "El beneficio se limitó exclusivamente a pacientes con bajo volumen.",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Aumentó drásticamente los eventos adversos graves relacionados con docetaxel.",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuál es un requisito obligatorio para que un paciente con CPCRm sea candidato al tratamiento con Lutecio Lu-177 vipivotide tetraxetan?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Presentar mutaciones confirmadas en los genes HRR.",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Administrarse únicamente con quimioterapia basada en taxanos.",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Confirmar la expresión de PSMA en las lesiones metastásicas mediante una tomografía por emisión de positrones (PET/CT).",
+          "is_correct": true,
+          "justification": "Dado que el Lu-177 vipivotide tetraxetan es una terapia dirigida al PSMA, es indispensable verificar visualmente la presencia del receptor mediante PET-PSMA antes del tratamiento."
+        },
+        {
+          "option_text": "Está indicado exclusivamente para metástasis viscerales hepáticas.",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Para un paciente con CPCR no metastásico (M0) y un PSA-DT < 10 meses, ¿qué tratamiento se recomienda para prolongar la supervivencia libre de metástasis?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Observación activa hasta síntomas.",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Quimioterapia con Docetaxel.",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Radioterapia pélvica.",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Apalutamida, Darolutamida o Enzalutamida.",
+          "is_correct": true,
+          "justification": "Los ensayos SPARTAN, ARAMIS y PROSPER demostraron que estos fármacos mejoran significativamente la supervivencia libre de metástasis (MFS) y la supervivencia global en este escenario."
+        }
+      ]
+    },
+    {
+      "question_text": "En la recurrencia bioquímica tras prostatectomía, ¿cuándo es más eficaz la radioterapia de rescate (SRT)?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Cuando el PSA alcanza un nivel de 1.0 ng/ml.",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Cuando el nivel de PSA es bajo, idealmente antes de que supere los 0,5 ng/ml.",
+          "is_correct": true,
+          "justification": "Existe una correlación directa entre PSA bajo al inicio de SRT y probabilidad de curación; el éxito (PSA indetectable) es superior al 60% si se interviene bajo este umbral."
+        },
+        {
+          "option_text": "Inmediatamente después de la cirugía (adyuvante).",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Solo tras visualizar recurrencia en PET-PSMA.",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué efecto secundario cardiovascular es una preocupación importante asociada con la terapia de privación androgénica (TPA) a largo plazo?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Aumento de riesgo de infarto de miocardio y diabetes mellitus.",
+          "is_correct": true,
+          "justification": "La TDA se asocia con un mayor riesgo de afecciones cardiometabólicas, incluyendo diabetes mellitus e infarto de miocardio, incluso tras periodos cortos de tratamiento."
+        },
+        {
+          "option_text": "Hipotensión y bradicardia.",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Disminución de los niveles de colesterol.",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Reducción de riesgo de accidente cerebrovascular.",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Para un paciente con cáncer de próstata localizado de alto riesgo, ¿cuál es el tratamiento estándar recomendado?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "EBRT combinada con TDA a largo plazo (al menos dos a tres años).",
+          "is_correct": true,
+          "justification": "El manejo de la enfermedad de alto riesgo requiere un enfoque multimodal; la radioterapia combinada con TDA de larga duración es el estándar para mejorar el control oncológico."
+        },
+        {
+          "option_text": "Monoterapia con TDA sin radioterapia.",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Radioterapia de haz externo (EBRT) sola.",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "EBRT combinada con TDA a corto plazo (6 meses).",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    }
+  ]
+}

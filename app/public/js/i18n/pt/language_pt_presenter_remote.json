@@ -1,0 +1,15 @@
+{
+  "keys": {
+    "presenter.remote.tap_pause": "Toque para pausar",
+    "presenter.remote.tap_resume": "Toque para retomar",
+    "presenter.remote.end_confirm": "Deseja encerrar a partida agora?",
+    "presenter.remote.connect_error": "Erro ao conectar como controle remoto",
+    "presenter.remote.game_finished": "A partida foi encerrada",
+    "presenter.remote.no_admin_session": "Nenhuma sessão de admin encontrada.<br>Faça login no painel de admin primeiro.",
+    "presenter.remote.game_started": "Partida iniciada",
+    "presenter.remote.final_podium": "Pódio final",
+    "presenter.remote.end_game": "Encerrar partida",
+    "presenter.remote.btn_end": "Terminar jogo",
+    "presenter.remote.cancel": "Cancelar"
+  }
+}

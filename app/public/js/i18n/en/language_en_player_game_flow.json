@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "player.game_flow.exit_title": "Exit game",
+    "player.game_flow.exit_msg": "Are you sure you want to exit the game? Your username will be released.",
+    "player.game_flow.btn_exit": "Leave",
+    "player.game_flow.session_ended": "Session ended",
+    "player.game_flow.presenter_left": "The presenter has left the session.",
+    "player.game_flow.btn_cancel": "Cancel",
+    "player.game_flow.btn_back": "Back"
+  },
+  "literals": {
+    "Reconectando automáticamente...": "Automatically reconnecting...",
+    "Servidor Reiniciando": "Server Restarting",
+    "No cierres esta ventana. La partida continuará automáticamente.": "Do not close this window. The game will continue automatically."
+  }
+}

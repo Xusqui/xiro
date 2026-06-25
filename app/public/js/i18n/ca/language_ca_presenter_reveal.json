@@ -1,0 +1,15 @@
+{
+  "keys": {
+    "presenter.reveal.max_points": "· Punts màxims:",
+    "presenter.reveal.percent_to_max": "% fins al màx.",
+    "presenter.reveal.length_label": "Longitud:",
+    "presenter.reveal.next_round": "Ronda següent",
+    "presenter.reveal.correct_answer": "Resposta correcta",
+    "presenter.reveal.top_answers": "Top respostes",
+    "presenter.reveal.why_correct": "Per què és correcta?",
+    "presenter.reveal.no_scores_yet": "Encara no hi ha puntuacions",
+    "presenter.reveal.correct_order": "Ordre correcte",
+    "presenter.reveal.correct_pairs": "Parells correctes",
+    "presenter.reveal.tolerance": "Tolerància:"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "keys": {
+    "player.results.game_over": "Xogo Rematado!",
+    "player.results.you_placed": "Quedaches en",
+    "player.results.position_ordinal": "{position}º",
+    "player.results.position_label": "posición",
+    "player.results.final_score": "Puntuación final",
+    "player.results.of_players": "de {totalPlayers} xogadores",
+    "player.results.champion": "CAMPIÓN!",
+    "player.results.excellent": "Excelente resultado!",
+    "player.results.great_job": "Gran traballo!",
+    "player.results.calculating": "Calculando resultados...",
+    "player.results.game_ended": "A partida rematou.",
+    "player.results.medal_1": "1º posto",
+    "player.results.medal_2": "2º posto",
+    "player.results.medal_3": "3º posto"
+  }
+}

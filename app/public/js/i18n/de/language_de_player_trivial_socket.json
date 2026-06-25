@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "player.trivial.launch_dice": "! Würfle🎯",
+    "player.trivial.correct_prefix": "Du hast es,",
+    "player.trivial.turn_change": "Zugwechsel!",
+    "player.trivial.team_scores": "trifft!",
+    "player.trivial.category_chosen": "Kategorie gewählt. Frage wird vorbereitet...",
+    "player.trivial.team_prefix": "Team",
+    "player.trivial.choosing_category": "wählt Kategorie...",
+    "player.trivial.game_over": "Das Spiel ist beendet.",
+    "player.trivial.moving_preparing": "Bewegen... Frage wird vorbereitet.",
+    "player.trivial.moved_waiting": "bewegt. Warte auf Frage...",
+    "player.trivial.turn_label": "Zug von",
+    "player.trivial.roll_again": "Nochmal würfeln…"
+  }
+}

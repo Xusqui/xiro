@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "player.numeric.answer_label": "Écrivez votre réponse",
+    "player.numeric.hint_fallback": "Le présentateur ne veut pas donner d'indices",
+    "player.numeric.hint_label": "Indice",
+    "player.numeric.input_placeholder": "Ex : 123456",
+    "player.numeric.only_integers": "Entiers uniquement",
+    "player.numeric.submit": "Envoyer"
+  }
+}

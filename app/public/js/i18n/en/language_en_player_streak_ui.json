@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "player.streak.double_prefix": "DOUBLE STREAK x",
+    "player.streak.lost": "STREAK LOST!",
+    "player.streak.active_prefix": "STREAK x",
+    "player.streak.double_label": "DOUBLE",
+    "player.streak.label": "STREAK",
+    "player.streak.consecutive_correct": "consecutive correct answers",
+    "player.streak.ended_prefix": "Your streak of",
+    "player.streak.double_bonus_suffix": "in a row with double bonus!"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "admin.trivial.title": "Jogos de curiosidades",
+    "admin.trivial.subtitle": "Crie painéis triviais com suas próprias categorias",
+    "admin.trivial.btn_new": "Novas curiosidades",
+    "admin.trivial.empty": "Ainda não há jogos de curiosidades",
+    "admin.trivial.form_edit": "Editar curiosidades",
+    "admin.trivial.form_new": "Novas curiosidades",
+    "admin.trivial.label_name": "Nome do jogo",
+    "admin.trivial.label_pin": "ALFINETE",
+    "admin.trivial.ph_pin": "por exemplo TRV01",
+    "admin.trivial.section_config": "Configurações do jogo",
+    "admin.trivial.label_visible": "Visível para o apresentador",
+    "admin.trivial.label_streaks": "Usar listras"
+  }
+}

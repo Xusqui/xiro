@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "manual_admin.tools.licencia.title": "Llicència",
+    "manual_admin.tools.licencia.desc": "Estat i configuració de la llicència de Xiro!",
+    "manual_admin.tools.licencia.info": "Llicència activa",
+    "manual_admin.tools.licencia.info_desc": "Desa i valida la llicència per mantenir el servei actiu."
+  }
+}

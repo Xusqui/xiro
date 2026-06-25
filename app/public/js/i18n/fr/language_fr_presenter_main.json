@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "presenter.loading.title": "Chargement...",
+    "presenter.loading.desc": "Préparation du panel de présentateurs",
+    "presenter.sidebar.connected": "Connecté",
+    "presenter.lobby.waiting": "En attendant les joueurs...",
+    "presenter.lobby.pin": "NIP D'ACCÈS",
+    "presenter.lobby.start": "COMMENCER!",
+    "presenter.lobby.players": "Joueurs :",
+    "presenter.game.terminate": "Finition",
+    "presenter.game.terminate.title": "Terminez le jeu et affichez le podium avec le classement actuel",
+    "presenter.game.abandon": "Quitter le jeu",
+    "presenter.game.abandon.title": "Quitter la session",
+    "presenter.fullscreen.title": "Plein écran"
+  }
+}

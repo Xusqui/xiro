@@ -1,0 +1,21 @@
+{
+  "keys": {
+    "presenter.game.play_audio": "▶ タップして音声を再生",
+    "presenter.game.pause_resume": "クリックして一時停止/再開",
+    "presenter.game.question_label": "質問",
+    "presenter.game.next_question": "次の質問",
+    "presenter.game.next_round": "次のラウンド",
+    "presenter.game.view_ranking": "ランキングを見る",
+    "presenter.game.reveal_answer": "答えを表示",
+    "presenter.game.answers_label": "回答:",
+    "presenter.game.audio_playing": "音声再生中",
+    "presenter.game.listen_carefully": "注意して聞いてください",
+    "presenter.game.no_audio_support": "ブラウザが音声に対応していません。",
+    "presenter.game.numeric_question": "数値問題",
+    "presenter.game.players_write_number": "プレイヤーが整数を入力します",
+    "presenter.game.answer_on_reveal": "正解は表示時に確認できます",
+    "presenter.game.points_by_proximity": "近さに応じてポイントが計算されます",
+    "presenter.game.players_see_devices": "プレイヤーはデバイスで選択肢を確認します",
+    "presenter.game.multiple_choice_label": "✓ 複数選択"
+  }
+}

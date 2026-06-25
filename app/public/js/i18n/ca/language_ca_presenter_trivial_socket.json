@@ -1,0 +1,17 @@
+{
+  "keys": {
+    "presenter.trivial.waiting_dice": "Esperant que tiri el dau",
+    "presenter.trivial.rolled": "Ha sortit {diceValue} — toca un quadre ressaltat al tauler",
+    "presenter.trivial.moved": "{nickname} s'ha mogut → {position}. Preparant pregunta...",
+    "presenter.trivial.choosing_category": "🎯 Casella central — {actorNick} està triant una categoria...",
+    "presenter.trivial.roll_again": "{nick} ha encertat! Torna a llançar...",
+    "presenter.trivial.end_confirm_title": "Finalitzar el joc?",
+    "presenter.trivial.end_confirm_msg": "Si confirmes, el joc finalitzarà i es mostrarà el podi amb la classificació actual.",
+    "presenter.trivial.end_confirm_yes": "Sí, finalitzar el joc",
+    "presenter.trivial.cancel": "Cancel·la",
+    "presenter.trivial.turn_label": "🎲 Torn: {turn}"
+  },
+  "literals": {
+    "Bancos": "Bancs"
+  }
+}

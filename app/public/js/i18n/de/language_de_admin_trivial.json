@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "admin.trivial.title": "Quizspiele",
+    "admin.trivial.subtitle": "Erstellen Sie Trivial-Boards mit Ihren eigenen Kategorien",
+    "admin.trivial.btn_new": "Neue Trivia",
+    "admin.trivial.empty": "Noch keine Quizspiele",
+    "admin.trivial.form_edit": "Wissenswertes bearbeiten",
+    "admin.trivial.form_new": "Neue Trivia",
+    "admin.trivial.label_name": "Spielname",
+    "admin.trivial.label_pin": "STIFT",
+    "admin.trivial.ph_pin": "z.B. TRV01",
+    "admin.trivial.section_config": "Spieleinstellungen",
+    "admin.trivial.label_visible": "Für den Moderator sichtbar",
+    "admin.trivial.label_streaks": "Verwenden Sie Streifen"
+  }
+}

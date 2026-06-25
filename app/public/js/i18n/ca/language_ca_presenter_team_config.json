@@ -1,0 +1,26 @@
+{
+  "keys": {
+    "presenter.team.name_validation": "El nom de lequip només pot contenir lletres, números, espais i guions (2-30 caràcters).",
+    "presenter.team.label": "Equip",
+    "presenter.team.name_invalid": "Nom invàlid",
+    "presenter.team.in_use": "(en ús)",
+    "presenter.team.color.yellow": "Groc",
+    "presenter.team.color.blue": "Blau",
+    "presenter.team.color.cyan": "Cian",
+    "presenter.team.color.lime": "Llima",
+    "presenter.team.color.purple": "Morat",
+    "presenter.team.color.orange": "Taronja",
+    "presenter.team.color.pink": "Rosa",
+    "presenter.team.color.red": "Vermell",
+    "presenter.team.color.green": "Verd",
+    "presenter.team.default.1": "Els Campions",
+    "presenter.team.default.2": "Els Dracs",
+    "presenter.team.default.3": "Els Fènixs",
+    "presenter.team.default.4": "Els Guerrers",
+    "presenter.team.default.5": "Les Àguiles",
+    "presenter.team.default.6": "Els Invencibles",
+    "presenter.team.default.7": "Els Lleons",
+    "presenter.team.default.8": "Els Llamps",
+    "presenter.team.default.9": "Els Titans"
+  }
+}

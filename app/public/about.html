@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XIRO! - Nacido para la Oncología, hecho para todos</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./css/common.css?v=20260625151006">
+    <link rel="stylesheet" href="./css/output-index.css?v=20260625151006">
+    <link rel="stylesheet" href="./css/index-style.css?v=20260625151006">
+    <link rel="stylesheet" href="./css/about.css?v=20260625151006">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    <script defer src="/js/core/umami-loader.js?v=20260625151006"></script>
+    <script src="/js/i18n/i18n-core.js?v=20260625151006"></script>
+    <script src="/js/i18n/i18n-dom.js?v=20260625151006"></script>
+    <script src="/js/i18n/i18n-ui.js?v=20260625151006"></script>
+</head>
+
+<body
+    class="bg-gradient-to-br from-purple-700 via-purple-600 to-indigo-700 min-h-screen bg-fixed font-sans text-white overflow-x-hidden">
+
+    <canvas id="webgl-canvas" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1;"></canvas>
+
+    <!-- Mascota decorativa aleatoria -->
+    <div id="solo-mascot" class="particle" style="animation-delay:0.4s"><img id="mascot-img" src="" alt=""></div>
+    <script>
+        (function () {
+            var list = ['gamer','albanil','nerd','mago','pirata','jetpack','astronauta',
+                        'bailarina','musico','cooking','surfero','yoda','disguise',
+                        'detective','party','running','thinking','love'];
+            var spots = [
+                { top:'12%', right:'3%' }, { top:'30%', right:'2%' },
+                { top:'55%', right:'4%' }, { top:'70%', right:'3%' },
+                { top:'20%', left:'2%'  }, { top:'45%', left:'3%'  }
+            ];
+            var el = document.getElementById('solo-mascot');
+            var name = list[Math.floor(Math.random() * list.length)];
+            var pos  = spots[Math.floor(Math.random() * spots.length)];
+            document.getElementById('mascot-img').src = './images/chamaleon/' + name + '.svg';
+            Object.assign(el.style, pos);
+        })();
+    </script>
+
+    <div class="w-full max-w-5xl mx-auto px-4 py-12">
+
+        <!-- ===== HERO ===== -->
+        <div class="text-center mb-16 float-1">
+            <a href="./index.html" class="relative inline-block mb-8">
+                <img src="./images/logo.svg" alt="XIRO! Logo"
+                    class="w-56 mx-auto logo hover:scale-105 transition-transform cursor-pointer">
+            </a>
+            <h1 class="text-4xl md:text-6xl font-black mb-4 drop-shadow-lg">
+                <span data-i18n="about.heading">...</span> <span class="text-yellow-300">XIRO!</span> 🎮
+            </h1>
+            <p class="text-xl md:text-2xl text-purple-100 font-medium max-w-2xl mx-auto leading-relaxed"
+                data-i18n="about.hero.subtitle">...</p>
+        </div>
+
+        <!-- ===== STATS ===== -->
+        <div class="grid grid-cols-3 gap-4 mb-16 float-2">
+            <div class="stat-badge rounded-2xl p-4 md:p-6 text-center">
+                <div class="stat-number text-3xl md:text-4xl font-black text-yellow-300">2026</div>
+                <div class="text-purple-200 text-xs md:text-sm mt-1 font-medium"
+                    data-i18n="about.stats.year">...</div>
+            </div>
+            <div class="stat-badge rounded-2xl p-4 md:p-6 text-center">
+                <div class="stat-number text-3xl md:text-4xl font-black text-green-300">~30</div>
+                <div class="text-purple-200 text-xs md:text-sm mt-1 font-medium"
+                    data-i18n="about.stats.first_game">...</div>
+            </div>
+            <div class="stat-badge rounded-2xl p-4 md:p-6 text-center">
+                <div class="stat-number text-3xl md:text-4xl font-black text-pink-300">2</div>
+                <div class="text-purple-200 text-xs md:text-sm mt-1 font-medium"
+                    data-i18n="about.stats.creators">...</div>
+            </div>
+        </div>
+
+        <!-- ===== HISTORIA ===== -->
+        <div class="float-3 mb-16">
+            <div
+                class="historia-card bg-white rounded-3xl shadow-2xl p-8 md:p-12 text-slate-800 border-b-8 border-purple-500">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="bg-purple-100 p-4 rounded-full">
+                        <i class="fas fa-book-open text-3xl text-purple-600"></i>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-black text-slate-800"
+                        data-i18n="about.history.title">...</h2>
+                </div>
+
+                <div class="space-y-5 text-lg text-slate-600 leading-relaxed">
+                    <p data-i18n-html="about.history.p1">...</p>
+                    <p data-i18n-html="about.history.p2">...</p>
+                    <p data-i18n-html="about.history.p3">...</p>
+                    <p data-i18n-html="about.history.p4">...</p>
+                </div>
+
+                <!-- Timeline -->
+                <div class="mt-10 flex flex-col md:flex-row gap-4">
+                    <div class="timeline-step flex-1 bg-purple-50 rounded-2xl p-5 border-l-4 border-purple-500">
+                        <div class="text-2xl mb-2">🏥</div>
+                        <div class="font-black text-purple-800 text-lg"
+                            data-i18n="about.timeline.idea.title">...</div>
+                        <div class="text-purple-600 text-sm font-medium"
+                            data-i18n="about.timeline.idea.date">...</div>
+                        <div class="text-slate-600 text-sm mt-1"
+                            data-i18n="about.timeline.idea.desc">...</div>
+                    </div>
+                    <div class="hidden md:flex items-center text-purple-300 text-2xl">→</div>
+                    <div class="timeline-step flex-1 bg-indigo-50 rounded-2xl p-5 border-l-4 border-indigo-500">
+                        <div class="text-2xl mb-2">🛠️</div>
+                        <div class="font-black text-indigo-800 text-lg"
+                            data-i18n="about.timeline.dev.title">...</div>
+                        <div class="text-indigo-600 text-sm font-medium"
+                            data-i18n="about.timeline.dev.date">...</div>
+                        <div class="text-slate-600 text-sm mt-1"
+                            data-i18n="about.timeline.dev.desc">...</div>
+                    </div>
+                    <div class="hidden md:flex items-center text-purple-300 text-2xl">→</div>
+                    <div class="timeline-step flex-1 bg-green-50 rounded-2xl p-5 border-l-4 border-green-500">
+                        <div class="text-2xl mb-2">🚀</div>
+                        <div class="font-black text-green-800 text-lg"
+                            data-i18n="about.timeline.launch.title">...</div>
+                        <div class="text-green-600 text-sm font-medium"
+                            data-i18n="about.timeline.launch.date">...</div>
+                        <div class="text-slate-600 text-sm mt-1"
+                            data-i18n="about.timeline.launch.desc">...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== EL EQUIPO ===== -->
+        <div class="float-4 mb-16">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl md:text-4xl font-black text-white drop-shadow-lg"
+                    data-i18n="about.team.title">...</h2>
+                <p class="text-purple-200 text-lg mt-2"
+                    data-i18n="about.team.subtitle">...</p>
+            </div>
+
+            <!-- Creadores principales -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+
+                <!-- Rosa -->
+                <div class="member-card bg-white rounded-3xl shadow-2xl p-8 border-b-8 border-pink-500 text-slate-800">
+                    <div class="flex items-start gap-5">
+                        <div class="bg-pink-100 p-5 rounded-2xl flex-shrink-0">
+                            <i class="fas fa-lightbulb text-4xl text-pink-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-black text-slate-800">Rosa</h3>
+                            <span class="inline-block bg-pink-100 text-pink-700 text-xs font-bold px-3 py-1 rounded-full mt-1 mb-3">
+                                <span data-i18n="about.team.rosa.role">...</span>
+                            </span>
+                            <p class="text-slate-600 text-sm leading-relaxed"
+                                data-i18n="about.team.rosa.desc">...</p>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex gap-2 flex-wrap">
+                        <span class="bg-pink-50 text-pink-600 text-xs px-3 py-1 rounded-full font-medium"
+                            data-i18n="about.team.rosa.tag1">...</span>
+                        <span class="bg-rose-50 text-rose-600 text-xs px-3 py-1 rounded-full font-medium"
+                            data-i18n="about.team.rosa.tag2">...</span>
+                        <span class="bg-red-50 text-red-600 text-xs px-3 py-1 rounded-full font-medium"
+                            data-i18n="about.team.rosa.tag3">...</span>
+                    </div>
+                </div>
+
+                <!-- Xisco -->
+                <div class="member-card bg-white rounded-3xl shadow-2xl p-8 border-b-8 border-blue-500 text-slate-800">
+                    <div class="flex items-start gap-5">
+                        <div class="bg-blue-100 p-5 rounded-2xl flex-shrink-0">
+                            <i class="fas fa-laptop-code text-4xl text-blue-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-black text-slate-800">Xisco</h3>
+                            <span class="inline-block bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full mt-1 mb-3">
+                                <span data-i18n="about.team.xisco.role">...</span>
+                            </span>
+                            <p class="text-slate-600 text-sm leading-relaxed"
+                                data-i18n="about.team.xisco.desc">...</p>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex gap-2 flex-wrap">
+                        <span class="bg-blue-50 text-blue-600 text-xs px-3 py-1 rounded-full font-medium"
+                            data-i18n="about.team.xisco.tag1">...</span>
+                        <span class="bg-indigo-50 text-indigo-600 text-xs px-3 py-1 rounded-full font-medium"
+                            data-i18n="about.team.xisco.tag2">...</span>
+                        <span class="bg-slate-100 text-slate-600 text-xs px-3 py-1 rounded-full font-medium"
+                            data-i18n="about.team.xisco.tag3">...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Beta testers / familia -->
+            <p class="text-center text-purple-300 text-xs font-semibold uppercase tracking-widest mb-4 mt-6"
+                data-i18n="about.team.also">...</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <!-- María -->
+                <div class="member-card bg-white rounded-2xl shadow-xl p-6 border-b-4 border-green-500 text-slate-800">
+                    <div class="flex items-start gap-4">
+                        <div class="bg-green-100 p-4 rounded-xl flex-shrink-0">
+                            <i class="fas fa-gamepad text-3xl text-green-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-black text-slate-800">María</h3>
+                            <span class="inline-block bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full mt-1 mb-2">
+                                <span data-i18n="about.team.maria.role">...</span>
+                            </span>
+                            <p class="text-slate-600 text-sm leading-relaxed"
+                                data-i18n="about.team.maria.desc">...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Jaime -->
+                <div class="member-card bg-white rounded-2xl shadow-xl p-6 border-b-4 border-orange-500 text-slate-800">
+                    <div class="flex items-start gap-4">
+                        <div class="bg-orange-100 p-4 rounded-xl flex-shrink-0">
+                            <i class="fas fa-trophy text-3xl text-orange-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-black text-slate-800">Jaime</h3>
+                            <span class="inline-block bg-orange-100 text-orange-700 text-xs font-bold px-3 py-1 rounded-full mt-1 mb-2">
+                                <span data-i18n="about.team.jaime.role">...</span>
+                            </span>
+                            <p class="text-slate-600 text-sm leading-relaxed"
+                                data-i18n="about.team.jaime.desc">...</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ===== FILOSOFIA ===== -->
+        <div class="float-5 mb-16">
+            <div class="bg-white/15 backdrop-blur-sm rounded-3xl border border-white/25 p-8 md:p-10 text-center">
+                <div class="text-5xl mb-4">🎯</div>
+                <h2 class="text-2xl md:text-3xl font-black text-white mb-4"
+                    data-i18n="about.philosophy.title">...</h2>
+                <p class="text-purple-100 text-lg leading-relaxed max-w-2xl mx-auto"
+                    data-i18n-html="about.philosophy.desc">...</p>
+                <div class="mt-8 flex flex-wrap justify-center gap-3">
+                    <span class="stat-badge px-4 py-2 rounded-full text-sm font-medium"
+                        data-i18n="about.philosophy.badge1">...</span>
+                    <span class="stat-badge px-4 py-2 rounded-full text-sm font-medium"
+                        data-i18n="about.philosophy.badge2">...</span>
+                    <span class="stat-badge px-4 py-2 rounded-full text-sm font-medium"
+                        data-i18n="about.philosophy.badge3">...</span>
+                    <span class="stat-badge px-4 py-2 rounded-full text-sm font-medium"
+                        data-i18n="about.philosophy.badge4">...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== FOOTER / VOLVER ===== -->
+        <div class="float-6 text-center pb-8">
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="./index.html"
+                    class="inline-flex items-center gap-3 bg-white text-purple-700 font-black text-lg px-8 py-4 rounded-2xl shadow-2xl hover:bg-purple-50 transition-all hover:-translate-y-1 hover:shadow-xl">
+                    <i class="fas fa-home text-xl"></i>
+                    <span data-i18n="about.footer.play">...</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="./contact.html"
+                    class="inline-flex items-center gap-3 bg-purple-600 text-white font-black text-lg px-8 py-4 rounded-2xl shadow-2xl hover:bg-purple-700 transition-all hover:-translate-y-1 hover:shadow-xl">
+                    <i class="fas fa-envelope text-xl"></i>
+                    <span data-i18n="common.footer.contact">...</span>
+                </a>
+            </div>
+            <div class="mt-8 text-purple-200 text-sm space-y-1">
+                <p data-i18n="about.footer.copyright">...</p>
+                <p class="text-purple-300 text-xs" data-i18n="about.footer.made_with">...</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="/js/core/site-badge.js?v=20260625151006"></script>
+</body>
+
+</html>

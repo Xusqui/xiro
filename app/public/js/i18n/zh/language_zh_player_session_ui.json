@@ -1,0 +1,24 @@
+{
+  "keys": {
+    "player.session_ui.session_not_found": "未找到会话",
+    "player.session_ui.session_not_found_msg": "您输入的代码与任何活跃会话不匹配。",
+    "player.session_ui.verify_qr_msg": "请确认主持人已开始游戏，并扫描显示的二维码。",
+    "player.session_ui.qr_auto_load": "扫描正确的二维码后，页面将自动加载。",
+    "player.session_ui.retry": "重试",
+    "player.session_ui.reconnecting_title": "准备好了，{nickname}！",
+    "player.session_ui.reconnecting_status": "正在重新连接到您的游戏...",
+    "player.session_ui.reconnecting_subtext": "等待主持人进入下一题",
+    "player.session_ui.connecting": "连接中...",
+    "player.session_ui.connecting_wait": "请稍候",
+    "player.session_ui.reconnected": "已重新连接！",
+    "player.session_ui.team_label": "队伍：{teamName}",
+    "player.session_ui.waiting_game_start": "等待游戏开始...",
+    "player.session_ui.game_will_start": "主持人开始游戏后将正式开始",
+    "player.session_ui.exit_game": "退出游戏",
+    "player.session_ui.get_ready": "准备好，{nickname}！",
+    "player.session_ui.your_name": "您的名字？",
+    "player.session_ui.connecting_server": "正在连接服务器...",
+    "player.session_ui.connecting_wait_moment": "请稍候片刻",
+    "player.session_ui.retry_btn": "重试"
+  }
+}

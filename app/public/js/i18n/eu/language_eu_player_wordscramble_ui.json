@@ -1,0 +1,9 @@
+{
+  "keys": {
+    "player.media.image_label": "Irudia",
+    "player.wordscramble.word_length_pre": "HITZA",
+    "player.wordscramble.word_length_post": "LETRAREKIN",
+    "player.wordscramble.reset": "Ezabatu",
+    "player.wordscramble.submit": "Bidali"
+  }
+}

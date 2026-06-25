@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.fuegos.title": "Feux d'artifice",
+    "manual_admin.tools.fuegos.desc": "Personnalisez le spectacle visuel du podium.",
+    "manual_admin.tools.fuegos.config": "Configuration visuelle",
+    "manual_admin.tools.fuegos.config_desc": "Ajustez la taille, les traînées, la vitesse, la quantité.",
+    "manual_admin.tools.fuegos.sound": "Son",
+    "manual_admin.tools.fuegos.sound_desc": "Activer ou désactiver les effets sonores d'explosion."
+  }
+}

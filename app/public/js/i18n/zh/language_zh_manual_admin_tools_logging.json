@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "manual_admin.tools.logging.title": "日志",
+    "manual_admin.tools.logging.desc": "服务器日志配置。",
+    "manual_admin.tools.logging.level": "日志级别",
+    "manual_admin.tools.logging.level_desc": "日志的详细程度。",
+    "manual_admin.tools.logging.max_size": "最大大小",
+    "manual_admin.tools.logging.max_size_desc": "日志文件轮换的大小。",
+    "manual_admin.tools.logging.max_files": "文件保留",
+    "manual_admin.tools.logging.max_files_desc": "保留旧日志的时间。"
+  }
+}

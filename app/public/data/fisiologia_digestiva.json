@@ -1,0 +1,1456 @@
+{
+    "name": "Banco de Preguntas: Fisiopatología Digestiva",
+    "type": "quiz",
+    "questions": [
+        {
+            "question_text": "¿Cuál es el mecanismo más frecuente de reflujo en pacientes con ERGE y presión normal del esfínter?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Hernia de hiato masiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Relajaciones transitorias del EEI (REEIt)",
+                    "is_correct": true,
+                    "justification": "Las REEIt representan el 50-80% de los episodios de reflujo en pacientes con ERGE [1]."
+                },
+                {
+                    "option_text": "Aumento de la secreción ácida",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Hipotensión basal del esfínter",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El esófago de Barrett se caracteriza por la sustitución del epitelio escamoso por:",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Epitelio cilíndrico con metaplasia intestinal",
+                    "is_correct": true,
+                    "justification": "Es un proceso metaplásico donde células cilíndricas reemplazan a las escamosas dañadas por el reflujo [2, 3]."
+                },
+                {
+                    "option_text": "Epitelio queratinizado",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Tejido fibroso denso",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Mucosa gástrica fúndica pura",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Cuál es la causa más común de gastroparesia?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Postquirúrgica",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Idiopática",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Diabetes mellitus",
+                    "is_correct": true,
+                    "justification": "La diabetes es responsable de aproximadamente el 35-40% de los casos de gastroparesia [4, 5]."
+                },
+                {
+                    "option_text": "Infección por virus Norwalk",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué células marcapasos se pierden característicamente en la gastroparesia diabética?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Células parietales",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Células intersticiales de Cajal (CIC)",
+                    "is_correct": true,
+                    "justification": "La depleción de las CIC en el cuerpo y antro es un hallazgo clave en la fisiopatología neuromuscular [6, 7]."
+                },
+                {
+                    "option_text": "Células G",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Células principales",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El mecanismo de acción de los Inhibidores de la Bomba de Protones (IBP) consiste en:",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Antagonismo reversible del receptor H2",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Unión covalente a la H+/K+-ATPasa",
+                    "is_correct": true,
+                    "justification": "Los IBP forman enlaces disulfuro irreversibles con la subunidad alfa de la bomba de protones [8, 9]."
+                },
+                {
+                    "option_text": "Neutralización directa del ácido lumina",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Estimulación de la somatostatina",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Cómo ayuda la ureasa a la colonización de Helicobacter pylori?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Degrada la mucina protectora",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Genera amoníaco para neutralizar el pH ácido",
+                    "is_correct": true,
+                    "justification": "La ureasa escinde la urea en CO2 y amoníaco, neutralizando el entorno ácido cercano a la bacteria [10, 11]."
+                },
+                {
+                    "option_text": "Aumenta la secreción de bicarbonato",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Inhibe la motilidad gástrica",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La gastritis autoinmunitaria se caracteriza por la presencia de anticuerpos contra:",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Células G",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "H+/K+-ATPasa de la célula parietal",
+                    "is_correct": true,
+                    "justification": "Presenta autoanticuerpos dirigidos contra la bomba de protones, causando pérdida de células parietales [12, 13]."
+                },
+                {
+                    "option_text": "Factor Intrínseco únicamente",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Gluten",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Cuál es el principal mecanismo por el que los AINE dañan la mucosa gástrica?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Inhibición de la síntesis de prostaglandinas",
+                    "is_correct": true,
+                    "justification": "La supresión de COX-1 reduce las defensas mucosas mediadas por prostaglandinas [14, 15]."
+                },
+                {
+                    "option_text": "Aumento directo de la secreción de ácido",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Inhibición de la pepsina",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Estimulación de la gastrina",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué característica anatomopatológica es típica de la enfermedad de Crohn y la diferencia de la colitis ulcerosa?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Afectación exclusiva de la mucosa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Inflamación transmural y discontinua",
+                    "is_correct": true,
+                    "justification": "La Crohn es transmural y 'saltatoria', mientras que la UC es superficial y continua [16, 17]."
+                },
+                {
+                    "option_text": "Afectación siempre rectal",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Presencia de abscesos de las criptas únicamente",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La enfermedad celiaca tiene una asociación genética estrecha con:",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "H. pylori",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Haplotipos HLA-DQ2 y HLA-DQ8",
+                    "is_correct": true,
+                    "justification": "Más del 90% de los pacientes presentan el antígeno HLA-DQ2 [18, 19]."
+                },
+                {
+                    "option_text": "Mutaciones en el gen NOD2",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Déficit de alfa-1 antitripsina",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El diagnóstico de referencia (gold standard) para el Sobrecrecimiento Bacteriano (SBID) es:",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Prueba de aliento con lactulosa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Cultivo cuantitativo de aspirado yeyunal",
+                    "is_correct": true,
+                    "justification": "Tradicionalmente se considera el patrón oro, aunque es invasivo [20, 21]."
+                },
+                {
+                    "option_text": "Biopsia de intestino delgado",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Prueba de grasa fecal de 72 horas",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Cuál es la principal causa predisponente de infección por Clostridioides difficile?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Ingesta de marisco crudo",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Uso previo de antibióticos",
+                    "is_correct": true,
+                    "justification": "La alteración de la microbiota normal por antibióticos elimina la resistencia a la colonización [22, 23]."
+                },
+                {
+                    "option_text": "Diabetes descompensada",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Cirugía bariátrica",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Una característica que diferencia la diarrea osmótica de la secretora es:",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "La osmótica no cede con el ayuno",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "La osmótica desaparece cuando el paciente ayuna",
+                    "is_correct": true,
+                    "justification": "Al cesar la ingesta del soluto no absorbible, la diarrea osmótica se detiene [24, 25]."
+                },
+                {
+                    "option_text": "La secretora siempre tiene sangre",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "El volumen de la secretora es siempre menor de 200 ml",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Cuál es el hallazgo histológico clásico de la colitis ulcerosa quiescente?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Granulomas no caseificantes",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Distorsión arquitectónica de las criptas",
+                    "is_correct": true,
+                    "justification": "Incluye glándulas ramificadas o bifurcadas y acortadas [26, 27]."
+                },
+                {
+                    "option_text": "Metaplasia de células parietales",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Ausencia completa de linfocitos",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La enfermedad de Whipple es causada por:",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Un parásito helminto",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Tropheryma whipplei",
+                    "is_correct": true,
+                    "justification": "Es una infección sistémica causada por esta bacteria grampositiva [28]."
+                },
+                {
+                    "option_text": "Inmunodeficiencia congénita",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "H. pylori virulento",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿En qué parte de la célula se expresa el regulador transmembrana de la Fibrosis Quística (CFTR)?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Membrana basolateral",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Membrana apical de los enterocitos",
+                    "is_correct": true,
+                    "justification": "El CFTR se expresa en la membrana apical y su defecto afecta el transporte de cloruro [29, 30]."
+                },
+                {
+                    "option_text": "Mitocondrias",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Núcleo celular",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El síndrome de Zollinger-Ellison se debe a un tumor que secreta:",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Insulina",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Gastrina",
+                    "is_correct": true,
+                    "justification": "El gastrinoma produce hipersecreción de ácido gástrico mediada por gastrina [31]."
+                },
+                {
+                    "option_text": "Somatostatina",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Vasoactive Intestinal Peptide (VIP)",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La infección crónica por H. pylori que predispone a Úlcera Duodenal suele ser:",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Pangastritis",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Gastritis de predominio antral",
+                    "is_correct": true,
+                    "justification": "Esta distribución aumenta la secreción de ácido y el riesgo de UD [32, 33]."
+                },
+                {
+                    "option_text": "Gastritis fúndica pura",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Aclorhídrica",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué proceso molecular induce el ERGE para desarrollar Esófago de Barrett?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Necrosis de licuefacción",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Reprogramación molecular de factores de transcripción",
+                    "is_correct": true,
+                    "justification": "El reflujo induce cambios en genes como CDX que dirigen la metaplasia cilíndrica [34]."
+                },
+                {
+                    "option_text": "Hipertrofia muscular aislada",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Atrofia glandular gástrica",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El tratamiento de la gastroparesia con piloroespasmo puede incluir:",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Inyección de toxina botulínica en el píloro",
+                    "is_correct": true,
+                    "justification": "Se utiliza para reducir la presión del esfínter en casos de obstrucción funcional [35, 36]."
+                },
+                {
+                    "option_text": "Administración de laxantes osmóticos",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Vagotomía troncal",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Dieta rica en fibra insoluble",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Por qué el SBID causa anemia megaloblástica?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Por pérdida de sangre oculta",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Consumo bacteriano de vitamina B12 (cobalamina)",
+                    "is_correct": true,
+                    "justification": "Las bacterias compiten por la B12 y producen análogos inactivos (cobamidas) [37, 38]."
+                },
+                {
+                    "option_text": "Destrucción de eritrocitos en el bazo",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Fallo en la absorción de hierro",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Cuál es la complicación local más frecuente en la enfermedad de Crohn?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Cáncer de colon",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Fístulas y estenosis",
+                    "is_correct": true,
+                    "justification": "Debido a la inflamación transmural y fibrosis, son complicaciones singulares de la EC [39, 40]."
+                },
+                {
+                    "option_text": "Pólipos adenomatosos",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Diverticulosis masiva",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué síntoma rectal es distintivo de la colitis ulcerosa activa?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Diarrea grasa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Urgencia y sangrado rectal con moco",
+                    "is_correct": true,
+                    "justification": "La inflamación rectal (proctitis) causa tenesmo, urgencia y evacuación de moco y sangre [41, 42]."
+                },
+                {
+                    "option_text": "Estreñimiento crónico únicamente",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Dolor postdefecatorio prolongado",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Los ácidos grasos de cadena corta (AGCC) en el colon son importantes porque:",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Causan diarrea osmótica grave",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Son el principal combustible nutricional de los enterocitos/colonocitos",
+                    "is_correct": true,
+                    "justification": "El butirato y otros AGCC son vitales para la salud del epitelio colónico [43, 44]."
+                },
+                {
+                    "option_text": "Inhiben la absorción de sodio",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Neutralizan el bicarbonato fecal",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué enzima es responsable de activar todas las proteasas pancreáticas en la luz intestinal?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Amilasa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Enteropeptidasa (Enterocinasa)",
+                    "is_correct": true,
+                    "justification": "Activa el tripsinógeno a tripsina, que luego activa el resto de zimógenos [45, 46]."
+                },
+                {
+                    "option_text": "Lipasa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Pepsina",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La diarrea colerética se produce por:",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Exceso de sales biliares en el colon",
+                    "is_correct": true,
+                    "justification": "Las sales biliares malabsorbidas en el íleon estimulan la secreción de líquido en el colon [47, 48]."
+                },
+                {
+                    "option_text": "Déficit de ácidos biliares",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Infección por Vibrio cholerae únicamente",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Ingesta excesiva de grasas",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué genes se proponen como contribuyentes a la metaplasia del Esófago de Barrett?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Genes BRCA1/2",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Genes CDX, BMP4 y FOXA2",
+                    "is_correct": true,
+                    "justification": "Estos genes participan en la diferenciación de células escamosas a cilíndricas [34]."
+                },
+                {
+                    "option_text": "Gen de la Insulina",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Gen de la Hemoglobina",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El mecanismo molecular de la diarrea por toxina del cólera implica:",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Inhibición de la síntesis proteica",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Aumento del AMP cíclico (AMPc)",
+                    "is_correct": true,
+                    "justification": "La toxina activa la adenilato ciclasa, aumentando el AMPc y abriendo canales de cloro [49, 50]."
+                },
+                {
+                    "option_text": "Bloqueo de canales de potasio",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Lisis celular masiva",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué fármacos se asocian fuertemente al desarrollo de Colitis Microscópica?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Antibióticos y antiácidos",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "AINE e IBP",
+                    "is_correct": true,
+                    "justification": "El uso de antiinflamatorios no esteroideos e inhibidores de la bomba de protones es un factor de riesgo importante [51, 52]."
+                },
+                {
+                    "option_text": "Antihistamínicos",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Vitaminas liposolubles",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "En el estreñimiento de tránsito lento, se observa una reducción de:",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "La absorción de agua",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Contracciones propagadas de alta amplitud (CPAA)",
+                    "is_correct": true,
+                    "justification": "Los estudios manométricos confirman una reducción de estas ondas motoras propulsivas [53, 54]."
+                },
+                {
+                    "option_text": "El tono del esfínter anal",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Moco intestinal",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Cuál es la causa del Síndrome de Mallory-Weiss?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Infección por H. pylori",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Laceración del cardias por vómitos intensos",
+                    "is_correct": true,
+                    "justification": "Fuerzas de cizallamiento durante el vómito o arcadas provocan desgarros en la unión gastroesofágica [55]."
+                },
+                {
+                    "option_text": "Esofagitis cáustica",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Varices esofágicas rotas",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La translocación bacteriana en la cirrosis se ve favorecida por:",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Aclorhídria total",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Aumento de la permeabilidad intestinal",
+                    "is_correct": true,
+                    "justification": "La disfunción de la barrera permite el paso de bacterias a ganglios mesentéricos [56, 57]."
+                },
+                {
+                    "option_text": "Disminución de la flora gramnegativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Hipotensión portal",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Cuál es el principal estímulo para las Relajaciones Transitorias del EEI (REEIt)?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Acidez esofágica",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Distensión del estómago proximal por gas o alimento",
+                    "is_correct": true,
+                    "justification": "La distensión estimula mecanorreceptores que activan el reflejo de relajación [58]."
+                },
+                {
+                    "option_text": "El sueño profundo",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "La posición de pie",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "A diferencia de la celiaquía, el Esprúe Tropical afecta con más intensidad a:",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Duodeno proximal",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Parte distal del intestino delgado e íleon",
+                    "is_correct": true,
+                    "justification": "Por ello, en el ET suele haber déficit de B12, a diferencia de la celiaquía que afecta más al duodeno [59]."
+                },
+                {
+                    "option_text": "Esófago medio",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Colon ascendente",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Cuál es el patrón más común de gastritis por H. pylori en la población general?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Gastritis hemorrágica aguda",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Pangastritis con reducción de ácido",
+                    "is_correct": true,
+                    "justification": "La mayoría de los pacientes crónicos tienen pangastritis y producen menos ácido [60, 61]."
+                },
+                {
+                    "option_text": "Atrofia total del cardias",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Gastritis linfocítica varioliforme",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Los IBP pueden causar deficiencias de micronutrientes como:",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Vitamina C",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Magnesio, Vitamina B12 y Calcio",
+                    "is_correct": true,
+                    "justification": "Existen pruebas sólidas de la relación entre IBP a largo plazo y estas deficiencias [62]."
+                },
+                {
+                    "option_text": "Vitamina K",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Sodio y Potasio únicamente",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La disfunción del esfínter pilórico asociada a la gastroparesia se denomina:",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Acalasia",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Piloroespasmo",
+                    "is_correct": true,
+                    "justification": "La falta de relajación o espasmo del píloro retarda el vaciamiento gástrico [63, 64]."
+                },
+                {
+                    "option_text": "Disquinesia biliar",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Estenosis de His",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Un marcador fecal sensible y específico de inflamación intestinal es:",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Amilasa fecal",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Calprotectina",
+                    "is_correct": true,
+                    "justification": "Es una glucoproteína de los neutrófilos útil para monitorizar la actividad en EII [65]."
+                },
+                {
+                    "option_text": "Bilirrubina directa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Glucosa en heces",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué enfermedad gástrica causa una pérdida masiva de proteínas?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Enfermedad de Ménétrier",
+                    "is_correct": true,
+                    "justification": "La gastropatía hipertrófica gigante produce exudados ricos en proteínas por aumento de permeabilidad [66]."
+                },
+                {
+                    "option_text": "Gastritis por cuerpos de Russell",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Úlcera duodenal de tipo III",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Microgastria congénita",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La lesión aftosa precoz en la enfermedad de Crohn suele aparecer sobre:",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Células parietales",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Agregados linfoides (células M)",
+                    "is_correct": true,
+                    "justification": "Las aftas destruyen las células M que recubren los folículos linfoides [67]."
+                },
+                {
+                    "option_text": "Glándulas de Brunner",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Músculo longitudinal",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Cuál es la prueba serológica más utilizada para el cribado de enfermedad celiaca?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Anticuerpos antigliadina IgG",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Anticuerpos antitransglutaminasa tisular (tTG) IgA",
+                    "is_correct": true,
+                    "justification": "Es la prueba estándar debido a su alta sensibilidad y especificidad [68]."
+                },
+                {
+                    "option_text": "Anticuerpos anti-célula parietal",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Anticuerpos anti-Saccharomyces cerevisiae",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Las citotoxinas de C. difficile dañan el epitelio mediante:",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Aumento del AMPc",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Alteración del citoesqueleto (familia Rho)",
+                    "is_correct": true,
+                    "justification": "Las toxinas A y B interactúan con proteínas Rho para desorganizar el anillo actina-miosina [69, 70]."
+                },
+                {
+                    "option_text": "Inhibición de la ureasa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Formación de poros en la mitocondria",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Una medida dietética útil para el SBID es:",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Dieta rica en lactosa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Dieta baja en FODMAP",
+                    "is_correct": true,
+                    "justification": "Los carbohidratos fermentables proporcionan un entorno rico para el crecimiento bacteriano [71]."
+                },
+                {
+                    "option_text": "Dieta alta en grasas saturadas",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Dieta vegetariana estricta únicamente",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La colitis ulcerosa se diferencia de la de Crohn por su afectación:",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Parcheada y saltatoria",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Continua, simétrica y difusa",
+                    "is_correct": true,
+                    "justification": "Comienza en el recto y se extiende proximalmente sin áreas respetadas [72]."
+                },
+                {
+                    "option_text": "Transmural",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Exclusiva del intestino delgado",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué tinción histológica identifica a los macrófagos en la Enfermedad de Whipple?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Rojo Congo",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Ácido peryódico de Schiff (PAS)",
+                    "is_correct": true,
+                    "justification": "Los macrófagos espumosos son PAS positivos debido a glucoproteínas de la pared bacteriana [73]."
+                },
+                {
+                    "option_text": "Gram",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Azul de Prusia",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La hipergastrinemia crónica tras uso prolongado de IBP puede causar:",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Atrofia de células ECL",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Hiperplasia de células parietales y ECL",
+                    "is_correct": true,
+                    "justification": "La gastrina es un factor trófico que provoca hiperplasia, persistente tras suspender el IBP [8]."
+                },
+                {
+                    "option_text": "Hipoinsulinemia",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Aumento del vaciamiento gástrico",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Cuál es el hallazgo endoscópico más frecuente en la esofagitis eosinófila?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Varices",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Surcos longitudinales y anillos concéntricos",
+                    "is_correct": true,
+                    "justification": "Estos rasgos son muy característicos de la EEo en comparación con el ERGE [74, 75]."
+                },
+                {
+                    "option_text": "Erosiones distales aisladas",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Aplanamiento velloso",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El desgarro de Mallory-Weiss se asocia con frecuencia a:",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Diabetes",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Hernia de hiato",
+                    "is_correct": true,
+                    "justification": "La mayoría de los pacientes presentan hernia de hiato, que aumenta la tensión de la pared [55]."
+                },
+                {
+                    "option_text": "Embarazo tardío",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Apendicitis",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La sensibilidad de la prueba rápida de ureasa para H. pylori disminuye en:",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Ayuno prolongado",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Hemorragia digestiva aguda",
+                    "is_correct": true,
+                    "justification": "La sangre en el estómago reduce la sensibilidad de las pruebas de ureasa en biopsia [76, 77]."
+                },
+                {
+                    "option_text": "Presencia de bilis",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Ingesta de carne roja",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué favorece la adaptación intestinal en el síndrome del intestino corto?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Glucocorticoides",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Factores de crecimiento epiteliales como teduglutida",
+                    "is_correct": true,
+                    "justification": "Pueden acelerar el proceso de hiperplasia compensatoria del intestino residual [78]."
+                },
+                {
+                    "option_text": "Antibióticos de amplio espectro",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Cirugía de derivación biliar",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        }
+    ]
+}

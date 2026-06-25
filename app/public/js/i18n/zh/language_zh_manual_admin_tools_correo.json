@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.correo.title": "邮件 / 联系方式",
+    "manual_admin.tools.correo.desc": "SMTP 服务器和表单配置。",
+    "manual_admin.tools.correo.smtp": "SMTP 服务器",
+    "manual_admin.tools.correo.smtp_desc": "用于发送电子邮件的主机、端口、安全性和凭据。",
+    "manual_admin.tools.correo.secret": "联系方式密钥",
+    "manual_admin.tools.correo.secret_desc": "用于签署反机器人令牌的 HMAC 密钥。"
+  }
+}

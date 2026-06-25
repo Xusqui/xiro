@@ -1,0 +1,9 @@
+{
+  "keys": {
+    "player.media.image_label": "Bild",
+    "player.wordscramble.word_length_pre": "WORT MIT",
+    "player.wordscramble.word_length_post": "BUCHSTABEN",
+    "player.wordscramble.reset": "Löschen",
+    "player.wordscramble.submit": "Senden"
+  }
+}

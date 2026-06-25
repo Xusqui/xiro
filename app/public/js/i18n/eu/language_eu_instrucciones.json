@@ -1,0 +1,29 @@
+{
+  "keys": {
+    "instructions.page.title": "XIRO! - Argibideak",
+    "instructions.hero.title": "Nola jokatu XIRO!",
+    "instructions.hero.subtitle": "Ezagutu gure dinamika eta galdera motak",
+    "instructions.tabs.game_modes": "Joko moduak",
+    "instructions.tabs.question_types": "Galdera motak",
+    "instructions.game_modes.bank.title": "1. Galdera Bankua",
+    "instructions.game_modes.bank.description": "Galderak banku zehatz batetik hartzen dira eta jokalariei erabat ausaz aurkezten zaizkie. Gai zehatz bat berrikusteko aproposa.",
+    "instructions.game_modes.mix.title": "2. Galderen nahasketa",
+    "instructions.game_modes.mix.description": "Hainbat galdera-banku hautatzeko eta bakoitzetik zenbat ausazko galdera ateratzeko aukera ematen dizu. Hautatutako galderak ausazko ordenan nahastuko dira aurkezten direnean.",
+    "instructions.game_modes.custom.title": "3. Jolas pertsonalizatuak",
+    "instructions.game_modes.custom.description": "Kontrolean zaude. Banku ezberdinetako galderak banan-banan aukeratzen dituzu eta haien agerpen-ordena zehatza konfiguratzen duzu aurkezpen egituratu baterako.",
+    "instructions.game_modes.trivial.title": "4. Huskeria",
+    "instructions.game_modes.trivial.description": "Taula modu klasikoa! Dado bat jaurtitzen da eta fitxa aurrera doa. Lurreratzen zaren koadroaren arabera, koadroaren koloreari dagokion kategoriako ausazko galdera bat aurkeztuko da.",
+    "instructions.question_types.quiz.title": "Galdetegia",
+    "instructions.question_types.quiz.description": "Galdera klasikoa hainbat erantzun posible dituena, baina bakarra da zuzena.",
+    "instructions.question_types.survey.title": "Inkesta",
+    "instructions.question_types.survey.description": "Ez dago erantzun zuzen edo okerrik. Entzuleen iritzia jasotzeko balio du aukera desberdinak aurkeztuz.",
+    "instructions.question_types.numeric.title": "Zenbakizko Hurbilketa",
+    "instructions.question_types.numeric.description": "Jokalariek zenbaki bat sartu behar dute irabazlearen balio zehatzera ahalik eta gehien hurbildu nahian.",
+    "instructions.question_types.order.title": "Ordenatu sekuentzia (ordena)",
+    "instructions.question_types.order.description": "Jokalariak arrastatu eta ordena logiko egokian jarri behar dituen elementuen zerrenda aurkezten da.",
+    "instructions.question_types.word_scramble.title": "Guess Word (Word Scramble)",
+    "instructions.question_types.word_scramble.description": "Erronka ezkutuko hitz bat aurkitzea da, pantailan agertzen diren letra desordenatuak ordenatuz.",
+    "instructions.question_types.multiple.title": "Aukera anitzak",
+    "instructions.question_types.multiple.description": "Galdetegiaren antzekoa, baina kasu honetan 1 eta 6 erantzun zuzen artean egon daitezke aldi berean."
+  }
+}

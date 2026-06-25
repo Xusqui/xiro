@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "manual_admin.tools.licencia.title": "Lizenz",
+    "manual_admin.tools.licencia.desc": "Status und Konfiguration der Xiro!-Lizenz.",
+    "manual_admin.tools.licencia.info": "Aktive Lizenz",
+    "manual_admin.tools.licencia.info_desc": "Speichern und validieren Sie die Lizenz."
+  }
+}

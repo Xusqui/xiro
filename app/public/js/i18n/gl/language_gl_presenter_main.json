@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "presenter.loading.title": "Cargando...",
+    "presenter.loading.desc": "Preparación do panel de presentadores",
+    "presenter.sidebar.connected": "Conectado",
+    "presenter.lobby.waiting": "Agardando xogadores...",
+    "presenter.lobby.pin": "PIN DE ACCESO",
+    "presenter.lobby.start": "COMEZA!",
+    "presenter.lobby.players": "Xogadores:",
+    "presenter.game.terminate": "Remate",
+    "presenter.game.terminate.title": "Remata o xogo e mostra o podio coa clasificación actual",
+    "presenter.game.abandon": "Deixa o xogo",
+    "presenter.game.abandon.title": "Saír da sesión",
+    "presenter.fullscreen.title": "Pantalla completa"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "player.trivial.launch_dice": "! Role🎯",
+    "player.trivial.correct_prefix": "Você acertou,",
+    "player.trivial.turn_change": "Mudança de vez!",
+    "player.trivial.team_scores": "acerta!",
+    "player.trivial.category_chosen": "Categoria escolhida. Preparando pergunta...",
+    "player.trivial.team_prefix": "A equipe",
+    "player.trivial.choosing_category": "está escolhendo categoria...",
+    "player.trivial.game_over": "A partida terminou.",
+    "player.trivial.moving_preparing": "Movendo... Preparando pergunta.",
+    "player.trivial.moved_waiting": "moveu. Aguardando pergunta...",
+    "player.trivial.turn_label": "Vez de",
+    "player.trivial.roll_again": "Role novamente…"
+  }
+}

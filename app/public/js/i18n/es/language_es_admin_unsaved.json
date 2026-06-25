@@ -1,0 +1,10 @@
+{
+    "keys": {
+        "admin.unsaved.title": "⚠️ Cambios sin guardar",
+        "admin.unsaved.msg_exit": "Tienes cambios sin guardar. Si sales ahora, se perderán. ¿Quieres continuar?",
+        "admin.unsaved.msg_navigate": "Tienes cambios sin guardar. Si continúas, se perderán. ¿Quieres continuar?",
+        "admin.unsaved.btn_exit": "Salir sin guardar",
+        "admin.unsaved.btn_keep": "Seguir editando",
+        "admin.unsaved.btn_continue": "Continuar sin guardar"
+    }
+}

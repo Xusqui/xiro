@@ -1,0 +1,23 @@
+{
+  "keys": {
+    "presenter.session.understood": "Verstanden",
+    "presenter.session.end_title": "Spiel beenden?",
+    "presenter.session.end_msg": "Das Spiel endet und das Podium wird mit dem aktuellen Spielstand angezeigt.",
+    "presenter.session.end_yes": "Ja, Spiel beenden",
+    "presenter.session.cancel": "Abbrechen",
+    "presenter.session.abandon_title": "Spiel verlassen?",
+    "presenter.session.abandon_msg_html": "Tippe <span class=\"font-black text-red-300\">{confirmWord}</span> zum Bestätigen. Dies wirft alle Spieler raus.",
+    "presenter.session.no_session_title": "Keine aktive Sitzung",
+    "presenter.session.no_session_msg": "Es gibt keine aktive Sitzung für Xiro!.",
+    "presenter.session.abandoned_title": "Sitzung abgebrochen",
+    "presenter.session.abandoned_msg": "Die Sitzung wurde abgebrochen.",
+    "presenter.session.btn_back_home": "Zur Startseite",
+    "presenter.session.btn_confirm": "Bestätigen",
+    "presenter.session.btn_accept": "Akzeptieren",
+    "presenter.session.error_title": "Präsentator-Fehler",
+    "presenter.session.error_unknown": "Unbekannter Fehler",
+    "presenter.session.lobby_error_title": "Fehler beim Erstellen der Lobby",
+    "presenter.session.lobby_error_msg": "Die Lobby konnte nicht erstellt werden",
+    "presenter.session.start_error_title": "Fehler beim Starten des Spiels"
+  }
+}

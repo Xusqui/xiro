@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.equipos.title": "Equips",
+    "manual_admin.tools.equipos.desc": "Ajustos per a les partides per equips.",
+    "manual_admin.tools.equipos.lambda": "Suavitzat Lambda",
+    "manual_admin.tools.equipos.lambda_desc": "Suavitzat bayesià per equilibrar equips de diferent mida en la puntuació.",
+    "manual_admin.tools.equipos.team_names": "Noms dels equips",
+    "manual_admin.tools.equipos.team_names_desc": "Defineix el prefix o format per als noms dels equips."
+  }
+}

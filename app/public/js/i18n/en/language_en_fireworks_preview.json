@@ -1,0 +1,7 @@
+{
+  "keys": {
+    "fireworks_preview.page.title": "Preview — Fireworks",
+    "fireworks_preview.button.close": "Close",
+    "fireworks_preview.error.controller_unavailable": "Error: FireworksController not available"
+  }
+}

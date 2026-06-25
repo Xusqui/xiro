@@ -1,0 +1,22 @@
+{
+  "keys": {
+    "index.heading": "XIROへようこそ！",
+    "index.subtitle": "アクセスモードを選択してください",
+    "index.player.title": "プレーヤー",
+    "index.player.desc": "PIN コードを使用してゲームに参加する",
+    "index.player.cta": "今すぐプレイ",
+    "index.player.manual": "プレイヤーズマニュアル",
+    "index.presenter.title": "プレゼンター",
+    "index.presenter.desc": "ゲームを制御して画面に投影する",
+    "index.presenter.cta": "プレゼンテーションを開始する",
+    "index.presenter.manual": "プレゼンターマニュアル",
+    "index.tv.title": "テレビ版",
+    "index.tv.desc": "古いテレビとブラウザ用の軽量バージョン",
+    "index.tv.cta": "サポートされているバージョン",
+    "index.admin.title": "管理",
+    "index.admin.desc": "質問と設定を管理する",
+    "index.admin.cta": "パネルにアクセスする",
+    "index.admin.manual": "管理者マニュアル",
+    "index.title": "シロ！ - 始める"
+  }
+}

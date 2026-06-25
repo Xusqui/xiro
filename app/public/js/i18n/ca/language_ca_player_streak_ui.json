@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "player.streak.double_prefix": "DOBLE RATXA x",
+    "player.streak.lost": "RATXA PERDUDA!",
+    "player.streak.active_prefix": "RATXA x",
+    "player.streak.double_label": "DOBLE",
+    "player.streak.label": "RATXA",
+    "player.streak.consecutive_correct": "respostes correctes seguides",
+    "player.streak.ended_prefix": "Se ha acabat la teva ratxa de",
+    "player.streak.double_bonus_suffix": "seguides amb bonus doble!"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "admin.trivial.title": "问答游戏",
+    "admin.trivial.subtitle": "使用您自己的类别创建琐事板",
+    "admin.trivial.btn_new": "新琐事",
+    "admin.trivial.empty": "还没有问答游戏",
+    "admin.trivial.form_edit": "编辑琐事",
+    "admin.trivial.form_new": "新琐事",
+    "admin.trivial.label_name": "游戏名称",
+    "admin.trivial.label_pin": "别针",
+    "admin.trivial.ph_pin": "例如TRV01",
+    "admin.trivial.section_config": "游戏设置",
+    "admin.trivial.label_visible": "演示者可见",
+    "admin.trivial.label_streaks": "使用条纹"
+  }
+}

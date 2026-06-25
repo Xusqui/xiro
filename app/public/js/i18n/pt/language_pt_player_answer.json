@@ -1,0 +1,23 @@
+{
+  "keys": {
+    "player.answer.correct": "BOM!",
+    "player.answer.wrong": "ERRADO!",
+    "player.answer.will_it_be_right": "Será correto?",
+    "player.answer.time_up": "TEMPO ESGOTADO!",
+    "player.answer.waiting_results": "Aguardando resultados...",
+    "player.answer.correct_label": "Correto:",
+    "player.answer.ranking": "Classificação",
+    "player.answer.sent": "Resposta Enviada!",
+    "player.answer.waiting_team": "Aguardando a tua equipa...",
+    "player.answer.players_answered": "jogadores responderam",
+    "player.answer.vote_registered": "Voto Registado!",
+    "player.answer.survey_label": "Inquérito",
+    "player.answer.yes": "<img src=\"/images/chamaleon/thumbs_up.svg\" class=\"w-32 h-32 mb-4 animate-bounce drop-shadow-lg\" alt=\"👍\">",
+    "player.answer.approximate": "QUASE!",
+    "player.answer.no": "<img src=\"/images/chamaleon/thumbs_down.svg\" class=\"w-32 h-32 mb-4 animate-bounce drop-shadow-lg\" alt=\"👎\">",
+    "player.answer.sending_order": "Enviando a tua ordem...",
+    "player.answer.sending_answer": "Enviando a tua resposta...",
+    "player.answer.validating": "A validar a tua resposta...",
+    "player.answer.correct_answer_label": "Resposta correta:"
+  }
+}

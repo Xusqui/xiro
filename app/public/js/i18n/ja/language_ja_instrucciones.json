@@ -1,0 +1,29 @@
+{
+  "keys": {
+    "instructions.page.title": "シロ！ - 説明書",
+    "instructions.hero.title": "XIROの遊び方！",
+    "instructions.hero.subtitle": "私たちのダイナミクスと質問の種類について学ぶ",
+    "instructions.tabs.game_modes": "ゲームモード",
+    "instructions.tabs.question_types": "質問の種類",
+    "instructions.game_modes.bank.title": "1. クエスチョンバンク",
+    "instructions.game_modes.bank.description": "質問は特定の銀行から取得され、完全にランダムにプレイヤーに提示されます。特定のトピックを復習するのに最適です。",
+    "instructions.game_modes.mix.title": "2. さまざまな質問",
+    "instructions.game_modes.mix.description": "いくつかの質問バンクを選択し、それぞれから抽出するランダムな質問の数を選択できます。選択された質問は、出題時にランダムな順序で混合されます。",
+    "instructions.game_modes.custom.title": "3. カスタムゲーム",
+    "instructions.game_modes.custom.description": "あなたがコントロールしています。さまざまなバンクから質問を 1 つずつ選択し、構造化されたプレゼンテーションのために質問の表示順序を正確に設定します。",
+    "instructions.game_modes.trivial.title": "4. 些細なこと",
+    "instructions.game_modes.trivial.description": "クラシックボードモード！サイコロを振ってトークンが前に進みます。どのボックスに止まったかに応じて、ボックスの色に対応するカテゴリからランダムな問題が出題されます。",
+    "instructions.question_types.quiz.title": "クイズ",
+    "instructions.question_types.quiz.description": "いくつかの答えが考えられる古典的な質問ですが、正解は 1 つだけです。",
+    "instructions.question_types.survey.title": "調査",
+    "instructions.question_types.survey.description": "正解も不正解もありません。さまざまな選択肢を提示することで視聴者の意見を集めるのに役立ちます。",
+    "instructions.question_types.numeric.title": "数値近似",
+    "instructions.question_types.numeric.description": "プレーヤーは、正確な賞金にできるだけ近づけるように数値を入力する必要があります。",
+    "instructions.question_types.order.title": "ソート順序 (順序)",
+    "instructions.question_types.order.description": "要素のリストが表示されるので、プレーヤーはそれをドラッグして正しい論理順序で配置する必要があります。",
+    "instructions.question_types.word_scramble.title": "Guess Word (ワードスクランブル)",
+    "instructions.question_types.word_scramble.description": "画面上に表示される乱れた文字を順番に並べて、隠された単語を見つけるという課題です。",
+    "instructions.question_types.multiple.title": "多肢選択",
+    "instructions.question_types.multiple.description": "クイズと似ていますが、この場合は同時に 1 ～ 6 つの正解が存在する可能性があります。"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "manual_admin.tools.interfaz.title": "Interfaz",
+    "manual_admin.tools.interfaz.desc": "Ajustes de la interfaz de usuario.",
+    "manual_admin.tools.interfaz.tv": "Tarjeta TV",
+    "manual_admin.tools.interfaz.tv_desc": "Muestra u oculta la tarjeta y el enlace a la versión TV en la pantalla de inicio."
+  }
+}

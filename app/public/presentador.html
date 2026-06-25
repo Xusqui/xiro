@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="xiro-i18n-sections" content="common,presenter">
+    <title>XIRO! - Lobby</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <script defer src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.9.2/lib/qr-code-styling.js"
+        integrity="sha384-P7sw4KeI1SDhOs6wYFsBysIIHFqMTgG4y9vunEfL8ZuV0WhnHsh9MRu9Rso17MtY"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/common.css?v=20260625151006">
+    <link rel="stylesheet" href="/css/output-presenter.css?v=20260625151006">
+    <link rel="stylesheet" href="/css/presenter.css?v=20260625151006">
+    <link rel="stylesheet" href="/css/presenter-lobby-responsive.css?v=20260625151006">
+    <link rel="stylesheet" href="/css/presenter-lobby-mobile.css?v=20260625151006">
+    <link rel="stylesheet" href="/css/fireworks.css?v=20260625151006">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monoton&display=swap">
+    <link rel="stylesheet" href="/css/neon.css?v=20260625151006">
+    <link rel="stylesheet" href="/css/index-style.css?v=20260625151006">
+    <script src="/socket.io/socket.io.js?v=20260625151006"></script>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    <script defer src="/js/core/umami-loader.js?v=20260625151006"></script>
+    <style>
+        @keyframes xiroPresenterGradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        body {
+            background: linear-gradient(135deg, #7aaa10 0%, #f9b518 45%, #e65453 100%) !important;
+            background-size: 200% 200% !important;
+            background-position: 0% 50%;
+            animation: xiroPresenterGradient 30s ease-in-out infinite;
+        }
+
+        #presenter-loading {
+            background: linear-gradient(135deg, #7aaa10 0%, #f9b518 45%, #e65453 100%) !important;
+            background-size: 200% 200% !important;
+            background-position: 0% 50%;
+            animation: xiroPresenterGradient 30s ease-in-out infinite;
+        }
+    </style>
+    <script>
+        // Generar playerId persistente para el presentador
+        function getOrCreatePlayerId() {
+            let playerId = localStorage.getItem('xiro_presenter_playerId');
+            if (!playerId) {
+                playerId = crypto.randomUUID();
+                localStorage.setItem('xiro_presenter_playerId', playerId);
+            }
+            return playerId;
+        }
+        const presenterPlayerId = getOrCreatePlayerId();
+    </script>
+    <script defer src="/js/i18n/i18n-core.js?v=20260625151006"></script>
+    <script defer src="/js/i18n/i18n-dom.js?v=20260625151006"></script>
+    <script defer src="/js/i18n/i18n-ui.js?v=20260625151006"></script>
+</head>
+
+<body class="bg-gradient-to-br text-white h-screen w-full overflow-hidden">
+    <div id="presenter-loading"
+        class="hidden fixed inset-0 z-[9999] text-white flex flex-col items-center justify-center">
+        <img src="/images/logo.svg" alt="XIRO!"
+            style="width:200px; margin-bottom:2rem; filter:drop-shadow(0 10px 20px rgba(0,0,0,0.3));">
+        <div class="w-16 h-16 border-8 border-t-transparent rounded-full animate-spin mb-6"
+            style="border-color: rgba(255,255,255,0.4); border-top-color: transparent;"></div>
+        <h1 class="text-3xl font-black mb-2" data-i18n="presenter.loading.title">...</h1>
+        <p style="color:rgba(255,255,255,0.7);" data-i18n="presenter.loading.desc">...</p>
+    </div>
+    <script>
+        // Evita el parpadeo en cargas rapidas: solo mostrar loader si tarda en iniciar.
+        window.__presenterLoadingTimer = window.setTimeout(() => {
+            const loader = document.getElementById('presenter-loading');
+            if (loader) loader.classList.remove('hidden');
+        }, 220);
+    </script>
+    <!-- Botón de pantalla completa (discreto) -->
+    <button id="fullscreen-btn" data-presenter-action="toggle-fullscreen"
+        class="fixed top-5 right-[216px] z-50 bg-slate-800/50 hover:bg-slate-700/80 text-slate-300 hover:text-white px-3 py-2 rounded-lg transition-all duration-200 shadow-lg backdrop-blur-sm border border-slate-700/50"
+        title="Pantalla completa" data-i18n-title="presenter.fullscreen.title">
+        <i id="fullscreen-icon" class="fas fa-expand text-lg"></i>
+    </button>
+
+    <!-- Columna lateral fija de usuarios conectados -->
+    <div id="players-sidebar" class="fixed top-0 right-0 w-[200px] h-screen bg-slate-800 z-40 flex flex-col"
+        style="border-left: 2px solid rgba(138, 184, 23, 0.3);">
+        <div class="p-4 border-b border-slate-700">
+            <h3 class="font-black uppercase text-sm flex items-center justify-between" style="color: #8ab817;">
+                <span><i class="fas fa-users mr-2"></i><span data-i18n="presenter.sidebar.connected">...</span></span>
+                <span id="players-sidebar-count" class="px-2 py-1 rounded-full text-xs font-bold text-white"
+                    style="background: #8ab817;">0</span>
+            </h3>
+        </div>
+        <div id="players-sidebar-list" class="flex-1 p-3 overflow-y-auto space-y-2">
+            <div data-empty-state="waiting-players" class="text-slate-500 text-xs italic text-center py-8"
+                data-i18n="presenter.lobby.waiting">...</div>
+        </div>
+    </div>
+
+    <div id="countdown-overlay"
+        class="hidden fixed inset-0 z-[100] bg-black/40 flex items-center justify-center pointer-events-none">
+        <span id="big-number"
+            class="text-[300px] font-black italic text-white drop-shadow-[0_0_50px_rgba(168,85,247,0.8)]"></span>
+    </div>
+
+    <div id="lobby-main" class="h-full flex flex-col p-6 gap-2"
+        style="width: calc(100% - 200px); display: none; position: relative;">
+        <div id="header-lobby"
+            style="display: grid; grid-template-columns: 1fr max-content 1fr; align-items: center; height: 50%;">
+            <img src="/images/logo.svg"
+                style="width: clamp(180px, 45vw, 600px); max-width: 90%; height: auto; display: block; justify-self: center; align-self: center; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.5));">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; height: 100%;">
+                <div id="qr-card"
+                    class="bg-white text-slate-900 rounded-3xl shadow-2xl text-center border-b-8 flex flex-col items-center justify-center"
+                    data-presenter-action="expand-qr"
+                    style="cursor:pointer; border-bottom-color: #f9b518; width: clamp(200px, calc(50vh - 8.5rem), 1000px); max-height: 100%; padding: 0.75rem; overflow: hidden; container-type: inline-size;">
+                    <p class="text-xs font-bold text-slate-400" data-i18n="presenter.lobby.pin">...</p>
+                    <h1 id="display-pin" class="font-black italic"
+                        style="font-size: clamp(1rem, 12cqw, 3rem); line-height: 1; white-space: nowrap; width: 100%;">
+                        ---</h1>
+                    <div id="qr-canvas" style="margin-top:6px;"></div>
+                    <div id="qr-link"
+                        style="font-size: clamp(0.5rem, 8cqw, 0.75rem); margin-top: 2px; width: 100%; overflow-wrap: break-word;">
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <button id="btn-empezar" data-presenter-action="start-game" class="start-glass-btn"
+                    data-i18n="presenter.lobby.start" disabled>...</button>
+            </div>
+        </div>
+        <div id="players-zone"
+            class="bg-slate-800/50 rounded-[40px] pt-8 px-8 pb-14 border-4 border-dashed overflow-y-auto"
+            style="height: 50%; border-color: rgba(138, 184, 23, 0.4);">
+            <h2 class="text-2xl font-black uppercase italic mb-6"><span data-i18n="presenter.lobby.players">...</span>
+                <span id="p-count" class="px-4 py-1 rounded-full ml-2 text-white" style="background: #8ab817;">0</span>
+            </h2>
+            <div id="p-list" class="grid grid-cols-6 gap-4"></div>
+        </div>
+    </div>
+
+    <!-- Botones de control de partida - fijos en la parte inferior centrados -->
+    <div id="game-action-btns" class="fixed bottom-2 z-50 flex gap-2 items-center"
+        style="display: none; left: 50%; transform: translateX(-50%);">
+        <button id="terminate-btn" data-presenter-action="terminate-game" style="display: none;"
+            class="bg-amber-700/80 hover:bg-amber-600 text-amber-100 px-5 py-1.5 rounded-lg transition-all duration-200 shadow-lg backdrop-blur-sm border border-amber-500/50"
+            title="Finalizar la partida y mostrar el podio con la clasificación actual"
+            data-i18n-title="presenter.game.terminate.title">
+            <i class="fas fa-flag-checkered mr-2"></i><span data-i18n="presenter.game.terminate">...</span>
+        </button>
+        <button id="abandon-btn" data-presenter-action="abandon-game"
+            class="bg-red-900/60 hover:bg-red-800 text-red-100 px-6 py-1.5 rounded-lg transition-all duration-200 shadow-lg backdrop-blur-sm border border-red-700/50"
+            title="Abandonar sesión" data-i18n-title="presenter.game.abandon.title">
+            <i class="fas fa-door-open mr-2"></i><span data-i18n="presenter.game.abandon">...</span>
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="fixed bottom-2 left-2 text-slate-500 text-xs z-10">
+        <a href="/about.html" class="hover:text-purple-400 transition-colors" title="Acerca de XIRO!"
+            data-i18n="common.footer.author">...</a>
+    </footer>
+
+    <!-- Audio para el timer -->
+    <audio id="tick-sound" preload="auto">
+        <source src="/audio/bip.wav" type="audio/wav">
+    </audio>
+
+    <!-- Utilidades DOM (no módulo) -->
+    <script src="/js/dom-utils.js?v=20260625151006"></script>
+
+    <!-- Sistema de fuegos artificiales -->
+    <script src="/js/fireworks/utils.js?v=20260625151006"></script>
+    <script src="/js/fireworks/stage.js?v=20260625151006"></script>
+    <script src="/js/fireworks/particles.js?v=20260625151006"></script>
+    <script src="/js/fireworks/shells.js?v=20260625151006"></script>
+    <script src="/js/fireworks/fireworks.js?v=20260625151006"></script>
+    <script>
+        // Habilitar sonido de fuegos si está activado en el panel de administración.
+        // Se usa fetch directo desde el HTML para evitar dependencias del sistema de módulos ES.
+        fetch('/api/ui-settings?ts=' + Date.now(), {
+            cache: 'no-store',
+            headers: { 'Cache-Control': 'no-cache' }
+        })
+            .then(function (r) { return r.json(); })
+            .then(function (settings) {
+                // Exponer settings globalmente para que los módulos los lean sin fetch extra
+                window.__xiroUiSettings = settings;
+                if (settings.fireworksSound && typeof soundManager !== 'undefined') {
+                    soundManager.setEnabled(true);
+                }
+            })
+            .catch(function () { });
+
+        // Desbloquear AudioContext en el primer gesto del usuario.
+        ;['click', 'touchstart', 'keydown', 'pointerdown'].forEach(function (evt) {
+            document.addEventListener(evt, function unlock() {
+                if (typeof soundManager !== 'undefined' && soundManager._ctx) {
+                    soundManager._ctx.resume();
+                }
+            }, { once: true, capture: true });
+        });
+    </script>
+
+    <!-- Lógica compartida del tablero Trivial (sin módulos, compatible Chrome 40+) -->
+    <script src="/js/shared/trivial/trivial-board-geometry.js?v=20260625151006"></script>
+    <script src="/js/shared/trivial/trivial-board-builder.js?v=20260625151006"></script>
+    <script src="/js/shared/trivial/trivial-token-renderer.js?v=20260625151006"></script>
+    <script src="/js/shared/trivial/trivial-highlights-renderer.js?v=20260625151006"></script>
+
+    <!-- Sistema modular del presentador -->
+    <script type="module" src="/js/presenter/presenter-main.js?v=20260625151006"></script>
+    <script src="/js/core/site-badge.js?v=20260625151006"></script>
+</body>
+
+</html>

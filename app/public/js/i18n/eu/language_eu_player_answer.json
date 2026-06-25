@@ -1,0 +1,23 @@
+{
+  "keys": {
+    "player.answer.correct": "ONGI!",
+    "player.answer.wrong": "HUTS EGIN ZUEN!",
+    "player.answer.will_it_be_right": "Zuzena izango da?",
+    "player.answer.time_up": "DENBORA AGORTUTA!",
+    "player.answer.waiting_results": "Emaitzak itxaroten...",
+    "player.answer.correct_label": "Zuzena:",
+    "player.answer.ranking": "Sailkapena",
+    "player.answer.sent": "Erantzuna Bidalita!",
+    "player.answer.waiting_team": "Zure taldea itxaroten...",
+    "player.answer.players_answered": "jokalari erantzun dute",
+    "player.answer.vote_registered": "Botoa Erregistratuta!",
+    "player.answer.survey_label": "Inkesta",
+    "player.answer.yes": "<img src=\"/images/chamaleon/thumbs_up.svg\" class=\"w-32 h-32 mb-4 animate-bounce drop-shadow-lg\" alt=\"👍\">",
+    "player.answer.approximate": "HURBIL!",
+    "player.answer.no": "<img src=\"/images/chamaleon/thumbs_down.svg\" class=\"w-32 h-32 mb-4 animate-bounce drop-shadow-lg\" alt=\"👎\">",
+    "player.answer.sending_order": "Zure ordena bidaltzen...",
+    "player.answer.sending_answer": "Zure erantzuna bidaltzen...",
+    "player.answer.validating": "Zure erantzuna egiaztatzen...",
+    "player.answer.correct_answer_label": "Erantzun zuzena:"
+  }
+}

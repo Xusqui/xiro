@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "presenter.wordscramble.question_label": "Galdera",
+    "presenter.wordscramble.correct_answer": "Erantzun zuzena",
+    "presenter.wordscramble.anagram_label": "Anagrama · Deszifratu hitza",
+    "presenter.wordscramble.available_letters": "Eskuragarri dauden letrak"
+  }
+}

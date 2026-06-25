@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "player.trivial.your_turn": "¡Tu turno!",
+    "player.trivial.cell_label": "Casilla",
+    "player.trivial.center_label": "Centro",
+    "player.trivial.waiting_for": "Esperando a",
+    "player.trivial.waiting_active": "Esperando al jugador activo",
+    "player.trivial.moving_piece": "Moviendo ficha…",
+    "player.trivial.radio_label": "Radio",
+    "player.trivial.selecting_cell": "Seleccionando casilla…",
+    "player.trivial.tap_dice": "Toca el dado para tirar",
+    "player.trivial.turn_of": "Turno de"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "keys": {
+    "presenter.remote.tap_pause": "Tap to pause",
+    "presenter.remote.tap_resume": "Tap to resume",
+    "presenter.remote.end_confirm": "Do you want to end the game now?",
+    "presenter.remote.connect_error": "Error connecting as remote control",
+    "presenter.remote.game_finished": "The game has ended",
+    "presenter.remote.no_admin_session": "No admin session found.<br>Log in to the admin panel first.",
+    "presenter.remote.game_started": "Game started",
+    "presenter.remote.final_podium": "Final podium",
+    "presenter.remote.end_game": "End game",
+    "presenter.remote.btn_end": "End game",
+    "presenter.remote.cancel": "Cancel"
+  }
+}

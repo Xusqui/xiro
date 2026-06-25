@@ -1,0 +1,33 @@
+{
+  "keys": {
+    "admin.history.title": "Historial de partidas",
+    "admin.history.subtitle": "Descarga los resultados de cualquier partida jugada",
+    "admin.history.btn_viewer": "Visor gráfico",
+    "admin.history.btn_delete_all": "Borrar todo",
+    "admin.history.loading": "Cargando historial…",
+    "admin.history.error_download": "Error al descargar",
+    "admin.historial.btn_delete_selected": "Borrar seleccionadas",
+    "admin.historial.confirm_delete_selected_title": "🗑️ Borrar {n} partida(s)",
+    "admin.historial.confirm_delete_selected_msg": "¿Estás seguro de que quieres borrar las {n} partidas seleccionadas? Esta acción no se puede deshacer.",
+    "admin.historial.confirm_delete_one_title": "🗑️ Borrar partida",
+    "admin.historial.confirm_delete_one_msg": "¿Estás seguro de que quieres borrar esta partida? Esta acción no se puede deshacer.",
+    "admin.historial.confirm_delete_all_title": "⚠️ Borrar todo el historial",
+    "admin.historial.confirm_delete_all_msg": "¿Estás seguro de que quieres borrar TODAS las partidas guardadas? Esta acción no se puede deshacer.",
+    "admin.history.error_load": "Error al cargar el historial",
+    "admin.history.empty_title": "No hay partidas registradas todavía",
+    "admin.history.empty_subtitle": "Las partidas se guardan automáticamente al finalizar",
+    "admin.history.status_completed": "✓ Completada",
+    "admin.history.status_finalized": "✓ Finalizada",
+    "admin.history.status_abandoned": "✗ Abandonada",
+    "admin.history.status_autosaved": "⏳ Auto-saved",
+    "admin.history.col_date": "Fecha",
+    "admin.history.col_type": "Tipo",
+    "admin.history.col_players": "Jugadores",
+    "admin.history.col_questions": "Preguntas",
+    "admin.history.col_duration": "Duración",
+    "admin.history.col_status": "Estado",
+    "admin.history.col_actions": "Acciones",
+    "admin.history.footer": "{n} partida{s} registrada{s}",
+    "admin.history.batch_label": "{n} partida(s) seleccionada(s)"
+  }
+}

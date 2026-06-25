@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.correo.title": "メール / お問い合わせ",
+    "manual_admin.tools.correo.desc": "SMTPサーバーとフォームの設定。",
+    "manual_admin.tools.correo.smtp": "SMTP サーバー",
+    "manual_admin.tools.correo.smtp_desc": "電子メールを送信するためのホスト、ポート、セキュリティ、および資格情報。",
+    "manual_admin.tools.correo.secret": "コンタクトシークレット",
+    "manual_admin.tools.correo.secret_desc": "アンチボットトークンに署名するためのHMACキー。"
+  }
+}

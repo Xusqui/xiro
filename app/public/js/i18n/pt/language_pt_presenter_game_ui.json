@@ -1,0 +1,21 @@
+{
+  "keys": {
+    "presenter.game.play_audio": "▶ Toque para reproduzir o áudio",
+    "presenter.game.pause_resume": "Clique para pausar/retomar",
+    "presenter.game.question_label": "Pergunta",
+    "presenter.game.next_question": "Próxima pergunta",
+    "presenter.game.next_round": "Próxima rodada",
+    "presenter.game.view_ranking": "Ver classificação",
+    "presenter.game.reveal_answer": "Revelar resposta",
+    "presenter.game.answers_label": "RESPOSTAS:",
+    "presenter.game.audio_playing": "ÁUDIO EM REPRODUÇÃO",
+    "presenter.game.listen_carefully": "Ouça com atenção",
+    "presenter.game.no_audio_support": "Seu navegador não suporta áudio.",
+    "presenter.game.numeric_question": "PERGUNTA NUMÉRICA",
+    "presenter.game.players_write_number": "Os jogadores escrevem um número inteiro",
+    "presenter.game.answer_on_reveal": "A resposta correta será mostrada ao revelar",
+    "presenter.game.points_by_proximity": "Os pontos são calculados por proximidade",
+    "presenter.game.players_see_devices": "Os jogadores veem as opções em seus dispositivos",
+    "presenter.game.multiple_choice_label": "✓ Múltipla escolha"
+  }
+}

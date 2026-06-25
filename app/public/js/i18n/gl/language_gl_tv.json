@@ -1,0 +1,33 @@
+{
+  "keys": {
+    "tv.sidebar.connected": "CONECTADO:",
+    "tv.game.end": "Finalizar o xogo",
+    "tv.game.abort": "Abortar o xogo",
+    "tv.game.cancel": "Cancelar",
+    "tv.game.end_msg": "A clasificación final enviarase a todos os xogadores. Continuar?",
+    "tv.game.abort_msg": "Todos os xogadores serán desconectados e voltarás ao selector de PIN. Continuar?",
+    "tv.game.confirm": "Confirmar",
+    "tv.lobby.title": "Selecciona un xogo",
+    "tv.lobby.subtitle": "Escolle o xogo ou banco que desexas presentar",
+    "tv.lobby.filter.custom": "Personalizados",
+    "tv.lobby.filter.games": "Xogos",
+    "tv.lobby.filter.banks": "Bancos",
+    "tv.lobby.filter.all": "Todos",
+    "tv.lobby.empty.all": "Non hai PINs dispoñibles. Crea primeiro un xogo ou banco.",
+    "tv.lobby.empty.by_type": "Non hai {type} dispoñibles.",
+    "tv.lobby.pin_label": "PIN DE ACCESO",
+    "tv.lobby.btn_start": "¡COMEZAR!",
+    "tv.lobby.players_label": "Xogadores: ",
+    "tv.lobby.type.custom": "Xogos personalizados",
+    "tv.lobby.type.games": "Xogos",
+    "tv.lobby.type.banks": "Bancos de preguntas"
+  },
+  "literals": {
+    "Error al cargar PINs": "Erro ao cargar os PINs",
+    "Error desconocido": "Erro descoñecido",
+    "Reintentar": "Tentar de novo",
+    "Error de Conexión": "Erro de conexión",
+    "PIN No Válido o Error de servidor.": "PIN non válido ou erro de servidor.",
+    "Volver": "Volver"
+  }
+}

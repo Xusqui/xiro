@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "player.reconnection.waiting_next": "Waiting for next question...",
+    "player.reconnection.failed": "Could not reconnect.",
+    "player.reconnection.restoring": "Restoring board...",
+    "player.reconnection.already_answered": "you have already answered"
+  }
+}

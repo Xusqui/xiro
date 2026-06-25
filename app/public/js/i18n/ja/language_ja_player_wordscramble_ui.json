@@ -1,0 +1,9 @@
+{
+  "keys": {
+    "player.media.image_label": "画像",
+    "player.wordscramble.word_length_pre": "",
+    "player.wordscramble.word_length_post": "文字の単語",
+    "player.wordscramble.reset": "クリア",
+    "player.wordscramble.submit": "送信"
+  }
+}

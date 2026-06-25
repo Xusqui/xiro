@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "player.streak.double_prefix": "双倍连击 x",
+    "player.streak.lost": "连击已断！",
+    "player.streak.active_prefix": "连击 x",
+    "player.streak.double_label": "双倍",
+    "player.streak.label": "连击",
+    "player.streak.consecutive_correct": "连续正确答案",
+    "player.streak.ended_prefix": "您的连击结束：",
+    "player.streak.double_bonus_suffix": "连续双倍奖励！"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "player.session.pin_prefix": "(PIN:",
+    "player.session.server_error": "サーバーに接続できませんでした。プレゼンターがゲームを開始したことを確認して、もう一度試してください。",
+    "player.session.validation_error": "セッションを検証できませんでした。もう一度お試しください。",
+    "player.session.old_pin": "前のPIN：",
+    "player.session.get_ready": "準備して",
+    "player.session.join_error": "ゲームへの参加エラー",
+    "player.session.connection_error_title": "接続エラー",
+    "player.session.server_full_title": "サーバーが満員",
+    "player.session.btn_enter": "入室"
+  },
+  "literals": {
+    "Código del Juego": "ゲームコード"
+  }
+}

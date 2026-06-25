@@ -1,0 +1,573 @@
+{
+    "name": "Examen Los Seres Vivos – Monera, Protoctista y Fungi",
+    "type": "quiz",
+    "questions": [
+        {
+            "question_text": "¿Cuál es la unidad mínima de los seres vivos?",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "options": [
+                {
+                    "option_text": "El átomo",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "La molécula",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "La célula",
+                    "is_correct": true,
+                    "justification": "La célula es la unidad estructural y funcional mínima con vida propia."
+                },
+                {
+                    "option_text": "El tejido",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Cuál de los siguientes NO es un ser vivo?",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "options": [
+                {
+                    "option_text": "Una bacteria",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un hongo",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un virus",
+                    "is_correct": true,
+                    "justification": "Los virus no están formados por células ni realizan funciones vitales por sí mismos."
+                },
+                {
+                    "option_text": "Un alga",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué característica define a los seres vivos unicelulares?",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "options": [
+                {
+                    "option_text": "Tienen muchas células especializadas",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Tienen una sola célula que lo hace todo",
+                    "is_correct": true,
+                    "justification": "En los seres unicelulares una sola célula realiza todas las funciones vitales."
+                },
+                {
+                    "option_text": "Son siempre visibles a simple vista",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Solo viven en el agua",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Cuántas funciones vitales realizan todos los seres vivos?",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "options": [
+                {
+                    "option_text": "Una",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Dos",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Tres",
+                    "is_correct": true,
+                    "justification": "Todos los seres vivos realizan nutrición, relación y reproducción."
+                },
+                {
+                    "option_text": "Cuatro",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué función vital permite obtener energía y materia?",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "options": [
+                {
+                    "option_text": "Relación",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Reproducción",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Nutrición",
+                    "is_correct": true,
+                    "justification": "La nutrición permite obtener la materia y la energía necesarias para vivir."
+                },
+                {
+                    "option_text": "Movimiento",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué tipo de nutrición realizan las plantas?",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "options": [
+                {
+                    "option_text": "Heterótrofa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Autótrofa",
+                    "is_correct": true,
+                    "justification": "Las plantas fabrican su propio alimento mediante la fotosíntesis."
+                },
+                {
+                    "option_text": "Parásita",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Saprófaga",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué proceso usan las plantas para fabricar su alimento?",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "options": [
+                {
+                    "option_text": "Respiración",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Digestión",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Fotosíntesis",
+                    "is_correct": true,
+                    "justification": "La fotosíntesis permite transformar materia inorgánica en orgánica usando luz solar."
+                },
+                {
+                    "option_text": "Fermentación",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué organismos tienen nutrición heterótrofa?",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "options": [
+                {
+                    "option_text": "Plantas",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Algas",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Animales y hongos",
+                    "is_correct": true,
+                    "justification": "Los animales y hongos necesitan materia orgánica ya elaborada."
+                },
+                {
+                    "option_text": "Cianobacterias",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Para qué sirve la respiración celular?",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "options": [
+                {
+                    "option_text": "Para fabricar células nuevas",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Para obtener energía",
+                    "is_correct": true,
+                    "justification": "La respiración celular descompone nutrientes para liberar energía."
+                },
+                {
+                    "option_text": "Para eliminar desechos",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Para reproducirse",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿En qué orgánulo ocurre la respiración celular en células eucariotas?",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "options": [
+                {
+                    "option_text": "Núcleo",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Cloroplasto",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Mitocondria",
+                    "is_correct": true,
+                    "justification": "Las mitocondrias son los orgánulos encargados de la respiración celular."
+                },
+                {
+                    "option_text": "Ribosoma",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué tipo de reproducción produce individuos idénticos?",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "options": [
+                {
+                    "option_text": "Sexual",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Asexual",
+                    "is_correct": true,
+                    "justification": "La reproducción asexual genera copias genéticamente iguales."
+                },
+                {
+                    "option_text": "Alternante",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Por fecundación",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué proceso celular ocurre en la reproducción asexual?",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "options": [
+                {
+                    "option_text": "Meiosis",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Fecundación",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Mitosis",
+                    "is_correct": true,
+                    "justification": "La mitosis produce células hijas idénticas a la célula madre."
+                },
+                {
+                    "option_text": "Gametogénesis",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué células intervienen en la reproducción sexual?",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "options": [
+                {
+                    "option_text": "Células somáticas",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Gametos",
+                    "is_correct": true,
+                    "justification": "Los gametos son las células sexuales que se unen en la fecundación."
+                },
+                {
+                    "option_text": "Células madre",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Esporas",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Cómo se llama la célula que se forma tras la fecundación?",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "options": [
+                {
+                    "option_text": "Gámeta",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Espora",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Cigoto",
+                    "is_correct": true,
+                    "justification": "El cigoto se forma al unirse el óvulo y el espermatozoide."
+                },
+                {
+                    "option_text": "Embrión",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué función vital permite responder a estímulos?",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "options": [
+                {
+                    "option_text": "Nutrición",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Reproducción",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Relación",
+                    "is_correct": true,
+                    "justification": "La función de relación permite detectar estímulos y responder a ellos."
+                },
+                {
+                    "option_text": "Excreción",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué sistema coordina respuestas rápidas?",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "options": [
+                {
+                    "option_text": "Sistema hormonal",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Sistema nervioso",
+                    "is_correct": true,
+                    "justification": "El sistema nervioso produce respuestas rápidas ante estímulos."
+                },
+                {
+                    "option_text": "Sistema digestivo",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Sistema circulatorio",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué reino incluye bacterias y arqueas?",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "options": [
+                {
+                    "option_text": "Fungi",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Protoctista",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Moneras",
+                    "is_correct": true,
+                    "justification": "El reino Moneras incluye bacterias y arqueas."
+                },
+                {
+                    "option_text": "Animalia",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué caracteriza a las arqueas?",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "options": [
+                {
+                    "option_text": "Viven solo en animales",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Viven en ambientes extremos",
+                    "is_correct": true,
+                    "justification": "Las arqueas pueden vivir en condiciones extremas de temperatura, salinidad o radiación."
+                },
+                {
+                    "option_text": "Son pluricelulares",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Hacen fotosíntesis",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué organismos forman el reino Protoctista?",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "options": [
+                {
+                    "option_text": "Plantas y animales",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Protozoos y algas",
+                    "is_correct": true,
+                    "justification": "El reino Protoctista incluye protozoos y algas."
+                },
+                {
+                    "option_text": "Hongos y bacterias",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Virus y bacterias",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Cómo se alimentan los hongos?",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "options": [
+                {
+                    "option_text": "Por fotosíntesis",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Por absorción",
+                    "is_correct": true,
+                    "justification": "Los hongos obtienen nutrientes absorbiendo materia orgánica."
+                },
+                {
+                    "option_text": "Por ingestión",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Por filtración",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Cuál es una característica de los virus?",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "options": [
+                {
+                    "option_text": "Tienen células",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Realizan funciones vitales",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Solo se reproducen dentro de células",
+                    "is_correct": true,
+                    "justification": "Los virus necesitan una célula viva para reproducirse."
+                },
+                {
+                    "option_text": "Son seres pluricelulares",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        }
+    ]
+}

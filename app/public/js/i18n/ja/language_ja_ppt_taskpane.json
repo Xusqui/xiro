@@ -1,0 +1,9 @@
+{
+  "keys": {
+    "ppt_taskpane.page.title": "シロ！",
+    "ppt_taskpane.header.title": "シロ！",
+    "ppt_taskpane.status.inactive": "アイドル状態",
+    "ppt_taskpane.actions.session_state": "セッションステータス",
+    "ppt_taskpane.status.starting": "起動…"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "player.session.pin_prefix": "(PIN:",
+    "player.session.server_error": "Could not connect to the server. Make sure the presenter has started the game and try again.",
+    "player.session.validation_error": "Session could not be validated. Please try again.",
+    "player.session.old_pin": "Previous PIN:",
+    "player.session.get_ready": "Get ready",
+    "player.session.join_error": "Error joining the game",
+    "player.session.connection_error_title": "Connection error",
+    "player.session.server_full_title": "Server Full",
+    "player.session.btn_enter": "ENTER"
+  },
+  "literals": {
+    "Código del Juego": "Game Code"
+  }
+}

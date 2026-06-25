@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "player.game_flow.exit_title": "Quittez le jeu",
+    "player.game_flow.exit_msg": "Êtes-vous sûr de vouloir quitter le jeu ? Votre nom d'utilisateur sera publié.",
+    "player.game_flow.btn_exit": "Sortir",
+    "player.game_flow.session_ended": "Séance terminée",
+    "player.game_flow.presenter_left": "Le présentateur a quitté la séance.",
+    "player.game_flow.btn_cancel": "Annuler",
+    "player.game_flow.btn_back": "Retour"
+  },
+  "literals": {
+    "Reconectando automáticamente...": "Reconnexion automatique...",
+    "Servidor Reiniciando": "Serveur en cours de redémarrage",
+    "No cierres esta ventana. La partida continuará automáticamente.": "Ne fermez pas cette fenêtre. La partie continuera automatiquement."
+  }
+}

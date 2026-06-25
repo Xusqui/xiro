@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.fuegos.title": "Su Artifizialak",
+    "manual_admin.tools.fuegos.desc": "Pertsonalizatu amaierako podioaren ikuskizuna.",
+    "manual_admin.tools.fuegos.config": "Ikus-konfigurazioa",
+    "manual_admin.tools.fuegos.config_desc": "Doitu tamaina, abiadura, kantitatea eta tarteak.",
+    "manual_admin.tools.fuegos.sound": "Soinua",
+    "manual_admin.tools.fuegos.sound_desc": "Eztanden soinu efektuak aktibatu edo desaktibatu."
+  }
+}

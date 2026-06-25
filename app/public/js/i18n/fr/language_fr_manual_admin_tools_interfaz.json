@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "manual_admin.tools.interfaz.title": "Interface",
+    "manual_admin.tools.interfaz.desc": "Paramètres de l'interface utilisateur.",
+    "manual_admin.tools.interfaz.tv": "Carte TV",
+    "manual_admin.tools.interfaz.tv_desc": "Affiche ou masque la carte vers la version TV."
+  }
+}

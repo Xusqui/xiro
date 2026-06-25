@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.correo.title": "E-Mail / Kontakt",
+    "manual_admin.tools.correo.desc": "Konfiguration des SMTP-Servers und der Formulare.",
+    "manual_admin.tools.correo.smtp": "SMTP-Server",
+    "manual_admin.tools.correo.smtp_desc": "Host, Port, Sicherheit und Anmeldeinformationen.",
+    "manual_admin.tools.correo.secret": "Kontakt-Geheimnis",
+    "manual_admin.tools.correo.secret_desc": "HMAC-Schlüssel zum Signieren von Antibot-Token."
+  }
+}

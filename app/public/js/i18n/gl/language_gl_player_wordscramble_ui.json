@@ -1,0 +1,9 @@
+{
+  "keys": {
+    "player.media.image_label": "Imaxe",
+    "player.wordscramble.word_length_pre": "PALABRA DE",
+    "player.wordscramble.word_length_post": "LETRAS",
+    "player.wordscramble.reset": "Borrar",
+    "player.wordscramble.submit": "Enviar"
+  }
+}

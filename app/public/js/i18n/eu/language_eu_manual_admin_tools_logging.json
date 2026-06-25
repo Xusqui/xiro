@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "manual_admin.tools.logging.title": "Log-ak",
+    "manual_admin.tools.logging.desc": "Zerbitzariaren erregistroen konfigurazioa.",
+    "manual_admin.tools.logging.level": "Log maila",
+    "manual_admin.tools.logging.level_desc": "Erregistroen xehetasun maila.",
+    "manual_admin.tools.logging.max_size": "Gehienezko tamaina",
+    "manual_admin.tools.logging.max_size_desc": "Log fitxategia biratzen den tamaina.",
+    "manual_admin.tools.logging.max_files": "Fitxategien atxikipena",
+    "manual_admin.tools.logging.max_files_desc": "Log zaharrak gordetzen diren denbora."
+  }
+}

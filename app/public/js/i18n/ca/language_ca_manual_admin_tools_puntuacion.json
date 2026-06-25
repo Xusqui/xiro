@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.puntuacion.title": "Puntuació",
+    "manual_admin.tools.puntuacion.desc": "Configuració de temps, punts i bonificacions.",
+    "manual_admin.tools.puntuacion.base_points": "Punts base",
+    "manual_admin.tools.puntuacion.base_points_desc": "Punts garantits en respondre correctament.",
+    "manual_admin.tools.puntuacion.max_bonus": "Bonus màxim per velocitat",
+    "manual_admin.tools.puntuacion.max_bonus_desc": "Punts extres per respondre ràpid."
+  }
+}

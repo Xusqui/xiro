@@ -1,0 +1,26 @@
+{
+  "keys": {
+    "presenter.team.name_validation": "Der Teamname darf nur Buchstaben, Zahlen, Leerzeichen und Bindestriche enthalten (2-30 Zeichen).",
+    "presenter.team.label": "Team",
+    "presenter.team.name_invalid": "Ungültiger Name",
+    "presenter.team.in_use": "(in Verwendung)",
+    "presenter.team.color.yellow": "Gelb",
+    "presenter.team.color.blue": "Blau",
+    "presenter.team.color.cyan": "Cyan",
+    "presenter.team.color.lime": "Limette",
+    "presenter.team.color.purple": "Lila",
+    "presenter.team.color.orange": "Orange",
+    "presenter.team.color.pink": "Rosa",
+    "presenter.team.color.red": "Rot",
+    "presenter.team.color.green": "Grün",
+    "presenter.team.default.1": "Die Champions",
+    "presenter.team.default.2": "Die Drachen",
+    "presenter.team.default.3": "Die Phönixe",
+    "presenter.team.default.4": "Die Krieger",
+    "presenter.team.default.5": "Die Falken",
+    "presenter.team.default.6": "Die Unbesiegbaren",
+    "presenter.team.default.7": "Die Löwen",
+    "presenter.team.default.8": "Die Blitze",
+    "presenter.team.default.9": "Die Titanen"
+  }
+}

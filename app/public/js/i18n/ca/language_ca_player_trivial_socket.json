@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "player.trivial.launch_dice": "! Llança🎯",
+    "player.trivial.correct_prefix": "Ho has encertat,",
+    "player.trivial.turn_change": "Canvi de torn!",
+    "player.trivial.team_scores": "encerta!",
+    "player.trivial.category_chosen": "Categoria triada. Preparant pregunta...",
+    "player.trivial.team_prefix": "Lequip",
+    "player.trivial.choosing_category": "está triant categoria...",
+    "player.trivial.game_over": "La partida ha acabat.",
+    "player.trivial.moving_preparing": "Movent... Preparant pregunta.",
+    "player.trivial.moved_waiting": "mogut. Esperant pregunta...",
+    "player.trivial.turn_label": "Torn de",
+    "player.trivial.roll_again": "Torna a tirar…"
+  }
+}

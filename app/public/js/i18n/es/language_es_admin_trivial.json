@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "admin.trivial.title": "Juegos Trivial",
+    "admin.trivial.subtitle": "Crea tableros Trivial con categorías propias",
+    "admin.trivial.btn_new": "Nuevo Trivial",
+    "admin.trivial.empty": "No hay juegos Trivial todavía",
+    "admin.trivial.form_edit": "Editar Trivial",
+    "admin.trivial.form_new": "Nuevo Trivial",
+    "admin.trivial.label_name": "Nombre del juego",
+    "admin.trivial.label_pin": "PIN",
+    "admin.trivial.ph_pin": "ej. TRV01",
+    "admin.trivial.section_config": "Configuración del juego",
+    "admin.trivial.label_visible": "Visible para el presentador",
+    "admin.trivial.label_streaks": "Usar Rachas"
+  }
+}

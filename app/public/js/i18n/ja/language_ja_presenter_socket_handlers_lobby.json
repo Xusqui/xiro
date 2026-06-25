@@ -1,0 +1,7 @@
+{
+  "keys": {
+    "presenter.lobby.presenter_error": "プレゼンターエラー",
+    "presenter.lobby.unknown_error": "不明なエラー",
+    "presenter.lobby.create_error": "ロビーを作成できませんでした"
+  }
+}

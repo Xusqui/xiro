@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "player.game_flow.exit_title": "退出游戏",
+    "player.game_flow.exit_msg": "您确定要退出游戏吗？您的用户名将被释放。",
+    "player.game_flow.btn_exit": "出去",
+    "player.game_flow.session_ended": "会议结束",
+    "player.game_flow.presenter_left": "演示者已离开会议。",
+    "player.game_flow.btn_cancel": "取消",
+    "player.game_flow.btn_back": "返回"
+  },
+  "literals": {
+    "Reconectando automáticamente...": "自动重新连接...",
+    "Servidor Reiniciando": "服务器重启中",
+    "No cierres esta ventana. La partida continuará automáticamente.": "请勿关闭此窗口。游戏将自动继续。"
+  }
+}

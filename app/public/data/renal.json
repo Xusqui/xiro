@@ -1,0 +1,156 @@
+{
+    "name": "Cáncer Renal Avanzado",
+    "type": "quiz",
+    "questions": [
+        {
+            "text": "1. ¿Cuál es la utilidad principal de la clasificación IMDC (Heng) en el cáncer renal de células claras avanzado?",
+            "options": [
+                {
+                    "text": "A) Determinar la necesidad de cirugía",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "B) Estratificar el riesgo y guiar la selección de tratamiento sistémico",
+                    "isCorrect": true,
+                    "justification": "La clasificación IMDC utiliza 6 factores (Karnofsky <80%, tiempo al tratamiento <1 año, Hemoglobina, Calcio, Neutrófilos y Plaquetas) para dividir a los pacientes en grupos de riesgo (favorable, intermedio y pobre) y orientar la terapia sistémica."
+                },
+                {
+                    "text": "C) Seleccionar pacientes para radioterapia",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "D) Decidir la dosis de inmunoterapia",
+                    "isCorrect": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "text": "2. ¿Cuál es la indicación actual de la nefrectomía citorreductora en el tratamiento del cáncer renal metastásico según el grupo pronóstico IMDC?",
+            "options": [
+                {
+                    "text": "A) Se recomienda en todos los pacientes con enfermedad metastásica",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "B) Se recomienda principalmente en pacientes con bajo volumen metastásico y buen estado funcional, especialmente en grupos de riesgo favorable o intermedio",
+                    "isCorrect": true,
+                    "justification": "Estos pacientes son los que más pueden beneficiarse en supervivencia global. En cambio, en pacientes de riesgo pobre, la prioridad es la terapia sistémica y la nefrectomía suele evitarse salvo indicaciones paliativas."
+                },
+                {
+                    "text": "C) Está contraindicada en pacientes con riesgo favorable",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "D) Es el tratamiento estándar en pacientes con riesgo pobre",
+                    "isCorrect": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "text": "3. ¿Cuál es el tratamiento adyuvante recomendado actualmente para pacientes con carcinoma renal de células claras resecado y riesgo intermedio-alto o alto de recurrencia?",
+            "options": [
+                {
+                    "text": "A) Sunitinib",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "B) Nivolumab + ipilimumab",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "C) Pembrolizumab",
+                    "isCorrect": true,
+                    "justification": "Según el estudio KEYNOTE-564, pembrolizumab durante un año ha demostrado beneficio significativo en supervivencia libre de enfermedad y supervivencia global en este perfil de pacientes, siendo la recomendación estándar por ESMO y EAU."
+                },
+                {
+                    "text": "D) Sorafenib",
+                    "isCorrect": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "text": "4. ¿Cuál de estos tratamientos sistémicos NO está aprobado como monoterapia en 1º línea de cáncer renal metastásico (basado en fase III)?",
+            "options": [
+                {
+                    "text": "A) Sunitinib",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "B) Cabozantinib",
+                    "isCorrect": true,
+                    "justification": "Aunque es superior en SLE según el estudio fase II CABOSUN, los tratamientos combinados son los que han demostrado superioridad en SG en estudios fase III frente a sunitinib. Cabozantinib se usa habitualmente en combinación en 1ª línea o en monoterapia en 2ª línea."
+                },
+                {
+                    "text": "C) Nivolumab combinado con cabozantinib o con ipilimumab",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "D) Pembrolizumab-axitinib",
+                    "isCorrect": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "text": "5. ¿Cuál es el papel actual de la radioterapia dirigida (SBRT) en el manejo de la oligoprogresión o la oligometástasis en el cáncer renal metastásico?",
+            "options": [
+                {
+                    "text": "A) No tiene utilidad clínica",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "B) Se utiliza principalmente para control sintomático de metástasis cerebrales",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "C) Permite retrasar el inicio o el cambio de terapia sistémica, logrando alto control local y baja toxicidad en pacientes seleccionados",
+                    "isCorrect": true,
+                    "justification": "La SBRT ha demostrado tasas de control local superiores al 90% y puede prolongar el intervalo libre de terapia sistémica en pacientes con bajo volumen metastásico."
+                },
+                {
+                    "text": "D) Es el tratamiento estándar para todos los pacientes",
+                    "isCorrect": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "text": "6. Tras la progresión a una primera línea basada en inmunoterapia (ej. ICI-TKI), ¿cuál es la estrategia terapéutica adecuada en segunda línea?",
+            "options": [
+                {
+                    "text": "A. Utilizar una combinación de inmunoterapia diferente",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "B. Tratamiento con un inhibidor de tirosina-quinasas (TKI) como cabozantinib",
+                    "isCorrect": true,
+                    "justification": "Cabozantinib es una de las opciones con mayor respaldo tras progresión a inmunoterapia, basándose en estudios como METEOR que demostraron mejora en SG y SLE frente a everolimus."
+                },
+                {
+                    "text": "C. Radioterapia, si no hay oligoprogresión",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "D. Observación clínica sin tratamiento sistémico",
+                    "isCorrect": false,
+                    "justification": null
+                }
+            ]
+        }
+    ]
+}

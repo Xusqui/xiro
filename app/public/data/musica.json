@@ -1,0 +1,210 @@
+{
+  "name": "Musica",
+  "type": "quiz",
+  "questions": [
+    {
+      "question_text": "¿Qué ganador del Premio Nóbel de Literatura escribió la canción 'Knocking on Heaven's Door'?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Bob Dylan",
+          "is_correct": true,
+          "justification": "Bob Dylan fue galardonado con el Premio Nobel de Literatura 2016 por la Academia Sueca, convirtiéndose en el primer cantautor en recibir este reconocimiento. "
+        },
+        {
+          "option_text": "Paul McArtney",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Ernest Hemingway",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Walt Witman",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Mozart era sordo!",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "FALSO",
+          "is_correct": true,
+          "justification": "El músico sordo era Bethoven"
+        },
+        {
+          "option_text": "VERDADERO",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "El guitarrista de Queen, Brian May, además es doctor en Astrofísica",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "VERDADERO",
+          "is_correct": true,
+          "justification": "Se licenció en Física y Astronomía en 1968 en el Imperial College de Londres y se doctoró después de la muerte de Freddie Mercury"
+        },
+        {
+          "option_text": "FALSO",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Ninguno de los componentes de los Beatles podía leer o escribir en partituras musicales",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "VERDADERO",
+          "is_correct": true,
+          "justification": "Paul McCartney admitió durante una entrevista que él no veía la música como 'puntos en una hoja' sino como 'algo en mi cabeza que no para'."
+        },
+        {
+          "option_text": "FALSO",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Antes de ser cantante, Julio Iglesias era...",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Jugador de Fútbol Profesional",
+          "is_correct": true,
+          "justification": "Julio Iglesias jugó en las categorías inferiores del Real Madrid, principalmente como portero, entre 1960 y 1962, llegando a entrenar con el primer equipo y siendo una promesa de la cantera, pero su carrera se truncó por un grave accidente de coche en septiembre de 1962, que lo apartó del fútbol definitivamente."
+        },
+        {
+          "option_text": "Jugador de Baloncesto Profesional",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Jugador de Hockey Patines",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Repartidor de pan a domicilio",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Quién tiene el récord de concierto más multitudinario?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Madonna (2003)",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Festival de Woddstock (1969)",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Daddy Yankee (2008)",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Rod Steweart (1994)",
+          "is_correct": true,
+          "justification": "Rod Stewart convocó a más de tres millones de personas (entre 3.5 y 4.2 millones) en 1994 en la playa de Copacabana"
+        },
+        {
+          "option_text": "Bad Bunny (2024)",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Bruce Springsteen (1989)",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué banda de Rock contaba entre sus filas con un batería 'manco'?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Def Leppard",
+          "is_correct": true,
+          "justification": "Rick Allen se unió a la banda en 1978 y perdió su brazo en un accidente de coche en 1984. La banda esperó a que el icónico baterista aprendiera a tocar con un solo brazo y una batería adaptada para continuar tocando."
+        },
+        {
+          "option_text": "Guns'n'Roses",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "AC/DC",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Bon Jovi",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Cuando Manolo García escribió '¿Dónde estabas entonces? Cuando tanto te necesité', ¿A quién se refería?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "A la industria discográfica",
+          "is_correct": true,
+          "justification": "'Insurrección' se escribió como una queja a la voracidad de la Industria Musical de la época."
+        },
+        {
+          "option_text": "A una mujer",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "A un amigo",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "A su padre",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    }
+  ]
+}

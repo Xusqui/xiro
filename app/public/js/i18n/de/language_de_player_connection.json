@@ -1,0 +1,9 @@
+{
+  "keys": {
+    "player.connection.other_device": "Von einem anderen Gerät verbunden",
+    "player.connection.disconnected": "Getrennt",
+    "player.connection.disconnected_prefix": "Du wurdest getrennt:",
+    "player.connection.player_tag": "SPIELER",
+    "player.connection.retry": "Erneut versuchen"
+  }
+}

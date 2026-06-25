@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.fuegos.title": "烟花",
+    "manual_admin.tools.fuegos.desc": "自定义最终领奖台的视觉效果。",
+    "manual_admin.tools.fuegos.config": "视觉配置",
+    "manual_admin.tools.fuegos.config_desc": "调整大小，轨迹，模拟速度，数量和间隔。",
+    "manual_admin.tools.fuegos.sound": "声音",
+    "manual_admin.tools.fuegos.sound_desc": "启用或禁用爆炸声效。"
+  }
+}

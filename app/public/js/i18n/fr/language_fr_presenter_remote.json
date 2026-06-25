@@ -1,0 +1,15 @@
+{
+  "keys": {
+    "presenter.remote.tap_pause": "Appuyer pour mettre en pause",
+    "presenter.remote.tap_resume": "Appuyer pour reprendre",
+    "presenter.remote.end_confirm": "Voulez-vous terminer la partie maintenant?",
+    "presenter.remote.connect_error": "Erreur de connexion en tant que télécommande",
+    "presenter.remote.game_finished": "La partie est terminée",
+    "presenter.remote.no_admin_session": "Aucune session dadmin trouvée.<br>Connectez-vous dabord au panneau dadmin.",
+    "presenter.remote.game_started": "Partie démarrée",
+    "presenter.remote.final_podium": "Podium final",
+    "presenter.remote.end_game": "Terminer la partie",
+    "presenter.remote.btn_end": "Terminer le jeu",
+    "presenter.remote.cancel": "Annuler"
+  }
+}

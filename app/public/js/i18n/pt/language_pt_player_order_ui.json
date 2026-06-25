@@ -1,0 +1,9 @@
+{
+  "keys": {
+    "player.order.instruction": "Arrasta para ordenar de cima para baixo e depois prime Enviar",
+    "player.order.submit": "Enviar"
+  },
+  "literals": {
+    "Arrastra para reordenar": "Arraste para reordenar"
+  }
+}

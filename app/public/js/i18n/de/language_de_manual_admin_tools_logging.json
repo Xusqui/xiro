@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "manual_admin.tools.logging.title": "Protokollierung",
+    "manual_admin.tools.logging.desc": "Server-Protokollkonfiguration.",
+    "manual_admin.tools.logging.level": "Log-Level",
+    "manual_admin.tools.logging.level_desc": "Detaillierungsgrad der Protokolle.",
+    "manual_admin.tools.logging.max_size": "Max. Größe",
+    "manual_admin.tools.logging.max_size_desc": "Größe, bei der die Protokolldatei rotiert wird.",
+    "manual_admin.tools.logging.max_files": "Dateiaufbewahrung",
+    "manual_admin.tools.logging.max_files_desc": "Zeit, in der alte Protokolle aufbewahrt werden."
+  }
+}

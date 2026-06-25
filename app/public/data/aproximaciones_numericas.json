@@ -1,0 +1,32 @@
+{
+  "name": "Aproximaciones Numéricas",
+  "type": "quiz",
+  "questions": [
+    {
+      "question_text": "¿Cuál es el DIÁMETRO de la tierra, en Km, a nivel del Ecuador?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "imagen",
+      "url_recurso": "/uploads/earth-1771174819842-363687332.jpg",
+      "time_limit": 30,
+      "correctAnswer": 12756,
+      "maxPoints": 150,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 15,
+      "toleranceCap": 1000,
+      "hint": "El diámetro polar es de 12714Km"
+    },
+    {
+      "question_text": "¿Cuál es el PERÍMETRO de La Tierra a nivel del Ecuador?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "imagen",
+      "url_recurso": "/uploads/eratostenes-y-la-medida-del-diametro-terrestre_jpg-1771173570487-692849369.webp",
+      "time_limit": 30,
+      "correctAnswer": 40075,
+      "maxPoints": 200,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 20,
+      "toleranceCap": 1000,
+      "hint": "Calcúlalo sabiendo que el radio son 6378Km"
+    }
+  ]
+}

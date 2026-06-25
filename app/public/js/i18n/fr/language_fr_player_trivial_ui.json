@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "player.trivial.your_turn": "Ton tour!",
+    "player.trivial.cell_label": "Case",
+    "player.trivial.center_label": "Centre",
+    "player.trivial.waiting_for": "En attente de",
+    "player.trivial.waiting_active": "En attente du joueur actif",
+    "player.trivial.moving_piece": "Déplacement du pion…",
+    "player.trivial.radio_label": "Rayon",
+    "player.trivial.selecting_cell": "Sélection de la case…",
+    "player.trivial.tap_dice": "Touche le dé pour lancer",
+    "player.trivial.turn_of": "Tour de"
+  }
+}

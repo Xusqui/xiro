@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 80" role="img" aria-labelledby="title desc">
+  <title id="title">Bandera de Euskadi</title>
+  <desc id="desc">Ikurriña roja con aspa verde y cruz blanca</desc>
+  <rect width="120" height="80" fill="#d7141a"/>
+  <line x1="0" y1="0" x2="120" y2="80" stroke="#009b48" stroke-width="12"/>
+  <line x1="120" y1="0" x2="0" y2="80" stroke="#009b48" stroke-width="12"/>
+  <rect x="52" y="0" width="16" height="80" fill="#ffffff"/>
+  <rect x="0" y="32" width="120" height="16" fill="#ffffff"/>
+</svg>

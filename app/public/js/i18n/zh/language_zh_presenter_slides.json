@@ -1,0 +1,15 @@
+{
+  "keys": {
+    "presenter.slides.to_teams": "至队伍",
+    "presenter.slides.per_team": "每队",
+    "presenter.slides.next": "下一个",
+    "presenter.slides.next_round": "下一轮",
+    "presenter.slides.view_ranking": "查看排名",
+    "presenter.slides.assign_manually": "主持人可以手动分配分数",
+    "presenter.slides.assign_points": "分配分数",
+    "presenter.slides.info_no_points": "信息 - 不计分",
+    "presenter.slides.points_per_player": "分数会添加到每位玩家",
+    "presenter.slides.player_singular": "玩家",
+    "presenter.slides.player_plural": "玩家"
+  }
+}

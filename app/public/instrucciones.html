@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="instructions.page.title">XIRO! - Instrucciones</title>
+    <meta http-equiv="refresh" content="0; url=/manual-jugador.html">
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./css/common.css?v=20260625151006">
+    <link rel="stylesheet" href="./css/output-index.css?v=20260625151006">
+    <link rel="stylesheet" href="./css/index-style.css?v=20260625151006">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    <script defer src="/js/core/umami-loader.js?v=20260625151006"></script>
+    <!-- Se pueden añadir estilos específicos para las instrucciones aquí -->
+    <style>
+        .tab-btn {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab-btn.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            font-weight: 900;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background-color: #f9b518;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Ajuste para el camaleón jugador que no tape el texto si la pantalla es pequeña */
+        .player-chameleon {
+            position: fixed;
+            /* fix al portview, no absolute */
+            bottom: -20px;
+            left: -20px;
+            width: 200px;
+            opacity: 0.8;
+            z-index: 0;
+            pointer-events: none;
+        }
+    </style>
+    <script src="/js/i18n/i18n-core.js?v=20260625151006"></script>
+    <script src="/js/i18n/i18n-dom.js?v=20260625151006"></script>
+    <script src="/js/i18n/i18n-ui.js?v=20260625151006"></script>
+</head>
+
+<body
+    class="bg-gradient-to-br from-purple-700 via-purple-600 to-indigo-700 min-h-screen bg-fixed flex flex-col items-center justify-start font-sans text-white p-4 relative pt-8">
+
+
+    <!-- Animación de fondo webgl si existe (como en index) -->
+    <canvas id="webgl-canvas" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1;"></canvas>
+
+    <div class="w-full max-w-6xl text-center relative z-10">
+        <!-- Logo -->
+        <a href="./index.html">
+            <img src="./images/logo.svg" alt="XIRO! Logo"
+                class="w-full max-w-sm mx-auto mb-6 hover:scale-105 transition-transform cursor-pointer"
+                style="filter: drop-shadow(0 15px 20px rgb(0 0 0 / 0.15));">
+        </a>
+
+        <!-- Título Principal -->
+        <h1 data-i18n="instructions.hero.title" class="text-4xl md:text-5xl font-black mb-4 text-white drop-shadow-lg">
+            Cómo Jugar a XIRO!
+        </h1>
+        <p data-i18n="instructions.hero.subtitle" class="text-lg md:text-xl mb-8 text-purple-100 font-medium">
+            Conoce nuestras dinámicas y tipos de preguntas
+        </p>
+
+        <!-- Navegación por pestañas -->
+        <div class="flex justify-center mb-8 border-b-2 border-white/20 pb-2 gap-4">
+            <button class="tab-btn active text-lg md:text-xl px-6 py-2 rounded-t-lg" data-target="tab-juegos">
+                <i class="fas fa-gamepad mr-2"></i>
+                <span data-i18n="instructions.tabs.game_modes">Modos de Juego</span>
+            </button>
+            <button class="tab-btn text-lg md:text-xl px-6 py-2 rounded-t-lg" data-target="tab-preguntas">
+                <i class="fas fa-question-circle mr-2"></i>
+                <span data-i18n="instructions.tabs.question_types">Tipos de Preguntas</span>
+            </button>
+        </div>
+
+        <!-- Contenedor Principal (Tarjetas similes a index.html) -->
+        <div class="max-w-6xl mx-auto pb-20">
+
+            <!-- Pestaña: Modos de Juego -->
+            <div id="tab-juegos" class="tab-content active text-left">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <!-- 1. Banco de preguntas -->
+                    <div class="card h-full">
+                        <div class="bg-white h-full rounded-3xl shadow-xl p-8 text-slate-800 border-b-8 flex flex-row items-center justify-between"
+                            style="border-bottom-color: #8ab817;">
+                            <div class="flex-1">
+                                <h2 class="text-2xl font-black mb-2 text-slate-800 flex items-center">
+                                    <i class="fas fa-layer-group text-[#8ab817] mr-3"></i>
+                                    <span data-i18n="instructions.game_modes.bank.title">1. Banco de Preguntas</span>
+                                </h2>
+                                <p data-i18n="instructions.game_modes.bank.description"
+                                    class="text-slate-600 text-base">
+                                    Se toman preguntas de un banco específico y se presentan a los jugadores de forma
+                                    totalmente aleatoria. Ideal para repasar un tema concreto.
+                                </p>
+                            </div>
+                            <img src="./images/chamaleon/thinking.svg" alt="Thinking"
+                                class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <!-- 2. Mezcla de preguntas -->
+                    <div class="card h-full">
+                        <div class="bg-white h-full rounded-3xl shadow-xl p-8 text-slate-800 border-b-8 flex flex-row items-center justify-between"
+                            style="border-bottom-color: #f9b518;">
+                            <div class="flex-1">
+                                <h2 class="text-2xl font-black mb-2 text-slate-800 flex items-center">
+                                    <i class="fas fa-blender text-[#f9b518] mr-3"></i>
+                                    <span data-i18n="instructions.game_modes.mix.title">2. Mezcla de Preguntas</span>
+                                </h2>
+                                <p data-i18n="instructions.game_modes.mix.description" class="text-slate-600 text-base">
+                                    Permite seleccionar varios bancos de preguntas y elegir cuántas preguntas aleatorias
+                                    extraer de cada uno. Las preguntas seleccionadas se mezclarán en un orden aleatorio
+                                    al presentarlas.
+                                </p>
+                            </div>
+                            <img src="./images/chamaleon/cooking.svg" alt="Cooking" class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <!-- 3. Juegos personalizados -->
+                    <div class="card h-full">
+                        <div class="bg-white h-full rounded-3xl shadow-xl p-8 text-slate-800 border-b-8 flex flex-row items-center justify-between"
+                            style="border-bottom-color: #e65453;">
+                            <div class="flex-1">
+                                <h2 class="text-2xl font-black mb-2 text-slate-800 flex items-center">
+                                    <i class="fas fa-list-ol text-[#e65453] mr-3"></i>
+                                    <span data-i18n="instructions.game_modes.custom.title">3. Juegos
+                                        Personalizados</span>
+                                </h2>
+                                <p data-i18n="instructions.game_modes.custom.description"
+                                    class="text-slate-600 text-base">
+                                    Tú tienes el control. Eliges las preguntas una a una desde los distintos bancos y
+                                    configuras su orden exacto de aparición para una presentación estructurada.
+                                </p>
+                            </div>
+                            <img src="./images/chamaleon/painting.svg" alt="Painting"
+                                class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <!-- 4. Trivial -->
+                    <div class="card h-full">
+                        <div class="bg-white h-full rounded-3xl shadow-xl p-8 text-slate-800 border-b-8 flex flex-row items-center justify-between"
+                            style="border-bottom-color: #0891b2;">
+                            <div class="flex-1">
+                                <h2 class="text-2xl font-black mb-2 text-slate-800 flex items-center">
+                                    <i class="fas fa-dice text-[#0891b2] mr-3"></i>
+                                    <span data-i18n="instructions.game_modes.trivial.title">4. Trivial</span>
+                                </h2>
+                                <p data-i18n="instructions.game_modes.trivial.description"
+                                    class="text-slate-600 text-base">
+                                    ¡Modo de tablero clásico! Se lanza un dado y la ficha avanza. Dependiendo de la
+                                    casilla en la que caiga, se presentará una pregunta aleatoria de la categoría
+                                    correspondiente al color de la casilla.
+                                </p>
+                            </div>
+                            <img src="./images/chamaleon/party.svg" alt="Party" class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Pestaña: Tipos de Preguntas -->
+            <div id="tab-preguntas" class="tab-content text-left">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <!-- Quiz -->
+                    <div class="card h-full">
+                        <div
+                            class="bg-white h-full rounded-3xl shadow-xl p-6 text-slate-800 border-l-8 border-l-[#8ab817] flex items-center justify-between">
+                            <div class="bg-slate-100 p-4 rounded-full mr-4 shrink-0">
+                                <i class="fas fa-check-circle text-2xl text-[#8ab817]"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 data-i18n="instructions.question_types.quiz.title" class="text-xl font-bold mb-1">
+                                    Quiz</h3>
+                                <p data-i18n="instructions.question_types.quiz.description"
+                                    class="text-slate-600 text-sm">Pregunta clásica con varias respuestas posibles, pero
+                                    solo una es la correcta.</p>
+                            </div>
+                            <img src="./images/chamaleon/gaming.svg" alt="Gaming" class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <!-- Survey -->
+                    <div class="card h-full">
+                        <div
+                            class="bg-white h-full rounded-3xl shadow-xl p-6 text-slate-800 border-l-8 border-l-[#f9b518] flex items-center justify-between">
+                            <div class="bg-slate-100 p-4 rounded-full mr-4 shrink-0">
+                                <i class="fas fa-poll text-2xl text-[#f9b518]"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 data-i18n="instructions.question_types.survey.title" class="text-xl font-bold mb-1">
+                                    Encuesta (Survey)</h3>
+                                <p data-i18n="instructions.question_types.survey.description"
+                                    class="text-slate-600 text-sm">Sin respuestas correctas o incorrectas. Sirve para
+                                    recoger la opinión de la audiencia presentando diferentes opciones.</p>
+                            </div>
+                            <img src="./images/chamaleon/pointing.svg" alt="Pointing"
+                                class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <!-- Numeric Approximation -->
+                    <div class="card h-full">
+                        <div
+                            class="bg-white h-full rounded-3xl shadow-xl p-6 text-slate-800 border-l-8 border-l-cyan-500 flex items-center justify-between">
+                            <div class="bg-slate-100 p-4 rounded-full mr-4 shrink-0">
+                                <i class="fas fa-sort-numeric-up-alt text-2xl text-cyan-500"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 data-i18n="instructions.question_types.numeric.title"
+                                    class="text-xl font-bold mb-1">Aproximación Numérica</h3>
+                                <p data-i18n="instructions.question_types.numeric.description"
+                                    class="text-slate-600 text-sm">Los jugadores deben introducir un número intentando
+                                    acercarse lo máximo posible al valor exacto ganador.</p>
+                            </div>
+                            <img src="./images/chamaleon/thinking.svg" alt="Thinking"
+                                class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <!-- Order -->
+                    <div class="card h-full">
+                        <div
+                            class="bg-white h-full rounded-3xl shadow-xl p-6 text-slate-800 border-l-8 border-l-purple-500 flex items-center justify-between">
+                            <div class="bg-slate-100 p-4 rounded-full mr-4 shrink-0">
+                                <i class="fas fa-sort-amount-down text-2xl text-purple-500"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 data-i18n="instructions.question_types.order.title" class="text-xl font-bold mb-1">
+                                    Ordenar Secuencia (Order)</h3>
+                                <p data-i18n="instructions.question_types.order.description"
+                                    class="text-slate-600 text-sm">Se presenta un listado de elementos que el jugador
+                                    debe arrastrar y colocar en el orden lógico correcto.</p>
+                            </div>
+                            <img src="./images/chamaleon/running.svg" alt="Running" class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <!-- Word Scramble -->
+                    <div class="card h-full">
+                        <div
+                            class="bg-white h-full rounded-3xl shadow-xl p-6 text-slate-800 border-l-8 border-l-[#e65453] flex flex-row items-center">
+                            <div class="bg-slate-100 p-4 rounded-full mr-4 shrink-0">
+                                <i class="fas fa-puzzle-piece text-2xl text-[#e65453]"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 data-i18n="instructions.question_types.word_scramble.title"
+                                    class="text-xl font-bold mb-1">Adivinar Palabra (Word Scramble)</h3>
+                                <p data-i18n="instructions.question_types.word_scramble.description"
+                                    class="text-slate-600 text-sm">El reto consiste en encontrar una palabra oculta
+                                    ordenando las letras desordenadas que aparecen en pantalla.</p>
+                            </div>
+                            <img src="./images/chamaleon/detective.svg" alt="Detective"
+                                class="w-16 sm:w-24 shrink-0 ml-2">
+                        </div>
+                    </div>
+
+                    <!-- Multiple Choice -->
+                    <div class="card h-full">
+                        <div
+                            class="bg-white h-full rounded-3xl shadow-xl p-6 text-slate-800 border-l-8 border-l-indigo-500 flex items-center justify-between">
+                            <div class="bg-slate-100 p-4 rounded-full mr-4 shrink-0">
+                                <i class="fas fa-check-double text-2xl text-indigo-500"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 data-i18n="instructions.question_types.multiple.title"
+                                    class="text-xl font-bold mb-1">Opción Múltiple</h3>
+                                <p data-i18n="instructions.question_types.multiple.description"
+                                    class="text-slate-600 text-sm">Similar al Quiz, pero en este caso puede haber entre
+                                    1
+                                    y 6 respuestas correctas simultáneamente.</p>
+                            </div>
+                            <img src="./images/chamaleon/searching.svg" alt="Searching"
+                                class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <img src="./images/chamaleon/chamaleon.svg" alt="Camaleón"
+            class="player-chameleon fixed bottom-0 left-0 opacity-50 md:opacity-80"
+            style="pointer-events: none; width: 180px;">
+
+        <!-- Footer -->
+        <div class="mt-8 mb-4 text-purple-100 text-sm space-y-2 relative z-20">
+            <a href="./index.html"
+                class="inline-block mb-4 px-6 py-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors font-bold text-white shadow-md">
+                <i class="fas fa-arrow-left mr-2"></i>
+                <span data-i18n="common.back_home">Volver al Inicio</span>
+            </a>
+            <p data-i18n="common.footer.copyright">&copy; 2026 XIRO!. Sistema de quiz interactivo.</p>
+            <p data-i18n="common.footer.copyright_holder" class="text-xs mt-1">Copyright: Familia Fernández Villatoro
+            </p>
+        </div>
+    </div>
+
+    <!-- Script de Pestañas -->
+    <script src="./js/instrucciones/tabs.js?v=20260625151006"></script>
+    <script src="/js/core/site-badge.js?v=20260625151006"></script>
+</body>
+
+</html>

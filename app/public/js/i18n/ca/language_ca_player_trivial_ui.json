@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "player.trivial.your_turn": "El teu torn!",
+    "player.trivial.cell_label": "Casella",
+    "player.trivial.center_label": "Centre",
+    "player.trivial.waiting_for": "Esperant a",
+    "player.trivial.waiting_active": "Esperant el jugador actiu",
+    "player.trivial.moving_piece": "Movent fitxa…",
+    "player.trivial.radio_label": "Radi",
+    "player.trivial.selecting_cell": "Seleccionant casella…",
+    "player.trivial.tap_dice": "Toca el dau per tirar",
+    "player.trivial.turn_of": "Torn de"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.puntuacion.title": "Scoring",
+    "manual_admin.tools.puntuacion.desc": "Configuration of times, points, and bonuses.",
+    "manual_admin.tools.puntuacion.base_points": "Base points",
+    "manual_admin.tools.puntuacion.base_points_desc": "Guaranteed points for answering correctly.",
+    "manual_admin.tools.puntuacion.max_bonus": "Max speed bonus",
+    "manual_admin.tools.puntuacion.max_bonus_desc": "Extra points for answering quickly."
+  }
+}

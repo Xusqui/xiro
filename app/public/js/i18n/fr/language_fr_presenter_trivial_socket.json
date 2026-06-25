@@ -1,0 +1,17 @@
+{
+  "keys": {
+    "presenter.trivial.waiting_dice": "En attente du lancer de dés",
+    "presenter.trivial.rolled": "{diceValue} obtenu — touchez une case en surbrillance sur le plateau",
+    "presenter.trivial.moved": "{nickname} a bougé → {position}. Préparation de la question...",
+    "presenter.trivial.choosing_category": "🎯 Case centrale — {actorNick} choisit une catégorie...",
+    "presenter.trivial.roll_again": "{nick} a trouvé juste ! Relancez les dés...",
+    "presenter.trivial.end_confirm_title": "Terminer le jeu ?",
+    "presenter.trivial.end_confirm_msg": "Si vous confirmez, le jeu se terminera et le podium s'affichera avec le classement actuel.",
+    "presenter.trivial.end_confirm_yes": "Oui, terminer le jeu",
+    "presenter.trivial.cancel": "Annuler",
+    "presenter.trivial.turn_label": "🎲 Tour : {turn}"
+  },
+  "literals": {
+    "Bancos": "Banques"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "player.reconnection.waiting_next": "Esperant la propera pregunta...",
+    "player.reconnection.failed": "No sha pogut reconectar.",
+    "player.reconnection.restoring": "Restaurant el tauler...",
+    "player.reconnection.already_answered": "ja has contestat"
+  }
+}

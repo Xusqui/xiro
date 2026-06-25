@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "admin.config.tab.lambda": "团队配置",
+    "admin.config.team.names_title": "队伍名称",
+    "admin.config.team.names_desc": "开始团队游戏时建议的名称。主持人可以在每场比赛前修改。",
+    "admin.config.team.name_placeholder": "队伍名称",
+    "admin.config.team.btn_save": "保存名称",
+    "admin.config.team.btn_reset": "恢复默认值",
+    "admin.config.team.saving": "保存中…",
+    "admin.config.team.saved_ok": "名称保存成功。",
+    "admin.config.team.net_error": "网络错误。",
+    "admin.config.team.reset_info": "值已恢复。按保存应用。"
+  }
+}

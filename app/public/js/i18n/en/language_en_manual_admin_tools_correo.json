@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.correo.title": "Email / Contact",
+    "manual_admin.tools.correo.desc": "SMTP server and forms configuration.",
+    "manual_admin.tools.correo.smtp": "SMTP Server",
+    "manual_admin.tools.correo.smtp_desc": "Host, port, security and credentials for sending emails.",
+    "manual_admin.tools.correo.secret": "Contact Secret",
+    "manual_admin.tools.correo.secret_desc": "HMAC key for signing antibot tokens."
+  }
+}

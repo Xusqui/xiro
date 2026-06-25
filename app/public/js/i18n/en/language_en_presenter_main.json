@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "presenter.loading.title": "Loading...",
+    "presenter.loading.desc": "Preparing host panel",
+    "presenter.sidebar.connected": "Connected",
+    "presenter.lobby.waiting": "Waiting for players...",
+    "presenter.lobby.pin": "ACCESS PIN",
+    "presenter.lobby.start": "START!",
+    "presenter.lobby.players": "Players:",
+    "presenter.game.terminate": "End",
+    "presenter.game.terminate.title": "End the game and show the podium with the current ranking",
+    "presenter.game.abandon": "Leave game",
+    "presenter.game.abandon.title": "Leave session",
+    "presenter.fullscreen.title": "Fullscreen"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "manual_admin.tools.interfaz.title": "インターフェース",
+    "manual_admin.tools.interfaz.desc": "ユーザーインターフェースの設定。",
+    "manual_admin.tools.interfaz.tv": "TVカード",
+    "manual_admin.tools.interfaz.tv_desc": "ホーム画面でTVバージョンのカードを表示または非表示にします。"
+  }
+}

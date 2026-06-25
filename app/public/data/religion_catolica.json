@@ -1,0 +1,286 @@
+{
+  "name": "Religión Católica",
+  "type": "quiz",
+  "questions": [
+    {
+      "question_text": "¿Cuántos sacramentos reconoce la Iglesia Católica?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "7",
+          "is_correct": true,
+          "justification": "La Iglesia Católica reconoce siete sacramentos instituidos por Cristo: Bautismo, Confirmación, Eucaristía, Penitencia (Confesión), Unción de los Enfermos, Orden Sacerdotal y Matrimonio. Estos se dividen en sacramentos de iniciación cristiana, de curación y de servicio a la comunidad."
+        },
+        {
+          "option_text": "5",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "10",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "12",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Quién fue el primer Papa de la Iglesia Católica?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "San Pedro",
+          "is_correct": true,
+          "justification": "Según la tradición católica, Jesús designó a Simón Pedro como la piedra sobre la cual edificaría su Iglesia (Mateo 16:18). Pedro fue el líder de los Apóstoles y primer obispo de Roma, estableciendo la sucesión apostólica que continúa hasta el presente."
+        },
+        {
+          "option_text": "San Pablo",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "San Juan",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "San Mateo",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿En qué año se realizó el Concilio Vaticano II?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "1962-1965",
+          "is_correct": true,
+          "justification": "El Concilio Vaticano II fue convocado por el Papa Juan XXIII y se desarrolló entre 1962 y 1965 bajo los pontificados de Juan XXIII y Pablo VI. Fue el concilio ecuménico que modernizó la liturgia católica, promovió el diálogo interreligioso y actualizó la relación de la Iglesia con el mundo contemporáneo."
+        },
+        {
+          "option_text": "1945-1948",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "1870-1873",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "1978-1981",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuál es el libro más extenso de la Biblia?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Salmos",
+          "is_correct": true,
+          "justification": "El libro de los Salmos contiene 150 capítulos y es el libro más largo de la Biblia en número de capítulos. Es una colección de himnos, oraciones y poemas utilizados en la liturgia judía y cristiana, tradicionalmente atribuidos en gran parte al rey David."
+        },
+        {
+          "option_text": "Génesis",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Isaías",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Evangelio de Lucas",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué doctora de la Iglesia es conocida como la patrona de las misiones?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Santa Teresa de Lisieux",
+          "is_correct": true,
+          "justification": "Santa Teresa del Niño Jesús (1873-1897), monja carmelita francesa, fue proclamada doctora de la Iglesia en 1997 por Juan Pablo II. Aunque nunca fue misionera fuera del convento, su 'caminito' espiritual y su oración por las misiones la convirtieron en patrona de las misiones junto a San Francisco Javier."
+        },
+        {
+          "option_text": "Santa Teresa de Ávila",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Santa Catalina de Siena",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Santa Hildegarda de Bingen",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuál es el primer mandamiento del Decálogo?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Amarás a Dios sobre todas las cosas",
+          "is_correct": true,
+          "justification": "El primer mandamiento 'No tendrás otros dioses fuera de mí' (Éxodo 20:3) establece el fundamento del monoteísmo y la relación exclusiva con Dios. Implica adorar solo a Dios, rechazar la idolatría y poner a Dios como prioridad absoluta en la vida."
+        },
+        {
+          "option_text": "No matarás",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Honrarás a tu padre y a tu madre",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "No robarás",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué significa el término 'Eucaristía'?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Acción de gracias",
+          "is_correct": true,
+          "justification": "La palabra Eucaristía proviene del griego 'eukharistía' que significa 'acción de gracias'. Es el sacramento central de la fe católica donde, según la doctrina de la transubstanciación, el pan y el vino se convierten en el Cuerpo y la Sangre de Cristo durante la consagración en la Misa."
+        },
+        {
+          "option_text": "Comunión",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Sacrificio",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Bendición",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuántos son los misterios del Rosario después de que San Juan Pablo II añadiera los Misterios Luminosos?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "20",
+          "is_correct": true,
+          "justification": "El Rosario tradicionalmente incluía 15 misterios (Gozosos, Dolorosos y Gloriosos). En 2002, el Papa Juan Pablo II añadió los 5 Misterios Luminosos o de Luz en su carta apostólica 'Rosarium Virginis Mariae', completando un total de 20 misterios que contemplan los principales acontecimientos de la vida de Jesús y María."
+        },
+        {
+          "option_text": "15",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "25",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "10",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿En qué ciudad tuvo lugar el Concilio de Trento?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Trento (Italia)",
+          "is_correct": true,
+          "justification": "El Concilio de Trento (1545-1563) fue convocado por el Papa Paulo III en respuesta a la Reforma Protestante. Celebrado en la ciudad de Trento, en el norte de Italia, definió doctrinas católicas fundamentales sobre los sacramentos, el canon bíblico, la justificación y reformó la disciplina eclesiástica."
+        },
+        {
+          "option_text": "Roma (Italia)",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Aviñón (Francia)",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Toledo (España)",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué título mariano proclamó el Papa Pío XII en 1950 como dogma de fe?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Asunción de María",
+          "is_correct": true,
+          "justification": "El 1 de noviembre de 1950, el Papa Pío XII proclamó el dogma de la Asunción de María mediante la constitución apostólica 'Munificentissimus Deus'. Este dogma afirma que María, al término de su vida terrena, fue elevada en cuerpo y alma a la gloria celestial, siendo el cuarto y más reciente dogma mariano."
+        },
+        {
+          "option_text": "Inmaculada Concepción",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Madre de Dios",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Perpetua Virginidad",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    }
+  ]
+}

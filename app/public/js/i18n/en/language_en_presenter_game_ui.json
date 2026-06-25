@@ -1,0 +1,21 @@
+{
+  "keys": {
+    "presenter.game.play_audio": "▶ Tap to play audio",
+    "presenter.game.pause_resume": "Click to pause/resume",
+    "presenter.game.question_label": "Question",
+    "presenter.game.next_question": "Next Question",
+    "presenter.game.next_round": "Next Round",
+    "presenter.game.view_ranking": "View Ranking",
+    "presenter.game.reveal_answer": "Reveal Answer",
+    "presenter.game.answers_label": "ANSWERS:",
+    "presenter.game.audio_playing": "AUDIO PLAYING",
+    "presenter.game.listen_carefully": "Listen carefully",
+    "presenter.game.no_audio_support": "Your browser does not support audio.",
+    "presenter.game.numeric_question": "NUMERIC QUESTION",
+    "presenter.game.players_write_number": "Players write an integer",
+    "presenter.game.answer_on_reveal": "The correct answer will be shown on reveal",
+    "presenter.game.points_by_proximity": "Points are calculated by proximity",
+    "presenter.game.players_see_devices": "Players see options on their devices",
+    "presenter.game.multiple_choice_label": "✓ Multiple Choice"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "keys": {
+    "fireworks_preview.page.title": "Vorschau – Feuerwerk",
+    "fireworks_preview.button.close": "Schließen",
+    "fireworks_preview.error.controller_unavailable": "Fehler: FireworksController nicht verfügbar"
+  }
+}

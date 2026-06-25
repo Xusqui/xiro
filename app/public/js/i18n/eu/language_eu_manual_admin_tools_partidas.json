@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "manual_admin.tools.partidas.title": "Partidak",
+    "manual_admin.tools.partidas.desc": "Partiden eta gelen konfigurazio orokorra.",
+    "manual_admin.tools.partidas.max_players": "Gehienezko jokalariak partidako",
+    "manual_admin.tools.partidas.max_players_desc": "Gela batera batu daitezkeen jokalarien gehienezko kopurua.",
+    "manual_admin.tools.partidas.max_lobbies": "Aldibereko lobby gehienezkoa",
+    "manual_admin.tools.partidas.max_lobbies_desc": "Partida aktiboak aldi berean. Mugara iristean ezin dira gela berriak sortu.",
+    "manual_admin.tools.partidas.inactive_game": "Partida inaktiboaren muga",
+    "manual_admin.tools.partidas.inactive_game_desc": "Aktibitaterik gabeko orduak partida bat bertan behera utzi eta garbitzeko.",
+    "manual_admin.tools.partidas.empty_lobby": "Lobby hutsaren iraungipena",
+    "manual_admin.tools.partidas.empty_lobby_desc": "Minutuak jokalaririk gabeko lobby bat automatikoki suntsitzeko."
+  }
+}

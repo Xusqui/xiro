@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "admin.trivial.title": "Jocs Trivial",
+    "admin.trivial.subtitle": "Crea taulers Trivial amb categories pròpies",
+    "admin.trivial.btn_new": "Nou Trivial",
+    "admin.trivial.empty": "Encara no hi ha jocs Trivial",
+    "admin.trivial.form_edit": "Editar Trivial",
+    "admin.trivial.form_new": "Nou Trivial",
+    "admin.trivial.label_name": "Nom del joc",
+    "admin.trivial.label_pin": "PIN",
+    "admin.trivial.ph_pin": "ex. TRV01",
+    "admin.trivial.section_config": "Configuració del joc",
+    "admin.trivial.label_visible": "Visible per al presentador",
+    "admin.trivial.label_streaks": "Usar Ratxes"
+  }
+}

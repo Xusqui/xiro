@@ -1,0 +1,23 @@
+{
+  "keys": {
+    "presenter.session.understood": "Entès",
+    "presenter.session.end_title": "Finalitzar el joc?",
+    "presenter.session.end_msg": "El joc finalitzarà i es mostrarà el podi amb la classificació actual.",
+    "presenter.session.end_yes": "Sí, finalitzar el joc",
+    "presenter.session.cancel": "Cancel·la",
+    "presenter.session.abandon_title": "Abandonar partida?",
+    "presenter.session.abandon_msg_html": "Escriu <span class=\"font-black text-red-300\">{confirmWord}</span> per confirmar. Això expulsarà tots els jugadors.",
+    "presenter.session.no_session_title": "Sense sessió activa",
+    "presenter.session.no_session_msg": "No hi ha cap sessió activa per a Xiro!.",
+    "presenter.session.abandoned_title": "Sessió abandonada",
+    "presenter.session.abandoned_msg": "La sessió ha estat abandonada.",
+    "presenter.session.btn_back_home": "Tornar a l'inici",
+    "presenter.session.btn_confirm": "Confirmar",
+    "presenter.session.btn_accept": "Acceptar",
+    "presenter.session.error_title": "Error del presentador",
+    "presenter.session.error_unknown": "Error desconegut",
+    "presenter.session.lobby_error_title": "Error en crear el Lobby",
+    "presenter.session.lobby_error_msg": "No s'ha pogut crear el lobby",
+    "presenter.session.start_error_title": "Error en iniciar el joc"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "player.trivial.your_turn": "A túa quenda!",
+    "player.trivial.cell_label": "Casilla",
+    "player.trivial.center_label": "Centro",
+    "player.trivial.waiting_for": "Esperando a",
+    "player.trivial.waiting_active": "Esperando ao xogador activo",
+    "player.trivial.moving_piece": "Movendo ficha…",
+    "player.trivial.radio_label": "Radio",
+    "player.trivial.selecting_cell": "Seleccionando casilla…",
+    "player.trivial.tap_dice": "Toca o dado para tirar",
+    "player.trivial.turn_of": "Quenda de"
+  }
+}

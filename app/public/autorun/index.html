@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="xiro-i18n-sections" content="common,autorun">
+    <title data-i18n="autorun.page.title">Xiro! - Bot Runner</title>
+    <link rel="stylesheet" href="/css/common.css?v=20260625151006">
+    <link rel="stylesheet" href="/css/autorun.css?v=20260625151006">
+    <script defer src="/js/i18n/i18n-core.js?v=20260625151006"></script>
+    <script defer src="/js/i18n/i18n-dom.js?v=20260625151006"></script>
+    <script defer src="/js/i18n/i18n-ui.js?v=20260625151006"></script>
+</head>
+
+<body>
+    <!-- Verificación de sesión de administrador antes de mostrar la herramienta -->
+    <div id="authGate">
+        <div class="auth-gate-card">
+            <div class="auth-gate-spinner"></div>
+            <p data-i18n="autorun.auth.verifying">Verificando acceso de administrador...</p>
+        </div>
+    </div>
+
+    <div id="appRoot" style="display:none">
+        <header>
+            <h1 data-i18n="autorun.header.title">🤖 Xiro! Bot Runner</h1>
+            <span class="badge" data-i18n="autorun.header.badge">Dev tool</span>
+            <span class="subtitle" data-i18n="autorun.header.subtitle">El presentador debe tener el lobby abierto antes
+                de lanzar bots.</span>
+            <a href="/admin.html" class="btn btn-ghost" id="btnBackAdmin" data-i18n="autorun.header.back">← Volver al
+                panel</a>
+            <button class="btn btn-ghost" id="btnLogout" data-i18n="autorun.header.logout">⎋ Cerrar sesión</button>
+        </header>
+
+        <div class="layout">
+            <!-- Config panel -->
+            <div class="card">
+                <div class="card-header" data-i18n="autorun.config.title">⚙️ Configuración</div>
+                <div class="card-body">
+                    <div class="field">
+                        <label for="sessionId" data-i18n-html="autorun.config.session_label">Session ID <span
+                                style="color:var(--gray)">(formato
+                                PIN-NUMERO)</span></label>
+                        <input type="text" id="sessionId" placeholder="ej: TEST-123456"
+                            data-i18n-placeholder="autorun.config.session_placeholder" autocomplete="off"
+                            spellcheck="false">
+                    </div>
+
+                    <div class="field">
+                        <label data-i18n="autorun.config.mode">Modo</label>
+                        <div class="radio-group">
+                            <label class="radio-btn active" id="modeIndividualBtn">
+                                <input type="radio" name="mode" value="individual" checked> 👤 <span
+                                    data-i18n="autorun.config.mode_individual">Individual</span>
+                            </label>
+                            <label class="radio-btn" id="modeEquiposBtn">
+                                <input type="radio" name="mode" value="equipos"> 👥 <span
+                                    data-i18n="autorun.config.mode_teams">Equipos</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label data-i18n="autorun.config.game_type">Tipo de juego</label>
+                        <div class="radio-group">
+                            <label class="radio-btn active" id="typeQuizBtn">
+                                <input type="radio" name="gameType" value="quiz" checked> 📝 <span
+                                    data-i18n="autorun.config.game_type_quiz">Quiz</span>
+                            </label>
+                            <label class="radio-btn" id="typeTrivialBtn">
+                                <input type="radio" name="gameType" value="trivial"> 🎲 <span
+                                    data-i18n="autorun.config.game_type_trivial">Trivial</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="numBots" data-i18n-html="autorun.config.bot_count_label">Numero de bots <span
+                                style="color:var(--gray)">(1-199)</span></label>
+                        <input type="number" id="numBots" value="100" min="1" max="199">
+                    </div>
+
+
+                    <button class="btn btn-primary btn-full" id="btnStart" data-i18n="autorun.actions.start">▶ Lanzar
+                        bots</button>
+                    <button class="btn btn-danger btn-full" id="btnStop" disabled style="margin-top:.5rem"
+                        data-i18n="autorun.actions.stop">■ Detener y desconectar</button>
+                </div>
+            </div>
+
+            <!-- Console panel -->
+            <div class="card">
+                <div class="stats-bar">
+                    <div class="stat">
+                        <div class="stat-val green" id="statConnected">0</div>
+                        <div class="stat-lbl" data-i18n="autorun.stats.connected">Conectados</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-val red" id="statFailed">0</div>
+                        <div class="stat-lbl" data-i18n="autorun.stats.failed">Fallidos</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-val blue" id="statAnswers">0</div>
+                        <div class="stat-lbl" data-i18n="autorun.stats.answers">Respuestas</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-val amber" id="statTotal">0</div>
+                        <div class="stat-lbl" data-i18n="autorun.stats.total_bots">Total bots</div>
+                    </div>
+                </div>
+
+                <div class="log-toolbar">
+                    <button class="filter-btn active" data-level="all" data-i18n="autorun.filters.all">ALL</button>
+                    <button class="filter-btn" data-level="info" data-i18n="autorun.filters.info">INFO</button>
+                    <button class="filter-btn" data-level="warn" data-i18n="autorun.filters.warn">WARN</button>
+                    <button class="filter-btn" data-level="error" data-i18n="autorun.filters.error">ERROR</button>
+                    <button class="filter-btn" data-level="debug" data-i18n="autorun.filters.debug">DEBUG</button>
+                    <div class="spacer"></div>
+                    <label class="autoscroll-lbl"><input type="checkbox" id="autoScroll" checked> <span
+                            data-i18n="autorun.filters.autoscroll">Auto-scroll</span></label>
+                    <button class="btn btn-ghost" id="btnClear" style="padding:.25rem .6rem;font-size:.72rem"
+                        data-i18n="autorun.filters.clear">Limpiar</button>
+                </div>
+
+                <div id="logContainer"></div>
+
+                <div class="action-row">
+                    <span id="statusDot" data-i18n="autorun.status.idle">Inactivo</span>
+                    <div class="spacer"></div>
+                    <button class="btn btn-ghost" id="btnDownload" disabled data-i18n="autorun.actions.download">⬇
+                        Descargar log JSON</button>
+                </div>
+            </div>
+        </div>
+    </div><!-- /#appRoot -->
+
+    <script src="/socket.io/socket.io.js?v=20260625151006"></script>
+    <script src="/autorun/admin-guard.js?v=20260625151006"></script>
+</body>
+
+</html>

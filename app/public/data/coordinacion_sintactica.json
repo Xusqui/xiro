@@ -1,0 +1,1456 @@
+{
+    "name": "Quiz de Coordinación Sintáctica - 50 Preguntas",
+    "type": "quiz",
+    "questions": [
+        {
+            "question_text": "Llegué, vi, vencí.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": true,
+                    "justification": "Unión mediante comas sin nexos."
+                }
+            ]
+        },
+        {
+            "question_text": "El joven estudia mucho y trabaja por las tardes.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": true,
+                    "justification": "Nexo 'y' indica suma."
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Vienes conmigo o te quedas aquí?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": true,
+                    "justification": "Nexo 'o' indica alternancia."
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Es un coche muy rápido, pero gasta mucha gasolina.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": true,
+                    "justification": "Nexo 'pero' indica oposición."
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Unos ríen, otros lloran.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": true,
+                    "justification": "Ausencia de nexos gramaticales."
+                }
+            ]
+        },
+        {
+            "question_text": "Ni quiere comer ni quiere dormir.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": true,
+                    "justification": "Nexo correlativo 'ni... ni'."
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Haz los deberes u olvídate de salir.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": true,
+                    "justification": "Nexo 'u' ante palabra que empieza por 'o'."
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "No es azul, sino verde.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": true,
+                    "justification": "Nexo 'sino' indica exclusión."
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El tiempo vuela; la vida se pasa pronto.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": true,
+                    "justification": "Unión mediante punto y coma."
+                }
+            ]
+        },
+        {
+            "question_text": "Padre e hijo se entienden de maravilla.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": true,
+                    "justification": "Nexo 'e' como variante de 'y'."
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Iremos a la playa, aunque llueva un poco.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": true,
+                    "justification": "Nexo 'aunque' equivalente a 'pero'."
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Trae el libro, ponlo en la mesa, vete a dormir.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": true,
+                    "justification": "Enumeración de acciones sin nexos."
+                }
+            ]
+        },
+        {
+            "question_text": "¿Entras tú o entro yo?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": true,
+                    "justification": "Elección excluyente mediante 'o'."
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Aprobó todas las materias y obtuvo una beca.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": true,
+                    "justification": "Suma de logros con nexo 'y'."
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "No sabe nada de música, mas le gusta cantar.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": true,
+                    "justification": "Nexo 'mas' indica oposición."
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Él limpia la cocina; ella ordena el salón.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": true,
+                    "justification": "Distribución sin nexos explícitos."
+                }
+            ]
+        },
+        {
+            "question_text": "¿Quieres té u horchata?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": true,
+                    "justification": "Nexo 'u' para elegir."
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "No es tonto, sino muy despistado.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": true,
+                    "justification": "Contraste correctivo con 'sino'."
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Ni sabe leer ni sabe escribir.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": true,
+                    "justification": "Adición negativa 'ni... ni'."
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El sol brillaba, las aves cantaban, el río fluía.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": true,
+                    "justification": "Yuxtaposición descriptiva."
+                }
+            ]
+        },
+        {
+            "question_text": "Juan lee y Ana escucha música.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": true,
+                    "justification": "Unión simple mediante 'y'."
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Te acompaño, pero no me pidas que baile.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": true,
+                    "justification": "Restricción mediante el nexo 'pero'."
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Me llamas por teléfono o me escribes un mail?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": true,
+                    "justification": "Nexo 'o' para alternar canales."
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Pienso, luego existo.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": true,
+                    "justification": "Relación lógica sin conjunción coordinante clásica."
+                }
+            ]
+        },
+        {
+            "question_text": "Aguja e hilo son necesarios para coser.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": true,
+                    "justification": "Nexo 'e' une los dos elementos."
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "No quiero ir a la fiesta, sin embargo, iré.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": true,
+                    "justification": "Locución adversativa 'sin embargo'."
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "O dices la verdad u ocultas algo.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": true,
+                    "justification": "Nexo distributivo-disyuntivo 'o... u'."
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Ríe, canta, baila; disfruta de la vida.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": true,
+                    "justification": "Varias oraciones unidas por puntuación."
+                }
+            ]
+        },
+        {
+            "question_text": "Llamé a su puerta y nadie respondió.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": true,
+                    "justification": "Sucesión de hechos con 'y'."
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "No es una casa vieja, sino que está mal cuidada.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": true,
+                    "justification": "Nexo 'sino que' para oponer conceptos."
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Ayer llovió mucho; hoy hace frío.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": true,
+                    "justification": "Relación de oraciones mediante ';'."
+                }
+            ]
+        },
+        {
+            "question_text": "Estás conmigo o estás contra mí.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": true,
+                    "justification": "Contraste de opciones con 'o'."
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Ni ríe ni deja reír.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": true,
+                    "justification": "Nexo negativo copulativo."
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El tren ya salió; llegamos tarde.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": true,
+                    "justification": "Yuxtaposición por causa-consecuencia."
+                }
+            ]
+        },
+        {
+            "question_text": "Llegó tarde, no obstante, terminó su tarea.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": true,
+                    "justification": "Locución adversativa 'no obstante'."
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Paga la deuda o irás a juicio.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": true,
+                    "justification": "Alternativa amenazante con 'o'."
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Hablamos por horas e intercambiamos ideas.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": true,
+                    "justification": "Nexo 'e' une proposiciones."
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Trabaja de noche, descansa de día.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": true,
+                    "justification": "Oposición implícita sin nexos."
+                }
+            ]
+        },
+        {
+            "question_text": "Quiso correr, mas no pudo.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": true,
+                    "justification": "Nexo 'mas' indica limitación."
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Sal pronto de casa o perderás el autobús.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": true,
+                    "justification": "Nexo 'o' plantea una disyuntiva."
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Mis tíos vinieron y trajeron regalos.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": true,
+                    "justification": "Nexo 'y' suma acciones."
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "No es solo listo, sino también trabajador.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": true,
+                    "justification": "Nexo 'sino también' indica adición adversativa."
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Abre la ventana; hace mucho calor.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": true,
+                    "justification": "Relación explicativa por punto y coma."
+                }
+            ]
+        },
+        {
+            "question_text": "Busca la llave u olvida entrar en casa.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": true,
+                    "justification": "Nexo 'u' ante la vocal 'o'."
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Fui al mercado y compré fruta.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": true,
+                    "justification": "Unión con nexo copulativo 'y'."
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Iba a salir, pero se puso a llover.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": true,
+                    "justification": "Contraste con el nexo 'pero'."
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Se hizo de noche, encendieron las farolas.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": true,
+                    "justification": "Oraciones separadas por coma."
+                }
+            ]
+        },
+        {
+            "question_text": "¿Estudias o trabajas?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": true,
+                    "justification": "Pregunta de elección con 'o'."
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Me gusta el café, mas prefiero el té.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": true,
+                    "justification": "Nexo 'mas' indica preferencia opuesta."
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Cena pronto, acuéstate temprano, descansa bien.",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Copulativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Disyuntiva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Adversativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Yuxtapuesta",
+                    "is_correct": true,
+                    "justification": "Serie de imperativos yuxtapuestos."
+                }
+            ]
+        }
+    ]
+}

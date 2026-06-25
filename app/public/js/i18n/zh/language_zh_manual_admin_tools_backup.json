@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.backup.title": "备份",
+    "manual_admin.tools.backup.desc": "自动数据库备份。",
+    "manual_admin.tools.backup.schedule": "备份计划",
+    "manual_admin.tools.backup.schedule_desc": "自动备份的频率。",
+    "manual_admin.tools.backup.retention": "备份保留",
+    "manual_admin.tools.backup.retention_desc": "保留备份文件的天数。"
+  }
+}

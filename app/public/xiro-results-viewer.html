@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="xiro_results_viewer.page.title">...</title>
+    <script defer src="/js/core/umami-loader.js?v=20260625151006"></script>
+    <link rel="stylesheet" href="./css/xiro-result-viewer.css?v=20260625151006">
+    <script src="/js/i18n/i18n-core.js?v=20260625151006"></script>
+    <script src="/js/i18n/i18n-dom.js?v=20260625151006"></script>
+    <script src="/js/i18n/i18n-ui.js?v=20260625151006"></script>
+</head>
+
+<body>
+    <canvas id="confetti-canvas"></canvas>
+    <div id="app">
+
+        <!-- ════════════════════════ DROP SCREEN ════════════════════════ -->
+        <div id="drop-screen">
+            <div class="logo-area anim">
+                <img class="logo" src="/images/logo.svg" alt="XIRO!">
+                <br>
+                <img class="mascot" src="/images/chamaleon/party.svg" alt="">
+            </div>
+
+            <div data-i18n-html="xiro_results_viewer.drop.title_html" class="drop-title anim anim-d1">...</div>
+
+            <div class="drop-zone anim anim-d2" id="drop-zone">
+                <span class="drop-icon">📊</span>
+                <strong data-i18n="xiro_results_viewer.drop.zone.title">Arrastra aquí tu CSV de XIRO!</strong>
+                <p data-i18n="xiro_results_viewer.drop.zone.subtitle">...</p>
+                <button data-i18n="xiro_results_viewer.drop.zone.button" class="btn-upload" type="button"
+                    id="btn-upload-file">...</button>
+            </div>
+            <input type="file" id="file-input" accept=".csv,text/csv">
+
+            <p data-i18n-html="xiro_results_viewer.drop.note_html" class="note anim anim-d3">...</p>
+        </div>
+
+        <!-- ════════════════════════ RESULTS SCREEN ════════════════════════ -->
+        <div id="results-screen">
+            <div class="results-header">
+                <div class="left">
+                    <img class="logo-small" src="/images/logo.svg" alt="XIRO!">
+                    <div>
+                        <h1><span data-i18n="xiro_results_viewer.results.header.title_prefix">...</span>
+                            <span id="hdr-pin">—</span>
+                        </h1>
+                        <div class="meta-pills" id="hdr-pills"></div>
+                    </div>
+                </div>
+                <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center">
+                    <button data-i18n="xiro_results_viewer.results.button.load_another" class="btn-back" type="button"
+                        id="btn-back">...</button>
+                    <button data-i18n="xiro_results_viewer.results.button.print" class="btn-new" type="button"
+                        id="btn-print">...</button>
+                </div>
+            </div>
+
+            <div class="results-body" id="results-body"></div>
+        </div>
+
+    </div>
+
+    <script>
+        // ═══════════════════════════════════════════════════════════════
+        //  JSON SESSION → VIEWER DATA CONVERTER
+        // ═══════════════════════════════════════════════════════════════
+        function sessionJsonToViewerData(session) {
+            var gameTypeLabels = {
+                custom_game: _t('xiro_results_viewer.game_type.custom', null, 'Personalizado'),
+                bank: _t('xiro_results_viewer.game_type.bank', null, 'Banco de preguntas'),
+                game: _t('xiro_results_viewer.game_type.game', null, 'Juego'),
+                quiz: _t('xiro_results_viewer.game_type.quiz', null, 'Quiz'),
+                trivial: _t('xiro_results_viewer.game_type.trivial', null, 'Trivial')
+            };
+
+            function fmtDate(isoStr) {
+                if (!isoStr) return '—';
+                var d = new Date(isoStr);
+                var pad = function (n) { return String(n).padStart(2, '0'); };
+                return pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + '/' + d.getFullYear()
+                    + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+            }
+
+            function fmtDuration(ms) {
+                if (!ms || ms < 0) return '—';
+                var s = Math.floor(ms / 1000);
+                var min = Math.floor(s / 60);
+                var sec = s % 60;
+                return min + _t('xiro_results_viewer.duration.minutes_symbol', null, 'm') + ' ' + sec + _t('xiro_results_viewer.duration.seconds_symbol', null, 's');
+            }
+
+            var ranking = (session.final_ranking || []).map(function (p, i) {
+                return {
+                    pos: String(i + 1),
+                    name: p.name || '',
+                    score: p.scoreLabel || String(p.pts != null ? p.pts : (p.score != null ? p.score : 0))
+                };
+            });
+
+            var trivialMeta = (session.questions_snapshot && session.questions_snapshot.isTrivialMeta)
+                ? session.questions_snapshot : null;
+            var questionsArray = trivialMeta ? [] : (session.questions_snapshot || []);
+
+            var questions = questionsArray.map(function (q, i) {
+                return {
+                    n: String(i + 1),
+                    type: q.question_type || '',
+                    text: q.question_text || '',
+                    correct: q.correct_answer || ''
+                };
+            });
+
+            var isTrivial = !!trivialMeta;
+            var playerAnswersRaw = session.player_answers || {};
+            var playerAnswers = [];
+            var questionIndices = Object.keys(playerAnswersRaw).map(Number).sort(function (a, b) { return a - b; });
+
+            for (var qi = 0; qi < questionIndices.length; qi++) {
+                var qIdx = questionIndices[qi];
+                var qInfo = questionsArray[qIdx];
+                var playersAtQ = playerAnswersRaw[qIdx] || {};
+                var nicks = Object.keys(playersAtQ);
+                for (var ni = 0; ni < nicks.length; ni++) {
+                    var nick = nicks[ni];
+                    var d = playersAtQ[nick];
+                    var correct = d.isCorrect === null ? 'Encuesta' : (d.isCorrect ? 'Sí' : 'No');
+                    if (isTrivial) {
+                        playerAnswers.push({
+                            round: String(qIdx),
+                            cat: d.categoryName || '',
+                            question: d.questionText || (qInfo && qInfo.question_text) || (_t('xiro_results_viewer.detail.question_prefix', null, 'Pregunta') + ' ' + qIdx),
+                            player: nick,
+                            answer: d.answer || '',
+                            correct: correct,
+                            wedge: d.wedgeEarned || '',
+                            pts: String(d.pointsEarned != null ? d.pointsEarned : 0),
+                            time: d.responseTimeMs != null ? String(d.responseTimeMs) : ''
+                        });
+                    } else {
+                        playerAnswers.push({
+                            round: String(qIdx + 1),
+                            question: (qInfo && qInfo.question_text) || d.questionText || (_t('xiro_results_viewer.detail.question_prefix', null, 'Pregunta') + ' ' + (qIdx + 1)),
+                            player: nick,
+                            answer: d.answer || '',
+                            matchingPairs: d.matchingPairs || null,
+                            orderItems: d.orderItems || null,
+                            multipleChoiceItems: d.multipleChoiceItems || null,
+                            correct: correct,
+                            pts: String(d.pointsEarned != null ? d.pointsEarned : 0),
+                            time: d.responseTimeMs != null ? String(d.responseTimeMs) : ''
+                        });
+                    }
+                }
+            }
+
+            var wedges = [];
+            if (trivialMeta && trivialMeta.playerWedges) {
+                for (var ri = 0; ri < ranking.length; ri++) {
+                    var cats = trivialMeta.playerWedges[ranking[ri].name] || [];
+                    wedges.push({ name: ranking[ri].name, cats: cats, total: String(cats.length) });
+                }
+            }
+
+            var categories = isTrivial
+                ? playerAnswers.map(function (r) { return r.cat; }).filter(function (c, i, a) { return c && a.indexOf(c) === i; })
+                : [];
+
+            return {
+                meta: {
+                    'PIN': session.pin || '—',
+                    'Tipo': gameTypeLabels[session.game_type] || session.game_type || '—',
+                    'Fecha': fmtDate(session.played_at),
+                    'Duración': fmtDuration(session.duration_ms),
+                    'Jugadores': String(session.player_count != null ? session.player_count : ranking.length),
+                    'Preguntas': String(session.question_count != null ? session.question_count : questions.length),
+                    'Resultado': session.reason === 'completed' ? 'Completada' : 'Abandonada'
+                },
+                ranking: ranking,
+                questions: questions,
+                playerAnswers: playerAnswers,
+                wedges: wedges,
+                isTrivial: isTrivial,
+                categories: categories
+            };
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //  CSV PARSER
+        // ═══════════════════════════════════════════════════════════════
+        function parseXiroCsv(text) {
+            // Normalise line endings
+            const lines = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
+            const data = {
+                meta: {}, ranking: [], questions: [], playerAnswers: [], wedges: [],
+                isTrivial: false, categories: []
+            };
+
+            let mode = null;
+            let headers = [];
+
+            function splitCsv(line) {
+                const res = [];
+                let cur = '', inQ = false;
+                for (let i = 0; i < line.length; i++) {
+                    const c = line[i];
+                    if (c === '"' && !inQ) { inQ = true; continue; }
+                    if (c === '"' && inQ) {
+                        if (line[i + 1] === '"') { cur += '"'; i++; }
+                        else inQ = false;
+                        continue;
+                    }
+                    if (c === ';' && !inQ) { res.push(cur); cur = ''; continue; }
+                    cur += c;
+                }
+                res.push(cur);
+                return res;
+            }
+
+            for (const raw of lines) {
+                const line = raw.trim();
+                if (!line) { mode = null; headers = []; continue; }
+
+                // Section headers
+                if (line === 'RANKING FINAL') { mode = 'ranking'; continue; }
+                if (line === 'PREGUNTAS') { mode = 'questions'; continue; }
+                if (line === 'DETALLE POR PREGUNTA') { mode = 'detail'; continue; }
+                if (line === 'CATEGORÍAS OBTENIDAS') { mode = 'wedges'; data.isTrivial = true; continue; }
+                if (line === 'XIRO! - Resultados de partida') { mode = 'meta'; continue; }
+
+                const cols = splitCsv(line);
+
+                // Meta lines
+                if (mode === 'meta' && cols.length >= 2) {
+                    data.meta[cols[0]] = cols.slice(1).join(';');
+                    continue;
+                }
+
+                // Headers row (first row of each section)
+                if (!headers.length) { headers = cols; continue; }
+
+                if (mode === 'ranking') {
+                    data.ranking.push({ pos: cols[0], name: cols[1], score: cols[2] });
+                } else if (mode === 'questions') {
+                    data.questions.push({ n: cols[0], type: cols[1], text: cols[2], correct: cols[3] });
+                } else if (mode === 'wedges') {
+                    data.wedges.push({ name: cols[0], cats: cols[1] ? cols[1].split(',').map(s => s.trim()).filter(Boolean) : [], total: cols[2] });
+                } else if (mode === 'detail') {
+                    if (data.isTrivial) {
+                        data.playerAnswers.push({
+                            round: cols[0], cat: cols[1], question: cols[2], player: cols[3],
+                            answer: cols[4], correct: cols[5], wedge: cols[6],
+                            pts: cols[7], time: cols[8]
+                        });
+                    } else {
+                        data.playerAnswers.push({
+                            round: cols[0], question: cols[1], player: cols[2],
+                            answer: cols[3], correct: cols[4], pts: cols[5], time: cols[6]
+                        });
+                    }
+                }
+            }
+
+            // Gather categories from trivial answers
+            if (data.isTrivial) {
+                const cats = [...new Set(data.playerAnswers.map(r => r.cat).filter(Boolean))];
+                data.categories = cats;
+            }
+
+            return data;
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //  RENDER
+        // ═══════════════════════════════════════════════════════════════
+        function render(data) {
+            try {
+                window.lastViewerData = data;
+                _render(data);
+            } catch (err) {
+                console.error('render error:', err);
+                const screen = document.getElementById('drop-screen');
+                screen.innerHTML = [
+                    '<div style="text-align:center;padding:80px 20px">',
+                    '  <div style="font-size:3.5rem;margin-bottom:20px">❌</div>',
+                    '  <p style="font-size:1.25rem;font-weight:700;color:var(--xiro-red)">' + _t('xiro_results_viewer.error.render_title', null, 'Error al renderizar resultados') + '</p>',
+                    '  <p style="color:var(--text-muted);margin-top:10px;font-family:monospace">' + esc(err.message) + '</p>',
+                    '</div>'
+                ].join('');
+            }
+        }
+
+        function _render(data) {
+            const body = document.getElementById('results-body');
+            body.innerHTML = '';
+
+            // Header pills
+            const m = data.meta;
+            document.getElementById('hdr-pin').textContent = m['PIN'] || '—';
+            const pills = document.getElementById('hdr-pills');
+            const completed = m['Resultado'] === 'Completada';
+            pills.innerHTML = `
+    <span class="pill yellow">📅 ${m['Fecha'] || '—'}</span>
+    <span class="pill yellow">🎮 ${m['Tipo'] || '—'}</span>
+    <span class="pill yellow">👥 ${m['Jugadores'] || '—'} ${_t('xiro_results_viewer.results.pills.players', null, 'jugadores')}</span>
+    <span class="pill yellow">❓ ${m['Preguntas'] || '—'} ${_t('xiro_results_viewer.results.pills.questions', null, 'preguntas')}</span>
+    ${m['Duración'] ? `<span class="pill yellow">⏱ ${m['Duración']}</span>` : ''}
+    <span class="pill ${completed ? 'green' : 'red'}">${completed ? '✓ ' + _t('xiro_results_viewer.result.completed', null, 'Completada') : '✗ ' + _t('xiro_results_viewer.result.abandoned', null, 'Abandonada')}</span>
+  `;
+
+            const sections = [];
+
+            // 1) Stats rápidas
+            sections.push(renderStats(data));
+
+            // 2) Podio / Ranking
+            sections.push(renderPodium(data));
+
+            // 3) Categorías Trivial
+            if (data.isTrivial && data.wedges.length) {
+                sections.push(renderWedges(data));
+            }
+
+            // 4) Detalle por pregunta
+            if (data.playerAnswers.length) {
+                sections.push(renderDetail(data));
+            }
+
+            sections.forEach((s, i) => {
+                s.classList.add('anim', `anim-d${Math.min(i + 1, 5)}`);
+                body.appendChild(s);
+            });
+
+            document.getElementById('drop-screen').style.display = 'none';
+            document.getElementById('results-screen').style.display = 'block';
+            window.scrollTo(0, 0);
+
+            // Confetti for completed games
+            if (completed) setTimeout(launchConfetti, 400);
+        }
+
+        // ─── Stats ────────────────────────────────────────────────────
+        function renderStats(data) {
+            const wrap = document.createElement('section');
+
+            // Compute stats from detail
+            const totalAnswers = data.playerAnswers.length;
+            const correctAnswers = data.playerAnswers.filter(r => r.correct === 'Sí').length;
+            const pct = totalAnswers ? Math.round(100 * correctAnswers / totalAnswers) : '—';
+            const times = data.playerAnswers.map(r => parseFloat(r.time)).filter(n => !isNaN(n));
+            const avgTime = times.length ? Math.round(times.reduce((a, b) => a + b, 0) / times.length / 100) / 10 : '—';
+
+            const icon = data.isTrivial ? '🎲' : '🧠';
+            const statsItems = [
+                { icon: '🏆', val: data.ranking.length, lbl: _t('xiro_results_viewer.stats.players', null, 'Jugadores') },
+                { icon: '❓', val: data.meta['Preguntas'] || '—', lbl: _t('xiro_results_viewer.stats.questions', null, 'Preguntas') },
+                { icon: '✅', val: totalAnswers ? pct + ' %' : '—', lbl: _t('xiro_results_viewer.stats.correct_pct', null, 'Aciertos') },
+                { icon: '⚡', val: avgTime !== '—' ? avgTime + ' s' : '—', lbl: _t('xiro_results_viewer.stats.avg_time', null, 'Tiempo medio') },
+            ];
+            if (data.isTrivial && data.wedges.length) {
+                const maxWedges = Math.max(...data.wedges.map(w => w.total || 0));
+                statsItems.push({ icon: '🧩', val: maxWedges, lbl: _t('xiro_results_viewer.stats.max_wedges', null, 'Máx. cuñas') });
+            }
+
+            wrap.innerHTML = `
+    <div class="section-title">
+      <div class="icon" style="background:rgba(249,181,24,0.15)">${icon}</div>
+      <h2>${_t('xiro_results_viewer.sections.stats', null, 'Estadísticas')}</h2>
+      <img class="mascot-inline" src="/images/chamaleon/nerd.svg" alt="">
+    </div>
+    <div class="stats-grid">
+      ${statsItems.map(s => `
+        <div class="stat-card">
+          <div class="stat-icon">${s.icon}</div>
+          <div class="stat-val">${s.val}</div>
+          <div class="stat-lbl">${s.lbl}</div>
+        </div>
+      `).join('')}
+    </div>`;
+            return wrap;
+        }
+
+        // ─── Podio ─────────────────────────────────────────────────────
+        function renderPodium(data) {
+            const wrap = document.createElement('section');
+            const ranking = data.ranking;
+            if (!ranking.length) return wrap;
+
+            const maxPts = parseMaxPts(ranking[0].score);
+
+            // Build podium (top 3, order: 2nd, 1st, 3rd for visual height)
+            const top3 = ranking.slice(0, 3);
+            const ordered = [top3[1], top3[0], top3[2]].filter(Boolean);
+
+            function avatarClass(pos) { return ['', 'avatar-1', 'avatar-2', 'avatar-3'][pos] || 'avatar-o'; }
+            function blockClass(pos) { return ['', 'pos-1', 'pos-2', 'pos-3'][pos] || 'pos-other'; }
+            function medal(pos) { return ['🥇', '🥈', '🥉'][pos - 1] || pos; }
+
+            const podioSvg = {
+                1: '/images/chamaleon/podium/primero.svg',
+                2: '/images/chamaleon/podium/segundo.svg',
+                3: '/images/chamaleon/podium/tercero.svg'
+            };
+
+            const podiumHtml = ordered.map(p => {
+                const pos = parseInt(p.pos);
+                const isFirst = pos === 1;
+                const mascotImg = podioSvg[pos]
+                    ? `<img src="${podioSvg[pos]}" alt="" style="width:80px;height:80px;display:block;margin:0 auto 6px;">`
+                    : '';
+                return `
+      <div class="podium-player">
+        ${mascotImg}
+        <div class="podium-avatar ${avatarClass(pos)}">
+          ${isFirst ? '<span class="crown">👑</span>' : ''}
+          ${initials(p.name)}
+        </div>
+        <div class="podium-name">${esc(p.name)}</div>
+        <div class="podium-score">${esc(p.score)}</div>
+        <div class="podium-block ${blockClass(pos)}">${medal(pos)}</div>
+      </div>`;
+            }).join('');
+
+            // Full ranking table
+            const tableRows = ranking.map(p => {
+                const pos = parseInt(p.pos);
+                const ptsNum = parseMaxPts(p.score);
+                const pct = maxPts ? Math.round(100 * ptsNum / maxPts) : 0;
+                const medals = { 1: '🥇', 2: '🥈', 3: '🥉' };
+                const mascotSmall = podioSvg[pos]
+                    ? `<img src="${podioSvg[pos]}" alt="" style="width:22px;height:22px;display:inline-block;vertical-align:middle;margin-right:4px;">`
+                    : '';
+                return `
+      <tr>
+        <td><span class="rank-medal">${medals[pos] || pos}</span></td>
+        <td><strong>${mascotSmall}${esc(p.name)}</strong></td>
+        <td>
+          <div class="pts-bar-wrap">
+            <div class="pts-bar"><div class="pts-bar-fill" style="width:${pct}%"></div></div>
+            <span class="pts-val">${esc(p.score)}</span>
+          </div>
+        </td>
+      </tr>`;
+            }).join('');
+
+            wrap.innerHTML = `
+    <div class="section-title">
+      <div class="icon" style="background:rgba(251,191,36,0.15)">🏆</div>
+      <h2>${_t('xiro_results_viewer.sections.ranking', null, 'Ranking final')}</h2>
+      <img class="mascot-inline" src="/images/chamaleon/busca-tesoros.svg" alt="">
+    </div>
+    <div class="podium-wrap">${podiumHtml}</div>
+    <div class="ranking-table card" style="margin-top:28px">
+      <table>
+        <thead><tr>
+          <th style="width:50px">#</th>
+          <th>${_t('xiro_results_viewer.table.player', null, 'Jugador')}</th>
+          <th>${_t('xiro_results_viewer.table.score', null, 'Puntuación')}</th>
+        </tr></thead>
+        <tbody>${tableRows}</tbody>
+      </table>
+    </div>`;
+            return wrap;
+        }
+
+        // ─── Wedges trivial ────────────────────────────────────────────
+        function renderWedges(data) {
+            const wrap = document.createElement('section');
+
+            const cards = data.wedges.map(w => `
+    <div class="wedge-card">
+      <h4>🎲 ${esc(w.name)} <span style="color:var(--text-muted); font-weight:500; font-size:.8rem">(${_t('xiro_results_viewer.wedges.count', {count: w.total || 0}, '{count} cuñas')})</span></h4>
+      <div class="wedge-list">
+        ${w.cats.length
+                    ? w.cats.map(c => `<div class="wedge-item">🧩 ${esc(c)}</div>`).join('')
+                    : `<div class="wedge-empty">${_t('xiro_results_viewer.wedges.empty', null, 'Sin cuñas obtenidas')}</div>`}
+      </div>
+    </div>`).join('');
+
+            wrap.innerHTML = `
+    <div class="section-title">
+      <div class="icon" style="background:rgba(124,58,237,0.2)">🧩</div>
+      <h2>${_t('xiro_results_viewer.sections.wedges', null, 'Categorías obtenidas')}</h2>
+      <img class="mascot-inline" src="/images/chamaleon/mago.svg" alt="">
+    </div>
+    <div class="wedge-grid">${cards}</div>`;
+            return wrap;
+        }
+
+        // ─── Detalle por pregunta ──────────────────────────────────────
+        function renderDetail(data) {
+            const wrap = document.createElement('section');
+
+            // Group by round
+            const byRound = {};
+            for (const r of data.playerAnswers) {
+                const key = r.round;
+                if (!byRound[key]) byRound[key] = [];
+                byRound[key].push(r);
+            }
+
+            const isTrivial = data.isTrivial;
+
+            const items = Object.entries(byRound).map(([round, answers]) => {
+                // Ordenar jugadores de mayor a menor puntuación en la pregunta
+                answers.sort((a, b) => (parseFloat(b.pts) || 0) - (parseFloat(a.pts) || 0));
+                const first = answers[0];
+                const qText = first.question || `${_t('xiro_results_viewer.detail.question_prefix', null, 'Pregunta')} ${round}`;
+                const cat = first.cat || '';
+                const total = answers.length;
+                const correct = answers.filter(a => a.correct === 'Sí').length;
+                const rate = total ? Math.round(100 * correct / total) : 0;
+                const rateClass = rate >= 66 ? 'high' : rate >= 33 ? 'mid' : 'low';
+
+                const rows = answers.map(a => {
+                    const cBadgeText = a.correct === 'Sí'
+                        ? `✓ ${_t('xiro_results_viewer.badge.yes', null, 'Sí')}`
+                        : a.correct === 'No'
+                            ? `✗ ${_t('xiro_results_viewer.badge.no', null, 'No')}`
+                            : `~ ${_t('xiro_results_viewer.badge.survey', null, 'Encuesta')}`;
+                    const badgeClass = a.correct === 'Sí' ? 'yes' : a.correct === 'No' ? 'no' : 'enc';
+                    const cBadge = `<span class="badge badge-${badgeClass}">${cBadgeText}</span>`;
+                    
+                    const wedgeBadge = a.wedge ? `<span class="badge badge-wedge">🧩 ${esc(a.wedge)}</span>` : '';
+                    const timeStr = a.time ? (Math.round(parseFloat(a.time) / 100) / 10) + ' s' : '—';
+                    let answerHtml;
+                    if (a.matchingPairs && Array.isArray(a.matchingPairs)) {
+                        answerHtml = a.matchingPairs.map(p =>
+                            `<span style="display:block;color:${p.correct ? '#059669' : '#ef4444'}">${esc(p.left)} → ${esc(p.right)}</span>`
+                        ).join('');
+                    } else if (a.orderItems && Array.isArray(a.orderItems)) {
+                        answerHtml = a.orderItems.map((o, i) =>
+                            `<span style="display:block;color:${o.correct ? '#059669' : '#ef4444'}">${i + 1}. ${esc(o.text)}</span>`
+                        ).join('');
+                    } else if (a.multipleChoiceItems && Array.isArray(a.multipleChoiceItems)) {
+                        answerHtml = a.multipleChoiceItems.map(o =>
+                            `<span style="display:block;color:${o.correct ? '#059669' : '#ef4444'}">✓ ${esc(o.text)}</span>`
+                        ).join('');
+                    } else {
+                        answerHtml = esc(a.answer);
+                    }
+                    return `
+        <tr>
+          <td><strong>${esc(a.player)}</strong></td>
+          <td>${answerHtml}</td>
+          <td>${cBadge} ${wedgeBadge}</td>
+          <td style="text-align:right; font-weight:700; color:var(--xiro-yellow)">${a.pts || 0}</td>
+          <td style="text-align:right; color:var(--text-muted)">${timeStr}</td>
+        </tr>`;
+                }).join('');
+
+                // Answer distribution bar
+                const barHtml = total ? `
+      <div class="answer-bar-wrap" style="max-width:300px; margin-top:8px;">
+        <div class="answer-bar-label"><span>${_t('xiro_results_viewer.detail.correct_answers', {correct: correct, total: total}, `Aciertos ${correct}/${total}`)}</span><span>${rate}%</span></div>
+        <div class="answer-bar"><div class="answer-bar-fill fill-green" style="width:${rate}%"></div></div>
+      </div>` : '';
+
+                return `
+    <div class="q-item" data-viewer-action="toggle-question">
+        <div class="q-header">
+          <div class="q-num">${isTrivial ? '🎲' : parseInt(round)}</div>
+          <div class="q-text">${esc(qText)}</div>
+          ${cat ? `<span class="q-cat">${esc(cat)}</span>` : ''}
+          <div class="q-stats">
+            <span class="q-rate ${rateClass}">${rate}%</span>
+          </div>
+          <span class="q-chevron">▼</span>
+        </div>
+        <div class="q-body">
+          ${barHtml}
+          <div style="margin-top:14px">
+            <div class="card">
+              <table>
+                <thead><tr>
+                  <th>${_t('xiro_results_viewer.table.player', null, 'Jugador')}</th>
+                  <th>${_t('xiro_results_viewer.table.answer', null, 'Respuesta')}</th>
+                  <th>${_t('xiro_results_viewer.table.result', null, 'Resultado')}</th>
+                  <th style="text-align:right">${_t('xiro_results_viewer.table.pts', null, 'Pts')}</th>
+                  <th style="text-align:right">${_t('xiro_results_viewer.table.time', null, 'Tiempo')}</th>
+                </tr></thead>
+                <tbody>${rows}</tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>`;
+            }).join('');
+
+            wrap.innerHTML = `
+    <div class="section-title">
+      <div class="icon" style="background:rgba(8,145,178,0.2)">📋</div>
+      <h2>${_t('xiro_results_viewer.sections.detail', null, 'Detalle por pregunta')}</h2>
+      <img class="mascot-inline" src="/images/chamaleon/thinking.svg" alt="">
+    </div>
+    <div class="q-list">${items}</div>`;
+            return wrap;
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //  HELPERS
+        // ═══════════════════════════════════════════════════════════════
+        function esc(s) {
+            if (!s) return '';
+            return String(s)
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        function initials(name) {
+            return (name || '?').split(/\s+/).slice(0, 2).map(w => w[0]).join('').toUpperCase().slice(0, 2);
+        }
+
+        function parseMaxPts(scoreStr) {
+            if (!scoreStr) return 0;
+            const n = parseFloat(String(scoreStr).replace(/[^\d.]/g, ''));
+            return isNaN(n) ? 0 : n;
+        }
+
+        function goBack() {
+            // If loaded via ?id=, go back in history instead of showing the drop zone
+            if (new URLSearchParams(location.search).get('id')) {
+                location.href = '/xiro-results-viewer.html';
+                return;
+            }
+            document.getElementById('results-screen').style.display = 'none';
+            document.getElementById('drop-screen').style.display = '';
+            document.getElementById('file-input').value = '';
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //  CONFETTI
+        // ═══════════════════════════════════════════════════════════════
+        function launchConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            const ctx = canvas.getContext('2d');
+            const colors = ['#f9b518', '#7c3aed', '#0891b2', '#059669', '#dc2626', '#ec4899', '#ffffff'];
+            const pieces = Array.from({ length: 120 }, () => ({
+                x: Math.random() * canvas.width,
+                y: -20 - Math.random() * 100,
+                r: 5 + Math.random() * 8,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                vx: (Math.random() - 0.5) * 4,
+                vy: 3 + Math.random() * 4,
+                angle: Math.random() * Math.PI * 2,
+                spin: (Math.random() - 0.5) * 0.2,
+                shape: Math.random() > 0.5 ? 'rect' : 'circle'
+            }));
+
+            let alive = true;
+            function draw() {
+                if (!alive) return;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                let done = true;
+                for (const p of pieces) {
+                    p.x += p.vx; p.y += p.vy; p.angle += p.spin; p.vy += 0.07;
+                    if (p.y < canvas.height) done = false;
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.angle);
+                    ctx.fillStyle = p.color;
+                    if (p.shape === 'rect') {
+                        ctx.fillRect(-p.r, -p.r / 2, p.r * 2, p.r);
+                    } else {
+                        ctx.beginPath(); ctx.arc(0, 0, p.r / 2, 0, Math.PI * 2); ctx.fill();
+                    }
+                    ctx.restore();
+                }
+                if (done) { ctx.clearRect(0, 0, canvas.width, canvas.height); alive = false; }
+                else requestAnimationFrame(draw);
+            }
+            draw();
+            setTimeout(() => { alive = false; ctx.clearRect(0, 0, canvas.width, canvas.height); }, 5000);
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //  FILE HANDLING
+        // ═══════════════════════════════════════════════════════════════
+        function handleFile(file) {
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = e => {
+                try {
+                    const data = parseXiroCsv(e.target.result);
+                    render(data);
+                } catch (err) {
+                    alert(_t('xiro_results_viewer.error.parse_csv', null, 'Error al procesar el CSV: ') + err.message);
+                }
+            };
+            reader.readAsText(file, 'UTF-8');
+        }
+
+        // Drop zone
+        const dz = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const btnUpload = document.getElementById('btn-upload-file');
+
+        dz.addEventListener('click', () => fileInput.click());
+        btnUpload.addEventListener('click', e => {
+            e.stopPropagation();
+            fileInput.click();
+        });
+        dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
+        dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+        dz.addEventListener('drop', e => {
+            e.preventDefault();
+            dz.classList.remove('drag-over');
+            handleFile(e.dataTransfer.files[0]);
+        });
+        fileInput.addEventListener('change', e => handleFile(e.target.files[0]));
+
+        document.getElementById('btn-back').addEventListener('click', goBack);
+        document.getElementById('btn-print').addEventListener('click', () => window.print());
+
+        document.getElementById('results-body').addEventListener('click', function (event) {
+            const item = event.target.closest('[data-viewer-action="toggle-question"]');
+            if (!item) return;
+            item.classList.toggle('open');
+        });
+
+        // Language changed reactive listener
+        window.addEventListener('xiro:language-changed', function () {
+            if (window.lastViewerData) {
+                render(window.lastViewerData);
+            }
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        //  AUTO-LOAD FROM ?token= (share_token UUID) OR ?id= QUERY PARAM
+        //  ?token= uses the public shared endpoint (no auth required).
+        //  ?id=    uses the session-by-id endpoint (requires admin auth).
+        // ═══════════════════════════════════════════════════════════════
+        (function () {
+            var params = new URLSearchParams(location.search);
+            var token = params.get('token');
+            var id = params.get('id');
+
+            // Validate inputs at the client side before sending the request
+            var validToken = token && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(token);
+            var validId = id && /^\d+$/.test(id);
+
+            if (!validToken && !validId) return;
+
+            var url = validToken
+                ? '/api/results/shared/' + token + '/export.json'
+                : '/api/results/session/' + id + '/export.json';
+
+            // For ?id= mode (admin-only endpoint), pass the JWT from
+            // localStorage (same origin). Never accept token from URL params
+            // to avoid JWT leakage in browser history and server access logs.
+            var fetchOpts = undefined;
+            if (!validToken) {
+                try {
+                    var jwt = localStorage.getItem('adminToken');
+                    if (jwt) {
+                        fetchOpts = { headers: { 'Authorization': 'Bearer ' + jwt } };
+                    }
+                } catch (e) { /* localStorage unavailable (e.g. private browsing) */ }
+            }
+
+            var screen = document.getElementById('drop-screen');
+            screen.innerHTML = [
+                '<div style="text-align:center;color:var(--text-muted);padding:80px 20px">',
+                '  <div style="font-size:3.5rem;margin-bottom:20px">⏳</div>',
+                '  <p style="font-size:1.25rem;font-weight:700;color:var(--text)">' + _t('xiro_results_viewer.loading.title', null, 'Cargando resultados…') + '</p>',
+                '</div>'
+            ].join('');
+
+            fetch(url, fetchOpts)
+                .then(function (r) {
+                    if (!r.ok) throw new Error(_t('xiro_results_viewer.error.session_not_found', null, 'Sesión no encontrada') + ' (HTTP ' + r.status + ')');
+                    return r.json();
+                })
+                .then(function (session) {
+                    render(sessionJsonToViewerData(session));
+                })
+                .catch(function (err) {
+                    screen.innerHTML = [
+                        '<div style="text-align:center;padding:80px 20px">',
+                        '  <div style="font-size:3.5rem;margin-bottom:20px">❌</div>',
+                        '  <p style="font-size:1.25rem;font-weight:700;color:var(--xiro-red)">' + _t('xiro_results_viewer.error.load_title', null, 'No se pudo cargar la partida') + '</p>',
+                        '  <p style="color:var(--text-muted);margin-top:10px">' + esc(err.message) + '</p>',
+                        '  <a href="/xiro-results-viewer.html" style="display:inline-block;margin-top:28px;padding:12px 28px;background:var(--xiro-purple);color:white;border-radius:12px;text-decoration:none;font-weight:700">' + _t('xiro_results_viewer.error.back_button', null, '← Volver al visor') + '</a>',
+                        '</div>'
+                    ].join('');
+                });
+        }());
+    </script>
+    <script src="/js/core/site-badge.js?v=20260625151006"></script>
+</body>
+
+</html>

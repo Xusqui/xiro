@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "admin.trivial.title": "トリビア ゲーム",
+    "admin.trivial.subtitle": "独自のカテゴリで簡単なボードを作成する",
+    "admin.trivial.btn_new": "新しいトリビア",
+    "admin.trivial.empty": "トリビア ゲームはまだありません",
+    "admin.trivial.form_edit": "トリビアを編集する",
+    "admin.trivial.form_new": "新しいトリビア",
+    "admin.trivial.label_name": "ゲーム名",
+    "admin.trivial.label_pin": "ピン",
+    "admin.trivial.ph_pin": "例えばTRV01",
+    "admin.trivial.section_config": "ゲーム設定",
+    "admin.trivial.label_visible": "プレゼンターに表示されます",
+    "admin.trivial.label_streaks": "ストリークを使用する"
+  }
+}

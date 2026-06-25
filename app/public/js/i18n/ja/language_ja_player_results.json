@@ -1,0 +1,18 @@
+{
+  "keys": {
+    "player.results.game_over": "ゲーム終了！",
+    "player.results.you_placed": "あなたの順位",
+    "player.results.position_ordinal": "{position}位",
+    "player.results.position_label": "",
+    "player.results.final_score": "最終スコア",
+    "player.results.of_players": "{totalPlayers}人中",
+    "player.results.champion": "チャンピオン！",
+    "player.results.excellent": "素晴らしい結果！",
+    "player.results.great_job": "よくできました！",
+    "player.results.calculating": "結果を計算中...",
+    "player.results.game_ended": "ゲームが終了しました。",
+    "player.results.medal_1": "1位",
+    "player.results.medal_2": "2位",
+    "player.results.medal_3": "3位"
+  }
+}

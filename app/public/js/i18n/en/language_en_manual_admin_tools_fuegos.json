@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.fuegos.title": "Fireworks",
+    "manual_admin.tools.fuegos.desc": "Customize the visual spectacle of the final podium.",
+    "manual_admin.tools.fuegos.config": "Visual config",
+    "manual_admin.tools.fuegos.config_desc": "Adjust size, trails, simulation speed, quantity and intervals.",
+    "manual_admin.tools.fuegos.sound": "Sound",
+    "manual_admin.tools.fuegos.sound_desc": "Enable or disable explosion sound effects."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "account_deleted.page_title": "XIRO! - 账户已删除",
+    "account_deleted.eyebrow": "告别",
+    "account_deleted.heading": "账户已删除",
+    "account_deleted.message_html": "您的账户已成功删除。<br><br>\n                        希望您喜欢在 Xiro 的体验。期待很快与您再见！"
+  }
+}

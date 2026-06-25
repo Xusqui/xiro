@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "common.footer.copyright": "© 2026 XIRO!. Système de quiz interactif.",
+    "common.footer.author": "Droits d’auteur : Famille Fernández Villatoro",
+    "common.footer.contact": "Contact",
+    "common.back_home": "Retour en haut",
+    "common.error_title": "Erreur",
+    "common.btn_retry": "Réessayer"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "presenter.remote.continue": "Jarraitu",
+    "presenter.remote.start": "Hasi",
+    "presenter.remote.next": "Hurrengoa",
+    "presenter.remote.connected": "Konektatuta",
+    "presenter.remote.disconnected": "Deskonektatuta",
+    "presenter.remote.in_lobby": "Lobby-an",
+    "presenter.remote.question_label": "Galdera",
+    "presenter.remote.tap_pause_resume": "Sakatu gelditzeko/jarraitzeko"
+  }
+}

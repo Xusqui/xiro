@@ -1,0 +1,204 @@
+/* Xiro! Dialog — fullscreen dark theme */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background: #0f0f23;
+    color: #fff;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    overflow: hidden;
+}
+
+#xiro-root {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ── Utilidades ─────────────────────────────────────────── */
+.hidden { display: none !important; }
+.row    { display: flex; gap: .75rem; align-items: center; }
+.col    { display: flex; flex-direction: column; gap: .5rem; }
+.centered { align-items: center; justify-content: center; }
+
+/* ── Botones ────────────────────────────────────────────── */
+.dlg-btn {
+    padding: .75rem 2rem;
+    border: none;
+    border-radius: 2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform .15s, opacity .15s;
+    letter-spacing: .03em;
+}
+.dlg-btn:disabled { opacity: .45; cursor: not-allowed; }
+.dlg-btn:not(:disabled):hover { transform: scale(1.04); }
+
+.dlg-btn-primary  { background: #7c3aed; color: #fff; }
+.dlg-btn-primary:not(:disabled):hover  { background: #6d28d9; }
+.dlg-btn-danger   { background: #dc2626; color: #fff; }
+.dlg-btn-ghost    { background: transparent; color: #94a3b8; border: 1px solid #334155; }
+.dlg-btn-ghost:hover { color: #fff; border-color: #7c3aed; }
+
+/* ── Vista lobby ────────────────────────────────────────── */
+.view-lobby {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 2rem;
+}
+.lobby-pin {
+    font-size: 3rem;
+    font-weight: 900;
+    color: #a78bfa;
+    letter-spacing: .1em;
+}
+.lobby-url {
+    font-size: 1.1rem;
+    color: #94a3b8;
+}
+#dlg-qr canvas { border-radius: .5rem; }
+.lobby-players-count {
+    font-size: 1.3rem;
+    color: #e2e8f0;
+}
+#dlg-players-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    justify-content: center;
+    max-width: 60vw;
+    max-height: 20vh;
+    overflow-y: auto;
+}
+.player-chip {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 1rem;
+    padding: .3rem .9rem;
+    font-size: .9rem;
+    color: #cbd5e1;
+}
+
+/* ── Vista question ─────────────────────────────────────── */
+.view-question {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    gap: 1rem;
+}
+.question-meta {
+    font-size: .85rem;
+    color: #64748b;
+    text-align: center;
+}
+.question-text {
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    font-weight: 700;
+    text-align: center;
+    color: #f1f5f9;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.question-timer-bar {
+    width: 100%;
+    height: .5rem;
+    background: #1e293b;
+    border-radius: .25rem;
+    overflow: hidden;
+}
+.question-timer-fill {
+    height: 100%;
+    background: #7c3aed;
+    transition: width 1s linear;
+}
+.question-stats {
+    text-align: center;
+    font-size: 1rem;
+    color: #94a3b8;
+}
+.question-controls {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding-top: .5rem;
+}
+
+/* ── Vista ranking ──────────────────────────────────────── */
+.view-ranking {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.5rem 2rem;
+    gap: 1rem;
+}
+.ranking-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #a78bfa;
+}
+.ranking-list {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    overflow-y: auto;
+    flex: 1;
+}
+.ranking-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: #1e293b;
+    border-radius: .75rem;
+    padding: .6rem 1.2rem;
+}
+.ranking-pos  { width: 2rem; font-weight: 700; color: #64748b; }
+.ranking-name { flex: 1; font-weight: 600; }
+.ranking-pts  { color: #a78bfa; font-weight: 700; }
+
+/* ── Vista podio ────────────────────────────────────────── */
+.view-podium {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    gap: 1.5rem;
+}
+.podium-title { font-size: 2rem; font-weight: 900; color: #fbbf24; }
+.podium-top3  { display: flex; gap: 1rem; align-items: flex-end; }
+.podium-slot  {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .5rem;
+    padding: 1rem 1.5rem;
+    background: #1e293b;
+    border-radius: .75rem;
+    min-width: 8rem;
+}
+.podium-slot.p1 { transform: scale(1.08); border: 2px solid #fbbf24; }
+.podium-slot.p2 { border: 2px solid #94a3b8; }
+.podium-slot.p3 { border: 2px solid #92400e; }
+.podium-medal   { font-size: 2rem; }
+.podium-name    { font-weight: 700; text-align: center; }
+.podium-score   { color: #a78bfa; font-weight: 700; }
+
+.podium-actions { display: flex; gap: 1rem; flex-wrap: wrap; justify-content:center; }

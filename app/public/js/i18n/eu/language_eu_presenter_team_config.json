@@ -1,0 +1,26 @@
+{
+  "keys": {
+    "presenter.team.name_validation": "Taldearen izenak soilik letra, zenbaki, zurune eta marratxoak eduki ditzake (2-30 karaktere).",
+    "presenter.team.label": "Taldea",
+    "presenter.team.name_invalid": "Izen baliogabea",
+    "presenter.team.in_use": "(erabilian)",
+    "presenter.team.color.yellow": "Horia",
+    "presenter.team.color.blue": "Urdina",
+    "presenter.team.color.cyan": "Ziana",
+    "presenter.team.color.lime": "Lima",
+    "presenter.team.color.purple": "Morea",
+    "presenter.team.color.orange": "Laranja",
+    "presenter.team.color.pink": "Arrosa",
+    "presenter.team.color.red": "Gorria",
+    "presenter.team.color.green": "Berdea",
+    "presenter.team.default.1": "Txapeldunak",
+    "presenter.team.default.2": "Dragoiak",
+    "presenter.team.default.3": "Feniksa",
+    "presenter.team.default.4": "Gudulariak",
+    "presenter.team.default.5": "Arranoak",
+    "presenter.team.default.6": "Garaiezinak",
+    "presenter.team.default.7": "Lehoiak",
+    "presenter.team.default.8": "Tximistak",
+    "presenter.team.default.9": "Titanoak"
+  }
+}

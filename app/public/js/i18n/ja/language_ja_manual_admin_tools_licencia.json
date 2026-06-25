@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "manual_admin.tools.licencia.title": "ライセンス",
+    "manual_admin.tools.licencia.desc": "Xiro!ライセンスのステータスと設定。",
+    "manual_admin.tools.licencia.info": "アクティブなライセンス",
+    "manual_admin.tools.licencia.info_desc": "サービスを有効に保つためにライセンスを保存して検証します。"
+  }
+}

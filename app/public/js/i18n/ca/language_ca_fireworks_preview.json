@@ -1,0 +1,7 @@
+{
+  "keys": {
+    "fireworks_preview.page.title": "Vista prèvia — Focs Artificials",
+    "fireworks_preview.button.close": "Tancar",
+    "fireworks_preview.error.controller_unavailable": "Error: FireworksController no disponible"
+  }
+}

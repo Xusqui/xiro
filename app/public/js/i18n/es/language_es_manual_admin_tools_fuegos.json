@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.fuegos.title": "Fuegos Artificiales",
+    "manual_admin.tools.fuegos.desc": "Personaliza el espectáculo visual del podio final.",
+    "manual_admin.tools.fuegos.config": "Configuración visual",
+    "manual_admin.tools.fuegos.config_desc": "Ajusta tamaño, estelas, velocidad de simulación, cantidad e intervalos.",
+    "manual_admin.tools.fuegos.sound": "Sonido",
+    "manual_admin.tools.fuegos.sound_desc": "Activa o desactiva los efectos de sonido de explosiones."
+  }
+}

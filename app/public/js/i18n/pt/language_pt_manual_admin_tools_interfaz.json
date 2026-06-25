@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "manual_admin.tools.interfaz.title": "Interface",
+    "manual_admin.tools.interfaz.desc": "Ajustes da interface de utilizador.",
+    "manual_admin.tools.interfaz.tv": "Cartão TV",
+    "manual_admin.tools.interfaz.tv_desc": "Mostra ou oculta o cartão para a versão TV no ecrã inicial."
+  }
+}

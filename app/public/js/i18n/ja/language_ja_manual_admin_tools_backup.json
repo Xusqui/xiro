@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.backup.title": "バックアップ",
+    "manual_admin.tools.backup.desc": "データベースの自動バックアップ。",
+    "manual_admin.tools.backup.schedule": "バックアップスケジュール",
+    "manual_admin.tools.backup.schedule_desc": "自動バックアップの頻度。",
+    "manual_admin.tools.backup.retention": "バックアップの保持",
+    "manual_admin.tools.backup.retention_desc": "バックアップファイルが保持される日数。"
+  }
+}

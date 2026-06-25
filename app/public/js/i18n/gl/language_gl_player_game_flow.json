@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "player.game_flow.exit_title": "Sae do xogo",
+    "player.game_flow.exit_msg": "¿Seguro que quieres salir del juego? Tu nombre de usuario será liberado.",
+    "player.game_flow.btn_exit": "Saia",
+    "player.game_flow.session_ended": "Rematou a sesión",
+    "player.game_flow.presenter_left": "El presentador ha abandonado la sesión.",
+    "player.game_flow.btn_cancel": "Cancelar",
+    "player.game_flow.btn_back": "Volver"
+  },
+  "literals": {
+    "Reconectando automáticamente...": "Reconectando automáticamente...",
+    "Servidor Reiniciando": "Servidor reiniciando",
+    "No cierres esta ventana. La partida continuará automáticamente.": "Non peches esta xanela. A partida continuará automaticamente."
+  }
+}

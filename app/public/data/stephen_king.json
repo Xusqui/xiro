@@ -1,0 +1,4299 @@
+{
+    "name": "Gran Trivial Stephen King - Bloque 1",
+    "type": "quiz",
+    "questions": [
+        {
+            "question_text": "Carrie: ¿Cuál es el nombre de la madre fanática religiosa de Carrie White?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Margaret White",
+                    "is_correct": true,
+                    "justification": "Margaret White es la inestable y ultra-religiosa madre de la protagonista."
+                },
+                {
+                    "option_text": "Sue White",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Norma White",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Chris Hargensen",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El Resplandor: ¿En qué año se publicó originalmente esta novela?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 1977,
+            "maxPoints": 100,
+            "toleranceMode": "absolute",
+            "toleranceValue": 10,
+            "toleranceCap": 1,
+            "hint": "Fue la tercera novela publicada de King."
+        },
+        {
+            "question_text": "Cujo: Ordena estos sucesos según ocurren en la novela:",
+            "type": "order",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "Cujo es mordido por un murciélago",
+                    "order_index": 0,
+                    "is_correct": false,
+                    "justification": "Es el inicio del conflicto."
+                },
+                {
+                    "option_text": "Donna y Tad quedan atrapados en el coche",
+                    "order_index": 1,
+                    "is_correct": false,
+                    "justification": "Es el núcleo de la tensión."
+                },
+                {
+                    "option_text": "El sheriff George Bannerman es atacado",
+                    "order_index": 2,
+                    "is_correct": false,
+                    "justification": "Ocurre durante el intento de rescate."
+                },
+                {
+                    "option_text": "Donna logra matar al perro con un bate",
+                    "order_index": 3,
+                    "is_correct": false,
+                    "justification": "Es el clímax final."
+                }
+            ]
+        },
+        {
+            "question_text": "It (Eso): Nombre del club formado por los siete niños protagonistas.",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "PERDEDORES"
+        },
+        {
+            "question_text": "Misery: ¿Qué parte del cuerpo le corta Annie Wilkes a Paul Sheldon en la novela (no en la película)?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "El pie izquierdo",
+                    "is_correct": true,
+                    "justification": "En el libro le amputa el pie con un hacha, mientras que en la película le rompe los tobillos."
+                },
+                {
+                    "option_text": "La mano derecha",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "La oreja izquierda",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "El dedo índice",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La Torre Oscura: ¿Cómo se llama el último pistolero?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "ROLANDO"
+        },
+        {
+            "question_text": "Cementerio de animales: ¿Cuál es el nombre del gato que regresa de entre los muertos?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Church",
+                    "is_correct": true,
+                    "justification": "Church (abreviatura de Winston Churchill) es el gato de la familia Creed."
+                },
+                {
+                    "option_text": "Leo",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Gage",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Smucky",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El misterio de Salem's Lot: ¿Quién es el vampiro maestro que llega al pueblo?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Kurt Barlow",
+                    "is_correct": true,
+                    "justification": "Barlow es el antiguo y poderoso vampiro que aterroriza Jerusalem's Lot."
+                },
+                {
+                    "option_text": "Richard Straker",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Father Callahan",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Ben Mears",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La milla verde: ¿De qué nacionalidad es el ratón amaestrado por Eduard Delacroix?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "No tiene, es un ratón",
+                    "is_correct": true,
+                    "justification": "Aunque Delacroix es de Luisiana, Cascabel (Mr. Jingles) es solo un ratón del penal."
+                },
+                {
+                    "option_text": "Francés",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Cajún",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Canadiense",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "22/11/63: ¿A qué ciudad viaja Jake Epping para intentar evitar el asesinato de JFK?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Dallas",
+                    "is_correct": true,
+                    "justification": "El asesinato histórico ocurrió en la Plaza Dealey en Dallas, Texas."
+                },
+                {
+                    "option_text": "Lisbon Falls",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Derry",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Houston",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La Cúpula: ¿En qué estado de EE.UU. se encuentra el pueblo de Chester's Mill?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Maine",
+                    "is_correct": true,
+                    "justification": "Como la mayoría de obras de King, ocurre en Maine."
+                },
+                {
+                    "option_text": "Vermont",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Ohio",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Colorado",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Un saco de huesos: ¿Cómo se llama el fantasma de la cantante de blues que acosa al protagonista desde el lago Dark Score?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "TIDWELL"
+        },
+        {
+            "question_text": "Doctor Sueño: ¿Cómo se llama el grupo de seres que se alimentan del 'resplandor'?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "El Nudo Verdadero",
+                    "is_correct": true,
+                    "justification": "Son nómadas psíquicos liderados por Rose la Chistera."
+                },
+                {
+                    "option_text": "Los Hombres Bajos",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "La Purga",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Los Seguidores del Carmesí",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Cell: ¿A través de qué dispositivo se propaga 'El Pulso'?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Teléfonos móviles",
+                    "is_correct": true,
+                    "justification": "La señal afecta a cualquiera que esté usando un celular en ese momento."
+                },
+                {
+                    "option_text": "Televisores",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Radios",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Internet",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Apocalipsis (The Stand): ¿Cómo se llama el virus creado artificialmente?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "CAPITANOTROTE"
+        },
+        {
+            "question_text": "La larga marcha: ¿A qué edad mínima se puede participar en la competición?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 16,
+            "maxPoints": 100,
+            "toleranceMode": "absolute",
+            "toleranceValue": 10,
+            "toleranceCap": 1,
+            "hint": "Son adolescentes varones."
+        },
+        {
+            "question_text": "Christine: ¿Qué marca y modelo es el coche poseído?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Plymouth Fury de 1958",
+                    "is_correct": true,
+                    "justification": "Un clásico modelo rojo y blanco."
+                },
+                {
+                    "option_text": "Ford Mustang de 1967",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Chevrolet Impala de 1959",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Dodge Charger de 1970",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Joyland: ¿En qué tipo de establecimiento trabaja el protagonista Devin Jones?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Parque de atracciones",
+                    "is_correct": true,
+                    "justification": "Joyland es un parque temático en Carolina del Norte."
+                },
+                {
+                    "option_text": "Biblioteca municipal",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Hospital psiquiátrico",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Estación de servicio",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Rabia: Seudónimo con el que King publicó originalmente esta novela.",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "BACHMAN"
+        },
+        {
+            "question_text": "Insomnia: ¿En qué ciudad transcurre la historia?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Derry",
+                    "is_correct": true,
+                    "justification": "Comparte escenario con IT, aunque años después."
+                },
+                {
+                    "option_text": "Castle Rock",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Ludlow",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Sidley",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Mr. Mercedes: ¿Cómo se llama el detective retirado protagonista?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Bill Hodges",
+                    "is_correct": true,
+                    "justification": "Kermit William 'Bill' Hodges es el protagonista de la trilogía."
+                },
+                {
+                    "option_text": "Holly Gibney",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Ralph Anderson",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Alan Pangborn",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La chica que amaba a Tom Gordon: ¿Qué deporte juega el ídolo de la protagonista?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Béisbol",
+                    "is_correct": true,
+                    "justification": "Tom Gordon era un lanzador real de los Boston Red Sox."
+                },
+                {
+                    "option_text": "Baloncesto",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Fútbol Americano",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Hockey",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El juego de Gerald: ¿A qué está esposada Jessie Burlingame?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "A la cabecera de la cama",
+                    "is_correct": true,
+                    "justification": "Se queda atrapada tras la muerte súbita de su marido durante un juego erótico."
+                },
+                {
+                    "option_text": "A un radiador",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "A una tubería de la cocina",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "A un poste de la luz",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Ojos de fuego: ¿Qué poder psíquico tiene la niña Charlie McGee?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "PIROQUINESIS"
+        },
+        {
+            "question_text": "Cujo: ¿Cuántas páginas aproximadamente tiene la edición original (sin capítulos)?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 320,
+            "maxPoints": 100,
+            "toleranceMode": "percentage",
+            "toleranceValue": 10,
+            "toleranceCap": 50,
+            "hint": "Es una de sus novelas más cortas y directas."
+        },
+        {
+            "question_text": "Tommyknockers: ¿Qué objeto desentierra Bobbi Anderson en el bosque?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Una nave espacial",
+                    "is_correct": true,
+                    "justification": "Un objeto metálico enterrado que resulta ser una nave alienígena."
+                },
+                {
+                    "option_text": "Un cofre de oro",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un esqueleto humano",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Una máquina de escribir",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La mitad oscura: ¿Cómo se llama el seudónimo que cobra vida?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "GEORGESTARK"
+        },
+        {
+            "question_text": "Dolores Claiborne: ¿Durante qué evento astronómico ocurre el asesinato del marido?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Eclipse solar",
+                    "is_correct": true,
+                    "justification": "Dolores aprovecha el eclipse total para ocultar su crimen."
+                },
+                {
+                    "option_text": "Lluvia de meteoritos",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Luna llena roja",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Eclipse lunar",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El retrato de Rose Madder: ¿A través de qué objeto viaja la protagonista al otro mundo?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Un cuadro",
+                    "is_correct": true,
+                    "justification": "Rose entra literalmente en la pintura que compró en una casa de empeños."
+                },
+                {
+                    "option_text": "Un espejo",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Una puerta de armario",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un libro viejo",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La Torre Oscura: Ordena los primeros 4 libros de la saga por publicación:",
+            "type": "order",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "El Pistolero",
+                    "order_index": 0,
+                    "is_correct": false,
+                    "justification": "Publicado en 1982."
+                },
+                {
+                    "option_text": "La llegada de los tres",
+                    "order_index": 1,
+                    "is_correct": false,
+                    "justification": "Publicado en 1987."
+                },
+                {
+                    "option_text": "Las Tierras Baldías",
+                    "order_index": 2,
+                    "is_correct": false,
+                    "justification": "Publicado en 1991."
+                },
+                {
+                    "option_text": "Mago y Cristal",
+                    "order_index": 3,
+                    "is_correct": false,
+                    "justification": "Publicado en 1997."
+                }
+            ]
+        },
+        {
+            "question_text": "Insomnia: ¿Cómo se llama uno de los diminutos médicos calvos que controlan las auras de vida y muerte en la novela de Derry?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "LACHESIS"
+        },
+        {
+            "question_text": "Desesperación: ¿Cuál es el apellido del sheriff poseído por la entidad maligna que atrapa a los protagonistas en el pueblo minero abandonado?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "ENTRAGIAN"
+        },
+        {
+            "question_text": "Posesión: ¿Cómo se llama el pueblo donde ocurren los eventos de esta novela 'hermana' de Desesperación?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Wentworth",
+                    "is_correct": true,
+                    "justification": "La acción ocurre en un vecindario de Ohio llamado Wentworth."
+                },
+                {
+                    "option_text": "Castle Rock",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Derry",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Hemingford Home",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El cazador de sueños: ¿Cómo llaman los protagonistas al alienígena que habita en Jonesy?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Mr. Gray",
+                    "is_correct": true,
+                    "justification": "Es la entidad que toma el control del cuerpo de Jonesy."
+                },
+                {
+                    "option_text": "Pennywise",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Duddits",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Ripley",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Colorado Kid: ¿En qué año fue publicado este libro de la colección Hard Case Crime?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 2005,
+            "maxPoints": 100,
+            "toleranceMode": "absolute",
+            "toleranceValue": 10,
+            "toleranceCap": 1,
+            "hint": "Mediados de la primera década de los 2000."
+        },
+        {
+            "question_text": "Duma Key: ¿Qué pierde el protagonista Edgar Freemantle en un accidente laboral?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "El brazo derecho",
+                    "is_correct": true,
+                    "justification": "El accidente con la grúa le cuesta el brazo y le causa daño cerebral."
+                },
+                {
+                    "option_text": "La pierna izquierda",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "La vista en un ojo",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "El habla",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La historia de Lisey: ¿Cómo se llama el mundo imaginario al que viajaba su marido?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "BOOYA MOON"
+        },
+        {
+            "question_text": "Blaze: Esta novela fue escrita en los 70 pero publicada en 2007. ¿Quién es el autor acreditado?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Richard Bachman",
+                    "is_correct": true,
+                    "justification": "Fue presentada como una novela 'encontrada' de Bachman."
+                },
+                {
+                    "option_text": "Stephen King",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Joe Hill",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Peter Straub",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Revival: ¿Qué tipo de energía utiliza el reverendo Charles Jacobs para sus curaciones?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Electricidad secreta",
+                    "is_correct": true,
+                    "justification": "Una fuerza eléctrica prohibida que tiene efectos secundarios oscuros."
+                },
+                {
+                    "option_text": "Energía solar",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Magnetismo animal",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Radiación gamma",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Bellas Durmientes: ¿En qué lugar se quedan dormidas las mujeres de todo el mundo?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "En capullos de gasa",
+                    "is_correct": true,
+                    "justification": "Una sustancia blanca similar a un capullo las envuelve mientras duermen."
+                },
+                {
+                    "option_text": "En sus propias camas",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "En el agua",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "En ataúdes de cristal",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El Instituto: ¿Qué ciudad es el destino final de los niños con capacidades psíquicas?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "INSTITUTO"
+        },
+        {
+            "question_text": "Billy Summers: ¿Cuál es la profesión del protagonista?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Asesino a sueldo",
+                    "is_correct": true,
+                    "justification": "Un francotirador que solo acepta matar a 'gente mala'."
+                },
+                {
+                    "option_text": "Escritor de novelas",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Profesor de lengua",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Mecánico de coches",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Cuento de Hadas: ¿Cuál es el apellido del anciano vecino cuya propiedad y secretos hereda el joven Charlie Reade al comienzo de la novela?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "BOWDITCH"
+        },
+        {
+            "question_text": "Mr. Mercedes: ¿Cuál es el apellido del asesino en serie que usa un Mercedes robado para perpetrar una matanza masiva en una feria de empleo?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "HARTSFIELD"
+        },
+        {
+            "question_text": "La Torre Oscura: ¿Cuántos niveles tiene la Torre en la cosmología de King?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 6,
+            "maxPoints": 100,
+            "toleranceMode": "absolute",
+            "toleranceValue": 10,
+            "toleranceCap": 1,
+            "hint": "Se relaciona con el número de haces o rayos."
+        },
+        {
+            "question_text": "El Fugitivo (The Running Man): ¿Cómo se llama el programa de TV?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "La milla de los millones",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "El hombre perseguido",
+                    "is_correct": true,
+                    "justification": "Es el concurso mortal donde Ben Richards debe sobrevivir."
+                },
+                {
+                    "option_text": "Sobrevivir",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Cacería humana",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Carretera Maldita (Roadwork): ¿Qué están construyendo que obliga a Barton Dawes a dejar su casa?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Una autopista",
+                    "is_correct": true,
+                    "justification": "La extensión de una carretera interestatal."
+                },
+                {
+                    "option_text": "Un centro comercial",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un rascacielos",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un estadio",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La Tienda (Needful Things): Nombre del propietario de la tienda.",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "LELANDGAUNT"
+        },
+        {
+            "question_text": "Ojos de dragón: ¿En qué reino transcurre esta historia de fantasía épica?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Delain",
+                    "is_correct": true,
+                    "justification": "Es un reino que también se menciona en La Torre Oscura."
+                },
+                {
+                    "option_text": "Gilead",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Narnia",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Westeros",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La zona muerta: ¿Qué objeto usa John Smith para ver el futuro al tocar a alguien?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "No usa objeto, es contacto físico",
+                    "is_correct": true,
+                    "justification": "Sus visiones se activan mediante el tacto de su mano."
+                },
+                {
+                    "option_text": "Una bola de cristal",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Una baraja de tarot",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Una moneda de plata",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Cujo: ¿De qué raza es el perro San Bernardo antes de contraer la rabia?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "San Bernardo",
+                    "is_correct": true,
+                    "justification": "Es un pacífico San Bernardo de 90 kilos antes de ser mordido."
+                },
+                {
+                    "option_text": "Mastín Inglés",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Gran Danés",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Golden Retriever",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El Resplandor: ¿Qué número de habitación es la más famosa y terrorífica del Hotel Overlook en la NOVELA?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 217,
+            "maxPoints": 100,
+            "toleranceMode": "absolute",
+            "toleranceValue": 10,
+            "toleranceCap": 1,
+            "hint": "Cuidado, es diferente al número que usó Kubrick en la película."
+        },
+        {
+            "question_text": "La Torre Oscura: Ordena los miembros del Ka-tet de Roland según se unen al grupo:",
+            "type": "order",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "Eddie Dean",
+                    "order_index": 0,
+                    "is_correct": false,
+                    "justification": "Extraído de la Nueva York de 1987."
+                },
+                {
+                    "option_text": "Odetta Holmes / Detta Walker",
+                    "order_index": 1,
+                    "is_correct": false,
+                    "justification": "Extraída de 1964."
+                },
+                {
+                    "option_text": "Jake Chambers (segunda vez)",
+                    "order_index": 2,
+                    "is_correct": false,
+                    "justification": "Se une formalmente tras cruzar la puerta en Las Tierras Baldías."
+                },
+                {
+                    "option_text": "Hacho (Oy)",
+                    "order_index": 3,
+                    "is_correct": false,
+                    "justification": "El brama-cho es el último en unirse al grupo."
+                }
+            ]
+        },
+        {
+            "question_text": "Tommyknockers: ¿Cuál es el gas que emite la nave y que 'mejora' a los habitantes de Haven?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "HIDROGENO"
+        },
+        {
+            "question_text": "Apocalipsis: ¿Qué personaje es conocido como 'El Hombre Oscuro'?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Randall Flagg",
+                    "is_correct": true,
+                    "justification": "Flagg es el antagonista principal y encarnación del mal."
+                },
+                {
+                    "option_text": "Nick Andros",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Glen Bateman",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Larry Underwood",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Buick 8: un coche abandonado: ¿Qué color tiene el misterioso Buick?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Azul marino",
+                    "is_correct": true,
+                    "justification": "Es un Buick Roadmaster de 1953 color azul oscuro."
+                },
+                {
+                    "option_text": "Rojo sangre",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Negro mate",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Verde bosque",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La mitad oscura: ¿En qué parte del cuerpo tenía Thad Beaumont los restos de su gemelo?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "En el cerebro",
+                    "is_correct": true,
+                    "justification": "De niño le extirparon un tumor que resultó ser un gemelo no desarrollado."
+                },
+                {
+                    "option_text": "En el abdomen",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "En la espalda",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "En el pecho",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Maleficio (Thinner): ¿Qué sucede con el peso del protagonista Billy Halleck?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "No deja de perder peso",
+                    "is_correct": true,
+                    "justification": "Un gitano le maldice y empieza a adelgazar peligrosamente sin importar lo que coma."
+                },
+                {
+                    "option_text": "Engorda sin control",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Se vuelve invisible",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Se convierte en piedra",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Cementerio de animales: ¿A cuántas millas del centro de Ludlow está el cementerio de mascotas?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 3,
+            "maxPoints": 100,
+            "toleranceMode": "absolute",
+            "toleranceValue": 1,
+            "toleranceCap": 5,
+            "hint": "Jud Crandall dice que está a un corto paseo por el sendero."
+        },
+        {
+            "question_text": "Mr. Mercedes: Nombre de la joven que ayuda a Bill Hodges y tiene una mente brillante.",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "HOLLYGIBNEY"
+        },
+        {
+            "question_text": "Un saco de huesos: ¿Cómo se llama la casa de verano de Mike Noonan?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Sara Risa",
+                    "is_correct": true,
+                    "justification": "Laughing Sara es el nombre de la cabaña junto al lago."
+                },
+                {
+                    "option_text": "Manderley",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Joyland",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Overlook",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "It: ¿Cada cuántos años regresa Pennywise a Derry para alimentarse?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 27,
+            "maxPoints": 100,
+            "toleranceMode": "absolute",
+            "toleranceValue": 10,
+            "toleranceCap": 1,
+            "hint": "Es casi tres décadas."
+        },
+        {
+            "question_text": "El retrato de Rose Madder: ¿Cuál es el apellido del marido maltratador y policía corrupto que persigue obsesivamente a Rose a través del país?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "DANIELS"
+        },
+        {
+            "question_text": "Corazones en la Atlántida: ¿Qué está prohibido jugar en la residencia universitaria?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Corazones (Cartas)",
+                    "is_correct": true,
+                    "justification": "Los estudiantes se obsesionan con el juego de cartas y descuidan sus estudios."
+                },
+                {
+                    "option_text": "Póker",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Ajedrez",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Dados",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La Torre Oscura: Ordena estos lugares del Mundo Medio según Roland los visita en la saga:",
+            "type": "order",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "Tull",
+                    "order_index": 0,
+                    "is_correct": false,
+                    "justification": "Ocurre al inicio de El Pistolero."
+                },
+                {
+                    "option_text": "Lud",
+                    "order_index": 1,
+                    "is_correct": false,
+                    "justification": "La ciudad tecnológica en Las Tierras Baldías."
+                },
+                {
+                    "option_text": "Mejis",
+                    "order_index": 2,
+                    "is_correct": false,
+                    "justification": "Visitado en el flashback de Mago y Cristal."
+                },
+                {
+                    "option_text": "Can-Ka No Rey",
+                    "order_index": 3,
+                    "is_correct": false,
+                    "justification": "El campo de rosas que rodea la Torre."
+                }
+            ]
+        },
+        {
+            "question_text": "El ciclo del hombre lobo: ¿Quién resulta ser el licántropo en el pueblo de Tarker's Mills?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "El reverendo Lowe",
+                    "is_correct": true,
+                    "justification": "El líder religioso local es quien se transforma en bestia."
+                },
+                {
+                    "option_text": "El sheriff Red Harris",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Marty Coslaw",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Ollie Parker",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La Cúpula: ¿Cuál es el apellido del ex-militar convertido en cocinero que se convierte en el héroe de Chester's Mill frente a Big Jim?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "BARBARA"
+        },
+        {
+            "question_text": "La milla verde: ¿Por qué delito fue condenado a muerte John Coffey?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Violación y asesinato de dos niñas",
+                    "is_correct": true,
+                    "justification": "Fue condenado injustamente por la muerte de las gemelas Detterick."
+                },
+                {
+                    "option_text": "Robo a mano armada",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Asesinato de un policía",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Incendio provocado",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Cell: ¿Cómo llaman los supervivientes a las personas afectadas por El Pulso?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Telefónicos",
+                    "is_correct": true,
+                    "justification": "O phoners en inglés, debido al origen de su locura."
+                },
+                {
+                    "option_text": "Caminantes",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Zombis",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Los Otros",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El juego de Gerald: ¿Cuál es el apellido de la protagonista que queda encadenada a la cama de una cabaña aislada tras la muerte repentina de su marido?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "BURLINGAME"
+        },
+        {
+            "question_text": "22/11/63: ¿Cuál es el nombre del portal temporal que Al Templeton muestra a Jake?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "La madriguera del conejo",
+                    "is_correct": true,
+                    "justification": "Así llaman al punto en la despensa que lleva a 1958."
+                },
+                {
+                    "option_text": "El agujero negro",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "El túnel del tiempo",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "La puerta del pasado",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La larga marcha: ¿Cuál es el premio para el único superviviente?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Cualquier cosa que desee",
+                    "is_correct": true,
+                    "justification": "El ganador recibe 'El Premio': lo que pida por el resto de su vida."
+                },
+                {
+                    "option_text": "Un millón de dólares",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "La presidencia del país",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un coche de lujo",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Doctor Sueño: ¿Cómo se llama la residencia geriátrica de New Hampshire donde Dan Torrance trabaja y ayuda a bien morir a los pacientes usando su don?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "RIVINGTON"
+        },
+        {
+            "question_text": "Cuento de Hadas: ¿Qué edad tiene Charlie Reade al inicio de su aventura?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 17,
+            "maxPoints": 100,
+            "toleranceMode": "absolute",
+            "toleranceValue": 10,
+            "toleranceCap": 1,
+            "hint": "Está en su último año de instituto."
+        },
+        {
+            "question_text": "El Instituto: ¿Qué capacidad psíquica principal tiene Luke Ellis?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Telequinesis",
+                    "is_correct": true,
+                    "justification": "Tiene una telequinesis leve que se vuelve más fuerte bajo estrés."
+                },
+                {
+                    "option_text": "Telepatía",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Precognición",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Piroquinesis",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Elevación: ¿En qué ciudad ocurre esta historia corta sobre un hombre que pierde peso?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "CASTLEROCK"
+        },
+        {
+            "question_text": "La chica que amaba a Tom Gordon: ¿De qué se pierde Trisha en el bosque?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Se sale del sendero para orinar",
+                    "is_correct": true,
+                    "justification": "Un pequeño desvío la deja desorientada en los Apalaches."
+                },
+                {
+                    "option_text": "Persigue a un conejo",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Se cae de un terraplén",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un oso la persigue",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Carrie: Ordena los eventos de la noche del baile de graduación:",
+            "type": "order",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "Carrie y Tommy son coronados rey y reina",
+                    "order_index": 0,
+                    "is_correct": false,
+                    "justification": "Es el momento de máxima felicidad de Carrie."
+                },
+                {
+                    "option_text": "Cae el cubo de sangre de cerdo",
+                    "order_index": 1,
+                    "is_correct": false,
+                    "justification": "La humillación que desata el poder."
+                },
+                {
+                    "option_text": "Carrie cierra las puertas del gimnasio",
+                    "order_index": 2,
+                    "is_correct": false,
+                    "justification": "Comienza la masacre."
+                },
+                {
+                    "option_text": "Incendio masivo y explosión de gasolineras",
+                    "order_index": 3,
+                    "is_correct": false,
+                    "justification": "Carrie destruye el pueblo de camino a casa."
+                }
+            ]
+        },
+        {
+            "question_text": "Billy Summers: ¿Cuál es el apellido del alter ego de novelista que Billy Summers utiliza como tapadera para instalarse en la ciudad hasta ejecutar su misión?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "LOCKRIDGE"
+        },
+        {
+            "question_text": "El misterio de Salem's Lot: ¿Cómo se llama el niño que se convierte en el cazador de vampiros junto a Ben Mears?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Mark Petrie",
+                    "is_correct": true,
+                    "justification": "Un niño inteligente y valiente fascinado por los monstruos."
+                },
+                {
+                    "option_text": "Danny Glick",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Ralphie Glick",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Jack Torrance",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Desesperación: ¿Qué animal utiliza 'Tak' para vigilar el desierto al principio?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Coyotes",
+                    "is_correct": true,
+                    "justification": "Tak controla a los animales del desierto, especialmente coyotes y buitres."
+                },
+                {
+                    "option_text": "Serpientes",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Escorpiones",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Lobos",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Blaze: ¿Cuál es el nombre real del protagonista Blaze?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "CLAYTON"
+        },
+        {
+            "question_text": "La expedición: ¿Qué frase famosa dice el niño antes de morir al salir del 'Jaunt'?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Es más largo de lo que crees",
+                    "is_correct": true,
+                    "justification": "'It's longer than you think, Dad!', refiriéndose a la eternidad consciente del viaje."
+                },
+                {
+                    "option_text": "He visto a Dios",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "No quiero volver",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Todo es oscuridad",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La Torre Oscura: ¿Cómo se llama el joven artista de poderes mágicos que Roland recluta para derrotar al Rey Carmesí borrándolo con sus dibujos?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "DANVILLE"
+        },
+        {
+            "question_text": "Ojos de fuego: ¿Cómo se llama la agencia gubernamental que persigue a Andy y Charlie?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "El Taller",
+                    "is_correct": true,
+                    "justification": "The Shop es una agencia científica secreta del gobierno."
+                },
+                {
+                    "option_text": "La Iniciativa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "La Fundación",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Dharma",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Doctor Sueño: ¿Cuántos años han pasado desde los eventos del Overlook cuando conocemos al Dan adulto?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 30,
+            "maxPoints": 100,
+            "toleranceMode": "percentage",
+            "toleranceValue": 10,
+            "toleranceCap": 5,
+            "hint": "Dan es ahora un hombre de mediana edad que lucha contra el alcoholismo."
+        },
+        {
+            "question_text": "El umbral de la noche: En el cuento 'Los chicos del maíz', ¿cómo llaman al dios al que adoran?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "CAMINANTE"
+        },
+        {
+            "question_text": "Gwendy's Button Box: ¿Qué color es el botón que causa una destrucción masiva?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Negro",
+                    "is_correct": true,
+                    "justification": "El botón negro es el 'botón del pánico' que puede destruir el mundo."
+                },
+                {
+                    "option_text": "Rojo",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Dorado",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Plateado",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Duma Key: ¿Qué talento desarrolla Edgar tras su accidente?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Pintura",
+                    "is_correct": true,
+                    "justification": "Empieza a pintar cuadros con una capacidad premonitoria y mágica."
+                },
+                {
+                    "option_text": "Escritura",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Escultura",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Tocar el piano",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Joyland: ¿Cómo se llama el asesino en serie que Mike y Devin intentan identificar?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "CARNIVAL"
+        },
+        {
+            "question_text": "La Tienda: ¿Qué recibe el sheriff Alan Pangborn al final para combatir a Gaunt?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Trucos de magia",
+                    "is_correct": true,
+                    "justification": "Utiliza sus habilidades de prestidigitador para vencer al demonio."
+                },
+                {
+                    "option_text": "Una pistola de plata",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Agua bendita",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un crucifijo",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Revival: ¿Qué animal ve Jamie Morton en el 'otro lado' al final de la novela?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "HORMIGAS"
+        },
+        {
+            "question_text": "El visitante (The Outsider): ¿A qué conocido entrenador de béisbol acusan del crimen?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Terry Maitland",
+                    "is_correct": true,
+                    "justification": "A pesar de tener una coartada perfecta, su ADN está en todas partes."
+                },
+                {
+                    "option_text": "Ralph Anderson",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Bill Hodges",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Jack Hoskins",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La historia de Lisey: ¿Qué dejó Scott Landon a su mujer como herencia de pistas?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Una 'bool'",
+                    "is_correct": true,
+                    "justification": "Una búsqueda del tesoro que Scott diseñó para Lisey."
+                },
+                {
+                    "option_text": "Un manuscrito",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un mapa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Una caja fuerte",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Christine: Ordena los dueños del coche por orden cronológico:",
+            "type": "order",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "Roland D. LeBay",
+                    "order_index": 0,
+                    "is_correct": false,
+                    "justification": "El dueño original que amaba el coche."
+                },
+                {
+                    "option_text": "Arnie Cunningham",
+                    "order_index": 1,
+                    "is_correct": false,
+                    "justification": "El protagonista que lo compra por 250 dólares."
+                },
+                {
+                    "option_text": "Dennis Guilder (temporalmente)",
+                    "order_index": 2,
+                    "is_correct": false,
+                    "justification": "El amigo de Arnie que intenta detener el mal."
+                },
+                {
+                    "option_text": "La compactadora de basura",
+                    "order_index": 3,
+                    "is_correct": false,
+                    "justification": "El destino final del coche... aparentemente."
+                }
+            ]
+        },
+        {
+            "question_text": "Posesión: ¿Cómo se llama el niño que es 'el receptor' de la entidad Tak?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "SETHGARIN"
+        },
+        {
+            "question_text": "Dolores Claiborne: ¿A quién cuidó Dolores durante años antes de su muerte?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Vera Donovan",
+                    "is_correct": true,
+                    "justification": "Su jefa, una mujer rica y difícil a la que Dolores servía."
+                },
+                {
+                    "option_text": "Selena St. George",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Annie Wilkes",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Frannie Goldsmith",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El umbral de la noche: ¿Qué fruta da nombre al relato donde una máquina de lavandería está poseída?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "MANZANA"
+        },
+        {
+            "question_text": "Billy Summers: ¿En qué ciudad se esconde Billy mientras espera para realizar el 'trabajo'?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Red Bluff",
+                    "is_correct": true,
+                    "justification": "Se hace pasar por un escritor llamado David Lockridge."
+                },
+                {
+                    "option_text": "Derry",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Las Vegas",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Portland",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Misery: ¿Cuántas páginas tiene el manuscrito de 'El regreso de Misery' que Paul escribe para Annie?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 400,
+            "maxPoints": 100,
+            "toleranceMode": "percentage",
+            "toleranceValue": 25,
+            "toleranceCap": 100,
+            "hint": "Es una novela completa escrita bajo presión extrema."
+        },
+        {
+            "question_text": "Cuento de Hadas: ¿Cómo se llama el monstruo oscuro y colosal que Charlie Reade debe derrotar para salvar el reino de Empis?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "GOGMAGOG"
+        },
+        {
+            "question_text": "La Torre Oscura: Ordena cronológicamente las identidades/nombres que ha usado Randall Flagg:",
+            "type": "order",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "Marten Broadcloak",
+                    "order_index": 0,
+                    "is_correct": false,
+                    "justification": "Consejero del padre de Roland en su juventud."
+                },
+                {
+                    "option_text": "Walter O'Dim",
+                    "order_index": 1,
+                    "is_correct": false,
+                    "justification": "El hombre de negro que huía a través del desierto."
+                },
+                {
+                    "option_text": "Richard Fannin",
+                    "order_index": 2,
+                    "is_correct": false,
+                    "justification": "Identidad adoptada tras los eventos de Las Tierras Baldías."
+                },
+                {
+                    "option_text": "Merrick",
+                    "order_index": 3,
+                    "is_correct": false,
+                    "justification": "Uno de sus muchos alias finales en la cronología."
+                }
+            ]
+        },
+        {
+            "question_text": "Insomnia: ¿De qué color son las auras que Ralph Roberts empieza a ver alrededor de la gente?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Varían según el estado de salud y ánimo",
+                    "is_correct": true,
+                    "justification": "Ralph ve globos de colores y auras que indican el 'hilo de la vida' de las personas."
+                },
+                {
+                    "option_text": "Todas son de color rojo",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Son blancas brillantes",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Son invisibles para los hombres",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Corazones en la Atlántida: ¿Cómo se llama el misterioso hombre que alquila la habitación en casa de Bobby Garfield?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Ted Brautigan",
+                    "is_correct": true,
+                    "justification": "Un 'rompedor' que huye de los hombres bajos del Rey Carmesí."
+                },
+                {
+                    "option_text": "Father Callahan",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Dick Hallorann",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Jud Crandall",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Christine: ¿Cuántas millas marca el odómetro del coche cuando Arnie lo compra?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 93000,
+            "maxPoints": 100,
+            "toleranceMode": "percentage",
+            "toleranceValue": 10,
+            "toleranceCap": 10000,
+            "hint": "Es una cifra alta, típica de un coche de 1958 en los años 70."
+        },
+        {
+            "question_text": "Un saco de huesos: ¿Qué electrodoméstico utiliza el fantasma de Sara Tidwell para comunicarse?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Letras magnéticas en la nevera",
+                    "is_correct": true,
+                    "justification": "Las letras se mueven solas para formar mensajes en la puerta del refrigerador."
+                },
+                {
+                    "option_text": "La televisión",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "La radio",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "El microondas",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El juego de Gerald: ¿Cómo se llama el 'Vampiro de Space' que acecha a Jessie?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "RAYMONDJOUBERT"
+        },
+        {
+            "question_text": "Under the Dome (La Cúpula): ¿Cuánto tiempo (en días) dura el encierro total en la novela?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 7,
+            "maxPoints": 100,
+            "toleranceMode": "absolute",
+            "toleranceValue": 1,
+            "toleranceCap": 2,
+            "hint": "A diferencia de la serie, en el libro todo ocurre extremadamente rápido."
+        },
+        {
+            "question_text": "Las cuatro estaciones: Ordena los relatos según aparecen en el libro:",
+            "type": "order",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "Rita Hayworth y la redención de Shawshank",
+                    "order_index": 0,
+                    "is_correct": false,
+                    "justification": "Primavera: Esperanza eterna."
+                },
+                {
+                    "option_text": "Alumno aventajado",
+                    "order_index": 1,
+                    "is_correct": false,
+                    "justification": "Verano: Corrupción de la inocencia."
+                },
+                {
+                    "option_text": "El cuerpo (The Body)",
+                    "order_index": 2,
+                    "is_correct": false,
+                    "justification": "Otoño: La inocencia perdida."
+                },
+                {
+                    "option_text": "Método de respiración",
+                    "order_index": 3,
+                    "is_correct": false,
+                    "justification": "Invierno: Un cuento de club."
+                }
+            ]
+        },
+        {
+            "question_text": "La milla verde: ¿Cuál es el nombre de la silla eléctrica en la prisión de Cold Mountain?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "CHISPAZOS"
+        },
+        {
+            "question_text": "Buick 8: ¿En qué unidad de la Policía Estatal de Pensilvania transcurre la trama?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Tropa D",
+                    "is_correct": true,
+                    "justification": "La Troop D es la unidad encargada de custodiar el Buick en el cobertizo B."
+                },
+                {
+                    "option_text": "Tropa A",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Tropa X",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Tropa 19",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El umbral de la noche: En el relato 'Jerusalem's Lot', ¿en qué siglo transcurre la correspondencia de Charles Boone?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 1850,
+            "maxPoints": 100,
+            "toleranceMode": "absolute",
+            "toleranceValue": 10,
+            "toleranceCap": 50,
+            "hint": "Es una historia de estilo gótico victoriano."
+        },
+        {
+            "question_text": "La mitad oscura: ¿Qué tipo de aves actúan como psicopompos (conductores de almas)?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Chotacabras",
+                    "is_correct": true,
+                    "justification": "Los 'sparrows' (gorriones/chotacabras en la traducción) vuelan de nuevo."
+                },
+                {
+                    "option_text": "Cuervos",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Búhos",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Buitres",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Ojos de Dragón: ¿Qué objeto usa Peter para escapar de la Aguja?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Una cuerda hecha con hilos de servilletas",
+                    "is_correct": true,
+                    "justification": "Peter usa un telar minúsculo para tejer una cuerda durante años."
+                },
+                {
+                    "option_text": "Una llave maestra",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un dragón volador",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Magia de Flagg",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La Torre Oscura: ¿Cómo se llama el guardián cósmico con forma de tortuga que protege uno de los haces que sostienen la Torre Oscura?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "MATURIN"
+        },
+        {
+            "question_text": "Cell: ¿Cómo se llama el primer destino al que Clayton Riddell intenta llegar para encontrar a su hijo?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Kashwak",
+                    "is_correct": true,
+                    "justification": "Es el lugar en Maine donde supuestamente no hay señal de móvil."
+                },
+                {
+                    "option_text": "Boston",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Malden",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Derry",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El resplandor: Ordena estos personajes según mueren en la novela:",
+            "type": "order",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "Watson (el encargado del mantenimiento)",
+                    "order_index": 0,
+                    "is_correct": false,
+                    "justification": "No muere en la novela, pero el primero en la lista cronológica de víctimas es el anterior cuidador."
+                },
+                {
+                    "option_text": "Jack Torrance",
+                    "order_index": 1,
+                    "is_correct": false,
+                    "justification": "Muere en la explosión de la caldera."
+                },
+                {
+                    "option_text": "Dick Hallorann",
+                    "order_index": 2,
+                    "is_correct": false,
+                    "justification": "¡Truco! Dick NO muere en la novela, sobrevive para ayudar a Wendy y Danny."
+                },
+                {
+                    "option_text": "El Hotel Overlook",
+                    "order_index": 3,
+                    "is_correct": false,
+                    "justification": "Es destruido por el fuego al final."
+                }
+            ]
+        },
+        {
+            "question_text": "Carrie: ¿Cuántas personas mueren aproximadamente en la 'Noche de Prom' según el informe oficial del libro?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 440,
+            "maxPoints": 100,
+            "toleranceMode": "percentage",
+            "toleranceValue": 20,
+            "toleranceCap": 100,
+            "hint": "Casi todo el pueblo de Chamberlain se vio afectado."
+        },
+        {
+            "question_text": "Apocalipsis: ¿Qué anciana de 108 años guía a los supervivientes hacia el bien?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "MADREABIGAIL"
+        },
+        {
+            "question_text": "Doctor Sueño: ¿Qué enfermedad padece Dan Torrance al inicio de su sobriedad?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Alcoholismo",
+                    "is_correct": true,
+                    "justification": "Al igual que su padre, usa el alcohol para apagar su resplandor."
+                },
+                {
+                    "option_text": "Cáncer de pulmón",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Diabetes tipo 2",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Esquizofrenia",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El cazador de sueños: ¿Cómo se llama el niño con síndrome de Down que durante la infancia otorgó poderes psíquicos a los cuatro protagonistas al salvarle de unos matones?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "DUDDITS"
+        },
+        {
+            "question_text": "Maleficio: ¿Quién es el mafioso que ayuda a Billy Halleck a 'convencer' a los gitanos?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Richard Ginelli",
+                    "is_correct": true,
+                    "justification": "Un antiguo cliente de Billy que usa métodos violentos para ayudarle."
+                },
+                {
+                    "option_text": "Tony Soprano",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Frankie Carbone",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Leland Gaunt",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La zona muerta: ¿Qué político ambicioso es el antagonista de Johnny Smith?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "GREGSTILLSON"
+        },
+        {
+            "question_text": "Cementerio de animales: ¿Cuál es la primera palabra que Gage dice tras resucitar?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Hola, papi",
+                    "is_correct": true,
+                    "justification": "Dice 'Darling' o 'Hi Daddy' con una voz que no es la suya."
+                },
+                {
+                    "option_text": "Tengo hambre",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Muere",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Church",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Duma Key: ¿Cómo se llama el misterioso asistente que Edgar Freemantle encuentra cuidando a la anciana Nan Melda en la isla?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "WIREMAN"
+        },
+        {
+            "question_text": "22/11/63: ¿A qué se dedica Jake Epping en el presente antes de viajar al pasado?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Profesor de lengua inglesa",
+                    "is_correct": true,
+                    "justification": "Trabaja en un instituto de secundaria en Lisbon Falls."
+                },
+                {
+                    "option_text": "Periodista",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Bibliotecario",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Historiador",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La chica que amaba a Tom Gordon: ¿Cuántos años tiene Trisha McFarland?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 9,
+            "maxPoints": 100,
+            "toleranceMode": "absolute",
+            "toleranceValue": 10,
+            "toleranceCap": 1,
+            "hint": "Es una niña de primaria."
+        },
+        {
+            "question_text": "Cujo: Ordena estos personajes por su supervivencia al final de la novela (de vivo a muerto):",
+            "type": "order",
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "Donna Trenton",
+                    "order_index": 0,
+                    "is_correct": false,
+                    "justification": "Sobrevive al ataque físico."
+                },
+                {
+                    "option_text": "Vic Trenton",
+                    "order_index": 1,
+                    "is_correct": false,
+                    "justification": "No estaba en el lugar, sobrevive."
+                },
+                {
+                    "option_text": "Cujo",
+                    "order_index": 2,
+                    "is_correct": false,
+                    "justification": "Muere a manos de Donna."
+                },
+                {
+                    "option_text": "Tad Trenton",
+                    "order_index": 3,
+                    "is_correct": false,
+                    "justification": "Muere por deshidratación y golpe de calor."
+                }
+            ]
+        },
+        {
+            "question_text": "El ciclo del hombre lobo: ¿En qué mes ocurre el enfrentamiento final?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Diciembre",
+                    "is_correct": true,
+                    "justification": "El libro recorre un año y termina en Nochevieja."
+                },
+                {
+                    "option_text": "Octubre",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Julio",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Abril",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La Torre Oscura: ¿Cómo se llama la lengua antigua que Roland habla a veces?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "ALTAHABLA"
+        },
+        {
+            "question_text": "Colorado Kid: ¿En qué estado de EE.UU. aparece el cuerpo del desconocido?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Maine",
+                    "is_correct": true,
+                    "justification": "En una isla frente a la costa de Maine llamada Moose-Lookit."
+                },
+                {
+                    "option_text": "Colorado",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Washington",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Florida",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Blaze: ¿Qué secuestra el protagonista para intentar cambiar su vida?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Un bebé",
+                    "is_correct": true,
+                    "justification": "Secuestra al hijo de una familia rica siguiendo un plan de su socio muerto."
+                },
+                {
+                    "option_text": "Un furgón blindado",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un avión",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un cuadro famoso",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Tommyknockers: ¿Qué instrumento toca Jim Gardener?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "GUITARRA"
+        },
+        {
+            "question_text": "La larga marcha: ¿Cuál es el número de dorsal de Ray Garraty?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 47,
+            "maxPoints": 100,
+            "toleranceMode": "absolute",
+            "toleranceValue": 10,
+            "toleranceCap": 1,
+            "hint": "Es un número menor que 50."
+        },
+        {
+            "question_text": "Dolores Claiborne: ¿Cuál es la ocupación de la hija de Dolores, Selena?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Periodista",
+                    "is_correct": true,
+                    "justification": "Es una exitosa periodista en Nueva York."
+                },
+                {
+                    "option_text": "Abogada",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Médico",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Escritora",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Cuento de Hadas: ¿Qué objeto mágico permite a los habitantes de Empis recuperar su salud?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Un reloj de sol",
+                    "is_correct": true,
+                    "justification": "El reloj de sol tiene el poder de rejuvenecer a quien lo usa correctamente."
+                },
+                {
+                    "option_text": "Una fuente de agua",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Una manzana dorada",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un espejo",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El Instituto: ¿Cómo llaman los guardias a la zona donde llevan a los niños tras las pruebas?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "TRASERAS"
+        },
+        {
+            "question_text": "It: Ordena las formas que toma Pennywise según aparecen o son mencionadas para asustar a los niños:",
+            "type": "order",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "Leproso",
+                    "order_index": 0,
+                    "is_correct": false,
+                    "justification": "Aparece ante Eddie Kaspbrak bajo el porche."
+                },
+                {
+                    "option_text": "Hombre lobo",
+                    "order_index": 1,
+                    "is_correct": false,
+                    "justification": "Aparece ante Richie y Bill en la casa de Neibolt Street."
+                },
+                {
+                    "option_text": "La Momia",
+                    "order_index": 2,
+                    "is_correct": false,
+                    "justification": "Aparece ante Ben Hanscom en el canal helado."
+                },
+                {
+                    "option_text": "Araña gigante",
+                    "order_index": 3,
+                    "is_correct": false,
+                    "justification": "Es la forma física más cercana a su realidad al final."
+                }
+            ]
+        },
+        {
+            "question_text": "La historia de Lisey: ¿Cómo se llama el enorme monstruo que acecha en el mundo imaginario de Boo'ya Moon al que Scott y Lisey escapan en sus peores momentos?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "LONGBOY"
+        },
+        {
+            "question_text": "Billy Summers: ¿A qué país viaja Billy para su enfrentamiento final con los que le traicionaron?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Estados Unidos",
+                    "is_correct": true,
+                    "justification": "Aunque viaja por varios estados, la trama nunca sale del país."
+                },
+                {
+                    "option_text": "México",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Canadá",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Irak",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Holly: ¿En qué año se publicó esta novela protagonizada por Holly Gibney en solitario?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 2023,
+            "maxPoints": 100,
+            "toleranceMode": "absolute",
+            "toleranceValue": 10,
+            "toleranceCap": 1,
+            "hint": "Es una de sus novelas más recientes."
+        },
+        {
+            "question_text": "Misery: ¿Cuál es el apellido del escritor que queda atrapado y a merced de su fan número uno tras sufrir un accidente de tráfico en plena tormenta de nieve?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "SHELDON"
+        },
+        {
+            "question_text": "El retrato de Rose Madder: ¿Qué animal custodia el templo dentro del cuadro?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Un toro ciego",
+                    "is_correct": true,
+                    "justification": "Erinyes es un toro deforme y peligroso que vive en el laberinto."
+                },
+                {
+                    "option_text": "Un león",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Una serpiente",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un perro de tres cabezas",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La Tienda: ¿Qué objeto desea el niño Brian Rusk en la tienda de Leland Gaunt?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Un cromo de béisbol raro",
+                    "is_correct": true,
+                    "justification": "Un cromo de Mickey Mantle de 1952."
+                },
+                {
+                    "option_text": "Una bicicleta nueva",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un videojuego",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Una caña de pescar",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Revival: ¿Cómo se llama el 'experimento' final de Jacobs para ver qué hay tras la muerte?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "RELAMPAGO"
+        },
+        {
+            "question_text": "La Cúpula: Ordena los cargos políticos de James 'Big Jim' Rennie en Chester's Mill:",
+            "type": "order",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "Segundo Seleccionado",
+                    "order_index": 0,
+                    "is_correct": false,
+                    "justification": "Su cargo oficial al inicio."
+                },
+                {
+                    "option_text": "Líder de facto / Jefe del consejo",
+                    "order_index": 1,
+                    "is_correct": false,
+                    "justification": "Toma el poder tras la muerte del Primer Seleccionado."
+                },
+                {
+                    "option_text": "Jefe de policía en la sombra",
+                    "order_index": 2,
+                    "is_correct": false,
+                    "justification": "Controla a los nuevos oficiales."
+                },
+                {
+                    "option_text": "Dictador",
+                    "order_index": 3,
+                    "is_correct": false,
+                    "justification": "Su estatus final antes del desastre."
+                }
+            ]
+        },
+        {
+            "question_text": "Mr. Mercedes: ¿Qué dispositivo usa Brady Hartsfield para intentar detonar la bomba en el concierto?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Una consola de videojuegos",
+                    "is_correct": true,
+                    "justification": "Modifica una consola portátil para que sirva de detonador."
+                },
+                {
+                    "option_text": "Un teléfono móvil",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un mando a distancia",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un ordenador",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El visitante: ¿Cuántos años de cárcel le piden inicialmente a Terry Maitland?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 99,
+            "maxPoints": 100,
+            "toleranceMode": "absolute",
+            "toleranceValue": 10,
+            "toleranceCap": 1,
+            "hint": "Es la pena máxima antes de la cadena perpetua o muerte."
+        },
+        {
+            "question_text": "La chica que amaba a Tom Gordon: ¿Qué escucha Trisha en su radio para no sentir miedo?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Partidos de béisbol",
+                    "is_correct": true,
+                    "justification": "Escucha las transmisiones de los Red Sox de Boston."
+                },
+                {
+                    "option_text": "Música rock",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Noticias",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Programas religiosos",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La Torre Oscura: Nombre del robot gigante que protege la entrada a las Tierras Baldías.",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "SHARDIK"
+        },
+        {
+            "question_text": "El resplandor: ¿Cuál es el nombre del hotel donde se desarrolla la historia?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Hotel Overlook",
+                    "is_correct": true,
+                    "justification": "El Hotel Overlook es el escenario principal de la novela."
+                },
+                {
+                    "option_text": "Hotel Shining",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Hotel Torrance",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Hotel Colorado",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "It: ¿Cuál es el nombre del club de amigos que se enfrentan a Pennywise?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "El Club de los Perdedores",
+                    "is_correct": true,
+                    "justification": "El grupo se autodenomina 'Los Perdedores' por sentirse marginados."
+                },
+                {
+                    "option_text": "Los Valientes",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Los Cazadores de Monstruos",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Los Guardianes de Derry",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La expedición: ¿Cómo se llama el proceso de sedación necesario para viajar por el 'Jaunt'?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "ANESTESIA"
+        },
+        {
+            "question_text": "El umbral de la noche: Ordena cronológicamente estos relatos según su posición en el índice del libro:",
+            "type": "order",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "Jerusalem's Lot",
+                    "order_index": 0,
+                    "is_correct": false,
+                    "justification": "Es el primer relato de la colección."
+                },
+                {
+                    "option_text": "Marejada nocturna",
+                    "order_index": 1,
+                    "is_correct": false,
+                    "justification": "Es el segundo relato."
+                },
+                {
+                    "option_text": "La puerta",
+                    "order_index": 2,
+                    "is_correct": false,
+                    "justification": "Aparece a mitad del libro."
+                },
+                {
+                    "option_text": "La mujer de la habitación",
+                    "order_index": 3,
+                    "is_correct": false,
+                    "justification": "Es el último relato del libro."
+                }
+            ]
+        },
+        {
+            "question_text": "El resplandor: ¿Qué arma utiliza Jack Torrance en la NOVELA para perseguir a su familia?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Un mazo de roque",
+                    "is_correct": true,
+                    "justification": "En el libro usa un mazo de madera de este deporte, no un hacha como en la película."
+                },
+                {
+                    "option_text": "Un hacha de incendios",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un cuchillo de carnicero",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Una escopeta",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La Torre Oscura: ¿Cuál es el nombre del primer volumen de la saga?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "PISTOLERO"
+        },
+        {
+            "question_text": "Billy Summers: ¿Cuántos años de servicio militar tuvo Billy antes de ser asesino?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 12,
+            "maxPoints": 100,
+            "toleranceMode": "absolute",
+            "toleranceValue": 2,
+            "toleranceCap": 5,
+            "hint": "Fue un marine con mucha experiencia en Irak."
+        },
+        {
+            "question_text": "Gwendy's Button Box: ¿Qué animal corona la caja de botones mágica?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "No tiene animal, tiene botones de colores",
+                    "is_correct": true,
+                    "justification": "La caja se caracteriza por sus ocho botones de colores y sus palancas laterales."
+                },
+                {
+                    "option_text": "Un cuervo de plata",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un perro de madera",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Una araña de metal",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La chica que amaba a Tom Gordon: ¿Cómo llama Trisha a la entidad que cree que la persigue?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "DIOSDECOSA"
+        },
+        {
+            "question_text": "Cell: ¿A qué personaje histórico se parece el 'líder' de los telefónicos, el Hombre del Traje Rojo?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "No se especifica, es una figura genérica",
+                    "is_correct": true,
+                    "justification": "Es una figura onírica y aterradora que aparece en los sueños de los supervivientes."
+                },
+                {
+                    "option_text": "Abraham Lincoln",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Ronald Reagan",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "JFK",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Joyland: ¿Qué prenda de ropa debe vestir Devin Jones como parte de su trabajo en el parque?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Un disfraz de perro (Howie)",
+                    "is_correct": true,
+                    "justification": "Debe 'meterse en el pelaje' del perro Howie para entretener a los niños."
+                },
+                {
+                    "option_text": "Un traje de payaso",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un uniforme de marinero",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un sombrero de copa",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Duma Key: Ordena estos pasos del ritual que realiza Edgar para contener a Perse:",
+            "type": "order",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "Encontrar la figura de plata en el fondo del océano",
+                    "order_index": 0,
+                    "is_correct": false,
+                    "justification": "Es la base del contenedor."
+                },
+                {
+                    "option_text": "Introducir a Perse en el termo de linterna",
+                    "order_index": 1,
+                    "is_correct": false,
+                    "justification": "El método de captura física."
+                },
+                {
+                    "option_text": "Sumergir el termo en agua dulce",
+                    "order_index": 2,
+                    "is_correct": false,
+                    "justification": "Perse odia el agua dulce; la debilita."
+                },
+                {
+                    "option_text": "Llevar el termo al fondo de un lago profundo",
+                    "order_index": 3,
+                    "is_correct": false,
+                    "justification": "Su prisión final lejos de la costa."
+                }
+            ]
+        },
+        {
+            "question_text": "La historia de Lisey: ¿Cuál es el nombre del acosador que persigue a Lisey?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "ZACKMCCAUL"
+        },
+        {
+            "question_text": "El visitante: ¿Cuál es el nombre del parque donde encuentran el cadáver del niño?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Fig City Park",
+                    "is_correct": true,
+                    "justification": "Es el lugar del crimen en la ciudad de Flint City."
+                },
+                {
+                    "option_text": "Central Park",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Derry Park",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Overlook Grounds",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Holly: ¿Cuál es el nombre de la pareja de ancianos antagonistas?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Rodney y Emily Harris",
+                    "is_correct": true,
+                    "justification": "Dos respetables académicos que esconden un secreto caníbal."
+                },
+                {
+                    "option_text": "Harold y Maude",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Arthur y Joyce",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Bob y Margaret",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La Cúpula: ¿Qué provoca el incendio final que consume casi todo el aire de Chester's Mill?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "La explosión del laboratorio de metanfetamina",
+                    "is_correct": true,
+                    "justification": "Una explosión masiva causada por los hombres de Big Jim."
+                },
+                {
+                    "option_text": "Un rayo",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un accidente de coche",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "El ejército atacando la cúpula",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Apocalipsis: ¿En qué ciudad de Colorado se establecen los supervivientes del bando del 'Bien'?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "BOULDER"
+        },
+        {
+            "question_text": "It: Ordena cronológicamente los asesinatos de Pennywise en el ciclo de 1957-58:",
+            "type": "order",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "George Denbrough",
+                    "order_index": 0,
+                    "is_correct": false,
+                    "justification": "El famoso ataque en la alcantarilla en octubre de 1957."
+                },
+                {
+                    "option_text": "Adrian Mellon",
+                    "order_index": 1,
+                    "is_correct": false,
+                    "justification": "¡Fallo! Este asesinato ocurre en 1984, no en el primer ciclo."
+                },
+                {
+                    "option_text": "Eddie Corcoran",
+                    "order_index": 2,
+                    "is_correct": false,
+                    "justification": "Ocurre en junio de 1958 tras huir de su padrastro."
+                },
+                {
+                    "option_text": "Patrick Hockstetter",
+                    "order_index": 3,
+                    "is_correct": false,
+                    "justification": "Ocurre en julio de 1958 en el vertedero."
+                }
+            ]
+        },
+        {
+            "question_text": "La milla verde: ¿A qué animal cura John Coffey en la enfermería?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Al ratón Cascabel",
+                    "is_correct": true,
+                    "justification": "Lo revive después de que Percy Wetmore lo pisoteara."
+                },
+                {
+                    "option_text": "A un perro guardián",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "A un gato callejero",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "A un pájaro herido",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El instituto: ¿Cuál es el nombre del primer amigo que Luke hace en el Instituto?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "KALISHA"
+        },
+        {
+            "question_text": "La larga marcha: ¿Cuál es la velocidad mínima que los marchadores deben mantener?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 6,
+            "maxPoints": 100,
+            "toleranceMode": "absolute",
+            "toleranceValue": 10,
+            "toleranceCap": 1,
+            "hint": "Son 4 millas por hora, que equivale a X kilómetros por hora."
+        },
+        {
+            "question_text": "La zona muerta: ¿Qué regalo le da Johnny Smith a la enfermera que le ayuda a recuperarse?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Información sobre su hijo",
+                    "is_correct": true,
+                    "justification": "Le dice que su hijo está a salvo de un incendio gracias a una visión."
+                },
+                {
+                    "option_text": "Dinero de la lotería",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un anillo de diamantes",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un libro de poesías",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Desesperación: ¿Cuál es el nombre de la mina de donde sale el mal?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "CHINA_PIT"
+        },
+        {
+            "question_text": "Elevación: ¿Cuál es el nombre de la cafetería que las vecinas de Scott intentan abrir?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Holy Frijole",
+                    "is_correct": true,
+                    "justification": "Es un restaurante de comida mexicana en Castle Rock."
+                },
+                {
+                    "option_text": "Derry Diner",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "The Rock Cafe",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Sweet Dreams",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Maleficio: ¿Qué ingrediente tiene el pastel que transfiere la maldición?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Fresa",
+                    "is_correct": true,
+                    "justification": "Es un pastel de fresa el que contiene la sangre y la maldición."
+                },
+                {
+                    "option_text": "Chocolate",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Manzana",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Arándanos",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Cuento de Hadas: Ordena los desafíos que Charlie enfrenta en el torneo de gladiadores:",
+            "type": "order",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "Captura y encarcelamiento en Deepening Dose",
+                    "order_index": 0,
+                    "is_correct": false,
+                    "justification": "El inicio de su cautiverio."
+                },
+                {
+                    "option_text": "Primeras rondas de lucha",
+                    "order_index": 1,
+                    "is_correct": false,
+                    "justification": "Debe demostrar su valía."
+                },
+                {
+                    "option_text": "Combate contra otros prisioneros",
+                    "order_index": 2,
+                    "is_correct": false,
+                    "justification": "Se ve forzado a la violencia."
+                },
+                {
+                    "option_text": "Huida durante el ataque final",
+                    "order_index": 3,
+                    "is_correct": false,
+                    "justification": "El caos que aprovecha para escapar."
+                }
+            ]
+        },
+        {
+            "question_text": "Insomnia: ¿Qué objeto usan los Doctores Calvos para cortar el hilo de la vida?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "TIJERAS"
+        },
+        {
+            "question_text": "Un saco de huesos: ¿Cuántos años han pasado desde la muerte de Jo Noonan cuando Mike vuelve a la cabaña?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 4,
+            "maxPoints": 100,
+            "toleranceMode": "absolute",
+            "toleranceValue": 10,
+            "toleranceCap": 1,
+            "hint": "Es un periodo de duelo estándar en las novelas de King."
+        },
+        {
+            "question_text": "Posesión: ¿Qué dibujos animados obsesionan al niño Seth Garin?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Moto-Cop 2200",
+                    "is_correct": true,
+                    "justification": "La entidad Tak usa la estética de esta serie para aterrorizar al pueblo."
+                },
+                {
+                    "option_text": "He-Man",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Transformers",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "G.I. Joe",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Mr. Mercedes: ¿Cómo se llama el camión de helados que Brady usa como tapadera?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "SABROSO"
+        },
+        {
+            "question_text": "La Torre Oscura: Ordena estos sucesos del final del séptimo libro:",
+            "type": "order",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "Muerte de Mordred Deschain",
+                    "order_index": 0,
+                    "is_correct": false,
+                    "justification": "El hijo de Roland es derrotado."
+                },
+                {
+                    "option_text": "Patrick Danville borra al Rey Carmesí",
+                    "order_index": 1,
+                    "is_correct": false,
+                    "justification": "Usando sus habilidades artísticas."
+                },
+                {
+                    "option_text": "Roland entra en la Torre Oscura",
+                    "order_index": 2,
+                    "is_correct": false,
+                    "justification": "El clímax de su búsqueda."
+                },
+                {
+                    "option_text": "Roland aparece de nuevo en el desierto de Mohaine",
+                    "order_index": 3,
+                    "is_correct": false,
+                    "justification": "El ciclo comienza otra vez."
+                }
+            ]
+        },
+        {
+            "question_text": "Ojos de fuego: ¿En qué granja se refugian Charlie y Andy al principio de su huida?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "La granja de los Manders",
+                    "is_correct": true,
+                    "justification": "Irvin Manders y su esposa los acogen temporalmente."
+                },
+                {
+                    "option_text": "La granja de los Black",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "La granja de los Creed",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "La granja de los Miller",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La mitad oscura: ¿Cuál es el apellido real de George Stark?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Beaumont",
+                    "is_correct": true,
+                    "justification": "Es la manifestación física del seudónimo de Thad Beaumont."
+                },
+                {
+                    "option_text": "Bachman",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "King",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Starkey",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Doctor Sueño: ¿Cómo se llama el ritual de 'comer' el vapor de los niños?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "PURIFICAR"
+        },
+        {
+            "question_text": "Carrie: ¿En qué año ocurre la tragedia de la noche de graduación en la novela?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 1979,
+            "maxPoints": 100,
+            "toleranceMode": "absolute",
+            "toleranceValue": 10,
+            "toleranceCap": 1,
+            "hint": "Aunque se publicó antes, la historia está ambientada en un futuro cercano a su publicación."
+        },
+        {
+            "question_text": "Revival: ¿Cuál es el instrumento que toca Jamie Morton profesionalmente?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Guitarra rítmica",
+                    "is_correct": true,
+                    "justification": "Toca en varias bandas de rock a lo largo de su vida."
+                },
+                {
+                    "option_text": "Piano",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Saxofón",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Batería",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El umbral de la noche: En el relato 'Camiones', ¿dónde están atrapados los protagonistas?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Una parada de camiones",
+                    "is_correct": true,
+                    "justification": "Están sitiados en una gasolinera por vehículos que han cobrado vida."
+                },
+                {
+                    "option_text": "Un supermercado",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Una oficina",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un hospital",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Ojos de Dragón: ¿Cuál es el primer nombre del maligno consejero que envenena al rey de Delain con veneno de araña para hacerse con el poder del reino?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "RANDALL"
+        },
+        {
+            "question_text": "22/11/63: ¿Cuál es la 'regla' principal del pasado respecto a los cambios que Jake intenta hacer?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "El pasado es armonioso y se resiste",
+                    "is_correct": true,
+                    "justification": "Cuanto más grande es el cambio, más difícil es lograrlo porque el pasado contraataca."
+                },
+                {
+                    "option_text": "El pasado es fácil de cambiar",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "No se puede cambiar nada",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Los cambios solo afectan al futuro",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La milla verde: ¿Qué edad tiene Paul Edgecombe cuando cuenta su historia desde la residencia?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 104,
+            "maxPoints": 100,
+            "toleranceMode": "absolute",
+            "toleranceValue": 4,
+            "toleranceCap": 10,
+            "hint": "Es excepcionalmente viejo debido al don de John Coffey."
+        },
+        {
+            "question_text": "Holly: Ordena la aparición de estos personajes en la vida de Holly Gibney:",
+            "type": "order",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "Bill Hodges",
+                    "order_index": 0,
+                    "is_correct": false,
+                    "justification": "Su mentor original en Mr. Mercedes."
+                },
+                {
+                    "option_text": "Ralph Anderson",
+                    "order_index": 1,
+                    "is_correct": false,
+                    "justification": "Colaboran en el caso de El Visitante."
+                },
+                {
+                    "option_text": "Jerome Robinson",
+                    "order_index": 2,
+                    "is_correct": false,
+                    "justification": "Su amigo y socio de largo recorrido."
+                },
+                {
+                    "option_text": "Barbara Robinson",
+                    "order_index": 3,
+                    "is_correct": false,
+                    "justification": "La hermana de Jerome, que cobra importancia en las novelas finales."
+                }
+            ]
+        },
+        {
+            "question_text": "Misery: ¿Qué líquido usa Paul para intentar quemar el manuscrito ante Annie?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Líquido para encendedores",
+                    "is_correct": true,
+                    "justification": "Lo rocía sobre las hojas para prenderles fuego."
+                },
+                {
+                    "option_text": "Gasolina",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Alcohol de quemar",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Queroseno",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Christine: ¿Cuál es el apellido del joven introvertido que se obsesiona con el Plymouth Fury de 1958 hasta perder completamente su identidad?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "CUNNINGHAM"
+        },
+        {
+            "question_text": "La Cúpula: ¿Qué nombre recibe el 'dispositivo' que genera la cúpula?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "La caja de cuero",
+                    "is_correct": true,
+                    "justification": "Un objeto alienígena que parece una pequeña caja con textura de cuero."
+                },
+                {
+                    "option_text": "El generador",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "La antena",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "El orbe",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Cementerio de animales: ¿Cuál es el apellido del anciano vecino que revela a Louis Creed el secreto del cementerio micmac más allá del límite del bosque?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "CRANDALL"
+        },
+        {
+            "question_text": "El misterio de Salem's Lot: ¿Qué objeto sagrado usa Ben Mears para protegerse de los vampiros?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Una cruz improvisada con depresores",
+                    "is_correct": true,
+                    "justification": "Fabrica una cruz usando palitos de madera y pegamento."
+                },
+                {
+                    "option_text": "Un rosario bendecido",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Agua bendita",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un ejemplar de la Biblia",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Colorado Kid: ¿Qué objeto inusual encuentran en el bolsillo del cadáver?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Una moneda rusa",
+                    "is_correct": true,
+                    "justification": "Una pista extraña que no encaja con el resto de su perfil."
+                },
+                {
+                    "option_text": "Una llave de hotel",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un mechero grabado",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Una entrada de cine",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La Torre Oscura: Ordena estos guardianes de los Haces según su animal representativo:",
+            "type": "order",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "Oso (Shardik)",
+                    "order_index": 0,
+                    "is_correct": false,
+                    "justification": "Uno de los guardianes más conocidos."
+                },
+                {
+                    "option_text": "Tortuga (Maturin)",
+                    "order_index": 1,
+                    "is_correct": false,
+                    "justification": "La contraparte del oso."
+                },
+                {
+                    "option_text": "Elefante",
+                    "order_index": 2,
+                    "is_correct": false,
+                    "justification": "Guardián del haz opuesto al Lobo."
+                },
+                {
+                    "option_text": "Lobo",
+                    "order_index": 3,
+                    "is_correct": false,
+                    "justification": "Guardián del haz opuesto al Elefante."
+                }
+            ]
+        },
+        {
+            "question_text": "Bellas durmientes: ¿Cuál es el nombre de la mujer que no cae bajo el efecto de la enfermedad?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "EVIE_BLACK"
+        },
+        {
+            "question_text": "Cujo: ¿Qué año marca el inicio del verano más caluroso en Castle Rock según la novela?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 1980,
+            "maxPoints": 100,
+            "toleranceMode": "absolute",
+            "toleranceValue": 10,
+            "toleranceCap": 1,
+            "hint": "Coincide con la década de su publicación."
+        },
+        {
+            "question_text": "Tommyknockers: ¿Qué material es capaz de bloquear la influencia mental de la nave?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Plomo",
+                    "is_correct": true,
+                    "justification": "Jim Gardener tiene una placa de plomo en la cabeza por un accidente, lo que le protege."
+                },
+                {
+                    "option_text": "Cobre",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Acero inoxidable",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Oro",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "La Tienda: ¿Cómo se llama el pueblo donde ocurre la historia?",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "CASTLEROCK"
+        }
+    ]
+}

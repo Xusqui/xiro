@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "manual_admin.tools.partidas.title": "Partidas",
+    "manual_admin.tools.partidas.desc": "Configuración global das partidas e salas.",
+    "manual_admin.tools.partidas.max_players": "Máximo de xogadores por partida",
+    "manual_admin.tools.partidas.max_players_desc": "Número máximo de xogadores que se poden unir a unha sala.",
+    "manual_admin.tools.partidas.max_lobbies": "Máximo de lobbies simultáneos",
+    "manual_admin.tools.partidas.max_lobbies_desc": "Partidas activas ao mesmo tempo. Ao chegar ao límite non se poden crear novas salas.",
+    "manual_admin.tools.partidas.inactive_game": "Limiar de xogo inactivo",
+    "manual_admin.tools.partidas.inactive_game_desc": "Horas sen actividade para que unha partida se considere abandonada e se limpe.",
+    "manual_admin.tools.partidas.empty_lobby": "Timeout de lobby baleiro",
+    "manual_admin.tools.partidas.empty_lobby_desc": "Minutos ata que un lobby sen xogadores destrúese automaticamente."
+  }
+}

@@ -1,0 +1,4326 @@
+{
+  "name": "Múltiple",
+  "type": "quiz",
+  "questions": [
+    {
+      "question_text": "¿Cuáles de los siguientes son planetas del sistema solar?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Marte",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Es el cuarto planeta del sistema solar."
+        },
+        {
+          "option_text": "Júpiter",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Es el planeta más grande del sistema solar."
+        },
+        {
+          "option_text": "Ceres",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Venus",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Es el segundo planeta desde el Sol."
+        },
+        {
+          "option_text": "Europa",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Saturno",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Famoso por sus anillos, es el sexto planeta."
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué elementos químicos son gases nobles?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Helio",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Pertenece al grupo 18 de la tabla periódica."
+        },
+        {
+          "option_text": "Oxígeno",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Neón",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Es un gas noble muy utilizado en iluminación."
+        },
+        {
+          "option_text": "Argón",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Es el gas noble más común en la atmósfera terrestre."
+        },
+        {
+          "option_text": "Nitrógeno",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Kriptón",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Es un gas noble denso e incoloro."
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuáles de estas ciudades son capitales europeas?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Madrid",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Capital de España."
+        },
+        {
+          "option_text": "Barcelona",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Berlín",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Capital de Alemania."
+        },
+        {
+          "option_text": "Zúrich",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Roma",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Capital de Italia."
+        },
+        {
+          "option_text": "Milán",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué colores forman parte de la bandera de México?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Verde",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Representa la esperanza."
+        },
+        {
+          "option_text": "Azul",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Blanco",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Representa la unidad."
+        },
+        {
+          "option_text": "Rojo",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Representa la sangre de los héroes nacionales."
+        },
+        {
+          "option_text": "Amarillo",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Gris",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuáles son obras escritas por William Shakespeare?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Hamlet",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Una de sus tragedias más famosas."
+        },
+        {
+          "option_text": "Don Quijote",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Macbeth",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Tragedia sobre la ambición política."
+        },
+        {
+          "option_text": "Otelo",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Famosa obra sobre los celos."
+        },
+        {
+          "option_text": "La Odisea",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Romeo y Julieta",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Su obra romántica más icónica."
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué instrumentos pertenecen a la familia de cuerda?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Violín",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Instrumento de cuerda frotada."
+        },
+        {
+          "option_text": "Flauta",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Arpa",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Instrumento de cuerda pulsada."
+        },
+        {
+          "option_text": "Piano",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Instrumento de cuerda percutida."
+        },
+        {
+          "option_text": "Trompeta",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Guitarra",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Instrumento de cuerda pulsada."
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué países comparten frontera con España?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Portugal",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Frontera al oeste (La Raya)."
+        },
+        {
+          "option_text": "Francia",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Frontera al norte por los Pirineos."
+        },
+        {
+          "option_text": "Italia",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Andorra",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Pequeño país situado entre España y Francia."
+        },
+        {
+          "option_text": "Marruecos",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Frontera terrestre en Ceuta y Melilla."
+        },
+        {
+          "option_text": "Argelia",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuáles de estos son lenguajes de programación?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Python",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Lenguaje de alto nivel muy popular."
+        },
+        {
+          "option_text": "HTML",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Java",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Lenguaje orientado a objetos."
+        },
+        {
+          "option_text": "SQL",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Lenguaje de consulta estructurado."
+        },
+        {
+          "option_text": "C++",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Lenguaje de propósito general."
+        },
+        {
+          "option_text": "JSON",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué animales son mamíferos marinos?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Delfín",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Es un mamífero cetáceo."
+        },
+        {
+          "option_text": "Tiburón",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Ballena",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Mamífero marino de gran tamaño."
+        },
+        {
+          "option_text": "Manatí",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Mamífero del orden Sirenia."
+        },
+        {
+          "option_text": "Pulpo",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Foca",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Mamífero pinnípedo."
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuáles son sistemas operativos?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Windows",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Sistema operativo de Microsoft."
+        },
+        {
+          "option_text": "Linux",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Núcleo de sistemas de código abierto."
+        },
+        {
+          "option_text": "Chrome",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "macOS",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Sistema operativo de Apple."
+        },
+        {
+          "option_text": "Android",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Sistema operativo móvil basado en Linux."
+        },
+        {
+          "option_text": "Office",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué huesos se encuentran en el brazo humano?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Húmero",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Hueso del brazo superior."
+        },
+        {
+          "option_text": "Fémur",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Radio",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Uno de los huesos del antebrazo."
+        },
+        {
+          "option_text": "Cúbito",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "El otro hueso del antebrazo."
+        },
+        {
+          "option_text": "Tibia",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Peroné",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuáles son océanos de la Tierra?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Pacífico",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "El océano más grande."
+        },
+        {
+          "option_text": "Índico",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Situado entre África, Asia y Australia."
+        },
+        {
+          "option_text": "Mediterráneo",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Atlántico",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Separa América de Europa y África."
+        },
+        {
+          "option_text": "Ártico",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Océano situado al norte."
+        },
+        {
+          "option_text": "Caspio",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué componentes se encuentran dentro de una CPU moderna?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "ALU (Unidad Aritmético Lógica)",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Realiza operaciones matemáticas."
+        },
+        {
+          "option_text": "Registros",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Memoria de alta velocidad interna."
+        },
+        {
+          "option_text": "Disco Duro",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Memoria Caché",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Almacena datos de acceso frecuente."
+        },
+        {
+          "option_text": "Unidad de Control",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Gestiona el flujo de instrucciones."
+        },
+        {
+          "option_text": "Fuente de Alimentación",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué unidades pertenecen al Sistema Internacional (SI)?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Metro",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Unidad de longitud."
+        },
+        {
+          "option_text": "Pulgada",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Segundo",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Unidad de tiempo."
+        },
+        {
+          "option_text": "Kilogramo",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Unidad de masa."
+        },
+        {
+          "option_text": "Kelvin",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Unidad de temperatura."
+        },
+        {
+          "option_text": "Libra",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué géneros literarios existen?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Lírico",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Expresa sentimientos y subjetividad."
+        },
+        {
+          "option_text": "Narrativo",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Relata hechos y sucesos."
+        },
+        {
+          "option_text": "Dramático",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Obras destinadas a la representación."
+        },
+        {
+          "option_text": "Didáctico",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Su fin es la enseñanza."
+        },
+        {
+          "option_text": "Escultórico",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Pictórico",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuáles son pintores del Renacimiento?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Leonardo da Vinci",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Figura central del Renacimiento."
+        },
+        {
+          "option_text": "Miguel Ángel",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Genio renacentista italiano."
+        },
+        {
+          "option_text": "Pablo Picasso",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Rafael Sanzio",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Maestro del Alto Renacimiento."
+        },
+        {
+          "option_text": "Sandro Botticelli",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Pintor del Renacimiento temprano."
+        },
+        {
+          "option_text": "Salvador Dalí",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué países forman parte del G7?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Canadá",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Miembro del grupo de los siete."
+        },
+        {
+          "option_text": "España",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Japón",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Miembro asiático del grupo."
+        },
+        {
+          "option_text": "Alemania",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Potencia europea del G7."
+        },
+        {
+          "option_text": "China",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Francia",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Miembro fundador."
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué inventos se atribuyen a Thomas Edison?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Fonógrafo",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Primer dispositivo para grabar y reproducir sonido."
+        },
+        {
+          "option_text": "Bombilla incandescente",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Perfeccionó su uso comercial."
+        },
+        {
+          "option_text": "Teléfono",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Kinetoscopio",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Precursor del proyector de cine."
+        },
+        {
+          "option_text": "Radio",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Microtransmisor de carbono",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Mejoró drásticamente el teléfono."
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué ingredientes lleva una Paella Valenciana tradicional?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Arroz",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Ingrediente base esencial."
+        },
+        {
+          "option_text": "Chorizo",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Garrofó",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Variedad de alubia típica."
+        },
+        {
+          "option_text": "Pollo",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Carne básica del plato."
+        },
+        {
+          "option_text": "Conejo",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Carne esencial junto con el pollo."
+        },
+        {
+          "option_text": "Ketchup",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué lenguajes se consideran 'frontend'?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "JavaScript",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Lenguaje de programación principal del navegador."
+        },
+        {
+          "option_text": "CSS",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Lenguaje de estilos para la web."
+        },
+        {
+          "option_text": "PHP",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "HTML",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Estructura fundamental de las páginas web."
+        },
+        {
+          "option_text": "TypeScript",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Superset de JS muy usado en frontend."
+        },
+        {
+          "option_text": "Python",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué estados de la materia son comunes en la Tierra?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Sólido",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Materia con forma y volumen definidos."
+        },
+        {
+          "option_text": "Líquido",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Materia con volumen definido pero forma variable."
+        },
+        {
+          "option_text": "Gaseoso",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Materia sin forma ni volumen definidos."
+        },
+        {
+          "option_text": "Plasma",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Gas ionizado (común en rayos o fuego)."
+        },
+        {
+          "option_text": "Supersólido",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Condensado de Bose-Einstein",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué países de Sudamérica NO tienen salida al mar?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Bolivia",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "País mediterráneo en el centro de Sudamérica."
+        },
+        {
+          "option_text": "Paraguay",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "El otro país sudamericano sin costa."
+        },
+        {
+          "option_text": "Chile",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Perú",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Ecuador",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Uruguay",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué números son primos entre los siguientes?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "2",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Es el único número primo par."
+        },
+        {
+          "option_text": "9",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "13",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Solo divisible por 1 y por sí mismo."
+        },
+        {
+          "option_text": "21",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "17",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Es un número primo."
+        },
+        {
+          "option_text": "1",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué ciudades españolas tienen metro?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Madrid",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Tiene la red de metro más grande de España."
+        },
+        {
+          "option_text": "Sevilla",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Cuenta con una línea de metro."
+        },
+        {
+          "option_text": "Valencia",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Dispone de red de Metrovalencia."
+        },
+        {
+          "option_text": "Bilbao",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Posee una red moderna diseñada por Norman Foster."
+        },
+        {
+          "option_text": "Toledo",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Salamanca",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué religiones son monoteístas?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Cristianismo",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Creen en un solo Dios."
+        },
+        {
+          "option_text": "Islam",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Religión monoteísta abrahámica."
+        },
+        {
+          "option_text": "Hinduismo",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Judaísmo",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "La más antigua de las religiones monoteístas."
+        },
+        {
+          "option_text": "Sintoísmo",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Zoroastrismo",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Considerada una de las primeras monoteístas."
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuáles son capas de la atmósfera terrestre?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Troposfera",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Capa más baja donde ocurre el clima."
+        },
+        {
+          "option_text": "Estratosfera",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Contiene la capa de ozono."
+        },
+        {
+          "option_text": "Mesosfera",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Capa intermedia."
+        },
+        {
+          "option_text": "Litosfera",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Termosfera",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Capa donde se orbitan los satélites."
+        },
+        {
+          "option_text": "Hidrosfera",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué países tienen el español como idioma oficial?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Colombia",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "País hispanohablante."
+        },
+        {
+          "option_text": "Brasil",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Guinea Ecuatorial",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Único país africano con español oficial."
+        },
+        {
+          "option_text": "Filipinas",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Argentina",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "País hispanohablante."
+        },
+        {
+          "option_text": "Cuba",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "País hispanohablante del Caribe."
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué tipos de triángulos existen según sus lados?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Equilátero",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Tres lados iguales."
+        },
+        {
+          "option_text": "Isósceles",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Dos lados iguales."
+        },
+        {
+          "option_text": "Escaleno",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Tres lados desiguales."
+        },
+        {
+          "option_text": "Rectángulo",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Acutángulo",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Obtusángulo",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué empresas fundó o co-fundó Elon Musk?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Tesla",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Empresa de coches eléctricos."
+        },
+        {
+          "option_text": "SpaceX",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Empresa aeroespacial."
+        },
+        {
+          "option_text": "Amazon",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Neuralink",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Empresa de neurotecnología."
+        },
+        {
+          "option_text": "The Boring Company",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Empresa de excavación de túneles."
+        },
+        {
+          "option_text": "Microsoft",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué colores son considerados primarios en el modelo RYB (tradicional)?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Rojo",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Color primario tradicional."
+        },
+        {
+          "option_text": "Amarillo",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Color primario tradicional."
+        },
+        {
+          "option_text": "Azul",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Color primario tradicional."
+        },
+        {
+          "option_text": "Verde",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Naranja",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Violeta",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Selecciona los países que tienen al menos una costa en el Océano Pacífico:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Chile",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Tiene una extensa costa en el Pacífico."
+        },
+        {
+          "option_text": "Perú",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Toda su costa da al Pacífico."
+        },
+        {
+          "option_text": "Argentina",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "México",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Tiene costa tanto en el Pacífico como en el Atlántico."
+        },
+        {
+          "option_text": "Bolivia",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Japón",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Es un archipiélago en el Pacífico."
+        }
+      ]
+    },
+    {
+      "question_text": "Indica cuáles de los siguientes elementos químicos son metales nobles:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Oro",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Es el metal noble por excelencia."
+        },
+        {
+          "option_text": "Plata",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Se considera metal noble o seminoble."
+        },
+        {
+          "option_text": "Platino",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Es un metal noble de transición."
+        },
+        {
+          "option_text": "Hierro",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Sodio",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Paladio",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Pertenece al grupo del platino."
+        }
+      ]
+    },
+    {
+      "question_text": "Marca los componentes que forman parte del hardware interno de un ordenador:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Memoria RAM",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Se inserta en la placa base."
+        },
+        {
+          "option_text": "CPU",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "El cerebro del ordenador."
+        },
+        {
+          "option_text": "Disco SSD",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Unidad de almacenamiento interno."
+        },
+        {
+          "option_text": "Fuente de alimentación",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Suministra energía a los componentes."
+        },
+        {
+          "option_text": "Placa Base",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Conecta todos los componentes."
+        },
+        {
+          "option_text": "Tarjeta Gráfica",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Procesa la salida de video."
+        }
+      ]
+    },
+    {
+      "question_text": "Sobre la geografía de Europa, señala las afirmaciones correctas:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "El río Danubio atraviesa varias capitales europeas",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Atraviesa Viena, Bratislava, Budapest y Belgrado."
+        },
+        {
+          "option_text": "Los Pirineos separan España de Francia",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Es la frontera natural."
+        },
+        {
+          "option_text": "El Mont Blanc es el pico más alto de los Alpes",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Tiene 4.810 metros."
+        },
+        {
+          "option_text": "Islandia es un país insular del norte",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Situado en el Atlántico Norte."
+        },
+        {
+          "option_text": "Suiza tiene frontera con el mar",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Rusia es el país más grande de Europa",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Su parte europea es la mayor del continente."
+        }
+      ]
+    },
+    {
+      "question_text": "Selecciona las obras literarias que pertenecen al género de la distopía:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "1984",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Novela de George Orwell."
+        },
+        {
+          "option_text": "Un mundo feliz",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Novela de Aldous Huxley."
+        },
+        {
+          "option_text": "Orgullo y Prejuicio",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Fahrenheit 451",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Novela de Ray Bradbury."
+        },
+        {
+          "option_text": "El cuento de la criada",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Novela de Margaret Atwood."
+        },
+        {
+          "option_text": "Rebelión en la granja",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Sátira política distópica."
+        }
+      ]
+    },
+    {
+      "question_text": "Identifica los animales que pertenecen a la familia de los félidos:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Tigre",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "El mayor de los félidos."
+        },
+        {
+          "option_text": "León",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Félido del género Panthera."
+        },
+        {
+          "option_text": "Hiena",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Guepardo",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Félido famoso por su velocidad."
+        },
+        {
+          "option_text": "Lince",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Félido de tamaño medio."
+        },
+        {
+          "option_text": "Lobo",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Señala las lenguas que tienen estatus de oficialidad en algún territorio de España:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Castellano",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Oficial en todo el Estado."
+        },
+        {
+          "option_text": "Catalán",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Cooficial en Cataluña y Baleares."
+        },
+        {
+          "option_text": "Gallego",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Cooficial en Galicia."
+        },
+        {
+          "option_text": "Euskera",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Cooficial en País Vasco y parte de Navarra."
+        },
+        {
+          "option_text": "Aranés",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Cooficial en Cataluña (Valle de Arán)."
+        },
+        {
+          "option_text": "Francés",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Indica cuáles de los siguientes países son miembros fundadores de la Unión Europea (CEE en 1957):",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Bélgica",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Uno de los seis originales."
+        },
+        {
+          "option_text": "España",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Francia",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Uno de los seis originales."
+        },
+        {
+          "option_text": "Reino Unido",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Italia",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Uno de los seis originales."
+        },
+        {
+          "option_text": "Alemania Occidental",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Uno de los seis originales."
+        }
+      ]
+    },
+    {
+      "question_text": "Selecciona los nombres que corresponden a planetas enanos del Sistema Solar:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Plutón",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Reclasificado en 2006."
+        },
+        {
+          "option_text": "Ceres",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Situado en el cinturón de asteroides."
+        },
+        {
+          "option_text": "Eris",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Planeta enano más masivo conocido."
+        },
+        {
+          "option_text": "Makemake",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Situado en el cinturón de Kuiper."
+        },
+        {
+          "option_text": "Haumea",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Conocido por su forma elipsoidal."
+        },
+        {
+          "option_text": "Mercurio",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Marca los pintores que pertenecen al movimiento impresionista:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Claude Monet",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Figura clave del movimiento."
+        },
+        {
+          "option_text": "Pierre-Auguste Renoir",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Pintor impresionista francés."
+        },
+        {
+          "option_text": "Edgar Degas",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Famoso por sus pinturas de bailarinas."
+        },
+        {
+          "option_text": "Salvador Dalí",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Caravaggio",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Camille Pissarro",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Decano del impresionismo."
+        }
+      ]
+    },
+    {
+      "question_text": "Identifica los instrumentos musicales que son de percusión:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Timbal",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Instrumento de percusión de altura determinada."
+        },
+        {
+          "option_text": "Xilófono",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Instrumento de láminas."
+        },
+        {
+          "option_text": "Pandereta",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Instrumento de percusión menor."
+        },
+        {
+          "option_text": "Fagot",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Contrabajo",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Tuba",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Señala cuáles de las siguientes son capitales de países africanos:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "El Cairo",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Capital de Egipto."
+        },
+        {
+          "option_text": "Nairobi",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Capital de Kenia."
+        },
+        {
+          "option_text": "Luanda",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Capital de Angola."
+        },
+        {
+          "option_text": "Rabat",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Capital de Marruecos."
+        },
+        {
+          "option_text": "Ciudad del Cabo",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Una de las capitales de Sudáfrica."
+        },
+        {
+          "option_text": "Addis Abeba",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Capital de Etiopía."
+        }
+      ]
+    },
+    {
+      "question_text": "Indica cuáles de estos números son múltiplos de 3:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "12",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "3 x 4."
+        },
+        {
+          "option_text": "17",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "27",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "3 x 9."
+        },
+        {
+          "option_text": "31",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "45",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "3 x 15."
+        },
+        {
+          "option_text": "50",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Selecciona los eventos que ocurrieron durante el siglo XX (1901-2000):",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Caída del Muro de Berlín",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Ocurrió en 1989."
+        },
+        {
+          "option_text": "Revolución Rusa",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Ocurrió en 1917."
+        },
+        {
+          "option_text": "Llegada del hombre a la Luna",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Ocurrió en 1969."
+        },
+        {
+          "option_text": "Guerra Civil Española",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Ocurrió entre 1936-1939."
+        },
+        {
+          "option_text": "Segunda Guerra Mundial",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Ocurrió entre 1939-1945."
+        },
+        {
+          "option_text": "Revolución Francesa",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Identifica cuáles de estos términos pertenecen al ámbito de la termodinámica:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Entropía",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Magnitud que mide el desorden."
+        },
+        {
+          "option_text": "Entalpía",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Cantidad de energía intercambiada."
+        },
+        {
+          "option_text": "Mitosis",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Cero Absoluto",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Temperatura mínima posible."
+        },
+        {
+          "option_text": "Calor latente",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Energía requerida para cambio de fase."
+        },
+        {
+          "option_text": "Metabolismo",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Señala las unidades de medida que pertenecen al grupo de las magnitudes fundamentales del SI:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Segundo (tiempo)",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Magnitud fundamental."
+        },
+        {
+          "option_text": "Metro (longitud)",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Magnitud fundamental."
+        },
+        {
+          "option_text": "Kilogramo (masa)",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Magnitud fundamental."
+        },
+        {
+          "option_text": "Kelvin (temperatura)",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Magnitud fundamental."
+        },
+        {
+          "option_text": "Amperio (corriente)",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Magnitud fundamental."
+        },
+        {
+          "option_text": "Candela (intensidad luminosa)",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Magnitud fundamental."
+        }
+      ]
+    },
+    {
+      "question_text": "Indica cuáles de las siguientes provincias pertenecen a la Comunidad Valenciana:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Alicante",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Provincia al sur de la comunidad."
+        },
+        {
+          "option_text": "Valencia",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Provincia central."
+        },
+        {
+          "option_text": "Castellón",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Provincia al norte de la comunidad."
+        },
+        {
+          "option_text": "Murcia",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Albacete",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Teruel",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Selecciona los nombres de navegadores web desarrollados con motor Chromium:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Google Chrome",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Utiliza motor Blink/Chromium."
+        },
+        {
+          "option_text": "Microsoft Edge",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Migró a Chromium en 2020."
+        },
+        {
+          "option_text": "Brave",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Basado en Chromium para privacidad."
+        },
+        {
+          "option_text": "Opera",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Basado en Chromium desde hace años."
+        },
+        {
+          "option_text": "Vivaldi",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Navegador avanzado basado en Chromium."
+        },
+        {
+          "option_text": "Firefox",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Marca los países que tienen el inglés como lengua oficial o de facto:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Australia",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Lengua nacional de facto."
+        },
+        {
+          "option_text": "Nigeria",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Lengua oficial."
+        },
+        {
+          "option_text": "Canadá",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Lengua cooficial junto al francés."
+        },
+        {
+          "option_text": "Jamaica",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Lengua oficial."
+        },
+        {
+          "option_text": "Nueva Zelanda",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Lengua oficial junto al maorí."
+        },
+        {
+          "option_text": "Filipinas",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Lengua oficial junto al filipino."
+        }
+      ]
+    },
+    {
+      "question_text": "Indica cuáles de los siguientes platos son típicos de la cocina italiana:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Risotto",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Arroz típico del norte de Italia."
+        },
+        {
+          "option_text": "Gnocchi",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Pasta de patata y harina."
+        },
+        {
+          "option_text": "Lasagna",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Capas de pasta, carne y bechamel."
+        },
+        {
+          "option_text": "Sushi",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Ratatouille",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Moussaka",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Identifica los huesos que se encuentran en la pierna humana (del muslo al pie):",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Fémur",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Hueso del muslo."
+        },
+        {
+          "option_text": "Tibia",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Hueso principal de la pierna."
+        },
+        {
+          "option_text": "Peroné",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Hueso lateral de la pierna."
+        },
+        {
+          "option_text": "Rótula",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Hueso de la rodilla."
+        },
+        {
+          "option_text": "Cúbito",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Omóplato",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Selecciona las obras compuestas por Ludwig van Beethoven:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Novena Sinfonía (Oda a la alegría)",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Su última sinfonía completa."
+        },
+        {
+          "option_text": "Para Elisa",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Famosa bagatela para piano."
+        },
+        {
+          "option_text": "El lago de los cisnes",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Quinta Sinfonía",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Famosa por su motivo inicial."
+        },
+        {
+          "option_text": "Claro de Luna",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Sonata para piano n.º 14."
+        },
+        {
+          "option_text": "Las cuatro estaciones",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Marca los países que forman parte del continente de Oceanía:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Australia",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "El país más extenso del continente."
+        },
+        {
+          "option_text": "Nueva Zelanda",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Archipiélago principal de la Polinesia."
+        },
+        {
+          "option_text": "Fiyi",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "País insular en el Pacífico Sur."
+        },
+        {
+          "option_text": "Samoa",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Estado independiente de la Polinesia."
+        },
+        {
+          "option_text": "Indonesia",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Madagascar",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Indica cuáles de estas capas corresponden a la estructura geológica interna de la Tierra:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Núcleo Interno",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Esfera sólida de hierro y níquel."
+        },
+        {
+          "option_text": "Núcleo Externo",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Capa líquida de metal fundido."
+        },
+        {
+          "option_text": "Manto Inferior",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Capa viscosa de rocas silíceas."
+        },
+        {
+          "option_text": "Corteza",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Capa sólida más externa."
+        },
+        {
+          "option_text": "Biosfera",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Estratosfera",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Señala las funciones vitales que realizan los seres vivos:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Nutrición",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Intercambio de materia y energía."
+        },
+        {
+          "option_text": "Relación",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Capacidad de reaccionar al entorno."
+        },
+        {
+          "option_text": "Reproducción",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Generación de nuevos individuos."
+        },
+        {
+          "option_text": "Fotosíntesis",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Combustión",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Locomoción",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Identifica los lenguajes que utilizan un tipado estático:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "C++",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Requiere declarar el tipo de variable."
+        },
+        {
+          "option_text": "Java",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Lenguaje de tipado fuerte y estático."
+        },
+        {
+          "option_text": "Python",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "JavaScript",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "PHP",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Swift",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Lenguaje de Apple con tipado estático."
+        }
+      ]
+    },
+    {
+      "question_text": "Selecciona los nombres que corresponden a los gases nobles de la tabla periódica:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Helio",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "El más ligero de los gases nobles."
+        },
+        {
+          "option_text": "Neón",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Gas noble del grupo 18."
+        },
+        {
+          "option_text": "Argón",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Muy presente en el aire."
+        },
+        {
+          "option_text": "Kriptón",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Gas noble de número atómico 36."
+        },
+        {
+          "option_text": "Xenón",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Utilizado en iluminación."
+        },
+        {
+          "option_text": "Radón",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Gas noble radiactivo."
+        }
+      ]
+    },
+    {
+      "question_text": "Indica cuáles de los siguientes autores son españoles:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Federico García Lorca",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Poeta de la Generación del 27."
+        },
+        {
+          "option_text": "Gabriel García Márquez",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Camilo José Cela",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Premio Nobel español."
+        },
+        {
+          "option_text": "Miguel Delibes",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Novelista español fundamental."
+        },
+        {
+          "option_text": "Jorge Luis Borges",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Pablo Neruda",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Señala los deportes que forman parte de un Decatlón masculino olímpico:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "100 metros lisos",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Prueba de velocidad inicial."
+        },
+        {
+          "option_text": "Lanzamiento de jabalina",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Prueba de campo."
+        },
+        {
+          "option_text": "Salto de pértiga",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Prueba de campo técnica."
+        },
+        {
+          "option_text": "Natación",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Ciclismo",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Esgrima",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Identifica las ciudades que han sido sedes de los Juegos Olímpicos de Verano:",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Barcelona",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Sede en 1992."
+        },
+        {
+          "option_text": "Tokio",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Sede en 1964 y 2020."
+        },
+        {
+          "option_text": "Moscú",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Sede en 1980."
+        },
+        {
+          "option_text": "Sídney",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Sede en el año 2000."
+        },
+        {
+          "option_text": "Seúl",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Sede en 1988."
+        },
+        {
+          "option_text": "Londres",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Sede en 1908, 1948 y 2012."
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuál de estos es satélite natural de la Tierra?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "La Luna",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Es el único satélite natural permanente."
+        },
+        {
+          "option_text": "Titán",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Europa",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Ganimedes",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Fobos",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Io",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué países forman parte de la península ibérica?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "España",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Ocupa la mayor parte de la península."
+        },
+        {
+          "option_text": "Portugal",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Ocupa la franja oeste peninsular."
+        },
+        {
+          "option_text": "Andorra",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Pequeño estado situado en los Pirineos."
+        },
+        {
+          "option_text": "Francia",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Una pequeña porción técnica (zona de la Cerdaña) pertenece a la península."
+        },
+        {
+          "option_text": "Gibraltar",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Territorio británico en el extremo sur."
+        },
+        {
+          "option_text": "Marruecos",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuáles de estos son colores de la bandera de Italia?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Verde",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Color de las llanuras y colinas."
+        },
+        {
+          "option_text": "Blanco",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Color de los Alpes nevados."
+        },
+        {
+          "option_text": "Rojo",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Color de la sangre derramada por la independencia."
+        },
+        {
+          "option_text": "Azul",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Amarillo",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Negro",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué elementos químicos se consideran metales?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Hierro",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Metal de transición."
+        },
+        {
+          "option_text": "Oro",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Metal precioso."
+        },
+        {
+          "option_text": "Cobre",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Metal conductor."
+        },
+        {
+          "option_text": "Plata",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Metal de transición."
+        },
+        {
+          "option_text": "Aluminio",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Metal del bloque p."
+        },
+        {
+          "option_text": "Mercurio",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Metal líquido a temperatura ambiente."
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuáles de estos son mamíferos?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Perro",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Mamífero carnívoro doméstico."
+        },
+        {
+          "option_text": "Gato",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Mamífero felino."
+        },
+        {
+          "option_text": "Ballena",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Mamífero marino."
+        },
+        {
+          "option_text": "Humano",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Mamífero primate."
+        },
+        {
+          "option_text": "Ornitorrinco",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Mamífero monotrema que pone huevos."
+        },
+        {
+          "option_text": "Tiburón",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuáles de estas ciudades son capitales de provincia en Andalucía?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Sevilla",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Capital autonómica y de provincia."
+        },
+        {
+          "option_text": "Málaga",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Capital de la provincia homónima."
+        },
+        {
+          "option_text": "Marbella",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Granada",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Capital de su provincia."
+        },
+        {
+          "option_text": "Jerez",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Almería",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Capital de su provincia."
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué lenguajes de programación fueron creados antes del año 2000?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "C",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Creado en 1972."
+        },
+        {
+          "option_text": "Python",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Creado en 1991."
+        },
+        {
+          "option_text": "Java",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Lanzado en 1995."
+        },
+        {
+          "option_text": "JavaScript",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Lanzado en 1995."
+        },
+        {
+          "option_text": "Swift",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Rust",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué planetas tienen anillos en el Sistema Solar?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Júpiter",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Tiene anillos tenues."
+        },
+        {
+          "option_text": "Saturno",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Tiene los anillos más visibles."
+        },
+        {
+          "option_text": "Urano",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Tiene un sistema de anillos oscuros."
+        },
+        {
+          "option_text": "Neptuno",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Tiene anillos parciales o arcos."
+        },
+        {
+          "option_text": "Marte",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Tierra",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuál es la capital de Francia?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "París",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Sede del gobierno francés."
+        },
+        {
+          "option_text": "Lyon",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Marsella",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Burdeos",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Niza",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Toulouse",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué obras fueron escritas por Miguel de Cervantes?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Don Quijote de la Mancha",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Su obra cumbre."
+        },
+        {
+          "option_text": "La Galatea",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Novela pastoril."
+        },
+        {
+          "option_text": "Novelas Ejemplares",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Colección de relatos cortos."
+        },
+        {
+          "option_text": "Los trabajos de Persiles y Sigismunda",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Obra póstuma."
+        },
+        {
+          "option_text": "El celoso extremeño",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Parte de las Novelas Ejemplares."
+        },
+        {
+          "option_text": "Hamlet",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuáles de estos son instrumentos de viento?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Flauta",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Viento madera."
+        },
+        {
+          "option_text": "Trompeta",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Viento metal."
+        },
+        {
+          "option_text": "Saxofón",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Viento madera."
+        },
+        {
+          "option_text": "Clarinete",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Viento madera."
+        },
+        {
+          "option_text": "Trombón",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Viento metal."
+        },
+        {
+          "option_text": "Oboe",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Viento madera."
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué países ganaron la Copa Mundial de la FIFA más de una vez?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Brasil",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "5 títulos."
+        },
+        {
+          "option_text": "Alemania",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "4 títulos."
+        },
+        {
+          "option_text": "Italia",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "4 títulos."
+        },
+        {
+          "option_text": "Argentina",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "3 títulos."
+        },
+        {
+          "option_text": "Francia",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "2 títulos."
+        },
+        {
+          "option_text": "Uruguay",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "2 títulos."
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué números entre estos son pares?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "2",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Divisible por 2."
+        },
+        {
+          "option_text": "7",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "14",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Divisible por 2."
+        },
+        {
+          "option_text": "21",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "30",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Divisible por 2."
+        },
+        {
+          "option_text": "33",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuáles son géneros cinematográficos?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Terror",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Basado en el miedo."
+        },
+        {
+          "option_text": "Comedia",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Basado en el humor."
+        },
+        {
+          "option_text": "Ciencia Ficción",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Basado en avances hipotéticos."
+        },
+        {
+          "option_text": "Western",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Basado en el lejano oeste."
+        },
+        {
+          "option_text": "Documental",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Basado en la realidad."
+        },
+        {
+          "option_text": "Musical",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Basado en canciones y coreografías."
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué dispositivos se consideran periféricos de entrada?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Teclado",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Envía caracteres al sistema."
+        },
+        {
+          "option_text": "Ratón",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Envía coordenadas de movimiento."
+        },
+        {
+          "option_text": "Escáner",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Introduce imágenes al PC."
+        },
+        {
+          "option_text": "Monitor",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Impresora",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Altavoces",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué ingredientes se usan para hacer una tortilla de patatas básica?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Huevos",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Ingrediente fundamental."
+        },
+        {
+          "option_text": "Patatas",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Ingrediente fundamental."
+        },
+        {
+          "option_text": "Aceite",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Para freír la patata."
+        },
+        {
+          "option_text": "Sal",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Condimento básico."
+        },
+        {
+          "option_text": "Azúcar",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Arroz",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué países tienen frontera con Portugal?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "España",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Único país con frontera terrestre."
+        },
+        {
+          "option_text": "Francia",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Andorra",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Marruecos",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Italia",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Reino Unido",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuáles son tipos de energía renovable?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Solar",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Del sol."
+        },
+        {
+          "option_text": "Eólica",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Del viento."
+        },
+        {
+          "option_text": "Hidráulica",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Del agua."
+        },
+        {
+          "option_text": "Geotérmica",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Del calor interno terrestre."
+        },
+        {
+          "option_text": "Biomasa",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "De materia orgánica."
+        },
+        {
+          "option_text": "Nuclear",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué colores tiene la bandera de Alemania?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Negro",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Franja superior."
+        },
+        {
+          "option_text": "Rojo",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Franja central."
+        },
+        {
+          "option_text": "Oro (Amarillo)",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Franja inferior."
+        },
+        {
+          "option_text": "Blanco",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Verde",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Azul",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué huesos están en el oído humano?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Martillo",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Uno de los tres huesecillos."
+        },
+        {
+          "option_text": "Yunque",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Situado entre el martillo y estribo."
+        },
+        {
+          "option_text": "Estribo",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Hueso más pequeño del cuerpo."
+        },
+        {
+          "option_text": "Rótula",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Vómer",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Hioides",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué continentes existen en el modelo de 6 continentes (tradicional español)?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Europa",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Continente histórico."
+        },
+        {
+          "option_text": "América",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Considerado como un solo bloque."
+        },
+        {
+          "option_text": "África",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Continente central."
+        },
+        {
+          "option_text": "Asia",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Continente más poblado."
+        },
+        {
+          "option_text": "Oceanía",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Continente insular."
+        },
+        {
+          "option_text": "Antártida",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Continente helado."
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué disciplinas son parte de las Bellas Artes clásicas?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Arquitectura",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "La primera arte."
+        },
+        {
+          "option_text": "Escultura",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "La segunda arte."
+        },
+        {
+          "option_text": "Pintura",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "La tercera arte."
+        },
+        {
+          "option_text": "Música",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "La cuarta arte."
+        },
+        {
+          "option_text": "Literatura (Danza)",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "La quinta y sexta artes."
+        },
+        {
+          "option_text": "Cine",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Conocido como el séptimo arte."
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuáles de estas aplicaciones son navegadores web?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Chrome",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Navegador de Google."
+        },
+        {
+          "option_text": "Firefox",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Navegador de Mozilla."
+        },
+        {
+          "option_text": "Edge",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Navegador de Microsoft."
+        },
+        {
+          "option_text": "Safari",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Navegador de Apple."
+        },
+        {
+          "option_text": "Opera",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Navegador noruego."
+        },
+        {
+          "option_text": "WhatsApp",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué países pertenecen al Reino Unido?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Inglaterra",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "País constituyente."
+        },
+        {
+          "option_text": "Escocia",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "País constituyente."
+        },
+        {
+          "option_text": "Gales",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "País constituyente."
+        },
+        {
+          "option_text": "Irlanda del Norte",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "País constituyente."
+        },
+        {
+          "option_text": "Irlanda (Eire)",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Islandia",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuál es el resultado de 5 + 5?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "10",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Suma básica."
+        },
+        {
+          "option_text": "20",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "5",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "15",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "0",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "100",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué tipos de vasos sanguíneos hay?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Arterias",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Llevan sangre del corazón."
+        },
+        {
+          "option_text": "Venas",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Llevan sangre al corazón."
+        },
+        {
+          "option_text": "Capilares",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Permiten el intercambio de sustancias."
+        },
+        {
+          "option_text": "Nervios",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Tendones",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Músculos",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué ciudades son conocidas como ciudades santas por el Islam?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "La Meca",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Lugar de nacimiento de Mahoma."
+        },
+        {
+          "option_text": "Medina",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Lugar de entierro de Mahoma."
+        },
+        {
+          "option_text": "Jerusalén",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Tercera ciudad santa."
+        },
+        {
+          "option_text": "Roma",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Estambul",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "El Cairo",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué lenguas son romances?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Español",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Deriva del latín."
+        },
+        {
+          "option_text": "Francés",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Deriva del latín."
+        },
+        {
+          "option_text": "Italiano",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Deriva del latín."
+        },
+        {
+          "option_text": "Portugués",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Deriva del latín."
+        },
+        {
+          "option_text": "Rumano",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Deriva del latín."
+        },
+        {
+          "option_text": "Catalán",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Deriva del latín."
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué gases componen mayoritariamente el aire que respiramos?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Nitrógeno",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Aproximadamente el 78%."
+        },
+        {
+          "option_text": "Oxígeno",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Aproximadamente el 21%."
+        },
+        {
+          "option_text": "Argón",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Aproximadamente el 0.9%."
+        },
+        {
+          "option_text": "Dióxido de Carbono",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Aproximadamente el 0.04%."
+        },
+        {
+          "option_text": "Hidrógeno",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Helio",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué planetas son conocidos como gigantes gaseosos?",
+      "type": "multiple_choice",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 40,
+      "mc_points_per_correct": 10,
+      "mc_penalty_per_incorrect": 10,
+      "mc_perfect_bonus": 20,
+      "options": [
+        {
+          "option_text": "Júpiter",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "El mayor de los gigantes."
+        },
+        {
+          "option_text": "Saturno",
+          "is_correct": true,
+          "order_index": null,
+          "justification": "Famoso por sus anillos."
+        },
+        {
+          "option_text": "Tierra",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Marte",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Venus",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        },
+        {
+          "option_text": "Mercurio",
+          "is_correct": false,
+          "order_index": null,
+          "justification": null
+        }
+      ]
+    }
+  ]
+}

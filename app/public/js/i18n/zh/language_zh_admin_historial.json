@@ -1,0 +1,33 @@
+{
+    "keys": {
+        "admin.history.title": "游戏历史",
+        "admin.history.subtitle": "下载任何比赛的结果",
+        "admin.history.btn_viewer": "图形查看器",
+        "admin.history.btn_delete_all": "全部删除",
+        "admin.history.loading": "加载历史记录...",
+        "admin.history.error_download": "下载时出错",
+        "admin.historial.btn_delete_selected": "删除所选",
+        "admin.historial.confirm_delete_selected_title": "🗑️ 删除{n}个会话",
+        "admin.historial.confirm_delete_selected_msg": "确定要删除选中的{n}个会话吗？此操作无法撤销。",
+        "admin.historial.confirm_delete_one_title": "🗑️ 删除会话",
+        "admin.historial.confirm_delete_one_msg": "确定要删除此会话吗？此操作无法撤销。",
+        "admin.historial.confirm_delete_all_title": "⚠️ 删除全部记录",
+        "admin.historial.confirm_delete_all_msg": "确定要删除全部保存的会话吗？此操作无法撤销。",
+        "admin.history.error_load": "加载历史记录时出错",
+        "admin.history.empty_title": "暂无记录的游戏",
+        "admin.history.empty_subtitle": "游戏结束后自动保存",
+        "admin.history.status_completed": "✓ 已完成",
+        "admin.history.status_finalized": "✓ 已结束",
+        "admin.history.status_abandoned": "✗ 已放弃",
+        "admin.history.status_autosaved": "⏳ 自动保存",
+        "admin.history.col_date": "日期",
+        "admin.history.col_type": "类型",
+        "admin.history.col_players": "玩家",
+        "admin.history.col_questions": "问题",
+        "admin.history.col_duration": "时长",
+        "admin.history.col_status": "状态",
+        "admin.history.col_actions": "操作",
+        "admin.history.footer": "共{n}场游戏",
+        "admin.history.batch_label": "已选{n}场游戏"
+    }
+}

@@ -1,0 +1,33 @@
+{
+    "keys": {
+        "admin.history.title": "ゲーム履歴",
+        "admin.history.subtitle": "プレイしたゲームの結果をダウンロードする",
+        "admin.history.btn_viewer": "グラフィックビューア",
+        "admin.history.btn_delete_all": "すべて削除",
+        "admin.history.loading": "履歴を読み込み中…",
+        "admin.history.error_download": "ダウンロードエラー",
+        "admin.historial.btn_delete_selected": "選択を削除",
+        "admin.historial.confirm_delete_selected_title": "🗑️ {n}件のセッションを削除",
+        "admin.historial.confirm_delete_selected_msg": "選択した{n}件のセッションを削除しますか？この操作は元に戻せません。",
+        "admin.historial.confirm_delete_one_title": "🗑️ セッションを削除",
+        "admin.historial.confirm_delete_one_msg": "このセッションを削除しますか？この操作は元に戻せません。",
+        "admin.historial.confirm_delete_all_title": "⚠️ すべての履歴を削除",
+        "admin.historial.confirm_delete_all_msg": "保存されたすべてのセッションを削除しますか？この操作は元に戻せません。",
+        "admin.history.error_load": "履歴の読み込みエラー",
+        "admin.history.empty_title": "まだゲームが記録されていません",
+        "admin.history.empty_subtitle": "ゲームは終了時に自動保存されます",
+        "admin.history.status_completed": "✓ 完了",
+        "admin.history.status_finalized": "✓ 終了",
+        "admin.history.status_abandoned": "✗ 放棄",
+        "admin.history.status_autosaved": "⏳ 自動保存",
+        "admin.history.col_date": "日付",
+        "admin.history.col_type": "種類",
+        "admin.history.col_players": "プレイヤー",
+        "admin.history.col_questions": "質問",
+        "admin.history.col_duration": "時間",
+        "admin.history.col_status": "状態",
+        "admin.history.col_actions": "操作",
+        "admin.history.footer": "{n}件のゲームが記録されました",
+        "admin.history.batch_label": "{n}件のゲームが選択されました"
+    }
+}

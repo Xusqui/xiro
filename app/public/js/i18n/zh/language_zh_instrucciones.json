@@ -1,0 +1,29 @@
+{
+  "keys": {
+    "instructions.page.title": "西罗！ - 指示",
+    "instructions.hero.title": "如何玩 XIRO！",
+    "instructions.hero.subtitle": "了解我们的动态和问题类型",
+    "instructions.tabs.game_modes": "游戏模式",
+    "instructions.tabs.question_types": "问题类型",
+    "instructions.game_modes.bank.title": "1. 题库",
+    "instructions.game_modes.bank.description": "问题是从特定的银行中取出并完全随机地呈现给玩家的。非常适合复习特定主题。",
+    "instructions.game_modes.mix.title": "2. 混合问题",
+    "instructions.game_modes.mix.description": "它允许您选择多个问题库并选择从每个问题库中提取多少个随机问题。所选问题在提出时将按随机顺序混合。",
+    "instructions.game_modes.custom.title": "3. 自定义游戏",
+    "instructions.game_modes.custom.description": "你一切尽在掌握。您可以从不同的银行中一一选择问题，并配置它们的确切出现顺序以进行结构化演示。",
+    "instructions.game_modes.trivial.title": "4. 琐碎的事情",
+    "instructions.game_modes.trivial.description": "经典棋盘模式！掷骰子，令牌向前移动。根据您落在哪个盒子上，将会出现与盒子颜色相对应的类别中的随机问题。",
+    "instructions.question_types.quiz.title": "测验",
+    "instructions.question_types.quiz.description": "经典问题，有多种可能的答案，但只有一个是正确的。",
+    "instructions.question_types.survey.title": "民意调查",
+    "instructions.question_types.survey.description": "没有正确或错误的答案。它通过提出不同的选项来收集观众的意见。",
+    "instructions.question_types.numeric.title": "数值近似",
+    "instructions.question_types.numeric.description": "玩家必须输入一个尽可能接近准确获胜值的数字。",
+    "instructions.question_types.order.title": "排序顺序（顺序）",
+    "instructions.question_types.order.description": "呈现一个元素列表，玩家必须将其拖动并按正确的逻辑顺序放置。",
+    "instructions.question_types.word_scramble.title": "猜字（猜字）",
+    "instructions.question_types.word_scramble.description": "挑战是通过对屏幕上出现的无序字母进行排序来找到隐藏的单词。",
+    "instructions.question_types.multiple.title": "多项选择",
+    "instructions.question_types.multiple.description": "与测验类似，但在这种情况下，可以同时有 1 到 6 个正确答案。"
+  }
+}

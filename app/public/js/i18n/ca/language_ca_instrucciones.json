@@ -1,0 +1,29 @@
+{
+  "keys": {
+    "instructions.page.title": "XIR! - Instruccions",
+    "instructions.hero.title": "Com Jugar a XIR!",
+    "instructions.hero.subtitle": "Coneix les nostres dinàmiques i tipus de preguntes",
+    "instructions.tabs.game_modes": "Maneres de Joc",
+    "instructions.tabs.question_types": "Tipus de Preguntes",
+    "instructions.game_modes.bank.title": "1. Banc de Preguntes",
+    "instructions.game_modes.bank.description": "Es prenen preguntes d'un banc específic i es presenten els jugadors de manera totalment aleatòria. Ideal per repassar un tema concret.",
+    "instructions.game_modes.mix.title": "2. Barreja de Preguntes",
+    "instructions.game_modes.mix.description": "Permet seleccionar diversos bancs de preguntes i triar quantes preguntes aleatòries extreure de cadascú. Les preguntes seleccionades es barrejaran en un ordre aleatori en presentar-les.",
+    "instructions.game_modes.custom.title": "3. Jocs Personalitzats",
+    "instructions.game_modes.custom.description": "Tu tens el control. Trieu les preguntes una a una des dels diferents bancs i configureu el vostre ordre exacte d'aparició per a una presentació estructurada.",
+    "instructions.game_modes.trivial.title": "4. Trivial",
+    "instructions.game_modes.trivial.description": "Mode de tauler clàssic! Es llança un dau i la fitxa avança. Depenent de la casella on caigui, es presentarà una pregunta aleatòria de la categoria corresponent al color de la casella.",
+    "instructions.question_types.quiz.title": "Potser",
+    "instructions.question_types.quiz.description": "Pregunta clàssica amb diverses respostes possibles, però només una és la correcta.",
+    "instructions.question_types.survey.title": "Enquesta (Survey)",
+    "instructions.question_types.survey.description": "Sense respostes correctes o incorrectes. Serveix per recollir l´opinió de l´audiència presentant diferents opcions.",
+    "instructions.question_types.numeric.title": "Aproximació Numèrica",
+    "instructions.question_types.numeric.description": "Els jugadors han d'introduir un número intentant acostar-se al màxim possible al valor exacte guanyador.",
+    "instructions.question_types.order.title": "Ordenar Seqüència (Order)",
+    "instructions.question_types.order.description": "Es presenta una llista d'elements que el jugador ha d'arrossegar i col·locar a l'ordre lògic correcte.",
+    "instructions.question_types.word_scramble.title": "Endevinar Paraula (Word Scramble)",
+    "instructions.question_types.word_scramble.description": "El repte consisteix a trobar una paraula oculta ordenant les lletres desordenades que apareixen a la pantalla.",
+    "instructions.question_types.multiple.title": "Opció Múltiple",
+    "instructions.question_types.multiple.description": "Similar al Quiz, però en aquest cas hi pot haver entre 1 i 6 respostes correctes simultàniament."
+  }
+}

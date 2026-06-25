@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "manual_admin.tools.interfaz.title": "Interface",
+    "manual_admin.tools.interfaz.desc": "User interface settings.",
+    "manual_admin.tools.interfaz.tv": "TV Card",
+    "manual_admin.tools.interfaz.tv_desc": "Shows or hides the TV version card on the home screen."
+  }
+}

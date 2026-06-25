@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "player.trivial.waiting_turn": "Esperando quenda no taboleiro...",
+    "player.trivial.choosing_cell": "está escollendo casilla...",
+    "player.trivial.other_rolling": "outro xogador está tirando",
+    "player.trivial.already_answered": "Xa respondéches esta pregunta"
+  }
+}

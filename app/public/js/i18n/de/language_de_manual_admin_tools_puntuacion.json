@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.puntuacion.title": "Wertung",
+    "manual_admin.tools.puntuacion.desc": "Konfiguration von Zeiten, Punkten und Boni.",
+    "manual_admin.tools.puntuacion.base_points": "Basispunkte",
+    "manual_admin.tools.puntuacion.base_points_desc": "Garantierte Punkte für die richtige Antwort.",
+    "manual_admin.tools.puntuacion.max_bonus": "Max. Geschwindigkeitsbonus",
+    "manual_admin.tools.puntuacion.max_bonus_desc": "Extrapunkte für schnelles Antworten."
+  }
+}

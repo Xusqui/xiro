@@ -1,0 +1,9 @@
+{
+  "keys": {
+    "player.order.instruction": "Faites glisser de haut en bas pour trier, puis appuyez sur Envoyer",
+    "player.order.submit": "Envoyer"
+  },
+  "literals": {
+    "Arrastra para reordenar": "Faites glisser pour réorganiser"
+  }
+}

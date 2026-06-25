@@ -1,0 +1,7 @@
+{
+  "keys": {
+    "fireworks_preview.page.title": "プレビュー — 花火",
+    "fireworks_preview.button.close": "近い",
+    "fireworks_preview.error.controller_unavailable": "エラー: FireworksController が使用できません"
+  }
+}

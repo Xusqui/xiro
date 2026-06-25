@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "manual_admin.tools.licencia.title": "Licenza",
+    "manual_admin.tools.licencia.desc": "Estado e configuración da licenza de Xiro!",
+    "manual_admin.tools.licencia.info": "Licenza activa",
+    "manual_admin.tools.licencia.info_desc": "Garda e valida a licenza para manter o servizo activo."
+  }
+}

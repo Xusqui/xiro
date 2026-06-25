@@ -1,0 +1,15 @@
+{
+  "keys": {
+    "presenter.reveal.max_points": "· Puntos máximos:",
+    "presenter.reveal.percent_to_max": "% ata máx.",
+    "presenter.reveal.length_label": "Lonxitude:",
+    "presenter.reveal.next_round": "Seguinte ronda",
+    "presenter.reveal.correct_answer": "Resposta correcta",
+    "presenter.reveal.top_answers": "Top Respostas",
+    "presenter.reveal.why_correct": "Por que é correcta?",
+    "presenter.reveal.no_scores_yet": "Aínda non hai puntuacións",
+    "presenter.reveal.correct_order": "Orde correcta",
+    "presenter.reveal.correct_pairs": "Pares correctos",
+    "presenter.reveal.tolerance": "Tolerancia:"
+  }
+}

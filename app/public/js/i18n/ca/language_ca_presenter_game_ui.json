@@ -1,0 +1,21 @@
+{
+  "keys": {
+    "presenter.game.play_audio": "▶ Toca per reproduir laudio",
+    "presenter.game.pause_resume": "Clic per pausar/reprendre",
+    "presenter.game.question_label": "Pregunta",
+    "presenter.game.next_question": "Pregunta següent",
+    "presenter.game.next_round": "Ronda següent",
+    "presenter.game.view_ranking": "Veure el rànquing",
+    "presenter.game.reveal_answer": "Revelar la resposta",
+    "presenter.game.answers_label": "RESPOSTES:",
+    "presenter.game.audio_playing": "ÀUDIO EN REPRODUCCIÓ",
+    "presenter.game.listen_carefully": "Escolta atentament",
+    "presenter.game.no_audio_support": "El teu navegador no suporta l'àudio.",
+    "presenter.game.numeric_question": "PREGUNTA NUMÈRICA",
+    "presenter.game.players_write_number": "Els jugadors escriuen un nombre enter",
+    "presenter.game.answer_on_reveal": "La resposta correcta es mostrarà en revelar",
+    "presenter.game.points_by_proximity": "Els punts es calculen per proximitat",
+    "presenter.game.players_see_devices": "Els jugadors veuen les opcions als seus dispositius",
+    "presenter.game.multiple_choice_label": "✓ Selecció múltiple"
+  }
+}

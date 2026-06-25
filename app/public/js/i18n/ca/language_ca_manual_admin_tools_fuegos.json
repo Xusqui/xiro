@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.fuegos.title": "Focs Artificials",
+    "manual_admin.tools.fuegos.desc": "Personalitza l'espectacle visual del podi final.",
+    "manual_admin.tools.fuegos.config": "Configuració visual",
+    "manual_admin.tools.fuegos.config_desc": "Ajusta mida, esteles, velocitat, quantitat i intervals.",
+    "manual_admin.tools.fuegos.sound": "So",
+    "manual_admin.tools.fuegos.sound_desc": "Activa o desactiva els efectes de so d'explosions."
+  }
+}

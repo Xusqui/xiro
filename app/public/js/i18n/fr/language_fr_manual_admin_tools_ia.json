@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.ia.title": "IA (Groq)",
+    "manual_admin.tools.ia.desc": "Configuration de l'assistant IA.",
+    "manual_admin.tools.ia.key": "Clé API",
+    "manual_admin.tools.ia.key_desc": "Clé d'accès à l'API Groq.",
+    "manual_admin.tools.ia.model": "Modèle IA",
+    "manual_admin.tools.ia.model_desc": "Sélection du modèle de langage."
+  }
+}

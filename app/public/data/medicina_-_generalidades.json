@@ -1,0 +1,566 @@
+{
+  "name": "Medicina - Generalidades",
+  "type": "quiz",
+  "questions": [
+    {
+      "question_text": "¿Cuál es el principal neurotransmisor inhibidor en el sistema nervioso central adulto humano?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Glutamato",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "GABA (ácido gamma-aminobutírico)",
+          "is_correct": true,
+          "justification": "GABA es el principal neurotransmisor inhibidor en el SNC adulto."
+        },
+        {
+          "option_text": "Acetilcolina",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Dopamina",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "En la insuficiencia cardíaca, ¿qué mecanismo explica la retención de sodio y agua?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Aumento de la filtración glomerular",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Activación de RAAS por baja perfusión renal",
+          "is_correct": true,
+          "justification": "La baja perfusión renal activa RAAS y ADH, reteniendo sodio y agua."
+        },
+        {
+          "option_text": "Disminución de la aldosterona",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Falla tubular primaria que impide reabsorción",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué bacteria es un coco grampositivo en racimos y coagulasa positivo?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Streptococcus pyogenes",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Staphylococcus aureus",
+          "is_correct": true,
+          "justification": "S. aureus es coco en racimos y coagulasa positivo."
+        },
+        {
+          "option_text": "Enterococcus faecalis",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Neisseria meningitidis",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "En el ECG, ¿qué onda representa la despolarización auricular?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Onda P",
+          "is_correct": true,
+          "justification": "La onda P corresponde a la despolarización de las aurículas."
+        },
+        {
+          "option_text": "Onda T",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Complejo QRS",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Segmento ST",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Mecanismo de acción principal de los IECA:",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Bloqueo de receptores beta",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Inhiben la conversión de angiotensina I a II",
+          "is_correct": true,
+          "justification": "Los IECA inhiben la ECA, reduciendo angiotensina II."
+        },
+        {
+          "option_text": "Bloqueo de canales de calcio",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Estimulan la secreción de aldosterona",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Neutrofilia aguda en hemograma sugiere:",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Infección bacteriana o inflamación aguda",
+          "is_correct": true,
+          "justification": "La neutrofilia aguda suele asociarse a infecciones bacterianas o inflamación aguda."
+        },
+        {
+          "option_text": "Infección viral crónica",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Anemia megaloblástica",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Trombocitopenia",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Tríada clásica de la diabetes tipo 1:",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Poliuria, polidipsia y pérdida de peso",
+          "is_correct": true,
+          "justification": "Defecto de insulina provoca poliuria, polidipsia y pérdida de peso."
+        },
+        {
+          "option_text": "Ictericia, coluria y prurito",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Edema periférico, ascitis y ortopnea",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Hematuria, proteinuria y glucosuria",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Término que describe la fracción del fármaco disponible en circulación tras administración oral:",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Biodisponibilidad (F)",
+          "is_correct": true,
+          "justification": "La biodisponibilidad es la fracción que alcanza la circulación sistémica tras una vía dada."
+        },
+        {
+          "option_text": "Clearance",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Volumen de distribución",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Semivida",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Prueba de elección para confirmar embolia pulmonar en urgencias:",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Radiografía de tórax",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Angio-TC de arterias pulmonares (CTPA)",
+          "is_correct": true,
+          "justification": "La CTPA es la prueba estándar para visualizar trombos pulmonares."
+        },
+        {
+          "option_text": "Gammagrafía ósea",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Ecografía abdominal",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Cambio metabólico típico en enfermedad renal crónica:",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Acidosis metabólica por acumulación de ácidos no volátiles",
+          "is_correct": true,
+          "justification": "La ERC suele producir acidosis metabólica."
+        },
+        {
+          "option_text": "Hiperglucemia persistente",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Hiperbilirrubinemia",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Hipernatremia primaria",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Causa más frecuente de anemia microcítica en adultos:",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Deficiencia de hierro",
+          "is_correct": true,
+          "justification": "La deficiencia de hierro, por pérdidas crónicas o ingesta insuficiente, es la causa más común."
+        },
+        {
+          "option_text": "Talasemias mayores",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Deficiencia de vitamina B12",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Enfermedad hepática crónica",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Antibiótico cuya acción principal es inhibir PBPs:",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Vancomicina",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Penicilinas (p. ej., penicilina G)",
+          "is_correct": true,
+          "justification": "Las penicilinas inhiben las PBPs responsables del entrecruzamiento del peptidoglucano."
+        },
+        {
+          "option_text": "Macrólidos",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Aminoglucósidos",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Hallazgo típico en la exploración de una neumonía lobar:",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Matidez a la percusión y estertores focales",
+          "is_correct": true,
+          "justification": "La consolidación lobar produce matidez a la percusión y estertores focales."
+        },
+        {
+          "option_text": "Sibilancias difusas",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Frote pericárdico",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Roncus en todo el campo pulmonar",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Factor de riesgo principal para carcinoma de células escamosas oral:",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Consumo combinado de tabaco y alcohol",
+          "is_correct": true,
+          "justification": "Tabaco y alcohol son factores de riesgo sinérgicos para carcinoma escamoso oral."
+        },
+        {
+          "option_text": "Exposición solar",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Dieta rica en frutas",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Infección por H. pylori",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Fármaco indicado para control de dolor agudo postoperatorio con acción central:",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Opioides (p. ej., morfina)",
+          "is_correct": true,
+          "justification": "Los opioides son eficaces para el dolor agudo por su acción central."
+        },
+        {
+          "option_text": "Diuréticos de asa",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Betabloqueantes",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Estatinas",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Parámetro más usado en clínica para estimar función renal:",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "eGFR estimada a partir de creatinina sérica",
+          "is_correct": true,
+          "justification": "La eGFR basada en creatinina es la medida rutinaria para estimar la función renal."
+        },
+        {
+          "option_text": "Glicemia capilar",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Proteína C reactiva",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Tiempo parcial de tromboplastina",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Medida preventiva primaria más efectiva para reducir riesgo cardiovascular en población:",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Cesación de consumo de tabaco",
+          "is_correct": true,
+          "justification": "Dejar de fumar reduce significativamente el riesgo cardiovascular poblacional."
+        },
+        {
+          "option_text": "Suplementos vitamínicos",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Uso generalizado de antibióticos",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Tomar anticoagulantes profilácticos en población general",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Inicio típico de la gripe (influenza):",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Inicio súbito con fiebre alta y mialgias",
+          "is_correct": true,
+          "justification": "La gripe suele comenzar de forma súbita con fiebre y mialgias."
+        },
+        {
+          "option_text": "Inicio insidioso con pérdida de peso",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Dolor abdominal crónico",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Ictericia progresiva",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Indicación clara para antibiótico en otitis media aguda en un niño:",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Otalgia intensa y fiebre en un lactante",
+          "is_correct": true,
+          "justification": "Dolor severo y fiebre en lactantes suele indicar tratamiento antibiótico."
+        },
+        {
+          "option_text": "Otitis serosa sin dolor",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Pérdida auditiva crónica sin signos agudos",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Secreción acuosa intermitente sin dolor",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Antibiótico que se une al extremo D-Ala-D-Ala y bloquea la síntesis de la pared celular:",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Vancomicina",
+          "is_correct": true,
+          "justification": "Vancomicina se une a D-Ala-D-Ala y bloquea la síntesis de peptidoglucano."
+        },
+        {
+          "option_text": "Penicilinas",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Macrólidos",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Aminoglucósidos",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    }
+  ]
+}

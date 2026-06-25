@@ -1,0 +1,17 @@
+{
+  "keys": {
+    "presenter.trivial.waiting_dice": "Esperando que tire o dado",
+    "presenter.trivial.rolled": "Saíu {diceValue} — toca un cadrado destacado no taboleiro",
+    "presenter.trivial.moved": "{nickname} moveuse → {position}. Preparando pregunta...",
+    "presenter.trivial.choosing_category": "🎯 Casilla central — {actorNick} está escollendo unha categoría...",
+    "presenter.trivial.roll_again": "{nick} acertou! Tira de novo...",
+    "presenter.trivial.end_confirm_title": "Finalizar o xogo?",
+    "presenter.trivial.end_confirm_msg": "Se confirmas, o xogo finalizará e mostrarase o podio coa clasificación actual.",
+    "presenter.trivial.end_confirm_yes": "Si, finalizar o xogo",
+    "presenter.trivial.cancel": "Cancelar",
+    "presenter.trivial.turn_label": "🎲 Quenda: {turn}"
+  },
+  "literals": {
+    "Bancos": "Bancos"
+  }
+}

@@ -1,0 +1,24 @@
+@tailwind components;
+
+@layer components {
+    .btn-no-style {
+        @apply bg-none border-none cursor-pointer;
+    }
+
+    .nav-button {
+        @apply transition-all duration-200 ease-out;
+    }
+
+    .nav-button:hover {
+        @apply border-opacity-100;
+    }
+
+    .nav-button.active {
+        @apply bg-slate-700 border-opacity-100;
+    }
+
+    /* Utility class para alerts */
+    .alert-content {
+        @apply p-4 rounded;
+    }
+}

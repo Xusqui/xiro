@@ -1,0 +1,33 @@
+{
+    "keys": {
+        "admin.history.title": "Historique du jeu",
+        "admin.history.subtitle": "Téléchargez les résultats de n'importe quel jeu joué",
+        "admin.history.btn_viewer": "Visionneuse graphique",
+        "admin.history.btn_delete_all": "Supprimer tout",
+        "admin.history.loading": "Chargement de l'historique…",
+        "admin.history.error_download": "Erreur de téléchargement",
+        "admin.historial.btn_delete_selected": "Supprimer la sélection",
+        "admin.historial.confirm_delete_selected_title": "🗑️ Supprimer {n} session(s)",
+        "admin.historial.confirm_delete_selected_msg": "Êtes-vous sûr de vouloir supprimer les {n} sessions sélectionnées ? Cette action est irréversible.",
+        "admin.historial.confirm_delete_one_title": "🗑️ Supprimer la session",
+        "admin.historial.confirm_delete_one_msg": "Êtes-vous sûr de vouloir supprimer cette session ? Cette action est irréversible.",
+        "admin.historial.confirm_delete_all_title": "⚠️ Supprimer tout l'historique",
+        "admin.historial.confirm_delete_all_msg": "Êtes-vous sûr de vouloir supprimer TOUTES les sessions sauvegardées ? Cette action est irréversible.",
+        "admin.history.error_load": "Erreur lors du chargement de l'historique",
+        "admin.history.empty_title": "Aucune partie enregistrée pour l'instant",
+        "admin.history.empty_subtitle": "Les parties sont sauvegardées automatiquement à la fin",
+        "admin.history.status_completed": "✓ Terminée",
+        "admin.history.status_finalized": "✓ Finalisée",
+        "admin.history.status_abandoned": "✗ Abandonnée",
+        "admin.history.status_autosaved": "⏳ Auto-sauvegardé",
+        "admin.history.col_date": "Date",
+        "admin.history.col_type": "Type",
+        "admin.history.col_players": "Joueurs",
+        "admin.history.col_questions": "Questions",
+        "admin.history.col_duration": "Durée",
+        "admin.history.col_status": "Statut",
+        "admin.history.col_actions": "Actions",
+        "admin.history.footer": "{n} partie{s} enregistrée{s}",
+        "admin.history.batch_label": "{n} partie(s) sélectionnée(s)"
+    }
+}

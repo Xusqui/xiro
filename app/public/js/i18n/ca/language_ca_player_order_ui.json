@@ -1,0 +1,9 @@
+{
+  "keys": {
+    "player.order.instruction": "Arrossega per ordenar de dalt a baix i prem Enviar",
+    "player.order.submit": "Enviar"
+  },
+  "literals": {
+    "Arrastra para reordenar": "Arrossega per reordenar"
+  }
+}

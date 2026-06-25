@@ -1,0 +1,16 @@
+{
+    "manifest_version": 3,
+    "name": "Xiro Presentador - Reutilizar pestaña",
+    "version": "1.0",
+    "description": "Cuando PowerPoint abre presentador.html, reutiliza la pestaña existente en lugar de abrir una nueva.",
+    "permissions": [
+        "tabs"
+    ],
+    "host_permissions": [
+        "https://xiro.pro/*",
+        "https://www.xiro.pro/*"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    }
+}

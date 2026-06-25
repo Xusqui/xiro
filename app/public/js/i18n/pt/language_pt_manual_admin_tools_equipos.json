@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.equipos.title": "Equipas",
+    "manual_admin.tools.equipos.desc": "Ajustes para as partidas por equipas.",
+    "manual_admin.tools.equipos.lambda": "Suavização Lambda",
+    "manual_admin.tools.equipos.lambda_desc": "Suavização bayesiana para equilibrar equipas de tamanho diferente.",
+    "manual_admin.tools.equipos.team_names": "Nomes das equipes",
+    "manual_admin.tools.equipos.team_names_desc": "Defina o prefixo ou formato para os nomes das equipes."
+  }
+}

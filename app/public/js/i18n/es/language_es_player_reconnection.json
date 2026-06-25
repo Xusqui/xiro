@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "player.reconnection.waiting_next": "Esperando siguiente pregunta...",
+    "player.reconnection.failed": "No se pudo reconectar.",
+    "player.reconnection.restoring": "Restaurando tablero...",
+    "player.reconnection.already_answered": "ya has contestado"
+  }
+}

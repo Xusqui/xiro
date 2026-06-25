@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.puntuacion.title": "Puntuazioa",
+    "manual_admin.tools.puntuacion.desc": "Denborak, puntuak eta hobariak konfiguratzeko.",
+    "manual_admin.tools.puntuacion.base_points": "Oinarrizko puntuak",
+    "manual_admin.tools.puntuacion.base_points_desc": "Zuzen erantzuteagatik ziurtatutako puntuak.",
+    "manual_admin.tools.puntuacion.max_bonus": "Abiadura hobari maximoa",
+    "manual_admin.tools.puntuacion.max_bonus_desc": "Azkar erantzuteagatik puntu gehigarriak."
+  }
+}

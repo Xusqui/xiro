@@ -1,0 +1,23 @@
+{
+  "keys": {
+    "presenter.session.understood": "Got it",
+    "presenter.session.end_title": "End game?",
+    "presenter.session.end_msg": "The game will end and the podium will be shown with the current standings.",
+    "presenter.session.end_yes": "Yes, end game",
+    "presenter.session.cancel": "Cancel",
+    "presenter.session.abandon_title": "Abandon game?",
+    "presenter.session.abandon_msg_html": "Type <span class=\"font-black text-red-300\">{confirmWord}</span> to confirm. This will kick all players.",
+    "presenter.session.no_session_title": "No active session",
+    "presenter.session.no_session_msg": "There is no active session for Xiro!.",
+    "presenter.session.abandoned_title": "Session abandoned",
+    "presenter.session.abandoned_msg": "The session has been abandoned.",
+    "presenter.session.btn_back_home": "Back to home",
+    "presenter.session.btn_confirm": "Confirm",
+    "presenter.session.btn_accept": "Accept",
+    "presenter.session.error_title": "Presenter Error",
+    "presenter.session.error_unknown": "Unknown error",
+    "presenter.session.lobby_error_title": "Lobby Creation Error",
+    "presenter.session.lobby_error_msg": "Could not create the lobby",
+    "presenter.session.start_error_title": "Error starting the game"
+  }
+}

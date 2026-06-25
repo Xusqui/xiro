@@ -1,0 +1,151 @@
+{
+    "name": "Hematuria y cáncer vesical",
+    "type": "quiz",
+    "questions": [
+        {
+            "question_text": "¿Cuál es la probabilidad estimada de cáncer vesical en este paciente con hematuria macroscópica y síntomas irritativos?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Menos del 1%",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Entre 3% y 5%",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Entre 10% y 15%",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Entre 24% y 28%",
+                    "is_correct": true,
+                    "justification": "Varón fumador mayor de 50 años con hematuria macroscópica presenta un riesgo elevado de cáncer vesical."
+                }
+            ]
+        },
+        {
+            "question_text": "¿Cuál debería ser la actuación inicial en este paciente que tiene hematuria y coágulos?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Antibioterapia",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Sondaje de 3 vías + lavado continuo",
+                    "is_correct": true,
+                    "justification": "El manejo de la retención por coágulos requiere sonda vesical de gran calibre con lavado para evacuar coágulos y posterior irrigación continua para evitar nueva obstrucción."
+                },
+                {
+                    "option_text": "TC urgente",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Cistectomía urgente",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué pruebas consideras más adecuadas que el médico de urgencias debería solicitar a Juan?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Analítica y ecografía",
+                    "is_correct": true,
+                    "justification": "En urgencias se debe confirmar hematuria, valorar estabilidad y detectar retención por coágulos mediante analítica, sedimento y ecografía, derivando posteriormente a Urología para estudio completo."
+                },
+                {
+                    "option_text": "Citoscopia + Uro-TAC",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Marcadores moleculares en orina y resonancia abdomino-pélvica",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Ninguna prueba inicial y alta directa",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Un paciente tiene hematuria macroscópica en tratamiento con apixabán. La hematuria desaparece tras suspender el anticoagulante. ¿Actitud?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "No precisa más estudio",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Reanudar anticoagulación y observar",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Estudio urológico completo",
+                    "is_correct": true,
+                    "justification": "La anticoagulación facilita el sangrado pero no explica la causa. Toda hematuria macroscópica es un síntoma potencialmente oncológico y requiere estudio completo con cistoscopia e imagen de vía urinaria superior."
+                },
+                {
+                    "option_text": "Solo citología urinaria",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Llega el médico urólogo a la planta y solicita pruebas. ¿Cuál no estaría recomendada en este momento?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Cistoscopia",
+                    "is_correct": true,
+                    "justification": "En un paciente hospitalizado con diagnóstico por imagen previo, el siguiente paso es la RTU-V para diagnóstico histológico y estadificación inicial. La cistoscopia diagnóstica pierde indicación en este contexto."
+                },
+                {
+                    "option_text": "RTU-V",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Uro-TAC",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Evaluación histológica del tumor",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        }
+    ]
+}

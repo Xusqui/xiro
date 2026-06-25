@@ -1,0 +1,15 @@
+{
+  "keys": {
+    "presenter.remote.tap_pause": "点击暂停",
+    "presenter.remote.tap_resume": "点击继续",
+    "presenter.remote.end_confirm": "您想现在结束游戏吗？",
+    "presenter.remote.connect_error": "作为遥控器连接时出错",
+    "presenter.remote.game_finished": "游戏已结束",
+    "presenter.remote.no_admin_session": "未找到管理员会话。<br>请先登录管理员面板。",
+    "presenter.remote.game_started": "游戏已开始",
+    "presenter.remote.final_podium": "最终颁奖台",
+    "presenter.remote.end_game": "结束游戏",
+    "presenter.remote.btn_end": "结束游戏",
+    "presenter.remote.cancel": "取消"
+  }
+}

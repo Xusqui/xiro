@@ -1,0 +1,22 @@
+{
+  "keys": {
+    "index.heading": "Benvingut a XIR!",
+    "index.subtitle": "Seleccioneu el vostre mode d'accés",
+    "index.player.title": "Jugador",
+    "index.player.desc": "Uneix-te a una partida amb el teu codi PIN",
+    "index.player.cta": "Jugar ara",
+    "index.player.manual": "Manual del jugador",
+    "index.presenter.title": "Presentador",
+    "index.presenter.desc": "Controla i projecta el joc a la pantalla",
+    "index.presenter.cta": "Iniciar presentació",
+    "index.presenter.manual": "Manual del presentador",
+    "index.tv.title": "Versió TV",
+    "index.tv.desc": "Versió lleugera per a TVs i navegadors antics",
+    "index.tv.cta": "Versió compatible",
+    "index.admin.title": "Administració",
+    "index.admin.desc": "Gestiona preguntes i configuració",
+    "index.admin.cta": "Accedir al panell",
+    "index.admin.manual": "Manual de l'administrador",
+    "index.title": "XIR! - Inici"
+  }
+}

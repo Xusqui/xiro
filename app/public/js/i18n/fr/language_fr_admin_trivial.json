@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "admin.trivial.title": "Jeux-questionnaires",
+    "admin.trivial.subtitle": "Créez des tableaux Trivial avec vos propres catégories",
+    "admin.trivial.btn_new": "Nouveau quiz",
+    "admin.trivial.empty": "Pas encore de jeux-questionnaires",
+    "admin.trivial.form_edit": "Modifier le quiz",
+    "admin.trivial.form_new": "Nouveau quiz",
+    "admin.trivial.label_name": "Nom du jeu",
+    "admin.trivial.label_pin": "ÉPINGLE",
+    "admin.trivial.ph_pin": "par ex. TRV01",
+    "admin.trivial.section_config": "Paramètres du jeu",
+    "admin.trivial.label_visible": "Visible par le présentateur",
+    "admin.trivial.label_streaks": "Utiliser des séquences"
+  }
+}

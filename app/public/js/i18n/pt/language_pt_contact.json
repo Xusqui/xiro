@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "contact.title": "Contato ✉️",
+    "contact.subtitle": "Você tem alguma dúvida ou sugestão? Escreva para nós.",
+    "contact.success.title": "Mensagem enviada!",
+    "contact.success.message": "Responderemos em breve",
+    "contact.form.name": "Nome",
+    "contact.form.email": "Seu e-mail",
+    "contact.form.message": "Mensagem",
+    "contact.form.verification": "Verificação —",
+    "contact.form.name.placeholder": "seu nome",
+    "contact.form.message.placeholder": "Como podemos ajudá-lo?",
+    "contact.form.captcha.placeholder": "Responder",
+    "contact.form.submit": "Enviar mensagem"
+  }
+}

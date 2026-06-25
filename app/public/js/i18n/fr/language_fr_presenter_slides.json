@@ -1,0 +1,15 @@
+{
+  "keys": {
+    "presenter.slides.to_teams": "aux équipes",
+    "presenter.slides.per_team": "par équipe",
+    "presenter.slides.next": "Suivant",
+    "presenter.slides.next_round": "Tour suivant",
+    "presenter.slides.view_ranking": "Voir le classement",
+    "presenter.slides.assign_manually": "Le présentateur peut attribuer des points manuellement",
+    "presenter.slides.assign_points": "Attribuer des points",
+    "presenter.slides.info_no_points": "Information - Aucun point attribué",
+    "presenter.slides.points_per_player": "Les points s'ajoutent à chaque joueur",
+    "presenter.slides.player_singular": "joueur",
+    "presenter.slides.player_plural": "joueurs"
+  }
+}

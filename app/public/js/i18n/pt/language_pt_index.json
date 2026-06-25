@@ -1,0 +1,22 @@
+{
+  "keys": {
+    "index.heading": "Bem-vindo ao XIRO!",
+    "index.subtitle": "Selecione seu modo de acesso",
+    "index.player.title": "Jogador",
+    "index.player.desc": "Participe de um jogo com seu código PIN",
+    "index.player.cta": "Jogue agora",
+    "index.player.manual": "Manual do Jogador",
+    "index.presenter.title": "Apresentador",
+    "index.presenter.desc": "Controle e projete o jogo na tela",
+    "index.presenter.cta": "Iniciar apresentação",
+    "index.presenter.manual": "Manual do apresentador",
+    "index.tv.title": "Versão televisiva",
+    "index.tv.desc": "Versão light para TVs e navegadores mais antigos",
+    "index.tv.cta": "Versão suportada",
+    "index.admin.title": "Administração",
+    "index.admin.desc": "Gerenciar perguntas e configurações",
+    "index.admin.cta": "Acesse o painel",
+    "index.admin.manual": "Manual do administrador",
+    "index.title": "XIRO! - Começar"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "player.trivial.waiting_turn": "Zure txanda taulan zain...",
+    "player.trivial.choosing_cell": "kutxa bat aukeratzen ari da...",
+    "player.trivial.other_rolling": "beste jokalari bat jaurtitzen ari da",
+    "player.trivial.already_answered": "Dagoeneko erantzun diozu galdera honi"
+  }
+}

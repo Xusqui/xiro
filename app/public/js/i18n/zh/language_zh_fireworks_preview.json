@@ -1,0 +1,7 @@
+{
+  "keys": {
+    "fireworks_preview.page.title": "预览 — 烟花",
+    "fireworks_preview.button.close": "关闭",
+    "fireworks_preview.error.controller_unavailable": "错误：FireworksController 不可用"
+  }
+}

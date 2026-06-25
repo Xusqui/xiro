@@ -1,0 +1,9 @@
+{
+  "keys": {
+    "ppt_taskpane.page.title": "Xiro!",
+    "ppt_taskpane.header.title": "Xiro!",
+    "ppt_taskpane.status.inactive": "IDLE",
+    "ppt_taskpane.actions.session_state": "Session status",
+    "ppt_taskpane.status.starting": "Starting…"
+  }
+}

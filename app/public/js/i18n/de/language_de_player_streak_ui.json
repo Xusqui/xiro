@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "player.streak.double_prefix": "DOPPELSERIE x",
+    "player.streak.lost": "SERIE VERLOREN!",
+    "player.streak.active_prefix": "SERIE x",
+    "player.streak.double_label": "DOPPEL",
+    "player.streak.label": "SERIE",
+    "player.streak.consecutive_correct": "aufeinanderfolgende richtige Antworten",
+    "player.streak.ended_prefix": "Deine Serie von",
+    "player.streak.double_bonus_suffix": "aufeinanderfolgenden mit Doppelbonus!"
+  }
+}

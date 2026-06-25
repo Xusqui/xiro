@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.puntuacion.title": "スコアリング",
+    "manual_admin.tools.puntuacion.desc": "時間、ポイント、ボーナスの設定。",
+    "manual_admin.tools.puntuacion.base_points": "基本ポイント",
+    "manual_admin.tools.puntuacion.base_points_desc": "正解で保証されるポイント。",
+    "manual_admin.tools.puntuacion.max_bonus": "最大スピードボーナス",
+    "manual_admin.tools.puntuacion.max_bonus_desc": "素早く答えるための追加ポイント。"
+  }
+}

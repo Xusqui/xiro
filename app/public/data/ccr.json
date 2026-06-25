@@ -1,0 +1,586 @@
+{
+  "name": "Prevención y diagnóstico del cáncer colorrectal - AECC",
+  "type": "quiz",
+  "questions": [
+    {
+      "question_text": "¿A partir de qué edad se recomienda, en general, participar en los programas de cribado de cáncer colorrectal en población de riesgo medio?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        {
+          "option_text": "A partir de los 30 años",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "A partir de los 40 años",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "A partir de los 50 años",
+          "is_correct": true,
+          "justification": "En España, el cribado poblacional suele comenzar a partir de los 50 años en personas sin factores de riesgo adicionales."
+        },
+        {
+          "option_text": "Solo cuando aparecen síntomas",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuál es el objetivo principal del cribado del cáncer colorrectal?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        {
+          "option_text": "Detectar el cáncer cuando ya produce dolor",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Detectarlo en fases tempranas o incluso antes de que aparezca",
+          "is_correct": true,
+          "justification": "El cribado busca detectar lesiones o cáncer en fases iniciales, cuando las posibilidades de curación son mucho mayores."
+        },
+        {
+          "option_text": "Sustituir todas las revisiones médicas",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Evitar cualquier tipo de prueba médica futura",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Si no tengo síntomas, ¿es necesario participar en el cribado?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        {
+          "option_text": "No, solo si noto algo extraño",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Sí, porque puede no dar síntomas al principio",
+          "is_correct": true,
+          "justification": "El cáncer colorrectal puede desarrollarse sin síntomas durante años, por eso el cribado es clave incluso si te encuentras bien."
+        },
+        {
+          "option_text": "Solo si tengo antecedentes familiares",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Depende de si hago ejercicio",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué permite la colonoscopia además de diagnosticar un cáncer?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        {
+          "option_text": "Eliminar pólipos antes de que se conviertan en cáncer",
+          "is_correct": true,
+          "justification": "Durante la colonoscopia se pueden extirpar pólipos, que en algunos casos podrían convertirse en cáncer con el tiempo."
+        },
+        {
+          "option_text": "Evitar cualquier enfermedad digestiva",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Sustituir una cirugía mayor",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Detectar alergias alimentarias",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿El cáncer colorrectal es uno de los más frecuentes en España?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        {
+          "option_text": "No, es muy raro",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Sí, es uno de los más diagnosticados",
+          "is_correct": true,
+          "justification": "Es uno de los cánceres más frecuentes en hombres y mujeres, por eso la prevención y el cribado son tan importantes."
+        },
+        {
+          "option_text": "Solo afecta a hombres",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Solo afecta a personas mayores de 80 años",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿La colonoscopia suele realizarse con sedación?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        {
+          "option_text": "No, nunca se usa sedación",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Sí, habitualmente se realiza con sedación",
+          "is_correct": true,
+          "justification": "La sedación hace que la prueba sea más cómoda y bien tolerada por la mayoría de las personas."
+        },
+        {
+          "option_text": "Solo en personas jóvenes",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Solo si hay dolor previo",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Tener antecedentes familiares de cáncer colorrectal puede aumentar el riesgo?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        {
+          "option_text": "No influye",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Sí, puede aumentar el riesgo",
+          "is_correct": true,
+          "justification": "Los antecedentes familiares pueden requerir un seguimiento más personalizado y empezar antes el cribado."
+        },
+        {
+          "option_text": "Solo si es un familiar lejano",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Solo afecta a hombres",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué hábito puede ayudar a reducir el riesgo de cáncer colorrectal?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        {
+          "option_text": "Vida activa y alimentación equilibrada",
+          "is_correct": true,
+          "justification": "Mantener hábitos saludables forma parte de la prevención y puede ayudar a reducir el riesgo."
+        },
+        {
+          "option_text": "Saltarse comidas",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Eliminar todos los carbohidratos",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Beber solo zumos detox",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Un resultado positivo en el test de cribado significa que:",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        {
+          "option_text": "Tengo cáncer con seguridad",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Necesito una colonoscopia para estudiarlo mejor",
+          "is_correct": true,
+          "justification": "Un resultado positivo indica que se necesitan más pruebas, pero no confirma cáncer."
+        },
+        {
+          "option_text": "La prueba está mal hecha",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Debo operarme directamente",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Detectar el cáncer colorrectal en fases iniciales:",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        {
+          "option_text": "No cambia el pronóstico",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Aumenta las probabilidades de curación",
+          "is_correct": true,
+          "justification": "Cuanto antes se detecta, más eficaz suele ser el tratamiento."
+        },
+        {
+          "option_text": "Solo reduce el dolor",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Evita cualquier tratamiento",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿El cáncer colorrectal puede desarrollarse a partir de pólipos?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        {
+          "option_text": "No, aparecen directamente",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Sí, algunos pólipos pueden evolucionar con el tiempo",
+          "is_correct": true,
+          "justification": "Muchos cánceres colorrectales se desarrollan lentamente a partir de pólipos que pueden detectarse y eliminarse."
+        },
+        {
+          "option_text": "Solo en personas jóvenes",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Solo si hay dolor abdominal",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Participar en el programa de cribado es voluntario?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        {
+          "option_text": "No, es obligatorio",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Sí, pero es muy recomendable",
+          "is_correct": true,
+          "justification": "La participación es voluntaria, pero está recomendada porque salva vidas al detectar la enfermedad precozmente."
+        },
+        {
+          "option_text": "Solo es obligatorio si tengo antecedentes",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Solo es para hombres",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿El cáncer colorrectal afecta solo a hombres?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        {
+          "option_text": "Sí, es exclusivo de hombres",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "No, afecta tanto a hombres como a mujeres",
+          "is_correct": true,
+          "justification": "Es uno de los cánceres más frecuentes en ambos sexos."
+        },
+        {
+          "option_text": "Solo a mujeres mayores de 70 años",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Solo si hay antecedentes familiares",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Fumar puede aumentar el riesgo de cáncer colorrectal?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        {
+          "option_text": "No tiene relación",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Sí, el tabaco aumenta el riesgo",
+          "is_correct": true,
+          "justification": "El tabaco se asocia con mayor riesgo de varios tipos de cáncer, incluido el colorrectal."
+        },
+        {
+          "option_text": "Solo afecta a los pulmones",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Solo si se fuma más de 30 años",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Beber alcohol en exceso puede influir en el riesgo?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        {
+          "option_text": "No influye en absoluto",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Sí, el consumo elevado aumenta el riesgo",
+          "is_correct": true,
+          "justification": "El consumo excesivo de alcohol se relaciona con un mayor riesgo de cáncer colorrectal."
+        },
+        {
+          "option_text": "Solo influye el vino",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Solo influye en personas jóvenes",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿La obesidad puede aumentar el riesgo de cáncer colorrectal?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        {
+          "option_text": "No guarda relación",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Sí, es un factor de riesgo",
+          "is_correct": true,
+          "justification": "El exceso de peso se asocia con mayor riesgo de desarrollar cáncer colorrectal."
+        },
+        {
+          "option_text": "Solo afecta a la diabetes",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Solo influye en mayores de 80 años",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿La colonoscopia es una prueba segura en la mayoría de los casos?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        {
+          "option_text": "No, tiene más riesgos que beneficios",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Sí, es una prueba segura cuando está indicada",
+          "is_correct": true,
+          "justification": "Es una prueba habitual y segura cuando la realizan profesionales entrenados."
+        },
+        {
+          "option_text": "Siempre requiere ingreso hospitalario prolongado",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Solo se hace en casos graves",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Participar en el cribado puede salvar vidas?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        {
+          "option_text": "No cambia nada",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Sí, al detectar lesiones antes de que avancen",
+          "is_correct": true,
+          "justification": "El cribado permite detectar y tratar precozmente lesiones, reduciendo la mortalidad."
+        },
+        {
+          "option_text": "Solo sirve para estadísticas",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Solo ayuda si hay síntomas previos",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Si recibo una invitación para el cribado, ¿qué debería hacer?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        {
+          "option_text": "Ignorarla si me encuentro bien",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Participar y seguir las indicaciones",
+          "is_correct": true,
+          "justification": "Aunque te encuentres bien, participar es una forma responsable de cuidar tu salud."
+        },
+        {
+          "option_text": "Esperar a tener síntomas",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Solo participar si tengo dolor",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Hablar abiertamente sobre el cáncer colorrectal ayuda a reducir el miedo y los mitos?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        {
+          "option_text": "No, es mejor no hablar del tema",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Sí, la información clara ayuda a tomar decisiones saludables",
+          "is_correct": true,
+          "justification": "Informarse y hablar del tema con naturalidad ayuda a desmontar mitos y favorece la participación en el cribado."
+        },
+        {
+          "option_text": "Solo deben hablarlo los profesionales sanitarios",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Solo si hay un caso cercano",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    }
+  ]
+}

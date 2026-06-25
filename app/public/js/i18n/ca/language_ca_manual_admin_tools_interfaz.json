@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "manual_admin.tools.interfaz.title": "Interfície",
+    "manual_admin.tools.interfaz.desc": "Ajustos de la interfície d'usuari.",
+    "manual_admin.tools.interfaz.tv": "Targeta TV",
+    "manual_admin.tools.interfaz.tv_desc": "Mostra o amaga la targeta de la versió TV a la pantalla d'inici."
+  }
+}

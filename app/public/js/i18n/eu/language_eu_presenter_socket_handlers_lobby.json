@@ -1,0 +1,7 @@
+{
+  "keys": {
+    "presenter.lobby.presenter_error": "Aurkezlearen errorea",
+    "presenter.lobby.unknown_error": "Ezezaguna errorea",
+    "presenter.lobby.create_error": "Ezin da lobby-a sortu"
+  }
+}

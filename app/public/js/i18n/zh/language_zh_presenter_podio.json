@@ -1,0 +1,11 @@
+{
+  "keys": {
+    "presenter.podio.teams_title": "队伍颁奖台",
+    "presenter.podio.final_title": "最终颁奖台",
+    "presenter.podio.config_error": "加载配置时出错",
+    "presenter.podio.no": "否",
+    "presenter.podio.pts": "分",
+    "presenter.podio.yes": "是",
+    "presenter.podio.show_games": "显示游戏"
+  }
+}
