@@ -135,6 +135,29 @@ const INITIAL_SCHEMA_QUERY = `
       UNIQUE(game_id, bank_id)
     );
     
+    -- Mantener compatibilidad con estructura antigua
+    CREATE TABLE IF NOT EXISTS quizzes (
+      id SERIAL PRIMARY KEY,
+      title VARCHAR(255) NOT NULL,
+      pin VARCHAR(10) UNIQUE NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+    
+    CREATE TABLE IF NOT EXISTS questions (
+      id SERIAL PRIMARY KEY,
+      quiz_id INTEGER REFERENCES quizzes(id) ON DELETE CASCADE,
+      bank_id INTEGER REFERENCES question_banks(id) ON DELETE CASCADE,
+      question_text TEXT NOT NULL,
+      time_limit INTEGER DEFAULT 20
+    );
+    
+    CREATE TABLE IF NOT EXISTS options (
+      id SERIAL PRIMARY KEY,
+      question_id INTEGER REFERENCES questions(id) ON DELETE CASCADE,
+      option_text TEXT NOT NULL,
+      is_correct BOOLEAN DEFAULT FALSE
+    );
+
     -- Tabla para juegos personalizados con preguntas seleccionadas manualmente
     CREATE TABLE IF NOT EXISTS custom_games (
       id SERIAL PRIMARY KEY,
@@ -182,29 +205,6 @@ const INITIAL_SCHEMA_QUERY = `
         WHEN others THEN NULL;
       END;
     END $$;
-    
-    -- Mantener compatibilidad con estructura antigua
-    CREATE TABLE IF NOT EXISTS quizzes (
-      id SERIAL PRIMARY KEY,
-      title VARCHAR(255) NOT NULL,
-      pin VARCHAR(10) UNIQUE NOT NULL,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
-    
-    CREATE TABLE IF NOT EXISTS questions (
-      id SERIAL PRIMARY KEY,
-      quiz_id INTEGER REFERENCES quizzes(id) ON DELETE CASCADE,
-      bank_id INTEGER REFERENCES question_banks(id) ON DELETE CASCADE,
-      question_text TEXT NOT NULL,
-      time_limit INTEGER DEFAULT 20
-    );
-    
-    CREATE TABLE IF NOT EXISTS options (
-      id SERIAL PRIMARY KEY,
-      question_id INTEGER REFERENCES questions(id) ON DELETE CASCADE,
-      option_text TEXT NOT NULL,
-      is_correct BOOLEAN DEFAULT FALSE
-    );
 `;
 
 /**

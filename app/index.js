@@ -182,21 +182,30 @@ async function startServer() {
     }
 }
 
-// ===== INICIALIZAR BASE DE DATOS =====
-initDB();
-
-// ===== EJECUTAR MIGRACIONES PENDIENTES =====
+// ===== INICIALIZAR BASE DE DATOS Y LUEGO MIGRACIONES =====
 const { runPendingMigrations } = require('./migrations/migration-runner');
-runPendingMigrations()
-    .then(result => {
-        if (result.executed > 0) {
-            logger.info(`✅ ${result.executed} migración(es) ejecutada(s)`, getWorkerContext());
-        }
+
+// IMPORTANTE: En modo cluster, solo el worker 0 debe inicializar la base de datos
+// para evitar condiciones de carrera (múltiples workers intentando crear las mismas tablas).
+const isMasterWorker = process.env.NODE_APP_INSTANCE === '0' || !process.env.NODE_APP_INSTANCE;
+
+if (isMasterWorker) {
+    logger.info('👑 Worker maestro (0): Inicializando base de datos...', getWorkerContext());
+    initDB().then(() => {
+        return runPendingMigrations();
     })
-    .catch(error => {
-        logger.error('❌ Error ejecutando migraciones:', error);
-        // No detener el servidor, solo registrar el error
-    });
+        .then(result => {
+            if (result && result.executed > 0) {
+                logger.info(`✅ ${result.executed} migración(es) ejecutada(s)`, getWorkerContext());
+            }
+        })
+        .catch(error => {
+            logger.error('❌ Error ejecutando inicialización o migraciones:', error);
+            // No detener el servidor, solo registrar el error
+        });
+} else {
+    logger.info('👷 Worker secundario: Saltando inicialización de BD', getWorkerContext());
+}
 
 // ===== GRACEFUL SHUTDOWN =====
 registerShutdownHandlers({ server, io, pool, ackManager });

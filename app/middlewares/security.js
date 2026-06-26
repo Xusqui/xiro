@@ -116,7 +116,7 @@ const configureHelmet = () => {
             contentSecurityPolicy: {
                 directives: {
                     defaultSrc: ['\'self\''],
-                    scriptSrc: scriptSrc,
+                    scriptSrc: [...scriptSrc, '\'unsafe-inline\'', '\'unsafe-eval\''],
                     scriptSrcAttr: ['\'none\''],
                     styleSrc: [
                         '\'self\'',

@@ -125,7 +125,7 @@ function isMemoryIpRateLimited(ipConnCounts, ip, ipConnLimit) {
 }
 
 function setupIpRateLimitMiddleware(io, pubClient) {
-    const ipConnLimit = parseInt(process.env.SOCKETIO_IP_CONN_LIMIT, 10) || 30;
+    const ipConnLimit = parseInt(process.env.SOCKETIO_IP_CONN_LIMIT, 10) || 500;
     const ipConnWindow = parseInt(process.env.SOCKETIO_IP_CONN_WINDOW, 10) || 60;
     const ipConnCounts = new Map();
     const ipCleanupInterval = setInterval(function () {
