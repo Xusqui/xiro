@@ -45,7 +45,7 @@ function getOrCreatePlayerId() {
 
 // Decoder transparente de eventos comprimidos (registra
 // globalThis.PlayerSocketDecompress)
-import './player-socket-decompress.js?v=20260625151006';
+import './player-socket-decompress.js?v=20260627190802';
 
 // ===== INICIALIZACIÓN =====
 

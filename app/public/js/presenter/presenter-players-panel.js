@@ -3,8 +3,8 @@
  * Actualización y renderizado del panel de jugadores conectados
  */
 
-import { getConnectedPlayers, getPlayersData, getIsTeamMode, getTeamConfig } from './presenter-state.js?v=20260625151006';
-import { getTeamColorStyle } from './presenter-team-config.js?v=20260625151006';
+import { getConnectedPlayers, getPlayersData, getIsTeamMode, getTeamConfig } from './presenter-state.js?v=20260627190802';
+import { getTeamColorStyle } from './presenter-team-config.js?v=20260627190802';
 
 /** nick → <div> element kept across renders */
 const playerCards = new Map();

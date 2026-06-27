@@ -6,17 +6,17 @@
  *  - presenter-reconnected → inform player the host is back
  */
 
-import { socket } from './player-socket-config.js?v=20260625151006';
+import { socket } from './player-socket-config.js?v=20260627190802';
 import {
     setIsReconnecting, setNickname, setPin, setSessionId,
     setHaRespondido, setCanAnswer, setSelectedTeam, setTeamMode,
     getNickname, setPendingAnswer, setSendingAnswer, setStreakInfo
-} from './player-state.js?v=20260625151006';
-import { removeDisconnectOverlay, activarWakeLock } from './player-connection.js?v=20260625151006';
-import { renderizarPregunta, renderizarPreguntaOrdena, renderizarSlideComentario, renderizarSlideInfo, renderizarSlideTexto, renderizarSlideImagen, renderizarPreguntaWordScramble, renderizarPreguntaMultipleChoice } from './player-question-ui.js?v=20260625151006';
-import { renderizarPreguntaNumerica } from './player-numeric-ui.js?v=20260625151006';
-import { injectStreakBadge } from './player-streak-ui.js?v=20260625151006';
-import { syncTrivialBadgesFromSnapshot } from './player-trivial-badges-ui.js?v=20260625151006';
+} from './player-state.js?v=20260627190802';
+import { removeDisconnectOverlay, activarWakeLock } from './player-connection.js?v=20260627190802';
+import { renderizarPregunta, renderizarPreguntaOrdena, renderizarSlideComentario, renderizarSlideInfo, renderizarSlideTexto, renderizarSlideImagen, renderizarPreguntaWordScramble, renderizarPreguntaMultipleChoice, renderizarPreguntaMatching } from './player-question-ui.js?v=20260627190802';
+import { renderizarPreguntaNumerica } from './player-numeric-ui.js?v=20260627190802';
+import { injectStreakBadge } from './player-streak-ui.js?v=20260627190802';
+import { syncTrivialBadgesFromSnapshot } from './player-trivial-badges-ui.js?v=20260627190802';
 
 /**
  * Restore player UI based on the snapshot sent by the server
@@ -180,6 +180,8 @@ function renderQuestion(question) {
         renderizarSlideImagen(question);
     } else if (question.question_type === 'order') {
         renderizarPreguntaOrdena(question);
+    } else if (question.question_type === 'matching') {
+        renderizarPreguntaMatching(question);
     } else if (question.question_type === 'numeric_approximation') {
         renderizarPreguntaNumerica(question);
     } else if (question.question_type === 'word_scramble') {
