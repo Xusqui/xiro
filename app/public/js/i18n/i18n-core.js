@@ -6,7 +6,7 @@
         supported: ['es', 'en', 'fr', 'ca', 'eu', 'gl', 'de', 'pt', 'zh', 'ja'],
         storageKey: 'xiro_lang',
         queryParam: 'lang',
-        version: '20260627190802'
+        version: '20260627191916'
     };
 
     const state = {

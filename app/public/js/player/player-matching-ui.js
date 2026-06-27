@@ -14,10 +14,10 @@ import {
     clearMatchAutoSendTimer,
     startMatchAutoSendTimer,
     setCurrentSlideType
-} from './player-state.js?v=20260627190802';
-import { enviarMatchingRespuesta } from './player-answer.js?v=20260627190802';
-import { OPTION_COLORS, getResponsiveFontClass } from './player-question-utils.js?v=20260627190802';
-import { setBodyHTML } from './player-streak-ui.js?v=20260627190802';
+} from './player-state.js?v=20260627191916';
+import { enviarMatchingRespuesta } from './player-answer.js?v=20260627191916';
+import { OPTION_COLORS, getResponsiveFontClass, fitTextToContainer } from './player-question-utils.js?v=20260627191916';
+import { setBodyHTML } from './player-streak-ui.js?v=20260627191916';
 
 let currentMatchQuestion = null;
 let pointerDragState = null;
@@ -85,8 +85,8 @@ function renderMatchColumns() {
         const colorClass = OPTION_COLORS[i % OPTION_COLORS.length];
         const fontClass = getResponsiveFontClass(opt.optionText || opt.option_text || '', true);
         return `
-            <div class="btn-glass-3d ${colorClass} rounded-xl flex items-center px-3 py-2 shrink-0 min-h-[3rem]">
-                <span class="text-white font-bold ${fontClass} uppercase break-words w-full text-center" lang="es">
+            <div data-fit-box class="btn-glass-3d ${colorClass} rounded-xl flex items-center px-3 py-2 shrink-0 min-h-[3rem] overflow-hidden">
+                <span data-fit-text class="text-white font-bold ${fontClass} uppercase break-words w-full text-center" lang="es">
                     ${opt.optionText || opt.option_text || ''}
                 </span>
             </div>
@@ -100,19 +100,23 @@ function renderMatchColumns() {
         const fontClass = getResponsiveFontClass(opt.match_value || '', true);
         return `
             <div
-                class="btn-glass-3d ${colorClass} order-item rounded-xl flex items-center px-3 py-2 gap-2 cursor-grab active:cursor-grabbing shrink-0 min-h-[3rem]"
+                data-fit-box
+                class="btn-glass-3d ${colorClass} order-item rounded-xl flex items-center px-3 py-2 gap-2 cursor-grab active:cursor-grabbing shrink-0 min-h-[3rem] overflow-hidden"
                 data-match-item
                 data-position="${pos}"
                 data-option-index="${optIdx}"
                 draggable="true"
             >
-                <span class="text-white font-bold ${fontClass} uppercase break-words flex-1 text-center" lang="es">
+                <span data-fit-text class="text-white font-bold ${fontClass} uppercase break-words flex-1 text-center" lang="es">
                     ${opt.match_value || ''}
                 </span>
                 <div class="drag-indicator text-white/70 shrink-0 text-sm">≡</div>
             </div>
         `;
     }).join(''));
+
+    fitTextToContainer(leftContainer);
+    fitTextToContainer(rightContainer);
 
     bindMatchDragHandlers(rightContainer);
     bindMatchPointerHandlers(rightContainer);
