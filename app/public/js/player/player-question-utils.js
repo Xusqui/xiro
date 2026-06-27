@@ -12,10 +12,13 @@ export const OPTION_COLORS = [
 ];
 
 /**
- * Calcular clase de tamano de fuente segun longitud del texto
+ * Calcular clase de tamano de fuente segun longitud del texto.
+ * `narrow` indica que el texto se renderiza en un contenedor de ~mitad
+ * de ancho de pantalla (p.ej. columnas de matching), donde el mismo
+ * texto necesita una fuente menor para no desbordar la caja.
  */
-export function getResponsiveFontClass(text) {
-    const length = text.length;
+export function getResponsiveFontClass(text, narrow = false) {
+    const length = text.length * (narrow ? 1.8 : 1);
     if (length > 180) return 'text-responsive-base';
     if (length > 120) return 'text-responsive-md';
     if (length > 80) return 'text-responsive-lg';

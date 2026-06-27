@@ -83,9 +83,9 @@ function renderMatchColumns() {
     // Columna izquierda: fija, en orden original
     leftContainer.innerHTML = _tHtml(options.map((opt, i) => {
         const colorClass = OPTION_COLORS[i % OPTION_COLORS.length];
-        const fontClass = getResponsiveFontClass(opt.optionText || opt.option_text || '');
+        const fontClass = getResponsiveFontClass(opt.optionText || opt.option_text || '', true);
         return `
-            <div class="btn-glass-3d ${colorClass} rounded-xl flex items-center px-3 py-2 flex-1 min-h-[3rem]">
+            <div class="btn-glass-3d ${colorClass} rounded-xl flex items-center px-3 py-2 shrink-0 min-h-[3rem]">
                 <span class="text-white font-bold ${fontClass} uppercase break-words w-full text-center" lang="es">
                     ${opt.optionText || opt.option_text || ''}
                 </span>
@@ -97,10 +97,10 @@ function renderMatchColumns() {
     rightContainer.innerHTML = _tHtml(matches.map((optIdx, pos) => {
         const opt = options[optIdx];
         const colorClass = 'bg-amber-500';
-        const fontClass = getResponsiveFontClass(opt.match_value || '');
+        const fontClass = getResponsiveFontClass(opt.match_value || '', true);
         return `
             <div
-                class="btn-glass-3d ${colorClass} order-item rounded-xl flex items-center px-3 py-2 gap-2 cursor-grab active:cursor-grabbing flex-1 min-h-[3rem]"
+                class="btn-glass-3d ${colorClass} order-item rounded-xl flex items-center px-3 py-2 gap-2 cursor-grab active:cursor-grabbing shrink-0 min-h-[3rem]"
                 data-match-item
                 data-position="${pos}"
                 data-option-index="${optIdx}"
