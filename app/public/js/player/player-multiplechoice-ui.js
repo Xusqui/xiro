@@ -10,10 +10,10 @@ import {
     setCurrentSlideType,
     getPendingAnswer,
     getSendingAnswer
-} from './player-state.js?v=20260627191916';
-import { OPTION_COLORS, getResponsiveFontClass } from './player-question-utils.js?v=20260627191916';
-import { setBodyHTML } from './player-streak-ui.js?v=20260627191916';
-import { enviarRespuestaMultipleChoice } from './player-answer.js?v=20260627191916';
+} from './player-state.js?v=20260628203632';
+import { OPTION_COLORS, getResponsiveFontClass } from './player-question-utils.js?v=20260628203632';
+import { setBodyHTML } from './player-streak-ui.js?v=20260628203632';
+import { enviarRespuestaMultipleChoice } from './player-answer.js?v=20260628203632';
 
 // Estado de selección múltiple
 let selectedIndices = [];
@@ -183,7 +183,7 @@ export function renderizarPreguntaMultipleChoice(pregunta) {
                     ✓ Selección Múltiple (puedes marcar varias)
                 </p>
             </div>
-            <div class="grid grid-cols-2 gap-1.5 flex-1 p-1.5 bg-slate-200 overflow-hidden" style="grid-template-rows: repeat(3, 1fr);">
+            <div class="grid grid-cols-2 gap-1.5 flex-1 p-1.5 bg-slate-200 overflow-hidden" style="grid-template-rows: repeat(${pregunta.options.length > 4 ? 3 : 2}, minmax(0, 1fr));">
                 ${pregunta.options.map((opt, i) => {
         const fontClass = getResponsiveFontClass(opt.optionText);
         return `

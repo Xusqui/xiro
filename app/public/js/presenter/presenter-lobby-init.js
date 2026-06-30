@@ -3,15 +3,15 @@
  * Validación de PIN y creación de sala de juego
  */
 
-import { getSocket, getPresenterPlayerId } from './presenter-socket-config.js?v=20260627191916';
+import { getSocket, getPresenterPlayerId } from './presenter-socket-config.js?v=20260628203632';
 import {
     getSessionId, setSessionId, getPin, setPin,
     getIsTeamMode, setIsTeamMode, getTeamConfig, setTeamConfig,
     setGameType, getGameType
-} from './presenter-state.js?v=20260627191916';
-import { generateSessionId, mostrarLobbyMain, restoreLobbyHTML } from './presenter-utils.js?v=20260627191916';
-import { mostrarQR, renderTeamLobby } from './presenter-game-ui.js?v=20260627191916';
-import { volverAJuegos } from './presenter-lobby.js?v=20260627191916';
+} from './presenter-state.js?v=20260628203632';
+import { generateSessionId, mostrarLobbyMain, restoreLobbyHTML } from './presenter-utils.js?v=20260628203632';
+import { mostrarQR, renderTeamLobby } from './presenter-game-ui.js?v=20260628203632';
+import { volverAJuegos } from './presenter-lobby.js?v=20260628203632';
 
 /**
  * Iniciar lobby del presentador
