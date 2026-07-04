@@ -2,7 +2,7 @@
  * @fileoverview Player - Trivial badges (quesitos/cuñas) bottom HUD
  */
 
-import { getNickname } from './player-state.js?v=20260628203632';
+import { getNickname } from './player-state.js?v=20260704213554';
 
 const CONTAINER_ID = 'trivial-badges-container';
 const CATEGORIES_KEY = 'xiro_trivial_categories';

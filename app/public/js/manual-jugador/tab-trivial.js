@@ -1,4 +1,4 @@
-import { renderCard } from './ui-components.js?v=20260628203632';
+import { renderCard } from './ui-components.js?v=20260704213554';
 
 export function getTabTrivialHTML() {
     const steps = [
