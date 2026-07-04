@@ -3,20 +3,20 @@
  * Manejo de juego, respuestas, timer y fin de partida
  */
 
-import { getSocket } from './presenter-socket-config.js?v=20260704213554';
+import { getSocket } from './presenter-socket-config.js?v=20260704215632';
 import {
     setTotalQuestions, setCurrentQuestionIndex,
     getPlayersData, setPlayerData, updatePlayerData, getSessionId, getTeamConfig,
     setGameSessionDbId, setConnectedPlayers, setTotalPlayers
-} from './presenter-state.js?v=20260704213554';
+} from './presenter-state.js?v=20260704215632';
 import {
     renderPregunta, renderCommentSlide, renderInfoSlide, renderTextSlide, renderImageSlide, renderTextImageSlide,
     updatePlayersPanel, removeFloatingCards, renderPodio
-} from './presenter-game-ui.js?v=20260704213554';
-import { handleRevealAnswer, cleanupRevealElements } from './presenter-reveal.js?v=20260704213554';
-import { updateAnswerCounter } from './presenter-answer-counter.js?v=20260704213554';
-import { hideWaitingPanelNow, renderWaitingPanel } from './presenter-waiting-panel.js?v=20260704213554';
-import { mostrarModalMensaje } from '../shared/modal.js?v=20260704213554';
+} from './presenter-game-ui.js?v=20260704215632';
+import { handleRevealAnswer, cleanupRevealElements } from './presenter-reveal.js?v=20260704215632';
+import { updateAnswerCounter } from './presenter-answer-counter.js?v=20260704215632';
+import { hideWaitingPanelNow, renderWaitingPanel } from './presenter-waiting-panel.js?v=20260704215632';
+import { mostrarModalMensaje } from '../shared/modal.js?v=20260704215632';
 
 /**
  * Registrar manejadores de socket para el juego

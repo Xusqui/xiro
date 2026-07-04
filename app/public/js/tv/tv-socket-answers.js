@@ -143,7 +143,7 @@ window.TVApp.SocketAnswers = (function () {
                     if (data.percentages) {
                         vDiv.textContent = _t('📊 ' + (data.percentages[k] ? data.percentages[k].percentage : 0) + '%');
                     } else {
-                        vDiv.textContent = _t('👥 ' + votos);
+                        vDiv.textContent = _t('👤👤 ' + votos);
                         if (data.correctIndices && Array.isArray(data.correctIndices)) {
                             if (data.correctIndices.indexOf(k) !== -1) {
                                 tarjeta.className += ' option-correct';
