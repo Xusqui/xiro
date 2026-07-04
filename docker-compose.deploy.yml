@@ -1,5 +1,3 @@
-version: '3.8'
-
 networks:
   xiro_internal:
     driver: bridge
@@ -33,8 +31,9 @@ services:
       - xiro_internal
     volumes:
       - ./redis_data:/data
+    command: redis-server --requirepass ${REDIS_PASSWORD}
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ["CMD-SHELL", "redis-cli -a \"$${REDIS_PASSWORD}\" --no-auth-warning ping"]
       interval: 10s
       timeout: 3s
       retries: 5
@@ -57,11 +56,13 @@ services:
     mem_limit: 1500m
     networks:
       - xiro_internal
-    ports:
-      - "3000:3000"
+    # ports:
+    #   - "80:3000"
     volumes:
       - ./public/uploads:/usr/src/app/public/uploads
       - ./logs:/usr/src/app/logs
+      - ./config/ui-overrides.json:/usr/src/app/config/ui-overrides.json
+      - ./config/runtime-overrides.json:/usr/src/app/config/runtime-overrides.json
     env_file: .env
     depends_on:
       db:
@@ -83,3 +84,24 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: xiro_caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+    command: caddy reverse-proxy --from https://xiro.pro --to http://backend:3000
+    depends_on:
+      - backend
+    networks:
+      - xiro_internal
+
+# ESTA SECCIÓN NUEVA AL FINAL DEL ARCHIVO DECLARA LOS VOLÚMENES NOMBRADOS:
+volumes:
+  caddy_data:
+  caddy_config:
