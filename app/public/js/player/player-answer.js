@@ -92,6 +92,7 @@ export function enviarOrdenRespuesta(isAuto = false) {
         return;
     }
     if (getPendingAnswer() || getSendingAnswer()) return;
+    if (!getNickname()) { console.warn('Bloqueado: estado de jugador vacío'); return; }
 
     const order = getCurrentOrder();
     if (!Array.isArray(order) || order.length === 0) {
@@ -165,7 +166,13 @@ export function enviarRespuestaNumerica(isAuto = false) {
         console.log('🚫 Respuestas bloqueadas (tiempo agotado)');
         return;
     }
+
     if (getPendingAnswer() || getSendingAnswer()) return;
+
+    if (!getNickname()) {
+        console.warn('Bloqueado envío de respuesta: No hay nickname (estado reseteado)');
+        return;
+    }
 
     const inputElement = document.getElementById('numeric-answer-input');
     if (!inputElement) {
@@ -213,6 +220,11 @@ export function enviarRespuestaWordScramble(isAuto = false) {
         return;
     }
     if (getPendingAnswer() || getSendingAnswer()) return;
+ 
+    if (!getNickname()) {
+        console.warn('Bloqueado envío de respuesta: No hay nickname (estado reseteado)');
+        return;
+    }
 
     const wordAnswer = (window._wsAnswer || '').trim().toUpperCase();
     if (!wordAnswer) {
@@ -253,6 +265,11 @@ export function enviarRespuestaMultipleChoice(selectedIndices, isAuto = false) {
         return;
     }
     if (getPendingAnswer() || getSendingAnswer()) return;
+
+    if (!getNickname()) {
+        console.warn('Bloqueado envío de respuesta: No hay nickname (estado reseteado)');
+        return;
+    }
 
     if (!Array.isArray(selectedIndices) || selectedIndices.length === 0) {
         console.warn('⚠️ Índices seleccionados no válidos');
