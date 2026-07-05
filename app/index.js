@@ -60,6 +60,7 @@ const AckManager = require('./sockets/services/AckManager');
 
 // ===== HEALTH & SHUTDOWN =====
 const healthCheckService = require('./infrastructure/health/HealthCheckService');
+const { sendInstallPing } = require('./services/telemetry.service');
 const workerRegistry = require('./infrastructure/health/WorkerRegistry');
 const { registerShutdownHandlers } = require('./infrastructure/shutdown/GracefulShutdown');
 
@@ -223,6 +224,9 @@ async function main() {
             // Iniciar health checks periódicos (cada 30s)
             healthCheckService.setIO(io);
             healthCheckService.start();
+
+            // Ping anónimo de instalación (opt-out: XIRO_TELEMETRY=false, ver README)
+            sendInstallPing();
 
             logger.info('🚀 XIRO! Server started', {
                 ...getWorkerContext(),

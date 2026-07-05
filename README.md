@@ -367,6 +367,18 @@ docker compose up -d
 
 SQL migrations run automatically on server startup.
 
+### Anonymous install ping (telemetry)
+
+On first startup, the container sends a **single anonymous HTTP ping to [ntfy.sh](https://ntfy.sh)** so the author can know how many active installations exist. The message contains only the text "Xiro! installed" plus the version number — **no personal data, no identifiers**. Beyond this ping, Xiro! uses **no cookies and collects no other telemetry of any kind**.
+
+To disable it, set the environment variable:
+
+```bash
+XIRO_TELEMETRY=false
+```
+
+The ping never blocks startup: if there is no internet access or the variable is set to `false`, the app runs exactly the same.
+
 ### Management with manage.sh
 
 ```bash
@@ -489,6 +501,7 @@ Configured in `docker-compose.yml` or in `app/.env`:
 | `BASE_POINTS` | Base points per answer | `20` |
 | `MAX_TIME_BONUS` | Maximum time bonus | `20` |
 | `TEAM_SCORE_LAMBDA` | Individual score weight in teams | `0.5` |
+| `XIRO_TELEMETRY` | Set to `false` to disable the anonymous install ping to ntfy.sh | `true` |
 
 ---
 
