@@ -602,6 +602,8 @@ function _renderAccountView(editorArea) {
                 </div>
             </div>
 
+            <div id="user-license-card"></div>
+
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 md:p-6">
                 <h3 class="text-lg font-bold text-slate-800 mb-4">${_t('admin.user.password_section', null, 'Cambiar contraseña')}</h3>
                 <form id="user-password-form" class="space-y-4">
@@ -677,6 +679,10 @@ function _renderAccountView(editorArea) {
     }
 
     _loadUserAccountData();
+
+    if (typeof renderUserLicenseCard === 'function') {
+        renderUserLicenseCard();
+    }
 }
 
 function _renderManageUsersView(editorArea) {

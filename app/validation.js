@@ -225,6 +225,35 @@ const changeEmailRequestSchema = Joi.object({
         })
 });
 
+// Compra integrada de licencia: plan elegido
+const userLicenseCheckoutSchema = Joi.object({
+    planCode: Joi.string()
+        .trim()
+        .min(2)
+        .max(32)
+        .required()
+        .messages({
+            'string.empty': 'El plan es requerido',
+            'any.required': 'El plan es requerido',
+            'string.min': 'Plan no válido',
+            'string.max': 'Plan no válido',
+        })
+});
+
+// Licencia individual del usuario (vacía = eliminarla)
+const userLicenseSchema = Joi.object({
+    license: Joi.string()
+        .trim()
+        .allow('')
+        .max(160)
+        .required()
+        .messages({
+            'string.max': 'La licencia no puede exceder 160 caracteres',
+            'string.base': 'La licencia debe ser un texto',
+            'any.required': 'El campo license es requerido',
+        })
+});
+
 // Opción de pregunta
 const optionSchema = Joi.object({
     optionText: Joi.when('option_image_url', {
@@ -977,6 +1006,8 @@ module.exports = {
         register: registerSchema,
         changePassword: changePasswordSchema,
         changeEmailRequest: changeEmailRequestSchema,
+        userLicense: userLicenseSchema,
+        userLicenseCheckout: userLicenseCheckoutSchema,
 
         // Bancos
         createBank: createBankSchema,

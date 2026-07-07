@@ -30,7 +30,11 @@ function getSmtpConfig() {
 
 function getBaseUrl() {
     // Attempt to get from env or runtime, fallback to https://xiro.pro
-    return String(process.env.PUBLIC_BASE_URL || runtimeConfig.get('SERVER_HOST') || 'https://xiro.pro').trim().replace(/\/$/, '');
+    // Si llega una lista separada por comas (estilo CORS_ORIGIN), usar la primera
+    return String(process.env.PUBLIC_BASE_URL || runtimeConfig.get('SERVER_HOST') || 'https://xiro.pro')
+        .split(',')[0]
+        .trim()
+        .replace(/\/$/, '');
 }
 
 function buildHtmlTemplate(innerHtml) {

@@ -59,7 +59,10 @@ function buildCookieOptions() {
 }
 
 function resolvePublicBaseUrl() {
-    const rawBaseUrl = String(process.env.PUBLIC_BASE_URL || SERVER_HOST || '').trim();
+    // Si llega una lista separada por comas (estilo CORS_ORIGIN), usar la primera
+    const rawBaseUrl = String(process.env.PUBLIC_BASE_URL || SERVER_HOST || '')
+        .split(',')[0]
+        .trim();
     const fallbackBaseUrl = 'https://xiro.pro';
     const withProtocol = /^https?:\/\//i.test(rawBaseUrl)
         ? rawBaseUrl

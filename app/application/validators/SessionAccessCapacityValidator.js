@@ -1,6 +1,7 @@
 'use strict';
 
 const siteStateService = require('../../services/site-state.service');
+const userLicenseStateService = require('../../services/user-license-state.service');
 const { findPlayerByNickname } = require('../../sockets/utils/PlayerLookupHelper');
 
 const SESSION_PARTICIPANT_LIMIT = parseInt(Buffer.from('MTE=', 'base64').toString('utf-8'), 10);
@@ -9,6 +10,11 @@ const DISCONNECTED_STATUSES = new Set(['disconnected', 'presenter_disconnected']
 function normalizeRoomId(pin, sessionId) {
     if (sessionId) return String(sessionId);
     return String(pin || '').toUpperCase();
+}
+
+function extractPin(pin, roomId) {
+    if (pin) return String(pin).toUpperCase();
+    return String(roomId).split('-')[0];
 }
 
 function canReclaimDisconnectedPlayer(players, nickname, roomId) {
@@ -58,11 +64,6 @@ async function validateSessionAccessCapacity({ pin, sessionId, nickname, depende
         return { valid: true };
     }
 
-    const status = await siteStateService.getPublicLicenseStatus();
-    if (status.licensed === true) {
-        return { valid: true };
-    }
-
     if (canReclaimDisconnectedPlayer(players, nickname, roomId)) {
         return { valid: true };
     }
@@ -70,6 +71,18 @@ async function validateSessionAccessCapacity({ pin, sessionId, nickname, depende
     const lobby = lobbyPlayers.get(roomId) || [];
     const participants = Math.max(countSessionParticipants(players, roomId), lobby.length);
     if (participants >= SESSION_PARTICIPANT_LIMIT) {
+        // La licencia de sitio es requisito para superar el límite; sobre
+        // ella, el contenido de admin/legado queda desbloqueado y el de
+        // editores exige además su licencia individual válida.
+        const status = await siteStateService.getPublicLicenseStatus();
+        if (status.licensed === true) {
+            const ownerStatus = await userLicenseStateService
+                .getOwnerLicenseStatusByPin(extractPin(pin, roomId));
+            if (ownerStatus.licensed === true) {
+                return { valid: true };
+            }
+        }
+
         return {
             valid: false,
             reason: Buffer.from('bWF4LXBsYXllcnMtZ2FtZQ==', 'base64').toString('utf-8'),
