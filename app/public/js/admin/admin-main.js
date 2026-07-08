@@ -395,7 +395,8 @@ window.addEventListener('DOMContentLoaded', () => {
     loadAuthStatus()
         .then(() => confirmRegistrationTokenFromUrl())
         .then(() => confirmEmailChangeTokenFromUrl())
-        .catch(() => confirmRegistrationTokenFromUrl().then(() => confirmEmailChangeTokenFromUrl()));
+        .then(() => checkPasswordResetTokenFromUrl())
+        .catch(() => confirmRegistrationTokenFromUrl().then(() => confirmEmailChangeTokenFromUrl()).then(() => checkPasswordResetTokenFromUrl()));
 });
 
 // ===== RE-RENDER ON LANGUAGE CHANGE =====

@@ -37,6 +37,21 @@
     "admin.logout.confirm": "sair",
     "admin.auth.expired_title": "Sessão expirada",
     "admin.auth.expired_message": "Sua sessão expirou. Faça login novamente.",
-    "admin.auth.login_btn": "Conecte-se"
+    "admin.auth.login_btn": "Conecte-se",
+    "admin.login.forgot_password": "Esqueceu sua senha?",
+    "admin.forgot.title": "Recuperar senha",
+    "admin.forgot.submit": "Enviar link",
+    "admin.forgot.back": "Retornar",
+    "admin.forgot.helper": "Enviaremos um link para redefinir sua senha.",
+    "admin.forgot.success": "Se o e-mail existir, você receberá um link para redefinir sua senha.",
+    "admin.forgot.error_empty": "O e-mail é obrigatório",
+    "admin.reset.title": "Definir nova senha",
+    "admin.reset.new_password": "Nova senha",
+    "admin.reset.confirm_password": "Confirmar nova senha",
+    "admin.reset.submit": "Salvar senha",
+    "admin.reset.success": "Senha atualizada. Agora você pode fazer login.",
+    "admin.reset.error_mismatch": "As senhas não coincidem",
+    "admin.reset.error_token": "O link de redefinição é inválido ou expirou",
+    "admin.reset.error_failed": "Não foi possível redefinir a senha"
   }
 }

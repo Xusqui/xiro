@@ -37,6 +37,21 @@
     "admin.logout.confirm": "登出",
     "admin.auth.expired_title": "会话已过期",
     "admin.auth.expired_message": "您的会话已过期。请重新登录。",
-    "admin.auth.login_btn": "登录"
+    "admin.auth.login_btn": "登录",
+    "admin.login.forgot_password": "忘记密码了吗？",
+    "admin.forgot.title": "找回密码",
+    "admin.forgot.submit": "发送链接",
+    "admin.forgot.back": "返回",
+    "admin.forgot.helper": "我们将向您发送一个重置密码的链接。",
+    "admin.forgot.success": "如果该邮箱存在，您将收到一个重置密码的链接。",
+    "admin.forgot.error_empty": "电子邮件为必填项",
+    "admin.reset.title": "设置新密码",
+    "admin.reset.new_password": "新密码",
+    "admin.reset.confirm_password": "确认新密码",
+    "admin.reset.submit": "保存密码",
+    "admin.reset.success": "密码已更新。您现在可以登录了。",
+    "admin.reset.error_mismatch": "密码不匹配",
+    "admin.reset.error_token": "重置链接无效或已过期",
+    "admin.reset.error_failed": "无法重置密码"
   }
 }

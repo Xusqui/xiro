@@ -38,6 +38,24 @@ async function getActiveUserByUsername(username, queryable = pool) {
     return user;
 }
 
+async function getActiveUserByEmail(email, queryable = pool) {
+    const normalizedEmail = normalizeEmail(email);
+    if (!normalizedEmail) return null;
+
+    const result = await queryable.query(
+        `SELECT id, username, email, password_hash, role, is_active, is_verified
+         FROM admin_users
+         WHERE LOWER(email) = LOWER($1)
+         LIMIT 1`,
+        [normalizedEmail]
+    );
+
+    const user = result.rows[0];
+    if (!user || !user.is_active || !user.is_verified) return null;
+
+    return user;
+}
+
 async function getActiveUserById(userId, queryable = pool) {
     const result = await queryable.query(
         `SELECT id, username, email, password_hash, role, is_active, is_verified
@@ -260,6 +278,7 @@ module.exports = {
     normalizeEmail,
     hasAnyUsers,
     getActiveUserByUsername,
+    getActiveUserByEmail,
     getActiveUserById,
     findExistingUserByUsernameOrEmail,
     findUserByEmail,

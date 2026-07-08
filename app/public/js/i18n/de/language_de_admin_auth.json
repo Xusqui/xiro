@@ -37,6 +37,21 @@
     "admin.logout.confirm": "Abmelden",
     "admin.auth.expired_title": "Sitzung abgelaufen",
     "admin.auth.expired_message": "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
-    "admin.auth.login_btn": "Login"
+    "admin.auth.login_btn": "Login",
+    "admin.login.forgot_password": "Passwort vergessen?",
+    "admin.forgot.title": "Passwort wiederherstellen",
+    "admin.forgot.submit": "Link senden",
+    "admin.forgot.back": "Zurückkehren",
+    "admin.forgot.helper": "Wir senden Ihnen einen Link zum Zurücksetzen Ihres Passworts.",
+    "admin.forgot.success": "Falls die E-Mail existiert, erhalten Sie einen Link zum Zurücksetzen Ihres Passworts.",
+    "admin.forgot.error_empty": "Die E-Mail ist erforderlich",
+    "admin.reset.title": "Neues Passwort festlegen",
+    "admin.reset.new_password": "Neues Passwort",
+    "admin.reset.confirm_password": "Neues Passwort bestätigen",
+    "admin.reset.submit": "Passwort speichern",
+    "admin.reset.success": "Passwort aktualisiert. Sie können sich jetzt anmelden.",
+    "admin.reset.error_mismatch": "Die Passwörter stimmen nicht überein",
+    "admin.reset.error_token": "Der Link zum Zurücksetzen ist ungültig oder abgelaufen",
+    "admin.reset.error_failed": "Das Passwort konnte nicht zurückgesetzt werden"
   }
 }

@@ -38,6 +38,21 @@
     "admin.logout.confirm": "Cerrar sesión",
     "admin.auth.expired_title": "Sesión expirada",
     "admin.auth.expired_message": "Tu sesión ha expirado. Por favor, inicia sesión nuevamente.",
-    "admin.auth.login_btn": "Iniciar sesión"
+    "admin.auth.login_btn": "Iniciar sesión",
+    "admin.login.forgot_password": "¿Olvidaste tu contraseña?",
+    "admin.forgot.title": "Recuperar contraseña",
+    "admin.forgot.submit": "Enviar enlace",
+    "admin.forgot.back": "Volver",
+    "admin.forgot.helper": "Te enviaremos un enlace para restablecer tu contraseña.",
+    "admin.forgot.success": "Si el correo existe, recibirás un enlace para restablecer tu contraseña.",
+    "admin.forgot.error_empty": "El correo es obligatorio",
+    "admin.reset.title": "Establecer nueva contraseña",
+    "admin.reset.new_password": "Nueva contraseña",
+    "admin.reset.confirm_password": "Confirmar nueva contraseña",
+    "admin.reset.submit": "Guardar contraseña",
+    "admin.reset.success": "Contraseña actualizada. Ya puedes iniciar sesión.",
+    "admin.reset.error_mismatch": "Las contraseñas no coinciden",
+    "admin.reset.error_token": "El enlace de restablecimiento no es válido o ha expirado",
+    "admin.reset.error_failed": "No se pudo restablecer la contraseña"
   }
 }

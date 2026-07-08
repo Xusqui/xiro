@@ -37,6 +37,21 @@
     "admin.logout.confirm": "サインアウト",
     "admin.auth.expired_title": "セッションが期限切れになりました",
     "admin.auth.expired_message": "セッションの有効期限が切れました。再度ログインしてください。",
-    "admin.auth.login_btn": "ログイン"
+    "admin.auth.login_btn": "ログイン",
+    "admin.login.forgot_password": "パスワードをお忘れですか?",
+    "admin.forgot.title": "パスワードの再設定",
+    "admin.forgot.submit": "リンクを送信",
+    "admin.forgot.back": "戻る",
+    "admin.forgot.helper": "パスワードを再設定するためのリンクをお送りします。",
+    "admin.forgot.success": "そのメールアドレスが存在する場合、パスワード再設定用のリンクが届きます。",
+    "admin.forgot.error_empty": "メールアドレスは必須です",
+    "admin.reset.title": "新しいパスワードを設定",
+    "admin.reset.new_password": "新しいパスワード",
+    "admin.reset.confirm_password": "新しいパスワードを確認",
+    "admin.reset.submit": "パスワードを保存",
+    "admin.reset.success": "パスワードが更新されました。ログインできます。",
+    "admin.reset.error_mismatch": "パスワードが一致しません",
+    "admin.reset.error_token": "再設定用のリンクが無効か、期限切れです",
+    "admin.reset.error_failed": "パスワードを再設定できませんでした"
   }
 }

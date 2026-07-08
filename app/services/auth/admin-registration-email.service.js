@@ -219,9 +219,45 @@ async function sendAdminDeletionConfirmationEmail({ to, username, confirmationUr
     });
 }
 
+async function sendAdminPasswordResetEmail({ to, username, resetUrl }) {
+    const smtp = getSmtpConfig();
+    const transporter = nodemailer.createTransport(smtp);
+
+    const subject = 'Recupera tu contraseña de XIRO!';
+    const text = [
+        `Hola ${username},`,
+        '',
+        'Hemos recibido una solicitud para restablecer la contraseña de tu cuenta.',
+        'Elige una nueva contraseña haciendo clic en este enlace:',
+        resetUrl,
+        '',
+        'Este enlace caduca en 1 hora.',
+        'Si no has solicitado este cambio, puedes ignorar este correo.'
+    ].join('\n');
+
+    const htmlContent = `
+        <p>Hola <strong>${username}</strong>,</p>
+        <p>Hemos recibido una solicitud para restablecer la contraseña de tu cuenta.</p>
+        <div class="btn-container">
+            <a href="${resetUrl}" class="button">Elegir nueva contraseña</a>
+        </div>
+        <p style="font-size: 14px; color: #94a3b8;">Este enlace caduca en 1 hora.</p>
+        <p style="font-size: 14px; color: #94a3b8;">Si no has solicitado este cambio, puedes ignorar este correo.</p>
+    `;
+
+    await transporter.sendMail({
+        from: smtp.from,
+        to,
+        subject,
+        text,
+        html: buildHtmlTemplate(htmlContent)
+    });
+}
+
 module.exports = {
     sendAdminRegistrationConfirmationEmail,
     sendAdminEmailChangeConfirmationEmail,
     sendAdminEmailChangeAlertEmail,
-    sendAdminDeletionConfirmationEmail
+    sendAdminDeletionConfirmationEmail,
+    sendAdminPasswordResetEmail
 };

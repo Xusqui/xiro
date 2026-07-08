@@ -37,6 +37,21 @@
     "admin.logout.confirm": "Pechar sesión",
     "admin.auth.expired_title": "A sesión caducou",
     "admin.auth.expired_message": "A túa sesión caducou. Inicia sesión de novo.",
-    "admin.auth.login_btn": "Iniciar sesión"
+    "admin.auth.login_btn": "Iniciar sesión",
+    "admin.login.forgot_password": "Esqueciches o contrasinal?",
+    "admin.forgot.title": "Recuperar contrasinal",
+    "admin.forgot.submit": "Enviar ligazón",
+    "admin.forgot.back": "Volver",
+    "admin.forgot.helper": "Enviarémosche unha ligazón para restablecer o teu contrasinal.",
+    "admin.forgot.success": "Se o correo existe, recibirás unha ligazón para restablecer o teu contrasinal.",
+    "admin.forgot.error_empty": "O correo electrónico é obrigatorio",
+    "admin.reset.title": "Establecer novo contrasinal",
+    "admin.reset.new_password": "Novo contrasinal",
+    "admin.reset.confirm_password": "Confirmar novo contrasinal",
+    "admin.reset.submit": "Gardar contrasinal",
+    "admin.reset.success": "Contrasinal actualizado. Xa podes iniciar sesión.",
+    "admin.reset.error_mismatch": "Os contrasinais non coinciden",
+    "admin.reset.error_token": "A ligazón de restablecemento non é válida ou caducou",
+    "admin.reset.error_failed": "Non se puido restablecer o contrasinal"
   }
 }

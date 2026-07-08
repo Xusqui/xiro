@@ -37,6 +37,21 @@
     "admin.logout.confirm": "Tancar sessió",
     "admin.auth.expired_title": "Sessió expirada",
     "admin.auth.expired_message": "La teva sessió ha expirat. Si us plau, inicia sessió novament.",
-    "admin.auth.login_btn": "Inicia sessió"
+    "admin.auth.login_btn": "Inicia sessió",
+    "admin.login.forgot_password": "Has oblidat la contrasenya?",
+    "admin.forgot.title": "Recuperar contrasenya",
+    "admin.forgot.submit": "Enviar enllaç",
+    "admin.forgot.back": "Tornar",
+    "admin.forgot.helper": "T'enviarem un enllaç per restablir la contrasenya.",
+    "admin.forgot.success": "Si el correu existeix, rebràs un enllaç per restablir la contrasenya.",
+    "admin.forgot.error_empty": "El correu és obligatori",
+    "admin.reset.title": "Establir nova contrasenya",
+    "admin.reset.new_password": "Nova contrasenya",
+    "admin.reset.confirm_password": "Confirmar nova contrasenya",
+    "admin.reset.submit": "Desar contrasenya",
+    "admin.reset.success": "Contrasenya actualitzada. Ja pots iniciar sessió.",
+    "admin.reset.error_mismatch": "Les contrasenyes no coincideixen",
+    "admin.reset.error_token": "L'enllaç de restabliment no és vàlid o ha caducat",
+    "admin.reset.error_failed": "No s'ha pogut restablir la contrasenya"
   }
 }

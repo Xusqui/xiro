@@ -212,6 +212,40 @@ const changePasswordSchema = Joi.object({
         })
 });
 
+const passwordResetRequestSchema = Joi.object({
+    email: emailSchema
+});
+
+const passwordResetConfirmSchema = Joi.object({
+    token: Joi.string()
+        .trim()
+        .min(10)
+        .max(255)
+        .required()
+        .messages({
+            'string.empty': 'El token es requerido',
+            'any.required': 'El token es requerido',
+        }),
+    newPassword: Joi.string()
+        .min(LIMITS.PASSWORD_MIN)
+        .max(LIMITS.PASSWORD_MAX)
+        .required()
+        .messages({
+            'string.empty': 'La nueva contraseña es requerida',
+            'string.min': `La nueva contraseña debe tener al menos ${LIMITS.PASSWORD_MIN} caracteres`,
+            'string.max': `La nueva contraseña no puede exceder ${LIMITS.PASSWORD_MAX} caracteres`,
+            'any.required': 'La nueva contraseña es requerida',
+        }),
+    confirmNewPassword: Joi.string()
+        .valid(Joi.ref('newPassword'))
+        .required()
+        .messages({
+            'any.only': 'La confirmación no coincide con la nueva contraseña',
+            'string.empty': 'La confirmación de nueva contraseña es requerida',
+            'any.required': 'La confirmación de nueva contraseña es requerida',
+        })
+});
+
 const changeEmailRequestSchema = Joi.object({
     currentPassword: passwordSchema,
     newEmail: emailSchema,
@@ -1015,6 +1049,8 @@ module.exports = {
         login: loginSchema,
         register: registerSchema,
         changePassword: changePasswordSchema,
+        passwordResetRequest: passwordResetRequestSchema,
+        passwordResetConfirm: passwordResetConfirmSchema,
         changeEmailRequest: changeEmailRequestSchema,
         userLicense: userLicenseSchema,
         userLicenseCheckout: userLicenseCheckoutSchema,

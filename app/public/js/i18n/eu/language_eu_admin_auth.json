@@ -37,6 +37,21 @@
     "admin.logout.confirm": "Amaitu saioa",
     "admin.auth.expired_title": "Saioa iraungi da",
     "admin.auth.expired_message": "Zure saioa iraungi da. Hasi saioa berriro.",
-    "admin.auth.login_btn": "Saioa hasi"
+    "admin.auth.login_btn": "Saioa hasi",
+    "admin.login.forgot_password": "Pasahitza ahaztu duzu?",
+    "admin.forgot.title": "Berreskuratu pasahitza",
+    "admin.forgot.submit": "Bidali esteka",
+    "admin.forgot.back": "Itzuli",
+    "admin.forgot.helper": "Pasahitza berrezartzeko esteka bat bidaliko dizugu.",
+    "admin.forgot.success": "Posta elektronikoa existitzen bada, pasahitza berrezartzeko esteka bat jasoko duzu.",
+    "admin.forgot.error_empty": "Posta elektronikoa beharrezkoa da",
+    "admin.reset.title": "Ezarri pasahitz berria",
+    "admin.reset.new_password": "Pasahitz berria",
+    "admin.reset.confirm_password": "Berretsi pasahitz berria",
+    "admin.reset.submit": "Gorde pasahitza",
+    "admin.reset.success": "Pasahitza eguneratu da. Orain saioa hasi dezakezu.",
+    "admin.reset.error_mismatch": "Pasahitzak ez datoz bat",
+    "admin.reset.error_token": "Berrezartzeko esteka ez da baliozkoa edo iraungi da",
+    "admin.reset.error_failed": "Ezin izan da pasahitza berrezarri"
   }
 }

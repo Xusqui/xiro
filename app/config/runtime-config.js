@@ -107,6 +107,52 @@ function _getDefault(key) {
     return defaults[key];
 }
 
+function _validateNumber(key, value, schema, { isValid, parse, typeLabel }) {
+    const n = parse(value);
+    if (!isValid(n)) return `${key} debe ser un número ${typeLabel}`;
+    if (n < schema.min || n > schema.max) return `${key} debe estar entre ${schema.min} y ${schema.max}`;
+    return null;
+}
+
+function _validateEnum(key, value, schema) {
+    if (!schema.values.includes(String(value))) {
+        return `${key} debe ser uno de: ${schema.values.join(', ')}`;
+    }
+    return null;
+}
+
+function _validateUrl(key, value) {
+    const trimmed = String(value ?? '').trim();
+    if (trimmed === '') return null; // vacío = automático
+    if (trimmed.includes(',')) return `${key} debe ser UNA sola URL (sin comas)`;
+
+    try {
+        const parsed = new URL(trimmed);
+        if (!['http:', 'https:'].includes(parsed.protocol)) {
+            return `${key} debe empezar por http:// o https://`;
+        }
+    } catch (_err) {
+        return `${key} debe ser una URL válida (ej: https://xiro.pro)`;
+    }
+    return null;
+}
+
+const _VALIDATORS_BY_TYPE = {
+    int: (key, value, schema) => _validateNumber(key, value, schema, {
+        isValid: (n) => !isNaN(n),
+        parse: (v) => parseInt(v, 10),
+        typeLabel: 'entero'
+    }),
+    float: (key, value, schema) => _validateNumber(key, value, schema, {
+        isValid: (n) => !isNaN(n),
+        parse: (v) => parseFloat(v),
+        typeLabel: 'decimal'
+    }),
+    enum: _validateEnum,
+    origin_list: (key, value) => validateOriginList(value, key),
+    url: _validateUrl
+};
+
 /**
  * Valida un valor según el schema del parámetro
  * @returns {string|null} mensaje de error o null si válido
@@ -115,34 +161,8 @@ function validate(key, value) {
     const schema = PARAM_SCHEMA[key];
     if (!schema) return `Parámetro desconocido: ${key}`;
 
-    if (schema.type === 'int') {
-        const n = parseInt(value, 10);
-        if (isNaN(n)) return `${key} debe ser un número entero`;
-        if (n < schema.min || n > schema.max) return `${key} debe estar entre ${schema.min} y ${schema.max}`;
-    } else if (schema.type === 'float') {
-        const n = parseFloat(value);
-        if (isNaN(n)) return `${key} debe ser un número decimal`;
-        if (n < schema.min || n > schema.max) return `${key} debe estar entre ${schema.min} y ${schema.max}`;
-    } else if (schema.type === 'enum') {
-        if (!schema.values.includes(String(value))) {
-            return `${key} debe ser uno de: ${schema.values.join(', ')}`;
-        }
-    } else if (schema.type === 'origin_list') {
-        return validateOriginList(value, key);
-    } else if (schema.type === 'url') {
-        const trimmed = String(value ?? '').trim();
-        if (trimmed === '') return null; // vacío = automático
-        if (trimmed.includes(',')) return `${key} debe ser UNA sola URL (sin comas)`;
-        try {
-            const parsed = new URL(trimmed);
-            if (!['http:', 'https:'].includes(parsed.protocol)) {
-                return `${key} debe empezar por http:// o https://`;
-            }
-        } catch (_err) {
-            return `${key} debe ser una URL válida (ej: https://xiro.pro)`;
-        }
-    }
-    return null;
+    const validator = _VALIDATORS_BY_TYPE[schema.type];
+    return validator ? validator(key, value, schema) : null;
 }
 
 /**

@@ -37,6 +37,21 @@
     "admin.logout.confirm": "se déconnecter",
     "admin.auth.expired_title": "Session expirée",
     "admin.auth.expired_message": "Votre session a expiré. Veuillez vous reconnecter.",
-    "admin.auth.login_btn": "Se connecter"
+    "admin.auth.login_btn": "Se connecter",
+    "admin.login.forgot_password": "Mot de passe oublié ?",
+    "admin.forgot.title": "Récupérer le mot de passe",
+    "admin.forgot.submit": "Envoyer le lien",
+    "admin.forgot.back": "Retour",
+    "admin.forgot.helper": "Nous vous enverrons un lien pour réinitialiser votre mot de passe.",
+    "admin.forgot.success": "Si l'e-mail existe, vous recevrez un lien pour réinitialiser votre mot de passe.",
+    "admin.forgot.error_empty": "L'e-mail est obligatoire",
+    "admin.reset.title": "Définir un nouveau mot de passe",
+    "admin.reset.new_password": "Nouveau mot de passe",
+    "admin.reset.confirm_password": "Confirmez le nouveau mot de passe",
+    "admin.reset.submit": "Enregistrer le mot de passe",
+    "admin.reset.success": "Mot de passe mis à jour. Vous pouvez maintenant vous connecter.",
+    "admin.reset.error_mismatch": "Les mots de passe ne correspondent pas",
+    "admin.reset.error_token": "Le lien de réinitialisation n'est pas valide ou a expiré",
+    "admin.reset.error_failed": "Impossible de réinitialiser le mot de passe"
   }
 }

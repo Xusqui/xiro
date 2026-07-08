@@ -38,6 +38,21 @@
     "admin.logout.confirm": "Sign out",
     "admin.auth.expired_title": "Session expired",
     "admin.auth.expired_message": "Your session has expired. Please log in again.",
-    "admin.auth.login_btn": "Login"
+    "admin.auth.login_btn": "Login",
+    "admin.login.forgot_password": "Forgot your password?",
+    "admin.forgot.title": "Recover password",
+    "admin.forgot.submit": "Send link",
+    "admin.forgot.back": "Back",
+    "admin.forgot.helper": "We will send you a link to reset your password.",
+    "admin.forgot.success": "If the email exists, you will receive a link to reset your password.",
+    "admin.forgot.error_empty": "Email is required",
+    "admin.reset.title": "Set new password",
+    "admin.reset.new_password": "New password",
+    "admin.reset.confirm_password": "Confirm new password",
+    "admin.reset.submit": "Save password",
+    "admin.reset.success": "Password updated. You can now log in.",
+    "admin.reset.error_mismatch": "Passwords do not match",
+    "admin.reset.error_token": "The reset link is invalid or has expired",
+    "admin.reset.error_failed": "Could not reset the password"
   }
 }
