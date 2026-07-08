@@ -64,6 +64,24 @@ async function getResourceOwner(resourceType, resourceId, queryable = pool) {
     };
 }
 
+async function getResourceLicenseInfo(resourceType, resourceId, queryable = pool) {
+    if (!resourceId) return null;
+
+    const table = resolveTable(resourceType);
+    const result = await queryable.query(
+        `SELECT created_by_role, created_by_user_id, license_exempt FROM ${table} WHERE id = $1`,
+        [resourceId]
+    );
+
+    if (!result.rows.length) return null;
+    const row = result.rows[0];
+    return {
+        role: normalizeCreatorRole(row.created_by_role),
+        userId: normalizeActorUserId(row.created_by_user_id),
+        licenseExempt: row.license_exempt === true
+    };
+}
+
 async function assertEditorCanModifyResource(resourceType, resourceId, actorUserId, queryable = pool) {
     const actorId = normalizeActorUserId(actorUserId);
     if (!actorId) return;
@@ -82,5 +100,6 @@ async function assertEditorCanModifyResource(resourceType, resourceId, actorUser
 module.exports = {
     assertEditorCanModifyResource,
     getResourceOwner,
+    getResourceLicenseInfo,
     normalizeCreatorRole
 };

@@ -8,12 +8,13 @@
 
 const userLicenseDb = require('./db/user-license.service');
 const { validatePinInDatabase } = require('./db/pin.service');
-const { getResourceOwner } = require('./db/resource-ownership.service');
+const { getResourceLicenseInfo } = require('./db/resource-ownership.service');
 const { probeRemoteStatus } = require('./site-probe.service');
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const SOURCE_SYNC_MS = 60 * 1000;
-const OWNER_CACHE_MS = 10 * 60 * 1000;
+// Corto para que liberar/restringir contenido se propague rápido entre workers
+const OWNER_CACHE_MS = 60 * 1000;
 const MAX_CACHE_ENTRIES = 500;
 
 const _VALIDATION_KEYS = [
@@ -144,7 +145,7 @@ async function _resolveOwner(pin) {
     const pinInfo = await validatePinInDatabase(pin);
     let owner = null;
     if (pinInfo.valid && pinInfo.type && pinInfo.id) {
-        owner = await getResourceOwner(pinInfo.type, pinInfo.id);
+        owner = await getResourceLicenseInfo(pinInfo.type, pinInfo.id);
     }
 
     _boundedSet(_ownerByPin, pin, { owner, checkedAt: nowMs });
@@ -154,8 +155,9 @@ async function _resolveOwner(pin) {
 /**
  * Desbloqueo por propietario del contenido asociado a un PIN.
  * Solo tiene sentido con licencia de sitio válida: el contenido de
- * administradores o sin propietario (legado) queda desbloqueado por la
- * propia licencia de sitio; el de editores exige su licencia individual.
+ * administradores, sin propietario (legado) o liberado por el admin
+ * (license_exempt) queda desbloqueado por la propia licencia de sitio;
+ * el de editores exige su licencia individual.
  * @param {string} pinValue - PIN del contenido (banco/custom/trivial/quiz/juego)
  * @returns {Promise<{licensed: boolean, reason: string|null}>}
  */
@@ -169,6 +171,9 @@ async function getOwnerLicenseStatusByPin(pinValue) {
         const owner = await _resolveOwner(pin);
         if (!owner || !owner.userId) {
             return { licensed: true, reason: 'no_owner' };
+        }
+        if (owner.licenseExempt === true) {
+            return { licensed: true, reason: 'exempt' };
         }
         if (owner.role !== 'editor') {
             return { licensed: true, reason: 'admin_owner' };
@@ -188,6 +193,16 @@ function invalidateUserLicenseStatus(userId) {
     if (uid) _statusByUser.delete(uid);
 }
 
+/**
+ * Invalida la caché propietario/exención de un PIN (p.ej. tras liberar
+ * o restringir un contenido). Otros workers refrescan en ≤ OWNER_CACHE_MS.
+ * @param {string} pinValue - PIN del contenido
+ */
+function invalidateOwnerCacheForPin(pinValue) {
+    const pin = String(pinValue || '').trim().toUpperCase();
+    if (pin) _ownerByPin.delete(pin);
+}
+
 function clearUserLicenseCaches() {
     _statusByUser.clear();
     _ownerByPin.clear();
@@ -197,5 +212,6 @@ module.exports = {
     getUserLicenseStatus,
     getOwnerLicenseStatusByPin,
     invalidateUserLicenseStatus,
+    invalidateOwnerCacheForPin,
     clearUserLicenseCaches
 };

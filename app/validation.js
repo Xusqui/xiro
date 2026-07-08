@@ -240,6 +240,16 @@ const userLicenseCheckoutSchema = Joi.object({
         })
 });
 
+// Liberación de contenido de editores (toggle del administrador)
+const licenseExemptionSchema = Joi.object({
+    exempt: Joi.boolean()
+        .required()
+        .messages({
+            'boolean.base': 'El campo exempt debe ser booleano',
+            'any.required': 'El campo exempt es requerido',
+        })
+});
+
 // Licencia individual del usuario (vacía = eliminarla)
 const userLicenseSchema = Joi.object({
     license: Joi.string()
@@ -1008,6 +1018,7 @@ module.exports = {
         changeEmailRequest: changeEmailRequestSchema,
         userLicense: userLicenseSchema,
         userLicenseCheckout: userLicenseCheckoutSchema,
+        licenseExemption: licenseExemptionSchema,
 
         // Bancos
         createBank: createBankSchema,

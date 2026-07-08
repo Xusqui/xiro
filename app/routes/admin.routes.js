@@ -82,7 +82,7 @@ function resolvePublicBaseUrl() {
     }
 }
 
-const PUBLIC_BASE_URL = resolvePublicBaseUrl();
+// Se resuelve por petición para respetar cambios en caliente (runtime-config)
 
 /**
  * Estado de autenticación admin
@@ -469,7 +469,7 @@ router.post('/api/admin/account/change-email/request', authenticateAdmin, accoun
             newEmail: normalizedNewEmail
         });
 
-        const confirmationUrl = `${PUBLIC_BASE_URL}/admin.html?verify_email_token=${encodeURIComponent(pending.token)}`;
+        const confirmationUrl = `${resolvePublicBaseUrl()}/admin.html?verify_email_token=${encodeURIComponent(pending.token)}`;
 
         await sendAdminEmailChangeConfirmationEmail({
             to: normalizedNewEmail,
@@ -624,7 +624,7 @@ router.post('/api/admin/account/delete/request', authenticateAdmin, accountMutat
             userId: user.id
         });
 
-        const confirmationUrl = `${PUBLIC_BASE_URL}/api/admin/account/delete/confirm?token=${encodeURIComponent(pending.token)}`;
+        const confirmationUrl = `${resolvePublicBaseUrl()}/api/admin/account/delete/confirm?token=${encodeURIComponent(pending.token)}`;
 
         await sendAdminDeletionConfirmationEmail({
             to: user.email,
@@ -752,7 +752,7 @@ router.post('/api/admin-register', loginLimiter, validateBody(schemas.register),
             passwordHash
         });
 
-        const confirmationUrl = `${PUBLIC_BASE_URL}/admin.html?verify_token=${encodeURIComponent(pending.token)}`;
+        const confirmationUrl = `${resolvePublicBaseUrl()}/admin.html?verify_token=${encodeURIComponent(pending.token)}`;
         await sendAdminRegistrationConfirmationEmail({
             to: email,
             username,

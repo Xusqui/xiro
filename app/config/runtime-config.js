@@ -39,6 +39,8 @@ const PARAM_SCHEMA = {
     BACKUP_RETENTION_DAYS: { type: 'int', min: 1, max: 365, envKey: 'BACKUP_RETENTION_DAYS' },
     CORS_ORIGIN: { type: 'origin_list', envKey: 'CORS_ORIGIN' },
     ALLOWED_ORIGINS: { type: 'origin_list', envKey: 'ALLOWED_ORIGINS' },
+    // URL pública del servidor (emails, retorno de PayPal). Vacío = automático.
+    PUBLIC_BASE_URL: { type: 'url', envKey: 'PUBLIC_BASE_URL' },
     UMAMI_SERVER_URL: { type: 'string', envKey: 'UMAMI_SERVER_URL' },
     UMAMI_WEBSITE_ID: { type: 'string', envKey: 'UMAMI_WEBSITE_ID' },
     // ── Contacto / SMTP ──────────────────────────────────────────────────────
@@ -91,6 +93,7 @@ function _getDefault(key) {
         BACKUP_RETENTION_DAYS: 7,
         CORS_ORIGIN: DEFAULT_ORIGINS_CSV,
         ALLOWED_ORIGINS: DEFAULT_ORIGINS_CSV,
+        PUBLIC_BASE_URL: '',
         UMAMI_SERVER_URL: '',
         UMAMI_WEBSITE_ID: '',
         SMTP_HOST: '',
@@ -126,6 +129,18 @@ function validate(key, value) {
         }
     } else if (schema.type === 'origin_list') {
         return validateOriginList(value, key);
+    } else if (schema.type === 'url') {
+        const trimmed = String(value ?? '').trim();
+        if (trimmed === '') return null; // vacío = automático
+        if (trimmed.includes(',')) return `${key} debe ser UNA sola URL (sin comas)`;
+        try {
+            const parsed = new URL(trimmed);
+            if (!['http:', 'https:'].includes(parsed.protocol)) {
+                return `${key} debe empezar por http:// o https://`;
+            }
+        } catch (_err) {
+            return `${key} debe ser una URL válida (ej: https://xiro.pro)`;
+        }
     }
     return null;
 }
@@ -200,6 +215,7 @@ function set(key, value) {
     if (schema.type === 'int') parsed = parseInt(value, 10);
     else if (schema.type === 'float') parsed = parseFloat(value);
     else if (schema.type === 'origin_list') parsed = formatOriginList(value, []);
+    else if (schema.type === 'url') parsed = String(value ?? '').trim().replace(/\/+$/, '');
     else parsed = String(value);
 
     _store[key] = parsed;

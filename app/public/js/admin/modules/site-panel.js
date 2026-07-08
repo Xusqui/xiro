@@ -119,6 +119,10 @@ function _renderLicensePanel(data) {
                     <img src="${licenseImage}" alt="${licenseAlt}" class="w-full max-w-sm h-auto mx-auto">
                 </div>
             </div>
+
+            <div id="public-url-area"></div>
+
+            <div id="license-exemptions-area"></div>
         </div>`;
 }
 
@@ -133,6 +137,12 @@ function renderLicenseTab() {
         .then(data => {
             const liveArea = document.getElementById('config-tab-content');
             if (liveArea) liveArea.innerHTML = _tHtml(_renderLicensePanel(data || {}));
+            if (typeof renderSitePublicUrlCard === 'function') {
+                renderSitePublicUrlCard();
+            }
+            if (typeof renderLicenseExemptions === 'function') {
+                renderLicenseExemptions();
+            }
         })
         .catch(() => {
             const liveArea = document.getElementById('config-tab-content');
