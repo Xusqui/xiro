@@ -93,7 +93,7 @@ function _startUserLicenseCheckout(planCode, buttonElement) {
         })
         .catch(() => {
             if (buttonElement) buttonElement.disabled = false;
-            if (resultEl) resultEl.innerHTML = _tHtml(`<span class="text-red-600 font-medium"><i class="fas fa-times-circle mr-1"></i>${_t('admin.userlicense.error_net', null, 'Error de red al iniciar la compra')}</span>`);
+            if (resultEl) resultEl.innerHTML = _tHtml(`<span class="text-red-600 font-medium"><i class="fas fa-times-circle mr-1"></i>${_t('admin.userlicense.error_net_checkout', null, 'Error de red al iniciar la compra')}</span>`);
         });
 }
 

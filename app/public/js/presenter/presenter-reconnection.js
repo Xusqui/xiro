@@ -6,18 +6,18 @@
  * Also emits reconnect-presenter on Socket.IO auto-reconnect.
  */
 
-import { socket, presenterPlayerId } from './presenter-socket-config.js?v=20260708162526';
+import { socket, presenterPlayerId } from './presenter-socket-config.js?v=20260708170109';
 import {
     setSessionId, setPin, setCurrentQuestionIndex, setTotalQuestions,
     setPlayersData, setConnectedPlayers, setTotalPlayers,
     setIsTeamMode, setTeamConfig, getIsTeamMode, getTeamConfig
-} from './presenter-state.js?v=20260708162526';
+} from './presenter-state.js?v=20260708170109';
 import {
     renderPregunta, renderCommentSlide, renderInfoSlide, renderTextSlide, renderImageSlide, renderTextImageSlide,
     updatePlayersPanel, renderTeamLobby, mostrarQR
-} from './presenter-game-ui.js?v=20260708162526';
-import { restoreLobbyHTML, showAbandonButton } from './presenter-utils.js?v=20260708162526';
-import { handleGameAbandoned } from './presenter-session-control.js?v=20260708162526';
+} from './presenter-game-ui.js?v=20260708170109';
+import { restoreLobbyHTML, showAbandonButton } from './presenter-utils.js?v=20260708170109';
+import { handleGameAbandoned } from './presenter-session-control.js?v=20260708170109';
 
 function getStoredSessionId() {
     return sessionStorage.getItem('xiro_presenter_sessionId')
