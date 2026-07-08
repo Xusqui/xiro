@@ -125,7 +125,11 @@ function renderConfigPanel() {
 /* ===== SAVE ===== */
 
 function saveConfigChanges() {
-    const inputs = document.querySelectorAll('[data-key]:not(:disabled)');
+    // Selector restringido a controles de formulario reales: el botón "ojo" de los campos
+    // sensibles también lleva data-key (para saber qué campo mostrar/ocultar) y, al no tener
+    // valor ni data-sensitive, un selector genérico "[data-key]" lo captaba también y su
+    // value="" pisaba el valor real del input al procesarse justo después en el forEach.
+    const inputs = document.querySelectorAll('input[data-key]:not(:disabled), select[data-key]:not(:disabled)');
     const updates = {};
     inputs.forEach(el => {
         if (el.dataset.sensitive && !el.value.trim()) return;
@@ -186,11 +190,13 @@ function toggleSensitiveField(key) {
     const input = document.getElementById('cfg-' + key);
     const icon = document.getElementById('eye-' + key);
     if (!input || !icon) return;
-    if (input.type === 'password') {
-        input.type = 'text';
+    // El campo siempre es type="text" (ver config-panel-fields.js); el enmascarado se hace
+    // con la clase CSS .xiro-input-mask para no activar el gestor de contraseñas del navegador.
+    if (input.classList.contains('xiro-input-mask')) {
+        input.classList.remove('xiro-input-mask');
         icon.className = 'fas fa-eye-slash text-xs';
     } else {
-        input.type = 'password';
+        input.classList.add('xiro-input-mask');
         icon.className = 'fas fa-eye text-xs';
     }
 }

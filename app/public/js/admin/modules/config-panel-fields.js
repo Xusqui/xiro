@@ -32,12 +32,15 @@ function _renderConfigField(key, entry) {
             ${opts}</select>`;
     } else if (entry.sensitive) {
         const placeholder = value ? _t('admin.config.server.sensitive_unchanged', null, '(sin cambios)') : _t('admin.config.server.sensitive_enter', null, 'Introduce el valor...');
+        // type="text" + máscara CSS (no type="password"): evita que el gestor de contraseñas
+        // del navegador trate este campo de configuración como una credencial de login y lo
+        // autorrellene/vacíe de forma inesperada.
         input = `<div class="flex items-center gap-2 w-full">
             <div class="relative flex-1">
-                <input type="password" id="cfg-${key}" data-key="${key}" data-mul="1" data-sensitive="true"
+                <input type="text" id="cfg-${key}" data-key="${key}" data-mul="1" data-sensitive="true"
                     value="" placeholder="${placeholder}"
-                    autocomplete="new-password"
-                    class="w-full px-3 py-2 border-2 border-slate-200 rounded-lg focus:border-indigo-400 focus:outline-none font-mono text-sm pr-10">
+                    autocomplete="off" spellcheck="false" autocapitalize="off"
+                    class="xiro-input-mask w-full px-3 py-2 border-2 border-slate-200 rounded-lg focus:border-indigo-400 focus:outline-none font-mono text-sm pr-10">
                 <button type="button" data-config-action="toggle-sensitive" data-key="${key}" tabindex="-1"
                     class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
                     <i id="eye-${key}" class="fas fa-eye text-xs"></i>
@@ -65,7 +68,7 @@ function _renderConfigField(key, entry) {
                 </div>
                 <div class="flex-1 min-w-0">
                     <div class="flex items-center gap-2 flex-wrap mb-1">
-                        <p class="font-bold text-slate-800">${_t(meta.label, null, meta.label)}</p>
+                        <label for="cfg-${key}" class="font-bold text-slate-800">${_t(meta.label, null, meta.label)}</label>
                         ${meta.badge ? `<span class="text-xs font-semibold px-2 py-0.5 rounded-full ${badgeClass}">${_badgeLabel(meta.badge)}</span>` : ''}
                     </div>
                     <p class="text-xs text-slate-500 mb-3 leading-relaxed">${_t(meta.description, null, meta.description)}</p>

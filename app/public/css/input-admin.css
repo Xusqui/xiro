@@ -21,4 +21,11 @@
     .alert-content {
         @apply p-4 rounded;
     }
+
+    /* Enmascara visualmente un input type="text" como si fuera type="password",
+       sin usar type="password" (evita interferencias del gestor de contraseñas
+       del navegador con campos de configuración que no son credenciales de login). */
+    .xiro-input-mask {
+        -webkit-text-security: disc;
+    }
 }

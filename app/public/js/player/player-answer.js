@@ -3,9 +3,9 @@
  * Envío, reintentos y resultados de respuestas
  */
 
-import { socket } from './player-socket-config.js?v=20260708133604';
-import './player-answer-visual-logic.js?v=20260708133604';
-import { applyStreakToResult, setBodyHTML } from './player-streak-ui.js?v=20260708133604';
+import { socket } from './player-socket-config.js?v=20260708162526';
+import './player-answer-visual-logic.js?v=20260708162526';
+import { applyStreakToResult, setBodyHTML } from './player-streak-ui.js?v=20260708162526';
 import {
     getPin, getSessionId, getNickname,
     getCanAnswer, setCanAnswer, getHaRespondido, setHaRespondido,
@@ -16,7 +16,7 @@ import {
     startOrderAutoSendTimer,
     getCurrentMatches, clearMatchAutoSendTimer,
     getCurrentSlideType, getStreakInfo
-} from './player-state.js?v=20260708133604';
+} from './player-state.js?v=20260708162526';
 
 function createRequestId() {
     return `ans_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;

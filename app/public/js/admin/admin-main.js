@@ -19,7 +19,12 @@ if (window.XiroI18n && typeof window.XiroI18n.addSections === 'function') {
 // ===== MOSTRAR PANEL ADMIN =====
 
 function showAdmin() {
-    document.getElementById('login-overlay').style.display = 'none';
+    // Se elimina del DOM (no solo se oculta) porque contiene varios <input type="password">
+    // (login, reset, registro). Dejarlos ocultos con display:none seguía haciendo que el
+    // gestor de contraseñas del navegador los tuviera en cuenta junto a los campos sensibles
+    // del panel de Config (SMTP_PASS, CONTACT_TOKEN_SECRET), provocando autorrellenados/
+    // vaciados inesperados de esos campos. No hace falta recuperarlo: logout() recarga la página.
+    document.getElementById('login-overlay').remove();
     document.getElementById('admin-content').style.display = '';
     applyRolePermissions();
     cargarListas();
