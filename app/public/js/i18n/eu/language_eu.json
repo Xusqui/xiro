@@ -113,7 +113,8 @@
     "/js/i18n/eu/language_eu_manual_admin_tools_equipos.json",
     "/js/i18n/eu/language_eu_manual_admin_tools_fuegos.json",
     "/js/i18n/eu/language_eu_manual_admin_tools_interfaz.json",
-    "/js/i18n/eu/language_eu_manual_admin_tools_ia.json"
+    "/js/i18n/eu/language_eu_manual_admin_tools_ia.json",
+    "/js/i18n/eu/language_eu_standalone.json"
   ],
   "keys": {
     "language.label": "Hizkuntza",

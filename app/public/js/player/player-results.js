@@ -3,8 +3,8 @@
  * Actualización de ranking y posición final
  */
 
-import { socket } from './player-socket-config.js?v=20260708170109';
-import { getNickname, setPin, setSessionId, setNickname, setHaRespondido, resetSessionState } from './player-state.js?v=20260708170109';
+import { socket } from './player-socket-config.js?v=20260709194140';
+import { getNickname, setPin, setSessionId, setNickname, setHaRespondido, resetSessionState } from './player-state.js?v=20260709194140';
 
 // ===== EVENTOS DE RESULTADOS =====
 

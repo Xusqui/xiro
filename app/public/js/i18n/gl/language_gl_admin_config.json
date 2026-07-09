@@ -117,6 +117,8 @@
     "admin.config.fireworks.default_prefix": "Por defecto",
     "admin.config.ui.tv_card_label": "Tarxeta \"Versión TV\" na pantalla de inicio",
     "admin.config.ui.tv_card_desc": "Mostra ou oculta a tarxeta e ligazón a tv.html na pantalla de inicio.",
+    "admin.config.ui.standalone_card_label": "Tarxeta \"Modo Autónomo\" na pantalla de inicio",
+    "admin.config.ui.standalone_card_desc": "Mostra ou oculta a tarxeta e ligazón a standalone.html na pantalla de inicio.",
     "admin.config.ui.applying": "Aplicando…",
     "admin.config.ui.applied_ok": "O cambio aplicouse correctamente.",
     "admin.config.ui.net_error": "Erro de rede.",

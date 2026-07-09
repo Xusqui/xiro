@@ -147,6 +147,8 @@
     "admin.config.fireworks.default_prefix": "Default",
     "admin.config.ui.tv_card_label": "\"TV Version\" card on the home screen",
     "admin.config.ui.tv_card_desc": "Shows or hides the card and link to tv.html on the home screen.",
+    "admin.config.ui.standalone_card_label": "\"Solitary Mode\" card on the home screen",
+    "admin.config.ui.standalone_card_desc": "Shows or hides the card and link to standalone.html on the home screen.",
     "admin.config.ui.applying": "Applying…",
     "admin.config.ui.applied_ok": "Change applied successfully.",
     "admin.config.ui.net_error": "Network error.",

@@ -117,6 +117,8 @@
     "admin.config.fireworks.default_prefix": "Padrão",
     "admin.config.ui.tv_card_label": "Cartão \"Versão TV\" na tela inicial",
     "admin.config.ui.tv_card_desc": "Mostra ou oculta o cartão e o link para tv.html na tela inicial.",
+    "admin.config.ui.standalone_card_label": "Cartão \"Modo Solitário\" na tela inicial",
+    "admin.config.ui.standalone_card_desc": "Mostra ou oculta o cartão e o link para standalone.html na tela inicial.",
     "admin.config.ui.applying": "Aplicando…",
     "admin.config.ui.applied_ok": "Alteração aplicada com sucesso.",
     "admin.config.ui.net_error": "Erro de rede.",

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="xiro-i18n-sections" content="common,standalone">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title data-i18n="standalone.title">XIRO! - Modo Standalone</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/css/common.css?v=20260709194140">
+    <link rel="stylesheet" href="/css/output-standalone.css?v=20260709194140">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    <script defer src="/js/core/umami-loader.js?v=20260709194140"></script>
+    <script src="/socket.io/socket.io.js?v=20260709194140"></script>
+    <script defer src="/js/i18n/i18n-core.js?v=20260709194140"></script>
+    <script defer src="/js/i18n/i18n-dom.js?v=20260709194140"></script>
+    <script defer src="/js/i18n/i18n-ui.js?v=20260709194140"></script>
+</head>
+
+<body
+    class="bg-gradient-to-br from-purple-700 via-purple-600 to-indigo-700 min-h-screen font-sans text-white standalone-body">
+    <div class="standalone-shell w-full max-w-5xl mx-auto px-4 py-10">
+        <header class="flex items-center justify-center gap-5 mb-10">
+            <a href="/index.html" class="shrink-0">
+                <img src="/images/logo.svg" alt="XIRO!" class="h-14 md:h-16"
+                    style="filter: drop-shadow(3px 3px 1px rgb(0 0 0 / 0.5));">
+            </a>
+            <h1 class="text-2xl md:text-4xl font-black text-white drop-shadow-lg" data-i18n="standalone.title">
+                Modo Standalone</h1>
+        </header>
+
+        <main id="main-container">
+            <!-- Pantalla de selección de juegos -->
+            <div id="lobby-screen" class="standalone-lobby">
+                <div class="text-center mb-10">
+                    <h2 class="text-2xl md:text-3xl font-black mb-2" data-i18n="standalone.lobby.title">Elige tu juego</h2>
+                    <p class="text-purple-100 font-medium" data-i18n="standalone.lobby.subtitle">Selecciona un banco de
+                        preguntas o juego personalizado</p>
+                </div>
+
+                <div class="nickname-row">
+                    <label for="standalone-nickname" data-i18n="standalone.lobby.nickname_label">¿Cómo te llamas?</label>
+                    <input type="text" id="standalone-nickname" maxlength="20" autocomplete="off"
+                        data-i18n-placeholder="standalone.lobby.nickname_placeholder" placeholder="Tu nombre">
+                </div>
+
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-standalone-filter="all" data-i18n="standalone.lobby.filter.all">
+                        Todos
+                    </button>
+                    <button class="filter-btn" data-standalone-filter="custom" data-i18n="standalone.lobby.filter.custom">
+                        Personalizados
+                    </button>
+                    <button class="filter-btn" data-standalone-filter="bank" data-i18n="standalone.lobby.filter.banks">
+                        Bancos
+                    </button>
+                </div>
+
+                <div id="games-container" class="games-grid">
+                    <div class="loading-state">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p data-i18n="standalone.lobby.loading">Cargando juegos...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="mt-12 text-center text-purple-100 text-sm">
+            <a href="/index.html" class="hover:text-white transition-colors underline underline-offset-2">
+                <i class="fas fa-arrow-left mr-1"></i>
+                <span data-i18n="standalone.footer.back">Volver al inicio</span>
+            </a>
+        </footer>
+    </div>
+
+    <script src="/js/standalone/standalone-state.js?v=20260709194140"></script>
+    <script src="/js/standalone/standalone-socket.js?v=20260709194140"></script>
+    <script src="/js/standalone/standalone-question-common.js?v=20260709194140"></script>
+    <script src="/js/standalone/standalone-question-choice.js?v=20260709194140"></script>
+    <script src="/js/standalone/standalone-question-slides.js?v=20260709194140"></script>
+    <script src="/js/standalone/standalone-question-order.js?v=20260709194140"></script>
+    <script src="/js/standalone/standalone-question-matching.js?v=20260709194140"></script>
+    <script src="/js/standalone/standalone-question-input.js?v=20260709194140"></script>
+    <script src="/js/standalone/standalone-question-multiplechoice.js?v=20260709194140"></script>
+    <script src="/js/standalone/standalone-question-router.js?v=20260709194140"></script>
+    <script src="/js/standalone/standalone-reveal.js?v=20260709194140"></script>
+    <script src="/js/standalone/standalone-results.js?v=20260709194140"></script>
+    <script src="/js/standalone/standalone-lobby.js?v=20260709194140"></script>
+    <script src="/js/standalone/standalone-game.js?v=20260709194140"></script>
+    <script src="/js/standalone/standalone-main.js?v=20260709194140"></script>
+    <script src="/js/core/site-badge.js?v=20260709194140"></script>
+</body>
+
+</html>

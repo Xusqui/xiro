@@ -21,7 +21,8 @@ const DEFAULT_TEAM_NAMES = [
 ];
 
 const DEFAULTS = {
-    showTvCard: true,   // Muestra la tarjeta "Versión TV" en el menú principal
+    showTvCard: true,           // Muestra la tarjeta "Versión TV" en el menú principal
+    showStandaloneCard: true,   // Muestra la tarjeta "Modo Standalone" en el menú principal
     teamNames: [...DEFAULT_TEAM_NAMES], // Nombres personalizados de equipos (1-9)
 
     // Configuración de fuegos artificiales del podio

@@ -30,6 +30,7 @@ const { configureHelmet, configureCORS } = require('./middlewares/security');
 const { errorHandler, notFoundHandler } = require('./middlewares/errorHandler');
 const maintenanceMiddleware = require('./middlewares/maintenanceMode');
 const tvAccessGuard = require('./middlewares/tvAccessGuard');
+const standaloneAccessGuard = require('./middlewares/standaloneAccessGuard');
 const metricsMiddleware = require('./middlewares/metrics.middleware');
 
 // ===== RUTAS =====
@@ -45,6 +46,7 @@ const userLicenseRoutes = require('./routes/user-license.routes');
 const userLicenseCheckoutRoutes = require('./routes/user-license-checkout.routes');
 const licenseExemptionsRoutes = require('./routes/license-exemptions.routes');
 const gameRoutes = require('./routes/game.routes');
+const pinsRoutes = require('./routes/pins.routes');
 const metricsRoutes = require('./routes/metrics.routes');
 const qrRoutes = require('./routes/qr.routes');
 const searchRoutes = require('./routes/search.routes');
@@ -119,6 +121,9 @@ app.use(compression({
 // Bloquea acceso directo a /tv.html si la tarjeta de TV está deshabilitada.
 app.use(tvAccessGuard);
 
+// Bloquea acceso directo a /standalone.html si la tarjeta de Standalone está deshabilitada.
+app.use(standaloneAccessGuard);
+
 app.use(express.static('public', {
     maxAge: '1d',
     setHeaders: (res, filePath) => {
@@ -146,6 +151,7 @@ app.use(userLicenseRoutes);
 app.use(userLicenseCheckoutRoutes);
 app.use(licenseExemptionsRoutes);
 app.use(gameRoutes);
+app.use(pinsRoutes);
 app.use(searchRoutes);
 app.use(metricsRoutes);
 app.use('/api/qr', qrRoutes);

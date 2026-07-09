@@ -28,4 +28,20 @@ router.get('/api/presenter-pins', presenterPinsLimiter, async (req, res) => {
     }
 });
 
+router.get('/api/ui-settings/standalone-games', presenterPinsLimiter, async (req, res) => {
+    try {
+        const pins = await dbService.getPinsForPresenter();
+        // Transformar formato para Standalone
+        const games = (pins || []).map(pin => ({
+            pin: pin.pin,
+            name: pin.name || pin.pin,
+            type: pin.type || 'bank',
+            questionCount: pin.question_count || 0
+        }));
+        res.json({ games });
+    } catch (err) {
+        handleRouteError(err, res);
+    }
+});
+
 module.exports = router;

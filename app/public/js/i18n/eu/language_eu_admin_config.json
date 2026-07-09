@@ -117,6 +117,8 @@
     "admin.config.fireworks.default_prefix": "Lehenetsia",
     "admin.config.ui.tv_card_label": "\"TV Version\" txartela hasierako pantailan",
     "admin.config.ui.tv_card_desc": "Txartela erakusten edo ezkutatzen du eta tv.html-rako esteka hasierako pantailan.",
+    "admin.config.ui.standalone_card_label": "\"Mode Autonomoa\" txartela hasierako pantailan",
+    "admin.config.ui.standalone_card_desc": "Txartela erakusten edo ezkutatzen du eta standalone.html-rako esteka hasierako pantailan.",
     "admin.config.ui.applying": "Aplikatzen…",
     "admin.config.ui.applied_ok": "Aldaketa behar bezala aplikatu da.",
     "admin.config.ui.net_error": "Sareko errorea.",

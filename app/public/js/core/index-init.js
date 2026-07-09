@@ -2,8 +2,11 @@
     'use strict';
 
     function _applyUiSettings(s) {
-        var card = document.getElementById('card-tv');
-        if (card) card.style.display = (s.showTvCard === false) ? 'none' : '';
+        var cardTv = document.getElementById('card-tv');
+        if (cardTv) cardTv.style.display = (s.showTvCard === false) ? 'none' : '';
+
+        var cardStandalone = document.getElementById('card-standalone');
+        if (cardStandalone) cardStandalone.style.display = (s.showStandaloneCard === false) ? 'none' : '';
     }
 
     function _pollUiSettings() {
