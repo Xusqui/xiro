@@ -22,7 +22,7 @@
     html.page-index #cards-grid>.card {
         flex: 1 1 15em;
         max-width: 17.5em;
-        min-width: 13.75em;
+        min-width: 12em;
     }
 
     html.page-index #cards-grid>.card>div {
@@ -36,12 +36,13 @@
     justify-content: center;
     align-items: stretch;
     gap: 1.5rem;
+    max-width: 90rem;
 }
 
 #cards-grid>.card {
     flex: 1 1 240px;
     max-width: 280px;
-    min-width: 220px;
+    min-width: 190px;
 }
 
 #cards-grid>.card>div {
@@ -136,6 +137,7 @@ body.bg-gradient-to-br > .w-full.max-w-6xl {
     z-index: 1;
     margin-top: auto;
     margin-bottom: auto;
+    max-width: 90rem;
 }
 
 .player-chameleon {

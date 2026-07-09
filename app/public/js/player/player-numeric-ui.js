@@ -7,9 +7,9 @@ import {
     setHaRespondido,
     setCanAnswer,
     setCurrentSlideType
-} from './player-state.js?v=20260709194140';
-import { enviarRespuestaNumerica } from './player-answer.js?v=20260709194140';
-import { getResponsiveFontClass } from './player-question-utils.js?v=20260709194140';
+} from './player-state.js?v=20260709205314';
+import { enviarRespuestaNumerica } from './player-answer.js?v=20260709205314';
+import { getResponsiveFontClass } from './player-question-utils.js?v=20260709205314';
 
 function t(key, fallback, vars) {
     if (typeof window._t === 'function') {
