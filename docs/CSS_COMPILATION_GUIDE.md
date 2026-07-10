@@ -9,7 +9,7 @@ específico (y, además, sus propios CSS no-Tailwind sueltos, p. ej. `admin.css`
 
 | Input (Tailwind) | Output | Cargado en |
 |---|---|---|
-| `input-common.css` | `common.css` | admin.html, jugador.html, presentador.html, index.html |
+| `input-common.css` | `common.css` | admin.html, jugador.html, presentador.html, index.html, standalone.html |
 | `input-admin.css` | `output-admin.css` | admin.html |
 | `input-player.css` | `output-player.css` | jugador.html |
 | `input-presenter.css` | `output-presenter.css` | presentador.html |
@@ -17,6 +17,12 @@ específico (y, además, sus propios CSS no-Tailwind sueltos, p. ej. `admin.css`
 
 ### Sin Tailwind (sin cambios)
 - `tv.html` usa únicamente `tv.css` — no pasa por el pipeline de Tailwind.
+- `standalone.html` carga `common.css` (para la cuadrícula de juegos del lobby, que sí usa
+  utilidades Tailwind) **más** `output-standalone.css`, que a pesar del nombre **no** se
+  genera con Tailwind — es CSS artesanal editado directamente, sin `input-standalone.css`
+  ni entrada en `package.json`. Ahí vive toda la estética de partida en curso (pantalla
+  completa estilo `jugador.html`, tarjetas cristal 3D, colores de revelado). Se edita
+  directamente y no requiere ningún `npm run build:css*`.
 
 ## 🔧 Compilar los CSS
 
@@ -54,6 +60,7 @@ app/public/css/
 ├── input-presenter.css → [Tailwind] → output-presenter.css
 ├── input-index.css ----→ [Tailwind] → output-index.css
 ├── tv.css (sin Tailwind)
+├── output-standalone.css (sin Tailwind, pese al nombre — se edita directamente)
 └── ... CSS sueltos por página (admin.css, jugador-base.css, presenter.css, etc.)
 ```
 
@@ -61,6 +68,8 @@ app/public/css/
 
 - **Nunca edites los archivos compilados** (`common.css`, `output-*.css`) — se
   sobrescriben en cada `npm run build:css`. Edita siempre el `input-*.css` correspondiente.
+  **Excepción**: `output-standalone.css` no tiene `input-*.css` ni pipeline Tailwind — es
+  la única excepción a esta regla y se edita directamente.
 - Tras editar cualquier `input-*.css` o añadir nuevas clases Tailwind en HTML/JS, hay
   que recompilar — no hay watch activo en producción.
 - Las clases generadas dinámicamente en JS deben estar en
@@ -81,23 +90,3 @@ app/public/css/
 - `docs/TAILWIND_CSS_GUIA.md` — comandos detallados, troubleshooting, gestión del safelist
 - `tailwind.config.js` (raíz del repo) — `content` y safelist
 - `app/public/_tailwind-safelist.html` — fuente única de verdad para clases dinámicas
-
-1. ✅ Los archivos `input-*.css` YA ESTÁN CREADOS
-2. ✅ Los HTML YA ESTÁN ACTUALIZADOS
-3. ✅ El `package.json` YA TIENE LOS NUEVOS COMANDOS
-4. ⏳ **FALTA:** Ejecutar `npm run build:css` EN EL SERVIDOR para generar los `output-*.css`
-
----
-
-## ✨ VENTAJAS DE ESTA ESTRUCTURA
-
-- 🎯 Cada página carga **SOLO** el CSS que necesita
-- 📉 Archivos más pequeños = Carga más rápida
-- 🔒 Mejor encapsulación de estilos por sección
-- 🛠️ Más fácil mantener y actualizar CSS específico
-
----
-
-**Debes ejecutar `npm run build:css` en el servidor para que los archivos CSS se generen correctamente.**
-
-¿Lo haces ahora o necesitas ayuda?
