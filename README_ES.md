@@ -83,6 +83,7 @@
 - **Historial de partidas** con exportación CSV/JSON individual por sesión (solo admin)
 - **Visor gráfico de resultados** interactivo en el navegador (podio animado, estadísticas, detalle por pregunta)
 - **Sistema de licencias** con validación remota, badge global unlicensed y límite de participantes en modo sin licencia
+- **Modo Standalone** (`standalone.html`): partida individual sin presentador humano, con la misma estética que `jugador.html`, reutilizando el motor de juego real mediante dos conexiones Socket.IO (presentador oculto + jugador)
 - Despliegue **self-hosted** vía Docker Compose
 
 ---
@@ -558,6 +559,19 @@ Diseñada para pantalla grande. Carga más ligera que la vista presentador. Name
 - Ambos botones visibles solo cuando hay sesión activa; implementados en JS vanilla puro (compatible Chrome 38 / WebOS 3.5)
 - **Control de acceso TV**: cuando el ajuste de UI admin `showTvCard` está en `false`, la tarjeta TV se oculta en `/index.html` y el acceso directo a `/tv.html` devuelve HTTP `403` (página de error)
 
+### `standalone.html` — Modo Solitario (sin presentador)
+<img src="https://xiro.pro/images/chamaleon/gamer.svg" alt="mascota solitaria" width="90" align="right">
+
+Permite jugar un banco de preguntas o un juego personalizado en solitario, sin que otra persona tenga que actuar de presentador — pensado para practicar o repasar contenido desde un único dispositivo.
+
+1. **Lobby**: campo de nickname + cuadrícula de juegos disponibles (bancos y personalizados; el modo **Trivial** no está disponible aquí, al ser un tablero pensado para grupo)
+2. **Arquitectura de doble socket**: el frontend abre dos conexiones Socket.IO — una oculta que actúa como "presentador" (solo emite `join-presenter-lobby` / `start-game` / `next-question`, nunca se muestra) y otra real de "jugador" que responde preguntas — reutilizando así el motor de juego multi-jugador **tal cual**, sin ningún cambio en el backend
+3. **Estética idéntica a `jugador.html`**: mismos colores, tipografías, tarjetas cristal 3D y estados de correcto/incorrecto/aproximado por tipo de pregunta, implementados con ficheros y DOM propios de Standalone (no reutiliza las funciones de renderizado del jugador, solo su apariencia). Reutiliza directamente `player-answer-visual-logic.js` (lógica pura de color de resultado) sin duplicarla
+4. Soporta los **6 tipos de pregunta** + diapositivas informativas (`comment`/`info`/`text`/`image`/`text-image`), incluyendo audio embebido — se reproduce en el propio dispositivo con autoplay + botón de respaldo, ya que aquí no existe una "pantalla principal" separada como en una partida normal — e imágenes de pregunta/opción de respuesta
+5. Arrastrar-y-soltar real para `order` y `matching`, igual que en `jugador.html` (ratón y táctil)
+6. Botón propio **"Siguiente"** en la pantalla de revelado (el jugador real no lo tiene, ya que en una partida normal es el presentador quien avanza la pregunta) — es la única variación deliberada de interfaz respecto de `jugador.html`
+7. **Control de acceso**: cuando el ajuste de UI admin `showStandaloneCard` está en `false`, la tarjeta se oculta en `/index.html` y el acceso directo a `/standalone.html` devuelve HTTP `403` (middleware `standaloneAccessGuard`)
+
 ---
 
 ## Panel de administración
@@ -899,6 +913,7 @@ xiro/
 │   │   │   ├── jugador-quiz.css    #  ├─ jugador.css dividido en 3 módulos
 │   │   │   ├── jugador-effects.css # ─┘
 │   │   │   ├── tv.css          # CSS standalone para TV/WebOS
+│   │   │   ├── output-standalone.css # CSS artesanal del modo Standalone (no Tailwind, pese al nombre)
 │   │   │   └── drag-drop.css, neon.css, dice3d.css, …
 │   │   └── js/
 │   │       ├── admin/          # Módulos del panel de administración
@@ -906,6 +921,7 @@ xiro/
 │   │       ├── fireworks/      # Motor de fuegos artificiales (canvas)
 │   │       ├── player/         # Módulos del jugador (ES modules)
 │   │       ├── presenter/      # Módulos del presentador (ES modules)
+│   │       ├── standalone/     # Modo Standalone: scripts planos (globalThis.X, no ES modules); doble socket presentador oculto + jugador; __tests__/ con Jest
 │   │       ├── shared/         # Componentes compartidos
 │   │       │   ├── modal.js    # Modal genérico (ES module)
 │   │       │   └── trivial/    # Lógica del tablero Trivial (sin módulos, Chrome 40+)
@@ -1062,6 +1078,11 @@ Los mayores bloques sin cubrir son los manejadores Socket.IO y servicios Trivial
 
 | Fecha | Bug | Solución |
 |-------|-----|---------|
+| 10/07/2026 | Modo Standalone inexistente/no funcional: usaba nombres de eventos Socket.IO inventados que el backend nunca registró | Reescrito con arquitectura de doble socket (presentador oculto + jugador real) reutilizando el motor de juego multi-jugador tal cual, sin tocar el backend |
+| 10/07/2026 | Lista de juegos de Standalone siempre vacía | `/api/ui-settings/standalone-games` devuelve `type` como etiqueta en español ("Banco", "Juego Personalizado"…), no como valor normalizado; se añadió normalización en el frontend (`standalone-lobby.js`) |
+| 10/07/2026 | Preguntas de Anagrama (`word_scramble`) en blanco y sin poder responderse | `scrambled_letters` llega como array de letras (con señuelo de relleno), no como string; se llamaba `.toUpperCase()` sobre el array y lanzaba una excepción antes de pintar nada |
+| 10/07/2026 | Preguntas `matching` no se podían enviar | El servidor exige que `matches[]` sea una biyección (`MatchingAnswerStateService`); los `<select>` independientes permitían elegir el mismo valor dos veces, y el envío fallaba en silencio |
+| 10/07/2026 | Diapositivas `info` y `comment` (Actividad libre) en blanco en Standalone | Ambas guardan su texto en `comment_text`, no en `slide_title`/`slide_body`; se añadió además el fallback "Actividad libre" para diapositivas sin texto configurado |
 | 22/04/2026 | Presentador se desconectaba "sin motivo" en el lobby (timeout WebSocket) | `presenter-socket-config.js`: añadido `polling` como fallback de transporte |
 | 22/04/2026 | En 2 de cada 4 preguntas no se auto-revelaba la respuesta al contestar todos los jugadores; el reveal lock de la pregunta N bloqueaba a N+1 durante 8 s | `AtomicAnswerCounter.js`: clave Redis scoped por `questionIndex` + helper `releaseRevealLock` |
 | 23/04/2026 | Puntuación por tiempo incorrecta en workers remotos del clúster (bonus siempre 0 en Q2+) | `RedisSyncBus`: canal `next-question-sync` propaga el `startTime` canónico del worker origen |

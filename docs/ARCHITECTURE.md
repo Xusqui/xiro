@@ -29,6 +29,8 @@ Xiro! es un juego en tiempo real con presentador y jugadores, construido sobre N
 
 Socket.IO es el canal principal de eventos, con Redis adapter para sincronizar rooms entre workers.
 
+> **Nota — Modo Standalone (`app/public/standalone.html`)**: el backend no distingue "standalone" como concepto propio; sigue exigiendo un socket con rol presentador (unido a la room `roomId:presenter` vía `join-presenter-lobby`) para `start-game`/`next-question`, y un socket de jugador separado para responder. El frontend de Standalone abre ambas conexiones desde el mismo dispositivo — una oculta que actúa de presentador automático y otra real de jugador — para reutilizar este mismo flujo sin ningún cambio en el backend. Ver `docs/PROPMT_PREPARATORIO.md` para el detalle de esa arquitectura de doble socket.
+
 ## Componentes principales
 
 - **Socket manager**: inicializa Socket.IO y el Redis adapter.
