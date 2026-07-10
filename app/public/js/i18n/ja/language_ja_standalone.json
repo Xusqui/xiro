@@ -40,6 +40,16 @@
     "standalone.game.time_up": "時間切れ",
     "standalone.game.waiting_result": "回答を確認中...",
     "standalone.game.free_activity": "フリーアクティビティ",
+    "standalone.game.approximate": "近い！",
+    "standalone.game.numeric_answer_label": "答えを入力してください",
+    "standalone.game.numeric_hint_fallback": "プレゼンターはヒントを出したくありません",
+    "standalone.game.numeric_hint_label": "ヒント",
+    "standalone.game.numeric_only_integers": "整数のみ",
+    "standalone.game.order_position": "位置",
+    "standalone.game.order_result": "順番の結果！",
+    "standalone.game.reset_word": "クリア",
+    "standalone.game.word_length_pre": "文字数",
+    "standalone.game.play_audio": "▶ タップして音声を再生",
     "standalone.footer.back": "トップに戻る"
   }
 }

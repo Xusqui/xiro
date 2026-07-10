@@ -6,17 +6,17 @@
  *  - presenter-reconnected → inform player the host is back
  */
 
-import { socket } from './player-socket-config.js?v=20260709205314';
+import { socket } from './player-socket-config.js?v=20260710133645';
 import {
     setIsReconnecting, setNickname, setPin, setSessionId,
     setHaRespondido, setCanAnswer, setSelectedTeam, setTeamMode,
     getNickname, setPendingAnswer, setSendingAnswer, setStreakInfo
-} from './player-state.js?v=20260709205314';
-import { removeDisconnectOverlay, activarWakeLock } from './player-connection.js?v=20260709205314';
-import { renderizarPregunta, renderizarPreguntaOrdena, renderizarSlideComentario, renderizarSlideInfo, renderizarSlideTexto, renderizarSlideImagen, renderizarPreguntaWordScramble, renderizarPreguntaMultipleChoice, renderizarPreguntaMatching } from './player-question-ui.js?v=20260709205314';
-import { renderizarPreguntaNumerica } from './player-numeric-ui.js?v=20260709205314';
-import { injectStreakBadge } from './player-streak-ui.js?v=20260709205314';
-import { syncTrivialBadgesFromSnapshot } from './player-trivial-badges-ui.js?v=20260709205314';
+} from './player-state.js?v=20260710133645';
+import { removeDisconnectOverlay, activarWakeLock } from './player-connection.js?v=20260710133645';
+import { renderizarPregunta, renderizarPreguntaOrdena, renderizarSlideComentario, renderizarSlideInfo, renderizarSlideTexto, renderizarSlideImagen, renderizarPreguntaWordScramble, renderizarPreguntaMultipleChoice, renderizarPreguntaMatching } from './player-question-ui.js?v=20260710133645';
+import { renderizarPreguntaNumerica } from './player-numeric-ui.js?v=20260710133645';
+import { injectStreakBadge } from './player-streak-ui.js?v=20260710133645';
+import { syncTrivialBadgesFromSnapshot } from './player-trivial-badges-ui.js?v=20260710133645';
 
 /**
  * Restore player UI based on the snapshot sent by the server

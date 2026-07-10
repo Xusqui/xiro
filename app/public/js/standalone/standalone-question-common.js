@@ -5,8 +5,6 @@
 'use strict';
 
 globalThis.StandaloneQuestionCommon = (() => {
-    let countdownHandle = null;
-
     function escapeHtml(text) {
         const map = {
             '&': '&amp;',
@@ -22,34 +20,6 @@ globalThis.StandaloneQuestionCommon = (() => {
         return `standalone_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
     }
 
-    /**
-     * Cuenta atrás visual. No es autoritativa: el servidor revela la respuesta
-     * por su cuenta cuando expira el tiempo o cuando el jugador responde.
-     */
-    function startCountdown(seconds, { onTick, onExpire } = {}) {
-        stopCountdown();
-        if (!Number.isFinite(seconds) || seconds <= 0) return;
-
-        let remaining = seconds;
-        if (typeof onTick === 'function') onTick(remaining);
-
-        countdownHandle = setInterval(() => {
-            remaining -= 1;
-            if (typeof onTick === 'function') onTick(Math.max(remaining, 0));
-            if (remaining <= 0) {
-                stopCountdown();
-                if (typeof onExpire === 'function') onExpire();
-            }
-        }, 1000);
-    }
-
-    function stopCountdown() {
-        if (countdownHandle) {
-            clearInterval(countdownHandle);
-            countdownHandle = null;
-        }
-    }
-
     function lockAnswering(container) {
         if (!container) return;
         container.querySelectorAll('[data-standalone-answer]').forEach(el => {
@@ -60,6 +30,69 @@ globalThis.StandaloneQuestionCommon = (() => {
 
     function optionText(option) {
         return option?.optionText || option?.text || option?.option_text || '';
+    }
+
+    /**
+     * Construye el bloque multimedia de una pregunta (imagen o audio incrustado)
+     * más la imagen pequeña de enunciado, igual que player-quiz-ui.js /
+     * player-multiplechoice-ui.js. A diferencia del jugador real (que solo
+     * avisa "audio en pantalla principal" porque el presentador es quien lo
+     * reproduce), en Standalone no hay una pantalla separada — así que el
+     * audio SÍ debe sonar aquí, igual que en presenter-game-ui.js.
+     */
+    function buildQuestionMedia(question) {
+        const tipoContenido = question.tipo_contenido || 'texto';
+        const urlRecurso = question.url_recurso || null;
+        const questionImageUrl = question.question_image_url || null;
+        const tieneImagen = tipoContenido === 'imagen' && !!urlRecurso;
+        const tieneAudio = tipoContenido === 'audio' && !!urlRecurso;
+        const tieneImagenEnunciado = !tieneImagen && !!questionImageUrl;
+
+        let mediaBlock = '';
+        if (tieneImagen) {
+            mediaBlock = `<div class="pl-question-media"><img src="${escapeHtml(urlRecurso)}" alt="" class="pl-question-media-img"></div>`;
+        } else if (tieneAudio) {
+            mediaBlock = `
+                <div class="pl-question-media pl-audio-card">
+                    <i class="fas fa-volume-up"></i>
+                    <audio id="standalone-question-audio" autoplay controls>
+                        <source src="${escapeHtml(urlRecurso)}" type="audio/mpeg">
+                    </audio>
+                </div>
+            `;
+        }
+
+        const statementImageHtml = tieneImagenEnunciado
+            ? `<img src="${escapeHtml(questionImageUrl)}" alt="" class="pl-question-statement-img">`
+            : '';
+
+        return { mediaBlock, statementImageHtml, hasAudio: tieneAudio };
+    }
+
+    /**
+     * Fuerza la reproducción del audio de la pregunta (el atributo autoplay
+     * puede ser bloqueado por el navegador sin gesto previo del usuario);
+     * si falla, añade un botón para reproducirlo manualmente — igual que
+     * presenter-game-ui.js.
+     */
+    function wireQuestionAudio(container) {
+        const audioEl = container.querySelector('#standalone-question-audio');
+        if (!audioEl) return;
+
+        audioEl.play().catch(() => {
+            const wrapper = container.querySelector('.pl-audio-card');
+            if (!wrapper || wrapper.querySelector('.pl-audio-play-btn')) return;
+
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'pl-audio-play-btn';
+            btn.textContent = window.XiroI18n?.t('standalone.game.play_audio') || '▶ Toca para reproducir el audio';
+            btn.addEventListener('click', () => {
+                audioEl.play();
+                btn.remove();
+            });
+            wrapper.appendChild(btn);
+        });
     }
 
     /**
@@ -87,10 +120,10 @@ globalThis.StandaloneQuestionCommon = (() => {
     return {
         escapeHtml,
         generateRequestId,
-        startCountdown,
-        stopCountdown,
         lockAnswering,
         optionText,
-        submitAnswer
+        submitAnswer,
+        buildQuestionMedia,
+        wireQuestionAudio
     };
 })();

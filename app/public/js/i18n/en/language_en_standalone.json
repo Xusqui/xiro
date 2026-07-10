@@ -40,6 +40,16 @@
     "standalone.game.time_up": "Time's up",
     "standalone.game.waiting_result": "Checking your answer...",
     "standalone.game.free_activity": "Free activity",
+    "standalone.game.approximate": "Approximate!",
+    "standalone.game.numeric_answer_label": "Type your answer",
+    "standalone.game.numeric_hint_fallback": "The presenter doesn't want to give hints",
+    "standalone.game.numeric_hint_label": "Hint",
+    "standalone.game.numeric_only_integers": "Whole numbers only",
+    "standalone.game.order_position": "Position",
+    "standalone.game.order_result": "Order result!",
+    "standalone.game.reset_word": "Clear",
+    "standalone.game.word_length_pre": "WORD OF",
+    "standalone.game.play_audio": "▶ Tap to play the audio",
     "standalone.footer.back": "Back to start"
   }
 }

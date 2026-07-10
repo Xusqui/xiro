@@ -40,6 +40,16 @@
     "standalone.game.time_up": "Denbora amaitu da",
     "standalone.game.waiting_result": "Zure erantzuna egiaztatzen...",
     "standalone.game.free_activity": "Jarduera librea",
+    "standalone.game.approximate": "Hurbilketa!",
+    "standalone.game.numeric_answer_label": "Idatzi zure erantzuna",
+    "standalone.game.numeric_hint_fallback": "Aurkezleak ez du pistarik eman nahi",
+    "standalone.game.numeric_hint_label": "Pista",
+    "standalone.game.numeric_only_integers": "Zenbaki osoak soilik",
+    "standalone.game.order_position": "Posizioa",
+    "standalone.game.order_result": "Ordenaren emaitza!",
+    "standalone.game.reset_word": "Ezabatu",
+    "standalone.game.word_length_pre": "HITZA",
+    "standalone.game.play_audio": "▶ Ukitu audioa erreproduzitzeko",
     "standalone.footer.back": "Hasierara itzuli"
   }
 }

@@ -40,6 +40,16 @@
     "standalone.game.time_up": "Temps écoulé",
     "standalone.game.waiting_result": "Vérification de ta réponse...",
     "standalone.game.free_activity": "Activité libre",
+    "standalone.game.approximate": "Approximative !",
+    "standalone.game.numeric_answer_label": "Écris ta réponse",
+    "standalone.game.numeric_hint_fallback": "Le présentateur ne veut pas donner d'indices",
+    "standalone.game.numeric_hint_label": "Indice",
+    "standalone.game.numeric_only_integers": "Nombres entiers uniquement",
+    "standalone.game.order_position": "Position",
+    "standalone.game.order_result": "Résultat de l'ordre !",
+    "standalone.game.reset_word": "Effacer",
+    "standalone.game.word_length_pre": "MOT DE",
+    "standalone.game.play_audio": "▶ Touche pour lire l'audio",
     "standalone.footer.back": "Retour au début"
   }
 }

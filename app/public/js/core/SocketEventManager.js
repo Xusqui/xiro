@@ -10,7 +10,7 @@ import {
     isDeprecatedEvent,
     requiresAck,
     getEventInfo
-} from './socket-events.js?v=20260709205314';
+} from './socket-events.js?v=20260710133645';
 
 /**
  * Gestor centralizado de eventos Socket.IO

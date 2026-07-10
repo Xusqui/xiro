@@ -3,14 +3,14 @@
  * Maneja eventos de socket, wake lock y detección de modo reposo
  */
 
-import { socket, playerId } from './player-socket-config.js?v=20260709205314';
-import { mostrarModalMensaje } from '../shared/modal.js?v=20260709205314';
-import { activarWakeLock, setupWakeLockVisibilityHandlers, hasActiveWakeLockSession } from './player-wake-lock.js?v=20260709205314';
+import { socket, playerId } from './player-socket-config.js?v=20260710133645';
+import { mostrarModalMensaje } from '../shared/modal.js?v=20260710133645';
+import { activarWakeLock, setupWakeLockVisibilityHandlers, hasActiveWakeLockSession } from './player-wake-lock.js?v=20260710133645';
 import {
     getPin, setPin, getNickname, setNickname,
     getSessionId, setSessionId, getIsReconnecting, setIsReconnecting,
     getPendingAnswer, getSendingAnswer
-} from './player-state.js?v=20260709205314';
+} from './player-state.js?v=20260710133645';
 
 export { activarWakeLock };
 /**

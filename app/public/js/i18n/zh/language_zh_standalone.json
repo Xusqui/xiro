@@ -40,6 +40,16 @@
     "standalone.game.time_up": "时间到",
     "standalone.game.waiting_result": "正在检查你的答案...",
     "standalone.game.free_activity": "自由活动",
+    "standalone.game.approximate": "接近正确！",
+    "standalone.game.numeric_answer_label": "输入你的答案",
+    "standalone.game.numeric_hint_fallback": "主持人不想给提示",
+    "standalone.game.numeric_hint_label": "提示",
+    "standalone.game.numeric_only_integers": "仅限整数",
+    "standalone.game.order_position": "位置",
+    "standalone.game.order_result": "排序结果！",
+    "standalone.game.reset_word": "清除",
+    "standalone.game.word_length_pre": "单词长度",
+    "standalone.game.play_audio": "▶ 点击播放音频",
     "standalone.footer.back": "返回开始"
   }
 }
