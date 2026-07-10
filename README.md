@@ -83,6 +83,7 @@
 - **Game history** with individual CSV/JSON export per session (admin only)
 - **Interactive graphical results viewer** in the browser (animated podium, statistics, per-question detail)
 - **License system** with remote validation, global unlicensed badge, and participant cap in unlicensed mode
+- **Standalone Mode** (`standalone.html`): solo game session with no human presenter, visually identical to `jugador.html`, reusing the real game engine via two Socket.IO connections (hidden presenter + player)
 - **Self-hosted** deployment via Docker Compose
 
 ---
@@ -367,6 +368,18 @@ docker compose up -d
 
 SQL migrations run automatically on server startup.
 
+### Anonymous install ping (telemetry)
+
+On first startup, the container sends a **single anonymous HTTP ping to [ntfy.sh](https://ntfy.sh)** so the author can know how many active installations exist. The message contains only the text "Xiro! installed" plus the version number — **no personal data, no identifiers**. Beyond this ping, Xiro! uses **no cookies and collects no other telemetry of any kind**.
+
+To disable it, set the environment variable:
+
+```bash
+XIRO_TELEMETRY=false
+```
+
+The ping never blocks startup: if there is no internet access or the variable is set to `false`, the app runs exactly the same.
+
 ### Management with manage.sh
 
 ```bash
@@ -489,6 +502,7 @@ Configured in `docker-compose.yml` or in `app/.env`:
 | `BASE_POINTS` | Base points per answer | `20` |
 | `MAX_TIME_BONUS` | Maximum time bonus | `20` |
 | `TEAM_SCORE_LAMBDA` | Individual score weight in teams | `0.5` |
+| `XIRO_TELEMETRY` | Set to `false` to disable the anonymous install ping to ntfy.sh | `true` |
 
 ---
 
@@ -544,6 +558,19 @@ Designed for large screens. Lighter load than the presenter view. Global namespa
 - **Abort Game Button**: confirmation modal → emit `abandon-game` → redirect to `/tv.html`
 - Both buttons visible only when there is an active session; implemented in vanilla JS (compatible with Chrome 38 / WebOS 3.5)
 - **TV Access Control**: when admin UI setting `showTvCard` is `false`, the TV card is hidden on `/index.html` and direct access to `/tv.html` returns HTTP `403` (error page)
+
+### `standalone.html` — Solo Mode (no presenter)
+<img src="https://xiro.pro/images/chamaleon/gamer.svg" alt="solo mascot" width="90" align="right">
+
+Lets you play a question bank or custom game solo, with no one else needed to act as presenter — designed for practicing or reviewing content from a single device.
+
+1. **Lobby**: nickname field + grid of available games (banks and custom games; **Trivial** mode isn't available here, since the board is designed for groups)
+2. **Dual-socket architecture**: the frontend opens two Socket.IO connections — a hidden one that acts as the "presenter" (only emits `join-presenter-lobby` / `start-game` / `next-question`, never shown) and a real "player" one that answers questions — reusing the multiplayer game engine **as-is**, with zero backend changes
+3. **Identical look to `jugador.html`**: same colors, typography, glass-3D cards, and correct/incorrect/approximate states per question type, implemented with Standalone's own files and DOM (it doesn't reuse the player's rendering functions, only its appearance). Directly reuses `player-answer-visual-logic.js` (pure result-color logic) without duplicating it
+4. Supports all **6 question types** + informational slides (`comment`/`info`/`text`/`image`/`text-image`), including embedded audio — played on-device with autoplay + a fallback button, since there's no separate "main screen" here like in a normal game — and question/option images
+5. Real drag-and-drop for `order` and `matching`, just like `jugador.html` (mouse and touch)
+6. A dedicated **"Next"** button on the reveal screen (the real player doesn't have one, since in a normal game the presenter advances the question) — the one deliberate UI deviation from `jugador.html`
+7. **Access control**: when admin UI setting `showStandaloneCard` is `false`, the card is hidden on `/index.html` and direct access to `/standalone.html` returns HTTP `403` (`standaloneAccessGuard` middleware)
 
 ---
 
@@ -886,6 +913,7 @@ xiro/
 │   │   │   ├── jugador-quiz.css    #  ├─ jugador.css split into 3 modules
 │   │   │   ├── jugador-effects.css # ─┘
 │   │   │   ├── tv.css          # Standalone CSS for TV/WebOS
+│   │   │   ├── output-standalone.css # Handcrafted CSS for Standalone mode (not Tailwind, despite the name)
 │   │   │   └── drag-drop.css, neon.css, dice3d.css, …
 │   │   └── js/
 │   │       ├── admin/          # Admin panel modules
@@ -893,6 +921,7 @@ xiro/
 │   │       ├── fireworks/      # Fireworks engine (canvas)
 │   │       ├── player/         # Player modules (ES modules)
 │   │       ├── presenter/      # Presenter modules (ES modules)
+│   │       ├── standalone/     # Standalone mode: plain scripts (globalThis.X, no ES modules); hidden-presenter + player dual socket; __tests__/ with Jest
 │   │       ├── shared/         # Shared components
 │   │       │   ├── modal.js    # Generic modal (ES module)
 │   │       │   └── trivial/    # Trivial board logic (no modules, Chrome 40+)
@@ -1049,6 +1078,11 @@ The largest uncovered blocks are the Socket.IO handlers and Trivial services (lo
 
 | Date | Bug | Fix |
 |------|-----|-----|
+| 07/10/2026 | Standalone mode was non-functional / didn't exist: it used made-up Socket.IO event names the backend never registered | Rewritten with a dual-socket architecture (hidden presenter + real player) reusing the multiplayer game engine as-is, with zero backend changes |
+| 07/10/2026 | Standalone game list was always empty | `/api/ui-settings/standalone-games` returns `type` as a Spanish label ("Banco", "Juego Personalizado"…), not a normalized value; added frontend normalization in `standalone-lobby.js` |
+| 07/10/2026 | Anagram (`word_scramble`) questions rendered blank and couldn't be answered | `scrambled_letters` arrives as an array of letters (with decoy padding), not a string; code called `.toUpperCase()` on the array, throwing before anything rendered |
+| 07/10/2026 | `matching` questions couldn't be submitted | The server requires `matches[]` to be a bijection (`MatchingAnswerStateService`); independent `<select>` dropdowns allowed picking the same value twice, so submission silently failed |
+| 07/10/2026 | `info`/`comment` (free-activity) slides rendered blank in Standalone | Both store their text in `comment_text`, not `slide_title`/`slide_body`; also added the "Free activity" fallback for slides with no configured text |
 | 04/22/2026 | Presenter would disconnect "without reason" in the lobby (WebSocket timeout) | `presenter-socket-config.js`: added `polling` as transport fallback |
 | 04/22/2026 | In 2 out of every 4 questions the answer would not auto-reveal when all players answered; the reveal lock of question N blocked N+1 for 8 s | `AtomicAnswerCounter.js`: Redis key scoped by `questionIndex` + `releaseRevealLock` helper |
 | 04/23/2026 | Incorrect time-based scoring on remote cluster workers (bonus always 0 from Q2 onwards) | `RedisSyncBus`: `next-question-sync` channel now propagates the canonical `startTime` from the origin worker |
