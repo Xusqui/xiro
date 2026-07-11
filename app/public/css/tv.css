@@ -813,9 +813,10 @@ body {
 }
 
 .team-player-item {
+    display: inline-block;
     background-color: rgba(255, 255, 255, .2);
     padding: 8px 12px;
-    margin: 5px 0;
+    margin: 5px;
     border-radius: 8px;
     font-weight: bold;
     font-size: 14px

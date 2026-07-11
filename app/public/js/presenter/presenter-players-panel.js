@@ -3,8 +3,8 @@
  * Actualización y renderizado del panel de jugadores conectados
  */
 
-import { getConnectedPlayers, getPlayersData, getIsTeamMode, getTeamConfig } from './presenter-state.js?v=20260710133645';
-import { getTeamColorStyle } from './presenter-team-config.js?v=20260710133645';
+import { getConnectedPlayers, getPlayersData, getIsTeamMode, getTeamConfig } from './presenter-state.js?v=20260711194806';
+import { getTeamColorStyle } from './presenter-team-config.js?v=20260711194806';
 
 /** nick → <div> element kept across renders */
 const playerCards = new Map();
@@ -241,15 +241,15 @@ export function renderTeamLobby() {
                             ${team.players.length} ${team.players.length === 1 ? 'jugador' : 'jugadores'}
                         </span>
                     </div>
-                    <div class="grid grid-cols-4 gap-3">
+                    <div class="flex flex-wrap gap-3">
                         ${team.players.map(player => {
             const playerScore = playersData[player] ? playersData[player].score : 0;
             return `
-                                <div class="bg-white text-slate-900 px-2 py-2 rounded-lg font-black text-center uppercase italic text-xs inline-flex mx-auto whitespace-nowrap" data-nickname="${player}">
+                                <div class="bg-white text-slate-900 px-3 py-2 rounded-lg font-black text-center uppercase italic text-xs inline-flex whitespace-nowrap" data-nickname="${player}">
                                     <div>${player}</div>
                                 </div>
                             `;
-        }).join('') || '<p class="text-white/70 italic col-span-4 text-center py-4">Esperando jugadores...</p>'}
+        }).join('') || '<p class="text-white/70 italic w-full text-center py-4">Esperando jugadores...</p>'}
                     </div>
                 </div>
             </div>
@@ -266,15 +266,15 @@ export function renderTeamLobby() {
                             ${team.players.length} ${team.players.length === 1 ? 'jugador' : 'jugadores'}
                         </span>
                     </div>
-                    <div class="grid grid-cols-4 gap-3">
+                    <div class="flex flex-wrap gap-3">
                         ${team.players.map(player => {
             const playerScore = playersData[player] ? playersData[player].score : 0;
             return `
-                                <div class="bg-white text-slate-900 px-2 py-2 rounded-lg font-black text-center uppercase italic text-xs inline-flex mx-auto whitespace-nowrap" data-nickname="${player}">
+                                <div class="bg-white text-slate-900 px-3 py-2 rounded-lg font-black text-center uppercase italic text-xs inline-flex whitespace-nowrap" data-nickname="${player}">
                                     <div>${player}</div>
                                 </div>
                             `;
-        }).join('') || '<p class="text-white/70 italic col-span-4 text-center py-4">Esperando jugadores...</p>'}
+        }).join('') || '<p class="text-white/70 italic w-full text-center py-4">Esperando jugadores...</p>'}
                     </div>
                 </div>
             </div>

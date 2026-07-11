@@ -2,11 +2,11 @@
  * @fileoverview Reveal answer - Mostrar respuesta correcta con justificación y ranking
  */
 
-import { getPlayersData, getCurrentQuestionIndex, getTotalQuestions } from './presenter-state.js?v=20260710133645';
-import { removeFloatingCards } from './presenter-utils.js?v=20260710133645';
-import { updatePlayersPanel } from './presenter-players-panel.js?v=20260710133645';
-import { calculatePercentages, createPercentageHTML } from './presenter-percentage-calculator.js?v=20260710133645';
-import { getWordScrambleRevealHTML, revealWordScramble } from './presenter-wordscramble-layout.js?v=20260710133645';
+import { getPlayersData, getCurrentQuestionIndex, getTotalQuestions } from './presenter-state.js?v=20260711194806';
+import { removeFloatingCards } from './presenter-utils.js?v=20260711194806';
+import { updatePlayersPanel } from './presenter-players-panel.js?v=20260711194806';
+import { calculatePercentages, createPercentageHTML } from './presenter-percentage-calculator.js?v=20260711194806';
+import { getWordScrambleRevealHTML, revealWordScramble } from './presenter-wordscramble-layout.js?v=20260711194806';
 
 function toPositiveNumber(value) {
     const parsed = Number(value);
@@ -272,7 +272,7 @@ export function handleRevealAnswer(data) {
         const correctSet = new Set(correctIndices);
 
         // Marcar opciones correctas e incorrectas en el grid (estilo quiz)
-        import('./presenter-multiplechoice-layout.js?v=20260710133645').then(module => {
+        import('./presenter-multiplechoice-layout.js?v=20260711194806').then(module => {
             module.revealMultipleChoiceInGrid(correctIndices);
         });
 

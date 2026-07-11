@@ -1,7 +1,7 @@
-import { getTabUnirseHTML } from './tab-unirse.js?v=20260710133645';
-import { getTabResponderHTML } from './tab-responder.js?v=20260710133645';
-import { getTabPuntuacionHTML } from './tab-puntuacion.js?v=20260710133645';
-import { getTabTrivialHTML } from './tab-trivial.js?v=20260710133645';
+import { getTabUnirseHTML } from './tab-unirse.js?v=20260711194806';
+import { getTabResponderHTML } from './tab-responder.js?v=20260711194806';
+import { getTabPuntuacionHTML } from './tab-puntuacion.js?v=20260711194806';
+import { getTabTrivialHTML } from './tab-trivial.js?v=20260711194806';
 
 let _activeTarget = 'tab-unirse';
 
