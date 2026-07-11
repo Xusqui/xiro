@@ -1,8 +1,11 @@
-FROM node:20-alpine
+FROM node:24-alpine
 
 # Crear usuario no-root al principio
 RUN addgroup -g 1001 -S xiro && \
     adduser -u 1001 -S xiro -G xiro
+
+# Actualizar paquetes del sistema (parches de seguridad, p.ej. CVE-2026-34182 en openssl)
+RUN apk upgrade --no-cache
 
 # Actualizar npm e instalar PM2 globalmente (requiere root)
 RUN npm install -g npm@latest && \
