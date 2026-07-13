@@ -98,6 +98,11 @@
     "admin.games.error_banks": "Gehitu gutxienez galdera bankua bat",
     "admin.games.error_duplicate_banks": "Bankuak errepikatu dituzu. Galdera bankuak bakarrak izan behar dira",
     "admin.games.success_saved": "Jolasa ondo gorde da!",
-    "admin.games.error_delete": "Ezin izan da jolasa ezabatu"
+    "admin.games.error_delete": "Ezin izan da jolasa ezabatu",
+    "admin.games.pool_toggle_label": "Kopuru finkorik gabe",
+    "admin.games.pool_badge": "Pool partekatua",
+    "admin.games.pool_total_label": "Pooleko galdera kopurua guztira",
+    "admin.games.pool_total_help": "Zenbat galdera guztira ateratzen diren ausaz \"kopuru finkorik gabe\" markatutako bankuetatik, elkarrekin konbinatuta.",
+    "admin.games.error_pool_count": "Adierazi zenbat galdera ateratzen diren pool partekatutik"
   }
 }

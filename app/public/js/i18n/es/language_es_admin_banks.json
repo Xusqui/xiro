@@ -98,6 +98,11 @@
     "admin.games.error_banks": "Añade al menos un banco de preguntas",
     "admin.games.error_duplicate_banks": "Tienes bancos repetidos. Los bancos de preguntas deben de ser únicos",
     "admin.games.success_saved": "¡Juego guardado correctamente!",
-    "admin.games.error_delete": "No se pudo eliminar el juego"
+    "admin.games.error_delete": "No se pudo eliminar el juego",
+    "admin.games.pool_toggle_label": "Sin cantidad fija",
+    "admin.games.pool_badge": "Pool compartido",
+    "admin.games.pool_total_label": "Total de preguntas del pool",
+    "admin.games.pool_total_help": "Cuántas preguntas en total se sacan al azar de los bancos marcados como \"sin cantidad fija\", combinados entre sí.",
+    "admin.games.error_pool_count": "Indica cuántas preguntas se sacan del pool compartido"
   }
 }

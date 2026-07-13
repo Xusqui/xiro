@@ -119,6 +119,7 @@ async function cargarEditorJuego(id) {
 async function renderEditorJuego(game, banks) {
     // Obtener lista de todos los bancos disponibles con conteo de preguntas (caché)
     const allBanks = await getAllBanksWithCounts();
+    poolQuestionCountInicial = game.pool_question_count ?? null;
 
     const area = document.getElementById('editorArea');
     area.innerHTML = _tHtml(`
@@ -233,6 +234,7 @@ async function renderEditorJuego(game, banks) {
                 </div>
                 <div id="listaBancosJuego" class="space-y-3"></div>
                 ${allBanks.length === 0 ? `<p class="text-slate-400 text-sm italic">${_t('admin.games.no_banks', null, 'No hay bancos disponibles. Crea uno primero.')}</p>` : ''}
+                <div id="poolTotalWrapper"></div>
             </div>
 
             <div class="mt-8">
@@ -261,6 +263,7 @@ async function renderEditorJuego(game, banks) {
         use_double_streaks: document.getElementById('gameUseDoubleStreaks')?.checked ?? false,
         double_streak_threshold: parseFloat(document.getElementById('gameDoubleStreakThreshold')?.value ?? 5),
         double_streak_bonus_percentage: parseFloat(document.getElementById('gameDoubleStreakBonusPercentage')?.value ?? 1.0),
+        pool_question_count: document.getElementById('gamePoolQuestionCount')?.value || '',
         banks: currentBanks
     }));
 
@@ -297,10 +300,7 @@ async function dibujarBancosJuego() {
                                 ${allBanks.map(b => `<option value="${b.id}" ${b.id === gb.bank_id ? 'selected' : ''}>${b.name}</option>`).join('')}
                             </select>
                         </div>
-                        <div class="w-32">
-                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">${_t('admin.games.quantity_label', null, 'Cantidad')}</label>
-                            <input type="number" min="1" max="${totalQuestions}" value="${Math.min(gb.question_count, totalQuestions)}" data-admin-change="currentBanks[${idx}].question_count = parseInt(this.value)" class="w-full p-2 border-2 border-slate-100 rounded-lg text-sm font-medium text-center">
-                        </div>
+                        ${renderPoolCheckboxHtml(gb, idx, totalQuestions)}
                         <button data-admin-click="eliminarBancoDelJuego(${idx})" class="text-red-500 hover:text-red-700 mt-5">
                             <i class="fas fa-trash"></i>
                         </button>
@@ -310,6 +310,8 @@ async function dibujarBancosJuego() {
                     </p>
                 </div>
             `}).join('');
+
+    dibujarSeccionPool();
 }
 
 // ===== FUNCIONES DE GESTIÓN DE BANCOS EN JUEGO =====
@@ -326,7 +328,9 @@ async function cambiarBanco(idx, newBankId) {
 
     currentBanks[idx].bank_id = newBankId;
     currentBanks[idx].total_questions = totalQuestions;
-    currentBanks[idx].question_count = Math.min(currentBanks[idx].question_count, totalQuestions);
+    if (!bancoEsPool(currentBanks[idx])) {
+        currentBanks[idx].question_count = Math.min(currentBanks[idx].question_count, totalQuestions);
+    }
 
     dibujarBancosJuego();
 }
@@ -400,6 +404,12 @@ async function guardarJuego(salir = true) {
         return mostrarModalError(_t('admin.common.warning_title', null, '⚠️ Advertencia'), _t('admin.games.error_duplicate_banks', null, 'Tienes bancos repetidos. Los bancos de preguntas deben de ser únicos'), 'warning');
     }
 
+    const poolQuestionCount = obtenerPoolQuestionCount();
+    const poolError = validarConfigPool(currentBanks, poolQuestionCount);
+    if (poolError) {
+        return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), poolError, 'warning');
+    }
+
     const payload = {
         name,
         pin: pin || Math.floor(100000 + Math.random() * 900000).toString(),
@@ -410,9 +420,10 @@ async function guardarJuego(salir = true) {
         use_double_streaks: useDoubleStreaks,
         double_streak_threshold: doubleStreakThreshold,
         double_streak_bonus_percentage: doubleStreakBonusPercentage,
+        pool_question_count: poolQuestionCount,
         banks: currentBanks.map(b => ({
             bank_id: b.bank_id,
-            question_count: b.question_count
+            question_count: bancoEsPool(b) ? null : b.question_count
         }))
     };
 

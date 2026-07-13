@@ -50,48 +50,61 @@ class CacheWarmingService {
     async loadGameQuestions(gameId) {
         try {
             const result = await pool.query(`
-                WITH bank_config AS (
-                    SELECT bank_id, question_count 
-                    FROM game_banks 
-                    WHERE game_id = $1
+                WITH pool_config AS (
+                    SELECT COALESCE(pool_question_count, 0) AS pool_question_count
+                    FROM games WHERE id = $1
                 ),
-                random_questions AS (
-                    SELECT 
-                        q.id, 
-                        q.question_text, 
-                        q.question_type, 
-                        q.tipo_contenido, 
-                        q.url_recurso,
-                        q.time_limit,
-                        q.bank_id,
-                        bc.question_count,
-                        ROW_NUMBER() OVER (PARTITION BY q.bank_id ORDER BY RANDOM()) as rn
+                fixed_banks AS (
+                    SELECT bank_id, question_count
+                    FROM game_banks
+                    WHERE game_id = $1 AND question_count IS NOT NULL
+                ),
+                pool_banks AS (
+                    SELECT bank_id
+                    FROM game_banks
+                    WHERE game_id = $1 AND question_count IS NULL
+                ),
+                fixed_questions AS (
+                    SELECT
+                        q.id, q.question_text, q.question_type, q.tipo_contenido, q.url_recurso, q.time_limit,
+                        ROW_NUMBER() OVER (PARTITION BY q.bank_id ORDER BY RANDOM()) as rn,
+                        fb.question_count as take_count
                     FROM questions q
-                    INNER JOIN bank_config bc ON q.bank_id = bc.bank_id
+                    INNER JOIN fixed_banks fb ON q.bank_id = fb.bank_id
+                ),
+                pool_questions AS (
+                    SELECT
+                        q.id, q.question_text, q.question_type, q.tipo_contenido, q.url_recurso, q.time_limit,
+                        ROW_NUMBER() OVER (ORDER BY RANDOM()) as rn,
+                        (SELECT pool_question_count FROM pool_config) as take_count
+                    FROM questions q
+                    INNER JOIN pool_banks pb ON q.bank_id = pb.bank_id
                 ),
                 selected_questions AS (
-                    SELECT * 
-                    FROM random_questions 
-                    WHERE rn <= question_count
+                    SELECT id, question_text, question_type, tipo_contenido, url_recurso, time_limit
+                    FROM fixed_questions WHERE rn <= take_count
+                    UNION ALL
+                    SELECT id, question_text, question_type, tipo_contenido, url_recurso, time_limit
+                    FROM pool_questions WHERE rn <= take_count
                 )
-                SELECT 
-                    sq.id, 
-                    sq.question_text, 
-                    sq.question_type, 
-                    sq.tipo_contenido, 
-                    sq.url_recurso, 
+                SELECT
+                    sq.id,
+                    sq.question_text,
+                    sq.question_type,
+                    sq.tipo_contenido,
+                    sq.url_recurso,
                     sq.time_limit,
                     json_agg(
                         json_build_object(
-                            'text', o.option_text, 
-                            'optionText', o.option_text, 
-                            'isCorrect', o.is_correct, 
+                            'text', o.option_text,
+                            'optionText', o.option_text,
+                            'isCorrect', o.is_correct,
                             'justification', o.justification
                         ) ORDER BY o.id
                     ) as options
                 FROM selected_questions sq
                 LEFT JOIN options o ON o.question_id = sq.id
-                GROUP BY sq.id, sq.question_text, sq.question_type, 
+                GROUP BY sq.id, sq.question_text, sq.question_type,
                          sq.tipo_contenido, sq.url_recurso, sq.time_limit
                 ORDER BY RANDOM()
             `, [gameId]);

@@ -98,6 +98,11 @@
     "admin.games.error_banks": "Füge mindestens eine Fragenbank hinzu",
     "admin.games.error_duplicate_banks": "Du hast doppelte Banken. Fragenbanken müssen eindeutig sein",
     "admin.games.success_saved": "Spiel erfolgreich gespeichert!",
-    "admin.games.error_delete": "Spiel konnte nicht gelöscht werden"
+    "admin.games.error_delete": "Spiel konnte nicht gelöscht werden",
+    "admin.games.pool_toggle_label": "Keine feste Anzahl",
+    "admin.games.pool_badge": "Gemeinsamer Pool",
+    "admin.games.pool_total_label": "Gesamtzahl der Pool-Fragen",
+    "admin.games.pool_total_help": "Wie viele Fragen insgesamt zufällig aus den als „keine feste Anzahl“ markierten Fragenbanken gezogen werden, kombiniert.",
+    "admin.games.error_pool_count": "Gib an, wie viele Fragen aus dem gemeinsamen Pool gezogen werden"
   }
 }

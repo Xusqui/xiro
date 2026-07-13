@@ -98,6 +98,11 @@
     "admin.games.error_banks": "少なくとも1つの問題バンクを追加してください",
     "admin.games.error_duplicate_banks": "バンクが重複しています。問題バンクはユニークである必要があります",
     "admin.games.success_saved": "ゲームが正常に保存されました！",
-    "admin.games.error_delete": "ゲームを削除できませんでした"
+    "admin.games.error_delete": "ゲームを削除できませんでした",
+    "admin.games.pool_toggle_label": "固定数なし",
+    "admin.games.pool_badge": "共有プール",
+    "admin.games.pool_total_label": "プールの合計問題数",
+    "admin.games.pool_total_help": "「固定数なし」に設定されたバンクを組み合わせ、そこから合計で何問をランダムに出題するかを指定します。",
+    "admin.games.error_pool_count": "共有プールから出題する問題数を指定してください"
   }
 }

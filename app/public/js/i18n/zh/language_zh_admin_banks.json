@@ -98,6 +98,11 @@
     "admin.games.error_banks": "请至少添加一个题库",
     "admin.games.error_duplicate_banks": "您有重复的题库。题库必须唯一",
     "admin.games.success_saved": "游戏保存成功！",
-    "admin.games.error_delete": "无法删除游戏"
+    "admin.games.error_delete": "无法删除游戏",
+    "admin.games.pool_toggle_label": "无固定数量",
+    "admin.games.pool_badge": "共享题库池",
+    "admin.games.pool_total_label": "题库池总题数",
+    "admin.games.pool_total_help": "从标记为“无固定数量”的题库中合并后随机抽取的题目总数。",
+    "admin.games.error_pool_count": "请指定从共享题库池中抽取的题目数量"
   }
 }

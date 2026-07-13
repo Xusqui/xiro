@@ -7,9 +7,9 @@ import {
     getConnectedPlayers, addConnectedPlayer,
     getPlayersData, setPlayerData, getTotalPlayers, setTotalPlayers,
     getIsTeamMode, getTeamConfig
-} from './presenter-state.js?v=20260711194806';
-import { updatePlayersPanel, renderTeamLobby } from './presenter-game-ui.js?v=20260711194806';
-import { updateAnswerCounter } from './presenter-answer-counter.js?v=20260711194806';
+} from './presenter-state.js?v=20260713135401';
+import { updatePlayersPanel, renderTeamLobby } from './presenter-game-ui.js?v=20260713135401';
+import { updateAnswerCounter } from './presenter-answer-counter.js?v=20260713135401';
 
 /**
  * Manejar reconexión de un jugador

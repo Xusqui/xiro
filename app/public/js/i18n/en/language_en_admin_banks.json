@@ -98,6 +98,11 @@
     "admin.games.error_banks": "Add at least one question bank",
     "admin.games.error_duplicate_banks": "You have duplicate banks. Question banks must be unique",
     "admin.games.success_saved": "Game saved successfully!",
-    "admin.games.error_delete": "Could not delete the game"
+    "admin.games.error_delete": "Could not delete the game",
+    "admin.games.pool_toggle_label": "No fixed amount",
+    "admin.games.pool_badge": "Shared pool",
+    "admin.games.pool_total_label": "Total pool questions",
+    "admin.games.pool_total_help": "How many questions in total are drawn at random from the banks marked as \"no fixed amount\", combined together.",
+    "admin.games.error_pool_count": "Specify how many questions are drawn from the shared pool"
   }
 }

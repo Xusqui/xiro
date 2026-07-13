@@ -102,6 +102,7 @@ async function createGame(data) {
         use_double_streaks = false,
         double_streak_threshold = 5,
         double_streak_bonus_percentage = 1.00,
+        pool_question_count = null,
     } = data;
     const finalPin = (pin || Math.floor(100000 + Math.random() * 900000).toString()).toUpperCase();
     const ownerRole = normalizeCreatorRole(created_by_role);
@@ -116,11 +117,13 @@ async function createGame(data) {
             `INSERT INTO games
                 (name, pin, visible_to_presenter, created_by_role, created_by_user_id,
                  use_streaks, streak_threshold, streak_bonus_percentage,
-                 use_double_streaks, double_streak_threshold, double_streak_bonus_percentage)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`,
+                 use_double_streaks, double_streak_threshold, double_streak_bonus_percentage,
+                 pool_question_count)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *`,
             [name, finalPin, visible_to_presenter, ownerRole, ownerUserId,
                 use_streaks, streak_threshold, streak_bonus_percentage,
-                use_double_streaks, double_streak_threshold, double_streak_bonus_percentage]
+                use_double_streaks, double_streak_threshold, double_streak_bonus_percentage,
+                pool_question_count]
         );
         const gameId = gameRes.rows[0].id;
 
@@ -157,6 +160,7 @@ async function updateGame(gameId, data, actorUserId = null) {
         use_double_streaks = false,
         double_streak_threshold = 5,
         double_streak_bonus_percentage = 1.00,
+        pool_question_count = null,
     } = data;
     const upperPin = pin.toUpperCase();
     const client = await pool.connect();
@@ -186,12 +190,13 @@ async function updateGame(gameId, data, actorUserId = null) {
             `UPDATE games SET
                 name = $1, pin = $2, visible_to_presenter = $3,
                 use_streaks = $4, streak_threshold = $5, streak_bonus_percentage = $6,
-                use_double_streaks = $7, double_streak_threshold = $8, double_streak_bonus_percentage = $9
-             WHERE id = $10`,
+                use_double_streaks = $7, double_streak_threshold = $8, double_streak_bonus_percentage = $9,
+                pool_question_count = $10
+             WHERE id = $11`,
             [name, upperPin, visible_to_presenter,
                 use_streaks, streak_threshold, streak_bonus_percentage,
                 use_double_streaks, double_streak_threshold, double_streak_bonus_percentage,
-                gameId]
+                pool_question_count, gameId]
         );
         await client.query('DELETE FROM game_banks WHERE game_id = $1', [gameId]);
 
@@ -264,7 +269,11 @@ async function deleteGame(gameId, actorUserId = null) {
 
 /**
  * Obtiene preguntas para iniciar un juego (desde games con múltiples bancos)
- * Usa window functions para un solo query en lugar de loop
+ * Usa window functions para un solo query en lugar de loop.
+ * Bancos con question_count fijo se reparten por partición; los bancos
+ * marcados como pool (question_count IS NULL) se combinan en un único
+ * conjunto del que se extraen games.pool_question_count preguntas al azar,
+ * sin importar de qué banco del pool proceden.
  * @param {number} gameId - ID del juego
  * @returns {Promise<Array>}
  */
@@ -273,43 +282,56 @@ async function getGameQuestions(gameId) {
 
     try {
         const result = await pool.query(`
-            WITH bank_config AS (
-                SELECT bank_id, question_count 
-                FROM game_banks 
-                WHERE game_id = $1
+            WITH pool_config AS (
+                SELECT COALESCE(pool_question_count, 0) AS pool_question_count
+                FROM games WHERE id = $1
             ),
-            random_questions AS (
-                SELECT 
-                    q.id, 
-                    q.question_text, 
-                    q.question_type, 
-                    q.tipo_contenido, 
-                    q.url_recurso,
-                    q.question_image_url,
-                    q.time_limit,
-                    q.correct_answer,
-                    q.max_points,
-                    q.hint_text,
-                    q.tolerance_mode,
-                    q.tolerance_value,
-                    q.tolerance_cap,
-                    q.correct_word,
-                    q.bank_id,
-                    bc.question_count,
-                    ROW_NUMBER() OVER (PARTITION BY q.bank_id ORDER BY RANDOM()) as rn
+            fixed_banks AS (
+                SELECT bank_id, question_count
+                FROM game_banks
+                WHERE game_id = $1 AND question_count IS NOT NULL
+            ),
+            pool_banks AS (
+                SELECT bank_id
+                FROM game_banks
+                WHERE game_id = $1 AND question_count IS NULL
+            ),
+            fixed_questions AS (
+                SELECT
+                    q.id, q.question_text, q.question_type, q.tipo_contenido, q.url_recurso,
+                    q.question_image_url, q.time_limit, q.correct_answer, q.max_points, q.hint_text,
+                    q.tolerance_mode, q.tolerance_value, q.tolerance_cap, q.correct_word,
+                    ROW_NUMBER() OVER (PARTITION BY q.bank_id ORDER BY RANDOM()) as rn,
+                    fb.question_count as take_count
                 FROM questions q
-                INNER JOIN bank_config bc ON q.bank_id = bc.bank_id
+                INNER JOIN fixed_banks fb ON q.bank_id = fb.bank_id
+            ),
+            pool_questions AS (
+                SELECT
+                    q.id, q.question_text, q.question_type, q.tipo_contenido, q.url_recurso,
+                    q.question_image_url, q.time_limit, q.correct_answer, q.max_points, q.hint_text,
+                    q.tolerance_mode, q.tolerance_value, q.tolerance_cap, q.correct_word,
+                    ROW_NUMBER() OVER (ORDER BY RANDOM()) as rn,
+                    (SELECT pool_question_count FROM pool_config) as take_count
+                FROM questions q
+                INNER JOIN pool_banks pb ON q.bank_id = pb.bank_id
             ),
             selected_questions AS (
-                SELECT * 
-                FROM random_questions 
-                WHERE rn <= question_count
+                SELECT id, question_text, question_type, tipo_contenido, url_recurso,
+                    question_image_url, time_limit, correct_answer, max_points, hint_text,
+                    tolerance_mode, tolerance_value, tolerance_cap, correct_word
+                FROM fixed_questions WHERE rn <= take_count
+                UNION ALL
+                SELECT id, question_text, question_type, tipo_contenido, url_recurso,
+                    question_image_url, time_limit, correct_answer, max_points, hint_text,
+                    tolerance_mode, tolerance_value, tolerance_cap, correct_word
+                FROM pool_questions WHERE rn <= take_count
             )
-            SELECT 
-                sq.id, 
-                sq.question_text, 
-                sq.question_type, 
-                sq.tipo_contenido, 
+            SELECT
+                sq.id,
+                sq.question_text,
+                sq.question_type,
+                sq.tipo_contenido,
                 sq.url_recurso,
                 sq.question_image_url,
                 sq.time_limit,
@@ -322,9 +344,9 @@ async function getGameQuestions(gameId) {
                 sq.correct_word,
                 json_agg(
                     json_build_object(
-                        'text', o.option_text, 
-                        'optionText', o.option_text, 
-                        'isCorrect', o.is_correct, 
+                        'text', o.option_text,
+                        'optionText', o.option_text,
+                        'isCorrect', o.is_correct,
                         'justification', o.justification,
                         'order_index', o.order_index,
                         'match_value', o.match_value,
@@ -333,7 +355,7 @@ async function getGameQuestions(gameId) {
                 ) as options
             FROM selected_questions sq
             LEFT JOIN options o ON o.question_id = sq.id
-            GROUP BY sq.id, sq.question_text, sq.question_type, 
+            GROUP BY sq.id, sq.question_text, sq.question_type,
                      sq.tipo_contenido, sq.url_recurso, sq.question_image_url, sq.time_limit, sq.correct_answer, sq.max_points, sq.hint_text,
                      sq.tolerance_mode, sq.tolerance_value, sq.tolerance_cap, sq.correct_word
             ORDER BY RANDOM()

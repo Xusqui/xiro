@@ -98,6 +98,11 @@
     "admin.games.error_banks": "Afegeix almenys un banc de preguntes",
     "admin.games.error_duplicate_banks": "Tens bancs repetits. Els bancs de preguntes han de ser únics",
     "admin.games.success_saved": "Joc desat correctament!",
-    "admin.games.error_delete": "No sha pogut eliminar el joc"
+    "admin.games.error_delete": "No sha pogut eliminar el joc",
+    "admin.games.pool_toggle_label": "Sense quantitat fixa",
+    "admin.games.pool_badge": "Pool compartit",
+    "admin.games.pool_total_label": "Total de preguntes del pool",
+    "admin.games.pool_total_help": "Quantes preguntes en total se n'extreuen a l'atzar dels bancs marcats com a \"sense quantitat fixa\", combinats entre si.",
+    "admin.games.error_pool_count": "Indica quantes preguntes s'extreuen del pool compartit"
   }
 }

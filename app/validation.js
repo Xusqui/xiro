@@ -531,13 +531,16 @@ const createBankSchema = Joi.object({
 });
 
 // Configuración de banco en juego
+// question_count == null => el banco entra en el pool compartido del juego
+// (ver gameSchema.pool_question_count)
 const gameBankConfigSchema = Joi.object({
     bank_id: dbIdSchema.required(),
     question_count: Joi.number()
         .integer()
         .min(1)
         .max(LIMITS.MAX_QUESTIONS_PER_BANK)
-        .required()
+        .allow(null)
+        .optional()
         .messages({
             'number.min': 'Debe seleccionar al menos 1 pregunta',
         }),
@@ -554,6 +557,12 @@ const gameSchema = Joi.object({
     use_double_streaks: Joi.boolean().default(false).optional(),
     double_streak_threshold: Joi.number().integer().min(1).max(20).default(5).optional(),
     double_streak_bonus_percentage: Joi.number().min(0).max(2).default(1.00).optional(),
+    pool_question_count: Joi.number()
+        .integer()
+        .min(1)
+        .max(LIMITS.MAX_QUESTIONS_PER_BANK)
+        .allow(null)
+        .optional(),
     banks: Joi.array()
         .items(gameBankConfigSchema)
         .min(1)
@@ -561,7 +570,17 @@ const gameSchema = Joi.object({
         .messages({
             'array.min': 'Debe seleccionar al menos un banco de preguntas',
         }),
-});
+})
+    .custom((value, helpers) => {
+        const hasPoolBank = value.banks.some(b => b.question_count === null || b.question_count === undefined);
+        if (hasPoolBank && !value.pool_question_count) {
+            return helpers.message('Debes indicar el total de preguntas del pool cuando hay bancos sin cantidad fija');
+        }
+        if (!hasPoolBank && value.pool_question_count) {
+            return helpers.message('El total de preguntas del pool solo aplica si hay bancos sin cantidad fija');
+        }
+        return value;
+    });
 
 // Pregunta de juego personalizado
 const customGameQuestionSchema = Joi.object({
