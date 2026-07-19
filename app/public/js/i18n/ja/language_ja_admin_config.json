@@ -140,6 +140,8 @@
     "admin.license.invalid_format": "無効なライセンス形式です",
     "admin.license.format_check": "保存する前に、キーが正しく書き込まれていることを確認してください。",
     "admin.license.invalid": "無効なライセンス",
+    "admin.license.in_use": "ライセンスは別のコンピュータで使用中です",
+    "admin.license.in_use_help": "各ライセンスは1つのインストールでのみ有効化できます。コンピュータを変更した場合は、info@xiro.pro までご連絡いただければ有効化を解除します。以前の有効化は7日間使用がないと自動的に解除されます。",
     "admin.license.remote_rejected": "ライセンスは保存されていますが、リモート検証ツールがライセンスを拒否しました。",
     "admin.license.no_license_info": "有効なライセンスを入力してサービスをアクティブ化します。",
     "admin.license.subtitle": "ここでサイトのライセンスを保存し、そのステータスを検証します。",

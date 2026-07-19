@@ -48,6 +48,8 @@
     "admin.userlicense.is_active": "Zure jokoek ez dute parte-hartzaile mugarik.",
     "admin.userlicense.invalid_format": "Gakoaren formatua ez da baliozkoa",
     "admin.userlicense.invalid": "Lizentzia baliogabea edo iraungita",
+    "admin.userlicense.in_use": "Lizentzia beste ordenagailu batean erabiltzen ari da",
+    "admin.userlicense.in_use_help": "Lizentzia bakoitza instalazio bakar batean egon daiteke aktibo. Ordenagailuz aldatu baduzu, idatzi info@xiro.pro helbidera aktibazioa askatzeko; aurrekoa automatikoki askatzen da 7 egunez erabili gabe egon ondoren.",
     "admin.userlicense.limited": "Zure jokoak 10 jokalari + aurkezle batera mugatuta daude.",
     "admin.userlicense.no_license": "Banakako lizentziarik gabe",
     "admin.userlicense.error_load": "Ezin izan da zure lizentzia kargatu",

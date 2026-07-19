@@ -140,6 +140,8 @@
     "admin.license.invalid_format": "Invalid license format",
     "admin.license.format_check": "Check that the key is correctly written before saving.",
     "admin.license.invalid": "Invalid license",
+    "admin.license.in_use": "Llicència en ús en un altre equip",
+    "admin.license.in_use_help": "Cada llicència només pot estar activa en una instal·lació. Si has canviat d'equip, escriu a info@xiro.pro per alliberar l'activació; l'anterior s'allibera sola després de 7 dies sense ús.",
     "admin.license.remote_rejected": "The license is saved, but the remote validator has rejected it.",
     "admin.license.no_license_info": "Enter a valid license to activate the service.",
     "admin.license.subtitle": "Save your site license here and validate its status.",

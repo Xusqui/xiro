@@ -1,5 +1,7 @@
 'use strict';
 
+const activationClient = require('./license-client.service');
+
 function _fromCodes(charCodes) {
     return String.fromCharCode(...charCodes);
 }
@@ -43,6 +45,14 @@ async function probeRemoteStatus(tokenValue, fetchImpl = globalThis.fetch) {
 
     if (typeof fetchImpl !== 'function') {
         return _buildValidationResult(false, null, 'validation_unavailable');
+    }
+
+    // Flujo de activación (una instalación por licencia) para toda clave con
+    // el formato del servidor; la comprobación legacy queda solo para tokens
+    // con formatos antiguos.
+    if (activationClient.canUseActivation(normalizedToken)) {
+        const activation = await activationClient.probeActivationStatus(normalizedToken, fetchImpl);
+        return _buildValidationResult(activation.isValid, activation.expiryValue, activation.reason);
     }
 
     try {

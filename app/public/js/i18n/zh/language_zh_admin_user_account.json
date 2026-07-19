@@ -48,6 +48,8 @@
     "admin.userlicense.is_active": "您的游戏没有参与人数限制。",
     "admin.userlicense.invalid_format": "密钥格式无效",
     "admin.userlicense.invalid": "许可证无效或已过期",
+    "admin.userlicense.in_use": "许可证已在另一台电脑上使用",
+    "admin.userlicense.in_use_help": "每个许可证只能在一个安装中激活。如果您更换了电脑，请发送邮件至 info@xiro.pro 以释放激活；旧的激活在 7 天未使用后会自动释放。",
     "admin.userlicense.limited": "您的游戏限制为10名玩家+1名主持人。",
     "admin.userlicense.no_license": "没有个人许可证",
     "admin.userlicense.error_load": "无法加载您的许可证",

@@ -48,6 +48,8 @@
     "admin.userlicense.is_active": "Os teus xogos non teñen límite de participantes.",
     "admin.userlicense.invalid_format": "O formato da clave non é válido",
     "admin.userlicense.invalid": "Licenza non válida ou caducada",
+    "admin.userlicense.in_use": "Licenza en uso noutro equipo",
+    "admin.userlicense.in_use_help": "Cada licenza só pode estar activa nunha instalación. Se cambiaches de equipo, escribe a info@xiro.pro para liberar a activación; a anterior libérase soa após 7 días sen uso.",
     "admin.userlicense.limited": "Os teus xogos quedan limitados a 10 xogadores + presentador.",
     "admin.userlicense.no_license": "Sen licenza individual",
     "admin.userlicense.error_load": "Non se puido cargar a túa licenza",

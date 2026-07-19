@@ -48,6 +48,8 @@
     "admin.userlicense.is_active": "Els teus jocs no tenen límit de participants.",
     "admin.userlicense.invalid_format": "El format de la clau no és vàlid",
     "admin.userlicense.invalid": "Llicència no vàlida o caducada",
+    "admin.userlicense.in_use": "Llicència en ús en un altre equip",
+    "admin.userlicense.in_use_help": "Cada llicència només pot estar activa en una instal·lació. Si has canviat d'equip, escriu a info@xiro.pro per alliberar l'activació; l'anterior s'allibera sola després de 7 dies sense ús.",
     "admin.userlicense.limited": "Els teus jocs queden limitats a 10 jugadors + presentador.",
     "admin.userlicense.no_license": "Sense llicència individual",
     "admin.userlicense.error_load": "No s'ha pogut carregar la teva llicència",

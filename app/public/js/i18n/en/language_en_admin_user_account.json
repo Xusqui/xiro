@@ -48,6 +48,8 @@
     "admin.userlicense.is_active": "Your games have no participant limit.",
     "admin.userlicense.invalid_format": "The key format is not valid",
     "admin.userlicense.invalid": "License invalid or expired",
+    "admin.userlicense.in_use": "License already in use on another computer",
+    "admin.userlicense.in_use_help": "Each license can only be active on one installation. If you moved to a new computer, write to info@xiro.pro to release the activation; the previous one is released automatically after 7 days without use.",
     "admin.userlicense.limited": "Your games are limited to 10 players + presenter.",
     "admin.userlicense.no_license": "No individual license",
     "admin.userlicense.error_load": "Could not load your license",

@@ -140,6 +140,8 @@
     "admin.license.invalid_format": "Formato de licença inválido",
     "admin.license.format_check": "Verifique se a chave está escrita corretamente antes de salvar.",
     "admin.license.invalid": "Licença inválida",
+    "admin.license.in_use": "Licença já em uso noutro equipamento",
+    "admin.license.in_use_help": "Cada licença só pode estar ativa numa instalação. Se mudou de equipamento, escreva para info@xiro.pro para libertar a ativação; a anterior é libertada automaticamente após 7 dias sem uso.",
     "admin.license.remote_rejected": "A licença foi salva, mas o validador remoto a rejeitou.",
     "admin.license.no_license_info": "Insira uma licença válida para ativar o serviço.",
     "admin.license.subtitle": "Salve sua licença de site aqui e valide seu status.",

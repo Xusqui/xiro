@@ -38,6 +38,14 @@ function _renderUserLicenseStatus(data) {
             </div>`;
     }
 
+    if (data.license && reason === 'license_in_use') {
+        return `
+            <div class="rounded-xl border border-amber-200 bg-amber-50 p-4">
+                <p class="font-bold text-amber-800"><i class="fas fa-desktop mr-2"></i>${_t('admin.userlicense.in_use', null, 'La licencia ya está en uso en otro equipo')}</p>
+                <p class="text-sm text-amber-700 mt-1">${_t('admin.userlicense.in_use_help', null, 'Cada licencia solo puede estar activa en una instalación. Escribe a info@xiro.pro para liberar la activación.')}</p>
+            </div>`;
+    }
+
     if (data.license) {
         const isFormat = reason === 'invalid_format';
         return `

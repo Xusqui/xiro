@@ -140,6 +140,8 @@
     "admin.license.invalid_format": "Lizentzia-formatu baliogabea",
     "admin.license.format_check": "Egiaztatu gakoa ongi idatzita dagoela gorde aurretik.",
     "admin.license.invalid": "Lizentzia baliogabea",
+    "admin.license.in_use": "Lizentzia beste ordenagailu batean erabiltzen ari da",
+    "admin.license.in_use_help": "Lizentzia bakoitza instalazio bakar batean egon daiteke aktibo. Ordenagailuz aldatu baduzu, idatzi info@xiro.pro helbidera aktibazioa askatzeko; aurrekoa automatikoki askatzen da 7 egunez erabili gabe egon ondoren.",
     "admin.license.remote_rejected": "Lizentzia gordeta dago, baina urruneko baliozkotzaileak baztertu egin du.",
     "admin.license.no_license_info": "Sartu baliozko lizentzia zerbitzua aktibatzeko.",
     "admin.license.subtitle": "Gorde hemen zure gunearen lizentzia eta balioztatu haren egoera.",

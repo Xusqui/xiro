@@ -48,6 +48,8 @@
     "admin.userlicense.is_active": "Deine Spiele haben keine Teilnehmerbegrenzung.",
     "admin.userlicense.invalid_format": "Das Format des Schlüssels ist ungültig",
     "admin.userlicense.invalid": "Lizenz ungültig oder abgelaufen",
+    "admin.userlicense.in_use": "Lizenz wird bereits auf einem anderen Computer verwendet",
+    "admin.userlicense.in_use_help": "Jede Lizenz kann nur auf einer Installation aktiv sein. Wenn Sie den Computer gewechselt haben, schreiben Sie an info@xiro.pro, um die Aktivierung freizugeben; die alte wird nach 7 Tagen ohne Nutzung automatisch freigegeben.",
     "admin.userlicense.limited": "Deine Spiele sind auf 10 Spieler + Moderator begrenzt.",
     "admin.userlicense.no_license": "Keine individuelle Lizenz",
     "admin.userlicense.error_load": "Deine Lizenz konnte nicht geladen werden",

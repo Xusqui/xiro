@@ -140,6 +140,8 @@
     "admin.license.invalid_format": "许可证格式无效",
     "admin.license.format_check": "保存前检查密钥是否正确写入。",
     "admin.license.invalid": "许可证无效",
+    "admin.license.in_use": "许可证已在另一台电脑上使用",
+    "admin.license.in_use_help": "每个许可证只能在一个安装中激活。如果您更换了电脑，请发送邮件至 info@xiro.pro 以释放激活；旧的激活在 7 天未使用后会自动释放。",
     "admin.license.remote_rejected": "许可证已保存，但远程验证器已拒绝它。",
     "admin.license.no_license_info": "输入有效的许可证以激活服务。",
     "admin.license.subtitle": "在此处保存您的站点许可证并验证其状态。",

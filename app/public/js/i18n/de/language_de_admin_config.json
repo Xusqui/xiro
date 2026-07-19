@@ -140,6 +140,8 @@
     "admin.license.invalid_format": "Ungültiges Lizenzformat",
     "admin.license.format_check": "Überprüfen Sie vor dem Speichern, ob der Schlüssel korrekt geschrieben ist.",
     "admin.license.invalid": "Ungültige Lizenz",
+    "admin.license.in_use": "Lizenz wird bereits auf einem anderen Computer verwendet",
+    "admin.license.in_use_help": "Jede Lizenz kann nur auf einer Installation aktiv sein. Wenn Sie den Computer gewechselt haben, schreiben Sie an info@xiro.pro, um die Aktivierung freizugeben; die alte wird nach 7 Tagen ohne Nutzung automatisch freigegeben.",
     "admin.license.remote_rejected": "Die Lizenz ist gespeichert, aber der Remote-Validator hat sie abgelehnt.",
     "admin.license.no_license_info": "Geben Sie eine gültige Lizenz ein, um den Dienst zu aktivieren.",
     "admin.license.subtitle": "Speichern Sie hier Ihre Site-Lizenz und überprüfen Sie ihren Status.",

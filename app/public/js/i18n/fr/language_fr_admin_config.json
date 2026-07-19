@@ -140,6 +140,8 @@
     "admin.license.invalid_format": "Format de licence invalide",
     "admin.license.format_check": "Vérifiez que la clé est correctement écrite avant de sauvegarder.",
     "admin.license.invalid": "Licence invalide",
+    "admin.license.in_use": "Licence déjà utilisée sur un autre ordinateur",
+    "admin.license.in_use_help": "Chaque licence ne peut être active que sur une seule installation. Si vous avez changé d'ordinateur, écrivez à info@xiro.pro pour libérer l'activation ; l'ancienne se libère automatiquement après 7 jours sans utilisation.",
     "admin.license.remote_rejected": "La licence est enregistrée, mais le validateur distant l'a rejetée.",
     "admin.license.no_license_info": "Entrez une licence valide pour activer le service.",
     "admin.license.subtitle": "Enregistrez votre licence de site ici et validez son statut.",

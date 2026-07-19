@@ -170,6 +170,8 @@
     "admin.license.invalid_format": "Invalid license format",
     "admin.license.format_check": "Check that the key is correctly written before saving.",
     "admin.license.invalid": "Invalid license",
+    "admin.license.in_use": "License already in use on another computer",
+    "admin.license.in_use_help": "Each license can only be active on one installation. If you moved to a new computer, write to info@xiro.pro to release the activation; the previous one is released automatically after 7 days without use.",
     "admin.license.remote_rejected": "The license is saved, but the remote validator has rejected it.",
     "admin.license.no_license_info": "Enter a valid license to activate the service.",
     "admin.license.subtitle": "Save your site license here and validate its status.",

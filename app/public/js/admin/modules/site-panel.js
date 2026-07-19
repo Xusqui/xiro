@@ -34,6 +34,14 @@ function _renderLicenseStatus(data) {
             </div>`;
     }
 
+    if (invalidReason === 'license_in_use') {
+        return `
+            <div class="rounded-xl border border-amber-200 bg-amber-50 p-4">
+                <p class="font-bold text-amber-800"><i class="fas fa-desktop mr-2"></i>${_t('admin.license.in_use')}</p>
+                <p class="text-sm text-amber-700 mt-1">${_t('admin.license.in_use_help')}</p>
+            </div>`;
+    }
+
     if (invalidReason === 'invalid_format') {
         return `
             <div class="rounded-xl border border-red-200 bg-red-50 p-4">

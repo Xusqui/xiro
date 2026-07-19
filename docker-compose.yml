@@ -131,6 +131,8 @@ services:
       - ${XIRO_ROOT:-/volume2/docker/xiro}/app:/usr/src/app:ro
       - ${XIRO_ROOT:-/volume2/docker/xiro}/app/config/ui-overrides.json:/usr/src/app/config/ui-overrides.json
       - ${XIRO_ROOT:-/volume2/docker/xiro}/app/config/runtime-overrides.json:/usr/src/app/config/runtime-overrides.json
+      - ${XIRO_ROOT:-/volume2/docker/xiro}/app/config/instance-id.json:/usr/src/app/config/instance-id.json
+      - /etc/machine-id:/host/machine-id:ro
       - ${XIRO_ROOT:-/volume2/docker/xiro}/app/public/uploads:/usr/src/app/public/uploads
       - ${XIRO_ROOT:-/volume2/docker/xiro}/logs:/usr/src/app/logs
       - ${XIRO_ROOT:-/volume2/docker/xiro}/logs:/app/logs
@@ -140,6 +142,7 @@ services:
       - .env
     environment:
       PORT: ${APP_PORT:-3000}
+      MACHINE_ID_PATH: /host/machine-id
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_HOST: db
