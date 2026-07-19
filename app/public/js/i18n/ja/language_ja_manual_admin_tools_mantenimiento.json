@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "manual_admin.tools.mantenimiento.title": "メンテナンス",
+    "manual_admin.tools.mantenimiento.desc": "サイドメニューのクリーンアップと再起動の操作です。すべて実行前に確認を求められます。",
+    "manual_admin.tools.mantenimiento.uploads": "アップロードのクリーンアップ",
+    "manual_admin.tools.mantenimiento.uploads_desc": "どの問題からも参照されていない孤立したメディアファイルを削除します。元に戻せません。",
+    "manual_admin.tools.mantenimiento.cache": "キャッシュのクリア",
+    "manual_admin.tools.mantenimiento.cache_desc": "ゲームキャッシュを空にします。バンクを編集したのに新しいゲームに変更が反映されない場合に便利です。",
+    "manual_admin.tools.mantenimiento.logs": "ログの削除",
+    "manual_admin.tools.mantenimiento.logs_desc": "サーバーのログファイル（バックエンド、Redis、バックアップ）を空にしてディスク容量を解放します。",
+    "manual_admin.tools.mantenimiento.panic": "PANIC",
+    "manual_admin.tools.mantenimiento.panic_desc": "Dockerコンテナの強制再起動です。<strong>進行中のゲームはすべて失われます。</strong>緊急時のみ使用してください。"
+  }
+}

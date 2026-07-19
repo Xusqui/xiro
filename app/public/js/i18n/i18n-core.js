@@ -6,7 +6,7 @@
         supported: ['es', 'en', 'fr', 'ca', 'eu', 'gl', 'de', 'pt', 'zh', 'ja'],
         storageKey: 'xiro_lang',
         queryParam: 'lang',
-        version: '20260713135401'
+        version: '20260719190748'
     };
 
     const state = {
@@ -141,7 +141,7 @@
         }
 
         if (section === 'manual_admin') {
-            const toolTabs = ['partidas', 'puntuacion', 'logging', 'conexion', 'backup', 'licencia', 'correo', 'equipos', 'fuegos', 'interfaz', 'ia'];
+            const toolTabs = ['partidas', 'puntuacion', 'logging', 'conexion', 'backup', 'licencia', 'correo', 'equipos', 'fuegos', 'interfaz', 'ia', 'historial', 'botrunner', 'mantenimiento'];
             toolTabs.forEach(t => sections.add('manual_admin_tools_' + t));
         }
 

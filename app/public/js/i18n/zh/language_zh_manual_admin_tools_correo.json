@@ -5,6 +5,10 @@
     "manual_admin.tools.correo.smtp": "SMTP 服务器",
     "manual_admin.tools.correo.smtp_desc": "用于发送电子邮件的主机、端口、安全性和凭据。",
     "manual_admin.tools.correo.secret": "联系方式密钥",
-    "manual_admin.tools.correo.secret_desc": "用于签署反机器人令牌的 HMAC 密钥。"
+    "manual_admin.tools.correo.secret_desc": "用于签署反机器人令牌的 HMAC 密钥。",
+    "manual_admin.tools.correo.from": "发件人",
+    "manual_admin.tools.correo.from_desc": "显示为邮件发件人的名称和地址。格式：\"名称\" &lt;mail@domain.com&gt;。",
+    "manual_admin.tools.correo.uses": "用途是什么？",
+    "manual_admin.tools.correo.uses_desc": "邮件用于账户验证、密码找回和公开联系表单。"
   }
 }

@@ -5,6 +5,7 @@
     "common.footer.contact": "接触",
     "common.back_home": "返回顶部",
     "common.error_title": "错误",
-    "common.btn_retry": "重试"
+    "common.btn_retry": "重试",
+    "common.footer.copyright_holder": "版权所有：Fernández Villatoro 家族"
   }
 }

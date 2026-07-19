@@ -3,6 +3,8 @@
     "manual_admin.tools.interfaz.title": "Interfazea",
     "manual_admin.tools.interfaz.desc": "Erabiltzaile-interfazearen ezarpenak.",
     "manual_admin.tools.interfaz.tv": "TV Txartela",
-    "manual_admin.tools.interfaz.tv_desc": "TV bertsiorako txartela erakutsi edo ezkutatu."
+    "manual_admin.tools.interfaz.tv_desc": "TV bertsiorako txartela erakutsi edo ezkutatu.",
+    "manual_admin.tools.interfaz.standalone": "«Bakarkako Modua» txartela",
+    "manual_admin.tools.interfaz.standalone_desc": "Hasierako pantailan bakarkako modurako (standalone.html) txartela eta esteka erakusten edo ezkutatzen du."
   }
 }

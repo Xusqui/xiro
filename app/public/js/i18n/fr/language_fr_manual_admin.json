@@ -143,6 +143,25 @@
     "manual_admin.remote.security.compatible_title": "Compatible avec le présentateur principal",
     "manual_admin.remote.security.compatible_text": "La télécommande et le présentateur principal peuvent être actifs simultanément sans interférer. Les deux contrôlent la même session.",
     "manual_admin.remote.security.tip_title": "Conseil d'utilisation",
-    "manual_admin.remote.security.tip_text": "Ouvrez la télécommande sur votre téléphone avant de démarrer la partie. Ainsi vous rejoignez la session depuis le lobby et recevez tous les événements depuis le début, y compris le chronomètre de la première question."
+    "manual_admin.remote.security.tip_text": "Ouvrez la télécommande sur votre téléphone avant de démarrer la partie. Ainsi vous rejoignez la session depuis le lobby et recevez tous les événements depuis le début, y compris le chronomètre de la première question.",
+    "manual_admin.access.account.title": "Mon compte",
+    "manual_admin.access.account.p1": "Dans l'onglet <strong>User</strong> du menu latéral, vous pouvez voir les données de votre compte (utilisateur, e-mail et rôle) et gérer votre sécurité.",
+    "manual_admin.access.account.password": "<strong>Changer le mot de passe</strong> — saisissez le mot de passe actuel, le nouveau et sa confirmation.",
+    "manual_admin.access.account.email": "<strong>Changer l'e-mail</strong> — l'e-mail actuel ne change pas tant que vous n'avez pas confirmé le lien envoyé à la nouvelle adresse.",
+    "manual_admin.access.users.title": "Gérer les utilisateurs",
+    "manual_admin.access.users.p1": "Panneau réservé au rôle Admin pour examiner les comptes du panneau : utilisateur, e-mail, rôle, statut et date d'inscription.",
+    "manual_admin.access.users.p2": "Depuis ici, vous pouvez <strong>supprimer des comptes</strong>. La suppression d'utilisateurs est définitive et irréversible.",
+    "manual_admin.banks.types.survey": "<strong>Sondage</strong> — Les joueurs votent entre les options et les résultats s'affichent ; il n'y a pas de bonne réponse.",
+    "manual_admin.banks.types.matching": "<strong>Association</strong> — Deux colonnes ; le joueur relie chaque élément à sa bonne paire (jusqu’à 6 paires).",
+    "manual_admin.banks.ai.title": "Générateur IA de questions",
+    "manual_admin.banks.ai.intro": "Créez une banque complète automatiquement depuis <strong>Générateur IA</strong> dans le menu latéral. Nécessite une clé API Groq configurée (Outils → IA).",
+    "manual_admin.banks.ai.s1": "<strong>Source</strong> — téléversez un document (.pdf, .docx, .txt) ou écrivez le sujet sur lequel générer des questions.",
+    "manual_admin.banks.ai.s2": "<strong>Configurer</strong> — nommez la banque et choisissez la difficulté (basse, moyenne ou haute).",
+    "manual_admin.banks.ai.s3": "<strong>Résultat</strong> — vérifiez les questions générées, régénérez les types en erreur et appuyez sur <strong>« Importer la banque »</strong> ou <strong>« Télécharger le JSON »</strong>.",
+    "manual_admin.banks.merge.title": "Fusionner des banques",
+    "manual_admin.banks.merge.intro": "Le bouton <strong>« Fusionner les banques »</strong> de la liste des banques combine les questions de plusieurs banques en une nouvelle.",
+    "manual_admin.banks.merge.s1": "Sélectionnez au moins <strong>2 banques</strong> dans la liste (ou utilisez « Tout sélectionner »).",
+    "manual_admin.banks.merge.s2": "Nommez la nouvelle banque et, en option, attribuez-lui un PIN.",
+    "manual_admin.banks.merge.s3": "Appuyez sur <strong>« Créer la banque fusionnée »</strong>. Les banques d’origine ne sont pas modifiées."
   }
 }

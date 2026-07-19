@@ -114,6 +114,9 @@
     "/js/i18n/es/language_es_manual_admin_tools_fuegos.json",
     "/js/i18n/es/language_es_manual_admin_tools_interfaz.json",
     "/js/i18n/es/language_es_manual_admin_tools_ia.json",
+    "/js/i18n/es/language_es_manual_admin_tools_historial.json",
+    "/js/i18n/es/language_es_manual_admin_tools_botrunner.json",
+    "/js/i18n/es/language_es_manual_admin_tools_mantenimiento.json",
     "/js/i18n/es/language_es_standalone.json"
   ],
   "keys": {

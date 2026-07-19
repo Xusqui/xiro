@@ -3,6 +3,8 @@
     "manual_admin.tools.interfaz.title": "界面",
     "manual_admin.tools.interfaz.desc": "用户界面设置。",
     "manual_admin.tools.interfaz.tv": "电视卡片",
-    "manual_admin.tools.interfaz.tv_desc": "在主屏幕上显示或隐藏电视版本卡片。"
+    "manual_admin.tools.interfaz.tv_desc": "在主屏幕上显示或隐藏电视版本卡片。",
+    "manual_admin.tools.interfaz.standalone": "\"单人模式\"卡片",
+    "manual_admin.tools.interfaz.standalone_desc": "在主页上显示或隐藏单人模式（standalone.html）的卡片和链接。"
   }
 }

@@ -5,6 +5,10 @@
     "manual_admin.tools.correo.smtp": "SMTP Zerbitzaria",
     "manual_admin.tools.correo.smtp_desc": "Host, ataka, segurtasuna eta kredentzialak mezuak bidaltzeko.",
     "manual_admin.tools.correo.secret": "Kontaktuaren sekretua",
-    "manual_admin.tools.correo.secret_desc": "Antibot tokenak sinatzeko HMAC gakoa."
+    "manual_admin.tools.correo.secret_desc": "Antibot tokenak sinatzeko HMAC gakoa.",
+    "manual_admin.tools.correo.from": "Bidaltzailea",
+    "manual_admin.tools.correo.from_desc": "Mezuen bidaltzaile gisa agertzen diren izena eta helbidea. Formatua: \"Izena\" &lt;posta@domeinua.com&gt;.",
+    "manual_admin.tools.correo.uses": "Zertarako erabiltzen da?",
+    "manual_admin.tools.correo.uses_desc": "Posta kontuak egiaztatzeko, pasahitza berreskuratzeko eta kontaktu-formulario publikorako erabiltzen da."
   }
 }

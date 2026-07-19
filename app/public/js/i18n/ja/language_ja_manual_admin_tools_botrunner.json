@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.botrunner.title": "Bot Runner",
+    "manual_admin.tools.botrunner.desc": "プレイヤーをシミュレートし、実際の負荷でサーバーをテストする開発ツールです。",
+    "manual_admin.tools.botrunner.usage": "使い方",
+    "manual_admin.tools.botrunner.usage_desc": "まずプレゼンターからロビーを開きます。<strong>Session ID</strong>（PIN-番号形式）を入力し、モード（個人またはチーム）、ゲームの種類（クイズまたはトリビアル）、ボット数（1〜199）を選んで、<strong>「ボットを起動」</strong>を押します。",
+    "manual_admin.tools.botrunner.stats": "統計とログ",
+    "manual_admin.tools.botrunner.stats_desc": "接続中のボット、失敗したボット、送信された回答をリアルタイムで表示します。いつでもボットを停止でき、実行のJSONログをダウンロードできます。"
+  }
+}

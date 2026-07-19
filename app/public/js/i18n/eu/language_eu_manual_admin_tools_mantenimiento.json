@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "manual_admin.tools.mantenimiento.title": "Mantentze-lanak",
+    "manual_admin.tools.mantenimiento.desc": "Alboko menuko garbiketa- eta berrabiarazte-ekintzak. Guztiek berrespena eskatzen dute exekutatu aurretik.",
+    "manual_admin.tools.mantenimiento.uploads": "Uploads garbitu",
+    "manual_admin.tools.mantenimiento.uploads_desc": "Inolako galderak erreferentziatzen ez dituen multimedia-fitxategi umezurtzak ezabatzen ditu. Ezin da desegin.",
+    "manual_admin.tools.mantenimiento.cache": "Cachea garbitu",
+    "manual_admin.tools.mantenimiento.cache_desc": "Jokoen cachea husten du. Erabilgarria banku bat editatu berri baduzu eta aldaketak partida berrietan islatzen ez badira.",
+    "manual_admin.tools.mantenimiento.logs": "Log-ak ezabatu",
+    "manual_admin.tools.mantenimiento.logs_desc": "Zerbitzariko log fitxategiak husten ditu (backend, Redis eta backup), diskoan lekua libratzeko.",
+    "manual_admin.tools.mantenimiento.panic": "PANIC",
+    "manual_admin.tools.mantenimiento.panic_desc": "Docker edukiontziaren behartutako berrabiaraztea. <strong>Partida aktibo guztiak galtzen dira.</strong> Erabili larrialdietan bakarrik."
+  }
+}

@@ -5,6 +5,10 @@
     "manual_admin.tools.correo.smtp": "Servidor SMTP",
     "manual_admin.tools.correo.smtp_desc": "Configuració de host, port, seguretat i credencials.",
     "manual_admin.tools.correo.secret": "Secret de contacte",
-    "manual_admin.tools.correo.secret_desc": "Clau HMAC per signar els tokens antibot."
+    "manual_admin.tools.correo.secret_desc": "Clau HMAC per signar els tokens antibot.",
+    "manual_admin.tools.correo.from": "Remitent",
+    "manual_admin.tools.correo.from_desc": "Nom i adreça que apareixen com a remitent dels correus. Format: \"Nom\" &lt;correu@domini.com&gt;.",
+    "manual_admin.tools.correo.uses": "Per a què es fa servir?",
+    "manual_admin.tools.correo.uses_desc": "El correu es fa servir per a la verificació de comptes, la recuperació de contrasenya i el formulari públic de contacte."
   }
 }

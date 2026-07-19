@@ -3,6 +3,8 @@
     "manual_admin.tools.interfaz.title": "Schnittstelle",
     "manual_admin.tools.interfaz.desc": "Benutzeroberflächen-Einstellungen.",
     "manual_admin.tools.interfaz.tv": "TV-Karte",
-    "manual_admin.tools.interfaz.tv_desc": "Zeigt oder verbirgt die TV-Versionskarte auf dem Startbildschirm."
+    "manual_admin.tools.interfaz.tv_desc": "Zeigt oder verbirgt die TV-Versionskarte auf dem Startbildschirm.",
+    "manual_admin.tools.interfaz.standalone": "Karte „Solo-Modus\"",
+    "manual_admin.tools.interfaz.standalone_desc": "Zeigt oder verbirgt die Karte und den Link zum Solo-Modus (standalone.html) auf dem Startbildschirm."
   }
 }

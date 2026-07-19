@@ -3,6 +3,16 @@
     "manual_admin.tools.licencia.title": "Lizentzia",
     "manual_admin.tools.licencia.desc": "Xiro! lizentziaren egoera eta konfigurazioa.",
     "manual_admin.tools.licencia.info": "Lizentzia aktiboa",
-    "manual_admin.tools.licencia.info_desc": "Gorde eta balioztatu lizentzia zerbitzua aktibo mantentzeko."
+    "manual_admin.tools.licencia.info_desc": "Gorde eta balioztatu lizentzia zerbitzua aktibo mantentzeko.",
+    "manual_admin.tools.licencia.states": "Balidazio-egoerak",
+    "manual_admin.tools.licencia.states_desc": "<strong>Baliozkoa</strong>: zerbitzua aktibo dago. <strong>Formatu baliogabea</strong>: egiaztatu gakoa ondo idatzita dagoela. <strong>Baliogabea</strong>: lizentzia-zerbitzariak baztertu du.",
+    "manual_admin.tools.licencia.single": "Instalazio bakarra",
+    "manual_admin.tools.licencia.single_desc": "Lizentzia bakoitza ekipo bakarrean egon daiteke aktibo aldi berean. «Lizentzia beste ekipo batean erabiltzen ari da» agertzen bada, idatzi <strong>info@xiro.pro</strong> helbidera askatzeko.",
+    "manual_admin.tools.licencia.buy": "Lizentzia erosi",
+    "manual_admin.tools.licencia.buy_desc": "Lizentziarik gordeta ez badago, «Lizentzia erosi» botoiak erosketa-orria irekitzen du.",
+    "manual_admin.tools.licencia.exempt": "Editoreen jokoak",
+    "manual_admin.tools.licencia.exempt_desc": "Editoreek sortutako edukia <strong>askatzeko</strong> edo <strong>murrizteko</strong> aukera ematen du. Askatutako edukiak administratzailearena balitz bezala jokatzen du: instalazio-lizentziarekin mugarik gabe jokatzen da.",
+    "manual_admin.tools.licencia.publicurl": "Zerbitzariaren URL publikoa",
+    "manual_admin.tools.licencia.publicurl_desc": "Mezuen esteketan (egiaztapena, erregistroa) eta PayPal-en itzuleran erabiltzen da. Utzi hutsik domeinuaren bidez automatikoki detektatzeko."
   }
 }

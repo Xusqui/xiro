@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "manual_admin.tools.mantenimiento.title": "Manteniment",
+    "manual_admin.tools.mantenimiento.desc": "Accions de neteja i reinici del menú lateral. Totes demanen confirmació abans d’executar-se.",
+    "manual_admin.tools.mantenimiento.uploads": "Netejar Uploads",
+    "manual_admin.tools.mantenimiento.uploads_desc": "Elimina els fitxers multimèdia orfes que ja no estan referenciats per cap pregunta. No es pot desfer.",
+    "manual_admin.tools.mantenimiento.cache": "Netejar Cau",
+    "manual_admin.tools.mantenimiento.cache_desc": "Buida la cau de jocs. Útil si acabes d’editar un banc i els canvis no es reflecteixen a les partides noves.",
+    "manual_admin.tools.mantenimiento.logs": "Esborrar Logs",
+    "manual_admin.tools.mantenimiento.logs_desc": "Buida els fitxers de log del servidor (backend, Redis i backup) per alliberar espai en disc.",
+    "manual_admin.tools.mantenimiento.panic": "PANIC",
+    "manual_admin.tools.mantenimiento.panic_desc": "Reinici forçat del contenidor Docker. <strong>Totes les partides actives es perden.</strong> Fes-lo servir només en emergències."
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "manual_admin.tools.historial.title": "Historique des Parties",
+    "manual_admin.tools.historial.desc": "Consultez et téléchargez les résultats de toutes les parties jouées. Les parties sont enregistrées automatiquement à la fin.",
+    "manual_admin.tools.historial.list": "Liste des parties",
+    "manual_admin.tools.historial.list_desc": "Chaque partie affiche la date, le type, les joueurs, les questions, la durée et le statut (terminée, finalisée, abandonnée ou auto-sauvegardée).",
+    "manual_admin.tools.historial.download": "Téléchargement et visionneuse graphique",
+    "manual_admin.tools.historial.download_desc": "Téléchargez les résultats de n'importe quelle partie ou ouvrez-les dans la <strong>visionneuse graphique</strong> pour les analyser avec des tableaux et des graphiques.",
+    "manual_admin.tools.historial.delete": "Suppression",
+    "manual_admin.tools.historial.delete_desc": "Vous pouvez supprimer des parties individuelles, une sélection ou tout l'historique. Cette action est irréversible."
+  }
+}

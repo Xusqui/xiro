@@ -143,6 +143,25 @@
     "manual_admin.remote.security.compatible_title": "Kompatibel mit dem Hauptmoderator",
     "manual_admin.remote.security.compatible_text": "Die Fernsteuerung und der Hauptmoderator können gleichzeitig aktiv sein, ohne sich gegenseitig zu stören. Beide steuern dieselbe Sitzung.",
     "manual_admin.remote.security.tip_title": "Verwendungstipp",
-    "manual_admin.remote.security.tip_text": "Öffne die Fernsteuerung auf deinem Smartphone, bevor du das Spiel startest. So trittst du der Sitzung aus der Lobby bei und empfängst alle Ereignisse von Anfang an, einschließlich des Timers für die erste Frage."
+    "manual_admin.remote.security.tip_text": "Öffne die Fernsteuerung auf deinem Smartphone, bevor du das Spiel startest. So trittst du der Sitzung aus der Lobby bei und empfängst alle Ereignisse von Anfang an, einschließlich des Timers für die erste Frage.",
+    "manual_admin.access.account.title": "Mein Konto",
+    "manual_admin.access.account.p1": "Im Tab <strong>User</strong> des Seitenmenüs sehen Sie Ihre Kontodaten (Benutzer, E-Mail und Rolle) und verwalten Ihre Sicherheit.",
+    "manual_admin.access.account.password": "<strong>Passwort ändern</strong> — geben Sie das aktuelle Passwort, das neue und dessen Bestätigung ein.",
+    "manual_admin.access.account.email": "<strong>E-Mail ändern</strong> — die aktuelle E-Mail ändert sich erst, wenn Sie den an die neue Adresse gesendeten Link bestätigen.",
+    "manual_admin.access.users.title": "Benutzer verwalten",
+    "manual_admin.access.users.p1": "Nur für die Admin-Rolle: Überblick über die Konten des Panels — Benutzer, E-Mail, Rolle, Status und Registrierungsdatum.",
+    "manual_admin.access.users.p2": "Hier können Sie <strong>Konten löschen</strong>. Das Löschen von Benutzern ist endgültig und kann nicht rückgängig gemacht werden.",
+    "manual_admin.banks.types.survey": "<strong>Umfrage</strong> — Die Spieler stimmen zwischen Optionen ab und die Ergebnisse werden angezeigt; es gibt keine richtige Antwort.",
+    "manual_admin.banks.types.matching": "<strong>Zuordnen</strong> — Zwei Spalten; der Spieler verbindet jedes Element mit seinem richtigen Paar (bis zu 6 Paare).",
+    "manual_admin.banks.ai.title": "KI-Fragengenerator",
+    "manual_admin.banks.ai.intro": "Erstellen Sie automatisch eine komplette Bank über <strong>KI-Generator</strong> im Seitenmenü. Erfordert einen konfigurierten Groq-API-Schlüssel (Werkzeuge → KI).",
+    "manual_admin.banks.ai.s1": "<strong>Quelle</strong> — laden Sie ein Dokument hoch (.pdf, .docx, .txt) oder schreiben Sie das Thema, zu dem Fragen erzeugt werden sollen.",
+    "manual_admin.banks.ai.s2": "<strong>Konfigurieren</strong> — benennen Sie die Bank und wählen Sie den Schwierigkeitsgrad (niedrig, mittel oder hoch).",
+    "manual_admin.banks.ai.s3": "<strong>Ergebnis</strong> — prüfen Sie die erzeugten Fragen, regenerieren Sie fehlerhafte Typen und drücken Sie <strong>„Bank importieren\"</strong> oder <strong>„JSON herunterladen\"</strong>.",
+    "manual_admin.banks.merge.title": "Banken zusammenführen",
+    "manual_admin.banks.merge.intro": "Die Schaltfläche <strong>„Banken mischen\"</strong> in der Bankenliste kombiniert Fragen mehrerer Banken zu einer neuen.",
+    "manual_admin.banks.merge.s1": "Wählen Sie mindestens <strong>2 Banken</strong> aus der Liste (oder nutzen Sie „Alle auswählen\").",
+    "manual_admin.banks.merge.s2": "Benennen Sie die neue Bank und vergeben Sie optional eine PIN.",
+    "manual_admin.banks.merge.s3": "Drücken Sie <strong>„Gemischte Bank erstellen\"</strong>. Die ursprünglichen Banken werden nicht verändert."
   }
 }

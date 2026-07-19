@@ -3,6 +3,8 @@
     "manual_admin.tools.interfaz.title": "インターフェース",
     "manual_admin.tools.interfaz.desc": "ユーザーインターフェースの設定。",
     "manual_admin.tools.interfaz.tv": "TVカード",
-    "manual_admin.tools.interfaz.tv_desc": "ホーム画面でTVバージョンのカードを表示または非表示にします。"
+    "manual_admin.tools.interfaz.tv_desc": "ホーム画面でTVバージョンのカードを表示または非表示にします。",
+    "manual_admin.tools.interfaz.standalone": "「ソロモード」カード",
+    "manual_admin.tools.interfaz.standalone_desc": "ホーム画面のソロモード（standalone.html）へのカードとリンクを表示または非表示にします。"
   }
 }

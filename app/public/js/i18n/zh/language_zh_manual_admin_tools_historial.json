@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "manual_admin.tools.historial.title": "游戏历史",
+    "manual_admin.tools.historial.desc": "查看并下载所有已进行游戏的结果。游戏结束时会自动保存。",
+    "manual_admin.tools.historial.list": "游戏列表",
+    "manual_admin.tools.historial.list_desc": "每场游戏显示日期、类型、玩家数、题目数、时长和状态（已完成、已结束、已放弃或自动保存）。",
+    "manual_admin.tools.historial.download": "下载与图形查看器",
+    "manual_admin.tools.historial.download_desc": "下载任意游戏的结果，或在<strong>图形查看器</strong>中打开，通过表格和图表进行分析。",
+    "manual_admin.tools.historial.delete": "删除",
+    "manual_admin.tools.historial.delete_desc": "可以删除单场游戏、所选游戏或全部历史记录。此操作无法撤销。"
+  }
+}

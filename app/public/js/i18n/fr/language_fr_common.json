@@ -5,6 +5,7 @@
     "common.footer.contact": "Contact",
     "common.back_home": "Retour en haut",
     "common.error_title": "Erreur",
-    "common.btn_retry": "Réessayer"
+    "common.btn_retry": "Réessayer",
+    "common.footer.copyright_holder": "Copyright : Famille Fernández Villatoro"
   }
 }

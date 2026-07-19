@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.botrunner.title": "Bot Runner",
+    "manual_admin.tools.botrunner.desc": "Garapen-tresna, jokalariak simulatzeko eta zerbitzaria benetako kargarekin probatzeko.",
+    "manual_admin.tools.botrunner.usage": "Nola erabiltzen den",
+    "manual_admin.tools.botrunner.usage_desc": "Ireki lehenengo lobby-a aurkezletik. Sartu <strong>Session ID</strong> (PIN-ZENBAKIA formatua), aukeratu modua (banakakoa edo taldeka), joko mota (quiz edo trivial) eta bot kopurua (1-199), eta sakatu <strong>«Botak abiarazi»</strong>.",
+    "manual_admin.tools.botrunner.stats": "Estatistikak eta log-a",
+    "manual_admin.tools.botrunner.stats_desc": "Denbora errealean erakusten ditu konektatutako botak, huts egindakoak eta bidalitako erantzunak. Botak edonoiz geldi ditzakezu eta exekuzioaren JSON log bat deskargatu."
+  }
+}

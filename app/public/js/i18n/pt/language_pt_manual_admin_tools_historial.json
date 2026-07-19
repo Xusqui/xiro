@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "manual_admin.tools.historial.title": "Histórico de Partidas",
+    "manual_admin.tools.historial.desc": "Consulte e descarregue os resultados de todas as partidas jogadas. As partidas são guardadas automaticamente ao terminar.",
+    "manual_admin.tools.historial.list": "Lista de partidas",
+    "manual_admin.tools.historial.list_desc": "Cada partida mostra data, tipo, jogadores, perguntas, duração e estado (completada, finalizada, abandonada ou auto-guardada).",
+    "manual_admin.tools.historial.download": "Descarga e visualizador gráfico",
+    "manual_admin.tools.historial.download_desc": "Descarregue os resultados de qualquer partida ou abra-os no <strong>visualizador gráfico</strong> para analisá-los com tabelas e gráficos.",
+    "manual_admin.tools.historial.delete": "Eliminação",
+    "manual_admin.tools.historial.delete_desc": "Pode eliminar partidas individuais, uma seleção ou todo o histórico. Esta ação não pode ser desfeita."
+  }
+}

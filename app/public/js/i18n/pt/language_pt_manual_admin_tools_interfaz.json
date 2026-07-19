@@ -3,6 +3,8 @@
     "manual_admin.tools.interfaz.title": "Interface",
     "manual_admin.tools.interfaz.desc": "Ajustes da interface de utilizador.",
     "manual_admin.tools.interfaz.tv": "Cartão TV",
-    "manual_admin.tools.interfaz.tv_desc": "Mostra ou oculta o cartão para a versão TV no ecrã inicial."
+    "manual_admin.tools.interfaz.tv_desc": "Mostra ou oculta o cartão para a versão TV no ecrã inicial.",
+    "manual_admin.tools.interfaz.standalone": "Cartão «Modo Solitário»",
+    "manual_admin.tools.interfaz.standalone_desc": "Mostra ou oculta o cartão e o link para o modo solitário (standalone.html) no ecrã inicial."
   }
 }

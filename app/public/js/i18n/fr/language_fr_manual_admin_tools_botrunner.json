@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.botrunner.title": "Bot Runner",
+    "manual_admin.tools.botrunner.desc": "Outil de développement pour simuler des joueurs et tester le serveur en charge réelle.",
+    "manual_admin.tools.botrunner.usage": "Comment l’utiliser",
+    "manual_admin.tools.botrunner.usage_desc": "Ouvrez d'abord le lobby depuis le présentateur. Saisissez le <strong>Session ID</strong> (format PIN-NUMÉRO), choisissez le mode (individuel ou équipes), le type de jeu (quiz ou trivial) et le nombre de bots (1-199), puis appuyez sur <strong>« Lancer les bots »</strong>.",
+    "manual_admin.tools.botrunner.stats": "Statistiques et journal",
+    "manual_admin.tools.botrunner.stats_desc": "Affiche en temps réel les bots connectés, en échec et les réponses envoyées. Vous pouvez arrêter les bots à tout moment et télécharger un journal JSON de l’exécution."
+  }
+}

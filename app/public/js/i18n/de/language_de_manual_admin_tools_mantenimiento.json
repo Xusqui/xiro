@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "manual_admin.tools.mantenimiento.title": "Wartung",
+    "manual_admin.tools.mantenimiento.desc": "Bereinigungs- und Neustart-Aktionen im Seitenmenü. Alle verlangen eine Bestätigung vor der Ausführung.",
+    "manual_admin.tools.mantenimiento.uploads": "Uploads bereinigen",
+    "manual_admin.tools.mantenimiento.uploads_desc": "Löscht verwaiste Mediendateien, die von keiner Frage mehr referenziert werden. Kann nicht rückgängig gemacht werden.",
+    "manual_admin.tools.mantenimiento.cache": "Cache leeren",
+    "manual_admin.tools.mantenimiento.cache_desc": "Leert den Spiele-Cache. Nützlich, wenn Sie gerade eine Bank bearbeitet haben und die Änderungen in neuen Partien nicht erscheinen.",
+    "manual_admin.tools.mantenimiento.logs": "Logs löschen",
+    "manual_admin.tools.mantenimiento.logs_desc": "Leert die Log-Dateien des Servers (Backend, Redis und Backup), um Speicherplatz freizugeben.",
+    "manual_admin.tools.mantenimiento.panic": "PANIC",
+    "manual_admin.tools.mantenimiento.panic_desc": "Erzwungener Neustart des Docker-Containers. <strong>Alle aktiven Partien gehen verloren.</strong> Nur im Notfall verwenden."
+  }
+}

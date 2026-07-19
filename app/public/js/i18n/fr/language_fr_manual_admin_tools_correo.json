@@ -5,6 +5,10 @@
     "manual_admin.tools.correo.smtp": "Serveur SMTP",
     "manual_admin.tools.correo.smtp_desc": "Hôte, port, sécurité et identifiants pour l'envoi.",
     "manual_admin.tools.correo.secret": "Secret de contact",
-    "manual_admin.tools.correo.secret_desc": "Clé HMAC pour signer les jetons antibots."
+    "manual_admin.tools.correo.secret_desc": "Clé HMAC pour signer les jetons antibots.",
+    "manual_admin.tools.correo.from": "Expéditeur",
+    "manual_admin.tools.correo.from_desc": "Nom et adresse affichés comme expéditeur des e-mails. Format : \"Nom\" &lt;mail@domaine.com&gt;.",
+    "manual_admin.tools.correo.uses": "À quoi ça sert ?",
+    "manual_admin.tools.correo.uses_desc": "L'e-mail sert à la vérification des comptes, à la récupération du mot de passe et au formulaire public de contact."
   }
 }

@@ -143,6 +143,25 @@
     "manual_admin.remote.security.compatible_title": "Compatible with the main presenter",
     "manual_admin.remote.security.compatible_text": "The remote control and the main presenter can be active simultaneously without interfering. Both control the same session.",
     "manual_admin.remote.security.tip_title": "Usage tip",
-    "manual_admin.remote.security.tip_text": "Open the remote control on your phone before starting the game. This way you join the session from the lobby and receive all events from the beginning, including the timer for the first question."
+    "manual_admin.remote.security.tip_text": "Open the remote control on your phone before starting the game. This way you join the session from the lobby and receive all events from the beginning, including the timer for the first question.",
+    "manual_admin.access.account.title": "My account",
+    "manual_admin.access.account.p1": "In the <strong>User</strong> tab of the sidebar you can see your account details (username, email and role) and manage your security.",
+    "manual_admin.access.account.password": "<strong>Change password</strong> — enter the current password, the new one and its confirmation.",
+    "manual_admin.access.account.email": "<strong>Change email</strong> — the current email does not change until you confirm the link sent to the new address.",
+    "manual_admin.access.users.title": "Manage users",
+    "manual_admin.access.users.p1": "Admin-only panel to review the panel accounts: username, email, role, status and registration date.",
+    "manual_admin.access.users.p2": "From here you can <strong>delete accounts</strong>. User deletion is permanent and cannot be undone.",
+    "manual_admin.banks.types.survey": "<strong>Survey</strong> — Players vote between options and the results are shown; there is no correct answer.",
+    "manual_admin.banks.types.matching": "<strong>Matching</strong> — Two columns; the player links each item with its correct pair (up to 6 pairs).",
+    "manual_admin.banks.ai.title": "AI question generator",
+    "manual_admin.banks.ai.intro": "Create a full bank automatically from <strong>AI Generator</strong> in the sidebar. Requires a configured Groq API key (Tools → AI).",
+    "manual_admin.banks.ai.s1": "<strong>Source</strong> — upload a document (.pdf, .docx, .txt) or type the topic to generate questions about.",
+    "manual_admin.banks.ai.s2": "<strong>Configure</strong> — name the bank and choose the difficulty (low, medium or high).",
+    "manual_admin.banks.ai.s3": "<strong>Result</strong> — review the generated questions, regenerate the types with errors and press <strong>\"Import bank\"</strong> or <strong>\"Download JSON\"</strong>.",
+    "manual_admin.banks.merge.title": "Merge banks",
+    "manual_admin.banks.merge.intro": "The <strong>\"Merge Banks\"</strong> button in the bank list combines questions from several banks into a new one.",
+    "manual_admin.banks.merge.s1": "Select at least <strong>2 banks</strong> from the list (or use \"Select all\").",
+    "manual_admin.banks.merge.s2": "Name the new bank and, optionally, give it a PIN.",
+    "manual_admin.banks.merge.s3": "Press <strong>\"Create Merged Bank\"</strong>. The original banks are not modified."
   }
 }

@@ -3,6 +3,8 @@
     "manual_admin.tools.interfaz.title": "Interface",
     "manual_admin.tools.interfaz.desc": "Paramètres de l'interface utilisateur.",
     "manual_admin.tools.interfaz.tv": "Carte TV",
-    "manual_admin.tools.interfaz.tv_desc": "Affiche ou masque la carte vers la version TV."
+    "manual_admin.tools.interfaz.tv_desc": "Affiche ou masque la carte vers la version TV.",
+    "manual_admin.tools.interfaz.standalone": "Carte « Mode Solo »",
+    "manual_admin.tools.interfaz.standalone_desc": "Affiche ou masque la carte et le lien vers le mode solo (standalone.html) sur l'écran d'accueil."
   }
 }

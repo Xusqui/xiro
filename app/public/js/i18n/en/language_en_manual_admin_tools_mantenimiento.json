@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "manual_admin.tools.mantenimiento.title": "Maintenance",
+    "manual_admin.tools.mantenimiento.desc": "Cleanup and restart actions in the sidebar menu. All of them ask for confirmation before running.",
+    "manual_admin.tools.mantenimiento.uploads": "Clean Uploads",
+    "manual_admin.tools.mantenimiento.uploads_desc": "Deletes orphaned media files no longer referenced by any question. This cannot be undone.",
+    "manual_admin.tools.mantenimiento.cache": "Clear Cache",
+    "manual_admin.tools.mantenimiento.cache_desc": "Empties the game cache. Useful if you just edited a bank and the changes do not show up in new games.",
+    "manual_admin.tools.mantenimiento.logs": "Delete Logs",
+    "manual_admin.tools.mantenimiento.logs_desc": "Empties the server log files (backend, Redis and backup) to free disk space.",
+    "manual_admin.tools.mantenimiento.panic": "PANIC",
+    "manual_admin.tools.mantenimiento.panic_desc": "Forced restart of the Docker container. <strong>All active games are lost.</strong> Use it only in emergencies."
+  }
+}

@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="manual_admin.page.title">...</title>
     <link rel="icon" href="./favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="./css/common.css?v=20260713135401">
-    <link rel="stylesheet" href="./css/output-index.css?v=20260713135401">
-    <link rel="stylesheet" href="./css/index-style.css?v=20260713135401">
+    <link rel="stylesheet" href="./css/common.css?v=20260719190748">
+    <link rel="stylesheet" href="./css/output-index.css?v=20260719190748">
+    <link rel="stylesheet" href="./css/index-style.css?v=20260719190748">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
         integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
         crossorigin="anonymous" referrerpolicy="no-referrer">
-    <script defer src="/js/core/umami-loader.js?v=20260713135401"></script>
+    <script defer src="/js/core/umami-loader.js?v=20260719190748"></script>
     <style>
         .tab-btn {
             transition: all 0.3s ease;
@@ -117,9 +117,9 @@
             color: #f9b518;
         }
     </style>
-    <script src="/js/i18n/i18n-core.js?v=20260713135401"></script>
-    <script src="/js/i18n/i18n-dom.js?v=20260713135401"></script>
-    <script src="/js/i18n/i18n-ui.js?v=20260713135401"></script>
+    <script src="/js/i18n/i18n-core.js?v=20260719190748"></script>
+    <script src="/js/i18n/i18n-dom.js?v=20260719190748"></script>
+    <script src="/js/i18n/i18n-ui.js?v=20260719190748"></script>
 </head>
 
 <body
@@ -290,6 +290,56 @@
                         </div>
                     </div>
 
+                    <!-- Mi cuenta -->
+                    <div class="card h-full">
+                        <div class="bg-white h-full rounded-3xl shadow-xl p-8 text-slate-800 border-b-8 flex flex-row items-start justify-between"
+                            style="border-bottom-color: #8b5cf6;">
+                            <div class="flex-1">
+                                <div class="step-badge" style="background-color:#8b5cf6;">5</div>
+                                <h2 class="text-xl font-black mb-2 text-slate-800 flex items-center">
+                                    <i class="fas fa-user-circle text-purple-600 mr-3"></i> <span
+                                        data-i18n="manual_admin.access.account.title">...</span>
+                                </h2>
+                                <p class="text-slate-600 text-base mb-3"
+                                    data-i18n-html="manual_admin.access.account.p1">...</p>
+                                <ul class="text-slate-600 text-sm space-y-2">
+                                    <li class="flex items-start gap-2">
+                                        <i class="fas fa-key text-purple-400 mt-0.5"></i>
+                                        <span data-i18n-html="manual_admin.access.account.password">...</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <i class="fas fa-envelope text-purple-400 mt-0.5"></i>
+                                        <span data-i18n-html="manual_admin.access.account.email">...</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <img src="./images/chamaleon/cool.svg" alt="Mi cuenta" class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <!-- Gestionar usuarios -->
+                    <div class="card h-full">
+                        <div class="bg-white h-full rounded-3xl shadow-xl p-8 text-slate-800 border-b-8 flex flex-row items-start justify-between"
+                            style="border-bottom-color: #f97316;">
+                            <div class="flex-1">
+                                <div class="step-badge" style="background-color:#f97316;">6</div>
+                                <h2 class="text-xl font-black mb-2 text-slate-800 flex items-center">
+                                    <i class="fas fa-users-cog text-orange-500 mr-3"></i> <span
+                                        data-i18n="manual_admin.access.users.title">...</span>
+                                    <span class="role-badge bg-red-100 text-red-700 ml-2 text-xs"
+                                        data-i18n="manual_admin.only_admin">...</span>
+                                </h2>
+                                <p class="text-slate-600 text-base mb-3"
+                                    data-i18n-html="manual_admin.access.users.p1">...</p>
+                                <div class="p-3 bg-red-50 rounded-xl border border-red-200">
+                                    <p class="text-slate-600 text-sm"
+                                        data-i18n-html="manual_admin.access.users.p2">...</p>
+                                </div>
+                            </div>
+                            <img src="./images/chamaleon/worker.svg" alt="Usuarios" class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -365,6 +415,14 @@
                                         <i class="fas fa-sort-numeric-down text-cyan-500 mt-0.5"></i>
                                         <span data-i18n-html="manual_admin.banks.types.order">...</span>
                                     </li>
+                                    <li class="flex items-start gap-2">
+                                        <i class="fas fa-poll text-pink-500 mt-0.5"></i>
+                                        <span data-i18n-html="manual_admin.banks.types.survey">...</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <i class="fas fa-link text-lime-600 mt-0.5"></i>
+                                        <span data-i18n-html="manual_admin.banks.types.matching">...</span>
+                                    </li>
                                 </ul>
                             </div>
                             <img src="./images/chamaleon/gaming.svg" alt="Gaming" class="w-16 sm:w-24 shrink-0 ml-4">
@@ -436,6 +494,77 @@
                                 </div>
                             </div>
                             <img src="./images/chamaleon/thinking.svg" alt="Comentario"
+                                class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <!-- Generador IA -->
+                    <div class="card h-full">
+                        <div class="bg-white h-full rounded-3xl shadow-xl p-8 text-slate-800 border-b-8 flex flex-row items-start justify-between"
+                            style="border-bottom-color: #6366f1;">
+                            <div class="flex-1">
+                                <h2 class="text-xl font-black mb-3 text-slate-800 flex items-center">
+                                    <i class="fas fa-robot mr-3" style="color:#6366f1;"></i> <span
+                                        data-i18n="manual_admin.banks.ai.title">...</span>
+                                </h2>
+                                <p class="text-slate-600 text-sm mb-3" data-i18n-html="manual_admin.banks.ai.intro">...
+                                </p>
+                                <ol class="text-slate-600 text-sm space-y-2 list-none">
+                                    <li class="flex items-start gap-2">
+                                        <span
+                                            class="w-5 h-5 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5"
+                                            style="background-color:#6366f1;">1</span>
+                                        <span data-i18n-html="manual_admin.banks.ai.s1">...</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span
+                                            class="w-5 h-5 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5"
+                                            style="background-color:#6366f1;">2</span>
+                                        <span data-i18n-html="manual_admin.banks.ai.s2">...</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span
+                                            class="w-5 h-5 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5"
+                                            style="background-color:#6366f1;">3</span>
+                                        <span data-i18n-html="manual_admin.banks.ai.s3">...</span>
+                                    </li>
+                                </ol>
+                            </div>
+                            <img src="./images/chamaleon/inteligencia-artificial.svg" alt="Generador IA"
+                                class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <!-- Mezclar bancos -->
+                    <div class="card h-full">
+                        <div class="bg-white h-full rounded-3xl shadow-xl p-8 text-slate-800 border-b-8 flex flex-row items-start justify-between"
+                            style="border-bottom-color: #16a34a;">
+                            <div class="flex-1">
+                                <h2 class="text-xl font-black mb-3 text-slate-800 flex items-center">
+                                    <i class="fas fa-code-merge text-green-600 mr-3"></i> <span
+                                        data-i18n="manual_admin.banks.merge.title">...</span>
+                                </h2>
+                                <p class="text-slate-600 text-sm mb-3" data-i18n-html="manual_admin.banks.merge.intro">
+                                    ...</p>
+                                <ol class="text-slate-600 text-sm space-y-2 list-none">
+                                    <li class="flex items-start gap-2">
+                                        <span
+                                            class="w-5 h-5 bg-green-600 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">1</span>
+                                        <span data-i18n-html="manual_admin.banks.merge.s1">...</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span
+                                            class="w-5 h-5 bg-green-600 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">2</span>
+                                        <span data-i18n-html="manual_admin.banks.merge.s2">...</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span
+                                            class="w-5 h-5 bg-green-600 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">3</span>
+                                        <span data-i18n-html="manual_admin.banks.merge.s3">...</span>
+                                    </li>
+                                </ol>
+                            </div>
+                            <img src="./images/chamaleon/quimico.svg" alt="Mezclar bancos"
                                 class="w-16 sm:w-24 shrink-0 ml-4">
                         </div>
                     </div>
@@ -793,6 +922,18 @@
                             <i class="fas fa-robot mr-2 w-4 text-center"></i><span data-i18n="manual_admin.tools.ia.title">...</span>
                         </button>
 
+                        <button class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition-all whitespace-nowrap" data-target="sub-historial" style="">
+                            <i class="fas fa-clock-rotate-left mr-2 w-4 text-center"></i><span data-i18n="manual_admin.tools.historial.title">...</span>
+                        </button>
+
+                        <button class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition-all whitespace-nowrap" data-target="sub-botrunner" style="">
+                            <i class="fas fa-microchip mr-2 w-4 text-center"></i><span data-i18n="manual_admin.tools.botrunner.title">...</span>
+                        </button>
+
+                        <button class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition-all whitespace-nowrap" data-target="sub-mantenimiento" style="">
+                            <i class="fas fa-broom mr-2 w-4 text-center"></i><span data-i18n="manual_admin.tools.mantenimiento.title">...</span>
+                        </button>
+
                     </div>
 
                     <!-- Contenido de sub-tabs -->
@@ -1037,6 +1178,46 @@
                                             </div>
                                         </li>
 
+                                        <li class="flex items-start gap-3">
+                                            <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
+                                            <div>
+                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.licencia.states">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.licencia.states_desc">...</p>
+                                            </div>
+                                        </li>
+
+                                        <li class="flex items-start gap-3">
+                                            <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
+                                            <div>
+                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.licencia.single">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.licencia.single_desc">...</p>
+                                            </div>
+                                        </li>
+
+                                        <li class="flex items-start gap-3">
+                                            <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
+                                            <div>
+                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.licencia.buy">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.licencia.buy_desc">...</p>
+                                            </div>
+                                        </li>
+
+                                        <li class="flex items-start gap-3">
+                                            <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
+                                            <div>
+                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.licencia.exempt">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.licencia.exempt_desc">...</p>
+                                            </div>
+                                        </li>
+
+                                        <li class="flex items-start gap-3">
+                                            <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
+                                            <div>
+                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.licencia.publicurl">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.licencia.publicurl_desc">...</p>
+                                            </div>
+                                        </li>
+
                                     </ul>
                                 </div>
                                 <img src="./images/chamaleon/cool.svg" class="w-16 sm:w-24 shrink-0 ml-4" alt="Icon">
@@ -1066,6 +1247,22 @@
                                             <div>
                                                 <strong class="text-slate-700" data-i18n="manual_admin.tools.correo.secret">...</strong>
                                                 <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.correo.secret_desc">...</p>
+                                            </div>
+                                        </li>
+
+                                        <li class="flex items-start gap-3">
+                                            <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
+                                            <div>
+                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.correo.from">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.correo.from_desc">...</p>
+                                            </div>
+                                        </li>
+
+                                        <li class="flex items-start gap-3">
+                                            <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
+                                            <div>
+                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.correo.uses">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.correo.uses_desc">...</p>
                                             </div>
                                         </li>
 
@@ -1156,6 +1353,14 @@
                                             </div>
                                         </li>
 
+                                        <li class="flex items-start gap-3">
+                                            <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
+                                            <div>
+                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.interfaz.standalone">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.interfaz.standalone_desc">...</p>
+                                            </div>
+                                        </li>
+
                                     </ul>
                                 </div>
                                 <img src="./images/chamaleon/gaming.svg" class="w-16 sm:w-24 shrink-0 ml-4" alt="Icon">
@@ -1191,6 +1396,130 @@
                                     </ul>
                                 </div>
                                 <img src="./images/chamaleon/inteligencia-artificial.svg" class="w-16 sm:w-24 shrink-0 ml-4" alt="Icon">
+                            </div>
+                        </div>
+
+                        <!-- SUB-HISTORIAL -->
+                        <div id="sub-historial" class="sub-tab-content hidden">
+                            <div class="flex flex-col md:flex-row items-start justify-between">
+                                <div class="flex-1 w-full">
+                                    <h2 class="text-2xl font-black mb-2 text-slate-800 flex items-center">
+                                        <span data-i18n="manual_admin.tools.historial.title">...</span>
+                                    </h2>
+                                    <p class="text-slate-600 mb-6" data-i18n="manual_admin.tools.historial.desc">...</p>
+                                    <ul class="text-slate-600 text-sm space-y-4">
+
+                                        <li class="flex items-start gap-3">
+                                            <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
+                                            <div>
+                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.historial.list">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.historial.list_desc">...</p>
+                                            </div>
+                                        </li>
+
+                                        <li class="flex items-start gap-3">
+                                            <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
+                                            <div>
+                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.historial.download">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.historial.download_desc">...</p>
+                                            </div>
+                                        </li>
+
+                                        <li class="flex items-start gap-3">
+                                            <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
+                                            <div>
+                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.historial.delete">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.historial.delete_desc">...</p>
+                                            </div>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                                <img src="./images/chamaleon/leyendo.svg" class="w-16 sm:w-24 shrink-0 ml-4" alt="Icon">
+                            </div>
+                        </div>
+
+                        <!-- SUB-BOTRUNNER -->
+                        <div id="sub-botrunner" class="sub-tab-content hidden">
+                            <div class="flex flex-col md:flex-row items-start justify-between">
+                                <div class="flex-1 w-full">
+                                    <h2 class="text-2xl font-black mb-2 text-slate-800 flex items-center">
+                                        <span data-i18n="manual_admin.tools.botrunner.title">...</span>
+                                        <span class="role-badge bg-red-100 text-red-700 ml-2 text-xs"
+                                            data-i18n="manual_admin.only_admin">...</span>
+                                    </h2>
+                                    <p class="text-slate-600 mb-6" data-i18n="manual_admin.tools.botrunner.desc">...</p>
+                                    <ul class="text-slate-600 text-sm space-y-4">
+
+                                        <li class="flex items-start gap-3">
+                                            <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
+                                            <div>
+                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.botrunner.usage">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.botrunner.usage_desc">...</p>
+                                            </div>
+                                        </li>
+
+                                        <li class="flex items-start gap-3">
+                                            <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
+                                            <div>
+                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.botrunner.stats">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.botrunner.stats_desc">...</p>
+                                            </div>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                                <img src="./images/chamaleon/gamer.svg" class="w-16 sm:w-24 shrink-0 ml-4" alt="Icon">
+                            </div>
+                        </div>
+
+                        <!-- SUB-MANTENIMIENTO -->
+                        <div id="sub-mantenimiento" class="sub-tab-content hidden">
+                            <div class="flex flex-col md:flex-row items-start justify-between">
+                                <div class="flex-1 w-full">
+                                    <h2 class="text-2xl font-black mb-2 text-slate-800 flex items-center">
+                                        <span data-i18n="manual_admin.tools.mantenimiento.title">...</span>
+                                        <span class="role-badge bg-red-100 text-red-700 ml-2 text-xs"
+                                            data-i18n="manual_admin.only_admin">...</span>
+                                    </h2>
+                                    <p class="text-slate-600 mb-6" data-i18n="manual_admin.tools.mantenimiento.desc">...</p>
+                                    <ul class="text-slate-600 text-sm space-y-4">
+
+                                        <li class="flex items-start gap-3">
+                                            <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
+                                            <div>
+                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.mantenimiento.uploads">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.mantenimiento.uploads_desc">...</p>
+                                            </div>
+                                        </li>
+
+                                        <li class="flex items-start gap-3">
+                                            <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
+                                            <div>
+                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.mantenimiento.cache">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.mantenimiento.cache_desc">...</p>
+                                            </div>
+                                        </li>
+
+                                        <li class="flex items-start gap-3">
+                                            <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
+                                            <div>
+                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.mantenimiento.logs">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.mantenimiento.logs_desc">...</p>
+                                            </div>
+                                        </li>
+
+                                        <li class="flex items-start gap-3">
+                                            <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
+                                            <div>
+                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.mantenimiento.panic">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.mantenimiento.panic_desc">...</p>
+                                            </div>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                                <img src="./images/chamaleon/worker.svg" class="w-16 sm:w-24 shrink-0 ml-4" alt="Icon">
                             </div>
                         </div>
 
@@ -1415,8 +1744,8 @@
                 Villatoro</a></p>
     </div>
 
-    <script src="/js/instrucciones/tabs.js?v=20260713135401"></script>
-    <script src="/js/core/site-badge.js?v=20260713135401"></script>
+    <script src="/js/instrucciones/tabs.js?v=20260719190748"></script>
+    <script src="/js/core/site-badge.js?v=20260719190748"></script>
 </body>
 
 </html>

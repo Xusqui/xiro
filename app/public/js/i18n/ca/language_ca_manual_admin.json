@@ -143,6 +143,25 @@
     "manual_admin.remote.security.compatible_title": "Compatible amb el presentador principal",
     "manual_admin.remote.security.compatible_text": "El comandament a distància i el presentador principal poden estar actius simultàniament sense interferir-se. Tots dos controlen la mateixa sessió.",
     "manual_admin.remote.security.tip_title": "Consell d'ús",
-    "manual_admin.remote.security.tip_text": "Obre el control remot al teu mòbil abans d'iniciar la partida. Així entres a la sessió des del lobby i reps tots els esdeveniments des del principi, incloent el temporitzador de la primera pregunta."
+    "manual_admin.remote.security.tip_text": "Obre el control remot al teu mòbil abans d'iniciar la partida. Així entres a la sessió des del lobby i reps tots els esdeveniments des del principi, incloent el temporitzador de la primera pregunta.",
+    "manual_admin.access.account.title": "El meu compte",
+    "manual_admin.access.account.p1": "A la pestanya <strong>User</strong> del menú lateral pots veure les dades del teu compte (usuari, correu i rol) i gestionar la teva seguretat.",
+    "manual_admin.access.account.password": "<strong>Canviar contrasenya</strong> — introdueix la contrasenya actual, la nova i la seva confirmació.",
+    "manual_admin.access.account.email": "<strong>Canviar correu</strong> — el correu actual no canvia fins que confirmis l'enllaç enviat al correu nou.",
+    "manual_admin.access.users.title": "Gestionar usuaris",
+    "manual_admin.access.users.p1": "Panell exclusiu del rol Admin per revisar els comptes del panell: usuari, correu, rol, estat i data d'alta.",
+    "manual_admin.access.users.p2": "Des d'aquí pots <strong>eliminar comptes</strong>. L'esborrat d'usuaris és permanent i no es pot desfer.",
+    "manual_admin.banks.types.survey": "<strong>Enquesta</strong> — Els jugadors voten entre opcions i es mostren els resultats; no hi ha resposta correcta.",
+    "manual_admin.banks.types.matching": "<strong>Emparellar</strong> — Dues columnes; el jugador uneix cada element amb la seva parella correcta (fins a 6 parells).",
+    "manual_admin.banks.ai.title": "Generador IA de preguntes",
+    "manual_admin.banks.ai.intro": "Crea un banc complet automàticament des de <strong>Generador IA</strong> al menú lateral. Requereix una API key de Groq configurada (Eines → IA).",
+    "manual_admin.banks.ai.s1": "<strong>Font</strong> — puja un document (.pdf, .docx, .txt) o escriu el tema sobre el qual generar preguntes.",
+    "manual_admin.banks.ai.s2": "<strong>Configurar</strong> — posa nom al banc i tria la dificultat (baixa, mitjana o alta).",
+    "manual_admin.banks.ai.s3": "<strong>Resultat</strong> — revisa les preguntes generades, regenera els tipus amb errors i prem <strong>«Importar banc»</strong> o <strong>«Descarregar JSON»</strong>.",
+    "manual_admin.banks.merge.title": "Mesclar bancs",
+    "manual_admin.banks.merge.intro": "El botó <strong>«Mesclar Bancs»</strong> de la llista de bancs combina preguntes de diversos bancs en un de nou.",
+    "manual_admin.banks.merge.s1": "Selecciona almenys <strong>2 bancs</strong> de la llista (o fes servir «Seleccionar-los tots»).",
+    "manual_admin.banks.merge.s2": "Posa nom al banc nou i, opcionalment, un PIN.",
+    "manual_admin.banks.merge.s3": "Prem <strong>«Crear Banc Mesclat»</strong>. Els bancs originals no es modifiquen."
   }
 }

@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "manual_admin.tools.mantenimiento.title": "维护",
+    "manual_admin.tools.mantenimiento.desc": "侧边菜单中的清理和重启操作。所有操作执行前都会要求确认。",
+    "manual_admin.tools.mantenimiento.uploads": "清理上传文件",
+    "manual_admin.tools.mantenimiento.uploads_desc": "删除不再被任何题目引用的孤立媒体文件。无法撤销。",
+    "manual_admin.tools.mantenimiento.cache": "清空缓存",
+    "manual_admin.tools.mantenimiento.cache_desc": "清空游戏缓存。如果刚编辑过题库而更改未在新游戏中生效，此操作很有用。",
+    "manual_admin.tools.mantenimiento.logs": "删除日志",
+    "manual_admin.tools.mantenimiento.logs_desc": "清空服务器日志文件（后端、Redis 和备份）以释放磁盘空间。",
+    "manual_admin.tools.mantenimiento.panic": "PANIC",
+    "manual_admin.tools.mantenimiento.panic_desc": "强制重启 Docker 容器。<strong>所有进行中的游戏都会丢失。</strong>仅在紧急情况下使用。"
+  }
+}

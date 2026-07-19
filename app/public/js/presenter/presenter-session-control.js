@@ -3,7 +3,7 @@
  * Acciones para Xiro! partida y limpiar storage.
  */
 
-import { getSocket } from './presenter-socket-config.js?v=20260713135401';
+import { getSocket } from './presenter-socket-config.js?v=20260719190748';
 import {
     getSessionId,
     getPin,
@@ -14,11 +14,11 @@ import {
     setConnectedPlayers,
     setPlayersData,
     setTotalPlayers
-} from './presenter-state.js?v=20260713135401';
-import { updatePlayersPanel } from './presenter-game-ui.js?v=20260713135401';
-import { cleanupPodio } from './presenter-podio.js?v=20260713135401';
-import { cleanupRevealElements } from './presenter-reveal.js?v=20260713135401';
-import { mostrarModalConfirmacion } from '../shared/modal.js?v=20260713135401';
+} from './presenter-state.js?v=20260719190748';
+import { updatePlayersPanel } from './presenter-game-ui.js?v=20260719190748';
+import { cleanupPodio } from './presenter-podio.js?v=20260719190748';
+import { cleanupRevealElements } from './presenter-reveal.js?v=20260719190748';
+import { mostrarModalConfirmacion } from '../shared/modal.js?v=20260719190748';
 
 let returnHomeInProgress = false;
 
@@ -100,7 +100,7 @@ async function goToPresenterHome() {
     cleanUrl.searchParams.delete('teams');
     window.history.replaceState({}, '', cleanUrl);
 
-    const module = await import('./presenter-lobby.js?v=20260713135401');
+    const module = await import('./presenter-lobby.js?v=20260719190748');
     module.mostrarSelectorPIN();
 }
 

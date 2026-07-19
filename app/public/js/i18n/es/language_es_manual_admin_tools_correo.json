@@ -5,6 +5,10 @@
     "manual_admin.tools.correo.smtp": "Servidor SMTP",
     "manual_admin.tools.correo.smtp_desc": "Configuración de host, puerto, seguridad y credenciales para el envío de correos.",
     "manual_admin.tools.correo.secret": "Secreto de contacto",
-    "manual_admin.tools.correo.secret_desc": "Clave HMAC para firmar tokens antibot."
+    "manual_admin.tools.correo.secret_desc": "Clave HMAC para firmar tokens antibot.",
+    "manual_admin.tools.correo.from": "Remitente",
+    "manual_admin.tools.correo.from_desc": "Nombre y dirección que aparecen como remitente de los correos. Formato: \"Nombre\" &lt;correo@dominio.com&gt;.",
+    "manual_admin.tools.correo.uses": "¿Para qué se usa?",
+    "manual_admin.tools.correo.uses_desc": "El correo se usa para la verificación de cuentas, la recuperación de contraseña y el formulario público de contacto."
   }
 }

@@ -3,6 +3,16 @@
     "manual_admin.tools.licencia.title": "许可证",
     "manual_admin.tools.licencia.desc": "Xiro! 许可证的状态和配置。",
     "manual_admin.tools.licencia.info": "有效的许可证",
-    "manual_admin.tools.licencia.info_desc": "保存并验证许可证以保持服务处于活动状态。"
+    "manual_admin.tools.licencia.info_desc": "保存并验证许可证以保持服务处于活动状态。",
+    "manual_admin.tools.licencia.states": "验证状态",
+    "manual_admin.tools.licencia.states_desc": "<strong>有效</strong>：服务已激活。<strong>格式无效</strong>：请检查密钥是否输入正确。<strong>无效</strong>：许可证服务器已拒绝该密钥。",
+    "manual_admin.tools.licencia.single": "仅限单台安装",
+    "manual_admin.tools.licencia.single_desc": "每个许可证同一时间只能在一台设备上激活。如果出现\"许可证正在另一台设备上使用\"，请发邮件至 <strong>info@xiro.pro</strong> 申请释放。",
+    "manual_admin.tools.licencia.buy": "购买许可证",
+    "manual_admin.tools.licencia.buy_desc": "如果没有保存许可证，\"购买许可证\"按钮会打开购买页面。",
+    "manual_admin.tools.licencia.exempt": "编辑者的游戏",
+    "manual_admin.tools.licencia.exempt_desc": "可以<strong>解锁</strong>或<strong>限制</strong>编辑者创建的内容。解锁的内容与管理员的内容一样：拥有安装许可证即可无限制游玩。",
+    "manual_admin.tools.licencia.publicurl": "服务器公开 URL",
+    "manual_admin.tools.licencia.publicurl_desc": "用于邮件链接（验证、注册）和 PayPal 返回。留空则按域名自动检测。"
   }
 }

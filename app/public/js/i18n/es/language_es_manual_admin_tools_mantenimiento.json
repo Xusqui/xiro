@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "manual_admin.tools.mantenimiento.title": "Mantenimiento",
+    "manual_admin.tools.mantenimiento.desc": "Acciones de limpieza y reinicio del menú lateral. Todas piden confirmación antes de ejecutarse.",
+    "manual_admin.tools.mantenimiento.uploads": "Limpiar Uploads",
+    "manual_admin.tools.mantenimiento.uploads_desc": "Elimina los archivos multimedia huérfanos que ya no están referenciados por ninguna pregunta. No se puede deshacer.",
+    "manual_admin.tools.mantenimiento.cache": "Limpiar Caché",
+    "manual_admin.tools.mantenimiento.cache_desc": "Vacía la caché de juegos. Útil si acabas de editar un banco y los cambios no se reflejan en las partidas nuevas.",
+    "manual_admin.tools.mantenimiento.logs": "Borrar Logs",
+    "manual_admin.tools.mantenimiento.logs_desc": "Vacía los archivos de log del servidor (backend, Redis y backup) para liberar espacio en disco.",
+    "manual_admin.tools.mantenimiento.panic": "PANIC",
+    "manual_admin.tools.mantenimiento.panic_desc": "Reinicio forzado del contenedor Docker. <strong>Todas las partidas activas se pierden.</strong> Úsalo solo en emergencias."
+  }
+}

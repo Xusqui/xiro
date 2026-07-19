@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "manual_admin.tools.historial.title": "Game History",
+    "manual_admin.tools.historial.desc": "Browse and download the results of every game played. Games are saved automatically when they finish.",
+    "manual_admin.tools.historial.list": "Game list",
+    "manual_admin.tools.historial.list_desc": "Each game shows date, type, players, questions, duration and status (completed, finalized, abandoned or auto-saved).",
+    "manual_admin.tools.historial.download": "Download and graphic viewer",
+    "manual_admin.tools.historial.download_desc": "Download the results of any game or open them in the <strong>graphic viewer</strong> to analyze them with tables and charts.",
+    "manual_admin.tools.historial.delete": "Deletion",
+    "manual_admin.tools.historial.delete_desc": "You can delete individual games, a selection or the whole history. This action cannot be undone."
+  }
+}

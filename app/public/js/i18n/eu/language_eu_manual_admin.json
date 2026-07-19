@@ -143,6 +143,25 @@
     "manual_admin.remote.security.compatible_title": "Aurkezle nagusiarekin bateragarria",
     "manual_admin.remote.security.compatible_text": "Urrutiko mandoa eta aurkezle nagusia aldi berean aktibo egon daitezke elkar eragin gabe. Biek saio bera kontrolatzen dute.",
     "manual_admin.remote.security.tip_title": "Erabilera-aholkua",
-    "manual_admin.remote.security.tip_text": "Ireki urrutiko kontrola zure mugikorrean partida hasi aurretik. Horrela lobbytiik saioan sartzen zara eta hasieratik gertaera guztiak jasotzen dituzu, lehen galderaren tenporizadorea barne."
+    "manual_admin.remote.security.tip_text": "Ireki urrutiko kontrola zure mugikorrean partida hasi aurretik. Horrela lobbytiik saioan sartzen zara eta hasieratik gertaera guztiak jasotzen dituzu, lehen galderaren tenporizadorea barne.",
+    "manual_admin.access.account.title": "Nire kontua",
+    "manual_admin.access.account.p1": "Alboko menuko <strong>User</strong> fitxan zure kontuaren datuak ikus ditzakezu (erabiltzailea, posta eta rola) eta zure segurtasuna kudeatu.",
+    "manual_admin.access.account.password": "<strong>Pasahitza aldatu</strong> — sartu uneko pasahitza, berria eta haren berrespena.",
+    "manual_admin.access.account.email": "<strong>Posta aldatu</strong> — uneko posta ez da aldatzen posta berrira bidalitako esteka berretsi arte.",
+    "manual_admin.access.users.title": "Erabiltzaileak kudeatu",
+    "manual_admin.access.users.p1": "Admin rolaren panel esklusiboa, paneleko kontuak berrikusteko: erabiltzailea, posta, rola, egoera eta alta-data.",
+    "manual_admin.access.users.p2": "Hemendik <strong>kontuak ezaba</strong> ditzakezu. Erabiltzaileen ezabaketa behin betikoa da eta ezin da desegin.",
+    "manual_admin.banks.types.survey": "<strong>Inkesta</strong> — Jokalariek aukeren artean bozkatzen dute eta emaitzak erakusten dira; ez dago erantzun zuzenik.",
+    "manual_admin.banks.types.matching": "<strong>Parekatu</strong> — Bi zutabe; jokalariak elementu bakoitza bere bikote zuzenarekin lotzen du (6 bikote gehienez).",
+    "manual_admin.banks.ai.title": "Galderen IA sortzailea",
+    "manual_admin.banks.ai.intro": "Sortu banku oso bat automatikoki alboko menuko <strong>IA Sortzailea</strong> ataletik. Groq-eko API key bat konfiguratuta behar da (Tresnak → IA).",
+    "manual_admin.banks.ai.s1": "<strong>Iturria</strong> — igo dokumentu bat (.pdf, .docx, .txt) edo idatzi galderak sortzeko gaia.",
+    "manual_admin.banks.ai.s2": "<strong>Konfiguratu</strong> — jarri izena bankuari eta aukeratu zailtasuna (baxua, ertaina edo altua).",
+    "manual_admin.banks.ai.s3": "<strong>Emaitza</strong> — berrikusi sortutako galderak, birsortu erroreak dituzten motak eta sakatu <strong>«Bankua inportatu»</strong> edo <strong>«JSON deskargatu»</strong>.",
+    "manual_admin.banks.merge.title": "Bankuak nahastu",
+    "manual_admin.banks.merge.intro": "Banku-zerrendako <strong>«Bankuak nahastu»</strong> botoiak hainbat bankutako galderak banku berri batean konbinatzen ditu.",
+    "manual_admin.banks.merge.s1": "Hautatu gutxienez <strong>2 banku</strong> zerrendatik (edo erabili «Denak hautatu»).",
+    "manual_admin.banks.merge.s2": "Jarri izena banku berriari eta, nahi izanez gero, PIN bat.",
+    "manual_admin.banks.merge.s3": "Sakatu <strong>«Banku nahastua sortu»</strong>. Jatorrizko bankuak ez dira aldatzen."
   }
 }

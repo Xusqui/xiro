@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "manual_admin.tools.historial.title": "Historial de Partides",
+    "manual_admin.tools.historial.desc": "Consulta i descarrega els resultats de totes les partides jugades. Les partides es desen automàticament en finalitzar.",
+    "manual_admin.tools.historial.list": "Llistat de partides",
+    "manual_admin.tools.historial.list_desc": "Cada partida mostra data, tipus, jugadors, preguntes, durada i estat (completada, finalitzada, abandonada o auto-desada).",
+    "manual_admin.tools.historial.download": "Descàrrega i visor gràfic",
+    "manual_admin.tools.historial.download_desc": "Descarrega els resultats de qualsevol partida o obre’ls al <strong>visor gràfic</strong> per analitzar-los amb taules i gràfiques.",
+    "manual_admin.tools.historial.delete": "Esborrat",
+    "manual_admin.tools.historial.delete_desc": "Pots esborrar partides individuals, una selecció o tot l'historial. Aquesta acció no es pot desfer."
+  }
+}

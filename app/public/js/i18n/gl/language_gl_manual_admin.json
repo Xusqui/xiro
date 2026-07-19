@@ -143,6 +143,25 @@
     "manual_admin.remote.security.compatible_title": "Compatible co presentador principal",
     "manual_admin.remote.security.compatible_text": "O mando a distancia e o presentador principal poden estar activos simultaneamente sen interferirse. Ambos controlan a mesma sesión.",
     "manual_admin.remote.security.tip_title": "Consello de uso",
-    "manual_admin.remote.security.tip_text": "Abre o control remoto no teu móbil antes de iniciar a partida. Así entras na sesión desde o lobby e recibes todos os eventos desde o principio, incluíndo o temporizador da primeira pregunta."
+    "manual_admin.remote.security.tip_text": "Abre o control remoto no teu móbil antes de iniciar a partida. Así entras na sesión desde o lobby e recibes todos os eventos desde o principio, incluíndo o temporizador da primeira pregunta.",
+    "manual_admin.access.account.title": "A miña conta",
+    "manual_admin.access.account.p1": "Na lapela <strong>User</strong> do menú lateral podes ver os datos da túa conta (usuario, correo e rol) e xestionar a túa seguridade.",
+    "manual_admin.access.account.password": "<strong>Cambiar contrasinal</strong> — introduce o contrasinal actual, o novo e a súa confirmación.",
+    "manual_admin.access.account.email": "<strong>Cambiar correo</strong> — o correo actual non cambia ata que confirmes a ligazón enviada ao novo correo.",
+    "manual_admin.access.users.title": "Xestionar usuarios",
+    "manual_admin.access.users.p1": "Panel exclusivo do rol Admin para revisar as contas do panel: usuario, correo, rol, estado e data de alta.",
+    "manual_admin.access.users.p2": "Desde aquí podes <strong>eliminar contas</strong>. O borrado de usuarios é permanente e non se pode desfacer.",
+    "manual_admin.banks.types.survey": "<strong>Enquisa</strong> — Os xogadores votan entre opcións e móstranse os resultados; non hai resposta correcta.",
+    "manual_admin.banks.types.matching": "<strong>Emparellar</strong> — Dúas columnas; o xogador une cada elemento coa súa parella correcta (ata 6 pares).",
+    "manual_admin.banks.ai.title": "Xerador IA de preguntas",
+    "manual_admin.banks.ai.intro": "Crea un banco completo automaticamente desde <strong>Xerador IA</strong> no menú lateral. Require unha API key de Groq configurada (Ferramentas → IA).",
+    "manual_admin.banks.ai.s1": "<strong>Fonte</strong> — sobe un documento (.pdf, .docx, .txt) ou escribe o tema sobre o que xerar preguntas.",
+    "manual_admin.banks.ai.s2": "<strong>Configurar</strong> — ponlle nome ao banco e elixe a dificultade (baixa, media ou alta).",
+    "manual_admin.banks.ai.s3": "<strong>Resultado</strong> — revisa as preguntas xeradas, rexenera os tipos con erros e preme <strong>«Importar banco»</strong> ou <strong>«Descargar JSON»</strong>.",
+    "manual_admin.banks.merge.title": "Mesturar bancos",
+    "manual_admin.banks.merge.intro": "O botón <strong>«Mesturar Bancos»</strong> da lista de bancos combina preguntas de varios bancos nun novo.",
+    "manual_admin.banks.merge.s1": "Selecciona polo menos <strong>2 bancos</strong> da lista (ou usa «Seleccionar todos»).",
+    "manual_admin.banks.merge.s2": "Ponlle nome ao novo banco e, opcionalmente, un PIN.",
+    "manual_admin.banks.merge.s3": "Preme <strong>«Crear Banco Mesturado»</strong>. Os bancos orixinais non se modifican."
   }
 }
