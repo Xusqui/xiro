@@ -136,83 +136,17 @@
     color: white;
 }
 
-/* ===== Tarjetas de juego (estilo index.html) ===== */
+/* ===== Tarjetas de juego =====
+   Markup con utilidades Tailwind (ver _renderGameCard en standalone-lobby.js),
+   igual que las tarjetas de selección de PIN de presentador.html
+   (renderizarPINs en presenter-lobby.js) — mismo tamaño/peso de texto para
+   mantener la legibilidad. Solo el layout de la rejilla es CSS propio. */
 
 .games-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 24px;
     margin-top: 20px;
-}
-
-.standalone-game-card {
-    background: white;
-    border-radius: 24px;
-    border-bottom: 8px solid var(--standalone-accent);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    padding: 28px 24px;
-    text-align: center;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-    cursor: pointer;
-}
-
-.standalone-game-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 26px 50px rgba(0, 0, 0, 0.28);
-}
-
-.game-card-icon {
-    width: 64px;
-    height: 64px;
-    border-radius: 999px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--standalone-accent-soft);
-}
-
-.game-card-icon i {
-    font-size: 28px;
-    color: var(--standalone-accent-dark);
-}
-
-.game-card-title {
-    font-size: 19px;
-    font-weight: 800;
-    color: #1f2937;
-    margin: 0;
-    word-break: break-word;
-}
-
-.game-card-meta {
-    font-size: 13px;
-    color: #9ca3af;
-    margin: 0;
-}
-
-.game-card-button {
-    background: var(--standalone-accent);
-    color: white;
-    border: none;
-    border-radius: 999px;
-    padding: 10px 22px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: transform 0.15s ease, background 0.15s ease;
-}
-
-.game-card-button:hover {
-    background: var(--standalone-accent-dark);
-    transform: scale(1.05);
-}
-
-.game-card-button:active {
-    transform: scale(0.95);
 }
 
 .empty-state,

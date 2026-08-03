@@ -14,10 +14,10 @@ import {
     clearMatchAutoSendTimer,
     startMatchAutoSendTimer,
     setCurrentSlideType
-} from './player-state.js?v=20260719190748';
-import { enviarMatchingRespuesta } from './player-answer.js?v=20260719190748';
-import { OPTION_COLORS, getResponsiveFontClass, fitTextToContainer } from './player-question-utils.js?v=20260719190748';
-import { setBodyHTML } from './player-streak-ui.js?v=20260719190748';
+} from './player-state.js?v=20260803120424';
+import { enviarMatchingRespuesta } from './player-answer.js?v=20260803120424';
+import { OPTION_COLORS, getResponsiveFontClass, fitTextToContainer } from './player-question-utils.js?v=20260803120424';
+import { setBodyHTML } from './player-streak-ui.js?v=20260803120424';
 
 let currentMatchQuestion = null;
 let pointerDragState = null;

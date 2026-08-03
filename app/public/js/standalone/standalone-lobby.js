@@ -25,21 +25,34 @@ globalThis.StandaloneLobby = (() => {
         return 'bank';
     }
 
+    // Misma paleta por tipo que el selector de PINs del presentador
+    // (ver renderizarPINs en js/presenter/presenter-lobby.js).
+    const CARD_COLORS = {
+        custom: { bg: 'linear-gradient(135deg,#0d9488,#044f49)', border: '#033b36', text: '#ccfbf1' },
+        bank: { bg: 'linear-gradient(135deg,#d97706,#b45309)', border: '#92400e', text: '#fde68a' }
+    };
+
     function _renderGameCard(game) {
-        const color = game.type === 'custom' ? '#3b82f6' : '#8b5cf6';
-        const icon = game.type === 'custom' ? 'fa-dice' : 'fa-list';
+        const c = CARD_COLORS[game.type] || CARD_COLORS.bank;
+        const typeLabel = game.type === 'custom'
+            ? (window.XiroI18n?.t('standalone.lobby.filter.custom') || 'Personalizados')
+            : (window.XiroI18n?.t('standalone.lobby.filter.banks') || 'Bancos de preguntas');
         const safePin = _escapeHtml(String(game.pin || ''));
 
         return `
-            <div class="standalone-game-card" style="border-color: ${color};">
-                <div class="game-card-icon" style="background-color: ${color}20;">
-                    <i class="fas ${icon}" style="color: ${color};"></i>
+            <div data-standalone-action="select-game" data-pin="${safePin}"
+                 class="p-6 rounded-3xl cursor-pointer transition-all hover:scale-105 shadow-2xl flex flex-col justify-between min-h-[180px]"
+                 style="background: ${c.bg}; border-bottom: 4px solid ${c.border};">
+                <div class="mb-4">
+                    <div class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full inline-block mb-3">
+                        <span class="text-white font-bold text-xs uppercase">${_escapeHtml(typeLabel)}</span>
+                    </div>
+                    <h3 class="text-2xl font-black italic text-white mb-2 line-clamp-2">${_escapeHtml(game.name)}</h3>
+                    <p class="text-sm" style="color: ${c.text};">${game.questionCount || 0} ${window.XiroI18n?.t('standalone.lobby.questions') || 'preguntas'}</p>
                 </div>
-                <h3 class="game-card-title">${_escapeHtml(game.name)}</h3>
-                <p class="game-card-meta">${game.questionCount || 0} ${window.XiroI18n?.t('standalone.lobby.questions') || 'preguntas'}</p>
-                <button class="game-card-button" data-standalone-action="select-game" data-pin="${safePin}">
-                    ${window.XiroI18n?.t('standalone.lobby.btn_select') || 'Seleccionar'}
-                </button>
+                <div class="flex items-center text-xs" style="color: ${c.text};">
+                    <span><i class="fas fa-play-circle mr-1"></i> ${window.XiroI18n?.t('standalone.lobby.btn_select') || 'Seleccionar'}</span>
+                </div>
             </div>
         `;
     }
