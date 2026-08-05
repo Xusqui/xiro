@@ -21,6 +21,7 @@
     "presenter.selector.empty.custom": "Ez dago PIN erabilgarririk. Lehenengo sortu joko bat edo banku bat.",
     "presenter.selector.empty.by_type": "Ez dago {type} erabilgarririk.",
     "presenter.selector.card.play": "Egin klik jolasteko",
+    "presenter.selector.card.questions": "galderak",
     "presenter.selector.title": "Hautatu PIN bat",
     "presenter.selector.subtitle": "Aurkeztu nahi duzun jokoa edo bankua aukeratu",
     "presenter.selector.mode.title": "Nola jokatu nahi duzu?",

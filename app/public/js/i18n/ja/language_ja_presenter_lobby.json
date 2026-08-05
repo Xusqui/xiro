@@ -21,6 +21,7 @@
     "presenter.selector.empty.custom": "利用可能なPINがありません。先にゲームまたはバンクを作成してください。",
     "presenter.selector.empty.by_type": "利用可能な{type}はありません。",
     "presenter.selector.card.play": "クリックして開始",
+    "presenter.selector.card.questions": "問題",
     "presenter.selector.title": "PINを選択",
     "presenter.selector.subtitle": "発表するゲームまたはバンクを選択してください",
     "presenter.selector.mode.title": "どのモードでプレイしますか？",

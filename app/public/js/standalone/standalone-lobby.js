@@ -174,6 +174,11 @@ globalThis.StandaloneLobby = (() => {
             _loadGames();
             _setupFilterButtons();
             _setupGameActions();
+            // El diccionario de i18n se carga de forma async y puede resolverse
+            // después del primer render de las tarjetas (ver XiroI18n.init en
+            // i18n-core.js), dejando claves sin traducir. Re-renderizamos cuando
+            // el idioma queda listo para refrescar los textos.
+            window.addEventListener('xiro:language-changed', _renderGames);
         },
         selectGame: function (pin) {
             const nickname = _validateNickname();

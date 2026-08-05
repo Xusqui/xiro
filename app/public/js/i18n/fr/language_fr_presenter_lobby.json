@@ -21,6 +21,7 @@
     "presenter.selector.empty.custom": "Aucun PIN disponible. Creez d'abord un jeu ou une banque.",
     "presenter.selector.empty.by_type": "Aucun {type} disponible.",
     "presenter.selector.card.play": "Cliquer pour jouer",
+    "presenter.selector.card.questions": "questions",
     "presenter.selector.title": "Selectionnez un PIN",
     "presenter.selector.subtitle": "Choisissez le jeu ou la banque que vous voulez presenter",
     "presenter.selector.mode.title": "Comment voulez-vous jouer?",

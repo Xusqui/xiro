@@ -21,6 +21,7 @@
     "presenter.selector.empty.custom": "No hi ha PINs disponibles. Crea primer un joc o un banc.",
     "presenter.selector.empty.by_type": "No hi ha {type} disponibles.",
     "presenter.selector.card.play": "Clic per jugar",
+    "presenter.selector.card.questions": "preguntes",
     "presenter.selector.title": "Selecciona un codi PIN",
     "presenter.selector.subtitle": "Tria el joc o banc que vols presentar",
     "presenter.selector.mode.title": "Com vols jugar?",

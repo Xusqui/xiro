@@ -3,11 +3,11 @@
  * Selección de equipos y configuración de colores
  */
 
-import { socket } from './player-socket-config.js?v=20260803120424';
+import { socket } from './player-socket-config.js?v=20260805130230';
 import {
     getPin, getSessionId, getNickname,
     getTeamMode, setSelectedTeam
-} from './player-state.js?v=20260803120424';
+} from './player-state.js?v=20260805130230';
 
 // ===== COLORES DE EQUIPOS =====
 

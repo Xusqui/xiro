@@ -21,6 +21,7 @@
     "presenter.selector.empty.custom": "当前没有可用 PIN。请先创建游戏或题库。",
     "presenter.selector.empty.by_type": "没有可用的 {type}。",
     "presenter.selector.card.play": "点击开始游戏",
+    "presenter.selector.card.questions": "问题",
     "presenter.selector.title": "选择一个 PIN",
     "presenter.selector.subtitle": "选择你要主持的游戏或题库",
     "presenter.selector.mode.title": "你想怎么玩？",

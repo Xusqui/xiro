@@ -21,6 +21,7 @@
     "presenter.selector.empty.custom": "Keine PINs verfuegbar. Erstellen Sie zuerst ein Spiel oder eine Bank.",
     "presenter.selector.empty.by_type": "Keine {type} verfuegbar.",
     "presenter.selector.card.play": "Klicken zum Spielen",
+    "presenter.selector.card.questions": "Fragen",
     "presenter.selector.title": "PIN auswaehlen",
     "presenter.selector.subtitle": "Waehlen Sie das Spiel oder die Bank, die Sie praesentieren moechten",
     "presenter.selector.mode.title": "Wie moechten Sie spielen?",

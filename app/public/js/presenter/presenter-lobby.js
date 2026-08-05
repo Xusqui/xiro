@@ -3,8 +3,8 @@
  * Selección de PIN, configuración individual, y pantallas de lobby
  */
 
-import { mostrarLobbyMain } from './presenter-utils.js?v=20260803120424';
-import { cleanupPodio } from './presenter-podio.js?v=20260803120424';
+import { mostrarLobbyMain } from './presenter-utils.js?v=20260805130230';
+import { cleanupPodio } from './presenter-podio.js?v=20260805130230';
 import {
     setPin,
     setSessionId,
@@ -13,9 +13,9 @@ import {
     setConnectedPlayers,
     setPlayersData,
     setTotalPlayers
-} from './presenter-state.js?v=20260803120424';
-import { iniciarLobby } from './presenter-lobby-init.js?v=20260803120424';
-import { mostrarConfiguracionEquipos } from './presenter-team-config.js?v=20260803120424';
+} from './presenter-state.js?v=20260805130230';
+import { iniciarLobby } from './presenter-lobby-init.js?v=20260805130230';
+import { mostrarConfiguracionEquipos } from './presenter-team-config.js?v=20260805130230';
 
 if (window.XiroI18n && typeof window.XiroI18n.addSections === 'function') {
     void window.XiroI18n.addSections(['presenter_lobby'], { reload: false });
@@ -208,6 +208,7 @@ function renderizarPINs() {
                                 </div>
                                 <h3 class="text-3xl font-black italic text-white mb-2">${p.pin}</h3>
                                 <p class="text-sm line-clamp-2" style="color:${c.text}">${p.name}</p>
+                                ${p.question_count !== undefined ? `<p class="text-xs mt-1" style="color:${c.text}">${p.question_count} ${t('presenter.selector.card.questions', 'preguntas')}</p>` : ''}
                             </div>
                             <div class="flex items-center justify-between text-xs" style="color:${c.text}">
                                 <span><i class="fas fa-play-circle mr-1"></i> ${t('presenter.selector.card.play', 'Clic para jugar')}</span>
