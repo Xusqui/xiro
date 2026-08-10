@@ -61,7 +61,7 @@ async function persistGameSessionRow(insertParams, pin, dbId = null) {
             // (pin, game_type, duration_ms, started_at, player_count, question_count, reason, final_ranking, questions_snapshot, player_answers, session_logs, is_test)
             return await pool.query(
                 `UPDATE game_sessions
-                 SET pin = $1, game_type = $2, duration_ms = $3, started_at = $4, player_count = $5, question_count = $6, reason = $7, final_ranking = $8, questions_snapshot = $9, player_answers = $10, session_logs = $11, is_test = $12
+                 SET pin = $1, game_type = $2, duration_ms = $3, started_at = $4, player_count = $5, question_count = $6, reason = $7, final_ranking = $8, questions_snapshot = $9, player_answers = $10, session_logs = $11, is_test = $12, played_at = NOW()
                  WHERE id = $13
                  RETURNING id`,
                 [...insertParams, dbId]
@@ -90,7 +90,7 @@ async function persistGameSessionRow(insertParams, pin, dbId = null) {
         if (dbId) {
             return pool.query(
                 `UPDATE game_sessions
-                 SET pin = $1, game_type = $2, duration_ms = $3, started_at = $4, player_count = $5, question_count = $6, reason = $7, final_ranking = $8, questions_snapshot = $9, player_answers = $10, is_test = $11
+                 SET pin = $1, game_type = $2, duration_ms = $3, started_at = $4, player_count = $5, question_count = $6, reason = $7, final_ranking = $8, questions_snapshot = $9, player_answers = $10, is_test = $11, played_at = NOW()
                  WHERE id = $12
                  RETURNING id`,
                 [...fallbackParams, dbId]
@@ -231,10 +231,10 @@ async function listRecentGameSessions(limit = 50, includeTests = false) {
         const result = await pool.query(
             `SELECT id, pin, share_token, game_type, played_at, started_at,
                     COALESCE(
+                        duration_ms,
                         CASE WHEN started_at IS NOT NULL
                              THEN EXTRACT(EPOCH FROM (played_at - started_at))::BIGINT * 1000
-                        END,
-                        duration_ms
+                        END
                     ) AS duration_ms,
                     player_count, question_count, reason, is_test
              FROM game_sessions

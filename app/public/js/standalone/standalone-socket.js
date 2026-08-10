@@ -36,7 +36,13 @@ const StandaloneSocket = (() => {
         socket.on('game-started', (data) => handlers.onGameStarted && handlers.onGameStarted(data));
         socket.on('new-question', (data) => handlers.onNewQuestion && handlers.onNewQuestion(data));
         socket.on('answer-result', (data) => handlers.onAnswerResult && handlers.onAnswerResult(data));
-        socket.on('reveal-answer', (data) => handlers.onRevealAnswer && handlers.onRevealAnswer(data));
+        // 'reveal-answer' NO se escucha aquí: el servidor envía a la room ':players'
+        // una versión reducida (correctAnswer/justification/correctOrder únicamente,
+        // ver GameEndManager.emitRevealPayloads) porque en una partida real el
+        // presentador (pantalla compartida) es quien muestra el resto. En Standalone
+        // no hay pantalla compartida, así que usamos el payload completo que sí le
+        // llega al socket "presenter" (ver _wirePresenterEvents) — evita duplicar
+        // el manejo con datos incompletos.
         socket.on('ranking-update', (data) => handlers.onRankingUpdate && handlers.onRankingUpdate(data));
         socket.on('game-ended', (ranking) => handlers.onGameEnded && handlers.onGameEnded(ranking));
         socket.on('blocked-answer', (data) => handlers.onBlockedAnswer && handlers.onBlockedAnswer(data));
@@ -47,6 +53,9 @@ const StandaloneSocket = (() => {
     function _wirePresenterEvents(socket) {
         socket.on('game-start-error', (data) => handlers.onError && handlers.onError('game-start-error', data));
         socket.on('next-question-error', (data) => handlers.onError && handlers.onError('next-question-error', data));
+        // Payload completo (correctIndex/correctIndices/correctWord/correctMatches/
+        // correctOrder/stats/...), ver nota en _wirePlayerEvents.
+        socket.on('reveal-answer', (data) => handlers.onRevealAnswer && handlers.onRevealAnswer(data));
         socket.on('disconnect', (reason) => handlers.onDisconnected && handlers.onDisconnected('presenter', reason));
     }
 

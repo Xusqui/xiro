@@ -11,7 +11,7 @@
 'use strict';
 
 const StandaloneReveal = (() => {
-    const { escapeHtml } = StandaloneQuestionCommon;
+    const { escapeHtml, optionText } = StandaloneQuestionCommon;
 
     function _t(key, fallback) {
         return window.XiroI18n?.t(key) || fallback;
@@ -106,6 +106,38 @@ const StandaloneReveal = (() => {
         `;
     }
 
+    function _correctWordBox(word) {
+        return word
+            ? `<div class="pl-reveal-box"><p>${_t('standalone.game.correct_answer', 'Respuesta correcta')}</p><p>${escapeHtml(word)}</p></div>`
+            : '';
+    }
+
+    /**
+     * multiple_choice no tiene un único "correctAnswer" de texto — el servidor
+     * manda los índices correctos (correctIndices), hay que resolver el texto
+     * de cada opción a partir de la pregunta actual en el estado local.
+     */
+    function _correctIndicesList(indices) {
+        if (!Array.isArray(indices) || indices.length === 0) return '';
+        const options = StandaloneState.get().currentQuestion?.options || [];
+        const items = indices.map(idx => `
+            <div class="pl-reveal-breakdown-item is-correct">
+                <span class="pl-reveal-breakdown-label"><i class="fas fa-check"></i> ${escapeHtml(optionText(options[idx]))}</span>
+            </div>
+        `).join('');
+        return `<div class="pl-reveal-breakdown">${items}</div>`;
+    }
+
+    function _correctMatchesList(matches) {
+        if (!Array.isArray(matches) || matches.length === 0) return '';
+        const items = matches.map(m => `
+            <div class="pl-reveal-breakdown-item is-correct">
+                <span class="pl-reveal-breakdown-label">${escapeHtml(m.leftText)} → ${escapeHtml(m.rightText)}</span>
+            </div>
+        `).join('');
+        return `<div class="pl-reveal-breakdown">${items}</div>`;
+    }
+
     function _nextButton() {
         return `<div class="pl-reveal-continue"><button type="button" class="pl-submit-btn" data-standalone-action="reveal-next">${_t('standalone.game.next', 'Siguiente')}</button></div>`;
     }
@@ -144,7 +176,11 @@ const StandaloneReveal = (() => {
 
     /**
      * @param {HTMLElement} container
-     * @param {Object} data - payload de 'reveal-answer' ({correctAnswer, justification, correctOrder})
+     * @param {Object} data - payload de 'reveal-answer' del socket "presenter"
+     *   (rico: correctAnswer/correctOrder/correctIndices/correctWord/correctMatches/
+     *   justification — ver GameEndManager.emitRevealPayloads y la nota en
+     *   standalone-socket.js sobre por qué se usa el payload del presentador
+     *   y no el, más limitado, de la room de jugadores)
      */
     function showRevealOnly(container, data, { onNext }) {
         const orderList = Array.isArray(data.correctOrder)
@@ -156,7 +192,10 @@ const StandaloneReveal = (() => {
                 <i class="fas fa-clock pl-reveal-icon" style="color:#fbbf24;"></i>
                 <h2>${_t('standalone.game.time_up', '¡Tiempo agotado!')}</h2>
                 ${data.correctAnswer ? `<div class="pl-reveal-box"><p>${_t('standalone.game.correct_answer', 'Respuesta correcta')}</p><p>${escapeHtml(data.correctAnswer)}</p></div>` : ''}
+                ${_correctWordBox(data.correctWord)}
                 ${orderList}
+                ${_correctIndicesList(data.correctIndices)}
+                ${_correctMatchesList(data.correctMatches)}
                 ${_justificationBox(data.justification)}
                 ${_nextButton()}
             </div>

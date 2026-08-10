@@ -1,0 +1,266 @@
+{
+    "name": "La Milla Verde",
+    "type": "quiz",
+    "questions": [
+        {
+            "question_text": "¿Quién dirigió la película 'La Milla Verde' (1999)?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 20,
+            "options": [
+                {"option_text": "Frank Darabont", "is_correct": true, "justification": "Frank Darabont, también director de 'Cadena perpetua', llevó la novela de Stephen King al cine."},
+                {"option_text": "Steven Spielberg", "is_correct": false, "justification": null},
+                {"option_text": "Robert Zemeckis", "is_correct": false, "justification": null},
+                {"option_text": "Ron Howard", "is_correct": false, "justification": null}
+            ]
+        },
+        {
+            "question_text": "¿En qué obra literaria se basa 'La Milla Verde'?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 20,
+            "options": [
+                {"option_text": "Una novela de Stephen King", "is_correct": true, "justification": "La película adapta la novela homónima de Stephen King, publicada originalmente por entregas."},
+                {"option_text": "Una obra de teatro de Arthur Miller", "is_correct": false, "justification": null},
+                {"option_text": "Un relato de Truman Capote", "is_correct": false, "justification": null},
+                {"option_text": "Una novela de John Grisham", "is_correct": false, "justification": null}
+            ]
+        },
+        {
+            "question_text": "¿Qué actor interpreta a Paul Edgecomb?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 20,
+            "options": [
+                {"option_text": "Tom Hanks", "is_correct": true, "justification": "Tom Hanks da vida al jefe de guardias Paul Edgecomb, narrador de la historia."},
+                {"option_text": "Kevin Spacey", "is_correct": false, "justification": null},
+                {"option_text": "Gary Sinise", "is_correct": false, "justification": null},
+                {"option_text": "David Morse", "is_correct": false, "justification": null}
+            ]
+        },
+        {
+            "question_text": "¿Qué actor da vida a John Coffey?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 20,
+            "options": [
+                {"option_text": "Michael Clarke Duncan", "is_correct": true, "justification": "Michael Clarke Duncan interpretó a John Coffey, papel por el que fue nominado al Óscar."},
+                {"option_text": "Morgan Freeman", "is_correct": false, "justification": null},
+                {"option_text": "Djimon Hounsou", "is_correct": false, "justification": null},
+                {"option_text": "Ving Rhames", "is_correct": false, "justification": null}
+            ]
+        },
+        {
+            "question_text": "¿En qué década transcurre la historia principal de la prisión?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 20,
+            "options": [
+                {"option_text": "Los años 30", "is_correct": true, "justification": "La trama se sitúa en 1935, durante la Gran Depresión."},
+                {"option_text": "Los años 50", "is_correct": false, "justification": null},
+                {"option_text": "Los años 60", "is_correct": false, "justification": null},
+                {"option_text": "Los años 20", "is_correct": false, "justification": null}
+            ]
+        },
+        {
+            "question_text": "¿Por qué se llama 'la milla verde' al pasillo de la prisión?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 25,
+            "options": [
+                {"option_text": "Por el color del linóleo del suelo", "is_correct": true, "justification": "El pasillo que lleva a la silla eléctrica tiene el suelo de color verde."},
+                {"option_text": "Por las paredes pintadas de verde", "is_correct": false, "justification": null},
+                {"option_text": "Por los uniformes de los guardias", "is_correct": false, "justification": null},
+                {"option_text": "Por un jardín cercano", "is_correct": false, "justification": null}
+            ]
+        },
+        {
+            "question_text": "¿Cómo se llama el ratón amaestrado que aparece en la película?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 20,
+            "options": [
+                {"option_text": "Mister Jingles", "is_correct": true, "justification": "Mister Jingles es el ratoncito adoptado por el recluso Eduard Delacroix."},
+                {"option_text": "Whiskers", "is_correct": false, "justification": null},
+                {"option_text": "Squeaky", "is_correct": false, "justification": null},
+                {"option_text": "Pipkin", "is_correct": false, "justification": null}
+            ]
+        },
+        {
+            "question_text": "¿Qué actor interpreta al guardia sádico Percy Wetmore?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 20,
+            "options": [
+                {"option_text": "Doug Hutchison", "is_correct": true, "justification": "Doug Hutchison interpretó al cruel y ambicioso Percy Wetmore."},
+                {"option_text": "Sam Rockwell", "is_correct": false, "justification": null},
+                {"option_text": "James Cromwell", "is_correct": false, "justification": null},
+                {"option_text": "Barry Pepper", "is_correct": false, "justification": null}
+            ]
+        },
+        {
+            "question_text": "¿Qué don especial posee John Coffey?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 20,
+            "options": [
+                {"option_text": "Puede curar enfermedades y heridas con sus manos", "is_correct": true, "justification": "John Coffey tiene la capacidad de sanar tocando a las personas."},
+                {"option_text": "Puede leer la mente", "is_correct": false, "justification": null},
+                {"option_text": "Puede predecir el futuro", "is_correct": false, "justification": null},
+                {"option_text": "Puede volverse invisible", "is_correct": false, "justification": null}
+            ]
+        },
+        {
+            "question_text": "¿De qué crimen se le acusa a John Coffey al inicio de la historia?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 25,
+            "options": [
+                {"option_text": "Del asesinato de dos niñas gemelas", "is_correct": true, "justification": "Coffey es condenado por la violación y asesinato de las hermanas Detterick."},
+                {"option_text": "De un robo a mano armada", "is_correct": false, "justification": null},
+                {"option_text": "Del asesinato de un guardia", "is_correct": false, "justification": null},
+                {"option_text": "De incendio provocado", "is_correct": false, "justification": null}
+            ]
+        },
+        {
+            "question_text": "¿Qué actor interpreta a Eduard Delacroix?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 20,
+            "options": [
+                {"option_text": "Michael Jeter", "is_correct": true, "justification": "Michael Jeter dio vida al recluso francés Eduard Delacroix."},
+                {"option_text": "Harry Dean Stanton", "is_correct": false, "justification": null},
+                {"option_text": "William Sadler", "is_correct": false, "justification": null},
+                {"option_text": "Graham Greene", "is_correct": false, "justification": null}
+            ]
+        },
+        {
+            "question_text": "¿Qué problema de salud sufre Paul Edgecomb durante la trama?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 20,
+            "options": [
+                {"option_text": "Una dolorosa infección urinaria", "is_correct": true, "justification": "Paul padece una infección de orina que le causa un fuerte dolor."},
+                {"option_text": "Una migraña crónica", "is_correct": false, "justification": null},
+                {"option_text": "Un problema cardíaco", "is_correct": false, "justification": null},
+                {"option_text": "Insomnio severo", "is_correct": false, "justification": null}
+            ]
+        },
+        {
+            "question_text": "¿Quién es el recluso responsable del doble asesinato que en realidad cometió los crímenes atribuidos a Coffey?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 25,
+            "options": [
+                {"option_text": "William 'Billy the Kid' Wharton", "is_correct": true, "justification": "Wild Bill Wharton resulta ser el verdadero culpable del crimen por el que condenan a Coffey."},
+                {"option_text": "Percy Wetmore", "is_correct": false, "justification": null},
+                {"option_text": "Arlen Bitterbuck", "is_correct": false, "justification": null},
+                {"option_text": "Brutus Howell", "is_correct": false, "justification": null}
+            ]
+        },
+        {
+            "question_text": "¿En qué edad avanzada se encuentra Paul Edgecomb en el presente narrativo de la película?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 20,
+            "options": [
+                {"option_text": "108 años", "is_correct": true, "justification": "Paul, ya anciano, cuenta su historia mientras vive con una edad extraordinaria de 108 años."},
+                {"option_text": "95 años", "is_correct": false, "justification": null},
+                {"option_text": "80 años", "is_correct": false, "justification": null},
+                {"option_text": "120 años", "is_correct": false, "justification": null}
+            ]
+        },
+        {
+            "question_text": "¿Cómo se llama la residencia de ancianos donde Paul narra la historia?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 20,
+            "options": [
+                {"option_text": "Georgia Pines", "is_correct": true, "justification": "Paul reside y narra su historia desde la residencia Georgia Pines."},
+                {"option_text": "Green Valley", "is_correct": false, "justification": null},
+                {"option_text": "Sunny Acres", "is_correct": false, "justification": null},
+                {"option_text": "Willow Creek", "is_correct": false, "justification": null}
+            ]
+        },
+        {
+            "question_text": "¿A qué actor interpreta a Brutus 'Brutal' Howell, guardia y amigo de Paul?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 20,
+            "options": [
+                {"option_text": "David Morse", "is_correct": true, "justification": "David Morse interpretó al guardia Brutus Howell, apodado 'Brutal'."},
+                {"option_text": "Bill Paxton", "is_correct": false, "justification": null},
+                {"option_text": "Jeffrey DeMunn", "is_correct": false, "justification": null},
+                {"option_text": "Dabbs Greer", "is_correct": false, "justification": null}
+            ]
+        },
+        {
+            "question_text": "¿Qué le ocurre a Percy Wetmore en la ejecución de Delacroix?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 25,
+            "options": [
+                {"option_text": "No moja la esponja del casco, provocando una ejecución fallida", "is_correct": true, "justification": "Percy sabotea la ejecución al no humedecer la esponja, causando una muerte horrible."},
+                {"option_text": "Se desmaya antes de accionar la palanca", "is_correct": false, "justification": null},
+                {"option_text": "Se niega a participar", "is_correct": false, "justification": null},
+                {"option_text": "Libera accidentalmente al recluso", "is_correct": false, "justification": null}
+            ]
+        },
+        {
+            "question_text": "¿Qué famoso actor da vida al anciano Paul Edgecomb en el presente?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 20,
+            "options": [
+                {"option_text": "Dabbs Greer", "is_correct": true, "justification": "Dabbs Greer interpretó a Paul Edgecomb ya anciano."},
+                {"option_text": "James Cromwell", "is_correct": false, "justification": null},
+                {"option_text": "Donald Moffat", "is_correct": false, "justification": null},
+                {"option_text": "Hal Holbrook", "is_correct": false, "justification": null}
+            ]
+        },
+        {
+            "question_text": "¿Cuál es el nombre de la prisión donde transcurre la historia?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 20,
+            "options": [
+                {"option_text": "Penitenciaría de Cold Mountain", "is_correct": true, "justification": "La acción transcurre en la penitenciaría estatal de Cold Mountain."},
+                {"option_text": "Prisión de Shawshank", "is_correct": false, "justification": null},
+                {"option_text": "Penitenciaría de Sing Sing", "is_correct": false, "justification": null},
+                {"option_text": "Prisión de Alcatraz", "is_correct": false, "justification": null}
+            ]
+        },
+        {
+            "question_text": "¿A cuántos premios Óscar fue nominada la película en total?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 20,
+            "options": [
+                {"option_text": "4 nominaciones", "is_correct": true, "justification": "'La Milla Verde' recibió cuatro nominaciones a los Óscar, incluyendo Mejor Película."},
+                {"option_text": "1 nominación", "is_correct": false, "justification": null},
+                {"option_text": "8 nominaciones", "is_correct": false, "justification": null},
+                {"option_text": "Ganó el Óscar a Mejor Película", "is_correct": false, "justification": null}
+            ]
+        }
+    ]
+}

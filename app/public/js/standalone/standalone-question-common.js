@@ -5,6 +5,64 @@
 'use strict';
 
 globalThis.StandaloneQuestionCommon = (() => {
+    let timerIntervalId = null;
+
+    /**
+     * Detiene la cuenta atrás visual en curso, si la hay. Debe llamarse antes
+     * de renderizar una reveal/resultados o al terminar la partida, para no
+     * dejar un setInterval huérfano actualizando un nodo ya descartado.
+     */
+    function clearQuestionTimer() {
+        if (timerIntervalId) {
+            clearInterval(timerIntervalId);
+            timerIntervalId = null;
+        }
+    }
+
+    /**
+     * Pinta un reloj con cuenta atrás (misma estética que el timer circular
+     * del presentador, ver presenter-game-ui.js), justo debajo de la barra
+     * morada del nickname — igual que lo vería el presentador en su pantalla,
+     * ya que en Standalone no hay una pantalla separada para eso. Es
+     * puramente visual: el servidor es quien decide cuándo revelar la
+     * respuesta al agotarse question.time_limit (ver TimerManager.startTimer).
+     * @param {HTMLElement} container
+     * @param {number} timeLimit - segundos
+     */
+    function startQuestionTimer(container, timeLimit) {
+        clearQuestionTimer();
+        if (typeof timeLimit !== 'number' || timeLimit <= 0) return;
+
+        let seconds = Math.round(timeLimit);
+        const el = document.createElement('div');
+        el.id = 'standalone-question-timer';
+        el.className = 'mx-auto mt-3 mb-1 w-16 h-16 shrink-0 rounded-full border-4 border-red-800 bg-black/40 flex items-center justify-center text-3xl font-black italic text-white shadow-lg';
+        el.textContent = String(seconds);
+
+        const nicknameBar = container.querySelector('.pl-nickname-bar');
+        if (nicknameBar) {
+            nicknameBar.after(el);
+        } else {
+            container.appendChild(el);
+        }
+
+        timerIntervalId = setInterval(() => {
+            seconds -= 1;
+
+            if (seconds <= 0) {
+                el.textContent = '0';
+                clearQuestionTimer();
+                return;
+            }
+
+            el.textContent = String(seconds);
+            if (seconds <= 5) {
+                el.classList.remove('border-red-800');
+                el.classList.add('border-yellow-500', 'bg-yellow-500/20');
+            }
+        }, 1000);
+    }
+
     function escapeHtml(text) {
         const map = {
             '&': '&amp;',
@@ -124,6 +182,8 @@ globalThis.StandaloneQuestionCommon = (() => {
         optionText,
         submitAnswer,
         buildQuestionMedia,
-        wireQuestionAudio
+        wireQuestionAudio,
+        startQuestionTimer,
+        clearQuestionTimer
     };
 })();

@@ -18,6 +18,7 @@ const StandaloneGame = (() => {
     }
 
     function _showErrorAndReturn(message) {
+        StandaloneQuestionCommon.clearQuestionTimer();
         _setFullscreen(false);
         _mainContainer().innerHTML = `
             <div class="standalone-error standalone-card">
@@ -38,11 +39,19 @@ const StandaloneGame = (() => {
             onSubmitted: () => { /* el jugador real tampoco muestra aviso: solo espera */ },
             onContinue: () => StandaloneSocket.nextQuestion()
         });
+
+        // Las slides (comment/info/text/image) no tienen tiempo límite en el
+        // servidor (ver AdvanceQuestionUseCase.NO_TIMER_SLIDE_TYPES) — no
+        // mostrar reloj para ellas.
+        if (!StandaloneQuestionRouter.isSlide(question) && typeof question.time_limit === 'number') {
+            StandaloneQuestionCommon.startQuestionTimer(container, question.time_limit);
+        }
     }
 
     function _showReveal(kind, data) {
         if (revealedForCurrentQuestion) return;
         revealedForCurrentQuestion = true;
+        StandaloneQuestionCommon.clearQuestionTimer();
         _setFullscreen(true);
 
         const container = _mainContainer();
@@ -72,6 +81,7 @@ const StandaloneGame = (() => {
     }
 
     function _handleGameEnded(ranking) {
+        StandaloneQuestionCommon.clearQuestionTimer();
         StandaloneState.get().ended = true;
         _setFullscreen(false);
         StandaloneResults.render(_mainContainer(), ranking);

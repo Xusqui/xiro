@@ -1,19 +1,19 @@
 // Presenter — Trivial socket handlers
 
-import { getSocket } from './presenter-socket-config.js?v=20260805130230';
-import { mostrarLobbyMain, showTerminateButton } from './presenter-utils.js?v=20260805130230';
+import { getSocket } from './presenter-socket-config.js?v=20260810122358';
+import { mostrarLobbyMain, showTerminateButton } from './presenter-utils.js?v=20260810122358';
 import {
     setTrivialGameState, getTrivialGameState,
     updateTrivialPlayers, updateTrivialTurn, updateTrivialTokens, clearTrivialGameState
-} from './presenter-trivial-state.js?v=20260805130230';
+} from './presenter-trivial-state.js?v=20260810122358';
 import {
     renderBoardBackground, updateBoardTokens, updateBoardTokensTeam,
     updateBoardHighlights, showTurnOrderOverlay
-} from './presenter-trivial-board.js?v=20260805130230';
-import { updatePlayersPanel } from './presenter-players-panel.js?v=20260805130230';
-import { cleanupRevealElements } from './presenter-reveal.js?v=20260805130230';
-import { mostrarModalConfirmacion } from '../shared/modal.js?v=20260805130230';
-import { showTrivialWinnerOverlay, isWinnerOverlayActive } from './presenter-trivial-winner.js?v=20260805130230';
+} from './presenter-trivial-board.js?v=20260810122358';
+import { updatePlayersPanel } from './presenter-players-panel.js?v=20260810122358';
+import { cleanupRevealElements } from './presenter-reveal.js?v=20260810122358';
+import { mostrarModalConfirmacion } from '../shared/modal.js?v=20260810122358';
+import { showTrivialWinnerOverlay, isWinnerOverlayActive } from './presenter-trivial-winner.js?v=20260810122358';
 
 function getSession() { return new URLSearchParams(window.location.search).get('session'); }
 
