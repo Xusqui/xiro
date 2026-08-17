@@ -3,13 +3,13 @@
  * Validación de sesión, join-lobby y configuración inicial
  */
 
-import { socket, playerId } from './player-socket-config.js?v=20260817184217';
+import { socket, playerId } from './player-socket-config.js?v=20260817185359';
 import {
     getPin, setPin, getNickname, setNickname,
     getSessionId, setSessionId, getIsReconnecting, setIsReconnecting,
     setTeamMode, getJoinTimeoutId, setJoinTimeoutId, resetGameState
-} from './player-state.js?v=20260817184217';
-import { removeDisconnectOverlay, activarWakeLock } from './player-connection.js?v=20260817184217';
+} from './player-state.js?v=20260817185359';
+import { removeDisconnectOverlay, activarWakeLock } from './player-connection.js?v=20260817185359';
 import {
     mostrarErrorSesionNoEncontrada,
     mostrarPantallaReconectando,
@@ -19,9 +19,9 @@ import {
     mostrarLobbyNormal,
     mostrarErrorJoinLobby,
     mostrarErrorSocketDesconectado
-} from './player-session-ui.js?v=20260817184217';
-import { mostrarModalMensaje } from '../shared/modal.js?v=20260817184217';
-import { getSavedSessionData, clearSavedSessionData, isSameSession } from './player-session-storage.js?v=20260817184217';
+} from './player-session-ui.js?v=20260817185359';
+import { mostrarModalMensaje } from '../shared/modal.js?v=20260817185359';
+import { getSavedSessionData, clearSavedSessionData, isSameSession } from './player-session-storage.js?v=20260817185359';
 
 // ===== FUNCIONES DE SESIÓN =====
 

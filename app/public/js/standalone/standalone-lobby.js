@@ -131,15 +131,38 @@ globalThis.StandaloneLobby = (() => {
         });
     }
 
-    function _validateNickname() {
-        const input = _nicknameInput();
-        const value = (input?.value || '').trim();
-        if (!value) {
-            input?.classList.add('is-invalid');
-            input?.focus();
-            return null;
+    function _startGame(pin) {
+        if (typeof StandaloneGame !== 'undefined') {
+            StandaloneGame.startGame(pin);
         }
-        return value;
+    }
+
+    function _promptForNickname(pin) {
+        const input = _nicknameInput();
+        input?.classList.add('is-invalid');
+
+        if (typeof window.mostrarModalInput !== 'function') {
+            input?.focus();
+            return;
+        }
+
+        window.mostrarModalInput(
+            window.XiroI18n?.t('standalone.lobby.nickname_required_title') || 'Nombre requerido',
+            window.XiroI18n?.t('standalone.lobby.nickname_required_message') || 'Por favor, introduce tu nombre para continuar.',
+            {
+                tipo: 'warning',
+                placeholder: window.XiroI18n?.t('standalone.lobby.nickname_placeholder') || 'Tu nombre',
+                textoConfirm: window.XiroI18n?.t('standalone.lobby.nickname_required_confirm') || 'Entendido',
+                onConfirm: (nickname) => {
+                    if (input) {
+                        input.value = nickname;
+                        input.classList.remove('is-invalid');
+                    }
+                    StandaloneState.setNickname(nickname);
+                    _startGame(pin);
+                }
+            }
+        );
     }
 
     function _setupGameActions() {
@@ -181,13 +204,14 @@ globalThis.StandaloneLobby = (() => {
             window.addEventListener('xiro:language-changed', _renderGames);
         },
         selectGame: function (pin) {
-            const nickname = _validateNickname();
-            if (!nickname) return;
+            const nickname = (_nicknameInput()?.value || '').trim();
+            if (!nickname) {
+                _promptForNickname(pin);
+                return;
+            }
 
             StandaloneState.setNickname(nickname);
-            if (typeof StandaloneGame !== 'undefined') {
-                StandaloneGame.startGame(pin);
-            }
+            _startGame(pin);
         },
         // Expuesto para tests unitarios (ver __tests__/standalone-lobby.test.js).
         normalizeType: _normalizeType

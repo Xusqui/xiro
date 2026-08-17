@@ -4,14 +4,14 @@
 
 const MODAL_STYLE_ID = 'xiro-modal-styles';
 
-function tr(text) {
+export function tr(text) {
     if (typeof text !== 'string') return text;
     return window.XiroI18n?.translateLiteral
         ? window.XiroI18n.translateLiteral(text)
         : text;
 }
 
-function ensureModalStyles() {
+export function ensureModalStyles() {
     if (document.getElementById(MODAL_STYLE_ID)) return;
 
     const style = document.createElement('style');
@@ -84,6 +84,22 @@ function ensureModalStyles() {
         .xiro-modal-btn-secondary {
             background: #e2e8f0;
             color: #0f172a;
+        }
+        .xiro-modal-input {
+            margin-top: 16px;
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 2px solid #cbd5e1;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .xiro-modal-input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+        .xiro-modal-input.is-invalid {
+            border-color: #ef4444;
         }
     `;
     document.head.appendChild(style);

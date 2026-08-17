@@ -15,10 +15,10 @@ import {
     setOrderAutoSendTimerId,
     setCurrentSlideType,
     startOrderAutoSendTimer
-} from './player-state.js?v=20260817184217';
-import { enviarOrdenRespuesta } from './player-answer.js?v=20260817184217';
-import { OPTION_COLORS, getResponsiveFontClass } from './player-question-utils.js?v=20260817184217';
-import { setBodyHTML } from './player-streak-ui.js?v=20260817184217';
+} from './player-state.js?v=20260817185359';
+import { enviarOrdenRespuesta } from './player-answer.js?v=20260817185359';
+import { OPTION_COLORS, getResponsiveFontClass } from './player-question-utils.js?v=20260817185359';
+import { setBodyHTML } from './player-streak-ui.js?v=20260817185359';
 
 let currentOrderQuestion = null;
 let dragSourceIndex = null;
