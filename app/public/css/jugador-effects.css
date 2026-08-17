@@ -45,6 +45,46 @@
     color: rgba(255, 255, 255, 0.92);
 }
 
+/* Result screen (the live one, built inline in player-answer.js) stamps in
+   instead of appearing on the hard document.body.innerHTML swap. */
+.player-result-enter {
+    animation: playerResultStamp 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes playerResultStamp {
+    from {
+        opacity: 0;
+        transform: scale(0.92);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.streak-overlay-exit {
+    animation: streakOverlayExit 0.25s ease-in both;
+}
+
+@keyframes streakOverlayExit {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .player-result-enter,
+    .streak-overlay-exit {
+        animation-duration: 0.01ms !important;
+    }
+}
+
 .answer-result-container {
     min-height: 100vh;
     min-height: 100dvh;

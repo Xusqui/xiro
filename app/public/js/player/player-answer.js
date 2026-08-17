@@ -3,9 +3,9 @@
  * Envío, reintentos y resultados de respuestas
  */
 
-import { socket } from './player-socket-config.js?v=20260810122358';
-import './player-answer-visual-logic.js?v=20260810122358';
-import { applyStreakToResult, setBodyHTML } from './player-streak-ui.js?v=20260810122358';
+import { socket } from './player-socket-config.js?v=20260817184217';
+import './player-answer-visual-logic.js?v=20260817184217';
+import { applyStreakToResult, setBodyHTML } from './player-streak-ui.js?v=20260817184217';
 import {
     getPin, getSessionId, getNickname,
     getCanAnswer, setCanAnswer, getHaRespondido, setHaRespondido,
@@ -16,7 +16,7 @@ import {
     startOrderAutoSendTimer,
     getCurrentMatches, clearMatchAutoSendTimer,
     getCurrentSlideType, getStreakInfo
-} from './player-state.js?v=20260810122358';
+} from './player-state.js?v=20260817184217';
 
 function createRequestId() {
     return `ans_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
@@ -729,7 +729,7 @@ export function registerAnswerEvents() {
         if (typeof ack === 'function') ack();
 
         // Mostrar resultado (con animación de racha si corresponde)
-        const resultHTML = `<div class="h-screen w-screen flex flex-col items-center justify-center ${color} text-white text-center p-6 overflow-y-auto">${messageHTML}</div>`;
+        const resultHTML = `<div class="player-result-enter h-screen w-screen flex flex-col items-center justify-center ${color} text-white text-center p-6 overflow-y-auto">${messageHTML}</div>`;
         applyStreakToResult(data.streak, resultHTML);
     });
 }

@@ -283,7 +283,7 @@ function renderEditorBanco(bank) {
             <div id="contenedorPreguntas" class="space-y-6 pb-10">
                 <div class="flex justify-between items-center px-2">
                     <h3 class="text-xl font-black text-slate-700 uppercase tracking-tighter text-2xl">${_t('admin.banks.title', null, 'Bancos de Preguntas')}</h3>
-                    <button data-admin-click="añadirPregunta()" class="bg-slate-800 text-white px-5 py-2 rounded-xl text-sm font-bold hover:bg-slate-700 shadow-md transition transform active:scale-95">
+                    <button data-admin-click="añadirPregunta()" class="bg-purple-50 text-purple-700 border-2 border-purple-200 px-5 py-2 rounded-xl text-sm font-bold hover:bg-purple-100 hover:border-purple-300 transition transform active:scale-95">
                         <i class="fas fa-plus mr-2"></i> ${_t('admin.q.btn_add', null, 'Añadir Pregunta')}
                     </button>
                 </div>
@@ -292,7 +292,7 @@ function renderEditorBanco(bank) {
 
                 <div class="flex justify-between items-center px-2">
                     <h3 class="text-xl font-black text-slate-700 uppercase tracking-tighter text-2xl">${_t('admin.q.label_end', null, 'Fin Preguntas')}</h3>
-                    <button data-admin-click="añadirPregunta()" class="bg-slate-800 text-white px-5 py-2 rounded-xl text-sm font-bold hover:bg-slate-700 shadow-md transition transform active:scale-95">
+                    <button data-admin-click="añadirPregunta()" class="bg-purple-50 text-purple-700 border-2 border-purple-200 px-5 py-2 rounded-xl text-sm font-bold hover:bg-purple-100 hover:border-purple-300 transition transform active:scale-95">
                         <i class="fas fa-plus mr-2"></i> ${_t('admin.q.btn_add', null, 'Añadir Pregunta')}
                     </button>
                 </div>
@@ -312,7 +312,7 @@ function renderEditorBanco(bank) {
                 </div>
                 ${bank.id ? `
                 <div class="mt-4">
-                    <button data-admin-click="exportarBanco()" class="bg-slate-800 text-white px-6 py-3 rounded-lg font-bold hover:bg-slate-700 transition w-full shadow-md flex items-center justify-center gap-3">
+                    <button data-admin-click="exportarBanco()" class="bg-purple-50 text-purple-700 border-2 border-purple-200 px-6 py-3 rounded-lg font-bold hover:bg-purple-100 hover:border-purple-300 transition w-full flex items-center justify-center gap-3">
                         <i class="fas fa-file-export text-lg"></i> Exportar Banco
                     </button>
                 </div>

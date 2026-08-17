@@ -147,11 +147,63 @@ body.bg-gradient-to-br > .w-full.max-w-6xl {
     width: 180px;
     max-width: none;
     height: auto;
-    transform: none;
+    transform-origin: bottom right;
     pointer-events: none;
     z-index: 0;
-    opacity: 0.52;
+    opacity: 0;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
+    animation:
+        chameleonEnter 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both,
+        chameleonIdle 6s ease-in-out 1.5s infinite;
+}
+
+@keyframes chameleonEnter {
+    from {
+        opacity: 0;
+        transform: translate(20px, 28px) scale(0.85) rotate(-6deg);
+    }
+
+    to {
+        opacity: 0.52;
+        transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+}
+
+@keyframes chameleonIdle {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-6px) rotate(-1.5deg);
+    }
+}
+
+.xiro-tab-hidden body.bg-gradient-to-br::after {
+    animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .player-chameleon {
+        animation: chameleonFadeOnly 0.4s ease-out 0.5s both;
+    }
+
+    @keyframes chameleonFadeOnly {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 0.52;
+        }
+    }
+
+    body.bg-gradient-to-br::after {
+        animation: none;
+        background-position: 50% 50%;
+    }
 }
 
 /* Tarjetas tipo cristal: translúcidas sin tocar el HTML */

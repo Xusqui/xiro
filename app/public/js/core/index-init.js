@@ -26,6 +26,11 @@
     _pollUiSettings();
     setInterval(_pollUiSettings, 3000);
 
+    // Ambient background gradient is a nonessential loop; stop it while the tab is hidden.
+    document.addEventListener('visibilitychange', function () {
+        document.documentElement.classList.toggle('xiro-tab-hidden', document.hidden);
+    });
+
     // Manual links live inside the big card <a>, so we cancel the card
     // navigation (capture phase) and route to the manual page instead.
     document.addEventListener('click', function (event) {

@@ -37,7 +37,10 @@ function mostrarVista(vista) {
         activeView = vista;
 
         // Actualizar estado visual de botones de navegación.
-        // Los botones de Config mantienen bg-slate-800 como color base.
+        // El fondo de la sección activa se tiñe con el color de esa sección
+        // en vez de un bg-slate-800 plano igual para las seis. El tinte usa
+        // style.backgroundColor (no clases Tailwind con opacidad arbitraria,
+        // que requerirían una recompilación para existir en el CSS servido).
         const activeBorderClasses = [
             'border-purple-500',
             'border-green-500',
@@ -46,9 +49,28 @@ function mostrarVista(vista) {
             'border-indigo-500',
             'border-emerald-500'
         ];
+        const sectionTint = {
+            bancos: 'rgba(168, 85, 247, 0.18)',
+            juegos: 'rgba(34, 197, 94, 0.18)',
+            personalizados: 'rgba(59, 130, 246, 0.18)',
+            trivial: 'rgba(249, 115, 22, 0.18)',
+            'ai-generator': 'rgba(99, 102, 241, 0.18)',
+            remote: 'rgba(34, 197, 94, 0.18)',
+            historial: 'rgba(16, 185, 129, 0.18)'
+        };
+        const sectionBorder = {
+            bancos: 'border-purple-500',
+            juegos: 'border-green-500',
+            personalizados: 'border-blue-500',
+            trivial: 'border-orange-500',
+            'ai-generator': 'border-indigo-500',
+            remote: 'border-green-500',
+            historial: 'border-emerald-500'
+        };
 
         document.querySelectorAll('#sidebar-nav-section .nav-button').forEach(btn => {
             btn.classList.remove('bg-slate-800', ...activeBorderClasses);
+            btn.style.backgroundColor = '';
         });
 
         document.querySelectorAll('#config-sidebar-section [data-admin-action="show-view"]').forEach(btn => {
@@ -57,14 +79,12 @@ function mostrarVista(vista) {
 
         const btnActivo = document.getElementById(`nav-${vista}`);
         if (btnActivo) {
-            btnActivo.classList.add('bg-slate-800');
-            if (vista === 'bancos') btnActivo.classList.add('border-purple-500');
-            else if (vista === 'juegos') btnActivo.classList.add('border-green-500');
-            else if (vista === 'personalizados') btnActivo.classList.add('border-blue-500');
-            else if (vista === 'trivial') btnActivo.classList.add('border-orange-500');
-            else if (vista === 'ai-generator') btnActivo.classList.add('border-indigo-500');
-            else if (vista === 'remote') btnActivo.classList.add('border-green-500');
-            else if (vista === 'historial') btnActivo.classList.add('border-emerald-500');
+            if (sectionTint[vista]) {
+                btnActivo.style.backgroundColor = sectionTint[vista];
+                btnActivo.classList.add(sectionBorder[vista]);
+            } else {
+                btnActivo.classList.add('bg-slate-800');
+            }
         }
 
         // Renderizar la vista correspondiente

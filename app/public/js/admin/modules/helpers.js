@@ -40,9 +40,23 @@ function dibujarPreguntas() {
 
         const isHybridToleranceMode = (q.toleranceMode || 'hybrid') === 'hybrid';
 
+        // Cada tipo de pregunta lleva su propia chip de color, para que se distinga
+        // de un vistazo en la lista sin tener que abrir el desplegable. Clases Tailwind
+        // completas y literales (no interpoladas) para que el compilador las detecte.
+        const typeChip = {
+            quiz: 'bg-purple-100 text-purple-700',
+            survey: 'bg-blue-100 text-blue-700',
+            order: 'bg-green-100 text-green-700',
+            matching: 'bg-orange-100 text-orange-700',
+            numeric_approximation: 'bg-cyan-100 text-cyan-700',
+            word_scramble: 'bg-pink-100 text-pink-700',
+            multiple_choice: 'bg-indigo-100 text-indigo-700'
+        }[q.type] || 'bg-slate-100 text-slate-600';
+
         return `
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 relative animate-fade-in">
                     <button data-admin-click="eliminarPregunta(${qIdx})" class="absolute top-4 right-4 text-slate-300 hover:text-red-500 transition"><i class="fas fa-trash-alt"></i></button>
+                    <span class="absolute top-4 right-14 text-[10px] font-bold uppercase px-2 py-1 rounded-full ${typeChip}">${_t(`admin.q.type_${q.type}_short`, null, q.type.replace(/_/g, ' '))}</span>
                     
                     <label class="text-[10px] font-bold text-slate-400 uppercase">${_t('admin.q.label', null, 'Enunciado de la pregunta')} ${qIdx + 1}</label>
                     <input type="text" data-admin-input="preguntasData[${qIdx}].questionText = this.value" value="${escapeHtml(q.questionText || '')}" placeholder="¿Cómo se llama el proceso...?" class="w-full text-lg font-bold border-b-2 border-slate-50 mb-4 focus:border-purple-400 outline-none py-2 transition bg-transparent">

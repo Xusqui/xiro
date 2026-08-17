@@ -3,9 +3,9 @@
  * Renderizado de ranking final con fuegos artificiales
  */
 
-import { removeFloatingCards, hideAbandonButton } from './presenter-utils.js?v=20260810122358';
-import { cleanupRevealElements } from './presenter-reveal.js?v=20260810122358';
-import { getPin, getGameSessionDbId } from './presenter-state.js?v=20260810122358';
+import { removeFloatingCards, hideAbandonButton } from './presenter-utils.js?v=20260817184217';
+import { cleanupRevealElements } from './presenter-reveal.js?v=20260817184217';
+import { getPin, getGameSessionDbId } from './presenter-state.js?v=20260817184217';
 
 // Variable global para el controlador de fuegos artificiales
 let fireworksController = null;
@@ -221,17 +221,23 @@ export function renderPodio(ranking) {
         <div class="podium-content absolute inset-0 flex flex-col items-center justify-start text-center px-10 pt-8 pb-16 bg-black gap-6 overflow-y-auto">
             <h1 class="neon podium-title uppercase" data-xiro-podium-title="1" data-podium-team-mode="${isTeamMode ? 'true' : 'false'}">${podiumTitleHtml}</h1>
             <div class="w-full max-w-2xl space-y-4">
-                ${ranking.slice(0, 10).map((p, i) => {
-        const bgClass = isTeamMode
-            ? (p.color && teamColorClasses[p.color] ? teamColorClasses[p.color] + ' text-white' : 'bg-white/10 text-white')
-            : (i === 0 ? 'bg-yellow-400 text-slate-900 scale-105' : 'bg-white/10 text-white');
-        const icon = isTeamMode ? '<i class="fas fa-users mr-3"></i>' : '';
-        return `
-                        <div class="flex justify-between items-center p-6 rounded-3xl ${bgClass} border-b-4 border-black/20">
+                ${(() => {
+        const rows = ranking.slice(0, 10);
+        const total = rows.length;
+        // Suspense: lowest rank appears first, the winner appears last.
+        return rows.map((p, i) => {
+            const bgClass = isTeamMode
+                ? (p.color && teamColorClasses[p.color] ? teamColorClasses[p.color] + ' text-white' : 'bg-white/10 text-white')
+                : (i === 0 ? 'bg-yellow-400 text-slate-900 scale-105' : 'bg-white/10 text-white');
+            const icon = isTeamMode ? '<i class="fas fa-users mr-3"></i>' : '';
+            const delay = ((total - 1 - i) * 0.12).toFixed(2);
+            return `
+                        <div class="podium-row flex justify-between items-center p-6 rounded-3xl ${bgClass} border-b-4 border-black/20" style="animation-delay:${delay}s">
                             <span class="text-3xl font-black uppercase italic">${icon}${i + 1}º ${p.name}</span>
                             <span class="text-4xl font-black">${p.scoreLabel || (p.pts + ' PTS')}</span>
                         </div>`;
-    }).join('')}
+        }).join('');
+    })()}
             </div>
             <button data-presenter-action="conclude-and-home" class="mt-12 bg-purple-600 hover:bg-purple-500 px-8 py-3 rounded-full text-white font-bold uppercase transition shadow-lg">
                 <i class="fas fa-list mr-2"></i>${_t('presenter.podio.show_games', null, 'Mostrar juegos')}

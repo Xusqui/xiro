@@ -79,3 +79,8 @@ docs/DOCKERHUB_README.md
 .dockerignore
 build-image.sh
 *.tar.gz
+
+.codex
+.impeccable
+/PRODUCT.md
+DESIGN.md

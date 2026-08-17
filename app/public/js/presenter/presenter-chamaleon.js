@@ -34,7 +34,15 @@ let _lastCorner = -1;
  * Si ya existe uno, lo reemplaza.
  */
 export function showChamaleonOverlay() {
-    hideChamaleonOverlay();
+    // El anterior (si existe) se desvanece en vez de desaparecer de golpe;
+    // se libera el id de inmediato para que el nuevo overlay pueda usarlo.
+    const previous = document.getElementById(OVERLAY_ID);
+    if (previous) {
+        previous.removeAttribute('id');
+        previous.classList.remove('chamaleon-overlay-enter');
+        previous.classList.add('chamaleon-overlay-exit');
+        setTimeout(() => previous.remove(), 350);
+    }
 
     // Elegir imagen diferente a la anterior
     let imgIndex;
@@ -52,6 +60,7 @@ export function showChamaleonOverlay() {
 
     const el = document.createElement('div');
     el.id = OVERLAY_ID;
+    el.className = 'chamaleon-overlay-enter';
     el.style.cssText = [
         'position: fixed',
         corner.top ? `top: ${corner.top}` : '',
@@ -59,9 +68,7 @@ export function showChamaleonOverlay() {
         corner.left ? `left: ${corner.left}` : '',
         corner.right ? `right: ${corner.right}` : '',
         'z-index: 500',
-        'opacity: 0.5',
-        'pointer-events: none',
-        'transition: opacity 0.3s ease'
+        'pointer-events: none'
     ].filter(Boolean).join('; ');
 
     const image = document.createElement('img');
@@ -74,9 +81,13 @@ export function showChamaleonOverlay() {
 }
 
 /**
- * Elimina el overlay del camaleón si existe.
+ * Elimina el overlay del camaleón si existe, con un fundido de salida.
  */
 export function hideChamaleonOverlay() {
     const el = document.getElementById(OVERLAY_ID);
-    if (el) el.remove();
+    if (!el) return;
+    el.removeAttribute('id');
+    el.classList.remove('chamaleon-overlay-enter');
+    el.classList.add('chamaleon-overlay-exit');
+    setTimeout(() => el.remove(), 350);
 }

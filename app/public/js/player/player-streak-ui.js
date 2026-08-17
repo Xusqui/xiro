@@ -12,7 +12,7 @@
  *  desaparece cuando la racha se pierde (isInStreak = false).
  */
 
-import { getStreakInfo, setStreakInfo, getCurrentSlideType } from './player-state.js?v=20260810122358';
+import { getStreakInfo, setStreakInfo, getCurrentSlideType } from './player-state.js?v=20260817184217';
 
 const DURATION_ENTER = 2000;
 const DURATION_LOST = 1500;
@@ -208,7 +208,8 @@ function _showAnimation(type, streakInfo) {
 
         // Guardar referencia al timeout
         _activeAnimationTimeout = setTimeout(() => {
-            el.remove();
+            el.classList.add('streak-overlay-exit');
+            setTimeout(() => el.remove(), 250);
             _activeAnimationTimeout = null;
             _activeAnimationResolve = null;
             resolve();

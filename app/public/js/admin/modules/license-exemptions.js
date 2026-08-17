@@ -10,6 +10,14 @@ const _EXEMPT_TYPE_LABELS = {
     quiz: 'Quiz'
 };
 
+const _EXEMPT_TYPE_CHIP = {
+    bank: 'bg-purple-100 text-purple-700',
+    game: 'bg-green-100 text-green-700',
+    custom_game: 'bg-blue-100 text-blue-700',
+    trivial: 'bg-orange-100 text-orange-700',
+    quiz: 'bg-cyan-100 text-cyan-700'
+};
+
 function _renderExemptionRow(item) {
     const exempt = item.licenseExempt === true;
     const statusBadge = exempt
@@ -28,7 +36,7 @@ function _renderExemptionRow(item) {
 
     return `
         <tr class="border-t border-slate-100">
-            <td class="px-3 py-2 text-xs text-slate-500">${escapeHtml(_EXEMPT_TYPE_LABELS[item.type] || item.type)}</td>
+            <td class="px-3 py-2"><span class="inline-flex px-2 py-0.5 rounded-full text-xs font-bold ${_EXEMPT_TYPE_CHIP[item.type] || 'bg-slate-100 text-slate-600'}">${escapeHtml(_EXEMPT_TYPE_LABELS[item.type] || item.type)}</span></td>
             <td class="px-3 py-2 font-semibold text-slate-800">${escapeHtml(item.name || '')}</td>
             <td class="px-3 py-2 font-mono text-xs text-slate-500">${escapeHtml(item.pin || '-')}</td>
             <td class="px-3 py-2 text-slate-600">${escapeHtml(item.ownerUsername || '—')}</td>
