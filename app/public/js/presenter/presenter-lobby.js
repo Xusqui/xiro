@@ -3,8 +3,8 @@
  * Selección de PIN, configuración individual, y pantallas de lobby
  */
 
-import { mostrarLobbyMain } from './presenter-utils.js?v=20260817185359';
-import { cleanupPodio } from './presenter-podio.js?v=20260817185359';
+import { mostrarLobbyMain } from './presenter-utils.js?v=20260822074303';
+import { cleanupPodio } from './presenter-podio.js?v=20260822074303';
 import {
     setPin,
     setSessionId,
@@ -13,9 +13,9 @@ import {
     setConnectedPlayers,
     setPlayersData,
     setTotalPlayers
-} from './presenter-state.js?v=20260817185359';
-import { iniciarLobby } from './presenter-lobby-init.js?v=20260817185359';
-import { mostrarConfiguracionEquipos } from './presenter-team-config.js?v=20260817185359';
+} from './presenter-state.js?v=20260822074303';
+import { iniciarLobby } from './presenter-lobby-init.js?v=20260822074303';
+import { mostrarConfiguracionEquipos } from './presenter-team-config.js?v=20260822074303';
 
 if (window.XiroI18n && typeof window.XiroI18n.addSections === 'function') {
     void window.XiroI18n.addSections(['presenter_lobby'], { reload: false });

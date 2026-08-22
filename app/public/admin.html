@@ -6,21 +6,22 @@
     <meta name="xiro-i18n-sections" content="common,admin">
     <title>XIRO! - Administrador</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/css/common.css?v=20260817185359">
-    <link rel="stylesheet" href="/css/output-admin.css?v=20260817185359">
-    <link rel="stylesheet" href="/css/drag-drop.css?v=20260817185359">
+    <link rel="stylesheet" href="/css/common.css?v=20260822074303">
+    <link rel="stylesheet" href="/css/output-admin.css?v=20260822074303">
+    <link rel="stylesheet" href="/css/drag-drop.css?v=20260822074303">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
         integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
         crossorigin="anonymous" referrerpolicy="no-referrer">
-    <script defer src="/js/core/umami-loader.js?v=20260817185359"></script>
+    <script defer src="/js/core/umami-loader.js?v=20260822074303"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="/css/admin.css?v=20260817185359">
-    <script defer src="/js/i18n/i18n-core.js?v=20260817185359"></script>
-    <script defer src="/js/i18n/i18n-dom.js?v=20260817185359"></script>
-    <script defer src="/js/i18n/i18n-ui.js?v=20260817185359"></script>
+    <link rel="stylesheet" href="/css/tokens.css?v=20260822074303">
+    <link rel="stylesheet" href="/css/admin.css?v=20260822074303">
+    <script defer src="/js/i18n/i18n-core.js?v=20260822074303"></script>
+    <script defer src="/js/i18n/i18n-dom.js?v=20260822074303"></script>
+    <script defer src="/js/i18n/i18n-ui.js?v=20260822074303"></script>
 </head>
 
 <body class="bg-slate-100 font-sans text-slate-800">
@@ -184,48 +185,48 @@
                         data-i18n="admin.nav.section">...</h3>
 
                     <button data-admin-action="show-view" data-view="bancos" id="nav-bancos"
-                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-transparent hover:border-purple-500 hover:bg-slate-800">
-                        <div class="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center">
+                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-transparent hover:border-[#e65453] hover:bg-slate-800">
+                        <div class="w-10 h-10 bg-[#e65453] rounded-lg flex items-center justify-center">
                             <i class="fas fa-database text-lg"></i>
                         </div>
                         <span class="text-sm" data-i18n="admin.nav.banks">...</span>
                     </button>
 
                     <button data-admin-action="show-view" data-view="juegos" id="nav-juegos"
-                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-transparent hover:border-green-500 hover:bg-slate-800">
-                        <div class="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
+                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-transparent hover:border-[#e65453] hover:bg-slate-800">
+                        <div class="w-10 h-10 bg-[#e65453] rounded-lg flex items-center justify-center">
                             <i class="fas fa-gamepad text-lg"></i>
                         </div>
                         <span class="text-sm" data-i18n="admin.nav.games">...</span>
                     </button>
 
                     <button data-admin-action="show-view" data-view="personalizados" id="nav-personalizados"
-                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-transparent hover:border-blue-500 hover:bg-slate-800">
-                        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-transparent hover:border-[#e65453] hover:bg-slate-800">
+                        <div class="w-10 h-10 bg-[#e65453] rounded-lg flex items-center justify-center">
                             <i class="fas fa-star text-lg"></i>
                         </div>
                         <span class="text-sm" data-i18n="admin.nav.custom">...</span>
                     </button>
 
                     <button data-admin-action="show-view" data-view="trivial" id="nav-trivial"
-                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-transparent hover:border-orange-500 hover:bg-slate-800">
-                        <div class="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
+                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-transparent hover:border-[#e65453] hover:bg-slate-800">
+                        <div class="w-10 h-10 bg-[#e65453] rounded-lg flex items-center justify-center">
                             <i class="fas fa-dice text-lg"></i>
                         </div>
                         <span class="text-sm" data-i18n="admin.nav.trivial">...</span>
                     </button>
 
                     <button data-admin-action="show-upload-view" id="nav-cargar-preguntas"
-                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-transparent hover:border-purple-500 hover:bg-slate-800">
-                        <div class="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center">
+                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-transparent hover:border-[#e65453] hover:bg-slate-800">
+                        <div class="w-10 h-10 bg-[#e65453] rounded-lg flex items-center justify-center">
                             <i class="fas fa-upload text-lg"></i>
                         </div>
                         <span class="text-sm" data-i18n="admin.nav.upload">...</span>
                     </button>
 
                     <button data-admin-action="show-view" data-view="ai-generator" id="nav-ai-generator"
-                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-transparent hover:border-indigo-500 hover:bg-slate-800">
-                        <div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
+                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-transparent hover:border-[#e65453] hover:bg-slate-800">
+                        <div class="w-10 h-10 bg-[#e65453] rounded-lg flex items-center justify-center">
                             <i class="fas fa-robot text-lg"></i>
                         </div>
                         <span class="text-sm" data-i18n="admin.nav.ai">...</span>
@@ -252,9 +253,9 @@
 
                     <button id="nav-user-manage-users" data-admin-action="switch-user-panel" data-panel="manage-users"
                         style="display:none"
-                        class="w-full text-left p-3 rounded-xl border-2 border-indigo-500/30 hover:border-indigo-400 bg-slate-800 hover:bg-slate-700 transition flex items-center gap-3">
-                        <div class="w-8 h-8 bg-indigo-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-users-cog text-indigo-300 text-sm"></i>
+                        class="w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] bg-slate-800 hover:bg-slate-700 transition flex items-center gap-3">
+                        <div class="w-8 h-8 bg-[#e65453]/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-users-cog text-red-300 text-sm"></i>
                         </div>
                         <div>
                             <p class="text-sm font-bold text-white" data-i18n="admin.user.manage.title">...</p>
@@ -270,10 +271,10 @@
                         data-i18n="admin.config.section">...</h3>
 
                     <button id="nav-historial" data-admin-action="show-view" data-view="historial"
-                        class="w-full text-left p-3 rounded-xl border-2 border-emerald-500/30 hover:border-emerald-400 bg-slate-800 hover:bg-slate-700 transition flex items-center gap-3">
+                        class="w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] bg-slate-800 hover:bg-slate-700 transition flex items-center gap-3">
                         <div
-                            class="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-history text-emerald-400 text-sm"></i>
+                            class="w-8 h-8 bg-[#e65453]/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-history text-red-300 text-sm"></i>
                         </div>
                         <div>
                             <p class="text-sm font-bold text-white" data-i18n="admin.config.history.title">...</p>
@@ -282,9 +283,9 @@
                     </button>
 
                     <button id="nav-remote" data-admin-action="show-view" data-view="remote"
-                        class="nav-button w-full text-left p-3 rounded-xl border-2 border-green-500/30 hover:border-green-400 bg-slate-800 hover:bg-slate-700 transition flex items-center gap-3">
-                        <div class="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-satellite-dish text-green-400 text-sm"></i>
+                        class="nav-button w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] bg-slate-800 hover:bg-slate-700 transition flex items-center gap-3">
+                        <div class="w-8 h-8 bg-[#e65453]/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-satellite-dish text-red-300 text-sm"></i>
                         </div>
                         <div>
                             <p class="text-sm font-bold text-white" data-i18n="admin.config.remote.title">...</p>
@@ -293,9 +294,9 @@
                     </button>
 
                     <a id="nav-bot-runner" href="/autorun/index.html"
-                        class="nav-button w-full text-left p-3 rounded-xl border-2 border-green-500/30 hover:border-green-400 bg-slate-800 hover:bg-slate-700 transition flex items-center gap-3">
-                        <div class="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-robot text-green-400 text-sm"></i>
+                        class="nav-button w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] bg-slate-800 hover:bg-slate-700 transition flex items-center gap-3">
+                        <div class="w-8 h-8 bg-[#e65453]/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-robot text-red-300 text-sm"></i>
                         </div>
                         <div>
                             <p class="text-sm font-bold text-white" data-i18n="admin.config.botrunner.title">...</p>
@@ -304,9 +305,9 @@
                     </a>
 
                     <button id="btn-clear-uploads" data-admin-action="clear-uploads"
-                        class="w-full text-left p-3 rounded-xl border-2 border-orange-500/30 hover:border-orange-400 bg-slate-800 hover:bg-slate-700 transition flex items-center gap-3">
-                        <div class="w-8 h-8 bg-orange-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-folder-open text-orange-400 text-sm"></i>
+                        class="w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] bg-slate-800 hover:bg-slate-700 transition flex items-center gap-3">
+                        <div class="w-8 h-8 bg-[#e65453]/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-folder-open text-red-300 text-sm"></i>
                         </div>
                         <div>
                             <p class="text-sm font-bold text-white" data-i18n="admin.config.uploads.title">...</p>
@@ -315,9 +316,9 @@
                     </button>
 
                     <button id="btn-clear-cache" data-admin-action="clear-cache"
-                        class="w-full text-left p-3 rounded-xl border-2 border-cyan-500/30 hover:border-cyan-400 bg-slate-800 hover:bg-slate-700 transition flex items-center gap-3">
-                        <div class="w-8 h-8 bg-cyan-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-memory text-cyan-400 text-sm"></i>
+                        class="w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] bg-slate-800 hover:bg-slate-700 transition flex items-center gap-3">
+                        <div class="w-8 h-8 bg-[#e65453]/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-memory text-red-300 text-sm"></i>
                         </div>
                         <div>
                             <p class="text-sm font-bold text-white" data-i18n="admin.config.cache.title">...</p>
@@ -364,7 +365,7 @@
                     <img src="/images/logo.svg" alt="" class="absolute pointer-events-none select-none"
                         style="width:80%;max-width:80%;opacity:0.1;">
                     <div class="relative z-10 flex flex-col items-center text-slate-400">
-                        <i class="fas fa-th-large text-5xl mb-4 text-purple-400"></i>
+                        <i class="fas fa-th-large text-5xl mb-4 text-[#e65453]"></i>
                         <p class="text-xl font-bold text-slate-600" data-i18n="admin.home.empty.title">...</p>
                         <p class="text-sm mt-2" data-i18n="admin.home.empty.sub">...</p>
                     </div>
@@ -375,67 +376,67 @@
 
     <!-- Footer -->
     <footer class="fixed bottom-2 right-2 text-slate-500 text-xs z-10">
-        <a href="/about.html" class="hover:text-purple-500 transition-colors" title="Acerca de XIRO!"
+        <a href="/about.html" class="hover:text-[#e65453] transition-colors" title="Acerca de XIRO!"
             data-i18n="common.footer.author">...</a>
     </footer>
 
     <!-- SCRIPTS: Cargar en orden específico -->
-    <script defer src="/js/drag-drop-upload.js?v=20260817185359"></script>
+    <script defer src="/js/drag-drop-upload.js?v=20260822074303"></script>
 
     <!-- CORE INFRASTRUCTURE -->
-    <script defer src="/js/admin/core/auth.js?v=20260817185359"></script>
-    <script defer src="/js/admin/core/ownership-ui.js?v=20260817185359"></script>
-    <script defer src="/js/admin/core/api.js?v=20260817185359"></script>
-    <script defer src="/js/admin/core/state.js?v=20260817185359"></script>
+    <script defer src="/js/admin/core/auth.js?v=20260822074303"></script>
+    <script defer src="/js/admin/core/ownership-ui.js?v=20260822074303"></script>
+    <script defer src="/js/admin/core/api.js?v=20260822074303"></script>
+    <script defer src="/js/admin/core/state.js?v=20260822074303"></script>
 
     <!-- HELPERS & UTILITIES -->
-    <script defer src="/js/admin/modules/helpers.js?v=20260817185359"></script>
-    <script defer src="/js/admin/helpers/correct-answer-frontend.js?v=20260817185359"></script>
-    <script defer src="/js/admin/helpers/banks-cache.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/question-format.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/matching-editor.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/multimedia.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/tools.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/unsaved-changes.js?v=20260817185359"></script>
+    <script defer src="/js/admin/modules/helpers.js?v=20260822074303"></script>
+    <script defer src="/js/admin/helpers/correct-answer-frontend.js?v=20260822074303"></script>
+    <script defer src="/js/admin/helpers/banks-cache.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/question-format.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/matching-editor.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/multimedia.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/tools.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/unsaved-changes.js?v=20260822074303"></script>
 
     <!-- FEATURE MODULES -->
-    <script defer src="/js/admin/modules/bancos-expanded.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/bancos-merge.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/juegos-pool.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/juegos-expanded.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/personalizados-expanded.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/trivial-expanded.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/trivial-editor.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/buscar-preguntas.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/ai-generator.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/ai-generator-results.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/historial.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/remote-tab.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/slides.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/slides-text.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/slides-image.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/slides-text-image.js?v=20260817185359"></script>
+    <script defer src="/js/admin/modules/bancos-expanded.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/bancos-merge.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/juegos-pool.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/juegos-expanded.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/personalizados-expanded.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/trivial-expanded.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/trivial-editor.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/buscar-preguntas.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/ai-generator.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/ai-generator-results.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/historial.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/remote-tab.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/slides.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/slides-text.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/slides-image.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/slides-text-image.js?v=20260822074303"></script>
 
     <!-- SECTION NAVIGATION + CONFIG PANEL -->
-    <script defer src="/js/admin/modules/user-account.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/password-reset.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/nav-sections.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/config-panel-meta.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/config-panel-fields.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/config-team-names.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/config-panel.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/site-panel-meta.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/site-panel.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/user-license-panel.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/user-license-checkout.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/license-exemptions.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/site-public-url.js?v=20260817185359"></script>
-    <script defer src="/js/admin/modules/config-ui.js?v=20260817185359"></script>
+    <script defer src="/js/admin/modules/user-account.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/password-reset.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/nav-sections.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/config-panel-meta.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/config-panel-fields.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/config-team-names.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/config-panel.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/site-panel-meta.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/site-panel.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/user-license-panel.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/user-license-checkout.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/license-exemptions.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/site-public-url.js?v=20260822074303"></script>
+    <script defer src="/js/admin/modules/config-ui.js?v=20260822074303"></script>
 
     <!-- MAIN INITIALIZER -->
-    <script defer src="/js/admin/admin-main.js?v=20260817185359"></script>
+    <script defer src="/js/admin/admin-main.js?v=20260822074303"></script>
 
-    <script defer src="/js/core/site-badge.js?v=20260817185359"></script>
+    <script defer src="/js/core/site-badge.js?v=20260822074303"></script>
 </body>
 
 </html>

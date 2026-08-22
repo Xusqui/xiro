@@ -32,7 +32,7 @@
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
             background: var(--xiro-dark);
             color: var(--text);
             min-height: 100vh;

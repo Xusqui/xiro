@@ -2,12 +2,12 @@
  * @fileoverview Panel de espera enriquecido para presentador (Opción C)
  */
 
-import { getPlayersData } from './presenter-state.js?v=20260817185359';
+import { getPlayersData } from './presenter-state.js?v=20260822074303';
 import {
     renderCenteredNumericHint,
     removeCenteredNumericHint
-} from './presenter-numeric-layout.js?v=20260817185359';
-import { getNumericProgressMetrics } from './presenter-progress-metrics.js?v=20260817185359';
+} from './presenter-numeric-layout.js?v=20260822074303';
+import { getNumericProgressMetrics } from './presenter-progress-metrics.js?v=20260822074303';
 
 let resizeHandler = null;
 

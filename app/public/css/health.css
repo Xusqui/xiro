@@ -24,9 +24,9 @@
     --xy: #f9b518;
     --xr: #e65453;
     --xgrd: linear-gradient(90deg,#7aaa10,#f9b518,#e65453);
-    --font: 'DM Sans',system-ui,sans-serif;
-    --display: 'Syne',system-ui,sans-serif;
-    --mono: 'JetBrains Mono','Menlo',monospace;
+    --font: var(--font-body, 'DM Sans', system-ui, sans-serif);
+    --display: var(--font-display-console, 'Syne', system-ui, sans-serif);
+    --mono: var(--font-mono, 'JetBrains Mono', 'Menlo', monospace);
     --r: 14px;
     --r-sm: 8px;
 }

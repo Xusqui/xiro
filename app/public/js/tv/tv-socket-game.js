@@ -107,7 +107,7 @@ window.TVApp.SocketGame = (function () {
             state.currentSeconds = Math.ceil(data.remainingTime);
             var timerEl = getEl('timer');
             if (timerEl) {
-                timerEl.style.borderColor = '#7c3aed';
+                timerEl.style.borderColor = '#0891b2';
                 timerEl.style.backgroundColor = '';
             }
         });

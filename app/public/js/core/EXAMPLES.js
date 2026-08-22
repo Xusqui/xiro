@@ -8,8 +8,8 @@
  *       NO incluirlo en producción
  */
 
-import { SocketEventManager } from './SocketEventManager.js?v=20260817185359';
-import { GameStateManager, GameStates } from './GameStateManager.js?v=20260817185359';
+import { SocketEventManager } from './SocketEventManager.js?v=20260822074303';
+import { GameStateManager, GameStates } from './GameStateManager.js?v=20260822074303';
 import {
     CONNECTION_EVENTS,
     JOIN_EVENTS,
@@ -17,7 +17,7 @@ import {
     QUESTION_EVENTS,
     ANSWER_EVENTS,
     UPDATE_EVENTS,
-} from './socket-events.js?v=20260817185359';
+} from './socket-events.js?v=20260822074303';
 
 // ============================================================================
 // EJEMPLO 1: Inicialización básica

@@ -9,23 +9,23 @@
  * The standard new-question handler in player-game-flow.js renders questions as usual.
  */
 
-import { getSocket } from './player-socket-config.js?v=20260817185359';
-import { getNickname, getSessionId } from './player-state.js?v=20260817185359';
+import { getSocket } from './player-socket-config.js?v=20260822074303';
+import { getNickname, getSessionId } from './player-state.js?v=20260822074303';
 import {
     showDiceScreen, showMoveSelection,
     showTrivialWaiting, registerTrivialPlayerActions
-} from './player-trivial-ui.js?v=20260817185359';
-import { showTrivialWinnerScreen } from './player-trivial-winner.js?v=20260817185359';
+} from './player-trivial-ui.js?v=20260822074303';
+import { showTrivialWinnerScreen } from './player-trivial-winner.js?v=20260822074303';
 import {
     initTrivialTeamState, isMeTurnTeamAware, isMyTeamActor, clearTrivialTeamState
-} from './player-trivial-team.js?v=20260817185359';
+} from './player-trivial-team.js?v=20260822074303';
 import {
     setTrivialBadgesVisible,
     setTrivialBadgeCategories,
     syncTrivialBadgesFromPayload,
     clearTrivialBadges
-} from './player-trivial-badges-ui.js?v=20260817185359';
-import { cancelStreakAnimation } from './player-streak-ui.js?v=20260817185359';
+} from './player-trivial-badges-ui.js?v=20260822074303';
+import { cancelStreakAnimation } from './player-streak-ui.js?v=20260822074303';
 
 function myNickname() { return getNickname(); }
 
