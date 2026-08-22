@@ -557,7 +557,7 @@ Diseñada para pantalla grande. Carga más ligera que la vista presentador. Name
 - **Botón Finalizar partida**: modal de confirmación → emit `end-game` → podio
 - **Botón Abortar partida**: modal de confirmación → emit `abandon-game` → redirect a `/tv.html`
 - Ambos botones visibles solo cuando hay sesión activa; implementados en JS vanilla puro (compatible Chrome 38 / WebOS 3.5)
-- **Control de acceso TV**: cuando el ajuste de UI admin `showTvCard` está en `false`, la tarjeta TV se oculta en `/index.html` y el acceso directo a `/tv.html` devuelve HTTP `403` (página de error)
+- **Control de acceso TV**: el ajuste de UI admin `tvCardMode` controla la tarjeta TV en `/index.html` — `never` (oculta, y el acceso directo a `/tv.html` devuelve HTTP `403`), `always` (visible) u `old_devices_only` (visible solo si el navegador no soporta CSS Grid/`backdrop-filter`, p. ej. Chrome 38 / WebOS 3.5)
 
 ### `standalone.html` — Modo Solitario (sin presentador)
 <img src="https://xiro.pro/images/chamaleon/gamer.svg" alt="mascota solitaria" width="90" align="right">

@@ -162,19 +162,32 @@ function saveConfigChanges() {
 
 /* ===== UI SETTINGS ===== */
 
+function _renderTvCardModeOptions(currentMode) {
+    const options = [
+        { mode: 'never', labelKey: 'admin.config.ui.tv_card_mode_never' },
+        { mode: 'always', labelKey: 'admin.config.ui.tv_card_mode_always' },
+        { mode: 'old_devices_only', labelKey: 'admin.config.ui.tv_card_mode_old_devices' }
+    ];
+    return options.map(opt => {
+        const active = opt.mode === currentMode;
+        const cls = active
+            ? 'bg-cyan-600 text-white shadow-sm'
+            : 'bg-slate-100 text-slate-600 hover:bg-slate-200';
+        return `<button type="button" data-config-action="set-tv-card-mode" data-mode="${opt.mode}"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all border-0 ${cls}">${_t(opt.labelKey)}</button>`;
+    }).join('');
+}
+
 function _renderUiTab(settings) {
-    const showTv = settings.showTvCard !== false;
+    const tvCardMode = settings.tvCardMode || 'always';
     const showStandalone = settings.showStandaloneCard !== false;
-    
-    const bgTv = showTv ? '#06b6d4' : '#cbd5e1';
-    const knobLeftTv = showTv ? '22px' : '2px';
-    
+
     const bgStandalone = showStandalone ? '#10b981' : '#cbd5e1';
     const knobLeftStandalone = showStandalone ? '22px' : '2px';
-    
+
     return `<div class="space-y-4">
-        <div class="bg-white rounded-2xl border-2 border-slate-200 p-5 flex items-center justify-between gap-4">
-            <div class="flex items-center gap-4">
+        <div class="bg-white rounded-2xl border-2 border-slate-200 p-5">
+            <div class="flex items-center gap-4 mb-4">
                 <div class="w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center flex-shrink-0">
                     <i class="fas fa-desktop text-cyan-600 text-base"></i>
                 </div>
@@ -183,12 +196,9 @@ function _renderUiTab(settings) {
                     <p class="text-xs text-slate-500 mt-0.5">${_t('admin.config.ui.tv_card_desc')}</p>
                 </div>
             </div>
-            <div data-config-action="toggle-ui-setting" data-key="showTvCard" data-checked="${showTv}"
-                 style="width:44px;height:24px;border-radius:12px;background:${bgTv};position:relative;cursor:pointer;transition:background .2s;flex-shrink:0">
-                <span style="display:block;position:absolute;top:2px;left:${knobLeftTv};width:20px;height:20px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.18)"></span>
-            </div>
+            <div data-tv-card-mode-group class="flex flex-wrap gap-2">${_renderTvCardModeOptions(tvCardMode)}</div>
         </div>
-        
+
         <div class="bg-white rounded-2xl border-2 border-slate-200 p-5 flex items-center justify-between gap-4">
             <div class="flex items-center gap-4">
                 <div class="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center flex-shrink-0">
@@ -222,6 +232,18 @@ function toggleSensitiveField(key) {
         input.classList.add('xiro-input-mask');
         icon.className = 'fas fa-eye text-xs';
     }
+}
+
+function setTvCardMode(mode, el) {
+    const group = el.closest('[data-tv-card-mode-group]');
+    if (group) {
+        group.querySelectorAll('[data-config-action="set-tv-card-mode"]').forEach(btn => {
+            const active = btn.dataset.mode === mode;
+            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition-all border-0 ' +
+                (active ? 'bg-cyan-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200');
+        });
+    }
+    saveUiSetting('tvCardMode', mode);
 }
 
 function toggleUiSetting(key, el) {
@@ -391,6 +413,9 @@ function _initConfigPanelDelegation() {
                 break;
             case 'toggle-ui-setting':
                 if (actionElement.dataset.key) toggleUiSetting(actionElement.dataset.key, actionElement);
+                break;
+            case 'set-tv-card-mode':
+                if (actionElement.dataset.mode) setTvCardMode(actionElement.dataset.mode, actionElement);
                 break;
             case 'preview-fireworks':
                 previewFireworks();

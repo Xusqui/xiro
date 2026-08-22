@@ -20,8 +20,10 @@ const DEFAULT_TEAM_NAMES = [
     'Invencibles', 'Guerreros', 'Fénix', 'Dragones', 'Leones'
 ];
 
+const TV_CARD_MODES = new Set(['never', 'always', 'old_devices_only']);
+
 const DEFAULTS = {
-    showTvCard: true,           // Muestra la tarjeta "Versión TV" en el menú principal
+    tvCardMode: 'always',       // Visibilidad de la tarjeta "Versión TV": never | always | old_devices_only
     showStandaloneCard: true,   // Muestra la tarjeta "Modo Standalone" en el menú principal
     teamNames: [...DEFAULT_TEAM_NAMES], // Nombres personalizados de equipos (1-9)
 
@@ -41,7 +43,6 @@ const DEFAULTS = {
 let _store = { ...DEFAULTS };
 
 const BOOLEAN_SETTINGS = new Set([
-    'showTvCard',
     'fireworksFinaleMode',
     'fireworksSound'
 ]);
@@ -104,10 +105,20 @@ function parseRangedNumber(key, value) {
     return numericValue;
 }
 
+// Instalaciones previas a la introducción de tvCardMode guardaban un booleano
+// showTvCard; lo traducimos una vez a los nuevos tres modos y lo descartamos.
+function _migrateLegacyTvCardMode(store) {
+    if (store.tvCardMode === undefined && typeof store.showTvCard === 'boolean') {
+        store.tvCardMode = store.showTvCard ? 'always' : 'never';
+    }
+    delete store.showTvCard;
+    return store;
+}
+
 function _load() {
     try {
         if (fs.existsSync(SETTINGS_FILE)) {
-            const raw = JSON.parse(fs.readFileSync(SETTINGS_FILE, 'utf8'));
+            const raw = _migrateLegacyTvCardMode(JSON.parse(fs.readFileSync(SETTINGS_FILE, 'utf8')));
             _store = { ...DEFAULTS, ...raw };
         }
     } catch {
@@ -145,6 +156,14 @@ function _validateTeamNames(names) {
 
 function set(key, value) {
     if (!(key in DEFAULTS)) throw new Error(`Ajuste de UI desconocido: ${key}`);
+
+    if (key === 'tvCardMode') {
+        if (!TV_CARD_MODES.has(value)) {
+            throw new Error('tvCardMode debe ser: never, always u old_devices_only');
+        }
+        _store[key] = value;
+        return;
+    }
 
     if (BOOLEAN_SETTINGS.has(key)) {
         _store[key] = Boolean(value);

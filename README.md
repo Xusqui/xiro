@@ -557,7 +557,7 @@ Designed for large screens. Lighter load than the presenter view. Global namespa
 - **End Game Button**: confirmation modal → emit `end-game` → podium
 - **Abort Game Button**: confirmation modal → emit `abandon-game` → redirect to `/tv.html`
 - Both buttons visible only when there is an active session; implemented in vanilla JS (compatible with Chrome 38 / WebOS 3.5)
-- **TV Access Control**: when admin UI setting `showTvCard` is `false`, the TV card is hidden on `/index.html` and direct access to `/tv.html` returns HTTP `403` (error page)
+- **TV Access Control**: admin UI setting `tvCardMode` controls the TV card on `/index.html` — `never` (hidden, direct `/tv.html` access returns HTTP `403`), `always` (shown), or `old_devices_only` (shown only when the browser lacks CSS Grid/`backdrop-filter` support, e.g. Chrome 38 / WebOS 3.5)
 
 ### `standalone.html` — Solo Mode (no presenter)
 <img src="https://xiro.pro/images/chamaleon/gamer.svg" alt="solo mascot" width="90" align="right">

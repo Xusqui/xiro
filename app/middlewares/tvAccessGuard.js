@@ -1,5 +1,7 @@
 /**
- * @fileoverview Bloquea el acceso directo a /tv.html cuando showTvCard está desactivado.
+ * @fileoverview Bloquea el acceso directo a /tv.html cuando tvCardMode está en "never".
+ * Los modos "always" y "old_devices_only" solo afectan a la visibilidad de la
+ * tarjeta en el menú principal, no al acceso directo por URL.
  */
 
 const path = require('path');
@@ -9,7 +11,7 @@ const FORBIDDEN_HTML = path.resolve(__dirname, '../public/error/403.html');
 
 function isTvAccessDisabled() {
     try {
-        return uiSettings.get('showTvCard') === false;
+        return uiSettings.get('tvCardMode') === 'never';
     } catch {
         // En caso de error al leer configuración, bloqueamos por seguridad.
         return true;

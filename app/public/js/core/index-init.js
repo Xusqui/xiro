@@ -1,9 +1,24 @@
 (function () {
     'use strict';
 
+    // Chrome 38 / WebOS 3.5 (TVs antiguas objetivo, ver README) no soportan CSS
+    // Grid ni backdrop-filter; los usamos como proxy de "dispositivo antiguo".
+    function _isOldDevice() {
+        if (!window.CSS || typeof CSS.supports !== 'function') return true;
+        var hasGrid = CSS.supports('display', 'grid');
+        var hasBackdropFilter = CSS.supports('backdrop-filter', 'blur(1px)') ||
+            CSS.supports('-webkit-backdrop-filter', 'blur(1px)');
+        return !hasGrid || !hasBackdropFilter;
+    }
+
+    function _shouldShowTvCard(mode) {
+        if (mode === 'old_devices_only') return _isOldDevice();
+        return mode !== 'never';
+    }
+
     function _applyUiSettings(s) {
         var cardTv = document.getElementById('card-tv');
-        if (cardTv) cardTv.style.display = (s.showTvCard === false) ? 'none' : '';
+        if (cardTv) cardTv.style.display = _shouldShowTvCard(s.tvCardMode) ? '' : 'none';
 
         var cardStandalone = document.getElementById('card-standalone');
         if (cardStandalone) cardStandalone.style.display = (s.showStandaloneCard === false) ? 'none' : '';
