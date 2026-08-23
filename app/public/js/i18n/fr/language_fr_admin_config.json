@@ -179,6 +179,8 @@
     "admin.groq.deleting": "Suppression…",
     "admin.groq.error_delete": "Erreur de suppression.",
     "admin.config.section": "Outils",
+    "admin.config.nav_server.title": "Serveur",
+    "admin.config.nav_server.sub": "Configuration du serveur",
     "admin.config.history.title": "Historique des matchs",
     "admin.config.history.sub": "Télécharger les résultats",
     "admin.config.remote.title": "Jeux en cours",

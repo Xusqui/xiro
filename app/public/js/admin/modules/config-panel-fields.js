@@ -51,7 +51,7 @@ function _renderConfigField(key, entry) {
         const inputType = (type === 'int' || type === 'float') ? 'number' : 'text';
         const minAttr = displayMin !== undefined ? ` min="${displayMin}"` : '';
         const maxAttr = displayMax !== undefined ? ` max="${displayMax}"` : '';
-        const widthCls = type === 'string' ? 'w-full' : 'w-36';
+        const widthCls = (type === 'string' || type === 'origin_list') ? 'w-full' : 'w-36';
         const disabledAttr = meta.disabled ? ' disabled' : '';
         const disabledCls = meta.disabled ? ' bg-slate-100 text-slate-400 cursor-not-allowed' : '';
         input = `<input type="${inputType}" id="cfg-${key}" data-key="${key}" data-mul="${mul}"

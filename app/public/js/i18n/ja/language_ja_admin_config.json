@@ -179,6 +179,8 @@
     "admin.groq.deleting": "削除中…",
     "admin.groq.error_delete": "削除中にエラーが発生しました。",
     "admin.config.section": "ツール",
+    "admin.config.nav_server.title": "サーバー",
+    "admin.config.nav_server.sub": "サーバー設定",
     "admin.config.history.title": "試合履歴",
     "admin.config.history.sub": "ダウンロード結果",
     "admin.config.remote.title": "進行中のゲーム",

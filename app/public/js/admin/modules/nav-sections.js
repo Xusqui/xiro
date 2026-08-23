@@ -82,6 +82,7 @@ function switchSectionTab(tab, guard = true) {
             if (utilsSection) utilsSection.style.display = '';
             if (configSidebar) configSidebar.style.display = 'flex';
             renderConfigPanel();
+            if (typeof highlightSidebarNav === 'function') highlightSidebarNav('servidor');
         }
     }
 

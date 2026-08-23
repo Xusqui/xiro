@@ -179,6 +179,8 @@
     "admin.groq.deleting": "Deleting…",
     "admin.groq.error_delete": "Error deleting.",
     "admin.config.section": "Eines",
+    "admin.config.nav_server.title": "Servidor",
+    "admin.config.nav_server.sub": "Configuració del servidor",
     "admin.config.history.title": "Historial partides",
     "admin.config.history.sub": "Descarregar resultats",
     "admin.config.remote.title": "Jocs en Curs",

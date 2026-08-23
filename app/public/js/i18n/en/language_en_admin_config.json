@@ -5,6 +5,8 @@
     "admin.config.unit.correct": "correct",
     "admin.config.unit.days": "days",
     "admin.config.section": "Tools",
+    "admin.config.nav_server.title": "Server",
+    "admin.config.nav_server.sub": "Server configuration",
     "admin.config.history.title": "Match history",
     "admin.config.history.sub": "Download results",
     "admin.config.remote.title": "Active games",

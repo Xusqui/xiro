@@ -6,36 +6,14 @@ let activeUserPanelView = 'account';
 let currentUserProfile = null;
 const adminUsersById = new Map();
 
-function _setUserSidebarButtonState(button, isActive, activeClass, inactiveClass) {
-    if (!button) return;
-    button.classList.remove(...activeClass, ...inactiveClass);
-    button.classList.add(...(isActive ? activeClass : inactiveClass));
-}
-
 function _updateUserSidebarButtons() {
-    const accountButton = document.getElementById('nav-user-account');
     const manageUsersButton = document.getElementById('nav-user-manage-users');
-
-    _setUserSidebarButtonState(
-        accountButton,
-        activeUserPanelView === 'account',
-        ['border-slate-500', 'bg-slate-700'],
-        ['border-slate-600', 'bg-slate-800']
-    );
-
     if (manageUsersButton) {
-        if (!isAdmin()) {
-            manageUsersButton.style.display = 'none';
-            return;
-        }
+        manageUsersButton.style.display = isAdmin() ? '' : 'none';
+    }
 
-        manageUsersButton.style.display = '';
-        _setUserSidebarButtonState(
-            manageUsersButton,
-            activeUserPanelView === 'manage-users',
-            ['border-indigo-400', 'bg-slate-700'],
-            ['border-indigo-500/30', 'bg-slate-800']
-        );
+    if (typeof highlightSidebarNav === 'function') {
+        highlightSidebarNav(`user-${activeUserPanelView}`);
     }
 }
 

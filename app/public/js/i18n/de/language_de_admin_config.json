@@ -179,6 +179,8 @@
     "admin.groq.deleting": "Löschen…",
     "admin.groq.error_delete": "Fehler beim Löschen.",
     "admin.config.section": "Werkzeuge",
+    "admin.config.nav_server.title": "Server",
+    "admin.config.nav_server.sub": "Serverkonfiguration",
     "admin.config.history.title": "Spielverlauf",
     "admin.config.history.sub": "Ergebnisse herunterladen",
     "admin.config.remote.title": "Spiele in Bearbeitung",

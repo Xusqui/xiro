@@ -179,6 +179,8 @@
     "admin.groq.deleting": "正在删除...",
     "admin.groq.error_delete": "删除时出错。",
     "admin.config.section": "工具",
+    "admin.config.nav_server.title": "服务器",
+    "admin.config.nav_server.sub": "服务器配置",
     "admin.config.history.title": "比赛历史",
     "admin.config.history.sub": "下载结果",
     "admin.config.remote.title": "游戏进行中",

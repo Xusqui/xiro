@@ -279,3 +279,58 @@
             transform: scaleX(-1);
             animation: mascoFloat 7s ease-in-out infinite;
         }
+
+/* ===== Sidebar nav — Preguntas / User / Config ===== */
+/* Interacción reforzada sobre la base Tailwind ya existente en admin.html:
+   ligero desplazamiento + sombra al hover, y el icon-wrapper gana el mismo
+   "tilt" sutil que las role cards del resto del producto (DESIGN.md), pero
+   atenuado para un panel de operación (Modo Operate: discreto, no vistoso). */
+#sidebar-nav-section .nav-button,
+#user-sidebar-section button,
+#config-sidebar-section button,
+#config-sidebar-section a {
+    transition: background-color 0.2s ease, transform 0.2s ease,
+        box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+#sidebar-nav-section .nav-button:hover,
+#user-sidebar-section button:hover,
+#config-sidebar-section button:hover,
+#config-sidebar-section a:hover {
+    transform: translateX(3px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
+}
+
+#sidebar-nav-section .nav-button:active,
+#user-sidebar-section button:active,
+#config-sidebar-section button:active,
+#config-sidebar-section a:active {
+    transform: translateX(1px) scale(0.99);
+}
+
+#btn-panic:active {
+    transform: none;
+}
+
+#sidebar-nav-section .nav-button>div:first-child,
+#user-sidebar-section button>div:first-child,
+#config-sidebar-section button>div:first-child,
+#config-sidebar-section a>div:first-child {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.25s ease;
+}
+
+#sidebar-nav-section .nav-button:hover>div:first-child,
+#user-sidebar-section button:hover>div:first-child,
+#config-sidebar-section button:hover>div:first-child,
+#config-sidebar-section a:hover>div:first-child {
+    transform: scale(1.08) rotate(-3deg);
+}
+
+#sidebar-nav-section .nav-button:focus-visible,
+#user-sidebar-section button:focus-visible,
+#config-sidebar-section button:focus-visible,
+#config-sidebar-section a:focus-visible {
+    outline: 2px solid var(--admin-coral, #e65453);
+    outline-offset: 2px;
+}

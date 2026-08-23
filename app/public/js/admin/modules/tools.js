@@ -142,6 +142,7 @@ async function mostrarCargarPreguntas() {
 
 async function mostrarCargarPreguntasInner() {
     activeView = null; // Salir de la vista de grid
+    if (typeof highlightSidebarNav === 'function') highlightSidebarNav('cargar-preguntas');
     const editorArea = document.getElementById('editorArea');
     editorArea.innerHTML = _tHtml(`
                 <div class="h-full overflow-y-auto p-12">

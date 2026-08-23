@@ -5,6 +5,8 @@
     "admin.config.unit.correct": "aciertos",
     "admin.config.unit.days": "días",
     "admin.config.section": "Herramientas",
+    "admin.config.nav_server.title": "Servidor",
+    "admin.config.nav_server.sub": "Configuración del servidor",
     "admin.config.history.title": "Historial partidas",
     "admin.config.history.sub": "Descargar resultados",
     "admin.config.remote.title": "Juegos en Curso",

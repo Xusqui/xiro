@@ -6,8 +6,8 @@
     <meta name="xiro-i18n-sections" content="common,admin">
     <title>XIRO! - Administrador</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/css/common.css?v=20260823152650">
-    <link rel="stylesheet" href="/css/output-admin.css?v=20260823152650">
+    <link rel="stylesheet" href="/css/common.css?v=20260823152703">
+    <link rel="stylesheet" href="/css/output-admin.css?v=20260823152699">
     <link rel="stylesheet" href="/css/drag-drop.css?v=20260823152650">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
@@ -18,8 +18,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="/css/tokens.css?v=20260823152650">
-    <link rel="stylesheet" href="/css/admin.css?v=20260823152650">
-    <script defer src="/js/i18n/i18n-core.js?v=20260823152650"></script>
+    <link rel="stylesheet" href="/css/admin.css?v=20260823152701">
+    <script defer src="/js/i18n/i18n-core.js?v=20260823152704"></script>
     <script defer src="/js/i18n/i18n-dom.js?v=20260823152650"></script>
     <script defer src="/js/i18n/i18n-ui.js?v=20260823152650"></script>
 </head>
@@ -65,9 +65,8 @@
                         <i class="fas fa-arrow-right" style="margin-right:8px;"></i><span
                             data-i18n="admin.login.submit">...</span>
                     </button>
-                    <button type="button" id="admin-forgot-password-btn"
-                        class="text-center text-xs underline" style="color:rgba(203,213,225,0.8);"
-                        data-i18n="admin.login.forgot_password">...</button>
+                    <button type="button" id="admin-forgot-password-btn" class="text-center text-xs underline"
+                        style="color:rgba(203,213,225,0.8);" data-i18n="admin.login.forgot_password">...</button>
                     <button type="button" id="admin-register-btn" class="xiro-login-btn-secondary"
                         data-i18n="admin.login.register">...</button>
                     <div id="login-helper" class="text-center text-xs" style="color:rgba(203,213,225,0.8);"></div>
@@ -77,9 +76,9 @@
                 <!-- Forgot Password Form -->
                 <form id="admin-forgot-password-form" class="w-full flex flex-col gap-3 hidden">
                     <div class="xiro-input-wrap">
-                        <input type="email" id="forgot-email" class="xiro-login-input"
-                            placeholder="Correo electrónico" data-i18n-placeholder="admin.register.email"
-                            autocomplete="email" spellcheck="false" autocapitalize="off" required>
+                        <input type="email" id="forgot-email" class="xiro-login-input" placeholder="Correo electrónico"
+                            data-i18n-placeholder="admin.register.email" autocomplete="email" spellcheck="false"
+                            autocapitalize="off" required>
                         <i class="fas fa-envelope"></i>
                     </div>
                     <button type="submit" id="forgot-submit-btn" class="xiro-login-btn"
@@ -101,8 +100,8 @@
                     </div>
                     <div class="xiro-input-wrap">
                         <input type="password" id="reset-confirm-password" class="xiro-login-input"
-                            placeholder="Confirmar nueva contraseña" data-i18n-placeholder="admin.reset.confirm_password"
-                            autocomplete="new-password" required>
+                            placeholder="Confirmar nueva contraseña"
+                            data-i18n-placeholder="admin.reset.confirm_password" autocomplete="new-password" required>
                         <i class="fas fa-check"></i>
                     </div>
                     <button type="submit" id="reset-submit-btn" class="xiro-login-btn"
@@ -165,8 +164,7 @@
                 <div id="section-tabs" class="px-4 pt-3 pb-1 flex gap-2 border-b border-slate-700">
                     <button id="section-tab-questions" data-admin-action="switch-section-tab" data-section="questions"
                         class="py-2 rounded-lg text-sm font-bold transition bg-slate-700 text-white px-3">
-                        <i class="fas fa-question-circle mr-1"></i><span
-                            data-i18n="admin.nav.tab.questions">...</span>
+                        <i class="fas fa-question-circle mr-1"></i><span data-i18n="admin.nav.tab.questions">...</span>
                     </button>
                     <button id="section-tab-user" data-admin-action="switch-section-tab" data-section="user"
                         class="py-2 rounded-lg text-sm font-bold transition text-slate-400 hover:text-white px-3">
@@ -185,49 +183,49 @@
                         data-i18n="admin.nav.section">...</h3>
 
                     <button data-admin-action="show-view" data-view="bancos" id="nav-bancos"
-                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-transparent hover:border-[#e65453] hover:bg-slate-800">
-                        <div class="w-10 h-10 bg-[#e65453] rounded-lg flex items-center justify-center">
-                            <i class="fas fa-database text-lg"></i>
+                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800">
+                        <div class="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-database text-lg text-purple-300"></i>
                         </div>
                         <span class="text-sm" data-i18n="admin.nav.banks">...</span>
                     </button>
 
                     <button data-admin-action="show-view" data-view="juegos" id="nav-juegos"
-                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-transparent hover:border-[#e65453] hover:bg-slate-800">
-                        <div class="w-10 h-10 bg-[#e65453] rounded-lg flex items-center justify-center">
-                            <i class="fas fa-gamepad text-lg"></i>
+                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800">
+                        <div class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-gamepad text-lg text-green-300"></i>
                         </div>
                         <span class="text-sm" data-i18n="admin.nav.games">...</span>
                     </button>
 
                     <button data-admin-action="show-view" data-view="personalizados" id="nav-personalizados"
-                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-transparent hover:border-[#e65453] hover:bg-slate-800">
-                        <div class="w-10 h-10 bg-[#e65453] rounded-lg flex items-center justify-center">
-                            <i class="fas fa-star text-lg"></i>
+                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800">
+                        <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-star text-lg text-blue-300"></i>
                         </div>
                         <span class="text-sm" data-i18n="admin.nav.custom">...</span>
                     </button>
 
                     <button data-admin-action="show-view" data-view="trivial" id="nav-trivial"
-                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-transparent hover:border-[#e65453] hover:bg-slate-800">
-                        <div class="w-10 h-10 bg-[#e65453] rounded-lg flex items-center justify-center">
-                            <i class="fas fa-dice text-lg"></i>
+                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800">
+                        <div class="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-dice text-lg text-orange-300"></i>
                         </div>
                         <span class="text-sm" data-i18n="admin.nav.trivial">...</span>
                     </button>
 
                     <button data-admin-action="show-upload-view" id="nav-cargar-preguntas"
-                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-transparent hover:border-[#e65453] hover:bg-slate-800">
-                        <div class="w-10 h-10 bg-[#e65453] rounded-lg flex items-center justify-center">
-                            <i class="fas fa-upload text-lg"></i>
+                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800">
+                        <div class="w-10 h-10 bg-violet-500/20 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-upload text-lg text-violet-300"></i>
                         </div>
                         <span class="text-sm" data-i18n="admin.nav.upload">...</span>
                     </button>
 
                     <button data-admin-action="show-view" data-view="ai-generator" id="nav-ai-generator"
-                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-transparent hover:border-[#e65453] hover:bg-slate-800">
-                        <div class="w-10 h-10 bg-[#e65453] rounded-lg flex items-center justify-center">
-                            <i class="fas fa-robot text-lg"></i>
+                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800">
+                        <div class="w-10 h-10 bg-indigo-500/20 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-robot text-lg text-indigo-300"></i>
                         </div>
                         <span class="text-sm" data-i18n="admin.nav.ai">...</span>
                     </button>
@@ -241,9 +239,9 @@
                         data-i18n="admin.user.section">...</h3>
 
                     <button id="nav-user-account" data-admin-action="switch-user-panel" data-panel="account"
-                        class="w-full text-left p-3 rounded-xl border-2 border-slate-600 bg-slate-800 hover:bg-slate-700 transition flex items-center gap-3">
-                        <div class="w-8 h-8 bg-slate-600/40 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-user-circle text-slate-200 text-sm"></i>
+                        class="nav-button w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800 transition-all flex items-center gap-3">
+                        <div class="w-8 h-8 bg-cyan-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-user-circle text-cyan-300 text-sm"></i>
                         </div>
                         <div>
                             <p class="text-sm font-bold text-white" data-i18n="admin.user.account.title">...</p>
@@ -253,9 +251,9 @@
 
                     <button id="nav-user-manage-users" data-admin-action="switch-user-panel" data-panel="manage-users"
                         style="display:none"
-                        class="w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] bg-slate-800 hover:bg-slate-700 transition flex items-center gap-3">
-                        <div class="w-8 h-8 bg-[#e65453]/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-users-cog text-red-300 text-sm"></i>
+                        class="nav-button w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800 transition-all flex items-center gap-3">
+                        <div class="w-8 h-8 bg-indigo-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-users-cog text-indigo-300 text-sm"></i>
                         </div>
                         <div>
                             <p class="text-sm font-bold text-white" data-i18n="admin.user.manage.title">...</p>
@@ -270,11 +268,21 @@
                     <h3 class="text-xs font-bold uppercase text-slate-500 tracking-widest px-2 mb-1"
                         data-i18n="admin.config.section">...</h3>
 
+                    <button id="nav-servidor" data-admin-action="show-config-panel"
+                        class="nav-button w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800 transition-all flex items-center gap-3">
+                        <div class="w-8 h-8 bg-yellow-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-server text-yellow-300 text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-white" data-i18n="admin.config.nav_server.title">...</p>
+                            <p class="text-xs text-slate-400" data-i18n="admin.config.nav_server.sub">...</p>
+                        </div>
+                    </button>
+
                     <button id="nav-historial" data-admin-action="show-view" data-view="historial"
-                        class="w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] bg-slate-800 hover:bg-slate-700 transition flex items-center gap-3">
-                        <div
-                            class="w-8 h-8 bg-[#e65453]/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-history text-red-300 text-sm"></i>
+                        class="nav-button w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800 transition-all flex items-center gap-3">
+                        <div class="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-history text-emerald-300 text-sm"></i>
                         </div>
                         <div>
                             <p class="text-sm font-bold text-white" data-i18n="admin.config.history.title">...</p>
@@ -283,9 +291,9 @@
                     </button>
 
                     <button id="nav-remote" data-admin-action="show-view" data-view="remote"
-                        class="nav-button w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] bg-slate-800 hover:bg-slate-700 transition flex items-center gap-3">
-                        <div class="w-8 h-8 bg-[#e65453]/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-satellite-dish text-red-300 text-sm"></i>
+                        class="nav-button w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800 transition-all flex items-center gap-3">
+                        <div class="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-satellite-dish text-green-300 text-sm"></i>
                         </div>
                         <div>
                             <p class="text-sm font-bold text-white" data-i18n="admin.config.remote.title">...</p>
@@ -294,9 +302,9 @@
                     </button>
 
                     <a id="nav-bot-runner" href="/autorun/index.html"
-                        class="nav-button w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] bg-slate-800 hover:bg-slate-700 transition flex items-center gap-3">
-                        <div class="w-8 h-8 bg-[#e65453]/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-robot text-red-300 text-sm"></i>
+                        class="nav-button w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800 transition-all flex items-center gap-3">
+                        <div class="w-8 h-8 bg-teal-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-robot text-teal-300 text-sm"></i>
                         </div>
                         <div>
                             <p class="text-sm font-bold text-white" data-i18n="admin.config.botrunner.title">...</p>
@@ -305,9 +313,9 @@
                     </a>
 
                     <button id="btn-clear-uploads" data-admin-action="clear-uploads"
-                        class="w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] bg-slate-800 hover:bg-slate-700 transition flex items-center gap-3">
-                        <div class="w-8 h-8 bg-[#e65453]/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-folder-open text-red-300 text-sm"></i>
+                        class="nav-button w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800 transition-all flex items-center gap-3">
+                        <div class="w-8 h-8 bg-amber-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-folder-open text-amber-300 text-sm"></i>
                         </div>
                         <div>
                             <p class="text-sm font-bold text-white" data-i18n="admin.config.uploads.title">...</p>
@@ -316,9 +324,9 @@
                     </button>
 
                     <button id="btn-clear-cache" data-admin-action="clear-cache"
-                        class="w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] bg-slate-800 hover:bg-slate-700 transition flex items-center gap-3">
-                        <div class="w-8 h-8 bg-[#e65453]/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-memory text-red-300 text-sm"></i>
+                        class="nav-button w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800 transition-all flex items-center gap-3">
+                        <div class="w-8 h-8 bg-sky-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-memory text-sky-300 text-sm"></i>
                         </div>
                         <div>
                             <p class="text-sm font-bold text-white" data-i18n="admin.config.cache.title">...</p>
@@ -327,7 +335,7 @@
                     </button>
 
                     <button id="btn-delete-logs" data-admin-action="delete-logs"
-                        class="w-full text-left p-3 rounded-xl border-2 border-rose-500/30 hover:border-rose-400 bg-slate-800 hover:bg-slate-700 transition flex items-center gap-3">
+                        class="nav-button w-full text-left p-3 rounded-xl border-2 border-rose-500/30 hover:border-rose-400 hover:bg-slate-800 transition-all flex items-center gap-3">
                         <div class="w-8 h-8 bg-rose-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
                             <i class="fas fa-trash-alt text-rose-400 text-sm"></i>
                         </div>
@@ -338,7 +346,7 @@
                     </button>
 
                     <button id="btn-panic" data-admin-action="panic-restart"
-                        class="w-full text-left p-3 rounded-xl bg-red-600 hover:bg-red-700 active:scale-95 text-white transition flex items-stretch gap-3 mt-1">
+                        class="nav-button w-full text-left p-3 rounded-xl bg-red-600 hover:bg-red-700 active:scale-95 text-white transition-all flex items-stretch gap-3 mt-1">
                         <div class="w-8 bg-red-500/40 rounded-lg flex items-center justify-center flex-shrink-0">
                             <i class="fas fa-exclamation-triangle text-white text-sm"></i>
                         </div>
@@ -396,7 +404,7 @@
     <script defer src="/js/admin/modules/question-format.js?v=20260823152650"></script>
     <script defer src="/js/admin/modules/matching-editor.js?v=20260823152650"></script>
     <script defer src="/js/admin/modules/multimedia.js?v=20260823152650"></script>
-    <script defer src="/js/admin/modules/tools.js?v=20260823152650"></script>
+    <script defer src="/js/admin/modules/tools.js?v=20260823152701"></script>
     <script defer src="/js/admin/modules/unsaved-changes.js?v=20260823152650"></script>
 
     <!-- FEATURE MODULES -->
@@ -418,11 +426,11 @@
     <script defer src="/js/admin/modules/slides-text-image.js?v=20260823152650"></script>
 
     <!-- SECTION NAVIGATION + CONFIG PANEL -->
-    <script defer src="/js/admin/modules/user-account.js?v=20260823152650"></script>
+    <script defer src="/js/admin/modules/user-account.js?v=20260823152700"></script>
     <script defer src="/js/admin/modules/password-reset.js?v=20260823152650"></script>
-    <script defer src="/js/admin/modules/nav-sections.js?v=20260823152650"></script>
+    <script defer src="/js/admin/modules/nav-sections.js?v=20260823152703"></script>
     <script defer src="/js/admin/modules/config-panel-meta.js?v=20260823152650"></script>
-    <script defer src="/js/admin/modules/config-panel-fields.js?v=20260823152650"></script>
+    <script defer src="/js/admin/modules/config-panel-fields.js?v=20260823152705"></script>
     <script defer src="/js/admin/modules/config-team-names.js?v=20260823152650"></script>
     <script defer src="/js/admin/modules/config-panel.js?v=20260823152650"></script>
     <script defer src="/js/admin/modules/site-panel-meta.js?v=20260823152650"></script>
@@ -434,7 +442,7 @@
     <script defer src="/js/admin/modules/config-ui.js?v=20260823152650"></script>
 
     <!-- MAIN INITIALIZER -->
-    <script defer src="/js/admin/admin-main.js?v=20260823152650"></script>
+    <script defer src="/js/admin/admin-main.js?v=20260823152703"></script>
 
     <script defer src="/js/core/site-badge.js?v=20260823152650"></script>
 </body>

@@ -32,60 +32,75 @@ function showAdmin() {
 
 // ===== SISTEMA DE NAVEGACIÓN Y VISTAS =====
 
+// Tinte de fondo por sección para el botón activo del sidebar. El tinte usa
+// style.backgroundColor (no clases Tailwind con opacidad arbitraria, que
+// requerirían una recompilación para existir en el CSS servido). Las vistas
+// sin entrada aquí (p.ej. cargar-preguntas) caen al bg-slate-800 plano.
+const SIDEBAR_ACTIVE_BORDER_CLASSES = [
+    'border-purple-500',
+    'border-green-500',
+    'border-blue-500',
+    'border-orange-500',
+    'border-indigo-500',
+    'border-emerald-500',
+    'border-violet-500',
+    'border-cyan-500',
+    'border-yellow-500'
+];
+const SIDEBAR_SECTION_TINT = {
+    bancos: 'rgba(168, 85, 247, 0.18)',
+    juegos: 'rgba(34, 197, 94, 0.18)',
+    personalizados: 'rgba(59, 130, 246, 0.18)',
+    trivial: 'rgba(249, 115, 22, 0.18)',
+    'ai-generator': 'rgba(99, 102, 241, 0.18)',
+    remote: 'rgba(34, 197, 94, 0.18)',
+    historial: 'rgba(16, 185, 129, 0.18)',
+    'cargar-preguntas': 'rgba(139, 92, 246, 0.18)',
+    'user-account': 'rgba(6, 182, 212, 0.18)',
+    'user-manage-users': 'rgba(99, 102, 241, 0.18)',
+    servidor: 'rgba(234, 179, 8, 0.18)'
+};
+const SIDEBAR_SECTION_BORDER = {
+    bancos: 'border-purple-500',
+    juegos: 'border-green-500',
+    personalizados: 'border-blue-500',
+    trivial: 'border-orange-500',
+    'ai-generator': 'border-indigo-500',
+    remote: 'border-green-500',
+    historial: 'border-emerald-500',
+    'cargar-preguntas': 'border-violet-500',
+    'user-account': 'border-cyan-500',
+    'user-manage-users': 'border-indigo-500',
+    servidor: 'border-yellow-500'
+};
+
+// Marca `nav-${vista}` como botón activo del sidebar y limpia el resaltado
+// del resto. Usada tanto por las vistas de grid (mostrarVista) como por
+// pantallas ajenas a esa lista, como "Cargar Preguntas" y los paneles de
+// la pestaña User.
+function highlightSidebarNav(vista) {
+    document.querySelectorAll(
+        '#sidebar-nav-section .nav-button, #user-sidebar-section .nav-button, #config-sidebar-section .nav-button'
+    ).forEach(btn => {
+        btn.classList.remove('bg-slate-800', ...SIDEBAR_ACTIVE_BORDER_CLASSES);
+        btn.style.backgroundColor = '';
+    });
+
+    const btnActivo = document.getElementById(`nav-${vista}`);
+    if (btnActivo) {
+        if (SIDEBAR_SECTION_TINT[vista]) {
+            btnActivo.style.backgroundColor = SIDEBAR_SECTION_TINT[vista];
+            btnActivo.classList.add(SIDEBAR_SECTION_BORDER[vista]);
+        } else {
+            btnActivo.classList.add('bg-slate-800');
+        }
+    }
+}
+
 function mostrarVista(vista) {
     navigateWithUnsavedChangesGuard(() => {
         activeView = vista;
-
-        // Actualizar estado visual de botones de navegación.
-        // El fondo de la sección activa se tiñe con el color de esa sección
-        // en vez de un bg-slate-800 plano igual para las seis. El tinte usa
-        // style.backgroundColor (no clases Tailwind con opacidad arbitraria,
-        // que requerirían una recompilación para existir en el CSS servido).
-        const activeBorderClasses = [
-            'border-purple-500',
-            'border-green-500',
-            'border-blue-500',
-            'border-orange-500',
-            'border-indigo-500',
-            'border-emerald-500'
-        ];
-        const sectionTint = {
-            bancos: 'rgba(168, 85, 247, 0.18)',
-            juegos: 'rgba(34, 197, 94, 0.18)',
-            personalizados: 'rgba(59, 130, 246, 0.18)',
-            trivial: 'rgba(249, 115, 22, 0.18)',
-            'ai-generator': 'rgba(99, 102, 241, 0.18)',
-            remote: 'rgba(34, 197, 94, 0.18)',
-            historial: 'rgba(16, 185, 129, 0.18)'
-        };
-        const sectionBorder = {
-            bancos: 'border-purple-500',
-            juegos: 'border-green-500',
-            personalizados: 'border-blue-500',
-            trivial: 'border-orange-500',
-            'ai-generator': 'border-indigo-500',
-            remote: 'border-green-500',
-            historial: 'border-emerald-500'
-        };
-
-        document.querySelectorAll('#sidebar-nav-section .nav-button').forEach(btn => {
-            btn.classList.remove('bg-slate-800', ...activeBorderClasses);
-            btn.style.backgroundColor = '';
-        });
-
-        document.querySelectorAll('#config-sidebar-section [data-admin-action="show-view"]').forEach(btn => {
-            btn.classList.remove(...activeBorderClasses);
-        });
-
-        const btnActivo = document.getElementById(`nav-${vista}`);
-        if (btnActivo) {
-            if (sectionTint[vista]) {
-                btnActivo.style.backgroundColor = sectionTint[vista];
-                btnActivo.classList.add(sectionBorder[vista]);
-            } else {
-                btnActivo.classList.add('bg-slate-800');
-            }
-        }
+        highlightSidebarNav(vista);
 
         // Renderizar la vista correspondiente
         switch (vista) {
@@ -512,6 +527,10 @@ function setupAdminActionDelegation() {
                 break;
             case 'show-view':
                 if (view && typeof mostrarVista === 'function') mostrarVista(view);
+                break;
+            case 'show-config-panel':
+                if (typeof renderConfigPanel === 'function') renderConfigPanel();
+                if (typeof highlightSidebarNav === 'function') highlightSidebarNav('servidor');
                 break;
             case 'show-upload-view':
                 if (typeof mostrarCargarPreguntas === 'function') mostrarCargarPreguntas();

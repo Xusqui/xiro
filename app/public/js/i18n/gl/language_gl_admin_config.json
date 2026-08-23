@@ -179,6 +179,8 @@
     "admin.groq.deleting": "Eliminando…",
     "admin.groq.error_delete": "Produciuse un erro ao eliminar.",
     "admin.config.section": "Ferramentas",
+    "admin.config.nav_server.title": "Servidor",
+    "admin.config.nav_server.sub": "Configuración do servidor",
     "admin.config.history.title": "Historial de partidos",
     "admin.config.history.sub": "Descargar resultados",
     "admin.config.remote.title": "Xogos en curso",

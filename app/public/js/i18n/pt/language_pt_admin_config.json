@@ -179,6 +179,8 @@
     "admin.groq.deleting": "Excluindo…",
     "admin.groq.error_delete": "Erro ao excluir.",
     "admin.config.section": "Ferramentas",
+    "admin.config.nav_server.title": "Servidor",
+    "admin.config.nav_server.sub": "Configuração do servidor",
     "admin.config.history.title": "Histórico de partidas",
     "admin.config.history.sub": "Baixar resultados",
     "admin.config.remote.title": "Jogos em andamento",

@@ -179,6 +179,8 @@
     "admin.groq.deleting": "Ezabatzen…",
     "admin.groq.error_delete": "Errore bat gertatu da ezabatzean.",
     "admin.config.section": "Tresnak",
+    "admin.config.nav_server.title": "Zerbitzaria",
+    "admin.config.nav_server.sub": "Zerbitzariaren konfigurazioa",
     "admin.config.history.title": "Partiduen historia",
     "admin.config.history.sub": "Deskargatu emaitzak",
     "admin.config.remote.title": "Jokoak Eraikitzen",
