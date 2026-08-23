@@ -30,6 +30,12 @@
     --console-slate: #1e293b;
     --ink-muted: #94a3b8;
 
+    /* ---- Standalone tool shared accent (see DESIGN.md "Documented Exception —
+       Standalone Tool Palettes"). Not a role accent — do not add to the 5-role set.
+       Shared so health.css and xiro-result-viewer.css don't each hardcode the same
+       violet independently and drift apart over time. ---- */
+    --tool-violet: #7c3aed;
+
     /* ---- Derived contrast-safe shades ----
        Not in DESIGN.md's frontmatter; hand-verified this session against WCAG AA
        (4.5:1 for text-bearing surfaces) where the base role color falls short.

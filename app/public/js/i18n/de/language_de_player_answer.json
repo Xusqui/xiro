@@ -18,6 +18,7 @@
     "player.answer.sending_order": "Reihenfolge wird gesendet...",
     "player.answer.sending_answer": "Antwort wird gesendet...",
     "player.answer.validating": "Antwort wird überprüft...",
-    "player.answer.correct_answer_label": "Richtige Antwort:"
+    "player.answer.correct_answer_label": "Richtige Antwort:",
+    "player.answer.waiting_server": "Warte auf Serverbestätigung..."
   }
 }

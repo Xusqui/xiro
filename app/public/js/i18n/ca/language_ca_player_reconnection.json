@@ -3,6 +3,8 @@
     "player.reconnection.waiting_next": "Esperant la propera pregunta...",
     "player.reconnection.failed": "No sha pogut reconectar.",
     "player.reconnection.restoring": "Restaurant el tauler...",
-    "player.reconnection.already_answered": "ja has contestat"
+    "player.reconnection.already_answered": "ja has contestat",
+    "player.reconnection.already_answered_title": "JA HAS RESPOST",
+    "player.reconnection.question_progress": "Pregunta {current} de {total}"
   }
 }

@@ -75,6 +75,8 @@
     "admin.tools.logs_failed_prefix": "Fallaron:",
     "admin.tools.upload_size_unit_kb": "K.B.",
     "admin.user.own_account": "Your account",
-    "admin.user.delete_title": "Delete user"
+    "admin.user.delete_title": "Delete user",
+    "admin.remote.empty_title": "No active games right now",
+    "admin.remote.empty_msg": "Start a game from the presenter to control it here"
   }
 }

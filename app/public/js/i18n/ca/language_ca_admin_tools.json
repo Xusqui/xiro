@@ -75,6 +75,8 @@
     "admin.tools.logs_failed_prefix": "Fallaron:",
     "admin.tools.upload_size_unit_kb": "KB",
     "admin.user.own_account": "El teu compte",
-    "admin.user.delete_title": "Eliminar usuari"
+    "admin.user.delete_title": "Eliminar usuari",
+    "admin.remote.empty_title": "No hi ha partides actives ara mateix",
+    "admin.remote.empty_msg": "Inicia una partida des del presentador per controlar-la aquí"
   }
 }

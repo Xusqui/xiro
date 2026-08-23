@@ -1,3 +1,6 @@
 {
-  "keys": {}
+  "keys": {
+    "presenter.players_panel.player_word_single": "玩家",
+    "presenter.players_panel.player_word_plural": "玩家"
+  }
 }

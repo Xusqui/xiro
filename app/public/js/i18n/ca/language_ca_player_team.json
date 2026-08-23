@@ -1,5 +1,6 @@
 {
   "keys": {
-    "player.team.no_players": "Sense jugadors encara"
+    "player.team.no_players": "Sense jugadors encara",
+    "player.team.waiting_start": "Esperant que el presentador iniciï el joc..."
   }
 }

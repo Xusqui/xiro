@@ -11,8 +11,8 @@
  * "Ya has contestado esta pregunta" overlay.
  */
 
-import { showDiceScreen, showTrivialWaiting, registerTrivialPlayerActions } from './player-trivial-ui.js?v=20260822080605';
-import { getNickname } from './player-state.js?v=20260822080605';
+import { showDiceScreen, showTrivialWaiting, registerTrivialPlayerActions } from './player-trivial-ui.js?v=20260823152650';
+import { getNickname } from './player-state.js?v=20260823152650';
 
 /**
  * Restores the correct UI when the server snapshot signals that
@@ -38,7 +38,7 @@ export function handleTrivialBoardPhaseReconnect(snapshot) {
         // Another player is the actor — show waiting message
         const msg = actorNick
             ? `${actorNick} está eligiendo casilla...`
-            : 'Esperando turno en el tablero...';
+            : _t('player.trivial.waiting_turn', null, 'Esperando turno en el tablero...');
         showTrivialWaiting(msg);
     }
 }

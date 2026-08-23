@@ -75,6 +75,8 @@
     "admin.tools.logs_failed_prefix": "Fallaron:",
     "admin.tools.upload_size_unit_kb": "KB",
     "admin.user.own_account": "A sua conta",
-    "admin.user.delete_title": "Eliminar utilizador"
+    "admin.user.delete_title": "Eliminar utilizador",
+    "admin.remote.empty_title": "Nenhum jogo ativo no momento",
+    "admin.remote.empty_msg": "Inicie um jogo pelo apresentador para controlá-lo aqui"
   }
 }

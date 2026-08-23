@@ -5,7 +5,7 @@
  * @week Semana 19 - Frontend Cleanup
  */
 
-import EventEmitter from './EventEmitter.js?v=20260822080605';
+import EventEmitter from './EventEmitter.js?v=20260823152650';
 
 /**
  * Estados posibles del juego

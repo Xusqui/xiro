@@ -3,6 +3,8 @@
     "player.reconnection.waiting_next": "Aguardando próxima pergunta...",
     "player.reconnection.failed": "Não foi possível reconectar.",
     "player.reconnection.restoring": "Restaurando tabuleiro...",
-    "player.reconnection.already_answered": "você já respondeu"
+    "player.reconnection.already_answered": "você já respondeu",
+    "player.reconnection.already_answered_title": "VOCÊ JÁ RESPONDEU",
+    "player.reconnection.question_progress": "Pergunta {current} de {total}"
   }
 }

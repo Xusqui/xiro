@@ -1,3 +1,6 @@
 {
-  "keys": {}
+  "keys": {
+    "presenter.players_panel.player_word_single": "Spieler",
+    "presenter.players_panel.player_word_plural": "Spieler"
+  }
 }

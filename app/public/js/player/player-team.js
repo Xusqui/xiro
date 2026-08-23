@@ -3,11 +3,11 @@
  * Selección de equipos y configuración de colores
  */
 
-import { socket } from './player-socket-config.js?v=20260822080605';
+import { socket } from './player-socket-config.js?v=20260823152650';
 import {
     getPin, getSessionId, getNickname,
     getTeamMode, setSelectedTeam
-} from './player-state.js?v=20260822080605';
+} from './player-state.js?v=20260823152650';
 
 // ===== COLORES DE EQUIPOS =====
 
@@ -92,7 +92,7 @@ export function seleccionarEquipo(teamIndex) {
                 <p class="team-info-label">Ahora eres parte de</p>
                 <h3 class="team-info-name">${team.name.toUpperCase()}</h3>
             </div>
-            <p class="waiting-text">Esperando que el presentador inicie el juego...</p>
+            <p class="waiting-text">${_t('player.team.waiting_start', null, 'Esperando a que el presentador inicie el juego...')}</p>
             <button data-player-action="salir-lobby" class="btn-danger">
                 🚪 SALIR DEL JUEGO
             </button>

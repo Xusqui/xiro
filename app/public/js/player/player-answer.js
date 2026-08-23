@@ -3,9 +3,9 @@
  * Envío, reintentos y resultados de respuestas
  */
 
-import { socket } from './player-socket-config.js?v=20260822080605';
-import './player-answer-visual-logic.js?v=20260822080605';
-import { applyStreakToResult, setBodyHTML } from './player-streak-ui.js?v=20260822080605';
+import { socket } from './player-socket-config.js?v=20260823152650';
+import './player-answer-visual-logic.js?v=20260823152650';
+import { applyStreakToResult, setBodyHTML } from './player-streak-ui.js?v=20260823152650';
 import {
     getPin, getSessionId, getNickname,
     getCanAnswer, setCanAnswer, getHaRespondido, setHaRespondido,
@@ -16,7 +16,7 @@ import {
     startOrderAutoSendTimer,
     getCurrentMatches, clearMatchAutoSendTimer,
     getCurrentSlideType, getStreakInfo
-} from './player-state.js?v=20260822080605';
+} from './player-state.js?v=20260823152650';
 
 function createRequestId() {
     return `ans_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
@@ -362,8 +362,8 @@ export function enviarPendiente() {
             setBodyHTML(`
                 <div class="answer-loading-container">
                     <div class="spinner spinner-purple"></div>
-                    <h2>Respuesta enviada</h2>
-                    <p>Esperando confirmación del servidor...</p>
+                    <h2>${_t('player.answer.sent', null, '¡Respuesta Enviada!')}</h2>
+                    <p>${_t('player.answer.waiting_server', null, 'Esperando confirmación del servidor...')}</p>
                 </div>
             `);
             return;

@@ -6,18 +6,18 @@
  * Also emits reconnect-presenter on Socket.IO auto-reconnect.
  */
 
-import { socket, presenterPlayerId } from './presenter-socket-config.js?v=20260822080605';
+import { socket, presenterPlayerId } from './presenter-socket-config.js?v=20260823152650';
 import {
     setSessionId, setPin, setCurrentQuestionIndex, setTotalQuestions,
     setPlayersData, setConnectedPlayers, setTotalPlayers,
     setIsTeamMode, setTeamConfig, getIsTeamMode, getTeamConfig
-} from './presenter-state.js?v=20260822080605';
+} from './presenter-state.js?v=20260823152650';
 import {
     renderPregunta, renderCommentSlide, renderInfoSlide, renderTextSlide, renderImageSlide, renderTextImageSlide,
     updatePlayersPanel, renderTeamLobby, mostrarQR
-} from './presenter-game-ui.js?v=20260822080605';
-import { restoreLobbyHTML, showAbandonButton } from './presenter-utils.js?v=20260822080605';
-import { handleGameAbandoned } from './presenter-session-control.js?v=20260822080605';
+} from './presenter-game-ui.js?v=20260823152650';
+import { restoreLobbyHTML, showAbandonButton } from './presenter-utils.js?v=20260823152650';
+import { handleGameAbandoned } from './presenter-session-control.js?v=20260823152650';
 
 function getStoredSessionId() {
     return sessionStorage.getItem('xiro_presenter_sessionId')
@@ -211,7 +211,7 @@ function restoreGameScreen(snapshot) {
                 <div class="h-full w-full flex flex-col items-center justify-center pt-10 px-10 pb-16">
                     <div class="w-20 h-20 border-8 border-purple-500 border-t-transparent rounded-full animate-spin mb-6"></div>
                     <h1 class="text-4xl font-black text-white mb-4">Reconectado</h1>
-                    <p class="text-slate-400 text-xl">Esperando siguiente pregunta...</p>
+                    <p class="text-slate-400 text-xl">${_t('player.reconnection.waiting_next', null, 'Esperando siguiente pregunta...')}</p>
                 </div>
             `);
             showAbandonButton();

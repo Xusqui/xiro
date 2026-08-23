@@ -16,6 +16,12 @@
   text-shadow: 1px 0px 4px var(--neon-light), 2px 0px 4px var(--neon-light), 3px 0px 4px var(--neon-light), 2px 0px 3px var(--neon-vivid), 2px 3px 15px var(--neon-vivid), 2px 0px 15px, 5px 0px 125px, 20px 0vw 200px var(--neon-vivid), 40px 0vw 200px var(--neon-vivid);
 }
 
+/* Oversized numeral voice for the podium score readout, next to the .neon winner title. */
+.podium-score {
+  font-family: 'Bebas Neue', cursive;
+  letter-spacing: 0.03em;
+}
+
 .flicker-slow {
   animation: flicker 3s linear infinite;
 }

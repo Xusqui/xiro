@@ -1,3 +1,6 @@
 {
-  "keys": {}
+  "keys": {
+    "presenter.players_panel.player_word_single": "xogador",
+    "presenter.players_panel.player_word_plural": "xogadores"
+  }
 }

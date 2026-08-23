@@ -34,7 +34,7 @@ async function renderVistaTrivial() {
             ${games.length === 0 ? `
                 <div class="text-center py-20">
                     <i class="fas fa-dice text-slate-300 text-6xl mb-4"></i>
-                    <p class="text-slate-400 text-xl">No hay juegos Trivial todavía</p>
+                    <p class="text-slate-400 text-xl">${_t('admin.trivial.empty', null, 'No hay juegos Trivial todavía')}</p>
                 </div>` : `
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     ${games.map(g => _trivialCard(g)).join('')}

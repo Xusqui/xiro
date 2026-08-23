@@ -75,6 +75,8 @@
     "admin.tools.logs_failed_prefix": "Fallaron:",
     "admin.tools.upload_size_unit_kb": "K.B.",
     "admin.user.own_account": "Votre compte",
-    "admin.user.delete_title": "Supprimer l'utilisateur"
+    "admin.user.delete_title": "Supprimer l'utilisateur",
+    "admin.remote.empty_title": "Aucune partie active pour le moment",
+    "admin.remote.empty_msg": "Démarre une partie depuis le présentateur pour la contrôler ici"
   }
 }

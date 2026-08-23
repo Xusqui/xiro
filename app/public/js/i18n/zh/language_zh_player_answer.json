@@ -18,6 +18,7 @@
     "player.answer.sending_order": "正在发送顺序...",
     "player.answer.sending_answer": "正在发送答案...",
     "player.answer.validating": "正在验证你的答案...",
-    "player.answer.correct_answer_label": "正确答案："
+    "player.answer.correct_answer_label": "正确答案：",
+    "player.answer.waiting_server": "等待服务器确认..."
   }
 }

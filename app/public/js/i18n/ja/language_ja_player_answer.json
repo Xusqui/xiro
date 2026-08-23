@@ -18,6 +18,7 @@
     "player.answer.sending_order": "順番を送信中...",
     "player.answer.sending_answer": "回答を送信中...",
     "player.answer.validating": "回答を確認中...",
-    "player.answer.correct_answer_label": "正解："
+    "player.answer.correct_answer_label": "正解：",
+    "player.answer.waiting_server": "サーバーの確認を待っています..."
   }
 }

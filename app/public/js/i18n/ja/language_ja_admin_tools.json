@@ -75,6 +75,8 @@
     "admin.tools.logs_failed_prefix": "Fallaron:",
     "admin.tools.upload_size_unit_kb": "KB",
     "admin.user.own_account": "あなたのアカウント",
-    "admin.user.delete_title": "ユーザーを削除"
+    "admin.user.delete_title": "ユーザーを削除",
+    "admin.remote.empty_title": "現在アクティブなゲームはありません",
+    "admin.remote.empty_msg": "プレゼンターからゲームを開始すると、ここで操作できます"
   }
 }

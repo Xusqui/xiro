@@ -41,11 +41,11 @@ async function mostrarMezclarBancos() {
                 ${bancos.length < 2 ? `
                     <div class="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-6 text-center">
                         <i class="fas fa-exclamation-triangle text-yellow-600 text-4xl mb-3"></i>
-                        <p class="text-yellow-800 font-bold text-lg mb-2">No hay suficientes bancos</p>
-                        <p class="text-yellow-700">Necesitas al menos 2 bancos de preguntas para poder mezclarlos.</p>
-                        <button data-merge-action="go-bancos" 
+                        <p class="text-yellow-800 font-bold text-lg mb-2">${_t('admin.merge.error_min_title', null, 'No hay suficientes bancos')}</p>
+                        <p class="text-yellow-700">${_t('admin.merge.error_min_msg', null, 'Necesitas al menos 2 bancos de preguntas para poder mezclarlos.')}</p>
+                        <button data-merge-action="go-bancos"
                             class="mt-4 bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-xl font-bold transition">
-                            Crear Bancos
+                            ${_t('admin.merge.btn_create_banks', null, 'Crear Bancos')}
                         </button>
                     </div>
                 ` : `

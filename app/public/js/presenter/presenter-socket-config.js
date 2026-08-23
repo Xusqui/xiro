@@ -3,7 +3,7 @@
  * Gestiona la conexión WebSocket y auto-reconexión
  */
 
-import { getSessionId, setSessionId, setGameType } from './presenter-state.js?v=20260822080605';
+import { getSessionId, setSessionId, setGameType } from './presenter-state.js?v=20260823152650';
 
 // Generar o recuperar playerId único del presentador
 function getOrCreatePresenterPlayerId() {

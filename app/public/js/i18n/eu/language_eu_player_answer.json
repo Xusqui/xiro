@@ -18,6 +18,7 @@
     "player.answer.sending_order": "Zure ordena bidaltzen...",
     "player.answer.sending_answer": "Zure erantzuna bidaltzen...",
     "player.answer.validating": "Zure erantzuna egiaztatzen...",
-    "player.answer.correct_answer_label": "Erantzun zuzena:"
+    "player.answer.correct_answer_label": "Erantzun zuzena:",
+    "player.answer.waiting_server": "Zerbitzariaren berrespenaren zain..."
   }
 }

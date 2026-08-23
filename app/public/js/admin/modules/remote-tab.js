@@ -98,9 +98,9 @@ function renderSessionsList(sessions) {
         list.innerHTML = _tHtml(`
         <div class="text-center py-16 text-slate-400">
             <i class="fas fa-tv text-5xl mb-4 opacity-40 block"></i>
-            <p class="text-lg font-bold">No hay partidas activas ahora mismo</p>
+            <p class="text-lg font-bold">${_t('admin.remote.empty_title', null, 'No hay partidas activas ahora mismo')}</p>
             <p class="text-sm mt-1">
-                Inicia una partida desde el presentador para controlarla aquí
+                ${_t('admin.remote.empty_msg', null, 'Inicia una partida desde el presentador para controlarla aquí')}
             </p>
         </div>`);
         return;

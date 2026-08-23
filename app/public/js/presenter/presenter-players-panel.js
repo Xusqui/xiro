@@ -3,15 +3,17 @@
  * Actualización y renderizado del panel de jugadores conectados
  */
 
-import { getConnectedPlayers, getPlayersData, getIsTeamMode, getTeamConfig } from './presenter-state.js?v=20260822080605';
-import { getTeamColorStyle } from './presenter-team-config.js?v=20260822080605';
+import { getConnectedPlayers, getPlayersData, getIsTeamMode, getTeamConfig } from './presenter-state.js?v=20260823152650';
+import { getTeamColorStyle } from './presenter-team-config.js?v=20260823152650';
 
 /** nick → <div> element kept across renders */
 const playerCards = new Map();
 /** nick → last rendered fingerprint to skip unchanged cards */
 const playerFingerprints = new Map();
 const WAITING_PLAYERS_SELECTOR = '[data-empty-state="waiting-players"]';
-const WAITING_PLAYERS_HTML = '<div data-empty-state="waiting-players" class="text-slate-500 text-xs italic text-center py-8">Esperando jugadores...</div>';
+function waitingPlayersHtml() {
+    return `<div data-empty-state="waiting-players" class="text-slate-500 text-xs italic text-center py-8">${_t('presenter.lobby.waiting', null, 'Esperando jugadores...')}</div>`;
+}
 
 function isLobbyPhaseActive() {
     return Boolean(document.getElementById('btn-empezar'));
@@ -73,7 +75,7 @@ export function updatePlayersPanel() {
     if (connectedPlayers.length === 0) {
         playerCards.clear();
         playerFingerprints.clear();
-        panel.innerHTML = _tHtml(isLobbyPhaseActive() ? WAITING_PLAYERS_HTML : '');
+        panel.innerHTML = _tHtml(isLobbyPhaseActive() ? waitingPlayersHtml() : '');
     } else {
         removeWaitingPlayersPlaceholder(panel);
 
@@ -238,7 +240,7 @@ export function renderTeamLobby() {
                             <i class="fas fa-users mr-2"></i>${team.name.toUpperCase()}
                         </h3>
                         <span class="bg-white/30 px-4 py-2 rounded-full text-white font-black">
-                            ${team.players.length} ${team.players.length === 1 ? 'jugador' : 'jugadores'}
+                            ${team.players.length} ${team.players.length === 1 ? _t('presenter.players_panel.player_word_single', null, 'jugador') : _t('presenter.players_panel.player_word_plural', null, 'jugadores')}
                         </span>
                     </div>
                     <div class="flex flex-wrap gap-3">
@@ -249,7 +251,7 @@ export function renderTeamLobby() {
                                     <div>${player}</div>
                                 </div>
                             `;
-        }).join('') || '<p class="text-white/70 italic w-full text-center py-4">Esperando jugadores...</p>'}
+        }).join('') || `<p class="text-white/70 italic w-full text-center py-4">${_t('presenter.lobby.waiting', null, 'Esperando jugadores...')}</p>`}
                     </div>
                 </div>
             </div>
@@ -263,7 +265,7 @@ export function renderTeamLobby() {
                             <i class="fas fa-users mr-2"></i>${team.name.toUpperCase()}
                         </h3>
                         <span class="bg-white/30 px-4 py-2 rounded-full text-white font-black">
-                            ${team.players.length} ${team.players.length === 1 ? 'jugador' : 'jugadores'}
+                            ${team.players.length} ${team.players.length === 1 ? _t('presenter.players_panel.player_word_single', null, 'jugador') : _t('presenter.players_panel.player_word_plural', null, 'jugadores')}
                         </span>
                     </div>
                     <div class="flex flex-wrap gap-3">
@@ -274,7 +276,7 @@ export function renderTeamLobby() {
                                     <div>${player}</div>
                                 </div>
                             `;
-        }).join('') || '<p class="text-white/70 italic w-full text-center py-4">Esperando jugadores...</p>'}
+        }).join('') || `<p class="text-white/70 italic w-full text-center py-4">${_t('presenter.lobby.waiting', null, 'Esperando jugadores...')}</p>`}
                     </div>
                 </div>
             </div>

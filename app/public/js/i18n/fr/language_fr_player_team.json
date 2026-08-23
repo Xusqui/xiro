@@ -1,5 +1,6 @@
 {
   "keys": {
-    "player.team.no_players": "Pas encore de joueurs"
+    "player.team.no_players": "Pas encore de joueurs",
+    "player.team.waiting_start": "En attente que le présentateur démarre la partie..."
   }
 }

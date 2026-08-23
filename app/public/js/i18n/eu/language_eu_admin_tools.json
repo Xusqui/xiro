@@ -75,6 +75,8 @@
     "admin.tools.logs_failed_prefix": "Fallaron:",
     "admin.tools.upload_size_unit_kb": "K.B.",
     "admin.user.own_account": "Zure kontua",
-    "admin.user.delete_title": "Erabiltzailea ezabatu"
+    "admin.user.delete_title": "Erabiltzailea ezabatu",
+    "admin.remote.empty_title": "Ez dago joko aktiborik oraintxe",
+    "admin.remote.empty_msg": "Hasi jokoa aurkezletik hemen kontrolatzeko"
   }
 }

@@ -6,17 +6,17 @@
  *  - presenter-reconnected → inform player the host is back
  */
 
-import { socket } from './player-socket-config.js?v=20260822080605';
+import { socket } from './player-socket-config.js?v=20260823152650';
 import {
     setIsReconnecting, setNickname, setPin, setSessionId,
     setHaRespondido, setCanAnswer, setSelectedTeam, setTeamMode,
     getNickname, setPendingAnswer, setSendingAnswer, setStreakInfo
-} from './player-state.js?v=20260822080605';
-import { removeDisconnectOverlay, activarWakeLock } from './player-connection.js?v=20260822080605';
-import { renderizarPregunta, renderizarPreguntaOrdena, renderizarSlideComentario, renderizarSlideInfo, renderizarSlideTexto, renderizarSlideImagen, renderizarPreguntaWordScramble, renderizarPreguntaMultipleChoice, renderizarPreguntaMatching } from './player-question-ui.js?v=20260822080605';
-import { renderizarPreguntaNumerica } from './player-numeric-ui.js?v=20260822080605';
-import { injectStreakBadge } from './player-streak-ui.js?v=20260822080605';
-import { syncTrivialBadgesFromSnapshot } from './player-trivial-badges-ui.js?v=20260822080605';
+} from './player-state.js?v=20260823152650';
+import { removeDisconnectOverlay, activarWakeLock } from './player-connection.js?v=20260823152650';
+import { renderizarPregunta, renderizarPreguntaOrdena, renderizarSlideComentario, renderizarSlideInfo, renderizarSlideTexto, renderizarSlideImagen, renderizarPreguntaWordScramble, renderizarPreguntaMultipleChoice, renderizarPreguntaMatching } from './player-question-ui.js?v=20260823152650';
+import { renderizarPreguntaNumerica } from './player-numeric-ui.js?v=20260823152650';
+import { injectStreakBadge } from './player-streak-ui.js?v=20260823152650';
+import { syncTrivialBadgesFromSnapshot } from './player-trivial-badges-ui.js?v=20260823152650';
 
 /**
  * Restore player UI based on the snapshot sent by the server
@@ -89,7 +89,7 @@ function handleReconnectedSuccess(snapshot) {
 
         if (!question) {
             console.log('[RECONNECT DEBUG] No hay pregunta actual → mostrando pantalla de espera');
-            showWaitingScreen(snapshot.nickname, 'Esperando siguiente pregunta...');
+            showWaitingScreen(snapshot.nickname, _t('player.reconnection.waiting_next', null, 'Esperando siguiente pregunta...'));
             return;
         }
 
@@ -204,9 +204,9 @@ function showWaitingForResults(nickname, currentQ, totalQ) {
                 <p class="font-black text-xl uppercase">${display}</p>
             </div>
             <i class="fas fa-check-circle text-6xl text-green-400 mb-6 animate-pulse"></i>
-            <h2 class="text-3xl font-black italic mb-4">YA HAS RESPONDIDO</h2>
-            <p class="text-xl text-white/80">Pregunta ${currentQ} de ${totalQ}</p>
-            <p class="text-lg text-white/60 mt-4">Esperando resultados...</p>
+            <h2 class="text-3xl font-black italic mb-4">${_t('player.reconnection.already_answered_title', null, 'YA HAS RESPONDIDO')}</h2>
+            <p class="text-xl text-white/80">${_t('player.reconnection.question_progress', { current: currentQ, total: totalQ }, `Pregunta ${currentQ} de ${totalQ}`)}</p>
+            <p class="text-lg text-white/60 mt-4">${_t('player.answer.waiting_results', null, 'Esperando resultados...')}</p>
         </div>
     `);
 
@@ -239,7 +239,7 @@ function showLobbyReconnected(nickname) {
             <div class="text-green-400 text-6xl mb-4"><i class="fas fa-check-circle"></i></div>
             <h2 class="text-3xl font-black italic text-white mb-4">¡RECONECTADO!</h2>
             <p class="text-2xl font-bold text-white mb-2">${display}</p>
-            <p class="text-lg text-white/80 mb-6">Esperando a que el presentador inicie el juego</p>
+            <p class="text-lg text-white/80 mb-6">${_t('player.team.waiting_start', null, 'Esperando a que el presentador inicie el juego...')}</p>
             <button data-player-action="salir-lobby" class="bg-red-500 hover:bg-red-600 px-6 py-3 rounded-2xl text-white font-bold transition">
                 🚪 SALIR DEL JUEGO
             </button>

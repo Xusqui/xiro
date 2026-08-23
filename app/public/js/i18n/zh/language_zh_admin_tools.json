@@ -75,6 +75,8 @@
     "admin.tools.logs_failed_prefix": "Fallaron:",
     "admin.tools.upload_size_unit_kb": "K.B.",
     "admin.user.own_account": "您的账户",
-    "admin.user.delete_title": "删除用户"
+    "admin.user.delete_title": "删除用户",
+    "admin.remote.empty_title": "目前没有进行中的游戏",
+    "admin.remote.empty_msg": "从主持人端开始一局游戏即可在此处控制"
   }
 }

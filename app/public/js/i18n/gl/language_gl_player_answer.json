@@ -18,6 +18,7 @@
     "player.answer.sending_order": "Enviando a túa orde...",
     "player.answer.sending_answer": "Enviando a túa resposta...",
     "player.answer.validating": "Validando a túa resposta...",
-    "player.answer.correct_answer_label": "Resposta correcta:"
+    "player.answer.correct_answer_label": "Resposta correcta:",
+    "player.answer.waiting_server": "Agardando confirmación do servidor..."
   }
 }

@@ -3,9 +3,9 @@
  * Keeps socket flow and state transitions compact; UI and Wake Lock are modularized.
  */
 
-import { socket } from './presenter-socket-config.js?v=20260822080605';
-import { mostrarModalConfirmacion } from '../shared/modal.js?v=20260822080605';
-import { createRemoteWakeLockController } from './presenter-remote-wake-lock.js?v=20260822080605';
+import { socket } from './presenter-socket-config.js?v=20260823152650';
+import { mostrarModalConfirmacion } from '../shared/modal.js?v=20260823152650';
+import { createRemoteWakeLockController } from './presenter-remote-wake-lock.js?v=20260823152650';
 import {
     applyRemoteCSS,
     renderLoadingUI,
@@ -16,13 +16,13 @@ import {
     syncControlsVisibility,
     updatePrimaryButton,
     showEndedBanner
-} from './presenter-remote-ui.js?v=20260822080605';
+} from './presenter-remote-ui.js?v=20260823152650';
 import {
     renderCommentPanel,
     refreshCommentScores,
     hideCommentPanel,
     setRemotePointsHandler
-} from './presenter-remote-comment.js?v=20260822080605';
+} from './presenter-remote-comment.js?v=20260823152650';
 
 const ADMIN_TOKEN_KEY = 'adminToken';
 

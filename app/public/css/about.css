@@ -23,6 +23,13 @@
 .float-5 { animation: floatUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.70s both; }
 .float-6 { animation: floatUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.85s both; }
 
+@media (prefers-reduced-motion: reduce) {
+    .float-1, .float-2, .float-3, .float-4, .float-5, .float-6,
+    .stat-number {
+        animation: none;
+    }
+}
+
 /* ===== LOGO ===== */
 .logo-glow {
     filter: drop-shadow(0 0 30px rgba(168, 85, 247, 0.6));
@@ -46,6 +53,8 @@
 /* Entrance animation for individual stat numbers */
 .stat-number {
     display: block;
+    font-family: 'Bebas Neue', cursive;
+    letter-spacing: 0.02em;
     animation: stat-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
 }
 

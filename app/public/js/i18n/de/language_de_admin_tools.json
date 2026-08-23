@@ -75,6 +75,8 @@
     "admin.tools.logs_failed_prefix": "Fallaron:",
     "admin.tools.upload_size_unit_kb": "K.B.",
     "admin.user.own_account": "Ihr Konto",
-    "admin.user.delete_title": "Benutzer löschen"
+    "admin.user.delete_title": "Benutzer löschen",
+    "admin.remote.empty_title": "Momentan keine aktiven Spiele",
+    "admin.remote.empty_msg": "Starte ein Spiel über den Presenter, um es hier zu steuern"
   }
 }
