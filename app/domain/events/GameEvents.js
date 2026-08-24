@@ -109,7 +109,7 @@ class AnswerRevealedEvent extends DomainEvent {
  * Evento: Juego finalizado
  */
 class GameEndedEvent extends DomainEvent {
-    constructor({ roomId, gameId, pin, finalRanking, ranking, totalQuestions, questionCount, duration, playerCount, stats, reason, timestamp }) {
+    constructor({ roomId, gameId, pin, finalRanking, ranking, totalQuestions, questionCount, duration, playerCount, stats, reason, timestamp, maxPossibleScore }) {
         super('game.ended', {
             roomId: roomId || gameId,
             gameId: gameId || roomId,
@@ -122,7 +122,8 @@ class GameEndedEvent extends DomainEvent {
             playerCount: playerCount || (ranking || finalRanking)?.length || 0,
             stats,
             reason,
-            timestamp: timestamp || Date.now()
+            timestamp: timestamp || Date.now(),
+            maxPossibleScore
         });
     }
 }

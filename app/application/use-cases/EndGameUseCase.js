@@ -16,6 +16,7 @@
 const EventBus = require('../../domain/events/EventBus');
 const { GameEndedEvent } = require('../../domain/events/GameEvents');
 const { calculateFinalRanking } = require('../../sockets/utils/RankingCalculator');
+const { calculateMaxPossibleScore } = require('../../domain/services/MaxScoreCalculator');
 const { sendFinalPositions, cleanupGame } = require('../../sockets/utils/GameCleanupManager');
 const { clearGameTimer } = require('../../state/globalState');
 const SessionStore = require('../../services/SessionStore');
@@ -147,7 +148,7 @@ class EndGameUseCase {
         }).catch(err => logger.error('EndGameUseCase: no se pudo persistir sesión', { error: err.message }));
     }
 
-    _emitGameEndedEvent({ roomId, game, ranking, reason, startedAt }) {
+    _emitGameEndedEvent({ roomId, game, ranking, reason, startedAt, maxPossibleScore }) {
         EventBus.emit('game.ended', new GameEndedEvent({
             roomId,
             gameId: roomId,
@@ -161,7 +162,8 @@ class EndGameUseCase {
             playerCount: ranking.length,
             questionCount: game.questions?.length || 0,
             reason,
-            timestamp: Date.now()
+            timestamp: Date.now(),
+            maxPossibleScore
         }));
     }
 
@@ -276,6 +278,7 @@ class EndGameUseCase {
 
             const teamConfig = teamConfigs?.get(roomId);
             const ranking = calculateFinalRanking(game, teamConfig);
+            const maxPossibleScore = calculateMaxPossibleScore(game);
 
             logger.info(`EndGameUseCase: Ranking calculado (${ranking.length} entradas):`,
                 JSON.stringify(ranking.slice(0, 5), null, 2));
@@ -297,7 +300,7 @@ class EndGameUseCase {
             logger.info(`EndGameUseCase: Limpiando timer de partida: ${roomId}`);
             clearGameTimer(roomId);
 
-            this._emitGameEndedEvent({ roomId, game, ranking, reason, startedAt });
+            this._emitGameEndedEvent({ roomId, game, ranking, reason, startedAt, maxPossibleScore });
             await sendFinalPositions({ io, roomId, ranking, teamConfig });
 
             this._schedulePlayerAutoRedirect(io, roomId);

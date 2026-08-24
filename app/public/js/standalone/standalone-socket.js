@@ -44,6 +44,7 @@ const StandaloneSocket = (() => {
         // llega al socket "presenter" (ver _wirePresenterEvents) — evita duplicar
         // el manejo con datos incompletos.
         socket.on('ranking-update', (data) => handlers.onRankingUpdate && handlers.onRankingUpdate(data));
+        socket.on('game-max-score', (data) => handlers.onMaxScore && handlers.onMaxScore(data));
         socket.on('game-ended', (ranking) => handlers.onGameEnded && handlers.onGameEnded(ranking));
         socket.on('blocked-answer', (data) => handlers.onBlockedAnswer && handlers.onBlockedAnswer(data));
         socket.on('answer-error', (data) => handlers.onError && handlers.onError('answer-error', data));
@@ -89,7 +90,7 @@ const StandaloneSocket = (() => {
      * Crea la sesión, une presentador (HOST oculto) y jugador real, y arranca el juego.
      * @param {{pin:string, nickname:string}} params
      * @param {Object} eventHandlers - callbacks: onGameStarted, onNewQuestion, onAnswerResult,
-     *   onRevealAnswer, onRankingUpdate, onGameEnded, onBlockedAnswer, onJoinError, onError, onDisconnected
+     *   onRevealAnswer, onRankingUpdate, onMaxScore, onGameEnded, onBlockedAnswer, onJoinError, onError, onDisconnected
      * @returns {Promise<{sessionId:string}>}
      */
     async function startSession({ pin, nickname }, eventHandlers) {

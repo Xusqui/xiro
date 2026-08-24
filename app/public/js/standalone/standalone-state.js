@@ -16,7 +16,8 @@ globalThis.StandaloneState = (() => {
         currentQuestion: null,
         answered: false,
         lastScore: 0,
-        ended: false
+        ended: false,
+        maxPossibleScore: null
     };
 
     function reset() {
@@ -30,6 +31,7 @@ globalThis.StandaloneState = (() => {
         state.answered = false;
         state.lastScore = 0;
         state.ended = false;
+        state.maxPossibleScore = null;
     }
 
     function getNickname() {

@@ -23,7 +23,7 @@ class GameEndedHandler extends EventHandler {
 
     async handleGameEnded(event) {
         // Extraer del payload del evento
-        const { roomId, gameId, finalRanking, ranking, stats, duration, timestamp: _timestamp, playerCount } = event.payload || event;
+        const { roomId, gameId, finalRanking, ranking, stats, duration, timestamp: _timestamp, playerCount, maxPossibleScore } = event.payload || event;
         const actualRoomId = roomId || gameId;
         const actualRanking = finalRanking || ranking;
 
@@ -42,7 +42,7 @@ class GameEndedHandler extends EventHandler {
             }
 
             // 1. Emitir resultados finales a todos
-            await this.broadcastFinalResults(actualRoomId, actualRanking, stats, duration);
+            await this.broadcastFinalResults(actualRoomId, actualRanking, stats, duration, maxPossibleScore);
 
             // 2. Persistir estadísticas finales
             await this.persistGameStats(actualRoomId, actualRanking, stats, duration);
@@ -71,8 +71,13 @@ class GameEndedHandler extends EventHandler {
      * Broadcast de resultados finales (formato compatible con frontend actual)
      * Frontend espera: ranking (array directo)
      */
-    broadcastFinalResults(roomId, ranking, _stats, _duration) {
+    broadcastFinalResults(roomId, ranking, _stats, _duration, maxPossibleScore) {
         // Broadcast via Redis Adapter (multi-worker compatible)
+        // Emitido antes de 'game-ended' para que llegue ya disponible cuando el
+        // cliente (Standalone) procese el ranking final.
+        if (Number.isFinite(maxPossibleScore)) {
+            this.io.to(`${roomId}:players`).emit('game-max-score', { maxPossibleScore });
+        }
         this.io.to(`${roomId}:players`).emit('game-ended', ranking);
         this.io.to(`${roomId}:presenter`).emit('game-ended', ranking);
 

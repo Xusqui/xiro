@@ -978,6 +978,31 @@
     opacity: 0.9;
 }
 
+.score-grade {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.score-grade-number {
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.score-grade-label {
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 4px 12px;
+    border-radius: 999px;
+}
+
 /* ===== Botones ===== */
 
 .btn-primary {

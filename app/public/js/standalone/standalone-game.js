@@ -80,6 +80,10 @@ const StandaloneGame = (() => {
         _renderCurrentQuestion();
     }
 
+    function _handleMaxScore(data) {
+        StandaloneState.get().maxPossibleScore = data?.maxPossibleScore ?? null;
+    }
+
     function _handleGameEnded(ranking) {
         StandaloneQuestionCommon.clearQuestionTimer();
         StandaloneState.get().ended = true;
@@ -122,6 +126,7 @@ const StandaloneGame = (() => {
                     onNewQuestion: _handleNewQuestion,
                     onAnswerResult: (data) => _showReveal('answer-result', data),
                     onRevealAnswer: (data) => _showReveal('reveal-answer', data),
+                    onMaxScore: _handleMaxScore,
                     onGameEnded: _handleGameEnded,
                     onError: _handleError,
                     onDisconnected: _handleDisconnected
