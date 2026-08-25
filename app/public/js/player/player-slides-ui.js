@@ -2,9 +2,9 @@
  * @fileoverview Renderizado de slides de comentario e info
  */
 
-import { getNickname, clearOrderState, setCanAnswer, setCurrentSlideType } from './player-state.js?v=20260824101409';
-import { renderizarSlideTextoImagen } from './player-slide-text-image-ui.js?v=20260824101409';
-import { escapeHtml, sanitizeResourceUrl } from '../core/sanitize.js?v=20260824101409';
+import { getNickname, clearOrderState, setCanAnswer, setCurrentSlideType } from './player-state.js?v=20260825083937';
+import { renderizarSlideTextoImagen } from './player-slide-text-image-ui.js?v=20260825083937';
+import { escapeHtml, sanitizeResourceUrl } from '../core/sanitize.js?v=20260825083937';
 export { renderizarSlideTextoImagen };
 
 /**

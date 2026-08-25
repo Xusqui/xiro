@@ -7,6 +7,7 @@
     "manual_player.tabs.answer": "Comment répondre",
     "manual_player.tabs.score": "Score",
     "manual_player.tabs.trivial": "Trivial",
+    "manual_player.tabs.aria_label": "Sections du manuel",
 
     "manual_player.join.s1.title": "Allez sur xiro.pro",
     "manual_player.join.s1.text": "<p>Ouvrez le navigateur sur votre téléphone ou tablette et allez sur <strong>xiro.pro</strong>.</p><p>Vous pouvez aussi scanner le <strong>code QR</strong> à l'écran.</p>",

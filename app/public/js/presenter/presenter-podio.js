@@ -3,9 +3,9 @@
  * Renderizado de ranking final con fuegos artificiales
  */
 
-import { removeFloatingCards, hideAbandonButton } from './presenter-utils.js?v=20260824101409';
-import { cleanupRevealElements } from './presenter-reveal.js?v=20260824101409';
-import { getPin, getGameSessionDbId } from './presenter-state.js?v=20260824101409';
+import { removeFloatingCards, hideAbandonButton } from './presenter-utils.js?v=20260825083937';
+import { cleanupRevealElements } from './presenter-reveal.js?v=20260825083937';
+import { getPin, getGameSessionDbId } from './presenter-state.js?v=20260825083937';
 
 // Variable global para el controlador de fuegos artificiales
 let fireworksController = null;

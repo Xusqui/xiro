@@ -7,18 +7,18 @@
     <meta name="xiro-i18n-sections" content="common,manual_jugador,manual_shells">
     <title data-i18n="manual_player.page.title">...</title>
     <link rel="icon" href="./favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="./css/common.css?v=20260824101409">
-    <link rel="stylesheet" href="./css/output-index.css?v=20260824101409">
-    <link rel="stylesheet" href="./css/index-style.css?v=20260824101409">
+    <link rel="stylesheet" href="./css/common.css?v=20260825083937">
+    <link rel="stylesheet" href="./css/output-index.css?v=20260825083937">
+    <link rel="stylesheet" href="./css/index-style.css?v=20260825083937">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
         href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="./css/tokens.css?v=20260824101409">
+    <link rel="stylesheet" href="./css/tokens.css?v=20260825083937">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
         integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
         crossorigin="anonymous" referrerpolicy="no-referrer">
-    <script defer src="/js/core/umami-loader.js?v=20260824101409"></script>
+    <script defer src="/js/core/umami-loader.js?v=20260825083937"></script>
     <style>
         body {
             font-family: var(--font-body, 'DM Sans', system-ui, sans-serif);
@@ -131,17 +131,18 @@
             opacity: 0;
         }
     </style>
-    <script src="/js/i18n/i18n-core.js?v=20260824101409"></script>
-    <script src="/js/i18n/i18n-dom.js?v=20260824101409"></script>
-    <script src="/js/i18n/i18n-ui.js?v=20260824101409"></script>
+    <script src="/js/i18n/i18n-core.js?v=20260825083937"></script>
+    <script src="/js/i18n/i18n-dom.js?v=20260825083937"></script>
+    <script src="/js/i18n/i18n-ui.js?v=20260825083937"></script>
 </head>
 
 <body
     class="bg-gradient-to-br from-purple-700 via-purple-600 to-indigo-700 min-h-screen bg-fixed flex flex-col items-center justify-start font-sans text-white p-4 relative pt-8">
+    <a href="#main-content" class="skip-link" data-i18n="common.skip_link">Saltar al contenido</a>
 
     <canvas id="webgl-canvas" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1;"></canvas>
 
-    <div class="w-full max-w-6xl text-center relative z-10">
+    <main id="main-content" class="w-full max-w-6xl text-center relative z-10">
         <a href="./index.html">
             <img src="./images/logo.svg" alt="XIRO! Logo"
                 class="w-full max-w-sm mx-auto mb-6 hover:scale-105 transition-transform cursor-pointer"
@@ -155,25 +156,34 @@
             <span data-i18n="manual_player.hero.subtitle">...</span>
         </p>
 
-        <div class="flex flex-wrap justify-center mb-8 border-b-2 border-white/20 pb-2 gap-2">
-            <button class="tab-btn active text-base md:text-lg px-4 py-2 rounded-t-lg" data-target="tab-unirse">
-                <i class="fas fa-sign-in-alt mr-2"></i><span data-i18n="manual_player.tabs.join">...</span>
+        <div class="flex flex-wrap justify-center mb-8 border-b-2 border-white/20 pb-2 gap-2" role="tablist"
+            data-i18n-aria-label="manual_player.tabs.aria_label" aria-label="Secciones del manual">
+            <button class="tab-btn active text-base md:text-lg px-4 py-2 rounded-t-lg" id="tab-btn-unirse"
+                data-target="tab-unirse" role="tab" aria-selected="true" aria-controls="manual-content-container"
+                tabindex="0">
+                <i class="fas fa-sign-in-alt mr-2" aria-hidden="true"></i><span data-i18n="manual_player.tabs.join">...</span>
             </button>
-            <button class="tab-btn text-base md:text-lg px-4 py-2 rounded-t-lg" data-target="tab-responder">
-                <i class="fas fa-hand-pointer mr-2"></i><span data-i18n="manual_player.tabs.answer">...</span>
+            <button class="tab-btn text-base md:text-lg px-4 py-2 rounded-t-lg" id="tab-btn-responder"
+                data-target="tab-responder" role="tab" aria-selected="false" aria-controls="manual-content-container"
+                tabindex="-1">
+                <i class="fas fa-hand-pointer mr-2" aria-hidden="true"></i><span data-i18n="manual_player.tabs.answer">...</span>
             </button>
-            <button class="tab-btn text-base md:text-lg px-4 py-2 rounded-t-lg" data-target="tab-puntuacion">
-                <i class="fas fa-star mr-2"></i><span data-i18n="manual_player.tabs.score">...</span>
+            <button class="tab-btn text-base md:text-lg px-4 py-2 rounded-t-lg" id="tab-btn-puntuacion"
+                data-target="tab-puntuacion" role="tab" aria-selected="false" aria-controls="manual-content-container"
+                tabindex="-1">
+                <i class="fas fa-star mr-2" aria-hidden="true"></i><span data-i18n="manual_player.tabs.score">...</span>
             </button>
-            <button class="tab-btn text-base md:text-lg px-4 py-2 rounded-t-lg" data-target="tab-trivial">
-                <i class="fas fa-dice mr-2"></i><span data-i18n="manual_player.tabs.trivial">...</span>
+            <button class="tab-btn text-base md:text-lg px-4 py-2 rounded-t-lg" id="tab-btn-trivial"
+                data-target="tab-trivial" role="tab" aria-selected="false" aria-controls="manual-content-container"
+                tabindex="-1">
+                <i class="fas fa-dice mr-2" aria-hidden="true"></i><span data-i18n="manual_player.tabs.trivial">...</span>
             </button>
         </div>
 
         <div class="max-w-6xl mx-auto pb-20">
-            <div id="manual-content-container"></div>
+            <div id="manual-content-container" role="tabpanel" aria-labelledby="tab-btn-unirse" tabindex="0"></div>
         </div>
-        <img src="./images/chamaleon/chamaleon.svg" alt="Camaleón"
+        <img src="./images/chamaleon/chamaleon.svg" alt=""
             class="player-chameleon fixed bottom-0 left-0 opacity-50 md:opacity-80"
             style="pointer-events: none; width: 180px;">
 
@@ -185,10 +195,10 @@
             <p data-i18n="common.footer.copyright">...</p>
             <p data-i18n="common.footer.author" class="text-xs mt-1">...</p>
         </div>
-    </div>
+    </main>
 
-    <script type="module" src="./js/manual-jugador/main.js?v=20260824101409"></script>
-    <script src="/js/core/site-badge.js?v=20260824101409"></script>
+    <script type="module" src="./js/manual-jugador/main.js?v=20260825083937"></script>
+    <script src="/js/core/site-badge.js?v=20260825083937"></script>
 </body>
 
 </html>

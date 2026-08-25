@@ -7,6 +7,7 @@
     "manual_player.tabs.answer": "如何回答",
     "manual_player.tabs.score": "得分",
     "manual_player.tabs.trivial": "知识问答",
+    "manual_player.tabs.aria_label": "手册章节",
 
     "manual_player.join.s1.title": "访问 xiro.pro",
     "manual_player.join.s1.text": "<p>在手机或平板上打开浏览器，访问 <strong>xiro.pro</strong>。</p><p>您也可以扫描屏幕上的 <strong>QR 码</strong>。</p>",

@@ -46,17 +46,6 @@
         document.documentElement.classList.toggle('xiro-tab-hidden', document.hidden);
     });
 
-    // Manual links live inside the big card <a>, so we cancel the card
-    // navigation (capture phase) and route to the manual page instead.
-    document.addEventListener('click', function (event) {
-        var manualLink = event.target.closest('[data-index-manual-target]');
-        if (!manualLink) return;
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        var target = manualLink.getAttribute('data-index-manual-target');
-        if (target) window.location.href = target;
-    }, true);
-
     if (typeof setupSmartPrefetch === 'function') {
         setupSmartPrefetch({
             selector: '#card-presenter',

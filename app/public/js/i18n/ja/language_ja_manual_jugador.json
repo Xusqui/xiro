@@ -7,6 +7,7 @@
     "manual_player.tabs.answer": "回答方法",
     "manual_player.tabs.score": "得点",
     "manual_player.tabs.trivial": "トリビア",
+    "manual_player.tabs.aria_label": "マニュアルのセクション",
 
     "manual_player.join.s1.title": "xiro.pro にアクセス",
     "manual_player.join.s1.text": "<p>スマートフォンまたはタブレットでブラウザを開き、<strong>xiro.pro</strong> にアクセスします。</p><p>画面の<strong>QRコード</strong>をスキャンすることもできます。</p>",

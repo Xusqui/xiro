@@ -2,16 +2,16 @@
 // Punto de entrada principal - importa todos los módulos y expone funciones globales
 
 // ===== IMPORTS =====
-import { redirectIfConcluded } from './player-game-concluded.js?v=20260824101409';
-import './player-socket-config.js?v=20260824101409'; // Socket se inicializa automáticamente al importar
-import { registerConnectionEvents, setupVisibilityDetection } from './player-connection.js?v=20260824101409';
-import { registerSessionEvents, initSessionDetection, validarSession, unirseAlLobby } from './player-session.js?v=20260824101409';
-import { registerTeamEvents, seleccionarEquipo, mostrarSeleccionEquipo } from './player-team.js?v=20260824101409';
-import { registerAnswerEvents, enviarRespuesta, enviarOrdenRespuesta, enviarMatchingRespuesta, enviarRespuestaNumerica, enviarRespuestaWordScramble, enviarPendiente } from './player-answer.js?v=20260824101409';
-import { registerResultsEvents } from './player-results.js?v=20260824101409';
-import { registerGameFlowEvents, salirDelLobby } from './player-game-flow.js?v=20260824101409';
-import { registerReconnectionEvents } from './player-reconnection.js?v=20260824101409';
-import { registerTrivialPlayerSocketHandlers } from './player-trivial-socket.js?v=20260824101409';
+import { redirectIfConcluded } from './player-game-concluded.js?v=20260825083937';
+import './player-socket-config.js?v=20260825083937'; // Socket se inicializa automáticamente al importar
+import { registerConnectionEvents, setupVisibilityDetection } from './player-connection.js?v=20260825083937';
+import { registerSessionEvents, initSessionDetection, validarSession, unirseAlLobby } from './player-session.js?v=20260825083937';
+import { registerTeamEvents, seleccionarEquipo, mostrarSeleccionEquipo } from './player-team.js?v=20260825083937';
+import { registerAnswerEvents, enviarRespuesta, enviarOrdenRespuesta, enviarMatchingRespuesta, enviarRespuestaNumerica, enviarRespuestaWordScramble, enviarPendiente } from './player-answer.js?v=20260825083937';
+import { registerResultsEvents } from './player-results.js?v=20260825083937';
+import { registerGameFlowEvents, salirDelLobby } from './player-game-flow.js?v=20260825083937';
+import { registerReconnectionEvents } from './player-reconnection.js?v=20260825083937';
+import { registerTrivialPlayerSocketHandlers } from './player-trivial-socket.js?v=20260825083937';
 
 if (window.XiroI18n && typeof window.XiroI18n.addSections === 'function') {
     void window.XiroI18n.addSections(['player'], { reload: false });

@@ -1,7 +1,7 @@
-import { getTabUnirseHTML } from './tab-unirse.js?v=20260824101409';
-import { getTabResponderHTML } from './tab-responder.js?v=20260824101409';
-import { getTabPuntuacionHTML } from './tab-puntuacion.js?v=20260824101409';
-import { getTabTrivialHTML } from './tab-trivial.js?v=20260824101409';
+import { getTabUnirseHTML } from './tab-unirse.js?v=20260825083937';
+import { getTabResponderHTML } from './tab-responder.js?v=20260825083937';
+import { getTabPuntuacionHTML } from './tab-puntuacion.js?v=20260825083937';
+import { getTabTrivialHTML } from './tab-trivial.js?v=20260825083937';
 
 let _activeTarget = 'tab-unirse';
 
@@ -24,22 +24,40 @@ function renderContent(targetId) {
 }
 
 function initTabs() {
-    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabBtns = Array.from(document.querySelectorAll('.tab-btn'));
+    const panel = document.getElementById('manual-content-container');
 
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            tabBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            _activeTarget = btn.getAttribute('data-target');
-            renderContent(_activeTarget);
+    function activate(btn, options) {
+        const focusBtn = options && options.focus;
+        tabBtns.forEach(b => {
+            const isActive = b === btn;
+            b.classList.toggle('active', isActive);
+            b.setAttribute('aria-selected', String(isActive));
+            b.tabIndex = isActive ? 0 : -1;
+        });
+        if (panel) panel.setAttribute('aria-labelledby', btn.id);
+        _activeTarget = btn.getAttribute('data-target');
+        renderContent(_activeTarget);
+        if (focusBtn) btn.focus();
+    }
+
+    tabBtns.forEach((btn, index) => {
+        btn.addEventListener('click', () => activate(btn));
+
+        btn.addEventListener('keydown', (event) => {
+            let targetIndex = null;
+            if (event.key === 'ArrowRight') targetIndex = (index + 1) % tabBtns.length;
+            else if (event.key === 'ArrowLeft') targetIndex = (index - 1 + tabBtns.length) % tabBtns.length;
+            else if (event.key === 'Home') targetIndex = 0;
+            else if (event.key === 'End') targetIndex = tabBtns.length - 1;
+            if (targetIndex === null) return;
+            event.preventDefault();
+            activate(tabBtns[targetIndex], { focus: true });
         });
     });
 
-    const initialBtn = document.querySelector('.tab-btn.active');
-    if (initialBtn) {
-        _activeTarget = initialBtn.getAttribute('data-target');
-        renderContent(_activeTarget);
-    }
+    const initialBtn = document.querySelector('.tab-btn.active') || tabBtns[0];
+    if (initialBtn) activate(initialBtn);
 }
 
 document.addEventListener('DOMContentLoaded', () => {

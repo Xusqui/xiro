@@ -6,22 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="index.title">XIRO! - Inicio</title>
     <link rel="icon" href="./favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="./css/common.css?v=20260824101409">
-    <link rel="stylesheet" href="./css/output-index.css?v=20260824101409">
-    <link rel="stylesheet" href="./css/index-style.css?v=20260824101409">
+    <link rel="stylesheet" href="./css/common.css?v=20260825083937">
+    <link rel="stylesheet" href="./css/output-index.css?v=20260825083937">
+    <link rel="stylesheet" href="./css/index-style.css?v=20260825083937">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
         integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
         crossorigin="anonymous" referrerpolicy="no-referrer">
-    <script defer src="/js/core/umami-loader.js?v=20260824101409"></script>
-    <script src="/js/i18n/i18n-core.js?v=20260824101409"></script>
-    <script src="/js/i18n/i18n-dom.js?v=20260824101409"></script>
-    <script src="/js/i18n/i18n-ui.js?v=20260824101409"></script>
+    <script defer src="/js/core/umami-loader.js?v=20260825083937"></script>
+    <script src="/js/i18n/i18n-core.js?v=20260825083937"></script>
+    <script src="/js/i18n/i18n-dom.js?v=20260825083937"></script>
+    <script src="/js/i18n/i18n-ui.js?v=20260825083937"></script>
 </head>
 
 <body
     class="bg-gradient-to-br from-purple-700 via-purple-600 to-indigo-700 min-h-screen flex flex-col items-center justify-center font-sans text-white p-4">
+    <a href="#main-content" class="skip-link" data-i18n="common.skip_link">Saltar al contenido</a>
     <canvas id="webgl-canvas"></canvas>
-    <div class="w-full max-w-6xl text-center">
+    <main id="main-content" class="w-full max-w-6xl text-center">
         <!-- Logo -->
         <div class="flex items-center justify-center gap-8 mb-12">
             <img src="./images/logo.svg" alt="XIRO! Logo" class="h-20"
@@ -42,8 +43,8 @@
         <div id="cards-grid" class="max-w-6xl mx-auto">
 
             <!-- Card Jugador -->
-            <a href="./jugador.html" class="card group block">
-                <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-10 text-slate-800 border-b-8 flex flex-col items-center justify-between"
+            <div class="card group block">
+                <div class="relative bg-white rounded-3xl shadow-2xl p-8 md:p-10 text-slate-800 border-b-8 flex flex-col items-center justify-between"
                     style="height: 400px; border-bottom-color: #8ab817;">
                     <div class="flex-1 flex flex-col items-center justify-center">
                         <div class="icon-wrapper mb-6 p-6 rounded-full" style="background-color: #e7f4c0;">
@@ -56,24 +57,26 @@
                         </p>
                     </div>
                     <div>
-                        <span class="inline-flex items-center font-bold text-lg group-hover:gap-2 transition-all"
+                        <a href="./jugador.html"
+                            class="stretched-link inline-flex items-center font-bold text-lg group-hover:gap-2 transition-all"
                             style="color: #8ab817;">
                             <span data-i18n="index.player.cta">Jugar ahora</span>
                             <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
-                        </span>
+                        </a>
                     </div>
                     <div>
-                        <span class="mt-2 text-xs text-slate-400 hover:text-slate-600 cursor-pointer transition"
-                            data-i18n="index.player.manual" data-index-manual-target="/manual-jugador.html">
+                        <a href="./manual-jugador.html"
+                            class="relative z-10 mt-2 inline-block text-xs text-slate-500 hover:text-slate-700 underline underline-offset-2 transition"
+                            data-i18n="index.player.manual">
                             . . .
-                        </span>
+                        </a>
                     </div>
                 </div>
-            </a>
+            </div>
 
             <!-- Card Presentador -->
-            <a href="./presentador.html" id="card-presenter" class="card group block">
-                <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-10 text-slate-800 border-b-8 flex flex-col items-center justify-between"
+            <div id="card-presenter" class="card group block">
+                <div class="relative bg-white rounded-3xl shadow-2xl p-8 md:p-10 text-slate-800 border-b-8 flex flex-col items-center justify-between"
                     style="height: 400px; border-bottom-color: #f9b518;">
                     <div class="flex-1 flex flex-col items-center justify-center">
                         <div class="icon-wrapper mb-6 p-6 rounded-full" style="background-color: #fff0c2;">
@@ -86,21 +89,22 @@
                         </p>
                     </div>
                     <div>
-                        <span class="inline-flex items-center font-bold text-lg group-hover:gap-2 transition-all"
+                        <a href="./presentador.html"
+                            class="stretched-link inline-flex items-center font-bold text-lg group-hover:gap-2 transition-all"
                             style="color: #f9b518;">
                             <span data-i18n="index.presenter.cta">Iniciar presentación</span>
                             <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
-                        </span>
+                        </a>
                     </div>
                     <div>
-                        <span class="mt-2 text-xs text-slate-400 hover:text-slate-600 cursor-pointer transition"
-                            data-i18n="index.presenter.manual" id="enlaceManual"
-                            data-index-manual-target="/manual-presentador.html">
+                        <a href="./manual-presentador.html"
+                            class="relative z-10 mt-2 inline-block text-xs text-slate-500 hover:text-slate-700 underline underline-offset-2 transition"
+                            data-i18n="index.presenter.manual">
                             . . .
-                        </span>
+                        </a>
                     </div>
                 </div>
-            </a>
+            </div>
 
             <!-- Card Presentador Lite -->
             <a href="./tv.html" id="card-tv" class="card group block">
@@ -151,8 +155,8 @@
             </a>
 
             <!-- Card Administración -->
-            <a href="./admin.html" class="card group block">
-                <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-10 text-slate-800 border-b-8 flex flex-col items-center justify-between"
+            <div class="card group block">
+                <div class="relative bg-white rounded-3xl shadow-2xl p-8 md:p-10 text-slate-800 border-b-8 flex flex-col items-center justify-between"
                     style="height: 400px; border-bottom-color: #e65453;">
                     <div class="flex-1 flex flex-col items-center justify-center">
                         <div class="icon-wrapper mb-6 p-6 rounded-full" style="background-color: #ffd8d8;">
@@ -165,20 +169,22 @@
                         </p>
                     </div>
                     <div>
-                        <span class="inline-flex items-center font-bold text-lg group-hover:gap-2 transition-all"
+                        <a href="./admin.html"
+                            class="stretched-link inline-flex items-center font-bold text-lg group-hover:gap-2 transition-all"
                             style="color: #e65453;">
                             <span data-i18n="index.admin.cta">Acceder al panel</span>
                             <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
-                        </span>
+                        </a>
                     </div>
                     <div>
-                        <span class="mt-2 text-xs text-slate-400 hover:text-slate-600 cursor-pointer transition"
-                            data-i18n="index.admin.manual" data-index-manual-target="/manual-admin.html">
+                        <a href="./manual-admin.html"
+                            class="relative z-10 mt-2 inline-block text-xs text-slate-500 hover:text-slate-700 underline underline-offset-2 transition"
+                            data-i18n="index.admin.manual">
                             . . .
-                        </span>
+                        </a>
                     </div>
                 </div>
-            </a>
+            </div>
 
 
 
@@ -198,11 +204,11 @@
                         class="fas fa-envelope mr-1"></i><span data-i18n="common.footer.contact">Contacto</span></a>
             </p>
         </div>
-    </div>
+    </main>
 
-    <script src="/js/core/smart-prefetch.js?v=20260824101409"></script>
-    <script src="/js/core/index-init.js?v=20260824101409"></script>
-    <script src="/js/core/site-badge.js?v=20260824101409"></script>
+    <script src="/js/core/smart-prefetch.js?v=20260825083937"></script>
+    <script src="/js/core/index-init.js?v=20260825083937"></script>
+    <script src="/js/core/site-badge.js?v=20260825083937"></script>
 </body>
 
 </html>

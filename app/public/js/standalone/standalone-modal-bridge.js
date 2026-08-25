@@ -3,6 +3,6 @@
  * para los scripts clásicos de standalone.html
  */
 
-import { mostrarModalInput } from '../shared/modal-input.js?v=20260824101409';
+import { mostrarModalInput } from '../shared/modal-input.js?v=20260825083937';
 
 window.mostrarModalInput = mostrarModalInput;

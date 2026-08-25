@@ -7,6 +7,7 @@
     "manual_player.tabs.answer": "Nola erantzun",
     "manual_player.tabs.score": "Puntuazioa",
     "manual_player.tabs.trivial": "Trivial",
+    "manual_player.tabs.aria_label": "Eskuliburuaren atalak",
 
     "manual_player.join.s1.title": "Joan xiro.pro-ra",
     "manual_player.join.s1.text": "<p>Ireki arakatzailea zure mugikorrean edo tabletan eta joan <strong>xiro.pro</strong>-ra.</p><p><strong>QR kodea</strong> ere eskana dezakezu pantailan.</p>",
