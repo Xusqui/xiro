@@ -109,7 +109,8 @@ body.bg-gradient-to-br::after {
     content: "";
     position: fixed;
     inset: 0;
-    z-index: -1;                /* debajo de todo */
+    z-index: -1;
+    /* debajo de todo */
     background: linear-gradient(135deg, #8ab817 0%, #f9b518 50%, #e65453 100%);
     background-size: 200% 200%;
     background-position: 0% 50%;
@@ -122,9 +123,10 @@ body.bg-gradient-to-br::before {
     position: fixed;
     inset: 0;
     pointer-events: none;
-    z-index: 0;                 /* encima del ::after */
+    z-index: 0;
+    /* encima del ::after */
     opacity: 0.3;
-    background-image: url("../images/hojas.svg");
+    background-image: url("../images/hojas.svg?v=99");
     background-repeat: no-repeat;
     background-position: center top;
     background-size: 100% auto;
@@ -132,7 +134,7 @@ body.bg-gradient-to-br::before {
 }
 
 /* Contenido encima de ambas capas */
-body.bg-gradient-to-br > .w-full.max-w-6xl {
+body.bg-gradient-to-br>.w-full.max-w-6xl {
     position: relative;
     z-index: 1;
     margin-top: auto;
@@ -214,22 +216,43 @@ body.bg-gradient-to-br > .w-full.max-w-6xl {
 
 /* Entrada escalonada de las role-cards, mismo lenguaje que about.css .float-N */
 @keyframes cardFloatUp {
-    0%   { opacity: 0; transform: translateY(40px); }
-    100% { opacity: 1; transform: translateY(0); }
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-#cards-grid > .card {
+#cards-grid>.card {
     animation: cardFloatUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-#cards-grid > .card:nth-child(1) { animation-delay: 0.10s; }
-#cards-grid > .card:nth-child(2) { animation-delay: 0.20s; }
-#cards-grid > .card:nth-child(3) { animation-delay: 0.30s; }
-#cards-grid > .card:nth-child(4) { animation-delay: 0.40s; }
-#cards-grid > .card:nth-child(5) { animation-delay: 0.50s; }
+#cards-grid>.card:nth-child(1) {
+    animation-delay: 0.10s;
+}
+
+#cards-grid>.card:nth-child(2) {
+    animation-delay: 0.20s;
+}
+
+#cards-grid>.card:nth-child(3) {
+    animation-delay: 0.30s;
+}
+
+#cards-grid>.card:nth-child(4) {
+    animation-delay: 0.40s;
+}
+
+#cards-grid>.card:nth-child(5) {
+    animation-delay: 0.50s;
+}
 
 @media (prefers-reduced-motion: reduce) {
-    #cards-grid > .card {
+    #cards-grid>.card {
         animation: none;
     }
 }

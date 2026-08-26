@@ -3,7 +3,7 @@
  * Actualiza el contador "RESPUESTAS: X / Y" en la pantalla de preguntas
  */
 
-import { getPlayersData } from './presenter-state.js?v=20260825083937';
+import { getPlayersData } from './presenter-state.js?v=20260826110354';
 
 /**
  * Actualizar contador de respuestas en la UI
