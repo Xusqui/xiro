@@ -57,25 +57,64 @@ body::after {
     content: "";
     position: fixed;
     inset: 0;
-    z-index: -1;
+    z-index: -2;
     background: linear-gradient(135deg, #8ab817 0%, #f9b518 50%, #e65453 100%);
     background-size: 200% 200%;
     background-position: 0% 50%;
     animation: autorun-gradient-shift 30s ease-in-out infinite;
 }
 
-/* Hojas SVG encima del degradado */
-body::before {
-    content: "";
+/* Hojas SVG (inyectada como DOM real por hojas-bg.js), encima del degradado, debajo del contenido */
+.hojas-bg-layer {
     position: fixed;
     inset: 0;
+    overflow: hidden;
     pointer-events: none;
-    z-index: 0;
+    z-index: -1;
     opacity: 0.3;
-    background-image: url("/images/hojas.svg?v=99");
-    background-repeat: no-repeat;
-    background-position: center top;
-    background-size: 100% auto;
+}
+
+.hojas-bg-layer svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.hojas-bg-layer.is-animated [id="1"] {
+    transform-box: view-box;
+    transform-origin: 300px 0px;
+    animation: hojasSway1 7s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+.hojas-bg-layer.is-animated [id="2"] {
+    transform-box: view-box;
+    transform-origin: 1600px 0px;
+    animation: hojasSway2 5.5s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    animation-delay: -1.3s;
+}
+
+@keyframes hojasSway1 {
+
+    0%,
+    100% {
+        transform: rotate(-2.5deg);
+    }
+
+    50% {
+        transform: rotate(2.5deg);
+    }
+}
+
+@keyframes hojasSway2 {
+
+    0%,
+    100% {
+        transform: rotate(2deg);
+    }
+
+    50% {
+        transform: rotate(-2deg);
+    }
 }
 
 #appRoot {

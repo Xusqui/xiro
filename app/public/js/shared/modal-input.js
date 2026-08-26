@@ -2,7 +2,7 @@
  * @fileoverview Modal con campo de texto (pedir un dato y continuar al confirmar)
  */
 
-import { tr, ensureModalStyles } from './modal.js?v=20260826110354';
+import { tr, ensureModalStyles } from './modal.js?v=20260826150427';
 
 function buildInputModal({ title, message, type, placeholder, initialValue, confirmText, cancelText, onConfirm, onCancel }) {
     ensureModalStyles();

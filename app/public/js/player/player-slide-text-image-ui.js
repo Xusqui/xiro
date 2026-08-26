@@ -4,7 +4,7 @@
  * La imagen NO se recibe ni se muestra al jugador.
  */
 
-import { getNickname, clearOrderState, setCanAnswer, setCurrentSlideType } from './player-state.js?v=20260826110354';
+import { getNickname, clearOrderState, setCanAnswer, setCurrentSlideType } from './player-state.js?v=20260826150427';
 
 export function renderizarSlideTextoImagen(slide) {
     clearOrderState();

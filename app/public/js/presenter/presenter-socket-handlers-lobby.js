@@ -3,20 +3,20 @@
  * Manejo de lobby, jugadores y equipos
  */
 
-import { getSocket } from './presenter-socket-config.js?v=20260826110354';
+import { getSocket } from './presenter-socket-config.js?v=20260826150427';
 import {
     getSessionId, setSessionId, getTotalPlayers, setTotalPlayers,
     getConnectedPlayers, addConnectedPlayer, removeConnectedPlayer,
     getPlayersData, setPlayerData, deletePlayerData,
     getTeamConfig, setTeamConfig, getIsTeamMode
-} from './presenter-state.js?v=20260826110354';
-import { mostrarQR, renderTeamLobby, updatePlayersPanel } from './presenter-game-ui.js?v=20260826110354';
-import { updateAnswerCounter } from './presenter-answer-counter.js?v=20260826110354';
-import { volverAJuegos } from './presenter-lobby.js?v=20260826110354';
-import { mostrarLobbyMain } from './presenter-utils.js?v=20260826110354';
-import { handlePlayerRejoined } from './presenter-player-rejoined-handler.js?v=20260826110354';
-import { handleGameAbandoned } from './presenter-session-control.js?v=20260826110354';
-import { mostrarModalMensaje } from '../shared/modal.js?v=20260826110354';
+} from './presenter-state.js?v=20260826150427';
+import { mostrarQR, renderTeamLobby, updatePlayersPanel } from './presenter-game-ui.js?v=20260826150427';
+import { updateAnswerCounter } from './presenter-answer-counter.js?v=20260826150427';
+import { volverAJuegos } from './presenter-lobby.js?v=20260826150427';
+import { mostrarLobbyMain } from './presenter-utils.js?v=20260826150427';
+import { handlePlayerRejoined } from './presenter-player-rejoined-handler.js?v=20260826150427';
+import { handleGameAbandoned } from './presenter-session-control.js?v=20260826150427';
+import { mostrarModalMensaje } from '../shared/modal.js?v=20260826150427';
 
 /**
  * Registrar manejadores de socket para lobby y jugadores

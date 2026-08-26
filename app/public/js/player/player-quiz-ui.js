@@ -8,10 +8,10 @@ import {
     setCanAnswer,
     clearOrderState,
     setCurrentSlideType
-} from './player-state.js?v=20260826110354';
-import { OPTION_COLORS, getResponsiveFontClass } from './player-question-utils.js?v=20260826110354';
-import { setBodyHTML } from './player-streak-ui.js?v=20260826110354';
-import { escapeHtml, sanitizeResourceUrl } from '../core/sanitize.js?v=20260826110354';
+} from './player-state.js?v=20260826150427';
+import { OPTION_COLORS, getResponsiveFontClass } from './player-question-utils.js?v=20260826150427';
+import { setBodyHTML } from './player-streak-ui.js?v=20260826150427';
+import { escapeHtml, sanitizeResourceUrl } from '../core/sanitize.js?v=20260826150427';
 
 /**
  * Renderizar pregunta con opciones
