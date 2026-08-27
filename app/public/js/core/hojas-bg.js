@@ -7,7 +7,7 @@
         layer.setAttribute('aria-hidden', 'true');
         document.body.appendChild(layer);
 
-        fetch('/images/hojas.svg?v=99')
+        fetch('/images/hojas3.svg?v=99')
             .then(function (res) { return res.text(); })
             .then(function (svgText) {
                 layer.innerHTML = svgText;

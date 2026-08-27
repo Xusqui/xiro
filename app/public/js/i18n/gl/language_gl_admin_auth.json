@@ -4,6 +4,8 @@
     "admin.login.title": "Administrador",
     "admin.login.username": "Usuario",
     "admin.login.password": "Contrasinal",
+    "admin.login.password_show": "Amosar contrasinal",
+    "admin.login.password_hide": "Agochar contrasinal",
     "admin.login.submit": "Entra",
     "admin.login.register": "Crear conta",
     "admin.register.email": "Correo electrónico",

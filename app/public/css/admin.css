@@ -191,6 +191,92 @@
             color: rgba(var(--admin-coral-rgb, 230, 84, 83), 0.6);
         }
 
+        /* Iris camaleónica: alterna visibilidad de contraseña. Anillo + pupila
+           en ranura que se dilata y muda a coral al revelar, en vez del clásico
+           icono de ojo tachado. */
+        .xiro-input-wrap:has(.xiro-reveal-toggle) .xiro-login-input {
+            padding-right: 46px;
+        }
+
+        .xiro-reveal-toggle {
+            position: absolute;
+            right: 4px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            border-radius: 14px;
+            padding: 0;
+            cursor: pointer;
+            color: rgba(148, 163, 184, 0.45);
+            transition: background-color 0.2s ease, color 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .xiro-reveal-toggle:hover {
+            background: rgba(255, 255, 255, 0.06);
+            color: rgba(148, 163, 184, 0.75);
+        }
+
+        .xiro-reveal-toggle:focus-visible {
+            outline: 2px solid var(--admin-coral, #e65453);
+            outline-offset: 2px;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .xiro-reveal-icon {
+            display: block;
+            overflow: visible;
+        }
+
+        .xiro-reveal-pupil {
+            transform-origin: 12px 12px;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .xiro-reveal-toggle.is-revealed {
+            color: var(--admin-coral, #e65453);
+        }
+
+        .xiro-reveal-toggle.is-revealed .xiro-reveal-pupil {
+            transform: scaleX(2.15);
+        }
+
+        .xiro-reveal-toggle:not(.is-revealed) .xiro-reveal-pupil {
+            transition-duration: 0.22s;
+            transition-timing-function: ease-in;
+        }
+
+        @keyframes xiroRevealPulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(var(--admin-coral-rgb, 230, 84, 83), 0.45);
+            }
+
+            100% {
+                box-shadow: 0 0 0 14px rgba(var(--admin-coral-rgb, 230, 84, 83), 0);
+            }
+        }
+
+        .xiro-input-wrap.xiro-reveal-pulse .xiro-login-input {
+            animation: xiroRevealPulse 0.55s ease-out;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .xiro-reveal-toggle,
+            .xiro-reveal-pupil {
+                transition-duration: 0.01ms !important;
+            }
+
+            .xiro-input-wrap.xiro-reveal-pulse .xiro-login-input {
+                animation: none !important;
+            }
+        }
+
         .xiro-login-btn {
             font-family: 'DM Sans', sans-serif;
             font-weight: 700;

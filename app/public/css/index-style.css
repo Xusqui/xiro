@@ -135,28 +135,74 @@ body.bg-gradient-to-br .hojas-bg-layer svg {
     height: auto;
 }
 
-body.bg-gradient-to-br .hojas-bg-layer.is-animated [id="1"] {
-    transform-box: view-box;
-    transform-origin: 300px 0px;
-    animation: hojasSway1 7s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+/* hoja-0..4 ya traen su propia matriz de posicionamiento (transform="matrix(...)")
+   y su transform-origin inline (en fill-box, igual que hoja-2). Se fuerza
+   transform-box: fill-box para que el pivote coincida con ese origin y la
+   rotación no describa un arco (que se veía como subir/bajar). Se anima solo
+   la propiedad individual `rotate` para que se componga con la matriz.
+   hoja-0, hoja-2, hoja-3 y hoja-4 no tocan transform-origin ni transform-box
+   (usan los valores inline del SVG tal cual). OJO: `transform-box: fill-box`
+   en un <g> NO es un no-op aquí — para algunos grupos (hoja-4) el bbox de
+   contenido real está lejos del origen y el pivote se desplaza muchísimo,
+   sacando la hoja de pantalla incluso sin rotar. Por eso no se declara. */
+body.bg-gradient-to-br .hojas-bg-layer.is-animated [id="hoja-0"] {
+    animation: hojasSway0 8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
 
-body.bg-gradient-to-br .hojas-bg-layer.is-animated [id="2"] {
-    transform-box: view-box;
-    transform-origin: 1600px 0px;
-    animation: hojasSway2 5.5s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-    animation-delay: -1.3s;
+/* Pivote en la esquina superior derecha real del bbox local de hoja-1
+   (x=3641 y=54.95, calculado desde las coordenadas del path). Cambiar solo
+   transform-origin desplaza TODA la hoja, no solo el pivote de rotación:
+   el origin re-ancla la matriz de posicionamiento completa (transform-origin
+   envuelve translate+rotate+scale+transform como una sola unidad), así que
+   hay que compensar la traslación e/f de la matriz para que la posición base
+   (sin rotar) siga coincidiendo con la original. Matrix original:
+   matrix(-0.423166, -0.906053, 0.906053, -0.423166, -1119.060059, 33.536716)
+   con origin inline (2950px, 496.975px); e/f recalculados abajo para el
+   nuevo origin (3641px, 54.95px), verificado con un render real. */
+body.bg-gradient-to-br .hojas-bg-layer.is-animated [id="hoja-1"] {
+    transform: matrix(-0.423166, -0.906053, 0.906053, -0.423166, -2502.965842, 36.529044) !important;
+    transform-origin: 3641px 54.95px !important;
+    transform-box: view-box !important;
+    animation: hojasSway1 6.5s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    animation-delay: -1.2s;
+}
+
+body.bg-gradient-to-br .hojas-bg-layer.is-animated [id="hoja-2"] {
+    animation: hojasSway2 9s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    animation-delay: -2.5s;
+}
+
+body.bg-gradient-to-br .hojas-bg-layer.is-animated [id="hoja-3"] {
+    animation: hojasSway3 7.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    animation-delay: -0.8s;
+}
+
+body.bg-gradient-to-br .hojas-bg-layer.is-animated [id="hoja-4"] {
+    animation: hojasSway4 5.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    animation-delay: -1.8s;
+}
+
+@keyframes hojasSway0 {
+
+    0%,
+    100% {
+        rotate: -0.35deg;
+    }
+
+    50% {
+        rotate: 0.35deg;
+    }
 }
 
 @keyframes hojasSway1 {
 
     0%,
     100% {
-        transform: rotate(-2.5deg);
+        rotate: -0.45deg;
     }
 
     50% {
-        transform: rotate(2.5deg);
+        rotate: 0.45deg;
     }
 }
 
@@ -164,11 +210,35 @@ body.bg-gradient-to-br .hojas-bg-layer.is-animated [id="2"] {
 
     0%,
     100% {
-        transform: rotate(2deg);
+        rotate: 0.3deg;
     }
 
     50% {
-        transform: rotate(-2deg);
+        rotate: -0.3deg;
+    }
+}
+
+@keyframes hojasSway3 {
+
+    0%,
+    100% {
+        rotate: -0.4deg;
+    }
+
+    50% {
+        rotate: 0.4deg;
+    }
+}
+
+@keyframes hojasSway4 {
+
+    0%,
+    100% {
+        rotate: 0.5deg;
+    }
+
+    50% {
+        rotate: -0.5deg;
     }
 }
 

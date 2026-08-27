@@ -4,6 +4,8 @@
     "admin.login.title": "行政人员",
     "admin.login.username": "用户",
     "admin.login.password": "密码",
+    "admin.login.password_show": "显示密码",
+    "admin.login.password_hide": "隐藏密码",
     "admin.login.submit": "进入",
     "admin.login.register": "创建账户",
     "admin.register.email": "电子邮件",

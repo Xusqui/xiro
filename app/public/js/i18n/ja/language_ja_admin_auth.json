@@ -4,6 +4,8 @@
     "admin.login.title": "管理者",
     "admin.login.username": "ユーザー",
     "admin.login.password": "パスワード",
+    "admin.login.password_show": "パスワードを表示",
+    "admin.login.password_hide": "パスワードを隠す",
     "admin.login.submit": "入力",
     "admin.login.register": "アカウントを作成する",
     "admin.register.email": "電子メール",

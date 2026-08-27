@@ -2,9 +2,9 @@
  * @fileoverview Player - UI de dados y selección de casillas para Trivial
  */
 
-import { getSocket } from './player-socket-config.js?v=20260826150427';
-import { getSessionId, getNickname } from './player-state.js?v=20260826150427';
-import { initDice, startRoll, destroy as destroyDice } from './dice3d.js?v=20260826150427';
+import { getSocket } from './player-socket-config.js?v=20260827184252';
+import { getSessionId, getNickname } from './player-state.js?v=20260827184252';
+import { initDice, startRoll, destroy as destroyDice } from './dice3d.js?v=20260827184252';
 
 let _waitingMove = false;
 

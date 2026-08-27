@@ -4,6 +4,8 @@
     "admin.login.title": "Administratzailea",
     "admin.login.username": "Erabiltzailea",
     "admin.login.password": "Pasahitza",
+    "admin.login.password_show": "Erakutsi pasahitza",
+    "admin.login.password_hide": "Ezkutatu pasahitza",
     "admin.login.submit": "Sartu",
     "admin.login.register": "Sortu kontua",
     "admin.register.email": "Posta elektronikoa",

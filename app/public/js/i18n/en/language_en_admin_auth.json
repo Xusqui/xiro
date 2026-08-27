@@ -4,6 +4,8 @@
     "admin.login.title": "Administrator",
     "admin.login.username": "Username",
     "admin.login.password": "Password",
+    "admin.login.password_show": "Show password",
+    "admin.login.password_hide": "Hide password",
     "admin.login.submit": "Sign in",
     "admin.login.register": "Create account",
     "admin.register.email": "Email",

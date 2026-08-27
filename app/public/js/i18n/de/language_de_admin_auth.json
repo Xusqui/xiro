@@ -4,6 +4,8 @@
     "admin.login.title": "Administrator",
     "admin.login.username": "Benutzer",
     "admin.login.password": "Passwort",
+    "admin.login.password_show": "Passwort anzeigen",
+    "admin.login.password_hide": "Passwort verbergen",
     "admin.login.submit": "Eingeben",
     "admin.login.register": "Benutzerkonto erstellen",
     "admin.register.email": "E-Mail",

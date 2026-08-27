@@ -4,6 +4,8 @@
     "admin.login.title": "Administrador",
     "admin.login.username": "Usuari",
     "admin.login.password": "Contrasenya",
+    "admin.login.password_show": "Mostrar contrasenya",
+    "admin.login.password_hide": "Amagar contrasenya",
     "admin.login.submit": "Entrar",
     "admin.login.register": "Crear compte",
     "admin.register.email": "Correu electrònic",

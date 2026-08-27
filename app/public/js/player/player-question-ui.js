@@ -2,11 +2,11 @@
  * @fileoverview Fachada de renderizado de preguntas del jugador
  */
 
-export { getResponsiveFontClass } from './player-question-utils.js?v=20260826150427';
-export { renderizarSlideComentario, renderizarSlideInfo, renderizarSlideTexto, renderizarSlideImagen, renderizarSlideTextoImagen } from './player-slides-ui.js?v=20260826150427';
-export { renderizarPregunta } from './player-quiz-ui.js?v=20260826150427';
-export { renderizarPreguntaOrdena } from './player-order-ui.js?v=20260826150427';
-export { renderizarPreguntaMatching } from './player-matching-ui.js?v=20260826150427';
-export { renderizarPreguntaNumerica } from './player-numeric-ui.js?v=20260826150427';
-export { renderizarPreguntaWordScramble } from './player-wordscramble-ui.js?v=20260826150427';
-export { renderizarPreguntaMultipleChoice } from './player-multiplechoice-ui.js?v=20260826150427';
+export { getResponsiveFontClass } from './player-question-utils.js?v=20260827184252';
+export { renderizarSlideComentario, renderizarSlideInfo, renderizarSlideTexto, renderizarSlideImagen, renderizarSlideTextoImagen } from './player-slides-ui.js?v=20260827184252';
+export { renderizarPregunta } from './player-quiz-ui.js?v=20260827184252';
+export { renderizarPreguntaOrdena } from './player-order-ui.js?v=20260827184252';
+export { renderizarPreguntaMatching } from './player-matching-ui.js?v=20260827184252';
+export { renderizarPreguntaNumerica } from './player-numeric-ui.js?v=20260827184252';
+export { renderizarPreguntaWordScramble } from './player-wordscramble-ui.js?v=20260827184252';
+export { renderizarPreguntaMultipleChoice } from './player-multiplechoice-ui.js?v=20260827184252';
