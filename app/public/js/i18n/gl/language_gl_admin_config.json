@@ -122,6 +122,8 @@
     "admin.config.ui.tv_card_mode_old_devices": "Só en dispositivos antigos",
     "admin.config.ui.standalone_card_label": "Tarxeta \"Modo Autónomo\" na pantalla de inicio",
     "admin.config.ui.standalone_card_desc": "Mostra ou oculta a tarxeta e ligazón a standalone.html na pantalla de inicio.",
+    "admin.config.ui.animar_fondo_label": "Fondo animado",
+    "admin.config.ui.animar_fondo_desc": "Activa o movemento do degradado e das follas de fondo. Se se desactiva, o fondo queda estático.",
     "admin.config.ui.applying": "Aplicando…",
     "admin.config.ui.applied_ok": "O cambio aplicouse correctamente.",
     "admin.config.ui.net_error": "Erro de rede.",

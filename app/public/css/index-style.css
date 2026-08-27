@@ -296,6 +296,13 @@ body.bg-gradient-to-br>.w-full.max-w-6xl {
     animation-play-state: paused;
 }
 
+/* Ajuste "Animar Fondo" desactivado desde Admin/Config: degradado y hojas quedan
+   estáticos (hojas-bg.js ya evita añadir .is-animated en este caso). */
+html.xiro-bg-static body.bg-gradient-to-br::after {
+    animation: none;
+    background-position: 0% 50%;
+}
+
 @media (prefers-reduced-motion: reduce) {
     .player-chameleon {
         animation: chameleonFadeOnly 0.4s ease-out 0.5s both;

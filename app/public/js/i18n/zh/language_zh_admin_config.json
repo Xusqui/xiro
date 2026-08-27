@@ -122,6 +122,8 @@
     "admin.config.ui.tv_card_mode_old_devices": "仅旧设备显示",
     "admin.config.ui.standalone_card_label": "主屏幕上的“单人模式”卡片",
     "admin.config.ui.standalone_card_desc": "在主屏幕上显示或隐藏卡片和 standalone.html 的链接。",
+    "admin.config.ui.animar_fondo_label": "动态背景",
+    "admin.config.ui.animar_fondo_desc": "启用背景渐变和叶片的动画效果。禁用后背景将保持静态。",
     "admin.config.ui.applying": "正在申请…",
     "admin.config.ui.applied_ok": "更改应用成功。",
     "admin.config.ui.net_error": "网络错误。",

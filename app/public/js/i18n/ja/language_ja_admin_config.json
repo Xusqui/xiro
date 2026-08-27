@@ -122,6 +122,8 @@
     "admin.config.ui.tv_card_mode_old_devices": "古い端末のみ表示",
     "admin.config.ui.standalone_card_label": "ホーム画面の「ソロモード」カード",
     "admin.config.ui.standalone_card_desc": "ホーム画面のカードと standalone.html へのリンクを表示または非表示にします。",
+    "admin.config.ui.animar_fondo_label": "背景アニメーション",
+    "admin.config.ui.animar_fondo_desc": "背景のグラデーションと葉の動きを有効にします。無効にすると背景は静止したままになります。",
     "admin.config.ui.applying": "申請中…",
     "admin.config.ui.applied_ok": "変更は正常に適用されました。",
     "admin.config.ui.net_error": "ネットワークエラー。",

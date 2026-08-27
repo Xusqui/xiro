@@ -122,6 +122,8 @@
     "admin.config.ui.tv_card_mode_old_devices": "Gailu zaharretan soilik",
     "admin.config.ui.standalone_card_label": "\"Mode Autonomoa\" txartela hasierako pantailan",
     "admin.config.ui.standalone_card_desc": "Txartela erakusten edo ezkutatzen du eta standalone.html-rako esteka hasierako pantailan.",
+    "admin.config.ui.animar_fondo_label": "Atzeko planoa animatua",
+    "admin.config.ui.animar_fondo_desc": "Atzeko planoko gradiente eta hosto mugimendua aktibatzen du. Desaktibatuz gero, atzeko planoa estatiko geratzen da.",
     "admin.config.ui.applying": "Aplikatzen…",
     "admin.config.ui.applied_ok": "Aldaketa behar bezala aplikatu da.",
     "admin.config.ui.net_error": "Sareko errorea.",

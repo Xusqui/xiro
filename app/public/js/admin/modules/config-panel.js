@@ -181,9 +181,12 @@ function _renderTvCardModeOptions(currentMode) {
 function _renderUiTab(settings) {
     const tvCardMode = settings.tvCardMode || 'always';
     const showStandalone = settings.showStandaloneCard !== false;
+    const animarFondo = settings.animarFondo !== false;
 
     const bgStandalone = showStandalone ? '#10b981' : '#cbd5e1';
     const knobLeftStandalone = showStandalone ? '22px' : '2px';
+    const bgAnimarFondo = animarFondo ? '#16a34a' : '#cbd5e1';
+    const knobLeftAnimarFondo = animarFondo ? '22px' : '2px';
 
     return `<div class="space-y-4">
         <div class="bg-white rounded-2xl border-2 border-slate-200 p-5">
@@ -214,7 +217,23 @@ function _renderUiTab(settings) {
                 <span style="display:block;position:absolute;top:2px;left:${knobLeftStandalone};width:20px;height:20px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.18)"></span>
             </div>
         </div>
-        
+
+        <div class="bg-white rounded-2xl border-2 border-slate-200 p-5 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-leaf text-green-600 text-base"></i>
+                </div>
+                <div>
+                    <p class="font-bold text-slate-800 text-sm">${_t('admin.config.ui.animar_fondo_label')}</p>
+                    <p class="text-xs text-slate-500 mt-0.5">${_t('admin.config.ui.animar_fondo_desc')}</p>
+                </div>
+            </div>
+            <div data-config-action="toggle-ui-setting" data-key="animarFondo" data-checked="${animarFondo}"
+                 style="width:44px;height:24px;border-radius:12px;background:${bgAnimarFondo};position:relative;cursor:pointer;transition:background .2s;flex-shrink:0">
+                <span style="display:block;position:absolute;top:2px;left:${knobLeftAnimarFondo};width:20px;height:20px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.18)"></span>
+            </div>
+        </div>
+
         <div id="ui-save-result" class="text-sm"></div>
     </div>`;
 }
