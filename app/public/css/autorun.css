@@ -94,20 +94,12 @@ body::after {
     animation: hojasSway0 8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
 
-/* Pivote en la esquina superior derecha real del bbox local de hoja-1
-   (x=3641 y=54.95, calculado desde las coordenadas del path). Cambiar solo
-   transform-origin desplaza TODA la hoja, no solo el pivote de rotación:
-   el origin re-ancla la matriz de posicionamiento completa (transform-origin
-   envuelve translate+rotate+scale+transform como una sola unidad), así que
-   hay que compensar la traslación e/f de la matriz para que la posición base
-   (sin rotar) siga coincidiendo con la original. Matrix original:
-   matrix(-0.423166, -0.906053, 0.906053, -0.423166, -1119.060059, 33.536716)
-   con origin inline (2950px, 496.975px); e/f recalculados abajo para el
-   nuevo origin (3641px, 54.95px), verificado con un render real. */
+/* hoja-1: rota sobre su propio centro visual (fill-box + 50% 50%) en vez de
+   un pivote en coordenadas absolutas de view-box — así no se desplaza en
+   ningún navegador, solo gira ligeramente en su sitio. */
 .hojas-bg-layer.is-animated [id="hoja-1"] {
-    transform: matrix(-0.423166, -0.906053, 0.906053, -0.423166, -2502.965842, 36.529044) !important;
-    transform-origin: 3641px 54.95px !important;
-    transform-box: view-box !important;
+    transform-box: fill-box !important;
+    transform-origin: 50% 50% !important;
     animation: hojasSway1 6.5s cubic-bezier(0.45, 0, 0.55, 1) infinite;
     animation-delay: -1.2s;
 }

@@ -9,7 +9,7 @@
  *   showTrivialWinnerOverlay(ranking) — mounts the overlay on document.body
  */
 
-import { renderPodio } from './presenter-game-ui.js?v=20260827184252';
+import { renderPodio } from './presenter-game-ui.js?v=20260828012635';
 
 const OVERLAY_ID = 'trivial-winner-overlay';
 const BTN_ID = 'trivial-winner-podium-btn';
