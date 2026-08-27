@@ -162,10 +162,7 @@ async function mostrarMezclarBancos() {
                                     </span>
                                     <p class="text-xs text-slate-500 mt-0.5">Bonus por respuestas correctas consecutivas</p>
                                 </div>
-                                <label class="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" id="mergeUseStreaks" class="sr-only peer" data-merge-action="toggle-streaks">
-                                    <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
-                                </label>
+                                ${renderNeonSwitch({ id: 'mergeUseStreaks', checked: false, action: null, attrs: 'data-merge-action="toggle-streaks"' })}
                             </div>
                             <div id="mergeStreakConfigPanel" class="hidden mt-3 p-4 bg-orange-50 rounded-xl border border-orange-100 grid grid-cols-2 gap-4">
                                 <div>
@@ -187,10 +184,7 @@ async function mostrarMezclarBancos() {
                                     </span>
                                     <p class="text-xs text-slate-500 mt-0.5">Bonus adicional por rachas más largas</p>
                                 </div>
-                                <label class="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" id="mergeUseDoubleStreaks" class="sr-only peer" data-merge-action="toggle-double-streaks">
-                                    <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
-                                </label>
+                                ${renderNeonSwitch({ id: 'mergeUseDoubleStreaks', checked: false, action: null, attrs: 'data-merge-action="toggle-double-streaks"' })}
                             </div>
                             <div id="mergeDoubleStreakConfigPanel" class="hidden mt-3 p-4 bg-red-50 rounded-xl border border-red-100 grid grid-cols-2 gap-4">
                                 <div>

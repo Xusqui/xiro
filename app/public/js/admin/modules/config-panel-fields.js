@@ -169,8 +169,6 @@ function _renderFireworksSlider(key, value, meta) {
 
 function _renderFireworksToggle(key, value, meta) {
     const isChecked = value === true;
-    const bg = isChecked ? '#a855f7' : '#cbd5e1';
-    const knobLeft = isChecked ? '22px' : '2px';
     return `
         <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
             <div class="flex items-center justify-between gap-4">
@@ -183,10 +181,7 @@ function _renderFireworksToggle(key, value, meta) {
                         <p class="text-xs text-slate-500 leading-relaxed">${_t(meta.description, null, meta.description)}</p>
                     </div>
                 </div>
-                <div data-config-action="toggle-fireworks-setting" data-key="${key}" data-fw-checked="${isChecked}"
-                     style="width:44px;height:24px;border-radius:12px;background:${bg};position:relative;cursor:pointer;transition:background .2s;flex-shrink:0">
-                    <span style="display:block;position:absolute;top:2px;left:${knobLeft};width:20px;height:20px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.18)"></span>
-                </div>
+                ${renderNeonSwitch({ key, checked: isChecked, action: 'toggle-fireworks-setting-neon', label: _t(meta.label, null, meta.label) })}
             </div>
         </div>`;
 }

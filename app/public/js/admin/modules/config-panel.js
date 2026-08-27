@@ -183,11 +183,6 @@ function _renderUiTab(settings) {
     const showStandalone = settings.showStandaloneCard !== false;
     const animarFondo = settings.animarFondo !== false;
 
-    const bgStandalone = showStandalone ? '#10b981' : '#cbd5e1';
-    const knobLeftStandalone = showStandalone ? '22px' : '2px';
-    const bgAnimarFondo = animarFondo ? '#16a34a' : '#cbd5e1';
-    const knobLeftAnimarFondo = animarFondo ? '22px' : '2px';
-
     return `<div class="space-y-4">
         <div class="bg-white rounded-2xl border-2 border-slate-200 p-5">
             <div class="flex items-center gap-4 mb-4">
@@ -212,10 +207,7 @@ function _renderUiTab(settings) {
                     <p class="text-xs text-slate-500 mt-0.5">${_t('admin.config.ui.standalone_card_desc')}</p>
                 </div>
             </div>
-            <div data-config-action="toggle-ui-setting" data-key="showStandaloneCard" data-checked="${showStandalone}"
-                 style="width:44px;height:24px;border-radius:12px;background:${bgStandalone};position:relative;cursor:pointer;transition:background .2s;flex-shrink:0">
-                <span style="display:block;position:absolute;top:2px;left:${knobLeftStandalone};width:20px;height:20px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.18)"></span>
-            </div>
+            ${renderNeonSwitch({ key: 'showStandaloneCard', checked: showStandalone, label: _t('admin.config.ui.standalone_card_label') })}
         </div>
 
         <div class="bg-white rounded-2xl border-2 border-slate-200 p-5 flex items-center justify-between gap-4">
@@ -228,10 +220,7 @@ function _renderUiTab(settings) {
                     <p class="text-xs text-slate-500 mt-0.5">${_t('admin.config.ui.animar_fondo_desc')}</p>
                 </div>
             </div>
-            <div data-config-action="toggle-ui-setting" data-key="animarFondo" data-checked="${animarFondo}"
-                 style="width:44px;height:24px;border-radius:12px;background:${bgAnimarFondo};position:relative;cursor:pointer;transition:background .2s;flex-shrink:0">
-                <span style="display:block;position:absolute;top:2px;left:${knobLeftAnimarFondo};width:20px;height:20px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.18)"></span>
-            </div>
+            ${renderNeonSwitch({ key: 'animarFondo', checked: animarFondo, label: _t('admin.config.ui.animar_fondo_label') })}
         </div>
 
         <div id="ui-save-result" class="text-sm"></div>
@@ -263,15 +252,6 @@ function setTvCardMode(mode, el) {
         });
     }
     saveUiSetting('tvCardMode', mode);
-}
-
-function toggleUiSetting(key, el) {
-    const newVal = el.dataset.checked !== 'true';
-    el.dataset.checked = String(newVal);
-    el.style.background = newVal ? '#06b6d4' : '#cbd5e1';
-    const knob = el.querySelector('span');
-    if (knob) knob.style.left = newVal ? '22px' : '2px';
-    saveUiSetting(key, newVal);
 }
 
 function saveUiSetting(key, value) {
@@ -351,15 +331,6 @@ function updateFireworksSlider(key, value) {
     saveFireworksSetting(key, parseFloat(value));
 }
 
-function toggleFireworksSetting(key, el) {
-    const newVal = el.dataset.fwChecked !== 'true';
-    el.dataset.fwChecked = String(newVal);
-    el.style.background = newVal ? '#a855f7' : '#cbd5e1';
-    const knob = el.querySelector('span');
-    if (knob) knob.style.left = newVal ? '22px' : '2px';
-    saveFireworksSetting(key, newVal);
-}
-
 function saveFireworksSetting(key, value) {
     const resultEl = document.getElementById('fireworks-save-result');
     if (resultEl) resultEl.innerHTML = _tHtml(`<span class="text-slate-400"><i class="fas fa-spin fa-circle-notch mr-1"></i>${_t('admin.config.fireworks.saving')}</span>`);
@@ -390,8 +361,8 @@ function previewFireworks() {
     }
     function toggleVal(key, fallback) {
         if (_configData.__ui && _configData.__ui[key] !== undefined) return _configData.__ui[key];
-        const div = document.querySelector('[data-config-action="toggle-fireworks-setting"][data-key="' + key + '"]');
-        return div ? div.dataset.fwChecked === 'true' : fallback;
+        const input = document.querySelector('[data-config-action="toggle-fireworks-setting-neon"][data-key="' + key + '"]');
+        return input ? input.checked : fallback;
     }
 
     const params = new URLSearchParams({
@@ -430,8 +401,8 @@ function _initConfigPanelDelegation() {
             case 'reload-config':
                 renderConfigPanel();
                 break;
-            case 'toggle-ui-setting':
-                if (actionElement.dataset.key) toggleUiSetting(actionElement.dataset.key, actionElement);
+            case 'toggle-ui-setting-neon':
+                if (actionElement.dataset.key) saveUiSetting(actionElement.dataset.key, actionElement.checked);
                 break;
             case 'set-tv-card-mode':
                 if (actionElement.dataset.mode) setTvCardMode(actionElement.dataset.mode, actionElement);
@@ -442,8 +413,8 @@ function _initConfigPanelDelegation() {
             case 'toggle-sensitive':
                 if (actionElement.dataset.key) toggleSensitiveField(actionElement.dataset.key);
                 break;
-            case 'toggle-fireworks-setting':
-                if (actionElement.dataset.key) toggleFireworksSetting(actionElement.dataset.key, actionElement);
+            case 'toggle-fireworks-setting-neon':
+                if (actionElement.dataset.key) saveFireworksSetting(actionElement.dataset.key, actionElement.checked);
                 break;
             case 'save-team-names':
                 saveTeamNames();

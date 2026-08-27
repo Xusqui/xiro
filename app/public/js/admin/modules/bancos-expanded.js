@@ -237,10 +237,7 @@ function renderEditorBanco(bank) {
                         <span class="text-sm font-bold text-slate-700"><i class="fas fa-fire text-orange-500 mr-2"></i>${_t('admin.banks.label_streaks', null, 'Activar Rachas')}</span>
                         <p class="text-slate-400 text-xs mt-0.5">${_t('admin.banks.help_streaks', null, 'Bonus de puntos por respuestas correctas consecutivas')}</p>
                     </div>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" id="editBankUseStreaks" ${bank.use_streaks ? 'checked' : ''} data-admin-change="toggleBankStreakConfig()" class="sr-only peer">
-                        <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
-                    </label>
+                    ${renderNeonSwitch({ id: 'editBankUseStreaks', checked: bank.use_streaks, action: null, attrs: 'data-admin-change="toggleBankStreakConfig()"' })}
                 </div>
                 <div id="bankStreakConfigPanel" class="${bank.use_streaks ? '' : 'hidden'} mt-3 ml-4 p-4 bg-purple-50 rounded-xl border border-purple-100 grid grid-cols-2 gap-4">
                     <div>
@@ -261,10 +258,7 @@ function renderEditorBanco(bank) {
                         <span class="text-sm font-bold text-slate-700"><i class="fas fa-fire-alt text-red-500 mr-2"></i>${_t('admin.banks.label_dbl_streaks', null, 'Activar Dobles Rachas')}</span>
                         <p class="text-slate-400 text-xs mt-0.5">${_t('admin.banks.help_dbl_streaks', null, 'Bonus adicional por rachas más largas')}</p>
                     </div>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" id="editBankUseDoubleStreaks" ${bank.use_double_streaks ? 'checked' : ''} data-admin-change="toggleBankDoubleStreakConfig()" class="sr-only peer">
-                        <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
-                    </label>
+                    ${renderNeonSwitch({ id: 'editBankUseDoubleStreaks', checked: bank.use_double_streaks, action: null, attrs: 'data-admin-change="toggleBankDoubleStreakConfig()"' })}
                 </div>
                 <div id="bankDoubleStreakConfigPanel" class="${bank.use_double_streaks ? '' : 'hidden'} mt-3 ml-4 p-4 bg-purple-50 rounded-xl border border-purple-100 grid grid-cols-2 gap-4">
                     <div>
