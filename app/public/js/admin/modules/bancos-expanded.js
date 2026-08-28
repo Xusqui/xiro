@@ -362,9 +362,12 @@ function exportarBanco() {
 
     const preguntasValidas = preguntasData.filter(q => ((q.questionText || q.question_text || '').trim() !== ''));
 
+    const language = document.getElementById('editBankLanguage')?.value || 'es';
+
     const payload = {
         name: name,
         type: 'quiz',
+        language: language,
         questions: preguntasValidas.map(q => mapQuestionForExport(q))
     };
 

@@ -1,6 +1,7 @@
 {
     "name": "Nombre del banco de preguntas",
     "type": "quiz",
+    "language": "es",
     "questions": [
         {
             "question_text": "Pregunta 1",

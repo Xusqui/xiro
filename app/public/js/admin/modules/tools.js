@@ -372,6 +372,7 @@ async function cargarBancoDesdeJSON() {
             id: null,
             name: cuestionarioCargado.name,
             pin: pin || null,
+            language: cuestionarioCargado.language || 'es',
             questions: cuestionarioCargado.questions.map(q => mapQuestionForImport(q))
         };
 
