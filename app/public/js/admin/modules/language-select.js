@@ -14,12 +14,17 @@ const _LANG_BTN_BASE = 'inline-flex items-center justify-center w-10 h-8 p-1 rou
 const _LANG_BTN_ACTIVE = 'border-violet-600 bg-violet-50 scale-105';
 const _LANG_BTN_INACTIVE = 'border-transparent bg-slate-50';
 
+function _languageLabel(code) {
+    const fallback = LANGUAGE_NAMES[code] || code.toUpperCase();
+    return window.XiroI18n?.t?.(`language.${code}`, null, fallback) || fallback;
+}
+
 function renderLanguageSelect({ id, value } = {}) {
     const codes = (window.XiroI18n?.getSupportedLanguages?.() || Object.keys(LANGUAGE_NAMES));
     const selected = value || window.XiroI18n?.getLanguage?.() || 'es';
 
     const flags = codes.map((code) => {
-        const label = LANGUAGE_NAMES[code] || code.toUpperCase();
+        const label = _languageLabel(code);
         const active = code === selected;
         return `<button type="button"
                 data-admin-click="selectContentLanguage('${id}', '${code}', this)"

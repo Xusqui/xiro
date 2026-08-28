@@ -21,14 +21,14 @@ async function renderVistaTrivial() {
                         <div class="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center">
                             <i class="fas fa-dice text-white text-xl"></i>
                         </div>
-                        Juegos Trivial
+                        ${_t('admin.trivial.title', null, 'Juegos Trivial')}
                     </h1>
-                    <p class="text-slate-500">Crea tableros Trivial con categorías propias</p>
+                    <p class="text-slate-500">${_t('admin.trivial.subtitle', null, 'Crea tableros Trivial con categorías propias')}</p>
                 </div>
                 <button data-trivial-list-action="new-trivial"
                     class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-4 rounded-xl font-bold text-lg shadow-lg transition transform hover:-translate-y-1 flex items-center gap-3">
                     <i class="fas fa-plus-circle text-xl"></i>
-                    Nuevo Trivial
+                    ${_t('admin.trivial.btn_new', null, 'Nuevo Trivial')}
                 </button>
             </div>
             ${games.length === 0 ? `
@@ -67,14 +67,14 @@ function _trivialCard(g) {
                             <i class="fas fa-key"></i> PIN: ${g.pin}
                         </div>
                         <div class="flex items-center gap-1 mt-2">${swatches}
-                            <span class="text-xs text-slate-500 ml-1">${cats.length} categoría(s)</span>
+                            <span class="text-xs text-slate-500 ml-1">${_t('admin.trivial.categories_count', { n: cats.length }, '{n} categoría(s)')}</span>
                         </div>
                     </div>
                 </div>
                 <div class="flex gap-2 mt-4">
                     <button data-trivial-list-action="${canModify ? 'edit-trivial' : 'ownership-denied'}" data-id="${g.id}"
                         class="${editClasses}" ${canModify ? '' : 'title="Bloqueado: creado por otro usuario"'}>
-                        <i class="fas fa-edit mr-1"></i> Editar
+                        <i class="fas fa-edit mr-1"></i> ${_t('admin.trivial.btn_edit', null, 'Editar')}
                     </button>
                     <button data-trivial-list-action="${canModify ? 'delete-trivial' : 'ownership-denied'}" data-id="${g.id}" data-owner-user-id="${g.created_by_user_id ?? ''}"
                         class="${canModify ? 'bg-red-50 hover:bg-red-100 text-red-500 hover:text-red-700 py-2 px-3 rounded-lg text-sm font-bold transition' : `py-2 px-3 rounded-lg text-sm font-bold transition ${getLockedButtonClasses()}`}" ${canModify ? '' : 'title="Bloqueado: creado por otro usuario"'}>
@@ -132,14 +132,14 @@ async function guardarTrivial(exit = true) {
             position: i
         };
     });
-    if (!name || !pin || categories.length < 2) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'),'Nombre, PIN y al menos 2 categorías son obligatorios.', 'warning');
+    if (!name || !pin || categories.length < 2) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), _t('admin.trivial.error_required', null, 'Nombre, PIN y al menos 2 categorías son obligatorios.'), 'warning');
     if (id && !canModifyOwnedResource(ownerUserId)) {
         showOwnershipDeniedModal('este trivial');
         return;
     }
     const missingSource = categories.findIndex(c => !c.source_id);
-    if (missingSource !== -1) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'),`La categoría ${missingSource + 1} no tiene banco, mezcla o personalizado seleccionado.`, 'warning');
-    if (outerCasillas % categories.length !== 0) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'),`Las casillas externas (${outerCasillas}) deben ser múltiplo de ${categories.length} categorías.`, 'warning');
+    if (missingSource !== -1) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), _t('admin.trivial.error_missing_source', { n: missingSource + 1 }, 'La categoría {n} no tiene banco, mezcla o personalizado seleccionado.'), 'warning');
+    if (outerCasillas % categories.length !== 0) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), _t('admin.trivial.error_outer_mismatch', { outer: outerCasillas, n: categories.length }, 'Las casillas externas ({outer}) deben ser múltiplo de {n} categorías.'), 'warning');
 
     const method = id ? 'PUT' : 'POST';
     const url = id ? `/api/trivial-games/${id}` : '/api/trivial-games';
@@ -154,7 +154,7 @@ async function guardarTrivial(exit = true) {
         })
     });
     const data = await res.json();
-    if (!res.ok) return mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), data.error || 'Error al guardar', 'error');
+    if (!res.ok) return mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), data.error || _t('admin.trivial.error_save', null, 'Error al guardar'), 'error');
     markUnsavedChangesAsSaved();
     if (exit) {
         clearUnsavedChangesGuard();
@@ -179,7 +179,7 @@ async function borrarTrivial(id, event, ownerUserId = null) {
 
     mostrarModalConfirmacion(
         _t('admin.common.confirmation_title', null, '⚠️ Confirmación'),
-        '¿Eliminar este juego Trivial?',
+        _t('admin.trivial.confirm_delete', null, '¿Eliminar este juego Trivial?'),
         async () => {
             await fetchWithAuth(`/api/trivial-games/${id}`, { method: 'DELETE' });
             await renderVistaTrivial();

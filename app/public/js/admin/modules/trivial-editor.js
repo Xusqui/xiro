@@ -33,28 +33,28 @@ async function renderEditorTrivial(game, cats) {
                     <i class="fas fa-arrow-left text-xl"></i>
                 </button>
                 <h1 class="text-3xl font-black text-slate-900">
-                    ${game ? 'Editar Trivial' : 'Nuevo Trivial'}
+                    ${game ? _t('admin.trivial.form_edit', null, 'Editar Trivial') : _t('admin.trivial.form_new', null, 'Nuevo Trivial')}
                 </h1>
             </div>
             <input type="hidden" id="trivial-id" value="${game?.id ?? ''}">
             <input type="hidden" id="trivial-owner-user-id" value="${game?.created_by_user_id ?? ''}">
             <div class="bg-white rounded-2xl shadow p-6 space-y-5 mb-6">
                 <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-1">Nombre del juego</label>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">${_t('admin.trivial.label_name', null, 'Nombre del juego')}</label>
                     <input id="trivial-name" type="text" value="${escapeHtml(game?.name ?? '')}"
                         class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400">
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-1">PIN</label>
-                        <input id="trivial-pin" type="text" value="${game?.pin ?? ''}" placeholder="ej. TRV01"
+                        <label class="block text-sm font-bold text-slate-700 mb-1">${_t('admin.trivial.label_pin', null, 'PIN')}</label>
+                        <input id="trivial-pin" type="text" value="${game?.pin ?? ''}" placeholder="${_t('admin.trivial.ph_pin', null, 'ej. TRV01')}"
                             class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400">
                     </div>
                     <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-1">Casillas externas</label>
+                        <label class="block text-sm font-bold text-slate-700 mb-1">${_t('admin.trivial.label_outer', null, 'Casillas externas')}</label>
                         <input id="trivial-outer" type="number" value="${outerDefault}" readonly
                             class="w-full border rounded-lg px-4 py-2 bg-slate-100 text-slate-500 cursor-not-allowed">
-                        <p class="text-xs text-slate-400 mt-1">Calculado automáticamente: múltiplo de N×(N+1) más cercano a 42</p>
+                        <p class="text-xs text-slate-400 mt-1">${_t('admin.trivial.hint_outer', null, 'Calculado automáticamente: múltiplo de N×(N+1) más cercano a 42')}</p>
                     </div>
                 </div>
                 <div>
@@ -64,7 +64,7 @@ async function renderEditorTrivial(game, cats) {
             </div>
             <div class="bg-white rounded-2xl shadow p-6 space-y-4 mb-6">
                 <h3 class="text-xl font-black text-slate-700 uppercase">
-                    <i class="fas fa-sliders-h text-orange-500 mr-2"></i>Configuración del juego
+                    <i class="fas fa-sliders-h text-orange-500 mr-2"></i>${_t('admin.trivial.section_config', null, 'Configuración del juego')}
                 </h3>
 
                 <!-- Visible al presentador -->
@@ -72,7 +72,7 @@ async function renderEditorTrivial(game, cats) {
                     <input id="trivial-visible" type="checkbox" class="w-4 h-4 accent-orange-500"
                         ${game?.visible_to_presenter !== false ? 'checked' : ''}>
                     <label for="trivial-visible" class="text-sm font-bold text-slate-700">
-                        Visible para el presentador
+                        ${_t('admin.trivial.label_visible', null, 'Visible para el presentador')}
                     </label>
                 </div>
                 ${renderGameCoverField('trivial', game?.image_url)}
@@ -84,24 +84,24 @@ async function renderEditorTrivial(game, cats) {
                     <label class="flex items-center gap-3 cursor-pointer mb-1">
                         <input type="checkbox" id="trivial-use-streaks" ${game?.use_streaks ? 'checked' : ''} class="w-4 h-4 accent-orange-500" data-admin-change="toggleTrivialStreakConfig()">
                         <span class="text-sm font-bold text-slate-700">
-                            <i class="fas fa-fire text-orange-400 mr-2"></i>Usar Rachas
+                            <i class="fas fa-fire text-orange-400 mr-2"></i>${_t('admin.trivial.label_streaks', null, 'Usar Rachas')}
                         </span>
                     </label>
-                    <p class="text-slate-400 text-xs ml-7">Aplica bonus de puntos a jugadores con respuestas correctas consecutivas</p>
+                    <p class="text-slate-400 text-xs ml-7">${_t('admin.trivial.help_streaks', null, 'Aplica bonus de puntos a jugadores con respuestas correctas consecutivas')}</p>
                 </div>
 
                 <div id="trivialStreakConfigPanel" class="${game?.use_streaks ? '' : 'hidden'} grid grid-cols-2 gap-4 p-4 bg-orange-50 rounded-xl border border-orange-100">
                     <div>
-                        <label class="block text-xs font-bold text-slate-500 mb-1 uppercase tracking-widest">Preguntas para activar Racha</label>
+                        <label class="block text-xs font-bold text-slate-500 mb-1 uppercase tracking-widest">${_t('admin.trivial.streak_threshold_label', null, 'Preguntas para activar Racha')}</label>
                         <input type="number" id="trivial-streak-threshold" min="1" max="20" value="${game?.streak_threshold ?? 3}"
                             class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 text-sm">
-                        <p class="text-xs text-slate-400 mt-1">Nº de aciertos consecutivos para entrar en racha</p>
+                        <p class="text-xs text-slate-400 mt-1">${_t('admin.trivial.streak_threshold_help', null, 'Nº de aciertos consecutivos para entrar en racha')}</p>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-500 mb-1 uppercase tracking-widest">Multiplicador de bonus racha</label>
+                        <label class="block text-xs font-bold text-slate-500 mb-1 uppercase tracking-widest">${_t('admin.trivial.streak_bonus_label', null, 'Multiplicador de bonus racha')}</label>
                         <input type="number" id="trivial-streak-bonus" min="0" max="2" step="0.05" value="${game?.streak_bonus_percentage ?? 0.5}"
                             class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 text-sm">
-                        <p class="text-xs text-slate-400 mt-1">Ej: 0.50 = +50% de los puntos base</p>
+                        <p class="text-xs text-slate-400 mt-1">${_t('admin.trivial.streak_bonus_help', null, 'Ej: 0.50 = +50% de los puntos base')}</p>
                     </div>
                 </div>
 
@@ -112,48 +112,48 @@ async function renderEditorTrivial(game, cats) {
                     <label class="flex items-center gap-3 cursor-pointer mb-1">
                         <input type="checkbox" id="trivial-use-double-streaks" ${game?.use_double_streaks ? 'checked' : ''} class="w-4 h-4 accent-red-500" data-admin-change="toggleTrivialDoubleStreakConfig()">
                         <span class="text-sm font-bold text-slate-700">
-                            <i class="fas fa-fire text-red-500 mr-1"></i><i class="fas fa-fire text-red-500 mr-2"></i>Usar Dobles Rachas
+                            <i class="fas fa-fire text-red-500 mr-1"></i><i class="fas fa-fire text-red-500 mr-2"></i>${_t('admin.trivial.label_dbl_streaks', null, 'Usar Dobles Rachas')}
                         </span>
                     </label>
-                    <p class="text-slate-400 text-xs ml-7">Bonus adicional para jugadores que superan un umbral mayor de aciertos consecutivos</p>
+                    <p class="text-slate-400 text-xs ml-7">${_t('admin.trivial.help_dbl_streaks', null, 'Bonus adicional para jugadores que superan un umbral mayor de aciertos consecutivos')}</p>
                 </div>
 
                 <div id="trivialDoubleStreakConfigPanel" class="${game?.use_double_streaks ? '' : 'hidden'} grid grid-cols-2 gap-4 p-4 bg-red-50 rounded-xl border border-red-100">
                     <div>
-                        <label class="block text-xs font-bold text-slate-500 mb-1 uppercase tracking-widest">Preguntas para Doble Racha</label>
+                        <label class="block text-xs font-bold text-slate-500 mb-1 uppercase tracking-widest">${_t('admin.trivial.dbl_threshold_label', null, 'Preguntas para Doble Racha')}</label>
                         <input type="number" id="trivial-double-threshold" min="1" max="20" value="${game?.double_streak_threshold ?? 5}"
                             class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400 text-sm">
-                        <p class="text-xs text-slate-400 mt-1">Nº de aciertos consecutivos para la doble racha</p>
+                        <p class="text-xs text-slate-400 mt-1">${_t('admin.trivial.dbl_threshold_help', null, 'Nº de aciertos consecutivos para la doble racha')}</p>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-500 mb-1 uppercase tracking-widest">Multiplicador bonus doble racha</label>
+                        <label class="block text-xs font-bold text-slate-500 mb-1 uppercase tracking-widest">${_t('admin.trivial.dbl_bonus_label', null, 'Multiplicador bonus doble racha')}</label>
                         <input type="number" id="trivial-double-bonus" min="0" max="2" step="0.05" value="${game?.double_streak_bonus_percentage ?? 1.0}"
                             class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400 text-sm">
-                        <p class="text-xs text-slate-400 mt-1">Ej: 1.00 = +100% de los puntos base</p>
+                        <p class="text-xs text-slate-400 mt-1">${_t('admin.trivial.dbl_bonus_help', null, 'Ej: 1.00 = +100% de los puntos base')}</p>
                     </div>
                 </div>
             </div>
             <div class="bg-white rounded-2xl shadow p-6 mb-6">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-black text-slate-700">Categorías</h3>
+                    <h3 class="text-xl font-black text-slate-700">${_t('admin.trivial.section_categories', null, 'Categorías')}</h3>
                     <button data-admin-click="trivialAddCategory()" id="btn-add-cat"
                         class="text-sm bg-orange-100 hover:bg-orange-200 text-orange-700 font-bold px-3 py-1 rounded-lg transition">
-                        <i class="fas fa-plus mr-1"></i> Añadir
+                        <i class="fas fa-plus mr-1"></i> ${_t('admin.trivial.btn_add_category', null, 'Añadir')}
                     </button>
                 </div>
                 <div id="trivial-cats-container" class="space-y-3">
                     ${defaultCats.map((c, i) => _trivialCatRow(c, i)).join('')}
                 </div>
-                <p class="text-xs text-slate-400 mt-3">Mínimo 2, máximo 6 categorías.</p>
+                <p class="text-xs text-slate-400 mt-3">${_t('admin.trivial.hint_categories_count', null, 'Mínimo 2, máximo 6 categorías.')}</p>
             </div>
             <div class="flex gap-3">
                 <button data-admin-click="guardarTrivial(false)"
                     class="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-black py-4 rounded-2xl text-lg shadow transition">
-                    <i class="fas fa-save mr-2"></i> ${game ? 'Guardar cambios' : 'Crear Trivial'}
+                    <i class="fas fa-save mr-2"></i> ${game ? _t('admin.trivial.btn_save_changes', null, 'Guardar cambios') : _t('admin.trivial.btn_create', null, 'Crear Trivial')}
                 </button>
                 <button data-admin-click="guardarTrivial(true)"
                     class="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-black py-4 rounded-2xl text-lg shadow-lg transition">
-                    <i class="fas fa-sign-out-alt mr-2"></i> Guardar y salir
+                    <i class="fas fa-sign-out-alt mr-2"></i> ${_t('admin.trivial.btn_save_exit', null, 'Guardar y salir')}
                 </button>
             </div>
         </div>`);
@@ -194,21 +194,24 @@ function toggleTrivialDoubleStreakConfig() {
     if (panel) panel.classList.toggle('hidden', !enabled);
 }
 
-const COLOR_LABELS = {
-    '#DB2777': 'Rosa',
-    '#16A34A': 'Verde',
-    '#2563EB': 'Azul',
-    '#F59E0B': 'Ámbar',
-    '#8000FF': 'Violeta',
-    '#5A2E0C': 'Marrón'
-};
+function _trivialColorLabels() {
+    return {
+        '#DB2777': _t('admin.trivial.color_pink', null, 'Rosa'),
+        '#16A34A': _t('admin.trivial.color_green', null, 'Verde'),
+        '#2563EB': _t('admin.trivial.color_blue', null, 'Azul'),
+        '#F59E0B': _t('admin.trivial.color_amber', null, 'Ámbar'),
+        '#8000FF': _t('admin.trivial.color_violet', null, 'Violeta'),
+        '#5A2E0C': _t('admin.trivial.color_brown', null, 'Marrón')
+    };
+}
 
 function _trivialCatRow(cat, idx) {
     const color = cat.color || TRIVIAL_COLORS[idx % TRIVIAL_COLORS.length];
     const srcType = cat.source_type || 'bank';
     const srcId = cat.source_id || cat.bank_id;
+    const colorLabels = _trivialColorLabels();
     const colorOpts = TRIVIAL_COLORS.map(c =>
-        `<option value="${c}"${c === color ? ' selected' : ''}>${COLOR_LABELS[c] || c}</option>`
+        `<option value="${c}"${c === color ? ' selected' : ''}>${colorLabels[c] || c}</option>`
     ).join('');
     const sources = (window._trivialSources || {})[srcType] || [];
     const srcOpts = sources.map(s =>
@@ -223,13 +226,13 @@ function _trivialCatRow(cat, idx) {
             <input type="hidden" class="cat-name" value="${escapeHtml(cat.category_name || '')}">
             <select class="cat-src-type w-32 border rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300"
                 data-admin-change="trivialOnSrcTypeChange(this)">
-                <option value="bank"${srcType === 'bank' ? ' selected' : ''}>Banco</option>
-                <option value="game"${srcType === 'game' ? ' selected' : ''}>Mezcla</option>
-                <option value="custom_game"${srcType === 'custom_game' ? ' selected' : ''}>Personalizado</option>
+                <option value="bank"${srcType === 'bank' ? ' selected' : ''}>${_t('admin.trivial.src_type_bank', null, 'Banco')}</option>
+                <option value="game"${srcType === 'game' ? ' selected' : ''}>${_t('admin.trivial.src_type_game', null, 'Mezcla')}</option>
+                <option value="custom_game"${srcType === 'custom_game' ? ' selected' : ''}>${_t('admin.trivial.src_type_custom', null, 'Personalizado')}</option>
             </select>
             <select class="cat-src-id flex-1 border rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300"
                 data-admin-change="trivialOnSrcIdChange(this)">
-                <option value="">— Seleccionar —</option>
+                <option value="">${_t('admin.trivial.ph_select', null, '— Seleccionar —')}</option>
                 ${srcOpts}
             </select>
             <button data-admin-click="trivialRemoveCategory(this)" class="text-red-400 hover:text-red-600 transition px-1">
@@ -250,7 +253,7 @@ function _trivialRecalcOuter() {
 function trivialAddCategory() {
     const container = document.getElementById('trivial-cats-container');
     const count = container.querySelectorAll('.trivial-cat-row').length;
-    if (count >= 6) return mostrarModalError(_t('admin.common.warning_title', null, '⚠️ Advertencia'), 'Máximo 6 categorías.', 'warning');
+    if (count >= 6) return mostrarModalError(_t('admin.common.warning_title', null, '⚠️ Advertencia'), _t('admin.trivial.error_max_categories', null, 'Máximo 6 categorías.'), 'warning');
     const usedColors = Array.from(container.querySelectorAll('.cat-color')).map(s => s.value);
     const freeColor = TRIVIAL_COLORS.find(c => !usedColors.includes(c)) || TRIVIAL_COLORS[count % TRIVIAL_COLORS.length];
     const cat = { category_name: '', color: freeColor, source_type: 'bank', source_id: null };
@@ -268,8 +271,9 @@ function trivialOnColorChange(sel) {
 function trivialOnSrcTypeChange(sel) {
     const row = sel.closest('.trivial-cat-row');
     const sources = (window._trivialSources || {})[sel.value] || [];
+    const placeholder = _t('admin.trivial.ph_select', null, '— Seleccionar —');
     const opts = sources.map(s => `<option value="${s.id}">${escapeHtml(s.name)}</option>`).join('');
-    row.querySelector('.cat-src-id').innerHTML = _tHtml('<option value="">— Seleccionar —</option>' + opts);
+    row.querySelector('.cat-src-id').innerHTML = _tHtml(`<option value="">${placeholder}</option>` + opts);
     row.querySelector('.cat-name').value = '';
     _trivialSyncSrcOptions();
 }
@@ -277,7 +281,8 @@ function trivialOnSrcTypeChange(sel) {
 function trivialOnSrcIdChange(sel) {
     const row = sel.closest('.trivial-cat-row');
     const text = sel.options[sel.selectedIndex]?.text || '';
-    row.querySelector('.cat-name').value = text === '— Seleccionar —' ? '' : text;
+    const placeholder = _t('admin.trivial.ph_select', null, '— Seleccionar —');
+    row.querySelector('.cat-name').value = text === placeholder ? '' : text;
     _trivialSyncSrcOptions();
 }
 
@@ -318,7 +323,7 @@ function _trivialSyncColorOptions() {
 
 function trivialRemoveCategory(btn) {
     const container = document.getElementById('trivial-cats-container');
-    if (container.querySelectorAll('.trivial-cat-row').length <= 2) return mostrarModalError(_t('admin.common.warning_title', null, '⚠️ Advertencia'), 'Mínimo 2 categorías.', 'warning');
+    if (container.querySelectorAll('.trivial-cat-row').length <= 2) return mostrarModalError(_t('admin.common.warning_title', null, '⚠️ Advertencia'), _t('admin.trivial.error_min_categories', null, 'Mínimo 2 categorías.'), 'warning');
     btn.closest('.trivial-cat-row').remove();
     _trivialSyncColorOptions();
     _trivialSyncSrcOptions();

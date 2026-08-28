@@ -425,7 +425,7 @@ async function subirImagenPortada(kind, file) {
         const mbActual = (file.size / 1024 / 1024).toFixed(2);
         mostrarModalError(
             _t('admin.media.error_size_title', null, '❌ Archivo demasiado grande'),
-            _t('admin.cover.error_size', null, `La imagen de portada no puede superar 1 MB. Tamaño actual: ${mbActual} MB`),
+            _t('admin.cover.error_size', { mb: mbActual }, 'La imagen de portada no puede superar 1 MB. Tamaño actual: {mb} MB'),
             'error'
         );
         return;
