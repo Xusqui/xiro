@@ -157,6 +157,12 @@ async function renderEditorJuego(game, banks) {
                     <i class="fas fa-sliders-h text-green-500 mr-2"></i>${_t('admin.games.section_config', null, 'Configuración del juego')}
                 </h3>
 
+                <!-- Idioma -->
+                <div class="mb-5">
+                    <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest">${_t('common.label_language', null, 'Idioma de las preguntas')}</label>
+                    ${renderLanguageSelect({ id: 'gameLanguage', value: game.language })}
+                </div>
+
                 <!-- Mostrar al presentador -->
                 <div class="mb-5">
                     <label class="flex items-center gap-3 cursor-pointer">
@@ -256,6 +262,7 @@ async function renderEditorJuego(game, banks) {
         id: document.getElementById('gameEditId')?.value || '',
         name: document.getElementById('gameName')?.value || '',
         pin: document.getElementById('gamePin')?.value || '',
+        language: document.getElementById('gameLanguage')?.value || 'es',
         visible_to_presenter: document.getElementById('gameVisibleToPresenter')?.checked ?? true,
         use_streaks: document.getElementById('gameUseStreaks')?.checked ?? false,
         streak_threshold: parseFloat(document.getElementById('gameStreakThreshold')?.value ?? 3),
@@ -383,6 +390,7 @@ async function guardarJuego(salir = true) {
     const ownerUserId = document.getElementById('gameOwnerUserId')?.value || null;
     const name = document.getElementById('gameName').value;
     const pin = document.getElementById('gamePin').value;
+    const language = document.getElementById('gameLanguage')?.value || 'es';
     const visibleToPresenter = document.getElementById('gameVisibleToPresenter').checked;
     const useStreaks = document.getElementById('gameUseStreaks').checked;
     const streakThreshold = parseFloat(document.getElementById('gameStreakThreshold').value) || 3;
@@ -413,6 +421,7 @@ async function guardarJuego(salir = true) {
     const payload = {
         name,
         pin: pin || Math.floor(100000 + Math.random() * 900000).toString(),
+        language,
         visible_to_presenter: visibleToPresenter,
         use_streaks: useStreaks,
         streak_threshold: streakThreshold,

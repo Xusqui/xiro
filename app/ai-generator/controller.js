@@ -215,7 +215,7 @@ async function generateForType(input) {
  * }>}
  */
 async function generateBank(documentText, config, signal, mode = 'document') {
-    const { name, dificultad = 'MEDIA', ...counts } = config;
+    const { name, language, dificultad = 'MEDIA', ...counts } = config;
 
     if (!documentText || documentText.trim().length < 10) {
         throw new Error('El texto está vacío o es demasiado corto para generar preguntas.');
@@ -241,7 +241,7 @@ async function generateBank(documentText, config, signal, mode = 'document') {
         }));
     }
     const allQuestions = results.flatMap(r => r.questions);
-    const bankPayload = buildBankPayload(name, allQuestions);
+    const bankPayload = buildBankPayload(name, allQuestions, language);
 
     return {
         bankPayload,

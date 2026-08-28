@@ -39,10 +39,12 @@ globalThis.StandaloneLobby = (() => {
             : (window.XiroI18n?.t('standalone.lobby.filter.banks') || 'Bancos de preguntas');
         const safePin = _escapeHtml(String(game.pin || ''));
 
+        const flagCode = game.language ? _escapeHtml(game.language) : '';
+
         return `
             <div data-standalone-action="select-game" data-pin="${safePin}"
                  class="p-6 rounded-3xl cursor-pointer transition-all hover:scale-105 shadow-2xl flex flex-col justify-between min-h-[180px]"
-                 style="background: ${c.bg}; border-bottom: 4px solid ${c.border};">
+                 style="background: ${c.bg}; border-bottom: 4px solid ${c.border}; position: relative;">
                 <div class="mb-4">
                     <div class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full inline-block mb-3">
                         <span class="text-white font-bold text-xs uppercase">${_escapeHtml(typeLabel)}</span>
@@ -53,6 +55,7 @@ globalThis.StandaloneLobby = (() => {
                 <div class="flex items-center text-xs" style="color: ${c.text};">
                     <span><i class="fas fa-play-circle mr-1"></i> ${window.XiroI18n?.t('standalone.lobby.btn_select') || 'Seleccionar'}</span>
                 </div>
+                ${flagCode ? `<img src="/images/flags/${flagCode}.svg" alt="" style="position:absolute;bottom:12px;right:12px;width:34px;height:24px;object-fit:cover;border-radius:4px;border:2px solid rgba(255,255,255,.85);box-shadow:0 3px 8px rgba(0,0,0,.35);transform:rotate(-9deg);pointer-events:none;">` : ''}
             </div>
         `;
     }

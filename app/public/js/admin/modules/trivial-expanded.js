@@ -109,6 +109,7 @@ async function guardarTrivial(exit = true) {
     const ownerUserId = document.getElementById('trivial-owner-user-id')?.value || null;
     const name = document.getElementById('trivial-name').value.trim();
     const pin = document.getElementById('trivial-pin').value.trim();
+    const language = document.getElementById('trivial-language')?.value || 'es';
     const outerCasillas = parseInt(document.getElementById('trivial-outer').value, 10);
     const visibleToPresenter = document.getElementById('trivial-visible').checked;
     const useStreaks = document.getElementById('trivial-use-streaks')?.checked ?? false;
@@ -144,7 +145,7 @@ async function guardarTrivial(exit = true) {
     const res = await fetchWithAuth(url, {
         method, headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            name, pin, outer_casillas: outerCasillas, visible_to_presenter: visibleToPresenter,
+            name, pin, language, outer_casillas: outerCasillas, visible_to_presenter: visibleToPresenter,
             use_streaks: useStreaks, streak_threshold: streakThreshold, streak_bonus_percentage: streakBonusPercentage,
             use_double_streaks: useDoubleStreaks, double_streak_threshold: doubleStreakThreshold, double_streak_bonus_percentage: doubleStreakBonusPercentage,
             categories

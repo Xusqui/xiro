@@ -4,6 +4,9 @@
  */
 
 const Joi = require('joi');
+const { SUPPORTED_LANGUAGES } = require('./config/languages');
+
+const languageSchema = Joi.string().valid(...SUPPORTED_LANGUAGES).required();
 
 // ===== CONSTANTES DE VALIDACIÓN =====
 const LIMITS = {
@@ -507,6 +510,7 @@ const saveBankSchema = Joi.object({
     id: dbIdSchema.allow(null).optional(),
     name: nameSchema.required(),
     pin: pinSchema.allow(null, '').optional(),
+    language: languageSchema,
     visible_to_presenter: Joi.boolean().default(true).optional(),
     use_streaks: Joi.boolean().default(false).optional(),
     streak_threshold: Joi.number().integer().min(1).max(20).default(3).optional(),
@@ -550,6 +554,7 @@ const gameBankConfigSchema = Joi.object({
 const gameSchema = Joi.object({
     name: nameSchema.required(),
     pin: pinSchema.allow('').optional(),
+    language: languageSchema,
     visible_to_presenter: Joi.boolean().default(true).optional(),
     use_streaks: Joi.boolean().default(false).optional(),
     streak_threshold: Joi.number().integer().min(1).max(20).default(3).optional(),
@@ -637,6 +642,7 @@ const customGameQuestionSchema = Joi.object({
 const createCustomGameSchema = Joi.object({
     name: nameSchema.required(),
     pin: pinSchema.allow('').optional(),
+    language: languageSchema,
     visible_to_presenter: Joi.boolean().default(true).optional(),
     use_streaks: Joi.boolean().default(false).optional(),
     streak_threshold: Joi.number().integer().min(1).max(20).default(3).optional(),
@@ -657,6 +663,7 @@ const createCustomGameSchema = Joi.object({
 const updateCustomGameSchema = Joi.object({
     name: nameSchema.required(),
     pin: pinSchema.required(),
+    language: languageSchema,
     visible_to_presenter: Joi.boolean().default(true).optional(),
     use_streaks: Joi.boolean().default(false).optional(),
     streak_threshold: Joi.number().integer().min(1).max(20).default(3).optional(),

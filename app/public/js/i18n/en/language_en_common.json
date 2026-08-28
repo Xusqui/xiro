@@ -7,6 +7,7 @@
     "common.error_title": "Error",
     "common.btn_retry": "Retry",
     "common.footer.copyright_holder": "Copyright: Fernández Villatoro Family",
-    "common.skip_link": "Skip to content"
+    "common.skip_link": "Skip to content",
+    "common.label_language": "Question language"
   }
 }

@@ -57,6 +57,10 @@ async function renderEditorTrivial(game, cats) {
                         <p class="text-xs text-slate-400 mt-1">Calculado automáticamente: múltiplo de N×(N+1) más cercano a 42</p>
                     </div>
                 </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">${_t('common.label_language', null, 'Idioma de las preguntas')}</label>
+                    ${renderLanguageSelect({ id: 'trivial-language', value: game?.language })}
+                </div>
             </div>
             <div class="bg-white rounded-2xl shadow p-6 space-y-4 mb-6">
                 <h3 class="text-xl font-black text-slate-700 uppercase">

@@ -3,8 +3,8 @@
  * Selección de PIN, configuración individual, y pantallas de lobby
  */
 
-import { mostrarLobbyMain } from './presenter-utils.js?v=20260828012635';
-import { cleanupPodio } from './presenter-podio.js?v=20260828012635';
+import { mostrarLobbyMain } from './presenter-utils.js?v=20260828103529';
+import { cleanupPodio } from './presenter-podio.js?v=20260828103529';
 import {
     setPin,
     setSessionId,
@@ -13,9 +13,9 @@ import {
     setConnectedPlayers,
     setPlayersData,
     setTotalPlayers
-} from './presenter-state.js?v=20260828012635';
-import { iniciarLobby } from './presenter-lobby-init.js?v=20260828012635';
-import { mostrarConfiguracionEquipos } from './presenter-team-config.js?v=20260828012635';
+} from './presenter-state.js?v=20260828103529';
+import { iniciarLobby } from './presenter-lobby-init.js?v=20260828103529';
+import { mostrarConfiguracionEquipos } from './presenter-team-config.js?v=20260828103529';
 
 if (window.XiroI18n && typeof window.XiroI18n.addSections === 'function') {
     void window.XiroI18n.addSections(['presenter_lobby'], { reload: false });
@@ -199,9 +199,9 @@ function renderizarPINs() {
                 const c = cardColors[p.type] || { bg: 'linear-gradient(135deg,#f9b518,#d49500)', border: '#a37200', text: '#fef9c3' };
                 const typeLabel = pinsTextos[p.type] || p.type;
                 return `
-                            <div data-presenter-action="select-pin" data-pin="${p.pin}" 
+                            <div data-presenter-action="select-pin" data-pin="${p.pin}"
                              class="p-6 rounded-3xl cursor-pointer transition-all hover:scale-105 shadow-2xl flex flex-col justify-between min-h-[180px] w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)]"
-                             style="background:${c.bg};border-bottom:4px solid ${c.border};">
+                             style="background:${c.bg};border-bottom:4px solid ${c.border};position:relative;">
                             <div class="mb-4">
                                 <div class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full inline-block mb-3">
                                     <span class="text-white font-bold text-xs uppercase">${typeLabel}</span>
@@ -213,6 +213,7 @@ function renderizarPINs() {
                             <div class="flex items-center justify-between text-xs" style="color:${c.text}">
                                 <span><i class="fas fa-play-circle mr-1"></i> ${t('presenter.selector.card.play', 'Clic para jugar')}</span>
                             </div>
+                            ${p.language ? `<img src="/images/flags/${p.language}.svg" alt="" style="position:absolute;bottom:12px;right:12px;width:34px;height:24px;object-fit:cover;border-radius:4px;border:2px solid rgba(255,255,255,.85);box-shadow:0 3px 8px rgba(0,0,0,.35);transform:rotate(-9deg);pointer-events:none;">` : ''}
                         </div>
                     `;
             }).join('')

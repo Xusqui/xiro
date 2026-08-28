@@ -71,7 +71,7 @@ async function getAllCustomGamesPaginated({ page = 1, limit = 50 } = {}) {
  */
 async function createCustomGame(data) {
     const {
-        name, pin, questions, visible_to_presenter = true,
+        name, pin, language, questions, visible_to_presenter = true,
         created_by_role = 'admin',
         created_by_user_id = null,
         use_streaks = false, streak_threshold = 3, streak_bonus_percentage = 0.50,
@@ -89,11 +89,11 @@ async function createCustomGame(data) {
 
         const result = await client.query(
             `INSERT INTO custom_games
-                (name, pin, visible_to_presenter, created_by_role, created_by_user_id,
+                (name, pin, language, visible_to_presenter, created_by_role, created_by_user_id,
                  use_streaks, streak_threshold, streak_bonus_percentage,
                  use_double_streaks, double_streak_threshold, double_streak_bonus_percentage)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`,
-            [name, finalPin, visible_to_presenter, ownerRole, ownerUserId,
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *`,
+            [name, finalPin, language, visible_to_presenter, ownerRole, ownerUserId,
                 use_streaks, streak_threshold, streak_bonus_percentage,
                 use_double_streaks, double_streak_threshold, double_streak_bonus_percentage]
         );
@@ -202,7 +202,7 @@ async function getCustomGameWithQuestions(customGameId) {
  */
 async function updateCustomGame(customGameId, data, actorUserId = null) {
     const {
-        name, pin, questions, visible_to_presenter = true,
+        name, pin, language, questions, visible_to_presenter = true,
         use_streaks = false, streak_threshold = 3, streak_bonus_percentage = 0.50,
         use_double_streaks = false, double_streak_threshold = 5, double_streak_bonus_percentage = 1.00,
     } = data;
@@ -232,11 +232,11 @@ async function updateCustomGame(customGameId, data, actorUserId = null) {
 
         await client.query(
             `UPDATE custom_games SET
-                name = $1, pin = $2, visible_to_presenter = $3,
-                use_streaks = $4, streak_threshold = $5, streak_bonus_percentage = $6,
-                use_double_streaks = $7, double_streak_threshold = $8, double_streak_bonus_percentage = $9
-             WHERE id = $10`,
-            [name, upperPin, visible_to_presenter,
+                name = $1, pin = $2, language = $3, visible_to_presenter = $4,
+                use_streaks = $5, streak_threshold = $6, streak_bonus_percentage = $7,
+                use_double_streaks = $8, double_streak_threshold = $9, double_streak_bonus_percentage = $10
+             WHERE id = $11`,
+            [name, upperPin, language, visible_to_presenter,
                 use_streaks, streak_threshold, streak_bonus_percentage,
                 use_double_streaks, double_streak_threshold, double_streak_bonus_percentage,
                 customGameId]

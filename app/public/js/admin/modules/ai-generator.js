@@ -52,6 +52,10 @@ function _renderAIStep1() {
                     class="w-full border-2 border-slate-100 rounded-xl p-3 focus:border-indigo-500 outline-none transition">
             </div>
             <div>
+                <label class="block text-sm font-bold text-slate-700 mb-2">${_t('common.label_language', null, 'Idioma de las preguntas')}</label>
+                ${renderLanguageSelect({ id: 'ai-bank-language' })}
+            </div>
+            <div>
                 <label class="block text-sm font-bold text-slate-700 mb-2">Dificultad</label>
                 <div class="flex gap-3">${['BAJA', 'MEDIA', 'ALTA'].map(d => `
                     <label class="flex-1 cursor-pointer"><input type="radio" name="ai-dificultad" value="${d}" ${d === 'MEDIA' ? 'checked' : ''} class="sr-only">
@@ -203,7 +207,8 @@ function _aiGoToStep2() {
     } else {
         if (!aiGenText) { mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), 'Primero sube un documento', 'warning'); return; }
     }
-    aiGenConfig = { name, dificultad: document.querySelector('input[name="ai-dificultad"]:checked')?.value || 'MEDIA' };
+    const language = document.getElementById('ai-bank-language')?.value || 'es';
+    aiGenConfig = { name, language, dificultad: document.querySelector('input[name="ai-dificultad"]:checked')?.value || 'MEDIA' };
     _renderAIStep2();
 }
 

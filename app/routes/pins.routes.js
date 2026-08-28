@@ -36,6 +36,7 @@ router.get('/api/ui-settings/standalone-games', presenterPinsLimiter, async (req
             pin: pin.pin,
             name: pin.name || pin.pin,
             type: pin.type || 'bank',
+            language: pin.language || null,
             questionCount: pin.question_count || 0
         }));
         res.json({ games });

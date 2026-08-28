@@ -192,6 +192,12 @@ async function renderEditorJuegoPersonalizado(game, questions) {
                     <i class="fas fa-sliders-h text-blue-500 mr-2"></i>${_t('admin.games.section_config', null, 'Configuración del juego')}
                 </h3>
 
+                <!-- Idioma -->
+                <div class="mb-5">
+                    <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest">${_t('common.label_language', null, 'Idioma de las preguntas')}</label>
+                    ${renderLanguageSelect({ id: 'customGameLanguage', value: game.language })}
+                </div>
+
                 <!-- Mostrar al presentador -->
                 <div class="mb-5">
                     <label class="flex items-center gap-3 cursor-pointer">
@@ -414,6 +420,7 @@ async function renderEditorJuegoPersonalizado(game, questions) {
         id: document.getElementById('customGameEditId')?.value || '',
         name: document.getElementById('customGameName')?.value || '',
         pin: document.getElementById('customGamePin')?.value || '',
+        language: document.getElementById('customGameLanguage')?.value || 'es',
         visible_to_presenter: document.getElementById('customGameVisibleToPresenter')?.checked ?? true,
         use_streaks: document.getElementById('customGameUseStreaks')?.checked ?? false,
         streak_threshold: parseFloat(document.getElementById('customGameStreakThreshold')?.value ?? 3),
@@ -814,6 +821,7 @@ async function guardarJuegoPersonalizado(salir = true) {
     const ownerUserId = document.getElementById('customGameOwnerUserId')?.value || null;
     const name = document.getElementById('customGameName').value;
     const pin = document.getElementById('customGamePin').value;
+    const language = document.getElementById('customGameLanguage')?.value || 'es';
     const visibleToPresenter = document.getElementById('customGameVisibleToPresenter').checked;
     const useStreaks = document.getElementById('customGameUseStreaks').checked;
     const streakThreshold = parseFloat(document.getElementById('customGameStreakThreshold').value) || 3;
@@ -832,6 +840,7 @@ async function guardarJuegoPersonalizado(salir = true) {
     const payload = {
         name,
         pin: pin || Math.floor(100000 + Math.random() * 900000).toString(),
+        language,
         visible_to_presenter: visibleToPresenter,
         use_streaks: useStreaks,
         streak_threshold: streakThreshold,

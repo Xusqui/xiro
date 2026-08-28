@@ -30,12 +30,14 @@ function buildQuestionsForType(type, rawQuestions) {
  * Ensambla el objeto final compatible con POST /api/banks/save-all.
  * @param {string} bankName - Nombre del banco
  * @param {Array} allQuestions - Preguntas normalizadas de todos los tipos
- * @returns {{ id: null, name: string, questions: Array }}
+ * @param {string} language - Código de idioma del contenido (ver config/languages.js)
+ * @returns {{ id: null, name: string, language: string, questions: Array }}
  */
-function buildBankPayload(bankName, allQuestions) {
+function buildBankPayload(bankName, allQuestions, language) {
     return {
         id: null,       // null = nuevo banco
         name: bankName,
+        language,
         questions: allQuestions
     };
 }

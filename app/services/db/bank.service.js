@@ -238,6 +238,7 @@ async function updateBankMetadata(client, payload) {
     const {
         name,
         upperPin,
+        language,
         visibleToPresenter,
         useStreaks,
         streakThreshold,
@@ -250,13 +251,14 @@ async function updateBankMetadata(client, payload) {
 
     await client.query(
         `UPDATE question_banks
-         SET name = $1, pin = $2, visible_to_presenter = $3,
-             use_streaks = $4, streak_threshold = $5, streak_bonus_percentage = $6,
-             use_double_streaks = $7, double_streak_threshold = $8, double_streak_bonus_percentage = $9
-         WHERE id = $10`,
+         SET name = $1, pin = $2, language = $3, visible_to_presenter = $4,
+             use_streaks = $5, streak_threshold = $6, streak_bonus_percentage = $7,
+             use_double_streaks = $8, double_streak_threshold = $9, double_streak_bonus_percentage = $10
+         WHERE id = $11`,
         [
             name,
             upperPin,
+            language,
             visibleToPresenter,
             useStreaks,
             streakThreshold,
@@ -352,6 +354,7 @@ async function createBankRecord(client, payload) {
     const {
         name,
         upperPin,
+        language,
         visibleToPresenter,
         ownerRole,
         ownerUserId,
@@ -365,14 +368,15 @@ async function createBankRecord(client, payload) {
 
     const resBank = await client.query(
         `INSERT INTO question_banks
-         (name, pin, visible_to_presenter,
+         (name, pin, language, visible_to_presenter,
           created_by_role, created_by_user_id,
           use_streaks, streak_threshold, streak_bonus_percentage,
           use_double_streaks, double_streak_threshold, double_streak_bonus_percentage)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id`,
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id`,
         [
             name,
             upperPin,
+            language,
             visibleToPresenter,
             ownerRole,
             ownerUserId,
@@ -430,7 +434,7 @@ function invalidateDependentResourceCaches(questionBankCache, dependencies) {
  */
 async function saveBankComplete(data, actorUserId = null) {
     const {
-        id, name, pin, questions,
+        id, name, pin, language, questions,
         created_by_role = 'admin',
         created_by_user_id = null,
         visible_to_presenter = true,
@@ -469,6 +473,7 @@ async function saveBankComplete(data, actorUserId = null) {
             await updateBankMetadata(client, {
                 name,
                 upperPin,
+                language,
                 visibleToPresenter: visible_to_presenter,
                 useStreaks: use_streaks,
                 streakThreshold: streak_threshold,
@@ -489,6 +494,7 @@ async function saveBankComplete(data, actorUserId = null) {
             bankId = await createBankRecord(client, {
                 name,
                 upperPin,
+                language,
                 visibleToPresenter: visible_to_presenter,
                 ownerRole,
                 ownerUserId,

@@ -8,8 +8,22 @@ const { authenticateAdmin } = require('../middlewares/auth');
 const { pinValidationLimiter } = require('../middlewares/security');
 const { handleRouteError, handleNotFound } = require('./helpers/RouteErrorHandler');
 const dbService = require('../services/db');
+const { SUPPORTED_LANGUAGES } = require('../config/languages');
 
 const router = express.Router();
+
+function validateLanguage(req, res) {
+    const { language } = req.body;
+    if (!SUPPORTED_LANGUAGES.includes(language)) {
+        res.status(400).json({
+            error: 'Idioma inválido',
+            message: `El campo "language" debe ser uno de: ${SUPPORTED_LANGUAGES.join(', ')}`,
+            code: 'LANGUAGE_INVALID'
+        });
+        return false;
+    }
+    return true;
+}
 
 // ========== LIST & GET ==========
 
@@ -32,6 +46,7 @@ router.get('/api/trivial-games/:id', authenticateAdmin, async (req, res) => {
 
 router.post('/api/trivial-games', authenticateAdmin, async (req, res) => {
     try {
+        if (!validateLanguage(req, res)) return;
         const { pin } = req.body;
         if (pin) {
             const conflict = await dbService.pinExistsGlobally(pin, { excludeType: 'trivial' });
@@ -58,6 +73,7 @@ router.post('/api/trivial-games', authenticateAdmin, async (req, res) => {
 
 router.put('/api/trivial-games/:id', authenticateAdmin, async (req, res) => {
     try {
+        if (!validateLanguage(req, res)) return;
         const { pin } = req.body;
         if (pin) {
             const conflict = await dbService.pinExistsGlobally(pin, {

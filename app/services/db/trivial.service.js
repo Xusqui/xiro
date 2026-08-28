@@ -72,7 +72,7 @@ async function getTrivialGameByPin(pin) {
 
 async function createTrivialGame(data) {
     const {
-        name, categories, outer_casillas = 24, visible_to_presenter = true,
+        name, language, categories, outer_casillas = 24, visible_to_presenter = true,
         created_by_role = 'admin',
         created_by_user_id = null,
         use_streaks = false, streak_threshold = 3, streak_bonus_percentage = 0.50,
@@ -88,11 +88,11 @@ async function createTrivialGame(data) {
         await client.query('BEGIN');
         const res = await client.query(
             `INSERT INTO trivial_games
-                (name, pin, outer_casillas, visible_to_presenter, created_by_role, created_by_user_id,
+                (name, pin, language, outer_casillas, visible_to_presenter, created_by_role, created_by_user_id,
                  use_streaks, streak_threshold, streak_bonus_percentage,
                  use_double_streaks, double_streak_threshold, double_streak_bonus_percentage)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *`,
-            [name, pin, outer_casillas, visible_to_presenter, ownerRole, ownerUserId,
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *`,
+            [name, pin, language, outer_casillas, visible_to_presenter, ownerRole, ownerUserId,
                 use_streaks, streak_threshold, streak_bonus_percentage,
                 use_double_streaks, double_streak_threshold, double_streak_bonus_percentage]
         );
@@ -118,7 +118,7 @@ async function createTrivialGame(data) {
 
 async function updateTrivialGame(id, data, actorUserId = null) {
     const {
-        name, pin, categories, outer_casillas, visible_to_presenter = true,
+        name, pin, language, categories, outer_casillas, visible_to_presenter = true,
         use_streaks = false, streak_threshold = 3, streak_bonus_percentage = 0.50,
         use_double_streaks = false, double_streak_threshold = 5, double_streak_bonus_percentage = 1.00,
     } = data;
@@ -129,11 +129,11 @@ async function updateTrivialGame(id, data, actorUserId = null) {
         await assertEditorCanModifyResource('trivial', id, actorUserId, client);
         await client.query(
             `UPDATE trivial_games SET
-                name=$1, pin=$2, outer_casillas=$3, visible_to_presenter=$4,
-                use_streaks=$5, streak_threshold=$6, streak_bonus_percentage=$7,
-                use_double_streaks=$8, double_streak_threshold=$9, double_streak_bonus_percentage=$10
-             WHERE id=$11`,
-            [name, upperPin, outer_casillas, visible_to_presenter,
+                name=$1, pin=$2, language=$3, outer_casillas=$4, visible_to_presenter=$5,
+                use_streaks=$6, streak_threshold=$7, streak_bonus_percentage=$8,
+                use_double_streaks=$9, double_streak_threshold=$10, double_streak_bonus_percentage=$11
+             WHERE id=$12`,
+            [name, upperPin, language, outer_casillas, visible_to_presenter,
                 use_streaks, streak_threshold, streak_bonus_percentage,
                 use_double_streaks, double_streak_threshold, double_streak_bonus_percentage,
                 id]

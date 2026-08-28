@@ -12,7 +12,7 @@
  *  desaparece cuando la racha se pierde (isInStreak = false).
  */
 
-import { getStreakInfo, setStreakInfo, getCurrentSlideType } from './player-state.js?v=20260828012635';
+import { getStreakInfo, setStreakInfo, getCurrentSlideType } from './player-state.js?v=20260828103529';
 
 const DURATION_ENTER = 2000;
 const DURATION_LOST = 1500;

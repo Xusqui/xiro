@@ -215,6 +215,10 @@ function renderEditorBanco(bank) {
                     <p class="text-slate-400 text-xs mt-1"><i class="fas fa-info-circle mr-1"></i>${_t('admin.banks.help_pin', null, 'Si lo dejas vacío, se generará automáticamente un PIN de 6 dígitos')}</p>
                 </div>
                 <div class="mt-4">
+                    <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest">${_t('common.label_language', null, 'Idioma de las preguntas')}</label>
+                    ${renderLanguageSelect({ id: 'editBankLanguage', value: bank.language })}
+                </div>
+                <div class="mt-4">
                     <label class="flex items-center gap-3 cursor-pointer">
                         <input type="checkbox" id="editBankVisibleToPresenter" ${bank.visible_to_presenter !== false ? 'checked' : ''} class="w-5 h-5 text-purple-600 rounded focus:ring-purple-500">
                         <span class="text-sm font-bold text-slate-700">
@@ -318,6 +322,7 @@ function renderEditorBanco(bank) {
         id: document.getElementById('editId')?.value || '',
         name: document.getElementById('editName')?.value || '',
         pin: document.getElementById('editBankPin')?.value || '',
+        language: document.getElementById('editBankLanguage')?.value || 'es',
         visible_to_presenter: document.getElementById('editBankVisibleToPresenter')?.checked ?? true,
         use_streaks: document.getElementById('editBankUseStreaks')?.checked ?? false,
         streak_threshold: document.getElementById('editBankStreakThreshold')?.value || '3',
@@ -381,6 +386,7 @@ async function guardarBanco(salir = true) {
     const ownerUserId = document.getElementById('editOwnerUserId')?.value || null;
     const name = document.getElementById('editName').value;
     const pin = document.getElementById('editBankPin').value.trim();
+    const language = document.getElementById('editBankLanguage')?.value || 'es';
     const visibleToPresenter = document.getElementById('editBankVisibleToPresenter').checked;
     const useStreaks = document.getElementById('editBankUseStreaks')?.checked ?? false;
     const streakThreshold = parseInt(document.getElementById('editBankStreakThreshold')?.value || '3', 10);
@@ -405,6 +411,7 @@ async function guardarBanco(salir = true) {
         id: id ? parseInt(id, 10) : null,
         name,
         pin: pin || null,
+        language,
         visible_to_presenter: visibleToPresenter,
         use_streaks: useStreaks,
         streak_threshold: streakThreshold,

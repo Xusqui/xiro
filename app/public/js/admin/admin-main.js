@@ -224,11 +224,11 @@ function showLoginForm() {
 function showRegisterForm(isAdminSetup) {
     clearLoginError();
     clearRegisterError();
-    
+
     const titleKey = isAdminSetup ? 'admin.register.title_admin' : 'admin.register.title_editor';
     loginCardTitle.setAttribute('data-i18n', titleKey);
     loginCardTitle.textContent = _t(titleKey, null, isAdminSetup ? 'Crear Administrador' : 'Crear Cuenta');
-    
+
     loginForm.classList.add('hidden');
     registerForm.classList.remove('hidden');
 
