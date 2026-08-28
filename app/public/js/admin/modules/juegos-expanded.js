@@ -173,6 +173,7 @@ async function renderEditorJuego(game, banks) {
                     </label>
                     <p class="text-slate-400 text-xs mt-1 ml-8">${_t('admin.games.help_visible', null, 'Si está marcado, el presentador podrá ver y usar este juego')}</p>
                 </div>
+                ${renderGameCoverField('game', game.image_url)}
 
                 <hr class="border-slate-100 mb-5">
 
@@ -271,6 +272,7 @@ async function renderEditorJuego(game, banks) {
         double_streak_threshold: parseFloat(document.getElementById('gameDoubleStreakThreshold')?.value ?? 5),
         double_streak_bonus_percentage: parseFloat(document.getElementById('gameDoubleStreakBonusPercentage')?.value ?? 1.0),
         pool_question_count: document.getElementById('gamePoolQuestionCount')?.value || '',
+        image_url: document.getElementById('gameImageUrl')?.value || '',
         banks: currentBanks
     }));
 
@@ -398,6 +400,7 @@ async function guardarJuego(salir = true) {
     const useDoubleStreaks = document.getElementById('gameUseDoubleStreaks').checked;
     const doubleStreakThreshold = parseFloat(document.getElementById('gameDoubleStreakThreshold').value) || 5;
     const doubleStreakBonusPercentage = parseFloat(document.getElementById('gameDoubleStreakBonusPercentage').value) ?? 1.0;
+    const imageUrl = document.getElementById('gameImageUrl')?.value || null;
 
     if (!name) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), _t('admin.games.error_name', null, 'Por favor, ponle un nombre al juego'), 'warning');
     if (currentBanks.length === 0) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), _t('admin.games.error_banks', null, 'Añade al menos un banco de preguntas'), 'warning');
@@ -430,6 +433,7 @@ async function guardarJuego(salir = true) {
         double_streak_threshold: doubleStreakThreshold,
         double_streak_bonus_percentage: doubleStreakBonusPercentage,
         pool_question_count: poolQuestionCount,
+        image_url: imageUrl,
         banks: currentBanks.map(b => ({
             bank_id: b.bank_id,
             question_count: bancoEsPool(b) ? null : b.question_count

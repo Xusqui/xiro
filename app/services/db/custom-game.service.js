@@ -76,6 +76,7 @@ async function createCustomGame(data) {
         created_by_user_id = null,
         use_streaks = false, streak_threshold = 3, streak_bonus_percentage = 0.50,
         use_double_streaks = false, double_streak_threshold = 5, double_streak_bonus_percentage = 1.00,
+        image_url = null,
     } = data;
     const finalPin = (pin || Math.floor(100000 + Math.random() * 900000).toString()).toUpperCase();
     const ownerRole = normalizeCreatorRole(created_by_role);
@@ -91,11 +92,13 @@ async function createCustomGame(data) {
             `INSERT INTO custom_games
                 (name, pin, language, visible_to_presenter, created_by_role, created_by_user_id,
                  use_streaks, streak_threshold, streak_bonus_percentage,
-                 use_double_streaks, double_streak_threshold, double_streak_bonus_percentage)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *`,
+                 use_double_streaks, double_streak_threshold, double_streak_bonus_percentage,
+                 image_url)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *`,
             [name, finalPin, language, visible_to_presenter, ownerRole, ownerUserId,
                 use_streaks, streak_threshold, streak_bonus_percentage,
-                use_double_streaks, double_streak_threshold, double_streak_bonus_percentage]
+                use_double_streaks, double_streak_threshold, double_streak_bonus_percentage,
+                image_url]
         );
         const customGameId = result.rows[0].id;
 
@@ -205,6 +208,7 @@ async function updateCustomGame(customGameId, data, actorUserId = null) {
         name, pin, language, questions, visible_to_presenter = true,
         use_streaks = false, streak_threshold = 3, streak_bonus_percentage = 0.50,
         use_double_streaks = false, double_streak_threshold = 5, double_streak_bonus_percentage = 1.00,
+        image_url = null,
     } = data;
     const upperPin = pin.toUpperCase();
     const client = await pool.connect();
@@ -234,12 +238,13 @@ async function updateCustomGame(customGameId, data, actorUserId = null) {
             `UPDATE custom_games SET
                 name = $1, pin = $2, language = $3, visible_to_presenter = $4,
                 use_streaks = $5, streak_threshold = $6, streak_bonus_percentage = $7,
-                use_double_streaks = $8, double_streak_threshold = $9, double_streak_bonus_percentage = $10
-             WHERE id = $11`,
+                use_double_streaks = $8, double_streak_threshold = $9, double_streak_bonus_percentage = $10,
+                image_url = $11
+             WHERE id = $12`,
             [name, upperPin, language, visible_to_presenter,
                 use_streaks, streak_threshold, streak_bonus_percentage,
                 use_double_streaks, double_streak_threshold, double_streak_bonus_percentage,
-                customGameId]
+                image_url, customGameId]
         );
         await client.query(
             'DELETE FROM custom_game_questions WHERE custom_game_id = $1',

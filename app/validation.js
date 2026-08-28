@@ -505,12 +505,16 @@ const questionSchema = Joi.object({
         }),
 });
 
+// Imagen de portada de un juego/banco (URL relativa devuelta por /api/upload/game-cover-image)
+const imageUrlSchema = Joi.string().max(2048).trim().allow(null, '').optional();
+
 // Banco de preguntas (guardar)
 const saveBankSchema = Joi.object({
     id: dbIdSchema.allow(null).optional(),
     name: nameSchema.required(),
     pin: pinSchema.allow(null, '').optional(),
     language: languageSchema,
+    image_url: imageUrlSchema,
     visible_to_presenter: Joi.boolean().default(true).optional(),
     use_streaks: Joi.boolean().default(false).optional(),
     streak_threshold: Joi.number().integer().min(1).max(20).default(3).optional(),
@@ -555,6 +559,7 @@ const gameSchema = Joi.object({
     name: nameSchema.required(),
     pin: pinSchema.allow('').optional(),
     language: languageSchema,
+    image_url: imageUrlSchema,
     visible_to_presenter: Joi.boolean().default(true).optional(),
     use_streaks: Joi.boolean().default(false).optional(),
     streak_threshold: Joi.number().integer().min(1).max(20).default(3).optional(),
@@ -643,6 +648,7 @@ const createCustomGameSchema = Joi.object({
     name: nameSchema.required(),
     pin: pinSchema.allow('').optional(),
     language: languageSchema,
+    image_url: imageUrlSchema,
     visible_to_presenter: Joi.boolean().default(true).optional(),
     use_streaks: Joi.boolean().default(false).optional(),
     streak_threshold: Joi.number().integer().min(1).max(20).default(3).optional(),
@@ -664,6 +670,7 @@ const updateCustomGameSchema = Joi.object({
     name: nameSchema.required(),
     pin: pinSchema.required(),
     language: languageSchema,
+    image_url: imageUrlSchema,
     visible_to_presenter: Joi.boolean().default(true).optional(),
     use_streaks: Joi.boolean().default(false).optional(),
     streak_threshold: Joi.number().integer().min(1).max(20).default(3).optional(),

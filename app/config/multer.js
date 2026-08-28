@@ -49,6 +49,7 @@ const fileFilter = (req, file, cb) => {
 
 // ===== LÍMITES DE TAMAÑO =====
 const MAX_QUESTION_IMAGE_BYTES = 200 * 1024; // 200 KB para imágenes de enunciado/opción
+const MAX_GAME_COVER_IMAGE_BYTES = 1024 * 1024; // 1 MB para imagen de portada de juego/banco
 
 // Configuración de Multer (multimedia general)
 const upload = multer({
@@ -75,6 +76,15 @@ const uploadQuestionImage = multer({
     fileFilter: imageOnlyFilter,
     limits: {
         fileSize: MAX_QUESTION_IMAGE_BYTES,
+    }
+});
+
+// Configuración de Multer para imagen de portada de un juego/banco (≤ 1 MB)
+const uploadGameCoverImage = multer({
+    storage: storage,
+    fileFilter: imageOnlyFilter,
+    limits: {
+        fileSize: MAX_GAME_COVER_IMAGE_BYTES,
     }
 });
 
@@ -138,8 +148,10 @@ function deleteFile(filename) {
 module.exports = {
     upload,
     uploadQuestionImage,
+    uploadGameCoverImage,
     validateFileSize,
     deleteFile,
     uploadDir,
-    MAX_QUESTION_IMAGE_BYTES
+    MAX_QUESTION_IMAGE_BYTES,
+    MAX_GAME_COVER_IMAGE_BYTES
 };

@@ -118,6 +118,7 @@ async function guardarTrivial(exit = true) {
     const useDoubleStreaks = document.getElementById('trivial-use-double-streaks')?.checked ?? false;
     const doubleStreakThreshold = parseFloat(document.getElementById('trivial-double-threshold')?.value) || 5;
     const doubleStreakBonusPercentage = parseFloat(document.getElementById('trivial-double-bonus')?.value) ?? 1.0;
+    const imageUrl = document.getElementById('trivial-image-url')?.value || null;
     const catRows = document.querySelectorAll('.trivial-cat-row');
     const categories = Array.from(catRows).map((row, i) => {
         const source_type = row.querySelector('.cat-src-type').value || 'bank';
@@ -148,6 +149,7 @@ async function guardarTrivial(exit = true) {
             name, pin, language, outer_casillas: outerCasillas, visible_to_presenter: visibleToPresenter,
             use_streaks: useStreaks, streak_threshold: streakThreshold, streak_bonus_percentage: streakBonusPercentage,
             use_double_streaks: useDoubleStreaks, double_streak_threshold: doubleStreakThreshold, double_streak_bonus_percentage: doubleStreakBonusPercentage,
+            image_url: imageUrl,
             categories
         })
     });

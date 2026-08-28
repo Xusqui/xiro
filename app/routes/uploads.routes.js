@@ -5,7 +5,7 @@
 
 const express = require('express');
 const { authenticateAdmin, authorizeAdmin } = require('../middlewares/auth');
-const { upload, uploadQuestionImage, validateFileSize, deleteFile, MAX_QUESTION_IMAGE_BYTES } = require('../config/multer');
+const { upload, uploadQuestionImage, uploadGameCoverImage, validateFileSize, deleteFile, MAX_QUESTION_IMAGE_BYTES, MAX_GAME_COVER_IMAGE_BYTES } = require('../config/multer');
 const logger = require('../config/logger');
 
 const router = express.Router();
@@ -82,6 +82,50 @@ router.post('/api/upload/question-image', authenticateAdmin, (req, res, next) =>
     } catch (err) {
         logger.error('Error subiendo imagen de enunciado:', err);
         res.status(500).json({ error: 'Error al procesar la imagen', code: 'QUESTION_IMAGE_PROCESSING_FAILED' });
+    }
+});
+
+/**
+ * Endpoint para subir imagen de portada de un juego/banco (≤ 1 MB)
+ * POST /api/upload/game-cover-image
+ */
+router.post('/api/upload/game-cover-image', authenticateAdmin, (req, res, next) => {
+    uploadGameCoverImage.single('file')(req, res, (err) => {
+        if (err) {
+            if (err.code === 'LIMIT_FILE_SIZE') {
+                return res.status(400).json({
+                    error: `La imagen de portada no puede superar ${MAX_GAME_COVER_IMAGE_BYTES / 1024 / 1024} MB.`,
+                    code: 'GAME_COVER_IMAGE_TOO_LARGE',
+                    params: { maxMb: MAX_GAME_COVER_IMAGE_BYTES / 1024 / 1024 }
+                });
+            }
+            return res.status(400).json({ error: err.message });
+        }
+        next();
+    });
+}, (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ error: 'No se proporcionó ningún archivo', code: 'NO_FILE_PROVIDED' });
+        }
+
+        const file = req.file;
+        const fileUrl = `/uploads/${file.filename}`;
+
+        logger.info(`Imagen de portada subida: ${file.filename} (${file.size} bytes)`);
+
+        res.status(201).json({
+            success: true,
+            message: 'Imagen de portada subida correctamente',
+            code: 'GAME_COVER_IMAGE_UPLOADED',
+            url: fileUrl,
+            filename: file.filename,
+            size: file.size,
+            mimetype: file.mimetype
+        });
+    } catch (err) {
+        logger.error('Error subiendo imagen de portada:', err);
+        res.status(500).json({ error: 'Error al procesar la imagen', code: 'GAME_COVER_IMAGE_PROCESSING_FAILED' });
     }
 });
 

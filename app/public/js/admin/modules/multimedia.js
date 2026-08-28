@@ -338,3 +338,128 @@ function abrirSelectorImagenOpcion(qIdx, oIdx) {
     };
     input.click();
 }
+
+// ===== IMAGEN DE PORTADA DE JUEGO/BANCO (bancos, personalizados, mezclas, trivial) =====
+
+const GAME_COVER_KIND_STYLES = {
+    bank: { hiddenId: 'editBankImageUrl', previewId: 'bankCoverPreview', border: 'border-purple-200 hover:border-purple-300', text: 'text-purple-700', bg: 'bg-purple-50 hover:bg-purple-100' },
+    customGame: { hiddenId: 'customGameImageUrl', previewId: 'customGameCoverPreview', border: 'border-blue-200 hover:border-blue-300', text: 'text-blue-700', bg: 'bg-blue-50 hover:bg-blue-100' },
+    game: { hiddenId: 'gameImageUrl', previewId: 'gameCoverPreview', border: 'border-green-200 hover:border-green-300', text: 'text-green-700', bg: 'bg-green-50 hover:bg-green-100' },
+    trivial: { hiddenId: 'trivial-image-url', previewId: 'trivialCoverPreview', border: 'border-orange-200 hover:border-orange-300', text: 'text-orange-700', bg: 'bg-orange-50 hover:bg-orange-100' },
+};
+
+/**
+ * HTML del contenido de la vista previa: imagen + botón quitar, o botón para subir
+ * @param {string} kind - Clave de GAME_COVER_KIND_STYLES
+ * @param {string|null} imageUrl
+ */
+function _renderGameCoverPreviewHtml(kind, imageUrl) {
+    const style = GAME_COVER_KIND_STYLES[kind];
+    if (imageUrl) {
+        return `
+            <div class="flex items-center gap-4">
+                <img src="${imageUrl}" alt="Portada" class="w-24 h-24 object-cover rounded-xl border-2 border-slate-100 shadow-sm">
+                <button type="button" data-admin-click="eliminarImagenPortada('${kind}')" class="text-red-600 hover:text-red-700 text-sm font-bold">
+                    <i class="fas fa-trash mr-1"></i> ${_t('admin.cover.btn_remove', null, 'Quitar imagen')}
+                </button>
+            </div>`;
+    }
+    return `
+        <button type="button" data-admin-click="abrirSelectorImagenPortada('${kind}')" class="${style.bg} ${style.text} border-2 border-dashed ${style.border} px-5 py-3 rounded-xl text-sm font-bold transition">
+            <i class="fas fa-image mr-2"></i> ${_t('admin.cover.btn_upload', null, 'Subir imagen de portada')}
+        </button>`;
+}
+
+/**
+ * Bloque completo (etiqueta + input oculto + vista previa) para embeber en el formulario
+ * @param {string} kind - Clave de GAME_COVER_KIND_STYLES
+ * @param {string|null} imageUrl
+ */
+function renderGameCoverField(kind, imageUrl) {
+    const style = GAME_COVER_KIND_STYLES[kind];
+    return `
+        <div class="mt-4">
+            <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest">${_t('admin.cover.label', null, 'Imagen representativa (opcional)')}</label>
+            <input type="hidden" id="${style.hiddenId}" value="${imageUrl || ''}">
+            <div id="${style.previewId}">${_renderGameCoverPreviewHtml(kind, imageUrl || null)}</div>
+            <p class="text-slate-400 text-xs mt-1"><i class="fas fa-info-circle mr-1"></i>${_t('admin.cover.help', null, 'JPG, PNG, GIF o WebP. Máx. 1 MB.')}</p>
+        </div>`;
+}
+
+function actualizarGameCoverPreview(kind) {
+    const style = GAME_COVER_KIND_STYLES[kind];
+    const hidden = document.getElementById(style.hiddenId);
+    const preview = document.getElementById(style.previewId);
+    if (preview) preview.innerHTML = _renderGameCoverPreviewHtml(kind, hidden?.value || null);
+}
+
+function abrirSelectorImagenPortada(kind) {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/jpeg,image/png,image/gif,image/webp';
+    input.onchange = (e) => {
+        const file = e.target.files[0];
+        if (file) subirImagenPortada(kind, file);
+    };
+    input.click();
+}
+
+function eliminarImagenPortada(kind) {
+    const style = GAME_COVER_KIND_STYLES[kind];
+    const hidden = document.getElementById(style.hiddenId);
+    if (hidden) hidden.value = '';
+    actualizarGameCoverPreview(kind);
+}
+
+async function subirImagenPortada(kind, file) {
+    if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+        mostrarModalError(
+            _t('admin.media.error_type_title', null, '❌ Tipo no permitido'),
+            _t('admin.cover.error_type', null, 'Solo se permiten imágenes JPG, PNG, GIF o WebP'),
+            'error'
+        );
+        return;
+    }
+
+    if (file.size > MAX_GAME_COVER_IMAGE_SIZE) {
+        const mbActual = (file.size / 1024 / 1024).toFixed(2);
+        mostrarModalError(
+            _t('admin.media.error_size_title', null, '❌ Archivo demasiado grande'),
+            _t('admin.cover.error_size', null, `La imagen de portada no puede superar 1 MB. Tamaño actual: ${mbActual} MB`),
+            'error'
+        );
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+        const response = await fetchWithAuth('/api/upload/game-cover-image', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            const style = GAME_COVER_KIND_STYLES[kind];
+            const hidden = document.getElementById(style.hiddenId);
+            if (hidden) hidden.value = data.url;
+            actualizarGameCoverPreview(kind);
+        } else {
+            const error = await response.json();
+            mostrarModalError(
+                _t('admin.common.error_title', null, '❌ Error'),
+                error.error || _t('admin.cover.error_upload', null, 'Error al subir la imagen de portada'),
+                'error'
+            );
+        }
+    } catch (err) {
+        console.error('Error subiendo imagen de portada:', err);
+        mostrarModalError(
+            _t('admin.common.error_title', null, '❌ Error'),
+            _t('admin.common.error_server', null, 'Error de conexión al subir la imagen'),
+            'error'
+        );
+    }
+}

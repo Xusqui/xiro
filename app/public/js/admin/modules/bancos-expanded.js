@@ -227,6 +227,7 @@ function renderEditorBanco(bank) {
                     </label>
                     <p class="text-slate-400 text-xs mt-1 ml-8">${_t('admin.banks.help_visible', null, 'Si está marcado, el presentador podrá ver y usar este banco')}</p>
                 </div>
+                ${renderGameCoverField('bank', bank.image_url)}
             </div>
 
             <!-- Configuración del banco -->
@@ -330,6 +331,7 @@ function renderEditorBanco(bank) {
         use_double_streaks: document.getElementById('editBankUseDoubleStreaks')?.checked ?? false,
         double_streak_threshold: document.getElementById('editBankDoubleStreakThreshold')?.value || '5',
         double_streak_bonus_percentage: document.getElementById('editBankDoubleStreakBonusPercentage')?.value || '1.00',
+        image_url: document.getElementById('editBankImageUrl')?.value || '',
         preguntas: preguntasData
     }));
 }
@@ -394,6 +396,7 @@ async function guardarBanco(salir = true) {
     const useDoubleStreaks = document.getElementById('editBankUseDoubleStreaks')?.checked ?? false;
     const doubleStreakThreshold = parseInt(document.getElementById('editBankDoubleStreakThreshold')?.value || '5', 10);
     const doubleStreakBonusPercentage = parseFloat(document.getElementById('editBankDoubleStreakBonusPercentage')?.value || '1.00');
+    const imageUrl = document.getElementById('editBankImageUrl')?.value || null;
 
     if (!name) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), _t('admin.banks.error_name', null, 'Por favor, ponle un nombre al banco'), 'warning');
     if (preguntasData.length === 0) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), _t('admin.banks.error_questions', null, 'Añade al menos una pregunta'), 'warning');
@@ -419,6 +422,7 @@ async function guardarBanco(salir = true) {
         use_double_streaks: useDoubleStreaks,
         double_streak_threshold: doubleStreakThreshold,
         double_streak_bonus_percentage: doubleStreakBonusPercentage,
+        image_url: imageUrl,
         questions: preguntasValidas.map(q => ({
             id: q.id || null,
             questionText: q.questionText || q.question_text || q.text,

@@ -29,6 +29,7 @@ Object.defineProperty(globalThis, 'currentBanks', {
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
 const MAX_AUDIO_SIZE = 10 * 1024 * 1024; // 10MB
 const MAX_QUESTION_IMAGE_SIZE = 200 * 1024; // 200 KB — imagen de enunciado u opción
+const MAX_GAME_COVER_IMAGE_SIZE = 1024 * 1024; // 1 MB — imagen de portada de juego/banco
 const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 const ALLOWED_AUDIO_TYPES = ['audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/ogg', 'audio/webm'];
 

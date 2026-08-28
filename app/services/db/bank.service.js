@@ -17,7 +17,7 @@ const {
 async function getAllBanks() {
     const result = await pool.query(
         `SELECT qb.id, qb.name, qb.pin, qb.created_at, qb.created_by_role, qb.created_by_user_id,
-                au.username AS created_by_username
+                qb.image_url, au.username AS created_by_username
          FROM question_banks qb
          LEFT JOIN admin_users au ON au.id = qb.created_by_user_id
          ORDER BY qb.created_at DESC`
@@ -38,12 +38,13 @@ async function getAllBanksWithQuestionCounts() {
             qb.created_at,
             qb.created_by_role,
             qb.created_by_user_id,
+            qb.image_url,
             au.username AS created_by_username,
             COUNT(q.id)::int as question_count
         FROM question_banks qb
         LEFT JOIN admin_users au ON au.id = qb.created_by_user_id
         LEFT JOIN questions q ON q.bank_id = qb.id
-        GROUP BY qb.id, qb.name, qb.pin, qb.created_at, qb.created_by_role, qb.created_by_user_id, au.username
+        GROUP BY qb.id, qb.name, qb.pin, qb.created_at, qb.created_by_role, qb.created_by_user_id, qb.image_url, au.username
         ORDER BY qb.created_at DESC
     `);
     return result.rows;
@@ -246,6 +247,7 @@ async function updateBankMetadata(client, payload) {
         useDoubleStreaks,
         doubleStreakThreshold,
         doubleStreakBonusPercentage,
+        imageUrl,
         bankId
     } = payload;
 
@@ -253,8 +255,9 @@ async function updateBankMetadata(client, payload) {
         `UPDATE question_banks
          SET name = $1, pin = $2, language = $3, visible_to_presenter = $4,
              use_streaks = $5, streak_threshold = $6, streak_bonus_percentage = $7,
-             use_double_streaks = $8, double_streak_threshold = $9, double_streak_bonus_percentage = $10
-         WHERE id = $11`,
+             use_double_streaks = $8, double_streak_threshold = $9, double_streak_bonus_percentage = $10,
+             image_url = $11
+         WHERE id = $12`,
         [
             name,
             upperPin,
@@ -266,6 +269,7 @@ async function updateBankMetadata(client, payload) {
             useDoubleStreaks,
             doubleStreakThreshold,
             doubleStreakBonusPercentage,
+            imageUrl,
             bankId
         ]
     );
@@ -363,7 +367,8 @@ async function createBankRecord(client, payload) {
         streakBonusPercentage,
         useDoubleStreaks,
         doubleStreakThreshold,
-        doubleStreakBonusPercentage
+        doubleStreakBonusPercentage,
+        imageUrl
     } = payload;
 
     const resBank = await client.query(
@@ -371,8 +376,9 @@ async function createBankRecord(client, payload) {
          (name, pin, language, visible_to_presenter,
           created_by_role, created_by_user_id,
           use_streaks, streak_threshold, streak_bonus_percentage,
-          use_double_streaks, double_streak_threshold, double_streak_bonus_percentage)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id`,
+          use_double_streaks, double_streak_threshold, double_streak_bonus_percentage,
+          image_url)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id`,
         [
             name,
             upperPin,
@@ -385,7 +391,8 @@ async function createBankRecord(client, payload) {
             streakBonusPercentage,
             useDoubleStreaks,
             doubleStreakThreshold,
-            doubleStreakBonusPercentage
+            doubleStreakBonusPercentage,
+            imageUrl
         ]
     );
 
@@ -443,7 +450,8 @@ async function saveBankComplete(data, actorUserId = null) {
         streak_bonus_percentage = 0.50,
         use_double_streaks = false,
         double_streak_threshold = 5,
-        double_streak_bonus_percentage = 1.00
+        double_streak_bonus_percentage = 1.00,
+        image_url = null
     } = data;
     const { questionBankCache } = require('../cache.service');
     const ownerRole = normalizeCreatorRole(created_by_role);
@@ -481,6 +489,7 @@ async function saveBankComplete(data, actorUserId = null) {
                 useDoubleStreaks: use_double_streaks,
                 doubleStreakThreshold: double_streak_threshold,
                 doubleStreakBonusPercentage: double_streak_bonus_percentage,
+                imageUrl: image_url,
                 bankId
             });
 
@@ -503,7 +512,8 @@ async function saveBankComplete(data, actorUserId = null) {
                 streakBonusPercentage: streak_bonus_percentage,
                 useDoubleStreaks: use_double_streaks,
                 doubleStreakThreshold: double_streak_threshold,
-                doubleStreakBonusPercentage: double_streak_bonus_percentage
+                doubleStreakBonusPercentage: double_streak_bonus_percentage,
+                imageUrl: image_url
             });
 
             invalidatePinCaches(upperPin);

@@ -75,6 +75,7 @@ async function renderEditorTrivial(game, cats) {
                         Visible para el presentador
                     </label>
                 </div>
+                ${renderGameCoverField('trivial', game?.image_url)}
 
                 <hr class="border-slate-100">
 
@@ -175,6 +176,7 @@ async function renderEditorTrivial(game, cats) {
             use_double_streaks: document.getElementById('trivial-use-double-streaks')?.checked ?? false,
             double_streak_threshold: document.getElementById('trivial-double-threshold')?.value ?? 5,
             double_streak_bonus_percentage: document.getElementById('trivial-double-bonus')?.value ?? 1.0,
+            image_url: document.getElementById('trivial-image-url')?.value || '',
             cats: JSON.stringify(cats)
         };
     });

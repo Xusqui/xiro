@@ -208,6 +208,7 @@ async function renderEditorJuegoPersonalizado(game, questions) {
                     </label>
                     <p class="text-slate-400 text-xs mt-1 ml-8">${_t('admin.games.help_visible', null, 'Si está marcado, el presentador podrá ver y usar este juego')}</p>
                 </div>
+                ${renderGameCoverField('customGame', game.image_url)}
 
                 <hr class="border-slate-100 mb-5">
 
@@ -428,6 +429,7 @@ async function renderEditorJuegoPersonalizado(game, questions) {
         use_double_streaks: document.getElementById('customGameUseDoubleStreaks')?.checked ?? false,
         double_streak_threshold: parseFloat(document.getElementById('customGameDoubleStreakThreshold')?.value ?? 5),
         double_streak_bonus_percentage: parseFloat(document.getElementById('customGameDoubleStreakBonusPercentage')?.value ?? 1.0),
+        image_url: document.getElementById('customGameImageUrl')?.value || '',
         questions: currentCustomGameQuestions
     }));
 
@@ -829,6 +831,7 @@ async function guardarJuegoPersonalizado(salir = true) {
     const useDoubleStreaks = document.getElementById('customGameUseDoubleStreaks').checked;
     const doubleStreakThreshold = parseFloat(document.getElementById('customGameDoubleStreakThreshold').value) || 5;
     const doubleStreakBonusPercentage = parseFloat(document.getElementById('customGameDoubleStreakBonusPercentage').value) ?? 1.0;
+    const imageUrl = document.getElementById('customGameImageUrl')?.value || null;
 
     if (!name) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), _t('admin.custom.error_name', null, 'Por favor, ponle un nombre al juego'), 'warning');
     if (currentCustomGameQuestions.length === 0) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), _t('admin.custom.error_questions', null, 'Añade al menos una pregunta'), 'warning');
@@ -848,6 +851,7 @@ async function guardarJuegoPersonalizado(salir = true) {
         use_double_streaks: useDoubleStreaks,
         double_streak_threshold: doubleStreakThreshold,
         double_streak_bonus_percentage: doubleStreakBonusPercentage,
+        image_url: imageUrl,
         questions: currentCustomGameQuestions.map(q => ({
             slide_type: q.slide_type || 'question',
             question_id: q.question_id || null,

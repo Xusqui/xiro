@@ -3,8 +3,9 @@
  * Selección de PIN, configuración individual, y pantallas de lobby
  */
 
-import { mostrarLobbyMain } from './presenter-utils.js?v=20260828103529';
-import { cleanupPodio } from './presenter-podio.js?v=20260828103529';
+import { mostrarLobbyMain } from './presenter-utils.js?v=20260828162521';
+import { sanitizeResourceUrl } from '../core/sanitize.js?v=20260828162521';
+import { cleanupPodio } from './presenter-podio.js?v=20260828162521';
 import {
     setPin,
     setSessionId,
@@ -13,9 +14,9 @@ import {
     setConnectedPlayers,
     setPlayersData,
     setTotalPlayers
-} from './presenter-state.js?v=20260828103529';
-import { iniciarLobby } from './presenter-lobby-init.js?v=20260828103529';
-import { mostrarConfiguracionEquipos } from './presenter-team-config.js?v=20260828103529';
+} from './presenter-state.js?v=20260828162521';
+import { iniciarLobby } from './presenter-lobby-init.js?v=20260828162521';
+import { mostrarConfiguracionEquipos } from './presenter-team-config.js?v=20260828162521';
 
 if (window.XiroI18n && typeof window.XiroI18n.addSections === 'function') {
     void window.XiroI18n.addSections(['presenter_lobby'], { reload: false });
@@ -25,6 +26,15 @@ if (window.XiroI18n && typeof window.XiroI18n.addSections === 'function') {
 let filtroActivo = 'todos';
 let todosLosPins = [];
 let ultimoErrorCargaPins = '';
+
+// Tiñe el color de rol sobre la imagen de portada de una tarjeta, para que el texto siga siendo legible
+function _hexToRgba(hex, alpha) {
+    const clean = hex.replace('#', '');
+    const r = parseInt(clean.substring(0, 2), 16);
+    const g = parseInt(clean.substring(2, 4), 16);
+    const b = parseInt(clean.substring(4, 6), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
 
 function t(key, fallback, vars) {
     if (typeof window._t === 'function') {
@@ -191,26 +201,31 @@ function renderizarPINs() {
                     </div>` :
             pinsFiltrados.map(p => {
                 const cardColors = {
-                    'Juego Personalizado': { bg: 'linear-gradient(135deg,#0d9488,#044f49)', border: '#033b36', text: '#ccfbf1' },
-                    'Juego': { bg: 'linear-gradient(135deg,#8ab817,#5a7a0f)', border: '#455c09', text: '#d9f199' },
-                    'Banco': { bg: 'linear-gradient(135deg,#d97706,#b45309)', border: '#92400e', text: '#fde68a' },
-                    'Trivial': { bg: 'linear-gradient(135deg,#e65453,#b91c1c)', border: '#7f1d1d', text: '#fecaca' },
+                    'Juego Personalizado': { bg: 'linear-gradient(135deg,#0d9488,#044f49)', from: '#0d9488', to: '#044f49', border: '#033b36', text: '#ccfbf1' },
+                    'Juego': { bg: 'linear-gradient(135deg,#8ab817,#5a7a0f)', from: '#8ab817', to: '#5a7a0f', border: '#455c09', text: '#d9f199' },
+                    'Banco': { bg: 'linear-gradient(135deg,#d97706,#b45309)', from: '#d97706', to: '#b45309', border: '#92400e', text: '#fde68a' },
+                    'Trivial': { bg: 'linear-gradient(135deg,#e65453,#b91c1c)', from: '#e65453', to: '#b91c1c', border: '#7f1d1d', text: '#fecaca' },
                 };
-                const c = cardColors[p.type] || { bg: 'linear-gradient(135deg,#f9b518,#d49500)', border: '#a37200', text: '#fef9c3' };
+                const c = cardColors[p.type] || { bg: 'linear-gradient(135deg,#f9b518,#d49500)', from: '#f9b518', to: '#d49500', border: '#a37200', text: '#fef9c3' };
                 const typeLabel = pinsTextos[p.type] || p.type;
+                const safeImageUrl = sanitizeResourceUrl(p.image_url || '');
+                const cardBackground = safeImageUrl
+                    ? `linear-gradient(135deg, ${_hexToRgba(c.from, 0.4)}, ${_hexToRgba(c.to, 0.4)}), url('${safeImageUrl}') center/cover no-repeat`
+                    : c.bg;
+                const textShadow = safeImageUrl ? 'text-shadow:0 1px 4px rgba(0,0,0,.7);' : '';
                 return `
                             <div data-presenter-action="select-pin" data-pin="${p.pin}"
                              class="p-6 rounded-3xl cursor-pointer transition-all hover:scale-105 shadow-2xl flex flex-col justify-between min-h-[180px] w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)]"
-                             style="background:${c.bg};border-bottom:4px solid ${c.border};position:relative;">
+                             style="background:${cardBackground};border-bottom:4px solid ${c.border};position:relative;">
                             <div class="mb-4">
-                                <div class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full inline-block mb-3">
-                                    <span class="text-white font-bold text-xs uppercase">${typeLabel}</span>
+                                <div class="bg-white/30 backdrop-blur-sm px-4 py-2 rounded-full inline-block mb-3">
+                                    <span class="text-white font-bold text-xs uppercase" style="${textShadow}">${typeLabel}</span>
                                 </div>
-                                <h3 class="text-3xl font-black italic text-white mb-2">${p.pin}</h3>
-                                <p class="text-sm line-clamp-2" style="color:${c.text}">${p.name}</p>
-                                ${p.question_count !== undefined ? `<p class="text-xs mt-1" style="color:${c.text}">${p.question_count} ${t('presenter.selector.card.questions', 'preguntas')}</p>` : ''}
+                                <h3 class="text-3xl font-black italic text-white mb-2" style="${textShadow}">${p.pin}</h3>
+                                <p class="text-sm line-clamp-2" style="color:${c.text};${textShadow}">${p.name}</p>
+                                ${p.question_count !== undefined ? `<p class="text-xs mt-1" style="color:${c.text};${textShadow}">${p.question_count} ${t('presenter.selector.card.questions', 'preguntas')}</p>` : ''}
                             </div>
-                            <div class="flex items-center justify-between text-xs" style="color:${c.text}">
+                            <div class="flex items-center justify-between text-xs" style="color:${c.text};${textShadow}">
                                 <span><i class="fas fa-play-circle mr-1"></i> ${t('presenter.selector.card.play', 'Clic para jugar')}</span>
                             </div>
                             ${p.language ? `<img src="/images/flags/${p.language}.svg" alt="" style="position:absolute;bottom:12px;right:12px;width:34px;height:24px;object-fit:cover;border-radius:4px;border:2px solid rgba(255,255,255,.85);box-shadow:0 3px 8px rgba(0,0,0,.35);transform:rotate(-9deg);pointer-events:none;">` : ''}

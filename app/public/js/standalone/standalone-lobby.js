@@ -28,9 +28,18 @@ globalThis.StandaloneLobby = (() => {
     // Misma paleta por tipo que el selector de PINs del presentador
     // (ver renderizarPINs en js/presenter/presenter-lobby.js).
     const CARD_COLORS = {
-        custom: { bg: 'linear-gradient(135deg,#0d9488,#044f49)', border: '#033b36', text: '#ccfbf1' },
-        bank: { bg: 'linear-gradient(135deg,#d97706,#b45309)', border: '#92400e', text: '#fde68a' }
+        custom: { bg: 'linear-gradient(135deg,#0d9488,#044f49)', from: '#0d9488', to: '#044f49', border: '#033b36', text: '#ccfbf1' },
+        bank: { bg: 'linear-gradient(135deg,#d97706,#b45309)', from: '#d97706', to: '#b45309', border: '#92400e', text: '#fde68a' }
     };
+
+    // Tiñe el color de rol sobre la imagen de portada de una tarjeta, para que el texto siga siendo legible
+    function _hexToRgba(hex, alpha) {
+        const clean = hex.replace('#', '');
+        const r = parseInt(clean.substring(0, 2), 16);
+        const g = parseInt(clean.substring(2, 4), 16);
+        const b = parseInt(clean.substring(4, 6), 16);
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
 
     function _renderGameCard(game) {
         const c = CARD_COLORS[game.type] || CARD_COLORS.bank;
@@ -40,11 +49,15 @@ globalThis.StandaloneLobby = (() => {
         const safePin = _escapeHtml(String(game.pin || ''));
 
         const flagCode = game.language ? _escapeHtml(game.language) : '';
+        const safeImageUrl = game.imageUrl ? _escapeHtml(game.imageUrl) : '';
+        const cardBackground = safeImageUrl
+            ? `linear-gradient(135deg, ${_hexToRgba(c.from, 0.8)}, ${_hexToRgba(c.to, 0.8)}), url('${safeImageUrl}') center/cover no-repeat`
+            : c.bg;
 
         return `
             <div data-standalone-action="select-game" data-pin="${safePin}"
                  class="p-6 rounded-3xl cursor-pointer transition-all hover:scale-105 shadow-2xl flex flex-col justify-between min-h-[180px]"
-                 style="background: ${c.bg}; border-bottom: 4px solid ${c.border}; position: relative;">
+                 style="background: ${cardBackground}; border-bottom: 4px solid ${c.border}; position: relative;">
                 <div class="mb-4">
                     <div class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full inline-block mb-3">
                         <span class="text-white font-bold text-xs uppercase">${_escapeHtml(typeLabel)}</span>
