@@ -1,7 +1,7 @@
 // player-game-flow.js
 // Manejo del flujo del juego: inicio, nuevas preguntas, reinicio del servidor, salida del lobby
 
-import { getSocket, getPlayerId } from './player-socket-config.js?v=20260829205150';
+import { getSocket, getPlayerId } from './player-socket-config.js?v=20260829210149';
 import {
     getPin, getNickname, getSessionId,
     setPin, setNickname, setSessionId,
@@ -9,14 +9,14 @@ import {
     setPendingAnswer, setSendingAnswer,
     getWakeLock, setWakeLock,
     resetSessionState
-} from './player-state.js?v=20260829205150';
-import { renderizarPregunta, renderizarPreguntaOrdena, renderizarPreguntaMatching, renderizarPreguntaNumerica, renderizarPreguntaWordScramble, renderizarPreguntaMultipleChoice } from './player-question-ui.js?v=20260829205150';
-import { renderizarSlideComentario, renderizarSlideInfo, renderizarSlideTexto, renderizarSlideImagen, renderizarSlideTextoImagen } from './player-question-ui.js?v=20260829205150';
-import { removeDisconnectOverlay } from './player-connection.js?v=20260829205150';
-import { mostrarModalConfirmacion, mostrarModalMensaje } from '../shared/modal.js?v=20260829205150';
-import { markGameConcluded } from './player-game-concluded.js?v=20260829205150';
-import { injectStreakBadge, cancelStreakAnimation } from './player-streak-ui.js?v=20260829205150';
-import { preloadGameImages } from './player-image-preloader.js?v=20260829205150';
+} from './player-state.js?v=20260829210149';
+import { renderizarPregunta, renderizarPreguntaOrdena, renderizarPreguntaMatching, renderizarPreguntaNumerica, renderizarPreguntaWordScramble, renderizarPreguntaMultipleChoice } from './player-question-ui.js?v=20260829210149';
+import { renderizarSlideComentario, renderizarSlideInfo, renderizarSlideTexto, renderizarSlideImagen, renderizarSlideTextoImagen } from './player-question-ui.js?v=20260829210149';
+import { removeDisconnectOverlay } from './player-connection.js?v=20260829210149';
+import { mostrarModalConfirmacion, mostrarModalMensaje } from '../shared/modal.js?v=20260829210149';
+import { markGameConcluded } from './player-game-concluded.js?v=20260829210149';
+import { injectStreakBadge, cancelStreakAnimation } from './player-streak-ui.js?v=20260829210149';
+import { preloadGameImages } from './player-image-preloader.js?v=20260829210149';
 
 /**
  * Salir del lobby y liberar credenciales
