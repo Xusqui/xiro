@@ -22,6 +22,15 @@ router.get('/api/ui-settings', (req, res) => {
     res.json(settings);
 });
 
+/** Admin — lista las imágenes disponibles para personalizar el frontend */
+router.get('/api/admin/ui-settings/personalization-images', authenticateAdmin, authorizeAdmin, (req, res) => {
+    const images = uiSettings.listPersonalizationImages().map(filename => ({
+        filename,
+        url: `/images/personalizations/${filename}`
+    }));
+    res.json({ success: true, images });
+});
+
 /** Admin — actualiza un ajuste de UI */
 router.post('/api/admin/ui-settings', authenticateAdmin, authorizeAdmin, (req, res) => {
     try {

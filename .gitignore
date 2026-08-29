@@ -91,3 +91,4 @@ app/package.json
 app/public/clientes.html
 docker_images
 graphify-out
+app/graphify-out

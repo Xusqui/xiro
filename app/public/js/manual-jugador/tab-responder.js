@@ -1,4 +1,4 @@
-import { renderSmallVerticalCard } from './ui-components.js?v=20260828162521';
+import { renderSmallVerticalCard } from './ui-components.js?v=20260829205150';
 
 export function getTabResponderHTML() {
     const types = [

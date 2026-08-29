@@ -2,7 +2,7 @@
  * @fileoverview Gestión centralizada de Wake Lock para jugadores
  */
 
-import { getPin, getNickname, getWakeLock, setWakeLock } from './player-state.js?v=20260828162521';
+import { getPin, getNickname, getWakeLock, setWakeLock } from './player-state.js?v=20260829205150';
 
 let wakeLockWatchdogId = null;
 let wakeGestureFallbackBound = false;

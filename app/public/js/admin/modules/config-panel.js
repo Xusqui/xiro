@@ -223,6 +223,8 @@ function _renderUiTab(settings) {
             ${renderNeonSwitch({ key: 'animarFondo', checked: animarFondo, label: _t('admin.config.ui.animar_fondo_label') })}
         </div>
 
+        ${renderPersonalizationSection(settings)}
+
         <div id="ui-save-result" class="text-sm"></div>
     </div>`;
 }
@@ -403,6 +405,12 @@ function _initConfigPanelDelegation() {
                 break;
             case 'toggle-ui-setting-neon':
                 if (actionElement.dataset.key) saveUiSetting(actionElement.dataset.key, actionElement.checked);
+                break;
+            case 'toggle-personalization-enabled':
+                togglePersonalizationEnabled(actionElement.checked);
+                break;
+            case 'select-personalization-image':
+                if (actionElement.dataset.filename) selectPersonalizationImage(actionElement.dataset.filename);
                 break;
             case 'set-tv-card-mode':
                 if (actionElement.dataset.mode) setTvCardMode(actionElement.dataset.mode, actionElement);

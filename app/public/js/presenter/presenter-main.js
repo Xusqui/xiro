@@ -3,25 +3,25 @@
  * Coordina todos los módulos del presentador y expone funciones globales
  */
 
-import { initializePresenterSession } from './presenter-socket-config.js?v=20260828162521';
-import { initRemoteControlMode } from './presenter-remote.js?v=20260828162521';
+import { initializePresenterSession } from './presenter-socket-config.js?v=20260829205150';
+import { initRemoteControlMode } from './presenter-remote.js?v=20260829205150';
 import {
     mostrarSelectorPIN, cambiarFiltro, seleccionarPIN, volverAJuegos,
     mostrarSeleccionModo, configurarModoIndividual, mostrarSeleccionModoDirecto,
     rerenderCurrentLobbyView
-} from './presenter-lobby.js?v=20260828162521';
+} from './presenter-lobby.js?v=20260829205150';
 import {
     mostrarConfiguracionEquipos, seleccionarNumEquipos,
     confirmarEquipos, updateColorOptions
-} from './presenter-team-config.js?v=20260828162521';
-import { iniciarLobby, empezar } from './presenter-lobby-init.js?v=20260828162521';
-import { registerLobbySocketHandlers } from './presenter-socket-handlers-lobby.js?v=20260828162521';
-import { registerGameSocketHandlers, nextQuestionClick, togglePauseTimer, revealAnswerClick, assignManualPoints } from './presenter-socket-handlers-game.js?v=20260828162521';
-import { registerPresenterReconnectionEvents } from './presenter-reconnection.js?v=20260828162521';
-import { toggleFullscreen, saveOriginalLobbyHTML } from './presenter-utils.js?v=20260828162521';
-import { abandonarJuego, concluirJuegoYVolver, terminarJuego } from './presenter-session-control.js?v=20260828162521';
-import { startWaitingPanelSync, stopWaitingPanelSync } from './presenter-waiting-panel.js?v=20260828162521';
-import { registerTrivialSocketHandlers } from './presenter-trivial-socket.js?v=20260828162521';
+} from './presenter-team-config.js?v=20260829205150';
+import { iniciarLobby, empezar } from './presenter-lobby-init.js?v=20260829205150';
+import { registerLobbySocketHandlers } from './presenter-socket-handlers-lobby.js?v=20260829205150';
+import { registerGameSocketHandlers, nextQuestionClick, togglePauseTimer, revealAnswerClick, assignManualPoints } from './presenter-socket-handlers-game.js?v=20260829205150';
+import { registerPresenterReconnectionEvents } from './presenter-reconnection.js?v=20260829205150';
+import { toggleFullscreen, saveOriginalLobbyHTML } from './presenter-utils.js?v=20260829205150';
+import { abandonarJuego, concluirJuegoYVolver, terminarJuego } from './presenter-session-control.js?v=20260829205150';
+import { startWaitingPanelSync, stopWaitingPanelSync } from './presenter-waiting-panel.js?v=20260829205150';
+import { registerTrivialSocketHandlers } from './presenter-trivial-socket.js?v=20260829205150';
 
 // Detect remote mode early (URL params available synchronously) to avoid registering
 // full-presenter socket handlers that crash when their DOM elements don't exist.
@@ -337,7 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('📌 PIN con modo detectado en URL:', pin, mode);
 
         // Actualizar estado global
-        import('./presenter-state.js?v=20260828162521').then(module => {
+        import('./presenter-state.js?v=20260829205150').then(module => {
             module.setPin(pin);
         });
 
@@ -348,7 +348,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('📌 PIN detectado en URL (sin modo):', pin);
 
         // Actualizar estado global
-        import('./presenter-state.js?v=20260828162521').then(module => {
+        import('./presenter-state.js?v=20260829205150').then(module => {
             module.setPin(pin);
         });
 
@@ -376,7 +376,7 @@ window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
         if (document.querySelectorAll('.option-text').length > 0) {
-            import('./presenter-utils.js?v=20260828162521').then(module => {
+            import('./presenter-utils.js?v=20260829205150').then(module => {
                 module.adjustTextSize();
             });
         }

@@ -39,14 +39,22 @@ const DEFAULTS = {
     fireworksStarWidth: 3,              // Grosor de las estrellas (1 - 6)
     fireworksSparkWidth: 1,             // Grosor de las chispas (0.5 - 4)
     fireworksSound: false,              // Sonido de fuegos artificiales
+
+    // Personalización de interfaz (branding de evento, ej. logo de un patrocinador)
+    personalizationEnabled: false,      // Activa la insignia de personalización en el frontend
+    personalizationImage: null,         // Nombre de fichero seleccionado dentro de public/images/personalizations/
 };
+
+const PERSONALIZATIONS_DIR = path.join(__dirname, '../public/images/personalizations');
+const PERSONALIZATION_IMAGE_PATTERN = /\.(png|jpe?g|svg|webp)$/i;
 
 let _store = { ...DEFAULTS };
 
 const BOOLEAN_SETTINGS = new Set([
     'animarFondo',
     'fireworksFinaleMode',
-    'fireworksSound'
+    'fireworksSound',
+    'personalizationEnabled'
 ]);
 
 const STRING_ARRAY_SETTINGS = new Set(['teamNames']);
@@ -93,6 +101,27 @@ const RANGE_SETTINGS = {
         message: 'fireworksSparkWidth debe estar entre 0.5 y 4'
     }
 };
+
+function listPersonalizationImages() {
+    try {
+        return fs.readdirSync(PERSONALIZATIONS_DIR)
+            .filter(f => PERSONALIZATION_IMAGE_PATTERN.test(f))
+            .sort();
+    } catch {
+        return [];
+    }
+}
+
+// Whitelist contra el listado real del directorio: evita path traversal y XSS
+// almacenado (el valor se sirve tal cual en /api/ui-settings, público).
+function _validatePersonalizationImage(value) {
+    if (value === null || value === undefined || value === '') return null;
+    const name = String(value);
+    if (!listPersonalizationImages().includes(name)) {
+        throw new Error('La imagen de personalización seleccionada no existe');
+    }
+    return name;
+}
 
 function parseRangedNumber(key, value) {
     const rules = RANGE_SETTINGS[key];
@@ -157,6 +186,12 @@ function _validateTeamNames(names) {
 }
 
 function set(key, value) {
+    // Cluster PM2 sin sticky sessions: cada worker tiene su propio _store en memoria.
+    // Sin este _load(), dos peticiones consecutivas (p.ej. activar personalización y
+    // luego elegir imagen) pueden caer en workers distintos y el segundo persistAll()
+    // pisa en disco el cambio del primero con su copia en memoria desactualizada.
+    _load();
+
     if (!(key in DEFAULTS)) throw new Error(`Ajuste de UI desconocido: ${key}`);
 
     if (key === 'tvCardMode') {
@@ -177,6 +212,11 @@ function set(key, value) {
         return;
     }
 
+    if (key === 'personalizationImage') {
+        _store[key] = _validatePersonalizationImage(value);
+        return;
+    }
+
     _store[key] = parseRangedNumber(key, value);
 }
 
@@ -186,4 +226,4 @@ function persistAll() {
 
 _load();
 
-module.exports = { get, set, getAll, persistAll };
+module.exports = { get, set, getAll, persistAll, listPersonalizationImages };
