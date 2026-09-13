@@ -304,6 +304,7 @@ function _renderHistorialTable(sessions) {
         </div>
 
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="overflow-x-auto">
             <table class="w-full text-sm">
                 <thead>
                     <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 text-xs uppercase tracking-wide">
@@ -323,6 +324,7 @@ function _renderHistorialTable(sessions) {
                 </thead>
                 <tbody>${rows}</tbody>
             </table>
+            </div>
             <div class="p-4 text-xs text-slate-400 border-t border-slate-100">
                 ${_t('admin.history.footer', { n: sessions.length, s: sessions.length !== 1 ? 's' : '' }, '{n} partida{s} registrada{s}').replace(/\{n\}/g, sessions.length).replace(/\{s\}/g, sessions.length !== 1 ? 's' : '')}
             </div>
