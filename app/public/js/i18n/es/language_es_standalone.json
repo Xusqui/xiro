@@ -58,6 +58,7 @@
     "standalone.game.reset_word": "Borrar",
     "standalone.game.word_length_pre": "PALABRA DE",
     "standalone.game.play_audio": "▶ Toca para reproducir el audio",
-    "standalone.footer.back": "Volver al inicio"
+    "standalone.footer.back": "Volver al inicio",
+    "standalone.game.mc_missed": "No marcada"
   }
 }

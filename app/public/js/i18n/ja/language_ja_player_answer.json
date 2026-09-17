@@ -19,6 +19,8 @@
     "player.answer.sending_answer": "回答を送信中...",
     "player.answer.validating": "回答を確認中...",
     "player.answer.correct_answer_label": "正解：",
-    "player.answer.waiting_server": "サーバーの確認を待っています..."
+    "player.answer.waiting_server": "サーバーの確認を待っています...",
+    "player.answer.mc_missed": "未選択",
+    "player.answer.mc_perfect": "パーフェクト"
   }
 }

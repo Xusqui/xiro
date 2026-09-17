@@ -19,6 +19,8 @@
     "player.answer.sending_answer": "Enviant la teva resposta...",
     "player.answer.validating": "Validant la teva resposta...",
     "player.answer.correct_answer_label": "Resposta correcta:",
-    "player.answer.waiting_server": "Esperant confirmació del servidor..."
+    "player.answer.waiting_server": "Esperant confirmació del servidor...",
+    "player.answer.mc_missed": "NO MARCADA",
+    "player.answer.mc_perfect": "PERFECTE"
   }
 }

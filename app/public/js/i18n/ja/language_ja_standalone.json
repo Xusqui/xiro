@@ -58,6 +58,7 @@
     "standalone.game.reset_word": "クリア",
     "standalone.game.word_length_pre": "文字数",
     "standalone.game.play_audio": "▶ タップして音声を再生",
-    "standalone.footer.back": "トップに戻る"
+    "standalone.footer.back": "トップに戻る",
+    "standalone.game.mc_missed": "未選択"
   }
 }

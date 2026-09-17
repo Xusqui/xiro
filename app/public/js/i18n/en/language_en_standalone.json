@@ -58,6 +58,7 @@
     "standalone.game.reset_word": "Clear",
     "standalone.game.word_length_pre": "WORD OF",
     "standalone.game.play_audio": "▶ Tap to play the audio",
-    "standalone.footer.back": "Back to start"
+    "standalone.footer.back": "Back to start",
+    "standalone.game.mc_missed": "Not selected"
   }
 }

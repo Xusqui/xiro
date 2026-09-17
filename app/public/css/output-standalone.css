@@ -913,6 +913,11 @@
     border-color: #f87171;
 }
 
+.pl-reveal-breakdown-item.is-missed {
+    background: rgba(75, 85, 99, 0.3);
+    border-color: #d1d5db;
+}
+
 .pl-reveal-breakdown-label {
     display: flex;
     align-items: center;

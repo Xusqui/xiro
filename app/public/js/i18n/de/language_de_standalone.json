@@ -58,6 +58,7 @@
     "standalone.game.reset_word": "Löschen",
     "standalone.game.word_length_pre": "WORT MIT",
     "standalone.game.play_audio": "▶ Tippen, um das Audio abzuspielen",
-    "standalone.footer.back": "Zurück zum Start"
+    "standalone.footer.back": "Zurück zum Start",
+    "standalone.game.mc_missed": "Nicht gewählt"
   }
 }

@@ -3,9 +3,10 @@
  * Envío, reintentos y resultados de respuestas
  */
 
-import { socket } from './player-socket-config.js?v=20260829210149';
-import './player-answer-visual-logic.js?v=20260829210149';
-import { applyStreakToResult, setBodyHTML } from './player-streak-ui.js?v=20260829210149';
+import { socket } from './player-socket-config.js?v=20260917154426';
+import './player-answer-visual-logic.js?v=20260917154426';
+import { applyStreakToResult, setBodyHTML } from './player-streak-ui.js?v=20260917154426';
+import { buildMultipleChoiceBreakdownHTML } from './player-answer-mc-breakdown.js?v=20260917154426';
 import {
     getPin, getSessionId, getNickname,
     getCanAnswer, setCanAnswer, getHaRespondido, setHaRespondido,
@@ -16,7 +17,7 @@ import {
     startOrderAutoSendTimer,
     getCurrentMatches, clearMatchAutoSendTimer,
     getCurrentSlideType, getStreakInfo
-} from './player-state.js?v=20260829210149';
+} from './player-state.js?v=20260917154426';
 
 function createRequestId() {
     return `ans_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
@@ -630,46 +631,8 @@ export function registerAnswerEvents() {
                 </div>
             `;
         } else if (data.multipleChoiceDetails && data.multipleChoiceDetails.options) {
-            // Multiple Choice: mostrar desglose de puntos
-            const mcDetails = data.multipleChoiceDetails;
-            const correctSet = new Set(mcDetails.correctIndices || []);
-
-            // Construir desglose de opciones seleccionadas
-            let breakdownHTML = '<div class="w-full max-w-lg space-y-2 mb-4">';
-            mcDetails.selectedIndices.forEach(idx => {
-                const option = mcDetails.options[idx];
-                const isCorrect = correctSet.has(idx);
-                const points = isCorrect ? mcDetails.pointsPerCorrect : -mcDetails.penaltyPerIncorrect;
-                const sign = points >= 0 ? '+' : '';
-                const bgColor = isCorrect ? 'bg-green-600/30' : 'bg-red-600/30';
-                const borderColor = isCorrect ? 'border-green-400' : 'border-red-400';
-                const icon = isCorrect ? 'fa-check' : 'fa-times';
-
-                breakdownHTML += `
-                    <div class="${bgColor} ${borderColor} border-2 rounded-lg p-3 flex items-center justify-between">
-                        <div class="flex items-center gap-2 flex-1">
-                            <i class="fas ${icon} text-lg"></i>
-                            <span class="font-bold text-sm uppercase">${option.text}</span>
-                        </div>
-                        <span class="font-black text-xl">${sign}${points}</span>
-                    </div>
-                `;
-            });
-
-            // Agregar bonus de perfección si aplica
-            if (mcDetails.isPerfect && mcDetails.perfectBonus > 0) {
-                breakdownHTML += `
-                    <div class="bg-yellow-500/30 border-2 border-yellow-400 rounded-lg p-3 flex items-center justify-between">
-                        <div class="flex items-center gap-2 flex-1">
-                            <i class="fas fa-trophy text-lg text-yellow-400"></i>
-                            <span class="font-bold text-sm uppercase">PERFECTO</span>
-                        </div>
-                        <span class="font-black text-xl">+${mcDetails.perfectBonus}</span>
-                    </div>
-                `;
-            }
-
-            breakdownHTML += '</div>';
+            // Multiple Choice: desglose de marcadas (acertadas/falladas) + correctas no marcadas
+            const breakdownHTML = buildMultipleChoiceBreakdownHTML(data.multipleChoiceDetails);
 
             const totalIcon = data.points > 0 ? 'fa-check-circle' : 'fa-times-circle';
             const totalText = data.points > 0 ? _t('player.answer.correct', '¡BIEN!') : _t('player.answer.wrong', '¡FALLASTE!');

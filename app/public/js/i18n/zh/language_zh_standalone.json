@@ -58,6 +58,7 @@
     "standalone.game.reset_word": "清除",
     "standalone.game.word_length_pre": "单词长度",
     "standalone.game.play_audio": "▶ 点击播放音频",
-    "standalone.footer.back": "返回开始"
+    "standalone.footer.back": "返回开始",
+    "standalone.game.mc_missed": "未选择"
   }
 }

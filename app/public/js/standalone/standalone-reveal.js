@@ -49,7 +49,9 @@ const StandaloneReveal = (() => {
         const mcDetails = data.multipleChoiceDetails;
         const correctSet = new Set(mcDetails.correctIndices || []);
 
-        const breakdown = (mcDetails.selectedIndices || []).map(idx => {
+        const selectedSet = new Set(mcDetails.selectedIndices || []);
+
+        const selectedRows = (mcDetails.selectedIndices || []).map(idx => {
             const option = mcDetails.options[idx];
             const isCorrect = correctSet.has(idx);
             const points = isCorrect ? mcDetails.pointsPerCorrect : -mcDetails.penaltyPerIncorrect;
@@ -59,7 +61,20 @@ const StandaloneReveal = (() => {
                     <span class="pl-reveal-breakdown-points">${points >= 0 ? '+' : ''}${points}</span>
                 </div>
             `;
-        }).join('');
+        });
+
+        const missedLabel = _t('standalone.game.mc_missed', 'No marcada');
+        const missedRows = [...correctSet]
+            .filter(idx => !selectedSet.has(idx))
+            .sort((a, b) => a - b)
+            .map(idx => `
+                <div class="pl-reveal-breakdown-item is-missed">
+                    <span class="pl-reveal-breakdown-label"><i class="fas fa-eye-slash"></i> ${escapeHtml(mcDetails.options[idx]?.text || '')} (${escapeHtml(missedLabel)})</span>
+                    <span class="pl-reveal-breakdown-points">0</span>
+                </div>
+            `);
+
+        const breakdown = selectedRows.concat(missedRows).join('');
 
         const totalIcon = data.points > 0 ? 'fa-circle-check' : 'fa-circle-xmark';
         const totalText = data.points > 0 ? _t('standalone.game.correct', '¡Correcto!') : _t('standalone.game.incorrect', 'Incorrecto');

@@ -19,6 +19,8 @@
     "player.answer.sending_answer": "Sending your answer...",
     "player.answer.validating": "Checking your answer...",
     "player.answer.correct_answer_label": "Correct answer:",
-    "player.answer.waiting_server": "Waiting for server confirmation..."
+    "player.answer.waiting_server": "Waiting for server confirmation...",
+    "player.answer.mc_missed": "NOT SELECTED",
+    "player.answer.mc_perfect": "PERFECT"
   }
 }

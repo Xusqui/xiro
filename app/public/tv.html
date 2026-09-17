@@ -6,8 +6,8 @@
     <title>XIRO! - Presentador Ultra-Lite</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/css/tv.css?v=20260829210149">
-    <script src="/socket.io/socket.io.js?v=20260829210149"></script>
+    <link rel="stylesheet" href="/css/tv.css?v=20260917154426">
+    <script src="/socket.io/socket.io.js?v=20260917154426"></script>
     <script>
         function getOrCreatePlayerId() { var a = localStorage.getItem('xiro_presenter_playerId'); if (!a) { a = generateUUID(); localStorage.setItem('xiro_presenter_playerId', a) } return a }
         function generateUUID() { var d = new Date().getTime(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) { var r = (d + Math.random() * 16) % 16 | 0; d = Math.floor(d / 16); return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16) }) }
@@ -21,7 +21,7 @@
     <!-- por CSP 'self'; un bloque inline lo bloquearía el script-src por hashes).   -->
     <!-- El resto de tv-*.js ya comprueba window.XiroI18n antes de usarlo (ver       -->
     <!-- tv-utils.js, tv-render-players.js, tv-podio.js) y cae al español embebido.  -->
-    <script src="/js/core/i18n-stubs.js?v=20260829210149"></script>
+    <script src="/js/core/i18n-stubs.js?v=20260917154426"></script>
 </head>
 
 <body>
@@ -51,33 +51,33 @@
         <a href="/about.html" style="color:inherit;text-decoration:underline;" title="Acerca de XIRO!"
             data-i18n="common.footer.author">Copyright: Familia Fernández Villatoro</a>
     </footer>
-    <script src="/js/tv/tv-state.js?v=20260829210149"></script>
-    <script src="/js/tv/tv-utils.js?v=20260829210149"></script>
-    <script src="/js/tv/tv-tolerance.js?v=20260829210149"></script>
-    <script src="/js/tv/tv-audio.js?v=20260829210149"></script>
-    <script src="/js/tv/tv-render-slides.js?v=20260829210149"></script>
-    <script src="/js/tv/tv-render-players.js?v=20260829210149"></script>
-    <script src="/js/tv/tv-render-question.js?v=20260829210149"></script>
-    <script src="/js/tv/tv-teams.js?v=20260829210149"></script>
-    <script src="/js/tv/tv-lobby.js?v=20260829210149"></script>
+    <script src="/js/tv/tv-state.js?v=20260917154426"></script>
+    <script src="/js/tv/tv-utils.js?v=20260917154426"></script>
+    <script src="/js/tv/tv-tolerance.js?v=20260917154426"></script>
+    <script src="/js/tv/tv-audio.js?v=20260917154426"></script>
+    <script src="/js/tv/tv-render-slides.js?v=20260917154426"></script>
+    <script src="/js/tv/tv-render-players.js?v=20260917154426"></script>
+    <script src="/js/tv/tv-render-question.js?v=20260917154426"></script>
+    <script src="/js/tv/tv-teams.js?v=20260917154426"></script>
+    <script src="/js/tv/tv-lobby.js?v=20260917154426"></script>
     <!-- Lógica compartida del tablero Trivial (sin módulos, compatible Chrome 40+) -->
-    <script src="/js/shared/trivial/trivial-board-geometry.js?v=20260829210149"></script>
-    <script src="/js/shared/trivial/trivial-board-builder.js?v=20260829210149"></script>
-    <script src="/js/shared/trivial/trivial-token-renderer.js?v=20260829210149"></script>
-    <script src="/js/shared/trivial/trivial-highlights-renderer.js?v=20260829210149"></script>
-    <script src="/js/tv/tv-trv-state.js?v=20260829210149"></script>
-    <script src="/js/tv/tv-trv-layout.js?v=20260829210149"></script>
-    <script src="/js/tv/tv-trv-board.js?v=20260829210149"></script>
-    <script src="/js/tv/tv-trv-tokens.js?v=20260829210149"></script>
-    <script src="/js/tv/tv-trv-highlights.js?v=20260829210149"></script>
-    <script src="/js/tv/tv-trv-socket.js?v=20260829210149"></script>
-    <script src="/js/tv/tv-socket-connection.js?v=20260829210149"></script>
-    <script src="/js/tv/tv-socket-game.js?v=20260829210149"></script>
-    <script src="/js/tv/tv-socket-answers.js?v=20260829210149"></script>
-    <script src="/js/tv/tv-podio.js?v=20260829210149"></script>
-    <script src="/js/tv/tv-main.js?v=20260829210149"></script>
-    <script src="/js/core/site-badge.js?v=20260829210149"></script>
-    <script src="/js/core/personalization.js?v=20260829210149"></script>
+    <script src="/js/shared/trivial/trivial-board-geometry.js?v=20260917154426"></script>
+    <script src="/js/shared/trivial/trivial-board-builder.js?v=20260917154426"></script>
+    <script src="/js/shared/trivial/trivial-token-renderer.js?v=20260917154426"></script>
+    <script src="/js/shared/trivial/trivial-highlights-renderer.js?v=20260917154426"></script>
+    <script src="/js/tv/tv-trv-state.js?v=20260917154426"></script>
+    <script src="/js/tv/tv-trv-layout.js?v=20260917154426"></script>
+    <script src="/js/tv/tv-trv-board.js?v=20260917154426"></script>
+    <script src="/js/tv/tv-trv-tokens.js?v=20260917154426"></script>
+    <script src="/js/tv/tv-trv-highlights.js?v=20260917154426"></script>
+    <script src="/js/tv/tv-trv-socket.js?v=20260917154426"></script>
+    <script src="/js/tv/tv-socket-connection.js?v=20260917154426"></script>
+    <script src="/js/tv/tv-socket-game.js?v=20260917154426"></script>
+    <script src="/js/tv/tv-socket-answers.js?v=20260917154426"></script>
+    <script src="/js/tv/tv-podio.js?v=20260917154426"></script>
+    <script src="/js/tv/tv-main.js?v=20260917154426"></script>
+    <script src="/js/core/site-badge.js?v=20260917154426"></script>
+    <script src="/js/core/personalization.js?v=20260917154426"></script>
 </body>
 
 </html>

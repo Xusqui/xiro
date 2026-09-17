@@ -19,6 +19,8 @@
     "player.answer.sending_answer": "Antwort wird gesendet...",
     "player.answer.validating": "Antwort wird überprüft...",
     "player.answer.correct_answer_label": "Richtige Antwort:",
-    "player.answer.waiting_server": "Warte auf Serverbestätigung..."
+    "player.answer.waiting_server": "Warte auf Serverbestätigung...",
+    "player.answer.mc_missed": "NICHT GEWÄHLT",
+    "player.answer.mc_perfect": "PERFEKT"
   }
 }

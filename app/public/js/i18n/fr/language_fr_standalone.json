@@ -58,6 +58,7 @@
     "standalone.game.reset_word": "Effacer",
     "standalone.game.word_length_pre": "MOT DE",
     "standalone.game.play_audio": "▶ Touche pour lire l'audio",
-    "standalone.footer.back": "Retour au début"
+    "standalone.footer.back": "Retour au début",
+    "standalone.game.mc_missed": "Non cochée"
   }
 }
