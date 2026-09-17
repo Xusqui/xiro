@@ -13,6 +13,7 @@ module.exports = function createStartGameHandler(dependencies) {
     const {
         activeGames,
         lobbyPlayers,
+        teamConfigs,
         metrics,
         io,
         syncBus,
@@ -23,6 +24,7 @@ module.exports = function createStartGameHandler(dependencies) {
     const startGameUseCase = new StartGameUseCase({
         activeGames,
         lobbyPlayers,
+        teamConfigs,
         metrics,
         io,
         syncBus,

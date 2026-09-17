@@ -144,7 +144,16 @@ class ImprovedStartGameCommand extends Command {
         }));
     }
 
-    async execute({ activeGames, lobbyPlayers, metrics, syncBus }) {
+    _findEmptyTeam(roomId, teamConfigs) {
+        const teamConfig = teamConfigs?.get(roomId);
+        if (!teamConfig || !teamConfig.isTeamMode || !Array.isArray(teamConfig.teams)) {
+            return null;
+        }
+
+        return teamConfig.teams.find(team => !Array.isArray(team.players) || team.players.length === 0) || null;
+    }
+
+    async execute({ activeGames, lobbyPlayers, teamConfigs, metrics, syncBus }) {
         const validation = this.validate();
         if (!validation.valid) {
             return {
@@ -172,6 +181,15 @@ class ImprovedStartGameCommand extends Command {
 
             if (playersInLobby.length === 0) {
                 return { success: false, error: 'No hay jugadores en el lobby', code: 'NO_PLAYERS_IN_LOBBY' };
+            }
+
+            const emptyTeam = this._findEmptyTeam(roomId, teamConfigs);
+            if (emptyTeam) {
+                return {
+                    success: false,
+                    error: `El equipo "${emptyTeam.name}" no tiene jugadores`,
+                    code: 'TEAM_WITHOUT_PLAYERS'
+                };
             }
 
             const questions = await this._loadQuestions(customGame);

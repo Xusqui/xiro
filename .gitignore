@@ -92,3 +92,4 @@ app/public/clientes.html
 docker_images
 graphify-out
 app/graphify-out
+app/public/js/clientes-dashboard.js
