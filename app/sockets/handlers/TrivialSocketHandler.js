@@ -138,9 +138,26 @@ function buildTrivialStartPayload(state, categories) {
     };
 }
 
+function findEmptyTeam(isTeamMode, teamConfig) {
+    if (!isTeamMode || !teamConfig || !Array.isArray(teamConfig.teams)) {
+        return null;
+    }
+
+    return teamConfig.teams.find(team => !Array.isArray(team.players) || team.players.length === 0) || null;
+}
+
 function createStartHandler({ io, lobbyPlayers }) {
     return async function handleStart(socket, { roomId, isTeamMode, teamConfig }) {
         try {
+            const emptyTeam = findEmptyTeam(isTeamMode, teamConfig);
+            if (emptyTeam) {
+                socket.emit('trivial-error', {
+                    message: `El equipo "${emptyTeam.name}" no tiene jugadores`,
+                    code: 'TEAM_WITHOUT_PLAYERS'
+                });
+                return;
+            }
+
             const sessionPin = String(roomId).split('-')[0];
             const trivialData = await dbService.getTrivialGameByPin(sessionPin);
 

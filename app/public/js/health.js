@@ -64,7 +64,11 @@ function progressColor(percent) {
 
 async function fetchJSON(url) {
     const res = await fetch(url, { cache: 'no-cache' });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    if (!res.ok) {
+        const err = new Error(`HTTP ${res.status}`);
+        err.status = res.status;
+        throw err;
+    }
     return res.json();
 }
 
@@ -829,6 +833,64 @@ function updateHistory(healthData, metricsData, perfData) {
     drawSparkline('chartEventLoop', history.eventLoop, '#06b6d4', 'rgba(6,182,212,0.15)');
 }
 
+// ─── Auth gate ───────────────────────────────────────────
+function showAuthGate(message) {
+    if (intervalId) clearInterval(intervalId);
+    document.getElementById('loadingOverlay').classList.add('hidden');
+    document.getElementById('authGate').classList.add('visible');
+    document.getElementById('authError').textContent = message || '';
+}
+
+function hideAuthGate() {
+    document.getElementById('authGate').classList.remove('visible');
+    document.getElementById('authError').textContent = '';
+}
+
+async function handleLogin(event) {
+    event.preventDefault();
+    const username = document.getElementById('authUsername').value.trim();
+    const password = document.getElementById('authPassword').value;
+    const errorEl = document.getElementById('authError');
+    errorEl.textContent = '';
+
+    try {
+        const res = await fetch('/api/admin-login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+            errorEl.textContent = data.error || 'Usuario o contraseña incorrectos';
+            return;
+        }
+        if (data.role !== 'admin') {
+            errorEl.textContent = 'Se requiere una cuenta de administrador';
+            return;
+        }
+        hideAuthGate();
+        document.getElementById('loadingOverlay').classList.remove('hidden');
+        refreshAll();
+        intervalId = setInterval(refreshAll, refreshInterval);
+    } catch {
+        errorEl.textContent = 'Error de conexión';
+    }
+}
+
+async function checkAuthAndStart() {
+    try {
+        const res = await fetch('/api/health', { cache: 'no-cache' });
+        if (res.status === 401 || res.status === 403) {
+            showAuthGate();
+            return;
+        }
+    } catch {
+        // fallo de red: se deja que refreshAll gestione el reintento
+    }
+    refreshAll();
+    intervalId = setInterval(refreshAll, refreshInterval);
+}
+
 // ─── Main fetch & render ─────────────────────────────────
 async function refreshAll() {
     try {
@@ -840,6 +902,11 @@ async function refreshAll() {
             fetchJSON('/api/health/performance'),
             fetchJSON('/api/health/logs?limit=1000'),
         ]);
+
+        if (healthData.status === 'rejected' && healthData.reason?.status === 401) {
+            showAuthGate('Tu sesión ha expirado. Inicia sesión de nuevo.');
+            return;
+        }
 
         const live = liveData.status === 'fulfilled' ? liveData.value : null;
         const ready = readyData.status === 'fulfilled' ? readyData.value : null;
@@ -943,5 +1010,5 @@ window.addEventListener('resize', () => {
 
 // ─── Init ────────────────────────────────────────────────
 setupControlListeners();
-refreshAll();
-intervalId = setInterval(refreshAll, refreshInterval);
+document.getElementById('authForm').addEventListener('submit', handleLogin);
+checkAuthAndStart();

@@ -10,12 +10,13 @@ const { pool } = require('../config/database');
 const { getDistributedAnswerLockMetrics } = require('../application/commands/submit-answer/lockMetrics');
 const { getDistributedReconnectFailedMetrics } = require('../sockets/handlers/reconnectMetrics');
 const { players } = require('../state/globalState');
+const { authenticateAdmin, authorizeAdmin } = require('../middlewares/auth');
 
 /**
  * GET /api/metrics
  * Obtiene snapshot de métricas del sistema
  */
-router.get('/api/metrics', async (req, res) => {
+router.get('/api/metrics', authenticateAdmin, authorizeAdmin, async (req, res) => {
     try {
         const metricsData = metrics.getMetrics();
         const roomId = req.query?.roomId;

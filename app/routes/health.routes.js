@@ -15,6 +15,7 @@ const { rateLimiter } = require('../middlewares/rateLimiter');
 const healthCheckService = require('../infrastructure/health/HealthCheckService');
 const workerRegistry = require('../infrastructure/health/WorkerRegistry');
 const { getLogsBufferService } = require('../services/logs-buffer.service');
+const { authenticateAdmin, authorizeAdmin } = require('../middlewares/auth');
 
 // ── Event loop lag histogram (resolución 20 ms) ──────────────────────────────
 const _elHistogram = monitorEventLoopDelay({ resolution: 20 });
@@ -223,10 +224,10 @@ router.get('/ready', (req, res) => {
 // ===== DASHBOARD COMPLETO =====
 
 /**
- * Health check endpoint (PÚBLICO - sin autenticación)
+ * Health check endpoint (requiere sesión de administrador)
  * Dashboard completo de salud del sistema
  */
-router.get('/api/health', async (req, res) => {
+router.get('/api/health', authenticateAdmin, authorizeAdmin, async (req, res) => {
     try {
         const memStats = getMemoryStats();
         const processMemory = process.memoryUsage();
@@ -291,7 +292,7 @@ function formatUptime(seconds) {
  * Performance endpoint - Métricas de optimizaciones Fase 1 y Fase 2
  * Incluye: cache, timers, memoria, sockets por room
  */
-router.get('/api/health/performance', (req, res) => {
+router.get('/api/health/performance', authenticateAdmin, authorizeAdmin, (req, res) => {
     const io = req.app.get('io'); // Socket.io instance desde app
     const memStats = getMemoryStats();
     const processMemory = process.memoryUsage();
@@ -406,7 +407,7 @@ router.get('/api/health/performance', (req, res) => {
  * - search: búsqueda de texto libre
  * - limit: número máximo de resultados (default: 1000)
  */
-router.get('/api/health/logs', async (req, res) => {
+router.get('/api/health/logs', authenticateAdmin, authorizeAdmin, async (req, res) => {
     try {
         const logsBuffer = getLogsBufferService();
 

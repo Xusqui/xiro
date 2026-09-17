@@ -440,6 +440,31 @@ body::after {
 }
 @keyframes spin{to{transform:rotate(360deg);}}
 
+/* ── Auth gate ── */
+.auth-gate{
+    position:fixed;inset:0;background:var(--bg);
+    display:none;align-items:center;justify-content:center;
+    z-index:1100;padding:1.5rem;
+}
+.auth-gate.visible{display:flex;}
+.auth-card{
+    width:100%;max-width:380px;background:var(--bg-card);
+    border:1px solid var(--border-hi);border-radius:var(--r);
+    padding:2rem 1.75rem;display:flex;flex-direction:column;align-items:center;gap:.85rem;
+    box-shadow:0 24px 60px rgba(0,0,0,.55);
+}
+.auth-logo{height:40px;margin-bottom:.25rem;}
+.auth-card h2{font-family:var(--display);font-weight:700;font-size:1.1rem;color:var(--xy);margin:0;}
+.auth-subtitle{font-size:.78rem;color:var(--text-muted);text-align:center;margin:0 0 .5rem;line-height:1.4;}
+.auth-input{
+    width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);
+    border-radius:8px;padding:.6rem .8rem;color:var(--xy);
+    font-family:var(--mono);font-size:.85rem;
+}
+.auth-input:focus{outline:none;border-color:rgba(249,181,24,0.5);}
+.auth-submit{width:100%;justify-content:center;margin-top:.25rem;}
+.auth-error{color:var(--red);font-size:.74rem;font-family:var(--mono);min-height:1em;text-align:center;}
+
 /* ── Connection error ── */
 .connection-error{
     background:rgba(230,84,83,.08);border-bottom:1px solid rgba(230,84,83,.2);

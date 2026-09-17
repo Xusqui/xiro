@@ -11,8 +11,8 @@
  * "Ya has contestado esta pregunta" overlay.
  */
 
-import { showDiceScreen, showTrivialWaiting, registerTrivialPlayerActions } from './player-trivial-ui.js?v=20260917175346';
-import { getNickname } from './player-state.js?v=20260917175346';
+import { showDiceScreen, showTrivialWaiting, registerTrivialPlayerActions } from './player-trivial-ui.js?v=20260918004156';
+import { getNickname } from './player-state.js?v=20260918004156';
 
 /**
  * Restores the correct UI when the server snapshot signals that

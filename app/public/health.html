@@ -9,11 +9,11 @@
     <link
         href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="./css/tokens.css?v=20260917175346">
-    <link rel="stylesheet" href="./css/health.css?v=20260917175346">
-    <script src="/js/i18n/i18n-core.js?v=20260917175346"></script>
-    <script src="/js/i18n/i18n-dom.js?v=20260917175346"></script>
-    <script src="/js/i18n/i18n-ui.js?v=20260917175346"></script>
+    <link rel="stylesheet" href="./css/tokens.css?v=20260918004156">
+    <link rel="stylesheet" href="./css/health.css?v=20260918004156">
+    <script src="/js/i18n/i18n-core.js?v=20260918004156"></script>
+    <script src="/js/i18n/i18n-dom.js?v=20260918004156"></script>
+    <script src="/js/i18n/i18n-ui.js?v=20260918004156"></script>
 </head>
 
 <body>
@@ -21,6 +21,21 @@
     <div class="loading-overlay" id="loadingOverlay">
         <img src="/images/minilogo.svg" alt="Xiro" class="loading-logo">
         <div class="spinner"></div>
+    </div>
+
+    <div class="auth-gate" id="authGate">
+        <form class="auth-card" id="authForm">
+            <img src="/images/logo.svg" alt="Xiro" class="auth-logo">
+            <h2>Acceso restringido</h2>
+            <p class="auth-subtitle">Este panel contiene logs e información sensible del sistema.
+                Inicia sesión como administrador para continuar.</p>
+            <input type="text" id="authUsername" class="auth-input" placeholder="Usuario"
+                autocomplete="username" required>
+            <input type="password" id="authPassword" class="auth-input" placeholder="Contraseña"
+                autocomplete="current-password" required>
+            <button type="submit" class="btn auth-submit">Iniciar sesión</button>
+            <div class="auth-error" id="authError"></div>
+        </form>
     </div>
 
     <div class="brand-bar"></div>
@@ -257,8 +272,8 @@
         </div>
     </div>
 
-    <script src="/js/health.js?v=20260917175346"></script>
-    <script src="/js/core/site-badge.js?v=20260917175346"></script>
+    <script src="/js/health.js?v=20260918004156"></script>
+    <script src="/js/core/site-badge.js?v=20260918004156"></script>
 </body>
 
 </html>

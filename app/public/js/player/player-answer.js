@@ -3,10 +3,10 @@
  * Envío, reintentos y resultados de respuestas
  */
 
-import { socket } from './player-socket-config.js?v=20260917175346';
-import './player-answer-visual-logic.js?v=20260917175346';
-import { applyStreakToResult, setBodyHTML } from './player-streak-ui.js?v=20260917175346';
-import { buildMultipleChoiceBreakdownHTML } from './player-answer-mc-breakdown.js?v=20260917175346';
+import { socket } from './player-socket-config.js?v=20260918004156';
+import './player-answer-visual-logic.js?v=20260918004156';
+import { applyStreakToResult, setBodyHTML } from './player-streak-ui.js?v=20260918004156';
+import { buildMultipleChoiceBreakdownHTML } from './player-answer-mc-breakdown.js?v=20260918004156';
 import {
     getPin, getSessionId, getNickname,
     getCanAnswer, setCanAnswer, getHaRespondido, setHaRespondido,
@@ -17,7 +17,7 @@ import {
     startOrderAutoSendTimer,
     getCurrentMatches, clearMatchAutoSendTimer,
     getCurrentSlideType, getStreakInfo
-} from './player-state.js?v=20260917175346';
+} from './player-state.js?v=20260918004156';
 
 function createRequestId() {
     return `ans_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;

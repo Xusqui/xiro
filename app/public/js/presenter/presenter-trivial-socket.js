@@ -1,19 +1,19 @@
 // Presenter — Trivial socket handlers
 
-import { getSocket } from './presenter-socket-config.js?v=20260917175346';
-import { mostrarLobbyMain, showTerminateButton } from './presenter-utils.js?v=20260917175346';
+import { getSocket } from './presenter-socket-config.js?v=20260918004156';
+import { mostrarLobbyMain, showTerminateButton } from './presenter-utils.js?v=20260918004156';
 import {
     setTrivialGameState, getTrivialGameState,
     updateTrivialPlayers, updateTrivialTurn, updateTrivialTokens, clearTrivialGameState
-} from './presenter-trivial-state.js?v=20260917175346';
+} from './presenter-trivial-state.js?v=20260918004156';
 import {
     renderBoardBackground, updateBoardTokens, updateBoardTokensTeam,
     updateBoardHighlights, showTurnOrderOverlay
-} from './presenter-trivial-board.js?v=20260917175346';
-import { updatePlayersPanel } from './presenter-players-panel.js?v=20260917175346';
-import { cleanupRevealElements } from './presenter-reveal.js?v=20260917175346';
-import { mostrarModalConfirmacion } from '../shared/modal.js?v=20260917175346';
-import { showTrivialWinnerOverlay, isWinnerOverlayActive } from './presenter-trivial-winner.js?v=20260917175346';
+} from './presenter-trivial-board.js?v=20260918004156';
+import { updatePlayersPanel } from './presenter-players-panel.js?v=20260918004156';
+import { cleanupRevealElements } from './presenter-reveal.js?v=20260918004156';
+import { mostrarModalConfirmacion, mostrarModalMensaje } from '../shared/modal.js?v=20260918004156';
+import { showTrivialWinnerOverlay, isWinnerOverlayActive } from './presenter-trivial-winner.js?v=20260918004156';
 
 function getSession() { return new URLSearchParams(window.location.search).get('session'); }
 
@@ -270,7 +270,13 @@ export function registerTrivialSocketHandlers() {
     });
 
     socket.on('trivial-error', ({ message }) => {
-        setStatus('', `⚠ ${message}`);
+        // Antes de que arranque la partida, el tablero (#trv-turn) aún no existe
+        // -> mostrar modal en vez de escribir en un status invisible.
+        if (document.getElementById('trv-turn')) {
+            setStatus('', `⚠ ${message}`);
+        } else {
+            mostrarModalMensaje(_t('presenter.trivial.start_error_title', null, 'Error al iniciar el juego'), message, 'error');
+        }
     });
 
     window.trivialEndGame = () => {
