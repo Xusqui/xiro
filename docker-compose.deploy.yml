@@ -60,6 +60,7 @@ services:
     #   - "80:3000"
     volumes:
       - ./public/uploads:/usr/src/app/public/uploads
+      - ./public/images/personalizations:/usr/src/app/public/images/personalizations
       - ./logs:/usr/src/app/logs
       - ./config/ui-overrides.json:/usr/src/app/config/ui-overrides.json
       - ./config/runtime-overrides.json:/usr/src/app/config/runtime-overrides.json

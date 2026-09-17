@@ -412,6 +412,9 @@ function _initConfigPanelDelegation() {
             case 'select-personalization-image':
                 if (actionElement.dataset.filename) selectPersonalizationImage(actionElement.dataset.filename);
                 break;
+            case 'delete-personalization-image':
+                if (actionElement.dataset.filename) deletePersonalizationImage(actionElement.dataset.filename);
+                break;
             case 'set-tv-card-mode':
                 if (actionElement.dataset.mode) setTvCardMode(actionElement.dataset.mode, actionElement);
                 break;
@@ -441,6 +444,13 @@ function _initConfigPanelDelegation() {
         if (actionElement.dataset.configAction === 'update-fireworks-slider' && actionElement.dataset.key) {
             updateFireworksSlider(actionElement.dataset.key, actionElement.value);
         }
+    });
+
+    document.addEventListener('change', (event) => {
+        const actionElement = event.target.closest('[data-config-action="upload-personalization-image"]');
+        if (!actionElement || !actionElement.files || !actionElement.files[0]) return;
+        uploadPersonalizationImage(actionElement.files[0]);
+        actionElement.value = '';
     });
 }
 

@@ -112,6 +112,25 @@ function listPersonalizationImages() {
     }
 }
 
+// path.basename evita path traversal (p.ej. "../../otra-carpeta/fichero").
+function deletePersonalizationImage(filename) {
+    const name = path.basename(String(filename || ''));
+    if (!PERSONALIZATION_IMAGE_PATTERN.test(name)) {
+        throw new Error('Nombre de archivo no válido');
+    }
+    const filePath = path.join(PERSONALIZATIONS_DIR, name);
+    if (!fs.existsSync(filePath)) {
+        throw new Error('La imagen no existe');
+    }
+    fs.unlinkSync(filePath);
+
+    _load();
+    if (_store.personalizationImage === name) {
+        _store.personalizationImage = null;
+        persistAll();
+    }
+}
+
 // Whitelist contra el listado real del directorio: evita path traversal y XSS
 // almacenado (el valor se sirve tal cual en /api/ui-settings, público).
 function _validatePersonalizationImage(value) {
@@ -226,4 +245,4 @@ function persistAll() {
 
 _load();
 
-module.exports = { get, set, getAll, persistAll, listPersonalizationImages };
+module.exports = { get, set, getAll, persistAll, listPersonalizationImages, deletePersonalizationImage };

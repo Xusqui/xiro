@@ -1,3 +1,15 @@
+@font-face {
+    font-family: 'Regencie';
+    src: url('/fonts/Regencie-Light.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+.font-regencie {
+    font-family: 'Regencie', cursive;
+}
+
 #webgl-canvas {
     position: fixed;
     top: 0;

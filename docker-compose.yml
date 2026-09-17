@@ -134,6 +134,7 @@ services:
       - ${XIRO_ROOT:-/volume2/docker/xiro}/app/config/instance-id.json:/usr/src/app/config/instance-id.json
       - /etc/machine-id:/host/machine-id:ro
       - ${XIRO_ROOT:-/volume2/docker/xiro}/app/public/uploads:/usr/src/app/public/uploads
+      - ${XIRO_ROOT:-/volume2/docker/xiro}/app/public/images/personalizations:/usr/src/app/public/images/personalizations
       - ${XIRO_ROOT:-/volume2/docker/xiro}/logs:/usr/src/app/logs
       - ${XIRO_ROOT:-/volume2/docker/xiro}/logs:/app/logs
       - /usr/src/app/node_modules

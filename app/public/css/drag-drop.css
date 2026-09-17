@@ -12,6 +12,15 @@
     transition: all 0.2s ease;
 }
 
+/* Variante verde: zona de drop de "Personalizar interfaz" (panel admin) */
+.personalization-drag-active {
+    background: linear-gradient(135deg, rgba(22, 163, 74, 0.12) 0%, rgba(5, 150, 105, 0.12) 100%);
+    border-color: #16a34a;
+    transform: scale(1.02);
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.15);
+    transition: all 0.2s ease;
+}
+
 /* Estilo base para zonas de drop */
 .drop-zone {
     position: relative;
