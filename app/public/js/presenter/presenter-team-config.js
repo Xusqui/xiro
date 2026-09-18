@@ -3,11 +3,11 @@
  * Maneja todo el flujo de configuración de equipos: nombres, colores, validación
  */
 
-import { mostrarLobbyMain } from './presenter-utils.js?v=20260918004156';
-import { setPin, setIsTeamMode, setTeamConfig } from './presenter-state.js?v=20260918004156';
-import { mostrarModalMensaje } from '../shared/modal.js?v=20260918004156';
-import { iniciarLobby } from './presenter-lobby-init.js?v=20260918004156';
-import { mostrarSeleccionModo } from './presenter-lobby.js?v=20260918004156';
+import { mostrarLobbyMain } from './presenter-utils.js?v=20260918005241';
+import { setPin, setIsTeamMode, setTeamConfig } from './presenter-state.js?v=20260918005241';
+import { mostrarModalMensaje } from '../shared/modal.js?v=20260918005241';
+import { iniciarLobby } from './presenter-lobby-init.js?v=20260918005241';
+import { mostrarSeleccionModo } from './presenter-lobby.js?v=20260918005241';
 
 let uiSettingsRefreshPromise = null;
 
