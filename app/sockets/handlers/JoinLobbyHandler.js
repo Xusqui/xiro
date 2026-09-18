@@ -6,6 +6,7 @@
 const { validateSocket, schemas } = require('../../validation');
 const JoinGameUseCase = require('../../application/use-cases/JoinGameUseCase');
 const { pushSessionLog } = require('../../services/game-logs.service');
+const ReconnectionService = require('../services/ReconnectionService');
 
 function emitJoinError(socket, result) {
     socket.emit('join-error', {
@@ -73,6 +74,32 @@ module.exports = function createJoinLobbyHandler(dependencies) {
 
             if (!result.success) {
                 emitJoinError(socket, result);
+                return;
+            }
+
+            if (result.isReconnect) {
+                // Jugador desconectado que reclamó su nickname mientras la
+                // partida seguía en curso: mismo snapshot y aviso al
+                // presentador que recibiría vía reconnect-player.
+                await ReconnectionService.emitReconnectionSuccess({
+                    socket,
+                    io,
+                    nickname,
+                    playerId: result.playerId,
+                    player: result.player,
+                    roomId: result.roomId,
+                    game: result.game,
+                    teamConfigs
+                });
+
+                await pushSessionLog(result.roomId, {
+                    level: 'info',
+                    event: 'player-rejoined',
+                    actor: nickname,
+                    message: 'Player reconnected via join-lobby (session was disconnected)',
+                    data: { playerId: result.playerId }
+                });
+
                 return;
             }
 

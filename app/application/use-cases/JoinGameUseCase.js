@@ -87,6 +87,20 @@ class JoinGameUseCase {
                 };
             }
 
+            // Jugador desconectado que reclamó su nickname con la partida ya
+            // en marcha (ver JoinGameCommand._reconnectExistingPlayer): el
+            // handler necesita player/game, no los campos de alta de lobby.
+            if (result.isReconnect) {
+                return {
+                    success: true,
+                    isReconnect: true,
+                    roomId: result.roomId,
+                    playerId: result.playerId,
+                    player: result.player,
+                    game: result.game
+                };
+            }
+
             // Devolver todos los datos del comando
             return {
                 success: true,

@@ -21,6 +21,7 @@ const { validatePinCached, validatePinForPresenter, validatePlayerJoin } = requi
 const { validateJoinGameInput } = require('../validators/JoinGameValidator');
 const { addPlayerToLobby } = require('../../sockets/utils/LobbyPlayerSync');
 const SessionStore = require('../../services/SessionStore');
+const ReconnectionService = require('../../sockets/services/ReconnectionService');
 const logger = require('../../config/logger');
 
 const PRESENTER_NICKNAME = 'HOST';
@@ -78,7 +79,8 @@ class JoinGameCommand extends Command {
             lobbyPlayers,
             teamConfigs,
             activeGames,
-            roomPresenterMap
+            roomPresenterMap,
+            io
         } = deps;
 
         const { pin, sessionId, nickname, sessionSecret, socket, isTeamMode, teamConfig } = this.payload;
@@ -92,6 +94,7 @@ class JoinGameCommand extends Command {
             teamConfigs,
             activeGames,
             roomPresenterMap,
+            io,
             pin,
             sessionId,
             nickname,
@@ -210,6 +213,40 @@ class JoinGameCommand extends Command {
             error: 'La sesión de juego no existe o no está activa',
             reason: 'session-not-exist',
             code: 'SESSION_NOT_FOUND'
+        };
+    }
+
+    /**
+     * Un jugador desconectado que reclama su nickname (ya validado por
+     * canReclaimDisconnectedNickname, ver GameValidators) mientras la partida
+     * sigue en curso no debe tratarse como un alta de lobby nuevo: hay que
+     * restaurar su estado de partida real y avisar al presentador de que ha
+     * vuelto, igual que si hubiera llegado por el evento `reconnect-player`.
+     * Reutiliza ReconnectionService para no duplicar esa lógica.
+     */
+    async _reconnectExistingPlayer(context, existingPlayer, game) {
+        const { socket, nickname, roomId, players, socketToPlayer, lobbyPlayers, io } = context;
+
+        const reconnectResult = await ReconnectionService.reconnectPlayer({
+            socket, nickname, roomId, game, players, socketToPlayer, lobbyPlayers, io
+        });
+
+        if (!reconnectResult.success) {
+            return {
+                success: false,
+                error: reconnectResult.message,
+                reason: reconnectResult.reason,
+                code: 'RECONNECT_VIA_JOIN_FAILED'
+            };
+        }
+
+        return {
+            success: true,
+            isReconnect: true,
+            roomId,
+            playerId: existingPlayer.id,
+            player: reconnectResult.player,
+            game
         };
     }
 
@@ -511,6 +548,17 @@ class JoinGameCommand extends Command {
             }
 
             const { playerId, existingPlayer } = playerValidation;
+
+            // existingPlayer solo viene relleno cuando GameValidators ya
+            // comprobó que es una reclamación válida de un jugador
+            // desconectado (mismo nickname+sala, status disconnected y sin
+            // expirar). Si la partida ya está en marcha, esto es una
+            // reconexión, no un alta de lobby.
+            const activeGame = context.activeGames.get(context.roomId);
+            if (existingPlayer && activeGame) {
+                return await this._reconnectExistingPlayer(context, existingPlayer, activeGame);
+            }
+
             const playerData = this._buildPlayerData(context, playerId, existingPlayer);
 
             this._registerPlayerData(context, playerId, playerData);

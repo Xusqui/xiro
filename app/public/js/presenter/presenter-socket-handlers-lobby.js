@@ -120,19 +120,28 @@ export function registerLobbySocketHandlers() {
             // No existe, crear nueva
             if (!alreadyKnown) {
                 setTotalPlayers(getTotalPlayers() + 1);
-                document.getElementById('p-count').innerText = _t(getTotalPlayers());
+                const pCount = document.getElementById('p-count');
+                if (pCount) pCount.innerText = _t(getTotalPlayers());
             }
 
-            if (getIsTeamMode() && getTeamConfig()) {
-                console.log(`👥 ${nick} unido en modo equipos`);
-                renderTeamLobby();
-            } else {
-                // Modo individual
-                const playerDiv = document.createElement('div');
-                playerDiv.className = 'bg-white text-slate-900 p-3 rounded-xl font-black text-center animate-bounce uppercase italic text-sm';
-                playerDiv.setAttribute('data-nickname', nick);
-                playerDiv.textContent = _t(nick);
-                document.getElementById('p-list').appendChild(playerDiv);
+            // p-list solo existe en la pantalla de lobby pre-partida. Si ya
+            // se pasó a una pregunta (p.ej. este player-joined llega de una
+            // reconexión que reclamó su nickname vía join-lobby), no hay
+            // nada que crear aquí: connectedPlayers/updatePlayersPanel más
+            // abajo son los que sí reflejan al jugador en el sidebar activo.
+            const pList = document.getElementById('p-list');
+            if (pList) {
+                if (getIsTeamMode() && getTeamConfig()) {
+                    console.log(`👥 ${nick} unido en modo equipos`);
+                    renderTeamLobby();
+                } else {
+                    // Modo individual
+                    const playerDiv = document.createElement('div');
+                    playerDiv.className = 'bg-white text-slate-900 p-3 rounded-xl font-black text-center animate-bounce uppercase italic text-sm';
+                    playerDiv.setAttribute('data-nickname', nick);
+                    playerDiv.textContent = _t(nick);
+                    pList.appendChild(playerDiv);
+                }
             }
         }
 
@@ -180,7 +189,8 @@ export function registerLobbySocketHandlers() {
             if (elem.getAttribute('data-nickname') === nick) {
                 elem.remove();
                 setTotalPlayers(getTotalPlayers() - 1);
-                document.getElementById('p-count').innerText = _t(getTotalPlayers());
+                const pCount = document.getElementById('p-count');
+                if (pCount) pCount.innerText = _t(getTotalPlayers());
             }
         });
 

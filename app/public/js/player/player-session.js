@@ -142,7 +142,30 @@ export async function validarSession(sessionParam) {
 
                 resolve();
                 return;
-            } else if (savedSessionId && savedSessionId !== getSessionId()) {
+            }
+
+            // Misma sesión que la guardada, pero sin marcador de ventana
+            // (pestaña nueva tras cerrar/perder la anterior: window.name y
+            // sessionStorage no viajan a una pestaña nueva, ni deben, porque
+            // también son la barrera que evita que dos pestañas del mismo
+            // dispositivo se roben la identidad la una a la otra mientras
+            // ambas siguen vivas). No podemos usar reconnect-player (el
+            // playerId es per-ventana y aquí es uno nuevo), así que
+            // reclamamos el nickname vía join-lobby: el servidor es quien
+            // decide, mirando el estado real del socket anterior, si esto es
+            // un jugador ya desconectado que vuelve (reconecta sin pedir
+            // nombre) o si la sesión anterior sigue viva (rechaza con
+            // nickname-taken y aquí caemos al formulario manual).
+            if (savedPin === pin && savedSessionId === getSessionId() && savedNickname) {
+                console.log('[RECONNECT DEBUG] Sin marcador de ventana pero mismo sessionId guardado - reclamando nickname automáticamente:', savedNickname);
+                document.getElementById('main-container').innerHTML = _tHtml(mostrarPantallaReconectando(savedNickname));
+                await activarWakeLock();
+                emitJoinLobby(savedNickname.toUpperCase());
+                resolve();
+                return;
+            }
+
+            if (savedSessionId && savedSessionId !== getSessionId()) {
                 // SessionId diferente - limpiar datos
                 console.log('🧹 SessionId diferente - limpiando datos de sesión anterior');
                 clearSavedSessionData();
@@ -162,24 +185,14 @@ export async function validarSession(sessionParam) {
 }
 
 /**
- * Unirse al lobby
+ * Emitir join-lobby para un nickname ya resuelto (formulario manual o
+ * reclamación automática de un nickname guardado, ver validarSession).
+ * El servidor decide si esto es un alta nueva o la reconexión de un
+ * jugador desconectado (mismo nickname+sala): en ese segundo caso
+ * responde con reconnected-success en vez de join-success.
  */
-export async function unirseAlLobby() {
-    const nicknameInput = document.getElementById('nickname-input');
-    const nickname = nicknameInput.value.trim().toUpperCase();
-    if (!nickname) return;
-
+function emitJoinLobby(nickname) {
     setNickname(nickname);
-
-    // Verificar que el socket esté conectado
-    if (!socket.connected) {
-        console.error('⚠️ Socket no conectado. Esperando conexión...');
-        document.getElementById('main-container').innerHTML = _tHtml(mostrarErrorSocketDesconectado());
-        return;
-    }
-
-    // Activar Wake Lock
-    await activarWakeLock();
 
     // Limpiar timeout anterior si existe
     const currentTimeout = getJoinTimeoutId();
@@ -216,6 +229,28 @@ export async function unirseAlLobby() {
     });
 
     console.log('📤 join-lobby emitido:', { pin: getPin(), nickname: getNickname(), playerId });
+}
+
+/**
+ * Unirse al lobby (formulario manual de nombre)
+ */
+export async function unirseAlLobby() {
+    const nicknameInput = document.getElementById('nickname-input');
+    const nickname = nicknameInput.value.trim().toUpperCase();
+    if (!nickname) return;
+
+    // Verificar que el socket esté conectado
+    if (!socket.connected) {
+        console.error('⚠️ Socket no conectado. Esperando conexión...');
+        setNickname(nickname);
+        document.getElementById('main-container').innerHTML = _tHtml(mostrarErrorSocketDesconectado());
+        return;
+    }
+
+    // Activar Wake Lock
+    await activarWakeLock();
+
+    emitJoinLobby(nickname);
 
     // Mostrar pantalla de carga
     document.getElementById('main-container').innerHTML = _tHtml(mostrarPantallaConectando());

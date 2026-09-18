@@ -8,6 +8,7 @@ const runtimeConfig = require('../../config/runtime-config');
 const logger = require('../../config/logger');
 const { getRedisClient } = require('../../config/redis');
 const { RedisSyncBus } = require('../sync/RedisSyncBus');
+const TrivialReconnectService = require('./TrivialReconnectService');
 
 // Lazy-loaded to avoid circular dependencies (GameStateAdapter ↔ services)
 let _getAdapter = null;
@@ -592,6 +593,39 @@ async function reconnectPlayer({ socket, nickname, roomId, game, players, socket
     }
 }
 
+/**
+ * Emite el snapshot de reconexión completo (jugador + sala) para un jugador
+ * que ya fue restaurado (vía reconnectPlayer). Compartido entre el flujo de
+ * `reconnect-player` y el flujo de rescate desde `join-lobby` (jugador
+ * desconectado que reclama su nickname mientras la partida sigue en curso),
+ * para que ambas rutas devuelvan exactamente el mismo estado al jugador y
+ * la misma notificación al presentador.
+ */
+async function emitReconnectionSuccess({ socket, io, nickname, playerId, player, roomId, game, teamConfigs }) {
+    if (game) {
+        await restorePlayerStreaksFromRedis(game, nickname, roomId);
+    }
+
+    const trivialBoardInfo = await TrivialReconnectService.getTrivialBoardInfo(roomId);
+    const snapshot = await buildPlayerSnapshot(player, roomId, game, teamConfigs, trivialBoardInfo);
+
+    socket.emit('reconnected-success', snapshot);
+
+    if (trivialBoardInfo?.isBoardPhase) {
+        TrivialReconnectService.emitBoardEventToSocket(socket, trivialBoardInfo);
+    }
+
+    io.to(roomId).emit('player-rejoined', {
+        nickname,
+        playerId,
+        score: player.score || 0,
+        streak: game?.playerStreaks?.[nickname] || 0,
+        streakInfo: game?.playerStreakInfos?.[nickname] || null,
+        teamIndex: player.teamIndex,
+        teamName: player.teamName
+    });
+}
+
 module.exports = {
     checkNicknameDuplicate,
     disconnectOldSocket,
@@ -601,5 +635,6 @@ module.exports = {
     reconnectPlayer,
     restorePlayerStreaksFromRedis,
     buildPlayerSnapshot,
-    buildPresenterSnapshot
+    buildPresenterSnapshot,
+    emitReconnectionSuccess
 };
