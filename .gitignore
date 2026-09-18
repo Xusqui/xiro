@@ -76,7 +76,6 @@ docs/DOCKERHUB_README.md
 **/.nyc_output
 
 # Docker
-.dockerignore
 build-image.sh
 *.tar.gz
 
