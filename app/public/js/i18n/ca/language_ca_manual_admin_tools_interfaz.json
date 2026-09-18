@@ -3,8 +3,12 @@
     "manual_admin.tools.interfaz.title": "Interfície",
     "manual_admin.tools.interfaz.desc": "Ajustos de la interfície d'usuari.",
     "manual_admin.tools.interfaz.tv": "Targeta TV",
-    "manual_admin.tools.interfaz.tv_desc": "Mostra o amaga la targeta de la versió TV a la pantalla d'inici.",
+    "manual_admin.tools.interfaz.tv_desc": "Controla quan es mostra la targeta i l'enllaç a la versió TV a la pantalla d'inici: <strong>mai</strong>, <strong>sempre</strong> o <strong>només en dispositius antics</strong> (detecta navegadors desfasats i els ofereix automàticament la versió lleugera).",
     "manual_admin.tools.interfaz.standalone": "Targeta «Mode Solitari»",
-    "manual_admin.tools.interfaz.standalone_desc": "Mostra o amaga la targeta i l'enllaç al mode solitari (standalone.html) a la pantalla d'inici."
+    "manual_admin.tools.interfaz.standalone_desc": "Mostra o amaga la targeta i l'enllaç al mode solitari (standalone.html) a la pantalla d'inici.",
+    "manual_admin.tools.interfaz.animar_fondo": "Fons animat",
+    "manual_admin.tools.interfaz.animar_fondo_desc": "Activa o desactiva el moviment del degradat i les fulles de fons a totes les pantalles. Si es desactiva, el fons queda estàtic.",
+    "manual_admin.tools.interfaz.personalization": "Personalitzar interfície",
+    "manual_admin.tools.interfaz.personalization_desc": "Mostra una insígnia de marca de l'esdeveniment (p. ex. el logotip d'un patrocinador) a totes les pantalles del joc. Permet pujar, triar i esborrar el logotip directament des d'aquest panell."
   }
 }

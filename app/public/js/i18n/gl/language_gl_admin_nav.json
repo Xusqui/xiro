@@ -36,6 +36,13 @@
     "admin.ownership.unknown": "Un estraño",
     "admin.ownership.error_title": "Recurso protexido",
     "admin.ownership.error_message": "Non pode modificar este recurso porque foi creado por outro usuario.",
-    "admin.common.created_by": "Creado por"
+    "admin.common.created_by": "Creado por",
+    "admin.common.btn_hide_all_presenter": "Ocultar todos estes xogos ao presentador",
+    "admin.common.btn_show_all_presenter": "Amosar todos estes xogos ao presentador",
+    "admin.common.confirm_hide_all_msg": "Queres ocultar todos estes xogos ao presentador?",
+    "admin.common.confirm_show_all_msg": "Queres amosar todos estes xogos ao presentador?",
+    "admin.common.visibility_hidden_success": "Xogos ocultados para o presentador",
+    "admin.common.visibility_shown_success": "Xogos amosados ao presentador",
+    "admin.common.error_generic": "Non se puido completar a acción"
   }
 }

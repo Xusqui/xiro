@@ -3,11 +3,11 @@
  * Muestra texto e imagen en dos columnas con layout configurable.
  */
 
-import { getCurrentQuestionIndex, getTotalQuestions } from './presenter-state.js?v=20260918124354';
-import { removeFloatingCards, showAbandonButton, showTerminateButton } from './presenter-utils.js?v=20260918124354';
-import { cleanupRevealElements } from './presenter-reveal.js?v=20260918124354';
-import { cleanupPodio } from './presenter-podio.js?v=20260918124354';
-import { showChamaleonOverlay } from './presenter-chamaleon.js?v=20260918124354';
+import { getCurrentQuestionIndex, getTotalQuestions } from './presenter-state.js?v=20260918181418';
+import { removeFloatingCards, showAbandonButton, showTerminateButton } from './presenter-utils.js?v=20260918181418';
+import { cleanupRevealElements } from './presenter-reveal.js?v=20260918181418';
+import { cleanupPodio } from './presenter-podio.js?v=20260918181418';
+import { showChamaleonOverlay } from './presenter-chamaleon.js?v=20260918181418';
 
 export function renderTextImageSlide(slide) {
     removeFloatingCards();

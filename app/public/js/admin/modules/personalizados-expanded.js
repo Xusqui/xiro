@@ -5,6 +5,14 @@
 
 // ===== VISTA PRINCIPAL: LISTADO DE JUEGOS PERSONALIZADOS =====
 
+function ocultarTodosPersonalizados() {
+    toggleAllVisibleToPresenter('/api/custom-games/visibility-all', false, renderVistaPersonalizados);
+}
+
+function mostrarTodosPersonalizados() {
+    toggleAllVisibleToPresenter('/api/custom-games/visibility-all', true, renderVistaPersonalizados);
+}
+
 async function renderVistaPersonalizados() {
     clearUnsavedChangesGuard();
 
@@ -24,11 +32,21 @@ async function renderVistaPersonalizados() {
                     </h1>
                     <p class="text-slate-500">${_t('admin.custom.subtitle', null, 'Crea juegos únicos con preguntas específicas')}</p>
                 </div>
-                <button data-admin-click="prepararNuevoJuegoPersonalizado()" 
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-xl font-bold text-lg shadow-lg transition transform hover:-translate-y-1 flex items-center gap-3">
-                    <i class="fas fa-plus-circle text-xl"></i>
-                    ${_t('admin.custom.btn_add', null, 'Añadir Nuevo Personalizado')}
-                </button>
+                <div class="flex gap-3">
+                    <button data-admin-click="ocultarTodosPersonalizados()" title="${_t('admin.common.btn_hide_all_presenter', null, 'Ocultar todos estos juegos al presentador')}" aria-label="${_t('admin.common.btn_hide_all_presenter', null, 'Ocultar todos estos juegos al presentador')}"
+                        class="w-14 h-14 bg-amber-100 hover:bg-amber-200 text-amber-700 rounded-xl transition flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-eye-slash text-lg"></i>
+                    </button>
+                    <button data-admin-click="mostrarTodosPersonalizados()" title="${_t('admin.common.btn_show_all_presenter', null, 'Mostrar todos estos juegos al presentador')}" aria-label="${_t('admin.common.btn_show_all_presenter', null, 'Mostrar todos estos juegos al presentador')}"
+                        class="w-14 h-14 bg-teal-100 hover:bg-teal-200 text-teal-700 rounded-xl transition flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-eye text-lg"></i>
+                    </button>
+                    <button data-admin-click="prepararNuevoJuegoPersonalizado()"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-xl font-bold text-lg shadow-lg transition transform hover:-translate-y-1 flex items-center gap-3">
+                        <i class="fas fa-plus-circle text-xl"></i>
+                        ${_t('admin.custom.btn_add', null, 'Añadir Nuevo Personalizado')}
+                    </button>
+                </div>
             </div>
             
             ${personalizados.length === 0 ? `

@@ -36,6 +36,13 @@
     "admin.ownership.unknown": "Ein Fremder",
     "admin.ownership.error_title": "Geschützte Ressource",
     "admin.ownership.error_message": "Sie können diese Ressource nicht ändern, da sie von einem anderen Benutzer erstellt wurde.",
-    "admin.common.created_by": "Erstellt von"
+    "admin.common.created_by": "Erstellt von",
+    "admin.common.btn_hide_all_presenter": "Alle diese Spiele vor dem Moderator ausblenden",
+    "admin.common.btn_show_all_presenter": "Alle diese Spiele dem Moderator anzeigen",
+    "admin.common.confirm_hide_all_msg": "Möchtest du alle diese Spiele vor dem Moderator ausblenden?",
+    "admin.common.confirm_show_all_msg": "Möchtest du alle diese Spiele dem Moderator anzeigen?",
+    "admin.common.visibility_hidden_success": "Spiele vor dem Moderator ausgeblendet",
+    "admin.common.visibility_shown_success": "Spiele dem Moderator angezeigt",
+    "admin.common.error_generic": "Die Aktion konnte nicht abgeschlossen werden"
   }
 }

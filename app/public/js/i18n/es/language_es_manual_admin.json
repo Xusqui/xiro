@@ -162,6 +162,13 @@
     "manual_admin.banks.merge.intro": "El botón <strong>«Mezclar Bancos»</strong> de la lista de bancos combina preguntas de varios bancos en uno nuevo.",
     "manual_admin.banks.merge.s1": "Selecciona al menos <strong>2 bancos</strong> de la lista (o usa «Seleccionar todos»).",
     "manual_admin.banks.merge.s2": "Ponle nombre al nuevo banco y, opcionalmente, un PIN.",
-    "manual_admin.banks.merge.s3": "Pulsa <strong>«Crear Banco Mezclado»</strong>. Los bancos originales no se modifican."
+    "manual_admin.banks.merge.s3": "Pulsa <strong>«Crear Banco Mezclado»</strong>. Los bancos originales no se modifican.",
+    "manual_admin.banks.visibility.title": "Visibilidad para el presentador",
+    "manual_admin.banks.visibility.intro": "Cada banco, mezcla, personalizado o trivial tiene un interruptor <strong>«Mostrar al presentador»</strong> en su formulario de edición. Además, la cabecera de cada listado (Bancos, Mezcla, Personalizados y Trivial) incluye dos botones rápidos:",
+    "manual_admin.banks.visibility.hide_title": "Ocultar todos",
+    "manual_admin.banks.visibility.hide_text": "Oculta de golpe todos los elementos de esa lista al presentador.",
+    "manual_admin.banks.visibility.show_title": "Mostrar todos",
+    "manual_admin.banks.visibility.show_text": "Vuelve a mostrarlos todos a la vez al presentador.",
+    "manual_admin.banks.visibility.scope_note": "Un editor solo afecta a los recursos que ha creado; un administrador afecta a todos los de la lista."
   }
 }

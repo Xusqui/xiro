@@ -7,6 +7,14 @@ let _trivialListDelegationReady = false;
 
 // ===== VISTA PRINCIPAL =====
 
+function ocultarTodosTrivial() {
+    toggleAllVisibleToPresenter('/api/trivial-games/visibility-all', false, renderVistaTrivial);
+}
+
+function mostrarTodosTrivial() {
+    toggleAllVisibleToPresenter('/api/trivial-games/visibility-all', true, renderVistaTrivial);
+}
+
 async function renderVistaTrivial() {
     clearUnsavedChangesGuard();
     const res = await fetchWithAuth('/api/trivial-games');
@@ -25,11 +33,21 @@ async function renderVistaTrivial() {
                     </h1>
                     <p class="text-slate-500">${_t('admin.trivial.subtitle', null, 'Crea tableros Trivial con categorías propias')}</p>
                 </div>
-                <button data-trivial-list-action="new-trivial"
-                    class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-4 rounded-xl font-bold text-lg shadow-lg transition transform hover:-translate-y-1 flex items-center gap-3">
-                    <i class="fas fa-plus-circle text-xl"></i>
-                    ${_t('admin.trivial.btn_new', null, 'Nuevo Trivial')}
-                </button>
+                <div class="flex gap-3">
+                    <button data-admin-click="ocultarTodosTrivial()" title="${_t('admin.common.btn_hide_all_presenter', null, 'Ocultar todos estos juegos al presentador')}" aria-label="${_t('admin.common.btn_hide_all_presenter', null, 'Ocultar todos estos juegos al presentador')}"
+                        class="w-14 h-14 bg-amber-100 hover:bg-amber-200 text-amber-700 rounded-xl transition flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-eye-slash text-lg"></i>
+                    </button>
+                    <button data-admin-click="mostrarTodosTrivial()" title="${_t('admin.common.btn_show_all_presenter', null, 'Mostrar todos estos juegos al presentador')}" aria-label="${_t('admin.common.btn_show_all_presenter', null, 'Mostrar todos estos juegos al presentador')}"
+                        class="w-14 h-14 bg-teal-100 hover:bg-teal-200 text-teal-700 rounded-xl transition flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-eye text-lg"></i>
+                    </button>
+                    <button data-trivial-list-action="new-trivial"
+                        class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-4 rounded-xl font-bold text-lg shadow-lg transition transform hover:-translate-y-1 flex items-center gap-3">
+                        <i class="fas fa-plus-circle text-xl"></i>
+                        ${_t('admin.trivial.btn_new', null, 'Nuevo Trivial')}
+                    </button>
+                </div>
             </div>
             ${games.length === 0 ? `
                 <div class="text-center py-20">

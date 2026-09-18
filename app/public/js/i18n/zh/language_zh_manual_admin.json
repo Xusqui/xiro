@@ -162,6 +162,13 @@
     "manual_admin.banks.merge.intro": "题库列表中的<strong>\"混合题库\"</strong>按钮可将多个题库的题目合并为一个新题库。",
     "manual_admin.banks.merge.s1": "从列表中至少选择<strong>2个题库</strong>（或使用\"全选\"）。",
     "manual_admin.banks.merge.s2": "为新题库命名，并可选择设置 PIN。",
-    "manual_admin.banks.merge.s3": "按<strong>\"创建混合题库\"</strong>。原题库不会被修改。"
+    "manual_admin.banks.merge.s3": "按<strong>\"创建混合题库\"</strong>。原题库不会被修改。",
+    "manual_admin.banks.visibility.title": "对主持人的可见性",
+    "manual_admin.banks.visibility.intro": "每个题库、混合问题、定制游戏或问答都在其编辑表单中有一个<strong>\"向主持人显示\"</strong>开关。此外，每个列表页（题库、混合问题、定制游戏、问答）的顶部都有两个快捷按钮：",
+    "manual_admin.banks.visibility.hide_title": "全部隐藏",
+    "manual_admin.banks.visibility.hide_text": "立即对主持人隐藏该列表中的所有项目。",
+    "manual_admin.banks.visibility.show_title": "全部显示",
+    "manual_admin.banks.visibility.show_text": "一次性重新向主持人显示所有项目。",
+    "manual_admin.banks.visibility.scope_note": "编辑只影响自己创建的资源；管理员影响列表中的所有资源。"
   }
 }

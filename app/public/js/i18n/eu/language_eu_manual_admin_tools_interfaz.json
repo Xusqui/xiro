@@ -3,8 +3,12 @@
     "manual_admin.tools.interfaz.title": "Interfazea",
     "manual_admin.tools.interfaz.desc": "Erabiltzaile-interfazearen ezarpenak.",
     "manual_admin.tools.interfaz.tv": "TV Txartela",
-    "manual_admin.tools.interfaz.tv_desc": "TV bertsiorako txartela erakutsi edo ezkutatu.",
+    "manual_admin.tools.interfaz.tv_desc": "TV bertsiorako txartela eta esteka noiz agertzen diren kontrolatzen du: <strong>inoiz ez</strong>, <strong>beti</strong> edo <strong>gailu zaharretan soilik</strong> (nabigatzaile zaharkituak antzematen ditu eta automatikoki bertsio arina eskaintzen die).",
     "manual_admin.tools.interfaz.standalone": "«Bakarkako Modua» txartela",
-    "manual_admin.tools.interfaz.standalone_desc": "Hasierako pantailan bakarkako modurako (standalone.html) txartela eta esteka erakusten edo ezkutatzen du."
+    "manual_admin.tools.interfaz.standalone_desc": "Hasierako pantailan bakarkako modurako (standalone.html) txartela eta esteka erakusten edo ezkutatzen du.",
+    "manual_admin.tools.interfaz.animar_fondo": "Atzeko plano animatua",
+    "manual_admin.tools.interfaz.animar_fondo_desc": "Atzeko planoko gradientearen eta hostoen mugimendua aktibatzen edo desaktibatzen du pantaila guztietan. Desaktibatuz gero, atzeko planoa geldirik geratzen da.",
+    "manual_admin.tools.interfaz.personalization": "Interfazea pertsonalizatu",
+    "manual_admin.tools.interfaz.personalization_desc": "Ekitaldiaren markaren ikur bat erakusten du (adib. babesle baten logotipoa) jokoaren pantaila guztietan. Logotipoa igotzeko, aukeratzeko eta ezabatzeko aukera ematen du panel honetatik zuzenean."
   }
 }

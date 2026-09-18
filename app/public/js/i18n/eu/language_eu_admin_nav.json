@@ -36,6 +36,13 @@
     "admin.ownership.unknown": "Arrotz bat",
     "admin.ownership.error_title": "Babestutako baliabidea",
     "admin.ownership.error_message": "Ezin duzu baliabide hau aldatu beste erabiltzaile batek sortu duelako.",
-    "admin.common.created_by": "Sortutako:"
+    "admin.common.created_by": "Sortutako:",
+    "admin.common.btn_hide_all_presenter": "Ezkutatu joko hauek guztiak aurkezleari",
+    "admin.common.btn_show_all_presenter": "Erakutsi joko hauek guztiak aurkezleari",
+    "admin.common.confirm_hide_all_msg": "Joko hauek guztiak aurkezleari ezkutatu nahi dizkiozu?",
+    "admin.common.confirm_show_all_msg": "Joko hauek guztiak aurkezleari erakutsi nahi dizkiozu?",
+    "admin.common.visibility_hidden_success": "Jokoak aurkezleari ezkutatu zaizkio",
+    "admin.common.visibility_shown_success": "Jokoak aurkezleari erakutsi zaizkio",
+    "admin.common.error_generic": "Ekintza ezin izan da burutu"
   }
 }

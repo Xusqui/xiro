@@ -36,6 +36,13 @@
     "admin.ownership.unknown": "Desconegut",
     "admin.ownership.error_title": "Recurs protegit",
     "admin.ownership.error_message": "No pots modificar aquest recurs perquè el va crear un altre usuari.",
-    "admin.common.created_by": "Creat per"
+    "admin.common.created_by": "Creat per",
+    "admin.common.btn_hide_all_presenter": "Amaga tots aquests jocs al presentador",
+    "admin.common.btn_show_all_presenter": "Mostra tots aquests jocs al presentador",
+    "admin.common.confirm_hide_all_msg": "Vols amagar tots aquests jocs al presentador?",
+    "admin.common.confirm_show_all_msg": "Vols mostrar tots aquests jocs al presentador?",
+    "admin.common.visibility_hidden_success": "Jocs amagats per al presentador",
+    "admin.common.visibility_shown_success": "Jocs mostrats al presentador",
+    "admin.common.error_generic": "No s'ha pogut completar l'acció"
   }
 }

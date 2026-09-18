@@ -162,6 +162,13 @@
     "manual_admin.banks.merge.intro": "Die Schaltfläche <strong>„Banken mischen\"</strong> in der Bankenliste kombiniert Fragen mehrerer Banken zu einer neuen.",
     "manual_admin.banks.merge.s1": "Wählen Sie mindestens <strong>2 Banken</strong> aus der Liste (oder nutzen Sie „Alle auswählen\").",
     "manual_admin.banks.merge.s2": "Benennen Sie die neue Bank und vergeben Sie optional eine PIN.",
-    "manual_admin.banks.merge.s3": "Drücken Sie <strong>„Gemischte Bank erstellen\"</strong>. Die ursprünglichen Banken werden nicht verändert."
+    "manual_admin.banks.merge.s3": "Drücken Sie <strong>„Gemischte Bank erstellen\"</strong>. Die ursprünglichen Banken werden nicht verändert.",
+    "manual_admin.banks.visibility.title": "Sichtbarkeit für den Moderator",
+    "manual_admin.banks.visibility.intro": "Jede Bank, Mischung, jedes benutzerdefinierte Spiel und jedes Trivial hat im Bearbeitungsformular einen Schalter <strong>„Dem Moderator anzeigen\"</strong>. Zusätzlich enthält der Kopfbereich jeder Liste (Banken, Mischung, Benutzerdefiniert, Trivial) zwei Schnellzugriffs-Schaltflächen:",
+    "manual_admin.banks.visibility.hide_title": "Alle ausblenden",
+    "manual_admin.banks.visibility.hide_text": "Blendet sofort alle Elemente dieser Liste vor dem Moderator aus.",
+    "manual_admin.banks.visibility.show_title": "Alle anzeigen",
+    "manual_admin.banks.visibility.show_text": "Zeigt sie alle auf einmal wieder dem Moderator an.",
+    "manual_admin.banks.visibility.scope_note": "Ein Redakteur wirkt sich nur auf die von ihm erstellten Ressourcen aus; ein Administrator wirkt sich auf alle Elemente der Liste aus."
   }
 }

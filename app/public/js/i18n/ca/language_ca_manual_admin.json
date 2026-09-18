@@ -162,6 +162,13 @@
     "manual_admin.banks.merge.intro": "El botó <strong>«Mesclar Bancs»</strong> de la llista de bancs combina preguntes de diversos bancs en un de nou.",
     "manual_admin.banks.merge.s1": "Selecciona almenys <strong>2 bancs</strong> de la llista (o fes servir «Seleccionar-los tots»).",
     "manual_admin.banks.merge.s2": "Posa nom al banc nou i, opcionalment, un PIN.",
-    "manual_admin.banks.merge.s3": "Prem <strong>«Crear Banc Mesclat»</strong>. Els bancs originals no es modifiquen."
+    "manual_admin.banks.merge.s3": "Prem <strong>«Crear Banc Mesclat»</strong>. Els bancs originals no es modifiquen.",
+    "manual_admin.banks.visibility.title": "Visibilitat per al presentador",
+    "manual_admin.banks.visibility.intro": "Cada banc, barreja, joc personalitzat o trivial té un interruptor <strong>«Mostra al presentador»</strong> al seu formulari d'edició. A més, la capçalera de cada llistat (Bancs, Barreja, Personalitzats, Trivial) inclou dos botons ràpids:",
+    "manual_admin.banks.visibility.hide_title": "Amaga-ho tot",
+    "manual_admin.banks.visibility.hide_text": "Amaga de cop tots els elements d'aquesta llista al presentador.",
+    "manual_admin.banks.visibility.show_title": "Mostra-ho tot",
+    "manual_admin.banks.visibility.show_text": "Els torna a mostrar tots alhora al presentador.",
+    "manual_admin.banks.visibility.scope_note": "Un editor només afecta els recursos que ha creat; un administrador afecta tots els de la llista."
   }
 }

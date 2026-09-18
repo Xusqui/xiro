@@ -5,6 +5,14 @@
 
 // ===== VISTA PRINCIPAL: LISTADO DE BANCOS =====
 
+function ocultarTodosBancos() {
+    toggleAllVisibleToPresenter('/api/banks/visibility-all', false, renderVistaBancos);
+}
+
+function mostrarTodosBancos() {
+    toggleAllVisibleToPresenter('/api/banks/visibility-all', true, renderVistaBancos);
+}
+
 async function renderVistaBancos() {
     clearUnsavedChangesGuard();
 
@@ -25,6 +33,14 @@ async function renderVistaBancos() {
                     <p class="text-slate-500">${_t('admin.banks.subtitle', null, 'Gestiona tus colecciones de preguntas')}</p>
                 </div>
                 <div class="flex gap-3">
+                    <button data-admin-click="ocultarTodosBancos()" title="${_t('admin.common.btn_hide_all_presenter', null, 'Ocultar todos estos juegos al presentador')}" aria-label="${_t('admin.common.btn_hide_all_presenter', null, 'Ocultar todos estos juegos al presentador')}"
+                        class="w-14 h-14 bg-amber-100 hover:bg-amber-200 text-amber-700 rounded-xl transition flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-eye-slash text-lg"></i>
+                    </button>
+                    <button data-admin-click="mostrarTodosBancos()" title="${_t('admin.common.btn_show_all_presenter', null, 'Mostrar todos estos juegos al presentador')}" aria-label="${_t('admin.common.btn_show_all_presenter', null, 'Mostrar todos estos juegos al presentador')}"
+                        class="w-14 h-14 bg-teal-100 hover:bg-teal-200 text-teal-700 rounded-xl transition flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-eye text-lg"></i>
+                    </button>
                     <button data-admin-click="mostrarMezclarBancos()"
                         class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-4 rounded-xl font-bold text-lg shadow-lg transition transform hover:-translate-y-1 flex items-center gap-3">
                         <i class="fas fa-layer-group text-xl"></i>

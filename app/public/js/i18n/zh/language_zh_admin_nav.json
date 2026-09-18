@@ -36,6 +36,13 @@
     "admin.ownership.unknown": "一个陌生人",
     "admin.ownership.error_title": "受保护资源",
     "admin.ownership.error_message": "您无法修改此资源，因为它是由其他用户创建的。",
-    "admin.common.created_by": "创建者"
+    "admin.common.created_by": "创建者",
+    "admin.common.btn_hide_all_presenter": "对主持人隐藏所有这些游戏",
+    "admin.common.btn_show_all_presenter": "向主持人显示所有这些游戏",
+    "admin.common.confirm_hide_all_msg": "确定要对主持人隐藏所有这些游戏吗？",
+    "admin.common.confirm_show_all_msg": "确定要向主持人显示所有这些游戏吗？",
+    "admin.common.visibility_hidden_success": "游戏已对主持人隐藏",
+    "admin.common.visibility_shown_success": "游戏已向主持人显示",
+    "admin.common.error_generic": "无法完成该操作"
   }
 }

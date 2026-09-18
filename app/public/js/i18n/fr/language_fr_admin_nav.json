@@ -36,6 +36,13 @@
     "admin.ownership.unknown": "Un étranger",
     "admin.ownership.error_title": "Ressource protégée",
     "admin.ownership.error_message": "Vous ne pouvez pas modifier cette ressource car elle a été créée par un autre utilisateur.",
-    "admin.common.created_by": "Créé par"
+    "admin.common.created_by": "Créé par",
+    "admin.common.btn_hide_all_presenter": "Masquer tous ces jeux au présentateur",
+    "admin.common.btn_show_all_presenter": "Afficher tous ces jeux au présentateur",
+    "admin.common.confirm_hide_all_msg": "Voulez-vous masquer tous ces jeux au présentateur ?",
+    "admin.common.confirm_show_all_msg": "Voulez-vous afficher tous ces jeux au présentateur ?",
+    "admin.common.visibility_hidden_success": "Jeux masqués pour le présentateur",
+    "admin.common.visibility_shown_success": "Jeux affichés au présentateur",
+    "admin.common.error_generic": "Impossible de terminer l'action"
   }
 }

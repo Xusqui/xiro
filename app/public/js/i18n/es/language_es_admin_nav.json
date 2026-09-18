@@ -36,6 +36,13 @@
     "admin.ownership.unknown": "Desconocido",
     "admin.ownership.error_title": "Recurso protegido",
     "admin.ownership.error_message": "No puedes modificar este recurso porque fue creado por otro usuario.",
-    "admin.common.created_by": "Creado por"
+    "admin.common.created_by": "Creado por",
+    "admin.common.btn_hide_all_presenter": "Ocultar todos estos juegos al presentador",
+    "admin.common.btn_show_all_presenter": "Mostrar todos estos juegos al presentador",
+    "admin.common.confirm_hide_all_msg": "¿Deseas ocultar todos estos juegos al presentador?",
+    "admin.common.confirm_show_all_msg": "¿Deseas mostrar todos estos juegos al presentador?",
+    "admin.common.visibility_hidden_success": "Juegos ocultados para el presentador",
+    "admin.common.visibility_shown_success": "Juegos mostrados al presentador",
+    "admin.common.error_generic": "No se pudo completar la acción"
   }
 }

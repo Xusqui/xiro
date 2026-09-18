@@ -162,6 +162,13 @@
     "manual_admin.banks.merge.intro": "Le bouton <strong>« Fusionner les banques »</strong> de la liste des banques combine les questions de plusieurs banques en une nouvelle.",
     "manual_admin.banks.merge.s1": "Sélectionnez au moins <strong>2 banques</strong> dans la liste (ou utilisez « Tout sélectionner »).",
     "manual_admin.banks.merge.s2": "Nommez la nouvelle banque et, en option, attribuez-lui un PIN.",
-    "manual_admin.banks.merge.s3": "Appuyez sur <strong>« Créer la banque fusionnée »</strong>. Les banques d’origine ne sont pas modifiées."
+    "manual_admin.banks.merge.s3": "Appuyez sur <strong>« Créer la banque fusionnée »</strong>. Les banques d’origine ne sont pas modifiées.",
+    "manual_admin.banks.visibility.title": "Visibilité pour le présentateur",
+    "manual_admin.banks.visibility.intro": "Chaque banque, mélange, jeu personnalisé ou trivial possède un interrupteur <strong>« Afficher au présentateur »</strong> dans son formulaire d'édition. De plus, l'en-tête de chaque liste (Banques, Mélange, Personnalisés, Trivial) comporte deux boutons rapides :",
+    "manual_admin.banks.visibility.hide_title": "Masquer tout",
+    "manual_admin.banks.visibility.hide_text": "Masque instantanément tous les éléments de cette liste au présentateur.",
+    "manual_admin.banks.visibility.show_title": "Afficher tout",
+    "manual_admin.banks.visibility.show_text": "Les affiche tous de nouveau au présentateur en une seule fois.",
+    "manual_admin.banks.visibility.scope_note": "Un éditeur n'affecte que les ressources qu'il a créées ; un administrateur affecte tous les éléments de la liste."
   }
 }

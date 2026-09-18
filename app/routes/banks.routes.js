@@ -24,6 +24,20 @@ router.get('/api/banks/validate-pin', pinValidationLimiter, async (req, res) => 
     }
 });
 
+router.post('/api/banks/visibility-all', authenticateAdmin, async (req, res) => {
+    try {
+        const { visible } = req.body;
+        if (typeof visible !== 'boolean') {
+            return res.status(400).json({ error: 'El campo "visible" debe ser booleano', code: 'INVALID_VISIBLE' });
+        }
+        const actorUserId = req.user?.role === 'editor' ? req.user?.userId : null;
+        const result = await dbService.setAllVisibleToPresenter('bank', visible, actorUserId);
+        res.json({ success: true, updated: result.updated });
+    } catch (err) {
+        handleRouteError(err, res);
+    }
+});
+
 router.get('/api/banks', authenticateAdmin, async (req, res) => {
     try {
         const includeCount = req.query.includeCount === 'true';

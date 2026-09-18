@@ -3,8 +3,12 @@
     "manual_admin.tools.interfaz.title": "Interface",
     "manual_admin.tools.interfaz.desc": "User interface settings.",
     "manual_admin.tools.interfaz.tv": "TV Card",
-    "manual_admin.tools.interfaz.tv_desc": "Shows or hides the TV version card on the home screen.",
+    "manual_admin.tools.interfaz.tv_desc": "Controls when the TV version card and link appear on the home screen: <strong>never</strong>, <strong>always</strong>, or <strong>only on older devices</strong> (detects outdated browsers and automatically offers them the lightweight version).",
     "manual_admin.tools.interfaz.standalone": "\"Solo Mode\" card",
-    "manual_admin.tools.interfaz.standalone_desc": "Shows or hides the card and link to solo mode (standalone.html) on the home screen."
+    "manual_admin.tools.interfaz.standalone_desc": "Shows or hides the card and link to solo mode (standalone.html) on the home screen.",
+    "manual_admin.tools.interfaz.animar_fondo": "Animated background",
+    "manual_admin.tools.interfaz.animar_fondo_desc": "Turns the background gradient and leaf motion on or off across every screen. When disabled, the background stays static.",
+    "manual_admin.tools.interfaz.personalization": "Customize interface",
+    "manual_admin.tools.interfaz.personalization_desc": "Shows an event branding badge (e.g. a sponsor's logo) on every screen of the game. Lets you upload, pick and delete the logo directly from this panel."
   }
 }

@@ -27,6 +27,18 @@ function validateLanguage(req, res) {
 
 // ========== LIST & GET ==========
 
+router.post('/api/trivial-games/visibility-all', authenticateAdmin, async (req, res) => {
+    try {
+        const { visible } = req.body;
+        if (typeof visible !== 'boolean') {
+            return res.status(400).json({ error: 'El campo "visible" debe ser booleano', code: 'INVALID_VISIBLE' });
+        }
+        const actorUserId = req.user?.role === 'editor' ? req.user?.userId : null;
+        const result = await dbService.setAllVisibleToPresenter('trivial', visible, actorUserId);
+        res.json({ success: true, updated: result.updated });
+    } catch (err) { handleRouteError(err, res); }
+});
+
 router.get('/api/trivial-games', authenticateAdmin, async (req, res) => {
     try {
         const games = await dbService.getAllTrivialGames();

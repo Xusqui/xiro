@@ -162,6 +162,13 @@
     "manual_admin.banks.merge.intro": "The <strong>\"Merge Banks\"</strong> button in the bank list combines questions from several banks into a new one.",
     "manual_admin.banks.merge.s1": "Select at least <strong>2 banks</strong> from the list (or use \"Select all\").",
     "manual_admin.banks.merge.s2": "Name the new bank and, optionally, give it a PIN.",
-    "manual_admin.banks.merge.s3": "Press <strong>\"Create Merged Bank\"</strong>. The original banks are not modified."
+    "manual_admin.banks.merge.s3": "Press <strong>\"Create Merged Bank\"</strong>. The original banks are not modified.",
+    "manual_admin.banks.visibility.title": "Visibility for the presenter",
+    "manual_admin.banks.visibility.intro": "Every bank, mix, custom game or trivial has a <strong>\"Show to presenter\"</strong> toggle in its edit form. On top of that, the header of each listing (Banks, Mix, Custom, Trivial) includes two quick buttons:",
+    "manual_admin.banks.visibility.hide_title": "Hide all",
+    "manual_admin.banks.visibility.hide_text": "Instantly hides every item in that list from the presenter.",
+    "manual_admin.banks.visibility.show_title": "Show all",
+    "manual_admin.banks.visibility.show_text": "Shows all of them to the presenter again at once.",
+    "manual_admin.banks.visibility.scope_note": "An editor only affects the resources they created; an admin affects everyone's in the list."
   }
 }

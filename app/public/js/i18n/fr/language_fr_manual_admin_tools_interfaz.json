@@ -3,8 +3,12 @@
     "manual_admin.tools.interfaz.title": "Interface",
     "manual_admin.tools.interfaz.desc": "Paramètres de l'interface utilisateur.",
     "manual_admin.tools.interfaz.tv": "Carte TV",
-    "manual_admin.tools.interfaz.tv_desc": "Affiche ou masque la carte vers la version TV.",
+    "manual_admin.tools.interfaz.tv_desc": "Contrôle quand la carte et le lien vers la version TV apparaissent sur l'écran d'accueil : <strong>jamais</strong>, <strong>toujours</strong> ou <strong>uniquement sur les appareils anciens</strong> (détecte les navigateurs obsolètes et leur propose automatiquement la version allégée).",
     "manual_admin.tools.interfaz.standalone": "Carte « Mode Solo »",
-    "manual_admin.tools.interfaz.standalone_desc": "Affiche ou masque la carte et le lien vers le mode solo (standalone.html) sur l'écran d'accueil."
+    "manual_admin.tools.interfaz.standalone_desc": "Affiche ou masque la carte et le lien vers le mode solo (standalone.html) sur l'écran d'accueil.",
+    "manual_admin.tools.interfaz.animar_fondo": "Fond animé",
+    "manual_admin.tools.interfaz.animar_fondo_desc": "Active ou désactive le mouvement du dégradé et des feuilles en arrière-plan sur tous les écrans. Si désactivé, le fond reste statique.",
+    "manual_admin.tools.interfaz.personalization": "Personnaliser l'interface",
+    "manual_admin.tools.interfaz.personalization_desc": "Affiche un badge de marque de l'événement (p. ex. le logo d'un sponsor) sur tous les écrans du jeu. Permet de téléverser, choisir et supprimer le logo directement depuis ce panneau."
   }
 }

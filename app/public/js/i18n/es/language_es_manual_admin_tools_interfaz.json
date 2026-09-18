@@ -3,8 +3,12 @@
     "manual_admin.tools.interfaz.title": "Interfaz",
     "manual_admin.tools.interfaz.desc": "Ajustes de la interfaz de usuario.",
     "manual_admin.tools.interfaz.tv": "Tarjeta TV",
-    "manual_admin.tools.interfaz.tv_desc": "Muestra u oculta la tarjeta y el enlace a la versión TV en la pantalla de inicio.",
+    "manual_admin.tools.interfaz.tv_desc": "Controla cuándo se muestra la tarjeta y el enlace a la versión TV en la pantalla de inicio: <strong>nunca</strong>, <strong>siempre</strong> o <strong>solo en dispositivos antiguos</strong> (detecta navegadores desfasados y les ofrece automáticamente la versión ligera).",
     "manual_admin.tools.interfaz.standalone": "Tarjeta «Modo Solitario»",
-    "manual_admin.tools.interfaz.standalone_desc": "Muestra u oculta la tarjeta y el enlace al modo solitario (standalone.html) en la pantalla de inicio."
+    "manual_admin.tools.interfaz.standalone_desc": "Muestra u oculta la tarjeta y el enlace al modo solitario (standalone.html) en la pantalla de inicio.",
+    "manual_admin.tools.interfaz.animar_fondo": "Fondo animado",
+    "manual_admin.tools.interfaz.animar_fondo_desc": "Activa o desactiva el movimiento del degradado y las hojas del fondo en todas las pantallas. Si se desactiva, el fondo queda estático.",
+    "manual_admin.tools.interfaz.personalization": "Personalizar interfaz",
+    "manual_admin.tools.interfaz.personalization_desc": "Muestra una insignia de marca del evento (p. ej. el logo de un patrocinador) en todas las pantallas del juego. Permite subir, elegir y borrar el logo directamente desde este panel."
   }
 }

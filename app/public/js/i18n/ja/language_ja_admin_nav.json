@@ -36,6 +36,13 @@
     "admin.ownership.unknown": "見知らぬ人",
     "admin.ownership.error_title": "保護されたリソース",
     "admin.ownership.error_message": "このリソースは別のユーザーによって作成されたため、変更できません。",
-    "admin.common.created_by": "作成者"
+    "admin.common.created_by": "作成者",
+    "admin.common.btn_hide_all_presenter": "これらのゲームをすべて司会者から非表示にする",
+    "admin.common.btn_show_all_presenter": "これらのゲームをすべて司会者に表示する",
+    "admin.common.confirm_hide_all_msg": "これらのゲームをすべて司会者から非表示にしますか？",
+    "admin.common.confirm_show_all_msg": "これらのゲームをすべて司会者に表示しますか？",
+    "admin.common.visibility_hidden_success": "ゲームを司会者から非表示にしました",
+    "admin.common.visibility_shown_success": "ゲームを司会者に表示しました",
+    "admin.common.error_generic": "操作を完了できませんでした"
   }
 }

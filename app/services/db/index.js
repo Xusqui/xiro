@@ -15,6 +15,7 @@ const trivialService = require('./trivial.service');
 const gameSessionService = require('./game-session.service');
 const siteSettingsService = require('./site-settings.service');
 const resourceOwnershipService = require('./resource-ownership.service');
+const presenterVisibilityService = require('./presenter-visibility.service');
 
 module.exports = {
     // PIN validation
@@ -42,5 +43,8 @@ module.exports = {
     ...siteSettingsService,
 
     // Ownership helpers
-    ...resourceOwnershipService
+    ...resourceOwnershipService,
+
+    // Bulk visibility toggling
+    ...presenterVisibilityService
 };

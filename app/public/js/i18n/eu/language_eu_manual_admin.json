@@ -162,6 +162,13 @@
     "manual_admin.banks.merge.intro": "Banku-zerrendako <strong>«Bankuak nahastu»</strong> botoiak hainbat bankutako galderak banku berri batean konbinatzen ditu.",
     "manual_admin.banks.merge.s1": "Hautatu gutxienez <strong>2 banku</strong> zerrendatik (edo erabili «Denak hautatu»).",
     "manual_admin.banks.merge.s2": "Jarri izena banku berriari eta, nahi izanez gero, PIN bat.",
-    "manual_admin.banks.merge.s3": "Sakatu <strong>«Banku nahastua sortu»</strong>. Jatorrizko bankuak ez dira aldatzen."
+    "manual_admin.banks.merge.s3": "Sakatu <strong>«Banku nahastua sortu»</strong>. Jatorrizko bankuak ez dira aldatzen.",
+    "manual_admin.banks.visibility.title": "Ikusgaitasuna aurkezlearentzat",
+    "manual_admin.banks.visibility.intro": "Banku, nahasketa, joko pertsonalizatu edo trivial bakoitzak <strong>«Erakutsi aurkezleari»</strong> etengailua du bere edizio-formularioan. Gainera, zerrenda bakoitzaren goiburuak (Bankuak, Nahasketa, Pertsonalizatuak, Trivial) bi botoi azkar ditu:",
+    "manual_admin.banks.visibility.hide_title": "Ezkutatu guztiak",
+    "manual_admin.banks.visibility.hide_text": "Berehala ezkutatzen ditu zerrenda horretako elementu guztiak aurkezleari.",
+    "manual_admin.banks.visibility.show_title": "Erakutsi guztiak",
+    "manual_admin.banks.visibility.show_text": "Guztiak aldi berean berriz ere erakusten dizkio aurkezleari.",
+    "manual_admin.banks.visibility.scope_note": "Editatzaile batek berak sortutako baliabideei bakarrik eragiten die; administratzaile batek zerrendako guztiei eragiten die."
   }
 }

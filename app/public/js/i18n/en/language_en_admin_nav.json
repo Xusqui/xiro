@@ -36,6 +36,13 @@
     "admin.ownership.unknown": "A stranger",
     "admin.ownership.error_title": "Protected resource",
     "admin.ownership.error_message": "You cannot modify this resource because it was created by another user.",
-    "admin.common.created_by": "Created by"
+    "admin.common.created_by": "Created by",
+    "admin.common.btn_hide_all_presenter": "Hide all these games from the presenter",
+    "admin.common.btn_show_all_presenter": "Show all these games to the presenter",
+    "admin.common.confirm_hide_all_msg": "Do you want to hide all these games from the presenter?",
+    "admin.common.confirm_show_all_msg": "Do you want to show all these games to the presenter?",
+    "admin.common.visibility_hidden_success": "Games hidden from the presenter",
+    "admin.common.visibility_shown_success": "Games shown to the presenter",
+    "admin.common.error_generic": "The action could not be completed"
   }
 }

@@ -15,6 +15,20 @@ const { pool } = require('../config/database');
 
 const router = express.Router();
 
+router.post('/api/custom-games/visibility-all', authenticateAdmin, async (req, res) => {
+    try {
+        const { visible } = req.body;
+        if (typeof visible !== 'boolean') {
+            return res.status(400).json({ error: 'El campo "visible" debe ser booleano', code: 'INVALID_VISIBLE' });
+        }
+        const actorUserId = req.user?.role === 'editor' ? req.user?.userId : null;
+        const result = await dbService.setAllVisibleToPresenter('custom_game', visible, actorUserId);
+        res.json({ success: true, updated: result.updated });
+    } catch (err) {
+        handleRouteError(err, res);
+    }
+});
+
 router.get('/api/custom-games', authenticateAdmin, async (req, res) => {
     try {
         if (req.query.page !== undefined || req.query.limit !== undefined) {

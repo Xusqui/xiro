@@ -760,3 +760,40 @@ function mostrarModalConfirmacion(titulo, mensaje, onConfirm, onCancel, textoCon
     // Focus en botón confirmar
     btnConfirmar.focus();
 }
+
+/**
+ * Oculta/muestra al presentador TODOS los recursos de una página de listado
+ * (bancos, mezclas de preguntas, personalizados o trivial), respetando la
+ * propiedad del recurso (un editor sólo afecta a los suyos, el admin a todos).
+ * @param {string} apiPath - endpoint bulk, ej: '/api/banks/visibility-all'
+ * @param {boolean} visible
+ * @param {Function} renderFn - vista a refrescar tras aplicar el cambio
+ */
+async function toggleAllVisibleToPresenter(apiPath, visible, renderFn) {
+    mostrarModalConfirmacion(
+        _t('admin.common.confirmation_title', null, '⚠️ Confirmación'),
+        visible
+            ? _t('admin.common.confirm_show_all_msg', null, '¿Deseas mostrar todos estos juegos al presentador?')
+            : _t('admin.common.confirm_hide_all_msg', null, '¿Deseas ocultar todos estos juegos al presentador?'),
+        async () => {
+            try {
+                const res = await fetchWithAuth(apiPath, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ visible })
+                });
+                if (res.ok) {
+                    await renderFn();
+                } else {
+                    const err = await res.json();
+                    mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), err.message || err.error || _t('admin.common.error_generic', null, 'No se pudo completar la acción'), 'error');
+                }
+            } catch {
+                mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.common.error_server', null, 'Error de conexión con el servidor'), 'error');
+            }
+        },
+        null,
+        _t('admin.common.confirm', null, 'Confirmar'),
+        _t('admin.common.cancel', null, 'Cancelar')
+    );
+}
