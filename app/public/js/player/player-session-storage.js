@@ -32,3 +32,19 @@ export function isSameSession(savedSessionId, sessionIdFromUrl) {
     if (!savedSessionId || !sessionIdFromUrl) return false;
     return String(savedSessionId).toUpperCase() === String(sessionIdFromUrl).toUpperCase();
 }
+
+/**
+ * Marcadores de "esta ventana es la dueña de la sesión": window.name (única
+ * forma de storage per-ventana incluso en Chrome incognito, ver comentarios
+ * en player-session.js) + el secreto de sesión en sessionStorage.
+ */
+export function getWindowSessionMarkers() {
+    let windowOwnsSession = false;
+    try {
+        windowOwnsSession = !!(window.name && window.name.startsWith('xiro:'));
+    } catch (_) {
+        windowOwnsSession = false;
+    }
+    const tabSessionSecret = sessionStorage.getItem('xiro_sessionSecret');
+    return { windowOwnsSession, tabSessionSecret };
+}

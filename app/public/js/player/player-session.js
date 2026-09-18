@@ -3,13 +3,13 @@
  * Validación de sesión, join-lobby y configuración inicial
  */
 
-import { socket, playerId } from './player-socket-config.js?v=20260918005241';
+import { socket, playerId } from './player-socket-config.js?v=20260918124354';
 import {
     getPin, setPin, getNickname, setNickname,
     getSessionId, setSessionId, getIsReconnecting, setIsReconnecting,
     setTeamMode, getJoinTimeoutId, setJoinTimeoutId, resetGameState
-} from './player-state.js?v=20260918005241';
-import { removeDisconnectOverlay, activarWakeLock } from './player-connection.js?v=20260918005241';
+} from './player-state.js?v=20260918124354';
+import { removeDisconnectOverlay, activarWakeLock } from './player-connection.js?v=20260918124354';
 import {
     mostrarErrorSesionNoEncontrada,
     mostrarPantallaReconectando,
@@ -19,9 +19,9 @@ import {
     mostrarLobbyNormal,
     mostrarErrorJoinLobby,
     mostrarErrorSocketDesconectado
-} from './player-session-ui.js?v=20260918005241';
-import { mostrarModalMensaje } from '../shared/modal.js?v=20260918005241';
-import { getSavedSessionData, clearSavedSessionData, isSameSession } from './player-session-storage.js?v=20260918005241';
+} from './player-session-ui.js?v=20260918124354';
+import { mostrarModalMensaje } from '../shared/modal.js?v=20260918124354';
+import { getSavedSessionData, clearSavedSessionData, isSameSession, getWindowSessionMarkers } from './player-session-storage.js?v=20260918124354';
 
 // ===== FUNCIONES DE SESIÓN =====
 
@@ -445,7 +445,7 @@ export function registerSessionEvents(mostrarSeleccionEquipo, salirDelLobby) {
  * Inicializar detección de sesión en la URL
  * Called from DOMContentLoaded — runs inline, no nested listener needed.
  */
-export function initSessionDetection() {
+export async function initSessionDetection() {
     console.log('[RECONNECT DEBUG] initSessionDetection ejecutado');
 
     // If reconnect-player is already in flight (from connect handler),
@@ -501,8 +501,39 @@ export function initSessionDetection() {
     });
 
     if (savedNickname && savedPin) {
-        console.log('🔄 Sesión guardada detectada — delegando reconexión a connect handler (reconnect-player)');
-        console.log('[RECONNECT DEBUG] Delegando a connect handler, saliendo');
+        // Jugador que entró tecleando el PIN a mano (sin QR, sin ?session= en
+        // la URL) y vuelve a jugador.html. No hay sessionId en la URL para
+        // delegar en validarSession(), así que reproducimos aquí la misma
+        // decisión que esa función toma para el camino "mismo sessionId
+        // guardado": reconnect-player si esta ventana es la dueña de la
+        // sesión (window.name + sessionSecret), o join-lobby de reclamación
+        // como respaldo en caso contrario (pestaña nueva).
+        console.log('🔄 Sesión guardada detectada (sin URL de sesión) - reconectando automáticamente:', savedNickname);
+        console.log('[RECONNECT DEBUG] Poblando estado desde localStorage para reconexión sin URL');
+
+        setPin(savedPin);
+        setNickname(savedNickname.toUpperCase());
+        if (savedSessionId) {
+            setSessionId(savedSessionId);
+        }
+
+        // Poblar el estado también deja a handleConnect (player-connection.js)
+        // listo para reconexiones futuras por caída de red durante la partida.
+        document.getElementById('main-container').innerHTML = _tHtml(mostrarPantallaReconectando(savedNickname));
+
+        const { windowOwnsSession, tabSessionSecret } = getWindowSessionMarkers();
+
+        if (windowOwnsSession && tabSessionSecret) {
+            console.log('[RECONNECT DEBUG] Marcador de ventana presente - emitiendo reconnect-player desde initSessionDetection');
+            setIsReconnecting(true);
+            await activarWakeLock();
+            socket.emit('reconnect-player', { playerId, sessionSecret: tabSessionSecret });
+        } else {
+            console.log('[RECONNECT DEBUG] Sin marcador de ventana - reclamando nickname vía join-lobby (respaldo)');
+            await activarWakeLock();
+            emitJoinLobby(savedNickname.toUpperCase());
+        }
+
         return;
     }
 }

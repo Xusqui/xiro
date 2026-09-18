@@ -3,8 +3,27 @@
  * Actualización de ranking y posición final
  */
 
-import { socket } from './player-socket-config.js?v=20260918005241';
-import { getNickname, setPin, setSessionId, setNickname, setHaRespondido, resetSessionState } from './player-state.js?v=20260918005241';
+import { socket } from './player-socket-config.js?v=20260918124354';
+import './player-results-message-logic.js?v=20260918124354';
+import { getNickname, setPin, setSessionId, setNickname, setHaRespondido, resetSessionState } from './player-state.js?v=20260918124354';
+
+function getPlayerResultsMessageLogic() {
+    const fallback = {
+        resolveFinalPositionMessage({ position, totalPlayers, score }) {
+            const isChampion = position === 1;
+            const isLastPlace = totalPlayers > 0 && position === totalPlayers;
+            const isLowPerformance = !isChampion && (isLastPlace || Number(score) === 0);
+
+            if (isChampion) return { key: 'player.results.champion', fallback: '¡CAMPEÓN!' };
+            if (isLowPerformance) return { key: 'player.results.keep_practicing', fallback: '¡Sigue practicando!' };
+            if (position === 2) return { key: 'player.results.excellent', fallback: '¡Excelente resultado!' };
+            if (position === 3) return { key: 'player.results.great_job', fallback: '¡Gran trabajo!' };
+            return null;
+        }
+    };
+
+    return globalThis.PlayerResultsMessageLogic || fallback;
+}
 
 // ===== EVENTOS DE RESULTADOS =====
 
@@ -93,6 +112,15 @@ export function registerResultsEvents() {
 
         const positionText = _t('player.results.position_ordinal', { position: data.position }, `${data.position}ª`);
 
+        const resultMessage = getPlayerResultsMessageLogic().resolveFinalPositionMessage({
+            position: data.position,
+            totalPlayers: data.totalPlayers,
+            score: data.score
+        });
+        const resultMessageHtml = resultMessage
+            ? `<p class="text-lg font-bold mt-3">${_t(resultMessage.key, null, resultMessage.fallback)}</p>`
+            : '';
+
         // Mostrar pantalla de posición final
         document.body.innerHTML = _tHtml(`
             <div class="h-dvh w-screen flex flex-col items-center justify-center ${bgColor} text-white text-center p-4 overflow-hidden">
@@ -111,9 +139,9 @@ export function registerResultsEvents() {
                             <p>${_t('player.results.of_players', { totalPlayers: data.totalPlayers }, 'de {totalPlayers} jugadores')}</p>
                         </div>
                     </div>
-                    ${data.position === 1 ? `<p class="text-xl font-black animate-pulse mt-3">${_t('player.results.champion', null, '¡CAMPEÓN!')}</p>` : ''}
-                    ${data.position === 2 ? `<p class="text-lg font-bold mt-3">${_t('player.results.excellent', null, '¡Excelente resultado!')}</p>` : ''}
-                    ${data.position === 3 ? `<p class="text-lg font-bold mt-3">${_t('player.results.great_job', null, '¡Gran trabajo!')}</p>` : ''}
+                    ${data.position === 1
+                        ? `<p class="text-xl font-black animate-pulse mt-3">${_t(resultMessage.key, null, resultMessage.fallback)}</p>`
+                        : resultMessageHtml}
                 </div>
             </div>
         `);

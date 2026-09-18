@@ -6,17 +6,18 @@
  *  - presenter-reconnected → inform player the host is back
  */
 
-import { socket } from './player-socket-config.js?v=20260918005241';
+import { socket } from './player-socket-config.js?v=20260918124354';
 import {
     setIsReconnecting, setNickname, setPin, setSessionId,
     setHaRespondido, setCanAnswer, setSelectedTeam, setTeamMode,
-    getNickname, setPendingAnswer, setSendingAnswer, setStreakInfo
-} from './player-state.js?v=20260918005241';
-import { removeDisconnectOverlay, activarWakeLock } from './player-connection.js?v=20260918005241';
-import { renderizarPregunta, renderizarPreguntaOrdena, renderizarSlideComentario, renderizarSlideInfo, renderizarSlideTexto, renderizarSlideImagen, renderizarPreguntaWordScramble, renderizarPreguntaMultipleChoice, renderizarPreguntaMatching } from './player-question-ui.js?v=20260918005241';
-import { renderizarPreguntaNumerica } from './player-numeric-ui.js?v=20260918005241';
-import { injectStreakBadge } from './player-streak-ui.js?v=20260918005241';
-import { syncTrivialBadgesFromSnapshot } from './player-trivial-badges-ui.js?v=20260918005241';
+    getNickname, setPendingAnswer, setSendingAnswer, setStreakInfo,
+    getJoinTimeoutId, setJoinTimeoutId
+} from './player-state.js?v=20260918124354';
+import { removeDisconnectOverlay, activarWakeLock } from './player-connection.js?v=20260918124354';
+import { renderizarPregunta, renderizarPreguntaOrdena, renderizarSlideComentario, renderizarSlideInfo, renderizarSlideTexto, renderizarSlideImagen, renderizarPreguntaWordScramble, renderizarPreguntaMultipleChoice, renderizarPreguntaMatching } from './player-question-ui.js?v=20260918124354';
+import { renderizarPreguntaNumerica } from './player-numeric-ui.js?v=20260918124354';
+import { injectStreakBadge } from './player-streak-ui.js?v=20260918124354';
+import { syncTrivialBadgesFromSnapshot } from './player-trivial-badges-ui.js?v=20260918124354';
 
 /**
  * Restore player UI based on the snapshot sent by the server
@@ -26,6 +27,16 @@ function handleReconnectedSuccess(snapshot) {
     console.log('✅ reconnected-success recibido:', snapshot);
     console.log('[RECONNECT DEBUG] ✅ reconnected-success procesado, estableciendo isReconnecting = false');
     console.log('[RECONNECT DEBUG] snapshot completo:', JSON.stringify(snapshot, null, 2));
+
+    // Cancela el timeout de seguridad de emitJoinLobby: si llegamos aquí es
+    // porque el join-lobby de reclamación automática (ver validarSession)
+    // resolvió como reconexión, no como alta nueva (que sí limpia su propio
+    // timeout en el handler de join-success).
+    const pendingTimeout = getJoinTimeoutId();
+    if (pendingTimeout) {
+        clearTimeout(pendingTimeout);
+        setJoinTimeoutId(null);
+    }
 
     // Keep badges HUD in sync with snapshot state (trivial only).
     syncTrivialBadgesFromSnapshot(snapshot);
@@ -130,6 +141,14 @@ function handleReconnectedSuccess(snapshot) {
 function handleReconnectFailed(data) {
     console.warn('❌ reconnect-failed recibido:', data);
     console.log('[RECONNECT DEBUG] ❌ reconnect-failed procesado, estableciendo isReconnecting = false');
+
+    // Defensivo: si algún camino futuro llega aquí tras un emitJoinLobby
+    // pendiente, no dejar el timeout de 10s colgado (ver reconnected-success).
+    const pendingTimeout = getJoinTimeoutId();
+    if (pendingTimeout) {
+        clearTimeout(pendingTimeout);
+        setJoinTimeoutId(null);
+    }
 
     setIsReconnecting(false);
 
