@@ -92,3 +92,4 @@ docker_images
 graphify-out
 app/graphify-out
 app/public/js/clientes-dashboard.js
+Claude outputs/prompt_puntuacion_aleatoria.md

@@ -30,7 +30,7 @@
     "admin.cover.error_upload": "Erro ao enviar a imagem de capa",
     "admin.q.label": "Enunciado da pergunta",
     "admin.q.type_label": "Tipo de pergunta",
-    "admin.q.type_quiz": "Quiz (Certa/Errada)",
+    "admin.q.type_quiz": "Quiz (Uma resposta correcta",
     "admin.q.type_survey": "Pesquisa (Votos)",
     "admin.q.type_order": "Ordenar (Arrastar)",
     "admin.q.type_matching": "Emparelhar (Duas colunas)",

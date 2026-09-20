@@ -30,7 +30,7 @@
     "admin.cover.error_upload": "カバー画像のアップロードに失敗しました",
     "admin.q.label": "質問文",
     "admin.q.type_label": "質問タイプ",
-    "admin.q.type_quiz": "クイズ (正解/不正解)",
+    "admin.q.type_quiz": "クイズ (一つの正しい答え)",
     "admin.q.type_survey": "アンケート (投票)",
     "admin.q.type_order": "並べ替え (ドラッグ)",
     "admin.q.type_matching": "マッチング (2列)",

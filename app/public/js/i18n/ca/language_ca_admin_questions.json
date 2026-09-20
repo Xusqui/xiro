@@ -30,7 +30,7 @@
     "admin.cover.error_upload": "Error en pujar la imatge de portada",
     "admin.q.label": "Enunciat de la pregunta",
     "admin.q.type_label": "Tipus de pregunta",
-    "admin.q.type_quiz": "Quiz (Correcta/Incorrecta)",
+    "admin.q.type_quiz": "Quiz (Una resposta correcta)",
     "admin.q.type_survey": "Enquesta (Vots)",
     "admin.q.type_order": "Ordena (Arrossegar)",
     "admin.q.type_matching": "Emparellar (Dues columnes)",

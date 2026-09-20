@@ -30,7 +30,7 @@
     "admin.cover.error_upload": "Errorea azaleko irudia igotzean",
     "admin.q.label": "Galderaren enuntziatua",
     "admin.q.type_label": "Galdera mota",
-    "admin.q.type_quiz": "Quiz (Zuzena/Okerra)",
+    "admin.q.type_quiz": "Quiz (Una erantzun zuzena)",
     "admin.q.type_survey": "Inkesta (Botoak)",
     "admin.q.type_order": "Ordenatu (Arrastatu)",
     "admin.q.type_matching": "Parekatu (Bi zutabe)",

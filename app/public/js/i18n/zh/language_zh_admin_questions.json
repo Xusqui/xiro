@@ -30,7 +30,7 @@
     "admin.cover.error_upload": "上传封面图片时出错",
     "admin.q.label": "题目",
     "admin.q.type_label": "题目类型",
-    "admin.q.type_quiz": "问答 (对/错)",
+    "admin.q.type_quiz": "问答 (一个正确答案)",
     "admin.q.type_survey": "调查 (投票)",
     "admin.q.type_order": "排序 (拖拽)",
     "admin.q.type_matching": "匹配 (两列)",

@@ -30,7 +30,7 @@
     "admin.cover.error_upload": "Error uploading the cover image",
     "admin.q.label": "Question",
     "admin.q.type_label": "Question type",
-    "admin.q.type_quiz": "Quiz (Correct/Incorrect)",
+    "admin.q.type_quiz": "Quiz (One Correct Answer)",
     "admin.q.type_survey": "Survey (Votes)",
     "admin.q.type_order": "Order (Drag)",
     "admin.q.type_matching": "Match (Two columns)",

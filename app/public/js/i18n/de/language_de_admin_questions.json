@@ -30,7 +30,7 @@
     "admin.cover.error_upload": "Fehler beim Hochladen des Titelbilds",
     "admin.q.label": "Fragetext",
     "admin.q.type_label": "Fragetyp",
-    "admin.q.type_quiz": "Quiz (Richtig/Falsch)",
+    "admin.q.type_quiz": "Quiz (eine richtige Antwort)",
     "admin.q.type_survey": "Umfrage (Stimmen)",
     "admin.q.type_order": "Ordnen (Ziehen)",
     "admin.q.type_matching": "Zuordnen (Zwei Spalten)",

@@ -30,7 +30,7 @@
     "admin.cover.error_upload": "Erreur lors du téléversement de l'image de couverture",
     "admin.q.label": "Énoncé de la question",
     "admin.q.type_label": "Type de question",
-    "admin.q.type_quiz": "Quiz (Correct/Incorrect)",
+    "admin.q.type_quiz": "Quiz (une réponse correcte)",
     "admin.q.type_survey": "Sondage (Votes)",
     "admin.q.type_order": "Ordonner (Glisser)",
     "admin.q.type_matching": "Associer (Deux colonnes)",
