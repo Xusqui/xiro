@@ -7,7 +7,6 @@ const { validateSocket, schemas } = require('../../validation');
 const JoinGameUseCase = require('../../application/use-cases/JoinGameUseCase');
 const { pushSessionLog } = require('../../services/game-logs.service');
 const ReconnectionService = require('../services/ReconnectionService');
-const logger = require('../../config/logger');
 
 function emitJoinError(socket, result) {
     socket.emit('join-error', {
@@ -15,77 +14,6 @@ function emitJoinError(socket, result) {
         reason: result.reason,
         ...(result.code && { code: result.code }),
         ...(result.params && { params: result.params })
-    });
-}
-
-async function handleReconnectJoin({ socket, io, nickname, result, teamConfigs }) {
-    // Jugador desconectado que reclamó su nickname mientras la
-    // partida seguía en curso: mismo snapshot y aviso al
-    // presentador que recibiría vía reconnect-player.
-    await ReconnectionService.emitReconnectionSuccess({
-        socket,
-        io,
-        nickname,
-        playerId: result.playerId,
-        player: result.player,
-        roomId: result.roomId,
-        game: result.game,
-        teamConfigs
-    });
-
-    await pushSessionLog(result.roomId, {
-        level: 'info',
-        event: 'player-rejoined',
-        actor: nickname,
-        message: 'Player reconnected via join-lobby (session was disconnected)',
-        data: { playerId: result.playerId }
-    });
-}
-
-async function emitJoinSuccess({ socket, nickname, result }) {
-    const { roomId, playerId, playersInLobby, teamMode } = result;
-
-    await pushSessionLog(roomId, {
-        level: 'info',
-        event: 'player-joined',
-        actor: nickname,
-        message: 'Player joined lobby',
-        data: {
-            playerId,
-            playersInLobby: playersInLobby?.length || 0,
-            teamMode: !!teamMode
-        }
-    });
-
-    logger.info('JoinGameUseCase result', {
-        nickname,
-        roomId,
-        playerId,
-        playersInLobby,
-        playersInLobbyLength: playersInLobby?.length,
-        teamMode
-    });
-
-    // Emitir confirmación al cliente
-    socket.emit('join-success', {
-        roomId,
-        teamMode,
-        playerId,
-        players: playersInLobby,
-        sessionSecret: result.sessionSecret
-    });
-
-    // Notificar a otros jugadores
-    logger.info('Emitting player-joined event', {
-        nickname,
-        roomId,
-        playersCount: playersInLobby?.length || 0,
-        players: playersInLobby
-    });
-
-    socket.to(roomId).emit('player-joined', {
-        nickname,
-        players: playersInLobby
     });
 }
 
@@ -150,13 +78,79 @@ module.exports = function createJoinLobbyHandler(dependencies) {
             }
 
             if (result.isReconnect) {
-                await handleReconnectJoin({ socket, io, nickname, result, teamConfigs });
+                // Jugador desconectado que reclamó su nickname mientras la
+                // partida seguía en curso: mismo snapshot y aviso al
+                // presentador que recibiría vía reconnect-player.
+                await ReconnectionService.emitReconnectionSuccess({
+                    socket,
+                    io,
+                    nickname,
+                    playerId: result.playerId,
+                    player: result.player,
+                    roomId: result.roomId,
+                    game: result.game,
+                    teamConfigs
+                });
+
+                await pushSessionLog(result.roomId, {
+                    level: 'info',
+                    event: 'player-rejoined',
+                    actor: nickname,
+                    message: 'Player reconnected via join-lobby (session was disconnected)',
+                    data: { playerId: result.playerId }
+                });
+
                 return;
             }
 
-            await emitJoinSuccess({ socket, nickname, result });
+            const { roomId, playerId, playersInLobby, teamMode } = result;
+
+            await pushSessionLog(roomId, {
+                level: 'info',
+                event: 'player-joined',
+                actor: nickname,
+                message: 'Player joined lobby',
+                data: {
+                    playerId,
+                    playersInLobby: playersInLobby?.length || 0,
+                    teamMode: !!teamMode
+                }
+            });
+
+            const logger = require('../../config/logger');
+            logger.info('JoinGameUseCase result', {
+                nickname,
+                roomId,
+                playerId,
+                playersInLobby,
+                playersInLobbyLength: playersInLobby?.length,
+                teamMode
+            });
+
+            // Emitir confirmación al cliente
+            socket.emit('join-success', {
+                roomId,
+                teamMode,
+                playerId,
+                players: playersInLobby,
+                sessionSecret: result.sessionSecret
+            });
+
+            // Notificar a otros jugadores
+            logger.info('Emitting player-joined event', {
+                nickname,
+                roomId,
+                playersCount: playersInLobby?.length || 0,
+                players: playersInLobby
+            });
+
+            socket.to(roomId).emit('player-joined', {
+                nickname,
+                players: playersInLobby
+            });
 
         } catch (error) {
+            const logger = require('../../config/logger');
             logger.error('Error in join-lobby handler', {
                 error: error.message,
                 stack: error.stack
