@@ -103,6 +103,15 @@
     "admin.games.pool_badge": "Pool partekatua",
     "admin.games.pool_total_label": "Pooleko galdera kopurua guztira",
     "admin.games.pool_total_help": "Zenbat galdera guztira ateratzen diren ausaz \"kopuru finkorik gabe\" markatutako bankuetatik, elkarrekin konbinatuta.",
-    "admin.games.error_pool_count": "Adierazi zenbat galdera ateratzen diren pool partekatutik"
+    "admin.games.error_pool_count": "Adierazi zenbat galdera ateratzen diren pool partekatutik",
+    "admin.random_points.label": "Ausazko puntuazioa",
+    "admin.random_points.help": "Galdera bakoitzaren aurretik zenbat puntu balio duen zozketatzen da. Quiz eta Anagrama motetan bakarrik eragiten du: Inkestak, Ordenatu, Parekatu, Zenbakizkoa eta Aukera Anitza beren puntuazioari eusten diote.",
+    "admin.random_points.min_label": "Gutxieneko puntuak",
+    "admin.random_points.min_help": "Atera daitekeen baliorik txikiena",
+    "admin.random_points.max_label": "Gehieneko puntuak",
+    "admin.random_points.max_help": "Gutxienekoaren berdina = puntuazio finkoa",
+    "admin.random_points.error_integer": "Gutxieneko eta gehieneko puntuak zenbaki osoak izan behar dira",
+    "admin.random_points.error_range": "Puntuek {min} eta {max} artean egon behar dute",
+    "admin.random_points.error_inverted": "Gehienekoa gutxienekoa baino handiagoa edo berdina izan behar da"
   }
 }

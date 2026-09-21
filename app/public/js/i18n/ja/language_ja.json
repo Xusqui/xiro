@@ -117,7 +117,8 @@
     "/js/i18n/ja/language_ja_manual_admin_tools_historial.json",
     "/js/i18n/ja/language_ja_manual_admin_tools_botrunner.json",
     "/js/i18n/ja/language_ja_manual_admin_tools_mantenimiento.json",
-    "/js/i18n/ja/language_ja_standalone.json"
+    "/js/i18n/ja/language_ja_standalone.json",
+    "/js/i18n/ja/language_ja_common_random_points.json"
   ],
   "keys": {
     "language.label": "言語",

@@ -72,6 +72,7 @@ export function renderControlPanel(data, handlers) {
         </div>
         <div class="remote-state-bar">
             <span id="remote-state-label">${escHtml(stateLabel)}</span>
+            <span class="remote-pin-badge" id="remote-random-points" style="display:none"></span>
             <span id="remote-player-count">${data.playerCount ?? 0} jugadores</span>
         </div>
         <div class="remote-timer-bar" id="remote-timer-bar" style="display:none">

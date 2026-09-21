@@ -71,6 +71,14 @@ function buildStreakConfig(trivialData) {
     };
 }
 
+function buildRandomPointsConfig(trivialData) {
+    return {
+        use_random_points: !!trivialData.use_random_points,
+        random_points_min: trivialData.random_points_min ?? SCORING.RANDOM_POINTS.DEFAULT_MIN,
+        random_points_max: trivialData.random_points_max ?? SCORING.RANDOM_POINTS.DEFAULT_MAX
+    };
+}
+
 function createInitializedState(trivialData, playersInRoom, isTeamMode, teamConfig) {
     const state = trivialState.createTrivialState(trivialData, playersInRoom, isTeamMode, teamConfig);
     const categoryCount = trivialData.categories.length;
@@ -85,12 +93,14 @@ function createInitializedState(trivialData, playersInRoom, isTeamMode, teamConf
     };
     state.consecutiveRolls = {};
     state.streakConfig = buildStreakConfig(trivialData);
+    state.randomPointsConfig = buildRandomPointsConfig(trivialData);
 
     return state;
 }
 
 function persistActiveTrivialGame(roomId, playersInRoom, isTeamMode, trivialData) {
     const streakConfig = buildStreakConfig(trivialData);
+    const randomPointsConfig = buildRandomPointsConfig(trivialData);
 
     activeGames.set(roomId, {
         pin: roomId,
@@ -109,7 +119,9 @@ function persistActiveTrivialGame(roomId, playersInRoom, isTeamMode, trivialData
         trivialMeta: null,
         trivialLastCorrect: null,
         answeredCurrent: new Set(),
-        ...streakConfig
+        ...streakConfig,
+        ...randomPointsConfig,
+        currentRandomPoints: null
     });
 }
 

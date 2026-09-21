@@ -92,12 +92,15 @@ class ScoringStrategyFactory {
      * @param {number} game.streak_bonus_percentage - Bonus de racha individual (opcional)
      * @param {boolean} game.team_streak_enabled - Si racha de equipo está activa (opcional)
      * @param {number} game.team_streak_bonus_percentage - Bonus de racha de equipo (opcional)
+     * @param {Object} [overrides] - Ajustes de esta pregunta concreta resueltos fuera
+     * @param {number} [overrides.basePoints] - Puntos base sorteados (puntuación aleatoria);
+     *   si se omite, se usa el valor global de runtimeConfig
      * @returns {ScoringStrategy} Estrategia configurada
      * 
      * @example
-     * const strategy = factory.createFromQuestion(question, game);
+     * const strategy = factory.createFromQuestion(question, game, { basePoints: 37 });
      */
-    createFromQuestion(question, game = {}) {
+    createFromQuestion(question, game = {}, overrides = {}) {
         // Estrategia específica de la pregunta o default
         const strategyName = question.scoring_strategy || SCORING.STRATEGIES.TIME_BASED;
 
@@ -110,6 +113,12 @@ class ScoringStrategyFactory {
             maxTimeBonus: runtimeConfig.get('MAX_TIME_BONUS'),
             ...config,
         };
+
+        // La base sorteada de esta pregunta tiene prioridad sobre el valor global.
+        // BettingScoring la ignora por diseño: su base es la apuesta del jugador.
+        if (overrides.basePoints !== undefined) {
+            config.basePoints = overrides.basePoints;
+        }
 
         // Si es streak_bonus, añadir configuración del juego
         if (strategyName === SCORING.STRATEGIES.STREAK_BONUS) {

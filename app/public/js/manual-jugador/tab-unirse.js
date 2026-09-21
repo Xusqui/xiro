@@ -1,4 +1,4 @@
-import { renderCard } from './ui-components.js?v=20260918181418';
+import { renderCard } from './ui-components.js?v=20260921182204';
 
 export function getTabUnirseHTML() {
     const steps = [

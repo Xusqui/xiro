@@ -72,7 +72,14 @@ const StandaloneGame = (() => {
         _renderCurrentQuestion();
     }
 
+    function _handleRandomPointsReveal(payload) {
+        window.XiroRandomPointsOverlay && window.XiroRandomPointsOverlay.show(payload, {
+            currentStreak: StandaloneState.get().streakInfo?.current || 0
+        });
+    }
+
     function _handleNewQuestion(data) {
+        window.XiroRandomPointsOverlay && window.XiroRandomPointsOverlay.hide();
         const state = StandaloneState.get();
         state.totalQuestions = data.totalQuestions || state.totalQuestions;
         state.currentIndex = data.currentIndex ?? state.currentIndex;
@@ -124,6 +131,7 @@ const StandaloneGame = (() => {
                 await StandaloneSocket.startSession({ pin, nickname }, {
                     onGameStarted: _handleGameStarted,
                     onNewQuestion: _handleNewQuestion,
+                    onRandomPointsReveal: _handleRandomPointsReveal,
                     onAnswerResult: (data) => _showReveal('answer-result', data),
                     onRevealAnswer: (data) => _showReveal('reveal-answer', data),
                     onMaxScore: _handleMaxScore,

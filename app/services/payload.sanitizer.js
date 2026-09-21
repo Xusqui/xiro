@@ -81,7 +81,8 @@ function sanitizeGameStartPayload(payload) {
         firstQuestion: sanitizeQuestionForPlayers(payload.firstQuestion),
         totalQuestions: payload.totalQuestions,
         currentIndex: payload.currentIndex,
-        imagePreloads: [...new Set(imagePreloads)]
+        imagePreloads: [...new Set(imagePreloads)],
+        ...(typeof payload.randomPoints === 'number' && { randomPoints: payload.randomPoints })
     };
 }
 

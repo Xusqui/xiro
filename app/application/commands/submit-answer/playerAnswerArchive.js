@@ -129,6 +129,29 @@ function persistRawSocketAnswer({ sPin, slot, nickname, socketAnswer }) {
 }
 
 /**
+ * Construye el registro que se guarda por jugador y pregunta.
+ *
+ * @param {Object} ctx
+ * @returns {Object}
+ */
+function buildSnapshot(ctx) {
+    const { game, currentQuestion, answerDetails, answerResult, finalPointsEarned, isCorrect, randomPoints } = ctx;
+
+    return {
+        answer: answerDetails.answerGiven,
+        isCorrect: answerResult.isSurvey ? null : isCorrect,
+        pointsEarned: answerResult.isSurvey ? 0 : finalPointsEarned,
+        responseTimeMs: Date.now() - game.questionStartTime,
+        questionText: currentQuestion?.question_text || currentQuestion?.text || null,
+        categoryName: game.isTrivial ? (game.trivialCategoryName || null) : null,
+        matchingPairs: answerDetails.matchingPairs || undefined,
+        orderItems: answerDetails.orderItems || undefined,
+        multipleChoiceItems: answerDetails.multipleChoiceItems || undefined,
+        randomPoints: randomPoints ?? undefined
+    };
+}
+
+/**
  * Persist answer details used by end-of-game exports.
  *
  * @param {Object} ctx - Archive context.
@@ -145,6 +168,7 @@ function persistPlayerAnswerSnapshot(ctx) {
         answerResult,
         finalPointsEarned,
         isCorrect,
+        randomPoints,
         socket
     } = ctx;
 
@@ -152,17 +176,15 @@ function persistPlayerAnswerSnapshot(ctx) {
     const options = currentQuestion.options || [];
     const answerDetails = buildAnswerDetails({ flags, payload, options });
 
-    const snapshot = {
-        answer: answerDetails.answerGiven,
-        isCorrect: answerResult.isSurvey ? null : isCorrect,
-        pointsEarned: answerResult.isSurvey ? 0 : finalPointsEarned,
-        responseTimeMs: Date.now() - game.questionStartTime,
-        questionText: currentQuestion?.question_text || currentQuestion?.text || null,
-        categoryName: game.isTrivial ? (game.trivialCategoryName || null) : null,
-        matchingPairs: answerDetails.matchingPairs || undefined,
-        orderItems: answerDetails.orderItems || undefined,
-        multipleChoiceItems: answerDetails.multipleChoiceItems || undefined
-    };
+    const snapshot = buildSnapshot({
+        game,
+        currentQuestion,
+        answerDetails,
+        answerResult,
+        finalPointsEarned,
+        isCorrect,
+        randomPoints
+    });
 
     game.playerAnswers[slot][nickname] = snapshot;
     persistSnapshotToRedis({ sPin, slot, nickname, snapshot });

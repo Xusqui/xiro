@@ -9,6 +9,7 @@
 const { pool } = require('../../config/database');
 const pinCache = require('../pin-cache.service');
 const { normalizeCreatorRole } = require('./resource-ownership.service');
+const { DEFAULTS: RANDOM_POINTS_DEFAULTS } = require('./random-points-config.service');
 
 function normalizeMergeOptions(options = {}) {
     const {
@@ -20,7 +21,10 @@ function normalizeMergeOptions(options = {}) {
         streak_bonus_percentage = 0.50,
         use_double_streaks = false,
         double_streak_threshold = 5,
-        double_streak_bonus_percentage = 1.00
+        double_streak_bonus_percentage = 1.00,
+        use_random_points = false,
+        random_points_min = RANDOM_POINTS_DEFAULTS.random_points_min,
+        random_points_max = RANDOM_POINTS_DEFAULTS.random_points_max
     } = options;
 
     return {
@@ -34,7 +38,10 @@ function normalizeMergeOptions(options = {}) {
         streak_bonus_percentage,
         use_double_streaks,
         double_streak_threshold,
-        double_streak_bonus_percentage
+        double_streak_bonus_percentage,
+        use_random_points,
+        random_points_min,
+        random_points_max
     };
 }
 
@@ -86,8 +93,9 @@ async function createMergedBank(client, newName, pin, mergeOptions) {
         `INSERT INTO question_banks
          (name, pin, visible_to_presenter, created_by_role, created_by_user_id,
           use_streaks, streak_threshold, streak_bonus_percentage,
-          use_double_streaks, double_streak_threshold, double_streak_bonus_percentage)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+          use_double_streaks, double_streak_threshold, double_streak_bonus_percentage,
+          use_random_points, random_points_min, random_points_max)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
          RETURNING id`,
         [
             newName,
@@ -100,7 +108,10 @@ async function createMergedBank(client, newName, pin, mergeOptions) {
             mergeOptions.streak_bonus_percentage,
             mergeOptions.use_double_streaks,
             mergeOptions.double_streak_threshold,
-            mergeOptions.double_streak_bonus_percentage
+            mergeOptions.double_streak_bonus_percentage,
+            mergeOptions.use_random_points,
+            mergeOptions.random_points_min,
+            mergeOptions.random_points_max
         ]
     );
 

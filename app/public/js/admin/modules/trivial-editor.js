@@ -132,6 +132,9 @@ async function renderEditorTrivial(game, cats) {
                         <p class="text-xs text-slate-400 mt-1">${_t('admin.trivial.dbl_bonus_help', null, 'Ej: 1.00 = +100% de los puntos base')}</p>
                     </div>
                 </div>
+
+                <!-- Puntuación Aleatoria -->
+                ${renderRandomPointsHtml('trivial', game || {})}
             </div>
             <div class="bg-white rounded-2xl shadow p-6 mb-6">
                 <div class="flex justify-between items-center mb-4">
@@ -177,6 +180,7 @@ async function renderEditorTrivial(game, cats) {
             double_streak_threshold: document.getElementById('trivial-double-threshold')?.value ?? 5,
             double_streak_bonus_percentage: document.getElementById('trivial-double-bonus')?.value ?? 1.0,
             image_url: document.getElementById('trivial-image-url')?.value || '',
+            ...snapshotRandomPoints('trivial'),
             cats: JSON.stringify(cats)
         };
     });

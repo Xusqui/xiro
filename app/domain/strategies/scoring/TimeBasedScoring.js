@@ -31,8 +31,8 @@ class TimeBasedScoring extends ScoringStrategy {
      */
     constructor(config = {}) {
         super(config);
-        this.basePoints = config.basePoints || SCORING.BASE_POINTS;
-        this.maxTimeBonus = config.maxTimeBonus || SCORING.MAX_TIME_BONUS;
+        this.basePoints = config.basePoints ?? SCORING.BASE_POINTS;
+        this.maxTimeBonus = config.maxTimeBonus ?? SCORING.MAX_TIME_BONUS;
     }
 
     /**

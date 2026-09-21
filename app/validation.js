@@ -5,6 +5,19 @@
 
 const Joi = require('joi');
 const { SUPPORTED_LANGUAGES } = require('./config/languages');
+const {
+    MIN_VALUE: RANDOM_POINTS_MIN_VALUE,
+    MAX_VALUE: RANDOM_POINTS_MAX_VALUE,
+    DEFAULT_MIN: RANDOM_POINTS_DEFAULT_MIN,
+    DEFAULT_MAX: RANDOM_POINTS_DEFAULT_MAX,
+} = require('./application/validators/RandomPointsValidator');
+
+const RANDOM_POINTS_LIMITS = {
+    MIN_VALUE: RANDOM_POINTS_MIN_VALUE,
+    MAX_VALUE: RANDOM_POINTS_MAX_VALUE,
+    DEFAULT_MIN: RANDOM_POINTS_DEFAULT_MIN,
+    DEFAULT_MAX: RANDOM_POINTS_DEFAULT_MAX,
+};
 
 const languageSchema = Joi.string().valid(...SUPPORTED_LANGUAGES).required();
 
@@ -508,6 +521,28 @@ const questionSchema = Joi.object({
 // Imagen de portada de un juego/banco (URL relativa devuelta por /api/upload/game-cover-image)
 const imageUrlSchema = Joi.string().max(2048).trim().allow(null, '').optional();
 
+// Puntuación aleatoria por pregunta (mismos límites que RandomPointsValidator, que es
+// quien valida el lado que no usa Joi — routes/trivial.routes.js — y el panel admin)
+const randomPointsFields = {
+    use_random_points: Joi.boolean().default(false).optional(),
+    random_points_min: Joi.number().integer()
+        .min(RANDOM_POINTS_LIMITS.MIN_VALUE)
+        .max(RANDOM_POINTS_LIMITS.MAX_VALUE)
+        .default(RANDOM_POINTS_LIMITS.DEFAULT_MIN)
+        .optional(),
+    random_points_max: Joi.number().integer()
+        .min(RANDOM_POINTS_LIMITS.MIN_VALUE)
+        .max(RANDOM_POINTS_LIMITS.MAX_VALUE)
+        .default(RANDOM_POINTS_LIMITS.DEFAULT_MAX)
+        .optional()
+        .when('use_random_points', {
+            is: true,
+            then: Joi.number().min(Joi.ref('random_points_min')).messages({
+                'number.min': 'El máximo de puntuación aleatoria debe ser mayor o igual que el mínimo',
+            }),
+        }),
+};
+
 // Banco de preguntas (guardar)
 const saveBankSchema = Joi.object({
     id: dbIdSchema.allow(null).optional(),
@@ -522,6 +557,7 @@ const saveBankSchema = Joi.object({
     use_double_streaks: Joi.boolean().default(false).optional(),
     double_streak_threshold: Joi.number().integer().min(1).max(20).default(5).optional(),
     double_streak_bonus_percentage: Joi.number().min(0).max(2).default(1.00).optional(),
+    ...randomPointsFields,
     questions: Joi.array()
         .items(questionSchema)
         .min(1)
@@ -567,6 +603,7 @@ const gameSchema = Joi.object({
     use_double_streaks: Joi.boolean().default(false).optional(),
     double_streak_threshold: Joi.number().integer().min(1).max(20).default(5).optional(),
     double_streak_bonus_percentage: Joi.number().min(0).max(2).default(1.00).optional(),
+    ...randomPointsFields,
     pool_question_count: Joi.number()
         .integer()
         .min(1)
@@ -656,6 +693,7 @@ const createCustomGameSchema = Joi.object({
     use_double_streaks: Joi.boolean().default(false).optional(),
     double_streak_threshold: Joi.number().integer().min(1).max(20).default(5).optional(),
     double_streak_bonus_percentage: Joi.number().min(0).max(2).default(1.00).optional(),
+    ...randomPointsFields,
     questions: Joi.array()
         .items(customGameQuestionSchema)
         .min(0)
@@ -678,6 +716,7 @@ const updateCustomGameSchema = Joi.object({
     use_double_streaks: Joi.boolean().default(false).optional(),
     double_streak_threshold: Joi.number().integer().min(1).max(20).default(5).optional(),
     double_streak_bonus_percentage: Joi.number().min(0).max(2).default(1.00).optional(),
+    ...randomPointsFields,
     questions: Joi.array()
         .items(customGameQuestionSchema)
         .min(1)
@@ -944,6 +983,7 @@ const mergeBanksSchema = Joi.object({
     use_double_streaks: Joi.boolean().default(false).optional(),
     double_streak_threshold: Joi.number().integer().min(1).max(20).default(5).optional(),
     double_streak_bonus_percentage: Joi.number().min(0).max(2).default(1.00).optional(),
+    ...randomPointsFields,
 });
 
 // ===== FUNCIONES DE VALIDACIÓN =====

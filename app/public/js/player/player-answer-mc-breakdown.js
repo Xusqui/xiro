@@ -4,7 +4,7 @@
  * correctas que el jugador no llegó a marcar.
  */
 
-import { escapeHtml } from '../core/sanitize.js?v=20260918181418';
+import { escapeHtml } from '../core/sanitize.js?v=20260921182204';
 
 const STYLES = {
     correct: { bg: 'bg-green-600/30', border: 'border-green-400', icon: 'fa-check' },

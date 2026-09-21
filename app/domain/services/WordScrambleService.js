@@ -79,7 +79,8 @@ function generateScrambledLetters(correctWord) {
 /**
  * Procesa una respuesta de tipo word_scramble y calcula puntuación
  *
- * Puntuación: 20 puntos base (correcta) + bonus de tiempo (hasta 20 pts)
+ * Puntuación: puntos base (correcta) + bonus de tiempo (hasta 20 pts).
+ * La base es BASE_POINTS salvo que la partida tenga puntuación aleatoria activada.
  *
  * @param {Object} params
  * @param {string} params.correctWord - Palabra correcta almacenada
@@ -87,6 +88,8 @@ function generateScrambledLetters(correctWord) {
  * @param {number} params.gameStartTime - Timestamp inicio pregunta (ms)
  * @param {number} [params.currentTime] - Timestamp actual (ms)
  * @param {number} params.questionTimeLimit - Límite de tiempo (s)
+ * @param {number} [params.basePoints] - Puntos base de esta pregunta (puntuación
+ *   aleatoria). Si se omite, se usa SCORING.BASE_POINTS.
  * @returns {Object} { isCorrect, pointsEarned, isSurvey, details }
  */
 function processWordScrambleAnswer({
@@ -94,7 +97,8 @@ function processWordScrambleAnswer({
     playerAnswer,
     gameStartTime,
     currentTime = Date.now(),
-    questionTimeLimit
+    questionTimeLimit,
+    basePoints
 }) {
     const normalizedCorrect = normalizeWord(correctWord);
     const normalizedAnswer = normalizeWord(playerAnswer || '');
@@ -113,13 +117,14 @@ function processWordScrambleAnswer({
     const timeLeft = Math.max(0, (questionTimeLimit || 30) - timeElapsed);
     const timeRatio = (questionTimeLimit || 30) > 0 ? timeLeft / (questionTimeLimit || 30) : 0;
     const timeBonus = Math.round(timeRatio * SCORING.MAX_TIME_BONUS * 100) / 100;
-    const pointsEarned = Math.round((SCORING.BASE_POINTS + timeBonus) * 100) / 100;
+    const effectiveBasePoints = basePoints ?? SCORING.BASE_POINTS;
+    const pointsEarned = Math.round((effectiveBasePoints + timeBonus) * 100) / 100;
 
     return {
         isCorrect: true,
         pointsEarned,
         isSurvey: false,
-        details: { strategy: 'word_scramble', timeElapsed, timeBonus }
+        details: { strategy: 'word_scramble', timeElapsed, timeBonus, basePoints: effectiveBasePoints }
     };
 }
 

@@ -5,6 +5,9 @@
     "manual_admin.tools.puntuacion.base_points": "Puntos base",
     "manual_admin.tools.puntuacion.base_points_desc": "Puntos garantizados al responder correctamente.",
     "manual_admin.tools.puntuacion.max_bonus": "Bonus máximo por velocidad",
-    "manual_admin.tools.puntuacion.max_bonus_desc": "Puntos extra por responder rápido."
+    "manual_admin.tools.puntuacion.max_bonus_desc": "Puntos extra por responder rápido.",
+    "manual_admin.tools.puntuacion.random_points": "Puntuación aleatoria",
+    "manual_admin.tools.puntuacion.random_points_desc": "Cada juego puede sortear los puntos de cada pregunta dentro de un rango que tú defines. Antes de la pregunta se muestra una pantalla con el valor sorteado, y el temporizador no arranca hasta que esa pantalla desaparece.",
+    "manual_admin.tools.puntuacion.random_points_types": "Solo afecta a las preguntas de tipo Quiz y Anagrama. Encuesta, Ordena, Emparejar, Numérica y Selección Múltiple conservan su puntuación de siempre."
   }
 }

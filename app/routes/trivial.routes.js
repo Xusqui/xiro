@@ -9,8 +9,33 @@ const { pinValidationLimiter } = require('../middlewares/security');
 const { handleRouteError, handleNotFound } = require('./helpers/RouteErrorHandler');
 const dbService = require('../services/db');
 const { SUPPORTED_LANGUAGES } = require('../config/languages');
+const {
+    validateRandomPointsConfig,
+    MIN_VALUE: RANDOM_POINTS_MIN,
+    MAX_VALUE: RANDOM_POINTS_MAX
+} = require('../application/validators/RandomPointsValidator');
 
 const router = express.Router();
+
+const RANDOM_POINTS_MESSAGES = {
+    'random-points-not-integer': 'Los puntos mínimo y máximo de la puntuación aleatoria deben ser números enteros',
+    'random-points-out-of-range': `Los puntos de la puntuación aleatoria deben estar entre ${RANDOM_POINTS_MIN} y ${RANDOM_POINTS_MAX}`,
+    'random-points-inverted-range': 'El máximo de puntuación aleatoria debe ser mayor o igual que el mínimo'
+};
+
+// Trivial no valida con Joi; usa el mismo validador compartido que el resto de tipos de juego
+function validateRandomPoints(req, res) {
+    const result = validateRandomPointsConfig(req.body);
+    if (result.valid) return true;
+
+    res.status(400).json({
+        error: 'Puntuación aleatoria inválida',
+        message: RANDOM_POINTS_MESSAGES[result.code],
+        code: result.code,
+        params: { field: result.field }
+    });
+    return false;
+}
 
 function validateLanguage(req, res) {
     const { language } = req.body;
@@ -59,6 +84,7 @@ router.get('/api/trivial-games/:id', authenticateAdmin, async (req, res) => {
 router.post('/api/trivial-games', authenticateAdmin, async (req, res) => {
     try {
         if (!validateLanguage(req, res)) return;
+        if (!validateRandomPoints(req, res)) return;
         const { pin } = req.body;
         if (pin) {
             const conflict = await dbService.pinExistsGlobally(pin, { excludeType: 'trivial' });
@@ -86,6 +112,7 @@ router.post('/api/trivial-games', authenticateAdmin, async (req, res) => {
 router.put('/api/trivial-games/:id', authenticateAdmin, async (req, res) => {
     try {
         if (!validateLanguage(req, res)) return;
+        if (!validateRandomPoints(req, res)) return;
         const { pin } = req.body;
         if (pin) {
             const conflict = await dbService.pinExistsGlobally(pin, {

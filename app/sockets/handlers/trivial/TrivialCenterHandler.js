@@ -21,6 +21,8 @@ const { RedisSyncBus } = require('../../sync/RedisSyncBus');
 const { generateScrambledLetters, normalizeWord } = require('../../../domain/services/WordScrambleService');
 const { shuffle } = require('../../../services/game.logic');
 const { getRedisClient } = require('../../../config/redis');
+const { assignRandomPointsForCurrentQuestion } = require('../../utils/QuestionTransitionManager');
+const { runRandomPointsReveal } = require('../../utils/RandomPointsRevealManager');
 
 function buildPlayers(state) {
     const out = {};
@@ -148,6 +150,9 @@ function ensureTrivialGameEntry(roomId, state) {
         activeGames.set(roomId, game);
     }
 
+    if (game.use_random_points === undefined && state.randomPointsConfig) {
+        Object.assign(game, state.randomPointsConfig);
+    }
     if (game.use_streaks === undefined && state.streakConfig) {
         Object.assign(game, state.streakConfig);
     }
@@ -177,6 +182,7 @@ function updateGameForCenterQuestion(input) {
     game.trivialLastCorrect = null;
     game.trivialQuestionEpoch = (game.trivialQuestionEpoch || 0) + 1;
     game.questionStartTime = Date.now();
+    assignRandomPointsForCurrentQuestion(game, roomId);
 }
 
 async function resetRoundRedisState(roomId, game) {
@@ -218,7 +224,7 @@ function clearAnswerStats(roomId) {
     answerStatsStore.clearQuestion(sessionPin, 0).catch(() => { });
 }
 
-function dispatchCenterPipeline(input) {
+async function dispatchCenterPipeline(input) {
     const {
         io,
         roomId,
@@ -231,6 +237,17 @@ function dispatchCenterPipeline(input) {
     RedisSyncBus.getInstance().publishGameStarted(roomId, game).catch(err => {
         logger.warn('trivial: publishGameStarted failed (center)', { error: err.message });
     });
+
+    // Pantalla "JUGÁIS POR XXX PUNTOS" antes de revelar la pregunta del centro
+    const shouldReveal = await runRandomPointsReveal({
+        game,
+        question: normalizedQuestion,
+        roomId,
+        io,
+        syncBus: RedisSyncBus.getInstance()
+    });
+
+    if (!shouldReveal) return;
 
     EventBus.emit('question.revealed', new QuestionRevealedEvent({
         roomId,
@@ -355,7 +372,7 @@ async function handleCategoryChosen(io, socket, { roomId, categoryIndex }) {
 
     await resetRoundRedisState(roomId, game);
     clearAnswerStats(roomId);
-    dispatchCenterPipeline({
+    await dispatchCenterPipeline({
         io,
         roomId,
         game,

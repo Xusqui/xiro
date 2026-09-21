@@ -75,7 +75,9 @@ function evaluateAnswer(ctx) {
         payload,
         currentQuestion,
         resolvedStartTime,
-        questionTimeLimit
+        questionTimeLimit,
+        game,
+        basePoints
     } = ctx;
 
     if (flags.isOrderQuestion) {
@@ -98,7 +100,8 @@ function evaluateAnswer(ctx) {
             playerAnswer: String(payload.playerAnswer),
             gameStartTime: resolvedStartTime,
             currentTime: Date.now(),
-            questionTimeLimit
+            questionTimeLimit,
+            basePoints
         });
     }
 
@@ -116,7 +119,9 @@ function evaluateAnswer(ctx) {
         answerIndex: payload.index,
         playerAnswer: flags.isNumericQuestion ? Number(payload.playerAnswer) : undefined,
         gameStartTime: resolvedStartTime,
-        currentTime: Date.now()
+        currentTime: Date.now(),
+        game: game || {},
+        basePoints
     });
 }
 

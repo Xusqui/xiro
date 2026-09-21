@@ -25,6 +25,8 @@ const { getRedisClient } = require('../../../config/redis');
 const answerStatsStore = require('../../../services/AnswerStatsStore');
 const { shuffle } = require('../../../services/game.logic');
 const { generateScrambledLetters, normalizeWord } = require('../../../domain/services/WordScrambleService');
+const { assignRandomPointsForCurrentQuestion } = require('../../utils/QuestionTransitionManager');
+const { runRandomPointsReveal } = require('../../utils/RandomPointsRevealManager');
 
 /**
  * Construye la entrada de activeGames para un juego trivial.
@@ -154,6 +156,9 @@ function ensureGameEntry(roomId, state) {
         logger.info('trivial handleMove: created activeGames entry', { roomId });
     }
 
+    if (game.use_random_points === undefined && state.randomPointsConfig) {
+        Object.assign(game, state.randomPointsConfig);
+    }
     if (game.use_streaks === undefined && state.streakConfig) {
         Object.assign(game, state.streakConfig);
         logger.debug('trivial handleMove: streak config applied from state', {
@@ -195,6 +200,7 @@ function updateGameForQuestion(input) {
     game.trivialLastCorrect = null;
     game.trivialQuestionEpoch = (game.trivialQuestionEpoch || 0) + 1;
     game.questionStartTime = Date.now();
+    assignRandomPointsForCurrentQuestion(game, roomId);
 }
 
 async function initRedisRoundAndPublish(roomId, game) {
@@ -230,7 +236,19 @@ async function initRedisRoundAndPublish(roomId, game) {
 }
 
 function dispatchQuestionPipeline(io, roomId, normalizedQuestion, question, actorNick) {
-    setTimeout(() => {
+    setTimeout(async () => {
+        // Pantalla "JUGÁIS POR XXX PUNTOS" antes de revelar la pregunta del tablero
+        const game = activeGames.get(roomId);
+        const shouldReveal = await runRandomPointsReveal({
+            game,
+            question: normalizedQuestion,
+            roomId,
+            io,
+            syncBus: RedisSyncBus.getInstance()
+        });
+
+        if (!shouldReveal) return;
+
         EventBus.emit('question.revealed', new QuestionRevealedEvent({
             roomId,
             question: normalizedQuestion,

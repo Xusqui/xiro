@@ -3,9 +3,9 @@
  * Actualización de ranking y posición final
  */
 
-import { socket } from './player-socket-config.js?v=20260918181418';
-import './player-results-message-logic.js?v=20260918181418';
-import { getNickname, setPin, setSessionId, setNickname, setHaRespondido, resetSessionState } from './player-state.js?v=20260918181418';
+import { socket } from './player-socket-config.js?v=20260921182204';
+import './player-results-message-logic.js?v=20260921182204';
+import { getNickname, setPin, setSessionId, setNickname, setHaRespondido, resetSessionState } from './player-state.js?v=20260921182204';
 
 function getPlayerResultsMessageLogic() {
     const fallback = {

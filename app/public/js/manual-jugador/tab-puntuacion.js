@@ -1,4 +1,4 @@
-import { renderCard, renderSmallVerticalCard } from './ui-components.js?v=20260918181418';
+import { renderCard, renderSmallVerticalCard } from './ui-components.js?v=20260921182204';
 
 export function getTabPuntuacionHTML() {
     const scores = [

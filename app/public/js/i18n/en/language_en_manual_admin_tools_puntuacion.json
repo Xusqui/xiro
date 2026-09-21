@@ -5,6 +5,9 @@
     "manual_admin.tools.puntuacion.base_points": "Base points",
     "manual_admin.tools.puntuacion.base_points_desc": "Guaranteed points for answering correctly.",
     "manual_admin.tools.puntuacion.max_bonus": "Max speed bonus",
-    "manual_admin.tools.puntuacion.max_bonus_desc": "Extra points for answering quickly."
+    "manual_admin.tools.puntuacion.max_bonus_desc": "Extra points for answering quickly.",
+    "manual_admin.tools.puntuacion.random_points": "Random scoring",
+    "manual_admin.tools.puntuacion.random_points_desc": "Each game can draw every question’s point value from a range you define. A screen with the drawn value is shown before the question, and the timer does not start until that screen disappears.",
+    "manual_admin.tools.puntuacion.random_points_types": "It only affects Quiz and Word Scramble questions. Survey, Order, Matching, Numeric and Multiple Choice keep their usual scoring."
   }
 }

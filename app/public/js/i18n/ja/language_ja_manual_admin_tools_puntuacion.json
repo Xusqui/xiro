@@ -5,6 +5,9 @@
     "manual_admin.tools.puntuacion.base_points": "基本ポイント",
     "manual_admin.tools.puntuacion.base_points_desc": "正解で保証されるポイント。",
     "manual_admin.tools.puntuacion.max_bonus": "最大スピードボーナス",
-    "manual_admin.tools.puntuacion.max_bonus_desc": "素早く答えるための追加ポイント。"
+    "manual_admin.tools.puntuacion.max_bonus_desc": "素早く答えるための追加ポイント。",
+    "manual_admin.tools.puntuacion.random_points": "ランダム配点",
+    "manual_admin.tools.puntuacion.random_points_desc": "ゲームごとに、各問題の配点を指定した範囲から抽選できます。問題の前に抽選結果を表示する画面が出て、その画面が消えるまでタイマーは始まりません。",
+    "manual_admin.tools.puntuacion.random_points_types": "対象はクイズとアナグラムの問題のみです。アンケート・並べ替え・組み合わせ・数値・複数選択は従来どおりの配点です。"
   }
 }

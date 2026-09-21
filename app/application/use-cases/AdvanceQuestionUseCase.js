@@ -18,9 +18,9 @@ const { prepareNextQuestion } = require('../../sockets/utils/QuestionTransitionM
 const { endGameAutomatically } = require('../../sockets/utils/GameEndManager');
 const { validateSocket, schemas } = require('../../validation');
 const { startTimer } = require('../../sockets/utils/TimerManager');
+const { hasTimer } = require('../../domain/services/QuestionScoringPolicy');
+const { runRandomPointsReveal } = require('../../sockets/utils/RandomPointsRevealManager');
 const logger = require('../../config/logger');
-
-const NO_TIMER_SLIDE_TYPES = new Set(['comment', 'info', 'text', 'image']);
 
 class AdvanceQuestionUseCase {
     /**
@@ -102,6 +102,21 @@ class AdvanceQuestionUseCase {
 
             const currentQuestion = result.currentQuestion;
 
+            // 3.5. Pantalla "JUGÁIS POR XXX PUNTOS" si la pregunta usa puntuación
+            // aleatoria. Espera su duración y vuelve a sellar questionStartTime,
+            // de forma que el bonus de tiempo se mide desde que se ve la pregunta.
+            const shouldReveal = await runRandomPointsReveal({
+                game,
+                question: currentQuestion,
+                roomId,
+                io,
+                syncBus: dependencies.syncBus
+            });
+
+            if (!shouldReveal) {
+                return { success: false, reason: 'reveal-aborted' };
+            }
+
             // 4. Emitir evento de dominio (QuestionRevealedHandler lo procesará)
             EventBus.emit('question.revealed', new QuestionRevealedEvent({
                 roomId,
@@ -112,8 +127,9 @@ class AdvanceQuestionUseCase {
             }));
 
             // 5. Iniciar timer solo en slides con respuesta
-            // - comment/info/text: slides especiales sin respuestas ni cuenta atrás
-            if (!NO_TIMER_SLIDE_TYPES.has(currentQuestion.slide_type) && typeof currentQuestion.time_limit === 'number') {
+            // - comment/info/text/image/text-image: slides sin respuestas ni cuenta atrás
+            //   (la lista vive en QuestionScoringPolicy, compartida con MaxScoreCalculator)
+            if (hasTimer(currentQuestion) && typeof currentQuestion.time_limit === 'number') {
                 startTimer(roomId, currentQuestion.time_limit, io);
             }
 

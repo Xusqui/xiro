@@ -6,6 +6,7 @@
 const logger = require('../../config/logger');
 const { sanitizeGameStartPayload } = require('../../services/payload.sanitizer');
 const { startTimer } = require('../utils/TimerManager');
+const { runRandomPointsReveal } = require('../utils/RandomPointsRevealManager');
 const StartGameUseCase = require('../../application/use-cases/StartGameUseCase');
 const { pushSessionLog } = require('../../services/game-logs.service');
 
@@ -48,6 +49,20 @@ module.exports = function createStartGameHandler(dependencies) {
 
             const { preparedQuestions, playersInLobby } = result;
 
+            // Pantalla "JUGÁIS POR XXX PUNTOS" antes de mostrar la primera pregunta.
+            // Gatea el arranque del temporizador para no comerse el bonus de tiempo.
+            const shouldReveal = await runRandomPointsReveal({
+                game: activeGames.get(roomId),
+                question: preparedQuestions[0],
+                roomId,
+                io,
+                syncBus
+            });
+
+            if (!shouldReveal) {
+                return;
+            }
+
             // Emitir a presentador (broadcast via Redis Adapter)
             const fullPayload = {
                 questions: preparedQuestions,
@@ -55,7 +70,8 @@ module.exports = function createStartGameHandler(dependencies) {
                 currentIndex: 0,
                 sessionId: roomId,
                 firstQuestion: preparedQuestions[0],
-                totalQuestions: preparedQuestions.length
+                totalQuestions: preparedQuestions.length,
+                randomPoints: activeGames.get(roomId)?.currentRandomPoints ?? null
             };
 
             io.to(roomId + ':presenter').emit('game-started', fullPayload);

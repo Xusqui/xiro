@@ -103,6 +103,15 @@
     "admin.games.pool_badge": "Pool partagé",
     "admin.games.pool_total_label": "Total de questions du pool",
     "admin.games.pool_total_help": "Combien de questions au total sont tirées au hasard parmi les banques marquées comme \"sans quantité fixe\", combinées entre elles.",
-    "admin.games.error_pool_count": "Indique combien de questions sont tirées du pool partagé"
+    "admin.games.error_pool_count": "Indique combien de questions sont tirées du pool partagé",
+    "admin.random_points.label": "Score aléatoire",
+    "admin.random_points.help": "Avant chaque question, sa valeur en points est tirée au sort. Cela ne concerne que Quiz et Anagramme : Sondage, Ordonner, Associer, Numérique et Choix multiple gardent leur propre barème.",
+    "admin.random_points.min_label": "Points minimum",
+    "admin.random_points.min_help": "Valeur la plus basse possible",
+    "admin.random_points.max_label": "Points maximum",
+    "admin.random_points.max_help": "Égal au minimum = score fixe",
+    "admin.random_points.error_integer": "Les points minimum et maximum doivent être des nombres entiers",
+    "admin.random_points.error_range": "Les points doivent être compris entre {min} et {max}",
+    "admin.random_points.error_inverted": "Le maximum doit être supérieur ou égal au minimum"
   }
 }

@@ -1,7 +1,7 @@
 // player-game-flow.js
 // Manejo del flujo del juego: inicio, nuevas preguntas, reinicio del servidor, salida del lobby
 
-import { getSocket, getPlayerId } from './player-socket-config.js?v=20260918181418';
+import { getSocket, getPlayerId } from './player-socket-config.js?v=20260921182204';
 import {
     getPin, getNickname, getSessionId,
     setPin, setNickname, setSessionId,
@@ -9,14 +9,15 @@ import {
     setPendingAnswer, setSendingAnswer,
     getWakeLock, setWakeLock,
     resetSessionState
-} from './player-state.js?v=20260918181418';
-import { renderizarPregunta, renderizarPreguntaOrdena, renderizarPreguntaMatching, renderizarPreguntaNumerica, renderizarPreguntaWordScramble, renderizarPreguntaMultipleChoice } from './player-question-ui.js?v=20260918181418';
-import { renderizarSlideComentario, renderizarSlideInfo, renderizarSlideTexto, renderizarSlideImagen, renderizarSlideTextoImagen } from './player-question-ui.js?v=20260918181418';
-import { removeDisconnectOverlay } from './player-connection.js?v=20260918181418';
-import { mostrarModalConfirmacion, mostrarModalMensaje } from '../shared/modal.js?v=20260918181418';
-import { markGameConcluded } from './player-game-concluded.js?v=20260918181418';
-import { injectStreakBadge, cancelStreakAnimation } from './player-streak-ui.js?v=20260918181418';
-import { preloadGameImages } from './player-image-preloader.js?v=20260918181418';
+} from './player-state.js?v=20260921182204';
+import { renderizarPregunta, renderizarPreguntaOrdena, renderizarPreguntaMatching, renderizarPreguntaNumerica, renderizarPreguntaWordScramble, renderizarPreguntaMultipleChoice } from './player-question-ui.js?v=20260921182204';
+import { renderizarSlideComentario, renderizarSlideInfo, renderizarSlideTexto, renderizarSlideImagen, renderizarSlideTextoImagen } from './player-question-ui.js?v=20260921182204';
+import { removeDisconnectOverlay } from './player-connection.js?v=20260921182204';
+import { mostrarModalConfirmacion, mostrarModalMensaje } from '../shared/modal.js?v=20260921182204';
+import { markGameConcluded } from './player-game-concluded.js?v=20260921182204';
+import { injectStreakBadge, cancelStreakAnimation } from './player-streak-ui.js?v=20260921182204';
+import { getStreakInfo } from './player-state.js?v=20260921182204';
+import { preloadGameImages } from './player-image-preloader.js?v=20260921182204';
 
 /**
  * Salir del lobby y liberar credenciales
@@ -127,6 +128,9 @@ function onNewQuestion(data, ack) {
     // (evita que la pregunta no se muestre si el presentador avanzó rápido)
     cancelStreakAnimation();
 
+    // La pregunta ya está aquí: retirar la pantalla de puntuación aleatoria
+    window.XiroRandomPointsOverlay?.hide();
+
     // Reset estado para nueva pregunta
     setHaRespondido(false);
     setResultReceived(false);
@@ -230,6 +234,17 @@ function onGameAbandoned(data) {
 }
 
 /**
+ * Evento: random-points-reveal (pantalla "JUGÁIS POR XXX PUNTOS")
+ * En el móvil se añade el multiplicador de racha propio del jugador.
+ */
+function onRandomPointsReveal(payload) {
+    cancelStreakAnimation();
+    window.XiroRandomPointsOverlay?.show(payload, {
+        currentStreak: getStreakInfo()?.current || 0
+    });
+}
+
+/**
  * Registrar todos los eventos de flujo del juego
  */
 export function registerGameFlowEvents() {
@@ -237,6 +252,7 @@ export function registerGameFlowEvents() {
 
     socket.on('game-started', onGameStarted);
     socket.on('new-question', onNewQuestion);
+    socket.on('random-points-reveal', onRandomPointsReveal);
     socket.on('server-restarting', onServerRestarting);
     socket.on('game-abandoned', onGameAbandoned);
 

@@ -5,7 +5,7 @@
  * @week Semana 19 - Frontend Cleanup
  */
 
-export { SocketEventManager } from './SocketEventManager.js?v=20260918181418';
-export { GameStateManager, GameStates } from './GameStateManager.js?v=20260918181418';
-export { EventEmitter } from './EventEmitter.js?v=20260918181418';
-export * from './socket-events.js?v=20260918181418';
+export { SocketEventManager } from './SocketEventManager.js?v=20260921182204';
+export { GameStateManager, GameStates } from './GameStateManager.js?v=20260921182204';
+export { EventEmitter } from './EventEmitter.js?v=20260921182204';
+export * from './socket-events.js?v=20260921182204';

@@ -199,6 +199,9 @@ async function mostrarMezclarBancos() {
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Puntuación Aleatoria -->
+                        ${renderRandomPointsHtml('merge', {})}
                     </div>
 
                     <!-- Botón de acción -->
@@ -289,8 +292,15 @@ async function ejecutarMezclaBancos() {
     const useDoubleStreaks = document.getElementById('mergeUseDoubleStreaks').checked;
     const doubleStreakThreshold = parseInt(document.getElementById('mergeDoubleStreakThreshold').value) || 5;
     const doubleStreakBonusPercentage = parseFloat(document.getElementById('mergeDoubleStreakBonusPercentage').value) || 1.00;
+    const randomPoints = readRandomPointsConfig('merge');
 
     // Validaciones
+    const randomPointsCheck = validateRandomPointsConfig(randomPoints);
+    if (!randomPointsCheck.valid) {
+        mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), randomPointsCheck.message, 'warning');
+        return;
+    }
+
     if (bankIds.length < 2) {
         mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), _t('admin.merge.error_select', null, 'Debes seleccionar al menos 2 bancos para mezclar'), 'warning');
         return;
@@ -336,7 +346,8 @@ async function ejecutarMezclaBancos() {
                         streak_bonus_percentage: streakBonusPercentage,
                         use_double_streaks: useDoubleStreaks,
                         double_streak_threshold: doubleStreakThreshold,
-                        double_streak_bonus_percentage: doubleStreakBonusPercentage
+                        double_streak_bonus_percentage: doubleStreakBonusPercentage,
+                        ...randomPoints
                     })
                 });
 

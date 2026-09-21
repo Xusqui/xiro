@@ -8,10 +8,10 @@ import {
     setHaRespondido,
     setCanAnswer,
     setCurrentSlideType
-} from './player-state.js?v=20260918181418';
-import { enviarRespuestaWordScramble } from './player-answer.js?v=20260918181418';
-import { getResponsiveFontClass } from './player-question-utils.js?v=20260918181418';
-import { setBodyHTML } from './player-streak-ui.js?v=20260918181418';
+} from './player-state.js?v=20260921182204';
+import { enviarRespuestaWordScramble } from './player-answer.js?v=20260921182204';
+import { getResponsiveFontClass } from './player-question-utils.js?v=20260921182204';
+import { setBodyHTML } from './player-streak-ui.js?v=20260921182204';
 
 let wsFilledLetters = [];
 let wsUsedIndices = new Set();

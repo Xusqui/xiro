@@ -45,11 +45,14 @@ class QuestionRevealedHandler extends EventHandler {
             const game = activeGames?.get(actualRoomId);
             const total = totalQuestions || game?.questions?.length || 0;
 
+            // Valor sorteado de la puntuación aleatoria de esta pregunta (o null)
+            const randomPoints = game?.currentRandomPoints ?? null;
+
             // 1. Emitir a jugadores (payload compatible con frontend actual)
-            await this.notifyPlayers(actualRoomId, question, questionIndex, total);
+            await this.notifyPlayers(actualRoomId, question, questionIndex, total, randomPoints);
 
             // 2. Emitir a presentador (payload compatible con frontend actual)
-            await this.notifyPresenter(actualRoomId, question, questionIndex, total);
+            await this.notifyPresenter(actualRoomId, question, questionIndex, total, randomPoints);
 
             // 3. Emitir evento de timer iniciado
             const actualTimeLimit = timeLimit || question.time_limit;
@@ -85,7 +88,7 @@ class QuestionRevealedHandler extends EventHandler {
      * Notificar a jugadores (formato compatible con frontend actual)
      * Frontend espera: { question: {...}, currentIndex: N, totalQuestions: N }
      */
-    notifyPlayers(roomId, question, questionIndex, totalQuestions) {
+    notifyPlayers(roomId, question, questionIndex, totalQuestions, randomPoints = null) {
         const playersRoom = `${roomId}:players`;
 
         // Sanitizar pregunta para jugadores (sin respuestas correctas)
@@ -95,7 +98,8 @@ class QuestionRevealedHandler extends EventHandler {
         const payload = {
             question: sanitizedQuestion,
             currentIndex: questionIndex,
-            totalQuestions
+            totalQuestions,
+            ...(typeof randomPoints === 'number' && { randomPoints })
         };
 
         // Broadcast via Redis Adapter (multi-worker compatible)
@@ -112,13 +116,14 @@ class QuestionRevealedHandler extends EventHandler {
      * Notificar al presentador (formato compatible con frontend actual)
      * Frontend espera: { question: {...}, currentIndex: N, totalQuestions: N }
      */
-    notifyPresenter(roomId, question, questionIndex, totalQuestions) {
+    notifyPresenter(roomId, question, questionIndex, totalQuestions, randomPoints = null) {
         const presenterRoom = `${roomId}:presenter`;
 
         const payload = {
             question,
             currentIndex: questionIndex,
-            totalQuestions
+            totalQuestions,
+            ...(typeof randomPoints === 'number' && { randomPoints })
         };
 
         // Broadcast via Redis Adapter (multi-worker compatible)

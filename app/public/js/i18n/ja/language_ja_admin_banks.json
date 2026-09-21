@@ -103,6 +103,15 @@
     "admin.games.pool_badge": "共有プール",
     "admin.games.pool_total_label": "プールの合計問題数",
     "admin.games.pool_total_help": "「固定数なし」に設定されたバンクを組み合わせ、そこから合計で何問をランダムに出題するかを指定します。",
-    "admin.games.error_pool_count": "共有プールから出題する問題数を指定してください"
+    "admin.games.error_pool_count": "共有プールから出題する問題数を指定してください",
+    "admin.random_points.label": "ランダム配点",
+    "admin.random_points.help": "各問題の前に、その問題の配点を抽選します。対象はクイズとアナグラムのみで、アンケート・並べ替え・組み合わせ・数値・複数選択は従来の配点のままです。",
+    "admin.random_points.min_label": "最小ポイント",
+    "admin.random_points.min_help": "出る可能性のある最も低い値",
+    "admin.random_points.max_label": "最大ポイント",
+    "admin.random_points.max_help": "最小値と同じにすると固定配点になります",
+    "admin.random_points.error_integer": "最小ポイントと最大ポイントは整数で入力してください",
+    "admin.random_points.error_range": "ポイントは {min} から {max} の範囲で指定してください",
+    "admin.random_points.error_inverted": "最大値は最小値以上である必要があります"
   }
 }

@@ -103,6 +103,15 @@
     "admin.games.pool_badge": "Pool compartit",
     "admin.games.pool_total_label": "Total de preguntes del pool",
     "admin.games.pool_total_help": "Quantes preguntes en total se n'extreuen a l'atzar dels bancs marcats com a \"sense quantitat fixa\", combinats entre si.",
-    "admin.games.error_pool_count": "Indica quantes preguntes s'extreuen del pool compartit"
+    "admin.games.error_pool_count": "Indica quantes preguntes s'extreuen del pool compartit",
+    "admin.random_points.label": "Puntuació Aleatòria",
+    "admin.random_points.help": "Abans de cada pregunta se sortegen els punts que val. Només afecta Quiz i Anagrama: Enquesta, Ordena, Aparella, Numèrica i Selecció Múltiple mantenen la seva puntuació.",
+    "admin.random_points.min_label": "Punts mínims",
+    "admin.random_points.min_help": "Valor més baix que pot sortir",
+    "admin.random_points.max_label": "Punts màxims",
+    "admin.random_points.max_help": "Igual que el mínim = puntuació fixa",
+    "admin.random_points.error_integer": "Els punts mínim i màxim han de ser nombres enters",
+    "admin.random_points.error_range": "Els punts han d’estar entre {min} i {max}",
+    "admin.random_points.error_inverted": "El màxim ha de ser més gran o igual que el mínim"
   }
 }

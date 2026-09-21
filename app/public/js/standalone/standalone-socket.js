@@ -35,6 +35,7 @@ const StandaloneSocket = (() => {
     function _wirePlayerEvents(socket) {
         socket.on('game-started', (data) => handlers.onGameStarted && handlers.onGameStarted(data));
         socket.on('new-question', (data) => handlers.onNewQuestion && handlers.onNewQuestion(data));
+        socket.on('random-points-reveal', (data) => handlers.onRandomPointsReveal && handlers.onRandomPointsReveal(data));
         socket.on('answer-result', (data) => handlers.onAnswerResult && handlers.onAnswerResult(data));
         // 'reveal-answer' NO se escucha aquí: el servidor envía a la room ':players'
         // una versión reducida (correctAnswer/justification/correctOrder únicamente,

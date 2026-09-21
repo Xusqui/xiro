@@ -6,6 +6,7 @@
 const logger = require('../../../config/logger');
 const { persistPlayerAnswerState, updateOptionAnswerStats } = require('./playerState');
 const { resolveCanonicalQuestionStartTime, evaluateAnswer, buildMultipleChoiceDetails } = require('./answerEvaluation');
+const { resolveCanonicalRandomPoints } = require('./randomPointsResolution');
 const { computeStreakAndPoints, registerProgressAndPersistStreak } = require('./streakScoring');
 const { trackTrivialResults, markCurrentEpochAnswer, attachTypedAnswerDetails } = require('./answerTracking');
 const { emitAnswerSubmitted, updateScoreAndEmitPlayerScored } = require('./eventsAndScore');
@@ -113,12 +114,16 @@ async function evaluateAnswerAndStreak(ctx) {
         questionTimeLimit
     });
 
+    const basePoints = await resolveCanonicalRandomPoints({ game, currentQuestion, sPin });
+
     const answerResult = evaluateAnswer({
         flags,
         payload,
         currentQuestion,
         resolvedStartTime,
-        questionTimeLimit
+        questionTimeLimit,
+        game,
+        basePoints
     });
 
     const scoreContext = computeStreakAndPoints({ game, nickname, flags, answerResult, sPin });
@@ -138,7 +143,8 @@ async function evaluateAnswerAndStreak(ctx) {
         answerResult,
         scoreContext,
         fullMultipleChoiceDetails,
-        atomicProgress
+        atomicProgress,
+        randomPoints: basePoints
     };
 }
 
@@ -210,6 +216,7 @@ async function persistAndResolveMode(ctx) {
         answerResult,
         scoreContext,
         fullMultipleChoiceDetails,
+        randomPoints,
         players
     } = ctx;
 
@@ -236,6 +243,7 @@ async function persistAndResolveMode(ctx) {
         answerResult,
         finalPointsEarned: scoreContext.finalPointsEarned,
         isCorrect: scoreContext.isCorrect,
+        randomPoints,
         socket
     });
 

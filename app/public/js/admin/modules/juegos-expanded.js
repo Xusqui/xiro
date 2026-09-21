@@ -248,6 +248,9 @@ async function renderEditorJuego(game, banks) {
                         <p class="text-xs text-slate-400 mt-1">${_t('admin.games.dbl_bonus_help', null, 'Ej: 1.00 = +100% de los puntos base')}</p>
                     </div>
                 </div>
+
+                <!-- Puntuación Aleatoria -->
+                ${renderRandomPointsHtml('game', game)}
             </div>
 
             <div class="bg-white rounded-2xl shadow-sm p-8 mb-8 border border-slate-200">
@@ -291,6 +294,7 @@ async function renderEditorJuego(game, banks) {
         double_streak_bonus_percentage: parseFloat(document.getElementById('gameDoubleStreakBonusPercentage')?.value ?? 1.0),
         pool_question_count: document.getElementById('gamePoolQuestionCount')?.value || '',
         image_url: document.getElementById('gameImageUrl')?.value || '',
+        ...snapshotRandomPoints('game'),
         banks: currentBanks
     }));
 
@@ -419,6 +423,12 @@ async function guardarJuego(salir = true) {
     const doubleStreakThreshold = parseFloat(document.getElementById('gameDoubleStreakThreshold').value) || 5;
     const doubleStreakBonusPercentage = parseFloat(document.getElementById('gameDoubleStreakBonusPercentage').value) ?? 1.0;
     const imageUrl = document.getElementById('gameImageUrl')?.value || null;
+    const randomPoints = readRandomPointsConfig('game');
+
+    const randomPointsCheck = validateRandomPointsConfig(randomPoints);
+    if (!randomPointsCheck.valid) {
+        return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), randomPointsCheck.message, 'warning');
+    }
 
     if (!name) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), _t('admin.games.error_name', null, 'Por favor, ponle un nombre al juego'), 'warning');
     if (currentBanks.length === 0) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), _t('admin.games.error_banks', null, 'Añade al menos un banco de preguntas'), 'warning');
@@ -452,6 +462,7 @@ async function guardarJuego(salir = true) {
         double_streak_bonus_percentage: doubleStreakBonusPercentage,
         pool_question_count: poolQuestionCount,
         image_url: imageUrl,
+        ...randomPoints,
         banks: currentBanks.map(b => ({
             bank_id: b.bank_id,
             question_count: bancoEsPool(b) ? null : b.question_count

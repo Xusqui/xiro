@@ -7,6 +7,36 @@ const logger = require('../../config/logger');
 const { getRedisClient } = require('../../config/redis');
 const { getOrCreateAdapter } = require('../../domain/state/GameStateAdapter');
 const { initializeExpectedPlayers } = require('./AtomicAnswerCounter');
+const { usesRandomPoints } = require('../../domain/services/QuestionScoringPolicy');
+const { generateForGame } = require('../../domain/services/RandomPointsGenerator');
+const { persistRandomPoints } = require('../../application/commands/submit-answer/randomPointsResolution');
+
+/**
+ * Sortea los puntos base de la pregunta que se va a mostrar, si procede.
+ * Fuente de verdad única: se genera aquí una sola vez, se guarda en el juego,
+ * se persiste en Redis y se publica por pub/sub (igual que questionStartTime).
+ *
+ * @param {Object} game
+ * @param {string} roomId
+ * @returns {number|null}
+ */
+function assignRandomPointsForCurrentQuestion(game, roomId) {
+    const question = game.questions?.[game.currentIndex];
+
+    if (!usesRandomPoints(question, game)) {
+        game.currentRandomPoints = null;
+        return null;
+    }
+
+    game.currentRandomPoints = generateForGame(game);
+    persistRandomPoints({
+        roomId,
+        questionIndex: game.currentIndex,
+        points: game.currentRandomPoints
+    });
+
+    return game.currentRandomPoints;
+}
 
 /**
  * Reset player states for next question
@@ -124,6 +154,7 @@ async function prepareNextQuestion({
     game.currentIndex = nextIndex;
     game.questionStartTime = Date.now();
     game.answerStats = {};
+    assignRandomPointsForCurrentQuestion(game, roomId);
 
     // Persist canonical questionStartTime to Redis so workers that missed the pub/sub message
     // (transient disconnection) can recover the correct epoch before scoring.
@@ -170,7 +201,12 @@ async function prepareNextQuestion({
     // IMPORTANT: pass game.questionStartTime so every worker uses the same canonical epoch
     // for time-based scoring. Without this, non-originating workers keep the stale
     // questionStartTime from the previous question and compute timeElapsed incorrectly.
-    await syncBus.publishNextQuestion(roomId, game.currentIndex, game.questionStartTime);
+    await syncBus.publishNextQuestion(
+        roomId,
+        game.currentIndex,
+        game.questionStartTime,
+        game.currentRandomPoints
+    );
 
     return {
         success: true,
@@ -183,5 +219,6 @@ async function prepareNextQuestion({
 module.exports = {
     resetPlayerStatesForNextQuestion,
     transitionStateMachine,
-    prepareNextQuestion
+    prepareNextQuestion,
+    assignRandomPointsForCurrentQuestion
 };

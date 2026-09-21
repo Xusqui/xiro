@@ -95,6 +95,18 @@ function buildSyncedGameState(roomId, gameState, existing) {
             existing?.double_streak_bonus_percentage,
             DEFAULT_DOUBLE_STREAK_BONUS_PERCENTAGE
         ),
+        use_random_points: firstDefined(gameState.use_random_points, existing?.use_random_points, false),
+        random_points_min: firstDefined(
+            gameState.random_points_min,
+            existing?.random_points_min,
+            SCORING.RANDOM_POINTS.DEFAULT_MIN
+        ),
+        random_points_max: firstDefined(
+            gameState.random_points_max,
+            existing?.random_points_max,
+            SCORING.RANDOM_POINTS.DEFAULT_MAX
+        ),
+        currentRandomPoints: firstDefined(gameState.currentRandomPoints, existing?.currentRandomPoints, null),
         _epoch: firstDefined(gameState._epoch, 1)
     };
 }
@@ -138,6 +150,10 @@ function buildLightGameState(roomId, gameState) {
             gameState.double_streak_bonus_percentage,
             DEFAULT_DOUBLE_STREAK_BONUS_PERCENTAGE
         ),
+        use_random_points: firstDefined(gameState.use_random_points, false),
+        random_points_min: firstDefined(gameState.random_points_min, SCORING.RANDOM_POINTS.DEFAULT_MIN),
+        random_points_max: firstDefined(gameState.random_points_max, SCORING.RANDOM_POINTS.DEFAULT_MAX),
+        currentRandomPoints: firstDefined(gameState.currentRandomPoints, null),
         gameStartTime,
         questionStartTime,
         _epoch: 1
@@ -396,7 +412,7 @@ class RedisSyncBus {
             return;
         }
 
-        const { roomId, currentIndex, startTime, _epoch: incomingEpoch } = data;
+        const { roomId, currentIndex, startTime, randomPoints, _epoch: incomingEpoch } = data;
         const game = this.state.activeGames.get(roomId);
         if (!game) {
             return;
@@ -411,6 +427,10 @@ class RedisSyncBus {
         game.questionStartTime = startTime || Date.now();
         game.answerStats = {};
         game.canAnswer = true;
+        // Valor sorteado de la puntuación aleatoria: se genera una sola vez en el
+        // worker que avanza la pregunta y viaja aquí para que cualquier worker
+        // que procese una respuesta use el MISMO valor.
+        game.currentRandomPoints = randomPoints ?? null;
     }
 
     handleSessionAbandonedSync(message) {
@@ -659,14 +679,14 @@ class RedisSyncBus {
         logger.debug(`Delta publicado exitosamente: ${roomId} - ${nickname}: ${score} pts (worker ${process.pid})`);
     }
 
-    async publishNextQuestion(roomId, currentIndex, startTime) {
+    async publishNextQuestion(roomId, currentIndex, startTime, randomPoints = null) {
         // Increment epoch on origin worker for each question transition
         const localGame = this.state?.activeGames?.get(roomId);
         if (localGame) {
             localGame._epoch = (localGame._epoch || 0) + 1;
         }
         const epoch = localGame?._epoch;
-        await this.publish('next-question-sync', { roomId, currentIndex, startTime, originWorkerId: process.pid, _epoch: epoch });
+        await this.publish('next-question-sync', { roomId, currentIndex, startTime, randomPoints, originWorkerId: process.pid, _epoch: epoch });
         logger.debug(`next-question-sync publicado: ${roomId} pregunta ${currentIndex + 1} epoch=${epoch} (worker ${process.pid})`);
     }
 

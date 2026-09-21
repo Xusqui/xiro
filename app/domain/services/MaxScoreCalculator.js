@@ -20,19 +20,10 @@
 const { SCORING, TIMING } = require('../../config/game-constants');
 const { roundScore } = require('./ScoringService');
 const { applyStreakBonus } = require('./GameStreakApplicator');
-
-// Diapositivas sin temporizador ni puntuación (ver AdvanceQuestionUseCase.NO_TIMER_SLIDE_TYPES)
-const NO_TIMER_SLIDE_TYPES = new Set(['comment', 'info', 'text', 'image']);
+const { isScorable, usesRandomPoints } = require('./QuestionScoringPolicy');
 
 // Respuesta instantánea simulada: 0 segundos (cota superior estricta, ver nota arriba)
 const PERFECT_ANSWER_TIME_SECONDS = 0;
-
-function isScorable(question) {
-    if (!question) return false;
-    if (NO_TIMER_SLIDE_TYPES.has(question.slide_type)) return false;
-    if (question.question_type === 'survey') return false;
-    return true;
-}
 
 function timeBonusFor(timeLimit) {
     const limit = timeLimit || TIMING.DEFAULT_QUESTION_TIME;
@@ -45,7 +36,14 @@ function timeBonusFor(timeLimit) {
  * Puntos base de una respuesta perfecta, replicando la lógica de cada
  * servicio de dominio usado en app/application/commands/submit-answer/answerEvaluation.js
  */
-function calculatePerfectBasePoints(question) {
+function calculatePerfectBasePoints(question, game) {
+    // Con puntuación aleatoria, la cota superior de una pregunta elegible es el
+    // máximo del rango (nunca puede salir un valor mayor en el sorteo).
+    if (usesRandomPoints(question, game)) {
+        const maxBase = Number(game.random_points_max) || SCORING.BASE_POINTS;
+        return maxBase + timeBonusFor(question.time_limit);
+    }
+
     switch (question.question_type) {
         case 'order':
         case 'matching':
@@ -87,7 +85,7 @@ function calculateMaxPossibleScore(game) {
     for (const question of questions) {
         if (!isScorable(question)) continue;
 
-        const basePoints = calculatePerfectBasePoints(question);
+        const basePoints = calculatePerfectBasePoints(question, game);
         const { bonusPoints } = applyStreakBonus(basePoints, streak, game);
 
         total += roundScore(basePoints + bonusPoints);
@@ -97,4 +95,4 @@ function calculateMaxPossibleScore(game) {
     return roundScore(total);
 }
 
-module.exports = { calculateMaxPossibleScore };
+module.exports = { calculateMaxPossibleScore, calculatePerfectBasePoints };

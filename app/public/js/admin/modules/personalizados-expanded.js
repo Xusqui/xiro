@@ -283,6 +283,9 @@ async function renderEditorJuegoPersonalizado(game, questions) {
                         <p class="text-xs text-slate-400 mt-1">${_t('admin.games.dbl_bonus_help', null, 'Ej: 1.00 = +100% de los puntos base')}</p>
                     </div>
                 </div>
+
+                <!-- Puntuación Aleatoria -->
+                ${renderRandomPointsHtml('customGame', game)}
             </div>
 
             <!-- Botones destacados para añadir slides especiales -->
@@ -448,6 +451,7 @@ async function renderEditorJuegoPersonalizado(game, questions) {
         double_streak_threshold: parseFloat(document.getElementById('customGameDoubleStreakThreshold')?.value ?? 5),
         double_streak_bonus_percentage: parseFloat(document.getElementById('customGameDoubleStreakBonusPercentage')?.value ?? 1.0),
         image_url: document.getElementById('customGameImageUrl')?.value || '',
+        ...snapshotRandomPoints('customGame'),
         questions: currentCustomGameQuestions
     }));
 
@@ -850,6 +854,12 @@ async function guardarJuegoPersonalizado(salir = true) {
     const doubleStreakThreshold = parseFloat(document.getElementById('customGameDoubleStreakThreshold').value) || 5;
     const doubleStreakBonusPercentage = parseFloat(document.getElementById('customGameDoubleStreakBonusPercentage').value) ?? 1.0;
     const imageUrl = document.getElementById('customGameImageUrl')?.value || null;
+    const randomPoints = readRandomPointsConfig('customGame');
+
+    const randomPointsCheck = validateRandomPointsConfig(randomPoints);
+    if (!randomPointsCheck.valid) {
+        return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), randomPointsCheck.message, 'warning');
+    }
 
     if (!name) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), _t('admin.custom.error_name', null, 'Por favor, ponle un nombre al juego'), 'warning');
     if (currentCustomGameQuestions.length === 0) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), _t('admin.custom.error_questions', null, 'Añade al menos una pregunta'), 'warning');
@@ -870,6 +880,7 @@ async function guardarJuegoPersonalizado(salir = true) {
         double_streak_threshold: doubleStreakThreshold,
         double_streak_bonus_percentage: doubleStreakBonusPercentage,
         image_url: imageUrl,
+        ...randomPoints,
         questions: currentCustomGameQuestions.map(q => ({
             slide_type: q.slide_type || 'question',
             question_id: q.question_id || null,

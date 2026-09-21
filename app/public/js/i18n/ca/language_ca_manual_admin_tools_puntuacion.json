@@ -5,6 +5,9 @@
     "manual_admin.tools.puntuacion.base_points": "Punts base",
     "manual_admin.tools.puntuacion.base_points_desc": "Punts garantits en respondre correctament.",
     "manual_admin.tools.puntuacion.max_bonus": "Bonus màxim per velocitat",
-    "manual_admin.tools.puntuacion.max_bonus_desc": "Punts extres per respondre ràpid."
+    "manual_admin.tools.puntuacion.max_bonus_desc": "Punts extres per respondre ràpid.",
+    "manual_admin.tools.puntuacion.random_points": "Puntuació aleatòria",
+    "manual_admin.tools.puntuacion.random_points_desc": "Cada joc pot sortejar els punts de cada pregunta dins d’un rang que tu defineixes. Abans de la pregunta es mostra una pantalla amb el valor sortejat, i el temporitzador no arrenca fins que aquesta pantalla desapareix.",
+    "manual_admin.tools.puntuacion.random_points_types": "Només afecta les preguntes de tipus Quiz i Anagrama. Enquesta, Ordena, Aparella, Numèrica i Selecció Múltiple conserven la seva puntuació de sempre."
   }
 }

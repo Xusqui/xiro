@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "game.random_points.headline": "XOGADES POR {points} PUNTOS",
+    "game.random_points.time_bonus": "+ BONUS DE TEMPO",
+    "game.random_points.streak_multiplier": "x{multiplier} por racha",
+    "game.random_points.badge": "🎲 {points} ptos"
+  }
+}

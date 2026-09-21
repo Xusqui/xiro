@@ -9,6 +9,7 @@ const {
     assertEditorCanModifyResource,
     normalizeCreatorRole
 } = require('./resource-ownership.service');
+const { DEFAULTS: RANDOM_POINTS_DEFAULTS } = require('./random-points-config.service');
 
 /**
  * Obtiene todos los bancos de preguntas
@@ -248,6 +249,9 @@ async function updateBankMetadata(client, payload) {
         doubleStreakThreshold,
         doubleStreakBonusPercentage,
         imageUrl,
+        useRandomPoints,
+        randomPointsMin,
+        randomPointsMax,
         bankId
     } = payload;
 
@@ -256,8 +260,9 @@ async function updateBankMetadata(client, payload) {
          SET name = $1, pin = $2, language = $3, visible_to_presenter = $4,
              use_streaks = $5, streak_threshold = $6, streak_bonus_percentage = $7,
              use_double_streaks = $8, double_streak_threshold = $9, double_streak_bonus_percentage = $10,
-             image_url = $11
-         WHERE id = $12`,
+             image_url = $11,
+             use_random_points = $12, random_points_min = $13, random_points_max = $14
+         WHERE id = $15`,
         [
             name,
             upperPin,
@@ -270,6 +275,9 @@ async function updateBankMetadata(client, payload) {
             doubleStreakThreshold,
             doubleStreakBonusPercentage,
             imageUrl,
+            useRandomPoints,
+            randomPointsMin,
+            randomPointsMax,
             bankId
         ]
     );
@@ -368,7 +376,10 @@ async function createBankRecord(client, payload) {
         useDoubleStreaks,
         doubleStreakThreshold,
         doubleStreakBonusPercentage,
-        imageUrl
+        imageUrl,
+        useRandomPoints,
+        randomPointsMin,
+        randomPointsMax
     } = payload;
 
     const resBank = await client.query(
@@ -377,8 +388,9 @@ async function createBankRecord(client, payload) {
           created_by_role, created_by_user_id,
           use_streaks, streak_threshold, streak_bonus_percentage,
           use_double_streaks, double_streak_threshold, double_streak_bonus_percentage,
-          image_url)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id`,
+          image_url,
+          use_random_points, random_points_min, random_points_max)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING id`,
         [
             name,
             upperPin,
@@ -392,7 +404,10 @@ async function createBankRecord(client, payload) {
             useDoubleStreaks,
             doubleStreakThreshold,
             doubleStreakBonusPercentage,
-            imageUrl
+            imageUrl,
+            useRandomPoints,
+            randomPointsMin,
+            randomPointsMax
         ]
     );
 
@@ -451,7 +466,10 @@ async function saveBankComplete(data, actorUserId = null) {
         use_double_streaks = false,
         double_streak_threshold = 5,
         double_streak_bonus_percentage = 1.00,
-        image_url = null
+        image_url = null,
+        use_random_points = false,
+        random_points_min = RANDOM_POINTS_DEFAULTS.random_points_min,
+        random_points_max = RANDOM_POINTS_DEFAULTS.random_points_max
     } = data;
     const { questionBankCache } = require('../cache.service');
     const ownerRole = normalizeCreatorRole(created_by_role);
@@ -490,6 +508,9 @@ async function saveBankComplete(data, actorUserId = null) {
                 doubleStreakThreshold: double_streak_threshold,
                 doubleStreakBonusPercentage: double_streak_bonus_percentage,
                 imageUrl: image_url,
+                useRandomPoints: use_random_points,
+                randomPointsMin: random_points_min,
+                randomPointsMax: random_points_max,
                 bankId
             });
 
@@ -513,7 +534,10 @@ async function saveBankComplete(data, actorUserId = null) {
                 useDoubleStreaks: use_double_streaks,
                 doubleStreakThreshold: double_streak_threshold,
                 doubleStreakBonusPercentage: double_streak_bonus_percentage,
-                imageUrl: image_url
+                imageUrl: image_url,
+                useRandomPoints: use_random_points,
+                randomPointsMin: random_points_min,
+                randomPointsMax: random_points_max
             });
 
             invalidatePinCaches(upperPin);

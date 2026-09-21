@@ -60,8 +60,15 @@ window.TVApp.SocketGame = (function () {
             if (typeof ack === 'function') ack();
         });
 
+        socket.on('random-points-reveal', function (payload) {
+            window.XiroRandomPointsOverlay && window.XiroRandomPointsOverlay.show(payload);
+        });
+
         socket.on('new-question', function (data, ack) {
             if (!data || !data.question) return;
+
+            // La pregunta ya está aquí: retirar la pantalla de puntuación aleatoria
+            window.XiroRandomPointsOverlay && window.XiroRandomPointsOverlay.hide();
 
             for (var nick in state.playersData) {
                 state.playersData[nick].answered = false;

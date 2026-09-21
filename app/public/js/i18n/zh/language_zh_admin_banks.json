@@ -103,6 +103,15 @@
     "admin.games.pool_badge": "共享题库池",
     "admin.games.pool_total_label": "题库池总题数",
     "admin.games.pool_total_help": "从标记为“无固定数量”的题库中合并后随机抽取的题目总数。",
-    "admin.games.error_pool_count": "请指定从共享题库池中抽取的题目数量"
+    "admin.games.error_pool_count": "请指定从共享题库池中抽取的题目数量",
+    "admin.random_points.label": "随机分值",
+    "admin.random_points.help": "每道题出现前都会随机抽取它的分值。仅对测验题和字谜题生效：投票、排序、配对、数字题和多选题的计分方式保持不变。",
+    "admin.random_points.min_label": "最低分值",
+    "admin.random_points.min_help": "可能抽到的最小值",
+    "admin.random_points.max_label": "最高分值",
+    "admin.random_points.max_help": "与最低分相同即为固定分值",
+    "admin.random_points.error_integer": "最低分值和最高分值必须是整数",
+    "admin.random_points.error_range": "分值必须介于 {min} 和 {max} 之间",
+    "admin.random_points.error_inverted": "最高分值必须大于或等于最低分值"
   }
 }

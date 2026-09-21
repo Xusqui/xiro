@@ -3,9 +3,9 @@
  * Keeps socket flow and state transitions compact; UI and Wake Lock are modularized.
  */
 
-import { socket } from './presenter-socket-config.js?v=20260918181418';
-import { mostrarModalConfirmacion } from '../shared/modal.js?v=20260918181418';
-import { createRemoteWakeLockController } from './presenter-remote-wake-lock.js?v=20260918181418';
+import { socket } from './presenter-socket-config.js?v=20260921182204';
+import { mostrarModalConfirmacion } from '../shared/modal.js?v=20260921182204';
+import { createRemoteWakeLockController } from './presenter-remote-wake-lock.js?v=20260921182204';
 import {
     applyRemoteCSS,
     renderLoadingUI,
@@ -16,13 +16,13 @@ import {
     syncControlsVisibility,
     updatePrimaryButton,
     showEndedBanner
-} from './presenter-remote-ui.js?v=20260918181418';
+} from './presenter-remote-ui.js?v=20260921182204';
 import {
     renderCommentPanel,
     refreshCommentScores,
     hideCommentPanel,
     setRemotePointsHandler
-} from './presenter-remote-comment.js?v=20260918181418';
+} from './presenter-remote-comment.js?v=20260921182204';
 
 const ADMIN_TOKEN_KEY = 'adminToken';
 
@@ -97,6 +97,7 @@ function bindSocketEvents() {
     socket.on('reveal-answer', handleRemoteRevealEvent);
     socket.on('game-started', handleRemoteGameStarted);
     socket.on('new-question', handleRemoteNewQuestion);
+    socket.on('random-points-reveal', (payload) => updateRemoteRandomPoints(payload.points));
     socket.on('timer-paused', handleRemoteTimerPaused);
     socket.on('timer-resumed', handleRemoteTimerResumed);
     socket.on('ranking-update', handleRemoteRankingUpdate);
@@ -218,10 +219,30 @@ function remoteConclude() {
 
 const SLIDE_TYPES = new Set(['info', 'comment', 'text', 'image', 'text-image']);
 
+/**
+ * Muestra el valor de la puntuación aleatoria en el control remoto.
+ * Aquí NO se usa el overlay a pantalla completa: taparía los controles del
+ * presentador durante toda la pantalla. Basta con una insignia en la barra.
+ */
+function updateRemoteRandomPoints(points) {
+    const badge = document.getElementById('remote-random-points');
+    if (!badge) return;
+
+    if (typeof points !== 'number') {
+        badge.style.display = 'none';
+        return;
+    }
+
+    badge.textContent = _t('game.random_points.badge', { points }, '🎲 {points} pts');
+    badge.style.display = '';
+}
+
 /** Starts the visual countdown when a new question is received. */
 function handleRemoteNewQuestion(data) {
     if (state.isFinal) return;
     const question = data.question || data;
+
+    updateRemoteRandomPoints(data.randomPoints);
 
     hideCommentPanel();
     state.isCommentSlide = false;

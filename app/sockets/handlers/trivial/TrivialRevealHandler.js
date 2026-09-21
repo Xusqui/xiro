@@ -235,6 +235,9 @@ function _ensureGame(roomId, state) {
         activeGames.set(roomId, game);
     }
     // Garantizar streak config (puede faltar si este worker no hizo trivial-start)
+    if (game.use_random_points === undefined && state.randomPointsConfig) {
+        Object.assign(game, state.randomPointsConfig);
+    }
     if (game.use_streaks === undefined && state.streakConfig) {
         Object.assign(game, state.streakConfig);
     }

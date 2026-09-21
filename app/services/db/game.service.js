@@ -12,6 +12,7 @@ const {
     assertEditorCanModifyResource,
     normalizeCreatorRole
 } = require('./resource-ownership.service');
+const { DEFAULTS: RANDOM_POINTS_DEFAULTS } = require('./random-points-config.service');
 
 /**
  * Obtiene todos los juegos con sus bancos
@@ -104,6 +105,9 @@ async function createGame(data) {
         double_streak_bonus_percentage = 1.00,
         pool_question_count = null,
         image_url = null,
+        use_random_points = false,
+        random_points_min = RANDOM_POINTS_DEFAULTS.random_points_min,
+        random_points_max = RANDOM_POINTS_DEFAULTS.random_points_max,
     } = data;
     const finalPin = (pin || Math.floor(100000 + Math.random() * 900000).toString()).toUpperCase();
     const ownerRole = normalizeCreatorRole(created_by_role);
@@ -119,12 +123,14 @@ async function createGame(data) {
                 (name, pin, language, visible_to_presenter, created_by_role, created_by_user_id,
                  use_streaks, streak_threshold, streak_bonus_percentage,
                  use_double_streaks, double_streak_threshold, double_streak_bonus_percentage,
-                 pool_question_count, image_url)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *`,
+                 pool_question_count, image_url,
+                 use_random_points, random_points_min, random_points_max)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING *`,
             [name, finalPin, language, visible_to_presenter, ownerRole, ownerUserId,
                 use_streaks, streak_threshold, streak_bonus_percentage,
                 use_double_streaks, double_streak_threshold, double_streak_bonus_percentage,
-                pool_question_count, image_url]
+                pool_question_count, image_url,
+                use_random_points, random_points_min, random_points_max]
         );
         const gameId = gameRes.rows[0].id;
 
@@ -163,6 +169,9 @@ async function updateGame(gameId, data, actorUserId = null) {
         double_streak_bonus_percentage = 1.00,
         pool_question_count = null,
         image_url = null,
+        use_random_points = false,
+        random_points_min = RANDOM_POINTS_DEFAULTS.random_points_min,
+        random_points_max = RANDOM_POINTS_DEFAULTS.random_points_max,
     } = data;
     const upperPin = pin.toUpperCase();
     const client = await pool.connect();
@@ -193,12 +202,14 @@ async function updateGame(gameId, data, actorUserId = null) {
                 name = $1, pin = $2, language = $3, visible_to_presenter = $4,
                 use_streaks = $5, streak_threshold = $6, streak_bonus_percentage = $7,
                 use_double_streaks = $8, double_streak_threshold = $9, double_streak_bonus_percentage = $10,
-                pool_question_count = $11, image_url = $12
-             WHERE id = $13`,
+                pool_question_count = $11, image_url = $12,
+                use_random_points = $13, random_points_min = $14, random_points_max = $15
+             WHERE id = $16`,
             [name, upperPin, language, visible_to_presenter,
                 use_streaks, streak_threshold, streak_bonus_percentage,
                 use_double_streaks, double_streak_threshold, double_streak_bonus_percentage,
-                pool_question_count, image_url, gameId]
+                pool_question_count, image_url,
+                use_random_points, random_points_min, random_points_max, gameId]
         );
         await client.query('DELETE FROM game_banks WHERE game_id = $1', [gameId]);
 

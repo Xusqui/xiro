@@ -88,6 +88,8 @@ function calculatePointsEarned({ timeElapsed, questionTimeLimit }) {
  * @param {Object} params.playerState - Estado del jugador (opcional)
  * @param {Object} params.teamState - Estado del equipo (opcional)
  * @param {Object} params.betState - Estado de apuesta (opcional)
+ * @param {number} [params.basePoints] - Puntos base de esta pregunta (puntuación
+ *   aleatoria). Si se omite, se usa BASE_POINTS.
  * @returns {Object} Resultado del procesamiento
  */
 function processAnswer({
@@ -99,7 +101,8 @@ function processAnswer({
     game = {},
     playerState = {},
     teamState = {},
-    betState = {}
+    betState = {},
+    basePoints
 }) {
     // Si es pregunta numérica aproximada
     if (question.question_type === 'numeric_approximation') {
@@ -140,7 +143,7 @@ function processAnswer({
     }
 
     // Obtener estrategia de puntuación
-    const strategy = strategyFactory.createFromQuestion(question, game);
+    const strategy = strategyFactory.createFromQuestion(question, game, { basePoints });
 
     // Calcular tiempo transcurrido
     const questionTimeLimit = question.time_limit || TIMING.DEFAULT_QUESTION_TIME;

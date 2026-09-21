@@ -14,6 +14,8 @@ const EventBus = require('../../domain/events/EventBus');
 const { GameStartedEvent } = require('../../domain/events/GameEvents');
 const dbService = require('../../services/db.service');
 const { getStreakConfig } = require('../../services/db/streak-config.service');
+const { getRandomPointsConfig } = require('../../services/db/random-points-config.service');
+const { assignRandomPointsForCurrentQuestion } = require('../../sockets/utils/QuestionTransitionManager');
 const { prepareQuestions } = require('../../sockets/utils/QuestionPreparation');
 const { getPlayersInRoom, transitionPlayersToConnected } = require('../../sockets/utils/GameUtils');
 const { initializeExpectedPlayers } = require('../../sockets/utils/AtomicAnswerCounter');
@@ -70,7 +72,7 @@ class ImprovedStartGameCommand extends Command {
         return playersInLobby;
     }
 
-    _buildGameState({ pin, roomId, customGame, preparedQuestions, playersInLobby, streakConfig }) {
+    _buildGameState({ pin, roomId, customGame, preparedQuestions, playersInLobby, streakConfig, randomPointsConfig }) {
         const now = Date.now();
 
         const gameState = {
@@ -90,7 +92,12 @@ class ImprovedStartGameCommand extends Command {
             teamRevealed: {},
             answeredCurrent: new Set(),
             ...streakConfig,
+            ...randomPointsConfig,
+            currentRandomPoints: null,
         };
+
+        // La primera pregunta no pasa por AdvanceQuestionUseCase: se sortea aquí
+        assignRandomPointsForCurrentQuestion(gameState, roomId);
 
         playersInLobby.forEach(nickname => {
             if (nickname !== 'HOST') {
@@ -199,13 +206,15 @@ class ImprovedStartGameCommand extends Command {
 
             const preparedQuestions = prepareQuestions(questions, customGame.type);
             const streakConfig = await getStreakConfig(customGame.type, customGame.id);
+            const randomPointsConfig = await getRandomPointsConfig(customGame.type, customGame.id);
             const gameState = this._buildGameState({
                 pin,
                 roomId,
                 customGame,
                 preparedQuestions,
                 playersInLobby,
-                streakConfig
+                streakConfig,
+                randomPointsConfig
             });
 
             activeGames.set(roomId, gameState);

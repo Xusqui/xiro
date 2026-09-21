@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "game.random_points.headline": "PLAYING FOR {points} POINTS",
+    "game.random_points.time_bonus": "+ TIME BONUS",
+    "game.random_points.streak_multiplier": "x{multiplier} for your streak",
+    "game.random_points.badge": "🎲 {points} pts"
+  }
+}

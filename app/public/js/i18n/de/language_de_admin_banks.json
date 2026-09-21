@@ -103,6 +103,15 @@
     "admin.games.pool_badge": "Gemeinsamer Pool",
     "admin.games.pool_total_label": "Gesamtzahl der Pool-Fragen",
     "admin.games.pool_total_help": "Wie viele Fragen insgesamt zufällig aus den als „keine feste Anzahl“ markierten Fragenbanken gezogen werden, kombiniert.",
-    "admin.games.error_pool_count": "Gib an, wie viele Fragen aus dem gemeinsamen Pool gezogen werden"
+    "admin.games.error_pool_count": "Gib an, wie viele Fragen aus dem gemeinsamen Pool gezogen werden",
+    "admin.random_points.label": "Zufällige Punktzahl",
+    "admin.random_points.help": "Vor jeder Frage wird ihr Punktwert ausgelost. Betrifft nur Quiz und Anagramm: Umfrage, Reihenfolge, Zuordnen, Zahlenschätzung und Mehrfachauswahl behalten ihre Punktevergabe.",
+    "admin.random_points.min_label": "Mindestpunkte",
+    "admin.random_points.min_help": "Niedrigster mögliche Wert",
+    "admin.random_points.max_label": "Höchstpunkte",
+    "admin.random_points.max_help": "Gleich dem Minimum = feste Punktzahl",
+    "admin.random_points.error_integer": "Mindest- und Höchstpunkte müssen ganze Zahlen sein",
+    "admin.random_points.error_range": "Die Punkte müssen zwischen {min} und {max} liegen",
+    "admin.random_points.error_inverted": "Der Höchstwert muss größer oder gleich dem Mindestwert sein"
   }
 }

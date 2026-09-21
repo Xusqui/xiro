@@ -6,6 +6,7 @@ const { validateSocket, schemas } = require('../../validation');
 const GetGameStateQuery = require('../../application/queries/GetGameStateQuery');
 const { getAdapter } = require('../../domain/state/GameStateAdapter');
 const { sanitizeQuestionForPlayers } = require('../../services/payload.sanitizer');
+const { buildReconnectRandomPointsState } = require('../utils/RandomPointsRevealManager');
 
 function createGetCurrentStateHandler(dependencies) {
     const { players, activeGames, lobbyPlayers } = dependencies;
@@ -75,7 +76,8 @@ function createGetCurrentStateHandler(dependencies) {
                     currentIndex,
                     totalQuestions: gameState.questionCount,
                     canAnswer: adapter ? adapter.canAcceptAnswers() : gameState.canAnswer,
-                    scores: gameState.scores
+                    scores: gameState.scores,
+                    ...buildReconnectRandomPointsState(game)
                 };
 
                 // Si hay pregunta actual, sanitizarla para jugadores

@@ -103,6 +103,15 @@
     "admin.games.pool_badge": "Shared pool",
     "admin.games.pool_total_label": "Total pool questions",
     "admin.games.pool_total_help": "How many questions in total are drawn at random from the banks marked as \"no fixed amount\", combined together.",
-    "admin.games.error_pool_count": "Specify how many questions are drawn from the shared pool"
+    "admin.games.error_pool_count": "Specify how many questions are drawn from the shared pool",
+    "admin.random_points.label": "Random Scoring",
+    "admin.random_points.help": "Before each question its point value is drawn at random. It only affects Quiz and Word Scramble: Survey, Order, Matching, Numeric and Multiple Choice keep their own scoring.",
+    "admin.random_points.min_label": "Minimum points",
+    "admin.random_points.min_help": "Lowest value that can come up",
+    "admin.random_points.max_label": "Maximum points",
+    "admin.random_points.max_help": "Same as the minimum = fixed score",
+    "admin.random_points.error_integer": "Minimum and maximum points must be whole numbers",
+    "admin.random_points.error_range": "Points must be between {min} and {max}",
+    "admin.random_points.error_inverted": "The maximum must be greater than or equal to the minimum"
   }
 }

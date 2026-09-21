@@ -72,6 +72,22 @@ module.exports = {
             // Incluir bonus de tiempo en apuestas
             INCLUDE_TIME_BONUS: true,
         },
+
+        // ===== CONFIGURACIÓN DE PUNTUACIÓN ALEATORIA =====
+        RANDOM_POINTS: {
+            // Valor mínimo admitido para el rango (entero)
+            MIN_VALUE: 1,
+
+            // Tope superior admitido para el rango (alineado con runtime-config BASE_POINTS)
+            MAX_VALUE: 500,
+
+            // Valores por defecto al activar la casilla
+            DEFAULT_MIN: 10,
+            DEFAULT_MAX: 50,
+
+            // Duración de la pantalla "JUGÁIS POR XXX PUNTOS" antes de mostrar la pregunta (ms)
+            DEFAULT_REVEAL_MS: 3500,
+        },
     },
 
     // ===== TIEMPO =====
@@ -239,6 +255,13 @@ module.exports = {
         SCRAMBLE: 'word_scramble',
         MATCHING: 'matching',
     },
+
+    // ===== TIPOS DE PREGUNTA ELEGIBLES PARA PUNTUACIÓN ALEATORIA =====
+    // Solo los tipos cuya puntuación es "acierto/fallo + bonus de tiempo".
+    // Quedan fuera: survey (no puntúa), order y matching (puntos por posición/par),
+    // numeric_approximation (puntos por cercanía) y multiple_choice (puntos por
+    // opción con penalización, configurados en la propia pregunta).
+    RANDOM_POINTS_ELIGIBLE_TYPES: ['quiz', 'word_scramble'],
 
     // ===== TIPOS DE SLIDE =====
     SLIDE_TYPES: {
