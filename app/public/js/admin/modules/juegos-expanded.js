@@ -141,118 +141,99 @@ async function renderEditorJuego(game, banks) {
 
     const area = document.getElementById('editorArea');
     area.innerHTML = _tHtml(`
-        <div class="max-w-4xl mx-auto p-10">
+        <div class="max-w-5xl mx-auto px-10 pt-6">
             <!-- Botón volver -->
             <button data-admin-click="mostrarVista('juegos')"
-                class="mb-6 text-slate-600 hover:text-green-600 font-bold flex items-center gap-2 transition">
+                class="mb-4 text-slate-600 hover:text-green-600 font-bold flex items-center gap-2 transition">
                 <i class="fas fa-arrow-left"></i>
                 ${_t('admin.games.btn_back', null, 'Volver a Mezcla de Preguntas')}
             </button>
+        </div>
 
-            <div class="bg-white rounded-2xl shadow-sm p-8 mb-8 border border-slate-200">
+        <div class="xiro-editor-sticky-header">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
                 <input type="hidden" id="gameEditId" value="${game.id || ''}">
                 <input type="hidden" id="gameOwnerUserId" value="${game.created_by_user_id ?? ''}">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-black text-slate-900 italic uppercase">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-black text-slate-900 italic uppercase">
                         <i class="fas fa-gamepad text-green-500 mr-2"></i>${_t('admin.games.form_title', null, 'Mezcla de Preguntas')}
                     </h2>
                     ${game.id ? `<span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold">ID: ${game.id}</span>` : ''}
                 </div>
-                <div class="grid grid-cols-2 gap-6">
+
+                <div class="xiro-editor-header-grid">
+                    <!-- Columna 1: Identidad -->
                     <div>
-                        <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest">${_t('admin.games.label_name', null, 'Nombre del Juego')}</label>
-                        <input type="text" id="gameName" value="${game.name}" class="w-full p-3 border-2 border-slate-100 rounded-xl focus:border-green-500 outline-none transition shadow-sm" placeholder="Ej: Quiz Semanal">
+                        <div class="grid grid-cols-2 gap-3 mb-3">
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.label_name', null, 'Nombre del Juego')}</label>
+                                <input type="text" id="gameName" value="${game.name}" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-green-500 outline-none transition text-sm" placeholder="Ej: Quiz Semanal">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.label_pin', null, 'PIN Personalizado')}</label>
+                                <input type="text" id="gamePin" value="${game.pin}" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-green-500 outline-none transition font-mono text-sm" placeholder="Ej: 123456 (vacío = aleatorio)">
+                            </div>
+                        </div>
+
+                        <div class="mb-3 flex items-center justify-center gap-3" title="${_t('admin.games.help_visible', null, 'Si está marcado, el presentador podrá ver y usar este juego')}">
+                            <span class="text-base font-bold text-slate-700"><i class="fas fa-eye mr-1"></i>${_t('admin.banks.label_visible', null, 'Mostrar al presentador')}</span>
+                            <span style="transform: scale(1.2); transform-origin: left center;">${renderNeonSwitch({ id: 'gameVisibleToPresenter', checked: game.visible_to_presenter !== false, action: null })}</span>
+                        </div>
+                        <div class="mb-3 text-center">
+                            <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('common.label_language', null, 'Idioma de las preguntas')}</label>
+                            <div class="flex justify-center">${renderLanguageSelect({ id: 'gameLanguage', value: game.language })}</div>
+                        </div>
+                        <div class="flex flex-col items-center text-center">${renderGameCoverField('game', game.image_url)}</div>
                     </div>
+
+                    <!-- Columna 2: Reglas de puntuación -->
                     <div>
-                        <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest">${_t('admin.games.label_pin', null, 'PIN Personalizado')}</label>
-                        <input type="text" id="gamePin" value="${game.pin}" class="w-full p-3 border-2 border-slate-100 rounded-xl focus:border-green-500 outline-none transition font-mono shadow-sm" placeholder="Ej: 123456 (vacío = aleatorio)">
+                        <!-- Rachas -->
+                        <div class="flex items-center gap-3 mb-2" title="${_t('admin.games.help_streaks', null, 'Aplica bonus de puntos a jugadores con respuestas correctas consecutivas')}">
+                            <span class="text-sm font-bold text-slate-700"><i class="fas fa-fire text-orange-400 mr-1"></i>${_t('admin.games.label_streaks', null, 'Usar Rachas')}</span>
+                            ${renderNeonSwitch({ id: 'gameUseStreaks', checked: game.use_streaks, action: null, attrs: 'data-admin-change="toggleStreakConfig()"' })}
+                        </div>
+
+                        <div id="streakConfigPanel" class="${game.use_streaks ? '' : 'hidden'} ml-6 grid grid-cols-2 gap-3 mb-3 p-3 bg-orange-50 rounded-lg border border-orange-100">
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.streak_threshold_label', null, 'Preguntas para activar Racha')}</label>
+                                <input type="number" id="gameStreakThreshold" min="1" max="20" value="${game.streak_threshold ?? 3}"
+                                    class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-orange-400 outline-none text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.streak_bonus_label', null, 'Multiplicador de bonus racha')}</label>
+                                <input type="number" id="gameStreakBonusPercentage" min="0" max="2" step="0.05" value="${game.streak_bonus_percentage ?? 0.5}"
+                                    class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-orange-400 outline-none text-sm">
+                            </div>
+                        </div>
+
+                        <!-- Dobles Rachas -->
+                        <div class="flex items-center gap-3 mb-2" title="${_t('admin.games.help_dbl_streaks', null, 'Bonus adicional para jugadores que superan un umbral mayor de aciertos consecutivos')}">
+                            <span class="text-sm font-bold text-slate-700"><i class="fas fa-fire text-red-500 mr-1"></i>${_t('admin.games.label_dbl_streaks', null, 'Usar Dobles Rachas')}</span>
+                            ${renderNeonSwitch({ id: 'gameUseDoubleStreaks', checked: game.use_double_streaks, action: null, attrs: 'data-admin-change="toggleDoubleStreakConfig()"' })}
+                        </div>
+
+                        <div id="doubleStreakConfigPanel" class="${game.use_double_streaks ? '' : 'hidden'} ml-6 grid grid-cols-2 gap-3 mb-3 p-3 bg-red-50 rounded-lg border border-red-100">
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.dbl_threshold_label', null, 'Preguntas para Doble Racha')}</label>
+                                <input type="number" id="gameDoubleStreakThreshold" min="1" max="20" value="${game.double_streak_threshold ?? 5}"
+                                    class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-red-400 outline-none text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.dbl_bonus_label', null, 'Multiplicador bonus doble racha')}</label>
+                                <input type="number" id="gameDoubleStreakBonusPercentage" min="0" max="2" step="0.05" value="${game.double_streak_bonus_percentage ?? 1.0}"
+                                    class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-red-400 outline-none text-sm">
+                            </div>
+                        </div>
+
+                        <!-- Puntuación Aleatoria -->
+                        ${renderRandomPointsHtml('game', game)}
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="bg-white rounded-2xl shadow-sm p-8 mb-8 border border-slate-200">
-                <h3 class="text-xl font-black text-slate-700 uppercase mb-6">
-                    <i class="fas fa-sliders-h text-green-500 mr-2"></i>${_t('admin.games.section_config', null, 'Configuración del juego')}
-                </h3>
-
-                <!-- Idioma -->
-                <div class="mb-5">
-                    <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest">${_t('common.label_language', null, 'Idioma de las preguntas')}</label>
-                    ${renderLanguageSelect({ id: 'gameLanguage', value: game.language })}
-                </div>
-
-                <!-- Mostrar al presentador -->
-                <div class="mb-5">
-                    <label class="flex items-center gap-3 cursor-pointer">
-                        <input type="checkbox" id="gameVisibleToPresenter" ${game.visible_to_presenter !== false ? 'checked' : ''} class="w-5 h-5 text-green-600 rounded focus:ring-green-500">
-                        <span class="text-sm font-bold text-slate-700">
-                            <i class="fas fa-eye mr-2"></i>${_t('admin.banks.label_visible', null, 'Mostrar al presentador')}
-                        </span>
-                    </label>
-                    <p class="text-slate-400 text-xs mt-1 ml-8">${_t('admin.games.help_visible', null, 'Si está marcado, el presentador podrá ver y usar este juego')}</p>
-                </div>
-                ${renderGameCoverField('game', game.image_url)}
-
-                <hr class="border-slate-100 mb-5">
-
-                <!-- Rachas -->
-                <div class="mb-4">
-                    <label class="flex items-center gap-3 cursor-pointer mb-1">
-                        <input type="checkbox" id="gameUseStreaks" ${game.use_streaks ? 'checked' : ''} class="w-5 h-5 text-orange-500 rounded focus:ring-orange-400" data-admin-change="toggleStreakConfig()">
-                        <span class="text-sm font-bold text-slate-700">
-                            <i class="fas fa-fire text-orange-400 mr-2"></i>${_t('admin.games.label_streaks', null, 'Usar Rachas')}
-                        </span>
-                    </label>
-                    <p class="text-slate-400 text-xs ml-8">${_t('admin.games.help_streaks', null, 'Aplica bonus de puntos a jugadores con respuestas correctas consecutivas')}</p>
-                </div>
-
-                <div id="streakConfigPanel" class="${game.use_streaks ? '' : 'hidden'} ml-8 grid grid-cols-2 gap-4 mb-5 p-4 bg-orange-50 rounded-xl border border-orange-100">
-                    <div>
-                        <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.streak_threshold_label', null, 'Preguntas para activar Racha')}</label>
-                        <input type="number" id="gameStreakThreshold" min="1" max="20" value="${game.streak_threshold ?? 3}"
-                            class="w-full p-2 border-2 border-slate-100 rounded-xl focus:border-orange-400 outline-none text-sm shadow-sm">
-                        <p class="text-xs text-slate-400 mt-1">${_t('admin.games.streak_threshold_help', null, 'Nº de aciertos consecutivos para entrar en racha')}</p>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.streak_bonus_label', null, 'Multiplicador de bonus racha')}</label>
-                        <input type="number" id="gameStreakBonusPercentage" min="0" max="2" step="0.05" value="${game.streak_bonus_percentage ?? 0.5}"
-                            class="w-full p-2 border-2 border-slate-100 rounded-xl focus:border-orange-400 outline-none text-sm shadow-sm">
-                        <p class="text-xs text-slate-400 mt-1">${_t('admin.games.streak_bonus_help', null, 'Ej: 0.50 = +50% de los puntos base')}</p>
-                    </div>
-                </div>
-
-                <hr class="border-slate-100 mb-5">
-
-                <!-- Dobles Rachas -->
-                <div class="mb-4">
-                    <label class="flex items-center gap-3 cursor-pointer mb-1">
-                        <input type="checkbox" id="gameUseDoubleStreaks" ${game.use_double_streaks ? 'checked' : ''} class="w-5 h-5 text-red-500 rounded focus:ring-red-400" data-admin-change="toggleDoubleStreakConfig()">
-                        <span class="text-sm font-bold text-slate-700">
-                            <i class="fas fa-fire text-red-500 mr-1"></i><i class="fas fa-fire text-red-500 mr-2"></i>${_t('admin.games.label_dbl_streaks', null, 'Usar Dobles Rachas')}
-                        </span>
-                    </label>
-                    <p class="text-slate-400 text-xs ml-8">${_t('admin.games.help_dbl_streaks', null, 'Bonus adicional para jugadores que superan un umbral mayor de aciertos consecutivos')}</p>
-                </div>
-
-                <div id="doubleStreakConfigPanel" class="${game.use_double_streaks ? '' : 'hidden'} ml-8 grid grid-cols-2 gap-4 p-4 bg-red-50 rounded-xl border border-red-100">
-                    <div>
-                        <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.dbl_threshold_label', null, 'Preguntas para Doble Racha')}</label>
-                        <input type="number" id="gameDoubleStreakThreshold" min="1" max="20" value="${game.double_streak_threshold ?? 5}"
-                            class="w-full p-2 border-2 border-slate-100 rounded-xl focus:border-red-400 outline-none text-sm shadow-sm">
-                        <p class="text-xs text-slate-400 mt-1">${_t('admin.games.dbl_threshold_help', null, 'Nº de aciertos consecutivos para la doble racha')}</p>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.dbl_bonus_label', null, 'Multiplicador bonus doble racha')}</label>
-                        <input type="number" id="gameDoubleStreakBonusPercentage" min="0" max="2" step="0.05" value="${game.double_streak_bonus_percentage ?? 1.0}"
-                            class="w-full p-2 border-2 border-slate-100 rounded-xl focus:border-red-400 outline-none text-sm shadow-sm">
-                        <p class="text-xs text-slate-400 mt-1">${_t('admin.games.dbl_bonus_help', null, 'Ej: 1.00 = +100% de los puntos base')}</p>
-                    </div>
-                </div>
-
-                <!-- Puntuación Aleatoria -->
-                ${renderRandomPointsHtml('game', game)}
-            </div>
-
+        <div class="max-w-5xl mx-auto px-10 pb-10">
             <div class="bg-white rounded-2xl shadow-sm p-8 mb-8 border border-slate-200">
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-xl font-black text-slate-700 uppercase">${_t('admin.banks.title', null, 'Bancos de Preguntas')}</h3>

@@ -45,6 +45,9 @@ module.exports = {
             // Bonus por defecto de racha individual (50% = 0.50)
             DEFAULT_BONUS_PERCENTAGE: parseFloat(process.env.STREAK_BONUS_PERCENTAGE) || 0.50,
 
+            // Bonus por defecto de doble racha (100% = 1.00)
+            DEFAULT_DOUBLE_BONUS_PERCENTAGE: parseFloat(process.env.DOUBLE_STREAK_BONUS_PERCENTAGE) || 1.00,
+
             // Bonus por defecto de racha de equipo (50% = 0.50)
             DEFAULT_TEAM_BONUS_PERCENTAGE: 0.50,
 

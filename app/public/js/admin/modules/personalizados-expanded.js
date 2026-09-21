@@ -176,165 +176,133 @@ async function renderEditorJuegoPersonalizado(game, questions) {
 
     const area = document.getElementById('editorArea');
     area.innerHTML = _tHtml(`
-        <div class="max-w-5xl mx-auto p-10">
+        <div class="xiro-toolbar-bar sticky top-0 z-30 bg-white/90 backdrop-blur-sm border-b border-slate-200 shadow-sm">
+            <div class="max-w-5xl mx-auto px-10 py-2 flex items-center gap-1.5" role="toolbar" aria-label="${_t('admin.custom.toolbar_label', null, 'Añadir contenido')}">
+                <button type="button" data-admin-click="mostrarModalComentario()"
+                    class="xiro-toolbar-btn shrink-0 w-9 h-9 rounded-lg flex items-center justify-center text-amber-600 hover:bg-amber-50 hover:text-amber-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-500 focus-visible:outline-offset-2 active:scale-95 disabled:opacity-40 disabled:pointer-events-none transition-colors"
+                    aria-label="${_t('admin.custom.btn_activity', null, 'AÑADIR ACTIVIDAD LIBRE (PUNTOS MANUALES)')}"
+                    data-tooltip="${_t('admin.custom.btn_activity', null, 'AÑADIR ACTIVIDAD LIBRE (PUNTOS MANUALES)')}">
+                    <i class="fas fa-comment-dots text-[18px]" aria-hidden="true"></i>
+                </button>
+                <button type="button" data-admin-click="mostrarModalInfo()"
+                    class="xiro-toolbar-btn shrink-0 w-9 h-9 rounded-lg flex items-center justify-center text-blue-600 hover:bg-blue-50 hover:text-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500 focus-visible:outline-offset-2 active:scale-95 disabled:opacity-40 disabled:pointer-events-none transition-colors"
+                    aria-label="${_t('admin.custom.btn_info_slide', null, 'AÑADIR SLIDE INFORMATIVO')}"
+                    data-tooltip="${_t('admin.custom.btn_info_slide', null, 'AÑADIR SLIDE INFORMATIVO')}">
+                    <i class="fas fa-info-circle text-[18px]" aria-hidden="true"></i>
+                </button>
+                <button type="button" data-admin-click="mostrarModalTexto()"
+                    class="xiro-toolbar-btn shrink-0 w-9 h-9 rounded-lg flex items-center justify-center text-indigo-600 hover:bg-indigo-50 hover:text-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-500 focus-visible:outline-offset-2 active:scale-95 disabled:opacity-40 disabled:pointer-events-none transition-colors"
+                    aria-label="${_t('admin.custom.btn_text_slide', null, 'AÑADIR DIAPOSITIVA DE TEXTO (TÍTULO + TEXTO)')}"
+                    data-tooltip="${_t('admin.custom.btn_text_slide', null, 'AÑADIR DIAPOSITIVA DE TEXTO (TÍTULO + TEXTO)')}">
+                    <i class="fas fa-align-left text-[18px]" aria-hidden="true"></i>
+                </button>
+                <button type="button" data-admin-click="mostrarModalImagen()"
+                    class="xiro-toolbar-btn shrink-0 w-9 h-9 rounded-lg flex items-center justify-center text-pink-600 hover:bg-pink-50 hover:text-pink-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-pink-500 focus-visible:outline-offset-2 active:scale-95 disabled:opacity-40 disabled:pointer-events-none transition-colors"
+                    aria-label="${_t('admin.custom.btn_img_slide', null, 'AÑADIR DIAPOSITIVA DE IMAGEN')}"
+                    data-tooltip="${_t('admin.custom.btn_img_slide', null, 'AÑADIR DIAPOSITIVA DE IMAGEN')}">
+                    <i class="fas fa-image text-[18px]" aria-hidden="true"></i>
+                </button>
+                <button type="button" data-admin-click="mostrarModalTextoImagen()"
+                    class="xiro-toolbar-btn shrink-0 w-9 h-9 rounded-lg flex items-center justify-center text-violet-600 hover:bg-violet-50 hover:text-violet-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 focus-visible:outline-offset-2 active:scale-95 disabled:opacity-40 disabled:pointer-events-none transition-colors"
+                    aria-label="${_t('admin.custom.btn_text_img_slide', null, 'AÑADIR DIAPOSITIVA TEXTO + IMAGEN')}"
+                    data-tooltip="${_t('admin.custom.btn_text_img_slide', null, 'AÑADIR DIAPOSITIVA TEXTO + IMAGEN')}">
+                    <i class="fas fa-columns text-[18px]" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        <div class="max-w-5xl mx-auto px-10 pt-6">
             <!-- Botón volver -->
-            <button data-admin-click="mostrarVista('personalizados')" 
-                class="mb-6 text-slate-600 hover:text-blue-600 font-bold flex items-center gap-2 transition">
+            <button data-admin-click="mostrarVista('personalizados')"
+                class="mb-4 text-slate-600 hover:text-blue-600 font-bold flex items-center gap-2 transition">
                 <i class="fas fa-arrow-left"></i>
                 ${_t('admin.custom.btn_back', null, 'Volver a Juegos Personalizados')}
             </button>
-            
-            <div class="bg-white rounded-2xl shadow-sm p-8 mb-8 border border-slate-200">
+        </div>
+
+        <div class="xiro-editor-sticky-header xiro-editor-sticky-header--below-toolbar">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
                 <input type="hidden" id="customGameEditId" value="${game.id || ''}">
                 <input type="hidden" id="customGameOwnerUserId" value="${game.created_by_user_id ?? ''}">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-black text-slate-900 italic uppercase">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-black text-slate-900 italic uppercase">
                         <i class="fas fa-star text-blue-500 mr-2"></i>${_t('admin.custom.form_title', null, 'Juego Personalizado')}
                     </h2>
                     ${game.id ? `<span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold">ID: ${game.id}</span>` : ''}
                 </div>
-                <div class="grid grid-cols-2 gap-6">
+
+                <div class="xiro-editor-header-grid">
+                    <!-- Columna 1: Identidad -->
                     <div>
-                        <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest">${_t('admin.custom.label_name', null, 'Nombre del Juego')}</label>
-                        <input type="text" id="customGameName" value="${game.name}" class="w-full p-3 border-2 border-slate-100 rounded-xl focus:border-blue-500 outline-none transition shadow-sm" placeholder="${_t('admin.custom.ph_name', null, 'Ej: Examen Final Anatomía')}">
+                        <div class="grid grid-cols-2 gap-3 mb-3">
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.custom.label_name', null, 'Nombre del Juego')}</label>
+                                <input type="text" id="customGameName" value="${game.name}" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-blue-500 outline-none transition text-sm" placeholder="${_t('admin.custom.ph_name', null, 'Ej: Examen Final Anatomía')}">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.label_pin', null, 'PIN Personalizado')}</label>
+                                <input type="text" id="customGamePin" value="${game.pin}" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-blue-500 outline-none transition font-mono text-sm" placeholder="${_t('admin.custom.ph_pin', null, 'Ej: 123456 (vacío = aleatorio)')}">
+                            </div>
+                        </div>
+
+                        <div class="mb-3 flex items-center justify-center gap-3" title="${_t('admin.games.help_visible', null, 'Si está marcado, el presentador podrá ver y usar este juego')}">
+                            <span class="text-base font-bold text-slate-700"><i class="fas fa-eye mr-1"></i>${_t('admin.banks.label_visible', null, 'Mostrar al presentador')}</span>
+                            <span style="transform: scale(1.2); transform-origin: left center;">${renderNeonSwitch({ id: 'customGameVisibleToPresenter', checked: game.visible_to_presenter !== false, action: null })}</span>
+                        </div>
+                        <div class="mb-3 text-center">
+                            <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('common.label_language', null, 'Idioma de las preguntas')}</label>
+                            <div class="flex justify-center">${renderLanguageSelect({ id: 'customGameLanguage', value: game.language })}</div>
+                        </div>
+                        <div class="flex flex-col items-center text-center">${renderGameCoverField('customGame', game.image_url)}</div>
                     </div>
+
+                    <!-- Columna 2: Reglas de puntuación -->
                     <div>
-                        <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest">${_t('admin.games.label_pin', null, 'PIN Personalizado')}</label>
-                        <input type="text" id="customGamePin" value="${game.pin}" class="w-full p-3 border-2 border-slate-100 rounded-xl focus:border-blue-500 outline-none transition font-mono shadow-sm" placeholder="${_t('admin.custom.ph_pin', null, 'Ej: 123456 (vacío = aleatorio)')}">
+                        <!-- Rachas -->
+                        <div class="flex items-center gap-3 mb-2" title="${_t('admin.games.help_streaks', null, 'Aplica bonus de puntos a jugadores con respuestas correctas consecutivas')}">
+                            <span class="text-sm font-bold text-slate-700"><i class="fas fa-fire text-orange-400 mr-1"></i>${_t('admin.games.label_streaks', null, 'Usar Rachas')}</span>
+                            ${renderNeonSwitch({ id: 'customGameUseStreaks', checked: game.use_streaks, action: null, attrs: 'data-admin-change="toggleCustomStreakConfig()"' })}
+                        </div>
+
+                        <div id="customStreakConfigPanel" class="${game.use_streaks ? '' : 'hidden'} ml-6 grid grid-cols-2 gap-3 mb-3 p-3 bg-orange-50 rounded-lg border border-orange-100">
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.streak_threshold_label', null, 'Preguntas para activar Racha')}</label>
+                                <input type="number" id="customGameStreakThreshold" min="1" max="20" value="${game.streak_threshold ?? 3}"
+                                    class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-orange-400 outline-none text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.streak_bonus_label', null, 'Multiplicador de bonus racha')}</label>
+                                <input type="number" id="customGameStreakBonusPercentage" min="0" max="2" step="0.05" value="${game.streak_bonus_percentage ?? 0.5}"
+                                    class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-orange-400 outline-none text-sm">
+                            </div>
+                        </div>
+
+                        <!-- Dobles Rachas -->
+                        <div class="flex items-center gap-3 mb-2" title="${_t('admin.games.help_dbl_streaks', null, 'Bonus adicional para jugadores que superan un umbral mayor de aciertos consecutivos')}">
+                            <span class="text-sm font-bold text-slate-700"><i class="fas fa-fire text-red-500 mr-1"></i>${_t('admin.games.label_dbl_streaks', null, 'Usar Dobles Rachas')}</span>
+                            ${renderNeonSwitch({ id: 'customGameUseDoubleStreaks', checked: game.use_double_streaks, action: null, attrs: 'data-admin-change="toggleCustomDoubleStreakConfig()"' })}
+                        </div>
+
+                        <div id="customDoubleStreakConfigPanel" class="${game.use_double_streaks ? '' : 'hidden'} ml-6 grid grid-cols-2 gap-3 mb-3 p-3 bg-red-50 rounded-lg border border-red-100">
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.dbl_threshold_label', null, 'Preguntas para Doble Racha')}</label>
+                                <input type="number" id="customGameDoubleStreakThreshold" min="1" max="20" value="${game.double_streak_threshold ?? 5}"
+                                    class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-red-400 outline-none text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.dbl_bonus_label', null, 'Multiplicador bonus doble racha')}</label>
+                                <input type="number" id="customGameDoubleStreakBonusPercentage" min="0" max="2" step="0.05" value="${game.double_streak_bonus_percentage ?? 1.0}"
+                                    class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-red-400 outline-none text-sm">
+                            </div>
+                        </div>
+
+                        <!-- Puntuación Aleatoria -->
+                        ${renderRandomPointsHtml('customGame', game)}
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="bg-white rounded-2xl shadow-sm p-8 mb-8 border border-slate-200">
-                <h3 class="text-xl font-black text-slate-700 uppercase mb-6">
-                    <i class="fas fa-sliders-h text-blue-500 mr-2"></i>${_t('admin.games.section_config', null, 'Configuración del juego')}
-                </h3>
-
-                <!-- Idioma -->
-                <div class="mb-5">
-                    <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest">${_t('common.label_language', null, 'Idioma de las preguntas')}</label>
-                    ${renderLanguageSelect({ id: 'customGameLanguage', value: game.language })}
-                </div>
-
-                <!-- Mostrar al presentador -->
-                <div class="mb-5">
-                    <label class="flex items-center gap-3 cursor-pointer">
-                        <input type="checkbox" id="customGameVisibleToPresenter" ${game.visible_to_presenter !== false ? 'checked' : ''} class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500">
-                        <span class="text-sm font-bold text-slate-700">
-                            <i class="fas fa-eye mr-2"></i>${_t('admin.banks.label_visible', null, 'Mostrar al presentador')}
-                        </span>
-                    </label>
-                    <p class="text-slate-400 text-xs mt-1 ml-8">${_t('admin.games.help_visible', null, 'Si está marcado, el presentador podrá ver y usar este juego')}</p>
-                </div>
-                ${renderGameCoverField('customGame', game.image_url)}
-
-                <hr class="border-slate-100 mb-5">
-
-                <!-- Rachas -->
-                <div class="mb-4">
-                    <label class="flex items-center gap-3 cursor-pointer mb-1">
-                        <input type="checkbox" id="customGameUseStreaks" ${game.use_streaks ? 'checked' : ''} class="w-5 h-5 text-orange-500 rounded focus:ring-orange-400" data-admin-change="toggleCustomStreakConfig()">
-                        <span class="text-sm font-bold text-slate-700">
-                            <i class="fas fa-fire text-orange-400 mr-2"></i>${_t('admin.games.label_streaks', null, 'Usar Rachas')}
-                        </span>
-                    </label>
-                    <p class="text-slate-400 text-xs ml-8">${_t('admin.games.help_streaks', null, 'Aplica bonus de puntos a jugadores con respuestas correctas consecutivas')}</p>
-                </div>
-
-                <div id="customStreakConfigPanel" class="${game.use_streaks ? '' : 'hidden'} ml-8 grid grid-cols-2 gap-4 mb-5 p-4 bg-orange-50 rounded-xl border border-orange-100">
-                    <div>
-                        <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.streak_threshold_label', null, 'Preguntas para activar Racha')}</label>
-                        <input type="number" id="customGameStreakThreshold" min="1" max="20" value="${game.streak_threshold ?? 3}"
-                            class="w-full p-2 border-2 border-slate-100 rounded-xl focus:border-orange-400 outline-none text-sm shadow-sm">
-                        <p class="text-xs text-slate-400 mt-1">${_t('admin.games.streak_threshold_help', null, 'Nº de aciertos consecutivos para entrar en racha')}</p>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.streak_bonus_label', null, 'Multiplicador de bonus racha')}</label>
-                        <input type="number" id="customGameStreakBonusPercentage" min="0" max="2" step="0.05" value="${game.streak_bonus_percentage ?? 0.5}"
-                            class="w-full p-2 border-2 border-slate-100 rounded-xl focus:border-orange-400 outline-none text-sm shadow-sm">
-                        <p class="text-xs text-slate-400 mt-1">${_t('admin.games.streak_bonus_help', null, 'Ej: 0.50 = +50% de los puntos base')}</p>
-                    </div>
-                </div>
-
-                <hr class="border-slate-100 mb-5">
-
-                <!-- Dobles Rachas -->
-                <div class="mb-4">
-                    <label class="flex items-center gap-3 cursor-pointer mb-1">
-                        <input type="checkbox" id="customGameUseDoubleStreaks" ${game.use_double_streaks ? 'checked' : ''} class="w-5 h-5 text-red-500 rounded focus:ring-red-400" data-admin-change="toggleCustomDoubleStreakConfig()">
-                        <span class="text-sm font-bold text-slate-700">
-                            <i class="fas fa-fire text-red-500 mr-1"></i><i class="fas fa-fire text-red-500 mr-2"></i>${_t('admin.games.label_dbl_streaks', null, 'Usar Dobles Rachas')}
-                        </span>
-                    </label>
-                    <p class="text-slate-400 text-xs ml-8">${_t('admin.games.help_dbl_streaks', null, 'Bonus adicional para jugadores que superan un umbral mayor de aciertos consecutivos')}</p>
-                </div>
-
-                <div id="customDoubleStreakConfigPanel" class="${game.use_double_streaks ? '' : 'hidden'} ml-8 grid grid-cols-2 gap-4 p-4 bg-red-50 rounded-xl border border-red-100">
-                    <div>
-                        <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.dbl_threshold_label', null, 'Preguntas para Doble Racha')}</label>
-                        <input type="number" id="customGameDoubleStreakThreshold" min="1" max="20" value="${game.double_streak_threshold ?? 5}"
-                            class="w-full p-2 border-2 border-slate-100 rounded-xl focus:border-red-400 outline-none text-sm shadow-sm">
-                        <p class="text-xs text-slate-400 mt-1">${_t('admin.games.dbl_threshold_help', null, 'Nº de aciertos consecutivos para la doble racha')}</p>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.dbl_bonus_label', null, 'Multiplicador bonus doble racha')}</label>
-                        <input type="number" id="customGameDoubleStreakBonusPercentage" min="0" max="2" step="0.05" value="${game.double_streak_bonus_percentage ?? 1.0}"
-                            class="w-full p-2 border-2 border-slate-100 rounded-xl focus:border-red-400 outline-none text-sm shadow-sm">
-                        <p class="text-xs text-slate-400 mt-1">${_t('admin.games.dbl_bonus_help', null, 'Ej: 1.00 = +100% de los puntos base')}</p>
-                    </div>
-                </div>
-
-                <!-- Puntuación Aleatoria -->
-                ${renderRandomPointsHtml('customGame', game)}
-            </div>
-
-            <!-- Botones destacados para añadir slides especiales -->
-            <div class="mb-6 space-y-4">
-                <button data-admin-click="mostrarModalComentario()" class="w-full bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:via-orange-600 hover:to-amber-700 text-white px-8 py-5 rounded-2xl font-black text-xl transition shadow-2xl flex items-center justify-center gap-4 transform hover:scale-105 border-4 border-amber-300">
-                    <i class="fas fa-comment-dots text-3xl"></i>
-                    <span>${_t('admin.custom.btn_activity', null, 'AÑADIR ACTIVIDAD LIBRE (PUNTOS MANUALES)')}</span>
-                    <i class="fas fa-sparkles text-2xl"></i>
-                </button>
-                <p class="text-center text-sm text-amber-600 mt-2 font-semibold italic">
-                    ${_t('admin.custom.activity_help', null, '💡 Para pictionary, imitaciones o actividades donde asignarás puntos manualmente')}
-                </p>
-                
-                <button data-admin-click="mostrarModalInfo()" class="w-full bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-600 hover:from-blue-600 hover:via-cyan-600 hover:to-blue-700 text-white px-8 py-5 rounded-2xl font-black text-xl transition shadow-2xl flex items-center justify-center gap-4 transform hover:scale-105 border-4 border-blue-300">
-                    <i class="fas fa-info-circle text-3xl"></i>
-                    <span>${_t('admin.custom.btn_info_slide', null, 'AÑADIR SLIDE INFORMATIVO')}</span>
-                    <i class="fas fa-eye text-2xl"></i>
-                </button>
-                <p class="text-center text-sm text-blue-600 mt-2 font-semibold italic">
-                    ${_t('admin.custom.info_slide_help', null, 'ℹ️ Inserta información o mensajes que solo se muestran (sin asignación de puntos)')}
-                </p>
-
-                <button data-admin-click="mostrarModalTexto()" class="w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 hover:from-indigo-700 hover:via-purple-700 hover:to-indigo-800 text-white px-8 py-5 rounded-2xl font-black text-xl transition shadow-2xl flex items-center justify-center gap-4 transform hover:scale-105 border-4 border-indigo-300">
-                    <i class="fas fa-align-left text-3xl"></i>
-                    <span>${_t('admin.custom.btn_text_slide', null, 'AÑADIR DIAPOSITIVA DE TEXTO (TÍTULO + TEXTO)')}</span>
-                    <i class="fas fa-file-lines text-2xl"></i>
-                </button>
-                <p class="text-center text-sm text-indigo-600 mt-2 font-semibold italic mb-6">
-                    ${_t('admin.custom.text_slide_help', null, '📝 Para explicar contenidos con un título y un desarrollo debajo')}
-                </p>
-
-                <button data-admin-click="mostrarModalImagen()" class="w-full bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:via-rose-600 hover:to-pink-700 text-white px-8 py-5 rounded-2xl font-black text-xl transition shadow-2xl flex items-center justify-center gap-4 transform hover:scale-105 border-4 border-pink-300">
-                    <i class="fas fa-image text-3xl"></i>
-                    <span>${_t('admin.custom.btn_img_slide', null, 'AÑADIR DIAPOSITIVA DE IMAGEN')}</span>
-                    <i class="fas fa-expand text-2xl"></i>
-                </button>
-                <p class="text-center text-sm text-pink-600 mt-2 font-semibold italic">
-                    ${_t('admin.custom.img_slide_help', null, '🖼️ Muestra una imagen a pantalla completa')}
-                </p>
-
-                <button data-admin-click="mostrarModalTextoImagen()" class="w-full bg-gradient-to-r from-violet-600 via-purple-600 to-violet-700 hover:from-violet-700 hover:via-purple-700 hover:to-violet-800 text-white px-8 py-5 rounded-2xl font-black text-xl transition shadow-2xl flex items-center justify-center gap-4 transform hover:scale-105 border-4 border-violet-300">
-                    <i class="fas fa-columns text-3xl"></i>
-                    <span>${_t('admin.custom.btn_text_img_slide', null, 'AÑADIR DIAPOSITIVA TEXTO + IMAGEN')}</span>
-                </button>
-                <p class="text-center text-sm text-violet-600 mt-2 font-semibold italic">
-                    ${_t('admin.custom.text_img_slide_help', null, '🖼️📝 Imagen solo visible en el presentador. El jugador ve solo el texto.')}
-                </p>
-            </div>
-
+        <div class="max-w-5xl mx-auto px-10 pb-10">
             ${(typeof getHTMLBusquedaPreguntas === 'function') ? getHTMLBusquedaPreguntas() : ''}
 
             <div class="bg-white rounded-2xl shadow-sm p-8 mb-8 border border-slate-200">

@@ -61,13 +61,18 @@ function buildPlayers(state) {
 }
 
 function buildStreakConfig(trivialData) {
+    // Coacción a Number: streak_bonus_percentage/double_streak_bonus_percentage son
+    // DECIMAL(3,2) en BD y `pg` los devuelve como string (sin type parser registrado).
+    // Sin esto, cálculos aditivos como el multiplicador de la pantalla de puntuación
+    // aleatoria (1 + "0.50") hacen concatenación en vez de suma. Mismo patrón que
+    // services/db/streak-config.service.js para bank/game/custom_game.
     return {
         use_streaks: !!trivialData.use_streaks,
-        streak_threshold: trivialData.streak_threshold ?? SCORING.STREAK.DEFAULT_THRESHOLD,
-        streak_bonus_percentage: trivialData.streak_bonus_percentage ?? SCORING.STREAK.DEFAULT_BONUS_PERCENTAGE,
+        streak_threshold: Number(trivialData.streak_threshold) || SCORING.STREAK.DEFAULT_THRESHOLD,
+        streak_bonus_percentage: parseFloat(trivialData.streak_bonus_percentage) || SCORING.STREAK.DEFAULT_BONUS_PERCENTAGE,
         use_double_streaks: !!trivialData.use_double_streaks,
-        double_streak_threshold: trivialData.double_streak_threshold ?? SCORING.STREAK.DEFAULT_DOUBLE_THRESHOLD,
-        double_streak_bonus_percentage: trivialData.double_streak_bonus_percentage ?? SCORING.STREAK.DEFAULT_DOUBLE_BONUS_PERCENTAGE
+        double_streak_threshold: Number(trivialData.double_streak_threshold) || SCORING.STREAK.DEFAULT_DOUBLE_THRESHOLD,
+        double_streak_bonus_percentage: parseFloat(trivialData.double_streak_bonus_percentage) || SCORING.STREAK.DEFAULT_DOUBLE_BONUS_PERCENTAGE
     };
 }
 

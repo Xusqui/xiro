@@ -420,3 +420,145 @@
     outline: 2px solid var(--admin-coral, #e65453);
     outline-offset: 2px;
 }
+
+/* ===== Barra fija "Añadir contenido" (editor de Juegos Personalizados).
+   CSS puro además de las utilidades Tailwind equivalentes (sticky top-0
+   z-30 bg-white/90 backdrop-blur-sm border-b border-slate-200 shadow-sm):
+   así la barra queda fija aunque el bundle de Tailwind no se haya
+   recompilado todavía. ===== */
+.xiro-toolbar-bar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-bottom: 1px solid rgb(226, 232, 240);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+/* ===== Tooltip inmediato para la toolbar de "Añadir contenido"
+   (editor de Juegos Personalizados). CSS puro, sin `title` nativo
+   (que tiene retardo) ni dependencias nuevas. ===== */
+.xiro-toolbar-btn {
+    position: relative;
+}
+
+.xiro-toolbar-btn[data-tooltip]::after,
+.xiro-toolbar-btn[data-tooltip]::before {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.1s ease;
+}
+
+.xiro-toolbar-btn[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 220px;
+    background: rgba(15, 23, 42, 0.92);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.3;
+    padding: 6px 10px;
+    border-radius: 8px;
+    white-space: normal;
+    text-align: center;
+    z-index: 40;
+}
+
+.xiro-toolbar-btn[data-tooltip]::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-bottom-color: rgba(15, 23, 42, 0.92);
+    z-index: 40;
+}
+
+.xiro-toolbar-btn:first-child[data-tooltip]::after {
+    left: 0;
+    transform: none;
+}
+
+.xiro-toolbar-btn:last-child[data-tooltip]::after {
+    left: auto;
+    right: 0;
+    transform: none;
+}
+
+/* Solo dispositivos con hover real: evita que el tooltip quede
+   "pegado" en pantallas táctiles tras un toque. */
+@media (hover: hover) {
+
+    .xiro-toolbar-btn[data-tooltip]:hover::after,
+    .xiro-toolbar-btn[data-tooltip]:hover::before {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.xiro-toolbar-btn[data-tooltip]:focus-visible::after,
+.xiro-toolbar-btn[data-tooltip]:focus-visible::before {
+    opacity: 1;
+    visibility: visible;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .xiro-toolbar-btn[data-tooltip]::after,
+    .xiro-toolbar-btn[data-tooltip]::before,
+    .xiro-toolbar-btn {
+        transition: none;
+    }
+}
+
+/* ===== Cabecera sticky "Nombre + Configuración" de los editores
+   (Juego Personalizado, Mezcla de Preguntas, Banco de Preguntas, Trivial).
+   Posición, anchura y grid responsive en CSS puro: igual que la toolbar
+   de iconos, no depende de que el bundle de Tailwind esté recompilado. ===== */
+.xiro-editor-sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 25;
+    width: 92%;
+    max-width: 1400px;
+    margin: 0 auto 2rem;
+}
+
+/* Separación visible frente al contenido que pasa por debajo al hacer
+   scroll: borde + sombra en la tarjeta interna, en CSS puro para no
+   depender del bundle de Tailwind (shadow-sm/border ya usados ahí). */
+.xiro-editor-sticky-header>div {
+    border: 1px solid rgb(226, 232, 240);
+    box-shadow: 0 6px 16px -4px rgba(15, 23, 42, 0.14), 0 2px 4px rgba(15, 23, 42, 0.06);
+}
+
+/* Editor de Juego Personalizado: la toolbar de iconos ya ocupa top:0,
+   esta cabecera se ancla justo debajo (altura de esa toolbar). */
+.xiro-editor-sticky-header--below-toolbar {
+    top: 53px;
+}
+
+.xiro-editor-header-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+    .xiro-editor-header-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .xiro-editor-header-grid>:first-child {
+        padding-right: 1.5rem;
+        border-right: 1px solid rgb(241, 245, 249);
+    }
+}

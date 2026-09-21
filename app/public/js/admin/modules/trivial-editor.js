@@ -27,115 +27,101 @@ async function renderEditorTrivial(game, cats) {
 
     const area = document.getElementById('editorArea');
     area.innerHTML = _tHtml(`
-        <div class="max-w-3xl mx-auto p-8">
-            <div class="flex items-center gap-3 mb-8">
-                <button data-admin-click="navigateWithUnsavedChangesGuard(() => renderVistaTrivial())" class="text-slate-400 hover:text-slate-700 transition">
-                    <i class="fas fa-arrow-left text-xl"></i>
-                </button>
-                <h1 class="text-3xl font-black text-slate-900">
-                    ${game ? _t('admin.trivial.form_edit', null, 'Editar Trivial') : _t('admin.trivial.form_new', null, 'Nuevo Trivial')}
-                </h1>
+        <div class="max-w-3xl mx-auto px-8 pt-6">
+            <button data-admin-click="navigateWithUnsavedChangesGuard(() => renderVistaTrivial())" class="mb-4 text-slate-600 hover:text-orange-600 font-bold flex items-center gap-2 transition">
+                <i class="fas fa-arrow-left"></i>
+                ${_t('admin.custom.btn_back', null, 'Volver')}
+            </button>
+        </div>
+
+        <div class="xiro-editor-sticky-header" style="max-width: 1100px;">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+                <input type="hidden" id="trivial-id" value="${game?.id ?? ''}">
+                <input type="hidden" id="trivial-owner-user-id" value="${game?.created_by_user_id ?? ''}">
+                <h2 class="text-lg font-black text-slate-900 italic uppercase mb-4">
+                    <i class="fas fa-dice-d20 text-orange-500 mr-2"></i>${game ? _t('admin.trivial.form_edit', null, 'Editar Trivial') : _t('admin.trivial.form_new', null, 'Nuevo Trivial')}
+                </h2>
+
+                <div class="xiro-editor-header-grid">
+                    <!-- Columna 1: Identidad -->
+                    <div>
+                        <div class="grid grid-cols-3 gap-3 mb-3">
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.trivial.label_name', null, 'Nombre del juego')}</label>
+                                <input id="trivial-name" type="text" value="${escapeHtml(game?.name ?? '')}"
+                                    class="w-full border-2 border-slate-100 rounded-lg p-2 text-sm focus:outline-none focus:border-orange-400">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.trivial.label_pin', null, 'PIN')}</label>
+                                <input id="trivial-pin" type="text" value="${game?.pin ?? ''}" placeholder="${_t('admin.trivial.ph_pin', null, 'ej. TRV01')}"
+                                    class="w-full border-2 border-slate-100 rounded-lg p-2 text-sm focus:outline-none focus:border-orange-400">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.trivial.label_outer', null, 'Casillas externas')}</label>
+                                <input id="trivial-outer" type="number" value="${outerDefault}" readonly
+                                    class="w-full border-2 border-slate-100 rounded-lg p-2 text-sm bg-slate-100 text-slate-500 cursor-not-allowed"
+                                    title="${_t('admin.trivial.hint_outer', null, 'Calculado automáticamente: múltiplo de N×(N+1) más cercano a 42')}">
+                            </div>
+                        </div>
+                        <div class="mb-3 flex items-center justify-center gap-3">
+                            <span class="text-base font-bold text-slate-700"><i class="fas fa-eye mr-1"></i>${_t('admin.trivial.label_visible', null, 'Visible para el presentador')}</span>
+                            <span style="transform: scale(1.2); transform-origin: left center;">${renderNeonSwitch({ id: 'trivial-visible', checked: game?.visible_to_presenter !== false, action: null })}</span>
+                        </div>
+                        <div class="mb-3 text-center">
+                            <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('common.label_language', null, 'Idioma de las preguntas')}</label>
+                            <div class="flex justify-center">${renderLanguageSelect({ id: 'trivial-language', value: game?.language })}</div>
+                        </div>
+                        <div class="flex flex-col items-center text-center">${renderGameCoverField('trivial', game?.image_url)}</div>
+                    </div>
+
+                    <!-- Columna 2: Reglas de puntuación -->
+                    <div>
+                        <!-- Rachas -->
+                        <div class="flex items-center gap-3 mb-2" title="${_t('admin.trivial.help_streaks', null, 'Aplica bonus de puntos a jugadores con respuestas correctas consecutivas')}">
+                            <span class="text-sm font-bold text-slate-700"><i class="fas fa-fire text-orange-400 mr-1"></i>${_t('admin.trivial.label_streaks', null, 'Usar Rachas')}</span>
+                            ${renderNeonSwitch({ id: 'trivial-use-streaks', checked: game?.use_streaks, action: null, attrs: 'data-admin-change="toggleTrivialStreakConfig()"' })}
+                        </div>
+
+                        <div id="trivialStreakConfigPanel" class="${game?.use_streaks ? '' : 'hidden'} ml-6 mb-3 grid grid-cols-2 gap-3 p-3 bg-orange-50 rounded-lg border border-orange-100">
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.trivial.streak_threshold_label', null, 'Preguntas para activar Racha')}</label>
+                                <input type="number" id="trivial-streak-threshold" min="1" max="20" value="${game?.streak_threshold ?? 3}"
+                                    class="w-full border-2 border-slate-100 rounded-lg p-2 text-sm focus:outline-none focus:border-orange-400">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.trivial.streak_bonus_label', null, 'Multiplicador de bonus racha')}</label>
+                                <input type="number" id="trivial-streak-bonus" min="0" max="2" step="0.05" value="${game?.streak_bonus_percentage ?? 0.5}"
+                                    class="w-full border-2 border-slate-100 rounded-lg p-2 text-sm focus:outline-none focus:border-orange-400">
+                            </div>
+                        </div>
+
+                        <!-- Dobles Rachas -->
+                        <div class="flex items-center gap-3 mb-2" title="${_t('admin.trivial.help_dbl_streaks', null, 'Bonus adicional para jugadores que superan un umbral mayor de aciertos consecutivos')}">
+                            <span class="text-sm font-bold text-slate-700"><i class="fas fa-fire text-red-500 mr-1"></i>${_t('admin.trivial.label_dbl_streaks', null, 'Usar Dobles Rachas')}</span>
+                            ${renderNeonSwitch({ id: 'trivial-use-double-streaks', checked: game?.use_double_streaks, action: null, attrs: 'data-admin-change="toggleTrivialDoubleStreakConfig()"' })}
+                        </div>
+
+                        <div id="trivialDoubleStreakConfigPanel" class="${game?.use_double_streaks ? '' : 'hidden'} ml-6 mb-3 grid grid-cols-2 gap-3 p-3 bg-red-50 rounded-lg border border-red-100">
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.trivial.dbl_threshold_label', null, 'Preguntas para Doble Racha')}</label>
+                                <input type="number" id="trivial-double-threshold" min="1" max="20" value="${game?.double_streak_threshold ?? 5}"
+                                    class="w-full border-2 border-slate-100 rounded-lg p-2 text-sm focus:outline-none focus:border-red-400">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.trivial.dbl_bonus_label', null, 'Multiplicador bonus doble racha')}</label>
+                                <input type="number" id="trivial-double-bonus" min="0" max="2" step="0.05" value="${game?.double_streak_bonus_percentage ?? 1.0}"
+                                    class="w-full border-2 border-slate-100 rounded-lg p-2 text-sm focus:outline-none focus:border-red-400">
+                            </div>
+                        </div>
+
+                        <!-- Puntuación Aleatoria -->
+                        ${renderRandomPointsHtml('trivial', game || {})}
+                    </div>
+                </div>
             </div>
-            <input type="hidden" id="trivial-id" value="${game?.id ?? ''}">
-            <input type="hidden" id="trivial-owner-user-id" value="${game?.created_by_user_id ?? ''}">
-            <div class="bg-white rounded-2xl shadow p-6 space-y-5 mb-6">
-                <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-1">${_t('admin.trivial.label_name', null, 'Nombre del juego')}</label>
-                    <input id="trivial-name" type="text" value="${escapeHtml(game?.name ?? '')}"
-                        class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400">
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-1">${_t('admin.trivial.label_pin', null, 'PIN')}</label>
-                        <input id="trivial-pin" type="text" value="${game?.pin ?? ''}" placeholder="${_t('admin.trivial.ph_pin', null, 'ej. TRV01')}"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-1">${_t('admin.trivial.label_outer', null, 'Casillas externas')}</label>
-                        <input id="trivial-outer" type="number" value="${outerDefault}" readonly
-                            class="w-full border rounded-lg px-4 py-2 bg-slate-100 text-slate-500 cursor-not-allowed">
-                        <p class="text-xs text-slate-400 mt-1">${_t('admin.trivial.hint_outer', null, 'Calculado automáticamente: múltiplo de N×(N+1) más cercano a 42')}</p>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-1">${_t('common.label_language', null, 'Idioma de las preguntas')}</label>
-                    ${renderLanguageSelect({ id: 'trivial-language', value: game?.language })}
-                </div>
-            </div>
-            <div class="bg-white rounded-2xl shadow p-6 space-y-4 mb-6">
-                <h3 class="text-xl font-black text-slate-700 uppercase">
-                    <i class="fas fa-sliders-h text-orange-500 mr-2"></i>${_t('admin.trivial.section_config', null, 'Configuración del juego')}
-                </h3>
+        </div>
 
-                <!-- Visible al presentador -->
-                <div class="flex items-center gap-3">
-                    <input id="trivial-visible" type="checkbox" class="w-4 h-4 accent-orange-500"
-                        ${game?.visible_to_presenter !== false ? 'checked' : ''}>
-                    <label for="trivial-visible" class="text-sm font-bold text-slate-700">
-                        ${_t('admin.trivial.label_visible', null, 'Visible para el presentador')}
-                    </label>
-                </div>
-                ${renderGameCoverField('trivial', game?.image_url)}
-
-                <hr class="border-slate-100">
-
-                <!-- Rachas -->
-                <div>
-                    <label class="flex items-center gap-3 cursor-pointer mb-1">
-                        <input type="checkbox" id="trivial-use-streaks" ${game?.use_streaks ? 'checked' : ''} class="w-4 h-4 accent-orange-500" data-admin-change="toggleTrivialStreakConfig()">
-                        <span class="text-sm font-bold text-slate-700">
-                            <i class="fas fa-fire text-orange-400 mr-2"></i>${_t('admin.trivial.label_streaks', null, 'Usar Rachas')}
-                        </span>
-                    </label>
-                    <p class="text-slate-400 text-xs ml-7">${_t('admin.trivial.help_streaks', null, 'Aplica bonus de puntos a jugadores con respuestas correctas consecutivas')}</p>
-                </div>
-
-                <div id="trivialStreakConfigPanel" class="${game?.use_streaks ? '' : 'hidden'} grid grid-cols-2 gap-4 p-4 bg-orange-50 rounded-xl border border-orange-100">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 mb-1 uppercase tracking-widest">${_t('admin.trivial.streak_threshold_label', null, 'Preguntas para activar Racha')}</label>
-                        <input type="number" id="trivial-streak-threshold" min="1" max="20" value="${game?.streak_threshold ?? 3}"
-                            class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 text-sm">
-                        <p class="text-xs text-slate-400 mt-1">${_t('admin.trivial.streak_threshold_help', null, 'Nº de aciertos consecutivos para entrar en racha')}</p>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 mb-1 uppercase tracking-widest">${_t('admin.trivial.streak_bonus_label', null, 'Multiplicador de bonus racha')}</label>
-                        <input type="number" id="trivial-streak-bonus" min="0" max="2" step="0.05" value="${game?.streak_bonus_percentage ?? 0.5}"
-                            class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 text-sm">
-                        <p class="text-xs text-slate-400 mt-1">${_t('admin.trivial.streak_bonus_help', null, 'Ej: 0.50 = +50% de los puntos base')}</p>
-                    </div>
-                </div>
-
-                <hr class="border-slate-100">
-
-                <!-- Dobles Rachas -->
-                <div>
-                    <label class="flex items-center gap-3 cursor-pointer mb-1">
-                        <input type="checkbox" id="trivial-use-double-streaks" ${game?.use_double_streaks ? 'checked' : ''} class="w-4 h-4 accent-red-500" data-admin-change="toggleTrivialDoubleStreakConfig()">
-                        <span class="text-sm font-bold text-slate-700">
-                            <i class="fas fa-fire text-red-500 mr-1"></i><i class="fas fa-fire text-red-500 mr-2"></i>${_t('admin.trivial.label_dbl_streaks', null, 'Usar Dobles Rachas')}
-                        </span>
-                    </label>
-                    <p class="text-slate-400 text-xs ml-7">${_t('admin.trivial.help_dbl_streaks', null, 'Bonus adicional para jugadores que superan un umbral mayor de aciertos consecutivos')}</p>
-                </div>
-
-                <div id="trivialDoubleStreakConfigPanel" class="${game?.use_double_streaks ? '' : 'hidden'} grid grid-cols-2 gap-4 p-4 bg-red-50 rounded-xl border border-red-100">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 mb-1 uppercase tracking-widest">${_t('admin.trivial.dbl_threshold_label', null, 'Preguntas para Doble Racha')}</label>
-                        <input type="number" id="trivial-double-threshold" min="1" max="20" value="${game?.double_streak_threshold ?? 5}"
-                            class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400 text-sm">
-                        <p class="text-xs text-slate-400 mt-1">${_t('admin.trivial.dbl_threshold_help', null, 'Nº de aciertos consecutivos para la doble racha')}</p>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 mb-1 uppercase tracking-widest">${_t('admin.trivial.dbl_bonus_label', null, 'Multiplicador bonus doble racha')}</label>
-                        <input type="number" id="trivial-double-bonus" min="0" max="2" step="0.05" value="${game?.double_streak_bonus_percentage ?? 1.0}"
-                            class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400 text-sm">
-                        <p class="text-xs text-slate-400 mt-1">${_t('admin.trivial.dbl_bonus_help', null, 'Ej: 1.00 = +100% de los puntos base')}</p>
-                    </div>
-                </div>
-
-                <!-- Puntuación Aleatoria -->
-                ${renderRandomPointsHtml('trivial', game || {})}
-            </div>
+        <div class="max-w-3xl mx-auto px-8 pb-8">
             <div class="bg-white rounded-2xl shadow p-6 mb-6">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-xl font-black text-slate-700">${_t('admin.trivial.section_categories', null, 'Categorías')}</h3>
@@ -173,6 +159,8 @@ async function renderEditorTrivial(game, cats) {
         return {
             name: document.getElementById('trivial-name')?.value || '',
             pin: document.getElementById('trivial-pin')?.value || '',
+            language: document.getElementById('trivial-language')?.value || 'es',
+            visible_to_presenter: document.getElementById('trivial-visible')?.checked ?? true,
             use_streaks: document.getElementById('trivial-use-streaks')?.checked ?? false,
             streak_threshold: document.getElementById('trivial-streak-threshold')?.value ?? 3,
             streak_bonus_percentage: document.getElementById('trivial-streak-bonus')?.value ?? 0.5,

@@ -47,7 +47,9 @@
     function formatMultiplier(bonusPercentage) {
         // El idioma lo fija i18n-dom en <html lang>; decide el separador decimal
         const locale = document.documentElement?.lang || global.navigator?.language || 'es';
-        const multiplier = 1 + bonusPercentage;
+        // Number() defensivo: si bonusPercentage llegara como string (p.ej. un DECIMAL
+        // de BD sin parsear), "1 + '0.5'" concatenaría ("10.5") en vez de sumar.
+        const multiplier = 1 + Number(bonusPercentage);
         return multiplier.toLocaleString(locale, {
             minimumFractionDigits: 0,
             maximumFractionDigits: 2

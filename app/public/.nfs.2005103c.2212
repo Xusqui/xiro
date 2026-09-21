@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="xiro-i18n-sections" content="common,admin">
+    <title>XIRO! - Administrador</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/css/common.css?v=20260921182204">
+    <link rel="stylesheet" href="/css/output-admin.css?v=20260921182204">
+    <link rel="stylesheet" href="/css/drag-drop.css?v=20260921182204">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    <script defer src="/js/core/umami-loader.js?v=20260921182204"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/tokens.css?v=20260921182204">
+    <link rel="stylesheet" href="/css/admin.css?v=20260921182204">
+    <link rel="stylesheet" href="/css/neon-switch.css?v=20260921182204">
+    <script defer src="/js/i18n/i18n-core.js?v=20260921182204"></script>
+    <script defer src="/js/i18n/i18n-dom.js?v=20260921182204"></script>
+    <script defer src="/js/i18n/i18n-ui.js?v=20260921182204"></script>
+</head>
+
+<body class="bg-slate-100 font-sans text-slate-800">
+
+    <div id="login-overlay" class="fixed inset-0 flex items-center justify-center z-50 p-4">
+
+        <!-- Mascota -->
+        <img src="/images/chamaleon/detective.svg" alt="" aria-hidden="true" class="xiro-detective">
+
+        <!-- Card -->
+        <div class="xiro-login-card w-full relative z-10" style="max-width:380px;">
+            <div class="xiro-login-accent-bar"></div>
+            <div class="xiro-login-inner flex flex-col items-center gap-5">
+
+                <!-- Logo -->
+                <a href="/index.html" class="cursor-pointer hover:scale-105 transition-transform block"
+                    style="filter: drop-shadow(0 10px 24px rgba(249,181,24,0.25));">
+                    <img src="/images/logo.svg" alt="XIRO!" style="width:170px;">
+                </a>
+
+                <!-- Heading -->
+                <div style="width:100%">
+                    <p class="xiro-login-eyebrow" data-i18n="admin.login.eyebrow">...</p>
+                    <h2 id="login-card-title" class="xiro-login-title" data-i18n="admin.login.title">...</h2>
+                </div>
+
+                <!-- Login Form -->
+                <form id="admin-login-form" class="w-full flex flex-col gap-3">
+                    <div class="xiro-input-wrap">
+                        <input type="text" id="admin-username" class="xiro-login-input" placeholder="Usuario"
+                            data-i18n-placeholder="admin.login.username" autocomplete="username" spellcheck="false"
+                            autocapitalize="off" required>
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="xiro-input-wrap">
+                        <input type="password" id="admin-password" class="xiro-login-input" placeholder="Contraseña"
+                            data-i18n-placeholder="admin.login.password" autocomplete="current-password" required>
+                        <button type="button" class="xiro-reveal-toggle" data-reveal-target="admin-password"
+                            aria-pressed="false" data-i18n-aria-label="admin.login.password_show"
+                            aria-label="Mostrar contraseña">
+                            <svg class="xiro-reveal-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"
+                                focusable="false">
+                                <path d="M3 12C6 7.2 9 5.2 12 5.2s6 2 9 6.8c-3 4.8-6 6.8-9 6.8s-6-2-9-6.8Z" fill="none"
+                                    stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+                                <rect class="xiro-reveal-pupil" x="10.5" y="7.8" width="3" height="8.4" rx="1.5"
+                                    fill="currentColor" />
+                            </svg>
+                        </button>
+                    </div>
+                    <button type="submit" class="xiro-login-btn">
+                        <i class="fas fa-arrow-right" style="margin-right:8px;"></i><span
+                            data-i18n="admin.login.submit">...</span>
+                    </button>
+                    <button type="button" id="admin-forgot-password-btn" class="text-center text-xs underline"
+                        style="color:rgba(203,213,225,0.8);" data-i18n="admin.login.forgot_password">...</button>
+                    <button type="button" id="admin-register-btn" class="xiro-login-btn-secondary"
+                        data-i18n="admin.login.register">...</button>
+                    <div id="login-helper" class="text-center text-xs" style="color:rgba(203,213,225,0.8);"></div>
+                    <div id="login-error" class="hidden text-center text-sm font-semibold" style="color:#f87171;"></div>
+                </form>
+
+                <!-- Forgot Password Form -->
+                <form id="admin-forgot-password-form" class="w-full flex flex-col gap-3 hidden">
+                    <div class="xiro-input-wrap">
+                        <input type="email" id="forgot-email" class="xiro-login-input" placeholder="Correo electrónico"
+                            data-i18n-placeholder="admin.register.email" autocomplete="email" spellcheck="false"
+                            autocapitalize="off" required>
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <button type="submit" id="forgot-submit-btn" class="xiro-login-btn"
+                        data-i18n="admin.forgot.submit">...</button>
+                    <button type="button" id="forgot-back-btn" class="xiro-login-btn-secondary"
+                        data-i18n="admin.forgot.back">...</button>
+                    <div id="forgot-helper" class="text-center text-xs" style="color:rgba(203,213,225,0.8);"></div>
+                    <div id="forgot-error" class="hidden text-center text-sm font-semibold" style="color:#f87171;">
+                    </div>
+                </form>
+
+                <!-- Reset Password Form -->
+                <form id="admin-reset-password-form" class="w-full flex flex-col gap-3 hidden">
+                    <div class="xiro-input-wrap">
+                        <input type="password" id="reset-new-password" class="xiro-login-input"
+                            placeholder="Nueva contraseña" data-i18n-placeholder="admin.reset.new_password"
+                            autocomplete="new-password" required>
+                        <button type="button" class="xiro-reveal-toggle" data-reveal-target="reset-new-password"
+                            aria-pressed="false" data-i18n-aria-label="admin.login.password_show"
+                            aria-label="Mostrar contraseña">
+                            <svg class="xiro-reveal-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"
+                                focusable="false">
+                                <path d="M3 12C6 7.2 9 5.2 12 5.2s6 2 9 6.8c-3 4.8-6 6.8-9 6.8s-6-2-9-6.8Z" fill="none"
+                                    stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+                                <rect class="xiro-reveal-pupil" x="10.5" y="7.8" width="3" height="8.4" rx="1.5"
+                                    fill="currentColor" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="xiro-input-wrap">
+                        <input type="password" id="reset-confirm-password" class="xiro-login-input"
+                            placeholder="Confirmar nueva contraseña"
+                            data-i18n-placeholder="admin.reset.confirm_password" autocomplete="new-password" required>
+                        <button type="button" class="xiro-reveal-toggle" data-reveal-target="reset-confirm-password"
+                            aria-pressed="false" data-i18n-aria-label="admin.login.password_show"
+                            aria-label="Mostrar contraseña">
+                            <svg class="xiro-reveal-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"
+                                focusable="false">
+                                <path d="M3 12C6 7.2 9 5.2 12 5.2s6 2 9 6.8c-3 4.8-6 6.8-9 6.8s-6-2-9-6.8Z" fill="none"
+                                    stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+                                <rect class="xiro-reveal-pupil" x="10.5" y="7.8" width="3" height="8.4" rx="1.5"
+                                    fill="currentColor" />
+                            </svg>
+                        </button>
+                    </div>
+                    <button type="submit" id="reset-submit-btn" class="xiro-login-btn"
+                        data-i18n="admin.reset.submit">...</button>
+                    <div id="reset-helper" class="text-center text-xs" style="color:rgba(203,213,225,0.8);"></div>
+                    <div id="reset-error" class="hidden text-center text-sm font-semibold" style="color:#f87171;">
+                    </div>
+                </form>
+
+                <!-- Register Form -->
+                <form id="admin-register-form" class="w-full flex flex-col gap-3 hidden">
+                    <div class="xiro-input-wrap">
+                        <input type="text" id="register-username" class="xiro-login-input" placeholder="Usuario"
+                            data-i18n-placeholder="admin.login.username" autocomplete="username" spellcheck="false"
+                            autocapitalize="off" required>
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="xiro-input-wrap">
+                        <input type="email" id="register-email" class="xiro-login-input"
+                            placeholder="Correo electrónico" data-i18n-placeholder="admin.register.email"
+                            autocomplete="email" spellcheck="false" autocapitalize="off" required>
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="xiro-input-wrap">
+                        <input type="password" id="register-password" class="xiro-login-input" placeholder="Contraseña"
+                            data-i18n-placeholder="admin.login.password" autocomplete="new-password" required>
+                        <button type="button" class="xiro-reveal-toggle" data-reveal-target="register-password"
+                            aria-pressed="false" data-i18n-aria-label="admin.login.password_show"
+                            aria-label="Mostrar contraseña">
+                            <svg class="xiro-reveal-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"
+                                focusable="false">
+                                <path d="M3 12C6 7.2 9 5.2 12 5.2s6 2 9 6.8c-3 4.8-6 6.8-9 6.8s-6-2-9-6.8Z" fill="none"
+                                    stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+                                <rect class="xiro-reveal-pupil" x="10.5" y="7.8" width="3" height="8.4" rx="1.5"
+                                    fill="currentColor" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="xiro-input-wrap">
+                        <input type="password" id="register-confirm-password" class="xiro-login-input"
+                            placeholder="Confirmar contraseña" data-i18n-placeholder="admin.register.confirm"
+                            autocomplete="new-password" required>
+                        <button type="button" class="xiro-reveal-toggle" data-reveal-target="register-confirm-password"
+                            aria-pressed="false" data-i18n-aria-label="admin.login.password_show"
+                            aria-label="Mostrar contraseña">
+                            <svg class="xiro-reveal-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"
+                                focusable="false">
+                                <path d="M3 12C6 7.2 9 5.2 12 5.2s6 2 9 6.8c-3 4.8-6 6.8-9 6.8s-6-2-9-6.8Z" fill="none"
+                                    stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+                                <rect class="xiro-reveal-pupil" x="10.5" y="7.8" width="3" height="8.4" rx="1.5"
+                                    fill="currentColor" />
+                            </svg>
+                        </button>
+                    </div>
+                    <button type="submit" id="register-submit-btn" class="xiro-login-btn"
+                        data-i18n="admin.login.register">...</button>
+                    <button type="button" id="register-back-btn" class="xiro-login-btn-secondary"
+                        data-i18n="admin.register.back">...</button>
+                    <div id="register-helper" class="text-center text-xs" style="color:rgba(203,213,225,0.8);"></div>
+                    <div id="register-error" class="hidden text-center text-sm font-semibold" style="color:#f87171;">
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="admin-content" style="display:none">
+        <div class="flex h-screen">
+            <!-- Sidebar rediseñado -->
+            <div class="w-80 bg-slate-900 shadow-xl flex flex-col text-white">
+                <!-- Header con Logo -->
+                <div class="p-6 border-b border-slate-700 flex justify-center">
+                    <a href="#" data-admin-action="go-home" class="cursor-pointer">
+                        <img src="/images/logo.svg" alt="Logo" style="width: 180px;">
+                    </a>
+                </div>
+
+                <!-- Tabs de Sección: PREGUNTAS / USER / CONFIGURACIÓN -->
+                <div id="section-tabs" class="px-4 pt-3 pb-1 flex gap-2 border-b border-slate-700">
+                    <button id="section-tab-questions" data-admin-action="switch-section-tab" data-section="questions"
+                        class="py-2 rounded-lg text-sm font-bold transition bg-slate-700 text-white px-3">
+                        <i class="fas fa-question-circle mr-1"></i><span data-i18n="admin.nav.tab.questions">...</span>
+                    </button>
+                    <button id="section-tab-user" data-admin-action="switch-section-tab" data-section="user"
+                        class="py-2 rounded-lg text-sm font-bold transition text-slate-400 hover:text-white px-3">
+                        <i class="fas fa-user mr-1"></i><span data-i18n="admin.nav.tab.user">...</span>
+                    </button>
+                    <button id="section-tab-config" data-admin-action="switch-section-tab" data-section="config"
+                        class="py-2 rounded-lg text-sm font-bold transition text-slate-400 hover:text-white px-3"
+                        style="display:none">
+                        <i class="fas fa-sliders-h mr-1"></i><span data-i18n="admin.nav.tab.config">...</span>
+                    </button>
+                </div>
+
+                <!-- Navegación Principal por Categorías -->
+                <div id="sidebar-nav-section" class="flex-1 p-4 space-y-3">
+                    <h3 class="text-xs font-bold uppercase text-slate-500 tracking-widest px-2 mb-4"
+                        data-i18n="admin.nav.section">...</h3>
+
+                    <button data-admin-action="show-view" data-view="bancos" id="nav-bancos"
+                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800">
+                        <div class="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-database text-lg text-purple-300"></i>
+                        </div>
+                        <span class="text-sm" data-i18n="admin.nav.banks">...</span>
+                    </button>
+
+                    <button data-admin-action="show-view" data-view="juegos" id="nav-juegos"
+                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800">
+                        <div class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-gamepad text-lg text-green-300"></i>
+                        </div>
+                        <span class="text-sm" data-i18n="admin.nav.games">...</span>
+                    </button>
+
+                    <button data-admin-action="show-view" data-view="personalizados" id="nav-personalizados"
+                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800">
+                        <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-star text-lg text-blue-300"></i>
+                        </div>
+                        <span class="text-sm" data-i18n="admin.nav.custom">...</span>
+                    </button>
+
+                    <button data-admin-action="show-view" data-view="trivial" id="nav-trivial"
+                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800">
+                        <div class="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-dice text-lg text-orange-300"></i>
+                        </div>
+                        <span class="text-sm" data-i18n="admin.nav.trivial">...</span>
+                    </button>
+
+                    <button data-admin-action="show-upload-view" id="nav-cargar-preguntas"
+                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800">
+                        <div class="w-10 h-10 bg-violet-500/20 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-upload text-lg text-violet-300"></i>
+                        </div>
+                        <span class="text-sm" data-i18n="admin.nav.upload">...</span>
+                    </button>
+
+                    <button data-admin-action="show-view" data-view="ai-generator" id="nav-ai-generator"
+                        class="nav-button w-full text-left p-4 rounded-xl transition-all flex items-center gap-3 font-bold border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800">
+                        <div class="w-10 h-10 bg-indigo-500/20 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-robot text-lg text-indigo-300"></i>
+                        </div>
+                        <span class="text-sm" data-i18n="admin.nav.ai">...</span>
+                    </button>
+
+                </div>
+
+                <!-- Navegación User (solo visible en sección User) -->
+                <div id="user-sidebar-section" style="display:none"
+                    class="flex-1 p-4 flex flex-col gap-2 overflow-y-auto">
+                    <h3 class="text-xs font-bold uppercase text-slate-500 tracking-widest px-2 mb-1"
+                        data-i18n="admin.user.section">...</h3>
+
+                    <button id="nav-user-account" data-admin-action="switch-user-panel" data-panel="account"
+                        class="nav-button w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800 transition-all flex items-center gap-3">
+                        <div class="w-8 h-8 bg-cyan-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-user-circle text-cyan-300 text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-white" data-i18n="admin.user.account.title">...</p>
+                            <p class="text-xs text-slate-400" data-i18n="admin.user.account.sub">...</p>
+                        </div>
+                    </button>
+
+                    <button id="nav-user-manage-users" data-admin-action="switch-user-panel" data-panel="manage-users"
+                        style="display:none"
+                        class="nav-button w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800 transition-all flex items-center gap-3">
+                        <div class="w-8 h-8 bg-indigo-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-users-cog text-indigo-300 text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-white" data-i18n="admin.user.manage.title">...</p>
+                            <p class="text-xs text-slate-400" data-i18n="admin.user.manage.sub">...</p>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Herramientas del sistema (solo visible en sección Config) -->
+                <div id="config-sidebar-section" style="display:none"
+                    class="flex-1 p-4 flex flex-col gap-2 overflow-y-auto">
+                    <h3 class="text-xs font-bold uppercase text-slate-500 tracking-widest px-2 mb-1"
+                        data-i18n="admin.config.section">...</h3>
+
+                    <button id="nav-servidor" data-admin-action="show-config-panel"
+                        class="nav-button w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800 transition-all flex items-center gap-3">
+                        <div class="w-8 h-8 bg-yellow-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-server text-yellow-300 text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-white" data-i18n="admin.config.nav_server.title">...</p>
+                            <p class="text-xs text-slate-400" data-i18n="admin.config.nav_server.sub">...</p>
+                        </div>
+                    </button>
+
+                    <button id="nav-historial" data-admin-action="show-view" data-view="historial"
+                        class="nav-button w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800 transition-all flex items-center gap-3">
+                        <div class="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-history text-emerald-300 text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-white" data-i18n="admin.config.history.title">...</p>
+                            <p class="text-xs text-slate-400" data-i18n="admin.config.history.sub">...</p>
+                        </div>
+                    </button>
+
+                    <button id="nav-remote" data-admin-action="show-view" data-view="remote"
+                        class="nav-button w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800 transition-all flex items-center gap-3">
+                        <div class="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-satellite-dish text-green-300 text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-white" data-i18n="admin.config.remote.title">...</p>
+                            <p class="text-xs text-slate-400" data-i18n="admin.config.remote.sub">...</p>
+                        </div>
+                    </button>
+
+                    <a id="nav-bot-runner" href="/autorun/index.html"
+                        class="nav-button w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800 transition-all flex items-center gap-3">
+                        <div class="w-8 h-8 bg-teal-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-robot text-teal-300 text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-white" data-i18n="admin.config.botrunner.title">...</p>
+                            <p class="text-xs text-slate-400" data-i18n="admin.config.botrunner.sub">...</p>
+                        </div>
+                    </a>
+
+                    <button id="btn-clear-uploads" data-admin-action="clear-uploads"
+                        class="nav-button w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800 transition-all flex items-center gap-3">
+                        <div class="w-8 h-8 bg-amber-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-folder-open text-amber-300 text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-white" data-i18n="admin.config.uploads.title">...</p>
+                            <p class="text-xs text-slate-400" data-i18n="admin.config.uploads.sub">...</p>
+                        </div>
+                    </button>
+
+                    <button id="btn-clear-cache" data-admin-action="clear-cache"
+                        class="nav-button w-full text-left p-3 rounded-xl border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800 transition-all flex items-center gap-3">
+                        <div class="w-8 h-8 bg-sky-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-memory text-sky-300 text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-white" data-i18n="admin.config.cache.title">...</p>
+                            <p class="text-xs text-slate-400" data-i18n="admin.config.cache.sub">...</p>
+                        </div>
+                    </button>
+
+                    <button id="btn-delete-logs" data-admin-action="delete-logs"
+                        class="nav-button w-full text-left p-3 rounded-xl border-2 border-rose-500/30 hover:border-rose-400 hover:bg-slate-800 transition-all flex items-center gap-3">
+                        <div class="w-8 h-8 bg-rose-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-trash-alt text-rose-400 text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-white" data-i18n="admin.config.logs.title">...</p>
+                            <p class="text-xs text-slate-400" data-i18n="admin.config.logs.sub">...</p>
+                        </div>
+                    </button>
+
+                    <button id="btn-panic" data-admin-action="panic-restart"
+                        class="nav-button w-full text-left p-3 rounded-xl bg-red-600 hover:bg-red-700 active:scale-95 text-white transition-all flex items-stretch gap-3 mt-1">
+                        <div class="w-8 bg-red-500/40 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-exclamation-triangle text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-black text-white" data-i18n="admin.config.panic.title">...</p>
+                            <p class="text-xs text-red-200" data-i18n="admin.config.panic.sub">...</p>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Botones de Utilidades en el pie -->
+                <div id="sidebar-utils-section" class="mt-auto border-t border-slate-700 p-4 space-y-3">
+                    <button data-admin-action="logout"
+                        class="w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-4 rounded-lg transition text-center flex items-center justify-center gap-2">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span data-i18n="admin.sidebar.logout">...</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Área central de contenido -->
+            <div class="flex-1 overflow-y-auto bg-slate-50" id="editorArea">
+                <div class="h-full flex flex-col items-center justify-center relative overflow-hidden">
+                    <img src="/images/logo.svg" alt="" class="absolute pointer-events-none select-none"
+                        style="width:80%;max-width:80%;opacity:0.1;">
+                    <div class="relative z-10 flex flex-col items-center text-slate-400">
+                        <i class="fas fa-th-large text-5xl mb-4 text-[#e65453]"></i>
+                        <p class="text-xl font-bold text-slate-600" data-i18n="admin.home.empty.title">...</p>
+                        <p class="text-sm mt-2" data-i18n="admin.home.empty.sub">...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="fixed bottom-2 right-2 text-slate-500 text-xs z-10">
+        <a href="/about.html" class="hover:text-[#e65453] transition-colors" title="Acerca de XIRO!"
+            data-i18n="common.footer.author">...</a>
+    </footer>
+
+    <!-- SCRIPTS: Cargar en orden específico -->
+    <script defer src="/js/drag-drop-upload.js?v=20260921182204"></script>
+
+    <!-- CORE INFRASTRUCTURE -->
+    <script defer src="/js/admin/core/auth.js?v=20260921182204"></script>
+    <script defer src="/js/admin/core/ownership-ui.js?v=20260921182204"></script>
+    <script defer src="/js/admin/core/api.js?v=20260921182204"></script>
+    <script defer src="/js/admin/core/state.js?v=20260921182204"></script>
+
+    <!-- HELPERS & UTILITIES -->
+    <script defer src="/js/admin/modules/helpers.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/neon-switch.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/language-select.js?v=20260921182204"></script>
+    <script defer src="/js/admin/helpers/correct-answer-frontend.js?v=20260921182204"></script>
+    <script defer src="/js/admin/helpers/banks-cache.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/question-format.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/matching-editor.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/multimedia.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/tools.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/unsaved-changes.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/random-points-config.js?v=20260921182204"></script>
+
+    <!-- FEATURE MODULES -->
+    <script defer src="/js/admin/modules/bancos-expanded.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/bancos-merge.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/juegos-pool.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/juegos-expanded.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/personalizados-expanded.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/trivial-expanded.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/trivial-editor.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/buscar-preguntas.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/ai-generator.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/ai-generator-results.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/historial.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/remote-tab.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/slides.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/slides-text.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/slides-image.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/slides-text-image.js?v=20260921182204"></script>
+
+    <!-- SECTION NAVIGATION + CONFIG PANEL -->
+    <script defer src="/js/admin/modules/user-account.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/password-reset.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/password-reveal.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/nav-sections.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/config-panel-meta.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/config-panel-fields.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/config-team-names.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/config-panel.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/config-personalization.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/site-panel-meta.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/site-panel.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/user-license-panel.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/user-license-checkout.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/license-exemptions.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/site-public-url.js?v=20260921182204"></script>
+    <script defer src="/js/admin/modules/config-ui.js?v=20260921182204"></script>
+
+    <!-- MAIN INITIALIZER -->
+    <script defer src="/js/admin/admin-main.js?v=20260921182204"></script>
+
+    <script defer src="/js/core/site-badge.js?v=20260921182204"></script>
+</body>
+
+</html>

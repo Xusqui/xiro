@@ -204,99 +204,93 @@ async function cargarEditorBanco(id) {
 function renderEditorBanco(bank) {
     const area = document.getElementById('editorArea');
     area.innerHTML = _tHtml(`
-        <div class="max-w-4xl mx-auto p-10">
+        <div class="max-w-4xl mx-auto px-10 pt-6">
             <!-- Botón volver -->
             <button data-admin-click="mostrarVista('bancos')"
-                class="mb-6 text-slate-600 hover:text-purple-600 font-bold flex items-center gap-2 transition">
+                class="mb-4 text-slate-600 hover:text-purple-600 font-bold flex items-center gap-2 transition">
                 <i class="fas fa-arrow-left"></i>
                 ${_t('admin.banks.btn_back', null, 'Volver a Bancos de Preguntas')}
             </button>
+        </div>
 
-            <div class="bg-white rounded-2xl shadow-sm p-8 mb-8 border border-slate-200">
+        <div class="xiro-editor-sticky-header">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
                 <input type="hidden" id="editId" value="${bank.id || ''}">
                 <input type="hidden" id="editOwnerUserId" value="${bank.created_by_user_id ?? ''}">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-black text-slate-900 italic uppercase">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-black text-slate-900 italic uppercase">
                         <i class="fas fa-database text-purple-500 mr-2"></i>${_t('admin.banks.form_title', null, 'Banco de Preguntas')}
                     </h2>
                     ${bank.id ? `<span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-bold">ID: ${bank.id}</span>` : ''}
                 </div>
-                <div>
-                    <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest">${_t('admin.banks.label_name', null, 'Nombre del Banco')}</label>
-                    <input type="text" id="editName" value="${bank.name}" class="w-full p-3 border-2 border-slate-100 rounded-xl focus:border-purple-500 outline-none transition shadow-sm" placeholder="${_t('admin.banks.ph_name', null, 'Ej: Historia del Arte')}">
+
+                <div class="xiro-editor-header-grid">
+                    <!-- Columna 1: Identidad -->
+                    <div>
+                        <div class="grid grid-cols-2 gap-3 mb-3">
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.banks.label_name', null, 'Nombre del Banco')}</label>
+                                <input type="text" id="editName" value="${bank.name}" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-purple-500 outline-none transition text-sm" placeholder="${_t('admin.banks.ph_name', null, 'Ej: Historia del Arte')}">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.banks.label_pin', null, 'PIN del Banco (opcional)')}</label>
+                                <input type="text" id="editBankPin" value="${bank.pin || ''}" maxlength="10" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-purple-500 outline-none transition text-sm" placeholder="${_t('admin.banks.ph_pin', null, 'Ej: HISTORIA2025')}" title="${_t('admin.banks.help_pin', null, 'Si lo dejas vacío, se generará automáticamente un PIN de 6 dígitos')}">
+                            </div>
+                        </div>
+
+                        <div class="mb-3 flex items-center justify-center gap-3" title="${_t('admin.banks.help_visible', null, 'Si está marcado, el presentador podrá ver y usar este banco')}">
+                            <span class="text-base font-bold text-slate-700"><i class="fas fa-eye mr-1"></i>${_t('admin.banks.label_visible', null, 'Mostrar al presentador')}</span>
+                            <span style="transform: scale(1.2); transform-origin: left center;">${renderNeonSwitch({ id: 'editBankVisibleToPresenter', checked: bank.visible_to_presenter !== false, action: null })}</span>
+                        </div>
+                        <div class="mb-3 text-center">
+                            <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('common.label_language', null, 'Idioma de las preguntas')}</label>
+                            <div class="flex justify-center">${renderLanguageSelect({ id: 'editBankLanguage', value: bank.language })}</div>
+                        </div>
+                        <div class="flex flex-col items-center text-center">${renderGameCoverField('bank', bank.image_url)}</div>
+                    </div>
+
+                    <!-- Columna 2: Reglas de puntuación -->
+                    <div>
+                        <!-- Rachas -->
+                        <div class="flex items-center gap-3 mb-2" title="${_t('admin.banks.help_streaks', null, 'Bonus de puntos por respuestas correctas consecutivas')}">
+                            <span class="text-sm font-bold text-slate-700"><i class="fas fa-fire text-orange-500 mr-1"></i>${_t('admin.banks.label_streaks', null, 'Activar Rachas')}</span>
+                            ${renderNeonSwitch({ id: 'editBankUseStreaks', checked: bank.use_streaks, action: null, attrs: 'data-admin-change="toggleBankStreakConfig()"' })}
+                        </div>
+                        <div id="bankStreakConfigPanel" class="${bank.use_streaks ? '' : 'hidden'} mb-3 ml-6 p-3 bg-purple-50 rounded-lg border border-purple-100 grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.banks.streak_threshold_label', null, 'Umbral de racha')}</label>
+                                <input type="number" id="editBankStreakThreshold" value="${bank.streak_threshold ?? 3}" min="1" max="20" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-purple-500 outline-none text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.banks.streak_bonus_label', null, 'Bonus (%)')}</label>
+                                <input type="number" id="editBankStreakBonusPercentage" value="${bank.streak_bonus_percentage ?? 0.50}" min="0" max="2" step="0.05" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-purple-500 outline-none text-sm">
+                            </div>
+                        </div>
+
+                        <!-- Dobles Rachas -->
+                        <div class="flex items-center gap-3 mb-2" title="${_t('admin.banks.help_dbl_streaks', null, 'Bonus adicional por rachas más largas')}">
+                            <span class="text-sm font-bold text-slate-700"><i class="fas fa-fire-alt text-red-500 mr-1"></i>${_t('admin.banks.label_dbl_streaks', null, 'Activar Dobles Rachas')}</span>
+                            ${renderNeonSwitch({ id: 'editBankUseDoubleStreaks', checked: bank.use_double_streaks, action: null, attrs: 'data-admin-change="toggleBankDoubleStreakConfig()"' })}
+                        </div>
+                        <div id="bankDoubleStreakConfigPanel" class="${bank.use_double_streaks ? '' : 'hidden'} mb-3 ml-6 p-3 bg-purple-50 rounded-lg border border-purple-100 grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.banks.dbl_threshold_label', null, 'Umbral doble racha')}</label>
+                                <input type="number" id="editBankDoubleStreakThreshold" value="${bank.double_streak_threshold ?? 5}" min="1" max="20" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-purple-500 outline-none text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.banks.dbl_bonus_label', null, 'Bonus doble (%)')}</label>
+                                <input type="number" id="editBankDoubleStreakBonusPercentage" value="${bank.double_streak_bonus_percentage ?? 1.00}" min="0" max="2" step="0.05" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-purple-500 outline-none text-sm">
+                            </div>
+                        </div>
+
+                        <!-- Puntuación Aleatoria -->
+                        ${renderRandomPointsHtml('bank', bank)}
+                    </div>
                 </div>
-                <div class="mt-4">
-                    <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest">${_t('admin.banks.label_pin', null, 'PIN del Banco (opcional)')}</label>
-                    <input type="text" id="editBankPin" value="${bank.pin || ''}" maxlength="10" class="w-full p-3 border-2 border-slate-100 rounded-xl focus:border-purple-500 outline-none transition shadow-sm" placeholder="${_t('admin.banks.ph_pin', null, 'Ej: HISTORIA2025')}">
-                    <p class="text-slate-400 text-xs mt-1"><i class="fas fa-info-circle mr-1"></i>${_t('admin.banks.help_pin', null, 'Si lo dejas vacío, se generará automáticamente un PIN de 6 dígitos')}</p>
-                </div>
-                <div class="mt-4">
-                    <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest">${_t('common.label_language', null, 'Idioma de las preguntas')}</label>
-                    ${renderLanguageSelect({ id: 'editBankLanguage', value: bank.language })}
-                </div>
-                <div class="mt-4">
-                    <label class="flex items-center gap-3 cursor-pointer">
-                        <input type="checkbox" id="editBankVisibleToPresenter" ${bank.visible_to_presenter !== false ? 'checked' : ''} class="w-5 h-5 text-purple-600 rounded focus:ring-purple-500">
-                        <span class="text-sm font-bold text-slate-700">
-                            <i class="fas fa-eye mr-2"></i>${_t('admin.banks.label_visible', null, 'Mostrar al presentador')}
-                        </span>
-                    </label>
-                    <p class="text-slate-400 text-xs mt-1 ml-8">${_t('admin.banks.help_visible', null, 'Si está marcado, el presentador podrá ver y usar este banco')}</p>
-                </div>
-                ${renderGameCoverField('bank', bank.image_url)}
             </div>
+        </div>
 
-            <!-- Configuración del banco -->
-            <div class="bg-white rounded-2xl shadow-sm p-8 mb-8 border border-slate-200">
-                <h3 class="text-lg font-black text-slate-800 uppercase tracking-tight mb-6">
-                    <i class="fas fa-cog text-purple-500 mr-2"></i>${_t('admin.banks.section_config', null, 'Configuración del banco')}
-                </h3>
-
-                <!-- Rachas -->
-                <div class="flex items-center justify-between mb-2">
-                    <div>
-                        <span class="text-sm font-bold text-slate-700"><i class="fas fa-fire text-orange-500 mr-2"></i>${_t('admin.banks.label_streaks', null, 'Activar Rachas')}</span>
-                        <p class="text-slate-400 text-xs mt-0.5">${_t('admin.banks.help_streaks', null, 'Bonus de puntos por respuestas correctas consecutivas')}</p>
-                    </div>
-                    ${renderNeonSwitch({ id: 'editBankUseStreaks', checked: bank.use_streaks, action: null, attrs: 'data-admin-change="toggleBankStreakConfig()"' })}
-                </div>
-                <div id="bankStreakConfigPanel" class="${bank.use_streaks ? '' : 'hidden'} mt-3 ml-4 p-4 bg-purple-50 rounded-xl border border-purple-100 grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.banks.streak_threshold_label', null, 'Umbral de racha')}</label>
-                        <input type="number" id="editBankStreakThreshold" value="${bank.streak_threshold ?? 3}" min="1" max="20" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-purple-500 outline-none text-sm">
-                        <p class="text-slate-400 text-xs mt-1">${_t('admin.banks.streak_threshold_help', null, 'Respuestas consecutivas para activar bonus')}</p>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.banks.streak_bonus_label', null, 'Bonus (%)')}</label>
-                        <input type="number" id="editBankStreakBonusPercentage" value="${bank.streak_bonus_percentage ?? 0.50}" min="0" max="2" step="0.05" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-purple-500 outline-none text-sm">
-                        <p class="text-slate-400 text-xs mt-1">${_t('admin.banks.streak_bonus_help', null, 'Multiplicador de puntos (0.5 = +50%)')}</p>
-                    </div>
-                </div>
-
-                <!-- Dobles Rachas -->
-                <div class="flex items-center justify-between mt-6 mb-2">
-                    <div>
-                        <span class="text-sm font-bold text-slate-700"><i class="fas fa-fire-alt text-red-500 mr-2"></i>${_t('admin.banks.label_dbl_streaks', null, 'Activar Dobles Rachas')}</span>
-                        <p class="text-slate-400 text-xs mt-0.5">${_t('admin.banks.help_dbl_streaks', null, 'Bonus adicional por rachas más largas')}</p>
-                    </div>
-                    ${renderNeonSwitch({ id: 'editBankUseDoubleStreaks', checked: bank.use_double_streaks, action: null, attrs: 'data-admin-change="toggleBankDoubleStreakConfig()"' })}
-                </div>
-                <div id="bankDoubleStreakConfigPanel" class="${bank.use_double_streaks ? '' : 'hidden'} mt-3 ml-4 p-4 bg-purple-50 rounded-xl border border-purple-100 grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.banks.dbl_threshold_label', null, 'Umbral doble racha')}</label>
-                        <input type="number" id="editBankDoubleStreakThreshold" value="${bank.double_streak_threshold ?? 5}" min="1" max="20" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-purple-500 outline-none text-sm">
-                        <p class="text-slate-400 text-xs mt-1">${_t('admin.banks.dbl_threshold_help', null, 'Respuestas consecutivas para el bonus doble')}</p>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.banks.dbl_bonus_label', null, 'Bonus doble (%)')}</label>
-                        <input type="number" id="editBankDoubleStreakBonusPercentage" value="${bank.double_streak_bonus_percentage ?? 1.00}" min="0" max="2" step="0.05" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-purple-500 outline-none text-sm">
-                        <p class="text-slate-400 text-xs mt-1">${_t('admin.banks.dbl_bonus_help', null, 'Multiplicador de puntos (1.0 = +100%)')}</p>
-                    </div>
-                </div>
-
-                <!-- Puntuación Aleatoria -->
-                ${renderRandomPointsHtml('bank', bank)}
-            </div>
+        <div class="max-w-4xl mx-auto px-10 pb-10">
 
             <div id="contenedorPreguntas" class="space-y-6 pb-10">
                 <div class="flex justify-between items-center px-2">

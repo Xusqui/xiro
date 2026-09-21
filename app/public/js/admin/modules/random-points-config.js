@@ -40,23 +40,18 @@ function renderRandomPointsHtml(prefix, config = {}) {
     const max = config.random_points_max ?? RANDOM_POINTS_DEFAULT_MAX;
 
     return `
-        <div class="flex items-center justify-between mt-6 mb-2">
-            <div>
-                <span class="text-sm font-bold text-slate-700"><i class="fas fa-dice text-purple-500 mr-2"></i>${_t('admin.random_points.label', null, 'Puntuación Aleatoria')}</span>
-                <p class="text-slate-400 text-xs mt-0.5">${_t('admin.random_points.help', null, 'Antes de cada pregunta se sortean los puntos que vale. Solo afecta a Quiz y Anagrama: Encuesta, Ordena, Emparejar, Numérica y Selección Múltiple mantienen su puntuación.')}</p>
-            </div>
+        <div class="flex items-center gap-3 mb-2" title="${_t('admin.random_points.help', null, 'Antes de cada pregunta se sortean los puntos que vale. Solo afecta a Quiz y Anagrama: Encuesta, Ordena, Emparejar, Numérica y Selección Múltiple mantienen su puntuación.')}">
+            <span class="text-sm font-bold text-slate-700"><i class="fas fa-dice text-purple-500 mr-1"></i>${_t('admin.random_points.label', null, 'Puntuación Aleatoria')}</span>
             ${renderNeonSwitch({ id: ids.toggle, checked: enabled, action: null, attrs: `data-admin-change="toggleRandomPointsPanel('${prefix}')"` })}
         </div>
-        <div id="${ids.panel}" class="${enabled ? '' : 'hidden'} mt-3 ml-4 p-4 bg-purple-50 rounded-xl border border-purple-100 grid grid-cols-2 gap-4">
+        <div id="${ids.panel}" class="${enabled ? '' : 'hidden'} ml-6 p-3 bg-purple-50 rounded-lg border border-purple-100 grid grid-cols-2 gap-3">
             <div>
                 <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.random_points.min_label', null, 'Puntos mínimos')}</label>
-                <input type="number" id="${ids.min}" value="${min}" min="${RANDOM_POINTS_MIN_VALUE}" max="${RANDOM_POINTS_MAX_VALUE}" step="1" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-purple-500 outline-none text-sm">
-                <p class="text-slate-400 text-xs mt-1">${_t('admin.random_points.min_help', null, 'Valor más bajo que puede salir')}</p>
+                <input type="number" id="${ids.min}" value="${min}" min="${RANDOM_POINTS_MIN_VALUE}" max="${RANDOM_POINTS_MAX_VALUE}" step="1" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-purple-500 outline-none text-sm" title="${_t('admin.random_points.min_help', null, 'Valor más bajo que puede salir')}">
             </div>
             <div>
                 <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.random_points.max_label', null, 'Puntos máximos')}</label>
-                <input type="number" id="${ids.max}" value="${max}" min="${RANDOM_POINTS_MIN_VALUE}" max="${RANDOM_POINTS_MAX_VALUE}" step="1" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-purple-500 outline-none text-sm">
-                <p class="text-slate-400 text-xs mt-1">${_t('admin.random_points.max_help', null, 'Igual al mínimo = puntuación fija')}</p>
+                <input type="number" id="${ids.max}" value="${max}" min="${RANDOM_POINTS_MIN_VALUE}" max="${RANDOM_POINTS_MAX_VALUE}" step="1" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-purple-500 outline-none text-sm" title="${_t('admin.random_points.max_help', null, 'Igual al mínimo = puntuación fija')}">
             </div>
         </div>`;
 }
