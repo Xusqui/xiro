@@ -11,7 +11,8 @@ const files = [
     'public/ppt-redirect.html',
     'public/health.html',
     'public/fireworks-preview.html',
-    'public/xiro-results-viewer.html'
+    'public/xiro-results-viewer.html',
+    'public/about.html'
 ];
 
 const regex = /<script(?![^>]*\bsrc\b)[^>]*>([\s\S]*?)<\/script>/gi;

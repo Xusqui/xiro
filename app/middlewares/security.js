@@ -100,6 +100,7 @@ const configureHelmet = () => {
             '\'sha256-GN5mcXaPICRaVYTyha8rvCUnuZOH8P7yITutSD0PRK4=\'', // ppt-redirect.html
             '\'sha256-ul/v0CisU7Zqw8SY+9SvXyoYEdITat4Z8gaRKnu25ak=\'', // fireworks-preview.html
             '\'sha256-mZePbndl4uPdyeeTQsFi6cXwv6oogpzP1E8QIml4rXY=\'', // xiro-results-viewer.html
+            '\'sha256-5FKiUvj99wyDNTbzh2Ic/7hMwqYXv2DaakTc9D36gWc=\'', // about.html: mascota decorativa aleatoria
         ];
         if (umamiHost) scriptSrc.push(umamiHost);
 
