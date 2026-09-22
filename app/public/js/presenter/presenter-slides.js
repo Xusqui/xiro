@@ -2,14 +2,14 @@
  * @fileoverview Renderizado de slides (comentarios e info)
  */
 
-import { getIsTeamMode, getTeamConfig, getCurrentQuestionIndex, getTotalQuestions, getPlayersData } from './presenter-state.js?v=20260922074829';
-import { removeFloatingCards, showAbandonButton, showTerminateButton } from './presenter-utils.js?v=20260922074829';
-import { cleanupRevealElements } from './presenter-reveal.js?v=20260922074829';
-import { cleanupPodio } from './presenter-podio.js?v=20260922074829';
-import { showChamaleonOverlay } from './presenter-chamaleon.js?v=20260922074829';
-import { escapeHtml, sanitizeResourceUrl, encodeInlineArg } from '../core/sanitize.js?v=20260922074829';
+import { getIsTeamMode, getTeamConfig, getCurrentQuestionIndex, getTotalQuestions, getPlayersData } from './presenter-state.js?v=20260922172926';
+import { removeFloatingCards, showAbandonButton, showTerminateButton } from './presenter-utils.js?v=20260922172926';
+import { cleanupRevealElements } from './presenter-reveal.js?v=20260922172926';
+import { cleanupPodio } from './presenter-podio.js?v=20260922172926';
+import { showChamaleonOverlay } from './presenter-chamaleon.js?v=20260922172926';
+import { escapeHtml, sanitizeResourceUrl, encodeInlineArg } from '../core/sanitize.js?v=20260922172926';
 
-export { renderTextImageSlide } from './presenter-slide-text-image.js?v=20260922074829';
+export { renderTextImageSlide } from './presenter-slide-text-image.js?v=20260922172926';
 
 /**
  * Renderizar slide de comentario (con asignación manual de puntos)

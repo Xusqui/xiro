@@ -61,7 +61,8 @@ window.TVApp.SocketGame = (function () {
         });
 
         socket.on('random-points-reveal', function (payload) {
-            window.XiroRandomPointsOverlay && window.XiroRandomPointsOverlay.show(payload);
+            // TV no carga el CSS del flip board (solo tv.css): número en texto plano
+            window.XiroRandomPointsOverlay && window.XiroRandomPointsOverlay.show(payload, { animate: false });
         });
 
         socket.on('new-question', function (data, ack) {

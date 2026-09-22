@@ -108,4 +108,94 @@
             transform: none;
         }
     }
+
+    /* Flip board de dígitos para el overlay "JUGÁIS POR XXX PUNTOS"
+       (random-points-overlay.js). Traducción a CSS plano del @keyframes
+       flip original del usuario (SCSS): la ficha entera gira sobre el eje
+       X, 5 vueltas seguidas, empezando en negro y pasando a blanco. Fichas
+       en la paleta blanco/morado translúcido del overlay actual, no negro
+       sólido tipo panel real -eso sí se mantiene el detalle negro→blanco
+       del propio texto, que es lo que daba la sensación de "se enciende"
+       en el original. El contenido (qué dígito se ve en cada instante) lo
+       cambia JS (ver _animateFlipBoard), no Sass: aquí solo se anima
+       transform y color. */
+    .rpo-board {
+        display: inline-flex;
+        gap: 0.06em;
+        vertical-align: -0.08em;
+    }
+
+    .rpo-digit {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 0.72em;
+        height: 1em;
+        border-radius: 0.1em;
+        background: rgba(255, 255, 255, 0.16);
+        box-shadow: 0 0.02em 0 rgba(0, 0, 0, 0.25) inset, 0 0.04em 0.08em rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        perspective: 4em;
+    }
+
+    .rpo-digit-face {
+        display: block;
+        color: #fff;
+    }
+
+    /* rotateX creciente (0→1800deg), no oscilando 0↔360 como saldría de
+       traducir el SCSS demasiado literal (ahí el ángulo bajaba de 360 a 0
+       entre keyframes, y visualmente se ve como un tirón adelante-atrás en
+       vez de un giro continuo). Con el ángulo siempre creciente, la ficha
+       gira 5 veces seguidas hacia delante sin pararse. */
+    @keyframes rpo-flap {
+        0% {
+            color: #000;
+            transform: rotateX(0deg);
+        }
+
+        20% {
+            transform: rotateX(360deg);
+        }
+
+        40% {
+            color: #fff;
+            transform: rotateX(720deg);
+        }
+
+        60% {
+            transform: rotateX(1080deg);
+        }
+
+        80% {
+            transform: rotateX(1440deg);
+        }
+
+        100% {
+            transform: rotateX(1800deg);
+        }
+    }
+
+    .rpo-digit-face.rpo-flapping {
+        animation: rpo-flap 1s ease-in-out both;
+    }
+
+    .rpo-sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .rpo-digit-face.rpo-flapping {
+            animation: none;
+        }
+    }
 }

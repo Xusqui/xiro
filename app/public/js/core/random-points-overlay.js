@@ -19,8 +19,89 @@
     const OVERLAY_ID = 'random-points-overlay';
     let _timeout = null;
 
+    // Timing del "flip board" de dígitos (ver buildPointsMarkup/_animateFlipBoard).
+    // Traducción fiel del efecto SCSS original del usuario (@keyframes flip):
+    // cada ficha da 5 giros completos seguidos (rotateX creciente, sin
+    // oscilar hacia atrás) en 1s, empezando en negro y pasando a blanco a
+    // partir del 40%, con un dígito distinto en cada giro intermedio -pero
+    // elegido en JS en cada aparición del overlay, no "cocinado" una vez al
+    // compilar como haría random() de Sass- y aterrizando siempre en el
+    // dígito real al terminar (el SCSS original no lo garantizaba: el 100%
+    // no fijaba `content`, así que se quedaba en el último aleatorio).
+    const FLIP_DURATION_MS = 1000;
+    const FLIP_STAGGER_MS = 150;
+    // Instantes (ms) dentro de la animación en los que cambia el dígito
+    // mostrado, replicando los cortes 20/40/60/80% del keyframe original.
+    const FLIP_CONTENT_STEPS_MS = [200, 400, 600, 800];
+
     function _t(key, vars, fallback) {
         return typeof global._t === 'function' ? global._t(key, vars, fallback) : fallback;
+    }
+
+    function _prefersReducedMotion() {
+        return typeof global.matchMedia === 'function'
+            && global.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+
+    function _randomDigitChar() {
+        return String(Math.floor(Math.random() * 10));
+    }
+
+    /**
+     * Marcado del "flip board" para la puntuación (solo dígitos, estilo panel
+     * de aeropuerto). Si no se anima o el valor no es puramente numérico
+     * (p.ej. ya viene formateado), se devuelve tal cual como texto plano.
+     *
+     * @param {number|string} points
+     * @param {boolean} animate
+     * @returns {string} HTML seguro para insertar via innerHTML
+     */
+    function buildPointsMarkup(points, animate) {
+        const text = String(points);
+        if (!animate || !/^\d+$/.test(text)) return text;
+
+        const tiles = text.split('')
+            .map(digit => `<span class="rpo-digit"><span class="rpo-digit-face">${digit}</span></span>`)
+            .join('');
+
+        return `<span class="rpo-board" aria-hidden="true">${tiles}</span>`
+            + `<span class="rpo-sr-only">${text}</span>`;
+    }
+
+    /**
+     * Dispara el giro en cada ficha del flip board: la ficha entera gira
+     * sobre el eje X de forma continua durante FLIP_DURATION_MS (ver
+     * @keyframes rpo-flap en el CSS, que lleva el color de negro a blanco),
+     * mientras aquí en JS se va cambiando el dígito mostrado en los mismos
+     * instantes que marcaba el keyframe original (20/40/60/80%), aterrizando
+     * siempre en el dígito real al final. Stagger entre fichas para efecto
+     * panel de estación.
+     *
+     * @param {HTMLElement} container - Elemento que contiene los `.rpo-digit-face`
+     */
+    function _animateFlipBoard(container) {
+        const faces = container.querySelectorAll('.rpo-digit-face');
+
+        faces.forEach((face, i) => {
+            const finalDigit = face.textContent;
+            const delay = i * FLIP_STAGGER_MS;
+
+            FLIP_CONTENT_STEPS_MS.forEach(stepMs => {
+                setTimeout(() => {
+                    face.textContent = _randomDigitChar();
+                }, delay + stepMs);
+            });
+
+            setTimeout(() => {
+                face.textContent = finalDigit;
+            }, delay + FLIP_DURATION_MS);
+
+            setTimeout(() => {
+                face.classList.remove('rpo-flapping');
+                void face.offsetWidth; // reflow: permite re-disparar la animación
+                face.classList.add('rpo-flapping');
+            }, delay);
+        });
     }
 
     /**
@@ -84,6 +165,8 @@
      * @param {Object} [options]
      * @param {number} [options.currentStreak] - Racha del jugador (solo móvil)
      * @param {number} [options.durationMs] - Duración a mostrar (por defecto, la del payload)
+     * @param {boolean} [options.animate] - Si el número sale con el flip board
+     *   de dígitos (por defecto true, salvo `prefers-reduced-motion`)
      * @returns {Promise<void>} Se resuelve al ocultarse
      */
     function show(payload, options) {
@@ -91,7 +174,9 @@
 
         const opts = options || {};
         const duration = opts.durationMs ?? payload.durationMs ?? 3500;
-        const headline = _t('game.random_points.headline', { points: payload.points },
+        const animateDigits = opts.animate !== false && !_prefersReducedMotion();
+        const pointsMarkup = buildPointsMarkup(payload.points, animateDigits);
+        const headline = _t('game.random_points.headline', { points: pointsMarkup },
             'JUGÁIS POR {points} PUNTOS');
         const subtitle = _t('game.random_points.time_bonus', null, '+ BONUS DE TIEMPO');
         const streakLine = opts.currentStreak ? buildStreakLine(payload, opts.currentStreak) : '';
@@ -110,6 +195,10 @@
             ${streakLine}`;
 
         document.body.appendChild(el);
+
+        if (animateDigits) {
+            _animateFlipBoard(el);
+        }
 
         return new Promise(resolve => {
             _timeout = setTimeout(() => {

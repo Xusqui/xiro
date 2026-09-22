@@ -134,6 +134,31 @@ async function limpiarCache() {
 
 // ===== CARGAR PREGUNTAS DESDE JSON =====
 
+const AI_PROMPT_GENERAR_BANCO = `Actúa como un generador experto de bancos de preguntas para la plataforma Xiro!.
+
+Te he subido un archivo llamado schema.json que define la estructura exacta (campos, tipos de datos y formato) que debe tener un banco de preguntas válido.
+
+Tu tarea:
+1. Lee y analiza schema.json con atención: identifica los campos obligatorios, los tipos de pregunta soportados y el formato exacto de cada uno (incluyendo mayúsculas/minúsculas de las claves).
+2. Debajo de este mensaje te voy a pegar una lista de preguntas y respuestas en texto libre.
+3. Transforma esa lista en un ÚNICO objeto JSON que cumpla EXACTAMENTE la estructura de schema.json: mismos nombres de campo, mismos tipos de dato y misma jerarquía.
+4. Si no indico el tipo de una pregunta, asume "multiple" (opción múltiple) con 4 opciones donde solo una es correcta.
+5. No añadas campos que no existan en el esquema ni omitas los obligatorios. No incluyas comentarios ni explicaciones.
+6. Devuélveme SOLO el JSON final, válido y bien formado, listo para guardarlo como archivo .json.
+
+Lista de preguntas y respuestas:
+`;
+
+function copiarPromptIA() {
+    navigator.clipboard.writeText(AI_PROMPT_GENERAR_BANCO).then(() => {
+        const btn = document.getElementById('copyPromptBtn');
+        if (!btn) return;
+        const original = btn.innerHTML;
+        btn.innerHTML = `<i class="fas fa-check mr-2"></i>${_t('admin.tools.upload_ai_prompt_copied', null, 'Copiado')}`;
+        setTimeout(() => { btn.innerHTML = original; }, 2000);
+    });
+}
+
 async function mostrarCargarPreguntas() {
     executeWithUnsavedChangesGuard(() => {
         mostrarCargarPreguntasInner();
@@ -146,14 +171,42 @@ async function mostrarCargarPreguntasInner() {
     const editorArea = document.getElementById('editorArea');
     editorArea.innerHTML = _tHtml(`
                 <div class="h-full overflow-y-auto p-12">
+                    <div class="w-[90%] mx-auto mb-6">
+                        <div class="bg-gradient-to-br from-purple-50 to-white rounded-2xl shadow-lg p-8 border border-purple-100">
+                            <label class="block text-slate-700 font-bold mb-3 text-sm uppercase tracking-wide">
+                                <i class="fas fa-robot text-purple-600 mr-2"></i>${_t('admin.tools.upload_ai_help_title', null, '¿No tienes el JSON todavía? Genéralo con IA')}
+                            </label>
+                            <ol class="space-y-4 text-sm text-slate-700 list-decimal list-inside">
+                                <li>
+                                    ${_t('admin.tools.upload_ai_step1', null, 'Descarga el archivo de esquema:')}
+                                    <a href="/data/schema.json" download="schema.json"
+                                        class="inline-flex items-center gap-1 ml-1 text-purple-600 hover:text-purple-800 font-bold underline">
+                                        <i class="fas fa-download"></i> schema.json
+                                    </a>
+                                </li>
+                                <li>${_t('admin.tools.upload_ai_step2', null, 'Abre tu aplicación de Inteligencia Artificial favorita (ChatGPT, Claude, Gemini...) y sube el archivo schema.json que has descargado.')}</li>
+                                <li>
+                                    ${_t('admin.tools.upload_ai_step3', null, 'Copia y pégale el siguiente prompt:')}
+                                    <div class="relative mt-2">
+                                        <pre id="aiPromptText" class="bg-slate-900 text-slate-100 text-xs rounded-lg p-4 pr-24 overflow-x-auto whitespace-pre-wrap font-mono"></pre>
+                                        <button type="button" id="copyPromptBtn"
+                                            class="absolute top-2 right-2 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold px-3 py-2 rounded-lg transition">
+                                            <i class="fas fa-copy mr-2"></i>${_t('admin.tools.upload_ai_copy_btn', null, 'Copiar')}
+                                        </button>
+                                    </div>
+                                </li>
+                                <li>${_t('admin.tools.upload_ai_step4', null, 'A continuación del prompt, pega tu lista de preguntas y respuestas, y envíaselo a la IA. Descarga el .json que te devuelva y súbelo abajo.')}</li>
+                            </ol>
+                        </div>
+                    </div>
                     <div class="max-w-2xl mx-auto">
                         <!-- Botón volver -->
-                        <button data-admin-action="history-back" 
+                        <button data-admin-action="history-back"
                             class="mb-6 text-slate-600 hover:text-purple-600 font-bold flex items-center gap-2 transition">
                             <i class="fas fa-arrow-left"></i>
                             ${_t('admin.common.back', null, 'Volver')}
                         </button>
-                        
+
                         <div class="bg-gradient-to-br from-purple-50 to-white rounded-2xl shadow-lg p-8 border border-purple-100">
                             <div class="flex items-center gap-4 mb-8">
                                 <div class="bg-gradient-to-br from-purple-600 to-purple-700 w-16 h-16 rounded-2xl flex items-center justify-center text-white shadow-lg">
@@ -229,6 +282,12 @@ async function mostrarCargarPreguntasInner() {
 
     // Configurar drag & drop y selección de archivo
     setupFileUpload();
+
+    // Rellenar el prompt de IA y activar el botón de copia
+    const aiPromptText = document.getElementById('aiPromptText');
+    if (aiPromptText) aiPromptText.textContent = AI_PROMPT_GENERAR_BANCO;
+    const copyPromptBtn = document.getElementById('copyPromptBtn');
+    if (copyPromptBtn) copyPromptBtn.addEventListener('click', copiarPromptIA);
 }
 
 // ===== SETUP FILE UPLOAD (DRAG & DROP) =====

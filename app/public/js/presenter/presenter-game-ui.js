@@ -3,12 +3,12 @@
  * Renderizado de preguntas, comentarios, timer, y QR
  */
 
-import { getIsTeamMode, getTeamConfig, getTotalPlayers, getCurrentQuestionIndex, getTotalQuestions, getPlayersData } from './presenter-state.js?v=20260922074829';
-import { adjustTextSize, adjustQuestionTitleSize, removeFloatingCards as removeCards, showAbandonButton, showTerminateButton } from './presenter-utils.js?v=20260922074829';
-import { getTeamColorStyle } from './presenter-team-config.js?v=20260922074829';
-import { cleanupRevealElements } from './presenter-reveal.js?v=20260922074829';
-import { renderWordScramblePresenter } from './presenter-wordscramble-layout.js?v=20260922074829';
-import { showChamaleonOverlay } from './presenter-chamaleon.js?v=20260922074829';
+import { getIsTeamMode, getTeamConfig, getTotalPlayers, getCurrentQuestionIndex, getTotalQuestions, getPlayersData } from './presenter-state.js?v=20260922172926';
+import { adjustTextSize, adjustQuestionTitleSize, removeFloatingCards as removeCards, showAbandonButton, showTerminateButton } from './presenter-utils.js?v=20260922172926';
+import { getTeamColorStyle } from './presenter-team-config.js?v=20260922172926';
+import { cleanupRevealElements } from './presenter-reveal.js?v=20260922172926';
+import { renderWordScramblePresenter } from './presenter-wordscramble-layout.js?v=20260922172926';
+import { showChamaleonOverlay } from './presenter-chamaleon.js?v=20260922172926';
 
 export { removeCards as removeFloatingCards };
 
@@ -291,6 +291,6 @@ export function renderPregunta(q) {
 /**
  * Re-exportar funciones de otros módulos
  */
-export { renderTeamLobby, updatePlayersPanel } from './presenter-players-panel.js?v=20260922074829';
-export { renderCommentSlide, renderInfoSlide, renderTextSlide, renderImageSlide, renderTextImageSlide } from './presenter-slides.js?v=20260922074829';
-export { renderPodio } from './presenter-podio.js?v=20260922074829';
+export { renderTeamLobby, updatePlayersPanel } from './presenter-players-panel.js?v=20260922172926';
+export { renderCommentSlide, renderInfoSlide, renderTextSlide, renderImageSlide, renderTextImageSlide } from './presenter-slides.js?v=20260922172926';
+export { renderPodio } from './presenter-podio.js?v=20260922172926';

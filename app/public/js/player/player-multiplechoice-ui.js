@@ -10,10 +10,10 @@ import {
     setCurrentSlideType,
     getPendingAnswer,
     getSendingAnswer
-} from './player-state.js?v=20260922074829';
-import { OPTION_COLORS, getResponsiveFontClass } from './player-question-utils.js?v=20260922074829';
-import { setBodyHTML } from './player-streak-ui.js?v=20260922074829';
-import { enviarRespuestaMultipleChoice } from './player-answer.js?v=20260922074829';
+} from './player-state.js?v=20260922172926';
+import { OPTION_COLORS, getResponsiveFontClass } from './player-question-utils.js?v=20260922172926';
+import { setBodyHTML } from './player-streak-ui.js?v=20260922172926';
+import { enviarRespuestaMultipleChoice } from './player-answer.js?v=20260922172926';
 
 // Estado de selección múltiple
 let selectedIndices = [];
