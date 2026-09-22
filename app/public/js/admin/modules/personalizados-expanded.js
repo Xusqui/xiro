@@ -176,40 +176,6 @@ async function renderEditorJuegoPersonalizado(game, questions) {
 
     const area = document.getElementById('editorArea');
     area.innerHTML = _tHtml(`
-        <div class="xiro-toolbar-bar sticky top-0 z-30 bg-white/90 backdrop-blur-sm border-b border-slate-200 shadow-sm">
-            <div class="max-w-5xl mx-auto px-10 py-2 flex items-center gap-1.5" role="toolbar" aria-label="${_t('admin.custom.toolbar_label', null, 'Añadir contenido')}">
-                <button type="button" data-admin-click="mostrarModalComentario()"
-                    class="xiro-toolbar-btn shrink-0 w-9 h-9 rounded-lg flex items-center justify-center text-amber-600 hover:bg-amber-50 hover:text-amber-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-500 focus-visible:outline-offset-2 active:scale-95 disabled:opacity-40 disabled:pointer-events-none transition-colors"
-                    aria-label="${_t('admin.custom.btn_activity', null, 'AÑADIR ACTIVIDAD LIBRE (PUNTOS MANUALES)')}"
-                    data-tooltip="${_t('admin.custom.btn_activity', null, 'AÑADIR ACTIVIDAD LIBRE (PUNTOS MANUALES)')}">
-                    <i class="fas fa-comment-dots text-[18px]" aria-hidden="true"></i>
-                </button>
-                <button type="button" data-admin-click="mostrarModalInfo()"
-                    class="xiro-toolbar-btn shrink-0 w-9 h-9 rounded-lg flex items-center justify-center text-blue-600 hover:bg-blue-50 hover:text-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500 focus-visible:outline-offset-2 active:scale-95 disabled:opacity-40 disabled:pointer-events-none transition-colors"
-                    aria-label="${_t('admin.custom.btn_info_slide', null, 'AÑADIR SLIDE INFORMATIVO')}"
-                    data-tooltip="${_t('admin.custom.btn_info_slide', null, 'AÑADIR SLIDE INFORMATIVO')}">
-                    <i class="fas fa-info-circle text-[18px]" aria-hidden="true"></i>
-                </button>
-                <button type="button" data-admin-click="mostrarModalTexto()"
-                    class="xiro-toolbar-btn shrink-0 w-9 h-9 rounded-lg flex items-center justify-center text-indigo-600 hover:bg-indigo-50 hover:text-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-500 focus-visible:outline-offset-2 active:scale-95 disabled:opacity-40 disabled:pointer-events-none transition-colors"
-                    aria-label="${_t('admin.custom.btn_text_slide', null, 'AÑADIR DIAPOSITIVA DE TEXTO (TÍTULO + TEXTO)')}"
-                    data-tooltip="${_t('admin.custom.btn_text_slide', null, 'AÑADIR DIAPOSITIVA DE TEXTO (TÍTULO + TEXTO)')}">
-                    <i class="fas fa-align-left text-[18px]" aria-hidden="true"></i>
-                </button>
-                <button type="button" data-admin-click="mostrarModalImagen()"
-                    class="xiro-toolbar-btn shrink-0 w-9 h-9 rounded-lg flex items-center justify-center text-pink-600 hover:bg-pink-50 hover:text-pink-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-pink-500 focus-visible:outline-offset-2 active:scale-95 disabled:opacity-40 disabled:pointer-events-none transition-colors"
-                    aria-label="${_t('admin.custom.btn_img_slide', null, 'AÑADIR DIAPOSITIVA DE IMAGEN')}"
-                    data-tooltip="${_t('admin.custom.btn_img_slide', null, 'AÑADIR DIAPOSITIVA DE IMAGEN')}">
-                    <i class="fas fa-image text-[18px]" aria-hidden="true"></i>
-                </button>
-                <button type="button" data-admin-click="mostrarModalTextoImagen()"
-                    class="xiro-toolbar-btn shrink-0 w-9 h-9 rounded-lg flex items-center justify-center text-violet-600 hover:bg-violet-50 hover:text-violet-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 focus-visible:outline-offset-2 active:scale-95 disabled:opacity-40 disabled:pointer-events-none transition-colors"
-                    aria-label="${_t('admin.custom.btn_text_img_slide', null, 'AÑADIR DIAPOSITIVA TEXTO + IMAGEN')}"
-                    data-tooltip="${_t('admin.custom.btn_text_img_slide', null, 'AÑADIR DIAPOSITIVA TEXTO + IMAGEN')}">
-                    <i class="fas fa-columns text-[18px]" aria-hidden="true"></i>
-                </button>
-            </div>
-        </div>
         <div class="max-w-5xl mx-auto px-10 pt-6">
             <!-- Botón volver -->
             <button data-admin-click="mostrarVista('personalizados')"
@@ -219,7 +185,7 @@ async function renderEditorJuegoPersonalizado(game, questions) {
             </button>
         </div>
 
-        <div class="xiro-editor-sticky-header xiro-editor-sticky-header--below-toolbar">
+        <div class="xiro-editor-sticky-header">
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
                 <input type="hidden" id="customGameEditId" value="${game.id || ''}">
                 <input type="hidden" id="customGameOwnerUserId" value="${game.created_by_user_id ?? ''}">
@@ -302,14 +268,14 @@ async function renderEditorJuegoPersonalizado(game, questions) {
             </div>
         </div>
 
-        <div class="max-w-5xl mx-auto px-10 pb-10">
+        <div class="xiro-editor-wide-row xiro-editor-twocard-grid">
             ${(typeof getHTMLBusquedaPreguntas === 'function') ? getHTMLBusquedaPreguntas() : ''}
 
-            <div class="bg-white rounded-2xl shadow-sm p-8 mb-8 border border-slate-200">
+            <div class="bg-white rounded-2xl shadow-sm p-8 border border-slate-200">
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-xl font-black text-slate-700 uppercase">${_t('admin.custom.section_selector', null, 'Selector de Preguntas')}</h3>
                 </div>
-                
+
                 <div class="mb-4">
                     <label class="block text-xs font-bold text-slate-400 uppercase mb-2">${_t('admin.custom.label_bank', null, 'Selecciona un Banco')}</label>
                     <select id="selectorBanco" data-admin-change="cargarPreguntasBanco()" class="w-full p-3 border-2 border-slate-100 rounded-xl focus:border-blue-500 outline-none">
@@ -322,49 +288,45 @@ async function renderEditorJuegoPersonalizado(game, questions) {
                     <p class="text-slate-400 text-sm italic text-center py-8">${_t('admin.custom.bank_placeholder', null, 'Selecciona un banco para ver las preguntas disponibles')}</p>
                 </div>
             </div>
+        </div>
+
+        <div class="max-w-5xl mx-auto px-10 pb-10">
+            <div class="xiro-toolbar-bar xiro-toolbar-bar--below-header bg-white/90 backdrop-blur-sm border border-slate-200 rounded-2xl shadow-sm px-4 py-2 mb-6 flex items-center justify-center gap-2" role="toolbar" aria-label="${_t('admin.custom.toolbar_label', null, 'Añadir contenido')}">
+                <button type="button" data-admin-click="mostrarModalComentario()"
+                    class="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
+                    aria-label="${_t('admin.custom.btn_activity', null, 'AÑADIR ACTIVIDAD LIBRE (PUNTOS MANUALES)')}">
+                    <i class="fas fa-comment-dots" aria-hidden="true"></i> ${_t('admin.custom.btn_short_activity', null, 'Actividad')}
+                </button>
+                <button type="button" data-admin-click="mostrarModalInfo()"
+                    class="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
+                    aria-label="${_t('admin.custom.btn_info_slide', null, 'AÑADIR SLIDE INFORMATIVO')}">
+                    <i class="fas fa-info-circle" aria-hidden="true"></i> ${_t('admin.custom.btn_short_info', null, 'Info')}
+                </button>
+                <button type="button" data-admin-click="mostrarModalTexto()"
+                    class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
+                    aria-label="${_t('admin.custom.btn_text_slide', null, 'AÑADIR DIAPOSITIVA DE TEXTO (TÍTULO + TEXTO)')}">
+                    <i class="fas fa-align-left" aria-hidden="true"></i> ${_t('admin.custom.btn_short_text', null, 'Texto')}
+                </button>
+                <button type="button" data-admin-click="mostrarModalImagen()"
+                    class="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
+                    aria-label="${_t('admin.custom.btn_img_slide', null, 'AÑADIR DIAPOSITIVA DE IMAGEN')}">
+                    <i class="fas fa-image" aria-hidden="true"></i> ${_t('admin.custom.btn_short_image', null, 'Imagen')}
+                </button>
+                <button type="button" data-admin-click="mostrarModalTextoImagen()"
+                    class="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
+                    aria-label="${_t('admin.custom.btn_text_img_slide', null, 'AÑADIR DIAPOSITIVA TEXTO + IMAGEN')}">
+                    <i class="fas fa-columns" aria-hidden="true"></i> ${_t('admin.custom.btn_short_text_img', null, 'Texto+Img')}
+                </button>
+            </div>
 
             <div class="bg-white rounded-2xl shadow-sm p-8 mb-8 border border-slate-200">
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-xl font-black text-slate-700 uppercase">${_t('admin.custom.section_selected', null, 'Preguntas Seleccionadas ({n})').replace('{n}', currentCustomGameQuestions.length)}</h3>
-                    <div class="flex gap-2">
-                        <button data-admin-click="mostrarModalComentario()" class="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg">
-                            <i class="fas fa-plus-circle"></i> ${_t('admin.custom.btn_short_activity', null, 'Actividad')}
-                        </button>
-                        <button data-admin-click="mostrarModalInfo()" class="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg">
-                            <i class="fas fa-plus-circle"></i> ${_t('admin.custom.btn_short_info', null, 'Info')}
-                        </button>
-                        <button data-admin-click="mostrarModalTexto()" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg">
-                            <i class="fas fa-plus-circle"></i> ${_t('admin.custom.btn_short_text', null, 'Texto')}
-                        </button>
-                        <button data-admin-click="mostrarModalImagen()" class="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg">
-                            <i class="fas fa-plus-circle"></i> ${_t('admin.custom.btn_short_image', null, 'Imagen')}
-                        </button>
-                        <button data-admin-click="mostrarModalTextoImagen()" class="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg">
-                            <i class="fas fa-plus-circle"></i> ${_t('admin.custom.btn_short_text_img', null, 'Texto+Img')}
-                        </button>
-                    </div>
                 </div>
                 <div id="listaCustomQuestions" class="space-y-3"></div>
                 ${currentCustomGameQuestions.length === 0 ? `<p class="text-slate-400 text-sm italic text-center py-8">${_t('admin.custom.no_questions', null, 'Aún no has seleccionado ninguna pregunta')}</p>` : ''}
                 <div class="flex justify-between items-center mt-8 mb-6">
                     <h3 class="text-xl font-black text-slate-700 uppercase">${_t('admin.custom.section_selected', null, 'Preguntas Seleccionadas ({n})').replace('{n}', currentCustomGameQuestions.length)}</h3>
-                    <div class="flex gap-2">
-                        <button data-admin-click="mostrarModalComentario()" class="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg">
-                            <i class="fas fa-plus-circle"></i> ${_t('admin.custom.btn_short_activity', null, 'Actividad')}
-                        </button>
-                        <button data-admin-click="mostrarModalInfo()" class="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg">
-                            <i class="fas fa-plus-circle"></i> ${_t('admin.custom.btn_short_info', null, 'Info')}
-                        </button>
-                        <button data-admin-click="mostrarModalTexto()" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg">
-                            <i class="fas fa-plus-circle"></i> ${_t('admin.custom.btn_short_text', null, 'Texto')}
-                        </button>
-                        <button data-admin-click="mostrarModalImagen()" class="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg">
-                            <i class="fas fa-plus-circle"></i> ${_t('admin.custom.btn_short_image', null, 'Imagen')}
-                        </button>
-                        <button data-admin-click="mostrarModalTextoImagen()" class="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg">
-                            <i class="fas fa-plus-circle"></i> ${_t('admin.custom.btn_short_text_img', null, 'Texto+Img')}
-                        </button>
-                    </div>
                 </div>
             </div>
 
@@ -424,6 +386,17 @@ async function renderEditorJuegoPersonalizado(game, questions) {
     }));
 
     dibujarPreguntasPersonalizadas();
+    _syncPersonalizadosToolbarOffset();
+}
+
+/** Mantiene la toolbar "Añadir contenido" pegada justo debajo de la
+ * cabecera sticky de Nombre+Configuración, cuya altura varía al
+ * desplegar los paneles de Rachas/Dobles Rachas. */
+function _syncPersonalizadosToolbarOffset() {
+    const header = document.querySelector('.xiro-editor-sticky-header');
+    const toolbar = document.querySelector('.xiro-toolbar-bar--below-header');
+    if (!header || !toolbar) return;
+    toolbar.style.top = `${header.offsetHeight}px`;
 }
 
 // ===== CARGAR PREGUNTAS DE UN BANCO =====
@@ -798,12 +771,14 @@ function toggleCustomStreakConfig() {
     const enabled = document.getElementById('customGameUseStreaks')?.checked;
     const panel = document.getElementById('customStreakConfigPanel');
     if (panel) panel.classList.toggle('hidden', !enabled);
+    _syncPersonalizadosToolbarOffset();
 }
 
 function toggleCustomDoubleStreakConfig() {
     const enabled = document.getElementById('customGameUseDoubleStreaks')?.checked;
     const panel = document.getElementById('customDoubleStreakConfigPanel');
     if (panel) panel.classList.toggle('hidden', !enabled);
+    _syncPersonalizadosToolbarOffset();
 }
 
 // ===== GUARDAR JUEGO PERSONALIZADO =====

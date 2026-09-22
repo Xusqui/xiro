@@ -31,6 +31,7 @@ const { errorHandler, notFoundHandler } = require('./middlewares/errorHandler');
 const maintenanceMiddleware = require('./middlewares/maintenanceMode');
 const tvAccessGuard = require('./middlewares/tvAccessGuard');
 const standaloneAccessGuard = require('./middlewares/standaloneAccessGuard');
+const assetVersioningMiddleware = require('./middlewares/assetVersioning');
 const metricsMiddleware = require('./middlewares/metrics.middleware');
 
 // ===== RUTAS =====
@@ -123,6 +124,9 @@ app.use(tvAccessGuard);
 
 // Bloquea acceso directo a /standalone.html si la tarjeta de Standalone está deshabilitada.
 app.use(standaloneAccessGuard);
+
+// Reescribe ?v=... de assets (.js/.css/.svg) con hash de contenido antes de servir estático
+app.use(assetVersioningMiddleware);
 
 app.use(express.static('public', {
     maxAge: '1d',

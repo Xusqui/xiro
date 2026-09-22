@@ -421,19 +421,17 @@
     outline-offset: 2px;
 }
 
-/* ===== Barra fija "Añadir contenido" (editor de Juegos Personalizados).
-   CSS puro además de las utilidades Tailwind equivalentes (sticky top-0
-   z-30 bg-white/90 backdrop-blur-sm border-b border-slate-200 shadow-sm):
-   así la barra queda fija aunque el bundle de Tailwind no se haya
-   recompilado todavía. ===== */
+/* ===== Barra fija "Añadir contenido" (editor de Juegos Personalizados),
+   flotante justo encima de "Preguntas Seleccionadas". CSS puro además de
+   las utilidades Tailwind equivalentes (bg-white/90 backdrop-blur-sm
+   border border-slate-200 rounded-2xl shadow-sm): así la barra se ve
+   bien aunque el bundle de Tailwind no se haya recompilado todavía. ===== */
 .xiro-toolbar-bar {
-    position: sticky;
-    top: 0;
-    z-index: 30;
     background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
-    border-bottom: 1px solid rgb(226, 232, 240);
+    border: 1px solid rgb(226, 232, 240);
+    border-radius: 16px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
@@ -540,10 +538,15 @@
     box-shadow: 0 6px 16px -4px rgba(15, 23, 42, 0.14), 0 2px 4px rgba(15, 23, 42, 0.06);
 }
 
-/* Editor de Juego Personalizado: la toolbar de iconos ya ocupa top:0,
-   esta cabecera se ancla justo debajo (altura de esa toolbar). */
-.xiro-editor-sticky-header--below-toolbar {
-    top: 53px;
+/* Editor de Juego Personalizado: toolbar "Añadir contenido" fija justo
+   encima de "Preguntas Seleccionadas", pegada debajo de la cabecera
+   sticky de arriba. El offset real (altura variable de esa cabecera)
+   lo fija _syncPersonalizadosToolbarOffset() en JS; top:0 es solo el
+   valor de partida antes de la primera medición. */
+.xiro-toolbar-bar--below-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
 }
 
 .xiro-editor-header-grid {
@@ -560,5 +563,27 @@
     .xiro-editor-header-grid>:first-child {
         padding-right: 1.5rem;
         border-right: 1px solid rgb(241, 245, 249);
+    }
+}
+
+/* Fila ancha (mismo ancho que .xiro-editor-sticky-header) para las
+   tarjetas "Buscar en todos los bancos" + "Selector de Preguntas":
+   una al lado de otra, misma altura (CSS Grid estira ambas al alto de
+   la más alta por defecto). */
+.xiro-editor-wide-row {
+    width: 92%;
+    max-width: 1400px;
+    margin: 0 auto 2rem;
+}
+
+.xiro-editor-twocard-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+    .xiro-editor-twocard-grid {
+        grid-template-columns: 1fr 1fr;
     }
 }

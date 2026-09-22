@@ -15,6 +15,7 @@
 // Caché de resultados actuales (para refrescar estado de botones)
 let _resultadosBusqueda = [];
 let _busquedaDelegationReady = false;
+let _busquedaDebounceTimer = null;
 
 // ===== HTML DE LA SECCIÓN =====
 
@@ -24,7 +25,7 @@ let _busquedaDelegationReady = false;
  */
 function getHTMLBusquedaPreguntas() {
     return `
-        <div class="bg-white rounded-2xl shadow-sm p-8 mb-8 border border-slate-200">
+        <div class="bg-white rounded-2xl shadow-sm p-8 border border-slate-200">
             <div class="flex justify-between items-center mb-2">
                 <h3 class="text-xl font-black text-slate-700 uppercase">
                     <i class="fas fa-search text-blue-500 mr-2"></i>Buscar en Todos los Bancos
@@ -33,19 +34,13 @@ function getHTMLBusquedaPreguntas() {
             <p class="text-xs text-slate-400 mb-4">
                 Busca por enunciado o por texto de las opciones en <strong>todos los bancos</strong> a la vez.
             </p>
-            <div class="flex gap-3 mb-4">
+            <div class="mb-4">
                 <input
                     type="text"
                     id="busquedaInput"
-                    class="flex-1 p-3 border-2 border-slate-100 rounded-xl focus:border-blue-500 outline-none transition shadow-sm"
-                    placeholder="Escribe al menos 2 caracteres y pulsa Enter o Buscar..."
+                    class="w-full p-3 border-2 border-slate-100 rounded-xl focus:border-blue-500 outline-none transition shadow-sm"
+                    placeholder="Escribe al menos 2 caracteres..."
                 >
-                <button
-                    data-busqueda-action="search"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition flex items-center gap-2 shadow"
-                >
-                    <i class="fas fa-search"></i> Buscar
-                </button>
             </div>
             <div id="resultadosBusqueda" class="space-y-2 max-h-96 overflow-y-auto">
                 <p class="text-slate-400 text-sm italic text-center py-4">
@@ -62,6 +57,8 @@ function getHTMLBusquedaPreguntas() {
  * Lee el input, llama al API y renderiza los resultados.
  */
 async function ejecutarBusquedaPreguntas() {
+    clearTimeout(_busquedaDebounceTimer);
+
     const input = document.getElementById('busquedaInput');
     const contenedor = document.getElementById('resultadosBusqueda');
     if (!input || !contenedor) return;
@@ -203,11 +200,6 @@ function initBusquedaPreguntasDelegation() {
         if (!actionElement) return;
 
         const action = actionElement.dataset.busquedaAction;
-        if (action === 'search') {
-            ejecutarBusquedaPreguntas();
-            return;
-        }
-
         if (action === 'add-question') {
             const questionId = Number(actionElement.dataset.questionId);
             if (Number.isFinite(questionId)) agregarPreguntaDesdeBusqueda(questionId);
@@ -221,6 +213,21 @@ function initBusquedaPreguntasDelegation() {
 
         event.preventDefault();
         ejecutarBusquedaPreguntas();
+    });
+
+    // Búsqueda en vivo: dispara sola mientras se escribe, con debounce
+    // para no lanzar una petición por cada tecla.
+    document.addEventListener('input', (event) => {
+        if (!event.target || event.target.id !== 'busquedaInput') return;
+
+        clearTimeout(_busquedaDebounceTimer);
+
+        if (event.target.value.trim().length < 2) {
+            ejecutarBusquedaPreguntas();
+            return;
+        }
+
+        _busquedaDebounceTimer = setTimeout(ejecutarBusquedaPreguntas, 400);
     });
 }
 
