@@ -3,6 +3,16 @@
  * HTML y en imports ES6 de JS, añadiendo ?v=<hash-del-contenido>. Sustituye a
  * scripts/update-assets-version.js: no requiere ejecutar nada, el hash se recalcula
  * solo cuando el fichero referenciado cambia (detectado por mtime).
+ *
+ * IMPORTANTE: en los HTML solo se versionan referencias a assets EXTERNOS
+ * (src="...js", href="...css"/"...svg"). El contenido de bloques <script
+ * type="module"> INLINE nunca se toca, porque algunas páginas (p. ej.
+ * juego-concluido.html) fijan esos scripts inline en el CSP mediante un hash
+ * sha256 calculado sobre el fichero fuente sin modificar. Si se reescribiera
+ * el "import ... from" dentro de ese bloque (añadiendo ?v=hash), el contenido
+ * servido dejaría de coincidir con el hash del CSP y el navegador bloquearía
+ * el script silenciosamente (sin excepción JS visible), rompiendo cualquier
+ * lógica que dependa de él.
  */
 const fs = require('fs');
 const path = require('path');
@@ -50,7 +60,10 @@ function hashFor(assetPath, baseDir) {
     return abs ? getFileHash(abs) : null;
 }
 
-function versionAssetRefs(content, baseDir) {
+// Versiona referencias a assets externos: src="...js", href="...css", src/href="...svg".
+// Se usa tanto para HTML como para JS (por si un .js referencia un .svg, etc.), pero
+// NUNCA para el "import ... from" de un módulo, que se trata aparte.
+function versionExternalRefs(content, baseDir) {
     return content
         .replace(JS_REGEX, (match, assetPath) => {
             const hash = hashFor(assetPath, baseDir);
@@ -63,11 +76,17 @@ function versionAssetRefs(content, baseDir) {
         .replace(SVG_REGEX, (match, attr, assetPath) => {
             const hash = hashFor(assetPath, baseDir);
             return hash ? `${attr}="${assetPath}?v=${hash}"` : match;
-        })
-        .replace(JS_IMPORT_REGEX, (match, prefix, quote, assetPath) => {
-            const hash = hashFor(assetPath, baseDir);
-            return hash ? `${prefix}${quote}${assetPath}?v=${hash}${quote}` : match;
         });
+}
+
+// Versiona imports ES6 ("import ... from '/x.js'"). Solo se invoca sobre ficheros
+// .js reales servidos como archivo (nunca sobre HTML), para no tocar el contenido
+// de <script type="module"> inline protegidos por hash en el CSP.
+function versionJsImports(content, baseDir) {
+    return content.replace(JS_IMPORT_REGEX, (match, prefix, quote, assetPath) => {
+        const hash = hashFor(assetPath, baseDir);
+        return hash ? `${prefix}${quote}${assetPath}?v=${hash}${quote}` : match;
+    });
 }
 
 function assetVersioningMiddleware(req, res, next) {
@@ -96,7 +115,12 @@ function assetVersioningMiddleware(req, res, next) {
         }
 
         const baseDir = path.dirname(absFile);
-        const versioned = versionAssetRefs(content, baseDir);
+        let versioned = versionExternalRefs(content, baseDir);
+        if (isJs) {
+            // Solo los ficheros .js externos versionan sus "import ... from"; el
+            // contenido de scripts inline en HTML (fijados por hash CSP) no se toca.
+            versioned = versionJsImports(versioned, baseDir);
+        }
 
         if (isHtml) {
             res.type('html');

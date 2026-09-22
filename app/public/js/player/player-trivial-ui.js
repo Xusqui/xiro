@@ -37,7 +37,7 @@ export function showDiceScreen(currentTurn, isMyTurn, customTitle = null) {
     const title = customTitle || (isMyTurn ? _t('player.trivial.your_turn', '¡Tu turno!') : `${_t('player.trivial.turn_of', 'Turno de')} ${currentTurn}`);
     const hint = isMyTurn ? _t('player.trivial.tap_dice', 'Toca el dado para tirar') : `${_t('player.trivial.waiting_for', 'Esperando a')} ${currentTurn}...`;
     showScreen(`
-        <div style="display:flex; flex-direction:column; width:100%; height:100%;">
+        <div style="display:flex; flex-direction:column; width:100%; height:100%; justify-content:center;">
             <!-- Dado compacto arriba -->
             <div style="flex-shrink:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0; padding:10px 16px 6px;">
                 <h2 style="font-size:clamp(1rem,4.5vw,1.4rem); font-weight:900; color:white; text-align:center; margin:0 0 28px 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%;">
@@ -51,7 +51,7 @@ export function showDiceScreen(currentTurn, isMyTurn, customTitle = null) {
                 </p>
             </div>
             <!-- Zona inferior: casillas de movimiento -->
-            <div id="trivial-bottom" style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; gap:10px; padding:0 16px 12px; overflow-y:auto;">
+            <div id="trivial-bottom" style="flex-shrink:0; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; gap:10px; padding:0 16px 12px; max-height:50vh; overflow-y:auto;">
             </div>
         </div>`);
 
