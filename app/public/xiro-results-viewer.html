@@ -434,15 +434,19 @@
                     ? `<img src="${podioSvg[pos]}" alt="" style="width:22px;height:22px;display:inline-block;vertical-align:middle;margin-right:4px;">`
                     : '';
                 return `
-      <tr>
+      <tr class="player-row" data-viewer-action="toggle-player" data-player="${esc(p.name)}" style="cursor:pointer">
         <td><span class="rank-medal">${medals[pos] || pos}</span></td>
         <td><strong>${mascotSmall}${esc(p.name)}</strong></td>
         <td>
           <div class="pts-bar-wrap">
             <div class="pts-bar"><div class="pts-bar-fill" style="width:${pct}%"></div></div>
             <span class="pts-val">${esc(p.score)}</span>
+            <span class="q-chevron" style="margin-left:8px">▼</span>
           </div>
         </td>
+      </tr>
+      <tr class="player-detail-row" data-player-detail="${esc(p.name)}" style="display:none">
+        <td colspan="3" style="padding:0">${renderPlayerPanel(p.name, data)}</td>
       </tr>`;
             }).join('');
 
@@ -488,6 +492,79 @@
     </div>
     <div class="wedge-grid">${cards}</div>`;
             return wrap;
+        }
+
+        // ─── Celdas de respuesta compartidas (detalle + panel jugador) ──
+        function buildAnswerCells(a) {
+            const cBadgeText = a.correct === 'Sí'
+                ? `✓ ${_t('xiro_results_viewer.badge.yes', null, 'Sí')}`
+                : a.correct === 'No'
+                    ? `✗ ${_t('xiro_results_viewer.badge.no', null, 'No')}`
+                    : `~ ${_t('xiro_results_viewer.badge.survey', null, 'Encuesta')}`;
+            const badgeClass = a.correct === 'Sí' ? 'yes' : a.correct === 'No' ? 'no' : 'enc';
+            const cBadge = `<span class="badge badge-${badgeClass}">${cBadgeText}</span>`;
+            const wedgeBadge = a.wedge ? `<span class="badge badge-wedge">🧩 ${esc(a.wedge)}</span>` : '';
+            const timeStr = a.time ? (Math.round(parseFloat(a.time) / 100) / 10) + ' s' : '—';
+            let answerHtml;
+            if (a.matchingPairs && Array.isArray(a.matchingPairs)) {
+                answerHtml = a.matchingPairs.map(p =>
+                    `<span style="display:block;color:${p.correct ? '#059669' : '#ef4444'}">${esc(p.left)} → ${esc(p.right)}</span>`
+                ).join('');
+            } else if (a.orderItems && Array.isArray(a.orderItems)) {
+                answerHtml = a.orderItems.map((o, i) =>
+                    `<span style="display:block;color:${o.correct ? '#059669' : '#ef4444'}">${i + 1}. ${esc(o.text)}</span>`
+                ).join('');
+            } else if (a.multipleChoiceItems && Array.isArray(a.multipleChoiceItems)) {
+                answerHtml = a.multipleChoiceItems.map(o =>
+                    `<span style="display:block;color:${o.correct ? '#059669' : '#ef4444'}">✓ ${esc(o.text)}</span>`
+                ).join('');
+            } else {
+                answerHtml = esc(a.answer);
+            }
+            return { cBadge, wedgeBadge, timeStr, answerHtml };
+        }
+
+        // ─── Panel desplegable de jugador (ranking) ─────────────────────
+        function renderPlayerPanel(playerName, data) {
+            const answers = data.playerAnswers.filter(a => a.player === playerName);
+            const correct = answers.filter(a => a.correct === 'Sí').length;
+            const incorrect = answers.filter(a => a.correct === 'No').length;
+            const survey = answers.length - correct - incorrect;
+
+            const rows = answers.map(a => {
+                const c = buildAnswerCells(a);
+                return `
+      <tr>
+        <td>${data.isTrivial ? '🎲' : esc(a.round)}</td>
+        <td>${esc(a.question)}</td>
+        <td>${c.answerHtml}</td>
+        <td>${c.cBadge} ${c.wedgeBadge}</td>
+        <td style="text-align:right; font-weight:700; color:var(--xiro-yellow)">${a.pts || 0}</td>
+        <td style="text-align:right; color:var(--text-muted)">${c.timeStr}</td>
+      </tr>`;
+            }).join('');
+
+            return `
+    <div style="padding:16px 4px">
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px">
+        <span class="badge badge-yes">✓ ${_t('xiro_results_viewer.player_panel.correct', null, 'Acertadas')}: ${correct}</span>
+        <span class="badge badge-no">✗ ${_t('xiro_results_viewer.player_panel.incorrect', null, 'Falladas')}: ${incorrect}</span>
+        ${survey > 0 ? `<span class="badge badge-enc">~ ${_t('xiro_results_viewer.badge.survey', null, 'Encuesta')}: ${survey}</span>` : ''}
+      </div>
+      <div class="card">
+        <table>
+          <thead><tr>
+            <th>#</th>
+            <th>${_t('xiro_results_viewer.table.question', null, 'Pregunta')}</th>
+            <th>${_t('xiro_results_viewer.table.answer', null, 'Respuesta')}</th>
+            <th>${_t('xiro_results_viewer.table.result', null, 'Resultado')}</th>
+            <th style="text-align:right">${_t('xiro_results_viewer.table.pts', null, 'Pts')}</th>
+            <th style="text-align:right">${_t('xiro_results_viewer.table.time', null, 'Tiempo')}</th>
+          </tr></thead>
+          <tbody>${rows || `<tr><td colspan="6" style="text-align:center;color:var(--text-muted)">${_t('xiro_results_viewer.player_panel.no_answers', null, 'Sin respuestas registradas')}</td></tr>`}</tbody>
+        </table>
+      </div>
+    </div>`;
         }
 
         // ─── Detalle por pregunta ──────────────────────────────────────
@@ -718,9 +795,19 @@
         document.getElementById('btn-print').addEventListener('click', () => window.print());
 
         document.getElementById('results-body').addEventListener('click', function (event) {
-            const item = event.target.closest('[data-viewer-action="toggle-question"]');
-            if (!item) return;
-            item.classList.toggle('open');
+            const question = event.target.closest('[data-viewer-action="toggle-question"]');
+            if (question) { question.classList.toggle('open'); return; }
+
+            const playerRow = event.target.closest('[data-viewer-action="toggle-player"]');
+            if (playerRow) {
+                const detailRow = playerRow.nextElementSibling;
+                if (detailRow && detailRow.hasAttribute('data-player-detail')) {
+                    const isOpen = detailRow.style.display !== 'none';
+                    detailRow.style.display = isOpen ? 'none' : '';
+                    const chevron = playerRow.querySelector('.q-chevron');
+                    if (chevron) chevron.style.transform = isOpen ? '' : 'rotate(180deg)';
+                }
+            }
         });
 
         // Language changed reactive listener
