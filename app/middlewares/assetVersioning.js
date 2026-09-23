@@ -79,6 +79,28 @@ function versionExternalRefs(content, baseDir) {
         });
 }
 
+const INLINE_SCRIPT_REGEX = /<script(?![^>]*\bsrc\b)[^>]*>[\s\S]*?<\/script>/gi;
+
+// Igual que versionExternalRefs, pero para HTML: preserva intacto el contenido
+// de los bloques <script> inline (sin src). Ese contenido es JS, no HTML, y
+// puede incluir literales como src="foo.svg" dentro de plantillas de cadena
+// que no son atributos reales. Si se reescribieran, el SHA-256 servido dejaría
+// de coincidir con el hash fijado en el CSP (middlewares/security.js) y el
+// navegador bloquearía el script inline sin excepción JS visible.
+function versionHtmlExternalRefs(content, baseDir) {
+    let result = '';
+    let lastIndex = 0;
+    let match;
+    INLINE_SCRIPT_REGEX.lastIndex = 0;
+    while ((match = INLINE_SCRIPT_REGEX.exec(content))) {
+        result += versionExternalRefs(content.slice(lastIndex, match.index), baseDir);
+        result += match[0];
+        lastIndex = INLINE_SCRIPT_REGEX.lastIndex;
+    }
+    result += versionExternalRefs(content.slice(lastIndex), baseDir);
+    return result;
+}
+
 // Versiona imports ES6 ("import ... from '/x.js'"). Solo se invoca sobre ficheros
 // .js reales servidos como archivo (nunca sobre HTML), para no tocar el contenido
 // de <script type="module"> inline protegidos por hash en el CSP.
@@ -115,7 +137,9 @@ function assetVersioningMiddleware(req, res, next) {
         }
 
         const baseDir = path.dirname(absFile);
-        let versioned = versionExternalRefs(content, baseDir);
+        let versioned = isHtml
+            ? versionHtmlExternalRefs(content, baseDir)
+            : versionExternalRefs(content, baseDir);
         if (isJs) {
             // Solo los ficheros .js externos versionan sus "import ... from"; el
             // contenido de scripts inline en HTML (fijados por hash CSP) no se toca.

@@ -6,6 +6,7 @@ TARGET_DIR="."
 # Nombre del objetivo a eliminar
 FOLDER_NAME="@eaDir"
 FILE_PATTERN="._*.*"
+FILE_PATTERN2=".nmp.*.*"
 
 delete_eadir_folders() {
 	echo "Iniciando la búsqueda y eliminación de carpetas $FOLDER_NAME en: $TARGET_DIR"
@@ -17,6 +18,12 @@ delete_dot_underscore_files() {
 	echo "Iniciando la búsqueda y eliminación de archivos $FILE_PATTERN en: $TARGET_DIR"
 	find "$TARGET_DIR" -type f -name "$FILE_PATTERN" -exec rm -f {} +
 	echo "Limpieza de archivos $FILE_PATTERN completada."
+}
+
+delete_nmp_files() {
+	echo "Iniciando la búsqueda y eliminación de archivos $FILE_PATTERN2 en: $TARGET_DIR"
+	find "$TARGET_DIR" -type f -name "$FILE_PATTERN2" -exec rm -f {} +
+	echo "Limpieza de archivos $FILE_PATTERN2 completada."
 }
 
 # 1. Buscar y listar (Paso de verificación opcional)
@@ -32,5 +39,6 @@ find "$TARGET_DIR" -type f -name "$FILE_PATTERN"
 # -exec rm -rf: ejecuta el borrado recursivo y forzado sobre cada resultado
 delete_eadir_folders
 delete_dot_underscore_files
+delete_nmp_files
 
 echo "Limpieza completada con éxito."
