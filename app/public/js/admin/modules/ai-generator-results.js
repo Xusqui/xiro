@@ -44,12 +44,12 @@ function _renderAIStep3Result(data) {
             </button>
             <div class="ai-section-body hidden p-4 border-t border-slate-100 max-h-64 overflow-y-auto">
                 ${r.error
-            ? `<div class="text-red-600 text-sm p-3 bg-red-50 rounded-lg">${r.error}
+        ? `<div class="text-red-600 text-sm p-3 bg-red-50 rounded-lg">${r.error}
                         <button data-ai-results-action="regenerate-type" data-type="${r.type}"
                             class="mt-2 block text-sm bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-bold transition">
                             <i class="fas fa-redo mr-1"></i>Regenerar solo este tipo</button></div>`
-            : r.questions.map((q, i) => `<p class="text-sm py-1 border-b border-slate-50 last:border-0">${i + 1}. ${q.questionText}</p>`).join('')
-        }
+        : r.questions.map((q, i) => `<p class="text-sm py-1 border-b border-slate-50 last:border-0">${i + 1}. ${q.questionText}</p>`).join('')
+}
             </div>
         </div>`).join('')}
         <div class="flex gap-4 mt-8">

@@ -403,13 +403,13 @@ function renderPerformance(metricsData, perfData) {
     <div class="metric-label">Últimas consultas DB (ms)</div>
     <div style="display: flex; align-items: flex-end; gap: 3px; height: 50px; margin-top: 0.5rem;">
       ${db.recent_query_times.map(t => {
-            const h = Math.max(4, (t / (max || 1)) * 46);
-            const color = t < 50 ? 'var(--green)' : t < 200 ? 'var(--yellow)' : 'var(--red)';
-            return `<div class="tooltip-container" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%;">
+        const h = Math.max(4, (t / (max || 1)) * 46);
+        const color = t < 50 ? 'var(--green)' : t < 200 ? 'var(--yellow)' : 'var(--red)';
+        return `<div class="tooltip-container" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%;">
           <div style="width: 100%; height: ${h}px; background: ${color}; border-radius: 3px 3px 0 0; min-width: 4px;"></div>
           <div class="tooltip-text">${t}ms</div>
         </div>`;
-        }).join('')}
+    }).join('')}
     </div>
   </div>
 `;
@@ -433,7 +433,7 @@ function renderGames(healthData, metricsData) {
     const lobbies = games.lobbies || 0;
     const lobbyPercent = (lobbies / maxLobbies) * 100;
 
-    let html = `
+    const html = `
 <div class="progress-bar-container">
   <div class="progress-label">
     <span>Jugadores conectados</span>
@@ -789,11 +789,11 @@ function escapeHtml(unsafe) {
     if (!unsafe) return '';
     return unsafe
         .toString()
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
 }
 
 function renderOverallStatus(healthData) {

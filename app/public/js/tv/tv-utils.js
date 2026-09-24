@@ -36,7 +36,7 @@ window.TVApp.Utils = (function () {
     }
 
     // Cache de elementos DOM
-    var cache = {};
+    let cache = {};
     function getEl(id) {
         if (!cache[id]) cache[id] = document.getElementById(id);
         return cache[id];
@@ -44,7 +44,7 @@ window.TVApp.Utils = (function () {
     function clearCache() { cache = {}; }
 
     // Debouncing
-    var updateTimeout = null;
+    let updateTimeout = null;
     function debounceUpdate(fn, delay) {
         clearTimeout(updateTimeout);
         updateTimeout = setTimeout(fn, delay || 50);
@@ -52,10 +52,10 @@ window.TVApp.Utils = (function () {
 
     // URL params
     function getURLParameter(name) {
-        var url = window.location.search.substring(1);
-        var params = url.split('&');
-        for (var i = 0; i < params.length; i++) {
-            var param = params[i].split('=');
+        const url = window.location.search.substring(1);
+        const params = url.split('&');
+        for (let i = 0; i < params.length; i++) {
+            const param = params[i].split('=');
             if (param[0] === name) return decodeURIComponent(param[1]);
         }
         return null;
@@ -63,7 +63,7 @@ window.TVApp.Utils = (function () {
 
     // XHR simple wrapper (ES5 compatible, no fetch)
     function xhr(method, url, callback) {
-        var x = new XMLHttpRequest();
+        const x = new XMLHttpRequest();
         x.open(method, url, true);
         x.onreadystatechange = function () {
             if (x.readyState === 4) {
@@ -79,10 +79,10 @@ window.TVApp.Utils = (function () {
 
     // Modal UI
     function showTvModal(title, message, type) {
-        var existing = document.getElementById('xiro-tv-modal');
+        const existing = document.getElementById('xiro-tv-modal');
         if (existing) existing.remove();
 
-        var overlay = document.createElement('div');
+        const overlay = document.createElement('div');
         overlay.id = 'xiro-tv-modal';
         overlay.style.position = 'fixed';
         overlay.style.top = '0';
@@ -96,7 +96,7 @@ window.TVApp.Utils = (function () {
         overlay.style.zIndex = '9999';
         overlay.style.padding = '20px';
 
-        var modal = document.createElement('div');
+        const modal = document.createElement('div');
         modal.style.background = '#ffffff';
         modal.style.borderRadius = '18px';
         modal.style.maxWidth = '420px';
@@ -106,22 +106,22 @@ window.TVApp.Utils = (function () {
         modal.style.border = '4px solid ' + (type === 'error' ? '#fca5a5' : type === 'warning' ? '#facc15' : '#93c5fd');
         modal.style.fontFamily = 'Arial, sans-serif';
 
-        var titleEl = document.createElement('div');
+        const titleEl = document.createElement('div');
         titleEl.textContent = _t(tr(title || 'Aviso'));
         titleEl.style.fontSize = '20px';
         titleEl.style.fontWeight = '800';
 
-        var msgEl = document.createElement('div');
+        const msgEl = document.createElement('div');
         msgEl.textContent = _t(tr(message || ''));
         msgEl.style.marginTop = '10px';
         msgEl.style.fontSize = '16px';
         msgEl.style.lineHeight = '1.4';
 
-        var actions = document.createElement('div');
+        const actions = document.createElement('div');
         actions.style.marginTop = '16px';
         actions.style.textAlign = 'center';
 
-        var btn = document.createElement('button');
+        const btn = document.createElement('button');
         btn.textContent = _t(tr('OK'));
         btn.style.background = '#2563eb';
         btn.style.color = '#ffffff';

@@ -22,7 +22,7 @@ function escapeHtml(text) {
             '<': '&lt;',
             '>': '&gt;',
             '"': '&quot;',
-            "'": '&#39;'
+            '\'': '&#39;'
         };
         return map[char] || char;
     });

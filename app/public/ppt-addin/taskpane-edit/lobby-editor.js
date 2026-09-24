@@ -151,7 +151,7 @@ const XiroLobbyEditor = (() => {
 
     function _esc(str) {
         return String(str).replace(/[&<>"']/g, c =>
-            ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+            ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', '\'': '&#39;' }[c]));
     }
 
     function unmount() { if (_container) _container.innerHTML = ''; }

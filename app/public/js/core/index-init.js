@@ -5,8 +5,8 @@
     // Grid ni backdrop-filter; los usamos como proxy de "dispositivo antiguo".
     function _isOldDevice() {
         if (!window.CSS || typeof CSS.supports !== 'function') return true;
-        var hasGrid = CSS.supports('display', 'grid');
-        var hasBackdropFilter = CSS.supports('backdrop-filter', 'blur(1px)') ||
+        const hasGrid = CSS.supports('display', 'grid');
+        const hasBackdropFilter = CSS.supports('backdrop-filter', 'blur(1px)') ||
             CSS.supports('-webkit-backdrop-filter', 'blur(1px)');
         return !hasGrid || !hasBackdropFilter;
     }
@@ -17,20 +17,20 @@
     }
 
     function _applyUiSettings(s) {
-        var cardTv = document.getElementById('card-tv');
+        const cardTv = document.getElementById('card-tv');
         if (cardTv) cardTv.style.display = _shouldShowTvCard(s.tvCardMode) ? '' : 'none';
 
-        var cardStandalone = document.getElementById('card-standalone');
+        const cardStandalone = document.getElementById('card-standalone');
         if (cardStandalone) cardStandalone.style.display = (s.showStandaloneCard === false) ? 'none' : '';
     }
 
     function _pollUiSettings() {
-        var xhr = new XMLHttpRequest();
+        const xhr = new XMLHttpRequest();
         xhr.open('GET', '/api/ui-settings', true);
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 try {
-                    var r = JSON.parse(xhr.responseText);
+                    const r = JSON.parse(xhr.responseText);
                     _applyUiSettings(r);
                 } catch (e) { }
             }

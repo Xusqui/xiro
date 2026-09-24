@@ -21,7 +21,7 @@ window.TrivialShared = window.TrivialShared || {};
 
     function animateBounce(inner) {
         if (!inner) return;
-        var cls = inner.className.baseVal || '';
+        const cls = inner.className.baseVal || '';
         inner.className.baseVal = cls.replace(' trivial-bounce', '');
         void inner.getBoundingClientRect();
         inner.className.baseVal += ' trivial-bounce';
@@ -31,7 +31,7 @@ window.TrivialShared = window.TrivialShared || {};
         if (!colorStr) {
             return { bg: '#ffffff', stroke: '#1e293b', text: '#1e293b' };
         }
-        var colorMap = {
+        const colorMap = {
             'red': '#ef4444',
             'blue': '#3b82f6',
             'green': '#22c55e',
@@ -42,39 +42,39 @@ window.TrivialShared = window.TrivialShared || {};
             'cyan': '#06b6d4',
             'lime': '#84cc16'
         };
-        var hex = colorMap[colorStr.toLowerCase()] || colorStr;
+        let hex = colorMap[colorStr.toLowerCase()] || colorStr;
         hex = hex.replace('#', '');
         if (hex.length === 3) {
             hex = hex.charAt(0) + hex.charAt(0) + hex.charAt(1) + hex.charAt(1) + hex.charAt(2) + hex.charAt(2);
         }
-        var r = parseInt(hex.substr(0, 2), 16);
-        var g = parseInt(hex.substr(2, 2), 16);
-        var b = parseInt(hex.substr(4, 2), 16);
+        const r = parseInt(hex.substr(0, 2), 16);
+        const g = parseInt(hex.substr(2, 2), 16);
+        const b = parseInt(hex.substr(4, 2), 16);
         if (isNaN(r) || isNaN(g) || isNaN(b)) {
             return { bg: '#ffffff', stroke: '#1e293b', text: '#1e293b' };
         }
         
         // Blend 97% white and 3% base color to get a very pale tint background (almost white)
-        var bgR = Math.round(255 * 0.97 + r * 0.03);
-        var bgG = Math.round(255 * 0.97 + g * 0.03);
-        var bgB = Math.round(255 * 0.97 + b * 0.03);
+        const bgR = Math.round(255 * 0.97 + r * 0.03);
+        const bgG = Math.round(255 * 0.97 + g * 0.03);
+        const bgB = Math.round(255 * 0.97 + b * 0.03);
         
-        var bgHex = '#' + 
+        const bgHex = '#' + 
             ('0' + bgR.toString(16)).slice(-2) + 
             ('0' + bgG.toString(16)).slice(-2) + 
             ('0' + bgB.toString(16)).slice(-2);
             
         // Use the base color for stroke and text, but darken it if it's too light/bright (like yellow or lime)
-        var brightness = (r * 299 + g * 587 + b * 114) / 1000;
-        var strokeColor = '#' + hex;
-        var textColor = '#' + hex;
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        let strokeColor = '#' + hex;
+        let textColor = '#' + hex;
         
         if (brightness > 165) {
             // Darken by 35% to make sure it is clearly visible on a pale background
-            var darkR = Math.max(0, Math.round(r * 0.65));
-            var darkG = Math.max(0, Math.round(g * 0.65));
-            var darkB = Math.max(0, Math.round(b * 0.65));
-            var darkHex = '#' + 
+            const darkR = Math.max(0, Math.round(r * 0.65));
+            const darkG = Math.max(0, Math.round(g * 0.65));
+            const darkB = Math.max(0, Math.round(b * 0.65));
+            const darkHex = '#' + 
                 ('0' + darkR.toString(16)).slice(-2) + 
                 ('0' + darkG.toString(16)).slice(-2) + 
                 ('0' + darkB.toString(16)).slice(-2);
@@ -90,16 +90,16 @@ window.TrivialShared = window.TrivialShared || {};
     }
 
     function createTokenEl(safeId, x, y, isActive, color, label, fontSize) {
-        var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         g.id = safeId;
         g.style.setProperty('transform-box', 'view-box');
         g.style.transform = 'translate(' + toVBPct(x) + ', ' + toVBPct(y) + ')';
         
-        var style = getTokenColorStyle(color);
-        console.log("createTokenEl:", { safeId: safeId, color: color, label: label, fontSize: fontSize, style: style });
+        const style = getTokenColorStyle(color);
+        console.log('createTokenEl:', { safeId: safeId, color: color, label: label, fontSize: fontSize, style: style });
 
         // Build SVG elements programmatically rather than innerHTML to ensure full compatibility with older Smart TV browser engines
-        var ring = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        const ring = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
         ring.setAttribute('class', 'trivial-active-ring');
         ring.setAttribute('r', '15');
         ring.setAttribute('fill', 'none');
@@ -107,7 +107,7 @@ window.TrivialShared = window.TrivialShared || {};
         ring.setAttribute('stroke-width', '2.5');
         ring.setAttribute('visibility', isActive ? 'visible' : 'hidden');
 
-        var anim1 = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
+        const anim1 = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
         anim1.setAttribute('attributeName', 'r');
         anim1.setAttribute('values', '15;19;15');
         anim1.setAttribute('dur', '1.6s');
@@ -116,7 +116,7 @@ window.TrivialShared = window.TrivialShared || {};
         anim1.setAttribute('keySplines', '0.4 0 0.6 1;0.4 0 0.6 1');
         ring.appendChild(anim1);
 
-        var anim2 = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
+        const anim2 = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
         anim2.setAttribute('attributeName', 'stroke-opacity');
         anim2.setAttribute('values', '0.9;0.1;0.9');
         anim2.setAttribute('dur', '1.6s');
@@ -127,10 +127,10 @@ window.TrivialShared = window.TrivialShared || {};
 
         g.appendChild(ring);
 
-        var inner = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        const inner = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         inner.setAttribute('class', 'trivial-inner');
 
-        var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
         circle.setAttribute('class', 'team-color-circle');
         circle.setAttribute('r', '11');
         circle.setAttribute('fill', style.bg);
@@ -138,7 +138,7 @@ window.TrivialShared = window.TrivialShared || {};
         circle.setAttribute('stroke-width', '2.5');
         inner.appendChild(circle);
 
-        var text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         text.setAttribute('x', '0');
         text.setAttribute('y', '3.5');
         text.setAttribute('text-anchor', 'middle');
@@ -154,40 +154,40 @@ window.TrivialShared = window.TrivialShared || {};
     }
 
     function removeStale(layer, seen) {
-        var tokens = layer.querySelectorAll('[id^="token-"]');
-        for (var i = 0; i < tokens.length; i++) {
+        const tokens = layer.querySelectorAll('[id^="token-"]');
+        for (let i = 0; i < tokens.length; i++) {
             if (!seen[tokens[i].id]) tokens[i].parentNode.removeChild(tokens[i]);
         }
     }
 
     // Paleta de colores para fichas individuales (por índice en turnOrder)
-    var PLAYER_COLORS = ['#ef4444', '#3b82f6', '#22c55e', '#eab308', '#a855f7', '#f97316', '#06b6d4', '#ec4899'];
+    const PLAYER_COLORS = ['#ef4444', '#3b82f6', '#22c55e', '#eab308', '#a855f7', '#f97316', '#06b6d4', '#ec4899'];
 
     ns.updateBoardTokens = function (players, categories, M, currentTurnNick, turnOrder) {
-        var container = document.getElementById('trivial-board-svg');
+        const container = document.getElementById('trivial-board-svg');
         if (!container || !container._boardN) return;
-        var N = container._boardN;
-        var layer = document.getElementById('board-tokens');
+        const N = container._boardN;
+        const layer = document.getElementById('board-tokens');
         if (!layer) return;
 
-        var seen = {};
+        const seen = {};
         turnOrder = turnOrder || [];
-        var nickList = Object.keys(players);
+        const nickList = Object.keys(players);
 
-        for (var nick in players) {
-            var p = players[nick];
+        for (const nick in players) {
+            const p = players[nick];
             if (!p) continue;
-            var xy = ns.posToXY(p.position || 'center', N, M);
-            var safeId = 'token-' + nick.replace(/[^a-zA-Z0-9]/g, '_');
+            const xy = ns.posToXY(p.position || 'center', N, M);
+            const safeId = 'token-' + nick.replace(/[^a-zA-Z0-9]/g, '_');
             seen[safeId] = true;
-            var isActive = (nick === currentTurnNick);
+            const isActive = (nick === currentTurnNick);
 
-            var orderIdx = turnOrder.indexOf(nick);
-            var colorIdx = orderIdx >= 0 ? orderIdx : nickList.indexOf(nick);
-            var color = PLAYER_COLORS[colorIdx % PLAYER_COLORS.length];
+            const orderIdx = turnOrder.indexOf(nick);
+            const colorIdx = orderIdx >= 0 ? orderIdx : nickList.indexOf(nick);
+            const color = PLAYER_COLORS[colorIdx % PLAYER_COLORS.length];
             
-            var nameParts = nick.trim().split(/[\s\-_.]+/);
-            var initials = '';
+            const nameParts = nick.trim().split(/[\s\-_.]+/);
+            let initials = '';
             if (nameParts.length >= 2 && nameParts[0].length > 0 && nameParts[1].length > 0) {
                 initials = (nameParts[0].charAt(0) + nameParts[1].charAt(0)).toUpperCase();
             } else {
@@ -195,10 +195,10 @@ window.TrivialShared = window.TrivialShared || {};
             }
             initials = initials || '?';
             
-            var fontSize = initials.length > 1 ? '7.5' : '9.5';
+            const fontSize = initials.length > 1 ? '7.5' : '9.5';
 
-            console.log("Token Render (player):", { nick: nick, initials: initials, fontSize: fontSize, safeId: safeId, isActive: isActive });
-            var g = layer.querySelector('#' + safeId);
+            console.log('Token Render (player):', { nick: nick, initials: initials, fontSize: fontSize, safeId: safeId, isActive: isActive });
+            let g = layer.querySelector('#' + safeId);
             if (!g) {
                 g = createTokenEl(safeId, xy.x, xy.y, isActive, color, initials, fontSize);
                 layer.appendChild(g);
@@ -206,12 +206,12 @@ window.TrivialShared = window.TrivialShared || {};
                     window.requestAnimationFrame(function () { el.setAttribute('class', 'trivial-token'); });
                 })(g);
             } else {
-                var ring = g.querySelector('.trivial-active-ring');
+                const ring = g.querySelector('.trivial-active-ring');
                 if (ring) ring.setAttribute('visibility', isActive ? 'visible' : 'hidden');
                 
-                var circle = g.querySelector('.team-color-circle');
-                var text = g.querySelector('text');
-                var style = getTokenColorStyle(color);
+                const circle = g.querySelector('.team-color-circle');
+                const text = g.querySelector('text');
+                const style = getTokenColorStyle(color);
                 
                 if (circle) {
                     circle.setAttribute('fill', style.bg);
@@ -227,10 +227,10 @@ window.TrivialShared = window.TrivialShared || {};
                     text.setAttribute('font-size', fontSize);
                 }
 
-                var newT = 'translate(' + toVBPct(xy.x) + ', ' + toVBPct(xy.y) + ')';
+                const newT = 'translate(' + toVBPct(xy.x) + ', ' + toVBPct(xy.y) + ')';
                 if (g.style.transform !== newT) {
                     g.style.transform = newT;
-                    var inner = g.querySelector('.trivial-inner');
+                    const inner = g.querySelector('.trivial-inner');
                     if (inner) {
                         setTimeout((function (inn) { return function () { animateBounce(inn); }; })(inner), 560);
                     }
@@ -241,36 +241,36 @@ window.TrivialShared = window.TrivialShared || {};
     };
 
     ns.updateBoardTokensTeam = function (players, teamConfig, M, currentTurn, turnOrder) {
-        var container = document.getElementById('trivial-board-svg');
+        const container = document.getElementById('trivial-board-svg');
         if (!container || !container._boardN) return;
-        var N = container._boardN;
-        var layer = document.getElementById('board-tokens');
+        const N = container._boardN;
+        const layer = document.getElementById('board-tokens');
         if (!layer) return;
 
-        var teams = (teamConfig && teamConfig.teams) ? teamConfig.teams : [];
-        var seen = {};
+        const teams = (teamConfig && teamConfig.teams) ? teamConfig.teams : [];
+        const seen = {};
         turnOrder = turnOrder || [];
 
-        for (var i = 0; i < teams.length; i++) {
-            var team = teams[i];
-            var teamName = team.name;
-            var color = team.color || '#888';
-            var safeId = 'token-' + teamName.replace(/[^a-zA-Z0-9]/g, '_');
+        for (let i = 0; i < teams.length; i++) {
+            const team = teams[i];
+            const teamName = team.name;
+            const color = team.color || '#888';
+            const safeId = 'token-' + teamName.replace(/[^a-zA-Z0-9]/g, '_');
             seen[safeId] = true;
 
-            var memberNick = null;
+            let memberNick = null;
             if (team.players && players) {
-                for (var j = 0; j < team.players.length; j++) {
+                for (let j = 0; j < team.players.length; j++) {
                     if (players[team.players[j]]) { memberNick = team.players[j]; break; }
                 }
             }
-            var pos = memberNick ? (players[memberNick].position || 'center') : 'center';
-            var xy = ns.posToXY(pos, N, M);
-            var isActive = (teamName === currentTurn);
-            var posNum = turnOrder.indexOf(teamName) >= 0 ? turnOrder.indexOf(teamName) + 1 : 0;
+            const pos = memberNick ? (players[memberNick].position || 'center') : 'center';
+            const xy = ns.posToXY(pos, N, M);
+            const isActive = (teamName === currentTurn);
+            const posNum = turnOrder.indexOf(teamName) >= 0 ? turnOrder.indexOf(teamName) + 1 : 0;
             
-            var teamInitials = '';
-            var teamParts = teamName.trim().split(/[\s\-_.]+/);
+            let teamInitials = '';
+            const teamParts = teamName.trim().split(/[\s\-_.]+/);
             if (teamParts.length >= 2 && teamParts[0].length > 0 && teamParts[1].length > 0) {
                 teamInitials = (teamParts[0].charAt(0) + teamParts[1].charAt(0)).toUpperCase();
             } else {
@@ -278,11 +278,11 @@ window.TrivialShared = window.TrivialShared || {};
             }
             teamInitials = teamInitials || '?';
             
-            var label = teamInitials;
-            var fontSize = label.length > 1 ? '7.5' : '9.5';
-            console.log("Token Render (team):", { teamName: teamName, initials: teamInitials, label: label, fontSize: fontSize, safeId: safeId, isActive: isActive });
+            const label = teamInitials;
+            const fontSize = label.length > 1 ? '7.5' : '9.5';
+            console.log('Token Render (team):', { teamName: teamName, initials: teamInitials, label: label, fontSize: fontSize, safeId: safeId, isActive: isActive });
 
-            var g = layer.querySelector('#' + safeId);
+            let g = layer.querySelector('#' + safeId);
             if (!g) {
                 g = createTokenEl(safeId, xy.x, xy.y, isActive, color, label, fontSize);
                 layer.appendChild(g);
@@ -290,12 +290,12 @@ window.TrivialShared = window.TrivialShared || {};
                     window.requestAnimationFrame(function () { el.setAttribute('class', 'trivial-token'); });
                 })(g);
             } else {
-                var ring = g.querySelector('.trivial-active-ring');
+                const ring = g.querySelector('.trivial-active-ring');
                 if (ring) ring.setAttribute('visibility', isActive ? 'visible' : 'hidden');
                 
-                var circle = g.querySelector('.team-color-circle');
-                var text = g.querySelector('text');
-                var style = getTokenColorStyle(color);
+                const circle = g.querySelector('.team-color-circle');
+                const text = g.querySelector('text');
+                const style = getTokenColorStyle(color);
                 
                 if (circle) {
                     circle.setAttribute('fill', style.bg);
@@ -311,10 +311,10 @@ window.TrivialShared = window.TrivialShared || {};
                     text.setAttribute('font-size', fontSize);
                 }
 
-                var newT = 'translate(' + toVBPct(xy.x) + ', ' + toVBPct(xy.y) + ')';
+                const newT = 'translate(' + toVBPct(xy.x) + ', ' + toVBPct(xy.y) + ')';
                 if (g.style.transform !== newT) {
                     g.style.transform = newT;
-                    var inner = g.querySelector('.trivial-inner');
+                    const inner = g.querySelector('.trivial-inner');
                     if (inner) {
                         setTimeout((function (inn) { return function () { animateBounce(inn); }; })(inner), 560);
                     }

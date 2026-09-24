@@ -321,7 +321,7 @@ async function dibujarBancosJuego() {
                         <i class="fas fa-info-circle mr-1"></i>${_t('admin.games.bank_questions_info', {n: totalQuestions}, 'Este banco tiene {n} preguntas disponibles').replace('{n}', totalQuestions)}
                     </p>
                 </div>
-            `}).join('');
+            `;}).join('');
 
     dibujarSeccionPool();
 }

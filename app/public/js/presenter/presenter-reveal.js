@@ -217,12 +217,12 @@ export function handleRevealAnswer(data) {
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                         ${data.ranking.filter(p => p.name !== 'HOST').slice(0, 5).map((p, i) => {
-                const bgColor = i === 0 ? 'background: rgba(251, 191, 36, 0.3); border: 2px solid rgb(251, 191, 36);' : 'background: rgba(255, 255, 255, 0.1);';
-                return `<div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-radius: 0.75rem; ${bgColor}">
+        const bgColor = i === 0 ? 'background: rgba(251, 191, 36, 0.3); border: 2px solid rgb(251, 191, 36);' : 'background: rgba(255, 255, 255, 0.1);';
+        return `<div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-radius: 0.75rem; ${bgColor}">
                                 <span style="font-weight: 900; font-size: 1.125rem; text-transform: uppercase;">${i + 1}. ${p.name}</span>
                                 <span style="font-weight: 900; font-size: 1.25rem;">${p.pts}</span>
                             </div>`;
-            }).join('')}
+    }).join('')}
                     </div>
                 </div>
             `;
@@ -255,12 +255,12 @@ export function handleRevealAnswer(data) {
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                         ${data.ranking.filter(p => p.name !== 'HOST').slice(0, 5).map((p, i) => {
-                const bgColor = i === 0 ? 'background: rgba(251, 191, 36, 0.3); border: 2px solid rgb(251, 191, 36);' : 'background: rgba(255, 255, 255, 0.1);';
-                return `<div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-radius: 0.75rem; ${bgColor}">
+        const bgColor = i === 0 ? 'background: rgba(251, 191, 36, 0.3); border: 2px solid rgb(251, 191, 36);' : 'background: rgba(255, 255, 255, 0.1);';
+        return `<div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-radius: 0.75rem; ${bgColor}">
                                 <span style="font-weight: 900; font-size: 1.125rem; text-transform: uppercase;">${i + 1}. ${p.name}</span>
                                 <span style="font-weight: 900; font-size: 1.25rem;">${p.pts}</span>
                             </div>`;
-            }).join('')}
+    }).join('')}
                     </div>
                 </div>
             `;
@@ -298,12 +298,12 @@ export function handleRevealAnswer(data) {
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                         ${data.ranking.filter(p => p.name !== 'HOST').slice(0, 5).map((p, i) => {
-                const bgColor = i === 0 ? 'background: rgba(251, 191, 36, 0.3); border: 2px solid rgb(251, 191, 36);' : 'background: rgba(255, 255, 255, 0.1);';
-                return `<div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-radius: 0.75rem; ${bgColor}">
+        const bgColor = i === 0 ? 'background: rgba(251, 191, 36, 0.3); border: 2px solid rgb(251, 191, 36);' : 'background: rgba(255, 255, 255, 0.1);';
+        return `<div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-radius: 0.75rem; ${bgColor}">
                                 <span style="font-weight: 900; font-size: 1.125rem; text-transform: uppercase;">${i + 1}. ${p.name}</span>
                                 <span style="font-weight: 900; font-size: 1.25rem;">${p.pts}</span>
                             </div>`;
-            }).join('')}
+    }).join('')}
                     </div>
                 </div>
             `;

@@ -8,7 +8,7 @@ window.TVApp.State = (function () {
         console.log('ERROR: presenterPlayerId no definido');
     }
 
-    var state = {
+    const state = {
         playerId: typeof presenterPlayerId !== 'undefined' ? presenterPlayerId : null,
         pin: null,
         sessionId: null, // ID de sesión único (PIN-UUID)

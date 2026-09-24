@@ -245,13 +245,13 @@ export function renderTeamLobby() {
                     </div>
                     <div class="flex flex-wrap gap-3">
                         ${team.players.map(player => {
-            const playerScore = playersData[player] ? playersData[player].score : 0;
-            return `
+        const playerScore = playersData[player] ? playersData[player].score : 0;
+        return `
                                 <div class="bg-white text-slate-900 px-3 py-2 rounded-lg font-black text-center uppercase italic text-xs inline-flex whitespace-nowrap" data-nickname="${player}">
                                     <div>${player}</div>
                                 </div>
                             `;
-        }).join('') || `<p class="text-white/70 italic w-full text-center py-4">${_t('presenter.lobby.waiting', null, 'Esperando jugadores...')}</p>`}
+    }).join('') || `<p class="text-white/70 italic w-full text-center py-4">${_t('presenter.lobby.waiting', null, 'Esperando jugadores...')}</p>`}
                     </div>
                 </div>
             </div>
@@ -270,13 +270,13 @@ export function renderTeamLobby() {
                     </div>
                     <div class="flex flex-wrap gap-3">
                         ${team.players.map(player => {
-            const playerScore = playersData[player] ? playersData[player].score : 0;
-            return `
+        const playerScore = playersData[player] ? playersData[player].score : 0;
+        return `
                                 <div class="bg-white text-slate-900 px-3 py-2 rounded-lg font-black text-center uppercase italic text-xs inline-flex whitespace-nowrap" data-nickname="${player}">
                                     <div>${player}</div>
                                 </div>
                             `;
-        }).join('') || `<p class="text-white/70 italic w-full text-center py-4">${_t('presenter.lobby.waiting', null, 'Esperando jugadores...')}</p>`}
+    }).join('') || `<p class="text-white/70 italic w-full text-center py-4">${_t('presenter.lobby.waiting', null, 'Esperando jugadores...')}</p>`}
                     </div>
                 </div>
             </div>

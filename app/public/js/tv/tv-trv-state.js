@@ -2,7 +2,7 @@ window.TVApp = window.TVApp || {};
 window.TVApp.TrvState = (function () {
     'use strict';
 
-    var state = null;
+    let state = null;
 
     function setTrivialGameState(data) {
         state = data;

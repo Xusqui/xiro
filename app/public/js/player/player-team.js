@@ -39,8 +39,8 @@ export function mostrarSeleccionEquipo() {
             <span class="team-name">${team.name.toUpperCase()}</span>
             <div class="team-players-count">
                 ${team.players.length > 0 ?
-            `${team.players.length} ${team.players.length === 1 ? 'jugador' : 'jugadores'}` :
-            _t('player.team.no_players', null, 'Sin jugadores aún')}
+        `${team.players.length} ${team.players.length === 1 ? 'jugador' : 'jugadores'}` :
+        _t('player.team.no_players', null, 'Sin jugadores aún')}
             </div>
         </button>
     `).join('');

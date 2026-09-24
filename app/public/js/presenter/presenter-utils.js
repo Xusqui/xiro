@@ -102,7 +102,7 @@ export function adjustTextSize() {
 
         // Probar cada tamaño hasta encontrar uno que quepa
         let optimalSize = sizes[sizes.length - 1];
-        for (let size of sizes) {
+        for (const size of sizes) {
             textElement.style.fontSize = size + 'px';
 
             if (textElement.scrollHeight <= containerHeight &&

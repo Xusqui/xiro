@@ -56,9 +56,9 @@ export function salirDelLobby() {
             }
 
             // Resetear variables globales
-            setPin("");
-            setSessionId("");
-            setNickname("");
+            setPin('');
+            setSessionId('');
+            setNickname('');
 
             // Volver a la pantalla inicial
             location.reload();

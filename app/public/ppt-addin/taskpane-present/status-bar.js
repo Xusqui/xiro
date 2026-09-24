@@ -29,7 +29,7 @@ const XiroStatusBar = (() => {
                 <div class="sv-status-row${polling && sessionId ? ' sv-status-row--live' : ''}">
                     <span class="sv-dot${polling && sessionId ? ' sv-dot--live' : polling ? ' sv-dot--ready' : ''}"></span>
                     <span class="sv-status-label">${sessionId ? 'Sesión activa' : polling ? 'En espera' : 'Sin conexión'
-            }</span>
+    }</span>
                 </div>
                 ${sessionId ? `
                 <div class="sv-session">

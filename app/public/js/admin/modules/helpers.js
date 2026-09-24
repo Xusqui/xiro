@@ -139,8 +139,8 @@ function dibujarPreguntas() {
                                 <div class="flex items-center justify-between bg-white p-3 rounded-lg border border-purple-300">
                                     <div class="flex items-center gap-3">
                                         ${q.tipo_contenido === 'imagen'
-                ? '<i class="fas fa-image text-purple-600 text-xl"></i>'
-                : '<i class="fas fa-volume-up text-blue-600 text-xl"></i>'}
+        ? '<i class="fas fa-image text-purple-600 text-xl"></i>'
+        : '<i class="fas fa-volume-up text-blue-600 text-xl"></i>'}
                                         <div>
                                             <p class="font-bold text-sm text-slate-800">${q.tipo_contenido === 'imagen' ? 'Imagen' : 'Audio'}</p>
                                             <p class="text-xs text-slate-500 font-mono break-all">${q.url_recurso}</p>
@@ -151,14 +151,14 @@ function dibujarPreguntas() {
                                     </button>
                                 </div>
                                 ${q.tipo_contenido === 'imagen'
-                ? `<div class="text-center"><img src="${q.url_recurso}" alt="Preview" class="max-w-full max-h-48 mx-auto rounded-lg shadow-md"></div>`
-                : `<div id="audio-container-${qIdx}" class="audio-placeholder" data-audio-src="${q.url_recurso}"></div>`
-            }
+        ? `<div class="text-center"><img src="${q.url_recurso}" alt="Preview" class="max-w-full max-h-48 mx-auto rounded-lg shadow-md"></div>`
+        : `<div id="audio-container-${qIdx}" class="audio-placeholder" data-audio-src="${q.url_recurso}"></div>`
+}
                                 <p class="text-xs text-slate-500 italic">
                                     <i class="fas fa-info-circle mr-1"></i>
                                     ${q.tipo_contenido === 'imagen'
-                ? 'En presentador.html las opciones se ocultarán. En jugador.html se mostrarán normalmente.'
-                : 'El audio se reproducirá automáticamente en presentador.html y estará muto en jugador.html.'}
+        ? 'En presentador.html las opciones se ocultarán. En jugador.html se mostrarán normalmente.'
+        : 'El audio se reproducirá automáticamente en presentador.html y estará muto en jugador.html.'}
                                 </p>
                             </div>
                         `}
@@ -423,20 +423,20 @@ function dibujarPreguntas() {
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                         ${q.options.map((opt, oIdx) => {
-                    return `
+        return `
                                 <div class="flex flex-col gap-1">
                                     <div class="flex items-center gap-3 bg-slate-50 p-3 rounded-xl border-2 ${opt.isCorrect ? 'border-green-400 bg-green-50' : 'border-transparent'}">
                                         <input type="checkbox" ${opt.isCorrect ? 'checked' : ''} data-admin-change="marcarCorrectaMultiple(${qIdx}, ${oIdx})" class="w-5 h-5 accent-green-600">
                                         <input type="text" value="${escapeHtml(opt.optionText || '')}" data-admin-input="preguntasData[${qIdx}].options[${oIdx}].optionText = this.value" placeholder="Respuesta..." class="bg-transparent flex-1 outline-none text-sm font-medium">
                                         ${opt.option_image_url
-                                            ? `<div class="relative flex-shrink-0"><img src="${escapeHtml(opt.option_image_url)}" class="w-12 h-12 object-cover rounded-lg border border-slate-200" alt="Imagen opción"><button id="opt-img-btn-${qIdx}-${oIdx}" data-admin-click="eliminarImagenOpcion(${qIdx}, ${oIdx})" class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 text-xs flex items-center justify-center leading-none" title="Quitar imagen">×</button></div>`
-                                            : `<label class="cursor-pointer text-slate-400 hover:text-purple-600 transition flex-shrink-0" title="Añadir imagen (máx. 200 KB)"><i class="fas fa-image"></i><input type="file" accept="image/jpeg,image/png,image/gif,image/webp" class="hidden" data-admin-change="onImagenOpcionChange(this, ${qIdx}, ${oIdx})"></label>`
-                                        }
+        ? `<div class="relative flex-shrink-0"><img src="${escapeHtml(opt.option_image_url)}" class="w-12 h-12 object-cover rounded-lg border border-slate-200" alt="Imagen opción"><button id="opt-img-btn-${qIdx}-${oIdx}" data-admin-click="eliminarImagenOpcion(${qIdx}, ${oIdx})" class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 text-xs flex items-center justify-center leading-none" title="Quitar imagen">×</button></div>`
+        : `<label class="cursor-pointer text-slate-400 hover:text-purple-600 transition flex-shrink-0" title="Añadir imagen (máx. 200 KB)"><i class="fas fa-image"></i><input type="file" accept="image/jpeg,image/png,image/gif,image/webp" class="hidden" data-admin-change="onImagenOpcionChange(this, ${qIdx}, ${oIdx})"></label>`
+}
                                         ${q.options.length > 2 ? `<button data-admin-click="eliminarOpcion(${qIdx}, ${oIdx})" class="text-slate-300 hover:text-red-500">×</button>` : ''}
                                     </div>
                                 </div>
                             `;
-                }).join('')}
+    }).join('')}
                         
                         ${q.options.length < 6 ? `
                         <button data-admin-click="añadirOpcion(${qIdx})" class="text-xs text-purple-600 font-bold border-2 border-dashed border-purple-200 rounded-xl py-3 hover:bg-purple-50 transition">
@@ -446,8 +446,8 @@ function dibujarPreguntas() {
                     ` : `
                     <div class="grid grid-cols-2 gap-4">
                         ${q.options.map((opt, oIdx) => {
-                    if (q.type === 'order') {
-                        return `
+        if (q.type === 'order') {
+            return `
                                     <div class="flex flex-col gap-2 bg-slate-50 p-3 rounded-xl border-2 border-indigo-200">
                                         <div class="flex items-center gap-3">
                                             <div class="flex flex-col gap-1">
@@ -461,22 +461,22 @@ function dibujarPreguntas() {
                                         <input type="text" value="${escapeHtml(opt.justification || '')}" data-admin-input="preguntasData[${qIdx}].options[${oIdx}].justification = this.value" placeholder="Ej: 250,000 km de vías" class="bg-white border border-indigo-200 rounded-lg px-3 py-2 text-xs outline-none focus:border-indigo-500 transition">
                                     </div>
                                 `;
-                    }
+        }
 
-                    return `
+        return `
                                 <div class="flex flex-col gap-1">
                                     <div class="flex items-center gap-3 bg-slate-50 p-3 rounded-xl border-2 ${q.type === 'quiz' && opt.isCorrect ? 'border-green-400 bg-green-50' : 'border-transparent'}">
                                         ${q.type === 'quiz' ? `<input type="radio" name="correct_${qIdx}" ${opt.isCorrect ? 'checked' : ''} data-admin-change="marcarCorrecta(${qIdx}, ${oIdx})" class="w-5 h-5 accent-green-600">` : `<input type="checkbox" checked disabled class="w-5 h-5 accent-blue-600">`}
                                         <input type="text" value="${escapeHtml(opt.optionText || '')}" data-admin-input="preguntasData[${qIdx}].options[${oIdx}].optionText = this.value" placeholder="Respuesta..." class="bg-transparent flex-1 outline-none text-sm font-medium">
                                         ${opt.option_image_url
-                                            ? `<div class="relative flex-shrink-0"><img src="${escapeHtml(opt.option_image_url)}" class="w-12 h-12 object-cover rounded-lg border border-slate-200" alt="Imagen opción"><button id="opt-img-btn-${qIdx}-${oIdx}" data-admin-click="eliminarImagenOpcion(${qIdx}, ${oIdx})" class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 text-xs flex items-center justify-center leading-none" title="Quitar imagen">×</button></div>`
-                                            : `<label class="cursor-pointer text-slate-400 hover:text-purple-600 transition flex-shrink-0" title="Añadir imagen (máx. 200 KB)"><i class="fas fa-image"></i><input type="file" accept="image/jpeg,image/png,image/gif,image/webp" class="hidden" data-admin-change="onImagenOpcionChange(this, ${qIdx}, ${oIdx})"></label>`
-                                        }
+        ? `<div class="relative flex-shrink-0"><img src="${escapeHtml(opt.option_image_url)}" class="w-12 h-12 object-cover rounded-lg border border-slate-200" alt="Imagen opción"><button id="opt-img-btn-${qIdx}-${oIdx}" data-admin-click="eliminarImagenOpcion(${qIdx}, ${oIdx})" class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 text-xs flex items-center justify-center leading-none" title="Quitar imagen">×</button></div>`
+        : `<label class="cursor-pointer text-slate-400 hover:text-purple-600 transition flex-shrink-0" title="Añadir imagen (máx. 200 KB)"><i class="fas fa-image"></i><input type="file" accept="image/jpeg,image/png,image/gif,image/webp" class="hidden" data-admin-change="onImagenOpcionChange(this, ${qIdx}, ${oIdx})"></label>`
+}
                                         ${q.options.length > 2 ? `<button data-admin-click="eliminarOpcion(${qIdx}, ${oIdx})" class="text-slate-300 hover:text-red-500">×</button>` : ''}
                                     </div>
                                 </div>
                             `;
-                }).join('')}
+    }).join('')}
                         
                         ${q.options.length < 6 ? `
                         <button data-admin-click="añadirOpcion(${qIdx})" class="text-xs text-purple-600 font-bold border-2 border-dashed border-purple-200 rounded-xl py-3 hover:bg-purple-50 transition">

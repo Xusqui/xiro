@@ -2,11 +2,11 @@ window.TVApp = window.TVApp || {};
 window.TVApp.TrvLayout = (function () {
     'use strict';
 
-    var getEl = window.TVApp.Utils.getEl;
-    var clearCache = window.TVApp.Utils.clearCache;
+    const getEl = window.TVApp.Utils.getEl;
+    const clearCache = window.TVApp.Utils.clearCache;
 
     function buildTrivialLayout() {
-        var html = '<div style="display:flex;flex-direction:column;height:100%;width:100%;overflow:hidden">';
+        let html = '<div style="display:flex;flex-direction:column;height:100%;width:100%;overflow:hidden">';
 
         // Status bar
         html += '<div id="trv-status" style="flex-shrink:0;background:rgba(15,23,42,0.92);border-radius:12px;';
@@ -37,15 +37,15 @@ window.TVApp.TrvLayout = (function () {
     }
 
     function buildCategoryLegend(state) {
-        var el = getEl('trv-category-legend');
+        const el = getEl('trv-category-legend');
         if (!el || !state || !state.categories || !state.categories.length) return;
 
-        var html = '<div style="font-size:18px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.6px;padding:2px 4px 4px">BANCOS</div>';
+        let html = '<div style="font-size:18px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.6px;padding:2px 4px 4px">BANCOS</div>';
 
-        for (var i = 0; i < state.categories.length; i++) {
-            var c = state.categories[i];
-            var col = c.color || '#888';
-            var name = c.bank_name || c.category_name || 'Desconocido';
+        for (let i = 0; i < state.categories.length; i++) {
+            const c = state.categories[i];
+            const col = c.color || '#888';
+            const name = c.bank_name || c.category_name || 'Desconocido';
 
             html += '<div style="display:flex;align-items:center;padding:12px 14px;background:rgba(30,41,59,0.85);border-radius:8px;border-left:4px solid ' + col + ';margin-bottom:14px">';
             html += '<span style="width:18px;height:18px;border-radius:50%;flex-shrink:0;background:' + col + ';box-shadow:0 0 8px ' + col + ';margin-right:14px"></span>';
@@ -55,63 +55,63 @@ window.TVApp.TrvLayout = (function () {
     }
 
     function refreshPlayerScores(state) {
-        var panel = getEl('trv-player-scores');
+        const panel = getEl('trv-player-scores');
         if (!panel || !state) return;
 
-        var categories = state.categories || [];
-        var currentTurn = state.currentTurn;
-        var turnOrder = state.turnOrder || [];
-        var players = state.players || {};
+        const categories = state.categories || [];
+        const currentTurn = state.currentTurn;
+        const turnOrder = state.turnOrder || [];
+        const players = state.players || {};
 
-        var isTeamMode = state.teamMode || false;
-        var pKeys = Object.keys(players);
-        for (var k = 0; k < pKeys.length; k++) {
+        let isTeamMode = state.teamMode || false;
+        const pKeys = Object.keys(players);
+        for (let k = 0; k < pKeys.length; k++) {
             if (players[pKeys[k]].teamName) isTeamMode = true;
         }
 
-        var html = '';
+        let html = '';
 
         if (isTeamMode) {
-            var teamCfg = state.teamConfig;
+            let teamCfg = state.teamConfig;
             if (!teamCfg || !teamCfg.teams || !teamCfg.teams.length) {
-                var teamMap = {};
-                for (var nk in players) {
-                    var tg = players[nk].teamName;
+                const teamMap = {};
+                for (const nk in players) {
+                    const tg = players[nk].teamName;
                     if (!tg) continue;
                     if (!teamMap[tg]) teamMap[tg] = { name: tg, color: '#888', players: [] };
                     teamMap[tg].players.push(nk);
                 }
-                var tArr = [];
-                for (var key in teamMap) tArr.push(teamMap[key]);
+                const tArr = [];
+                for (const key in teamMap) tArr.push(teamMap[key]);
                 teamCfg = { teams: tArr };
             }
             if (!teamCfg || !teamCfg.teams || !teamCfg.teams.length) return;
 
-            for (var i = 0; i < teamCfg.teams.length; i++) {
-                var team = teamCfg.teams[i];
-                var tName = team.name;
-                var tColor = team.color || '#888';
-                var isActive = (tName === currentTurn);
-                var bg = isActive ? 'rgba(234,179,8,0.18)' : 'rgba(51,65,85,0.5)';
-                var border = isActive ? 'rgba(234,179,8,0.5)' : 'transparent';
+            for (let i = 0; i < teamCfg.teams.length; i++) {
+                const team = teamCfg.teams[i];
+                const tName = team.name;
+                const tColor = team.color || '#888';
+                const isActive = (tName === currentTurn);
+                const bg = isActive ? 'rgba(234,179,8,0.18)' : 'rgba(51,65,85,0.5)';
+                const border = isActive ? 'rgba(234,179,8,0.5)' : 'transparent';
 
-                var rawTokens = (state.teamTokens && state.teamTokens[tName]) ? state.teamTokens[tName] : [];
+                let rawTokens = (state.teamTokens && state.teamTokens[tName]) ? state.teamTokens[tName] : [];
                 if (rawTokens.length === 0 && team.players && team.players[0] && players[team.players[0]]) {
                     rawTokens = players[team.players[0]].token || [];
                 }
 
-                var wedges = '';
-                for (var w = 0; w < rawTokens.length; w++) {
-                    var filled = rawTokens[w];
-                    var col = categories[w] ? categories[w].color : '#888';
-                    var op = filled ? 1 : 0.2;
-                    var sh = filled ? '0 0 6px 2px ' + col : 'none';
-                    var bdr = '1.5px solid rgba(255,255,255,' + (filled ? '0.9' : '0.2') + ')';
+                let wedges = '';
+                for (let w = 0; w < rawTokens.length; w++) {
+                    const filled = rawTokens[w];
+                    const col = categories[w] ? categories[w].color : '#888';
+                    const op = filled ? 1 : 0.2;
+                    const sh = filled ? '0 0 6px 2px ' + col : 'none';
+                    const bdr = '1.5px solid rgba(255,255,255,' + (filled ? '0.9' : '0.2') + ')';
                     wedges += '<span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:' + col + ';opacity:' + op + ';box-shadow:' + sh + ';border:' + bdr + ';margin:2px"></span>';
                 }
 
-                var members = (team.players || []).join(', ');
-                var turnPos = turnOrder.indexOf(tName) + 1;
+                const members = (team.players || []).join(', ');
+                let turnPos = turnOrder.indexOf(tName) + 1;
                 if (turnPos <= 0) turnPos = i + 1;
 
                 html += '<div style="border-radius:8px;padding:8px 12px;background:' + bg + ';border:2px solid ' + border + ';margin-bottom:8px">';
@@ -123,24 +123,24 @@ window.TVApp.TrvLayout = (function () {
                 html += '</div>';
             }
         } else {
-            var ordered = turnOrder.length ? turnOrder : Object.keys(players);
-            for (var j = 0; j < ordered.length; j++) {
-                var nick = ordered[j];
-                var p = players[nick];
+            const ordered = turnOrder.length ? turnOrder : Object.keys(players);
+            for (let j = 0; j < ordered.length; j++) {
+                const nick = ordered[j];
+                const p = players[nick];
                 if (!p) continue;
-                var pos = j + 1;
-                var pActive = (nick === currentTurn);
-                var pBg = pActive ? 'rgba(234,179,8,0.18)' : 'rgba(51,65,85,0.5)';
-                var pBorder = pActive ? 'rgba(234,179,8,0.5)' : 'transparent';
+                const pos = j + 1;
+                const pActive = (nick === currentTurn);
+                const pBg = pActive ? 'rgba(234,179,8,0.18)' : 'rgba(51,65,85,0.5)';
+                const pBorder = pActive ? 'rgba(234,179,8,0.5)' : 'transparent';
 
-                var pWedges = '';
-                var pTokens = p.token || [];
-                for (var pw = 0; pw < pTokens.length; pw++) {
-                    var pFilled = pTokens[pw];
-                    var pCol = categories[pw] ? categories[pw].color : '#888';
-                    var pOp = pFilled ? 1 : 0.2;
-                    var pSh = pFilled ? '0 0 6px 2px ' + pCol : 'none';
-                    var pBdr = '1.5px solid rgba(255,255,255,' + (pFilled ? '0.9' : '0.2') + ')';
+                let pWedges = '';
+                const pTokens = p.token || [];
+                for (let pw = 0; pw < pTokens.length; pw++) {
+                    const pFilled = pTokens[pw];
+                    const pCol = categories[pw] ? categories[pw].color : '#888';
+                    const pOp = pFilled ? 1 : 0.2;
+                    const pSh = pFilled ? '0 0 6px 2px ' + pCol : 'none';
+                    const pBdr = '1.5px solid rgba(255,255,255,' + (pFilled ? '0.9' : '0.2') + ')';
                     pWedges += '<span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:' + pCol + ';opacity:' + pOp + ';box-shadow:' + pSh + ';border:' + pBdr + ';margin:2px"></span>';
                 }
 
@@ -155,8 +155,8 @@ window.TVApp.TrvLayout = (function () {
     }
 
     function setStatus(turn, phase) {
-        var t = getEl('trv-turn');
-        var p = getEl('trv-phase');
+        const t = getEl('trv-turn');
+        const p = getEl('trv-phase');
         if (t) t.textContent = _t(turn ? '🎲 TURNO: ' + turn : '');
         if (p) p.textContent = _t(phase || '');
     }

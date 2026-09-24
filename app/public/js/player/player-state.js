@@ -4,9 +4,9 @@
  */
 
 // ===== ESTADO DE SESIÓN =====
-let pin = "";
-let sessionId = "";
-let nickname = "";
+let pin = '';
+let sessionId = '';
+let nickname = '';
 
 // ===== ESTADO DEL JUEGO =====
 let haRespondido = false;
@@ -157,9 +157,9 @@ export function resetGameState() {
 }
 
 export function resetSessionState() {
-    pin = "";
-    sessionId = "";
-    nickname = "";
+    pin = '';
+    sessionId = '';
+    nickname = '';
     selectedTeam = null;
     teamMode = null;
     isReconnecting = false;

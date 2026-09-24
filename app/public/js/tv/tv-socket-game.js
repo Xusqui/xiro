@@ -2,22 +2,22 @@ window.TVApp = window.TVApp || {};
 window.TVApp.SocketGame = (function () {
     'use strict';
 
-    var getEl = window.TVApp.Utils.getEl;
-    var clearCache = window.TVApp.Utils.clearCache;
-    var showTvModal = window.TVApp.Utils.showTvModal;
-    var debounceUpdate = window.TVApp.Utils.debounceUpdate;
-    var updatePlayersPanel = window.TVApp.RenderPlayers.updatePlayersPanel;
-    var renderCommentSlide = window.TVApp.RenderSlides.renderCommentSlide;
-    var renderInfoSlide = window.TVApp.RenderSlides.renderInfoSlide;
-    var renderTextSlide = window.TVApp.RenderSlides.renderTextSlide;
-    var renderImageSlide = window.TVApp.RenderSlides.renderImageSlide;
-    var renderTextImageSlide = window.TVApp.RenderSlides.renderTextImageSlide;
-    var renderPregunta = window.TVApp.RenderQuestion.renderPregunta;
-    var updateAnswerCounter = window.TVApp.RenderPlayers.updateAnswerCounter;
+    const getEl = window.TVApp.Utils.getEl;
+    const clearCache = window.TVApp.Utils.clearCache;
+    const showTvModal = window.TVApp.Utils.showTvModal;
+    const debounceUpdate = window.TVApp.Utils.debounceUpdate;
+    const updatePlayersPanel = window.TVApp.RenderPlayers.updatePlayersPanel;
+    const renderCommentSlide = window.TVApp.RenderSlides.renderCommentSlide;
+    const renderInfoSlide = window.TVApp.RenderSlides.renderInfoSlide;
+    const renderTextSlide = window.TVApp.RenderSlides.renderTextSlide;
+    const renderImageSlide = window.TVApp.RenderSlides.renderImageSlide;
+    const renderTextImageSlide = window.TVApp.RenderSlides.renderTextImageSlide;
+    const renderPregunta = window.TVApp.RenderQuestion.renderPregunta;
+    const updateAnswerCounter = window.TVApp.RenderPlayers.updateAnswerCounter;
 
     function initGameSocket() {
-        var socket = window.TVApp.socket;
-        var state = window.TVApp.State;
+        const socket = window.TVApp.socket;
+        const state = window.TVApp.State;
 
         if (!socket) {
             console.error('Socket no inicializado');
@@ -26,18 +26,18 @@ window.TVApp.SocketGame = (function () {
 
         socket.on('game-start-error', function (data) {
             console.log('Error al iniciar juego:', data);
-            var msg = data.message || 'No se pudo iniciar el juego';
+            const msg = data.message || 'No se pudo iniciar el juego';
             showTvModal('Error', msg, 'error');
         });
 
         socket.on('game-started', function (data, ack) {
-            var ctrlPartida = document.getElementById('ctrl-partida');
+            const ctrlPartida = document.getElementById('ctrl-partida');
             if (ctrlPartida) ctrlPartida.style.display = 'block';
             if (!data || !data.firstQuestion) return;
             state.totalQuestions = data.totalQuestions;
             state.currentQuestionIndex = data.currentIndex;
 
-            for (var nick in state.playersData) {
+            for (const nick in state.playersData) {
                 state.playersData[nick].answered = false;
                 state.playersData[nick].correct = null;
             }
@@ -71,7 +71,7 @@ window.TVApp.SocketGame = (function () {
             // La pregunta ya está aquí: retirar la pantalla de puntuación aleatoria
             window.XiroRandomPointsOverlay && window.XiroRandomPointsOverlay.hide();
 
-            for (var nick in state.playersData) {
+            for (const nick in state.playersData) {
                 state.playersData[nick].answered = false;
                 state.playersData[nick].correct = null;
             }
@@ -102,7 +102,7 @@ window.TVApp.SocketGame = (function () {
         socket.on('timer-paused', function (data) {
             state.timerPaused = true;
             state.currentSeconds = Math.ceil(data.remainingTime);
-            var timerEl = getEl('timer');
+            const timerEl = getEl('timer');
             if (timerEl) {
                 timerEl.style.borderColor = '#eab308';
                 timerEl.style.backgroundColor = 'rgba(234,179,8,0.2)';
@@ -113,7 +113,7 @@ window.TVApp.SocketGame = (function () {
         socket.on('timer-resumed', function (data) {
             state.timerPaused = false;
             state.currentSeconds = Math.ceil(data.remainingTime);
-            var timerEl = getEl('timer');
+            const timerEl = getEl('timer');
             if (timerEl) {
                 timerEl.style.borderColor = '#0891b2';
                 timerEl.style.backgroundColor = '';
@@ -121,7 +121,7 @@ window.TVApp.SocketGame = (function () {
         });
 
         socket.on('game-ended', function (ranking, ack) {
-            var ctrlPartida = document.getElementById('ctrl-partida');
+            const ctrlPartida = document.getElementById('ctrl-partida');
             if (ctrlPartida) ctrlPartida.style.display = 'none';
             window.TVApp.RenderSlides.resetTimers(); // Detiene timer
             if (window.TVApp.Podio) {
@@ -131,7 +131,7 @@ window.TVApp.SocketGame = (function () {
         });
 
         socket.on('game-abandoned', function () {
-            var ctrlPartida = document.getElementById('ctrl-partida');
+            const ctrlPartida = document.getElementById('ctrl-partida');
             if (ctrlPartida) ctrlPartida.style.display = 'none';
             window.location.href = '/tv.html';
         });
@@ -142,7 +142,7 @@ window.TVApp.SocketGame = (function () {
                 if (!state.teamConfig) state.teamConfig = {};
                 state.teamConfig.teams = data.teams;
             }
-            var pList = getEl('p-list');
+            const pList = getEl('p-list');
             if (pList && window.TVApp.Teams) {
                 window.TVApp.Teams.renderTeamLobby();
             }

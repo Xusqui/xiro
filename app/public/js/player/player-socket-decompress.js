@@ -18,7 +18,7 @@
         if (typeof DecompressionStream === 'undefined') {
             try {
                 if (typeof process !== 'undefined' && process.release && process.release.name === 'node') {
-                    const zlib = eval("require('zlib')");
+                    const zlib = eval('require(\'zlib\')');
                     const decompressed = zlib.gunzipSync(new Uint8Array(arrayBuffer));
                     return JSON.parse(decompressed.toString('utf8'));
                 }

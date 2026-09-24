@@ -17,8 +17,8 @@ globalThis.StandaloneQuestionSlides = (() => {
         container.innerHTML = `
             <div class="pl-viewport" style="background:#111827; justify-content:center; align-items:center;">
                 ${question.slide_image
-                ? `<img class="pl-slide-image-img" src="${escapeHtml(question.slide_image)}" alt="">`
-                : '<i class="fas fa-image" style="font-size:64px;color:rgba(255,255,255,0.3);"></i>'}
+        ? `<img class="pl-slide-image-img" src="${escapeHtml(question.slide_image)}" alt="">`
+        : '<i class="fas fa-image" style="font-size:64px;color:rgba(255,255,255,0.3);"></i>'}
                 <div class="pl-submit-bar" style="position:absolute; bottom:0; left:0; right:0;">
                     <button type="button" class="pl-submit-btn" data-standalone-action="continue-slide">
                         ${window.XiroI18n?.t('standalone.game.continue') || 'Continuar'}

@@ -10,7 +10,7 @@ window.TrivialShared = window.TrivialShared || {};
 (function (ns) {
     'use strict';
 
-    var CASILLA_R = 13;
+    const CASILLA_R = 13;
 
     /**
      * Actualiza los highlights de casillas disponibles.
@@ -20,8 +20,8 @@ window.TrivialShared = window.TrivialShared || {};
      *   - Limpiar:   updateBoardHighlights([], null)
      */
     ns.updateBoardHighlights = function (positions, onSelectOrLabels, labelsArr) {
-        var onSelect = null;
-        var labels = [];
+        let onSelect = null;
+        let labels = [];
         if (typeof onSelectOrLabels === 'function') {
             onSelect = onSelectOrLabels;
             labels = labelsArr || [];
@@ -29,14 +29,14 @@ window.TrivialShared = window.TrivialShared || {};
             labels = onSelectOrLabels || [];
         }
 
-        var container = document.getElementById('trivial-board-svg');
+        const container = document.getElementById('trivial-board-svg');
         if (!container) return;
 
         // Leer N y M del contenedor o del SVG interno
-        var N = container._boardN;
-        var M = container._boardM;
+        let N = container._boardN;
+        let M = container._boardM;
         if (!N || !M) {
-            var svg = container.querySelector('svg');
+            const svg = container.querySelector('svg');
             if (svg) {
                 N = svg._boardN;
                 M = svg._boardM;
@@ -44,21 +44,21 @@ window.TrivialShared = window.TrivialShared || {};
         }
         if (!N || !M) return;
 
-        var layer = document.getElementById('board-hilight');
+        const layer = document.getElementById('board-hilight');
         if (!layer) return;
 
         layer.innerHTML = '';
         window._trivialOnSelectPos = onSelect;
         if (!positions || positions.length === 0) return;
 
-        var html = '';
-        for (var j = 0; j < positions.length; j++) {
-            var pos = positions[j];
-            var pC = ns.posToXY(pos, N, M);
-            var label = labels[j] || '';
-            var pL = ns.labelXY(pos, N, M);
-            var cx = pC.x.toFixed(1);
-            var cy = pC.y.toFixed(1);
+        let html = '';
+        for (let j = 0; j < positions.length; j++) {
+            const pos = positions[j];
+            const pC = ns.posToXY(pos, N, M);
+            const label = labels[j] || '';
+            const pL = ns.labelXY(pos, N, M);
+            const cx = pC.x.toFixed(1);
+            const cy = pC.y.toFixed(1);
 
             // Halo exterior pulsante
             html += '<circle cx="' + cx + '" cy="' + cy + '" r="' + (CASILLA_R + 9) + '"' +
@@ -86,15 +86,15 @@ window.TrivialShared = window.TrivialShared || {};
 
     ns.showTurnOrderOverlay = function (boardContainer, turnOrder) {
         if (!boardContainer || !turnOrder || turnOrder.length === 0) return;
-        var existing = document.getElementById('trv-turn-order-overlay');
+        const existing = document.getElementById('trv-turn-order-overlay');
         if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
 
-        var el = document.createElement('div');
+        const el = document.createElement('div');
         el.id = 'trv-turn-order-overlay';
         el.style.cssText = 'position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;z-index:20;cursor:pointer;';
 
-        var rows = '';
-        for (var i = 0; i < turnOrder.length; i++) {
+        let rows = '';
+        for (let i = 0; i < turnOrder.length; i++) {
             rows += '<div style="display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,0.07)">' +
                 '<span style="width:26px;height:26px;border-radius:50%;background:#fbbf24;color:#1e293b;font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0">' + (i + 1) + '</span>' +
                 '<span style="color:#fff;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.5px">' + turnOrder[i] + '</span></div>';
@@ -106,8 +106,8 @@ window.TrivialShared = window.TrivialShared || {};
             '<div style="color:#64748b;font-size:11px;margin-top:14px">Toca para continuar</div>' +
             '</div>';
 
-        var dismissed = false;
-        var dismiss = function () {
+        let dismissed = false;
+        const dismiss = function () {
             if (dismissed) return;
             dismissed = true;
             el.style.transition = 'opacity 0.4s';

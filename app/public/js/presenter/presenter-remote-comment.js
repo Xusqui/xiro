@@ -11,7 +11,7 @@ const TEAM_COLORS = {
 
 function esc(str) {
     return String(str).replace(/[&<>"']/g,
-        c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', '\'': '&#39;' }[c]));
 }
 
 let assignPointsHandler = null;

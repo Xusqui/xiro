@@ -1,16 +1,16 @@
 (function initLicenseIndicator() {
     'use strict';
 
-    var ENDPOINT = '/api/license/public-status';
-    var STORAGE_KEY = 'xiro-license-status-v1';
-    var BADGE_ID = 'xiro-unlicensed-badge';
-    var BADGE_ICON_SRC = String.fromCharCode(47, 105, 109, 97, 103, 101, 115, 47, 109, 49, 46, 115, 118, 103);
+    const ENDPOINT = '/api/license/public-status';
+    const STORAGE_KEY = 'xiro-license-status-v1';
+    const BADGE_ID = 'xiro-unlicensed-badge';
+    const BADGE_ICON_SRC = String.fromCharCode(47, 105, 109, 97, 103, 101, 115, 47, 109, 49, 46, 115, 118, 103);
 
     function _readCache() {
         try {
-            var raw = localStorage.getItem(STORAGE_KEY);
+            const raw = localStorage.getItem(STORAGE_KEY);
             if (!raw) return null;
-            var parsed = JSON.parse(raw);
+            const parsed = JSON.parse(raw);
             if (!parsed || typeof parsed.licensed !== 'boolean') return null;
             if (typeof parsed.checkedAt !== 'number' || !isFinite(parsed.checkedAt)) return null;
             return parsed;
@@ -30,7 +30,7 @@
     function _showUnlicensedBadge() {
         if (document.getElementById(BADGE_ID)) return;
 
-        var host = document.createElement('div');
+        const host = document.createElement('div');
         host.id = BADGE_ID;
         host.style.position = 'fixed';
         host.style.top = '10px';
@@ -39,7 +39,7 @@
         host.style.zIndex = '2147483647';
         host.style.pointerEvents = 'none';
 
-        var img = document.createElement('img');
+        const img = document.createElement('img');
         img.src = BADGE_ICON_SRC;
         img.alt = 'Xiro sin licencia válida';
         img.style.width = '100%';
@@ -52,7 +52,7 @@
     }
 
     function _hideUnlicensedBadge() {
-        var badge = document.getElementById(BADGE_ID);
+        const badge = document.getElementById(BADGE_ID);
         if (badge && badge.parentNode) {
             badge.parentNode.removeChild(badge);
         }
@@ -77,14 +77,14 @@
     }
 
     function _fetchStatusFallback() {
-        var xhr = new XMLHttpRequest();
+        const xhr = new XMLHttpRequest();
         xhr.open('GET', ENDPOINT + '?_=' + new Date().getTime(), true);
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
                 if (xhr.status >= 200 && xhr.status < 300) {
                     try {
-                        var data = JSON.parse(xhr.responseText);
-                        var state = _normalizeStatusResponse(data);
+                        const data = JSON.parse(xhr.responseText);
+                        const state = _normalizeStatusResponse(data);
                         if (state) {
                             _writeCache(state);
                             _applyStatus(state.licensed);
@@ -121,12 +121,12 @@
         }
     }
 
-    var cachedState = _readCache();
+    const cachedState = _readCache();
     if (cachedState) {
         _applyStatus(cachedState.licensed);
     }
 
-    var fetchPromise = _fetchStatus();
+    const fetchPromise = _fetchStatus();
     if (fetchPromise && typeof fetchPromise.then === 'function') {
         fetchPromise.then(function (freshState) {
             if (!freshState && cachedState && cachedState.licensed === false) {

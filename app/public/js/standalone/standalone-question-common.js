@@ -69,7 +69,7 @@ globalThis.StandaloneQuestionCommon = (() => {
             '<': '&lt;',
             '>': '&gt;',
             '"': '&quot;',
-            "'": '&#039;'
+            '\'': '&#039;'
         };
         return String(text ?? '').replace(/[&<>"']/g, m => map[m]);
     }

@@ -594,11 +594,11 @@ export function registerAnswerEvents() {
                 optionsCardsHTML = `
                     <div class="space-y-2 w-full max-w-md mx-auto px-4">
                         ${currentOrder.map((optionIndex, position) => {
-                    const isCorrect = positionsCorrect[position] || false;
-                    const option = orderOptions[optionIndex];
-                    const optionText = option?.optionText || option?.text || option?.option_text || '';
+        const isCorrect = positionsCorrect[position] || false;
+        const option = orderOptions[optionIndex];
+        const optionText = option?.optionText || option?.text || option?.option_text || '';
 
-                    return `
+        return `
                                 <div class="relative rounded-xl p-2 flex items-center gap-2 ${isCorrect ? 'bg-green-500/20 border-2 border-green-500' : 'bg-gray-500/20 border-2 border-gray-500'}">
                                     <span class="text-white font-black text-lg shrink-0 w-9 h-9 flex items-center justify-center bg-white/20 rounded-full">${position + 1}</span>
                                     <span class="text-white font-bold text-sm uppercase flex-1 break-words">${optionText}</span>
@@ -607,7 +607,7 @@ export function registerAnswerEvents() {
                                     </div>
                                 </div>
                             `;
-                }).join('')}
+    }).join('')}
                     </div>
                 `;
             }

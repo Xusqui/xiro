@@ -10,25 +10,25 @@ window.TrivialShared = window.TrivialShared || {};
 (function (ns) {
     'use strict';
 
-    var CX = 200, CY = 200, OUTER_R = 183, INNER_R = 30, CASILLA_R = 13;
+    const CX = 200, CY = 200, OUTER_R = 183, INNER_R = 30, CASILLA_R = 13;
 
     ns.renderBoardBackground = function (container, state) {
-        var categories = state.categories || [];
-        var M = state.outerCasillas || 24;
-        var N = categories.length;
-        var colors = [];
-        for (var c = 0; c < N; c++) colors.push(categories[c].color || '#888');
+        const categories = state.categories || [];
+        const M = state.outerCasillas || 24;
+        const N = categories.length;
+        const colors = [];
+        for (let c = 0; c < N; c++) colors.push(categories[c].color || '#888');
 
-        var bg = '';
+        let bg = '';
 
-        for (var i = 0; i < M; i++) {
-            var xy = ns.posToXY('outer:' + i, N, M);
-            var hqK = ns.isHQ(i, N, M);
-            var catIdx = i % N;
-            var fill = (hqK >= 0 ? colors[hqK] : colors[catIdx]) || '#888';
-            var stroke = hqK >= 0 ? 'none' : '#fff';
-            var sw = hqK >= 0 ? 0 : 1.5;
-            var xf = xy.x.toFixed(1), yf = xy.y.toFixed(1);
+        for (let i = 0; i < M; i++) {
+            const xy = ns.posToXY('outer:' + i, N, M);
+            const hqK = ns.isHQ(i, N, M);
+            const catIdx = i % N;
+            const fill = (hqK >= 0 ? colors[hqK] : colors[catIdx]) || '#888';
+            const stroke = hqK >= 0 ? 'none' : '#fff';
+            const sw = hqK >= 0 ? 0 : 1.5;
+            const xf = xy.x.toFixed(1), yf = xy.y.toFixed(1);
 
             bg += '<circle data-pos="outer:' + i + '" cx="' + xf + '" cy="' + yf + '" r="' + CASILLA_R + '" fill="' + fill + '" stroke="' + stroke + '" stroke-width="' + sw + '"/>';
             bg += '<circle cx="' + xf + '" cy="' + yf + '" r="' + CASILLA_R + '" fill="url(#circleShine)" pointer-events="none"/>';
@@ -41,14 +41,14 @@ window.TrivialShared = window.TrivialShared || {};
             }
         }
 
-        for (var k = 0; k < N; k++) {
-            var p0 = ns.posToXY('center', N, M);
-            var p5 = ns.posToXY('spoke:' + k + ':5', N, M);
+        for (let k = 0; k < N; k++) {
+            const p0 = ns.posToXY('center', N, M);
+            const p5 = ns.posToXY('spoke:' + k + ':5', N, M);
             bg += '<line x1="' + p0.x + '" y1="' + p0.y + '" x2="' + p5.x + '" y2="' + p5.y + '" stroke="' + (colors[k] || '#888') + '" stroke-width="2" opacity="0.3"/>';
-            var masterColorIdx = Math.floor(k * M / N) % N;
-            for (var s = 1; s <= 5; s++) {
-                var ps = ns.posToXY('spoke:' + k + ':' + s, N, M);
-                var altIdx = (masterColorIdx + (6 - s)) % N;
+            const masterColorIdx = Math.floor(k * M / N) % N;
+            for (let s = 1; s <= 5; s++) {
+                const ps = ns.posToXY('spoke:' + k + ':' + s, N, M);
+                const altIdx = (masterColorIdx + (6 - s)) % N;
                 bg += '<circle data-pos="spoke:' + k + ':' + s + '" cx="' + ps.x.toFixed(1) + '" cy="' + ps.y.toFixed(1) + '" r="' + CASILLA_R + '" fill="' + (colors[altIdx] || '#888') + '" stroke="#fff" stroke-width="1.5"/>';
                 bg += '<circle cx="' + ps.x.toFixed(1) + '" cy="' + ps.y.toFixed(1) + '" r="' + CASILLA_R + '" fill="url(#circleShine)" pointer-events="none"/>';
             }
@@ -58,7 +58,7 @@ window.TrivialShared = window.TrivialShared || {};
         bg += '<circle data-pos="center" cx="' + CX + '" cy="' + CY + '" r="' + INNER_R + '" fill="#1e293b" stroke="#fff" stroke-width="2"/>';
         bg += '<image href="/images/minilogo.svg" x="' + (CX - INNER_R + 2) + '" y="' + (CY - INNER_R + 2) + '" width="' + ((INNER_R - 2) * 2) + '" height="' + ((INNER_R - 2) * 2) + '" clip-path="url(#centerClip)" pointer-events="none"/>';
 
-        var svgH = '<svg id="trivial-svg" viewBox="-22 -22 444 444" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;border-radius:50%;will-change:transform">';
+        let svgH = '<svg id="trivial-svg" viewBox="-22 -22 444 444" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;border-radius:50%;will-change:transform">';
         svgH += '<defs><style>';
         svgH += '.trivial-token{transition:transform 0.55s cubic-bezier(.4,0,.2,1);transform-box:view-box;}';
         svgH += '.trivial-token-circle{fill:white;stroke:#111;stroke-width:2;filter:url(#tokenGlow);}';
@@ -87,7 +87,7 @@ window.TrivialShared = window.TrivialShared || {};
         container._boardM = M;
 
         container.addEventListener('click', function (e) {
-            var pos = e.target && e.target.dataset && e.target.dataset.availPos;
+            const pos = e.target && e.target.dataset && e.target.dataset.availPos;
             if (pos && typeof window._trivialOnSelectPos === 'function') {
                 window._trivialOnSelectPos(pos);
             }

@@ -92,7 +92,7 @@ async function renderVistaPersonalizados() {
                                         <i class="fas fa-edit"></i>
                                         ${_t('admin.common.edit', null, 'Editar')}
                                     </button>
-                                    <button data-admin-click="exportarJuegoAPDF(${juego.id}, '${juego.name.replace(/'/g, "\\'")}')" 
+                                    <button data-admin-click="exportarJuegoAPDF(${juego.id}, '${juego.name.replace(/'/g, '\\\'')}')" 
                                         class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2"
                                         title="Exportar a PDF">
                                         <i class="fas fa-file-pdf"></i>
@@ -357,7 +357,7 @@ async function renderEditorJuegoPersonalizado(game, questions) {
                 </div>
                 ${game.id ? `
                 <div class="mt-4">
-                    <button data-admin-click="exportarJuegoAPDF(${game.id}, '${game.name.replace(/'/g, "\\'")}')" class="w-full bg-purple-600 text-white px-6 py-4 rounded-2xl font-bold text-lg hover:bg-purple-700 transition shadow-xl shadow-purple-200 flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
+                    <button data-admin-click="exportarJuegoAPDF(${game.id}, '${game.name.replace(/'/g, '\\\'')}')" class="w-full bg-purple-600 text-white px-6 py-4 rounded-2xl font-bold text-lg hover:bg-purple-700 transition shadow-xl shadow-purple-200 flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
                         <i class="fas fa-file-pdf text-xl"></i> ${_t('admin.custom.btn_export_pdf', null, 'EXPORTAR A PDF')}
                     </button>
                 </div>
@@ -436,7 +436,7 @@ async function cargarPreguntasBanco(selectorId = 'selectorBanco', contenedorId =
                         </div>
                     </div>
                 </div>
-            `}).join('');
+            `;}).join('');
 }
 
 // ===== REFRESCAR TODOS LOS SELECTORES DE BANCO =====
@@ -730,7 +730,7 @@ function dibujarPreguntasPersonalizadas() {
                         </button>
                     </div>
                 </div>
-            `}).join('');
+            `;}).join('');
 }
 
 // ===== MOVER PREGUNTAS =====

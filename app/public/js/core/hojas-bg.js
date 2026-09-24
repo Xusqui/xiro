@@ -4,7 +4,7 @@
     function inject(animar) {
         if (!animar) document.documentElement.classList.add('xiro-bg-static');
 
-        var layer = document.createElement('div');
+        const layer = document.createElement('div');
         layer.className = 'hojas-bg-layer';
         layer.setAttribute('aria-hidden', 'true');
         document.body.appendChild(layer);

@@ -14,7 +14,7 @@ function _renderConfigField(key, entry) {
     const meta = CONFIG_META[key] || { label: key, description: '', badge: '', unit: '', icon: 'fa-cog', iconColor: 'bg-slate-400' };
     const badgeClass = CONFIG_BADGE_COLORS[meta.badge] || 'bg-slate-100 text-slate-600';
     const mul = meta.msMultiplier || 1;
-    let { value, type, min, max, values } = entry;
+    const { value, type, min, max, values } = entry;
 
     const displayValue = mul > 1 ? value / mul : value;
     const displayMin = (mul > 1 && min !== undefined) ? min / mul : min;

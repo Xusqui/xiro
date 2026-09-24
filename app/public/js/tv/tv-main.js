@@ -3,20 +3,20 @@ window.TVApp = window.TVApp || {};
 window.TVApp.Main = (function () {
     'use strict';
 
-    var delegationInitialized = false;
+    let delegationInitialized = false;
 
-    var state = window.TVApp.State;
-    var initAudio = window.TVApp.Audio.initAudio;
-    var playTick = window.TVApp.Audio.playTick;
-    var unlockAudioContext = window.TVApp.Audio.unlockAudioContext;
-    var showTvModal = window.TVApp.Utils.showTvModal;
-    var renderCommentSlide = window.TVApp.RenderSlides.renderCommentSlide;
+    const state = window.TVApp.State;
+    const initAudio = window.TVApp.Audio.initAudio;
+    const playTick = window.TVApp.Audio.playTick;
+    const unlockAudioContext = window.TVApp.Audio.unlockAudioContext;
+    const showTvModal = window.TVApp.Utils.showTvModal;
+    const renderCommentSlide = window.TVApp.RenderSlides.renderCommentSlide;
 
     function showConfirmModal(title, message, onConfirm) {
-        var existing = document.getElementById('xiro-tv-confirm-modal');
+        const existing = document.getElementById('xiro-tv-confirm-modal');
         if (existing) existing.parentNode.removeChild(existing);
 
-        var overlay = document.createElement('div');
+        const overlay = document.createElement('div');
         overlay.id = 'xiro-tv-confirm-modal';
         overlay.style.position = 'fixed';
         overlay.style.top = '0';
@@ -29,7 +29,7 @@ window.TVApp.Main = (function () {
         overlay.style.justifyContent = 'center';
         overlay.style.zIndex = '10000';
 
-        var modal = document.createElement('div');
+        const modal = document.createElement('div');
         modal.style.background = '#ffffff';
         modal.style.borderRadius = '14px';
         modal.style.maxWidth = '380px';
@@ -38,24 +38,24 @@ window.TVApp.Main = (function () {
         modal.style.fontFamily = 'Arial, sans-serif';
         modal.style.boxShadow = '0 16px 40px rgba(0,0,0,0.4)';
 
-        var titleEl = document.createElement('div');
+        const titleEl = document.createElement('div');
         titleEl.textContent = _t(title);
         titleEl.style.fontSize = '18px';
         titleEl.style.fontWeight = '800';
         titleEl.style.marginBottom = '10px';
 
-        var msgEl = document.createElement('div');
+        const msgEl = document.createElement('div');
         msgEl.textContent = _t(message);
         msgEl.style.fontSize = '14px';
         msgEl.style.lineHeight = '1.5';
         msgEl.style.color = '#444';
 
-        var actions = document.createElement('div');
+        const actions = document.createElement('div');
         actions.style.marginTop = '20px';
         actions.style.display = 'flex';
         actions.style.justifyContent = 'flex-end';
 
-        var btnCancel = document.createElement('button');
+        const btnCancel = document.createElement('button');
         btnCancel.textContent = _t('tv.game.cancel', null, 'Cancelar');
         btnCancel.style.padding = '9px 18px';
         btnCancel.style.background = '#e5e7eb';
@@ -69,7 +69,7 @@ window.TVApp.Main = (function () {
             overlay.parentNode.removeChild(overlay);
         };
 
-        var btnConfirm = document.createElement('button');
+        const btnConfirm = document.createElement('button');
         btnConfirm.textContent = _t('tv.game.confirm', null, 'Confirmar');
         btnConfirm.style.marginLeft = '10px';
         btnConfirm.style.padding = '9px 18px';
@@ -117,7 +117,7 @@ window.TVApp.Main = (function () {
     }
 
     function findActionElement(target) {
-        var el = target;
+        let el = target;
         while (el && el !== document) {
             if (el.getAttribute && el.getAttribute('data-tv-action')) return el;
             el = el.parentNode;
@@ -130,15 +130,15 @@ window.TVApp.Main = (function () {
         delegationInitialized = true;
 
         document.addEventListener('click', function (event) {
-            var actionEl = findActionElement(event.target);
+            const actionEl = findActionElement(event.target);
             if (!actionEl) return;
 
-            var action = actionEl.getAttribute('data-tv-action') || '';
-            var pin = actionEl.getAttribute('data-pin') || '';
-            var filter = actionEl.getAttribute('data-filter') || '';
-            var nickname = actionEl.getAttribute('data-nickname') || '';
-            var points = parseInt(actionEl.getAttribute('data-points') || '0', 10);
-            var numTeams = parseInt(actionEl.getAttribute('data-num-teams') || '0', 10);
+            const action = actionEl.getAttribute('data-tv-action') || '';
+            const pin = actionEl.getAttribute('data-pin') || '';
+            const filter = actionEl.getAttribute('data-filter') || '';
+            const nickname = actionEl.getAttribute('data-nickname') || '';
+            const points = parseInt(actionEl.getAttribute('data-points') || '0', 10);
+            const numTeams = parseInt(actionEl.getAttribute('data-num-teams') || '0', 10);
 
             switch (action) {
                 case 'next-question':
@@ -240,7 +240,7 @@ window.TVApp.Main = (function () {
         window.TVApp.socket.emit('manual-points', { sessionId: state.sessionId, nickname: nickname, points: points });
         if (state.playersData[nickname]) {
             state.playersData[nickname].score = (state.playersData[nickname].score || 0) + points;
-            var commentText = document.querySelector('.comment-text');
+            const commentText = document.querySelector('.comment-text');
             if (commentText) renderCommentSlide({ comment_text: commentText.textContent });
         }
     }

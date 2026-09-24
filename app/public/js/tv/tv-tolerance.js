@@ -3,27 +3,27 @@ window.TVApp.Tolerance = (function () {
     'use strict';
 
     function toPositiveNumber(value) {
-        var parsed = Number(value);
+        const parsed = Number(value);
         return Number.isFinite(parsed) && parsed > 0 ? parsed : null;
     }
 
     function getNumericToleranceConfig(question, revealData) {
-        var modeRaw = String(
+        const modeRaw = String(
             (question && (question.tolerance_mode || question.toleranceMode))
             || (revealData && (revealData.toleranceMode || revealData.tolerance_mode))
             || ''
         ).toLowerCase();
 
-        var mode = (modeRaw === 'absolute' || modeRaw === 'percentage' || modeRaw === 'hybrid' || modeRaw === 'relative')
+        const mode = (modeRaw === 'absolute' || modeRaw === 'percentage' || modeRaw === 'hybrid' || modeRaw === 'relative')
             ? modeRaw
             : 'hybrid';
 
-        var value = toPositiveNumber(
+        const value = toPositiveNumber(
             (question && (question.tolerance_value || question.toleranceValue))
             || (revealData && (revealData.toleranceValue || revealData.tolerance_value))
         ) || 25;
 
-        var cap = toPositiveNumber(
+        let cap = toPositiveNumber(
             (question && (question.tolerance_cap || question.toleranceCap))
             || (revealData && (revealData.toleranceCap || revealData.tolerance_cap))
         );
@@ -40,8 +40,8 @@ window.TVApp.Tolerance = (function () {
     }
 
     function resolveToleranceWindowForDisplay(correctAnswer, toleranceConfig) {
-        var absCorrect = Math.abs(Number(correctAnswer) || 0);
-        var percentageTolerance = absCorrect * (toleranceConfig.value / 100);
+        const absCorrect = Math.abs(Number(correctAnswer) || 0);
+        const percentageTolerance = absCorrect * (toleranceConfig.value / 100);
 
         if (toleranceConfig.mode === 'absolute') {
             return toleranceConfig.value;
@@ -57,8 +57,8 @@ window.TVApp.Tolerance = (function () {
     }
 
     function formatToleranceLabel(correctAnswer, question, revealData) {
-        var config = getNumericToleranceConfig(question, revealData);
-        var effectiveTolerance = resolveToleranceWindowForDisplay(correctAnswer, config);
+        const config = getNumericToleranceConfig(question, revealData);
+        const effectiveTolerance = resolveToleranceWindowForDisplay(correctAnswer, config);
 
         if (config.mode === 'absolute') {
             return '±' + effectiveTolerance;

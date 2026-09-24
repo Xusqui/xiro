@@ -235,9 +235,9 @@ export function renderImageSlide(slide) {
     lobbyMain.innerHTML = _tHtml(`
         <div class="h-full w-full flex items-center justify-center" style="background: #111827; padding: 0; margin: 0;">
             ${imageUrl
-            ? `<img src="${imageUrl}" style="max-width: 100%; max-height: 100%; object-fit: contain; display: block;" />`
-            : '<div style="color: rgba(255,255,255,0.3); text-align: center;"><i class="fas fa-image fa-6x"></i></div>'
-        }
+        ? `<img src="${imageUrl}" style="max-width: 100%; max-height: 100%; object-fit: contain; display: block;" />`
+        : '<div style="color: rgba(255,255,255,0.3); text-align: center;"><i class="fas fa-image fa-6x"></i></div>'
+}
             <button id="btn-next" data-presenter-action="next-question" class="fixed bottom-10 right-10 bg-white text-slate-900 px-10 py-5 rounded-3xl font-black text-2xl shadow-2xl hover:bg-indigo-600 hover:text-white transition italic uppercase" style="z-index: 10000;">
                 ${window.isTrivialGame ? _t('presenter.slides.next_round', null, 'Siguiente Ronda') : (getCurrentQuestionIndex() >= getTotalQuestions() - 1 ? _t('presenter.slides.view_ranking', null, 'Ver Ránking') : _t('presenter.slides.next', null, 'Siguiente'))}
                 <i class="fas ${window.isTrivialGame ? 'fa-rotate-right' : (getCurrentQuestionIndex() >= getTotalQuestions() - 1 ? 'fa-trophy' : 'fa-chevron-right')} ml-2"></i>

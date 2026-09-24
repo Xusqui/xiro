@@ -41,9 +41,9 @@ export function renderTextImageSlide(slide) {
     const imgCol = `
         <div style="flex:1; display:flex; align-items:center; justify-content:center;">
             ${imageUrl
-            ? `<img src="${imageUrl}" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:1.5rem;box-shadow:0 20px 60px rgba(0,0,0,0.5);" />`
-            : '<div style="color:rgba(255,255,255,.3);text-align:center;font-size:4rem;"><i class="fas fa-image"></i></div>'
-        }
+        ? `<img src="${imageUrl}" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:1.5rem;box-shadow:0 20px 60px rgba(0,0,0,0.5);" />`
+        : '<div style="color:rgba(255,255,255,.3);text-align:center;font-size:4rem;"><i class="fas fa-image"></i></div>'
+}
         </div>`;
 
     const leftCol = pos === 'left' ? imgCol : textCol;

@@ -2,19 +2,19 @@ window.TVApp = window.TVApp || {};
 window.TVApp.SocketConnection = (function () {
     'use strict';
 
-    var getEl = window.TVApp.Utils.getEl;
-    var showTvModal = window.TVApp.Utils.showTvModal;
-    var debounceUpdate = window.TVApp.Utils.debounceUpdate;
-    var initAudio = window.TVApp.Audio.initAudio;
-    var updatePlayersPanel = window.TVApp.RenderPlayers.updatePlayersPanel;
+    const getEl = window.TVApp.Utils.getEl;
+    const showTvModal = window.TVApp.Utils.showTvModal;
+    const debounceUpdate = window.TVApp.Utils.debounceUpdate;
+    const initAudio = window.TVApp.Audio.initAudio;
+    const updatePlayersPanel = window.TVApp.RenderPlayers.updatePlayersPanel;
 
     function initSocket() {
-        var state = window.TVApp.State;
+        const state = window.TVApp.State;
 
         console.log('Inicializando socket con playerId:', state.playerId);
 
         // Configuración del socket - solo WebSocket
-        var socket = io({
+        const socket = io({
             auth: { playerId: state.playerId },
             transports: ['websocket'],
             upgrade: false,
@@ -34,14 +34,14 @@ window.TVApp.SocketConnection = (function () {
 
         // Decodificar transparentemente eventos comprimidos
         (function () {
-            var originalOn = socket.on;
+            const originalOn = socket.on;
 
             function decompressGzip(arrayBuffer) {
                 if (typeof DecompressionStream === 'undefined') {
                     try {
                         if (typeof process !== 'undefined' && process.release && process.release.name === 'node') {
-                            var zlib = eval("require('zlib')");
-                            var decompressed = zlib.gunzipSync(new Uint8Array(arrayBuffer));
+                            const zlib = eval('require(\'zlib\')');
+                            const decompressed = zlib.gunzipSync(new Uint8Array(arrayBuffer));
                             return Promise.resolve(JSON.parse(decompressed.toString('utf8')));
                         }
                     } catch (e) {
@@ -49,8 +49,8 @@ window.TVApp.SocketConnection = (function () {
                     }
                     return Promise.reject(new Error('DecompressionStream not supported'));
                 }
-                var ds = new DecompressionStream('gzip');
-                var decompressedStream = new Response(arrayBuffer).body.pipeThrough(ds);
+                const ds = new DecompressionStream('gzip');
+                const decompressedStream = new Response(arrayBuffer).body.pipeThrough(ds);
                 return new Response(decompressedStream).text().then(function (text) {
                     return JSON.parse(text);
                 });
@@ -58,15 +58,15 @@ window.TVApp.SocketConnection = (function () {
 
             socket.on = function (event, callback) {
                 function decoderListener(payload) {
-                    var self = this;
-                    var args = Array.prototype.slice.call(arguments);
+                    const self = this;
+                    const args = Array.prototype.slice.call(arguments);
                     if (payload && payload._compressed === true) {
-                        var isBase64 = typeof payload.data === 'string';
-                        var promise;
+                        const isBase64 = typeof payload.data === 'string';
+                        let promise;
                         if (isBase64) {
-                            var binaryString = atob(payload.data);
-                            var bytes = new Uint8Array(binaryString.length);
-                            for (var i = 0; i < binaryString.length; i++) {
+                            const binaryString = atob(payload.data);
+                            const bytes = new Uint8Array(binaryString.length);
+                            for (let i = 0; i < binaryString.length; i++) {
                                 bytes[i] = binaryString.charCodeAt(i);
                             }
                             promise = decompressGzip(bytes.buffer);
@@ -113,7 +113,7 @@ window.TVApp.SocketConnection = (function () {
                 if (data && data.roomId && data.roomId !== state.sessionId) {
                     console.log('Actualizando sessionId:', data.roomId);
                     state.sessionId = data.roomId;
-                    var displayPin = getEl('display-pin');
+                    const displayPin = getEl('display-pin');
                     if (displayPin) displayPin.textContent = _t(state.sessionId);
                 }
                 if (state.isTeamMode && state.teamConfig && window.TVApp.Teams) {
@@ -126,15 +126,15 @@ window.TVApp.SocketConnection = (function () {
 
         socket.on('join-error', function (data) {
             console.log('Error uniendo lobby:', data);
-            var msg = (data && data.message) ? data.message : 'Error al crear la sala';
+            const msg = (data && data.message) ? data.message : 'Error al crear la sala';
             showTvModal('Error', msg, 'error');
         });
 
         socket.on('player-joined', function (data) {
-            var nick = typeof data === 'string' ? data : data.nickname || data;
+            const nick = typeof data === 'string' ? data : data.nickname || data;
             if (nick === 'HOST') return;
             state.totalPlayers++;
-            var el = getEl('p-count');
+            const el = getEl('p-count');
             if (el) el.textContent = _t(state.totalPlayers);
 
             if (state.connectedPlayers.indexOf(nick) === -1) {
@@ -144,23 +144,23 @@ window.TVApp.SocketConnection = (function () {
             debounceUpdate(updatePlayersPanel);
 
             if (!state.isTeamMode) {
-                var playerDiv = document.createElement('div');
+                const playerDiv = document.createElement('div');
                 playerDiv.className = 'player-item';
                 playerDiv.setAttribute('data-nickname', nick);
                 playerDiv.textContent = _t(nick);
-                var list = getEl('p-list');
+                const list = getEl('p-list');
                 if (list) list.appendChild(playerDiv);
             }
 
-            var btn = getEl('btn-empezar');
+            const btn = getEl('btn-empezar');
             if (btn && state.totalPlayers > 0) btn.disabled = false;
         });
 
         socket.on('player-rejoined', function (data) {
-            var nick = typeof data === 'string' ? data : data.nickname || data;
+            const nick = typeof data === 'string' ? data : data.nickname || data;
             if (nick === 'HOST') return;
-            var els = document.querySelectorAll('[data-nickname="' + nick + '"]');
-            for (var i = 0; i < els.length; i++) {
+            const els = document.querySelectorAll('[data-nickname="' + nick + '"]');
+            for (let i = 0; i < els.length; i++) {
                 els[i].style.opacity = '1';
                 els[i].style.filter = 'none';
             }
@@ -170,9 +170,9 @@ window.TVApp.SocketConnection = (function () {
         });
 
         socket.on('player-left', function (data) {
-            var nick = typeof data === 'string' ? data : data.nickname || data;
+            const nick = typeof data === 'string' ? data : data.nickname || data;
             if (nick === 'HOST') return;
-            var idx = state.connectedPlayers.indexOf(nick);
+            const idx = state.connectedPlayers.indexOf(nick);
             if (idx > -1) {
                 state.connectedPlayers.splice(idx, 1);
                 delete state.playersData[nick];
@@ -180,14 +180,14 @@ window.TVApp.SocketConnection = (function () {
             debounceUpdate(updatePlayersPanel);
             window.TVApp.RenderPlayers.updateAnswerCounter();
 
-            var els = document.querySelectorAll('[data-nickname="' + nick + '"]');
-            for (var i = 0; i < els.length; i++) {
+            const els = document.querySelectorAll('[data-nickname="' + nick + '"]');
+            for (let i = 0; i < els.length; i++) {
                 els[i].remove();
                 state.totalPlayers--;
-                var el = getEl('p-count');
+                const el = getEl('p-count');
                 if (el) el.textContent = _t(state.totalPlayers);
             }
-            var btn = getEl('btn-empezar');
+            const btn = getEl('btn-empezar');
             if (btn && state.totalPlayers === 0) btn.disabled = true;
         });
 

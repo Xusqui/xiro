@@ -134,7 +134,7 @@ async function _subirArchivoImagen(file, statusMsgId) {
 }
 
 async function agregarSlideImagen() {
-    let finalUrl = document.getElementById('imagenUrl')?.value?.trim();
+    const finalUrl = document.getElementById('imagenUrl')?.value?.trim();
 
     if (!finalUrl) {
         mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), 'Por favor, sube una imagen o introduce una URL', 'warning');
@@ -220,7 +220,7 @@ function cerrarModalEditImagen() {
 }
 
 async function guardarEditImagen(index) {
-    let finalUrl = document.getElementById('editImagenUrl')?.value?.trim();
+    const finalUrl = document.getElementById('editImagenUrl')?.value?.trim();
 
     if (!finalUrl) {
         mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), 'Por favor, sube una imagen o introduce una URL', 'warning');

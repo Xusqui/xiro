@@ -2,8 +2,8 @@ window.TVApp = window.TVApp || {};
 window.TVApp.Audio = (function () {
     'use strict';
 
-    var tickSound = null;
-    var questionAudio = null;
+    let tickSound = null;
+    let questionAudio = null;
 
     function initAudio() {
         if (!tickSound) {
@@ -22,7 +22,7 @@ window.TVApp.Audio = (function () {
         if (!tickSound) return;
         try {
             tickSound.currentTime = 0;
-            var p = tickSound.play();
+            const p = tickSound.play();
             if (p && p.catch) p.catch(function () { });
         } catch (e) { }
     }
@@ -43,7 +43,7 @@ window.TVApp.Audio = (function () {
                 questionAudio = document.getElementById('question-audio-player');
                 if (questionAudio) {
                     questionAudio.load();
-                    var playPromise = questionAudio.play();
+                    const playPromise = questionAudio.play();
 
                     if (playPromise && playPromise.then) {
                         playPromise.then(function () {
@@ -76,7 +76,7 @@ window.TVApp.Audio = (function () {
     // Helper method added here instead of app code
     function unlockAudioContext() {
         try {
-            var unlockAudio = new Audio();
+            const unlockAudio = new Audio();
             unlockAudio.src = '/audio/bip.wav';
             unlockAudio.volume = 0.01;
             unlockAudio.play().then(function () {

@@ -7,15 +7,15 @@
 (function () {
     'use strict';
 
-    var HOST_ID = 'xiro-personalization-badge';
-    var filename = null;
+    const HOST_ID = 'xiro-personalization-badge';
+    let filename = null;
 
     // Posición por página: el jugador la lleva en el móvil (arriba centrado, lejos
     // del área de respuesta), presentador/TV la llevan abajo a la derecha (la
     // esquina superior derecha la ocupa la barra de jugadores conectados / el PIN),
     // y el resto (menú, standalone) usa la esquina superior derecha por defecto.
     function _resolvePosition() {
-        var path = location.pathname;
+        const path = location.pathname;
         if (/\/(jugador|juego-concluido)\.html$/.test(path)) {
             return { top: '10px', left: '50%', transform: 'translateX(-50%)' };
         }
@@ -26,7 +26,7 @@
     }
 
     function buildHost() {
-        var host = document.createElement('div');
+        const host = document.createElement('div');
         host.id = HOST_ID;
         host.style.position = 'fixed';
         host.style.maxWidth = 'min(140px, 32vw)';
@@ -34,10 +34,10 @@
         host.style.zIndex = '2147483000';
         host.style.pointerEvents = 'none';
 
-        var pos = _resolvePosition();
+        const pos = _resolvePosition();
         Object.keys(pos).forEach(function (prop) { host.style[prop] = pos[prop]; });
 
-        var img = document.createElement('img');
+        const img = document.createElement('img');
         img.src = '/images/personalizations/' + encodeURIComponent(filename);
         img.alt = 'Logo';
         img.style.maxWidth = '100%';

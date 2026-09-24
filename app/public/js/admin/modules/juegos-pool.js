@@ -5,7 +5,7 @@
  * en vez de una cuota fija por banco.
  */
 
-let poolQuestionCountInicial = null;
+const poolQuestionCountInicial = null;
 
 function bancoEsPool(gb) {
     return gb.question_count === null || gb.question_count === undefined;

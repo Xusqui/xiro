@@ -196,7 +196,7 @@ export function renderizarPreguntaMultipleChoice(pregunta) {
                         ${opt.option_image_url ? `<img src="${opt.option_image_url}" alt="" class="max-h-[80px] max-w-[80px] object-contain rounded-lg mb-1 shrink-0">` : ''}
                         <span class="btn-text text-white font-bold ${fontClass} uppercase px-1 break-words hyphens-auto leading-tight text-center" lang="es">${opt.optionText}</span>
                     </button>
-                `
+                `;
     }).join('')}
             </div>
             <div class="bg-slate-900 p-3 shrink-0">

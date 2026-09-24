@@ -9,7 +9,7 @@
  *  pero sí para atributos data-* e innerHTML. */
 function _esc(str) {
     return String(str || '').replace(/[&<>"']/g, c =>
-        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', '\'': '&#39;' }[c]));
 }
 
 // ── Pantalla: Selector de juegos ──────────────────────────────

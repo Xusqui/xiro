@@ -2,8 +2,8 @@ window.TVApp = window.TVApp || {};
 window.TVApp.RenderPlayers = (function () {
     'use strict';
 
-    var getEl = window.TVApp.Utils.getEl;
-    var escapeHtml = window.TVApp.Utils.escapeHtml;
+    const getEl = window.TVApp.Utils.getEl;
+    const escapeHtml = window.TVApp.Utils.escapeHtml;
 
     function tText(value) {
         if (typeof window._t === 'function') {
@@ -11,7 +11,7 @@ window.TVApp.RenderPlayers = (function () {
         }
 
         if (window.XiroI18n && typeof window.XiroI18n.tSmart === 'function') {
-            var raw = value == null ? '' : String(value);
+            const raw = value == null ? '' : String(value);
             return window.XiroI18n.tSmart(raw, null, raw);
         }
 
@@ -31,26 +31,26 @@ window.TVApp.RenderPlayers = (function () {
     }
 
     function updatePlayersPanel() {
-        var state = window.TVApp.State;
-        var panel = getEl('sidebar-list');
+        const state = window.TVApp.State;
+        const panel = getEl('sidebar-list');
         if (!panel) return;
-        var count = getEl('sidebar-count');
+        const count = getEl('sidebar-count');
         if (count) count.textContent = tText(state.connectedPlayers.length);
 
         if (state.connectedPlayers.length === 0) {
             panel.innerHTML = tHtml('<div style="color:#999;font-style:italic;text-align:center;padding:20px 10px;font-size:11px">Esperando jugadores...</div>');
         } else {
-            var sorted = state.connectedPlayers.slice().sort(function (a, b) {
-                var scoreA = state.playersData[a] ? state.playersData[a].score : 0;
-                var scoreB = state.playersData[b] ? state.playersData[b].score : 0;
+            const sorted = state.connectedPlayers.slice().sort(function (a, b) {
+                const scoreA = state.playersData[a] ? state.playersData[a].score : 0;
+                const scoreB = state.playersData[b] ? state.playersData[b].score : 0;
                 return scoreB - scoreA;
             });
-            var html = '';
-            for (var i = 0; i < sorted.length; i++) {
-                var nick = sorted[i];
-                var data = state.playersData[nick] || { score: 0, answered: false, correct: null };
-                var statusIcon = '⏱';
-                var statusClass = '';
+            let html = '';
+            for (let i = 0; i < sorted.length; i++) {
+                const nick = sorted[i];
+                const data = state.playersData[nick] || { score: 0, answered: false, correct: null };
+                let statusIcon = '⏱';
+                let statusClass = '';
                 if (data.correct === true) {
                     statusIcon = '✅';
                     statusClass = ' style="background-color:rgba(22,163,74,0.3)"';
@@ -58,7 +58,7 @@ window.TVApp.RenderPlayers = (function () {
                     statusIcon = '❌';
                     statusClass = ' style="background-color:rgba(220,38,38,0.3)"';
                 }
-                var medal = '';
+                let medal = '';
                 if (i === 0 && data.score > 0) medal = '👑 ';
                 else if (i === 1 && data.score > 0) medal = '🥈 ';
                 else if (i === 2 && data.score > 0) medal = '🥉 ';
@@ -69,12 +69,12 @@ window.TVApp.RenderPlayers = (function () {
     }
 
     function updateAnswerCounter() {
-        var state = window.TVApp.State;
-        var ansCountEl = getEl('ans-count');
+        const state = window.TVApp.State;
+        const ansCountEl = getEl('ans-count');
         if (!ansCountEl) return;
 
-        var answeredCount = 0;
-        for (var nick in state.playersData) {
+        let answeredCount = 0;
+        for (const nick in state.playersData) {
             if (state.playersData[nick].answered === true) {
                 answeredCount++;
             }
@@ -82,7 +82,7 @@ window.TVApp.RenderPlayers = (function () {
 
         ansCountEl.textContent = tText(answeredCount);
 
-        var ansTotalEl = getEl('ans-total');
+        const ansTotalEl = getEl('ans-total');
         if (ansTotalEl) ansTotalEl.textContent = tText(Object.keys(state.playersData).length);
     }
 

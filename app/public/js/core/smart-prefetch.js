@@ -1,16 +1,16 @@
 (function () {
     'use strict';
 
-    var prefetchedUrls = new Set();
-    var preloadedModules = new Set();
+    const prefetchedUrls = new Set();
+    const preloadedModules = new Set();
 
     function canUseSpeculativeLoading() {
-        var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
         if (!connection) return true;
 
         if (connection.saveData) return false;
 
-        var type = String(connection.effectiveType || '').toLowerCase();
+        const type = String(connection.effectiveType || '').toLowerCase();
         if (type.indexOf('2g') !== -1) return false;
         if (type.indexOf('3g') !== -1) return false;
 
@@ -20,7 +20,7 @@
     function appendHint(rel, href, asType) {
         if (!href) return;
 
-        var link = document.createElement('link');
+        const link = document.createElement('link');
         link.rel = rel;
         link.href = href;
         if (asType) link.as = asType;
@@ -48,15 +48,15 @@
         if (!config || !config.selector) return;
         if (!canUseSpeculativeLoading()) return;
 
-        var target = document.querySelector(config.selector);
+        const target = document.querySelector(config.selector);
         if (!target) return;
 
-        var pageUrl = config.pageUrl || target.getAttribute('href');
-        var moduleUrls = Array.isArray(config.moduleUrls) ? config.moduleUrls : [];
-        var hoverDelayMs = Number(config.hoverDelayMs || 120);
+        const pageUrl = config.pageUrl || target.getAttribute('href');
+        const moduleUrls = Array.isArray(config.moduleUrls) ? config.moduleUrls : [];
+        const hoverDelayMs = Number(config.hoverDelayMs || 120);
 
-        var hoverTimer = null;
-        var activated = false;
+        let hoverTimer = null;
+        let activated = false;
 
         function runLightWarmup() {
             if (activated) return;

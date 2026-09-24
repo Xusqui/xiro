@@ -63,12 +63,38 @@ module.exports = {
                 'max-nested-callbacks': 'off',
                 'max-lines-per-function': 'off'
             }
+        },
+        {
+            // Frontend: navegador, mezcla de módulos ES y <script> clásicos que
+            // comparten globales (lista generada con `npm run lint:globals`).
+            files: ['public/**/*.js'],
+            env: { browser: true, node: false, jest: false },
+            parserOptions: { ecmaVersion: 'latest' },
+            globals: {
+                ...require('./eslint-public-globals.json'),
+                // Librerías cargadas por <script> (CDN / servidor Socket.IO)
+                io: 'readonly', QRCode: 'readonly', QRCodeStyling: 'readonly', Office: 'readonly',
+                // Solo se usan tras `typeof X !== 'undefined'` (exportar a Jest / detectar Node)
+                module: 'readonly', process: 'readonly'
+            },
+            rules: {
+                // Las funciones de nivel superior se usan desde otros scripts o desde el HTML.
+                'no-unused-vars': ['warn', { vars: 'local', argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+                'no-redeclare': ['error', { builtinGlobals: false }],
+                'no-empty': ['error', { allowEmptyCatch: true }],
+                'eqeqeq': ['error', 'always', { null: 'ignore' }],
+                'node/no-missing-require': 'off'
+            }
+        },
+        {
+            files: ['public/**/__tests__/**/*.js'],
+            env: { browser: true, node: true, jest: true }
         }
     ],
     ignorePatterns: [
         'node_modules/',
         'coverage/',
-        'public/',
         '*.min.js',
+        '**/._*',
     ],
 };

@@ -2,34 +2,34 @@ window.TVApp = window.TVApp || {};
 window.TVApp.TrvSocket = (function () {
     'use strict';
 
-    var getEl = window.TVApp.Utils.getEl;
-    var State = window.TVApp.TrvState;
-    var Layout = window.TVApp.TrvLayout;
-    var Board = window.TVApp.TrvBoard;
-    var Tokens = window.TVApp.TrvTokens;
-    var Highlights = window.TVApp.TrvHighlights;
+    const getEl = window.TVApp.Utils.getEl;
+    const State = window.TVApp.TrvState;
+    const Layout = window.TVApp.TrvLayout;
+    const Board = window.TVApp.TrvBoard;
+    const Tokens = window.TVApp.TrvTokens;
+    const Highlights = window.TVApp.TrvHighlights;
 
     function callUpdateBoardTokens(state) {
         if (!state || !state.players) return;
-        var pKeys = Object.keys(state.players);
-        var isTeamMode = state.teamMode || false;
+        const pKeys = Object.keys(state.players);
+        let isTeamMode = state.teamMode || false;
         
-        for (var i = 0; i < pKeys.length; i++) {
+        for (let i = 0; i < pKeys.length; i++) {
             if (state.players[pKeys[i]].teamName) isTeamMode = true;
         }
 
         if (isTeamMode) {
-            var teamCfg = state.teamConfig;
+            let teamCfg = state.teamConfig;
             if (!teamCfg || !teamCfg.teams || teamCfg.teams.length === 0) {
-                var teamMap = {};
-                for (var j = 0; j < pKeys.length; j++) {
-                    var p = state.players[pKeys[j]];
+                const teamMap = {};
+                for (let j = 0; j < pKeys.length; j++) {
+                    const p = state.players[pKeys[j]];
                     if (!p.teamName) continue;
                     if (!teamMap[p.teamName]) teamMap[p.teamName] = { name: p.teamName, color: '#888', players: [] };
                     teamMap[p.teamName].players.push(pKeys[j]);
                 }
-                var tArr = [];
-                for (var key in teamMap) tArr.push(teamMap[key]);
+                const tArr = [];
+                for (const key in teamMap) tArr.push(teamMap[key]);
                 teamCfg = { teams: tArr };
             }
             Tokens.updateBoardTokensTeam(
@@ -45,7 +45,7 @@ window.TVApp.TrvSocket = (function () {
     }
 
     function initTrivialSocket() {
-        var socket = window.TVApp.socket;
+        const socket = window.TVApp.socket;
         if (!socket) return;
 
         socket.on('trivial-game-started', function (data) {
@@ -53,23 +53,23 @@ window.TVApp.TrvSocket = (function () {
             State.setTrivialGameState(data);
             Layout.buildTrivialLayout();
 
-            var boardEl = getEl('trivial-board-svg');
+            const boardEl = getEl('trivial-board-svg');
             if (boardEl) {
                 Board.renderBoardBackground(boardEl, data);
                 callUpdateBoardTokens(State.getTrivialGameState());
                 Highlights.showTurnOrderOverlay(boardEl, data.turnOrder);
             }
-            var stAfter = State.getTrivialGameState();
+            const stAfter = State.getTrivialGameState();
             Layout.refreshPlayerScores(stAfter);
             Layout.buildCategoryLegend(stAfter);
             Layout.setStatus(data.currentTurn, 'Tirando el dado en pantalla principal...');
         });
 
         socket.on('trivial-dice-rolled', function (data) {
-            var nickname = data.nickname;
-            var diceValue = data.diceValue;
-            var avail = data.availablePositions || [];
-            var posLabels = data.positionLabels || [];
+            const nickname = data.nickname;
+            const diceValue = data.diceValue;
+            const avail = data.availablePositions || [];
+            const posLabels = data.positionLabels || [];
 
             Layout.setStatus(nickname, 'Sacó ' + diceValue + ' — ¿Dónde caerá?');
             
@@ -78,13 +78,13 @@ window.TVApp.TrvSocket = (function () {
         });
 
         socket.on('trivial-player-moved', function (data) {
-            var state = State.getTrivialGameState();
+            const state = State.getTrivialGameState();
             if (!state) return;
             
-            var moved = data.movedPlayers;
+            const moved = data.movedPlayers;
             if (moved && moved.length > 0) {
-                for (var i = 0; i < moved.length; i++) {
-                    var nick = moved[i];
+                for (let i = 0; i < moved.length; i++) {
+                    const nick = moved[i];
                     if (state.players && state.players[nick]) {
                         state.players[nick].position = data.position;
                     }
@@ -112,7 +112,7 @@ window.TVApp.TrvSocket = (function () {
             if (data.players) State.updateTrivialPlayers(data.players);
             if (data.teamTokens || data.players) State.updateTrivialTokens(data.teamTokens, data.players);
             
-            var st = State.getTrivialGameState();
+            const st = State.getTrivialGameState();
             callUpdateBoardTokens(st);
             Layout.refreshPlayerScores(st);
         });
@@ -122,8 +122,8 @@ window.TVApp.TrvSocket = (function () {
 
             // Limpiamos los resultados de TV (igual que el presentador limpia revealElements)
             // Llama a las funciones compartidas que limpian placeholders y esconden botones en la TV.
-            var mainC = getEl('main-container');
-            var trvC = getEl('trivial-board-svg');
+            const mainC = getEl('main-container');
+            const trvC = getEl('trivial-board-svg');
 
             if (data.players) State.updateTrivialPlayers(data.players);
             State.updateTrivialTurn(data.currentTurn, data.phase);
@@ -131,14 +131,14 @@ window.TVApp.TrvSocket = (function () {
             // Si por error se había renderizado una slide global encima (ej. pregunta), volvemos a poner el layout TRV
             if (!trvC) {
                 Layout.buildTrivialLayout();
-                var boardEl = getEl('trivial-board-svg');
-                var stateB = State.getTrivialGameState();
+                const boardEl = getEl('trivial-board-svg');
+                const stateB = State.getTrivialGameState();
                 if (boardEl && stateB && stateB.outerCasillas) {
                     Board.renderBoardBackground(boardEl, stateB);
                 }
             }
             
-            var st = State.getTrivialGameState();
+            const st = State.getTrivialGameState();
             callUpdateBoardTokens(st);
             Layout.refreshPlayerScores(st);
             Layout.buildCategoryLegend(st);

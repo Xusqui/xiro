@@ -356,7 +356,7 @@ export function registerSessionEvents(mostrarSeleccionEquipo, salirDelLobby) {
         setIsReconnecting(false);
 
         // Limpiar nickname y localStorage para evitar reconexiones automáticas
-        setNickname("");
+        setNickname('');
         localStorage.removeItem('xiro_lastNickname');
 
         // Casos especiales de error que requieren reload
@@ -410,7 +410,7 @@ export function registerSessionEvents(mostrarSeleccionEquipo, salirDelLobby) {
         }
 
         if (data.reason === 'invalid-pin' || data.reason === 'server-error') {
-            setPin("");
+            setPin('');
             document.getElementById('main-container').innerHTML = _tHtml(`
                 <img src="/images/logo.svg" alt="Logo"
                     style="width: 100%; max-width: 384px; margin: 0 auto 2rem auto; filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04));">

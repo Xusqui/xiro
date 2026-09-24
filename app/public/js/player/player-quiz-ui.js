@@ -75,7 +75,7 @@ export function renderizarPregunta(pregunta) {
                                 ${safeOptImg ? `<img src="${safeOptImg}" alt="" class="max-h-[80px] max-w-[80px] object-contain rounded-lg mb-1 shrink-0">` : ''}
                                 <span class="btn-text text-white font-bold ${fontClass} uppercase px-1 break-words hyphens-auto leading-tight text-center" lang="es">${safeOptionText}</span>
                             </button>
-                        `
+                        `;
     }).join('')}
                     </div>
                 </div>`);

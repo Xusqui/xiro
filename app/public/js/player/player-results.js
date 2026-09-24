@@ -140,8 +140,8 @@ export function registerResultsEvents() {
                         </div>
                     </div>
                     ${data.position === 1
-                        ? `<p class="text-xl font-black animate-pulse mt-3">${_t(resultMessage.key, null, resultMessage.fallback)}</p>`
-                        : resultMessageHtml}
+        ? `<p class="text-xl font-black animate-pulse mt-3">${_t(resultMessage.key, null, resultMessage.fallback)}</p>`
+        : resultMessageHtml}
                 </div>
             </div>
         `);
