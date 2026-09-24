@@ -77,6 +77,14 @@
     "admin.user.own_account": "Votre compte",
     "admin.user.delete_title": "Supprimer l'utilisateur",
     "admin.remote.empty_title": "Aucune partie active pour le moment",
-    "admin.remote.empty_msg": "Démarre une partie depuis le présentateur pour la contrôler ici"
+    "admin.remote.empty_msg": "Démarre une partie depuis le présentateur pour la contrôler ici",
+    "admin.tools.upload_ai_help_title": "Vous n’avez pas encore le JSON ? Générez-le avec l’IA",
+    "admin.tools.upload_ai_step1": "Téléchargez le fichier de schéma :",
+    "admin.tools.upload_ai_step2": "Ouvrez votre application d’Intelligence Artificielle préférée (ChatGPT, Claude, Gemini...) et importez le fichier schema.json que vous avez téléchargé.",
+    "admin.tools.upload_ai_step3": "Copiez-collez-lui le prompt suivant :",
+    "admin.tools.upload_ai_step4": "Juste après le prompt, collez votre liste de questions et réponses, puis envoyez-la à l’IA. Téléchargez le .json qu’elle vous renvoie et importez-le ci-dessous.",
+    "admin.tools.upload_ai_copy_btn": "Copier",
+    "admin.tools.upload_ai_prompt_copied": "Copié",
+    "admin.tools.upload_ai_prompt": "Agis comme un générateur expert de banques de questions pour la plateforme Xiro!.\n\nJe t’ai envoyé un fichier nommé schema.json qui définit la structure exacte (champs, types de données et format) qu’une banque de questions valide doit avoir.\n\nTa tâche :\n1. Lis et analyse attentivement schema.json : identifie les champs obligatoires, les types de questions pris en charge et le format exact de chacun (y compris la casse des clés).\n2. Sous ce message, je vais coller une liste de questions et réponses en texte libre.\n3. Transforme cette liste en un SEUL objet JSON respectant EXACTEMENT la structure de schema.json : mêmes noms de champs, mêmes types de données et même hiérarchie.\n4. Si je n’indique pas le type d’une question, suppose \"multiple\" (choix multiple) avec 4 options dont une seule est correcte.\n5. Si le texte d’une question ou d’une réponse est trop long pour être lu confortablement à l’écran, raccourcis-le en conservant son sens et ses mots-clés. Applique cela aux questions comme aux réponses, sans modifier quelle réponse est correcte.\n6. N’ajoute pas de champs absents du schéma et n’omets pas les champs obligatoires. N’inclus ni commentaires ni explications.\n7. Renvoie-moi UNIQUEMENT le JSON final, valide et bien formé, prêt à être enregistré en fichier .json.\n\nListe de questions et réponses :\n"
   }
 }

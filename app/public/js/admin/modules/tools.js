@@ -134,7 +134,7 @@ async function limpiarCache() {
 
 // ===== CARGAR PREGUNTAS DESDE JSON =====
 
-const AI_PROMPT_GENERAR_BANCO = `Actúa como un generador experto de bancos de preguntas para la plataforma Xiro!.
+const AI_PROMPT_GENERAR_BANCO_FALLBACK = `Actúa como un generador experto de bancos de preguntas para la plataforma Xiro!.
 
 Te he subido un archivo llamado schema.json que define la estructura exacta (campos, tipos de datos y formato) que debe tener un banco de preguntas válido.
 
@@ -143,14 +143,19 @@ Tu tarea:
 2. Debajo de este mensaje te voy a pegar una lista de preguntas y respuestas en texto libre.
 3. Transforma esa lista en un ÚNICO objeto JSON que cumpla EXACTAMENTE la estructura de schema.json: mismos nombres de campo, mismos tipos de dato y misma jerarquía.
 4. Si no indico el tipo de una pregunta, asume "multiple" (opción múltiple) con 4 opciones donde solo una es correcta.
-5. No añadas campos que no existan en el esquema ni omitas los obligatorios. No incluyas comentarios ni explicaciones.
-6. Devuélveme SOLO el JSON final, válido y bien formado, listo para guardarlo como archivo .json.
+5. Si el texto de alguna pregunta o respuesta es demasiado largo para leerse cómodamente en pantalla, recórtalo manteniendo su sentido y sus palabras clave. Aplícalo tanto a las preguntas como a las respuestas, sin alterar cuál es la respuesta correcta.
+6. No añadas campos que no existan en el esquema ni omitas los obligatorios. No incluyas comentarios ni explicaciones.
+7. Devuélveme SOLO el JSON final, válido y bien formado, listo para guardarlo como archivo .json.
 
 Lista de preguntas y respuestas:
 `;
 
+function getPromptIA() {
+    return _t('admin.tools.upload_ai_prompt', null, AI_PROMPT_GENERAR_BANCO_FALLBACK);
+}
+
 function copiarPromptIA() {
-    navigator.clipboard.writeText(AI_PROMPT_GENERAR_BANCO).then(() => {
+    navigator.clipboard.writeText(getPromptIA()).then(() => {
         const btn = document.getElementById('copyPromptBtn');
         if (!btn) return;
         const original = btn.innerHTML;
@@ -285,7 +290,7 @@ async function mostrarCargarPreguntasInner() {
 
     // Rellenar el prompt de IA y activar el botón de copia
     const aiPromptText = document.getElementById('aiPromptText');
-    if (aiPromptText) aiPromptText.textContent = AI_PROMPT_GENERAR_BANCO;
+    if (aiPromptText) aiPromptText.textContent = getPromptIA();
     const copyPromptBtn = document.getElementById('copyPromptBtn');
     if (copyPromptBtn) copyPromptBtn.addEventListener('click', copiarPromptIA);
 }

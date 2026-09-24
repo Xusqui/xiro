@@ -77,6 +77,14 @@
     "admin.user.own_account": "Zure kontua",
     "admin.user.delete_title": "Erabiltzailea ezabatu",
     "admin.remote.empty_title": "Ez dago joko aktiborik oraintxe",
-    "admin.remote.empty_msg": "Hasi jokoa aurkezletik hemen kontrolatzeko"
+    "admin.remote.empty_msg": "Hasi jokoa aurkezletik hemen kontrolatzeko",
+    "admin.tools.upload_ai_help_title": "Oraindik ez duzu JSONa? Sortu ezazu AArekin",
+    "admin.tools.upload_ai_step1": "Deskargatu eskema-fitxategia:",
+    "admin.tools.upload_ai_step2": "Ireki gogoko duzun Adimen Artifizialeko aplikazioa (ChatGPT, Claude, Gemini...) eta igo deskargatu duzun schema.json fitxategia.",
+    "admin.tools.upload_ai_step3": "Kopiatu eta itsatsi prompt hau:",
+    "admin.tools.upload_ai_step4": "Promptaren ondoren, itsatsi zure galdera eta erantzunen zerrenda eta bidali AAri. Deskargatu itzultzen dizun .json fitxategia eta igo ezazu behean.",
+    "admin.tools.upload_ai_copy_btn": "Kopiatu",
+    "admin.tools.upload_ai_prompt_copied": "Kopiatuta",
+    "admin.tools.upload_ai_prompt": "Jokatu Xiro! plataformarako galdera-bankuen sortzaile aditu gisa.\n\nschema.json izeneko fitxategi bat igo dizut; galdera-banku baliozko batek izan behar duen egitura zehatza (eremuak, datu-motak eta formatua) definitzen du.\n\nZure zeregina:\n1. Irakurri eta aztertu arretaz schema.json: identifikatu derrigorrezko eremuak, onartutako galdera-motak eta bakoitzaren formatu zehatza (gakoen maiuskulak/minuskulak barne).\n2. Mezu honen azpian galdera eta erantzunen zerrenda bat itsatsiko dizut testu librean.\n3. Bihurtu zerrenda hori schema.json-en egitura ZEHAZKI betetzen duen JSON objektu BAKAR batean: eremu-izen berak, datu-mota berak eta hierarkia bera.\n4. Galdera baten mota adierazten ez badut, suposatu \"multiple\" (aukera anitzekoa), 4 aukerarekin eta bakarra zuzena izanik.\n5. Galderaren edo erantzunen baten testua luzeegia bada pantailan erraz irakurtzeko, laburtu ezazu haren esanahia eta gako-hitzak mantenduz. Aplikatu hau galderei zein erantzunei, erantzun zuzena zein den aldatu gabe.\n6. Ez gehitu eskeman ez dauden eremuak eta ez utzi kanpoan derrigorrezkoak. Ez sartu iruzkinik ez azalpenik.\n7. Itzuli SOILIK azken JSONa, baliozkoa eta ondo osatua, .json fitxategi gisa gordetzeko prest.\n\nGaldera eta erantzunen zerrenda:\n"
   }
 }

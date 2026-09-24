@@ -77,6 +77,14 @@
     "admin.user.own_account": "A túa conta",
     "admin.user.delete_title": "Eliminar usuario",
     "admin.remote.empty_title": "Non hai partidas activas agora mesmo",
-    "admin.remote.empty_msg": "Inicia unha partida desde o presentador para controlala aquí"
+    "admin.remote.empty_msg": "Inicia unha partida desde o presentador para controlala aquí",
+    "admin.tools.upload_ai_help_title": "Aínda non tes o JSON? Xéirao con IA",
+    "admin.tools.upload_ai_step1": "Descarga o ficheiro de esquema:",
+    "admin.tools.upload_ai_step2": "Abre a túa aplicación de Intelixencia Artificial favorita (ChatGPT, Claude, Gemini...) e sube o ficheiro schema.json que descargaches.",
+    "admin.tools.upload_ai_step3": "Copia e pégalle o seguinte prompt:",
+    "admin.tools.upload_ai_step4": "A continuación do prompt, pega a túa lista de preguntas e respostas e envíalla á IA. Descarga o .json que che devolva e súbeo abaixo.",
+    "admin.tools.upload_ai_copy_btn": "Copiar",
+    "admin.tools.upload_ai_prompt_copied": "Copiado",
+    "admin.tools.upload_ai_prompt": "Actúa como un xerador experto de bancos de preguntas para a plataforma Xiro!.\n\nSubinche un ficheiro chamado schema.json que define a estrutura exacta (campos, tipos de datos e formato) que debe ter un banco de preguntas válido.\n\nA túa tarefa:\n1. Le e analiza schema.json con atención: identifica os campos obrigatorios, os tipos de pregunta admitidos e o formato exacto de cada un (incluíndo maiúsculas/minúsculas das claves).\n2. Debaixo desta mensaxe vou pegarche unha lista de preguntas e respostas en texto libre.\n3. Transforma esa lista nun ÚNICO obxecto JSON que cumpra EXACTAMENTE a estrutura de schema.json: mesmos nomes de campo, mesmos tipos de dato e mesma xerarquía.\n4. Se non indico o tipo dunha pregunta, asume \"multiple\" (opción múltiple) con 4 opcións onde só unha é correcta.\n5. Se o texto dalgunha pregunta ou resposta é demasiado longo para lerse comodamente na pantalla, recórtao mantendo o seu sentido e as súas palabras clave. Aplícao tanto ás preguntas como ás respostas, sen alterar cal é a resposta correcta.\n6. Non engadas campos que non existan no esquema nin omitas os obrigatorios. Non inclúas comentarios nin explicacións.\n7. Devólveme SÓ o JSON final, válido e ben formado, listo para gardalo como ficheiro .json.\n\nLista de preguntas e respostas:\n"
   }
 }

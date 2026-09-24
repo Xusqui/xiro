@@ -77,6 +77,14 @@
     "admin.user.own_account": "El teu compte",
     "admin.user.delete_title": "Eliminar usuari",
     "admin.remote.empty_title": "No hi ha partides actives ara mateix",
-    "admin.remote.empty_msg": "Inicia una partida des del presentador per controlar-la aquí"
+    "admin.remote.empty_msg": "Inicia una partida des del presentador per controlar-la aquí",
+    "admin.tools.upload_ai_help_title": "Encara no tens el JSON? Genera’l amb IA",
+    "admin.tools.upload_ai_step1": "Descarrega el fitxer d’esquema:",
+    "admin.tools.upload_ai_step2": "Obre la teva aplicació d’Intel·ligència Artificial preferida (ChatGPT, Claude, Gemini...) i puja-hi el fitxer schema.json que has descarregat.",
+    "admin.tools.upload_ai_step3": "Copia i enganxa-li el prompt següent:",
+    "admin.tools.upload_ai_step4": "Just després del prompt, enganxa la teva llista de preguntes i respostes i envia-la a la IA. Descarrega el .json que et torni i puja’l a sota.",
+    "admin.tools.upload_ai_copy_btn": "Copiar",
+    "admin.tools.upload_ai_prompt_copied": "Copiat",
+    "admin.tools.upload_ai_prompt": "Actua com un generador expert de bancs de preguntes per a la plataforma Xiro!.\n\nT’he pujat un fitxer anomenat schema.json que defineix l’estructura exacta (camps, tipus de dades i format) que ha de tenir un banc de preguntes vàlid.\n\nLa teva tasca:\n1. Llegeix i analitza schema.json amb atenció: identifica els camps obligatoris, els tipus de pregunta admesos i el format exacte de cadascun (incloent-hi majúscules/minúscules de les claus).\n2. A sota d’aquest missatge t’enganxaré una llista de preguntes i respostes en text lliure.\n3. Transforma aquesta llista en un ÚNIC objecte JSON que compleixi EXACTAMENT l’estructura de schema.json: mateixos noms de camp, mateixos tipus de dada i mateixa jerarquia.\n4. Si no indico el tipus d’una pregunta, assumeix \"multiple\" (opció múltiple) amb 4 opcions on només una és correcta.\n5. Si el text d’alguna pregunta o resposta és massa llarg per llegir-se còmodament a la pantalla, retalla’l mantenint-ne el sentit i les paraules clau. Aplica-ho tant a les preguntes com a les respostes, sense alterar quina és la resposta correcta.\n6. No afegeixis camps que no existeixin a l’esquema ni ometis els obligatoris. No incloguis comentaris ni explicacions.\n7. Torna’m NOMÉS el JSON final, vàlid i ben format, llest per desar-lo com a fitxer .json.\n\nLlista de preguntes i respostes:\n"
   }
 }

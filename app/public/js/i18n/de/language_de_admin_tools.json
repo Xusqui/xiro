@@ -77,6 +77,14 @@
     "admin.user.own_account": "Ihr Konto",
     "admin.user.delete_title": "Benutzer löschen",
     "admin.remote.empty_title": "Momentan keine aktiven Spiele",
-    "admin.remote.empty_msg": "Starte ein Spiel über den Presenter, um es hier zu steuern"
+    "admin.remote.empty_msg": "Starte ein Spiel über den Presenter, um es hier zu steuern",
+    "admin.tools.upload_ai_help_title": "Noch kein JSON? Erstelle es mit KI",
+    "admin.tools.upload_ai_step1": "Lade die Schemadatei herunter:",
+    "admin.tools.upload_ai_step2": "Öffne deine bevorzugte KI-App (ChatGPT, Claude, Gemini...) und lade die heruntergeladene Datei schema.json hoch.",
+    "admin.tools.upload_ai_step3": "Kopiere den folgenden Prompt und füge ihn ein:",
+    "admin.tools.upload_ai_step4": "Füge direkt nach dem Prompt deine Liste mit Fragen und Antworten ein und sende sie an die KI. Lade die zurückgegebene .json-Datei herunter und lade sie unten hoch.",
+    "admin.tools.upload_ai_copy_btn": "Kopieren",
+    "admin.tools.upload_ai_prompt_copied": "Kopiert",
+    "admin.tools.upload_ai_prompt": "Handle als erfahrener Generator von Fragenkatalogen für die Plattform Xiro!.\n\nIch habe dir eine Datei namens schema.json hochgeladen, die die genaue Struktur (Felder, Datentypen und Format) eines gültigen Fragenkatalogs festlegt.\n\nDeine Aufgabe:\n1. Lies und analysiere schema.json sorgfältig: Ermittle die Pflichtfelder, die unterstützten Fragetypen und das genaue Format jedes Typs (einschließlich Groß-/Kleinschreibung der Schlüssel).\n2. Unter dieser Nachricht füge ich eine Liste von Fragen und Antworten als Freitext ein.\n3. Wandle diese Liste in EIN EINZIGES JSON-Objekt um, das GENAU der Struktur von schema.json entspricht: gleiche Feldnamen, gleiche Datentypen und gleiche Hierarchie.\n4. Wenn ich den Typ einer Frage nicht angebe, nimm \"multiple\" (Multiple Choice) mit 4 Optionen an, von denen nur eine richtig ist.\n5. Wenn der Text einer Frage oder Antwort zu lang ist, um ihn bequem auf dem Bildschirm zu lesen, kürze ihn und behalte dabei Sinn und Schlüsselwörter bei. Wende das sowohl auf Fragen als auch auf Antworten an, ohne zu ändern, welche Antwort richtig ist.\n6. Füge keine Felder hinzu, die es im Schema nicht gibt, und lass keine Pflichtfelder weg. Füge keine Kommentare oder Erklärungen hinzu.\n7. Gib NUR das endgültige JSON zurück, gültig und wohlgeformt, bereit zum Speichern als .json-Datei.\n\nListe der Fragen und Antworten:\n"
   }
 }
