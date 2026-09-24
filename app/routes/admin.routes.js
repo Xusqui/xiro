@@ -1019,16 +1019,21 @@ router.post('/api/uploads/cleanup', authenticateAdmin, authorizeAdmin, async (re
             }
         }
 
-        // Obtener todos los archivos referenciados en la base de datos (4 fuentes)
-        const [questionsResult, slidesResult, questionImagesResult, optionImagesResult] = await Promise.all([
+        // Obtener todos los archivos referenciados en la base de datos
+        // (recursos de preguntas, slides, imágenes de opciones e imágenes representativas de juegos)
+        const results = await Promise.all([
             pool.query('SELECT DISTINCT url_recurso AS ref FROM questions WHERE url_recurso IS NOT NULL'),
             pool.query('SELECT DISTINCT slide_image AS ref FROM custom_game_questions WHERE slide_image IS NOT NULL'),
             pool.query('SELECT DISTINCT question_image_url AS ref FROM questions WHERE question_image_url IS NOT NULL'),
-            pool.query('SELECT DISTINCT option_image_url AS ref FROM options WHERE option_image_url IS NOT NULL')
+            pool.query('SELECT DISTINCT option_image_url AS ref FROM options WHERE option_image_url IS NOT NULL'),
+            pool.query(`SELECT image_url AS ref FROM question_banks WHERE image_url IS NOT NULL
+                        UNION SELECT image_url FROM custom_games WHERE image_url IS NOT NULL
+                        UNION SELECT image_url FROM games WHERE image_url IS NOT NULL
+                        UNION SELECT image_url FROM trivial_games WHERE image_url IS NOT NULL`)
         ]);
 
         const referencedFiles = new Set();
-        [...questionsResult.rows, ...slidesResult.rows, ...questionImagesResult.rows, ...optionImagesResult.rows].forEach(row => {
+        results.flatMap(r => r.rows).forEach(row => {
             if (row.ref) {
                 // Extraer el nombre del archivo de la URL (formato: /uploads/filename)
                 const filename = row.ref.replace('/uploads/', '');
