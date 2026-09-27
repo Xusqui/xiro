@@ -129,6 +129,16 @@ export function startMatchAutoSendTimer(timeLimit) {
     matchAutoSendTimerId = timerId;
 }
 
+/**
+ * Limpia el estado de respuesta de ordenar y de emparejar. Se llama al llegar cada
+ * pregunta: si no, blocked-answer (o la reanudación del temporizador) reenviaría el
+ * orden o el emparejamiento de una pregunta anterior en una de otro tipo.
+ */
+export function clearAnswerInputState() {
+    clearOrderState();
+    clearMatchState();
+}
+
 export function clearOrderState() {
     currentOrder = null;
     currentOrderOptions = null;

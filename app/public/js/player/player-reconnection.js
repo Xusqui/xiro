@@ -11,7 +11,8 @@ import {
     setIsReconnecting, setNickname, setPin, setSessionId,
     setHaRespondido, setCanAnswer, setSelectedTeam, setTeamMode,
     setPendingAnswer, setSendingAnswer, setStreakInfo,
-    getJoinTimeoutId, setJoinTimeoutId
+    getJoinTimeoutId, setJoinTimeoutId,
+    clearAnswerInputState
 } from './player-state.js?v=20260922172926';
 import { removeDisconnectOverlay, activarWakeLock } from './player-connection.js?v=20260922172926';
 import { renderizarPregunta, renderizarPreguntaOrdena, renderizarSlideComentario, renderizarSlideInfo, renderizarSlideTexto, renderizarSlideImagen, renderizarPreguntaWordScramble, renderizarPreguntaMultipleChoice, renderizarPreguntaMatching } from './player-question-ui.js?v=20260922172926';
@@ -198,6 +199,7 @@ function handlePresenterReconnected(data) {
 // ===== UI HELPERS =====
 
 function renderQuestion(question) {
+    clearAnswerInputState();
     if (question.slide_type === 'comment') {
         renderizarSlideComentario(question);
     } else if (question.slide_type === 'info') {

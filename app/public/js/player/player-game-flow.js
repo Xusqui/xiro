@@ -8,7 +8,8 @@ import {
     setHaRespondido, setResultReceived,
     setPendingAnswer, setSendingAnswer,
     getWakeLock, setWakeLock,
-    resetSessionState
+    resetSessionState,
+    clearAnswerInputState
 } from './player-state.js?v=20260922172926';
 import { renderizarPregunta, renderizarPreguntaOrdena, renderizarPreguntaMatching, renderizarPreguntaNumerica, renderizarPreguntaWordScramble, renderizarPreguntaMultipleChoice } from './player-question-ui.js?v=20260922172926';
 import { renderizarSlideComentario, renderizarSlideInfo, renderizarSlideTexto, renderizarSlideImagen, renderizarSlideTextoImagen } from './player-question-ui.js?v=20260922172926';
@@ -88,6 +89,7 @@ function onGameStarted(data, ack) {
     // Precargar imágenes de slides con jitter para evitar burst de N peticiones
     preloadGameImages(data.imagePreloads);
 
+    clearAnswerInputState();
     if (data.firstQuestion.slide_type === 'comment') {
         renderizarSlideComentario(data.firstQuestion);
     } else if (data.firstQuestion.slide_type === 'info') {
@@ -140,6 +142,7 @@ function onNewQuestion(data, ack) {
     // Eliminar overlay de desconexión si existe
     removeDisconnectOverlay();
 
+    clearAnswerInputState();
     if (data.question.slide_type === 'comment') {
         renderizarSlideComentario(data.question);
     } else if (data.question.slide_type === 'info') {
