@@ -18,6 +18,7 @@ import {
     getCurrentMatches, clearMatchAutoSendTimer,
     getCurrentSlideType, getStreakInfo
 } from './player-state.js?v=20260922172926';
+import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
 function createRequestId() {
     return `ans_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
@@ -478,11 +479,11 @@ export function registerAnswerEvents() {
             const correctBlock = data?.correctAnswer
                 ? `<div class="mt-4 bg-black/30 rounded-xl p-4 w-full max-w-sm">
                        <p class="text-sm uppercase font-bold mb-1 opacity-80">${_t('player.answer.correct_label', null, 'Correcta:')}</p>
-                       <p class="text-xl font-black break-words hyphens-auto" lang="es">${data.correctAnswer}</p>
+                       <p class="text-xl font-black break-words hyphens-auto" lang="es">${escapeHtml(data.correctAnswer)}</p>
                    </div>`
                 : '';
             const justBlock = data?.justification
-                ? `<div class="mt-2 bg-black/30 rounded-xl p-4 w-full max-w-sm text-sm leading-relaxed">${data.justification}</div>`
+                ? `<div class="mt-2 bg-black/30 rounded-xl p-4 w-full max-w-sm text-sm leading-relaxed">${escapeHtml(data.justification)}</div>`
                 : '';
             document.body.innerHTML = _tHtml(`
                 <div class="time-up-container">
@@ -514,7 +515,7 @@ export function registerAnswerEvents() {
                 <h2>${_t('player.answer.sent', null, '¡Respuesta Enviada!')}</h2>
                 <div class="team-waiting-info">
                     <p class="team-waiting-label">${_t('player.answer.waiting_team', null, 'Esperando a tu equipo...')}</p>
-                    <p class="team-waiting-name">${data.teamName}</p>
+                    <p class="team-waiting-name">${escapeHtml(data.teamName)}</p>
                     <div class="team-waiting-count">
                         <span class="count-answered">${data.answered}</span>
                         <span class="count-separator">/</span>
@@ -569,7 +570,7 @@ export function registerAnswerEvents() {
                     <div id="ranking-container" class="space-y-2">
                         ${data.ranking.slice(0, 5).map(player => `
                             <div class="flex justify-center items-center bg-white/10 rounded-lg px-3 py-2">
-                                <span class="font-bold">${player.position}. ${player.nickname}</span>
+                                <span class="font-bold">${player.position}. ${escapeHtml(player.nickname)}</span>
                                 <span class="mx-3"><i class="fas fa-arrow-right"></i></span>
                                 <span class="font-black">${player.score} pts</span>
                             </div>
@@ -601,7 +602,7 @@ export function registerAnswerEvents() {
         return `
                                 <div class="relative rounded-xl p-2 flex items-center gap-2 ${isCorrect ? 'bg-green-500/20 border-2 border-green-500' : 'bg-gray-500/20 border-2 border-gray-500'}">
                                     <span class="text-white font-black text-lg shrink-0 w-9 h-9 flex items-center justify-center bg-white/20 rounded-full">${position + 1}</span>
-                                    <span class="text-white font-bold text-sm uppercase flex-1 break-words">${optionText}</span>
+                                    <span class="text-white font-bold text-sm uppercase flex-1 break-words">${escapeHtml(optionText)}</span>
                                     <div class="absolute -top-2 -right-2 w-10 h-10 rounded-full flex items-center justify-center text-white text-lg font-black ${isCorrect ? 'bg-green-500 ring-3 ring-green-300' : 'bg-gray-600 ring-3 ring-gray-400'}">
                                         ${isCorrect ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'}
                                     </div>
@@ -660,7 +661,7 @@ export function registerAnswerEvents() {
             messageHTML = `
                 ${_t('player.answer.yes', null, '<img src="/images/chamaleon/thumbs_up.svg" class="w-32 h-32 mb-4 animate-bounce drop-shadow-lg" alt="👍">')}
                 <p class="text-3xl font-black mt-4 bg-black/20 py-2 px-8 rounded-full">+${data.points} PTS</p>
-                ${data.justification ? `<p class="text-lg mt-4 bg-white/20 p-4 rounded-2xl max-w-md">${data.justification}</p>` : ''}
+                ${data.justification ? `<p class="text-lg mt-4 bg-white/20 p-4 rounded-2xl max-w-md">${escapeHtml(data.justification)}</p>` : ''}
                 ${rankingHTML}
             `;
         } else if (isApproximate) {
@@ -678,9 +679,9 @@ export function registerAnswerEvents() {
                 <p class="text-3xl font-black mt-4 bg-black/20 py-2 px-8 rounded-full">+${data.points} PTS</p>
                 ${data.correctAnswer ? `<div class="mt-4 bg-white/20 p-4 rounded-2xl max-w-md">
                     <p class="text-sm uppercase font-bold mb-2">${_t('player.answer.correct_answer_label', null, 'Respuesta correcta:')}</p>
-                    <p class="text-xl font-black">${data.correctAnswer}</p>
+                    <p class="text-xl font-black">${escapeHtml(data.correctAnswer)}</p>
                 </div>` : ''}
-                ${data.justification ? `<p class="text-lg mt-4 bg-white/20 p-4 rounded-2xl max-w-md">${data.justification}</p>` : ''}
+                ${data.justification ? `<p class="text-lg mt-4 bg-white/20 p-4 rounded-2xl max-w-md">${escapeHtml(data.justification)}</p>` : ''}
                 ${rankingHTML}
             `;
         }

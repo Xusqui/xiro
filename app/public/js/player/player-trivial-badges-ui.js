@@ -3,6 +3,7 @@
  */
 
 import { getNickname } from './player-state.js?v=20260922172926';
+import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
 const CONTAINER_ID = 'trivial-badges-container';
 const CATEGORIES_KEY = 'xiro_trivial_categories';
@@ -93,7 +94,7 @@ function render() {
         const active = !!badges[idx];
         const bg = active ? cat.color : 'rgba(255,255,255,0.12)';
         const border = active ? 'transparent' : 'rgba(209,213,219,0.9)';
-        return `<span title="${cat.name}"
+        return `<span title="${escapeHtml(cat.name)}"
             style="display:inline-block;width:1.05rem;height:1.05rem;border-radius:9999px;background:${bg};border:1px solid ${border};box-shadow:${active ? `0 0 8px ${cat.color}99` : 'none'}"></span>`;
     }).join('');
 }

@@ -3,6 +3,8 @@
  * Renderizado de pantallas de sesión, lobby y errores
  */
 
+import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
+
 export function mostrarErrorSesionNoEncontrada() {
     return `
         <img src="/images/logo.svg" alt="Logo"
@@ -32,7 +34,7 @@ export function mostrarPantallaReconectando(nickname) {
     return `
         <div class="reconnecting-container">
             <div class="spinner"></div>
-            <h2>${_t('player.session_ui.reconnecting_title', { nickname: nickname.toUpperCase() }, '¡TODO LISTO, {nickname}!')}</h2>
+            <h2>${escapeHtml(_t('player.session_ui.reconnecting_title', { nickname: nickname.toUpperCase() }, '¡TODO LISTO, {nickname}!'))}</h2>
             <p class="status-text">${_t('player.session_ui.reconnecting_status', null, 'RECONECTANDO A TU PARTIDA...')}</p>
             <p class="status-subtext">${_t('player.session_ui.reconnecting_subtext', null, 'Esperando que el presentador avance a la siguiente pregunta')}</p>
         </div>
@@ -56,8 +58,8 @@ export function mostrarEquipoSeleccionado(nickname, teamName) {
                 <i class="fas fa-check-circle"></i>
             </div>
             <h2>${_t('player.session_ui.reconnected', null, '¡RECONECTADO!')}</h2>
-            <p class="player-name">${nickname}</p>
-            <p class="team-name">${_t('player.session_ui.team_label', { teamName }, 'EQUIPO: {teamName}')}</p>
+            <p class="player-name">${escapeHtml(nickname)}</p>
+            <p class="team-name">${escapeHtml(_t('player.session_ui.team_label', { teamName }, 'EQUIPO: {teamName}'))}</p>
             <p class="status-text">${_t('player.session_ui.waiting_game_start', null, 'ESPERANDO INICIO DEL JUEGO...')}</p>
         </div>
     `;
@@ -72,7 +74,7 @@ export function mostrarLobbyReconectado(nickname) {
                         <i class="fas fa-check-circle"></i>
                     </div>
                     <h2>${_t('player.session_ui.reconnected', null, '¡RECONECTADO!')}</h2>
-                    <p class="player-name">${nickname}</p>
+                    <p class="player-name">${escapeHtml(nickname)}</p>
                     <p class="status-text">${_t('player.session_ui.game_will_start', null, 'LA PARTIDA COMENZARÁ CUANDO EL PRESENTADOR INICIE EL JUEGO')}</p>
                     <button data-player-action="salir-lobby" class="btn-danger">
                         🚪 ${_t('player.session_ui.exit_game', null, 'SALIR DEL JUEGO')}
@@ -86,7 +88,7 @@ export function mostrarLobbyReconectado(nickname) {
 export function mostrarLobbyNormal(nickname) {
     return `
         <div class="lobby-container">
-            <h2 class="lobby-title">${_t('player.session_ui.get_ready', { nickname }, '¡PREPÁRATE, {nickname}!')}</h2>
+            <h2 class="lobby-title">${escapeHtml(_t('player.session_ui.get_ready', { nickname }, '¡PREPÁRATE, {nickname}!'))}</h2>
             <p class="lobby-text">${_t('player.session_ui.game_will_start', null, 'LA PARTIDA COMENZARÁ CUANDO EL PRESENTADOR INICIE EL JUEGO')}</p>
             <button data-player-action="salir-lobby" class="btn-danger">
                 🚪 ${_t('player.session_ui.exit_game', null, 'SALIR DEL JUEGO')}

@@ -14,6 +14,7 @@ import {
 import { OPTION_COLORS, getResponsiveFontClass } from './player-question-utils.js?v=20260922172926';
 import { setBodyHTML } from './player-streak-ui.js?v=20260922172926';
 import { enviarRespuestaMultipleChoice } from './player-answer.js?v=20260922172926';
+import { escapeHtml, sanitizeResourceUrl } from '../core/sanitize.js?v=20260922172926';
 
 // Estado de selección múltiple
 let selectedIndices = [];
@@ -150,7 +151,7 @@ export function renderizarPreguntaMultipleChoice(pregunta) {
     if (tieneImagen) {
         multimediaHTML = `
             <div class="bg-slate-800 px-2 py-2 flex items-center justify-center shrink-0" style="max-height: 25vh;">
-                <img src="${urlRecurso}" alt="Imagen" class="max-w-full max-h-full object-contain rounded-lg shadow-lg">
+                <img src="${sanitizeResourceUrl(urlRecurso)}" alt="Imagen" class="max-w-full max-h-full object-contain rounded-lg shadow-lg">
             </div>`;
     } else if (tieneAudio) {
         multimediaHTML = `
@@ -175,8 +176,8 @@ export function renderizarPreguntaMultipleChoice(pregunta) {
             </div>
             ${multimediaHTML}
             <div class="bg-white p-4 border-b-8 border-purple-600 text-slate-800 text-center ${tieneImagen ? 'min-h-[8vh]' : 'min-h-[12vh]'} ${tieneImagen ? 'max-h-[12vh]' : 'max-h-[20vh]'} flex flex-col items-center justify-center shrink-0 overflow-y-auto">
-                <h2 class="${preguntaFontClass} font-black uppercase italic hyphens-auto" lang="es">${pregunta.question_text}</h2>
-                ${tieneImagenEnunciado ? `<img src="${questionImageUrl}" alt="" class="mt-2 max-h-[150px] max-w-full object-contain rounded-lg shadow mx-auto">` : ''}
+                <h2 class="${preguntaFontClass} font-black uppercase italic hyphens-auto" lang="es">${escapeHtml(pregunta.question_text)}</h2>
+                ${tieneImagenEnunciado ? `<img src="${sanitizeResourceUrl(questionImageUrl)}" alt="" class="mt-2 max-h-[150px] max-w-full object-contain rounded-lg shadow mx-auto">` : ''}
             </div>
             <div class="bg-purple-700 px-3 py-1 text-center shrink-0">
                 <p class="text-white text-xs font-bold uppercase tracking-wide">
@@ -193,8 +194,8 @@ export function renderizarPreguntaMultipleChoice(pregunta) {
                         data-answer-index="${i}"
                         class="btn-multiplechoice btn-glass-3d ${colores[i]} rounded-xl flex flex-col items-center justify-center p-1.5 overflow-hidden transition-all duration-200 ease-out relative">
                         <span class="absolute top-2 left-2 font-black text-white/50 text-xl italic">${i + 1}</span>
-                        ${opt.option_image_url ? `<img src="${opt.option_image_url}" alt="" class="max-h-[80px] max-w-[80px] object-contain rounded-lg mb-1 shrink-0">` : ''}
-                        <span class="btn-text text-white font-bold ${fontClass} uppercase px-1 break-words hyphens-auto leading-tight text-center" lang="es">${opt.optionText}</span>
+                        ${opt.option_image_url ? `<img src="${sanitizeResourceUrl(opt.option_image_url)}" alt="" class="max-h-[80px] max-w-[80px] object-contain rounded-lg mb-1 shrink-0">` : ''}
+                        <span class="btn-text text-white font-bold ${fontClass} uppercase px-1 break-words hyphens-auto leading-tight text-center" lang="es">${escapeHtml(opt.optionText)}</span>
                     </button>
                 `;
     }).join('')}

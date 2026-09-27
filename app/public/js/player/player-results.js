@@ -6,6 +6,7 @@
 import { socket } from './player-socket-config.js?v=20260922172926';
 import './player-results-message-logic.js?v=20260922172926';
 import { resetSessionState } from './player-state.js?v=20260922172926';
+import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
 function getPlayerResultsMessageLogic() {
     const fallback = {
@@ -55,7 +56,7 @@ export function registerResultsEvents() {
                     : '';
                 return `
                 <div class="flex justify-center items-center bg-white/10 rounded-lg px-3 py-2">
-                    <span class="font-bold">${player.position}. ${mascotHtml}${player.nickname}</span>
+                    <span class="font-bold">${player.position}. ${mascotHtml}${escapeHtml(player.nickname)}</span>
                     <span class="mx-3"><i class="fas fa-arrow-right"></i></span>
                     <span class="font-black">${player.score} pts</span>
                 </div>

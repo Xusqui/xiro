@@ -5,6 +5,7 @@
 import { getSocket } from './player-socket-config.js?v=20260922172926';
 import { getSessionId, getNickname } from './player-state.js?v=20260922172926';
 import { initDice, startRoll, destroy as destroyDice } from './dice3d.js?v=20260922172926';
+import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
 let _waitingMove = false;
 
@@ -41,13 +42,13 @@ export function showDiceScreen(currentTurn, isMyTurn, customTitle = null) {
             <!-- Dado compacto arriba -->
             <div style="flex-shrink:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0; padding:10px 16px 6px;">
                 <h2 style="font-size:clamp(1rem,4.5vw,1.4rem); font-weight:900; color:white; text-align:center; margin:0 0 28px 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%;">
-                    ${title}
+                    ${escapeHtml(title)}
                 </h2>
                 <div id="dice-wrapper"
                     class="${isMyTurn ? 'dice-clickable' : 'opponent'}"
                     ${isMyTurn ? 'data-player-action="trivial-roll"' : ''}></div>
                 <p id="dice-hint" style="color:#a5b4fc; font-size:0.875rem; text-align:center; margin:22px 0 0 0;">
-                    ${hint}
+                    ${escapeHtml(hint)}
                 </p>
             </div>
             <!-- Zona inferior: casillas de movimiento -->
@@ -105,7 +106,7 @@ export function showMoveSelection(availablePositions, labels, isMyTurn, colors =
                          display:flex;align-items:center;justify-content:center;
                          font-size:1rem;font-weight:900;color:#fff">${letter}</span>
             <span style="color:#fff;font-size:0.85rem;font-weight:800;text-transform:uppercase;letter-spacing:.3px;
-                         min-width:0;flex:1;line-height:1.2;">${catName}</span>
+                         min-width:0;flex:1;line-height:1.2;">${escapeHtml(catName)}</span>
         </button>`;
     }).join('');
 
@@ -154,8 +155,8 @@ export function showTrivialWaiting(message, { icon = '', subtitle = '', color = 
                     height:100%;gap:28px;padding:28px;text-align:center">
             ${icon ? `<div style="font-size:6rem;line-height:1;animation:_tw_pulse 2.2s ease-in-out infinite">${icon}</div>` : ''}
             <p style="font-size:2rem;font-weight:900;color:${color};letter-spacing:.4px;
-                      text-shadow:0 0 32px ${color}bb;margin:0;line-height:1.25">${message}</p>
-            ${subtitle ? `<p style="font-size:1.2rem;color:#94a3b8;margin:0;font-weight:700">${subtitle}</p>` : ''}
+                      text-shadow:0 0 32px ${color}bb;margin:0;line-height:1.25">${escapeHtml(message)}</p>
+            ${subtitle ? `<p style="font-size:1.2rem;color:#94a3b8;margin:0;font-weight:700">${escapeHtml(subtitle)}</p>` : ''}
             <div style="display:flex;gap:14px;margin-top:4px">${dots}</div>
         </div>
         <style>

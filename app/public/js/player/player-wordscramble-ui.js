@@ -11,6 +11,7 @@ import {
 } from './player-state.js?v=20260922172926';
 import { getResponsiveFontClass } from './player-question-utils.js?v=20260922172926';
 import { setBodyHTML } from './player-streak-ui.js?v=20260922172926';
+import { escapeHtml, sanitizeResourceUrl } from '../core/sanitize.js?v=20260922172926';
 
 let wsFilledLetters = [];
 let wsUsedIndices = new Set();
@@ -46,7 +47,7 @@ export function renderizarPreguntaWordScramble(pregunta) {
     if (tieneImagen) {
         multimediaHTML = `
             <div class="bg-slate-800 px-2 py-2 flex items-center justify-center shrink-0" style="max-height: 25vh;">
-                <img src="${urlRecurso}" alt="Imagen" class="max-w-full max-h-full object-contain rounded-lg shadow-lg">
+                <img src="${sanitizeResourceUrl(urlRecurso)}" alt="Imagen" class="max-w-full max-h-full object-contain rounded-lg shadow-lg">
             </div>`;
     } else if (tieneAudio) {
         multimediaHTML = `
@@ -83,7 +84,7 @@ export function renderizarPreguntaWordScramble(pregunta) {
 
             <!-- Definición (texto de pregunta) -->
             <div class="bg-white p-4 border-b-8 border-purple-600 text-slate-800 text-center ${tieneImagen ? 'min-h-[8vh] max-h-[12vh]' : 'min-h-[12vh] max-h-[22vh]'} flex items-center justify-center shrink-0 overflow-y-auto">
-                <h2 class="${preguntaFontClass} font-black uppercase italic hyphens-auto" lang="es">${pregunta.question_text}</h2>
+                <h2 class="${preguntaFontClass} font-black uppercase italic hyphens-auto" lang="es">${escapeHtml(pregunta.question_text)}</h2>
             </div>
 
             <!-- Área principal -->

@@ -9,6 +9,7 @@ import {
     setCurrentSlideType
 } from './player-state.js?v=20260922172926';
 import { getResponsiveFontClass } from './player-question-utils.js?v=20260922172926';
+import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
 function t(key, fallback, vars) {
     if (typeof window._t === 'function') {
@@ -39,14 +40,14 @@ export function renderizarPreguntaNumerica(pregunta) {
             
             <!-- Pregunta -->
             <div class="bg-white p-4 border-b-8 border-purple-600 text-slate-800 text-center min-h-[12vh] max-h-[20vh] flex items-center justify-center shrink-0 overflow-y-auto">
-                <h2 class="${preguntaFontClass} font-black uppercase italic hyphens-auto" lang="es">${pregunta.question_text}</h2>
+                <h2 class="${preguntaFontClass} font-black uppercase italic hyphens-auto" lang="es">${escapeHtml(pregunta.question_text)}</h2>
             </div>
             
             <!-- Input numérico -->
             <div class="flex-1 px-4 pt-6 pb-4 flex flex-col items-center justify-start overflow-hidden">
                 <div class="bg-indigo-900/50 border border-indigo-400/50 rounded-2xl p-4 mb-4 max-w-md w-full">
                     <p class="text-[10px] font-black uppercase tracking-widest text-cyan-300 mb-1">${t('player.numeric.hint_label', 'Pista')}</p>
-                    <p class="text-sm font-semibold text-white leading-relaxed">💡 ${hintText}</p>
+                    <p class="text-sm font-semibold text-white leading-relaxed">💡 ${escapeHtml(hintText)}</p>
                 </div>
 
                 <div class="bg-slate-50 rounded-2xl shadow-lg border-2 border-emerald-400 p-8 max-w-md w-full">

@@ -5,6 +5,7 @@
  */
 
 import { getNickname, clearOrderState, setCanAnswer, setCurrentSlideType } from './player-state.js?v=20260922172926';
+import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
 export function renderizarSlideTextoImagen(slide) {
     clearOrderState();
@@ -24,8 +25,8 @@ export function renderizarSlideTextoImagen(slide) {
                     <i class="fas fa-info-circle text-3xl"></i>
                 </div>
                 <div class="bg-black/35 backdrop-blur-sm rounded-3xl px-8 py-7 border border-white/15 shadow-2xl">
-                    <h1 class="text-5xl md:text-7xl font-black uppercase italic mb-6 drop-shadow-2xl leading-tight animate-fade-in" style="white-space: pre-line;">${title}</h1>
-                    <div class="text-xl md:text-2xl text-indigo-50 font-semibold" style="white-space: pre-line;">${body}</div>
+                    <h1 class="text-5xl md:text-7xl font-black uppercase italic mb-6 drop-shadow-2xl leading-tight animate-fade-in" style="white-space: pre-line;">${escapeHtml(title)}</h1>
+                    <div class="text-xl md:text-2xl text-indigo-50 font-semibold" style="white-space: pre-line;">${escapeHtml(body)}</div>
                 </div>
             </div>
             <div class="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-400"></div>

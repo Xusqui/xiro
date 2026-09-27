@@ -128,7 +128,7 @@ function refreshPlayerScores(state) {
                     `opacity:${filled ? 1 : 0.2};box-shadow:${filled ? `0 0 6px 2px ${col}` : 'none'};` +
                     `border:1.5px solid rgba(255,255,255,${filled ? 0.9 : 0.2});margin:1px"></span>`;
             }).join('');
-            const members = (team.players || []).join(', ');
+            const members = (team.players || []).map(member => escapeHtml(member)).join(', ');
             const pos = turnOrder.indexOf(teamName) + 1 || idx + 1;
             return `<div style="border-radius:8px;padding:5px 7px;background:${bg};border:1px solid ${border}">` +
                 `<div style="display:flex;align-items:center;gap:4px;margin-bottom:3px">` +

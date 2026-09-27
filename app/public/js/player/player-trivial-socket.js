@@ -26,6 +26,7 @@ import {
     clearTrivialBadges
 } from './player-trivial-badges-ui.js?v=20260922172926';
 import { cancelStreakAnimation } from './player-streak-ui.js?v=20260922172926';
+import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
 function myNickname() { return getNickname(); }
 
@@ -102,7 +103,7 @@ export function registerTrivialPlayerSocketHandlers() {
                     style="background:${c.color};color:#fff;border:none;border-radius:12px;
                            padding:12px 18px;font-weight:900;font-size:1rem;cursor:pointer;
                            text-transform:uppercase;width:100%;box-shadow:0 4px 12px ${c.color}66">
-                    ${c.name}
+                    ${escapeHtml(c.name)}
                 </button>`
             ).join('');
             const root = document.getElementById('game-area') || document.getElementById('jugador-content') || document.getElementById('main-container') || document.body;

@@ -8,6 +8,7 @@ import {
     getPin, getSessionId, getNickname,
     getTeamMode, setSelectedTeam
 } from './player-state.js?v=20260922172926';
+import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
 // ===== COLORES DE EQUIPOS =====
 
@@ -36,7 +37,7 @@ export function mostrarSeleccionEquipo() {
         <button data-player-action="select-team" data-team-index="${index}" 
                 id="team-btn-${index}"
                 class="team-button ${TEAM_COLORS[team.color] || 'team-purple'}">
-            <span class="team-name">${team.name.toUpperCase()}</span>
+            <span class="team-name">${escapeHtml(team.name.toUpperCase())}</span>
             <div class="team-players-count">
                 ${team.players.length > 0 ?
         `${team.players.length} ${team.players.length === 1 ? 'jugador' : 'jugadores'}` :
@@ -90,7 +91,7 @@ export function seleccionarEquipo(teamIndex) {
             <h2>¡BIENVENIDO AL EQUIPO!</h2>
             <div class="team-info-box">
                 <p class="team-info-label">Ahora eres parte de</p>
-                <h3 class="team-info-name">${team.name.toUpperCase()}</h3>
+                <h3 class="team-info-name">${escapeHtml(team.name.toUpperCase())}</h3>
             </div>
             <p class="waiting-text">${_t('player.team.waiting_start', null, 'Esperando a que el presentador inicie el juego...')}</p>
             <button data-player-action="salir-lobby" class="btn-danger">

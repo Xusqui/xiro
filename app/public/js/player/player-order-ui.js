@@ -15,6 +15,7 @@ import {
 } from './player-state.js?v=20260922172926';
 import { OPTION_COLORS, getResponsiveFontClass } from './player-question-utils.js?v=20260922172926';
 import { setBodyHTML } from './player-streak-ui.js?v=20260922172926';
+import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
 let currentOrderQuestion = null;
 let dragSourceIndex = null;
@@ -49,7 +50,7 @@ export function renderizarPreguntaOrdena(pregunta) {
                 <p class="text-white font-black text-base uppercase">${getNickname()}</p>
             </div>
             <div class="bg-white p-4 border-b-8 border-purple-600 text-slate-800 text-center min-h-[12vh] max-h-[20vh] flex items-center justify-center shrink-0 overflow-y-auto">
-                <h2 class="${preguntaFontClass} font-black uppercase italic hyphens-auto" lang="es">${pregunta.question_text}</h2>
+                <h2 class="${preguntaFontClass} font-black uppercase italic hyphens-auto" lang="es">${escapeHtml(pregunta.question_text)}</h2>
             </div>
             <div class="px-4 pt-3 pb-2 text-center text-slate-100 text-sm italic">
                 ${_t('player.order.instruction', null, 'Arrastra para ordenar de arriba a abajo y luego pulsa Enviar')}
@@ -103,7 +104,7 @@ function renderOrderList() {
             >
                 <span class="btn-number w-7 h-7 rounded-full flex items-center justify-center font-black text-sm text-white shrink-0 bg-white/30">${position + 1}</span>
                 <span class="btn-text text-white font-bold ${fontClass} uppercase break-words flex-1" lang="es">
-                    ${option.optionText || option.text}
+                    ${escapeHtml(option.optionText || option.text)}
                 </span>
                 <div class="drag-indicator text-white/70 shrink-0 text-sm">≡</div>
             </div>

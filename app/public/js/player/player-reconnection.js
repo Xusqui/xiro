@@ -18,6 +18,7 @@ import { renderizarPregunta, renderizarPreguntaOrdena, renderizarSlideComentario
 import { renderizarPreguntaNumerica } from './player-numeric-ui.js?v=20260922172926';
 import { injectStreakBadge } from './player-streak-ui.js?v=20260922172926';
 import { syncTrivialBadgesFromSnapshot } from './player-trivial-badges-ui.js?v=20260922172926';
+import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
 /**
  * Restore player UI based on the snapshot sent by the server
@@ -228,7 +229,7 @@ function showWaitingForResults(nickname, currentQ, totalQ) {
     document.body.innerHTML = _tHtml(`
         <div class="h-screen w-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-700 via-purple-600 to-pink-600 text-white text-center p-8">
             <div class="bg-purple-600 px-6 py-3 rounded-full mb-6 shadow-2xl">
-                <p class="font-black text-xl uppercase">${display}</p>
+                <p class="font-black text-xl uppercase">${escapeHtml(display)}</p>
             </div>
             <i class="fas fa-check-circle text-6xl text-green-400 mb-6 animate-pulse"></i>
             <h2 class="text-3xl font-black italic mb-4">${_t('player.reconnection.already_answered_title', null, 'YA HAS RESPONDIDO')}</h2>
@@ -246,7 +247,7 @@ function showWaitingScreen(nickname, message) {
     document.body.innerHTML = _tHtml(`
         <div class="h-screen w-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-700 via-purple-600 to-pink-600 text-white text-center p-8">
             <div class="bg-purple-600 px-6 py-3 rounded-full mb-6 shadow-2xl">
-                <p class="font-black text-xl uppercase">${display}</p>
+                <p class="font-black text-xl uppercase">${escapeHtml(display)}</p>
             </div>
             <div class="w-16 h-16 border-8 border-white border-t-transparent rounded-full animate-spin mb-6"></div>
             <h2 class="text-2xl font-black italic mb-2">RECONECTADO</h2>
@@ -265,7 +266,7 @@ function showLobbyReconnected(nickname) {
         <div class="lobby-container text-center">
             <div class="text-green-400 text-6xl mb-4"><i class="fas fa-check-circle"></i></div>
             <h2 class="text-3xl font-black italic text-white mb-4">¡RECONECTADO!</h2>
-            <p class="text-2xl font-bold text-white mb-2">${display}</p>
+            <p class="text-2xl font-bold text-white mb-2">${escapeHtml(display)}</p>
             <p class="text-lg text-white/80 mb-6">${_t('player.team.waiting_start', null, 'Esperando a que el presentador inicie el juego...')}</p>
             <button data-player-action="salir-lobby" class="bg-red-500 hover:bg-red-600 px-6 py-3 rounded-2xl text-white font-bold transition">
                 🚪 SALIR DEL JUEGO

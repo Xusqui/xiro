@@ -16,6 +16,7 @@ import {
 } from './player-state.js?v=20260922172926';
 import { OPTION_COLORS, getResponsiveFontClass, fitTextToContainer } from './player-question-utils.js?v=20260922172926';
 import { setBodyHTML } from './player-streak-ui.js?v=20260922172926';
+import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
 let currentMatchQuestion = null;
 let pointerDragState = null;
@@ -48,7 +49,7 @@ export function renderizarPreguntaMatching(pregunta) {
                 <p class="text-white font-black text-base uppercase">${getNickname()}</p>
             </div>
             <div class="bg-white p-4 border-b-8 border-amber-600 text-slate-800 text-center min-h-[12vh] max-h-[20vh] flex items-center justify-center shrink-0 overflow-y-auto">
-                <h2 class="${preguntaFontClass} font-black uppercase italic hyphens-auto" lang="es">${pregunta.question_text}</h2>
+                <h2 class="${preguntaFontClass} font-black uppercase italic hyphens-auto" lang="es">${escapeHtml(pregunta.question_text)}</h2>
             </div>
             <div class="px-4 pt-2 pb-1 text-center text-slate-100 text-sm italic shrink-0">
                 ${_t('player.matching.instruction', null, 'Arrastra la columna derecha para emparejar con la izquierda')}
@@ -85,7 +86,7 @@ function renderMatchColumns() {
         return `
             <div data-fit-box class="btn-glass-3d ${colorClass} rounded-xl flex items-center px-3 py-2 shrink-0 min-h-[3rem] overflow-hidden">
                 <span data-fit-text class="text-white font-bold ${fontClass} uppercase break-words w-full text-center" lang="es">
-                    ${opt.optionText || opt.option_text || ''}
+                    ${escapeHtml(opt.optionText || opt.option_text || '')}
                 </span>
             </div>
         `;
@@ -106,7 +107,7 @@ function renderMatchColumns() {
                 draggable="true"
             >
                 <span data-fit-text class="text-white font-bold ${fontClass} uppercase break-words flex-1 text-center" lang="es">
-                    ${opt.match_value || ''}
+                    ${escapeHtml(opt.match_value || '')}
                 </span>
                 <div class="drag-indicator text-white/70 shrink-0 text-sm">≡</div>
             </div>
