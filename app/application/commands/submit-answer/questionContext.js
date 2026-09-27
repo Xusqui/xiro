@@ -13,6 +13,46 @@ const AnswerStateService = require('../../../domain/services/AnswerStateService'
 const OrderAnswerStateService = require('../../../domain/services/OrderAnswerStateService');
 const MatchingAnswerStateService = require('../../../domain/services/MatchingAnswerStateService');
 const MultipleChoiceAnswerStateService = require('../../../domain/services/MultipleChoiceAnswerStateService');
+const { getRedisClient } = require('../../../config/redis');
+
+const LATE_ANSWER_GRACE_MS = 800;
+
+/**
+ * El plazo extra de ordenar/emparejar (buildQuestionContext) se mide desde el inicio
+ * de la pregunta y no descuenta las pausas: tras pausar, el envío automático al
+ * agotarse el tiempo se rechazaba como game-closed. El estado compartido del
+ * temporizador (timer:state en Redis, que pausa y reanudación actualizan desde
+ * cualquier worker) marca el fin real: startTime + remainingTime.
+ *
+ * @param {Object} flags - Resultado de buildQuestionContext.
+ * @param {string} sPin - Sala.
+ * @returns {Promise<Object>} flags con el plazo ampliado si la pregunta sigue en tiempo.
+ */
+async function applyTimerStateToLateWindow(flags, sPin, now = Date.now()) {
+    const lateAnswerType = flags.isOrderQuestion || flags.isMatchingQuestion;
+    if (!lateAnswerType || flags.canAnswerOrEnded || flags.allowOrderAfterClose || flags.allowMatchingAfterClose) {
+        return flags;
+    }
+
+    let state;
+    try {
+        const redis = await getRedisClient();
+        state = await redis.hGetAll(`timer:state:${sPin}`);
+    } catch {
+        return flags;
+    }
+    if (!state || !state.startTime) return flags;
+
+    const deadline = Number(state.startTime) + Number(state.remainingTime) * 1000;
+    const withinTime = state.isPaused === '1' || now <= deadline + LATE_ANSWER_GRACE_MS;
+    if (!withinTime) return flags;
+
+    return {
+        ...flags,
+        allowOrderAfterClose: flags.isOrderQuestion,
+        allowMatchingAfterClose: flags.isMatchingQuestion
+    };
+}
 
 /**
  * Resolve room and game references from submit payload.
@@ -47,7 +87,7 @@ function buildQuestionContext(game) {
 
     const questionTimeLimit = currentQuestion?.time_limit || 30;
     const elapsedMs = Date.now() - (game.questionStartTime || Date.now());
-    const graceMs = 800;
+    const graceMs = LATE_ANSWER_GRACE_MS;
 
     return {
         currentQuestion,
@@ -146,5 +186,6 @@ function validateAnswerByType({ payload, question, flags }) {
 module.exports = {
     resolveGameContext,
     buildQuestionContext,
-    validateAnswerByType
+    validateAnswerByType,
+    applyTimerStateToLateWindow
 };

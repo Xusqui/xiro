@@ -6,7 +6,7 @@
  */
 
 const { validateSubmitAnswerPayload } = require('./validatePayload');
-const { resolveGameContext, buildQuestionContext, validateAnswerByType } = require('./questionContext');
+const { resolveGameContext, buildQuestionContext, validateAnswerByType, applyTimerStateToLateWindow } = require('./questionContext');
 const { runEarlyChecks } = require('./earlyChecks');
 const { handleAutoRevealAfterAnswer } = require('./autoReveal');
 const {
@@ -47,7 +47,7 @@ async function executeSubmitAnswer(payload, dependencies) {
 
     const { player, nickname } = identity;
 
-    const flags = buildQuestionContext(game);
+    const flags = await applyTimerStateToLateWindow(buildQuestionContext(game), sPin);
     const answerValidation = validateAnswerByType({ payload, question: flags.currentQuestion, flags });
     if (!answerValidation.valid) {
         return buildAnswerValidationFailure(answerValidation, sPin, game);
