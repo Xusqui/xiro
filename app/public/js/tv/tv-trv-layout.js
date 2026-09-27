@@ -55,104 +55,122 @@ window.TVApp.TrvLayout = (function () {
         el.innerHTML = _tHtml(html);
     }
 
+    /** Fichas (quesitos) conseguidas: una bolita por categoría, apagada si no se tiene. */
+    function wedgesHtml(tokens, categories) {
+        let html = '';
+        for (let w = 0; w < tokens.length; w++) {
+            const filled = tokens[w];
+            const col = categories[w] ? categories[w].color : '#888';
+            const op = filled ? 1 : 0.2;
+            const sh = filled ? '0 0 6px 2px ' + col : 'none';
+            const bdr = '1.5px solid rgba(255,255,255,' + (filled ? '0.9' : '0.2') + ')';
+            html += '<span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:' + col + ';opacity:' + op + ';box-shadow:' + sh + ';border:' + bdr + ';margin:2px"></span>';
+        }
+        return html;
+    }
+
+    /** Tarjeta de un jugador o equipo; resaltada si tiene el turno. */
+    function scoreCardHtml(card) {
+        const bg = card.active ? 'rgba(234,179,8,0.18)' : 'rgba(51,65,85,0.5)';
+        const border = card.active ? 'rgba(234,179,8,0.5)' : 'transparent';
+        let html = '<div style="border-radius:8px;padding:8px 12px;background:' + bg + ';border:2px solid ' + border + ';margin-bottom:8px">';
+        html += '<div style="display:flex;align-items:center;margin-bottom:6px">';
+        html += '<span style="width:22px;height:22px;border-radius:50%;background:' + card.badgeBg + ';color:' + card.badgeColor + ';font-size:12px;font-weight:900;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin-right:6px">' + card.position + '</span>';
+        html += '<span style="color:#fff;font-size:14px;font-weight:700;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1">' + escapeHtml(card.name) + '</span></div>';
+        html += '<div style="display:flex;flex-wrap:wrap">' + card.wedges + '</div>';
+        if (card.members) html += '<div style="color:#94a3b8;font-size:11px;margin-top:6px;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + card.members + '</div>';
+        return html + '</div>';
+    }
+
+    function isTeamGame(state, players) {
+        if (state.teamMode) return true;
+        for (const nick in players) {
+            if (players[nick].teamName) return true;
+        }
+        return false;
+    }
+
+    /** Equipos de la partida; si el estado no trae teamConfig, se reconstruyen desde los jugadores. */
+    function resolveTeams(state, players) {
+        if (state.teamConfig && state.teamConfig.teams && state.teamConfig.teams.length) {
+            return state.teamConfig.teams;
+        }
+        const teamMap = {};
+        const teams = [];
+        for (const nick in players) {
+            const teamName = players[nick].teamName;
+            if (!teamName) continue;
+            if (!teamMap[teamName]) {
+                teamMap[teamName] = { name: teamName, color: '#888', players: [] };
+                teams.push(teamMap[teamName]);
+            }
+            teamMap[teamName].players.push(nick);
+        }
+        return teams;
+    }
+
+    /** Fichas del equipo; si no hay, las del primer jugador (forma antigua del estado). */
+    function teamTokens(state, team, players) {
+        const tokens = (state.teamTokens && state.teamTokens[team.name]) ? state.teamTokens[team.name] : [];
+        if (tokens.length === 0 && team.players && team.players[0] && players[team.players[0]]) {
+            return players[team.players[0]].token || [];
+        }
+        return tokens;
+    }
+
+    function teamCardsHtml(state, players, categories, turnOrder) {
+        const teams = resolveTeams(state, players);
+        let html = '';
+        for (let i = 0; i < teams.length; i++) {
+            const team = teams[i];
+            let position = turnOrder.indexOf(team.name) + 1;
+            if (position <= 0) position = i + 1;
+            html += scoreCardHtml({
+                active: team.name === state.currentTurn,
+                badgeBg: team.color || '#888',
+                badgeColor: '#fff',
+                position: position,
+                name: team.name,
+                wedges: wedgesHtml(teamTokens(state, team, players), categories),
+                members: (team.players || []).map(function (member) { return escapeHtml(member); }).join(', ')
+            });
+        }
+        return html;
+    }
+
+    function playerCardsHtml(state, players, categories, turnOrder) {
+        const ordered = turnOrder.length ? turnOrder : Object.keys(players);
+        let html = '';
+        for (let j = 0; j < ordered.length; j++) {
+            const nick = ordered[j];
+            if (!players[nick]) continue;
+            html += scoreCardHtml({
+                active: nick === state.currentTurn,
+                badgeBg: '#fbbf24',
+                badgeColor: '#1e293b',
+                position: j + 1,
+                name: nick,
+                wedges: wedgesHtml(players[nick].token || [], categories)
+            });
+        }
+        return html;
+    }
+
     function refreshPlayerScores(state) {
         const panel = getEl('trv-player-scores');
         if (!panel || !state) return;
 
-        const categories = state.categories || [];
-        const currentTurn = state.currentTurn;
-        const turnOrder = state.turnOrder || [];
         const players = state.players || {};
+        const categories = state.categories || [];
+        const turnOrder = state.turnOrder || [];
 
-        let isTeamMode = state.teamMode || false;
-        const pKeys = Object.keys(players);
-        for (let k = 0; k < pKeys.length; k++) {
-            if (players[pKeys[k]].teamName) isTeamMode = true;
+        if (isTeamGame(state, players)) {
+            // Sin equipos aún: se deja el panel como está (igual que antes)
+            if (resolveTeams(state, players).length === 0) return;
+            panel.innerHTML = _tHtml(teamCardsHtml(state, players, categories, turnOrder));
+            return;
         }
-
-        let html = '';
-
-        if (isTeamMode) {
-            let teamCfg = state.teamConfig;
-            if (!teamCfg || !teamCfg.teams || !teamCfg.teams.length) {
-                const teamMap = {};
-                for (const nk in players) {
-                    const tg = players[nk].teamName;
-                    if (!tg) continue;
-                    if (!teamMap[tg]) teamMap[tg] = { name: tg, color: '#888', players: [] };
-                    teamMap[tg].players.push(nk);
-                }
-                const tArr = [];
-                for (const key in teamMap) tArr.push(teamMap[key]);
-                teamCfg = { teams: tArr };
-            }
-            if (!teamCfg || !teamCfg.teams || !teamCfg.teams.length) return;
-
-            for (let i = 0; i < teamCfg.teams.length; i++) {
-                const team = teamCfg.teams[i];
-                const tName = team.name;
-                const tColor = team.color || '#888';
-                const isActive = (tName === currentTurn);
-                const bg = isActive ? 'rgba(234,179,8,0.18)' : 'rgba(51,65,85,0.5)';
-                const border = isActive ? 'rgba(234,179,8,0.5)' : 'transparent';
-
-                let rawTokens = (state.teamTokens && state.teamTokens[tName]) ? state.teamTokens[tName] : [];
-                if (rawTokens.length === 0 && team.players && team.players[0] && players[team.players[0]]) {
-                    rawTokens = players[team.players[0]].token || [];
-                }
-
-                let wedges = '';
-                for (let w = 0; w < rawTokens.length; w++) {
-                    const filled = rawTokens[w];
-                    const col = categories[w] ? categories[w].color : '#888';
-                    const op = filled ? 1 : 0.2;
-                    const sh = filled ? '0 0 6px 2px ' + col : 'none';
-                    const bdr = '1.5px solid rgba(255,255,255,' + (filled ? '0.9' : '0.2') + ')';
-                    wedges += '<span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:' + col + ';opacity:' + op + ';box-shadow:' + sh + ';border:' + bdr + ';margin:2px"></span>';
-                }
-
-                const members = (team.players || []).join(', ');
-                let turnPos = turnOrder.indexOf(tName) + 1;
-                if (turnPos <= 0) turnPos = i + 1;
-
-                html += '<div style="border-radius:8px;padding:8px 12px;background:' + bg + ';border:2px solid ' + border + ';margin-bottom:8px">';
-                html += '<div style="display:flex;align-items:center;margin-bottom:6px">';
-                html += '<span style="width:22px;height:22px;border-radius:50%;background:' + tColor + ';color:#fff;font-size:12px;font-weight:900;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin-right:6px">' + turnPos + '</span>';
-                html += '<span style="color:#fff;font-size:14px;font-weight:700;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1">' + escapeHtml(tName) + '</span></div>';
-                html += '<div style="display:flex;flex-wrap:wrap">' + wedges + '</div>';
-                if (members) html += '<div style="color:#94a3b8;font-size:11px;margin-top:6px;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + members + '</div>';
-                html += '</div>';
-            }
-        } else {
-            const ordered = turnOrder.length ? turnOrder : Object.keys(players);
-            for (let j = 0; j < ordered.length; j++) {
-                const nick = ordered[j];
-                const p = players[nick];
-                if (!p) continue;
-                const pos = j + 1;
-                const pActive = (nick === currentTurn);
-                const pBg = pActive ? 'rgba(234,179,8,0.18)' : 'rgba(51,65,85,0.5)';
-                const pBorder = pActive ? 'rgba(234,179,8,0.5)' : 'transparent';
-
-                let pWedges = '';
-                const pTokens = p.token || [];
-                for (let pw = 0; pw < pTokens.length; pw++) {
-                    const pFilled = pTokens[pw];
-                    const pCol = categories[pw] ? categories[pw].color : '#888';
-                    const pOp = pFilled ? 1 : 0.2;
-                    const pSh = pFilled ? '0 0 6px 2px ' + pCol : 'none';
-                    const pBdr = '1.5px solid rgba(255,255,255,' + (pFilled ? '0.9' : '0.2') + ')';
-                    pWedges += '<span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:' + pCol + ';opacity:' + pOp + ';box-shadow:' + pSh + ';border:' + pBdr + ';margin:2px"></span>';
-                }
-
-                html += '<div style="border-radius:8px;padding:8px 12px;background:' + pBg + ';border:2px solid ' + pBorder + ';margin-bottom:8px">';
-                html += '<div style="display:flex;align-items:center;margin-bottom:6px">';
-                html += '<span style="width:22px;height:22px;border-radius:50%;background:#fbbf24;color:#1e293b;font-size:12px;font-weight:900;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin-right:6px">' + pos + '</span>';
-                html += '<span style="color:#fff;font-size:14px;font-weight:700;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1">' + escapeHtml(nick) + '</span></div>';
-                html += '<div style="display:flex;flex-wrap:wrap">' + pWedges + '</div></div>';
-            }
-        }
-        panel.innerHTML = _tHtml(html);
+        panel.innerHTML = _tHtml(playerCardsHtml(state, players, categories, turnOrder));
     }
 
     function setStatus(turn, phase) {
