@@ -16,243 +16,8 @@ const { getLastGameSessionByPin, getGameSessionById, getGameSessionByShareToken,
 const { authenticateAdmin, authorizeAdmin } = require('../middlewares/auth');
 const { formatSessionLogsAsText } = require('../services/game-logs.service');
 const logger = require('../config/logger');
-
-// ---------------------------------------------------------------------------
-// CSV helpers
-// ---------------------------------------------------------------------------
-
-// Primer carácter con el que Excel/LibreOffice/Sheets interpretan la celda como fórmula
-const FORMULA_TRIGGER = /^[=+\-@\t\r]/;
-const PLAIN_NUMBER = /^-?\d+(?:[.,]\d+)?$/;
-
-/**
- * Escapa un valor para CSV con separador ';'.
- * - Inyección de fórmulas: antepone ' a los textos que empiezan por = + - @ tab o \r
- *   para que la hoja de cálculo los trate como texto (los números negativos se dejan).
- * - Si contiene punto y coma, doble comilla o salto de línea lo envuelve en comillas.
- */
-function escapeCsv(val) {
-    if (val === null || val === undefined) return '';
-    let str = String(val);
-    if (FORMULA_TRIGGER.test(str) && !PLAIN_NUMBER.test(str)) {
-        str = `'${str}`;
-    }
-    if (/[;"\n\r]/.test(str)) {
-        return '"' + str.replace(/"/g, '""') + '"';
-    }
-    return str;
-}
-
-/** Parte de un nombre de fichero segura para la cabecera Content-Disposition. */
-function safeFilenamePart(value) {
-    return String(value ?? '').replace(/[^A-Za-z0-9_-]/g, '_');
-}
-
-/** Devuelve la fecha formateada como "DD/MM/YYYY HH:MM" en la zona local del servidor */
-function formatDateTime(date) {
-    const d = new Date(date);
-    const pad = n => String(n).padStart(2, '0');
-    return `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
-}
-
-/** "5m 32s" o "-" */
-function formatDuration(ms) {
-    if (!ms || ms < 0) return '-';
-    const totalSec = Math.floor(ms / 1000);
-    const min = Math.floor(totalSec / 60);
-    const sec = totalSec % 60;
-    return `${min}m ${sec}s`;
-}
-
-/** Nombre legible de tipo de juego */
-function formatGameType(type) {
-    const labels = {
-        custom_game: 'Personalizado',
-        bank: 'Banco de preguntas',
-        game: 'Juego',
-        quiz: 'Quiz',
-        trivial: 'Trivial'
-    };
-    return labels[type] || (type || '-');
-}
-
-function appendMetadataLines(lines, session) {
-    lines.push('XIRO! - Resultados de partida');
-    lines.push(`PIN;${escapeCsv(session.pin)}`);
-    lines.push(`Tipo;${formatGameType(session.game_type)}`);
-    lines.push(`Fecha;${formatDateTime(session.played_at)}`);
-    lines.push(`Duración;${formatDuration(session.duration_ms)}`);
-    lines.push(`Jugadores;${session.player_count}`);
-    lines.push(`Preguntas;${session.question_count}`);
-    lines.push(`Resultado;${session.reason === 'completed' ? 'Completada' : 'Abandonada'}`);
-    lines.push('');
-}
-
-function appendRankingLines(lines, session, ranking) {
-    lines.push('RANKING FINAL');
-    if (session.final_ranking[0]?.isTeam) {
-        lines.push('Posición;Equipo;Puntuación');
-    } else {
-        lines.push('Posición;Jugador;Puntuación');
-    }
-
-    ranking.forEach((player, i) => {
-        const score = player.scoreLabel || `${player.pts ?? player.score ?? 0}`;
-        lines.push(`${i + 1};${escapeCsv(player.name)};${escapeCsv(score)}`);
-    });
-    lines.push('');
-}
-
-function resolveQuestionsContext(session) {
-    const questions = session.questions_snapshot || [];
-    const trivialMeta = questions?.isTrivialMeta ? questions : null;
-    const questionsArray = trivialMeta ? [] : questions;
-    return { trivialMeta, questionsArray };
-}
-
-function appendQuestionsLines(lines, questionsArray) {
-    if (questionsArray.length === 0) {
-        return;
-    }
-
-    lines.push('PREGUNTAS');
-    lines.push('Nº;Tipo;Pregunta;Respuesta correcta');
-    questionsArray.forEach((question, i) => {
-        lines.push(
-            `${i + 1};${escapeCsv(question.question_type)};${escapeCsv(question.question_text)};${escapeCsv(question.correct_answer)}`
-        );
-    });
-    lines.push('');
-}
-
-function appendTrivialWedgesLines(lines, ranking, trivialMeta) {
-    if (!trivialMeta) {
-        return;
-    }
-
-    const label = ranking[0]?.isTeam ? 'Equipo' : 'Jugador';
-    lines.push('CATEGORÍAS OBTENIDAS');
-    lines.push(`${label};Categorías conseguidas;Total`);
-    for (const entry of ranking) {
-        const wedges = trivialMeta.playerWedges?.[entry.name] || [];
-        lines.push(`${escapeCsv(entry.name)};${escapeCsv(wedges.join(', '))};${wedges.length}`);
-    }
-    lines.push('');
-}
-
-function buildDetailHeaders(lines, isTrivial) {
-    lines.push('DETALLE POR PREGUNTA');
-    if (isTrivial) {
-        lines.push('Nº ronda;Categoría;Pregunta;Jugador;Respuesta dada;¿Correcto?;¡Cuña!;Puntos;Tiempo (ms)');
-        return;
-    }
-
-    lines.push('Nº pregunta;Pregunta;Jugador;Respuesta dada;¿Correcto?;Puntos;Tiempo (ms)');
-}
-
-function buildQuestionLabel(qInfo, firstPlayerData, qIdx) {
-    if (qInfo) {
-        return escapeCsv(qInfo.question_text);
-    }
-
-    if (firstPlayerData?.questionText) {
-        return escapeCsv(firstPlayerData.questionText);
-    }
-
-    return `Pregunta ${qIdx + 1}`;
-}
-
-function appendTrivialDetailLine(lines, payload) {
-    const {
-        qIdx,
-        categoryName,
-        questionText,
-        nick,
-        data,
-        correct
-    } = payload;
-
-    const wedge = data.wedgeEarned ? escapeCsv(data.wedgeEarned) : '';
-    lines.push(`${qIdx};${categoryName};${questionText};${escapeCsv(nick)};${escapeCsv(data.answer)};${correct};${wedge};${data.pointsEarned ?? 0};${data.responseTimeMs ?? ''}`);
-}
-
-function appendClassicDetailLine(lines, payload) {
-    const { qIdx, questionText, nick, data, correct } = payload;
-    lines.push(`${qIdx + 1};${questionText};${escapeCsv(nick)};${escapeCsv(data.answer)};${correct};${data.pointsEarned ?? 0};${data.responseTimeMs ?? ''}`);
-}
-
-function appendQuestionDetails(lines, session, questionsArray, trivialMeta) {
-    const playerAnswers = session.player_answers || {};
-    const questionIndices = Object.keys(playerAnswers).map(Number).sort((a, b) => a - b);
-    const isTrivial = !!trivialMeta;
-
-    if (questionIndices.length === 0) {
-        return;
-    }
-
-    buildDetailHeaders(lines, isTrivial);
-
-    for (const qIdx of questionIndices) {
-        const qInfo = questionsArray[qIdx];
-        const firstPlayerData = Object.values(playerAnswers[qIdx] || {})[0];
-        const questionText = buildQuestionLabel(qInfo, firstPlayerData, qIdx);
-        const playersAtQuestion = playerAnswers[qIdx] || {};
-        const sorted = Object.entries(playersAtQuestion).sort((a, b) => (b[1].pointsEarned ?? 0) - (a[1].pointsEarned ?? 0));
-
-        for (const [nick, data] of sorted) {
-            const correct = data.isCorrect === null ? 'Encuesta' : data.isCorrect ? 'Sí' : 'No';
-            if (isTrivial) {
-                const categoryName = escapeCsv(data.categoryName || firstPlayerData?.categoryName || '');
-                appendTrivialDetailLine(lines, {
-                    qIdx,
-                    categoryName,
-                    questionText,
-                    nick,
-                    data,
-                    correct
-                });
-            } else {
-                appendClassicDetailLine(lines, { qIdx, questionText, nick, data, correct });
-            }
-        }
-    }
-}
-
-/**
- * Construye el contenido CSV a partir de una fila de game_sessions.
- * Separador: punto y coma (compatible con Excel español/catalán).
- * BOM UTF-8 añadido por el llamador.
- */
-function buildCsv(session) {
-    const lines = [];
-    const ranking = session.final_ranking || [];
-    const { trivialMeta, questionsArray } = resolveQuestionsContext(session);
-
-    appendMetadataLines(lines, session);
-    appendRankingLines(lines, session, ranking);
-    appendQuestionsLines(lines, questionsArray);
-    appendTrivialWedgesLines(lines, ranking, trivialMeta);
-    appendQuestionDetails(lines, session, questionsArray, trivialMeta);
-
-    return lines.join('\r\n');
-}
-
-/** Nombre seguro para el archivo descargado */
-function buildFilename(pin, playedAt) {
-    const d = new Date(playedAt);
-    const dateStr = d.toISOString().slice(0, 10); // "2026-03-19"
-    return `xiro-${safeFilenamePart(pin)}-${dateStr}.csv`;
-}
-
-function buildLogsFilename(pin, playedAt, ext = 'txt') {
-    const d = new Date(playedAt);
-    const dateStr = d.toISOString().slice(0, 10);
-    return `xiro-logs-${safeFilenamePart(pin)}-${dateStr}.${safeFilenamePart(ext)}`;
-}
-
-function getSessionLogs(session) {
-    return Array.isArray(session?.session_logs) ? session.session_logs : [];
-}
+const { buildCsv } = require('../services/results-csv.service');
+const { buildFilename, buildLogsFilename, getSessionLogs } = require('../services/results-format');
 
 // ---------------------------------------------------------------------------
 // Routes
@@ -328,50 +93,102 @@ router.delete('/api/results/session/:id', authenticateAdmin, authorizeAdmin, asy
     }
 });
 
-/**
- * GET /api/results/session/:id/export.csv
- * Devuelve una sesión concreta por ID como CSV descargable.
- */
-router.get('/api/results/session/:id/export.csv', authenticateAdmin, authorizeAdmin, async (req, res, next) => {
-    try {
-        const id = parseInt(req.params.id, 10);
-        if (!id || id <= 0) {
-            return res.status(400).json({ error: 'ID de sesión inválido', code: 'INVALID_SESSION_ID' });
-        }
-        const session = await getGameSessionById(id);
-        if (!session) {
-            return res.status(404).json({ error: `No hay sesión con ID ${id}`, code: 'SESSION_NOT_FOUND', params: { id } });
-        }
-        const csv = buildCsv(session);
-        const filename = buildFilename(session.pin, session.played_at);
-        res.setHeader('Content-Type', 'text/csv; charset=utf-8');
-        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
-        res.send('\uFEFF' + csv);
-        logger.info('Game session exported by id', { id, pin: session.pin });
-    } catch (err) {
-        next(err);
+// ---------------------------------------------------------------------------
+// Exportación: búsqueda de la sesión (id, PIN o share_token) y envío del CSV.
+// Cada buscador responde él mismo 400/404 y devuelve null en ese caso.
+// ---------------------------------------------------------------------------
+
+const SHARE_TOKEN_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+function parseSessionId(req, res) {
+    const id = parseInt(req.params.id, 10);
+    if (!id || id <= 0) {
+        res.status(400).json({ error: 'ID de sesión inválido', code: 'INVALID_SESSION_ID' });
+        return null;
     }
-});
+    return id;
+}
+
+async function findSessionById(id, res) {
+    const session = await getGameSessionById(id);
+    if (!session) {
+        res.status(404).json({ error: `No hay sesión con ID ${id}`, code: 'SESSION_NOT_FOUND', params: { id } });
+        return null;
+    }
+    return session;
+}
+
+function loadSessionById(req, res) {
+    const id = parseSessionId(req, res);
+    return id ? findSessionById(id, res) : Promise.resolve(null);
+}
+
+async function loadSessionByPin(req, res) {
+    const pin = String(req.params.pin).toUpperCase().trim();
+    if (!pin || pin.length < 3 || pin.length > 20) {
+        res.status(400).json({ error: 'PIN inválido', code: 'PIN_INVALID' });
+        return null;
+    }
+    const session = await getLastGameSessionByPin(pin);
+    if (!session) {
+        res.status(404).json({ error: `No hay resultados guardados para el PIN ${pin}`, code: 'NO_RESULTS_FOR_PIN', params: { pin } });
+        return null;
+    }
+    return session;
+}
+
+async function loadSessionByShareToken(req, res) {
+    const shareToken = req.params.shareToken;
+    if (!SHARE_TOKEN_PATTERN.test(shareToken)) {
+        res.status(400).json({ error: 'Token inválido', code: 'INVALID_SHARE_TOKEN' });
+        return null;
+    }
+    const session = await getGameSessionByShareToken(shareToken);
+    if (!session) {
+        res.status(404).json({ error: 'Sesión no encontrada', code: 'SESSION_NOT_FOUND' });
+        return null;
+    }
+    return session;
+}
+
+/** Envía el CSV con BOM UTF-8 para que Excel abra bien las tildes. */
+function sendCsv(res, session) {
+    res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+    res.setHeader('Content-Disposition', `attachment; filename="${buildFilename(session.pin, session.played_at)}"`);
+    res.send('\uFEFF' + buildCsv(session));
+}
 
 /**
- * GET /api/results/session/:id/export.json
- * Devuelve los datos crudos de la sesión por ID.
+ * Registra GET <base>/export.csv y GET <base>/export.json para un modo de búsqueda.
+ * @param {string} base - Ruta sin el sufijo de exportación.
+ * @param {Array} middlewares - Autenticación (vacío en las rutas públicas).
+ * @param {Function} loadSession - Buscador que responde 400/404 por sí mismo.
+ * @param {Function} [logExport] - Log tras exportar el CSV.
  */
-router.get('/api/results/session/:id/export.json', authenticateAdmin, authorizeAdmin, async (req, res, next) => {
-    try {
-        const id = parseInt(req.params.id, 10);
-        if (!id || id <= 0) {
-            return res.status(400).json({ error: 'ID de sesión inválido', code: 'INVALID_SESSION_ID' });
+function registerExportRoutes(base, middlewares, loadSession, logExport) {
+    router.get(`${base}/export.csv`, ...middlewares, async (req, res, next) => {
+        try {
+            const session = await loadSession(req, res);
+            if (!session) return;
+            sendCsv(res, session);
+            if (logExport) logExport(req, session);
+        } catch (err) {
+            next(err);
         }
-        const session = await getGameSessionById(id);
-        if (!session) {
-            return res.status(404).json({ error: `No hay sesión con ID ${id}`, code: 'SESSION_NOT_FOUND', params: { id } });
+    });
+
+    router.get(`${base}/export.json`, ...middlewares, async (req, res, next) => {
+        try {
+            const session = await loadSession(req, res);
+            if (session) res.json(session);
+        } catch (err) {
+            next(err);
         }
-        res.json(session);
-    } catch (err) {
-        next(err);
-    }
-});
+    });
+}
+
+registerExportRoutes('/api/results/session/:id', [authenticateAdmin, authorizeAdmin], loadSessionById,
+    (req, session) => logger.info('Game session exported by id', { id: session.id, pin: session.pin }));
 
 /**
  * GET /api/results/session/:id/export-logs?format=txt|json
@@ -379,20 +196,16 @@ router.get('/api/results/session/:id/export.json', authenticateAdmin, authorizeA
  */
 router.get('/api/results/session/:id/export-logs', authenticateAdmin, authorizeAdmin, async (req, res, next) => {
     try {
-        const id = parseInt(req.params.id, 10);
-        if (!id || id <= 0) {
-            return res.status(400).json({ error: 'ID de sesión inválido', code: 'INVALID_SESSION_ID' });
-        }
+        const id = parseSessionId(req, res);
+        if (!id) return;
 
         const format = String(req.query.format || 'txt').toLowerCase();
         if (!['txt', 'json'].includes(format)) {
             return res.status(400).json({ error: 'Formato inválido. Usa txt o json', code: 'INVALID_LOG_FORMAT' });
         }
 
-        const session = await getGameSessionById(id);
-        if (!session) {
-            return res.status(404).json({ error: `No hay sesión con ID ${id}`, code: 'SESSION_NOT_FOUND', params: { id } });
-        }
+        const session = await findSessionById(id, res);
+        if (!session) return;
 
         const sessionLogs = getSessionLogs(session);
         if (format === 'json') {
@@ -427,109 +240,11 @@ router.get('/api/results/session/:id/export-logs', authenticateAdmin, authorizeA
     }
 });
 
-/**
- * GET /api/results/:pin/export.csv
- * Devuelve la última sesión del PIN como CSV descargable.
- */
-router.get('/api/results/:pin/export.csv', async (req, res, next) => {
-    try {
-        const pin = String(req.params.pin).toUpperCase().trim();
+// El PIN actúa como token de acceso (ver cabecera del fichero)
+registerExportRoutes('/api/results/:pin', [], loadSessionByPin,
+    (req, session) => logger.info('Game session exported', { pin: session.pin, sessionId: session.id }));
 
-        if (!pin || pin.length < 3 || pin.length > 20) {
-            return res.status(400).json({ error: 'PIN inválido', code: 'PIN_INVALID' });
-        }
-
-        const session = await getLastGameSessionByPin(pin);
-
-        if (!session) {
-            return res.status(404).json({ error: `No hay resultados guardados para el PIN ${pin}`, code: 'NO_RESULTS_FOR_PIN', params: { pin } });
-        }
-
-        const csv = buildCsv(session);
-        const filename = buildFilename(session.pin, session.played_at);
-
-        // BOM UTF-8 para que Excel abra el CSV con tildes correctamente
-        res.setHeader('Content-Type', 'text/csv; charset=utf-8');
-        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
-        res.send('\uFEFF' + csv);
-
-        logger.info('Game session exported', { pin, sessionId: session.id });
-    } catch (err) {
-        next(err);
-    }
-});
-
-/**
- * GET /api/results/:pin/export.json
- * Devuelve los datos crudos de la sesión como JSON (útil para depuración o integraciones).
- */
-router.get('/api/results/:pin/export.json', async (req, res, next) => {
-    try {
-        const pin = String(req.params.pin).toUpperCase().trim();
-
-        if (!pin || pin.length < 3 || pin.length > 20) {
-            return res.status(400).json({ error: 'PIN inválido', code: 'PIN_INVALID' });
-        }
-
-        const session = await getLastGameSessionByPin(pin);
-
-        if (!session) {
-            return res.status(404).json({ error: `No hay resultados guardados para el PIN ${pin}`, code: 'NO_RESULTS_FOR_PIN', params: { pin } });
-        }
-
-        res.json(session);
-    } catch (err) {
-        next(err);
-    }
-});
-
-// ---------------------------------------------------------------------------
-// Public shared routes (no auth — accessed via non-guessable share_token)
-// ---------------------------------------------------------------------------
-
-/**
- * GET /api/results/shared/:shareToken/export.json
- * Public endpoint: returns session data by share_token UUID.
- */
-router.get('/api/results/shared/:shareToken/export.json', async (req, res, next) => {
-    try {
-        const shareToken = req.params.shareToken;
-        // Validate UUID v4 format
-        if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(shareToken)) {
-            return res.status(400).json({ error: 'Token inválido', code: 'INVALID_SHARE_TOKEN' });
-        }
-        const session = await getGameSessionByShareToken(shareToken);
-        if (!session) {
-            return res.status(404).json({ error: 'Sesión no encontrada', code: 'SESSION_NOT_FOUND' });
-        }
-        res.json(session);
-    } catch (err) {
-        next(err);
-    }
-});
-
-/**
- * GET /api/results/shared/:shareToken/export.csv
- * Public endpoint: returns session CSV by share_token UUID.
- */
-router.get('/api/results/shared/:shareToken/export.csv', async (req, res, next) => {
-    try {
-        const shareToken = req.params.shareToken;
-        if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(shareToken)) {
-            return res.status(400).json({ error: 'Token inválido', code: 'INVALID_SHARE_TOKEN' });
-        }
-        const session = await getGameSessionByShareToken(shareToken);
-        if (!session) {
-            return res.status(404).json({ error: 'Sesión no encontrada', code: 'SESSION_NOT_FOUND' });
-        }
-        const csv = buildCsv(session);
-        const filename = buildFilename(session.pin, session.played_at);
-        res.setHeader('Content-Type', 'text/csv; charset=utf-8');
-        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
-        res.send('\uFEFF' + csv);
-    } catch (err) {
-        next(err);
-    }
-});
+// Rutas públicas compartidas (sin auth — acceso mediante share_token UUID no adivinable)
+registerExportRoutes('/api/results/shared/:shareToken', [], loadSessionByShareToken);
 
 module.exports = router;
