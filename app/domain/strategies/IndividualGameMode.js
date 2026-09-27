@@ -5,7 +5,7 @@
 
 const GameModeStrategy = require('./GameModeStrategy');
 const { roundScore } = require('../services/GameUtils');
-const { getJustification } = require('../services/ScoringService');
+const { getJustification, getCorrectAnswerText } = require('../services/ScoringService');
 const logger = require('../../config/logger');
 
 /**
@@ -132,6 +132,7 @@ class IndividualGameMode extends GameModeStrategy {
         const options = Array.isArray(question.options) ? question.options : [];
         const isOrderQuestion = question.question_type === 'order';
         const isMultipleChoiceQuestion = question.question_type === 'multiple_choice';
+        const isMatchingQuestion = question.question_type === 'matching';
         const correctOption = isOrderQuestion ? null : options.find(opt => opt.isCorrect);
         const selectedOption = isOrderQuestion ? null : options[answer.answerIndex];
         const justificationText = isOrderQuestion ? null : getJustification(selectedOption, correctOption);
@@ -139,7 +140,9 @@ class IndividualGameMode extends GameModeStrategy {
         return {
             isOrderQuestion,
             isMultipleChoiceQuestion,
+            isMatchingQuestion,
             correctOption,
+            correctAnswerText: isOrderQuestion ? null : getCorrectAnswerText(question, correctOption),
             justificationText
         };
     }
@@ -147,15 +150,14 @@ class IndividualGameMode extends GameModeStrategy {
     _buildResultPayload({ answer, game, nickname, ranking, context }) {
         return {
             correct: answer.isSurvey ? null : answer.isCorrect,
-            correctAnswer: context.isOrderQuestion
-                ? null
-                : (context.correctOption?.text || context.correctOption?.optionText || context.correctOption?.option_text || ''),
+            correctAnswer: context.correctAnswerText,
             points: roundScore(answer.pointsEarned),
             totalScore: roundScore(game.scores[nickname] || 0),
             ranking,
             justification: context.justificationText,
             orderDetails: context.isOrderQuestion ? answer.orderDetails : null,
             multipleChoiceDetails: context.isMultipleChoiceQuestion ? answer.multipleChoiceDetails : null,
+            matchingDetails: context.isMatchingQuestion ? answer.matchingDetails || null : null,
             streak: answer.streakInfo || null
         };
     }

@@ -370,6 +370,25 @@ function buildPresenterPayload(input) {
     };
 }
 
+function optionText(option) {
+    return option?.text || option?.optionText || option?.option_text || '';
+}
+
+/**
+ * Lo que ven los jugadores al revelar: la respuesta correcta en el formato
+ * de cada tipo (número, palabra, parejas, orden u opciones correctas).
+ */
+function buildPlayerRevealPayload(presenterPayload) {
+    return {
+        correctAnswer: presenterPayload.correctAnswer ?? null,
+        justification: presenterPayload.justification ?? null,
+        correctOrder: presenterPayload.correctOrder ?? null,
+        correctMatches: presenterPayload.correctMatches ?? null,
+        correctWord: presenterPayload.correctWord ?? null,
+        correctOptionTexts: presenterPayload.correctOptionTexts ?? null
+    };
+}
+
 function applyQuestionTypeOverrides(presenterPayload, currentQuestion, flags, correctIndicesMultiple) {
     if (flags.isNumericQuestion) {
         presenterPayload.correctAnswer = currentQuestion.correct_answer;
@@ -391,6 +410,9 @@ function applyQuestionTypeOverrides(presenterPayload, currentQuestion, flags, co
 
     if (flags.isMultipleChoiceQuestion) {
         presenterPayload.correctIndices = correctIndicesMultiple;
+        presenterPayload.correctOptionTexts = (correctIndicesMultiple || [])
+            .map(idx => optionText(currentQuestion.options?.[idx]))
+            .filter(Boolean);
         presenterPayload.correctIndex = null;
         presenterPayload.correctOrder = null;
         presenterPayload.correctMatches = null;
@@ -434,11 +456,7 @@ function emitRevealPayloads(io, roomId, game, revealIndex, presenterPayload) {
     game.revealPayloads[revealIndex] = presenterPayload;
 
     io.to(roomId + ':presenter').emit('reveal-answer', presenterPayload);
-    io.to(roomId + ':players').emit('reveal-answer', {
-        correctAnswer: presenterPayload.correctAnswer ?? null,
-        justification: presenterPayload.justification ?? null,
-        correctOrder: presenterPayload.correctOrder ?? null
-    });
+    io.to(roomId + ':players').emit('reveal-answer', buildPlayerRevealPayload(presenterPayload));
 }
 
 function emitRankingUpdates(io, roomId, scores) {

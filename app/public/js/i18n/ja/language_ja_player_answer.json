@@ -21,6 +21,7 @@
     "player.answer.correct_answer_label": "正解：",
     "player.answer.waiting_server": "サーバーの確認を待っています...",
     "player.answer.mc_missed": "未選択",
-    "player.answer.mc_perfect": "パーフェクト"
+    "player.answer.mc_perfect": "パーフェクト",
+    "player.answer.matching_pairs": "{total} 組中 {n} 組"
   }
 }

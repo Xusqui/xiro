@@ -8,6 +8,7 @@ import { socket } from './player-socket-config.js?v=20260922172926';
 import { applyStreakToResult, cancelStreakAnimation } from './player-streak-ui.js?v=20260922172926';
 import { enviarOrdenRespuesta, enviarMatchingRespuesta } from './player-answer.js?v=20260922172926';
 import { buildAnswerResultHTML } from './player-answer-result.js?v=20260922172926';
+import { correctAnswerBlockHtml, appendCorrectAnswerToResult } from './player-reveal-correct.js?v=20260922172926';
 import {
     setCanAnswer, getHaRespondido,
     setPendingAnswer, setSendingAnswer, setResultReceived,
@@ -86,37 +87,38 @@ function onBlockedAnswer(data) {
     }
 }
 
-/** Pantalla de "tiempo agotado" con la respuesta correcta para quien no respondió. */
+/**
+ * Reveal: quien no respondió ve "tiempo agotado" con la respuesta correcta;
+ * a quien ya respondió se le añade bajo su resultado si no la enseñaba.
+ */
 function onRevealAnswer(data) {
     if (getCurrentSlideType() === 'info' || getCurrentSlideType() === 'comment' || getCurrentSlideType() === 'text') {
         return;
     }
-    if (!getHaRespondido()) {
-        // Evita que la animación de racha perdida (blocked-answer) pinte después
-        // la pantalla de espera encima de esta
-        cancelStreakAnimation();
-        const correctBlock = data?.correctAnswer
-            ? `<div class="mt-4 bg-black/30 rounded-xl p-4 w-full max-w-sm">
-                   <p class="text-sm uppercase font-bold mb-1 opacity-80">${_t('player.answer.correct_label', null, 'Correcta:')}</p>
-                   <p class="text-xl font-black break-words hyphens-auto" lang="es">${escapeHtml(data.correctAnswer)}</p>
-               </div>`
-            : '';
-        const justBlock = data?.justification
-            ? `<div class="mt-2 bg-black/30 rounded-xl p-4 w-full max-w-sm text-sm leading-relaxed">${escapeHtml(data.justification)}</div>`
-            : '';
-        document.body.innerHTML = _tHtml(`
-            <div class="time-up-container" data-reveal-shown="1">
-                <i class="fas fa-clock"></i>
-                <h2>${_t('player.answer.time_up', null, '¡TIEMPO AGOTADO!')}</h2>
-                ${correctBlock}
-                ${justBlock}
-                <div class="mt-6 bg-black/20 rounded-2xl p-4 max-w-md w-full mx-auto">
-                    <h3 class="text-xl font-black uppercase mb-3 text-center">${_t('player.answer.ranking', null, 'Ranking')}</h3>
-                    <div id="ranking-container" class="space-y-2"></div>
-                </div>
-            </div>
-        `);
+    if (getHaRespondido()) {
+        appendCorrectAnswerToResult(data);
+        return;
     }
+
+    // Evita que la animación de racha perdida (blocked-answer) pinte después
+    // la pantalla de espera encima de esta
+    cancelStreakAnimation();
+    const correctBlock = correctAnswerBlockHtml(data);
+    const justBlock = data?.justification
+        ? `<div class="mt-2 bg-black/30 rounded-xl p-4 w-full max-w-sm text-sm leading-relaxed">${escapeHtml(data.justification)}</div>`
+        : '';
+    document.body.innerHTML = _tHtml(`
+        <div class="time-up-container" data-reveal-shown="1">
+            <i class="fas fa-clock"></i>
+            <h2>${_t('player.answer.time_up', null, '¡TIEMPO AGOTADO!')}</h2>
+            ${correctBlock}
+            ${justBlock}
+            <div class="mt-6 bg-black/20 rounded-2xl p-4 max-w-md w-full mx-auto">
+                <h3 class="text-xl font-black uppercase mb-3 text-center">${_t('player.answer.ranking', null, 'Ranking')}</h3>
+                <div id="ranking-container" class="space-y-2"></div>
+            </div>
+        </div>
+    `);
 }
 
 /** Modo equipos: respuesta enviada, a la espera del resto del equipo. */

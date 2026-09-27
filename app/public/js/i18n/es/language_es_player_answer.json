@@ -21,6 +21,7 @@
     "player.answer.correct_answer_label": "Respuesta correcta:",
     "player.answer.waiting_server": "Esperando confirmación del servidor...",
     "player.answer.mc_missed": "NO MARCADA",
-    "player.answer.mc_perfect": "PERFECTO"
+    "player.answer.mc_perfect": "PERFECTO",
+    "player.answer.matching_pairs": "{n} de {total} parejas"
   }
 }

@@ -5,7 +5,7 @@
 
 const GameModeStrategy = require('./GameModeStrategy');
 const { roundScore } = require('../services/GameUtils');
-const { getJustification } = require('../services/ScoringService');
+const { getJustification, getCorrectAnswerText } = require('../services/ScoringService');
 const logger = require('../../config/logger');
 
 /**
@@ -234,12 +234,13 @@ class TeamGameMode extends GameModeStrategy {
 
         return {
             isCorrect: answer.isCorrect,
-            correctAnswer: isOrderQuestion ? null : (correctOption?.text || correctOption?.optionText || correctOption?.option_text || ''),
+            correctAnswer: isOrderQuestion ? null : getCorrectAnswerText(question, correctOption),
             points: roundScore(answer.pointsEarned),
             totalScore: roundScore(game.scores[nickname] || 0),
             ranking,
             justification: justificationText,
-            orderDetails: isOrderQuestion ? answer.orderDetails : null
+            orderDetails: isOrderQuestion ? answer.orderDetails : null,
+            matchingDetails: question.question_type === 'matching' ? answer.matchingDetails || null : null
         };
     }
 

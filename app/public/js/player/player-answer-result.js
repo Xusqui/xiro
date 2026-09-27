@@ -6,6 +6,7 @@
 
 import './player-answer-visual-logic.js?v=20260922172926';
 import { buildMultipleChoiceBreakdownHTML } from './player-answer-mc-breakdown.js?v=20260922172926';
+import { matchingResultHtml } from './player-answer-matching-breakdown.js?v=20260922172926';
 import { getCurrentOrder, getCurrentOrderOptions, getCurrentSlideType } from './player-state.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
@@ -160,19 +161,35 @@ function wrongResultHtml(data, rankingHTML) {
     return `
         ${_t('player.answer.no', null, '<img src="/images/chamaleon/thumbs_down.svg" class="w-32 h-32 mb-4 animate-bounce drop-shadow-lg" alt="👎">')}
         <p class="text-3xl font-black mt-4 bg-black/20 py-2 px-8 rounded-full">+${data.points} PTS</p>
-        ${data.correctAnswer ? `<div class="mt-4 bg-white/20 p-4 rounded-2xl max-w-md">
+        ${hasCorrectAnswer(data) ? `<div class="mt-4 bg-white/20 p-4 rounded-2xl max-w-md">
             <p class="text-sm uppercase font-bold mb-2">${_t('player.answer.correct_answer_label', null, 'Respuesta correcta:')}</p>
-            <p class="text-xl font-black">${escapeHtml(data.correctAnswer)}</p>
+            <p class="text-xl font-black">${escapeHtml(String(data.correctAnswer))}</p>
         </div>` : ''}
         ${data.justification ? `<p class="text-lg mt-4 bg-white/20 p-4 rounded-2xl max-w-md">${escapeHtml(data.justification)}</p>` : ''}
         ${rankingHTML}
     `;
 }
 
+function hasCorrectAnswer(data) {
+    return data.correctAnswer !== null && data.correctAnswer !== undefined && String(data.correctAnswer).trim() !== '';
+}
+
+/**
+ * ¿La pantalla ya enseña la respuesta correcta? Si no (ordenar parcial,
+ * numérica aproximada...), el reveal la añade debajo.
+ */
+function showsCorrectAnswer(data, isApproximate) {
+    if (data.correct === true || data.correct === null) return true;
+    if (data.matchingDetails || data.multipleChoiceDetails?.options) return true;
+    if (data.orderDetails || isApproximate) return false;
+    return hasCorrectAnswer(data);
+}
+
 /** Contenido según el tipo de pregunta y el resultado. */
-function resultMessageHtml(data, isOrder, isApproximate) {
+function resultMessageHtml(data, isApproximate) {
     const rankingHTML = rankingHtml(data);
-    if (isOrder) return orderResultHtml(data, rankingHTML);
+    if (data.orderDetails) return orderResultHtml(data, rankingHTML);
+    if (data.matchingDetails) return matchingResultHtml(data, rankingHTML);
     if (data.multipleChoiceDetails && data.multipleChoiceDetails.options) return multipleChoiceResultHtml(data, rankingHTML);
     if (data.correct === null) return surveyResultHtml();
     if (data.correct) return correctResultHtml(data, rankingHTML);
@@ -182,9 +199,10 @@ function resultMessageHtml(data, isOrder, isApproximate) {
 
 /** HTML completo de la pantalla de resultado (fondo según acierto/fallo). */
 export function buildAnswerResultHTML(data) {
-    const isOrder = !!data.orderDetails;
-    const correctCount = data.orderDetails?.correctCount || 0;
-    const totalOptions = data.orderDetails?.totalOptions || 0;
+    // Ordenar y emparejar: verde si todo está bien, azul si es parcial
+    const isOrder = !!(data.orderDetails || data.matchingDetails);
+    const correctCount = (data.orderDetails || data.matchingDetails)?.correctCount || 0;
+    const totalOptions = data.orderDetails?.totalOptions || data.matchingDetails?.totalPairs || 0;
     const isFullyCorrect = totalOptions > 0 && correctCount === totalOptions;
     const visualLogic = getPlayerAnswerVisualLogic();
     const isApproximate = visualLogic.shouldShowApproximateResult({
@@ -199,6 +217,7 @@ export function buildAnswerResultHTML(data) {
         isCorrect: data.correct
     });
 
-    const messageHTML = resultMessageHtml(data, isOrder, isApproximate);
-    return `<div class="player-result-enter h-screen w-screen flex flex-col items-center justify-center ${color} text-white text-center p-6 overflow-y-auto">${messageHTML}</div>`;
+    const messageHTML = resultMessageHtml(data, isApproximate);
+    const correctShown = showsCorrectAnswer(data, isApproximate) ? ' data-correct-shown="1"' : '';
+    return `<div data-result-screen${correctShown} class="player-result-enter h-screen w-screen flex flex-col items-center justify-center ${color} text-white text-center p-6 overflow-y-auto">${messageHTML}</div>`;
 }

@@ -230,6 +230,7 @@ function buildPlayerRevealPayload({
             teamName: team.name,
             orderDetails: revealContext.isOrderQuestion ? playerAnswer?.orderDetails || null : null,
             multipleChoiceDetails: question.question_type === 'multiple_choice' ? playerAnswer?.multipleChoiceDetails || null : null,
+            matchingDetails: question.question_type === 'matching' ? playerAnswer?.matchingDetails || null : null,
             streak: game.playerStreakInfos?.[playerNick] || null
         }
     };

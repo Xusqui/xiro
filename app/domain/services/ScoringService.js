@@ -245,6 +245,19 @@ function getJustification(selectedOption, correctOption) {
 }
 
 /**
+ * Texto de la respuesta correcta para el resultado del jugador.
+ * Numérica y anagrama no tienen opción correcta: se usa el número o la palabra.
+ * @param {Object} question
+ * @param {Object|null} correctOption
+ * @returns {string|number|null}
+ */
+function getCorrectAnswerText(question, correctOption) {
+    if (question?.question_type === 'numeric_approximation') return question.correct_answer ?? null;
+    if (question?.question_type === 'word_scramble') return question.correct_word ?? null;
+    return correctOption?.text || correctOption?.optionText || correctOption?.option_text || '';
+}
+
+/**
  * Obtiene la estrategia de puntuación para una pregunta
  * 
  * @param {Object} question - Pregunta
@@ -269,6 +282,7 @@ module.exports = {
     roundScore,
     getCorrectOption,
     getJustification,
+    getCorrectAnswerText,
     getStrategy, // NUEVO: obtener estrategia para una pregunta
 
     // Constantes (re-exportar para conveniencia)

@@ -162,6 +162,7 @@ function buildAnsweredPayload({ currentQuestion, playerAnswer, scores, game, pla
         ranking: buildRanking(scores),
         orderDetails: ctx.isOrderQuestion ? playerAnswer?.orderDetails || null : null,
         multipleChoiceDetails: ctx.isMultipleChoiceQuestion ? playerAnswer?.multipleChoiceDetails || null : null,
+        matchingDetails: currentQuestion.question_type === 'matching' ? playerAnswer?.matchingDetails || null : null,
         streak: (game && playerNick) ? (game.playerStreakInfos?.[playerNick] || null) : null
     };
 
