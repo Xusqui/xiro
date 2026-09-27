@@ -4,6 +4,9 @@
  * scripts/update-assets-version.js: no requiere ejecutar nada, el hash se recalcula
  * solo cuando el fichero referenciado cambia (detectado por mtime).
  *
+ * En los .js el hash cubre también todo lo que el módulo importa (directa o
+ * indirectamente): ver getModuleVersion().
+ *
  * IMPORTANTE: en los HTML solo se versionan referencias a assets EXTERNOS
  * (src="...js", href="...css"/"...svg"). El contenido de bloques <script
  * type="module"> INLINE nunca se toca, porque algunas páginas (p. ej.
@@ -24,23 +27,77 @@ const JS_REGEX = /src="(?!https?:\/\/)([^"]+\.js)(?:\?v=[a-zA-Z0-9_-]+)?"/g;
 const CSS_REGEX = /href="(?!https?:\/\/)([^"]+\.css)(?:\?v=[a-zA-Z0-9_-]+)?"/g;
 const SVG_REGEX = /(src|href)="(?!https?:\/\/)([^"]+\.svg)(?:\?v=[a-zA-Z0-9_-]+)?"/g;
 const JS_IMPORT_REGEX = /(from\s+|import\s+|import\s*\(\s*)(['"])(?!https?:\/\/)([^'"]+\.js)(?:\?v=[a-zA-Z0-9_-]+)?\2/g;
+// Mismo patrón sin /g: ¿el fichero importa o reexporta (export … from) algún módulo local?
+const HAS_JS_IMPORT_REGEX = new RegExp(JS_IMPORT_REGEX.source);
 
-const hashCache = new Map();
+// Recalcular el árbol de un módulo en cada petición sería caro (el presentador
+// importa ~40 módulos); dentro de una misma carga de página basta con uno.
+const MODULE_VERSION_TTL_MS = 1000;
 
-function getFileHash(absPath) {
+const fileInfoCache = new Map(); // abs → { mtimeMs, hash, imports }
+const moduleVersionCache = new Map(); // abs → { hash, at }
+
+function sha1(data) {
+    return crypto.createHash('sha1').update(data).digest('hex').slice(0, 10);
+}
+
+function parseImports(content, baseDir) {
+    const deps = [];
+    for (const match of content.matchAll(JS_IMPORT_REGEX)) {
+        const abs = resolveAssetAbsPath(baseDir, match[3]);
+        if (abs) deps.push(abs);
+    }
+    return deps;
+}
+
+function getFileInfo(absPath) {
     try {
         const stat = fs.statSync(absPath);
-        const cached = hashCache.get(absPath);
+        const cached = fileInfoCache.get(absPath);
         if (cached && cached.mtimeMs === stat.mtimeMs) {
-            return cached.hash;
+            return cached;
         }
         const buffer = fs.readFileSync(absPath);
-        const hash = crypto.createHash('sha1').update(buffer).digest('hex').slice(0, 10);
-        hashCache.set(absPath, { mtimeMs: stat.mtimeMs, hash });
-        return hash;
+        const imports = absPath.endsWith('.js') ? parseImports(buffer.toString('utf8'), path.dirname(absPath)) : [];
+        const info = { mtimeMs: stat.mtimeMs, hash: sha1(buffer), imports };
+        fileInfoCache.set(absPath, info);
+        return info;
     } catch {
         return null;
     }
+}
+
+// Versión de un módulo JS: hash de su contenido y del de todo lo que importa.
+// Si dependiera solo de su propio contenido, un módulo sin cambios conservaría
+// su URL (servida immutable) y seguiría apuntando a la versión antigua de sus
+// dependencias, mientras los módulos modificados apuntan a la nueva: el navegador
+// cargaría dos copias del mismo módulo, cada una con su propio estado.
+// Se recorre el conjunto de ficheros alcanzables, así que los ciclos no son problema.
+function getModuleVersion(absPath) {
+    const cached = moduleVersionCache.get(absPath);
+    if (cached && Date.now() - cached.at < MODULE_VERSION_TTL_MS) {
+        return cached.hash;
+    }
+    const seen = new Map();
+    const pending = [absPath];
+    while (pending.length) {
+        const current = pending.pop();
+        if (seen.has(current)) continue;
+        const info = getFileInfo(current);
+        if (!info) {
+            if (current === absPath) return null;
+            continue;
+        }
+        seen.set(current, info.hash);
+        pending.push(...info.imports);
+    }
+    const digest = [...seen.entries()]
+        .map(([file, hash]) => `${path.relative(PUBLIC_DIR, file)}:${hash}`)
+        .sort()
+        .join('\n');
+    const hash = sha1(digest);
+    moduleVersionCache.set(absPath, { hash, at: Date.now() });
+    return hash;
 }
 
 function resolveAssetAbsPath(baseDir, assetPath) {
@@ -57,7 +114,8 @@ function resolveAssetAbsPath(baseDir, assetPath) {
 
 function hashFor(assetPath, baseDir) {
     const abs = resolveAssetAbsPath(baseDir, assetPath);
-    return abs ? getFileHash(abs) : null;
+    if (!abs) return null;
+    return abs.endsWith('.js') ? getModuleVersion(abs) : getFileInfo(abs)?.hash ?? null;
 }
 
 // Versiona referencias a assets externos: src="...js", href="...css", src/href="...svg".
@@ -132,7 +190,7 @@ function assetVersioningMiddleware(req, res, next) {
         if (err) {
             return next(); // no existe / no legible: deja que static devuelva 404
         }
-        if (isJs && !content.includes('import')) {
+        if (isJs && !HAS_JS_IMPORT_REGEX.test(content)) {
             return next(); // script sin imports locales: static lo sirve tal cual
         }
 
