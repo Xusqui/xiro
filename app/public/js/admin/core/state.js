@@ -6,10 +6,10 @@
 // ===== VARIABLES GLOBALES =====
 let preguntasData = [];
 let currentBanks = []; // Para el editor de juegos
-const activeView = null; // Estado de la vista activa: 'bancos', 'juegos', 'personalizados'
-const currentCustomGameQuestions = []; // Array de {question_id, question_text, bank_name, options}
-const currentBankData = null; // Guardar los datos del banco actual
-const cuestionarioCargado = null;
+let activeView = null; // Estado de la vista activa: 'bancos', 'juegos', 'personalizados'
+let currentCustomGameQuestions = []; // Array de {question_id, question_text, bank_name, options}
+let currentBankData = null; // Guardar los datos del banco actual
+let cuestionarioCargado = null;
 
 // Exponer al bridge seguro (let no es propiedad de globalThis, pero sí con defineProperty)
 Object.defineProperty(globalThis, 'preguntasData', {

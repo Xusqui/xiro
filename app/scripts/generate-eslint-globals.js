@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 /**
- * Genera eslint-public-globals.json: los identificadores globales que el
- * frontend (public/) comparte entre ficheros <script> clásicos.
+ * Genera eslint-public-globals.json para el lint del frontend (public/):
+ *  - globals: identificadores que comparten los ficheros <script> clásicos.
+ *  - modules: ficheros ES module (con import/export), que se analizan con
+ *    sourceType 'module'; el resto se analiza como 'script' para que ESLint
+ *    trate sus declaraciones de nivel superior como globales.
  *
  * Se consideran globales:
  *  - Declaraciones de nivel superior en scripts clásicos (sin import/export)
@@ -16,7 +19,9 @@ const espree = require('espree');
 
 const ROOT = path.join(__dirname, '..', 'public');
 const OUT = path.join(__dirname, '..', 'eslint-public-globals.json');
-const SKIP_DIRS = new Set(['node_modules', '__tests__']);
+const APP_ROOT = path.join(__dirname, '..');
+const SKIP_DIRS = new Set(['node_modules']);
+const IS_MODULE = /^\s*(import|export)\s/m;
 
 function walk(dir, acc = []) {
     let entries;
@@ -74,6 +79,7 @@ function scriptsFromHtml(html) {
 
 function main() {
     const names = new Set();
+    const modules = [];
     for (const file of walk(ROOT)) {
         let content;
         try {
@@ -83,7 +89,11 @@ function main() {
         }
         const chunks = file.endsWith('.html')
             ? scriptsFromHtml(content)
-            : [{ code: content, isModule: /^\s*(import|export)\s/m.test(content) }];
+            : [{ code: content, isModule: IS_MODULE.test(content) }];
+        if (!file.endsWith('.html') && chunks[0].isModule) {
+            modules.push(path.relative(APP_ROOT, file).split(path.sep).join('/'));
+        }
+        if (file.includes(`${path.sep}__tests__${path.sep}`)) continue;
         for (const { code, isModule } of chunks) {
             collectWindowAssignments(code, names);
             if (isModule) continue;
@@ -92,8 +102,8 @@ function main() {
         }
     }
     const globals = Object.fromEntries([...names].sort().map((n) => [n, 'writable']));
-    fs.writeFileSync(OUT, JSON.stringify(globals, null, 2) + '\n');
-    console.log(`${names.size} globales escritos en ${path.relative(process.cwd(), OUT)}`);
+    fs.writeFileSync(OUT, JSON.stringify({ globals, modules: modules.sort() }, null, 2) + '\n');
+    console.log(`${names.size} globales y ${modules.length} módulos escritos en ${path.relative(process.cwd(), OUT)}`);
 }
 
 main();
