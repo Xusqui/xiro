@@ -1,6 +1,6 @@
 {
   "name": "xiro",
-  "version": "2.0.8",
+  "version": "2.1.1",
   "description": "Servidor para juego tipo Kahoot",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,7 @@
     "lint": "eslint . --ext .js",
     "lint:fix": "eslint . --ext .js --fix",
     "lint:globals": "node scripts/generate-eslint-globals.js",
-    "lint:report":"eslint . --ext .js --format json --output-file eslint-report.json",
+    "lint:report": "eslint . --ext .js --format json --output-file eslint-report.json",
     "migrate": "node migrations/migrate.js up",
     "migrate:status": "node migrations/migrate.js status",
     "migrate:create": "node migrations/migrate.js create",
