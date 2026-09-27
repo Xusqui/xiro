@@ -3,8 +3,6 @@ window.TVApp = window.TVApp || {};
 window.TVApp.Main = (function () {
     'use strict';
 
-    let delegationInitialized = false;
-
     const state = window.TVApp.State;
     const initAudio = window.TVApp.Audio.initAudio;
     const playTick = window.TVApp.Audio.playTick;
@@ -12,91 +10,9 @@ window.TVApp.Main = (function () {
     const showTvModal = window.TVApp.Utils.showTvModal;
     const renderCommentSlide = window.TVApp.RenderSlides.renderCommentSlide;
 
-    function showConfirmModal(title, message, onConfirm) {
-        const existing = document.getElementById('xiro-tv-confirm-modal');
-        if (existing) existing.parentNode.removeChild(existing);
-
-        const overlay = document.createElement('div');
-        overlay.id = 'xiro-tv-confirm-modal';
-        overlay.style.position = 'fixed';
-        overlay.style.top = '0';
-        overlay.style.left = '0';
-        overlay.style.width = '100%';
-        overlay.style.height = '100%';
-        overlay.style.background = 'rgba(0,0,0,0.75)';
-        overlay.style.display = 'flex';
-        overlay.style.alignItems = 'center';
-        overlay.style.justifyContent = 'center';
-        overlay.style.zIndex = '10000';
-
-        const modal = document.createElement('div');
-        modal.style.background = '#ffffff';
-        modal.style.borderRadius = '14px';
-        modal.style.maxWidth = '380px';
-        modal.style.width = '90%';
-        modal.style.padding = '24px 20px';
-        modal.style.fontFamily = 'Arial, sans-serif';
-        modal.style.boxShadow = '0 16px 40px rgba(0,0,0,0.4)';
-
-        const titleEl = document.createElement('div');
-        titleEl.textContent = _t(title);
-        titleEl.style.fontSize = '18px';
-        titleEl.style.fontWeight = '800';
-        titleEl.style.marginBottom = '10px';
-
-        const msgEl = document.createElement('div');
-        msgEl.textContent = _t(message);
-        msgEl.style.fontSize = '14px';
-        msgEl.style.lineHeight = '1.5';
-        msgEl.style.color = '#444';
-
-        const actions = document.createElement('div');
-        actions.style.marginTop = '20px';
-        actions.style.display = 'flex';
-        actions.style.justifyContent = 'flex-end';
-
-        const btnCancel = document.createElement('button');
-        btnCancel.textContent = _t('tv.game.cancel', null, 'Cancelar');
-        btnCancel.style.padding = '9px 18px';
-        btnCancel.style.background = '#e5e7eb';
-        btnCancel.style.color = '#333';
-        btnCancel.style.border = 'none';
-        btnCancel.style.borderRadius = '999px';
-        btnCancel.style.fontWeight = '700';
-        btnCancel.style.cursor = 'pointer';
-        btnCancel.style.fontSize = '13px';
-        btnCancel.onclick = function () {
-            overlay.parentNode.removeChild(overlay);
-        };
-
-        const btnConfirm = document.createElement('button');
-        btnConfirm.textContent = _t('tv.game.confirm', null, 'Confirmar');
-        btnConfirm.style.marginLeft = '10px';
-        btnConfirm.style.padding = '9px 18px';
-        btnConfirm.style.background = '#dc2626';
-        btnConfirm.style.color = '#ffffff';
-        btnConfirm.style.border = 'none';
-        btnConfirm.style.borderRadius = '999px';
-        btnConfirm.style.fontWeight = '700';
-        btnConfirm.style.cursor = 'pointer';
-        btnConfirm.style.fontSize = '13px';
-        btnConfirm.onclick = function () {
-            overlay.parentNode.removeChild(overlay);
-            onConfirm();
-        };
-
-        actions.appendChild(btnCancel);
-        actions.appendChild(btnConfirm);
-        modal.appendChild(titleEl);
-        modal.appendChild(msgEl);
-        modal.appendChild(actions);
-        overlay.appendChild(modal);
-        document.body.appendChild(overlay);
-    }
-
     function finalizarJuego() {
         if (!state.sessionId || !window.TVApp.socket) return;
-        showConfirmModal(
+        window.TVApp.ConfirmModal.show(
             _t('tv.game.end', null, 'Finalizar partida'),
             _t('tv.game.end_msg', null, 'Se enviara el ranking final a todos los jugadores. ¿Continuar?'),
             function () {
@@ -107,7 +23,7 @@ window.TVApp.Main = (function () {
 
     function abortarJuego() {
         if (!state.sessionId || !window.TVApp.socket) return;
-        showConfirmModal(
+        window.TVApp.ConfirmModal.show(
             _t('tv.game.abort', null, 'Abortar partida'),
             _t('tv.game.abort_msg', null, 'Se desconectara a todos los jugadores y volveras al selector de PIN. ¿Continuar?'),
             function () {
@@ -116,99 +32,7 @@ window.TVApp.Main = (function () {
         );
     }
 
-    function findActionElement(target) {
-        let el = target;
-        while (el && el !== document) {
-            if (el.getAttribute && el.getAttribute('data-tv-action')) return el;
-            el = el.parentNode;
-        }
-        return null;
-    }
-
-    function setupDelegatedTvActions() {
-        if (delegationInitialized) return;
-        delegationInitialized = true;
-
-        document.addEventListener('click', function (event) {
-            const actionEl = findActionElement(event.target);
-            if (!actionEl) return;
-
-            const action = actionEl.getAttribute('data-tv-action') || '';
-            const pin = actionEl.getAttribute('data-pin') || '';
-            const filter = actionEl.getAttribute('data-filter') || '';
-            const nickname = actionEl.getAttribute('data-nickname') || '';
-            const points = parseInt(actionEl.getAttribute('data-points') || '0', 10);
-            const numTeams = parseInt(actionEl.getAttribute('data-num-teams') || '0', 10);
-
-            switch (action) {
-                case 'next-question':
-                    nextQuestion();
-                    break;
-                case 'toggle-pause-timer':
-                    togglePauseTimer();
-                    break;
-                case 'assign-manual-points':
-                    if (nickname && Number.isFinite(points)) assignManualPoints(nickname, points);
-                    break;
-                case 'open-admin':
-                    window.location.href = '/admin.html';
-                    break;
-                case 'retry-pin-selector':
-                    if (window.TVApp.Lobby) window.TVApp.Lobby.mostrarSelectorPIN();
-                    break;
-                case 'change-filter':
-                    if (window.TVApp.Lobby && filter) window.TVApp.Lobby.cambiarFiltro(filter);
-                    break;
-                case 'select-pin':
-                    if (window.TVApp.Lobby && pin) window.TVApp.Lobby.seleccionarPIN(pin);
-                    break;
-                case 'start-game':
-                    empezar();
-                    break;
-                case 'go-tv-home':
-                    volverAJuegos();
-                    break;
-                case 'concluir-y-volver':
-                    concluirYVolver();
-                    break;
-                case 'teams-mode-individual':
-                    if (window.TVApp.Teams && pin) window.TVApp.Teams.configurarModoIndividual(pin);
-                    break;
-                case 'teams-mode-team':
-                    if (window.TVApp.Teams && pin) window.TVApp.Teams.mostrarConfiguracionEquipos(pin);
-                    break;
-                case 'teams-select-num':
-                    if (window.TVApp.Teams && pin && Number.isFinite(numTeams) && numTeams > 0) {
-                        window.TVApp.Teams.seleccionarNumEquipos(numTeams, pin);
-                    }
-                    break;
-                case 'teams-back-mode':
-                    if (window.TVApp.Teams && pin) window.TVApp.Teams.mostrarSeleccionModo(pin);
-                    break;
-                case 'teams-confirm':
-                    if (window.TVApp.Teams && pin && Number.isFinite(numTeams) && numTeams > 0) {
-                        window.TVApp.Teams.confirmarEquipos(numTeams, pin);
-                    }
-                    break;
-                case 'teams-back-config':
-                    if (window.TVApp.Teams && pin) window.TVApp.Teams.mostrarConfiguracionEquipos(pin);
-                    break;
-                case 'render-podio':
-                    if (window.TVApp.Podio) window.TVApp.Podio.renderPodio(window._tempRanking || []);
-                    break;
-                case 'finalizar-juego':
-                    finalizarJuego();
-                    break;
-                case 'abortar-juego':
-                    abortarJuego();
-                    break;
-                default:
-                    break;
-            }
-        });
-    }
-
-    // Exportar funciones globales necesarias para acciones delegadas en HTML generado
+    // Funciones de partida; las acciones delegadas (tv-actions.js) las llaman vía TVApp.Main
     function empezar() {
         if (document.documentElement.requestFullscreen) {
             document.documentElement.requestFullscreen().catch(function () { });
@@ -271,7 +95,7 @@ window.TVApp.Main = (function () {
 
     function initApp() {
         console.log('=== TV.JS INICIANDO ===');
-        setupDelegatedTvActions();
+        window.TVApp.Actions.setup();
 
         // Asignar parámetros GET a state.pin
         state.pin = window.TVApp.Utils.getURLParameter('pin');
@@ -312,6 +136,7 @@ window.TVApp.Main = (function () {
         assignManualPoints: assignManualPoints,
         nextQuestion: nextQuestion,
         volverAJuegos: volverAJuegos,
+        concluirYVolver: concluirYVolver,
         finalizarJuego: finalizarJuego,
         abortarJuego: abortarJuego
     };

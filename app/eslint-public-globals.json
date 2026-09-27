@@ -1,5 +1,8 @@
 {
   "globals": {
+    "ADMIN_ACTIONS": "writable",
+    "ADMIN_INLINE_LITERALS": "writable",
+    "ADMIN_INLINE_VALUES": "writable",
     "ADMIN_ROLE_KEY": "writable",
     "ADMIN_SESSION_KEY": "writable",
     "ADMIN_SESSION_TTL_MS": "writable",
@@ -156,6 +159,7 @@
     "_busquedaDebounceTimer": "writable",
     "_busquedaDelegationReady": "writable",
     "_checkIAStatus": "writable",
+    "_clamp": "writable",
     "_clearForgotError": "writable",
     "_clearResetError": "writable",
     "_configData": "writable",
@@ -203,6 +207,7 @@
     "_initTrivialListDelegation": "writable",
     "_initUserLicenseCheckout": "writable",
     "_initUserLicenseDelegation": "writable",
+    "_intOr": "writable",
     "_languageLabel": "writable",
     "_licenseExemptionsDelegationReady": "writable",
     "_licenseField": "writable",
@@ -646,6 +651,7 @@
     "randomColorSimple": "writable",
     "randomShell": "writable",
     "reachable": "writable",
+    "readAdminActionContext": "writable",
     "readRandomPointsConfig": "writable",
     "rebuildLog": "writable",
     "recargarSesionesActivas": "writable",
