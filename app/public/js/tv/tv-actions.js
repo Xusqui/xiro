@@ -34,7 +34,6 @@ window.TVApp.Actions = (function () {
         'assign-manual-points': function (c) {
             if (c.nickname && Number.isFinite(c.points)) main().assignManualPoints(c.nickname, c.points);
         },
-        'open-admin': function () { window.location.href = '/admin.html'; },
         'retry-pin-selector': function () { if (lobby()) lobby().mostrarSelectorPIN(); },
         'change-filter': function (c) { if (lobby() && c.filter) lobby().cambiarFiltro(c.filter); },
         'select-pin': function (c) { if (lobby() && c.pin) lobby().seleccionarPIN(c.pin); },

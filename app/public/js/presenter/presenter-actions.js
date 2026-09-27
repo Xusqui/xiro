@@ -105,7 +105,6 @@ const PRESENTER_CLICK_ACTIONS = {
     'abandon-game': () => abandonarJuego(),
     'terminate-game': () => terminarJuego(),
     'reload-page': () => window.location.reload(),
-    'go-admin': () => { window.location.href = '/admin.html'; },
     'reset-presenter-session': resetPresenterSession,
     'volver-juegos': () => volverAJuegos(),
     'change-filter': el => cambiarFiltro(el.dataset.filter || 'todos'),

@@ -34,7 +34,8 @@ function appendRankingLines(lines, session, ranking) {
 function resolveQuestionsContext(session) {
     const questions = session.questions_snapshot || [];
     const trivialMeta = questions?.isTrivialMeta ? questions : null;
-    const questionsArray = trivialMeta ? [] : questions;
+    // Un snapshot que no es lista ni resumen de Trivial se trata como 'sin preguntas'
+    const questionsArray = trivialMeta || !Array.isArray(questions) ? [] : questions;
     return { trivialMeta, questionsArray };
 }
 
