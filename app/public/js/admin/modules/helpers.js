@@ -221,6 +221,8 @@ function mostrarModalError(titulo, mensaje, tipo = 'error') {
  * @param {string} textoConfirm - Texto del botón confirmar (defecto: "Confirmar")
  * @param {string} textoCancelar - Texto del botón cancelar (defecto: "Cancelar")
  */
+// Firma posicional usada por 20+ llamadas del admin: se mantiene a propósito
+// eslint-disable-next-line max-params
 function mostrarModalConfirmacion(titulo, mensaje, onConfirm, onCancel, textoConfirm, textoCancelar) {
     textoConfirm = textoConfirm ?? _t('admin.common.confirm', null, 'Confirmar');
     textoCancelar = textoCancelar ?? _t('admin.common.cancel', null, 'Cancelar');

@@ -146,50 +146,50 @@ function drawSparkline(canvasId, data, color, fillColor) {
 }
 
 // ─── Render functions ────────────────────────────────────
-function renderProbes(liveData, readyData, healthData) {
-    // Liveness
-    const aliveEl = document.getElementById('probeAlive');
-    const uptimeEl = document.getElementById('probeUptime');
-    if (liveData) {
-        aliveEl.textContent = _t(statusIcon(liveData.status) + ' ' + statusText(liveData.status));
-        uptimeEl.textContent = _t(liveData.uptime ? `Uptime: ${formatUptime(liveData.uptime)}` : '');
-        document.getElementById('probeLive').style.borderColor =
-            statusClass(liveData.status) === 'healthy' ? 'rgba(34,197,94,0.3)' : 'rgba(239,68,68,0.3)';
-    }
+function probeBorderColor(status) {
+    return statusClass(status) === 'healthy' ? 'rgba(34,197,94,0.3)' : 'rgba(239,68,68,0.3)';
+}
 
-    // Readiness
-    const readyVal = document.getElementById('probeReadyVal');
-    const readySub = document.getElementById('probeReadySub');
-    if (readyData) {
-        readyVal.textContent = _t(statusIcon(readyData.status) + ' ' + statusText(readyData.status));
-        readySub.textContent = readyData.issues
-            ? Object.entries(readyData.issues).map(([k, v]) => `${k}: ${v}`).join(', ')
-            : 'Todas las dependencias OK';
-        document.getElementById('probeReady').style.borderColor =
-            statusClass(readyData.status) === 'healthy' ? 'rgba(34,197,94,0.3)' : 'rgba(239,68,68,0.3)';
-    }
+function renderLivenessProbe(liveData) {
+    document.getElementById('probeAlive').textContent = _t(statusIcon(liveData.status) + ' ' + statusText(liveData.status));
+    document.getElementById('probeUptime').textContent = _t(liveData.uptime ? `Uptime: ${formatUptime(liveData.uptime)}` : '');
+    document.getElementById('probeLive').style.borderColor = probeBorderColor(liveData.status);
+}
 
-    // Uptime
-    if (healthData) {
-        document.getElementById('probeUptimeFmt').textContent = _t(healthData.uptimeFormatted || formatUptime(healthData.uptime));
-        document.getElementById('probeTimestamp').textContent = healthData.timestamp
-            ? new Date(healthData.timestamp).toLocaleTimeString('es-ES')
-            : '--';
-    }
+function renderReadinessProbe(readyData) {
+    document.getElementById('probeReadyVal').textContent = _t(statusIcon(readyData.status) + ' ' + statusText(readyData.status));
+    document.getElementById('probeReadySub').textContent = readyData.issues
+        ? Object.entries(readyData.issues).map(([k, v]) => `${k}: ${v}`).join(', ')
+        : 'Todas las dependencias OK';
+    document.getElementById('probeReady').style.borderColor = probeBorderColor(readyData.status);
+}
 
-    // Players
-    if (healthData && healthData.players) {
-        document.getElementById('probePlayers').textContent = _t(healthData.players.connected || '0');
+/** Uptime, jugadores y partidas de /api/health. */
+function renderHealthProbes(healthData) {
+    document.getElementById('probeUptimeFmt').textContent = _t(healthData.uptimeFormatted || formatUptime(healthData.uptime));
+    document.getElementById('probeTimestamp').textContent = healthData.timestamp
+        ? new Date(healthData.timestamp).toLocaleTimeString('es-ES')
+        : '--';
+
+    const players = healthData.players;
+    if (players) {
+        document.getElementById('probePlayers').textContent = _t(players.connected || '0');
         document.getElementById('probePlayersSub').textContent =
-            _t(`de ${healthData.players.maxPlayers || healthData.players.maxTotalPlayers || '?'} máx (${healthData.players.utilizationPercent || '0'}%)`);
+            _t(`de ${players.maxPlayers || players.maxTotalPlayers || '?'} máx (${players.utilizationPercent || '0'}%)`);
     }
 
-    // Games
-    if (healthData && healthData.games) {
-        document.getElementById('probeGames').textContent = _t(healthData.games.active || '0');
+    const games = healthData.games;
+    if (games) {
+        document.getElementById('probeGames').textContent = _t(games.active || '0');
         document.getElementById('probeGamesSub').textContent =
-            _t(`Lobbies: ${healthData.games.lobbies || '0'} | Completadas: ${healthData.games.totalGamesCompleted || '0'}`);
+            _t(`Lobbies: ${games.lobbies || '0'} | Completadas: ${games.totalGamesCompleted || '0'}`);
     }
+}
+
+function renderProbes(liveData, readyData, healthData) {
+    if (liveData) renderLivenessProbe(liveData);
+    if (readyData) renderReadinessProbe(readyData);
+    if (healthData) renderHealthProbes(healthData);
 }
 
 function renderDependencies(deps) {
@@ -341,6 +341,79 @@ function renderDatabase(db, healthData) {
     body.innerHTML = _tHtml(html);
 }
 
+/** Verde por debajo de warn, amarillo por debajo de crit, rojo a partir de ahí. */
+function thresholdColor(value, warn, crit) {
+    if (value < warn) return 'var(--green)';
+    return value < crit ? 'var(--yellow)' : 'var(--red)';
+}
+
+function orDash(value) {
+    return value !== undefined ? value : '--';
+}
+
+function cpuPercentOf(perfSys, sys) {
+    if (perfSys.cpuPercent !== undefined) return perfSys.cpuPercent;
+    return sys.cpu_percent !== undefined ? parseFloat(sys.cpu_percent) : null;
+}
+
+function performanceGridHtml(cpuPct, perfSys, el, http) {
+    const cpuColor = cpuPct === null ? '' : thresholdColor(cpuPct, 50, 80);
+
+    const [load1, load5, load15] = perfSys.loadavg || [];
+    const cpuCount = perfSys.cpuCount || '';
+
+    const elP99 = el.p99Ms;
+    const elColor = elP99 === undefined ? '' : thresholdColor(elP99, 10, 50);
+
+    return `
+<div class="metric-grid">
+  <div class="metric-item">
+    <div class="metric-label">CPU proceso</div>
+    <div class="metric-value" style="color:${cpuColor}">${cpuPct !== null ? cpuPct + '' : '--'}<span class="metric-sub">%</span></div>
+  </div>
+  <div class="metric-item">
+    <div class="metric-label">Load avg${cpuCount ? ' (' + cpuCount + ' cores)' : ''}</div>
+    <div class="metric-value" style="font-size:1rem">${orDash(load1)} <span class="metric-sub">${load5 !== undefined ? load5 + ' &nbsp; ' + load15 : ''}</span></div>
+  </div>
+  <div class="metric-item">
+    <div class="metric-label">Event Loop p99</div>
+    <div class="metric-value" style="color:${elColor}">${orDash(elP99)}<span class="metric-sub"> ms</span></div>
+  </div>
+  <div class="metric-item">
+    <div class="metric-label">Event Loop p50 / p95</div>
+    <div class="metric-value" style="font-size:1rem">${orDash(el.p50Ms)}<span class="metric-sub"> / ${orDash(el.p95Ms)} ms</span></div>
+  </div>
+  <div class="metric-item">
+    <div class="metric-label">HTTP Total</div>
+    <div class="metric-value">${http.total_requests ? http.total_requests.toLocaleString() : '--'}</div>
+  </div>
+  <div class="metric-item">
+    <div class="metric-label">Peticiones/min</div>
+    <div class="metric-value">${http.requests_per_minute || '--'}</div>
+  </div>
+</div>
+      `;
+}
+
+function dbQueryBarsHtml(times) {
+    const max = Math.max(...times);
+    return `
+  <div style="margin-top: 1rem;">
+    <div class="metric-label">Últimas consultas DB (ms)</div>
+    <div style="display: flex; align-items: flex-end; gap: 3px; height: 50px; margin-top: 0.5rem;">
+      ${times.map(t => {
+        const h = Math.max(4, (t / (max || 1)) * 46);
+        const color = thresholdColor(t, 50, 200);
+        return `<div class="tooltip-container" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%;">
+          <div style="width: 100%; height: ${h}px; background: ${color}; border-radius: 3px 3px 0 0; min-width: 4px;"></div>
+          <div class="tooltip-text">${t}ms</div>
+        </div>`;
+    }).join('')}
+    </div>
+  </div>
+`;
+}
+
 function renderPerformance(metricsData, perfData) {
     const body = document.getElementById('performanceBody');
     if (!metricsData && !perfData) {
@@ -354,68 +427,35 @@ function renderPerformance(metricsData, perfData) {
     const perfSys = (perfData && perfData.system) || {};
     const el = (perfData && perfData.eventLoop) || {};
 
-    const cpuPct = perfSys.cpuPercent !== undefined
-        ? perfSys.cpuPercent
-        : (sys.cpu_percent !== undefined ? parseFloat(sys.cpu_percent) : null);
-    const cpuColor = cpuPct === null ? '' : cpuPct < 50 ? 'var(--green)' : cpuPct < 80 ? 'var(--yellow)' : 'var(--red)';
-
-    const [load1, load5, load15] = perfSys.loadavg || [];
-    const cpuCount = perfSys.cpuCount || '';
-
-    const elP50 = el.p50Ms;
-    const elP95 = el.p95Ms;
-    const elP99 = el.p99Ms;
-    const elColor = elP99 === undefined ? '' : elP99 < 10 ? 'var(--green)' : elP99 < 50 ? 'var(--yellow)' : 'var(--red)';
-
-    let html = `
-<div class="metric-grid">
-  <div class="metric-item">
-    <div class="metric-label">CPU proceso</div>
-    <div class="metric-value" style="color:${cpuColor}">${cpuPct !== null ? cpuPct + '' : '--'}<span class="metric-sub">%</span></div>
-  </div>
-  <div class="metric-item">
-    <div class="metric-label">Load avg${cpuCount ? ' (' + cpuCount + ' cores)' : ''}</div>
-    <div class="metric-value" style="font-size:1rem">${load1 !== undefined ? load1 : '--'} <span class="metric-sub">${load5 !== undefined ? load5 + ' &nbsp; ' + load15 : ''}</span></div>
-  </div>
-  <div class="metric-item">
-    <div class="metric-label">Event Loop p99</div>
-    <div class="metric-value" style="color:${elColor}">${elP99 !== undefined ? elP99 : '--'}<span class="metric-sub"> ms</span></div>
-  </div>
-  <div class="metric-item">
-    <div class="metric-label">Event Loop p50 / p95</div>
-    <div class="metric-value" style="font-size:1rem">${elP50 !== undefined ? elP50 : '--'}<span class="metric-sub"> / ${elP95 !== undefined ? elP95 : '--'} ms</span></div>
-  </div>
-  <div class="metric-item">
-    <div class="metric-label">HTTP Total</div>
-    <div class="metric-value">${http.total_requests ? http.total_requests.toLocaleString() : '--'}</div>
-  </div>
-  <div class="metric-item">
-    <div class="metric-label">Peticiones/min</div>
-    <div class="metric-value">${http.requests_per_minute || '--'}</div>
-  </div>
-</div>
-      `;
+    let html = performanceGridHtml(cpuPercentOf(perfSys, sys), perfSys, el, http);
 
     if (db.recent_query_times && db.recent_query_times.length > 0) {
-        const max = Math.max(...db.recent_query_times);
-        html += `
-  <div style="margin-top: 1rem;">
-    <div class="metric-label">Últimas consultas DB (ms)</div>
-    <div style="display: flex; align-items: flex-end; gap: 3px; height: 50px; margin-top: 0.5rem;">
-      ${db.recent_query_times.map(t => {
-        const h = Math.max(4, (t / (max || 1)) * 46);
-        const color = t < 50 ? 'var(--green)' : t < 200 ? 'var(--yellow)' : 'var(--red)';
-        return `<div class="tooltip-container" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%;">
-          <div style="width: 100%; height: ${h}px; background: ${color}; border-radius: 3px 3px 0 0; min-width: 4px;"></div>
-          <div class="tooltip-text">${t}ms</div>
-        </div>`;
-    }).join('')}
-    </div>
-  </div>
-`;
+        html += dbQueryBarsHtml(db.recent_query_times);
     }
 
     body.innerHTML = _tHtml(html);
+}
+
+function gamesTotalsHtml(games, players, mGames, mPlayers) {
+    return `<div class="metric-grid" style="margin-top: 1rem;">
+  <div class="metric-item">
+    <div class="metric-label">Creadas (total)</div>
+    <div class="metric-value">${mGames.total_created || games.totalGamesCreated || '--'}</div>
+  </div>
+  <div class="metric-item">
+    <div class="metric-label">Completadas</div>
+    <div class="metric-value">${mGames.total_completed || games.totalGamesCompleted || '--'}</div>
+  </div>
+  <div class="metric-item">
+    <div class="metric-label">Conexiones (total)</div>
+    <div class="metric-value">${mPlayers.total_connections_ever || players.totalConnections || '--'}</div>
+  </div>
+  <div class="metric-item">
+    <div class="metric-label">Desconexiones</div>
+    <div class="metric-value">${mPlayers.total_disconnections || '--'}</div>
+  </div>
+</div>
+`;
 }
 
 function renderGames(healthData, metricsData) {
@@ -452,24 +492,7 @@ function renderGames(healthData, metricsData) {
     <div class="progress-fill blue" style="width: ${Math.min(lobbyPercent, 100)}%"></div>
   </div>
 </div>
-<div class="metric-grid" style="margin-top: 1rem;">
-  <div class="metric-item">
-    <div class="metric-label">Creadas (total)</div>
-    <div class="metric-value">${mGames.total_created || games.totalGamesCreated || '--'}</div>
-  </div>
-  <div class="metric-item">
-    <div class="metric-label">Completadas</div>
-    <div class="metric-value">${mGames.total_completed || games.totalGamesCompleted || '--'}</div>
-  </div>
-  <div class="metric-item">
-    <div class="metric-label">Conexiones (total)</div>
-    <div class="metric-value">${mPlayers.total_connections_ever || players.totalConnections || '--'}</div>
-  </div>
-  <div class="metric-item">
-    <div class="metric-label">Desconexiones</div>
-    <div class="metric-value">${mPlayers.total_disconnections || '--'}</div>
-  </div>
-</div>
+${gamesTotalsHtml(games, players, mGames, mPlayers)}
       `;
 
     body.innerHTML = _tHtml(html);

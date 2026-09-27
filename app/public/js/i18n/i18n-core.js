@@ -471,145 +471,74 @@
         return tSmart(value, null, value);
     }
 
+    /** Sustituye (una sola vez) el setter de proto[prop] por wrap(setterNativo), conservando el getter. */
+    function patchPropertySetter(proto, prop, wrap) {
+        const descriptor = Object.getOwnPropertyDescriptor(proto, prop);
+        if (!descriptor || typeof descriptor.set !== 'function' || descriptor.set.__xiroI18nPatched) return;
+
+        const patchedSet = wrap(descriptor.set);
+        patchedSet.__xiroI18nPatched = true;
+
+        Object.defineProperty(proto, prop, {
+            configurable: descriptor.configurable,
+            enumerable: descriptor.enumerable,
+            get: descriptor.get,
+            set: patchedSet
+        });
+    }
+
+    /** Sustituye (una sola vez) el método proto[name] por wrap(métodoNativo). */
+    function patchMethod(proto, name, wrap) {
+        if (typeof proto[name] !== 'function' || proto[name].__xiroI18nPatched) return;
+        const patched = wrap(proto[name]);
+        patched.__xiroI18nPatched = true;
+        proto[name] = patched;
+    }
+
     function patchHtmlInjectionPoints() {
         if (typeof Element === 'undefined') return;
 
         const proto = Element.prototype;
-        const descriptor = Object.getOwnPropertyDescriptor(proto, 'innerHTML');
 
-        if (descriptor && typeof descriptor.set === 'function' && !descriptor.set.__xiroI18nPatched) {
-            const nativeSet = descriptor.set;
-            const nativeGet = descriptor.get;
+        patchPropertySetter(proto, 'innerHTML', nativeSet => function patchedInnerHTML(value) {
+            if (internalHtmlSetDepth > 0) {
+                return nativeSet.call(this, value);
+            }
+            return nativeSet.call(this, tHtmlApply(value, this));
+        });
 
-            const patchedSet = function patchedInnerHTML(value) {
-                if (internalHtmlSetDepth > 0) {
-                    return nativeSet.call(this, value);
-                }
-                return nativeSet.call(this, tHtmlApply(value, this));
-            };
-            patchedSet.__xiroI18nPatched = true;
+        patchMethod(proto, 'insertAdjacentHTML', nativeInsertAdjacentHTML => function patchedIAH(position, text) {
+            return nativeInsertAdjacentHTML.call(this, position, tHtmlApply(text, this));
+        });
 
-            Object.defineProperty(proto, 'innerHTML', {
-                configurable: descriptor.configurable,
-                enumerable: descriptor.enumerable,
-                get: nativeGet,
-                set: patchedSet
-            });
-        }
+        patchMethod(proto, 'insertAdjacentText', nativeInsertAdjacentText => function patchedIAT(position, text) {
+            return nativeInsertAdjacentText.call(this, position, tTextApply(text, this));
+        });
 
-        if (typeof proto.insertAdjacentHTML === 'function' && !proto.insertAdjacentHTML.__xiroI18nPatched) {
-            const nativeInsertAdjacentHTML = proto.insertAdjacentHTML;
-
-            const patchedInsertAdjacentHTML = function patchedIAH(position, text) {
-                return nativeInsertAdjacentHTML.call(this, position, tHtmlApply(text, this));
-            };
-
-            patchedInsertAdjacentHTML.__xiroI18nPatched = true;
-            proto.insertAdjacentHTML = patchedInsertAdjacentHTML;
-        }
-
-        if (typeof proto.insertAdjacentText === 'function' && !proto.insertAdjacentText.__xiroI18nPatched) {
-            const nativeInsertAdjacentText = proto.insertAdjacentText;
-
-            const patchedInsertAdjacentText = function patchedIAT(position, text) {
-                return nativeInsertAdjacentText.call(this, position, tTextApply(text, this));
-            };
-
-            patchedInsertAdjacentText.__xiroI18nPatched = true;
-            proto.insertAdjacentText = patchedInsertAdjacentText;
-        }
-
-        if (typeof proto.setAttribute === 'function' && !proto.setAttribute.__xiroI18nPatched) {
-            const nativeSetAttribute = proto.setAttribute;
-
-            const patchedSetAttribute = function patchedSetAttribute(name, value) {
-                return nativeSetAttribute.call(this, name, tAttributeApply(name, value));
-            };
-
-            patchedSetAttribute.__xiroI18nPatched = true;
-            proto.setAttribute = patchedSetAttribute;
-        }
+        patchMethod(proto, 'setAttribute', nativeSetAttribute => function patchedSetAttribute(name, value) {
+            return nativeSetAttribute.call(this, name, tAttributeApply(name, value));
+        });
 
         const nodeProto = Node.prototype;
-        const textContentDescriptor = Object.getOwnPropertyDescriptor(nodeProto, 'textContent');
-        if (textContentDescriptor && typeof textContentDescriptor.set === 'function' && !textContentDescriptor.set.__xiroI18nPatched) {
-            const nativeSetTextContent = textContentDescriptor.set;
-            const nativeGetTextContent = textContentDescriptor.get;
+        patchPropertySetter(nodeProto, 'textContent', nativeSetTextContent => function patchedTextContent(value) {
+            return nativeSetTextContent.call(this, tTextApply(value, this));
+        });
 
-            const patchedSetTextContent = function patchedTextContent(value) {
-                return nativeSetTextContent.call(this, tTextApply(value, this));
-            };
-
-            patchedSetTextContent.__xiroI18nPatched = true;
-
-            Object.defineProperty(nodeProto, 'textContent', {
-                configurable: textContentDescriptor.configurable,
-                enumerable: textContentDescriptor.enumerable,
-                get: nativeGetTextContent,
-                set: patchedSetTextContent
-            });
-        }
-
-        const nodeValueDescriptor = Object.getOwnPropertyDescriptor(nodeProto, 'nodeValue');
-        if (nodeValueDescriptor && typeof nodeValueDescriptor.set === 'function' && !nodeValueDescriptor.set.__xiroI18nPatched) {
-            const nativeSetNodeValue = nodeValueDescriptor.set;
-            const nativeGetNodeValue = nodeValueDescriptor.get;
-
-            const patchedSetNodeValue = function patchedNodeValue(value) {
-                if (this.nodeType !== 3) return nativeSetNodeValue.call(this, value);
-                return nativeSetNodeValue.call(this, tTextApply(value, this));
-            };
-
-            patchedSetNodeValue.__xiroI18nPatched = true;
-
-            Object.defineProperty(nodeProto, 'nodeValue', {
-                configurable: nodeValueDescriptor.configurable,
-                enumerable: nodeValueDescriptor.enumerable,
-                get: nativeGetNodeValue,
-                set: patchedSetNodeValue
-            });
-        }
+        patchPropertySetter(nodeProto, 'nodeValue', nativeSetNodeValue => function patchedNodeValue(value) {
+            if (this.nodeType !== 3) return nativeSetNodeValue.call(this, value);
+            return nativeSetNodeValue.call(this, tTextApply(value, this));
+        });
 
         if (typeof HTMLElement !== 'undefined') {
-            const innerTextDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'innerText');
-            if (innerTextDescriptor && typeof innerTextDescriptor.set === 'function' && !innerTextDescriptor.set.__xiroI18nPatched) {
-                const nativeSetInnerText = innerTextDescriptor.set;
-                const nativeGetInnerText = innerTextDescriptor.get;
-
-                const patchedSetInnerText = function patchedInnerText(value) {
-                    return nativeSetInnerText.call(this, tTextApply(value, this));
-                };
-
-                patchedSetInnerText.__xiroI18nPatched = true;
-
-                Object.defineProperty(HTMLElement.prototype, 'innerText', {
-                    configurable: innerTextDescriptor.configurable,
-                    enumerable: innerTextDescriptor.enumerable,
-                    get: nativeGetInnerText,
-                    set: patchedSetInnerText
-                });
-            }
+            patchPropertySetter(HTMLElement.prototype, 'innerText', nativeSetInnerText => function patchedInnerText(value) {
+                return nativeSetInnerText.call(this, tTextApply(value, this));
+            });
         }
 
         if (typeof Document !== 'undefined') {
-            const titleDescriptor = Object.getOwnPropertyDescriptor(Document.prototype, 'title');
-            if (titleDescriptor && typeof titleDescriptor.set === 'function' && !titleDescriptor.set.__xiroI18nPatched) {
-                const nativeSetTitle = titleDescriptor.set;
-                const nativeGetTitle = titleDescriptor.get;
-
-                const patchedSetTitle = function patchedTitle(value) {
-                    return nativeSetTitle.call(this, tTextApply(value, this));
-                };
-
-                patchedSetTitle.__xiroI18nPatched = true;
-
-                Object.defineProperty(Document.prototype, 'title', {
-                    configurable: titleDescriptor.configurable,
-                    enumerable: titleDescriptor.enumerable,
-                    get: nativeGetTitle,
-                    set: patchedSetTitle
-                });
-            }
+            patchPropertySetter(Document.prototype, 'title', nativeSetTitle => function patchedTitle(value) {
+                return nativeSetTitle.call(this, tTextApply(value, this));
+            });
         }
     }
 

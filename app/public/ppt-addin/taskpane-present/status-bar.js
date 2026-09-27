@@ -17,19 +17,31 @@ const XiroStatusBar = (() => {
         _render();
     }
 
-    function _render() {
-        if (!_container) return;
+    /** Estado actual: sondeo de diapositivas activo, sesión y diálogo abierto. */
+    function _readStatus() {
         const polling = typeof XiroSlideWatcher !== 'undefined' && XiroSlideWatcher.isRunning(); // eslint-disable-line no-undef
         const sk = typeof XiroSessionKeeper !== 'undefined' ? XiroSessionKeeper.getState() : {}; // eslint-disable-line no-undef
         const sessionId = sk.sessionId || null;
         const hasDialog = !!(typeof XiroState !== 'undefined' && XiroState && XiroState.get('dialog')); // eslint-disable-line no-undef
+        return { polling, sessionId, hasDialog };
+    }
 
-        _container.innerHTML = `
+    function _dotModifier(polling, sessionId) {
+        if (polling && sessionId) return ' sv-dot--live';
+        return polling ? ' sv-dot--ready' : '';
+    }
+
+    function _statusLabel(polling, sessionId) {
+        if (sessionId) return 'Sesión activa';
+        return polling ? 'En espera' : 'Sin conexión';
+    }
+
+    function _statusHtml({ polling, sessionId, hasDialog }, canStart) {
+        return `
             <div class="sv-card">
                 <div class="sv-status-row${polling && sessionId ? ' sv-status-row--live' : ''}">
-                    <span class="sv-dot${polling && sessionId ? ' sv-dot--live' : polling ? ' sv-dot--ready' : ''}"></span>
-                    <span class="sv-status-label">${sessionId ? 'Sesión activa' : polling ? 'En espera' : 'Sin conexión'
-    }</span>
+                    <span class="sv-dot${_dotModifier(polling, sessionId)}"></span>
+                    <span class="sv-status-label">${_statusLabel(polling, sessionId)}</span>
                 </div>
                 ${sessionId ? `
                 <div class="sv-session">
@@ -37,17 +49,25 @@ const XiroStatusBar = (() => {
                     <span class="sv-session__value" id="sb-session-id">${sessionId}</span>
                 </div>` : ''}
                 <p class="sv-hint">Avanza la diapositiva para que XIRO abra automáticamente el diálogo correcto.</p>
-                ${!polling && _onStart ? `<button id="sb-start-btn" class="save-btn">Iniciar XIRO</button>` : ''}
+                ${canStart ? `<button id="sb-start-btn" class="save-btn">Iniciar XIRO</button>` : ''}
                 ${hasDialog ? `<button id="sb-close-dialog" class="sv-emergency-btn">✕ Cerrar diálogo bloqueado</button>` : ''}
             </div>
         `;
+    }
 
-        if (!polling && _onStart) {
+    function _render() {
+        if (!_container) return;
+        const status = _readStatus();
+        const canStart = !status.polling && !!_onStart;
+
+        _container.innerHTML = _statusHtml(status, canStart);
+
+        if (canStart) {
             document.getElementById('sb-start-btn').addEventListener('click', () => {
                 if (_onStart) _onStart();
             });
         }
-        if (hasDialog) {
+        if (status.hasDialog) {
             document.getElementById('sb-close-dialog').addEventListener('click', _onEmergencyClose);
         }
     }

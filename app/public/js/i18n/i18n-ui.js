@@ -64,6 +64,133 @@
         return emojiNode;
     }
 
+    function ensureMenuMounted(menu) {
+        if (menu.parentElement !== document.body) document.body.appendChild(menu);
+    }
+
+    /** Coloca el menú bajo el botón (o encima si no cabe) dentro del viewport. */
+    function positionMenu(menu, trigger) {
+        ensureMenuMounted(menu);
+        const viewportHeight = global.innerHeight || document.documentElement.clientHeight || 0;
+        const viewportWidth = global.innerWidth || document.documentElement.clientWidth || 0;
+        const triggerRect = trigger.getBoundingClientRect();
+        const spacing = 8;
+        const widthLimit = Math.max(240, Math.min(420, viewportWidth - (spacing * 2)));
+
+        menu.style.width = `${widthLimit}px`;
+
+        const measuredWidth = Math.max(
+            Math.min(Math.ceil(menu.getBoundingClientRect().width || widthLimit), widthLimit),
+            Math.min(Math.ceil(triggerRect.width), widthLimit)
+        );
+        menu.style.width = `${measuredWidth}px`;
+
+        const spaceBelow = Math.max(0, viewportHeight - triggerRect.bottom - spacing);
+        const spaceAbove = Math.max(0, triggerRect.top - spacing);
+        const preferredHeight = Math.min(menu.scrollHeight || 320, Math.max(120, viewportHeight - (spacing * 2)));
+        const openUpwards = spaceBelow < preferredHeight && spaceAbove > spaceBelow;
+        const availableSpace = Math.max(0, Math.floor(openUpwards ? spaceAbove : spaceBelow));
+        const maxHeight = Math.max(120, Math.min(preferredHeight, Math.max(120, availableSpace)));
+        menu.style.maxHeight = `${maxHeight}px`;
+
+        const leftMax = Math.max(spacing, viewportWidth - measuredWidth - spacing);
+        const left = Math.min(leftMax, Math.max(spacing, Math.round(triggerRect.right - measuredWidth)));
+        menu.style.left = `${left}px`;
+
+        if (openUpwards) {
+            const top = Math.max(spacing, Math.round(triggerRect.top - maxHeight - 4));
+            menu.style.top = `${top}px`;
+            menu.style.transformOrigin = 'bottom right';
+            return;
+        }
+
+        const top = Math.min(
+            Math.max(spacing, viewportHeight - maxHeight - spacing),
+            Math.round(triggerRect.bottom + 4)
+        );
+        menu.style.top = `${top}px`;
+        menu.style.transformOrigin = 'top right';
+    }
+
+    function getTileFlow(tile) {
+        return tile.getAttribute('flow') === 'up' ? 'up' : 'down';
+    }
+
+    function setTileHiddenState(tile) {
+        const flow = getTileFlow(tile);
+        tile.style.opacity = '0';
+        tile.style.transform = flow === 'up'
+            ? 'translateY(14px) scale(.97)'
+            : 'translateY(-14px) scale(.97)';
+    }
+
+    function setTileVisibleState(tile) {
+        tile.style.opacity = '1';
+        tile.style.transform = 'translateY(0) scale(1)';
+    }
+
+    function renderTrigger(trigger, select) {
+        const selected = String(select.value || '').trim().toLowerCase();
+        trigger.innerHTML = '';
+
+        const left = document.createElement('span');
+        left.style.cssText = 'display:inline-flex;align-items:center;gap:6px;min-width:0;';
+        left.appendChild(createFlagNode(selected));
+
+        const name = document.createElement('span');
+        name.textContent = languageName(selected);
+        name.style.cssText = 'white-space:nowrap;overflow:hidden;text-overflow:ellipsis;';
+        left.appendChild(name);
+
+        const caret = document.createElement('span');
+        caret.textContent = '▾';
+        caret.style.cssText = 'font-size:10px;opacity:.8;';
+
+        trigger.appendChild(left);
+        trigger.appendChild(caret);
+    }
+
+    /** Botón de un idioma en el menú; al pulsarlo cambia el select y llama a onPick. */
+    function createMenuItem(select, option, flow, onPick) {
+        const item = document.createElement('button');
+        item.type = 'button';
+        item.setAttribute('role', 'option');
+        item.setAttribute('aria-selected', option.value === select.value ? 'true' : 'false');
+        item.setAttribute('data-lang-item', '1');
+        item.setAttribute('lang-selection', String(option.value || '').toUpperCase());
+        item.setAttribute('tooltip', String(option.value || '').toUpperCase());
+        item.setAttribute('flow', flow);
+        item.title = String(option.value || '').toUpperCase();
+        item.style.cssText = 'width:100%;display:flex;align-items:center;gap:8px;padding:8px;border:1px solid rgba(148,163,184,.35);background:rgba(255,255,255,.62);color:#0f172a;border-radius:8px;font:600 12px system-ui,-apple-system,Segoe UI,sans-serif;text-align:left;cursor:pointer;min-width:0;';
+
+        if (option.value === select.value) {
+            item.style.background = 'rgba(15,23,42,.09)';
+            item.style.borderColor = 'rgba(15,23,42,.2)';
+        }
+
+        item.addEventListener('mouseenter', () => {
+            if (option.value !== select.value) item.style.background = 'rgba(15,23,42,.05)';
+        });
+        item.addEventListener('mouseleave', () => {
+            if (option.value !== select.value) item.style.background = 'rgba(255,255,255,.62)';
+        });
+
+        item.appendChild(createFlagNode(option.value));
+
+        const text = document.createElement('span');
+        text.textContent = languageName(option.value);
+        text.style.cssText = 'white-space:nowrap;overflow:hidden;text-overflow:ellipsis;';
+        item.appendChild(text);
+
+        item.addEventListener('click', () => {
+            select.value = option.value;
+            select.dispatchEvent(new Event('change', { bubbles: true }));
+            onPick();
+        });
+
+        return item;
+    }
+
     function createCustomSwitcher(select) {
         const container = document.createElement('div');
         container.id = 'xiro-lang-custom';
@@ -87,70 +214,6 @@
 
         let isOpen = false;
         let hideTimerId = null;
-
-        function ensureMenuMounted() {
-            if (menu.parentElement !== document.body) document.body.appendChild(menu);
-        }
-
-        function positionMenu() {
-            ensureMenuMounted();
-            const viewportHeight = global.innerHeight || document.documentElement.clientHeight || 0;
-            const viewportWidth = global.innerWidth || document.documentElement.clientWidth || 0;
-            const triggerRect = trigger.getBoundingClientRect();
-            const spacing = 8;
-            const widthLimit = Math.max(240, Math.min(420, viewportWidth - (spacing * 2)));
-
-            menu.style.width = `${widthLimit}px`;
-
-            const measuredWidth = Math.max(
-                Math.min(Math.ceil(menu.getBoundingClientRect().width || widthLimit), widthLimit),
-                Math.min(Math.ceil(triggerRect.width), widthLimit)
-            );
-            menu.style.width = `${measuredWidth}px`;
-
-            const spaceBelow = Math.max(0, viewportHeight - triggerRect.bottom - spacing);
-            const spaceAbove = Math.max(0, triggerRect.top - spacing);
-            const preferredHeight = Math.min(menu.scrollHeight || 320, Math.max(120, viewportHeight - (spacing * 2)));
-            const openUpwards = spaceBelow < preferredHeight && spaceAbove > spaceBelow;
-            const availableSpace = Math.max(0, Math.floor(openUpwards ? spaceAbove : spaceBelow));
-            const maxHeight = Math.max(120, Math.min(preferredHeight, Math.max(120, availableSpace)));
-            menu.style.maxHeight = `${maxHeight}px`;
-
-            const leftMax = Math.max(spacing, viewportWidth - measuredWidth - spacing);
-            const left = Math.min(leftMax, Math.max(spacing, Math.round(triggerRect.right - measuredWidth)));
-            menu.style.left = `${left}px`;
-
-            if (openUpwards) {
-                const top = Math.max(spacing, Math.round(triggerRect.top - maxHeight - 4));
-                menu.style.top = `${top}px`;
-                menu.style.transformOrigin = 'bottom right';
-                return;
-            }
-
-            const top = Math.min(
-                Math.max(spacing, viewportHeight - maxHeight - spacing),
-                Math.round(triggerRect.bottom + 4)
-            );
-            menu.style.top = `${top}px`;
-            menu.style.transformOrigin = 'top right';
-        }
-
-        function getTileFlow(tile) {
-            return tile.getAttribute('flow') === 'up' ? 'up' : 'down';
-        }
-
-        function setTileHiddenState(tile) {
-            const flow = getTileFlow(tile);
-            tile.style.opacity = '0';
-            tile.style.transform = flow === 'up'
-                ? 'translateY(14px) scale(.97)'
-                : 'translateY(-14px) scale(.97)';
-        }
-
-        function setTileVisibleState(tile) {
-            tile.style.opacity = '1';
-            tile.style.transform = 'translateY(0) scale(1)';
-        }
 
         function closeMenu() {
             if (!isOpen && menu.style.display === 'none') return;
@@ -179,7 +242,7 @@
         }
 
         function openMenu() {
-            ensureMenuMounted();
+            ensureMenuMounted(menu);
             if (hideTimerId) {
                 global.clearTimeout(hideTimerId);
                 hideTimerId = null;
@@ -192,7 +255,7 @@
             menu.style.transform = 'translateY(8px) scale(.98)';
             menu.style.visibility = 'hidden';
             menu.style.pointerEvents = 'none';
-            positionMenu();
+            positionMenu(menu, trigger);
             trigger.setAttribute('aria-expanded', 'true');
             menu.setAttribute('aria-hidden', 'false');
 
@@ -219,27 +282,6 @@
             });
         }
 
-        function renderTrigger() {
-            const selected = String(select.value || '').trim().toLowerCase();
-            trigger.innerHTML = '';
-
-            const left = document.createElement('span');
-            left.style.cssText = 'display:inline-flex;align-items:center;gap:6px;min-width:0;';
-            left.appendChild(createFlagNode(selected));
-
-            const name = document.createElement('span');
-            name.textContent = languageName(selected);
-            name.style.cssText = 'white-space:nowrap;overflow:hidden;text-overflow:ellipsis;';
-            left.appendChild(name);
-
-            const caret = document.createElement('span');
-            caret.textContent = '▾';
-            caret.style.cssText = 'font-size:10px;opacity:.8;';
-
-            trigger.appendChild(left);
-            trigger.appendChild(caret);
-        }
-
         function renderMenu() {
             menu.innerHTML = '';
             const title = document.createElement('div');
@@ -257,52 +299,16 @@
             const flowSplit = Math.ceil(options.length / 2);
 
             options.forEach((option, index) => {
-                const item = document.createElement('button');
-                item.type = 'button';
-                item.setAttribute('role', 'option');
-                item.setAttribute('aria-selected', option.value === select.value ? 'true' : 'false');
-                item.setAttribute('data-lang-item', '1');
-                item.setAttribute('lang-selection', String(option.value || '').toUpperCase());
-                item.setAttribute('tooltip', String(option.value || '').toUpperCase());
-                item.setAttribute('flow', index < flowSplit ? 'down' : 'up');
-                item.title = String(option.value || '').toUpperCase();
-                item.style.cssText = 'width:100%;display:flex;align-items:center;gap:8px;padding:8px;border:1px solid rgba(148,163,184,.35);background:rgba(255,255,255,.62);color:#0f172a;border-radius:8px;font:600 12px system-ui,-apple-system,Segoe UI,sans-serif;text-align:left;cursor:pointer;min-width:0;';
-
-                if (option.value === select.value) {
-                    item.style.background = 'rgba(15,23,42,.09)';
-                    item.style.borderColor = 'rgba(15,23,42,.2)';
-                }
-
-                item.addEventListener('mouseenter', () => {
-                    if (option.value !== select.value) item.style.background = 'rgba(15,23,42,.05)';
-                });
-                item.addEventListener('mouseleave', () => {
-                    if (option.value !== select.value) item.style.background = 'rgba(255,255,255,.62)';
-                });
-
-                item.appendChild(createFlagNode(option.value));
-
-                const text = document.createElement('span');
-                text.textContent = languageName(option.value);
-                text.style.cssText = 'white-space:nowrap;overflow:hidden;text-overflow:ellipsis;';
-                item.appendChild(text);
-
-                item.addEventListener('click', () => {
-                    select.value = option.value;
-                    select.dispatchEvent(new Event('change', { bubbles: true }));
-                    closeMenu();
-                });
-
-                grid.appendChild(item);
+                grid.appendChild(createMenuItem(select, option, index < flowSplit ? 'down' : 'up', closeMenu));
             });
 
             menu.appendChild(grid);
         }
 
         function sync() {
-            renderTrigger();
+            renderTrigger(trigger, select);
             renderMenu();
-            if (isOpen) positionMenu();
+            if (isOpen) positionMenu(menu, trigger);
         }
 
         trigger.addEventListener('click', (event) => {
@@ -315,11 +321,11 @@
         });
 
         global.addEventListener('resize', () => {
-            if (isOpen) positionMenu();
+            if (isOpen) positionMenu(menu, trigger);
         });
 
         global.addEventListener('scroll', () => {
-            if (isOpen) positionMenu();
+            if (isOpen) positionMenu(menu, trigger);
         }, true);
 
         document.addEventListener('click', (event) => {

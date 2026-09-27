@@ -191,6 +191,8 @@ export function mostrarModalMensaje(titulo, mensaje, tipo = 'info', textoConfirm
     });
 }
 
+// Firma posicional compartida por presentador y jugador: se mantiene a propósito
+// eslint-disable-next-line max-params
 export function mostrarModalConfirmacion(titulo, mensaje, onConfirm, onCancel, textoConfirm = 'Confirmar', textoCancelar = 'Cancelar', tipo = 'warning') {
     buildModal({
         title: titulo,
