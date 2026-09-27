@@ -232,7 +232,7 @@ export function renderPodio(ranking) {
             const delay = ((total - 1 - i) * 0.12).toFixed(2);
             return `
                         <div class="podium-row flex justify-between items-center p-6 rounded-3xl ${bgClass} border-b-4 border-black/20" style="animation-delay:${delay}s">
-                            <span class="text-3xl font-black uppercase italic">${icon}${i + 1}º ${p.name}</span>
+                            <span class="text-3xl font-black uppercase italic">${icon}${i + 1}º ${escapeHtml(p.name)}</span>
                             <span class="podium-score text-4xl font-black">${p.scoreLabel || (p.pts + ' PTS')}</span>
                         </div>`;
         }).join('');

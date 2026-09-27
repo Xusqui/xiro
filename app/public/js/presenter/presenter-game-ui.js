@@ -8,6 +8,7 @@ import { adjustTextSize, adjustQuestionTitleSize, removeFloatingCards as removeC
 import { cleanupRevealElements } from './presenter-reveal.js?v=20260922172926';
 import { renderWordScramblePresenter } from './presenter-wordscramble-layout.js?v=20260922172926';
 import { showChamaleonOverlay } from './presenter-chamaleon.js?v=20260922172926';
+import { escapeHtml, sanitizeResourceUrl } from '../core/sanitize.js?v=20260922172926';
 
 export { removeCards as removeFloatingCards };
 
@@ -143,7 +144,7 @@ export function renderPregunta(q) {
                 <div class="text-2xl font-black italic text-red-800 justify-self-end" style="margin-right: 7rem;">${_t('presenter.game.answers_label', null, 'RESPUESTAS:')} <span id="ans-count">0</span> / <span id="ans-total">${totalPlayers}</span></div>
             </div>
             
-            <h1 id="question-title" class="font-black text-center uppercase italic mb-${tieneImagen && !esWordScramble ? '4' : '8'} drop-shadow-lg" style="line-height: 1.2;">${q.question_text}</h1>
+            <h1 id="question-title" class="font-black text-center uppercase italic mb-${tieneImagen && !esWordScramble ? '4' : '8'} drop-shadow-lg" style="line-height: 1.2;">${escapeHtml(q.question_text)}</h1>
             
             ${esMultipleChoice ? `
                 <div class="flex justify-center mb-4">
@@ -155,7 +156,7 @@ export function renderPregunta(q) {
             
             ${tieneImagen && !esWordScramble ? `
                 <div class="flex-1 flex items-center justify-center mb-6 px-6">
-                    <img src="${urlRecurso}" alt="Pregunta" class="max-w-full max-h-full object-contain rounded-3xl shadow-2xl" style="max-height: calc(100vh - 300px);">
+                    <img src="${sanitizeResourceUrl(urlRecurso)}" alt="Pregunta" class="max-w-full max-h-full object-contain rounded-3xl shadow-2xl" style="max-height: calc(100vh - 300px);">
                 </div>
             ` : tieneAudio ? `
                 <div class="flex justify-center mb-6">
@@ -168,7 +169,7 @@ export function renderPregunta(q) {
                             </div>
                         </div>
                         <audio id="question-audio" autoplay controls class="w-full">
-                            <source src="${urlRecurso}" type="audio/mpeg">
+                            <source src="${sanitizeResourceUrl(urlRecurso)}" type="audio/mpeg">
                             ${_t('presenter.game.no_audio_support', null, 'Tu navegador no soporta audio.')}
                         </audio>
                     </div>
@@ -177,7 +178,7 @@ export function renderPregunta(q) {
             
             ${tieneImagenEnunciado ? `
                 <div class="flex justify-center mb-4">
-                    <img src="${questionImageUrl}" alt="Imagen enunciado" class="max-h-52 object-contain rounded-2xl shadow-xl border-2 border-white/20">
+                    <img src="${sanitizeResourceUrl(questionImageUrl)}" alt="Imagen enunciado" class="max-h-52 object-contain rounded-2xl shadow-xl border-2 border-white/20">
                 </div>
             ` : ''}
             
@@ -185,8 +186,8 @@ export function renderPregunta(q) {
                 ${q.options.map((opt, i) => `
                     <div id="opt-${i}" class="${colors[i]} relative rounded-[30px] p-6 flex items-center shadow-2xl border-b-8 border-black/20 h-full transition-all duration-500">
                         <span class="bg-black/20 w-16 h-16 rounded-xl flex items-center justify-center text-4xl font-black mr-6 border-2 border-white/20 italic text-white">${i + 1}</span>
-                        ${opt.option_image_url ? `<img src="${opt.option_image_url}" alt="" class="max-h-[120px] max-w-[120px] object-contain rounded-xl mr-3 shrink-0">` : ''}
-                        <span class="option-text font-black uppercase text-white break-words" style="flex: 1; overflow-wrap: break-word; hyphens: auto; line-height: 1.1;">${opt.optionText}</span>
+                        ${opt.option_image_url ? `<img src="${sanitizeResourceUrl(opt.option_image_url)}" alt="" class="max-h-[120px] max-w-[120px] object-contain rounded-xl mr-3 shrink-0">` : ''}
+                        <span class="option-text font-black uppercase text-white break-words" style="flex: 1; overflow-wrap: break-word; hyphens: auto; line-height: 1.1;">${escapeHtml(opt.optionText)}</span>
                     </div>
                 `).join('')}
             </div>

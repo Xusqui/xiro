@@ -3,7 +3,8 @@
  */
 
 export function escapeHtml(value = '') {
-    return String(value)
+    // null/undefined → '' (con el valor por defecto, null acabaría como el texto "null")
+    return String(value ?? '')
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')

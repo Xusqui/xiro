@@ -14,6 +14,7 @@ import { updatePlayersPanel } from './presenter-players-panel.js?v=2026092217292
 import { cleanupRevealElements } from './presenter-reveal.js?v=20260922172926';
 import { mostrarModalConfirmacion, mostrarModalMensaje } from '../shared/modal.js?v=20260922172926';
 import { showTrivialWinnerOverlay, isWinnerOverlayActive } from './presenter-trivial-winner.js?v=20260922172926';
+import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
 function getSession() { return new URLSearchParams(window.location.search).get('session'); }
 
@@ -76,7 +77,7 @@ function buildCategoryLegend(state) {
             state.categories.map(c =>
                 `<div style="display:flex;align-items:center;gap:clamp(5px,0.65vw,14px);padding:clamp(4px,0.6vh,14px) clamp(5px,0.75vw,16px);background:rgba(30,41,59,0.85);border-radius:8px;border-left:3px solid ${c.color || '#888'}">` +
                 `<span style="width:clamp(10px,1.1vw,22px);height:clamp(10px,1.1vw,22px);border-radius:50%;flex-shrink:0;background:${c.color || '#888'};box-shadow:0 0 6px ${c.color || '#888'}aa"></span>` +
-                `<span style="font-size:clamp(10px,1vw,20px);color:#fff;font-weight:700;line-height:1.3;word-break:break-word">${c.bank_name || c.category_name}</span></div>`
+                `<span style="font-size:clamp(10px,1vw,20px);color:#fff;font-weight:700;line-height:1.3;word-break:break-word">${escapeHtml(c.bank_name || c.category_name)}</span></div>`
             ).join(''));
 }
 
@@ -133,7 +134,7 @@ function refreshPlayerScores(state) {
                 `<div style="display:flex;align-items:center;gap:4px;margin-bottom:3px">` +
                 `<span style="width:16px;height:16px;border-radius:50%;background:${color};color:#fff;font-size:9px;font-weight:900;` +
                 `display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">${pos}</span>` +
-                `<span style="color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1">${teamName}</span></div>` +
+                `<span style="color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1">${escapeHtml(teamName)}</span></div>` +
                 `<div style="display:flex;flex-wrap:wrap;gap:2px">${wedges}</div>` +
                 (members ? `<div style="color:#94a3b8;font-size:8px;margin-top:3px;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${members}</div>` : '') +
                 `</div>`;
@@ -161,7 +162,7 @@ function refreshPlayerScores(state) {
             `<div style="display:flex;align-items:center;gap:4px;margin-bottom:3px">` +
             `<span style="width:16px;height:16px;border-radius:50%;background:#fbbf24;color:#1e293b;font-size:9px;font-weight:900;` +
             `display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">${pos}</span>` +
-            `<span style="color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1">${nick}</span></div>` +
+            `<span style="color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1">${escapeHtml(nick)}</span></div>` +
             `<div style="display:flex;flex-wrap:wrap;gap:2px">${wedges}</div></div>`;
     }).join('') || '';
 }

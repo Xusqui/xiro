@@ -4,7 +4,7 @@
  */
 
 import { mostrarLobbyMain } from './presenter-utils.js?v=20260922172926';
-import { sanitizeResourceUrl } from '../core/sanitize.js?v=20260922172926';
+import { escapeHtml, sanitizeResourceUrl } from '../core/sanitize.js?v=20260922172926';
 import { cleanupPodio } from './presenter-podio.js?v=20260922172926';
 import {
     setPin,
@@ -221,7 +221,7 @@ function renderizarPINs() {
                                     <span class="text-white font-bold text-xs uppercase" style="${textShadow}">${typeLabel}</span>
                                 </div>
                                 <h3 class="text-3xl font-black italic text-white mb-2" style="${textShadow}">${p.pin}</h3>
-                                <p class="text-sm line-clamp-2" style="color:${c.text};${textShadow}">${p.name}</p>
+                                <p class="text-sm line-clamp-2" style="color:${c.text};${textShadow}">${escapeHtml(p.name)}</p>
                                 ${p.question_count !== undefined ? `<p class="text-xs mt-1" style="color:${c.text};${textShadow}">${p.question_count} ${t('presenter.selector.card.questions', 'preguntas')}</p>` : ''}
                             </div>
                             <div class="flex items-center justify-between text-xs" style="color:${c.text};${textShadow}">

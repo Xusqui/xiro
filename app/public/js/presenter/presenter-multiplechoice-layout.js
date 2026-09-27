@@ -2,6 +2,8 @@
  * @fileoverview Layout para preguntas tipo multiple_choice en el presentador
  */
 
+import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
+
 /**
  * Renderiza pregunta de selección múltiple en el presentador
  * Durante la pregunta, se muestra igual que quiz (grid de opciones)
@@ -49,7 +51,7 @@ export function getMultipleChoiceRevealHTML(question, correctIndices) {
                                     <div class="w-10 h-10 ${opt.color} rounded-full flex items-center justify-center font-black text-white text-lg shrink-0">
                                         ${opt.index}
                                     </div>
-                                    <span class="text-white font-bold text-lg flex-1">${opt.text}</span>
+                                    <span class="text-white font-bold text-lg flex-1">${escapeHtml(opt.text)}</span>
                                     <span class="text-white text-2xl shrink-0">✓</span>
                                 </div>
                             `).join('')}

@@ -8,6 +8,7 @@ import { removeFloatingCards, showAbandonButton, showTerminateButton } from './p
 import { cleanupRevealElements } from './presenter-reveal.js?v=20260922172926';
 import { cleanupPodio } from './presenter-podio.js?v=20260922172926';
 import { showChamaleonOverlay } from './presenter-chamaleon.js?v=20260922172926';
+import { escapeHtml, sanitizeResourceUrl } from '../core/sanitize.js?v=20260922172926';
 
 export function renderTextImageSlide(slide) {
     removeFloatingCards();
@@ -32,16 +33,16 @@ export function renderTextImageSlide(slide) {
 
     const textCol = `
         <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:1.5rem;">
-            <h1 style="font-weight:900; text-transform:uppercase; font-style:italic; color:#fff; line-height:1.15; font-size:clamp(2rem,4.5vw,5rem); white-space:pre-line; text-shadow:0 4px 24px rgba(0,0,0,.5);">${title}</h1>
+            <h1 style="font-weight:900; text-transform:uppercase; font-style:italic; color:#fff; line-height:1.15; font-size:clamp(2rem,4.5vw,5rem); white-space:pre-line; text-shadow:0 4px 24px rgba(0,0,0,.5);">${escapeHtml(title)}</h1>
             <div class="bg-black/35 backdrop-blur-sm rounded-3xl px-8 py-7 border border-white/15 shadow-2xl">
-                <div style="color:#f1f5f9; font-weight:600; white-space:pre-line; font-size:clamp(1.2rem,2.5vw,2.4rem); line-height:1.35;">${body}</div>
+                <div style="color:#f1f5f9; font-weight:600; white-space:pre-line; font-size:clamp(1.2rem,2.5vw,2.4rem); line-height:1.35;">${escapeHtml(body)}</div>
             </div>
         </div>`;
 
     const imgCol = `
         <div style="flex:1; display:flex; align-items:center; justify-content:center;">
             ${imageUrl
-        ? `<img src="${imageUrl}" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:1.5rem;box-shadow:0 20px 60px rgba(0,0,0,0.5);" />`
+        ? `<img src="${sanitizeResourceUrl(imageUrl)}" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:1.5rem;box-shadow:0 20px 60px rgba(0,0,0,0.5);" />`
         : '<div style="color:rgba(255,255,255,.3);text-align:center;font-size:4rem;"><i class="fas fa-image"></i></div>'
 }
         </div>`;

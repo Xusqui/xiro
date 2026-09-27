@@ -7,6 +7,7 @@ import { removeFloatingCards } from './presenter-utils.js?v=20260922172926';
 import { updatePlayersPanel } from './presenter-players-panel.js?v=20260922172926';
 import { calculatePercentages, createPercentageHTML } from './presenter-percentage-calculator.js?v=20260922172926';
 import { getWordScrambleRevealHTML, revealWordScramble } from './presenter-wordscramble-layout.js?v=20260922172926';
+import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
 function toPositiveNumber(value) {
     const parsed = Number(value);
@@ -186,9 +187,9 @@ export function handleRevealAnswer(data) {
                     <div style="flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
                         <div>
                             <h3 style="font-size: 1.75rem; font-weight: 900; text-transform: uppercase; font-style: italic; margin: 0 0 0.3rem 0;">${_t('presenter.reveal.correct_answer', null, 'Respuesta correcta')}</h3>
-                            <p style="font-size: 0.95rem; opacity: 0.9; margin: 0;">${_t('presenter.reveal.tolerance', null, 'Tolerancia:')} ${toleranceLabel} ${_t('presenter.reveal.max_points', null, '· Puntos máximos:')} ${maxPoints}</p>
+                            <p style="font-size: 0.95rem; opacity: 0.9; margin: 0;">${_t('presenter.reveal.tolerance', null, 'Tolerancia:')} ${escapeHtml(toleranceLabel)} ${_t('presenter.reveal.max_points', null, '· Puntos máximos:')} ${maxPoints}</p>
                         </div>
-                        <div style="font-size: 3.2rem; font-weight: 900; color: #fef08a; line-height: 1;">${correctAnswer}</div>
+                        <div style="font-size: 3.2rem; font-weight: 900; color: #fef08a; line-height: 1;">${escapeHtml(correctAnswer)}</div>
                     </div>
                 </div>
             </div>
@@ -219,7 +220,7 @@ export function handleRevealAnswer(data) {
                         ${data.ranking.filter(p => p.name !== 'HOST').slice(0, 5).map((p, i) => {
         const bgColor = i === 0 ? 'background: rgba(251, 191, 36, 0.3); border: 2px solid rgb(251, 191, 36);' : 'background: rgba(255, 255, 255, 0.1);';
         return `<div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-radius: 0.75rem; ${bgColor}">
-                                <span style="font-weight: 900; font-size: 1.125rem; text-transform: uppercase;">${i + 1}. ${p.name}</span>
+                                <span style="font-weight: 900; font-size: 1.125rem; text-transform: uppercase;">${i + 1}. ${escapeHtml(p.name)}</span>
                                 <span style="font-weight: 900; font-size: 1.25rem;">${p.pts}</span>
                             </div>`;
     }).join('')}
@@ -257,7 +258,7 @@ export function handleRevealAnswer(data) {
                         ${data.ranking.filter(p => p.name !== 'HOST').slice(0, 5).map((p, i) => {
         const bgColor = i === 0 ? 'background: rgba(251, 191, 36, 0.3); border: 2px solid rgb(251, 191, 36);' : 'background: rgba(255, 255, 255, 0.1);';
         return `<div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-radius: 0.75rem; ${bgColor}">
-                                <span style="font-weight: 900; font-size: 1.125rem; text-transform: uppercase;">${i + 1}. ${p.name}</span>
+                                <span style="font-weight: 900; font-size: 1.125rem; text-transform: uppercase;">${i + 1}. ${escapeHtml(p.name)}</span>
                                 <span style="font-weight: 900; font-size: 1.25rem;">${p.pts}</span>
                             </div>`;
     }).join('')}
@@ -299,7 +300,7 @@ export function handleRevealAnswer(data) {
                         ${data.ranking.filter(p => p.name !== 'HOST').slice(0, 5).map((p, i) => {
         const bgColor = i === 0 ? 'background: rgba(251, 191, 36, 0.3); border: 2px solid rgb(251, 191, 36);' : 'background: rgba(255, 255, 255, 0.1);';
         return `<div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-radius: 0.75rem; ${bgColor}">
-                                <span style="font-weight: 900; font-size: 1.125rem; text-transform: uppercase;">${i + 1}. ${p.name}</span>
+                                <span style="font-weight: 900; font-size: 1.125rem; text-transform: uppercase;">${i + 1}. ${escapeHtml(p.name)}</span>
                                 <span style="font-weight: 900; font-size: 1.25rem;">${p.pts}</span>
                             </div>`;
     }).join('')}
@@ -383,7 +384,7 @@ export function handleRevealAnswer(data) {
                     rankingItems = filteredRanking.slice(0, 5).map((p, i) => {
                         const bgColor = i === 0 ? 'background: rgba(251, 191, 36, 0.3); border: 2px solid rgb(251, 191, 36);' : 'background: rgba(255, 255, 255, 0.1);';
                         return `<div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-radius: 0.75rem; ${bgColor}">
-                            <span style="font-weight: 900; font-size: 1.125rem; text-transform: uppercase;">${i + 1}. ${p.name}</span>
+                            <span style="font-weight: 900; font-size: 1.125rem; text-transform: uppercase;">${i + 1}. ${escapeHtml(p.name)}</span>
                             <span style="font-weight: 900; font-size: 1.25rem;">${p.pts}</span>
                         </div>`;
                     }).join('');
@@ -446,7 +447,7 @@ export function handleRevealAnswer(data) {
                         </div>
                         <div style="flex: 1;">
                             <h3 style="font-size: 2rem; font-weight: 900; text-transform: uppercase; font-style: italic; margin-bottom: 1rem; letter-spacing: 0.05em;">${_t('presenter.reveal.why_correct', null, '¿Por qué es correcta?')}</h3>
-                            <p style="font-size: 1.5rem; font-weight: 500; line-height: 1.75;">${data.justification}</p>
+                            <p style="font-size: 1.5rem; font-weight: 500; line-height: 1.75;">${escapeHtml(data.justification)}</p>
                         </div>
                     </div>
                 </div>
@@ -499,7 +500,7 @@ function renderOrderReveal(correctOrder, options = {}) {
                 <span style="background: rgba(0,0,0,0.35); width: 2.25rem; height: 2.25rem; flex-shrink: 0; border-radius: 9999px; display:flex; align-items:center; justify-content:center; font-weight: 900;">${index + 1}</span>
                 <div style="display: flex; flex-direction: column; gap: 0.25rem; flex: 1;">
                     <span style="font-weight: 800; text-transform: uppercase; font-style: italic;">${text}</span>
-                    ${justification ? `<span style="font-size: 0.875rem; opacity: 0.85; font-weight: 500;">${justification}</span>` : ''}
+                    ${justification ? `<span style="font-size: 0.875rem; opacity: 0.85; font-weight: 500;">${escapeHtml(justification)}</span>` : ''}
                 </div>
             </div>
         `;
@@ -526,9 +527,9 @@ function renderMatchingReveal(correctMatches, options = {}) {
 
     const rows = correctMatches.map((pair) => `
         <div style="display:grid; grid-template-columns: 1fr auto 1fr; align-items:center; gap:0.5rem; background: rgba(255,255,255,0.12); border: 2px solid rgba(255,255,255,0.3); border-radius: 1rem; padding: 0.6rem 0.75rem;">
-            <span style="font-weight: 800; text-transform: uppercase; font-style: italic; text-align:right;">${pair.leftText}</span>
+            <span style="font-weight: 800; text-transform: uppercase; font-style: italic; text-align:right;">${escapeHtml(pair.leftText)}</span>
             <span style="color: #fde047; font-size: 1.2rem; font-weight: 900; flex-shrink: 0;">↔</span>
-            <span style="font-weight: 800; text-transform: uppercase; font-style: italic; text-align:left;">${pair.rightText}</span>
+            <span style="font-weight: 800; text-transform: uppercase; font-style: italic; text-align:left;">${escapeHtml(pair.rightText)}</span>
         </div>
     `).join('');
 

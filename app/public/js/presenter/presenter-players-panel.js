@@ -5,6 +5,7 @@
 
 import { getConnectedPlayers, getPlayersData, getIsTeamMode, getTeamConfig } from './presenter-state.js?v=20260922172926';
 import { getTeamColorStyle } from './presenter-team-config.js?v=20260922172926';
+import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
 /** nick → <div> element kept across renders */
 const playerCards = new Map();
@@ -150,7 +151,7 @@ export function updatePlayersPanel() {
                     <div class="flex items-center justify-between mb-1 gap-2">
                         <div class="flex items-center flex-1 min-w-0 gap-1">
                             ${statusIcon}
-                            <span class="uppercase truncate" title="${nick}" ${nameStyle}>${nick}</span>
+                            <span class="uppercase truncate" title="${escapeHtml(nick)}" ${nameStyle}>${escapeHtml(nick)}</span>
                             ${streakFire}
                         </div>
                         ${medal}
@@ -236,7 +237,7 @@ export function renderTeamLobby() {
                 <div class="${teamColors[team.color] || 'bg-purple-600'} rounded-2xl p-6 border-b-4 border-black/20" style="height: 100%; display: flex; flex-direction: column;">
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-2xl font-black italic text-white">
-                            <i class="fas fa-users mr-2"></i>${team.name.toUpperCase()}
+                            <i class="fas fa-users mr-2"></i>${escapeHtml(team.name.toUpperCase())}
                         </h3>
                         <span class="bg-white/30 px-4 py-2 rounded-full text-white font-black">
                             ${team.players.length} ${team.players.length === 1 ? _t('presenter.players_panel.player_word_single', null, 'jugador') : _t('presenter.players_panel.player_word_plural', null, 'jugadores')}
@@ -245,8 +246,8 @@ export function renderTeamLobby() {
                     <div class="flex flex-wrap gap-3">
                         ${team.players.map(player => {
         return `
-                                <div class="bg-white text-slate-900 px-3 py-2 rounded-lg font-black text-center uppercase italic text-xs inline-flex whitespace-nowrap" data-nickname="${player}">
-                                    <div>${player}</div>
+                                <div class="bg-white text-slate-900 px-3 py-2 rounded-lg font-black text-center uppercase italic text-xs inline-flex whitespace-nowrap" data-nickname="${escapeHtml(player)}">
+                                    <div>${escapeHtml(player)}</div>
                                 </div>
                             `;
     }).join('') || `<p class="text-white/70 italic w-full text-center py-4">${_t('presenter.lobby.waiting', null, 'Esperando jugadores...')}</p>`}
@@ -260,7 +261,7 @@ export function renderTeamLobby() {
                 <div class="${teamColors[team.color] || 'bg-purple-600'} rounded-2xl p-6 border-b-4 border-black/20" style="height: 100%; display: flex; flex-direction: column;">
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-2xl font-black italic text-white">
-                            <i class="fas fa-users mr-2"></i>${team.name.toUpperCase()}
+                            <i class="fas fa-users mr-2"></i>${escapeHtml(team.name.toUpperCase())}
                         </h3>
                         <span class="bg-white/30 px-4 py-2 rounded-full text-white font-black">
                             ${team.players.length} ${team.players.length === 1 ? _t('presenter.players_panel.player_word_single', null, 'jugador') : _t('presenter.players_panel.player_word_plural', null, 'jugadores')}
@@ -269,8 +270,8 @@ export function renderTeamLobby() {
                     <div class="flex flex-wrap gap-3">
                         ${team.players.map(player => {
         return `
-                                <div class="bg-white text-slate-900 px-3 py-2 rounded-lg font-black text-center uppercase italic text-xs inline-flex whitespace-nowrap" data-nickname="${player}">
-                                    <div>${player}</div>
+                                <div class="bg-white text-slate-900 px-3 py-2 rounded-lg font-black text-center uppercase italic text-xs inline-flex whitespace-nowrap" data-nickname="${escapeHtml(player)}">
+                                    <div>${escapeHtml(player)}</div>
                                 </div>
                             `;
     }).join('') || `<p class="text-white/70 italic w-full text-center py-4">${_t('presenter.lobby.waiting', null, 'Esperando jugadores...')}</p>`}
