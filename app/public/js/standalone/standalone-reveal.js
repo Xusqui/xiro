@@ -23,9 +23,10 @@ const StandaloneReveal = (() => {
             : '';
     }
 
-    function _justificationBox(justification) {
-        return justification
-            ? `<div class="pl-reveal-box"><p>${escapeHtml(justification)}</p></div>`
+    /** @param {string} safeJustification justificación ya escapada con escapeHtml */
+    function _justificationBox(safeJustification) {
+        return safeJustification
+            ? `<div class="pl-reveal-box"><p>${safeJustification}</p></div>`
             : '';
     }
 
@@ -100,7 +101,7 @@ const StandaloneReveal = (() => {
                 <i class="fas fa-circle-check pl-reveal-icon"></i>
                 <h2>${_t('standalone.game.correct', '¡Correcto!')}</h2>
                 ${_pointsPill(data.points)}
-                ${_justificationBox(data.justification)}
+                ${_justificationBox(escapeHtml(data.justification))}
             `;
         }
 
@@ -117,13 +118,14 @@ const StandaloneReveal = (() => {
             <h2>${_t('standalone.game.incorrect', 'Incorrecto')}</h2>
             ${_pointsPill(data.points)}
             ${data.correctAnswer ? `<div class="pl-reveal-box"><p>${_t('standalone.game.correct_answer', 'Respuesta correcta')}</p><p>${escapeHtml(data.correctAnswer)}</p></div>` : ''}
-            ${_justificationBox(data.justification)}
+            ${_justificationBox(escapeHtml(data.justification))}
         `;
     }
 
-    function _correctWordBox(word) {
-        return word
-            ? `<div class="pl-reveal-box"><p>${_t('standalone.game.correct_answer', 'Respuesta correcta')}</p><p>${escapeHtml(word)}</p></div>`
+    /** @param {string} safeWord palabra correcta ya escapada con escapeHtml */
+    function _correctWordBox(safeWord) {
+        return safeWord
+            ? `<div class="pl-reveal-box"><p>${_t('standalone.game.correct_answer', 'Respuesta correcta')}</p><p>${safeWord}</p></div>`
             : '';
     }
 
@@ -207,11 +209,11 @@ const StandaloneReveal = (() => {
                 <i class="fas fa-clock pl-reveal-icon" style="color:#fbbf24;"></i>
                 <h2>${_t('standalone.game.time_up', '¡Tiempo agotado!')}</h2>
                 ${data.correctAnswer ? `<div class="pl-reveal-box"><p>${_t('standalone.game.correct_answer', 'Respuesta correcta')}</p><p>${escapeHtml(data.correctAnswer)}</p></div>` : ''}
-                ${_correctWordBox(data.correctWord)}
+                ${_correctWordBox(escapeHtml(data.correctWord))}
                 ${orderList}
                 ${_correctIndicesList(data.correctIndices)}
                 ${_correctMatchesList(data.correctMatches)}
-                ${_justificationBox(data.justification)}
+                ${_justificationBox(escapeHtml(data.justification))}
                 ${_nextButton()}
             </div>
         `;

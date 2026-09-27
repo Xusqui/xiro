@@ -29,22 +29,25 @@ globalThis.StandaloneQuestionSlides = (() => {
     }
 
     function _renderTextual(container, question) {
-        const config = {
-            comment: { bgClass: 'pl-slide-comment', icon: 'fa-comment', text: question.comment_text || question.question_text || _freeActivityFallback() },
-            info: { bgClass: 'pl-slide-info', icon: 'fa-info-circle', text: question.comment_text || question.question_text || _freeActivityFallback() }
-        }[question.slide_type] || { bgClass: 'pl-slide-text', icon: 'fa-info-circle', text: null };
+        // comment/info muestran un texto principal; el resto, título + cuerpo
+        const hasMainText = question.slide_type === 'comment' || question.slide_type === 'info';
+        const style = {
+            comment: { bgClass: 'pl-slide-comment', icon: 'fa-comment' },
+            info: { bgClass: 'pl-slide-info', icon: 'fa-info-circle' }
+        }[hasMainText ? question.slide_type : ''] || { bgClass: 'pl-slide-text', icon: 'fa-info-circle' };
+        const mainText = hasMainText ? (question.comment_text || question.question_text || _freeActivityFallback()) : null;
 
         const nickname = escapeHtml(StandaloneState.get().nickname);
-        const title = config.text ? '' : (question.slide_title ? `<h2 class="pl-slide-title">${escapeHtml(question.slide_title)}</h2>` : '');
-        const body = config.text
-            ? `<h2 class="pl-slide-title">${escapeHtml(config.text)}</h2>`
+        const title = mainText ? '' : (question.slide_title ? `<h2 class="pl-slide-title">${escapeHtml(question.slide_title)}</h2>` : '');
+        const body = mainText
+            ? `<h2 class="pl-slide-title">${escapeHtml(mainText)}</h2>`
             : `<p class="pl-slide-body">${escapeHtml(question.slide_body || question.question_text)}</p>`;
 
         container.innerHTML = `
-            <div class="pl-viewport ${config.bgClass}">
+            <div class="pl-viewport ${style.bgClass}">
                 <div class="pl-nickname-bar"><p>${nickname}</p></div>
                 <div class="pl-slide-content">
-                    <div class="pl-slide-badge"><i class="fas ${config.icon}"></i></div>
+                    <div class="pl-slide-badge"><i class="fas ${style.icon}"></i></div>
                     ${title}
                     ${body}
                     <div class="pl-reveal-continue">
