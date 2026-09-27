@@ -5,7 +5,7 @@
 
 import { socket } from './player-socket-config.js?v=20260922172926';
 import './player-answer-visual-logic.js?v=20260922172926';
-import { applyStreakToResult, setBodyHTML } from './player-streak-ui.js?v=20260922172926';
+import { applyStreakToResult, setBodyHTML, cancelStreakAnimation } from './player-streak-ui.js?v=20260922172926';
 import { buildMultipleChoiceBreakdownHTML } from './player-answer-mc-breakdown.js?v=20260922172926';
 import {
     getPin, getSessionId, getNickname,
@@ -442,7 +442,9 @@ export function registerAnswerEvents() {
             return;
         }
 
-        if (!getHaRespondido()) {
+        // reveal-answer puede llegar antes (viaja por otro canal de Redis entre
+        // workers): no sustituir la pantalla con la respuesta por la de espera
+        if (!getHaRespondido() && !document.querySelector('[data-reveal-shown]')) {
             const timeUpHTML = `
                 <div class="time-up-container">
                     <i class="fas fa-clock"></i>
@@ -476,6 +478,9 @@ export function registerAnswerEvents() {
             return;
         }
         if (!getHaRespondido()) {
+            // Evita que la animación de racha perdida (blocked-answer) pinte después
+            // la pantalla de espera encima de esta
+            cancelStreakAnimation();
             const correctBlock = data?.correctAnswer
                 ? `<div class="mt-4 bg-black/30 rounded-xl p-4 w-full max-w-sm">
                        <p class="text-sm uppercase font-bold mb-1 opacity-80">${_t('player.answer.correct_label', null, 'Correcta:')}</p>
@@ -486,7 +491,7 @@ export function registerAnswerEvents() {
                 ? `<div class="mt-2 bg-black/30 rounded-xl p-4 w-full max-w-sm text-sm leading-relaxed">${escapeHtml(data.justification)}</div>`
                 : '';
             document.body.innerHTML = _tHtml(`
-                <div class="time-up-container">
+                <div class="time-up-container" data-reveal-shown="1">
                     <i class="fas fa-clock"></i>
                     <h2>${_t('player.answer.time_up', null, '¡TIEMPO AGOTADO!')}</h2>
                     ${correctBlock}
