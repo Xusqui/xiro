@@ -44,83 +44,46 @@ function toNumberOrNull(value) {
     return Number.isFinite(parsed) ? parsed : null;
 }
 
+/** Llama a fn(número) si data-<datasetKey> es un número válido. */
+function withNumber(datasetKey, fn) {
+    return el => {
+        const value = toNumberOrNull(el.dataset[datasetKey]);
+        if (value !== null) fn(value);
+    };
+}
+
+/** Llama a window[name] solo si otro módulo ya la ha expuesto. */
+function callGlobal(name, ...args) {
+    if (typeof window[name] === 'function') window[name](...args);
+}
+
+const PLAYER_CLICK_ACTIONS = {
+    'validar-session': () => validarSession(),
+    'validar-pin': () => validarSession(),
+    'join-lobby': () => unirseAlLobby(),
+    'reload-page': () => window.location.reload(),
+    'salir-lobby': () => salirDelLobby(),
+    'retry-pending': () => enviarPendiente(),
+    'select-team': withNumber('teamIndex', seleccionarEquipo),
+    'send-answer': withNumber('answerIndex', enviarRespuesta),
+    'send-order': () => enviarOrdenRespuesta(false),
+    'send-match': () => enviarMatchingRespuesta(false),
+    'toggle-multiple': withNumber('answerIndex', i => callGlobal('toggleSeleccionMultiple', i)),
+    'send-multiple': () => callGlobal('enviarRespuestaMultiple'),
+    'trivial-roll': () => callGlobal('trivialRollDice'),
+    'trivial-move': el => {
+        if (el.dataset.position) callGlobal('trivialMove', el.dataset.position);
+    },
+    'trivial-category': withNumber('categoryIndex', i => callGlobal('trivialChooseCategoryPlayer', i))
+};
+
 function setupPlayerActionDelegation() {
     document.addEventListener('click', (event) => {
         const actionElement = event.target.closest('[data-player-action]');
         if (!actionElement) return;
 
         const action = actionElement.dataset.playerAction;
-        switch (action) {
-            case 'validar-session':
-            case 'validar-pin':
-                validarSession();
-                break;
-            case 'join-lobby':
-                unirseAlLobby();
-                break;
-            case 'reload-page':
-                window.location.reload();
-                break;
-            case 'salir-lobby':
-                salirDelLobby();
-                break;
-            case 'retry-pending':
-                enviarPendiente();
-                break;
-            case 'select-team': {
-                const teamIndex = toNumberOrNull(actionElement.dataset.teamIndex);
-                if (teamIndex !== null) {
-                    seleccionarEquipo(teamIndex);
-                }
-                break;
-            }
-            case 'send-answer': {
-                const answerIndex = toNumberOrNull(actionElement.dataset.answerIndex);
-                if (answerIndex !== null) {
-                    enviarRespuesta(answerIndex);
-                }
-                break;
-            }
-            case 'send-order':
-                enviarOrdenRespuesta(false);
-                break;
-            case 'send-match':
-                enviarMatchingRespuesta(false);
-                break;
-            case 'toggle-multiple': {
-                const answerIndex = toNumberOrNull(actionElement.dataset.answerIndex);
-                if (answerIndex !== null && typeof window.toggleSeleccionMultiple === 'function') {
-                    window.toggleSeleccionMultiple(answerIndex);
-                }
-                break;
-            }
-            case 'send-multiple':
-                if (typeof window.enviarRespuestaMultiple === 'function') {
-                    window.enviarRespuestaMultiple();
-                }
-                break;
-            case 'trivial-roll':
-                if (typeof window.trivialRollDice === 'function') {
-                    window.trivialRollDice();
-                }
-                break;
-            case 'trivial-move': {
-                const { position } = actionElement.dataset;
-                if (position && typeof window.trivialMove === 'function') {
-                    window.trivialMove(position);
-                }
-                break;
-            }
-            case 'trivial-category': {
-                const categoryIndex = toNumberOrNull(actionElement.dataset.categoryIndex);
-                if (categoryIndex !== null && typeof window.trivialChooseCategoryPlayer === 'function') {
-                    window.trivialChooseCategoryPlayer(categoryIndex);
-                }
-                break;
-            }
-            default:
-                break;
-        }
+        if (Object.hasOwn(PLAYER_CLICK_ACTIONS, action)) PLAYER_CLICK_ACTIONS[action](actionElement);
     });
 }
 

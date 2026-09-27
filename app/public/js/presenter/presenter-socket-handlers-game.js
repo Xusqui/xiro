@@ -18,6 +18,48 @@ import { updateAnswerCounter } from './presenter-answer-counter.js?v=20260922172
 import { hideWaitingPanelNow, renderWaitingPanel } from './presenter-waiting-panel.js?v=20260922172926';
 import { mostrarModalMensaje } from '../shared/modal.js?v=20260922172926';
 
+const SLIDE_RENDERERS = {
+    comment: renderCommentSlide,
+    info: renderInfoSlide,
+    text: renderTextSlide,
+    image: renderImageSlide,
+    'text-image': renderTextImageSlide
+};
+
+/** Diapositiva según slide_type; si no lo es, pregunta (y se permite el ranking). */
+function renderSlideOrQuestion(question) {
+    const renderSlide = Object.hasOwn(SLIDE_RENDERERS, question.slide_type) ? SLIDE_RENDERERS[question.slide_type] : null;
+    if (renderSlide) {
+        renderSlide(question);
+        return;
+    }
+    window.canShowRanking = true;
+    renderPregunta(question);
+}
+
+function resetAnswerState(playersData) {
+    Object.keys(playersData).forEach(nick => {
+        playersData[nick].answered = false;
+        playersData[nick].correct = null;
+    });
+}
+
+/** Marca la respuesta del jugador; false si no está en playersData. */
+function applyAnswerResult(playersData, answer) {
+    const { nickname, isCorrect, totalScore, streakInfo } = answer;
+    const player = playersData[nickname];
+    if (!player) return false;
+    player.answered = true;
+    player.correct = isCorrect;
+    if (typeof totalScore === 'number') {
+        player.score = totalScore;
+    }
+    if (streakInfo) {
+        player.streakInfo = streakInfo;
+    }
+    return true;
+}
+
 /**
  * Registrar manejadores de socket para el juego
  */
@@ -48,26 +90,9 @@ export function registerGameSocketHandlers() {
                 }
             });
         }
-        Object.keys(playersData).forEach(nick => {
-            playersData[nick].answered = false;
-            playersData[nick].correct = null;
-        });
+        resetAnswerState(playersData);
 
-        // Renderizar pregunta o slide
-        if (data.firstQuestion.slide_type === 'comment') {
-            renderCommentSlide(data.firstQuestion);
-        } else if (data.firstQuestion.slide_type === 'info') {
-            renderInfoSlide(data.firstQuestion);
-        } else if (data.firstQuestion.slide_type === 'text') {
-            renderTextSlide(data.firstQuestion);
-        } else if (data.firstQuestion.slide_type === 'image') {
-            renderImageSlide(data.firstQuestion);
-        } else if (data.firstQuestion.slide_type === 'text-image') {
-            renderTextImageSlide(data.firstQuestion);
-        } else {
-            window.canShowRanking = true;
-            renderPregunta(data.firstQuestion);
-        }
+        renderSlideOrQuestion(data.firstQuestion);
 
         updatePlayersPanel();
 
@@ -93,29 +118,13 @@ export function registerGameSocketHandlers() {
 
         // Resetear estado de respuestas
         const playersData = getPlayersData();
-        Object.keys(playersData).forEach(nick => {
-            playersData[nick].answered = false;
-            playersData[nick].correct = null;
-        });
+        resetAnswerState(playersData);
         updatePlayersPanel();
 
         setTotalQuestions(data.totalQuestions);
         setCurrentQuestionIndex(data.currentIndex);
 
-        if (data.question.slide_type === 'comment') {
-            renderCommentSlide(data.question);
-        } else if (data.question.slide_type === 'info') {
-            renderInfoSlide(data.question);
-        } else if (data.question.slide_type === 'text') {
-            renderTextSlide(data.question);
-        } else if (data.question.slide_type === 'image') {
-            renderImageSlide(data.question);
-        } else if (data.question.slide_type === 'text-image') {
-            renderTextImageSlide(data.question);
-        } else {
-            window.canShowRanking = true;
-            renderPregunta(data.question);
-        }
+        renderSlideOrQuestion(data.question);
 
         if (typeof ack === 'function') ack();
     });
@@ -123,18 +132,10 @@ export function registerGameSocketHandlers() {
     // Respuesta individual
     socket.on('answer-result', (data) => {
         console.log('📩 answer-result recibido (individual):', data);
-        const { nickname, isCorrect, totalScore, streakInfo } = data;
+        const { nickname } = data;
 
         const playersData = getPlayersData();
-        if (playersData[nickname]) {
-            playersData[nickname].answered = true;
-            playersData[nickname].correct = isCorrect;
-            if (typeof totalScore === 'number') {
-                playersData[nickname].score = totalScore;
-            }
-            if (streakInfo) {
-                playersData[nickname].streakInfo = streakInfo;
-            }
+        if (applyAnswerResult(playersData, data)) {
             console.log('✅ playersData actualizado para', nickname, ':', playersData[nickname]);
             updatePlayersPanel();
 
@@ -152,19 +153,7 @@ export function registerGameSocketHandlers() {
         console.log('📦 answer-result-batch recibido:', data);
         const playersData = getPlayersData();
         if (data.answers && Array.isArray(data.answers)) {
-            data.answers.forEach(answer => {
-                const { nickname, isCorrect, totalScore, streakInfo } = answer;
-                if (playersData[nickname]) {
-                    playersData[nickname].answered = true;
-                    playersData[nickname].correct = isCorrect;
-                    if (typeof totalScore === 'number') {
-                        playersData[nickname].score = totalScore;
-                    }
-                    if (streakInfo) {
-                        playersData[nickname].streakInfo = streakInfo;
-                    }
-                }
-            });
+            data.answers.forEach(answer => applyAnswerResult(playersData, answer));
             console.log('✅ playersData actualizado en batch, total:', data.answers.length);
             updatePlayersPanel();
 

@@ -267,6 +267,100 @@ export function enviarRespuestaMultipleChoice(selectedIndices, isAuto = false) {
     enviarPendiente();
 }
 
+// Rechazos definitivos del servidor: no se reintenta el envío
+const FINAL_REJECTION_REASONS = new Set([
+    'game-closed',
+    'invalid-payload',
+    'invalid-index',
+    'invalid-options',
+    'question-missing',
+    'invalid-order',
+    'invalid-order-length',
+    'duplicate-order',
+    'invalid-word-scramble',
+    'invalid-matches',
+    'invalid-matches-length',
+    'duplicate-matches'
+]);
+
+/** true si el servidor rechazó la respuesta de forma definitiva (y ya se ha avisado al jugador). */
+function handleFinalRejection(resp) {
+    if (!(resp && resp.ok === false)) return false;
+    const reason = resp.reason || 'unknown';
+    console.warn('❌ Respuesta rechazada por el servidor:', reason);
+    if (!FINAL_REJECTION_REASONS.has(reason)) return false;
+
+    setPendingAnswer(null);
+    setHaRespondido(false);
+    setBodyHTML(`
+                    <div class="answer-rejected-container">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h2>Respuesta no aceptada</h2>
+                        <p>El juego ya no acepta respuestas para esta pregunta.</p>
+                    </div>
+                `);
+    return true;
+}
+
+function showAckTimeoutWaiting() {
+    console.warn('⏳ ACK timeout, manteniendo estado de espera para evitar duplicados');
+    setBodyHTML(`
+                <div class="answer-loading-container">
+                    <div class="spinner spinner-purple"></div>
+                    <h2>${_t('player.answer.sent', null, '¡Respuesta Enviada!')}</h2>
+                    <p>${_t('player.answer.waiting_server', null, 'Esperando confirmación del servidor...')}</p>
+                </div>
+            `);
+}
+
+function showRetryScreen(err, resp) {
+    setHaRespondido(false);
+    console.warn('⚠️ Respuesta no confirmada, reintentando...', { err, resp });
+    document.body.innerHTML = _tHtml(`
+                <div class="answer-retry-container">
+                    <i class="fas fa-wifi"></i>
+                    <h2>Reconectando...</h2>
+                    <p>No pudimos enviar tu respuesta. Revisa tu conexión y toca para reintentar.</p>
+                    <button data-player-action="retry-pending" class="btn-primary">Reintentar</button>
+                </div>
+            `);
+}
+
+/** Resultado del ack de submit-answer. */
+function handleSubmitAck(err, resp) {
+    setSendingAnswer(false);
+
+    console.log('📥 Callback de submit-answer recibido:', { err, resp });
+
+    // Si ya recibimos answer-result, no sobrescribir
+    if (getResultReceived()) {
+        console.log('✅ Result already received via answer-result event, ignoring callback');
+        setPendingAnswer(null);
+        return;
+    }
+
+    if (handleFinalRejection(resp)) return;
+
+    // Timeout de ack: puede estar procesada en servidor, evitar bucle de reconexión
+    if (err && err.message && err.message.includes('timed out')) {
+        showAckTimeoutWaiting();
+        return;
+    }
+
+    // Error de red o rechazo no definitivo - reintentar
+    if (err || !resp || resp.ok !== true) {
+        showRetryScreen(err, resp);
+    } else if (resp.waitingForTeams) {
+        // Team mode: esperando que el resto del equipo responda
+        // El evento 'answer-pending' reemplazará el spinner con la pantalla de espera
+        console.log('⏳ Modo equipos: esperando al resto del equipo');
+        setPendingAnswer(null);
+    } else {
+        console.log('✅ Respuesta confirmada por el servidor');
+        setPendingAnswer(null);
+    }
+}
+
 /**
  * Enviar respuesta pendiente (con reintentos)
  */
@@ -284,83 +378,7 @@ export function enviarPendiente() {
 
     console.log('📤 Enviando respuesta al servidor...');
 
-    socket.timeout(20000).emit('submit-answer', pendingAnswer.payload, (err, resp) => {
-        setSendingAnswer(false);
-
-        console.log('📥 Callback de submit-answer recibido:', { err, resp });
-
-        // Si ya recibimos answer-result, no sobrescribir
-        if (getResultReceived()) {
-            console.log('✅ Result already received via answer-result event, ignoring callback');
-            setPendingAnswer(null);
-            return;
-        }
-
-        // Si fue rechazada explícitamente
-        if (resp && resp.ok === false) {
-            const reason = resp.reason || 'unknown';
-            console.warn('❌ Respuesta rechazada por el servidor:', reason);
-
-            // Rechazos que NO deben reintentar
-            if (
-                reason === 'game-closed'
-                || reason === 'invalid-payload'
-                || reason === 'invalid-index'
-                || reason === 'invalid-options'
-                || reason === 'question-missing'
-                || reason === 'invalid-order'
-                || reason === 'invalid-order-length'
-                || reason === 'duplicate-order'
-                || reason === 'invalid-word-scramble'
-            ) {
-                setPendingAnswer(null);
-                setHaRespondido(false);
-                setBodyHTML(`
-                    <div class="answer-rejected-container">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <h2>Respuesta no aceptada</h2>
-                        <p>El juego ya no acepta respuestas para esta pregunta.</p>
-                    </div>
-                `);
-                return;
-            }
-        }
-
-        // Timeout de ack: puede estar procesada en servidor, evitar bucle de reconexión
-        if (err && err.message && err.message.includes('timed out')) {
-            console.warn('⏳ ACK timeout, manteniendo estado de espera para evitar duplicados');
-            setBodyHTML(`
-                <div class="answer-loading-container">
-                    <div class="spinner spinner-purple"></div>
-                    <h2>${_t('player.answer.sent', null, '¡Respuesta Enviada!')}</h2>
-                    <p>${_t('player.answer.waiting_server', null, 'Esperando confirmación del servidor...')}</p>
-                </div>
-            `);
-            return;
-        }
-
-        // Error de red o rechazo no definitivo - reintentar
-        if (err || !resp || resp.ok !== true) {
-            setHaRespondido(false);
-            console.warn('⚠️ Respuesta no confirmada, reintentando...', { err, resp });
-            document.body.innerHTML = _tHtml(`
-                <div class="answer-retry-container">
-                    <i class="fas fa-wifi"></i>
-                    <h2>Reconectando...</h2>
-                    <p>No pudimos enviar tu respuesta. Revisa tu conexión y toca para reintentar.</p>
-                    <button data-player-action="retry-pending" class="btn-primary">Reintentar</button>
-                </div>
-            `);
-        } else if (resp.waitingForTeams) {
-            // Team mode: esperando que el resto del equipo responda
-            // El evento 'answer-pending' reemplazará el spinner con la pantalla de espera
-            console.log('⏳ Modo equipos: esperando al resto del equipo');
-            setPendingAnswer(null);
-        } else {
-            console.log('✅ Respuesta confirmada por el servidor');
-            setPendingAnswer(null);
-        }
-    });
+    socket.timeout(20000).emit('submit-answer', pendingAnswer.payload, handleSubmitAck);
 }
 
 // ===== EVENTOS DE RESPUESTAS =====

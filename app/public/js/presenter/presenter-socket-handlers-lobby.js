@@ -17,6 +17,75 @@ import { handlePlayerRejoined } from './presenter-player-rejoined-handler.js?v=2
 import { handleGameAbandoned } from './presenter-session-control.js?v=20260922172926';
 import { mostrarModalMensaje } from '../shared/modal.js?v=20260922172926';
 
+/** Alta (o vuelta) de un jugador en el lobby: tarjeta, contadores y botón de empezar. */
+function onPlayerJoined(data) {
+    console.log('🎯 player-joined event received:', data);
+
+    const nick = typeof data === 'string' ? data : data.nickname || data;
+    if (nick === 'HOST') return;
+
+    const playersData = getPlayersData();
+    const connectedPlayers = getConnectedPlayers();
+    const alreadyKnown = playersData[nick] !== undefined || connectedPlayers.includes(nick);
+
+    const existingCard = document.querySelector(`[data-nickname="${nick}"]`);
+
+    if (existingCard) {
+        // Ya existe, restaurar apariencia
+        console.log(`🔄 ${nick} ya tiene tarjeta, restaurando apariencia`);
+        existingCard.classList.remove('opacity-50', 'grayscale');
+        const indicator = existingCard.querySelector('.disconnected-indicator');
+        if (indicator) indicator.remove();
+        existingCard.classList.add('animate-pulse');
+        setTimeout(() => existingCard.classList.remove('animate-pulse'), 2000);
+    } else {
+        // No existe, crear nueva
+        if (!alreadyKnown) {
+            setTotalPlayers(getTotalPlayers() + 1);
+            const pCount = document.getElementById('p-count');
+            if (pCount) pCount.innerText = _t(getTotalPlayers());
+        }
+
+        // p-list solo existe en la pantalla de lobby pre-partida. Si ya
+        // se pasó a una pregunta (p.ej. este player-joined llega de una
+        // reconexión que reclamó su nickname vía join-lobby), no hay
+        // nada que crear aquí: connectedPlayers/updatePlayersPanel más
+        // abajo son los que sí reflejan al jugador en el sidebar activo.
+        const pList = document.getElementById('p-list');
+        if (pList) {
+            if (getIsTeamMode() && getTeamConfig()) {
+                console.log(`👥 ${nick} unido en modo equipos`);
+                renderTeamLobby();
+            } else {
+                // Modo individual
+                const playerDiv = document.createElement('div');
+                playerDiv.className = 'bg-white text-slate-900 p-3 rounded-xl font-black text-center animate-bounce uppercase italic text-sm';
+                playerDiv.setAttribute('data-nickname', nick);
+                playerDiv.textContent = _t(nick);
+                pList.appendChild(playerDiv);
+            }
+        }
+    }
+
+    // Agregar a la lista de jugadores conectados
+    if (!connectedPlayers.includes(nick)) {
+        addConnectedPlayer(nick);
+        if (!playersData[nick]) {
+            setPlayerData(nick, { score: 0, answered: false, correct: null });
+        }
+    }
+    updatePlayersPanel();
+
+    if (getTotalPlayers() > 0) {
+        const btn = document.getElementById('btn-empezar');
+        if (btn) {
+            btn.disabled = false;
+            btn.style.opacity = '';
+            btn.style.cursor = '';
+        }
+    }
+}
+
 /**
  * Registrar manejadores de socket para lobby y jugadores
  */
@@ -95,73 +164,7 @@ export function registerLobbySocketHandlers() {
     });
 
     // Jugador se unió
-    socket.on('player-joined', (data) => {
-        console.log('🎯 player-joined event received:', data);
-
-        const nick = typeof data === 'string' ? data : data.nickname || data;
-        if (nick === 'HOST') return;
-
-        const playersData = getPlayersData();
-        const connectedPlayers = getConnectedPlayers();
-        const alreadyKnown = playersData[nick] !== undefined || connectedPlayers.includes(nick);
-
-        const existingCard = document.querySelector(`[data-nickname="${nick}"]`);
-
-        if (existingCard) {
-            // Ya existe, restaurar apariencia
-            console.log(`🔄 ${nick} ya tiene tarjeta, restaurando apariencia`);
-            existingCard.classList.remove('opacity-50', 'grayscale');
-            const indicator = existingCard.querySelector('.disconnected-indicator');
-            if (indicator) indicator.remove();
-            existingCard.classList.add('animate-pulse');
-            setTimeout(() => existingCard.classList.remove('animate-pulse'), 2000);
-        } else {
-            // No existe, crear nueva
-            if (!alreadyKnown) {
-                setTotalPlayers(getTotalPlayers() + 1);
-                const pCount = document.getElementById('p-count');
-                if (pCount) pCount.innerText = _t(getTotalPlayers());
-            }
-
-            // p-list solo existe en la pantalla de lobby pre-partida. Si ya
-            // se pasó a una pregunta (p.ej. este player-joined llega de una
-            // reconexión que reclamó su nickname vía join-lobby), no hay
-            // nada que crear aquí: connectedPlayers/updatePlayersPanel más
-            // abajo son los que sí reflejan al jugador en el sidebar activo.
-            const pList = document.getElementById('p-list');
-            if (pList) {
-                if (getIsTeamMode() && getTeamConfig()) {
-                    console.log(`👥 ${nick} unido en modo equipos`);
-                    renderTeamLobby();
-                } else {
-                    // Modo individual
-                    const playerDiv = document.createElement('div');
-                    playerDiv.className = 'bg-white text-slate-900 p-3 rounded-xl font-black text-center animate-bounce uppercase italic text-sm';
-                    playerDiv.setAttribute('data-nickname', nick);
-                    playerDiv.textContent = _t(nick);
-                    pList.appendChild(playerDiv);
-                }
-            }
-        }
-
-        // Agregar a la lista de jugadores conectados
-        if (!connectedPlayers.includes(nick)) {
-            addConnectedPlayer(nick);
-            if (!playersData[nick]) {
-                setPlayerData(nick, { score: 0, answered: false, correct: null });
-            }
-        }
-        updatePlayersPanel();
-
-        if (getTotalPlayers() > 0) {
-            const btn = document.getElementById('btn-empezar');
-            if (btn) {
-                btn.disabled = false;
-                btn.style.opacity = '';
-                btn.style.cursor = '';
-            }
-        }
-    });
+    socket.on('player-joined', onPlayerJoined);
 
     // Jugador reconectado
     socket.on('player-rejoined', (data) => {

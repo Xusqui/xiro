@@ -156,34 +156,37 @@ export function syncTrivialBadgesFromPayload(payload) {
     setTrivialBadgesVisible(true);
 }
 
-export function syncTrivialBadgesFromSnapshot(snapshot) {
+function isTrivialSnapshot(snapshot) {
     const gameType = (snapshot?.game_type || snapshot?.gameType || snapshot?.playerData?.game_type || '').toLowerCase();
-    const isTrivial = gameType === 'trivial' || !!snapshot?.gameState?.isTrivial || !!snapshot?.gameState?.isTrivialBoardPhase;
+    return gameType === 'trivial' || !!snapshot?.gameState?.isTrivial || !!snapshot?.gameState?.isTrivialBoardPhase;
+}
 
-    if (!isTrivial) {
+/** Primer valor no vacío (con ||) entre las rutas del snapshot, o null. */
+function firstSnapshotValue(snapshot, getters) {
+    for (const get of getters) {
+        const value = get(snapshot);
+        if (value) return value;
+    }
+    return null;
+}
+
+const SNAPSHOT_CATEGORIES = [s => s?.playerData?.categories, s => s?.gameState?.categories, s => s?.categories];
+const SNAPSHOT_BADGES = [s => s?.playerData?.badges, s => s?.playerData?.token, s => s?.gameState?.badges, s => s?.badges];
+
+export function syncTrivialBadgesFromSnapshot(snapshot) {
+    if (!isTrivialSnapshot(snapshot)) {
         setTrivialBadgesVisible(false);
         return;
     }
 
     setTrivialBadgesVisible(true);
 
-    const categories =
-        snapshot?.playerData?.categories ||
-        snapshot?.gameState?.categories ||
-        snapshot?.categories ||
-        null;
-
+    const categories = firstSnapshotValue(snapshot, SNAPSHOT_CATEGORIES);
     if (Array.isArray(categories) && categories.length > 0) {
         setTrivialBadgeCategories(categories);
     }
 
-    const directBadges =
-        snapshot?.playerData?.badges ||
-        snapshot?.playerData?.token ||
-        snapshot?.gameState?.badges ||
-        snapshot?.badges ||
-        null;
-
+    const directBadges = firstSnapshotValue(snapshot, SNAPSHOT_BADGES);
     if (Array.isArray(directBadges)) {
         renderPlayerBadges(directBadges);
         return;

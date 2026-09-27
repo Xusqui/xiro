@@ -966,6 +966,7 @@
     "public/js/player/player-trivial-winner.js",
     "public/js/player/player-wake-lock.js",
     "public/js/player/player-wordscramble-ui.js",
+    "public/js/presenter/presenter-actions.js",
     "public/js/presenter/presenter-answer-counter.js",
     "public/js/presenter/presenter-chamaleon.js",
     "public/js/presenter/presenter-game-ui.js",
