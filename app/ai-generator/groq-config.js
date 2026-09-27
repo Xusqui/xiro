@@ -41,8 +41,15 @@ function setApiKey(key, model = null) {
     _save(data);
 }
 
+/**
+ * Quita la clave conservando el modelo. No borra el archivo: en Docker está
+ * montado como fichero suelto (bind mount) y unlink fallaría con EBUSY.
+ */
 function deleteApiKey() {
-    try { fs.unlinkSync(KEY_FILE); } catch { /* already gone */ }
+    if (!fs.existsSync(KEY_FILE)) return;
+    const data = _load();
+    delete data.apiKey;
+    _save(data);
 }
 
 function getGroqModel() {
