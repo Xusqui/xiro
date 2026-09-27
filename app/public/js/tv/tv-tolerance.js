@@ -7,26 +7,22 @@ window.TVApp.Tolerance = (function () {
         return Number.isFinite(parsed) && parsed > 0 ? parsed : null;
     }
 
+    const TOLERANCE_MODES = ['absolute', 'percentage', 'hybrid', 'relative'];
+
+    /** Campo de tolerancia: primero de la pregunta (snake, camel) y si no, del reveal (camel, snake). */
+    function toleranceField(question, revealData, snakeKey, camelKey) {
+        const fromQuestion = question ? (question[snakeKey] || question[camelKey]) : undefined;
+        if (fromQuestion) return fromQuestion;
+        return revealData ? (revealData[camelKey] || revealData[snakeKey]) : undefined;
+    }
+
     function getNumericToleranceConfig(question, revealData) {
-        const modeRaw = String(
-            (question && (question.tolerance_mode || question.toleranceMode))
-            || (revealData && (revealData.toleranceMode || revealData.tolerance_mode))
-            || ''
-        ).toLowerCase();
+        const modeRaw = String(toleranceField(question, revealData, 'tolerance_mode', 'toleranceMode') || '').toLowerCase();
+        const mode = TOLERANCE_MODES.indexOf(modeRaw) !== -1 ? modeRaw : 'hybrid';
 
-        const mode = (modeRaw === 'absolute' || modeRaw === 'percentage' || modeRaw === 'hybrid' || modeRaw === 'relative')
-            ? modeRaw
-            : 'hybrid';
+        const value = toPositiveNumber(toleranceField(question, revealData, 'tolerance_value', 'toleranceValue')) || 25;
 
-        const value = toPositiveNumber(
-            (question && (question.tolerance_value || question.toleranceValue))
-            || (revealData && (revealData.toleranceValue || revealData.tolerance_value))
-        ) || 25;
-
-        let cap = toPositiveNumber(
-            (question && (question.tolerance_cap || question.toleranceCap))
-            || (revealData && (revealData.toleranceCap || revealData.tolerance_cap))
-        );
+        let cap = toPositiveNumber(toleranceField(question, revealData, 'tolerance_cap', 'toleranceCap'));
 
         if (mode === 'hybrid' && cap === null) {
             cap = 1000;

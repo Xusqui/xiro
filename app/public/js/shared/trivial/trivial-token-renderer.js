@@ -163,12 +163,77 @@ window.TrivialShared = window.TrivialShared || {};
     // Paleta de colores para fichas individuales (por índice en turnOrder)
     const PLAYER_COLORS = ['#ef4444', '#3b82f6', '#22c55e', '#eab308', '#a855f7', '#f97316', '#06b6d4', '#ec4899'];
 
-    ns.updateBoardTokens = function (players, categories, M, currentTurnNick, turnOrder) {
+    /** Dos iniciales (de las dos primeras palabras, o las dos primeras letras); '?' si no hay. */
+    function tokenInitials(name) {
+        const parts = name.trim().split(/[\s\-_.]+/);
+        let initials;
+        if (parts.length >= 2 && parts[0].length > 0 && parts[1].length > 0) {
+            initials = (parts[0].charAt(0) + parts[1].charAt(0)).toUpperCase();
+        } else {
+            initials = name.replace(/\s+/g, '').slice(0, 2).toUpperCase();
+        }
+        return initials || '?';
+    }
+
+    function refreshTokenAppearance(g, token) {
+        const ring = g.querySelector('.trivial-active-ring');
+        if (ring) ring.setAttribute('visibility', token.isActive ? 'visible' : 'hidden');
+
+        const circle = g.querySelector('.team-color-circle');
+        const text = g.querySelector('text');
+        const style = getTokenColorStyle(token.color);
+
+        if (circle) {
+            circle.setAttribute('fill', style.bg);
+            circle.setAttribute('stroke', style.stroke);
+            circle.setAttribute('stroke-width', '2.5');
+        }
+        if (text) {
+            text.textContent = token.label;
+            text.setAttribute('x', '0');
+            text.setAttribute('y', '3.5');
+            text.setAttribute('text-anchor', 'middle');
+            text.setAttribute('fill', style.text);
+            text.setAttribute('font-size', token.fontSize);
+        }
+    }
+
+    function moveToken(g, x, y) {
+        const newT = 'translate(' + toVBPct(x) + ', ' + toVBPct(y) + ')';
+        if (g.style.transform === newT) return;
+        g.style.transform = newT;
+        const inner = g.querySelector('.trivial-inner');
+        if (inner) {
+            setTimeout((function (inn) { return function () { animateBounce(inn); }; })(inner), 560);
+        }
+    }
+
+    /** Crea la ficha si no existe; si existe, actualiza aspecto y posición (con rebote). */
+    function upsertToken(layer, token) {
+        let g = layer.querySelector('#' + token.safeId);
+        if (!g) {
+            g = createTokenEl(token);
+            layer.appendChild(g);
+            (function (el) {
+                window.requestAnimationFrame(function () { el.setAttribute('class', 'trivial-token'); });
+            })(g);
+            return;
+        }
+        refreshTokenAppearance(g, token);
+        moveToken(g, token.x, token.y);
+    }
+
+    /** Capa de fichas y tamaño del tablero, o null si el tablero no está pintado. */
+    function boardTokenLayer() {
         const container = document.getElementById('trivial-board-svg');
-        if (!container || !container._boardN) return;
-        const N = container._boardN;
+        if (!container || !container._boardN) return null;
         const layer = document.getElementById('board-tokens');
-        if (!layer) return;
+        return layer ? { N: container._boardN, layer: layer } : null;
+    }
+
+    ns.updateBoardTokens = function (players, categories, M, currentTurnNick, turnOrder) {
+        const board = boardTokenLayer();
+        if (!board) return;
 
         const seen = {};
         turnOrder = turnOrder || [];
@@ -177,7 +242,7 @@ window.TrivialShared = window.TrivialShared || {};
         for (const nick in players) {
             const p = players[nick];
             if (!p) continue;
-            const xy = ns.posToXY(p.position || 'center', N, M);
+            const xy = ns.posToXY(p.position || 'center', board.N, M);
             const safeId = 'token-' + nick.replace(/[^a-zA-Z0-9]/g, '_');
             seen[safeId] = true;
             const isActive = (nick === currentTurnNick);
@@ -185,67 +250,30 @@ window.TrivialShared = window.TrivialShared || {};
             const orderIdx = turnOrder.indexOf(nick);
             const colorIdx = orderIdx >= 0 ? orderIdx : nickList.indexOf(nick);
             const color = PLAYER_COLORS[colorIdx % PLAYER_COLORS.length];
-            
-            const nameParts = nick.trim().split(/[\s\-_.]+/);
-            let initials = '';
-            if (nameParts.length >= 2 && nameParts[0].length > 0 && nameParts[1].length > 0) {
-                initials = (nameParts[0].charAt(0) + nameParts[1].charAt(0)).toUpperCase();
-            } else {
-                initials = nick.replace(/\s+/g, '').slice(0, 2).toUpperCase();
-            }
-            initials = initials || '?';
-            
+
+            const initials = tokenInitials(nick);
             const fontSize = initials.length > 1 ? '7.5' : '9.5';
 
             console.log('Token Render (player):', { nick: nick, initials: initials, fontSize: fontSize, safeId: safeId, isActive: isActive });
-            let g = layer.querySelector('#' + safeId);
-            if (!g) {
-                g = createTokenEl({ safeId, x: xy.x, y: xy.y, isActive, color, label: initials, fontSize });
-                layer.appendChild(g);
-                (function (el) {
-                    window.requestAnimationFrame(function () { el.setAttribute('class', 'trivial-token'); });
-                })(g);
-            } else {
-                const ring = g.querySelector('.trivial-active-ring');
-                if (ring) ring.setAttribute('visibility', isActive ? 'visible' : 'hidden');
-                
-                const circle = g.querySelector('.team-color-circle');
-                const text = g.querySelector('text');
-                const style = getTokenColorStyle(color);
-                
-                if (circle) {
-                    circle.setAttribute('fill', style.bg);
-                    circle.setAttribute('stroke', style.stroke);
-                    circle.setAttribute('stroke-width', '2.5');
-                }
-                if (text) {
-                    text.textContent = initials;
-                    text.setAttribute('x', '0');
-                    text.setAttribute('y', '3.5');
-                    text.setAttribute('text-anchor', 'middle');
-                    text.setAttribute('fill', style.text);
-                    text.setAttribute('font-size', fontSize);
-                }
-
-                const newT = 'translate(' + toVBPct(xy.x) + ', ' + toVBPct(xy.y) + ')';
-                if (g.style.transform !== newT) {
-                    g.style.transform = newT;
-                    const inner = g.querySelector('.trivial-inner');
-                    if (inner) {
-                        setTimeout((function (inn) { return function () { animateBounce(inn); }; })(inner), 560);
-                    }
-                }
-            }
+            upsertToken(board.layer, { safeId, x: xy.x, y: xy.y, isActive, color, label: initials, fontSize });
         }
-        removeStale(layer, seen);
+        removeStale(board.layer, seen);
     };
 
+    /** Casilla del equipo: la del primer miembro presente en players, o el centro. */
+    function teamPosition(team, players) {
+        if (team.players && players) {
+            for (let j = 0; j < team.players.length; j++) {
+                const member = players[team.players[j]];
+                if (member) return member.position || 'center';
+            }
+        }
+        return 'center';
+    }
+
     ns.updateBoardTokensTeam = function (players, teamConfig, M, currentTurn, _turnOrder) {
-        const container = document.getElementById('trivial-board-svg');
-        if (!container || !container._boardN) return;
-        const N = container._boardN;
-        const layer = document.getElementById('board-tokens');
-        if (!layer) return;
+        const board = boardTokenLayer();
+        if (!board) return;
 
         const teams = (teamConfig && teamConfig.teams) ? teamConfig.teams : [];
         const seen = {};
@@ -257,69 +285,17 @@ window.TrivialShared = window.TrivialShared || {};
             const safeId = 'token-' + teamName.replace(/[^a-zA-Z0-9]/g, '_');
             seen[safeId] = true;
 
-            let memberNick = null;
-            if (team.players && players) {
-                for (let j = 0; j < team.players.length; j++) {
-                    if (players[team.players[j]]) { memberNick = team.players[j]; break; }
-                }
-            }
-            const pos = memberNick ? (players[memberNick].position || 'center') : 'center';
-            const xy = ns.posToXY(pos, N, M);
+            const xy = ns.posToXY(teamPosition(team, players), board.N, M);
             const isActive = (teamName === currentTurn);
-            
-            let teamInitials = '';
-            const teamParts = teamName.trim().split(/[\s\-_.]+/);
-            if (teamParts.length >= 2 && teamParts[0].length > 0 && teamParts[1].length > 0) {
-                teamInitials = (teamParts[0].charAt(0) + teamParts[1].charAt(0)).toUpperCase();
-            } else {
-                teamInitials = teamName.replace(/\s+/g, '').slice(0, 2).toUpperCase();
-            }
-            teamInitials = teamInitials || '?';
-            
+
+            const teamInitials = tokenInitials(teamName);
             const label = teamInitials;
             const fontSize = label.length > 1 ? '7.5' : '9.5';
             console.log('Token Render (team):', { teamName: teamName, initials: teamInitials, label: label, fontSize: fontSize, safeId: safeId, isActive: isActive });
 
-            let g = layer.querySelector('#' + safeId);
-            if (!g) {
-                g = createTokenEl({ safeId, x: xy.x, y: xy.y, isActive, color, label, fontSize });
-                layer.appendChild(g);
-                (function (el) {
-                    window.requestAnimationFrame(function () { el.setAttribute('class', 'trivial-token'); });
-                })(g);
-            } else {
-                const ring = g.querySelector('.trivial-active-ring');
-                if (ring) ring.setAttribute('visibility', isActive ? 'visible' : 'hidden');
-                
-                const circle = g.querySelector('.team-color-circle');
-                const text = g.querySelector('text');
-                const style = getTokenColorStyle(color);
-                
-                if (circle) {
-                    circle.setAttribute('fill', style.bg);
-                    circle.setAttribute('stroke', style.stroke);
-                    circle.setAttribute('stroke-width', '2.5');
-                }
-                if (text) {
-                    text.textContent = label;
-                    text.setAttribute('x', '0');
-                    text.setAttribute('y', '3.5');
-                    text.setAttribute('text-anchor', 'middle');
-                    text.setAttribute('fill', style.text);
-                    text.setAttribute('font-size', fontSize);
-                }
-
-                const newT = 'translate(' + toVBPct(xy.x) + ', ' + toVBPct(xy.y) + ')';
-                if (g.style.transform !== newT) {
-                    g.style.transform = newT;
-                    const inner = g.querySelector('.trivial-inner');
-                    if (inner) {
-                        setTimeout((function (inn) { return function () { animateBounce(inn); }; })(inner), 560);
-                    }
-                }
-            }
+            upsertToken(board.layer, { safeId, x: xy.x, y: xy.y, isActive, color, label, fontSize });
         }
-        removeStale(layer, seen);
+        removeStale(board.layer, seen);
     };
 
 })(window.TrivialShared);
