@@ -160,7 +160,8 @@ const _VALIDATORS_BY_TYPE = {
  * @returns {string|null} mensaje de error o null si válido
  */
 function validate(key, value) {
-    const schema = PARAM_SCHEMA[key];
+    // hasOwn: claves heredadas (constructor, __proto__…) no son parámetros
+    const schema = Object.hasOwn(PARAM_SCHEMA, key) ? PARAM_SCHEMA[key] : null;
     if (!schema) return `Parámetro desconocido: ${key}`;
 
     const validator = _VALIDATORS_BY_TYPE[schema.type];

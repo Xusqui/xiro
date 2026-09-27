@@ -44,7 +44,7 @@ const DEFAULTS = {
  * @returns {Promise<Object>} Objeto con los 6 campos de streak (con defaults si falla)
  */
 async function getStreakConfig(type, id) {
-    const table = TABLE_BY_TYPE[type];
+    const table = Object.hasOwn(TABLE_BY_TYPE, type) ? TABLE_BY_TYPE[type] : null;
     if (!table) {
         logger.debug('getStreakConfig: tipo desconocido, usando defaults', { type, id });
         return { ...DEFAULTS };

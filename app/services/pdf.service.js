@@ -9,6 +9,19 @@ const fs = require('fs');
 const logger = require('../config/logger');
 const { extractCorrectAnswer, generateCorrectAnswerHTML } = require('../application/helpers/CorrectAnswerExtractor');
 
+const PUBLIC_ROOT = '/usr/src/app/public';
+
+/**
+ * Ruta absoluta dentro de public/ para una ruta de imagen escrita por un editor,
+ * o null si apunta fuera (p. ej. "../../etc/passwd"): evita leer ficheros del
+ * servidor e incrustarlos en el PDF.
+ */
+function resolvePublicPath(relativePath) {
+    if (typeof relativePath !== 'string' || !relativePath) return null;
+    const abs = path.resolve(PUBLIC_ROOT, relativePath.replace(/^[/\\]+/, ''));
+    return abs.startsWith(PUBLIC_ROOT + path.sep) ? abs : null;
+}
+
 /**
  * Genera un PDF del cuestionario personalizado con capturas visuales
  * @param {Object} gameData - Datos del juego y preguntas
@@ -170,7 +183,7 @@ function generatePortadaHTML(game, questions) {
             ${escapeHtml(game.name)}
         </div>
         <div style="background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); padding: 20px 40px; border-radius: 20px; display: inline-block; margin-bottom: 20px;">
-            <div style="font-size: 24px; font-weight: 600;">PIN: ${game.pin}</div>
+            <div style="font-size: 24px; font-weight: 600;">PIN: ${escapeHtml(game.pin)}</div>
         </div>
         <div style="font-size: 28px; margin-top: 30px; opacity: 0.9;">
             📝 ${questions.length} ${questions.length === 1 ? 'pregunta' : 'preguntas'}
@@ -325,10 +338,10 @@ function generateMultipleChoiceQuestionHTML(question, index, total) {
 }
 
 function generateImageMultimediaHTML(question) {
-    const imagePath = path.join('/usr/src/app/public', question.url_recurso);
+    const imagePath = resolvePublicPath(question.url_recurso);
 
     try {
-        if (!fs.existsSync(imagePath)) {
+        if (!imagePath || !fs.existsSync(imagePath)) {
             logger.debug('Imagen no encontrada:', imagePath);
             return '';
         }
@@ -461,9 +474,9 @@ function generateTextSlideHTML(slide, index, total) {
 function generateTextImageSlideHTML(slide, index, total) {
     let imageHTML = '<div style="color:rgba(255,255,255,.5);font-size:3rem;text-align:center;"><i class="fas fa-image"></i></div>';
     if (slide.slide_image) {
-        const imagePath = path.join('/usr/src/app/public', slide.slide_image);
+        const imagePath = resolvePublicPath(slide.slide_image);
         try {
-            if (fs.existsSync(imagePath)) {
+            if (imagePath && fs.existsSync(imagePath)) {
                 const imageBuffer = fs.readFileSync(imagePath);
                 const imageBase64 = imageBuffer.toString('base64');
                 const ext = path.extname(imagePath).toLowerCase();
@@ -539,9 +552,9 @@ function generateAnswerHTML(question, index) {
 function generateImageSlideHTML(slide, index, total) {
     let imageHTML = '';
     if (slide.slide_image) {
-        const imagePath = path.join('/usr/src/app/public', slide.slide_image);
+        const imagePath = resolvePublicPath(slide.slide_image);
         try {
-            if (fs.existsSync(imagePath)) {
+            if (imagePath && fs.existsSync(imagePath)) {
                 const imageBuffer = fs.readFileSync(imagePath);
                 const imageBase64 = imageBuffer.toString('base64');
                 const ext = path.extname(imagePath).toLowerCase();

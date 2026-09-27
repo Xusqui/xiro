@@ -40,7 +40,7 @@ const DEFAULTS = {
  * @returns {Promise<Object>} Objeto con los 3 campos (con defaults si falla)
  */
 async function getRandomPointsConfig(type, id) {
-    const table = TABLE_BY_TYPE[type];
+    const table = Object.hasOwn(TABLE_BY_TYPE, type) ? TABLE_BY_TYPE[type] : null;
     if (!table) {
         logger.debug('getRandomPointsConfig: tipo desconocido, usando defaults', { type, id });
         return { ...DEFAULTS };

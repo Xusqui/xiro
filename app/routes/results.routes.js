@@ -21,17 +21,31 @@ const logger = require('../config/logger');
 // CSV helpers
 // ---------------------------------------------------------------------------
 
+// Primer carácter con el que Excel/LibreOffice/Sheets interpretan la celda como fórmula
+const FORMULA_TRIGGER = /^[=+\-@\t\r]/;
+const PLAIN_NUMBER = /^-?\d+(?:[.,]\d+)?$/;
+
 /**
  * Escapa un valor para CSV con separador ';'.
- * Si contiene punto y coma, doble comilla o salto de línea lo envuelve en comillas.
+ * - Inyección de fórmulas: antepone ' a los textos que empiezan por = + - @ tab o \r
+ *   para que la hoja de cálculo los trate como texto (los números negativos se dejan).
+ * - Si contiene punto y coma, doble comilla o salto de línea lo envuelve en comillas.
  */
 function escapeCsv(val) {
     if (val === null || val === undefined) return '';
-    const str = String(val);
-    if (str.includes(';') || str.includes('"') || str.includes('\n') || str.includes('\r')) {
+    let str = String(val);
+    if (FORMULA_TRIGGER.test(str) && !PLAIN_NUMBER.test(str)) {
+        str = `'${str}`;
+    }
+    if (/[;"\n\r]/.test(str)) {
         return '"' + str.replace(/"/g, '""') + '"';
     }
     return str;
+}
+
+/** Parte de un nombre de fichero segura para la cabecera Content-Disposition. */
+function safeFilenamePart(value) {
+    return String(value ?? '').replace(/[^A-Za-z0-9_-]/g, '_');
 }
 
 /** Devuelve la fecha formateada como "DD/MM/YYYY HH:MM" en la zona local del servidor */
@@ -64,7 +78,7 @@ function formatGameType(type) {
 
 function appendMetadataLines(lines, session) {
     lines.push('XIRO! - Resultados de partida');
-    lines.push(`PIN;${session.pin}`);
+    lines.push(`PIN;${escapeCsv(session.pin)}`);
     lines.push(`Tipo;${formatGameType(session.game_type)}`);
     lines.push(`Fecha;${formatDateTime(session.played_at)}`);
     lines.push(`Duración;${formatDuration(session.duration_ms)}`);
@@ -227,13 +241,13 @@ function buildCsv(session) {
 function buildFilename(pin, playedAt) {
     const d = new Date(playedAt);
     const dateStr = d.toISOString().slice(0, 10); // "2026-03-19"
-    return `xiro-${pin}-${dateStr}.csv`;
+    return `xiro-${safeFilenamePart(pin)}-${dateStr}.csv`;
 }
 
 function buildLogsFilename(pin, playedAt, ext = 'txt') {
     const d = new Date(playedAt);
     const dateStr = d.toISOString().slice(0, 10);
-    return `xiro-logs-${pin}-${dateStr}.${ext}`;
+    return `xiro-logs-${safeFilenamePart(pin)}-${dateStr}.${safeFilenamePart(ext)}`;
 }
 
 function getSessionLogs(session) {

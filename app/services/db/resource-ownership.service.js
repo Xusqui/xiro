@@ -18,7 +18,7 @@ function normalizeCreatorRole(role) {
 }
 
 function resolveTable(resourceType) {
-    const table = RESOURCE_TABLES[resourceType];
+    const table = Object.hasOwn(RESOURCE_TABLES, resourceType) ? RESOURCE_TABLES[resourceType] : null;
     if (!table) {
         const err = new Error(`Tipo de recurso no soportado: ${resourceType}`);
         err.status = 500;

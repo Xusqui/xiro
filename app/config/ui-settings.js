@@ -143,7 +143,7 @@ function _validatePersonalizationImage(value) {
 }
 
 function parseRangedNumber(key, value) {
-    const rules = RANGE_SETTINGS[key];
+    const rules = Object.hasOwn(RANGE_SETTINGS, key) ? RANGE_SETTINGS[key] : null;
     if (!rules) {
         return value;
     }
@@ -211,7 +211,8 @@ function set(key, value) {
     // pisa en disco el cambio del primero con su copia en memoria desactualizada.
     _load();
 
-    if (!(key in DEFAULTS)) throw new Error(`Ajuste de UI desconocido: ${key}`);
+    // hasOwn y no `in`: claves heredadas como __proto__ o constructor no son ajustes
+    if (!Object.hasOwn(DEFAULTS, key)) throw new Error(`Ajuste de UI desconocido: ${key}`);
 
     if (key === 'tvCardMode') {
         if (!TV_CARD_MODES.has(value)) {
