@@ -184,15 +184,16 @@ class EndGameUseCase {
 
         io.in(roomId + ':players').fetchSockets().then(playerSockets => {
             setTimeout(() => {
+                // Sin comprobar s.connected: con varios workers, fetchSockets() devuelve
+                // RemoteSocket para los jugadores de otros workers y esos no tienen esa
+                // propiedad (se quedaban sin redirigir). Emitir a uno ya desconectado no hace nada.
                 playerSockets.forEach(s => {
-                    if (s.connected) {
-                        s.emit('game-abandoned', {
-                            roomId,
-                            reason: 'concluded',
-                            message: 'Juego concluido.',
-                            code: 'GAME_ENDED'
-                        });
-                    }
+                    s.emit('game-abandoned', {
+                        roomId,
+                        reason: 'concluded',
+                        message: 'Juego concluido.',
+                        code: 'GAME_ENDED'
+                    });
                 });
             }, 15000);
         }).catch(err => {

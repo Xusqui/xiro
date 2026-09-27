@@ -98,7 +98,7 @@ window.TVApp.Podio = (function () {
         let mainHtml = '<div style="position:absolute;top:0;right:0;bottom:0;left:0;display:flex;flex-direction:column;items-center;justify-content:start;text-align:center;padding:40px 80px;background:#0f172a;overflow-y:auto;z-index:10000">';
         mainHtml += '<h1 data-xiro-tv-podium-title="1" data-podium-team-mode="' + (isTeamMode ? 'true' : 'false') + '" style="font-size:64px;font-weight:900;color:#fff;margin-bottom:30px;text-transform:uppercase;letter-spacing:2px;text-shadow:0 0 20px rgba(255,255,255,0.3)">' + titleHtml + '</h1>';
         mainHtml += '<div style="width:100%;max-width:800px;margin:0 auto">' + rowsHtml + '</div>';
-        mainHtml += '<button class="btn-next" data-tv-action="go-tv-home" style="margin-top:40px;padding:16px 40px;background:#0891b2;color:#fff;border:none;border-radius:999px;font-size:20px;font-weight:bold;text-transform:uppercase;cursor:pointer;box-shadow:0 8px 20px rgba(8,145,178,0.4)">Volver a Selección</button>';
+        mainHtml += '<button class="btn-next" data-tv-action="concluir-y-volver" style="margin-top:40px;padding:16px 40px;background:#0891b2;color:#fff;border:none;border-radius:999px;font-size:20px;font-weight:bold;text-transform:uppercase;cursor:pointer;box-shadow:0 8px 20px rgba(8,145,178,0.4)">Volver a Selección</button>';
         mainHtml += '</div>';
 
         const container = getEl('main-container');

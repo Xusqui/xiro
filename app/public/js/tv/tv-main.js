@@ -168,6 +168,9 @@ window.TVApp.Main = (function () {
                 case 'go-tv-home':
                     volverAJuegos();
                     break;
+                case 'concluir-y-volver':
+                    concluirYVolver();
+                    break;
                 case 'teams-mode-individual':
                     if (window.TVApp.Teams && pin) window.TVApp.Teams.configurarModoIndividual(pin);
                     break;
@@ -252,6 +255,18 @@ window.TVApp.Main = (function () {
 
     function volverAJuegos() {
         window.location.href = '/tv.html';
+    }
+
+    // Igual que concluirJuegoYVolver del presentador: avisa al servidor para que los
+    // jugadores pasen ya a "Juego concluido". El servidor no confirma (sin ack), así que
+    // se da un margen breve para que el mensaje salga antes de recargar la página.
+    function concluirYVolver() {
+        if (window.TVApp.socket && state.sessionId) {
+            window.TVApp.socket.emit('abandon-game', { roomIdOrPin: state.sessionId, reason: 'concluded' });
+            setTimeout(volverAJuegos, 300);
+            return;
+        }
+        volverAJuegos();
     }
 
     function initApp() {
