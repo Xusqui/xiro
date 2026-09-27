@@ -13,6 +13,7 @@ const XiroSlideWatcher = (() => {
     let _started = false;
     let _pollTimer = null;
     let _lastSlideId = null;   // ID de la última diapositiva vista (evita reentrada)
+    let _lastSlideIdx = null;  // Índice (1-based) de la última diapositiva vista
     let _pendingMeta = null;
 
     // ── Public API ────────────────────────────────────────────────────────────
@@ -109,7 +110,7 @@ const XiroSlideWatcher = (() => {
         }
     }
 
-    async function _getMetaForIdx(idx) {
+    function _getMetaForIdx(idx) {
         return PowerPoint.run(async (ctx) => {                      // eslint-disable-line no-undef
             const tag = ctx.presentation.slides
                 .getItemAt(idx).tags.getItemOrNullObject('XIRO_META');

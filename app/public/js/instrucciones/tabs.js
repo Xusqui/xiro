@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (subTabBtns.length > 0) {
         const subTabContents = document.querySelectorAll('.sub-tab-content');
 
-        function selectSubTab(btn) {
+        const selectSubTab = (btn) => {
             subTabBtns.forEach(b => {
                 b.classList.remove('active', 'font-bold');
                 b.style.backgroundColor = '';
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 target.classList.add('block');
                 target.setAttribute('aria-hidden', 'false');
             }
-        }
+        };
 
         subTabBtns.forEach((btn, i) => {
             btn.addEventListener('click', () => selectSubTab(btn));

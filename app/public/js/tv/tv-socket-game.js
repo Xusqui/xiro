@@ -3,7 +3,6 @@ window.TVApp.SocketGame = (function () {
     'use strict';
 
     const getEl = window.TVApp.Utils.getEl;
-    const clearCache = window.TVApp.Utils.clearCache;
     const showTvModal = window.TVApp.Utils.showTvModal;
     const debounceUpdate = window.TVApp.Utils.debounceUpdate;
     const updatePlayersPanel = window.TVApp.RenderPlayers.updatePlayersPanel;

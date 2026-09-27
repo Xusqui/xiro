@@ -98,7 +98,7 @@
 
         // Optional viewport hint: small warmup when card is visible and user is likely to click.
         if ('IntersectionObserver' in window) {
-            var observer = new IntersectionObserver(function (entries) {
+            const observer = new IntersectionObserver(function (entries) {
                 entries.forEach(function (entry) {
                     if (entry.isIntersecting) {
                         runLightWarmup();

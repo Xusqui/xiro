@@ -192,7 +192,7 @@ async function guardarTrivial(exit = true) {
     }
 }
 
-async function borrarTrivial(id, event, ownerUserId = null) {
+function borrarTrivial(id, event, ownerUserId = null) {
     event?.stopPropagation();
     if (!canModifyOwnedResource(ownerUserId)) {
         showOwnershipDeniedModal('este trivial');

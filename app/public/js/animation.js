@@ -107,8 +107,7 @@ class Hexagon {
     } // constructor
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     draw() {
-        let x, y, color;
-        color = ctx.createRadialGradient(
+        const color = ctx.createRadialGradient(
             this.c.x + 0.4 * radius,
             this.c.y - 0.4 * radius,
             0,
@@ -190,12 +189,11 @@ let messages = [];
     let currGroup;
 
     animate = function (tStamp) {
-        let message;
         let neighGroups, repr, ng;
 
-        message = messages.shift();
-        if (message && message.message == 'reset') animState = 0;
-        if (message && message.message == 'click') animState = 0;
+        const message = messages.shift();
+        if (message && message.message === 'reset') animState = 0;
+        if (message && message.message === 'click') animState = 0;
         window.requestAnimationFrame(animate);
         tEnd = performance.now() + 5;
 
@@ -212,9 +210,10 @@ let messages = [];
                     // we could start at (0,0) but the result is better if we go a bit away (more details towards the center)
                     reachable = [new Group(15, 0)];
                     ++animState;
+                    // falls through
 
                 case 2:
-                    if (reachable.length == 0) {
+                    if (reachable.length === 0) {
                         animState = 10; // finished !
                         tEndw = tStamp + REFRESH_DELAY;
                         break;
@@ -224,6 +223,7 @@ let messages = [];
                         ++animState;
                     // go with this group
                     else break;
+                    // falls through
 
                 case 3:
                     visitedGroups.push(currGroup.key);
@@ -234,13 +234,13 @@ let messages = [];
                     repr = currGroup.values().next().value;
                     Hexagon.dneighbors.forEach((dk) => {
                         ng = new Group(repr.kx + dk.dx, repr.ky + dk.dy);
-                        if (ng.size == 0) return; // all neighbors off screen
+                        if (ng.size === 0) return; // all neighbors off screen
                         if (visitedGroups.includes(ng.key)) return; // already visited
-                        if (reachable.find((r) => r.key == ng.key)) return;
+                        if (reachable.find((r) => r.key === ng.key)) return;
                         neighGroups.add(ng);
                     });
 
-                    if (neighGroups.size == 0) {
+                    if (neighGroups.size === 0) {
                         // no neighbours available
                         --animState; // go back and fetch in listReachable
                         break;
@@ -255,7 +255,7 @@ let messages = [];
                     if (tStamp > tEndw) animState = 0;
                     break;
             } // switch
-        } while ((animState == 2 || animState == 3) && performance.now() < tEnd);
+        } while ((animState === 2 || animState === 3) && performance.now() < tEnd);
     }; // animate
 } // scope for animate
 
@@ -288,7 +288,7 @@ function startOver() {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 //------------------------------------------------------------------------
 
-function mouseClick(event) {
+function mouseClick() {
     messages.push({ message: 'click' });
 } // mouseClick
 //------------------------------------------------------------------------

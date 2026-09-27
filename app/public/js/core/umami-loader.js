@@ -37,7 +37,7 @@
                 injectScript(data.umamiServerUrl, data.umamiWebsiteId);
             }
         })
-        .catch(err => {
+        .catch(() => {
             // Ignorar errores silenciosamente para no asustar a los usuarios si hay un adblocker o falla la red
         });
 })();

@@ -39,16 +39,19 @@ const XiroSlideTypeSelector = (() => {
             btn.addEventListener('click', () => {
                 const role = btn.dataset.role;
                 if (role === _currentRole) return;
-                _container.querySelectorAll('.role-card').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                _onRoleChange(role, currentMeta);
+                _activateRoleCard(btn);
+                _onRoleChange(role);
             });
         });
 
         _mountEditor(_currentRole, currentMeta);
     }
 
-    async function _onRoleChange(newRole, existingMeta) {
+    function _activateRoleCard(btn) {
+        _container.querySelectorAll('.role-card').forEach(b => b.classList.toggle('active', b === btn));
+    }
+
+    async function _onRoleChange(newRole) {
         _currentRole = newRole;
         if (!newRole) {
             try { await XiroNotesWriter.clearXiroMeta(); } catch (_) { } // eslint-disable-line no-undef

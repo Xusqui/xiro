@@ -389,7 +389,7 @@ function exportarBanco() {
     const blob = new Blob([jsonStr], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    const safeName = name.replace(/[^a-z0-9\-_\.]/gi, '_').toLowerCase();
+    const safeName = name.replace(/[^a-z0-9_.-]/gi, '_').toLowerCase();
     a.href = url;
     a.download = `${safeName}.json`;
     document.body.appendChild(a);
@@ -519,7 +519,7 @@ async function guardarBanco(salir = true) {
 
 // ===== ELIMINAR BANCO =====
 
-async function borrarBanco(id, e, ownerUserId = null) {
+function borrarBanco(id, e, ownerUserId = null) {
     e.stopPropagation();
     if (!canModifyOwnedResource(ownerUserId)) {
         showOwnershipDeniedModal('este banco');

@@ -7,11 +7,10 @@ import { mostrarLobbyMain } from './presenter-utils.js?v=20260922172926';
 import { setPin, setIsTeamMode, setTeamConfig } from './presenter-state.js?v=20260922172926';
 import { mostrarModalMensaje } from '../shared/modal.js?v=20260922172926';
 import { iniciarLobby } from './presenter-lobby-init.js?v=20260922172926';
-import { mostrarSeleccionModo } from './presenter-lobby.js?v=20260922172926';
 
 let uiSettingsRefreshPromise = null;
 
-async function refreshUiSettingsFromServer() {
+function refreshUiSettingsFromServer() {
     if (uiSettingsRefreshPromise) {
         return uiSettingsRefreshPromise;
     }

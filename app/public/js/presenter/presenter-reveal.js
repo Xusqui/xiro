@@ -269,7 +269,6 @@ export function handleRevealAnswer(data) {
     } else if (window.currentQuestion && window.currentQuestion.question_type === 'multiple_choice') {
         // Manejo para preguntas de selección múltiple - igual que quiz
         const correctIndices = data.correctIndices || [];
-        const correctSet = new Set(correctIndices);
 
         // Marcar opciones correctas e incorrectas en el grid (estilo quiz)
         import('./presenter-multiplechoice-layout.js?v=20260922172926').then(module => {
@@ -341,7 +340,6 @@ export function handleRevealAnswer(data) {
             }
 
             const esCorrecta = (i === data.correctIndex);
-            const votos = data.stats[i] || 0;
 
             if (data.percentages) {
                 // Survey: mostrar porcentajes según posición (izquierda=derecha, derecha=izquierda)
@@ -526,7 +524,7 @@ function renderMatchingReveal(correctMatches, options = {}) {
 
     const topOffset = options.topOffset || '7.5rem';
 
-    const rows = correctMatches.map((pair, index) => `
+    const rows = correctMatches.map((pair) => `
         <div style="display:grid; grid-template-columns: 1fr auto 1fr; align-items:center; gap:0.5rem; background: rgba(255,255,255,0.12); border: 2px solid rgba(255,255,255,0.3); border-radius: 1rem; padding: 0.6rem 0.75rem;">
             <span style="font-weight: 800; text-transform: uppercase; font-style: italic; text-align:right;">${pair.leftText}</span>
             <span style="color: #fde047; font-size: 1.2rem; font-weight: 900; flex-shrink: 0;">↔</span>

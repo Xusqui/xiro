@@ -8,7 +8,6 @@ import {
     setCanAnswer,
     setCurrentSlideType
 } from './player-state.js?v=20260922172926';
-import { enviarRespuestaNumerica } from './player-answer.js?v=20260922172926';
 import { getResponsiveFontClass } from './player-question-utils.js?v=20260922172926';
 
 function t(key, fallback, vars) {

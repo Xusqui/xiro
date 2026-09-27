@@ -56,7 +56,7 @@ const XiroStatusBar = (() => {
         _render();
     }
 
-    function update(state) {
+    function update(_state) {
         _render();
     }
 

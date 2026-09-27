@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
     registerReconnectionEvents();
     console.log('[RECONNECT DEBUG] 2. Registrando connection events');
     registerConnectionEvents();
-    registerSessionEvents(mostrarSeleccionEquipo, salirDelLobby);
+    registerSessionEvents(mostrarSeleccionEquipo);
     registerTeamEvents();
     registerAnswerEvents();
     registerResultsEvents();

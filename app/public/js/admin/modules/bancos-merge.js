@@ -277,7 +277,7 @@ function toggleMergeDoubleStreakConfig() {
 /**
  * Ejecuta la mezcla de bancos
  */
-async function ejecutarMezclaBancos() {
+function ejecutarMezclaBancos() {
     // Obtener bancos seleccionados
     const checkboxes = document.querySelectorAll('.banco-checkbox:checked');
     const bankIds = Array.from(checkboxes).map(cb => parseInt(cb.dataset.bankId));

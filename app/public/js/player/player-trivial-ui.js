@@ -67,7 +67,7 @@ export function showDiceScreen(currentTurn, isMyTurn, customTitle = null) {
  * Para el jugador que lanzó: la cara correcta ya se ve.
  * Para los demás: el canvas estaba dimmed de todas formas.
  */
-export function showDiceResult(nickname, diceValue, isMyTurn) {
+export function showDiceResult(_nickname, _diceValue, _isMyTurn) {
     const wrapper = document.getElementById('dice-wrapper');
     if (wrapper) wrapper.classList.add('disabled');
 }

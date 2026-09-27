@@ -27,6 +27,12 @@ window.TVApp.Audio = (function () {
         } catch (e) { }
     }
 
+    function retryQuestionAudio() {
+        try {
+            if (questionAudio) questionAudio.play();
+        } catch (e) { }
+    }
+
     function playQuestionAudio(url) {
         if (!url) return;
 
@@ -50,11 +56,7 @@ window.TVApp.Audio = (function () {
                             console.log('Audio reproduciendo correctamente');
                         }).catch(function (error) {
                             console.log('Error al reproducir audio:', error);
-                            setTimeout(function () {
-                                try {
-                                    if (questionAudio) questionAudio.play();
-                                } catch (e) { }
-                            }, 500);
+                            setTimeout(retryQuestionAudio, 500);
                         });
                     }
                 }

@@ -1,6 +1,12 @@
 // Inyecta el SVG de hojas como nodo DOM real (no background-image) para que
 // la animación CSS de sus grupos no se congele al navegar entre páginas en Safari.
 (function () {
+    // Doble rAF: si la animación se activa en el mismo tick del innerHTML,
+    // Safari no la arranca y Chrome la arranca antes de asentar el layout.
+    function afterNextLayout(callback) {
+        requestAnimationFrame(function () { requestAnimationFrame(callback); });
+    }
+
     function inject(animar) {
         if (!animar) document.documentElement.classList.add('xiro-bg-static');
 
@@ -14,13 +20,7 @@
             .then(function (svgText) {
                 layer.innerHTML = svgText;
                 if (!animar) return;
-                // Doble rAF: si la animación se activa en el mismo tick del innerHTML,
-                // Safari no la arranca y Chrome la arranca antes de asentar el layout.
-                requestAnimationFrame(function () {
-                    requestAnimationFrame(function () {
-                        layer.classList.add('is-animated');
-                    });
-                });
+                afterNextLayout(function () { layer.classList.add('is-animated'); });
             })
             .catch(function () { layer.remove(); });
     }

@@ -146,7 +146,7 @@ function drawSparkline(canvasId, data, color, fillColor) {
 }
 
 // ─── Render functions ────────────────────────────────────
-function renderProbes(liveData, readyData, healthData, metricsData) {
+function renderProbes(liveData, readyData, healthData) {
     // Liveness
     const aliveEl = document.getElementById('probeAlive');
     const uptimeEl = document.getElementById('probeUptime');
@@ -916,7 +916,7 @@ async function refreshAll() {
         const logs = logsData.status === 'fulfilled' ? logsData.value : null;
 
         renderOverallStatus(health);
-        renderProbes(live, ready, health, metrics);
+        renderProbes(live, ready, health);
         renderDependencies(health ? health.dependencies : null);
         renderMemory(health ? health.memory : null, perf);
         renderDatabase(health ? health.database : null, health);

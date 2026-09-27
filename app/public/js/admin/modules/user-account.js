@@ -143,7 +143,7 @@ async function _fetchCurrentUserProfile() {
     return currentUserProfile;
 }
 
-async function _ensureCurrentUserProfile() {
+function _ensureCurrentUserProfile() {
     if (currentUserProfile?.id) {
         return currentUserProfile;
     }
@@ -260,7 +260,7 @@ function _renderAdminUsersRows(users, currentUserId) {
     });
 }
 
-async function _handleChangeUserRole(event) {
+function _handleChangeUserRole(event) {
     const select = event.currentTarget;
     if (!select) return;
 
@@ -488,7 +488,7 @@ async function _handleUserEmailChangeRequest(event) {
     }
 }
 
-async function _handleUserDeletionRequest(event) {
+function _handleUserDeletionRequest(event) {
     event.preventDefault();
 
     const submitButton = document.getElementById('user-delete-submit-btn');

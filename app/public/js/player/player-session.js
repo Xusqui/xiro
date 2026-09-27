@@ -14,8 +14,6 @@ import {
     mostrarErrorSesionNoEncontrada,
     mostrarPantallaReconectando,
     mostrarPantallaConectando,
-    mostrarEquipoSeleccionado,
-    mostrarLobbyReconectado,
     mostrarLobbyNormal,
     mostrarErrorJoinLobby,
     mostrarErrorSocketDesconectado
@@ -43,7 +41,7 @@ export function getSessionFromURL() {
 /**
  * Validar sesión con el backend
  */
-export async function validarSession(sessionParam) {
+export function validarSession(sessionParam) {
     const session = (sessionParam || document.getElementById('session-input').value.trim()).toUpperCase();
     if (!session) return;
 
@@ -261,7 +259,7 @@ export async function unirseAlLobby() {
  * @param {Function} mostrarSeleccionEquipo - Función para mostrar selección de equipos
  * @param {Function} salirDelLobby - Función para salir del lobby
  */
-export function registerSessionEvents(mostrarSeleccionEquipo, salirDelLobby) {
+export function registerSessionEvents(mostrarSeleccionEquipo) {
     // ===== JOIN SUCCESS =====
     socket.on('join-success', (data) => {
         console.log('✅ join-success recibido:', data);
@@ -288,9 +286,6 @@ export function registerSessionEvents(mostrarSeleccionEquipo, salirDelLobby) {
 
         // Eliminar overlay de desconexión si existe
         removeDisconnectOverlay();
-
-        // Verificar si estábamos reconectando
-        const wasReconnecting = false; // No longer needed since we early-return above
 
         // Actualizar sessionId/pin con el roomId confirmado
         if (data.roomId) {

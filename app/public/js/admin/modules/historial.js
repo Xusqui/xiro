@@ -138,7 +138,7 @@ function _toggleSelectAll(masterCb) {
     _updateBatchBar();
 }
 
-async function _borrarSeleccionadas() {
+function _borrarSeleccionadas() {
     const ids = _getSelectedIds();
     if (ids.length === 0) return;
     mostrarModalConfirmacion(
@@ -168,7 +168,7 @@ async function _borrarSeleccionadas() {
 
 /* ===== BORRADO INDIVIDUAL ===== */
 
-async function _borrarSesion(id, btn) {
+function _borrarSesion(id, btn) {
     mostrarModalConfirmacion(
         _t('admin.historial.confirm_delete_one_title', null, '🗑️ Borrar partida'),
         _t('admin.historial.confirm_delete_one_msg', null, '¿Estás seguro de que quieres borrar esta partida? Esta acción no se puede deshacer.'),
@@ -195,7 +195,7 @@ async function _borrarSesion(id, btn) {
     );
 }
 
-async function _confirmarBorrarHistorial() {
+function _confirmarBorrarHistorial() {
     mostrarModalConfirmacion(
         _t('admin.historial.confirm_delete_all_title', null, '⚠️ Borrar todo el historial'),
         _t('admin.historial.confirm_delete_all_msg', null, '¿Estás seguro de que quieres borrar TODAS las partidas guardadas? Esta acción no se puede deshacer.'),

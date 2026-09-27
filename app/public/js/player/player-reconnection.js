@@ -10,7 +10,7 @@ import { socket } from './player-socket-config.js?v=20260922172926';
 import {
     setIsReconnecting, setNickname, setPin, setSessionId,
     setHaRespondido, setCanAnswer, setSelectedTeam, setTeamMode,
-    getNickname, setPendingAnswer, setSendingAnswer, setStreakInfo,
+    setPendingAnswer, setSendingAnswer, setStreakInfo,
     getJoinTimeoutId, setJoinTimeoutId
 } from './player-state.js?v=20260922172926';
 import { removeDisconnectOverlay, activarWakeLock } from './player-connection.js?v=20260922172926';

@@ -134,7 +134,7 @@ async function cargarEditorJuego(id) {
 
 // ===== RENDERIZAR EDITOR =====
 
-async function renderEditorJuego(game, banks) {
+async function renderEditorJuego(game) {
     // Obtener lista de todos los bancos disponibles con conteo de preguntas (caché)
     const allBanks = await getAllBanksWithCounts();
     poolQuestionCountInicial = game.pool_question_count ?? null;
@@ -488,7 +488,7 @@ async function guardarJuego(salir = true) {
 
 // ===== ELIMINAR JUEGO =====
 
-async function borrarJuego(id, event, ownerUserId = null) {
+function borrarJuego(id, event, ownerUserId = null) {
     if (event) {
         event.stopPropagation();
         event.preventDefault();

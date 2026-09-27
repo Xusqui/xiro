@@ -5,7 +5,7 @@
 
 import { socket } from './player-socket-config.js?v=20260922172926';
 import './player-results-message-logic.js?v=20260922172926';
-import { getNickname, setPin, setSessionId, setNickname, setHaRespondido, resetSessionState } from './player-state.js?v=20260922172926';
+import { resetSessionState } from './player-state.js?v=20260922172926';
 
 function getPlayerResultsMessageLogic() {
     const fallback = {

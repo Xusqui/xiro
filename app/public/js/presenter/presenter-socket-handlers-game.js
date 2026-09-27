@@ -123,7 +123,7 @@ export function registerGameSocketHandlers() {
     // Respuesta individual
     socket.on('answer-result', (data) => {
         console.log('📩 answer-result recibido (individual):', data);
-        const { nickname, isCorrect, points, totalScore, streakInfo } = data;
+        const { nickname, isCorrect, totalScore, streakInfo } = data;
 
         const playersData = getPlayersData();
         if (playersData[nickname]) {

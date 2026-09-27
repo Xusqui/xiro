@@ -6,17 +6,13 @@ import {
     getNickname,
     setHaRespondido,
     setCanAnswer,
-    getHaRespondido,
     setCurrentOrder,
     setCurrentOrderOptions,
     getCurrentOrder,
     clearOrderState,
-    clearOrderAutoSendTimer,
-    setOrderAutoSendTimerId,
     setCurrentSlideType,
     startOrderAutoSendTimer
 } from './player-state.js?v=20260922172926';
-import { enviarOrdenRespuesta } from './player-answer.js?v=20260922172926';
 import { OPTION_COLORS, getResponsiveFontClass } from './player-question-utils.js?v=20260922172926';
 import { setBodyHTML } from './player-streak-ui.js?v=20260922172926';
 
@@ -121,7 +117,7 @@ function renderOrderList() {
     lastMoveDirection = null;
 }
 
-function bindOrderMoveHandlers(container) {
+function bindOrderMoveHandlers(_container) {
     // Handlers para botones de movimiento removidos - ahora solo drag desde cualquier parte
 }
 

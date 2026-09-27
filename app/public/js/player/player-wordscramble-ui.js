@@ -9,7 +9,6 @@ import {
     setCanAnswer,
     setCurrentSlideType
 } from './player-state.js?v=20260922172926';
-import { enviarRespuestaWordScramble } from './player-answer.js?v=20260922172926';
 import { getResponsiveFontClass } from './player-question-utils.js?v=20260922172926';
 import { setBodyHTML } from './player-streak-ui.js?v=20260922172926';
 

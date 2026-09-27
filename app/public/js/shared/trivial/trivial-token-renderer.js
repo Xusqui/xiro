@@ -89,7 +89,7 @@ window.TrivialShared = window.TrivialShared || {};
         };
     }
 
-    function createTokenEl(safeId, x, y, isActive, color, label, fontSize) {
+    function createTokenEl({ safeId, x, y, isActive, color, label, fontSize }) {
         const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         g.id = safeId;
         g.style.setProperty('transform-box', 'view-box');
@@ -200,7 +200,7 @@ window.TrivialShared = window.TrivialShared || {};
             console.log('Token Render (player):', { nick: nick, initials: initials, fontSize: fontSize, safeId: safeId, isActive: isActive });
             let g = layer.querySelector('#' + safeId);
             if (!g) {
-                g = createTokenEl(safeId, xy.x, xy.y, isActive, color, initials, fontSize);
+                g = createTokenEl({ safeId, x: xy.x, y: xy.y, isActive, color, label: initials, fontSize });
                 layer.appendChild(g);
                 (function (el) {
                     window.requestAnimationFrame(function () { el.setAttribute('class', 'trivial-token'); });
@@ -240,7 +240,7 @@ window.TrivialShared = window.TrivialShared || {};
         removeStale(layer, seen);
     };
 
-    ns.updateBoardTokensTeam = function (players, teamConfig, M, currentTurn, turnOrder) {
+    ns.updateBoardTokensTeam = function (players, teamConfig, M, currentTurn, _turnOrder) {
         const container = document.getElementById('trivial-board-svg');
         if (!container || !container._boardN) return;
         const N = container._boardN;
@@ -249,7 +249,6 @@ window.TrivialShared = window.TrivialShared || {};
 
         const teams = (teamConfig && teamConfig.teams) ? teamConfig.teams : [];
         const seen = {};
-        turnOrder = turnOrder || [];
 
         for (let i = 0; i < teams.length; i++) {
             const team = teams[i];
@@ -267,7 +266,6 @@ window.TrivialShared = window.TrivialShared || {};
             const pos = memberNick ? (players[memberNick].position || 'center') : 'center';
             const xy = ns.posToXY(pos, N, M);
             const isActive = (teamName === currentTurn);
-            const posNum = turnOrder.indexOf(teamName) >= 0 ? turnOrder.indexOf(teamName) + 1 : 0;
             
             let teamInitials = '';
             const teamParts = teamName.trim().split(/[\s\-_.]+/);
@@ -284,7 +282,7 @@ window.TrivialShared = window.TrivialShared || {};
 
             let g = layer.querySelector('#' + safeId);
             if (!g) {
-                g = createTokenEl(safeId, xy.x, xy.y, isActive, color, label, fontSize);
+                g = createTokenEl({ safeId, x: xy.x, y: xy.y, isActive, color, label, fontSize });
                 layer.appendChild(g);
                 (function (el) {
                     window.requestAnimationFrame(function () { el.setAttribute('class', 'trivial-token'); });

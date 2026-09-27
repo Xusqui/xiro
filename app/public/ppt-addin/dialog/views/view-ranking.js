@@ -7,7 +7,7 @@
 
 const ViewRanking = (() => {
 
-    function mount(container, { meta, session, revealData }) {
+    function mount(container, { meta, revealData }) {
         const ranking = (revealData && revealData.ranking) || [];
 
         container.innerHTML = `

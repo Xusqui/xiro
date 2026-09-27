@@ -769,7 +769,7 @@ function mostrarModalConfirmacion(titulo, mensaje, onConfirm, onCancel, textoCon
  * @param {boolean} visible
  * @param {Function} renderFn - vista a refrescar tras aplicar el cambio
  */
-async function toggleAllVisibleToPresenter(apiPath, visible, renderFn) {
+function toggleAllVisibleToPresenter(apiPath, visible, renderFn) {
     mostrarModalConfirmacion(
         _t('admin.common.confirmation_title', null, '⚠️ Confirmación'),
         visible

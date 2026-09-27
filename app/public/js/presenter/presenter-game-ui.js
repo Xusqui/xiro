@@ -3,9 +3,8 @@
  * Renderizado de preguntas, comentarios, timer, y QR
  */
 
-import { getIsTeamMode, getTeamConfig, getTotalPlayers, getCurrentQuestionIndex, getTotalQuestions, getPlayersData } from './presenter-state.js?v=20260922172926';
+import { getTotalPlayers, getCurrentQuestionIndex, getTotalQuestions, getPlayersData } from './presenter-state.js?v=20260922172926';
 import { adjustTextSize, adjustQuestionTitleSize, removeFloatingCards as removeCards, showAbandonButton, showTerminateButton } from './presenter-utils.js?v=20260922172926';
-import { getTeamColorStyle } from './presenter-team-config.js?v=20260922172926';
 import { cleanupRevealElements } from './presenter-reveal.js?v=20260922172926';
 import { renderWordScramblePresenter } from './presenter-wordscramble-layout.js?v=20260922172926';
 import { showChamaleonOverlay } from './presenter-chamaleon.js?v=20260922172926';
@@ -78,7 +77,7 @@ export function mostrarQR(sessionIdParam) {
     // qrCanvas.style.cursor = 'pointer';
     // qrLink.style.cursor = 'pointer';
 
-    const openPlayerWindow = () => {
+    const _openPlayerWindow = () => {
         const width = 430;
         const height = 932;
         const left = (screen.width - width) / 2;
@@ -93,8 +92,8 @@ export function mostrarQR(sessionIdParam) {
     };
 
     // [DISABLED] Abrir ventana popup del jugador - comentado para facilitar re-activación
-    // qrCanvas.onclick = openPlayerWindow;
-    // qrLink.onclick = openPlayerWindow;
+    // qrCanvas.onclick = _openPlayerWindow;
+    // qrLink.onclick = _openPlayerWindow;
 
     qrLink.innerText = _t(url);
     console.log('📱 QR generado con URL:', url);

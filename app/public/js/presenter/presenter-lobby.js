@@ -16,7 +16,6 @@ import {
     setTotalPlayers
 } from './presenter-state.js?v=20260922172926';
 import { iniciarLobby } from './presenter-lobby-init.js?v=20260922172926';
-import { mostrarConfiguracionEquipos } from './presenter-team-config.js?v=20260922172926';
 
 if (window.XiroI18n && typeof window.XiroI18n.addSections === 'function') {
     void window.XiroI18n.addSections(['presenter_lobby'], { reload: false });

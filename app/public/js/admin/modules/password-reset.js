@@ -154,7 +154,7 @@ async function submitPasswordReset() {
     }
 }
 
-async function checkPasswordResetTokenFromUrl() {
+function checkPasswordResetTokenFromUrl() {
     const params = new URLSearchParams(window.location.search);
     const token = params.get('reset_token');
     if (!token) return;

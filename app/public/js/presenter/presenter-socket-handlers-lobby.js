@@ -12,7 +12,6 @@ import {
 } from './presenter-state.js?v=20260922172926';
 import { mostrarQR, renderTeamLobby, updatePlayersPanel } from './presenter-game-ui.js?v=20260922172926';
 import { updateAnswerCounter } from './presenter-answer-counter.js?v=20260922172926';
-import { volverAJuegos } from './presenter-lobby.js?v=20260922172926';
 import { mostrarLobbyMain } from './presenter-utils.js?v=20260922172926';
 import { handlePlayerRejoined } from './presenter-player-rejoined-handler.js?v=20260922172926';
 import { handleGameAbandoned } from './presenter-session-control.js?v=20260922172926';

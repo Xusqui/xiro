@@ -203,8 +203,6 @@ const ghostShell = (size = 1) => {
     shell.starLife *= 1.5;
     const ghostColor = randomColor({ notColor: COLOR.White });
     shell.streamers = true;
-    const pistil = Math.random() < 0.42;
-    const pistilColor = pistil && makePistilColor(ghostColor);
     shell.color = INVISIBLE;
     shell.secondColor = ghostColor;
     shell.glitter = '';

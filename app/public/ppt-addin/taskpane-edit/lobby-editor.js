@@ -78,8 +78,7 @@ const XiroLobbyEditor = (() => {
         // Game cards
         _container.querySelectorAll('.game-card').forEach(btn => {
             btn.addEventListener('click', () => {
-                _container.querySelectorAll('.game-card').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
+                _activateIn('.game-card', btn);
                 document.getElementById('le-game-pin').value = btn.dataset.pin;
                 document.getElementById('le-game-id').value = btn.dataset.id;
                 document.getElementById('le-game-type').value = btn.dataset.type || '';
@@ -89,8 +88,7 @@ const XiroLobbyEditor = (() => {
         // Mode toggle
         _container.querySelectorAll('.mode-btn').forEach(btn => {
             btn.addEventListener('click', () => {
-                _container.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
+                _activateIn('.mode-btn', btn);
                 document.getElementById('le-teams-section').classList.toggle('hidden', btn.dataset.mode !== 'teams');
             });
         });
@@ -98,6 +96,11 @@ const XiroLobbyEditor = (() => {
         document.getElementById('le-team-minus').addEventListener('click', () => _resizeTeams(-1));
         document.getElementById('le-team-plus').addEventListener('click', () => _resizeTeams(+1));
         document.getElementById('le-save').addEventListener('click', _onSave);
+    }
+
+    /** Marca `btn` como activo y desmarca el resto de botones de su grupo. */
+    function _activateIn(selector, btn) {
+        _container.querySelectorAll(selector).forEach(b => b.classList.toggle('active', b === btn));
     }
 
     function _onModeChange(e) {

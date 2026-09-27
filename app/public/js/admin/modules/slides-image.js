@@ -51,7 +51,10 @@ function mostrarModalImagen() {
         </div>
     `);
     document.body.appendChild(modal);
-    _iniciarDropZone('dropZoneImagen', 'imagenFile', 'uploadStatusMsg', 'imagenUrl', 'previewImagen', 'previewWrapImagen');
+    _iniciarDropZone({
+        dropZoneId: 'dropZoneImagen', fileInputId: 'imagenFile', statusMsgId: 'uploadStatusMsg',
+        urlInputId: 'imagenUrl', previewImgId: 'previewImagen', previewWrapId: 'previewWrapImagen'
+    });
 }
 
 function cerrarModalImagen() {
@@ -59,7 +62,7 @@ function cerrarModalImagen() {
     if (modal) modal.remove();
 }
 
-function _iniciarDropZone(dropZoneId, fileInputId, statusMsgId, urlInputId, previewImgId, previewWrapId) {
+function _iniciarDropZone({ dropZoneId, fileInputId, statusMsgId, urlInputId, previewImgId, previewWrapId }) {
     const zone = document.getElementById(dropZoneId);
     const fileInput = document.getElementById(fileInputId);
     if (!zone || !fileInput) return;
@@ -133,7 +136,7 @@ async function _subirArchivoImagen(file, statusMsgId) {
     }
 }
 
-async function agregarSlideImagen() {
+function agregarSlideImagen() {
     const finalUrl = document.getElementById('imagenUrl')?.value?.trim();
 
     if (!finalUrl) {
@@ -211,7 +214,10 @@ function editarSlideImagen(index) {
         });
     }
 
-    _iniciarDropZone('dropZoneEditImagen', 'editImagenFile', 'editUploadStatus', 'editImagenUrl', 'previewEditImagen', 'previewWrapEditImagen');
+    _iniciarDropZone({
+        dropZoneId: 'dropZoneEditImagen', fileInputId: 'editImagenFile', statusMsgId: 'editUploadStatus',
+        urlInputId: 'editImagenUrl', previewImgId: 'previewEditImagen', previewWrapId: 'previewWrapEditImagen'
+    });
 }
 
 function cerrarModalEditImagen() {
@@ -219,7 +225,7 @@ function cerrarModalEditImagen() {
     if (modal) modal.remove();
 }
 
-async function guardarEditImagen(index) {
+function guardarEditImagen(index) {
     const finalUrl = document.getElementById('editImagenUrl')?.value?.trim();
 
     if (!finalUrl) {

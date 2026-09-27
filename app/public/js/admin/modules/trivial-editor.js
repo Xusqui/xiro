@@ -207,7 +207,7 @@ function _trivialCatRow(cat, idx) {
     ).join('');
     const sources = (window._trivialSources || {})[srcType] || [];
     const srcOpts = sources.map(s =>
-        `<option value="${s.id}"${s.id == srcId ? ' selected' : ''}>${escapeHtml(s.name)}</option>`
+        `<option value="${s.id}"${String(s.id) === String(srcId) ? ' selected' : ''}>${escapeHtml(s.name)}</option>`
     ).join('');
     return `
         <div class="trivial-cat-row flex items-center gap-3 bg-slate-50 rounded-xl p-3">

@@ -86,11 +86,8 @@
             const finalDigit = face.textContent;
             const delay = i * FLIP_STAGGER_MS;
 
-            FLIP_CONTENT_STEPS_MS.forEach(stepMs => {
-                setTimeout(() => {
-                    face.textContent = _randomDigitChar();
-                }, delay + stepMs);
-            });
+            const showRandomDigit = () => { face.textContent = _randomDigitChar(); };
+            FLIP_CONTENT_STEPS_MS.forEach(stepMs => setTimeout(showRandomDigit, delay + stepMs));
 
             setTimeout(() => {
                 face.textContent = finalDigit;

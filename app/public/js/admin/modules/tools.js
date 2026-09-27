@@ -5,7 +5,7 @@
 
 // ===== PANIC RESTART =====
 
-async function panicRestart() {
+function panicRestart() {
     if (!isAdmin()) {
         mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.tools.panic_no_perm', null, 'No tienes permisos para usar el botón PANIC'), 'error');
         return;
@@ -33,7 +33,7 @@ async function panicRestart() {
 
 // ===== REINICIAR SERVIDOR (pm2 reload) =====
 
-async function reloadServer() {
+function reloadServer() {
     if (!isAdmin()) {
         mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.tools.reload_no_perm', null, 'No tienes permisos para reiniciar el servidor'), 'error');
         return;
@@ -58,7 +58,7 @@ async function reloadServer() {
 
 // ===== LIMPIAR ARCHIVOS HUÉRFANOS =====
 
-async function limpiarArchivosHuerfanos() {
+function limpiarArchivosHuerfanos() {
     if (!isAdmin()) {
         mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.tools.cleanup_no_perm', null, 'No tienes permisos para limpiar archivos'), 'error');
         return;
@@ -94,7 +94,7 @@ async function limpiarArchivosHuerfanos() {
 
 // ===== LIMPIAR CACHÉ =====
 
-async function limpiarCache() {
+function limpiarCache() {
     if (!isAdmin()) {
         mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.tools.cache_no_perm', null, 'No tienes permisos para limpiar la caché'), 'error');
         return;
@@ -164,13 +164,13 @@ function copiarPromptIA() {
     });
 }
 
-async function mostrarCargarPreguntas() {
+function mostrarCargarPreguntas() {
     executeWithUnsavedChangesGuard(() => {
         mostrarCargarPreguntasInner();
     });
 }
 
-async function mostrarCargarPreguntasInner() {
+function mostrarCargarPreguntasInner() {
     activeView = null; // Salir de la vista de grid
     if (typeof highlightSidebarNav === 'function') highlightSidebarNav('cargar-preguntas');
     const editorArea = document.getElementById('editorArea');
@@ -551,7 +551,7 @@ async function exportarJuegoAPDF(gameId, gameName) {
 
 // ===== BORRAR LOGS DEL BACKEND =====
 
-async function borrarLogs() {
+function borrarLogs() {
     if (!isAdmin()) {
         mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.tools.logs_no_perm', null, 'No tienes permisos para borrar los logs'), 'error');
         return;

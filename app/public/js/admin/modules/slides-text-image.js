@@ -48,7 +48,10 @@ function mostrarModalTextoImagen() {
         </div>
     `);
     document.body.appendChild(modal);
-    _iniciarDropZone('dropZoneTI', 'tiImagenFile', 'tiUploadStatus', 'tiImagenUrl', 'tiPreviewImg', 'tiPreviewWrap');
+    _iniciarDropZone({
+        dropZoneId: 'dropZoneTI', fileInputId: 'tiImagenFile', statusMsgId: 'tiUploadStatus',
+        urlInputId: 'tiImagenUrl', previewImgId: 'tiPreviewImg', previewWrapId: 'tiPreviewWrap'
+    });
 }
 
 function cerrarModalTextoImagen() {
@@ -138,7 +141,10 @@ function editarSlideTextoImagen(index) {
         });
     }
 
-    _iniciarDropZone('dropZoneEditTI', 'editTIImagenFile', 'editTIUploadStatus', 'editTIImagenUrl', 'editTIPreviewImg', 'editTIPreviewWrap');
+    _iniciarDropZone({
+        dropZoneId: 'dropZoneEditTI', fileInputId: 'editTIImagenFile', statusMsgId: 'editTIUploadStatus',
+        urlInputId: 'editTIImagenUrl', previewImgId: 'editTIPreviewImg', previewWrapId: 'editTIPreviewWrap'
+    });
 }
 
 function cerrarModalEditTextoImagen() {

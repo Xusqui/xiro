@@ -122,7 +122,6 @@ window.TVApp.TrvSocket = (function () {
 
             // Limpiamos los resultados de TV (igual que el presentador limpia revealElements)
             // Llama a las funciones compartidas que limpian placeholders y esconden botones en la TV.
-            const mainC = getEl('main-container');
             const trvC = getEl('trivial-board-svg');
 
             if (data.players) State.updateTrivialPlayers(data.players);

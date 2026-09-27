@@ -57,7 +57,7 @@ export function registerTrivialPlayerSocketHandlers() {
         showDiceScreen(data.currentTurn, isMe);
     });
 
-    socket.on('trivial-dice-rolled', ({ nickname, diceValue, availablePositions, positionLabels, positionColors, categories }) => {
+    socket.on('trivial-dice-rolled', ({ nickname, availablePositions, positionLabels, positionColors, categories }) => {
         setTrivialBadgesVisible(true);
         const isMe = nickname === myNickname();
         // Si el servidor envía categorías frescas, actualizar las locales
@@ -77,7 +77,7 @@ export function registerTrivialPlayerSocketHandlers() {
         }, 700);
     });
 
-    socket.on('trivial-player-moved', ({ nickname, position, movedPlayers }) => {
+    socket.on('trivial-player-moved', ({ nickname, movedPlayers }) => {
         setTrivialBadgesVisible(true);
         // Cancel any pending showMoveSelection timer – the move already happened and the
         // question will arrive soon; firing showMoveSelection now would destroy that UI.

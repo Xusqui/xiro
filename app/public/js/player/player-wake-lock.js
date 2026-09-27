@@ -15,7 +15,7 @@ function hasActiveSessionContext() {
     );
 }
 
-function logNotAllowedThrottled(source, err) {
+function logNotAllowedThrottled() {
     const now = Date.now();
     if (now - lastWakeLockNotAllowedLogAt < 60000) {
         return;
@@ -124,7 +124,7 @@ export async function activarWakeLock(source = 'unknown') {
         });
     } catch (err) {
         if (err?.name === 'NotAllowedError') {
-            logNotAllowedThrottled(source, err);
+            logNotAllowedThrottled();
             bindWakeLockGestureFallback();
             return;
         }

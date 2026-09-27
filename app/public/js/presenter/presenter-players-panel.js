@@ -201,7 +201,6 @@ export function updatePlayersPanel() {
 export function renderTeamLobby() {
     const teamConfig = getTeamConfig();
     const isTeamMode = getIsTeamMode();
-    const playersData = getPlayersData();
 
     if (!teamConfig || !isTeamMode) return;
 
@@ -245,7 +244,6 @@ export function renderTeamLobby() {
                     </div>
                     <div class="flex flex-wrap gap-3">
                         ${team.players.map(player => {
-        const playerScore = playersData[player] ? playersData[player].score : 0;
         return `
                                 <div class="bg-white text-slate-900 px-3 py-2 rounded-lg font-black text-center uppercase italic text-xs inline-flex whitespace-nowrap" data-nickname="${player}">
                                     <div>${player}</div>
@@ -270,7 +268,6 @@ export function renderTeamLobby() {
                     </div>
                     <div class="flex flex-wrap gap-3">
                         ${team.players.map(player => {
-        const playerScore = playersData[player] ? playersData[player].score : 0;
         return `
                                 <div class="bg-white text-slate-900 px-3 py-2 rounded-lg font-black text-center uppercase italic text-xs inline-flex whitespace-nowrap" data-nickname="${player}">
                                     <div>${player}</div>

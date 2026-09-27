@@ -60,7 +60,7 @@ const XiroSlideInserter = {
      * @param {{ pin, sessionId, gameName, questionCount, baseUrl }} opts
      * @returns {Promise<{ slideMap: Map, startIdx: number }>}
      */
-    async insertGameSlides({ pin, sessionId, gameName, questionCount, baseUrl }) {
+    async insertGameSlides({ sessionId, gameName, questionCount, baseUrl }) {
         if (!this._isAvailable()) throw new Error('PowerPoint.run no disponible.');
 
         let startIdx;
@@ -177,7 +177,7 @@ const XiroSlideInserter = {
         }
     },
 
-    async _setNotes(slide, notesText) {
+    _setNotes(slide, notesText) {
         // Notes API requiere PowerPointApi 1.5; si no disponible, ignora silenciosamente
         try {
             if (slide.notes !== undefined) slide.notes = notesText;

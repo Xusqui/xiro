@@ -154,7 +154,7 @@ function renderSessionsList(sessions) {
 
 /* ── Terminar sesión ─────────────────────────────────────────────────────── */
 
-async function terminarSesionAdmin(sessionId) {
+function terminarSesionAdmin(sessionId) {
     mostrarModalConfirmacion(
         '⚠️ Terminar sesión',
         `¿Terminar la sesión ${sessionId}? Se expulsará a todos los jugadores.`,

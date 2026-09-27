@@ -61,7 +61,7 @@
                 mc_points_per_correct: toNumberOrNull(question.mcPointsPerCorrect ?? question.mc_points_per_correct) ?? 10,
                 mc_penalty_per_incorrect: toNumberOrNull(question.mcPenaltyPerIncorrect ?? question.mc_penalty_per_incorrect) ?? 10,
                 mc_perfect_bonus: toNumberOrNull(question.mcPerfectBonus ?? question.mc_perfect_bonus) ?? 20,
-                options: (question.options || []).map((option, index) => ({
+                options: (question.options || []).map((option) => ({
                     option_text: option.optionText,
                     is_correct: !!option.isCorrect,
                     order_index: null,
@@ -145,7 +145,7 @@
                 toleranceValue: null,
                 toleranceCap: null,
                 hint: null,
-                options: (question.options || []).map((option, index) => ({
+                options: (question.options || []).map((option) => ({
                     optionText: option.optionText || option.option_text,
                     isCorrect: !!option.isCorrect || !!option.is_correct,
                     order_index: null,

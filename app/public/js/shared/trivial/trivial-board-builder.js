@@ -10,7 +10,7 @@ window.TrivialShared = window.TrivialShared || {};
 (function (ns) {
     'use strict';
 
-    const CX = 200, CY = 200, OUTER_R = 183, INNER_R = 30, CASILLA_R = 13;
+    const CX = 200, CY = 200, INNER_R = 30, CASILLA_R = 13;
 
     ns.renderBoardBackground = function (container, state) {
         const categories = state.categories || [];

@@ -170,7 +170,7 @@ async function cargarEditorJuegoPersonalizado(id) {
 
 // ===== RENDERIZAR EDITOR PERSONALIZADO =====
 
-async function renderEditorJuegoPersonalizado(game, questions) {
+async function renderEditorJuegoPersonalizado(game) {
     const resBanks = await fetchWithAuth('/api/banks');
     const allBanks = await resBanks.json();
 
@@ -415,7 +415,7 @@ async function cargarPreguntasBanco(selectorId = 'selectorBanco', contenedorId =
     currentBankData = data; // Guardar para uso posterior
 
     const contenedor = document.getElementById(contenedorId);
-    contenedor.innerHTML = data.questions.map((q, idx) => {
+    contenedor.innerHTML = data.questions.map((q) => {
         const correctAnswer = extractCorrectAnswerFrontend(q);
         const correctDisplay = formatCorrectAnswerDisplayFrontend(correctAnswer);
         const alreadyAdded = currentCustomGameQuestions.some(cq => cq.question_id != null && Number(cq.question_id) === Number(q.id));
@@ -874,7 +874,7 @@ async function guardarJuegoPersonalizado(salir = true) {
 
 // ===== ELIMINAR JUEGO PERSONALIZADO =====
 
-async function borrarJuegoPersonalizado(id, ownerUserId = null) {
+function borrarJuegoPersonalizado(id, ownerUserId = null) {
     if (!canModifyOwnedResource(ownerUserId)) {
         showOwnershipDeniedModal('este juego personalizado');
         return;

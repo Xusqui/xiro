@@ -3,7 +3,7 @@
 
 import { getSocket, getPlayerId } from './player-socket-config.js?v=20260922172926';
 import {
-    getPin, getNickname, getSessionId,
+    getPin, getNickname,
     setPin, setNickname, setSessionId,
     setHaRespondido, setResultReceived,
     setPendingAnswer, setSendingAnswer,

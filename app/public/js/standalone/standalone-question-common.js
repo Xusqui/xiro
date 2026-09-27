@@ -159,7 +159,7 @@ globalThis.StandaloneQuestionCommon = (() => {
      * del tipo de pregunta (index/order/matches/playerAnswer/selectedIndices).
      * @returns {Promise<Object>} ack del servidor
      */
-    async function submitAnswer(typeFields, answerType) {
+    function submitAnswer(typeFields, answerType) {
         const state = StandaloneState.get();
         state.answered = true;
 

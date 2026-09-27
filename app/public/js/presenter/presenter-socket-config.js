@@ -3,7 +3,7 @@
  * Gestiona la conexión WebSocket y auto-reconexión
  */
 
-import { getSessionId, setSessionId, setGameType } from './presenter-state.js?v=20260922172926';
+import { setSessionId, setGameType } from './presenter-state.js?v=20260922172926';
 
 // Generar o recuperar playerId único del presentador
 function getOrCreatePresenterPlayerId() {
@@ -139,7 +139,7 @@ socket.io.on('reconnect', (attempt) => {
 });
 
 // Monitorear upgrade a WebSocket
-socket.io.engine.on('upgrade', (transport) => {
+socket.io.engine.on('upgrade', () => {
     console.log('🚀 ¡UPGRADE EXITOSO! Ahora usando WebSocket rápido');
 });
 

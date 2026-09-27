@@ -13,7 +13,7 @@ globalThis.StandaloneQuestionSlides = (() => {
         return window.XiroI18n?.t('standalone.game.free_activity') || 'Actividad libre';
     }
 
-    function _renderImage(container, question, onContinue) {
+    function _renderImage(container, question) {
         container.innerHTML = `
             <div class="pl-viewport" style="background:#111827; justify-content:center; align-items:center;">
                 ${question.slide_image
@@ -28,7 +28,7 @@ globalThis.StandaloneQuestionSlides = (() => {
         `;
     }
 
-    function _renderTextual(container, question, onContinue) {
+    function _renderTextual(container, question) {
         const config = {
             comment: { bgClass: 'pl-slide-comment', icon: 'fa-comment', text: question.comment_text || question.question_text || _freeActivityFallback() },
             info: { bgClass: 'pl-slide-info', icon: 'fa-info-circle', text: question.comment_text || question.question_text || _freeActivityFallback() }

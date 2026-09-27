@@ -477,7 +477,7 @@ export function registerAnswerEvents() {
         if (!getHaRespondido()) {
             const correctBlock = data?.correctAnswer
                 ? `<div class="mt-4 bg-black/30 rounded-xl p-4 w-full max-w-sm">
-                       <p class=\"text-sm uppercase font-bold mb-1 opacity-80\">${_t('player.answer.correct_label', null, 'Correcta:')}</p>
+                       <p class="text-sm uppercase font-bold mb-1 opacity-80">${_t('player.answer.correct_label', null, 'Correcta:')}</p>
                        <p class="text-xl font-black break-words hyphens-auto" lang="es">${data.correctAnswer}</p>
                    </div>`
                 : '';

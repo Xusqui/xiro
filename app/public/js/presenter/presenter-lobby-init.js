@@ -5,13 +5,12 @@
 
 import { getSocket, getPresenterPlayerId } from './presenter-socket-config.js?v=20260922172926';
 import {
-    getSessionId, setSessionId, getPin, setPin,
+    getSessionId, setSessionId, getPin,
     getIsTeamMode, setIsTeamMode, getTeamConfig, setTeamConfig,
     setGameType, getGameType
 } from './presenter-state.js?v=20260922172926';
 import { generateSessionId, mostrarLobbyMain, restoreLobbyHTML } from './presenter-utils.js?v=20260922172926';
 import { mostrarQR, renderTeamLobby } from './presenter-game-ui.js?v=20260922172926';
-import { volverAJuegos } from './presenter-lobby.js?v=20260922172926';
 
 /**
  * Iniciar lobby del presentador

@@ -8,7 +8,6 @@
 import {
     isValidEvent,
     isDeprecatedEvent,
-    requiresAck,
     getEventInfo
 } from './socket-events.js?v=20260922172926';
 

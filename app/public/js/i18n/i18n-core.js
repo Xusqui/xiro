@@ -634,7 +634,7 @@
         return state.language;
     }
 
-    async function init() {
+    function init() {
         if (state.readyPromise) return state.readyPromise;
         state.readyPromise = setLanguage(detectInitialLanguage(), true);
         return state.readyPromise;

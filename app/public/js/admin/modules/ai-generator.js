@@ -23,7 +23,7 @@ const QUESTION_TYPE_LABELS = [
 
 // ===== PUNTO DE ENTRADA =====
 
-async function renderVistaAIGenerator() {
+function renderVistaAIGenerator() {
     aiGenStep = 1; aiGenText = ''; aiGenConfig = {}; aiGenResult = null; aiGenMode = 'document';
     _renderAIStep1();
 }

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars -- fichero de ejemplos de uso, no se carga en ninguna página */
 /**
  * @fileoverview Ejemplo de uso de los módulos core
  * @description Muestra cómo usar SocketEventManager + GameStateManager juntos
