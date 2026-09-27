@@ -65,7 +65,7 @@ async function renderEditorTrivial(game, cats) {
                         </div>
                         <div class="mb-3 flex items-center justify-center gap-3">
                             <span class="text-base font-bold text-slate-700"><i class="fas fa-eye mr-1"></i>${_t('admin.trivial.label_visible', null, 'Visible para el presentador')}</span>
-                            <span style="transform: scale(1.2); transform-origin: left center;">${renderNeonSwitch({ id: 'trivial-visible', checked: game?.visible_to_presenter !== false, action: null })}</span>
+                            <span style="transform: scale(1); transform-origin: left center;">${renderNeonSwitch({ id: 'trivial-visible', checked: game?.visible_to_presenter !== false, action: null })}</span>
                         </div>
                         <div class="mb-3 text-center">
                             <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('common.label_language', null, 'Idioma de las preguntas')}</label>
