@@ -89,6 +89,17 @@ function createRevealAnswerHandler(dependencies) {
             currentIndex: game.currentIndex
         });
 
+        // La pregunta aún no se ha mostrado (pantalla de puntos aleatorios): revelarla
+        // ahora la dejaría marcada como revelada y ya no se revelaría al responder todos
+        if (game.randomPointsReveal) {
+            logger.warn('reveal-answer ignorado: la pregunta aún no se ha mostrado', {
+                roomId,
+                socketId: socket.id,
+                currentIndex: game.currentIndex
+            });
+            return;
+        }
+
         pushSessionLog(roomId, {
             level: 'info',
             event: 'answer-revealed',
