@@ -4,6 +4,7 @@ window.TVApp.TrvLayout = (function () {
 
     const getEl = window.TVApp.Utils.getEl;
     const clearCache = window.TVApp.Utils.clearCache;
+    const escapeHtml = window.TVApp.Utils.escapeHtml;
 
     function buildTrivialLayout() {
         let html = '<div style="display:flex;flex-direction:column;height:100%;width:100%;overflow:hidden">';
@@ -49,7 +50,7 @@ window.TVApp.TrvLayout = (function () {
 
             html += '<div style="display:flex;align-items:center;padding:12px 14px;background:rgba(30,41,59,0.85);border-radius:8px;border-left:4px solid ' + col + ';margin-bottom:14px">';
             html += '<span style="width:18px;height:18px;border-radius:50%;flex-shrink:0;background:' + col + ';box-shadow:0 0 8px ' + col + ';margin-right:14px"></span>';
-            html += '<span style="font-size:18px;color:#fff;font-weight:700;line-height:1.2;word-break:break-word">' + name + '</span></div>';
+            html += '<span style="font-size:18px;color:#fff;font-weight:700;line-height:1.2;word-break:break-word">' + escapeHtml(name) + '</span></div>';
         }
         el.innerHTML = _tHtml(html);
     }
@@ -117,7 +118,7 @@ window.TVApp.TrvLayout = (function () {
                 html += '<div style="border-radius:8px;padding:8px 12px;background:' + bg + ';border:2px solid ' + border + ';margin-bottom:8px">';
                 html += '<div style="display:flex;align-items:center;margin-bottom:6px">';
                 html += '<span style="width:22px;height:22px;border-radius:50%;background:' + tColor + ';color:#fff;font-size:12px;font-weight:900;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin-right:6px">' + turnPos + '</span>';
-                html += '<span style="color:#fff;font-size:14px;font-weight:700;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1">' + tName + '</span></div>';
+                html += '<span style="color:#fff;font-size:14px;font-weight:700;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1">' + escapeHtml(tName) + '</span></div>';
                 html += '<div style="display:flex;flex-wrap:wrap">' + wedges + '</div>';
                 if (members) html += '<div style="color:#94a3b8;font-size:11px;margin-top:6px;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + members + '</div>';
                 html += '</div>';
@@ -147,7 +148,7 @@ window.TVApp.TrvLayout = (function () {
                 html += '<div style="border-radius:8px;padding:8px 12px;background:' + pBg + ';border:2px solid ' + pBorder + ';margin-bottom:8px">';
                 html += '<div style="display:flex;align-items:center;margin-bottom:6px">';
                 html += '<span style="width:22px;height:22px;border-radius:50%;background:#fbbf24;color:#1e293b;font-size:12px;font-weight:900;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin-right:6px">' + pos + '</span>';
-                html += '<span style="color:#fff;font-size:14px;font-weight:700;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1">' + nick + '</span></div>';
+                html += '<span style="color:#fff;font-size:14px;font-weight:700;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1">' + escapeHtml(nick) + '</span></div>';
                 html += '<div style="display:flex;flex-wrap:wrap">' + pWedges + '</div></div>';
             }
         }

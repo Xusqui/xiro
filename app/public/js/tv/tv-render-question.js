@@ -88,12 +88,12 @@ window.TVApp.RenderQuestion = (function () {
             }
         } else if (esWordScramble) {
             if (!tieneImagen) {
-                const wordLength = q.word_length || (q.correct_word ? String(q.correct_word).length : 7);
+                const wordLength = Number(q.word_length) || (q.correct_word ? String(q.correct_word).length : 7);
                 let emptyBoxes = '';
                 for (let b = 0; b < wordLength; b++) {
                     emptyBoxes += '<div style="display:inline-flex;align-items:center;justify-content:center;width:2.5rem;height:2.5rem;border:2px solid #fbbf24;border-radius:0.5rem;font-size:1.2rem;font-weight:900;color:#fde68a;background:rgba(30,41,59,0.7);margin:2px"></div>';
                 }
-                answerAreaHTML = '<div id="word-scramble-placeholder" style="text-align:center;padding:30px 20px;background:rgba(245,158,11,0.1);border-radius:15px;margin:20px 0;border:2px solid #f59e0b"><div style="font-size:18px;color:#fbbf24;font-weight:bold;margin-bottom:10px">🔤 ANAGRAMA</div><div style="font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:15px">Palabra de <strong style="color:#fde68a">' + wordLength + '</strong> letras</div><div style="display:flex;flex-wrap:wrap;justify-content:center;margin:15px 0" id="ws-tv-boxes">' + emptyBoxes + '</div><div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:10px">La respuesta correcta se mostrará al revelar</div></div>';
+                answerAreaHTML = '<div id="word-scramble-placeholder" style="text-align:center;padding:30px 20px;background:rgba(245,158,11,0.1);border-radius:15px;margin:20px 0;border:2px solid #f59e0b"><div style="font-size:18px;color:#fbbf24;font-weight:bold;margin-bottom:10px">🔤 ANAGRAMA</div><div style="font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:15px">Palabra de <strong style="color:#fde68a">' + Number(wordLength) + '</strong> letras</div><div style="display:flex;flex-wrap:wrap;justify-content:center;margin:15px 0" id="ws-tv-boxes">' + emptyBoxes + '</div><div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:10px">La respuesta correcta se mostrará al revelar</div></div>';
             }
         } else {
             answerAreaHTML = (mostrarOpciones ? '<div class="options-grid" id="options-grid">' + optionsHTML + '</div>' : '<div style="text-align:center;padding:20px;color:rgba(255,255,255,0.6);font-style:italic;font-size:18px">📱 Los jugadores ven las opciones en sus dispositivos</div>');

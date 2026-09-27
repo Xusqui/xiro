@@ -58,17 +58,6 @@ module.exports = {
     },
     overrides: [
         {
-            files: ['**/*.test.js', '**/__tests__/**/*.js'],
-            rules: {
-                // Jest usa describe/it anidados por diseño y funciones largas para
-                // escenarios de integración; estas reglas aportan más ruido que señal en tests.
-                'max-nested-callbacks': 'off',
-                'max-lines-per-function': 'off',
-                // Los mocks (fetch, json…) deben devolver promesas aunque no usen await.
-                'require-await': 'off'
-            }
-        },
-        {
             // Frontend: navegador, mezcla de módulos ES y <script> clásicos que
             // comparten globales (listas generadas con `npm run lint:globals`).
             // Los scripts clásicos se analizan como 'script': así sus declaraciones
@@ -121,6 +110,18 @@ module.exports = {
         {
             files: ['public/**/__tests__/**/*.js'],
             env: { browser: true, node: true, jest: true }
+        },
+        {
+            // Al final: debe prevalecer sobre los bloques de public/ (límites de tamaño)
+            files: ['**/*.test.js', '**/__tests__/**/*.js'],
+            rules: {
+                // Jest usa describe/it anidados por diseño y funciones largas para
+                // escenarios de integración; estas reglas aportan más ruido que señal en tests.
+                'max-nested-callbacks': 'off',
+                'max-lines-per-function': 'off',
+                // Los mocks (fetch, json…) deben devolver promesas aunque no usen await.
+                'require-await': 'off'
+            }
         }
     ],
     ignorePatterns: [
