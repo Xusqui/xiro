@@ -47,61 +47,84 @@ window.TVApp.RenderQuestion = (function () {
         state.rafHandle = requestAnimationFrame(countdownLoop);
     }
 
+    const OPTION_COLORS = ['option-red', 'option-blue', 'option-yellow', 'option-green', 'option-purple', 'option-pink'];
+
+    function optionsHtml(q) {
+        let html = '';
+        for (let i = 0; i < q.options.length; i++) {
+            const opt = q.options[i];
+            html += '<div id="opt-' + i + '" class="option ' + OPTION_COLORS[i] + '"><span class="option-number">' + (i + 1) + '</span><span>' + escapeHtml(opt.optionText) + '</span></div>';
+        }
+        return html;
+    }
+
+    function imageHtml(urlRecurso) {
+        return '<div style="display:flex;align-items:center;justify-content:center;margin:20px 0;max-height:500px"><img src="' + urlRecurso + '" alt="Pregunta" style="max-width:100%;max-height:500px;object-fit:contain;border-radius:15px"></div>';
+    }
+
+    function audioHtml(urlRecurso) {
+        return '<div style="background-color:rgba(8,145,178,0.2);padding:20px;border-radius:15px;margin:20px 0;border:2px solid #0891b2"><div style="text-align:center;margin-bottom:15px"><span style="font-size:48px">🔊</span><p style="font-size:20px;font-weight:bold;margin:10px 0">AUDIO EN REPRODUCCIÓN</p><p style="font-size:14px;color:#a5f3fc">Escucha atentamente</p></div><audio id="question-audio-player" controls style="width:100%;max-width:500px;margin:0 auto;display:block"><source src="' + urlRecurso + '" type="audio/mpeg"><source src="' + urlRecurso + '" type="audio/wav"><source src="' + urlRecurso + '" type="audio/ogg">Tu navegador no soporta audio.</audio></div>';
+    }
+
+    function numericAreaHtml(q) {
+        const hintText = q.hint_text || q.hint || q.hintText || '';
+        let hintHTML = '';
+        if (hintText && String(hintText).trim() !== '') {
+            hintHTML = '<div style="margin-top:14px;padding:12px 14px;background:rgba(15,23,42,0.45);border:1px solid rgba(16,185,129,0.35);border-radius:10px;text-align:left;max-width:800px;margin-left:auto;margin-right:auto"><div style="font-size:12px;color:#a7f3d0;font-weight:bold;margin-bottom:6px">💡 Pista</div><div style="font-size:14px;color:#e2e8f0;line-height:1.35">' + escapeHtml(hintText) + '</div></div>';
+        }
+        return '<div id="numeric-placeholder" style="text-align:center;padding:40px 20px;background:rgba(16,185,129,0.1);border-radius:15px;margin:20px 0;border:2px solid #10b981"><div style="font-size:18px;color:#a5f3fc;font-weight:bold;margin-bottom:10px">📝 RESPUESTA NUMÉRICA</div><div style="font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:15px">Los jugadores escriben un número entero</div><div style="font-size:20px;font-weight:bold;color:#10b981">La respuesta correcta se mostrará al revelar</div><div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:10px">Puntos máximos: ' + (q.max_points || 0) + '</div>' + hintHTML + '</div>';
+    }
+
+    function wordScrambleAreaHtml(q) {
+        const wordLength = Number(q.word_length) || (q.correct_word ? String(q.correct_word).length : 7);
+        let emptyBoxes = '';
+        for (let b = 0; b < wordLength; b++) {
+            emptyBoxes += '<div style="display:inline-flex;align-items:center;justify-content:center;width:2.5rem;height:2.5rem;border:2px solid #fbbf24;border-radius:0.5rem;font-size:1.2rem;font-weight:900;color:#fde68a;background:rgba(30,41,59,0.7);margin:2px"></div>';
+        }
+        const letters = Array.isArray(q.scrambled_letters) ? q.scrambled_letters : [];
+        let letterTiles = '';
+        for (let l = 0; l < letters.length; l++) {
+            letterTiles += '<div style="display:inline-flex;align-items:center;justify-content:center;width:2.5rem;height:2.5rem;border:2px solid #a78bfa;border-radius:0.5rem;font-size:1.2rem;font-weight:900;color:#e9d5ff;background:rgba(109,40,217,0.4);margin:2px">' + escapeHtml(letters[l]) + '</div>';
+        }
+        const lettersHTML = letterTiles
+            ? '<div style="border-top:1px solid rgba(251,191,36,0.3);padding-top:12px;margin-top:5px"><div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.1em">' + _t('presenter.wordscramble.available_letters', null, 'Letras disponibles') + '</div><div style="display:flex;flex-wrap:wrap;justify-content:center">' + letterTiles + '</div></div>'
+            : '';
+        return '<div id="word-scramble-placeholder" style="text-align:center;padding:30px 20px;background:rgba(245,158,11,0.1);border-radius:15px;margin:20px 0;border:2px solid #f59e0b"><div style="font-size:18px;color:#fbbf24;font-weight:bold;margin-bottom:10px">🔤 ANAGRAMA</div><div style="font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:15px">Palabra de <strong style="color:#fde68a">' + Number(wordLength) + '</strong> letras</div><div style="display:flex;flex-wrap:wrap;justify-content:center;margin:15px 0" id="ws-tv-boxes">' + emptyBoxes + '</div>' + lettersHTML + '<div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:10px">La respuesta correcta se mostrará al revelar</div></div>';
+    }
+
+    /** Zona de respuesta: numérica (salvo con imagen), anagrama, opciones o aviso de que se ven en el móvil. */
+    function answerAreaHtml(q, tieneImagen) {
+        if (q.question_type === 'numeric_approximation') return tieneImagen ? '' : numericAreaHtml(q);
+        // El anagrama se muestra también con imagen (como en el presentador): no son opciones
+        if (q.question_type === 'word_scramble') return wordScrambleAreaHtml(q);
+        if (tieneImagen) return '<div style="text-align:center;padding:20px;color:rgba(255,255,255,0.6);font-style:italic;font-size:18px">📱 Los jugadores ven las opciones en sus dispositivos</div>';
+        return '<div class="options-grid" id="options-grid">' + optionsHtml(q) + '</div>';
+    }
+
+    function nextButtonText(state) {
+        const isLast = state.totalQuestions > 0 && state.currentQuestionIndex >= state.totalQuestions - 1;
+        return (isLast && !window.isTrivialGame) ? 'Ver Ránking ★' : 'Siguiente →';
+    }
+
     function renderPregunta(q) {
         const state = window.TVApp.State;
         state.currentQuestion = q;
-        const colors = ['option-red', 'option-blue', 'option-yellow', 'option-green', 'option-purple', 'option-pink'];
         const tipoContenido = q.tipo_contenido || 'texto';
         const urlRecurso = q.url_recurso || null;
         const tieneImagen = tipoContenido === 'imagen' && urlRecurso;
         const tieneAudio = tipoContenido === 'audio' && urlRecurso;
-        const esNumericaAproximacion = q.question_type === 'numeric_approximation';
-        const esWordScramble = q.question_type === 'word_scramble';
-        const mostrarOpciones = !tieneImagen && !esNumericaAproximacion && !esWordScramble;
-
-        let optionsHTML = '';
-        if (mostrarOpciones) {
-            for (let i = 0; i < q.options.length; i++) {
-                const opt = q.options[i];
-                optionsHTML += '<div id="opt-' + i + '" class="option ' + colors[i] + '"><span class="option-number">' + (i + 1) + '</span><span>' + escapeHtml(opt.optionText) + '</span></div>';
-            }
-        }
 
         let multimediaHTML = '';
         if (tieneImagen) {
-            multimediaHTML = '<div style="display:flex;align-items:center;justify-content:center;margin:20px 0;max-height:500px"><img src="' + urlRecurso + '" alt="Pregunta" style="max-width:100%;max-height:500px;object-fit:contain;border-radius:15px"></div>';
+            multimediaHTML = imageHtml(urlRecurso);
         } else if (tieneAudio) {
-            multimediaHTML = '<div style="background-color:rgba(8,145,178,0.2);padding:20px;border-radius:15px;margin:20px 0;border:2px solid #0891b2"><div style="text-align:center;margin-bottom:15px"><span style="font-size:48px">🔊</span><p style="font-size:20px;font-weight:bold;margin:10px 0">AUDIO EN REPRODUCCIÓN</p><p style="font-size:14px;color:#a5f3fc">Escucha atentamente</p></div><audio id="question-audio-player" controls style="width:100%;max-width:500px;margin:0 auto;display:block"><source src="' + urlRecurso + '" type="audio/mpeg"><source src="' + urlRecurso + '" type="audio/wav"><source src="' + urlRecurso + '" type="audio/ogg">Tu navegador no soporta audio.</audio></div>';
+            multimediaHTML = audioHtml(urlRecurso);
             setTimeout(function () { playQuestionAudio(urlRecurso); }, 200);
         }
 
         const questionTimeLimit = q.time_limit || 30;
-        let answerAreaHTML = '';
-        if (esNumericaAproximacion) {
-            if (!tieneImagen) {
-                const hintText = q.hint_text || q.hint || q.hintText || '';
-                let hintHTML = '';
-                if (hintText && String(hintText).trim() !== '') {
-                    hintHTML = '<div style="margin-top:14px;padding:12px 14px;background:rgba(15,23,42,0.45);border:1px solid rgba(16,185,129,0.35);border-radius:10px;text-align:left;max-width:800px;margin-left:auto;margin-right:auto"><div style="font-size:12px;color:#a7f3d0;font-weight:bold;margin-bottom:6px">💡 Pista</div><div style="font-size:14px;color:#e2e8f0;line-height:1.35">' + escapeHtml(hintText) + '</div></div>';
-                }
-                answerAreaHTML = '<div id="numeric-placeholder" style="text-align:center;padding:40px 20px;background:rgba(16,185,129,0.1);border-radius:15px;margin:20px 0;border:2px solid #10b981"><div style="font-size:18px;color:#a5f3fc;font-weight:bold;margin-bottom:10px">📝 RESPUESTA NUMÉRICA</div><div style="font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:15px">Los jugadores escriben un número entero</div><div style="font-size:20px;font-weight:bold;color:#10b981">La respuesta correcta se mostrará al revelar</div><div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:10px">Puntos máximos: ' + (q.max_points || 0) + '</div>' + hintHTML + '</div>';
-            }
-        } else if (esWordScramble) {
-            if (!tieneImagen) {
-                const wordLength = Number(q.word_length) || (q.correct_word ? String(q.correct_word).length : 7);
-                let emptyBoxes = '';
-                for (let b = 0; b < wordLength; b++) {
-                    emptyBoxes += '<div style="display:inline-flex;align-items:center;justify-content:center;width:2.5rem;height:2.5rem;border:2px solid #fbbf24;border-radius:0.5rem;font-size:1.2rem;font-weight:900;color:#fde68a;background:rgba(30,41,59,0.7);margin:2px"></div>';
-                }
-                answerAreaHTML = '<div id="word-scramble-placeholder" style="text-align:center;padding:30px 20px;background:rgba(245,158,11,0.1);border-radius:15px;margin:20px 0;border:2px solid #f59e0b"><div style="font-size:18px;color:#fbbf24;font-weight:bold;margin-bottom:10px">🔤 ANAGRAMA</div><div style="font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:15px">Palabra de <strong style="color:#fde68a">' + Number(wordLength) + '</strong> letras</div><div style="display:flex;flex-wrap:wrap;justify-content:center;margin:15px 0" id="ws-tv-boxes">' + emptyBoxes + '</div><div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:10px">La respuesta correcta se mostrará al revelar</div></div>';
-            }
-        } else {
-            answerAreaHTML = (mostrarOpciones ? '<div class="options-grid" id="options-grid">' + optionsHTML + '</div>' : '<div style="text-align:center;padding:20px;color:rgba(255,255,255,0.6);font-style:italic;font-size:18px">📱 Los jugadores ven las opciones en sus dispositivos</div>');
-        }
-
-        const isTrivial = window.isTrivialGame;
-        const isLast = state.totalQuestions > 0 && state.currentQuestionIndex >= state.totalQuestions - 1;
-        const nxtText = (isLast && !isTrivial) ? 'Ver Ránking ★' : 'Siguiente →';
+        const answerAreaHTML = answerAreaHtml(q, tieneImagen);
+        const nxtText = nextButtonText(state);
         const mainHtml = '<div class="question-container"><div class="question-header"><table><tr><td style="width:150px"><img src="/images/logo.svg" style="max-width:100px"></td><td style="text-align:center"><div class="timer" id="timer" data-tv-action="toggle-pause-timer" style="cursor:pointer" title="Clic para pausar/reanudar">' + questionTimeLimit + '</div></td><td style="text-align:right;font-size:18px;font-weight:bold">RESPUESTAS: <span id="ans-count">0</span> / <span id="ans-total">' + state.totalPlayers + '</span></td></tr></table></div><div class="question-text">' + escapeHtml(q.question_text) + '</div>' + multimediaHTML + answerAreaHTML + '<button id="btn-next" data-tv-action="next-question" class="btn btn-secondary btn-next hidden">' + nxtText + '</button></div>';
 
         getEl('main-container').innerHTML = _tHtml(mainHtml);

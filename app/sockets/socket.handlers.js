@@ -283,7 +283,12 @@ function registerTrivialSocketEvents(socket, handlers) {
     socket.on('trivial-roll-dice', (data) => handlers.trivialHandler.handleRollDice(socket, data));
     socket.on('trivial-move', (data) => handlers.trivialHandler.handleMove(socket, data));
     socket.on('trivial-category-chosen', (data) => handlers.trivialHandler.handleCategoryChosen(socket, data));
-    socket.on('trivial-end-game', (data) => handlers.trivialHandler.handleEndGame(socket, data));
+    socket.on('trivial-end-game', (data) => {
+        const roomId = resolveRoomId(data, ['roomId', 'sessionId', 'pin']);
+        if (assertIsPresenter(socket, roomId, 'trivial-error')) {
+            handlers.trivialHandler.handleEndGame(socket, data);
+        }
+    });
 }
 
 function registerDisconnectAndErrorEvents(socket, handlers, ackManager) {

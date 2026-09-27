@@ -7,6 +7,23 @@ const { checkAllPlayersAnswered } = require('./IndividualModeHelper');
 const { clearTimer } = require('./TimerManager');
 const { revealAnswer, endGameIfLastQuestion } = require('./GameEndManager');
 const { removeExpectedPlayer, acquireRevealLock } = require('./AtomicAnswerCounter');
+const { checkAllTrivialPlayersAnswered } = require('../handlers/trivial/TrivialAnswerGuard');
+
+/**
+ * Trivial: si al irse el jugador ya han respondido todos los que quedan, revelar
+ * (mismo criterio que handleTrivialAutoReveal al recibir una respuesta).
+ */
+async function revealTrivialIfAllAnswered({ roomId, game, io }) {
+    const allAnswered = await checkAllTrivialPlayersAnswered(game, io);
+    if (!allAnswered) return;
+
+    logger.info('Trivial: todos los jugadores restantes respondieron - revelando', {
+        roomId,
+        questionIndex: game.currentIndex
+    });
+    clearTimer(roomId);
+    await revealAnswer({ roomId, game, io, timeExpired: false });
+}
 
 /**
  * Remueve un jugador del juego activo y verifica si corresponde revelar
@@ -35,7 +52,12 @@ async function removePlayerFromActiveGame({ roomId, nickname, activeGames, playe
     logger.debug(`${nickname} removido del juego activo. Jugadores restantes: ${game.players.length}`);
 
     // Si el juego está en progreso (canAnswer = true), verificar si los demás ya respondieron.
-    // Para modo trivial esta lógica se gestiona por epoch en TrivialAnswerGuard.
+    // Trivial usa su propio registro de respuestas por epoch (TrivialAnswerGuard).
+    if (game.canAnswer && game.isTrivial) {
+        await revealTrivialIfAllAnswered({ roomId, game, io });
+        return true;
+    }
+
     if (game.canAnswer && game.currentIndex !== undefined && !game.isTrivial) {
         let allAnswered = false;
 

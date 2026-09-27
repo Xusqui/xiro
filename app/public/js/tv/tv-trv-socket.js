@@ -44,12 +44,19 @@ window.TVApp.TrvSocket = (function () {
         }
     }
 
+    /** Botones Finalizar/Abortar partida (#ctrl-partida). */
+    function setGameControlsVisible(visible) {
+        const ctrl = document.getElementById('ctrl-partida');
+        if (ctrl) ctrl.style.display = visible ? 'block' : 'none';
+    }
+
     function initTrivialSocket() {
         const socket = window.TVApp.socket;
         if (!socket) return;
 
         socket.on('trivial-game-started', function (data) {
             window.isTrivialGame = true;
+            setGameControlsVisible(true);
             State.setTrivialGameState(data);
             Layout.buildTrivialLayout();
 
@@ -103,6 +110,7 @@ window.TVApp.TrvSocket = (function () {
 
         socket.on('trivial-winner', function (data) {
             window.isTrivialGame = false;
+            setGameControlsVisible(false);
             State.clearTrivialGameState();
             Highlights.updateBoardHighlights([], null);
             Highlights.showTrivialWinnerOverlay(data.ranking);
@@ -152,6 +160,7 @@ window.TVApp.TrvSocket = (function () {
 
         socket.on('trivial-game-ended', function () {
             window.isTrivialGame = false;
+            setGameControlsVisible(false);
             State.clearTrivialGameState();
             Highlights.updateBoardHighlights([], null);
         });

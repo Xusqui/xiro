@@ -16,7 +16,11 @@ window.TVApp.Main = (function () {
             _t('tv.game.end', null, 'Finalizar partida'),
             _t('tv.game.end_msg', null, 'Se enviara el ranking final a todos los jugadores. ¿Continuar?'),
             function () {
-                window.TVApp.socket.emit('end-game', { roomIdOrPin: state.sessionId, reason: 'manual' });
+                if (window.isTrivialGame) {
+                    window.TVApp.socket.emit('trivial-end-game', { roomId: state.sessionId });
+                } else {
+                    window.TVApp.socket.emit('end-game', { roomIdOrPin: state.sessionId, reason: 'manual' });
+                }
             }
         );
     }
