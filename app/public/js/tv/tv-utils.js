@@ -105,6 +105,8 @@ window.TVApp.Utils = (function () {
         modal.style.boxShadow = '0 20px 50px rgba(0,0,0,0.35)';
         modal.style.border = '4px solid ' + (type === 'error' ? '#fca5a5' : type === 'warning' ? '#facc15' : '#93c5fd');
         modal.style.fontFamily = 'Arial, sans-serif';
+        // La página de la TV hereda texto blanco (fondo oscuro); sin esto el modal se ve vacío
+        modal.style.color = '#1e293b';
 
         const titleEl = document.createElement('div');
         titleEl.textContent = _t(tr(title || 'Aviso'));

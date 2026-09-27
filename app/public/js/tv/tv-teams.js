@@ -79,7 +79,11 @@ window.TVApp.Teams = (function () {
             const colorSelect = getEl('team-color-' + i);
             const name = nameInput ? (nameInput.value.trim() || DEFAULT_TEAM_NAMES[i] || 'Equipo ' + (i + 1)) : 'Equipo ' + (i + 1);
             if (!isValidTeamName(name, teamNamePattern, 2, 30)) {
-                showTvModal('Nombre invalido', 'El nombre del equipo solo puede contener letras, números, espacios y guiones (2-30 caracteres).', 'warning');
+                showTvModal(
+                    _t('presenter.team.name_invalid', null, 'Nombre inválido'),
+                    _t('presenter.team.name_validation', null, 'El nombre del equipo solo puede contener letras, números, espacios y guiones (2-30 caracteres).'),
+                    'warning'
+                );
                 if (nameInput) {
                     nameInput.focus();
                     nameInput.select();

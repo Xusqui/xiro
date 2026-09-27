@@ -205,8 +205,8 @@ export function confirmarEquipos(numTeams, selectedPin) {
         const rawName = nameInput?.value.trim() || getDefaultTeamNames()[i] || `${_t('presenter.team.label', 'Equipo')} ${i + 1}`;
         if (!isValidTeamName(rawName)) {
             mostrarModalMensaje(
-                _t('presenter.team.name_invalid', 'Nombre inválido'),
-                _t('presenter.team.name_validation', 'El nombre del equipo solo puede contener letras, números, espacios y guiones (2-30 caracteres).'),
+                _t('presenter.team.name_invalid', null, 'Nombre inválido'),
+                _t('presenter.team.name_validation', null, 'El nombre del equipo solo puede contener letras, números, espacios y guiones (2-30 caracteres).'),
                 'warning'
             );
             if (nameInput) {

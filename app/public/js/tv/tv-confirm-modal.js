@@ -30,6 +30,8 @@ window.TVApp.ConfirmModal = (function () {
         modal.style.width = '90%';
         modal.style.padding = '24px 20px';
         modal.style.fontFamily = 'Arial, sans-serif';
+        // La página de la TV hereda texto blanco (fondo oscuro); sin esto el título no se ve
+        modal.style.color = '#1e293b';
         modal.style.boxShadow = '0 16px 40px rgba(0,0,0,0.4)';
 
         const titleEl = document.createElement('div');
