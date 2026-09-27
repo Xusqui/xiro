@@ -128,7 +128,7 @@ function revealOptions(data, isInfoSlide) {
     }
 }
 
-function nextButtonLabel() {
+export function nextButtonLabel() {
     if (window.isTrivialGame) {
         return [_t('presenter.game.next_round', null, 'Siguiente Ronda'), 'fa-rotate-right'];
     }

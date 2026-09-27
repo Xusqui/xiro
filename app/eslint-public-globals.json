@@ -899,6 +899,8 @@
     "public/js/presenter/presenter-players-panel.js",
     "public/js/presenter/presenter-podio.js",
     "public/js/presenter/presenter-progress-metrics.js",
+    "public/js/presenter/presenter-question-timer.js",
+    "public/js/presenter/presenter-question-view.js",
     "public/js/presenter/presenter-reconnection.js",
     "public/js/presenter/presenter-remote-comment.js",
     "public/js/presenter/presenter-remote-ui.js",
