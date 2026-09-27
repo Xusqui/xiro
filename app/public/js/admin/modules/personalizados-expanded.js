@@ -73,7 +73,7 @@ async function renderVistaPersonalizados() {
                             <div class="p-6">
                                 <div class="flex justify-between items-start mb-4">
                                     <div class="flex-1">
-                                        <h3 class="text-lg font-bold text-slate-900 mb-2 line-clamp-2">${juego.name}</h3>
+                                        <h3 class="text-lg font-bold text-slate-900 mb-2 line-clamp-2">${escapeHtml(juego.name)}</h3>
                                         ${getOwnerBadgeHtml(ownerInfo)}
                                         <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-xs font-mono font-bold mb-2">
                                             <i class="fas fa-key"></i>
@@ -92,7 +92,7 @@ async function renderVistaPersonalizados() {
                                         <i class="fas fa-edit"></i>
                                         ${_t('admin.common.edit', null, 'Editar')}
                                     </button>
-                                    <button data-admin-click="exportarJuegoAPDF(${juego.id}, '${juego.name.replace(/'/g, '\\\'')}')" 
+                                    <button data-admin-click="exportarJuegoAPDF(${juego.id}, '${escapeHtml(jsStringContent(juego.name))}')" 
                                         class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2"
                                         title="Exportar a PDF">
                                         <i class="fas fa-file-pdf"></i>
@@ -202,7 +202,7 @@ async function renderEditorJuegoPersonalizado(game) {
                         <div class="grid grid-cols-2 gap-3 mb-3">
                             <div>
                                 <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.custom.label_name', null, 'Nombre del Juego')}</label>
-                                <input type="text" id="customGameName" value="${game.name}" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-blue-500 outline-none transition text-sm" placeholder="${_t('admin.custom.ph_name', null, 'Ej: Examen Final Anatomía')}">
+                                <input type="text" id="customGameName" value="${escapeHtml(game.name)}" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-blue-500 outline-none transition text-sm" placeholder="${_t('admin.custom.ph_name', null, 'Ej: Examen Final Anatomía')}">
                             </div>
                             <div>
                                 <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.label_pin', null, 'PIN Personalizado')}</label>
@@ -212,7 +212,7 @@ async function renderEditorJuegoPersonalizado(game) {
 
                         <div class="mb-3 flex items-center justify-center gap-3" title="${_t('admin.games.help_visible', null, 'Si está marcado, el presentador podrá ver y usar este juego')}">
                             <span class="text-base font-bold text-slate-700"><i class="fas fa-eye mr-1"></i>${_t('admin.banks.label_visible', null, 'Mostrar al presentador')}</span>
-                            <span style="transform: scale(1.2); transform-origin: left center;">${renderNeonSwitch({ id: 'customGameVisibleToPresenter', checked: game.visible_to_presenter !== false, action: null })}</span>
+                            <span style="transform: scale(1); transform-origin: left center;">${renderNeonSwitch({ id: 'customGameVisibleToPresenter', checked: game.visible_to_presenter !== false, action: null })}</span>
                         </div>
                         <div class="mb-3 text-center">
                             <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('common.label_language', null, 'Idioma de las preguntas')}</label>
@@ -280,7 +280,7 @@ async function renderEditorJuegoPersonalizado(game) {
                     <label class="block text-xs font-bold text-slate-400 uppercase mb-2">${_t('admin.custom.label_bank', null, 'Selecciona un Banco')}</label>
                     <select id="selectorBanco" data-admin-change="cargarPreguntasBanco()" class="w-full p-3 border-2 border-slate-100 rounded-xl focus:border-blue-500 outline-none">
                         <option value="">${_t('admin.custom.ph_bank', null, '-- Selecciona un banco --')}</option>
-                        ${allBanks.map(b => `<option value="${b.id}">${b.name}</option>`).join('')}
+                        ${allBanks.map(b => `<option value="${b.id}">${escapeHtml(b.name)}</option>`).join('')}
                     </select>
                 </div>
 
@@ -338,7 +338,7 @@ async function renderEditorJuegoPersonalizado(game) {
                     <label class="block text-xs font-bold text-slate-400 uppercase mb-2">${_t('admin.custom.label_bank', null, 'Selecciona un Banco')}</label>
                     <select id="selectorBanco2" data-admin-change="cargarPreguntasBanco('selectorBanco2', 'preguntasDisponibles2')" class="w-full p-3 border-2 border-slate-100 rounded-xl focus:border-blue-500 outline-none">
                         <option value="">${_t('admin.custom.ph_bank', null, '-- Selecciona un banco --')}</option>
-                        ${allBanks.map(b => `<option value="${b.id}">${b.name}</option>`).join('')}
+                        ${allBanks.map(b => `<option value="${b.id}">${escapeHtml(b.name)}</option>`).join('')}
                     </select>
                 </div>
                 <div id="preguntasDisponibles2" class="space-y-2 max-h-96 overflow-y-auto">
@@ -357,7 +357,7 @@ async function renderEditorJuegoPersonalizado(game) {
                 </div>
                 ${game.id ? `
                 <div class="mt-4">
-                    <button data-admin-click="exportarJuegoAPDF(${game.id}, '${game.name.replace(/'/g, '\\\'')}')" class="w-full bg-purple-600 text-white px-6 py-4 rounded-2xl font-bold text-lg hover:bg-purple-700 transition shadow-xl shadow-purple-200 flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
+                    <button data-admin-click="exportarJuegoAPDF(${game.id}, '${escapeHtml(jsStringContent(game.name))}')" class="w-full bg-purple-600 text-white px-6 py-4 rounded-2xl font-bold text-lg hover:bg-purple-700 transition shadow-xl shadow-purple-200 flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
                         <i class="fas fa-file-pdf text-xl"></i> ${_t('admin.custom.btn_export_pdf', null, 'EXPORTAR A PDF')}
                     </button>
                 </div>
@@ -431,12 +431,13 @@ async function cargarPreguntasBanco(selectorId = 'selectorBanco', contenedorId =
                             <i class="fas ${alreadyAdded ? 'fa-check' : 'fa-plus'}"></i>
                         </button>
                         <div class="flex-1">
-                            <p class="font-medium text-sm text-slate-800">${q.question_text}</p>
-            <p class="text-xs text-green-600 mt-1"><i class="fas fa-check-circle mr-1"></i>${q.question_type === 'survey' ? _t('admin.custom.survey_answer', null, 'Encuesta (votos)') : correctDisplay}</p>
+                            <p class="font-medium text-sm text-slate-800">${escapeHtml(q.question_text)}</p>
+            <p class="text-xs text-green-600 mt-1"><i class="fas fa-check-circle mr-1"></i>${q.question_type === 'survey' ? _t('admin.custom.survey_answer', null, 'Encuesta (votos)') : escapeHtml(correctDisplay)}</p>
                         </div>
                     </div>
                 </div>
-            `;}).join('');
+            `;
+    }).join('');
 }
 
 // ===== REFRESCAR TODOS LOS SELECTORES DE BANCO =====
@@ -538,7 +539,7 @@ function dibujarPreguntasPersonalizadas() {
                                 <div class="flex items-center gap-2 mb-2">
                                     <span class="bg-amber-500 text-white px-2 py-1 rounded text-xs font-bold"><i class="fas fa-comment mr-1"></i>${_t('admin.custom.slide_activity', null, 'ACTIVIDAD LIBRE')}</span>
                                 </div>
-                                <p class="font-bold text-lg text-amber-900">${q.comment_text || _t('admin.custom.slide_no_text', null, 'Sin texto')}</p>
+                                <p class="font-bold text-lg text-amber-900">${q.comment_text ? escapeHtml(q.comment_text) : _t('admin.custom.slide_no_text', null, 'Sin texto')}</p>
                                 <p class="text-xs text-amber-600 mt-1 italic"><i class="fas fa-hand-pointer mr-1"></i>${_t('admin.custom.slide_activity_help', null, 'El presentador podrá asignar puntos manualmente')}</p>
                             </div>
                             <div class="flex flex-col gap-2">
@@ -569,7 +570,7 @@ function dibujarPreguntasPersonalizadas() {
                                 <div class="flex items-center gap-2 mb-2">
                                     <span class="bg-blue-500 text-white px-2 py-1 rounded text-xs font-bold"><i class="fas fa-info-circle mr-1"></i>${_t('admin.custom.slide_info', null, 'SLIDE INFORMATIVO')}</span>
                                 </div>
-                                <p class="font-bold text-lg text-blue-900">${q.comment_text || _t('admin.custom.slide_no_text', null, 'Sin texto')}</p>
+                                <p class="font-bold text-lg text-blue-900">${q.comment_text ? escapeHtml(q.comment_text) : _t('admin.custom.slide_no_text', null, 'Sin texto')}</p>
                                 <p class="text-xs text-blue-600 mt-1 italic"><i class="fas fa-eye mr-1"></i>${_t('admin.custom.slide_info_help', null, 'Solo se muestra (sin asignación de puntos)')}</p>
                             </div>
                             <div class="flex flex-col gap-2">
@@ -602,8 +603,8 @@ function dibujarPreguntasPersonalizadas() {
                                 <div class="flex items-center gap-2 mb-2">
                                     <span class="bg-indigo-600 text-white px-2 py-1 rounded text-xs font-bold"><i class="fas fa-align-left mr-1"></i>${_t('admin.custom.slide_text', null, 'DIAPOSITIVA TEXTO')}</span>
                                 </div>
-                                <p class="font-black text-lg text-indigo-900">${q.slide_title || _t('admin.custom.slide_no_title', null, 'Sin título')}</p>
-                                <p class="text-sm text-indigo-800 mt-1" style="white-space: pre-line;">${bodyPreview}</p>
+                                <p class="font-black text-lg text-indigo-900">${q.slide_title ? escapeHtml(q.slide_title) : _t('admin.custom.slide_no_title', null, 'Sin título')}</p>
+                                <p class="text-sm text-indigo-800 mt-1" style="white-space: pre-line;">${escapeHtml(bodyPreview)}</p>
                                 <p class="text-xs text-indigo-600 mt-2 italic"><i class="fas fa-eye mr-1"></i>${_t('admin.custom.slide_info_help', null, 'Solo se muestra (sin asignación de puntos)')}</p>
                             </div>
                             <div class="flex flex-col gap-2">
@@ -678,8 +679,8 @@ function dibujarPreguntasPersonalizadas() {
                                         <span class="bg-violet-600 text-white px-2 py-1 rounded text-xs font-bold"><i class="fas fa-columns mr-1"></i>${_t('admin.custom.slide_text_image', null, 'TEXTO + IMAGEN')}</span>
                                         <span class="bg-violet-100 text-violet-700 px-2 py-1 rounded text-xs font-bold"><i class="fas ${posIcon} mr-1"></i>${q.slide_image_position === 'left' ? _t('admin.custom.slide_img_left', null, 'Imagen izquierda') : _t('admin.custom.slide_img_right', null, 'Imagen derecha')}</span>
                                     </div>
-                                    <p class="font-black text-sm text-violet-900">${titlePreview}</p>
-                                    <p class="text-xs text-violet-700 mt-1">${bodyPreview}</p>
+                                    <p class="font-black text-sm text-violet-900">${escapeHtml(titlePreview)}</p>
+                                    <p class="text-xs text-violet-700 mt-1">${escapeHtml(bodyPreview)}</p>
                                     <p class="text-xs text-violet-500 mt-2 italic"><i class="fas fa-eye mr-1"></i>${_t('admin.custom.slide_text_image_help', null, 'Imagen solo visible en el presentador')}</p>
                                 </div>
                             </div>
@@ -716,21 +717,22 @@ function dibujarPreguntasPersonalizadas() {
                         </div>
                         <div class="flex-1">
                             <div class="flex items-center gap-2 mb-2">
-                                <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded text-xs font-bold">${q.bank_name}</span>
+                                <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded text-xs font-bold">${escapeHtml(q.bank_name)}</span>
                                 ${isNumericApproximation ? `<span class="bg-emerald-100 text-emerald-700 px-2 py-1 rounded text-xs font-bold">${_t('admin.custom.badge_numeric', null, 'NUMÉRICA')}</span>` : ''}
                                 ${isOrderQuestion ? `<span class="bg-orange-100 text-orange-700 px-2 py-1 rounded text-xs font-bold">${_t('admin.custom.badge_order', null, 'ORDENA')}</span>` : ''}
                                 ${isWordScramble ? `<span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs font-bold">${_t('admin.custom.badge_scramble', null, 'ANAGRAMA')}</span>` : ''}
                                 ${isMultipleChoice ? `<span class="bg-cyan-100 text-cyan-700 px-2 py-1 rounded text-xs font-bold">${_t('admin.custom.badge_multiple', null, 'MÚLTIPLE')}</span>` : ''}
                             </div>
-                            <p class="font-medium text-sm text-slate-800">${q.question_text}</p>
-                            <p class="text-xs text-green-600 mt-1"><i class="fas fa-check-circle mr-1"></i>${q.question_type === 'survey' ? _t('admin.custom.survey_answer', null, 'Encuesta (votos)') : correctDisplay}</p>
+                            <p class="font-medium text-sm text-slate-800">${escapeHtml(q.question_text)}</p>
+                            <p class="text-xs text-green-600 mt-1"><i class="fas fa-check-circle mr-1"></i>${q.question_type === 'survey' ? _t('admin.custom.survey_answer', null, 'Encuesta (votos)') : escapeHtml(correctDisplay)}</p>
                         </div>
                         <button data-admin-click="eliminarPreguntaPersonalizada(${idx})" class="text-red-500 hover:text-red-700 w-8 h-8 flex items-center justify-center">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
                 </div>
-            `;}).join('');
+            `;
+    }).join('');
 }
 
 // ===== MOVER PREGUNTAS =====

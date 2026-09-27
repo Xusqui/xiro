@@ -116,11 +116,11 @@ function renderResultadosBusqueda(questions) {
                         <i class="fas ${yaAñadida ? 'fa-check' : 'fa-plus'}"></i>
                     </button>
                     <div class="flex-1 min-w-0">
-                        <span class="text-xs font-bold text-purple-700 bg-purple-100 px-2 py-0.5 rounded">${q.bank_name}</span>
-                        <p class="font-medium text-sm text-slate-800 mt-1">${q.question_text}</p>
+                        <span class="text-xs font-bold text-purple-700 bg-purple-100 px-2 py-0.5 rounded">${escapeHtml(q.bank_name)}</span>
+                        <p class="font-medium text-sm text-slate-800 mt-1">${escapeHtml(q.question_text)}</p>
                         <p class="text-xs text-green-600 mt-0.5">
                             <i class="fas fa-check-circle mr-1"></i>
-                            ${q.question_type === 'survey' ? 'Encuesta (votos)' : correctDisplay}
+                            ${q.question_type === 'survey' ? 'Encuesta (votos)' : escapeHtml(correctDisplay)}
                         </p>
                     </div>
                 </div>

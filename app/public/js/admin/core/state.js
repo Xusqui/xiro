@@ -35,7 +35,7 @@ const ALLOWED_AUDIO_TYPES = ['audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/ogg'
 
 // Helper para escapar HTML y evitar que comillas/carácteres especiales rompan los inputs
 function escapeHtml(text) {
-    if (!text) return '';
+    if (text === null || text === undefined) return '';
     const map = {
         '&': '&amp;',
         '<': '&lt;',
@@ -43,5 +43,12 @@ function escapeHtml(text) {
         '"': '&quot;',
         '\'': '&#039;'
     };
-    return text.replace(/[&<>"']/g, m => map[m]);
+    return String(text).replace(/[&<>"']/g, m => map[m]);
+}
+
+// Contenido de un string JS entre comillas simples (escapa \ y '). Para argumentos
+// de data-admin-click/data-admin-change se usa como escapeHtml(jsStringContent(x)):
+// el navegador deshace el escape HTML y _parseAdminInlineString el de JS.
+function jsStringContent(value) {
+    return String(value ?? '').replace(/\\/g, '\\\\').replace(/'/g, '\\\'');
 }

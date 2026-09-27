@@ -66,7 +66,7 @@ const nameSchema = Joi.string()
     .min(LIMITS.NAME_MIN)
     .max(LIMITS.NAME_MAX)
     .trim()
-    .pattern(/^[^<>]*$/) // No permite < o > para prevenir XSS básico
+    .pattern(/^[^<>"]*$/) // Sin < > ni comillas dobles: el nombre acaba en HTML y en atributos value="…"
     .messages({
         'string.min': 'El nombre no puede estar vacío',
         'string.max': `El nombre no puede exceder ${LIMITS.NAME_MAX} caracteres`,

@@ -102,7 +102,7 @@ function editarSlideTextoImagen(index) {
             <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest">Título</label>
             <input id="editTITitulo" type="text" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-violet-500 outline-none transition mb-4" value="${escapeHtmlForAttribute(slide.slide_title || '')}" />
             <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest">Texto</label>
-            <textarea id="editTICuerpo" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-violet-500 outline-none resize-none mb-4" rows="5">${slide.slide_body || ''}</textarea>
+            <textarea id="editTICuerpo" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-violet-500 outline-none resize-none mb-4" rows="5">${escapeHtml(slide.slide_body)}</textarea>
             <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest">Posición de la imagen</label>
             <div class="flex gap-4 mb-4">
                 <label class="flex-1 flex items-center gap-2 cursor-pointer border-2 border-violet-200 rounded-xl p-3 hover:border-violet-500 transition">

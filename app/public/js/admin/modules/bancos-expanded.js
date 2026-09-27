@@ -78,7 +78,7 @@ async function renderVistaBancos() {
                             <div class="p-6">
                                 <div class="flex justify-between items-start mb-4">
                                     <div class="flex-1">
-                                        <h3 class="text-lg font-bold text-slate-900 mb-2 line-clamp-2">${banco.name}</h3>
+                                        <h3 class="text-lg font-bold text-slate-900 mb-2 line-clamp-2">${escapeHtml(banco.name)}</h3>
                                         ${getOwnerBadgeHtml(ownerInfo)}
                                         ${banco.pin ? `<div class="inline-flex items-center gap-2 bg-purple-100 text-purple-700 px-3 py-1 rounded-lg text-xs font-mono font-bold">
                                             <i class="fas fa-key"></i>
@@ -230,7 +230,7 @@ function renderEditorBanco(bank) {
                         <div class="grid grid-cols-2 gap-3 mb-3">
                             <div>
                                 <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.banks.label_name', null, 'Nombre del Banco')}</label>
-                                <input type="text" id="editName" value="${bank.name}" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-purple-500 outline-none transition text-sm" placeholder="${_t('admin.banks.ph_name', null, 'Ej: Historia del Arte')}">
+                                <input type="text" id="editName" value="${escapeHtml(bank.name)}" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-purple-500 outline-none transition text-sm" placeholder="${_t('admin.banks.ph_name', null, 'Ej: Historia del Arte')}">
                             </div>
                             <div>
                                 <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.banks.label_pin', null, 'PIN del Banco (opcional)')}</label>
@@ -240,7 +240,7 @@ function renderEditorBanco(bank) {
 
                         <div class="mb-3 flex items-center justify-center gap-3" title="${_t('admin.banks.help_visible', null, 'Si está marcado, el presentador podrá ver y usar este banco')}">
                             <span class="text-base font-bold text-slate-700"><i class="fas fa-eye mr-1"></i>${_t('admin.banks.label_visible', null, 'Mostrar al presentador')}</span>
-                            <span style="transform: scale(1.2); transform-origin: left center;">${renderNeonSwitch({ id: 'editBankVisibleToPresenter', checked: bank.visible_to_presenter !== false, action: null })}</span>
+                            <span style="transform: scale(1); transform-origin: left center;">${renderNeonSwitch({ id: 'editBankVisibleToPresenter', checked: bank.visible_to_presenter !== false, action: null })}</span>
                         </div>
                         <div class="mb-3 text-center">
                             <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('common.label_language', null, 'Idioma de las preguntas')}</label>

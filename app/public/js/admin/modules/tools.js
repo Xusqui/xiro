@@ -385,7 +385,7 @@ function setupFileUpload() {
                 resultado.classList.remove('hidden', 'bg-red-100');
                 resultado.classList.add('bg-blue-100');
                 resultado.innerHTML = _tHtml(`
-                    <p class="text-blue-800 font-bold">${_t('admin.tools.upload_file_loaded_prefix', null, '✓ Archivo cargado:')} ${cuestionarioCargado.name || file.name}</p>
+                    <p class="text-blue-800 font-bold">${_t('admin.tools.upload_file_loaded_prefix', null, '✓ Archivo cargado:')} ${escapeHtml(cuestionarioCargado.name || file.name)}</p>
                     <p class="text-blue-700">${_t('admin.tools.upload_questions_prefix', null, 'Preguntas:')} ${cuestionarioCargado.questions?.length || 0}</p>
                 `);
             } catch (err) {
@@ -428,7 +428,7 @@ async function cargarBancoDesdeJSON() {
     }
 
     resultado.classList.remove('hidden', 'bg-green-100', 'bg-red-100', 'bg-blue-100');
-    resultado.innerHTML = _tHtml(`<p class="text-slate-600">${_t('admin.tools.upload_creating_bank_prefix', null, 'Creando banco')} "${cuestionarioCargado.name}"...</p>`);
+    resultado.innerHTML = _tHtml(`<p class="text-slate-600">${_t('admin.tools.upload_creating_bank_prefix', null, 'Creando banco')} "${escapeHtml(cuestionarioCargado.name)}"...</p>`);
 
     try {
         // Transformar el JSON de formato BD a formato API
@@ -453,7 +453,7 @@ async function cargarBancoDesdeJSON() {
             resultado.innerHTML = _tHtml(`
                         <p class="text-green-800 font-bold text-xl mb-2">${_t('admin.tools.upload_bank_created', null, '✅ Banco creado exitosamente')}</p>
                         <p class="text-green-700">${_t('admin.tools.upload_bank_id_prefix', null, 'ID del banco:')} ${data.id}</p>
-                        <p class="text-green-700">${_t('admin.tools.upload_bank_name_prefix', null, 'Nombre:')} ${cuestionarioCargado.name}</p>
+                        <p class="text-green-700">${_t('admin.tools.upload_bank_name_prefix', null, 'Nombre:')} ${escapeHtml(cuestionarioCargado.name)}</p>
                         <p class="text-green-700">${_t('admin.tools.upload_questions_prefix', null, 'Preguntas:')} ${cuestionarioCargado.questions.length}</p>
                     `);
 

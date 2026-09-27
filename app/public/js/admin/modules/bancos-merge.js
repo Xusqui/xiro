@@ -74,12 +74,12 @@ async function mostrarMezclarBancos() {
                                     <input type="checkbox" 
                                         class="banco-checkbox w-5 h-5 text-purple-600 rounded focus:ring-purple-500" 
                                         data-bank-id="${banco.id}"
-                                        data-bank-name="${banco.name.replace(/"/g, '&quot;')}"
+                                        data-bank-name="${escapeHtml(banco.name)}"
                                         data-question-count="${banco.question_count || 0}"
                                         data-merge-action="selection-changed">
                                     <div class="flex-1">
                                         <div class="flex items-center gap-3 mb-1">
-                                            <span class="font-bold text-slate-900 group-hover:text-purple-700 transition">${banco.name}</span>
+                                            <span class="font-bold text-slate-900 group-hover:text-purple-700 transition">${escapeHtml(banco.name)}</span>
                                             ${banco.pin ? `<span class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded font-mono font-bold">${banco.pin}</span>` : ''}
                                         </div>
                                         <div class="text-xs text-slate-500">

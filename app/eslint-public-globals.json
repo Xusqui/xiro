@@ -545,6 +545,7 @@
     "isFileTypeAccepted": "writable",
     "isRunning": "writable",
     "isTrivialGame": "writable",
+    "jsStringContent": "writable",
     "lastColor": "writable",
     "lastViewerData": "writable",
     "launchConfetti": "writable",

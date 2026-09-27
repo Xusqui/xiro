@@ -96,7 +96,7 @@ function editarSlideTexto(index) {
             <input id="textoEditSlideTitulo" type="text" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-indigo-500 outline-none transition" value="${escapeHtmlForAttribute(slide.slide_title || '')}" />
 
             <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest mt-4">Texto</label>
-            <textarea id="textoEditSlideCuerpo" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-indigo-500 outline-none resize-none" rows="6">${slide.slide_body || ''}</textarea>
+            <textarea id="textoEditSlideCuerpo" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-indigo-500 outline-none resize-none" rows="6">${escapeHtml(slide.slide_body)}</textarea>
 
             <div class="flex gap-3 mt-6">
                 <button data-slide-text-action="close-edit-modal" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold transition">Cancelar</button>

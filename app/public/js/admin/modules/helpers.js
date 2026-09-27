@@ -70,11 +70,11 @@ function dibujarPreguntas() {
                         </label>
                         ${q.question_image_url ? `
                             <div class="flex items-center gap-3">
-                                <img src="${q.question_image_url}" alt="Imagen enunciado"
+                                <img src="${escapeHtml(q.question_image_url)}" alt="Imagen enunciado"
                                     class="w-16 h-16 object-contain rounded-lg border border-slate-200 bg-white shadow-sm flex-shrink-0"
                                     style="max-width:100px;max-height:100px;">
                                 <div class="flex-1 min-w-0">
-                                    <p class="text-xs text-slate-500 font-mono truncate">${q.question_image_url}</p>
+                                    <p class="text-xs text-slate-500 font-mono truncate">${escapeHtml(q.question_image_url)}</p>
                                     <button type="button" id="q-img-btn-${qIdx}"
                                         data-admin-click="eliminarImagenPregunta(${qIdx})"
                                         class="mt-1 text-xs text-red-500 hover:text-red-700 font-bold flex items-center gap-1 transition">
@@ -143,7 +143,7 @@ function dibujarPreguntas() {
         : '<i class="fas fa-volume-up text-blue-600 text-xl"></i>'}
                                         <div>
                                             <p class="font-bold text-sm text-slate-800">${q.tipo_contenido === 'imagen' ? 'Imagen' : 'Audio'}</p>
-                                            <p class="text-xs text-slate-500 font-mono break-all">${q.url_recurso}</p>
+                                            <p class="text-xs text-slate-500 font-mono break-all">${escapeHtml(q.url_recurso)}</p>
                                         </div>
                                     </div>
                                     <button type="button" data-admin-click="eliminarRecurso(${qIdx})" class="text-red-500 hover:text-red-700 px-3 py-1 rounded-lg hover:bg-red-50 transition">
@@ -151,8 +151,8 @@ function dibujarPreguntas() {
                                     </button>
                                 </div>
                                 ${q.tipo_contenido === 'imagen'
-        ? `<div class="text-center"><img src="${q.url_recurso}" alt="Preview" class="max-w-full max-h-48 mx-auto rounded-lg shadow-md"></div>`
-        : `<div id="audio-container-${qIdx}" class="audio-placeholder" data-audio-src="${q.url_recurso}"></div>`
+        ? `<div class="text-center"><img src="${escapeHtml(q.url_recurso)}" alt="Preview" class="max-w-full max-h-48 mx-auto rounded-lg shadow-md"></div>`
+        : `<div id="audio-container-${qIdx}" class="audio-placeholder" data-audio-src="${escapeHtml(q.url_recurso)}"></div>`
 }
                                 <p class="text-xs text-slate-500 italic">
                                     <i class="fas fa-info-circle mr-1"></i>

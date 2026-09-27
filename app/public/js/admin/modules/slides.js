@@ -120,7 +120,7 @@ function editarSlideComentario(index) {
                         <i class="fas fa-edit"></i> Editar Actividad Libre
                     </h3>
                     <p class="text-sm text-slate-600 mb-4">Modifica el texto de la actividad.</p>
-                    <textarea id="textoEditComentario" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-amber-500 outline-none resize-none" rows="4" placeholder="Ej: Pictionary por equipos o Imita un elefante">${slide.comment_text || ''}</textarea>
+                    <textarea id="textoEditComentario" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-amber-500 outline-none resize-none" rows="4" placeholder="Ej: Pictionary por equipos o Imita un elefante">${escapeHtml(slide.comment_text)}</textarea>
                     <div class="flex gap-3 mt-6">
                         <button data-slide-ci-action="close-comment-edit" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold transition">
                             Cancelar
@@ -167,7 +167,7 @@ function editarSlideInfo(index) {
                         <i class="fas fa-edit"></i> Editar Slide Informativo
                     </h3>
                     <p class="text-sm text-slate-600 mb-4">Modifica el texto informativo.</p>
-                    <textarea id="textoEditInfo" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none resize-none" rows="4" placeholder="Ej: ¡Descanso! o Recordatorio: beber agua">${slide.comment_text || ''}</textarea>
+                    <textarea id="textoEditInfo" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none resize-none" rows="4" placeholder="Ej: ¡Descanso! o Recordatorio: beber agua">${escapeHtml(slide.comment_text)}</textarea>
                     <div class="flex gap-3 mt-6">
                         <button data-slide-ci-action="close-info-edit" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold transition">
                             Cancelar

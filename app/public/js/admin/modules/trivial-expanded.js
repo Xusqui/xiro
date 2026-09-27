@@ -79,7 +79,7 @@ function _trivialCard(g) {
             <div class="p-6">
                 <div class="flex justify-between items-start mb-3">
                     <div class="flex-1">
-                        <h3 class="text-lg font-bold text-slate-900 mb-1 line-clamp-2">${g.name}</h3>
+                        <h3 class="text-lg font-bold text-slate-900 mb-1 line-clamp-2">${escapeHtml(g.name)}</h3>
                         ${getOwnerBadgeHtml(ownerInfo)}
                         <div class="inline-flex items-center gap-2 bg-orange-100 text-orange-700 px-3 py-1 rounded-lg text-xs font-mono font-bold mb-2">
                             <i class="fas fa-key"></i> PIN: ${g.pin}

@@ -73,7 +73,7 @@ async function renderVistaJuegos() {
                                 <div class="p-6">
                                     <div class="flex justify-between items-start mb-4">
                                         <div class="flex-1">
-                                            <h3 class="text-lg font-bold text-slate-900 mb-2 line-clamp-2">${juego.name}</h3>
+                                            <h3 class="text-lg font-bold text-slate-900 mb-2 line-clamp-2">${escapeHtml(juego.name)}</h3>
                                             ${getOwnerBadgeHtml(ownerInfo)}
                                             <div class="inline-flex items-center gap-2 bg-green-100 text-green-700 px-3 py-1 rounded-lg text-xs font-mono font-bold mb-2">
                                                 <i class="fas fa-key"></i>
@@ -81,7 +81,7 @@ async function renderVistaJuegos() {
                                             </div>
                                             <div class="text-xs text-slate-500 mt-2">
                                                 <i class="fas fa-database mr-1"></i>
-                                                ${_t('admin.games.banks_count', {n: validBanks.length}, '{n} banco(s)').replace('{n}', validBanks.length)}
+                                                ${_t('admin.games.banks_count', { n: validBanks.length }, '{n} banco(s)').replace('{n}', validBanks.length)}
                                             </div>
                                         </div>
                                     </div>
@@ -167,7 +167,7 @@ async function renderEditorJuego(game) {
                         <div class="grid grid-cols-2 gap-3 mb-3">
                             <div>
                                 <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.label_name', null, 'Nombre del Juego')}</label>
-                                <input type="text" id="gameName" value="${game.name}" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-green-500 outline-none transition text-sm" placeholder="Ej: Quiz Semanal">
+                                <input type="text" id="gameName" value="${escapeHtml(game.name)}" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-green-500 outline-none transition text-sm" placeholder="Ej: Quiz Semanal">
                             </div>
                             <div>
                                 <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.label_pin', null, 'PIN Personalizado')}</label>
@@ -177,7 +177,7 @@ async function renderEditorJuego(game) {
 
                         <div class="mb-3 flex items-center justify-center gap-3" title="${_t('admin.games.help_visible', null, 'Si está marcado, el presentador podrá ver y usar este juego')}">
                             <span class="text-base font-bold text-slate-700"><i class="fas fa-eye mr-1"></i>${_t('admin.banks.label_visible', null, 'Mostrar al presentador')}</span>
-                            <span style="transform: scale(1.2); transform-origin: left center;">${renderNeonSwitch({ id: 'gameVisibleToPresenter', checked: game.visible_to_presenter !== false, action: null })}</span>
+                            <span style="transform: scale(1); transform-origin: left center;">${renderNeonSwitch({ id: 'gameVisibleToPresenter', checked: game.visible_to_presenter !== false, action: null })}</span>
                         </div>
                         <div class="mb-3 text-center">
                             <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('common.label_language', null, 'Idioma de las preguntas')}</label>
@@ -309,7 +309,7 @@ async function dibujarBancosJuego() {
                         <div class="flex-1">
                             <label class="block text-xs font-bold text-slate-400 uppercase mb-1">${_t('admin.games.bank_label', null, 'Banco')}</label>
                             <select data-admin-change="cambiarBanco(${idx}, parseInt(this.value))" class="w-full p-2 border-2 border-slate-100 rounded-lg text-sm font-medium">
-                                ${allBanks.map(b => `<option value="${b.id}" ${b.id === gb.bank_id ? 'selected' : ''}>${b.name}</option>`).join('')}
+                                ${allBanks.map(b => `<option value="${b.id}" ${b.id === gb.bank_id ? 'selected' : ''}>${escapeHtml(b.name)}</option>`).join('')}
                             </select>
                         </div>
                         ${renderPoolCheckboxHtml(gb, idx, totalQuestions)}
@@ -318,10 +318,11 @@ async function dibujarBancosJuego() {
                         </button>
                     </div>
                     <p class="text-xs text-slate-400 mt-2">
-                        <i class="fas fa-info-circle mr-1"></i>${_t('admin.games.bank_questions_info', {n: totalQuestions}, 'Este banco tiene {n} preguntas disponibles').replace('{n}', totalQuestions)}
+                        <i class="fas fa-info-circle mr-1"></i>${_t('admin.games.bank_questions_info', { n: totalQuestions }, 'Este banco tiene {n} preguntas disponibles').replace('{n}', totalQuestions)}
                     </p>
                 </div>
-            `;}).join('');
+            `;
+    }).join('');
 
     dibujarSeccionPool();
 }
