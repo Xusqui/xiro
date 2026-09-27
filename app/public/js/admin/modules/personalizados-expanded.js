@@ -291,33 +291,7 @@ async function renderEditorJuegoPersonalizado(game) {
         </div>
 
         <div class="max-w-5xl mx-auto px-10 pb-10">
-            <div class="xiro-toolbar-bar xiro-toolbar-bar--below-header bg-white/90 backdrop-blur-sm border border-slate-200 rounded-2xl shadow-sm px-4 py-2 mb-6 flex items-center justify-center gap-2" role="toolbar" aria-label="${_t('admin.custom.toolbar_label', null, 'Añadir contenido')}">
-                <button type="button" data-admin-click="mostrarModalComentario()"
-                    class="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
-                    aria-label="${_t('admin.custom.btn_activity', null, 'AÑADIR ACTIVIDAD LIBRE (PUNTOS MANUALES)')}">
-                    <i class="fas fa-comment-dots" aria-hidden="true"></i> ${_t('admin.custom.btn_short_activity', null, 'Actividad')}
-                </button>
-                <button type="button" data-admin-click="mostrarModalInfo()"
-                    class="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
-                    aria-label="${_t('admin.custom.btn_info_slide', null, 'AÑADIR SLIDE INFORMATIVO')}">
-                    <i class="fas fa-info-circle" aria-hidden="true"></i> ${_t('admin.custom.btn_short_info', null, 'Info')}
-                </button>
-                <button type="button" data-admin-click="mostrarModalTexto()"
-                    class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
-                    aria-label="${_t('admin.custom.btn_text_slide', null, 'AÑADIR DIAPOSITIVA DE TEXTO (TÍTULO + TEXTO)')}">
-                    <i class="fas fa-align-left" aria-hidden="true"></i> ${_t('admin.custom.btn_short_text', null, 'Texto')}
-                </button>
-                <button type="button" data-admin-click="mostrarModalImagen()"
-                    class="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
-                    aria-label="${_t('admin.custom.btn_img_slide', null, 'AÑADIR DIAPOSITIVA DE IMAGEN')}">
-                    <i class="fas fa-image" aria-hidden="true"></i> ${_t('admin.custom.btn_short_image', null, 'Imagen')}
-                </button>
-                <button type="button" data-admin-click="mostrarModalTextoImagen()"
-                    class="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
-                    aria-label="${_t('admin.custom.btn_text_img_slide', null, 'AÑADIR DIAPOSITIVA TEXTO + IMAGEN')}">
-                    <i class="fas fa-columns" aria-hidden="true"></i> ${_t('admin.custom.btn_short_text_img', null, 'Texto+Img')}
-                </button>
-            </div>
+            ${_customToolbarHtml()}
 
             <div class="bg-white rounded-2xl shadow-sm p-8 mb-8 border border-slate-200">
                 <div class="flex justify-between items-center mb-6">
@@ -346,6 +320,50 @@ async function renderEditorJuegoPersonalizado(game) {
                 </div>
             </div>
 
+            ${_customSaveButtonsHtml(game)}
+        </div>`);
+
+    setUnsavedChangesGuard('personalizados', _customGameEditorSnapshot);
+
+    dibujarPreguntasPersonalizadas();
+    _syncPersonalizadosToolbarOffset();
+}
+
+/** Barra "Añadir contenido": actividad, info, texto, imagen, texto+imagen. */
+function _customToolbarHtml() {
+    return `
+            <div class="xiro-toolbar-bar xiro-toolbar-bar--below-header bg-white/90 backdrop-blur-sm border border-slate-200 rounded-2xl shadow-sm px-4 py-2 mb-6 flex items-center justify-center gap-2" role="toolbar" aria-label="${_t('admin.custom.toolbar_label', null, 'Añadir contenido')}">
+                <button type="button" data-admin-click="mostrarModalComentario()"
+                    class="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
+                    aria-label="${_t('admin.custom.btn_activity', null, 'AÑADIR ACTIVIDAD LIBRE (PUNTOS MANUALES)')}">
+                    <i class="fas fa-comment-dots" aria-hidden="true"></i> ${_t('admin.custom.btn_short_activity', null, 'Actividad')}
+                </button>
+                <button type="button" data-admin-click="mostrarModalInfo()"
+                    class="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
+                    aria-label="${_t('admin.custom.btn_info_slide', null, 'AÑADIR SLIDE INFORMATIVO')}">
+                    <i class="fas fa-info-circle" aria-hidden="true"></i> ${_t('admin.custom.btn_short_info', null, 'Info')}
+                </button>
+                <button type="button" data-admin-click="mostrarModalTexto()"
+                    class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
+                    aria-label="${_t('admin.custom.btn_text_slide', null, 'AÑADIR DIAPOSITIVA DE TEXTO (TÍTULO + TEXTO)')}">
+                    <i class="fas fa-align-left" aria-hidden="true"></i> ${_t('admin.custom.btn_short_text', null, 'Texto')}
+                </button>
+                <button type="button" data-admin-click="mostrarModalImagen()"
+                    class="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
+                    aria-label="${_t('admin.custom.btn_img_slide', null, 'AÑADIR DIAPOSITIVA DE IMAGEN')}">
+                    <i class="fas fa-image" aria-hidden="true"></i> ${_t('admin.custom.btn_short_image', null, 'Imagen')}
+                </button>
+                <button type="button" data-admin-click="mostrarModalTextoImagen()"
+                    class="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
+                    aria-label="${_t('admin.custom.btn_text_img_slide', null, 'AÑADIR DIAPOSITIVA TEXTO + IMAGEN')}">
+                    <i class="fas fa-columns" aria-hidden="true"></i> ${_t('admin.custom.btn_short_text_img', null, 'Texto+Img')}
+                </button>
+            </div>`;
+}
+
+/** Botones de guardar (y exportar a PDF si el juego ya existe). */
+function _customSaveButtonsHtml(game) {
+    return `
             <div class="mt-8">
                 <div class="grid grid-cols-2 gap-4">
                     <button data-admin-click="guardarJuegoPersonalizado(false)" class="bg-blue-600 text-white px-6 py-5 rounded-2xl font-black text-lg hover:bg-blue-700 transition shadow-xl shadow-blue-200 flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
@@ -365,10 +383,12 @@ async function renderEditorJuegoPersonalizado(game) {
                 <p class="text-center text-slate-400 text-xs mt-3">
                     <i class="fas fa-info-circle mr-1"></i>${_t('admin.games.help_save', null, '"Guardar" mantiene el editor abierto, "Guardar y salir" vuelve a la lista de juegos')}
                 </p>
-            </div>
-        </div>`);
+            </div>`;
+}
 
-    setUnsavedChangesGuard('personalizados', () => ({
+/** Estado del editor para detectar cambios sin guardar. */
+function _customGameEditorSnapshot() {
+    return {
         id: document.getElementById('customGameEditId')?.value || '',
         name: document.getElementById('customGameName')?.value || '',
         pin: document.getElementById('customGamePin')?.value || '',
@@ -383,10 +403,7 @@ async function renderEditorJuegoPersonalizado(game) {
         image_url: document.getElementById('customGameImageUrl')?.value || '',
         ...snapshotRandomPoints('customGame'),
         questions: currentCustomGameQuestions
-    }));
-
-    dibujarPreguntasPersonalizadas();
-    _syncPersonalizadosToolbarOffset();
+    };
 }
 
 /** Mantiene la toolbar "Añadir contenido" pegada justo debajo de la
@@ -451,6 +468,57 @@ function refreshAllBancosSelectors() {
 
 // ===== AGREGAR PREGUNTA PERSONALIZADA =====
 
+const _CUSTOM_EMPTY_TYPE_FIELDS = {
+    correct_answer: null, correct_word: null, word_length: null, scrambled_letters: null,
+    max_points: null, tolerance_mode: null, tolerance_value: null, tolerance_cap: null, hint_text: null,
+    mc_points_per_correct: null, mc_penalty_per_incorrect: null, mc_perfect_bonus: null
+};
+
+// Campos propios de cada tipo; el resto queda a null (_CUSTOM_EMPTY_TYPE_FIELDS)
+const _CUSTOM_TYPE_FIELDS = {
+    numeric_approximation: q => ({
+        correct_answer: q.correct_answer,
+        max_points: q.max_points,
+        tolerance_mode: q.tolerance_mode || 'hybrid',
+        tolerance_value: q.tolerance_value ?? 25,
+        tolerance_cap: q.tolerance_cap ?? 1000,
+        hint_text: q.hint_text || null
+    }),
+    word_scramble: q => ({
+        correct_word: q.correct_word || null,
+        word_length: q.word_length || null,
+        scrambled_letters: q.scrambled_letters || null
+    }),
+    multiple_choice: q => ({
+        mc_points_per_correct: q.mc_points_per_correct ?? 10,
+        mc_penalty_per_incorrect: q.mc_penalty_per_incorrect ?? 10,
+        mc_perfect_bonus: q.mc_perfect_bonus ?? 20
+    })
+};
+
+/** Pregunta del banco (API) → entrada de currentCustomGameQuestions. */
+function _customQuestionFromBank(question, questionId, bankName) {
+    const type = question.question_type;
+    const withoutOptions = type === 'numeric_approximation' || type === 'word_scramble';
+    const safeOptions = Array.isArray(question.options) ? question.options : [];
+    const typeFields = Object.hasOwn(_CUSTOM_TYPE_FIELDS, type) ? _CUSTOM_TYPE_FIELDS[type](question) : {};
+    return {
+        slide_type: 'question',
+        question_id: questionId,
+        question_type: type,
+        question_text: question.question_text,
+        bank_name: bankName,
+        options: withoutOptions ? [] : safeOptions.map(o => ({
+            optionText: o.option_text,
+            isCorrect: !!o.is_correct,
+            justification: o.justification
+        })),
+        ..._CUSTOM_EMPTY_TYPE_FIELDS,
+        ...typeFields,
+        position: currentCustomGameQuestions.length
+    };
+}
+
 function agregarPreguntaPersonalizada(questionId) {
     // Verificar si ya está añadida
     if (currentCustomGameQuestions.some(q => q.question_id != null && Number(q.question_id) === Number(questionId))) {
@@ -469,36 +537,7 @@ function agregarPreguntaPersonalizada(questionId) {
         return;
     }
 
-    const isNumericApproximation = question.question_type === 'numeric_approximation';
-    const isWordScramble = question.question_type === 'word_scramble';
-    const isMultipleChoice = question.question_type === 'multiple_choice';
-    const safeOptions = Array.isArray(question.options) ? question.options : [];
-
-    currentCustomGameQuestions.push({
-        slide_type: 'question',
-        question_id: questionId,
-        question_type: question.question_type,
-        question_text: question.question_text,
-        bank_name: currentBankData.bank.name,
-        options: (isNumericApproximation || isWordScramble) ? [] : safeOptions.map(o => ({
-            optionText: o.option_text,
-            isCorrect: !!o.is_correct,
-            justification: o.justification
-        })),
-        correct_answer: isNumericApproximation ? question.correct_answer : null,
-        correct_word: isWordScramble ? (question.correct_word || null) : null,
-        word_length: isWordScramble ? (question.word_length || null) : null,
-        scrambled_letters: isWordScramble ? (question.scrambled_letters || null) : null,
-        max_points: isNumericApproximation ? question.max_points : null,
-        tolerance_mode: isNumericApproximation ? (question.tolerance_mode || 'hybrid') : null,
-        tolerance_value: isNumericApproximation ? (question.tolerance_value ?? 25) : null,
-        tolerance_cap: isNumericApproximation ? (question.tolerance_cap ?? 1000) : null,
-        hint_text: isNumericApproximation ? (question.hint_text || null) : null,
-        mc_points_per_correct: isMultipleChoice ? (question.mc_points_per_correct ?? 10) : null,
-        mc_penalty_per_incorrect: isMultipleChoice ? (question.mc_penalty_per_incorrect ?? 10) : null,
-        mc_perfect_bonus: isMultipleChoice ? (question.mc_perfect_bonus ?? 20) : null,
-        position: currentCustomGameQuestions.length
-    });
+    currentCustomGameQuestions.push(_customQuestionFromBank(question, questionId, currentBankData.bank.name));
 
     dibujarPreguntasPersonalizadas();
     refreshAllBancosSelectors(); // Refrescar todos los selectores para marcar como añadida
@@ -521,218 +560,9 @@ function dibujarPreguntasPersonalizadas() {
         return;
     }
 
-    contenedor.innerHTML = currentCustomGameQuestions.map((q, idx) => {
-        if (q.slide_type === 'comment') {
-            return `
-                    <div class="bg-amber-50 p-4 rounded-xl border-2 border-amber-300">
-                        <div class="flex items-start gap-4">
-                            <div class="flex flex-col gap-2">
-                                <button data-admin-click="moverPreguntaArriba(${idx})" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded flex items-center justify-center transition text-xs" ${idx === 0 ? 'disabled style="opacity: 0.3;"' : ''}>
-                                    <i class="fas fa-chevron-up"></i>
-                                </button>
-                                <input type="number" min="1" max="${currentCustomGameQuestions.length}" value="${idx + 1}" data-admin-change="moverPreguntaAPosicion(${idx}, this.value - 1)" class="w-8 text-xs font-bold text-amber-700 text-center border border-amber-300 rounded bg-white focus:outline-none focus:border-amber-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" title="Editar posición" />
-                                <button data-admin-click="moverPreguntaAbajo(${idx})" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded flex items-center justify-center transition text-xs" ${idx === currentCustomGameQuestions.length - 1 ? 'disabled style="opacity: 0.3;"' : ''}>
-                                    <i class="fas fa-chevron-down"></i>
-                                </button>
-                            </div>
-                            <div class="flex-1">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <span class="bg-amber-500 text-white px-2 py-1 rounded text-xs font-bold"><i class="fas fa-comment mr-1"></i>${_t('admin.custom.slide_activity', null, 'ACTIVIDAD LIBRE')}</span>
-                                </div>
-                                <p class="font-bold text-lg text-amber-900">${q.comment_text ? escapeHtml(q.comment_text) : _t('admin.custom.slide_no_text', null, 'Sin texto')}</p>
-                                <p class="text-xs text-amber-600 mt-1 italic"><i class="fas fa-hand-pointer mr-1"></i>${_t('admin.custom.slide_activity_help', null, 'El presentador podrá asignar puntos manualmente')}</p>
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                <button data-admin-click="editarSlideComentario(${idx})" class="text-amber-600 hover:text-amber-800 w-8 h-8 flex items-center justify-center" title="Editar">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button data-admin-click="eliminarPreguntaPersonalizada(${idx})" class="text-red-500 hover:text-red-700 w-8 h-8 flex items-center justify-center" title="Eliminar">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-        } else if (q.slide_type === 'info') {
-            return `
-                    <div class="bg-blue-50 p-4 rounded-xl border-2 border-blue-300">
-                        <div class="flex items-start gap-4">
-                            <div class="flex flex-col gap-2">
-                                <button data-admin-click="moverPreguntaArriba(${idx})" class="bg-blue-600 hover:bg-blue-500 text-white w-8 h-8 rounded flex items-center justify-center transition text-xs" ${idx === 0 ? 'disabled style="opacity: 0.3;"' : ''}>
-                                    <i class="fas fa-chevron-up"></i>
-                                </button>
-                                <input type="number" min="1" max="${currentCustomGameQuestions.length}" value="${idx + 1}" data-admin-change="moverPreguntaAPosicion(${idx}, this.value - 1)" class="w-8 text-xs font-bold text-blue-700 text-center border border-blue-300 rounded bg-white focus:outline-none focus:border-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" title="Editar posición" />
-                                <button data-admin-click="moverPreguntaAbajo(${idx})" class="bg-blue-600 hover:bg-blue-500 text-white w-8 h-8 rounded flex items-center justify-center transition text-xs" ${idx === currentCustomGameQuestions.length - 1 ? 'disabled style="opacity: 0.3;"' : ''}>
-                                    <i class="fas fa-chevron-down"></i>
-                                </button>
-                            </div>
-                            <div class="flex-1">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <span class="bg-blue-500 text-white px-2 py-1 rounded text-xs font-bold"><i class="fas fa-info-circle mr-1"></i>${_t('admin.custom.slide_info', null, 'SLIDE INFORMATIVO')}</span>
-                                </div>
-                                <p class="font-bold text-lg text-blue-900">${q.comment_text ? escapeHtml(q.comment_text) : _t('admin.custom.slide_no_text', null, 'Sin texto')}</p>
-                                <p class="text-xs text-blue-600 mt-1 italic"><i class="fas fa-eye mr-1"></i>${_t('admin.custom.slide_info_help', null, 'Solo se muestra (sin asignación de puntos)')}</p>
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                <button data-admin-click="editarSlideInfo(${idx})" class="text-blue-600 hover:text-blue-800 w-8 h-8 flex items-center justify-center" title="Editar">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button data-admin-click="eliminarPreguntaPersonalizada(${idx})" class="text-red-500 hover:text-red-700 w-8 h-8 flex items-center justify-center" title="Eliminar">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-        } else if (q.slide_type === 'text') {
-
-            const bodyPreview = (q.slide_body || '').split('\n').filter(Boolean)[0] || 'Sin texto';
-            return `
-                    <div class="bg-indigo-50 p-4 rounded-xl border-2 border-indigo-300">
-                        <div class="flex items-start gap-4">
-                            <div class="flex flex-col gap-2">
-                                <button data-admin-click="moverPreguntaArriba(${idx})" class="bg-indigo-700 hover:bg-indigo-600 text-white w-8 h-8 rounded flex items-center justify-center transition text-xs" ${idx === 0 ? 'disabled style="opacity: 0.3;"' : ''}>
-                                    <i class="fas fa-chevron-up"></i>
-                                </button>
-                                <input type="number" min="1" max="${currentCustomGameQuestions.length}" value="${idx + 1}" data-admin-change="moverPreguntaAPosicion(${idx}, this.value - 1)" class="w-8 text-xs font-bold text-indigo-700 text-center border border-indigo-300 rounded bg-white focus:outline-none focus:border-indigo-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" title="Editar posición" />
-                                <button data-admin-click="moverPreguntaAbajo(${idx})" class="bg-indigo-700 hover:bg-indigo-600 text-white w-8 h-8 rounded flex items-center justify-center transition text-xs" ${idx === currentCustomGameQuestions.length - 1 ? 'disabled style="opacity: 0.3;"' : ''}>
-                                    <i class="fas fa-chevron-down"></i>
-                                </button>
-                            </div>
-                            <div class="flex-1">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <span class="bg-indigo-600 text-white px-2 py-1 rounded text-xs font-bold"><i class="fas fa-align-left mr-1"></i>${_t('admin.custom.slide_text', null, 'DIAPOSITIVA TEXTO')}</span>
-                                </div>
-                                <p class="font-black text-lg text-indigo-900">${q.slide_title ? escapeHtml(q.slide_title) : _t('admin.custom.slide_no_title', null, 'Sin título')}</p>
-                                <p class="text-sm text-indigo-800 mt-1" style="white-space: pre-line;">${escapeHtml(bodyPreview)}</p>
-                                <p class="text-xs text-indigo-600 mt-2 italic"><i class="fas fa-eye mr-1"></i>${_t('admin.custom.slide_info_help', null, 'Solo se muestra (sin asignación de puntos)')}</p>
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                <button data-admin-click="editarSlideTexto(${idx})" class="text-indigo-700 hover:text-indigo-900 w-8 h-8 flex items-center justify-center" title="Editar">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button data-admin-click="eliminarPreguntaPersonalizada(${idx})" class="text-red-500 hover:text-red-700 w-8 h-8 flex items-center justify-center" title="Eliminar">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-        } else if (q.slide_type === 'image') {
-            const imageUrl = q.slide_image ? (q.slide_image.startsWith('/') ? q.slide_image : '/' + q.slide_image) : '';
-            return `
-                    <div class="bg-pink-50 p-4 rounded-xl border-2 border-pink-300">
-                        <div class="flex items-start gap-4">
-                            <div class="flex flex-col gap-2">
-                                <button data-admin-click="moverPreguntaArriba(${idx})" class="bg-pink-700 hover:bg-pink-600 text-white w-8 h-8 rounded flex items-center justify-center transition text-xs" ${idx === 0 ? 'disabled style="opacity: 0.3;"' : ''}>
-                                    <i class="fas fa-chevron-up"></i>
-                                </button>
-                                <input type="number" min="1" max="${currentCustomGameQuestions.length}" value="${idx + 1}" data-admin-change="moverPreguntaAPosicion(${idx}, this.value - 1)" class="w-8 text-xs font-bold text-pink-700 text-center border border-pink-300 rounded bg-white focus:outline-none focus:border-pink-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" title="Editar posición" />
-                                <button data-admin-click="moverPreguntaAbajo(${idx})" class="bg-pink-700 hover:bg-pink-600 text-white w-8 h-8 rounded flex items-center justify-center transition text-xs" ${idx === currentCustomGameQuestions.length - 1 ? 'disabled style="opacity: 0.3;"' : ''}>
-                                    <i class="fas fa-chevron-down"></i>
-                                </button>
-                            </div>
-                            <div class="flex-1 flex gap-4">
-                                ${imageUrl ? `<div class="w-32 h-24 bg-black rounded flex-shrink-0 flex items-center justify-center overflow-hidden"><img src="${imageUrl}" class="max-w-full max-h-full object-contain" /></div>` : '<div class="w-32 h-24 bg-gray-300 rounded flex-shrink-0 flex items-center justify-center"><i class="fas fa-image text-gray-500 text-2xl"></i></div>'}
-                                <div>
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <span class="bg-pink-600 text-white px-2 py-1 rounded text-xs font-bold"><i class="fas fa-image mr-1"></i>${_t('admin.custom.slide_image_badge', null, 'DIAPOSITIVA IMAGEN')}</span>
-                                    </div>
-                                    <p class="text-xs text-pink-600 mt-2 italic"><i class="fas fa-eye mr-1"></i>${_t('admin.custom.slide_image_help', null, 'Se muestra a pantalla completa')}</p>
-                                </div>
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                <button data-admin-click="editarSlideImagen(${idx})" class="text-pink-700 hover:text-pink-900 w-8 h-8 flex items-center justify-center" title="Editar">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button data-admin-click="eliminarPreguntaPersonalizada(${idx})" class="text-red-500 hover:text-red-700 w-8 h-8 flex items-center justify-center" title="Eliminar">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-        }
-
-        if (q.slide_type === 'text-image') {
-            const imageUrl = q.slide_image ? (q.slide_image.startsWith('/') ? q.slide_image : '/' + q.slide_image) : '';
-            const posIcon = q.slide_image_position === 'left' ? 'fa-arrow-left' : 'fa-arrow-right';
-
-            const titlePreview = (q.slide_title || '').substring(0, 60);
-            const bodyPreview = (q.slide_body || '').split('\n')[0].substring(0, 80);
-            return `
-                    <div class="bg-violet-50 p-4 rounded-xl border-2 border-violet-300">
-                        <div class="flex items-start gap-4">
-                            <div class="flex flex-col gap-2">
-                                <button data-admin-click="moverPreguntaArriba(${idx})" class="bg-violet-700 hover:bg-violet-600 text-white w-8 h-8 rounded flex items-center justify-center transition text-xs" ${idx === 0 ? 'disabled style="opacity: 0.3;"' : ''}>
-                                    <i class="fas fa-chevron-up"></i>
-                                </button>
-                                <input type="number" min="1" max="${currentCustomGameQuestions.length}" value="${idx + 1}" data-admin-change="moverPreguntaAPosicion(${idx}, this.value - 1)" class="w-8 text-xs font-bold text-violet-700 text-center border border-violet-300 rounded bg-white focus:outline-none focus:border-violet-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" title="Editar posición" />
-                                <button data-admin-click="moverPreguntaAbajo(${idx})" class="bg-violet-700 hover:bg-violet-600 text-white w-8 h-8 rounded flex items-center justify-center transition text-xs" ${idx === currentCustomGameQuestions.length - 1 ? 'disabled style="opacity: 0.3;"' : ''}>
-                                    <i class="fas fa-chevron-down"></i>
-                                </button>
-                            </div>
-                            <div class="flex-1 flex gap-4">
-                                ${imageUrl ? `<div class="w-28 h-20 bg-black rounded flex-shrink-0 flex items-center justify-center overflow-hidden"><img src="${imageUrl}" class="max-w-full max-h-full object-contain" /></div>` : '<div class="w-28 h-20 bg-gray-200 rounded flex-shrink-0 flex items-center justify-center"><i class="fas fa-columns text-gray-400 text-2xl"></i></div>'}
-                                <div class="flex-1">
-                                    <div class="flex items-center gap-2 mb-2 flex-wrap">
-                                        <span class="bg-violet-600 text-white px-2 py-1 rounded text-xs font-bold"><i class="fas fa-columns mr-1"></i>${_t('admin.custom.slide_text_image', null, 'TEXTO + IMAGEN')}</span>
-                                        <span class="bg-violet-100 text-violet-700 px-2 py-1 rounded text-xs font-bold"><i class="fas ${posIcon} mr-1"></i>${q.slide_image_position === 'left' ? _t('admin.custom.slide_img_left', null, 'Imagen izquierda') : _t('admin.custom.slide_img_right', null, 'Imagen derecha')}</span>
-                                    </div>
-                                    <p class="font-black text-sm text-violet-900">${escapeHtml(titlePreview)}</p>
-                                    <p class="text-xs text-violet-700 mt-1">${escapeHtml(bodyPreview)}</p>
-                                    <p class="text-xs text-violet-500 mt-2 italic"><i class="fas fa-eye mr-1"></i>${_t('admin.custom.slide_text_image_help', null, 'Imagen solo visible en el presentador')}</p>
-                                </div>
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                <button data-admin-click="editarSlideTextoImagen(${idx})" class="text-violet-700 hover:text-violet-900 w-8 h-8 flex items-center justify-center" title="Editar">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button data-admin-click="eliminarPreguntaPersonalizada(${idx})" class="text-red-500 hover:text-red-700 w-8 h-8 flex items-center justify-center" title="Eliminar">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-        }
-
-        const correctAnswer = extractCorrectAnswerFrontend(q);
-        const correctDisplay = formatCorrectAnswerDisplayFrontend(correctAnswer);
-        const isNumericApproximation = q.question_type === 'numeric_approximation';
-        const isOrderQuestion = q.question_type === 'order';
-        const isWordScramble = q.question_type === 'word_scramble';
-        const isMultipleChoice = q.question_type === 'multiple_choice';
-        return `
-                <div class="bg-slate-50 p-4 rounded-xl border-2 border-slate-200">
-                    <div class="flex items-start gap-4">
-                        <div class="flex flex-col gap-2">
-                            <button data-admin-click="moverPreguntaArriba(${idx})" class="bg-slate-700 hover:bg-slate-600 text-white w-8 h-8 rounded flex items-center justify-center transition text-xs" ${idx === 0 ? 'disabled style="opacity: 0.3;"' : ''}>
-                                <i class="fas fa-chevron-up"></i>
-                            </button>
-                            <input type="number" min="1" max="${currentCustomGameQuestions.length}" value="${idx + 1}" data-admin-change="moverPreguntaAPosicion(${idx}, this.value - 1)" class="w-8 text-xs font-bold text-slate-500 text-center border border-slate-300 rounded bg-white focus:outline-none focus:border-slate-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" title="Editar posición" />
-                            <button data-admin-click="moverPreguntaAbajo(${idx})" class="bg-slate-700 hover:bg-slate-600 text-white w-8 h-8 rounded flex items-center justify-center transition text-xs" ${idx === currentCustomGameQuestions.length - 1 ? 'disabled style="opacity: 0.3;"' : ''}>
-                                <i class="fas fa-chevron-down"></i>
-                            </button>
-                        </div>
-                        <div class="flex-1">
-                            <div class="flex items-center gap-2 mb-2">
-                                <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded text-xs font-bold">${escapeHtml(q.bank_name)}</span>
-                                ${isNumericApproximation ? `<span class="bg-emerald-100 text-emerald-700 px-2 py-1 rounded text-xs font-bold">${_t('admin.custom.badge_numeric', null, 'NUMÉRICA')}</span>` : ''}
-                                ${isOrderQuestion ? `<span class="bg-orange-100 text-orange-700 px-2 py-1 rounded text-xs font-bold">${_t('admin.custom.badge_order', null, 'ORDENA')}</span>` : ''}
-                                ${isWordScramble ? `<span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs font-bold">${_t('admin.custom.badge_scramble', null, 'ANAGRAMA')}</span>` : ''}
-                                ${isMultipleChoice ? `<span class="bg-cyan-100 text-cyan-700 px-2 py-1 rounded text-xs font-bold">${_t('admin.custom.badge_multiple', null, 'MÚLTIPLE')}</span>` : ''}
-                            </div>
-                            <p class="font-medium text-sm text-slate-800">${escapeHtml(q.question_text)}</p>
-                            <p class="text-xs text-green-600 mt-1"><i class="fas fa-check-circle mr-1"></i>${q.question_type === 'survey' ? _t('admin.custom.survey_answer', null, 'Encuesta (votos)') : escapeHtml(correctDisplay)}</p>
-                        </div>
-                        <button data-admin-click="eliminarPreguntaPersonalizada(${idx})" class="text-red-500 hover:text-red-700 w-8 h-8 flex items-center justify-center">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
-            `;
-    }).join('');
+    contenedor.innerHTML = currentCustomGameQuestions
+        .map((q, idx) => renderCustomQuestionCard(q, idx, currentCustomGameQuestions.length))
+        .join('');
 }
 
 // ===== MOVER PREGUNTAS =====
@@ -785,61 +615,92 @@ function toggleCustomDoubleStreakConfig() {
 
 // ===== GUARDAR JUEGO PERSONALIZADO =====
 
+function _readCustomGameForm() {
+    return {
+        id: document.getElementById('customGameEditId').value,
+        ownerUserId: document.getElementById('customGameOwnerUserId')?.value || null,
+        name: document.getElementById('customGameName').value,
+        pin: document.getElementById('customGamePin').value,
+        language: document.getElementById('customGameLanguage')?.value || 'es',
+        visibleToPresenter: document.getElementById('customGameVisibleToPresenter').checked,
+        imageUrl: document.getElementById('customGameImageUrl')?.value || null
+    };
+}
+
+function _readCustomGameStreaks() {
+    return {
+        use_streaks: document.getElementById('customGameUseStreaks').checked,
+        streak_threshold: parseFloat(document.getElementById('customGameStreakThreshold').value) || 3,
+        streak_bonus_percentage: parseFloat(document.getElementById('customGameStreakBonusPercentage').value) ?? 0.5,
+        use_double_streaks: document.getElementById('customGameUseDoubleStreaks').checked,
+        double_streak_threshold: parseFloat(document.getElementById('customGameDoubleStreakThreshold').value) || 5,
+        double_streak_bonus_percentage: parseFloat(document.getElementById('customGameDoubleStreakBonusPercentage').value) ?? 1.0
+    };
+}
+
+/** Mensaje de validación del juego personalizado, o null si se puede guardar. */
+function _customGameValidationError(form, randomPoints) {
+    const randomPointsCheck = validateRandomPointsConfig(randomPoints);
+    if (!randomPointsCheck.valid) return randomPointsCheck.message;
+    if (!form.name) return _t('admin.custom.error_name', null, 'Por favor, ponle un nombre al juego');
+    if (currentCustomGameQuestions.length === 0) return _t('admin.custom.error_questions', null, 'Añade al menos una pregunta');
+    return null;
+}
+
+function _customSlideForSave(q) {
+    return {
+        slide_type: q.slide_type || 'question',
+        question_id: q.question_id || null,
+        comment_text: q.comment_text || null,
+        slide_title: q.slide_title || null,
+        slide_body: q.slide_body || null,
+        slide_image: q.slide_image || null,
+        slide_image_position: q.slide_image_position || null
+    };
+}
+
+async function _afterCustomGameSaved(salir, id, data) {
+    markUnsavedChangesAsSaved();
+    mostrarModalError(_t('admin.common.success_title', null, '✅ Éxito'), _t('admin.custom.success_saved', null, '¡Juego personalizado guardado correctamente!'), 'success');
+
+    if (salir) {
+        // Volver a la vista de personalizados
+        mostrarVista('personalizados');
+    } else if (!id && data.id) {
+        // Creación (POST): fijar el ID para futuras actualizaciones y recargar el juego completo
+        document.getElementById('customGameEditId').value = data.id;
+        await cargarEditorJuegoPersonalizado(data.id);
+    }
+    // Si ya existía, solo mantener el editor abierto
+}
+
 async function guardarJuegoPersonalizado(salir = true) {
-    const id = document.getElementById('customGameEditId').value;
-    const ownerUserId = document.getElementById('customGameOwnerUserId')?.value || null;
-    const name = document.getElementById('customGameName').value;
-    const pin = document.getElementById('customGamePin').value;
-    const language = document.getElementById('customGameLanguage')?.value || 'es';
-    const visibleToPresenter = document.getElementById('customGameVisibleToPresenter').checked;
-    const useStreaks = document.getElementById('customGameUseStreaks').checked;
-    const streakThreshold = parseFloat(document.getElementById('customGameStreakThreshold').value) || 3;
-    const streakBonusPercentage = parseFloat(document.getElementById('customGameStreakBonusPercentage').value) ?? 0.5;
-    const useDoubleStreaks = document.getElementById('customGameUseDoubleStreaks').checked;
-    const doubleStreakThreshold = parseFloat(document.getElementById('customGameDoubleStreakThreshold').value) || 5;
-    const doubleStreakBonusPercentage = parseFloat(document.getElementById('customGameDoubleStreakBonusPercentage').value) ?? 1.0;
-    const imageUrl = document.getElementById('customGameImageUrl')?.value || null;
+    const form = _readCustomGameForm();
     const randomPoints = readRandomPointsConfig('customGame');
 
-    const randomPointsCheck = validateRandomPointsConfig(randomPoints);
-    if (!randomPointsCheck.valid) {
-        return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), randomPointsCheck.message, 'warning');
+    const validationError = _customGameValidationError(form, randomPoints);
+    if (validationError) {
+        return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), validationError, 'warning');
     }
-
-    if (!name) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), _t('admin.custom.error_name', null, 'Por favor, ponle un nombre al juego'), 'warning');
-    if (currentCustomGameQuestions.length === 0) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), _t('admin.custom.error_questions', null, 'Añade al menos una pregunta'), 'warning');
-    if (id && !canModifyOwnedResource(ownerUserId)) {
+    if (form.id && !canModifyOwnedResource(form.ownerUserId)) {
         showOwnershipDeniedModal('este juego personalizado');
         return;
     }
 
     const payload = {
-        name,
-        pin: pin || Math.floor(100000 + Math.random() * 900000).toString(),
-        language,
-        visible_to_presenter: visibleToPresenter,
-        use_streaks: useStreaks,
-        streak_threshold: streakThreshold,
-        streak_bonus_percentage: streakBonusPercentage,
-        use_double_streaks: useDoubleStreaks,
-        double_streak_threshold: doubleStreakThreshold,
-        double_streak_bonus_percentage: doubleStreakBonusPercentage,
-        image_url: imageUrl,
+        name: form.name,
+        pin: form.pin || Math.floor(100000 + Math.random() * 900000).toString(),
+        language: form.language,
+        visible_to_presenter: form.visibleToPresenter,
+        ..._readCustomGameStreaks(),
+        image_url: form.imageUrl,
         ...randomPoints,
-        questions: currentCustomGameQuestions.map(q => ({
-            slide_type: q.slide_type || 'question',
-            question_id: q.question_id || null,
-            comment_text: q.comment_text || null,
-            slide_title: q.slide_title || null,
-            slide_body: q.slide_body || null,
-            slide_image: q.slide_image || null,
-            slide_image_position: q.slide_image_position || null
-        }))
+        questions: currentCustomGameQuestions.map(_customSlideForSave)
     };
 
     try {
-        const url = id ? `/api/custom-games/${id}` : '/api/custom-games';
-        const method = id ? 'PUT' : 'POST';
+        const url = form.id ? `/api/custom-games/${form.id}` : '/api/custom-games';
+        const method = form.id ? 'PUT' : 'POST';
 
         const res = await fetchWithAuth(url, {
             method,
@@ -848,22 +709,7 @@ async function guardarJuegoPersonalizado(salir = true) {
         });
 
         if (res.ok) {
-            const data = await res.json();
-            markUnsavedChangesAsSaved();
-            mostrarModalError(_t('admin.common.success_title', null, '✅ Éxito'), _t('admin.custom.success_saved', null, '¡Juego personalizado guardado correctamente!'), 'success');
-
-            if (salir) {
-                // Volver a la vista de personalizados
-                mostrarVista('personalizados');
-            } else {
-                // Si es una creación (POST), actualizar el ID del juego para permitir futuras actualizaciones
-                if (!id && data.id) {
-                    document.getElementById('customGameEditId').value = data.id;
-                    // Recargar el juego completo
-                    await cargarEditorJuegoPersonalizado(data.id);
-                }
-                // Si ya existía, solo mantener el editor abierto
-            }
+            await _afterCustomGameSaved(salir, form.id, await res.json());
         } else {
             const err = await res.json();
             const mensaje = err.message || err.error || 'Error desconocido';

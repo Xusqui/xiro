@@ -384,6 +384,23 @@ function previewFireworks() {
 }
 window.previewFireworks = previewFireworks;
 
+/** Acciones de clic del panel (data-config-action), con el elemento que la dispara. */
+const _CONFIG_CLICK_ACTIONS = {
+    'switch-tab': el => { if (el.dataset.tabId) switchConfigTab(el.dataset.tabId); },
+    'save-config': () => saveConfigChanges(),
+    'reload-config': () => renderConfigPanel(),
+    'toggle-ui-setting-neon': el => { if (el.dataset.key) saveUiSetting(el.dataset.key, el.checked); },
+    'toggle-personalization-enabled': el => togglePersonalizationEnabled(el.checked),
+    'select-personalization-image': el => { if (el.dataset.filename) selectPersonalizationImage(el.dataset.filename); },
+    'delete-personalization-image': el => { if (el.dataset.filename) deletePersonalizationImage(el.dataset.filename); },
+    'set-tv-card-mode': el => { if (el.dataset.mode) setTvCardMode(el.dataset.mode, el); },
+    'preview-fireworks': () => previewFireworks(),
+    'toggle-sensitive': el => { if (el.dataset.key) toggleSensitiveField(el.dataset.key); },
+    'toggle-fireworks-setting-neon': el => { if (el.dataset.key) saveFireworksSetting(el.dataset.key, el.checked); },
+    'save-team-names': () => saveTeamNames(),
+    'reset-team-names': () => resetTeamNames()
+};
+
 function _initConfigPanelDelegation() {
     if (_configPanelDelegationReady) return;
     _configPanelDelegationReady = true;
@@ -393,49 +410,7 @@ function _initConfigPanelDelegation() {
         if (!actionElement) return;
 
         const action = actionElement.dataset.configAction;
-        switch (action) {
-            case 'switch-tab':
-                if (actionElement.dataset.tabId) switchConfigTab(actionElement.dataset.tabId);
-                break;
-            case 'save-config':
-                saveConfigChanges();
-                break;
-            case 'reload-config':
-                renderConfigPanel();
-                break;
-            case 'toggle-ui-setting-neon':
-                if (actionElement.dataset.key) saveUiSetting(actionElement.dataset.key, actionElement.checked);
-                break;
-            case 'toggle-personalization-enabled':
-                togglePersonalizationEnabled(actionElement.checked);
-                break;
-            case 'select-personalization-image':
-                if (actionElement.dataset.filename) selectPersonalizationImage(actionElement.dataset.filename);
-                break;
-            case 'delete-personalization-image':
-                if (actionElement.dataset.filename) deletePersonalizationImage(actionElement.dataset.filename);
-                break;
-            case 'set-tv-card-mode':
-                if (actionElement.dataset.mode) setTvCardMode(actionElement.dataset.mode, actionElement);
-                break;
-            case 'preview-fireworks':
-                previewFireworks();
-                break;
-            case 'toggle-sensitive':
-                if (actionElement.dataset.key) toggleSensitiveField(actionElement.dataset.key);
-                break;
-            case 'toggle-fireworks-setting-neon':
-                if (actionElement.dataset.key) saveFireworksSetting(actionElement.dataset.key, actionElement.checked);
-                break;
-            case 'save-team-names':
-                saveTeamNames();
-                break;
-            case 'reset-team-names':
-                resetTeamNames();
-                break;
-            default:
-                break;
-        }
+        if (Object.hasOwn(_CONFIG_CLICK_ACTIONS, action)) _CONFIG_CLICK_ACTIONS[action](actionElement);
     });
 
     document.addEventListener('input', (event) => {

@@ -108,6 +108,25 @@ async function mostrarMezclarBancos() {
                         </div>
                     </div>
 
+                    ${_mergeNewBankConfigHtml()}
+
+                    <!-- Botón de acción -->
+                    <div class="flex justify-center">
+                        <button data-merge-action="execute-merge" 
+                            class="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-12 py-5 rounded-2xl font-black text-xl shadow-2xl transition-all transform hover:scale-105 flex items-center gap-3">
+                            <i class="fas fa-layer-group text-2xl"></i>
+                            Crear Banco Mezclado
+                        </button>
+                    </div>
+                `}
+            </div>
+        </div>
+    `);
+}
+
+/** Formulario del banco resultante: nombre, PIN, visibilidad, rachas y puntuación aleatoria. */
+function _mergeNewBankConfigHtml() {
+    return `
                     <!-- Configuración del nuevo banco -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
                         <h3 class="text-lg font-black text-slate-800 uppercase mb-4">
@@ -202,20 +221,7 @@ async function mostrarMezclarBancos() {
 
                         <!-- Puntuación Aleatoria -->
                         ${renderRandomPointsHtml('merge', {})}
-                    </div>
-
-                    <!-- Botón de acción -->
-                    <div class="flex justify-center">
-                        <button data-merge-action="execute-merge" 
-                            class="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-12 py-5 rounded-2xl font-black text-xl shadow-2xl transition-all transform hover:scale-105 flex items-center gap-3">
-                            <i class="fas fa-layer-group text-2xl"></i>
-                            Crear Banco Mezclado
-                        </button>
-                    </div>
-                `}
-            </div>
-        </div>
-    `);
+                    </div>`;
 }
 
 // ===== FUNCIONES AUXILIARES =====

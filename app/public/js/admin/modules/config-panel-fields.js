@@ -10,32 +10,22 @@ function _badgeLabel(badge) {
 
 /* ===== TARJETA DE CAMPO ESTÁNDAR ===== */
 
-function _renderConfigField(key, entry) {
-    const meta = CONFIG_META[key] || { label: key, description: '', badge: '', unit: '', icon: 'fa-cog', iconColor: 'bg-slate-400' };
-    const badgeClass = CONFIG_BADGE_COLORS[meta.badge] || 'bg-slate-100 text-slate-600';
-    const mul = meta.msMultiplier || 1;
-    const { value, type, min, max, values } = entry;
-
-    const displayValue = mul > 1 ? value / mul : value;
-    const displayMin = (mul > 1 && min !== undefined) ? min / mul : min;
-    const displayMax = (mul > 1 && max !== undefined) ? max / mul : max;
-    const step = (type === 'float' || mul > 1) ? '0.01' : '1';
-
-    let input;
-    if (type === 'enum' && values) {
-        const opts = values.map(v => {
-            const optLabel = (meta.labelMap && meta.labelMap[v]) ? _t(meta.labelMap[v], null, v) : v;
-            return `<option value="${v}" ${v === String(value) ? 'selected' : ''}>${optLabel}</option>`;
-        }).join('');
-        input = `<select id="cfg-${key}" data-key="${key}" data-mul="1"
+function _configEnumInput(key, meta, value, values) {
+    const opts = values.map(v => {
+        const optLabel = (meta.labelMap && meta.labelMap[v]) ? _t(meta.labelMap[v], null, v) : v;
+        return `<option value="${v}" ${v === String(value) ? 'selected' : ''}>${optLabel}</option>`;
+    }).join('');
+    return `<select id="cfg-${key}" data-key="${key}" data-mul="1"
             class="px-3 py-2 border-2 border-slate-200 rounded-lg focus:border-indigo-400 focus:outline-none bg-white font-mono text-sm w-36">
             ${opts}</select>`;
-    } else if (entry.sensitive) {
-        const placeholder = value ? _t('admin.config.server.sensitive_unchanged', null, '(sin cambios)') : _t('admin.config.server.sensitive_enter', null, 'Introduce el valor...');
-        // type="text" + máscara CSS (no type="password"): evita que el gestor de contraseñas
-        // del navegador trate este campo de configuración como una credencial de login y lo
-        // autorrellene/vacíe de forma inesperada.
-        input = `<div class="flex items-center gap-2 w-full">
+}
+
+function _configSensitiveInput(key, value) {
+    const placeholder = value ? _t('admin.config.server.sensitive_unchanged', null, '(sin cambios)') : _t('admin.config.server.sensitive_enter', null, 'Introduce el valor...');
+    // type="text" + máscara CSS (no type="password"): evita que el gestor de contraseñas
+    // del navegador trate este campo de configuración como una credencial de login y lo
+    // autorrellene/vacíe de forma inesperada.
+    return `<div class="flex items-center gap-2 w-full">
             <div class="relative flex-1">
                 <input type="text" id="cfg-${key}" data-key="${key}" data-mul="1" data-sensitive="true"
                     value="" placeholder="${placeholder}"
@@ -47,17 +37,37 @@ function _renderConfigField(key, entry) {
                 </button>
             </div>
         </div>`;
-    } else {
-        const inputType = (type === 'int' || type === 'float') ? 'number' : 'text';
-        const minAttr = displayMin !== undefined ? ` min="${displayMin}"` : '';
-        const maxAttr = displayMax !== undefined ? ` max="${displayMax}"` : '';
-        const widthCls = (type === 'string' || type === 'origin_list') ? 'w-full' : 'w-36';
-        const disabledAttr = meta.disabled ? ' disabled' : '';
-        const disabledCls = meta.disabled ? ' bg-slate-100 text-slate-400 cursor-not-allowed' : '';
-        input = `<input type="${inputType}" id="cfg-${key}" data-key="${key}" data-mul="${mul}"
+}
+
+/** Campo numérico o de texto; los milisegundos se muestran divididos por msMultiplier. */
+function _configPlainInput(key, entry, meta) {
+    const mul = meta.msMultiplier || 1;
+    const { value, type, min, max } = entry;
+    const displayValue = mul > 1 ? value / mul : value;
+    const displayMin = (mul > 1 && min !== undefined) ? min / mul : min;
+    const displayMax = (mul > 1 && max !== undefined) ? max / mul : max;
+    const step = (type === 'float' || mul > 1) ? '0.01' : '1';
+    const inputType = (type === 'int' || type === 'float') ? 'number' : 'text';
+    const minAttr = displayMin !== undefined ? ` min="${displayMin}"` : '';
+    const maxAttr = displayMax !== undefined ? ` max="${displayMax}"` : '';
+    const widthCls = (type === 'string' || type === 'origin_list') ? 'w-full' : 'w-36';
+    const disabledAttr = meta.disabled ? ' disabled' : '';
+    const disabledCls = meta.disabled ? ' bg-slate-100 text-slate-400 cursor-not-allowed' : '';
+    return `<input type="${inputType}" id="cfg-${key}" data-key="${key}" data-mul="${mul}"
             value="${escapeHtml(String(displayValue))}" step="${step}"${minAttr}${maxAttr}${disabledAttr}
             class="px-3 py-2 border-2 border-slate-200 rounded-lg focus:border-indigo-400 focus:outline-none font-mono text-sm ${widthCls}${disabledCls}">`;
-    }
+}
+
+function _configFieldInput(key, entry, meta) {
+    if (entry.type === 'enum' && entry.values) return _configEnumInput(key, meta, entry.value, entry.values);
+    if (entry.sensitive) return _configSensitiveInput(key, entry.value);
+    return _configPlainInput(key, entry, meta);
+}
+
+function _renderConfigField(key, entry) {
+    const meta = CONFIG_META[key] || { label: key, description: '', badge: '', unit: '', icon: 'fa-cog', iconColor: 'bg-slate-400' };
+    const badgeClass = CONFIG_BADGE_COLORS[meta.badge] || 'bg-slate-100 text-slate-600';
+    const input = _configFieldInput(key, entry, meta);
     const unit = meta.unit ? `<span class="text-slate-400 text-sm">${_t(meta.unit, null, meta.unit)}</span>` : '';
 
     return `
