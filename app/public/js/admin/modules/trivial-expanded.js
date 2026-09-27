@@ -122,26 +122,32 @@ async function cargarEditorTrivial(id) {
     await renderEditorTrivial(data.game || data, data.game ? data.categories : (data.categories || []));
 }
 
-async function guardarTrivial(exit = true) {
-    const id = document.getElementById('trivial-id')?.value;
-    const ownerUserId = document.getElementById('trivial-owner-user-id')?.value || null;
-    const name = document.getElementById('trivial-name').value.trim();
-    const pin = document.getElementById('trivial-pin').value.trim();
-    const language = document.getElementById('trivial-language')?.value || 'es';
-    const outerCasillas = parseInt(document.getElementById('trivial-outer').value, 10);
-    const visibleToPresenter = document.getElementById('trivial-visible').checked;
-    const useStreaks = document.getElementById('trivial-use-streaks')?.checked ?? false;
-    const streakThreshold = parseFloat(document.getElementById('trivial-streak-threshold')?.value) || 3;
-    const streakBonusPercentage = parseFloat(document.getElementById('trivial-streak-bonus')?.value) ?? 0.5;
-    const useDoubleStreaks = document.getElementById('trivial-use-double-streaks')?.checked ?? false;
-    const doubleStreakThreshold = parseFloat(document.getElementById('trivial-double-threshold')?.value) || 5;
-    const doubleStreakBonusPercentage = parseFloat(document.getElementById('trivial-double-bonus')?.value) ?? 1.0;
-    const imageUrl = document.getElementById('trivial-image-url')?.value || null;
-    const randomPoints = readRandomPointsConfig('trivial');
-    const randomPointsCheck = validateRandomPointsConfig(randomPoints);
-    if (!randomPointsCheck.valid) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), randomPointsCheck.message, 'warning');
-    const catRows = document.querySelectorAll('.trivial-cat-row');
-    const categories = Array.from(catRows).map((row, i) => {
+function _readTrivialForm() {
+    return {
+        id: document.getElementById('trivial-id')?.value,
+        ownerUserId: document.getElementById('trivial-owner-user-id')?.value || null,
+        name: document.getElementById('trivial-name').value.trim(),
+        pin: document.getElementById('trivial-pin').value.trim(),
+        language: document.getElementById('trivial-language')?.value || 'es',
+        outerCasillas: parseInt(document.getElementById('trivial-outer').value, 10),
+        visibleToPresenter: document.getElementById('trivial-visible').checked,
+        imageUrl: document.getElementById('trivial-image-url')?.value || null
+    };
+}
+
+function _readTrivialStreaks() {
+    return {
+        use_streaks: document.getElementById('trivial-use-streaks')?.checked ?? false,
+        streak_threshold: parseFloat(document.getElementById('trivial-streak-threshold')?.value) || 3,
+        streak_bonus_percentage: parseFloat(document.getElementById('trivial-streak-bonus')?.value) ?? 0.5,
+        use_double_streaks: document.getElementById('trivial-use-double-streaks')?.checked ?? false,
+        double_streak_threshold: parseFloat(document.getElementById('trivial-double-threshold')?.value) || 5,
+        double_streak_bonus_percentage: parseFloat(document.getElementById('trivial-double-bonus')?.value) ?? 1.0
+    };
+}
+
+function _readTrivialCategories() {
+    return Array.from(document.querySelectorAll('.trivial-cat-row')).map((row, i) => {
         const source_type = row.querySelector('.cat-src-type').value || 'bank';
         const source_id = parseInt(row.querySelector('.cat-src-id').value, 10) || null;
         return {
@@ -153,43 +159,63 @@ async function guardarTrivial(exit = true) {
             position: i
         };
     });
-    if (!name || !pin || categories.length < 2) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), _t('admin.trivial.error_required', null, 'Nombre, PIN y al menos 2 categorías son obligatorios.'), 'warning');
-    if (id && !canModifyOwnedResource(ownerUserId)) {
+}
+
+/** Categorías sin origen o casillas externas que no reparten: mensaje, o null si todo cuadra. */
+function _trivialCategoriesError(form, categories) {
+    const missingSource = categories.findIndex(c => !c.source_id);
+    if (missingSource !== -1) return _t('admin.trivial.error_missing_source', { n: missingSource + 1 }, 'La categoría {n} no tiene banco, mezcla o personalizado seleccionado.');
+    if (form.outerCasillas % categories.length !== 0) return _t('admin.trivial.error_outer_mismatch', { outer: form.outerCasillas, n: categories.length }, 'Las casillas externas ({outer}) deben ser múltiplo de {n} categorías.');
+    return null;
+}
+
+async function _afterTrivialSaved(exit, data) {
+    markUnsavedChangesAsSaved();
+    if (exit) {
+        clearUnsavedChangesGuard();
+        await renderVistaTrivial();
+        return;
+    }
+    // Reload editor with saved data to refresh state
+    const id2 = data.id || document.getElementById('trivial-id')?.value;
+    if (id2) {
+        const r2 = await fetchWithAuth(`/api/trivial-games/${id2}`);
+        const d2 = await r2.json();
+        await renderEditorTrivial(d2.game || d2, d2.categories || []);
+    }
+}
+
+async function guardarTrivial(exit = true) {
+    const validationTitle = _t('admin.common.validation_title', null, '⚠️ Validación');
+    const form = _readTrivialForm();
+    const randomPoints = readRandomPointsConfig('trivial');
+    const randomPointsCheck = validateRandomPointsConfig(randomPoints);
+    if (!randomPointsCheck.valid) return mostrarModalError(validationTitle, randomPointsCheck.message, 'warning');
+    const categories = _readTrivialCategories();
+    if (!form.name || !form.pin || categories.length < 2) return mostrarModalError(validationTitle, _t('admin.trivial.error_required', null, 'Nombre, PIN y al menos 2 categorías son obligatorios.'), 'warning');
+    if (form.id && !canModifyOwnedResource(form.ownerUserId)) {
         showOwnershipDeniedModal('este trivial');
         return;
     }
-    const missingSource = categories.findIndex(c => !c.source_id);
-    if (missingSource !== -1) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), _t('admin.trivial.error_missing_source', { n: missingSource + 1 }, 'La categoría {n} no tiene banco, mezcla o personalizado seleccionado.'), 'warning');
-    if (outerCasillas % categories.length !== 0) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), _t('admin.trivial.error_outer_mismatch', { outer: outerCasillas, n: categories.length }, 'Las casillas externas ({outer}) deben ser múltiplo de {n} categorías.'), 'warning');
+    const categoriesError = _trivialCategoriesError(form, categories);
+    if (categoriesError) return mostrarModalError(validationTitle, categoriesError, 'warning');
 
-    const method = id ? 'PUT' : 'POST';
-    const url = id ? `/api/trivial-games/${id}` : '/api/trivial-games';
+    const method = form.id ? 'PUT' : 'POST';
+    const url = form.id ? `/api/trivial-games/${form.id}` : '/api/trivial-games';
     const res = await fetchWithAuth(url, {
         method, headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            name, pin, language, outer_casillas: outerCasillas, visible_to_presenter: visibleToPresenter,
-            use_streaks: useStreaks, streak_threshold: streakThreshold, streak_bonus_percentage: streakBonusPercentage,
-            use_double_streaks: useDoubleStreaks, double_streak_threshold: doubleStreakThreshold, double_streak_bonus_percentage: doubleStreakBonusPercentage,
-            image_url: imageUrl,
+            name: form.name, pin: form.pin, language: form.language,
+            outer_casillas: form.outerCasillas, visible_to_presenter: form.visibleToPresenter,
+            ..._readTrivialStreaks(),
+            image_url: form.imageUrl,
             ...randomPoints,
             categories
         })
     });
     const data = await res.json();
     if (!res.ok) return mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), data.error || _t('admin.trivial.error_save', null, 'Error al guardar'), 'error');
-    markUnsavedChangesAsSaved();
-    if (exit) {
-        clearUnsavedChangesGuard();
-        await renderVistaTrivial();
-    } else {
-        // Reload editor with saved data to refresh state
-        const id2 = data.id || document.getElementById('trivial-id')?.value;
-        if (id2) {
-            const r2 = await fetchWithAuth(`/api/trivial-games/${id2}`);
-            const d2 = await r2.json();
-            await renderEditorTrivial(d2.game || d2, d2.categories || []);
-        }
-    }
+    await _afterTrivialSaved(exit, data);
 }
 
 function borrarTrivial(id, event, ownerUserId = null) {

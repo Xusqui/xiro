@@ -129,72 +129,7 @@ async function cargarEditorBanco(id) {
         return;
     }
 
-    preguntasData = data.questions.map(q => {
-        const correct = q.options?.find(o => !!o.is_correct);
-        const questionType = q.question_type || 'quiz';
-        const options = (q.options || []).map(o => ({
-            optionText: o.option_text,
-            isCorrect: !!o.is_correct,
-            order_index: o.order_index ?? o.orderIndex ?? null,
-            justification: o.justification || null,
-            match_value: o.match_value ?? null,
-            option_image_url: o.option_image_url ?? null
-        }));
-
-        if (questionType === 'order' || questionType === 'matching') {
-            options.sort((a, b) => {
-                const aIndex = Number.isInteger(a.order_index) ? a.order_index : 0;
-                const bIndex = Number.isInteger(b.order_index) ? b.order_index : 0;
-                return aIndex - bIndex;
-            });
-        }
-
-        const orderJustification = questionType === 'order'
-            ? (options.find(opt => opt.justification)?.justification || '')
-            : '';
-
-        return {
-            id: q.id,
-            questionText: q.question_text,
-            justification: questionType === 'order'
-                ? orderJustification
-                : (correct?.justification || ''),
-            type: questionType,
-            tipo_contenido: q.tipo_contenido || 'texto',
-            url_recurso: q.url_recurso || null,
-            question_image_url: q.question_image_url || null,
-            time_limit: q.time_limit || 20,
-            options,
-            correctAnswer: questionType === 'numeric_approximation'
-                ? (q.correct_answer ?? null)
-                : null,
-            correctWord: questionType === 'word_scramble'
-                ? (q.correct_word || '')
-                : null,
-            maxPoints: questionType === 'numeric_approximation'
-                ? (q.max_points ?? null)
-                : null,
-            toleranceMode: questionType === 'numeric_approximation'
-                ? (q.tolerance_mode || 'hybrid')
-                : null,
-            toleranceValue: questionType === 'numeric_approximation'
-                ? (q.tolerance_value ?? 25)
-                : null,
-            toleranceCap: questionType === 'numeric_approximation'
-                ? (q.tolerance_cap ?? 1000)
-                : null,
-            hint: q.hint_text || '',
-            mcPointsPerCorrect: questionType === 'multiple_choice'
-                ? (q.mc_points_per_correct ?? 10)
-                : null,
-            mcPenaltyPerIncorrect: questionType === 'multiple_choice'
-                ? (q.mc_penalty_per_incorrect ?? 10)
-                : null,
-            mcPerfectBonus: questionType === 'multiple_choice'
-                ? (q.mc_perfect_bonus ?? 20)
-                : null
-        };
-    });
+    preguntasData = data.questions.map(mapBankQuestionFromApi);
     renderEditorBanco(data.bank);
     dibujarPreguntas();
 }
@@ -400,30 +335,64 @@ function exportarBanco() {
 
 // ===== GUARDAR BANCO =====
 
+function _readBankForm() {
+    return {
+        id: document.getElementById('editId').value,
+        ownerUserId: document.getElementById('editOwnerUserId')?.value || null,
+        name: document.getElementById('editName').value,
+        pin: document.getElementById('editBankPin').value.trim(),
+        language: document.getElementById('editBankLanguage')?.value || 'es',
+        visibleToPresenter: document.getElementById('editBankVisibleToPresenter').checked,
+        imageUrl: document.getElementById('editBankImageUrl')?.value || null
+    };
+}
+
+function _readBankStreaks() {
+    return {
+        use_streaks: document.getElementById('editBankUseStreaks')?.checked ?? false,
+        streak_threshold: parseInt(document.getElementById('editBankStreakThreshold')?.value || '3', 10),
+        streak_bonus_percentage: parseFloat(document.getElementById('editBankStreakBonusPercentage')?.value || '0.50'),
+        use_double_streaks: document.getElementById('editBankUseDoubleStreaks')?.checked ?? false,
+        double_streak_threshold: parseInt(document.getElementById('editBankDoubleStreakThreshold')?.value || '5', 10),
+        double_streak_bonus_percentage: parseFloat(document.getElementById('editBankDoubleStreakBonusPercentage')?.value || '1.00')
+    };
+}
+
+/** Mensaje de validación del banco, o null si se puede guardar. */
+function _bankValidationError(form, randomPoints) {
+    const randomPointsCheck = validateRandomPointsConfig(randomPoints);
+    if (!randomPointsCheck.valid) return randomPointsCheck.message;
+    if (!form.name) return _t('admin.banks.error_name', null, 'Por favor, ponle un nombre al banco');
+    if (preguntasData.length === 0) return _t('admin.banks.error_questions', null, 'Añade al menos una pregunta');
+    return null;
+}
+
+function _afterBankSaved(salir, id, data) {
+    markUnsavedChangesAsSaved();
+    mostrarModalError(_t('admin.common.success_title', null, '✅ Éxito'), _t('admin.banks.success_saved', null, '¡Banco guardado correctamente!'), 'success');
+
+    setTimeout(() => {
+        if (salir) {
+            // Volver a la vista de bancos
+            mostrarVista('bancos');
+        } else if (!id && data.id) {
+            // Banco nuevo: fijar el ID y recargar para actualizar los IDs de las preguntas
+            document.getElementById('editId').value = data.id;
+            cargarEditorBanco(data.id);
+        }
+        // Si ya existía, solo mantener el editor abierto
+    }, 1500);
+}
+
 async function guardarBanco(salir = true) {
-    const id = document.getElementById('editId').value;
-    const ownerUserId = document.getElementById('editOwnerUserId')?.value || null;
-    const name = document.getElementById('editName').value;
-    const pin = document.getElementById('editBankPin').value.trim();
-    const language = document.getElementById('editBankLanguage')?.value || 'es';
-    const visibleToPresenter = document.getElementById('editBankVisibleToPresenter').checked;
-    const useStreaks = document.getElementById('editBankUseStreaks')?.checked ?? false;
-    const streakThreshold = parseInt(document.getElementById('editBankStreakThreshold')?.value || '3', 10);
-    const streakBonusPercentage = parseFloat(document.getElementById('editBankStreakBonusPercentage')?.value || '0.50');
-    const useDoubleStreaks = document.getElementById('editBankUseDoubleStreaks')?.checked ?? false;
-    const doubleStreakThreshold = parseInt(document.getElementById('editBankDoubleStreakThreshold')?.value || '5', 10);
-    const doubleStreakBonusPercentage = parseFloat(document.getElementById('editBankDoubleStreakBonusPercentage')?.value || '1.00');
-    const imageUrl = document.getElementById('editBankImageUrl')?.value || null;
+    const form = _readBankForm();
     const randomPoints = readRandomPointsConfig('bank');
 
-    const randomPointsCheck = validateRandomPointsConfig(randomPoints);
-    if (!randomPointsCheck.valid) {
-        return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), randomPointsCheck.message, 'warning');
+    const validationError = _bankValidationError(form, randomPoints);
+    if (validationError) {
+        return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), validationError, 'warning');
     }
-
-    if (!name) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), _t('admin.banks.error_name', null, 'Por favor, ponle un nombre al banco'), 'warning');
-    if (preguntasData.length === 0) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), _t('admin.banks.error_questions', null, 'Añade al menos una pregunta'), 'warning');
-    if (id && !canModifyOwnedResource(ownerUserId)) {
+    if (form.id && !canModifyOwnedResource(form.ownerUserId)) {
         showOwnershipDeniedModal('este banco');
         return;
     }
@@ -434,51 +403,15 @@ async function guardarBanco(salir = true) {
     });
 
     const payload = {
-        id: id ? parseInt(id, 10) : null,
-        name,
-        pin: pin || null,
-        language,
-        visible_to_presenter: visibleToPresenter,
-        use_streaks: useStreaks,
-        streak_threshold: streakThreshold,
-        streak_bonus_percentage: streakBonusPercentage,
-        use_double_streaks: useDoubleStreaks,
-        double_streak_threshold: doubleStreakThreshold,
-        double_streak_bonus_percentage: doubleStreakBonusPercentage,
-        image_url: imageUrl,
+        id: form.id ? parseInt(form.id, 10) : null,
+        name: form.name,
+        pin: form.pin || null,
+        language: form.language,
+        visible_to_presenter: form.visibleToPresenter,
+        ..._readBankStreaks(),
+        image_url: form.imageUrl,
         ...randomPoints,
-        questions: preguntasValidas.map(q => ({
-            id: q.id || null,
-            questionText: q.questionText || q.question_text || q.text,
-            type: q.type || 'quiz',
-            tipo_contenido: q.tipo_contenido || 'texto',
-            url_recurso: q.url_recurso || null,
-            question_image_url: q.question_image_url || null,
-            time_limit: Number(q.time_limit) || 20,
-            justification: q.justification || null,
-            correctAnswer: q.type === 'numeric_approximation' ? q.correctAnswer : null,
-            correctWord: q.type === 'word_scramble' ? (q.correctWord || null) : null,
-            maxPoints: q.type === 'numeric_approximation' ? q.maxPoints : null,
-            toleranceMode: q.type === 'numeric_approximation' ? (q.toleranceMode || 'hybrid') : null,
-            toleranceValue: q.type === 'numeric_approximation' ? (Number(q.toleranceValue) || 25) : null,
-            toleranceCap: q.type === 'numeric_approximation'
-                ? (q.toleranceCap === null || q.toleranceCap === '' ? null : Number(q.toleranceCap))
-                : null,
-            hint: q.type === 'numeric_approximation' ? (q.hint || null) : null,
-            mc_points_per_correct: q.type === 'multiple_choice' ? (Number(q.mc_points_per_correct) || 10) : null,
-            mc_penalty_per_incorrect: q.type === 'multiple_choice' ? (Number(q.mc_penalty_per_incorrect) || 10) : null,
-            mc_perfect_bonus: q.type === 'multiple_choice' ? (Number(q.mc_perfect_bonus) || 20) : null,
-            options: (q.type === 'numeric_approximation' || q.type === 'word_scramble') ? [] : q.options.map((opt, index) => ({
-                optionText: opt.optionText || opt.text,
-                isCorrect: (q.type === 'quiz' || q.type === 'multiple_choice') ? !!opt.isCorrect : false,
-                order_index: (q.type === 'order' || q.type === 'matching') ? index : (opt.order_index ?? opt.orderIndex ?? null),
-                match_value: q.type === 'matching' ? (opt.match_value ?? null) : null,
-                justification: q.type === 'order'
-                    ? (opt.justification || null)
-                    : (opt.isCorrect ? (opt.justification || q.justification || null) : null),
-                option_image_url: opt.option_image_url ?? null
-            }))
-        }))
+        questions: preguntasValidas.map(mapBankQuestionForSave)
     };
 
     try {
@@ -489,24 +422,7 @@ async function guardarBanco(salir = true) {
         });
 
         if (res.ok) {
-            const data = await res.json();
-            markUnsavedChangesAsSaved();
-            mostrarModalError(_t('admin.common.success_title', null, '✅ Éxito'), _t('admin.banks.success_saved', null, '¡Banco guardado correctamente!'), 'success');
-
-            setTimeout(() => {
-                if (salir) {
-                    // Volver a la vista de bancos
-                    mostrarVista('bancos');
-                } else {
-                    // Si es un banco nuevo, actualizar el ID en el formulario
-                    if (!id && data.id) {
-                        document.getElementById('editId').value = data.id;
-                        // Recargar el banco completo para actualizar los IDs de las preguntas
-                        cargarEditorBanco(data.id);
-                    }
-                    // Si ya existía, solo mantener el editor abierto
-                }
-            }, 1500);
+            _afterBankSaved(salir, form.id, await res.json());
         } else {
             const err = await res.json();
             const mensaje = err.message || err.error || 'Error desconocido';

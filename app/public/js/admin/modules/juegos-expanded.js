@@ -392,29 +392,14 @@ function toggleDoubleStreakConfig() {
 // ===== GUARDAR JUEGO =====
 
 async function guardarJuego(salir = true) {
-    const id = document.getElementById('gameEditId').value;
-    const ownerUserId = document.getElementById('gameOwnerUserId')?.value || null;
-    const name = document.getElementById('gameName').value;
-    const pin = document.getElementById('gamePin').value;
-    const language = document.getElementById('gameLanguage')?.value || 'es';
-    const visibleToPresenter = document.getElementById('gameVisibleToPresenter').checked;
-    const useStreaks = document.getElementById('gameUseStreaks').checked;
-    const streakThreshold = parseFloat(document.getElementById('gameStreakThreshold').value) || 3;
-    const streakBonusPercentage = parseFloat(document.getElementById('gameStreakBonusPercentage').value) ?? 0.5;
-    const useDoubleStreaks = document.getElementById('gameUseDoubleStreaks').checked;
-    const doubleStreakThreshold = parseFloat(document.getElementById('gameDoubleStreakThreshold').value) || 5;
-    const doubleStreakBonusPercentage = parseFloat(document.getElementById('gameDoubleStreakBonusPercentage').value) ?? 1.0;
-    const imageUrl = document.getElementById('gameImageUrl')?.value || null;
+    const form = _readGameForm();
     const randomPoints = readRandomPointsConfig('game');
 
-    const randomPointsCheck = validateRandomPointsConfig(randomPoints);
-    if (!randomPointsCheck.valid) {
-        return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), randomPointsCheck.message, 'warning');
+    const validationError = _gameValidationError(form, randomPoints);
+    if (validationError) {
+        return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), validationError, 'warning');
     }
-
-    if (!name) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), _t('admin.games.error_name', null, 'Por favor, ponle un nombre al juego'), 'warning');
-    if (currentBanks.length === 0) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), _t('admin.games.error_banks', null, 'Añade al menos un banco de preguntas'), 'warning');
-    if (id && !canModifyOwnedResource(ownerUserId)) {
+    if (form.id && !canModifyOwnedResource(form.ownerUserId)) {
         showOwnershipDeniedModal('este juego');
         return;
     }
@@ -432,18 +417,13 @@ async function guardarJuego(salir = true) {
     }
 
     const payload = {
-        name,
-        pin: pin || Math.floor(100000 + Math.random() * 900000).toString(),
-        language,
-        visible_to_presenter: visibleToPresenter,
-        use_streaks: useStreaks,
-        streak_threshold: streakThreshold,
-        streak_bonus_percentage: streakBonusPercentage,
-        use_double_streaks: useDoubleStreaks,
-        double_streak_threshold: doubleStreakThreshold,
-        double_streak_bonus_percentage: doubleStreakBonusPercentage,
+        name: form.name,
+        pin: form.pin || Math.floor(100000 + Math.random() * 900000).toString(),
+        language: form.language,
+        visible_to_presenter: form.visibleToPresenter,
+        ..._readGameStreaks(),
         pool_question_count: poolQuestionCount,
-        image_url: imageUrl,
+        image_url: form.imageUrl,
         ...randomPoints,
         banks: currentBanks.map(b => ({
             bank_id: b.bank_id,
@@ -452,8 +432,8 @@ async function guardarJuego(salir = true) {
     };
 
     try {
-        const url = id ? `/api/games/${id}` : '/api/games';
-        const method = id ? 'PUT' : 'POST';
+        const url = form.id ? `/api/games/${form.id}` : '/api/games';
+        const method = form.id ? 'PUT' : 'POST';
 
         const res = await fetchWithAuth(url, {
             method,
@@ -462,22 +442,7 @@ async function guardarJuego(salir = true) {
         });
 
         if (res.ok) {
-            const data = await res.json();
-            markUnsavedChangesAsSaved();
-            mostrarModalError(_t('admin.common.success_title', null, '✅ Éxito'), _t('admin.games.success_saved', null, '¡Juego guardado correctamente!'), 'success');
-
-            if (salir) {
-                // Volver a la vista de juegos
-                mostrarVista('juegos');
-            } else {
-                // Si es un juego nuevo, actualizar el ID en el formulario
-                if (!id && data.id) {
-                    document.getElementById('gameEditId').value = data.id;
-                    // Recargar el juego completo
-                    await cargarEditorJuego(data.id);
-                }
-                // Si ya existía, solo mantener el editor abierto
-            }
+            await _afterGameSaved(salir, form.id, await res.json());
         } else {
             const err = await res.json();
             mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), err.message || err.error || 'Error desconocido', 'error');
@@ -485,6 +450,53 @@ async function guardarJuego(salir = true) {
     } catch (error) {
         mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.common.error_server', null, 'Error de conexión con el servidor'), 'error');
     }
+}
+
+function _readGameForm() {
+    return {
+        id: document.getElementById('gameEditId').value,
+        ownerUserId: document.getElementById('gameOwnerUserId')?.value || null,
+        name: document.getElementById('gameName').value,
+        pin: document.getElementById('gamePin').value,
+        language: document.getElementById('gameLanguage')?.value || 'es',
+        visibleToPresenter: document.getElementById('gameVisibleToPresenter').checked,
+        imageUrl: document.getElementById('gameImageUrl')?.value || null
+    };
+}
+
+function _readGameStreaks() {
+    return {
+        use_streaks: document.getElementById('gameUseStreaks').checked,
+        streak_threshold: parseFloat(document.getElementById('gameStreakThreshold').value) || 3,
+        streak_bonus_percentage: parseFloat(document.getElementById('gameStreakBonusPercentage').value) ?? 0.5,
+        use_double_streaks: document.getElementById('gameUseDoubleStreaks').checked,
+        double_streak_threshold: parseFloat(document.getElementById('gameDoubleStreakThreshold').value) || 5,
+        double_streak_bonus_percentage: parseFloat(document.getElementById('gameDoubleStreakBonusPercentage').value) ?? 1.0
+    };
+}
+
+/** Mensaje de validación del juego, o null si se puede guardar. */
+function _gameValidationError(form, randomPoints) {
+    const randomPointsCheck = validateRandomPointsConfig(randomPoints);
+    if (!randomPointsCheck.valid) return randomPointsCheck.message;
+    if (!form.name) return _t('admin.games.error_name', null, 'Por favor, ponle un nombre al juego');
+    if (currentBanks.length === 0) return _t('admin.games.error_banks', null, 'Añade al menos un banco de preguntas');
+    return null;
+}
+
+async function _afterGameSaved(salir, id, data) {
+    markUnsavedChangesAsSaved();
+    mostrarModalError(_t('admin.common.success_title', null, '✅ Éxito'), _t('admin.games.success_saved', null, '¡Juego guardado correctamente!'), 'success');
+
+    if (salir) {
+        // Volver a la vista de juegos
+        mostrarVista('juegos');
+    } else if (!id && data.id) {
+        // Juego nuevo: fijar el ID y recargar el juego completo
+        document.getElementById('gameEditId').value = data.id;
+        await cargarEditorJuego(data.id);
+    }
+    // Si ya existía, solo mantener el editor abierto
 }
 
 // ===== ELIMINAR JUEGO =====

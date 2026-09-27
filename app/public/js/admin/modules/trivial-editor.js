@@ -150,28 +150,31 @@ async function renderEditorTrivial(game, cats) {
     // Store bankOptions for dynamic add
     _trivialSyncColorOptions();
     _trivialSyncSrcOptions();
-    setUnsavedChangesGuard('trivial', () => {
-        const cats = Array.from(document.querySelectorAll('.trivial-cat-row')).map(r => ({
-            src: r.querySelector('.cat-src-id')?.value,
-            type: r.querySelector('.cat-src-type')?.value,
-            color: r.querySelector('.cat-color')?.value
-        }));
-        return {
-            name: document.getElementById('trivial-name')?.value || '',
-            pin: document.getElementById('trivial-pin')?.value || '',
-            language: document.getElementById('trivial-language')?.value || 'es',
-            visible_to_presenter: document.getElementById('trivial-visible')?.checked ?? true,
-            use_streaks: document.getElementById('trivial-use-streaks')?.checked ?? false,
-            streak_threshold: document.getElementById('trivial-streak-threshold')?.value ?? 3,
-            streak_bonus_percentage: document.getElementById('trivial-streak-bonus')?.value ?? 0.5,
-            use_double_streaks: document.getElementById('trivial-use-double-streaks')?.checked ?? false,
-            double_streak_threshold: document.getElementById('trivial-double-threshold')?.value ?? 5,
-            double_streak_bonus_percentage: document.getElementById('trivial-double-bonus')?.value ?? 1.0,
-            image_url: document.getElementById('trivial-image-url')?.value || '',
-            ...snapshotRandomPoints('trivial'),
-            cats: JSON.stringify(cats)
-        };
-    });
+    setUnsavedChangesGuard('trivial', _trivialEditorSnapshot);
+}
+
+/** Estado del editor para detectar cambios sin guardar. */
+function _trivialEditorSnapshot() {
+    const cats = Array.from(document.querySelectorAll('.trivial-cat-row')).map(r => ({
+        src: r.querySelector('.cat-src-id')?.value,
+        type: r.querySelector('.cat-src-type')?.value,
+        color: r.querySelector('.cat-color')?.value
+    }));
+    return {
+        name: document.getElementById('trivial-name')?.value || '',
+        pin: document.getElementById('trivial-pin')?.value || '',
+        language: document.getElementById('trivial-language')?.value || 'es',
+        visible_to_presenter: document.getElementById('trivial-visible')?.checked ?? true,
+        use_streaks: document.getElementById('trivial-use-streaks')?.checked ?? false,
+        streak_threshold: document.getElementById('trivial-streak-threshold')?.value ?? 3,
+        streak_bonus_percentage: document.getElementById('trivial-streak-bonus')?.value ?? 0.5,
+        use_double_streaks: document.getElementById('trivial-use-double-streaks')?.checked ?? false,
+        double_streak_threshold: document.getElementById('trivial-double-threshold')?.value ?? 5,
+        double_streak_bonus_percentage: document.getElementById('trivial-double-bonus')?.value ?? 1.0,
+        image_url: document.getElementById('trivial-image-url')?.value || '',
+        ...snapshotRandomPoints('trivial'),
+        cats: JSON.stringify(cats)
+    };
 }
 
 function toggleTrivialStreakConfig() {
