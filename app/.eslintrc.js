@@ -91,9 +91,9 @@ module.exports = {
             }
         },
         {
-            // Adaptaciones de código de terceros (fuegos artificiales, fondo animado)
-            // y ejemplos que no carga ninguna página: no se refactorizan.
-            files: ['public/js/fireworks/**/*.js', 'public/js/animation.js', 'public/js/core/EXAMPLES.js'],
+            // Adaptaciones de código de terceros (fuegos artificiales, fondo animado):
+            // no se refactorizan.
+            files: ['public/js/fireworks/**/*.js', 'public/js/animation.js'],
             rules: {
                 'complexity': 'off',
                 'max-lines-per-function': 'off',

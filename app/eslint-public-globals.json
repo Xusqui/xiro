@@ -623,7 +623,6 @@
     "ocultarTodosJuegos": "writable",
     "ocultarTodosPersonalizados": "writable",
     "ocultarTodosTrivial": "writable",
-    "onAnswerClick": "writable",
     "onImagenOpcionChange": "writable",
     "palmShell": "writable",
     "panicRestart": "writable",
@@ -841,7 +840,6 @@
     "willowShell": "writable"
   },
   "modules": [
-    "public/js/core/EXAMPLES.js",
     "public/js/core/EventEmitter.js",
     "public/js/core/GameStateManager.js",
     "public/js/core/SocketEventManager.js",
