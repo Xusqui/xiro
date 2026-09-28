@@ -23,6 +23,7 @@ import { abandonarJuego, concluirJuegoYVolver, terminarJuego } from './presenter
 import { startWaitingPanelSync, stopWaitingPanelSync } from './presenter-waiting-panel.js?v=20260922172926';
 import { registerTrivialSocketHandlers } from './presenter-trivial-socket.js?v=20260922172926';
 import { setupPresenterActionDelegation } from './presenter-actions.js?v=20260922172926';
+import { setupNextQuestionShortcut } from './presenter-keyboard.js?v=20260922172926';
 
 // Detect remote mode early (URL params available synchronously) to avoid registering
 // full-presenter socket handlers that crash when their DOM elements don't exist.
@@ -77,6 +78,7 @@ window.concluirJuegoYVolver = concluirJuegoYVolver;
 window.terminarJuego = terminarJuego;
 
 setupPresenterActionDelegation();
+setupNextQuestionShortcut();
 
 window.addEventListener('xiro:language-changed', () => {
     rerenderCurrentLobbyView();

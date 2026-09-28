@@ -982,6 +982,7 @@
     "public/js/presenter/presenter-answer-counter.js",
     "public/js/presenter/presenter-chamaleon.js",
     "public/js/presenter/presenter-game-ui.js",
+    "public/js/presenter/presenter-keyboard.js",
     "public/js/presenter/presenter-lobby-init.js",
     "public/js/presenter/presenter-lobby.js",
     "public/js/presenter/presenter-main.js",
