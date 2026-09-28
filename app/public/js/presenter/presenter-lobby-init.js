@@ -15,6 +15,18 @@ import { mostrarQR, renderTeamLobby } from './presenter-game-ui.js?v=20260922172
 /**
  * Iniciar lobby del presentador
  */
+/**
+ * Equipos del parámetro teams de la URL. Acepta el formato actual (JSON, una sola
+ * codificación) y el antiguo doble-codificado, por si se recarga una sesión previa.
+ */
+function parseTeamsParam(teamsParam) {
+    try {
+        return JSON.parse(teamsParam);
+    } catch {
+        return JSON.parse(decodeURIComponent(teamsParam));
+    }
+}
+
 export async function iniciarLobby() {
     const socket = getSocket();
     const pin = getPin();
@@ -39,7 +51,7 @@ export async function iniciarLobby() {
     if (mode === 'teams' && teamsParam) {
         try {
             setIsTeamMode(true);
-            setTeamConfig({ teams: JSON.parse(decodeURIComponent(teamsParam)) });
+            setTeamConfig({ teams: parseTeamsParam(teamsParam) });
             console.log('🎯 Modo equipos activado:', getTeamConfig());
         } catch (e) {
             console.error('Error parseando equipos:', e);

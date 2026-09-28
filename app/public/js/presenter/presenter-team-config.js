@@ -240,7 +240,8 @@ export function confirmarEquipos(numTeams, selectedPin) {
     const newUrl = new URL(window.location.href);
     newUrl.searchParams.set('pin', selectedPin.toUpperCase());
     newUrl.searchParams.set('mode', 'teams');
-    newUrl.searchParams.set('teams', encodeURIComponent(JSON.stringify(teams)));
+    // searchParams ya codifica: no añadir encodeURIComponent (quedaba doble-codificado)
+    newUrl.searchParams.set('teams', JSON.stringify(teams));
     window.history.pushState({}, '', newUrl);
 
     // Iniciar lobby directamente
