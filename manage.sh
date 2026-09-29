@@ -3,87 +3,84 @@
 # Xiro! - Comandos Rápidos de Gestión
 # =======================================
 
+source "$(dirname "$0")/scripts/xiro-env.sh"
+
 case "$1" in
     start)
         echo "🚀 Iniciando Xiro!..."
-        docker-compose up -d
+        "${COMPOSE[@]}" up -d
         echo "✅ Servicios iniciados"
-        docker-compose ps
+        "${COMPOSE[@]}" ps
         ;;
-    
+
     stop)
         echo "🛑 Deteniendo Xiro!..."
-        docker-compose down
+        "${COMPOSE[@]}" down
         echo "✅ Servicios detenidos"
         ;;
-    
+
     restart)
         echo "🔄 Reiniciando Xiro!..."
-        docker-compose restart
+        "${COMPOSE[@]}" restart
         echo "✅ Servicios reiniciados"
-        docker-compose ps
+        "${COMPOSE[@]}" ps
         ;;
-    
+
     status)
         echo "📊 Estado de Xiro!:"
-        docker-compose ps
-        echo ""
-        ./monitor.sh
+        "$XIRO_DIR/monitor.sh"
         ;;
-    
+
     logs)
         if [ -z "$2" ]; then
-            docker-compose logs -f
+            "${COMPOSE[@]}" logs -f
         else
-            docker-compose logs -f "$2"
+            "${COMPOSE[@]}" logs -f "$2"
         fi
         ;;
-    
+
     backup)
-        ./backup.sh
+        "$XIRO_DIR/backup.sh"
         ;;
-    
+
     restore)
         if [ -z "$2" ]; then
             echo "❌ Error: Especifica el archivo de backup"
             echo "Uso: ./manage.sh restore backups/archivo.sql.gz"
             exit 1
         fi
-        ./restore.sh "$2"
+        "$XIRO_DIR/restore.sh" "$2"
         ;;
-    
+
     update)
         echo "📦 Actualizando Xiro!..."
-        docker-compose down
-        docker-compose pull
-        docker-compose up -d --build
+        "${COMPOSE[@]}" pull --quiet db redis chrome
+        "${COMPOSE[@]}" up -d --build
         echo "✅ Actualización completada"
         ;;
-    
+
     clean)
         echo "🧹 Limpiando recursos no utilizados..."
         docker system prune -f
         echo "✅ Limpieza completada"
         ;;
-    
+
     db)
         echo "🗄️ Conectando a PostgreSQL..."
-        docker exec -it xiro_postgres psql \
-            -U "${DB_USER:-postgres}" \
-            -p "${DB_PORT:-5439}" \
-            -d "${DB_NAME:-xiro_db}"
+        docker exec -it xiro_postgres psql -U "$DB_USER" -p 5439 -d "$DB_NAME"
         ;;
-    
+
     stats)
         echo "📊 Estadísticas de recursos:"
-        docker stats --no-stream xiro_backend xiro_postgres
+        docker stats --no-stream xiro_backend xiro_postgres xiro_redis
         ;;
-    
+
     health)
         echo "🏥 Health check:"
-        curl -s http://localhost:3000/health | jq '.' 2>/dev/null || curl -s http://localhost:3000/health
+        curl -s "http://localhost:${APP_PORT}/ready" | jq '.' 2>/dev/null || curl -s "http://localhost:${APP_PORT}/ready"
+        echo ""
         ;;
-    
+
     *)
         echo "Xiro! - Gestión de Servicios"
         echo "=============================="
@@ -97,9 +94,9 @@ case "$1" in
         echo "  status      - Ver estado completo"
         echo "  logs        - Ver logs en tiempo real"
         echo "  backup      - Hacer backup de la BD"
-        echo "  restore     - Restaurar backup (requiere archivo)"
-        echo "  update      - Actualizar contenedores"
-        echo "  clean       - Limpiar recursos Docker"
+        echo "  restore     - Restaurar backup (requiere archivo; sustituye la BD actual)"
+        echo "  update      - Actualizar imágenes y reconstruir contenedores"
+        echo "  clean       - Limpiar recursos Docker no utilizados"
         echo "  db          - Conectar a PostgreSQL"
         echo "  stats       - Ver uso de recursos"
         echo "  health      - Health check del backend"
@@ -108,13 +105,8 @@ case "$1" in
         echo "  ./manage.sh start"
         echo "  ./manage.sh logs backend"
         echo "  ./manage.sh restore backups/xiro_backup_20250111_120000.sql.gz"
-        echo "";
-        echo "";
-        echo "Para borrar la cuenta atrás para poder loggearte haz:"
-        echo "1.- command -v redis-cli && (redis-cli --scan --pattern 'rl:*' | head -20 || true)"
-        echo "2.- Te devuelve una IP, ej: rl: 104.22.23.61"
-        echo "3.- haz redis-cli DEL rl:IP"
-        echo "4.- Ej: redis-cli DEL rl:104.22.23.61"
-        echo "5.- Listo, ya puedes loggearte"        
+        echo ""
+        echo "Si el login de admin queda bloqueado por intentos fallidos, consulta"
+        echo "la sección 'Rate limit de login admin' del README."
         ;;
 esac

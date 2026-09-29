@@ -341,8 +341,10 @@ Sincronizaciones críticas entre workers (18 canales pub/sub en `RedisSyncBus`):
 <br>
 
 ### Requisitos
-- Docker y Docker Compose instalados
-- Puertos `3000` (app), `5439` (Postgres), `6379` (Redis) disponibles (o red `host`)
+- Un servidor **Linux** (el contenedor lee `/etc/machine-id` para identificar la instalación)
+- Docker y Docker Compose (v2 `docker compose` o v1 `docker-compose`)
+- Un dominio y un **proxy inverso con HTTPS** (Nginx, Caddy, el proxy inverso de Synology…). A Xiro! hay que entrar por `https://`.
+- Solo necesitas un puerto local libre (`APP_PORT`, `3000` por defecto). PostgreSQL y Redis funcionan en la red interna de Docker y no exponen puertos al host.
 
 <br clear="left">
 
@@ -353,20 +355,67 @@ Sincronizaciones críticas entre workers (18 canales pub/sub en `RedisSyncBus`):
 git clone <repo-url> xiro
 cd xiro
 
-# 2. Crear archivo de entorno
-cp .env.example .env   # o crear manualmente (ver sección Variables de entorno)
-
-# 3. Levantar los servicios
-docker compose up -d
-
-# 4. Abrir /admin.html
-#    - Si no existen usuarios, registrar la primera cuenta (se crea como admin automáticamente)
-#    - Las cuentas adicionales se crean como editor (requieren confirmación por email)
-
-# 5. La app estará disponible en http://<ip-del-servidor>:3000
+# 2. Crear el archivo de entorno y editarlo
+cp .env.example .env
+nano .env
 ```
 
-Las migraciones SQL se ejecutan automáticamente al arrancar el servidor.
+En `.env`, cambia como mínimo los valores marcados con `<-- CAMBIAR`:
+
+| Variable | Qué poner |
+|----------|-----------|
+| `XIRO_ROOT` | Ruta absoluta de este repositorio en el host (lo que devuelve `pwd`) |
+| `DB_PASSWORD`, `REDIS_PASSWORD` | Contraseñas aleatorias sin espacios |
+| `JWT_SECRET` | Cadena aleatoria de al menos 32 caracteres |
+| `CORS_ORIGIN`, `ALLOWED_ORIGINS` | Tu URL pública, p. ej. `https://quiz.example.com` |
+| `SERVER_HOST` | Tu dominio sin `https://`, p. ej. `quiz.example.com` |
+
+Puedes generar valores aleatorios con `openssl rand -hex 32`.
+
+```bash
+# 3. Crear los ficheros y carpetas que monta Docker (no vienen en el repositorio)
+mkdir -p logs backups
+for f in app/config/ui-overrides.json app/config/runtime-overrides.json app/ai-generator/groq-key.json; do
+  [ -f "$f" ] || echo '{}' > "$f"
+done
+
+# La app se ejecuta con el UID 1001 dentro del contenedor y necesita escribir aquí
+sudo chown -R 1001:1001 logs app/public/uploads app/public/images/personalizations \
+  app/config/ui-overrides.json app/config/runtime-overrides.json \
+  app/config/instance-id.json app/ai-generator/groq-key.json
+
+# 4. Construir y levantar los servicios (la primera construcción tarda unos minutos)
+docker compose up -d --build
+docker compose ps        # espera a que xiro_backend aparezca como "healthy"
+```
+
+> Si falta alguno de los ficheros JSON del paso 3, Docker crea un **directorio** con ese nombre y la app no arranca. En ese caso, para los servicios, borra ese directorio, crea el fichero y vuelve a arrancar.
+
+**5. Configurar el proxy inverso.** La app solo escucha en `127.0.0.1:${APP_PORT}` (no es accesible desde otras máquinas). Apunta tu dominio HTTPS a `http://127.0.0.1:3000` y activa el soporte de **WebSocket** (Socket.IO lo necesita). Ejemplo mínimo para Nginx:
+
+```nginx
+server {
+    listen 443 ssl;
+    server_name quiz.example.com;
+    # ssl_certificate / ssl_certificate_key ...
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+**6. Crear la cuenta de administrador.** Abre `https://<tu-dominio>/admin.html`. Si todavía no hay usuarios, la primera cuenta que registres será **admin** automáticamente. Las siguientes se crean como editor y requieren confirmación por email.
+
+Las migraciones SQL se ejecutan automáticamente en cada arranque; no hace falta ningún paso adicional.
+
+Para comprobar que todo funciona, `./manage.sh health` debe devolver `"status": "ready"`.
 
 ### Ping anónimo de instalación (telemetría)
 
@@ -382,21 +431,25 @@ El ping nunca bloquea el arranque: si no hay salida a internet o la variable est
 
 ### Gestión con manage.sh
 
+Puedes ejecutarlo desde cualquier carpeta: lee el usuario, el nombre de la base de datos y el puerto de `.env`, y funciona tanto con `docker compose` como con `docker-compose`. Si tu usuario no está en el grupo `docker`, antepón `sudo`.
+
 ```bash
 ./manage.sh start                              # Inicia todos los servicios
 ./manage.sh stop                               # Para todos los servicios
 ./manage.sh restart                            # Reinicia todos los servicios
-./manage.sh status                             # Estado completo + monitor
-./manage.sh logs                               # Ver logs de todos los servicios
-./manage.sh logs backend                       # Ver logs de un servicio concreto
-./manage.sh backup                             # Crea un backup de PostgreSQL
-./manage.sh restore backups/archivo.sql.gz     # Restaura un backup (requiere nombre de fichero)
-./manage.sh update                             # Pull de imágenes y reconstruye contenedores
-./manage.sh clean                              # Limpia recursos Docker no utilizados (prune)
-./manage.sh db                                 # Abre psql interactivo en xiro_postgres
-./manage.sh stats                              # Muestra uso de CPU/RAM de contenedores
-./manage.sh health                             # Health check del backend (/health)
+./manage.sh status                             # Contenedores, recursos, salud, estadísticas de BD y últimos logs
+./manage.sh logs                               # Sigue los logs de todos los servicios
+./manage.sh logs backend                       # Sigue los logs de un servicio (db, redis, backend, backup, chrome)
+./manage.sh backup                             # Crea un backup de PostgreSQL en backups/
+./manage.sh restore backups/archivo.sql.gz     # Sustituye la base de datos por un backup (pide confirmación)
+./manage.sh update                             # Actualiza las imágenes base y reconstruye los contenedores
+./manage.sh clean                              # Borra recursos Docker sin uso (nunca volúmenes)
+./manage.sh db                                 # Abre una sesión psql interactiva
+./manage.sh stats                              # Muestra el uso de CPU/RAM de los contenedores
+./manage.sh health                             # Comprueba que el backend está listo (/ready)
 ```
+
+`update` no descarga código nuevo de Xiro!: haz primero `git pull` y después `./manage.sh update`.
 
 ### Compilar CSS (desarrollo)
 
@@ -437,18 +490,19 @@ Opciones de programación disponibles:
 - **Mensual** — `0 2 1 * *` (día 1 de cada mes a las 2:00 AM)
 - **Desactivado** — `disabled`
 
-### Levantar el servicio de backup
+### Uso del servicio de backup
+
+El servicio `backup` arranca junto con el resto (`docker compose up -d`); no hace falta ningún paso adicional.
 
 ```bash
-# Primera vez (dar permisos y levantar)
-chmod +x scripts/docker-backup-entrypoint.sh scripts/docker-backup-run.sh
-docker compose up -d backup
-
 # Ver logs
 docker logs xiro_backup
 
-# Forzar un backup manual inmediato
+# Forzar un backup inmediato (igual que el programado)
 docker exec xiro_backup sh /scripts/docker-backup-run.sh
+
+# O desde el host, sin usar el servicio de backup
+./manage.sh backup
 
 # Listar backups disponibles
 ls -lh backups/
@@ -461,21 +515,18 @@ ls -lh backups/
 ls -lh backups/
 # → xiro_backup_20260319_020000.sql.gz
 
-# 2. Restaurar (sustituye el nombre del archivo)
-docker exec -i xiro_postgres psql \
-  -U "${DB_USER:-postgres}" \
-  -p 5439 \
-  -d "${DB_NAME:-xiro_db}" \
-  < <(gunzip -c backups/xiro_backup_20260319_020000.sql.gz)
+# 2. Restaurarlo (sustituye el nombre del archivo)
+./manage.sh restore backups/xiro_backup_20260319_020000.sql.gz
 ```
 
-> **Nota:** si la restauración debe partir de una base de datos limpia (p.ej. recuperación total tras pérdida de datos), descarta primero las tablas existentes añadiendo la flag `--clean` al psql o recrea el esquema manualmente.
+La restauración **sustituye por completo** la base de datos actual. Tras confirmar escribiendo `SI`, el script:
 
-Alternativamente usando `manage.sh`:
+1. Para el backend para que nadie escriba durante la restauración.
+2. Borra y recrea la base de datos.
+3. Carga el backup, deteniéndose en el primer error.
+4. Vuelve a arrancar el backend.
 
-```bash
-./manage.sh restore
-```
+Si quieres conservar los datos actuales por si acaso, ejecuta antes `./manage.sh backup`.
 
 ---
 
@@ -483,26 +534,36 @@ Alternativamente usando `manage.sh`:
 
 <img src="https://xiro.pro/images/chamaleon/cooking.svg" alt="mascota cocinando" width="100" align="right">
 
-Configuradas en `docker-compose.yml` o en `app/.env`:
+Se configuran en el fichero `.env` de la **raíz del repositorio** (copiado de `.env.example`). `.env.example` documenta todas las variables; estas son las importantes:
+
+**Obligatorias — tienes que ponerlas tú:**
+
+| Variable | Descripción | Ejemplo |
+|----------|-------------|---------|
+| `XIRO_ROOT` | Ruta absoluta del repositorio en el host | `/opt/xiro` |
+| `DB_PASSWORD` | Contraseña de PostgreSQL (sin espacios) | — |
+| `REDIS_PASSWORD` | Contraseña de Redis | — |
+| `JWT_SECRET` | Secreto para los tokens de sesión (mínimo 32 caracteres) | — |
+| `CORS_ORIGIN` | Origen(es) permitidos, separados por comas, con `https://` | `https://quiz.example.com` |
+| `ALLOWED_ORIGINS` | El mismo valor que `CORS_ORIGIN` | `https://quiz.example.com` |
+| `SERVER_HOST` | Dominio público, sin `https://` | `quiz.example.com` |
+
+**Opcionales:**
 
 | Variable | Descripción | Por defecto |
 |----------|-------------|-------------|
+| `APP_PORT` | Puerto local donde se publica la app (solo `127.0.0.1`) | `3000` |
+| `DB_USER` | Usuario de PostgreSQL | `postgres` |
+| `DB_NAME` | Nombre de la base de datos | `xiro_db` |
+| `DB_PORT` | Puerto de PostgreSQL dentro de la red Docker — no cambiar | `5439` |
 | `NODE_ENV` | Entorno de ejecución | `production` |
-| `PORT` | Puerto del servidor | `3000` |
-| `DB_HOST` | Host PostgreSQL | `localhost` |
-| `DB_PORT` | Puerto PostgreSQL | `5439` |
-| `DB_NAME` | Nombre de la BD | `xiro` |
-| `DB_USER` | Usuario PostgreSQL | — |
-| `DB_PASSWORD` | Contraseña PostgreSQL | — |
-| `REDIS_URL` | URL Redis TCP | `redis://localhost:6379` |
-| `REDIS_SOCKET_PATH` | Path socket Unix Redis | `/var/run/redis/redis.sock` |
-| `JWT_SECRET` | Secreto para tokens JWT | — |
-| `CORS_ORIGIN` | Origen permitido CORS | `*` |
-| `GROQ_MODEL` | Modelo Groq para IA | `llama-3.3-70b-versatile` |
-| `BASE_POINTS` | Puntos base por respuesta | `20` |
-| `MAX_TIME_BONUS` | Bonificación máxima por tiempo | `20` |
-| `TEAM_SCORE_LAMBDA` | Peso puntuación individual en equipos | `0.5` |
-| `XIRO_TELEMETRY` | Poner a `false` para desactivar el ping anónimo de instalación a ntfy.sh | `true` |
+| `LOG_LEVEL` | `debug`, `info`, `warn` o `error` | `info` |
+| `GROQ_MODEL` | Modelo de Groq para el generador IA | `llama-3.3-70b-versatile` |
+| `TEAM_SCORE_LAMBDA` | Suavizado de la puntuación por equipos (ver `.env.example`) | `0.5` |
+| `SOCKETIO_IP_CONN_LIMIT` | Conexiones nuevas por IP y minuto | `500` |
+| `XIRO_TELEMETRY` | Pon `false` para desactivar el ping anónimo de instalación a ntfy.sh | `true` |
+
+`DB_HOST` y `REDIS_URL` los fija `docker-compose.yml` apuntando a los servicios internos (`db`, `redis`), así que no hace falta tocarlos. La API key de Groq no es una variable de entorno: se introduce desde el panel de administración (sección Config) y se guarda en `app/ai-generator/groq-key.json`.
 
 ---
 
@@ -648,6 +709,7 @@ Asistente en 3 pasos:
 
 El panel de administración incluye una pestaña dedicada de **Licencia** para gestionar la licencia del producto en toda la instancia.
 
+- En el primer arranque, si aún no hay clave guardada, la instalación pide una automáticamente al servidor de licencias (auto-alta) y la guarda. Si el servidor no lo permite o no responde, la instancia queda sin licencia y puedes introducir una clave a mano como hasta ahora.
 - La clave guardada se persiste en la tabla PostgreSQL `site_settings` (fila singleton `id=1`).
 - La validación se realiza contra el comprobador remoto de licencias y devuelve `valid`, `expiresAt` y `reason`.
 - La pestaña muestra el estado en vivo y renderiza arte de estado activo/inactivo según corresponda.
@@ -703,20 +765,24 @@ Implementación técnica:
 
 El endpoint `/api/admin-login` está protegido con rate limit (5 intentos / 15 min por IP). Cuando Redis está disponible, el contador se guarda con claves `rl:*`.
 
-Comandos útiles en servidor:
+Redis funciona dentro del contenedor `xiro_redis` y requiere contraseña, así que ejecuta estos comandos desde la raíz del repositorio:
 
 ```bash
+# Atajo: redis-cli dentro del contenedor, usando REDIS_PASSWORD de .env
+rcli() { docker exec xiro_redis redis-cli -s /var/run/redis/redis.sock \
+  -a "$(grep '^REDIS_PASSWORD=' .env | cut -d= -f2-)" --no-auth-warning "$@"; }
+
 # Ver claves bloqueadas
-redis-cli --scan --pattern 'rl:*'
+rcli --scan --pattern 'rl:*'
 
 # Ver TTL de una IP
-redis-cli TTL rl:<ip>
+rcli TTL rl:<ip>
 
 # Reset de una IP concreta
-redis-cli DEL rl:<ip>
+rcli DEL rl:<ip>
 
-# Reset global de bloqueos de login
-redis-cli --scan --pattern 'rl:*' | xargs -r redis-cli DEL
+# Reset global (borra también los demás rate limits: PIN, botón de pánico…)
+rcli --scan --pattern 'rl:*' | while read -r key; do rcli DEL "$key"; done
 ```
 
 ---
