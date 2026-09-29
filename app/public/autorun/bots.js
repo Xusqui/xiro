@@ -6,6 +6,7 @@ const BOT_BATCH_DELAY_MS = 100;
 const BOT_CONNECT_DELAY_MS = 50;
 const BOT_ANSWER_MIN_MS = 500;
 const BOT_ANSWER_MAX_MS = 3500;
+const SLIDE_TYPES = ['comment', 'info', 'text', 'image', 'text-image'];
 
 // ─── State ────────────────────────────────────────────────────────────────────
 let activeBots = [];
@@ -150,7 +151,7 @@ class BaseBot {
             socket.on('reconnected-success', (snapshot) => {
                 this.roomId = snapshot.roomId || this.roomId;
                 if (snapshot.gameState?.currentQuestion && snapshot.gameState?.canAnswer) {
-                    setTimeout(() => this._submitAnswer(snapshot.gameState.currentQuestion), randInt(BOT_ANSWER_MIN_MS, BOT_ANSWER_MAX_MS));
+                    setTimeout(() => this._submitAnswer(snapshot.gameState.currentQuestion, snapshot.gameState.currentIndex), randInt(BOT_ANSWER_MIN_MS, BOT_ANSWER_MAX_MS));
                 }
             });
 
@@ -172,6 +173,21 @@ class BaseBot {
         });
     }
 
+    _answerBase() {
+        return {
+            sessionId: this.roomId, pin: this.roomId.split('-')[0],
+            nickname: this.nickname, requestId: reqId(this.nickname),
+        };
+    }
+
+    _emitAnswer(payload, qType) {
+        this.socket.emit('submit-answer', payload);
+        this.answersSubmitted++;
+        stats.answers++;
+        updateStats();
+        this.log('debug', _t('autorun.log.bot_answered', { count: this.answersSubmitted, type: qType }, 'Respondio #{count} ({type})'));
+    }
+
     disconnect() { if (this.socket?.connected) this.socket.disconnect(); }
 }
 
@@ -181,11 +197,11 @@ class QuizBotIndividual extends BaseBot {
         const s = this.socket;
         s.on('game-started', (data) => {
             if (data.firstQuestion)
-                setTimeout(() => this._submitAnswer(data.firstQuestion), randInt(BOT_ANSWER_MIN_MS, BOT_ANSWER_MAX_MS));
+                setTimeout(() => this._submitAnswer(data.firstQuestion, data.currentIndex ?? 0), randInt(BOT_ANSWER_MIN_MS, BOT_ANSWER_MAX_MS));
         });
         s.on('new-question', (data) => {
             if (data.question)
-                setTimeout(() => this._submitAnswer(data.question), randInt(BOT_ANSWER_MIN_MS, BOT_ANSWER_MAX_MS));
+                setTimeout(() => this._submitAnswer(data.question, data.currentIndex), randInt(BOT_ANSWER_MIN_MS, BOT_ANSWER_MAX_MS));
         });
         s.on('answer-result', (data) => {
             this.log('debug', _t('autorun.log.answer_result', { points: data.points, correct: data.correct }, 'answer-result: pts={points} ok={correct}'));
@@ -194,13 +210,9 @@ class QuizBotIndividual extends BaseBot {
 
     _submitAnswer(question) {
         if (!this.roomId || !question) return;
-        const isSlide = ['comment', 'info', 'text', 'image', 'text-image'].includes(question.slide_type || question.type);
-        if (isSlide) return;
+        if (SLIDE_TYPES.includes(question.slide_type || question.type)) return;
 
-        const base = {
-            sessionId: this.roomId, pin: this.roomId.split('-')[0],
-            nickname: this.nickname, requestId: reqId(this.nickname),
-        };
+        const base = this._answerBase();
         const qType = question.question_type || question.type;
         const n = question.options?.length || 4;
         let payload;
@@ -220,15 +232,34 @@ class QuizBotIndividual extends BaseBot {
                 payload = { ...base, index: randInt(0, n - 1) };
         }
 
-        this.socket.emit('submit-answer', payload);
-        this.answersSubmitted++;
-        stats.answers++;
-        updateStats();
-        this.log('debug', _t('autorun.log.bot_answered', { count: this.answersSubmitted, type: qType }, 'Respondio #{count} ({type})'));
+        this._emitAnswer(payload, qType);
     }
 }
 
-class QuizBotTeam extends QuizBotIndividual { }
+// ─── Líder "Xiro" (modo equipos) ──────────────────────────────────────────────
+// Si el equipo del bot tiene un jugador "Xiro", espera su respuesta y la replica.
+// Devuelve false si no aplica y el bot debe contestar por su cuenta.
+function followLeader(bot, question, questionIndex) {
+    const leader = window.XiroTeamLeader;
+    const key = leader?.keyFor(questionIndex);
+    if (key == null || !leader.teamHasLeader(bot.teamName)) return false;
+    if (!bot.roomId || !question) return true;
+
+    bot.log('debug', `Esperando a Xiro (${key})`);
+    leader.waitForAnswer(bot.teamName, key).then((answer) => {
+        if (!bot.socket?.connected) return;
+        setTimeout(() => bot._emitAnswer({ ...answer, ...bot._answerBase() },
+            `${answer.answerType || 'index'}=Xiro`), randInt(200, 1200));
+    });
+    return true;
+}
+
+class QuizBotTeam extends QuizBotIndividual {
+    _submitAnswer(question, questionIndex) {
+        if (question && SLIDE_TYPES.includes(question.slide_type || question.type)) return;
+        if (!followLeader(this, question, questionIndex)) super._submitAnswer(question, questionIndex);
+    }
+}
 
 // ─── TrivialBotIndividual ─────────────────────────────────────────────────────
 class TrivialBotIndividual extends BaseBot {
@@ -273,7 +304,7 @@ class TrivialBotIndividual extends BaseBot {
 
     _submitAnswer(question) {
         if (!this.roomId || !question) return;
-        const base = { sessionId: this.roomId, nickname: this.nickname, requestId: reqId(this.nickname) };
+        const base = this._answerBase();
         let payload;
         switch (question.question_type) {
             case 'order':
@@ -285,10 +316,7 @@ class TrivialBotIndividual extends BaseBot {
             default:
                 payload = { ...base, index: randInt(0, Math.max(0, (question.options?.length || 4) - 1)) };
         }
-        this.socket.emit('submit-answer', payload);
-        this.answersSubmitted++;
-        stats.answers++;
-        updateStats();
+        this._emitAnswer(payload, question.question_type);
     }
 }
 
@@ -321,6 +349,11 @@ class TrivialBotTeam extends TrivialBotIndividual {
         });
         s.on('trivial-choose-category', (data) => {
             if (!this._isShooter() || data.actorNick !== this.teamName) return;
+            // En el equipo de "Xiro" la categoría la elige solo Xiro.
+            if (window.XiroTeamLeader?.teamHasLeader(this.teamName)) {
+                this.log('debug', 'Categoría: espera a que elija Xiro');
+                return;
+            }
             const cats = data.categories || [];
             const idx = cats.length > 0 ? randInt(0, cats.length - 1) : 0;
             setTimeout(() => s.emit('trivial-category-chosen', { roomId: this.roomId, categoryIndex: idx }), randInt(500, 1500));
@@ -329,6 +362,10 @@ class TrivialBotTeam extends TrivialBotIndividual {
             setTimeout(() => this._submitAnswer(data.question), randInt(BOT_ANSWER_MIN_MS, BOT_ANSWER_MAX_MS));
         });
         s.on('trivial-error', d => this.log('warn', 'trivial-error', { msg: d?.message }));
+    }
+
+    _submitAnswer(question) {
+        if (!followLeader(this, question, null)) super._submitAnswer(question);
     }
 }
 
@@ -418,6 +455,8 @@ btnStart.addEventListener('click', async () => {
     updateStats();
     setRunning(true);
 
+    if (mode === 'equipos') window.XiroTeamLeader?.start(sessionId, log, { trivial: gameType === 'trivial' });
+
     log('main', 'info', _t('autorun.log.session_summary', { sessionId, mode, gameType, bots: numBots }, 'Session: {sessionId} | Modo: {mode} | Tipo: {gameType} | Bots: {bots}'));
 
     activeBots = await spawnBots(sessionId, mode, gameType, numBots);
@@ -436,6 +475,7 @@ btnStop.addEventListener('click', () => {
     isRunning = false;
     log('main', 'info', _t('autorun.log.disconnecting', { count: activeBots.length }, 'Desconectando {count} bots...'));
     for (const b of activeBots) b.disconnect();
+    window.XiroTeamLeader?.stop();
     activeBots = [];
     setRunning(false);
     log('main', 'info', _t('autorun.log.disconnected', null, 'Bots desconectados.'));

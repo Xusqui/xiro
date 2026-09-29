@@ -5,6 +5,7 @@
 
 const SubmitAnswerUseCase = require('../../application/use-cases/SubmitAnswerUseCase');
 const { pushSessionLog } = require('../../services/game-logs.service');
+const { notifyTeamAnswerDetail } = require('../utils/TeamAnswerDetailNotifier');
 
 module.exports = function createSubmitAnswerHandler(dependencies) {
     const {
@@ -78,8 +79,9 @@ module.exports = function createSubmitAnswerHandler(dependencies) {
                 reason: result?.reason
             });
 
-            // El Use Case ya maneja el callback y las emisiones de eventos
-            // No hay nada más que hacer aquí
+            // El Use Case ya maneja el callback y las emisiones de eventos.
+            // En modo equipos, detalle de la respuesta al presentador (Bot Runner).
+            notifyTeamAnswerDetail({ io, players, teamConfigs, activeGames, playerId, data, result });
 
         } catch (error) {
             logger.error('Error in submit-answer handler', {

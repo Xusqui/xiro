@@ -21,7 +21,8 @@
         'adminUsername'
     ];
     const LOGIN_URL = '/admin.html';
-    const BOTS_SCRIPT = '/autorun/bots.js?v=20260615-130508';
+    const BOTS_SCRIPT = '/autorun/bots.js?v=20260929-140000';
+    const LEADER_SCRIPT = '/autorun/team-leader.js?v=20260929-140000';
 
     function redirectToLogin() {
         window.location.replace(LOGIN_URL);
@@ -53,9 +54,13 @@
         if (logoutBtn) logoutBtn.addEventListener('click', logout);
 
         // Cargar la herramienta solo tras verificar el rol de administrador.
-        const script = document.createElement('script');
-        script.src = BOTS_SCRIPT;
-        document.body.appendChild(script);
+        // async=false preserva el orden: team-leader.js antes que bots.js.
+        [LEADER_SCRIPT, BOTS_SCRIPT].forEach((src) => {
+            const script = document.createElement('script');
+            script.src = src;
+            script.async = false;
+            document.body.appendChild(script);
+        });
     }
 
     async function verify() {
