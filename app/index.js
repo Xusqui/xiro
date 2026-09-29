@@ -43,6 +43,7 @@ const adminRemoteRoutes = require('./routes/admin.remote.routes');
 const adminPasswordResetRoutes = require('./routes/admin-password-reset.routes');
 const configRoutes = require('./routes/config.routes');
 const siteStateRoutes = require('./routes/site-state.routes');
+const siteStateService = require('./services/site-state.service');
 const userLicenseRoutes = require('./routes/user-license.routes');
 const userLicenseCheckoutRoutes = require('./routes/user-license-checkout.routes');
 const licenseExemptionsRoutes = require('./routes/license-exemptions.routes');
@@ -217,6 +218,10 @@ if (isMasterWorker) {
             if (result && result.executed > 0) {
                 logger.info(`✅ ${result.executed} migración(es) ejecutada(s)`, getWorkerContext());
             }
+
+            // Auto-alta de licencia de instalación (no bloquea el arranque; si
+            // ya hay licenseKey guardado o el auto-alta falla, no hace nada).
+            return siteStateService.getPublicLicenseStatus();
         })
         .catch(error => {
             logger.error('❌ Error ejecutando inicialización o migraciones:', error);

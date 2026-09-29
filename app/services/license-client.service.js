@@ -107,6 +107,45 @@ async function probeActivationStatus(licenseKey, fetchImpl = globalThis.fetch, d
     }
 }
 
+/**
+ * Auto-alta de instalación: POST /api/licenses/auto-provision con solo
+ * { instanceId, appVersion }, firmado igual que validate/heartbeat. Se usa
+ * cuando esta instalación aún no tiene licenseKey guardado — si el servidor
+ * la desactivó (403) o falla, el llamador debe caer al flujo manual actual.
+ */
+async function autoProvision(fetchImpl = globalThis.fetch, deps = {}) {
+    const secret = _hmacSecret(deps);
+    const { instanceId } = (deps.getInstanceId || getInstanceId)();
+
+    const rawBody = JSON.stringify({ instanceId, appVersion: APP_VERSION });
+    const timestamp = String(deps.now ? deps.now() : Date.now());
+
+    try {
+        const response = await fetchImpl(`${_ACTIVATION_BASE}auto-provision`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                'x-xiro-timestamp': timestamp,
+                'x-xiro-signature': signPayload(secret, timestamp, rawBody),
+                'x-xiro-client': instanceId
+            },
+            body: rawBody
+        });
+
+        if (!response) return { success: false, reason: 'auto_provision_failed' };
+        if (response.status === 403) return { success: false, reason: 'auto_provision_disabled' };
+
+        const payload = await response.json().catch(() => null);
+        if (!payload || typeof payload !== 'object' || payload.valid !== true || !payload.licenseKey) {
+            return { success: false, reason: (payload && payload.error) || 'invalid_response' };
+        }
+
+        return { success: true, licenseKey: payload.licenseKey };
+    } catch (_error) {
+        return { success: false, reason: 'auto_provision_error' };
+    }
+}
+
 /** Solo para tests. */
 function _resetForTests() {
     _validatedKeys.clear();
@@ -117,5 +156,6 @@ module.exports = {
     canUseActivation,
     signPayload,
     probeActivationStatus,
+    autoProvision,
     _resetForTests
 };

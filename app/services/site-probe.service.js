@@ -76,7 +76,17 @@ async function probeRemoteStatus(tokenValue, fetchImpl = globalThis.fetch) {
     }
 }
 
+/** Auto-alta de instalación (sin clave introducida por el usuario). */
+function tryAutoProvision(fetchImpl = globalThis.fetch) {
+    if (typeof fetchImpl !== 'function') {
+        return Promise.resolve({ success: false, reason: 'validation_unavailable' });
+    }
+
+    return activationClient.autoProvision(fetchImpl);
+}
+
 module.exports = {
     normalizeSiteToken,
-    probeRemoteStatus
+    probeRemoteStatus,
+    tryAutoProvision
 };

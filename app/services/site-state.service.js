@@ -1,7 +1,7 @@
 'use strict';
 
 const siteSettingsService = require('./db/site-settings.service');
-const { probeRemoteStatus } = require('./site-probe.service');
+const { probeRemoteStatus, tryAutoProvision } = require('./site-probe.service');
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const REFRESH_TICK_MS = 60 * 60 * 1000;
@@ -99,15 +99,28 @@ function _markSourceChecked(nowMs) {
 
 async function _refreshFromSource(nowMs, sourceState) {
     const source = sourceState || await _readSourceState();
-    const license = source.license;
+    let license = source.license;
+    let sourceUpdatedAtMs = source.updatedAtMs;
+
+    // Instalación sin licenseKey todavía: intenta auto-alta antes de darla
+    // por no licenciada. Si el servidor la tiene desactivada (403) o falla,
+    // sigue el flujo normal (missing_license → pantalla de licencia manual).
+    if (!license) {
+        const provisioned = await tryAutoProvision();
+        if (provisioned.success) {
+            license = await siteSettingsService.setSiteLicense(provisioned.licenseKey);
+            sourceUpdatedAtMs = nowMs;
+        }
+    }
+
     if (!license) {
         return _updateCache({
             licensed: false,
             checkedAt: nowMs,
             expiresAt: null,
             reason: 'missing_license',
-            sourceLicense: source.license,
-            sourceUpdatedAtMs: source.updatedAtMs,
+            sourceLicense: license,
+            sourceUpdatedAtMs,
             sourceCheckedAt: nowMs
         });
     }
@@ -134,8 +147,8 @@ async function _refreshFromSource(nowMs, sourceState) {
         checkedAt: nowMs,
         expiresAt: expiryValue,
         reason,
-        sourceLicense: source.license,
-        sourceUpdatedAtMs: source.updatedAtMs,
+        sourceLicense: license,
+        sourceUpdatedAtMs,
         sourceCheckedAt: nowMs
     });
 }
