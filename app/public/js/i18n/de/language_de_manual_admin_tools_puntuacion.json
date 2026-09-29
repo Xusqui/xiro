@@ -1,0 +1,13 @@
+{
+  "keys": {
+    "manual_admin.tools.puntuacion.title": "Wertung",
+    "manual_admin.tools.puntuacion.desc": "Konfiguration von Zeiten, Punkten und Boni.",
+    "manual_admin.tools.puntuacion.base_points": "Basispunkte",
+    "manual_admin.tools.puntuacion.base_points_desc": "Garantierte Punkte für die richtige Antwort.",
+    "manual_admin.tools.puntuacion.max_bonus": "Max. Geschwindigkeitsbonus",
+    "manual_admin.tools.puntuacion.max_bonus_desc": "Extrapunkte für schnelles Antworten.",
+    "manual_admin.tools.puntuacion.random_points": "Zufällige Punktzahl",
+    "manual_admin.tools.puntuacion.random_points_desc": "Jedes Spiel kann den Punktwert jeder Frage aus einem von dir festgelegten Bereich auslosen. Vor der Frage erscheint ein Bildschirm mit dem gezogenen Wert, und der Timer startet erst, wenn dieser Bildschirm verschwindet.",
+    "manual_admin.tools.puntuacion.random_points_types": "Betrifft nur Quiz- und Anagramm-Fragen. Umfrage, Reihenfolge, Zuordnen, Zahlenschätzung und Mehrfachauswahl behalten ihre gewohnte Punktevergabe."
+  }
+}

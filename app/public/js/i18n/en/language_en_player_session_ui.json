@@ -1,0 +1,24 @@
+{
+  "keys": {
+    "player.session_ui.session_not_found": "Session Not Found",
+    "player.session_ui.session_not_found_msg": "The code you entered does not match an active session.",
+    "player.session_ui.verify_qr_msg": "Please verify that the presenter has started the game and scan the QR code they are showing.",
+    "player.session_ui.qr_auto_load": "Once you scan the correct QR, the page will load automatically.",
+    "player.session_ui.retry": "TRY AGAIN",
+    "player.session_ui.reconnecting_title": "ALL SET, {nickname}!",
+    "player.session_ui.reconnecting_status": "RECONNECTING TO YOUR GAME...",
+    "player.session_ui.reconnecting_subtext": "Waiting for the presenter to advance to the next question",
+    "player.session_ui.connecting": "CONNECTING...",
+    "player.session_ui.connecting_wait": "Please wait a moment",
+    "player.session_ui.reconnected": "RECONNECTED!",
+    "player.session_ui.team_label": "TEAM: {teamName}",
+    "player.session_ui.waiting_game_start": "WAITING FOR THE GAME TO START...",
+    "player.session_ui.game_will_start": "THE GAME WILL START WHEN THE PRESENTER BEGINS",
+    "player.session_ui.exit_game": "LEAVE GAME",
+    "player.session_ui.get_ready": "GET READY, {nickname}!",
+    "player.session_ui.your_name": "Your name?",
+    "player.session_ui.connecting_server": "Connecting to server...",
+    "player.session_ui.connecting_wait_moment": "Please wait a moment",
+    "player.session_ui.retry_btn": "RETRY"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "keys": {
+    "ppt_taskpane.page.title": "西罗！",
+    "ppt_taskpane.header.title": "西罗！",
+    "ppt_taskpane.status.inactive": "闲置的",
+    "ppt_taskpane.actions.session_state": "会话状态",
+    "ppt_taskpane.status.starting": "开始…"
+  }
+}

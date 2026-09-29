@@ -1,0 +1,15 @@
+{
+  "keys": {
+    "presenter.reveal.max_points": "· 最高分：",
+    "presenter.reveal.percent_to_max": "% 到最大。",
+    "presenter.reveal.length_label": "长度：",
+    "presenter.reveal.next_round": "下一轮",
+    "presenter.reveal.correct_answer": "正确答案",
+    "presenter.reveal.top_answers": "排名前列",
+    "presenter.reveal.why_correct": "为什么是正确的？",
+    "presenter.reveal.no_scores_yet": "暂无分数",
+    "presenter.reveal.correct_order": "正确顺序",
+    "presenter.reveal.correct_pairs": "正确配对",
+    "presenter.reveal.tolerance": "容差:"
+  }
+}

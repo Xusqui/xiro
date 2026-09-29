@@ -1,0 +1,15 @@
+{
+  "keys": {
+    "presenter.reveal.max_points": "· 最大ポイント：",
+    "presenter.reveal.percent_to_max": "% 最大まで。",
+    "presenter.reveal.length_label": "長さ：",
+    "presenter.reveal.next_round": "次のラウンド",
+    "presenter.reveal.correct_answer": "正解",
+    "presenter.reveal.top_answers": "トップ回答",
+    "presenter.reveal.why_correct": "なぜ正解なのか？",
+    "presenter.reveal.no_scores_yet": "まだスコアがありません",
+    "presenter.reveal.correct_order": "正しい順序",
+    "presenter.reveal.correct_pairs": "正しいペア",
+    "presenter.reveal.tolerance": "許容範囲:"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "game.random_points.headline": "{points}ポイントをかけて勝負！",
+    "game.random_points.time_bonus": "＋ タイムボーナス",
+    "game.random_points.streak_multiplier": "連続正解で x{multiplier}",
+    "game.random_points.badge": "🎲 {points}点"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "keys": {
+    "player.session_ui.session_not_found": "Sessió No Trobada",
+    "player.session_ui.session_not_found_msg": "El codi que has introduït no correspon a cap sessió activa.",
+    "player.session_ui.verify_qr_msg": "Si us plau, verifica que el presentador hagi iniciat el joc i escaneja el codi QR que està mostrant.",
+    "player.session_ui.qr_auto_load": "Un cop escanegis el QR correcte, la pàgina es carregarà automàticament.",
+    "player.session_ui.retry": "TORNA-HO A INTENTAR",
+    "player.session_ui.reconnecting_title": "TOT LLEST, {nickname}!",
+    "player.session_ui.reconnecting_status": "RECONNECTANT A LA TEVA PARTIDA...",
+    "player.session_ui.reconnecting_subtext": "Esperant que el presentador avanci a la següent pregunta",
+    "player.session_ui.connecting": "CONNECTANT...",
+    "player.session_ui.connecting_wait": "Espera un moment",
+    "player.session_ui.reconnected": "RECONNECTAT!",
+    "player.session_ui.team_label": "EQUIP: {teamName}",
+    "player.session_ui.waiting_game_start": "ESPERANT L'INICI DEL JOC...",
+    "player.session_ui.game_will_start": "LA PARTIDA COMENÇARÀ QUAN EL PRESENTADOR INICIÏ EL JOC",
+    "player.session_ui.exit_game": "SORTIR DEL JOC",
+    "player.session_ui.get_ready": "PREPARA'T, {nickname}!",
+    "player.session_ui.your_name": "El teu nom?",
+    "player.session_ui.connecting_server": "Connectant al servidor...",
+    "player.session_ui.connecting_wait_moment": "Si us plau, espera un moment",
+    "player.session_ui.retry_btn": "REINTENTAR"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "manual_admin.tools.partidas.title": "游戏",
+    "manual_admin.tools.partidas.desc": "游戏和房间的全局配置。",
+    "manual_admin.tools.partidas.max_players": "每场最大玩家数",
+    "manual_admin.tools.partidas.max_players_desc": "可以加入房间的最大玩家数。达到限制后，新尝试将收到“房间已满”提示。",
+    "manual_admin.tools.partidas.max_lobbies": "最大同时大厅数",
+    "manual_admin.tools.partidas.max_lobbies_desc": "同时活跃的游戏。达到限制时无法创建新房间。",
+    "manual_admin.tools.partidas.inactive_game": "非活跃游戏阈值",
+    "manual_admin.tools.partidas.inactive_game_desc": "无活动的时间（小时），之后游戏被认为已放弃并清理。",
+    "manual_admin.tools.partidas.empty_lobby": "空大厅超时",
+    "manual_admin.tools.partidas.empty_lobby_desc": "无玩家大厅自动销毁的分钟数。"
+  }
+}

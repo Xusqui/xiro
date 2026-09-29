@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "manual_admin.tools.logging.title": "Logging",
+    "manual_admin.tools.logging.desc": "Configuració dels registres del servidor.",
+    "manual_admin.tools.logging.level": "Nivell de log",
+    "manual_admin.tools.logging.level_desc": "Nivell de detall dels registres.",
+    "manual_admin.tools.logging.max_size": "Mida màxima",
+    "manual_admin.tools.logging.max_size_desc": "Mida a la qual el fitxer de log es rota.",
+    "manual_admin.tools.logging.max_files": "Retenció de fitxers",
+    "manual_admin.tools.logging.max_files_desc": "Temps que es conserven els logs antics."
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "keys": {
+    "manual_admin.tools.licencia.title": "Licença",
+    "manual_admin.tools.licencia.desc": "Estado e configuração da licença do Xiro!",
+    "manual_admin.tools.licencia.info": "Licença ativa",
+    "manual_admin.tools.licencia.info_desc": "Guarde e valide a licença para manter o serviço ativo.",
+    "manual_admin.tools.licencia.states": "Estados de validação",
+    "manual_admin.tools.licencia.states_desc": "<strong>Válida</strong>: o serviço está ativo. <strong>Formato inválido</strong>: verifique se a chave está bem escrita. <strong>Inválida</strong>: o servidor de licenças rejeitou-a.",
+    "manual_admin.tools.licencia.single": "Uma única instalação",
+    "manual_admin.tools.licencia.single_desc": "Cada licença só pode estar ativa num equipamento de cada vez. Se aparecer «Licença em uso noutro equipamento», escreva para <strong>info@xiro.pro</strong> para a libertar.",
+    "manual_admin.tools.licencia.buy": "Comprar licença",
+    "manual_admin.tools.licencia.buy_desc": "Se não houver nenhuma licença guardada, o botão «Comprar licença» abre a página de compra.",
+    "manual_admin.tools.licencia.exempt": "Jogos de editores",
+    "manual_admin.tools.licencia.exempt_desc": "Permite <strong>libertar</strong> ou <strong>restringir</strong> o conteúdo criado por editores. O conteúdo libertado comporta-se como se fosse do administrador: com licença de instalação joga-se sem limite.",
+    "manual_admin.tools.licencia.publicurl": "URL pública do servidor",
+    "manual_admin.tools.licencia.publicurl_desc": "Usada nas ligações dos e-mails (verificação, registo) e no retorno do PayPal. Deixe-a vazia para deteção automática pelo domínio."
+  }
+}

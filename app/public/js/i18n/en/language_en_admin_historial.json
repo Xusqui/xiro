@@ -1,0 +1,33 @@
+{
+    "keys": {
+        "admin.history.title": "Game history",
+        "admin.history.subtitle": "Download the results of any game played",
+        "admin.history.btn_viewer": "Graphic viewer",
+        "admin.history.btn_delete_all": "Delete all",
+        "admin.history.loading": "Loading history…",
+        "admin.history.error_download": "Error downloading",
+        "admin.historial.btn_delete_selected": "Delete selected",
+        "admin.historial.confirm_delete_selected_title": "🗑️ Delete {n} session(s)",
+        "admin.historial.confirm_delete_selected_msg": "Are you sure you want to delete the {n} selected sessions? This action cannot be undone.",
+        "admin.historial.confirm_delete_one_title": "🗑️ Delete session",
+        "admin.historial.confirm_delete_one_msg": "Are you sure you want to delete this session? This action cannot be undone.",
+        "admin.historial.confirm_delete_all_title": "⚠️ Delete all history",
+        "admin.historial.confirm_delete_all_msg": "Are you sure you want to delete ALL saved sessions? This action cannot be undone.",
+        "admin.history.error_load": "Error loading history",
+        "admin.history.empty_title": "No games recorded yet",
+        "admin.history.empty_subtitle": "Games are saved automatically when they end",
+        "admin.history.status_completed": "✓ Completed",
+        "admin.history.status_finalized": "✓ Finalized",
+        "admin.history.status_abandoned": "✗ Abandoned",
+        "admin.history.status_autosaved": "⏳ Auto-saved",
+        "admin.history.col_date": "Date",
+        "admin.history.col_type": "Type",
+        "admin.history.col_players": "Players",
+        "admin.history.col_questions": "Questions",
+        "admin.history.col_duration": "Duration",
+        "admin.history.col_status": "Status",
+        "admin.history.col_actions": "Actions",
+        "admin.history.footer": "{n} game{s} recorded",
+        "admin.history.batch_label": "{n} game(s) selected"
+    }
+}

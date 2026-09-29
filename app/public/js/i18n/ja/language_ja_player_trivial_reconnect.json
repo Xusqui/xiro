@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "player.trivial.waiting_turn": "ボードでの番を待っています...",
+    "player.trivial.choosing_cell": "マスを選んでいます...",
+    "player.trivial.other_rolling": "他のプレイヤーが転がしています",
+    "player.trivial.already_answered": "この質問にはすでに回答しています"
+  }
+}

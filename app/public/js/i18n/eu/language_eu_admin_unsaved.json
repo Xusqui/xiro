@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "admin.unsaved.title": "⚠️ Gorde gabeko aldaketak",
+    "admin.unsaved.msg_exit": "Gorde gabeko aldaketak dituzu. Orain irteten bazara, galdu egingo dira. Jarraitu nahi al duzu?",
+    "admin.unsaved.msg_navigate": "Gorde gabeko aldaketak dituzu. Jarraitzen baduzu, galdu egingo dira. Jarraitu nahi al duzu?",
+    "admin.unsaved.btn_exit": "Gorde gabe irten",
+    "admin.unsaved.btn_keep": "Editzen jarraitu",
+    "admin.unsaved.btn_continue": "Gorde gabe jarraitu"
+  }
+}

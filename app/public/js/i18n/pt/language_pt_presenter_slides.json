@@ -1,0 +1,15 @@
+{
+  "keys": {
+    "presenter.slides.to_teams": "para equipes",
+    "presenter.slides.per_team": "por equipe",
+    "presenter.slides.next": "Próximo",
+    "presenter.slides.next_round": "Próxima rodada",
+    "presenter.slides.view_ranking": "Ver classificação",
+    "presenter.slides.assign_manually": "O apresentador pode atribuir pontos manualmente",
+    "presenter.slides.assign_points": "Atribuir pontos",
+    "presenter.slides.info_no_points": "Informação - Sem pontos atribuídos",
+    "presenter.slides.points_per_player": "Os pontos são adicionados a cada jogador",
+    "presenter.slides.player_singular": "jogador",
+    "presenter.slides.player_plural": "jogadores"
+  }
+}

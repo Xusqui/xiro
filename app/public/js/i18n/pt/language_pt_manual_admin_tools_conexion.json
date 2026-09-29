@@ -1,0 +1,18 @@
+{
+  "keys": {
+    "manual_admin.tools.conexion.title": "Conexão e Sessões",
+    "manual_admin.tools.conexion.desc": "Ajustes de rede, CORS e analíticas.",
+    "manual_admin.tools.conexion.reconnection": "Tempo de espera ao reconectar",
+    "manual_admin.tools.conexion.reconnection_desc": "Minutos que o servidor guarda o estado de um jogador desconectado.",
+    "manual_admin.tools.conexion.cleanup": "Intervalo de limpeza",
+    "manual_admin.tools.conexion.cleanup_desc": "Frequência de limpeza de partidas inativas.",
+    "manual_admin.tools.conexion.cors": "Origens CORS",
+    "manual_admin.tools.conexion.cors_desc": "Origens HTTP permitidas.",
+    "manual_admin.tools.conexion.ws": "Origens WebSocket",
+    "manual_admin.tools.conexion.ws_desc": "Origens permitidas para a conexão em tempo real.",
+    "manual_admin.tools.conexion.umami": "Analíticas Umami",
+    "manual_admin.tools.conexion.umami_desc": "Configuração do URL e Website ID do Umami.",
+    "manual_admin.tools.conexion.top_players": "Jogadores no ranking",
+    "manual_admin.tools.conexion.top_players_desc": "Quantos jogadores mostra o ranking durante a partida."
+  }
+}

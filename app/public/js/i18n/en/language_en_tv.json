@@ -1,0 +1,33 @@
+{
+  "keys": {
+    "tv.sidebar.connected": "CONNECTED:",
+    "tv.game.end": "End match",
+    "tv.game.abort": "Abort match",
+    "tv.game.cancel": "Cancel",
+    "tv.game.end_msg": "The final ranking will be sent to all players. Continue?",
+    "tv.game.abort_msg": "All players will be disconnected and you will return to the PIN selector. Continue?",
+    "tv.game.confirm": "Confirm",
+    "tv.lobby.title": "Select a Game",
+    "tv.lobby.subtitle": "Choose the game or bank you want to present",
+    "tv.lobby.filter.custom": "Custom",
+    "tv.lobby.filter.games": "Games",
+    "tv.lobby.filter.banks": "Banks",
+    "tv.lobby.filter.all": "All",
+    "tv.lobby.empty.all": "No PINs available. Create a game or bank first.",
+    "tv.lobby.empty.by_type": "No {type} available.",
+    "tv.lobby.pin_label": "ACCESS PIN",
+    "tv.lobby.btn_start": "START!",
+    "tv.lobby.players_label": "Players: ",
+    "tv.lobby.type.custom": "Custom Games",
+    "tv.lobby.type.games": "Games",
+    "tv.lobby.type.banks": "Question Banks"
+  },
+  "literals": {
+    "Error al cargar PINs": "Error loading PINs",
+    "Error desconocido": "Unknown error",
+    "Reintentar": "Retry",
+    "Error de Conexión": "Connection Error",
+    "PIN No Válido o Error de servidor.": "Invalid PIN or server error.",
+    "Volver": "Back"
+  }
+}

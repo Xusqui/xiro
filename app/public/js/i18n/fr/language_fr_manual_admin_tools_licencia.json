@@ -1,0 +1,18 @@
+{
+  "keys": {
+    "manual_admin.tools.licencia.title": "Licence",
+    "manual_admin.tools.licencia.desc": "État et configuration de la licence Xiro!",
+    "manual_admin.tools.licencia.info": "Licence active",
+    "manual_admin.tools.licencia.info_desc": "Sauvegardez et validez la licence pour maintenir le service.",
+    "manual_admin.tools.licencia.states": "États de validation",
+    "manual_admin.tools.licencia.states_desc": "<strong>Valide</strong> : le service est actif. <strong>Format non valide</strong> : vérifiez que la clé est bien saisie. <strong>Non valide</strong> : le serveur de licences l'a rejetée.",
+    "manual_admin.tools.licencia.single": "Une seule installation",
+    "manual_admin.tools.licencia.single_desc": "Chaque licence ne peut être active que sur une seule machine à la fois. Si « Licence utilisée sur un autre appareil » s'affiche, écrivez à <strong>info@xiro.pro</strong> pour la libérer.",
+    "manual_admin.tools.licencia.buy": "Acheter une licence",
+    "manual_admin.tools.licencia.buy_desc": "S'il n'y a aucune licence enregistrée, le bouton « Acheter une licence » ouvre la page d'achat.",
+    "manual_admin.tools.licencia.exempt": "Jeux des éditeurs",
+    "manual_admin.tools.licencia.exempt_desc": "Permet de <strong>libérer</strong> ou de <strong>restreindre</strong> le contenu créé par les éditeurs. Le contenu libéré se comporte comme s'il appartenait à l'administrateur : avec une licence d'installation, il se joue sans limite.",
+    "manual_admin.tools.licencia.publicurl": "URL publique du serveur",
+    "manual_admin.tools.licencia.publicurl_desc": "Utilisée dans les liens des e-mails (vérification, inscription) et dans le retour PayPal. Laissez-la vide pour une détection automatique par domaine."
+  }
+}

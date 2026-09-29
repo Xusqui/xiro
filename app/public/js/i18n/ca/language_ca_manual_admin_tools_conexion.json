@@ -1,0 +1,18 @@
+{
+  "keys": {
+    "manual_admin.tools.conexion.title": "Connexió i Sessions",
+    "manual_admin.tools.conexion.desc": "Ajustos de xarxa, CORS i analítiques.",
+    "manual_admin.tools.conexion.reconnection": "Temps d'espera en reconnectar",
+    "manual_admin.tools.conexion.reconnection_desc": "Minuts que el servidor desa l'estat d'un jugador desconnectat.",
+    "manual_admin.tools.conexion.cleanup": "Interval de neteja",
+    "manual_admin.tools.conexion.cleanup_desc": "Freqüència de neteja de partides inactives.",
+    "manual_admin.tools.conexion.cors": "Orígens CORS",
+    "manual_admin.tools.conexion.cors_desc": "Orígens HTTP permesos.",
+    "manual_admin.tools.conexion.ws": "Orígens WebSocket",
+    "manual_admin.tools.conexion.ws_desc": "Orígens permesos per a la connexió en temps real.",
+    "manual_admin.tools.conexion.umami": "Analítiques Umami",
+    "manual_admin.tools.conexion.umami_desc": "Configuració de l'URL i Website ID d'Umami.",
+    "manual_admin.tools.conexion.top_players": "Jugadors al rànquing",
+    "manual_admin.tools.conexion.top_players_desc": "Quants jugadors mostra el rànquing durant la partida."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "account_deleted.page_title": "XIRO! - Account deleted",
+    "account_deleted.eyebrow": "Farewell",
+    "account_deleted.heading": "Account deleted",
+    "account_deleted.message_html": "Your account has been successfully deleted.<br><br>\n                        We hope you enjoyed your experience with Xiro. We hope to see you again soon!"
+  }
+}

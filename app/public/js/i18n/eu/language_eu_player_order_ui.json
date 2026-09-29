@@ -1,0 +1,9 @@
+{
+  "keys": {
+    "player.order.instruction": "Arrastatu goitik behera ordenatzeko eta ondoren Bidali sakatu",
+    "player.order.submit": "Bidali"
+  },
+  "literals": {
+    "Arrastra para reordenar": "Arrastatu berrantolatzeko"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "keys": {
+    "manual_admin.tools.licencia.title": "ライセンス",
+    "manual_admin.tools.licencia.desc": "Xiro!ライセンスのステータスと設定。",
+    "manual_admin.tools.licencia.info": "アクティブなライセンス",
+    "manual_admin.tools.licencia.info_desc": "サービスを有効に保つためにライセンスを保存して検証します。",
+    "manual_admin.tools.licencia.states": "検証ステータス",
+    "manual_admin.tools.licencia.states_desc": "<strong>有効</strong>：サービスは稼働中です。<strong>形式が無効</strong>：キーが正しく入力されているか確認してください。<strong>無効</strong>：ライセンスサーバーに拒否されました。",
+    "manual_admin.tools.licencia.single": "1台のみのインストール",
+    "manual_admin.tools.licencia.single_desc": "各ライセンスは同時に1台の端末でのみ有効です。「別の端末で使用中のライセンス」と表示された場合は、<strong>info@xiro.pro</strong> まで連絡して解放を依頼してください。",
+    "manual_admin.tools.licencia.buy": "ライセンスを購入",
+    "manual_admin.tools.licencia.buy_desc": "ライセンスが保存されていない場合、「ライセンスを購入」ボタンで購入ページが開きます。",
+    "manual_admin.tools.licencia.exempt": "編集者のゲーム",
+    "manual_admin.tools.licencia.exempt_desc": "編集者が作成したコンテンツを<strong>解放</strong>または<strong>制限</strong>できます。解放されたコンテンツは管理者のものと同様に扱われ、サイトライセンスがあれば無制限にプレイできます。",
+    "manual_admin.tools.licencia.publicurl": "サーバーの公開URL",
+    "manual_admin.tools.licencia.publicurl_desc": "メールのリンク（認証、登録）とPayPalのリターンに使用されます。空のままにするとドメインから自動検出されます。"
+  }
+}

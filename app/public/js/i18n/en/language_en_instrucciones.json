@@ -1,0 +1,29 @@
+{
+  "keys": {
+    "instructions.page.title": "XIRO! - Instructions",
+    "instructions.hero.title": "How to Play XIRO!",
+    "instructions.hero.subtitle": "Learn about our dynamics and types of questions",
+    "instructions.tabs.game_modes": "Game Modes",
+    "instructions.tabs.question_types": "Types of Questions",
+    "instructions.game_modes.bank.title": "1. Question Bank",
+    "instructions.game_modes.bank.description": "Questions are taken from a specific bank and presented to players completely randomly. Ideal for reviewing a specific topic.",
+    "instructions.game_modes.mix.title": "2. Mix of Questions",
+    "instructions.game_modes.mix.description": "It allows you to select several question banks and choose how many random questions to extract from each one. Selected questions will be mixed in a random order when presented.",
+    "instructions.game_modes.custom.title": "3. Custom Games",
+    "instructions.game_modes.custom.description": "You are in control. You choose the questions one by one from the different banks and configure their exact order of appearance for a structured presentation.",
+    "instructions.game_modes.trivial.title": "4. Trivial",
+    "instructions.game_modes.trivial.description": "Classic board mode! A die is rolled and the token moves forward. Depending on which box you land on, a random question from the category corresponding to the color of the box will be presented.",
+    "instructions.question_types.quiz.title": "Quiz",
+    "instructions.question_types.quiz.description": "Classic question with several possible answers, but only one is correct.",
+    "instructions.question_types.survey.title": "Survey",
+    "instructions.question_types.survey.description": "No right or wrong answers. It serves to collect the opinion of the audience by presenting different options.",
+    "instructions.question_types.numeric.title": "Numerical Approximation",
+    "instructions.question_types.numeric.description": "Players must enter a number trying to get as close as possible to the exact winning value.",
+    "instructions.question_types.order.title": "Sort Sequence (Order)",
+    "instructions.question_types.order.description": "A list of elements is presented that the player must drag and place in the correct logical order.",
+    "instructions.question_types.word_scramble.title": "Guess Word (Word Scramble)",
+    "instructions.question_types.word_scramble.description": "The challenge is to find a hidden word by ordering the disordered letters that appear on the screen.",
+    "instructions.question_types.multiple.title": "Multiple Choice",
+    "instructions.question_types.multiple.description": "Similar to the Quiz, but in this case there can be between 1 and 6 correct answers simultaneously."
+  }
+}

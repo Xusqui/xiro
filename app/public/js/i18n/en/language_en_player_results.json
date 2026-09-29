@@ -1,0 +1,19 @@
+{
+  "keys": {
+    "player.results.game_over": "Game Over!",
+    "player.results.you_placed": "You finished in",
+    "player.results.position_ordinal": "#{position}",
+    "player.results.position_label": "place",
+    "player.results.final_score": "Final score",
+    "player.results.of_players": "out of {totalPlayers} players",
+    "player.results.champion": "CHAMPION!",
+    "player.results.excellent": "Excellent result!",
+    "player.results.great_job": "Great job!",
+    "player.results.keep_practicing": "Keep practicing!",
+    "player.results.calculating": "Calculating results...",
+    "player.results.game_ended": "The game has ended.",
+    "player.results.medal_1": "1st place",
+    "player.results.medal_2": "2nd place",
+    "player.results.medal_3": "3rd place"
+  }
+}

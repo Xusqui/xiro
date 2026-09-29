@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.ia.title": "KI (Groq)",
+    "manual_admin.tools.ia.desc": "KI-Assistenten-Konfiguration zur Fragengenerierung.",
+    "manual_admin.tools.ia.key": "API-Schlüssel",
+    "manual_admin.tools.ia.key_desc": "Zugriffsschlüssel für die Groq-API.",
+    "manual_admin.tools.ia.model": "KI-Modell",
+    "manual_admin.tools.ia.model_desc": "Auswahl des zu verwendenden Sprachmodells."
+  }
+}

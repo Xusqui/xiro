@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "player.session.pin_prefix": "(PIN:",
+    "player.session.server_error": "无法连接到服务器。请确认主持人已开始游戏并重试。",
+    "player.session.validation_error": "无法验证会话。请重试。",
+    "player.session.old_pin": "上一个PIN：",
+    "player.session.get_ready": "准备好了",
+    "player.session.join_error": "加入游戏时出错",
+    "player.session.connection_error_title": "连接错误",
+    "player.session.server_full_title": "服务器已满",
+    "player.session.btn_enter": "进入"
+  },
+  "literals": {
+    "Código del Juego": "游戏代码"
+  }
+}

@@ -1,0 +1,89 @@
+/* Ajustes visuales del lobby del presentador */
+
+#qr-canvas {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+}
+
+#qr-canvas svg,
+#qr-canvas canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+}
+
+/* [DISABLED] Efecto hover del QR - comentado para facilitar re-activación
+#qr-canvas,
+#qr-link {
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+#qr-canvas:hover {
+    transform: scale(1.05);
+    opacity: 0.8;
+}
+
+#qr-link:hover {
+    color: #7c3aed;
+    text-decoration: underline;
+}
+*/
+
+/* Pantallas compactas: 1366x768 y menores */
+@media (max-width: 1366px) and (max-height: 768px) {
+    #lobby-main {
+        padding: 0.5rem !important;
+        gap: 0.35rem !important;
+    }
+
+    #header-lobby {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 0.75rem !important;
+        height: 50% !important;
+    }
+
+    #qr-card {
+        width: clamp(200px, calc(50vh - 5rem), 400px) !important;
+        padding: 0.35rem 0.65rem !important;
+    }
+
+    #display-pin {
+        font-size: clamp(0.85rem, 8cqw, 1.8rem) !important;
+    }
+
+    #qr-link {
+        margin-top: 0 !important;
+        font-size: 0.55rem !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    #qr-canvas {
+        margin-top: 0.15rem !important;
+    }
+
+    #header-lobby>div:nth-child(3) {
+        justify-content: center !important;
+    }
+
+    #header-lobby>div:nth-child(3) button {
+        width: clamp(125px, 16vw, 170px) !important;
+        height: clamp(42px, 5.8vh, 54px) !important;
+        border-radius: 22px !important;
+        font-size: clamp(0.75rem, 1.45vh, 0.95rem) !important;
+    }
+
+    #players-zone {
+        height: 50% !important;
+        padding: 0.75rem !important;
+    }
+
+    #players-zone h2 {
+        margin-bottom: 0.5rem !important;
+        font-size: 1.4rem !important;
+    }
+}

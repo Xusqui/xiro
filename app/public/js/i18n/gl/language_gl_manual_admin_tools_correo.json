@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "manual_admin.tools.correo.title": "Correo / Contacto",
+    "manual_admin.tools.correo.desc": "Configuración do servidor SMTP e formularios.",
+    "manual_admin.tools.correo.smtp": "Servidor SMTP",
+    "manual_admin.tools.correo.smtp_desc": "Configuración de host, porto, seguridade e credenciais.",
+    "manual_admin.tools.correo.secret": "Secreto de contacto",
+    "manual_admin.tools.correo.secret_desc": "Clave HMAC para asinar tokens antibot.",
+    "manual_admin.tools.correo.from": "Remitente",
+    "manual_admin.tools.correo.from_desc": "Nome e enderezo que aparecen como remitente dos correos. Formato: \"Nome\" &lt;correo@dominio.com&gt;.",
+    "manual_admin.tools.correo.uses": "Para que se usa?",
+    "manual_admin.tools.correo.uses_desc": "O correo úsase para a verificación de contas, a recuperación de contrasinal e o formulario público de contacto."
+  }
+}

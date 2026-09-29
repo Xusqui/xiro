@@ -1,0 +1,594 @@
+{
+  "name": "Controversias Vejiga 2026",
+  "type": "quiz",
+  "questions": [
+    {
+      "question_text": "¿Cuál es el enfoque preferido dentro de las terapias de preservación vesical para MIBC según la guía ESMO?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Radioterapia exclusiva",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "TURBT radical + radioterapia",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "TURBT + radioterapia + quimioterapia",
+          "is_correct": true,
+          "justification": "La terapia de preservación de órganos para el cáncer de vejiga músculo-invasivo (MIBC) es una opción razonable para los pacientes que buscan una alternativa a la cistectomía radical (RC) y para aquellos que no son aptos médicamente para la cirugía [II, B].\nLos protocolos actuales utilizan RTU vesical (TURBT) agresiva sola, TURBT más radioterapia (RT), TURBT más quimioterapia (ChT) o una combinación trimodal de TURBT más RT y ChT, siendo esta última la opción preferida [II, B]."
+        },
+        {
+          "option_text": "TURBT + quimioterapia sistémica",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuál es el factor más importante para seleccionar a un buen candidato para terapia trimodal?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Edad < 70 años",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Posibilidad de resección completa visible por TURBT",
+          "is_correct": true,
+          "justification": "Existen múltiples factores relacionados con el paciente y con el tumor que influyen en la selección de la terapia trimodal frente a la cistectomía radical (RC).\nEl paciente ideal para la terapia trimodal presenta un tumor susceptible de una resección completa visible, no tiene hidronefrosis asociada, no existe invasión de la uretra prostática y no se asocia a un carcinoma in situ (CIS) difuso en toda la vejiga."
+        },
+        {
+          "option_text": "Volumen vesical > 400 ml",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Hematuria persistente",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "En pacientes con MIBC localizada y elegibles para cisplatino, según lo que habéis estudiado…",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "La quimioterapia neoadyuvante (NACT) basada en cisplatino mejora la OS y DFS, y regímenes libres de cisplatino son igualmente recomendables.",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "El régimen ddMVAC ha demostrado un aumento significativo de OS respecto a cisplatino-gemcitabina (CG) y tiene menor toxicidad.",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "La NACT mejora la probabilidad de respuesta patológica completa (pCR) y no aumenta la mortalidad ni complicaciones quirúrgicas, mientras que los regímenes libres de cisplatino no se recomiendan.",
+          "is_correct": true,
+          "justification": "* Los regímenes libres de cisplatino en Neoadyuvancia no son recomendables. \n* ddMVAC vs CG: No hay evidencia de mejora significativa en OS con ddMVAC y ddMVAC tiene mayor incidencia de eventos adversos. \n* La evidencia sí indica que la QT Neo tiene claros beneficios respecto a la cistectomía sola. "
+        },
+        {
+          "option_text": "La evidencia actual indica que la NACT no aporta beneficios en OS o DFS, y la cirugía inmediata sigue siendo la única opción.",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuál de los siguientes es un criterio **desfavorable** para la preservación vesical?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Presencia de CIS extenso",
+          "is_correct": true,
+          "justification": "Numerosos estudios han demostrado que la presencia de CIS se asocia a:\nMayores tasas de persistencia tumoral\nRecidiva intravesical temprana\nIncremento del riesgo de fracaso local, lo que obliga a cistectomía de rescate\nEsto compromete el principal objetivo de la preservación vesical: control local duradero."
+        },
+        {
+          "option_text": "Tumor único",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Ausencia de hidronefrosis",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Resección completa por TURBT",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuál es la ventaja de Cisplatino+RDT frente a radioterapia exclusiva en la terapia trimodal?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Mejor control local del tumor",
+          "is_correct": true,
+          "justification": "La comparación prospectiva y aleatorizada inicial entre radioterapia (RT) sola frente a quimiorradioterapia concomitante (CRT) demostró una mejor tasa de control local cuando se administró cisplatino junto con la RT (HR 0,50; IC 90%: 0,29–0,86) [II, B]. "
+        },
+        {
+          "option_text": "Mejoría en supervivencia global",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Reducción del riesgo de metástasis cerebrales",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Más toxicidad urinaria",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuál de los siguientes citostáticos tienen beneficio como radiosensibilizante asociado a RT en un estudio randomizado?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Cisplatino",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Carbogen y nicotinamida",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "5-fluorouracilo + mitomicina C",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Todas son correctas",
+          "is_correct": true,
+          "justification": "La comparación prospectiva y aleatorizada inicial entre radioterapia (RT) sola frente a quimiorradioterapia concomitante (CRT) demostró una mejor tasa de control local cuando se administró cisplatino junto con la RT (HR 0,50; IC 90%: 0,29–0,86) [II, B]. Un segundo ensayo mostró que la sensibilización hipóxica con carbógeno y nicotinamida (bladder carbogen nicotinamide) redujo el riesgo de recaída (54% frente a 43% con RT sola) y de muerte [II, B].\nUn tercer ensayo aleatorizado (BC2001) demostró mejores resultados de la quimiorradioterapia (CRT) utilizando la combinación de 5-fluorouracilo y mitomicina C (MMC), en términos de supervivencia locorregional (67%) y supervivencia libre de enfermedad (DFS) (54%) [I, A]."
+        }
+      ]
+    },
+    {
+      "question_text": "Tras completar trimodal, ¿qué seguimiento es imprescindible?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Ecografia vesical cada 3 meses",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Uro-TC cada 3 meses",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Cistoscopia cada 3–6 meses durante los primeros 5 años",
+          "is_correct": true,
+          "justification": null
+        },
+        {
+          "option_text": "Citología urinaria cada 2 meses",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué porcentaje aproximado de pacientes requerirá cistectomía de rescate tras terapia trimodal?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "5%",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "10%",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "20%",
+          "is_correct": true,
+          "justification": null
+        },
+        {
+          "option_text": "50%",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuál es la tasa aproximada de no respuesta y de recurrencia local tras la terapia trimodal, principales motivos para indicar una cistectomía radical de rescate (salvage RC)?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "No respuesta 5% y recurrencia local 15%",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "No respuesta 16% y recurrencia local 29%",
+          "is_correct": true,
+          "justification": null
+        },
+        {
+          "option_text": "No respuesta 25% y recurrencia local 40%",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "No respuesta 29% y recurrencia local 16%",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "En pacientes tratados con preservación vesical, ¿qué hallazgo obliga a derivar a cistectomía inmediata?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "NMIBC de bajo grado recurrente",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Persistencia de síntomas irritativos",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Citología urinaria positiva",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Recidiva o persistencia de MIBC",
+          "is_correct": true,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué probabilidad de supervivencia se ha demostrado aceptable en series modernas de preservación vesical?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Supervivencia global a 5 años del 15–20%",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Supervivencia libre de enfermedad 15%",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Supervivencia específica por cáncer del 50–82%",
+          "is_correct": true,
+          "justification": null
+        },
+        {
+          "option_text": "Supervivencia global a 5 años 85%",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Respecto al régimen óptimo de quimioterapia neoadyuvante, ¿cuál es la afirmación más ajustada a la evidencia actual?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Gemcitabina-cisplatino es el único régimen recomendado",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "MVAC es superior a gemcitabina-cisplatino en OS",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Ninguno de los dos regímenes cuenta con respaldo suficiente",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Ambos regímenes son ampliamente utilizados y recomendables pese a la falta de claridad sobre el óptimo",
+          "is_correct": true,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuál de las siguientes afirmaciones sobre el número de ciclos de quimioterapia neoadyuvante (sin inmunoterapia) es correcta?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "No hay claridad en relación al número de ciclos dados en neoadyuvancia",
+          "is_correct": true,
+          "justification": "No hay un régimen neoadyuvante con cisplatino claramente superior.\nddMVAC logra mayor pCR, pero no mejora PFS ni OS frente a CG y es más tóxico.\nEsquemas sin cisplatino no recomendados → si el paciente no es candidato a cisplatino, RC directa.\nNúmero de ciclos: estándar 4 ciclos; 6 ciclos pueden considerarse en N+ pélvico."
+        },
+        {
+          "option_text": "Tres ciclos ddMVAC",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Tres ciclos de Cisplatino + Gemcitabina.",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Cuatro ciclos ddMVAC",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuál de los siguientes subtipos histológicos de MIBC debe tratarse de entrada con cistectomía radical sin quimioterapia neoadyuvante?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Carcinoma escamoso puro o adenocarcinoma",
+          "is_correct": true,
+          "justification": null
+        },
+        {
+          "option_text": "Variante neuroendocrina de célula pequeña",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Carcinoma micropapilar aunque con controversia.",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Carcinoma urotelial con diferenciación glandular",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuál es la afirmación más precisa sobre el papel de la inmunoterapia neoadyuvante (ICI) en MIBC según el texto?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Está recomendada en pacientes cisplatino-ineligibles",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Está recomendada en pacientes cisplatino-eligibles",
+          "is_correct": true,
+          "justification": null
+        },
+        {
+          "option_text": "Solo debe utilizarse dentro de ensayo clínico",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Existen datos fase II, pero no se recomienda actualmente en ningún subgrupo",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "En pacientes no elegibles para dosis óptimas de cisplatino, ¿cuál es la recomendación actual?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Administrar regímenes libres de cisplatino",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Proceder directamente a cistectomía radical",
+          "is_correct": true,
+          "justification": null
+        },
+        {
+          "option_text": "Combinar Carbo+Gem+ inmunoterapia experimental",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Combinar Enfortumab Vedotín+Pembrolizumab",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "Respecto al ensayo fase 3 Niagara, ¿qué impacto tuvo la adición de durvalumab a NACT con CG en supervivencia libre de eventos (EFS) y OS a 24 meses?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "EFS 67,8% vs 59,8%; OS 82,2% vs 75,2% (beneficio en ambos)",
+          "is_correct": true,
+          "justification": null
+        },
+        {
+          "option_text": "EFS 59,8% vs 67,8%; OS 75,2% vs 82,2% (peor con durvalumab)",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "EFS y OS sin diferencias significativas.",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Solo EFS mejoró, la OS no ha mejorado.",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuál es la estrategia perioperatoria preferida en pacientes cisplatino-eligibles con MIBC localizada, según la evidencia más reciente?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "ddMVAC+Nivolumab",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Cis+Gem+Durvax4",
+          "is_correct": true,
+          "justification": "La guia SEOM 2025 posiciona:\n* preferido: esquema Niagara (elegible para cisplatino e IO) nivel de evidencia I,A. \n* también considera: cis+gem x 4 ciclos, con nivel de evidencia IA\n* otra opción: ddMVACx 4-6 ciclos, con nivel de evidencia IC"
+        },
+        {
+          "option_text": "Cis+Gemx3",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "ddMVACx3",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuál fue la OS a 36 meses en pacientes con PD-L1 ≥ 1% tratados con nivolumab adyuvante en Checkmate 274?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "53,7%",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "64,2%",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "71,8%",
+          "is_correct": true,
+          "justification": "El ensayo CheckMate 274 fue un estudio de fase III que aleatorizó a 709 pacientes con cáncer de vejiga músculo-invasivo (MIBC) que cumplían estos criterios para recibir nivolumab adyuvante o placebo. En la población por intención de tratar (ITT), la tasa de supervivencia global (OS) a 36 meses fue del 64,2% con nivolumab, en comparación con el 53,7% con placebo (HR 0,70; IC 95%: 0,55–0,90).\nEn la población con PD-L1 ≥ 1%, la tasa de OS a 36 meses fue del 71,8% con nivolumab frente al 52% con placebo (HR 0,48; IC 95%: 0,29–0,77)."
+        },
+        {
+          "option_text": "52%",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Cuál de los siguientes ensayos no demostró beneficio significativo de inmunoterapia en el escenario adyuvante?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Checkmate 274 (nivolumab)",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "IMvigor010 (atezolizumab)",
+          "is_correct": true,
+          "justification": "El ensayo fase III AMBASSADOR evaluó a 702 pacientes, que fueron asignados aleatoriamente a recibir pembrolizumab durante un año o observación. Con una mediana de seguimiento de 44,8 meses, la supervivencia libre de enfermedad (DFS) mediana fue de 29,6 meses con pembrolizumab, frente a 14,2 meses con observación (HR 0,73; IC 95%: 0,59–0,90); los datos de supervivencia global (OS) aún son inmaduros [44].\nPor el contrario, el ensayo IMvigor010, que investigó atezolizumab adyuvante frente a observación, no mostró diferencias significativas ni en DFS ni en OS, lo que sugiere que no todos los inhibidores de puntos de control inmunitario (CPI) proporcionan el mismo grado de beneficio en el contexto adyuvante."
+        },
+        {
+          "option_text": "AMBASSADOR (pembrolizumab)",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Todos han demostrado beneficio",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué terapia adyuvante considerarías en un varón 70 años que tras cistectomía en la AP tiene factores de alto riesgo patológico, es PDL1+, no recibió QT neo, y es unfit para cisplatino?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "QT con cisplatino",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Nivolumab",
+          "is_correct": true,
+          "justification": "Terapia adyuvante con cisplatino o nivolumab es considerada correcta porque el paciente es fit para cisplatino. No hay un estudio que priorice una terapia frente a otra en el contexto adyuvante ya que en CM214 se usó nivo porque o bien los pacientes eran unfit para cisplatino o porque el paciente lo rechazaba. Por tanto no significa que el cisplatino adyuvante no tenga beneficio, es que no está comparado con nivo. "
+        },
+        {
+          "option_text": "Durvalumab x 8 ciclos",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Todas son correctas",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    }
+  ]
+}

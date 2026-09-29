@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="xiro-i18n-sections" content="common,manual_shells">
+    <title data-i18n="manual_presenter.page.title">...</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./css/common.css?v=20260922172926">
+    <link rel="stylesheet" href="./css/output-index.css?v=20260922172926">
+    <link rel="stylesheet" href="./css/index-style.css?v=20260922172926">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./css/tokens.css?v=20260922172926">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    <script defer src="/js/core/umami-loader.js?v=20260922172926"></script>
+    <style>
+        body {
+            font-family: var(--font-body, 'DM Sans', system-ui, sans-serif);
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-display-console, 'Syne', system-ui, sans-serif);
+            font-weight: 700 !important;
+        }
+
+        .tab-btn {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab-btn.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            font-weight: 900;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background-color: #f9b518;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .player-chameleon {
+            position: fixed;
+            bottom: -20px;
+            left: -20px;
+            width: 200px;
+            opacity: 0.8;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .step-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 9999px;
+            color: white;
+            font-weight: 900;
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            flex-shrink: 0;
+        }
+    </style>
+    <script src="/js/i18n/i18n-core.js?v=20260922172926"></script>
+    <script src="/js/i18n/i18n-dom.js?v=20260922172926"></script>
+    <script src="/js/i18n/i18n-ui.js?v=20260922172926"></script>
+</head>
+
+<body
+    class="bg-gradient-to-br from-purple-700 via-purple-600 to-indigo-700 min-h-screen bg-fixed flex flex-col items-center justify-start font-sans text-white p-4 relative pt-8">
+    <a href="#main-content" class="skip-link" data-i18n="common.skip_link">Saltar al contenido</a>
+
+    <canvas id="webgl-canvas" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1;"></canvas>
+
+    <main id="main-content" class="w-full max-w-6xl text-center relative z-10">
+        <a href="./index.html">
+            <img src="./images/logo.svg" alt="XIRO! Logo"
+                class="w-full max-w-sm mx-auto mb-6 hover:scale-105 transition-transform cursor-pointer"
+                style="filter: drop-shadow(0 15px 20px rgb(0 0 0 / 0.15));">
+        </a>
+
+        <h1 data-i18n="manual_presenter.hero.title"
+            class="text-4xl md:text-5xl font-black mb-4 text-white drop-shadow-lg">...</h1>
+        <p data-i18n="manual_presenter.hero.subtitle" class="text-lg md:text-xl mb-8 text-purple-100 font-medium">...</p>
+
+        <div class="flex flex-wrap justify-center mb-8 border-b-2 border-white/20 pb-2 gap-2">
+            <button class="tab-btn active text-base md:text-lg px-4 py-2 rounded-t-lg" data-target="tab-inicio">
+                <i class="fas fa-rocket mr-2"></i>
+                <span data-i18n="manual_presenter.tabs.quick_start">...</span>
+            </button>
+            <button class="tab-btn text-base md:text-lg px-4 py-2 rounded-t-lg" data-target="tab-controles">
+                <i class="fas fa-sliders-h mr-2"></i>
+                <span data-i18n="manual_presenter.tabs.controls">...</span>
+            </button>
+            <button class="tab-btn text-base md:text-lg px-4 py-2 rounded-t-lg" data-target="tab-vistas">
+                <i class="fas fa-desktop mr-2"></i>
+                <span data-i18n="manual_presenter.tabs.during_game">...</span>
+            </button>
+            <button class="tab-btn text-base md:text-lg px-4 py-2 rounded-t-lg" data-target="tab-trivial">
+                <i class="fas fa-dice mr-2"></i>
+                <span data-i18n="manual_presenter.tabs.trivial_mode">...</span>
+            </button>
+        </div>
+
+        <div class="max-w-6xl mx-auto pb-20">
+
+            <!-- Tab 1: Inicio rápido -->
+            <div id="tab-inicio" class="tab-content active text-left">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <div class="card h-full">
+                        <div class="bg-white h-full rounded-3xl shadow-xl p-8 text-slate-800 border-b-8 flex flex-row items-start justify-between"
+                            style="border-bottom-color: #8ab817;">
+                            <div class="flex-1">
+                                <div class="step-badge" style="background-color:#8ab817;">1</div>
+                                <h2 class="text-xl font-black mb-2 text-slate-800 flex items-center">
+                                    <i class="fas fa-tv text-[#8ab817] mr-3"></i> <span data-i18n="manual_presenter.qs.s1.title">...</span>
+                                </h2>
+                                <p class="text-slate-600 text-base" data-i18n-html="manual_presenter.qs.s1.text">...</p>
+                            </div>
+                            <img src="./images/chamaleon/searching.svg" alt="Buscando"
+                                class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <div class="card h-full">
+                        <div class="bg-white h-full rounded-3xl shadow-xl p-8 text-slate-800 border-b-8 flex flex-row items-start justify-between"
+                            style="border-bottom-color: #f9b518;">
+                            <div class="flex-1">
+                                <div class="step-badge" style="background-color:#f9b518;">2</div>
+                                <h2 class="text-xl font-black mb-2 text-slate-800 flex items-center">
+                                    <i class="fas fa-folder-open text-[#f9b518] mr-3"></i> <span data-i18n="manual_presenter.qs.s2.title">...</span>
+                                </h2>
+                                <p class="text-slate-600 text-base" data-i18n-html="manual_presenter.qs.s2.text">...</p>
+                            </div>
+                            <img src="./images/chamaleon/pointing.svg" alt="Señalando"
+                                class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <div class="card h-full">
+                        <div class="bg-white h-full rounded-3xl shadow-xl p-8 text-slate-800 border-b-8 flex flex-row items-start justify-between"
+                            style="border-bottom-color: #e65453;">
+                            <div class="flex-1">
+                                <div class="step-badge" style="background-color:#e65453;">3</div>
+                                <h2 class="text-xl font-black mb-2 text-slate-800 flex items-center">
+                                    <i class="fas fa-users text-[#e65453] mr-3"></i> <span data-i18n="manual_presenter.qs.s3.title">...</span>
+                                </h2>
+                                <p class="text-slate-600 text-base" data-i18n-html="manual_presenter.qs.s3.text">...</p>
+                            </div>
+                            <img src="./images/chamaleon/thumbs_up.svg" alt="OK" class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <div class="card h-full">
+                        <div class="bg-white h-full rounded-3xl shadow-xl p-8 text-slate-800 border-b-8 flex flex-row items-start justify-between"
+                            style="border-bottom-color: #0891b2;">
+                            <div class="flex-1">
+                                <div class="step-badge" style="background-color:#0891b2;">4</div>
+                                <h2 class="text-xl font-black mb-2 text-slate-800 flex items-center">
+                                    <i class="fas fa-qrcode text-cyan-600 mr-3"></i> <span data-i18n="manual_presenter.qs.s4.title">...</span>
+                                </h2>
+                                <p class="text-slate-600 text-base" data-i18n-html="manual_presenter.qs.s4.text">...</p>
+                            </div>
+                            <img src="./images/chamaleon/hello.svg" alt="Hola" class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <div class="card h-full md:col-span-2">
+                        <div class="bg-white h-full rounded-3xl shadow-xl p-8 text-slate-800 border-b-8 flex flex-row items-center justify-between"
+                            style="border-bottom-color: #8ab817;">
+                            <div class="flex-1">
+                                <div class="step-badge" style="background-color:#8ab817;">5</div>
+                                <h2 class="text-xl font-black mb-2 text-slate-800 flex items-center">
+                                    <i class="fas fa-play text-[#8ab817] mr-3"></i> <span data-i18n="manual_presenter.qs.s5.title">...</span>
+                                </h2>
+                                <p class="text-slate-600 text-base" data-i18n-html="manual_presenter.qs.s5.text">...</p>
+                            </div>
+                            <img src="./images/chamaleon/party.svg" alt="Fiesta" class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Tab 2: Controles -->
+            <div id="tab-controles" class="tab-content text-left">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <div class="card h-full">
+                        <div
+                            class="bg-white h-full rounded-3xl shadow-xl p-6 text-slate-800 border-b-8 flex items-center justify-between"
+                            style="border-bottom-color: #8ab817;">
+                            <div class="bg-[#e7f4c0] p-4 rounded-full mr-4 shrink-0">
+                                <i class="fas fa-expand text-2xl text-[#8ab817]"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold mb-1" data-i18n="manual_presenter.ctrl.fullscreen.title">...</h3>
+                                <p class="text-slate-600 text-sm" data-i18n-html="manual_presenter.ctrl.fullscreen.text">...</p>
+                            </div>
+                            <img src="./images/chamaleon/gaming.svg" alt="Gaming" class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <div class="card h-full">
+                        <div
+                            class="bg-white h-full rounded-3xl shadow-xl p-6 text-slate-800 border-b-8 flex items-center justify-between"
+                            style="border-bottom-color: #f9b518;">
+                            <div class="bg-[#fff0c2] p-4 rounded-full mr-4 shrink-0">
+                                <i class="fas fa-pause-circle text-2xl text-[#f9b518]"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold mb-1" data-i18n="manual_presenter.ctrl.timer.title">...</h3>
+                                <p class="text-slate-600 text-sm" data-i18n-html="manual_presenter.ctrl.timer.text">...</p>
+                            </div>
+                            <img src="./images/chamaleon/thinking.svg" alt="Pensando"
+                                class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <div class="card h-full">
+                        <div
+                            class="bg-white h-full rounded-3xl shadow-xl p-6 text-slate-800 border-b-8 flex items-center justify-between"
+                            style="border-bottom-color: #e65453;">
+                            <div class="bg-[#ffd8d8] p-4 rounded-full mr-4 shrink-0">
+                                <i class="fas fa-forward text-2xl text-[#e65453]"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold mb-1" data-i18n="manual_presenter.ctrl.next.title">...</h3>
+                                <p class="text-slate-600 text-sm" data-i18n-html="manual_presenter.ctrl.next.text">...</p>
+                            </div>
+                            <img src="./images/chamaleon/running.svg" alt="Corriendo"
+                                class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <div class="card h-full">
+                        <div
+                            class="bg-white h-full rounded-3xl shadow-xl p-6 text-slate-800 border-b-8 flex items-center justify-between"
+                            style="border-bottom-color: #4338ca;">
+                            <div class="bg-indigo-100 p-4 rounded-full mr-4 shrink-0">
+                                <i class="fas fa-coins text-2xl text-indigo-500"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold mb-1" data-i18n="manual_presenter.ctrl.manual_pts.title">...</h3>
+                                <p class="text-slate-600 text-sm" data-i18n-html="manual_presenter.ctrl.manual_pts.text">...</p>
+                            </div>
+                            <img src="./images/chamaleon/thumbs_up.svg" alt="OK" class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Tab 3: Durante el juego -->
+            <div id="tab-vistas" class="tab-content text-left">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <div class="card h-full">
+                        <div
+                            class="bg-white h-full rounded-3xl shadow-xl p-6 text-slate-800 border-b-8 flex items-center justify-between"
+                            style="border-bottom-color: #8ab817;">
+                            <div class="bg-[#e7f4c0] p-4 rounded-full mr-4 shrink-0">
+                                <i class="fas fa-font text-2xl text-[#8ab817]"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold mb-1" data-i18n="manual_presenter.game.text_q.title">...</h3>
+                                <p class="text-slate-600 text-sm" data-i18n="manual_presenter.game.text_q.text">...</p>
+                            </div>
+                            <img src="./images/chamaleon/gaming.svg" alt="Gaming" class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <div class="card h-full">
+                        <div
+                            class="bg-white h-full rounded-3xl shadow-xl p-6 text-slate-800 border-b-8 flex items-center justify-between"
+                            style="border-bottom-color: #f9b518;">
+                            <div class="bg-[#fff0c2] p-4 rounded-full mr-4 shrink-0">
+                                <i class="fas fa-image text-2xl text-[#f9b518]"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold mb-1" data-i18n="manual_presenter.game.img_q.title">...</h3>
+                                <p class="text-slate-600 text-sm" data-i18n-html="manual_presenter.game.img_q.text">...</p>
+                            </div>
+                            <img src="./images/chamaleon/painting.svg" alt="Arte" class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <div class="card h-full">
+                        <div
+                            class="bg-white h-full rounded-3xl shadow-xl p-6 text-slate-800 border-b-8 flex items-center justify-between"
+                            style="border-bottom-color: #e65453;">
+                            <div class="bg-[#ffd8d8] p-4 rounded-full mr-4 shrink-0">
+                                <i class="fas fa-volume-up text-2xl text-[#e65453]"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold mb-1" data-i18n="manual_presenter.game.audio_q.title">...</h3>
+                                <p class="text-slate-600 text-sm" data-i18n-html="manual_presenter.game.audio_q.text">...</p>
+                            </div>
+                            <img src="./images/chamaleon/dizzy.svg" alt="Dizzying" class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <div class="card h-full">
+                        <div
+                            class="bg-white h-full rounded-3xl shadow-xl p-6 text-slate-800 border-b-8 flex items-center justify-between"
+                            style="border-bottom-color: #0891b2;">
+                            <div class="bg-cyan-100 p-4 rounded-full mr-4 shrink-0">
+                                <i class="fas fa-info-circle text-2xl text-cyan-500"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold mb-1" data-i18n="manual_presenter.game.info_slide.title">...</h3>
+                                <p class="text-slate-600 text-sm" data-i18n-html="manual_presenter.game.info_slide.text">...</p>
+                            </div>
+                            <img src="./images/chamaleon/pointing.svg" alt="Señalando"
+                                class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <div class="card h-full md:col-span-2">
+                        <div
+                            class="bg-white h-full rounded-3xl shadow-xl p-6 text-slate-800 border-b-8 flex items-center justify-between"
+                            style="border-bottom-color: #4338ca;">
+                            <div class="bg-indigo-100 p-4 rounded-full mr-4 shrink-0">
+                                <i class="fas fa-comment-dots text-2xl text-indigo-500"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold mb-1" data-i18n="manual_presenter.game.comment_slide.title">...</h3>
+                                <p class="text-slate-600 text-sm" data-i18n-html="manual_presenter.game.comment_slide.text">...</p>
+                            </div>
+                            <img src="./images/chamaleon/branch.svg" alt="Ideas" class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Tab 4: Modo Trivial -->
+            <div id="tab-trivial" class="tab-content text-left">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <div class="card h-full md:col-span-2">
+                        <div class="bg-white h-full rounded-3xl shadow-xl p-8 text-slate-800 border-b-8 flex flex-row items-center justify-between"
+                            style="border-bottom-color: #f9b518;">
+                            <div class="flex-1">
+                                <h2 class="text-2xl font-black mb-2 text-slate-800 flex items-center">
+                                    <i class="fas fa-dice text-[#f9b518] mr-3"></i> <span data-i18n="manual_presenter.trivial.intro.title">...</span>
+                                </h2>
+                                <p class="text-slate-600 text-base" data-i18n-html="manual_presenter.trivial.intro.text">...</p>
+                            </div>
+                            <img src="./images/chamaleon/party.svg" alt="Fiesta" class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <div class="card h-full">
+                        <div
+                            class="bg-white h-full rounded-3xl shadow-xl p-6 text-slate-800 border-b-8 flex items-start justify-between"
+                            style="border-bottom-color: #8ab817;">
+                            <div class="bg-[#e7f4c0] p-4 rounded-full mr-4 shrink-0">
+                                <i class="fas fa-border-all text-2xl text-[#8ab817]"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold mb-1" data-i18n="manual_presenter.trivial.board.title">...</h3>
+                                <p class="text-slate-600 text-sm" data-i18n-html="manual_presenter.trivial.board.text">...</p>
+                            </div>
+                            <img src="./images/chamaleon/thinking.svg" alt="Pensando"
+                                class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <div class="card h-full">
+                        <div
+                            class="bg-white h-full rounded-3xl shadow-xl p-6 text-slate-800 border-b-8 flex items-start justify-between"
+                            style="border-bottom-color: #f9b518;">
+                            <div class="bg-[#fff0c2] p-4 rounded-full mr-4 shrink-0">
+                                <i class="fas fa-dice text-2xl text-[#f9b518]"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold mb-1" data-i18n="manual_presenter.trivial.turn.title">...</h3>
+                                <p class="text-slate-600 text-sm" data-i18n="manual_presenter.trivial.turn.text">...</p>
+                            </div>
+                            <img src="./images/chamaleon/gaming.svg" alt="Gaming" class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <div class="card h-full">
+                        <div
+                            class="bg-white h-full rounded-3xl shadow-xl p-6 text-slate-800 border-b-8 flex items-start justify-between"
+                            style="border-bottom-color: #e65453;">
+                            <div class="bg-[#ffd8d8] p-4 rounded-full mr-4 shrink-0">
+                                <i class="fas fa-star text-2xl text-[#e65453]"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold mb-1" data-i18n="manual_presenter.trivial.tokens.title">...</h3>
+                                <p class="text-slate-600 text-sm" data-i18n-html="manual_presenter.trivial.tokens.text">...</p>
+                            </div>
+                            <img src="./images/chamaleon/thumbs_up.svg" alt="OK" class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <div class="card h-full">
+                        <div
+                            class="bg-white h-full rounded-3xl shadow-xl p-6 text-slate-800 border-b-8 flex items-start justify-between"
+                            style="border-bottom-color: #4338ca;">
+                            <div class="bg-indigo-100 p-4 rounded-full mr-4 shrink-0">
+                                <i class="fas fa-cogs text-2xl text-indigo-500"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold mb-1" data-i18n="manual_presenter.trivial.setup.title">...</h3>
+                                <p class="text-slate-600 text-sm" data-i18n-html="manual_presenter.trivial.setup.text">...</p>
+                            </div>
+                            <img src="./images/chamaleon/painting.svg" alt="Diseñando"
+                                class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <div class="card h-full">
+                        <div
+                            class="bg-white h-full rounded-3xl shadow-xl p-6 text-slate-800 border-b-8 flex items-start justify-between"
+                            style="border-bottom-color: #0891b2;">
+                            <div class="bg-cyan-100 p-4 rounded-full mr-4 shrink-0">
+                                <i class="fas fa-lightbulb text-2xl text-cyan-500"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold mb-1" data-i18n="manual_presenter.trivial.tips.title">...</h3>
+                                <p class="text-slate-600 text-sm" data-i18n-html="manual_presenter.trivial.tips.text">...</p>
+                            </div>
+                            <img src="./images/chamaleon/branch.svg" alt="Ideas" class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <img src="./images/chamaleon/chamaleon.svg" alt="Camaleón"
+            class="player-chameleon fixed bottom-0 left-0 opacity-50 md:opacity-80"
+            style="pointer-events: none; width: 180px;">
+
+        <div class="mt-8 mb-4 text-purple-100 text-sm space-y-2 relative z-20">
+            <a href="./index.html"
+                class="inline-block mb-4 px-6 py-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors font-bold text-white shadow-md">
+                <i class="fas fa-arrow-left mr-2"></i>
+                <span data-i18n="common.back_home">...</span>
+            </a>
+            <p data-i18n="common.footer.copyright">...</p>
+            <p data-i18n="common.footer.author" class="text-xs mt-1">...</p>
+        </div>
+    </main>
+
+    <script src="./js/instrucciones/tabs.js?v=20260922172926"></script>
+    <script src="/js/core/site-badge.js?v=20260922172926"></script>
+    <script src="/js/core/hojas-bg.js?v=20260922172926"></script>
+</body>
+
+</html>

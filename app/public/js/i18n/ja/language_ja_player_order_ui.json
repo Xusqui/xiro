@@ -1,0 +1,9 @@
+{
+  "keys": {
+    "player.order.instruction": "上から下へドラッグして並べ替え、送信を押してください",
+    "player.order.submit": "送信"
+  },
+  "literals": {
+    "Arrastra para reordenar": "ドラッグして並べ替えます"
+  }
+}

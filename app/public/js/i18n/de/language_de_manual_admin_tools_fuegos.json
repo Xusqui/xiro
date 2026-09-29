@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.fuegos.title": "Feuerwerk",
+    "manual_admin.tools.fuegos.desc": "Passen Sie das visuelle Spektakel des finalen Podiums an.",
+    "manual_admin.tools.fuegos.config": "Visuelle Konfiguration",
+    "manual_admin.tools.fuegos.config_desc": "Passen Sie Größe, Spuren, Geschwindigkeit und Menge an.",
+    "manual_admin.tools.fuegos.sound": "Ton",
+    "manual_admin.tools.fuegos.sound_desc": "Explosionsgeräusche aktivieren oder deaktivieren."
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "keys": {
+    "presenter.podio.teams_title": "Taldeen podiouma",
+    "presenter.podio.final_title": "Azken podiouma",
+    "presenter.podio.config_error": "Errorea konfigurazioa kargatzean",
+    "presenter.podio.no": "EZ",
+    "presenter.podio.pts": "PTS",
+    "presenter.podio.yes": "BAI",
+    "presenter.podio.show_games": "Jokoak erakutsi"
+  }
+}

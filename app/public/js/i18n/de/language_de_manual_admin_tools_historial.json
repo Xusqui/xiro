@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "manual_admin.tools.historial.title": "Spielverlauf",
+    "manual_admin.tools.historial.desc": "Sehen Sie die Ergebnisse aller gespielten Partien ein und laden Sie sie herunter. Partien werden beim Beenden automatisch gespeichert.",
+    "manual_admin.tools.historial.list": "Partienliste",
+    "manual_admin.tools.historial.list_desc": "Jede Partie zeigt Datum, Typ, Spieler, Fragen, Dauer und Status (abgeschlossen, finalisiert, abgebrochen oder automatisch gespeichert).",
+    "manual_admin.tools.historial.download": "Download und grafischer Viewer",
+    "manual_admin.tools.historial.download_desc": "Laden Sie die Ergebnisse jeder Partie herunter oder öffnen Sie sie im <strong>grafischen Viewer</strong>, um sie mit Tabellen und Diagrammen zu analysieren.",
+    "manual_admin.tools.historial.delete": "Löschen",
+    "manual_admin.tools.historial.delete_desc": "Sie können einzelne Partien, eine Auswahl oder den gesamten Verlauf löschen. Diese Aktion kann nicht rückgängig gemacht werden."
+  }
+}

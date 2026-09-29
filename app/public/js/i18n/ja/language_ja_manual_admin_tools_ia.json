@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.ia.title": "AI (Groq)",
+    "manual_admin.tools.ia.desc": "質問を生成するためのAIアシスタント構成。",
+    "manual_admin.tools.ia.key": "API キー",
+    "manual_admin.tools.ia.key_desc": "Groq API へのアクセスキー。",
+    "manual_admin.tools.ia.model": "AI モデル",
+    "manual_admin.tools.ia.model_desc": "使用する言語モデルの選択。"
+  }
+}

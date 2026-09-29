@@ -1,0 +1,9 @@
+{
+  "keys": {
+    "player.connection.other_device": "別のデバイスから接続済み",
+    "player.connection.disconnected": "切断されました",
+    "player.connection.disconnected_prefix": "切断されました：",
+    "player.connection.player_tag": "プレイヤー",
+    "player.connection.retry": "再試行"
+  }
+}

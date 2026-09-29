@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="health.page.title">...</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./css/tokens.css?v=20260922172926">
+    <link rel="stylesheet" href="./css/health.css?v=20260922172926">
+    <script src="/js/i18n/i18n-core.js?v=20260922172926"></script>
+    <script src="/js/i18n/i18n-dom.js?v=20260922172926"></script>
+    <script src="/js/i18n/i18n-ui.js?v=20260922172926"></script>
+</head>
+
+<body>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <img src="/images/minilogo.svg" alt="Xiro" class="loading-logo">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="auth-gate" id="authGate">
+        <form class="auth-card" id="authForm">
+            <img src="/images/logo.svg" alt="Xiro" class="auth-logo">
+            <h2>Acceso restringido</h2>
+            <p class="auth-subtitle">Este panel contiene logs e información sensible del sistema.
+                Inicia sesión como administrador para continuar.</p>
+            <input type="text" id="authUsername" class="auth-input" placeholder="Usuario"
+                autocomplete="username" required>
+            <input type="password" id="authPassword" class="auth-input" placeholder="Contraseña"
+                autocomplete="current-password" required>
+            <button type="submit" class="btn auth-submit">Iniciar sesión</button>
+            <div class="auth-error" id="authError"></div>
+        </form>
+    </div>
+
+    <div class="brand-bar"></div>
+
+    <div data-i18n="health.connection.error" class="connection-error" id="connectionError">
+        ...</div>
+
+    <header class="header">
+        <div class="header-left">
+            <a href="./index.html"><img src="/images/logo.svg" alt="Xiro" class="header-logo"></a>
+            <div class="header-divider"></div>
+            <h1 data-i18n="health.header.title">...</h1>
+            <div class="overall-badge unknown" id="overallBadge">
+                <div class="pulse-dot"></div>
+                <span data-i18n="health.header.overall.connecting" id="overallText">...</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <span data-i18n="health.header.refresh_info" class="refresh-info" id="refreshInfo">...</span>
+            <button data-i18n="health.header.refresh_button" class="btn" id="btnRefresh">...</button>
+            <select class="btn" id="intervalSelect">
+                <option value="5000">5s</option>
+                <option value="10000" selected>10s</option>
+                <option value="30000">30s</option>
+                <option value="60000">60s</option>
+            </select>
+            <button data-i18n="health.header.pause_button" class="btn" id="btnPause">...</button>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- Probes -->
+        <div class="probes-row" id="probesRow">
+            <div class="probe-card" id="probeLive">
+                <div data-i18n="health.probe.liveness" class="probe-label">...</div>
+                <div class="probe-value" id="probeAlive">--</div>
+                <div class="probe-sub" id="probeUptime">--</div>
+            </div>
+            <div class="probe-card" id="probeReady">
+                <div data-i18n="health.probe.readiness" class="probe-label">...</div>
+                <div class="probe-value" id="probeReadyVal">--</div>
+                <div class="probe-sub" id="probeReadySub">--</div>
+            </div>
+            <div class="probe-card">
+                <div data-i18n="health.probe.uptime" class="probe-label">...</div>
+                <div class="probe-value" id="probeUptimeFmt">--</div>
+                <div class="probe-sub" id="probeTimestamp">--</div>
+            </div>
+            <div class="probe-card">
+                <div data-i18n="health.probe.players" class="probe-label">...</div>
+                <div class="probe-value" id="probePlayers">--</div>
+                <div class="probe-sub" id="probePlayersSub">--</div>
+            </div>
+            <div class="probe-card">
+                <div data-i18n="health.probe.active_games" class="probe-label">...</div>
+                <div class="probe-value" id="probeGames">--</div>
+                <div class="probe-sub" id="probeGamesSub">--</div>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+
+            <!-- Dependencias -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><span class="ci ci-blue">🔗</span> <span data-i18n="health.card.dependencies">...</span></h2>
+                </div>
+                <div class="card-body" id="dependenciesBody">
+                    <div data-i18n="health.empty.loading" class="empty-state">...</div>
+                </div>
+            </div>
+
+            <!-- Memoria -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><span class="ci ci-purple">💾</span> <span data-i18n="health.card.memory">...</span></h2>
+                </div>
+                <div class="card-body" id="memoryBody">
+                    <div data-i18n="health.empty.loading" class="empty-state">...</div>
+                </div>
+            </div>
+
+            <!-- Base de datos -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><span class="ci ci-green">🗄️</span> <span data-i18n="health.card.database">...</span>
+                    </h2>
+                    <span class="status-badge unknown" id="dbBadge">--</span>
+                </div>
+                <div class="card-body" id="databaseBody">
+                    <div data-i18n="health.empty.loading" class="empty-state">...</div>
+                </div>
+            </div>
+
+            <!-- Rendimiento -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><span class="ci ci-amber">⚡</span> <span data-i18n="health.card.performance">...</span>
+                    </h2>
+                </div>
+                <div class="card-body" id="performanceBody">
+                    <div data-i18n="health.empty.loading" class="empty-state">...</div>
+                </div>
+            </div>
+
+            <!-- Jugadores y Partidas -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><span class="ci ci-xg">🎮</span> <span data-i18n="health.card.players_games">...</span></h2>
+                </div>
+                <div class="card-body" id="gamesBody">
+                    <div data-i18n="health.empty.loading" class="empty-state">...</div>
+                </div>
+            </div>
+
+            <!-- Caché -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><span class="ci ci-cyan">📦</span> <span data-i18n="health.card.cache">...</span></h2>
+                </div>
+                <div class="card-body" id="cacheBody">
+                    <div data-i18n="health.empty.loading" class="empty-state">...</div>
+                </div>
+            </div>
+
+            <!-- Sockets -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><span class="ci ci-violet">⚡</span> <span data-i18n="health.card.sockets">...</span></h2>
+                </div>
+                <div class="card-body" id="socketsBody">
+                    <div data-i18n="health.empty.loading" class="empty-state">...</div>
+                </div>
+            </div>
+
+            <!-- Timers & Workers -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><span class="ci ci-orange">⏱️</span> <span data-i18n="health.card.timers_workers">...</span>
+                    </h2>
+                </div>
+                <div class="card-body" id="timersBody">
+                    <div data-i18n="health.empty.loading" class="empty-state">...</div>
+                </div>
+            </div>
+
+            <!-- Historial de métricas -->
+            <div class="card full-width">
+                <div class="card-header">
+                    <h2><span class="ci ci-teal">📈</span> <span data-i18n="health.card.history">...</span></h2>
+                </div>
+                <div class="card-body">
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem;">
+                        <div>
+                            <div data-i18n="health.metric.cpu_process" class="metric-label">...</div>
+                            <div class="chart-container"><canvas id="chartCpu" class="sparkline-canvas"></canvas></div>
+                        </div>
+                        <div>
+                            <div data-i18n="health.metric.event_loop" class="metric-label">...</div>
+                            <div class="chart-container"><canvas id="chartEventLoop" class="sparkline-canvas"></canvas>
+                            </div>
+                        </div>
+                        <div>
+                            <div data-i18n="health.metric.memory_heap" class="metric-label">...</div>
+                            <div class="chart-container"><canvas id="chartMemory" class="sparkline-canvas"></canvas>
+                            </div>
+                        </div>
+                        <div>
+                            <div data-i18n="health.metric.connected_players" class="metric-label">...</div>
+                            <div class="chart-container"><canvas id="chartPlayers" class="sparkline-canvas"></canvas>
+                            </div>
+                        </div>
+                        <div>
+                            <div data-i18n="health.metric.db_latency" class="metric-label">...</div>
+                            <div class="chart-container"><canvas id="chartDbLatency" class="sparkline-canvas"></canvas>
+                            </div>
+                        </div>
+                        <div>
+                            <div data-i18n="health.metric.http_per_min" class="metric-label">...</div>
+                            <div class="chart-container"><canvas id="chartHttp" class="sparkline-canvas"></canvas></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Errores recientes -->
+            <div class="card full-width">
+                <div class="card-header">
+                    <h2><span class="ci ci-red">🚨</span> <span data-i18n="health.card.recent_errors">...</span></h2>
+                    <span data-i18n="health.errors.count_default" class="metric-sub" id="errorCount">...</span>
+                </div>
+                <div class="card-body">
+                    <div class="error-list" id="errorList">
+                        <div data-i18n="health.errors.empty" class="empty-state">...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Logs en vivo -->
+            <div class="card full-width">
+                <div class="card-header">
+                    <h2><span class="ci ci-sky">📋</span> <span data-i18n="health.card.live_logs">...</span>
+                    </h2>
+                    <div style="display:flex;align-items:center;gap:.75rem;">
+                        <select class="btn" id="logLevelFilter">
+                            <option data-i18n="health.logs.level.all" value="all">...</option>
+                            <option data-i18n="health.logs.level.error" value="error">...</option>
+                            <option data-i18n="health.logs.level.warn" value="warn">...</option>
+                            <option data-i18n="health.logs.level.info" value="info">...</option>
+                            <option data-i18n="health.logs.level.http" value="http">...</option>
+                            <option data-i18n="health.logs.level.debug" value="debug">...</option>
+                        </select>
+                        <input type="text" id="logSearchInput" data-i18n-placeholder="health.logs.search_placeholder"
+                            placeholder="Buscar en logs..." class="log-search-input" />
+                        <button data-i18n="health.logs.clear_button" class="btn" id="btnClearLogs">...</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="logs-stats" id="logsStats"></div>
+                    <div class="logs-container" id="logsContainer">
+                        <div data-i18n="health.logs.loading" class="empty-state">...</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <img src="/images/minilogo.svg" alt="Xiro" class="footer-logo">
+            <span data-i18n="health.footer.title">...</span>
+        </div>
+    </div>
+
+    <script src="/js/health.js?v=20260922172926"></script>
+    <script src="/js/core/site-badge.js?v=20260922172926"></script>
+</body>
+
+</html>

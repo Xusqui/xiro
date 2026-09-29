@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "player.session.pin_prefix": "(PIN:",
+    "player.session.server_error": "Konnte keine Verbindung zum Server herstellen. Stelle sicher, dass der Präsentator das Spiel gestartet hat und versuche es erneut.",
+    "player.session.validation_error": "Sitzung konnte nicht validiert werden. Bitte versuche es erneut.",
+    "player.session.old_pin": "Vorheriger PIN:",
+    "player.session.get_ready": "Mach dich bereit",
+    "player.session.join_error": "Fehler beim Beitreten des Spiels",
+    "player.session.connection_error_title": "Verbindungsfehler",
+    "player.session.server_full_title": "Server voll",
+    "player.session.btn_enter": "EINGEBEN"
+  },
+  "literals": {
+    "Código del Juego": "Spielcode"
+  }
+}

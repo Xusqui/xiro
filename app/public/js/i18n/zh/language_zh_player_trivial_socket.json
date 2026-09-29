@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "player.trivial.launch_dice": "! 投掷🎯",
+    "player.trivial.correct_prefix": "你答对了，",
+    "player.trivial.turn_change": "换人！",
+    "player.trivial.team_scores": "答对了！",
+    "player.trivial.category_chosen": "已选择类别。正在准备问题...",
+    "player.trivial.team_prefix": "队伍",
+    "player.trivial.choosing_category": "正在选择类别...",
+    "player.trivial.game_over": "游戏结束。",
+    "player.trivial.moving_preparing": "移动中... 正在准备问题。",
+    "player.trivial.moved_waiting": "已移动。等待问题...",
+    "player.trivial.turn_label": "轮到",
+    "player.trivial.roll_again": "再次投掷…"
+  }
+}

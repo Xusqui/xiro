@@ -1,0 +1,26 @@
+{
+  "keys": {
+    "presenter.team.name_validation": "チーム名には文字、数字、スペース、ハイフンのみ使用できます（2-30文字）。",
+    "presenter.team.label": "チーム",
+    "presenter.team.name_invalid": "無効な名前",
+    "presenter.team.in_use": "（使用中）",
+    "presenter.team.color.yellow": "黄色",
+    "presenter.team.color.blue": "青",
+    "presenter.team.color.cyan": "シアン",
+    "presenter.team.color.lime": "ライム",
+    "presenter.team.color.purple": "紫",
+    "presenter.team.color.orange": "オレンジ",
+    "presenter.team.color.pink": "ピンク",
+    "presenter.team.color.red": "赤",
+    "presenter.team.color.green": "緑",
+    "presenter.team.default.1": "チャンピオンズ",
+    "presenter.team.default.2": "ドラゴンズ",
+    "presenter.team.default.3": "フェニックス",
+    "presenter.team.default.4": "ウォリアーズ",
+    "presenter.team.default.5": "ホークス",
+    "presenter.team.default.6": "インビンシブルズ",
+    "presenter.team.default.7": "ライオンズ",
+    "presenter.team.default.8": "ライトニングス",
+    "presenter.team.default.9": "タイタンズ"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "player.trivial.waiting_turn": "Esperant el teu torn al tauler...",
+    "player.trivial.choosing_cell": "està triant una casella...",
+    "player.trivial.other_rolling": "un altre jugador llança",
+    "player.trivial.already_answered": "Ja has contestat aquesta pregunta"
+  }
+}

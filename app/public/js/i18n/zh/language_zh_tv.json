@@ -1,0 +1,33 @@
+{
+  "keys": {
+    "tv.sidebar.connected": "连接：",
+    "tv.game.end": "游戏结束",
+    "tv.game.abort": "中止游戏",
+    "tv.game.cancel": "取消",
+    "tv.game.end_msg": "最终排名将发送给所有玩家。继续？",
+    "tv.game.abort_msg": "所有玩家将断开连接，您将返回PIN选择界面。继续？",
+    "tv.game.confirm": "确认",
+    "tv.lobby.title": "选择游戏",
+    "tv.lobby.subtitle": "选择您想展示的游戏或题库",
+    "tv.lobby.filter.custom": "自定义",
+    "tv.lobby.filter.games": "游戏",
+    "tv.lobby.filter.banks": "题库",
+    "tv.lobby.filter.all": "全部",
+    "tv.lobby.empty.all": "没有可用的PIN。请先创建游戏或题库。",
+    "tv.lobby.empty.by_type": "没有可用的{type}。",
+    "tv.lobby.pin_label": "访问PIN",
+    "tv.lobby.btn_start": "开始！",
+    "tv.lobby.players_label": "玩家：",
+    "tv.lobby.type.custom": "自定义游戏",
+    "tv.lobby.type.games": "游戏",
+    "tv.lobby.type.banks": "问题库"
+  },
+  "literals": {
+    "Error al cargar PINs": "加载PIN时出错",
+    "Error desconocido": "未知错误",
+    "Reintentar": "重试",
+    "Error de Conexión": "连接错误",
+    "PIN No Válido o Error de servidor.": "PIN无效或服务器错误。",
+    "Volver": "返回"
+  }
+}

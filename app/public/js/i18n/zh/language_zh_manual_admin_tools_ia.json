@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.ia.title": "人工智能 (Groq)",
+    "manual_admin.tools.ia.desc": "用于生成问题的人工智能助手配置。",
+    "manual_admin.tools.ia.key": "API 密钥",
+    "manual_admin.tools.ia.key_desc": "访问 Groq API 的密钥。",
+    "manual_admin.tools.ia.model": "AI 模型",
+    "manual_admin.tools.ia.model_desc": "选择要使用的语言模型。"
+  }
+}

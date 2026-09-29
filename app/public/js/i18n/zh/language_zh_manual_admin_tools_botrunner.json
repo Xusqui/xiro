@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.botrunner.title": "Bot Runner",
+    "manual_admin.tools.botrunner.desc": "用于模拟玩家并以真实负载测试服务器的开发工具。",
+    "manual_admin.tools.botrunner.usage": "使用方法",
+    "manual_admin.tools.botrunner.usage_desc": "先从主持端打开大厅。输入 <strong>Session ID</strong>（PIN-编号格式），选择模式（个人或团队）、游戏类型（问答或棋盘）和机器人数量（1-199），然后按<strong>\"启动机器人\"</strong>。",
+    "manual_admin.tools.botrunner.stats": "统计与日志",
+    "manual_admin.tools.botrunner.stats_desc": "实时显示已连接、失败的机器人和已提交的答案。可以随时停止机器人，并下载本次运行的 JSON 日志。"
+  }
+}

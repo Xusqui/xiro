@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "player.session.pin_prefix": "(PIN:",
+    "player.session.server_error": "Non se puido conectar co servidor. Comproba que o presentador iniciou o xogo e téntao de novo.",
+    "player.session.validation_error": "Non se puido validar a sesión. Téntao de novo.",
+    "player.session.old_pin": "PIN anterior:",
+    "player.session.get_ready": "Prepárate",
+    "player.session.join_error": "Erro ao unirse ao xogo",
+    "player.session.connection_error_title": "Erro de conexión",
+    "player.session.server_full_title": "Servidor cheo",
+    "player.session.btn_enter": "ENTRAR"
+  },
+  "literals": {
+    "Código del Juego": "Código do Xogo"
+  }
+}

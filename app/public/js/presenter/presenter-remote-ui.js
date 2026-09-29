@@ -1,0 +1,272 @@
+/**
+ * @fileoverview UI helpers for presenter remote mode.
+ * Centralizes rendering and control visibility rules.
+ */
+
+/**
+ * Escapes HTML-sensitive characters to avoid accidental HTML injection in UI labels.
+ * @param {string} str
+ * @returns {string}
+ */
+function escHtml(str) {
+    return String(str).replace(
+        /[&<>"']/g,
+        c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', '\'': '&#39;' }[c])
+    );
+}
+
+/**
+ * Ensures the remote stylesheet is loaded and toggles remote-mode body class.
+ */
+export function applyRemoteCSS() {
+    if (!document.getElementById('presenter-remote-css')) {
+        const link = document.createElement('link');
+        link.id = 'presenter-remote-css';
+        link.rel = 'stylesheet';
+        link.href = '/css/presenter-remote.css';
+        document.head.appendChild(link);
+    }
+    document.body.classList.add('remote-mode');
+}
+
+/**
+ * Renders initial loading state while handshake with backend is in progress.
+ * @param {string} pin
+ */
+export function renderLoadingUI(pin) {
+    document.body.innerHTML = _tHtml(`
+    <div id="remote-app" class="remote-app">
+        <div class="remote-header">
+            <span class="remote-pin-badge">PIN: ${escHtml(String(pin))}</span>
+            <span class="remote-status" id="remote-status">Conectando...</span>
+        </div>
+        <div class="remote-msg">
+            <div class="remote-spinner"></div>
+            <p>Buscando partida...</p>
+        </div>
+    </div>`);
+}
+
+/**
+ * Renders remote control panel and binds button callbacks.
+ * @param {Object} data
+ * @param {Function} handlers.onPrimary
+ * @param {Function} handlers.onReveal
+ * @param {Function} handlers.onEnd
+ * @param {Function} handlers.onConclude
+ */
+export function renderControlPanel(data, handlers) {
+    const pin = data.pin || data.sessionId;
+    const inLobby = data.state === 'lobby';
+    const primaryLabel = inLobby ? 'Empezar' : 'Siguiente';
+    const primaryIcon = inLobby ? 'fa-play' : 'fa-chevron-right';
+    const stateLabel = inLobby
+        ? 'En lobby'
+        : `Pregunta ${(data.currentIndex ?? 0) + 1} / ${data.totalQuestions ?? '?'}`;
+
+    document.body.innerHTML = _tHtml(`
+    <div id="remote-app" class="remote-app">
+        <div class="remote-header">
+            <span class="remote-pin-badge">PIN: ${escHtml(String(pin))}</span>
+            <span class="remote-status connected" id="remote-status">Conectado</span>
+        </div>
+        <div class="remote-state-bar">
+            <span id="remote-state-label">${escHtml(stateLabel)}</span>
+            <span class="remote-pin-badge" id="remote-random-points" style="display:none"></span>
+            <span id="remote-player-count">${data.playerCount ?? 0} jugadores</span>
+        </div>
+        <div class="remote-timer-bar" id="remote-timer-bar" style="display:none">
+            <div class="remote-timer-ring" id="remote-timer"
+                data-remote-action="toggle-timer"
+                title="Toca para pausar/reanudar">
+                <span id="remote-timer-value">—</span>
+            </div>
+            <span class="remote-timer-hint" id="remote-timer-hint">Toca para pausar</span>
+        </div>
+        <div id="remote-comment-panel" class="remote-comment-panel" style="display:none"></div>
+        <div class="remote-controls">
+            <button class="remote-btn remote-btn-next" id="btn-remote-primary">
+                <i class="fas ${primaryIcon}"></i>
+                <span>${primaryLabel}</span>
+            </button>
+            <button class="remote-btn remote-btn-reveal" id="btn-remote-reveal" ${inLobby ? 'style="display:none"' : ''}>
+                <i class="fas fa-eye"></i>
+                <span>Revelar</span>
+            </button>
+            <button class="remote-btn remote-btn-end" id="btn-remote-end" ${inLobby ? 'style="display:none"' : ''}>
+                <i class="fas fa-flag-checkered"></i>
+                <span>Terminar</span>
+            </button>
+            <button class="remote-btn remote-btn-end" id="btn-remote-conclude" style="display:none">
+                <i class="fas fa-list"></i>
+                <span>Concluir</span>
+            </button>
+        </div>
+        <p class="remote-hint">Xiro! (https://xiro.pro) Una idea original de Familia Fernández Villatoro.</p>
+    </div>`);
+
+    bindActionButton('btn-remote-primary', handlers.onPrimary);
+    bindActionButton('btn-remote-reveal', handlers.onReveal);
+    bindActionButton('btn-remote-end', handlers.onEnd);
+    bindActionButton('btn-remote-conclude', handlers.onConclude);
+    bindActionButton('remote-timer', handlers.onTimer);
+}
+
+// Ventana anti-rebote común a TODOS los botones del mando. Un solo toque genera
+// pointerup + touchend + click; tras pulsar "Siguiente" el botón se oculta y
+// "Revelar" ocupa su sitio, así que el click tardío caía en "Revelar" y revelaba
+// la pregunta nueva antes de mostrarse. Con una ventana por botón no se evitaba.
+const REMOTE_ACTION_COOLDOWN_MS = 600;
+let lastRemoteActionAt = 0;
+
+/**
+ * Binds a button action with resilient multi-event strategy for mobile browsers.
+ * It supports onclick-style fallback and touch/pointer events while deduplicating
+ * rapid duplicate events generated by synthetic click chains (across all buttons).
+ *
+ * @param {string} id
+ * @param {Function} handler
+ */
+function bindActionButton(id, handler) {
+    const el = document.getElementById(id);
+    if (!el || typeof handler !== 'function') return;
+
+    const wrapped = (event) => {
+        const now = Date.now();
+        if (now - lastRemoteActionAt < REMOTE_ACTION_COOLDOWN_MS) {
+            return;
+        }
+        lastRemoteActionAt = now;
+        handler(event);
+    };
+
+    // Refuerzo para Safari/iOS y dispositivos táctiles.
+    el.addEventListener('pointerup', wrapped);
+    el.addEventListener('touchend', wrapped, { passive: true });
+    el.addEventListener('click', wrapped);
+}
+
+/**
+ * Updates connection badge based on socket connectivity.
+ * @param {boolean} connected
+ */
+export function setStatusBadge(connected) {
+    const el = document.getElementById('remote-status');
+    if (!el) return;
+    el.textContent = _t(connected ? 'Conectado' : 'Desconectado');
+    el.className = `remote-status ${connected ? 'connected' : 'disconnected'}`;
+}
+
+/**
+ * Writes a short state label in the remote status bar.
+ * @param {string} text
+ */
+export function setStateLabel(text) {
+    const el = document.getElementById('remote-state-label');
+    if (el) el.textContent = _t(text);
+}
+
+/**
+ * Synchronizes control visibility by phase:
+ * lobby, in-question, revealed, comment slide, or final podium.
+ * @param {{isLobbyState:boolean,isRevealPhase:boolean,isFinalState:boolean,isCommentSlide:boolean}} state
+ */
+export function syncControlsVisibility(state) {
+    const primaryBtn = document.getElementById('btn-remote-primary');
+    const revealBtn = document.getElementById('btn-remote-reveal');
+    const endBtn = document.getElementById('btn-remote-end');
+    const concludeBtn = document.getElementById('btn-remote-conclude');
+
+    if (!primaryBtn || !revealBtn || !endBtn || !concludeBtn) return;
+
+    if (state.isFinalState) {
+        primaryBtn.style.display = 'none';
+        revealBtn.style.display = 'none';
+        endBtn.style.display = 'none';
+        concludeBtn.style.display = '';
+        return;
+    }
+
+    concludeBtn.style.display = 'none';
+
+    if (state.isLobbyState) {
+        primaryBtn.style.display = '';
+        revealBtn.style.display = 'none';
+        endBtn.style.display = 'none';
+        return;
+    }
+
+    // Comment slides: no reveal button (nothing to reveal)
+    revealBtn.style.display = state.isCommentSlide ? 'none' : '';
+    endBtn.style.display = '';
+    primaryBtn.style.display = state.isRevealPhase ? '' : 'none';
+}
+
+/**
+ * Updates primary button icon/text according to current phase.
+ * @param {{isLobbyState:boolean,isRevealPhase:boolean}} state
+ */
+export function updatePrimaryButton(state) {
+    const btn = document.getElementById('btn-remote-primary');
+    if (!btn) return;
+
+    const icon = btn.querySelector('i');
+    const label = btn.querySelector('span');
+    if (!icon || !label) return;
+
+    if (state.isLobbyState) {
+        icon.className = 'fas fa-play';
+        label.textContent = _t('Empezar');
+        return;
+    }
+
+    if (state.isRevealPhase) {
+        icon.className = 'fas fa-play';
+        label.textContent = _t('Continuar');
+        return;
+    }
+
+    icon.className = 'fas fa-chevron-right';
+    label.textContent = _t('Siguiente');
+}
+
+/**
+ * Renders a friendly error panel when remote handshake fails.
+ * @param {string} msg
+ */
+export function renderError(msg) {
+    document.body.innerHTML = _tHtml(`
+    <div id="remote-app" class="remote-app">
+        <div class="remote-header">
+            <span class="remote-pin-badge">Control Remoto</span>
+        </div>
+        <div class="remote-msg error">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>${msg}</p>
+            <button class="remote-btn-secondary" id="remote-btn-go-admin">
+                Ir al panel de admin
+            </button>
+        </div>
+    </div>`);
+
+    const goAdminBtn = document.getElementById('remote-btn-go-admin');
+    if (goAdminBtn) {
+        goAdminBtn.addEventListener('click', () => {
+            location.href = '/admin.html';
+        });
+    }
+}
+
+/**
+ * Appends a final banner message in the current remote screen.
+ * @param {string} msg
+ */
+export function showEndedBanner(msg) {
+    const app = document.getElementById('remote-app');
+    if (!app) return;
+
+    const banner = document.createElement('div');
+    banner.className = 'remote-ended';
+    banner.innerHTML = _tHtml(`<i class="fas fa-check-circle"></i> ${escHtml(msg)}`);
+    app.appendChild(banner);
+}

@@ -1,0 +1,17 @@
+{
+  "keys": {
+    "presenter.trivial.waiting_dice": "Dadoa botatzeko zain",
+    "presenter.trivial.rolled": "{diceValue} atera da — sakatu taulako nabarmendu den koadro bat",
+    "presenter.trivial.moved": "{nickname} mugitu da → {position}. Galdera prestatzen...",
+    "presenter.trivial.choosing_category": "🎯 Erdiko karratu — {actorNick} kategoria bat hautatzen ari da...",
+    "presenter.trivial.roll_again": "{nick}ek ondo erantzun du! Berriro bota...",
+    "presenter.trivial.end_confirm_title": "Jokoa amaitu?",
+    "presenter.trivial.end_confirm_msg": "Bermatzen baduzu, jokoa amaituko da eta podioa erakutsiko da uneko sailkapenarekin.",
+    "presenter.trivial.end_confirm_yes": "Bai, jokoa amaitu",
+    "presenter.trivial.cancel": "Utzi",
+    "presenter.trivial.turn_label": "🎲 Txanda: {turn}"
+  },
+  "literals": {
+    "Bancos": "Bankuak"
+  }
+}

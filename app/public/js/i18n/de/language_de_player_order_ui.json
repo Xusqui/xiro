@@ -1,0 +1,9 @@
+{
+  "keys": {
+    "player.order.instruction": "Von oben nach unten sortieren und dann Senden drücken",
+    "player.order.submit": "Senden"
+  },
+  "literals": {
+    "Arrastra para reordenar": "Zum Neuanordnen ziehen"
+  }
+}

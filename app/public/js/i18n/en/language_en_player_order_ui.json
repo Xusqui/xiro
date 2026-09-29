@@ -1,0 +1,9 @@
+{
+  "keys": {
+    "player.order.instruction": "Drag to sort from top to bottom, then press Submit",
+    "player.order.submit": "Submit"
+  },
+  "literals": {
+    "Arrastra para reordenar": "Drag to reorder"
+  }
+}

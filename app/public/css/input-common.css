@@ -1,0 +1,201 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .card {
+        animation: fadeIn 0.6s ease-out;
+        transition: all 0.3s ease;
+    }
+
+    .card:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .card:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .card:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
+    .card:nth-child(4) {
+        animation-delay: 0.4s;
+    }
+
+    .card:nth-child(5) {
+        animation-delay: 0.5s;
+    }
+
+    .card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .icon-wrapper {
+        transition: transform 0.3s ease;
+    }
+
+    .card:hover .icon-wrapper {
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    .form-group {
+        @apply mb-4;
+    }
+
+    .form-group label {
+        @apply block text-sm font-semibold text-slate-700 mb-2;
+    }
+
+    .skip-link {
+        position: absolute;
+        top: -100px;
+        left: 1rem;
+        z-index: 100;
+        background: #1e293b;
+        color: #fff;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0 0 12px 12px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: top 0.2s ease;
+    }
+
+    .skip-link:focus {
+        top: 0;
+        outline: 3px solid #f9b518;
+        outline-offset: 2px;
+    }
+
+    .stretched-link::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .card {
+            animation: none;
+            opacity: 1;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: none;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .icon-wrapper {
+            transition: background-color 0.2s ease;
+        }
+
+        .card:hover .icon-wrapper {
+            transform: none;
+        }
+    }
+
+    /* Flip board de dígitos para el overlay "JUGÁIS POR XXX PUNTOS"
+       (random-points-overlay.js). Traducción a CSS plano del @keyframes
+       flip original del usuario (SCSS): la ficha entera gira sobre el eje
+       X, 5 vueltas seguidas, empezando en negro y pasando a blanco. Fichas
+       en la paleta blanco/morado translúcido del overlay actual, no negro
+       sólido tipo panel real -eso sí se mantiene el detalle negro→blanco
+       del propio texto, que es lo que daba la sensación de "se enciende"
+       en el original. El contenido (qué dígito se ve en cada instante) lo
+       cambia JS (ver _animateFlipBoard), no Sass: aquí solo se anima
+       transform y color. */
+    .rpo-board {
+        display: inline-flex;
+        gap: 0.06em;
+        vertical-align: -0.08em;
+    }
+
+    .rpo-digit {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 0.72em;
+        height: 1em;
+        border-radius: 0.1em;
+        background: rgba(255, 255, 255, 0.16);
+        box-shadow: 0 0.02em 0 rgba(0, 0, 0, 0.25) inset, 0 0.04em 0.08em rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        perspective: 4em;
+    }
+
+    .rpo-digit-face {
+        display: block;
+        color: #fff;
+    }
+
+    /* rotateX creciente (0→1800deg), no oscilando 0↔360 como saldría de
+       traducir el SCSS demasiado literal (ahí el ángulo bajaba de 360 a 0
+       entre keyframes, y visualmente se ve como un tirón adelante-atrás en
+       vez de un giro continuo). Con el ángulo siempre creciente, la ficha
+       gira 5 veces seguidas hacia delante sin pararse. */
+    @keyframes rpo-flap {
+        0% {
+            color: #000;
+            transform: rotateX(0deg);
+        }
+
+        20% {
+            transform: rotateX(360deg);
+        }
+
+        40% {
+            color: #fff;
+            transform: rotateX(720deg);
+        }
+
+        60% {
+            transform: rotateX(1080deg);
+        }
+
+        80% {
+            transform: rotateX(1440deg);
+        }
+
+        100% {
+            transform: rotateX(1800deg);
+        }
+    }
+
+    .rpo-digit-face.rpo-flapping {
+        animation: rpo-flap 1s ease-in-out both;
+    }
+
+    .rpo-sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .rpo-digit-face.rpo-flapping {
+            animation: none;
+        }
+    }
+}

@@ -1,0 +1,26 @@
+{
+  "keys": {
+    "presenter.team.name_validation": "队伍名称只能包含字母、数字、空格和连字符（2-30个字符）。",
+    "presenter.team.label": "队伍",
+    "presenter.team.name_invalid": "名称无效",
+    "presenter.team.in_use": "（使用中）",
+    "presenter.team.color.yellow": "黄色",
+    "presenter.team.color.blue": "蓝色",
+    "presenter.team.color.cyan": "青色",
+    "presenter.team.color.lime": "绿黄色",
+    "presenter.team.color.purple": "紫色",
+    "presenter.team.color.orange": "橙色",
+    "presenter.team.color.pink": "粉色",
+    "presenter.team.color.red": "红色",
+    "presenter.team.color.green": "绿色",
+    "presenter.team.default.1": "冠军队",
+    "presenter.team.default.2": "龙队",
+    "presenter.team.default.3": "凤凰队",
+    "presenter.team.default.4": "战士队",
+    "presenter.team.default.5": "鹰队",
+    "presenter.team.default.6": "无敌队",
+    "presenter.team.default.7": "狮子队",
+    "presenter.team.default.8": "闪电队",
+    "presenter.team.default.9": "泰坦队"
+  }
+}

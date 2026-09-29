@@ -1,0 +1,25 @@
+{
+  "keys": {
+    "index.heading": "Ongi etorri XIRO-ra!",
+    "index.subtitle": "Hautatu zure sarbide modua",
+    "index.player.title": "Jokalari",
+    "index.player.desc": "Sartu joko batera zure PIN kodearekin",
+    "index.player.cta": "Jokatu orain",
+    "index.player.manual": "Jokalariaren eskuliburua",
+    "index.presenter.title": "Aurkezlea",
+    "index.presenter.desc": "Kontrolatu eta proiektatu jokoa pantailan",
+    "index.presenter.cta": "Hasi aurkezpena",
+    "index.presenter.manual": "Aurkezlearen eskuliburua",
+    "index.tv.title": "Telebistako bertsioa",
+    "index.tv.desc": "Bertsio arina telebista eta arakatzaile zaharrentzako",
+    "index.tv.cta": "Onartutako bertsioa",
+    "index.standalone.title": "Modu Autonomoa",
+    "index.standalone.desc": "Jokatu aurkezlerik gabe zure gailuan",
+    "index.standalone.cta": "Jokatu bakarka",
+    "index.admin.title": "Administrazioa",
+    "index.admin.desc": "Kudeatu galderak eta ezarpenak",
+    "index.admin.cta": "Sartu panelera",
+    "index.admin.manual": "Administratzailearen eskuliburua",
+    "index.title": "XIRO! - Hasi"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "player.session.label": "Saioaren ID",
+    "player.session.hint": "IDa aurkezlearen pantailan agertzen da",
+    "player.session.placeholder": "XXXXXX-XXXX",
+    "player.session.submit": "SARTU",
+    "player.loading": "Joko bila...",
+    "player.nickname.label": "Zure izena?",
+    "player.nickname.placeholder": "IZENA",
+    "player.nickname.submit": "PREST!"
+  }
+}

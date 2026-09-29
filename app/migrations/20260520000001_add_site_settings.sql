@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS site_settings (
+    id SMALLINT PRIMARY KEY,
+    license TEXT NOT NULL DEFAULT '',
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO site_settings (id, license)
+VALUES (1, '')
+ON CONFLICT (id) DO NOTHING;

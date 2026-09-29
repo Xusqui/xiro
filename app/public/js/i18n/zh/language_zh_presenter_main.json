@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "presenter.loading.title": "加载中...",
+    "presenter.loading.desc": "准备演示者面板",
+    "presenter.sidebar.connected": "已连接",
+    "presenter.lobby.waiting": "等待玩家...",
+    "presenter.lobby.pin": "访问密码",
+    "presenter.lobby.start": "开始！",
+    "presenter.lobby.players": "玩家：",
+    "presenter.game.terminate": "结束",
+    "presenter.game.terminate.title": "结束比赛并显示当前排名登上领奖台",
+    "presenter.game.abandon": "离开游戏",
+    "presenter.game.abandon.title": "离开会话",
+    "presenter.fullscreen.title": "全屏"
+  }
+}

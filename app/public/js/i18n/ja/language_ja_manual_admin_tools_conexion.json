@@ -1,0 +1,18 @@
+{
+  "keys": {
+    "manual_admin.tools.conexion.title": "接続とセッション",
+    "manual_admin.tools.conexion.desc": "ネットワーク、CORS、分析の設定。",
+    "manual_admin.tools.conexion.reconnection": "再接続タイムアウト",
+    "manual_admin.tools.conexion.reconnection_desc": "切断されたプレイヤーの状態をサーバーが保存する時間（分）。",
+    "manual_admin.tools.conexion.cleanup": "クリーンアップ間隔",
+    "manual_admin.tools.conexion.cleanup_desc": "非アクティブなゲームをメモリから消去する頻度。",
+    "manual_admin.tools.conexion.cors": "CORS オリジン",
+    "manual_admin.tools.conexion.cors_desc": "許可される HTTP オリジン。",
+    "manual_admin.tools.conexion.ws": "WebSocket オリジン",
+    "manual_admin.tools.conexion.ws_desc": "リアルタイム接続に許可されるオリジン。",
+    "manual_admin.tools.conexion.umami": "Umami 分析",
+    "manual_admin.tools.conexion.umami_desc": "Umami URLとWebサイトIDの設定。",
+    "manual_admin.tools.conexion.top_players": "リーダーボードのプレイヤー",
+    "manual_admin.tools.conexion.top_players_desc": "ゲーム中にリーダーボードに表示されるプレイヤー数。"
+  }
+}

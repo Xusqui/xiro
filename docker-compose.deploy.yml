@@ -1,0 +1,112 @@
+networks:
+  xiro_internal:
+    driver: bridge
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: xiro_postgres
+    restart: unless-stopped
+    mem_limit: 1500m
+    networks:
+      - xiro_internal
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_INITDB_ARGS: "-E UTF8 --locale=es_ES.UTF-8"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:8.4.0-alpine
+    container_name: xiro_redis
+    restart: unless-stopped
+    networks:
+      - xiro_internal
+    volumes:
+      - ./redis_data:/data
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a \"$${REDIS_PASSWORD}\" --no-auth-warning ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  chrome:
+    image: browserless/chrome:latest
+    container_name: xiro_chrome
+    restart: unless-stopped
+    mem_limit: 512m
+    networks:
+      - xiro_internal
+    environment:
+      - MAX_CONCURRENT_SESSIONS=5
+      - CONNECTION_TIMEOUT=60000
+
+  backend:
+    image: xusqui/xiro-backend:latest
+    container_name: xiro_backend
+    restart: unless-stopped
+    mem_limit: 1500m
+    networks:
+      - xiro_internal
+    # ports:
+    #   - "80:3000"
+    volumes:
+      - ./public/uploads:/usr/src/app/public/uploads
+      - ./public/images/personalizations:/usr/src/app/public/images/personalizations
+      - ./logs:/usr/src/app/logs
+      - ./config/ui-overrides.json:/usr/src/app/config/ui-overrides.json
+      - ./config/runtime-overrides.json:/usr/src/app/config/runtime-overrides.json
+      - ./config/groq-key.json:/usr/src/app/ai-generator/groq-key.json
+      - /etc/machine-id:/host/machine-id:ro
+    environment:
+      MACHINE_ID_PATH: /host/machine-id
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  backup:
+    image: xusqui/xiro-backup:latest
+    container_name: xiro_backup
+    restart: unless-stopped
+    networks:
+      - xiro_internal
+    env_file: .env
+    volumes:
+      - ./backups:/backups
+      - ./config:/app-config:ro
+      - ./logs:/app/logs
+    depends_on:
+      db:
+        condition: service_healthy
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: xiro_caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+    command: caddy reverse-proxy --from https://xiro.pro --to http://backend:3000
+    depends_on:
+      - backend
+    networks:
+      - xiro_internal
+
+# ESTA SECCIÓN NUEVA AL FINAL DEL ARCHIVO DECLARA LOS VOLÚMENES NOMBRADOS:
+volumes:
+  caddy_data:
+  caddy_config:

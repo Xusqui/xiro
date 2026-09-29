@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "manual_admin.tools.correo.title": "メール / お問い合わせ",
+    "manual_admin.tools.correo.desc": "SMTPサーバーとフォームの設定。",
+    "manual_admin.tools.correo.smtp": "SMTP サーバー",
+    "manual_admin.tools.correo.smtp_desc": "電子メールを送信するためのホスト、ポート、セキュリティ、および資格情報。",
+    "manual_admin.tools.correo.secret": "コンタクトシークレット",
+    "manual_admin.tools.correo.secret_desc": "アンチボットトークンに署名するためのHMACキー。",
+    "manual_admin.tools.correo.from": "送信者",
+    "manual_admin.tools.correo.from_desc": "メールの送信者として表示される名前とアドレス。形式：\"名前\" &lt;mail@domain.com&gt;。",
+    "manual_admin.tools.correo.uses": "何に使われますか？",
+    "manual_admin.tools.correo.uses_desc": "メールはアカウント認証、パスワード再設定、公開お問い合わせフォームに使用されます。"
+  }
+}

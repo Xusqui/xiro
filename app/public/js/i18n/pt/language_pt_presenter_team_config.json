@@ -1,0 +1,26 @@
+{
+  "keys": {
+    "presenter.team.name_validation": "O nome da equipe só pode conter letras, números, espaços e hífens (2-30 caracteres).",
+    "presenter.team.label": "Equipe",
+    "presenter.team.name_invalid": "Nome inválido",
+    "presenter.team.in_use": "(em uso)",
+    "presenter.team.color.yellow": "Amarelo",
+    "presenter.team.color.blue": "Azul",
+    "presenter.team.color.cyan": "Ciano",
+    "presenter.team.color.lime": "Lima",
+    "presenter.team.color.purple": "Roxo",
+    "presenter.team.color.orange": "Laranja",
+    "presenter.team.color.pink": "Rosa",
+    "presenter.team.color.red": "Vermelho",
+    "presenter.team.color.green": "Verde",
+    "presenter.team.default.1": "Os Campeões",
+    "presenter.team.default.2": "Os Dragões",
+    "presenter.team.default.3": "As Fênixs",
+    "presenter.team.default.4": "Os Guerreiros",
+    "presenter.team.default.5": "Os Falcões",
+    "presenter.team.default.6": "Os Invencíveis",
+    "presenter.team.default.7": "Os Leões",
+    "presenter.team.default.8": "Os Relâmpagos",
+    "presenter.team.default.9": "Os Titãs"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "keys": {
+    "presenter.trivial.waiting_dice": "Aguardando o lançamento do dado",
+    "presenter.trivial.rolled": "Saiu {diceValue} — toque numa casa destacada no tabuleiro",
+    "presenter.trivial.moved": "{nickname} moveu-se → {position}. A preparar pergunta...",
+    "presenter.trivial.choosing_category": "🎯 Casa central — {actorNick} está a escolher uma categoria...",
+    "presenter.trivial.roll_again": "{nick} acertou! Lance de novo...",
+    "presenter.trivial.end_confirm_title": "Terminar o jogo?",
+    "presenter.trivial.end_confirm_msg": "Se confirmar, o jogo terminará e o pódio será mostrado com a classificação atual.",
+    "presenter.trivial.end_confirm_yes": "Sim, terminar o jogo",
+    "presenter.trivial.cancel": "Cancelar",
+    "presenter.trivial.turn_label": "🎲 Vez: {turn}"
+  },
+  "literals": {
+    "Bancos": "Bancos"
+  }
+}

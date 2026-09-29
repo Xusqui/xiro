@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.fuegos.title": "花火",
+    "manual_admin.tools.fuegos.desc": "最終表彰台の視覚的スペクタクルをカスタマイズします。",
+    "manual_admin.tools.fuegos.config": "視覚設定",
+    "manual_admin.tools.fuegos.config_desc": "サイズ、軌跡、シミュレーション速度、数量などを調整します。",
+    "manual_admin.tools.fuegos.sound": "サウンド",
+    "manual_admin.tools.fuegos.sound_desc": "爆発音を有効または無効にします。"
+  }
+}

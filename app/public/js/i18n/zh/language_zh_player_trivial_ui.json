@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "player.trivial.your_turn": "轮到你了！",
+    "player.trivial.cell_label": "格子",
+    "player.trivial.center_label": "中心",
+    "player.trivial.waiting_for": "等待",
+    "player.trivial.waiting_active": "等待活跃玩家",
+    "player.trivial.moving_piece": "移动棋子…",
+    "player.trivial.radio_label": "半径",
+    "player.trivial.selecting_cell": "选择格子…",
+    "player.trivial.tap_dice": "点击骰子投掷",
+    "player.trivial.turn_of": "轮到"
+  }
+}

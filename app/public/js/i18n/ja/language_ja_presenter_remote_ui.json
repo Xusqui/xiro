@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "presenter.remote.continue": "続ける",
+    "presenter.remote.start": "開始",
+    "presenter.remote.next": "次へ",
+    "presenter.remote.connected": "接続済み",
+    "presenter.remote.disconnected": "切断",
+    "presenter.remote.in_lobby": "ロビー内",
+    "presenter.remote.question_label": "質問",
+    "presenter.remote.tap_pause_resume": "タップして一時停止/再開"
+  }
+}

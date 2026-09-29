@@ -1,0 +1,13 @@
+{
+  "keys": {
+    "manual_admin.tools.puntuacion.title": "评分",
+    "manual_admin.tools.puntuacion.desc": "时间、分数和奖金的配置。",
+    "manual_admin.tools.puntuacion.base_points": "基础分数",
+    "manual_admin.tools.puntuacion.base_points_desc": "正确回答的保证分数。",
+    "manual_admin.tools.puntuacion.max_bonus": "最大速度奖励",
+    "manual_admin.tools.puntuacion.max_bonus_desc": "快速回答的额外分数。",
+    "manual_admin.tools.puntuacion.random_points": "随机分值",
+    "manual_admin.tools.puntuacion.random_points_desc": "每个游戏都可以在你设定的区间内随机抽取每道题的分值。题目出现前会显示抽中的分值，该画面消失后计时器才开始走。",
+    "manual_admin.tools.puntuacion.random_points_types": "仅对测验题和字谜题生效。投票、排序、配对、数字题和多选题的计分方式保持不变。"
+  }
+}

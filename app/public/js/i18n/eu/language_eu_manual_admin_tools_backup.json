@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.backup.title": "Babeskopia",
+    "manual_admin.tools.backup.desc": "Datu-basearen babeskopia automatikoak.",
+    "manual_admin.tools.backup.schedule": "Babeskopien programazioa",
+    "manual_admin.tools.backup.schedule_desc": "Babeskopia automatikoen maiztasuna.",
+    "manual_admin.tools.backup.retention": "Babeskopien atxikipena",
+    "manual_admin.tools.backup.retention_desc": "Babeskopiak gordetzen diren egunak."
+  }
+}

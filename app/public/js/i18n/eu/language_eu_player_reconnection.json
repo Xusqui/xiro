@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "player.reconnection.waiting_next": "Hurrengo galderaren zain...",
+    "player.reconnection.failed": "Ezin da berriro konektatu.",
+    "player.reconnection.restoring": "Taula berrezartzen...",
+    "player.reconnection.already_answered": "dagoeneko erantzun duzu",
+    "player.reconnection.already_answered_title": "DAGOENEKO ERANTZUN DUZU",
+    "player.reconnection.question_progress": "Galdera {current}/{total}"
+  }
+}

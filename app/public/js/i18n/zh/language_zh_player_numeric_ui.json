@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "player.numeric.answer_label": "写下你的答案",
+    "player.numeric.hint_fallback": "主持人不想提供线索",
+    "player.numeric.hint_label": "线索",
+    "player.numeric.input_placeholder": "例如：123456",
+    "player.numeric.only_integers": "仅限整数",
+    "player.numeric.submit": "发送"
+  }
+}

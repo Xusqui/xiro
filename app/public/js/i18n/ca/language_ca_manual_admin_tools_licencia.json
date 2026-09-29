@@ -1,0 +1,18 @@
+{
+  "keys": {
+    "manual_admin.tools.licencia.title": "Llicència",
+    "manual_admin.tools.licencia.desc": "Estat i configuració de la llicència de Xiro!",
+    "manual_admin.tools.licencia.info": "Llicència activa",
+    "manual_admin.tools.licencia.info_desc": "Desa i valida la llicència per mantenir el servei actiu.",
+    "manual_admin.tools.licencia.states": "Estats de validació",
+    "manual_admin.tools.licencia.states_desc": "<strong>Vàlida</strong>: el servei està actiu. <strong>Format no vàlid</strong>: revisa que la clau estigui ben escrita. <strong>No vàlida</strong>: el servidor de llicències l'ha rebutjada.",
+    "manual_admin.tools.licencia.single": "Una sola instal·lació",
+    "manual_admin.tools.licencia.single_desc": "Cada llicència només pot estar activa en un equip alhora. Si apareix «Llicència en ús en un altre equip», escriu a <strong>info@xiro.pro</strong> per alliberar-la.",
+    "manual_admin.tools.licencia.buy": "Comprar llicència",
+    "manual_admin.tools.licencia.buy_desc": "Si no hi ha cap llicència desada, el botó «Comprar llicència» obre la pàgina de compra.",
+    "manual_admin.tools.licencia.exempt": "Jocs d'editors",
+    "manual_admin.tools.licencia.exempt_desc": "Permet <strong>alliberar</strong> o <strong>restringir</strong> el contingut creat per editors. El contingut alliberat es comporta com si fos de l'administrador: amb llicència d'instal·lació es juga sense límit.",
+    "manual_admin.tools.licencia.publicurl": "URL pública del servidor",
+    "manual_admin.tools.licencia.publicurl_desc": "Es fa servir als enllaços dels correus (verificació, registre) i al retorn de PayPal. Deixa-la buida per detectar-la automàticament pel domini."
+  }
+}

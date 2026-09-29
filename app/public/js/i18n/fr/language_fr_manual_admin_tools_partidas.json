@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "manual_admin.tools.partidas.title": "Parties",
+    "manual_admin.tools.partidas.desc": "Configuration globale des parties et salons.",
+    "manual_admin.tools.partidas.max_players": "Joueurs max par partie",
+    "manual_admin.tools.partidas.max_players_desc": "Nombre maximum de joueurs. Les nouvelles tentatives recevront un message \"salon plein\".",
+    "manual_admin.tools.partidas.max_lobbies": "Salons simultanés max",
+    "manual_admin.tools.partidas.max_lobbies_desc": "Parties actives en même temps. Impossible de créer de nouveaux salons si la limite est atteinte.",
+    "manual_admin.tools.partidas.inactive_game": "Seuil de partie inactive",
+    "manual_admin.tools.partidas.inactive_game_desc": "Heures sans activité avant qu'une partie soit considérée comme abandonnée et effacée.",
+    "manual_admin.tools.partidas.empty_lobby": "Délai d'expiration salon vide",
+    "manual_admin.tools.partidas.empty_lobby_desc": "Minutes avant la destruction automatique d'un salon sans joueurs."
+  }
+}

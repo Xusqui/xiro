@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "manual_admin.tools.mantenimiento.title": "Maintenance",
+    "manual_admin.tools.mantenimiento.desc": "Actions de nettoyage et de redémarrage du menu latéral. Toutes demandent une confirmation avant de s'exécuter.",
+    "manual_admin.tools.mantenimiento.uploads": "Nettoyer les Uploads",
+    "manual_admin.tools.mantenimiento.uploads_desc": "Supprime les fichiers multimédias orphelins qui ne sont plus référencés par aucune question. Action irréversible.",
+    "manual_admin.tools.mantenimiento.cache": "Vider le Cache",
+    "manual_admin.tools.mantenimiento.cache_desc": "Vide le cache des jeux. Utile si vous venez de modifier une banque et que les changements n'apparaissent pas dans les nouvelles parties.",
+    "manual_admin.tools.mantenimiento.logs": "Supprimer les Logs",
+    "manual_admin.tools.mantenimiento.logs_desc": "Vide les fichiers de log du serveur (backend, Redis et backup) pour libérer de l’espace disque.",
+    "manual_admin.tools.mantenimiento.panic": "PANIC",
+    "manual_admin.tools.mantenimiento.panic_desc": "Redémarrage forcé du conteneur Docker. <strong>Toutes les parties actives sont perdues.</strong> À utiliser uniquement en cas d’urgence."
+  }
+}

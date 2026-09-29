@@ -1,0 +1,1378 @@
+{
+  "name": "Cultura General Difícil",
+  "type": "quiz",
+  "questions": [
+    {
+      "question_text": "¿Qué filósofo griego fue maestro de Aristóteles y fundador de la Academia?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Platón",
+          "is_correct": true,
+          "justification": "Platón fundó la Academia en Atenas (387 a.C.) donde Aristóteles estudió durante 20 años. Esta institución fue precursora de las universidades modernas y representó un modelo de pensamiento sistemático que influenció el método científico."
+        },
+        {
+          "option_text": "Sócrates",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Tales de Mileto",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Heráclito",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué pintor renacentista realizó estudios anatómicos detallados que anticiparon descubrimientos médicos?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Leonardo da Vinci",
+          "is_correct": true,
+          "justification": "Da Vinci diseccionó más de 30 cadáveres y creó más de 750 dibujos anatómicos. Describió la aterosclerosis, propuso teorías sobre la función cardiaca y representó con precisión estructuras como los senos paranasales, anticipándose siglos a su descripción formal."
+        },
+        {
+          "option_text": "Miguel Ángel",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Rafael Sanzio",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Sandro Botticelli",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué novela de Albert Camus explora la respuesta humana ante una epidemia?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "La Peste",
+          "is_correct": true,
+          "justification": "Publicada en 1947, 'La Peste' narra una epidemia de peste bubónica en Orán, Argelia. La obra examina dilemas éticos médicos, la responsabilidad profesional ante crisis sanitarias y la naturaleza del heroísmo en la práctica médica cotidiana."
+        },
+        {
+          "option_text": "El Extranjero",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "La Caída",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "El Mito de Sísifo",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué compositor clásico continuó creando obras maestras a pesar de su sordera progresiva?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Ludwig van Beethoven",
+          "is_correct": true,
+          "justification": "Beethoven comenzó a perder audición a los 26 años, probablemente por otosclerosis o enfermedad de Paget. Compuso su Novena Sinfonía completamente sordo, evidenciando neuroplasticidad y resiliencia ante discapacidad sensorial severa."
+        },
+        {
+          "option_text": "Wolfgang Amadeus Mozart",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Johann Sebastian Bach",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Franz Schubert",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué elemento químico es fundamental en la hemoglobina y su déficit causa la anemia más común?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Hierro (Fe)",
+          "is_correct": true,
+          "justification": "El hierro es el átomo central del grupo hemo. Su déficit causa anemia ferropénica, la deficiencia nutricional más prevalente mundialmente. Cada molécula de hemoglobina contiene 4 átomos de hierro que permiten el transporte reversible de oxígeno."
+        },
+        {
+          "option_text": "Cobre (Cu)",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Zinc (Zn)",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Magnesio (Mg)",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué tratado de bioética médica establece los principios de autonomía, beneficencia, no maleficencia y justicia?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Principios de Ética Biomédica (Beauchamp y Childress)",
+          "is_correct": true,
+          "justification": "Publicado en 1979 por Tom Beauchamp y James Childress, este texto es la base del principialismo en bioética. Los cuatro principios proporcionan un marco sistemático para analizar dilemas éticos en medicina moderna."
+        },
+        {
+          "option_text": "Declaración de Helsinki",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Código de Núremberg",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Informe Belmont",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué físico desarrolló la teoría cuántica que explica fenómenos a nivel atómico relevantes en imagenología médica?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Max Planck",
+          "is_correct": true,
+          "justification": "Planck introdujo la constante de Planck en 1900, revolucionando la física. Esta teoría es fundamental para entender la resonancia magnética nuclear (MRI), la tomografía por emisión de positrones (PET) y otros métodos diagnósticos modernos."
+        },
+        {
+          "option_text": "Albert Einstein",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Niels Bohr",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Werner Heisenberg",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué escritor y neurólogo describió casos clínicos fascinantes en libros como 'El hombre que confundió a su mujer con un sombrero'?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Oliver Sacks",
+          "is_correct": true,
+          "justification": "Oliver Sacks (1933-2015) combinó práctica neurológica con narrativa literaria, humanizando condiciones neurológicas complejas. Sus obras influyeron en la comprensión pública de trastornos como Tourette, autismo y agnosia visual."
+        },
+        {
+          "option_text": "António Damásio",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "V.S. Ramachandran",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Norman Doidge",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿En qué país se originó el Renacimiento, periodo que marcó el inicio de la anatomía científica moderna?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Italia",
+          "is_correct": true,
+          "justification": "El Renacimiento italiano (siglos XIV-XVI) permitió el estudio anatómico mediante disección. Vesalio publicó 'De Humani Corporis Fabrica' (1543) en Padua, corrigiendo errores galénicos y estableciendo la anatomía como ciencia observacional."
+        },
+        {
+          "option_text": "Francia",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "España",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Alemania",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué paradoja matemática es relevante en la comprensión de probabilidades en diagnóstico médico?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Paradoja de Bayes",
+          "is_correct": true,
+          "justification": "El teorema de Bayes es fundamental en medicina basada en evidencia para interpretar pruebas diagnósticas. Permite calcular probabilidad post-test considerando sensibilidad, especificidad y prevalencia, evitando errores en interpretación de resultados."
+        },
+        {
+          "option_text": "Paradoja de Russell",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Paradoja de Zenón",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Paradoja de Monty Hall",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué novel laureado describió la transformación kafkiana, concepto usado en psicopatología?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Franz Kafka",
+          "is_correct": true,
+          "justification": "La 'Metamorfosis' de Kafka (1915) describe transformación abrupta de identidad. El término 'kafkiano' se usa en psiquiatría para describir experiencias de despersonalización, desrealización y transformación del yo corporal en trastornos psicóticos y disociativos."
+        },
+        {
+          "option_text": "Thomas Mann",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Hermann Hesse",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Günter Grass",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué economista británico propuso teorías sobre recursos limitados aplicables a sistemas de salud?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "John Maynard Keynes",
+          "is_correct": true,
+          "justification": "Keynes desarrolló teorías sobre asignación de recursos escasos y gasto público. Sus principios son fundamentales en economía de la salud para entender financiamiento sanitario, coste-efectividad y decisiones de asignación de recursos médicos limitados."
+        },
+        {
+          "option_text": "Adam Smith",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Karl Marx",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "David Ricardo",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué gas inerte se usa en radioterapia y cuyo descubrimiento valió un Premio Nobel?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Radón",
+          "is_correct": true,
+          "justification": "El radón fue descubierto por Ernest Rutherford en 1899. Aunque es gas noble, su isótopo Rn-222 es radiactivo. Se usó históricamente en braquiterapia para cáncer, aunque hoy se prefieren otros isótopos por su mejor perfil de seguridad."
+        },
+        {
+          "option_text": "Neón",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Argón",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Xenón",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué filósofo empirista influyó en el desarrollo del método científico experimental?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Francis Bacon",
+          "is_correct": true,
+          "justification": "Bacon (1561-1626) propuso el método inductivo y experimental en 'Novum Organum'. Su énfasis en observación empírica y experimentación controlada sentó bases para el método científico, incluyendo ensayos clínicos modernos."
+        },
+        {
+          "option_text": "René Descartes",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Baruch Spinoza",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Gottfried Leibniz",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué unidad SI mide la radiación ionizante absorbida por tejidos biológicos?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Gray (Gy)",
+          "is_correct": true,
+          "justification": "El Gray (1 Gy = 1 J/kg) mide dosis absorbida. Se diferencia del Sievert que mide dosis equivalente considerando tipo de radiación. Es crucial en radioterapia oncológica para calcular dosis terapéuticas y limitar toxicidad."
+        },
+        {
+          "option_text": "Sievert (Sv)",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Becquerel (Bq)",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Roentgen (R)",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué movimiento artístico del siglo XX cuestionó la percepción de la realidad, influyendo en psiquiatría?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Surrealismo",
+          "is_correct": true,
+          "justification": "El surrealismo (André Breton, 1924) exploró el inconsciente y lo onírico, influenciado por Freud. Sus conceptos sobre automatismo psíquico, asociación libre y simbolismo inconsciente contribuyeron al desarrollo de terapias psicoanalíticas y expresivas."
+        },
+        {
+          "option_text": "Cubismo",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Expresionismo",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Impresionismo",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué premio se otorga anualmente por contribuciones excepcionales en medicina y fisiología?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Premio Nobel de Fisiología o Medicina",
+          "is_correct": true,
+          "justification": "Establecido en 1901 según el testamento de Alfred Nobel, reconoce descubrimientos fundamentales. Laureados incluyen a Fleming (penicilina), Watson/Crick (ADN), y Yamanaka (células iPS), marcando hitos en medicina moderna."
+        },
+        {
+          "option_text": "Premio Lasker",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Premio Gairdner",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Medalla Copley",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué concepto estadístico fundamental describe la distribución de muchas variables biológicas?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Distribución normal (gaussiana)",
+          "is_correct": true,
+          "justification": "La distribución normal describe fenómenos biológicos como presión arterial, glucemia o estatura. Es fundamental para establecer valores de referencia, calcular percentiles e interpretar desviaciones estándar en parámetros clínicos y de laboratorio."
+        },
+        {
+          "option_text": "Distribución de Poisson",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Distribución binomial",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Distribución exponencial",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué dramaturgo noruego exploró temas de herencia genética y enfermedad en sus obras?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Henrik Ibsen",
+          "is_correct": true,
+          "justification": "Ibsen en 'Espectros' (1881) aborda la sífilis congénita y herencia de enfermedades. Como Chéjov (médico-escritor), Ibsen anticipó conceptos de genética y enfermedad hereditaria antes del redescubrimiento de las leyes de Mendel."
+        },
+        {
+          "option_text": "August Strindberg",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Anton Chéjov",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Bertolt Brecht",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué principio físico permite la formación de imágenes por ultrasonido?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Efecto piezoeléctrico",
+          "is_correct": true,
+          "justification": "El efecto piezoeléctrico (descubierto por los Curie, 1880) permite que cristales generen y detecten ultrasonido. Los transductores convierten energía eléctrica en ondas mecánicas y viceversa, base de la ecografía diagnóstica moderna."
+        },
+        {
+          "option_text": "Efecto Doppler",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Resonancia acústica",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Impedancia acústica",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué concepto filosófico de Nietzsche se relaciona con resiliencia ante adversidad médica?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Amor fati",
+          "is_correct": true,
+          "justification": "'Amor fati' (amor al destino) implica aceptación activa de circunstancias inevitables. Es relevante en medicina paliativa, afrontamiento de enfermedades crónicas y adaptación psicológica a discapacidad, promoviendo crecimiento post-traumático."
+        },
+        {
+          "option_text": "Eterno retorno",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Voluntad de poder",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Übermensch",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué estructura arquitectónica romana demuestra principios de ingeniería aplicables en cirugía reconstructiva?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "El arco",
+          "is_correct": true,
+          "justification": "El arco romano distribuye fuerzas de compresión eficientemente. Este principio biomecánico se aplica en cirugía reconstructiva craneofacial, donde estructuras arqueadas (paladar, cráneo) distribuyen cargas masticatorias y protegen contenido intracraneal."
+        },
+        {
+          "option_text": "La columna dórica",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "El capitel corintio",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "El frontón triangular",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué revolucionario descubrimiento de Rosalind Franklin fue crucial para entender la herencia genética?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Fotografía 51 (estructura helicoidal del ADN)",
+          "is_correct": true,
+          "justification": "La Fotografía 51 (1952) reveló la estructura helicoidal del ADN mediante difracción de rayos X. Aunque Watson y Crick recibieron el Nobel, el trabajo cristalográfico de Franklin fue fundamental para descifrar la doble hélice."
+        },
+        {
+          "option_text": "Estructura del ARN de transferencia",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Virus del mosaico del tabaco",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Cristalografía de proteínas",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué constante fundamental relaciona energía y frecuencia en física cuántica, base de la resonancia magnética?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Constante de Planck (h)",
+          "is_correct": true,
+          "justification": "La constante de Planck (h = 6.626×10⁻³⁴ J·s) relaciona energía fotónica con frecuencia (E=hν). Es esencial para entender la resonancia magnética nuclear, donde núcleos atómicos absorben y emiten energía a frecuencias específicas."
+        },
+        {
+          "option_text": "Constante de Boltzmann (k)",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Número de Avogadro (NA)",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Constante de los gases (R)",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué poeta y médico británico incorporó terminología médica en su obra modernista?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "William Carlos Williams",
+          "is_correct": true,
+          "justification": "Williams (1883-1963) ejerció pediatría durante 40 años mientras escribía poesía. Su obra integra observación clínica precisa con lenguaje coloquial, influyendo en la literatura médica y humanizando la experiencia del paciente."
+        },
+        {
+          "option_text": "T.S. Eliot",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Ezra Pound",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "W.H. Auden",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué teoría evolutiva explica la selección de características que mejoran supervivencia y reproducción?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Selección natural (Darwin)",
+          "is_correct": true,
+          "justification": "La selección natural de Darwin (1859) explica evolución de resistencia bacteriana, predisposición genética a enfermedades y variación en respuesta farmacológica. Es fundamental en medicina evolutiva y salud pública."
+        },
+        {
+          "option_text": "Herencia de caracteres adquiridos (Lamarck)",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Equilibrio puntuado (Gould)",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Deriva genética (Wright)",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué movimiento filosófico enfatiza la experiencia subjetiva individual, relevante en psicoterapia?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Existencialismo",
+          "is_correct": true,
+          "justification": "El existencialismo (Kierkegaard, Sartre, Heidegger) enfatiza libertad, responsabilidad y búsqueda de significado. Influenció terapias existenciales (Frankl, Yalom) que abordan ansiedad, autenticidad y confrontación con mortalidad en pacientes."
+        },
+        {
+          "option_text": "Positivismo lógico",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Pragmatismo",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Estructuralismo",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué principio termodinámico es fundamental en el metabolismo celular?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Segunda ley (entropía)",
+          "is_correct": true,
+          "justification": "La segunda ley termodinámica establece que la entropía aumenta. Las células mantienen orden mediante acoplamiento de reacciones exergónicas (hidrólisis ATP) con endergónicas (biosíntesis), fundamental para comprender metabolismo y bionenergética."
+        },
+        {
+          "option_text": "Primera ley (conservación de energía)",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Tercera ley (cero absoluto)",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Ley cero (equilibrio térmico)",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué compositor sufrió probablemente de saturnismo, influyendo en su obra y muerte prematura?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Ludwig van Beethoven",
+          "is_correct": true,
+          "justification": "Análisis del cabello de Beethoven reveló niveles tóxicos de plomo. El saturnismo explicaría su sordera, nefropatía, síntomas gastrointestinales y cambios cognitivos, ilustrando impacto de toxicología en genios históricos."
+        },
+        {
+          "option_text": "Wolfgang Amadeus Mozart",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Franz Schubert",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Robert Schumann",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué descubrimiento de Marie Curie revolucionó el tratamiento del cáncer?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Radio y sus propiedades radiactivas",
+          "is_correct": true,
+          "justification": "Curie aisló radio en 1902, primer Premio Nobel en Física (1903) y Química (1911). El radio se usó en braquiterapia inicial para tumores, precediendo radioterapia moderna y medicina nuclear oncológica."
+        },
+        {
+          "option_text": "Rayos X",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Uranio enriquecido",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Tomografía computarizada",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué estructura lingüística universal propuesta por Chomsky tiene paralelos en neurociencia?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Gramática generativa",
+          "is_correct": true,
+          "justification": "Chomsky propuso que la gramática es innata y universal. Estudios de neuroimagen identificaron redes cerebrales específicas para sintaxis (área de Broca), apoyando bases biológicas del lenguaje y recuperación post-ACV."
+        },
+        {
+          "option_text": "Relatividad lingüística",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Conductismo verbal",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Semántica cognitiva",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué fenómeno óptico permite la visualización microscópica de bacterias mediante tinción?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Refracción y absorción selectiva",
+          "is_correct": true,
+          "justification": "Las tinciones (Gram, Ziehl-Neelsen) aprovechan diferencias en composición celular. La refracción aumenta contraste y la absorción selectiva de colorantes permite diferenciar estructuras bacterianas, fundamental en microbiología diagnóstica."
+        },
+        {
+          "option_text": "Fluorescencia",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Difracción",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Polarización",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué escritor existencialista y médico exploró la condición humana durante epidemias?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Albert Camus",
+          "is_correct": true,
+          "justification": "Aunque Camus no era médico, 'La Peste' (1947) examina respuestas éticas ante crisis sanitaria. El Dr. Rieux representa dedicación médica, solidaridad y absurdo de luchar contra muerte inevitable, temas centrales en bioética."
+        },
+        {
+          "option_text": "Jean-Paul Sartre",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Simone de Beauvoir",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Maurice Merleau-Ponty",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué metal pesado, usado antiguamente en medicina, causa el 'mal de los sombreros'?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Mercurio",
+          "is_correct": true,
+          "justification": "El mercurio usado en producción de fieltro causaba encefalopatía tóxica (temblor, cambios psiquiátricos). También se usaba como antiséptico (mercurocromo) y diurético, ilustrando evolución de farmacología y toxicología médica."
+        },
+        {
+          "option_text": "Plomo",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Arsénico",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Cadmio",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué principio matemático permite el análisis de señales biológicas como ECG y EEG?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Transformada de Fourier",
+          "is_correct": true,
+          "justification": "La transformada de Fourier descompone señales complejas en componentes de frecuencia. Permite analizar ritmos cardiacos (ECG), ondas cerebrales (EEG) y detectar arritmias o actividad epileptiforme mediante análisis espectral."
+        },
+        {
+          "option_text": "Integral de Riemann",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Teorema de Pitágoras",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Serie de Taylor",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué concepto psicoanalítico describe mecanismos inconscientes de afrontamiento?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Mecanismos de defensa",
+          "is_correct": true,
+          "justification": "Anna Freud sistematizó los mecanismos de defensa (represión, proyección, negación). Son fundamentales en psiquiatría para entender psicopatología, resistencia en psicoterapia y adaptación a estrés médico o trauma."
+        },
+        {
+          "option_text": "Arquetipos junguianos",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Reflejos condicionados",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Esquemas cognitivos",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué astrónomo propuso el modelo heliocéntrico, revolucionando el pensamiento científico?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Nicolás Copérnico",
+          "is_correct": true,
+          "justification": "Copérnico publicó 'De revolutionibus' (1543), desafiando geocentrismo ptolemaico. Esta revolución paradigmática ejemplifica cómo evidencia empírica puede derrocar dogmas, principio fundamental del método científico en medicina."
+        },
+        {
+          "option_text": "Galileo Galilei",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Johannes Kepler",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Tycho Brahe",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué enzima bacteriana permite la replicación del ADN en PCR diagnóstica?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Taq polimerasa",
+          "is_correct": true,
+          "justification": "La Taq polimerasa de Thermus aquaticus es termoestable, permitiendo ciclos de PCR a alta temperatura. Revolucionó diagnóstico molecular (COVID-19, TB, VIH), genética forense y detección de mutaciones oncogénicas."
+        },
+        {
+          "option_text": "ADN ligasa",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Transcriptasa inversa",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Helicasa",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué concepto sociológico de Durkheim es relevante en salud pública?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Anomia social",
+          "is_correct": true,
+          "justification": "Durkheim demostró que el suicidio tiene causas sociales (anomia, falta de integración). Este enfoque sociológico influenció epidemiología social, determinantes sociales de salud y políticas de prevención de salud mental."
+        },
+        {
+          "option_text": "Clase social",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Alienación",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Acción social",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué principio ético médico protege la confidencialidad paciente-médico?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Secreto profesional",
+          "is_correct": true,
+          "justification": "El secreto profesional, codificado desde Hipócrates, protege privacidad y confianza terapéutica. Tiene excepciones legales (riesgo vital, enfermedades declarables) balanceando autonomía individual con bien común."
+        },
+        {
+          "option_text": "Consentimiento informado",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "No abandono",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Distribución justa",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué molécula descrita por Watson y Crick es la base de la herencia genética?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Ácido desoxirribonucleico (ADN)",
+          "is_correct": true,
+          "justification": "Watson y Crick describieron la estructura de doble hélice del ADN en 1953. Este descubrimiento revolucionó genética médica, permitiendo diagnóstico molecular, terapia génica y medicina personalizada basada en perfil genómico."
+        },
+        {
+          "option_text": "Ácido ribonucleico (ARN)",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Proteínas histonas",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Ribosomas",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué conflicto bélico promovió avances en cirugía plástica reconstructiva?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Guerra Civil Americana",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Segunda Guerra Mundial",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Primera Guerra Mundial",
+          "is_correct": true,
+          "justification": "La Primera Guerra Mundial generó heridas faciales devastadoras por artillería. Harold Gillies desarrolló técnicas reconstructivas modernas, estableciendo principios de injertos pediculados y cirugía estética que transformaron la especialidad."
+        },
+        {
+          "option_text": "Guerra de Crimea",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué neurotransmisor, cuyo déficit causa Parkinson, fue identificado en estudios de ganglios basales?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Dopamina",
+          "is_correct": true,
+          "justification": "Arvid Carlsson identificó la dopamina como neurotransmisor (Nobel 2000). Su depleción en sustancia nigra causa Parkinson, estableciendo bases para levodopa-terapia y comprensión de circuitos motores y sistemas de recompensa."
+        },
+        {
+          "option_text": "Serotonina",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Acetilcolina",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Noradrenalina",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué concepto antropológico de Geertz es útil para entender creencias de salud culturales?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Descripción densa",
+          "is_correct": true,
+          "justification": "La 'descripción densa' de Geertz analiza significados culturales profundos. En antropología médica permite comprender sistemas de creencias sobre enfermedad, prácticas curativas tradicionales y barreras culturales en atención sanitaria."
+        },
+        {
+          "option_text": "Relativismo cultural",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Funcionalismo",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Estructuralismo",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué pintora mexicana exploró dolor crónico y discapacidad en su arte autobiográfico?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Frida Kahlo",
+          "is_correct": true,
+          "justification": "Kahlo sufrió secuelas de poliomielitis y accidente que causó fracturas vertebrales múltiples. Su obra visualiza experiencia corporal de dolor crónico, representando embodiment y resiliencia ante discapacidad de manera única."
+        },
+        {
+          "option_text": "Remedios Varo",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Leonora Carrington",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "María Izquierdo",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué experimento histórico demostró que las úlceras gástricas pueden ser causadas por bacterias?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Autoinfeccción de Barry Marshall con H. pylori",
+          "is_correct": true,
+          "justification": "Marshall se infectó intencionadamente con H. pylori en 1984, desarrollando gastritis que resolvió con antibióticos. Este experimento audaz (Nobel 2005) revolucionó gastroenterología, demostrando etiología bacteriana de úlceras pépticas."
+        },
+        {
+          "option_text": "Experimento de Pavlov con perros",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Estudio de Framingham",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Ensayo de Semmelweis sobre lavado de manos",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué modelo estadístico predice riesgo cardiovascular basándose en factores múltiples?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Ecuación de Framingham",
+          "is_correct": true,
+          "justification": "El estudio de Framingham (iniciado 1948) identificó factores de riesgo cardiovascular y desarrolló ecuaciones predictivas. Fundamentó prevención cardiovascular primaria basada en riesgo absoluto y modificación de múltiples factores."
+        },
+        {
+          "option_text": "Índice de masa corporal",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Score APACHE",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Escala de Glasgow",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué filósofa feminista analizó el 'segundo sexo', relevante en medicina de género?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Simone de Beauvoir",
+          "is_correct": true,
+          "justification": "'El segundo sexo' (1949) de Beauvoir analizó construcción social del género. Influenció medicina basada en género, reconociendo diferencias en presentación clínica, farmacocinética y sesgos diagnósticos entre sexos."
+        },
+        {
+          "option_text": "Hannah Arendt",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Virginia Woolf",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Judith Butler",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    },
+    {
+      "question_text": "¿Qué descubrimiento de Alexander Fleming fue accidental pero revolucionó la medicina?",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 20,
+      "options": [
+        {
+          "option_text": "Penicilina",
+          "is_correct": true,
+          "justification": "Fleming observó lisis bacteriana por Penicillium notatum en 1928. Aunque accidental, su curiosidad científica inició la era antibiótica, salvando millones de vidas y transformando tratamiento de infecciones antes mortales."
+        },
+        {
+          "option_text": "Estreptomicina",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Vacuna antitetánica",
+          "is_correct": false,
+          "justification": null
+        },
+        {
+          "option_text": "Insulina",
+          "is_correct": false,
+          "justification": null
+        }
+      ]
+    }
+  ]
+}

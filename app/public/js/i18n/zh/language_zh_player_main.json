@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "player.session.label": "会话ID",
+    "player.session.hint": "ID 显示在演示者的屏幕上",
+    "player.session.placeholder": "XXXXXX-XXXX",
+    "player.session.submit": "进入",
+    "player.loading": "正在寻找游戏...",
+    "player.nickname.label": "你的名字？",
+    "player.nickname.placeholder": "姓名",
+    "player.nickname.submit": "准备好！"
+  }
+}

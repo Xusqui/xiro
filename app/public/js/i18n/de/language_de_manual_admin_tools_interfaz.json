@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "manual_admin.tools.interfaz.title": "Schnittstelle",
+    "manual_admin.tools.interfaz.desc": "Benutzeroberflächen-Einstellungen.",
+    "manual_admin.tools.interfaz.tv": "TV-Karte",
+    "manual_admin.tools.interfaz.tv_desc": "Steuert, wann die TV-Versionskarte und der Link auf dem Startbildschirm erscheinen: <strong>nie</strong>, <strong>immer</strong> oder <strong>nur auf älteren Geräten</strong> (erkennt veraltete Browser und bietet ihnen automatisch die schlanke Version an).",
+    "manual_admin.tools.interfaz.standalone": "Karte „Solo-Modus\"",
+    "manual_admin.tools.interfaz.standalone_desc": "Zeigt oder verbirgt die Karte und den Link zum Solo-Modus (standalone.html) auf dem Startbildschirm.",
+    "manual_admin.tools.interfaz.animar_fondo": "Animierter Hintergrund",
+    "manual_admin.tools.interfaz.animar_fondo_desc": "Aktiviert oder deaktiviert die Bewegung des Verlaufs und der Blätter im Hintergrund auf allen Bildschirmen. Bei Deaktivierung bleibt der Hintergrund statisch.",
+    "manual_admin.tools.interfaz.personalization": "Oberfläche anpassen",
+    "manual_admin.tools.interfaz.personalization_desc": "Zeigt ein Marken-Badge des Events (z. B. das Logo eines Sponsors) auf allen Bildschirmen des Spiels. Ermöglicht das Hochladen, Auswählen und Löschen des Logos direkt aus diesem Panel."
+  }
+}

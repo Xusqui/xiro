@@ -1,0 +1,27 @@
+{
+  "keys": {
+    "player.answer.correct": "BÉ!",
+    "player.answer.wrong": "FALLAT!",
+    "player.answer.will_it_be_right": "Serà correcta?",
+    "player.answer.time_up": "TEMPS ESGOTAT!",
+    "player.answer.waiting_results": "Esperant resultats...",
+    "player.answer.correct_label": "Correcta:",
+    "player.answer.ranking": "Rànquing",
+    "player.answer.sent": "Resposta Enviada!",
+    "player.answer.waiting_team": "Esperant el teu equip...",
+    "player.answer.players_answered": "jugadors han respost",
+    "player.answer.vote_registered": "Vot Registrat!",
+    "player.answer.survey_label": "Enquesta",
+    "player.answer.yes": "<img src=\"/images/chamaleon/thumbs_up.svg\" class=\"w-32 h-32 mb-4 animate-bounce drop-shadow-lg\" alt=\"👍\">",
+    "player.answer.approximate": "APROXIMAT!",
+    "player.answer.no": "<img src=\"/images/chamaleon/thumbs_down.svg\" class=\"w-32 h-32 mb-4 animate-bounce drop-shadow-lg\" alt=\"👎\">",
+    "player.answer.sending_order": "Enviant el teu ordre...",
+    "player.answer.sending_answer": "Enviant la teva resposta...",
+    "player.answer.validating": "Validant la teva resposta...",
+    "player.answer.correct_answer_label": "Resposta correcta:",
+    "player.answer.waiting_server": "Esperant confirmació del servidor...",
+    "player.answer.mc_missed": "NO MARCADA",
+    "player.answer.mc_perfect": "PERFECTE",
+    "player.answer.matching_pairs": "{n} de {total} parelles"
+  }
+}

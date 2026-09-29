@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "player.trivial.waiting_turn": "等待在棋盘上的回合...",
+    "player.trivial.choosing_cell": "正在选择格子...",
+    "player.trivial.other_rolling": "另一位玩家正在投骰子",
+    "player.trivial.already_answered": "您已经回答了这个问题"
+  }
+}

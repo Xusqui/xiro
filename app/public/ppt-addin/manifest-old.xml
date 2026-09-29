@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OfficeApp
+  xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:type="TaskPaneApp">
+
+  <!-- ⚠️  Sustituye este GUID al publicar un add-in propio -->
+  <Id>7f3a8e2d-1b56-4c9a-8e3d-2f450a871b9c</Id>
+  <Version>1.0.0</Version>
+  <ProviderName>Xiro</ProviderName>
+  <DefaultLocale>es-ES</DefaultLocale>
+  <DisplayName DefaultValue="Xiro Presenter" />
+  <Description DefaultValue="Controla partidas de Xiro directamente desde PowerPoint" />
+  <IconUrl DefaultValue="https://xiro.pro/ppt-addin/assets/icon-32.png" />
+  <HighResolutionIconUrl DefaultValue="https://xiro.pro/ppt-addin/assets/icon-32.png" />
+  <SupportUrl DefaultValue="https://xiro.pro" />
+
+  <!-- Dominios que el add-in puede cargar (auth, API calls, sockets) -->
+  <AppDomains>
+    <AppDomain>xiro.pro</AppDomain>
+    <AppDomain>www.xiro.pro</AppDomain>
+    <AppDomain>localhost</AppDomain>
+  </AppDomains>
+
+  <Hosts>
+    <Host Name="Presentation" />
+  </Hosts>
+
+  <Requirements>
+    <Sets DefaultMinVersion="1.1">
+      <Set Name="DocumentEvents" MinVersion="1.1" />
+      <!-- PowerPointApi 1.4: necesario para addImage, addTextBox, addGeometricShape -->
+      <Set Name="PowerPointApi" MinVersion="1.4" />
+    </Sets>
+  </Requirements>
+
+  <DefaultSettings>
+    <!-- URL del task pane servida por el propio servidor Xiro -->
+    <SourceLocation DefaultValue="https://xiro.pro/ppt-addin/taskpane.html" />
+  </DefaultSettings>
+
+  <!-- ReadWriteDocument: necesario para crear/modificar diapositivas -->
+  <Permissions>ReadWriteDocument</Permissions>
+
+  <!-- VersionOverrides V1.0: botón en la cinta de PowerPoint -->
+  <VersionOverrides
+    xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
+    xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+    xsi:type="VersionOverridesV1_0">
+
+    <Hosts>
+      <Host xsi:type="Presentation">
+        <DesktopFormFactor>
+
+          <GetStarted>
+            <Title resid="GetStarted.Title" />
+            <Description resid="GetStarted.Description" />
+            <LearnMoreUrl resid="LearnMoreUrl" />
+          </GetStarted>
+
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+            <OfficeTab id="TabHome">
+              <Group id="XiroGroup">
+                <Label resid="XiroGroup.Label" />
+                <Icon>
+                  <bt:Image size="16" resid="Icon.16x16" />
+                  <bt:Image size="32" resid="Icon.32x32" />
+                  <bt:Image size="80" resid="Icon.80x80" />
+                </Icon>
+                <Control xsi:type="Button" id="XiroPresenterButton">
+                  <Label resid="XiroButton.Label" />
+                  <Supertip>
+                    <Title resid="XiroButton.Label" />
+                    <Description resid="XiroButton.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16x16" />
+                    <bt:Image size="32" resid="Icon.32x32" />
+                    <bt:Image size="80" resid="Icon.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>XiroTaskpane</TaskpaneId>
+                    <SourceLocation resid="Taskpane.Url" />
+                  </Action>
+                </Control>
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+
+    <Resources>
+      <bt:Images>
+        <bt:Image id="Icon.16x16" DefaultValue="https://xiro.pro/ppt-addin/assets/icon-16.png" />
+        <bt:Image id="Icon.32x32" DefaultValue="https://xiro.pro/ppt-addin/assets/icon-32.png" />
+        <bt:Image id="Icon.80x80" DefaultValue="https://xiro.pro/ppt-addin/assets/icon-80.png" />
+      </bt:Images>
+      <bt:Urls>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://xiro.pro/ppt-addin/taskpane.html" />
+        <bt:Url id="LearnMoreUrl" DefaultValue="https://xiro.pro" />
+      </bt:Urls>
+      <bt:ShortStrings>
+        <bt:String id="GetStarted.Title" DefaultValue="Xiro Presenter" />
+        <bt:String id="XiroGroup.Label" DefaultValue="Xiro" />
+        <bt:String id="XiroButton.Label" DefaultValue="Xiro Presenter" />
+      </bt:ShortStrings>
+      <bt:LongStrings>
+        <bt:String id="GetStarted.Description" DefaultValue="Controla partidas de Xiro directamente desde PowerPoint." />
+        <bt:String id="XiroButton.Tooltip" DefaultValue="Abre el panel de control de Xiro." />
+      </bt:LongStrings>
+    </Resources>
+
+  </VersionOverrides>
+</OfficeApp>

@@ -1,0 +1,15 @@
+{
+  "keys": {
+    "presenter.remote.tap_pause": "Sakatu gelditzeko",
+    "presenter.remote.tap_resume": "Sakatu jarraitzeko",
+    "presenter.remote.end_confirm": "Nahi duzu partida orain amaitu?",
+    "presenter.remote.connect_error": "Errorea urrutiko kontrol gisa konektatzean",
+    "presenter.remote.game_finished": "Partida amaitu da",
+    "presenter.remote.no_admin_session": "Ez da admin saiorik aurkitu.<br>Sartu lehenik admin panelean.",
+    "presenter.remote.game_started": "Partida hasi da",
+    "presenter.remote.final_podium": "Azken podiouma",
+    "presenter.remote.end_game": "Partida amaitu",
+    "presenter.remote.btn_end": "Jokoa amaitu",
+    "presenter.remote.cancel": "Utzi"
+  }
+}

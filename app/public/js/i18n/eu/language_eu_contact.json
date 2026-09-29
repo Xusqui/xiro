@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "contact.title": "Harremanetan jarri ✉️",
+    "contact.subtitle": "Galdera edo iradokizunik baduzu? Idatz iezaguzu.",
+    "contact.success.title": "Mezua bidali da!",
+    "contact.success.message": "Laster erantzungo dizugu",
+    "contact.form.name": "Izena",
+    "contact.form.email": "Zure posta elektronikoa",
+    "contact.form.message": "Mezua",
+    "contact.form.verification": "Egiaztapena —",
+    "contact.form.name.placeholder": "zure izena",
+    "contact.form.message.placeholder": "Nola lagundu dezakegu?",
+    "contact.form.captcha.placeholder": "Erantzun",
+    "contact.form.submit": "Bidali mezua"
+  }
+}

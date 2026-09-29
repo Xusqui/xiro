@@ -1,0 +1,17 @@
+{
+  "keys": {
+    "presenter.trivial.waiting_dice": "サイコロを振るのを待っています",
+    "presenter.trivial.rolled": "{diceValue}が出ました — ボード上のハイライトされたマスをタップ",
+    "presenter.trivial.moved": "{nickname}が{position}に移動しました。質問を準備中...",
+    "presenter.trivial.choosing_category": "🎯 中央マス — {actorNick}がカテゴリーを選択中...",
+    "presenter.trivial.roll_again": "{nick}が正解！もう一度振って...",
+    "presenter.trivial.end_confirm_title": "ゲームを終了しますか？",
+    "presenter.trivial.end_confirm_msg": "確認すると、ゲームが終了し現在の順位でポディウムが表示されます。",
+    "presenter.trivial.end_confirm_yes": "はい、ゲームを終了",
+    "presenter.trivial.cancel": "キャンセル",
+    "presenter.trivial.turn_label": "🎲 ターン: {turn}"
+  },
+  "literals": {
+    "Bancos": "バンク"
+  }
+}

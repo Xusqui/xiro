@@ -1,0 +1,17 @@
+{
+  "keys": {
+    "presenter.trivial.waiting_dice": "Esperando que tire el dado",
+    "presenter.trivial.rolled": "Sacó {diceValue} — toca una casilla brillante en el tablero",
+    "presenter.trivial.moved": "{nickname} movió → {position}. Preparando pregunta...",
+    "presenter.trivial.choosing_category": "🎯 Casilla central — {actorNick} está eligiendo categoría...",
+    "presenter.trivial.roll_again": "¡{nick} acierta! Vuelve a tirar...",
+    "presenter.trivial.end_confirm_title": "¿Terminar partida?",
+    "presenter.trivial.end_confirm_msg": "Si confirmas, se finalizará el juego y se mostrará el podio con la clasificación actual.",
+    "presenter.trivial.end_confirm_yes": "Sí, terminar",
+    "presenter.trivial.cancel": "Cancelar",
+    "presenter.trivial.turn_label": "🎲 Turno: {turn}"
+  },
+  "literals": {
+    "Bancos": "Bancos"
+  }
+}

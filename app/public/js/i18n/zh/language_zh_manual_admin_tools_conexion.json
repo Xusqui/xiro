@@ -1,0 +1,18 @@
+{
+  "keys": {
+    "manual_admin.tools.conexion.title": "连接与会话",
+    "manual_admin.tools.conexion.desc": "网络、CORS和分析设置。",
+    "manual_admin.tools.conexion.reconnection": "重新连接超时",
+    "manual_admin.tools.conexion.reconnection_desc": "服务器保存断开连接玩家状态的分钟数。",
+    "manual_admin.tools.conexion.cleanup": "清理间隔",
+    "manual_admin.tools.conexion.cleanup_desc": "从内存中清理非活跃游戏的频率。",
+    "manual_admin.tools.conexion.cors": "CORS 来源",
+    "manual_admin.tools.conexion.cors_desc": "允许的 HTTP 来源。",
+    "manual_admin.tools.conexion.ws": "WebSocket 来源",
+    "manual_admin.tools.conexion.ws_desc": "允许实时连接的来源。",
+    "manual_admin.tools.conexion.umami": "Umami 分析",
+    "manual_admin.tools.conexion.umami_desc": "Umami URL 和网站 ID 配置。",
+    "manual_admin.tools.conexion.top_players": "排行榜上的玩家",
+    "manual_admin.tools.conexion.top_players_desc": "游戏期间排行榜显示的玩家数量。"
+  }
+}

@@ -1,0 +1,255 @@
+{
+    "name": "Países y Capitales del Mundo (Nivel Difícil)",
+    "questions": [
+        {
+            "text": "¿Cuál es la capital de Kazajistán?",
+            "options": [
+                {
+                    "text": "Almaty",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "Astaná",
+                    "isCorrect": true,
+                    "justification": "Astaná (anteriormente Nur-Sultán) es la capital de Kazajistán desde 1997, cuando se trasladó desde Almaty. La ciudad está ubicada en el norte del país."
+                },
+                {
+                    "text": "Biskek",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "Taskent",
+                    "isCorrect": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "text": "¿Cuál es la capital de Sri Lanka?",
+            "options": [
+                {
+                    "text": "Colombo",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "Kandy",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "Sri Jayawardenapura Kotte",
+                    "isCorrect": true,
+                    "justification": "Sri Jayawardenapura Kotte es la capital legislativa y administrativa de Sri Lanka desde 1982. Aunque Colombo es la capital comercial y más conocida, Kotte es la capital oficial."
+                },
+                {
+                    "text": "Galle",
+                    "isCorrect": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "text": "¿Cuál es la capital de Belice?",
+            "options": [
+                {
+                    "text": "Ciudad de Belice",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "Belmopán",
+                    "isCorrect": true,
+                    "justification": "Belmopán es la capital de Belice desde 1970, tras el devastador huracán Hattie que destruyó Ciudad de Belice en 1961. Es una de las capitales más pequeñas del mundo."
+                },
+                {
+                    "text": "San Ignacio",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "Orange Walk",
+                    "isCorrect": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "text": "¿Cuál es la capital de Suiza?",
+            "options": [
+                {
+                    "text": "Zúrich",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "Ginebra",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "Berna",
+                    "isCorrect": true,
+                    "justification": "Berna es la capital de facto de Suiza (ciudad federal) desde 1848. Aunque Zúrich y Ginebra son más grandes y conocidas, Berna alberga el gobierno federal suizo."
+                },
+                {
+                    "text": "Basilea",
+                    "isCorrect": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "text": "¿Cuál es la capital de Myanmar (Birmania)?",
+            "options": [
+                {
+                    "text": "Rangún",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "Naipyidó",
+                    "isCorrect": true,
+                    "justification": "Naipyidó es la capital de Myanmar desde 2005, cuando la junta militar trasladó la capital desde Rangún. Fue construida específicamente como nueva capital administrativa."
+                },
+                {
+                    "text": "Mandalay",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "Bagan",
+                    "isCorrect": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "text": "¿Cuál es la capital de Benín?",
+            "options": [
+                {
+                    "text": "Cotonú",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "Porto-Novo",
+                    "isCorrect": true,
+                    "justification": "Porto-Novo es la capital oficial de Benín, aunque Cotonú es la ciudad más grande y sede del gobierno. Porto-Novo fue designada capital en 1960 tras la independencia."
+                },
+                {
+                    "text": "Parakou",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "Abomey",
+                    "isCorrect": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "text": "¿Cuál es la capital de Palaos?",
+            "options": [
+                {
+                    "text": "Koror",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "Ngerulmud",
+                    "isCorrect": true,
+                    "justification": "Ngerulmud es la capital de Palaos desde 2006. Es una de las capitales menos pobladas del mundo, con menos de 400 habitantes, ubicada en el estado de Melekeok."
+                },
+                {
+                    "text": "Meyuns",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "Airai",
+                    "isCorrect": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "text": "¿Cuál es la capital de Turkmenistán?",
+            "options": [
+                {
+                    "text": "Asjabad",
+                    "isCorrect": true,
+                    "justification": "Asjabad (Ashgabat) es la capital de Turkmenistán. Es conocida por tener el mayor número de edificios de mármol blanco del mundo y aparece en el Libro Guinness de los Récords."
+                },
+                {
+                    "text": "Taskent",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "Dusambé",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "Mary",
+                    "isCorrect": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "text": "¿Cuál es la capital de las Islas Salomón?",
+            "options": [
+                {
+                    "text": "Gizo",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "Auki",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "Honiara",
+                    "isCorrect": true,
+                    "justification": "Honiara es la capital de las Islas Salomón desde 1952, ubicada en la isla de Guadalcanal. Fue el escenario de importantes batallas durante la Segunda Guerra Mundial."
+                },
+                {
+                    "text": "Tulagi",
+                    "isCorrect": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "text": "¿Cuál es la capital administrativa de Sudáfrica?",
+            "options": [
+                {
+                    "text": "Ciudad del Cabo",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "Johannesburgo",
+                    "isCorrect": false,
+                    "justification": null
+                },
+                {
+                    "text": "Pretoria",
+                    "isCorrect": true,
+                    "justification": "Pretoria es la capital administrativa (ejecutiva) de Sudáfrica. El país tiene tres capitales: Pretoria (ejecutiva), Ciudad del Cabo (legislativa) y Bloemfontein (judicial)."
+                },
+                {
+                    "text": "Durban",
+                    "isCorrect": false,
+                    "justification": null
+                }
+            ]
+        }
+    ]
+}

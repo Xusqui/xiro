@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "player.streak.double_prefix": "SEQUÊNCIA DUPLA x",
+    "player.streak.lost": "SEQUÊNCIA PERDIDA!",
+    "player.streak.active_prefix": "SEQUÊNCIA x",
+    "player.streak.double_label": "DUPLA",
+    "player.streak.label": "SEQUÊNCIA",
+    "player.streak.consecutive_correct": "respostas corretas seguidas",
+    "player.streak.ended_prefix": "Sua sequência de",
+    "player.streak.double_bonus_suffix": "seguidas com bônus duplo!"
+  }
+}

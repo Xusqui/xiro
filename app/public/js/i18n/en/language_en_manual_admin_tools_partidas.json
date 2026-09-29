@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "manual_admin.tools.partidas.title": "Games",
+    "manual_admin.tools.partidas.desc": "Global configuration for games and rooms.",
+    "manual_admin.tools.partidas.max_players": "Max players per game",
+    "manual_admin.tools.partidas.max_players_desc": "Maximum number of players that can join a room. New attempts will get a \"room full\" message.",
+    "manual_admin.tools.partidas.max_lobbies": "Max simultaneous lobbies",
+    "manual_admin.tools.partidas.max_lobbies_desc": "Active games at the same time. When reached, no new rooms can be created.",
+    "manual_admin.tools.partidas.inactive_game": "Inactive game threshold",
+    "manual_admin.tools.partidas.inactive_game_desc": "Hours without activity for a game to be considered abandoned and cleaned from memory.",
+    "manual_admin.tools.partidas.empty_lobby": "Empty lobby timeout",
+    "manual_admin.tools.partidas.empty_lobby_desc": "Minutes until a lobby without players is automatically destroyed."
+  }
+}

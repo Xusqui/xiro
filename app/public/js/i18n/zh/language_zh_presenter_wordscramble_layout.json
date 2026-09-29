@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "presenter.wordscramble.question_label": "问题",
+    "presenter.wordscramble.correct_answer": "正确答案",
+    "presenter.wordscramble.anagram_label": "字谜 · 解密单词",
+    "presenter.wordscramble.available_letters": "可用字母"
+  }
+}

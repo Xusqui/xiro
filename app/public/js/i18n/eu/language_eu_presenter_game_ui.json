@@ -1,0 +1,21 @@
+{
+  "keys": {
+    "presenter.game.play_audio": "▶ Sakatu audioa erreproduzitzeko",
+    "presenter.game.pause_resume": "Klikatu gelditzeko/jarraitzeko",
+    "presenter.game.question_label": "Galdera",
+    "presenter.game.next_question": "Hurrengo galdera",
+    "presenter.game.next_round": "Hurrengo txanda",
+    "presenter.game.view_ranking": "Rankinga ikusi",
+    "presenter.game.reveal_answer": "Erantzuna erakutsi",
+    "presenter.game.answers_label": "ERANTZUNAK:",
+    "presenter.game.audio_playing": "AUDIOA ERREPRODUZITZEN",
+    "presenter.game.listen_carefully": "Entzun arretaz",
+    "presenter.game.no_audio_support": "Zure nabigatzaileak ez du audioa onartzen.",
+    "presenter.game.numeric_question": "GALDERA NUMERIKOA",
+    "presenter.game.players_write_number": "Jokalariek zenbaki osoa idazten dute",
+    "presenter.game.answer_on_reveal": "Erantzun zuzena erakustean agertuko da",
+    "presenter.game.points_by_proximity": "Puntuak hurbiltasunaren arabera kalkulatzen dira",
+    "presenter.game.players_see_devices": "Jokalariek aukerak ikusten dituzte beren gailuetan",
+    "presenter.game.multiple_choice_label": "✓ Aukera anizkoitza"
+  }
+}

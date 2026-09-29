@@ -1,0 +1,15 @@
+{
+  "keys": {
+    "presenter.reveal.max_points": "· Puntu gehienekoak:",
+    "presenter.reveal.percent_to_max": "% gehienekora.",
+    "presenter.reveal.length_label": "Luzera:",
+    "presenter.reveal.next_round": "Hurrengo txanda",
+    "presenter.reveal.correct_answer": "Erantzun zuzena",
+    "presenter.reveal.top_answers": "Top Erantzunak",
+    "presenter.reveal.why_correct": "Zergatik da zuzena?",
+    "presenter.reveal.no_scores_yet": "Oraindik ez dago puntuaziorik",
+    "presenter.reveal.correct_order": "Ordena zuzena",
+    "presenter.reveal.correct_pairs": "Bikote zuzenak",
+    "presenter.reveal.tolerance": "Tolerantzia:"
+  }
+}

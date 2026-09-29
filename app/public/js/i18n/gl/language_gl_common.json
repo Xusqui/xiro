@@ -1,0 +1,13 @@
+{
+  "keys": {
+    "common.footer.copyright": "© 2026 XIRO!. Sistema de cuestionarios interactivo.",
+    "common.footer.author": "Copyright: Familia Fernández Villatoro",
+    "common.footer.contact": "Contacto",
+    "common.back_home": "Volver arriba",
+    "common.error_title": "Erro",
+    "common.btn_retry": "Reintentar",
+    "common.footer.copyright_holder": "Copyright: Familia Fernández Villatoro",
+    "common.skip_link": "Saltar ao contido",
+    "common.label_language": "Idioma das preguntas"
+  }
+}

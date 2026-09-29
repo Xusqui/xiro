@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="account_deleted.page_title">XIRO! - Cuenta eliminada</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/css/common.css?v=20260922172926">
+    <link rel="stylesheet" href="/css/output-admin.css?v=20260922172926">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/admin.css?v=20260922172926">
+    <script src="/js/i18n/i18n-core.js?v=20260922172926"></script>
+    <script src="/js/i18n/i18n-dom.js?v=20260922172926"></script>
+    <script src="/js/i18n/i18n-ui.js?v=20260922172926"></script>
+    <style>
+        .mascot-farewell {
+            position: absolute;
+            width: 220px;
+            bottom: -30px;
+            left: -120px;
+            z-index: 0;
+            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
+            pointer-events: none;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px) rotate(-5deg);
+            }
+
+            50% {
+                transform: translateY(-15px) rotate(-2deg);
+            }
+
+            100% {
+                transform: translateY(0px) rotate(-5deg);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .mascot-farewell {
+                width: 140px;
+                top: -120px;
+                bottom: auto;
+                left: 50%;
+                margin-left: -70px;
+            }
+
+            .xiro-login-card {
+                margin-top: 100px;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-slate-100 font-sans text-slate-800">
+    <a href="#main-content" class="skip-link" data-i18n="common.skip_link">Saltar al contenido</a>
+
+    <main id="main-content" class="fixed inset-0 flex items-center justify-center z-50 p-4">
+
+        <!-- Card -->
+        <div class="xiro-login-card w-full relative z-10" style="max-width:440px;">
+            <!-- Mascota -->
+            <img src="/images/chamaleon/farewell.svg" alt="" aria-hidden="true" class="mascot-farewell">
+
+            <div class="xiro-login-accent-bar" style="background: linear-gradient(90deg, #f43f5e, #fb923c);"></div>
+            <div class="xiro-login-inner flex flex-col items-center gap-5 text-center relative z-10 bg-white"
+                style="border-radius: 1.5rem;">
+
+                <!-- Logo -->
+                <a href="/index.html" class="cursor-pointer hover:scale-105 transition-transform block mt-2"
+                    style="filter: drop-shadow(0 10px 24px rgba(249,181,24,0.25));">
+                    <img src="/images/logo.svg" alt="XIRO!" style="width:170px;">
+                </a>
+
+                <!-- Heading -->
+                <div style="width:100%">
+                    <p class="xiro-login-eyebrow text-rose-500" data-i18n="account_deleted.eyebrow">Despedida</p>
+                    <h1 class="text-3xl font-bold mt-2 mb-4 text-slate-800" data-i18n="account_deleted.heading">Cuenta
+                        eliminada</h1>
+                    <p class="text-slate-500 mb-6 leading-relaxed" data-i18n-html="account_deleted.message_html">
+                        Tu cuenta ha sido eliminada correctamente.<br><br>
+                        Esperamos que hayas disfrutado de tu experiencia con Xiro. ¡Deseamos volverte a ver pronto!
+                    </p>
+                </div>
+
+                <a href="/index.html" class="xiro-login-btn w-full text-center block box-border"
+                    style="text-decoration: none;">
+                    <i class="fas fa-home" style="margin-right:8px;"></i> <span
+                        data-i18n="common.back_home">Volver al inicio</span>
+                </a>
+            </div>
+        </div>
+    </main>
+    <script defer src="/js/core/site-badge.js?v=20260922172926"></script>
+</body>
+
+</html>

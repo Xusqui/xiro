@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "manual_admin.tools.partidas.title": "ゲーム",
+    "manual_admin.tools.partidas.desc": "ゲームとルームのグローバル設定。",
+    "manual_admin.tools.partidas.max_players": "1ゲームの最大プレイヤー数",
+    "manual_admin.tools.partidas.max_players_desc": "ルームに参加できる最大プレイヤー数。",
+    "manual_admin.tools.partidas.max_lobbies": "最大同時ロビー数",
+    "manual_admin.tools.partidas.max_lobbies_desc": "同時にアクティブなゲーム数。制限に達すると新しいルームは作成できません。",
+    "manual_admin.tools.partidas.inactive_game": "非アクティブゲームのしきい値",
+    "manual_admin.tools.partidas.inactive_game_desc": "ゲームが放棄されたとみなされ、メモリから消去されるまでの無活動時間（時間）。",
+    "manual_admin.tools.partidas.empty_lobby": "空のロビーのタイムアウト",
+    "manual_admin.tools.partidas.empty_lobby_desc": "プレイヤーがいないロビーが自動的に破棄されるまでの分数。"
+  }
+}

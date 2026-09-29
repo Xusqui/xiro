@@ -1,0 +1,27 @@
+{
+  "keys": {
+    "player.answer.correct": "GUT!",
+    "player.answer.wrong": "FALSCH!",
+    "player.answer.will_it_be_right": "Ist es richtig?",
+    "player.answer.time_up": "ZEIT ABGELAUFEN!",
+    "player.answer.waiting_results": "Auf Ergebnisse warten...",
+    "player.answer.correct_label": "Richtig:",
+    "player.answer.ranking": "Rangliste",
+    "player.answer.sent": "Antwort Gesendet!",
+    "player.answer.waiting_team": "Auf dein Team warten...",
+    "player.answer.players_answered": "Spieler haben geantwortet",
+    "player.answer.vote_registered": "Stimme Registriert!",
+    "player.answer.survey_label": "Umfrage",
+    "player.answer.yes": "<img src=\"/images/chamaleon/thumbs_up.svg\" class=\"w-32 h-32 mb-4 animate-bounce drop-shadow-lg\" alt=\"👍\">",
+    "player.answer.approximate": "NAHA DRAN!",
+    "player.answer.no": "<img src=\"/images/chamaleon/thumbs_down.svg\" class=\"w-32 h-32 mb-4 animate-bounce drop-shadow-lg\" alt=\"👎\">",
+    "player.answer.sending_order": "Reihenfolge wird gesendet...",
+    "player.answer.sending_answer": "Antwort wird gesendet...",
+    "player.answer.validating": "Antwort wird überprüft...",
+    "player.answer.correct_answer_label": "Richtige Antwort:",
+    "player.answer.waiting_server": "Warte auf Serverbestätigung...",
+    "player.answer.mc_missed": "NICHT GEWÄHLT",
+    "player.answer.mc_perfect": "PERFEKT",
+    "player.answer.matching_pairs": "{n} von {total} Paaren"
+  }
+}

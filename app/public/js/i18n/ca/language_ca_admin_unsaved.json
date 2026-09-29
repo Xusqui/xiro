@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "admin.unsaved.title": "⚠️ Canvis no desats",
+    "admin.unsaved.msg_exit": "Tens canvis no desats. Si surts ara, es perdran. Vols continuar?",
+    "admin.unsaved.msg_navigate": "Tens canvis no desats. Si continues, es perdran. Vols continuar?",
+    "admin.unsaved.btn_exit": "Sortir sense desar",
+    "admin.unsaved.btn_keep": "Continuar editant",
+    "admin.unsaved.btn_continue": "Continuar sense desar"
+  }
+}

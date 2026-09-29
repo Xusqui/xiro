@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "manual_admin.tools.mantenimiento.title": "Mantemento",
+    "manual_admin.tools.mantenimiento.desc": "Accións de limpeza e reinicio do menú lateral. Todas piden confirmación antes de executarse.",
+    "manual_admin.tools.mantenimiento.uploads": "Limpar Uploads",
+    "manual_admin.tools.mantenimiento.uploads_desc": "Elimina os ficheiros multimedia orfos que xa non están referenciados por ningunha pregunta. Non se pode desfacer.",
+    "manual_admin.tools.mantenimiento.cache": "Limpar Caché",
+    "manual_admin.tools.mantenimiento.cache_desc": "Baleira a caché de xogos. Útil se acabas de editar un banco e os cambios non se reflicten nas partidas novas.",
+    "manual_admin.tools.mantenimiento.logs": "Borrar Logs",
+    "manual_admin.tools.mantenimiento.logs_desc": "Baleira os ficheiros de log do servidor (backend, Redis e backup) para liberar espazo en disco.",
+    "manual_admin.tools.mantenimiento.panic": "PANIC",
+    "manual_admin.tools.mantenimiento.panic_desc": "Reinicio forzado do contedor Docker. <strong>Todas as partidas activas pérdense.</strong> Úsao só en emerxencias."
+  }
+}

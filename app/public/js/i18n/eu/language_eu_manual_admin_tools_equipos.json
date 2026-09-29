@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.equipos.title": "Taldeak",
+    "manual_admin.tools.equipos.desc": "Taldekako partiden ezarpenak.",
+    "manual_admin.tools.equipos.lambda": "Lambda Leuntzea",
+    "manual_admin.tools.equipos.lambda_desc": "Tamaina ezberdineko taldeak puntuazioan orekatzeko bayesiar leuntzea.",
+    "manual_admin.tools.equipos.team_names": "Taldeen izenak",
+    "manual_admin.tools.equipos.team_names_desc": "Zehaztu taldeen izenen aurrizkia edo formatua."
+  }
+}

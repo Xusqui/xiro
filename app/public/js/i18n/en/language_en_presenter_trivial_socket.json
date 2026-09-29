@@ -1,0 +1,17 @@
+{
+  "keys": {
+    "presenter.trivial.waiting_dice": "Waiting to roll the dice",
+    "presenter.trivial.rolled": "Rolled {diceValue} — tap a highlighted square on the board",
+    "presenter.trivial.moved": "{nickname} moved → {position}. Preparing question...",
+    "presenter.trivial.choosing_category": "🎯 Center square — {actorNick} is choosing a category...",
+    "presenter.trivial.roll_again": "{nick} got it right! Roll again...",
+    "presenter.trivial.end_confirm_title": "End game?",
+    "presenter.trivial.end_confirm_msg": "If you confirm, the game will end and the podium will be shown with the current standings.",
+    "presenter.trivial.end_confirm_yes": "Yes, end game",
+    "presenter.trivial.cancel": "Cancel",
+    "presenter.trivial.turn_label": "🎲 Turn: {turn}"
+  },
+  "literals": {
+    "Bancos": "Banks"
+  }
+}

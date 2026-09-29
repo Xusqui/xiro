@@ -1,0 +1,23 @@
+{
+  "keys": {
+    "presenter.session.understood": "Entendido",
+    "presenter.session.end_title": "Finalizar o xogo?",
+    "presenter.session.end_msg": "O xogo finalizará e mostrarase o podio coa clasificación actual.",
+    "presenter.session.end_yes": "Si, finalizar o xogo",
+    "presenter.session.cancel": "Cancelar",
+    "presenter.session.abandon_title": "¿Abandonar a partida?",
+    "presenter.session.abandon_msg_html": "Escribe <span class=\"font-black text-red-300\">{confirmWord}</span> para confirmar. Isto expulsará a todos os xogadores.",
+    "presenter.session.no_session_title": "Sen sesión activa",
+    "presenter.session.no_session_msg": "Non hai ningunha sesión activa para Xiro!.",
+    "presenter.session.abandoned_title": "Sesión abandonada",
+    "presenter.session.abandoned_msg": "A sesión foi abandonada.",
+    "presenter.session.btn_back_home": "Volver ao inicio",
+    "presenter.session.btn_confirm": "Confirmar",
+    "presenter.session.btn_accept": "Aceptar",
+    "presenter.session.error_title": "Erro do presentador",
+    "presenter.session.error_unknown": "Erro descoñecido",
+    "presenter.session.lobby_error_title": "Erro ao Crear o Lobby",
+    "presenter.session.lobby_error_msg": "Non se puido crear o lobby",
+    "presenter.session.start_error_title": "Erro ao iniciar o xogo"
+  }
+}

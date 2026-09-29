@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.ia.title": "IA (Groq)",
+    "manual_admin.tools.ia.desc": "Configuración do asistente de IA para xerar preguntas.",
+    "manual_admin.tools.ia.key": "API Key",
+    "manual_admin.tools.ia.key_desc": "Clave de acceso á API de Groq.",
+    "manual_admin.tools.ia.model": "Modelo IA",
+    "manual_admin.tools.ia.model_desc": "Selección do modelo de linguaxe a utilizar."
+  }
+}

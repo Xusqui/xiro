@@ -1,0 +1,533 @@
+/**
+ * @fileoverview Gestión completa de juegos (mezcla de bancos)
+ * Código extraído 1:1 del original admin.js
+ */
+
+// ===== VISTA PRINCIPAL: LISTADO DE JUEGOS =====
+
+function ocultarTodosJuegos() {
+    toggleAllVisibleToPresenter('/api/games/visibility-all', false, renderVistaJuegos);
+}
+
+function mostrarTodosJuegos() {
+    toggleAllVisibleToPresenter('/api/games/visibility-all', true, renderVistaJuegos);
+}
+
+async function renderVistaJuegos() {
+    clearUnsavedChangesGuard();
+
+    const res = await fetchWithAuth('/api/games');
+    const juegos = await res.json();
+
+    const area = document.getElementById('editorArea');
+    area.innerHTML = _tHtml(`
+        <div class="max-w-7xl mx-auto p-10">
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h1 class="text-4xl font-black text-slate-900 mb-2 flex items-center gap-3">
+                        <div class="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-gamepad text-white text-xl"></i>
+                        </div>
+                        ${_t('admin.games.title', null, 'Mezcla de Preguntas (Juegos)')}
+                    </h1>
+                    <p class="text-slate-500">${_t('admin.games.subtitle', null, 'Combina varios bancos en un solo juego')}</p>
+                </div>
+                <div class="flex gap-3">
+                    <button data-admin-click="ocultarTodosJuegos()" title="${_t('admin.common.btn_hide_all_presenter', null, 'Ocultar todos estos juegos al presentador')}" aria-label="${_t('admin.common.btn_hide_all_presenter', null, 'Ocultar todos estos juegos al presentador')}"
+                        class="w-14 h-14 bg-amber-100 hover:bg-amber-200 text-amber-700 rounded-xl transition flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-eye-slash text-lg"></i>
+                    </button>
+                    <button data-admin-click="mostrarTodosJuegos()" title="${_t('admin.common.btn_show_all_presenter', null, 'Mostrar todos estos juegos al presentador')}" aria-label="${_t('admin.common.btn_show_all_presenter', null, 'Mostrar todos estos juegos al presentador')}"
+                        class="w-14 h-14 bg-teal-100 hover:bg-teal-200 text-teal-700 rounded-xl transition flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-eye text-lg"></i>
+                    </button>
+                    <button data-admin-click="prepararNuevoJuego()"
+                        class="bg-green-600 hover:bg-green-700 text-white px-6 py-4 rounded-xl font-bold text-lg shadow-lg transition transform hover:-translate-y-1 flex items-center gap-3">
+                        <i class="fas fa-plus-circle text-xl"></i>
+                        ${_t('admin.games.btn_add', null, 'Añadir Nuevo Juego')}
+                    </button>
+                </div>
+            </div>
+
+            ${juegos.length === 0 ? `
+                <div class="text-center py-20">
+                    <i class="fas fa-inbox text-slate-300 text-6xl mb-4"></i>
+                    <p class="text-slate-400 text-xl">${_t('admin.games.empty_title', null, 'No hay juegos creados todavía')}</p>
+                    <p class="text-slate-400 mt-2">${_t('admin.games.empty_msg', null, 'Crea tu primer juego mezclando bancos')}</p>
+                </div>
+            ` : `
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    ${juegos.map(juego => {
+        const ownerInfo = {
+            created_by_role: juego.created_by_role,
+            created_by_user_id: juego.created_by_user_id,
+            created_by_username: juego.created_by_username
+        };
+        const canModify = canModifyOwnedResource(ownerInfo);
+        const editClasses = canModify
+            ? 'flex-1 bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2'
+            : `flex-1 px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 ${getLockedButtonClasses()}`;
+        const validBanks = juego.banks.filter(b => b.bank_id !== null);
+        return `
+                            <div class="bg-white rounded-2xl shadow-sm border-2 border-slate-200 hover:border-green-500 transition-all hover:shadow-xl group overflow-hidden">
+                                <div class="p-6">
+                                    <div class="flex justify-between items-start mb-4">
+                                        <div class="flex-1">
+                                            <h3 class="text-lg font-bold text-slate-900 mb-2 line-clamp-2">${escapeHtml(juego.name)}</h3>
+                                            ${getOwnerBadgeHtml(ownerInfo)}
+                                            <div class="inline-flex items-center gap-2 bg-green-100 text-green-700 px-3 py-1 rounded-lg text-xs font-mono font-bold mb-2">
+                                                <i class="fas fa-key"></i>
+                                                PIN: ${juego.pin}
+                                            </div>
+                                            <div class="text-xs text-slate-500 mt-2">
+                                                <i class="fas fa-database mr-1"></i>
+                                                ${_t('admin.games.banks_count', { n: validBanks.length }, '{n} banco(s)').replace('{n}', validBanks.length)}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex gap-2 mt-4">
+                                        <button data-admin-action="${canModify ? 'edit-game' : 'ownership-denied'}" data-game-id="${juego.id}" data-resource-label="este juego"
+                                            class="${editClasses}" ${canModify ? '' : 'title="Bloqueado: creado por otro usuario"'}>
+                                            <i class="fas fa-edit"></i>
+                                            ${_t('admin.games.btn_edit', null, 'Editar')}
+                                        </button>
+                                        <button data-admin-action="${canModify ? 'delete-game' : 'ownership-denied'}" data-game-id="${juego.id}" data-owner-user-id="${juego.created_by_user_id ?? ''}" data-resource-label="este juego" 
+                                            class="${canModify ? 'bg-red-50 hover:bg-red-100 text-red-600 w-12 h-12 rounded-xl font-bold transition flex items-center justify-center' : `w-12 h-12 rounded-xl font-bold transition flex items-center justify-center ${getLockedButtonClasses()}`}" ${canModify ? '' : 'title="Bloqueado: creado por otro usuario"'}>
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+    }).join('')}
+                </div>
+            `}
+        </div>
+    `);
+}
+
+// ===== PREPARAR NUEVO JUEGO =====
+
+function prepararNuevoJuego() {
+    currentBanks = [];
+    activeView = null; // Salir de la vista de grid
+    renderEditorJuego({ name: '', pin: '', id: null }, []);
+}
+
+// ===== CARGAR EDITOR DE JUEGO =====
+
+async function cargarEditorJuego(id) {
+    activeView = null; // Salir de la vista de grid
+    const res = await fetchWithAuth(`/api/games/${id}`);
+    const data = await res.json();
+
+    if (!canModifyOwnedResource(data?.game)) {
+        showOwnershipDeniedModal('este juego');
+        await renderVistaJuegos();
+        return;
+    }
+
+    currentBanks = data.banks;
+    renderEditorJuego(data.game, data.banks);
+}
+
+// ===== RENDERIZAR EDITOR =====
+
+async function renderEditorJuego(game) {
+    // Obtener lista de todos los bancos disponibles con conteo de preguntas (caché)
+    const allBanks = await getAllBanksWithCounts();
+    poolQuestionCountInicial = game.pool_question_count ?? null;
+
+    const area = document.getElementById('editorArea');
+    area.innerHTML = _tHtml(`
+        <div class="max-w-5xl mx-auto px-10 pt-6">
+            <!-- Botón volver -->
+            <button data-admin-click="mostrarVista('juegos')"
+                class="mb-4 text-slate-600 hover:text-green-600 font-bold flex items-center gap-2 transition">
+                <i class="fas fa-arrow-left"></i>
+                ${_t('admin.games.btn_back', null, 'Volver a Mezcla de Preguntas')}
+            </button>
+        </div>
+
+        <div class="xiro-editor-sticky-header">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+                <input type="hidden" id="gameEditId" value="${game.id || ''}">
+                <input type="hidden" id="gameOwnerUserId" value="${game.created_by_user_id ?? ''}">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-black text-slate-900 italic uppercase">
+                        <i class="fas fa-gamepad text-green-500 mr-2"></i>${_t('admin.games.form_title', null, 'Mezcla de Preguntas')}
+                    </h2>
+                    ${game.id ? `<span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold">ID: ${game.id}</span>` : ''}
+                </div>
+
+                <div class="xiro-editor-header-grid">
+                    <!-- Columna 1: Identidad -->
+                    <div>
+                        <div class="grid grid-cols-2 gap-3 mb-3">
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.label_name', null, 'Nombre del Juego')}</label>
+                                <input type="text" id="gameName" value="${escapeHtml(game.name)}" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-green-500 outline-none transition text-sm" placeholder="Ej: Quiz Semanal">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.label_pin', null, 'PIN Personalizado')}</label>
+                                <input type="text" id="gamePin" value="${game.pin}" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-green-500 outline-none transition font-mono text-sm" placeholder="Ej: 123456 (vacío = aleatorio)">
+                            </div>
+                        </div>
+
+                        <div class="mb-3 flex items-center justify-center gap-3" title="${_t('admin.games.help_visible', null, 'Si está marcado, el presentador podrá ver y usar este juego')}">
+                            <span class="text-base font-bold text-slate-700"><i class="fas fa-eye mr-1"></i>${_t('admin.banks.label_visible', null, 'Mostrar al presentador')}</span>
+                            <span style="transform: scale(1); transform-origin: left center;">${renderNeonSwitch({ id: 'gameVisibleToPresenter', checked: game.visible_to_presenter !== false, action: null })}</span>
+                        </div>
+                        <div class="mb-3 text-center">
+                            <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('common.label_language', null, 'Idioma de las preguntas')}</label>
+                            <div class="flex justify-center">${renderLanguageSelect({ id: 'gameLanguage', value: game.language })}</div>
+                        </div>
+                        <div class="flex flex-col items-center text-center">${renderGameCoverField('game', game.image_url)}</div>
+                    </div>
+
+                    <!-- Columna 2: Reglas de puntuación -->
+                    <div>
+                        <!-- Rachas -->
+                        <div class="flex items-center gap-3 mb-2" title="${_t('admin.games.help_streaks', null, 'Aplica bonus de puntos a jugadores con respuestas correctas consecutivas')}">
+                            <span class="text-sm font-bold text-slate-700"><i class="fas fa-fire text-orange-400 mr-1"></i>${_t('admin.games.label_streaks', null, 'Usar Rachas')}</span>
+                            ${renderNeonSwitch({ id: 'gameUseStreaks', checked: game.use_streaks, action: null, attrs: 'data-admin-change="toggleStreakConfig()"' })}
+                        </div>
+
+                        <div id="streakConfigPanel" class="${game.use_streaks ? '' : 'hidden'} ml-6 grid grid-cols-2 gap-3 mb-3 p-3 bg-orange-50 rounded-lg border border-orange-100">
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.streak_threshold_label', null, 'Preguntas para activar Racha')}</label>
+                                <input type="number" id="gameStreakThreshold" min="1" max="20" value="${game.streak_threshold ?? 3}"
+                                    class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-orange-400 outline-none text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.streak_bonus_label', null, 'Multiplicador de bonus racha')}</label>
+                                <input type="number" id="gameStreakBonusPercentage" min="0" max="2" step="0.05" value="${game.streak_bonus_percentage ?? 0.5}"
+                                    class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-orange-400 outline-none text-sm">
+                            </div>
+                        </div>
+
+                        <!-- Dobles Rachas -->
+                        <div class="flex items-center gap-3 mb-2" title="${_t('admin.games.help_dbl_streaks', null, 'Bonus adicional para jugadores que superan un umbral mayor de aciertos consecutivos')}">
+                            <span class="text-sm font-bold text-slate-700"><i class="fas fa-fire text-red-500 mr-1"></i>${_t('admin.games.label_dbl_streaks', null, 'Usar Dobles Rachas')}</span>
+                            ${renderNeonSwitch({ id: 'gameUseDoubleStreaks', checked: game.use_double_streaks, action: null, attrs: 'data-admin-change="toggleDoubleStreakConfig()"' })}
+                        </div>
+
+                        <div id="doubleStreakConfigPanel" class="${game.use_double_streaks ? '' : 'hidden'} ml-6 grid grid-cols-2 gap-3 mb-3 p-3 bg-red-50 rounded-lg border border-red-100">
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.dbl_threshold_label', null, 'Preguntas para Doble Racha')}</label>
+                                <input type="number" id="gameDoubleStreakThreshold" min="1" max="20" value="${game.double_streak_threshold ?? 5}"
+                                    class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-red-400 outline-none text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.dbl_bonus_label', null, 'Multiplicador bonus doble racha')}</label>
+                                <input type="number" id="gameDoubleStreakBonusPercentage" min="0" max="2" step="0.05" value="${game.double_streak_bonus_percentage ?? 1.0}"
+                                    class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-red-400 outline-none text-sm">
+                            </div>
+                        </div>
+
+                        <!-- Puntuación Aleatoria -->
+                        ${renderRandomPointsHtml('game', game)}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-5xl mx-auto px-10 pb-10">
+            <div class="bg-white rounded-2xl shadow-sm p-8 mb-8 border border-slate-200">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-black text-slate-700 uppercase">${_t('admin.banks.title', null, 'Bancos de Preguntas')}</h3>
+                    <button data-admin-click="añadirBancoAlJuego()" class="bg-green-600 text-white px-5 py-2 rounded-xl text-sm font-bold hover:bg-green-700 shadow-md transition transform active:scale-95">
+                        <i class="fas fa-plus mr-2"></i> ${_t('admin.games.btn_add_bank', null, 'Añadir Banco')}
+                    </button>
+                </div>
+                <div id="listaBancosJuego" class="space-y-3"></div>
+                ${allBanks.length === 0 ? `<p class="text-slate-400 text-sm italic">${_t('admin.games.no_banks', null, 'No hay bancos disponibles. Crea uno primero.')}</p>` : ''}
+                <div id="poolTotalWrapper"></div>
+            </div>
+
+            <div class="mt-8">
+                <div class="grid grid-cols-2 gap-4">
+                    <button data-admin-click="guardarJuego(false)" class="bg-green-600 text-white px-6 py-5 rounded-2xl font-black text-lg hover:bg-green-700 transition shadow-xl shadow-green-200 flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
+                        <i class="fas fa-save text-xl"></i> ${_t('admin.games.btn_save', null, 'GUARDAR JUEGO')}
+                    </button>
+                    <button data-admin-click="guardarJuego(true)" class="bg-cyan-600 text-white px-6 py-5 rounded-2xl font-black text-lg hover:bg-cyan-700 transition shadow-xl shadow-cyan-200 flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
+                        <i class="fas fa-cloud-upload-alt text-xl"></i> ${_t('admin.banks.btn_save_exit', null, 'GUARDAR Y SALIR')}
+                    </button>
+                </div>
+                <p class="text-center text-slate-400 text-xs mt-3">
+                    <i class="fas fa-info-circle mr-1"></i>${_t('admin.games.help_save', null, '"Guardar" mantiene el editor abierto, "Guardar y salir" vuelve a la lista de juegos')}
+                </p>
+            </div>
+        </div>`);
+
+    setUnsavedChangesGuard('juegos', () => ({
+        id: document.getElementById('gameEditId')?.value || '',
+        name: document.getElementById('gameName')?.value || '',
+        pin: document.getElementById('gamePin')?.value || '',
+        language: document.getElementById('gameLanguage')?.value || 'es',
+        visible_to_presenter: document.getElementById('gameVisibleToPresenter')?.checked ?? true,
+        use_streaks: document.getElementById('gameUseStreaks')?.checked ?? false,
+        streak_threshold: parseFloat(document.getElementById('gameStreakThreshold')?.value ?? 3),
+        streak_bonus_percentage: parseFloat(document.getElementById('gameStreakBonusPercentage')?.value ?? 0.5),
+        use_double_streaks: document.getElementById('gameUseDoubleStreaks')?.checked ?? false,
+        double_streak_threshold: parseFloat(document.getElementById('gameDoubleStreakThreshold')?.value ?? 5),
+        double_streak_bonus_percentage: parseFloat(document.getElementById('gameDoubleStreakBonusPercentage')?.value ?? 1.0),
+        pool_question_count: document.getElementById('gamePoolQuestionCount')?.value || '',
+        image_url: document.getElementById('gameImageUrl')?.value || '',
+        ...snapshotRandomPoints('game'),
+        banks: currentBanks
+    }));
+
+    dibujarBancosJuego();
+}
+
+// ===== DIBUJAR BANCOS DEL JUEGO =====
+
+async function dibujarBancosJuego() {
+    // Obtener todos los bancos con conteo de preguntas desde el caché
+    const allBanks = await getAllBanksWithCounts();
+
+    const contenedor = document.getElementById('listaBancosJuego');
+    if (!contenedor) return;
+
+    // Crear un mapa para acceso rápido a los conteos
+    const banksMap = {};
+    for (const bank of allBanks) {
+        banksMap[bank.id] = bank.question_count || 0;
+    }
+
+    contenedor.innerHTML = currentBanks.map((gb, idx) => {
+        const bankInfo = allBanks.find(b => b.id === gb.bank_id);
+        if (!bankInfo) return '';
+
+        const totalQuestions = banksMap[gb.bank_id] || 1;
+
+        return `
+                <div class="bg-slate-50 p-4 rounded-xl border-2 border-slate-200">
+                    <div class="flex items-center gap-4">
+                        <div class="flex-1">
+                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">${_t('admin.games.bank_label', null, 'Banco')}</label>
+                            <select data-admin-change="cambiarBanco(${idx}, parseInt(this.value))" class="w-full p-2 border-2 border-slate-100 rounded-lg text-sm font-medium">
+                                ${allBanks.map(b => `<option value="${b.id}" ${b.id === gb.bank_id ? 'selected' : ''}>${escapeHtml(b.name)}</option>`).join('')}
+                            </select>
+                        </div>
+                        ${renderPoolCheckboxHtml(gb, idx, totalQuestions)}
+                        <button data-admin-click="eliminarBancoDelJuego(${idx})" class="text-red-500 hover:text-red-700 mt-5">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-2">
+                        <i class="fas fa-info-circle mr-1"></i>${_t('admin.games.bank_questions_info', { n: totalQuestions }, 'Este banco tiene {n} preguntas disponibles').replace('{n}', totalQuestions)}
+                    </p>
+                </div>
+            `;
+    }).join('');
+
+    dibujarSeccionPool();
+}
+
+// ===== FUNCIONES DE GESTIÓN DE BANCOS EN JUEGO =====
+
+async function cambiarBanco(idx, newBankId) {
+    // Obtener info del banco desde el caché
+    const bankInfo = await getBankFromCache(newBankId);
+    if (!bankInfo) {
+        mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), 'No se pudo cargar la información del banco', 'error');
+        return;
+    }
+
+    const totalQuestions = bankInfo.question_count || 0;
+
+    currentBanks[idx].bank_id = newBankId;
+    currentBanks[idx].total_questions = totalQuestions;
+    if (!bancoEsPool(currentBanks[idx])) {
+        currentBanks[idx].question_count = Math.min(currentBanks[idx].question_count, totalQuestions);
+    }
+
+    dibujarBancosJuego();
+}
+
+async function añadirBancoAlJuego() {
+    // Obtener bancos desde el caché
+    const allBanks = await getAllBanksWithCounts();
+
+    if (allBanks.length === 0) {
+        mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), 'No hay bancos disponibles. Crea uno primero.', 'warning');
+        return;
+    }
+
+    // Obtener el primer banco
+    const primerBanco = allBanks[0];
+    const totalQuestions = primerBanco.question_count || 1;
+
+    // Agregar el primer banco como predeterminado
+    currentBanks.push({
+        bank_id: primerBanco.id,
+        question_count: 1,
+        total_questions: totalQuestions
+    });
+    dibujarBancosJuego();
+}
+
+function eliminarBancoDelJuego(idx) {
+    currentBanks.splice(idx, 1);
+    dibujarBancosJuego();
+}
+
+// ===== GUARDAR JUEGO =====
+
+function toggleStreakConfig() {
+    const enabled = document.getElementById('gameUseStreaks')?.checked;
+    const panel = document.getElementById('streakConfigPanel');
+    if (panel) panel.classList.toggle('hidden', !enabled);
+}
+
+function toggleDoubleStreakConfig() {
+    const enabled = document.getElementById('gameUseDoubleStreaks')?.checked;
+    const panel = document.getElementById('doubleStreakConfigPanel');
+    if (panel) panel.classList.toggle('hidden', !enabled);
+}
+
+// ===== GUARDAR JUEGO =====
+
+async function guardarJuego(salir = true) {
+    const form = _readGameForm();
+    const randomPoints = readRandomPointsConfig('game');
+
+    const validationError = _gameValidationError(form, randomPoints);
+    if (validationError) {
+        return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), validationError, 'warning');
+    }
+    if (form.id && !canModifyOwnedResource(form.ownerUserId)) {
+        showOwnershipDeniedModal('este juego');
+        return;
+    }
+
+    const bankIds = currentBanks.map(b => b.bank_id);
+    const uniqueBankIds = new Set(bankIds);
+    if (uniqueBankIds.size !== bankIds.length) {
+        return mostrarModalError(_t('admin.common.warning_title', null, '⚠️ Advertencia'), _t('admin.games.error_duplicate_banks', null, 'Tienes bancos repetidos. Los bancos de preguntas deben de ser únicos'), 'warning');
+    }
+
+    const poolQuestionCount = obtenerPoolQuestionCount();
+    const poolError = validarConfigPool(currentBanks, poolQuestionCount);
+    if (poolError) {
+        return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), poolError, 'warning');
+    }
+
+    const payload = {
+        name: form.name,
+        pin: form.pin || Math.floor(100000 + Math.random() * 900000).toString(),
+        language: form.language,
+        visible_to_presenter: form.visibleToPresenter,
+        ..._readGameStreaks(),
+        pool_question_count: poolQuestionCount,
+        image_url: form.imageUrl,
+        ...randomPoints,
+        banks: currentBanks.map(b => ({
+            bank_id: b.bank_id,
+            question_count: bancoEsPool(b) ? null : b.question_count
+        }))
+    };
+
+    try {
+        const url = form.id ? `/api/games/${form.id}` : '/api/games';
+        const method = form.id ? 'PUT' : 'POST';
+
+        const res = await fetchWithAuth(url, {
+            method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+            await _afterGameSaved(salir, form.id, await res.json());
+        } else {
+            const err = await res.json();
+            mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), err.message || err.error || 'Error desconocido', 'error');
+        }
+    } catch (error) {
+        mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.common.error_server', null, 'Error de conexión con el servidor'), 'error');
+    }
+}
+
+function _readGameForm() {
+    return {
+        id: document.getElementById('gameEditId').value,
+        ownerUserId: document.getElementById('gameOwnerUserId')?.value || null,
+        name: document.getElementById('gameName').value,
+        pin: document.getElementById('gamePin').value,
+        language: document.getElementById('gameLanguage')?.value || 'es',
+        visibleToPresenter: document.getElementById('gameVisibleToPresenter').checked,
+        imageUrl: document.getElementById('gameImageUrl')?.value || null
+    };
+}
+
+function _readGameStreaks() {
+    return {
+        use_streaks: document.getElementById('gameUseStreaks').checked,
+        streak_threshold: parseFloat(document.getElementById('gameStreakThreshold').value) || 3,
+        streak_bonus_percentage: parseFloat(document.getElementById('gameStreakBonusPercentage').value) ?? 0.5,
+        use_double_streaks: document.getElementById('gameUseDoubleStreaks').checked,
+        double_streak_threshold: parseFloat(document.getElementById('gameDoubleStreakThreshold').value) || 5,
+        double_streak_bonus_percentage: parseFloat(document.getElementById('gameDoubleStreakBonusPercentage').value) ?? 1.0
+    };
+}
+
+/** Mensaje de validación del juego, o null si se puede guardar. */
+function _gameValidationError(form, randomPoints) {
+    const randomPointsCheck = validateRandomPointsConfig(randomPoints);
+    if (!randomPointsCheck.valid) return randomPointsCheck.message;
+    if (!form.name) return _t('admin.games.error_name', null, 'Por favor, ponle un nombre al juego');
+    if (currentBanks.length === 0) return _t('admin.games.error_banks', null, 'Añade al menos un banco de preguntas');
+    return null;
+}
+
+async function _afterGameSaved(salir, id, data) {
+    markUnsavedChangesAsSaved();
+    mostrarModalError(_t('admin.common.success_title', null, '✅ Éxito'), _t('admin.games.success_saved', null, '¡Juego guardado correctamente!'), 'success');
+
+    if (salir) {
+        // Volver a la vista de juegos
+        mostrarVista('juegos');
+    } else if (!id && data.id) {
+        // Juego nuevo: fijar el ID y recargar el juego completo
+        document.getElementById('gameEditId').value = data.id;
+        await cargarEditorJuego(data.id);
+    }
+    // Si ya existía, solo mantener el editor abierto
+}
+
+// ===== ELIMINAR JUEGO =====
+
+function borrarJuego(id, event, ownerUserId = null) {
+    if (event) {
+        event.stopPropagation();
+        event.preventDefault();
+    }
+    if (!canModifyOwnedResource(ownerUserId)) {
+        showOwnershipDeniedModal('este juego');
+        return;
+    }
+    mostrarModalConfirmacion(
+        _t('admin.common.confirmation_title', null, '⚠️ Confirmación'),
+        _t('admin.games.confirm_delete', null, '¿Deseas eliminar este juego para siempre?'),
+        async () => {
+            try {
+                const res = await fetchWithAuth(`/api/games/${id}`, { method: 'DELETE' });
+                if (res.ok) {
+                    renderVistaJuegos();
+                } else {
+                    const err = await res.json();
+                    mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), err.error || err.message || _t('admin.games.error_delete', null, 'No se pudo eliminar el juego'), 'error');
+                }
+            } catch {
+                mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.common.error_server', null, 'Error de conexión'), 'error');
+            }
+        },
+        null,
+        _t('admin.common.delete', null, 'Eliminar'),
+        _t('admin.common.cancel', null, 'Cancelar')
+    );
+}

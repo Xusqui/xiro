@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "player.numeric.answer_label": "Write your answer",
+    "player.numeric.hint_fallback": "The presenter does not want to give clues",
+    "player.numeric.hint_label": "Clue",
+    "player.numeric.input_placeholder": "Ex: 123456",
+    "player.numeric.only_integers": "Integers only",
+    "player.numeric.submit": "Send"
+  }
+}

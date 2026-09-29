@@ -1,0 +1,7 @@
+{
+  "keys": {
+    "presenter.lobby.presenter_error": "Error del presentador",
+    "presenter.lobby.unknown_error": "Error desconocido",
+    "presenter.lobby.create_error": "No se pudo crear el lobby"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "keys": {
+    "player.answer.correct": "GOOD!",
+    "player.answer.wrong": "YOU FAILED!",
+    "player.answer.will_it_be_right": "Is it correct?",
+    "player.answer.time_up": "TIME'S UP!",
+    "player.answer.waiting_results": "Waiting for results...",
+    "player.answer.correct_label": "Correct:",
+    "player.answer.ranking": "Ranking",
+    "player.answer.sent": "Answer Sent!",
+    "player.answer.waiting_team": "Waiting for your team...",
+    "player.answer.players_answered": "players have answered",
+    "player.answer.vote_registered": "Vote Registered!",
+    "player.answer.survey_label": "Survey",
+    "player.answer.yes": "<img src=\"/images/chamaleon/thumbs_up.svg\" class=\"w-32 h-32 mb-4 animate-bounce drop-shadow-lg\" alt=\"👍\">",
+    "player.answer.approximate": "CLOSE!",
+    "player.answer.no": "<img src=\"/images/chamaleon/thumbs_down.svg\" class=\"w-32 h-32 mb-4 animate-bounce drop-shadow-lg\" alt=\"👎\">",
+    "player.answer.sending_order": "Sending your order...",
+    "player.answer.sending_answer": "Sending your answer...",
+    "player.answer.validating": "Checking your answer...",
+    "player.answer.correct_answer_label": "Correct answer:",
+    "player.answer.waiting_server": "Waiting for server confirmation...",
+    "player.answer.mc_missed": "NOT SELECTED",
+    "player.answer.mc_perfect": "PERFECT",
+    "player.answer.matching_pairs": "{n} of {total} pairs"
+  }
+}

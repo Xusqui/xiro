@@ -1,0 +1,18 @@
+{
+  "keys": {
+    "manual_admin.tools.conexion.title": "Konexioa eta Saioak",
+    "manual_admin.tools.conexion.desc": "Sare, CORS eta analitiken ezarpenak.",
+    "manual_admin.tools.conexion.reconnection": "Birkonexio itxaronaldia",
+    "manual_admin.tools.conexion.reconnection_desc": "Deskonektatutako jokalari baten egoera gordetzen den minutuak.",
+    "manual_admin.tools.conexion.cleanup": "Garbiketa tartea",
+    "manual_admin.tools.conexion.cleanup_desc": "Partida inaktiboak memoriatik garbitzeko maiztasuna.",
+    "manual_admin.tools.conexion.cors": "CORS jatorriak",
+    "manual_admin.tools.conexion.cors_desc": "Baimendutako HTTP jatorriak.",
+    "manual_admin.tools.conexion.ws": "WebSocket jatorriak",
+    "manual_admin.tools.conexion.ws_desc": "Denbora errealeko konexiorako baimendutako jatorriak.",
+    "manual_admin.tools.conexion.umami": "Umami Analitikak",
+    "manual_admin.tools.conexion.umami_desc": "Umami URL eta Website ID konfigurazioa.",
+    "manual_admin.tools.conexion.top_players": "Jokalariak ranking-ean",
+    "manual_admin.tools.conexion.top_players_desc": "Zenbat jokalari erakusten dituen sailkapenak partidan."
+  }
+}

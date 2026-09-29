@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.botrunner.title": "Bot Runner",
+    "manual_admin.tools.botrunner.desc": "Eina de desenvolupament per simular jugadors i provar el servidor amb càrrega real.",
+    "manual_admin.tools.botrunner.usage": "Com es fa servir",
+    "manual_admin.tools.botrunner.usage_desc": "Obre primer el lobby des del presentador. Introdueix el <strong>Session ID</strong> (format PIN-NÚMERO), tria mode (individual o equips), tipus de joc (quiz o trivial) i el nombre de bots (1-199), i prem <strong>«Llançar bots»</strong>.",
+    "manual_admin.tools.botrunner.stats": "Estadístiques i log",
+    "manual_admin.tools.botrunner.stats_desc": "Mostra en temps real els bots connectats, els fallits i les respostes enviades. Pots aturar els bots en qualsevol moment i descarregar un log JSON de l’execució."
+  }
+}

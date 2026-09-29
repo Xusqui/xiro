@@ -1,0 +1,17 @@
+{
+  "keys": {
+    "presenter.trivial.waiting_dice": "等待投骰子",
+    "presenter.trivial.rolled": "掷出{diceValue} — 点击棋盘上高亮的格子",
+    "presenter.trivial.moved": "{nickname}移动到{position}。正在准备问题...",
+    "presenter.trivial.choosing_category": "🎯 中央格 — {actorNick}正在选择类别...",
+    "presenter.trivial.roll_again": "{nick}答对了！再次掷骰...",
+    "presenter.trivial.end_confirm_title": "结束游戏？",
+    "presenter.trivial.end_confirm_msg": "确认后，游戏将结束，并显示当前排名的领奖台。",
+    "presenter.trivial.end_confirm_yes": "是，结束游戏",
+    "presenter.trivial.cancel": "取消",
+    "presenter.trivial.turn_label": "🎲 轮到: {turn}"
+  },
+  "literals": {
+    "Bancos": "题库"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "keys": {
+    "player.connection.other_device": "Beste gailu batetik konektatuta",
+    "player.connection.disconnected": "Deskonektatuta",
+    "player.connection.disconnected_prefix": "Deskonektatu zaituzte:",
+    "player.connection.player_tag": "JOKALARIA",
+    "player.connection.retry": "Berriro saiatu"
+  }
+}

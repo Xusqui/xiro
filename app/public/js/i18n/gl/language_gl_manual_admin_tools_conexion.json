@@ -1,0 +1,18 @@
+{
+  "keys": {
+    "manual_admin.tools.conexion.title": "Conexión e Sesións",
+    "manual_admin.tools.conexion.desc": "Axustes de rede, CORS e analíticas.",
+    "manual_admin.tools.conexion.reconnection": "Tempo de espera ao reconectar",
+    "manual_admin.tools.conexion.reconnection_desc": "Minutos que o servidor garda o estado dun xogador desconectado.",
+    "manual_admin.tools.conexion.cleanup": "Intervalo de limpeza",
+    "manual_admin.tools.conexion.cleanup_desc": "Frecuencia de limpeza de partidas inactivas da memoria.",
+    "manual_admin.tools.conexion.cors": "Orixes CORS",
+    "manual_admin.tools.conexion.cors_desc": "Orixes HTTP permitidas.",
+    "manual_admin.tools.conexion.ws": "Orixes WebSocket",
+    "manual_admin.tools.conexion.ws_desc": "Orixes permitidas para a conexión en tempo real.",
+    "manual_admin.tools.conexion.umami": "Analíticas Umami",
+    "manual_admin.tools.conexion.umami_desc": "Configuración da URL e Website ID de Umami.",
+    "manual_admin.tools.conexion.top_players": "Xogadores no ranking",
+    "manual_admin.tools.conexion.top_players_desc": "Cantos xogadores mostra o ranking durante a partida."
+  }
+}

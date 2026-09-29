@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "player.trivial.launch_dice": "! Bota🎯",
+    "player.trivial.correct_prefix": "Egindako,",
+    "player.trivial.turn_change": "Txanda aldaketa!",
+    "player.trivial.team_scores": "asmatzen du!",
+    "player.trivial.category_chosen": "Kategoria aukeratuta. Galdera prestatzen...",
+    "player.trivial.team_prefix": "Taldea",
+    "player.trivial.choosing_category": "kategoria aukeratzen ari da...",
+    "player.trivial.game_over": "Partida amaitu da.",
+    "player.trivial.moving_preparing": "Mugitzen... Galdera prestatzen.",
+    "player.trivial.moved_waiting": "mugitu da. Galderaren zain...",
+    "player.trivial.turn_label": "Txanda:",
+    "player.trivial.roll_again": "Berriz bota…"
+  }
+}

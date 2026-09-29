@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "player.trivial.your_turn": "Dein Zug!",
+    "player.trivial.cell_label": "Feld",
+    "player.trivial.center_label": "Mitte",
+    "player.trivial.waiting_for": "Warte auf",
+    "player.trivial.waiting_active": "Warte auf aktiven Spieler",
+    "player.trivial.moving_piece": "Spielstein bewegt…",
+    "player.trivial.radio_label": "Radius",
+    "player.trivial.selecting_cell": "Feld auswählen…",
+    "player.trivial.tap_dice": "Tippe den Würfel zum Würfeln",
+    "player.trivial.turn_of": "Zug von"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "keys": {
+    "player.media.image_label": "Imatge",
+    "player.wordscramble.word_length_pre": "PARAULA DE",
+    "player.wordscramble.word_length_post": "LLETRES",
+    "player.wordscramble.reset": "Esborrar",
+    "player.wordscramble.submit": "Enviar"
+  }
+}

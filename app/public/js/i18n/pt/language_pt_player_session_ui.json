@@ -1,0 +1,24 @@
+{
+  "keys": {
+    "player.session_ui.session_not_found": "Sessão Não Encontrada",
+    "player.session_ui.session_not_found_msg": "O código que inseriste não corresponde a nenhuma sessão ativa.",
+    "player.session_ui.verify_qr_msg": "Por favor, verifica se o apresentador iniciou o jogo e digitaliza o código QR que está a mostrar.",
+    "player.session_ui.qr_auto_load": "Assim que digitalizares o QR correto, a página carregará automaticamente.",
+    "player.session_ui.retry": "TENTAR DE NOVO",
+    "player.session_ui.reconnecting_title": "TUDO PRONTO, {nickname}!",
+    "player.session_ui.reconnecting_status": "RECONNECTANDO AO TEU JOGO...",
+    "player.session_ui.reconnecting_subtext": "Aguardando que o apresentador avance para a próxima pergunta",
+    "player.session_ui.connecting": "CONECTANDO...",
+    "player.session_ui.connecting_wait": "Aguarda um momento",
+    "player.session_ui.reconnected": "RECONNECTADO!",
+    "player.session_ui.team_label": "EQUIPA: {teamName}",
+    "player.session_ui.waiting_game_start": "AGUARDANDO O INÍCIO DO JOGO...",
+    "player.session_ui.game_will_start": "O JOGO COMEÇARÁ QUANDO O APRESENTADOR INICIAR",
+    "player.session_ui.exit_game": "SAIR DO JOGO",
+    "player.session_ui.get_ready": "PREPARA-TE, {nickname}!",
+    "player.session_ui.your_name": "O teu nome?",
+    "player.session_ui.connecting_server": "A ligar ao servidor...",
+    "player.session_ui.connecting_wait_moment": "Por favor, aguarda um momento",
+    "player.session_ui.retry_btn": "TENTAR NOVAMENTE"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "manual_admin.tools.partidas.title": "Partides",
+    "manual_admin.tools.partidas.desc": "Configuració global de les partides i sales.",
+    "manual_admin.tools.partidas.max_players": "Màxim de jugadors per partida",
+    "manual_admin.tools.partidas.max_players_desc": "Nombre màxim de jugadors. Els nous intents rebran \"sala plena\".",
+    "manual_admin.tools.partidas.max_lobbies": "Màxim de lobbies simultanis",
+    "manual_admin.tools.partidas.max_lobbies_desc": "Partides actives alhora. En arribar al límit no es poden crear noves sales.",
+    "manual_admin.tools.partidas.inactive_game": "Llindar de partida inactiva",
+    "manual_admin.tools.partidas.inactive_game_desc": "Hores sense activitat perquè una partida es consideri abandonada i s'esborri.",
+    "manual_admin.tools.partidas.empty_lobby": "Timeout de lobby buit",
+    "manual_admin.tools.partidas.empty_lobby_desc": "Minuts fins que un lobby sense jugadors es destrueix automàticament."
+  }
+}

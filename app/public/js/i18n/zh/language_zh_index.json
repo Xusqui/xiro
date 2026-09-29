@@ -1,0 +1,25 @@
+{
+  "keys": {
+    "index.heading": "欢迎来到西罗！",
+    "index.subtitle": "选择您的访问模式",
+    "index.player.title": "玩家",
+    "index.player.desc": "使用您的 PIN 码加入游戏",
+    "index.player.cta": "立即播放",
+    "index.player.manual": "玩家手册",
+    "index.presenter.title": "主持人",
+    "index.presenter.desc": "控制并将游戏投影到屏幕上",
+    "index.presenter.cta": "开始演示",
+    "index.presenter.manual": "演示者手册",
+    "index.tv.title": "电视版",
+    "index.tv.desc": "适用于旧电视和浏览器的精简版",
+    "index.tv.cta": "支持版本",
+    "index.standalone.title": "单人模式",
+    "index.standalone.desc": "在您的设备上无主持人播放",
+    "index.standalone.cta": "单人游戏",
+    "index.admin.title": "行政",
+    "index.admin.desc": "管理问题和设置",
+    "index.admin.cta": "访问面板",
+    "index.admin.manual": "管理员手册",
+    "index.title": "西罗！ - 开始"
+  }
+}

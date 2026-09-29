@@ -1,0 +1,18 @@
+{
+  "keys": {
+    "manual_admin.tools.licencia.title": "License",
+    "manual_admin.tools.licencia.desc": "Status and configuration of the Xiro! license.",
+    "manual_admin.tools.licencia.info": "Active license",
+    "manual_admin.tools.licencia.info_desc": "Save and validate the license to keep the service active.",
+    "manual_admin.tools.licencia.states": "Validation states",
+    "manual_admin.tools.licencia.states_desc": "<strong>Valid</strong>: the service is active. <strong>Invalid format</strong>: check that the key is typed correctly. <strong>Not valid</strong>: the license server rejected it.",
+    "manual_admin.tools.licencia.single": "Single installation",
+    "manual_admin.tools.licencia.single_desc": "Each license can only be active on one machine at a time. If you see \"License in use on another machine\", write to <strong>info@xiro.pro</strong> to release it.",
+    "manual_admin.tools.licencia.buy": "Buy license",
+    "manual_admin.tools.licencia.buy_desc": "If no license is saved, the \"Buy license\" button opens the purchase page.",
+    "manual_admin.tools.licencia.exempt": "Editor games",
+    "manual_admin.tools.licencia.exempt_desc": "Lets you <strong>release</strong> or <strong>restrict</strong> content created by editors. Released content behaves as if it belonged to the administrator: with a site license it plays without limits.",
+    "manual_admin.tools.licencia.publicurl": "Public server URL",
+    "manual_admin.tools.licencia.publicurl_desc": "Used in email links (verification, registration) and in the PayPal return. Leave it empty for automatic detection by domain."
+  }
+}

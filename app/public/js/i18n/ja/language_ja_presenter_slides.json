@@ -1,0 +1,15 @@
+{
+  "keys": {
+    "presenter.slides.to_teams": "チームへ",
+    "presenter.slides.per_team": "チームごと",
+    "presenter.slides.next": "次へ",
+    "presenter.slides.next_round": "次のラウンド",
+    "presenter.slides.view_ranking": "ランキングを見る",
+    "presenter.slides.assign_manually": "進行者がポイントを手動で割り当てられます",
+    "presenter.slides.assign_points": "ポイントを割り当て",
+    "presenter.slides.info_no_points": "情報 - ポイントなし",
+    "presenter.slides.points_per_player": "ポイントは各プレイヤーに加算されます",
+    "presenter.slides.player_singular": "プレイヤー",
+    "presenter.slides.player_plural": "プレイヤー"
+  }
+}

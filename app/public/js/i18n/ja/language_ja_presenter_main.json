@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "presenter.loading.title": "読み込み中...",
+    "presenter.loading.desc": "プレゼンターパネルの準備",
+    "presenter.sidebar.connected": "接続済み",
+    "presenter.lobby.waiting": "プレイヤーを待っています...",
+    "presenter.lobby.pin": "アクセスPIN",
+    "presenter.lobby.start": "始める！",
+    "presenter.lobby.players": "選手:",
+    "presenter.game.terminate": "仕上げる",
+    "presenter.game.terminate.title": "ゲームを終了し、現在のランキングで表彰台に上がります",
+    "presenter.game.abandon": "ゲームを離れる",
+    "presenter.game.abandon.title": "セッションを離れる",
+    "presenter.fullscreen.title": "全画面表示"
+  }
+}

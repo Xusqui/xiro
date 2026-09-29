@@ -1,0 +1,33 @@
+{
+    "keys": {
+        "admin.history.title": "Historial do xogo",
+        "admin.history.subtitle": "Descarga os resultados de calquera xogo xogado",
+        "admin.history.btn_viewer": "Visor gráfico",
+        "admin.history.btn_delete_all": "Eliminar todo",
+        "admin.history.loading": "Cargando historial...",
+        "admin.history.error_download": "Produciuse un erro ao descargar",
+        "admin.historial.btn_delete_selected": "Eliminar seleccionados",
+        "admin.historial.confirm_delete_selected_title": "🗑️ Eliminar {n} sesión(s)",
+        "admin.historial.confirm_delete_selected_msg": "Seguro que queres eliminar as {n} sesións seleccionadas? Esta acción non se pode desfacer.",
+        "admin.historial.confirm_delete_one_title": "🗑️ Eliminar sesión",
+        "admin.historial.confirm_delete_one_msg": "Seguro que queres eliminar esta sesión? Esta acción non se pode desfacer.",
+        "admin.historial.confirm_delete_all_title": "⚠️ Eliminar todo o historial",
+        "admin.historial.confirm_delete_all_msg": "Seguro que queres eliminar TODAS as sesións gardadas? Esta acción non se pode desfacer.",
+        "admin.history.error_load": "Erro ao cargar o historial",
+        "admin.history.empty_title": "Non hai partidas rexistradas aínda",
+        "admin.history.empty_subtitle": "As partidas gárdanse automaticamente ao rematar",
+        "admin.history.status_completed": "✓ Completada",
+        "admin.history.status_finalized": "✓ Finalizada",
+        "admin.history.status_abandoned": "✗ Abandonada",
+        "admin.history.status_autosaved": "⏳ Auto-gardada",
+        "admin.history.col_date": "Data",
+        "admin.history.col_type": "Tipo",
+        "admin.history.col_players": "Xogadores",
+        "admin.history.col_questions": "Preguntas",
+        "admin.history.col_duration": "Duración",
+        "admin.history.col_status": "Estado",
+        "admin.history.col_actions": "Accións",
+        "admin.history.footer": "{n} partida{s} rexistrada{s}",
+        "admin.history.batch_label": "{n} partida(s) seleccionada(s)"
+    }
+}

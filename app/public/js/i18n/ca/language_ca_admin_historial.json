@@ -1,0 +1,33 @@
+{
+    "keys": {
+        "admin.history.title": "Historial de partides",
+        "admin.history.subtitle": "Descarrega els resultats de qualsevol partida jugada",
+        "admin.history.btn_viewer": "Visor gràfic",
+        "admin.history.btn_delete_all": "Esborrar-ho tot",
+        "admin.history.loading": "Carregant historial…",
+        "admin.history.error_download": "Error en descarregar",
+        "admin.historial.btn_delete_selected": "Eliminar seleccionats",
+        "admin.historial.confirm_delete_selected_title": "🗑️ Eliminar {n} sessió(ns)",
+        "admin.historial.confirm_delete_selected_msg": "Esteu segur que voleu eliminar les {n} sessions seleccionades? Aquesta acció no es pot desfer.",
+        "admin.historial.confirm_delete_one_title": "🗑️ Eliminar sessió",
+        "admin.historial.confirm_delete_one_msg": "Esteu segur que voleu eliminar aquesta sessió? Aquesta acció no es pot desfer.",
+        "admin.historial.confirm_delete_all_title": "⚠️ Eliminar tot l'historial",
+        "admin.historial.confirm_delete_all_msg": "Esteu segur que voleu eliminar TOTES les sessions desades? Aquesta acció no es pot desfer.",
+        "admin.history.error_load": "Error en carregar l'historial",
+        "admin.history.empty_title": "Encara no hi ha partides registrades",
+        "admin.history.empty_subtitle": "Les partides es desen automàticament en finalitzar",
+        "admin.history.status_completed": "✓ Completada",
+        "admin.history.status_finalized": "✓ Finalitzada",
+        "admin.history.status_abandoned": "✗ Abandonada",
+        "admin.history.status_autosaved": "⏳ Auto-desada",
+        "admin.history.col_date": "Data",
+        "admin.history.col_type": "Tipus",
+        "admin.history.col_players": "Jugadors",
+        "admin.history.col_questions": "Preguntes",
+        "admin.history.col_duration": "Durada",
+        "admin.history.col_status": "Estat",
+        "admin.history.col_actions": "Accions",
+        "admin.history.footer": "{n} partida{s} registrada{s}",
+        "admin.history.batch_label": "{n} partida(es) seleccionada(es)"
+    }
+}

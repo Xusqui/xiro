@@ -1,0 +1,15 @@
+{
+  "keys": {
+    "presenter.reveal.max_points": "· Points maximum:",
+    "presenter.reveal.percent_to_max": "% jusqu au max.",
+    "presenter.reveal.length_label": "Longueur:",
+    "presenter.reveal.next_round": "Tour suivant",
+    "presenter.reveal.correct_answer": "Bonne réponse",
+    "presenter.reveal.top_answers": "Meilleures réponses",
+    "presenter.reveal.why_correct": "Pourquoi est-ce correct ?",
+    "presenter.reveal.no_scores_yet": "Pas encore de scores",
+    "presenter.reveal.correct_order": "Ordre correct",
+    "presenter.reveal.correct_pairs": "Paires correctes",
+    "presenter.reveal.tolerance": "Tolérance:"
+  }
+}

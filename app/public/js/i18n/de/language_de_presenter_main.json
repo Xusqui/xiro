@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "presenter.loading.title": "Wird geladen...",
+    "presenter.loading.desc": "Vorbereitung des Moderatorenpanels",
+    "presenter.sidebar.connected": "Verbunden",
+    "presenter.lobby.waiting": "Warten auf Spieler...",
+    "presenter.lobby.pin": "ZUGRIFFS-PIN",
+    "presenter.lobby.start": "BEGINNEN!",
+    "presenter.lobby.players": "Spieler:",
+    "presenter.game.terminate": "Beenden",
+    "presenter.game.terminate.title": "Beenden Sie das Spiel und zeigen Sie das Podium mit der aktuellen Rangliste an",
+    "presenter.game.abandon": "Spiel verlassen",
+    "presenter.game.abandon.title": "Sitzung verlassen",
+    "presenter.fullscreen.title": "Vollbild"
+  }
+}

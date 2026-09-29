@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "player.trivial.launch_dice": "! 振る🎯",
+    "player.trivial.correct_prefix": "正解です、",
+    "player.trivial.turn_change": "ターン交代！",
+    "player.trivial.team_scores": "正解！",
+    "player.trivial.category_chosen": "カテゴリーが選ばれました。質問を準備中...",
+    "player.trivial.team_prefix": "チーム",
+    "player.trivial.choosing_category": "カテゴリーを選んでいます...",
+    "player.trivial.game_over": "ゲームが終了しました。",
+    "player.trivial.moving_preparing": "移動中... 質問を準備中。",
+    "player.trivial.moved_waiting": "移動しました。質問を待っています...",
+    "player.trivial.turn_label": "のターン",
+    "player.trivial.roll_again": "もう一度振る…"
+  }
+}

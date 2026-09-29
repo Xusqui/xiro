@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self' https://xiro.pro https://appsforoffice.microsoft.com https://cdnjs.cloudflare.com; script-src 'self' https://appsforoffice.microsoft.com https://cdnjs.cloudflare.com; connect-src 'self' wss://xiro.pro https://xiro.pro; style-src 'self' 'unsafe-inline';">
+    <title data-i18n="ppt_taskpane.page.title">Xiro!</title>
+    <link rel="stylesheet" href="taskpane.css?v=20260922172926">
+    <script src="/js/i18n/i18n-core.js?v=20260922172926"></script>
+    <script src="/js/i18n/i18n-dom.js?v=20260922172926"></script>
+    <script src="/js/i18n/i18n-ui.js?v=20260922172926"></script>
+</head>
+
+<body>
+    <div id="tp-root">
+        <header class="tp-header">
+            <div class="tp-header__logo">
+                <svg class="tp-logo-bolt" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 2L4.5 13.5H11.5L11 22L19.5 10.5H12.5L13 2Z" fill="currentColor" />
+                </svg>
+                <span data-i18n="ppt_taskpane.header.title" class="tp-header__title">Xiro!</span>
+            </div>
+            <div class="tp-header__actions">
+                <span data-i18n="ppt_taskpane.status.inactive" class="tp-mode-badge" id="tp-mode-badge">INACTIVO</span>
+                <button data-i18n="ppt_taskpane.actions.session_state" class="tp-mode-toggle" id="tp-mode-toggle">Estado
+                    sesión</button>
+            </div>
+        </header>
+        <div class="tp-content" id="tp-content">
+            <p data-i18n="ppt_taskpane.status.starting" class="tp-loading">Iniciando…</p>
+        </div>
+    </div>
+
+    <!-- Office.js -->
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+
+    <!-- Shared -->
+    <script src="shared/logger.js?v=20260922172926"></script>
+    <script src="shared/state.js?v=20260922172926"></script>
+    <script src="shared/api.js?v=20260922172926"></script>
+    <script src="shared/notes-parser.js?v=20260922172926"></script>
+
+    <!-- Modules -->
+    <script src="modules/session.js?v=20260922172926"></script>
+    <script src="modules/slide-inserter.js?v=20260922172926"></script>
+    <script src="modules/slide-watcher.js?v=20260922172926"></script>
+
+    <!-- Present mode -->
+    <script src="taskpane-present/session-keeper.js?v=20260922172926"></script>
+    <script src="taskpane-present/status-bar.js?v=20260922172926"></script>
+
+    <!-- Edit mode -->
+    <script src="taskpane-edit/notes-writer.js?v=20260922172926"></script>
+    <script src="taskpane-edit/lobby-editor.js?v=20260922172926"></script>
+    <script src="taskpane-edit/question-editor.js?v=20260922172926"></script>
+    <script src="taskpane-edit/slide-type-selector.js?v=20260922172926"></script>
+    <script src="taskpane-edit/edit-panel.js?v=20260922172926"></script>
+
+    <!-- Bootstrap (last) -->
+    <script src="taskpane.js?v=20260922172926"></script>
+    <script src="/js/core/site-badge.js?v=20260922172926"></script>
+</body>
+
+</html>

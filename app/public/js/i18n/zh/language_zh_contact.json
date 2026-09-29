@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "contact.title": "联系方式✉️",
+    "contact.subtitle": "您有任何问题或建议吗？写信给我们。",
+    "contact.success.title": "消息已发送！",
+    "contact.success.message": "我们会尽快回复您",
+    "contact.form.name": "姓名",
+    "contact.form.email": "您的电子邮件",
+    "contact.form.message": "信息",
+    "contact.form.verification": "确认 -",
+    "contact.form.name.placeholder": "你的名字",
+    "contact.form.message.placeholder": "我们能为您提供什么帮助？",
+    "contact.form.captcha.placeholder": "回答",
+    "contact.form.submit": "发送消息"
+  }
+}

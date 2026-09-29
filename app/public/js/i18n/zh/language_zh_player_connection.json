@@ -1,0 +1,9 @@
+{
+  "keys": {
+    "player.connection.other_device": "从另一个设备连接",
+    "player.connection.disconnected": "已断开",
+    "player.connection.disconnected_prefix": "您已断开连接：",
+    "player.connection.player_tag": "玩家",
+    "player.connection.retry": "重试"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "player.trivial.waiting_turn": "Aguardando sua vez no tabuleiro...",
+    "player.trivial.choosing_cell": "está escolhendo uma casa...",
+    "player.trivial.other_rolling": "outro jogador está jogando",
+    "player.trivial.already_answered": "Você já respondeu esta pergunta"
+  }
+}

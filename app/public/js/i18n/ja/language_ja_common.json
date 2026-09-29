@@ -1,0 +1,13 @@
+{
+  "keys": {
+    "common.footer.copyright": "© 2026 XIRO!. インタラクティブクイズシステム。",
+    "common.footer.author": "著作権: フェルナンデス ビジャトロ ファミリー",
+    "common.footer.contact": "接触",
+    "common.back_home": "トップに戻る",
+    "common.error_title": "エラー",
+    "common.btn_retry": "再試行",
+    "common.footer.copyright_holder": "Copyright: フェルナンデス・ビジャトロ家",
+    "common.skip_link": "コンテンツへスキップ",
+    "common.label_language": "問題の言語"
+  }
+}

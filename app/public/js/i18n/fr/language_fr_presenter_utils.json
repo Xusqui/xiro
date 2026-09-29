@@ -1,0 +1,6 @@
+{
+  "keys": {
+    "presenter.session.abandon": "Quitter la session",
+    "presenter.fullscreen.error": "Erreur dactivation du plein écran:"
+  }
+}

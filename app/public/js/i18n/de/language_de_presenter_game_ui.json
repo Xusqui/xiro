@@ -1,0 +1,21 @@
+{
+  "keys": {
+    "presenter.game.play_audio": "▶ Tippe um Audio abzuspielen",
+    "presenter.game.pause_resume": "Klicken zum Pausieren/Fortsetzen",
+    "presenter.game.question_label": "Frage",
+    "presenter.game.next_question": "Nächste Frage",
+    "presenter.game.next_round": "Nächste Runde",
+    "presenter.game.view_ranking": "Rangliste anzeigen",
+    "presenter.game.reveal_answer": "Antwort aufdecken",
+    "presenter.game.answers_label": "ANTWORTEN:",
+    "presenter.game.audio_playing": "AUDIO WIRD ABGESPIELT",
+    "presenter.game.listen_carefully": "Hör genau zu",
+    "presenter.game.no_audio_support": "Ihr Browser unterstützt kein Audio.",
+    "presenter.game.numeric_question": "NUMERISCHE FRAGE",
+    "presenter.game.players_write_number": "Spieler geben eine ganze Zahl ein",
+    "presenter.game.answer_on_reveal": "Die richtige Antwort wird beim Aufdecken angezeigt",
+    "presenter.game.points_by_proximity": "Punkte werden nach Nähe berechnet",
+    "presenter.game.players_see_devices": "Spieler sehen die Optionen auf ihren Geräten",
+    "presenter.game.multiple_choice_label": "✓ Mehrfachauswahl"
+  }
+}

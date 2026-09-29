@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "presenter.remote.continue": "Continuar",
+    "presenter.remote.start": "Comezar",
+    "presenter.remote.next": "Seguinte",
+    "presenter.remote.connected": "Conectado",
+    "presenter.remote.disconnected": "Desconectado",
+    "presenter.remote.in_lobby": "No lobby",
+    "presenter.remote.question_label": "Pregunta",
+    "presenter.remote.tap_pause_resume": "Toca para pausar/reanudar"
+  }
+}

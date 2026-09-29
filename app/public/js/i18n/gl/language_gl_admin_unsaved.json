@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "admin.unsaved.title": "⚠️ Cambios non gardados",
+    "admin.unsaved.msg_exit": "Tes cambios non gardados. Se saes agora, perderanse. Queres continuar?",
+    "admin.unsaved.msg_navigate": "Tes cambios non gardados. Se continúas, perderanse. Queres continuar?",
+    "admin.unsaved.btn_exit": "Saír sen gardar",
+    "admin.unsaved.btn_keep": "Continuar editando",
+    "admin.unsaved.btn_continue": "Continuar sen gardar"
+  }
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self' https://xiro.pro https://appsforoffice.microsoft.com https://cdnjs.cloudflare.com; script-src 'self' https://appsforoffice.microsoft.com https://cdnjs.cloudflare.com; connect-src 'self' wss://xiro.pro https://xiro.pro; style-src 'self' 'unsafe-inline';">
+    <title>Xiro!</title>
+    <link rel="stylesheet" href="dialog.css?v=20260922172926">
+    <script src="/js/i18n/i18n-core.js?v=20260922172926"></script>
+    <script src="/js/i18n/i18n-dom.js?v=20260922172926"></script>
+    <script src="/js/i18n/i18n-ui.js?v=20260922172926"></script>
+</head>
+
+<body>
+    <div id="xiro-root"></div>
+
+    <!-- Office.js -->
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+    <!-- Socket.IO (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"
+        integrity="sha512-11t8Q+vY9JlCrr+PveZKTYJq8n7O09Y5X/pk/aMd3vJugSvu4xOunGEUzaADqL3I8cZKE/pBwwCfXzDkRJh2sQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Shared modules (globales) -->
+    <script src="../shared/state.js?v=20260922172926"></script>
+    <script src="../shared/api.js?v=20260922172926"></script>
+
+    <!-- Dialog modules -->
+    <script src="dialog-router.js?v=20260922172926"></script>
+    <script src="views/view-lobby.js?v=20260922172926"></script>
+    <script src="views/view-question.js?v=20260922172926"></script>
+    <script src="views/view-ranking.js?v=20260922172926"></script>
+    <script src="views/view-podium.js?v=20260922172926"></script>
+    <script src="dialog.js?v=20260922172926"></script>
+    <script src="/js/core/site-badge.js?v=20260922172926"></script>
+</body>
+
+</html>

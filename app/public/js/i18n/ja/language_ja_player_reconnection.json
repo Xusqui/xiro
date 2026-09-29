@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "player.reconnection.waiting_next": "次の質問を待っています...",
+    "player.reconnection.failed": "再接続できませんでした。",
+    "player.reconnection.restoring": "ボードを復元中...",
+    "player.reconnection.already_answered": "すでに回答しました",
+    "player.reconnection.already_answered_title": "すでに回答しました",
+    "player.reconnection.question_progress": "質問 {current}/{total}"
+  }
+}

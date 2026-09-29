@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "manual_admin.tools.interfaz.title": "インターフェース",
+    "manual_admin.tools.interfaz.desc": "ユーザーインターフェースの設定。",
+    "manual_admin.tools.interfaz.tv": "TVカード",
+    "manual_admin.tools.interfaz.tv_desc": "ホーム画面にTVバージョンのカードとリンクをいつ表示するかを制御します：<strong>表示しない</strong>、<strong>常に表示</strong>、<strong>古いデバイスのみ</strong>（古いブラウザを検出し、自動的に軽量版を提供します）。",
+    "manual_admin.tools.interfaz.standalone": "「ソロモード」カード",
+    "manual_admin.tools.interfaz.standalone_desc": "ホーム画面のソロモード（standalone.html）へのカードとリンクを表示または非表示にします。",
+    "manual_admin.tools.interfaz.animar_fondo": "アニメーション背景",
+    "manual_admin.tools.interfaz.animar_fondo_desc": "すべての画面で背景のグラデーションと葉のアニメーションのオン/オフを切り替えます。無効にすると背景は静止した状態になります。",
+    "manual_admin.tools.interfaz.personalization": "インターフェースをカスタマイズ",
+    "manual_admin.tools.interfaz.personalization_desc": "ゲームのすべての画面にイベントのブランドバッジ（例：スポンサーのロゴ）を表示します。このパネルから直接ロゴのアップロード、選択、削除ができます。"
+  }
+}

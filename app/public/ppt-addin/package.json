@@ -1,0 +1,20 @@
+{
+  "name": "xiro-addin",
+  "version": "2.0.0",
+  "description": "Office Add-in para PowerPoint — Xiro! Presenter",
+  "private": true,
+  "scripts": {
+    "start": "office-addin-debugging start manifest.xml",
+    "stop": "office-addin-debugging stop manifest.xml",
+    "validate": "office-addin-manifest validate manifest.xml",
+    "certs": "office-addin-dev-certs install"
+  },
+  "devDependencies": {
+    "office-addin-debugging": "^1.0.0",
+    "office-addin-dev-certs": "^1.0.0",
+    "office-addin-manifest": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

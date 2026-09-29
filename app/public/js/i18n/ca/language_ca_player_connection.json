@@ -1,0 +1,9 @@
+{
+  "keys": {
+    "player.connection.other_device": "Connectat des dun altre dispositiu",
+    "player.connection.disconnected": "Desconnectat",
+    "player.connection.disconnected_prefix": "Has estat desconnectat:",
+    "player.connection.player_tag": "JUGADOR",
+    "player.connection.retry": "Tornar a intentar"
+  }
+}

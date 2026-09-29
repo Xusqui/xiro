@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "player.game_flow.exit_title": "Beende das Spiel",
+    "player.game_flow.exit_msg": "Sind Sie sicher, dass Sie das Spiel beenden möchten? Ihr Benutzername wird freigegeben.",
+    "player.game_flow.btn_exit": "Hinausgehen",
+    "player.game_flow.session_ended": "Sitzung beendet",
+    "player.game_flow.presenter_left": "Der Moderator hat die Sitzung verlassen.",
+    "player.game_flow.btn_cancel": "Abbrechen",
+    "player.game_flow.btn_back": "Zurück"
+  },
+  "literals": {
+    "Reconectando automáticamente...": "Die Verbindung wird automatisch wiederhergestellt...",
+    "Servidor Reiniciando": "Server wird neu gestartet",
+    "No cierres esta ventana. La partida continuará automáticamente.": "Schließe dieses Fenster nicht. Das Spiel wird automatisch fortgesetzt."
+  }
+}

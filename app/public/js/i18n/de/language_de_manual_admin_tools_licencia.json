@@ -1,0 +1,18 @@
+{
+  "keys": {
+    "manual_admin.tools.licencia.title": "Lizenz",
+    "manual_admin.tools.licencia.desc": "Status und Konfiguration der Xiro!-Lizenz.",
+    "manual_admin.tools.licencia.info": "Aktive Lizenz",
+    "manual_admin.tools.licencia.info_desc": "Speichern und validieren Sie die Lizenz.",
+    "manual_admin.tools.licencia.states": "Validierungsstatus",
+    "manual_admin.tools.licencia.states_desc": "<strong>Gültig</strong>: Der Dienst ist aktiv. <strong>Ungültiges Format</strong>: Prüfen Sie, ob der Schlüssel richtig geschrieben ist. <strong>Ungültig</strong>: Der Lizenzserver hat sie abgelehnt.",
+    "manual_admin.tools.licencia.single": "Nur eine Installation",
+    "manual_admin.tools.licencia.single_desc": "Jede Lizenz kann nur auf einem Gerät gleichzeitig aktiv sein. Erscheint „Lizenz wird auf einem anderen Gerät verwendet\", schreiben Sie an <strong>info@xiro.pro</strong>, um sie freizugeben.",
+    "manual_admin.tools.licencia.buy": "Lizenz kaufen",
+    "manual_admin.tools.licencia.buy_desc": "Wenn keine Lizenz gespeichert ist, öffnet die Schaltfläche „Lizenz kaufen\" die Kaufseite.",
+    "manual_admin.tools.licencia.exempt": "Spiele von Editoren",
+    "manual_admin.tools.licencia.exempt_desc": "Ermöglicht es, von Editoren erstellte Inhalte <strong>freizugeben</strong> oder <strong>einzuschränken</strong>. Freigegebene Inhalte verhalten sich, als gehörten sie dem Administrator: Mit Installationslizenz sind sie ohne Limit spielbar.",
+    "manual_admin.tools.licencia.publicurl": "Öffentliche Server-URL",
+    "manual_admin.tools.licencia.publicurl_desc": "Wird in E-Mail-Links (Verifizierung, Registrierung) und in der PayPal-Rückleitung verwendet. Leer lassen für automatische Erkennung per Domain."
+  }
+}

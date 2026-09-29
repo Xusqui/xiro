@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "player.trivial.launch_dice": "! Tira🎯",
+    "player.trivial.correct_prefix": "Acertaches,",
+    "player.trivial.turn_change": "Cambio de quenda!",
+    "player.trivial.team_scores": "acerta!",
+    "player.trivial.category_chosen": "Categoría elixida. Preparando pregunta...",
+    "player.trivial.team_prefix": "O equipo",
+    "player.trivial.choosing_category": "está elixindo categoría...",
+    "player.trivial.game_over": "A partida terminou.",
+    "player.trivial.moving_preparing": "Movendo... Preparando pregunta.",
+    "player.trivial.moved_waiting": "moveuse. Esperando pregunta...",
+    "player.trivial.turn_label": "Quenda de",
+    "player.trivial.roll_again": "Volve a tirar…"
+  }
+}

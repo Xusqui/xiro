@@ -1,0 +1,13 @@
+{
+  "keys": {
+    "manual_admin.tools.puntuacion.title": "Puntuazioa",
+    "manual_admin.tools.puntuacion.desc": "Denborak, puntuak eta hobariak konfiguratzeko.",
+    "manual_admin.tools.puntuacion.base_points": "Oinarrizko puntuak",
+    "manual_admin.tools.puntuacion.base_points_desc": "Zuzen erantzuteagatik ziurtatutako puntuak.",
+    "manual_admin.tools.puntuacion.max_bonus": "Abiadura hobari maximoa",
+    "manual_admin.tools.puntuacion.max_bonus_desc": "Azkar erantzuteagatik puntu gehigarriak.",
+    "manual_admin.tools.puntuacion.random_points": "Ausazko puntuazioa",
+    "manual_admin.tools.puntuacion.random_points_desc": "Joko bakoitzak galdera bakoitzaren puntuak zozketa dezake zuk zehaztutako tarte batean. Galderaren aurretik zozketatutako balioa erakusten duen pantaila bat agertzen da, eta kronometroa ez da abiatzen pantaila hori desagertu arte.",
+    "manual_admin.tools.puntuacion.random_points_types": "Quiz eta Anagrama motako galderei bakarrik eragiten die. Inkestak, Ordenatu, Parekatu, Zenbakizkoa eta Aukera Anitza beti bezala puntuatzen dira."
+  }
+}

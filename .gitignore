@@ -1,0 +1,94 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# PostgreSQL data
+postgres_data/
+
+# Backups
+backups/
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Credentials / API keys (never commit)
+app/ai-generator/groq-key.json
+
+# Logs
+*.log
+logs/
+
+# Testing
+coverage/
+*.test.js.snap
+.jest-cache/
+
+# OS
+.DS_Store
+._*
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary
+*.tmp
+*.temp
+@eaDir/
+
+# Restricted screenshot paths
+app/scripts/autorun-tests/
+
+# Custom Excludes
+.agents/
+.claude/
+.github/
+.VSCodeCounter/
+rpi/
+secrets/
+skills-lock.json
+clientes.csv
+
+# Overrides sensibles
+app/config/runtime-overrides.json
+app/config/ui-overrides.json
+
+# Archivos sensibles al desarrollo
+docs/PROPMT_PREPARATORIO.md
+docs/DOCKERHUB_README.md
+
+# Backups de código fuente comprimidos
+*.zip
+*.zip.*
+
+# Tests
+**/__tests__/
+**/*.test.js
+**/*.spec.js
+**/jest.setup.js
+**/.nyc_output
+
+# Docker
+build-image.sh
+*.tar.gz
+
+.codex
+.impeccable
+/PRODUCT.md
+DESIGN.md
+package-lock.json
+package.json
+app/package-lock.json
+app/package.json
+app/public/clientes.html
+docker_images
+graphify-out
+app/graphify-out
+app/public/js/clientes-dashboard.js

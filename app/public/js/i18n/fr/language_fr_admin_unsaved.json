@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "admin.unsaved.title": "⚠️ Modifications non enregistrées",
+    "admin.unsaved.msg_exit": "Vous avez des modifications non enregistrées. Si vous partez maintenant, elles seront perdues. Voulez-vous continuer ?",
+    "admin.unsaved.msg_navigate": "Vous avez des modifications non enregistrées. Si vous continuez, elles seront perdues. Voulez-vous continuer ?",
+    "admin.unsaved.btn_exit": "Quitter sans enregistrer",
+    "admin.unsaved.btn_keep": "Continuer à modifier",
+    "admin.unsaved.btn_continue": "Continuer sans enregistrer"
+  }
+}

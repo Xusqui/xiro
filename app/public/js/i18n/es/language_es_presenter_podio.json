@@ -1,0 +1,11 @@
+{
+  "keys": {
+    "presenter.podio.teams_title": "Podio Equipos",
+    "presenter.podio.final_title": "Podio Final",
+    "presenter.podio.config_error": "Error al cargar configuración",
+    "presenter.podio.no": "NO",
+    "presenter.podio.pts": "PTS",
+    "presenter.podio.yes": "SÍ",
+    "presenter.podio.show_games": "Mostrar juegos"
+  }
+}

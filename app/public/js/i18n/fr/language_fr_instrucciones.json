@@ -1,0 +1,29 @@
+{
+  "keys": {
+    "instructions.page.title": "XIRÔ ! - Instructions",
+    "instructions.hero.title": "Comment jouer à XIRO !",
+    "instructions.hero.subtitle": "Découvrez notre dynamique et nos types de questions",
+    "instructions.tabs.game_modes": "Modes de jeu",
+    "instructions.tabs.question_types": "Types de questions",
+    "instructions.game_modes.bank.title": "1. Banque de questions",
+    "instructions.game_modes.bank.description": "Les questions sont extraites d'une banque spécifique et présentées aux joueurs de manière totalement aléatoire. Idéal pour revoir un sujet précis.",
+    "instructions.game_modes.mix.title": "2. Mélange de questions",
+    "instructions.game_modes.mix.description": "Il vous permet de sélectionner plusieurs banques de questions et de choisir le nombre de questions aléatoires à extraire de chacune d'elles. Les questions sélectionnées seront mélangées dans un ordre aléatoire lors de leur présentation.",
+    "instructions.game_modes.custom.title": "3. Jeux personnalisés",
+    "instructions.game_modes.custom.description": "Vous avez le contrôle. Vous choisissez les questions une à une parmi les différentes banques et configurez leur ordre exact d'apparition pour une présentation structurée.",
+    "instructions.game_modes.trivial.title": "4. Trivial",
+    "instructions.game_modes.trivial.description": "Mode plateau classique ! Un dé est lancé et le jeton avance. En fonction de la case sur laquelle vous atterrissez, une question aléatoire de la catégorie correspondant à la couleur de la case vous sera présentée.",
+    "instructions.question_types.quiz.title": "Questionnaire",
+    "instructions.question_types.quiz.description": "Question classique avec plusieurs réponses possibles, mais une seule est correcte.",
+    "instructions.question_types.survey.title": "Enquête",
+    "instructions.question_types.survey.description": "Pas de bonnes ou de mauvaises réponses. Il sert à recueillir l'opinion du public en présentant différentes options.",
+    "instructions.question_types.numeric.title": "Approximation numérique",
+    "instructions.question_types.numeric.description": "Les joueurs doivent saisir un numéro en essayant de se rapprocher le plus possible de la valeur gagnante exacte.",
+    "instructions.question_types.order.title": "Séquence de tri (ordre)",
+    "instructions.question_types.order.description": "Une liste d'éléments est présentée que le joueur doit glisser et placer dans le bon ordre logique.",
+    "instructions.question_types.word_scramble.title": "Devinez le mot (mots brouillés)",
+    "instructions.question_types.word_scramble.description": "Le défi consiste à trouver un mot caché en ordonnant les lettres désordonnées qui apparaissent à l'écran.",
+    "instructions.question_types.multiple.title": "Choix multiples",
+    "instructions.question_types.multiple.description": "Similaire au Quiz, mais dans ce cas il peut y avoir entre 1 et 6 bonnes réponses simultanément."
+  }
+}

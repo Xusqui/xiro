@@ -1,0 +1,25 @@
+{
+  "keys": {
+    "index.heading": "Willkommen bei XIRO!",
+    "index.subtitle": "Wählen Sie Ihren Zugriffsmodus",
+    "index.player.title": "Spieler",
+    "index.player.desc": "Nehmen Sie mit Ihrem PIN-Code an einem Spiel teil",
+    "index.player.cta": "Jetzt spielen",
+    "index.player.manual": "Spielerhandbuch",
+    "index.presenter.title": "Moderator",
+    "index.presenter.desc": "Steuern und projizieren Sie das Spiel auf den Bildschirm",
+    "index.presenter.cta": "Präsentation starten",
+    "index.presenter.manual": "Handbuch für Moderatoren",
+    "index.tv.title": "TV-Version",
+    "index.tv.desc": "Light-Version für ältere Fernseher und Browser",
+    "index.tv.cta": "Unterstützte Version",
+    "index.standalone.title": "Solospiel-Modus",
+    "index.standalone.desc": "Spielen Sie ohne Moderator auf Ihrem Gerät",
+    "index.standalone.cta": "Solo spielen",
+    "index.admin.title": "Verwaltung",
+    "index.admin.desc": "Verwalten Sie Fragen und Einstellungen",
+    "index.admin.cta": "Greifen Sie auf das Panel zu",
+    "index.admin.manual": "Administratorhandbuch",
+    "index.title": "XIRO! - Start"
+  }
+}

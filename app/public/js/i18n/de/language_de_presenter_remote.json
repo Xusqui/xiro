@@ -1,0 +1,15 @@
+{
+  "keys": {
+    "presenter.remote.tap_pause": "Tippen zum Pausieren",
+    "presenter.remote.tap_resume": "Tippen zum Fortsetzen",
+    "presenter.remote.end_confirm": "Möchtest du das Spiel jetzt beenden?",
+    "presenter.remote.connect_error": "Fehler beim Verbinden als Fernbedienung",
+    "presenter.remote.game_finished": "Das Spiel ist beendet",
+    "presenter.remote.no_admin_session": "Keine Admin-Sitzung gefunden.<br>Melde dich zuerst im Admin-Panel an.",
+    "presenter.remote.game_started": "Spiel gestartet",
+    "presenter.remote.final_podium": "Abschluss-Podium",
+    "presenter.remote.end_game": "Spiel beenden",
+    "presenter.remote.btn_end": "Spiel beenden",
+    "presenter.remote.cancel": "Abbrechen"
+  }
+}

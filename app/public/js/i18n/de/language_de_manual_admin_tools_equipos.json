@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.equipos.title": "Teams",
+    "manual_admin.tools.equipos.desc": "Einstellungen für Teamspiele.",
+    "manual_admin.tools.equipos.lambda": "Lambda-Glättung",
+    "manual_admin.tools.equipos.lambda_desc": "Bayesianische Glättung zum Ausgleich von Teams unterschiedlicher Größe.",
+    "manual_admin.tools.equipos.team_names": "Teamnamen",
+    "manual_admin.tools.equipos.team_names_desc": "Definieren Sie das Präfix oder Format für Teamnamen."
+  }
+}

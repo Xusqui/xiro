@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "player.trivial.launch_dice": "! Roll🎯",
+    "player.trivial.correct_prefix": "You got it,",
+    "player.trivial.turn_change": "Turn change!",
+    "player.trivial.team_scores": "scores!",
+    "player.trivial.category_chosen": "Category chosen. Preparing question...",
+    "player.trivial.team_prefix": "Team",
+    "player.trivial.choosing_category": "is choosing category...",
+    "player.trivial.game_over": "The game has ended.",
+    "player.trivial.moving_preparing": "Moving... Preparing question.",
+    "player.trivial.moved_waiting": "moved. Waiting for question...",
+    "player.trivial.turn_label": "Turn of",
+    "player.trivial.roll_again": "Roll again…"
+  }
+}

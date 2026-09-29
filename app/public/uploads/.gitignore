@@ -1,0 +1,6 @@
+# Ignorar todos los archivos subidos excepto este .gitignore
+*
+!.gitignore
+
+# Mantener la estructura del directorio pero no versionar archivos multimedia
+# Los archivos se subirán dinámicamente desde el panel de administración

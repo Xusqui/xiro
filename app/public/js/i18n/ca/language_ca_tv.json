@@ -1,0 +1,33 @@
+{
+  "keys": {
+    "tv.sidebar.connected": "CONNECTATS:",
+    "tv.game.end": "Finalitzar partida",
+    "tv.game.abort": "Avortar partida",
+    "tv.game.cancel": "Cancel·la",
+    "tv.game.end_msg": "La classificació final s'enviarà a tots els jugadors. Continues?",
+    "tv.game.abort_msg": "Tots els jugadors seran desconnectats i tornaràs al selector de PIN. Continues?",
+    "tv.game.confirm": "Confirmar",
+    "tv.lobby.title": "Selecciona un joc",
+    "tv.lobby.subtitle": "Tria el joc o banc que vols presentar",
+    "tv.lobby.filter.custom": "Personalitzats",
+    "tv.lobby.filter.games": "Jocs",
+    "tv.lobby.filter.banks": "Bancs",
+    "tv.lobby.filter.all": "Tots",
+    "tv.lobby.empty.all": "No hi ha PINs disponibles. Crea primer un joc o banc.",
+    "tv.lobby.empty.by_type": "No hi ha {type} disponibles.",
+    "tv.lobby.pin_label": "PIN D'ACCÉS",
+    "tv.lobby.btn_start": "COMENÇAR!",
+    "tv.lobby.players_label": "Jugadors: ",
+    "tv.lobby.type.custom": "Jocs personalitzats",
+    "tv.lobby.type.games": "Jocs",
+    "tv.lobby.type.banks": "Bancs de preguntes"
+  },
+  "literals": {
+    "Error al cargar PINs": "Error en carregar els PINs",
+    "Error desconocido": "Error desconegut",
+    "Reintentar": "Torna-ho a intentar",
+    "Error de Conexión": "Error de connexió",
+    "PIN No Válido o Error de servidor.": "PIN no vàlid o error de servidor.",
+    "Volver": "Torna"
+  }
+}

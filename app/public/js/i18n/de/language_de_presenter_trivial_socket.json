@@ -1,0 +1,17 @@
+{
+  "keys": {
+    "presenter.trivial.waiting_dice": "Warte auf den Würfelwurf",
+    "presenter.trivial.rolled": "{diceValue} gewürfelt — tippe ein hervorgehobenes Feld auf dem Brett",
+    "presenter.trivial.moved": "{nickname} bewegt → {position}. Frage wird vorbereitet...",
+    "presenter.trivial.choosing_category": "🎯 Mittelfeld — {actorNick} wählt eine Kategorie...",
+    "presenter.trivial.roll_again": "{nick} hat es richtig! Nochmal würfeln...",
+    "presenter.trivial.end_confirm_title": "Spiel beenden?",
+    "presenter.trivial.end_confirm_msg": "Wenn du bestätigst, endet das Spiel und das Podium wird mit dem aktuellen Spielstand angezeigt.",
+    "presenter.trivial.end_confirm_yes": "Ja, Spiel beenden",
+    "presenter.trivial.cancel": "Abbrechen",
+    "presenter.trivial.turn_label": "🎲 Zug: {turn}"
+  },
+  "literals": {
+    "Bancos": "Banken"
+  }
+}

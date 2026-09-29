@@ -1,0 +1,68 @@
+/**
+ * Xiro! shared design tokens — operator surfaces (admin, presenter-remote, health, manuals).
+ * Source of truth: DESIGN.md. Load this BEFORE any page-specific stylesheet that consumes
+ * these custom properties (plain CSS cascade, no build step required).
+ *
+ * Game-facing surfaces (index, jugador, presentador stage, tv) do NOT use this file —
+ * they stay on the system-sans/font-black voice per DESIGN.md's Two-Voice Rule.
+ */
+
+:root {
+    /* ---- Brand primitives (DESIGN.md Colors) ---- */
+    --chamaleon-purple: #9333ea;
+    --chamaleon-purple-deep: #7e22ce;
+    --chamaleon-indigo: #4338ca;
+    --chamaleon-green: #8ab817;
+    --chamaleon-green-tint: #e7f4c0;
+    --signal-amber: #f9b518;
+    --signal-amber-tint: #fff0c2;
+    --reef-cyan: #0891b2;
+    --reef-cyan-tint: #cffafe;
+    --solo-emerald: #10b981;
+    --solo-emerald-tint: #d1fae5;
+    --admin-coral: #e65453;
+    --admin-coral-tint: #ffd8d8;
+    --admin-coral-rgb: 230, 84, 83; /* for rgba(var(--admin-coral-rgb), alpha) */
+
+    /* ---- Neutrals ---- */
+    --surface-white: #ffffff;
+    --console-ink: #0f172a;
+    --console-slate: #1e293b;
+    --ink-muted: #94a3b8;
+
+    /* ---- Standalone tool shared accent (see DESIGN.md "Documented Exception —
+       Standalone Tool Palettes"). Not a role accent — do not add to the 5-role set.
+       Shared so health.css and xiro-result-viewer.css don't each hardcode the same
+       violet independently and drift apart over time. ---- */
+    --tool-violet: #7c3aed;
+
+    /* ---- Derived contrast-safe shades ----
+       Not in DESIGN.md's frontmatter; hand-verified this session against WCAG AA
+       (4.5:1 for text-bearing surfaces) where the base role color falls short.
+       Use the role color for borders/large-bold text/decoration (>=3:1 is enough);
+       use the "-deep" step wherever body-sized text sits directly on the fill. */
+    --admin-coral-deep: #d33d3c;   /* verified: safe as a gradient partner / hover-darken for admin-coral */
+    --admin-coral-darker: #7f1d1d; /* deep anchor for atmospheric gradients (e.g. login backdrop) */
+    --reef-cyan-deep: #0e7490;     /* verified 5.35:1 with white text — use wherever text sits on the fill */
+    --reef-cyan-darker: #155e75;   /* hover-darken step for reef-cyan-deep surfaces */
+    --reef-cyan-light: #a5f3fc;    /* light accent text/icons on dark surfaces */
+
+    /* ---- Typography (DESIGN.md Typography) ---- */
+    --font-display-game: ui-sans-serif, system-ui, -apple-system, sans-serif; /* weight 900, game-facing only */
+    --font-display-console: 'Syne', system-ui, sans-serif;                   /* weight 700-800, operator headers */
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', 'DM Mono', 'Menlo', monospace;
+
+    /* ---- Radius (DESIGN.md rounded scale) ---- */
+    --radius-lg: 8px;
+    --radius-xl: 12px;
+    --radius-2xl: 16px;
+    --radius-3xl: 24px;
+    --radius-full: 9999px;
+
+    /* ---- Spacing (DESIGN.md spacing scale) ---- */
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 32px;
+    --space-xl: 40px;
+}

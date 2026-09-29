@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "player.numeric.answer_label": "Escriu la teva resposta",
+    "player.numeric.hint_fallback": "El presentador no vol donar pistes",
+    "player.numeric.hint_label": "Pista",
+    "player.numeric.input_placeholder": "Ex: 123456",
+    "player.numeric.only_integers": "Només nombres enters",
+    "player.numeric.submit": "Enviar"
+  }
+}

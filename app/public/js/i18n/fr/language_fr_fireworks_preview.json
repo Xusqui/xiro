@@ -1,0 +1,7 @@
+{
+  "keys": {
+    "fireworks_preview.page.title": "Aperçu — Feux d'artifice",
+    "fireworks_preview.button.close": "Fermer",
+    "fireworks_preview.error.controller_unavailable": "Erreur : FireworksController non disponible"
+  }
+}

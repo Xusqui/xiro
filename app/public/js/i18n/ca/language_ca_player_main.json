@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "player.session.label": "ID de Sessió",
+    "player.session.hint": "L'identificador apareix a la pantalla del presentador",
+    "player.session.placeholder": "XXXXXX-XXXX",
+    "player.session.submit": "INGRESSAR",
+    "player.loading": "Buscant joc…",
+    "player.nickname.label": "El teu nom?",
+    "player.nickname.placeholder": "NOM",
+    "player.nickname.submit": "LLEST!"
+  }
+}

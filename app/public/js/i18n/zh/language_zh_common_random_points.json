@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "game.random_points.headline": "本题价值 {points} 分",
+    "game.random_points.time_bonus": "+ 速度奖励",
+    "game.random_points.streak_multiplier": "连击 x{multiplier}",
+    "game.random_points.badge": "🎲 {points} 分"
+  }
+}

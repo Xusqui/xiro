@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "player.streak.double_prefix": "DOUBLE SÉRIE x",
+    "player.streak.lost": "SÉRIE PERDUE!",
+    "player.streak.active_prefix": "SÉRIE x",
+    "player.streak.double_label": "DOUBLE",
+    "player.streak.label": "SÉRIE",
+    "player.streak.consecutive_correct": "bonnes réponses consécutives",
+    "player.streak.ended_prefix": "Ta série de",
+    "player.streak.double_bonus_suffix": "consécutives avec bonus double!"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "keys": {
+    "presenter.team.name_validation": "Team name can only contain letters, numbers, spaces and hyphens (2-30 characters).",
+    "presenter.team.label": "Team",
+    "presenter.team.name_invalid": "Invalid name",
+    "presenter.team.in_use": "(in use)",
+    "presenter.team.color.yellow": "Yellow",
+    "presenter.team.color.blue": "Blue",
+    "presenter.team.color.cyan": "Cyan",
+    "presenter.team.color.lime": "Lime",
+    "presenter.team.color.purple": "Purple",
+    "presenter.team.color.orange": "Orange",
+    "presenter.team.color.pink": "Pink",
+    "presenter.team.color.red": "Red",
+    "presenter.team.color.green": "Green",
+    "presenter.team.default.1": "The Champions",
+    "presenter.team.default.2": "The Dragons",
+    "presenter.team.default.3": "The Phoenixes",
+    "presenter.team.default.4": "The Warriors",
+    "presenter.team.default.5": "The Hawks",
+    "presenter.team.default.6": "The Invincibles",
+    "presenter.team.default.7": "The Lions",
+    "presenter.team.default.8": "The Lightnings",
+    "presenter.team.default.9": "The Titans"
+  }
+}

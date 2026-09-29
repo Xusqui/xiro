@@ -1,0 +1,23 @@
+{
+  "keys": {
+    "presenter.session.understood": "Ulertu",
+    "presenter.session.end_title": "Jokoa amaitu?",
+    "presenter.session.end_msg": "Jokoa amaituko da eta podioa erakutsiko da uneko sailkapenarekin.",
+    "presenter.session.end_yes": "Bai, jokoa amaitu",
+    "presenter.session.cancel": "Utzi",
+    "presenter.session.abandon_title": "Jokoa utzi?",
+    "presenter.session.abandon_msg_html": "Idatzi <span class=\"font-black text-red-300\">{confirmWord}</span> baieztatzeko. Honek jokalari guztiak kanporatuko ditu.",
+    "presenter.session.no_session_title": "Saio aktiborik ez",
+    "presenter.session.no_session_msg": "Ez dago Xiro!-rako saio aktiborik.",
+    "presenter.session.abandoned_title": "Saioa utzi da",
+    "presenter.session.abandoned_msg": "Saioa utzi egin da.",
+    "presenter.session.btn_back_home": "Hasierara itzuli",
+    "presenter.session.btn_confirm": "Baieztatu",
+    "presenter.session.btn_accept": "Onartu",
+    "presenter.session.error_title": "Aurkezlearen errorea",
+    "presenter.session.error_unknown": "Ezezagunak errorea",
+    "presenter.session.lobby_error_title": "Errorea Lobby sortzerakoan",
+    "presenter.session.lobby_error_msg": "Ezin izan da lobby-a sortu",
+    "presenter.session.start_error_title": "Errorea jokoa hastean"
+  }
+}

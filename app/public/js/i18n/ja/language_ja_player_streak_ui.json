@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "player.streak.double_prefix": "ダブルストリーク x",
+    "player.streak.lost": "ストリーク失った！",
+    "player.streak.active_prefix": "ストリーク x",
+    "player.streak.double_label": "ダブル",
+    "player.streak.label": "ストリーク",
+    "player.streak.consecutive_correct": "連続正解",
+    "player.streak.ended_prefix": "あなたのストリークが終了しました：",
+    "player.streak.double_bonus_suffix": "連続でダブルボーナス！"
+  }
+}

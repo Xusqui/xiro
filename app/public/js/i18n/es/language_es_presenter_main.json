@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "presenter.loading.title": "Cargando...",
+    "presenter.loading.desc": "Preparando el panel del presentador",
+    "presenter.sidebar.connected": "Conectados",
+    "presenter.lobby.waiting": "Esperando jugadores...",
+    "presenter.lobby.pin": "PIN DE ACCESO",
+    "presenter.lobby.start": "¡EMPEZAR!",
+    "presenter.lobby.players": "Jugadores:",
+    "presenter.game.terminate": "Terminar",
+    "presenter.game.terminate.title": "Finalizar la partida y mostrar el podio con la clasificación actual",
+    "presenter.game.abandon": "Abandonar juego",
+    "presenter.game.abandon.title": "Abandonar sesión",
+    "presenter.fullscreen.title": "Pantalla completa"
+  }
+}

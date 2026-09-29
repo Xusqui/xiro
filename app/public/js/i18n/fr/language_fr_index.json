@@ -1,0 +1,25 @@
+{
+  "keys": {
+    "index.heading": "Bienvenue chez XIRO !",
+    "index.subtitle": "Sélectionnez votre mode d'accès",
+    "index.player.title": "Joueur",
+    "index.player.desc": "Rejoignez une partie avec votre code PIN",
+    "index.player.cta": "Jouez maintenant",
+    "index.player.manual": "Manuel du joueur",
+    "index.presenter.title": "Présentateur",
+    "index.presenter.desc": "Contrôlez et projetez le jeu sur l'écran",
+    "index.presenter.cta": "Commencer la présentation",
+    "index.presenter.manual": "Manuel du présentateur",
+    "index.tv.title": "version télé",
+    "index.tv.desc": "Version allégée pour les anciens téléviseurs et navigateurs",
+    "index.tv.cta": "Version prise en charge",
+    "index.standalone.title": "Mode Solitaire",
+    "index.standalone.desc": "Jouez sans présentateur sur votre appareil",
+    "index.standalone.cta": "Jouer en solo",
+    "index.admin.title": "Administration",
+    "index.admin.desc": "Gérer les questions et les paramètres",
+    "index.admin.cta": "Accéder au panneau",
+    "index.admin.manual": "Manuel de l'administrateur",
+    "index.title": "XIRÔ ! - Commencer"
+  }
+}

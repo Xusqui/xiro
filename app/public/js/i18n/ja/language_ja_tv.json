@@ -1,0 +1,33 @@
+{
+  "keys": {
+    "tv.sidebar.connected": "接続済み:",
+    "tv.game.end": "エンドゲーム",
+    "tv.game.abort": "ゲームを中止する",
+    "tv.game.cancel": "キャンセル",
+    "tv.game.end_msg": "最終ランキングが全プレイヤーに送信されます。続けますか？",
+    "tv.game.abort_msg": "全プレイヤーが切断され、PIN選択画面に戻ります。続けますか？",
+    "tv.game.confirm": "確認",
+    "tv.lobby.title": "ゲームを選択",
+    "tv.lobby.subtitle": "プレゼントしたいゲームまたはバンクを選んでください",
+    "tv.lobby.filter.custom": "カスタム",
+    "tv.lobby.filter.games": "ゲーム",
+    "tv.lobby.filter.banks": "バンク",
+    "tv.lobby.filter.all": "すべて",
+    "tv.lobby.empty.all": "利用可能なPINがありません。まずゲームまたはバンクを作成してください。",
+    "tv.lobby.empty.by_type": "{type}はありません。",
+    "tv.lobby.pin_label": "アクセスPIN",
+    "tv.lobby.btn_start": "スタート！",
+    "tv.lobby.players_label": "プレイヤー：",
+    "tv.lobby.type.custom": "カスタムゲーム",
+    "tv.lobby.type.games": "ゲーム",
+    "tv.lobby.type.banks": "問題バンク"
+  },
+  "literals": {
+    "Error al cargar PINs": "PINの読み込みエラー",
+    "Error desconocido": "不明なエラー",
+    "Reintentar": "再試行",
+    "Error de Conexión": "接続エラー",
+    "PIN No Válido o Error de servidor.": "無効なPINまたはサーバーエラー。",
+    "Volver": "戻る"
+  }
+}

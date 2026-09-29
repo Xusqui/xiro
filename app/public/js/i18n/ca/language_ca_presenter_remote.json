@@ -1,0 +1,15 @@
+{
+  "keys": {
+    "presenter.remote.tap_pause": "Toca per pausar",
+    "presenter.remote.tap_resume": "Toca per reprendre",
+    "presenter.remote.end_confirm": "Vols acabar la partida ara?",
+    "presenter.remote.connect_error": "Error en connectar com a control remot",
+    "presenter.remote.game_finished": "La partida ha finalitzat",
+    "presenter.remote.no_admin_session": "No sha trobat cap sessió dadmin.<br>Inicia sessió al tauler dadmin primer.",
+    "presenter.remote.game_started": "Partida iniciada",
+    "presenter.remote.final_podium": "Podi final",
+    "presenter.remote.end_game": "Acabar partida",
+    "presenter.remote.btn_end": "Finalitzar joc",
+    "presenter.remote.cancel": "Cancel·la"
+  }
+}

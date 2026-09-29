@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "manual_admin.tools.historial.title": "ゲーム履歴",
+    "manual_admin.tools.historial.desc": "プレイされたすべてのゲームの結果を確認・ダウンロードできます。ゲームは終了時に自動保存されます。",
+    "manual_admin.tools.historial.list": "ゲーム一覧",
+    "manual_admin.tools.historial.list_desc": "各ゲームには日付、種類、プレイヤー数、問題数、所要時間、ステータス（完了、確定、中断、自動保存）が表示されます。",
+    "manual_admin.tools.historial.download": "ダウンロードとグラフビューア",
+    "manual_admin.tools.historial.download_desc": "任意のゲームの結果をダウンロードするか、<strong>グラフビューア</strong>で開いて表やグラフで分析できます。",
+    "manual_admin.tools.historial.delete": "削除",
+    "manual_admin.tools.historial.delete_desc": "個別のゲーム、選択したゲーム、または履歴全体を削除できます。この操作は元に戻せません。"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.backup.title": "Backup",
+    "manual_admin.tools.backup.desc": "Còpies de seguretat automàtiques de la base de dades.",
+    "manual_admin.tools.backup.schedule": "Programació de backups",
+    "manual_admin.tools.backup.schedule_desc": "Freqüència del backup automàtic.",
+    "manual_admin.tools.backup.retention": "Retenció de backups",
+    "manual_admin.tools.backup.retention_desc": "Dies que es conserven els fitxers de backup."
+  }
+}

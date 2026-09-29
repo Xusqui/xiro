@@ -1,0 +1,10 @@
+{
+  "keys": {
+    "manual_admin.tools.backup.title": "Backup",
+    "manual_admin.tools.backup.desc": "Copias de seguridad automáticas de la base de datos.",
+    "manual_admin.tools.backup.schedule": "Programación de backups",
+    "manual_admin.tools.backup.schedule_desc": "Frecuencia del backup automático (Diario, Semanal, Mensual).",
+    "manual_admin.tools.backup.retention": "Retención de backups",
+    "manual_admin.tools.backup.retention_desc": "Días que se conservan los archivos de backup."
+  }
+}

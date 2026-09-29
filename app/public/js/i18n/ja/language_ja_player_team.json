@@ -1,0 +1,6 @@
+{
+  "keys": {
+    "player.team.no_players": "まだプレイヤーがいません",
+    "player.team.waiting_start": "プレゼンターがゲームを開始するのを待っています..."
+  }
+}

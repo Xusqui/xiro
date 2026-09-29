@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "account_deleted.page_title": "XIRO! - アカウントが削除されました",
+    "account_deleted.eyebrow": "お別れ",
+    "account_deleted.heading": "アカウントが削除されました",
+    "account_deleted.message_html": "あなたのアカウントは正常に削除されました。<br><br>\n                        Xiroでの体験を楽しんでいただけたなら幸いです。またすぐにお会いできることを願っています！"
+  }
+}

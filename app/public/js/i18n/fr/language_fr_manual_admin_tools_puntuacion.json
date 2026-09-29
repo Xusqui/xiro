@@ -1,0 +1,13 @@
+{
+  "keys": {
+    "manual_admin.tools.puntuacion.title": "Scores",
+    "manual_admin.tools.puntuacion.desc": "Configuration des temps, des points et des bonus.",
+    "manual_admin.tools.puntuacion.base_points": "Points de base",
+    "manual_admin.tools.puntuacion.base_points_desc": "Points garantis en répondant correctement.",
+    "manual_admin.tools.puntuacion.max_bonus": "Bonus max de vitesse",
+    "manual_admin.tools.puntuacion.max_bonus_desc": "Points supplémentaires pour une réponse rapide.",
+    "manual_admin.tools.puntuacion.random_points": "Score aléatoire",
+    "manual_admin.tools.puntuacion.random_points_desc": "Chaque jeu peut tirer au sort la valeur en points de chaque question dans une plage que vous définissez. Un écran affichant la valeur tirée apparaît avant la question, et le chronomètre ne démarre qu’une fois cet écran disparu.",
+    "manual_admin.tools.puntuacion.random_points_types": "Cela ne concerne que les questions Quiz et Anagramme. Sondage, Ordonner, Associer, Numérique et Choix multiple gardent leur barème habituel."
+  }
+}

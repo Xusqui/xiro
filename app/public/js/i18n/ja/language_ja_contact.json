@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "contact.title": "お問い合わせ✉️",
+    "contact.subtitle": "ご質問やご提案はありますか?私たちに手紙を書いてください。",
+    "contact.success.title": "メッセージが送信されました!",
+    "contact.success.message": "すぐにご返信させていただきます",
+    "contact.form.name": "名前",
+    "contact.form.email": "あなたのメールアドレス",
+    "contact.form.message": "メッセージ",
+    "contact.form.verification": "検証 -",
+    "contact.form.name.placeholder": "あなたの名前",
+    "contact.form.message.placeholder": "どのようにお手伝いできるでしょうか?",
+    "contact.form.captcha.placeholder": "答え",
+    "contact.form.submit": "メッセージを送信する"
+  }
+}

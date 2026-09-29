@@ -1,0 +1,823 @@
+/* XIRO! Presentador Ultra-Lite - Optimizado para WebOS 3.5 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1a1a2e;
+    color: #fff;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    height: 100%;
+    display: block;
+    position: relative;
+    overflow-y: auto;
+}
+
+.header {
+    display: table;
+    width: 100%;
+    margin-bottom: 20px;
+    background-color: #16213e;
+    padding: 15px;
+    border-radius: 10px
+}
+
+.header-cell {
+    display: table-cell;
+    vertical-align: middle;
+    width: 33.33%
+}
+
+.header-center {
+    text-align: center
+}
+
+.header-right {
+    text-align: right
+}
+
+.logo {
+    max-width: 200px;
+    height: auto
+}
+
+.pin-box {
+    background-color: #fff;
+    color: #1a1a2e;
+    padding: 20px;
+    border-radius: 15px;
+    display: inline-block;
+    border: 3px solid #0891b2
+}
+
+.pin-label {
+    font-size: 12px;
+    font-weight: bold;
+    color: #666
+}
+
+.pin-number {
+    font-size: 48px;
+    font-weight: bold;
+    margin: 5px 0
+}
+
+.pin-url {
+    font-size: 11px;
+    color: #0e7490;
+    margin-top: 5px
+}
+
+.btn {
+    background-color: #16c60c;
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer
+}
+
+.btn:hover {
+    background-color: #14b00b
+}
+
+.btn:disabled {
+    background-color: #666;
+    cursor: not-allowed
+}
+
+.btn-secondary {
+    background-color: #0891b2
+}
+
+.btn-secondary:hover {
+    background-color: #0e7490
+}
+
+.players-section {
+    background-color: #16213e;
+    padding: 20px;
+    border-radius: 15px;
+    min-height: 300px
+}
+
+.players-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px
+}
+
+.player-badge {
+    background-color: #0e7490;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-weight: bold
+}
+
+.players-grid {
+    display: block
+}
+
+.player-item {
+    display: inline-block;
+    background-color: #fff;
+    color: #1a1a2e;
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 8px;
+    font-weight: bold
+}
+
+.question-container {
+    text-align: center
+}
+
+.question-header {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #16213e;
+    border-radius: 10px
+}
+
+.question-header table {
+    width: 100%
+}
+
+.question-header td {
+    padding: 10px
+}
+
+.timer {
+    width: 60px;
+    height: 60px;
+    border: 4px solid #0891b2;
+    border-radius: 50%;
+    display: inline-block;
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 52px;
+    text-align: center;
+    vertical-align: middle
+}
+
+.question-text {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #16213e;
+    border-radius: 10px
+}
+
+.options-grid {
+    display: block;
+    margin: 20px 0
+}
+
+.option {
+    position: relative;
+    padding: 30px;
+    margin: 10px 0;
+    border-radius: 15px;
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: left;
+    border: 3px solid rgba(0, 0, 0, .2)
+}
+
+.option-red {
+    background-color: #dc2626
+}
+
+.option-blue {
+    background-color: #2563eb
+}
+
+.option-yellow {
+    background-color: #eab308
+}
+
+.option-green {
+    background-color: #16a34a
+}
+
+.option-purple {
+    background-color: #7c3aed
+}
+
+.option-pink {
+    background-color: #ec4899
+}
+
+.option-number {
+    display: inline-block;
+    background-color: rgba(0, 0, 0, .3);
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 8px;
+    margin-right: 15px;
+    font-size: 28px
+}
+
+.option-votes {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px
+}
+
+.option-correct {
+    border: 6px solid #fff
+}
+
+.option-incorrect {
+    opacity: .3
+}
+
+.option-check {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    background-color: #fff;
+    color: #16a34a;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 50px;
+    font-size: 28px;
+    border: 4px solid #16a34a
+}
+
+.justification {
+    background-color: #0e7490;
+    padding: 30px;
+    margin: 20px 0;
+    border-radius: 15px;
+    border: 4px solid #fff
+}
+
+.justification-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px
+}
+
+.justification-text {
+    font-size: 18px;
+    line-height: 1.6
+}
+
+.ranking-box {
+    background-color: #0e7490;
+    color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    border: 4px solid #fff;
+    margin: 20px 0
+}
+
+.ranking-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px
+}
+
+.ranking-item {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, .1)
+}
+
+.ranking-item-first {
+    background-color: rgba(251, 191, 36, .3);
+    border: 2px solid #fbbf24
+}
+
+.ranking-item table {
+    width: 100%
+}
+
+.ranking-item td:last-child {
+    text-align: right;
+    font-size: 18px;
+    font-weight: bold
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 200px;
+    height: 100%;
+    background-color: #16213e;
+    border-left: 2px solid #666;
+    overflow-y: auto;
+    z-index: 100
+}
+
+.sidebar-header {
+    padding: 15px;
+    border-bottom: 2px solid #666;
+    font-weight: bold;
+    font-size: 14px
+}
+
+.sidebar-content {
+    padding: 10px
+}
+
+.sidebar-player {
+    background-color: rgba(8, 145, 178, .3);
+    padding: 8px;
+    margin: 5px 0;
+    border-radius: 8px;
+    font-size: 11px
+}
+
+.sidebar-player-name {
+    font-weight: bold;
+    margin-bottom: 3px
+}
+
+.sidebar-player-score {
+    color: #a5f3fc;
+    font-size: 10px
+}
+
+.main-content {
+    margin-right: 200px;
+    height: 100%;
+}
+
+.final-screen {
+    text-align: center;
+    padding: 40px 20px
+}
+
+.final-title {
+    font-size: 48px;
+    font-weight: bold;
+    margin: 20px 0
+}
+
+.final-trophy {
+    font-size: 100px;
+    margin: 20px 0
+}
+
+.final-ranking {
+    max-width: 600px;
+    margin: 30px auto
+}
+
+.final-ranking-item {
+    display: table;
+    width: 100%;
+    padding: 15px 20px;
+    margin: 10px 0;
+    background-color: rgba(255, 255, 255, .1);
+    border-radius: 15px;
+    border: 3px solid rgba(0, 0, 0, .2)
+}
+
+.final-ranking-item-first {
+    background-color: #fbbf24;
+    color: #1a1a2e
+}
+
+.final-ranking-item td {
+    display: table-cell;
+    vertical-align: middle
+}
+
+.final-ranking-item td:first-child {
+    font-size: 24px;
+    font-weight: bold
+}
+
+.final-ranking-item td:last-child {
+    text-align: right;
+    font-size: 28px;
+    font-weight: bold
+}
+
+.pin-selector {
+    text-align: center;
+    padding: 40px 20px
+}
+
+.pin-selector-title {
+    font-size: 36px;
+    font-weight: bold;
+    margin: 20px 0
+}
+
+.pin-selector-subtitle {
+    font-size: 16px;
+    color: #999;
+    margin-bottom: 30px
+}
+
+.pin-tabs {
+    margin: 20px 0
+}
+
+.pin-tab {
+    display: inline-block;
+    background-color: rgba(255, 255, 255, .1);
+    color: #ccc;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 20px;
+    cursor: pointer;
+    border: none;
+    font-size: 14px;
+    font-weight: bold
+}
+
+.pin-tab:hover {
+    background-color: rgba(255, 255, 255, .2)
+}
+
+.pin-tab-active {
+    background-color: #0e7490;
+    color: #fff
+}
+
+.pins-grid {
+    display: block;
+    max-width: 1000px;
+    margin: 0 auto
+}
+
+.pin-card {
+    display: inline-block;
+    width: 230px;
+    background-color: #0e7490;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 3px solid rgba(0, 0, 0, .2);
+    vertical-align: top
+}
+
+.pin-card:hover {
+    background-color: #155e75
+}
+
+.pin-card-type {
+    background-color: rgba(255, 255, 255, .2);
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 11px;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 10px
+}
+
+.pin-card-pin {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 10px 0
+}
+
+.pin-card-name {
+    font-size: 13px;
+    color: #a5f3fc
+}
+
+.countdown-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .4);
+    z-index: 99;
+    text-align: center
+}
+
+.countdown-number {
+    font-size: 200px;
+    font-weight: bold;
+    color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -150px;
+    margin-top: -100px;
+    width: 300px
+}
+
+.hidden {
+    display: none !important
+}
+
+.btn-next {
+    position: fixed;
+    bottom: 20px;
+    right: 220px;
+    z-index: 98
+}
+
+.comment-slide {
+    text-align: center;
+    padding: 40px
+}
+
+.comment-icon {
+    font-size: 60px;
+    color: #fbbf24;
+    margin: 20px 0
+}
+
+.comment-text {
+    font-size: 48px;
+    font-weight: bold;
+    margin: 20px 0
+}
+
+.manual-points {
+    max-width: 900px;
+    margin: 30px auto;
+    background-color: rgba(255, 255, 255, .1);
+    padding: 20px;
+    border-radius: 15px
+}
+
+.manual-points-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px
+}
+
+.manual-points-player {
+    display: inline-block;
+    width: 280px;
+    background-color: rgba(255, 255, 255, .2);
+    padding: 15px;
+    margin: 5px;
+    border-radius: 10px;
+    text-align: center;
+    vertical-align: top
+}
+
+.manual-points-player-name {
+    font-weight: bold;
+    margin-bottom: 5px
+}
+
+.manual-points-player-score {
+    font-size: 12px;
+    color: rgba(255, 255, 255, .8);
+    margin-bottom: 10px
+}
+
+.manual-points-buttons {
+    margin-top: 10px
+}
+
+.manual-points-buttons button {
+    padding: 8px 15px;
+    margin: 0 3px;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer
+}
+
+.btn-points-1 {
+    background-color: #16a34a
+}
+
+.btn-points-5 {
+    background-color: #2563eb
+}
+
+.btn-points-10 {
+    background-color: #0e7490
+}
+
+@media screen and (max-width:768px) {
+    .sidebar {
+        display: none
+    }
+
+    .main-content {
+        margin-right: 0
+    }
+
+    .btn-next {
+        right: 20px
+    }
+
+    .header-cell {
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin: 10px 0
+    }
+
+    .question-text {
+        font-size: 24px
+    }
+
+    .option {
+        font-size: 18px;
+        padding: 20px
+    }
+}
+
+/* Estilos para modo equipos */
+.mode-grid {
+    display: block;
+    max-width: 800px;
+    margin: 30px auto
+}
+
+.mode-card {
+    display: inline-block;
+    width: 350px;
+    background-color: #0e7490;
+    padding: 30px;
+    margin: 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    border: 4px solid rgba(0, 0, 0, .2);
+    vertical-align: top;
+    text-align: center
+}
+
+.mode-card:hover {
+    background-color: #155e75
+}
+
+.mode-icon {
+    font-size: 60px;
+    margin: 15px 0
+}
+
+.mode-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 15px 0
+}
+
+.mode-desc {
+    font-size: 16px;
+    color: rgba(255, 255, 255, .8);
+    margin: 10px 0
+}
+
+.teams-number-grid {
+    display: block;
+    max-width: 600px;
+    margin: 0 auto
+}
+
+.team-number-btn {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background-color: #0891b2;
+    color: #fff;
+    border: none;
+    border-radius: 15px;
+    font-size: 36px;
+    font-weight: bold;
+    margin: 10px;
+    cursor: pointer
+}
+
+.team-number-btn:hover {
+    background-color: #0e7490
+}
+
+.teams-config-form {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: rgba(255, 255, 255, .1);
+    padding: 25px;
+    border-radius: 15px
+}
+
+.team-config-row {
+    display: table;
+    width: 100%;
+    margin: 15px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
+    padding-bottom: 15px
+}
+
+.team-number {
+    display: table-cell;
+    vertical-align: middle;
+    width: 60px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff
+}
+
+.team-name-input {
+    display: table-cell;
+    width: 60%;
+    padding: 12px;
+    border: 3px solid rgba(8, 145, 178, .5);
+    background-color: rgba(0, 0, 0, .3);
+    color: #fff;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold
+}
+
+.team-name-input:focus {
+    outline: none;
+    border-color: #0891b2
+}
+
+.team-color-select {
+    display: table-cell;
+    padding: 12px;
+    margin-left: 10px;
+    border: 3px solid rgba(8, 145, 178, .5);
+    background-color: rgba(0, 0, 0, .3);
+    color: #fff;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer
+}
+
+.team-color-select:focus {
+    outline: none;
+    border-color: #0891b2
+}
+
+.teams-lobby-grid {
+    font-size: 0;
+    margin: -7.5px
+}
+
+.teams-lobby-grid .team-box {
+    display: inline-block;
+    width: 50%;
+    padding: 7.5px;
+    vertical-align: top;
+    font-size: 14px;
+    box-sizing: border-box
+}
+
+.team-box {
+    border-radius: 15px;
+    padding: 15px;
+    min-height: 150px
+}
+
+.team-box-header {
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(255, 255, 255, .3)
+}
+
+.team-box-players {
+    min-height: 80px
+}
+
+.team-player-item {
+    display: inline-block;
+    background-color: rgba(255, 255, 255, .2);
+    padding: 8px 12px;
+    margin: 5px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 14px
+}

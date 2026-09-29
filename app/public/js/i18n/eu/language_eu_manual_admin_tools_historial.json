@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "manual_admin.tools.historial.title": "Partiden Historia",
+    "manual_admin.tools.historial.desc": "Kontsultatu eta deskargatu jokatutako partida guztien emaitzak. Partidak automatikoki gordetzen dira amaitzean.",
+    "manual_admin.tools.historial.list": "Partiden zerrenda",
+    "manual_admin.tools.historial.list_desc": "Partida bakoitzak data, mota, jokalariak, galderak, iraupena eta egoera erakusten ditu (osatua, amaitua, utzia edo auto-gordea).",
+    "manual_admin.tools.historial.download": "Deskarga eta ikustaile grafikoa",
+    "manual_admin.tools.historial.download_desc": "Deskargatu edozein partidaren emaitzak edo ireki <strong>ikustaile grafikoan</strong>, taulekin eta grafikoekin aztertzeko.",
+    "manual_admin.tools.historial.delete": "Ezabatzea",
+    "manual_admin.tools.historial.delete_desc": "Partida bakanak, hautaketa bat edo historia osoa ezaba ditzakezu. Ekintza hau ezin da desegin."
+  }
+}

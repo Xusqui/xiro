@@ -1,0 +1,33 @@
+{
+  "keys": {
+    "tv.sidebar.connected": "KONEKTATUTA:",
+    "tv.game.end": "Amaiera jokoa",
+    "tv.game.abort": "Utzi jokoa",
+    "tv.game.cancel": "Utzi",
+    "tv.game.end_msg": "Azken sailkapena jokalari guztiei bidaliko zaie. Jarraitu?",
+    "tv.game.abort_msg": "Jokalari guztiak deskonektatuko dira eta PIN hautagailura itzuliko zara. Jarraitu?",
+    "tv.game.confirm": "Baieztatu",
+    "tv.lobby.title": "Joko bat hautatu",
+    "tv.lobby.subtitle": "Aurkeztu nahi duzun jokoa edo bankua aukeratu",
+    "tv.lobby.filter.custom": "Pertsonalizatuak",
+    "tv.lobby.filter.games": "Jokoak",
+    "tv.lobby.filter.banks": "Bankuak",
+    "tv.lobby.filter.all": "Guztiak",
+    "tv.lobby.empty.all": "Ez dago PINik eskuragarri. Sortu lehenik joko edo banku bat.",
+    "tv.lobby.empty.by_type": "Ez dago {type} eskuragarri.",
+    "tv.lobby.pin_label": "SARTZEKO PIN",
+    "tv.lobby.btn_start": "HASI!",
+    "tv.lobby.players_label": "Jokalariak: ",
+    "tv.lobby.type.custom": "Joko pertsonalizatuak",
+    "tv.lobby.type.games": "Jokoak",
+    "tv.lobby.type.banks": "Galdera-bankuak"
+  },
+  "literals": {
+    "Error al cargar PINs": "Errorea PINak kargatzean",
+    "Error desconocido": "Errore ezezaguna",
+    "Reintentar": "Saiatu berriro",
+    "Error de Conexión": "Konexio errorea",
+    "PIN No Válido o Error de servidor.": "PIN baliogabea edo zerbitzari errorea.",
+    "Volver": "Itzuli"
+  }
+}

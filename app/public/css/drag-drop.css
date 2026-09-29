@@ -1,0 +1,91 @@
+/**
+ * @fileoverview Estilos para Drag and Drop Upload
+ * Define las animaciones y estados visuales del sistema de drag-and-drop
+ */
+
+/* Zona de drop activa (cuando se arrastra sobre ella) */
+.drag-active {
+    background: linear-gradient(135deg, rgba(147, 51, 234, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+    border: 2px dashed #9333ea;
+    transform: scale(1.02);
+    box-shadow: 0 0 0 4px rgba(147, 51, 234, 0.1);
+    transition: all 0.2s ease;
+}
+
+/* Variante verde: zona de drop de "Personalizar interfaz" (panel admin) */
+.personalization-drag-active {
+    background: linear-gradient(135deg, rgba(22, 163, 74, 0.12) 0%, rgba(5, 150, 105, 0.12) 100%);
+    border-color: #16a34a;
+    transform: scale(1.02);
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.15);
+    transition: all 0.2s ease;
+}
+
+/* Estilo base para zonas de drop */
+.drop-zone {
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 100px;
+}
+
+.drop-zone:hover {
+    background: linear-gradient(135deg, rgba(147, 51, 234, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%);
+}
+
+/* Indicador de drag */
+.drag-indicator {
+    pointer-events: none;
+    user-select: none;
+    padding: 1rem;
+}
+
+/* Animaciones */
+@keyframes slide-up {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fade-out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+.animate-slide-up {
+    animation: slide-up 0.3s ease-out;
+}
+
+.animate-fade-out {
+    animation: fade-out 0.3s ease-out;
+}
+
+/* Overlay cuando se arrastra un archivo sobre la página */
+.drag-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(147, 51, 234, 0.05);
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.drag-overlay.active {
+    opacity: 1;
+}

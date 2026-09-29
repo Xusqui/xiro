@@ -1,0 +1,183 @@
+/* Neon toggle switch — escopado bajo .neon-switch, ver app/public/button.html (origen) */
+
+.neon-switch {
+    --ns-hue: 223;
+    --ns-off-hue: 3;
+    --ns-on-hue1: 123;
+    --ns-on-hue2: 168;
+    --ns-primary: hsl(var(--ns-hue), 90%, 50%);
+    --ns-trans-dur: 0.4s;
+    --ns-trans-timing: cubic-bezier(0.65, 0, 0.35, 1);
+
+    display: inline-block;
+    position: relative;
+    flex-shrink: 0;
+    width: 60px;
+    height: 36px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.neon-switch__input {
+    outline: transparent;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.neon-switch__input:before {
+    border-radius: 3px;
+    box-shadow: 0 0 0 3px hsla(var(--ns-hue), 90%, 50%, 0);
+    content: "";
+    display: block;
+    position: absolute;
+    inset: -3px;
+    transition: box-shadow 0.15s linear;
+}
+
+.neon-switch__input:focus-visible:before {
+    box-shadow: 0 0 0 3px var(--ns-primary);
+}
+
+.neon-switch__base-outer,
+.neon-switch__base-inner {
+    display: block;
+    position: absolute;
+    pointer-events: none;
+}
+
+.neon-switch__base-outer {
+    background-color: hsl(45, 25%, 78%);
+    border-radius: 15px;
+    box-shadow:
+        -1.5px -1.5px 3px hsl(45, 20%, 55%),
+        1.5px 1.5px 1.5px hsl(45, 20%, 55%) inset,
+        1.5px 1.5px 3px hsl(45, 15%, 30%),
+        -1.5px -1.5px 1.5px hsl(45, 20%, 35%) inset;
+    top: 1.5px;
+    left: 1.5px;
+    width: 57px;
+    height: 33px;
+    transition: background-color var(--ns-trans-dur) var(--ns-trans-timing);
+}
+
+.neon-switch__base-inner {
+    background-color: hsl(45, 25%, 65%);
+    border-radius: 13.5px;
+    box-shadow:
+        -3px -3px 3px hsl(45, 20%, 55%) inset,
+        0.75px 0.75px 1.5px hsla(45, 20%, 55%, 1),
+        1.5px 3px 3px hsl(45, 20%, 35%) inset,
+        -0.75px -0.75px 1.5px hsla(45, 20%, 35%, 1);
+    top: 4.5px;
+    left: 4.5px;
+    width: 51px;
+    height: 27px;
+    transition: background-color var(--ns-trans-dur) var(--ns-trans-timing);
+}
+
+.neon-switch__base-neon {
+    display: block;
+    overflow: visible;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    pointer-events: none;
+}
+
+.neon-switch__base-neon path {
+    stroke-dasharray: 0 104.26 0;
+    transition: stroke-dasharray var(--ns-trans-dur) var(--ns-trans-timing);
+}
+
+.neon-switch__knob,
+.neon-switch__knob-container {
+    border-radius: 12px;
+    display: block;
+    position: absolute;
+    pointer-events: none;
+}
+
+.neon-switch__knob {
+    background-color: hsl(45, 25%, 88%);
+    background-image:
+        radial-gradient(88% 88% at 50% 50%, hsl(45, 20%, 75%) 47%, hsla(45, 20%, 75%, 0) 50%),
+        radial-gradient(88% 88% at 47% 47%, hsl(45, 15%, 97%) 45%, hsla(45, 15%, 97%, 0) 50%),
+        radial-gradient(65% 70% at 40% 60%, hsl(45, 20%, 75%) 46%, hsla(45, 20%, 75%, 0) 50%);
+    box-shadow:
+        -0.75px -0.75px 0.75px hsl(45, 20%, 70%) inset,
+        -1.5px -1.5px 0.75px hsl(45, 20%, 40%) inset,
+        9px 3px 1.5px hsla(0, 0%, 0%, 0.8);
+    width: 24px;
+    height: 24px;
+    transition: transform var(--ns-trans-dur) var(--ns-trans-timing);
+}
+
+.neon-switch__knob-container {
+    overflow: hidden;
+    top: 6px;
+    left: 6px;
+    width: 48px;
+    height: 24px;
+}
+
+.neon-switch__knob-neon {
+    display: block;
+    width: 24px;
+    height: auto;
+}
+
+.neon-switch__knob-neon circle {
+    opacity: 0;
+    stroke-dasharray: 0 90.32 0 54.19;
+    transition:
+        opacity var(--ns-trans-dur) steps(1, end),
+        stroke-dasharray var(--ns-trans-dur) var(--ns-trans-timing);
+}
+
+.neon-switch__knob-shadow {
+    border-radius: 50%;
+    box-shadow: 1.5px 1.5px 1.5px hsla(0, 0%, 0%, 0.9);
+    display: block;
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 24px;
+    height: 24px;
+    pointer-events: none;
+    transition: transform var(--ns-trans-dur) var(--ns-trans-timing);
+}
+
+.neon-switch__text {
+    overflow: hidden;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+}
+
+.neon-switch__input:checked~.neon-switch__base-outer {
+    background-color: hsl(var(--ns-on-hue1), 65%, 34%);
+}
+
+.neon-switch__input:checked~.neon-switch__base-inner {
+    background-color: hsl(var(--ns-on-hue1), 65%, 22%);
+}
+
+.neon-switch__input:checked~.neon-switch__base-neon path {
+    stroke-dasharray: 52.13 0 52.13;
+}
+
+.neon-switch__input:checked~.neon-switch__knob-shadow,
+.neon-switch__input:checked~.neon-switch__knob-container .neon-switch__knob {
+    transform: translateX(100%);
+}
+
+.neon-switch__input:checked~.neon-switch__knob-container .neon-switch__knob-neon circle {
+    opacity: 1;
+    stroke-dasharray: 45.16 0 45.16 54.19;
+    transition-timing-function: steps(1, start), var(--ns-trans-timing);
+}

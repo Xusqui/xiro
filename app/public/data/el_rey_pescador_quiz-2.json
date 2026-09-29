@@ -1,0 +1,564 @@
+{
+    "name": "El Rey Pescador",
+    "type": "quiz",
+    "questions": [
+        {
+            "question_text": "El Rey Pescador: ¿Cómo se llama el locutor de radio cuyo comentario desencadena una tragedia?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Jack Lucas",
+                    "is_correct": true,
+                    "justification": "Jack Lucas es el locutor cuyo comentario provoca el tiroteo."
+                },
+                {
+                    "option_text": "Parry",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Edwin",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Langdon Carmichael",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El Rey Pescador: ¿Cómo se llama el hombre sin hogar que cree ser un caballero en busca del Santo Grial?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Parry",
+                    "is_correct": true,
+                    "justification": "Parry vive convencido de que debe cumplir una misión caballeresca."
+                },
+                {
+                    "option_text": "Jack",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Edwin",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Langdon Carmichael",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El Rey Pescador: ¿Cuál era el verdadero nombre de Parry antes de perder la razón?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Henry Sagan",
+                    "is_correct": true,
+                    "justification": "Parry era un profesor de historia llamado Henry Sagan."
+                },
+                {
+                    "option_text": "Jack Lucas",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Edwin Malnick",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Langdon Carmichael",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El Rey Pescador: ¿Cómo se llama la novia de Jack, que regenta un videoclub?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Anne",
+                    "is_correct": true,
+                    "justification": "Anne apoya a Jack durante su etapa más difícil."
+                },
+                {
+                    "option_text": "Lydia",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Sondra",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Carla",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El Rey Pescador: ¿Cómo se llama la mujer tímida de la que se enamora Parry?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Lydia",
+                    "is_correct": true,
+                    "justification": "Lydia es la mujer torpe y solitaria que cautiva a Parry."
+                },
+                {
+                    "option_text": "Anne",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Sondra",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Carla",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El Rey Pescador: ¿Qué objeto cree Parry que es en realidad el Santo Grial?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Una copa guardada en la mansión de un hombre rico",
+                    "is_correct": true,
+                    "justification": "Parry identifica una copa de una biblioteca privada como el Grial."
+                },
+                {
+                    "option_text": "Un anillo de su difunta esposa",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Una espada expuesta en un museo",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un libro antiguo de la universidad",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El Rey Pescador: ¿Qué visión aterradora persigue a Parry cada vez que revive su trauma?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "El Caballero Rojo",
+                    "is_correct": true,
+                    "justification": "El Caballero Rojo aparece como manifestación de su dolor y su miedo."
+                },
+                {
+                    "option_text": "Un dragón de fuego",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un fantasma encapuchado",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Un lobo negro",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El Rey Pescador: ¿Qué le ocurre a la esposa de Parry?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Muere en el tiroteo del bar",
+                    "is_correct": true,
+                    "justification": "Su muerte es la causa directa de la ruptura mental de Parry."
+                },
+                {
+                    "option_text": "Lo abandona por otro hombre",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Muere de una enfermedad años después",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Se muda a otra ciudad",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El Rey Pescador: ¿A qué se dedica Jack Lucas al principio de la película?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Es un locutor de radio de éxito",
+                    "is_correct": true,
+                    "justification": "Jack disfruta de fama como locutor antes de la tragedia."
+                },
+                {
+                    "option_text": "Es profesor de historia medieval",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Es dueño de un videoclub",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Es agente de policía",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El Rey Pescador: ¿Qué hacen Jack y Anne para ayudar a Parry a acercarse a Lydia?",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Organizan una cena para presentarlos",
+                    "is_correct": true,
+                    "justification": "La cena permite que Parry y Lydia pasen tiempo juntos."
+                },
+                {
+                    "option_text": "Le escriben cartas de amor en su nombre",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "La contratan como su asistenta",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "La invitan a un programa de radio",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El Rey Pescador: ¿Qué te ha parecido la relación de amistad entre Jack y Parry?",
+            "type": "survey",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Me encantó",
+                    "is_correct": false,
+                    "order_index": null,
+                    "justification": null
+                },
+                {
+                    "option_text": "Me gustó",
+                    "is_correct": false,
+                    "order_index": null,
+                    "justification": null
+                },
+                {
+                    "option_text": "Regular",
+                    "is_correct": false,
+                    "order_index": null,
+                    "justification": null
+                },
+                {
+                    "option_text": "No me convenció",
+                    "is_correct": false,
+                    "order_index": null,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El Rey Pescador: Ordena estos acontecimientos según ocurren en la historia:",
+            "type": "order",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "Jack hace un comentario en la radio que provoca una tragedia",
+                    "order_index": 0,
+                    "is_correct": false,
+                    "justification": "Es el hecho que desencadena toda la historia."
+                },
+                {
+                    "option_text": "Parry salva a Jack de ser atacado por unos matones",
+                    "order_index": 1,
+                    "is_correct": false,
+                    "justification": "Así se conocen ambos personajes."
+                },
+                {
+                    "option_text": "Jack descubre que la esposa de Parry murió en el tiroteo",
+                    "order_index": 2,
+                    "is_correct": false,
+                    "justification": "Jack comprende su responsabilidad en el dolor de Parry."
+                },
+                {
+                    "option_text": "Jack roba la copa para ayudar a Parry a recuperarse",
+                    "order_index": 3,
+                    "is_correct": false,
+                    "justification": "Es el acto final con el que Jack intenta redimirse."
+                }
+            ]
+        },
+        {
+            "question_text": "El Rey Pescador: Ordena estos hechos relacionados con Parry y Lydia:",
+            "type": "order",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "Parry observa a Lydia en secreto y se enamora de ella",
+                    "order_index": 0,
+                    "is_correct": false,
+                    "justification": "Así comienza su interés por ella."
+                },
+                {
+                    "option_text": "Jack y Anne organizan una cena para presentarlos",
+                    "order_index": 1,
+                    "is_correct": false,
+                    "justification": "Es el primer acercamiento entre ambos."
+                },
+                {
+                    "option_text": "Parry es atacado y cae en estado catatónico",
+                    "order_index": 2,
+                    "is_correct": false,
+                    "justification": "Este golpe interrumpe su relación con Lydia."
+                },
+                {
+                    "option_text": "Parry se recupera y se reencuentra con Lydia",
+                    "order_index": 3,
+                    "is_correct": false,
+                    "justification": "Es el desenlace positivo de su historia."
+                }
+            ]
+        },
+        {
+            "question_text": "El Rey Pescador: ¿Cuántos años, aproximadamente, han pasado entre la tragedia del bar y el reencuentro de Jack con Parry?",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 3,
+            "maxPoints": 100,
+            "toleranceMode": "hybrid",
+            "toleranceValue": 1,
+            "toleranceCap": 2,
+            "hint": "Piensa en el tiempo que Jack pasa hundido antes de conocer a Parry en la calle."
+        },
+        {
+            "question_text": "El Rey Pescador: Estado en el que cae Parry tras ser brutalmente agredido por unos matones.",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "CATATONIA"
+        },
+        {
+            "question_text": "El Rey Pescador: Figura que persigue a Parry cada vez que revive su trauma.",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "CABALLERO"
+        },
+        {
+            "question_text": "El Rey Pescador: ¿Cuáles de estos personajes ayudan a Parry a lo largo de la historia?",
+            "type": "multiple_choice",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 40,
+            "mc_points_per_correct": 10,
+            "mc_penalty_per_incorrect": 10,
+            "mc_perfect_bonus": 20,
+            "options": [
+                {
+                    "option_text": "Jack",
+                    "is_correct": true,
+                    "justification": null
+                },
+                {
+                    "option_text": "Anne",
+                    "is_correct": true,
+                    "justification": null
+                },
+                {
+                    "option_text": "Lydia",
+                    "is_correct": true,
+                    "justification": null
+                },
+                {
+                    "option_text": "Edwin",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Langdon Carmichael",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El Rey Pescador: ¿Cuáles de estos hechos ocurren realmente en la película?",
+            "type": "multiple_choice",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 40,
+            "mc_points_per_correct": 10,
+            "mc_penalty_per_incorrect": 10,
+            "mc_perfect_bonus": 20,
+            "options": [
+                {
+                    "option_text": "Jack roba una copa para ayudar a Parry",
+                    "is_correct": true,
+                    "justification": null
+                },
+                {
+                    "option_text": "Parry cree ser un caballero en una misión sagrada",
+                    "is_correct": true,
+                    "justification": null
+                },
+                {
+                    "option_text": "Anne regenta un videoclub",
+                    "is_correct": true,
+                    "justification": null
+                },
+                {
+                    "option_text": "Parry se convierte en locutor de radio",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Jack se casa con Lydia al final",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "El Rey Pescador: Empareja cada personaje con su rol principal en la historia:",
+            "type": "matching",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "Jack",
+                    "match_value": "Locutor de radio atormentado por la culpa",
+                    "is_correct": false,
+                    "order_index": 0
+                },
+                {
+                    "option_text": "Parry",
+                    "match_value": "Mendigo que cree ser un caballero en busca del Grial",
+                    "is_correct": false,
+                    "order_index": 1
+                },
+                {
+                    "option_text": "Anne",
+                    "match_value": "Novia de Jack y dueña de un videoclub",
+                    "is_correct": false,
+                    "order_index": 2
+                },
+                {
+                    "option_text": "Lydia",
+                    "match_value": "Mujer tímida de la que se enamora Parry",
+                    "is_correct": false,
+                    "order_index": 3
+                }
+            ]
+        },
+        {
+            "question_text": "El Rey Pescador: Empareja cada elemento con su vínculo en la historia:",
+            "type": "matching",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "Edwin",
+                    "match_value": "Autor del tiroteo en el bar",
+                    "is_correct": false,
+                    "order_index": 0
+                },
+                {
+                    "option_text": "Langdon Carmichael",
+                    "match_value": "Dueño de la mansión donde está la copa",
+                    "is_correct": false,
+                    "order_index": 1
+                },
+                {
+                    "option_text": "La esposa de Parry",
+                    "match_value": "Víctima del tiroteo del bar",
+                    "is_correct": false,
+                    "order_index": 2
+                },
+                {
+                    "option_text": "El Caballero Rojo",
+                    "match_value": "Visión que atormenta a Parry",
+                    "is_correct": false,
+                    "order_index": 3
+                }
+            ]
+        }
+    ]
+}

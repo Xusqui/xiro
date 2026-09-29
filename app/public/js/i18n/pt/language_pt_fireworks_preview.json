@@ -1,0 +1,7 @@
+{
+  "keys": {
+    "fireworks_preview.page.title": "Antevisão – Fogos de artifício",
+    "fireworks_preview.button.close": "Fechar",
+    "fireworks_preview.error.controller_unavailable": "Erro: FireworksController não disponível"
+  }
+}

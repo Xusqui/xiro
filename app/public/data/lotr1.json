@@ -1,0 +1,2668 @@
+{
+  "name": "El Señor de los Anillos: El Gran Quiz de la Trilogía - Bloque 1",
+  "type": "quiz",
+  "questions": [
+    {
+      "question_text": "El Señor de los Anillos: ¿Quién es el director de la trilogía cinematográfica?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Steven Spielberg", "is_correct": false, "justification": null },
+        { "option_text": "Peter Jackson", "is_correct": true, "justification": "Peter Jackson dirigió las tres películas simultáneamente en Nueva Zelanda." },
+        { "option_text": "Guillermo del Toro", "is_correct": false, "justification": null },
+        { "option_text": "Ridley Scott", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántos años cumple Bilbo Bolsón al inicio de 'La Comunidad del Anillo'?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "100", "is_correct": false, "justification": null },
+        { "option_text": "111", "is_correct": true, "justification": "Bilbo celebra su 'undécimo primero' cumpleaños, una cifra muy respetable para un Hobbit." },
+        { "option_text": "120", "is_correct": false, "justification": null },
+        { "option_text": "99", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿De qué color brilla la espada 'Dardo' cuando hay orcos cerca?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Rojo", "is_correct": false, "justification": null },
+        { "option_text": "Verde", "is_correct": false, "justification": null },
+        { "option_text": "Azul", "is_correct": true, "justification": "Dardo es una hoja élfica que emite un resplandor azul ante la presencia de enemigos orcos." },
+        { "option_text": "Amarillo", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál era el nombre original de Gollum antes de ser corrompido por el Anillo?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Deagol", "is_correct": false, "justification": null },
+        { "option_text": "Sméagol", "is_correct": true, "justification": "Sméagol era un tipo de Hobbit de la rama de los Fuertes antes de encontrar el Anillo Único." },
+        { "option_text": "Bandobras", "is_correct": false, "justification": null },
+        { "option_text": "Tobold", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena cronológicamente la aparición de estos miembros en la Comunidad del Anillo:",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Frodo Bolsón", "order_index": 0, "is_correct": false, "justification": "Es el primer protagonista que vemos al inicio de la película." },
+        { "option_text": "Gandalf el Gris", "order_index": 1, "is_correct": false, "justification": "Aparece llegando a La Comarca en su carreta poco después de Frodo." },
+        { "option_text": "Samwise Gamgee", "order_index": 2, "is_correct": false, "justification": "Aparece trabajando en el jardín de Bolsón Cerrado." },
+        { "option_text": "Trancos (Aragorn)", "order_index": 3, "is_correct": false, "justification": "Los Hobbits lo conocen en la posada de El Poney Pisador en Bree." },
+        { "option_text": "Legolas", "order_index": 4, "is_correct": false, "justification": "Aparece por primera vez durante el Concilio de Elrond en Rivendell." },
+        { "option_text": "Gimli", "order_index": 5, "is_correct": false, "justification": "Al igual que Legolas, se presenta formalmente en el Concilio de Elrond." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántos premios Oscar ganó 'El Retorno del Rey' en su gala?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 11,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 5,
+      "toleranceCap": 5,
+      "hint": "Ganó todas las categorías a las que fue nominada, empatando el récord histórico."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué criatura ataca a Frodo en el antro de Cirith Ungol?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Un Trol de cueva", "is_correct": false, "justification": null },
+        { "option_text": "Ella-Laraña", "is_correct": true, "justification": "Ella-Laraña es la descendiente de Ungoliant que custodia el paso hacia Mordor." },
+        { "option_text": "Un Huargo", "is_correct": false, "justification": null },
+        { "option_text": "Un Nazgûl", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el caballo de Gandalf, señor de todos los caballos?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Hasufel", "is_correct": false, "justification": null },
+        { "option_text": "Sombragris", "is_correct": true, "justification": "Sombragris (Shadowfax) es un Mearas capaz de entender el lenguaje humano y correr a gran velocidad." },
+        { "option_text": "Arod", "is_correct": false, "justification": null },
+        { "option_text": "Brego", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué actor interpreta a Aragorn?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Orlando Bloom", "is_correct": false, "justification": null },
+        { "option_text": "Viggo Mortensen", "is_correct": true, "justification": "Viggo aceptó el papel a última hora gracias a la insistencia de su hijo Henry." },
+        { "option_text": "Sean Bean", "is_correct": false, "justification": null },
+        { "option_text": "Ian McKellen", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué regalo le da Galadriel a Frodo en Lothlórien?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Una capa de invisibilidad", "is_correct": false, "justification": null },
+        { "option_text": "El Frasco de Galadriel", "is_correct": true, "justification": "Contiene la luz de Eärendil, nuestra más querida estrella, para iluminar lugares oscuros." },
+        { "option_text": "Una cuerda de elfo", "is_correct": false, "justification": null },
+        { "option_text": "Una daga de plata", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena los siguientes eventos por el orden en que ocurren en la trilogía:",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Concilio de Elrond", "order_index": 0, "is_correct": false, "justification": "Ocurre en Rivendell para decidir el destino del Anillo." },
+        { "option_text": "Caída de Gandalf en Moria", "order_index": 1, "is_correct": false, "justification": "Sucede en el puente de Khazad-dûm tras enfrentar al Balrog." },
+        { "option_text": "Batalla de Cuernavilla (Abismo de Helm)", "order_index": 2, "is_correct": false, "justification": "Es el clímax militar de la segunda película, Las Dos Torres." },
+        { "option_text": "Muerte del Rey Brujo", "order_index": 3, "is_correct": false, "justification": "Ocurre durante la Batalla de los Campos del Pelennor en la tercera película." },
+        { "option_text": "Destrucción del Anillo Único", "order_index": 4, "is_correct": false, "justification": "Sucede en las entrañas del Monte del Destino." },
+        { "option_text": "Coronación de Aragorn", "order_index": 5, "is_correct": false, "justification": "Es uno de los eventos finales tras la caída de Sauron." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántos miembros componen originalmente la Compañía del Anillo?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 9,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 5,
+      "toleranceCap": 5,
+      "hint": "El número fue elegido para igualar al de los Nazgûl (los Nueve Jinetes)."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Quién es el verdadero padre de Arwen?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Celeborn", "is_correct": false, "justification": null },
+        { "option_text": "Elrond", "is_correct": true, "justification": "Elrond es el Señor de Rivendell y padre de Arwen Estrella de la Tarde." },
+        { "option_text": "Thranduil", "is_correct": false, "justification": null },
+        { "option_text": "Galadriel", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el nombre de la torre de Saruman en Isengard?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Barad-dûr", "is_correct": false, "justification": null },
+        { "option_text": "Orthanc", "is_correct": true, "justification": "Orthanc es la torre negra e indestructible situada en el centro del círculo de Isengard." },
+        { "option_text": "Minas Morgul", "is_correct": false, "justification": null },
+        { "option_text": "Cirith Ungol", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué frase dice Gandalf para impedir el paso al Balrog?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "¡Corre, insensato!", "is_correct": false, "justification": null },
+        { "option_text": "¡No puedes pasar!", "is_correct": true, "justification": "En la versión original es 'You shall not pass!', una de las frases más icónicas del cine." },
+        { "option_text": "¡Vete a la sombra!", "is_correct": false, "justification": null },
+        { "option_text": "¡Fuera de aquí!", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es la única debilidad de los Ents mencionada en las películas?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "El agua", "is_correct": false, "justification": null },
+        { "option_text": "El fuego", "is_correct": true, "justification": "Bárbol y los Ents temen el fuego, especialmente el 'fuego de Isengard' de Saruman." },
+        { "option_text": "El viento", "is_correct": false, "justification": null },
+        { "option_text": "El hielo", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena estos personajes de menor a mayor estatura promedio (según su raza):",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Gimli (Enano)", "order_index": 1, "is_correct": false, "justification": "Los enanos son ligeramente más altos y robustos que los hobbits." },
+        { "option_text": "Pippin (Hobbit)", "order_index": 0, "is_correct": false, "justification": "Los hobbits son la raza más pequeña de la Comunidad." },
+        { "option_text": "Aragorn (Humano)", "order_index": 2, "is_correct": false, "justification": "Como Dúnadan, Aragorn tiene una estatura imponente para un hombre." },
+        { "option_text": "Legolas (Elfo)", "order_index": 3, "is_correct": false, "justification": "Los elfos suelen ser esbeltos y altos." },
+        { "option_text": "Lurtz (Uruk-hai)", "order_index": 4, "is_correct": false, "justification": "Los Uruk-hai son orcos mejorados de gran envergadura." },
+        { "option_text": "Bárbol (Ent)", "order_index": 5, "is_correct": false, "justification": "Como pastores de árboles, los Ents son los más altos con diferencia." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántos anillos de poder fueron entregados a los Señores Enanos?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 7,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 5,
+      "toleranceCap": 5,
+      "hint": "Siete para los señores enanos en sus palacios de piedra."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué Hobbit es herido por el Rey Brujo en la Cima de los Vientos?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Sam", "is_correct": false, "justification": null },
+        { "option_text": "Frodo", "is_correct": true, "justification": "Frodo es apuñalado con una hoja de Morgul, cuya herida nunca sanaría del todo." },
+        { "option_text": "Merry", "is_correct": false, "justification": null },
+        { "option_text": "Pippin", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿En qué lugar se forjó el Anillo Único?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "En Isengard", "is_correct": false, "justification": null },
+        { "option_text": "En el Monte del Destino", "is_correct": true, "justification": "Sauron lo forjó en los fuegos del Orodruin (Monte del Destino) en el corazón de Mordor." },
+        { "option_text": "En Minas Morgul", "is_correct": false, "justification": null },
+        { "option_text": "En Dol Guldur", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Quién mata finalmente a Boromir?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Saruman", "is_correct": false, "justification": null },
+        { "option_text": "Lurtz", "is_correct": true, "justification": "Lurtz, el líder Uruk-hai, le dispara varias flechas antes de ser ejecutado por Aragorn." },
+        { "option_text": "Gollum", "is_correct": false, "justification": null },
+        { "option_text": "Un Nazgûl", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el nombre de la capital de Rohan?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Osgiliath", "is_correct": false, "justification": null },
+        { "option_text": "Edoras", "is_correct": true, "justification": "Edoras es la ciudad principal de Rohan, donde se encuentra el castillo dorado de Meduseld." },
+        { "option_text": "Dunharrow", "is_correct": false, "justification": null },
+        { "option_text": "Pelargir", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena el destino final de estos personajes (de los que mueren primero a los que sobreviven):",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Boromir", "order_index": 0, "is_correct": false, "justification": "Muere al final de 'La Comunidad del Anillo'." },
+        { "option_text": "Haldir", "order_index": 1, "is_correct": false, "justification": "Muere durante la batalla en el Abismo de Helm." },
+        { "option_text": "Rey Théoden", "order_index": 2, "is_correct": false, "justification": "Muere en los Campos del Pelennor en la tercera película." },
+        { "option_text": "Denethor", "order_index": 3, "is_correct": false, "justification": "Muere durante el sitio de Minas Tirith tras perder la cordura." },
+        { "option_text": "Gollum", "order_index": 4, "is_correct": false, "justification": "Muere en el Monte del Destino junto al Anillo." },
+        { "option_text": "Samwise Gamgee", "order_index": 5, "is_correct": false, "justification": "Sobrevive a toda la guerra y regresa a La Comarca." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántos Nazgûl (Espectros del Anillo) existen?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 9,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 5,
+      "toleranceCap": 5,
+      "hint": "Nueve para los hombres mortales condenados a morir."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el veneno que usa Ella-Laraña con Frodo?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Veneno de Morgul", "is_correct": false, "justification": null },
+        { "option_text": "Ella-Laraña no usa veneno", "is_correct": false, "justification": null },
+        { "option_text": "Su aguijón paralizante", "is_correct": true, "justification": "El veneno de Ella-Laraña deja a sus víctimas vivas pero completamente paralizadas." },
+        { "option_text": "Ácido úrico", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué nombre recibe la lengua de los Orcos y de Mordor?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Sindarin", "is_correct": false, "justification": null },
+        { "option_text": "Lengua Negra", "is_correct": true, "justification": "La Lengua Negra fue creada por Sauron para ser el idioma oficial de sus dominios." },
+        { "option_text": "Quenya", "is_correct": false, "justification": null },
+        { "option_text": "Khuzdul", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Quién corona a Aragorn como Rey de Gondor?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Elrond", "is_correct": false, "justification": null },
+        { "option_text": "Gandalf", "is_correct": true, "justification": "Gandalf coloca la corona alada sobre la cabeza de Aragorn, proclamando el retorno del rey." },
+        { "option_text": "Faramir", "is_correct": false, "justification": null },
+        { "option_text": "Legolas", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el postre o comida que Pippin siempre busca?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "El segundo desayuno", "is_correct": true, "justification": "Pippin pregunta famosamente: '¿Qué me dice del segundo desayuno?' en 'La Comunidad del Anillo'." },
+        { "option_text": "Tarta de manzana", "is_correct": false, "justification": null },
+        { "option_text": "Pan de Lembas", "is_correct": false, "justification": null },
+        { "option_text": "Cerveza negra", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena los niveles de la ciudad de Minas Tirith desde el suelo hasta la cima:",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Puerta Principal", "order_index": 0, "is_correct": false, "justification": "Es la entrada en el primer nivel de la ciudad." },
+        { "option_text": "Círculo inferior de casas", "order_index": 1, "is_correct": false, "justification": "Representa los niveles residenciales más bajos." },
+        { "option_text": "Niveles intermedios", "order_index": 2, "is_correct": false, "justification": "Donde se encuentran los mercados y talleres." },
+        { "option_text": "Casa de Curación", "order_index": 3, "is_correct": false, "justification": "Situada en los niveles altos, cerca de la ciudadela." },
+        { "option_text": "Patio de la Fuente", "order_index": 4, "is_correct": false, "justification": "Donde se encuentra el Árbol Blanco." },
+        { "option_text": "La Torre Blanca de Ecthelion", "order_index": 5, "is_correct": false, "justification": "Es el punto más alto y la ciudadela del Rey." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿En qué año se estrenó la película 'La Comunidad del Anillo'?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 2001,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 5,
+      "toleranceCap": 5,
+      "hint": "Fue lanzada a nivel mundial en diciembre a principios del nuevo milenio."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué actor interpreta a Gollum a través de captura de movimiento?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Doug Jones", "is_correct": false, "justification": null },
+        { "option_text": "Andy Serkis", "is_correct": true, "justification": "Andy Serkis revolucionó la actuación digital con su interpretación física y vocal de Gollum." },
+        { "option_text": "Hugo Weaving", "is_correct": false, "justification": null },
+        { "option_text": "David Wenham", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el reino bajo la montaña que los Enanos perdieron ante el Balrog?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Erebor", "is_correct": false, "justification": null },
+        { "option_text": "Moria (Khazad-dûm)", "is_correct": true, "justification": "Originalmente llamada Khazad-dûm, tras la caída ante el Balrog fue conocida como Moria (El Abismo Negro)." },
+        { "option_text": "Nogrod", "is_correct": false, "justification": null },
+        { "option_text": "Belegost", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Quién pronuncia la frase 'Aún hay esperanza' a Aragorn en el Abismo de Helm?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Legolas", "is_correct": true, "justification": "Legolas y Aragorn tienen una tensa conversación en élfico antes de la batalla sobre sus posibilidades." },
+        { "option_text": "Éowyn", "is_correct": false, "justification": null },
+        { "option_text": "Théoden", "is_correct": false, "justification": null },
+        { "option_text": "Haldir", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el fiel escudero de Théoden que muere defendiéndolo?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Éomer", "is_correct": false, "justification": null },
+        { "option_text": "Hama", "is_correct": true, "justification": "Hama es el guardia de las puertas de Edoras y muere valientemente frente a los jinetes de lobos." },
+        { "option_text": "Gamling", "is_correct": false, "justification": null },
+        { "option_text": "Grimbold", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena cronológicamente estos lugares visitados por Frodo:",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "La Comarca", "order_index": 0, "is_correct": false, "justification": "Su hogar y punto de partida." },
+        { "option_text": "Bree", "order_index": 1, "is_correct": false, "justification": "Donde conoce a Trancos en la posada." },
+        { "option_text": "Rivendell", "order_index": 2, "is_correct": false, "justification": "Donde se forma la Compañía tras su curación." },
+        { "option_text": "Lothlórien", "order_index": 3, "is_correct": false, "justification": "El bosque élfico tras salir de Moria." },
+        { "option_text": "Emyn Muil", "order_index": 4, "is_correct": false, "justification": "Las colinas rocosas donde capturan a Gollum." },
+        { "option_text": "La Puerta Negra", "order_index": 5, "is_correct": false, "justification": "La entrada a Mordor donde ven el ejército de los Orientales." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántas películas conforman la trilogía original dirigida por Peter Jackson?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 3,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 5,
+      "toleranceCap": 5,
+      "hint": "Es una de las trilogías más famosas de la historia del cine."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué criatura monta el Rey Brujo en 'El Retorno del Rey'?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Un dragón", "is_correct": false, "justification": null },
+        { "option_text": "Una Bestia Alada", "is_correct": true, "justification": "A menudo confundidas con dragones, son criaturas voladoras de cuello largo criadas por Sauron." },
+        { "option_text": "Un águila gigante", "is_correct": false, "justification": null },
+        { "option_text": "Un Huargo volador", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el nombre del padre de Gimli?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Thorin", "is_correct": false, "justification": null },
+        { "option_text": "Glóin", "is_correct": true, "justification": "Glóin fue uno de los compañeros de Bilbo en 'El Hobbit' y aparece brevemente en el Concilio de Elrond." },
+        { "option_text": "Balin", "is_correct": false, "justification": null },
+        { "option_text": "Dwalin", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué nombre recibe el cristal que permite ver a larga distancia?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Silmaril", "is_correct": false, "justification": null },
+        { "option_text": "Palantir", "is_correct": true, "justification": "Las 'piedras videntes' o Palantiri sirven para comunicarse y observar el mundo a través de la magia." },
+        { "option_text": "Arkenstone", "is_correct": false, "justification": null },
+        { "option_text": "Evenstar", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué ingrediente especial tiene el pan de elfo (Lembas)?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Miel de flores", "is_correct": false, "justification": null },
+        { "option_text": "Un solo bocado llena un estómago", "is_correct": true, "justification": "Lembas es el pan de viaje de los elfos, diseñado para mantener las fuerzas con poca cantidad." },
+        { "option_text": "Pólvora", "is_correct": false, "justification": null },
+        { "option_text": "Agua de Fangorn", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena estos rangos en la jerarquía de los Istari (Magos) por su color/estatus en la trilogía:",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Saruman el Blanco (Líder)", "order_index": 0, "is_correct": false, "justification": "Al inicio es el jefe de la orden y el más poderoso." },
+        { "option_text": "Gandalf el Blanco (Tras renacer)", "order_index": 1, "is_correct": false, "justification": "Reemplaza a Saruman tras su traición." },
+        { "option_text": "Gandalf el Gris", "order_index": 2, "is_correct": false, "justification": "El estatus de Gandalf antes de su caída en Moria." },
+        { "option_text": "Radagast el Pardo", "order_index": 3, "is_correct": false, "justification": "Aunque no aparece físicamente en la trilogía original, es mencionado." },
+        { "option_text": "Mago Azul 1", "order_index": 4, "is_correct": false, "justification": "Magos que partieron al este (mencionados en el lore)." },
+        { "option_text": "Mago Azul 2", "order_index": 5, "is_correct": false, "justification": "El segundo de los magos que viajaron al este." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántos años de rodaje principal tomó la trilogía (grabadas simultáneamente)?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 8,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 1,
+      "toleranceCap": 2,
+      "hint": "Desde la preproducción hasta el final de las tres películas pasó casi una década."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Quién salva a Frodo y Sam de las faldas del Monte del Destino?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Gandalf y las Águilas", "is_correct": true, "justification": "Gandalf vuela con Gwaihir y otras águilas para rescatar a los hobbits tras la destrucción del anillo." },
+        { "option_text": "Aragorn y el ejército", "is_correct": false, "justification": null },
+        { "option_text": "Gollum por accidente", "is_correct": false, "justification": null },
+        { "option_text": "Legolas con sus flechas", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el apodo que los orcos le dan a Minas Morgul?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "La Torre Oscura", "is_correct": false, "justification": null },
+        { "option_text": "La Torre de la Hechicería", "is_correct": true, "justification": "Minas Morgul era antes Minas Ithil, pero fue capturada y corrompida por los Nazgûl." },
+        { "option_text": "El Ojo", "is_correct": false, "justification": null },
+        { "option_text": "Nido de Cuervos", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el reino que gobierna Denethor como Senescal?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Arnor", "is_correct": false, "justification": null },
+        { "option_text": "Gondor", "is_correct": true, "justification": "Denethor II era el Senescal Regente de Gondor ante la ausencia de un rey." },
+        { "option_text": "Rhûn", "is_correct": false, "justification": null },
+        { "option_text": "Harad", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué le entrega Arwen a Aragorn como símbolo de su amor?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Una espada", "is_correct": false, "justification": null },
+        { "option_text": "La joya Evenstar (Estrella de la Tarde)", "is_correct": true, "justification": "Este colgante representa su inmortalidad, la cual decide abandonar por él." },
+        { "option_text": "Un anillo de plata", "is_correct": false, "justification": null },
+        { "option_text": "Un mechón de pelo", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena los siguientes portadores del Anillo Único por orden de posesión (desde Sauron):",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Sauron", "order_index": 0, "is_correct": false, "justification": "Su creador original." },
+        { "option_text": "Isildur", "order_index": 1, "is_correct": false, "justification": "Lo cortó de la mano de Sauron." },
+        { "option_text": "Sméagol/Gollum", "order_index": 2, "is_correct": false, "justification": "Lo encontró en el río Anduin tras la muerte de Déagol." },
+        { "option_text": "Bilbo Bolsón", "order_index": 3, "is_correct": false, "justification": "Lo encontró en la cueva de Gollum." },
+        { "option_text": "Frodo Bolsón", "order_index": 4, "is_correct": false, "justification": "Heredero de Bilbo." },
+        { "option_text": "Samwise Gamgee", "order_index": 5, "is_correct": false, "justification": "Lo llevó brevemente tras creer que Frodo había muerto." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántas nominaciones al Oscar recibió 'La Comunidad del Anillo'?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 13,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 1,
+      "toleranceCap": 2,
+      "hint": "Fue la película más nominada de su año."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué actor interpreta a Elrond, el señor de Rivendell?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Hugo Weaving", "is_correct": true, "justification": "Hugo Weaving es conocido también por su papel de Agente Smith en Matrix." },
+        { "option_text": "Cate Blanchett", "is_correct": false, "justification": null },
+        { "option_text": "Liv Tyler", "is_correct": false, "justification": null },
+        { "option_text": "Karl Urban", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el volcán donde se debe destruir el Anillo?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Caradhras", "is_correct": false, "justification": null },
+        { "option_text": "Monte del Destino (Orodruin)", "is_correct": true, "justification": "Solo el fuego donde fue forjado puede deshacer la magia del Anillo Único." },
+        { "option_text": "Picos Nublados", "is_correct": false, "justification": null },
+        { "option_text": "Montañas de la Sombra", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Quién acaba finalmente con la vida del Rey Brujo de Angmar?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Aragorn", "is_correct": false, "justification": null },
+        { "option_text": "Éowyn", "is_correct": true, "justification": "Con la ayuda de Merry, Éowyn revela su identidad y lo mata cumpliendo la profecía." },
+        { "option_text": "Gandalf", "is_correct": false, "justification": null },
+        { "option_text": "Théoden", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el puente donde Gandalf se enfrenta al Balrog?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Puente de Khazad-dûm", "is_correct": true, "justification": "Es un puente estrecho de piedra situado sobre un abismo en el extremo oriental de Moria." },
+        { "option_text": "Puente de Brandivino", "is_correct": false, "justification": null },
+        { "option_text": "Puente de Osgiliath", "is_correct": false, "justification": null },
+        { "option_text": "Puente del Abismo", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué regalo le entrega Galadriel al enano Gimli a petición de este?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Un hacha de oro", "is_correct": false, "justification": null },
+        { "option_text": "Tres cabellos de su cabeza", "is_correct": true, "justification": "Gimli pidió un solo cabello, pero Galadriel le dio tres por su cortesía y valor." },
+        { "option_text": "Un cinturón de plata", "is_correct": false, "justification": null },
+        { "option_text": "Una gema de la cueva", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el nombre de la posada en Bree donde los hobbits esperan a Gandalf?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "El Dragón Verde", "is_correct": false, "justification": null },
+        { "option_text": "El Poney Pisador", "is_correct": true, "justification": "Es el lugar de encuentro acordado por Gandalf y Frodo, regentado por Cebadilla Mantecona." },
+        { "option_text": "La Hoja del Sur", "is_correct": false, "justification": null },
+        { "option_text": "El Tabardo", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Quién es el capitán de los montaraces de Ithilien que captura a Frodo y Sam?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Boromir", "is_correct": false, "justification": null },
+        { "option_text": "Faramir", "is_correct": true, "justification": "Faramir es el hermano menor de Boromir y lidera la defensa de Ithilien contra los aliados de Sauron." },
+        { "option_text": "Denethor", "is_correct": false, "justification": null },
+        { "option_text": "Éomer", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué palabra en élfico abre las Puertas de Durin en Moria?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Elen", "is_correct": false, "justification": null },
+        { "option_text": "Mellon", "is_correct": true, "justification": "Significa 'amigo', respondiendo al acertijo: 'Dí amigo y entra'." },
+        { "option_text": "Namarie", "is_correct": false, "justification": null },
+        { "option_text": "Hannon", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué nombre recibe la espada que fue reforjada para Aragorn?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Narsil", "is_correct": false, "justification": null },
+        { "option_text": "Andúril", "is_correct": true, "justification": "Andúril significa 'Llama del Oeste' y fue forjada a partir de los fragmentos de Narsil." },
+        { "option_text": "Glamdring", "is_correct": false, "justification": null },
+        { "option_text": "Orcrist", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el pantano lleno de luces y rostros de guerreros caídos?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "La Ciénaga de los Muertos", "is_correct": true, "justification": "Gollum guía a los hobbits a través de ella, advirtiéndoles que no sigan las luces." },
+        { "option_text": "El Pantano Largo", "is_correct": false, "justification": null },
+        { "option_text": "Las Marismas de Isengard", "is_correct": false, "justification": null },
+        { "option_text": "El Mar de Núrn", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el símbolo que Saruman marca en sus Uruk-hai?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Un ojo rojo", "is_correct": false, "justification": null },
+        { "option_text": "La Mano Blanca", "is_correct": true, "justification": "La Mano Blanca de Saruman es el estandarte de las fuerzas de Isengard." },
+        { "option_text": "Una torre negra", "is_correct": false, "justification": null },
+        { "option_text": "Un lobo gris", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Quién es el líder de los jinetes de Rohan desterrado por Gríma Lengua de Serpiente?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Gamling", "is_correct": false, "justification": null },
+        { "option_text": "Éomer", "is_correct": true, "justification": "Éomer es el sobrino de Théoden y Mariscal de la Marca, expulsado tras la muerte de Théodred." },
+        { "option_text": "Erkenbrand", "is_correct": false, "justification": null },
+        { "option_text": "Éowyn", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena cronológicamente estos encuentros de Frodo con sus aliados:",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Samwise Gamgee en La Comarca", "order_index": 0, "is_correct": false, "justification": "Sam es el primero en acompañarlo desde su hogar." },
+        { "option_text": "Merry y Pippin en los campos de cultivo", "order_index": 1, "is_correct": false, "justification": "Se topan con ellos mientras huyen del granjero Maggot." },
+        { "option_text": "Trancos en el Poney Pisador", "order_index": 2, "is_correct": false, "justification": "Aparece para protegerlos de los Nazgûl en Bree." },
+        { "option_text": "Arwen en el bosque", "order_index": 3, "is_correct": false, "justification": "Arwen los encuentra tras el ataque en la Cima de los Vientos." },
+        { "option_text": "Boromir en Rivendell", "order_index": 4, "is_correct": false, "justification": "Lo conoce durante el Concilio de Elrond." },
+        { "option_text": "Gollum en Emyn Muil", "order_index": 5, "is_correct": false, "justification": "Lo capturan después de la disolución de la Compañía." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántos años de edad tiene Aragorn durante los eventos de 'Las Dos Torres'?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 87,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 2,
+      "toleranceCap": 5,
+      "hint": "Es mucho más viejo de lo que aparenta debido a su linaje Dúnedain."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el hobbit que fue el mejor amigo de Sméagol y encontró el Anillo en el río?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Déagol", "is_correct": true, "justification": "Déagol encontró el Anillo mientras pescaba y fue asesinado por Sméagol el mismo día." },
+        { "option_text": "Bandobras", "is_correct": false, "justification": null },
+        { "option_text": "Drogo", "is_correct": false, "justification": null },
+        { "option_text": "Otho", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué hierba utiliza Aragorn para aliviar el dolor de la herida de Frodo?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Pipa del Viejo Tobby", "is_correct": false, "justification": null },
+        { "option_text": "Athelas (Hojas de Reyes)", "is_correct": true, "justification": "Es una planta curativa que solo los reyes conocen bien cómo aplicar." },
+        { "option_text": "Malva real", "is_correct": false, "justification": null },
+        { "option_text": "Eulari", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el águila gigante que rescata a Gandalf de la torre de Orthanc?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Gwaihir", "is_correct": true, "justification": "Gwaihir el Señor de los Vientos acude al llamado de Gandalf enviado por una polilla." },
+        { "option_text": "Landroval", "is_correct": false, "justification": null },
+        { "option_text": "Meneldor", "is_correct": false, "justification": null },
+        { "option_text": "Thorondor", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué criatura es en realidad el Balrog de Moria?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Un dragón de fuego", "is_correct": false, "justification": null },
+        { "option_text": "Un Maia corrompido (demonio)", "is_correct": true, "justification": "Los Balrogs son espíritus antiguos de poder que se unieron a la oscuridad en la Primera Edad." },
+        { "option_text": "Un experimento de Saruman", "is_correct": false, "justification": null },
+        { "option_text": "Una mutación de Trol", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena estos sucesos militares por la magnitud de combatientes (de menor a mayor ejército):",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Escaramuza en Amon Hen", "order_index": 0, "is_correct": false, "justification": "Una patrulla de Uruk-hai contra los miembros de la Compañía." },
+        { "option_text": "Ataque de los Ents a Isengard", "order_index": 1, "is_correct": false, "justification": "Unos pocos cientos de Ents contra la guarnición restante de Saruman." },
+        { "option_text": "Batalla del Abismo de Helm", "order_index": 2, "is_correct": false, "justification": "10,000 Uruk-hai contra los defensores de Rohan." },
+        { "option_text": "Batalla de los Campos del Pelennor", "order_index": 3, "is_correct": false, "justification": "Cientos de miles de orcos, hombres de Harad y Gondor/Rohan." },
+        { "option_text": "Batalla ante la Puerta Negra", "order_index": 4, "is_correct": false, "justification": "El último esfuerzo desesperado de los ejércitos del Oeste." },
+        { "option_text": "Guerra de la Última Alianza", "order_index": 5, "is_correct": false, "justification": "La mayor concentración de Elfos, Hombres y Orcos vista en la Tierra Media." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántos Oscars en TOTAL ganó la trilogía completa?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 17,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 5,
+      "toleranceCap": 5,
+      "hint": "Suma los 4 de la primera, los 2 de la segunda y los 11 de la tercera."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué nombre le da Sam a su pony durante el viaje?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Bill", "is_correct": true, "justification": "Sam se encariña mucho con Bill y le cuesta dejarlo ir antes de entrar en Moria." },
+        { "option_text": "Berto", "is_correct": false, "justification": null },
+        { "option_text": "Bob", "is_correct": false, "justification": null },
+        { "option_text": "Tom", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el título de Denethor II?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Rey de Gondor", "is_correct": false, "justification": null },
+        { "option_text": "Senescal Regente de Gondor", "is_correct": true, "justification": "Gobernaba Gondor en espera del retorno del rey legítimo de la estirpe de Elendil." },
+        { "option_text": "Príncipe de Ithilien", "is_correct": false, "justification": null },
+        { "option_text": "Señor de las Sombras", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué animal cabalgan los Haradrim en la batalla del Pelennor?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Huargos", "is_correct": false, "justification": null },
+        { "option_text": "Mûmakil (Olifantes)", "is_correct": true, "justification": "Son elefantes gigantescos con torres de combate sobre sus lomos." },
+        { "option_text": "Dragones de tierra", "is_correct": false, "justification": null },
+        { "option_text": "Rinocerontes", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el espía de Saruman en la corte de Rohan?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Lurtz", "is_correct": false, "justification": null },
+        { "option_text": "Gríma Lengua de Serpiente", "is_correct": true, "justification": "Envenenaba la mente de Théoden siguiendo las órdenes de Saruman." },
+        { "option_text": "Uglúk", "is_correct": false, "justification": null },
+        { "option_text": "Mauhúr", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena los pasos del encendido de las almenaras para pedir ayuda a Rohan:",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Pippin escala la torre en Minas Tirith", "order_index": 0, "is_correct": false, "justification": "Enciende la primera almenara a escondidas de Denethor." },
+        { "option_text": "Almenara de Amon Dîn se ilumina", "order_index": 1, "is_correct": false, "justification": "Es la primera respuesta fuera de la ciudad." },
+        { "option_text": "Cadena de fuegos por las Montañas Blancas", "order_index": 2, "is_correct": false, "justification": "El fuego viaja de pico en pico por la cordillera." },
+        { "option_text": "Aragorn ve el fuego desde Edoras", "order_index": 3, "is_correct": false, "justification": "Avisa al rey que 'las almenaras están encendidas'." },
+        { "option_text": "El Rey Théoden acepta la llamada", "order_index": 4, "is_correct": false, "justification": "Pronuncia la famosa frase: 'Gondor pide auxilio. ¡Y Rohan responderá!'." },
+        { "option_text": "Reunión de los jinetes en el Sagrario", "order_index": 5, "is_correct": false, "justification": "Se preparan para la partida hacia Minas Tirith." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántas estatuas gigantes componen el Argonath en el río Anduin?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 2,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 5,
+      "toleranceCap": 5,
+      "hint": "Representan a los reyes Isildur y Anárion."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué tipo de criatura es el líder orco que supervisa el asedio de Minas Tirith?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Uruk-hai", "is_correct": false, "justification": null },
+        { "option_text": "Orco Gothmog", "is_correct": true, "justification": "Es el teniente de Morgul con el rostro deforme que dirige las tropas en tierra." },
+        { "option_text": "Trasgo", "is_correct": false, "justification": null },
+        { "option_text": "Espectro", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el nombre del bosque habitado por los Ents?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Bosque Negro", "is_correct": false, "justification": null },
+        { "option_text": "Bosque de Fangorn", "is_correct": true, "justification": "Un lugar antiguo y peligroso donde los árboles parecen tener vida propia." },
+        { "option_text": "Bosque de Lothlórien", "is_correct": false, "justification": null },
+        { "option_text": "Bosque Viejo", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Quién pronuncia la famosa frase 'No puedes pasar'?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Sauron", "is_correct": false, "justification": null },
+        { "option_text": "Gandalf el Gris", "is_correct": true, "justification": "Lo dice al Balrog en el puente de Khazad-dûm." },
+        { "option_text": "Aragorn", "is_correct": false, "justification": null },
+        { "option_text": "Elrond", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama la poción que rejuvenece a los Hobbits en Fangorn?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Miruvor", "is_correct": false, "justification": null },
+        { "option_text": "Agua de los Ents", "is_correct": true, "justification": "Merry y Pippin crecen varios centímetros después de beber el agua de Bárbol." },
+        { "option_text": "Néctar de Elfa", "is_correct": false, "justification": null },
+        { "option_text": "Zumo de bayas", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena los eventos de la transformación de Sméagol en Gollum:",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Pesca con Déagol en el río", "order_index": 0, "is_correct": false, "justification": "Estaban celebrando su cumpleaños." },
+        { "option_text": "Asesinato de Déagol por el Anillo", "order_index": 1, "is_correct": false, "justification": "El poder del anillo corrompe su mente al instante." },
+        { "option_text": "Expulsión de su comunidad", "order_index": 2, "is_correct": false, "justification": "Su familia y vecinos lo rechazan por sus malas acciones." },
+        { "option_text": "Refugio en las Montañas Nubladas", "order_index": 3, "is_correct": false, "justification": "Se esconde de la luz del sol que tanto odia." },
+        { "option_text": "Pérdida de su identidad y nombre", "order_index": 4, "is_correct": false, "justification": "Pasa a ser conocido solo por el sonido de su garganta." },
+        { "option_text": "Encuentro con Bilbo Bolsón", "order_index": 5, "is_correct": false, "justification": "Siglos después, pierde el anillo ante el hobbit." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántos jinetes de Rohan parten inicialmente con Théoden al Pelennor?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 6000,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 500,
+      "toleranceCap": 5000,
+      "hint": "Théoden menciona el número exacto de lanzas antes de la carga."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Quién ayuda a Sam a cargar a Frodo en la falda del volcán?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Nadie, Sam lo carga solo", "is_correct": true, "justification": "Sam dice la famosa frase: '¡No puedo llevarlo por usted, pero puedo llevarlo a usted!'." },
+        { "option_text": "Gollum", "is_correct": false, "justification": null },
+        { "option_text": "Un orco amigable", "is_correct": false, "justification": null },
+        { "option_text": "El espíritu de Gandalf", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué le ocurre al anillo cuando se calienta en el fuego?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Se vuelve invisible", "is_correct": false, "justification": null },
+        { "option_text": "Aparece una inscripción en Lengua Negra", "is_correct": true, "justification": "Las letras de fuego revelan que es el Anillo Único forjado por Sauron." },
+        { "option_text": "Se derrite", "is_correct": false, "justification": null },
+        { "option_text": "Empieza a gritar", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el gigante de piedra que abre la puerta de Isengard?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Bárbol", "is_correct": true, "justification": "Bárbol (Treebeard) es el líder de los Ents y quien dirige el ataque final." },
+        { "option_text": "Ramaviva", "is_correct": false, "justification": null },
+        { "option_text": "Finglas", "is_correct": false, "justification": null },
+        { "option_text": "Bregalad", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el nombre del hijo de Boromir?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "No tiene hijos", "is_correct": true, "justification": "Boromir muere soltero y sin descendencia en Amon Hen." },
+        { "option_text": "Faramir Jr.", "is_correct": false, "justification": null },
+        { "option_text": "Denethor III", "is_correct": false, "justification": null },
+        { "option_text": "Eldarion", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena cronológicamente estas apariciones de los Nazgûl:",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "En el camino de La Comarca (Bajo la raíz)", "order_index": 0, "is_correct": false, "justification": "Casi descubren a los hobbits escondidos bajo un árbol." },
+        { "option_text": "En la posada de Bree (Ataque nocturno)", "order_index": 1, "is_correct": false, "justification": "Apuñalan las camas creyendo que son los hobbits." },
+        { "option_text": "En la Cima de los Vientos", "order_index": 2, "is_correct": false, "justification": "Apuñalan a Frodo con la hoja de Morgul." },
+        { "option_text": "En el Vado de Bruinen (Inundación)", "order_index": 3, "is_correct": false, "justification": "Son arrastrados por los caballos de agua creados por Arwen/Elrond." },
+        { "option_text": "Sobrevolando las Ciénagas de los Muertos", "order_index": 4, "is_correct": false, "justification": "Aparecen por primera vez montando sus bestias aladas." },
+        { "option_text": "En el asedio de Minas Tirith", "order_index": 5, "is_correct": false, "justification": "Aterrorizan a la ciudad desde el aire con sus gritos." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántas flechas dispara Lurtz a Boromir antes de que este caiga?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 3,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 5,
+      "toleranceCap": 5,
+      "hint": "Boromir sigue luchando tras la primera y la segunda."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué objeto lanza Pippin al pozo de Moria que despierta al Balrog?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Un esqueleto con armadura", "is_correct": true, "justification": "Toca accidentalmente un cuerpo que cae haciendo un ruido estruendoso." },
+        { "option_text": "Una piedra pequeña", "is_correct": false, "justification": null },
+        { "option_text": "Su propia mochila", "is_correct": false, "justification": null },
+        { "option_text": "El libro de Mazarbul", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama la luz que Galadriel le da a Frodo?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Estrella de la Mañana", "is_correct": false, "justification": null },
+        { "option_text": "Luz de Eärendil", "is_correct": true, "justification": "Contenida en un frasco de cristal, es la luz de la estrella más amada." },
+        { "option_text": "Resplandor de Lorien", "is_correct": false, "justification": null },
+        { "option_text": "Fuego de Anor", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué actor interpreta a Faramir?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "David Wenham", "is_correct": true, "justification": "El actor australiano dio vida al noble hermano de Boromir." },
+        { "option_text": "Sean Bean", "is_correct": false, "justification": null },
+        { "option_text": "Miranda Otto", "is_correct": false, "justification": null },
+        { "option_text": "John Noble", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el nombre del lugar donde se refugian las mujeres y niños de Rohan?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Cuevas Centelleantes", "is_correct": true, "justification": "Se encuentran detrás de la fortaleza del Abismo de Helm." },
+        { "option_text": "Cámaras de Piedra", "is_correct": false, "justification": null },
+        { "option_text": "Santuario de Éowyn", "is_correct": false, "justification": null },
+        { "option_text": "El Sagrario", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena los títulos y nombres de Aragorn según aparecen o se mencionan:",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Trancos (Strider)", "order_index": 0, "is_correct": false, "justification": "Su apodo como montaraz en el Norte." },
+        { "option_text": "Heredero de Isildur", "order_index": 1, "is_correct": false, "justification": "Revelado por Elrond y Gandalf al principio." },
+        { "option_text": "Aragorn, hijo de Arathorn", "order_index": 2, "is_correct": false, "justification": "Su nombre formal presentado en Rivendell." },
+        { "option_text": "Capitán de los Dúnedain", "order_index": 3, "is_correct": false, "justification": "Su rango militar entre su pueblo." },
+        { "option_text": "Elessar (Piedra de Elfo)", "order_index": 4, "is_correct": false, "justification": "Su nombre real como monarca." },
+        { "option_text": "Rey del Reino Reunido", "order_index": 5, "is_correct": false, "justification": "Su estatus final tras la coronación." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántos días de camino dice Aragorn que separan a los Uruk-hai de sus perseguidores?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 3,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 5,
+      "toleranceCap": 5,
+      "hint": "Aragorn, Legolas y Gimli corren sin descanso para alcanzarlos."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué dice Sam que nunca olvidará después de salir de La Comarca?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "El sabor de las fresas", "is_correct": true, "justification": "Es un recuerdo nostálgico que menciona en el Monte del Destino." },
+        { "option_text": "El nombre de su pony", "is_correct": false, "justification": null },
+        { "option_text": "El mapa de Bilbo", "is_correct": false, "justification": null },
+        { "option_text": "La voz de Rosie", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el punto débil del Abismo de Helm que explota el ejército de Saruman?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Las puertas principales", "is_correct": false, "justification": null },
+        { "option_text": "El desagüe del muro", "is_correct": true, "justification": "Usan pólvora para volar la rejilla por donde sale el agua del arroyo." },
+        { "option_text": "Las murallas laterales", "is_correct": false, "justification": null },
+        { "option_text": "La torre del homenaje", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Quién guía a Frodo y Sam hasta la Puerta Negra?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Faramir", "is_correct": false, "justification": null },
+        { "option_text": "Gollum", "is_correct": true, "justification": "Promete ayudarlos a entrar en Mordor a cambio de su vida." },
+        { "option_text": "Legolas", "is_correct": false, "justification": null },
+        { "option_text": "Un espectro", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué nombre le da Gimli a las cuevas detrás del Abismo de Helm?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Minas de Sal", "is_correct": false, "justification": null },
+        { "option_text": "Cuevas Centelleantes (Aglarond)", "is_correct": true, "justification": "Gimli queda maravillado por su belleza mineral única." },
+        { "option_text": "Abismo profundo", "is_correct": false, "justification": null },
+        { "option_text": "Criptas de Helm", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena los siguientes encuentros con criaturas peligrosas por orden cronológico:",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "El Guardián del Agua", "order_index": 0, "is_correct": false, "justification": "Ataca a Frodo justo antes de entrar en Moria." },
+        { "option_text": "El Balrog", "order_index": 1, "is_correct": false, "justification": "Aparece al final del recorrido por las minas." },
+        { "option_text": "Los Huargos", "order_index": 2, "is_correct": false, "justification": "Atacan a los refugiados de Rohan camino al Abismo." },
+        { "option_text": "Ella-Laraña", "order_index": 3, "is_correct": false, "justification": "Acecha a los hobbits en el túnel de Cirith Ungol." },
+        { "option_text": "Los Muertos del Sagrario", "order_index": 4, "is_correct": false, "justification": "Aragorn los enfrenta para pedir su lealtad." },
+        { "option_text": "Los Olifantes", "order_index": 5, "is_correct": false, "justification": "Entran en juego durante la gran batalla del Pelennor." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántos premios Oscar ganó exclusivamente 'La Comunidad del Anillo'?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 4,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 5,
+      "toleranceCap": 5,
+      "hint": "Ganó fotografía, maquillaje, efectos visuales y banda sonora."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el río donde Isildur perdió el Anillo Único?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Río Anduin", "is_correct": true, "justification": "Es el Gran Río de la Tierra Media donde el anillo permaneció oculto siglos." },
+        { "option_text": "Río Brandivino", "is_correct": false, "justification": null },
+        { "option_text": "Río Entaguas", "is_correct": false, "justification": null },
+        { "option_text": "Río Bruinen", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué raza NO está presente en el Concilio de Elrond?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Hombres", "is_correct": false, "justification": null },
+        { "option_text": "Ents", "is_correct": true, "justification": "Los Ents no asistieron; solo Elfos, Enanos, Hombres, Hobbits y el Mago Gandalf." },
+        { "option_text": "Enanos", "is_correct": false, "justification": null },
+        { "option_text": "Hobbits", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el líder de los jinetes de lobos huargos que ataca a los refugiados de Rohan?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Gothmog", "is_correct": false, "justification": null },
+        { "option_text": "Sharku", "is_correct": true, "justification": "Sharku es el veterano orco que lidera la emboscada y termina cayendo por un precipicio junto a Aragorn." },
+        { "option_text": "Uglúk", "is_correct": false, "justification": null },
+        { "option_text": "Mauhúr", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué actor interpreta al enano Gimli y también pone la voz a Bárbol?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "John Rhys-Davies", "is_correct": true, "justification": "A pesar de ser el más alto del elenco principal (1.85m), interpretó al enano Gimli y dio voz al Ent." },
+        { "option_text": "Billy Boyd", "is_correct": false, "justification": null },
+        { "option_text": "Dominic Monaghan", "is_correct": false, "justification": null },
+        { "option_text": "Christopher Lee", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el nombre de la espada que Bilbo le entrega a Frodo en Rivendel?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Glamdring", "is_correct": false, "justification": null },
+        { "option_text": "Dardo (Sting)", "is_correct": true, "justification": "Dardo es una daga de manufactura élfica que brilla en presencia de orcos." },
+        { "option_text": "Orcrist", "is_correct": false, "justification": null },
+        { "option_text": "Gurthang", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué relación de parentesco tiene Arwen con Galadriel?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Es su hija", "is_correct": false, "justification": null },
+        { "option_text": "Es su nieta", "is_correct": true, "justification": "Arwen es hija de Elrond y Celebrian, esta última es la hija de Galadriel y Celeborn." },
+        { "option_text": "Es su sobrina", "is_correct": false, "justification": null },
+        { "option_text": "No tienen parentesco", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena cronológicamente estos momentos del viaje de la Compañía a través de Moria:",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Enigma de las puertas de Durin", "order_index": 0, "is_correct": false, "justification": "El grupo debe descifrar cómo entrar antes de que el Guardián del Agua los atrape." },
+        { "option_text": "Hallazgo de la tumba de Balin", "order_index": 1, "is_correct": false, "justification": "Encuentran los restos del intento de reconquista en la Cámara de Mazarbul." },
+        { "option_text": "Ataque del Trol de cueva", "order_index": 2, "is_correct": false, "justification": "Tras el ruido provocado por Pippin, los orcos y el trol asaltan la cámara." },
+        { "option_text": "Huida por las escaleras en ruinas", "order_index": 3, "is_correct": false, "justification": "Deben saltar brechas mientras los orcos les lanzan flechas." },
+        { "option_text": "Encuentro con el Balrog en el puente", "order_index": 4, "is_correct": false, "justification": "Gandalf se queda atrás para detener al Daño de Durin." },
+        { "option_text": "Salida a las Dimrill Dale (Valle del Arroyo Sombrío)", "order_index": 5, "is_correct": false, "justification": "La Compañía sale al exterior llorando la pérdida del mago." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántos años poseyó Gollum el Anillo Único antes de perderlo frente a Bilbo?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 478,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 25,
+      "toleranceCap": 500,
+      "hint": "Casi medio milenio de 'regalo de cumpleaños'."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el gran salón dorado de Edoras?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Meduseld", "is_correct": true, "justification": "Meduseld significa 'Salón del Hidromiel' y es el trono de los Reyes de Rohan." },
+        { "option_text": "Heorot", "is_correct": false, "justification": null },
+        { "option_text": "Osgiliath", "is_correct": false, "justification": null },
+        { "option_text": "Minas Ithil", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué criatura apuñala a Frodo en la Cámara de Mazarbul?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Un orco de Moria", "is_correct": false, "justification": null },
+        { "option_text": "Un Trol de cueva", "is_correct": true, "justification": "En la película, el trol atraviesa a Frodo con una lanza, aunque la cota de Mithril lo salva." },
+        { "option_text": "El Balrog", "is_correct": false, "justification": null },
+        { "option_text": "Gollum", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Quién entrega a Aragorn la espada Andúril en el Sagrario?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Arwen", "is_correct": false, "justification": null },
+        { "option_text": "Elrond", "is_correct": true, "justification": "Elrond viaja desde Rivendel para entregar la espada reforjada y recordar a Aragorn su destino." },
+        { "option_text": "Gandalf", "is_correct": false, "justification": null },
+        { "option_text": "Éomer", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el color de la sangre de los orcos en las películas?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Rojo brillante", "is_correct": false, "justification": null },
+        { "option_text": "Negra / Oscura", "is_correct": true, "justification": "La sangre de los orcos es espesa y de color negro azabache." },
+        { "option_text": "Verde", "is_correct": false, "justification": null },
+        { "option_text": "Azul fluorescente", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena estas muertes de villanos o antagonistas según ocurren en la trilogía:",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Lurtz (Uruk-hai)", "order_index": 0, "is_correct": false, "justification": "Muere a manos de Aragorn al final de 'La Comunidad del Anillo'." },
+        { "option_text": "Grishnákh (Orco que persigue a los hobbits)", "order_index": 1, "is_correct": false, "justification": "Muere aplastado por Bárbol al inicio de 'Las Dos Torres'." },
+        { "option_text": "Sharku (Capitán de Huargos)", "order_index": 2, "is_correct": false, "justification": "Muere durante la escaramuza camino al Abismo de Helm." },
+        { "option_text": "Saruman el Blanco", "order_index": 3, "is_correct": false, "justification": "Muere en Orthanc (en la versión extendida) al inicio de la tercera película." },
+        { "option_text": "El Rey Brujo", "order_index": 4, "is_correct": false, "justification": "Cae durante la batalla de los Campos del Pelennor." },
+        { "option_text": "La Boca de Sauron", "order_index": 5, "is_correct": false, "justification": "Aragorn lo decapita frente a la Puerta Negra." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántos miembros de la familia de Samwise Gamgee (hijos) se muestran en la escena final?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 2,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 5,
+      "toleranceCap": 5,
+      "hint": "Sam es recibido por Rosie Cotton y sus pequeños hijos."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué regalo le da Galadriel a Legolas?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Un arco de los Galadhrim", "is_correct": true, "justification": "Es un arco largo y potente, digno de un príncipe elfo." },
+        { "option_text": "Una capa de invisibilidad", "is_correct": false, "justification": null },
+        { "option_text": "Una gema blanca", "is_correct": false, "justification": null },
+        { "option_text": "Dagas de acero", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el 'segundo' de Saruman en el control de Isengard?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Gríma Lengua de Serpiente", "is_correct": true, "justification": "Gríma huyó de Rohan para servir directamente a Saruman en Isengard." },
+        { "option_text": "Gothmog", "is_correct": false, "justification": null },
+        { "option_text": "Lurtz", "is_correct": false, "justification": null },
+        { "option_text": "Uglúk", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué nombre recibe el paso de montaña que intentan cruzar antes de ir a Moria?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Caradhras", "is_correct": true, "justification": "El Cuerno Rojo intenta detenerlos con una tormenta de nieve provocada por Saruman." },
+        { "option_text": "Cirith Ungol", "is_correct": false, "justification": null },
+        { "option_text": "Emyn Muil", "is_correct": false, "justification": null },
+        { "option_text": "Montañas de Ceniza", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué frase le dice Sam a Frodo para evitar que este cruce el río solo al final de la primera película?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "¡Prometí no dejarlo!", "is_correct": true, "justification": "Sam recuerda su promesa a Gandalf: 'No lo pierdas de vista, Samwise Gamgee'." },
+        { "option_text": "¡Yo tengo la comida!", "is_correct": false, "justification": null },
+        { "option_text": "¡No sabe nadar!", "is_correct": false, "justification": null },
+        { "option_text": "¡El anillo es mío!", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena los siguientes reyes y senescales según su aparición en la cronología de Gondor (mencionados o vistos):",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Elendil", "order_index": 0, "is_correct": false, "justification": "El primer Gran Rey que muere a manos de Sauron en el prólogo." },
+        { "option_text": "Isildur", "order_index": 1, "is_correct": false, "justification": "Hijo de Elendil que corta el dedo de Sauron." },
+        { "option_text": "Ecthelion II (Mencionado)", "order_index": 2, "is_correct": false, "justification": "Padre de Denethor II y Senescal previo." },
+        { "option_text": "Denethor II", "order_index": 3, "is_correct": false, "justification": "El último Senescal Regente visto en las películas." },
+        { "option_text": "Faramir (Senescal breve)", "order_index": 4, "is_correct": false, "justification": "Actúa como Senescal antes de la coronación de Aragorn." },
+        { "option_text": "Aragorn (Elessar)", "order_index": 5, "is_correct": false, "justification": "Restaura la línea de los reyes de Gondor." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántos Nazgûl son derrotados por las aguas del río Bruinen?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 9,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 5,
+      "toleranceCap": 5,
+      "hint": "Toda la manada de jinetes perseguía a Arwen y Frodo."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el nombre de la colina donde Frodo ofrece el anillo a Galadriel?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Cerin Amroth", "is_correct": false, "justification": null },
+        { "option_text": "Caras Galadhon", "is_correct": true, "justification": "Es la ciudad-fortaleza de los árboles donde viven los Señores de Lothlórien." },
+        { "option_text": "Amon Sûl", "is_correct": false, "justification": null },
+        { "option_text": "Amon Lhaw", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué instrumento musical toca Pippin mientras Denethor come?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Ninguno, solo canta", "is_correct": true, "justification": "Pippin canta 'The Edge of Night' a capela en una de las escenas más emotivas." },
+        { "option_text": "Una flauta de madera", "is_correct": false, "justification": null },
+        { "option_text": "Un arpa pequeña", "is_correct": false, "justification": null },
+        { "option_text": "Un laúd", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el nombre del primer orco que vemos nacer del barro en Isengard?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Uglúk", "is_correct": false, "justification": null },
+        { "option_text": "Lurtz", "is_correct": true, "justification": "Lurtz es el primer Uruk-hai creado por Saruman y líder de la partida de caza." },
+        { "option_text": "Snaga", "is_correct": false, "justification": null },
+        { "option_text": "Gorbag", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿A qué raza pertenece el personaje de Bárbol?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Gigante", "is_correct": false, "justification": null },
+        { "option_text": "Ent", "is_correct": true, "justification": "Los Ents son los Pastores de Árboles, seres antiguos que cuidan los bosques." },
+        { "option_text": "Huorn", "is_correct": false, "justification": null },
+        { "option_text": "Trol de madera", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena los siguientes componentes del atuendo de un Hobbit según su importancia o uso habitual:",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Vellos en los pies (natural)", "order_index": 0, "is_correct": false, "justification": "Es su característica física más distintiva al no usar zapatos." },
+        { "option_text": "Pantalones cortos/bragas", "order_index": 1, "is_correct": false, "justification": "Suelen ser de colores tierra y resistentes." },
+        { "option_text": "Camisa de lino", "order_index": 2, "is_correct": false, "justification": "La prenda básica superior." },
+        { "option_text": "Chaleco (Waistcoat)", "order_index": 3, "is_correct": false, "justification": "Prenda esencial para la elegancia Hobbit." },
+        { "option_text": "Capa élfica (Regalo)", "order_index": 4, "is_correct": false, "justification": "Añadida durante el viaje para camuflaje." },
+        { "option_text": "Broche en forma de hoja", "order_index": 5, "is_correct": false, "justification": "El cierre de la capa que identifica a la Compañía." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántos días dura la Batalla del Abismo de Helm?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 1,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 5,
+      "toleranceCap": 5,
+      "hint": "Comienza al anochecer y termina con la llegada del sol al quinto día desde la partida de Gandalf."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Quién es el primer miembro de la Compañía en intentar tocar el anillo en Rivendel?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Aragorn", "is_correct": false, "justification": null },
+        { "option_text": "Boromir", "is_correct": true, "justification": "Boromir se siente atraído por el anillo desde el primer momento en el Concilio." },
+        { "option_text": "Gimli", "is_correct": false, "justification": null },
+        { "option_text": "Pippin", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el pantano donde Sam cae y ve 'caras en el agua'?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Ciénaga de los Muertos", "is_correct": true, "justification": "Contiene los restos de la Batalla de Dagorlad de la Segunda Edad." },
+        { "option_text": "Marismas de Nurn", "is_correct": false, "justification": null },
+        { "option_text": "Pantano de los Mosquitos", "is_correct": false, "justification": null },
+        { "option_text": "Aguas Turbias", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el nombre de la madre de Frodo?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Primula Brandigamo", "is_correct": true, "justification": "Murió en un accidente de bote junto a su esposo Drogo." },
+        { "option_text": "Belladonna Took", "is_correct": false, "justification": null },
+        { "option_text": "Rosie Cotton", "is_correct": false, "justification": null },
+        { "option_text": "Lobelia Sacovilla-Bolsón", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué dice Legolas que traen los orcos a Isengard?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Una carnicería", "is_correct": false, "justification": null },
+        { "option_text": "A los hobbits", "is_correct": true, "justification": "La frase icónica es: '¡Llevan a los hobbits a Isengard!'." },
+        { "option_text": "Guerra", "is_correct": false, "justification": null },
+        { "option_text": "El anillo", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena los pasos que sigue Aragorn para convocar al Ejército de los Muertos:",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Entrada por el Sendero de los Muertos", "order_index": 0, "is_correct": false, "justification": "Cruza la puerta en la montaña Dwimorberg." },
+        { "option_text": "Encuentro con el Rey de los Muertos", "order_index": 1, "is_correct": false, "justification": "Se enfrenta a ellos en la gran cámara subterránea." },
+        { "option_text": "Muestra la espada Andúril", "order_index": 2, "is_correct": false, "justification": "Prueba que es el heredero de Isildur, al que deben lealtad." },
+        { "option_text": "Salida de la montaña bajo un terremoto", "order_index": 3, "is_correct": false, "justification": "Parece que han fallado hasta que el Rey de los Muertos acepta." },
+        { "option_text": "Ataque a los barcos de los Corsarios", "order_index": 4, "is_correct": false, "justification": "Limpian los barcos en Pelargir para viajar a Minas Tirith." },
+        { "option_text": "Desembarco en los muelles de Harlond", "order_index": 5, "is_correct": false, "justification": "Llegan justo a tiempo para cambiar el rumbo de la batalla." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántas flechas lleva Legolas en su carcaj (promedio visto en producción)?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 24,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 6,
+      "toleranceCap": 52,
+      "hint": "Es un número estándar para un arquero de élite, aunque parece tener infinitas."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el nombre del caballo que Éomer le presta a Aragorn?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Arod", "is_correct": false, "justification": null },
+        { "option_text": "Hasufel", "is_correct": true, "justification": "Hasufel es el caballo que Aragorn monta hasta que recupera a Brego." },
+        { "option_text": "Roheryn", "is_correct": false, "justification": null },
+        { "option_text": "Asfaloth", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué actor interpreta a Théoden, Rey de Rohan?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Bernard Hill", "is_correct": true, "justification": "Bernard Hill es el único actor que ha aparecido en dos películas con 11 Oscars (Titanic y LOTR)." },
+        { "option_text": "Brad Dourif", "is_correct": false, "justification": null },
+        { "option_text": "Mirando Otto", "is_correct": false, "justification": null },
+        { "option_text": "Ian Holm", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el nombre de la bestia que mata a Théoden en el Pelennor?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Un dragón", "is_correct": false, "justification": null },
+        { "option_text": "Una Bestia Alada (Fell Beast)", "is_correct": true, "justification": "La montura del Rey Brujo aplasta al rey y su caballo Nieve Blanca." },
+        { "option_text": "Un Mûmakil", "is_correct": false, "justification": null },
+        { "option_text": "Un Huargo", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué planta fuman los hobbits en sus pipas?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Tabaco de la Comarca", "is_correct": false, "justification": null },
+        { "option_text": "Hierba para pipa", "is_correct": true, "justification": "Especialmente la variedad 'Hoja del Valle Largo' o 'Viejo Toby'." },
+        { "option_text": "Hojas de Athelas", "is_correct": false, "justification": null },
+        { "option_text": "Musgo de árbol", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena los eventos de la 'curación' de Théoden por Gandalf:",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Gandalf entra con su vara oculta", "order_index": 0, "is_correct": false, "justification": "Engañan a Hama diciendo que es un apoyo para caminar." },
+        { "option_text": "Expulsión de Gríma del trono", "order_index": 1, "is_correct": false, "justification": "Aragorn y los demás neutralizan a los guardias mientras Gandalf avanza." },
+        { "option_text": "Duelo de voluntades con Saruman", "order_index": 2, "is_correct": false, "justification": "Gandalf utiliza su poder para sacar la voz de Saruman del cuerpo del rey." },
+        { "option_text": "Théoden recupera su aspecto joven", "order_index": 3, "is_correct": false, "justification": "Sus ojos se aclaran y su piel y cabello sanan milagrosamente." },
+        { "option_text": "Entrega de la espada Herugrim", "order_index": 4, "is_correct": false, "justification": "Recupera su arma y su autoridad como guerrero." },
+        { "option_text": "Visita a la tumba de su hijo Théodred", "order_index": 5, "is_correct": false, "justification": "Es el momento en que acepta plenamente su dolor y realidad." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántas horas de metraje tiene la versión extendida de 'El Retorno del Rey'?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 263,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 10,
+      "toleranceCap": 30,
+      "hint": "Son más de 4 horas de película (en minutos)."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Quién es el 'Señor de los Espectros del Anillo'?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Khamûl", "is_correct": false, "justification": null },
+        { "option_text": "El Rey Brujo de Angmar", "is_correct": true, "justification": "Es el más poderoso de los Nueve y el principal lugarteniente de Sauron." },
+        { "option_text": "Sauron", "is_correct": false, "justification": null },
+        { "option_text": "La Boca de Sauron", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué regalo le da Galadriel a Samwise Gamgee?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Una caja con tierra de Lórien", "is_correct": true, "justification": "En el libro es tierra y una semilla, en la película se enfatiza la cuerda elfo más tarde." },
+        { "option_text": "Un frasco de luz", "is_correct": false, "justification": null },
+        { "option_text": "Una daga de plata", "is_correct": false, "justification": null },
+        { "option_text": "Un cinturón de oro", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama la puerta secreta que Gollum conoce para entrar en Mordor?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "La Puerta Negra", "is_correct": false, "justification": null },
+        { "option_text": "Cirith Ungol (El paso de la araña)", "is_correct": true, "justification": "Es un camino traicionero que pasa por el antro de Ella-Laraña." },
+        { "option_text": "Morgai", "is_correct": false, "justification": null },
+        { "option_text": "Durthang", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el nombre del lugar donde se reúnen los Ents para decidir si van a la guerra?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Cámara de Ents", "is_correct": false, "justification": null },
+        { "option_text": "Cámara de las Asambleas (Entmoot)", "is_correct": true, "justification": "Allí celebran sus largos debates sobre los asuntos del mundo." },
+        { "option_text": "Valle de los Árboles", "is_correct": false, "justification": null },
+        { "option_text": "Bosque del Retiro", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena los eventos de la Batalla ante la Puerta Negra:",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Parlamento con la Boca de Sauron", "order_index": 0, "is_correct": false, "justification": "Ocurre en la versión extendida antes del inicio del combate." },
+        { "option_text": "Discurso de Aragorn: '¡Hoy no es ese día!'", "order_index": 1, "is_correct": false, "justification": "Arenga a sus tropas antes de que las puertas se abran." },
+        { "option_text": "Carga de los hombres contra los orcos", "order_index": 2, "is_correct": false, "justification": "Aragorn corre primero al grito de 'Por Frodo'." },
+        { "option_text": "Aparición de los Nazgûl alados", "order_index": 3, "is_correct": false, "justification": "Sauron envía a sus espectros para aplastar al ejército." },
+        { "option_text": "Llegada de las Águilas", "order_index": 4, "is_correct": false, "justification": "Intervienen para combatir a las bestias aladas." },
+        { "option_text": "Derrumbe del Ojo de Sauron", "order_index": 5, "is_correct": false, "justification": "Tras la destrucción del anillo, el ejército enemigo huye despavorido." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántas estatuas de reyes hay en la encrucijada de Ithilien (la estatua decapitada)?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 1,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 5,
+      "toleranceCap": 5,
+      "hint": "Frodo y Sam ven una estatua cuyo trono ha sido profanado por los orcos."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Quién es el dueño de la posada 'El Dragón Verde' en la Comarca?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Cebadilla Mantecona", "is_correct": false, "justification": null },
+        { "option_text": "Rose Cotton", "is_correct": false, "justification": null },
+        { "option_text": "Señor Junco", "is_correct": true, "justification": "Es el dueño de la taberna favorita de Merry y Pippin en Delagua." },
+        { "option_text": "El Gaffer", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el río que fluye a través de Osgiliath?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Anduin", "is_correct": true, "justification": "El Gran Río Anduin divide la ciudad en dos mitades: este y oeste." },
+        { "option_text": "Sirion", "is_correct": false, "justification": null },
+        { "option_text": "Celduin", "is_correct": false, "justification": null },
+        { "option_text": "Lhûn", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el nombre del lugar donde Arwen decide quedarse por Aragorn?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Rivendel", "is_correct": true, "justification": "Aunque es su hogar, allí es donde tiene la visión de su futuro hijo y decide volver." },
+        { "option_text": "Lothlórien", "is_correct": false, "justification": null },
+        { "option_text": "Gondor", "is_correct": false, "justification": null },
+        { "option_text": "Valinor", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué dice el Rey Brujo antes de intentar matar a Éowyn?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "¡Vas a morir!", "is_correct": false, "justification": null },
+        { "option_text": "¡Ningún hombre puede matarme!", "is_correct": true, "justification": "Basado en la profecía de que no caería por mano de hombre (varón)." },
+        { "option_text": "¡Ríndete ahora!", "is_correct": false, "justification": null },
+        { "option_text": "¡Sauron te reclama!", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena los siguientes objetos por su antigüedad en la Tierra Media (de más antiguo a más reciente):",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "El Frasco de Galadriel (Luz de Silmaril)", "order_index": 0, "is_correct": false, "justification": "Contiene luz capturada en la Primera Edad." },
+        { "option_text": "Andúril (Fragmentos de Narsil)", "order_index": 1, "is_correct": false, "justification": "Narsil fue forjada en la Primera Edad por Telchar." },
+        { "option_text": "El Anillo Único", "order_index": 2, "is_correct": false, "justification": "Forjado por Sauron a mediados de la Segunda Edad." },
+        { "option_text": "El Libro de Mazarbul", "order_index": 3, "is_correct": false, "justification": "Escrito durante el intento de Balin por recuperar Moria (Tercera Edad)." },
+        { "option_text": "El contrato de Bilbo (visto en flash-backs)", "order_index": 4, "is_correct": false, "justification": "De los eventos de 'El Hobbit', 60 años antes de LOTR." },
+        { "option_text": "Capa de camuflaje de Sam", "order_index": 5, "is_correct": false, "justification": "Hecha recientemente en Lothlórien durante el viaje." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántos miembros de la Compañía del Anillo quedan vivos al final de la trilogía?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 8,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 5,
+      "toleranceCap": 5,
+      "hint": "Solo Boromir cae durante la misión."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Quién cura a Éowyn y Faramir en las Casas de Curación?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Gandalf", "is_correct": false, "justification": null },
+        { "option_text": "Aragorn", "is_correct": true, "justification": "Cumple el dicho: 'Las manos del rey son manos que curan'." },
+        { "option_text": "Elrond", "is_correct": false, "justification": null },
+        { "option_text": "Arwen", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué animal asusta a Gollum cerca de la Puerta Negra?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Un pájaro espía de Saruman", "is_correct": false, "justification": null },
+        { "option_text": "Un conejo", "is_correct": true, "justification": "Sam caza dos conejos y Gollum se queja de que 'arruinan la carne'." },
+        { "option_text": "Un Nazgûl volador", "is_correct": false, "justification": null },
+        { "option_text": "Un caballo de Rohan", "is_correct": false, "justification": null }
+      ]
+    },
+   {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el caballo de Arwen que transporta a Frodo al Vado de Bruinen?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Asfaloth", "is_correct": true, "justification": "Es un caballo blanco de gran velocidad perteneciente a los establos de Elrond." },
+        { "option_text": "Arod", "is_correct": false, "justification": null },
+        { "option_text": "Brego", "is_correct": false, "justification": null },
+        { "option_text": "Shadowfax", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué actor interpreta al malvado Senescal Denethor II?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "John Noble", "is_correct": true, "justification": "El actor australiano dio una interpretación memorable de la caída en la locura del senescal." },
+        { "option_text": "David Wenham", "is_correct": false, "justification": null },
+        { "option_text": "Bernard Hill", "is_correct": false, "justification": null },
+        { "option_text": "Ian Holm", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el nombre de la colina donde los Nazgûl atacan a los hobbits por primera vez fuera de Bree?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Cima de los Vientos (Amon Sûl)", "is_correct": true, "justification": "Es una antigua atalaya de vigilancia donde Frodo es herido por el Rey Brujo." },
+        { "option_text": "Colina de Hobbiton", "is_correct": false, "justification": null },
+        { "option_text": "Amon Hen", "is_correct": false, "justification": null },
+        { "option_text": "Weathertop", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué objeto utiliza Galadriel para mostrar el futuro a Frodo?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Un Palantir", "is_correct": false, "justification": null },
+        { "option_text": "El Espejo de Galadriel", "is_correct": true, "justification": "Un pilón de plata lleno de agua que muestra 'cosas que fueron, cosas que son y algunas cosas que aún no han pasado'." },
+        { "option_text": "Una gema mágica", "is_correct": false, "justification": null },
+        { "option_text": "Su anillo Nenya", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el nombre de la araña gigante descendiente de Ungoliant?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Aragog", "is_correct": false, "justification": null },
+        { "option_text": "Ella-Laraña (Shelob)", "is_correct": true, "justification": "Habita en los túneles de Cirith Ungol y protege la entrada a Mordor." },
+        { "option_text": "Ungoliant", "is_correct": false, "justification": null },
+        { "option_text": "Glaurung", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena cronológicamente estos momentos de la vida de Bilbo Bolsón (según se ven o mencionan en la trilogía):",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Encuentra el anillo en la cueva de Gollum", "order_index": 0, "is_correct": false, "justification": "Ocurre durante su aventura con los enanos (visto en flashback)." },
+        { "option_text": "Celebración de su 111 cumpleaños", "order_index": 1, "is_correct": false, "justification": "Es el evento que da inicio a 'La Comunidad del Anillo'." },
+        { "option_text": "Desaparición de la fiesta usando el anillo", "order_index": 2, "is_correct": false, "justification": "Su acto final de travesura en la Comarca." },
+        { "option_text": "Legado de sus bienes a Frodo", "order_index": 3, "is_correct": false, "justification": "Deja todo a su sobrino antes de marcharse." },
+        { "option_text": "Estancia en Rivendel escribiendo su libro", "order_index": 4, "is_correct": false, "justification": "Frodo lo encuentra allí meses después." },
+        { "option_text": "Partida hacia los Puertos Grises", "order_index": 5, "is_correct": false, "justification": "Abandona la Tierra Media junto a los Elfos y Gandalf." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántos anillos de poder fueron entregados originalmente a los Reyes Enanos?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 7,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 5,
+      "toleranceCap": 5,
+      "hint": "Siete para los señores enanos en sus casas de piedra."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el líder de los jinetes que rescata a Éowyn y Merry en el Pelennor?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Éomer", "is_correct": true, "justification": "Después de la muerte de Théoden, lidera la carga final y encuentra a su hermana en el campo." },
+        { "option_text": "Gamling", "is_correct": false, "justification": null },
+        { "option_text": "Erkenbrand", "is_correct": false, "justification": null },
+        { "option_text": "Hama", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el verdadero nombre de Gandalf en las tierras del Oeste (Valinor)?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Mithrandir", "is_correct": false, "justification": null },
+        { "option_text": "Olórin", "is_correct": true, "justification": "Es su nombre como espíritu Maia antes de ser enviado a la Tierra Media." },
+        { "option_text": "Tharkûn", "is_correct": false, "justification": null },
+        { "option_text": "Incánus", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué ingrediente especial añade Sam a los conejos que cocina en Ithilien?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Sal y pimienta", "is_correct": false, "justification": null },
+        { "option_text": "Unas cuantas patatas (papas)", "is_correct": true, "justification": "Sam se lamenta por no tener patatas para el guiso, pronunciando su famosa explicación a Gollum." },
+        { "option_text": "Zanahorias silvestres", "is_correct": false, "justification": null },
+        { "option_text": "Hierbas del bosque", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el nombre del primer rey de Gondor que aparece en el prólogo luchando contra Sauron?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Isildur", "is_correct": false, "justification": null },
+        { "option_text": "Elendil", "is_correct": true, "justification": "Padre de Isildur y Anárion, murió en el duelo contra Sauron en el Monte del Destino." },
+        { "option_text": "Anárion", "is_correct": false, "justification": null },
+        { "option_text": "Valandil", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena los siguientes lugares de Gondor de Este a Oeste:",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Minas Morgul (Antigua Minas Ithil)", "order_index": 0, "is_correct": false, "justification": "Situada en las fronteras de Mordor, la más oriental." },
+        { "option_text": "Osgiliath (Lado Este)", "order_index": 1, "is_correct": false, "justification": "La ciudad dividida por el río Anduin." },
+        { "option_text": "Osgiliath (Lado Oeste)", "order_index": 2, "is_correct": false, "justification": "La zona defendida por Faramir." },
+        { "option_text": "Campos del Pelennor", "order_index": 3, "is_correct": false, "justification": "Las llanuras que rodean la capital." },
+        { "option_text": "Minas Tirith (La Ciudad Blanca)", "order_index": 4, "is_correct": false, "justification": "La fortaleza principal al pie de las montañas." },
+        { "option_text": "Montañas Blancas", "order_index": 5, "is_correct": false, "justification": "La cordillera que se extiende hacia el Oeste." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántos miembros de la comunidad son heridos directamente por armas enemigas durante 'La Comunidad del Anillo'?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 3,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 5,
+      "toleranceCap": 5,
+      "hint": "Frodo (en la Cima y en Moria), Boromir (en Amon Hen) y Sam (se corta los pies en el río)."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el mineral precioso que solo se encuentra en las minas de Moria?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Adamantino", "is_correct": false, "justification": null },
+        { "option_text": "Mithril", "is_correct": true, "justification": "Es un metal ligero como una pluma y duro como las escamas de dragón." },
+        { "option_text": "Oro de Moria", "is_correct": false, "justification": null },
+        { "option_text": "Plata de Ithil", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué nombre recibe la lengua que hablan los Ents?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Élfico", "is_correct": false, "justification": null },
+        { "option_text": "Éntico (Entish)", "is_correct": true, "justification": "Es una lengua extremadamente lenta y musical que requiere mucho tiempo para decir algo." },
+        { "option_text": "Llengua de los Árboles", "is_correct": false, "justification": null },
+        { "option_text": "Sindarin", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el nombre del lugar donde Merry y Pippin son capturados por los Uruk-hai?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Amon Hen", "is_correct": true, "justification": "La Colina de la Vista, donde la comunidad se rompe finalmente." },
+        { "option_text": "Amon Lhaw", "is_correct": false, "justification": null },
+        { "option_text": "Parth Galen", "is_correct": false, "justification": null },
+        { "option_text": "Tol Brandir", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué criatura utiliza Gandalf para comunicarse con las Águilas mientras está prisionero?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Un cuervo", "is_correct": false, "justification": null },
+        { "option_text": "Una polilla", "is_correct": true, "justification": "Gandalf le susurra en lenguaje antiguo para que traiga a Gwaihir." },
+        { "option_text": "Un halcón", "is_correct": false, "justification": null },
+        { "option_text": "Un murciélago", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena cronológicamente la posesión del Anillo Único (desde su creación):",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Sauron en el Monte del Destino", "order_index": 0, "is_correct": false, "justification": "Lo forja en la Segunda Edad." },
+        { "option_text": "Isildur en el río Anduin", "order_index": 1, "is_correct": false, "justification": "Lo arrebata a Sauron y luego lo pierde al morir." },
+        { "option_text": "Déagol en el río", "order_index": 2, "is_correct": false, "justification": "Lo encuentra siglos después mientras pesca." },
+        { "option_text": "Sméagol / Gollum bajo las montañas", "order_index": 3, "is_correct": false, "justification": "Lo posee durante casi 500 años." },
+        { "option_text": "Bilbo Bolsón en su bolsillo", "order_index": 4, "is_correct": false, "justification": "Lo encuentra en la cueva y se lo lleva a la Comarca." },
+        { "option_text": "Frodo Bolsón en su viaje", "order_index": 5, "is_correct": false, "justification": "El último portador encargado de destruirlo." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántos Oscars ganó 'El Retorno del Rey' de los 11 a los que estaba nominada?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 11,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 5,
+      "toleranceCap": 5,
+      "hint": "Hizo pleno histórico, ganando todas las categorías en las que competía."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el 'padre' de Sam que cuida los jardines de los Bolsón?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Hamfast Gamgee (El Gaffer)", "is_correct": true, "justification": "Es el jardinero veterano de Bolsón Cerrado y padre de Sam." },
+        { "option_text": "Lotho Bolsón", "is_correct": false, "justification": null },
+        { "option_text": "Otho Sacovilla", "is_correct": false, "justification": null },
+        { "option_text": "Tolman Cotton", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el nombre de la torre donde se encuentra el Ojo de Sauron?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Orthanc", "is_correct": false, "justification": null },
+        { "option_text": "Barad-dûr", "is_correct": true, "justification": "La Torre Oscura, el centro de poder de Sauron en Mordor." },
+        { "option_text": "Minas Morgul", "is_correct": false, "justification": null },
+        { "option_text": "Cirith Ungol", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué regalo le da Galadriel a Aragorn en la versión extendida?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "La piedra Elessar", "is_correct": true, "justification": "Una gema verde con forma de águila que simboliza su derecho al trono." },
+        { "option_text": "Una capa gris", "is_correct": false, "justification": null },
+        { "option_text": "La espada Narsil", "is_correct": false, "justification": null },
+        { "option_text": "Un anillo de plata", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el grupo de orcos que sirve a Sauron en Mordor?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Orcos de la Mano Blanca", "is_correct": false, "justification": null },
+        { "option_text": "Orcos del Ojo Rojo", "is_correct": true, "justification": "Su emblema es el ojo sin párpado de su señor Sauron." },
+        { "option_text": "Uruk-hai", "is_correct": false, "justification": null },
+        { "option_text": "Trasgos de las montañas", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena los siguientes enfrentamientos de Gandalf:",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Duelo de varas con Saruman en Orthanc", "order_index": 0, "is_correct": false, "justification": "Gandalf es traicionado y derrotado al principio." },
+        { "option_text": "Batalla contra el Balrog en el puente", "order_index": 1, "is_correct": false, "justification": "Cae al abismo para salvar a la compañía." },
+        { "option_text": "Combate en la cima del Zirakzigil", "order_index": 2, "is_correct": false, "justification": "Vence al Balrog y 'muere' para renacer." },
+        { "option_text": "Exorcismo del Rey Théoden", "order_index": 3, "is_correct": false, "justification": "Como Gandalf el Blanco, libera la mente del rey." },
+        { "option_text": "Enfrentamiento con el Rey Brujo", "order_index": 4, "is_correct": false, "justification": "Se encuentran en las puertas de Minas Tirith." },
+        { "option_text": "Rescate de Faramir en la pira", "order_index": 5, "is_correct": false, "justification": "Evita que Denethor queme vivo a su hijo." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántas horas diarias de maquillaje requería el actor John Rhys-Davies para convertirse en Gimli?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 5,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 1,
+      "toleranceCap": 2,
+      "hint": "Era un proceso extenuante que le causó graves reacciones alérgicas."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el líder de los jinetes de lobos de Saruman que muere a manos de Aragorn?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Sharku", "is_correct": true, "justification": "Es el orco de rostro cicatrizado que cae por el acantilado con Aragorn." },
+        { "option_text": "Gothmog", "is_correct": false, "justification": null },
+        { "option_text": "Lurtz", "is_correct": false, "justification": null },
+        { "option_text": "Gorbag", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el nombre del caballo de Gandalf, el Señor de los Mearas?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Sombragrís (Shadowfax)", "is_correct": true, "justification": "Un caballo que corre como el viento y no conoce el miedo." },
+        { "option_text": "Arod", "is_correct": false, "justification": null },
+        { "option_text": "Snowmane", "is_correct": false, "justification": null },
+        { "option_text": "Bill", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué frase utiliza Elrond para describir el destino de los hombres?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Los hombres son débiles", "is_correct": true, "justification": "Elrond dice esto a Gandalf recordando el fallo de Isildur en el Monte del Destino." },
+        { "option_text": "Los hombres son valientes", "is_correct": false, "justification": null },
+        { "option_text": "Los hombres son el futuro", "is_correct": false, "justification": null },
+        { "option_text": "Los hombres son mortales", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el nombre del puerto desde donde parten los barcos de los Elfos?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Puertos Grises (Mithlond)", "is_correct": true, "justification": "Situados en el extremo oeste de la Tierra Media, gobernados por Círdan." },
+        { "option_text": "Pelargir", "is_correct": false, "justification": null },
+        { "option_text": "Harlond", "is_correct": false, "justification": null },
+        { "option_text": "Umbar", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena los siguientes personajes por su estatura física (de menor a mayor):",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Frodo Bolsón (Hobbit)", "order_index": 0, "is_correct": false, "justification": "Los hobbits miden entre 0.6 y 1.2 metros." },
+        { "option_text": "Gimli (Enano)", "order_index": 1, "is_correct": false, "justification": "Los enanos son ligeramente más altos y robustos que los hobbits." },
+        { "option_text": "Aragorn (Hombre)", "order_index": 2, "is_correct": false, "justification": "Estatura humana normal/alta." },
+        { "option_text": "Legolas (Elfo)", "order_index": 3, "is_correct": false, "justification": "Los elfos suelen ser altos y esbeltos." },
+        { "option_text": "Trol de Cueva", "order_index": 4, "is_correct": false, "justification": "Criaturas gigantescas de varios metros." },
+        { "option_text": "Bárbol (Ent)", "order_index": 5, "is_correct": false, "justification": "Con casi 4 metros de altura, es el más alto del grupo." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántos años han pasado entre la derrota de Sauron en el prólogo y la partida de Frodo de la Comarca?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 3018,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 20,
+      "toleranceCap": 500,
+      "hint": "Es el tiempo que transcurrió durante toda la Tercera Edad hasta la Guerra del Anillo."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el 'pico' donde el anillo fue forjado?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Grietas del Destino (Sammath Naur)", "is_correct": true, "justification": "Es el lugar exacto dentro del volcán donde el fuego es lo suficientemente fuerte para fundir el oro." },
+        { "option_text": "Cima del Trueno", "is_correct": false, "justification": null },
+        { "option_text": "Abismo de Fuego", "is_correct": false, "justification": null },
+        { "option_text": "Corazón de la Montaña", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el nombre del barco que los Corsarios de Umbar utilizan para atacar Gondor?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Dromones Negros", "is_correct": true, "justification": "Son grandes barcos de guerra con velas negras que vienen del sur." },
+        { "option_text": "Galeras de Hierro", "is_correct": false, "justification": null },
+        { "option_text": "Cisnes de Plata", "is_correct": false, "justification": null },
+        { "option_text": "Naves de Oro", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Quién es el primer personaje que vemos en pantalla al inicio de 'La Comunidad del Anillo'?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Galadriel (Voz en off)", "is_correct": true, "justification": "Cate Blanchett narra el prólogo mientras vemos la creación de los anillos." },
+        { "option_text": "Gandalf", "is_correct": false, "justification": null },
+        { "option_text": "Bilbo", "is_correct": false, "justification": null },
+        { "option_text": "Sauron", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el bosque por el que Galadriel permite pasar a la comunidad?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Lothlórien", "is_correct": true, "justification": "El Bosque de Oro, protegido por el poder del anillo de Galadriel." },
+        { "option_text": "Fangorn", "is_correct": false, "justification": null },
+        { "option_text": "Mirkwood", "is_correct": false, "justification": null },
+        { "option_text": "Bosque Viejo", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena los siguientes objetos por su portador más conocido:",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Anillo Narya (Anillo de Fuego) - Gandalf", "order_index": 0, "is_correct": false, "justification": "Entregado por Círdan para encender los corazones." },
+        { "option_text": "Anillo Nenya (Anillo de Agua) - Galadriel", "order_index": 1, "is_correct": false, "justification": "Hecho de Mithril y Adamante." },
+        { "option_text": "Anillo Vilya (Anillo de Aire) - Elrond", "order_index": 2, "is_correct": false, "justification": "El más poderoso de los tres anillos élficos." },
+        { "option_text": "Anillo Único - Sauron", "order_index": 3, "is_correct": false, "justification": "El anillo para gobernarlos a todos." },
+        { "option_text": "Anillo de Barahir - Aragorn", "order_index": 4, "is_correct": false, "justification": "Símbolo de su linaje real, no es un anillo de poder." },
+        { "option_text": "Piedra de la Estrella - Arwen", "order_index": 5, "is_correct": false, "justification": "Colgante Evenstar que entrega a Aragorn." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántas veces se pone Frodo el anillo en la película 'La Comunidad del Anillo'?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 4,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 5,
+      "toleranceCap": 5,
+      "hint": "En el Poney Pisador, en la Cima de los Vientos, en Amon Hen y al escapar de Boromir."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el nombre del lugar donde se refugian Frodo y Sam después de huir de Osgiliath?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Henneth Annûn (La Ventana del Sol Poniente)", "is_correct": true, "justification": "Es el refugio oculto detrás de una cascada usado por los montaraces de Ithilien." },
+        { "option_text": "Cair Andros", "is_correct": false, "justification": null },
+        { "option_text": "Emyn Muil", "is_correct": false, "justification": null },
+        { "option_text": "Valle de Imladris", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el oficial orco que encuentra a Frodo después del ataque de Ella-Laraña?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Shagrat", "is_correct": true, "justification": "Es el capitán de la torre de Cirith Ungol que ordena llevar a Frodo vivo." },
+        { "option_text": "Gorbag", "is_correct": false, "justification": null },
+        { "option_text": "Uglúk", "is_correct": false, "justification": null },
+        { "option_text": "Grishnákh", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué nombre le da Galadriel a la barca en la que viaja Frodo?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "No le da nombre, solo son barcas élficas", "is_correct": true, "justification": "Las barcas son un regalo general para la comunidad, sin nombres individuales mencionados." },
+        { "option_text": "Vingilot", "is_correct": false, "justification": null },
+        { "option_text": "Eärendil", "is_correct": false, "justification": null },
+        { "option_text": "Nénar", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el nombre del pueblo natal de Sam y Frodo?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Hobbiton", "is_correct": true, "justification": "Donde se encuentra Bolsón Cerrado y el resto de la comunidad hobbit principal." },
+        { "option_text": "Delagua", "is_correct": false, "justification": null },
+        { "option_text": "Bree", "is_correct": false, "justification": null },
+        { "option_text": "Gambridge", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena los eventos de la 'muerte' de Saruman (Versión Extendida):",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Conversación con Gandalf y Théoden desde lo alto de Orthanc", "order_index": 0, "is_correct": false, "justification": "Trata de manipular sus voluntades una última vez." },
+        { "option_text": "Gandalf rompe la vara de Saruman", "order_index": 1, "is_correct": false, "justification": "Le quita formalmente su rango de mago." },
+        { "option_text": "Gríma es insultado y golpeado por Saruman", "order_index": 2, "is_correct": false, "justification": "La tensión entre ellos llega al límite." },
+        { "option_text": "Gríma apuñala a Saruman por la espalda", "order_index": 3, "is_correct": false, "justification": "Un acto impulsado por el rencor acumulado." },
+        { "option_text": "Saruman cae desde la cima de la torre", "order_index": 4, "is_correct": false, "justification": "Cae varios metros hacia el agua de la inundación." },
+        { "option_text": "El cuerpo de Saruman queda empalado en una rueda", "order_index": 5, "is_correct": false, "justification": "Muere en las máquinas que él mismo construyó." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántos jinetes negros (Nazgûl) hay en total?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 9,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 5,
+      "toleranceCap": 5,
+      "hint": "Nueve para los hombres mortales condenados a morir."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué actor hace un cameo como un habitante de Bree comiendo una zanahoria bajo la lluvia?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Peter Jackson", "is_correct": true, "justification": "El director hace cameos en todas las películas; este es el más famoso de la primera." },
+        { "option_text": "Andy Serkis", "is_correct": false, "justification": null },
+        { "option_text": "Christopher Lee", "is_correct": false, "justification": null },
+        { "option_text": "Elijah Wood", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuál es el nombre de la colina donde Frodo y Sam ven el ejército de Morgul salir de la ciudad?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Cirith Ungol", "is_correct": false, "justification": null },
+        { "option_text": "La Escalera Recta", "is_correct": true, "justification": "Es el tramo de ascenso donde observan la columna de luz verde." },
+        { "option_text": "Amon Sûl", "is_correct": false, "justification": null },
+        { "option_text": "Tirith Thû", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué dice la inscripción del anillo en castellano?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Un anillo para gobernarlos a todos", "is_correct": true, "justification": "Es la primera línea del poema: 'Un anillo para gobernarlos a todos, un anillo para encontrarlos...'" },
+        { "option_text": "Sauron es el único señor", "is_correct": false, "justification": null },
+        { "option_text": "Poder absoluto para el portador", "is_correct": false, "justification": null },
+        { "option_text": "El destino de la Tierra Media", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cómo se llama el 'segundo' de Faramir que le advierte sobre Gollum?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "Madril", "is_correct": true, "justification": "Es el veterano montaraz que asesora a Faramir en Ithilien." },
+        { "option_text": "Damrod", "is_correct": false, "justification": null },
+        { "option_text": "Cirion", "is_correct": false, "justification": null },
+        { "option_text": "Bergil", "is_correct": false, "justification": null }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: Ordena los siguientes reyes por su linaje (del más antiguo al más reciente):",
+      "type": "order",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 60,
+      "options": [
+        { "option_text": "Eärendil el Marinero (Ancestro)", "order_index": 0, "is_correct": false, "justification": "Padre de Elrond y Elros." },
+        { "option_text": "Elros Tar-Minyatur", "order_index": 1, "is_correct": false, "justification": "Primer Rey de Númenor y hermano de Elrond." },
+        { "option_text": "Elendil el Alto", "order_index": 2, "is_correct": false, "justification": "Líder de los supervivientes de Númenor." },
+        { "option_text": "Isildur", "order_index": 3, "is_correct": false, "justification": "Rey de Gondor y Arnor que perdió el anillo." },
+        { "option_text": "Eärnur (Último rey previo)", "order_index": 4, "is_correct": false, "justification": "Desapareció en Minas Morgul, dejando a los senescales al mando." },
+        { "option_text": "Aragorn II Elessar", "order_index": 5, "is_correct": false, "justification": "Restaurador de la monarquía." }
+      ]
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Cuántos años duró el rodaje principal de la trilogía completa (en días consecutivos)?",
+      "type": "numeric_approximation",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 45,
+      "correctAnswer": 274,
+      "maxPoints": 100,
+      "toleranceMode": "hybrid",
+      "toleranceValue": 10,
+      "toleranceCap": 30,
+      "hint": "Casi un año entero de rodaje sin parar en Nueva Zelanda."
+    },
+    {
+      "question_text": "El Señor de los Anillos: ¿Qué dice Gimli cuando Legolas mata al Olifante solo?",
+      "type": "quiz",
+      "tipo_contenido": "texto",
+      "url_recurso": null,
+      "time_limit": 30,
+      "options": [
+        { "option_text": "¡Ese solo cuenta como uno!", "is_correct": true, "justification": "Es la respuesta competitiva de Gimli tras la impresionante acrobacia de Legolas." },
+        { "option_text": "¡Buen disparo, orejas picudas!", "is_correct": false, "justification": null },
+        { "option_text": "¡Yo podría haberlo hecho mejor!", "is_correct": false, "justification": null },
+        { "option_text": "¡No me impresiona!", "is_correct": false, "justification": null }
+      ]
+    }
+  ]
+}

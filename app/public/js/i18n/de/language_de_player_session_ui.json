@@ -1,0 +1,24 @@
+{
+  "keys": {
+    "player.session_ui.session_not_found": "Sitzung Nicht Gefunden",
+    "player.session_ui.session_not_found_msg": "Der eingegebene Code entspricht keiner aktiven Sitzung.",
+    "player.session_ui.verify_qr_msg": "Bitte überprüfe, ob der Moderator das Spiel gestartet hat, und scanne den angezeigten QR-Code.",
+    "player.session_ui.qr_auto_load": "Sobald du den richtigen QR scannst, wird die Seite automatisch geladen.",
+    "player.session_ui.retry": "ERNEUT VERSUCHEN",
+    "player.session_ui.reconnecting_title": "ALLES BEREIT, {nickname}!",
+    "player.session_ui.reconnecting_status": "VERBINDE DICH MIT DEINEM SPIEL...",
+    "player.session_ui.reconnecting_subtext": "Warten auf den nächsten Schritt des Moderators",
+    "player.session_ui.connecting": "VERBINDEN...",
+    "player.session_ui.connecting_wait": "Bitte warte einen Moment",
+    "player.session_ui.reconnected": "VERBUNDEN!",
+    "player.session_ui.team_label": "TEAM: {teamName}",
+    "player.session_ui.waiting_game_start": "WARTEN AUF DEN SPIELSTART...",
+    "player.session_ui.game_will_start": "DAS SPIEL BEGINNT, WENN DER MODERATOR ES STARTET",
+    "player.session_ui.exit_game": "SPIEL VERLASSEN",
+    "player.session_ui.get_ready": "MACH DICH BEREIT, {nickname}!",
+    "player.session_ui.your_name": "Dein Name?",
+    "player.session_ui.connecting_server": "Verbinde mit dem Server...",
+    "player.session_ui.connecting_wait_moment": "Bitte warte einen Moment",
+    "player.session_ui.retry_btn": "NOCHMAL VERSUCHEN"
+  }
+}

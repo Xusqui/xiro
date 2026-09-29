@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "player.streak.double_prefix": "DOBRE RACHA x",
+    "player.streak.lost": "RACHA PERDIDA!",
+    "player.streak.active_prefix": "RACHA x",
+    "player.streak.double_label": "DOBRE",
+    "player.streak.label": "RACHA",
+    "player.streak.consecutive_correct": "respostas correctas seguidas",
+    "player.streak.ended_prefix": "Acabouse a túa racha de",
+    "player.streak.double_bonus_suffix": "seguidas con bonus dobre!"
+  }
+}

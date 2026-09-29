@@ -1,0 +1,16 @@
+{
+  "keys": {
+    "presenter.loading.title": "Carregant...",
+    "presenter.loading.desc": "Preparant el panell del presentador",
+    "presenter.sidebar.connected": "Connectats",
+    "presenter.lobby.waiting": "Esperant jugadors...",
+    "presenter.lobby.pin": "PIN D'ACCÉS",
+    "presenter.lobby.start": "COMENÇAR!",
+    "presenter.lobby.players": "Jugadors:",
+    "presenter.game.terminate": "Acabar",
+    "presenter.game.terminate.title": "Finalitzar la partida i mostrar el podi amb la classificació actual",
+    "presenter.game.abandon": "Abandonar joc",
+    "presenter.game.abandon.title": "Abandonar sessió",
+    "presenter.fullscreen.title": "Pantalla completa"
+  }
+}

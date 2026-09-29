@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "player.session.label": "Sitzungs-ID",
+    "player.session.hint": "Die ID erscheint auf dem Bildschirm des Moderators",
+    "player.session.placeholder": "XXXXXX-XXXX",
+    "player.session.submit": "Steigen Sie ein",
+    "player.loading": "Auf der Suche nach Spiel…",
+    "player.nickname.label": "Ihr Name?",
+    "player.nickname.placeholder": "NAME",
+    "player.nickname.submit": "BEREIT!"
+  }
+}

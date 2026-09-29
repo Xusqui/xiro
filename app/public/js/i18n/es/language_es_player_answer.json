@@ -1,0 +1,27 @@
+{
+  "keys": {
+    "player.answer.correct": "¡BIEN!",
+    "player.answer.wrong": "¡FALLASTE!",
+    "player.answer.will_it_be_right": "¿Será correcta?",
+    "player.answer.time_up": "¡TIEMPO AGOTADO!",
+    "player.answer.waiting_results": "Esperando resultados...",
+    "player.answer.correct_label": "Correcta:",
+    "player.answer.ranking": "Ranking",
+    "player.answer.sent": "¡Respuesta Enviada!",
+    "player.answer.waiting_team": "Esperando a tu equipo...",
+    "player.answer.players_answered": "jugadores han respondido",
+    "player.answer.vote_registered": "¡Voto Registrado!",
+    "player.answer.survey_label": "Encuesta",
+    "player.answer.yes": "<img src=\"/images/chamaleon/thumbs_up.svg\" class=\"w-32 h-32 mb-4 animate-bounce drop-shadow-lg\" alt=\"👍\">",
+    "player.answer.approximate": "¡APROXIMADA!",
+    "player.answer.no": "<img src=\"/images/chamaleon/thumbs_down.svg\" class=\"w-32 h-32 mb-4 animate-bounce drop-shadow-lg\" alt=\"👎\">",
+    "player.answer.sending_order": "Enviando tu orden...",
+    "player.answer.sending_answer": "Enviando tu respuesta...",
+    "player.answer.validating": "Validando tu respuesta...",
+    "player.answer.correct_answer_label": "Respuesta correcta:",
+    "player.answer.waiting_server": "Esperando confirmación del servidor...",
+    "player.answer.mc_missed": "NO MARCADA",
+    "player.answer.mc_perfect": "PERFECTO",
+    "player.answer.matching_pairs": "{n} de {total} parejas"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "keys": {
+    "player.session_ui.session_not_found": "セッションが見つかりません",
+    "player.session_ui.session_not_found_msg": "入力したコードはアクティブなセッションと一致しません。",
+    "player.session_ui.verify_qr_msg": "進行役がゲームを開始していることを確認し、表示されているQRコードをスキャンしてください。",
+    "player.session_ui.qr_auto_load": "正しいQRをスキャンすると、ページが自動的に読み込まれます。",
+    "player.session_ui.retry": "もう一度試す",
+    "player.session_ui.reconnecting_title": "準備完了、{nickname}！",
+    "player.session_ui.reconnecting_status": "ゲームに再接続中...",
+    "player.session_ui.reconnecting_subtext": "進行役が次の質問に進むのを待っています",
+    "player.session_ui.connecting": "接続中...",
+    "player.session_ui.connecting_wait": "少々お待ちください",
+    "player.session_ui.reconnected": "再接続しました！",
+    "player.session_ui.team_label": "チーム: {teamName}",
+    "player.session_ui.waiting_game_start": "ゲーム開始を待っています...",
+    "player.session_ui.game_will_start": "進行役がゲームを開始するとゲームが始まります",
+    "player.session_ui.exit_game": "ゲームを退出",
+    "player.session_ui.get_ready": "準備して、{nickname}！",
+    "player.session_ui.your_name": "お名前は？",
+    "player.session_ui.connecting_server": "サーバーに接続中...",
+    "player.session_ui.connecting_wait_moment": "少々お待ちください",
+    "player.session_ui.retry_btn": "再試行"
+  }
+}

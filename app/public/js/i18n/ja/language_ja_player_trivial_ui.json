@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "player.trivial.your_turn": "あなたの番！",
+    "player.trivial.cell_label": "マス",
+    "player.trivial.center_label": "中央",
+    "player.trivial.waiting_for": "待っています：",
+    "player.trivial.waiting_active": "アクティブプレイヤーを待っています",
+    "player.trivial.moving_piece": "コマを移動中…",
+    "player.trivial.radio_label": "半径",
+    "player.trivial.selecting_cell": "マスを選択中…",
+    "player.trivial.tap_dice": "サイコロをタップして振る",
+    "player.trivial.turn_of": "の番"
+  }
+}

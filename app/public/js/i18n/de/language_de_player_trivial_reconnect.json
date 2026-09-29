@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "player.trivial.waiting_turn": "Warte auf deinen Zug beim Board...",
+    "player.trivial.choosing_cell": "wählt ein Feld...",
+    "player.trivial.other_rolling": "ein anderer Spieler würfelt",
+    "player.trivial.already_answered": "Du hast diese Frage bereits beantwortet"
+  }
+}

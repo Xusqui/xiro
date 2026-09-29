@@ -1,0 +1,25 @@
+{
+  "keys": {
+    "index.heading": "Benvido a XIRO!",
+    "index.subtitle": "Seleccione o seu modo de acceso",
+    "index.player.title": "Xogador",
+    "index.player.desc": "Únete a un xogo co teu código PIN",
+    "index.player.cta": "Xoga agora",
+    "index.player.manual": "Manual do xogador",
+    "index.presenter.title": "Presentador",
+    "index.presenter.desc": "Controla e proxecta o xogo na pantalla",
+    "index.presenter.cta": "Iniciar presentación",
+    "index.presenter.manual": "Manual do presentador",
+    "index.tv.title": "Versión TV",
+    "index.tv.desc": "Versión lixeira para televisores e navegadores máis antigos",
+    "index.tv.cta": "Versión compatible",
+    "index.standalone.title": "Modo Autónomo",
+    "index.standalone.desc": "Xoga sen presentador no teu dispositivo",
+    "index.standalone.cta": "Xogar en solitario",
+    "index.admin.title": "Administración",
+    "index.admin.desc": "Xestiona preguntas e configuracións",
+    "index.admin.cta": "Accede ao panel",
+    "index.admin.manual": "Manual do administrador",
+    "index.title": "XIRO! - Comeza"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "keys": {
+    "instructions.page.title": "XIRO! - Instrucións",
+    "instructions.hero.title": "Como xogar XIRO!",
+    "instructions.hero.subtitle": "Coñece a nosa dinámica e tipos de preguntas",
+    "instructions.tabs.game_modes": "Modos de xogo",
+    "instructions.tabs.question_types": "Tipos de Preguntas",
+    "instructions.game_modes.bank.title": "1. Banco de preguntas",
+    "instructions.game_modes.bank.description": "As preguntas tómanse dun banco específico e preséntanse aos xogadores de forma completamente aleatoria. Ideal para repasar un tema concreto.",
+    "instructions.game_modes.mix.title": "2. Mestura de preguntas",
+    "instructions.game_modes.mix.description": "Permítelle seleccionar varios bancos de preguntas e escoller cantas preguntas aleatorias extraer de cada unha. As preguntas seleccionadas mesturaranse nunha orde aleatoria cando se presenten.",
+    "instructions.game_modes.custom.title": "3. Xogos personalizados",
+    "instructions.game_modes.custom.description": "Vostede está no control. Escolle as preguntas unha a unha dos diferentes bancos e configura a súa orde exacta de aparición para unha presentación estruturada.",
+    "instructions.game_modes.trivial.title": "4. Trivial",
+    "instructions.game_modes.trivial.description": "Modo de taboleiro clásico! Lanzase un dado e a ficha avanza. Dependendo da caixa na que aterrices, presentarase unha pregunta aleatoria da categoría correspondente á cor da caixa.",
+    "instructions.question_types.quiz.title": "Cuestionario",
+    "instructions.question_types.quiz.description": "Pregunta clásica con varias respostas posibles, pero só unha é correcta.",
+    "instructions.question_types.survey.title": "Enquisa",
+    "instructions.question_types.survey.description": "Non hai respostas correctas ou incorrectas. Serve para recoller a opinión do público presentando diferentes opcións.",
+    "instructions.question_types.numeric.title": "Aproximación Numérica",
+    "instructions.question_types.numeric.description": "Os xogadores deben introducir un número intentando achegarse o máis posible ao valor gañador exacto.",
+    "instructions.question_types.order.title": "Ordenar secuencia (orden)",
+    "instructions.question_types.order.description": "Preséntase unha lista de elementos que o xogador debe arrastrar e colocar na orde lóxica correcta.",
+    "instructions.question_types.word_scramble.title": "Adiviña palabra (Word Scramble)",
+    "instructions.question_types.word_scramble.description": "O reto é atopar unha palabra oculta ordenando as letras desordenadas que aparecen na pantalla.",
+    "instructions.question_types.multiple.title": "Opción múltiple",
+    "instructions.question_types.multiple.description": "Similar ao Quiz, pero neste caso pode haber entre 1 e 6 respostas correctas á vez."
+  }
+}

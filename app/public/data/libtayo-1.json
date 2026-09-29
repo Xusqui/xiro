@@ -1,0 +1,408 @@
+{
+    "name": "Banco de Preguntas - LIBTAYO (Cemiplimab)",
+    "type": "quiz",
+    "questions": [
+        {
+            "question_text": "¿Para qué enfermedad está indicado LIBTAYO en monoterapia cuando los pacientes adultos no son candidatos para cirugía o radiación curativa? [cite: 21]",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Melanoma maligno localmente avanzado. [cite: 21]",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Carcinoma cutáneo de células escamosas metastásico o localmente avanzado. [cite: 21]",
+                    "is_correct": true,
+                    "justification": "LIBTAYO en monoterapia está indicado para el tratamiento de pacientes adultos con carcinoma cutáneo de células escamosas metastásico o localmente avanzado (CCCEm o CCCEla) que no son candidatos para cirugía curativa o radiación curativa. [cite: 21]"
+                },
+                {
+                    "option_text": "Carcinoma de células de Merkel metastásico. [cite: 21]",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Cáncer colorrectal metastásico. [cite: 21]",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Cuál es la dosis recomendada de cemiplimab para el tratamiento de CCCE localmente avanzado o metastásico? [cite: 41, 42]",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "200 mg cada 2 semanas. [cite: 42]",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "700 mg cada 6 semanas. [cite: 42]",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "350 mg cada 3 semanas. [cite: 42]",
+                    "is_correct": true,
+                    "justification": "La dosis recomendada de cemiplimab es de 350 mg, cada 3 semanas, administrada como una perfusión intravenosa. [cite: 42]"
+                },
+                {
+                    "option_text": "400 mg cada 4 semanas. [cite: 42]",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué ajuste de dosis se recomienda para pacientes de edad avanzada que reciben tratamiento con LIBTAYO? [cite: 72, 73]",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "No se recomienda ningún ajuste de la dosis. [cite: 73]",
+                    "is_correct": true,
+                    "justification": "La ficha técnica especifica que no se recomienda ningún ajuste de la dosis para pacientes de edad avanzada y que la exposición es similar en todos los grupos de edad. [cite: 73, 74]"
+                },
+                {
+                    "option_text": "Reducir la dosis a la mitad. [cite: 73]",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Aumentar el intervalo de administración a 6 semanas en todos los casos. [cite: 73]",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Reducir la dosis un 25%. [cite: 73]",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Cuál es el mecanismo de acción principal de cemiplimab? [cite: 395]",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Es un inhibidor de la vía de señalización Hedgehog. [cite: 395]",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Es un anticuerpo monoclonal de la inmunoglobulina G4 (IgG4) que se une al receptor PD-1 y bloquea su interacción con PD-L1 y PD-L2. [cite: 395]",
+                    "is_correct": true,
+                    "justification": "Cemiplimab es un anticuerpo monoclonal de la inmunoglobulina G4 totalmente humano que se une al receptor de muerte celular programada 1 (PD-1) y bloquea su interacción con sus ligandos PD-L1 y PD-L2. [cite: 395]"
+                },
+                {
+                    "option_text": "Es un inhibidor del receptor del factor de crecimiento epidérmico (EGFR). [cite: 395]",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Es un agente alquilante que interfiere en la síntesis del ADN tumoral. [cite: 395]",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "En pacientes tratados con cemiplimab en monoterapia, ¿cuál fue la reacción adversa inmunomediada reportada con mayor frecuencia? [cite: 208]",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Colitis inmunomediada. [cite: 208]",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Hepatitis inmunomediada. [cite: 208]",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Neumonitis inmunomediada. [cite: 208]",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Hipotiroidismo. [cite: 208]",
+                    "is_correct": true,
+                    "justification": "Las reacciones adversas inmunomediadas más frecuentes fueron hipotiroidismo (6,8%), hipertiroidismo (3,0%), neumonitis inmunomediada (2,6%)... [cite: 208]"
+                }
+            ]
+        },
+        {
+            "question_text": "¿Cuánto tiempo debe durar la perfusión intravenosa recomendada de LIBTAYO? [cite: 84]",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "15 minutos. [cite: 84]",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "60 minutos. [cite: 84]",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "30 minutos. [cite: 84]",
+                    "is_correct": true,
+                    "justification": "Se administra mediante perfusión intravenosa durante 30 minutos a través de una vía intravenosa que contenga un filtro estéril. [cite: 84]"
+                },
+                {
+                    "option_text": "120 minutos. [cite: 84]",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué excipiente contenido en LIBTAYO puede ser perjudicial para pacientes con hiperprolinemia tipo I o tipo II? [cite: 170]",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Polisorbato 80. [cite: 170]",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Sacarosa. [cite: 170]",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "L-prolina. [cite: 170]",
+                    "is_correct": true,
+                    "justification": "La L-prolina puede ser perjudicial para pacientes con hiperprolinemia tipo I o tipo II. [cite: 170]"
+                },
+                {
+                    "option_text": "L-histidina. [cite: 170]",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "¿Qué directriz se debe seguir al administrar LIBTAYO conjuntamente con otros medicamentos a través de la misma vía de perfusión? [cite: 85]",
+            "type": "quiz",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Se puede administrar junto con corticosteroides sistémicos en la misma vía. [cite: 85]",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "No se debe administrar conjuntamente con otros medicamentos a través de la misma vía de perfusión. [cite: 85]",
+                    "is_correct": true,
+                    "justification": "La indicación clínica establece explícitamente: No se debe administrar conjuntamente con otros medicamentos a través de la misma vía de perfusión. [cite: 85]"
+                },
+                {
+                    "option_text": "Se requiere un filtro de 10 micras si se perfunde junto a quimioterapia. [cite: 85]",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Se debe mezclar previamente en la bolsa de suero salino con otros biológicos. [cite: 85]",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        },
+        {
+            "question_text": "Ordena los siguientes pasos para la correcta preparación y administración de LIBTAYO según la ficha técnica: [cite: 997, 1001, 1002, 1005]",
+            "type": "order",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "Inspeccionar visualmente el medicamento para detectar partículas y decoloración. [cite: 997]",
+                    "order_index": 0,
+                    "is_correct": false,
+                    "justification": "Es el primer paso antes de la manipulación. [cite: 997]"
+                },
+                {
+                    "option_text": "Extraer 7 ml (350 mg) del vial de LIBTAYO y transferirlo a una bolsa de perfusión intravenosa. [cite: 1001]",
+                    "order_index": 1,
+                    "is_correct": false,
+                    "justification": "Es el segundo paso tras comprobar el estado del vial. [cite: 1001]"
+                },
+                {
+                    "option_text": "Mezclar la solución diluida por inversión suave. No agitar. [cite: 1002]",
+                    "order_index": 2,
+                    "is_correct": false,
+                    "justification": "Es el tercer paso tras preparar la bolsa de dilución. [cite: 1002]"
+                },
+                {
+                    "option_text": "Administrar por perfusión intravenosa durante 30 minutos a través de una vía con filtro estéril. [cite: 1005]",
+                    "order_index": 3,
+                    "is_correct": false,
+                    "justification": "Es el paso final, la administración directa al paciente. [cite: 1005]"
+                }
+            ]
+        },
+        {
+            "question_text": "Ordena de mayor a menor frecuencia (según porcentaje) las siguientes reacciones adversas inmunomediadas observadas con cemiplimab en monoterapia: [cite: 208]",
+            "type": "order",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "Hipotiroidismo. [cite: 208]",
+                    "order_index": 0,
+                    "is_correct": false,
+                    "justification": "Aparece con una frecuencia del 6,8%. [cite: 208]"
+                },
+                {
+                    "option_text": "Hipertiroidismo. [cite: 208]",
+                    "order_index": 1,
+                    "is_correct": false,
+                    "justification": "Aparece con una frecuencia del 3,0%. [cite: 208]"
+                },
+                {
+                    "option_text": "Neumonitis inmunomediada. [cite: 208]",
+                    "order_index": 2,
+                    "is_correct": false,
+                    "justification": "Aparece con una frecuencia del 2,6%. [cite: 208]"
+                },
+                {
+                    "option_text": "Colitis inmunomediada. [cite: 208]",
+                    "order_index": 3,
+                    "is_correct": false,
+                    "justification": "Aparece con una frecuencia del 2,0%. [cite: 208]"
+                }
+            ]
+        },
+        {
+            "question_text": "Empareja cada reacción adversa inmunomediada con la modificación de dosis o intervención principal recomendada en la ficha técnica: [cite: 53, 55, 59]",
+            "type": "matching",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "options": [
+                {
+                    "option_text": "Neumonitis de Grado 2 [cite: 53]",
+                    "match_value": "Suspender LIBTAYO [cite: 53]",
+                    "is_correct": false,
+                    "order_index": 0
+                },
+                {
+                    "option_text": "Neumonitis de Grado 3 o 4 [cite: 55]",
+                    "match_value": "Interrumpir de forma permanente [cite: 55]",
+                    "is_correct": false,
+                    "order_index": 1
+                },
+                {
+                    "option_text": "Hipotiroidismo de Grado 3 o 4 [cite: 55]",
+                    "match_value": "Iniciar la sustitución de la hormona tiroidea según lo indicado clínicamente y Suspender LIBTAYO [cite: 55]",
+                    "is_correct": false,
+                    "order_index": 2
+                },
+                {
+                    "option_text": "Reacción relacionada con la perfusión de Grado 1 o 2 [cite: 59]",
+                    "match_value": "Interrumpir o disminuir la velocidad de perfusión [cite: 59]",
+                    "is_correct": false,
+                    "order_index": 3
+                }
+            ]
+        },
+        {
+            "question_text": "¿Cuántos miligramos (mg) totales de cemiplimab contiene cada vial de LIBTAYO de 7 ml? [cite: 9]",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 350,
+            "maxPoints": 100,
+            "toleranceMode": "hybrid",
+            "toleranceValue": 10,
+            "toleranceCap": 10,
+            "hint": "Recuerda el nombre comercial y el número que le acompaña en el título del documento (LIBTAYO ... mg concentrado para solución para perfusión). [cite: 5]"
+        },
+        {
+            "question_text": "¿Cuántos meses después de la última dosis de cemiplimab deben las mujeres en edad fértil continuar utilizando métodos anticonceptivos efectivos? [cite: 179]",
+            "type": "numeric_approximation",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "correctAnswer": 4,
+            "maxPoints": 100,
+            "toleranceMode": "hybrid",
+            "toleranceValue": 2,
+            "toleranceCap": 2,
+            "hint": "El periodo abarca más de un trimestre pero menos de medio año. [cite: 179]"
+        },
+        {
+            "question_text": "Principio activo de LIBTAYO, un anticuerpo monoclonal IgG4 totalmente humano. [cite: 8, 395]",
+            "type": "word_scramble",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45,
+            "correctWord": "CEMIPLIMAB"
+        },
+        {
+            "question_text": "¿Cuáles de las siguientes son indicaciones terapéuticas aprobadas para el uso de LIBTAYO (en monoterapia o combinación)? [cite: 20, 23, 25, 32]",
+            "type": "multiple_choice",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 40,
+            "mc_points_per_correct": 10,
+            "mc_penalty_per_incorrect": 10,
+            "mc_perfect_bonus": 20,
+            "options": [
+                {
+                    "option_text": "Carcinoma cutáneo de células escamosas metastásico o localmente avanzado [cite: 20, 21]",
+                    "is_correct": true,
+                    "justification": null
+                },
+                {
+                    "option_text": "Carcinoma pulmonar no microcítico (CPNM) [cite: 25, 26]",
+                    "is_correct": true,
+                    "justification": null
+                },
+                {
+                    "option_text": "Cáncer de cuello uterino [cite: 32]",
+                    "is_correct": true,
+                    "justification": null
+                },
+                {
+                    "option_text": "Melanoma maligno [cite: 20]",
+                    "is_correct": false,
+                    "justification": null
+                },
+                {
+                    "option_text": "Carcinoma de células renales [cite: 20]",
+                    "is_correct": false,
+                    "justification": null
+                }
+            ]
+        }
+    ]
+}

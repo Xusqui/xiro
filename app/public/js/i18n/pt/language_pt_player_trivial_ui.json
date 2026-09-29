@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "player.trivial.your_turn": "Sua vez!",
+    "player.trivial.cell_label": "Casa",
+    "player.trivial.center_label": "Centro",
+    "player.trivial.waiting_for": "Esperando por",
+    "player.trivial.waiting_active": "Aguardando jogador ativo",
+    "player.trivial.moving_piece": "Movendo peça…",
+    "player.trivial.radio_label": "Raio",
+    "player.trivial.selecting_cell": "Selecionando casa…",
+    "player.trivial.tap_dice": "Toque o dado para jogar",
+    "player.trivial.turn_of": "Vez de"
+  }
+}

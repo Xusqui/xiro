@@ -1,0 +1,14 @@
+{
+  "keys": {
+    "manual_admin.tools.partidas.title": "Spiele",
+    "manual_admin.tools.partidas.desc": "Globale Konfiguration für Spiele und Räume.",
+    "manual_admin.tools.partidas.max_players": "Max. Spieler pro Spiel",
+    "manual_admin.tools.partidas.max_players_desc": "Maximale Anzahl an Spielern, die einem Raum beitreten können.",
+    "manual_admin.tools.partidas.max_lobbies": "Max. gleichzeitige Lobbys",
+    "manual_admin.tools.partidas.max_lobbies_desc": "Gleichzeitig aktive Spiele. Bei Erreichen des Limits können keine neuen Räume erstellt werden.",
+    "manual_admin.tools.partidas.inactive_game": "Schwellenwert inaktives Spiel",
+    "manual_admin.tools.partidas.inactive_game_desc": "Stunden ohne Aktivität, bevor ein Spiel als verlassen gilt und gelöscht wird.",
+    "manual_admin.tools.partidas.empty_lobby": "Timeout für leere Lobbys",
+    "manual_admin.tools.partidas.empty_lobby_desc": "Minuten, bis eine Lobby ohne Spieler automatisch zerstört wird."
+  }
+}

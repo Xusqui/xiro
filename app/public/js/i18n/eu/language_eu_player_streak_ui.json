@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "player.streak.double_prefix": "BIKOITZ SERIEA x",
+    "player.streak.lost": "SERIEA GALDU DA!",
+    "player.streak.active_prefix": "SERIEA x",
+    "player.streak.double_label": "BIKOITZ",
+    "player.streak.label": "SERIEA",
+    "player.streak.consecutive_correct": "erantzun zuzen jarraituak",
+    "player.streak.ended_prefix": "Zure seriea amaitu da:",
+    "player.streak.double_bonus_suffix": "jarraian bonus bikoitzarekin!"
+  }
+}

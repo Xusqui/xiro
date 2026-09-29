@@ -1,0 +1,12 @@
+{
+  "keys": {
+    "manual_admin.tools.logging.title": "ロギング",
+    "manual_admin.tools.logging.desc": "サーバーログの設定。",
+    "manual_admin.tools.logging.level": "ログレベル",
+    "manual_admin.tools.logging.level_desc": "ログの詳細レベル。",
+    "manual_admin.tools.logging.max_size": "最大サイズ",
+    "manual_admin.tools.logging.max_size_desc": "ログファイルがローテーションされるサイズ。",
+    "manual_admin.tools.logging.max_files": "ファイルの保持",
+    "manual_admin.tools.logging.max_files_desc": "古いログが保持される時間。"
+  }
+}

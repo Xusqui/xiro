@@ -1,0 +1,9 @@
+{
+  "keys": {
+    "player.connection.other_device": "Conectado desde outro dispositivo",
+    "player.connection.disconnected": "Desconectado",
+    "player.connection.disconnected_prefix": "Fuches desconectado:",
+    "player.connection.player_tag": "XOGADOR",
+    "player.connection.retry": "Reintentar"
+  }
+}
