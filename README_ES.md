@@ -340,15 +340,86 @@ Sincronizaciones críticas entre workers (18 canales pub/sub en `RedisSyncBus`):
 
 <br>
 
-### Requisitos
+Hay dos formas de instalar Xiro!:
+
+| | **A. Servidor de producción** (recomendada) | **B. Desde el código fuente** |
+|---|---|---|
+| Fichero compose | `docker-compose.deploy.yml`, renombrado a `docker-compose.yml` | `docker-compose.yml` del repositorio |
+| Imágenes | Publicadas: `xusqui/xiro-backend`, `xusqui/xiro-backup` | Se construyen en local desde el código |
+| HTTPS | Incluido (Caddy, certificado Let's Encrypt automático) | Pones tú el proxy inverso |
+| Necesita el repositorio completo | No, solo dos ficheros | Sí |
+| Scripts de gestión (`manage.sh`…) | No, comandos `docker compose` normales | Sí |
+
+Ambas requieren:
 - Un servidor **Linux** (el contenedor lee `/etc/machine-id` para identificar la instalación)
 - Docker y Docker Compose (v2 `docker compose` o v1 `docker-compose`)
-- Un dominio y un **proxy inverso con HTTPS** (Nginx, Caddy, el proxy inverso de Synology…). A Xiro! hay que entrar por `https://`.
-- Solo necesitas un puerto local libre (`APP_PORT`, `3000` por defecto). PostgreSQL y Redis funcionan en la red interna de Docker y no exponen puertos al host.
+- Un dominio. A Xiro! hay que entrar por `https://`.
+
+PostgreSQL y Redis funcionan en la red interna de Docker y nunca exponen puertos al host.
 
 <br clear="left">
 
-### Pasos
+### Opción A — Servidor de producción (imágenes publicadas)
+
+Además necesitas: que el DNS del dominio apunte al servidor y tener abiertos los puertos **80** y **443** (Caddy los usa para obtener el certificado HTTPS y servir la app).
+
+```bash
+# 1. Crea una carpeta para Xiro! y copia en ella, desde el repositorio:
+#    docker-compose.deploy.yml  → guardado como docker-compose.yml
+#    .env.example               → guardado como .env
+mkdir -p /opt/xiro && cd /opt/xiro
+cp /ruta/al/repo/docker-compose.deploy.yml docker-compose.yml
+cp /ruta/al/repo/.env.example .env
+
+# 2. Crea las carpetas y ficheros que montan los contenedores
+mkdir -p public/uploads public/images/personalizations logs config backups
+echo '{}' > config/ui-overrides.json
+echo '{}' > config/runtime-overrides.json
+echo '{}' > config/groq-key.json             # API key de Groq, se conserva al actualizar
+sudo chown -R 1001:1001 public logs config   # la app se ejecuta con el UID 1001
+```
+
+> Si falta alguno de estos ficheros JSON, Docker crea un **directorio** con ese nombre y la app no arranca. En ese caso, para los servicios, borra ese directorio, crea el fichero y vuelve a arrancar.
+
+**3. Pon tu dominio en Caddy.** En `docker-compose.yml`, servicio `caddy`, sustituye `xiro.pro` por tu dominio:
+
+```yaml
+    command: caddy reverse-proxy --from https://quiz.example.com --to http://backend:3000
+```
+
+**4. Edita `.env`** y cambia como mínimo:
+
+| Variable | Qué poner |
+|----------|-----------|
+| `DB_PASSWORD`, `REDIS_PASSWORD` | Contraseñas aleatorias sin espacios |
+| `JWT_SECRET` | Cadena aleatoria de al menos 32 caracteres |
+| `CORS_ORIGIN`, `ALLOWED_ORIGINS` | Tu URL pública, p. ej. `https://quiz.example.com` |
+| `SERVER_HOST` | Tu dominio sin `https://`, p. ej. `quiz.example.com` |
+
+Deja `DB_HOST=db`, `DB_PORT=5432`, `REDIS_URL` y `CHROME_WS_ENDPOINT` como vienen en `.env.example`. `XIRO_ROOT` y `APP_PORT` no se usan en esta opción. Puedes generar valores aleatorios con `openssl rand -hex 32`.
+
+```bash
+# 5. Arrancar
+docker compose up -d
+docker compose ps        # todos los contenedores en "Up"; db y redis en "healthy"
+
+# Comprobar que el backend está listo (debe devolver "status": "ready")
+docker exec xiro_backend wget -qO- http://localhost:3000/ready
+```
+
+**6. Crear la cuenta de administrador.** Abre `https://<tu-dominio>/admin.html`. Si todavía no hay usuarios, la primera cuenta que registres será **admin** automáticamente. Las siguientes se crean como editor y requieren confirmación por email. La primera vez, Caddy puede tardar unos segundos en obtener el certificado.
+
+**Actualizar** a la última versión publicada:
+
+```bash
+cd /opt/xiro
+docker compose pull
+docker compose up -d
+```
+
+Los datos viven en las subcarpetas (`postgres_data/`, `redis_data/`, `public/`, `config/`, `backups/`), así que actualizar o recrear los contenedores no los borra. Para copias de seguridad y restauración, ver [Backup automático y restauración](#backup-automático-y-restauración).
+
+### Opción B — Desde el código fuente
 
 ```bash
 # 1. Clonar el repositorio
@@ -360,11 +431,12 @@ cp .env.example .env
 nano .env
 ```
 
-En `.env`, cambia como mínimo los valores marcados con `<-- CAMBIAR`:
+En `.env`, cambia como mínimo:
 
 | Variable | Qué poner |
 |----------|-----------|
 | `XIRO_ROOT` | Ruta absoluta de este repositorio en el host (lo que devuelve `pwd`) |
+| `DB_PORT` | `5439` (en esta opción Postgres escucha en el 5439) |
 | `DB_PASSWORD`, `REDIS_PASSWORD` | Contraseñas aleatorias sin espacios |
 | `JWT_SECRET` | Cadena aleatoria de al menos 32 caracteres |
 | `CORS_ORIGIN`, `ALLOWED_ORIGINS` | Tu URL pública, p. ej. `https://quiz.example.com` |
@@ -429,9 +501,9 @@ XIRO_TELEMETRY=false
 
 El ping nunca bloquea el arranque: si no hay salida a internet o la variable está a `false`, la aplicación funciona exactamente igual.
 
-### Gestión con manage.sh
+### Gestión con manage.sh (opción B)
 
-Puedes ejecutarlo desde cualquier carpeta: lee el usuario, el nombre de la base de datos y el puerto de `.env`, y funciona tanto con `docker compose` como con `docker-compose`. Si tu usuario no está en el grupo `docker`, antepón `sudo`.
+Solo disponible al instalar desde el código fuente. Puedes ejecutarlo desde cualquier carpeta: lee el usuario, el nombre de la base de datos y el puerto de `.env`, y funciona tanto con `docker compose` como con `docker-compose`. Si tu usuario no está en el grupo `docker`, antepón `sudo`.
 
 ```bash
 ./manage.sh start                              # Inicia todos los servicios
@@ -501,7 +573,7 @@ docker logs xiro_backup
 # Forzar un backup inmediato (igual que el programado)
 docker exec xiro_backup sh /scripts/docker-backup-run.sh
 
-# O desde el host, sin usar el servicio de backup
+# Solo opción B: desde el host, sin usar el servicio de backup
 ./manage.sh backup
 
 # Listar backups disponibles
@@ -528,19 +600,30 @@ La restauración **sustituye por completo** la base de datos actual. Tras confir
 
 Si quieres conservar los datos actuales por si acaso, ejecuta antes `./manage.sh backup`.
 
+**Opción A** (sin `manage.sh`): haz los mismos pasos a mano desde la carpeta de Xiro!, sustituyendo el nombre del fichero. Usa el `DB_USER` y el `DB_NAME` de tu `.env` si los cambiaste:
+
+```bash
+docker exec xiro_backup sh /scripts/docker-backup-run.sh      # copia de seguridad de los datos actuales
+docker compose stop backend
+docker exec xiro_postgres psql -U postgres -d postgres \
+  -c 'DROP DATABASE IF EXISTS xiro_db WITH (FORCE);' -c 'CREATE DATABASE xiro_db;'
+gunzip -c backups/xiro_backup_20260319_020000.sql.gz \
+  | docker exec -i xiro_postgres psql -U postgres -d xiro_db -v ON_ERROR_STOP=1 -q
+docker compose start backend
+```
+
 ---
 
 ## Variables de entorno
 
 <img src="https://xiro.pro/images/chamaleon/cooking.svg" alt="mascota cocinando" width="100" align="right">
 
-Se configuran en el fichero `.env` de la **raíz del repositorio** (copiado de `.env.example`). `.env.example` documenta todas las variables; estas son las importantes:
+Se configuran en el fichero `.env` que está junto al `docker-compose.yml` (copiado de `.env.example`). `.env.example` documenta todas las variables; estas son las importantes:
 
 **Obligatorias — tienes que ponerlas tú:**
 
 | Variable | Descripción | Ejemplo |
 |----------|-------------|---------|
-| `XIRO_ROOT` | Ruta absoluta del repositorio en el host | `/opt/xiro` |
 | `DB_PASSWORD` | Contraseña de PostgreSQL (sin espacios) | — |
 | `REDIS_PASSWORD` | Contraseña de Redis | — |
 | `JWT_SECRET` | Secreto para los tokens de sesión (mínimo 32 caracteres) | — |
@@ -552,10 +635,11 @@ Se configuran en el fichero `.env` de la **raíz del repositorio** (copiado de `
 
 | Variable | Descripción | Por defecto |
 |----------|-------------|-------------|
-| `APP_PORT` | Puerto local donde se publica la app (solo `127.0.0.1`) | `3000` |
+| `XIRO_ROOT` | Solo opción B: ruta absoluta del repositorio (ahí es obligatoria) | — |
+| `APP_PORT` | Solo opción B: puerto local donde se publica la app (solo `127.0.0.1`) | `3000` |
 | `DB_USER` | Usuario de PostgreSQL | `postgres` |
 | `DB_NAME` | Nombre de la base de datos | `xiro_db` |
-| `DB_PORT` | Puerto de PostgreSQL dentro de la red Docker — no cambiar | `5439` |
+| `DB_PORT` | Puerto de PostgreSQL dentro de la red Docker: `5432` en la opción A, `5439` en la B | `5432` |
 | `NODE_ENV` | Entorno de ejecución | `production` |
 | `LOG_LEVEL` | `debug`, `info`, `warn` o `error` | `info` |
 | `GROQ_MODEL` | Modelo de Groq para el generador IA | `llama-3.3-70b-versatile` |
@@ -563,7 +647,7 @@ Se configuran en el fichero `.env` de la **raíz del repositorio** (copiado de `
 | `SOCKETIO_IP_CONN_LIMIT` | Conexiones nuevas por IP y minuto | `500` |
 | `XIRO_TELEMETRY` | Pon `false` para desactivar el ping anónimo de instalación a ntfy.sh | `true` |
 
-`DB_HOST` y `REDIS_URL` los fija `docker-compose.yml` apuntando a los servicios internos (`db`, `redis`), así que no hace falta tocarlos. La API key de Groq no es una variable de entorno: se introduce desde el panel de administración (sección Config) y se guarda en `app/ai-generator/groq-key.json`.
+`DB_HOST`, `REDIS_URL` y `CHROME_WS_ENDPOINT` apuntan a los servicios internos (`db`, `redis`, `chrome`); deja los valores de `.env.example`. En la opción B, `docker-compose.yml` ya los fija por su cuenta. La API key de Groq no es una variable de entorno: se introduce desde el panel de administración (sección Config) y se guarda en `config/groq-key.json` (opción A) o en `app/ai-generator/groq-key.json` (opción B).
 
 ---
 
@@ -765,11 +849,11 @@ Implementación técnica:
 
 El endpoint `/api/admin-login` está protegido con rate limit (5 intentos / 15 min por IP). Cuando Redis está disponible, el contador se guarda con claves `rl:*`.
 
-Redis funciona dentro del contenedor `xiro_redis` y requiere contraseña, así que ejecuta estos comandos desde la raíz del repositorio:
+Redis funciona dentro del contenedor `xiro_redis` y requiere contraseña, así que ejecuta estos comandos desde la carpeta que contiene `.env`:
 
 ```bash
 # Atajo: redis-cli dentro del contenedor, usando REDIS_PASSWORD de .env
-rcli() { docker exec xiro_redis redis-cli -s /var/run/redis/redis.sock \
+rcli() { docker exec xiro_redis redis-cli \
   -a "$(grep '^REDIS_PASSWORD=' .env | cut -d= -f2-)" --no-auth-warning "$@"; }
 
 # Ver claves bloqueadas

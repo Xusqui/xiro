@@ -67,7 +67,7 @@ case "$1" in
 
     db)
         echo "🗄️ Conectando a PostgreSQL..."
-        docker exec -it xiro_postgres psql -U "$DB_USER" -p 5439 -d "$DB_NAME"
+        docker exec -it xiro_postgres psql -U "$DB_USER" -p "$DB_PORT" -d "$DB_NAME"
         ;;
 
     stats)

@@ -21,10 +21,11 @@ fi
 
 DB_USER="$(env_get DB_USER postgres)"
 DB_NAME="$(env_get DB_NAME xiro_db)"
+DB_PORT="$(env_get DB_PORT 5439)"
 APP_PORT="$(env_get APP_PORT 3000)"
 BACKUP_DIR="$XIRO_DIR/backups"
 
-# Postgres escucha en 5439 (fijado en docker-compose.yml), también en el socket local.
+# -p también es necesario por el socket local: su nombre depende del puerto.
 xiro_psql() {
-    docker exec -i xiro_postgres psql -U "$DB_USER" -p 5439 "$@"
+    docker exec -i xiro_postgres psql -U "$DB_USER" -p "$DB_PORT" "$@"
 }

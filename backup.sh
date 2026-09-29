@@ -13,7 +13,7 @@ echo "💾 Iniciando backup de Xiro!..."
 mkdir -p "$BACKUP_DIR"
 
 echo "📦 Exportando base de datos..."
-if docker exec xiro_postgres pg_dump -U "$DB_USER" -p 5439 "$DB_NAME" | gzip > "${BACKUP_FILE}.tmp"; then
+if docker exec xiro_postgres pg_dump -U "$DB_USER" -p "$DB_PORT" "$DB_NAME" | gzip > "${BACKUP_FILE}.tmp"; then
     mv "${BACKUP_FILE}.tmp" "$BACKUP_FILE"
     echo "✅ Backup completado: $BACKUP_FILE"
 
