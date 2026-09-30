@@ -75,10 +75,19 @@ window.TVApp.Actions = (function () {
         }
     }
 
+    // keyup cubre navegadores de TV antiguos sin evento input; buscarPINs ignora valores repetidos
+    function handleSearchInput(event) {
+        const el = event.target;
+        if (!el || !el.getAttribute || el.getAttribute('data-tv-input') !== 'search-pins') return;
+        if (lobby() && lobby().buscarPINs) lobby().buscarPINs(el.value);
+    }
+
     function setup() {
         if (initialized) return;
         initialized = true;
         document.addEventListener('click', handleClick);
+        document.addEventListener('input', handleSearchInput);
+        document.addEventListener('keyup', handleSearchInput);
     }
 
     return {

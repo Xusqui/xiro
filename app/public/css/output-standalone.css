@@ -68,6 +68,39 @@
     position: relative;
 }
 
+/* ===== Búsqueda ===== */
+
+.search-row {
+    position: relative;
+    max-width: 480px;
+    margin: -16px auto 28px;
+}
+
+.search-row i {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6b7280;
+    pointer-events: none;
+}
+
+.search-row input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 18px 12px 46px;
+    border: none;
+    border-radius: 999px;
+    font-size: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    color: #1f2937;
+}
+
+.search-row input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--standalone-accent), 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
 /* ===== Nickname ===== */
 
 .nickname-row {

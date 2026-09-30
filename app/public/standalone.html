@@ -35,8 +35,15 @@
             <div id="lobby-screen" class="standalone-lobby">
                 <div class="text-center mb-10">
                     <h2 class="text-2xl md:text-3xl font-black mb-2" data-i18n="standalone.lobby.title">Elige tu juego</h2>
-                    <p class="text-purple-100 font-medium" data-i18n="standalone.lobby.subtitle">Selecciona un banco de
-                        preguntas o juego personalizado</p>
+                </div>
+
+                <div class="search-row">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                    <input type="search" id="standalone-search" maxlength="100" autocomplete="off" spellcheck="false"
+                        data-i18n-placeholder="standalone.lobby.search.placeholder"
+                        data-i18n-aria-label="standalone.lobby.search.label"
+                        aria-label="Buscar por PIN o título"
+                        placeholder="Busca por PIN o título (mín. 3 caracteres)">
                 </div>
 
                 <div class="nickname-row">

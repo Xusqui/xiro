@@ -9,8 +9,17 @@ globalThis.StandaloneLobby = (() => {
     const state = {
         games: [],
         filteredGames: [],
-        currentFilter: 'all'
+        currentFilter: 'all',
+        searchTerm: '',
+        searchResults: null, // null = sin búsqueda activa
+        searching: false
     };
+
+    // Búsqueda AJAX por PIN o título
+    const MIN_SEARCH_LENGTH = 3;
+    const SEARCH_DELAY_MS = 300;
+    let searchTimer = null;
+    let searchRequest = null;
 
     /**
      * /api/ui-settings/standalone-games devuelve `type` como etiqueta legible
@@ -86,48 +95,123 @@ globalThis.StandaloneLobby = (() => {
 
     function _applyFilter(filter) {
         state.currentFilter = filter;
+        const source = state.searchResults ?? state.games;
         if (filter === 'all') {
-            state.filteredGames = [...state.games];
+            state.filteredGames = [...source];
         } else {
-            state.filteredGames = state.games.filter(g => g.type === filter);
+            state.filteredGames = source.filter(g => g.type === filter);
         }
         _renderGames();
+    }
+
+    function _renderMessage(container, text, withSpinner) {
+        const spinner = withSpinner ? '<i class="fas fa-spinner fa-spin"></i>' : '';
+        container.innerHTML = `<div class="${withSpinner ? 'loading-state' : 'empty-state'}">${spinner}<p>${_escapeHtml(text)}</p></div>`;
     }
 
     function _renderGames() {
         const container = document.getElementById('games-container');
         if (!container) return;
 
+        if (state.searching) {
+            _renderMessage(container, window.XiroI18n?.t('standalone.lobby.search.loading') || 'Buscando...', true);
+            return;
+        }
+
         if (state.filteredGames.length === 0) {
-            const emptyMsg = window.XiroI18n?.t('standalone.lobby.empty') || 'No hay juegos disponibles.';
-            container.innerHTML = `<div class="empty-state"><p>${_escapeHtml(emptyMsg)}</p></div>`;
+            const term = state.searchTerm.trim();
+            const emptyMsg = state.searchResults
+                ? (window.XiroI18n?.t('standalone.lobby.search.no_results', { term }) || 'No se han encontrado juegos para "{term}".').replace('{term}', term)
+                : window.XiroI18n?.t('standalone.lobby.empty') || 'No hay juegos disponibles.';
+            _renderMessage(container, emptyMsg, false);
             return;
         }
 
         container.innerHTML = state.filteredGames.map(_renderGameCard).join('');
     }
 
-    function _loadGames() {
+    function _requestGames(query, onSuccess, onError) {
         const xhr = new XMLHttpRequest();
-        xhr.open('GET', '/api/ui-settings/standalone-games', true);
+        const url = '/api/ui-settings/standalone-games' + (query ? `?q=${encodeURIComponent(query)}` : '');
+        xhr.open('GET', url, true);
         xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    try {
-                        const data = JSON.parse(xhr.responseText);
-                        const normalized = (data.games || []).map(g => ({ ...g, type: _normalizeType(g.type) }));
-                        // El modo Trivial (tablero) no encaja en el flujo lineal de Standalone.
-                        state.games = normalized.filter(g => g.type !== 'trivial');
-                        _applyFilter(state.currentFilter);
-                    } catch (e) {
-                        console.error('Error parsing games:', e);
-                    }
-                } else {
-                    console.error('Error loading games:', xhr.status);
-                }
+            if (xhr.readyState !== 4) return;
+            if (xhr.status !== 200) {
+                onError(new Error(`HTTP ${xhr.status}`));
+                return;
+            }
+            try {
+                const data = JSON.parse(xhr.responseText);
+                const normalized = (data.games || []).map(g => ({ ...g, type: _normalizeType(g.type) }));
+                // El modo Trivial (tablero) no encaja en el flujo lineal de Standalone.
+                onSuccess(normalized.filter(g => g.type !== 'trivial'));
+            } catch (e) {
+                onError(e);
             }
         };
         xhr.send();
+        return xhr;
+    }
+
+    function _loadGames() {
+        _requestGames('', games => {
+            state.games = games;
+            _applyFilter(state.currentFilter);
+        }, err => console.error('Error loading games:', err));
+    }
+
+    function _cancelSearch() {
+        clearTimeout(searchTimer);
+        searchTimer = null;
+        if (searchRequest) {
+            const request = searchRequest;
+            searchRequest = null;
+            request.abort();
+        }
+        state.searching = false;
+    }
+
+    /**
+     * Búsqueda por PIN o título contra el servidor, a partir de MIN_SEARCH_LENGTH
+     * caracteres. Por debajo de ese mínimo se vuelve a mostrar la lista completa.
+     */
+    function _search(value) {
+        state.searchTerm = String(value || '');
+        const term = state.searchTerm.trim();
+        _cancelSearch();
+
+        if (term.length < MIN_SEARCH_LENGTH) {
+            state.searchResults = null;
+            _applyFilter(state.currentFilter);
+            return;
+        }
+
+        state.searching = true;
+        _renderGames();
+        searchTimer = setTimeout(() => {
+            searchTimer = null;
+            const request = _requestGames(term, games => {
+                if (searchRequest !== request) return;
+                searchRequest = null;
+                state.searching = false;
+                state.searchResults = games;
+                _applyFilter(state.currentFilter);
+            }, err => {
+                if (searchRequest !== request) return; // abortada por una búsqueda posterior
+                searchRequest = null;
+                console.error('Error searching games:', err);
+                state.searching = false;
+                state.searchResults = [];
+                _applyFilter(state.currentFilter);
+            });
+            searchRequest = request;
+        }, SEARCH_DELAY_MS);
+    }
+
+    function _setupSearchField() {
+        const input = document.getElementById('standalone-search');
+        if (!input) return;
+        input.addEventListener('input', () => _search(input.value));
     }
 
     function _nicknameInput() {
@@ -211,6 +295,7 @@ globalThis.StandaloneLobby = (() => {
         init: function () {
             _setupNicknameField();
             _loadGames();
+            _setupSearchField();
             _setupFilterButtons();
             _setupGameActions();
             // El diccionario de i18n se carga de forma async y puede resolverse

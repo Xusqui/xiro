@@ -4,7 +4,7 @@
  */
 
 import {
-    cambiarFiltro, seleccionarPIN, volverAJuegos,
+    cambiarFiltro, buscarPINs, seleccionarPIN, volverAJuegos,
     mostrarSeleccionModo, configurarModoIndividual
 } from './presenter-lobby.js?v=20260922172926';
 import {
@@ -130,6 +130,13 @@ export function setupPresenterActionDelegation() {
 
         const action = actionElement.dataset.presenterAction;
         if (Object.hasOwn(PRESENTER_CLICK_ACTIONS, action)) PRESENTER_CLICK_ACTIONS[action](actionElement);
+    });
+
+    document.addEventListener('input', (event) => {
+        const inputElement = event.target.closest('[data-presenter-input]');
+        if (inputElement?.dataset.presenterInput === 'search-pins') {
+            buscarPINs(inputElement.value);
+        }
     });
 
     document.addEventListener('change', (event) => {

@@ -19,10 +19,27 @@ router.get('/api/all-pins', authenticateAdmin, async (req, res) => {
     }
 });
 
+const MIN_SEARCH_LENGTH = 3;
+const MAX_SEARCH_LENGTH = 100;
+
+// Minúsculas y sin acentos, para que "matematicas" encuentre "Matemáticas"
+function normalizeSearch(value) {
+    return String(value || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+}
+
+/** Filtra por PIN o nombre según ?q=; sin q (o con menos de 3 caracteres) devuelve todo. */
+function filterPinsBySearch(pins, rawQuery) {
+    const query = typeof rawQuery === 'string'
+        ? normalizeSearch(rawQuery.slice(0, MAX_SEARCH_LENGTH))
+        : '';
+    if (query.length < MIN_SEARCH_LENGTH) return pins;
+    return pins.filter(p => normalizeSearch(p.pin).includes(query) || normalizeSearch(p.name).includes(query));
+}
+
 router.get('/api/presenter-pins', presenterPinsLimiter, async (req, res) => {
     try {
         const pins = await dbService.getPinsForPresenter();
-        res.json(pins);
+        res.json(filterPinsBySearch(pins, req.query.q));
     } catch (err) {
         handleRouteError(err, res);
     }
@@ -32,7 +49,7 @@ router.get('/api/ui-settings/standalone-games', presenterPinsLimiter, async (req
     try {
         const pins = await dbService.getPinsForPresenter();
         // Transformar formato para Standalone
-        const games = (pins || []).map(pin => ({
+        const games = filterPinsBySearch(pins || [], req.query.q).map(pin => ({
             pin: pin.pin,
             name: pin.name || pin.pin,
             type: pin.type || 'bank',

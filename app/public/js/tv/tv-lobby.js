@@ -21,9 +21,18 @@ window.TVApp.Lobby = (function () {
         return pinParam.toUpperCase() + '-' + generarNumerosAleatorios(4);
     }
 
-    function fetchPresenterPins(adminToken, callback) {
+    // Búsqueda AJAX por PIN o título (sin fetch/AbortController: navegadores de TV antiguos)
+    const MIN_CARACTERES_BUSQUEDA = 3;
+    const RETARDO_BUSQUEDA_MS = 300;
+    let terminoBusqueda = '';
+    let resultadosBusqueda = null; // null = sin búsqueda activa
+    let buscandoPins = false;
+    let temporizadorBusqueda = null;
+    let peticionBusqueda = null;
+
+    function fetchPresenterPins(adminToken, callback, query) {
         const x = new XMLHttpRequest();
-        x.open('GET', '/api/presenter-pins', true);
+        x.open('GET', '/api/presenter-pins' + (query ? '?q=' + encodeURIComponent(query) : ''), true);
         if (adminToken) x.setRequestHeader('Authorization', 'Bearer ' + adminToken);
         x.onreadystatechange = function () {
             if (x.readyState === 4) {
@@ -37,6 +46,7 @@ window.TVApp.Lobby = (function () {
         };
         x.onerror = function () { callback(new Error('Network error'), null); };
         x.send();
+        return x;
     }
 
     function mostrarSelectorPIN() {
@@ -50,18 +60,62 @@ window.TVApp.Lobby = (function () {
                 return;
             }
             state.todosLosPins = data;
+            cancelarBusqueda();
+            terminoBusqueda = '';
+            resultadosBusqueda = null;
             renderizarPINs();
         });
     }
 
+    function cancelarBusqueda() {
+        if (temporizadorBusqueda) {
+            clearTimeout(temporizadorBusqueda);
+            temporizadorBusqueda = null;
+        }
+        if (peticionBusqueda) {
+            const peticion = peticionBusqueda;
+            peticionBusqueda = null;
+            try { peticion.abort(); } catch (e) { /* ignorar */ }
+        }
+        buscandoPins = false;
+    }
+
+    /**
+     * Búsqueda por PIN o título contra el servidor, a partir de MIN_CARACTERES_BUSQUEDA
+     * caracteres. Por debajo de ese mínimo se vuelve a mostrar la lista completa.
+     */
+    function buscarPINs(valor) {
+        valor = String(valor || '');
+        if (valor === terminoBusqueda) return; // input y keyup llegan juntos
+        terminoBusqueda = valor;
+        const termino = valor.replace(/^\s+|\s+$/g, '');
+
+        cancelarBusqueda();
+
+        if (termino.length < MIN_CARACTERES_BUSQUEDA) {
+            resultadosBusqueda = null;
+            renderizarRejillaPINs();
+            return;
+        }
+
+        buscandoPins = true;
+        renderizarRejillaPINs();
+        temporizadorBusqueda = setTimeout(function () {
+            temporizadorBusqueda = null;
+            const peticion = fetchPresenterPins('', function (err, data) {
+                if (peticionBusqueda !== peticion) return; // respuesta de una búsqueda anterior
+                peticionBusqueda = null;
+                buscandoPins = false;
+                if (err) console.log('Error buscando PINs:', err);
+                resultadosBusqueda = (!err && Array.isArray(data)) ? data : [];
+                renderizarRejillaPINs();
+            }, termino);
+            peticionBusqueda = peticion;
+        }, RETARDO_BUSQUEDA_MS);
+    }
+
     function renderizarPINs() {
         const state = window.TVApp.State;
-        const pinsTextos = {
-            'Juego Personalizado': _t('tv.lobby.type.custom', null, 'Juegos Personalizados'),
-            'Juego': _t('tv.lobby.type.games', null, 'Juegos'),
-            'Banco': _t('tv.lobby.type.banks', null, 'Bancos de Preguntas')
-        };
-        const pinsFiltrados = state.filtroActivo === 'todos' ? state.todosLosPins : state.todosLosPins.filter(function (p) { return p.type === state.filtroActivo; });
 
         const tabsHTML = '<div class="pin-tabs">'
             + '<button data-tv-action="change-filter" data-filter="Juego Personalizado" class="pin-tab ' + (state.filtroActivo === 'Juego Personalizado' ? 'pin-tab-active' : '') + '">' + _t('tv.lobby.filter.custom', null, 'Personalizados') + '</button>'
@@ -70,12 +124,54 @@ window.TVApp.Lobby = (function () {
             + '<button data-tv-action="change-filter" data-filter="todos" class="pin-tab ' + (state.filtroActivo === 'todos' ? 'pin-tab-active' : '') + '">' + _t('tv.lobby.filter.all', null, 'Todos') + '</button>'
             + '</div>';
 
+        const searchHTML = '<div class="pin-search">'
+            + '<input type="text" class="pin-search-input" data-tv-input="search-pins" maxlength="100" autocomplete="off"'
+            + ' value="' + escapeHtml(terminoBusqueda) + '"'
+            + ' aria-label="' + escapeHtml(_t('tv.lobby.search.label', null, 'Buscar por PIN o título')) + '"'
+            + ' placeholder="' + escapeHtml(_t('tv.lobby.search.placeholder', null, 'Busca por PIN o título (mín. 3 caracteres)')) + '">'
+            + '</div>';
+
+        getEl('main-container').innerHTML = '<div class="pin-selector"><h1 class="pin-selector-title">' + _t('tv.lobby.title', null, 'Selecciona un Juego') + '</h1>' + searchHTML + tabsHTML + '<div id="tv-pin-grid">' + htmlRejillaPINs() + '</div></div>';
+        clearCache();
+    }
+
+    /** Repinta solo la rejilla, para no perder el foco de la caja de búsqueda. */
+    function renderizarRejillaPINs() {
+        const grid = document.getElementById('tv-pin-grid');
+        if (grid) grid.innerHTML = htmlRejillaPINs();
+    }
+
+    function htmlMensajeRejilla(texto) {
+        return '<p style="color:#999;text-align:center;margin:40px 0">' + texto + '</p>';
+    }
+
+    function htmlRejillaPINs() {
+        const state = window.TVApp.State;
+        const pinsTextos = {
+            'Juego Personalizado': _t('tv.lobby.type.custom', null, 'Juegos Personalizados'),
+            'Juego': _t('tv.lobby.type.games', null, 'Juegos'),
+            'Banco': _t('tv.lobby.type.banks', null, 'Bancos de Preguntas')
+        };
+
+        if (buscandoPins) {
+            return htmlMensajeRejilla(_t('tv.lobby.search.loading', null, 'Buscando...'));
+        }
+
+        const origen = resultadosBusqueda || state.todosLosPins || [];
+        const pinsFiltrados = state.filtroActivo === 'todos' ? origen : origen.filter(function (p) { return p.type === state.filtroActivo; });
+
         let cardsHTML = '';
         if (pinsFiltrados.length === 0) {
-            const emptyMsg = state.filtroActivo === 'todos'
-                ? _t('tv.lobby.empty.all', null, 'No hay PINs disponibles. Crea un juego o banco primero.')
-                : _t('tv.lobby.empty.by_type', { type: pinsTextos[state.filtroActivo] || state.filtroActivo }, 'No hay {type} disponibles.').replace('{type}', pinsTextos[state.filtroActivo] || state.filtroActivo);
-            cardsHTML = '<p style="color:#999;text-align:center;margin:40px 0">' + emptyMsg + '</p>';
+            let emptyMsg;
+            if (resultadosBusqueda) {
+                const termino = escapeHtml(terminoBusqueda.replace(/^\s+|\s+$/g, ''));
+                emptyMsg = _t('tv.lobby.search.no_results', { term: termino }, 'No se han encontrado juegos para "{term}".').replace('{term}', termino);
+            } else {
+                emptyMsg = state.filtroActivo === 'todos'
+                    ? _t('tv.lobby.empty.all', null, 'No hay PINs disponibles. Crea un juego o banco primero.')
+                    : _t('tv.lobby.empty.by_type', { type: pinsTextos[state.filtroActivo] || state.filtroActivo }, 'No hay {type} disponibles.').replace('{type}', pinsTextos[state.filtroActivo] || state.filtroActivo);
+            }
+            cardsHTML = htmlMensajeRejilla(emptyMsg);
         } else {
             cardsHTML = '<div class="pins-grid">';
             for (let i = 0; i < pinsFiltrados.length; i++) {
@@ -84,8 +180,7 @@ window.TVApp.Lobby = (function () {
             }
             cardsHTML += '</div>';
         }
-        getEl('main-container').innerHTML = '<div class="pin-selector"><h1 class="pin-selector-title">' + _t('tv.lobby.title', null, 'Selecciona un Juego') + '</h1><p class="pin-selector-subtitle">' + _t('tv.lobby.subtitle', null, 'Elige el juego o banco que deseas presentar') + '</p>' + tabsHTML + cardsHTML + '</div>';
-        clearCache();
+        return cardsHTML;
     }
 
     function cambiarFiltro(tipo) {
@@ -184,6 +279,7 @@ window.TVApp.Lobby = (function () {
     return {
         mostrarSelectorPIN: mostrarSelectorPIN,
         cambiarFiltro: cambiarFiltro,
+        buscarPINs: buscarPINs,
         seleccionarPIN: seleccionarPIN,
         iniciarLobby: iniciarLobby
     };
