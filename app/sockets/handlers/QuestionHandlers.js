@@ -6,6 +6,7 @@ const AdvanceQuestionUseCase = require('../../application/use-cases/AdvanceQuest
 const { validateSocket, schemas } = require('../../validation');
 const { roundScore } = require('../../domain/services/ScoringService');
 const { revealAnswer } = require('../utils/GameEndManager');
+const { resetStreaksOfNonAnswering } = require('../utils/TimerManager');
 const GameStateUpdateService = require('../../domain/services/GameStateUpdateService');
 const { getRedisClient } = require('../../config/redis');
 const logger = require('../../config/logger');
@@ -114,12 +115,18 @@ function createRevealAnswerHandler(dependencies) {
             clearGameTimer(roomId);
         }
 
-        await revealAnswer({
+        const revealed = await revealAnswer({
             roomId,
             game,
             io,
             timeExpired: false
         });
+
+        // Igual que con el tiempo agotado: quien no respondió pierde la racha. Solo si
+        // esta llamada ha revelado (si ya lo hizo el temporizador, ya se reinició).
+        if (revealed) {
+            await resetStreaksOfNonAnswering(roomId, game);
+        }
     };
 }
 

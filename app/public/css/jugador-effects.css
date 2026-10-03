@@ -254,7 +254,7 @@
     height: 0.75rem;
     background-color: white;
     border-radius: 50%;
-    animation: dotBounce 1.4s infinite ease-in-out both;
+    animation: dotPulse 1.4s infinite ease-in-out both;
 }
 
 .loading-dots .dot:nth-child(1) {
@@ -265,7 +265,7 @@
     animation-delay: -0.16s;
 }
 
-@keyframes dotBounce {
+@keyframes dotPulse {
 
     0%,
     80%,
@@ -347,7 +347,7 @@
 }
 
 .final-position-container.default {
-    background: linear-gradient(to bottom right, #9333ea, #6b21a8);
+    background: linear-gradient(to bottom right, #94438e, #5f285b);
 }
 
 .final-position-content {
@@ -433,7 +433,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(to bottom right, #2563eb, #9333ea, #ec4899);
+    background: linear-gradient(to bottom right, #2563eb, #94438e, #ec4899);
     color: white;
     text-align: center;
     padding: 1.5rem;

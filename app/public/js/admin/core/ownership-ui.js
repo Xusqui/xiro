@@ -63,7 +63,7 @@ function getOwnerBadgeHtml(ownerInput) {
     if (owner.role === 'editor') {
         return `<span class="inline-flex items-center gap-1 bg-blue-50 text-blue-700 px-2 py-1 rounded-lg text-[11px] font-bold"><i class="fas fa-user-edit"></i> ${createdByLabel} ${creatorName}</span>`;
     }
-    return `<span class="inline-flex items-center gap-1 bg-violet-50 text-violet-700 px-2 py-1 rounded-lg text-[11px] font-bold"><i class="fas fa-user-shield"></i> ${createdByLabel} ${creatorName}</span>`;
+    return `<span class="inline-flex items-center gap-1 bg-plum-50 text-plum-700 px-2 py-1 rounded-lg text-[11px] font-bold"><i class="fas fa-user-shield"></i> ${createdByLabel} ${creatorName}</span>`;
 }
 
 function getLockedButtonClasses() {

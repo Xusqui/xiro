@@ -48,7 +48,7 @@ window.TVApp.TrvLayout = (function () {
             const col = c.color || '#888';
             const name = c.bank_name || c.category_name || 'Desconocido';
 
-            html += '<div style="display:flex;align-items:center;padding:12px 14px;background:rgba(30,41,59,0.85);border-radius:8px;border-left:4px solid ' + col + ';margin-bottom:14px">';
+            html += '<div style="display:flex;align-items:center;padding:12px 14px;background:rgba(30,41,59,0.85);border-radius:8px;margin-bottom:14px">';
             html += '<span style="width:18px;height:18px;border-radius:50%;flex-shrink:0;background:' + col + ';box-shadow:0 0 8px ' + col + ';margin-right:14px"></span>';
             html += '<span style="font-size:18px;color:#fff;font-weight:700;line-height:1.2;word-break:break-word">' + escapeHtml(name) + '</span></div>';
         }

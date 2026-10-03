@@ -16,6 +16,7 @@
     "tv.lobby.filter.custom": "Personalizados",
     "tv.lobby.filter.games": "Xogos",
     "tv.lobby.filter.banks": "Bancos",
+    "tv.lobby.filter.trivial": "Trivial",
     "tv.lobby.filter.all": "Todos",
     "tv.lobby.empty.all": "Non hai PINs dispoñibles. Crea primeiro un xogo ou banco.",
     "tv.lobby.empty.by_type": "Non hai {type} dispoñibles.",
@@ -24,7 +25,8 @@
     "tv.lobby.players_label": "Xogadores: ",
     "tv.lobby.type.custom": "Xogos personalizados",
     "tv.lobby.type.games": "Xogos",
-    "tv.lobby.type.banks": "Bancos de preguntas"
+    "tv.lobby.type.banks": "Bancos de preguntas",
+    "tv.lobby.type.trivial": "Xogos Trivial"
   },
   "literals": {
     "Error al cargar PINs": "Erro ao cargar os PINs",

@@ -22,11 +22,11 @@ function renderPoolCheckboxHtml(gb, idx, totalQuestions) {
     return `
         <div class="w-40">
             <label class="flex items-center gap-2 mb-1 cursor-pointer">
-                <input type="checkbox" id="bancoPoolCheckbox${idx}" ${isPool ? 'checked' : ''} data-admin-change="toggleBancoPool(${idx})" class="w-4 h-4 text-purple-600 rounded">
+                <input type="checkbox" id="bancoPoolCheckbox${idx}" ${isPool ? 'checked' : ''} data-admin-change="toggleBancoPool(${idx})" class="w-4 h-4 text-plum-600 rounded">
                 <span class="text-[10px] font-bold uppercase text-slate-400 tracking-widest">${_t('admin.games.pool_toggle_label', null, 'Sin cantidad fija')}</span>
             </label>
             ${isPool
-        ? `<div class="p-2 bg-purple-50 border-2 border-purple-200 rounded-lg text-center text-purple-600 text-xs font-bold">${_t('admin.games.pool_badge', null, 'Pool compartido')}</div>`
+        ? `<div class="p-2 bg-plum-50 border-2 border-plum-200 rounded-lg text-center text-plum-600 text-xs font-bold">${_t('admin.games.pool_badge', null, 'Pool compartido')}</div>`
         : `<label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.quantity_label', null, 'Cantidad')}</label>
                 <input type="number" min="1" max="${totalQuestions}" value="${Math.min(gb.question_count, totalQuestions)}" data-admin-change="currentBanks[${idx}].question_count = parseInt(this.value)" class="w-full p-2 border-2 border-slate-100 rounded-lg text-sm font-medium text-center">`}
         </div>
@@ -44,10 +44,10 @@ function dibujarSeccionPool() {
 
     const valorActual = document.getElementById('gamePoolQuestionCount')?.value || poolQuestionCountInicial || '';
     wrapper.innerHTML = _tHtml(`
-        <div class="bg-purple-50 border-2 border-purple-200 rounded-xl p-4 mt-4">
-            <label class="block text-[10px] font-bold uppercase text-purple-500 mb-2 tracking-widest">${_t('admin.games.pool_total_label', null, 'Total de preguntas del pool')}</label>
-            <input type="number" id="gamePoolQuestionCount" min="1" value="${valorActual}" class="w-32 p-2 border-2 border-purple-200 rounded-lg text-sm font-medium text-center">
-            <p class="text-purple-400 text-xs mt-2">${_t('admin.games.pool_total_help', null, 'Cuántas preguntas en total se sacan al azar de los bancos marcados como "sin cantidad fija", combinados entre sí.')}</p>
+        <div class="bg-plum-50 border-2 border-plum-200 rounded-xl p-4 mt-4">
+            <label class="block text-[10px] font-bold uppercase text-plum-500 mb-2 tracking-widest">${_t('admin.games.pool_total_label', null, 'Total de preguntas del pool')}</label>
+            <input type="number" id="gamePoolQuestionCount" min="1" value="${valorActual}" class="w-32 p-2 border-2 border-plum-200 rounded-lg text-sm font-medium text-center">
+            <p class="text-plum-400 text-xs mt-2">${_t('admin.games.pool_total_help', null, 'Cuántas preguntas en total se sacan al azar de los bancos marcados como "sin cantidad fija", combinados entre sí.')}</p>
         </div>
     `);
 }

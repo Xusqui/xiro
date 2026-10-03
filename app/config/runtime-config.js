@@ -14,8 +14,10 @@ const {
     formatOriginList,
 } = require('./origin-list');
 
-// Archivo de overrides persistente dentro del directorio app (montado en el contenedor)
-const OVERRIDES_FILE = path.join(__dirname, 'runtime-overrides.json');
+// Archivo de overrides persistente dentro del directorio app (montado en el contenedor).
+// RUNTIME_OVERRIDES_FILE permite aislarlo (jest.setup.js lo apunta a una ruta inexistente
+// para que los tests no lean ni escriban la configuración real de la instalación).
+const OVERRIDES_FILE = process.env.RUNTIME_OVERRIDES_FILE || path.join(__dirname, 'runtime-overrides.json');
 
 // Definición de parámetros gestionables con sus tipos y rangos
 const PARAM_SCHEMA = {
@@ -30,6 +32,7 @@ const PARAM_SCHEMA = {
     STREAK_BONUS_PERCENTAGE: { type: 'float', min: 0, max: 5, envKey: 'STREAK_BONUS_PERCENTAGE' },
     TEAM_SCORE_LAMBDA: { type: 'float', min: 0, max: 10, envKey: 'TEAM_SCORE_LAMBDA' },
     RECONNECTION_TIMEOUT: { type: 'int', min: 10000, max: 600000, envKey: 'RECONNECTION_TIMEOUT' },
+    PRESENTER_RECONNECTION_TIMEOUT: { type: 'int', min: 60000, max: 3600000, envKey: 'PRESENTER_RECONNECTION_TIMEOUT' },
     INACTIVE_GAME_THRESHOLD: { type: 'int', min: 900000, max: 86400000, envKey: 'INACTIVE_GAME_THRESHOLD' },
     EMPTY_LOBBY_TIMEOUT: { type: 'int', min: 30000, max: 1800000, envKey: 'EMPTY_LOBBY_TIMEOUT' },
     TOP_PLAYERS_DURING_GAME: { type: 'int', min: 1, max: 20, envKey: 'TOP_PLAYERS_DURING_GAME' },
@@ -85,6 +88,7 @@ function _getDefault(key) {
         STREAK_BONUS_PERCENTAGE: 0.5,
         TEAM_SCORE_LAMBDA: 0.5,
         RECONNECTION_TIMEOUT: 120000,
+        PRESENTER_RECONNECTION_TIMEOUT: 900000,
         INACTIVE_GAME_THRESHOLD: 14400000,
         EMPTY_LOBBY_TIMEOUT: 300000,
         TOP_PLAYERS_DURING_GAME: 5,

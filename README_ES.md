@@ -259,7 +259,7 @@ En el primer arranque, Xiro! envía **un único ping anónimo** a [ntfy.sh](http
 
 ## Documentación
 
-La documentación técnica para desarrolladores está en [`docs/`](docs/): [arquitectura](docs/ARCHITECTURE.md), [CQRS](docs/CQRS_PATTERN.md), [eventos](docs/EVENT_DRIVEN_PATTERN.md), [generador IA](docs/GROQ_SETUP.md) y [compilación CSS](docs/CSS_COMPILATION_GUIDE.md). Todas las variables de entorno están documentadas en [`.env.example`](.env.example).
+La documentación técnica para desarrolladores está en [`docs/`](docs/): [arquitectura](docs/ARCHITECTURE.md), [CQRS](docs/CQRS_PATTERN.md), [eventos](docs/EVENT_DRIVEN_PATTERN.md), [generador IA](docs/GROQ_SETUP.md) y [estilos CSS](docs/CSS_GUIDE.md). Todas las variables de entorno están documentadas en [`.env.example`](.env.example).
 
 ---
 

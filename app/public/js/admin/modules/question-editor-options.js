@@ -14,7 +14,7 @@ function questionTypeSectionHtml(q, qIdx, isHybridToleranceMode) {
 function matchingEditorSectionHtml(q, qIdx) {
     return `
                     <!-- EMPAREJAR: DOS COLUMNAS -->
-                    <div class="bg-amber-100 border-l-4 border-amber-500 p-3 mb-4 rounded">
+                    <div class="bg-amber-100 border border-amber-300 p-3 mb-4 rounded-lg">
                         <p class="text-sm font-bold text-amber-800 flex items-center gap-2">
                             <i class="fas fa-columns"></i>
                             El jugador ve la columna izquierda fija y reordena la derecha para emparejar los pares correctos.
@@ -39,7 +39,7 @@ function matchingEditorSectionHtml(q, qIdx) {
 function multipleChoiceEditorHtml(q, qIdx) {
     return `
                     <!-- SELECCIÓN MÚLTIPLE: 1-6 RESPUESTAS CORRECTAS -->
-                    <div class="bg-cyan-100 border-l-4 border-cyan-500 p-3 mb-4 rounded">
+                    <div class="bg-cyan-100 border border-cyan-300 p-3 mb-4 rounded-lg">
                         <p class="text-sm font-bold text-cyan-800 flex items-center gap-2">
                             <i class="fas fa-check-double"></i>
                             Los jugadores pueden marcar entre 1 y 6 respuestas. Configura la puntuación a continuación.
@@ -117,7 +117,7 @@ function multipleChoiceEditorHtml(q, qIdx) {
                                         <input type="text" value="${escapeHtml(opt.optionText || '')}" data-admin-input="preguntasData[${qIdx}].options[${oIdx}].optionText = this.value" placeholder="Respuesta..." class="bg-transparent flex-1 outline-none text-sm font-medium">
                                         ${opt.option_image_url
         ? `<div class="relative flex-shrink-0"><img src="${escapeHtml(opt.option_image_url)}" class="w-12 h-12 object-cover rounded-lg border border-slate-200" alt="Imagen opción"><button id="opt-img-btn-${qIdx}-${oIdx}" data-admin-click="eliminarImagenOpcion(${qIdx}, ${oIdx})" class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 text-xs flex items-center justify-center leading-none" title="Quitar imagen">×</button></div>`
-        : `<label class="cursor-pointer text-slate-400 hover:text-purple-600 transition flex-shrink-0" title="Añadir imagen (máx. 200 KB)"><i class="fas fa-image"></i><input type="file" accept="image/jpeg,image/png,image/gif,image/webp" class="hidden" data-admin-change="onImagenOpcionChange(this, ${qIdx}, ${oIdx})"></label>`
+        : `<label class="cursor-pointer text-slate-400 hover:text-plum-600 transition flex-shrink-0" title="Añadir imagen (máx. 200 KB)"><i class="fas fa-image"></i><input type="file" accept="image/jpeg,image/png,image/gif,image/webp" class="hidden" data-admin-change="onImagenOpcionChange(this, ${qIdx}, ${oIdx})"></label>`
 }
                                         ${q.options.length > 2 ? `<button data-admin-click="eliminarOpcion(${qIdx}, ${oIdx})" class="text-slate-300 hover:text-red-500">×</button>` : ''}
                                     </div>
@@ -126,7 +126,7 @@ function multipleChoiceEditorHtml(q, qIdx) {
     }).join('')}
                         
                         ${q.options.length < 6 ? `
-                        <button data-admin-click="añadirOpcion(${qIdx})" class="text-xs text-purple-600 font-bold border-2 border-dashed border-purple-200 rounded-xl py-3 hover:bg-purple-50 transition">
+                        <button data-admin-click="añadirOpcion(${qIdx})" class="text-xs text-plum-600 font-bold border-2 border-dashed border-plum-200 rounded-xl py-3 hover:bg-plum-50 transition">
                             ${_t('admin.q.btn_add_option', null, '+ Añadir Opción')}
                         </button>` : ''}
                     </div>
@@ -140,17 +140,17 @@ function standardOptionsEditorHtml(q, qIdx) {
                         ${q.options.map((opt, oIdx) => {
         if (q.type === 'order') {
             return `
-                                    <div class="flex flex-col gap-2 bg-slate-50 p-3 rounded-xl border-2 border-indigo-200">
+                                    <div class="flex flex-col gap-2 bg-slate-50 p-3 rounded-xl border-2 border-aubergine-200">
                                         <div class="flex items-center gap-3">
                                             <div class="flex flex-col gap-1">
-                                                <button data-admin-click="moverOpcion(${qIdx}, ${oIdx}, -1)" class="bg-indigo-500 hover:bg-indigo-600 text-white w-7 h-7 rounded-lg text-xs" ${oIdx === 0 ? 'disabled style="opacity:0.4;"' : ''}>▲</button>
-                                                <button data-admin-click="moverOpcion(${qIdx}, ${oIdx}, 1)" class="bg-indigo-500 hover:bg-indigo-600 text-white w-7 h-7 rounded-lg text-xs" ${oIdx === q.options.length - 1 ? 'disabled style="opacity:0.4;"' : ''}>▼</button>
+                                                <button data-admin-click="moverOpcion(${qIdx}, ${oIdx}, -1)" class="bg-aubergine-500 hover:bg-aubergine-600 text-white w-7 h-7 rounded-lg text-xs" ${oIdx === 0 ? 'disabled style="opacity:0.4;"' : ''}>▲</button>
+                                                <button data-admin-click="moverOpcion(${qIdx}, ${oIdx}, 1)" class="bg-aubergine-500 hover:bg-aubergine-600 text-white w-7 h-7 rounded-lg text-xs" ${oIdx === q.options.length - 1 ? 'disabled style="opacity:0.4;"' : ''}>▼</button>
                                             </div>
-                                            <span class="text-xs font-black bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full">${oIdx + 1}</span>
+                                            <span class="text-xs font-black bg-aubergine-100 text-aubergine-700 px-2 py-1 rounded-full">${oIdx + 1}</span>
                                             <input type="text" value="${escapeHtml(opt.optionText || '')}" data-admin-input="preguntasData[${qIdx}].options[${oIdx}].optionText = this.value" placeholder="Respuesta..." class="bg-transparent flex-1 outline-none text-sm font-medium">
                                             ${q.options.length > 2 ? `<button data-admin-click="eliminarOpcion(${qIdx}, ${oIdx})" class="text-slate-300 hover:text-red-500">×</button>` : ''}
                                         </div>
-                                        <input type="text" value="${escapeHtml(opt.justification || '')}" data-admin-input="preguntasData[${qIdx}].options[${oIdx}].justification = this.value" placeholder="Ej: 250,000 km de vías" class="bg-white border border-indigo-200 rounded-lg px-3 py-2 text-xs outline-none focus:border-indigo-500 transition">
+                                        <input type="text" value="${escapeHtml(opt.justification || '')}" data-admin-input="preguntasData[${qIdx}].options[${oIdx}].justification = this.value" placeholder="Ej: 250,000 km de vías" class="bg-white border border-aubergine-200 rounded-lg px-3 py-2 text-xs outline-none focus:border-aubergine-500 transition">
                                     </div>
                                 `;
         }
@@ -162,7 +162,7 @@ function standardOptionsEditorHtml(q, qIdx) {
                                         <input type="text" value="${escapeHtml(opt.optionText || '')}" data-admin-input="preguntasData[${qIdx}].options[${oIdx}].optionText = this.value" placeholder="Respuesta..." class="bg-transparent flex-1 outline-none text-sm font-medium">
                                         ${opt.option_image_url
         ? `<div class="relative flex-shrink-0"><img src="${escapeHtml(opt.option_image_url)}" class="w-12 h-12 object-cover rounded-lg border border-slate-200" alt="Imagen opción"><button id="opt-img-btn-${qIdx}-${oIdx}" data-admin-click="eliminarImagenOpcion(${qIdx}, ${oIdx})" class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 text-xs flex items-center justify-center leading-none" title="Quitar imagen">×</button></div>`
-        : `<label class="cursor-pointer text-slate-400 hover:text-purple-600 transition flex-shrink-0" title="Añadir imagen (máx. 200 KB)"><i class="fas fa-image"></i><input type="file" accept="image/jpeg,image/png,image/gif,image/webp" class="hidden" data-admin-change="onImagenOpcionChange(this, ${qIdx}, ${oIdx})"></label>`
+        : `<label class="cursor-pointer text-slate-400 hover:text-plum-600 transition flex-shrink-0" title="Añadir imagen (máx. 200 KB)"><i class="fas fa-image"></i><input type="file" accept="image/jpeg,image/png,image/gif,image/webp" class="hidden" data-admin-change="onImagenOpcionChange(this, ${qIdx}, ${oIdx})"></label>`
 }
                                         ${q.options.length > 2 ? `<button data-admin-click="eliminarOpcion(${qIdx}, ${oIdx})" class="text-slate-300 hover:text-red-500">×</button>` : ''}
                                     </div>
@@ -171,7 +171,7 @@ function standardOptionsEditorHtml(q, qIdx) {
     }).join('')}
                         
                         ${q.options.length < 6 ? `
-                        <button data-admin-click="añadirOpcion(${qIdx})" class="text-xs text-purple-600 font-bold border-2 border-dashed border-purple-200 rounded-xl py-3 hover:bg-purple-50 transition">
+                        <button data-admin-click="añadirOpcion(${qIdx})" class="text-xs text-plum-600 font-bold border-2 border-dashed border-plum-200 rounded-xl py-3 hover:bg-plum-50 transition">
                             ${_t('admin.q.btn_add_option', null, '+ Añadir Opción')}
                         </button>` : ''}
                     </div>
@@ -179,7 +179,7 @@ function standardOptionsEditorHtml(q, qIdx) {
                     ${q.type !== 'survey' && q.type !== 'order' ? `
                     <div class="mt-4">
                         <label class="text-[10px] font-bold text-slate-400 uppercase">${_t('admin.q.justification_label', null, 'Justificación de la respuesta correcta')}</label>
-                        <textarea data-admin-input="preguntasData[${qIdx}].justification = this.value" class="w-full mt-2 p-3 border-2 border-slate-100 rounded-xl focus:border-purple-500 outline-none transition text-sm" rows="3" placeholder="Explica por qué esta es la respuesta correcta">${escapeHtml(q.justification || '')}</textarea>
+                        <textarea data-admin-input="preguntasData[${qIdx}].justification = this.value" class="w-full mt-2 p-3 border-2 border-slate-100 rounded-xl focus:border-plum-500 outline-none transition text-sm" rows="3" placeholder="Explica por qué esta es la respuesta correcta">${escapeHtml(q.justification || '')}</textarea>
                     </div>` : ''}
                     `;
 }

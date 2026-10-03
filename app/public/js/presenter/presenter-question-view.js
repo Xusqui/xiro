@@ -7,7 +7,7 @@ import { renderWordScramblePresenter } from './presenter-wordscramble-layout.js?
 import { nextButtonLabel } from './presenter-reveal.js?v=20260922172926';
 import { escapeHtml, sanitizeResourceUrl } from '../core/sanitize.js?v=20260922172926';
 
-const OPTION_COLORS = ['bg-red-500', 'bg-blue-500', 'bg-yellow-500', 'bg-green-500', 'bg-purple-500', 'bg-pink-500'];
+const OPTION_COLORS = ['bg-red-500', 'bg-blue-500', 'bg-yellow-500', 'bg-green-500', 'bg-plum-500', 'bg-pink-500'];
 
 /** Qué muestra la pregunta según su tipo y su contenido multimedia. */
 export function describeQuestion(q) {
@@ -48,7 +48,7 @@ function headerHtml(q, totalPlayers) {
 function multipleChoiceBadgeHtml() {
     return `
                 <div class="flex justify-center mb-4">
-                    <div class="bg-purple-600 text-white px-6 py-2 rounded-full font-bold text-lg uppercase tracking-wide shadow-lg border-2 border-white/30">
+                    <div class="bg-plum-600 text-white px-6 py-2 rounded-full font-bold text-lg uppercase tracking-wide shadow-lg border-2 border-white/30">
                         ${_t('presenter.game.multiple_choice_label', null, '✓ Selección Múltiple')}
                     </div>
                 </div>`;
@@ -65,12 +65,12 @@ function mediaHtml(view) {
     if (!view.tieneAudio) return '';
     return `
                 <div class="flex justify-center mb-6">
-                    <div class="bg-purple-600/20 backdrop-blur-lg rounded-3xl p-8 border-2 border-red-800 shadow-2xl">
+                    <div class="bg-plum-600/20 backdrop-blur-lg rounded-3xl p-8 border-2 border-red-800 shadow-2xl">
                         <div class="flex items-center gap-4 mb-4">
-                            <i class="fas fa-volume-up text-6xl text-purple-400"></i>
+                            <i class="fas fa-volume-up text-6xl text-plum-400"></i>
                             <div class="text-white">
                                 <p class="text-2xl font-black italic">${_t('presenter.game.audio_playing', null, 'AUDIO EN REPRODUCCIÓN')}</p>
-                                <p class="text-sm text-purple-300">${_t('presenter.game.listen_carefully', null, 'Escucha atentamente')}</p>
+                                <p class="text-sm text-plum-300">${_t('presenter.game.listen_carefully', null, 'Escucha atentamente')}</p>
                             </div>
                         </div>
                         <audio id="question-audio" autoplay controls class="w-full">
@@ -134,7 +134,7 @@ function answerAreaHtml(q, view) {
 function nextButtonHtml() {
     const [label, icon] = nextButtonLabel();
     return `
-            <button id="btn-next" data-presenter-action="next-question" class="hidden fixed bottom-10 right-10 bg-white text-slate-900 px-10 py-5 rounded-3xl font-black text-2xl shadow-2xl hover:bg-purple-600 hover:text-white transition italic uppercase" style="z-index: 10000;">
+            <button id="btn-next" data-presenter-action="next-question" class="hidden fixed bottom-10 right-10 bg-white text-slate-900 px-10 py-5 rounded-3xl font-black text-2xl shadow-2xl hover:bg-plum-600 hover:text-white transition italic uppercase" style="z-index: 10000;">
                 ${label}
                 <i class="fas ${icon} ml-2"></i>
             </button>`;

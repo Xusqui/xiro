@@ -170,7 +170,11 @@ function _buildTeamRanking(state, scores) {
         const avgPts = memberPts.length > 0
             ? Math.round(memberPts.reduce((a, b) => a + b, 0) / memberPts.length * 10) / 10
             : 0;
-        return { name: team.name, wedges: countWedges(token), pts: avgPts, isTeam: true, color: team.color };
+        // Miembros con sus puntos: el visor de resultados los usa para el desglose del equipo.
+        const members = (team.players || [])
+            .map(nick => ({ name: nick, pts: scores[nick] || 0 }))
+            .sort((a, b) => b.pts - a.pts);
+        return { name: team.name, wedges: countWedges(token), pts: avgPts, isTeam: true, color: team.color, members };
     });
     entries.sort((a, b) => b.wedges - a.wedges || b.pts - a.pts);
 
@@ -180,7 +184,7 @@ function _buildTeamRanking(state, scores) {
         const tied = wedgeFreq[p.wedges] > 1;
         const noun = p.wedges !== 1 ? 'Categorías' : 'Categoría';
         const scoreLabel = tied ? `${p.wedges} ${noun} · ${p.pts} pts` : `${p.wedges} ${noun}`;
-        return { name: p.name, pts: p.pts, position: i + 1, isTeam: true, scoreLabel, color: p.color };
+        return { name: p.name, pts: p.pts, position: i + 1, isTeam: true, scoreLabel, color: p.color, members: p.members };
     });
 }
 

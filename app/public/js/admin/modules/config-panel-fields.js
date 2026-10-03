@@ -16,7 +16,7 @@ function _configEnumInput(key, meta, value, values) {
         return `<option value="${v}" ${v === String(value) ? 'selected' : ''}>${optLabel}</option>`;
     }).join('');
     return `<select id="cfg-${key}" data-key="${key}" data-mul="1"
-            class="px-3 py-2 border-2 border-slate-200 rounded-lg focus:border-indigo-400 focus:outline-none bg-white font-mono text-sm w-36">
+            class="px-3 py-2 border-2 border-slate-200 rounded-lg focus:border-aubergine-400 focus:outline-none bg-white font-mono text-sm w-36">
             ${opts}</select>`;
 }
 
@@ -30,7 +30,7 @@ function _configSensitiveInput(key, value) {
                 <input type="text" id="cfg-${key}" data-key="${key}" data-mul="1" data-sensitive="true"
                     value="" placeholder="${placeholder}"
                     autocomplete="off" spellcheck="false" autocapitalize="off"
-                    class="xiro-input-mask w-full px-3 py-2 border-2 border-slate-200 rounded-lg focus:border-indigo-400 focus:outline-none font-mono text-sm pr-10">
+                    class="xiro-input-mask w-full px-3 py-2 border-2 border-slate-200 rounded-lg focus:border-aubergine-400 focus:outline-none font-mono text-sm pr-10">
                 <button type="button" data-config-action="toggle-sensitive" data-key="${key}" tabindex="-1"
                     class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
                     <i id="eye-${key}" class="fas fa-eye text-xs"></i>
@@ -55,7 +55,7 @@ function _configPlainInput(key, entry, meta) {
     const disabledCls = meta.disabled ? ' bg-slate-100 text-slate-400 cursor-not-allowed' : '';
     return `<input type="${inputType}" id="cfg-${key}" data-key="${key}" data-mul="${mul}"
             value="${escapeHtml(String(displayValue))}" step="${step}"${minAttr}${maxAttr}${disabledAttr}
-            class="px-3 py-2 border-2 border-slate-200 rounded-lg focus:border-indigo-400 focus:outline-none font-mono text-sm ${widthCls}${disabledCls}">`;
+            class="px-3 py-2 border-2 border-slate-200 rounded-lg focus:border-aubergine-400 focus:outline-none font-mono text-sm ${widthCls}${disabledCls}">`;
 }
 
 function _configFieldInput(key, entry, meta) {
@@ -98,25 +98,25 @@ function _renderLambdaCard(entry) {
     return `
         <div class="mb-8">
             <div class="flex items-center gap-2 mb-4">
-                <div class="w-1 h-6 bg-purple-500 rounded-full"></div>
+                <div class="w-1 h-6 bg-plum-500 rounded-full"></div>
                 <h2 class="text-xs font-black uppercase tracking-widest text-slate-500">${_t('admin.config.lambda.section_title')}</h2>
             </div>
-            <div class="bg-gradient-to-br from-purple-50 to-indigo-50 border-2 border-purple-200 rounded-2xl p-6 shadow-sm">
+            <div class="bg-gradient-to-br from-plum-50 to-aubergine-50 border-2 border-plum-200 rounded-2xl p-6 shadow-sm">
                 <div class="flex items-start gap-4 mb-5">
-                    <div class="w-12 h-12 bg-purple-600 rounded-xl flex items-center justify-center text-white flex-shrink-0 shadow-md">
+                    <div class="w-12 h-12 bg-plum-600 rounded-xl flex items-center justify-center text-white flex-shrink-0 shadow-md">
                         <span class="text-xl font-black italic">λ</span>
                     </div>
                     <div>
                         <div class="flex items-center gap-2 mb-1 flex-wrap">
-                            <p class="font-black text-purple-900">${_t('admin.config.lambda.card_title')}</p>
+                            <p class="font-black text-plum-900">${_t('admin.config.lambda.card_title')}</p>
                             <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 border border-emerald-200">${_t('admin.config.badge.inmediato')}</span>
                         </div>
-                        <p class="text-sm text-purple-700">${_t('admin.config.lambda.desc')}</p>
+                        <p class="text-sm text-plum-700">${_t('admin.config.lambda.desc')}</p>
                     </div>
                 </div>
-                <div class="bg-white/80 rounded-xl p-4 mb-5 border border-purple-100 space-y-3">
+                <div class="bg-white/80 rounded-xl p-4 mb-5 border border-plum-100 space-y-3">
                     <p class="text-xs font-bold text-slate-500 uppercase tracking-wide">${_t('admin.config.lambda.formula_section')}</p>
-                    <p class="font-mono text-purple-800 bg-purple-50 px-3 py-2 rounded-lg text-xs">${_t('admin.config.lambda.formula')}</p>
+                    <p class="font-mono text-plum-800 bg-plum-50 px-3 py-2 rounded-lg text-xs">${_t('admin.config.lambda.formula')}</p>
                     <div class="grid grid-cols-3 gap-2 pt-1">
                         <div class="bg-slate-50 rounded-lg p-3 border border-slate-100 text-center">
                             <p class="font-black text-slate-800 text-lg">0</p>
@@ -133,11 +133,11 @@ function _renderLambdaCard(entry) {
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
-                    <label class="text-sm font-bold text-purple-900">${_t('admin.config.lambda.value_label')}</label>
+                    <label class="text-sm font-bold text-plum-900">${_t('admin.config.lambda.value_label')}</label>
                     <input type="number" id="cfg-TEAM_SCORE_LAMBDA" data-key="TEAM_SCORE_LAMBDA"
                         value="${escapeHtml(String(value))}" step="${step}"${minAttr}${maxAttr}
-                        class="w-28 px-3 py-2 border-2 border-purple-300 rounded-lg focus:border-purple-500 focus:outline-none font-mono text-sm bg-white">
-                    <span class="text-sm text-purple-500">${_t('admin.config.lambda.no_smoothing')}</span>
+                        class="w-28 px-3 py-2 border-2 border-plum-300 rounded-lg focus:border-plum-500 focus:outline-none font-mono text-sm bg-white">
+                    <span class="text-sm text-plum-500">${_t('admin.config.lambda.no_smoothing')}</span>
                 </div>
             </div>
         </div>`;
@@ -161,13 +161,13 @@ function _renderFireworksSlider(key, value, meta) {
                 <div class="flex-1 min-w-0">
                     <div class="flex items-center justify-between gap-2 mb-1">
                         <p class="font-bold text-slate-800">${labelWithDefault}</p>
-                        <span id="fw-value-${key}" class="text-lg font-mono font-black text-purple-600">${value}${meta.unit}</span>
+                        <span id="fw-value-${key}" class="text-lg font-mono font-black text-plum-600">${value}${meta.unit}</span>
                     </div>
                     <p class="text-xs text-slate-500 mb-4 leading-relaxed">${_t(meta.description, null, meta.description)}</p>
                     <input type="range" id="fw-${key}" data-fw-key="${key}"
                         value="${value}" min="${min}" max="${max}" step="${step}"
                         data-config-action="update-fireworks-slider" data-key="${key}"
-                        class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-purple-600">
+                        class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-plum-600">
                     <div class="flex justify-between text-xs text-slate-400 mt-1">
                         <span>${min}${meta.unit}</span>
                         <span>${max}${meta.unit}</span>

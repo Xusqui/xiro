@@ -53,6 +53,8 @@
     "admin.config.meta.LOG_MAX_FILES.desc": "Por quanto tempo os logs são mantidos. Exemplo: \"14d\" = 14 dias. Mais retenção = mais espaço em disco.",
     "admin.config.meta.RECONNECTION_TIMEOUT.label": "Tempo limite de reconexão",
     "admin.config.meta.RECONNECTION_TIMEOUT.desc": "Minutos que o servidor mantém o estado de um jogador desconectado. Se ele se reconectar antes do prazo, o jogo continua.",
+    "admin.config.meta.PRESENTER_RECONNECTION_TIMEOUT.label": "Reconexão do apresentador",
+    "admin.config.meta.PRESENTER_RECONNECTION_TIMEOUT.desc": "Minutos que o jogo é mantido se o ecrã do apresentador se desligar (p. ex. o computador entra em repouso). Ao expirar, a sessão termina para todos.",
     "admin.config.meta.INACTIVE_GAME_THRESHOLD.label": "Limite de jogo inativo",
     "admin.config.meta.INACTIVE_GAME_THRESHOLD.desc": "Horas de inatividade antes que um jogo seja considerado abandonado e removido da memória.",
     "admin.config.meta.EMPTY_LOBBY_TIMEOUT.label": "Tempo limite do lobby vazio",

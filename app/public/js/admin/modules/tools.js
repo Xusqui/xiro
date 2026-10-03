@@ -177,15 +177,15 @@ function mostrarCargarPreguntasInner() {
     editorArea.innerHTML = _tHtml(`
                 <div class="h-full overflow-y-auto p-12">
                     <div class="w-[90%] mx-auto mb-6">
-                        <div class="bg-gradient-to-br from-purple-50 to-white rounded-2xl shadow-lg p-8 border border-purple-100">
+                        <div class="bg-gradient-to-br from-plum-50 to-white rounded-2xl shadow-lg p-8 border border-plum-100">
                             <label class="block text-slate-700 font-bold mb-3 text-sm uppercase tracking-wide">
-                                <i class="fas fa-robot text-purple-600 mr-2"></i>${_t('admin.tools.upload_ai_help_title', null, '¿No tienes el JSON todavía? Genéralo con IA')}
+                                <i class="fas fa-robot text-plum-600 mr-2"></i>${_t('admin.tools.upload_ai_help_title', null, '¿No tienes el JSON todavía? Genéralo con IA')}
                             </label>
                             <ol class="space-y-4 text-sm text-slate-700 list-decimal list-inside">
                                 <li>
                                     ${_t('admin.tools.upload_ai_step1', null, 'Descarga el archivo de esquema:')}
                                     <a href="/data/schema.json" download="schema.json"
-                                        class="inline-flex items-center gap-1 ml-1 text-purple-600 hover:text-purple-800 font-bold underline">
+                                        class="inline-flex items-center gap-1 ml-1 text-plum-600 hover:text-plum-800 font-bold underline">
                                         <i class="fas fa-download"></i> schema.json
                                     </a>
                                 </li>
@@ -195,7 +195,7 @@ function mostrarCargarPreguntasInner() {
                                     <div class="relative mt-2">
                                         <pre id="aiPromptText" class="bg-slate-900 text-slate-100 text-xs rounded-lg p-4 pr-24 overflow-x-auto whitespace-pre-wrap font-mono"></pre>
                                         <button type="button" id="copyPromptBtn"
-                                            class="absolute top-2 right-2 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold px-3 py-2 rounded-lg transition">
+                                            class="absolute top-2 right-2 bg-plum-600 hover:bg-plum-700 text-white text-xs font-bold px-3 py-2 rounded-lg transition">
                                             <i class="fas fa-copy mr-2"></i>${_t('admin.tools.upload_ai_copy_btn', null, 'Copiar')}
                                         </button>
                                     </div>
@@ -207,34 +207,34 @@ function mostrarCargarPreguntasInner() {
                     <div class="max-w-2xl mx-auto">
                         <!-- Botón volver -->
                         <button data-admin-action="history-back"
-                            class="mb-6 text-slate-600 hover:text-purple-600 font-bold flex items-center gap-2 transition">
+                            class="mb-6 text-slate-600 hover:text-plum-600 font-bold flex items-center gap-2 transition">
                             <i class="fas fa-arrow-left"></i>
                             ${_t('admin.common.back', null, 'Volver')}
                         </button>
 
-                        <div class="bg-gradient-to-br from-purple-50 to-white rounded-2xl shadow-lg p-8 border border-purple-100">
+                        <div class="bg-gradient-to-br from-plum-50 to-white rounded-2xl shadow-lg p-8 border border-plum-100">
                             <div class="flex items-center gap-4 mb-8">
-                                <div class="bg-gradient-to-br from-purple-600 to-purple-700 w-16 h-16 rounded-2xl flex items-center justify-center text-white shadow-lg">
+                                <div class="bg-gradient-to-br from-plum-600 to-plum-700 w-16 h-16 rounded-2xl flex items-center justify-center text-white shadow-lg">
                                     <i class="fas fa-cloud-upload-alt text-3xl"></i>
                                 </div>
                                 <div>
-                                    <h1 class="text-2xl font-black text-purple-600">${_t('admin.tools.upload_title', null, 'Cargar Banco de Preguntas')}</h1>
+                                    <h1 class="text-2xl font-black text-plum-600">${_t('admin.tools.upload_title', null, 'Cargar Banco de Preguntas')}</h1>
                                     <p class="text-slate-500 text-sm">${_t('admin.tools.upload_subtitle', null, 'Importa archivos JSON con preguntas al sistema')}</p>
                                 </div>
                             </div>
 
                             <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 mb-6">
                                 <label class="block text-slate-700 font-bold mb-3 text-sm uppercase tracking-wide">
-                                    <i class="fas fa-file-code text-purple-600 mr-2"></i>${_t('admin.tools.upload_label', null, 'Archivo JSON')}
+                                    <i class="fas fa-file-code text-plum-600 mr-2"></i>${_t('admin.tools.upload_label', null, 'Archivo JSON')}
                                 </label>
                                 
                                 <!-- Área de Drag & Drop -->
-                                <div id="dropZone" class="border-3 border-dashed border-purple-300 rounded-xl p-8 text-center bg-purple-50 hover:bg-purple-100 transition-all cursor-pointer mb-4">
+                                <div id="dropZone" class="border-3 border-dashed border-plum-300 rounded-xl p-8 text-center bg-plum-50 hover:bg-plum-100 transition-all cursor-pointer mb-4">
                                     <div class="flex flex-col items-center gap-3">
-                                        <i class="fas fa-cloud-upload-alt text-5xl text-purple-600"></i>
-                                        <p class="text-lg font-bold text-purple-900">${_t('admin.tools.upload_drag', null, 'Arrastra tu archivo JSON aquí')}</p>
+                                        <i class="fas fa-cloud-upload-alt text-5xl text-plum-600"></i>
+                                        <p class="text-lg font-bold text-plum-900">${_t('admin.tools.upload_drag', null, 'Arrastra tu archivo JSON aquí')}</p>
                                         <p class="text-sm text-slate-600">${_t('admin.tools.upload_or', null, 'o')}</p>
-                                        <button type="button" id="selectFileBtn" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-bold transition shadow-lg">
+                                        <button type="button" id="selectFileBtn" class="bg-plum-600 hover:bg-plum-700 text-white px-6 py-3 rounded-lg font-bold transition shadow-lg">
                                             <i class="fas fa-folder-open mr-2"></i>${_t('admin.tools.upload_btn', null, 'Seleccionar archivo')}
                                         </button>
                                         <p class="text-xs text-slate-500 mt-2">${_t('admin.tools.upload_formats', null, 'Formatos aceptados: .json')}</p>
@@ -261,10 +261,10 @@ function mostrarCargarPreguntasInner() {
 
                             <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 mb-8">
                                 <label class="block text-slate-700 font-bold mb-3 text-sm uppercase tracking-wide">
-                                    <i class="fas fa-lock text-purple-600 mr-2"></i>${_t('admin.tools.upload_pin_label', null, 'PIN del Banco (opcional)')}
+                                    <i class="fas fa-lock text-plum-600 mr-2"></i>${_t('admin.tools.upload_pin_label', null, 'PIN del Banco (opcional)')}
                                 </label>
                                 <input type="text" id="bankPin" maxlength="10" placeholder="${_t('admin.tools.upload_pin_placeholder', null, 'Ej: MEDICOS2025')}"
-                                    class="w-full px-4 py-3 border-2 border-slate-300 rounded-lg focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-200 transition font-mono">
+                                    class="w-full px-4 py-3 border-2 border-slate-300 rounded-lg focus:border-plum-500 focus:outline-none focus:ring-2 focus:ring-plum-200 transition font-mono">
                                 <p class="text-slate-500 text-xs mt-2 flex items-center gap-1">
                                     <i class="fas fa-info-circle"></i>
                                     ${_t('admin.banks.help_pin', null, 'Si lo dejas vacío, se generará automáticamente un PIN de 6 dígitos')}
@@ -273,7 +273,7 @@ function mostrarCargarPreguntasInner() {
 
                             <div class="flex justify-center">
                                 <button data-admin-action="load-bank-from-json"
-                                    class="bg-purple-600 text-white px-12 py-5 rounded-2xl font-black text-xl hover:bg-purple-700 hover:shadow-2xl transition-all transform hover:scale-105 flex items-center gap-3 shadow-lg">
+                                    class="bg-camaleon-600 text-white px-12 py-5 rounded-2xl font-black text-xl hover:bg-camaleon-700 hover:shadow-2xl transition-all transform hover:scale-105 flex items-center gap-3 shadow-lg">
                                     <i class="fas fa-plus-circle text-2xl"></i>
                                     ${_t('admin.tools.upload_create_btn', null, 'Crear Banco de Preguntas')}
                                 </button>
@@ -320,13 +320,13 @@ function setupFileUpload() {
     // Efectos visuales para drag & drop
     ['dragenter', 'dragover'].forEach(eventName => {
         dropZone.addEventListener(eventName, () => {
-            dropZone.classList.add('border-purple-500', 'bg-purple-200');
+            dropZone.classList.add('border-plum-500', 'bg-plum-200');
         });
     });
 
     ['dragleave', 'drop'].forEach(eventName => {
         dropZone.addEventListener(eventName, () => {
-            dropZone.classList.remove('border-purple-500', 'bg-purple-200');
+            dropZone.classList.remove('border-plum-500', 'bg-plum-200');
         });
     });
 
@@ -495,7 +495,7 @@ async function exportarJuegoAPDF(gameId, gameName) {
         loadingDiv.className = 'fixed inset-0 bg-slate-900/80 z-50 flex items-center justify-center';
         loadingDiv.innerHTML = _tHtml(`
             <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md text-center">
-                <div class="w-16 h-16 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                <div class="w-16 h-16 border-4 border-plum-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                 <h3 class="text-xl font-bold text-slate-800 mb-2">${_t('admin.tools.pdf_generating', null, 'Generando PDF...')}</h3>
                 <p class="text-slate-600">${_t('admin.tools.pdf_please_wait', null, 'Por favor espera mientras se genera el documento')}</p>
             </div>

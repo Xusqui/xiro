@@ -89,7 +89,7 @@ export const TEAM_COLOR_STYLES = {
     orange: { solid: '#f97316', tint: 'rgba(249, 115, 22, 0.18)', text: '#ffedd5' },
     cyan: { solid: '#06b6d4', tint: 'rgba(6, 182, 212, 0.18)', text: '#cffafe' },
     lime: { solid: '#84cc16', tint: 'rgba(132, 204, 22, 0.18)', text: '#ecfccb' },
-    fallback: { solid: '#7c3aed', tint: 'rgba(124, 58, 237, 0.18)', text: '#e9d5ff' }
+    fallback: { solid: '#94438e', tint: 'rgba(148, 67, 142, 0.18)', text: '#f9e6f7' }
 };
 
 const TEAM_NAME_PATTERN = /^[a-zA-Z0-9áéíóúÁÉÍÓÚüÜñÑ\s._-]+$/;
@@ -118,21 +118,21 @@ export function mostrarConfiguracionEquipos(selectedPin) {
                 <img src="/images/logo.svg" style="width: clamp(180px, 35vw, 400px);">
             </div>
             <h1 class="text-5xl font-black italic text-white mb-3 uppercase">Configurar Equipos</h1>
-            <p class="text-slate-400 text-xl mb-8">PIN: <span class="font-mono bg-purple-600 px-4 py-2 rounded-lg">${selectedPin}</span></p>
+            <p class="text-slate-400 text-xl mb-8">PIN: <span class="font-mono bg-plum-600 text-white px-4 py-2 rounded-lg">${selectedPin}</span></p>
             
             <div class="bg-slate-800 p-8 rounded-3xl shadow-2xl max-w-4xl w-full mb-6">
                 <label class="text-white font-bold text-xl mb-4 block">¿Cuántos equipos?</label>
                 <div class="grid grid-cols-4 gap-4 mb-8">
-                    <button data-presenter-action="team-count" data-num-teams="2" data-pin="${selectedPin}" class="bg-purple-600 hover:bg-purple-700 text-white font-black text-2xl py-6 rounded-xl transition">2</button>
-                    <button data-presenter-action="team-count" data-num-teams="3" data-pin="${selectedPin}" class="bg-purple-600 hover:bg-purple-700 text-white font-black text-2xl py-6 rounded-xl transition">3</button>
-                    <button data-presenter-action="team-count" data-num-teams="4" data-pin="${selectedPin}" class="bg-purple-600 hover:bg-purple-700 text-white font-black text-2xl py-6 rounded-xl transition">4</button>
-                    <button data-presenter-action="team-count" data-num-teams="5" data-pin="${selectedPin}" class="bg-purple-600 hover:bg-purple-700 text-white font-black text-2xl py-6 rounded-xl transition">5</button>
+                    <button data-presenter-action="team-count" data-num-teams="2" data-pin="${selectedPin}" class="bg-plum-600 hover:bg-plum-700 text-white font-black text-2xl py-6 rounded-xl transition">2</button>
+                    <button data-presenter-action="team-count" data-num-teams="3" data-pin="${selectedPin}" class="bg-plum-600 hover:bg-plum-700 text-white font-black text-2xl py-6 rounded-xl transition">3</button>
+                    <button data-presenter-action="team-count" data-num-teams="4" data-pin="${selectedPin}" class="bg-plum-600 hover:bg-plum-700 text-white font-black text-2xl py-6 rounded-xl transition">4</button>
+                    <button data-presenter-action="team-count" data-num-teams="5" data-pin="${selectedPin}" class="bg-plum-600 hover:bg-plum-700 text-white font-black text-2xl py-6 rounded-xl transition">5</button>
                 </div>
                 <div class="grid grid-cols-4 gap-4">
-                    <button data-presenter-action="team-count" data-num-teams="6" data-pin="${selectedPin}" class="bg-purple-600 hover:bg-purple-700 text-white font-black text-2xl py-6 rounded-xl transition">6</button>
-                    <button data-presenter-action="team-count" data-num-teams="7" data-pin="${selectedPin}" class="bg-purple-600 hover:bg-purple-700 text-white font-black text-2xl py-6 rounded-xl transition">7</button>
-                    <button data-presenter-action="team-count" data-num-teams="8" data-pin="${selectedPin}" class="bg-purple-600 hover:bg-purple-700 text-white font-black text-2xl py-6 rounded-xl transition">8</button>
-                    <button data-presenter-action="team-count" data-num-teams="9" data-pin="${selectedPin}" class="bg-purple-600 hover:bg-purple-700 text-white font-black text-2xl py-6 rounded-xl transition">9</button>
+                    <button data-presenter-action="team-count" data-num-teams="6" data-pin="${selectedPin}" class="bg-plum-600 hover:bg-plum-700 text-white font-black text-2xl py-6 rounded-xl transition">6</button>
+                    <button data-presenter-action="team-count" data-num-teams="7" data-pin="${selectedPin}" class="bg-plum-600 hover:bg-plum-700 text-white font-black text-2xl py-6 rounded-xl transition">7</button>
+                    <button data-presenter-action="team-count" data-num-teams="8" data-pin="${selectedPin}" class="bg-plum-600 hover:bg-plum-700 text-white font-black text-2xl py-6 rounded-xl transition">8</button>
+                    <button data-presenter-action="team-count" data-num-teams="9" data-pin="${selectedPin}" class="bg-plum-600 hover:bg-plum-700 text-white font-black text-2xl py-6 rounded-xl transition">9</button>
                 </div>
             </div>
             
@@ -166,11 +166,11 @@ export async function seleccionarNumEquipos(numTeams, selectedPin) {
                             <input type="text" id="team-name-${i}" 
                                    placeholder="Nombre del equipo ${i + 1}" 
                                    value="${getDefaultTeamNames()[i] || 'Equipo ' + (i + 1)}"
-                                   class="flex-1 p-4 border-4 border-slate-700 bg-slate-900 text-white rounded-xl font-bold text-xl focus:border-purple-500 outline-none">
+                                   class="flex-1 p-4 border-4 border-slate-700 bg-slate-900 text-white rounded-xl font-bold text-xl focus:border-plum-500 outline-none">
                             <select id="team-color-${i}"
                                     data-presenter-change="team-colors"
                                     data-num-teams="${numTeams}"
-                                    class="w-56 shrink-0 p-4 border-4 border-slate-700 bg-slate-900 text-white rounded-xl font-bold text-lg focus:border-purple-500 outline-none">
+                                    class="w-56 shrink-0 p-4 border-4 border-slate-700 bg-slate-900 text-white rounded-xl font-bold text-lg focus:border-plum-500 outline-none">
                                 ${getTeamColors().map((color, idx) => `
                                     <option value="${color.value}" ${idx === i % getTeamColors().length ? 'selected' : ''}>${color.name}</option>
                                 `).join('')}

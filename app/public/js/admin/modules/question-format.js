@@ -21,7 +21,7 @@
         return {
             tipo_contenido: question.tipo_contenido || 'texto',
             url_recurso: question.url_recurso || null,
-            time_limit: question.time_limit || 20
+            time_limit: question.time_limit || getDefaultQuestionTimeLimit()
         };
     }
 

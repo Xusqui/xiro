@@ -25,7 +25,7 @@ async function renderVistaBancos() {
             <div class="flex justify-between items-center mb-8">
                 <div>
                     <h1 class="text-4xl font-black text-slate-900 mb-2 flex items-center gap-3">
-                        <div class="w-12 h-12 bg-purple-600 rounded-xl flex items-center justify-center">
+                        <div class="w-12 h-12 bg-plum-600 rounded-xl flex items-center justify-center">
                             <i class="fas fa-database text-white text-xl"></i>
                         </div>
                         ${_t('admin.banks.title', null, 'Bancos de Preguntas')}
@@ -42,12 +42,12 @@ async function renderVistaBancos() {
                         <i class="fas fa-eye text-lg"></i>
                     </button>
                     <button data-admin-click="mostrarMezclarBancos()"
-                        class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-4 rounded-xl font-bold text-lg shadow-lg transition transform hover:-translate-y-1 flex items-center gap-3">
+                        class="bg-aubergine-600 hover:bg-aubergine-700 text-white px-5 py-4 rounded-xl font-bold text-lg shadow-lg transition transform hover:-translate-y-1 flex items-center gap-3">
                         <i class="fas fa-layer-group text-xl"></i>
                         ${_t('admin.banks.btn_merge', null, 'Mezclar Bancos')}
                     </button>
                     <button data-admin-click="prepararNuevoBanco()"
-                        class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-4 rounded-xl font-bold text-lg shadow-lg transition transform hover:-translate-y-1 flex items-center gap-3">
+                        class="bg-camaleon-600 hover:bg-camaleon-700 text-white px-6 py-4 rounded-xl font-bold text-lg shadow-lg transition transform hover:-translate-y-1 flex items-center gap-3">
                         <i class="fas fa-plus-circle text-xl"></i>
                         ${_t('admin.banks.btn_add', null, 'Añadir Nuevo Banco')}
                     </button>
@@ -70,17 +70,17 @@ async function renderVistaBancos() {
         };
         const canModify = canModifyOwnedResource(ownerInfo);
         const editClasses = canModify
-            ? 'flex-1 bg-purple-600 hover:bg-purple-700 text-white px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2'
+            ? 'flex-1 bg-plum-600 hover:bg-plum-700 text-white px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2'
             : `flex-1 px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 ${getLockedButtonClasses()}`;
 
         return `
-                        <div class="bg-white rounded-2xl shadow-sm border-2 border-slate-200 hover:border-purple-500 transition-all hover:shadow-xl group overflow-hidden">
+                        <div class="bg-white rounded-2xl shadow-sm border-2 border-slate-200 hover:border-plum-500 transition-all hover:shadow-xl group overflow-hidden">
                             <div class="p-6">
                                 <div class="flex justify-between items-start mb-4">
                                     <div class="flex-1">
                                         <h3 class="text-lg font-bold text-slate-900 mb-2 line-clamp-2">${escapeHtml(banco.name)}</h3>
                                         ${getOwnerBadgeHtml(ownerInfo)}
-                                        ${banco.pin ? `<div class="inline-flex items-center gap-2 bg-purple-100 text-purple-700 px-3 py-1 rounded-lg text-xs font-mono font-bold">
+                                        ${banco.pin ? `<div class="inline-flex items-center gap-2 bg-plum-100 text-plum-700 px-3 py-1 rounded-lg text-xs font-mono font-bold">
                                             <i class="fas fa-key"></i>
                                             PIN: ${banco.pin}
                                         </div>` : ''}
@@ -142,7 +142,7 @@ function renderEditorBanco(bank) {
         <div class="max-w-4xl mx-auto px-10 pt-6">
             <!-- Botón volver -->
             <button data-admin-click="mostrarVista('bancos')"
-                class="mb-4 text-slate-600 hover:text-purple-600 font-bold flex items-center gap-2 transition">
+                class="mb-4 text-slate-600 hover:text-plum-600 font-bold flex items-center gap-2 transition">
                 <i class="fas fa-arrow-left"></i>
                 ${_t('admin.banks.btn_back', null, 'Volver a Bancos de Preguntas')}
             </button>
@@ -154,9 +154,9 @@ function renderEditorBanco(bank) {
                 <input type="hidden" id="editOwnerUserId" value="${bank.created_by_user_id ?? ''}">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-lg font-black text-slate-900 italic uppercase">
-                        <i class="fas fa-database text-purple-500 mr-2"></i>${_t('admin.banks.form_title', null, 'Banco de Preguntas')}
+                        <i class="fas fa-database text-plum-500 mr-2"></i>${_t('admin.banks.form_title', null, 'Banco de Preguntas')}
                     </h2>
-                    ${bank.id ? `<span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-bold">ID: ${bank.id}</span>` : ''}
+                    ${bank.id ? `<span class="bg-plum-100 text-plum-700 px-3 py-1 rounded-full text-xs font-bold">ID: ${bank.id}</span>` : ''}
                 </div>
 
                 <div class="xiro-editor-header-grid">
@@ -165,11 +165,11 @@ function renderEditorBanco(bank) {
                         <div class="grid grid-cols-2 gap-3 mb-3">
                             <div>
                                 <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.banks.label_name', null, 'Nombre del Banco')}</label>
-                                <input type="text" id="editName" value="${escapeHtml(bank.name)}" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-purple-500 outline-none transition text-sm" placeholder="${_t('admin.banks.ph_name', null, 'Ej: Historia del Arte')}">
+                                <input type="text" id="editName" value="${escapeHtml(bank.name)}" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-plum-500 outline-none transition text-sm" placeholder="${_t('admin.banks.ph_name', null, 'Ej: Historia del Arte')}">
                             </div>
                             <div>
                                 <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.banks.label_pin', null, 'PIN del Banco (opcional)')}</label>
-                                <input type="text" id="editBankPin" value="${bank.pin || ''}" maxlength="10" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-purple-500 outline-none transition text-sm" placeholder="${_t('admin.banks.ph_pin', null, 'Ej: HISTORIA2025')}" title="${_t('admin.banks.help_pin', null, 'Si lo dejas vacío, se generará automáticamente un PIN de 6 dígitos')}">
+                                <input type="text" id="editBankPin" value="${bank.pin || ''}" maxlength="10" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-plum-500 outline-none transition text-sm" placeholder="${_t('admin.banks.ph_pin', null, 'Ej: HISTORIA2025')}" title="${_t('admin.banks.help_pin', null, 'Si lo dejas vacío, se generará automáticamente un PIN de 6 dígitos')}">
                             </div>
                         </div>
 
@@ -191,14 +191,14 @@ function renderEditorBanco(bank) {
                             <span class="text-sm font-bold text-slate-700"><i class="fas fa-fire text-orange-500 mr-1"></i>${_t('admin.banks.label_streaks', null, 'Activar Rachas')}</span>
                             ${renderNeonSwitch({ id: 'editBankUseStreaks', checked: bank.use_streaks, action: null, attrs: 'data-admin-change="toggleBankStreakConfig()"' })}
                         </div>
-                        <div id="bankStreakConfigPanel" class="${bank.use_streaks ? '' : 'hidden'} mb-3 ml-6 p-3 bg-purple-50 rounded-lg border border-purple-100 grid grid-cols-2 gap-3">
+                        <div id="bankStreakConfigPanel" class="${bank.use_streaks ? '' : 'hidden'} mb-3 ml-6 p-3 bg-plum-50 rounded-lg border border-plum-100 grid grid-cols-2 gap-3">
                             <div>
                                 <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.banks.streak_threshold_label', null, 'Umbral de racha')}</label>
-                                <input type="number" id="editBankStreakThreshold" value="${bank.streak_threshold ?? 3}" min="1" max="20" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-purple-500 outline-none text-sm">
+                                <input type="number" id="editBankStreakThreshold" value="${bank.streak_threshold ?? 3}" min="1" max="20" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-plum-500 outline-none text-sm">
                             </div>
                             <div>
                                 <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.banks.streak_bonus_label', null, 'Bonus (%)')}</label>
-                                <input type="number" id="editBankStreakBonusPercentage" value="${bank.streak_bonus_percentage ?? 0.50}" min="0" max="2" step="0.05" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-purple-500 outline-none text-sm">
+                                <input type="number" id="editBankStreakBonusPercentage" value="${bank.streak_bonus_percentage ?? 0.50}" min="0" max="2" step="0.05" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-plum-500 outline-none text-sm">
                             </div>
                         </div>
 
@@ -207,14 +207,14 @@ function renderEditorBanco(bank) {
                             <span class="text-sm font-bold text-slate-700"><i class="fas fa-fire-alt text-red-500 mr-1"></i>${_t('admin.banks.label_dbl_streaks', null, 'Activar Dobles Rachas')}</span>
                             ${renderNeonSwitch({ id: 'editBankUseDoubleStreaks', checked: bank.use_double_streaks, action: null, attrs: 'data-admin-change="toggleBankDoubleStreakConfig()"' })}
                         </div>
-                        <div id="bankDoubleStreakConfigPanel" class="${bank.use_double_streaks ? '' : 'hidden'} mb-3 ml-6 p-3 bg-purple-50 rounded-lg border border-purple-100 grid grid-cols-2 gap-3">
+                        <div id="bankDoubleStreakConfigPanel" class="${bank.use_double_streaks ? '' : 'hidden'} mb-3 ml-6 p-3 bg-plum-50 rounded-lg border border-plum-100 grid grid-cols-2 gap-3">
                             <div>
                                 <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.banks.dbl_threshold_label', null, 'Umbral doble racha')}</label>
-                                <input type="number" id="editBankDoubleStreakThreshold" value="${bank.double_streak_threshold ?? 5}" min="1" max="20" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-purple-500 outline-none text-sm">
+                                <input type="number" id="editBankDoubleStreakThreshold" value="${bank.double_streak_threshold ?? 5}" min="1" max="20" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-plum-500 outline-none text-sm">
                             </div>
                             <div>
                                 <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.banks.dbl_bonus_label', null, 'Bonus doble (%)')}</label>
-                                <input type="number" id="editBankDoubleStreakBonusPercentage" value="${bank.double_streak_bonus_percentage ?? 1.00}" min="0" max="2" step="0.05" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-purple-500 outline-none text-sm">
+                                <input type="number" id="editBankDoubleStreakBonusPercentage" value="${bank.double_streak_bonus_percentage ?? 1.00}" min="0" max="2" step="0.05" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-plum-500 outline-none text-sm">
                             </div>
                         </div>
 
@@ -230,7 +230,7 @@ function renderEditorBanco(bank) {
             <div id="contenedorPreguntas" class="space-y-6 pb-10">
                 <div class="flex justify-between items-center px-2">
                     <h3 class="text-xl font-black text-slate-700 uppercase tracking-tighter text-2xl">${_t('admin.banks.title', null, 'Bancos de Preguntas')}</h3>
-                    <button data-admin-click="añadirPregunta()" class="bg-purple-50 text-purple-700 border-2 border-purple-200 px-5 py-2 rounded-xl text-sm font-bold hover:bg-purple-100 hover:border-purple-300 transition transform active:scale-95">
+                    <button data-admin-click="añadirPregunta()" class="bg-plum-50 text-plum-700 border-2 border-plum-200 px-5 py-2 rounded-xl text-sm font-bold hover:bg-plum-100 hover:border-plum-300 transition transform active:scale-95">
                         <i class="fas fa-plus mr-2"></i> ${_t('admin.q.btn_add', null, 'Añadir Pregunta')}
                     </button>
                 </div>
@@ -239,17 +239,17 @@ function renderEditorBanco(bank) {
 
                 <div class="flex justify-between items-center px-2">
                     <h3 class="text-xl font-black text-slate-700 uppercase tracking-tighter text-2xl">${_t('admin.q.label_end', null, 'Fin Preguntas')}</h3>
-                    <button data-admin-click="añadirPregunta()" class="bg-purple-50 text-purple-700 border-2 border-purple-200 px-5 py-2 rounded-xl text-sm font-bold hover:bg-purple-100 hover:border-purple-300 transition transform active:scale-95">
+                    <button data-admin-click="añadirPregunta()" class="bg-plum-50 text-plum-700 border-2 border-plum-200 px-5 py-2 rounded-xl text-sm font-bold hover:bg-plum-100 hover:border-plum-300 transition transform active:scale-95">
                         <i class="fas fa-plus mr-2"></i> ${_t('admin.q.btn_add', null, 'Añadir Pregunta')}
                     </button>
                 </div>
 
                 <div class="mt-12 pt-8 border-t border-slate-200">
                     <div class="grid grid-cols-2 gap-4">
-                        <button data-admin-click="guardarBanco(false)" class="bg-purple-600 text-white px-6 py-5 rounded-2xl font-black text-lg hover:bg-purple-700 transition shadow-xl shadow-purple-200 flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
+                        <button data-admin-click="guardarBanco(false)" class="bg-white text-camaleon-700 border-2 border-camaleon-600 px-6 py-5 rounded-2xl font-black text-lg hover:bg-camaleon-50 transition shadow-sm flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
                             <i class="fas fa-save text-xl"></i> ${_t('admin.banks.btn_save', null, 'GUARDAR BANCO')}
                         </button>
-                        <button data-admin-click="guardarBanco(true)" class="bg-green-600 text-white px-6 py-5 rounded-2xl font-black text-lg hover:bg-green-700 transition shadow-xl shadow-green-200 flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
+                        <button data-admin-click="guardarBanco(true)" class="bg-camaleon-600 text-white border-2 border-camaleon-600 px-6 py-5 rounded-2xl font-black text-lg hover:bg-camaleon-700 hover:border-camaleon-700 transition shadow-xl shadow-camaleon-200 flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
                             <i class="fas fa-cloud-upload-alt text-xl"></i> ${_t('admin.banks.btn_save_exit', null, 'GUARDAR Y SALIR')}
                         </button>
                     </div>
@@ -259,7 +259,7 @@ function renderEditorBanco(bank) {
                 </div>
                 ${bank.id ? `
                 <div class="mt-4">
-                    <button data-admin-click="exportarBanco()" class="bg-purple-50 text-purple-700 border-2 border-purple-200 px-6 py-3 rounded-lg font-bold hover:bg-purple-100 hover:border-purple-300 transition w-full flex items-center justify-center gap-3">
+                    <button data-admin-click="exportarBanco()" class="bg-plum-50 text-plum-700 border-2 border-plum-200 px-6 py-3 rounded-lg font-bold hover:bg-plum-100 hover:border-plum-300 transition w-full flex items-center justify-center gap-3">
                         <i class="fas fa-file-export text-lg"></i> Exportar Banco
                     </button>
                 </div>
@@ -473,7 +473,7 @@ function añadirPregunta() {
         tipo_contenido: 'texto',
         url_recurso: null,
         question_image_url: null,
-        time_limit: 30,
+        time_limit: getDefaultQuestionTimeLimit(),
         options: [
             { optionText: '', isCorrect: true, order_index: 0, option_image_url: null },
             { optionText: '', isCorrect: false, order_index: 1, option_image_url: null }

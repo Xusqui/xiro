@@ -19,20 +19,20 @@ function mostrarModalTexto() {
     modal.className = 'fixed inset-0 bg-slate-900/90 z-50 flex items-center justify-center';
     modal.innerHTML = _tHtml(`
         <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-lg w-full">
-            <h3 class="text-2xl font-black text-indigo-600 mb-4 flex items-center gap-2">
+            <h3 class="text-2xl font-black text-aubergine-600 mb-4 flex items-center gap-2">
                 <i class="fas fa-align-left"></i> Diapositiva de Texto
             </h3>
             <p class="text-sm text-slate-600 mb-4">Añade una diapositiva tipo PowerPoint/Keynote con un <b>título</b> y un <b>texto</b> debajo.</p>
 
             <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest">Título</label>
-            <input id="textoSlideTitulo" type="text" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-indigo-500 outline-none transition" placeholder="Ej: Reglas de la ronda" />
+            <input id="textoSlideTitulo" type="text" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-aubergine-500 outline-none transition" placeholder="Ej: Reglas de la ronda" />
 
             <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest mt-4">Texto</label>
-            <textarea id="textoSlideCuerpo" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-indigo-500 outline-none resize-none" rows="6" placeholder="Ej: 1) Sin móviles\n2) 30s por pregunta\n3) ..."></textarea>
+            <textarea id="textoSlideCuerpo" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-aubergine-500 outline-none resize-none" rows="6" placeholder="Ej: 1) Sin móviles\n2) 30s por pregunta\n3) ..."></textarea>
 
             <div class="flex gap-3 mt-6">
                 <button data-slide-text-action="close-create-modal" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold transition">Cancelar</button>
-                <button data-slide-text-action="add-slide" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-bold transition">
+                <button data-slide-text-action="add-slide" class="flex-1 bg-camaleon-600 hover:bg-camaleon-700 text-white px-6 py-3 rounded-xl font-bold transition">
                     <i class="fas fa-plus mr-2"></i>Añadir
                 </button>
             </div>
@@ -87,20 +87,20 @@ function editarSlideTexto(index) {
     modal.className = 'fixed inset-0 bg-slate-900/90 z-50 flex items-center justify-center';
     modal.innerHTML = _tHtml(`
         <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-lg w-full">
-            <h3 class="text-2xl font-black text-indigo-600 mb-4 flex items-center gap-2">
+            <h3 class="text-2xl font-black text-aubergine-600 mb-4 flex items-center gap-2">
                 <i class="fas fa-edit"></i> Editar Diapositiva de Texto
             </h3>
             <p class="text-sm text-slate-600 mb-4">Modifica el título y el texto.</p>
 
             <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest">Título</label>
-            <input id="textoEditSlideTitulo" type="text" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-indigo-500 outline-none transition" value="${escapeHtmlForAttribute(slide.slide_title || '')}" />
+            <input id="textoEditSlideTitulo" type="text" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-aubergine-500 outline-none transition" value="${escapeHtmlForAttribute(slide.slide_title || '')}" />
 
             <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest mt-4">Texto</label>
-            <textarea id="textoEditSlideCuerpo" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-indigo-500 outline-none resize-none" rows="6">${escapeHtml(slide.slide_body)}</textarea>
+            <textarea id="textoEditSlideCuerpo" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-aubergine-500 outline-none resize-none" rows="6">${escapeHtml(slide.slide_body)}</textarea>
 
             <div class="flex gap-3 mt-6">
                 <button data-slide-text-action="close-edit-modal" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold transition">Cancelar</button>
-                <button data-slide-text-action="save-slide" data-index="${index}" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-bold transition">
+                <button data-slide-text-action="save-slide" data-index="${index}" class="flex-1 bg-camaleon-600 hover:bg-camaleon-700 text-white px-6 py-3 rounded-xl font-bold transition">
                     <i class="fas fa-save mr-2"></i>Guardar
                 </button>
             </div>

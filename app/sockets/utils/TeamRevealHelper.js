@@ -145,6 +145,72 @@ function markTeamAsRevealed(game, teamName) {
     }
 }
 
+const TEAM_REVEALED_TTL_SECONDS = 7200;
+
+function teamRevealedKey(game, roomId) {
+    const slot = game.isTrivial ? (game.trivialQuestionEpoch || 0) : game.currentIndex;
+    return `game:teamrevealed:${roomId}:${slot}`;
+}
+
+/**
+ * Reclamar la revelación de un equipo para la pregunta actual.
+ * game.teamRevealed es local a cada worker: sin este registro compartido, un equipo
+ * revelado en un worker se volvía a revelar al agotarse el tiempo en otro. El SADD es
+ * atómico, así que solo un worker obtiene el reclamo. Sin Redis se usa solo el
+ * registro local.
+ * @returns {Promise<boolean>} true si este worker debe revelar al equipo
+ */
+async function claimTeamReveal(game, roomId, teamName) {
+    if (isTeamRevealed(game, teamName)) {
+        return false;
+    }
+
+    try {
+        const redis = await getRedisClient();
+        const key = teamRevealedKey(game, roomId);
+        const added = await redis.sAdd(key, teamName);
+        await redis.expire(key, TEAM_REVEALED_TTL_SECONDS);
+        if (added !== 1) {
+            markTeamAsRevealed(game, teamName);
+            return false;
+        }
+        return true;
+    } catch (err) {
+        logger.warn('claimTeamReveal: Redis no disponible, usando solo el registro local', { roomId, teamName, error: err.message });
+        return true;
+    }
+}
+
+/**
+ * ¿Se ha revelado ya este equipo en la pregunta actual, en este o en otro worker?
+ * Sin Redis solo se consulta el registro local.
+ */
+async function isTeamRevealedAnywhere(game, roomId, teamName) {
+    if (isTeamRevealed(game, teamName)) {
+        return true;
+    }
+
+    try {
+        const redis = await getRedisClient();
+        return Boolean(await redis.sIsMember(teamRevealedKey(game, roomId), teamName));
+    } catch (err) {
+        logger.warn('isTeamRevealedAnywhere: Redis no disponible, usando solo el registro local', { roomId, teamName, error: err.message });
+        return false;
+    }
+}
+
+/**
+ * Liberar un reclamo que no llegó a notificar a nadie, para poder reintentarlo
+ */
+async function releaseTeamReveal(game, roomId, teamName) {
+    try {
+        const redis = await getRedisClient();
+        await redis.sRem(teamRevealedKey(game, roomId), teamName);
+    } catch (err) {
+        logger.warn('releaseTeamReveal: no se pudo liberar el reclamo', { roomId, teamName, error: err.message });
+    }
+}
+
 async function syncStreakInfosFromRedis(game, roomId) {
     try {
         const redis = await getRedisClient();
@@ -253,13 +319,14 @@ function emitTeamPlayerResult(io, playerSocket, playerNick, payload, isCorrect) 
     });
 }
 
-function finalizeTeamReveal(game, team, revealedCount) {
+async function finalizeTeamReveal(game, team, revealedCount, roomId) {
     if (revealedCount > 0) {
         markTeamAsRevealed(game, team.name);
         return;
     }
 
     logger.warn(`⚠️ No players notified for team: ${team.name} - NOT marking as revealed`);
+    await releaseTeamReveal(game, roomId, team.name);
 }
 
 /**
@@ -272,10 +339,10 @@ function finalizeTeamReveal(game, team, revealedCount) {
  * @param {string} params.roomId - ID de la sala
  * @returns {Promise<void>}
  */
-function revealToSingleTeam({ team, game, question, io, roomId, players = null }) {
-    if (isTeamRevealed(game, team.name)) {
+async function revealToSingleTeam({ team, game, question, io, roomId, players = null }) {
+    if (!(await claimTeamReveal(game, roomId, team.name))) {
         logger.debug(`Team already revealed, skipping: ${team.name}`);
-        return Promise.resolve();
+        return;
     }
 
     if (players && typeof players.values === 'function') {
@@ -360,7 +427,7 @@ async function revealTeamFastPath({ team, game, question, io, roomId, players })
         revealedCount++;
     }
 
-    finalizeTeamReveal(game, team, revealedCount);
+    await finalizeTeamReveal(game, team, revealedCount, roomId);
 
     logger.info(`✅ Team reveal completed (fast path): ${team.name}`, {
         playersRevealed: revealedCount,
@@ -407,7 +474,7 @@ async function revealTeamFallbackPath({ team, game, question, io, roomId }) {
         revealedCount++;
     }
 
-    finalizeTeamReveal(game, team, revealedCount);
+    await finalizeTeamReveal(game, team, revealedCount, roomId);
 
     logger.info(`✅ Team reveal completed (fallback path): ${team.name}`, {
         playersRevealed: revealedCount,
@@ -415,10 +482,35 @@ async function revealTeamFallbackPath({ team, game, question, io, roomId }) {
     });
 }
 
+/**
+ * Respuesta que llega con el equipo ya revelado: sobre todo el envío automático de
+ * ordenar/emparejar al agotarse el tiempo, que llega justo después de la revelación.
+ * El resultado va directo a ese jugador; esperar al equipo lo dejaría colgado en
+ * "Esperando a tu equipo", porque el equipo ya no se vuelve a revelar.
+ */
+async function revealToLatePlayer({ team, game, question, io, roomId, nickname, socket }) {
+    const revealContext = buildRevealContext(game, question);
+    await syncStreakInfosFromRedis(game, roomId);
+
+    const { isCorrect, payload } = buildPlayerRevealPayload({
+        playerNick: nickname,
+        game,
+        question,
+        playerAnswer: socket.data?.answers?.[game.currentIndex],
+        team,
+        revealContext
+    });
+
+    emitTeamPlayerResult(io, socket, nickname, payload, isCorrect);
+}
+
 module.exports = {
     hasAnsweredCurrentRound,
     checkTeamCompleted,
     isTeamRevealed,
     markTeamAsRevealed,
+    claimTeamReveal,
+    isTeamRevealedAnywhere,
+    revealToLatePlayer,
     revealToSingleTeam
 };

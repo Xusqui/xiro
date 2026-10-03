@@ -11,7 +11,7 @@ const LANGUAGE_NAMES = {
 };
 
 const _LANG_BTN_BASE = 'inline-flex items-center justify-center w-10 h-8 p-1 rounded-lg cursor-pointer transition-all border-2';
-const _LANG_BTN_ACTIVE = 'border-violet-600 bg-violet-50 scale-105';
+const _LANG_BTN_ACTIVE = 'border-plum-600 bg-plum-50 scale-105';
 const _LANG_BTN_INACTIVE = 'border-transparent bg-slate-50';
 
 function _languageLabel(code) {

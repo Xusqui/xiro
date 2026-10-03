@@ -16,6 +16,7 @@
     "tv.lobby.filter.custom": "自定义",
     "tv.lobby.filter.games": "游戏",
     "tv.lobby.filter.banks": "题库",
+    "tv.lobby.filter.trivial": "智力竞赛",
     "tv.lobby.filter.all": "全部",
     "tv.lobby.empty.all": "没有可用的PIN。请先创建游戏或题库。",
     "tv.lobby.empty.by_type": "没有可用的{type}。",
@@ -24,7 +25,8 @@
     "tv.lobby.players_label": "玩家：",
     "tv.lobby.type.custom": "自定义游戏",
     "tv.lobby.type.games": "游戏",
-    "tv.lobby.type.banks": "问题库"
+    "tv.lobby.type.banks": "问题库",
+    "tv.lobby.type.trivial": "智力竞赛游戏"
   },
   "literals": {
     "Error al cargar PINs": "加载PIN时出错",

@@ -32,7 +32,8 @@ module.exports = function createJoinPresenterLobbyHandler(dependencies) {
     });
 
     return async function handleJoinPresenterLobby(socket, data) {
-        const validation = validateSocket(schemas.joinPresenterLobby, data);
+        // Joi da por válido un payload undefined; sin datos tiene que fallar la validación
+        const validation = validateSocket(schemas.joinPresenterLobby, data ?? {});
         if (!validation.valid) {
             socket.emit('join-error', { message: validation.error, reason: 'invalid-data' });
             return;

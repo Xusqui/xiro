@@ -16,6 +16,7 @@
     "tv.lobby.filter.custom": "Custom",
     "tv.lobby.filter.games": "Games",
     "tv.lobby.filter.banks": "Banks",
+    "tv.lobby.filter.trivial": "Trivia",
     "tv.lobby.filter.all": "All",
     "tv.lobby.empty.all": "No PINs available. Create a game or bank first.",
     "tv.lobby.empty.by_type": "No {type} available.",
@@ -24,7 +25,8 @@
     "tv.lobby.players_label": "Players: ",
     "tv.lobby.type.custom": "Custom Games",
     "tv.lobby.type.games": "Games",
-    "tv.lobby.type.banks": "Question Banks"
+    "tv.lobby.type.banks": "Question Banks",
+    "tv.lobby.type.trivial": "Trivia Games"
   },
   "literals": {
     "Error al cargar PINs": "Error loading PINs",

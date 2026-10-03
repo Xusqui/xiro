@@ -30,7 +30,7 @@ function createQueryErrorResponse(errorType, context = {}) {
 
 /**
  * Validar y ejecutar query con error handling común
- * Consolidación del patrón duplicado en GetGameStateQuery, GetRankingQuery, GetPlayerStatsQuery
+ * Consolidación del patrón duplicado en las queries
  * 
  * @param {Query} query - Instancia de la query a ejecutar
  * @param {Function} executor - Función que ejecuta la query
@@ -61,25 +61,8 @@ function validateGameExists(activeGames, gameId) {
     return game;
 }
 
-/**
- * Validar existencia de jugador en un juego
- * @param {Object} game - Objeto del juego
- * @param {string} playerId - ID del jugador
- * @returns {Object|null} Jugador encontrado o null
- */
-function validatePlayerExists(game, playerId) {
-    const player = game.players?.find(p => p.id === playerId);
-
-    if (!player) {
-        return createQueryErrorResponse('player_not_found', { playerId });
-    }
-
-    return player;
-}
-
 module.exports = {
     createQueryErrorResponse,
     executeQueryWithValidation,
-    validateGameExists,
-    validatePlayerExists
+    validateGameExists
 };

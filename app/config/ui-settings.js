@@ -51,6 +51,7 @@ const PERSONALIZATION_IMAGE_PATTERN = /\.(png|jpe?g|svg|webp)$/i;
 let _store = { ...DEFAULTS };
 
 const BOOLEAN_SETTINGS = new Set([
+    'showStandaloneCard',
     'animarFondo',
     'fireworksFinaleMode',
     'fireworksSound',

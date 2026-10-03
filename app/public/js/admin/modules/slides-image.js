@@ -34,7 +34,7 @@ function mostrarModalImagen() {
             </div>
 
             <div id="previewWrapImagen" class="hidden mb-4">
-                <img id="previewImagen" src="" class="w-full max-h-40 object-contain rounded-xl border border-slate-200" />
+                <img id="previewImagen" class="w-full max-h-40 object-contain rounded-xl border border-slate-200" />
             </div>
 
             <div class="mb-2">
@@ -44,7 +44,7 @@ function mostrarModalImagen() {
 
             <div class="flex gap-3 mt-6">
                 <button data-slide-image-action="close-create-modal" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold transition">Cancelar</button>
-                <button data-slide-image-action="add-slide" class="flex-1 bg-pink-600 hover:bg-pink-700 text-white px-6 py-3 rounded-xl font-bold transition">
+                <button data-slide-image-action="add-slide" class="flex-1 bg-camaleon-600 hover:bg-camaleon-700 text-white px-6 py-3 rounded-xl font-bold transition">
                     <i class="fas fa-plus mr-2"></i>Añadir
                 </button>
             </div>
@@ -199,7 +199,7 @@ function editarSlideImagen(index) {
 
             <div class="flex gap-3 mt-6">
                 <button data-slide-image-action="close-edit-modal" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold transition">Cancelar</button>
-                <button data-slide-image-action="save-slide" data-index="${index}" class="flex-1 bg-pink-600 hover:bg-pink-700 text-white px-6 py-3 rounded-xl font-bold transition">
+                <button data-slide-image-action="save-slide" data-index="${index}" class="flex-1 bg-camaleon-600 hover:bg-camaleon-700 text-white px-6 py-3 rounded-xl font-bold transition">
                     <i class="fas fa-save mr-2"></i>Guardar
                 </button>
             </div>

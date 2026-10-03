@@ -141,6 +141,19 @@ async function claimRevealLock(roomId) {
 }
 
 async function loadAnsweredSet(roomId, game) {
+    // En Trivial las respuestas se registran por ronda (streakScoring/TrivialAnswerGuard);
+    // la clave sin época estaría vacía y se reiniciaría la racha de todos los jugadores.
+    // TrivialMoveHandler borra la de la ronda anterior, así que aquí no se borra.
+    if (game?.isTrivial && game.trivialQuestionEpoch !== undefined) {
+        try {
+            const redis = await getRedisClient();
+            return new Set(await redis.sMembers(`game:answered:${roomId}:${game.trivialQuestionEpoch}`));
+        } catch (err) {
+            logger.warn('TimerManager: no se pudo leer answeredCurrent de Redis, usando Set local', { error: err.message });
+            return game.answeredCurrent || new Set();
+        }
+    }
+
     try {
         const redis = await getRedisClient();
         const members = await redis.sMembers(`game:answered:${roomId}`);
@@ -152,10 +165,10 @@ async function loadAnsweredSet(roomId, game) {
     }
 }
 
-function buildLostStreakInfo(game, nickname) {
+function buildLostStreakInfo(game, previous) {
     return {
         current: 0,
-        previous: game.playerStreaks?.[nickname] || 0,
+        previous,
         threshold: game.streak_threshold ?? SCORING.STREAK.DEFAULT_THRESHOLD,
         isInStreak: false,
         justLost: false,
@@ -165,7 +178,7 @@ function buildLostStreakInfo(game, nickname) {
     };
 }
 
-async function persistStreakReset(roomId, game, nonAnswering) {
+async function persistStreakReset(roomId, game, nonAnswering, previousStreaks) {
     try {
         const redis = await getRedisClient();
         const streakKey = game.isTrivial ? `trivial:streaks:${roomId}` : `game:streaks:${roomId}`;
@@ -173,7 +186,7 @@ async function persistStreakReset(roomId, game, nonAnswering) {
 
         for (const nickname of nonAnswering) {
             await redis.hSet(streakKey, nickname, '0');
-            await redis.hSet(streakInfoKey, nickname, JSON.stringify(buildLostStreakInfo(game, nickname)));
+            await redis.hSet(streakInfoKey, nickname, JSON.stringify(buildLostStreakInfo(game, previousStreaks[nickname])));
         }
     } catch (err) {
         logger.warn('TimerManager: no se pudo persistir streak reset en Redis', { error: err.message });
@@ -187,6 +200,11 @@ async function resetNonAnsweringStreaks(roomId, game, nonAnswering) {
 
     logger.debug('Streak reset por tiempo agotado', { roomId, nonAnswering });
 
+    // Se guarda antes de reiniciar: después todas valen 0.
+    const previousStreaks = Object.fromEntries(
+        nonAnswering.map(nickname => [nickname, game.playerStreaks?.[nickname] || 0])
+    );
+
     for (const nickname of nonAnswering) {
         StreakTrackingService.processPlayerStreak({ game, nickname, isCorrect: false, isTracked: true });
     }
@@ -197,7 +215,25 @@ async function resetNonAnsweringStreaks(roomId, game, nonAnswering) {
         logger.warn('TimerManager: no se pudo publicar streak-reset-sync', { error: err.message });
     }
 
-    await persistStreakReset(roomId, game, nonAnswering);
+    await persistStreakReset(roomId, game, nonAnswering, previousStreaks);
+}
+
+/**
+ * Tras revelar una pregunta, quien no respondió pierde la racha (como si hubiera
+ * fallado). Lo usan el tiempo agotado y la revelación manual del presentador.
+ * Llamar solo si la revelación se ha hecho ahora: lee y borra el conjunto de
+ * respuestas de la pregunta, así que una segunda llamada vería a todos sin responder.
+ */
+async function resetStreaksOfNonAnswering(roomId, game) {
+    // Leer desde Redis para tener visibilidad cross-worker (las respuestas se procesan en cualquier worker)
+    const allPlayers = (game.players || []).filter(p => p !== 'HOST');
+    const answeredSet = await loadAnsweredSet(roomId, game);
+    const nonAnswering = allPlayers.filter(p => !answeredSet.has(p));
+
+    await resetNonAnsweringStreaks(roomId, game, nonAnswering);
+
+    // Limpiar el set de respuestas en memoria local
+    game.answeredCurrent = new Set();
 }
 
 /**
@@ -219,16 +255,7 @@ async function revelarResultadosAutomatico(roomId, io) {
         timeExpired: true
     });
 
-    // Resetear racha de jugadores que no respondieron (como si hubieran fallado)
-    // Leer desde Redis para tener visibilidad cross-worker (las respuestas se procesan en cualquier worker)
-    const allPlayers = (game.players || []).filter(p => p !== 'HOST');
-    const answeredSet = await loadAnsweredSet(roomId, game);
-    const nonAnswering = allPlayers.filter(p => !answeredSet.has(p));
-
-    await resetNonAnsweringStreaks(roomId, game, nonAnswering);
-
-    // Limpiar el set de respuestas en memoria local
-    game.answeredCurrent = new Set();
+    await resetStreaksOfNonAnswering(roomId, game);
 
     // Si es la última pregunta, NO terminar automáticamente aquí
     // El juego terminará cuando todos respondan (via checkAllPlayersAnswered)
@@ -243,5 +270,6 @@ async function revelarResultadosAutomatico(roomId, io) {
 module.exports = {
     startTimer,
     clearTimer,
-    revelarResultadosAutomatico
+    revelarResultadosAutomatico,
+    resetStreaksOfNonAnswering
 };

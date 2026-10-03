@@ -51,7 +51,7 @@ export function renderizarPreguntaWordScramble(pregunta) {
             </div>`;
     } else if (tieneAudio) {
         multimediaHTML = `
-            <div class="bg-purple-800/40 px-3 py-2 flex items-center justify-center shrink-0">
+            <div class="bg-plum-800/40 px-3 py-2 flex items-center justify-center shrink-0">
                 <p class="text-white/70 text-xs italic flex items-center gap-2">
                     <i class="fas fa-volume-mute"></i>
                     ${_t('player.common.audio_main_screen', null, 'Audio solo en pantalla principal')}
@@ -60,7 +60,7 @@ export function renderizarPreguntaWordScramble(pregunta) {
     }
 
     const emptyBoxes = Array.from({ length: wordLength }, (_, i) =>
-        `<div id="ws-box-${i}" class="ws-box border-2 border-purple-400 rounded-lg flex items-center justify-center font-black text-purple-200 bg-slate-800/70 transition-all duration-200"
+        `<div id="ws-box-${i}" class="ws-box border-2 border-plum-400 rounded-lg flex items-center justify-center font-black text-plum-200 bg-slate-800/70 transition-all duration-200"
             style="width:100%; aspect-ratio:1/1; font-size: clamp(0.85rem, 3.5vw, 1.5rem);"
         ></div>`
     ).join('');
@@ -68,7 +68,7 @@ export function renderizarPreguntaWordScramble(pregunta) {
     // Una sola fila de 10 letras al 90% del ancho de pantalla
     const letterButtons = letters.map((letter, i) =>
         `<button id="ws-letter-${i}" data-idx="${i}" data-letter="${letter}"
-            class="ws-letter bg-purple-600 hover:bg-purple-500 active:scale-95 text-white font-black rounded-xl shadow-md transition-all duration-150 border-b-4 border-purple-800"
+            class="ws-letter bg-plum-600 hover:bg-plum-500 active:scale-95 text-white font-black rounded-xl shadow-md transition-all duration-150 border-b-4 border-plum-800"
             style="width:100%; aspect-ratio:1/1; font-size: clamp(0.85rem, 3.5vw, 1.5rem);"
         >${letter}</button>`
     ).join('');
@@ -76,14 +76,14 @@ export function renderizarPreguntaWordScramble(pregunta) {
     setBodyHTML(`
         <div class="h-dvh w-screen flex flex-col bg-slate-900 overflow-hidden">
             <!-- Header -->
-            <div class="bg-purple-600 px-3 py-2 text-center shrink-0">
+            <div class="bg-plum-600 px-3 py-2 text-center shrink-0">
                 <p class="text-white font-black text-base uppercase">${getNickname()}</p>
             </div>
 
             ${multimediaHTML}
 
             <!-- Definición (texto de pregunta) -->
-            <div class="bg-white p-4 border-b-8 border-purple-600 text-slate-800 text-center ${tieneImagen ? 'min-h-[8vh] max-h-[12vh]' : 'min-h-[12vh] max-h-[22vh]'} flex items-center justify-center shrink-0 overflow-y-auto">
+            <div class="bg-white p-4 border-b-8 border-plum-600 text-slate-800 text-center ${tieneImagen ? 'min-h-[8vh] max-h-[12vh]' : 'min-h-[12vh] max-h-[22vh]'} flex items-center justify-center shrink-0 overflow-y-auto">
                 <h2 class="${preguntaFontClass} font-black uppercase italic hyphens-auto" lang="es">${escapeHtml(pregunta.question_text)}</h2>
             </div>
 
@@ -144,7 +144,7 @@ export function renderizarPreguntaWordScramble(pregunta) {
             const boxEl = document.getElementById(`ws-box-${wsFilledLetters.length - 1}`);
             if (boxEl) {
                 boxEl.textContent = _t(letter);
-                boxEl.classList.add('border-purple-300', 'text-white');
+                boxEl.classList.add('border-plum-300', 'text-white');
             }
             window._wsAnswer = wsFilledLetters.join('');
         });
@@ -160,7 +160,7 @@ export function renderizarPreguntaWordScramble(pregunta) {
             const box = document.getElementById(`ws-box-${i}`);
             if (box) {
                 box.textContent = _t('');
-                box.classList.remove('border-purple-300', 'text-white');
+                box.classList.remove('border-plum-300', 'text-white');
             }
         }
         document.querySelectorAll('.ws-letter').forEach(btn => {

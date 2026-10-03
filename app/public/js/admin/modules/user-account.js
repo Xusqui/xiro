@@ -210,7 +210,7 @@ function _renderAdminUsersRows(users, currentUserId) {
     tableBody.innerHTML = users.map(user => {
         const isSelf = user.id === currentUserId;
         const roleBadgeClass = user.role === 'admin'
-            ? 'bg-purple-100 text-purple-700'
+            ? 'bg-plum-100 text-plum-700'
             : 'bg-blue-100 text-blue-700';
         const statusBadgeClass = user.isActive
             ? 'bg-emerald-100 text-emerald-700'
@@ -668,7 +668,7 @@ function _renderManageUsersView(editorArea) {
         <div class="p-6 md:p-10 max-w-6xl mx-auto space-y-6">
             <div>
                 <h2 class="text-2xl font-black text-slate-900 flex items-center gap-2">
-                    <i class="fas fa-users-cog text-indigo-600"></i>
+                    <i class="fas fa-users-cog text-aubergine-600"></i>
                     ${_t('admin.user.manage.title', null, 'Gestionar usuarios')}
                 </h2>
                 <p class="text-slate-500 mt-1">${_t('admin.user.manage_panel_desc', null, 'Panel exclusivo de administración para revisar y eliminar cuentas.')}</p>

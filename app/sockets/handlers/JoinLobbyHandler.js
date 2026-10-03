@@ -115,7 +115,8 @@ module.exports = function createJoinLobbyHandler(dependencies) {
 
     return async function handleJoinLobby(socket, data) {
         // Validación básica de schema
-        const validation = validateSocket(schemas.joinLobby, data);
+        // Joi da por válido un payload undefined; sin datos tiene que fallar la validación
+        const validation = validateSocket(schemas.joinLobby, data ?? {});
         if (!validation.valid) {
             socket.emit('join-error', { message: validation.error });
             return;

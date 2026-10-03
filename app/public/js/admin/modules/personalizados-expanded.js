@@ -93,7 +93,7 @@ async function renderVistaPersonalizados() {
                                         ${_t('admin.common.edit', null, 'Editar')}
                                     </button>
                                     <button data-admin-click="exportarJuegoAPDF(${juego.id}, '${escapeHtml(jsStringContent(juego.name))}')" 
-                                        class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2"
+                                        class="bg-plum-600 hover:bg-plum-700 text-white px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2"
                                         title="Exportar a PDF">
                                         <i class="fas fa-file-pdf"></i>
                                     </button>
@@ -344,7 +344,7 @@ function _customToolbarHtml() {
                     <i class="fas fa-info-circle" aria-hidden="true"></i> ${_t('admin.custom.btn_short_info', null, 'Info')}
                 </button>
                 <button type="button" data-admin-click="mostrarModalTexto()"
-                    class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
+                    class="bg-gradient-to-r from-aubergine-600 to-plum-600 hover:from-aubergine-700 hover:to-plum-700 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
                     aria-label="${_t('admin.custom.btn_text_slide', null, 'AÑADIR DIAPOSITIVA DE TEXTO (TÍTULO + TEXTO)')}">
                     <i class="fas fa-align-left" aria-hidden="true"></i> ${_t('admin.custom.btn_short_text', null, 'Texto')}
                 </button>
@@ -354,7 +354,7 @@ function _customToolbarHtml() {
                     <i class="fas fa-image" aria-hidden="true"></i> ${_t('admin.custom.btn_short_image', null, 'Imagen')}
                 </button>
                 <button type="button" data-admin-click="mostrarModalTextoImagen()"
-                    class="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
+                    class="bg-plum-600 hover:bg-plum-700 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
                     aria-label="${_t('admin.custom.btn_text_img_slide', null, 'AÑADIR DIAPOSITIVA TEXTO + IMAGEN')}">
                     <i class="fas fa-columns" aria-hidden="true"></i> ${_t('admin.custom.btn_short_text_img', null, 'Texto+Img')}
                 </button>
@@ -366,16 +366,16 @@ function _customSaveButtonsHtml(game) {
     return `
             <div class="mt-8">
                 <div class="grid grid-cols-2 gap-4">
-                    <button data-admin-click="guardarJuegoPersonalizado(false)" class="bg-blue-600 text-white px-6 py-5 rounded-2xl font-black text-lg hover:bg-blue-700 transition shadow-xl shadow-blue-200 flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
+                    <button data-admin-click="guardarJuegoPersonalizado(false)" class="bg-white text-camaleon-700 border-2 border-camaleon-600 px-6 py-5 rounded-2xl font-black text-lg hover:bg-camaleon-50 transition shadow-sm flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
                         <i class="fas fa-save text-xl"></i> ${_t('admin.custom.btn_save', null, 'GUARDAR JUEGO')}
                     </button>
-                    <button data-admin-click="guardarJuegoPersonalizado(true)" class="bg-indigo-600 text-white px-6 py-5 rounded-2xl font-black text-lg hover:bg-indigo-700 transition shadow-xl shadow-indigo-200 flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
+                    <button data-admin-click="guardarJuegoPersonalizado(true)" class="bg-camaleon-600 text-white border-2 border-camaleon-600 px-6 py-5 rounded-2xl font-black text-lg hover:bg-camaleon-700 hover:border-camaleon-700 transition shadow-xl shadow-camaleon-200 flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
                         <i class="fas fa-cloud-upload-alt text-xl"></i> ${_t('admin.custom.btn_save_exit', null, 'GUARDAR Y SALIR')}
                     </button>
                 </div>
                 ${game.id ? `
                 <div class="mt-4">
-                    <button data-admin-click="exportarJuegoAPDF(${game.id}, '${escapeHtml(jsStringContent(game.name))}')" class="w-full bg-purple-600 text-white px-6 py-4 rounded-2xl font-bold text-lg hover:bg-purple-700 transition shadow-xl shadow-purple-200 flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
+                    <button data-admin-click="exportarJuegoAPDF(${game.id}, '${escapeHtml(jsStringContent(game.name))}')" class="w-full bg-plum-600 text-white px-6 py-4 rounded-2xl font-bold text-lg hover:bg-plum-700 transition shadow-xl shadow-plum-200 flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
                         <i class="fas fa-file-pdf text-xl"></i> ${_t('admin.custom.btn_export_pdf', null, 'EXPORTAR A PDF')}
                     </button>
                 </div>

@@ -5,7 +5,9 @@
  */
 
 import { socket } from './player-socket-config.js?v=20260922172926';
-import { setBodyHTML } from './player-streak-ui.js?v=20260922172926';
+import { setBodyHTML, applyStreakToResult, replacePendingStreakResult, buildLostStreakInfo } from './player-streak-ui.js?v=20260922172926';
+import { getRememberedReveal, timeUpScreenHtml } from './player-reveal-correct.js?v=20260922172926';
+import { renderLastRankingSince } from './player-results.js?v=20260922172926';
 import {
     getPin, getSessionId, getNickname,
     getCanAnswer, setHaRespondido,
@@ -13,7 +15,8 @@ import {
     getSendingAnswer, setSendingAnswer,
     getResultReceived,
     getCurrentOrder, clearOrderAutoSendTimer,
-    getCurrentMatches, clearMatchAutoSendTimer
+    getCurrentMatches, clearMatchAutoSendTimer,
+    getStreakInfo
 } from './player-state.js?v=20260922172926';
 
 function createRequestId() {
@@ -77,7 +80,7 @@ export function enviarOrdenRespuesta(isAuto = false) {
         ? { sessionId: getSessionId(), nickname: getNickname(), answerType: 'order', order: [...order], requestId: createRequestId() }
         : { pin: getPin(), nickname: getNickname(), answerType: 'order', order: [...order], requestId: createRequestId() };
 
-    setPendingAnswer({ payload, order: [...order] });
+    setPendingAnswer({ payload, order: [...order], isAuto });
 
     if (!isAuto) {
         setBodyHTML(`
@@ -114,7 +117,7 @@ export function enviarMatchingRespuesta(isAuto = false) {
         ? { sessionId: getSessionId(), nickname: getNickname(), answerType: 'matching', matches: [...matches], requestId: createRequestId() }
         : { pin: getPin(), nickname: getNickname(), answerType: 'matching', matches: [...matches], requestId: createRequestId() };
 
-    setPendingAnswer({ payload, matches: [...matches] });
+    setPendingAnswer({ payload, matches: [...matches], isAuto });
 
     if (!isAuto) {
         setBodyHTML(`
@@ -284,7 +287,30 @@ const FINAL_REJECTION_REASONS = new Set([
 ]);
 
 /** true si el servidor rechazó la respuesta de forma definitiva (y ya se ha avisado al jugador). */
-function handleFinalRejection(resp) {
+/**
+ * Envío automático de ordenar/emparejar (al agotarse el tiempo) que llegó tarde al
+ * servidor (mala conexión): para el jugador es igual que no haber respondido, así
+ * que ve la pantalla de tiempo agotado con la respuesta correcta y el ranking, y la
+ * animación de racha perdida si estaba en racha. Si la revelación aún no ha llegado,
+ * se muestra "Esperando resultados" y reveal-answer la completará.
+ */
+function showTimeUpAfterLateAutoSend() {
+    const remembered = getRememberedReveal();
+    const html = timeUpScreenHtml(remembered?.data || null);
+    const renderRanking = remembered ? () => renderLastRankingSince(remembered.at) : null;
+
+    const currentStreak = getStreakInfo();
+    if (currentStreak?.isInStreak) {
+        applyStreakToResult(buildLostStreakInfo(currentStreak), html);
+        replacePendingStreakResult(html, renderRanking);
+        return;
+    }
+
+    setBodyHTML(html);
+    if (renderRanking) renderRanking();
+}
+
+function handleFinalRejection(resp, pendingAnswer) {
     if (!(resp && resp.ok === false)) return false;
     const reason = resp.reason || 'unknown';
     console.warn('❌ Respuesta rechazada por el servidor:', reason);
@@ -292,11 +318,17 @@ function handleFinalRejection(resp) {
 
     setPendingAnswer(null);
     setHaRespondido(false);
+
+    if (reason === 'game-closed' && pendingAnswer?.isAuto) {
+        showTimeUpAfterLateAutoSend();
+        return true;
+    }
+
     setBodyHTML(`
                     <div class="answer-rejected-container">
                         <i class="fas fa-exclamation-triangle"></i>
-                        <h2>Respuesta no aceptada</h2>
-                        <p>El juego ya no acepta respuestas para esta pregunta.</p>
+                        <h2>${_t('player.answer.not_accepted_title', null, 'Respuesta no aceptada')}</h2>
+                        <p>${_t('player.answer.not_accepted_text', null, 'El juego ya no acepta respuestas para esta pregunta.')}</p>
                     </div>
                 `);
     return true;
@@ -329,6 +361,7 @@ function showRetryScreen(err, resp) {
 /** Resultado del ack de submit-answer. */
 function handleSubmitAck(err, resp) {
     setSendingAnswer(false);
+    const pendingAnswer = getPendingAnswer();
 
     console.log('📥 Callback de submit-answer recibido:', { err, resp });
 
@@ -339,7 +372,7 @@ function handleSubmitAck(err, resp) {
         return;
     }
 
-    if (handleFinalRejection(resp)) return;
+    if (handleFinalRejection(resp, pendingAnswer)) return;
 
     // Timeout de ack: puede estar procesada en servidor, evitar bucle de reconexión
     if (err && err.message && err.message.includes('timed out')) {

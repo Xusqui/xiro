@@ -38,7 +38,7 @@
     "admin.q.type_word_scramble": "Anagrama (Descifra a palabra)",
     "admin.q.type_multiple_choice": "Selección Múltiple (1-6 respostas)",
     "admin.q.time_label": "Tempo para responder (segundos)",
-    "admin.q.time_help": "Por defecto: 30 segundos (min: 5, max: 120)",
+    "admin.q.time_help": "Por defecto: {seconds} segundos (min: 5, max: 120)",
     "admin.q.media_label": "Contido multimedia",
     "admin.q.media_drop": "Arrastra un arquivo aquí ou fai clic para seleccionar",
     "admin.q.media_upload": "Subir imaxe ou audio",

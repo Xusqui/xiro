@@ -179,6 +179,7 @@ function updateGameForCenterQuestion(input) {
     game.revealedQuestions = new Set();
     game.answeredCurrent = new Set();
     game.trivialMeta = { catIdx, position: 'center', actorNick };
+    game.trivialCategoryName = state.categories[catIdx]?.category_name || null;
     game.trivialLastCorrect = null;
     game.trivialQuestionEpoch = (game.trivialQuestionEpoch || 0) + 1;
     game.questionStartTime = Date.now();
@@ -319,7 +320,10 @@ async function handleCategoryChosen(io, socket, { roomId, categoryIndex }) {
         return;
     }
 
-    const catIdx = Number(categoryIndex);
+    // Solo números o texto numérico: Number(null), Number('') y Number(true) darían 0 o 1
+    const isNumericInput = typeof categoryIndex === 'number'
+        || (typeof categoryIndex === 'string' && categoryIndex.trim() !== '');
+    const catIdx = isNumericInput ? Number(categoryIndex) : NaN;
     const invalidCategory = !Number.isInteger(catIdx) || catIdx < 0 || catIdx >= state.categories.length;
     if (invalidCategory) {
         logger.warn('trivial handleCategoryChosen: invalid category index', {

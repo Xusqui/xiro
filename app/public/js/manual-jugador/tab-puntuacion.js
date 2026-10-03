@@ -43,11 +43,11 @@ export function getTabPuntuacionHTML() {
     return `
         <div class="mb-4 text-center">
             <h2 class="text-2xl font-bold text-white mb-2">${_t('manual_player.score.section.title')}</h2>
-            <p class="text-indigo-200">${_t('manual_player.score.section.subtitle')}</p>
+            <p class="text-aubergine-200">${_t('manual_player.score.section.subtitle')}</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 anim-fade-in mb-8">${scoresHtml}</div>
 
-        <div class="bg-indigo-900/40 rounded-3xl p-6 border border-indigo-400/20 text-left mb-6 anim-fade-in" style="animation-delay: 0.1s;">
+        <div class="bg-aubergine-900/40 rounded-3xl p-6 border border-aubergine-400/20 text-left mb-6 anim-fade-in" style="animation-delay: 0.1s;">
             <h3 class="text-xl font-bold text-white mb-4"><i class="fas fa-meteor text-orange-400 mr-2"></i> ${_t('manual_player.score.streak_section.title')}</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">${streaksHtml}</div>
         </div>

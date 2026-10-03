@@ -38,7 +38,7 @@
     "admin.q.type_word_scramble": "アナグラム (単語を解読)",
     "admin.q.type_multiple_choice": "複数選択 (1-6回答)",
     "admin.q.time_label": "回答時間 (秒)",
-    "admin.q.time_help": "デフォルト: 30秒 (最小: 5, 最大: 120)",
+    "admin.q.time_help": "デフォルト: {seconds}秒 (最小: 5, 最大: 120)",
     "admin.q.media_label": "マルチメディアコンテンツ",
     "admin.q.media_drop": "ファイルをここにドラッグするかクリックして選択",
     "admin.q.media_upload": "画像または音声をアップロード",

@@ -6,14 +6,14 @@
 /* ===== SECCIONES ===== */
 
 const _PARAM_SECTIONS = [
-    { id: 'partidas', titleKey: 'admin.config.tab.partidas', icon: 'fa-gamepad', color: 'bg-indigo-500', keys: ['MAX_PLAYERS_PER_GAME', 'MAX_LOBBIES', 'QUESTION_TIME_LIMIT', 'GAME_CLEANUP_INTERVAL'] },
+    { id: 'partidas', titleKey: 'admin.config.tab.partidas', icon: 'fa-gamepad', color: 'bg-aubergine-500', keys: ['MAX_PLAYERS_PER_GAME', 'MAX_LOBBIES', 'QUESTION_TIME_LIMIT', 'GAME_CLEANUP_INTERVAL'] },
     { id: 'puntuacion', titleKey: 'admin.config.tab.puntuacion', icon: 'fa-star', color: 'bg-yellow-500', keys: ['BASE_POINTS', 'MAX_TIME_BONUS', 'STREAK_THRESHOLD', 'STREAK_BONUS_PERCENTAGE'] },
     { id: 'logging', titleKey: 'admin.config.tab.logging', icon: 'fa-file-alt', color: 'bg-amber-500', keys: ['LOG_LEVEL', 'LOG_MAX_SIZE', 'LOG_MAX_FILES'] },
-    { id: 'conexion', titleKey: 'admin.config.tab.conexion', icon: 'fa-wifi', color: 'bg-sky-500', keys: ['RECONNECTION_TIMEOUT', 'INACTIVE_GAME_THRESHOLD', 'EMPTY_LOBBY_TIMEOUT', 'TOP_PLAYERS_DURING_GAME', 'CORS_ORIGIN', 'ALLOWED_ORIGINS', 'UMAMI_SERVER_URL', 'UMAMI_WEBSITE_ID'] },
+    { id: 'conexion', titleKey: 'admin.config.tab.conexion', icon: 'fa-wifi', color: 'bg-sky-500', keys: ['RECONNECTION_TIMEOUT', 'PRESENTER_RECONNECTION_TIMEOUT', 'INACTIVE_GAME_THRESHOLD', 'EMPTY_LOBBY_TIMEOUT', 'TOP_PLAYERS_DURING_GAME', 'CORS_ORIGIN', 'ALLOWED_ORIGINS', 'UMAMI_SERVER_URL', 'UMAMI_WEBSITE_ID'] },
     { id: 'backup', titleKey: 'admin.config.tab.backup', icon: 'fa-database', color: 'bg-blue-600', keys: ['BACKUP_SCHEDULE', 'BACKUP_RETENTION_DAYS'] },
     { id: 'licencia', titleKey: 'admin.config.tab.licencia', icon: 'fa-certificate', color: 'bg-red-600', isLicense: true, keys: [] },
-    { id: 'smtp', titleKey: 'admin.config.tab.smtp', icon: 'fa-envelope', color: 'bg-purple-600', keys: ['SMTP_HOST', 'SMTP_PORT', 'SMTP_SECURE', 'SMTP_USER', 'SMTP_PASS', 'SMTP_FROM', 'CONTACT_TOKEN_SECRET'] },
-    { id: 'lambda', titleKey: 'admin.config.tab.lambda', icon: 'fa-users-cog', color: 'bg-purple-500', isLambda: true, keys: ['TEAM_SCORE_LAMBDA'] },
+    { id: 'smtp', titleKey: 'admin.config.tab.smtp', icon: 'fa-envelope', color: 'bg-plum-600', keys: ['SMTP_HOST', 'SMTP_PORT', 'SMTP_SECURE', 'SMTP_USER', 'SMTP_PASS', 'SMTP_FROM', 'CONTACT_TOKEN_SECRET'] },
+    { id: 'lambda', titleKey: 'admin.config.tab.lambda', icon: 'fa-users-cog', color: 'bg-plum-500', isLambda: true, keys: ['TEAM_SCORE_LAMBDA'] },
     { id: 'fireworks', titleKey: 'admin.config.tab.fireworks', icon: 'fa-fire', color: 'bg-fuchsia-500', isFireworks: true, keys: [] },
     { id: 'ui', titleKey: 'admin.config.tab.ui', icon: 'fa-eye', color: 'bg-emerald-500', isUi: true, keys: [] }
 ];
@@ -58,7 +58,7 @@ function _renderTabContent(config) {
 function _renderSaveBar() {
     return `<div class="flex flex-wrap gap-3">
         <button data-config-action="save-config"
-            class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold px-6 py-2.5 rounded-xl shadow-sm transition-all">
+            class="flex items-center gap-2 bg-camaleon-600 hover:bg-camaleon-700 active:scale-95 text-white font-bold px-6 py-2.5 rounded-xl shadow-sm transition-all">
             <i class="fas fa-save text-sm"></i> ${_t('admin.config.btn_save')}
         </button>
         <button data-config-action="reload-config"
@@ -97,7 +97,7 @@ function renderConfigPanel() {
     if (!container) return;
     container.dataset.fromConfig = 'true';
     container.innerHTML = _tHtml(`
-        <div class="min-h-full bg-gradient-to-br from-slate-50 to-indigo-50/30 p-6 lg:p-10">
+        <div class="min-h-full bg-gradient-to-br from-slate-50 to-aubergine-50/30 p-6 lg:p-10">
             <div class="max-w-4xl mx-auto">
                 <div class="mb-8">
                     <h1 class="text-2xl font-black text-slate-800 mb-1">${_t('admin.config.server.title')}</h1>
@@ -145,6 +145,7 @@ function saveConfigChanges() {
     })
         .then(r => r.json())
         .then(data => {
+            if (data.success && updates.QUESTION_TIME_LIMIT !== undefined) setDefaultQuestionTimeLimit(updates.QUESTION_TIME_LIMIT);
             if (!resultEl) return;
             if (data.success) {
                 resultEl.innerHTML = _tHtml(`<span class="text-emerald-600 font-semibold"><i class="fas fa-check-circle mr-1"></i>${_t('admin.config.server.saved_ok')}</span>`);
@@ -289,18 +290,18 @@ function _renderFireworksTab(settings) {
 
     return `
         <div class="space-y-4">
-            <div class="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200 rounded-2xl p-6 mb-6">
+            <div class="bg-plum-50 border-2 border-plum-200 rounded-2xl p-6 mb-6">
                 <div class="flex items-center gap-3 mb-3">
-                    <div class="w-10 h-10 bg-purple-600 rounded-xl flex items-center justify-center text-white">
+                    <div class="w-10 h-10 bg-plum-600 rounded-xl flex items-center justify-center text-white">
                         <i class="fas fa-fire text-lg"></i>
                     </div>
                     <div>
-                        <h3 class="font-black text-purple-900">${_t('admin.config.fireworks.panel_title')}</h3>
-                        <p class="text-sm text-purple-700">${_t('admin.config.fireworks.panel_subtitle')}</p>
+                        <h3 class="font-black text-plum-900">${_t('admin.config.fireworks.panel_title')}</h3>
+                        <p class="text-sm text-plum-700">${_t('admin.config.fireworks.panel_subtitle')}</p>
                     </div>
                 </div>
-                <div class="bg-white/60 rounded-xl p-4 border border-purple-100">
-                    <p class="text-xs text-purple-800"><i class="fas fa-info-circle mr-1"></i> ${_t('admin.config.fireworks.panel_note')}</p>
+                <div class="bg-white/60 rounded-xl p-4 border border-plum-100">
+                    <p class="text-xs text-plum-800"><i class="fas fa-info-circle mr-1"></i> ${_t('admin.config.fireworks.panel_note')}</p>
                 </div>
             </div>
 
@@ -316,7 +317,7 @@ function _renderFireworksTab(settings) {
             ${_renderFireworksToggle('fireworksSound', soundEnabled, UI_FIREWORKS_META.fireworksSound)}
 
             <button data-config-action="preview-fireworks"
-                class="mt-2 w-full flex items-center justify-center gap-2 bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-500 hover:to-purple-500 text-white font-black uppercase italic py-3 px-6 rounded-xl shadow-md transition">
+                class="mt-2 w-full flex items-center justify-center gap-2 bg-plum-600 hover:bg-plum-700 text-white font-black uppercase italic py-3 px-6 rounded-xl shadow-md transition">
                 <i class="fas fa-eye"></i> ${_t('admin.config.fireworks.preview_btn')}
             </button>
 

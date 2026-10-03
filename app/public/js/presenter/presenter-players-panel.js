@@ -119,7 +119,7 @@ export function updatePlayersPanel() {
             const team = teamLookup[nick];
             const teamStyle = team ? getTeamColorStyle(team.color) : null;
             const cardStyle = teamStyle
-                ? `style="border-left: 4px solid ${teamStyle.solid}; background-image: linear-gradient(90deg, ${teamStyle.tint}, transparent);"`
+                ? `style="box-shadow: inset 0 0 0 2px ${teamStyle.solid}; background-image: linear-gradient(90deg, ${teamStyle.tint}, transparent);"`
                 : '';
             const nameStyle = teamStyle ? `style="color: ${teamStyle.text};"` : '';
 
@@ -158,7 +158,7 @@ export function updatePlayersPanel() {
                     </div>
                     <div class="flex justify-between items-center text-[10px] mt-1 gap-1">
                         <span class="text-slate-400">Puntos:</span>
-                        <span class="text-purple-300 font-bold">${data.score.toFixed(1)}</span>
+                        <span class="text-plum-300 font-bold">${data.score.toFixed(1)}</span>
                     </div>
                 </div>
             `;
@@ -234,7 +234,7 @@ export function renderTeamLobby() {
     if (typeof window.renderList === 'function') {
         window.renderList(pList, teamConfig.teams, (team) => `
             <div style="align-self: stretch;">
-                <div class="${teamColors[team.color] || 'bg-purple-600'} rounded-2xl p-6 border-b-4 border-black/20" style="height: 100%; display: flex; flex-direction: column;">
+                <div class="${teamColors[team.color] || 'bg-plum-600'} rounded-2xl p-6 border-b-4 border-black/20" style="height: 100%; display: flex; flex-direction: column;">
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-2xl font-black italic text-white">
                             <i class="fas fa-users mr-2"></i>${escapeHtml(team.name.toUpperCase())}
@@ -258,7 +258,7 @@ export function renderTeamLobby() {
     } else {
         pList.innerHTML = teamConfig.teams.map(team => `
             <div style="align-self: stretch;">
-                <div class="${teamColors[team.color] || 'bg-purple-600'} rounded-2xl p-6 border-b-4 border-black/20" style="height: 100%; display: flex; flex-direction: column;">
+                <div class="${teamColors[team.color] || 'bg-plum-600'} rounded-2xl p-6 border-b-4 border-black/20" style="height: 100%; display: flex; flex-direction: column;">
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-2xl font-black italic text-white">
                             <i class="fas fa-users mr-2"></i>${escapeHtml(team.name.toUpperCase())}

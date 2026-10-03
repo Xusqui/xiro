@@ -12,7 +12,7 @@ const CONFIG_META = {
     MAX_LOBBIES: {
         label: 'admin.config.meta.MAX_LOBBIES.label',
         description: 'admin.config.meta.MAX_LOBBIES.desc',
-        badge: 'reinicio', unit: 'lobbies', icon: 'fa-layer-group', iconColor: 'bg-violet-500',
+        badge: 'reinicio', unit: 'lobbies', icon: 'fa-layer-group', iconColor: 'bg-plum-500',
     },
     QUESTION_TIME_LIMIT: {
         label: 'admin.config.meta.QUESTION_TIME_LIMIT.label',
@@ -67,6 +67,12 @@ const CONFIG_META = {
         badge: 'inmediato', unit: 'min', icon: 'fa-wifi', iconColor: 'bg-sky-500',
         msMultiplier: 60000,
     },
+    PRESENTER_RECONNECTION_TIMEOUT: {
+        label: 'admin.config.meta.PRESENTER_RECONNECTION_TIMEOUT.label',
+        description: 'admin.config.meta.PRESENTER_RECONNECTION_TIMEOUT.desc',
+        badge: 'inmediato', unit: 'min', icon: 'fa-desktop', iconColor: 'bg-sky-600',
+        msMultiplier: 60000,
+    },
     INACTIVE_GAME_THRESHOLD: {
         label: 'admin.config.meta.INACTIVE_GAME_THRESHOLD.label',
         description: 'admin.config.meta.INACTIVE_GAME_THRESHOLD.desc',
@@ -97,12 +103,12 @@ const CONFIG_META = {
     UMAMI_SERVER_URL: {
         label: 'admin.config.meta.UMAMI_SERVER_URL.label',
         description: 'admin.config.meta.UMAMI_SERVER_URL.desc',
-        badge: 'inmediato', unit: '', icon: 'fa-chart-bar', iconColor: 'bg-indigo-500',
+        badge: 'inmediato', unit: '', icon: 'fa-chart-bar', iconColor: 'bg-aubergine-500',
     },
     UMAMI_WEBSITE_ID: {
         label: 'admin.config.meta.UMAMI_WEBSITE_ID.label',
         description: 'admin.config.meta.UMAMI_WEBSITE_ID.desc',
-        badge: 'inmediato', unit: '', icon: 'fa-id-badge', iconColor: 'bg-indigo-400',
+        badge: 'inmediato', unit: '', icon: 'fa-id-badge', iconColor: 'bg-aubergine-400',
     },
     BACKUP_SCHEDULE: {
         label: 'admin.config.meta.BACKUP_SCHEDULE.label',
@@ -118,7 +124,7 @@ const CONFIG_META = {
     BACKUP_RETENTION_DAYS: {
         label: 'admin.config.meta.BACKUP_RETENTION_DAYS.label',
         description: 'admin.config.meta.BACKUP_RETENTION_DAYS.desc',
-        badge: 'próximo ciclo', unit: 'admin.config.unit.days', icon: 'fa-database', iconColor: 'bg-indigo-600',
+        badge: 'próximo ciclo', unit: 'admin.config.unit.days', icon: 'fa-database', iconColor: 'bg-aubergine-600',
     },
     // ── Contacto / SMTP ──────────────────────────────────────────────────────
     SMTP_HOST: {
@@ -153,7 +159,7 @@ const CONFIG_META = {
     SMTP_FROM: {
         label: 'admin.config.meta.SMTP_FROM.label',
         description: 'admin.config.meta.SMTP_FROM.desc',
-        badge: 'inmediato', unit: '', icon: 'fa-envelope', iconColor: 'bg-purple-500',
+        badge: 'inmediato', unit: '', icon: 'fa-envelope', iconColor: 'bg-plum-500',
     },
     CONTACT_TOKEN_SECRET: {
         label: 'admin.config.meta.CONTACT_TOKEN_SECRET.label',
@@ -166,7 +172,7 @@ const UI_FIREWORKS_META = {
     fireworksShellSize: {
         label: 'admin.config.fw.fireworksShellSize.label',
         description: 'admin.config.fw.fireworksShellSize.desc',
-        unit: '', icon: 'fa-expand', iconColor: 'bg-purple-500',
+        unit: '', icon: 'fa-expand', iconColor: 'bg-plum-500',
         min: 0, max: 16, step: 1, defaultValue: 2,
     },
     fireworksFinaleMode: {
@@ -183,7 +189,7 @@ const UI_FIREWORKS_META = {
     fireworksLaunchIntervalMin: {
         label: 'admin.config.fw.fireworksLaunchIntervalMin.label',
         description: 'admin.config.fw.fireworksLaunchIntervalMin.desc',
-        unit: 'ms', icon: 'fa-clock', iconColor: 'bg-indigo-500',
+        unit: 'ms', icon: 'fa-clock', iconColor: 'bg-aubergine-500',
         min: 100, max: 3000, step: 50, defaultValue: 900,
     },
     fireworksLaunchIntervalMax: {

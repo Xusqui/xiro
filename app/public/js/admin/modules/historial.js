@@ -46,7 +46,7 @@ async function renderVistaHistorial() {
                 </div>
                 <div class="flex gap-2 flex-wrap">
                     <a href="/xiro-results-viewer.html" target="_blank"
-                        class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-4 py-2 rounded-lg transition flex items-center gap-2">
+                        class="bg-aubergine-600 hover:bg-aubergine-500 text-white font-bold px-4 py-2 rounded-lg transition flex items-center gap-2">
                         <i class="fas fa-chart-bar"></i> ${_t('admin.history.btn_viewer', null, 'Visor gráfico')}
                     </a>
                     <button data-historial-action="refresh"
@@ -250,7 +250,7 @@ function _renderHistorialTable(sessions) {
         return `
             <tr class="border-b border-slate-100 hover:bg-slate-50 transition">
                 <td class="py-3 px-3">
-                    <input type="checkbox" class="historial-row-checkbox w-4 h-4 accent-indigo-600 cursor-pointer"
+                    <input type="checkbox" class="historial-row-checkbox w-4 h-4 accent-aubergine-600 cursor-pointer"
                         data-id="${s.id}" data-historial-action="row-select">
                 </td>
                 <td class="py-3 px-4 font-mono font-bold text-slate-700">${s.pin}</td>
@@ -265,7 +265,7 @@ function _renderHistorialTable(sessions) {
                 <td class="py-3 px-4">
                     <div class="flex gap-1">
                         <a href="${s.share_token ? '/xiro-results-viewer.html?token=' + s.share_token : '/xiro-results-viewer.html?id=' + s.id}" target="_blank"
-                            class="inline-flex items-center justify-center bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold w-8 h-8 rounded-lg transition"
+                            class="inline-flex items-center justify-center bg-aubergine-600 hover:bg-aubergine-500 text-white text-xs font-bold w-8 h-8 rounded-lg transition"
                             title="Ver resultados">
                             <i class="fas fa-chart-bar"></i>
                         </a>
@@ -291,8 +291,8 @@ function _renderHistorialTable(sessions) {
 
     container.innerHTML = _tHtml(`
         <!-- Barra de selección / borrado en lote -->
-        <div id="historial-batch-bar" style="opacity:0.4;transition:opacity 0.15s" class="mb-3 bg-indigo-50 border border-indigo-200 rounded-xl px-4 py-3 flex items-center justify-between">
-            <span class="text-indigo-800 font-bold text-sm">
+        <div id="historial-batch-bar" style="opacity:0.4;transition:opacity 0.15s" class="mb-3 bg-aubergine-50 border border-aubergine-200 rounded-xl px-4 py-3 flex items-center justify-between">
+            <span class="text-aubergine-800 font-bold text-sm">
                 <i class="fas fa-check-square mr-2"></i>
                 <span id="historial-batch-count">0</span> ${_t('admin.history.batch_label', { n: '' }, '{n} partida(s) seleccionada(s)').replace('{n}', '').trim()}
             </span>
@@ -309,7 +309,7 @@ function _renderHistorialTable(sessions) {
                 <thead>
                     <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 text-xs uppercase tracking-wide">
                         <th class="py-3 px-3">
-                            <input type="checkbox" class="w-4 h-4 accent-indigo-600 cursor-pointer"
+                            <input type="checkbox" class="w-4 h-4 accent-aubergine-600 cursor-pointer"
                                 title="Seleccionar todas" data-historial-action="select-all">
                         </th>
                         <th class="py-3 px-4 text-left font-bold">PIN</th>

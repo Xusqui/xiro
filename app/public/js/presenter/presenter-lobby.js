@@ -210,7 +210,7 @@ function renderizarPINs() {
                        aria-label="${escapeHtml(t('presenter.selector.search.label', 'Buscar por PIN o título'))}"
                        placeholder="${escapeHtml(t('presenter.selector.search.placeholder', 'Busca por PIN o título (mín. 3 caracteres)'))}"
                        class="w-full pl-12 pr-5 py-3 rounded-full text-lg text-slate-900 bg-white shadow-lg outline-none focus:ring-4"
-                       style="--tw-ring-color:rgba(249,181,24,0.6);">
+                       style="--u-ring-color:rgba(249,181,24,0.6);">
             </div>
 
             <div class="flex gap-3 mb-8 flex-wrap justify-center">

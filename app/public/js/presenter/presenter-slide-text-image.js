@@ -55,10 +55,10 @@ export function renderTextImageSlide(slide) {
     const btnIcon = window.isTrivialGame ? 'fa-rotate-right' : (isLast ? 'fa-trophy' : 'fa-chevron-right');
 
     lobbyMain.innerHTML = _tHtml(`
-        <div class="h-full w-full flex items-center px-10 pb-20 pt-8 gap-8" style="background:radial-gradient(circle at 20% 20%,rgba(56,189,248,.25),transparent 35%),radial-gradient(circle at 80% 15%,rgba(236,72,153,.22),transparent 35%),radial-gradient(circle at 50% 85%,rgba(251,191,36,.2),transparent 40%),linear-gradient(135deg,#312e81 0%,#6d28d9 40%,#1d4ed8 100%);">
+        <div class="h-full w-full flex items-center px-10 pb-20 pt-8 gap-8" style="background:radial-gradient(circle at 20% 20%,rgba(56,189,248,.25),transparent 35%),radial-gradient(circle at 80% 15%,rgba(236,72,153,.22),transparent 35%),radial-gradient(circle at 50% 85%,rgba(251,191,36,.2),transparent 40%),linear-gradient(135deg,#3f2746 0%,#793475 40%,#1d4ed8 100%);">
             ${leftCol}
             ${rightCol}
-            <button id="btn-next" data-presenter-action="next-question" class="fixed bottom-10 right-10 bg-white text-slate-900 px-10 py-5 rounded-3xl font-black text-2xl shadow-2xl hover:bg-indigo-600 hover:text-white transition italic uppercase" style="z-index:10000;">
+            <button id="btn-next" data-presenter-action="next-question" class="fixed bottom-10 right-10 bg-white text-slate-900 px-10 py-5 rounded-3xl font-black text-2xl shadow-2xl hover:bg-aubergine-600 hover:text-white transition italic uppercase" style="z-index:10000;">
                 ${btnLabel} <i class="fas ${btnIcon} ml-2"></i>
             </button>
         </div>

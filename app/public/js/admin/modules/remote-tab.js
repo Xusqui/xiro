@@ -138,7 +138,7 @@ function renderSessionsList(sessions) {
             </div>
             <div class="flex gap-2 flex-shrink-0">
                 <a href="${url}"
-                   class="bg-purple-600 hover:bg-purple-700 text-white font-bold px-5 py-3
+                   class="bg-camaleon-600 hover:bg-camaleon-700 text-white font-bold px-5 py-3
                           rounded-xl flex items-center gap-2 transition whitespace-nowrap">
                     <i class="fas fa-mobile-alt"></i> Controlar
                 </a>

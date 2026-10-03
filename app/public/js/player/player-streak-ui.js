@@ -23,6 +23,9 @@ const ANIM_OVERLAY_ID = 'streak-anim-overlay';
 let _activeAnimationTimeout = null;
 let _activeAnimationResolve = null;
 let _animationCancelled = false;
+// Lo que se pinta al terminar la animación (puede sustituirse mientras dura)
+let _pendingResultHTML = null;
+let _afterResultRender = null;
 
 // ===== BADGE PERSISTENTE (MutationObserver) =====
 
@@ -52,7 +55,7 @@ function _syncBadge() {
     const emoji = isDouble ? '🔥🔥' : '🔥';
     const label = isDouble ? _t('player.streak.double_label', 'DOBLE') : _t('player.streak.label', 'RACHA');
     const bg = isDouble
-        ? 'background:linear-gradient(135deg,#7c3aed,#db2777);box-shadow:0 0 12px rgba(124,58,237,.6),0 2px 8px rgba(0,0,0,.4);outline:2px solid #c084fc'
+        ? 'background:linear-gradient(135deg,#94438e,#db2777);box-shadow:0 0 12px rgba(148,67,142,.6),0 2px 8px rgba(0,0,0,.4);outline:2px solid #cd81c6'
         : 'background:linear-gradient(135deg,#ea580c,#f97316);box-shadow:0 0 10px rgba(234,88,12,.5),0 2px 8px rgba(0,0,0,.3);outline:2px solid #fdba74';
 
     badge.style.cssText = `position:fixed;top:12px;right:12px;z-index:9999;pointer-events:none;user-select:none;display:flex;align-items:center;gap:4px;padding:6px 12px;border-radius:9999px;font-weight:900;font-size:14px;color:#fff;${bg}`;
@@ -113,6 +116,8 @@ export function applyStreakToResult(streakInfo, resultHTML) {
 
     // Resetear flag de cancelación al iniciar nueva animación
     _animationCancelled = false;
+    _pendingResultHTML = resultHTML;
+    _afterResultRender = null;
 
     const _render = () => {
         // Capturar el estado actual de la flag antes de resetearla
@@ -123,8 +128,11 @@ export function applyStreakToResult(streakInfo, resultHTML) {
 
         // Solo renderizar si no fue cancelada externamente
         if (!wasCancelled) {
-            document.body.innerHTML = _tHtml(resultHTML);
+            document.body.innerHTML = _tHtml(_pendingResultHTML);
             _syncBadge();
+            const afterRender = _afterResultRender;
+            _afterResultRender = null;
+            if (afterRender) afterRender();
         }
     };
 
@@ -136,6 +144,37 @@ export function applyStreakToResult(streakInfo, resultHTML) {
     } else {
         _render();
     }
+}
+
+/** Datos de racha perdida a partir de la racha actual (sin responder a tiempo). */
+export function buildLostStreakInfo(currentStreak) {
+    return {
+        current: 0,
+        previous: currentStreak.current,
+        threshold: currentStreak.threshold,
+        doubleThreshold: currentStreak.doubleThreshold,
+        isInStreak: false,
+        isInDoubleStreak: false,
+        justLost: true,
+        justEntered: false,
+        justEnteredDoubleStreak: false
+    };
+}
+
+/**
+ * Si hay una animación de racha en curso, cambia lo que se pintará al terminar en vez
+ * de cortarla (p. ej. la respuesta correcta que llega durante la animación de racha
+ * perdida). Devuelve false si no hay animación: el llamador pinta directamente.
+ *
+ * @param {string}   html        - HTML que se mostrará al acabar la animación
+ * @param {Function} [afterRender] - Se llama justo después de pintarlo
+ * @returns {boolean}
+ */
+export function replacePendingStreakResult(html, afterRender = null) {
+    if (!_activeAnimationResolve) return false;
+    _pendingResultHTML = html;
+    _afterResultRender = afterRender;
+    return true;
 }
 
 /**
@@ -180,7 +219,7 @@ function _showAnimation(type, streakInfo) {
         const bgStyle = isLost
             ? 'background:#334155'
             : isDouble
-                ? 'background:linear-gradient(135deg,#7c3aed,#db2777)'
+                ? 'background:linear-gradient(135deg,#94438e,#db2777)'
                 : 'background:linear-gradient(135deg,#ea580c,#f97316)';
         const emoji = isLost ? '💔' : isDouble ? '🔥🔥' : '🔥';
         const title = isLost
@@ -193,7 +232,7 @@ function _showAnimation(type, streakInfo) {
             : isDouble
                 ? `¡${streakInfo.current} ${_t('player.streak.double_bonus_suffix', 'seguidas con bonus doble!')}`
                 : `${streakInfo.current} ${_t('player.streak.consecutive_correct', 'respuestas correctas seguidas')}`;
-        const animClass = isLost ? 'animate-pulse' : 'animate-bounce';
+        const animClass = isLost ? 'animate-pulse' : 'animate-pop';
 
         const el = document.createElement('div');
         el.id = ANIM_OVERLAY_ID;

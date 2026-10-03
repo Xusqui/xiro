@@ -93,59 +93,8 @@ router.post('/api/addin/create-session', sessionLimiter, async (req, res) => {
     }
 });
 
-/**
- * POST /api/addin/end-game
- * Body: { sessionId: string, gameType?: string }
- * Finaliza la partida activa y persiste la sesión en BD.
- * Emite results-ready al presentador cuando el ID de BD esté disponible.
- */
-router.post('/api/addin/end-game', sessionLimiter, async (req, res) => {
-    try {
-        const sessionId = (req.body && typeof req.body.sessionId === 'string' ? req.body.sessionId : '').trim();
-        const gameType = (req.body && typeof req.body.gameType === 'string' ? req.body.gameType : '').toLowerCase();
-
-        if (!sessionId) {
-            return res.status(400).json({ error: 'sessionId requerido', code: 'SESSION_ID_REQUIRED' });
-        }
-
-        const io = req.app.get('io');
-        const { activeGames } = require('../state/globalState');
-
-        // Comprobar si la partida sigue activa
-        const game = activeGames.get(sessionId);
-        if (!game) {
-            // La partida ya terminó (o nunca existió) — buscar la sesión en BD.
-            // saveGameSession guarda el roomId completo como pin (ej. "DIATERMIA-7329").
-            const { getLastGameSessionByPin } = require('../services/db/game-session.service');
-            const rowFull = await getLastGameSessionByPin(sessionId).catch(() => null);
-            const rowShort = rowFull ? null : await getLastGameSessionByPin(sessionId.split('-')[0]).catch(() => null);
-            const row = rowFull || rowShort;
-            if (row) return res.json({ ok: true, dbSessionId: row.id });
-            return res.status(404).json({ error: 'Partida no encontrada', code: 'GAME_NOT_FOUND', sessionId });
-        }
-
-        if (game.ended) {
-            // Ya finalizada, los resultados deberían estar en BD
-            return res.json({ ok: true, alreadyEnded: true });
-        }
-
-        // Finalizar según el tipo de juego
-        if (gameType === 'trivial') {
-            const { endTrivialGame } = require('../sockets/services/TrivialEndGameService');
-            await endTrivialGame({ roomId: sessionId, io });
-        } else {
-            const EndGameUseCase = require('../application/use-cases/EndGameUseCase');
-            const { players, socketToPlayer, lobbyPlayers, teamConfigs } = require('../state/globalState');
-            const useCase = new EndGameUseCase({ activeGames, players, socketToPlayer, lobbyPlayers, teamConfigs, io });
-            await useCase.execute({ roomId: sessionId, reason: 'manual' });
-        }
-
-        logger.info('[addin] end-game executed', { sessionId, gameType });
-        res.json({ ok: true });
-    } catch (err) {
-        logger.error('[addin] end-game error', { error: err.message });
-        res.status(500).json({ error: 'Error al finalizar partida', code: 'END_GAME_FAILED' });
-    }
-});
+// POST /api/addin/end-game se eliminó: no exigía autenticación y permitía terminar
+// cualquier partida conociendo su sessionId (PIN-DDDD). El add-in ignora el fallo
+// de esa llamada y carga el podio igualmente. Si se recupera, debe autenticarse.
 
 module.exports = router;

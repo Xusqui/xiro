@@ -59,7 +59,7 @@ function onPlayerJoined(data) {
             } else {
                 // Modo individual
                 const playerDiv = document.createElement('div');
-                playerDiv.className = 'bg-white text-slate-900 p-3 rounded-xl font-black text-center animate-bounce uppercase italic text-sm';
+                playerDiv.className = 'bg-white text-slate-900 p-3 rounded-xl font-black text-center animate-pop uppercase italic text-sm';
                 playerDiv.setAttribute('data-nickname', nick);
                 playerDiv.textContent = _t(nick);
                 pList.appendChild(playerDiv);
@@ -110,7 +110,7 @@ export function registerLobbySocketHandlers() {
                     <i class="fas fa-exclamation-triangle text-red-500 text-8xl mb-6"></i>
                     <h1 class="text-4xl font-black text-white mb-4">${_t('presenter.session.lobby_error_title', null, 'Error al Crear Lobby')}</h1>
                     <p class="text-slate-400 mb-2 text-xl">${data.message || _t('presenter.session.lobby_error_msg', null, 'No se pudo crear el lobby')}</p>
-                    <button data-presenter-action="volver-juegos" class="bg-purple-600 hover:bg-purple-500 px-6 py-3 rounded-full text-white font-bold uppercase transition shadow-lg">
+                    <button data-presenter-action="volver-juegos" class="bg-plum-600 hover:bg-plum-500 px-6 py-3 rounded-full text-white font-bold uppercase transition shadow-lg">
                         <i class="fas fa-list mr-2"></i>${_t('presenter.selector.actions.show_games', null, 'Volver a juegos')}
                     </button>
                 </div>

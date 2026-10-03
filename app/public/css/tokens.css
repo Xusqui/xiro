@@ -8,12 +8,56 @@
  */
 
 :root {
-    /* ---- Brand primitives (DESIGN.md Colors) ---- */
-    --chamaleon-purple: #9333ea;
-    --chamaleon-purple-deep: #7e22ce;
-    --chamaleon-indigo: #4338ca;
+    /* ---- Brand primitives (DESIGN.md Colors) ----
+       Los nombres --chamaleon-purple/indigo se mantienen por compatibilidad; los valores
+       son ahora Chamaleon Plum (ciruela, plum-600/700) y Chamaleon Aubergine
+       (berenjena, aubergine-700). Escalas completas más abajo. */
+    --chamaleon-purple: #94438e;
+    --chamaleon-purple-deep: #793475;
+    --chamaleon-indigo: #684374;
     --chamaleon-green: #8ab817;
     --chamaleon-green-tint: #e7f4c0;
+    /* Acción principal de las superficies de operador (admin): verde camaleón oscurecido
+       para texto blanco AA (camaleon-600 5.4:1, camaleon-700 7.4:1). */
+    --action-primary: #557400;
+    --action-primary-hover: #445e02;
+
+    /* ---- Escalas de marca (50–950), las mismas que usan las clases bg-/text-/border-plum|aubergine|camaleon-* de common.css ---- */
+    --plum-50: #fdf4fb;
+    --plum-100: #f9e6f7;
+    --plum-200: #f2ceed;
+    --plum-300: #e4abde;
+    --plum-400: #cd81c6;
+    --plum-500: #b05baa;
+    --plum-600: #94438e;
+    --plum-700: #793475;
+    --plum-800: #5f285b;
+    --plum-900: #482045;
+    --plum-950: #2d132b;
+
+    --aubergine-50: #faf4fc;
+    --aubergine-100: #f4e8f8;
+    --aubergine-200: #e8d2ef;
+    --aubergine-300: #d4b3df;
+    --aubergine-400: #b98dc7;
+    --aubergine-500: #9a6ba9;
+    --aubergine-600: #7f548d;
+    --aubergine-700: #684374;
+    --aubergine-800: #52335b;
+    --aubergine-900: #3f2746;
+    --aubergine-950: #27172c;
+
+    --camaleon-50: #f2fbe5;
+    --camaleon-100: #e3f5c9;
+    --camaleon-200: #c9e898;
+    --camaleon-300: #a7d356;
+    --camaleon-400: #84b202;
+    --camaleon-500: #6a8f02;
+    --camaleon-600: #557400;
+    --camaleon-700: #445e02;
+    --camaleon-800: #344901;
+    --camaleon-900: #283801;
+    --camaleon-950: #172300;
     --signal-amber: #f9b518;
     --signal-amber-tint: #fff0c2;
     --reef-cyan: #0891b2;

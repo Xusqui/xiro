@@ -53,6 +53,8 @@
     "admin.config.meta.LOG_MAX_FILES.desc": "Durée de conservation des journaux. Exemple : « 14d » = 14 jours. Rétention plus longue = plus d'espace disque.",
     "admin.config.meta.RECONNECTION_TIMEOUT.label": "Délai de reconnexion",
     "admin.config.meta.RECONNECTION_TIMEOUT.desc": "Nombre de minutes pendant lesquelles le serveur conserve l'état d'un joueur déconnecté. S'il se reconnecte avant l'expiration, la partie reprend.",
+    "admin.config.meta.PRESENTER_RECONNECTION_TIMEOUT.label": "Reconnexion du présentateur",
+    "admin.config.meta.PRESENTER_RECONNECTION_TIMEOUT.desc": "Minutes pendant lesquelles la partie est conservée si l'écran du présentateur se déconnecte (p. ex. mise en veille de l'ordinateur). À l'expiration, la session se termine pour tout le monde.",
     "admin.config.meta.INACTIVE_GAME_THRESHOLD.label": "Seuil de jeu inactif",
     "admin.config.meta.INACTIVE_GAME_THRESHOLD.desc": "Nombre d'heures d'inactivité avant qu'une partie soit considérée comme abandonnée et supprimée de la mémoire.",
     "admin.config.meta.EMPTY_LOBBY_TIMEOUT.label": "Expiration du délai d'attente du lobby vide",

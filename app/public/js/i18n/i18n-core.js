@@ -6,7 +6,7 @@
         supported: ['es', 'en', 'fr', 'ca', 'eu', 'gl', 'de', 'pt', 'zh', 'ja'],
         storageKey: 'xiro_lang',
         queryParam: 'lang',
-        version: '20260922172926'
+        version: '20261002140716'
     };
 
     const state = {
@@ -202,7 +202,8 @@
 
     async function fetchJson(url) {
         const separator = url.includes('?') ? '&' : '?';
-        // Cache aggressively per version; bump CONFIG.version to invalidate.
+        // Cache aggressively per version. The server (middlewares/assetVersioning.js)
+        // replaces CONFIG.version with a hash of every i18n JSON when serving this file.
         const response = await fetch(`${url}${separator}v=${CONFIG.version}`, { cache: 'force-cache' });
         if (!response.ok) throw new Error(`Dictionary request failed: ${url}`);
         return response.json();

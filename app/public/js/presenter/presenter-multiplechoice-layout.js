@@ -27,7 +27,7 @@ export function renderMultipleChoicePresenter(_question) {
  * @returns {string} HTML del reveal
  */
 export function getMultipleChoiceRevealHTML(question, correctIndices) {
-    const colors = ['bg-red-500', 'bg-blue-500', 'bg-yellow-500', 'bg-green-500', 'bg-purple-500', 'bg-pink-500'];
+    const colors = ['bg-red-500', 'bg-blue-500', 'bg-yellow-500', 'bg-green-500', 'bg-plum-500', 'bg-pink-500'];
 
     // Crear lista de opciones correctas para el banner
     const correctOptions = correctIndices.map(idx => ({

@@ -79,7 +79,7 @@
             user-select: none;
         }
 
-        /* Configuración de Tailwind personalizada */
+        /* Utilidades propias de esta página */
         @layer utilities {
             .h-dvh {
                 height: 100dvh;
@@ -99,33 +99,33 @@
     <script defer src="/js/i18n/i18n-ui.js?v=20260922172926"></script>
 </head>
 
-<body class="bg-purple-700 h-dvh flex flex-col items-center justify-center font-sans text-white overflow-hidden p-4">
+<body class="bg-plum-700 h-dvh flex flex-col items-center justify-center font-sans text-white overflow-hidden p-4">
 
     <div id="main-container" class="w-full max-w-sm text-center">
         <img src="/images/logo.svg" alt="Logo"
             style="width: 100%; max-width: 384px; margin: 0 auto 2rem auto; filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04));">
         <div id="login-box" class="bg-white p-8 rounded-3xl shadow-2xl text-slate-800 border-b-8 border-gray-200">
             <div id="step-1">
-                <h2 class="text-slate-500 font-bold mb-4 uppercase text-sm" data-i18n="player.session.label">...</h2>
+                <h2 class="text-slate-500 font-bold mb-2 uppercase text-sm" data-i18n="player.session.label">...</h2>
                 <p class="text-xs text-slate-400 mb-3" data-i18n="player.session.hint">...</p>
                 <input type="text" id="session-input" placeholder="XXXXXX-XXXX" autofocus
                     data-i18n-placeholder="player.session.placeholder"
-                    class="w-full p-4 mb-4 border-4 border-gray-100 rounded-2xl font-black text-xl text-center focus:border-purple-500 outline-none uppercase">
+                    class="w-full p-4 mb-6 border-4 border-gray-100 rounded-2xl font-black text-xl text-center focus:border-plum-500 outline-none uppercase">
                 <button data-player-action="validar-session" data-i18n="player.session.submit"
                     class="w-full bg-slate-900 text-white p-4 rounded-2xl font-black text-xl">...</button>
             </div>
             <div id="step-loading" class="hidden">
                 <div class="flex flex-col items-center gap-4 py-4">
-                    <div class="w-10 h-10 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin">
+                    <div class="w-10 h-10 border-4 border-plum-200 border-t-plum-600 rounded-full animate-spin">
                     </div>
                     <p class="text-slate-500 font-bold uppercase text-sm" data-i18n="player.loading">...</p>
                 </div>
             </div>
             <div id="step-2" class="hidden">
-                <h2 class="text-slate-500 font-bold mb-4 uppercase text-sm" data-i18n="player.nickname.label">...</h2>
+                <h2 class="text-slate-500 font-bold mb-2 uppercase text-sm" data-i18n="player.nickname.label">...</h2>
                 <input type="text" id="nickname-input" placeholder="NOMBRE" maxlength="15"
                     data-i18n-placeholder="player.nickname.placeholder"
-                    class="w-full p-4 mb-4 border-4 border-gray-100 rounded-2xl font-black text-2xl text-center focus:border-purple-500 outline-none uppercase">
+                    class="w-full p-4 mb-6 border-4 border-gray-100 rounded-2xl font-black text-2xl text-center focus:border-plum-500 outline-none uppercase">
                 <button data-player-action="join-lobby" data-i18n="player.nickname.submit"
                     class="w-full bg-green-600 text-white p-4 rounded-2xl font-black text-xl">...</button>
             </div>

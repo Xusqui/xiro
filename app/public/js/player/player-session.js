@@ -397,7 +397,7 @@ export function registerSessionEvents(mostrarSeleccionEquipo) {
                         <h2 class="text-2xl font-black text-slate-800 mb-2">${_t('player.session.server_full_title', null, 'Servidor Lleno')}</h2>
                         <p class="text-slate-500 mb-4">${errorMessage}</p>
                         <button data-player-action="reload-page"
-                            class="btn-glass-3d w-full bg-purple-600 text-white p-4 rounded-2xl font-black text-xl">${_t('common.btn_retry', null, 'Reintentar')}</button>
+                            class="btn-glass-3d w-full bg-plum-600 text-white p-4 rounded-2xl font-black text-xl">${_t('common.btn_retry', null, 'Reintentar')}</button>
                     </div>
                 </div>
             `);
@@ -414,7 +414,7 @@ export function registerSessionEvents(mostrarSeleccionEquipo) {
                         <h2 class="text-slate-500 font-bold mb-4 uppercase text-sm">${_t('Código del Juego', null, 'Código del Juego')}</h2>
                         <p class="text-red-600 font-bold mb-3 text-sm">⚠️ ${errorMessage}</p>
                         <input type="text" id="pin-input" placeholder="000000" autofocus
-                            class="w-full p-4 mb-4 border-4 border-red-300 rounded-2xl font-black text-3xl text-center focus:border-purple-500 outline-none uppercase">
+                            class="w-full p-4 mb-4 border-4 border-red-300 rounded-2xl font-black text-3xl text-center focus:border-plum-500 outline-none uppercase">
                         <button data-player-action="validar-pin"
                             class="btn-glass-3d w-full bg-slate-900 text-white p-4 rounded-2xl font-black text-xl">${_t('player.session.btn_enter', null, 'INGRESAR')}</button>
                     </div>

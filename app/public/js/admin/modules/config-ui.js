@@ -11,7 +11,7 @@
             id: 'groq',
             titleKey: 'admin.config.tab.groq',
             icon: 'fa-robot',
-            color: 'bg-violet-500',
+            color: 'bg-plum-500',
             isGroq: true,
             keys: []
         });
@@ -62,8 +62,8 @@ function _renderGroqForm(data) {
     <div class="space-y-6 mb-8">
         <div class="bg-white rounded-2xl border-2 border-slate-200 p-6">
             <div class="flex items-center gap-3 mb-5">
-                <div class="w-10 h-10 bg-violet-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <i class="fas fa-robot text-violet-600"></i>
+                <div class="w-10 h-10 bg-plum-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-robot text-plum-600"></i>
                 </div>
                 <div>
                     <p class="font-bold text-slate-800">${_t('admin.groq.title')}</p>
@@ -80,7 +80,7 @@ function _renderGroqForm(data) {
                     <input id="groq-api-key-input" autocomplete="off"
                         ${configured ? `value="${data.maskedKey}" disabled` : ''}
                         placeholder="gsk_..."
-                        class="w-full border-2 border-slate-200 rounded-xl p-3 font-mono text-sm focus:border-violet-500 outline-none transition ${configured ? 'bg-slate-100 text-slate-500 cursor-not-allowed' : 'bg-white text-slate-900'}">
+                        class="w-full border-2 border-slate-200 rounded-xl p-3 font-mono text-sm focus:border-plum-500 outline-none transition ${configured ? 'bg-slate-100 text-slate-500 cursor-not-allowed' : 'bg-white text-slate-900'}">
                 </div>
 
                 <div>
@@ -88,7 +88,7 @@ function _renderGroqForm(data) {
                         ${_t('admin.groq.label_model')}
                     </label>
                     <select id="groq-model-select"
-                        class="w-full border-2 border-slate-200 rounded-xl p-3 font-sans text-sm focus:border-violet-500 outline-none bg-white text-slate-800 appearance-none">
+                        class="w-full border-2 border-slate-200 rounded-xl p-3 font-sans text-sm focus:border-plum-500 outline-none bg-white text-slate-800 appearance-none">
                         ${modelOptions}
                     </select>
                     <p class="text-xs text-slate-400 mt-2">${_t('admin.groq.model_desc')}</p>
@@ -97,7 +97,7 @@ function _renderGroqForm(data) {
 
             <div class="flex flex-wrap gap-3 mt-5">
                 <button data-admin-action="groq-save-config"
-                    class="flex items-center gap-2 bg-violet-600 hover:bg-violet-700 active:scale-95 text-white font-bold px-5 py-2.5 rounded-xl transition-all text-sm">
+                    class="flex items-center gap-2 bg-camaleon-600 hover:bg-camaleon-700 active:scale-95 text-white font-bold px-5 py-2.5 rounded-xl transition-all text-sm">
                     <i class="fas fa-save text-xs"></i> ${configured ? _t('admin.groq.btn_update') : _t('admin.groq.btn_save')}
                 </button>
                 ${configured ? `<button data-admin-action="groq-delete-key"

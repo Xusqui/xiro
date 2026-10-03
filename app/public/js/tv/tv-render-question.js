@@ -84,7 +84,7 @@ window.TVApp.RenderQuestion = (function () {
         const letters = Array.isArray(q.scrambled_letters) ? q.scrambled_letters : [];
         let letterTiles = '';
         for (let l = 0; l < letters.length; l++) {
-            letterTiles += '<div style="display:inline-flex;align-items:center;justify-content:center;width:2.5rem;height:2.5rem;border:2px solid #a78bfa;border-radius:0.5rem;font-size:1.2rem;font-weight:900;color:#e9d5ff;background:rgba(109,40,217,0.4);margin:2px">' + escapeHtml(letters[l]) + '</div>';
+            letterTiles += '<div style="display:inline-flex;align-items:center;justify-content:center;width:2.5rem;height:2.5rem;border:2px solid #cd81c6;border-radius:0.5rem;font-size:1.2rem;font-weight:900;color:#f2ceed;background:rgba(121,52,117,0.4);margin:2px">' + escapeHtml(letters[l]) + '</div>';
         }
         const lettersHTML = letterTiles
             ? '<div style="border-top:1px solid rgba(251,191,36,0.3);padding-top:12px;margin-top:5px"><div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.1em">' + _t('presenter.wordscramble.available_letters', null, 'Letras disponibles') + '</div><div style="display:flex;flex-wrap:wrap;justify-content:center">' + letterTiles + '</div></div>'

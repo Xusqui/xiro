@@ -1,16 +1,14 @@
 /**
  * @fileoverview Gestión de lógica de equipos (modo ciego)
- * REFACTORED: Usa GetRankingQuery directamente (eliminado RankingHelper wrapper)
  */
 
 const { calculateTeamScore } = require('../../services/game.logic');
 const { TEAMS } = require('../../config/game-constants');
-const GetRankingQuery = require('../../application/queries/GetRankingQuery');
 const {
     resolveTeamRevealCorrectness,
     resolveTeamRevealCorrectAnswer
 } = require('./NumericTeamRevealHelper');
-const { hasAnsweredCurrentRound } = require('./TeamRevealHelper');
+const { hasAnsweredCurrentRound, claimTeamReveal } = require('./TeamRevealHelper');
 const { getRedisClient } = require('../../config/redis');
 const logger = require('../../config/logger');
 
@@ -45,7 +43,8 @@ async function revealToUnrevealedTeams(game, teamConfig, currentQuestion, io, sP
     const allSockets = await io.in(playersRoom).fetchSockets();
 
     for (const team of teamConfig.teams) {
-        if (!teamsRevealed.includes(team.name)) {
+        // El registro local no ve los equipos revelados en otros workers: se reclama en Redis
+        if (await claimTeamReveal(game, sPin, team.name)) {
             logger.debug(`Revelando resultados al equipo ${team.name} por timeout`);
 
             for (const playerNick of team.players) {
@@ -219,35 +218,11 @@ function buildFormattedRanking(scores) {
 }
 
 /**
- * Construir ranking de jugadores usando GetRankingQuery directamente
+ * Construir ranking de jugadores a partir de las puntuaciones
  * @param {Object} scores - Objeto con scores {nickname: puntos}
- * @param {string} [roomId] - ID de la sala (opcional)
- * @param {Map} [activeGames] - Map de juegos activos (opcional)
  * @returns {Array} Ranking ordenado
  */
-function buildRanking(scores, roomId = null, activeGames = null) {
-    // Si tenemos roomId y activeGames, usar GetRankingQuery directamente
-    if (roomId && activeGames && activeGames.has(roomId)) {
-        const query = new GetRankingQuery({
-            gameId: roomId,
-            includeDisconnected: true
-        });
-
-        const result = query.execute({ activeGames });
-
-        if (result.success && result.ranking) {
-            const { roundScore } = require('../../services/game.logic');
-            // Formatear para compatibilidad con payload de answer-result
-            return result.ranking.map(player => ({
-                position: player.position,
-                nickname: player.nickname,
-                score: roundScore(player.score),
-                isTeam: false
-            }));
-        }
-    }
-
-    // Fallback: construir ranking manualmente si no hay juego activo
+function buildRanking(scores) {
     return buildFormattedRanking(scores);
 }
 

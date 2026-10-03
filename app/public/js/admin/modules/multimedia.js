@@ -342,7 +342,7 @@ function abrirSelectorImagenOpcion(qIdx, oIdx) {
 // ===== IMAGEN DE PORTADA DE JUEGO/BANCO (bancos, personalizados, mezclas, trivial) =====
 
 const GAME_COVER_KIND_STYLES = {
-    bank: { hiddenId: 'editBankImageUrl', previewId: 'bankCoverPreview', border: 'border-purple-200 hover:border-purple-300', text: 'text-purple-700', bg: 'bg-purple-50 hover:bg-purple-100' },
+    bank: { hiddenId: 'editBankImageUrl', previewId: 'bankCoverPreview', border: 'border-plum-200 hover:border-plum-300', text: 'text-plum-700', bg: 'bg-plum-50 hover:bg-plum-100' },
     customGame: { hiddenId: 'customGameImageUrl', previewId: 'customGameCoverPreview', border: 'border-blue-200 hover:border-blue-300', text: 'text-blue-700', bg: 'bg-blue-50 hover:bg-blue-100' },
     game: { hiddenId: 'gameImageUrl', previewId: 'gameCoverPreview', border: 'border-green-200 hover:border-green-300', text: 'text-green-700', bg: 'bg-green-50 hover:bg-green-100' },
     trivial: { hiddenId: 'trivial-image-url', previewId: 'trivialCoverPreview', border: 'border-orange-200 hover:border-orange-300', text: 'text-orange-700', bg: 'bg-orange-50 hover:bg-orange-100' },

@@ -165,6 +165,17 @@ function getAllowedSocketOrigins() {
     return parseOriginList(runtimeConfig.get('ALLOWED_ORIGINS'), DEFAULT_ORIGINS);
 }
 
+function normalizeOrigin(origin) {
+    return String(origin).trim().replace(/\/+$/, '').toLowerCase();
+}
+
+// Comparación exacta (como el CORS HTTP): con startsWith, "https://xiro.pro.evil.com"
+// pasaba como "https://xiro.pro".
+function isAllowedSocketOrigin(origin, allowedOrigins) {
+    const normalized = normalizeOrigin(origin);
+    return allowedOrigins.some(allowed => normalizeOrigin(allowed) === normalized);
+}
+
 function setupOriginValidationMiddleware(io) {
     io.use((socket, next) => {
         if (NODE_ENV !== 'production') {
@@ -175,7 +186,7 @@ function setupOriginValidationMiddleware(io) {
         const userAgent = socket.handshake.headers['user-agent'];
         const allowedOrigins = getAllowedSocketOrigins();
 
-        if (origin && !allowedOrigins.some(allowed => origin.startsWith(allowed))) {
+        if (origin && !isAllowedSocketOrigin(origin, allowedOrigins)) {
             return next(new Error('Invalid origin'));
         }
 

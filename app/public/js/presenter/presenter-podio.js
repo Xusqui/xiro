@@ -238,7 +238,7 @@ export function renderPodio(ranking) {
         }).join('');
     })()}
             </div>
-            <button data-presenter-action="conclude-and-home" class="mt-12 bg-purple-600 hover:bg-purple-500 px-8 py-3 rounded-full text-white font-bold uppercase transition shadow-lg">
+            <button data-presenter-action="conclude-and-home" class="mt-12 bg-plum-600 hover:bg-plum-500 px-8 py-3 rounded-full text-white font-bold uppercase transition shadow-lg">
                 <i class="fas fa-list mr-2"></i>${_t('presenter.podio.show_games', null, 'Mostrar juegos')}
             </button>
 

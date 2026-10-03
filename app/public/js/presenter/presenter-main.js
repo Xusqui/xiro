@@ -5,6 +5,7 @@
 
 import { initializePresenterSession } from './presenter-socket-config.js?v=20260922172926';
 import { initRemoteControlMode } from './presenter-remote.js?v=20260922172926';
+import { createRemoteWakeLockController } from './presenter-remote-wake-lock.js?v=20260922172926';
 import {
     mostrarSelectorPIN, cambiarFiltro, seleccionarPIN, volverAJuegos,
     mostrarSeleccionModo, configurarModoIndividual, mostrarSeleccionModoDirecto,
@@ -42,6 +43,12 @@ if (window.XiroI18n && typeof window.XiroI18n.addSections === 'function') {
 }
 
 if (!_isRemoteMode) {
+    // Mantener la pantalla (y el equipo) despiertos: si el ordenador entra en reposo
+    // el socket del presentador cae por ping timeout y la sesión expira para todos.
+    const presenterWakeLock = createRemoteWakeLockController({ hasActiveSessionContext: () => true });
+    presenterWakeLock.setup();
+    void presenterWakeLock.activate('presenter-init');
+
     registerPresenterReconnectionEvents();
     registerLobbySocketHandlers();
     registerGameSocketHandlers();
@@ -148,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const pleaseWaitText = (window._t && window._t('presenter.reconnect.please_wait', null, 'Por favor, espera mientras restablecemos la conexión.')) || 'Por favor, espera mientras restablecemos la conexión.';
                 lobbyMain.innerHTML = `
                     <div class="h-full w-full flex flex-col items-center justify-center pt-10 px-10 pb-16">
-                        <div class="w-20 h-20 border-8 border-purple-500 border-t-transparent rounded-full animate-spin mb-6"></div>
+                        <div class="w-20 h-20 border-8 border-plum-500 border-t-transparent rounded-full animate-spin mb-6"></div>
                         <h1 class="text-4xl font-black text-white mb-4">${reconnectingText}</h1>
                         <p class="text-slate-400 text-xl text-center">${pleaseWaitText}</p>
                     </div>

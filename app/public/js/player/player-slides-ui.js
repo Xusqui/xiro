@@ -18,8 +18,8 @@ export function renderizarSlideComentario(slide) {
     const safeCommentText = escapeHtml(slide?.comment_text || '');
 
     document.body.innerHTML = _tHtml(`
-                <div class="h-screen w-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-700 via-purple-600 to-pink-600 text-white text-center p-8 overflow-hidden">
-                    <div class="bg-purple-600 px-6 py-3 rounded-full mb-8 shadow-2xl">
+                <div class="h-screen w-screen flex flex-col items-center justify-center bg-gradient-to-br from-plum-700 via-plum-600 to-pink-600 text-white text-center p-8 overflow-hidden">
+                    <div class="bg-plum-600 px-6 py-3 rounded-full mb-8 shadow-2xl">
                         <p class="font-black text-xl uppercase">${safeNickname}</p>
                     </div>
                     <div class="max-w-4xl">
@@ -27,7 +27,7 @@ export function renderizarSlideComentario(slide) {
                             <i class="fas fa-comment text-3xl"></i>
                         </div>
                         <h1 class="text-6xl md:text-8xl font-black uppercase italic mb-6 drop-shadow-2xl leading-tight animate-fade-in">${safeCommentText}</h1>
-                        <p class="text-2xl text-purple-200 italic font-semibold mt-8">
+                        <p class="text-2xl text-plum-200 italic font-semibold mt-8">
                             El presentador asignará puntos...
                         </p>
                     </div>
@@ -78,8 +78,8 @@ export function renderizarSlideTexto(slide) {
     const body = escapeHtml(slide?.slide_body || '');
 
     document.body.innerHTML = _tHtml(`
-        <div class="h-screen w-screen flex flex-col items-center justify-center text-white text-center p-8 overflow-hidden" style="background: radial-gradient(circle at 15% 20%, rgba(56,189,248,0.25), transparent 35%), radial-gradient(circle at 85% 15%, rgba(244,114,182,0.22), transparent 32%), radial-gradient(circle at 50% 85%, rgba(251,191,36,0.2), transparent 38%), linear-gradient(135deg, #312e81 0%, #6d28d9 40%, #1d4ed8 100%);">
-            <div class="bg-indigo-600 px-6 py-3 rounded-full mb-8 shadow-2xl">
+        <div class="h-screen w-screen flex flex-col items-center justify-center text-white text-center p-8 overflow-hidden" style="background: radial-gradient(circle at 15% 20%, rgba(56,189,248,0.25), transparent 35%), radial-gradient(circle at 85% 15%, rgba(244,114,182,0.22), transparent 32%), radial-gradient(circle at 50% 85%, rgba(251,191,36,0.2), transparent 38%), linear-gradient(135deg, #3f2746 0%, #793475 40%, #1d4ed8 100%);">
+            <div class="bg-aubergine-600 px-6 py-3 rounded-full mb-8 shadow-2xl">
                 <p class="font-black text-xl uppercase">${safeNickname}</p>
             </div>
             <div class="max-w-5xl">
@@ -88,10 +88,10 @@ export function renderizarSlideTexto(slide) {
                 </div>
                 <div class="bg-black/35 backdrop-blur-sm rounded-3xl px-8 py-7 border border-white/15 shadow-2xl">
                     <h1 class="text-5xl md:text-7xl font-black uppercase italic mb-6 drop-shadow-2xl leading-tight animate-fade-in" style="white-space: pre-line;">${title}</h1>
-                    <div class="text-xl md:text-2xl text-indigo-50 font-semibold" style="white-space: pre-line;">${body}</div>
+                    <div class="text-xl md:text-2xl text-aubergine-50 font-semibold" style="white-space: pre-line;">${body}</div>
                 </div>
             </div>
-            <div class="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-400"></div>
+            <div class="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-aubergine-500 via-plum-500 to-aubergine-400"></div>
         </div>
     `);
 }

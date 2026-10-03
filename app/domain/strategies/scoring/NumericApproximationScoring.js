@@ -175,7 +175,9 @@ class NumericApproximationScoring extends ScoringStrategy {
      * @inheritdoc
      */
     validateConfig(config) {
-        if (!config.correctAnswer || config.maxPoints === undefined) {
+        // 0 es una respuesta válida: solo falta si no viene o viene vacía
+        const missingAnswer = config.correctAnswer === undefined || config.correctAnswer === null || config.correctAnswer === '';
+        if (missingAnswer || config.maxPoints === undefined) {
             throw new Error(
                 'NumericApproximationScoring requiere correctAnswer y maxPoints'
             );

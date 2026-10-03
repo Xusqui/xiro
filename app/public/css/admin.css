@@ -214,7 +214,7 @@
             padding: 0;
             cursor: pointer;
             color: rgba(148, 163, 184, 0.45);
-            transition: background-color 0.2s ease, color 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: background-color 0.2s ease, color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .xiro-reveal-toggle:hover {
@@ -235,7 +235,7 @@
 
         .xiro-reveal-pupil {
             transform-origin: 12px 12px;
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .xiro-reveal-toggle.is-revealed {
@@ -367,7 +367,7 @@
         }
 
 /* ===== Sidebar nav — Preguntas / User / Config ===== */
-/* Interacción reforzada sobre la base Tailwind ya existente en admin.html:
+/* Interacción reforzada sobre las clases utilitarias ya existentes en admin.html:
    ligero desplazamiento + sombra al hover, y el icon-wrapper gana el mismo
    "tilt" sutil que las role cards del resto del producto (DESIGN.md), pero
    atenuado para un panel de operación (Modo Operate: discreto, no vistoso). */
@@ -422,10 +422,9 @@
 }
 
 /* ===== Barra fija "Añadir contenido" (editor de Juegos Personalizados),
-   flotante justo encima de "Preguntas Seleccionadas". CSS puro además de
-   las utilidades Tailwind equivalentes (bg-white/90 backdrop-blur-sm
-   border border-slate-200 rounded-2xl shadow-sm): así la barra se ve
-   bien aunque el bundle de Tailwind no se haya recompilado todavía. ===== */
+   flotante justo encima de "Preguntas Seleccionadas". Estilo completo en
+   esta regla (fondo translúcido, desenfoque, borde, radio y sombra), sin
+   depender de clases utilitarias en el HTML. ===== */
 .xiro-toolbar-bar {
     background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(6px);
@@ -520,7 +519,7 @@
 /* ===== Cabecera sticky "Nombre + Configuración" de los editores
    (Juego Personalizado, Mezcla de Preguntas, Banco de Preguntas, Trivial).
    Posición, anchura y grid responsive en CSS puro: igual que la toolbar
-   de iconos, no depende de que el bundle de Tailwind esté recompilado. ===== */
+   de iconos, sin depender de clases utilitarias. ===== */
 .xiro-editor-sticky-header {
     position: sticky;
     top: 0;
@@ -531,8 +530,8 @@
 }
 
 /* Separación visible frente al contenido que pasa por debajo al hacer
-   scroll: borde + sombra en la tarjeta interna, en CSS puro para no
-   depender del bundle de Tailwind (shadow-sm/border ya usados ahí). */
+   scroll: borde + sombra en la tarjeta interna, definidos aquí en vez de
+   con clases utilitarias. */
 .xiro-editor-sticky-header>div {
     border: 1px solid rgb(226, 232, 240);
     box-shadow: 0 6px 16px -4px rgba(15, 23, 42, 0.14), 0 2px 4px rgba(15, 23, 42, 0.06);

@@ -27,7 +27,7 @@ export function getTabTrivialHTML() {
     return `
         <div class="mb-4 text-center">
             <h2 class="text-2xl font-bold text-white mb-2">${_t('manual_player.trivial.section.title')}</h2>
-            <p class="text-indigo-200">${_t('manual_player.trivial.section.subtitle')}</p>
+            <p class="text-aubergine-200">${_t('manual_player.trivial.section.subtitle')}</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 anim-fade-in">${cardsHtml}</div>
     `;

@@ -38,7 +38,7 @@
     "admin.q.type_word_scramble": "Anagrama (Desxifra la paraula)",
     "admin.q.type_multiple_choice": "Selecció Múltiple (1-6 respostes)",
     "admin.q.time_label": "Temps per respondre (segons)",
-    "admin.q.time_help": "Per defecte: 30 segons (min: 5, max: 120)",
+    "admin.q.time_help": "Per defecte: {seconds} segons (min: 5, max: 120)",
     "admin.q.media_label": "Contingut multimèdia",
     "admin.q.media_drop": "Arrossega un fitxer aquí o fes clic per seleccionar",
     "admin.q.media_upload": "Pujar imatge o àudio",

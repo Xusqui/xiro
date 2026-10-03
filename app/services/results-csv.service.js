@@ -16,9 +16,9 @@ function appendMetadataLines(lines, session) {
     lines.push('');
 }
 
-function appendRankingLines(lines, session, ranking) {
+function appendRankingLines(lines, ranking) {
     lines.push('RANKING FINAL');
-    if (session.final_ranking[0]?.isTeam) {
+    if (ranking[0]?.isTeam) {
         lines.push('Posición;Equipo;Puntuación');
     } else {
         lines.push('Posición;Jugador;Puntuación');
@@ -158,7 +158,7 @@ function buildCsv(session) {
     const { trivialMeta, questionsArray } = resolveQuestionsContext(session);
 
     appendMetadataLines(lines, session);
-    appendRankingLines(lines, session, ranking);
+    appendRankingLines(lines, ranking);
     appendQuestionsLines(lines, questionsArray);
     appendTrivialWedgesLines(lines, ranking, trivialMeta);
     appendQuestionDetails(lines, session, questionsArray, trivialMeta);

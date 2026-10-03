@@ -26,6 +26,51 @@ function getPlayerResultsMessageLogic() {
     return globalThis.PlayerResultsMessageLogic || fallback;
 }
 
+// Último ranking recibido: si llega mientras se ve la animación de racha, el
+// contenedor aún no existe y se pinta al terminar (renderLastRankingSince)
+let _lastRanking = null;
+let _lastRankingAt = 0;
+
+function renderRanking(data) {
+    const rankingContainer = document.getElementById('ranking-container');
+
+    if (rankingContainer && data.ranking && data.ranking.length > 0) {
+        // Agregar position si no existe
+        const rankingWithPosition = data.ranking.map((player, index) => ({
+            ...player,
+            position: player.position || (index + 1)
+        }));
+
+        // Renderizar ranking con mismo HTML que la pantalla de resultado
+        const rankingHTML = rankingWithPosition.slice(0, 5).map(player => {
+            const podioImgs = {
+                1: '/images/chamaleon/podium/primero.svg',
+                2: '/images/chamaleon/podium/segundo.svg',
+                3: '/images/chamaleon/podium/tercero.svg'
+            };
+            const mascotHtml = podioImgs[player.position]
+                ? `<img src="${podioImgs[player.position]}" alt="" class="w-7 h-7 inline-block mr-1 align-middle">`
+                : '';
+            return `
+            <div class="flex justify-center items-center bg-white/10 rounded-lg px-3 py-2">
+                <span class="font-bold">${player.position}. ${mascotHtml}${escapeHtml(player.nickname)}</span>
+                <span class="mx-3"><i class="fas fa-arrow-right"></i></span>
+                <span class="font-black">${player.score} pts</span>
+            </div>
+        `;
+        }).join('');
+
+        rankingContainer.innerHTML = _tHtml(rankingHTML);
+    }
+}
+
+/** Pinta el último ranking si llegó después de `since` (ms) */
+export function renderLastRankingSince(since) {
+    if (_lastRanking && _lastRankingAt >= since) {
+        renderRanking(_lastRanking);
+    }
+}
+
 // ===== EVENTOS DE RESULTADOS =====
 
 /**
@@ -35,36 +80,9 @@ export function registerResultsEvents() {
     // ===== RANKING UPDATE =====
     socket.on('ranking-update', (data) => {
         console.log('📊 ranking-update recibido');
-        const rankingContainer = document.getElementById('ranking-container');
-
-        if (rankingContainer && data.ranking && data.ranking.length > 0) {
-            // Agregar position si no existe
-            const rankingWithPosition = data.ranking.map((player, index) => ({
-                ...player,
-                position: player.position || (index + 1)
-            }));
-
-            // Renderizar ranking con mismo HTML que la pantalla de resultado
-            const rankingHTML = rankingWithPosition.slice(0, 5).map(player => {
-                const podioImgs = {
-                    1: '/images/chamaleon/podium/primero.svg',
-                    2: '/images/chamaleon/podium/segundo.svg',
-                    3: '/images/chamaleon/podium/tercero.svg'
-                };
-                const mascotHtml = podioImgs[player.position]
-                    ? `<img src="${podioImgs[player.position]}" alt="" class="w-7 h-7 inline-block mr-1 align-middle">`
-                    : '';
-                return `
-                <div class="flex justify-center items-center bg-white/10 rounded-lg px-3 py-2">
-                    <span class="font-bold">${player.position}. ${mascotHtml}${escapeHtml(player.nickname)}</span>
-                    <span class="mx-3"><i class="fas fa-arrow-right"></i></span>
-                    <span class="font-black">${player.score} pts</span>
-                </div>
-            `;
-            }).join('');
-
-            rankingContainer.innerHTML = _tHtml(rankingHTML);
-        }
+        _lastRanking = data;
+        _lastRankingAt = Date.now();
+        renderRanking(data);
     });
 
     // ===== GAME ENDED =====
@@ -107,8 +125,8 @@ export function registerResultsEvents() {
             bgColor = 'bg-gradient-to-br from-amber-600 to-amber-800';
             medalIcon = '<i class="fas fa-award text-amber-600"></i>';
         } else {
-            bgColor = 'bg-gradient-to-br from-purple-600 to-purple-800';
-            medalIcon = '<i class="fas fa-star text-purple-300"></i>';
+            bgColor = 'bg-gradient-to-br from-plum-600 to-plum-800';
+            medalIcon = '<i class="fas fa-star text-plum-300"></i>';
         }
 
         const positionText = _t('player.results.position_ordinal', { position: data.position }, `${data.position}ª`);
@@ -126,7 +144,7 @@ export function registerResultsEvents() {
         document.body.innerHTML = _tHtml(`
             <div class="h-dvh w-screen flex flex-col items-center justify-center ${bgColor} text-white text-center p-4 overflow-hidden">
                 <div class="animate-fade-in flex flex-col items-center justify-center max-h-full">
-                    ${data.position <= 3 ? `<div class="mb-3 animate-bounce">${medal}</div>` : `<div class="text-5xl mb-3">${medalIcon}</div>`}
+                    ${data.position <= 3 ? `<div class="mb-3 animate-float">${medal}</div>` : `<div class="text-5xl mb-3">${medalIcon}</div>`}
                     <h2 class="text-3xl font-black italic uppercase mb-3">${_t('player.results.game_over', null, '¡Juego Terminado!')}</h2>
                     <div class="bg-black/30 rounded-2xl p-5 max-w-sm w-full mx-auto">
                         <p class="text-lg font-bold mb-1">${_t('player.results.you_placed', null, 'Has quedado en')}</p>

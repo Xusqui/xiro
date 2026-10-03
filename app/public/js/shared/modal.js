@@ -46,7 +46,7 @@ export function ensureModalStyles() {
             border: 4px solid #e2e8f0;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
             font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-            animation: xiro-zoom-in 0.22s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+            animation: xiro-zoom-in 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
         }
         .xiro-modal[data-type="info"] { border-color: #93c5fd; }
         .xiro-modal[data-type="warning"] { border-color: #facc15; }

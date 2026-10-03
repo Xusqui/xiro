@@ -1,6 +1,6 @@
 /**
- * @fileoverview Wake Lock controller for presenter remote mode.
- * Keeps mobile screens awake while the remote control is active.
+ * @fileoverview Wake Lock controller for the presenter screen and remote mode.
+ * Keeps screens awake while the presenter view or the remote control is active.
  *
  * iOS Safari requires that navigator.wakeLock.request() is called
  * synchronously within a user-gesture call stack (click / touchstart).
@@ -55,7 +55,7 @@ export function createRemoteWakeLockController({ hasActiveSessionContext }) {
             active: { text: '🔋 WL activo', bg: '#16a34a' },
             pending: { text: '⏳ WL pendiente', bg: '#d97706' },
             denied: { text: '🚫 WL denegado', bg: '#dc2626' },
-            released: { text: '💤 WL liberado', bg: '#6366f1' },
+            released: { text: '💤 WL liberado', bg: '#9a6ba9' },
             unsupported: { text: '❌ WL no soportado', bg: '#6b7280' }
         };
         const s = map[state] ?? { text: state, bg: '#1e293b' };

@@ -38,7 +38,7 @@
     "admin.q.type_word_scramble": "Anagram (Unscramble the word)",
     "admin.q.type_multiple_choice": "Multiple Choice (1-6 answers)",
     "admin.q.time_label": "Time to answer (seconds)",
-    "admin.q.time_help": "Default: 30 seconds (min: 5, max: 120)",
+    "admin.q.time_help": "Default: {seconds} seconds (min: 5, max: 120)",
     "admin.q.media_label": "Multimedia Content",
     "admin.q.media_drop": "Drag a file here or click to select",
     "admin.q.media_upload": "Upload Image or Audio",

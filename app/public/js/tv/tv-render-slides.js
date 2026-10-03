@@ -48,7 +48,7 @@ window.TVApp.RenderSlides = (function () {
         const isLast = state.totalQuestions > 0 && state.currentQuestionIndex >= state.totalQuestions - 1;
         const nextBtnText = (isLast && !isTrivial) ? 'Ver Ránking ★' : 'Siguiente →';
 
-        getEl('main-container').innerHTML = _tHtml('<div class="comment-slide" style="background:#667eea"><div class="comment-icon">ℹ️</div><h1 class="comment-text" style="white-space:pre-line">' + escapeHtml(slide.comment_text) + '</h1><p style="font-size:18px;color:#e0e0e0;margin:20px 0">Información - Sin asignación de puntos</p></div><button id="btn-next" data-tv-action="next-question" class="btn btn-secondary btn-next">' + nextBtnText + '</button>');
+        getEl('main-container').innerHTML = _tHtml('<div class="comment-slide" style="background:#9a6ba9"><div class="comment-icon">ℹ️</div><h1 class="comment-text" style="white-space:pre-line">' + escapeHtml(slide.comment_text) + '</h1><p style="font-size:18px;color:#e0e0e0;margin:20px 0">Información - Sin asignación de puntos</p></div><button id="btn-next" data-tv-action="next-question" class="btn btn-secondary btn-next">' + nextBtnText + '</button>');
         clearCache();
     }
 
@@ -63,7 +63,7 @@ window.TVApp.RenderSlides = (function () {
         const isLast = state.totalQuestions > 0 && state.currentQuestionIndex >= state.totalQuestions - 1;
         const nextBtnText = (isLast && !isTrivial) ? 'Ver Ránking ★' : 'Siguiente →';
 
-        getEl('main-container').innerHTML = _tHtml('<div class="comment-slide" style="background:radial-gradient(circle at 15% 20%, rgba(56,189,248,.25), transparent 35%), radial-gradient(circle at 85% 15%, rgba(244,114,182,.2), transparent 32%), radial-gradient(circle at 50% 85%, rgba(251,191,36,.18), transparent 38%), linear-gradient(135deg,#312e81 0%,#0e7490 45%,#1d4ed8 100%)"><div class="comment-icon">📝</div><div style="background:rgba(0,0,0,.32);padding:28px 34px;border-radius:24px;border:1px solid rgba(255,255,255,.15);max-width:1080px;margin:0 auto"><h1 class="comment-text" style="white-space:pre-line">' + escapeHtml(title) + '</h1><div style="font-size:28px;line-height:1.2;color:#f8fafc;max-width:1000px;white-space:pre-line;margin:0 auto">' + escapeHtml(body) + '</div></div><p style="font-size:18px;color:#e2e8f0;margin:20px 0">Información - Sin asignación de puntos</p></div><button id="btn-next" data-tv-action="next-question" class="btn btn-secondary btn-next">' + nextBtnText + '</button>');
+        getEl('main-container').innerHTML = _tHtml('<div class="comment-slide" style="background:radial-gradient(circle at 15% 20%, rgba(56,189,248,.25), transparent 35%), radial-gradient(circle at 85% 15%, rgba(244,114,182,.2), transparent 32%), radial-gradient(circle at 50% 85%, rgba(251,191,36,.18), transparent 38%), linear-gradient(135deg,#3f2746 0%,#0e7490 45%,#1d4ed8 100%)"><div class="comment-icon">📝</div><div style="background:rgba(0,0,0,.32);padding:28px 34px;border-radius:24px;border:1px solid rgba(255,255,255,.15);max-width:1080px;margin:0 auto"><h1 class="comment-text" style="white-space:pre-line">' + escapeHtml(title) + '</h1><div style="font-size:28px;line-height:1.2;color:#f8fafc;max-width:1000px;white-space:pre-line;margin:0 auto">' + escapeHtml(body) + '</div></div><p style="font-size:18px;color:#e2e8f0;margin:20px 0">Información - Sin asignación de puntos</p></div><button id="btn-next" data-tv-action="next-question" class="btn btn-secondary btn-next">' + nextBtnText + '</button>');
         clearCache();
     }
 
@@ -101,7 +101,7 @@ window.TVApp.RenderSlides = (function () {
         const leftCol = pos === 'left' ? imgCol : textCol;
         const rightCol = pos === 'left' ? textCol : imgCol;
 
-        getEl('main-container').innerHTML = _tHtml('<div class="comment-slide" style="background:radial-gradient(circle at 15% 20%,rgba(56,189,248,.25),transparent 35%),radial-gradient(circle at 85% 15%,rgba(244,114,182,.2),transparent 32%),radial-gradient(circle at 50% 85%,rgba(251,191,36,.18),transparent 38%),linear-gradient(135deg,#312e81 0%,#0e7490 45%,#1d4ed8 100%)"><div style="display:flex;width:100%;height:100%;align-items:stretch;">' + leftCol + rightCol + '</div></div><button id="btn-next" data-tv-action="next-question" class="btn btn-secondary btn-next">' + nextBtnText + '</button>');
+        getEl('main-container').innerHTML = _tHtml('<div class="comment-slide" style="background:radial-gradient(circle at 15% 20%,rgba(56,189,248,.25),transparent 35%),radial-gradient(circle at 85% 15%,rgba(244,114,182,.2),transparent 32%),radial-gradient(circle at 50% 85%,rgba(251,191,36,.18),transparent 38%),linear-gradient(135deg,#3f2746 0%,#0e7490 45%,#1d4ed8 100%)"><div style="display:flex;width:100%;height:100%;align-items:stretch;">' + leftCol + rightCol + '</div></div><button id="btn-next" data-tv-action="next-question" class="btn btn-secondary btn-next">' + nextBtnText + '</button>');
         clearCache();
     }
 

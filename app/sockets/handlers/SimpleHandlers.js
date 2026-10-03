@@ -232,7 +232,8 @@ function createSelectTeamHandler(dependencies) {
     const { teamConfigs, players, syncBus, io } = dependencies;
 
     return async function handleSelectTeam(socket, data) {
-        const validation = validateSocket(schemas.selectTeam, data);
+        // Joi da por válido un payload undefined; sin datos tiene que fallar la validación
+        const validation = validateSocket(schemas.selectTeam, data ?? {});
         if (!validation.valid) {
             socket.emit('error', { message: validation.error });
             return;
@@ -397,7 +398,7 @@ function createValidateSessionHandler(dependencies) {
         const logger = require('../../config/logger');
         const SessionStore = require('../../services/SessionStore');
 
-        const { sessionId } = data;
+        const { sessionId } = data || {};
 
         if (!sessionId || typeof sessionId !== 'string') {
             socket.emit('session-validation-result', {

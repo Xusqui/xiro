@@ -5,8 +5,8 @@
 }
 
 @keyframes pulse-glow {
-    0%, 100% { filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.5)); }
-    50%       { filter: drop-shadow(0 0 42px rgba(168, 85, 247, 0.9)); }
+    0%, 100% { filter: drop-shadow(0 0 20px rgba(176, 91, 170, 0.5)); }
+    50%       { filter: drop-shadow(0 0 42px rgba(176, 91, 170, 0.9)); }
 }
 
 @keyframes stat-in {
@@ -32,7 +32,7 @@
 
 /* ===== LOGO ===== */
 .logo-glow {
-    filter: drop-shadow(0 0 30px rgba(168, 85, 247, 0.6));
+    filter: drop-shadow(0 0 30px rgba(176, 91, 170, 0.6));
     animation: pulse-glow 3s ease-in-out infinite;
 }
 
@@ -64,13 +64,13 @@
     overflow: hidden;
     background: #ffffff;
     transition:
-        transform  0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+        transform  0.35s cubic-bezier(0.16, 1, 0.3, 1),
         box-shadow 0.35s ease;
 }
 
 .member-card:hover {
     transform: translateY(-10px) scale(1.02);
-    box-shadow: 0 28px 70px rgba(88, 28, 135, 0.22);
+    box-shadow: 0 28px 70px rgba(72, 32, 69, 0.22);
 }
 
 /* Coloured top accent stripe per member */
@@ -81,7 +81,7 @@
     height: 4px;
 }
 
-.member-card.border-blue-500::before   { background: linear-gradient(90deg, #3b82f6, #6366f1); }
+.member-card.border-blue-500::before   { background: linear-gradient(90deg, #3b82f6, #9a6ba9); }
 .member-card.border-pink-500::before   { background: linear-gradient(90deg, #ec4899, #f43f5e); }
 .member-card.border-green-500::before  { background: linear-gradient(90deg, #22c55e, #10b981); }
 .member-card.border-orange-500::before { background: linear-gradient(90deg, #f97316, #eab308); }
@@ -108,7 +108,7 @@
     position: absolute;
     top: 0; left: 0;
     width: 120px; height: 120px;
-    background: radial-gradient(circle at top left, rgba(147, 51, 234, 0.08), transparent 70%);
+    background: radial-gradient(circle at top left, rgba(148, 67, 142, 0.08), transparent 70%);
     border-radius: 1.5rem 0 0 0;
     pointer-events: none;
 }

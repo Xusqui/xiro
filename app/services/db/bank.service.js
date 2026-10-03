@@ -10,6 +10,12 @@ const {
     normalizeCreatorRole
 } = require('./resource-ownership.service');
 const { DEFAULTS: RANDOM_POINTS_DEFAULTS } = require('./random-points-config.service');
+const runtimeConfig = require('../../config/runtime-config');
+
+/** time_limit de la pregunta o, si no trae, el de Config → Partidas (QUESTION_TIME_LIMIT). */
+function resolveTimeLimit(question) {
+    return question.time_limit || runtimeConfig.get('QUESTION_TIME_LIMIT');
+}
 
 /**
  * Obtiene todos los bancos de preguntas
@@ -181,7 +187,7 @@ function buildQuestionValues(bankId, question) {
         question.type || 'quiz',
         question.tipo_contenido || 'texto',
         question.url_recurso || null,
-        question.time_limit || 20,
+        resolveTimeLimit(question),
         question.correctAnswer ?? null,
         question.maxPoints ?? null,
         question.hint ?? null,
@@ -296,7 +302,7 @@ async function updateExistingQuestion(client, question) {
             question.type || 'quiz',
             question.tipo_contenido || 'texto',
             question.url_recurso || null,
-            question.time_limit || 20,
+            resolveTimeLimit(question),
             question.id,
             question.correctAnswer ?? null,
             question.maxPoints ?? null,

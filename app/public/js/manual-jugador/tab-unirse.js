@@ -21,7 +21,7 @@ export function getTabUnirseHTML() {
             placeholderId: 'img-login-nick', imgSrc: './images/manual/img-login-nick.jpg', mascotImg: 'disguise.svg', isSmall: true
         },
         {
-            color: '#a855f7', icon: 'fas fa-users', step: '4',
+            color: '#b05baa', icon: 'fas fa-users', step: '4',
             title: _t('manual_player.join.s4.title'),
             text: _t('manual_player.join.s4.text'),
             placeholderId: 'img-login-team', imgSrc: './images/manual/img-login-team.jpg', mascotImg: 'cool.svg', isSmall: true

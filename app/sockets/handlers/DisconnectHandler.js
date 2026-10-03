@@ -16,10 +16,16 @@ function serializeAnsweredQuestions(answeredQuestions) {
     return [];
 }
 
+// El presentador tiene su propia ventana (más larga): si su equipo entra en reposo,
+// la sesión entera se cierra al expirar, no solo un jugador.
+function getReconnectionWindow(isPresenter) {
+    return runtimeConfig.get(isPresenter ? 'PRESENTER_RECONNECTION_TIMEOUT' : 'RECONNECTION_TIMEOUT');
+}
+
 function markPlayerAsDisconnected(player, isPresenter) {
     player.status = isPresenter ? 'presenter_disconnected' : 'disconnected';
     player.lastSeen = Date.now();
-    player.expiresAt = Date.now() + runtimeConfig.get('RECONNECTION_TIMEOUT');
+    player.expiresAt = Date.now() + getReconnectionWindow(isPresenter);
 }
 
 async function publishPlayerDisconnected(playerId, player) {
@@ -298,7 +304,7 @@ async function handleKnownPlayerDisconnect(context) {
             reason: context.reason,
             oldSocketId: socket.id,
             previousStatus: player.status,
-            willExpireAt: new Date(Date.now() + runtimeConfig.get('RECONNECTION_TIMEOUT')).toISOString()
+            willExpireAt: new Date(Date.now() + getReconnectionWindow(true)).toISOString()
         });
     }
 
@@ -311,7 +317,7 @@ async function handleKnownPlayerDisconnect(context) {
         role: isPresenter ? 'presenter' : 'player',
         status: player.status,
         expiresAt: new Date(player.expiresAt).toISOString(),
-        reconnectionWindowMinutes: runtimeConfig.get('RECONNECTION_TIMEOUT') / 60000
+        reconnectionWindowMinutes: getReconnectionWindow(isPresenter) / 60000
     });
 
     await publishPlayerDisconnected(playerId, player);

@@ -25,7 +25,7 @@ function renderMatchingEditor(qIdx, options) {
                 value="${escapeHtml(opt.optionText || '')}"
                 data-admin-change="actualizarPar(${qIdx}, ${oIdx}, 'left', this.value)"
                 placeholder="Elemento izquierdo"
-                class="flex-1 p-2 border-2 border-slate-100 rounded-xl focus:border-purple-500 outline-none text-sm font-medium"
+                class="flex-1 p-2 border-2 border-slate-100 rounded-xl focus:border-plum-500 outline-none text-sm font-medium"
             >
             <span class="text-slate-300 font-bold">↔</span>
             <input
@@ -33,7 +33,7 @@ function renderMatchingEditor(qIdx, options) {
                 value="${escapeHtml(opt.match_value || '')}"
                 data-admin-change="actualizarPar(${qIdx}, ${oIdx}, 'right', this.value)"
                 placeholder="Par correcto"
-                class="flex-1 p-2 border-2 border-slate-100 rounded-xl focus:border-purple-500 outline-none text-sm font-medium"
+                class="flex-1 p-2 border-2 border-slate-100 rounded-xl focus:border-plum-500 outline-none text-sm font-medium"
             >
             ${canDelete ? `
                 <button data-admin-click="eliminarPar(${qIdx}, ${oIdx})"
@@ -61,7 +61,7 @@ function renderMatchingEditor(qIdx, options) {
             </div>
             ${canAdd ? `
                 <button data-admin-click="añadirPar(${qIdx})"
-                    class="mt-2 text-purple-600 hover:text-purple-800 text-xs font-bold flex items-center gap-1 transition">
+                    class="mt-2 text-plum-600 hover:text-plum-800 text-xs font-bold flex items-center gap-1 transition">
                     <i class="fas fa-plus-circle"></i> Añadir par
                 </button>
             ` : `

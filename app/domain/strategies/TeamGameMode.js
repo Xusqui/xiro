@@ -85,24 +85,11 @@ class TeamGameMode extends GameModeStrategy {
     }
 
     /**
-     * En modo equipos: puede revelar si TODO el equipo respondió
+     * La coordinación entre equipos la hace processAnswer (waitingForTeams);
+     * aquí no hay nada más que comprobar, igual que en el modo individual.
      */
-    canRevealResults(params) {
-        const { player, game, teamConfig } = params;
-
-        if (!teamConfig) return true; // Fallback
-
-        const playerTeam = this._findPlayerTeam(player.nickname, teamConfig);
-        if (!playerTeam) return true;
-
-        // Verificar si todos los jugadores del equipo respondieron
-        const teamPlayers = playerTeam.players;
-        const allAnswered = teamPlayers.every(nick => {
-            const playerData = game.players?.find(p => p.nickname === nick);
-            return playerData?.answeredQuestions?.includes(game.currentIndex);
-        });
-
-        return allAnswered;
+    canRevealResults(_params) {
+        return true;
     }
 
     /**

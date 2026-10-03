@@ -29,7 +29,8 @@ function logReconnectRequest(socket, data, players) {
 }
 
 function validatePayload(data, socket) {
-    const validation = validateSocket(schemas.reconnectPresenter, data);
+    // Joi da por válido un payload undefined; sin datos tiene que fallar por falta de playerId
+    const validation = validateSocket(schemas.reconnectPresenter, data ?? {});
     if (!validation.valid) {
         logger.warn('[DIAG] reconnect-presenter invalid-data', {
             socketId: socket.id,

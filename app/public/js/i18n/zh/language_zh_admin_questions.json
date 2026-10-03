@@ -38,7 +38,7 @@
     "admin.q.type_word_scramble": "字谜 (解读单词)",
     "admin.q.type_multiple_choice": "多选 (1-6个答案)",
     "admin.q.time_label": "答题时间 (秒)",
-    "admin.q.time_help": "默认: 30秒 (最少: 5, 最多: 120)",
+    "admin.q.time_help": "默认: {seconds}秒 (最少: 5, 最多: 120)",
     "admin.q.media_label": "多媒体内容",
     "admin.q.media_drop": "将文件拖到此处或点击选择",
     "admin.q.media_upload": "上传图片或音频",

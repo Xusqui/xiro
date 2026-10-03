@@ -16,6 +16,7 @@
     "tv.lobby.filter.custom": "カスタム",
     "tv.lobby.filter.games": "ゲーム",
     "tv.lobby.filter.banks": "バンク",
+    "tv.lobby.filter.trivial": "トリビア",
     "tv.lobby.filter.all": "すべて",
     "tv.lobby.empty.all": "利用可能なPINがありません。まずゲームまたはバンクを作成してください。",
     "tv.lobby.empty.by_type": "{type}はありません。",
@@ -24,7 +25,8 @@
     "tv.lobby.players_label": "プレイヤー：",
     "tv.lobby.type.custom": "カスタムゲーム",
     "tv.lobby.type.games": "ゲーム",
-    "tv.lobby.type.banks": "問題バンク"
+    "tv.lobby.type.banks": "問題バンク",
+    "tv.lobby.type.trivial": "トリビアゲーム"
   },
   "literals": {
     "Error al cargar PINs": "PINの読み込みエラー",

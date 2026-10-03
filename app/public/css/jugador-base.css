@@ -56,7 +56,7 @@
 }
 
 .btn-gradient-purple {
-    background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+    background: linear-gradient(135deg, #b05baa 0%, #94438e 100%);
 }
 
 .btn-gradient-pink {
@@ -68,7 +68,7 @@
     user-select: none;
     touch-action: none;
     cursor: grab;
-    transition: transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 160ms ease;
+    transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 160ms ease;
     will-change: transform;
 }
 
@@ -181,7 +181,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(to bottom right, #9333ea, #ec4899, #dc2626);
+    background: linear-gradient(to bottom right, #94438e, #ec4899, #dc2626);
     padding: 1.5rem;
 }
 
@@ -195,7 +195,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(to bottom right, #9333ea, #ec4899, #dc2626);
+    background: linear-gradient(to bottom right, #94438e, #ec4899, #dc2626);
     color: white;
     text-align: center;
 }
@@ -225,7 +225,7 @@
     font-weight: 800;
     font-style: italic;
     text-transform: uppercase;
-    animation: bounce 1s infinite;
+    animation: lobby-title-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
     margin-bottom: 1rem;
 }
 
@@ -288,8 +288,8 @@
 }
 
 .spinner-purple {
-    border-color: rgba(147, 51, 234, 0.3);
-    border-top-color: #9333ea;
+    border-color: rgba(148, 67, 142, 0.3);
+    border-top-color: #94438e;
 }
 
 .spinner-warning {
@@ -318,22 +318,16 @@
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-@keyframes bounce-slow {
-
-    0%,
-    100% {
-        transform: translateY(-15%);
-        animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+@keyframes lobby-title-in {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
     }
 
-    50% {
+    to {
+        opacity: 1;
         transform: translateY(0);
-        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
     }
-}
-
-.animate-bounce-slow {
-    animation: bounce-slow 2s infinite;
 }
 
 /* ===== LOGIN & ERROR BOXES ===== */
@@ -387,7 +381,7 @@
 /* ===== BUTTONS ===== */
 .btn-primary {
     width: 100%;
-    background-color: #9333ea;
+    background-color: #94438e;
     color: white;
     padding: 1rem;
     border-radius: 1rem;
@@ -401,7 +395,7 @@
 }
 
 .btn-primary:hover {
-    background-color: #7e22ce;
+    background-color: #793475;
     transform: translateY(-2px);
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
 }

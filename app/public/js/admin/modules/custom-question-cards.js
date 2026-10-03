@@ -1,13 +1,13 @@
 // Tarjetas de la lista "Preguntas Seleccionadas" del editor de juegos
 // personalizados (dibujarPreguntasPersonalizadas, en personalizados-expanded.js).
 
-// Clases literales por color (Tailwind las detecta en este fichero).
+// Clases literales por color (definidas a mano en css/common.css).
 const _CUSTOM_CARD_COLORS = {
     amber: { btn: 'bg-amber-600 hover:bg-amber-500', input: 'text-amber-700 text-center border border-amber-300 rounded bg-white focus:outline-none focus:border-amber-500' },
     blue: { btn: 'bg-blue-600 hover:bg-blue-500', input: 'text-blue-700 text-center border border-blue-300 rounded bg-white focus:outline-none focus:border-blue-500' },
-    indigo: { btn: 'bg-indigo-700 hover:bg-indigo-600', input: 'text-indigo-700 text-center border border-indigo-300 rounded bg-white focus:outline-none focus:border-indigo-500' },
+    aubergine: { btn: 'bg-aubergine-700 hover:bg-aubergine-600', input: 'text-aubergine-700 text-center border border-aubergine-300 rounded bg-white focus:outline-none focus:border-aubergine-500' },
     pink: { btn: 'bg-pink-700 hover:bg-pink-600', input: 'text-pink-700 text-center border border-pink-300 rounded bg-white focus:outline-none focus:border-pink-500' },
-    violet: { btn: 'bg-violet-700 hover:bg-violet-600', input: 'text-violet-700 text-center border border-violet-300 rounded bg-white focus:outline-none focus:border-violet-500' },
+    plum: { btn: 'bg-plum-700 hover:bg-plum-600', input: 'text-plum-700 text-center border border-plum-300 rounded bg-white focus:outline-none focus:border-plum-500' },
     slate: { btn: 'bg-slate-700 hover:bg-slate-600', input: 'text-slate-500 text-center border border-slate-300 rounded bg-white focus:outline-none focus:border-slate-500' }
 };
 
@@ -85,11 +85,11 @@ function _customTextBody(q) {
     const bodyPreview = (q.slide_body || '').split('\n').filter(Boolean)[0] || 'Sin texto';
     return `<div class="flex-1">
                                 <div class="flex items-center gap-2 mb-2">
-                                    <span class="bg-indigo-600 text-white px-2 py-1 rounded text-xs font-bold"><i class="fas fa-align-left mr-1"></i>${_t('admin.custom.slide_text', null, 'DIAPOSITIVA TEXTO')}</span>
+                                    <span class="bg-aubergine-600 text-white px-2 py-1 rounded text-xs font-bold"><i class="fas fa-align-left mr-1"></i>${_t('admin.custom.slide_text', null, 'DIAPOSITIVA TEXTO')}</span>
                                 </div>
-                                <p class="font-black text-lg text-indigo-900">${q.slide_title ? escapeHtml(q.slide_title) : _t('admin.custom.slide_no_title', null, 'Sin título')}</p>
-                                <p class="text-sm text-indigo-800 mt-1" style="white-space: pre-line;">${escapeHtml(bodyPreview)}</p>
-                                <p class="text-xs text-indigo-600 mt-2 italic"><i class="fas fa-eye mr-1"></i>${_t('admin.custom.slide_info_help', null, 'Solo se muestra (sin asignación de puntos)')}</p>
+                                <p class="font-black text-lg text-aubergine-900">${q.slide_title ? escapeHtml(q.slide_title) : _t('admin.custom.slide_no_title', null, 'Sin título')}</p>
+                                <p class="text-sm text-aubergine-800 mt-1" style="white-space: pre-line;">${escapeHtml(bodyPreview)}</p>
+                                <p class="text-xs text-aubergine-600 mt-2 italic"><i class="fas fa-eye mr-1"></i>${_t('admin.custom.slide_info_help', null, 'Solo se muestra (sin asignación de puntos)')}</p>
                             </div>`;
 }
 
@@ -115,12 +115,12 @@ function _customTextImageBody(q) {
                                 ${imageUrl ? `<div class="w-28 h-20 bg-black rounded flex-shrink-0 flex items-center justify-center overflow-hidden"><img src="${imageUrl}" class="max-w-full max-h-full object-contain" /></div>` : '<div class="w-28 h-20 bg-gray-200 rounded flex-shrink-0 flex items-center justify-center"><i class="fas fa-columns text-gray-400 text-2xl"></i></div>'}
                                 <div class="flex-1">
                                     <div class="flex items-center gap-2 mb-2 flex-wrap">
-                                        <span class="bg-violet-600 text-white px-2 py-1 rounded text-xs font-bold"><i class="fas fa-columns mr-1"></i>${_t('admin.custom.slide_text_image', null, 'TEXTO + IMAGEN')}</span>
-                                        <span class="bg-violet-100 text-violet-700 px-2 py-1 rounded text-xs font-bold"><i class="fas ${isLeft ? 'fa-arrow-left' : 'fa-arrow-right'} mr-1"></i>${isLeft ? _t('admin.custom.slide_img_left', null, 'Imagen izquierda') : _t('admin.custom.slide_img_right', null, 'Imagen derecha')}</span>
+                                        <span class="bg-plum-600 text-white px-2 py-1 rounded text-xs font-bold"><i class="fas fa-columns mr-1"></i>${_t('admin.custom.slide_text_image', null, 'TEXTO + IMAGEN')}</span>
+                                        <span class="bg-plum-100 text-plum-700 px-2 py-1 rounded text-xs font-bold"><i class="fas ${isLeft ? 'fa-arrow-left' : 'fa-arrow-right'} mr-1"></i>${isLeft ? _t('admin.custom.slide_img_left', null, 'Imagen izquierda') : _t('admin.custom.slide_img_right', null, 'Imagen derecha')}</span>
                                     </div>
-                                    <p class="font-black text-sm text-violet-900">${escapeHtml(titlePreview)}</p>
-                                    <p class="text-xs text-violet-700 mt-1">${escapeHtml(bodyPreview)}</p>
-                                    <p class="text-xs text-violet-500 mt-2 italic"><i class="fas fa-eye mr-1"></i>${_t('admin.custom.slide_text_image_help', null, 'Imagen solo visible en el presentador')}</p>
+                                    <p class="font-black text-sm text-plum-900">${escapeHtml(titlePreview)}</p>
+                                    <p class="text-xs text-plum-700 mt-1">${escapeHtml(bodyPreview)}</p>
+                                    <p class="text-xs text-plum-500 mt-2 italic"><i class="fas fa-eye mr-1"></i>${_t('admin.custom.slide_text_image_help', null, 'Imagen solo visible en el presentador')}</p>
                                 </div>
                             </div>`;
 }
@@ -143,7 +143,7 @@ function _customQuestionBody(q) {
         : escapeHtml(formatCorrectAnswerDisplayFrontend(extractCorrectAnswerFrontend(q)));
     return `<div class="flex-1">
                             <div class="flex items-center gap-2 mb-2">
-                                <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded text-xs font-bold">${escapeHtml(q.bank_name)}</span>
+                                <span class="bg-plum-100 text-plum-700 px-2 py-1 rounded text-xs font-bold">${escapeHtml(q.bank_name)}</span>
                                 ${badges}
                             </div>
                             <p class="font-medium text-sm text-slate-800">${escapeHtml(q.question_text)}</p>
@@ -155,9 +155,9 @@ function _customQuestionBody(q) {
 const _CUSTOM_SLIDE_CARDS = {
     comment: ['bg-amber-50 border-amber-300', 'amber', _customCommentBody, 'editarSlideComentario', 'text-amber-600 hover:text-amber-800'],
     info: ['bg-blue-50 border-blue-300', 'blue', _customInfoBody, 'editarSlideInfo', 'text-blue-600 hover:text-blue-800'],
-    text: ['bg-indigo-50 border-indigo-300', 'indigo', _customTextBody, 'editarSlideTexto', 'text-indigo-700 hover:text-indigo-900'],
+    text: ['bg-aubergine-50 border-aubergine-300', 'aubergine', _customTextBody, 'editarSlideTexto', 'text-aubergine-700 hover:text-aubergine-900'],
     image: ['bg-pink-50 border-pink-300', 'pink', _customImageBody, 'editarSlideImagen', 'text-pink-700 hover:text-pink-900'],
-    'text-image': ['bg-violet-50 border-violet-300', 'violet', _customTextImageBody, 'editarSlideTextoImagen', 'text-violet-700 hover:text-violet-900']
+    'text-image': ['bg-plum-50 border-plum-300', 'plum', _customTextImageBody, 'editarSlideTextoImagen', 'text-plum-700 hover:text-plum-900']
 };
 
 /** HTML de una entrada de la lista (diapositiva o pregunta de banco). */

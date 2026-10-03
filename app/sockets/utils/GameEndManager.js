@@ -605,7 +605,8 @@ async function triggerAutoSaveSession(roomId, game, ranking) {
  * @param {Object} params.game - Game state
  * @param {Object} params.io - Socket.IO instance
  * @param {boolean} params.timeExpired - True if called due to timer expiration, false if all players answered
- * @returns {Promise<void>}
+ * @returns {Promise<boolean|undefined>} true solo si esta llamada ha revelado la pregunta
+ *   (no si ya estaba revelada, el juego terminó o no hay pregunta)
  */
 async function revealAnswer({ roomId, game, io, timeExpired = false }) {
     const base = resolveRevealBase(game, roomId, timeExpired);
@@ -734,6 +735,8 @@ async function revealAnswer({ roomId, game, io, timeExpired = false }) {
     triggerAutoSaveSession(roomId, game, rankingFormatted).catch(err => {
         logger.error('Error no capturado en auto-save asíncrono:', err.message);
     });
+
+    return true;
 }
 
 /**

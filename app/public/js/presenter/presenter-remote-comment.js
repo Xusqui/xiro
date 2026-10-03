@@ -52,10 +52,10 @@ function playerCard(nick, score) {
 }
 
 function teamCard(team, teamScore) {
-    const color = TEAM_COLORS[team.color] || '#7c3aed';
+    const color = TEAM_COLORS[team.color] || '#94438e';
     return `
-        <div class="rc-comment-card" style="border-left:4px solid ${color}">
-            <div class="rc-comment-name">${esc(team.name)}</div>
+        <div class="rc-comment-card">
+            <div class="rc-comment-name"><span class="rc-comment-dot" style="background:${color}"></span>${esc(team.name)}</div>
             <div class="rc-comment-score" id="rc-score-team-${esc(team.name)}">${teamScore} pts</div>
             <div class="rc-comment-btns">
                 <button data-remote-target="${esc(team.name)}" data-remote-points="1" data-remote-is-team="true" class="rc-pts-btn rc-pts-green">+1</button>

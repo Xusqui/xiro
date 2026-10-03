@@ -75,7 +75,7 @@ function buildCategoryLegend(state) {
     el.innerHTML =
         _tHtml(`<div style="font-size:clamp(9px,0.85vw,18px);color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.6px;padding:2px 4px 4px">Bancos</div>` +
             state.categories.map(c =>
-                `<div style="display:flex;align-items:center;gap:clamp(5px,0.65vw,14px);padding:clamp(4px,0.6vh,14px) clamp(5px,0.75vw,16px);background:rgba(30,41,59,0.85);border-radius:8px;border-left:3px solid ${c.color || '#888'}">` +
+                `<div style="display:flex;align-items:center;gap:clamp(5px,0.65vw,14px);padding:clamp(4px,0.6vh,14px) clamp(5px,0.75vw,16px);background:rgba(30,41,59,0.85);border-radius:8px;">` +
                 `<span style="width:clamp(10px,1.1vw,22px);height:clamp(10px,1.1vw,22px);border-radius:50%;flex-shrink:0;background:${c.color || '#888'};box-shadow:0 0 6px ${c.color || '#888'}aa"></span>` +
                 `<span style="font-size:clamp(10px,1vw,20px);color:#fff;font-weight:700;line-height:1.3;word-break:break-word">${escapeHtml(c.bank_name || c.category_name)}</span></div>`
             ).join(''));

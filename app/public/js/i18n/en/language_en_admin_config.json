@@ -81,6 +81,8 @@
     "admin.config.meta.LOG_MAX_FILES.desc": "How long logs are kept. Example: \"14d\" = 14 days. Longer retention = more disk space.",
     "admin.config.meta.RECONNECTION_TIMEOUT.label": "Reconnection timeout",
     "admin.config.meta.RECONNECTION_TIMEOUT.desc": "Minutes the server keeps a disconnected player's state. If they reconnect before expiry, the game resumes.",
+    "admin.config.meta.PRESENTER_RECONNECTION_TIMEOUT.label": "Presenter reconnection timeout",
+    "admin.config.meta.PRESENTER_RECONNECTION_TIMEOUT.desc": "Minutes the game is kept alive if the presenter screen disconnects (e.g. the computer goes to sleep). When it expires, the session ends for everyone.",
     "admin.config.meta.INACTIVE_GAME_THRESHOLD.label": "Inactive game threshold",
     "admin.config.meta.INACTIVE_GAME_THRESHOLD.desc": "Hours of inactivity before a game is considered abandoned and cleared from memory.",
     "admin.config.meta.EMPTY_LOBBY_TIMEOUT.label": "Empty lobby timeout",

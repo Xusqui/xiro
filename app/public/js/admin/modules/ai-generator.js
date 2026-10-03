@@ -13,12 +13,12 @@ let aiGenMode = 'document'; // 'document' | 'prompt'
 let _aiGeneratorDelegationReady = false;
 
 const QUESTION_TYPE_LABELS = [
-    { type: 'quiz', label: 'Test (quiz)', icon: 'fa-check-circle', color: 'purple' },
+    { type: 'quiz', label: 'Test (quiz)', icon: 'fa-check-circle', color: 'plum' },
     { type: 'survey', label: 'Encuesta (survey)', icon: 'fa-poll', color: 'blue' },
     { type: 'numeric_approximation', label: 'Aproximación numérica', icon: 'fa-hashtag', color: 'amber' },
     { type: 'order', label: 'Ordenar secuencia', icon: 'fa-sort', color: 'green' },
     { type: 'word_scramble', label: 'Adivinar palabra', icon: 'fa-font', color: 'pink' },
-    { type: 'multiple_choice', label: 'Selección múltiple', icon: 'fa-tasks', color: 'indigo' }
+    { type: 'multiple_choice', label: 'Selección múltiple', icon: 'fa-tasks', color: 'aubergine' }
 ];
 
 // ===== PUNTO DE ENTRADA =====
@@ -41,7 +41,7 @@ function _renderAIStep1() {
                 <i class="fas fa-circle-notch fa-spin mr-1"></i>Comprobando IA...</div>
         </div>
         <div class="flex gap-2 mb-6 text-sm font-bold">
-            <span class="px-4 py-1.5 rounded-full bg-indigo-600 text-white">1 · Fuente</span>
+            <span class="px-4 py-1.5 rounded-full bg-aubergine-600 text-white">1 · Fuente</span>
             <span class="px-4 py-1.5 rounded-full bg-slate-200 text-slate-500">2 · Configurar</span>
             <span class="px-4 py-1.5 rounded-full bg-slate-200 text-slate-500">3 · Resultado</span>
         </div>
@@ -49,7 +49,7 @@ function _renderAIStep1() {
             <div>
                 <label class="block text-sm font-bold text-slate-700 mb-2">Nombre del banco *</label>
                 <input id="ai-bank-name" type="text" placeholder="Ej: Fisiología Digestiva – Módulo 3"
-                    class="w-full border-2 border-slate-100 rounded-xl p-3 focus:border-indigo-500 outline-none transition">
+                    class="w-full border-2 border-slate-100 rounded-xl p-3 focus:border-aubergine-500 outline-none transition">
             </div>
             <div>
                 <label class="block text-sm font-bold text-slate-700 mb-2">${_t('common.label_language', null, 'Idioma de las preguntas')}</label>
@@ -59,7 +59,7 @@ function _renderAIStep1() {
                 <label class="block text-sm font-bold text-slate-700 mb-2">Dificultad</label>
                 <div class="flex gap-3">${['BAJA', 'MEDIA', 'ALTA'].map(d => `
                     <label class="flex-1 cursor-pointer"><input type="radio" name="ai-dificultad" value="${d}" ${d === 'MEDIA' ? 'checked' : ''} class="sr-only">
-                    <div class="text-center py-3 rounded-xl border-2 ${d === 'MEDIA' ? 'border-indigo-500' : 'border-slate-200'} font-bold text-sm transition ai-dif-btn" data-val="${d}">${d}</div></label>`).join('')}
+                    <div class="text-center py-3 rounded-xl border-2 ${d === 'MEDIA' ? 'border-aubergine-500' : 'border-slate-200'} font-bold text-sm transition ai-dif-btn" data-val="${d}">${d}</div></label>`).join('')}
                 </div>
             </div>
 
@@ -67,7 +67,7 @@ function _renderAIStep1() {
             <div>
                 <div class="flex rounded-xl border border-slate-200 overflow-hidden mb-4">
                     <button id="ai-tab-doc" data-ai-gen-action="switch-tab" data-mode="document"
-                        class="flex-1 py-2.5 text-sm font-bold transition bg-indigo-600 text-white">
+                        class="flex-1 py-2.5 text-sm font-bold transition bg-aubergine-600 text-white">
                         <i class="fas fa-file-upload mr-1"></i> Subir documento
                     </button>
                     <button id="ai-tab-prompt" data-ai-gen-action="switch-tab" data-mode="prompt"
@@ -78,9 +78,9 @@ function _renderAIStep1() {
 
                 <!-- Panel documento -->
                 <div id="ai-panel-document">
-                    <div id="ai-drop-zone" class="border-3 border-dashed border-indigo-300 rounded-xl p-8 text-center bg-indigo-50 hover:bg-indigo-100 transition cursor-pointer">
-                        <i class="fas fa-file-upload text-4xl text-indigo-400 mb-3"></i>
-                        <p class="font-bold text-indigo-800">Arrastra aquí o haz clic para seleccionar</p>
+                    <div id="ai-drop-zone" class="border-3 border-dashed border-aubergine-300 rounded-xl p-8 text-center bg-aubergine-50 hover:bg-aubergine-100 transition cursor-pointer">
+                        <i class="fas fa-file-upload text-4xl text-aubergine-400 mb-3"></i>
+                        <p class="font-bold text-aubergine-800">Arrastra aquí o haz clic para seleccionar</p>
                         <p class="text-xs text-slate-400 mt-1">.pdf · .docx · .txt</p>
                     </div>
                     <input type="file" id="ai-file-input" accept=".pdf,.docx,.doc,.txt" class="hidden">
@@ -98,13 +98,13 @@ function _renderAIStep1() {
                     <textarea id="ai-free-prompt"
                         placeholder="Ej: Haz preguntas sobre la Primera República Española, cubriendo causas, principales figuras, instituciones y su caída. Mezcla datos cronológicos con consecuencias históricas."
                         rows="6"
-                        class="w-full border-2 border-slate-200 rounded-xl p-4 text-sm focus:border-indigo-500 outline-none transition resize-none"
+                        class="w-full border-2 border-slate-200 rounded-xl p-4 text-sm focus:border-aubergine-500 outline-none transition resize-none"
                         data-ai-gen-action="prompt-input"></textarea>
                     <p class="text-xs text-slate-400 mt-1"><i class="fas fa-info-circle mr-1"></i>Describe el tema con el mayor detalle posible. Puedes indicar subtemas, enfoques o ejemplos concretos.</p>
                 </div>
             </div>
 
-            <button data-ai-gen-action="go-step2" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl transition text-lg">
+            <button data-ai-gen-action="go-step2" class="w-full bg-camaleon-600 hover:bg-camaleon-700 text-white font-bold py-4 rounded-xl transition text-lg">
                 Siguiente <i class="fas fa-arrow-right ml-2"></i></button>
         </div>
     </div>`);
@@ -116,14 +116,14 @@ function _initAIStep1Events() {
     const dz = document.getElementById('ai-drop-zone');
     const fi = document.getElementById('ai-file-input');
     dz.addEventListener('click', () => fi.click());
-    dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('bg-indigo-100'); });
-    dz.addEventListener('dragleave', () => dz.classList.remove('bg-indigo-100'));
-    dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('bg-indigo-100'); if (e.dataTransfer.files[0]) _aiUploadFile(e.dataTransfer.files[0]); });
+    dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('bg-aubergine-100'); });
+    dz.addEventListener('dragleave', () => dz.classList.remove('bg-aubergine-100'));
+    dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('bg-aubergine-100'); if (e.dataTransfer.files[0]) _aiUploadFile(e.dataTransfer.files[0]); });
     fi.addEventListener('change', () => { if (fi.files[0]) _aiUploadFile(fi.files[0]); });
     document.querySelectorAll('.ai-dif-btn').forEach(btn => {
         btn.closest('label').querySelector('input').addEventListener('change', () => {
-            document.querySelectorAll('.ai-dif-btn').forEach(b => b.classList.replace('border-indigo-500', 'border-slate-200'));
-            btn.classList.replace('border-slate-200', 'border-indigo-500');
+            document.querySelectorAll('.ai-dif-btn').forEach(b => b.classList.replace('border-aubergine-500', 'border-slate-200'));
+            btn.classList.replace('border-slate-200', 'border-aubergine-500');
         });
     });
 }
@@ -136,12 +136,12 @@ function _aiSwitchTab(mode) {
     const panelDoc = document.getElementById('ai-panel-document');
     const panelPrompt = document.getElementById('ai-panel-prompt');
     if (mode === 'document') {
-        tabDoc.className = 'flex-1 py-2.5 text-sm font-bold transition bg-indigo-600 text-white';
+        tabDoc.className = 'flex-1 py-2.5 text-sm font-bold transition bg-aubergine-600 text-white';
         tabPrompt.className = 'flex-1 py-2.5 text-sm font-bold transition bg-white text-slate-500 hover:bg-slate-50';
         panelDoc.classList.remove('hidden');
         panelPrompt.classList.add('hidden');
     } else {
-        tabPrompt.className = 'flex-1 py-2.5 text-sm font-bold transition bg-indigo-600 text-white';
+        tabPrompt.className = 'flex-1 py-2.5 text-sm font-bold transition bg-aubergine-600 text-white';
         tabDoc.className = 'flex-1 py-2.5 text-sm font-bold transition bg-white text-slate-500 hover:bg-slate-50';
         panelPrompt.classList.remove('hidden');
         panelDoc.classList.add('hidden');
@@ -156,7 +156,7 @@ function _aiPromptInput(val) {
 async function _aiUploadFile(file) {
     const errEl = document.getElementById('ai-upload-error');
     errEl.classList.add('hidden');
-    document.getElementById('ai-drop-zone').innerHTML = _tHtml('<i class="fas fa-circle-notch fa-spin text-2xl text-indigo-400"></i><p class="mt-2 text-indigo-600 font-bold">Procesando...</p>');
+    document.getElementById('ai-drop-zone').innerHTML = _tHtml('<i class="fas fa-circle-notch fa-spin text-2xl text-aubergine-400"></i><p class="mt-2 text-aubergine-600 font-bold">Procesando...</p>');
     const fd = new FormData();
     fd.append('document', file);
     try {
@@ -171,14 +171,14 @@ async function _aiUploadFile(file) {
     } catch (err) {
         errEl.textContent = _t(err.message);
         errEl.classList.remove('hidden');
-        document.getElementById('ai-drop-zone').innerHTML = _tHtml('<i class="fas fa-file-upload text-4xl text-indigo-400 mb-3"></i><p class="font-bold text-indigo-800">Arrastra aquí o haz clic</p>');
+        document.getElementById('ai-drop-zone').innerHTML = _tHtml('<i class="fas fa-file-upload text-4xl text-aubergine-400 mb-3"></i><p class="font-bold text-aubergine-800">Arrastra aquí o haz clic</p>');
     }
 }
 
 function _aiClearFile() {
     aiGenText = '';
     document.getElementById('ai-file-info').classList.add('hidden');
-    document.getElementById('ai-drop-zone').innerHTML = _tHtml('<i class="fas fa-file-upload text-4xl text-indigo-400 mb-3"></i><p class="font-bold text-indigo-800">Arrastra aquí o haz clic para seleccionar</p><p class="text-xs text-slate-400 mt-1">.pdf · .docx · .txt</p>');
+    document.getElementById('ai-drop-zone').innerHTML = _tHtml('<i class="fas fa-file-upload text-4xl text-aubergine-400 mb-3"></i><p class="font-bold text-aubergine-800">Arrastra aquí o haz clic para seleccionar</p><p class="text-xs text-slate-400 mt-1">.pdf · .docx · .txt</p>');
 }
 
 async function _checkIAStatus() {
@@ -217,7 +217,7 @@ function _aiGoToStep2() {
 function _renderAIStep2() {
     document.getElementById('editorArea').innerHTML = _tHtml(`
     <div class="max-w-3xl mx-auto p-10">
-        <button data-ai-gen-action="back-step1" class="mb-6 text-slate-600 hover:text-indigo-600 font-bold flex items-center gap-2">
+        <button data-ai-gen-action="back-step1" class="mb-6 text-slate-600 hover:text-aubergine-600 font-bold flex items-center gap-2">
             <i class="fas fa-arrow-left"></i> Volver</button>
         <div class="flex items-center gap-4 mb-6">
             <img src="/images/chamaleon/inteligencia-artificial.svg" alt="" class="w-16 h-16 flex-shrink-0">
@@ -232,13 +232,13 @@ function _renderAIStep2() {
                 <span class="flex-1 font-semibold text-slate-700">${t.label}</span>
                 <input type="number" min="0" max="20" value="0" id="ai-count-${t.type}"
                     data-ai-gen-action="update-total"
-                    class="w-20 border-2 border-slate-200 rounded-lg p-2 text-center font-bold focus:border-indigo-500 outline-none">
+                    class="w-20 border-2 border-slate-200 rounded-lg p-2 text-center font-bold focus:border-aubergine-500 outline-none">
             </div>`).join('')}
             <div class="pt-4 border-t border-slate-200 flex items-center justify-between">
                 <span class="text-slate-600 font-bold">Total de preguntas:</span>
-                <span id="ai-total-count" class="text-2xl font-black text-indigo-600">0</span>
+                <span id="ai-total-count" class="text-2xl font-black text-aubergine-600">0</span>
             </div>
-            <button data-ai-gen-action="generate-bank" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl transition text-lg mt-4">
+            <button data-ai-gen-action="generate-bank" class="w-full bg-camaleon-600 hover:bg-camaleon-700 text-white font-bold py-4 rounded-xl transition text-lg mt-4">
                 <i class="fas fa-magic mr-2"></i>Generar banco con IA</button>
         </div>
     </div>`);

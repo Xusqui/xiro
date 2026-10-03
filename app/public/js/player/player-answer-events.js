@@ -5,10 +5,11 @@
  */
 
 import { socket } from './player-socket-config.js?v=20260922172926';
-import { applyStreakToResult, cancelStreakAnimation } from './player-streak-ui.js?v=20260922172926';
+import { applyStreakToResult, replacePendingStreakResult, buildLostStreakInfo } from './player-streak-ui.js?v=20260922172926';
+import { renderLastRankingSince } from './player-results.js?v=20260922172926';
 import { enviarOrdenRespuesta, enviarMatchingRespuesta } from './player-answer.js?v=20260922172926';
 import { buildAnswerResultHTML } from './player-answer-result.js?v=20260922172926';
-import { correctAnswerBlockHtml, appendCorrectAnswerToResult } from './player-reveal-correct.js?v=20260922172926';
+import { appendCorrectAnswerToResult, rememberReveal, timeUpScreenHtml } from './player-reveal-correct.js?v=20260922172926';
 import {
     setCanAnswer, getHaRespondido,
     setPendingAnswer, setSendingAnswer, setResultReceived,
@@ -60,27 +61,11 @@ function onBlockedAnswer(data) {
     // reveal-answer puede llegar antes (viaja por otro canal de Redis entre
     // workers): no sustituir la pantalla con la respuesta por la de espera
     if (!getHaRespondido() && !document.querySelector('[data-reveal-shown]')) {
-        const timeUpHTML = `
-            <div class="time-up-container">
-                <i class="fas fa-clock"></i>
-                <h2>${_t('player.answer.time_up', null, '¡TIEMPO AGOTADO!')}</h2>
-                <p>${_t('player.answer.waiting_results', null, 'Esperando resultados...')}</p>
-            </div>
-        `;
+        const timeUpHTML = timeUpScreenHtml();
         const currentStreak = getStreakInfo();
         if (currentStreak?.isInStreak) {
             // Racha perdida por tiempo agotado — mostrar animación y ocultar badge
-            applyStreakToResult({
-                current: 0,
-                previous: currentStreak.current,
-                threshold: currentStreak.threshold,
-                doubleThreshold: currentStreak.doubleThreshold,
-                isInStreak: false,
-                isInDoubleStreak: false,
-                justLost: true,
-                justEntered: false,
-                justEnteredDoubleStreak: false
-            }, timeUpHTML);
+            applyStreakToResult(buildLostStreakInfo(currentStreak), timeUpHTML);
         } else {
             document.body.innerHTML = _tHtml(timeUpHTML);
         }
@@ -95,30 +80,25 @@ function onRevealAnswer(data) {
     if (getCurrentSlideType() === 'info' || getCurrentSlideType() === 'comment' || getCurrentSlideType() === 'text') {
         return;
     }
+    // Aunque ya haya enviado: si era el envío automático y el servidor lo rechaza por
+    // tarde, player-answer.js la usa para la pantalla de tiempo agotado
+    rememberReveal(data);
     if (getHaRespondido()) {
         appendCorrectAnswerToResult(data);
         return;
     }
 
-    // Evita que la animación de racha perdida (blocked-answer) pinte después
-    // la pantalla de espera encima de esta
-    cancelStreakAnimation();
-    const correctBlock = correctAnswerBlockHtml(data);
-    const justBlock = data?.justification
-        ? `<div class="mt-2 bg-black/30 rounded-xl p-4 w-full max-w-sm text-sm leading-relaxed">${escapeHtml(data.justification)}</div>`
-        : '';
-    document.body.innerHTML = _tHtml(`
-        <div class="time-up-container" data-reveal-shown="1">
-            <i class="fas fa-clock"></i>
-            <h2>${_t('player.answer.time_up', null, '¡TIEMPO AGOTADO!')}</h2>
-            ${correctBlock}
-            ${justBlock}
-            <div class="mt-6 bg-black/20 rounded-2xl p-4 max-w-md w-full mx-auto">
-                <h3 class="text-xl font-black uppercase mb-3 text-center">${_t('player.answer.ranking', null, 'Ranking')}</h3>
-                <div id="ranking-container" class="space-y-2"></div>
-            </div>
-        </div>
-    `);
+    const revealHTML = timeUpScreenHtml(data || {});
+
+    // blocked-answer llega justo antes y puede haber lanzado la animación de racha
+    // perdida: se deja terminar y al acabar muestra esta pantalla (no "Esperando
+    // resultados"). El ranking llega durante la animación y se pinta al final.
+    const revealedAt = Date.now();
+    if (replacePendingStreakResult(revealHTML, () => renderLastRankingSince(revealedAt))) {
+        return;
+    }
+
+    document.body.innerHTML = _tHtml(revealHTML);
 }
 
 /** Modo equipos: respuesta enviada, a la espera del resto del equipo. */

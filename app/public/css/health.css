@@ -86,17 +86,6 @@ body::before {
     100%{transform:scale(1.1) translateY(-3%);}
 }
 
-/* Grid texture */
-body::after {
-    content:'';
-    position:fixed;inset:0;z-index:-1;
-    background-image:
-        linear-gradient(rgba(255,255,255,0.013) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.013) 1px, transparent 1px);
-    background-size:52px 52px;
-    pointer-events:none;
-}
-
 /* ── Brand bar ── */
 .brand-bar {
     height:3px;
@@ -325,7 +314,6 @@ body::after {
 .progress-bar{height:8px;background:rgba(255,255,255,0.04);border-radius:9999px;overflow:hidden;border:1px solid var(--border);}
 .progress-fill{
     height:100%;border-radius:9999px;
-    transition:width .9s cubic-bezier(.4,0,.2,1);
     position:relative;
 }
 .progress-fill::after{
@@ -350,8 +338,8 @@ body::after {
 /* ── Errors ── */
 .error-list{max-height:200px;overflow-y:auto;}
 .error-item{
-    background:rgba(230,84,83,0.06);border:1px solid rgba(230,84,83,.2);
-    border-left:3px solid var(--red);border-radius:6px;
+    background:rgba(230,84,83,0.06);border:1px solid rgba(230,84,83,.45);
+    border-radius:6px;
     padding:.55rem .8rem;margin-bottom:.5rem;
     font-size:.79rem;font-family:var(--mono);
 }
@@ -539,10 +527,4 @@ body::after {
     .error-item{background:rgba(230,84,83,0.05);}
     .loading-overlay{background:var(--bg);}
     .connection-error{background:rgba(230,84,83,0.06);}
-    body::after{
-        background-image:
-            linear-gradient(rgba(0,0,0,0.04) 1px,transparent 1px),
-            linear-gradient(90deg,rgba(0,0,0,0.04) 1px,transparent 1px);
-        background-size:52px 52px;
-    }
 }

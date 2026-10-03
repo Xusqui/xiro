@@ -123,14 +123,14 @@ function showInfoOverlay({ title, message, buttonText = _t('presenter.session.bt
     overlay.innerHTML = _tHtml(`
         <div class="w-full max-w-sm min-h-[260px] bg-slate-800 border border-slate-700 rounded-3xl p-8 shadow-2xl flex flex-col justify-center">
             <div class="flex items-center gap-3 mb-4">
-                <div class="w-10 h-10 rounded-full bg-purple-500/20 text-purple-300 flex items-center justify-center">
+                <div class="w-10 h-10 rounded-full bg-plum-500/20 text-plum-300 flex items-center justify-center">
                     <i class="fas fa-circle-info"></i>
                 </div>
                 <h2 class="text-2xl font-black text-white">${title}</h2>
             </div>
             <p class="text-slate-300 mb-6">${message}</p>
             <div class="flex justify-center">
-                <button id="info-close" class="bg-purple-600 hover:bg-purple-500 text-white px-5 py-2 rounded-full font-bold">${buttonText}</button>
+                <button id="info-close" class="bg-plum-600 hover:bg-plum-500 text-white px-5 py-2 rounded-full font-bold">${buttonText}</button>
             </div>
         </div>
     `);

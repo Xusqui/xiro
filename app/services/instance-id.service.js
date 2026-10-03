@@ -22,7 +22,9 @@ const crypto = require('crypto');
 const { execFileSync } = require('child_process');
 const fingerprint = require('./instance-fingerprint');
 
-const FALLBACK_FILE = path.join(__dirname, '..', 'config', 'instance-id.json');
+// INSTANCE_ID_FILE permite aislarlo (jest.setup.js lo apunta a una ruta inexistente
+// para que los tests no escriban el identificador real de la instalación).
+const FALLBACK_FILE = process.env.INSTANCE_ID_FILE || path.join(__dirname, '..', 'config', 'instance-id.json');
 const EXEC_OPTS = { encoding: 'utf8', timeout: 5000, windowsHide: true };
 
 let _cache = null;

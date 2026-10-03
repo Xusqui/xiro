@@ -22,7 +22,7 @@ export function mostrarErrorSesionNoEncontrada() {
                     </p>
                 </div>
                 <button data-player-action="reload-page"
-                    class="btn-glass-3d w-full bg-purple-600 text-white p-4 rounded-2xl font-black text-xl">
+                    class="btn-glass-3d w-full bg-plum-600 text-white p-4 rounded-2xl font-black text-xl">
                     <i class="fas fa-redo mr-2"></i>${_t('player.session_ui.retry', null, 'INTENTAR DE NUEVO')}
                 </button>
             </div>
@@ -106,7 +106,7 @@ export function mostrarErrorJoinLobby(errorMessage, lastNickname = '') {
                 <h2 class="text-slate-500 font-bold mb-4 uppercase text-sm">${_t('player.session_ui.your_name', null, '¿Tu nombre?')}</h2>
                 <p class="text-red-600 font-bold mb-3 text-sm">⚠️ ${errorMessage}</p>
                 <input type="text" id="nickname-input" placeholder="NOMBRE" maxlength="15" value="${lastNickname}"
-                    class="w-full p-4 mb-4 border-4 border-red-300 rounded-2xl font-black text-2xl text-center focus:border-purple-500 outline-none uppercase">
+                    class="w-full p-4 mb-4 border-4 border-red-300 rounded-2xl font-black text-2xl text-center focus:border-plum-500 outline-none uppercase">
                 <button data-player-action="join-lobby"
                     class="btn-glass-3d w-full bg-green-600 text-white p-4 rounded-2xl font-black text-xl">¡LISTO!</button>
             </div>
@@ -123,8 +123,8 @@ export function mostrarErrorSocketDesconectado() {
                 <i class="fas fa-wifi text-6xl text-orange-500 mb-4"></i>
                 <h2 class="text-2xl font-black text-slate-800 mb-2">${_t('player.session_ui.connecting_server', null, 'Conectando al servidor...')}</h2>
                 <p class="text-slate-500 mb-6">${_t('player.session_ui.connecting_wait_moment', null, 'Por favor, espera un momento')}</p>
-                <div class="w-16 h-16 border-8 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                <button data-player-action="join-lobby" class="btn-glass-3d w-full bg-purple-600 text-white p-4 rounded-2xl font-black text-xl mt-4">
+                <div class="w-16 h-16 border-8 border-plum-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                <button data-player-action="join-lobby" class="btn-glass-3d w-full bg-plum-600 text-white p-4 rounded-2xl font-black text-xl mt-4">
                     ${_t('player.session_ui.retry_btn', null, 'REINTENTAR')}
                 </button>
             </div>

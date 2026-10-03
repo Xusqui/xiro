@@ -18,7 +18,7 @@ const {
 
 const metrics = require('../state/metrics');
 const timerManager = require('../services/timer.manager');
-const { TIMEOUTS, CLEANUP_INTERVAL } = require('../config/game-constants');
+const { TIMEOUTS } = require('../config/game-constants');
 const logger = require('../config/logger');
 
 // 🧹 REFACTORING: Módulos extraídos
@@ -84,7 +84,7 @@ function cleanupRateLimits() {
     let cleanedCount = 0;
 
     for (const [socketId, data] of socketRateLimits.entries()) {
-        if (now > data.resetTime + TIMEOUTS.RATE_LIMIT_CLEANUP) {
+        if (now > data.resetTime + TIMEOUTS.RATE_LIMIT_EXPIRY_BUFFER) {
             socketRateLimits.delete(socketId);
             cleanedCount++;
         }
@@ -114,14 +114,15 @@ function initializeBroadcastServices() {
 }
 
 function setupCleanupIntervals() {
-    timerManager.setInterval(cleanupInactiveGames, 3600000, 'cleanup-inactive-games');
-    timerManager.setInterval(cleanupEmptyLobbies, TIMEOUTS.CLEANUP_EMPTY_LOBBIES, 'cleanup-empty-lobbies');
+    // Ojo: un intervalo undefined hace que Node lo ejecute cada 1 ms.
+    timerManager.setInterval(cleanupInactiveGames, TIMEOUTS.INACTIVE_CLEANUP_INTERVAL, 'cleanup-inactive-games');
+    timerManager.setInterval(cleanupEmptyLobbies, TIMEOUTS.EMPTY_LOBBY_CLEANUP_INTERVAL, 'cleanup-empty-lobbies');
     timerManager.setInterval(() => {
         checkExpiredPlayers(io).catch((error) => {
             logger.error('cleanup-expired-players failed', { error: error.message });
         });
-    }, CLEANUP_INTERVAL, 'cleanup-expired-players');
-    timerManager.setInterval(cleanupRateLimits, 300000, 'cleanup-rate-limits');
+    }, TIMEOUTS.CLEANUP_INTERVAL, 'cleanup-expired-players');
+    timerManager.setInterval(cleanupRateLimits, TIMEOUTS.RATE_LIMIT_CLEANUP_INTERVAL, 'cleanup-rate-limits');
 }
 
 function createSocketDependencies(ackManager) {

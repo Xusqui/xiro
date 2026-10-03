@@ -1,7 +1,7 @@
 window.TVApp = window.TVApp || {};
 /**
  * Modal de confirmación de la TV (finalizar / abortar partida).
- * Construido con DOM y estilos inline: tv.html no carga Tailwind de presentador.
+ * Construido con DOM y estilos inline: tv.html solo carga tv.css (sin common.css).
  */
 window.TVApp.ConfirmModal = (function () {
     'use strict';

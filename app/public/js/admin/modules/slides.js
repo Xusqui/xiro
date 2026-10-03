@@ -22,7 +22,7 @@ function mostrarModalComentario() {
                         <button data-slide-ci-action="close-comment-create" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold transition">
                             Cancelar
                         </button>
-                        <button data-slide-ci-action="add-comment-create" class="flex-1 bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-xl font-bold transition">
+                        <button data-slide-ci-action="add-comment-create" class="flex-1 bg-camaleon-600 hover:bg-camaleon-700 text-white px-6 py-3 rounded-xl font-bold transition">
                             <i class="fas fa-plus mr-2"></i>Añadir
                         </button>
                     </div>
@@ -72,7 +72,7 @@ function mostrarModalInfo() {
                         <button data-slide-ci-action="close-info-create" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold transition">
                             Cancelar
                         </button>
-                        <button data-slide-ci-action="add-info-create" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-xl font-bold transition">
+                        <button data-slide-ci-action="add-info-create" class="flex-1 bg-camaleon-600 hover:bg-camaleon-700 text-white px-6 py-3 rounded-xl font-bold transition">
                             <i class="fas fa-plus mr-2"></i>Añadir
                         </button>
                     </div>
@@ -125,7 +125,7 @@ function editarSlideComentario(index) {
                         <button data-slide-ci-action="close-comment-edit" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold transition">
                             Cancelar
                         </button>
-                        <button data-slide-ci-action="save-comment-edit" data-index="${index}" class="flex-1 bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-xl font-bold transition">
+                        <button data-slide-ci-action="save-comment-edit" data-index="${index}" class="flex-1 bg-camaleon-600 hover:bg-camaleon-700 text-white px-6 py-3 rounded-xl font-bold transition">
                             <i class="fas fa-save mr-2"></i>Guardar
                         </button>
                     </div>
@@ -172,7 +172,7 @@ function editarSlideInfo(index) {
                         <button data-slide-ci-action="close-info-edit" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold transition">
                             Cancelar
                         </button>
-                        <button data-slide-ci-action="save-info-edit" data-index="${index}" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-xl font-bold transition">
+                        <button data-slide-ci-action="save-info-edit" data-index="${index}" class="flex-1 bg-camaleon-600 hover:bg-camaleon-700 text-white px-6 py-3 rounded-xl font-bold transition">
                             <i class="fas fa-save mr-2"></i>Guardar
                         </button>
                     </div>

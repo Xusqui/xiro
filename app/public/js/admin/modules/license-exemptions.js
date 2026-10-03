@@ -11,7 +11,7 @@ const _EXEMPT_TYPE_LABELS = {
 };
 
 const _EXEMPT_TYPE_CHIP = {
-    bank: 'bg-purple-100 text-purple-700',
+    bank: 'bg-plum-100 text-plum-700',
     game: 'bg-green-100 text-green-700',
     custom_game: 'bg-blue-100 text-blue-700',
     trivial: 'bg-orange-100 text-orange-700',

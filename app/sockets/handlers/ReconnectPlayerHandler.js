@@ -24,7 +24,8 @@ function createEmitReconnectFailed(socket) {
 }
 
 function validateReconnectPayload(data, emitReconnectFailed) {
-    const validation = validateSocket(schemas.reconnectPlayer, data);
+    // Joi da por válido un payload undefined; sin datos tiene que fallar la validación
+    const validation = validateSocket(schemas.reconnectPlayer, data ?? {});
     if (!validation.valid) {
         emitReconnectFailed({
             reason: 'invalid-data',

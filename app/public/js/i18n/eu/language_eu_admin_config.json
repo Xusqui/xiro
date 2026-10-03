@@ -53,6 +53,8 @@
     "admin.config.meta.LOG_MAX_FILES.desc": "Erregistroak zenbat denboraz gordetzen diren. Adibidez: \"14d\" = 14 egun. Denbora gehiago = diskoan leku gehiago.",
     "admin.config.meta.RECONNECTION_TIMEOUT.label": "Berriro konektatzeko denbora-muga",
     "admin.config.meta.RECONNECTION_TIMEOUT.desc": "Zerbitzariak deskonektatutako jokalari baten egoera zenbat minutuz gordetzen duen. Iraungi aurretik berriro konektatzen bada, jokoa berrekin daiteke.",
+    "admin.config.meta.PRESENTER_RECONNECTION_TIMEOUT.label": "Aurkezlearen berrkonexioa",
+    "admin.config.meta.PRESENTER_RECONNECTION_TIMEOUT.desc": "Aurkezlearen pantaila deskonektatzen bada (adib. ordenagailua lo geratzen bada) partida zenbat minutuz mantentzen den. Iraungitzean, saioa denentzat amaitzen da.",
     "admin.config.meta.INACTIVE_GAME_THRESHOLD.label": "Joko inaktiboen atalasea",
     "admin.config.meta.INACTIVE_GAME_THRESHOLD.desc": "Joko bat abandonatutzat jo eta memoriatik kendu aurretik igaro behar diren inaktibitate-orduak.",
     "admin.config.meta.EMPTY_LOBBY_TIMEOUT.label": "Atondo hutsaren denbora-muga",

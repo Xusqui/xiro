@@ -93,13 +93,13 @@ function renderWaitingPanel() {
     alignPanelToLobbyMain(panel);
 
     panel.innerHTML = _tHtml(`
-        <div style="background:linear-gradient(135deg, rgba(15,23,42,0.95), rgba(67,56,202,0.9));border:1px solid rgba(255,255,255,0.18);border-radius:18px;box-shadow:0 20px 45px rgba(0,0,0,0.35);padding:22px;">
+        <div style="background:linear-gradient(135deg, rgba(15,23,42,0.95), rgba(104,67,116,0.9));border:1px solid rgba(255,255,255,0.18);border-radius:18px;box-shadow:0 20px 45px rgba(0,0,0,0.35);padding:22px;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
                 <p style="margin:0;font-size:14px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#cbd5e1;">Progreso de respuestas</p>
                 <p style="margin:0;font-size:14px;font-weight:900;color:#f8fafc;">${progress}% contestado</p>
             </div>
             <div style="height:24px;background:rgba(255,255,255,.16);border-radius:999px;overflow:hidden;">
-                <div style="height:100%;width:${progress}%;background:linear-gradient(90deg,#22c55e,#f59e0b);transition:width .25s ease;"></div>
+                <div style="height:100%;width:100%;transform:scaleX(${progress / 100});transform-origin:left;background:linear-gradient(90deg,#22c55e,#f59e0b);transition:transform .25s ease;"></div>
             </div>
         </div>
     `);

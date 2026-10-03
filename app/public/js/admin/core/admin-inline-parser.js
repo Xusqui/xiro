@@ -111,6 +111,7 @@ const ADMIN_INLINE_VALUES = {
         return Number.isFinite(parsed) && parsed !== 0 ? parsed : null;
     },
     'Math.max(5, Math.min(120, parseInt(this.value) || 30))': (value) => _clamp(5, 120, _intOr(30)(value)),
+    'Math.max(5, Math.min(120, parseInt(this.value) || getDefaultQuestionTimeLimit()))': (value) => _clamp(5, 120, _intOr(globalThis.getDefaultQuestionTimeLimit?.() ?? 30)(value)),
     'Math.max(1, parseInt(this.value) || 0)': (value) => Math.max(1, _intOr(0)(value)),
     'Math.max(1, Math.min(100, parseInt(this.value) || 10))': (value) => _clamp(1, 100, _intOr(10)(value)),
     'Math.max(0, Math.min(100, parseInt(this.value) || 10))': (value) => _clamp(0, 100, _intOr(10)(value)),

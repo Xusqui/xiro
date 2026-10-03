@@ -38,7 +38,7 @@
     "admin.q.type_word_scramble": "Anagrama (Hitza deszifratu)",
     "admin.q.type_multiple_choice": "Aukera Anitza (1-6 erantzun)",
     "admin.q.time_label": "Erantzuteko denbora (segundoak)",
-    "admin.q.time_help": "Lehenespen: 30 segundo (min: 5, max: 120)",
+    "admin.q.time_help": "Lehenespen: {seconds} segundo (min: 5, max: 120)",
     "admin.q.media_label": "Multimedia edukia",
     "admin.q.media_drop": "Arrastatu fitxategi bat hona edo klikatu hautatzeko",
     "admin.q.media_upload": "Irudia edo audioa igo",

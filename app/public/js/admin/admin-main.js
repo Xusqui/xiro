@@ -33,44 +33,44 @@ function showAdmin() {
 // ===== SISTEMA DE NAVEGACIÓN Y VISTAS =====
 
 // Tinte de fondo por sección para el botón activo del sidebar. El tinte usa
-// style.backgroundColor (no clases Tailwind con opacidad arbitraria, que
-// requerirían una recompilación para existir en el CSS servido). Las vistas
+// style.backgroundColor (no clases utilitarias con opacidad, que habría que
+// definir una a una en css/common.css). Las vistas
 // sin entrada aquí (p.ej. cargar-preguntas) caen al bg-slate-800 plano.
 const SIDEBAR_ACTIVE_BORDER_CLASSES = [
-    'border-purple-500',
+    'border-plum-500',
     'border-green-500',
     'border-blue-500',
     'border-orange-500',
-    'border-indigo-500',
+    'border-aubergine-500',
     'border-emerald-500',
-    'border-violet-500',
+    'border-plum-500',
     'border-cyan-500',
     'border-yellow-500'
 ];
 const SIDEBAR_SECTION_TINT = {
-    bancos: 'rgba(168, 85, 247, 0.18)',
+    bancos: 'rgba(176, 91, 170, 0.18)',
     juegos: 'rgba(34, 197, 94, 0.18)',
     personalizados: 'rgba(59, 130, 246, 0.18)',
     trivial: 'rgba(249, 115, 22, 0.18)',
-    'ai-generator': 'rgba(99, 102, 241, 0.18)',
+    'ai-generator': 'rgba(154, 107, 169, 0.18)',
     remote: 'rgba(34, 197, 94, 0.18)',
     historial: 'rgba(16, 185, 129, 0.18)',
-    'cargar-preguntas': 'rgba(139, 92, 246, 0.18)',
+    'cargar-preguntas': 'rgba(176, 91, 170, 0.18)',
     'user-account': 'rgba(6, 182, 212, 0.18)',
-    'user-manage-users': 'rgba(99, 102, 241, 0.18)',
+    'user-manage-users': 'rgba(154, 107, 169, 0.18)',
     servidor: 'rgba(234, 179, 8, 0.18)'
 };
 const SIDEBAR_SECTION_BORDER = {
-    bancos: 'border-purple-500',
+    bancos: 'border-plum-500',
     juegos: 'border-green-500',
     personalizados: 'border-blue-500',
     trivial: 'border-orange-500',
-    'ai-generator': 'border-indigo-500',
+    'ai-generator': 'border-aubergine-500',
     remote: 'border-green-500',
     historial: 'border-emerald-500',
-    'cargar-preguntas': 'border-violet-500',
+    'cargar-preguntas': 'border-plum-500',
     'user-account': 'border-cyan-500',
-    'user-manage-users': 'border-indigo-500',
+    'user-manage-users': 'border-aubergine-500',
     servidor: 'border-yellow-500'
 };
 
@@ -146,7 +146,7 @@ function applyRolePermissions() {
     if (logoDiv && !document.getElementById('role-badge')) {
         const badge = document.createElement('div');
         badge.id = 'role-badge';
-        badge.className = `text-center mt-3 px-3 py-1.5 rounded-full text-xs font-bold ${role === 'admin' ? 'bg-purple-600' : 'bg-blue-600'}`;
+        badge.className = `text-center mt-3 px-3 py-1.5 rounded-full text-xs font-bold ${role === 'admin' ? 'bg-plum-600' : 'bg-blue-600'}`;
         badge.innerHTML = role === 'admin'
             ? '<div class="text-2xl">🔑</div><div class="text-xs font-bold uppercase tracking-wider">ADMIN</div>'
             : '<div class="text-2xl">✏️</div><div class="text-xs font-bold uppercase tracking-wider">EDITOR</div>';

@@ -37,8 +37,33 @@ const MODULE_VERSION_TTL_MS = 1000;
 const fileInfoCache = new Map(); // abs → { mtimeMs, hash, imports }
 const moduleVersionCache = new Map(); // abs → { hash, at }
 
+// i18n-core.js pide los diccionarios JSON con ?v=CONFIG.version; esas URLs no
+// pasan por aquí, así que se sustituye CONFIG.version por un hash de todos los
+// JSON y ese hash entra también en el ?v= de i18n-core.js.
+const I18N_DIR = path.join(PUBLIC_DIR, 'js', 'i18n');
+const I18N_CORE = path.join(I18N_DIR, 'i18n-core.js');
+const I18N_VERSION_REGEX = /(version:\s*)(['"])[^'"]*\2/;
+
+let i18nJsonHash; // se calcula una sola vez por proceso: cambiar un JSON exige reiniciar
+
 function sha1(data) {
     return crypto.createHash('sha1').update(data).digest('hex').slice(0, 10);
+}
+
+function getI18nJsonHash() {
+    if (i18nJsonHash === undefined) {
+        try {
+            const files = fs.readdirSync(I18N_DIR, { recursive: true })
+                .filter((file) => file.endsWith('.json'))
+                .sort();
+            i18nJsonHash = files.length
+                ? sha1(files.map((file) => `${file}:${sha1(fs.readFileSync(path.join(I18N_DIR, file)))}`).join('\n'))
+                : null;
+        } catch {
+            i18nJsonHash = null;
+        }
+    }
+    return i18nJsonHash;
 }
 
 function parseImports(content, baseDir) {
@@ -115,7 +140,9 @@ function resolveAssetAbsPath(baseDir, assetPath) {
 function hashFor(assetPath, baseDir) {
     const abs = resolveAssetAbsPath(baseDir, assetPath);
     if (!abs) return null;
-    return abs.endsWith('.js') ? getModuleVersion(abs) : getFileInfo(abs)?.hash ?? null;
+    if (!abs.endsWith('.js')) return getFileInfo(abs)?.hash ?? null;
+    const hash = getModuleVersion(abs);
+    return hash && abs === I18N_CORE ? sha1(`${hash}:${getI18nJsonHash()}`) : hash;
 }
 
 // Versiona referencias a assets externos: src="...js", href="...css", src/href="...svg".
@@ -190,8 +217,13 @@ function assetVersioningMiddleware(req, res, next) {
         if (err) {
             return next(); // no existe / no legible: deja que static devuelva 404
         }
-        if (isJs && !HAS_JS_IMPORT_REGEX.test(content)) {
+        const isI18nCore = absFile === I18N_CORE;
+        if (isJs && !isI18nCore && !HAS_JS_IMPORT_REGEX.test(content)) {
             return next(); // script sin imports locales: static lo sirve tal cual
+        }
+        if (isI18nCore) {
+            const jsonHash = getI18nJsonHash();
+            if (jsonHash) content = content.replace(I18N_VERSION_REGEX, `$1$2${jsonHash}$2`);
         }
 
         const baseDir = path.dirname(absFile);

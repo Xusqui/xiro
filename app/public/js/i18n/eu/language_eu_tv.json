@@ -16,6 +16,7 @@
     "tv.lobby.filter.custom": "Pertsonalizatuak",
     "tv.lobby.filter.games": "Jokoak",
     "tv.lobby.filter.banks": "Bankuak",
+    "tv.lobby.filter.trivial": "Trivial",
     "tv.lobby.filter.all": "Guztiak",
     "tv.lobby.empty.all": "Ez dago PINik eskuragarri. Sortu lehenik joko edo banku bat.",
     "tv.lobby.empty.by_type": "Ez dago {type} eskuragarri.",
@@ -24,7 +25,8 @@
     "tv.lobby.players_label": "Jokalariak: ",
     "tv.lobby.type.custom": "Joko pertsonalizatuak",
     "tv.lobby.type.games": "Jokoak",
-    "tv.lobby.type.banks": "Galdera-bankuak"
+    "tv.lobby.type.banks": "Galdera-bankuak",
+    "tv.lobby.type.trivial": "Trivial jokoak"
   },
   "literals": {
     "Error al cargar PINs": "Errorea PINak kargatzean",

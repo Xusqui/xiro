@@ -78,11 +78,17 @@ function calculateFinalRanking(game, teamConfig) {
                         individualScores: team.players.map(p => ({ nickname: p, score: game.scores[p] }))
                     });
                 }
+                // Miembros con sus puntos individuales: el visor de resultados los
+                // necesita para el desglose del equipo (las respuestas se guardan por nick).
+                const members = (team.players || [])
+                    .map(nick => ({ name: nick, pts: roundScore(game.scores[nick] || 0) }))
+                    .sort((a, b) => b.pts - a.pts);
                 return {
                     name: team.name,
                     pts: teamScore,
                     color: team.color,
-                    isTeam: true
+                    isTeam: true,
+                    members
                 };
             })
             .sort((a, b) => b.pts - a.pts)

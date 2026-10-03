@@ -170,7 +170,7 @@
 }
 
 /* ===== Tarjetas de juego =====
-   Markup con utilidades Tailwind (ver _renderGameCard en standalone-lobby.js),
+   Markup con clases utilitarias de common.css (ver _renderGameCard en standalone-lobby.js),
    igual que las tarjetas de selección de PIN de presentador.html
    (renderizarPINs en presenter-lobby.js) — mismo tamaño/peso de texto para
    mantener la legibilidad. Solo el layout de la rejilla es CSS propio. */

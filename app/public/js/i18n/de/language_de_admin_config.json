@@ -53,6 +53,8 @@
     "admin.config.meta.LOG_MAX_FILES.desc": "Wie lange Protokolle aufbewahrt werden. Beispiel: \"14d\" = 14 Tage. Längere Aufbewahrung = mehr Speicherplatz.",
     "admin.config.meta.RECONNECTION_TIMEOUT.label": "Zeitüberschreitung bei der Wiederverbindung",
     "admin.config.meta.RECONNECTION_TIMEOUT.desc": "Minuten, für die der Server den Status eines getrennten Spielers behält. Wenn die Person sich vor Ablauf wieder verbindet, wird das Spiel fortgesetzt.",
+    "admin.config.meta.PRESENTER_RECONNECTION_TIMEOUT.label": "Wiederverbindung des Moderators",
+    "admin.config.meta.PRESENTER_RECONNECTION_TIMEOUT.desc": "Minuten, die das Spiel erhalten bleibt, wenn der Moderatorbildschirm die Verbindung verliert (z. B. Ruhezustand des Computers). Nach Ablauf endet die Sitzung für alle.",
     "admin.config.meta.INACTIVE_GAME_THRESHOLD.label": "Schwelle für inaktives Spiel",
     "admin.config.meta.INACTIVE_GAME_THRESHOLD.desc": "Stunden der Inaktivität, bevor ein Spiel als verlassen gilt und aus dem Speicher entfernt wird.",
     "admin.config.meta.EMPTY_LOBBY_TIMEOUT.label": "Zeitüberschreitung bei leerer Lobby",

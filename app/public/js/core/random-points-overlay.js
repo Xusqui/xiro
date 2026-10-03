@@ -19,20 +19,16 @@
     const OVERLAY_ID = 'random-points-overlay';
     let _timeout = null;
 
-    // Timing del "flip board" de dígitos (ver buildPointsMarkup/_animateFlipBoard).
-    // Traducción fiel del efecto SCSS original del usuario (@keyframes flip):
-    // cada ficha da 5 giros completos seguidos (rotateX creciente, sin
-    // oscilar hacia atrás) en 1s, empezando en negro y pasando a blanco a
-    // partir del 40%, con un dígito distinto en cada giro intermedio -pero
-    // elegido en JS en cada aparición del overlay, no "cocinado" una vez al
-    // compilar como haría random() de Sass- y aterrizando siempre en el
-    // dígito real al terminar (el SCSS original no lo garantizaba: el 100%
-    // no fijaba `content`, así que se quedaba en el último aleatorio).
-    const FLIP_DURATION_MS = 1000;
-    const FLIP_STAGGER_MS = 150;
-    // Instantes (ms) dentro de la animación en los que cambia el dígito
-    // mostrado, replicando los cortes 20/40/60/80% del keyframe original.
-    const FLIP_CONTENT_STEPS_MS = [200, 400, 600, 800];
+    // Panel split-flap de dígitos (ver buildPointsMarkup/_animateFlipBoard).
+    // Cada ficha parte en blanco y avanza carácter a carácter por FLIP_CHARS
+    // hasta su dígito: en cada paso cae la pestaña superior (@keyframes
+    // rpo-flip). Un 9 tarda 10 pasos, ~1 s, dentro de la pantalla de 3,5 s.
+    const FLIP_CHARS = ' 0123456789';
+    // Duración de cada paso. Manda el JS: fija también la de la animación CSS,
+    // así el dígito final llega aunque el CSS no anime.
+    const FLIP_STEP_MS = 100;
+    // Pausa con el panel en blanco antes de empezar a girar
+    const FLIP_START_DELAY_MS = 300;
 
     function _t(key, vars, fallback) {
         return typeof global._t === 'function' ? global._t(key, vars, fallback) : fallback;
@@ -41,10 +37,6 @@
     function _prefersReducedMotion() {
         return typeof global.matchMedia === 'function'
             && global.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    }
-
-    function _randomDigitChar() {
-        return String(Math.floor(Math.random() * 10));
     }
 
     /**
@@ -60,8 +52,15 @@
         const text = String(points);
         if (!animate || !/^\d+$/.test(text)) return text;
 
+        // Mitades fijas (top/bottom) y pestaña que cae (leaf) con sus dos caras
         const tiles = text.split('')
-            .map(digit => `<span class="rpo-digit"><span class="rpo-digit-face">${digit}</span></span>`)
+            .map(digit => `<span class="rpo-digit" data-digit="${digit}">`
+                + '<span class="rpo-half rpo-top"></span>'
+                + '<span class="rpo-half rpo-bottom"></span>'
+                + '<span class="rpo-leaf">'
+                + '<span class="rpo-half rpo-front"></span>'
+                + '<span class="rpo-half rpo-back"></span>'
+                + '</span></span>')
             .join('');
 
         return `<span class="rpo-board" aria-hidden="true">${tiles}</span>`
@@ -69,36 +68,50 @@
     }
 
     /**
-     * Dispara el giro en cada ficha del flip board: la ficha entera gira
-     * sobre el eje X de forma continua durante FLIP_DURATION_MS (ver
-     * @keyframes rpo-flap en el CSS, que lleva el color de negro a blanco),
-     * mientras aquí en JS se va cambiando el dígito mostrado en los mismos
-     * instantes que marcaba el keyframe original (20/40/60/80%), aterrizando
-     * siempre en el dígito real al final. Stagger entre fichas para efecto
-     * panel de estación.
+     * Avanza una ficha un carácter y se vuelve a llamar hasta llegar a su
+     * dígito (`data-digit`).
      *
-     * @param {HTMLElement} container - Elemento que contiene los `.rpo-digit-face`
+     * @param {HTMLElement} tile - `.rpo-digit`
+     * @param {string} current - Carácter que muestra ahora
+     */
+    function _flipTile(tile, current) {
+        const target = tile.dataset.digit;
+        if (current === target) return;
+
+        const next = FLIP_CHARS[(FLIP_CHARS.indexOf(current) + 1) % FLIP_CHARS.length];
+        const bottom = tile.querySelector('.rpo-bottom');
+        const leaf = tile.querySelector('.rpo-leaf');
+
+        tile.querySelector('.rpo-top').textContent = next;            // mitad de arriba de la nueva
+        bottom.textContent = current;                                // mitad de abajo de la anterior
+        tile.querySelector('.rpo-front').textContent = current;      // la pestaña cae con la anterior
+        tile.querySelector('.rpo-back').textContent = next;          // y su dorso trae la nueva
+
+        leaf.classList.remove('rpo-flipping');
+        void leaf.offsetWidth; // reflow: permite re-disparar la animación
+        leaf.classList.add('rpo-flipping');
+
+        setTimeout(() => {
+            bottom.textContent = next;
+            _flipTile(tile, next);
+        }, FLIP_STEP_MS);
+    }
+
+    /**
+     * Pone a girar todas las fichas del panel a la vez, desde el blanco.
+     *
+     * @param {HTMLElement} container - Elemento que contiene las `.rpo-digit`
      */
     function _animateFlipBoard(container) {
-        const faces = container.querySelectorAll('.rpo-digit-face');
+        const tiles = container.querySelectorAll('.rpo-digit');
 
-        faces.forEach((face, i) => {
-            const finalDigit = face.textContent;
-            const delay = i * FLIP_STAGGER_MS;
-
-            const showRandomDigit = () => { face.textContent = _randomDigitChar(); };
-            FLIP_CONTENT_STEPS_MS.forEach(stepMs => setTimeout(showRandomDigit, delay + stepMs));
-
-            setTimeout(() => {
-                face.textContent = finalDigit;
-            }, delay + FLIP_DURATION_MS);
-
-            setTimeout(() => {
-                face.classList.remove('rpo-flapping');
-                void face.offsetWidth; // reflow: permite re-disparar la animación
-                face.classList.add('rpo-flapping');
-            }, delay);
+        tiles.forEach(tile => {
+            tile.querySelector('.rpo-leaf').style.animationDuration = `${FLIP_STEP_MS}ms`;
         });
+
+        setTimeout(() => {
+            tiles.forEach(tile => _flipTile(tile, ' '));
+        }, FLIP_START_DELAY_MS);
     }
 
     /**
@@ -162,8 +175,8 @@
      * @param {Object} [options]
      * @param {number} [options.currentStreak] - Racha del jugador (solo móvil)
      * @param {number} [options.durationMs] - Duración a mostrar (por defecto, la del payload)
-     * @param {boolean} [options.animate] - Si el número sale con el flip board
-     *   de dígitos (por defecto true, salvo `prefers-reduced-motion`)
+     * @param {boolean} [options.animate] - Si el número sale con el panel
+     *   split-flap de dígitos (por defecto true, salvo `prefers-reduced-motion`)
      * @returns {Promise<void>} Se resuelve al ocultarse
      */
     function show(payload, options) {
@@ -184,9 +197,9 @@
         el.setAttribute('aria-live', 'polite');
         el.style.cssText = 'position:fixed;inset:0;z-index:10000;display:flex;flex-direction:column;'
             + 'align-items:center;justify-content:center;text-align:center;padding:0 24px;'
-            + 'background:linear-gradient(135deg,#7e22ce,#4338ca);color:#fff;pointer-events:none';
+            + 'background:linear-gradient(135deg,#793475,#684374);color:#fff;pointer-events:none';
         el.innerHTML = `
-            <div style="font-size:clamp(56px,12vw,88px);line-height:1;margin-bottom:16px" class="animate-bounce">🎲</div>
+            <div style="font-size:clamp(56px,12vw,88px);line-height:1;margin-bottom:16px" class="animate-float">🎲</div>
             <h2 style="font-size:clamp(2rem,7vw,4.5rem);font-weight:900;font-style:italic;text-transform:uppercase;letter-spacing:-.02em;margin:0;max-width:20ch">${headline}</h2>
             <p style="font-size:clamp(1rem,3vw,2rem);font-weight:700;margin-top:12px;opacity:.9;text-transform:uppercase">${subtitle}</p>
             ${streakLine}`;

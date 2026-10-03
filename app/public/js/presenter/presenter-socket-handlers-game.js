@@ -186,7 +186,7 @@ export function registerGameSocketHandlers() {
 
         const timerEl = document.getElementById('timer');
         if (timerEl) {
-            timerEl.classList.remove('border-purple-500');
+            timerEl.classList.remove('border-plum-500');
             timerEl.classList.add('border-yellow-500', 'bg-yellow-500/20');
             timerEl.innerText = _t(window.currentSeconds);
         }
@@ -203,7 +203,7 @@ export function registerGameSocketHandlers() {
         const timerEl = document.getElementById('timer');
         if (timerEl) {
             timerEl.classList.remove('border-yellow-500', 'bg-yellow-500/20');
-            timerEl.classList.add('border-purple-500');
+            timerEl.classList.add('border-plum-500');
         }
 
         console.log('✅ Frontend: Timer reanudado - Tiempo restante:', window.currentSeconds);

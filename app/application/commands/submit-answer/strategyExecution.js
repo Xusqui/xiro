@@ -9,7 +9,12 @@
  */
 
 const GameModeFactory = require('../../../domain/strategies/GameModeFactory');
-const { checkTeamCompleted, revealToSingleTeam } = require('../../../sockets/utils/TeamRevealHelper');
+const {
+    checkTeamCompleted,
+    revealToSingleTeam,
+    isTeamRevealedAnywhere,
+    revealToLatePlayer
+} = require('../../../sockets/utils/TeamRevealHelper');
 const { checkAllTeamsCompleted, notifyTeamWaiting } = require('../../../sockets/utils/TeamManager');
 
 /**
@@ -73,7 +78,20 @@ async function processAnswerByGameMode(ctx) {
         players
     });
 
-    if (modeResult.teamToReveal) {
+    // Equipo ya revelado (p. ej. por tiempo agotado): la respuesta llega tarde, como el
+    // envío automático de ordenar/emparejar, y su resultado va directo al jugador.
+    const playerTeam = modeResult.teamToReveal || modeResult.teamToNotifyWaiting;
+    if (playerTeam && await isTeamRevealedAnywhere(game, sPin, playerTeam.name)) {
+        await revealToLatePlayer({
+            team: playerTeam,
+            game,
+            question: currentQuestion,
+            io,
+            roomId: sPin,
+            nickname,
+            socket: payload.socket
+        });
+    } else if (modeResult.teamToReveal) {
         await revealToSingleTeam({
             team: modeResult.teamToReveal,
             game,

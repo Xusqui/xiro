@@ -53,6 +53,8 @@
     "admin.config.meta.LOG_MAX_FILES.desc": "Canto tempo se gardan os rexistros. Exemplo: «14d» = 14 días. Máis retención = máis espazo en disco.",
     "admin.config.meta.RECONNECTION_TIMEOUT.label": "Tempo de espera de reconexión",
     "admin.config.meta.RECONNECTION_TIMEOUT.desc": "Minutos durante os que o servidor conserva o estado dun xogador desconectado. Se reconecta antes de que expire, a partida continúa.",
+    "admin.config.meta.PRESENTER_RECONNECTION_TIMEOUT.label": "Reconexión do presentador",
+    "admin.config.meta.PRESENTER_RECONNECTION_TIMEOUT.desc": "Minutos que se mantén a partida se se desconecta a pantalla do presentador (p. ex. se o ordenador entra en repouso). Ao expirar, a sesión remata para todos.",
     "admin.config.meta.INACTIVE_GAME_THRESHOLD.label": "Limiar de xogo inactivo",
     "admin.config.meta.INACTIVE_GAME_THRESHOLD.desc": "Horas de inactividade antes de considerar unha partida abandonada e retirala da memoria.",
     "admin.config.meta.EMPTY_LOBBY_TIMEOUT.label": "Tempo de espera do vestíbulo baleiro",

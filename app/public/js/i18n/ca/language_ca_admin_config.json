@@ -53,6 +53,8 @@
     "admin.config.meta.LOG_MAX_FILES.desc": "How long logs are kept. Example: 14d = 14 days.",
     "admin.config.meta.RECONNECTION_TIMEOUT.label": "Reconnection timeout",
     "admin.config.meta.RECONNECTION_TIMEOUT.desc": "Minutes the server keeps a disconnected player's state.",
+    "admin.config.meta.PRESENTER_RECONNECTION_TIMEOUT.label": "Reconnexió del presentador",
+    "admin.config.meta.PRESENTER_RECONNECTION_TIMEOUT.desc": "Minuts que es manté la partida si es desconnecta la pantalla del presentador (p. ex. si l'ordinador entra en repòs). En expirar, la sessió acaba per a tothom.",
     "admin.config.meta.INACTIVE_GAME_THRESHOLD.label": "Inactive game threshold",
     "admin.config.meta.INACTIVE_GAME_THRESHOLD.desc": "Hours of inactivity before a game is cleared from memory.",
     "admin.config.meta.EMPTY_LOBBY_TIMEOUT.label": "Empty lobby timeout",

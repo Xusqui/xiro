@@ -174,7 +174,7 @@ function handleReconnectFailed(data) {
                 <p class="text-slate-400 mb-6 text-xl">${msg}</p>
                 <div class="flex gap-4">
                     <button data-presenter-action="reload-page"
-                        class="bg-purple-600 hover:bg-purple-500 px-6 py-3 rounded-full text-white font-bold uppercase transition shadow-lg">
+                        class="bg-plum-600 hover:bg-plum-500 px-6 py-3 rounded-full text-white font-bold uppercase transition shadow-lg">
                         <i class="fas fa-redo mr-2"></i>Reintentar
                     </button>
                     <button data-presenter-action="reset-presenter-session"
@@ -209,7 +209,7 @@ function restoreGameScreen(snapshot) {
             lobbyMain.style.display = 'flex';
             lobbyMain.innerHTML = _tHtml(`
                 <div class="h-full w-full flex flex-col items-center justify-center pt-10 px-10 pb-16">
-                    <div class="w-20 h-20 border-8 border-purple-500 border-t-transparent rounded-full animate-spin mb-6"></div>
+                    <div class="w-20 h-20 border-8 border-plum-500 border-t-transparent rounded-full animate-spin mb-6"></div>
                     <h1 class="text-4xl font-black text-white mb-4">Reconectado</h1>
                     <p class="text-slate-400 text-xl">${_t('player.reconnection.waiting_next', null, 'Esperando siguiente pregunta...')}</p>
                 </div>

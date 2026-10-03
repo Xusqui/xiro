@@ -33,7 +33,7 @@ export function rankingCardHtml(ranking, { top, sideCss, title, emptyMessage }) 
             position: fixed;
             top: ${top};
             ${sideCss}
-            background: linear-gradient(135deg, rgb(147, 51, 234), rgb(37, 99, 235));
+            background: linear-gradient(135deg, rgb(148, 67, 142), rgb(37, 99, 235));
             color: white;
             border-radius: 1.5rem;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
@@ -60,7 +60,7 @@ export function justificationCardHtml(justification) {
             top: 0;
             left: 0;
             right: 200px;
-            background: linear-gradient(to right, #9333ea, #2563eb);
+            background: linear-gradient(to right, #94438e, #2563eb);
             color: white;
             padding: 3rem 2rem;
             box-shadow: 0 10px 50px rgba(0,0,0,0.3);
@@ -103,7 +103,7 @@ export function renderOrderReveal(correctOrder, options = {}) {
     }).join('');
 
     const html = `
-        <div id="order-reveal-card" style="position: fixed; top: ${topOffset}; left: 50%; transform: translateX(-50%); width: 520px; max-width: 80vw; background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(79,70,229,0.95)); color: white; border-radius: 2rem; border: 4px solid white; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35); padding: 1.5rem; z-index: 9998;">
+        <div id="order-reveal-card" style="position: fixed; top: ${topOffset}; left: 50%; transform: translateX(-50%); width: 520px; max-width: 80vw; background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(127,84,141,0.95)); color: white; border-radius: 2rem; border: 4px solid white; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35); padding: 1.5rem; z-index: 9998;">
             <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom: 1rem;">
                 <i class="fas fa-sort-amount-down" style="font-size: 1.75rem; color: #a7f3d0;"></i>
                 <h3 style="font-size: 1.5rem; font-weight: 900; text-transform: uppercase; font-style: italic; margin: 0;">${_t('presenter.reveal.correct_order', null, 'Orden correcto')}</h3>

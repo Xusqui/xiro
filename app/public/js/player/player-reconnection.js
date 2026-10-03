@@ -181,7 +181,7 @@ function handleReconnectFailed(data) {
             <h2 class="text-3xl font-black italic mb-4 text-white">NO SE PUDO RECONECTAR</h2>
             <p class="text-xl text-white/80 mb-6">${message}</p>
             <button data-player-action="reload-page"
-                class="bg-purple-600 hover:bg-purple-500 px-8 py-4 rounded-2xl text-white font-black text-xl transition shadow-lg">
+                class="bg-plum-600 hover:bg-plum-500 px-8 py-4 rounded-2xl text-white font-black text-xl transition shadow-lg">
                 <i class="fas fa-redo mr-2"></i>REINTENTAR
             </button>
         </div>
@@ -229,8 +229,8 @@ function renderQuestion(question) {
 function showWaitingForResults(nickname, currentQ, totalQ) {
     const display = (nickname || '').toUpperCase();
     document.body.innerHTML = _tHtml(`
-        <div class="h-screen w-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-700 via-purple-600 to-pink-600 text-white text-center p-8">
-            <div class="bg-purple-600 px-6 py-3 rounded-full mb-6 shadow-2xl">
+        <div class="h-screen w-screen flex flex-col items-center justify-center bg-gradient-to-br from-plum-700 via-plum-600 to-pink-600 text-white text-center p-8">
+            <div class="bg-plum-600 px-6 py-3 rounded-full mb-6 shadow-2xl">
                 <p class="font-black text-xl uppercase">${escapeHtml(display)}</p>
             </div>
             <i class="fas fa-check-circle text-6xl text-green-400 mb-6 animate-pulse"></i>
@@ -247,8 +247,8 @@ function showWaitingForResults(nickname, currentQ, totalQ) {
 function showWaitingScreen(nickname, message) {
     const display = (nickname || '').toUpperCase();
     document.body.innerHTML = _tHtml(`
-        <div class="h-screen w-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-700 via-purple-600 to-pink-600 text-white text-center p-8">
-            <div class="bg-purple-600 px-6 py-3 rounded-full mb-6 shadow-2xl">
+        <div class="h-screen w-screen flex flex-col items-center justify-center bg-gradient-to-br from-plum-700 via-plum-600 to-pink-600 text-white text-center p-8">
+            <div class="bg-plum-600 px-6 py-3 rounded-full mb-6 shadow-2xl">
                 <p class="font-black text-xl uppercase">${escapeHtml(display)}</p>
             </div>
             <div class="w-16 h-16 border-8 border-white border-t-transparent rounded-full animate-spin mb-6"></div>

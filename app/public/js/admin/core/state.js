@@ -25,6 +25,27 @@ Object.defineProperty(globalThis, 'currentBanks', {
     enumerable: false
 });
 
+// ===== TIEMPO POR PREGUNTA =====
+// Valor por defecto de time_limit en preguntas nuevas: QUESTION_TIME_LIMIT de
+// Config → Servidor → Partidas. 30 s solo mientras llega /api/ui-settings.
+let defaultQuestionTimeLimit = 30;
+
+function setDefaultQuestionTimeLimit(value) {
+    const parsed = parseInt(value, 10);
+    if (Number.isFinite(parsed) && parsed > 0) defaultQuestionTimeLimit = parsed;
+}
+
+function getDefaultQuestionTimeLimit() {
+    return defaultQuestionTimeLimit;
+}
+
+if (typeof fetch === 'function') {
+    fetch('/api/ui-settings')
+        .then(r => r.json())
+        .then(settings => setDefaultQuestionTimeLimit(settings.questionTimeLimit))
+        .catch(() => { });
+}
+
 // ===== MULTIMEDIA - CONSTANTES =====
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
 const MAX_AUDIO_SIZE = 10 * 1024 * 1024; // 10MB

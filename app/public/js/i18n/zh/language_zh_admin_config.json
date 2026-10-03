@@ -53,6 +53,8 @@
     "admin.config.meta.LOG_MAX_FILES.desc": "日志保留时长。示例：“14d” = 14 天。保留越久，占用磁盘空间越大。",
     "admin.config.meta.RECONNECTION_TIMEOUT.label": "重连超时",
     "admin.config.meta.RECONNECTION_TIMEOUT.desc": "服务器在玩家掉线后保留其状态的分钟数。如果在过期前重连，游戏会继续。",
+    "admin.config.meta.PRESENTER_RECONNECTION_TIMEOUT.label": "主持人重连超时",
+    "admin.config.meta.PRESENTER_RECONNECTION_TIMEOUT.desc": "主持人屏幕断开连接（例如电脑进入睡眠）后保留游戏的分钟数。超时后，所有人的会话都会结束。",
     "admin.config.meta.INACTIVE_GAME_THRESHOLD.label": "不活跃游戏阈值",
     "admin.config.meta.INACTIVE_GAME_THRESHOLD.desc": "游戏在被视为已放弃并从内存中清理前允许的非活动小时数。",
     "admin.config.meta.EMPTY_LOBBY_TIMEOUT.label": "空大厅超时",

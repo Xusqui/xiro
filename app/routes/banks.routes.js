@@ -64,6 +64,17 @@ router.post('/api/banks', authenticateAdmin, validateBody(schemas.createBank), a
     }
 });
 
+// Debe ir antes de /api/banks/:id, que si no la captura con id = "info"
+router.get('/api/banks/info', authenticateAdmin, async (req, res) => {
+    try {
+        const bankIds = req.query.ids ? req.query.ids.split(',').map(id => parseInt(id, 10)) : [];
+        const result = await bankMergeService.getBanksInfo(bankIds);
+        res.json(result);
+    } catch (err) {
+        handleRouteError(err, res);
+    }
+});
+
 router.get('/api/banks/:id', authenticateAdmin, async (req, res) => {
     try {
         const result = await dbService.getBankWithQuestions(req.params.id);
@@ -113,16 +124,6 @@ router.post('/api/banks/merge', authenticateAdmin, validateBody(schemas.mergeBan
             created_by_user_id: req.user?.userId
         };
         const result = await bankMergeService.mergeBanks(bankIds, name, pin, mergeOptions);
-        res.json(result);
-    } catch (err) {
-        handleRouteError(err, res);
-    }
-});
-
-router.get('/api/banks/info', authenticateAdmin, async (req, res) => {
-    try {
-        const bankIds = req.query.ids ? req.query.ids.split(',').map(id => parseInt(id, 10)) : [];
-        const result = await bankMergeService.getBanksInfo(bankIds);
         res.json(result);
     } catch (err) {
         handleRouteError(err, res);

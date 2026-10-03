@@ -154,7 +154,7 @@ function _ensureAdminModalStyles() {
         @keyframes xiro-fade-in { from { opacity:0 } to { opacity:1 } }
         @keyframes xiro-zoom-in { from { opacity:0; transform:scale(.88) } to { opacity:1; transform:scale(1) } }
         .xiro-admin-overlay { animation: xiro-fade-in .2s ease-out both }
-        .xiro-admin-dialog  { animation: xiro-zoom-in .22s cubic-bezier(.34,1.56,.64,1) both }
+        .xiro-admin-dialog  { animation: xiro-zoom-in .22s cubic-bezier(.16,1,.3,1) both }
     `;
     document.head.appendChild(s);
 }

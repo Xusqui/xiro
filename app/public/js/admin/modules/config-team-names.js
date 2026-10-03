@@ -31,7 +31,7 @@ function renderTeamNamesSection(uiSettings) {
 
     const inputs = names.map((name, i) => `
         <div class="flex items-center gap-3">
-            <span class="w-8 h-8 flex items-center justify-center bg-purple-100 text-purple-700
+            <span class="w-8 h-8 flex items-center justify-center bg-plum-100 text-plum-700
                          rounded-lg font-black text-sm flex-shrink-0">${i + 1}</span>
             <input type="text"
                    id="team-name-admin-${i}"
@@ -39,7 +39,7 @@ function renderTeamNamesSection(uiSettings) {
                    maxlength="30"
                    placeholder="${_t('admin.config.team.name_placeholder', null, 'Nombre del equipo')} ${i + 1}"
                    class="flex-1 px-3 py-2 border-2 border-slate-200 rounded-xl text-sm font-medium
-                          text-slate-800 focus:border-purple-400 focus:outline-none transition-colors
+                          text-slate-800 focus:border-plum-400 focus:outline-none transition-colors
                           placeholder:text-slate-400">
         </div>
     `).join('');
@@ -47,8 +47,8 @@ function renderTeamNamesSection(uiSettings) {
     return `
         <div class="bg-white rounded-2xl border-2 border-slate-200 p-6 mt-6">
             <div class="flex items-center gap-3 mb-5">
-                <div class="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <i class="fas fa-users text-purple-600 text-base"></i>
+                <div class="w-10 h-10 bg-plum-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-users text-plum-600 text-base"></i>
                 </div>
                 <div>
                     <h3 class="font-black text-slate-800 text-sm">
@@ -64,7 +64,7 @@ function renderTeamNamesSection(uiSettings) {
             </div>
             <div class="flex flex-wrap gap-3 items-center">
                 <button data-config-action="save-team-names"
-                    class="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 active:scale-95
+                    class="flex items-center gap-2 bg-plum-600 hover:bg-plum-700 active:scale-95
                            text-white font-bold px-5 py-2.5 rounded-xl shadow-sm transition-all text-sm">
                     <i class="fas fa-save text-xs"></i>
                     ${_t('admin.config.team.btn_save', null, 'Guardar nombres')}

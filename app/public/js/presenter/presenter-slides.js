@@ -52,7 +52,7 @@ export function renderCommentSlide(slide) {
             const safeTeamName = escapeHtml(team.name);
             const encodedTeamName = encodeInlineArg(team.name);
             return `
-                <div class="${teamColors[team.color] || 'bg-purple-600'} backdrop-blur rounded-xl p-4 flex flex-col items-center gap-3 border-2 border-white/30">
+                <div class="${teamColors[team.color] || 'bg-plum-600'} backdrop-blur rounded-xl p-4 flex flex-col items-center gap-3 border-2 border-white/30">
                     <div class="flex items-center gap-2">
                         <i class="fas fa-users text-white text-xl"></i>
                         <span class="text-white font-bold text-lg truncate w-full text-center">${safeTeamName}</span>
@@ -65,7 +65,7 @@ export function renderCommentSlide(slide) {
                         <button data-presenter-action="assign-points" data-target-name="${encodedTeamName}" data-points="5" data-is-team="true" class="bg-blue-500 hover:bg-blue-600 text-white w-12 h-12 rounded-full font-bold transition shadow-lg text-lg">
                             +5
                         </button>
-                        <button data-presenter-action="assign-points" data-target-name="${encodedTeamName}" data-points="10" data-is-team="true" class="bg-purple-500 hover:bg-purple-600 text-white w-12 h-12 rounded-full font-bold transition shadow-lg text-lg">
+                        <button data-presenter-action="assign-points" data-target-name="${encodedTeamName}" data-points="10" data-is-team="true" class="bg-plum-500 hover:bg-plum-600 text-white w-12 h-12 rounded-full font-bold transition shadow-lg text-lg">
                             +10
                         </button>
                     </div>
@@ -89,7 +89,7 @@ export function renderCommentSlide(slide) {
                     <button data-presenter-action="assign-points" data-target-name="${encodedNick}" data-points="5" data-is-team="false" class="bg-blue-500 hover:bg-blue-600 text-white w-10 h-10 rounded-full font-bold transition">
                         +5
                     </button>
-                    <button data-presenter-action="assign-points" data-target-name="${encodedNick}" data-points="10" data-is-team="false" class="bg-purple-500 hover:bg-purple-600 text-white w-10 h-10 rounded-full font-bold transition">
+                    <button data-presenter-action="assign-points" data-target-name="${encodedNick}" data-points="10" data-is-team="false" class="bg-plum-500 hover:bg-plum-600 text-white w-10 h-10 rounded-full font-bold transition">
                         +10
                     </button>
                 </div>
@@ -118,7 +118,7 @@ export function renderCommentSlide(slide) {
                 </div>
             </div>
             
-            <button id="btn-next" data-presenter-action="next-question" class="fixed bottom-10 right-10 bg-white text-slate-900 px-10 py-5 rounded-3xl font-black text-2xl shadow-2xl hover:bg-purple-600 hover:text-white transition italic uppercase" style="z-index: 10000;">
+            <button id="btn-next" data-presenter-action="next-question" class="fixed bottom-10 right-10 bg-white text-slate-900 px-10 py-5 rounded-3xl font-black text-2xl shadow-2xl hover:bg-plum-600 hover:text-white transition italic uppercase" style="z-index: 10000;">
                 ${window.isTrivialGame ? _t('presenter.slides.next_round', null, 'Siguiente Ronda') : (getCurrentQuestionIndex() >= getTotalQuestions() - 1 ? _t('presenter.slides.view_ranking', null, 'Ver Ránking') : _t('presenter.slides.next', null, 'Siguiente'))}
                 <i class="fas ${window.isTrivialGame ? 'fa-rotate-right' : (getCurrentQuestionIndex() >= getTotalQuestions() - 1 ? 'fa-trophy' : 'fa-chevron-right')} ml-2"></i>
             </button>
@@ -190,7 +190,7 @@ export function renderTextSlide(slide) {
     const body = escapeHtml(slide?.slide_body || '');
 
     lobbyMain.innerHTML = _tHtml(`
-        <div class="h-full w-full flex flex-col items-center justify-center pt-10 px-10 pb-28 gap-8" style="background: radial-gradient(circle at 20% 20%, rgba(56,189,248,0.25), transparent 35%), radial-gradient(circle at 80% 15%, rgba(236,72,153,0.22), transparent 35%), radial-gradient(circle at 50% 85%, rgba(251,191,36,0.2), transparent 40%), linear-gradient(135deg, #312e81 0%, #6d28d9 40%, #1d4ed8 100%);">
+        <div class="h-full w-full flex flex-col items-center justify-center pt-10 px-10 pb-28 gap-8" style="background: radial-gradient(circle at 20% 20%, rgba(56,189,248,0.25), transparent 35%), radial-gradient(circle at 80% 15%, rgba(236,72,153,0.22), transparent 35%), radial-gradient(circle at 50% 85%, rgba(251,191,36,0.2), transparent 40%), linear-gradient(135deg, #3f2746 0%, #793475 40%, #1d4ed8 100%);">
             <div class="text-center" style="width: 85%; max-width: 1400px;">
                 <h1 class="font-black uppercase italic drop-shadow-lg text-white leading-tight" style="white-space: pre-line; font-size: clamp(2.4rem, 5.2vw, 6rem);">${title}</h1>
             </div>
@@ -201,7 +201,7 @@ export function renderTextSlide(slide) {
                 </div>
             </div>
 
-            <button id="btn-next" data-presenter-action="next-question" class="fixed bottom-10 right-10 bg-white text-slate-900 px-10 py-5 rounded-3xl font-black text-2xl shadow-2xl hover:bg-indigo-600 hover:text-white transition italic uppercase" style="z-index: 10000;">
+            <button id="btn-next" data-presenter-action="next-question" class="fixed bottom-10 right-10 bg-white text-slate-900 px-10 py-5 rounded-3xl font-black text-2xl shadow-2xl hover:bg-aubergine-600 hover:text-white transition italic uppercase" style="z-index: 10000;">
                 ${window.isTrivialGame ? _t('presenter.slides.next_round', null, 'Siguiente Ronda') : (getCurrentQuestionIndex() >= getTotalQuestions() - 1 ? _t('presenter.slides.view_ranking', null, 'Ver Ránking') : _t('presenter.slides.next', null, 'Siguiente'))}
                 <i class="fas ${window.isTrivialGame ? 'fa-rotate-right' : (getCurrentQuestionIndex() >= getTotalQuestions() - 1 ? 'fa-trophy' : 'fa-chevron-right')} ml-2"></i>
             </button>
@@ -238,7 +238,7 @@ export function renderImageSlide(slide) {
         ? `<img src="${imageUrl}" style="max-width: 100%; max-height: 100%; object-fit: contain; display: block;" />`
         : '<div style="color: rgba(255,255,255,0.3); text-align: center;"><i class="fas fa-image fa-6x"></i></div>'
 }
-            <button id="btn-next" data-presenter-action="next-question" class="fixed bottom-10 right-10 bg-white text-slate-900 px-10 py-5 rounded-3xl font-black text-2xl shadow-2xl hover:bg-indigo-600 hover:text-white transition italic uppercase" style="z-index: 10000;">
+            <button id="btn-next" data-presenter-action="next-question" class="fixed bottom-10 right-10 bg-white text-slate-900 px-10 py-5 rounded-3xl font-black text-2xl shadow-2xl hover:bg-aubergine-600 hover:text-white transition italic uppercase" style="z-index: 10000;">
                 ${window.isTrivialGame ? _t('presenter.slides.next_round', null, 'Siguiente Ronda') : (getCurrentQuestionIndex() >= getTotalQuestions() - 1 ? _t('presenter.slides.view_ranking', null, 'Ver Ránking') : _t('presenter.slides.next', null, 'Siguiente'))}
                 <i class="fas ${window.isTrivialGame ? 'fa-rotate-right' : (getCurrentQuestionIndex() >= getTotalQuestions() - 1 ? 'fa-trophy' : 'fa-chevron-right')} ml-2"></i>
             </button>

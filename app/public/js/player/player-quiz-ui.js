@@ -46,7 +46,7 @@ export function renderizarPregunta(pregunta) {
             </div>`;
     } else if (tieneAudio) {
         multimediaHTML = `
-            <div class="bg-purple-800/40 px-3 py-2 flex items-center justify-center shrink-0">
+            <div class="bg-plum-800/40 px-3 py-2 flex items-center justify-center shrink-0">
                 <p class="text-white/70 text-xs italic flex items-center gap-2">
                     <i class="fas fa-volume-mute"></i>
                     ${_t('player.common.audio_main_screen', null, 'Audio solo en pantalla principal')}
@@ -56,11 +56,11 @@ export function renderizarPregunta(pregunta) {
 
     setBodyHTML(`
                 <div class="h-screen w-screen flex flex-col bg-slate-900 overflow-hidden">
-                    <div class="bg-purple-600 px-3 py-2 text-center shrink-0">
+                    <div class="bg-plum-600 px-3 py-2 text-center shrink-0">
                         <p class="text-white font-black text-base uppercase">${safeNickname}</p>
                     </div>
                     ${multimediaHTML}
-                    <div class="bg-white p-4 border-b-8 border-purple-600 text-slate-800 text-center ${tieneImagen ? 'min-h-[8vh]' : 'min-h-[12vh]'} ${tieneImagen ? 'max-h-[12vh]' : 'max-h-[20vh]'} flex flex-col items-center justify-center shrink-0 overflow-y-auto">
+                    <div class="bg-white p-4 border-b-8 border-plum-600 text-slate-800 text-center ${tieneImagen ? 'min-h-[8vh]' : 'min-h-[12vh]'} ${tieneImagen ? 'max-h-[12vh]' : 'max-h-[20vh]'} flex flex-col items-center justify-center shrink-0 overflow-y-auto">
                         <h2 class="${preguntaFontClass} font-black uppercase italic hyphens-auto" lang="es">${safeQuestionText}</h2>
                         ${tieneImagenEnunciado ? `<img src="${safeQuestionImageUrl}" alt="" class="mt-2 max-h-[150px] max-w-full object-contain rounded-lg shadow mx-auto">` : ''}
                     </div>

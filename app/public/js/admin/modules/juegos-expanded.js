@@ -248,10 +248,10 @@ async function renderEditorJuego(game) {
 
             <div class="mt-8">
                 <div class="grid grid-cols-2 gap-4">
-                    <button data-admin-click="guardarJuego(false)" class="bg-green-600 text-white px-6 py-5 rounded-2xl font-black text-lg hover:bg-green-700 transition shadow-xl shadow-green-200 flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
+                    <button data-admin-click="guardarJuego(false)" class="bg-white text-camaleon-700 border-2 border-camaleon-600 px-6 py-5 rounded-2xl font-black text-lg hover:bg-camaleon-50 transition shadow-sm flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
                         <i class="fas fa-save text-xl"></i> ${_t('admin.games.btn_save', null, 'GUARDAR JUEGO')}
                     </button>
-                    <button data-admin-click="guardarJuego(true)" class="bg-cyan-600 text-white px-6 py-5 rounded-2xl font-black text-lg hover:bg-cyan-700 transition shadow-xl shadow-cyan-200 flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
+                    <button data-admin-click="guardarJuego(true)" class="bg-camaleon-600 text-white border-2 border-camaleon-600 px-6 py-5 rounded-2xl font-black text-lg hover:bg-camaleon-700 hover:border-camaleon-700 transition shadow-xl shadow-camaleon-200 flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
                         <i class="fas fa-cloud-upload-alt text-xl"></i> ${_t('admin.banks.btn_save_exit', null, 'GUARDAR Y SALIR')}
                     </button>
                 </div>

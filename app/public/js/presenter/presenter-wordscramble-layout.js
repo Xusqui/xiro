@@ -41,12 +41,12 @@ export function renderWordScramblePresenter(q) {
     const letterTiles = letters.map(letter =>
         `<div style="
             width: 3rem; height: 3rem;
-            border: 2px solid #a78bfa;
+            border: 2px solid #cd81c6;
             border-radius: 0.5rem;
             display: flex; align-items: center; justify-content: center;
             font-weight: 900; font-size: 1.25rem;
-            color: #e9d5ff;
-            background: rgba(109,40,217,0.4);
+            color: #f2ceed;
+            background: rgba(121,52,117,0.4);
         ">${letter}</div>`
     ).join('');
 

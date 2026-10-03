@@ -53,6 +53,8 @@
     "admin.config.meta.LOG_MAX_FILES.desc": "ログを保持する期間です。例: 「14d」= 14 日。保持期間が長いほどディスク容量を使います。",
     "admin.config.meta.RECONNECTION_TIMEOUT.label": "再接続タイムアウト",
     "admin.config.meta.RECONNECTION_TIMEOUT.desc": "切断されたプレイヤーの状態をサーバーが保持する分数です。期限内に再接続すればゲームを再開できます。",
+    "admin.config.meta.PRESENTER_RECONNECTION_TIMEOUT.label": "プレゼンターの再接続タイムアウト",
+    "admin.config.meta.PRESENTER_RECONNECTION_TIMEOUT.desc": "プレゼンター画面の接続が切れた場合（コンピューターのスリープなど）にゲームを保持する分数です。期限が切れると全員のセッションが終了します。",
     "admin.config.meta.INACTIVE_GAME_THRESHOLD.label": "非アクティブなゲームのしきい値",
     "admin.config.meta.INACTIVE_GAME_THRESHOLD.desc": "ゲームが放棄されたと見なされ、メモリから削除されるまでの非アクティブ時間（時間）です。",
     "admin.config.meta.EMPTY_LOBBY_TIMEOUT.label": "空のロビーのタイムアウト",

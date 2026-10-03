@@ -16,6 +16,7 @@
     "tv.lobby.filter.custom": "Personalitzats",
     "tv.lobby.filter.games": "Jocs",
     "tv.lobby.filter.banks": "Bancs",
+    "tv.lobby.filter.trivial": "Trivial",
     "tv.lobby.filter.all": "Tots",
     "tv.lobby.empty.all": "No hi ha PINs disponibles. Crea primer un joc o banc.",
     "tv.lobby.empty.by_type": "No hi ha {type} disponibles.",
@@ -24,7 +25,8 @@
     "tv.lobby.players_label": "Jugadors: ",
     "tv.lobby.type.custom": "Jocs personalitzats",
     "tv.lobby.type.games": "Jocs",
-    "tv.lobby.type.banks": "Bancs de preguntes"
+    "tv.lobby.type.banks": "Bancs de preguntes",
+    "tv.lobby.type.trivial": "Jocs Trivial"
   },
   "literals": {
     "Error al cargar PINs": "Error en carregar els PINs",

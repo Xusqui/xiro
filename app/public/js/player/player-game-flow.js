@@ -19,6 +19,7 @@ import { markGameConcluded } from './player-game-concluded.js?v=20260922172926';
 import { injectStreakBadge, cancelStreakAnimation } from './player-streak-ui.js?v=20260922172926';
 import { getStreakInfo } from './player-state.js?v=20260922172926';
 import { preloadGameImages } from './player-image-preloader.js?v=20260922172926';
+import { forgetReveal } from './player-reveal-correct.js?v=20260922172926';
 
 /**
  * Salir del lobby y liberar credenciales
@@ -134,6 +135,7 @@ function onNewQuestion(data, ack) {
     window.XiroRandomPointsOverlay?.hide();
 
     // Reset estado para nueva pregunta
+    forgetReveal();
     setHaRespondido(false);
     setResultReceived(false);
     setPendingAnswer(null);

@@ -34,18 +34,18 @@ export function renderizarPreguntaNumerica(pregunta) {
     document.body.innerHTML = _tHtml(`
         <div class="h-dvh w-screen flex flex-col bg-slate-900 overflow-hidden">
             <!-- Header fijo -->
-            <div class="bg-purple-600 px-3 py-2 text-center shrink-0">
+            <div class="bg-plum-600 px-3 py-2 text-center shrink-0">
                 <p class="text-white font-black text-base uppercase">${getNickname()}</p>
             </div>
             
             <!-- Pregunta -->
-            <div class="bg-white p-4 border-b-8 border-purple-600 text-slate-800 text-center min-h-[12vh] max-h-[20vh] flex items-center justify-center shrink-0 overflow-y-auto">
+            <div class="bg-white p-4 border-b-8 border-plum-600 text-slate-800 text-center min-h-[12vh] max-h-[20vh] flex items-center justify-center shrink-0 overflow-y-auto">
                 <h2 class="${preguntaFontClass} font-black uppercase italic hyphens-auto" lang="es">${escapeHtml(pregunta.question_text)}</h2>
             </div>
             
             <!-- Input numérico -->
             <div class="flex-1 px-4 pt-6 pb-4 flex flex-col items-center justify-start overflow-hidden">
-                <div class="bg-indigo-900/50 border border-indigo-400/50 rounded-2xl p-4 mb-4 max-w-md w-full">
+                <div class="bg-aubergine-900/50 border border-aubergine-400/50 rounded-2xl p-4 mb-4 max-w-md w-full">
                     <p class="text-[10px] font-black uppercase tracking-widest text-cyan-300 mb-1">${t('player.numeric.hint_label', 'Pista')}</p>
                     <p class="text-sm font-semibold text-white leading-relaxed">💡 ${escapeHtml(hintText)}</p>
                 </div>
@@ -60,7 +60,7 @@ export function renderizarPreguntaNumerica(pregunta) {
                         step="1"
                         id="numeric-answer-input"
                         placeholder="${t('player.numeric.input_placeholder', 'Ej: 123456')}"
-                        class="w-full text-4xl font-black text-center text-purple-600 bg-white border-2 border-emerald-300 rounded-xl p-6 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-300 transition mb-6"
+                        class="w-full text-4xl font-black text-center text-plum-600 bg-white border-2 border-emerald-300 rounded-xl p-6 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-300 transition mb-6"
                         autofocus
                     >
                     

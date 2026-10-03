@@ -15,7 +15,7 @@ function _renderAIStep3Loading(total) {
         <h2 class="text-2xl font-black text-slate-800">Generando ${total} preguntas con IA...</h2>
         <p class="text-slate-500 text-center">La IA está procesando el documento. Puede tardar de 30 segundos a varios minutos.</p>
         <div class="w-full max-w-md bg-slate-200 rounded-full h-3 overflow-hidden">
-            <div class="bg-indigo-500 h-3 rounded-full animate-pulse" style="width:60%"></div>
+            <div class="bg-aubergine-500 h-3 rounded-full animate-pulse" style="width:60%"></div>
         </div>
     </div>`);
 }
@@ -74,7 +74,7 @@ function _renderAIStep3Error(message) {
         <h2 class="text-2xl font-black text-slate-800 mb-4">Error al generar</h2>
         <p class="text-red-600 font-bold mb-8 bg-red-50 p-4 rounded-xl">${message}</p>
         <button data-ai-results-action="retry-step2"
-            class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-xl transition">
+            class="bg-camaleon-600 hover:bg-camaleon-700 text-white font-bold px-8 py-4 rounded-xl transition">
             <i class="fas fa-redo mr-2"></i>Reintentar</button>
     </div>`);
 }

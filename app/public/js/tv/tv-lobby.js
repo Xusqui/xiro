@@ -121,6 +121,7 @@ window.TVApp.Lobby = (function () {
             + '<button data-tv-action="change-filter" data-filter="Juego Personalizado" class="pin-tab ' + (state.filtroActivo === 'Juego Personalizado' ? 'pin-tab-active' : '') + '">' + _t('tv.lobby.filter.custom', null, 'Personalizados') + '</button>'
             + '<button data-tv-action="change-filter" data-filter="Juego" class="pin-tab ' + (state.filtroActivo === 'Juego' ? 'pin-tab-active' : '') + '">' + _t('tv.lobby.filter.games', null, 'Juegos') + '</button>'
             + '<button data-tv-action="change-filter" data-filter="Banco" class="pin-tab ' + (state.filtroActivo === 'Banco' ? 'pin-tab-active' : '') + '">' + _t('tv.lobby.filter.banks', null, 'Bancos') + '</button>'
+            + '<button data-tv-action="change-filter" data-filter="Trivial" class="pin-tab ' + (state.filtroActivo === 'Trivial' ? 'pin-tab-active' : '') + '">' + _t('tv.lobby.filter.trivial', null, 'Trivial') + '</button>'
             + '<button data-tv-action="change-filter" data-filter="todos" class="pin-tab ' + (state.filtroActivo === 'todos' ? 'pin-tab-active' : '') + '">' + _t('tv.lobby.filter.all', null, 'Todos') + '</button>'
             + '</div>';
 
@@ -150,7 +151,8 @@ window.TVApp.Lobby = (function () {
         const pinsTextos = {
             'Juego Personalizado': _t('tv.lobby.type.custom', null, 'Juegos Personalizados'),
             'Juego': _t('tv.lobby.type.games', null, 'Juegos'),
-            'Banco': _t('tv.lobby.type.banks', null, 'Bancos de Preguntas')
+            'Banco': _t('tv.lobby.type.banks', null, 'Bancos de Preguntas'),
+            'Trivial': _t('tv.lobby.type.trivial', null, 'Juegos Trivial')
         };
 
         if (buscandoPins) {

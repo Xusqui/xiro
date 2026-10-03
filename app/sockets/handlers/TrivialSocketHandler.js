@@ -164,8 +164,21 @@ function findEmptyTeam(isTeamMode, teamConfig) {
 }
 
 function createStartHandler({ io, lobbyPlayers }) {
-    return async function handleStart(socket, { roomId, isTeamMode, teamConfig }) {
+    return async function handleStart(socket, data) {
         try {
+            const { roomId, isTeamMode, teamConfig } = data || {};
+
+            // Solo el presentador de la sala (también TV y mando remoto) puede arrancar:
+            // si no, cualquier jugador podría reiniciar una partida en curso.
+            if (!isPresenterSocket(socket, String(roomId))) {
+                logger.warn('trivial-start rejected: socket not in presenter room', { socketId: socket.id, roomId });
+                socket.emit('trivial-error', {
+                    message: 'No autorizado: se requiere rol de presentador.',
+                    code: 'PRESENTER_ROLE_REQUIRED'
+                });
+                return;
+            }
+
             const emptyTeam = findEmptyTeam(isTeamMode, teamConfig);
             if (emptyTeam) {
                 socket.emit('trivial-error', {

@@ -127,11 +127,30 @@ function validateFileSize(req, res, next) {
 }
 
 /**
+ * Comprueba que sea un nombre de archivo simple dentro de uploadDir.
+ * Rechaza rutas (../, barras), bytes nulos y ficheros ocultos (.gitignore).
+ * @param {string} filename
+ * @returns {boolean}
+ */
+function isSafeUploadFilename(filename) {
+    if (typeof filename !== 'string' || filename.length === 0) return false;
+    if (filename.startsWith('.') || /[/\\\0]/.test(filename)) return false;
+
+    const resolved = path.resolve(uploadDir, filename);
+    return path.dirname(resolved) === path.resolve(uploadDir);
+}
+
+/**
  * Elimina un archivo del sistema de archivos
  * @param {string} filename - Nombre del archivo a eliminar
  * @returns {boolean} - true si se eliminó correctamente
  */
 function deleteFile(filename) {
+    if (!isSafeUploadFilename(filename)) {
+        logger.warn('Intento de borrado con nombre de archivo no válido', { filename: String(filename).slice(0, 200) });
+        return false;
+    }
+
     try {
         const filePath = path.join(uploadDir, filename);
         if (fs.existsSync(filePath)) {

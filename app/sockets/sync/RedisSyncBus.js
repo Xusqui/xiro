@@ -55,6 +55,8 @@ function buildSyncedGameState(roomId, gameState, existing) {
     return {
         pin: gameState.pin,
         roomId: firstDefined(gameState.roomId, roomId),
+        // Lo usa el autoguardado de la sesión (game_type), que puede ejecutarse en cualquier worker
+        gameType: firstDefined(gameState.gameType, existing?.gameType, null),
         questions: firstDefined(gameState.questions, []),
         currentIndex: firstDefined(gameState.currentIndex, 0),
         scores: firstDefined(gameState.scores, {}),
@@ -64,6 +66,8 @@ function buildSyncedGameState(roomId, gameState, existing) {
         playerAnswers: {},
         teamMode: firstDefined(gameState.teamMode, false),
         trivialMeta: firstDefined(gameState.trivialMeta, null),
+        // Lo usa playerAnswerArchive para la columna "Categoría" del CSV de Trivial
+        trivialCategoryName: gameState.trivialCategoryName ?? null,
         trivialLastCorrect: firstDefined(existing?.trivialLastCorrect, null),
         trivialQuestionEpoch: firstDefined(gameState.trivialQuestionEpoch, 0),
         canAnswer: firstDefined(gameState.canAnswer, true),
@@ -123,6 +127,7 @@ function buildLightGameState(roomId, gameState) {
     return {
         pin: gameState.pin,
         roomId,
+        gameType: gameState.gameType ?? null,
         questions: gameState.questions,
         currentIndex: gameState.currentIndex,
         scores: gameState.scores,
@@ -132,6 +137,7 @@ function buildLightGameState(roomId, gameState) {
         teamMode: firstDefined(gameState.teamMode, false),
         canAnswer: firstDefined(gameState.canAnswer, false),
         trivialMeta: firstDefined(gameState.trivialMeta, null),
+        trivialCategoryName: gameState.trivialCategoryName ?? null,
         trivialQuestionEpoch: firstDefined(gameState.trivialQuestionEpoch, 0),
         playerStreaks: firstDefined(gameState.playerStreaks, {}),
         playerStreakInfos: firstDefined(gameState.playerStreakInfos, {}),
@@ -165,6 +171,7 @@ class RedisSyncBus {
         this.syncPub = null;
         this.syncSub = null;
         this.syncReady = null;
+        this.syncAvailable = false;
         this.io = null;
         this.state = null;
     }
@@ -200,16 +207,21 @@ class RedisSyncBus {
 
             // Setup subscriptions
             await this.setupSubscriptions();
+            this.syncAvailable = true;
         })();
 
-        const timeoutPromise = new Promise((_, reject) =>
-            setTimeout(() => reject(new Error('RedisSyncBus init timed out after ' + INIT_TIMEOUT_MS + 'ms')), INIT_TIMEOUT_MS)
-        );
+        let initTimer;
+        const timeoutPromise = new Promise((_, reject) => {
+            initTimer = setTimeout(() => reject(new Error('RedisSyncBus init timed out after ' + INIT_TIMEOUT_MS + 'ms')), INIT_TIMEOUT_MS);
+        });
 
         this.syncReady = Promise.race([connectPromise, timeoutPromise]).catch((err) => {
             logger.error('RedisSyncBus initialization failed — cross-worker sync unavailable', { error: err.message });
             // No re-lanzar: las operaciones que llamen await this.syncReady continuarán
             // sin pub/sub (degraded mode). El fallo ya fue logueado.
+        }).finally(() => {
+            // Promise.race no cancela al perdedor: sin esto el temporizador seguía vivo 15 s
+            clearTimeout(initTimer);
         });
 
         return this.syncReady;
@@ -650,11 +662,21 @@ class RedisSyncBus {
 
     async publish(channel, data) {
         await this.syncReady;
+        // Modo degradado (Redis no conectó o aún no se inicializó): sin pub/sub,
+        // cada worker sigue con su estado local en lugar de fallar.
+        if (!this.syncAvailable) {
+            logger.debug('RedisSyncBus sin conexión: publicación omitida', { channel });
+            return;
+        }
         await this.syncPub.publish(channel, typeof data === 'string' ? data : JSON.stringify(data));
     }
 
     async subscribe(channel, handler) {
         await this.syncReady;
+        if (!this.syncAvailable) {
+            logger.debug('RedisSyncBus sin conexión: suscripción omitida', { channel });
+            return;
+        }
         await this.syncSub.subscribe(channel, handler);
     }
 

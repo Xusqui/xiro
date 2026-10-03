@@ -15,7 +15,7 @@ function getGameArea() {
         document.getElementById('main-container');
 }
 
-const BODY_CLASSES = 'bg-purple-700 h-dvh flex flex-col items-center justify-center font-sans text-white overflow-hidden p-4';
+const BODY_CLASSES = 'bg-plum-700 h-dvh flex flex-col items-center justify-center font-sans text-white overflow-hidden p-4';
 
 function showScreen(html) {
     document.body.style.background = '';  // garantiza que no quede ningún inline bg residual
@@ -47,7 +47,7 @@ export function showDiceScreen(currentTurn, isMyTurn, customTitle = null) {
                 <div id="dice-wrapper"
                     class="${isMyTurn ? 'dice-clickable' : 'opponent'}"
                     ${isMyTurn ? 'data-player-action="trivial-roll"' : ''}></div>
-                <p id="dice-hint" style="color:#a5b4fc; font-size:0.875rem; text-align:center; margin:22px 0 0 0;">
+                <p id="dice-hint" style="color:#d4b3df; font-size:0.875rem; text-align:center; margin:22px 0 0 0;">
                     ${escapeHtml(hint)}
                 </p>
             </div>
@@ -144,7 +144,7 @@ export function showMoveSelection(availablePositions, labels, isMyTurn, colors =
  * @param {string} [opts.color]    - Accent hex color (glow + dots)
  * @param {boolean} [opts.noDots]  - Hide the bouncing dots
  */
-export function showTrivialWaiting(message, { icon = '', subtitle = '', color = '#a78bfa', noDots = false } = {}) {
+export function showTrivialWaiting(message, { icon = '', subtitle = '', color = '#cd81c6', noDots = false } = {}) {
     const dots = noDots ? '' : [
         `<span style="width:14px;height:14px;border-radius:50%;background:${color};display:inline-block;animation:_tw_dot 1.4s ease-in-out 0s infinite"></span>`,
         `<span style="width:14px;height:14px;border-radius:50%;background:${color};display:inline-block;animation:_tw_dot 1.4s ease-in-out 0.22s infinite"></span>`,

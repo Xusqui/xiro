@@ -24,14 +24,16 @@ async function verifyPassword(password, storedHash) {
     }
 
     const expectedHash = Buffer.from(hashHex, 'hex');
-    const derived = await scryptAsync(String(password), salt, expectedHash.length);
-    const derivedBuffer = Buffer.from(derived);
 
-    if (expectedHash.length !== derivedBuffer.length) {
+    // Exigir la longitud completa: scrypt con una clave más corta devuelve un
+    // prefijo de la salida larga, así que un hash truncado se validaría.
+    if (expectedHash.length !== HASH_LENGTH) {
         return false;
     }
 
-    return crypto.timingSafeEqual(expectedHash, derivedBuffer);
+    const derived = await scryptAsync(String(password), salt, HASH_LENGTH);
+
+    return crypto.timingSafeEqual(expectedHash, Buffer.from(derived));
 }
 
 module.exports = {

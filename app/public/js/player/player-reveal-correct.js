@@ -46,6 +46,54 @@ export function correctAnswerBlockHtml(data) {
            </div>`;
 }
 
+// Última revelación de la pregunta en curso. La guarda reveal-answer aunque el jugador
+// ya hubiera enviado (envío automático de ordenar/emparejar): si después el servidor
+// rechaza ese envío por llegar tarde, se muestra con ella la pantalla de tiempo agotado.
+// Se borra al empezar cada pregunta (el payload no dice a qué pregunta pertenece).
+let _rememberedReveal = null;
+
+export function rememberReveal(data) {
+    _rememberedReveal = { data, at: Date.now() };
+}
+
+/** @returns {{ data: Object, at: number }|null} */
+export function getRememberedReveal() {
+    return _rememberedReveal;
+}
+
+export function forgetReveal() {
+    _rememberedReveal = null;
+}
+
+/** Pantalla "¡Tiempo agotado!": respuesta correcta y ranking, o "Esperando resultados" sin revelación. */
+export function timeUpScreenHtml(data = null) {
+    if (!data) {
+        return `
+            <div class="time-up-container">
+                <i class="fas fa-clock"></i>
+                <h2>${_t('player.answer.time_up', null, '¡TIEMPO AGOTADO!')}</h2>
+                <p>${_t('player.answer.waiting_results', null, 'Esperando resultados...')}</p>
+            </div>
+        `;
+    }
+
+    const justBlock = data.justification
+        ? `<div class="mt-2 bg-black/30 rounded-xl p-4 w-full max-w-sm text-sm leading-relaxed">${escapeHtml(data.justification)}</div>`
+        : '';
+    return `
+        <div class="time-up-container" data-reveal-shown="1">
+            <i class="fas fa-clock"></i>
+            <h2>${_t('player.answer.time_up', null, '¡TIEMPO AGOTADO!')}</h2>
+            ${correctAnswerBlockHtml(data)}
+            ${justBlock}
+            <div class="mt-6 bg-black/20 rounded-2xl p-4 max-w-md w-full mx-auto">
+                <h3 class="text-xl font-black uppercase mb-3 text-center">${_t('player.answer.ranking', null, 'Ranking')}</h3>
+                <div id="ranking-container" class="space-y-2"></div>
+            </div>
+        </div>
+    `;
+}
+
 /**
  * Jugador que ya respondió: si su pantalla de resultado no enseña la respuesta
  * correcta (p. ej. ordenar parcial o numérica aproximada), se añade al revelar.

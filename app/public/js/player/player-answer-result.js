@@ -116,7 +116,7 @@ function multipleChoiceResultHtml(data, rankingHTML) {
     const totalPointsSign = data.points >= 0 ? '+' : '';
 
     return `
-        <i class="fas ${totalIcon} text-7xl mb-3 animate-bounce"></i>
+        <i class="fas ${totalIcon} text-7xl mb-3 animate-pop"></i>
         <h2 class="text-4xl font-black italic uppercase mb-4">${totalText}</h2>
         ${breakdownHTML}
         <div class="bg-white/20 rounded-2xl p-4 mb-4">
@@ -130,7 +130,7 @@ function multipleChoiceResultHtml(data, rankingHTML) {
 function surveyResultHtml() {
     // Survey
     return `
-        <i class="fas fa-vote-yea text-9xl mb-4 animate-bounce"></i>
+        <i class="fas fa-vote-yea text-9xl mb-4 animate-pop"></i>
         <h2 class="text-5xl font-black italic uppercase">${_t('player.answer.vote_registered', null, '¡Voto Registrado!')}</h2>
         <p class="text-3xl font-black mt-4 bg-black/20 py-2 px-8 rounded-full">${_t('player.answer.survey_label', null, 'Encuesta')}</p>
     `;
@@ -139,7 +139,7 @@ function surveyResultHtml() {
 function correctResultHtml(data, rankingHTML) {
     // Correcto
     return `
-        ${_t('player.answer.yes', null, '<img src="/images/chamaleon/thumbs_up.svg" class="w-32 h-32 mb-4 animate-bounce drop-shadow-lg" alt="👍">')}
+        ${_t('player.answer.yes', null, '<img src="/images/chamaleon/thumbs_up.svg" class="w-32 h-32 mb-4 animate-float drop-shadow-lg" alt="👍">')}
         <p class="text-3xl font-black mt-4 bg-black/20 py-2 px-8 rounded-full">+${data.points} PTS</p>
         ${data.justification ? `<p class="text-lg mt-4 bg-white/20 p-4 rounded-2xl max-w-md">${escapeHtml(data.justification)}</p>` : ''}
         ${rankingHTML}
@@ -149,7 +149,7 @@ function correctResultHtml(data, rankingHTML) {
 function approximateResultHtml(data, rankingHTML) {
     // Aproximada (pregunta numérica con puntos parciales)
     return `
-        <i class="fas fa-bullseye text-9xl mb-4 animate-bounce"></i>
+        <i class="fas fa-bullseye text-9xl mb-4 animate-pop"></i>
         <h2 class="text-5xl font-black italic uppercase">${_t('player.answer.approximate', null, '¡APROXIMADA!')}</h2>
         <p class="text-3xl font-black mt-4 bg-black/20 py-2 px-8 rounded-full">+${data.points} PTS</p>
         ${rankingHTML}
@@ -159,7 +159,7 @@ function approximateResultHtml(data, rankingHTML) {
 function wrongResultHtml(data, rankingHTML) {
     // Incorrecto
     return `
-        ${_t('player.answer.no', null, '<img src="/images/chamaleon/thumbs_down.svg" class="w-32 h-32 mb-4 animate-bounce drop-shadow-lg" alt="👎">')}
+        ${_t('player.answer.no', null, '<img src="/images/chamaleon/thumbs_down.svg" class="w-32 h-32 mb-4 animate-float drop-shadow-lg" alt="👎">')}
         <p class="text-3xl font-black mt-4 bg-black/20 py-2 px-8 rounded-full">+${data.points} PTS</p>
         ${hasCorrectAnswer(data) ? `<div class="mt-4 bg-white/20 p-4 rounded-2xl max-w-md">
             <p class="text-sm uppercase font-bold mb-2">${_t('player.answer.correct_answer_label', null, 'Respuesta correcta:')}</p>

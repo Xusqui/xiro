@@ -47,8 +47,8 @@ export function renderSmallVerticalCard({ color, icon, title, text, placeholderI
 
     return `
     <div class="card h-full relative">
-        <div class="bg-white/85 backdrop-blur-md h-full rounded-2xl shadow-lg p-5 text-slate-800 border-t-4 flex flex-col gap-4"
-            style="border-top-color: ${color};">
+        <div class="bg-white/85 backdrop-blur-md h-full rounded-2xl shadow-lg p-5 text-slate-800 border-2 flex flex-col gap-4"
+            style="border-color: ${color};">
             <div class="flex items-center gap-3">
                 <div class="bg-slate-100 p-3 rounded-full shrink-0">
                     <i class="${icon} text-xl" style="color: ${color};"></i>

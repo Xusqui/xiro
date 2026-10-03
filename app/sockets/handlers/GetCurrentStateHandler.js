@@ -13,7 +13,9 @@ function createGetCurrentStateHandler(dependencies) {
     const logger = require('../../config/logger');
 
     return function handleGetCurrentState(socket, data) {
-        const validation = validateSocket(schemas.getCurrentState, data);
+        // Joi da por válido un payload undefined; sin datos tiene que fallar la validación.
+        // Este handler es síncrono: un throw aquí llega a uncaughtException y apaga el worker.
+        const validation = validateSocket(schemas.getCurrentState, data ?? {});
         if (!validation.valid) {
             socket.emit('state-error', { message: validation.error });
             return;

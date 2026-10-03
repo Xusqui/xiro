@@ -97,9 +97,14 @@
                 return {
                     pos: String(i + 1),
                     name: p.name || '',
-                    score: p.scoreLabel || String(p.pts != null ? p.pts : (p.score != null ? p.score : 0))
+                    score: p.scoreLabel || String(p.pts != null ? p.pts : (p.score != null ? p.score : 0)),
+                    isTeam: !!p.isTeam,
+                    // Las partidas por equipos anteriores a guardar los miembros no los traen
+                    members: Array.isArray(p.members) ? p.members : null
                 };
             });
+            var isTeamGame = ranking.some(function (p) { return p.isTeam; });
+            var teamMemberCount = ranking.reduce(function (n, p) { return n + (p.members ? p.members.length : 0); }, 0);
 
             var trivialMeta = (session.questions_snapshot && session.questions_snapshot.isTrivialMeta)
                 ? session.questions_snapshot : null;
@@ -175,7 +180,9 @@
                     'Tipo': gameTypeLabels[session.game_type] || session.game_type || '—',
                     'Fecha': fmtDate(session.played_at),
                     'Duración': fmtDuration(session.duration_ms),
-                    'Jugadores': String(session.player_count != null ? session.player_count : ranking.length),
+                    // En equipos player_count es el número de equipos; si hay miembros, contar jugadores
+                    'Jugadores': String(isTeamGame && teamMemberCount ? teamMemberCount
+                        : (session.player_count != null ? session.player_count : ranking.length)),
                     'Preguntas': String(session.question_count != null ? session.question_count : questions.length),
                     'Resultado': session.reason === 'completed' ? 'Completada' : 'Abandonada'
                 },
@@ -184,6 +191,7 @@
                 playerAnswers: playerAnswers,
                 wedges: wedges,
                 isTrivial: isTrivial,
+                isTeamGame: isTeamGame,
                 categories: categories
             };
         }
@@ -355,7 +363,7 @@
 
             const icon = data.isTrivial ? '🎲' : '🧠';
             const statsItems = [
-                { icon: '🏆', val: data.ranking.length, lbl: _t('xiro_results_viewer.stats.players', null, 'Jugadores') },
+                { icon: '🏆', val: data.isTeamGame ? (data.meta['Jugadores'] || data.ranking.length) : data.ranking.length, lbl: _t('xiro_results_viewer.stats.players', null, 'Jugadores') },
                 { icon: '❓', val: data.meta['Preguntas'] || '—', lbl: _t('xiro_results_viewer.stats.questions', null, 'Preguntas') },
                 { icon: '✅', val: totalAnswers ? pct + ' %' : '—', lbl: _t('xiro_results_viewer.stats.correct_pct', null, 'Aciertos') },
                 { icon: '⚡', val: avgTime !== '—' ? avgTime + ' s' : '—', lbl: _t('xiro_results_viewer.stats.avg_time', null, 'Tiempo medio') },
@@ -446,7 +454,7 @@
         </td>
       </tr>
       <tr class="player-detail-row" data-player-detail="${esc(p.name)}" style="display:none">
-        <td colspan="3" style="padding:0">${renderPlayerPanel(p.name, data)}</td>
+        <td colspan="3" style="padding:0">${p.isTeam ? renderTeamPanel(p, data) : renderPlayerPanel(p.name, data)}</td>
       </tr>`;
             }).join('');
 
@@ -461,7 +469,7 @@
       <table>
         <thead><tr>
           <th style="width:50px">#</th>
-          <th>${_t('xiro_results_viewer.table.player', null, 'Jugador')}</th>
+          <th>${data.isTeamGame ? _t('xiro_results_viewer.table.team', null, 'Equipo') : _t('xiro_results_viewer.table.player', null, 'Jugador')}</th>
           <th>${_t('xiro_results_viewer.table.score', null, 'Puntuación')}</th>
         </tr></thead>
         <tbody>${tableRows}</tbody>
@@ -524,12 +532,66 @@
             return { cBadge, wedgeBadge, timeStr, answerHtml };
         }
 
+        function countResults(answers) {
+            const correct = answers.filter(a => a.correct === 'Sí').length;
+            const incorrect = answers.filter(a => a.correct === 'No').length;
+            return { correct, incorrect, survey: answers.length - correct - incorrect };
+        }
+
+        function renderResultBadges({ correct, incorrect, survey }) {
+            return `
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px">
+        <span class="badge badge-yes">✓ ${_t('xiro_results_viewer.player_panel.correct', null, 'Acertadas')}: ${correct}</span>
+        <span class="badge badge-no">✗ ${_t('xiro_results_viewer.player_panel.incorrect', null, 'Falladas')}: ${incorrect}</span>
+        ${survey > 0 ? `<span class="badge badge-enc">~ ${_t('xiro_results_viewer.badge.survey', null, 'Encuesta')}: ${survey}</span>` : ''}
+      </div>`;
+        }
+
+        // ─── Panel desplegable de equipo (ranking) ──────────────────────
+        // Las respuestas se guardan por jugador: se suman las de los miembros y
+        // cada miembro se despliega con su propio panel de respuestas.
+        function renderTeamPanel(team, data) {
+            const members = team.members || [];
+            if (!members.length) {
+                return `<div style="padding:16px 4px; color:var(--text-muted)">${_t('xiro_results_viewer.team_panel.no_members', null, 'Esta partida no guardó los miembros del equipo')}</div>`;
+            }
+            const names = new Set(members.map(m => m.name));
+            const teamCounts = countResults(data.playerAnswers.filter(a => names.has(a.player)));
+
+            const rows = members.map(m => {
+                const c = countResults(data.playerAnswers.filter(a => a.player === m.name));
+                return `
+      <tr class="player-row" data-viewer-action="toggle-player" data-player="${esc(m.name)}" style="cursor:pointer">
+        <td><strong>${esc(m.name)}</strong></td>
+        <td style="text-align:right">${c.correct}</td>
+        <td style="text-align:right">${c.incorrect}</td>
+        <td style="text-align:right; font-weight:700; color:var(--xiro-yellow)">${m.pts || 0}<span class="q-chevron" style="margin-left:8px">▼</span></td>
+      </tr>
+      <tr class="player-detail-row" data-player-detail="${esc(m.name)}" style="display:none">
+        <td colspan="4" style="padding:0">${renderPlayerPanel(m.name, data)}</td>
+      </tr>`;
+            }).join('');
+
+            return `
+    <div style="padding:16px 4px">
+      ${renderResultBadges(teamCounts)}
+      <div class="card">
+        <table>
+          <thead><tr>
+            <th>${_t('xiro_results_viewer.team_panel.member', null, 'Miembro')}</th>
+            <th style="text-align:right">${_t('xiro_results_viewer.player_panel.correct', null, 'Acertadas')}</th>
+            <th style="text-align:right">${_t('xiro_results_viewer.player_panel.incorrect', null, 'Falladas')}</th>
+            <th style="text-align:right">${_t('xiro_results_viewer.table.pts', null, 'Pts')}</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>`;
+        }
+
         // ─── Panel desplegable de jugador (ranking) ─────────────────────
         function renderPlayerPanel(playerName, data) {
             const answers = data.playerAnswers.filter(a => a.player === playerName);
-            const correct = answers.filter(a => a.correct === 'Sí').length;
-            const incorrect = answers.filter(a => a.correct === 'No').length;
-            const survey = answers.length - correct - incorrect;
 
             const rows = answers.map(a => {
                 const c = buildAnswerCells(a);
@@ -546,11 +608,7 @@
 
             return `
     <div style="padding:16px 4px">
-      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px">
-        <span class="badge badge-yes">✓ ${_t('xiro_results_viewer.player_panel.correct', null, 'Acertadas')}: ${correct}</span>
-        <span class="badge badge-no">✗ ${_t('xiro_results_viewer.player_panel.incorrect', null, 'Falladas')}: ${incorrect}</span>
-        ${survey > 0 ? `<span class="badge badge-enc">~ ${_t('xiro_results_viewer.badge.survey', null, 'Encuesta')}: ${survey}</span>` : ''}
-      </div>
+      ${renderResultBadges(countResults(answers))}
       <div class="card">
         <table>
           <thead><tr>
