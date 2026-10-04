@@ -146,20 +146,18 @@ export function updatePlayersPanel() {
                 }
             }
 
+            // Una fila (nombre · puntos) con letra que escala con la pantalla: se lee
+            // desde el fondo de la sala cuando el escenario se proyecta
+            const pointsLabel = _t('presenter.players_panel.points_label', null, 'Puntos:');
             return `
-                <div class="bg-slate-700/50 ${statusClass} px-2 py-1 rounded-lg text-xs font-semibold transition-all" ${cardStyle}>
-                    <div class="flex items-center justify-between mb-1 gap-2">
-                        <div class="flex items-center flex-1 min-w-0 gap-1">
-                            ${statusIcon}
-                            <span class="uppercase truncate" title="${escapeHtml(nick)}" ${nameStyle}>${escapeHtml(nick)}</span>
-                            ${streakFire}
-                        </div>
+                <div class="stage-player bg-slate-700/50 ${statusClass} rounded-lg transition-all" ${cardStyle}>
+                    <div class="stage-player-name">
+                        ${statusIcon}
+                        <span class="uppercase truncate" title="${escapeHtml(nick)}" ${nameStyle}>${escapeHtml(nick)}</span>
+                        ${streakFire}
                         ${medal}
                     </div>
-                    <div class="flex justify-between items-center text-[10px] mt-1 gap-1">
-                        <span class="text-slate-400">Puntos:</span>
-                        <span class="text-plum-300 font-bold">${data.score.toFixed(1)}</span>
-                    </div>
+                    <span class="stage-player-score" title="${pointsLabel}" aria-label="${pointsLabel} ${data.score.toFixed(1)}">${data.score.toFixed(1)}</span>
                 </div>
             `;
         };

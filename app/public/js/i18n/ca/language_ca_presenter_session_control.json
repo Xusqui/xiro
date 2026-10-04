@@ -18,6 +18,12 @@
     "presenter.session.error_unknown": "Error desconegut",
     "presenter.session.lobby_error_title": "Error en crear el Lobby",
     "presenter.session.lobby_error_msg": "No s'ha pogut crear el lobby",
-    "presenter.session.start_error_title": "Error en iniciar el joc"
+    "presenter.session.start_error_title": "Error en iniciar el joc",
+    "presenter.session.start_error.PIN_INVALID": "PIN no vàlid",
+    "presenter.session.start_error.GAME_ALREADY_ACTIVE": "La partida ja està en marxa",
+    "presenter.session.start_error.NO_PLAYERS_IN_LOBBY": "No hi ha jugadors a la sala d'espera",
+    "presenter.session.start_error.TEAM_WITHOUT_PLAYERS": "L'equip «{teamName}» no té jugadors",
+    "presenter.session.start_error.NO_QUESTIONS_AVAILABLE": "Aquest joc no té preguntes",
+    "presenter.session.start_error.GAME_START_FAILED": "No s'ha pogut iniciar la partida. Torna-ho a provar."
   }
 }

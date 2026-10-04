@@ -454,3 +454,21 @@
     }
 }
 
+/* Numérica: cifras grandes y sin las flechas nativas del type="number"
+   (se mantiene ese tipo: su teclado en iOS trae el signo menos) */
+.numeric-answer-field {
+    font-size: 3.25rem !important;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+.numeric-answer-field::-webkit-inner-spin-button,
+.numeric-answer-field::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.numeric-answer-field::placeholder {
+    color: #cbd5e1;
+}
+

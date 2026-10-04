@@ -6,11 +6,14 @@
     "presenter.lobby.waiting": "Waiting for players...",
     "presenter.lobby.pin": "ACCESS PIN",
     "presenter.lobby.start": "START!",
+    "presenter.lobby.join_at": "Can't scan the QR? Go to",
+    "presenter.lobby.join_pin": "and enter the Session ID:",
     "presenter.lobby.players": "Players:",
     "presenter.game.terminate": "End",
     "presenter.game.terminate.title": "End the game and show the podium with the current ranking",
     "presenter.game.abandon": "Leave game",
     "presenter.game.abandon.title": "Leave session",
-    "presenter.fullscreen.title": "Fullscreen"
+    "presenter.fullscreen.title": "Fullscreen",
+    "presenter.menu.title": "Menu"
   }
 }

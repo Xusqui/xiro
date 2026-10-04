@@ -101,15 +101,13 @@ export function getWordScrambleRevealHTML(correctWord) {
     const word = (correctWord || '').toUpperCase();
     return `
         <div class="justification-card" id="word-scramble-reveal-card" style="
-            position: fixed;
-            top: 0; left: 0; right: 200px;
             background: linear-gradient(to right, #f59e0b, #d97706);
             color: white;
-            padding: 2rem;
-            box-shadow: 0 10px 50px rgba(0,0,0,0.3);
-            border-bottom: 8px solid white;
-            z-index: 9999;
-            min-height: 140px;
+            padding: 1rem 1.5rem;
+            margin: 0.5rem 0 0.75rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-bottom: 6px solid rgba(0,0,0,0.2);
         ">
             <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 1.5rem; height: 100%;">
                 <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 1rem; flex-shrink: 0;">

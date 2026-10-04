@@ -18,6 +18,12 @@
     "presenter.session.error_unknown": "Unknown error",
     "presenter.session.lobby_error_title": "Lobby Creation Error",
     "presenter.session.lobby_error_msg": "Could not create the lobby",
-    "presenter.session.start_error_title": "Error starting the game"
+    "presenter.session.start_error_title": "Error starting the game",
+    "presenter.session.start_error.PIN_INVALID": "Invalid PIN",
+    "presenter.session.start_error.GAME_ALREADY_ACTIVE": "The game is already running",
+    "presenter.session.start_error.NO_PLAYERS_IN_LOBBY": "There are no players in the lobby",
+    "presenter.session.start_error.TEAM_WITHOUT_PLAYERS": "Team “{teamName}” has no players",
+    "presenter.session.start_error.NO_QUESTIONS_AVAILABLE": "This game has no questions",
+    "presenter.session.start_error.GAME_START_FAILED": "The game could not be started. Try again."
   }
 }

@@ -217,7 +217,7 @@ export function renderPodio(ranking) {
 
     lobbyMain.style.display = 'flex';
     lobbyMain.innerHTML = _tHtml(`
-        <div class="podium-content absolute inset-0 flex flex-col items-center justify-start text-center px-10 pt-8 pb-16 bg-black gap-6 overflow-y-auto">
+        <div class="podium-content podium-stage absolute inset-0 flex flex-col items-center justify-start text-center px-10 pt-8 pb-16 gap-6 overflow-y-auto">
             <h1 class="neon podium-title uppercase" data-xiro-podium-title="1" data-podium-team-mode="${isTeamMode ? 'true' : 'false'}">${podiumTitleHtml}</h1>
             <div class="w-full max-w-2xl space-y-4">
                 ${(() => {
@@ -227,7 +227,7 @@ export function renderPodio(ranking) {
         return rows.map((p, i) => {
             const bgClass = isTeamMode
                 ? (p.color && teamColorClasses[p.color] ? teamColorClasses[p.color] + ' text-white' : 'bg-white/10 text-white')
-                : (i === 0 ? 'bg-yellow-400 text-slate-900 scale-105' : 'bg-white/10 text-white');
+                : (['bg-yellow-400 text-slate-900 scale-105', 'podium-silver', 'podium-bronze'][i] || 'bg-white/10 text-white');
             const icon = isTeamMode ? '<i class="fas fa-users mr-3"></i>' : '';
             const delay = ((total - 1 - i) * 0.12).toFixed(2);
             return `
@@ -238,7 +238,8 @@ export function renderPodio(ranking) {
         }).join('');
     })()}
             </div>
-            <button data-presenter-action="conclude-and-home" class="mt-12 bg-plum-600 hover:bg-plum-500 px-8 py-3 rounded-full text-white font-bold uppercase transition shadow-lg">
+            ${isTeamMode ? `<p class="podium-team-note">${_t('presenter.podio.team_score_note', null, 'Puntuación de equipo: media de sus jugadores, ajustada cuando los equipos tienen distinto tamaño')}</p>` : ''}
+            <button data-presenter-action="conclude-and-home" class="podium-home-btn bg-plum-600 hover:bg-plum-500 px-8 py-3 rounded-full text-white font-bold uppercase transition shadow-lg">
                 <i class="fas fa-list mr-2"></i>${_t('presenter.podio.show_games', null, 'Mostrar juegos')}
             </button>
 
@@ -252,7 +253,8 @@ export function renderPodio(ranking) {
     if (chamaleonEl) {
         const img = chamaleonEl.querySelector('img');
         if (img) img.src = '/images/chamaleon/gameover.svg';
-        chamaleonEl.style.bottom = '60px';
+        // Por encima del botón ⋯ del menú (bottom 1.25rem + 3rem)
+        chamaleonEl.style.bottom = '84px';
         chamaleonEl.style.left = '16px';
         chamaleonEl.style.top = '';
         chamaleonEl.style.right = '';
@@ -260,7 +262,7 @@ export function renderPodio(ranking) {
     } else {
         const el = document.createElement('div');
         el.id = 'chamaleon-overlay';
-        el.style.cssText = 'position:fixed;bottom:60px;left:16px;z-index:500;opacity:1;pointer-events:none';
+        el.style.cssText = 'position:fixed;bottom:84px;left:16px;z-index:500;opacity:1;pointer-events:none';
         const img = document.createElement('img');
         img.src = '/images/chamaleon/gameover.svg';
         img.alt = '';

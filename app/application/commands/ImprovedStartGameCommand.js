@@ -195,7 +195,9 @@ class ImprovedStartGameCommand extends Command {
                 return {
                     success: false,
                     error: `El equipo "${emptyTeam.name}" no tiene jugadores`,
-                    code: 'TEAM_WITHOUT_PLAYERS'
+                    code: 'TEAM_WITHOUT_PLAYERS',
+                    // Dato aparte para que el presentador traduzca el mensaje
+                    params: { teamName: emptyTeam.name }
                 };
             }
 

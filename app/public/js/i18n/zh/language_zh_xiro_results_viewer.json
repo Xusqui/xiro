@@ -36,6 +36,8 @@
     "xiro_results_viewer.team_panel.member": "成员",
     "xiro_results_viewer.team_panel.no_members": "本局游戏未保存队伍成员",
     "xiro_results_viewer.table.score": "分数",
+    "xiro_results_viewer.team_score_note": "团队得分：成员平均分，各队人数不同时会进行调整",
+    "xiro_results_viewer.team_panel.members_avg": "成员平均分",
     "xiro_results_viewer.wedges.count": "{count} 个徽章",
     "xiro_results_viewer.wedges.empty": "未获得任何徽章",
     "xiro_results_viewer.sections.wedges": "获得的类别",

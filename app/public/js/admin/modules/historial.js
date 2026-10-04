@@ -53,10 +53,7 @@ async function renderVistaHistorial() {
                         class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2 rounded-lg transition flex items-center gap-2">
                         <i class="fas fa-sync-alt"></i> ${_t('admin.common.refresh', null, 'Actualizar')}
                     </button>
-                    <button data-historial-action="delete-all"
-                        class="bg-red-100 hover:bg-red-200 text-red-700 font-bold px-4 py-2 rounded-lg transition flex items-center gap-2">
-                        <i class="fas fa-trash-alt"></i> ${_t('admin.history.btn_delete_all', null, 'Borrar todo')}
-                    </button>
+                    <!-- «Borrar todo» va al pie de la tabla, lejos de «Actualizar» -->
                 </div>
             </div>
             <div id="historial-content">
@@ -215,6 +212,38 @@ function _confirmarBorrarHistorial() {
         _t('admin.history.btn_delete_all', null, 'Borrar todo'),
         _t('admin.common.cancel', null, 'Cancelar')
     );
+    _requireTypedConfirmation();
+}
+
+/**
+ * Borrar todo el historial no se deshace: el botón de confirmar del modal
+ * queda deshabilitado hasta escribir la palabra (BORRAR en español).
+ */
+function _requireTypedConfirmation() {
+    const btn = document.getElementById('btnConfirmarModal');
+    if (!btn || !btn.parentElement) return;
+    const word = _t('admin.history.delete_confirm_word', null, 'BORRAR');
+    const hint = _t('admin.history.delete_confirm_hint', { word }, 'Escribe {word} para confirmar').replace('{word}', word);
+
+    const label = document.createElement('label');
+    label.className = 'block w-full text-left text-sm font-bold text-yellow-900 mb-6';
+    label.textContent = hint;
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.autocomplete = 'off';
+    input.className = 'mt-2 w-full border-2 border-yellow-300 rounded-lg px-3 py-2 font-mono text-slate-800';
+    label.appendChild(input);
+    btn.parentElement.parentElement.insertBefore(label, btn.parentElement);
+
+    const sync = () => {
+        const ok = input.value.trim().toUpperCase() === word.toUpperCase();
+        btn.disabled = !ok;
+        btn.classList.toggle('opacity-50', !ok);
+        btn.classList.toggle('cursor-not-allowed', !ok);
+    };
+    input.addEventListener('input', sync);
+    sync();
+    input.focus();
 }
 
 function _renderHistorialTable(sessions) {
@@ -234,17 +263,20 @@ function _renderHistorialTable(sessions) {
         const csvFilename = 'partida-' + s.pin + '-' + s.id + '.csv';
         const logsUrl = '/api/results/session/' + s.id + '/export-logs?format=txt';
         const logsFilename = 'logs-' + s.pin + '-' + s.id + '.txt';
+        // nowrap: «⏳ Autoguardada» o «✓ Completada» se partían en dos líneas
+        // con el icono separado del texto
+        const badge = 'inline-block whitespace-nowrap text-xs font-bold px-2 py-0.5 rounded-full';
         let reasonBadge = '';
         if (s.reason === 'completed') {
-            reasonBadge = `<span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-2 py-0.5 rounded-full">${_t('admin.history.status_completed', null, '✓ Completada')}</span>`;
+            reasonBadge = `<span class="${badge} bg-emerald-100 text-emerald-700">${_t('admin.history.status_completed', null, '✓ Completada')}</span>`;
         } else if (s.reason === 'manual') {
-            reasonBadge = `<span class="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-0.5 rounded-full">${_t('admin.history.status_finalized', null, '✓ Finalizada')}</span>`;
+            reasonBadge = `<span class="${badge} bg-blue-100 text-blue-700">${_t('admin.history.status_finalized', null, '✓ Finalizada')}</span>`;
         } else if (s.reason === 'aborted' || s.reason === 'abandoned') {
-            reasonBadge = `<span class="bg-red-100 text-red-700 text-xs font-bold px-2 py-0.5 rounded-full">${_t('admin.history.status_abandoned', null, '✗ Abandonada')}</span>`;
+            reasonBadge = `<span class="${badge} bg-red-100 text-red-700">${_t('admin.history.status_abandoned', null, '✗ Abandonada')}</span>`;
         } else if (s.reason === 'auto-saved') {
-            reasonBadge = `<span class="bg-yellow-100 text-yellow-700 text-xs font-bold px-2 py-0.5 rounded-full">${_t('admin.history.status_autosaved', null, '⏳ Auto-saved')}</span>`;
+            reasonBadge = `<span class="${badge} bg-yellow-100 text-yellow-700">${_t('admin.history.status_autosaved', null, '⏳ Autoguardada')}</span>`;
         } else {
-            reasonBadge = `<span class="bg-slate-100 text-slate-700 text-xs font-bold px-2 py-0.5 rounded-full">${s.reason || '—'}</span>`;
+            reasonBadge = `<span class="${badge} bg-slate-100 text-slate-700">${s.reason || '—'}</span>`;
         }
 
         return `
@@ -263,25 +295,29 @@ function _renderHistorialTable(sessions) {
                 <td class="py-3 px-4 text-slate-500 text-sm">${_fmtDuration(s.duration_ms)}</td>
                 <td class="py-3 px-4">${reasonBadge}</td>
                 <td class="py-3 px-4">
-                    <div class="flex gap-1">
+                    <!-- Acción principal (ver) y descarga con texto; logs como icono
+                         secundario; borrar apartado tras un separador, para no
+                         pulsarlo al ir a descargar -->
+                    <div class="flex items-center gap-1 whitespace-nowrap">
                         <a href="${s.share_token ? '/xiro-results-viewer.html?token=' + s.share_token : '/xiro-results-viewer.html?id=' + s.id}" target="_blank"
-                            class="inline-flex items-center justify-center bg-aubergine-600 hover:bg-aubergine-500 text-white text-xs font-bold w-8 h-8 rounded-lg transition"
+                            class="inline-flex items-center gap-1 bg-aubergine-600 hover:bg-aubergine-500 text-white text-xs font-bold px-3 h-8 rounded-lg transition"
                             title="Ver resultados">
-                            <i class="fas fa-chart-bar"></i>
+                            <i class="fas fa-chart-bar"></i> ${_t('admin.history.action_view', null, 'Ver')}
                         </a>
                         <button data-historial-action="download-csv" data-url="${csvUrl}" data-filename="${csvFilename}"
-                            class="inline-flex items-center justify-center bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold w-8 h-8 rounded-lg transition"
+                            class="inline-flex items-center gap-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3 h-8 rounded-lg transition"
                             title="Descargar resultados CSV">
-                            <i class="fas fa-download"></i>
+                            <i class="fas fa-download"></i> CSV
                         </button>
                         <button data-historial-action="download-logs" data-url="${logsUrl}" data-filename="${logsFilename}"
-                            class="inline-flex items-center justify-center bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold w-8 h-8 rounded-lg transition"
-                            title="Descargar logs TXT">
+                            class="inline-flex items-center justify-center text-slate-500 hover:text-slate-700 hover:bg-slate-100 text-xs w-8 h-8 rounded-lg transition"
+                            title="Descargar logs TXT" aria-label="Descargar logs TXT">
                             <i class="fas fa-file-alt"></i>
                         </button>
+                        <span class="h-6 bg-slate-200 mx-2" style="width:1px" aria-hidden="true"></span>
                         <button data-historial-action="delete-session" data-id="${s.id}"
-                            class="inline-flex items-center justify-center bg-red-100 hover:bg-red-200 text-red-600 text-xs font-bold w-8 h-8 rounded-lg transition"
-                            title="Borrar esta partida">
+                            class="inline-flex items-center justify-center text-red-500 hover:text-red-700 hover:bg-red-50 text-xs w-8 h-8 rounded-lg transition"
+                            title="Borrar esta partida" aria-label="Borrar esta partida">
                             <i class="fas fa-trash-alt"></i>
                         </button>
                     </div>
@@ -325,8 +361,13 @@ function _renderHistorialTable(sessions) {
                 <tbody>${rows}</tbody>
             </table>
             </div>
-            <div class="p-4 text-xs text-slate-400 border-t border-slate-100">
-                ${_t('admin.history.footer', { n: sessions.length, s: sessions.length !== 1 ? 's' : '' }, '{n} partida{s} registrada{s}').replace(/\{n\}/g, sessions.length).replace(/\{s\}/g, sessions.length !== 1 ? 's' : '')}
+            <div class="p-4 text-xs text-slate-400 border-t border-slate-100 flex items-center justify-between gap-4">
+                <span>${_t('admin.history.footer', { n: sessions.length, s: sessions.length !== 1 ? 's' : '' }, '{n} partida{s} registrada{s}').replace(/\{n\}/g, sessions.length).replace(/\{s\}/g, sessions.length !== 1 ? 's' : '')}</span>
+                <!-- Zona de peligro: al pie, lejos de «Actualizar», con confirmación escrita -->
+                <button data-historial-action="delete-all"
+                    class="inline-flex items-center gap-2 border border-red-200 text-red-600 hover:bg-red-50 font-bold px-3 py-1.5 rounded-lg transition">
+                    <i class="fas fa-trash-alt"></i> ${_t('admin.history.btn_delete_all', null, 'Borrar todo')}
+                </button>
             </div>
         </div>`);
 }

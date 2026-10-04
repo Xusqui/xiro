@@ -11,6 +11,14 @@ export function tr(text) {
         : text;
 }
 
+/**
+ * Texto por defecto de un botón del modal. translateLiteral no traduce estos
+ * literales, así que se usa la clave i18n (modal.accept / modal.cancel).
+ */
+function defaultButtonText(key, fallback) {
+    return typeof window._t === 'function' ? window._t(key, null, fallback) : fallback;
+}
+
 export function ensureModalStyles() {
     if (document.getElementById(MODAL_STYLE_ID)) return;
 
@@ -132,14 +140,14 @@ function buildModal({ title, message, type, showCancel, confirmText, cancelText,
     if (showCancel) {
         const cancelBtn = document.createElement('button');
         cancelBtn.className = 'xiro-modal-btn xiro-modal-btn-secondary';
-        cancelBtn.textContent = tr(cancelText || 'Cancelar');
+        cancelBtn.textContent = cancelText ? tr(cancelText) : defaultButtonText('modal.cancel', 'Cancelar');
         cancelBtn.addEventListener('click', () => close('cancel'));
         actions.appendChild(cancelBtn);
     }
 
     const confirmBtn = document.createElement('button');
     confirmBtn.className = 'xiro-modal-btn xiro-modal-btn-primary';
-    confirmBtn.textContent = tr(confirmText || 'Aceptar');
+    confirmBtn.textContent = confirmText ? tr(confirmText) : defaultButtonText('modal.accept', 'Aceptar');
     confirmBtn.addEventListener('click', () => close('confirm'));
     actions.appendChild(confirmBtn);
 
@@ -180,7 +188,7 @@ function buildModal({ title, message, type, showCancel, confirmText, cancelText,
     document.body.appendChild(overlay);
 }
 
-export function mostrarModalMensaje(titulo, mensaje, tipo = 'info', textoConfirm = 'Aceptar', onClose) {
+export function mostrarModalMensaje(titulo, mensaje, tipo = 'info', textoConfirm, onClose) {
     buildModal({
         title: titulo,
         message: mensaje,
@@ -193,7 +201,7 @@ export function mostrarModalMensaje(titulo, mensaje, tipo = 'info', textoConfirm
 
 // Firma posicional compartida por presentador y jugador: se mantiene a propósito
 // eslint-disable-next-line max-params
-export function mostrarModalConfirmacion(titulo, mensaje, onConfirm, onCancel, textoConfirm = 'Confirmar', textoCancelar = 'Cancelar', tipo = 'warning') {
+export function mostrarModalConfirmacion(titulo, mensaje, onConfirm, onCancel, textoConfirm = 'Confirmar', textoCancelar, tipo = 'warning') {
     buildModal({
         title: titulo,
         message: mensaje,

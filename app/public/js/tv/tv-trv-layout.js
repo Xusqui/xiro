@@ -20,20 +20,47 @@ window.TVApp.TrvLayout = (function () {
         html += '<div style="flex:1;min-height:0;display:flex;align-items:stretch;margin-top:10px">';
 
         // Panel Izquierdo: Leyenda de Bancos (Categorías)
-        html += '<div id="trv-category-legend" style="width:280px;flex-shrink:0;display:flex;flex-direction:column;padding:16px;background:rgba(15,23,42,0.6);border-radius:10px;overflow-y:auto;margin-right:12px"></div>';
+        html += '<div id="trv-category-legend" style="width:230px;flex-shrink:0;display:flex;flex-direction:column;padding:14px;background:rgba(15,23,42,0.6);border-radius:10px;overflow-y:auto;margin-right:12px"></div>';
 
-        // Panel Central: Tablero SVG
-        html += '<div style="flex:1;display:flex;align-items:center;justify-content:center;position:relative;min-width:0;margin-right:12px">';
+        // Panel Central: Tablero SVG (con el ancho que antes ocupaba el panel
+        // de jugadores, que ahora va en la columna lateral)
+        html += '<div style="flex:1;display:flex;align-items:center;justify-content:center;position:relative;min-width:0">';
         html += '<div id="trivial-board-svg" style="height:100%;width:100%;max-width:calc(100vh - 120px);aspect-ratio:1/1;position:relative;display:flex;align-items:center;justify-content:center"></div>';
         html += '</div>';
-
-        // Panel Derecho: Ranking / Jugadores
-        html += '<div id="trv-player-scores" style="width:280px;flex-shrink:0;display:flex;flex-direction:column;overflow-y:auto;padding:8px;background:rgba(15,23,42,0.6);border-radius:10px"></div>';
         html += '</div>'; // End Main Row
 
         html += '</div>'; // End Outer Flex
 
         getEl('main-container').innerHTML = _tHtml(html);
+        clearCache();
+        ensureSidebarStandings();
+    }
+
+    /**
+     * Clasificación del Trivial en la columna lateral (#sidebar), en lugar de
+     * la lista de jugadores con puntos (que en el Trivial no cuentan). Se marca
+     * con una clase (.trv-active) porque los navegadores de TV no tienen :has().
+     */
+    function ensureSidebarStandings() {
+        const sidebar = document.getElementById('sidebar');
+        if (!sidebar) return;
+        if (!document.getElementById('trv-player-scores')) {
+            const panel = document.createElement('div');
+            panel.id = 'trv-player-scores';
+            panel.className = 'trv-standings';
+            sidebar.appendChild(panel);
+        }
+        if ((' ' + sidebar.className + ' ').indexOf(' trv-active ') === -1) {
+            sidebar.className += ' trv-active';
+        }
+    }
+
+    /** Al terminar el Trivial vuelve la lista normal de jugadores. */
+    function removeSidebarStandings() {
+        const panel = document.getElementById('trv-player-scores');
+        if (panel && panel.parentNode) panel.parentNode.removeChild(panel);
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar) sidebar.className = sidebar.className.replace(/\s*\btrv-active\b/g, '');
         clearCache();
     }
 
@@ -64,7 +91,7 @@ window.TVApp.TrvLayout = (function () {
             const op = filled ? 1 : 0.2;
             const sh = filled ? '0 0 6px 2px ' + col : 'none';
             const bdr = '1.5px solid rgba(255,255,255,' + (filled ? '0.9' : '0.2') + ')';
-            html += '<span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:' + col + ';opacity:' + op + ';box-shadow:' + sh + ';border:' + bdr + ';margin:2px"></span>';
+            html += '<span style="display:inline-block;width:22px;height:22px;border-radius:50%;background:' + col + ';opacity:' + op + ';box-shadow:' + sh + ';border:' + bdr + ';margin:2px 3px"></span>';
         }
         return html;
     }
@@ -73,12 +100,12 @@ window.TVApp.TrvLayout = (function () {
     function scoreCardHtml(card) {
         const bg = card.active ? 'rgba(234,179,8,0.18)' : 'rgba(51,65,85,0.5)';
         const border = card.active ? 'rgba(234,179,8,0.5)' : 'transparent';
-        let html = '<div style="border-radius:8px;padding:8px 12px;background:' + bg + ';border:2px solid ' + border + ';margin-bottom:8px">';
-        html += '<div style="display:flex;align-items:center;margin-bottom:6px">';
-        html += '<span style="width:22px;height:22px;border-radius:50%;background:' + card.badgeBg + ';color:' + card.badgeColor + ';font-size:12px;font-weight:900;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin-right:6px">' + card.position + '</span>';
-        html += '<span style="color:#fff;font-size:14px;font-weight:700;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1">' + escapeHtml(card.name) + '</span></div>';
+        let html = '<div style="border-radius:10px;padding:10px 12px;background:' + bg + ';border:2px solid ' + border + ';margin-bottom:10px">';
+        html += '<div style="display:flex;align-items:center;margin-bottom:8px">';
+        html += '<span style="width:28px;height:28px;border-radius:50%;background:' + card.badgeBg + ';color:' + card.badgeColor + ';font-size:15px;font-weight:900;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin-right:8px">' + card.position + '</span>';
+        html += '<span style="color:#fff;font-size:20px;font-weight:700;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0">' + escapeHtml(card.name) + '</span></div>';
         html += '<div style="display:flex;flex-wrap:wrap">' + card.wedges + '</div>';
-        if (card.members) html += '<div style="color:#94a3b8;font-size:11px;margin-top:6px;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + card.members + '</div>';
+        if (card.members) html += '<div style="color:#94a3b8;font-size:14px;margin-top:6px;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + card.members + '</div>';
         return html + '</div>';
     }
 
@@ -184,6 +211,7 @@ window.TVApp.TrvLayout = (function () {
         buildTrivialLayout: buildTrivialLayout,
         buildCategoryLegend: buildCategoryLegend,
         refreshPlayerScores: refreshPlayerScores,
+        removeSidebarStandings: removeSidebarStandings,
         setStatus: setStatus
     };
 })();

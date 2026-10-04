@@ -33,6 +33,78 @@ export function getResponsiveFontClass(text, narrow = false) {
  * Útil cuando el número/longitud de elementos es variable (p.ej. tarjetas
  * de matching) y no se puede fijar un tamaño de fuente de antemano.
  */
+/**
+ * Mayúsculas solo para opciones cortas: a partir de ~40 caracteres, las
+ * frases en mayúsculas con guiones («ESPECIA-LIZADOS») cuestan de leer.
+ * Recibe la longitud (no el texto): devuelve solo un nombre de clase, y así
+ * el texto del editor no aparece en la interpolación HTML.
+ *
+ * @param {number} [length] - Longitud del texto de la opción
+ */
+export function optionCaseClass(length) {
+    return Number(length) > 40 ? 'normal-case' : 'uppercase';
+}
+
+/**
+ * Ajusta el texto de cada botón de opción (quiz, selección múltiple) al
+ * mayor tamaño que cabe en su tarjeta, entre un mínimo legible y un máximo.
+ * Sustituye en la práctica a la clase por longitud de getResponsiveFontClass,
+ * que daba 2rem a textos de 80-120 caracteres y se salían de la tarjeta.
+ * Se repite al cargar las fuentes y al girar el móvil (cambian las medidas).
+ *
+ * @param {string} [textSelector] - Textos a ajustar; su caja es el botón padre
+ */
+export function fitOptionButtonText(textSelector = 'button .btn-text') {
+    const fitAll = () => {
+        document.querySelectorAll(textSelector).forEach((text) => {
+            const box = text.closest('button');
+            if (!box || box.clientHeight === 0) return;
+            const fits = () => box.scrollHeight <= box.clientHeight && box.scrollWidth <= box.clientWidth
+                && text.scrollWidth <= text.clientWidth;
+            const largestFit = () => {
+                let low = 11;
+                let high = Math.max(low, Math.min(box.clientHeight * 0.3, 40));
+                while (high - low > 0.5) {
+                    const mid = (low + high) / 2;
+                    text.style.fontSize = `${mid}px`;
+                    if (fits()) low = mid;
+                    else high = mid;
+                }
+                return Math.floor(low);
+            };
+
+            // Sin cortar palabras («SATURNO», no «SA-TURNO») mientras se lea
+            // bien (>= 18 px); con una palabra muy larga, mejor guion que letra diminuta
+            // Valores explícitos (no los previos): una segunda pasada al cargar
+            // fuentes o girar el móvil no debe heredar el estado de la anterior.
+            // -webkit-hyphens: Safari parte con él aunque hyphens diga otra cosa.
+            const allowBreaks = (allow) => {
+                text.style.setProperty('hyphens', allow ? 'auto' : 'manual');
+                text.style.setProperty('-webkit-hyphens', allow ? 'auto' : 'manual');
+                text.style.setProperty('overflow-wrap', allow ? 'break-word' : 'normal');
+            };
+            allowBreaks(true);
+            const hyphenated = largestFit();
+            allowBreaks(false);
+            const wholeWords = largestFit();
+            if (wholeWords >= Math.min(18, hyphenated)) {
+                text.style.fontSize = `${wholeWords}px`;
+            } else {
+                allowBreaks(true);
+                text.style.fontSize = `${hyphenated}px`;
+            }
+        });
+    };
+
+    fitAll();
+    document.fonts?.ready?.then(fitAll);
+    if (!fitOptionButtonText.resizeBound) {
+        fitOptionButtonText.resizeBound = true;
+        window.addEventListener('resize', () => fitOptionButtonText.lastFit?.());
+    }
+    fitOptionButtonText.lastFit = fitAll;
+}
+
 export function fitTextToContainer(container, {
     textSelector = '[data-fit-text]',
     boxSelector = '[data-fit-box]',

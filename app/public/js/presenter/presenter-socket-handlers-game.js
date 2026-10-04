@@ -69,7 +69,12 @@ export function registerGameSocketHandlers() {
     // Error al iniciar juego
     socket.on('game-start-error', (data) => {
         console.error('❌ Error al iniciar juego:', data);
-        mostrarModalMensaje(_t('presenter.session.start_error_title', null, 'Error al iniciar el juego'), data.message, 'error');
+        // El servidor manda el texto en castellano: se traduce por código y, si el
+        // código no tiene clave, se muestra tal cual
+        const message = data.code
+            ? _t(`presenter.session.start_error.${data.code}`, data.params || null, data.message)
+            : data.message;
+        mostrarModalMensaje(_t('presenter.session.start_error_title', null, 'Error al iniciar el juego'), message, 'error');
     });
 
     // Juego iniciado

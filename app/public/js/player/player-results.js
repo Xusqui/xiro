@@ -155,7 +155,9 @@ export function registerResultsEvents() {
                             <p class="text-4xl font-black">${data.score} pts</p>
                         </div>
                         <div class="mt-2 text-xs opacity-75">
-                            <p>${_t('player.results.of_players', { totalPlayers: data.totalPlayers }, 'de {totalPlayers} jugadores')}</p>
+                            <p>${data.isTeam
+        ? _t('player.results.of_teams', { totalTeams: data.totalPlayers }, 'de {totalTeams} equipos')
+        : _t('player.results.of_players', { totalPlayers: data.totalPlayers }, 'de {totalPlayers} jugadores')}</p>
                         </div>
                     </div>
                     ${data.position === 1

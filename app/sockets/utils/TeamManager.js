@@ -3,7 +3,8 @@
  */
 
 const { calculateTeamScore } = require('../../services/game.logic');
-const { TEAMS } = require('../../config/game-constants');
+const { teamScoreParams } = require('../../domain/services/TeamScoreParams');
+const runtimeConfig = require('../../config/runtime-config');
 const {
     resolveTeamRevealCorrectness,
     resolveTeamRevealCorrectAnswer
@@ -377,21 +378,9 @@ function addTeamScoresToPayload(payload, teamConfig, scores = {}) {
     if (!teamConfig) return;
 
     const teams = teamConfig.teams || [];
-    const allScores = Object.values(scores || {});
-    const totalPoints = allScores.reduce((sum, pts) => sum + (Number(pts) || 0), 0);
-    const totalPlayers = allScores.length;
-    const globalMean = totalPlayers > 0 ? totalPoints / totalPlayers : 0;
-
-    let effectiveLambda = 0;
-    if (teams.length > 0) {
-        const teamSizes = teams.map(team => team.players?.length || 0).filter(size => size > 0);
-        if (teamSizes.length > 0) {
-            const minSize = Math.min(...teamSizes);
-            const maxSize = Math.max(...teamSizes);
-            const sizeRatio = minSize > 0 ? maxSize / minSize : 1;
-            effectiveLambda = sizeRatio === 1 ? 0 : TEAMS.SCORE_LAMBDA * (sizeRatio - 1);
-        }
-    }
+    // Misma λ (la configurable del admin) que el podio final, para que el marcador
+    // en vivo y el ranking final coincidan
+    const { globalMean, lambda: effectiveLambda } = teamScoreParams(teams, scores, runtimeConfig.get('TEAM_SCORE_LAMBDA'));
 
     payload.teamScores = teams.map(team => ({
         name: team.name,

@@ -4,7 +4,9 @@
  */
 
 const GameModeStrategy = require('./GameModeStrategy');
-const { roundScore } = require('../services/GameUtils');
+const { roundScore, calculateTeamScore } = require('../services/GameUtils');
+const { teamScoreParams } = require('../services/TeamScoreParams');
+const runtimeConfig = require('../../config/runtime-config');
 const { getJustification, getCorrectAnswerText } = require('../services/ScoringService');
 const logger = require('../../config/logger');
 
@@ -104,7 +106,7 @@ class TeamGameMode extends GameModeStrategy {
     }
 
     /**
-     * Calcula ranking por equipos (suma de puntos de todos los jugadores)
+     * Calcula ranking por equipos (media ajustada por tamaño, como el podio final)
      */
     calculateFinalRanking(params) {
         const { game, teamConfig } = params;
@@ -165,20 +167,15 @@ class TeamGameMode extends GameModeStrategy {
      * @private
      */
     _buildTeamRanking(scores, teamConfig) {
-        const teamScores = {};
+        // Misma fórmula que el marcador en vivo y el podio final (media ajustada
+        // por tamaño de equipo), no la suma: con equipos desiguales la suma
+        // favorece al equipo más grande y daría otra clasificación.
+        const { globalMean, lambda } = teamScoreParams(teamConfig.teams, scores, runtimeConfig.get('TEAM_SCORE_LAMBDA'));
 
-        // Sumar puntos de cada equipo
-        for (const team of teamConfig.teams) {
-            teamScores[team.name] = team.players.reduce((sum, nick) => {
-                return sum + (scores[nick] || 0);
-            }, 0);
-        }
-
-        // Ordenar por puntuación
-        return Object.entries(teamScores)
-            .map(([teamName, score]) => ({
-                team: teamName,
-                score: roundScore(score)
+        return teamConfig.teams
+            .map(team => ({
+                team: team.name,
+                score: calculateTeamScore(team, scores, globalMean, lambda)
             }))
             .sort((a, b) => b.score - a.score);
     }

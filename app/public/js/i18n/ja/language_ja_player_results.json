@@ -6,6 +6,7 @@
     "player.results.position_label": "",
     "player.results.final_score": "最終スコア",
     "player.results.of_players": "{totalPlayers}人中",
+    "player.results.of_teams": "{totalTeams}チーム中",
     "player.results.champion": "チャンピオン！",
     "player.results.excellent": "素晴らしい結果！",
     "player.results.great_job": "よくできました！",

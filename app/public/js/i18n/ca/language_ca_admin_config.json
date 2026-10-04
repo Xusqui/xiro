@@ -210,6 +210,7 @@
     "admin.config.logs.sub": "Fitxers de log",
     "admin.config.panic.title": "PANIC",
     "admin.config.panic.sub": "Reiniciar servidor",
+    "admin.config.danger_zone": "Zona de perill",
     "admin.config.btn_save": "Desa Canvis",
     "admin.config.btn_reload": "Recarregar",
     "admin.license.title": "Llicència de Xiro!",

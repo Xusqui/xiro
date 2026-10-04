@@ -5,6 +5,7 @@
 const { validateSocket, schemas } = require('../../validation');
 const timerManager = require('../../services/timer.manager');
 const logger = require('../../config/logger');
+const { applyTeamMembership, emitLocalTeamUpdate } = require('../utils/TeamMembershipSync');
 
 /**
  * Validación común para handlers de timer
@@ -252,18 +253,8 @@ function createSelectTeamHandler(dependencies) {
             return;
         }
 
-        // Remover jugador de cualquier otro equipo
-        teamConfig.teams.forEach(team => {
-            const idx = team.players.indexOf(nickname);
-            if (idx !== -1) {
-                team.players.splice(idx, 1);
-            }
-        });
-
-        // Añadir jugador al equipo seleccionado
-        if (!teamConfig.teams[teamIndex].players.includes(nickname)) {
-            teamConfig.teams[teamIndex].players.push(nickname);
-        }
+        // Mover al jugador al equipo elegido (lo saca de cualquier otro)
+        applyTeamMembership(teamConfig, { nickname, teamIndex });
 
         // Guardar equipo en player para reconexión
         const playerId = socket.data.playerId;
@@ -275,13 +266,12 @@ function createSelectTeamHandler(dependencies) {
             }
         }
 
-        // Publicar actualización a Redis
-        await syncBus.publishTeamConfig(roomId, teamConfig);
+        // Publicar solo el cambio: publicar la configuración entera haría que dos
+        // elecciones simultáneas en workers distintos se pisaran.
+        await syncBus.publishTeamMembership(roomId, nickname, teamIndex);
 
-        // Notificar a todos
-        io.to(roomId).emit('team-update', {
-            teams: teamConfig.teams
-        });
+        // Cada worker avisa a sus propios sockets al aplicar el cambio
+        emitLocalTeamUpdate(io, roomId, teamConfig);
     };
 }
 
@@ -306,25 +296,7 @@ function createLeaveLobbyHandler(dependencies) {
         }
 
         const teamConfig = teamConfigs.get(roomId);
-        if (!teamConfig || !teamConfig.isTeamMode || !Array.isArray(teamConfig.teams)) {
-            return null;
-        }
-
-        let changed = false;
-        for (const team of teamConfig.teams) {
-            if (!Array.isArray(team.players) || team.players.length === 0) {
-                continue;
-            }
-
-            for (let i = team.players.length - 1; i >= 0; i--) {
-                if (team.players[i] === nickname) {
-                    team.players.splice(i, 1);
-                    changed = true;
-                }
-            }
-        }
-
-        return changed ? teamConfig : null;
+        return applyTeamMembership(teamConfig, { nickname, teamIndex: null }) ? teamConfig : null;
     }
 
     return async function handleLeaveLobby(socket) {
@@ -351,10 +323,8 @@ function createLeaveLobbyHandler(dependencies) {
         // Remover del equipo para evitar miembros fantasma al volver con otro nickname
         const updatedTeamConfig = removePlayerFromTeams(roomId, nickname);
         if (updatedTeamConfig) {
-            await resolvedSyncBus.publishTeamConfig(roomId, updatedTeamConfig);
-            io.to(roomId).emit('team-update', {
-                teams: updatedTeamConfig.teams
-            });
+            await resolvedSyncBus.publishTeamMembership(roomId, nickname, null);
+            emitLocalTeamUpdate(io, roomId, updatedTeamConfig);
         }
 
         // Remover del juego activo y verificar si todos respondieron

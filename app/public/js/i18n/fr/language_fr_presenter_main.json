@@ -6,11 +6,14 @@
     "presenter.lobby.waiting": "En attendant les joueurs...",
     "presenter.lobby.pin": "NIP D'ACCÈS",
     "presenter.lobby.start": "COMMENCER!",
+    "presenter.lobby.join_at": "Impossible de scanner le QR ? Va sur",
+    "presenter.lobby.join_pin": "et saisis l'ID de session :",
     "presenter.lobby.players": "Joueurs :",
     "presenter.game.terminate": "Finition",
     "presenter.game.terminate.title": "Terminez le jeu et affichez le podium avec le classement actuel",
     "presenter.game.abandon": "Quitter le jeu",
     "presenter.game.abandon.title": "Quitter la session",
-    "presenter.fullscreen.title": "Plein écran"
+    "presenter.fullscreen.title": "Plein écran",
+    "presenter.menu.title": "Menu"
   }
 }

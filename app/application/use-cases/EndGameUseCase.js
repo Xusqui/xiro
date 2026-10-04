@@ -123,6 +123,18 @@ class EndGameUseCase {
         return { mergedPlayerAnswers, redisStartTime, redisDbSessionId };
     }
 
+    /**
+     * Personas que jugaron. No vale ranking.length: en modo equipos el ranking
+     * tiene una fila por equipo, no por jugador.
+     */
+    _countPlayers(game, ranking) {
+        if (Array.isArray(game.players) && game.players.length > 0) {
+            return game.players.length;
+        }
+        const scored = Object.keys(game.scores || {}).length;
+        return scored || ranking.length;
+    }
+
     _persistSessionNonBlocking({ roomId, game, ranking, reason, questionsSnapshot, mergedPlayerAnswers, redisStartTime, redisDbSessionId, io }) {
         const gameStartTime = redisStartTime || game.gameStartTime || null;
         const currentDbSessionId = redisDbSessionId || game.dbSessionId || null;
@@ -134,7 +146,7 @@ class EndGameUseCase {
             gameType: game.gameType || null,
             startedAt: gameStartTime,
             durationMs: gameStartTime ? Date.now() - gameStartTime : null,
-            playerCount: ranking.length || (Array.isArray(game.players) ? game.players.length : Object.keys(game.scores || {}).length),
+            playerCount: this._countPlayers(game, ranking),
             questionCount: game.questions?.length || 0,
             reason,
             finalRanking: ranking,
@@ -149,6 +161,7 @@ class EndGameUseCase {
     }
 
     _emitGameEndedEvent({ roomId, game, ranking, reason, startedAt, maxPossibleScore }) {
+        const playerCount = this._countPlayers(game, ranking);
         EventBus.emit('game.ended', new GameEndedEvent({
             roomId,
             gameId: roomId,
@@ -156,10 +169,10 @@ class EndGameUseCase {
             finalRanking: ranking,
             stats: {
                 totalQuestions: game.questions?.length || 0,
-                totalPlayers: ranking.length
+                totalPlayers: playerCount
             },
             duration: Date.now() - (game.startedAt || startedAt),
-            playerCount: ranking.length,
+            playerCount,
             questionCount: game.questions?.length || 0,
             reason,
             timestamp: Date.now(),

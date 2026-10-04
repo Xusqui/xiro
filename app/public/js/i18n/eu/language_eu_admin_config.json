@@ -210,6 +210,7 @@
     "admin.config.logs.sub": "Erregistro fitxategiak",
     "admin.config.panic.title": "IKARA",
     "admin.config.panic.sub": "Berrabiarazi zerbitzaria",
+    "admin.config.danger_zone": "Arrisku-eremua",
     "admin.config.btn_save": "Gorde aldaketak",
     "admin.config.btn_reload": "Kargatu",
     "admin.license.title": "Xiro lizentzia!",

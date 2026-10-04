@@ -6,6 +6,7 @@
     "player.results.position_label": "posición",
     "player.results.final_score": "Puntuación final",
     "player.results.of_players": "de {totalPlayers} xogadores",
+    "player.results.of_teams": "de {totalTeams} equipos",
     "player.results.champion": "CAMPIÓN!",
     "player.results.excellent": "Excelente resultado!",
     "player.results.great_job": "Gran traballo!",

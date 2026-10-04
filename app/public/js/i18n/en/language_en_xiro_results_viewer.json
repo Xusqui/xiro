@@ -36,6 +36,8 @@
     "xiro_results_viewer.team_panel.member": "Member",
     "xiro_results_viewer.team_panel.no_members": "This game did not save the team members",
     "xiro_results_viewer.table.score": "Score",
+    "xiro_results_viewer.team_score_note": "Team score: average of its players, adjusted when teams have different sizes",
+    "xiro_results_viewer.team_panel.members_avg": "Members' average",
     "xiro_results_viewer.wedges.count": "{count} wedges",
     "xiro_results_viewer.wedges.empty": "No wedges earned",
     "xiro_results_viewer.sections.wedges": "Categories earned",

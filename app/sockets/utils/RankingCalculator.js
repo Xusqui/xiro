@@ -7,6 +7,7 @@
 
 const { roundScore } = require('../../services/game.logic');
 const { calculateTeamScore } = require('../../services/game.logic');
+const { teamScoreParams } = require('../../domain/services/TeamScoreParams');
 const runtimeConfig = require('../../config/runtime-config');
 const logger = require('../../config/logger');
 
@@ -33,37 +34,16 @@ function calculateFinalRanking(game, teamConfig) {
     }
 
     if (isTeamMode) {
-        // Team ranking with adaptive formula
-        const allScores = Object.values(game.scores);
-        const totalPoints = allScores.reduce((sum, pts) => sum + pts, 0);
-        const totalPlayers = allScores.length;
-        const globalMean = totalPlayers > 0 ? totalPoints / totalPlayers : 0;
-
-        if (debugEnabled) {
-            logger.debug('[DEBUG] Team scoring calculation:', {
-                allScores,
-                totalPoints,
-                totalPlayers,
-                globalMean
-            });
-        }
-
-        const teamSizes = teamConfig.teams.map(t => t.players.length);
-        const minSize = Math.min(...teamSizes);
-        const maxSize = Math.max(...teamSizes);
-        const sizeRatio = maxSize / minSize;
+        // Team ranking with adaptive formula (same parameters as the live scoreboard)
         const scoreLambda = runtimeConfig.get('TEAM_SCORE_LAMBDA');
-        const effectiveLambda = (sizeRatio === 1) ? 0 : scoreLambda * (sizeRatio - 1);
+        const { globalMean, lambda: effectiveLambda } = teamScoreParams(teamConfig.teams, game.scores, scoreLambda);
 
         if (debugEnabled) {
-            logger.debug('[DEBUG] Lambda calculation:', {
-                teamSizes,
-                minSize,
-                maxSize,
-                sizeRatio,
+            logger.debug('[DEBUG] Team scoring parameters:', {
+                teamSizes: teamConfig.teams.map(t => t.players?.length || 0),
                 TEAM_SCORE_LAMBDA: scoreLambda,
-                effectiveLambda,
-                isNaN_effectiveLambda: isNaN(effectiveLambda)
+                globalMean,
+                effectiveLambda
             });
         }
 

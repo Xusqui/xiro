@@ -13,7 +13,7 @@ import {
     setCurrentSlideType,
     startOrderAutoSendTimer
 } from './player-state.js?v=20260922172926';
-import { OPTION_COLORS, getResponsiveFontClass } from './player-question-utils.js?v=20260922172926';
+import { OPTION_COLORS, getResponsiveFontClass, optionCaseClass } from './player-question-utils.js?v=20260922172926';
 import { setBodyHTML } from './player-streak-ui.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
@@ -103,7 +103,7 @@ function renderOrderList() {
                 title="Arrastra para reordenar"
             >
                 <span class="btn-number w-7 h-7 rounded-full flex items-center justify-center font-black text-sm text-white shrink-0 bg-white/30">${position + 1}</span>
-                <span class="btn-text text-white font-bold ${fontClass} uppercase break-words flex-1" lang="es">
+                <span class="btn-text text-white font-bold ${fontClass} ${optionCaseClass(option.optionText?.length || option.text?.length)} break-words flex-1" lang="es">
                     ${escapeHtml(option.optionText || option.text)}
                 </span>
                 <div class="drag-indicator text-white/70 shrink-0 text-sm">≡</div>

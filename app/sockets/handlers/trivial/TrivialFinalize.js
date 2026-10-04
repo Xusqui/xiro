@@ -28,6 +28,7 @@ const trivialGameState = require('../../services/TrivialGameState');
 const { sendFinalPositions } = require('../../utils/GameCleanupManager');
 const { clearGameTimer, activeGames } = require('../../../state/globalState');
 const { saveGameSession } = require('../../../services/db/game-session.service');
+const { countSessionPlayers } = require('../../utils/SessionPlayerCount');
 const { getRedisClient } = require('../../../config/redis');
 const logger = require('../../../config/logger');
 
@@ -129,7 +130,10 @@ async function persistTrivialSession({ io, roomId, pin, ranking, mergedAnswers, 
         gameType: 'trivial',
         startedAt,
         durationMs: startedAt ? Date.now() - startedAt : null,
-        playerCount: ranking.length,
+        playerCount: countSessionPlayers({
+            teams: state?.teamMode ? state.teamConfig?.teams : null,
+            ranking
+        }),
         questionCount: Object.keys(mergedAnswers).length,
         reason: 'completed',
         finalRanking: ranking,

@@ -68,7 +68,7 @@ function _trivialCard(g) {
     };
     const canModify = canModifyOwnedResource(ownerInfo);
     const editClasses = canModify
-        ? 'flex-1 bg-orange-500 hover:bg-orange-600 text-white py-2 px-3 rounded-lg text-sm font-bold transition'
+        ? 'flex-1 btn-edit py-2 px-3 rounded-lg text-sm font-bold transition'
         : `flex-1 py-2 px-3 rounded-lg text-sm font-bold transition ${getLockedButtonClasses()}`;
     const cats = (g.categories || []);
     const swatches = cats.map(c =>

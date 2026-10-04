@@ -65,7 +65,7 @@ async function renderVistaPersonalizados() {
         };
         const canModify = canModifyOwnedResource(ownerInfo);
         const editClasses = canModify
-            ? 'flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2'
+            ? 'flex-1 btn-edit px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2'
             : `flex-1 px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 ${getLockedButtonClasses()}`;
 
         return `

@@ -32,8 +32,9 @@
             return isFullyCorrect ? 'bg-green-500' : 'bg-blue-500';
         }
 
+        // Encuesta (sin correcta): ciruela de marca; el azul no estaba en la paleta
         if (isCorrect === null) {
-            return 'bg-blue-500';
+            return 'bg-plum-600';
         }
 
         if (isCorrect) {

@@ -210,6 +210,7 @@
     "admin.config.logs.sub": "日志文件",
     "admin.config.panic.title": "恐慌",
     "admin.config.panic.sub": "重启服务器",
+    "admin.config.danger_zone": "危险操作",
     "admin.config.btn_save": "保存更改",
     "admin.config.btn_reload": "充值",
     "admin.license.title": "西罗牌照！",

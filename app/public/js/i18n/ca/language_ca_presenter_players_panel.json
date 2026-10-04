@@ -1,6 +1,7 @@
 {
   "keys": {
     "presenter.players_panel.player_word_single": "jugador",
-    "presenter.players_panel.player_word_plural": "jugadors"
+    "presenter.players_panel.player_word_plural": "jugadors",
+    "presenter.players_panel.points_label": "Punts:"
   }
 }

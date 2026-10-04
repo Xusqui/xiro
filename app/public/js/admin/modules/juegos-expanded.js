@@ -65,7 +65,7 @@ async function renderVistaJuegos() {
         };
         const canModify = canModifyOwnedResource(ownerInfo);
         const editClasses = canModify
-            ? 'flex-1 bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2'
+            ? 'flex-1 btn-edit px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2'
             : `flex-1 px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 ${getLockedButtonClasses()}`;
         const validBanks = juego.banks.filter(b => b.bank_id !== null);
         return `

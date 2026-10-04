@@ -29,11 +29,19 @@ window.TVApp.RevealRenderers = (function () {
         return pts > 0 ? positiveHex : 'ef4444';
     }
 
+    /** Primer valor que no sea null/undefined (equivale a `a ?? b ?? c`, sin ES2020). */
+    function firstDefined() {
+        for (let i = 0; i < arguments.length; i++) {
+            if (arguments[i] !== null && arguments[i] !== undefined) return arguments[i];
+        }
+        return undefined;
+    }
+
     function numericRankingHtml(ranking) {
         if (!ranking || ranking.length === 0) return '';
         let html = '<div style="margin-top:25px;border-top:2px solid rgba(34,197,94,0.3);padding-top:20px">';
         html += '<div style="font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:10px">📊 RESPUESTAS REGISTRADAS</div>';
-        ranking.slice(0, TOP_N).forEach((p, i) => {
+        ranking.slice(0, TOP_N).forEach(function (p, i) {
             const pts = p.pts || 0;
             html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(34,197,94,0.2)">';
             html += '<span style="font-size:14px">' + (i + 1) + '. ' + escapeHtml(p.name) + '</span><span style="font-size:14px;font-weight:bold;color:#' + pointsColor(pts, '22c55e') + '">' + pts + ' pts</span></div>';
@@ -42,8 +50,8 @@ window.TVApp.RevealRenderers = (function () {
     }
 
     function renderNumericReveal(data, question) {
-        const correctAnswer = question.correct_answer ?? data.correctAnswer ?? '?';
-        const maxPoints = question.max_points ?? data.maxPoints ?? 0;
+        const correctAnswer = firstDefined(question.correct_answer, data.correctAnswer, '?');
+        const maxPoints = firstDefined(question.max_points, data.maxPoints, 0);
 
         let html = '<div style="background:rgba(34,197,94,0.15);padding:30px 20px;border-radius:15px;margin:20px 0;border:3px solid #22c55e">';
         html += '<div style="text-align:center"><div style="font-size:16px;color:rgba(255,255,255,0.7);margin-bottom:15px">✅ RESPUESTA CORRECTA</div>';
@@ -62,7 +70,7 @@ window.TVApp.RevealRenderers = (function () {
     function wordScrambleRankingHtml(ranking) {
         if (!ranking || ranking.length === 0) return '';
         let html = '<div style="margin-top:20px;border-top:2px solid rgba(245,158,11,0.3);padding-top:15px">';
-        ranking.slice(0, TOP_N).forEach((p, i) => {
+        ranking.slice(0, TOP_N).forEach(function (p, i) {
             const pts = p.pts || 0;
             html += '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(245,158,11,0.2)">';
             html += '<span>' + (i + 1) + '. ' + escapeHtml(p.name) + '</span><span style="font-weight:bold;color:#' + pointsColor(pts, 'fbbf24') + '">' + pts + ' pts</span></div>';
@@ -116,7 +124,7 @@ window.TVApp.RevealRenderers = (function () {
     function optionsRankingHtml(data) {
         if (!data.ranking || data.ranking.length === 0 || data.percentages || data.isSurvey) return '';
         let html = '<div class="ranking-box"><div class="ranking-title">🏆 TOP 5</div>';
-        data.ranking.slice(0, TOP_N).forEach((p, i) => {
+        data.ranking.slice(0, TOP_N).forEach(function (p, i) {
             html += '<div class="ranking-item ' + (i === 0 ? 'ranking-item-first' : '') + '"><table><tr><td><strong>' + (i + 1) + '. ' + escapeHtml(p.name) + '</strong></td><td>' + escapeHtml(p.pts) + '</td></tr></table></div>';
         });
         return html + '</div>';

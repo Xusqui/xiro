@@ -99,7 +99,7 @@ const configureHelmet = () => {
             '\'sha256-cxxpClMEX/wv6RWwz6Y1F0amAkNF0A1RcbfTz0sbqg0=\'', // juego-concluido.html / juego-finalizado-presentador.html
             '\'sha256-GN5mcXaPICRaVYTyha8rvCUnuZOH8P7yITutSD0PRK4=\'', // ppt-redirect.html
             '\'sha256-ul/v0CisU7Zqw8SY+9SvXyoYEdITat4Z8gaRKnu25ak=\'', // fireworks-preview.html
-            '\'sha256-Reo5+uLVTYE3nyTKK4s+wY+Qsc956l+inryVzxgjPX0=\'', // xiro-results-viewer.html
+            '\'sha256-W7kiJj8ffg0Dt2oiBe13SXExQH9HAIg1XGLj8L38QbE=\'', // xiro-results-viewer.html
             '\'sha256-5FKiUvj99wyDNTbzh2Ic/7hMwqYXv2DaakTc9D36gWc=\'', // about.html: mascota decorativa aleatoria
         ];
         if (umamiHost) scriptSrc.push(umamiHost);

@@ -72,14 +72,16 @@ body {
     color: #666
 }
 
+/* nowrap: con la columna a 260px, «TRIVIA-9026» se partía en dos líneas */
 .pin-number {
     font-size: 48px;
     font-weight: bold;
-    margin: 5px 0
+    margin: 5px 0;
+    white-space: nowrap
 }
 
 .pin-url {
-    font-size: 11px;
+    font-size: 13px;
     color: #0e7490;
     margin-top: 5px
 }
@@ -191,6 +193,26 @@ body {
 .options-grid {
     display: block;
     margin: 20px 0
+}
+
+/* En la tele, opciones en dos columnas: en una sola, 6 opciones no cabían en
+   720px de alto. flex-wrap y anchos en % (sin grid ni gap: TVs antiguas). */
+@media screen and (min-width: 769px) {
+    .options-grid {
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -webkit-justify-content: space-between;
+        justify-content: space-between
+    }
+
+    .options-grid > .option {
+        width: 49%;
+        box-sizing: border-box;
+        margin: 0 0 12px;
+        padding: 20px 24px
+    }
 }
 
 .option {
@@ -327,11 +349,14 @@ body {
     font-weight: bold
 }
 
+/* Columna de jugadores: legible desde el sofá (antes 200px con nombres de
+   11px). Solo px, flex y propiedades de siempre: tv.html se usa en TVs con
+   navegadores antiguos (webOS), sin grid, gap, clamp, :has ni variables. */
 .sidebar {
     position: fixed;
     top: 0;
     right: 0;
-    width: 200px;
+    width: 260px;
     height: 100%;
     background-color: #16213e;
     border-left: 2px solid #666;
@@ -343,7 +368,7 @@ body {
     padding: 15px;
     border-bottom: 2px solid #666;
     font-weight: bold;
-    font-size: 14px
+    font-size: 18px
 }
 
 .sidebar-content {
@@ -352,10 +377,10 @@ body {
 
 .sidebar-player {
     background-color: rgba(8, 145, 178, .3);
-    padding: 8px;
-    margin: 5px 0;
+    padding: 10px 12px;
+    margin: 6px 0;
     border-radius: 8px;
-    font-size: 11px
+    font-size: 18px
 }
 
 .sidebar-player-name {
@@ -365,12 +390,41 @@ body {
 
 .sidebar-player-score {
     color: #a5f3fc;
-    font-size: 10px
+    font-size: 15px
 }
 
 .main-content {
-    margin-right: 200px;
+    margin-right: 260px;
     height: 100%;
+}
+
+/* Trivial: la clasificación (quesitos) sustituye a la lista de jugadores,
+   cuyos puntos no significan nada en este juego. Clase en vez de :has(). */
+.sidebar.trv-active .sidebar-content {
+    display: none
+}
+
+/* Hueco abajo para los botones de #ctrl-partida, que van al pie de la columna */
+.sidebar-content,
+.trv-standings {
+    padding: 10px 10px 120px
+}
+
+/* Finalizar / Abortar: al pie de la columna, fuera del escenario (antes
+   flotaban sobre la lista de bancos). Pisan los estilos inline del HTML. */
+#ctrl-partida {
+    left: auto !important;
+    right: 0 !important;
+    bottom: 24px !important;
+    width: 260px;
+    text-align: center
+}
+
+#ctrl-partida button {
+    display: block !important;
+    width: 220px;
+    margin: 8px auto 0 !important;
+    font-size: 16px !important
 }
 
 .final-screen {
@@ -562,10 +616,11 @@ body {
     display: none !important
 }
 
+/* right = ancho de la columna (260px) + 20px */
 .btn-next {
     position: fixed;
     bottom: 20px;
-    right: 220px;
+    right: 280px;
     z-index: 98
 }
 

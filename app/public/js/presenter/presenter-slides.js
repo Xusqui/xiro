@@ -52,20 +52,20 @@ export function renderCommentSlide(slide) {
             const safeTeamName = escapeHtml(team.name);
             const encodedTeamName = encodeInlineArg(team.name);
             return `
-                <div class="${teamColors[team.color] || 'bg-plum-600'} backdrop-blur rounded-xl p-4 flex flex-col items-center gap-3 border-2 border-white/30">
+                <div class="manual-points-card ${teamColors[team.color] || 'bg-plum-600'} backdrop-blur rounded-xl p-4 flex flex-col items-center gap-3 border-2 border-white/30">
                     <div class="flex items-center gap-2">
                         <i class="fas fa-users text-white text-xl"></i>
                         <span class="text-white font-bold text-lg truncate w-full text-center">${safeTeamName}</span>
                     </div>
                     <span class="text-white/90 text-sm">${team.players.length} ${team.players.length === 1 ? _t('presenter.slides.player_singular', null, 'jugador') : _t('presenter.slides.player_plural', null, 'jugadores')}</span>
                     <div class="flex gap-2">
-                        <button data-presenter-action="assign-points" data-target-name="${encodedTeamName}" data-points="1" data-is-team="true" class="bg-green-500 hover:bg-green-600 text-white w-12 h-12 rounded-full font-bold transition shadow-lg text-lg">
+                        <button data-presenter-action="assign-points" data-target-name="${encodedTeamName}" data-points="1" data-is-team="true" class="bg-green-500 hover:bg-green-600 manual-points-btn text-white w-12 h-12 rounded-full font-bold transition shadow-lg text-lg">
                             +1
                         </button>
-                        <button data-presenter-action="assign-points" data-target-name="${encodedTeamName}" data-points="5" data-is-team="true" class="bg-blue-500 hover:bg-blue-600 text-white w-12 h-12 rounded-full font-bold transition shadow-lg text-lg">
+                        <button data-presenter-action="assign-points" data-target-name="${encodedTeamName}" data-points="5" data-is-team="true" class="bg-blue-500 hover:bg-blue-600 manual-points-btn text-white w-12 h-12 rounded-full font-bold transition shadow-lg text-lg">
                             +5
                         </button>
-                        <button data-presenter-action="assign-points" data-target-name="${encodedTeamName}" data-points="10" data-is-team="true" class="bg-plum-500 hover:bg-plum-600 text-white w-12 h-12 rounded-full font-bold transition shadow-lg text-lg">
+                        <button data-presenter-action="assign-points" data-target-name="${encodedTeamName}" data-points="10" data-is-team="true" class="bg-plum-500 hover:bg-plum-600 manual-points-btn text-white w-12 h-12 rounded-full font-bold transition shadow-lg text-lg">
                             +10
                         </button>
                     </div>
@@ -79,17 +79,17 @@ export function renderCommentSlide(slide) {
             const safeNick = escapeHtml(nick);
             const encodedNick = encodeInlineArg(nick);
             return `
-            <div class="bg-white/20 backdrop-blur rounded-xl p-4 flex flex-col items-center gap-2">
+            <div class="manual-points-card manual-points-card--player bg-white/20 backdrop-blur rounded-xl p-4 flex flex-col items-center gap-2">
                 <span class="text-white font-bold text-sm truncate w-full text-center">${safeNick}</span>
                 <span class="text-white/80 text-xs">${playersData[nick].score || 0} pts</span>
                 <div class="flex gap-2">
-                    <button data-presenter-action="assign-points" data-target-name="${encodedNick}" data-points="1" data-is-team="false" class="bg-green-500 hover:bg-green-600 text-white w-10 h-10 rounded-full font-bold transition">
+                    <button data-presenter-action="assign-points" data-target-name="${encodedNick}" data-points="1" data-is-team="false" class="bg-green-500 hover:bg-green-600 manual-points-btn text-white w-10 h-10 rounded-full font-bold transition">
                         +1
                     </button>
-                    <button data-presenter-action="assign-points" data-target-name="${encodedNick}" data-points="5" data-is-team="false" class="bg-blue-500 hover:bg-blue-600 text-white w-10 h-10 rounded-full font-bold transition">
+                    <button data-presenter-action="assign-points" data-target-name="${encodedNick}" data-points="5" data-is-team="false" class="bg-blue-500 hover:bg-blue-600 manual-points-btn text-white w-10 h-10 rounded-full font-bold transition">
                         +5
                     </button>
-                    <button data-presenter-action="assign-points" data-target-name="${encodedNick}" data-points="10" data-is-team="false" class="bg-plum-500 hover:bg-plum-600 text-white w-10 h-10 rounded-full font-bold transition">
+                    <button data-presenter-action="assign-points" data-target-name="${encodedNick}" data-points="10" data-is-team="false" class="bg-plum-500 hover:bg-plum-600 manual-points-btn text-white w-10 h-10 rounded-full font-bold transition">
                         +10
                     </button>
                 </div>
@@ -107,7 +107,7 @@ export function renderCommentSlide(slide) {
                 <div class="inline-block bg-amber-500 text-white px-6 py-3 rounded-full mb-8">
                     <i class="fas fa-comment text-3xl"></i>
                 </div>
-                <h1 class="text-8xl font-black text-center uppercase italic mb-6 drop-shadow-lg text-white leading-tight">${safeCommentText}</h1>
+                <h1 class="slide-title text-8xl font-black text-center uppercase italic mb-6 drop-shadow-lg text-white leading-tight">${safeCommentText}</h1>
                 <p class="text-2xl text-slate-300 italic">${_t('presenter.slides.assign_manually', null, 'El presentador puede asignar puntos manualmente')}${isTeamMode ? ' ' + _t('presenter.slides.to_teams', null, 'a los equipos') : ''}</p>
             </div>
             
@@ -153,7 +153,7 @@ export function renderInfoSlide(slide) {
                 <div class="inline-block bg-blue-500 text-white px-6 py-3 rounded-full mb-8">
                     <i class="fas fa-info-circle text-3xl"></i>
                 </div>
-                <h1 class="text-8xl font-black text-center uppercase italic mb-6 drop-shadow-lg text-white leading-tight" style="white-space: pre-line;">${safeCommentText}</h1>
+                <h1 class="slide-title text-8xl font-black text-center uppercase italic mb-6 drop-shadow-lg text-white leading-tight" style="white-space: pre-line;">${safeCommentText}</h1>
                 <p class="text-2xl text-slate-300 italic">${_t('presenter.slides.info_no_points', null, 'Información - Sin asignación de puntos')}</p>
             </div>
             

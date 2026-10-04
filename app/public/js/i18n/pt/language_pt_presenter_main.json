@@ -6,11 +6,14 @@
     "presenter.lobby.waiting": "Esperando pelos jogadores...",
     "presenter.lobby.pin": "PIN DE ACESSO",
     "presenter.lobby.start": "COMEÇAR!",
+    "presenter.lobby.join_at": "Não consegues ler o QR? Entra em",
+    "presenter.lobby.join_pin": "e escreve o ID da sessão:",
     "presenter.lobby.players": "Jogadores:",
     "presenter.game.terminate": "Terminar",
     "presenter.game.terminate.title": "Termine o jogo e mostre o pódio com a classificação atual",
     "presenter.game.abandon": "Sair do jogo",
     "presenter.game.abandon.title": "Sair da sessão",
-    "presenter.fullscreen.title": "Tela inteira"
+    "presenter.fullscreen.title": "Tela inteira",
+    "presenter.menu.title": "Menu"
   }
 }

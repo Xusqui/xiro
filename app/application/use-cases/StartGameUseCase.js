@@ -70,7 +70,7 @@ class StartGameUseCase {
         // 5. Respuesta al cliente
         const responseHandler = new ResponseHandler((result, context) => {
             if (!result.success) {
-                return { success: false, error: result.error, code: result.code };
+                return { success: false, error: result.error, code: result.code, ...(result.params && { params: result.params }) };
             }
             // Devolver todos los datos del comando
             return {

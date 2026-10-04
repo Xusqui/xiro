@@ -6,6 +6,7 @@
     "player.results.position_label": "postuan",
     "player.results.final_score": "Azken puntuazioa",
     "player.results.of_players": "{totalPlayers} jokalari artetik",
+    "player.results.of_teams": "{totalTeams} talde artetik",
     "player.results.champion": "TXAPELDUNA!",
     "player.results.excellent": "Emaitza bikaina!",
     "player.results.great_job": "Lan ona!",

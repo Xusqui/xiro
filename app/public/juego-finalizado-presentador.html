@@ -7,6 +7,9 @@
     <title data-i18n="presenter_finished.page.title">...</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="./css/common.css?v=20260922172926">
+    <!-- Familia «selva» (DESIGN.md, Background Families): la ve el presentador.
+         Sin esta hoja, hojas-bg.js inyectaba la capa de hojas sin estilo. -->
+    <link rel="stylesheet" href="./css/index-style.css?v=20260922172926">
     <script defer src="/js/core/umami-loader.js?v=20260922172926"></script>
     <script src="/js/i18n/i18n-core.js?v=20260922172926"></script>
     <script src="/js/i18n/i18n-dom.js?v=20260922172926"></script>
@@ -15,7 +18,8 @@
 
 <body
     class="bg-gradient-to-br from-plum-700 via-plum-600 to-aubergine-700 h-dvh flex flex-col items-center justify-center font-sans text-white overflow-hidden p-6">
-    <div class="pointer-events-none absolute inset-0">
+    <!-- overflow-hidden: los círculos desbordaban en horizontal en iOS -->
+    <div class="pointer-events-none absolute inset-0 overflow-hidden">
         <div class="absolute -top-16 -right-10 h-56 w-56 rounded-full bg-amber-300/30 blur-3xl"></div>
         <div
             class="absolute bottom-0 left-0 h-72 w-72 -translate-x-1/3 translate-y-1/3 rounded-full bg-cyan-300/30 blur-3xl">
@@ -26,9 +30,13 @@
     <div class="relative w-full max-w-md text-center">
         <img src="./images/logo.svg" alt="XIRO! Logo" class="w-full max-w-md mx-auto mb-12"
             style="filter: drop-shadow(0 20px 25px rgb(0 0 0 / 0.15));">
-        <div class="text-9xl mb-6">🛑</div>
-        <h1 data-i18n="presenter_finished.hero.heading" class="text-4xl font-black italic uppercase mb-3">...</h1>
-        <p data-i18n="presenter_finished.hero.message" class="text-white/90">...</p>
+        <!-- Tarjeta blanca sobre la selva (texto blanco sobre amarillo no se leía),
+             con el borde ámbar del rol presentador como en la portada -->
+        <div class="bg-white rounded-3xl shadow-2xl p-8 border-b-8 text-slate-800" style="border-bottom-color:#f9b518">
+            <div class="text-7xl mb-4">🛑</div>
+            <h1 data-i18n="presenter_finished.hero.heading" class="text-4xl font-black italic uppercase mb-3">...</h1>
+            <p data-i18n="presenter_finished.hero.message" class="text-slate-600">...</p>
+        </div>
     </div>
 
     <script type="module">

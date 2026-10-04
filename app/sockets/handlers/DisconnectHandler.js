@@ -5,6 +5,7 @@
 const runtimeConfig = require('../../config/runtime-config');
 const EventBus = require('../../domain/events/EventBus');
 const { PlayerDisconnectedEvent } = require('../../domain/events/GameEvents');
+const { applyTeamMembership, emitLocalTeamUpdate } = require('../utils/TeamMembershipSync');
 
 function serializeAnsweredQuestions(answeredQuestions) {
     if (answeredQuestions instanceof Set) {
@@ -76,28 +77,6 @@ function emitPresenterDisconnected(io, roomId) {
     });
 }
 
-function removeNicknameFromTeamConfig(teamConfig, nickname) {
-    if (!teamConfig?.isTeamMode || !Array.isArray(teamConfig.teams)) {
-        return false;
-    }
-
-    let changed = false;
-    for (const team of teamConfig.teams) {
-        if (!Array.isArray(team.players) || team.players.length === 0) {
-            continue;
-        }
-
-        for (let i = team.players.length - 1; i >= 0; i--) {
-            if (team.players[i] === nickname) {
-                team.players.splice(i, 1);
-                changed = true;
-            }
-        }
-    }
-
-    return changed;
-}
-
 async function removeDisconnectedPlayerFromTeamsIfLobby(context) {
     const { roomId, nickname, activeGames, teamConfigs, io, logger } = context;
 
@@ -110,7 +89,7 @@ async function removeDisconnectedPlayerFromTeamsIfLobby(context) {
         return;
     }
 
-    const changed = removeNicknameFromTeamConfig(teamConfig, nickname);
+    const changed = applyTeamMembership(teamConfig, { nickname, teamIndex: null });
     if (!changed) {
         return;
     }
@@ -118,8 +97,8 @@ async function removeDisconnectedPlayerFromTeamsIfLobby(context) {
     try {
         const { RedisSyncBus } = require('../sync/RedisSyncBus');
         const syncBus = RedisSyncBus.getInstance();
-        await syncBus.publishTeamConfig(roomId, teamConfig);
-        io.to(roomId).emit('team-update', { teams: teamConfig.teams });
+        await syncBus.publishTeamMembership(roomId, nickname, null);
+        emitLocalTeamUpdate(io, roomId, teamConfig);
 
         logger.debug('Disconnected player removed from team config (lobby)', {
             roomId,

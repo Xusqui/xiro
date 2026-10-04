@@ -14,13 +14,16 @@
     // del área de respuesta), presentador/TV la llevan abajo a la derecha (la
     // esquina superior derecha la ocupa la barra de jugadores conectados / el PIN),
     // y el resto (menú, standalone) usa la esquina superior derecha por defecto.
+    // En el jugador iba arriba al centro con 60 px de alto y tapaba el enunciado:
+    // ahora va pequeña en la esquina de la barra del nombre. En presentador/TV se
+    // queda por debajo de los controles (z-index bajo) para no tapar «Siguiente».
     function _resolvePosition() {
         const path = location.pathname;
         if (/\/(jugador|juego-concluido)\.html$/.test(path)) {
-            return { top: '10px', left: '50%', transform: 'translateX(-50%)' };
+            return { top: '4px', right: '8px', maxHeight: '32px', zIndex: '40' };
         }
         if (/\/(presentador|tv|juego-finalizado-presentador)\.html$/.test(path)) {
-            return { bottom: '10px', right: '10px' };
+            return { bottom: '10px', right: '10px', zIndex: '40' };
         }
         return { top: '10px', right: '10px' };
     }
@@ -41,7 +44,7 @@
         img.src = '/images/personalizations/' + encodeURIComponent(filename);
         img.alt = 'Logo';
         img.style.maxWidth = '100%';
-        img.style.maxHeight = '60px';
+        img.style.maxHeight = pos.maxHeight || '60px';
         img.style.width = 'auto';
         img.style.height = 'auto';
         img.style.display = 'block';

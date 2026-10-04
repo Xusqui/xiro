@@ -65,11 +65,13 @@ export function renderizarPreguntaWordScramble(pregunta) {
         ></div>`
     ).join('');
 
-    // Una sola fila de 10 letras al 90% del ancho de pantalla
+    // Letras en dos filas (como mucho 6 por fila): en una sola fila de 10 cada
+    // ficha medía ~32 px en un móvil, por debajo del mínimo táctil de 44 px
+    const letterColumns = Math.max(1, letters.length <= 6 ? letters.length : Math.ceil(letters.length / 2));
     const letterButtons = letters.map((letter, i) =>
         `<button id="ws-letter-${i}" data-idx="${i}" data-letter="${letter}"
             class="ws-letter bg-plum-600 hover:bg-plum-500 active:scale-95 text-white font-black rounded-xl shadow-md transition-all duration-150 border-b-4 border-plum-800"
-            style="width:100%; aspect-ratio:1/1; font-size: clamp(0.85rem, 3.5vw, 1.5rem);"
+            style="width:100%; aspect-ratio:1/1; font-size: clamp(1.25rem, 6vw, 2rem);"
         >${letter}</button>`
     ).join('');
 
@@ -105,13 +107,14 @@ export function renderizarPreguntaWordScramble(pregunta) {
                     ${emptyBoxes}
                 </div>
 
-                <!-- Letras mezcladas: 1 fila de 10 al 90% del ancho -->
+                <!-- Letras mezcladas: dos filas con fichas grandes -->
                 <div id="ws-letters"
                     style="
                         display: grid;
-                        grid-template-columns: repeat(10, 1fr);
-                        gap: clamp(2px, 1vw, 6px);
+                        grid-template-columns: repeat(${letterColumns}, 1fr);
+                        gap: clamp(6px, 2vw, 10px);
                         width: 90vw;
+                        max-width: 26rem;
                     ">
                     ${letterButtons}
                 </div>

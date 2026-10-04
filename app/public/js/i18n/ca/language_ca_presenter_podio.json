@@ -6,6 +6,7 @@
     "presenter.podio.no": "NO",
     "presenter.podio.pts": "PTS",
     "presenter.podio.yes": "SÍ",
-    "presenter.podio.show_games": "Mostrar jocs"
+    "presenter.podio.show_games": "Mostrar jocs",
+    "presenter.podio.team_score_note": "Puntuació d'equip: mitjana dels seus jugadors, ajustada quan els equips tenen mides diferents"
   }
 }

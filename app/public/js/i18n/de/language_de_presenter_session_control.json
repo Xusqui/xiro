@@ -18,6 +18,12 @@
     "presenter.session.error_unknown": "Unbekannter Fehler",
     "presenter.session.lobby_error_title": "Fehler beim Erstellen der Lobby",
     "presenter.session.lobby_error_msg": "Die Lobby konnte nicht erstellt werden",
-    "presenter.session.start_error_title": "Fehler beim Starten des Spiels"
+    "presenter.session.start_error_title": "Fehler beim Starten des Spiels",
+    "presenter.session.start_error.PIN_INVALID": "Ungültige PIN",
+    "presenter.session.start_error.GAME_ALREADY_ACTIVE": "Das Spiel läuft bereits",
+    "presenter.session.start_error.NO_PLAYERS_IN_LOBBY": "In der Lobby sind keine Spieler",
+    "presenter.session.start_error.TEAM_WITHOUT_PLAYERS": "Das Team „{teamName}“ hat keine Spieler",
+    "presenter.session.start_error.NO_QUESTIONS_AVAILABLE": "Dieses Spiel hat keine Fragen",
+    "presenter.session.start_error.GAME_START_FAILED": "Das Spiel konnte nicht gestartet werden. Versuche es erneut."
   }
 }

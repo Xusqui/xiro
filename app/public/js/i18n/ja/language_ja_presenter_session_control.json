@@ -18,6 +18,12 @@
     "presenter.session.error_unknown": "不明なエラー",
     "presenter.session.lobby_error_title": "ロビー作成エラー",
     "presenter.session.lobby_error_msg": "ロビーを作成できませんでした",
-    "presenter.session.start_error_title": "ゲーム開始エラー"
+    "presenter.session.start_error_title": "ゲーム開始エラー",
+    "presenter.session.start_error.PIN_INVALID": "PINが無効です",
+    "presenter.session.start_error.GAME_ALREADY_ACTIVE": "ゲームはすでに進行中です",
+    "presenter.session.start_error.NO_PLAYERS_IN_LOBBY": "ロビーにプレイヤーがいません",
+    "presenter.session.start_error.TEAM_WITHOUT_PLAYERS": "チーム「{teamName}」にプレイヤーがいません",
+    "presenter.session.start_error.NO_QUESTIONS_AVAILABLE": "このゲームには問題がありません",
+    "presenter.session.start_error.GAME_START_FAILED": "ゲームを開始できませんでした。もう一度お試しください。"
   }
 }

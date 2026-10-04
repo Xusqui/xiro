@@ -474,7 +474,8 @@
         </tr></thead>
         <tbody>${tableRows}</tbody>
       </table>
-    </div>`;
+    </div>
+    ${data.isTeamGame ? `<p style="margin-top:12px; color:var(--text-muted); font-size:0.9rem; font-style:italic">${_t('xiro_results_viewer.team_score_note', null, 'Puntuación de equipo: media de sus jugadores, ajustada cuando los equipos tienen distinto tamaño')}</p>` : ''}`;
             return wrap;
         }
 
@@ -557,6 +558,10 @@
             }
             const names = new Set(members.map(m => m.name));
             const teamCounts = countResults(data.playerAnswers.filter(a => names.has(a.player)));
+            // Desglose: la puntuación del equipo parte de la media de sus miembros
+            // (y se ajusta si los equipos tienen distinto tamaño)
+            const membersAvg = members.reduce((sum, m) => sum + (Number(m.pts) || 0), 0) / members.length;
+            const fmtPts = n => (Math.round(n * 10) / 10).toLocaleString(document.documentElement.lang || undefined);
 
             const rows = members.map(m => {
                 const c = countResults(data.playerAnswers.filter(a => a.player === m.name));
@@ -586,6 +591,10 @@
           <tbody>${rows}</tbody>
         </table>
       </div>
+      <p style="margin-top:10px; color:var(--text-muted); font-size:0.9rem">
+        ${_t('xiro_results_viewer.team_panel.members_avg', null, 'Media de los miembros')}: <strong>${fmtPts(membersAvg)}</strong>
+        · ${_t('xiro_results_viewer.table.score', null, 'Puntuación')}: <strong style="color:var(--xiro-yellow)">${fmtPts(Number(team.pts) || 0)}</strong>
+      </p>
     </div>`;
         }
 

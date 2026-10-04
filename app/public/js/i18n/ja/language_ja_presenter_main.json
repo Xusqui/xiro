@@ -6,11 +6,14 @@
     "presenter.lobby.waiting": "プレイヤーを待っています...",
     "presenter.lobby.pin": "アクセスPIN",
     "presenter.lobby.start": "始める！",
+    "presenter.lobby.join_at": "QRコードを読み取れない場合:",
+    "presenter.lobby.join_pin": "にアクセスしてセッションIDを入力:",
     "presenter.lobby.players": "選手:",
     "presenter.game.terminate": "仕上げる",
     "presenter.game.terminate.title": "ゲームを終了し、現在のランキングで表彰台に上がります",
     "presenter.game.abandon": "ゲームを離れる",
     "presenter.game.abandon.title": "セッションを離れる",
-    "presenter.fullscreen.title": "全画面表示"
+    "presenter.fullscreen.title": "全画面表示",
+    "presenter.menu.title": "メニュー"
   }
 }

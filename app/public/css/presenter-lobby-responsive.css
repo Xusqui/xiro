@@ -37,10 +37,9 @@
         gap: 0.35rem !important;
     }
 
+    /* Rejilla de columnas iguales (presenter.css): en flex el logo, con su
+       ancho en vw, aplastaba el aviso de acceso sin QR */
     #header-lobby {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
         gap: 0.75rem !important;
         height: 50% !important;
     }
@@ -66,19 +65,9 @@
         margin-top: 0.15rem !important;
     }
 
-    #header-lobby>div:nth-child(3) {
-        justify-content: center !important;
-    }
-
-    #header-lobby>div:nth-child(3) button {
-        width: clamp(125px, 16vw, 170px) !important;
-        height: clamp(42px, 5.8vh, 54px) !important;
-        border-radius: 22px !important;
-        font-size: clamp(0.75rem, 1.45vh, 0.95rem) !important;
-    }
-
+    /* «¡Empezar!» ya no va en la cabecera: su tamaño lo fija presenter.css
+       en la zona de controles. La zona de jugadores ocupa el resto (flex). */
     #players-zone {
-        height: 50% !important;
         padding: 0.75rem !important;
     }
 

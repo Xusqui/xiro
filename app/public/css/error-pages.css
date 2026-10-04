@@ -1,0 +1,69 @@
+/* Páginas de error (error/*.html): fondo de marca y texto en tarjeta blanca.
+   La selva la ponen index-style.css (degradado de body.bg-gradient-to-br) y
+   hojas-bg.js (capa de hojas); aquí solo se pasa el contenido, pensado para el
+   fondo azul marino de antes, a la tarjeta flotante de DESIGN.md. Se carga
+   después del <style> propio de cada página, así que lo pisa con la misma
+   especificidad (y con !important donde la página usa estilos inline). */
+
+/* El camaleón va directamente sobre la selva */
+.err-aside {
+    background: none !important;
+}
+
+/* Las ilustraciones de error traen su propio fondo oscuro: como tarjeta */
+.err-aside img {
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
+}
+
+.err-body {
+    flex: none;
+    margin: 1.5rem;
+    padding: 2.5rem 2rem;
+    border-radius: 24px;
+    border-bottom: 8px solid #94438e;
+    background: #fff;
+    color: #0f172a;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+}
+
+@media (min-width: 1024px) {
+    .err-wrap {
+        align-items: center;
+    }
+
+    .err-body {
+        width: auto;
+        max-width: 40rem;
+        min-height: 0;
+        margin: 4rem 4rem 4rem 0;
+        padding: 3.5rem 4rem;
+    }
+}
+
+/* Mismo ciruela de marca para el código de todos los errores: los tonos
+   claros de antes (amarillo, azul) no se leen sobre blanco */
+.err-code {
+    color: #94438e !important;
+}
+
+.err-title {
+    color: #0f172a !important;
+}
+
+.err-desc {
+    color: #475569 !important;
+}
+
+.err-logo {
+    opacity: 1;
+}
+
+/* Insignias informativas pensadas para fondo oscuro (403, 410, 500,
+   mantenimiento): fondo claro y texto oscuro */
+.err-body .rounded-lg.mb-8,
+.err-body [style*="#e4abde"] {
+    background: #f1f5f9 !important;
+    border-color: #e2e8f0 !important;
+    color: #334155 !important;
+}

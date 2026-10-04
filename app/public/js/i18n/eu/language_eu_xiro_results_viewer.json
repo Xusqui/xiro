@@ -36,6 +36,8 @@
     "xiro_results_viewer.team_panel.member": "Kidea",
     "xiro_results_viewer.team_panel.no_members": "Partida honek ez zituen taldekideak gorde",
     "xiro_results_viewer.table.score": "Puntuazioa",
+    "xiro_results_viewer.team_score_note": "Taldearen puntuazioa: jokalarien batez bestekoa, taldeen tamaina desberdina denean doituta",
+    "xiro_results_viewer.team_panel.members_avg": "Kideen batez bestekoa",
     "xiro_results_viewer.wedges.count": "{count} gaztatxo",
     "xiro_results_viewer.wedges.empty": "Gaztatxorik lortu gabe",
     "xiro_results_viewer.sections.wedges": "Lortutako kategoriak",

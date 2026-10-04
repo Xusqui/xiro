@@ -59,6 +59,17 @@ function formatNumericToleranceLabel(correctAnswer, question = {}) {
 }
 
 /**
+ * Tras revelar, la tarjeta "PREGUNTA NUMÉRICA" ya no debe decir que la respuesta
+ * "se mostrará al revelar": pasa a mostrarla.
+ */
+export function markNumericAnswerRevealed(question, data) {
+    const note = document.getElementById('numeric-answer-note');
+    if (!note) return;
+    const correctAnswer = question?.correct_answer ?? data?.correctAnswer ?? '?';
+    note.textContent = `${_t('presenter.reveal.correct_answer', null, 'Respuesta correcta')}: ${correctAnswer}`;
+}
+
+/**
  * Tarjeta superior con la respuesta correcta, la tolerancia y los puntos máximos.
  * Los datos de la pregunta tienen prioridad sobre los del payload del servidor.
  */
@@ -73,26 +84,24 @@ export function numericRevealCardHtml(question, data) {
     };
     const toleranceLabel = formatNumericToleranceLabel(correctAnswer, toleranceQuestion);
 
+    // Bloque bajo el enunciado (se inserta tras #question-title), no banner fijo:
+    // así el título sigue visible
     return `
         <div class="justification-card" id="numeric-reveal-card" style="
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 200px;
             background: linear-gradient(to right, #10b981, #059669);
             color: white;
-            padding: 2rem 2rem;
-            box-shadow: 0 10px 50px rgba(0,0,0,0.3);
-            border-bottom: 8px solid white;
-            z-index: 9999;
-            min-height: 140px;
+            padding: 1rem 1.5rem;
+            margin: 0.5rem 0 0.75rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-bottom: 6px solid rgba(0,0,0,0.2);
         ">
             <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 1.5rem; height: 100%;">
                 <div style="background-color: rgba(255, 255, 255, 0.2); padding: 1rem; border-radius: 1rem; flex-shrink: 0;">
                     <i class="fas fa-check-circle" style="font-size: 2.5rem; color: #ecfccb;"></i>
                 </div>
-                <div style="flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
-                    <div>
+                <div style="flex: 1; min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+                    <div style="min-width: 0;">
                         <h3 style="font-size: 1.75rem; font-weight: 900; text-transform: uppercase; font-style: italic; margin: 0 0 0.3rem 0;">${_t('presenter.reveal.correct_answer', null, 'Respuesta correcta')}</h3>
                         <p style="font-size: 0.95rem; opacity: 0.9; margin: 0;">${_t('presenter.reveal.tolerance', null, 'Tolerancia:')} ${escapeHtml(toleranceLabel)} ${_t('presenter.reveal.max_points', null, '· Puntos máximos:')} ${escapeHtml(maxPoints)}</p>
                     </div>

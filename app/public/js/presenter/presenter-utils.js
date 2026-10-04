@@ -78,6 +78,13 @@ export function generateSessionId(pin) {
  * Ajusta el tamaño del texto de las opciones automáticamente
  */
 export function adjustTextSize() {
+    // Revelado partido (una columna, filas más bajas): ajuste por tarjeta
+    if (document.body.classList.contains('stage-split')) {
+        fitSplitOptionText();
+        fitSplitSolutionCards();
+        return;
+    }
+
     const optionTexts = document.querySelectorAll('.option-text');
 
     optionTexts.forEach(textElement => {
@@ -113,6 +120,78 @@ export function adjustTextSize() {
         }
 
         textElement.style.fontSize = optimalSize + 'px';
+    });
+}
+
+/**
+ * Revelado partido: el texto de cada opción ocupa su tarjeta como antes de
+ * revelar. Búsqueda binaria del mayor tamaño que cabe en alto y en ancho,
+ * entre un mínimo legible y un máximo proporcional a la tarjeta.
+ */
+export function fitSplitOptionText() {
+    document.querySelectorAll('#options-grid .option-text').forEach(text => {
+        const card = text.parentElement;
+        if (!card) return;
+        const style = getComputedStyle(card);
+        const availableHeight = card.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
+        if (availableHeight <= 0) return;
+
+        const fits = () => text.scrollHeight <= availableHeight && text.scrollWidth <= text.clientWidth + 1;
+        const largestFit = () => {
+            let low = 12;
+            let high = Math.max(low, Math.min(availableHeight * 0.5, card.clientWidth * 0.07, 80));
+            while (high - low > 0.5) {
+                const mid = (low + high) / 2;
+                text.style.fontSize = `${mid}px`;
+                if (fits()) low = mid;
+                else high = mid;
+            }
+            return Math.floor(low);
+        };
+
+        // Sin cortar palabras («SATURNO», no «SA-TURNO») mientras se lea bien
+        // (>= 18 px); con una palabra muy larga, mejor guion que letra diminuta
+        // Valores explícitos para que repetir el ajuste (resize) no herede el
+        // estado anterior; -webkit-hyphens para Safari
+        const allowBreaks = (allow) => {
+            text.style.setProperty('hyphens', allow ? 'auto' : 'manual');
+            text.style.setProperty('-webkit-hyphens', allow ? 'auto' : 'manual');
+            text.style.setProperty('overflow-wrap', allow ? 'break-word' : 'normal');
+        };
+        allowBreaks(true);
+        const hyphenated = largestFit();
+        allowBreaks(false);
+        const wholeWords = largestFit();
+        if (wholeWords >= Math.min(18, hyphenated)) {
+            text.style.fontSize = `${wholeWords}px`;
+        } else {
+            allowBreaks(true);
+            text.style.fontSize = `${hyphenated}px`;
+        }
+    });
+}
+
+/**
+ * Revelado partido: la solución (orden, pares) y la justificación llenan su
+ * tarjeta, que ocupa media zona central. Los tamaños de dentro van en em, así
+ * que basta con buscar el tamaño base mayor que cabe sin scroll. Tope
+ * proporcional a la altura de pantalla para que pocas filas no salgan enormes.
+ */
+export function fitSplitSolutionCards() {
+    const cards = document.querySelectorAll(
+        'body.stage-split #order-reveal-card, body.stage-split #matching-reveal-card, body.stage-split .justification-card:not([id])'
+    );
+    cards.forEach(card => {
+        const fits = () => card.scrollHeight <= card.clientHeight + 1 && card.scrollWidth <= card.clientWidth + 1;
+        let low = 14;
+        let high = Math.max(low, Math.min(window.innerHeight * 0.035, 56));
+        while (high - low > 0.5) {
+            const mid = (low + high) / 2;
+            card.style.setProperty('font-size', `${mid}px`, 'important');
+            if (fits()) low = mid;
+            else high = mid;
+        }
+        card.style.setProperty('font-size', `${Math.floor(low)}px`, 'important');
     });
 }
 

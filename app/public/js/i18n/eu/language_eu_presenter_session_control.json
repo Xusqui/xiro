@@ -18,6 +18,12 @@
     "presenter.session.error_unknown": "Ezezagunak errorea",
     "presenter.session.lobby_error_title": "Errorea Lobby sortzerakoan",
     "presenter.session.lobby_error_msg": "Ezin izan da lobby-a sortu",
-    "presenter.session.start_error_title": "Errorea jokoa hastean"
+    "presenter.session.start_error_title": "Errorea jokoa hastean",
+    "presenter.session.start_error.PIN_INVALID": "PIN baliogabea",
+    "presenter.session.start_error.GAME_ALREADY_ACTIVE": "Partida martxan dago dagoeneko",
+    "presenter.session.start_error.NO_PLAYERS_IN_LOBBY": "Ez dago jokalaririk itxaron-gelan",
+    "presenter.session.start_error.TEAM_WITHOUT_PLAYERS": "«{teamName}» taldeak ez du jokalaririk",
+    "presenter.session.start_error.NO_QUESTIONS_AVAILABLE": "Joko honek ez du galderarik",
+    "presenter.session.start_error.GAME_START_FAILED": "Ezin izan da partida hasi. Saiatu berriro."
   }
 }

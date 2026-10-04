@@ -6,11 +6,14 @@
     "presenter.lobby.waiting": "Agardando xogadores...",
     "presenter.lobby.pin": "PIN DE ACCESO",
     "presenter.lobby.start": "COMEZA!",
+    "presenter.lobby.join_at": "Non podes escanear o QR? Entra en",
+    "presenter.lobby.join_pin": "e escribe o ID de sesión:",
     "presenter.lobby.players": "Xogadores:",
     "presenter.game.terminate": "Remate",
     "presenter.game.terminate.title": "Remata o xogo e mostra o podio coa clasificación actual",
     "presenter.game.abandon": "Deixa o xogo",
     "presenter.game.abandon.title": "Saír da sesión",
-    "presenter.fullscreen.title": "Pantalla completa"
+    "presenter.fullscreen.title": "Pantalla completa",
+    "presenter.menu.title": "Menú"
   }
 }

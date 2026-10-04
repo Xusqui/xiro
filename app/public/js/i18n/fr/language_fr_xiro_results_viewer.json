@@ -36,6 +36,8 @@
     "xiro_results_viewer.team_panel.member": "Membre",
     "xiro_results_viewer.team_panel.no_members": "Cette partie n'a pas enregistré les membres de l'équipe",
     "xiro_results_viewer.table.score": "Score",
+    "xiro_results_viewer.team_score_note": "Score d'équipe : moyenne de ses joueurs, ajustée quand les équipes n'ont pas la même taille",
+    "xiro_results_viewer.team_panel.members_avg": "Moyenne des membres",
     "xiro_results_viewer.wedges.count": "{count} camemberts",
     "xiro_results_viewer.wedges.empty": "Aucun camembert obtenu",
     "xiro_results_viewer.sections.wedges": "Catégories obtenues",

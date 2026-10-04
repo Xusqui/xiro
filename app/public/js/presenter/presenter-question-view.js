@@ -58,8 +58,8 @@ function multipleChoiceBadgeHtml() {
 function mediaHtml(view) {
     if (view.tieneImagen && !view.esWordScramble) {
         return `
-                <div class="flex-1 flex items-center justify-center mb-6 px-6">
-                    <img src="${sanitizeResourceUrl(view.urlRecurso)}" alt="Pregunta" class="max-w-full max-h-full object-contain rounded-3xl shadow-2xl" style="max-height: calc(100vh - 300px);">
+                <div class="stage-question-media flex-1 flex items-center justify-center mb-6 px-6">
+                    <img src="${sanitizeResourceUrl(view.urlRecurso)}" alt="Pregunta" class="stage-question-image max-w-full max-h-full object-contain rounded-3xl shadow-2xl">
                 </div>`;
     }
     if (!view.tieneAudio) return '';
@@ -110,7 +110,7 @@ function numericAreaHtml() {
                         <p class="text-2xl font-black italic text-green-400 mb-2">${_t('presenter.game.numeric_question', null, 'PREGUNTA NUMÉRICA')}</p>
                         <p class="text-xl text-white/80 mb-4">${_t('presenter.game.players_write_number', null, 'Los jugadores escriben un número entero')}</p>
                         <div class="mt-6 pt-6 border-t border-green-500/30">
-                            <p class="text-sm text-white/70 mb-2">${_t('presenter.game.answer_on_reveal', null, 'La respuesta correcta se mostrará al revelar')}</p>
+                            <p id="numeric-answer-note" class="text-sm text-white/70 mb-2">${_t('presenter.game.answer_on_reveal', null, 'La respuesta correcta se mostrará al revelar')}</p>
                             <p class="text-xs text-white/50 mt-2">${_t('presenter.game.points_by_proximity', null, 'Los puntos se calculan según proximidad')}</p>
                         </div>
                     </div>
@@ -123,7 +123,7 @@ function answerAreaHtml(q, view) {
     if (view.esWordScramble) return renderWordScramblePresenter(q);
     if (view.mostrarOpciones) return '';
     return `
-                <div class="pb-14 text-center">
+                <div class="stage-devices-note pb-14 text-center">
                     <p class="text-white/60 text-2xl italic">
                         <i class="fas fa-mobile-alt mr-2"></i>
                         ${_t('presenter.game.players_see_devices', null, 'Los jugadores ven las opciones en sus dispositivos')}

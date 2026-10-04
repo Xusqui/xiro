@@ -43,7 +43,11 @@ module.exports = function createStartGameHandler(dependencies) {
             });
 
             if (!result.success) {
-                socket.emit('game-start-error', { message: result.error, ...(result.code && { code: result.code }) });
+                socket.emit('game-start-error', {
+                    message: result.error,
+                    ...(result.code && { code: result.code }),
+                    ...(result.params && { params: result.params })
+                });
                 return;
             }
 

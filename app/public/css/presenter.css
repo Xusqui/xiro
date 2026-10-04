@@ -93,15 +93,17 @@
     animation: revealCardEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+/* Anima `translate`, no `transform`: con fill-mode both, un `transform` final
+   pisaría el translateX(-50%) inline que centra las tarjetas de orden y emparejar */
 @keyframes revealCardEnter {
     from {
         opacity: 0;
-        transform: translateY(-16px);
+        translate: 0 -16px;
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
+        translate: 0 0;
     }
 }
 
@@ -172,4 +174,645 @@
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
     }
+}
+
+/* ── Escenario por zonas (modo proyección) ─────────────────────────────────
+   Cabecera y zona central a la izquierda, columna de jugadores a la derecha y
+   controles abajo. Una sola medida (--stage-side) para la columna: todo lo demás
+   se coloca respecto a ella y nada flota encima de otra cosa. */
+:root {
+    --stage-side: clamp(15rem, 20vw, 26rem);
+}
+
+#players-sidebar {
+    width: var(--stage-side) !important;
+}
+
+#lobby-main {
+    width: calc(100% - var(--stage-side)) !important;
+}
+
+#players-sidebar h3 {
+    font-size: clamp(0.95rem, 1.15vw, 1.5rem);
+}
+
+#players-sidebar-list {
+    display: grid;
+    align-content: start;
+    gap: 0.5rem;
+}
+
+#players-sidebar-list > * + * {
+    margin-top: 0 !important;
+}
+
+/* Jugador en una fila: nombre · puntos, legible desde el fondo de la sala */
+.stage-player {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6em;
+    padding: 0.5em 0.75em;
+    font-size: clamp(0.95rem, 1.2vw, 1.6rem);
+    font-weight: 800;
+    color: #fff;
+}
+
+.stage-player-name {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    min-width: 0;
+    flex: 1;
+}
+
+.stage-player-score {
+    flex: none;
+    font-weight: 900;
+    color: #f9b518;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Acción principal abajo a la derecha, sin entrar en la columna de jugadores */
+#btn-next {
+    right: calc(var(--stage-side) + 1.5rem) !important;
+    bottom: 1.5rem !important;
+}
+
+/* Top 5 del revelado dentro de la columna: sustituye a la lista mientras está */
+#players-sidebar:has(#ranking-card) #players-sidebar-list {
+    display: none;
+}
+
+#players-sidebar #ranking-card {
+    position: static !important;
+    width: auto !important;
+    margin: 0.75rem;
+    padding: 1rem !important;
+    font-size: clamp(0.95rem, 1.2vw, 1.6rem);
+}
+
+/* Revelado con solución: opciones en una columna a la izquierda y la solución
+   (orden, pares o justificación) en la mitad derecha de la zona central */
+body.stage-split #options-grid {
+    grid-template-columns: 1fr !important;
+    width: calc(50% - 0.75rem);
+}
+
+/* Filas más bajas en una columna: tarjeta y número compactos; el texto lo
+   ajusta fitSplitOptionText (presenter-utils.js) para que llene su tarjeta */
+
+body.stage-split #options-grid > div {
+    padding: 0.5rem 1rem !important;
+    border-bottom-width: 4px !important;
+    border-radius: 1rem !important;
+}
+
+/* Porcentaje de votos: en una columna, siempre a la derecha y centrado, con
+   su hueco reservado para que el texto (que llena la tarjeta) no quede debajo */
+body.stage-split #options-grid > div {
+    padding-right: calc(clamp(1.2rem, 2.4vmin, 2.6rem) * 3.6 + 1rem) !important;
+}
+
+body.stage-split #options-grid > div > .absolute.pointer-events-none {
+    top: 50% !important;
+    right: 1rem !important;
+    left: auto !important;
+    transform: translateY(-50%);
+}
+
+body.stage-split #options-grid > div > .absolute.pointer-events-none > div {
+    font-size: clamp(1.2rem, 2.4vmin, 2.6rem) !important;
+}
+
+/* La ganadora crece hacia la solución, no fuera de la pantalla, y la rejilla
+   deja sitio a su anillo (ring-8) por la izquierda */
+body.stage-split #options-grid {
+    padding-left: 0.5rem;
+}
+
+body.stage-split #options-grid > div.scale-105 {
+    transform: scale(1.02) !important;
+    transform-origin: left center;
+}
+
+body.stage-split #options-grid > div > span:first-child {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    font-size: 1.4rem !important;
+    margin-right: 0.75rem !important;
+    flex: none;
+}
+
+/* Sin rejilla (opciones en los móviles): imagen y aviso en la mitad izquierda */
+body.stage-split .stage-question-media,
+body.stage-split .stage-devices-note {
+    align-self: flex-start;
+    width: calc(50% - 0.75rem);
+}
+
+body.stage-split #order-reveal-card,
+body.stage-split #matching-reveal-card,
+body.stage-split .justification-card:not([id]) {
+    position: fixed !important;
+    top: var(--stage-content-top, 9rem) !important;
+    bottom: 6.5rem !important;
+    left: auto !important;
+    right: calc(var(--stage-side) + 1.5rem) !important;
+    width: calc((100vw - var(--stage-side)) / 2 - 2.25rem) !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    transform: none !important;
+    overflow-y: auto;
+    border-radius: 2rem;
+}
+
+/* Tamaño base de la solución, que escala con la pantalla (los tamaños de
+   dentro van en em): legible en 2560×1440 y sin cambios en 1280×720 */
+body.stage-split #order-reveal-card,
+body.stage-split #matching-reveal-card {
+    font-size: clamp(1rem, 1.05vw, 1.9rem);
+}
+
+/* La justificación ocupa media zona central: su texto crece con ella */
+body.stage-split .justification-card:not([id]) {
+    font-size: clamp(1.4rem, 1.5vw, 2.6rem) !important;
+}
+
+/* Opciones no destacadas tras revelar: atenuadas pero legibles (antes al
+   20-40 % de opacidad no se leían) */
+#options-grid > div.opacity-20,
+#options-grid > div.opacity-40 {
+    opacity: 0.6 !important;
+}
+
+#options-grid > div.grayscale {
+    filter: grayscale(0.75) brightness(0.85) !important;
+}
+
+/* Filas más compactas en la solución partida: el orden o los pares completos
+   tienen que caber sin scroll (en proyección no se puede desplazar) */
+body.stage-split #order-reveal-card > div:last-child,
+body.stage-split #matching-reveal-card > div:last-child {
+    gap: 0.45rem !important;
+}
+
+body.stage-split #order-reveal-card > div:last-child > div,
+body.stage-split #matching-reveal-card > div:last-child > div {
+    padding: 0.4rem 0.75rem !important;
+}
+
+/* Proyector de poca altura (720p): 8 elementos con explicación no caben;
+   queda el orden (lo que se corrige) y se omite la explicación de cada uno */
+@media (max-height: 800px) {
+    body.stage-split #order-reveal-card > div:last-child > div > div > span:nth-child(2) {
+        display: none;
+    }
+
+    body.stage-split #order-reveal-card > div:last-child,
+    body.stage-split #matching-reveal-card > div:last-child {
+        gap: 0.3rem !important;
+    }
+
+    body.stage-split #order-reveal-card > div:last-child > div,
+    body.stage-split #matching-reveal-card > div:last-child > div {
+        padding: 0.2rem 0.75rem !important;
+    }
+
+    body.stage-split #order-reveal-card > div:last-child > div > span:first-child {
+        width: 1.6rem !important;
+        height: 1.6rem !important;
+        font-size: 0.85rem;
+    }
+
+    body.stage-split #order-reveal-card,
+    body.stage-split #matching-reveal-card {
+        padding: 1rem !important;
+    }
+
+    body.stage-split #order-reveal-card > div:first-child,
+    body.stage-split #matching-reveal-card > div:first-child {
+        margin-bottom: 0.5rem !important;
+    }
+}
+
+/* Menú del operador (⋯): Terminar, Abandonar, idioma, pantalla completa y
+   créditos, fuera de la vista del público hasta que el presentador lo abre */
+#stage-menu-btn {
+    position: fixed;
+    left: 1.25rem;
+    bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+    z-index: 60;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 9999px;
+    background: rgba(15, 23, 42, 0.55);
+    color: #fff;
+    font-size: 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(6px);
+    transition: background 0.2s ease;
+}
+
+#stage-menu-btn:hover,
+#stage-menu-btn[aria-expanded="true"] {
+    background: rgba(15, 23, 42, 0.85);
+}
+
+#stage-menu-btn:focus-visible {
+    outline: 3px solid #f9b518;
+    outline-offset: 2px;
+}
+
+#stage-menu-panel {
+    position: fixed;
+    left: 1.25rem;
+    bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+    z-index: 60;
+    display: grid;
+    gap: 0.5rem;
+    min-width: 15rem;
+    padding: 0.75rem;
+    border-radius: 1rem;
+    background: rgba(15, 23, 42, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+#stage-menu-panel[hidden] {
+    display: none;
+}
+
+#stage-menu-panel #game-action-btns > button,
+.stage-menu-item {
+    width: 100%;
+    text-align: left;
+}
+
+.stage-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.4rem 1.25rem;
+    border-radius: 0.5rem;
+    color: #e2e8f0;
+    background: rgba(51, 65, 85, 0.6);
+    border: 1px solid rgba(100, 116, 139, 0.5);
+}
+
+.stage-menu-item:hover {
+    background: rgba(71, 85, 105, 0.8);
+    color: #fff;
+}
+
+.stage-menu-footer {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    text-align: center;
+    padding-top: 0.25rem;
+}
+
+/* Imagen de la pregunta: cede sitio a la respuesta revelada y deja libre la
+   zona de controles de abajo (no queda debajo de «Siguiente pregunta») */
+.stage-question-media {
+    min-height: 0;
+}
+
+.stage-question-image {
+    max-height: min(100%, calc(100vh - 300px - 5rem));
+}
+
+/* El aviso queda por encima de la acción principal (bottom 1.5rem + botón) */
+.stage-devices-note {
+    padding-bottom: 6.5rem !important;
+}
+
+/* Diapositivas: título que cabe en la zona central sin desbordar */
+.slide-title {
+    font-size: clamp(2.5rem, 5.5vw, 6rem) !important;
+}
+
+/* «Actividad libre»: tarjetas opacas y botones de puntos pulsables */
+.manual-points-card {
+    border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.manual-points-card--player {
+    background: rgba(15, 23, 42, 0.78) !important;
+}
+
+.manual-points-card span {
+    font-size: clamp(1rem, 1.3vw, 1.5rem) !important;
+}
+
+.manual-points-btn {
+    width: 3.5rem !important;
+    height: 3.5rem !important;
+    font-size: 1.2rem !important;
+}
+
+/* ── Sala de espera ─────────────────────────────────────────────────────── */
+
+/* Logo y acceso sin QR en columnas iguales a ambos lados del QR (el ancho
+   fijo del logo en vw ensanchaba la suya y aplastaba el aviso en 720p) */
+#header-lobby {
+    grid-template-columns: minmax(0, 1fr) max-content minmax(0, 1fr) !important;
+}
+
+#header-lobby > img {
+    width: 100% !important;
+    max-width: min(90%, 600px) !important;
+}
+
+/* Acceso sin QR en la cabecera: el dominio, legible desde el fondo */
+.join-hint {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 0 1rem;
+    text-align: center;
+    color: #fff;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
+}
+
+.join-hint-label {
+    font-size: clamp(0.95rem, 1.4vw, 1.6rem);
+    font-weight: 800;
+}
+
+.join-hint-host {
+    font-size: clamp(1.4rem, 2.8vw, 3.2rem);
+    font-weight: 900;
+    font-style: italic;
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+}
+
+/* La URL (dominio/jugador.html) es más larga: algo menor que el ID de sesión */
+#join-host {
+    font-size: clamp(1.05rem, 1.8vw, 2.2rem);
+}
+
+/* Hasta que hay sesión (sin dominio pintado) no se muestra el aviso */
+.join-hint:has(.join-hint-host:empty) .join-hint-label {
+    display: none;
+}
+
+/* «¡Empezar!» es la acción principal: en la zona de controles, como
+   «Siguiente pregunta», sólido y grande en vez de cristal sobre la selva */
+#btn-empezar.start-glass-btn {
+    position: fixed;
+    right: calc(var(--stage-side) + 1.5rem);
+    bottom: 1.5rem;
+    z-index: 50;
+    width: auto;
+    height: auto;
+    padding: 1.1rem 2.75rem;
+    font-size: clamp(1.1rem, 1.6vw, 1.8rem);
+    background: #f9b518;
+    color: #1e293b;
+    border: none;
+}
+
+#btn-empezar.start-glass-btn:enabled:hover {
+    background: #ffc533;
+}
+
+#btn-empezar.start-glass-btn:disabled {
+    background: rgba(15, 23, 42, 0.55);
+    color: rgba(255, 255, 255, 0.6);
+    opacity: 1;
+}
+
+/* La zona de jugadores ocupa el resto y deja libre la fila de controles */
+#players-zone {
+    height: auto !important;
+    flex: 1;
+    min-height: 0;
+    margin-bottom: 5rem;
+}
+
+#p-list > [data-nickname] {
+    font-size: clamp(1.1rem, 1.6vw, 2rem) !important;
+    padding: 0.55em 1.1em !important;
+    border-radius: 1rem;
+}
+
+.lobby-empty {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: clamp(1.25rem, 2vw, 2.25rem);
+    font-weight: 800;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+#players-zone:has(#p-list > *) .lobby-empty {
+    display: none;
+}
+
+/* Presentador en el móvil (sin columna, cabecera apilada en
+   presenter-lobby-mobile.css): el botón vuelve al flujo bajo el QR y el
+   aviso sin QR sobra, porque quien presenta no proyecta */
+@media (max-width: 768px) {
+    /* La columna está oculta (presenter-lobby-mobile.css): nada se desplaza
+       por ella (Siguiente, Mostrar juegos, solución partida) */
+    :root {
+        --stage-side: 0px;
+    }
+
+    #btn-empezar.start-glass-btn {
+        position: static;
+    }
+
+    /* Sin sitio para partir: la solución ocupa todo el ancho sobre las
+       opciones (ya atenuadas) */
+    body.stage-split #order-reveal-card,
+    body.stage-split #matching-reveal-card,
+    body.stage-split .justification-card:not([id]) {
+        right: 1rem !important;
+        width: calc(100vw - 2rem) !important;
+    }
+
+    .join-hint-label,
+    .join-hint-host {
+        display: none;
+    }
+
+    #players-zone {
+        margin-bottom: 0;
+    }
+}
+
+/* En la sala todos tienen 0 puntos: la columna solo lista quién ha entrado */
+body:has(#btn-empezar) .stage-player-score {
+    display: none;
+}
+
+/* ── Podio final ────────────────────────────────────────────────────────── */
+
+/* Velo oscuro sobre la selva en vez de negro plano: los fuegos (blend
+   screen) siguen luciendo y el escenario no cambia de mundo al final */
+/* Sin backdrop-filter: crearía un bloque contenedor y «Mostrar juegos»
+   (position: fixed) dejaría de anclarse a la zona de controles */
+.podium-stage {
+    background: rgba(8, 6, 18, 0.82);
+    padding-bottom: 7rem !important;
+}
+
+.podium-silver {
+    background: linear-gradient(90deg, #e2e8f0, #cbd5e1);
+    color: #0f172a;
+}
+
+.podium-bronze {
+    background: linear-gradient(90deg, #f0b37e, #d08a4f);
+    color: #1c1917;
+}
+
+.podium-score {
+    font-variant-numeric: tabular-nums;
+}
+
+/* Podio de equipos: por qué el marcador no es la suma de los jugadores */
+.podium-team-note {
+    max-width: 42rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: clamp(0.95rem, 1.1vw, 1.4rem);
+    font-style: italic;
+}
+
+.podium-home-btn {
+    position: fixed;
+    right: calc(var(--stage-side) + 1.5rem);
+    bottom: 1.5rem;
+    z-index: 50;
+    padding: 1rem 2.25rem !important;
+    font-size: clamp(1rem, 1.4vw, 1.5rem);
+}
+
+/* «Jugáis por N puntos»: mismo interludio de marca, pero translúcido para
+   que el escenario (selva) no desaparezca de golpe */
+#random-points-overlay {
+    background: rgba(104, 52, 117, 0.9) !important;
+    backdrop-filter: blur(8px);
+}
+
+/* ── Trivial ────────────────────────────────────────────────────────────── */
+
+/* Barra de turno: quién juega y qué toca hacer, legible desde la sala */
+.trv-status {
+    flex-shrink: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.6rem 1.25rem;
+    border-radius: 0.75rem;
+    background: rgba(15, 23, 42, 0.92);
+}
+
+.trv-turn {
+    color: #fbbf24;
+    font-size: clamp(1.1rem, 1.6vw, 2.4rem);
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.trv-phase {
+    flex: 1;
+    color: #cbd5e1;
+    font-size: clamp(0.95rem, 1.25vw, 1.9rem);
+    font-weight: 600;
+}
+
+/* Clasificación (quesitos) en la columna: sustituye a la lista de jugadores,
+   cuyos puntos no significan nada en el Trivial */
+#players-sidebar:has(#trv-player-scores) #players-sidebar-list {
+    display: none;
+}
+
+.trv-standings {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    overflow-y: auto;
+}
+
+.trv-standing {
+    padding: 0.55em 0.75em;
+    border-radius: 0.75rem;
+    border: 2px solid transparent;
+    background: rgba(51, 65, 85, 0.55);
+    color: #fff;
+    font-size: clamp(0.95rem, 1.2vw, 1.7rem);
+}
+
+.trv-standing.is-turn {
+    background: rgba(234, 179, 8, 0.18);
+    border-color: rgba(234, 179, 8, 0.7);
+}
+
+.trv-standing-head {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    margin-bottom: 0.45em;
+}
+
+.trv-standing-pos {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 50%;
+    background: #fbbf24;
+    color: #1e293b;
+    font-size: 0.8em;
+    font-weight: 900;
+}
+
+.trv-standing-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.trv-wedges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35em;
+}
+
+/* color = el de la categoría (inline), para que el brillo use currentColor */
+.trv-wedge {
+    width: 1.1em;
+    height: 1.1em;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    opacity: 0.22;
+}
+
+.trv-wedge.is-filled {
+    opacity: 1;
+    border-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 0.5em currentColor;
+}
+
+.trv-standing-members {
+    margin-top: 0.35em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #94a3b8;
+    font-size: 0.7em;
 }

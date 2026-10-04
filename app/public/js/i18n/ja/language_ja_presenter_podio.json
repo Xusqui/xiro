@@ -6,6 +6,7 @@
     "presenter.podio.no": "いいえ",
     "presenter.podio.pts": "点",
     "presenter.podio.yes": "はい",
-    "presenter.podio.show_games": "ゲームを表示"
+    "presenter.podio.show_games": "ゲームを表示",
+    "presenter.podio.team_score_note": "チームのスコア：メンバーの平均。チームの人数が異なる場合は調整されます"
   }
 }

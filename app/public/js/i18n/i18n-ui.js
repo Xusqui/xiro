@@ -372,6 +372,14 @@
             }
         }
 
+        // Presentador: dentro del menú del operador (⋯), fuera de la vista del público
+        const stageMenu = page === 'presentador' ? document.getElementById('stage-menu-panel') : null;
+        if (stageMenu) {
+            applyWrapperStyle(wrapper, 'position:static;');
+            stageMenu.insertBefore(wrapper, stageMenu.querySelector('.stage-menu-footer'));
+            return;
+        }
+
         if (page === 'presentador' || page === 'tv') {
             applyWrapperStyle(wrapper, 'position:fixed;left:10px;bottom:calc(24px + env(safe-area-inset-bottom));');
             document.body.appendChild(wrapper);
@@ -386,6 +394,14 @@
 
         if (page === 'admin') {
             applyWrapperStyle(wrapper, 'position:fixed;right:10px;bottom:calc(32px + env(safe-area-inset-bottom));');
+            document.body.appendChild(wrapper);
+            return;
+        }
+
+        // Móvil: en las páginas de contenido, fijo abajo tapaba formularios y textos;
+        // va en el flujo, al final de la página
+        if (global.matchMedia && global.matchMedia('(max-width: 767px)').matches) {
+            applyWrapperStyle(wrapper, 'position:static;margin:16px auto calc(16px + env(safe-area-inset-bottom)) auto;width:max-content;');
             document.body.appendChild(wrapper);
             return;
         }

@@ -70,7 +70,7 @@ async function renderVistaBancos() {
         };
         const canModify = canModifyOwnedResource(ownerInfo);
         const editClasses = canModify
-            ? 'flex-1 bg-plum-600 hover:bg-plum-700 text-white px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2'
+            ? 'flex-1 btn-edit px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2'
             : `flex-1 px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 ${getLockedButtonClasses()}`;
 
         return `

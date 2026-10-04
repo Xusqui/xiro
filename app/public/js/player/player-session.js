@@ -176,7 +176,8 @@ export function validarSession(sessionParam) {
             document.getElementById('step-1').classList.add('hidden');
             document.getElementById('step-loading').classList.add('hidden');
             document.getElementById('step-2').classList.remove('hidden');
-            setTimeout(() => document.getElementById('nickname-input').focus(), 100);
+            // ?. : si el jugador envía su nombre en menos de 100 ms el campo ya no existe
+            setTimeout(() => document.getElementById('nickname-input')?.focus(), 100);
             resolve();
         });
     });

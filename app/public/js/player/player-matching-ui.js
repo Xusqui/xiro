@@ -14,7 +14,7 @@ import {
     startMatchAutoSendTimer,
     setCurrentSlideType
 } from './player-state.js?v=20260922172926';
-import { OPTION_COLORS, getResponsiveFontClass, fitTextToContainer } from './player-question-utils.js?v=20260922172926';
+import { OPTION_COLORS, getResponsiveFontClass, fitTextToContainer, optionCaseClass } from './player-question-utils.js?v=20260922172926';
 import { setBodyHTML } from './player-streak-ui.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
@@ -54,10 +54,10 @@ export function renderizarPreguntaMatching(pregunta) {
             <div class="px-4 pt-2 pb-1 text-center text-slate-100 text-sm italic shrink-0">
                 ${_t('player.matching.instruction', null, 'Arrastra la columna derecha para emparejar con la izquierda')}
             </div>
-            <div class="flex gap-2 px-3 flex-1 overflow-hidden">
-                <div id="matching-left" class="flex flex-col gap-2 flex-1 overflow-y-auto py-2"></div>
-                <div class="flex items-center justify-center text-white/40 text-2xl font-black shrink-0">↔</div>
-                <div id="matching-right" class="flex flex-col gap-2 flex-1 overflow-y-auto py-2"></div>
+            <div id="matching-board" class="flex gap-2 px-3 py-2 flex-1 overflow-y-auto">
+                <div id="matching-left" class="flex flex-col gap-2 flex-1 min-w-0"></div>
+                <div id="matching-arrows" class="flex flex-col gap-2 shrink-0" aria-hidden="true"></div>
+                <div id="matching-right" class="flex flex-col gap-2 flex-1 min-w-0"></div>
             </div>
             <div class="p-3 bg-slate-900/60 border-t border-white/10 shrink-0">
                 <button id="match-submit" data-player-action="send-match" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white py-4 rounded-2xl font-black uppercase text-xl shadow-lg transition">
@@ -85,7 +85,7 @@ function renderMatchColumns() {
         const fontClass = getResponsiveFontClass(opt.optionText || opt.option_text || '', true);
         return `
             <div data-fit-box class="btn-glass-3d ${colorClass} rounded-xl flex items-center px-3 py-2 shrink-0 min-h-[3rem] overflow-hidden">
-                <span data-fit-text class="text-white font-bold ${fontClass} uppercase break-words w-full text-center" lang="es">
+                <span data-fit-text class="text-white font-bold ${fontClass} ${optionCaseClass(opt.optionText?.length || opt.option_text?.length)} break-words w-full text-center" lang="es">
                     ${escapeHtml(opt.optionText || opt.option_text || '')}
                 </span>
             </div>
@@ -106,7 +106,7 @@ function renderMatchColumns() {
                 data-option-index="${optIdx}"
                 draggable="true"
             >
-                <span data-fit-text class="text-white font-bold ${fontClass} uppercase break-words flex-1 text-center" lang="es">
+                <span data-fit-text class="text-white font-bold ${fontClass} ${optionCaseClass(opt.match_value?.length)} break-words flex-1 text-center" lang="es">
                     ${escapeHtml(opt.match_value || '')}
                 </span>
                 <div class="drag-indicator text-white/70 shrink-0 text-sm">≡</div>
@@ -114,12 +114,47 @@ function renderMatchColumns() {
         `;
     }).join(''));
 
-    fitTextToContainer(leftContainer);
-    fitTextToContainer(rightContainer);
+    // Una flecha por pareja, en la misma fila que sus dos tarjetas
+    const arrowsContainer = document.getElementById('matching-arrows');
+    if (arrowsContainer) {
+        arrowsContainer.innerHTML = _tHtml(options.map(() =>
+            '<div data-match-arrow class="flex items-center justify-center text-white/60 text-xl font-black shrink-0">↔</div>'
+        ).join(''));
+    }
+
+    // Un solo scroll para las tres columnas: el texto se reduce para caber,
+    // pero no por debajo de lo legible (antes llegaba a 9 px); si aun así no
+    // cabe, se desplaza el tablero entero y las parejas siguen alineadas
+    fitTextToContainer(document.getElementById('matching-board'), { minFontPx: 14, minBoxHeightPx: 44 });
+    syncMatchRows();
 
     bindMatchDragHandlers(rightContainer);
     bindMatchPointerHandlers(rightContainer);
 }
+
+/**
+ * Iguala la altura de cada pareja (izquierda, flecha y derecha) a la de la
+ * tarjeta más alta, para que con textos largos sigan en la misma fila.
+ */
+function syncMatchRows() {
+    const lefts = Array.from(document.querySelectorAll('#matching-left > [data-fit-box]'));
+    const rights = Array.from(document.querySelectorAll('#matching-right > [data-match-item]'));
+    const arrows = Array.from(document.querySelectorAll('#matching-arrows > [data-match-arrow]'));
+    [...lefts, ...rights, ...arrows].forEach(el => { el.style.height = ''; });
+    lefts.forEach((left, i) => {
+        const right = rights[i];
+        if (!right) return;
+        const height = `${Math.max(left.offsetHeight, right.offsetHeight)}px`;
+        left.style.height = height;
+        right.style.height = height;
+        if (arrows[i]) arrows[i].style.height = height;
+    });
+}
+
+// Girar el móvil cambia el ancho y con él la altura de los textos
+window.addEventListener('resize', () => {
+    if (document.getElementById('matching-board')) syncMatchRows();
+});
 
 function bindMatchDragHandlers(container) {
     let dragSourcePos = null;

@@ -36,6 +36,8 @@
     "xiro_results_viewer.team_panel.member": "Membre",
     "xiro_results_viewer.team_panel.no_members": "Aquesta partida no va desar els membres de l'equip",
     "xiro_results_viewer.table.score": "Puntuació",
+    "xiro_results_viewer.team_score_note": "Puntuació d'equip: mitjana dels seus jugadors, ajustada quan els equips tenen mides diferents",
+    "xiro_results_viewer.team_panel.members_avg": "Mitjana dels membres",
     "xiro_results_viewer.wedges.count": "{count} formatgets",
     "xiro_results_viewer.wedges.empty": "Sense formatgets obtinguts",
     "xiro_results_viewer.sections.wedges": "Categories obtingudes",

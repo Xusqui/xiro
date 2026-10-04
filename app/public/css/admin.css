@@ -586,3 +586,38 @@
         grid-template-columns: 1fr 1fr;
     }
 }
+
+/* «Editar» igual en todas las secciones (antes verde, ciruela, azul o naranja
+   según la sección): el primario de operador de DESIGN.md. El color de cada
+   sección vive en el icono de su cabecera, no en el botón. */
+.btn-edit {
+    background-color: var(--action-primary, #557400);
+    color: #fff;
+}
+
+.btn-edit:hover {
+    background-color: var(--action-primary-hover, #445e02);
+}
+
+/* Portada del admin (nav-sections.js, renderAdminHome) */
+.admin-home-shortcuts {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+@media (min-width: 768px) {
+    .admin-home-shortcuts {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1280px) {
+    .admin-home-shortcuts {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+.admin-home-list > li + li {
+    border-top: 1px solid #f1f5f9;
+}

@@ -6,6 +6,7 @@
     "presenter.podio.no": "NEIN",
     "presenter.podio.pts": "PTS",
     "presenter.podio.yes": "JA",
-    "presenter.podio.show_games": "Spiele anzeigen"
+    "presenter.podio.show_games": "Spiele anzeigen",
+    "presenter.podio.team_score_note": "Teampunktzahl: Durchschnitt der Spieler, angepasst bei unterschiedlich großen Teams"
   }
 }

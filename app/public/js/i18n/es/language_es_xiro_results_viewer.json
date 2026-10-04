@@ -36,6 +36,8 @@
     "xiro_results_viewer.team_panel.member": "Miembro",
     "xiro_results_viewer.team_panel.no_members": "Esta partida no guardó los miembros del equipo",
     "xiro_results_viewer.table.score": "Puntuación",
+    "xiro_results_viewer.team_score_note": "Puntuación de equipo: media de sus jugadores, ajustada cuando los equipos tienen distinto tamaño",
+    "xiro_results_viewer.team_panel.members_avg": "Media de los miembros",
     "xiro_results_viewer.wedges.count": "{count} cuñas",
     "xiro_results_viewer.wedges.empty": "Sin cuñas obtenidas",
     "xiro_results_viewer.sections.wedges": "Categorías obtenidas",

@@ -6,11 +6,14 @@
     "presenter.lobby.waiting": "Jokalarien zain...",
     "presenter.lobby.pin": "SARTZEKO PINa",
     "presenter.lobby.start": "HASI!",
+    "presenter.lobby.join_at": "Ezin duzu QRa eskaneatu? Sartu hemen:",
+    "presenter.lobby.join_pin": "eta idatzi Saioaren IDa:",
     "presenter.lobby.players": "Jokalariak:",
     "presenter.game.terminate": "Amaitu",
     "presenter.game.terminate.title": "Amaitu jokoa eta erakutsi podiuma egungo sailkapenarekin",
     "presenter.game.abandon": "Utzi jokoa",
     "presenter.game.abandon.title": "Utzi saioa",
-    "presenter.fullscreen.title": "Pantaila osoa"
+    "presenter.fullscreen.title": "Pantaila osoa",
+    "presenter.menu.title": "Menua"
   }
 }

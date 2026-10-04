@@ -36,6 +36,8 @@
     "xiro_results_viewer.team_panel.member": "Mitglied",
     "xiro_results_viewer.team_panel.no_members": "In diesem Spiel wurden die Teammitglieder nicht gespeichert",
     "xiro_results_viewer.table.score": "Punktzahl",
+    "xiro_results_viewer.team_score_note": "Teampunktzahl: Durchschnitt der Spieler, angepasst bei unterschiedlich großen Teams",
+    "xiro_results_viewer.team_panel.members_avg": "Durchschnitt der Mitglieder",
     "xiro_results_viewer.wedges.count": "{count} Ecken",
     "xiro_results_viewer.wedges.empty": "Keine Ecken erhalten",
     "xiro_results_viewer.sections.wedges": "Erhaltene Kategorien",

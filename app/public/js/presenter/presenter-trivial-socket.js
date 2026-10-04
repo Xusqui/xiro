@@ -48,24 +48,34 @@ function callUpdateBoardTokens(state) {
 }
 
 // ─── Layout ──────────────────────────────────────────────────────────────────
-// Uses mostrarLobbyMain() — never touches #players-sidebar or #players-sidebar-list.
+// El tablero va en #lobby-main (mostrarLobbyMain). La clasificación (quesitos)
+// va en la columna del escenario, junto a #players-sidebar-list (que no se
+// toca: presenter.css la oculta mientras está la clasificación), así sigue
+// visible también durante las preguntas, cuando #lobby-main se sustituye.
+
+function ensureSidebarStandings() {
+    if (document.getElementById('trv-player-scores')) return;
+    const header = document.getElementById('players-sidebar')?.firstElementChild;
+    if (header) header.insertAdjacentHTML('afterend', '<div id="trv-player-scores" class="trv-standings"></div>');
+}
+
+function removeSidebarStandings() {
+    document.getElementById('trv-player-scores')?.remove();
+}
 
 function buildTrivialLayout() {
     mostrarLobbyMain(`
-        <div id="trv-status" style="flex-shrink:0;background:rgba(15,23,42,0.92);border-radius:12px;
-                padding:8px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px">
-            <div id="trv-turn" style="color:#fbbf24;font-size:1.05rem;font-weight:900;letter-spacing:.5px"></div>
-            <div id="trv-phase" style="color:#94a3b8;font-size:0.8rem;flex:1;padding-left:12px"></div>
+        <div id="trv-status" class="trv-status">
+            <div id="trv-turn" class="trv-turn"></div>
+            <div id="trv-phase" class="trv-phase"></div>
         </div>
         <div style="flex:1;min-height:0;display:flex;gap:8px;align-items:stretch">
             <div id="trv-category-legend" style="width:clamp(140px,14vw,320px);flex-shrink:0;display:flex;flex-direction:column;gap:clamp(3px,0.5vh,14px);padding:clamp(4px,0.8vh,16px);background:rgba(15,23,42,0.6);border-radius:10px;overflow-y:auto"></div>
             <div style="flex:1;display:flex;align-items:center;justify-content:center;position:relative;min-width:0">
                 <div id="trivial-board-svg" style="width:min(calc(100vh - 140px),100%);aspect-ratio:1/1;position:relative"></div>
             </div>
-            <div id="trv-player-scores"
-                 style="width:170px;flex-shrink:0;display:flex;flex-direction:column;gap:4px;
-                        overflow-y:auto;padding:4px;background:rgba(15,23,42,0.6);border-radius:10px"></div>
         </div>`);
+    ensureSidebarStandings();
     showTerminateButton();
 }
 
@@ -115,29 +125,16 @@ function refreshPlayerScores(state) {
         panel.innerHTML = teamCfg.teams.map((team, idx) => {
             const teamName = team.name;
             const color = team.color || '#888';
-            const active = teamName === currentTurn;
-            const bg = active ? 'rgba(234,179,8,0.18)' : 'rgba(51,65,85,0.5)';
-            const border = active ? 'rgba(234,179,8,0.5)' : 'transparent';
             // Use state.teamTokens if available; otherwise fall back to the
             // union of individual player tokens (for legacy state shape)
             const rawTokens = state.teamTokens?.[teamName] ||
                 (team.players?.[0] && players?.[team.players[0]]?.token) || [];
-            const wedges = rawTokens.map((filled, i) => {
-                const col = categories[i]?.color || '#888';
-                return `<span style="display:inline-block;width:11px;height:11px;border-radius:50%;background:${col};` +
-                    `opacity:${filled ? 1 : 0.2};box-shadow:${filled ? `0 0 6px 2px ${col}` : 'none'};` +
-                    `border:1.5px solid rgba(255,255,255,${filled ? 0.9 : 0.2});margin:1px"></span>`;
-            }).join('');
             const members = (team.players || []).map(member => escapeHtml(member)).join(', ');
             const pos = turnOrder.indexOf(teamName) + 1 || idx + 1;
-            return `<div style="border-radius:8px;padding:5px 7px;background:${bg};border:1px solid ${border}">` +
-                `<div style="display:flex;align-items:center;gap:4px;margin-bottom:3px">` +
-                `<span style="width:16px;height:16px;border-radius:50%;background:${color};color:#fff;font-size:9px;font-weight:900;` +
-                `display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">${pos}</span>` +
-                `<span style="color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1">${escapeHtml(teamName)}</span></div>` +
-                `<div style="display:flex;flex-wrap:wrap;gap:2px">${wedges}</div>` +
-                (members ? `<div style="color:#94a3b8;font-size:8px;margin-top:3px;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${members}</div>` : '') +
-                `</div>`;
+            return standingRowHtml({
+                pos, posColor: color, name: teamName, isTurn: teamName === currentTurn,
+                wedges: wedgesHtml(rawTokens, categories), members
+            });
         }).join('');
         return;
     }
@@ -148,23 +145,30 @@ function refreshPlayerScores(state) {
     panel.innerHTML = ordered.map((nick, idx) => {
         const p = players?.[nick];
         if (!p) return '';
-        const pos = idx + 1;
-        const active = nick === currentTurn;
-        const bg = active ? 'rgba(234,179,8,0.18)' : 'rgba(51,65,85,0.5)';
-        const border = active ? 'rgba(234,179,8,0.5)' : 'transparent';
-        const wedges = (p.token || []).map((filled, i) => {
-            const col = categories[i]?.color || '#888';
-            return `<span style="display:inline-block;width:11px;height:11px;border-radius:50%;background:${col};` +
-                `opacity:${filled ? 1 : 0.2};box-shadow:${filled ? `0 0 6px 2px ${col}` : 'none'};` +
-                `border:1.5px solid rgba(255,255,255,${filled ? 0.9 : 0.2});margin:1px"></span>`;
-        }).join('');
-        return `<div style="border-radius:8px;padding:5px 7px;background:${bg};border:1px solid ${border}">` +
-            `<div style="display:flex;align-items:center;gap:4px;margin-bottom:3px">` +
-            `<span style="width:16px;height:16px;border-radius:50%;background:#fbbf24;color:#1e293b;font-size:9px;font-weight:900;` +
-            `display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">${pos}</span>` +
-            `<span style="color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1">${escapeHtml(nick)}</span></div>` +
-            `<div style="display:flex;flex-wrap:wrap;gap:2px">${wedges}</div></div>`;
+        return standingRowHtml({
+            pos: idx + 1, name: nick, isTurn: nick === currentTurn,
+            wedges: wedgesHtml(p.token, categories)
+        });
     }).join('') || '';
+}
+
+/** Quesitos: uno por categoría, con su color; apagados hasta conseguirlos. */
+function wedgesHtml(tokens, categories) {
+    return (tokens || []).map((filled, i) => {
+        const col = categories[i]?.color || '#888';
+        return `<span class="trv-wedge${filled ? ' is-filled' : ''}" style="background:${col};color:${col}"></span>`;
+    }).join('');
+}
+
+/** Fila de la clasificación (jugador o equipo) en la columna del escenario. */
+function standingRowHtml({ pos, posColor, name, isTurn, wedges, members }) {
+    const posStyle = posColor ? ` style="background:${posColor};color:#fff"` : '';
+    return `<div class="trv-standing${isTurn ? ' is-turn' : ''}">` +
+        `<div class="trv-standing-head"><span class="trv-standing-pos"${posStyle}>${pos}</span>` +
+        `<span class="trv-standing-name">${escapeHtml(name)}</span></div>` +
+        `<div class="trv-wedges">${wedges}</div>` +
+        (members ? `<div class="trv-standing-members">${members}</div>` : '') +
+        `</div>`;
 }
 
 export function registerTrivialSocketHandlers() {
@@ -222,6 +226,7 @@ export function registerTrivialSocketHandlers() {
     socket.on('trivial-winner', ({ ranking }) => {
         window.isTrivialGame = false;
         clearTrivialGameState();
+        removeSidebarStandings();
         updateBoardHighlights([], null);
         showTrivialWinnerOverlay(ranking);
     });
@@ -267,6 +272,7 @@ export function registerTrivialSocketHandlers() {
         // and clearing the DOM would destroy it.
         window.isTrivialGame = false;
         clearTrivialGameState();
+        removeSidebarStandings();
         updateBoardHighlights([], null);
     });
 

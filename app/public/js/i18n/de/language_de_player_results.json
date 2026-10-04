@@ -6,6 +6,7 @@
     "player.results.position_label": "erreicht",
     "player.results.final_score": "Endpunktzahl",
     "player.results.of_players": "von {totalPlayers} Spielern",
+    "player.results.of_teams": "von {totalTeams} Teams",
     "player.results.champion": "CHAMPION!",
     "player.results.excellent": "Hervorragendes Ergebnis!",
     "player.results.great_job": "Großartige Arbeit!",

@@ -36,6 +36,8 @@
     "xiro_results_viewer.team_panel.member": "Membro",
     "xiro_results_viewer.team_panel.no_members": "Este jogo não guardou os membros da equipa",
     "xiro_results_viewer.table.score": "Pontuação",
+    "xiro_results_viewer.team_score_note": "Pontuação da equipa: média dos seus jogadores, ajustada quando as equipas têm tamanhos diferentes",
+    "xiro_results_viewer.team_panel.members_avg": "Média dos membros",
     "xiro_results_viewer.wedges.count": "{count} queijinhos",
     "xiro_results_viewer.wedges.empty": "Nenhum queijinho obtido",
     "xiro_results_viewer.sections.wedges": "Categorías obtidas",

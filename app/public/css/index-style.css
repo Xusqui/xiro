@@ -377,11 +377,10 @@ html.xiro-bg-static body.bg-gradient-to-br::after {
     }
 }
 
+/* Tarjeta flotante de DESIGN.md: blanca y opaca con sombra profunda (antes
+   cristal al 70 %, poco contraste sobre las hojas). El border-b-8 del color
+   del rol lo pone el HTML. */
 .card>div {
-    background: rgba(255, 255, 255, 0.7) !important;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-top: 1px solid rgba(255, 255, 255, 0.45);
-    border-left: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.16);
+    background: #fff !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
 }

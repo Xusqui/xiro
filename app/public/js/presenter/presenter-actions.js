@@ -99,7 +99,22 @@ function expandQr() {
     document.body.appendChild(overlay);
 }
 
+/** Menú del operador (⋯): abre/cierra el panel con Terminar, Abandonar, idioma, etc. */
+function setStageMenuOpen(open) {
+    const button = document.getElementById('stage-menu-btn');
+    const panel = document.getElementById('stage-menu-panel');
+    if (!button || !panel) return;
+    panel.hidden = !open;
+    button.setAttribute('aria-expanded', String(open));
+}
+
+function toggleStageMenu() {
+    const panel = document.getElementById('stage-menu-panel');
+    if (panel) setStageMenuOpen(panel.hidden);
+}
+
 const PRESENTER_CLICK_ACTIONS = {
+    'toggle-stage-menu': () => toggleStageMenu(),
     'toggle-fullscreen': () => toggleFullscreen(),
     'start-game': () => empezar(),
     'abandon-game': () => abandonarJuego(),
@@ -125,6 +140,9 @@ const PRESENTER_CLICK_ACTIONS = {
 
 export function setupPresenterActionDelegation() {
     document.addEventListener('click', (event) => {
+        // Un clic fuera del menú del operador lo cierra
+        if (!event.target.closest('#stage-menu-panel, #stage-menu-btn')) setStageMenuOpen(false);
+
         const actionElement = event.target.closest('[data-presenter-action]');
         if (!actionElement) return;
 

@@ -36,6 +36,8 @@
     "xiro_results_viewer.team_panel.member": "メンバー",
     "xiro_results_viewer.team_panel.no_members": "このゲームではチームメンバーが保存されていません",
     "xiro_results_viewer.table.score": "スコア",
+    "xiro_results_viewer.team_score_note": "チームのスコア：メンバーの平均。チームの人数が異なる場合は調整されます",
+    "xiro_results_viewer.team_panel.members_avg": "メンバーの平均",
     "xiro_results_viewer.wedges.count": "ウェッジ {count} 個",
     "xiro_results_viewer.wedges.empty": "獲得ウェッジなし",
     "xiro_results_viewer.sections.wedges": "獲得カテゴリ",

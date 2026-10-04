@@ -15,7 +15,8 @@
 
 <body
     class="bg-gradient-to-br from-plum-700 via-plum-600 to-aubergine-700 h-dvh flex flex-col items-center justify-center font-sans text-white overflow-hidden p-6">
-    <div class="pointer-events-none absolute inset-0">
+    <!-- overflow-hidden: los círculos desbordaban en horizontal en iOS -->
+    <div class="pointer-events-none absolute inset-0 overflow-hidden">
         <div class="absolute -top-16 -right-10 h-56 w-56 rounded-full bg-amber-300/30 blur-3xl"></div>
         <div
             class="absolute bottom-0 left-0 h-72 w-72 -translate-x-1/3 translate-y-1/3 rounded-full bg-cyan-300/30 blur-3xl">
@@ -36,7 +37,8 @@
     </script>
     <script src="/js/core/site-badge.js?v=20260922172926"></script>
     <script src="/js/core/personalization.js?v=20260922172926"></script>
-    <script src="/js/core/hojas-bg.js?v=20260922172926"></script>
+    <!-- Sin hojas-bg.js: familia «ciruela» del jugador (DESIGN.md, Background
+         Families); antes inyectaba la capa de hojas sin estilo, invisible -->
 </body>
 
 </html>

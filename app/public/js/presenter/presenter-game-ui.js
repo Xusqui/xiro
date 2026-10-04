@@ -23,6 +23,13 @@ export function mostrarQR(sessionIdParam) {
     const qrCanvas = document.getElementById('qr-canvas');
     const qrLink = document.getElementById('qr-link');
 
+    // Acceso sin QR: misma página que el QR (dominio al vuelo, nada fijo) y
+    // el ID de sesión que se escribe en ella
+    const joinHost = document.getElementById('join-host');
+    if (joinHost) joinHost.textContent = `${window.location.host}/jugador.html`;
+    const joinSession = document.getElementById('join-session');
+    if (joinSession) joinSession.textContent = sessionIdParam;
+
     // Resolución interna fija (calidad). El tamaño visible lo controla CSS.
     const qrResolution = 800;
 

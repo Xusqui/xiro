@@ -6,6 +6,7 @@
     "presenter.podio.no": "NÃO",
     "presenter.podio.pts": "PTS",
     "presenter.podio.yes": "SIM",
-    "presenter.podio.show_games": "Mostrar jogos"
+    "presenter.podio.show_games": "Mostrar jogos",
+    "presenter.podio.team_score_note": "Pontuação da equipa: média dos seus jogadores, ajustada quando as equipas têm tamanhos diferentes"
   }
 }

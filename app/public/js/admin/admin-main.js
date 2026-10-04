@@ -28,6 +28,10 @@ function showAdmin() {
     document.getElementById('admin-content').style.display = '';
     applyRolePermissions();
     cargarListas();
+    // Portada con accesos, partidas y licencia (nav-sections.js) en vez del
+    // estado vacío estático de admin.html
+    const editorArea = document.getElementById('editorArea');
+    if (editorArea && typeof window.renderAdminHome === 'function') window.renderAdminHome(editorArea);
 }
 
 // ===== SISTEMA DE NAVEGACIÓN Y VISTAS =====

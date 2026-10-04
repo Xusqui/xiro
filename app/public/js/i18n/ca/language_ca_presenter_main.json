@@ -6,11 +6,14 @@
     "presenter.lobby.waiting": "Esperant jugadors...",
     "presenter.lobby.pin": "PIN D'ACCÉS",
     "presenter.lobby.start": "COMENÇAR!",
+    "presenter.lobby.join_at": "No pots escanejar el QR? Entra a",
+    "presenter.lobby.join_pin": "i escriu l'ID de Sessió:",
     "presenter.lobby.players": "Jugadors:",
     "presenter.game.terminate": "Acabar",
     "presenter.game.terminate.title": "Finalitzar la partida i mostrar el podi amb la classificació actual",
     "presenter.game.abandon": "Abandonar joc",
     "presenter.game.abandon.title": "Abandonar sessió",
-    "presenter.fullscreen.title": "Pantalla completa"
+    "presenter.fullscreen.title": "Pantalla completa",
+    "presenter.menu.title": "Menú"
   }
 }

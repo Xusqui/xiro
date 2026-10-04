@@ -11,7 +11,7 @@ window.TVApp.SocketAnswers = (function () {
 
     /** Actualiza las puntuaciones con el ranking del reveal y marca como fallo a quien no respondió. */
     function applyRevealScores(state, data) {
-        (data.ranking || []).forEach((player) => {
+        (data.ranking || []).forEach(function (player) {
             if (state.playersData[player.name]) state.playersData[player.name].score = player.pts;
         });
         for (const nick in state.playersData) {

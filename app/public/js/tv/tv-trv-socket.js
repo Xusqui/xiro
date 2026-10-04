@@ -112,6 +112,7 @@ window.TVApp.TrvSocket = (function () {
             window.isTrivialGame = false;
             setGameControlsVisible(false);
             State.clearTrivialGameState();
+            Layout.removeSidebarStandings();
             Highlights.updateBoardHighlights([], null);
             Highlights.showTrivialWinnerOverlay(data.ranking);
         });
@@ -162,6 +163,7 @@ window.TVApp.TrvSocket = (function () {
             window.isTrivialGame = false;
             setGameControlsVisible(false);
             State.clearTrivialGameState();
+            Layout.removeSidebarStandings();
             Highlights.updateBoardHighlights([], null);
         });
 

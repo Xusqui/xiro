@@ -11,7 +11,7 @@ import {
     getPendingAnswer,
     getSendingAnswer
 } from './player-state.js?v=20260922172926';
-import { OPTION_COLORS, getResponsiveFontClass } from './player-question-utils.js?v=20260922172926';
+import { OPTION_COLORS, getResponsiveFontClass, fitOptionButtonText, optionCaseClass } from './player-question-utils.js?v=20260922172926';
 import { setBodyHTML } from './player-streak-ui.js?v=20260922172926';
 import { enviarRespuestaMultipleChoice } from './player-answer.js?v=20260922172926';
 import { escapeHtml, sanitizeResourceUrl } from '../core/sanitize.js?v=20260922172926';
@@ -195,7 +195,7 @@ export function renderizarPreguntaMultipleChoice(pregunta) {
                         class="btn-multiplechoice btn-glass-3d ${colores[i]} rounded-xl flex flex-col items-center justify-center p-1.5 overflow-hidden transition-all duration-200 ease-out relative">
                         <span class="absolute top-2 left-2 font-black text-white/50 text-xl italic">${i + 1}</span>
                         ${opt.option_image_url ? `<img src="${sanitizeResourceUrl(opt.option_image_url)}" alt="" class="max-h-[80px] max-w-[80px] object-contain rounded-lg mb-1 shrink-0">` : ''}
-                        <span class="btn-text text-white font-bold ${fontClass} uppercase px-1 break-words hyphens-auto leading-tight text-center" lang="es">${escapeHtml(opt.optionText)}</span>
+                        <span class="btn-text text-white font-bold ${fontClass} ${optionCaseClass(opt.optionText?.length)} px-1 break-words hyphens-auto leading-tight text-center" lang="es">${escapeHtml(opt.optionText)}</span>
                     </button>
                 `;
     }).join('')}
@@ -211,6 +211,8 @@ export function renderizarPreguntaMultipleChoice(pregunta) {
             </div>
         </div>
     `);
+
+    fitOptionButtonText('[data-player-action="toggle-multiple"] .btn-text');
 
     // Auto-submit al acabar el tiempo
     const timeLimit = (pregunta.time_limit || 30) * 1000;

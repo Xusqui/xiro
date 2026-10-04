@@ -6,6 +6,7 @@
 const { createClient } = require('redis');
 const logger = require('../../config/logger');
 const { addPlayerToLobby } = require('../utils/LobbyPlayerSync');
+const { applyTeamMembership, emitLocalTeamUpdate } = require('../utils/TeamMembershipSync');
 const { getWorkerContext } = require('../../config/log-context');
 const { SCORING } = require('../../config/game-constants');
 const { clearGameTimer, timerPausedState, roomPresenterMap } = require('../../state/globalState');
@@ -274,6 +275,25 @@ class RedisSyncBus {
             }
             this.state.teamConfigs.set(data.roomId, data.teamConfig);
         });
+
+        await this.syncSub.subscribe('team-membership-sync', (message) => {
+            this.handleTeamMembershipSync(message);
+        });
+    }
+
+    handleTeamMembershipSync(message) {
+        const data = parseRedisMessage(message, 'team-membership-sync');
+        if (!data || data.originWorkerId === process.pid) {
+            return;
+        }
+
+        const teamConfig = this.state.teamConfigs.get(data.roomId);
+        if (!applyTeamMembership(teamConfig, data)) {
+            return;
+        }
+
+        emitLocalTeamUpdate(this.io, data.roomId, teamConfig);
+        logger.debug(`Equipo de ${data.nickname} actualizado en ${data.roomId} (desde worker ${data.originWorkerId})`);
     }
 
     async registerSessionAndPlayerSubscriptions() {
@@ -715,6 +735,15 @@ class RedisSyncBus {
     async publishTeamConfig(roomId, teamConfig) {
         await this.publish('team-config-sync', { roomId, teamConfig, originWorkerId: process.pid });
         logger.debug(`team-config-sync publicado: ${roomId} (worker ${process.pid})`);
+    }
+
+    /**
+     * Publica un cambio de equipo de un jugador (teamIndex null = sale de su equipo).
+     * Los demás workers lo aplican sobre su copia en lugar de reemplazarla entera.
+     */
+    async publishTeamMembership(roomId, nickname, teamIndex) {
+        await this.publish('team-membership-sync', { roomId, nickname, teamIndex, originWorkerId: process.pid });
+        logger.debug(`team-membership-sync publicado: ${roomId} ${nickname} -> ${teamIndex} (worker ${process.pid})`);
     }
 
     async publishSessionAbandoned(roomId, reason = 'abandoned') {

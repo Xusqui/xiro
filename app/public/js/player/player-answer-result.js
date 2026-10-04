@@ -24,7 +24,7 @@ function getPlayerAnswerVisualLogic() {
             }
 
             if (isCorrect === null) {
-                return 'bg-blue-500';
+                return 'bg-plum-600';
             }
 
             if (isCorrect) {

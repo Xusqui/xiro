@@ -21,6 +21,7 @@
     "admin.config.logs.sub": "Log files",
     "admin.config.panic.title": "PANIC",
     "admin.config.panic.sub": "Restart server",
+    "admin.config.danger_zone": "Danger zone",
     "admin.config.btn_save": "Save Changes",
     "admin.config.btn_reload": "Recharge",
     "admin.license.title": "Xiro license!",
