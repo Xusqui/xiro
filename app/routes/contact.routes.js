@@ -149,7 +149,7 @@ router.post('/api/contact', contactLimiter, async (req, res) => {
             }
         });
 
-        await transporter.sendMail({
+        const info = await transporter.sendMail({
             from: runtimeConfig.get('SMTP_FROM') || `"XIRO! Contacto" <${runtimeConfig.get('SMTP_USER')}>`,
             to: DEST_EMAIL,
             replyTo: emailStr,
@@ -159,6 +159,17 @@ router.post('/api/contact', contactLimiter, async (req, res) => {
                 `<p><strong>Nombre:</strong> ${escapeHtml(nameStr)}</p>` +
                 `<p><strong>Email:</strong> <a href="mailto:${escapeHtml(emailStr)}">${escapeHtml(emailStr)}</a></p>` +
                 `<hr><p>${escapeHtml(messageStr).replace(/\n/g, '<br>')}</p>`
+        });
+
+        // Traza del envío para cruzarla con el registro del proveedor SMTP si el
+        // correo no llega: identificador y lo que respondió el servidor. Sin datos
+        // del remitente ni el mensaje (solo el destino propio, DEST_EMAIL).
+        const logger = require('../config/logger');
+        logger.info('Email de contacto enviado', {
+            messageId: info?.messageId,
+            accepted: info?.accepted,
+            rejected: info?.rejected,
+            response: info?.response
         });
 
         res.json({ ok: true });
