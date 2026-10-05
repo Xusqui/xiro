@@ -1,10 +1,14 @@
 {
   "keys": {
-    "manual_admin.tools.ia.title": "IA (Groq)",
-    "manual_admin.tools.ia.desc": "Configuración do asistente de IA para xerar preguntas.",
+    "manual_admin.tools.ia.title": "IA",
+    "manual_admin.tools.ia.desc": "Configuración do asistente de IA para xerar preguntas, con Groq ou con Gemini (Google).",
+    "manual_admin.tools.ia.provider": "Provedor activo",
+    "manual_admin.tools.ia.provider_desc": "Escolle que servizo xera as preguntas: Groq ou Gemini.",
+    "manual_admin.tools.ia.fallback": "Alternativa automática",
+    "manual_admin.tools.ia.fallback_desc": "Se o provedor activo falla cun lote de preguntas (límite de uso, erro ou tempo esgotado), o lote repítese co outro provedor, sempre que teña clave da API. Activado por defecto.",
     "manual_admin.tools.ia.key": "API Key",
-    "manual_admin.tools.ia.key_desc": "Clave de acceso á API de Groq.",
+    "manual_admin.tools.ia.key_desc": "Clave de acceso de cada provedor. As de Groq comezan por <code>gsk_</code> e as de Gemini por <code>AQ.</code>. Podes gardar as dúas á vez.",
     "manual_admin.tools.ia.model": "Modelo IA",
-    "manual_admin.tools.ia.model_desc": "Selección do modelo de linguaxe a utilizar."
+    "manual_admin.tools.ia.model_desc": "Modelo de linguaxe que usa cada provedor."
   }
 }

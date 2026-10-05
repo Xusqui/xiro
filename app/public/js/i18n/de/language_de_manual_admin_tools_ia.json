@@ -1,10 +1,14 @@
 {
   "keys": {
-    "manual_admin.tools.ia.title": "KI (Groq)",
-    "manual_admin.tools.ia.desc": "KI-Assistenten-Konfiguration zur Fragengenerierung.",
+    "manual_admin.tools.ia.title": "KI",
+    "manual_admin.tools.ia.desc": "KI-Assistenten-Konfiguration zur Fragengenerierung mit Groq oder Gemini (Google).",
+    "manual_admin.tools.ia.provider": "Aktiver Anbieter",
+    "manual_admin.tools.ia.provider_desc": "Wählen Sie, welcher Dienst die Fragen erstellt: Groq oder Gemini.",
+    "manual_admin.tools.ia.fallback": "Automatischer Ersatz",
+    "manual_admin.tools.ia.fallback_desc": "Scheitert der aktive Anbieter an einem Fragenblock (Nutzungslimit, Fehler oder Zeitüberschreitung), wird der Block mit dem anderen Anbieter wiederholt, sofern dieser einen API-Schlüssel hat. Standardmäßig aktiviert.",
     "manual_admin.tools.ia.key": "API-Schlüssel",
-    "manual_admin.tools.ia.key_desc": "Zugriffsschlüssel für die Groq-API.",
+    "manual_admin.tools.ia.key_desc": "Zugriffsschlüssel für jeden Anbieter. Groq-Schlüssel beginnen mit <code>gsk_</code>, Gemini-Schlüssel mit <code>AQ.</code>. Beide können gleichzeitig gespeichert werden.",
     "manual_admin.tools.ia.model": "KI-Modell",
-    "manual_admin.tools.ia.model_desc": "Auswahl des zu verwendenden Sprachmodells."
+    "manual_admin.tools.ia.model_desc": "Sprachmodell, das jeder Anbieter verwendet."
   }
 }

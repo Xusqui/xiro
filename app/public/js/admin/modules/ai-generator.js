@@ -189,7 +189,8 @@ async function _checkIAStatus() {
         if (!badge) return;
         if (data.available) {
             badge.className = 'ml-auto text-xs px-3 py-1 rounded-full font-bold bg-green-100 text-green-700';
-            badge.innerHTML = _tHtml('<i class="fas fa-circle text-green-500 mr-1"></i>IA lista · ' + data.model);
+            const providerLabel = data.providerLabel ? escapeHtml(data.providerLabel) + ' · ' : '';
+            badge.innerHTML = _tHtml('<i class="fas fa-circle text-green-500 mr-1"></i>IA lista · ' + providerLabel + escapeHtml(data.model));
         } else {
             badge.className = 'ml-auto text-xs px-3 py-1 rounded-full font-bold bg-red-100 text-red-700';
             badge.innerHTML = _tHtml('<i class="fas fa-circle text-red-500 mr-1"></i>IA no disponible');

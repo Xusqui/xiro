@@ -154,7 +154,7 @@
     "manual_admin.banks.types.survey": "<strong>アンケート</strong> — プレイヤーが選択肢に投票し、結果が表示されます。正解はありません。",
     "manual_admin.banks.types.matching": "<strong>マッチング</strong> — 2つの列。プレイヤーは各項目を正しいペアと結びます（最大6ペア）。",
     "manual_admin.banks.ai.title": "AI問題ジェネレーター",
-    "manual_admin.banks.ai.intro": "サイドメニューの<strong>AIジェネレーター</strong>から、バンク全体を自動作成できます。Groq APIキーの設定が必要です（ツール → AI）。",
+    "manual_admin.banks.ai.intro": "サイドメニューの<strong>AIジェネレーター</strong>から、バンク全体を自動作成できます。Groq または Gemini の APIキーの設定が必要です（ツール → AI）。",
     "manual_admin.banks.ai.s1": "<strong>ソース</strong> — ドキュメント（.pdf、.docx、.txt）をアップロードするか、問題を生成したいテーマを入力します。",
     "manual_admin.banks.ai.s2": "<strong>設定</strong> — バンクに名前を付け、難易度（低・中・高）を選びます。",
     "manual_admin.banks.ai.s3": "<strong>結果</strong> — 生成された問題を確認し、エラーのあるタイプを再生成して、<strong>「バンクをインポート」</strong>または<strong>「JSONをダウンロード」</strong>を押します。",

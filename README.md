@@ -159,7 +159,7 @@ Manage it with `./manage.sh start | stop | restart | status | logs | backup | re
 - **Team mode** with synchronized answer reveal
 - **Configurable streaks** with progressive bonuses
 - **Transparent reconnection** for players and presenters
-- **AI question generator** (Groq) from a document or a topic
+- **AI question generator** (Groq or Gemini) from a document or a topic
 - **PDF export** of custom games and **JSON import/export** of question banks
 - **Presenter remote control** from a mobile phone
 - **Game history** with CSV/JSON export and a graphical results viewer
@@ -220,7 +220,7 @@ Two roles: **admin** (full access) and **editor** (edits only what they created)
 From `/admin.html` you can:
 
 - Create and edit **question banks**, **mixes**, **custom games** and **Trivial** boards
-- Generate questions with **AI** (enter the Groq API key in the Config section)
+- Generate questions with **AI** (enter the Groq or Gemini API key, and pick the active provider, in the Config section)
 - Adjust game parameters, scoring, fireworks, UI and backups without restarting
 - See the **game history** and download results
 - Take control of a game in progress from your phone (**Config → Games In Progress → Control**)
@@ -259,7 +259,7 @@ On first startup, Xiro! sends **one anonymous ping** to [ntfy.sh](https://ntfy.s
 
 ## Documentation
 
-Technical documentation for developers is in [`docs/`](docs/): [architecture](docs/ARCHITECTURE.md), [CQRS](docs/CQRS_PATTERN.md), [events](docs/EVENT_DRIVEN_PATTERN.md), [AI generator](docs/GROQ_SETUP.md) and [CSS styles](docs/CSS_GUIDE.md). Every environment variable is documented in [`.env.example`](.env.example).
+Technical documentation for developers is in [`docs/`](docs/): [architecture](docs/ARCHITECTURE.md), [CQRS](docs/CQRS_PATTERN.md), [events](docs/EVENT_DRIVEN_PATTERN.md), [AI generator](docs/AI_SETUP.md) and [CSS styles](docs/CSS_GUIDE.md). Every environment variable is documented in [`.env.example`](.env.example).
 
 ---
 

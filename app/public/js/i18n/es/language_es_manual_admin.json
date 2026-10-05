@@ -154,7 +154,7 @@
     "manual_admin.banks.types.survey": "<strong>Encuesta</strong> — Los jugadores votan entre opciones y se muestran los resultados; no hay respuesta correcta.",
     "manual_admin.banks.types.matching": "<strong>Emparejar</strong> — Dos columnas; el jugador une cada elemento con su par correcto (hasta 6 pares).",
     "manual_admin.banks.ai.title": "Generador IA de preguntas",
-    "manual_admin.banks.ai.intro": "Crea un banco completo automáticamente desde <strong>Generador IA</strong> en el menú lateral. Requiere una API key de Groq configurada (Herramientas → IA).",
+    "manual_admin.banks.ai.intro": "Crea un banco completo automáticamente desde <strong>Generador IA</strong> en el menú lateral. Requiere una API key de Groq o de Gemini configurada (Herramientas → IA).",
     "manual_admin.banks.ai.s1": "<strong>Fuente</strong> — sube un documento (.pdf, .docx, .txt) o escribe el tema sobre el que generar preguntas.",
     "manual_admin.banks.ai.s2": "<strong>Configurar</strong> — ponle nombre al banco y elige la dificultad (baja, media o alta).",
     "manual_admin.banks.ai.s3": "<strong>Resultado</strong> — revisa las preguntas generadas, regenera los tipos con errores y pulsa <strong>«Importar banco»</strong> o <strong>«Descargar JSON»</strong>.",

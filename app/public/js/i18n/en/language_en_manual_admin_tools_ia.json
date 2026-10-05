@@ -1,10 +1,14 @@
 {
   "keys": {
-    "manual_admin.tools.ia.title": "AI (Groq)",
-    "manual_admin.tools.ia.desc": "AI assistant configuration for question generation.",
+    "manual_admin.tools.ia.title": "AI",
+    "manual_admin.tools.ia.desc": "AI assistant configuration for question generation, with Groq or Gemini (Google).",
+    "manual_admin.tools.ia.provider": "Active provider",
+    "manual_admin.tools.ia.provider_desc": "Choose which service generates the questions: Groq or Gemini.",
+    "manual_admin.tools.ia.fallback": "Automatic fallback",
+    "manual_admin.tools.ia.fallback_desc": "If the active provider fails on a batch of questions (usage limit, error or timeout), the batch is retried with the other provider, as long as it has an API key. Enabled by default.",
     "manual_admin.tools.ia.key": "API Key",
-    "manual_admin.tools.ia.key_desc": "Access key to the Groq API.",
+    "manual_admin.tools.ia.key_desc": "Access key for each provider. Groq keys start with <code>gsk_</code> and Gemini keys with <code>AQ.</code>. You can store both at the same time.",
     "manual_admin.tools.ia.model": "AI Model",
-    "manual_admin.tools.ia.model_desc": "Selection of the language model to use."
+    "manual_admin.tools.ia.model_desc": "Language model used by each provider."
   }
 }

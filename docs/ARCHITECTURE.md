@@ -62,7 +62,7 @@ app/
   sockets/          # Socket.IO (manager, handlers, services, sync, utils)
   services/         # servicios transversales (DB, PDF, timer, pin-cache...)
   config/           # constantes, logger, redis, database, runtime/ui config
-  ai-generator/     # integracion Groq (generacion de preguntas)
+  ai-generator/     # integracion Groq y Gemini (generacion de preguntas)
   migrations/       # migraciones SQL + runner
   state/            # estado global en proceso (globalState.js)
 ```

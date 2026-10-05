@@ -3,35 +3,29 @@
 /**
  * @fileoverview Cliente HTTP para la API de Groq (OpenAI-compatible).
  * Exporta:
- *   callLLM(userPrompt, systemPrompt?, timeout?) → Promise<string>
- *   checkGroqStatus() → { available: boolean, model: string, provider: string, reason?: string }
+ *   callGroq({ apiKey, model, userPrompt, systemPrompt, timeout, maxTokens }) → Promise<string>
  */
 
 const https = require('https');
-const { getApiKey, isGroqConfigured, getGroqModel } = require('./groq-config');
 
 const GROQ_HOST = 'api.groq.com';
 const GROQ_PATH = '/openai/v1/chat/completions';
-const DEFAULT_TIMEOUT = 60000;
-const DEFAULT_SYSTEM = 'Eres un asistente experto en diseño de preguntas educativas. Responde SOLO con JSON válido, sin texto adicional.';
 
 /**
  * Llama a la API de Groq y devuelve el texto de la respuesta.
- * @param {string} userPrompt
- * @param {string} [systemPrompt]
- * @param {number} [timeout] ms
- * @param {number} [maxTokens] max_tokens reservados en Groq
+ * @param {Object} params
+ * @param {string} params.apiKey
+ * @param {string} params.model
+ * @param {string} params.userPrompt
+ * @param {string} params.systemPrompt
+ * @param {number} params.timeout ms
+ * @param {number} params.maxTokens max_tokens reservados en Groq
  * @returns {Promise<string>}
  */
-function callLLM(userPrompt, systemPrompt = DEFAULT_SYSTEM, timeout = DEFAULT_TIMEOUT, maxTokens = 4096) {
+function callGroq({ apiKey, model, userPrompt, systemPrompt, timeout, maxTokens }) {
     return new Promise((resolve, reject) => {
-        const apiKey = getApiKey();
-        if (!apiKey) {
-            return reject(new Error('Groq API key no configurada. Configúrala en el Panel > IA.'));
-        }
-
         const body = JSON.stringify({
-            model: getGroqModel(),
+            model,
             messages: [
                 { role: 'system', content: systemPrompt },
                 { role: 'user', content: userPrompt }
@@ -81,17 +75,4 @@ function callLLM(userPrompt, systemPrompt = DEFAULT_SYSTEM, timeout = DEFAULT_TI
     });
 }
 
-/**
- * Devuelve el estado del proveedor de IA.
- */
-function checkGroqStatus() {
-    const configured = isGroqConfigured();
-    return {
-        available: configured,
-        model: getGroqModel(),
-        provider: 'groq',
-        ...(!configured && { reason: 'API key no configurada. Ve a Panel > IA para configurarla.' })
-    };
-}
-
-module.exports = { callLLM, checkGroqStatus };
+module.exports = { callGroq };

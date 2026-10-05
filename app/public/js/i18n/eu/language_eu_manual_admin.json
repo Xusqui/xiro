@@ -154,7 +154,7 @@
     "manual_admin.banks.types.survey": "<strong>Inkesta</strong> — Jokalariek aukeren artean bozkatzen dute eta emaitzak erakusten dira; ez dago erantzun zuzenik.",
     "manual_admin.banks.types.matching": "<strong>Parekatu</strong> — Bi zutabe; jokalariak elementu bakoitza bere bikote zuzenarekin lotzen du (6 bikote gehienez).",
     "manual_admin.banks.ai.title": "Galderen IA sortzailea",
-    "manual_admin.banks.ai.intro": "Sortu banku oso bat automatikoki alboko menuko <strong>IA Sortzailea</strong> ataletik. Groq-eko API key bat konfiguratuta behar da (Tresnak → IA).",
+    "manual_admin.banks.ai.intro": "Sortu banku oso bat automatikoki alboko menuko <strong>IA Sortzailea</strong> ataletik. Groq-eko edo Gemini-ko API key bat konfiguratuta behar da (Tresnak → IA).",
     "manual_admin.banks.ai.s1": "<strong>Iturria</strong> — igo dokumentu bat (.pdf, .docx, .txt) edo idatzi galderak sortzeko gaia.",
     "manual_admin.banks.ai.s2": "<strong>Konfiguratu</strong> — jarri izena bankuari eta aukeratu zailtasuna (baxua, ertaina edo altua).",
     "manual_admin.banks.ai.s3": "<strong>Emaitza</strong> — berrikusi sortutako galderak, birsortu erroreak dituzten motak eta sakatu <strong>«Bankua inportatu»</strong> edo <strong>«JSON deskargatu»</strong>.",

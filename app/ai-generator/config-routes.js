@@ -1,33 +1,64 @@
 'use strict';
 
 /**
- * @fileoverview Rutas de configuración de Groq para el módulo ia-generator.
- * GET    /api/ai-generator/config  → { configured: bool, model: string }
- * POST   /api/ai-generator/config  → guarda la API key  body: { apiKey }
- * DELETE /api/ai-generator/config  → elimina la API key
+ * @fileoverview Rutas de configuración de los proveedores de IA (Groq y Gemini).
+ * GET    /api/ai-generator/config           → { provider, fallback, providers: { groq, gemini } }
+ *                                               cada uno { configured, model, maskedKey }
+ * POST   /api/ai-generator/config           → guarda clave/modelo  body: { provider, apiKey, model }
+ * DELETE /api/ai-generator/config?provider= → elimina la clave de ese proveedor
+ * PUT    /api/ai-generator/config/settings  → proveedor activo y respaldo  body: { provider, fallback }
+ * Si no se indica provider en POST/DELETE se asume 'groq' (compatibilidad con el panel antiguo).
  */
 
 const express = require('express');
 const { authenticateAdmin } = require('../middlewares/auth');
 const { handleRouteError } = require('../routes/helpers/RouteErrorHandler');
-const { isGroqConfigured, setApiKey, deleteApiKey, getGroqModel, getApiKey } = require('./groq-config');
-const { validateApiKey } = require('./groq-validator');
+const {
+    PROVIDERS,
+    isValidProvider,
+    getSettings,
+    setSettings,
+    getApiKey,
+    isConfigured,
+    getModel,
+    setApiKey,
+    deleteApiKey
+} = require('./ai-config');
+const { validateApiKey, validateModel } = require('./ai-validator');
 const logger = require('../config/logger');
 
 const router = express.Router();
 
+function _maskKey(key) {
+    if (!key) return null;
+    return key.substring(0, 4) + '•'.repeat(Math.max(key.length - 8, 4)) + key.substring(key.length - 4);
+}
+
+function _readProvider(value, res) {
+    const provider = value || 'groq';
+    if (!isValidProvider(provider)) {
+        res.status(400).json({ success: false, error: 'Proveedor de IA desconocido', code: 'AI_PROVIDER_INVALID' });
+        return null;
+    }
+    return provider;
+}
+
 /**
  * GET /api/ai-generator/config
- * Devuelve si la clave está configurada y el modelo activo (nunca la clave misma).
+ * Devuelve el proveedor activo, el respaldo y el estado de cada proveedor
+ * (nunca la clave misma, solo enmascarada).
  */
 router.get('/api/ai-generator/config', authenticateAdmin, (req, res) => {
     try {
-        const key = getApiKey();
-        let maskedKey = null;
-        if (key) {
-            maskedKey = key.substring(0, 4) + '•'.repeat(Math.max(key.length - 8, 4)) + key.substring(key.length - 4);
+        const providers = {};
+        for (const provider of PROVIDERS) {
+            providers[provider] = {
+                configured: isConfigured(provider),
+                model: getModel(provider),
+                maskedKey: _maskKey(getApiKey(provider))
+            };
         }
-        res.json({ configured: isGroqConfigured(), model: getGroqModel(), maskedKey });
+        res.json({ ...getSettings(), providers });
     } catch (err) {
         handleRouteError(err, res);
     }
@@ -35,42 +66,77 @@ router.get('/api/ai-generator/config', authenticateAdmin, (req, res) => {
 
 /**
  * POST /api/ai-generator/config
- * Body: { apiKey: string, model: string }
- * Valida y persiste la clave.
+ * Body: { provider: 'groq'|'gemini', apiKey?: string, model?: string }
+ * Valida y persiste la clave. Sin apiKey, actualiza solo el modelo de una clave ya guardada.
  */
 router.post('/api/ai-generator/config', authenticateAdmin, (req, res) => {
     try {
         const { apiKey, model } = req.body || {};
+        const provider = _readProvider(req.body?.provider, res);
+        if (!provider) return;
 
-        let finalApiKey = apiKey ? apiKey.trim() : null;
+        let finalApiKey = typeof apiKey === 'string' ? apiKey.trim() : null;
 
         // Si no se envía clave pero ya hay una guardada (y se está actualizando el modelo)
-        if (!finalApiKey && isGroqConfigured()) {
-            finalApiKey = require('./groq-config').getApiKey();
+        if (!finalApiKey && isConfigured(provider)) {
+            finalApiKey = getApiKey(provider);
         }
 
-        const { valid, error } = validateApiKey(finalApiKey);
-        if (!valid) {
-            return res.status(400).json({ success: false, error });
+        const keyCheck = validateApiKey(provider, finalApiKey);
+        if (!keyCheck.valid) {
+            return res.status(400).json({ success: false, error: keyCheck.error, code: keyCheck.code });
         }
 
-        setApiKey(finalApiKey, model ? model.trim() : null);
-        logger.info('[ai-generator] Groq config actualizada');
-        res.json({ success: true, model: getGroqModel() });
+        const finalModel = typeof model === 'string' && model.trim() ? model.trim() : null;
+        if (finalModel) {
+            const modelCheck = validateModel(finalModel);
+            if (!modelCheck.valid) {
+                return res.status(400).json({ success: false, error: modelCheck.error, code: modelCheck.code });
+            }
+        }
+
+        setApiKey(provider, finalApiKey, finalModel);
+        logger.info(`[ai-generator] Config de ${provider} actualizada`);
+        res.json({ success: true, provider, model: getModel(provider) });
     } catch (err) {
         handleRouteError(err, res);
     }
 });
 
 /**
- * DELETE /api/ai-generator/config
- * Elimina la API key persistida.
+ * DELETE /api/ai-generator/config?provider=groq|gemini
+ * Elimina la API key persistida de ese proveedor.
  */
 router.delete('/api/ai-generator/config', authenticateAdmin, (req, res) => {
     try {
-        deleteApiKey();
-        logger.info('[ai-generator] Groq API key eliminada');
+        const provider = _readProvider(req.query.provider, res);
+        if (!provider) return;
+
+        deleteApiKey(provider);
+        logger.info(`[ai-generator] API key de ${provider} eliminada`);
         res.json({ success: true });
+    } catch (err) {
+        handleRouteError(err, res);
+    }
+});
+
+/**
+ * PUT /api/ai-generator/config/settings
+ * Body: { provider: 'groq'|'gemini', fallback: boolean }
+ */
+router.put('/api/ai-generator/config/settings', authenticateAdmin, (req, res) => {
+    try {
+        const { provider, fallback } = req.body || {};
+        if (!isValidProvider(provider)) {
+            return res.status(400).json({ success: false, error: 'Proveedor de IA desconocido', code: 'AI_PROVIDER_INVALID' });
+        }
+        if (typeof fallback !== 'boolean') {
+            return res.status(400).json({ success: false, error: 'El campo "fallback" debe ser booleano', code: 'AI_FALLBACK_INVALID' });
+        }
+
+        setSettings({ provider, fallback });
+        logger.info(`[ai-generator] Proveedor activo: ${provider}, respaldo ${fallback ? 'activado' : 'desactivado'}`);
+        res.json({ success: true, ...getSettings() });
     } catch (err) {
         handleRouteError(err, res);
     }

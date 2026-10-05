@@ -154,7 +154,7 @@
     "manual_admin.banks.types.survey": "<strong>Umfrage</strong> — Die Spieler stimmen zwischen Optionen ab und die Ergebnisse werden angezeigt; es gibt keine richtige Antwort.",
     "manual_admin.banks.types.matching": "<strong>Zuordnen</strong> — Zwei Spalten; der Spieler verbindet jedes Element mit seinem richtigen Paar (bis zu 6 Paare).",
     "manual_admin.banks.ai.title": "KI-Fragengenerator",
-    "manual_admin.banks.ai.intro": "Erstellen Sie automatisch eine komplette Bank über <strong>KI-Generator</strong> im Seitenmenü. Erfordert einen konfigurierten Groq-API-Schlüssel (Werkzeuge → KI).",
+    "manual_admin.banks.ai.intro": "Erstellen Sie automatisch eine komplette Bank über <strong>KI-Generator</strong> im Seitenmenü. Erfordert einen konfigurierten Groq- oder Gemini-API-Schlüssel (Werkzeuge → KI).",
     "manual_admin.banks.ai.s1": "<strong>Quelle</strong> — laden Sie ein Dokument hoch (.pdf, .docx, .txt) oder schreiben Sie das Thema, zu dem Fragen erzeugt werden sollen.",
     "manual_admin.banks.ai.s2": "<strong>Konfigurieren</strong> — benennen Sie die Bank und wählen Sie den Schwierigkeitsgrad (niedrig, mittel oder hoch).",
     "manual_admin.banks.ai.s3": "<strong>Ergebnis</strong> — prüfen Sie die erzeugten Fragen, regenerieren Sie fehlerhafte Typen und drücken Sie <strong>„Bank importieren\"</strong> oder <strong>„JSON herunterladen\"</strong>.",

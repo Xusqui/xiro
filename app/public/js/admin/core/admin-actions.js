@@ -23,7 +23,8 @@ function readAdminActionContext(element, event) {
         bankId: parseNullableId(data.bankId),
         gameId: parseNullableId(data.gameId),
         ownerUserId: parseNullableId(data.ownerUserId),
-        resourceLabel: data.resourceLabel
+        resourceLabel: data.resourceLabel,
+        provider: data.provider
     };
 }
 
@@ -88,11 +89,14 @@ const ADMIN_ACTIONS = {
     'switch-user-panel': ({ panel }) => {
         if (panel && typeof switchUserPanelView === 'function') switchUserPanelView(panel);
     },
-    'groq-save-config': () => {
-        if (typeof saveGroqApiKey === 'function') saveGroqApiKey();
+    'ai-save-settings': () => {
+        if (typeof saveAISettings === 'function') saveAISettings();
     },
-    'groq-delete-key': () => {
-        if (typeof deleteGroqApiKey === 'function') deleteGroqApiKey();
+    'ai-save-key': ({ provider }) => {
+        if (provider && typeof saveAIProviderKey === 'function') saveAIProviderKey(provider);
+    },
+    'ai-delete-key': ({ provider }) => {
+        if (provider && typeof deleteAIProviderKey === 'function') deleteAIProviderKey(provider);
     },
     'clear-uploads': () => {
         if (typeof limpiarArchivosHuerfanos === 'function') limpiarArchivosHuerfanos();

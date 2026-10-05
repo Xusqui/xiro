@@ -154,7 +154,7 @@
     "manual_admin.banks.types.survey": "<strong>Survey</strong> — Players vote between options and the results are shown; there is no correct answer.",
     "manual_admin.banks.types.matching": "<strong>Matching</strong> — Two columns; the player links each item with its correct pair (up to 6 pairs).",
     "manual_admin.banks.ai.title": "AI question generator",
-    "manual_admin.banks.ai.intro": "Create a full bank automatically from <strong>AI Generator</strong> in the sidebar. Requires a configured Groq API key (Tools → AI).",
+    "manual_admin.banks.ai.intro": "Create a full bank automatically from <strong>AI Generator</strong> in the sidebar. Requires a configured Groq or Gemini API key (Tools → AI).",
     "manual_admin.banks.ai.s1": "<strong>Source</strong> — upload a document (.pdf, .docx, .txt) or type the topic to generate questions about.",
     "manual_admin.banks.ai.s2": "<strong>Configure</strong> — name the bank and choose the difficulty (low, medium or high).",
     "manual_admin.banks.ai.s3": "<strong>Result</strong> — review the generated questions, regenerate the types with errors and press <strong>\"Import bank\"</strong> or <strong>\"Download JSON\"</strong>.",

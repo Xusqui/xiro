@@ -1,10 +1,14 @@
 {
   "keys": {
-    "manual_admin.tools.ia.title": "AI (Groq)",
-    "manual_admin.tools.ia.desc": "質問を生成するためのAIアシスタント構成。",
+    "manual_admin.tools.ia.title": "AI",
+    "manual_admin.tools.ia.desc": "質問を生成するための AI アシスタント構成（Groq または Gemini（Google））。",
+    "manual_admin.tools.ia.provider": "有効なプロバイダー",
+    "manual_admin.tools.ia.provider_desc": "質問を生成するサービスを選びます：Groq または Gemini。",
+    "manual_admin.tools.ia.fallback": "自動フォールバック",
+    "manual_admin.tools.ia.fallback_desc": "有効なプロバイダーが質問のバッチで失敗した場合（利用上限、エラー、タイムアウト）、もう一方のプロバイダーに API キーがあれば、そのバッチを再試行します。既定で有効です。",
     "manual_admin.tools.ia.key": "API キー",
-    "manual_admin.tools.ia.key_desc": "Groq API へのアクセスキー。",
+    "manual_admin.tools.ia.key_desc": "各プロバイダーのアクセスキー。Groq のキーは <code>gsk_</code>、Gemini のキーは <code>AQ.</code> で始まります。両方を同時に保存できます。",
     "manual_admin.tools.ia.model": "AI モデル",
-    "manual_admin.tools.ia.model_desc": "使用する言語モデルの選択。"
+    "manual_admin.tools.ia.model_desc": "各プロバイダーが使用する言語モデル。"
   }
 }

@@ -1,10 +1,14 @@
 {
   "keys": {
-    "manual_admin.tools.ia.title": "IA (Groq)",
-    "manual_admin.tools.ia.desc": "Galderak sortzeko IA laguntzailearen konfigurazioa.",
+    "manual_admin.tools.ia.title": "IA",
+    "manual_admin.tools.ia.desc": "Galderak sortzeko IA laguntzailearen konfigurazioa, Groq edo Gemini (Google) erabiliz.",
+    "manual_admin.tools.ia.provider": "Hornitzaile aktiboa",
+    "manual_admin.tools.ia.provider_desc": "Aukeratu zein zerbitzuk sortzen dituen galderak: Groq edo Gemini.",
+    "manual_admin.tools.ia.fallback": "Ordezko automatikoa",
+    "manual_admin.tools.ia.fallback_desc": "Hornitzaile aktiboak galdera-sorta batekin huts egiten badu (erabilera-muga, errorea edo denbora-muga), sorta beste hornitzailearekin errepikatzen da, API gakoa badu. Lehenespenez aktibatuta.",
     "manual_admin.tools.ia.key": "API Key",
-    "manual_admin.tools.ia.key_desc": "Groq APIrako sarbide gakoa.",
+    "manual_admin.tools.ia.key_desc": "Hornitzaile bakoitzaren sarbide gakoa. Groq-en gakoak <code>gsk_</code> aurrizkiarekin hasten dira eta Gemini-renak <code>AQ.</code> aurrizkiarekin. Biak batera gorde ditzakezu.",
     "manual_admin.tools.ia.model": "IA Eredua",
-    "manual_admin.tools.ia.model_desc": "Erabiliko den hizkuntza-ereduaren aukeraketa."
+    "manual_admin.tools.ia.model_desc": "Hornitzaile bakoitzak erabiltzen duen hizkuntza-eredua."
   }
 }

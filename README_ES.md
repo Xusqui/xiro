@@ -159,7 +159,7 @@ Gestión con `./manage.sh start | stop | restart | status | logs | backup | rest
 - **Modo por equipos** con revelado de respuestas sincronizado
 - **Rachas configurables** con bonificaciones progresivas
 - **Reconexión transparente** para jugadores y presentadores
-- **Generador de preguntas con IA** (Groq) a partir de un documento o un tema
+- **Generador de preguntas con IA** (Groq o Gemini) a partir de un documento o un tema
 - **Exportación a PDF** de juegos personalizados e **importación/exportación JSON** de bancos
 - **Control remoto del presentador** desde el móvil
 - **Historial de partidas** con exportación CSV/JSON y visor gráfico de resultados
@@ -220,7 +220,7 @@ Dos roles: **admin** (acceso total) y **editor** (solo edita lo que ha creado).
 Desde `/admin.html` puedes:
 
 - Crear y editar **bancos de preguntas**, **mezclas**, **juegos personalizados** y tableros de **Trivial**
-- Generar preguntas con **IA** (introduce la API key de Groq en la sección Config)
+- Generar preguntas con **IA** (introduce la API key de Groq o de Gemini, y elige el proveedor activo, en la sección Config)
 - Ajustar parámetros de juego, puntuación, fuegos artificiales, interfaz y backups sin reiniciar
 - Consultar el **historial de partidas** y descargar resultados
 - Controlar una partida en curso desde el móvil (**Config → Juegos en Curso → Controlar**)
@@ -259,7 +259,7 @@ En el primer arranque, Xiro! envía **un único ping anónimo** a [ntfy.sh](http
 
 ## Documentación
 
-La documentación técnica para desarrolladores está en [`docs/`](docs/): [arquitectura](docs/ARCHITECTURE.md), [CQRS](docs/CQRS_PATTERN.md), [eventos](docs/EVENT_DRIVEN_PATTERN.md), [generador IA](docs/GROQ_SETUP.md) y [estilos CSS](docs/CSS_GUIDE.md). Todas las variables de entorno están documentadas en [`.env.example`](.env.example).
+La documentación técnica para desarrolladores está en [`docs/`](docs/): [arquitectura](docs/ARCHITECTURE.md), [CQRS](docs/CQRS_PATTERN.md), [eventos](docs/EVENT_DRIVEN_PATTERN.md), [generador IA](docs/AI_SETUP.md) y [estilos CSS](docs/CSS_GUIDE.md). Todas las variables de entorno están documentadas en [`.env.example`](.env.example).
 
 ---
 

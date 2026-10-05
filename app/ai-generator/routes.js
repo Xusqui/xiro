@@ -14,7 +14,7 @@ const { authenticateAdmin } = require('../middlewares/auth');
 const { handleRouteError } = require('../routes/helpers/RouteErrorHandler');
 const { extractText } = require('./document-parser');
 const { generateBank } = require('./controller');
-const { checkGroqStatus } = require('./groq-client');
+const { checkAIStatus } = require('./ai-client');
 const logger = require('../config/logger');
 
 const router = express.Router();
@@ -46,7 +46,7 @@ const documentUpload = multer({
  */
 router.get('/api/ai-generator/status', authenticateAdmin, (req, res) => {
     try {
-        res.json(checkGroqStatus());
+        res.json(checkAIStatus());
     } catch (err) {
         handleRouteError(err, res);
     }

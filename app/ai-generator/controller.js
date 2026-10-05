@@ -1,11 +1,11 @@
 /**
  * @fileoverview Orquestador del flujo de generación de bancos de preguntas con IA
- * Reutiliza: callLLM (groq-client), parseLLMResponse (response-parser),
+ * Reutiliza: callLLM/getProviderPlan (ai-client), parseLLMResponse (response-parser),
  *            buildQuestionsForType/buildBankPayload (schema-builder),
  *            buildXxxPrompt (prompt-builder), logger (config/logger)
  */
 
-const { callLLM } = require('./groq-client');
+const { callLLM, getProviderPlan } = require('./ai-client');
 const { parseLLMResponse } = require('./response-parser');
 const { buildQuestionsForType, buildBankPayload } = require('./schema-builder');
 const prompts = require('./prompt-builder');
@@ -53,23 +53,28 @@ async function buildBatchPromptPayload(input) {
         batchCount,
         dificultad,
         questions,
-        mode
+        mode,
+        provider
     } = input;
     const buildPrompt = PROMPT_BUILDERS[type];
     const previousTexts = questions.map(q => q.question_text);
     const prompt = buildPrompt(text, batchCount, dificultad, previousTexts, mode);
     const maxTokens = batchCount * 450 + 200;
-    const raw = await callLLM(prompt, undefined, 120000, maxTokens);
+    const raw = await callLLM(provider, prompt, undefined, 120000, maxTokens);
     const parsed = parseLLMResponse(raw, type);
     return buildQuestionsForType(type, parsed);
 }
 
 async function handleBatchError(context) {
-    const { err, type, attempt, batchStart, batchCount } = context;
-    logger.warn(`[ai-generator] Preguntas lote ${batchStart + 1}-${batchStart + batchCount} tipo '${type}' intento ${attempt}: ${err.message}`);
+    const { err, type, attempt, batchStart, batchCount, provider, canFallback } = context;
+    logger.warn(`[ai-generator] Preguntas lote ${batchStart + 1}-${batchStart + batchCount} tipo '${type}' (${provider}) intento ${attempt}: ${err.message}`);
 
     const waitTime = getRateLimitWaitTime(err.message);
     if (waitTime !== null) {
+        // Con proveedor de respaldo no se espera: el lote pasa al otro proveedor
+        if (canFallback) {
+            return 'break-batch';
+        }
         await sleep(waitTime);
         return 'retry-same-attempt';
     }
@@ -94,7 +99,9 @@ async function generateBatchWithRetries(input) {
         questions,
         signal,
         mode,
-        batchStart
+        batchStart,
+        provider,
+        canFallback = false
     } = input;
 
     for (let attempt = 1; attempt <= MAX_RETRIES + 1; attempt++) {
@@ -109,12 +116,13 @@ async function generateBatchWithRetries(input) {
                 batchCount,
                 dificultad,
                 questions,
-                mode
+                mode,
+                provider
             });
 
             if (normalized.length > 0) {
                 questions.push(...normalized);
-                logger.info(`[ai-generator] Tipo '${type}': lote generado (${questions.length}/${questions.targetCount})`);
+                logger.info(`[ai-generator] Tipo '${type}' (${provider}): lote generado (${questions.length}/${questions.targetCount})`);
             }
 
             await sleep(1000);
@@ -125,7 +133,9 @@ async function generateBatchWithRetries(input) {
                 type,
                 attempt,
                 batchStart,
-                batchCount
+                batchCount,
+                provider,
+                canFallback
             });
 
             if (nextAction === 'retry-same-attempt') {
@@ -149,7 +159,7 @@ async function generateBatchWithRetries(input) {
  * @param {string} input.dificultad
  * @param {AbortSignal} [input.signal]
  * @param {string} [input.mode]
- * @param {AbortSignal} [signal]
+ * @param {{primary: string|null, fallback: string|null}} input.plan - proveedores (ai-config)
  * @returns {Promise<{type: string, questions: Array, error?: string}>}
  */
 async function generateForType(input) {
@@ -159,7 +169,8 @@ async function generateForType(input) {
         count,
         dificultad,
         signal,
-        mode = 'document'
+        mode = 'document',
+        plan
     } = input;
     const questions = [];
     questions.targetCount = count;
@@ -171,8 +182,7 @@ async function generateForType(input) {
         }
 
         const batchCount = Math.min(BATCH_SIZE, count - i);
-
-        await generateBatchWithRetries({
+        const batchInput = {
             type,
             text,
             batchCount,
@@ -181,7 +191,16 @@ async function generateForType(input) {
             signal,
             mode,
             batchStart: i
-        });
+        };
+        const before = questions.length;
+
+        await generateBatchWithRetries({ ...batchInput, provider: plan.primary, canFallback: Boolean(plan.fallback) });
+
+        // Si el proveedor principal no ha sacado nada, el lote se repite con el de respaldo
+        if (plan.fallback && questions.length === before && !signal?.aborted) {
+            logger.warn(`[ai-generator] Lote ${i + 1}-${i + batchCount} tipo '${type}' sin resultado con '${plan.primary}', se usa '${plan.fallback}'`);
+            await generateBatchWithRetries({ ...batchInput, provider: plan.fallback });
+        }
     }
 
     delete questions.targetCount;
@@ -227,6 +246,9 @@ async function generateBank(documentText, config, signal, mode = 'document') {
         throw new Error('La configuración no especifica ningún tipo de pregunta con count > 0.');
     }
 
+    const plan = getProviderPlan();
+    logger.info(`[ai-generator] Proveedor: ${plan.primary || 'ninguno'}${plan.fallback ? `, respaldo: ${plan.fallback}` : ''}`);
+
     // Ejecución secuencial por tipo de pregunta y control de lotes para prevenir Rate Limits de APIS
     const results = [];
     for (const type of activeTypes) {
@@ -237,7 +259,8 @@ async function generateBank(documentText, config, signal, mode = 'document') {
             count: Number(counts[type]),
             dificultad,
             signal,
-            mode
+            mode,
+            plan
         }));
     }
     const allQuestions = results.flatMap(r => r.questions);

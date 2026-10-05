@@ -42,7 +42,7 @@ function _renderTabContent(config) {
     if (sec.isUi) return _renderUiTab(config.__ui || {});
     if (sec.isFireworks) return _renderFireworksTab(config.__ui || {});
     if (sec.isLicense) { setTimeout(renderLicenseTab, 0); return `<div class="text-slate-400 flex items-center gap-2"><i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.config.server.loading')}</div>`; }
-    if (sec.isGroq) { setTimeout(renderGroqConfigTab, 0); return `<div class="text-slate-400 flex items-center gap-2"><i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.config.server.loading')}</div>`; }
+    if (sec.isGroq) { setTimeout(renderAIConfigTab, 0); return `<div class="text-slate-400 flex items-center gap-2"><i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.config.server.loading')}</div>`; }
     if (sec.isLambda) {
         const entry = config['TEAM_SCORE_LAMBDA'];
         const lambdaHtml = entry ? '<div class="mb-2">' + _renderLambdaCard(entry) + '</div>' : `<p class="text-slate-400">${_t('admin.config.lambda.no_data')}</p>`;

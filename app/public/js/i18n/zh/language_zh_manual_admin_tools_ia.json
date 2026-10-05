@@ -1,10 +1,14 @@
 {
   "keys": {
-    "manual_admin.tools.ia.title": "人工智能 (Groq)",
-    "manual_admin.tools.ia.desc": "用于生成问题的人工智能助手配置。",
+    "manual_admin.tools.ia.title": "人工智能",
+    "manual_admin.tools.ia.desc": "用于生成问题的人工智能助手配置，可使用 Groq 或 Gemini（Google）。",
+    "manual_admin.tools.ia.provider": "当前服务商",
+    "manual_admin.tools.ia.provider_desc": "选择由哪个服务生成题目：Groq 或 Gemini。",
+    "manual_admin.tools.ia.fallback": "自动备用",
+    "manual_admin.tools.ia.fallback_desc": "如果当前服务商在某一批题目上失败（用量限制、错误或超时），且另一个服务商已配置 API 密钥，则该批题目改用另一个服务商重试。默认开启。",
     "manual_admin.tools.ia.key": "API 密钥",
-    "manual_admin.tools.ia.key_desc": "访问 Groq API 的密钥。",
+    "manual_admin.tools.ia.key_desc": "每个服务商的访问密钥。Groq 密钥以 <code>gsk_</code> 开头，Gemini 密钥以 <code>AQ.</code> 开头。两者可以同时保存。",
     "manual_admin.tools.ia.model": "AI 模型",
-    "manual_admin.tools.ia.model_desc": "选择要使用的语言模型。"
+    "manual_admin.tools.ia.model_desc": "每个服务商使用的语言模型。"
   }
 }
