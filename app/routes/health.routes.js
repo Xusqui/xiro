@@ -1,5 +1,5 @@
 /**
- * @fileoverview Endpoints de health check: /live, /ready, /api/health, /api/health/performance
+ * @fileoverview Endpoints de health check: /live, /ready, /api/version, /api/health, /api/health/performance
  */
 
 const express = require('express');
@@ -16,6 +16,7 @@ const healthCheckService = require('../infrastructure/health/HealthCheckService'
 const workerRegistry = require('../infrastructure/health/WorkerRegistry');
 const { getLogsBufferService } = require('../services/logs-buffer.service');
 const { authenticateAdmin, authorizeAdmin } = require('../middlewares/auth');
+const { version: APP_VERSION } = require('../package.json');
 
 // ── Event loop lag histogram (resolución 20 ms) ──────────────────────────────
 const _elHistogram = monitorEventLoopDelay({ resolution: 20 });
@@ -219,6 +220,15 @@ router.get('/live', (req, res) => {
 router.get('/ready', (req, res) => {
     const result = healthCheckService.getReadiness();
     res.status(result.code).json(result);
+});
+
+/**
+ * Versión de la aplicación (package.json empaquetado en la imagen Docker).
+ * Pública: la muestran los footers.
+ */
+router.get('/api/version', (req, res) => {
+    res.set('Cache-Control', 'no-cache');
+    res.json({ version: APP_VERSION });
 });
 
 // ===== DASHBOARD COMPLETO =====
