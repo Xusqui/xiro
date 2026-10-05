@@ -102,22 +102,33 @@ router.post('/api/admin/config', authenticateAdmin, authorizeAdmin, async (req, 
             return res.status(400).json({ success: false, errors });
         }
 
-        // Aplicar cambios en memoria
+        // Aplicar cambios en memoria (guardando los anteriores por si no se pueden persistir)
+        const previous = {};
         for (const [key, value] of Object.entries(updates)) {
+            previous[key] = runtimeConfig.get(key);
             runtimeConfig.set(key, value);
         }
 
-        await applyLogLevelUpdateIfNeeded(updates, req.user.role);
-
-        // Persistir en runtime-overrides.json (dentro de app/, montado en el contenedor)
-        let persisted = true;
-        let persistError = null;
+        // Persistir en runtime-overrides.json (montado en el contenedor). Si falla,
+        // no se da por guardado: este worker vuelve a los valores anteriores, no se
+        // avisa al resto y el panel muestra el error (antes respondía «guardado» y el
+        // cambio se perdía al recargar desde el fichero).
         try {
             runtimeConfig.persistAll();
         } catch (err) {
-            persisted = false;
-            persistError = err.message;
+            for (const [key, value] of Object.entries(previous)) {
+                if (value !== undefined) runtimeConfig.set(key, value);
+            }
+            logger.error('Runtime config not persisted', { error: err.message, code: err.code, keys: Object.keys(updates) });
+            return res.status(500).json({
+                success: false,
+                code: 'CONFIG_PERSIST_FAILED',
+                error: `No se pudo guardar la configuración (${err.code || err.message}). `
+                    + 'Revisa en el servidor que config/runtime-overrides.json es un fichero y pertenece al uid 1001 (usuario del contenedor).'
+            });
         }
+
+        await applyLogLevelUpdateIfNeeded(updates, req.user.role);
 
         // Notificar a todos los workers via Redis para que recarguen su store
         try {
@@ -127,14 +138,13 @@ router.post('/api/admin/config', authenticateAdmin, authorizeAdmin, async (req, 
 
         logger.info('Runtime config updated', {
             keys: Object.keys(updates),
-            persisted,
+            persisted: true,
             user: req.user.role
         });
 
         res.json({
             success: true,
-            persisted,
-            persistError,
+            persisted: true,
             applied: Object.keys(updates),
         });
     } catch (err) {

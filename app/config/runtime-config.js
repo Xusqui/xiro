@@ -226,6 +226,11 @@ function _saveOverrides() {
         fs.writeFileSync(OVERRIDES_FILE, JSON.stringify(toSave, null, 2), 'utf8');
     } catch (err) {
         process.stderr.write(`[runtime-config] No se pudo guardar overrides: ${err.message}\n`);
+        // Se relanza para que la ruta lo convierta en un error visible: antes se
+        // perdía aquí, el panel decía «guardado» y al recargar desde el fichero
+        // (otros workers, reinicio) el cambio desaparecía sin aviso. Causa típica
+        // en Docker: el fichero montado no pertenece al uid del contenedor (1001).
+        throw err;
     }
 }
 
