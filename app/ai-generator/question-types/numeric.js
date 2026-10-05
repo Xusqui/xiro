@@ -18,10 +18,11 @@ const EXAMPLE = {
     options: []
 };
 
+// maxPoints es opcional: el prompt no lo pide y normalize pone 100 por defecto
 function validate(q) {
-    return typeof q.correctAnswer === 'number' &&
-        typeof q.maxPoints === 'number' &&
-        typeof q.toleranceValue === 'number';
+    return Number.isFinite(q.correctAnswer) &&
+        Number.isFinite(q.toleranceValue) &&
+        (q.maxPoints === undefined || Number.isFinite(q.maxPoints));
 }
 
 function normalize(q) {
@@ -34,7 +35,7 @@ function normalize(q) {
         correctAnswer: q.correctAnswer,
         maxPoints: q.maxPoints || 100,
         toleranceMode: q.toleranceMode || 'hybrid',
-        toleranceValue: q.toleranceValue || 25,
+        toleranceValue: q.toleranceValue ?? 25,
         toleranceCap: q.toleranceCap !== undefined ? q.toleranceCap : 1000,
         hint: q.hint || null,
         options: []
