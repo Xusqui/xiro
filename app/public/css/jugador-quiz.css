@@ -468,7 +468,10 @@
     margin: 0;
 }
 
+/* El ejemplo («Ej: 123456») más pequeño que las cifras: a 3.25rem no cabía
+   en el ancho de un móvil */
 .numeric-answer-field::placeholder {
-    color: #cbd5e1;
+    color: #94a3b8;
+    font-size: 1.75rem;
 }
 

@@ -59,7 +59,7 @@ export function renderizarPreguntaNumerica(pregunta) {
                         type="number" 
                         step="1"
                         id="numeric-answer-input"
-                        placeholder="—"
+                        placeholder="${t('player.numeric.input_placeholder', 'Ej: 123456')}"
                         class="numeric-answer-field w-full text-4xl font-black text-center text-plum-600 bg-white border-2 border-emerald-300 rounded-xl p-6 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-300 transition mb-6"
                         autofocus
                     >
