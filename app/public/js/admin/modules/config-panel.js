@@ -146,6 +146,7 @@ function saveConfigChanges() {
         .then(r => r.json())
         .then(data => {
             if (data.success && updates.QUESTION_TIME_LIMIT !== undefined) setDefaultQuestionTimeLimit(updates.QUESTION_TIME_LIMIT);
+            if (data.success) _applySavedValues(updates);
             if (!resultEl) return;
             if (data.success) {
                 resultEl.innerHTML = _tHtml(`<span class="text-emerald-600 font-semibold"><i class="fas fa-check-circle mr-1"></i>${_t('admin.config.server.saved_ok')}</span>`);
@@ -159,6 +160,26 @@ function saveConfigChanges() {
         .catch(() => {
             if (resultEl) resultEl.innerHTML = _tHtml(`<span class="text-red-600 font-medium"><i class="fas fa-times-circle mr-1"></i>${_t('admin.config.server.net_error')}</span>`);
         });
+}
+
+/**
+ * Lleva lo guardado a _configData, la copia desde la que se repintan las
+ * sub-pestañas (switchConfigTab). Sin esto, al volver a «Partidas» tras guardar
+ * salía el valor anterior hasta salir de «Servidor» y volver a entrar. Los
+ * sensibles se guardan como la máscara del servidor, nunca en claro.
+ */
+function _applySavedValues(updates) {
+    for (const [key, value] of Object.entries(updates || {})) {
+        const entry = _configData[key];
+        if (!entry || typeof entry !== 'object') continue;
+        if (entry.sensitive) {
+            entry.value = value ? '••••••••' : entry.value;
+        } else if (typeof entry.value === 'number') {
+            entry.value = Number(value);
+        } else {
+            entry.value = value;
+        }
+    }
 }
 
 /* ===== UI SETTINGS ===== */
