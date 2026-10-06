@@ -142,7 +142,7 @@ Tu tarea:
 1. Lee y analiza schema.json con atención: identifica los campos obligatorios, los tipos de pregunta soportados y el formato exacto de cada uno (incluyendo mayúsculas/minúsculas de las claves).
 2. Debajo de este mensaje te voy a pegar una lista de preguntas y respuestas en texto libre.
 3. Transforma esa lista en un ÚNICO objeto JSON que cumpla EXACTAMENTE la estructura de schema.json: mismos nombres de campo, mismos tipos de dato y misma jerarquía.
-4. Si no indico el tipo de una pregunta, asume "multiple" (opción múltiple) con 4 opciones donde solo una es correcta.
+4. Si no indico el tipo de una pregunta, asume "quiz" (solo una correcta) con 4 opciones donde solo una es correcta.
 5. Si el texto de alguna pregunta o respuesta es demasiado largo para leerse cómodamente en pantalla, recórtalo manteniendo su sentido y sus palabras clave. Aplícalo tanto a las preguntas como a las respuestas, sin alterar cuál es la respuesta correcta.
 6. No añadas campos que no existan en el esquema ni omitas los obligatorios. No incluyas comentarios ni explicaciones.
 7. En las preguntas "numeric_approximation": "correctAnswer" debe ser un número ENTERO, sin decimales (si el dato real tiene decimales, reformula la pregunta en otra unidad o redondéalo e indícalo en el enunciado); "maxPoints" debe ser un entero mayor que 0 (usa 100); "toleranceMode" debe ser "absolute", "percentage" o "hybrid"; "toleranceValue" y "toleranceCap" deben ser números MAYORES QUE 0, nunca 0 ni negativos, ajustados a la magnitud de la respuesta.
