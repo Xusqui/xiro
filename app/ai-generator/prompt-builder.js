@@ -2,8 +2,9 @@
  * @fileoverview Construcción de prompts por tipo de pregunta
  * Estrategia de prompting:
  *  - Esquema con placeholders abstractos (sin contenido real que el modelo copie)
- *  - Texto del documento AL FINAL (recency bias: el modelo prioriza lo último)
- *  - Instrucciones antes del texto, no después
+ *  - Texto del documento AL PRINCIPIO e instrucciones después: la petición queda
+ *    al final, donde más pesa, y el documento forma un prefijo estable entre lotes
+ *    (caché implícita del proveedor)
  */
 
 const DIFICULTAD_INSTRUCCION = {
@@ -13,6 +14,16 @@ const DIFICULTAD_INSTRUCCION = {
 };
 
 const { prioritizeConclusionsAndTruncate } = require('./document-parser.js');
+
+// Nombre del idioma de salida por código (config/languages.js)
+const LANGUAGE_NAMES = {
+    es: 'español', en: 'inglés', fr: 'francés', ca: 'catalán', eu: 'euskera',
+    gl: 'gallego', de: 'alemán', pt: 'portugués', zh: 'chino', ja: 'japonés'
+};
+
+function getLanguageName(language) {
+    return LANGUAGE_NAMES[language] || LANGUAGE_NAMES.es;
+}
 
 // Longitud máxima del texto de documento antes de truncar (~2500 tokens)
 const MAX_DOC_CHARS = 11000;
@@ -52,7 +63,8 @@ function getExclusionInstruction(previousQuestions) {
     return `\nREGLA ESTRICTA: Las siguientes preguntas YA SE HAN HECHO. Está PROHIBIDO volver a preguntar sobre los mismos datos, cifras, o temas. Busca en otras partes del documento:\n${list}\n`;
 }
 
-function buildQuizPrompt(text, count, dificultad, previousQuestions = [], mode = 'document') {
+function buildQuizPrompt(text, count, dificultad, { previousQuestions = [], mode = 'document', language = 'es' } = {}) {
+    const lang = getLanguageName(language);
     const schema = `[
   {
     "question_text": "<pregunta>",
@@ -71,28 +83,29 @@ function buildQuizPrompt(text, count, dificultad, previousQuestions = [], mode =
     if (mode === 'prompt') {
         const safeText = text.trim().slice(0, MAX_PROMPT_CHARS);
         return `Eres un generador experto de preguntas de quiz educativas. El usuario te indica un tema o te da una instrucción.
-Genera ${count} preguntas de quiz en español sobre ese tema. Dificultad: ${DIFICULTAD_INSTRUCCION[dificultad] || 'media'}.${getExclusionInstruction(previousQuestions)}
+Genera ${count} preguntas de quiz en ${lang} sobre ese tema. Dificultad: ${DIFICULTAD_INSTRUCCION[dificultad] || 'media'}.${getExclusionInstruction(previousQuestions)}
 IMPORTANTE: Usa tu conocimiento enciclopédico para crear preguntas reales y variadas sobre el tema. NO generes preguntas sobre la propia instrucción ni sobre cómo está redactada.
 Responde SOLO con un array JSON con esta estructura (sin texto adicional):
 ${schema}
 
-REGLAS: exactamente 4 opciones, exactamente 1 con is_correct=true, todas en español.
+REGLAS: exactamente 4 opciones, exactamente 1 con is_correct=true, todas en ${lang}.
 NO copies estos ejemplos. Genera preguntas REALES y VARIADAS sobre el siguiente tema:
 
 ${safeText}`;
     }
-    return `${INJECTION_GUARD}Genera ${count} preguntas de quiz en español. Dificultad: ${DIFICULTAD_INSTRUCCION[dificultad] || 'media'}.
-Las preguntas deben ser EXCLUSIVAMENTE sobre el texto que aparece al final entre las etiquetas user_input. ${getExclusionInstruction(previousQuestions)}
+    return `${wrapDocumentInput(getText(text))}
+
+${INJECTION_GUARD}Genera ${count} preguntas de quiz en ${lang}. Dificultad: ${DIFICULTAD_INSTRUCCION[dificultad] || 'media'}.
+Las preguntas deben ser EXCLUSIVAMENTE sobre el texto anterior, entre las etiquetas user_input. ${getExclusionInstruction(previousQuestions)}
 Responde SOLO con un array JSON con esta estructura (sin texto adicional):
 ${schema}
 
-REGLAS: exactamente 4 opciones, exactamente 1 con is_correct=true, todas en español.
-NO copies estos ejemplos. Genera preguntas NUEVAS basadas en el siguiente texto:
-
-${wrapDocumentInput(getText(text))}`;
+REGLAS: exactamente 4 opciones, exactamente 1 con is_correct=true, todas en ${lang}.
+NO copies estos ejemplos. Genera preguntas NUEVAS basadas en ese texto.`;
 }
 
-function buildSurveyPrompt(text, count, dificultad, previousQuestions = [], mode = 'document') {
+function buildSurveyPrompt(text, count, dificultad, { previousQuestions = [], mode = 'document', language = 'es' } = {}) {
+    const lang = getLanguageName(language);
     const schema = `[
   {
     "question_text": "<pregunta de opinión>",
@@ -110,27 +123,28 @@ function buildSurveyPrompt(text, count, dificultad, previousQuestions = [], mode
     if (mode === 'prompt') {
         const safeText = text.trim().slice(0, MAX_PROMPT_CHARS);
         return `Eres un generador experto de encuestas educativas. El usuario te indica un tema.
-Genera ${count} preguntas de encuesta (opinión, sin respuesta correcta) en español sobre ese tema.${getExclusionInstruction(previousQuestions)}
+Genera ${count} preguntas de encuesta (opinión, sin respuesta correcta) en ${lang} sobre ese tema.${getExclusionInstruction(previousQuestions)}
 IMPORTANTE: Usa tu conocimiento para crear preguntas de opinión reales sobre el tema. NO generes preguntas sobre la instrucción.
 Responde SOLO con un array JSON:
 ${schema}
 
-REGLAS: todas las opciones con is_correct=false, entre 2 y 5 opciones, en español.
+REGLAS: todas las opciones con is_correct=false, entre 2 y 5 opciones, en ${lang}.
 NO copies estos ejemplos. Genera preguntas REALES sobre el siguiente tema:
 
 ${safeText}`;
     }
-    return `${INJECTION_GUARD}Genera ${count} preguntas de encuesta (opinión, sin respuesta correcta) en español sobre el texto al final entre las etiquetas user_input. ${getExclusionInstruction(previousQuestions)}
+    return `${wrapDocumentInput(getText(text))}
+
+${INJECTION_GUARD}Genera ${count} preguntas de encuesta (opinión, sin respuesta correcta) en ${lang} sobre el texto anterior, entre las etiquetas user_input. ${getExclusionInstruction(previousQuestions)}
 Responde SOLO con un array JSON:
 ${schema}
 
-REGLAS: todas las opciones con is_correct=false, entre 2 y 5 opciones, en español.
-NO copies estos ejemplos. Genera preguntas NUEVAS basadas en el siguiente texto:
-
-${wrapDocumentInput(getText(text))}`;
+REGLAS: todas las opciones con is_correct=false, entre 2 y 5 opciones, en ${lang}.
+NO copies estos ejemplos. Genera preguntas NUEVAS basadas en ese texto.`;
 }
 
-function buildNumericPrompt(text, count, dificultad, previousQuestions = [], mode = 'document') {
+function buildNumericPrompt(text, count, dificultad, { previousQuestions = [], mode = 'document', language = 'es' } = {}) {
+    const lang = getLanguageName(language);
     const schema = `[
   {
     "question_text": "<pregunta cuya respuesta es un número>",
@@ -138,10 +152,10 @@ function buildNumericPrompt(text, count, dificultad, previousQuestions = [], mod
     "tipo_contenido": "texto",
     "url_recurso": null,
     "time_limit": 30,
-    "correctAnswer": 42,
+    "correctAnswer": <número>,
     "toleranceMode": "hybrid",
-    "toleranceValue": 5,
-    "toleranceCap": 10,
+    "toleranceValue": <porcentaje, mayor que 0>,
+    "toleranceCap": <margen máximo en las unidades de la respuesta, mayor que 0>,
     "hint": "<pista sin revelar el número exacto>",
     "options": []
   }
@@ -149,27 +163,30 @@ function buildNumericPrompt(text, count, dificultad, previousQuestions = [], mod
     if (mode === 'prompt') {
         const safeText = text.trim().slice(0, MAX_PROMPT_CHARS);
         return `Eres un generador experto de preguntas numéricas educativas. El usuario te indica un tema.
-Genera ${count} preguntas numéricas en español (la respuesta es un número) sobre ese tema. Dificultad: ${DIFICULTAD_INSTRUCCION[dificultad] || 'media'}.${getExclusionInstruction(previousQuestions)}
+Genera ${count} preguntas numéricas en ${lang} (la respuesta es un número) sobre ese tema. Dificultad: ${DIFICULTAD_INSTRUCCION[dificultad] || 'media'}.${getExclusionInstruction(previousQuestions)}
 IMPORTANTE: Usa tu conocimiento para crear preguntas con cifras reales del tema. NO generes preguntas sobre la instrucción.
 Responde SOLO con un array JSON:
 ${schema}
 
-REGLAS: correctAnswer debe ser un número histórico/científico/real relacionado con el tema, options=[], en español.
+REGLAS: correctAnswer debe ser un número histórico/científico/real relacionado con el tema, options=[], en ${lang}.
+toleranceMode 'hybrid' acepta respuestas a menos de toleranceValue % de correctAnswer, sin pasar de toleranceCap unidades: ajusta ambos a la magnitud y precisión de cada respuesta (un año admite pocos años de margen; una población de millones, miles o más).
 NO copies estos ejemplos. Genera preguntas REALES sobre el siguiente tema:
 
 ${safeText}`;
     }
-    return `${INJECTION_GUARD}Genera ${count} preguntas numéricas en español (la respuesta es un número) sobre el texto al final entre las etiquetas user_input. Dificultad: ${DIFICULTAD_INSTRUCCION[dificultad] || 'media'}. ${getExclusionInstruction(previousQuestions)}
+    return `${wrapDocumentInput(getText(text))}
+
+${INJECTION_GUARD}Genera ${count} preguntas numéricas en ${lang} (la respuesta es un número) sobre el texto anterior, entre las etiquetas user_input. Dificultad: ${DIFICULTAD_INSTRUCCION[dificultad] || 'media'}. ${getExclusionInstruction(previousQuestions)}
 Responde SOLO con un array JSON:
 ${schema}
 
-REGLAS: correctAnswer debe ser un número real mencionado en el texto, options=[], en español.
-NO copies estos ejemplos. Genera preguntas NUEVAS basadas en el siguiente texto:
-
-${wrapDocumentInput(getText(text))}`;
+REGLAS: correctAnswer debe ser un número real mencionado en el texto, options=[], en ${lang}.
+toleranceMode 'hybrid' acepta respuestas a menos de toleranceValue % de correctAnswer, sin pasar de toleranceCap unidades: ajusta ambos a la magnitud y precisión de cada respuesta (un año admite pocos años de margen; una población de millones, miles o más).
+NO copies estos ejemplos. Genera preguntas NUEVAS basadas en ese texto.`;
 }
 
-function buildOrderPrompt(text, count, dificultad, previousQuestions = [], mode = 'document') {
+function buildOrderPrompt(text, count, dificultad, { previousQuestions = [], mode = 'document', language = 'es' } = {}) {
+    const lang = getLanguageName(language);
     const schema = `[
   {
     "question_text": "<instrucción para ordenar elementos>",
@@ -188,27 +205,28 @@ function buildOrderPrompt(text, count, dificultad, previousQuestions = [], mode 
     if (mode === 'prompt') {
         const safeText = text.trim().slice(0, MAX_PROMPT_CHARS);
         return `Eres un generador experto de preguntas de ordenar secuencia. El usuario te indica un tema.
-Genera ${count} preguntas de ordenar secuencia en español sobre ese tema. Dificultad: ${DIFICULTAD_INSTRUCCION[dificultad] || 'media'}.${getExclusionInstruction(previousQuestions)}
+Genera ${count} preguntas de ordenar secuencia en ${lang} sobre ese tema. Dificultad: ${DIFICULTAD_INSTRUCCION[dificultad] || 'media'}.${getExclusionInstruction(previousQuestions)}
 IMPORTANTE: Usa tu conocimiento para crear secuencias cronológicas, de procesos o rangos reales del tema. NO generes preguntas sobre la instrucción.
 Responde SOLO con un array JSON:
 ${schema}
 
-REGLAS: 4-6 elementos, order_index empieza en 0, is_correct=false en todas, en español.
+REGLAS: 4-6 elementos, order_index empieza en 0, is_correct=false en todas, en ${lang}.
 NO copies estos ejemplos. Genera preguntas REALES sobre el siguiente tema:
 
 ${safeText}`;
     }
-    return `${INJECTION_GUARD}Genera ${count} preguntas de ordenar secuencia en español sobre el texto al final entre las etiquetas user_input. Dificultad: ${DIFICULTAD_INSTRUCCION[dificultad] || 'media'}. ${getExclusionInstruction(previousQuestions)}
+    return `${wrapDocumentInput(getText(text))}
+
+${INJECTION_GUARD}Genera ${count} preguntas de ordenar secuencia en ${lang} sobre el texto anterior, entre las etiquetas user_input. Dificultad: ${DIFICULTAD_INSTRUCCION[dificultad] || 'media'}. ${getExclusionInstruction(previousQuestions)}
 Responde SOLO con un array JSON:
 ${schema}
 
-REGLAS: 4-6 elementos, order_index empieza en 0, is_correct=false en todas, en español.
-NO copies estos ejemplos. Genera preguntas NUEVAS basadas en el siguiente texto:
-
-${wrapDocumentInput(getText(text))}`;
+REGLAS: 4-6 elementos, order_index empieza en 0, is_correct=false en todas, en ${lang}.
+NO copies estos ejemplos. Genera preguntas NUEVAS basadas en ese texto.`;
 }
 
-function buildWordScramblePrompt(text, count, dificultad, previousQuestions = [], mode = 'document') {
+function buildWordScramblePrompt(text, count, dificultad, { previousQuestions = [], mode = 'document', language = 'es' } = {}) {
+    const lang = getLanguageName(language);
     const schema = `[
   {
     "question_text": "<definición o pista de la palabra>",
@@ -223,27 +241,28 @@ function buildWordScramblePrompt(text, count, dificultad, previousQuestions = []
     if (mode === 'prompt') {
         const safeText = text.trim().slice(0, MAX_PROMPT_CHARS);
         return `Eres un generador experto de preguntas de adivinar palabra. El usuario te indica un tema.
-Genera ${count} preguntas de adivinar palabra en español sobre ese tema. Dificultad: ${DIFICULTAD_INSTRUCCION[dificultad] || 'media'}.${getExclusionInstruction(previousQuestions)}
+Genera ${count} preguntas de adivinar palabra en ${lang} sobre ese tema. Dificultad: ${DIFICULTAD_INSTRUCCION[dificultad] || 'media'}.${getExclusionInstruction(previousQuestions)}
 IMPORTANTE: Usa términos clave reales del tema (personajes, lugares, conceptos, fechas). NO generes preguntas sobre la instrucción.
 Responde SOLO con un array JSON:
 ${schema}
 
-REGLAS: correctWord en MAYÚSCULAS sin espacios, debe ser un término clave real del tema, options=[], en español.
+REGLAS: correctWord en MAYÚSCULAS sin espacios, debe ser un término clave real del tema, options=[], en ${lang}.
 NO copies estos ejemplos. Genera preguntas REALES sobre el siguiente tema:
 
 ${safeText}`;
     }
-    return `${INJECTION_GUARD}Genera ${count} preguntas de adivinar palabra en español sobre el texto al final entre las etiquetas user_input. Dificultad: ${DIFICULTAD_INSTRUCCION[dificultad] || 'media'}. ${getExclusionInstruction(previousQuestions)}
+    return `${wrapDocumentInput(getText(text))}
+
+${INJECTION_GUARD}Genera ${count} preguntas de adivinar palabra en ${lang} sobre el texto anterior, entre las etiquetas user_input. Dificultad: ${DIFICULTAD_INSTRUCCION[dificultad] || 'media'}. ${getExclusionInstruction(previousQuestions)}
 Responde SOLO con un array JSON:
 ${schema}
 
-REGLAS: correctWord en MAYÚSCULAS sin espacios, debe ser un término clave del texto, options=[], en español.
-NO copies estos ejemplos. Genera preguntas NUEVAS basadas en el siguiente texto:
-
-${wrapDocumentInput(getText(text))}`;
+REGLAS: correctWord en MAYÚSCULAS sin espacios, debe ser un término clave del texto, options=[], en ${lang}.
+NO copies estos ejemplos. Genera preguntas NUEVAS basadas en ese texto.`;
 }
 
-function buildMultipleChoicePrompt(text, count, dificultad, previousQuestions = [], mode = 'document') {
+function buildMultipleChoicePrompt(text, count, dificultad, { previousQuestions = [], mode = 'document', language = 'es' } = {}) {
+    const lang = getLanguageName(language);
     const schema = `[
   {
     "question_text": "<pregunta con varias respuestas correctas>",
@@ -262,24 +281,24 @@ function buildMultipleChoicePrompt(text, count, dificultad, previousQuestions = 
     if (mode === 'prompt') {
         const safeText = text.trim().slice(0, MAX_PROMPT_CHARS);
         return `Eres un generador experto de preguntas de selección múltiple educativas. El usuario te indica un tema.
-Genera ${count} preguntas de selección múltiple (varias respuestas correctas) en español sobre ese tema. Dificultad: ${DIFICULTAD_INSTRUCCION[dificultad] || 'media'}.${getExclusionInstruction(previousQuestions)}
+Genera ${count} preguntas de selección múltiple (varias respuestas correctas) en ${lang} sobre ese tema. Dificultad: ${DIFICULTAD_INSTRUCCION[dificultad] || 'media'}.${getExclusionInstruction(previousQuestions)}
 IMPORTANTE: Usa tu conocimiento para crear preguntas reales con múltiples respuestas correctas del tema. NO generes preguntas sobre la instrucción.
 Responde SOLO con un array JSON:
 ${schema}
 
-REGLAS: 4-8 opciones, 2-6 con is_correct=true, en español.
+REGLAS: 4-8 opciones, 2-6 con is_correct=true, en ${lang}.
 NO copies estos ejemplos. Genera preguntas REALES sobre el siguiente tema:
 
 ${safeText}`;
     }
-    return `${INJECTION_GUARD}Genera ${count} preguntas de selección múltiple (varias respuestas correctas) en español sobre el texto al final entre las etiquetas user_input. Dificultad: ${DIFICULTAD_INSTRUCCION[dificultad] || 'media'}. ${getExclusionInstruction(previousQuestions)}
+    return `${wrapDocumentInput(getText(text))}
+
+${INJECTION_GUARD}Genera ${count} preguntas de selección múltiple (varias respuestas correctas) en ${lang} sobre el texto anterior, entre las etiquetas user_input. Dificultad: ${DIFICULTAD_INSTRUCCION[dificultad] || 'media'}. ${getExclusionInstruction(previousQuestions)}
 Responde SOLO con un array JSON:
 ${schema}
 
-REGLAS: 4-8 opciones, 2-6 con is_correct=true, en español.
-NO copies estos ejemplos. Genera preguntas NUEVAS basadas en el siguiente texto:
-
-${wrapDocumentInput(getText(text))}`;
+REGLAS: 4-8 opciones, 2-6 con is_correct=true, en ${lang}.
+NO copies estos ejemplos. Genera preguntas NUEVAS basadas en ese texto.`;
 }
 
 module.exports = {

@@ -3,20 +3,6 @@
  * 2-5 opciones, todas is_correct: false, justification: null.
  */
 
-const EXAMPLE = {
-    question_text: '¿Cómo valorarías esta sesión formativa?',
-    type: 'survey',
-    tipo_contenido: 'texto',
-    url_recurso: null,
-    time_limit: 20,
-    options: [
-        { option_text: 'Excelente', is_correct: false, justification: null, order_index: null },
-        { option_text: 'Muy bien', is_correct: false, justification: null, order_index: null },
-        { option_text: 'Bien', is_correct: false, justification: null, order_index: null },
-        { option_text: 'Mejorable', is_correct: false, justification: null, order_index: null }
-    ]
-};
-
 function validate(q) {
     if (!q.options || !Array.isArray(q.options)) return false;
     if (q.options.length < 2 || q.options.length > 5) return false;
@@ -39,4 +25,4 @@ function normalize(q) {
     };
 }
 
-module.exports = { EXAMPLE, validate, normalize };
+module.exports = { validate, normalize };

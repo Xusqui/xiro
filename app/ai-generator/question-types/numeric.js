@@ -3,21 +3,6 @@
  * Respuesta numérica con tolerancia. Sin opciones.
  */
 
-const EXAMPLE = {
-    question_text: '¿En qué año se publicó el Quijote?',
-    type: 'numeric_approximation',
-    tipo_contenido: 'texto',
-    url_recurso: null,
-    time_limit: 30,
-    correctAnswer: 1605,
-    maxPoints: 100,
-    toleranceMode: 'hybrid',
-    toleranceValue: 25,
-    toleranceCap: 50,
-    hint: 'Fue publicado a principios del siglo XVII',
-    options: []
-};
-
 // maxPoints es opcional: el prompt no lo pide y normalize pone 100 por defecto
 function validate(q) {
     return Number.isFinite(q.correctAnswer) &&
@@ -42,4 +27,4 @@ function normalize(q) {
     };
 }
 
-module.exports = { EXAMPLE, validate, normalize };
+module.exports = { validate, normalize };

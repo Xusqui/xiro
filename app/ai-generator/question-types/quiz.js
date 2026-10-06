@@ -3,21 +3,6 @@
  * Una pregunta, 4 opciones, exactamente 1 correcta con justification.
  */
 
-/** Ejemplo de estructura esperada en el prompt */
-const EXAMPLE = {
-    question_text: '¿Cuál es la capital de Francia?',
-    type: 'quiz',
-    tipo_contenido: 'texto',
-    url_recurso: null,
-    time_limit: 30,
-    options: [
-        { option_text: 'París', is_correct: true, justification: 'París es la capital y ciudad más poblada de Francia desde el siglo X.', order_index: null },
-        { option_text: 'Lyon', is_correct: false, justification: null, order_index: null },
-        { option_text: 'Marsella', is_correct: false, justification: null, order_index: null },
-        { option_text: 'Burdeos', is_correct: false, justification: null, order_index: null }
-    ]
-};
-
 /**
  * Valida que un objeto tiene la estructura básica de quiz.
  * @param {Object} q
@@ -51,4 +36,4 @@ function normalize(q) {
     };
 }
 
-module.exports = { EXAMPLE, validate, normalize };
+module.exports = { validate, normalize };

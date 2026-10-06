@@ -54,11 +54,12 @@ async function buildBatchPromptPayload(input) {
         dificultad,
         questions,
         mode,
+        language,
         provider
     } = input;
     const buildPrompt = PROMPT_BUILDERS[type];
     const previousTexts = questions.map(q => q.question_text);
-    const prompt = buildPrompt(text, batchCount, dificultad, previousTexts, mode);
+    const prompt = buildPrompt(text, batchCount, dificultad, { previousQuestions: previousTexts, mode, language });
     const maxTokens = batchCount * 450 + 200;
     const raw = await callLLM(provider, prompt, undefined, 120000, maxTokens);
     const parsed = parseLLMResponse(raw, type);
@@ -99,6 +100,7 @@ async function generateBatchWithRetries(input) {
         questions,
         signal,
         mode,
+        language,
         batchStart,
         provider,
         canFallback = false
@@ -117,6 +119,7 @@ async function generateBatchWithRetries(input) {
                 dificultad,
                 questions,
                 mode,
+                language,
                 provider
             });
 
@@ -159,6 +162,7 @@ async function generateBatchWithRetries(input) {
  * @param {string} input.dificultad
  * @param {AbortSignal} [input.signal]
  * @param {string} [input.mode]
+ * @param {string} [input.language] - código de idioma de las preguntas (config/languages.js)
  * @param {{primary: string|null, fallback: string|null}} input.plan - proveedores (ai-config)
  * @returns {Promise<{type: string, questions: Array, error?: string}>}
  */
@@ -170,6 +174,7 @@ async function generateForType(input) {
         dificultad,
         signal,
         mode = 'document',
+        language,
         plan
     } = input;
     const questions = [];
@@ -190,6 +195,7 @@ async function generateForType(input) {
             questions,
             signal,
             mode,
+            language,
             batchStart: i
         };
         const before = questions.length;
@@ -260,6 +266,7 @@ async function generateBank(documentText, config, signal, mode = 'document') {
             dificultad,
             signal,
             mode,
+            language,
             plan
         }));
     }
