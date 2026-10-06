@@ -152,7 +152,7 @@ function buildNumericPrompt(text, count, dificultad, { previousQuestions = [], m
     "tipo_contenido": "texto",
     "url_recurso": null,
     "time_limit": 30,
-    "correctAnswer": <número>,
+    "correctAnswer": <número entero, sin decimales>,
     "toleranceMode": "hybrid",
     "toleranceValue": <porcentaje, mayor que 0>,
     "toleranceCap": <margen máximo en las unidades de la respuesta, mayor que 0>,
@@ -169,7 +169,8 @@ Responde SOLO con un array JSON:
 ${schema}
 
 REGLAS: correctAnswer debe ser un número histórico/científico/real relacionado con el tema, options=[], en ${lang}.
-toleranceMode 'hybrid' acepta respuestas a menos de toleranceValue % de correctAnswer, sin pasar de toleranceCap unidades: ajusta ambos a la magnitud y precisión de cada respuesta (un año admite pocos años de margen; una población de millones, miles o más).
+toleranceMode 'hybrid' acepta respuestas a menos de toleranceValue % de correctAnswer, sin pasar de toleranceCap unidades: ajusta ambos a la magnitud y precisión de cada respuesta (un año admite pocos años de margen; una población de millones, miles o más). toleranceValue y toleranceCap siempre MAYORES QUE 0, nunca 0.
+correctAnswer siempre ENTERO: si la cifra real tiene decimales, pregunta en otra unidad (p. ej. metros en vez de kilómetros) o redondea e indícalo en el enunciado.
 NO copies estos ejemplos. Genera preguntas REALES sobre el siguiente tema:
 
 ${safeText}`;
@@ -181,7 +182,8 @@ Responde SOLO con un array JSON:
 ${schema}
 
 REGLAS: correctAnswer debe ser un número real mencionado en el texto, options=[], en ${lang}.
-toleranceMode 'hybrid' acepta respuestas a menos de toleranceValue % de correctAnswer, sin pasar de toleranceCap unidades: ajusta ambos a la magnitud y precisión de cada respuesta (un año admite pocos años de margen; una población de millones, miles o más).
+toleranceMode 'hybrid' acepta respuestas a menos de toleranceValue % de correctAnswer, sin pasar de toleranceCap unidades: ajusta ambos a la magnitud y precisión de cada respuesta (un año admite pocos años de margen; una población de millones, miles o más). toleranceValue y toleranceCap siempre MAYORES QUE 0, nunca 0.
+correctAnswer siempre ENTERO: si la cifra real tiene decimales, pregunta en otra unidad (p. ej. metros en vez de kilómetros) o redondea e indícalo en el enunciado.
 NO copies estos ejemplos. Genera preguntas NUEVAS basadas en ese texto.`;
 }
 
@@ -246,7 +248,7 @@ IMPORTANTE: Usa términos clave reales del tema (personajes, lugares, conceptos,
 Responde SOLO con un array JSON:
 ${schema}
 
-REGLAS: correctWord en MAYÚSCULAS sin espacios, debe ser un término clave real del tema, options=[], en ${lang}.
+REGLAS: correctWord es UNA sola palabra en MAYÚSCULAS con EXACTAMENTE entre 7 y 10 letras (ni más ni menos), sin espacios, guiones, números ni signos; si el término no cumple esa longitud, elige otro. Debe ser un término clave real del tema, options=[], en ${lang}.
 NO copies estos ejemplos. Genera preguntas REALES sobre el siguiente tema:
 
 ${safeText}`;
@@ -257,7 +259,7 @@ ${INJECTION_GUARD}Genera ${count} preguntas de adivinar palabra en ${lang} sobre
 Responde SOLO con un array JSON:
 ${schema}
 
-REGLAS: correctWord en MAYÚSCULAS sin espacios, debe ser un término clave del texto, options=[], en ${lang}.
+REGLAS: correctWord es UNA sola palabra en MAYÚSCULAS con EXACTAMENTE entre 7 y 10 letras (ni más ni menos), sin espacios, guiones, números ni signos; si el término no cumple esa longitud, elige otro. Debe ser un término clave del texto, options=[], en ${lang}.
 NO copies estos ejemplos. Genera preguntas NUEVAS basadas en ese texto.`;
 }
 

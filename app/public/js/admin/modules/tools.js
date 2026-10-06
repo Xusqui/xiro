@@ -145,7 +145,9 @@ Tu tarea:
 4. Si no indico el tipo de una pregunta, asume "multiple" (opción múltiple) con 4 opciones donde solo una es correcta.
 5. Si el texto de alguna pregunta o respuesta es demasiado largo para leerse cómodamente en pantalla, recórtalo manteniendo su sentido y sus palabras clave. Aplícalo tanto a las preguntas como a las respuestas, sin alterar cuál es la respuesta correcta.
 6. No añadas campos que no existan en el esquema ni omitas los obligatorios. No incluyas comentarios ni explicaciones.
-7. Devuélveme SOLO el JSON final, válido y bien formado, listo para guardarlo como archivo .json.
+7. En las preguntas "numeric_approximation": "correctAnswer" debe ser un número ENTERO, sin decimales (si el dato real tiene decimales, reformula la pregunta en otra unidad o redondéalo e indícalo en el enunciado); "maxPoints" debe ser un entero mayor que 0 (usa 100); "toleranceMode" debe ser "absolute", "percentage" o "hybrid"; "toleranceValue" y "toleranceCap" deben ser números MAYORES QUE 0, nunca 0 ni negativos, ajustados a la magnitud de la respuesta.
+8. En las preguntas "word_scramble": "correctWord" debe ser UNA sola palabra en MAYÚSCULAS con EXACTAMENTE entre 7 y 10 letras, ni más ni menos, sin espacios, guiones, números ni signos. Si la respuesta no cumple esa longitud, elige otra palabra o reformula la pregunta.
+9. Devuélveme SOLO el JSON final, válido y bien formado, listo para guardarlo como archivo .json.
 
 Lista de preguntas y respuestas:
 `;

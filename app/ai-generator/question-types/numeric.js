@@ -10,6 +10,12 @@ function validate(q) {
         (q.maxPoints === undefined || Number.isFinite(q.maxPoints));
 }
 
+// La subida de bancos exige tolerancias > 0 y el juego ignora las demás:
+// se sustituyen por los valores por defecto (25 % y 1000 unidades)
+function positiveOr(value, fallback) {
+    return Number.isFinite(value) && value > 0 ? value : fallback;
+}
+
 function normalize(q) {
     return {
         questionText: q.question_text,
@@ -17,11 +23,12 @@ function normalize(q) {
         tipo_contenido: 'texto',
         url_recurso: null,
         time_limit: q.time_limit || 30,
-        correctAnswer: q.correctAnswer,
+        // La subida de bancos solo admite enteros
+        correctAnswer: Math.round(q.correctAnswer),
         maxPoints: q.maxPoints || 100,
         toleranceMode: q.toleranceMode || 'hybrid',
-        toleranceValue: q.toleranceValue ?? 25,
-        toleranceCap: q.toleranceCap !== undefined ? q.toleranceCap : 1000,
+        toleranceValue: positiveOr(q.toleranceValue, 25),
+        toleranceCap: q.toleranceCap === null ? null : positiveOr(q.toleranceCap, 1000),
         hint: q.hint || null,
         options: []
     };
