@@ -73,6 +73,7 @@ function renderOrderList() {
     if (!container || !currentOrderQuestion) return;
 
     const order = getCurrentOrder() || [];
+    const caseClass = optionCaseClass(currentOrderQuestion.options.map((opt) => opt.optionText || opt.text));
     const sizeClass = order.length >= 6
         ? 'order-list-compact-6'
         : (order.length === 5 ? 'order-list-compact-5' : '');
@@ -103,7 +104,7 @@ function renderOrderList() {
                 title="Arrastra para reordenar"
             >
                 <span class="btn-number w-7 h-7 rounded-full flex items-center justify-center font-black text-sm text-white shrink-0 bg-white/30">${position + 1}</span>
-                <span class="btn-text text-white font-bold ${fontClass} ${optionCaseClass(option.optionText?.length || option.text?.length)} break-words flex-1" lang="es">
+                <span class="btn-text text-white font-bold ${fontClass} ${caseClass} break-words flex-1" lang="es">
                     ${escapeHtml(option.optionText || option.text)}
                 </span>
                 <div class="drag-indicator text-white/70 shrink-0 text-sm">≡</div>

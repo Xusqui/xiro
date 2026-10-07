@@ -54,6 +54,8 @@ export function renderizarPregunta(pregunta) {
             </div>`;
     }
 
+    const caseClass = optionCaseClass(pregunta.options.map((opt) => opt.optionText));
+
     setBodyHTML(`
                 <div class="h-screen w-screen flex flex-col bg-slate-900 overflow-hidden">
                     <div class="bg-plum-600 px-3 py-2 text-center shrink-0">
@@ -73,7 +75,7 @@ export function renderizarPregunta(pregunta) {
                             <button data-player-action="send-answer" data-answer-index="${i}" class="btn-glass-3d ${colores[i]} rounded-xl flex flex-col items-center justify-center p-1.5 relative overflow-hidden transition-all active:scale-95">
                                 <span class="absolute top-2 left-2 font-black text-white/50 text-xl italic">${i + 1}</span>
                                 ${safeOptImg ? `<img src="${safeOptImg}" alt="" class="max-h-[80px] max-w-[80px] object-contain rounded-lg mb-1 shrink-0">` : ''}
-                                <span class="btn-text text-white font-bold ${fontClass} ${optionCaseClass(opt.optionText?.length)} px-1 break-words hyphens-auto leading-tight text-center" lang="es">${safeOptionText}</span>
+                                <span class="btn-text text-white font-bold ${fontClass} ${caseClass} px-1 break-words hyphens-auto leading-tight text-center" lang="es">${safeOptionText}</span>
                             </button>
                         `;
     }).join('')}

@@ -78,6 +78,8 @@ function renderMatchColumns() {
 
     const options = currentMatchQuestion.options;
     const matches = getCurrentMatches() || options.map((_, i) => i);
+    // Misma caja (mayúsculas/minúsculas) en las dos columnas
+    const caseClass = optionCaseClass(options.flatMap((opt) => [opt.optionText || opt.option_text, opt.match_value]));
 
     // Columna izquierda: fija, en orden original
     leftContainer.innerHTML = _tHtml(options.map((opt, i) => {
@@ -85,7 +87,7 @@ function renderMatchColumns() {
         const fontClass = getResponsiveFontClass(opt.optionText || opt.option_text || '', true);
         return `
             <div data-fit-box class="btn-glass-3d ${colorClass} rounded-xl flex items-center px-3 py-2 shrink-0 min-h-[3rem] overflow-hidden">
-                <span data-fit-text class="text-white font-bold ${fontClass} ${optionCaseClass(opt.optionText?.length || opt.option_text?.length)} break-words w-full text-center" lang="es">
+                <span data-fit-text class="text-white font-bold ${fontClass} ${caseClass} break-words w-full text-center" lang="es">
                     ${escapeHtml(opt.optionText || opt.option_text || '')}
                 </span>
             </div>
@@ -106,7 +108,7 @@ function renderMatchColumns() {
                 data-option-index="${optIdx}"
                 draggable="true"
             >
-                <span data-fit-text class="text-white font-bold ${fontClass} ${optionCaseClass(opt.match_value?.length)} break-words flex-1 text-center" lang="es">
+                <span data-fit-text class="text-white font-bold ${fontClass} ${caseClass} break-words flex-1 text-center" lang="es">
                     ${escapeHtml(opt.match_value || '')}
                 </span>
                 <div class="drag-indicator text-white/70 shrink-0 text-sm">≡</div>
