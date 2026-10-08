@@ -102,6 +102,10 @@ docker compose up -d
 
 Data lives in the folder's subdirectories (`postgres_data/`, `redis_data/`, `public/`, `config/`, `backups/`), so updates don't lose it.
 
+`docker compose pull` updates the images, not `docker-compose.yml`. When a release changes `docker-compose.deploy.yml`, copy it again over your `docker-compose.yml` and set your domain in the `caddy` service again (step 2) before `docker compose up -d`.
+
+> **PDF export fails with "Error al generar el PDF":** the backend can't reach the `chrome` container. Check that `docker compose exec backend printenv CHROME_WS_ENDPOINT` prints `ws://chrome:3000` and that the `xiro_chrome` container is running. If it is empty, copy the current `docker-compose.deploy.yml` again (it sets this variable) or add `CHROME_WS_ENDPOINT=ws://chrome:3000` to `.env`, then run `docker compose up -d`.
+
 > **Troubleshooting:** if one of the JSON files from step 1 is missing, Docker creates a **directory** with that name and the app won't start. Stop the services, delete that directory, create the file and start again.
 
 <details>

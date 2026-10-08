@@ -68,12 +68,15 @@ services:
       - /etc/machine-id:/host/machine-id:ro
     environment:
       MACHINE_ID_PATH: /host/machine-id
+      CHROME_WS_ENDPOINT: ws://chrome:3000
     env_file: .env
     depends_on:
       db:
         condition: service_healthy
       redis:
         condition: service_healthy
+      chrome:
+        condition: service_started
 
   backup:
     image: xusqui/xiro-backup:latest

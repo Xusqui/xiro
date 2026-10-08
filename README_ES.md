@@ -102,6 +102,10 @@ docker compose up -d
 
 Los datos viven en las subcarpetas (`postgres_data/`, `redis_data/`, `public/`, `config/`, `backups/`), así que actualizar no los borra.
 
+`docker compose pull` actualiza las imágenes, no `docker-compose.yml`. Cuando una versión cambie `docker-compose.deploy.yml`, vuelve a copiarlo encima de tu `docker-compose.yml` y pon otra vez tu dominio en el servicio `caddy` (paso 2) antes de `docker compose up -d`.
+
+> **La exportación a PDF falla con "Error al generar el PDF":** el backend no llega al contenedor `chrome`. Comprueba que `docker compose exec backend printenv CHROME_WS_ENDPOINT` devuelve `ws://chrome:3000` y que el contenedor `xiro_chrome` está en marcha. Si sale vacío, vuelve a copiar el `docker-compose.deploy.yml` actual (ya fija esta variable) o añade `CHROME_WS_ENDPOINT=ws://chrome:3000` a `.env`, y ejecuta `docker compose up -d`.
+
 > **Si algo falla:** si falta alguno de los ficheros JSON del paso 1, Docker crea un **directorio** con ese nombre y la app no arranca. Para los servicios, borra ese directorio, crea el fichero y vuelve a arrancar.
 
 <details>
