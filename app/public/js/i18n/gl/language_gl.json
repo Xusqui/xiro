@@ -101,6 +101,7 @@
     "/js/i18n/gl/language_gl_presenter_utils.json",
     "/js/i18n/gl/language_gl_presenter_waiting_panel.json",
     "/js/i18n/gl/language_gl_presenter_wordscramble_layout.json",
+    "/js/i18n/gl/language_gl_presenter_matching_layout.json",
     "/js/i18n/gl/language_gl_autorun.json",
     "/js/i18n/gl/language_gl_index.json",
     "/js/i18n/gl/language_gl_manual_admin_tools_partidas.json",

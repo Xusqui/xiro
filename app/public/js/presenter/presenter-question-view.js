@@ -4,6 +4,7 @@
  */
 
 import { renderWordScramblePresenter } from './presenter-wordscramble-layout.js?v=20260922172926';
+import { renderMatchingPresenter } from './presenter-matching-layout.js?v=20260922172926';
 import { nextButtonLabel } from './presenter-reveal.js?v=20260922172926';
 import { escapeHtml, sanitizeResourceUrl } from '../core/sanitize.js?v=20260922172926';
 
@@ -16,6 +17,8 @@ export function describeQuestion(q) {
     const tieneImagen = Boolean(tipoContenido === 'imagen' && urlRecurso);
     const esNumerica = q.question_type === 'numeric_approximation';
     const esWordScramble = q.question_type === 'word_scramble';
+    // Con imagen principal, matching sigue la regla general: opciones en los móviles
+    const esMatching = q.question_type === 'matching' && !tieneImagen;
     return {
         urlRecurso,
         questionImageUrl: q.question_image_url || null,
@@ -25,7 +28,8 @@ export function describeQuestion(q) {
         esNumerica,
         esWordScramble,
         esMultipleChoice: q.question_type === 'multiple_choice',
-        mostrarOpciones: !tieneImagen && !esNumerica && !esWordScramble
+        esMatching,
+        mostrarOpciones: !tieneImagen && !esNumerica && !esWordScramble && !esMatching
     };
 }
 
@@ -117,10 +121,11 @@ function numericAreaHtml() {
                 </div>`;
 }
 
-/** Zona bajo la rejilla: numérica, anagrama o aviso de que las opciones están en los móviles. */
+/** Zona bajo la rejilla: numérica, anagrama, tablero de matching o aviso de que las opciones están en los móviles. */
 function answerAreaHtml(q, view) {
     if (view.esNumerica && !view.tieneImagen) return numericAreaHtml();
     if (view.esWordScramble) return renderWordScramblePresenter(q);
+    if (view.esMatching) return renderMatchingPresenter(q);
     if (view.mostrarOpciones) return '';
     return `
                 <div class="stage-devices-note pb-14 text-center">

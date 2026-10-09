@@ -8,6 +8,7 @@ import { adjustTextSize, adjustQuestionTitleSize, removeFloatingCards as removeC
 import { cleanupRevealElements } from './presenter-reveal.js?v=20260922172926';
 import { showChamaleonOverlay } from './presenter-chamaleon.js?v=20260922172926';
 import { describeQuestion, questionHtml } from './presenter-question-view.js?v=20260922172926';
+import { fitMatchingText } from './presenter-matching-layout.js?v=20260922172926';
 import { ensureQuestionAudioPlays, startQuestionCountdown } from './presenter-question-timer.js?v=20260922172926';
 
 export { removeCards as removeFloatingCards };
@@ -127,6 +128,7 @@ export function renderPregunta(q) {
 
     adjustQuestionTitleSize();
     if (view.mostrarOpciones) adjustTextSize();
+    if (view.esMatching) fitMatchingText();
     if (view.tieneAudio) ensureQuestionAudioPlays();
 
     // Mostrar el botón de abandonar y el de terminar

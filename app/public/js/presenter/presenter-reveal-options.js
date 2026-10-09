@@ -5,6 +5,7 @@
 
 import { calculatePercentages, createPercentageHTML } from './presenter-percentage-calculator.js?v=20260922172926';
 import { renderOrderReveal, renderMatchingReveal } from './presenter-reveal-cards.js?v=20260922172926';
+import { revealMatchingBoard } from './presenter-matching-layout.js?v=20260922172926';
 
 const CORRECT_BADGE_HTML = '<div class="absolute -top-4 -right-4 bg-white text-green-600 w-14 h-14 rounded-full flex items-center justify-center text-3xl border-4 border-green-500 shadow-xl"><i class="fas fa-check"></i></div>';
 
@@ -30,19 +31,21 @@ function revealQuizCard(tarjeta, i, percentages, correctIndex) {
 
 /**
  * Marca las tarjetas de opciones según el tipo de pregunta.
- * @returns {{correctCardIndex: number, isOrderQuestion: boolean, isMatchingQuestion: boolean}}
+ * @returns {{correctCardIndex: number, isOrderQuestion: boolean, isMatchingQuestion: boolean, matchingOnBoard: boolean}}
  */
 export function revealOptionCards(data) {
     const tarjetas = document.querySelectorAll('#options-grid > div');
     const isOrderQuestion = Array.isArray(data.correctOrder) && data.correctOrder.length > 0;
     const isMatchingQuestion = Array.isArray(data.correctMatches) && data.correctMatches.length > 0;
+    // Matching se revela en su tablero; sin tablero (imagen principal), tarjeta
+    const matchingOnBoard = isMatchingQuestion && revealMatchingBoard();
 
     // Orden y matching muestran su propia tarjeta; la rejilla solo se atenúa
     if (isOrderQuestion || isMatchingQuestion) {
         if (isOrderQuestion) renderOrderReveal(data.correctOrder, { topOffset: '7.5rem' });
-        if (isMatchingQuestion) renderMatchingReveal(data.correctMatches, { topOffset: '7.5rem' });
+        if (isMatchingQuestion && !matchingOnBoard) renderMatchingReveal(data.correctMatches, { topOffset: '7.5rem' });
         tarjetas.forEach(tarjeta => tarjeta.classList.add('opacity-40'));
-        return { correctCardIndex: -1, isOrderQuestion, isMatchingQuestion };
+        return { correctCardIndex: -1, isOrderQuestion, isMatchingQuestion, matchingOnBoard };
     }
 
     let correctCardIndex = -1;
@@ -56,5 +59,5 @@ export function revealOptionCards(data) {
             if (i === data.correctIndex) correctCardIndex = i;
         });
     }
-    return { correctCardIndex, isOrderQuestion, isMatchingQuestion };
+    return { correctCardIndex, isOrderQuestion, isMatchingQuestion, matchingOnBoard };
 }

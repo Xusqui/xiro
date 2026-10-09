@@ -1,0 +1,170 @@
+/* ── Matching en el escenario del presentador ──────────────────────────────
+   Tablero de presenter-matching-layout.js: columna fija a la izquierda y la
+   que ordena cada jugador (ámbar) a la derecha, como en el móvil. El panel
+   oscuro separa las fichas ámbar del fondo jungla, que en el centro también es
+   ámbar. Al revelar, cada ficha ámbar baja o sube --shift filas hasta su pareja. */
+
+.stage-matching {
+    --match-gap: clamp(0.4rem, 1vmin, 1rem);
+    --match-arrow: clamp(2.5rem, 4vw, 5rem);
+    --match-font: 28px;
+    flex: 1;
+    min-height: 0;
+    /* Hueco del botón Siguiente, fijo abajo a la derecha */
+    margin-bottom: 5rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--match-gap);
+    padding: clamp(0.75rem, 1.6vmin, 1.5rem);
+    border-radius: 2rem;
+    background: rgb(15 23 42 / 0.62);
+    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.5);
+}
+
+.stage-matching-caps {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--match-arrow) minmax(0, 1fr);
+    font-size: clamp(0.8rem, 1.1vw, 1.4rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgb(255 255 255 / 0.75);
+}
+
+.stage-matching-caps-moving {
+    grid-column: 3;
+    color: #fcd34d;
+}
+
+.stage-matching-when-revealed,
+.stage-matching.is-revealed .stage-matching-when-playing {
+    display: none;
+}
+
+.stage-matching.is-revealed .stage-matching-when-revealed {
+    display: inline;
+}
+
+.stage-matching-grid {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--match-arrow) minmax(0, 1fr);
+    grid-template-rows: repeat(var(--pairs), minmax(0, 1fr));
+    row-gap: var(--match-gap);
+}
+
+/* Ficha: misma pieza que las opciones del quiz (borde inferior de tecla) */
+.stage-matching-tile {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.5rem, 1.2vmin, 1.25rem);
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    padding: 0.35rem clamp(0.6rem, 1.4vmin, 1.4rem);
+    border-radius: 1rem;
+    border-bottom: 5px solid rgb(0 0 0 / 0.2);
+    box-shadow: 0 10px 20px -8px rgb(0 0 0 / 0.45);
+    color: #fff;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.stage-matching-text {
+    flex: 1;
+    min-width: 0;
+    font-size: var(--match-font);
+    line-height: 1.1;
+    text-wrap: balance;
+    overflow-wrap: normal;
+    hyphens: manual;
+    -webkit-hyphens: manual;
+}
+
+/* fitMatchingText: palabra muy larga, mejor guion que letra diminuta */
+.stage-matching.allow-breaks .stage-matching-text {
+    overflow-wrap: break-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+}
+
+.stage-matching-num {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: clamp(2rem, 4vmin, 3.75rem);
+    height: clamp(2rem, 4vmin, 3.75rem);
+    border-radius: 0.75rem;
+    border: 2px solid rgb(255 255 255 / 0.2);
+    background: rgb(0 0 0 / 0.2);
+    font-size: clamp(1.1rem, 2.2vmin, 2.1rem);
+    font-style: italic;
+}
+
+.stage-matching-grip {
+    flex: none;
+    font-size: clamp(1rem, 1.8vmin, 1.75rem);
+    opacity: 0.75;
+    transition: opacity 0.2s ease-out;
+}
+
+.stage-matching-arrow {
+    grid-column: 2;
+    display: grid;
+    place-items: center;
+    font-size: clamp(1.1rem, 2.4vmin, 2.4rem);
+    color: rgb(255 255 255 / 0.3);
+    transition: color 0.3s ease-out 0.6s, transform 0.3s ease-out 0.6s;
+}
+
+/* Revelado: cada ficha se desliza a la fila de su pareja, una tras otra */
+.stage-matching-moving {
+    position: relative;
+    transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--order) * 80ms);
+}
+
+.stage-matching.is-revealed .stage-matching-moving {
+    transform: translateY(calc(var(--shift) * (100% + var(--match-gap))));
+}
+
+.stage-matching.is-revealed .stage-matching-grip {
+    opacity: 0;
+}
+
+.stage-matching.is-revealed .stage-matching-arrow {
+    color: #fde047;
+    transform: scale(1.2);
+}
+
+/* Proyector de poca altura (720p): con 6 pares largos cada píxel de la fila
+   es letra; panel, cabeceras y fichas más compactos */
+@media (max-height: 800px) {
+    .stage-matching {
+        --match-gap: 0.3rem;
+        padding: 0.5rem 0.75rem 0.75rem;
+        border-radius: 1.5rem;
+    }
+
+    .stage-matching-caps {
+        font-size: 0.75rem;
+    }
+
+    .stage-matching-tile {
+        padding-block: 0.15rem;
+        border-bottom-width: 4px;
+        border-radius: 0.75rem;
+    }
+
+    .stage-matching-text {
+        line-height: 1.05;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .stage-matching-moving,
+    .stage-matching-arrow,
+    .stage-matching-grip {
+        transition: none;
+    }
+}

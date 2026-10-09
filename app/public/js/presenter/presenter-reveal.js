@@ -157,7 +157,7 @@ function revealMultipleChoice(data, showTopAnswers) {
 
 /** Quiz, encuesta, orden y matching: rejilla de opciones + Top 5 + justificación (solo quiz). */
 function revealOptions(data, isInfoSlide) {
-    const { isOrderQuestion, isMatchingQuestion } = revealOptionCards(data);
+    const { isOrderQuestion, isMatchingQuestion, matchingOnBoard } = revealOptionCards(data);
     const isScoredQuiz = !data.percentages && !data.isSurvey && !isInfoSlide;
 
     // En el Trivial no hay puntos: la columna ya muestra los quesitos
@@ -176,7 +176,8 @@ function revealOptions(data, isInfoSlide) {
 
     const hasJustification = data.justification && data.justification.trim() !== '';
     const showJustification = hasJustification && isScoredQuiz && !isOrderQuestion && !isMatchingQuestion;
-    if (isOrderQuestion || isMatchingQuestion || showJustification) {
+    // Matching revelado en su tablero no necesita la mitad derecha para la solución
+    if (isOrderQuestion || (isMatchingQuestion && !matchingOnBoard) || showJustification) {
         enableSplitReveal();
     }
     if (showJustification) {

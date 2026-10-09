@@ -1,0 +1,6 @@
+{
+  "keys": {
+    "presenter.matching.fixed_column": "固定列",
+    "presenter.matching.moving_column": "每位玩家自行排序"
+  }
+}
