@@ -765,8 +765,10 @@
         }
 
         function goBack() {
-            // If loaded via ?id=, go back in history instead of showing the drop zone
-            if (new URLSearchParams(location.search).get('id')) {
+            // Auto-load (?id= / ?token=) replaced the drop zone markup with the
+            // loading spinner, so reload the clean viewer instead of re-showing it
+            var params = new URLSearchParams(location.search);
+            if (params.get('id') || params.get('token')) {
                 location.href = '/xiro-results-viewer.html';
                 return;
             }
