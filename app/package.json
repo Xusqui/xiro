@@ -1,6 +1,6 @@
 {
   "name": "xiro",
-  "version": "2.2.10",
+  "version": "2.2.11",
   "description": "Servidor para juego tipo Kahoot",
   "main": "index.js",
   "scripts": {
