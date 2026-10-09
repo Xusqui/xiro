@@ -23,6 +23,14 @@ import {
     hideCommentPanel,
     setRemotePointsHandler
 } from './presenter-remote-comment.js?v=20260922172926';
+import {
+    setLobbyPlayers,
+    applyPlayerJoined,
+    applyPlayerLeft,
+    isLobbyEmpty,
+    syncLobbyStartButton,
+    startErrorMessage
+} from './presenter-remote-lobby.js?v=20260922172926';
 
 const ADMIN_TOKEN_KEY = 'adminToken';
 
@@ -34,6 +42,8 @@ const state = {
     isReveal: false,
     isFinal: false,
     isCommentSlide: false,
+    // Arranque pedido y aún sin confirmar: si el servidor lo rechaza se vuelve al lobby
+    pendingStart: false,
     scores: {},
     teamConfig: null
 };
@@ -97,6 +107,12 @@ function bindSocketEvents() {
     socket.off('timer-paused', handleRemoteTimerPaused);
     socket.off('timer-resumed', handleRemoteTimerResumed);
     socket.off('ranking-update', handleRemoteRankingUpdate);
+    socket.off('player-joined', handleRemotePlayerJoined);
+    socket.off('player-rejoined', handleRemotePlayerJoined);
+    socket.off('player-left', handleRemotePlayerLeft);
+    socket.off('game-start-error', handleRemoteStartError);
+    socket.off('trivial-error', handleRemoteStartError);
+    socket.off('trivial-game-started', handleRemoteTrivialStarted);
 
     socket.on('remote-join-success', handleJoinSuccess);
     socket.on('remote-join-failed', (d) => renderError(d.message || _t('presenter.remote.connect_error', null, 'Error al conectar como control remoto')));
@@ -109,6 +125,12 @@ function bindSocketEvents() {
     socket.on('timer-paused', handleRemoteTimerPaused);
     socket.on('timer-resumed', handleRemoteTimerResumed);
     socket.on('ranking-update', handleRemoteRankingUpdate);
+    socket.on('player-joined', handleRemotePlayerJoined);
+    socket.on('player-rejoined', handleRemotePlayerJoined);
+    socket.on('player-left', handleRemotePlayerLeft);
+    socket.on('game-start-error', handleRemoteStartError);
+    socket.on('trivial-error', handleRemoteStartError);
+    socket.on('trivial-game-started', handleRemoteTrivialStarted);
     socket.on('disconnect', () => setStatusBadge(false));
     socket.on('connect', () => {
         setStatusBadge(true);
@@ -136,8 +158,10 @@ function handleJoinSuccess(data) {
     state.isLobby = data.state === 'lobby';
     state.isReveal = !state.isLobby && data.canAnswer === false;
     state.isFinal = false;
+    state.pendingStart = false;
     state.scores = data.scores || {};
     state.teamConfig = data.teamConfig || null;
+    setLobbyPlayers(data.players);
 
     sessionStorage.setItem('xiro_remote_sessionId', data.sessionId);
     sessionStorage.setItem('xiro_remote_pin', state.pin);
@@ -171,6 +195,9 @@ function remotePrimaryAction() {
     wakeLockController.activateFromGesture('primary-btn');
 
     if (state.isLobby) {
+        // Igual que el presentador: sin jugadores en el lobby no se puede empezar
+        if (isLobbyEmpty()) return;
+        state.pendingStart = true;
         if (state.gameType === 'trivial') socket.emit('trivial-start', { roomId: state.sessionId });
         else socket.emit('start-game', state.sessionId);
 
@@ -185,6 +212,31 @@ function remotePrimaryAction() {
     socket.emit('next-question', state.sessionId);
     state.isReveal = false;
     syncUI();
+}
+
+/** Keeps the lobby player list in sync and re-evaluates the start button. */
+function handleRemotePlayerJoined(data) {
+    applyPlayerJoined(data);
+    if (state.isLobby) syncUI();
+}
+
+function handleRemotePlayerLeft(data) {
+    applyPlayerLeft(data);
+    if (state.isLobby) syncUI();
+}
+
+/** Server rejected the start requested from the remote: back to lobby with the reason. */
+function handleRemoteStartError(data) {
+    if (!state.pendingStart) return;
+    state.pendingStart = false;
+    state.isLobby = true;
+    state.isReveal = false;
+    setStateLabel(startErrorMessage(data));
+    syncUI();
+}
+
+function handleRemoteTrivialStarted() {
+    state.pendingStart = false;
 }
 
 /** Reveals current question answer from remote. */
@@ -371,6 +423,7 @@ function handleRemoteRevealEvent() {
 
 /** Resets UI to in-game phase when game starts/restarts. */
 function handleRemoteGameStarted(data) {
+    state.pendingStart = false;
     state.isLobby = false;
     state.isReveal = false;
     state.isFinal = false;
@@ -412,4 +465,5 @@ function syncUI() {
         isCommentSlide: state.isCommentSlide
     });
     updatePrimaryButton({ isLobbyState: state.isLobby, isRevealPhase: state.isReveal });
+    syncLobbyStartButton(state.isLobby);
 }

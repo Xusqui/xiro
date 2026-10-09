@@ -112,12 +112,15 @@ function findSessionById(sessionId, activeGames, lobbyPlayers) {
  * @returns {Object}
  */
 function buildRemoteSnapshot(sessionId, game, lobbyPlayers, gameType = null, teamConfigs = null) {
-    const lobbyCount = lobbyPlayers?.get(sessionId)?.length ?? 0;
+    // El presentador entra al lobby como 'HOST': no cuenta como jugador
+    const lobbyNicks = (lobbyPlayers?.get(sessionId) || []).filter(nick => nick !== 'HOST');
+    const lobbyCount = lobbyNicks.length;
     if (!game) {
         return {
             sessionId,
             state: 'lobby',
             gameType,
+            players: lobbyNicks,
             playerCount: lobbyCount,
             currentIndex: 0,
             totalQuestions: 0,

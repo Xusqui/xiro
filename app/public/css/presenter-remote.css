@@ -137,6 +137,17 @@ body.remote-mode>*:not(#remote-app):not(.xiro-modal-overlay) {
     background: linear-gradient(135deg, #94438e, #5f285b);
 }
 
+/* "Empezar" bloqueado mientras el lobby está vacío (igual que el presentador) */
+.remote-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.remote-btn.is-waiting span {
+    font-style: italic;
+}
+
 .remote-btn-reveal {
     background: linear-gradient(135deg, #0891b2, #0e7490);
 }
