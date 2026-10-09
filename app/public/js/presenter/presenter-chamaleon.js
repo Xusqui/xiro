@@ -6,14 +6,17 @@
 
 const CHAMALEON_IMAGES = [
     'afraid.svg', 'albanil.svg', 'angry.svg', 'astronauta.svg', 'bailarina.svg',
-    'branch.svg', 'busca-tesoros.svg', 'chamaleon.svg', 'cooking.svg', 'cool.svg',
-    'detective.svg', 'disguise.svg', 'dizzy.svg', 'gamer.svg', 'gaming.svg',
-    'gris.svg', 'hello.svg', 'inteligencia-artificial.svg', 'jardinero.svg', 'jetpack.svg',
-    'love.svg', 'mago.svg', 'musico.svg', 'nerd.svg', 'painting.svg',
-    'party.svg', 'pastelero.svg', 'pintor.svg', 'pirata.svg', 'planting.svg',
-    'pointing.svg', 'quimico.svg', 'running.svg', 'searching.svg', 'sleep.svg',
-    'surfero.svg', 'thinking.svg', 'thumbs_up.svg', 'worker.svg', 'yoda.svg',
-    'leyendo.svg', 'thumbs_down.svg', 'farewell.svg'
+    'banco-de-preguntas.svg', 'branch.svg', 'busca-tesoros.svg', 'chamaleon.svg',
+    'cooking.svg', 'cool.svg', 'detective.svg', 'disguise.svg', 'dizzy.svg',
+    'farewell.svg', 'gameover.svg', 'gamer.svg', 'gaming.svg', 'gris.svg',
+    'hello.svg', 'inteligencia-artificial.svg', 'jardinero.svg', 'jetpack.svg',
+    'juegos-personalizados.svg', 'leyendo.svg', 'love.svg', 'mago.svg',
+    'mezcla-de-preguntas.svg', 'musico.svg', 'nerd.svg', 'painting.svg', 'party.svg',
+    'pastelero.svg', 'pintor.svg', 'pirata.svg', 'planting.svg',
+    'pointing.svg', 'pregunta-ia.svg', 'quimico.svg', 'running.svg', 'searching.svg',
+    'sleep.svg', 'subir-preguntas.svg', 'surfero.svg', 'thinking.svg',
+    'thumbs_down.svg', 'thumbs_up.svg', 'trivial-pursuit.svg', 'worker.svg',
+    'yoda.svg'
 ];
 
 // Solo esquinas inferiores para no tapar la pregunta
