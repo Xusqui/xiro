@@ -114,7 +114,7 @@ function loadOllamaModels(quiet) {
             _ollamaModelsStatus('ok', `<i class="fas fa-check-circle"></i> ${_t('admin.ollama.models_ok', { count: data.models.length })}`);
         }
         // Cambiar la lista puede cambiar el modelo elegido: se recalcula si hay cambios
-        if (select.value !== previous) _aiRefreshDirty();
+        if (select.value !== previous) refreshConfigSaveBar();
     }).catch(() => {
         _ollamaModelsStatus('idle', _t('admin.ollama.model_desc'));
         _aiShowRowError('ollama', _t('admin.groq.error_net'));

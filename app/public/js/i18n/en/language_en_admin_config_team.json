@@ -4,11 +4,6 @@
     "admin.config.team.names_title": "Team Names",
     "admin.config.team.names_desc": "Suggested names when starting a team game. The presenter can modify them before each match.",
     "admin.config.team.name_placeholder": "Team name",
-    "admin.config.team.btn_save": "Save names",
-    "admin.config.team.btn_reset": "Restore defaults",
-    "admin.config.team.saving": "Saving…",
-    "admin.config.team.saved_ok": "Names saved successfully.",
-    "admin.config.team.net_error": "Network error.",
-    "admin.config.team.reset_info": "Values restored. Press Save to apply."
+    "admin.config.team.btn_reset": "Restore defaults"
   }
 }

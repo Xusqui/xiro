@@ -1,6 +1,9 @@
 /**
  * @fileoverview Panel de Configuración del servidor (sección Config)
- * Requiere: config-panel-meta.js + config-panel-fields.js cargados previamente
+ * Requiere: config-panel-meta.js, config-panel-fields.js y config-savebar.js cargados previamente.
+ * Las pestañas Interfaz y Fuegos artificiales viven en config-panel-ui.js y config-panel-fireworks.js;
+ * IA en config-ui*.js y Licencia en site-panel.js. Todas guardan con la barra común (config-savebar.js).
+ * Las acciones de clic del panel están en config-panel-actions.js.
  */
 
 /* ===== SECCIONES ===== */
@@ -20,7 +23,6 @@ const _PARAM_SECTIONS = [
 
 let _activeTab = 'partidas';
 let _configData = {};
-let _configPanelDelegationReady = false;
 
 /* ===== TAB BAR ===== */
 
@@ -53,33 +55,29 @@ function _renderTabContent(config) {
     return `<div class="mb-8"><div class="grid grid-cols-1 md:grid-cols-2 gap-4">${fields}</div></div>`;
 }
 
-/* ===== SAVE BAR ===== */
-
-function _renderSaveBar() {
-    return `<div class="flex flex-wrap gap-3">
-        <button data-config-action="save-config"
-            class="flex items-center gap-2 bg-camaleon-600 hover:bg-camaleon-700 active:scale-95 text-white font-bold px-6 py-2.5 rounded-xl shadow-sm transition-all">
-            <i class="fas fa-save text-sm"></i> ${_t('admin.config.btn_save')}
-        </button>
-        <button data-config-action="reload-config"
-            class="flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-600 font-bold px-5 py-2.5 rounded-xl border-2 border-slate-200 transition-all">
-            <i class="fas fa-sync-alt text-sm"></i> ${_t('admin.config.btn_reload')}
-        </button>
-    </div>
-    <div id="config-save-result" class="mt-3 text-sm"></div>`;
-}
-
 /* ===== RENDER FORM ===== */
 
 function _renderConfigForm(config) {
     _configData = config;
-    const currentSection = _PARAM_SECTIONS.find(s => s.id === _activeTab) || {};
-    const hidesSaveBar = currentSection.isUi || currentSection.isFireworks || currentSection.isGroq || currentSection.isLicense || currentSection.isLambda;
     return `
         <div id="config-tab-bar">${_renderTabBar()}</div>
         <div id="config-tab-content">${_renderTabContent(config)}</div>
-        ${!hidesSaveBar ? `<div id="config-save-bar">${_renderSaveBar()}</div>` : ''}
+        ${renderConfigSaveBar()}
         <div class="h-10"></div>`;
+}
+
+/** Pinta el formulario y conecta la barra; IA y Licencia la conectan al terminar de cargar. */
+function _paintConfigForm(area) {
+    area.innerHTML = _tHtml(_renderConfigForm(_configData));
+    unbindConfigSaveBar();
+    const sec = _PARAM_SECTIONS.find(s => s.id === _activeTab) || {};
+    if (sec.isGroq || sec.isLicense) return;
+
+    const discard = () => switchConfigTab(_activeTab);
+    if (sec.isUi) bindConfigSaveBar({ snapshot: uiTabSnapshot, save: saveUiTab, discard });
+    else if (sec.isFireworks) bindConfigSaveBar({ snapshot: fireworksTabSnapshot, save: saveFireworksTab, discard });
+    else if (sec.isLambda) bindConfigSaveBar({ snapshot: _lambdaTabSnapshot, save: _saveLambdaTab, discard });
+    else bindConfigSaveBar({ snapshot: _serverFieldsSnapshot, save: initial => _postServerConfig(_serverUpdates(initial)), discard });
 }
 
 /* ===== TAB SWITCH ===== */
@@ -87,7 +85,7 @@ function _renderConfigForm(config) {
 function switchConfigTab(tabId) {
     _activeTab = tabId;
     const formArea = document.getElementById('config-form-area');
-    if (formArea) formArea.innerHTML = _tHtml(_renderConfigForm(_configData));
+    if (formArea) _paintConfigForm(formArea);
 }
 
 /* ===== MAIN RENDER ===== */
@@ -95,6 +93,7 @@ function switchConfigTab(tabId) {
 function renderConfigPanel() {
     const container = document.getElementById('editorArea');
     if (!container) return;
+    unbindConfigSaveBar();
     container.dataset.fromConfig = 'true';
     container.innerHTML = _tHtml(`
         <div class="min-h-full bg-gradient-to-br from-slate-50 to-aubergine-50/30 p-6 lg:p-10">
@@ -115,51 +114,55 @@ function renderConfigPanel() {
         if (!area) return;
         _configData = cfgData.config || {};
         _configData.__ui = uiData;
-        area.innerHTML = _tHtml(_renderConfigForm(_configData));
+        _paintConfigForm(area);
     }).catch(() => {
         const area = document.getElementById('config-form-area');
         if (area) area.innerHTML = _tHtml(`<p class="text-red-500 font-medium">${_t('admin.config.server.error')}</p>`);
     });
 }
 
-/* ===== SAVE ===== */
+/* ===== GUARDADO DE PARÁMETROS DEL SERVIDOR ===== */
 
-function saveConfigChanges() {
-    // Selector restringido a controles de formulario reales: el botón "ojo" de los campos
-    // sensibles también lleva data-key (para saber qué campo mostrar/ocultar) y, al no tener
-    // valor ni data-sensitive, un selector genérico "[data-key]" lo captaba también y su
-    // value="" pisaba el valor real del input al procesarse justo después en el forEach.
-    const inputs = document.querySelectorAll('input[data-key]:not(:disabled), select[data-key]:not(:disabled)');
+// Solo controles de formulario reales: el botón "ojo" de los campos sensibles también
+// lleva data-key (para saber qué campo mostrar/ocultar) y no tiene valor.
+const _SERVER_FIELD_SELECTOR = '#config-tab-content input[data-key]:not(:disabled), #config-tab-content select[data-key]:not(:disabled)';
+
+function _serverFieldsSnapshot() {
+    const values = {};
+    document.querySelectorAll(_SERVER_FIELD_SELECTOR).forEach(el => { values[el.dataset.key] = el.value; });
+    return values;
+}
+
+/** Campos cambiados respecto a lo pintado; un sensible vacío significa "sin cambios". */
+function _serverUpdates(initial) {
     const updates = {};
-    inputs.forEach(el => {
+    document.querySelectorAll(_SERVER_FIELD_SELECTOR).forEach(el => {
+        if (el.value === initial[el.dataset.key]) return;
         if (el.dataset.sensitive && !el.value.trim()) return;
         const mul = parseFloat(el.dataset.mul) || 1;
         updates[el.dataset.key] = mul > 1 ? String(Math.round(parseFloat(el.value) * mul)) : el.value;
     });
-    const resultEl = document.getElementById('config-save-result');
-    if (resultEl) resultEl.innerHTML = _tHtml(`<span class="text-slate-400"><i class="fas fa-spin fa-circle-notch mr-1"></i>${_t('admin.config.server.saving')}</span>`);
-    fetch('/api/admin/config', {
+    return updates;
+}
+
+/** POST /api/admin/config con los cambios; devuelve el resultado que espera la barra. */
+async function _postServerConfig(updates) {
+    if (!Object.keys(updates).length) return { ok: true };
+    const res = await fetch('/api/admin/config', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getAuthToken() },
         body: JSON.stringify({ updates })
-    })
-        .then(r => r.json())
-        .then(data => {
-            if (data.success && updates.QUESTION_TIME_LIMIT !== undefined) setDefaultQuestionTimeLimit(updates.QUESTION_TIME_LIMIT);
-            if (data.success) _applySavedValues(updates);
-            if (!resultEl) return;
-            if (data.success) {
-                resultEl.innerHTML = _tHtml(`<span class="text-emerald-600 font-semibold"><i class="fas fa-check-circle mr-1"></i>${_t('admin.config.server.saved_ok')}</span>`);
-            } else {
-                const msg = data.errors
-                    ? Object.entries(data.errors).map(([key, error]) => `${key}: ${error}`).join(' | ')
-                    : data.error || _t('admin.tools.error_unknown');
-                resultEl.innerHTML = _tHtml(`<span class="text-red-600 font-medium"><i class="fas fa-times-circle mr-1"></i>${escapeHtml(msg)}</span>`);
-            }
-        })
-        .catch(() => {
-            if (resultEl) resultEl.innerHTML = _tHtml(`<span class="text-red-600 font-medium"><i class="fas fa-times-circle mr-1"></i>${_t('admin.config.server.net_error')}</span>`);
-        });
+    });
+    const data = await res.json();
+    if (!data.success) {
+        const msg = data.errors
+            ? Object.entries(data.errors).map(([key, error]) => `${key}: ${error}`).join(' | ')
+            : data.error || _t('admin.tools.error_unknown');
+        return { ok: false, message: escapeHtml(msg) };
+    }
+    if (updates.QUESTION_TIME_LIMIT !== undefined) setDefaultQuestionTimeLimit(updates.QUESTION_TIME_LIMIT);
+    _applySavedValues(updates);
+    return { ok: true, message: _t('admin.config.server.saved_ok') };
 }
 
 /**
@@ -182,73 +185,17 @@ function _applySavedValues(updates) {
     }
 }
 
-/* ===== UI SETTINGS ===== */
+/* ===== PESTAÑA EQUIPOS (λ + nombres) ===== */
 
-function _renderTvCardModeOptions(currentMode) {
-    const options = [
-        { mode: 'never', labelKey: 'admin.config.ui.tv_card_mode_never' },
-        { mode: 'always', labelKey: 'admin.config.ui.tv_card_mode_always' },
-        { mode: 'old_devices_only', labelKey: 'admin.config.ui.tv_card_mode_old_devices' }
-    ];
-    return options.map(opt => {
-        const active = opt.mode === currentMode;
-        const cls = active
-            ? 'bg-cyan-600 text-white shadow-sm'
-            : 'bg-slate-100 text-slate-600 hover:bg-slate-200';
-        return `<button type="button" data-config-action="set-tv-card-mode" data-mode="${opt.mode}"
-            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all border-0 ${cls}">${_t(opt.labelKey)}</button>`;
-    }).join('');
+function _lambdaTabSnapshot() {
+    return { ..._serverFieldsSnapshot(), teamNames: teamNamesSnapshot() };
 }
 
-function _renderUiTab(settings) {
-    const tvCardMode = settings.tvCardMode || 'always';
-    const showStandalone = settings.showStandaloneCard !== false;
-    const animarFondo = settings.animarFondo !== false;
-
-    return `<div class="space-y-4">
-        <div class="bg-white rounded-2xl border-2 border-slate-200 p-5">
-            <div class="flex items-center gap-4 mb-4">
-                <div class="w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <i class="fas fa-desktop text-cyan-600 text-base"></i>
-                </div>
-                <div>
-                    <p class="font-bold text-slate-800 text-sm">${_t('admin.config.ui.tv_card_label')}</p>
-                    <p class="text-xs text-slate-500 mt-0.5">${_t('admin.config.ui.tv_card_desc')}</p>
-                </div>
-            </div>
-            <div data-tv-card-mode-group class="flex flex-wrap gap-2">${_renderTvCardModeOptions(tvCardMode)}</div>
-        </div>
-
-        <div class="bg-white rounded-2xl border-2 border-slate-200 p-5 flex items-center justify-between gap-4">
-            <div class="flex items-center gap-4">
-                <div class="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <i class="fas fa-user text-emerald-600 text-base"></i>
-                </div>
-                <div>
-                    <p class="font-bold text-slate-800 text-sm">${_t('admin.config.ui.standalone_card_label')}</p>
-                    <p class="text-xs text-slate-500 mt-0.5">${_t('admin.config.ui.standalone_card_desc')}</p>
-                </div>
-            </div>
-            ${renderNeonSwitch({ key: 'showStandaloneCard', checked: showStandalone, label: _t('admin.config.ui.standalone_card_label') })}
-        </div>
-
-        <div class="bg-white rounded-2xl border-2 border-slate-200 p-5 flex items-center justify-between gap-4">
-            <div class="flex items-center gap-4">
-                <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <i class="fas fa-leaf text-green-600 text-base"></i>
-                </div>
-                <div>
-                    <p class="font-bold text-slate-800 text-sm">${_t('admin.config.ui.animar_fondo_label')}</p>
-                    <p class="text-xs text-slate-500 mt-0.5">${_t('admin.config.ui.animar_fondo_desc')}</p>
-                </div>
-            </div>
-            ${renderNeonSwitch({ key: 'animarFondo', checked: animarFondo, label: _t('admin.config.ui.animar_fondo_label') })}
-        </div>
-
-        ${renderPersonalizationSection(settings)}
-
-        <div id="ui-save-result" class="text-sm"></div>
-    </div>`;
+async function _saveLambdaTab(initial) {
+    const result = await _postServerConfig(_serverUpdates(initial));
+    if (!result.ok) return result;
+    if (JSON.stringify(teamNamesSnapshot()) === JSON.stringify(initial.teamNames)) return result;
+    return postUiSettings({ teamNames: teamNamesSnapshot() });
 }
 
 function toggleSensitiveField(key) {
@@ -265,190 +212,3 @@ function toggleSensitiveField(key) {
         icon.className = 'fas fa-eye text-xs';
     }
 }
-
-function setTvCardMode(mode, el) {
-    const group = el.closest('[data-tv-card-mode-group]');
-    if (group) {
-        group.querySelectorAll('[data-config-action="set-tv-card-mode"]').forEach(btn => {
-            const active = btn.dataset.mode === mode;
-            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition-all border-0 ' +
-                (active ? 'bg-cyan-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200');
-        });
-    }
-    saveUiSetting('tvCardMode', mode);
-}
-
-function saveUiSetting(key, value) {
-    const resultEl = document.getElementById('ui-save-result');
-    if (resultEl) resultEl.innerHTML = _tHtml(`<span class="text-slate-400"><i class="fas fa-spin fa-circle-notch mr-1"></i>${_t('admin.config.ui.applying')}</span>`);
-    fetch('/api/admin/ui-settings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getAuthToken() },
-        body: JSON.stringify({ key, value })
-    }).then(r => r.json()).then(data => {
-        if (_configData.__ui) _configData.__ui[key] = value;
-        if (resultEl) resultEl.innerHTML = data.success
-            ? `<span class="text-emerald-600 font-semibold"><i class="fas fa-check-circle mr-1"></i>${_t('admin.config.ui.applied_ok')}</span>`
-            : `<span class="text-red-600"><i class="fas fa-times-circle mr-1"></i>${escapeHtml(data.error || _t('admin.tools.error_unknown'))}</span>`;
-    }).catch(() => {
-        if (resultEl) resultEl.innerHTML = _tHtml(`<span class="text-red-600"><i class="fas fa-times-circle mr-1"></i>${_t('admin.config.ui.net_error')}</span>`);
-    });
-}
-
-/* ===== FIREWORKS TAB ===== */
-
-function _renderFireworksTab(settings) {
-    const size = settings.fireworksShellSize !== undefined ? settings.fireworksShellSize : 2;
-    const finaleMode = settings.fireworksFinaleMode !== false;
-    const simSpeed = settings.fireworksSimSpeed !== undefined ? settings.fireworksSimSpeed : 1;
-    const intervalMin = settings.fireworksLaunchIntervalMin !== undefined ? settings.fireworksLaunchIntervalMin : 900;
-    const intervalMax = settings.fireworksLaunchIntervalMax !== undefined ? settings.fireworksLaunchIntervalMax : 1500;
-    const maxFinaleCount = settings.fireworksMaxFinaleCount !== undefined ? settings.fireworksMaxFinaleCount : 32;
-    const trailIntensity = settings.fireworksTrailIntensity !== undefined ? settings.fireworksTrailIntensity : 0.175;
-    const starWidth = settings.fireworksStarWidth !== undefined ? settings.fireworksStarWidth : 3;
-    const sparkWidth = settings.fireworksSparkWidth !== undefined ? settings.fireworksSparkWidth : 1;
-    const soundEnabled = settings.fireworksSound === true;
-
-    return `
-        <div class="space-y-4">
-            <div class="bg-plum-50 border-2 border-plum-200 rounded-2xl p-6 mb-6">
-                <div class="flex items-center gap-3 mb-3">
-                    <div class="w-10 h-10 bg-plum-600 rounded-xl flex items-center justify-center text-white">
-                        <i class="fas fa-fire text-lg"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-black text-plum-900">${_t('admin.config.fireworks.panel_title')}</h3>
-                        <p class="text-sm text-plum-700">${_t('admin.config.fireworks.panel_subtitle')}</p>
-                    </div>
-                </div>
-                <div class="bg-white/60 rounded-xl p-4 border border-plum-100">
-                    <p class="text-xs text-plum-800"><i class="fas fa-info-circle mr-1"></i> ${_t('admin.config.fireworks.panel_note')}</p>
-                </div>
-            </div>
-
-            ${_renderFireworksSlider('fireworksShellSize', size, UI_FIREWORKS_META.fireworksShellSize)}
-            ${_renderFireworksToggle('fireworksFinaleMode', finaleMode, UI_FIREWORKS_META.fireworksFinaleMode)}
-            ${_renderFireworksSlider('fireworksMaxFinaleCount', maxFinaleCount, UI_FIREWORKS_META.fireworksMaxFinaleCount)}
-            ${_renderFireworksSlider('fireworksSimSpeed', simSpeed, UI_FIREWORKS_META.fireworksSimSpeed)}
-            ${_renderFireworksSlider('fireworksLaunchIntervalMin', intervalMin, UI_FIREWORKS_META.fireworksLaunchIntervalMin)}
-            ${_renderFireworksSlider('fireworksLaunchIntervalMax', intervalMax, UI_FIREWORKS_META.fireworksLaunchIntervalMax)}
-            ${_renderFireworksSlider('fireworksTrailIntensity', trailIntensity, UI_FIREWORKS_META.fireworksTrailIntensity)}
-            ${_renderFireworksSlider('fireworksStarWidth', starWidth, UI_FIREWORKS_META.fireworksStarWidth)}
-            ${_renderFireworksSlider('fireworksSparkWidth', sparkWidth, UI_FIREWORKS_META.fireworksSparkWidth)}
-            ${_renderFireworksToggle('fireworksSound', soundEnabled, UI_FIREWORKS_META.fireworksSound)}
-
-            <button data-config-action="preview-fireworks"
-                class="mt-2 w-full flex items-center justify-center gap-2 bg-plum-600 hover:bg-plum-700 text-white font-black uppercase italic py-3 px-6 rounded-xl shadow-md transition">
-                <i class="fas fa-eye"></i> ${_t('admin.config.fireworks.preview_btn')}
-            </button>
-
-            <div id="fireworks-save-result" class="text-sm mt-4"></div>
-        </div>`;
-}
-
-function updateFireworksSlider(key, value) {
-    const valueDisplay = document.getElementById('fw-value-' + key);
-    const meta = UI_FIREWORKS_META[key];
-    if (valueDisplay && meta) {
-        valueDisplay.textContent = value + (meta.unit || '');
-    }
-    saveFireworksSetting(key, parseFloat(value));
-}
-
-function saveFireworksSetting(key, value) {
-    const resultEl = document.getElementById('fireworks-save-result');
-    if (resultEl) resultEl.innerHTML = _tHtml(`<span class="text-slate-400"><i class="fas fa-spin fa-circle-notch mr-1"></i>${_t('admin.config.fireworks.saving')}</span>`);
-
-    fetch('/api/admin/ui-settings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getAuthToken() },
-        body: JSON.stringify({ key, value })
-    }).then(r => r.json()).then(data => {
-        if (_configData.__ui) _configData.__ui[key] = value;
-        if (resultEl) {
-            if (data.success) {
-                resultEl.innerHTML = _tHtml(`<span class="text-emerald-600 font-semibold"><i class="fas fa-check-circle mr-1"></i>${_t('admin.config.fireworks.saved_ok')}</span>`);
-                setTimeout(() => { if (resultEl) resultEl.innerHTML = _tHtml(''); }, 3000);
-            } else {
-                resultEl.innerHTML = _tHtml(`<span class="text-red-600"><i class="fas fa-times-circle mr-1"></i>${escapeHtml(data.error || _t('admin.tools.error_unknown'))}</span>`);
-            }
-        }
-    }).catch(() => {
-        if (resultEl) resultEl.innerHTML = _tHtml(`<span class="text-red-600"><i class="fas fa-times-circle mr-1"></i>${_t('admin.config.fireworks.net_error')}</span>`);
-    });
-}
-
-function previewFireworks() {
-    function sliderVal(key, fallback) {
-        const el = document.getElementById('fw-' + key);
-        return el ? parseFloat(el.value) : fallback;
-    }
-    function toggleVal(key, fallback) {
-        if (_configData.__ui && _configData.__ui[key] !== undefined) return _configData.__ui[key];
-        const input = document.querySelector('[data-config-action="toggle-fireworks-setting-neon"][data-key="' + key + '"]');
-        return input ? input.checked : fallback;
-    }
-
-    const params = new URLSearchParams({
-        shellSize: sliderVal('fireworksShellSize', 2),
-        finaleMode: toggleVal('fireworksFinaleMode', true),
-        simSpeed: sliderVal('fireworksSimSpeed', 1),
-        launchIntervalMin: sliderVal('fireworksLaunchIntervalMin', 900),
-        launchIntervalMax: sliderVal('fireworksLaunchIntervalMax', 1500),
-        maxFinaleCount: sliderVal('fireworksMaxFinaleCount', 32),
-        trailIntensity: sliderVal('fireworksTrailIntensity', 0.175),
-        starWidth: sliderVal('fireworksStarWidth', 3),
-        sparkWidth: sliderVal('fireworksSparkWidth', 1),
-        soundEnabled: toggleVal('fireworksSound', false)
-    });
-
-    window.open('/fireworks-preview.html?' + params.toString(), '_blank', 'noopener');
-}
-window.previewFireworks = previewFireworks;
-
-/** Acciones de clic del panel (data-config-action), con el elemento que la dispara. */
-const _CONFIG_CLICK_ACTIONS = {
-    'switch-tab': el => { if (el.dataset.tabId) switchConfigTab(el.dataset.tabId); },
-    'save-config': () => saveConfigChanges(),
-    'reload-config': () => renderConfigPanel(),
-    'toggle-ui-setting-neon': el => { if (el.dataset.key) saveUiSetting(el.dataset.key, el.checked); },
-    'toggle-personalization-enabled': el => togglePersonalizationEnabled(el.checked),
-    'select-personalization-image': el => { if (el.dataset.filename) selectPersonalizationImage(el.dataset.filename); },
-    'delete-personalization-image': el => { if (el.dataset.filename) deletePersonalizationImage(el.dataset.filename); },
-    'set-tv-card-mode': el => { if (el.dataset.mode) setTvCardMode(el.dataset.mode, el); },
-    'preview-fireworks': () => previewFireworks(),
-    'toggle-sensitive': el => { if (el.dataset.key) toggleSensitiveField(el.dataset.key); },
-    'toggle-fireworks-setting-neon': el => { if (el.dataset.key) saveFireworksSetting(el.dataset.key, el.checked); },
-    'save-team-names': () => saveTeamNames(),
-    'reset-team-names': () => resetTeamNames()
-};
-
-function _initConfigPanelDelegation() {
-    if (_configPanelDelegationReady) return;
-    _configPanelDelegationReady = true;
-
-    document.addEventListener('click', (event) => {
-        const actionElement = event.target.closest('[data-config-action]');
-        if (!actionElement) return;
-
-        const action = actionElement.dataset.configAction;
-        if (Object.hasOwn(_CONFIG_CLICK_ACTIONS, action)) _CONFIG_CLICK_ACTIONS[action](actionElement);
-    });
-
-    document.addEventListener('input', (event) => {
-        const actionElement = event.target.closest('[data-config-action]');
-        if (!actionElement) return;
-        if (actionElement.dataset.configAction === 'update-fireworks-slider' && actionElement.dataset.key) {
-            updateFireworksSlider(actionElement.dataset.key, actionElement.value);
-        }
-    });
-
-    document.addEventListener('change', (event) => {
-        const actionElement = event.target.closest('[data-config-action="upload-personalization-image"]');
-        if (!actionElement || !actionElement.files || !actionElement.files[0]) return;
-        uploadPersonalizationImage(actionElement.files[0]);
-        actionElement.value = '';
-    });
-}
-
-_initConfigPanelDelegation();

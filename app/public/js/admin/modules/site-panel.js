@@ -1,4 +1,6 @@
 /* ===== TAB DE LICENCIA ===== */
+// Licencia + URL pública (site-public-url.js) se guardan con la barra común de
+// Configuración (config-savebar.js); las exenciones (license-exemptions.js) van al momento.
 
 (function registerLicenseTab() {
     if (typeof _PARAM_SECTIONS === 'undefined') return;
@@ -14,7 +16,6 @@
     });
 })();
 
-let _licensePanelDelegationReady = false;
 
 const _STATUS_IMAGES = {
     active: String.fromCharCode(47, 105, 109, 97, 103, 101, 115, 47, 109, 48, 46, 115, 118, 103),
@@ -111,18 +112,6 @@ function _renderLicensePanel(data) {
                 </div>
 
                 ${status}
-
-                <div class="flex flex-wrap gap-3">
-                    <button data-license-action="save"
-                        class="flex items-center gap-2 bg-red-600 hover:bg-red-700 active:scale-95 text-white font-bold px-5 py-2.5 rounded-xl transition-all text-sm">
-                        <i class="fas fa-save text-xs"></i> ${_t('admin.license.btn_save')}
-                    </button>
-                    <button data-license-action="reload"
-                        class="flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-600 font-bold px-5 py-2.5 rounded-xl border-2 border-slate-200 transition-all text-sm">
-                        <i class="fas fa-sync-alt text-xs"></i> ${_t('admin.license.btn_reload')}
-                    </button>
-                </div>
-                <div id="license-config-result" class="text-sm"></div>
                 <div class="pt-3 border-t border-slate-100">
                     <img src="${licenseImage}" alt="${licenseAlt}" class="w-full max-w-sm h-auto mx-auto">
                 </div>
@@ -135,6 +124,7 @@ function _renderLicensePanel(data) {
 }
 
 function renderLicenseTab() {
+    unbindConfigSaveBar();
     const area = document.getElementById('config-tab-content');
     if (area) {
         area.innerHTML = _tHtml(`<div class="text-slate-400 flex items-center gap-2"><i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.license.loading')}</div>`);
@@ -144,13 +134,18 @@ function renderLicenseTab() {
         .then(response => response.json())
         .then(data => {
             const liveArea = document.getElementById('config-tab-content');
-            if (liveArea) liveArea.innerHTML = _tHtml(_renderLicensePanel(data || {}));
-            if (typeof renderSitePublicUrlCard === 'function') {
-                renderSitePublicUrlCard();
-            }
+            if (!liveArea) return;
+            liveArea.innerHTML = _tHtml(_renderLicensePanel(data || {}));
             if (typeof renderLicenseExemptions === 'function') {
                 renderLicenseExemptions();
             }
+            // La barra se conecta cuando la URL pública ya está pintada (llega con otra petición)
+            const urlCard = typeof renderSitePublicUrlCard === 'function' ? renderSitePublicUrlCard() : null;
+            Promise.resolve(urlCard).then(() => {
+                if (document.getElementById('config-tab-content') === liveArea) {
+                    bindConfigSaveBar({ snapshot: _licenseTabSnapshot, save: _saveLicenseTab, discard: renderLicenseTab });
+                }
+            });
         })
         .catch(() => {
             const liveArea = document.getElementById('config-tab-content');
@@ -158,62 +153,34 @@ function renderLicenseTab() {
         });
 }
 
-function saveLicenseConfig() {
-    const input = document.getElementById('license-input');
-    const resultEl = document.getElementById('license-config-result');
-    const license = input ? input.value.trim() : '';
+function _licenseTabSnapshot() {
+    const val = id => document.getElementById(id)?.value.trim() ?? null;
+    return { license: val('license-input'), publicUrl: val('public-url-input') };
+}
 
-    if (resultEl) {
-        resultEl.innerHTML = _tHtml(`<span class="text-slate-400"><i class="fas fa-spin fa-circle-notch mr-1"></i>${_t('admin.license.saving')}</span>`);
+async function _saveLicenseTab(initial) {
+    const now = _licenseTabSnapshot();
+    if (now.publicUrl !== initial.publicUrl) {
+        const result = await savePublicUrl(now.publicUrl);
+        if (!result.ok) return result;
+        if (now.license === initial.license) return result;
     }
+    return now.license !== initial.license ? _saveLicense(now.license) : { ok: true };
+}
 
-    fetch('/api/admin/license', {
+/** POST /api/admin/license; repinta la pestaña para mostrar el estado nuevo. */
+async function _saveLicense(license) {
+    const res = await fetch('/api/admin/license', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getAuthToken() },
         body: JSON.stringify({ license })
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (!resultEl) return;
-
-            if (data.success) {
-                const isValid = _licenseField(data, 0, false) === true;
-                const invalidReason = _licenseField(data, 2, null);
-
-                if (isValid) {
-                    resultEl.innerHTML = _tHtml(`<span class="text-emerald-600 font-semibold"><i class="fas fa-check-circle mr-1"></i>${_t('admin.license.save_validated')}</span>`);
-                } else if (invalidReason === 'invalid_format') {
-                    resultEl.innerHTML = _tHtml(`<span class="text-red-600 font-medium"><i class="fas fa-exclamation-triangle mr-1"></i>${_t('admin.license.save_invalid_format')}</span>`);
-                } else if (data.license) {
-                    resultEl.innerHTML = _tHtml(`<span class="text-amber-600 font-medium"><i class="fas fa-exclamation-circle mr-1"></i>${_t('admin.license.save_invalid')}</span>`);
-                } else {
-                    resultEl.innerHTML = _tHtml(`<span class="text-slate-600 font-medium"><i class="fas fa-info-circle mr-1"></i>${_t('admin.license.save_deleted')}</span>`);
-                }
-                setTimeout(renderLicenseTab, 700);
-            } else {
-                resultEl.innerHTML = _tHtml(`<span class="text-red-600 font-medium"><i class="fas fa-times-circle mr-1"></i>${escapeHtml(data.error || _t('admin.tools.error_unknown'))}</span>`);
-            }
-        })
-        .catch(() => {
-            if (resultEl) resultEl.innerHTML = _tHtml(`<span class="text-red-600 font-medium"><i class="fas fa-times-circle mr-1"></i>${_t('admin.license.error_net')}</span>`);
-        });
-}
-
-function _initLicensePanelDelegation() {
-    if (_licensePanelDelegationReady) return;
-    _licensePanelDelegationReady = true;
-
-    document.addEventListener('click', (event) => {
-        const actionElement = event.target.closest('[data-license-action]');
-        if (!actionElement) return;
-
-        const action = actionElement.dataset.licenseAction;
-        if (action === 'save') {
-            saveLicenseConfig();
-        } else if (action === 'reload') {
-            renderLicenseTab();
-        }
     });
-}
+    const data = await res.json();
+    if (!data.success) return { ok: false, message: escapeHtml(data.error || _t('admin.tools.error_unknown')) };
 
-_initLicensePanelDelegation();
+    setTimeout(renderLicenseTab, 1500);
+    if (_licenseField(data, 0, false) === true) return { ok: true, message: _t('admin.license.save_validated') };
+    if (_licenseField(data, 2, null) === 'invalid_format') return { ok: false, message: _t('admin.license.save_invalid_format') };
+    if (data.license) return { ok: false, message: _t('admin.license.save_invalid') };
+    return { ok: true, message: _t('admin.license.save_deleted') };
+}

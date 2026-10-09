@@ -4,11 +4,6 @@
     "admin.config.team.names_title": "Teamnamen",
     "admin.config.team.names_desc": "Vorgeschlagene Namen beim Starten eines Teamspiels. Der Moderator kann sie vor jeder Runde ändern.",
     "admin.config.team.name_placeholder": "Teamname",
-    "admin.config.team.btn_save": "Namen speichern",
-    "admin.config.team.btn_reset": "Standardwerte wiederherstellen",
-    "admin.config.team.saving": "Speichern…",
-    "admin.config.team.saved_ok": "Namen erfolgreich gespeichert.",
-    "admin.config.team.net_error": "Netzwerkfehler.",
-    "admin.config.team.reset_info": "Werte wiederhergestellt. Auf Speichern drücken, um zu übernehmen."
+    "admin.config.team.btn_reset": "Standardwerte wiederherstellen"
   }
 }

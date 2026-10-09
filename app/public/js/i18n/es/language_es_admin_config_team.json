@@ -4,11 +4,6 @@
     "admin.config.team.names_title": "Nombres de Equipos",
     "admin.config.team.names_desc": "Nombres sugeridos al iniciar un juego por equipos. El presentador puede modificarlos antes de cada partida.",
     "admin.config.team.name_placeholder": "Nombre del equipo",
-    "admin.config.team.btn_save": "Guardar nombres",
-    "admin.config.team.btn_reset": "Restaurar por defecto",
-    "admin.config.team.saving": "Guardando…",
-    "admin.config.team.saved_ok": "Nombres guardados correctamente.",
-    "admin.config.team.net_error": "Error de red.",
-    "admin.config.team.reset_info": "Valores restaurados. Pulsa Guardar para aplicar."
+    "admin.config.team.btn_reset": "Restaurar por defecto"
   }
 }

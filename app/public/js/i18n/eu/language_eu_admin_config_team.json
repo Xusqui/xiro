@@ -4,11 +4,6 @@
     "admin.config.team.names_title": "Taldeen izenak",
     "admin.config.team.names_desc": "Taldekako joko bat hastean iradokitako izenak. Aurkezleak partida bakoitzaren aurretik alda ditzake.",
     "admin.config.team.name_placeholder": "Taldearen izena",
-    "admin.config.team.btn_save": "Gorde izenak",
-    "admin.config.team.btn_reset": "Lehenetsi lehenetsia",
-    "admin.config.team.saving": "Gordetzen…",
-    "admin.config.team.saved_ok": "Izenak ondo gorde dira.",
-    "admin.config.team.net_error": "Sareko errorea.",
-    "admin.config.team.reset_info": "Balioak berrezarri dira. Sakatu Gorde aplikatzeko."
+    "admin.config.team.btn_reset": "Lehenetsi lehenetsia"
   }
 }

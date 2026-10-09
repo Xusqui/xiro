@@ -4,11 +4,6 @@
     "admin.config.team.names_title": "Noms des équipes",
     "admin.config.team.names_desc": "Noms suggérés lors du démarrage d'un jeu en équipe. Le présentateur peut les modifier avant chaque match.",
     "admin.config.team.name_placeholder": "Nom de l'équipe",
-    "admin.config.team.btn_save": "Enregistrer les noms",
-    "admin.config.team.btn_reset": "Restaurer les valeurs par défaut",
-    "admin.config.team.saving": "Enregistrement…",
-    "admin.config.team.saved_ok": "Noms enregistrés avec succès.",
-    "admin.config.team.net_error": "Erreur réseau.",
-    "admin.config.team.reset_info": "Valeurs restaurées. Appuyez sur Enregistrer pour appliquer."
+    "admin.config.team.btn_reset": "Restaurer les valeurs par défaut"
   }
 }

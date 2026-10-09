@@ -4,11 +4,6 @@
     "admin.config.team.names_title": "Noms dels equips",
     "admin.config.team.names_desc": "Noms suggerits en iniciar un joc per equips. El presentador els pot modificar abans de cada partida.",
     "admin.config.team.name_placeholder": "Nom de l'equip",
-    "admin.config.team.btn_save": "Desa els noms",
-    "admin.config.team.btn_reset": "Restaura els valors per defecte",
-    "admin.config.team.saving": "Desant…",
-    "admin.config.team.saved_ok": "Noms desats correctament.",
-    "admin.config.team.net_error": "Error de xarxa.",
-    "admin.config.team.reset_info": "Valors restaurats. Prem Desa per aplicar."
+    "admin.config.team.btn_reset": "Restaura els valors per defecte"
   }
 }

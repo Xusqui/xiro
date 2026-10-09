@@ -1,7 +1,8 @@
 /**
  * @fileoverview Editor de nombres de equipos predeterminados en el panel de admin
  * Renderiza la sección de nombres de equipos dentro del tab lambda/config-equipos.
- * Persiste via POST /api/admin/ui-settings (key: teamNames, value: array[9]).
+ * Se guarda con la barra común de Configuración (config-panel.js → _saveLambdaTab), vía
+ * POST /api/admin/ui-settings (key: teamNames, value: array[9]).
  */
 
 // Número máximo de equipos configurables
@@ -63,67 +64,31 @@ function renderTeamNamesSection(uiSettings) {
                 ${inputs}
             </div>
             <div class="flex flex-wrap gap-3 items-center">
-                <button data-config-action="save-team-names"
-                    class="flex items-center gap-2 bg-plum-600 hover:bg-plum-700 active:scale-95
-                           text-white font-bold px-5 py-2.5 rounded-xl shadow-sm transition-all text-sm">
-                    <i class="fas fa-save text-xs"></i>
-                    ${_t('admin.config.team.btn_save', null, 'Guardar nombres')}
-                </button>
-                <button data-config-action="reset-team-names"
+                <button type="button" data-config-action="reset-team-names"
                     class="flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-600 font-bold
                            px-4 py-2.5 rounded-xl border-2 border-slate-200 transition-all text-sm">
                     <i class="fas fa-undo text-xs"></i>
                     ${_t('admin.config.team.btn_reset', null, 'Restaurar por defecto')}
                 </button>
             </div>
-            <div id="team-names-save-result" class="mt-3 text-sm"></div>
         </div>`;
 }
 
 /**
- * Recoge los valores actuales de los inputs y los guarda via API
+ * Nombres escritos ahora en los inputs (sin guardar)
+ * @returns {string[]} Array de 9 nombres
  */
-function saveTeamNames() {
+function teamNamesSnapshot() {
     const names = [];
     for (let i = 0; i < TEAM_NAMES_COUNT; i++) {
         const input = document.getElementById(`team-name-admin-${i}`);
         names.push(input ? input.value.trim() : '');
     }
-
-    const resultEl = document.getElementById('team-names-save-result');
-    if (resultEl) {
-        resultEl.innerHTML = _tHtml(
-            `<span class="text-slate-400"><i class="fas fa-spin fa-circle-notch mr-1"></i>${_t('admin.config.team.saving', null, 'Guardando…')}</span>`
-        );
-    }
-
-    fetch('/api/admin/ui-settings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getAuthToken() },
-        body: JSON.stringify({ key: 'teamNames', value: names })
-    }).then(r => r.json()).then(data => {
-        if (!resultEl) return;
-        if (data.success) {
-            resultEl.innerHTML = _tHtml(
-                `<span class="text-emerald-600 font-semibold"><i class="fas fa-check-circle mr-1"></i>${_t('admin.config.team.saved_ok', null, 'Nombres guardados correctamente.')}</span>`
-            );
-            setTimeout(() => { if (resultEl) resultEl.innerHTML = ''; }, 3000);
-        } else {
-            resultEl.innerHTML = _tHtml(
-                `<span class="text-red-600"><i class="fas fa-times-circle mr-1"></i>${escapeHtml(data.error || _t('admin.tools.error_unknown'))}</span>`
-            );
-        }
-    }).catch(() => {
-        if (resultEl) {
-            resultEl.innerHTML = _tHtml(
-                `<span class="text-red-600"><i class="fas fa-times-circle mr-1"></i>${_t('admin.config.team.net_error', null, 'Error de red.')}</span>`
-            );
-        }
-    });
+    return names;
 }
 
 /**
- * Restablece los inputs a los valores por defecto i18n (sin guardar)
+ * Restablece los inputs a los valores por defecto i18n (sin guardar: queda como cambio pendiente)
  */
 function resetTeamNames() {
     const defaults = [
@@ -141,10 +106,5 @@ function resetTeamNames() {
         const input = document.getElementById(`team-name-admin-${i}`);
         if (input) input.value = defaults[i] || '';
     }
-    const resultEl = document.getElementById('team-names-save-result');
-    if (resultEl) {
-        resultEl.innerHTML = _tHtml(
-            `<span class="text-slate-500 text-xs"><i class="fas fa-info-circle mr-1"></i>${_t('admin.config.team.reset_info', null, 'Valores restaurados. Pulsa Guardar para aplicar.')}</span>`
-        );
-    }
+    refreshConfigSaveBar();
 }

@@ -1,10 +1,10 @@
 /**
  * @fileoverview Pestaña "IA" del panel de configuración (Groq, Gemini y Ollama).
- * Un único formulario: proveedor principal + respaldo arriba, una fila plegable por
- * proveedor con su conexión, y una barra fija con un solo botón "Guardar configuración".
- * Depende de: config-panel.js y neon-switch.js cargados previamente.
+ * Un único formulario: proveedor principal + respaldo arriba y una fila plegable por
+ * proveedor con su conexión. Se guarda con la barra común de Configuración (config-savebar.js).
+ * Depende de: config-panel.js, config-savebar.js y neon-switch.js cargados previamente.
  * Filas de proveedor: config-ui-providers.js (Groq/Gemini) y config-ui-ollama.js.
- * Guardado, descarte y borrado: config-ui-save.js.
+ * Guardado y borrado: config-ui-save.js.
  */
 
 /* ===== REGISTRO DE TAB ===== */
@@ -67,6 +67,7 @@ let _aiConfigData = null;
 /* ===== RENDER DEL TAB ===== */
 
 function renderAIConfigTab() {
+    unbindConfigSaveBar();
     const area = document.getElementById('config-tab-content');
     if (area) area.innerHTML = _tHtml(`<div class="text-slate-400 flex items-center gap-2"><i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.groq.loading')}</div>`);
 
@@ -120,8 +121,6 @@ function _renderAIConfigForm(data) {
             </header>
             ${rows}
         </section>
-
-        ${_renderAISaveBar()}
     </form>`;
 }
 
@@ -163,21 +162,4 @@ function _aiUpdateActiveWarning() {
         && Object.keys(AI_PROVIDER_META).some(id => id !== active && providers[id]?.configured);
     warningEl.innerHTML = _tHtml(`<i class="fas fa-exclamation-circle"></i> ${usesOther ? _t('admin.ai.warn_no_key_fallback') : _t('admin.ai.warn_no_key')}`);
     warningEl.hidden = false;
-}
-
-/* ===== BARRA DE GUARDADO ===== */
-
-function _renderAISaveBar() {
-    return `
-        <div class="aic-savebar" id="ai-savebar" data-state="clean">
-            <p class="aic-savebar__status" id="ai-save-status" role="status" aria-live="polite"></p>
-            <div class="aic-savebar__actions">
-                <button type="button" data-admin-action="ai-discard" id="ai-discard-btn" class="aic-btn aic-btn--ghost" disabled>
-                    <i class="fas fa-undo"></i> ${_t('admin.ai.btn_discard')}
-                </button>
-                <button type="submit" id="ai-save-btn" class="aic-btn aic-btn--primary" disabled>
-                    <i class="fas fa-save"></i> ${_t('admin.groq.btn_save')}
-                </button>
-            </div>
-        </div>`;
 }

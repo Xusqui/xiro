@@ -3,20 +3,26 @@
  * Permite activar una insignia de marca de evento (p.ej. logo de un patrocinador) que
  * se muestra en todo el frontend, eligiendo, subiendo o borrando una imagen de
  * public/images/personalizations/.
- * Depende de: config-panel.js (saveUiSetting, _configData, renderNeonSwitch, _t, _tHtml, getAuthToken, escapeHtml)
+ * Activar la insignia y elegir imagen se guardan con la barra común (config-panel-ui.js →
+ * uiTabSnapshot); subir y borrar imágenes son operaciones de fichero y se hacen al momento.
+ * Depende de: config-panel.js (_configData), config-savebar.js, neon-switch.js
  * y helpers.js (mostrarModalConfirmacion).
  */
 
+/** Imagen elegida en el formulario (aún sin guardar). */
+let _personalizationSelected = null;
+
+function personalizationSelectedImage() {
+    return _personalizationSelected;
+}
+
 function renderPersonalizationSection(settings) {
     const enabled = settings.personalizationEnabled === true;
+    _personalizationSelected = settings.personalizationImage || null;
 
-    // La lista se pinta abajo como placeholder "cargando"; disparamos la carga real
-    // aquí para cubrir tanto el render inicial (setting ya activado en una sesión
-    // previa) como la reactivación desde togglePersonalizationEnabled.
-    if (enabled) {
-        setTimeout(loadPersonalizationImages, 0);
-        setTimeout(_initPersonalizationDropZone, 0);
-    }
+    // La rejilla se pinta siempre (oculta si está desactivada) para poder activarla sin
+    // guardar; las imágenes se cargan la primera vez que se muestra.
+    if (enabled) setTimeout(_showPersonalizationImages, 0);
 
     return `<div class="bg-white rounded-2xl border-2 border-slate-200 p-5">
         <div class="flex items-center justify-between gap-4">
@@ -29,9 +35,9 @@ function renderPersonalizationSection(settings) {
                     <p class="text-xs text-slate-500 mt-0.5">${_t('admin.config.ui.personalization_desc')}</p>
                 </div>
             </div>
-            ${renderNeonSwitch({ key: 'personalizationEnabled', checked: enabled, label: _t('admin.config.ui.personalization_label'), action: 'toggle-personalization-enabled' })}
+            ${renderNeonSwitch({ key: 'personalizationEnabled', id: 'ui-switch-personalizationEnabled', checked: enabled, label: _t('admin.config.ui.personalization_label'), action: 'toggle-personalization-enabled' })}
         </div>
-        ${enabled ? `<div id="personalization-images-grid" class="mt-5 pt-5 border-t border-slate-100">
+        <div id="personalization-images-grid" class="mt-5 pt-5 border-t border-slate-100" ${enabled ? '' : 'hidden'}>
             <label id="personalization-drop-zone" class="drop-zone block border-2 border-dashed border-green-300 rounded-xl p-4 flex flex-col items-center justify-center gap-1 cursor-pointer mb-2">
                 <i class="fas fa-cloud-upload-alt text-green-500 text-xl"></i>
                 <p class="text-xs text-slate-500 text-center">${_t('admin.config.ui.personalization_drop_hint')}</p>
@@ -41,8 +47,19 @@ function renderPersonalizationSection(settings) {
             <div id="personalization-images-list" class="text-slate-400 flex items-center gap-2 text-sm">
                 <i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.config.ui.personalization_loading')}
             </div>
-        </div>` : ''}
+        </div>
     </div>`;
+}
+
+/** Muestra la rejilla y, la primera vez, carga las imágenes y prepara la zona de arrastre. */
+function _showPersonalizationImages() {
+    const grid = document.getElementById('personalization-images-grid');
+    if (!grid) return;
+    grid.hidden = false;
+    if (grid.dataset.loaded) return;
+    grid.dataset.loaded = 'true';
+    loadPersonalizationImages();
+    _initPersonalizationDropZone();
 }
 
 function _initPersonalizationDropZone() {
@@ -78,7 +95,7 @@ function _renderPersonalizationGrid(images) {
         return;
     }
 
-    const current = _configData.__ui ? _configData.__ui.personalizationImage : null;
+    const current = _personalizationSelected;
     liveList.innerHTML = _tHtml(
         `<div class="grid grid-cols-3 sm:grid-cols-4 gap-3">${images.map(img => _renderPersonalizationThumb(img, img.filename === current)).join('')}</div>`
     );
@@ -105,13 +122,16 @@ function _renderPersonalizationThumb(img, selected) {
 }
 
 function togglePersonalizationEnabled(checked) {
-    if (_configData.__ui) _configData.__ui.personalizationEnabled = checked;
-    const area = document.getElementById('config-tab-content');
-    if (area) area.innerHTML = _tHtml(_renderUiTab(_configData.__ui || {}));
-    saveUiSetting('personalizationEnabled', checked);
+    if (checked) {
+        _showPersonalizationImages();
+    } else {
+        const grid = document.getElementById('personalization-images-grid');
+        if (grid) grid.hidden = true;
+    }
 }
 
 function selectPersonalizationImage(filename) {
+    _personalizationSelected = filename;
     document.querySelectorAll('[data-config-action="select-personalization-image"]').forEach(btn => {
         const wrapper = btn.closest('.relative');
         if (!wrapper) return;
@@ -124,7 +144,7 @@ function selectPersonalizationImage(filename) {
             badge.remove();
         }
     });
-    saveUiSetting('personalizationImage', filename);
+    refreshConfigSaveBar();
 }
 
 function uploadPersonalizationImage(file) {
@@ -160,9 +180,13 @@ function deletePersonalizationImage(filename) {
                 headers: { 'Authorization': 'Bearer ' + getAuthToken() }
             }).then(r => r.json()).then(data => {
                 if (data.success) {
+                    // El servidor quita la imagen de la configuración si era la guardada
                     if (_configData.__ui && _configData.__ui.personalizationImage === filename) {
                         _configData.__ui.personalizationImage = null;
+                        patchConfigSaveBarInitial({ personalizationImage: null });
                     }
+                    if (_personalizationSelected === filename) _personalizationSelected = null;
+                    refreshConfigSaveBar();
                     loadPersonalizationImages();
                 } else {
                     const status = document.getElementById('personalization-upload-status');

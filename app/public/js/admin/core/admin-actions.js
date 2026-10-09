@@ -89,9 +89,6 @@ const ADMIN_ACTIONS = {
     'switch-user-panel': ({ panel }) => {
         if (panel && typeof switchUserPanelView === 'function') switchUserPanelView(panel);
     },
-    'ai-discard': () => {
-        if (typeof discardAIConfigChanges === 'function') discardAIConfigChanges();
-    },
     'ai-delete-key': ({ provider }) => {
         if (provider && typeof deleteAIProviderKey === 'function') deleteAIProviderKey(provider);
     },

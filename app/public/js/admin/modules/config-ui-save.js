@@ -1,15 +1,12 @@
 /**
- * @fileoverview Guardado único de la pestaña "IA" del panel de configuración.
- * Compara el formulario con lo que había al pintarlo y, al pulsar "Guardar configuración",
- * envía solo lo que ha cambiado, en orden: primero las conexiones de cada proveedor y
- * después proveedor principal + respaldo (así el principal ya está configurado al elegirlo).
- * Si una petición falla se para ahí, se abre la fila del proveedor con el error y el
- * formulario conserva lo escrito.
- * Depende de: config-ui.js, config-ui-providers.js y config-ui-ollama.js cargados previamente.
+ * @fileoverview Guardado de la pestaña "IA" del panel de configuración.
+ * La barra común (config-savebar.js) detecta los cambios y, al pulsar "Guardar configuración",
+ * llama a saveAIConfig, que envía solo lo cambiado y en orden: primero las conexiones de
+ * cada proveedor y después proveedor principal + respaldo (así el principal ya está
+ * configurado al elegirlo). Si una petición falla se para ahí, se abre la fila del
+ * proveedor con el error y el formulario conserva lo escrito.
+ * Depende de: config-savebar.js, config-ui.js, config-ui-providers.js y config-ui-ollama.js.
  */
-
-/** Valores del formulario al pintarlo; se compara con ellos para saber si hay cambios. */
-let _aiInitial = null;
 
 function _aiCloudProviders() {
     return Object.keys(AI_PROVIDER_META).filter(id => id !== 'ollama');
@@ -29,30 +26,6 @@ function _aiSnapshot() {
         snap[id + 'Model'] = val('ai-model-select-' + id);
     });
     return snap;
-}
-
-/* ===== ESTADO DE LA BARRA ===== */
-
-function _aiSetStatus(state, html) {
-    const bar = document.getElementById('ai-savebar');
-    const statusEl = document.getElementById('ai-save-status');
-    if (!bar || !statusEl) return;
-    bar.dataset.state = state;
-    const busy = state === 'saving';
-    const clean = state === 'clean' || state === 'ok';
-    document.getElementById('ai-save-btn').disabled = busy || clean;
-    document.getElementById('ai-discard-btn').disabled = busy || clean;
-    const icon = { saving: 'fa-spin fa-circle-notch', ok: 'fa-check-circle', error: 'fa-times-circle' }[state];
-    statusEl.innerHTML = _tHtml((icon ? `<i class="fas ${icon}"></i>` : '<span class="aic-dot"></span>') + `<span>${html}</span>`);
-}
-
-/** Recalcula si hay cambios sin guardar y actualiza la barra. */
-function _aiRefreshDirty() {
-    const bar = document.getElementById('ai-savebar');
-    if (!bar || !_aiInitial || bar.dataset.state === 'saving') return;
-    const dirty = JSON.stringify(_aiSnapshot()) !== JSON.stringify(_aiInitial);
-    if (dirty) _aiSetStatus('dirty', _t('admin.ai.state_dirty'));
-    else _aiSetStatus('clean', _t('admin.ai.state_clean'));
 }
 
 function _aiShowRowError(provider, html) {
@@ -79,28 +52,27 @@ function _aiOnFormChange(event) {
     const row = target.closest('.aic-row');
     if (row) _aiShowRowError(row.dataset.provider, '');
     _aiUpdateActiveWarning();
-    _aiRefreshDirty();
 }
 
-/** Se llama tras pintar el formulario (renderAIConfigTab). */
+/** Se llama tras pintar el formulario (renderAIConfigTab): eventos propios y barra común. */
 function _aiBindForm() {
     const form = document.getElementById('ai-config-form');
     if (!form) return;
-    _aiInitial = _aiSnapshot();
     form.addEventListener('input', _aiOnFormChange);
     form.addEventListener('change', _aiOnFormChange);
+    // Intro en un campo = pulsar "Guardar configuración"
     form.addEventListener('submit', event => {
         event.preventDefault();
-        saveAIConfig();
+        saveConfigSaveBar();
     });
     _aiUpdateActiveWarning();
-    _aiSetStatus('clean', _t('admin.ai.state_clean'));
+    bindConfigSaveBar({ snapshot: _aiSnapshot, save: saveAIConfig, discard: renderAIConfigTab });
 }
 
 /* ===== GUARDAR ===== */
 
 /** Peticiones necesarias para guardar lo cambiado; las inválidas llevan { error }. */
-function _aiBuildRequests() {
+function _aiBuildRequests(initial) {
     const now = _aiSnapshot();
     const providers = _aiConfigData?.providers || {};
     const requests = [];
@@ -108,47 +80,46 @@ function _aiBuildRequests() {
     _aiCloudProviders().forEach(id => {
         const apiKey = now[id + 'Key'];
         const model = now[id + 'Model'];
-        const modelChanged = model !== _aiInitial[id + 'Model'];
+        const modelChanged = model !== initial[id + 'Model'];
         // Sin clave guardada ni escrita, cambiar el modelo no tiene nada que guardar
         if (apiKey || (providers[id]?.configured && modelChanged)) {
             requests.push({ provider: id, method: 'POST', url: '/api/ai-generator/config', body: { provider: id, apiKey, model } });
         }
     });
 
-    const ollama = _ollamaSaveRequest({ url: _aiInitial.ollamaUrl, model: _aiInitial.ollamaModel });
+    const ollama = _ollamaSaveRequest({ url: initial.ollamaUrl, model: initial.ollamaModel });
     if (ollama) requests.push({ provider: 'ollama', method: 'POST', ...ollama });
 
-    if (now.provider !== _aiInitial.provider || now.fallback !== _aiInitial.fallback) {
+    if (now.provider !== initial.provider || now.fallback !== initial.fallback) {
         requests.push({ provider: null, method: 'PUT', url: '/api/ai-generator/config/settings', body: { provider: now.provider, fallback: now.fallback } });
     }
     return requests;
 }
 
+/** Muestra el error en la fila del proveedor y devuelve el resultado para la barra. */
 function _aiFail(provider, html) {
-    if (provider) {
-        const row = document.getElementById('ai-row-' + provider);
-        if (row) {
-            row.open = true;
-            row.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-        _aiShowRowError(provider, html);
-        _aiSetStatus('error', _t('admin.ai.save_error', { provider: escapeHtml(AI_PROVIDER_META[provider].label) }));
-    } else {
-        _aiSetStatus('error', html);
+    if (!provider) return { ok: false, message: html };
+    const row = document.getElementById('ai-row-' + provider);
+    if (row) {
+        row.open = true;
+        row.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
+    _aiShowRowError(provider, html);
+    return { ok: false, message: _t('admin.ai.save_error', { provider: escapeHtml(AI_PROVIDER_META[provider].label) }) };
 }
 
-async function saveAIConfig() {
-    const bar = document.getElementById('ai-savebar');
-    if (!bar || !_aiInitial || bar.dataset.state === 'saving') return;
+/**
+ * Guardado de la pestaña IA (lo llama la barra común).
+ * @param {object} initial - snapshot al pintar la pestaña
+ * @returns {Promise<{ ok: boolean, message?: string }>}
+ */
+async function saveAIConfig(initial) {
     Object.keys(AI_PROVIDER_META).forEach(id => _aiShowRowError(id, ''));
 
-    const requests = _aiBuildRequests();
+    const requests = _aiBuildRequests(initial);
     const invalid = requests.find(r => r.error);
     if (invalid) return _aiFail(invalid.provider, invalid.error);
-    if (!requests.length) return _aiRefreshDirty();
 
-    _aiSetStatus('saving', _t('admin.groq.saving'));
     for (const req of requests) {
         let data;
         try {
@@ -163,15 +134,12 @@ async function saveAIConfig() {
         }
         if (!data.success) return _aiFail(req.provider, escapeHtml(data.error || _t('admin.tools.error_unknown')));
     }
-    _aiSetStatus('ok', _t('admin.groq.save_ok'));
+    // Se repinta para reflejar el estado guardado (insignias, clave enmascarada)
     setTimeout(renderAIConfigTab, 900);
+    return { ok: true, message: _t('admin.groq.save_ok') };
 }
 
-/* ===== DESCARTAR Y BORRAR ===== */
-
-function discardAIConfigChanges() {
-    renderAIConfigTab();
-}
+/* ===== BORRAR ===== */
 
 function deleteAIProviderKey(provider) {
     const meta = AI_PROVIDER_META[provider];

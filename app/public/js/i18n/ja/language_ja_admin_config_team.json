@@ -4,11 +4,6 @@
     "admin.config.team.names_title": "チーム名",
     "admin.config.team.names_desc": "チームゲーム開始時に提案される名前です。プレゼンターは各試合前に変更できます。",
     "admin.config.team.name_placeholder": "チーム名",
-    "admin.config.team.btn_save": "名前を保存",
-    "admin.config.team.btn_reset": "デフォルトに戻す",
-    "admin.config.team.saving": "保存中…",
-    "admin.config.team.saved_ok": "名前が正常に保存されました。",
-    "admin.config.team.net_error": "ネットワークエラー。",
-    "admin.config.team.reset_info": "値が復元されました。保存を押して適用してください。"
+    "admin.config.team.btn_reset": "デフォルトに戻す"
   }
 }
