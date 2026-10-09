@@ -8,7 +8,7 @@ Todo el CSS de Xiro! se escribe a mano. No hay paso de compilación, ni
 
 | Página | Hojas de estilo |
 |---|---|
-| `admin.html` | `common.css`, `output-admin.css`, `drag-drop.css`, `tokens.css`, `admin.css`, `neon-switch.css` |
+| `admin.html` | `common.css`, `output-admin.css`, `drag-drop.css`, `tokens.css`, `admin.css`, `neon-switch.css`, `admin-ai-config.css` (pestaña IA de Configuración) |
 | `jugador.html` | `common.css`, `output-player.css`, `jugador-base.css`, `jugador-quiz.css`, `jugador-effects.css`, `dice3d.css` |
 | `presentador.html` | `common.css`, `output-presenter.css`, `presenter.css`, `presenter-lobby-*.css`, `fireworks.css`, `neon.css`, `index-style.css` |
 | `index.html`, `contact.html`, `instrucciones.html`, manuales | `common.css`, `output-index.css`, `index-style.css` (+ `about.css` en `about.html`, `tokens.css` en los manuales) |
