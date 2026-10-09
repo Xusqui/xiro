@@ -5,6 +5,16 @@
     "admin.unsaved.msg_navigate": "Gorde gabeko aldaketak dituzu. Jarraitzen baduzu, galdu egingo dira. Jarraitu nahi al duzu?",
     "admin.unsaved.btn_exit": "Gorde gabe irten",
     "admin.unsaved.btn_keep": "Editzen jarraitu",
-    "admin.unsaved.btn_continue": "Gorde gabe jarraitu"
+    "admin.unsaved.btn_continue": "Gorde gabe jarraitu",
+    "admin.savebar.clean": "Dena gordeta",
+    "admin.savebar.dirty": "Gorde gabeko aldaketak",
+    "admin.savebar.saving": "Gordetzen…",
+    "admin.savebar.saved": "Aldaketak gordeta",
+    "admin.savebar.error_net": "Sareko errorea.",
+    "admin.savebar.btn_discard": "Baztertu aldaketak",
+    "admin.savebar.btn_save": "Gorde konfigurazioa",
+    "admin.savebar.btn_save_changes": "Gorde aldaketak",
+    "admin.savebar.new_item": "Oraindik gorde gabe",
+    "admin.savebar.error_ownership": "Ezin duzu gorde: beste erabiltzaile batek sortu zuen."
   }
 }

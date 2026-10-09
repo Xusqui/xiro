@@ -1,10 +1,20 @@
 {
-    "keys": {
-        "admin.unsaved.title": "⚠️ Cambios sin guardar",
-        "admin.unsaved.msg_exit": "Tienes cambios sin guardar. Si sales ahora, se perderán. ¿Quieres continuar?",
-        "admin.unsaved.msg_navigate": "Tienes cambios sin guardar. Si continúas, se perderán. ¿Quieres continuar?",
-        "admin.unsaved.btn_exit": "Salir sin guardar",
-        "admin.unsaved.btn_keep": "Seguir editando",
-        "admin.unsaved.btn_continue": "Continuar sin guardar"
-    }
+  "keys": {
+    "admin.unsaved.title": "⚠️ Cambios sin guardar",
+    "admin.unsaved.msg_exit": "Tienes cambios sin guardar. Si sales ahora, se perderán. ¿Quieres continuar?",
+    "admin.unsaved.msg_navigate": "Tienes cambios sin guardar. Si continúas, se perderán. ¿Quieres continuar?",
+    "admin.unsaved.btn_exit": "Salir sin guardar",
+    "admin.unsaved.btn_keep": "Seguir editando",
+    "admin.unsaved.btn_continue": "Continuar sin guardar",
+    "admin.savebar.clean": "Todo guardado",
+    "admin.savebar.dirty": "Cambios sin guardar",
+    "admin.savebar.saving": "Guardando…",
+    "admin.savebar.saved": "Cambios guardados",
+    "admin.savebar.error_net": "Error de red.",
+    "admin.savebar.btn_discard": "Descartar cambios",
+    "admin.savebar.btn_save": "Guardar configuración",
+    "admin.savebar.btn_save_changes": "Guardar cambios",
+    "admin.savebar.new_item": "Todavía sin guardar",
+    "admin.savebar.error_ownership": "No puedes guardar: lo creó otro usuario."
+  }
 }

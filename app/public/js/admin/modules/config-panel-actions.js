@@ -1,7 +1,7 @@
 /**
  * @fileoverview Acciones delegadas del panel de Configuración (data-config-action).
  * Ninguna guarda nada: solo cambian el formulario; el guardado va por la barra común
- * (config-savebar.js). Subir y borrar imágenes de personalización son la excepción
+ * (admin-savebar.js). Subir y borrar imágenes de personalización son la excepción
  * (operaciones de fichero inmediatas).
  * Depende de: config-panel.js, config-panel-ui.js, config-panel-fireworks.js,
  * config-personalization.js, config-team-names.js y unsaved-changes.js.

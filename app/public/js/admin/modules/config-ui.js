@@ -1,8 +1,8 @@
 /**
  * @fileoverview Pestaña "IA" del panel de configuración (Groq, Gemini y Ollama).
  * Un único formulario: proveedor principal + respaldo arriba y una fila plegable por
- * proveedor con su conexión. Se guarda con la barra común de Configuración (config-savebar.js).
- * Depende de: config-panel.js, config-savebar.js y checkbox.js cargados previamente.
+ * proveedor con su conexión. Se guarda con la barra común de Configuración (admin-savebar.js).
+ * Depende de: config-panel.js, admin-savebar.js y checkbox.js cargados previamente.
  * Filas de proveedor: config-ui-providers.js (Groq/Gemini) y config-ui-ollama.js.
  * Guardado y borrado: config-ui-save.js.
  */
@@ -67,7 +67,7 @@ let _aiConfigData = null;
 /* ===== RENDER DEL TAB ===== */
 
 function renderAIConfigTab() {
-    unbindConfigSaveBar();
+    unbindSaveBar();
     const area = document.getElementById('config-tab-content');
     if (area) area.innerHTML = _tHtml(`<div class="text-slate-400 flex items-center gap-2"><i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.groq.loading')}</div>`);
 

@@ -5,6 +5,16 @@
     "admin.unsaved.msg_navigate": "Sie haben nicht gespeicherte Änderungen. Wenn Sie fortfahren, gehen diese verloren. Möchten Sie fortfahren?",
     "admin.unsaved.btn_exit": "Ohne Speichern verlassen",
     "admin.unsaved.btn_keep": "Weiter bearbeiten",
-    "admin.unsaved.btn_continue": "Ohne Speichern fortfahren"
+    "admin.unsaved.btn_continue": "Ohne Speichern fortfahren",
+    "admin.savebar.clean": "Alles gespeichert",
+    "admin.savebar.dirty": "Ungespeicherte Änderungen",
+    "admin.savebar.saving": "Sparen…",
+    "admin.savebar.saved": "Änderungen gespeichert",
+    "admin.savebar.error_net": "Netzwerkfehler.",
+    "admin.savebar.btn_discard": "Änderungen verwerfen",
+    "admin.savebar.btn_save": "Konfiguration speichern",
+    "admin.savebar.btn_save_changes": "Änderungen speichern",
+    "admin.savebar.new_item": "Noch nicht gespeichert",
+    "admin.savebar.error_ownership": "Speichern nicht möglich: Ein anderer Benutzer hat dies erstellt."
   }
 }

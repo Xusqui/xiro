@@ -114,6 +114,7 @@ function prepararNuevoBanco() {
     preguntasData = [];
     activeView = null; // Salir de la vista de grid
     renderEditorBanco({ name: '', id: null });
+    _bindBankSaveBar(null);
 }
 
 // ===== CARGAR EDITOR DE BANCO =====
@@ -132,6 +133,7 @@ async function cargarEditorBanco(id) {
     preguntasData = data.questions.map(mapBankQuestionFromApi);
     renderEditorBanco(data.bank);
     dibujarPreguntas();
+    _bindBankSaveBar(data.bank.id);
 }
 
 // ===== RENDERIZAR EDITOR =====
@@ -244,19 +246,6 @@ function renderEditorBanco(bank) {
                     </button>
                 </div>
 
-                <div class="mt-12 pt-8 border-t border-slate-200">
-                    <div class="grid grid-cols-2 gap-4">
-                        <button data-admin-click="guardarBanco(false)" class="bg-white text-camaleon-700 border-2 border-camaleon-600 px-6 py-5 rounded-2xl font-black text-lg hover:bg-camaleon-50 transition shadow-sm flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
-                            <i class="fas fa-save text-xl"></i> ${_t('admin.banks.btn_save', null, 'GUARDAR BANCO')}
-                        </button>
-                        <button data-admin-click="guardarBanco(true)" class="bg-camaleon-600 text-white border-2 border-camaleon-600 px-6 py-5 rounded-2xl font-black text-lg hover:bg-camaleon-700 hover:border-camaleon-700 transition shadow-xl shadow-camaleon-200 flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
-                            <i class="fas fa-cloud-upload-alt text-xl"></i> ${_t('admin.banks.btn_save_exit', null, 'GUARDAR Y SALIR')}
-                        </button>
-                    </div>
-                    <p class="text-center text-slate-400 text-xs mt-3">
-                        <i class="fas fa-info-circle mr-1"></i>${_t('admin.banks.help_save', null, '"Guardar" mantiene el editor abierto, "Guardar y salir" vuelve a la lista de bancos')}
-                    </p>
-                </div>
                 ${bank.id ? `
                 <div class="mt-4">
                     <button data-admin-click="exportarBanco()" class="bg-plum-50 text-plum-700 border-2 border-plum-200 px-6 py-3 rounded-lg font-bold hover:bg-plum-100 hover:border-plum-300 transition w-full flex items-center justify-center gap-3">
@@ -264,10 +253,26 @@ function renderEditorBanco(bank) {
                     </button>
                 </div>
                 ` : ''}
+                ${renderSaveBar(_t('admin.savebar.btn_save_changes'))}
             </div>
         </div>`);
+}
 
-    setUnsavedChangesGuard('bancos', () => ({
+/** Conecta la barra de guardado una vez pintadas las preguntas (id null = banco nuevo). */
+function _bindBankSaveBar(id) {
+    bindSaveBar({
+        guard: 'bancos',
+        root: 'editorArea',
+        cleanText: id ? null : _t('admin.savebar.new_item'),
+        save: guardarBanco,
+        discard: () => (id ? cargarEditorBanco(id) : prepararNuevoBanco()),
+        snapshot: _bankEditorSnapshot
+    });
+}
+
+/** Estado del editor de banco para detectar cambios sin guardar. */
+function _bankEditorSnapshot() {
+    return {
         id: document.getElementById('editId')?.value || '',
         name: document.getElementById('editName')?.value || '',
         pin: document.getElementById('editBankPin')?.value || '',
@@ -282,7 +287,7 @@ function renderEditorBanco(bank) {
         image_url: document.getElementById('editBankImageUrl')?.value || '',
         ...snapshotRandomPoints('bank'),
         preguntas: preguntasData
-    }));
+    };
 }
 
 // ===== CONFIGURACIÓN RACHAS BANCO =====
@@ -367,34 +372,30 @@ function _bankValidationError(form, randomPoints) {
     return null;
 }
 
-function _afterBankSaved(salir, id, data) {
-    markUnsavedChangesAsSaved();
-    mostrarModalError(_t('admin.common.success_title', null, '✅ Éxito'), _t('admin.banks.success_saved', null, '¡Banco guardado correctamente!'), 'success');
-
-    setTimeout(() => {
-        if (salir) {
-            // Volver a la vista de bancos
-            mostrarVista('bancos');
-        } else if (!id && data.id) {
-            // Banco nuevo: fijar el ID y recargar para actualizar los IDs de las preguntas
-            document.getElementById('editId').value = data.id;
-            cargarEditorBanco(data.id);
-        }
-        // Si ya existía, solo mantener el editor abierto
-    }, 1500);
+/** Resultado para la barra de guardado; un banco nuevo se recarga para tener los IDs de las preguntas. */
+async function _afterBankSaved(id, data) {
+    const message = _t('admin.banks.success_saved', null, '¡Banco guardado correctamente!');
+    if (!id && data.id) {
+        document.getElementById('editId').value = data.id;
+        await cargarEditorBanco(data.id);
+        announceSaveBarSaved(message);
+    }
+    return { ok: true, message };
 }
 
-async function guardarBanco(salir = true) {
+/**
+ * Guarda el banco (lo llama la barra de guardado común).
+ * @returns {Promise<{ ok: boolean, message?: string }>}
+ */
+async function guardarBanco() {
     const form = _readBankForm();
     const randomPoints = readRandomPointsConfig('bank');
 
     const validationError = _bankValidationError(form, randomPoints);
-    if (validationError) {
-        return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), validationError, 'warning');
-    }
+    if (validationError) return { ok: false, message: escapeHtml(validationError) };
     if (form.id && !canModifyOwnedResource(form.ownerUserId)) {
         showOwnershipDeniedModal('este banco');
-        return;
+        return { ok: false, message: _t('admin.savebar.error_ownership') };
     }
 
     const preguntasValidas = preguntasData.filter(q => {
@@ -420,16 +421,11 @@ async function guardarBanco(salir = true) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
-
-        if (res.ok) {
-            _afterBankSaved(salir, form.id, await res.json());
-        } else {
-            const err = await res.json();
-            const mensaje = err.message || err.error || 'Error desconocido';
-            mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), mensaje, 'error');
-        }
-    } catch (error) {
-        mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.common.error_server', null, 'Error de conexión con el servidor'), 'error');
+        if (res.ok) return _afterBankSaved(form.id, await res.json());
+        const err = await res.json().catch(() => ({}));
+        return { ok: false, message: escapeHtml(err.message || err.error || _t('admin.tools.error_unknown')) };
+    } catch {
+        return { ok: false, message: _t('admin.common.error_server', null, 'Error de conexión con el servidor') };
     }
 }
 

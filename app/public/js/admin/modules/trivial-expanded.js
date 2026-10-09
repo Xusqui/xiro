@@ -169,36 +169,36 @@ function _trivialCategoriesError(form, categories) {
     return null;
 }
 
-async function _afterTrivialSaved(exit, data) {
-    markUnsavedChangesAsSaved();
-    if (exit) {
-        clearUnsavedChangesGuard();
-        await renderVistaTrivial();
-        return;
-    }
-    // Reload editor with saved data to refresh state
-    const id2 = data.id || document.getElementById('trivial-id')?.value;
-    if (id2) {
-        const r2 = await fetchWithAuth(`/api/trivial-games/${id2}`);
+/** Recarga el editor con lo guardado (IDs y estado del servidor) y avisa en la barra. */
+async function _afterTrivialSaved(data) {
+    const message = _t('admin.savebar.saved');
+    const id = data.id || document.getElementById('trivial-id')?.value;
+    if (id) {
+        const r2 = await fetchWithAuth(`/api/trivial-games/${id}`);
         const d2 = await r2.json();
         await renderEditorTrivial(d2.game || d2, d2.categories || []);
+        announceSaveBarSaved(message);
     }
+    return { ok: true, message };
 }
 
-async function guardarTrivial(exit = true) {
-    const validationTitle = _t('admin.common.validation_title', null, '⚠️ Validación');
+/**
+ * Guarda el trivial (lo llama la barra de guardado común).
+ * @returns {Promise<{ ok: boolean, message?: string }>}
+ */
+async function guardarTrivial() {
     const form = _readTrivialForm();
     const randomPoints = readRandomPointsConfig('trivial');
     const randomPointsCheck = validateRandomPointsConfig(randomPoints);
-    if (!randomPointsCheck.valid) return mostrarModalError(validationTitle, randomPointsCheck.message, 'warning');
+    if (!randomPointsCheck.valid) return { ok: false, message: escapeHtml(randomPointsCheck.message) };
     const categories = _readTrivialCategories();
-    if (!form.name || !form.pin || categories.length < 2) return mostrarModalError(validationTitle, _t('admin.trivial.error_required', null, 'Nombre, PIN y al menos 2 categorías son obligatorios.'), 'warning');
+    if (!form.name || !form.pin || categories.length < 2) return { ok: false, message: _t('admin.trivial.error_required', null, 'Nombre, PIN y al menos 2 categorías son obligatorios.') };
     if (form.id && !canModifyOwnedResource(form.ownerUserId)) {
         showOwnershipDeniedModal('este trivial');
-        return;
+        return { ok: false, message: _t('admin.savebar.error_ownership') };
     }
     const categoriesError = _trivialCategoriesError(form, categories);
-    if (categoriesError) return mostrarModalError(validationTitle, categoriesError, 'warning');
+    if (categoriesError) return { ok: false, message: escapeHtml(categoriesError) };
 
     const method = form.id ? 'PUT' : 'POST';
     const url = form.id ? `/api/trivial-games/${form.id}` : '/api/trivial-games';
@@ -214,8 +214,8 @@ async function guardarTrivial(exit = true) {
         })
     });
     const data = await res.json();
-    if (!res.ok) return mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), data.error || _t('admin.trivial.error_save', null, 'Error al guardar'), 'error');
-    await _afterTrivialSaved(exit, data);
+    if (!res.ok) return { ok: false, message: escapeHtml(data.error || _t('admin.trivial.error_save', null, 'Error al guardar')) };
+    return _afterTrivialSaved(data);
 }
 
 function borrarTrivial(id, event, ownerUserId = null) {

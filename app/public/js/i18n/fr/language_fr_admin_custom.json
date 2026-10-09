@@ -31,8 +31,6 @@
     "admin.custom.btn_short_image": "Image",
     "admin.custom.btn_short_text_img": "Texte+Img",
     "admin.custom.no_questions": "Aucune question sélectionnée pour l'instant",
-    "admin.custom.btn_save": "ENREGISTRER LE JEU",
-    "admin.custom.btn_save_exit": "ENREGISTRER ET QUITTER",
     "admin.custom.btn_export_pdf": "EXPORTER EN PDF",
     "admin.custom.slide_activity": "ACTIVITÉ LIBRE",
     "admin.custom.slide_activity_help": "Le présentateur peut assigner des points manuellement",

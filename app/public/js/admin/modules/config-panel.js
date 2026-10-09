@@ -1,8 +1,8 @@
 /**
  * @fileoverview Panel de Configuración del servidor (sección Config)
- * Requiere: config-panel-meta.js, config-panel-fields.js y config-savebar.js cargados previamente.
+ * Requiere: config-panel-meta.js, config-panel-fields.js y admin-savebar.js cargados previamente.
  * Las pestañas Interfaz y Fuegos artificiales viven en config-panel-ui.js y config-panel-fireworks.js;
- * IA en config-ui*.js y Licencia en site-panel.js. Todas guardan con la barra común (config-savebar.js).
+ * IA en config-ui*.js y Licencia en site-panel.js. Todas guardan con la barra común (admin-savebar.js).
  * Las acciones de clic del panel están en config-panel-actions.js.
  */
 
@@ -62,22 +62,22 @@ function _renderConfigForm(config) {
     return `
         <div id="config-tab-bar">${_renderTabBar()}</div>
         <div id="config-tab-content">${_renderTabContent(config)}</div>
-        ${renderConfigSaveBar()}
+        ${renderSaveBar()}
         <div class="h-10"></div>`;
 }
 
 /** Pinta el formulario y conecta la barra; IA y Licencia la conectan al terminar de cargar. */
 function _paintConfigForm(area) {
     area.innerHTML = _tHtml(_renderConfigForm(_configData));
-    unbindConfigSaveBar();
+    unbindSaveBar();
     const sec = _PARAM_SECTIONS.find(s => s.id === _activeTab) || {};
     if (sec.isGroq || sec.isLicense) return;
 
     const discard = () => switchConfigTab(_activeTab);
-    if (sec.isUi) bindConfigSaveBar({ snapshot: uiTabSnapshot, save: saveUiTab, discard });
-    else if (sec.isFireworks) bindConfigSaveBar({ snapshot: fireworksTabSnapshot, save: saveFireworksTab, discard });
-    else if (sec.isLambda) bindConfigSaveBar({ snapshot: _lambdaTabSnapshot, save: _saveLambdaTab, discard });
-    else bindConfigSaveBar({ snapshot: _serverFieldsSnapshot, save: initial => _postServerConfig(_serverUpdates(initial)), discard });
+    if (sec.isUi) bindSaveBar({ snapshot: uiTabSnapshot, save: saveUiTab, discard });
+    else if (sec.isFireworks) bindSaveBar({ snapshot: fireworksTabSnapshot, save: saveFireworksTab, discard });
+    else if (sec.isLambda) bindSaveBar({ snapshot: _lambdaTabSnapshot, save: _saveLambdaTab, discard });
+    else bindSaveBar({ snapshot: _serverFieldsSnapshot, save: initial => _postServerConfig(_serverUpdates(initial)), discard });
 }
 
 /* ===== TAB SWITCH ===== */
@@ -93,7 +93,7 @@ function switchConfigTab(tabId) {
 function renderConfigPanel() {
     const container = document.getElementById('editorArea');
     if (!container) return;
-    unbindConfigSaveBar();
+    unbindSaveBar();
     container.dataset.fromConfig = 'true';
     container.innerHTML = _tHtml(`
         <div class="min-h-full bg-gradient-to-br from-slate-50 to-aubergine-50/30 p-6 lg:p-10">

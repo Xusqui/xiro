@@ -5,6 +5,16 @@
     "admin.unsaved.msg_navigate": "未保存の変更があります。続行すると変更が失われます。続けますか？",
     "admin.unsaved.btn_exit": "保存せずに離れる",
     "admin.unsaved.btn_keep": "編集を続ける",
-    "admin.unsaved.btn_continue": "保存せずに続ける"
+    "admin.unsaved.btn_continue": "保存せずに続ける",
+    "admin.savebar.clean": "すべて保存済み",
+    "admin.savebar.dirty": "未保存の変更があります",
+    "admin.savebar.saving": "保存中…",
+    "admin.savebar.saved": "変更を保存しました",
+    "admin.savebar.error_net": "ネットワークエラー。",
+    "admin.savebar.btn_discard": "変更を破棄",
+    "admin.savebar.btn_save": "設定の保存",
+    "admin.savebar.btn_save_changes": "変更を保存",
+    "admin.savebar.new_item": "まだ保存されていません",
+    "admin.savebar.error_ownership": "保存できません：別のユーザーが作成したものです。"
   }
 }

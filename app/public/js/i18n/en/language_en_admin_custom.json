@@ -31,8 +31,6 @@
     "admin.custom.btn_short_image": "Image",
     "admin.custom.btn_short_text_img": "Text+Img",
     "admin.custom.no_questions": "No questions selected yet",
-    "admin.custom.btn_save": "SAVE GAME",
-    "admin.custom.btn_save_exit": "SAVE AND EXIT",
     "admin.custom.btn_export_pdf": "EXPORT TO PDF",
     "admin.custom.slide_activity": "FREE ACTIVITY",
     "admin.custom.slide_activity_help": "The presenter can assign points manually",

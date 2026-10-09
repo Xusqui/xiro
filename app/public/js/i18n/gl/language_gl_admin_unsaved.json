@@ -5,6 +5,16 @@
     "admin.unsaved.msg_navigate": "Tes cambios non gardados. Se continúas, perderanse. Queres continuar?",
     "admin.unsaved.btn_exit": "Saír sen gardar",
     "admin.unsaved.btn_keep": "Continuar editando",
-    "admin.unsaved.btn_continue": "Continuar sen gardar"
+    "admin.unsaved.btn_continue": "Continuar sen gardar",
+    "admin.savebar.clean": "Todo gardado",
+    "admin.savebar.dirty": "Cambios sen gardar",
+    "admin.savebar.saving": "Gardando…",
+    "admin.savebar.saved": "Cambios gardados",
+    "admin.savebar.error_net": "Erro de rede.",
+    "admin.savebar.btn_discard": "Descartar cambios",
+    "admin.savebar.btn_save": "Gardar a configuración",
+    "admin.savebar.btn_save_changes": "Gardar cambios",
+    "admin.savebar.new_item": "Aínda sen gardar",
+    "admin.savebar.error_ownership": "Non podes gardalo: creouno outro usuario."
   }
 }

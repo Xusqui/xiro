@@ -5,7 +5,7 @@
  * public/images/personalizations/.
  * Activar la insignia y elegir imagen se guardan con la barra común (config-panel-ui.js →
  * uiTabSnapshot); subir y borrar imágenes son operaciones de fichero y se hacen al momento.
- * Depende de: config-panel.js (_configData), config-savebar.js, checkbox.js
+ * Depende de: config-panel.js (_configData), admin-savebar.js, checkbox.js
  * y helpers.js (mostrarModalConfirmacion).
  */
 
@@ -144,7 +144,7 @@ function selectPersonalizationImage(filename) {
             badge.remove();
         }
     });
-    refreshConfigSaveBar();
+    refreshSaveBar();
 }
 
 function uploadPersonalizationImage(file) {
@@ -183,10 +183,10 @@ function deletePersonalizationImage(filename) {
                     // El servidor quita la imagen de la configuración si era la guardada
                     if (_configData.__ui && _configData.__ui.personalizationImage === filename) {
                         _configData.__ui.personalizationImage = null;
-                        patchConfigSaveBarInitial({ personalizationImage: null });
+                        patchSaveBarInitial({ personalizationImage: null });
                     }
                     if (_personalizationSelected === filename) _personalizationSelected = null;
-                    refreshConfigSaveBar();
+                    refreshSaveBar();
                     loadPersonalizationImages();
                 } else {
                     const status = document.getElementById('personalization-upload-status');

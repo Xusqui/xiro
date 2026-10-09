@@ -31,8 +31,6 @@
     "admin.custom.btn_short_image": "图片",
     "admin.custom.btn_short_text_img": "文字+图",
     "admin.custom.no_questions": "尚未选择任何问题",
-    "admin.custom.btn_save": "保存游戏",
-    "admin.custom.btn_save_exit": "保存并退出",
     "admin.custom.btn_export_pdf": "导出为PDF",
     "admin.custom.slide_activity": "自由活动",
     "admin.custom.slide_activity_help": "主持人可以手动分配分数",

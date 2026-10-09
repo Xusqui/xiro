@@ -1,7 +1,7 @@
 /**
  * @fileoverview Pestaña "Interfaz" del panel de configuración: tarjeta de TV, tarjeta
  * standalone, fondo animado y personalización (config-personalization.js).
- * Los cambios se guardan con la barra común (config-savebar.js) vía POST /api/admin/ui-settings.
+ * Los cambios se guardan con la barra común (admin-savebar.js) vía POST /api/admin/ui-settings.
  * Aquí vive también postUiSettings, que usan Fuegos artificiales y Equipos.
  * Depende de: config-panel.js (_configData) y checkbox.js cargados previamente.
  */
@@ -110,7 +110,7 @@ function setTvCardMode(mode, el) {
         btn.className = _tvCardModeClass(active);
         btn.setAttribute('aria-pressed', String(active));
     });
-    refreshConfigSaveBar();
+    refreshSaveBar();
 }
 
 function uiTabSnapshot() {

@@ -5,6 +5,16 @@
     "admin.unsaved.msg_navigate": "Vous avez des modifications non enregistrées. Si vous continuez, elles seront perdues. Voulez-vous continuer ?",
     "admin.unsaved.btn_exit": "Quitter sans enregistrer",
     "admin.unsaved.btn_keep": "Continuer à modifier",
-    "admin.unsaved.btn_continue": "Continuer sans enregistrer"
+    "admin.unsaved.btn_continue": "Continuer sans enregistrer",
+    "admin.savebar.clean": "Tout est enregistré",
+    "admin.savebar.dirty": "Modifications non enregistrées",
+    "admin.savebar.saving": "Économie…",
+    "admin.savebar.saved": "Modifications enregistrées",
+    "admin.savebar.error_net": "Erreur réseau.",
+    "admin.savebar.btn_discard": "Annuler les modifications",
+    "admin.savebar.btn_save": "Enregistrer la configuration",
+    "admin.savebar.btn_save_changes": "Enregistrer les modifications",
+    "admin.savebar.new_item": "Pas encore enregistré",
+    "admin.savebar.error_ownership": "Enregistrement impossible : créé par un autre utilisateur."
   }
 }

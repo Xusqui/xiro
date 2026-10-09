@@ -5,6 +5,16 @@
     "admin.unsaved.msg_navigate": "Tens canvis no desats. Si continues, es perdran. Vols continuar?",
     "admin.unsaved.btn_exit": "Sortir sense desar",
     "admin.unsaved.btn_keep": "Continuar editant",
-    "admin.unsaved.btn_continue": "Continuar sense desar"
+    "admin.unsaved.btn_continue": "Continuar sense desar",
+    "admin.savebar.clean": "Tot desat",
+    "admin.savebar.dirty": "Canvis sense desar",
+    "admin.savebar.saving": "Saving…",
+    "admin.savebar.saved": "Canvis desats",
+    "admin.savebar.error_net": "Network error.",
+    "admin.savebar.btn_discard": "Descarta els canvis",
+    "admin.savebar.btn_save": "Desa la configuració",
+    "admin.savebar.btn_save_changes": "Desa els canvis",
+    "admin.savebar.new_item": "Encara sense desar",
+    "admin.savebar.error_ownership": "No ho pots desar: ho va crear un altre usuari."
   }
 }

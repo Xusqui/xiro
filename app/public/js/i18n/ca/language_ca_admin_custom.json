@@ -31,8 +31,6 @@
     "admin.custom.btn_short_image": "Imatge",
     "admin.custom.btn_short_text_img": "Text+Img",
     "admin.custom.no_questions": "Encara no has seleccionat cap pregunta",
-    "admin.custom.btn_save": "DESA EL JOC",
-    "admin.custom.btn_save_exit": "DESA I SURT",
     "admin.custom.btn_export_pdf": "EXPORTA A PDF",
     "admin.custom.slide_activity": "ACTIVITAT LLIURE",
     "admin.custom.slide_activity_help": "El presentador pot assignar punts manualment",

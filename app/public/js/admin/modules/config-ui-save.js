@@ -1,11 +1,11 @@
 /**
  * @fileoverview Guardado de la pestaña "IA" del panel de configuración.
- * La barra común (config-savebar.js) detecta los cambios y, al pulsar "Guardar configuración",
+ * La barra común (admin-savebar.js) detecta los cambios y, al pulsar "Guardar configuración",
  * llama a saveAIConfig, que envía solo lo cambiado y en orden: primero las conexiones de
  * cada proveedor y después proveedor principal + respaldo (así el principal ya está
  * configurado al elegirlo). Si una petición falla se para ahí, se abre la fila del
  * proveedor con el error y el formulario conserva lo escrito.
- * Depende de: config-savebar.js, config-ui.js, config-ui-providers.js y config-ui-ollama.js.
+ * Depende de: admin-savebar.js, config-ui.js, config-ui-providers.js y config-ui-ollama.js.
  */
 
 function _aiCloudProviders() {
@@ -63,10 +63,10 @@ function _aiBindForm() {
     // Intro en un campo = pulsar "Guardar configuración"
     form.addEventListener('submit', event => {
         event.preventDefault();
-        saveConfigSaveBar();
+        triggerSaveBarSave();
     });
     _aiUpdateActiveWarning();
-    bindConfigSaveBar({ snapshot: _aiSnapshot, save: saveAIConfig, discard: renderAIConfigTab });
+    bindSaveBar({ snapshot: _aiSnapshot, save: saveAIConfig, discard: renderAIConfigTab });
 }
 
 /* ===== GUARDAR ===== */

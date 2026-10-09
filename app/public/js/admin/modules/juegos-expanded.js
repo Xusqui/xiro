@@ -129,7 +129,7 @@ async function cargarEditorJuego(id) {
     }
 
     currentBanks = data.banks;
-    renderEditorJuego(data.game, data.banks);
+    await renderEditorJuego(data.game, data.banks);
 }
 
 // ===== RENDERIZAR EDITOR =====
@@ -246,22 +246,23 @@ async function renderEditorJuego(game) {
                 <div id="poolTotalWrapper"></div>
             </div>
 
-            <div class="mt-8">
-                <div class="grid grid-cols-2 gap-4">
-                    <button data-admin-click="guardarJuego(false)" class="bg-white text-camaleon-700 border-2 border-camaleon-600 px-6 py-5 rounded-2xl font-black text-lg hover:bg-camaleon-50 transition shadow-sm flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
-                        <i class="fas fa-save text-xl"></i> ${_t('admin.games.btn_save', null, 'GUARDAR JUEGO')}
-                    </button>
-                    <button data-admin-click="guardarJuego(true)" class="bg-camaleon-600 text-white border-2 border-camaleon-600 px-6 py-5 rounded-2xl font-black text-lg hover:bg-camaleon-700 hover:border-camaleon-700 transition shadow-xl shadow-camaleon-200 flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
-                        <i class="fas fa-cloud-upload-alt text-xl"></i> ${_t('admin.banks.btn_save_exit', null, 'GUARDAR Y SALIR')}
-                    </button>
-                </div>
-                <p class="text-center text-slate-400 text-xs mt-3">
-                    <i class="fas fa-info-circle mr-1"></i>${_t('admin.games.help_save', null, '"Guardar" mantiene el editor abierto, "Guardar y salir" vuelve a la lista de juegos')}
-                </p>
-            </div>
+            ${renderSaveBar(_t('admin.savebar.btn_save_changes'))}
         </div>`);
 
-    setUnsavedChangesGuard('juegos', () => ({
+    await dibujarBancosJuego();
+    bindSaveBar({
+        guard: 'juegos',
+        root: 'editorArea',
+        cleanText: game.id ? null : _t('admin.savebar.new_item'),
+        save: guardarJuego,
+        discard: () => (game.id ? cargarEditorJuego(game.id) : prepararNuevoJuego()),
+        snapshot: _gameEditorSnapshot
+    });
+}
+
+/** Estado del editor de mezcla para detectar cambios sin guardar. */
+function _gameEditorSnapshot() {
+    return {
         id: document.getElementById('gameEditId')?.value || '',
         name: document.getElementById('gameName')?.value || '',
         pin: document.getElementById('gamePin')?.value || '',
@@ -277,9 +278,7 @@ async function renderEditorJuego(game) {
         image_url: document.getElementById('gameImageUrl')?.value || '',
         ...snapshotRandomPoints('game'),
         banks: currentBanks
-    }));
-
-    dibujarBancosJuego();
+    };
 }
 
 // ===== DIBUJAR BANCOS DEL JUEGO =====
@@ -391,30 +390,29 @@ function toggleDoubleStreakConfig() {
 
 // ===== GUARDAR JUEGO =====
 
-async function guardarJuego(salir = true) {
+/**
+ * Guarda el juego de mezcla (lo llama la barra de guardado común).
+ * @returns {Promise<{ ok: boolean, message?: string }>}
+ */
+async function guardarJuego() {
     const form = _readGameForm();
     const randomPoints = readRandomPointsConfig('game');
 
     const validationError = _gameValidationError(form, randomPoints);
-    if (validationError) {
-        return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), validationError, 'warning');
-    }
+    if (validationError) return { ok: false, message: escapeHtml(validationError) };
     if (form.id && !canModifyOwnedResource(form.ownerUserId)) {
         showOwnershipDeniedModal('este juego');
-        return;
+        return { ok: false, message: _t('admin.savebar.error_ownership') };
     }
 
     const bankIds = currentBanks.map(b => b.bank_id);
-    const uniqueBankIds = new Set(bankIds);
-    if (uniqueBankIds.size !== bankIds.length) {
-        return mostrarModalError(_t('admin.common.warning_title', null, '⚠️ Advertencia'), _t('admin.games.error_duplicate_banks', null, 'Tienes bancos repetidos. Los bancos de preguntas deben de ser únicos'), 'warning');
+    if (new Set(bankIds).size !== bankIds.length) {
+        return { ok: false, message: _t('admin.games.error_duplicate_banks', null, 'Tienes bancos repetidos. Los bancos de preguntas deben de ser únicos') };
     }
 
     const poolQuestionCount = obtenerPoolQuestionCount();
     const poolError = validarConfigPool(currentBanks, poolQuestionCount);
-    if (poolError) {
-        return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), poolError, 'warning');
-    }
+    if (poolError) return { ok: false, message: escapeHtml(poolError) };
 
     const payload = {
         name: form.name,
@@ -441,14 +439,11 @@ async function guardarJuego(salir = true) {
             body: JSON.stringify(payload)
         });
 
-        if (res.ok) {
-            await _afterGameSaved(salir, form.id, await res.json());
-        } else {
-            const err = await res.json();
-            mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), err.message || err.error || 'Error desconocido', 'error');
-        }
-    } catch (error) {
-        mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.common.error_server', null, 'Error de conexión con el servidor'), 'error');
+        if (res.ok) return _afterGameSaved(form.id, await res.json());
+        const err = await res.json().catch(() => ({}));
+        return { ok: false, message: escapeHtml(err.message || err.error || _t('admin.tools.error_unknown')) };
+    } catch {
+        return { ok: false, message: _t('admin.common.error_server', null, 'Error de conexión con el servidor') };
     }
 }
 
@@ -484,19 +479,15 @@ function _gameValidationError(form, randomPoints) {
     return null;
 }
 
-async function _afterGameSaved(salir, id, data) {
-    markUnsavedChangesAsSaved();
-    mostrarModalError(_t('admin.common.success_title', null, '✅ Éxito'), _t('admin.games.success_saved', null, '¡Juego guardado correctamente!'), 'success');
-
-    if (salir) {
-        // Volver a la vista de juegos
-        mostrarVista('juegos');
-    } else if (!id && data.id) {
-        // Juego nuevo: fijar el ID y recargar el juego completo
+/** Resultado para la barra de guardado; un juego nuevo se recarga completo. */
+async function _afterGameSaved(id, data) {
+    const message = _t('admin.games.success_saved', null, '¡Juego guardado correctamente!');
+    if (!id && data.id) {
         document.getElementById('gameEditId').value = data.id;
         await cargarEditorJuego(data.id);
+        announceSaveBarSaved(message);
     }
-    // Si ya existía, solo mantener el editor abierto
+    return { ok: true, message };
 }
 
 // ===== ELIMINAR JUEGO =====

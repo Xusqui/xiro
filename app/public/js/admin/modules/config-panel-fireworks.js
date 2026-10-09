@@ -1,7 +1,7 @@
 /**
  * @fileoverview Pestaña "Fuegos artificiales" del panel de configuración.
  * Deslizadores e interruptores (config-panel-fields.js) que se guardan con la barra común
- * (config-savebar.js) vía postUiSettings (config-panel-ui.js). La vista previa usa los
+ * (admin-savebar.js) vía postUiSettings (config-panel-ui.js). La vista previa usa los
  * valores del formulario, guardados o no.
  * Depende de: config-panel.js, config-panel-meta.js (UI_FIREWORKS_META) y config-panel-ui.js.
  */

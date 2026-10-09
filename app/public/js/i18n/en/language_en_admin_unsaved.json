@@ -1,10 +1,20 @@
 {
-    "keys": {
-        "admin.unsaved.title": "⚠️ Unsaved changes",
-        "admin.unsaved.msg_exit": "You have unsaved changes. If you leave now, they will be lost. Do you want to continue?",
-        "admin.unsaved.msg_navigate": "You have unsaved changes. If you continue, they will be lost. Do you want to continue?",
-        "admin.unsaved.btn_exit": "Leave without saving",
-        "admin.unsaved.btn_keep": "Keep editing",
-        "admin.unsaved.btn_continue": "Continue without saving"
-    }
+  "keys": {
+    "admin.unsaved.title": "⚠️ Unsaved changes",
+    "admin.unsaved.msg_exit": "You have unsaved changes. If you leave now, they will be lost. Do you want to continue?",
+    "admin.unsaved.msg_navigate": "You have unsaved changes. If you continue, they will be lost. Do you want to continue?",
+    "admin.unsaved.btn_exit": "Leave without saving",
+    "admin.unsaved.btn_keep": "Keep editing",
+    "admin.unsaved.btn_continue": "Continue without saving",
+    "admin.savebar.clean": "All changes saved",
+    "admin.savebar.dirty": "Unsaved changes",
+    "admin.savebar.saving": "Saving…",
+    "admin.savebar.saved": "Changes saved",
+    "admin.savebar.error_net": "Network error.",
+    "admin.savebar.btn_discard": "Discard changes",
+    "admin.savebar.btn_save": "Save configuration",
+    "admin.savebar.btn_save_changes": "Save changes",
+    "admin.savebar.new_item": "Not saved yet",
+    "admin.savebar.error_ownership": "You can't save this: another user created it."
+  }
 }

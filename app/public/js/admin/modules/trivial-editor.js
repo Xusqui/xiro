@@ -135,22 +135,21 @@ async function renderEditorTrivial(game, cats) {
                 </div>
                 <p class="text-xs text-slate-400 mt-3">${_t('admin.trivial.hint_categories_count', null, 'Mínimo 2, máximo 6 categorías.')}</p>
             </div>
-            <div class="flex gap-3">
-                <button data-admin-click="guardarTrivial(false)"
-                    class="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-black py-4 rounded-2xl text-lg shadow transition">
-                    <i class="fas fa-save mr-2"></i> ${game ? _t('admin.trivial.btn_save_changes', null, 'Guardar cambios') : _t('admin.trivial.btn_create', null, 'Crear Trivial')}
-                </button>
-                <button data-admin-click="guardarTrivial(true)"
-                    class="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-black py-4 rounded-2xl text-lg shadow-lg transition">
-                    <i class="fas fa-sign-out-alt mr-2"></i> ${_t('admin.trivial.btn_save_exit', null, 'Guardar y salir')}
-                </button>
-            </div>
+            ${renderSaveBar(_t('admin.savebar.btn_save_changes'))}
         </div>`);
 
     // Store bankOptions for dynamic add
     _trivialSyncColorOptions();
     _trivialSyncSrcOptions();
-    setUnsavedChangesGuard('trivial', _trivialEditorSnapshot);
+    const gameId = game?.id || null;
+    bindSaveBar({
+        guard: 'trivial',
+        root: 'editorArea',
+        cleanText: gameId ? null : _t('admin.savebar.new_item'),
+        save: guardarTrivial,
+        discard: () => (gameId ? cargarEditorTrivial(gameId) : prepararNuevoTrivial()),
+        snapshot: _trivialEditorSnapshot
+    });
 }
 
 /** Estado del editor para detectar cambios sin guardar. */

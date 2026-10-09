@@ -161,7 +161,7 @@ async function cargarEditorJuegoPersonalizado(id) {
             tipo_contenido: q.tipo_contenido,
             url_recurso: q.url_recurso
         }));
-        renderEditorJuegoPersonalizado(data.game, data.questions);
+        await renderEditorJuegoPersonalizado(data.game, data.questions);
     } catch (err) {
         console.error('Error cargando juego personalizado:', err);
         mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), 'Error al cargar el juego: ' + err.message, 'error');
@@ -320,13 +320,20 @@ async function renderEditorJuegoPersonalizado(game) {
                 </div>
             </div>
 
-            ${_customSaveButtonsHtml(game)}
+            ${_customExportPdfHtml(game)}
+            ${renderSaveBar(_t('admin.savebar.btn_save_changes'))}
         </div>`);
-
-    setUnsavedChangesGuard('personalizados', _customGameEditorSnapshot);
 
     dibujarPreguntasPersonalizadas();
     _syncPersonalizadosToolbarOffset();
+    bindSaveBar({
+        guard: 'personalizados',
+        root: 'editorArea',
+        cleanText: game.id ? null : _t('admin.savebar.new_item'),
+        save: guardarJuegoPersonalizado,
+        discard: () => (game.id ? cargarEditorJuegoPersonalizado(game.id) : prepararNuevoJuegoPersonalizado()),
+        snapshot: _customGameEditorSnapshot
+    });
 }
 
 /** Barra "Añadir contenido": actividad, info, texto, imagen, texto+imagen. */
@@ -361,28 +368,17 @@ function _customToolbarHtml() {
             </div>`;
 }
 
-/** Botones de guardar (y exportar a PDF si el juego ya existe). */
-function _customSaveButtonsHtml(game) {
+/**
+ * Botón de exportar a PDF (solo si el juego ya existe). La barra de guardado va fuera,
+ * como hija directa del editor: sticky solo se pega dentro de su contenedor.
+ */
+function _customExportPdfHtml(game) {
+    if (!game.id) return '';
     return `
             <div class="mt-8">
-                <div class="grid grid-cols-2 gap-4">
-                    <button data-admin-click="guardarJuegoPersonalizado(false)" class="bg-white text-camaleon-700 border-2 border-camaleon-600 px-6 py-5 rounded-2xl font-black text-lg hover:bg-camaleon-50 transition shadow-sm flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
-                        <i class="fas fa-save text-xl"></i> ${_t('admin.custom.btn_save', null, 'GUARDAR JUEGO')}
-                    </button>
-                    <button data-admin-click="guardarJuegoPersonalizado(true)" class="bg-camaleon-600 text-white border-2 border-camaleon-600 px-6 py-5 rounded-2xl font-black text-lg hover:bg-camaleon-700 hover:border-camaleon-700 transition shadow-xl shadow-camaleon-200 flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
-                        <i class="fas fa-cloud-upload-alt text-xl"></i> ${_t('admin.custom.btn_save_exit', null, 'GUARDAR Y SALIR')}
-                    </button>
-                </div>
-                ${game.id ? `
-                <div class="mt-4">
-                    <button data-admin-click="exportarJuegoAPDF(${game.id}, '${escapeHtml(jsStringContent(game.name))}')" class="w-full bg-plum-600 text-white px-6 py-4 rounded-2xl font-bold text-lg hover:bg-plum-700 transition shadow-xl shadow-plum-200 flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
-                        <i class="fas fa-file-pdf text-xl"></i> ${_t('admin.custom.btn_export_pdf', null, 'EXPORTAR A PDF')}
-                    </button>
-                </div>
-                ` : ''}
-                <p class="text-center text-slate-400 text-xs mt-3">
-                    <i class="fas fa-info-circle mr-1"></i>${_t('admin.games.help_save', null, '"Guardar" mantiene el editor abierto, "Guardar y salir" vuelve a la lista de juegos')}
-                </p>
+                <button data-admin-click="exportarJuegoAPDF(${game.id}, '${escapeHtml(jsStringContent(game.name))}')" class="w-full bg-plum-600 text-white px-6 py-4 rounded-2xl font-bold text-lg hover:bg-plum-700 transition shadow-xl shadow-plum-200 flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95">
+                    <i class="fas fa-file-pdf text-xl"></i> ${_t('admin.custom.btn_export_pdf', null, 'EXPORTAR A PDF')}
+                </button>
             </div>`;
 }
 
@@ -659,32 +655,30 @@ function _customSlideForSave(q) {
     };
 }
 
-async function _afterCustomGameSaved(salir, id, data) {
-    markUnsavedChangesAsSaved();
-    mostrarModalError(_t('admin.common.success_title', null, '✅ Éxito'), _t('admin.custom.success_saved', null, '¡Juego personalizado guardado correctamente!'), 'success');
-
-    if (salir) {
-        // Volver a la vista de personalizados
-        mostrarVista('personalizados');
-    } else if (!id && data.id) {
-        // Creación (POST): fijar el ID para futuras actualizaciones y recargar el juego completo
+/** Resultado para la barra de guardado; un juego nuevo (POST) se recarga completo. */
+async function _afterCustomGameSaved(id, data) {
+    const message = _t('admin.custom.success_saved', null, '¡Juego personalizado guardado correctamente!');
+    if (!id && data.id) {
         document.getElementById('customGameEditId').value = data.id;
         await cargarEditorJuegoPersonalizado(data.id);
+        announceSaveBarSaved(message);
     }
-    // Si ya existía, solo mantener el editor abierto
+    return { ok: true, message };
 }
 
-async function guardarJuegoPersonalizado(salir = true) {
+/**
+ * Guarda el juego personalizado (lo llama la barra de guardado común).
+ * @returns {Promise<{ ok: boolean, message?: string }>}
+ */
+async function guardarJuegoPersonalizado() {
     const form = _readCustomGameForm();
     const randomPoints = readRandomPointsConfig('customGame');
 
     const validationError = _customGameValidationError(form, randomPoints);
-    if (validationError) {
-        return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), validationError, 'warning');
-    }
+    if (validationError) return { ok: false, message: escapeHtml(validationError) };
     if (form.id && !canModifyOwnedResource(form.ownerUserId)) {
         showOwnershipDeniedModal('este juego personalizado');
-        return;
+        return { ok: false, message: _t('admin.savebar.error_ownership') };
     }
 
     const payload = {
@@ -708,15 +702,11 @@ async function guardarJuegoPersonalizado(salir = true) {
             body: JSON.stringify(payload)
         });
 
-        if (res.ok) {
-            await _afterCustomGameSaved(salir, form.id, await res.json());
-        } else {
-            const err = await res.json();
-            const mensaje = err.message || err.error || 'Error desconocido';
-            mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), mensaje, 'error');
-        }
-    } catch (error) {
-        mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), 'Error de conexión con el servidor', 'error');
+        if (res.ok) return _afterCustomGameSaved(form.id, await res.json());
+        const err = await res.json().catch(() => ({}));
+        return { ok: false, message: escapeHtml(err.message || err.error || _t('admin.tools.error_unknown')) };
+    } catch {
+        return { ok: false, message: _t('admin.common.error_server', null, 'Error de conexión con el servidor') };
     }
 }
 

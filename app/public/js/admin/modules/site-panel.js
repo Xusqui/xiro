@@ -1,6 +1,6 @@
 /* ===== TAB DE LICENCIA ===== */
 // Licencia + URL pública (site-public-url.js) se guardan con la barra común de
-// Configuración (config-savebar.js); las exenciones (license-exemptions.js) van al momento.
+// Configuración (admin-savebar.js); las exenciones (license-exemptions.js) van al momento.
 
 (function registerLicenseTab() {
     if (typeof _PARAM_SECTIONS === 'undefined') return;
@@ -124,7 +124,7 @@ function _renderLicensePanel(data) {
 }
 
 function renderLicenseTab() {
-    unbindConfigSaveBar();
+    unbindSaveBar();
     const area = document.getElementById('config-tab-content');
     if (area) {
         area.innerHTML = _tHtml(`<div class="text-slate-400 flex items-center gap-2"><i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.license.loading')}</div>`);
@@ -143,7 +143,7 @@ function renderLicenseTab() {
             const urlCard = typeof renderSitePublicUrlCard === 'function' ? renderSitePublicUrlCard() : null;
             Promise.resolve(urlCard).then(() => {
                 if (document.getElementById('config-tab-content') === liveArea) {
-                    bindConfigSaveBar({ snapshot: _licenseTabSnapshot, save: _saveLicenseTab, discard: renderLicenseTab });
+                    bindSaveBar({ snapshot: _licenseTabSnapshot, save: _saveLicenseTab, discard: renderLicenseTab });
                 }
             });
         })

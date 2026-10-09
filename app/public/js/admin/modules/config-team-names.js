@@ -106,5 +106,5 @@ function resetTeamNames() {
         const input = document.getElementById(`team-name-admin-${i}`);
         if (input) input.value = defaults[i] || '';
     }
-    refreshConfigSaveBar();
+    refreshSaveBar();
 }

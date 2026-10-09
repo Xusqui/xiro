@@ -31,8 +31,6 @@
     "admin.custom.btn_short_image": "画像",
     "admin.custom.btn_short_text_img": "テキスト+画像",
     "admin.custom.no_questions": "まだ質問が選択されていません",
-    "admin.custom.btn_save": "ゲームを保存",
-    "admin.custom.btn_save_exit": "保存して終了",
     "admin.custom.btn_export_pdf": "PDFにエクスポート",
     "admin.custom.slide_activity": "フリーアクティビティ",
     "admin.custom.slide_activity_help": "プレゼンターが手動でポイントを割り当てられます",

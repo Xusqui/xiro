@@ -5,6 +5,16 @@
     "admin.unsaved.msg_navigate": "Tem alterações não guardadas. Se continuar, serão perdidas. Deseja continuar?",
     "admin.unsaved.btn_exit": "Sair sem guardar",
     "admin.unsaved.btn_keep": "Continuar a editar",
-    "admin.unsaved.btn_continue": "Continuar sem guardar"
+    "admin.unsaved.btn_continue": "Continuar sem guardar",
+    "admin.savebar.clean": "Tudo salvo",
+    "admin.savebar.dirty": "Alterações não salvas",
+    "admin.savebar.saving": "Salvando…",
+    "admin.savebar.saved": "Alterações salvas",
+    "admin.savebar.error_net": "Erro de rede.",
+    "admin.savebar.btn_discard": "Descartar alterações",
+    "admin.savebar.btn_save": "Salvar configuração",
+    "admin.savebar.btn_save_changes": "Salvar alterações",
+    "admin.savebar.new_item": "Ainda não salvo",
+    "admin.savebar.error_ownership": "Não é possível salvar: foi criado por outro usuário."
   }
 }

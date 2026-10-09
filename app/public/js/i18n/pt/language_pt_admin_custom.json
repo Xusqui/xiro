@@ -31,8 +31,6 @@
     "admin.custom.btn_short_image": "Imagem",
     "admin.custom.btn_short_text_img": "Texto+Img",
     "admin.custom.no_questions": "Ainda não foram selecionadas perguntas",
-    "admin.custom.btn_save": "GUARDAR JOGO",
-    "admin.custom.btn_save_exit": "GUARDAR E SAIR",
     "admin.custom.btn_export_pdf": "EXPORTAR PARA PDF",
     "admin.custom.slide_activity": "ATIVIDADE LIVRE",
     "admin.custom.slide_activity_help": "O apresentador pode atribuir pontos manualmente",
