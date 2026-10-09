@@ -3,6 +3,10 @@
  * Limpia markdown, parsea JSON y valida estructura mínima por tipo.
  */
 
+// Tipos en los que se piden candidatas de más (prompt-builder): las inválidas
+// se descartan en vez de rechazar el lote entero.
+const LENIENT_TYPES = new Set(['word_scramble']);
+
 const TYPE_VALIDATORS = {
     quiz: require('./question-types/quiz').validate,
     survey: require('./question-types/survey').validate,
@@ -21,11 +25,13 @@ function stripMarkdown(raw) {
     // Eliminar bloques ```json ... ``` o ``` ... ```
     const cleaned = raw.replace(/```(?:json)?\s*/gi, '').replace(/```/g, '');
 
-    // Extraer la primera estructura JSON completa (array o objeto)
+    // Extraer la estructura JSON que empieza antes (array u objeto). Si se
+    // prefiriese siempre el array, una pregunta suelta {question_text, options: [...]}
+    // se leería como su array de opciones.
     const arrayMatch = cleaned.match(/\[[\s\S]*\]/);
     const objectMatch = cleaned.match(/\{[\s\S]*\}/);
 
-    if (arrayMatch) return arrayMatch[0];
+    if (arrayMatch && (!objectMatch || arrayMatch.index < objectMatch.index)) return arrayMatch[0];
     if (objectMatch) return objectMatch[0];
     return cleaned.trim();
 }
@@ -76,6 +82,9 @@ function parseLLMResponse(raw, expectedType) {
     }
 
     const invalid = items.filter(q => !validator(q));
+    if (LENIENT_TYPES.has(expectedType) && invalid.length < items.length) {
+        return items.filter(q => validator(q));
+    }
     if (invalid.length > 0) {
         throw new Error(
             `${invalid.length} de ${items.length} preguntas de tipo '${expectedType}' ` +

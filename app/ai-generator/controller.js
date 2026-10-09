@@ -63,7 +63,8 @@ async function buildBatchPromptPayload(input) {
     const maxTokens = batchCount * 450 + 200;
     const raw = await callLLM(provider, prompt, undefined, 120000, maxTokens);
     const parsed = parseLLMResponse(raw, type);
-    return buildQuestionsForType(type, parsed);
+    // Algunos prompts piden candidatas de más (word_scramble); nunca se pasa de lo pedido
+    return buildQuestionsForType(type, parsed).slice(0, batchCount);
 }
 
 async function handleBatchError(context) {

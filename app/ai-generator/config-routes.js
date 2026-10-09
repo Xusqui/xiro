@@ -1,11 +1,12 @@
 'use strict';
 
 /**
- * @fileoverview Rutas de configuración de los proveedores de IA (Groq y Gemini).
- * GET    /api/ai-generator/config           → { provider, fallback, providers: { groq, gemini } }
- *                                               cada uno { configured, model, maskedKey }
+ * @fileoverview Rutas de configuración de los proveedores de IA (Groq, Gemini y Ollama).
+ * GET    /api/ai-generator/config           → { provider, fallback, providers: { groq, gemini, ollama } }
+ *                                               cada uno { configured, model, maskedKey }; ollama además baseUrl
+ * La URL y el modelo de Ollama se guardan con ollama-routes.js.
  * POST   /api/ai-generator/config           → guarda clave/modelo  body: { provider, apiKey, model }
- * DELETE /api/ai-generator/config?provider= → elimina la clave de ese proveedor
+ * DELETE /api/ai-generator/config?provider= → elimina la clave (o la URL de Ollama) de ese proveedor
  * PUT    /api/ai-generator/config/settings  → proveedor activo y respaldo  body: { provider, fallback }
  * Si no se indica provider en POST/DELETE se asume 'groq' (compatibilidad con el panel antiguo).
  */
@@ -19,6 +20,7 @@ const {
     getSettings,
     setSettings,
     getApiKey,
+    getBaseUrl,
     isConfigured,
     getModel,
     setApiKey,
@@ -58,6 +60,7 @@ router.get('/api/ai-generator/config', authenticateAdmin, (req, res) => {
                 maskedKey: _maskKey(getApiKey(provider))
             };
         }
+        providers.ollama.baseUrl = getBaseUrl('ollama');
         res.json({ ...getSettings(), providers });
     } catch (err) {
         handleRouteError(err, res);
@@ -104,8 +107,8 @@ router.post('/api/ai-generator/config', authenticateAdmin, (req, res) => {
 });
 
 /**
- * DELETE /api/ai-generator/config?provider=groq|gemini
- * Elimina la API key persistida de ese proveedor.
+ * DELETE /api/ai-generator/config?provider=groq|gemini|ollama
+ * Elimina la API key persistida de ese proveedor (en Ollama, la URL).
  */
 router.delete('/api/ai-generator/config', authenticateAdmin, (req, res) => {
     try {
@@ -122,7 +125,7 @@ router.delete('/api/ai-generator/config', authenticateAdmin, (req, res) => {
 
 /**
  * PUT /api/ai-generator/config/settings
- * Body: { provider: 'groq'|'gemini', fallback: boolean }
+ * Body: { provider: 'groq'|'gemini'|'ollama', fallback: boolean }
  */
 router.put('/api/ai-generator/config/settings', authenticateAdmin, (req, res) => {
     try {

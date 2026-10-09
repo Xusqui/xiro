@@ -227,8 +227,13 @@ REGLAS: 4-6 elementos, order_index empieza en 0, is_correct=false en todas, en $
 NO copies estos ejemplos. Genera preguntas NUEVAS basadas en ese texto.`;
 }
 
+// Candidatas de más: los modelos no cuentan bien las letras y el parser
+// descarta las que no tienen 7-10 (el controlador se queda con las pedidas).
+const WORD_SCRAMBLE_EXTRA = 3;
+
 function buildWordScramblePrompt(text, count, dificultad, { previousQuestions = [], mode = 'document', language = 'es' } = {}) {
     const lang = getLanguageName(language);
+    const candidates = count + WORD_SCRAMBLE_EXTRA;
     const schema = `[
   {
     "question_text": "<definición o pista de la palabra>",
@@ -243,23 +248,23 @@ function buildWordScramblePrompt(text, count, dificultad, { previousQuestions = 
     if (mode === 'prompt') {
         const safeText = text.trim().slice(0, MAX_PROMPT_CHARS);
         return `Eres un generador experto de preguntas de adivinar palabra. El usuario te indica un tema.
-Genera ${count} preguntas de adivinar palabra en ${lang} sobre ese tema. Dificultad: ${DIFICULTAD_INSTRUCCION[dificultad] || 'media'}.${getExclusionInstruction(previousQuestions)}
+Genera ${candidates} preguntas de adivinar palabra en ${lang} sobre ese tema, cada una con una palabra distinta. Dificultad: ${DIFICULTAD_INSTRUCCION[dificultad] || 'media'}.${getExclusionInstruction(previousQuestions)}
 IMPORTANTE: Usa términos clave reales del tema (personajes, lugares, conceptos, fechas). NO generes preguntas sobre la instrucción.
 Responde SOLO con un array JSON:
 ${schema}
 
-REGLAS: correctWord es UNA sola palabra en MAYÚSCULAS con EXACTAMENTE entre 7 y 10 letras (ni más ni menos), sin espacios, guiones, números ni signos; si el término no cumple esa longitud, elige otro. Debe ser un término clave real del tema, options=[], en ${lang}.
+REGLAS: correctWord es UNA sola palabra en MAYÚSCULAS con EXACTAMENTE entre 7 y 10 letras (ni más ni menos), sin espacios, guiones, números ni signos; si el término no cumple esa longitud, elige otro. Cuenta las letras una a una antes de responder: VOLCANES (8) y MURCIÉLAGO (10) valen; FOTOSÍNTESIS (12) y ÁTOMO (5) NO valen. Debe ser un término clave real del tema, options=[], en ${lang}.
 NO copies estos ejemplos. Genera preguntas REALES sobre el siguiente tema:
 
 ${safeText}`;
     }
     return `${wrapDocumentInput(getText(text))}
 
-${INJECTION_GUARD}Genera ${count} preguntas de adivinar palabra en ${lang} sobre el texto anterior, entre las etiquetas user_input. Dificultad: ${DIFICULTAD_INSTRUCCION[dificultad] || 'media'}. ${getExclusionInstruction(previousQuestions)}
+${INJECTION_GUARD}Genera ${candidates} preguntas de adivinar palabra en ${lang}, cada una con una palabra distinta, sobre el texto anterior, entre las etiquetas user_input. Dificultad: ${DIFICULTAD_INSTRUCCION[dificultad] || 'media'}. ${getExclusionInstruction(previousQuestions)}
 Responde SOLO con un array JSON:
 ${schema}
 
-REGLAS: correctWord es UNA sola palabra en MAYÚSCULAS con EXACTAMENTE entre 7 y 10 letras (ni más ni menos), sin espacios, guiones, números ni signos; si el término no cumple esa longitud, elige otro. Debe ser un término clave del texto, options=[], en ${lang}.
+REGLAS: correctWord es UNA sola palabra en MAYÚSCULAS con EXACTAMENTE entre 7 y 10 letras (ni más ni menos), sin espacios, guiones, números ni signos; si el término no cumple esa longitud, elige otro. Cuenta las letras una a una antes de responder: VOLCANES (8) y MURCIÉLAGO (10) valen; FOTOSÍNTESIS (12) y ÁTOMO (5) NO valen. Debe ser un término clave del texto, options=[], en ${lang}.
 NO copies estos ejemplos. Genera preguntas NUEVAS basadas en ese texto.`;
 }
 

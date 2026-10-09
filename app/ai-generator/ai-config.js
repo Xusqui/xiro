@@ -1,15 +1,18 @@
 'use strict';
 
 /**
- * @fileoverview Persiste la configuración de los proveedores de IA (Groq y Gemini)
+ * @fileoverview Persiste la configuración de los proveedores de IA (Groq, Gemini y Ollama)
  * en groq-key.json. El nombre se conserva porque docker-compose lo monta como
  * fichero suelto; cambiarlo obligaría a tocar los despliegues.
  * Las claves NUNCA se almacenan en variables de entorno ni en docker-compose.
  *
  * Formato:
- *   { provider: 'groq'|'gemini', fallback: bool,
+ *   { provider: 'groq'|'gemini'|'ollama', fallback: bool,
  *     groq:   { apiKey, model },
- *     gemini: { apiKey, model } }
+ *     gemini: { apiKey, model },
+ *     ollama: { baseUrl, model, apiKey? } }
+ * En Ollama la API key es opcional (proxy con autenticación u Ollama Cloud):
+ * se considera configurado cuando tiene URL y modelo.
  * El formato antiguo ({ apiKey, model } en la raíz, solo Groq) se migra al leer.
  */
 
@@ -18,12 +21,14 @@ const path = require('path');
 
 const KEY_FILE = path.join(__dirname, 'groq-key.json');
 
-const PROVIDERS = ['groq', 'gemini'];
+// El orden marca la preferencia al elegir el proveedor de respaldo
+const PROVIDERS = ['groq', 'gemini', 'ollama'];
 const DEFAULT_PROVIDER = 'groq';
 const DEFAULT_FALLBACK = true;
 const DEFAULT_MODELS = {
     groq: () => process.env.GROQ_MODEL || 'llama-3.3-70b-versatile',
-    gemini: () => 'gemini-3.5-flash-lite'
+    gemini: () => 'gemini-3.5-flash-lite',
+    ollama: () => null // depende de los modelos instalados en el servidor Ollama
 };
 
 function isValidProvider(provider) {
@@ -50,7 +55,8 @@ function _load() {
         provider: isValidProvider(raw.provider) ? raw.provider : DEFAULT_PROVIDER,
         fallback: typeof raw.fallback === 'boolean' ? raw.fallback : DEFAULT_FALLBACK,
         groq,
-        gemini: { ...(raw.gemini || {}) }
+        gemini: { ...(raw.gemini || {}) },
+        ollama: { ...(raw.ollama || {}) }
     };
 }
 
@@ -75,7 +81,13 @@ function getApiKey(provider) {
     return _load()[provider].apiKey || null;
 }
 
+function getBaseUrl(provider) {
+    if (provider !== 'ollama') return null;
+    return _load().ollama.baseUrl || null;
+}
+
 function isConfigured(provider) {
+    if (provider === 'ollama') return Boolean(getBaseUrl(provider) && getModel(provider));
     return Boolean(getApiKey(provider));
 }
 
@@ -93,33 +105,45 @@ function setApiKey(provider, key, model = null) {
     _save(data);
 }
 
+/** apiKey null la quita: Ollama sin autenticación. */
+function setOllamaConfig(baseUrl, model, apiKey = null) {
+    const data = _load();
+    data.ollama.baseUrl = baseUrl;
+    data.ollama.model = model;
+    if (apiKey) data.ollama.apiKey = apiKey;
+    else delete data.ollama.apiKey;
+    _save(data);
+}
+
 /**
- * Quita la clave conservando el modelo. No borra el archivo: en Docker está
+ * Quita la clave (en Ollama, también la URL) conservando el modelo. No borra el archivo: en Docker está
  * montado como fichero suelto (bind mount) y unlink fallaría con EBUSY.
  */
 function deleteApiKey(provider) {
     if (!fs.existsSync(KEY_FILE)) return;
     const data = _load();
     delete data[provider].apiKey;
+    if (provider === 'ollama') delete data.ollama.baseUrl;
     _save(data);
 }
 
 /**
  * Decide qué proveedor usar y cuál de respaldo.
- * - Si el activo tiene clave, es el principal; el otro es respaldo si el
- *   fallback está activado y tiene clave.
- * - Si el activo no tiene clave y el fallback está activado, se usa el otro.
+ * - Si el activo está configurado, es el principal; el respaldo (si el fallback
+ *   está activado) es el primer otro proveedor configurado, en el orden de PROVIDERS.
+ * - Si el activo no está configurado y el fallback está activado, los dos
+ *   primeros proveedores configurados hacen de principal y respaldo.
  * @returns {{ primary: string|null, fallback: string|null }}
  */
 function getProviderPlan() {
     const { provider, fallback } = getSettings();
-    const other = PROVIDERS.find(p => p !== provider);
+    const others = PROVIDERS.filter(p => p !== provider && isConfigured(p));
 
     if (isConfigured(provider)) {
-        return { primary: provider, fallback: fallback && isConfigured(other) ? other : null };
+        return { primary: provider, fallback: fallback && others.length ? others[0] : null };
     }
-    if (fallback && isConfigured(other)) {
-        return { primary: other, fallback: null };
+    if (fallback && others.length) {
+        return { primary: others[0], fallback: others[1] || null };
     }
     return { primary: null, fallback: null };
 }
@@ -130,9 +154,11 @@ module.exports = {
     getSettings,
     setSettings,
     getApiKey,
+    getBaseUrl,
     isConfigured,
     getModel,
     setApiKey,
+    setOllamaConfig,
     deleteApiKey,
     getProviderPlan
 };

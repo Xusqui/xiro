@@ -89,14 +89,14 @@ const ADMIN_ACTIONS = {
     'switch-user-panel': ({ panel }) => {
         if (panel && typeof switchUserPanelView === 'function') switchUserPanelView(panel);
     },
-    'ai-save-settings': () => {
-        if (typeof saveAISettings === 'function') saveAISettings();
-    },
-    'ai-save-key': ({ provider }) => {
-        if (provider && typeof saveAIProviderKey === 'function') saveAIProviderKey(provider);
+    'ai-discard': () => {
+        if (typeof discardAIConfigChanges === 'function') discardAIConfigChanges();
     },
     'ai-delete-key': ({ provider }) => {
         if (provider && typeof deleteAIProviderKey === 'function') deleteAIProviderKey(provider);
+    },
+    'ai-ollama-load-models': () => {
+        if (typeof loadOllamaModels === 'function') loadOllamaModels(false);
     },
     'clear-uploads': () => {
         if (typeof limpiarArchivosHuerfanos === 'function') limpiarArchivosHuerfanos();

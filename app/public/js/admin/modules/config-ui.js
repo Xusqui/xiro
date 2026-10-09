@@ -1,8 +1,10 @@
 /**
- * @fileoverview Panel de configuración de la IA (Groq y Gemini).
- * Añade la pestaña "IA" al panel de configuración del servidor: proveedor activo,
- * respaldo automático y una tarjeta por proveedor con su API key y su modelo.
+ * @fileoverview Pestaña "IA" del panel de configuración (Groq, Gemini y Ollama).
+ * Un único formulario: proveedor principal + respaldo arriba, una fila plegable por
+ * proveedor con su conexión, y una barra fija con un solo botón "Guardar configuración".
  * Depende de: config-panel.js y neon-switch.js cargados previamente.
+ * Filas de proveedor: config-ui-providers.js (Groq/Gemini) y config-ui-ollama.js.
+ * Guardado, descarte y borrado: config-ui-save.js.
  */
 
 /* ===== REGISTRO DE TAB ===== */
@@ -49,8 +51,18 @@ const AI_PROVIDER_META = {
             { id: 'gemini-3.8-flash', label: 'Gemini 3.8 Flash (el Flash más potente)' },
             { id: 'gemini-3.1-pro-preview', label: 'Gemini 3.1 Pro (preview, máxima calidad)' }
         ]
+    },
+    // Sin lista fija de modelos: su fila la pinta _renderOllamaRow (config-ui-ollama.js)
+    ollama: {
+        label: 'Ollama (local)',
+        titleKey: 'admin.ollama.title',
+        deleteMsgKey: 'admin.ollama.delete_msg',
+        icon: 'fa-server'
     }
 };
+
+/** Última respuesta de GET /api/ai-generator/config (estado guardado en el servidor). */
+let _aiConfigData = null;
 
 /* ===== RENDER DEL TAB ===== */
 
@@ -62,7 +74,11 @@ function renderAIConfigTab() {
         .then(r => r.json())
         .then(data => {
             const liveArea = document.getElementById('config-tab-content');
-            if (liveArea) liveArea.innerHTML = _tHtml(_renderAIConfigForm(data));
+            if (!liveArea) return;
+            _aiConfigData = data;
+            liveArea.innerHTML = _tHtml(_renderAIConfigForm(data));
+            _aiBindForm();
+            if (data.providers?.ollama?.baseUrl && typeof loadOllamaModels === 'function') loadOllamaModels(true);
         })
         .catch(() => {
             const liveArea = document.getElementById('config-tab-content');
@@ -70,230 +86,98 @@ function renderAIConfigTab() {
         });
 }
 
-/* ===== FORMULARIO ===== */
-
 function _renderAIConfigForm(data) {
     const providers = data.providers || {};
-    return `
-    <div class="space-y-6 mb-8">
-        ${_renderAISettingsCard(data)}
-        ${Object.keys(AI_PROVIDER_META).map(id => _renderAIProviderCard(id, providers[id] || {}, data.provider === id)).join('')}
-    </div>`;
-}
-
-function _aiStatusBadge(configured) {
-    return configured
-        ? `<span class="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700 font-bold"><i class="fas fa-check-circle"></i> ${_t('admin.groq.configured')}</span>`
-        : `<span class="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full bg-amber-100 text-amber-700 font-bold"><i class="fas fa-exclamation-circle"></i> ${_t('admin.groq.not_configured')}</span>`;
-}
-
-function _renderAISettingsCard(data) {
-    const providers = data.providers || {};
-    const active = data.provider;
-    const other = Object.keys(AI_PROVIDER_META).find(id => id !== active);
-    const activeConfigured = Boolean(providers[active]?.configured);
-
-    let warning = '';
-    if (!activeConfigured) {
-        const usesOther = data.fallback === true && Boolean(providers[other]?.configured);
-        warning = `<p class="text-xs text-amber-700 font-medium"><i class="fas fa-exclamation-circle mr-1"></i>${usesOther ? _t('admin.ai.warn_no_key_fallback') : _t('admin.ai.warn_no_key')}</p>`;
-    }
-
-    const providerOptions = Object.keys(AI_PROVIDER_META).map(id =>
-        `<option value="${id}" ${active === id ? 'selected' : ''}>${escapeHtml(AI_PROVIDER_META[id].label)}</option>`
-    ).join('');
+    const rows = Object.keys(AI_PROVIDER_META).map(id => id === 'ollama'
+        ? _renderOllamaRow(providers.ollama || {}, data.provider === id)
+        : _renderAIProviderRow(id, providers[id] || {}, data.provider === id)).join('');
 
     return `
-        <div class="bg-white rounded-2xl border-2 border-slate-200 p-6">
-            <div class="flex items-center gap-3 mb-5">
-                <div class="w-10 h-10 bg-plum-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <i class="fas fa-robot text-plum-600"></i>
+    <form id="ai-config-form" class="aic" novalidate autocomplete="off">
+        <section class="aic-card" aria-labelledby="aic-primary-title">
+            <header class="aic-card__head">
+                <h2 id="aic-primary-title" class="aic-card__title">${_t('admin.ai.label_provider')}</h2>
+                <p class="aic-card__desc">${_t('admin.ai.settings_subtitle')}</p>
+            </header>
+            <fieldset class="aic-tiles">
+                <legend class="aic-sr-only">${_t('admin.ai.label_provider')}</legend>
+                ${Object.keys(AI_PROVIDER_META).map(id => _renderAITile(id, providers[id] || {}, data.provider === id)).join('')}
+            </fieldset>
+            <div class="aic-fallback">
+                <div class="aic-fallback__text">
+                    <p class="aic-fallback__label">${_t('admin.ai.fallback_label')}</p>
+                    <p class="aic-hint">${_t('admin.ai.fallback_desc')}</p>
                 </div>
-                <div>
-                    <p class="font-bold text-slate-800">${_t('admin.ai.settings_title')}</p>
-                    <p class="text-xs text-slate-500 mt-0.5">${_t('admin.ai.settings_subtitle')}</p>
-                </div>
+                ${renderNeonSwitch({ key: 'ai-fallback', id: 'ai-fallback-switch', action: null, checked: data.fallback === true, label: _t('admin.ai.fallback_label') })}
             </div>
+            <p id="ai-active-warning" class="aic-warning" hidden></p>
+        </section>
 
-            <div class="space-y-4">
-                <div>
-                    <label for="ai-provider-select" class="block text-sm font-bold text-slate-700 mb-2">
-                        ${_t('admin.ai.label_provider')}
-                    </label>
-                    <select id="ai-provider-select"
-                        class="w-full border-2 border-slate-200 rounded-xl p-3 font-sans text-sm focus:border-plum-500 outline-none bg-white text-slate-800 appearance-none">
-                        ${providerOptions}
-                    </select>
-                </div>
+        <section class="aic-card aic-card--flush" aria-labelledby="aic-providers-title">
+            <header class="aic-card__head aic-card__head--padded">
+                <h2 id="aic-providers-title" class="aic-card__title">${_t('admin.ai.section_providers')}</h2>
+                <p class="aic-card__desc">${_t('admin.ai.section_providers_desc')}</p>
+            </header>
+            ${rows}
+        </section>
 
-                <div class="flex items-center justify-between gap-4">
-                    <div class="flex-1 min-w-0">
-                        <p class="font-bold text-slate-700 text-sm mb-1">${_t('admin.ai.fallback_label')}</p>
-                        <p class="text-xs text-slate-500 leading-relaxed">${_t('admin.ai.fallback_desc')}</p>
-                    </div>
-                    ${renderNeonSwitch({ key: 'ai-fallback', id: 'ai-fallback-switch', action: null, checked: data.fallback === true, label: _t('admin.ai.fallback_label') })}
-                </div>
-                ${warning}
-            </div>
-
-            <div class="flex flex-wrap gap-3 mt-5">
-                <button data-admin-action="ai-save-settings"
-                    class="flex items-center gap-2 bg-camaleon-600 hover:bg-camaleon-700 active:scale-95 text-white font-bold px-5 py-2.5 rounded-xl transition-all text-sm">
-                    <i class="fas fa-save text-xs"></i> ${_t('admin.ai.btn_save_settings')}
-                </button>
-            </div>
-            <div id="ai-settings-result" class="mt-3 text-sm"></div>
-        </div>`;
+        ${_renderAISaveBar()}
+    </form>`;
 }
 
-function _renderAIProviderCard(provider, info, isActive) {
-    const meta = AI_PROVIDER_META[provider];
+/* ===== PROVEEDOR PRINCIPAL ===== */
+
+function _renderAITile(id, info, isActive) {
+    const meta = AI_PROVIDER_META[id];
     const configured = info.configured === true;
-    const model = info.model || meta.models[0].id;
-
-    // Si el modelo guardado no está en la lista (p. ej. GROQ_MODEL), se ofrece igualmente
-    const models = meta.models.some(m => m.id === model)
-        ? meta.models
-        : [{ id: model, label: model }, ...meta.models];
-    const modelOptions = models.map(m =>
-        `<option value="${escapeHtml(m.id)}" ${model === m.id ? 'selected' : ''}>${escapeHtml(m.label)}</option>`
-    ).join('');
-
-    const activeBadge = isActive
-        ? `<span class="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full bg-plum-100 text-plum-600 font-bold"><i class="fas fa-star"></i> ${_t('admin.ai.badge_active')}</span>`
-        : '';
-
+    const status = configured
+        ? `<span class="aic-dot aic-dot--ok"></span>${_t('admin.groq.configured')}`
+        : `<span class="aic-dot"></span>${_t('admin.groq.not_configured')}`;
     return `
-        <div class="bg-white rounded-2xl border-2 border-slate-200 p-6">
-            <div class="flex items-center gap-3 mb-5">
-                <div class="w-10 h-10 bg-plum-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <i class="fas ${meta.icon} text-plum-600"></i>
-                </div>
-                <div>
-                    <p class="font-bold text-slate-800">${_t(meta.titleKey)}</p>
-                    <p class="text-xs text-slate-500 mt-0.5">${_t('admin.groq.subtitle')}</p>
-                </div>
-                <div class="ml-auto flex flex-wrap gap-2">${activeBadge}${_aiStatusBadge(configured)}</div>
-            </div>
-
-            <div class="space-y-4">
-                <div>
-                    <label for="ai-key-input-${provider}" class="block text-sm font-bold text-slate-700 mb-2">
-                        ${configured ? _t('admin.groq.label_api_set') : _t('admin.groq.label_api')}
-                    </label>
-                    <input id="ai-key-input-${provider}" autocomplete="off"
-                        ${configured ? `value="${escapeHtml(info.maskedKey || '')}" disabled` : ''}
-                        placeholder="${meta.placeholder}"
-                        class="w-full border-2 border-slate-200 rounded-xl p-3 font-mono text-sm focus:border-plum-500 outline-none transition ${configured ? 'bg-slate-100 text-slate-500 cursor-not-allowed' : 'bg-white text-slate-900'}">
-                </div>
-
-                <div>
-                    <label for="ai-model-select-${provider}" class="block text-sm font-bold text-slate-700 mb-2">
-                        ${_t('admin.groq.label_model')}
-                    </label>
-                    <select id="ai-model-select-${provider}"
-                        class="w-full border-2 border-slate-200 rounded-xl p-3 font-sans text-sm focus:border-plum-500 outline-none bg-white text-slate-800 appearance-none">
-                        ${modelOptions}
-                    </select>
-                    <p class="text-xs text-slate-400 mt-2">${_t('admin.groq.model_desc')}</p>
-                </div>
-            </div>
-
-            <div class="flex flex-wrap gap-3 mt-5">
-                <button data-admin-action="ai-save-key" data-provider="${provider}"
-                    class="flex items-center gap-2 bg-camaleon-600 hover:bg-camaleon-700 active:scale-95 text-white font-bold px-5 py-2.5 rounded-xl transition-all text-sm">
-                    <i class="fas fa-save text-xs"></i> ${configured ? _t('admin.groq.btn_update') : _t('admin.groq.btn_save')}
-                </button>
-                ${configured ? `<button data-admin-action="ai-delete-key" data-provider="${provider}"
-                    class="flex items-center gap-2 bg-white hover:bg-red-50 text-red-600 font-bold px-5 py-2.5 rounded-xl border-2 border-red-200 transition-all text-sm">
-                    <i class="fas fa-trash text-xs"></i> ${_t('admin.groq.btn_delete')}
-                </button>` : ''}
-            </div>
-            <div id="ai-result-${provider}" class="mt-3 text-sm"></div>
-        </div>`;
+        <label class="aic-tile">
+            <input type="radio" name="ai-provider" value="${id}" class="aic-tile__input" ${isActive ? 'checked' : ''}>
+            <span class="aic-tile__icon"><i class="fas ${meta.icon}"></i></span>
+            <span class="aic-tile__body">
+                <span class="aic-tile__name">${escapeHtml(meta.label)}</span>
+                <span class="aic-tile__status">${status}</span>
+                ${configured && info.model ? `<span class="aic-tile__model" title="${escapeHtml(info.model)}">${escapeHtml(info.model)}</span>` : ''}
+            </span>
+            <span class="aic-tile__check" aria-hidden="true"><i class="fas fa-check"></i></span>
+        </label>`;
 }
 
-/* ===== ACCIONES ===== */
-
-function _aiShowResult(resultEl, kind, text) {
-    if (!resultEl) return;
-    const styles = {
-        ok: ['text-emerald-600 font-semibold', 'fa-check-circle'],
-        error: ['text-red-600 font-medium', 'fa-times-circle'],
-        busy: ['text-slate-400', 'fa-spin fa-circle-notch']
-    };
-    const [cls, icon] = styles[kind];
-    resultEl.innerHTML = _tHtml(`<span class="${cls}"><i class="fas ${icon} mr-1"></i>${text}</span>`);
-}
-
-function saveAISettings() {
-    const providerSelect = document.getElementById('ai-provider-select');
+/** Avisa si el proveedor elegido como principal no tiene conexión guardada. */
+function _aiUpdateActiveWarning() {
+    const warningEl = document.getElementById('ai-active-warning');
+    const checked = document.querySelector('#ai-config-form input[name="ai-provider"]:checked');
     const fallbackSwitch = document.getElementById('ai-fallback-switch');
-    const resultEl = document.getElementById('ai-settings-result');
-    if (!providerSelect || !fallbackSwitch) return;
+    if (!warningEl || !checked || !_aiConfigData) return;
 
-    _aiShowResult(resultEl, 'busy', _t('admin.groq.saving'));
-
-    fetch('/api/ai-generator/config/settings', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getAuthToken() },
-        body: JSON.stringify({ provider: providerSelect.value, fallback: fallbackSwitch.checked })
-    }).then(r => r.json()).then(data => {
-        if (data.success) {
-            _aiShowResult(resultEl, 'ok', _t('admin.ai.settings_ok'));
-            setTimeout(renderAIConfigTab, 800);
-        } else {
-            _aiShowResult(resultEl, 'error', escapeHtml(data.error || _t('admin.tools.error_unknown')));
-        }
-    }).catch(() => _aiShowResult(resultEl, 'error', _t('admin.groq.error_net')));
-}
-
-function saveAIProviderKey(provider) {
-    const input = document.getElementById('ai-key-input-' + provider);
-    const modelSelect = document.getElementById('ai-model-select-' + provider);
-    const resultEl = document.getElementById('ai-result-' + provider);
-
-    const isConfigured = input && input.disabled;
-    const key = input && !isConfigured ? input.value.trim() : '';
-    const model = modelSelect ? modelSelect.value : null;
-
-    if (!isConfigured && !key) {
-        _aiShowResult(resultEl, 'error', _t('admin.groq.error_no_key'));
+    const providers = _aiConfigData.providers || {};
+    const active = checked.value;
+    if (providers[active]?.configured) {
+        warningEl.hidden = true;
         return;
     }
-    _aiShowResult(resultEl, 'busy', _t('admin.groq.saving'));
-
-    fetch('/api/ai-generator/config', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getAuthToken() },
-        body: JSON.stringify({ provider, apiKey: key, model })
-    }).then(r => r.json()).then(data => {
-        if (data.success) {
-            _aiShowResult(resultEl, 'ok', _t('admin.groq.save_ok'));
-            setTimeout(renderAIConfigTab, 800);
-        } else {
-            _aiShowResult(resultEl, 'error', escapeHtml(data.error || _t('admin.tools.error_unknown')));
-        }
-    }).catch(() => _aiShowResult(resultEl, 'error', _t('admin.groq.error_net')));
+    const usesOther = fallbackSwitch?.checked
+        && Object.keys(AI_PROVIDER_META).some(id => id !== active && providers[id]?.configured);
+    warningEl.innerHTML = _tHtml(`<i class="fas fa-exclamation-circle"></i> ${usesOther ? _t('admin.ai.warn_no_key_fallback') : _t('admin.ai.warn_no_key')}`);
+    warningEl.hidden = false;
 }
 
-function deleteAIProviderKey(provider) {
-    const meta = AI_PROVIDER_META[provider];
-    if (!meta) return;
-    mostrarModalConfirmacion(
-        _t('admin.groq.delete_title'),
-        _t(meta.deleteMsgKey),
-        () => {
-            const resultEl = document.getElementById('ai-result-' + provider);
-            _aiShowResult(resultEl, 'busy', _t('admin.groq.deleting'));
+/* ===== BARRA DE GUARDADO ===== */
 
-            fetch('/api/ai-generator/config?provider=' + encodeURIComponent(provider), {
-                method: 'DELETE',
-                headers: { 'Authorization': 'Bearer ' + getAuthToken() }
-            }).then(r => r.json()).then(data => {
-                if (data.success) setTimeout(renderAIConfigTab, 400);
-                else _aiShowResult(resultEl, 'error', _t('admin.groq.error_delete'));
-            }).catch(() => _aiShowResult(resultEl, 'error', _t('admin.groq.error_net')));
-        }
-    );
+function _renderAISaveBar() {
+    return `
+        <div class="aic-savebar" id="ai-savebar" data-state="clean">
+            <p class="aic-savebar__status" id="ai-save-status" role="status" aria-live="polite"></p>
+            <div class="aic-savebar__actions">
+                <button type="button" data-admin-action="ai-discard" id="ai-discard-btn" class="aic-btn aic-btn--ghost" disabled>
+                    <i class="fas fa-undo"></i> ${_t('admin.ai.btn_discard')}
+                </button>
+                <button type="submit" id="ai-save-btn" class="aic-btn aic-btn--primary" disabled>
+                    <i class="fas fa-save"></i> ${_t('admin.groq.btn_save')}
+                </button>
+            </div>
+        </div>`;
 }
