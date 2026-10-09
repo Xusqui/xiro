@@ -59,7 +59,9 @@ mkdir -p public/uploads public/images/personalizations logs config backups
 echo '{}' > config/ui-overrides.json
 echo '{}' > config/runtime-overrides.json
 echo '{}' > config/groq-key.json
+
 sudo chown -R 1001:1001 public logs config
+sudo chown 1001:1001 config/*
 ```
 
 ### Step 2 — Set your domain

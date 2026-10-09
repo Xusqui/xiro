@@ -64,7 +64,7 @@ services:
       - ./logs:/usr/src/app/logs
       - ./config/ui-overrides.json:/usr/src/app/config/ui-overrides.json
       - ./config/runtime-overrides.json:/usr/src/app/config/runtime-overrides.json
-      - ./config/groq-key.json:/usr/src/app/ai-generator/groq-key.json
+      - ./config/groq-key.json:/usr/src/app/ai-generator/groq-key.json:rw
       - /etc/machine-id:/host/machine-id:ro
     environment:
       MACHINE_ID_PATH: /host/machine-id
