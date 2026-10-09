@@ -90,6 +90,21 @@ function findSessionByPin(pin, activeGames, lobbyPlayers) {
 }
 
 /**
+ * Busca la sesión activa por su sessionId exacto (PIN-UUID).
+ * Evita la ambigüedad de findSessionByPin cuando hay varias sesiones con el mismo PIN.
+ * @param {string} sessionId
+ * @param {Map} activeGames
+ * @param {Map} lobbyPlayers
+ * @returns {{sessionId: string, game: Object|null}|null}
+ */
+function findSessionById(sessionId, activeGames, lobbyPlayers) {
+    const id = String(sessionId);
+    if (activeGames.has(id)) return { sessionId: id, game: activeGames.get(id) };
+    if (lobbyPlayers?.has(id)) return { sessionId: id, game: null };
+    return null;
+}
+
+/**
  * Construye el snapshot inicial enviado al control remoto.
  * @param {string} sessionId
  * @param {Object|null} game
@@ -125,29 +140,77 @@ function buildRemoteSnapshot(sessionId, game, lobbyPlayers, gameType = null, tea
 }
 
 /**
+ * Obtiene el token admin del payload o, si falta, de la cookie `adminToken`.
+ * @param {Object} socket
+ * @param {Object} data
+ * @returns {string|undefined}
+ */
+function resolveRemoteToken(socket, data) {
+    if (data?.token) return data.token;
+    const cookieHeader = socket.handshake?.headers?.cookie;
+    const match = cookieHeader && cookieHeader.match(/(?:^|;\s*)adminToken=([^;]*)/);
+    return match ? decodeURIComponent(match[1]) : undefined;
+}
+
+/**
+ * Localiza la sesión pedida: por sessionId (sin ambigüedad) o, en URLs antiguas, por PIN.
+ * @returns {{found: Object}|{error: Object}}
+ */
+function resolveRemoteSession(requestedId, pin, activeGames, lobbyPlayers) {
+    if (requestedId) {
+        const found = findSessionById(requestedId, activeGames, lobbyPlayers);
+        return found ? { found } : {
+            error: {
+                reason: 'session-not-found',
+                message: `No se encontró ninguna sesión activa con id ${requestedId}`,
+                code: 'NO_ACTIVE_SESSION_FOR_ID',
+                params: { sessionId: requestedId }
+            }
+        };
+    }
+    const found = findSessionByPin(String(pin).toUpperCase(), activeGames, lobbyPlayers);
+    return found ? { found } : {
+        error: {
+            reason: 'session-not-found',
+            message: `No se encontró ninguna sesión activa con PIN ${pin}`,
+            code: 'NO_ACTIVE_SESSION_FOR_PIN',
+            params: { pin }
+        }
+    };
+}
+
+/**
+ * Resuelve el tipo de juego (bank/custom/trivial) a partir del PIN; null si falla.
+ * @param {string} pinStr
+ * @returns {Promise<string|null>}
+ */
+async function resolveRemoteGameType(pinStr) {
+    try {
+        const pinInfo = await validatePinCached(pinStr);
+        return pinInfo?.valid ? pinInfo.type : null;
+    } catch (err) {
+        logger.warn('Remote presenter: no se pudo resolver gameType por PIN', {
+            pin: pinStr,
+            error: err.message
+        });
+        return null;
+    }
+}
+
+/**
  * Crea el handler para el evento `join-remote-presenter`.
  * @param {Object} deps - { activeGames, lobbyPlayers }
  * @returns {Function} handler(socket, data)
  */
 function createJoinRemotePresenterHandler({ activeGames, lobbyPlayers, teamConfigs }) {
     return async function handleJoinRemotePresenter(socket, data) {
-        const { pin } = data || {};
-        let token = data?.token;
+        const { sessionId: requestedId, pin } = data || {};
+        const token = resolveRemoteToken(socket, data);
 
-        if (!token) {
-            const cookieHeader = socket.handshake?.headers?.cookie;
-            if (cookieHeader) {
-                const match = cookieHeader.match(/(?:^|;\s*)adminToken=([^;]*)/);
-                if (match) {
-                    token = decodeURIComponent(match[1]);
-                }
-            }
-        }
-
-        if (!token || !pin) {
+        if (!token || (!pin && !requestedId)) {
             socket.emit('remote-join-failed', {
                 reason: 'missing-data',
-                message: 'Token JWT y PIN son requeridos',
+                message: 'Token JWT y sesión (o PIN) son requeridos',
                 code: 'REMOTE_JOIN_DATA_REQUIRED'
             });
             return;
@@ -161,24 +224,19 @@ function createJoinRemotePresenterHandler({ activeGames, lobbyPlayers, teamConfi
                 code: 'REMOTE_JOIN_TOKEN_INVALID'
             });
             logger.warn('Remote presenter join denied – invalid token', {
-                socketId: socket.id, pin
+                socketId: socket.id, pin, sessionId: requestedId
             });
             return;
         }
 
-        const pinStr = String(pin).toUpperCase();
-        const found = findSessionByPin(pinStr, activeGames, lobbyPlayers);
-        if (!found) {
-            socket.emit('remote-join-failed', {
-                reason: 'session-not-found',
-                message: `No se encontró ninguna sesión activa con PIN ${pin}`,
-                code: 'NO_ACTIVE_SESSION_FOR_PIN',
-                params: { pin }
-            });
+        const { found, error } = resolveRemoteSession(requestedId, pin, activeGames, lobbyPlayers);
+        if (error) {
+            socket.emit('remote-join-failed', error);
             return;
         }
 
         const { sessionId, game } = found;
+        const pinStr = String(pin || game?.pin || sessionId.split('-')[0]).toUpperCase();
 
         await socket.join(sessionId);
         await socket.join(sessionId + ':presenter');
@@ -190,22 +248,12 @@ function createJoinRemotePresenterHandler({ activeGames, lobbyPlayers, teamConfi
 
         addRemotePresenter(sessionId, socket.id);
 
-        let gameType = null;
-        try {
-            const pinInfo = await validatePinCached(pinStr);
-            gameType = pinInfo?.valid ? pinInfo.type : null;
-        } catch (err) {
-            logger.warn('Remote presenter: no se pudo resolver gameType por PIN', {
-                pin: pinStr,
-                error: err.message
-            });
-        }
-
+        const gameType = await resolveRemoteGameType(pinStr);
         const snapshot = buildRemoteSnapshot(sessionId, game, lobbyPlayers, gameType, teamConfigs);
         socket.emit('remote-join-success', snapshot);
 
         logger.info('Remote presenter joined successfully', {
-            socketId: socket.id, sessionId, pin, adminRole: user.role
+            socketId: socket.id, sessionId, pin: pin || pinStr, adminRole: user.role
         });
     };
 }

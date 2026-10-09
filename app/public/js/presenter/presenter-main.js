@@ -29,7 +29,8 @@ import { setupNextQuestionShortcut } from './presenter-keyboard.js?v=20260922172
 // Detect remote mode early (URL params available synchronously) to avoid registering
 // full-presenter socket handlers that crash when their DOM elements don't exist.
 const _remoteParams = new URLSearchParams(window.location.search);
-const _isRemoteMode = _remoteParams.get('remote') === 'true' && Boolean(_remoteParams.get('pin'));
+const _isRemoteMode = _remoteParams.get('remote') === 'true'
+    && Boolean(_remoteParams.get('session_id') || _remoteParams.get('pin'));
 
 // Inicializar socket y registrar handlers
 // IMPORTANT: Register reconnection handlers FIRST so reconnected-success/reconnect-failed
@@ -91,6 +92,20 @@ window.addEventListener('xiro:language-changed', () => {
     rerenderCurrentLobbyView();
 });
 
+/**
+ * Modo control remoto: ?remote=true&session_id=PIN-UUID desde el panel de admin.
+ * ?pin=XXXX se mantiene solo por compatibilidad con enlaces antiguos (ambiguo si hay
+ * varias sesiones con el mismo PIN).
+ * @returns {boolean} true si se ha arrancado el modo remoto
+ */
+function tryStartRemoteMode(urlParams) {
+    const sessionId = urlParams.get('session_id');
+    const pin = urlParams.get('pin');
+    if (urlParams.get('remote') !== 'true' || !(sessionId || pin)) return false;
+    initRemoteControlMode({ sessionId, pin });
+    return true;
+}
+
 // Lógica de inicialización al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
     if (window.__presenterLoadingTimer) {
@@ -109,13 +124,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const pin = urlParams.get('pin');
     const sessionParam = urlParams.get('session');
     const mode = urlParams.get('mode');
-    const remote = urlParams.get('remote');
 
-    // Modo control remoto: activado por ?remote=true&pin=XXXX desde el panel de admin
-    if (remote === 'true' && pin) {
-        initRemoteControlMode(pin);
-        return;
-    }
+    if (tryStartRemoteMode(urlParams)) return;
 
     if (reset) {
         const cleanUrl = new URL(window.location.href);

@@ -45,16 +45,24 @@ const timerState = {
 };
 
 const wakeLockController = createRemoteWakeLockController({
-    hasActiveSessionContext: () => Boolean(state.sessionId || state.pin || sessionStorage.getItem('xiro_remote_pin'))
+    hasActiveSessionContext: () => Boolean(state.sessionId || state.pin || sessionStorage.getItem('xiro_remote_sessionId'))
 });
 
-/** Initializes remote mode and starts socket handshake. */
-export function initRemoteControlMode(pin) {
-    state.pin = String(pin);
-    sessionStorage.setItem('xiro_remote_pin', state.pin);
+/**
+ * Initializes remote mode and starts socket handshake.
+ * @param {{sessionId?: string|null, pin?: string|null}} target - sessionId preferred; pin only for legacy links
+ */
+export function initRemoteControlMode({ sessionId, pin }) {
+    state.sessionId = sessionId ? String(sessionId) : null;
+    state.pin = pin ? String(pin) : (state.sessionId || '').split('-')[0];
+    // Limpiar restos de una sesión remota anterior para no reconectar a otra partida
+    sessionStorage.removeItem('xiro_remote_sessionId');
+    sessionStorage.removeItem('xiro_remote_pin');
+    if (state.sessionId) sessionStorage.setItem('xiro_remote_sessionId', state.sessionId);
+    else sessionStorage.setItem('xiro_remote_pin', state.pin);
 
     applyRemoteCSS();
-    renderLoadingUI(pin);
+    renderLoadingUI(state.pin);
     wakeLockController.setup();
     wakeLockController.activate('remote-mode-init');
 
@@ -76,7 +84,7 @@ export function initRemoteControlMode(pin) {
     }
 
     bindSocketEvents();
-    socket.connected ? joinRemote(pin, token) : socket.once('connect', () => joinRemote(pin, token));
+    socket.connected ? joinRemote(token) : socket.once('connect', () => joinRemote(token));
 }
 
 /** Binds all socket listeners used by remote mode. */
@@ -104,21 +112,26 @@ function bindSocketEvents() {
     socket.on('disconnect', () => setStatusBadge(false));
     socket.on('connect', () => {
         setStatusBadge(true);
-        const savedPin = sessionStorage.getItem('xiro_remote_pin');
         const savedToken = localStorage.getItem(ADMIN_TOKEN_KEY);
-        if (savedPin && savedToken) joinRemote(savedPin, savedToken);
+        if (savedToken) joinRemote(savedToken);
     });
 }
 
-/** Emits remote join handshake to backend. */
-function joinRemote(pin, token) {
-    socket.emit('join-remote-presenter', { pin: String(pin), token });
+/** Emits remote join handshake to backend, by sessionId once known (PIN only for legacy links). */
+function joinRemote(token) {
+    const sessionId = state.sessionId || sessionStorage.getItem('xiro_remote_sessionId');
+    if (sessionId) {
+        socket.emit('join-remote-presenter', { sessionId: String(sessionId), token });
+        return;
+    }
+    const pin = state.pin || sessionStorage.getItem('xiro_remote_pin');
+    if (pin) socket.emit('join-remote-presenter', { pin: String(pin), token });
 }
 
 /** Applies initial snapshot from backend and paints remote controls. */
 function handleJoinSuccess(data) {
     state.sessionId = data.sessionId;
-    state.pin = data.pin || data.sessionId;
+    state.pin = data.pin || state.pin || data.sessionId.split('-')[0];
     state.gameType = data.gameType || null;
     state.isLobby = data.state === 'lobby';
     state.isReveal = !state.isLobby && data.canAnswer === false;

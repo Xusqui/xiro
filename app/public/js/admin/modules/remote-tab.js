@@ -113,7 +113,7 @@ function renderSessionsList(sessions) {
         const stateCss = s.state === 'lobby'
             ? 'bg-yellow-100 text-yellow-700'
             : 'bg-green-100 text-green-700';
-        const url = `/presentador.html?pin=${encodeURIComponent(s.pin)}&remote=true`;
+        const url = `/presentador.html?session_id=${encodeURIComponent(s.sessionId)}&remote=true`;
         const players = `${s.playerCount} jugador${s.playerCount !== 1 ? 'es' : ''}`;
         const sessionIdEsc = _escHtml(s.sessionId);
 
