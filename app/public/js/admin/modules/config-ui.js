@@ -2,7 +2,7 @@
  * @fileoverview Pestaña "IA" del panel de configuración (Groq, Gemini y Ollama).
  * Un único formulario: proveedor principal + respaldo arriba y una fila plegable por
  * proveedor con su conexión. Se guarda con la barra común de Configuración (config-savebar.js).
- * Depende de: config-panel.js, config-savebar.js y neon-switch.js cargados previamente.
+ * Depende de: config-panel.js, config-savebar.js y checkbox.js cargados previamente.
  * Filas de proveedor: config-ui-providers.js (Groq/Gemini) y config-ui-ollama.js.
  * Guardado y borrado: config-ui-save.js.
  */
@@ -109,7 +109,7 @@ function _renderAIConfigForm(data) {
                     <p class="aic-fallback__label">${_t('admin.ai.fallback_label')}</p>
                     <p class="aic-hint">${_t('admin.ai.fallback_desc')}</p>
                 </div>
-                ${renderNeonSwitch({ key: 'ai-fallback', id: 'ai-fallback-switch', action: null, checked: data.fallback === true, label: _t('admin.ai.fallback_label') })}
+                ${renderCheckbox({ key: 'ai-fallback', id: 'ai-fallback-switch', action: null, checked: data.fallback === true, label: _t('admin.ai.fallback_label') })}
             </div>
             <p id="ai-active-warning" class="aic-warning" hidden></p>
         </section>

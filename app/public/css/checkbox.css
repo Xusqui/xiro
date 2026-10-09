@@ -1,0 +1,97 @@
+/* Checkbox animado del panel admin — sustituye al antiguo toggle neon.
+   Origen del diseño: https://uiverse.io/andrew-manzyk/ancient-turtle-91
+   Markup generado por renderCheckbox() en js/admin/modules/checkbox.js. */
+
+.xiro-checkbox {
+    --checkbox-color: var(--ink-muted, #94a3b8);
+    --checkbox-color-on: var(--action-primary, #557400);
+    --checkbox-size: 1.5rem;
+    display: inline-block;
+    position: relative;
+    flex-shrink: 0;
+    cursor: pointer;
+    user-select: none;
+    font-size: var(--checkbox-size);
+    font-weight: 600;
+    color: var(--checkbox-color);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.xiro-checkbox input {
+    position: absolute;
+    pointer-events: none;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+}
+
+.xiro-checkbox .checkmark {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--checkbox-size) / 2.5);
+    border-radius: 0.375rem;
+    opacity: 0.7;
+    transition: opacity 150ms ease, color 150ms ease;
+}
+
+.xiro-checkbox .checkmark:hover {
+    opacity: 0.85;
+}
+
+.xiro-checkbox input:checked ~ .checkmark {
+    opacity: 1;
+    color: var(--checkbox-color-on);
+}
+
+.xiro-checkbox input:focus-visible ~ .checkmark {
+    outline: 2px solid var(--checkbox-color-on);
+    outline-offset: 2px;
+}
+
+.xiro-checkbox input:disabled ~ .checkmark {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.xiro-checkbox .checkmark svg {
+    width: var(--checkbox-size);
+    height: var(--checkbox-size);
+}
+
+.xiro-checkbox .checkmark svg rect {
+    stroke-dasharray: 88 0;
+    stroke-dashoffset: 73;
+    transition: stroke-dasharray 100ms ease;
+}
+
+.xiro-checkbox input:checked ~ .checkmark svg rect {
+    stroke-dasharray: 80 18;
+}
+
+.xiro-checkbox .checkmark svg polyline {
+    stroke-dasharray: 0 30;
+    stroke-dashoffset: 1;
+    transition: stroke-dasharray 150ms ease;
+}
+
+.xiro-checkbox input:checked ~ .checkmark svg polyline {
+    stroke-dasharray: 30 30;
+}
+
+/* La etiqueta visible ya está en la fila; aquí solo queda para lectores de pantalla. */
+.xiro-checkbox .checkmark__text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .xiro-checkbox .checkmark,
+    .xiro-checkbox .checkmark svg rect,
+    .xiro-checkbox .checkmark svg polyline {
+        transition: none;
+    }
+}

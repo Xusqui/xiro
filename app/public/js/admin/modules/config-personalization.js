@@ -5,7 +5,7 @@
  * public/images/personalizations/.
  * Activar la insignia y elegir imagen se guardan con la barra común (config-panel-ui.js →
  * uiTabSnapshot); subir y borrar imágenes son operaciones de fichero y se hacen al momento.
- * Depende de: config-panel.js (_configData), config-savebar.js, neon-switch.js
+ * Depende de: config-panel.js (_configData), config-savebar.js, checkbox.js
  * y helpers.js (mostrarModalConfirmacion).
  */
 
@@ -35,7 +35,7 @@ function renderPersonalizationSection(settings) {
                     <p class="text-xs text-slate-500 mt-0.5">${_t('admin.config.ui.personalization_desc')}</p>
                 </div>
             </div>
-            ${renderNeonSwitch({ key: 'personalizationEnabled', id: 'ui-switch-personalizationEnabled', checked: enabled, label: _t('admin.config.ui.personalization_label'), action: 'toggle-personalization-enabled' })}
+            ${renderCheckbox({ key: 'personalizationEnabled', id: 'ui-switch-personalizationEnabled', checked: enabled, label: _t('admin.config.ui.personalization_label'), action: 'toggle-personalization-enabled' })}
         </div>
         <div id="personalization-images-grid" class="mt-5 pt-5 border-t border-slate-100" ${enabled ? '' : 'hidden'}>
             <label id="personalization-drop-zone" class="drop-zone block border-2 border-dashed border-green-300 rounded-xl p-4 flex flex-col items-center justify-center gap-1 cursor-pointer mb-2">

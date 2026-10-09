@@ -65,7 +65,7 @@ async function renderEditorTrivial(game, cats) {
                         </div>
                         <div class="mb-3 flex items-center justify-center gap-3">
                             <span class="text-base font-bold text-slate-700"><i class="fas fa-eye mr-1"></i>${_t('admin.trivial.label_visible', null, 'Visible para el presentador')}</span>
-                            <span style="transform: scale(1); transform-origin: left center;">${renderNeonSwitch({ id: 'trivial-visible', checked: game?.visible_to_presenter !== false, action: null })}</span>
+                            <span style="transform: scale(1); transform-origin: left center;">${renderCheckbox({ id: 'trivial-visible', checked: game?.visible_to_presenter !== false, action: null })}</span>
                         </div>
                         <div class="mb-3 text-center">
                             <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('common.label_language', null, 'Idioma de las preguntas')}</label>
@@ -79,7 +79,7 @@ async function renderEditorTrivial(game, cats) {
                         <!-- Rachas -->
                         <div class="flex items-center gap-3 mb-2" title="${_t('admin.trivial.help_streaks', null, 'Aplica bonus de puntos a jugadores con respuestas correctas consecutivas')}">
                             <span class="text-sm font-bold text-slate-700"><i class="fas fa-fire text-orange-400 mr-1"></i>${_t('admin.trivial.label_streaks', null, 'Usar Rachas')}</span>
-                            ${renderNeonSwitch({ id: 'trivial-use-streaks', checked: game?.use_streaks, action: null, attrs: 'data-admin-change="toggleTrivialStreakConfig()"' })}
+                            ${renderCheckbox({ id: 'trivial-use-streaks', checked: game?.use_streaks, action: null, attrs: 'data-admin-change="toggleTrivialStreakConfig()"' })}
                         </div>
 
                         <div id="trivialStreakConfigPanel" class="${game?.use_streaks ? '' : 'hidden'} ml-6 mb-3 grid grid-cols-2 gap-3 p-3 bg-orange-50 rounded-lg border border-orange-100">
@@ -98,7 +98,7 @@ async function renderEditorTrivial(game, cats) {
                         <!-- Dobles Rachas -->
                         <div class="flex items-center gap-3 mb-2" title="${_t('admin.trivial.help_dbl_streaks', null, 'Bonus adicional para jugadores que superan un umbral mayor de aciertos consecutivos')}">
                             <span class="text-sm font-bold text-slate-700"><i class="fas fa-fire text-red-500 mr-1"></i>${_t('admin.trivial.label_dbl_streaks', null, 'Usar Dobles Rachas')}</span>
-                            ${renderNeonSwitch({ id: 'trivial-use-double-streaks', checked: game?.use_double_streaks, action: null, attrs: 'data-admin-change="toggleTrivialDoubleStreakConfig()"' })}
+                            ${renderCheckbox({ id: 'trivial-use-double-streaks', checked: game?.use_double_streaks, action: null, attrs: 'data-admin-change="toggleTrivialDoubleStreakConfig()"' })}
                         </div>
 
                         <div id="trivialDoubleStreakConfigPanel" class="${game?.use_double_streaks ? '' : 'hidden'} ml-6 mb-3 grid grid-cols-2 gap-3 p-3 bg-red-50 rounded-lg border border-red-100">

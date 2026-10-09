@@ -191,7 +191,7 @@ function _renderFireworksToggle(key, value, meta) {
                         <p class="text-xs text-slate-500 leading-relaxed">${_t(meta.description, null, meta.description)}</p>
                     </div>
                 </div>
-                ${renderNeonSwitch({ key, checked: isChecked, action: 'toggle-fireworks-setting-neon', label: _t(meta.label, null, meta.label) })}
+                ${renderCheckbox({ key, checked: isChecked, action: 'toggle-fireworks-setting-neon', label: _t(meta.label, null, meta.label) })}
             </div>
         </div>`;
 }

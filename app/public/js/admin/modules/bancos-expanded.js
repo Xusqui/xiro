@@ -175,7 +175,7 @@ function renderEditorBanco(bank) {
 
                         <div class="mb-3 flex items-center justify-center gap-3" title="${_t('admin.banks.help_visible', null, 'Si está marcado, el presentador podrá ver y usar este banco')}">
                             <span class="text-base font-bold text-slate-700"><i class="fas fa-eye mr-1"></i>${_t('admin.banks.label_visible', null, 'Mostrar al presentador')}</span>
-                            <span style="transform: scale(1); transform-origin: left center;">${renderNeonSwitch({ id: 'editBankVisibleToPresenter', checked: bank.visible_to_presenter !== false, action: null })}</span>
+                            <span style="transform: scale(1); transform-origin: left center;">${renderCheckbox({ id: 'editBankVisibleToPresenter', checked: bank.visible_to_presenter !== false, action: null })}</span>
                         </div>
                         <div class="mb-3 text-center">
                             <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('common.label_language', null, 'Idioma de las preguntas')}</label>
@@ -189,7 +189,7 @@ function renderEditorBanco(bank) {
                         <!-- Rachas -->
                         <div class="flex items-center gap-3 mb-2" title="${_t('admin.banks.help_streaks', null, 'Bonus de puntos por respuestas correctas consecutivas')}">
                             <span class="text-sm font-bold text-slate-700"><i class="fas fa-fire text-orange-500 mr-1"></i>${_t('admin.banks.label_streaks', null, 'Activar Rachas')}</span>
-                            ${renderNeonSwitch({ id: 'editBankUseStreaks', checked: bank.use_streaks, action: null, attrs: 'data-admin-change="toggleBankStreakConfig()"' })}
+                            ${renderCheckbox({ id: 'editBankUseStreaks', checked: bank.use_streaks, action: null, attrs: 'data-admin-change="toggleBankStreakConfig()"' })}
                         </div>
                         <div id="bankStreakConfigPanel" class="${bank.use_streaks ? '' : 'hidden'} mb-3 ml-6 p-3 bg-plum-50 rounded-lg border border-plum-100 grid grid-cols-2 gap-3">
                             <div>
@@ -205,7 +205,7 @@ function renderEditorBanco(bank) {
                         <!-- Dobles Rachas -->
                         <div class="flex items-center gap-3 mb-2" title="${_t('admin.banks.help_dbl_streaks', null, 'Bonus adicional por rachas más largas')}">
                             <span class="text-sm font-bold text-slate-700"><i class="fas fa-fire-alt text-red-500 mr-1"></i>${_t('admin.banks.label_dbl_streaks', null, 'Activar Dobles Rachas')}</span>
-                            ${renderNeonSwitch({ id: 'editBankUseDoubleStreaks', checked: bank.use_double_streaks, action: null, attrs: 'data-admin-change="toggleBankDoubleStreakConfig()"' })}
+                            ${renderCheckbox({ id: 'editBankUseDoubleStreaks', checked: bank.use_double_streaks, action: null, attrs: 'data-admin-change="toggleBankDoubleStreakConfig()"' })}
                         </div>
                         <div id="bankDoubleStreakConfigPanel" class="${bank.use_double_streaks ? '' : 'hidden'} mb-3 ml-6 p-3 bg-plum-50 rounded-lg border border-plum-100 grid grid-cols-2 gap-3">
                             <div>

@@ -212,7 +212,7 @@ async function renderEditorJuegoPersonalizado(game) {
 
                         <div class="mb-3 flex items-center justify-center gap-3" title="${_t('admin.games.help_visible', null, 'Si está marcado, el presentador podrá ver y usar este juego')}">
                             <span class="text-base font-bold text-slate-700"><i class="fas fa-eye mr-1"></i>${_t('admin.banks.label_visible', null, 'Mostrar al presentador')}</span>
-                            <span style="transform: scale(1); transform-origin: left center;">${renderNeonSwitch({ id: 'customGameVisibleToPresenter', checked: game.visible_to_presenter !== false, action: null })}</span>
+                            <span style="transform: scale(1); transform-origin: left center;">${renderCheckbox({ id: 'customGameVisibleToPresenter', checked: game.visible_to_presenter !== false, action: null })}</span>
                         </div>
                         <div class="mb-3 text-center">
                             <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('common.label_language', null, 'Idioma de las preguntas')}</label>
@@ -226,7 +226,7 @@ async function renderEditorJuegoPersonalizado(game) {
                         <!-- Rachas -->
                         <div class="flex items-center gap-3 mb-2" title="${_t('admin.games.help_streaks', null, 'Aplica bonus de puntos a jugadores con respuestas correctas consecutivas')}">
                             <span class="text-sm font-bold text-slate-700"><i class="fas fa-fire text-orange-400 mr-1"></i>${_t('admin.games.label_streaks', null, 'Usar Rachas')}</span>
-                            ${renderNeonSwitch({ id: 'customGameUseStreaks', checked: game.use_streaks, action: null, attrs: 'data-admin-change="toggleCustomStreakConfig()"' })}
+                            ${renderCheckbox({ id: 'customGameUseStreaks', checked: game.use_streaks, action: null, attrs: 'data-admin-change="toggleCustomStreakConfig()"' })}
                         </div>
 
                         <div id="customStreakConfigPanel" class="${game.use_streaks ? '' : 'hidden'} ml-6 grid grid-cols-2 gap-3 mb-3 p-3 bg-orange-50 rounded-lg border border-orange-100">
@@ -245,7 +245,7 @@ async function renderEditorJuegoPersonalizado(game) {
                         <!-- Dobles Rachas -->
                         <div class="flex items-center gap-3 mb-2" title="${_t('admin.games.help_dbl_streaks', null, 'Bonus adicional para jugadores que superan un umbral mayor de aciertos consecutivos')}">
                             <span class="text-sm font-bold text-slate-700"><i class="fas fa-fire text-red-500 mr-1"></i>${_t('admin.games.label_dbl_streaks', null, 'Usar Dobles Rachas')}</span>
-                            ${renderNeonSwitch({ id: 'customGameUseDoubleStreaks', checked: game.use_double_streaks, action: null, attrs: 'data-admin-change="toggleCustomDoubleStreakConfig()"' })}
+                            ${renderCheckbox({ id: 'customGameUseDoubleStreaks', checked: game.use_double_streaks, action: null, attrs: 'data-admin-change="toggleCustomDoubleStreakConfig()"' })}
                         </div>
 
                         <div id="customDoubleStreakConfigPanel" class="${game.use_double_streaks ? '' : 'hidden'} ml-6 grid grid-cols-2 gap-3 mb-3 p-3 bg-red-50 rounded-lg border border-red-100">

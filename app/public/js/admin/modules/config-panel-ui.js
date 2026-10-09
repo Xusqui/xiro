@@ -3,7 +3,7 @@
  * standalone, fondo animado y personalización (config-personalization.js).
  * Los cambios se guardan con la barra común (config-savebar.js) vía POST /api/admin/ui-settings.
  * Aquí vive también postUiSettings, que usan Fuegos artificiales y Equipos.
- * Depende de: config-panel.js (_configData) y neon-switch.js cargados previamente.
+ * Depende de: config-panel.js (_configData) y checkbox.js cargados previamente.
  */
 
 /**
@@ -72,7 +72,7 @@ function _renderUiSwitchCard(o) {
                     <p class="text-xs text-slate-500 mt-0.5">${_t(`admin.config.ui.${o.textKey}_desc`)}</p>
                 </div>
             </div>
-            ${renderNeonSwitch({ key: o.key, id: 'ui-switch-' + o.key, checked: o.checked, action: null, label })}
+            ${renderCheckbox({ key: o.key, id: 'ui-switch-' + o.key, checked: o.checked, action: null, label })}
         </div>`;
 }
 

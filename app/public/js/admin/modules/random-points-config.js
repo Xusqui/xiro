@@ -10,7 +10,7 @@
  * `${prefix}RandomPointsPanel`, `${prefix}RandomPointsMin`, `${prefix}RandomPointsMax`.
  */
 
-/* global renderNeonSwitch */
+/* global renderCheckbox */
 
 const RANDOM_POINTS_MIN_VALUE = 1;
 const RANDOM_POINTS_MAX_VALUE = 500;
@@ -42,7 +42,7 @@ function renderRandomPointsHtml(prefix, config = {}) {
     return `
         <div class="flex items-center gap-3 mb-2" title="${_t('admin.random_points.help', null, 'Antes de cada pregunta se sortean los puntos que vale. Solo afecta a Quiz y Anagrama: Encuesta, Ordena, Emparejar, Numérica y Selección Múltiple mantienen su puntuación.')}">
             <span class="text-sm font-bold text-slate-700"><i class="fas fa-dice text-plum-500 mr-1"></i>${_t('admin.random_points.label', null, 'Puntuación Aleatoria')}</span>
-            ${renderNeonSwitch({ id: ids.toggle, checked: enabled, action: null, attrs: `data-admin-change="toggleRandomPointsPanel('${prefix}')"` })}
+            ${renderCheckbox({ id: ids.toggle, checked: enabled, action: null, attrs: `data-admin-change="toggleRandomPointsPanel('${prefix}')"` })}
         </div>
         <div id="${ids.panel}" class="${enabled ? '' : 'hidden'} ml-6 p-3 bg-plum-50 rounded-lg border border-plum-100 grid grid-cols-2 gap-3">
             <div>

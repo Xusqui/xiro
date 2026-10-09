@@ -181,7 +181,7 @@ function _mergeNewBankConfigHtml() {
                                     </span>
                                     <p class="text-xs text-slate-500 mt-0.5">Bonus por respuestas correctas consecutivas</p>
                                 </div>
-                                ${renderNeonSwitch({ id: 'mergeUseStreaks', checked: false, action: null, attrs: 'data-merge-action="toggle-streaks"' })}
+                                ${renderCheckbox({ id: 'mergeUseStreaks', checked: false, action: null, attrs: 'data-merge-action="toggle-streaks"' })}
                             </div>
                             <div id="mergeStreakConfigPanel" class="hidden mt-3 p-4 bg-orange-50 rounded-xl border border-orange-100 grid grid-cols-2 gap-4">
                                 <div>
@@ -203,7 +203,7 @@ function _mergeNewBankConfigHtml() {
                                     </span>
                                     <p class="text-xs text-slate-500 mt-0.5">Bonus adicional por rachas más largas</p>
                                 </div>
-                                ${renderNeonSwitch({ id: 'mergeUseDoubleStreaks', checked: false, action: null, attrs: 'data-merge-action="toggle-double-streaks"' })}
+                                ${renderCheckbox({ id: 'mergeUseDoubleStreaks', checked: false, action: null, attrs: 'data-merge-action="toggle-double-streaks"' })}
                             </div>
                             <div id="mergeDoubleStreakConfigPanel" class="hidden mt-3 p-4 bg-red-50 rounded-xl border border-red-100 grid grid-cols-2 gap-4">
                                 <div>
