@@ -95,6 +95,7 @@ function _renderUiTab(settings) {
 
         ${_renderUiSwitchCard({ key: 'showStandaloneCard', checked: settings.showStandaloneCard !== false, icon: 'fa-user', iconBg: 'bg-emerald-100', iconColor: 'text-emerald-600', textKey: 'standalone_card' })}
         ${_renderUiSwitchCard({ key: 'animarFondo', checked: settings.animarFondo !== false, icon: 'fa-leaf', iconBg: 'bg-green-100', iconColor: 'text-green-600', textKey: 'animar_fondo' })}
+        ${_renderUiSwitchCard({ key: 'animacionInicio', checked: settings.animacionInicio !== false, icon: 'fa-film', iconBg: 'bg-green-100', iconColor: 'text-green-600', textKey: 'animacion_inicio' })}
         ${renderPersonalizationSection(settings)}
     </div>`;
 }
@@ -119,6 +120,7 @@ function uiTabSnapshot() {
         tvCardMode: document.querySelector('#config-tab-content [data-tv-card-mode-group]')?.dataset.value || null,
         showStandaloneCard: checked('ui-switch-showStandaloneCard'),
         animarFondo: checked('ui-switch-animarFondo'),
+        animacionInicio: checked('ui-switch-animacionInicio'),
         personalizationEnabled: checked('ui-switch-personalizationEnabled'),
         personalizationImage: personalizationSelectedImage()
     };

@@ -8,6 +8,8 @@
     "manual_admin.tools.interfaz.standalone_desc": "ホーム画面のソロモード（standalone.html）へのカードとリンクを表示または非表示にします。",
     "manual_admin.tools.interfaz.animar_fondo": "アニメーション背景",
     "manual_admin.tools.interfaz.animar_fondo_desc": "すべての画面で背景のグラデーションと葉のアニメーションのオン/オフを切り替えます。無効にすると背景は静止した状態になります。",
+    "manual_admin.tools.interfaz.animacion_inicio": "各ゲーム前のイントロ",
+    "manual_admin.tools.interfaz.animacion_inicio_desc": "各ゲームの前（トリビアを含む）に、プレゼンター・TV・スマートフォンでアニメーションするXiro!ロゴと<strong>3、2、1、0</strong>のカウントダウンを表示します。音はプレゼンターのみで鳴ります。最初の問題のタイマーは終了後に開始します。初期設定で有効です。",
     "manual_admin.tools.interfaz.personalization": "インターフェースをカスタマイズ",
     "manual_admin.tools.interfaz.personalization_desc": "ゲームのすべての画面にイベントのブランドバッジ（例：スポンサーのロゴ）を表示します。このパネルから直接ロゴのアップロード、選択、削除ができます。"
   }

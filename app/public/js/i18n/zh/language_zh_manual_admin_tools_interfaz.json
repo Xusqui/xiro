@@ -8,6 +8,8 @@
     "manual_admin.tools.interfaz.standalone_desc": "在主页上显示或隐藏单人模式（standalone.html）的卡片和链接。",
     "manual_admin.tools.interfaz.animar_fondo": "动态背景",
     "manual_admin.tools.interfaz.animar_fondo_desc": "在所有屏幕上开启或关闭背景渐变和树叶的动态效果。禁用后背景将保持静态。",
+    "manual_admin.tools.interfaz.animacion_inicio": "每局开始前的片头",
+    "manual_admin.tools.interfaz.animacion_inicio_desc": "每局游戏开始前（包括问答棋盘模式），主持人屏幕、电视和手机会显示 Xiro! 动画标志和 <strong>3、2、1、0</strong> 倒计时。仅主持人端有声音。第一题的计时在片头结束后才开始。默认开启。",
     "manual_admin.tools.interfaz.personalization": "自定义界面",
     "manual_admin.tools.interfaz.personalization_desc": "在游戏的所有屏幕上显示活动品牌徽标（例如赞助商的徽标）。可直接在此面板中上传、选择和删除徽标。"
   }

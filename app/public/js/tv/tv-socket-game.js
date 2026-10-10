@@ -30,6 +30,7 @@ window.TVApp.SocketGame = (function () {
         });
 
         socket.on('game-started', function (data, ack) {
+            if (window.XiroGameIntro) window.XiroGameIntro.release(); // abrir el iris de la intro
             const ctrlPartida = document.getElementById('ctrl-partida');
             if (ctrlPartida) ctrlPartida.style.display = 'block';
             if (!data || !data.firstQuestion) return;
@@ -59,7 +60,13 @@ window.TVApp.SocketGame = (function () {
             if (typeof ack === 'function') ack();
         });
 
+        // Intro con el logo y cuenta atrás (sin sonido en la TV)
+        socket.on('game-intro', function (payload) {
+            window.XiroGameIntro && window.XiroGameIntro.show(payload);
+        });
+
         socket.on('random-points-reveal', function (payload) {
+            if (window.XiroGameIntro) window.XiroGameIntro.release(); // abrir el iris de la intro
             // TV no carga el CSS del flip board (solo tv.css): número en texto plano
             window.XiroRandomPointsOverlay && window.XiroRandomPointsOverlay.show(payload, { animate: false });
         });

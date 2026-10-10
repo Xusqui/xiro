@@ -93,6 +93,15 @@ module.exports = {
         },
     },
 
+    // ===== INTRO DE PARTIDA =====
+    GAME_INTRO: {
+        // Espera del servidor antes de arrancar la partida (ms). Coincide con el
+        // momento en que el iris de colores de public/js/core/game-intro-overlay.js
+        // cubre la pantalla (T.reveal = 5710): la primera pregunta llega justo
+        // entonces y el iris se abre sobre ella, sin volver a enseñar el lobby.
+        DURATION_MS: 5750,
+    },
+
     // ===== TIEMPO =====
     TIMING: {
         // Tiempo por defecto para responder una pregunta (segundos)

@@ -121,6 +121,8 @@
     "admin.config.ui.standalone_card_desc": "Affiche ou masque la carte et le lien vers standalone.html sur l'écran d'accueil.",
     "admin.config.ui.animar_fondo_label": "Fond animé",
     "admin.config.ui.animar_fondo_desc": "Active le mouvement du dégradé et des feuilles en arrière-plan. Si désactivé, le fond reste statique.",
+    "admin.config.ui.animacion_inicio_label": "Intro avant chaque partie",
+    "admin.config.ui.animacion_inicio_desc": "Affiche le logo Xiro! animé et un compte à rebours 3, 2, 1, 0 sur l'écran du présentateur, la TV et les mobiles avant chaque partie.",
     "admin.config.ui.personalization_label": "Personnaliser l'interface",
     "admin.config.ui.personalization_desc": "Affiche un badge de marque de l'événement (p. ex. le logo d'un sponsor) sur tous les écrans du jeu.",
     "admin.config.ui.personalization_loading": "Chargement des images…",

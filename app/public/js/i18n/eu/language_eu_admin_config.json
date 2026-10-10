@@ -121,6 +121,8 @@
     "admin.config.ui.standalone_card_desc": "Txartela erakusten edo ezkutatzen du eta standalone.html-rako esteka hasierako pantailan.",
     "admin.config.ui.animar_fondo_label": "Atzeko planoa animatua",
     "admin.config.ui.animar_fondo_desc": "Atzeko planoko gradiente eta hosto mugimendua aktibatzen du. Desaktibatuz gero, atzeko planoa estatiko geratzen da.",
+    "admin.config.ui.animacion_inicio_label": "Sarrera partida bakoitzaren aurretik",
+    "admin.config.ui.animacion_inicio_desc": "Xiro! logo animatua eta 3, 2, 1, 0 atzerako kontaketa erakusten ditu aurkezlean, telebistan eta mugikorretan partida bakoitza hasi aurretik.",
     "admin.config.ui.personalization_label": "Interfazea pertsonalizatu",
     "admin.config.ui.personalization_desc": "Ekitaldiaren marka-txapa bat erakusten du (adib. babesle baten logoa) jokoaren pantaila guztietan.",
     "admin.config.ui.personalization_loading": "Irudiak kargatzen…",

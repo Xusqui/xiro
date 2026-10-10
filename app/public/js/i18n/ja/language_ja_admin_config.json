@@ -121,6 +121,8 @@
     "admin.config.ui.standalone_card_desc": "ホーム画面のカードと standalone.html へのリンクを表示または非表示にします。",
     "admin.config.ui.animar_fondo_label": "背景アニメーション",
     "admin.config.ui.animar_fondo_desc": "背景のグラデーションと葉の動きを有効にします。無効にすると背景は静止したままになります。",
+    "admin.config.ui.animacion_inicio_label": "各ゲーム前のイントロ",
+    "admin.config.ui.animacion_inicio_desc": "各ゲームの開始前に、プレゼンター・TV・スマートフォンでアニメーションするXiro!ロゴと3、2、1、0のカウントダウンを表示します。",
     "admin.config.ui.personalization_label": "インターフェースをカスタマイズ",
     "admin.config.ui.personalization_desc": "イベントのブランディングバッジ(スポンサーのロゴなど)をゲームのすべての画面に表示します。",
     "admin.config.ui.personalization_loading": "画像を読み込み中…",

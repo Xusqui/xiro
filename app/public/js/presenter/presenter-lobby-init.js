@@ -214,6 +214,10 @@ export function empezar() {
     const socket = getSocket();
     const sessionId = getSessionId();
 
+    // El sonido de la intro solo puede activarse dentro de este clic. Va antes de
+    // pedir pantalla completa: Safari consume ahí la activación del usuario.
+    window.XiroGameIntro?.unlockAudio();
+
     // Entrar en pantalla completa
     if (document.documentElement.requestFullscreen) {
         document.documentElement.requestFullscreen().catch(() => { });

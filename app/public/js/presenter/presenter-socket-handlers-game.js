@@ -79,6 +79,7 @@ export function registerGameSocketHandlers() {
 
     // Juego iniciado
     socket.on('game-started', (data, ack) => {
+        window.XiroGameIntro?.release(); // abrir el iris de la intro sobre lo que se pinta ahora
         window.isTrivialGame = false;
         setTotalQuestions(data.totalQuestions);
         setCurrentQuestionIndex(data.currentIndex);
@@ -104,8 +105,14 @@ export function registerGameSocketHandlers() {
         if (typeof ack === 'function') ack();
     });
 
+    // Intro con el logo y cuenta atrás antes de la partida (solo aquí lleva sonido)
+    socket.on('game-intro', (payload) => {
+        window.XiroGameIntro?.show(payload, { sound: true });
+    });
+
     // Nueva pregunta
     socket.on('random-points-reveal', (payload) => {
+        window.XiroGameIntro?.release();
         window.XiroRandomPointsOverlay?.show(payload);
     });
 

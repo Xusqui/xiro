@@ -26,6 +26,7 @@ const DEFAULTS = {
     tvCardMode: 'always',       // Visibilidad de la tarjeta "Versión TV": never | always | old_devices_only
     showStandaloneCard: true,   // Muestra la tarjeta "Modo Standalone" en el menú principal
     animarFondo: true,          // Anima el degradado y las hojas de fondo; si es false, el fondo queda estático
+    animacionInicio: true,      // Intro con el logo y cuenta atrás 3-2-1-0 antes de cada partida
     teamNames: [...DEFAULT_TEAM_NAMES], // Nombres personalizados de equipos (1-9)
 
     // Configuración de fuegos artificiales del podio
@@ -53,6 +54,7 @@ let _store = { ...DEFAULTS };
 const BOOLEAN_SETTINGS = new Set([
     'showStandaloneCard',
     'animarFondo',
+    'animacionInicio',
     'fireworksFinaleMode',
     'fireworksSound',
     'personalizationEnabled'

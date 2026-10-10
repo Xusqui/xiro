@@ -8,6 +8,8 @@
     "manual_admin.tools.interfaz.standalone_desc": "Mostra ou agocha a tarxeta e a ligazón ao modo solitario (standalone.html) na pantalla de inicio.",
     "manual_admin.tools.interfaz.animar_fondo": "Fondo animado",
     "manual_admin.tools.interfaz.animar_fondo_desc": "Activa ou desactiva o movemento do degradado e das follas de fondo en todas as pantallas. Se se desactiva, o fondo queda estático.",
+    "manual_admin.tools.interfaz.animacion_inicio": "Intro antes de cada partida",
+    "manual_admin.tools.interfaz.animacion_inicio_desc": "Antes de cada partida (tamén no Trivial) amósase no presentador, na TV e nos móbiles o logo de Xiro! animado e unha conta atrás <strong>3, 2, 1, 0</strong>. Só soa no presentador. O tempo da primeira pregunta non comeza a correr ata que remata. Activada por defecto.",
     "manual_admin.tools.interfaz.personalization": "Personalizar interface",
     "manual_admin.tools.interfaz.personalization_desc": "Mostra unha insignia de marca do evento (p. ex. o logotipo dun patrocinador) en todas as pantallas do xogo. Permite subir, escoller e eliminar o logotipo directamente desde este panel."
   }

@@ -55,6 +55,11 @@ if (!_isRemoteMode) {
     registerGameSocketHandlers();
     registerTrivialSocketHandlers();
     startWaitingPanelSync();
+
+    // Safari solo deja sonar WebAudio tras un gesto del usuario: se aprovecha
+    // cualquier toque en el presentador, no solo el botón "Empezar" (también
+    // cubre partidas arrancadas desde el mando remoto).
+    document.addEventListener('pointerdown', () => window.XiroGameIntro?.unlockAudio(), { capture: true });
 }
 
 // Inicializar estado global

@@ -7,6 +7,7 @@ const logger = require('../../config/logger');
 const { sanitizeGameStartPayload } = require('../../services/payload.sanitizer');
 const { startTimer } = require('../utils/TimerManager');
 const { runRandomPointsReveal } = require('../utils/RandomPointsRevealManager');
+const { runGameIntro } = require('../utils/GameIntroManager');
 const StartGameUseCase = require('../../application/use-cases/StartGameUseCase');
 const { pushSessionLog } = require('../../services/game-logs.service');
 
@@ -52,6 +53,13 @@ module.exports = function createStartGameHandler(dependencies) {
             }
 
             const { preparedQuestions, playersInLobby } = result;
+
+            // Intro con el logo y cuenta atrás 3-2-1-0 (si está activada en Interfaz).
+            // Gatea el arranque igual que la pantalla de puntos aleatorios.
+            const introDone = await runGameIntro({ activeGames, roomId, io, syncBus });
+            if (!introDone) {
+                return;
+            }
 
             // Pantalla "JUGÁIS POR XXX PUNTOS" antes de mostrar la primera pregunta.
             // Gatea el arranque del temporizador para no comerse el bonus de tiempo.

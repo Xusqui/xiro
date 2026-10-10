@@ -8,6 +8,8 @@
     "manual_admin.tools.interfaz.standalone_desc": "Shows or hides the card and link to solo mode (standalone.html) on the home screen.",
     "manual_admin.tools.interfaz.animar_fondo": "Animated background",
     "manual_admin.tools.interfaz.animar_fondo_desc": "Turns the background gradient and leaf motion on or off across every screen. When disabled, the background stays static.",
+    "manual_admin.tools.interfaz.animacion_inicio": "Intro before each game",
+    "manual_admin.tools.interfaz.animacion_inicio_desc": "Before each game (Trivial included) the presenter, TV and phones show the animated Xiro! logo and a <strong>3, 2, 1, 0</strong> countdown. Sound plays on the presenter only. The first question's timer does not start until it ends. Enabled by default.",
     "manual_admin.tools.interfaz.personalization": "Customize interface",
     "manual_admin.tools.interfaz.personalization_desc": "Shows an event branding badge (e.g. a sponsor's logo) on every screen of the game. Lets you upload, pick and delete the logo directly from this panel."
   }

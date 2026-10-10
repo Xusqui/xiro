@@ -8,6 +8,8 @@
     "manual_admin.tools.interfaz.standalone_desc": "Zeigt oder verbirgt die Karte und den Link zum Solo-Modus (standalone.html) auf dem Startbildschirm.",
     "manual_admin.tools.interfaz.animar_fondo": "Animierter Hintergrund",
     "manual_admin.tools.interfaz.animar_fondo_desc": "Aktiviert oder deaktiviert die Bewegung des Verlaufs und der Blätter im Hintergrund auf allen Bildschirmen. Bei Deaktivierung bleibt der Hintergrund statisch.",
+    "manual_admin.tools.interfaz.animacion_inicio": "Intro vor jedem Spiel",
+    "manual_admin.tools.interfaz.animacion_inicio_desc": "Vor jedem Spiel (auch Trivial) zeigen Moderator, Fernseher und Handys das animierte Xiro!-Logo und einen Countdown <strong>3, 2, 1, 0</strong>. Ton nur beim Moderator. Die Zeit der ersten Frage läuft erst danach. Standardmäßig aktiviert.",
     "manual_admin.tools.interfaz.personalization": "Oberfläche anpassen",
     "manual_admin.tools.interfaz.personalization_desc": "Zeigt ein Marken-Badge des Events (z. B. das Logo eines Sponsors) auf allen Bildschirmen des Spiels. Ermöglicht das Hochladen, Auswählen und Löschen des Logos direkt aus diesem Panel."
   }

@@ -10,6 +10,7 @@ const { getRedisClient } = require('../../config/redis');
 const { RedisSyncBus } = require('../sync/RedisSyncBus');
 const TrivialReconnectService = require('./TrivialReconnectService');
 const { buildReconnectRandomPointsState } = require('../utils/RandomPointsRevealManager');
+const { buildReconnectIntroState } = require('../utils/GameIntroManager');
 
 // Lazy-loaded to avoid circular dependencies (GameStateAdapter ↔ services)
 let _getAdapter = null;
@@ -229,6 +230,7 @@ function buildGameStateSnapshot(game, player, roomId) {
         timeRemaining: adapter && canAcceptAnswers
             ? Math.max(0, runtimeConfig.get('QUESTION_TIME_LIMIT') - (Date.now() - game.questionStartTime) / 1000)
             : null,
+        ...buildReconnectIntroState(game),
         ...buildReconnectRandomPointsState(game)
     };
 }
@@ -463,6 +465,7 @@ function buildPresenterGameState(game, roomId) {
         canAnswer: adapter ? adapter.canAcceptAnswers() : false,
         players: game.players || [],
         scores: game.scores || {},
+        ...buildReconnectIntroState(game),
         ...buildReconnectRandomPointsState(game)
     };
 

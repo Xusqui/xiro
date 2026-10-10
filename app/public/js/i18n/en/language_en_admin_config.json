@@ -149,6 +149,8 @@
     "admin.config.ui.standalone_card_desc": "Shows or hides the card and link to standalone.html on the home screen.",
     "admin.config.ui.animar_fondo_label": "Animated background",
     "admin.config.ui.animar_fondo_desc": "Enables the moving gradient and leaf animation in the background. When disabled, the background stays static.",
+    "admin.config.ui.animacion_inicio_label": "Intro before each game",
+    "admin.config.ui.animacion_inicio_desc": "Shows the animated Xiro! logo and a 3, 2, 1, 0 countdown on the presenter, TV and phones before each game starts.",
     "admin.config.ui.personalization_label": "Personalize interface",
     "admin.config.ui.personalization_desc": "Shows an event-branding badge (e.g. a sponsor's logo) across all game screens.",
     "admin.config.ui.personalization_loading": "Loading images…",

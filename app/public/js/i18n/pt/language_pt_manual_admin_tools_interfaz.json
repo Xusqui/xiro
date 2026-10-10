@@ -8,6 +8,8 @@
     "manual_admin.tools.interfaz.standalone_desc": "Mostra ou oculta o cartão e o link para o modo solitário (standalone.html) no ecrã inicial.",
     "manual_admin.tools.interfaz.animar_fondo": "Fundo animado",
     "manual_admin.tools.interfaz.animar_fondo_desc": "Ativa ou desativa o movimento do gradiente e das folhas de fundo em todos os ecrãs. Se desativado, o fundo fica estático.",
+    "manual_admin.tools.interfaz.animacion_inicio": "Intro antes de cada partida",
+    "manual_admin.tools.interfaz.animacion_inicio_desc": "Antes de cada partida (incluindo Trivial) o apresentador, a TV e os telemóveis mostram o logótipo Xiro! animado e uma contagem <strong>3, 2, 1, 0</strong>. O som só toca no apresentador. O tempo da primeira pergunta só começa no fim. Ativada por omissão.",
     "manual_admin.tools.interfaz.personalization": "Personalizar interface",
     "manual_admin.tools.interfaz.personalization_desc": "Mostra um distintivo de marca do evento (p. ex. o logótipo de um patrocinador) em todos os ecrãs do jogo. Permite carregar, escolher e apagar o logótipo diretamente a partir deste painel."
   }

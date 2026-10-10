@@ -175,6 +175,7 @@ export function registerTrivialSocketHandlers() {
     const socket = getSocket();
 
     socket.on('trivial-game-started', (data) => {
+        window.XiroGameIntro?.release(); // abrir el iris de la intro sobre lo que se pinta ahora
         window.isTrivialGame = true;
         setTrivialGameState({ ...data });
         buildTrivialLayout();

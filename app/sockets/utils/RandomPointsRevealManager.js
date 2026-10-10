@@ -173,5 +173,6 @@ module.exports = {
     revealDurationMs,
     buildRevealPayload,
     buildReconnectRandomPointsState,
+    restampQuestionEpoch,
     runRandomPointsReveal,
 };

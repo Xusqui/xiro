@@ -76,6 +76,7 @@ export function salirDelLobby() {
  */
 function onGameStarted(data, ack) {
     console.log('🎮 [EVENT] game-started:', data);
+    window.XiroGameIntro?.release(); // abrir el iris de la intro sobre lo que se pinta ahora
 
     // Eliminar overlay de desconexión si existe
     removeDisconnectOverlay();
@@ -247,6 +248,7 @@ function onGameAbandoned(data) {
  * En el móvil se añade el multiplicador de racha propio del jugador.
  */
 function onRandomPointsReveal(payload) {
+    window.XiroGameIntro?.release();
     cancelStreakAnimation();
     window.XiroRandomPointsOverlay?.show(payload, {
         currentStreak: getStreakInfo()?.current || 0
@@ -262,6 +264,7 @@ export function registerGameFlowEvents() {
     socket.on('game-started', onGameStarted);
     socket.on('new-question', onNewQuestion);
     socket.on('random-points-reveal', onRandomPointsReveal);
+    socket.on('game-intro', (payload) => window.XiroGameIntro?.show(payload));
     socket.on('server-restarting', onServerRestarting);
     socket.on('game-abandoned', onGameAbandoned);
 

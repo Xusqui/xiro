@@ -92,6 +92,11 @@ function handleReconnectedSuccess(snapshot) {
         const gs = snapshot.gameState;
         const question = gs.currentQuestion;
 
+        // Si la intro de la partida sigue en pantalla, mostrar lo que le queda
+        if (gs.gameIntro) {
+            window.XiroGameIntro?.show(gs.gameIntro);
+        }
+
         // Si la pantalla de puntuación aleatoria sigue visible, mostrar lo que le queda
         if (gs.randomPointsReveal) {
             window.XiroRandomPointsOverlay?.show(gs.randomPointsReveal, {

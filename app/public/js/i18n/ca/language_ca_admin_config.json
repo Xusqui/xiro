@@ -121,6 +121,8 @@
     "admin.config.ui.standalone_card_desc": "Shows or hides the card and link to standalone.html on the home screen.",
     "admin.config.ui.animar_fondo_label": "Fons animat",
     "admin.config.ui.animar_fondo_desc": "Activa el moviment del degradat i les fulles de fons. Si es desactiva, el fons queda estàtic.",
+    "admin.config.ui.animacion_inicio_label": "Intro abans de cada partida",
+    "admin.config.ui.animacion_inicio_desc": "Mostra el logo de Xiro! animat i un compte enrere 3, 2, 1, 0 al presentador, la TV i els mòbils abans de començar cada partida.",
     "admin.config.ui.personalization_label": "Personalitzar interfície",
     "admin.config.ui.personalization_desc": "Mostra una insígnia de marca de l'esdeveniment (p. ex. el logotip d'un patrocinador) a totes les pantalles del joc.",
     "admin.config.ui.personalization_loading": "Carregant imatges…",

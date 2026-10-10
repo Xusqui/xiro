@@ -121,6 +121,8 @@
     "admin.config.ui.standalone_card_desc": "在主屏幕上显示或隐藏卡片和 standalone.html 的链接。",
     "admin.config.ui.animar_fondo_label": "动态背景",
     "admin.config.ui.animar_fondo_desc": "启用背景渐变和叶片的动画效果。禁用后背景将保持静态。",
+    "admin.config.ui.animacion_inicio_label": "每局开始前的片头",
+    "admin.config.ui.animacion_inicio_desc": "每局游戏开始前，在主持人屏幕、电视和手机上显示 Xiro! 动画标志和 3、2、1、0 倒计时。",
     "admin.config.ui.personalization_label": "自定义界面",
     "admin.config.ui.personalization_desc": "在所有游戏界面显示活动品牌徽标(例如赞助商的标志)。",
     "admin.config.ui.personalization_loading": "正在加载图片…",

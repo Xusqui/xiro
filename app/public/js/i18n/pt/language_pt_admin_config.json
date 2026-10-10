@@ -121,6 +121,8 @@
     "admin.config.ui.standalone_card_desc": "Mostra ou oculta o cartão e o link para standalone.html na tela inicial.",
     "admin.config.ui.animar_fondo_label": "Fundo animado",
     "admin.config.ui.animar_fondo_desc": "Ativa o movimento do degradê e das folhas no fundo. Se desativado, o fundo permanece estático.",
+    "admin.config.ui.animacion_inicio_label": "Intro antes de cada partida",
+    "admin.config.ui.animacion_inicio_desc": "Mostra o logótipo Xiro! animado e uma contagem decrescente 3, 2, 1, 0 no apresentador, na TV e nos telemóveis antes de cada partida.",
     "admin.config.ui.personalization_label": "Personalizar interface",
     "admin.config.ui.personalization_desc": "Mostra um selo de marca do evento (p. ex. o logótipo de um patrocinador) em todos os ecrãs do jogo.",
     "admin.config.ui.personalization_loading": "A carregar imagens…",

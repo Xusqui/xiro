@@ -55,6 +55,7 @@ window.TVApp.TrvSocket = (function () {
         if (!socket) return;
 
         socket.on('trivial-game-started', function (data) {
+            if (window.XiroGameIntro) window.XiroGameIntro.release(); // abrir el iris de la intro
             window.isTrivialGame = true;
             setGameControlsVisible(true);
             State.setTrivialGameState(data);

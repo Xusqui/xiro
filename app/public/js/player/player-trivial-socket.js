@@ -50,6 +50,7 @@ export function registerTrivialPlayerSocketHandlers() {
     const socket = getSocket();
 
     socket.on('trivial-game-started', (data) => {
+        window.XiroGameIntro?.release(); // abrir el iris de la intro sobre lo que se pinta ahora
         _saveCategories(data.categories || []);
         setTrivialBadgeCategories(data.categories || []);
         syncTrivialBadgesFromPayload(data);

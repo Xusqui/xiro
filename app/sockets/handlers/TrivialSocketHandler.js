@@ -15,6 +15,7 @@
  */
 
 const logger = require('../../config/logger');
+const { runGameIntro } = require('../utils/GameIntroManager');
 const dbService = require('../../services/db');
 const trivialState = require('../services/TrivialGameState');
 const { buildBoardGraph, getReachablePositions, getCategoryForPosition } = require('../services/TrivialBoardGraph');
@@ -202,6 +203,12 @@ function createStartHandler({ io, lobbyPlayers }) {
             await trivialState.setTrivialState(roomId, state);
             persistGameStartTimestamp(roomId);
             persistActiveTrivialGame(roomId, playersInRoom, isTeamMode, trivialData);
+
+            // Intro con el logo y cuenta atrás antes de mostrar el tablero (si está activada)
+            const introDone = await runGameIntro({ activeGames, roomId, io, restampQuestion: false });
+            if (!introDone) {
+                return;
+            }
 
             const payload = buildTrivialStartPayload(state, trivialData.categories);
             emitTrivialStart(io, roomId, payload);

@@ -1,0 +1,109 @@
+/*
+ * Intro de partida: logo de Xiro! + cuenta atrás 3-2-1-0 (game-intro-overlay.js).
+ * Se carga en presentador, jugador y TV. Solo anima transform/opacity (salvo el
+ * iris final) para ir fluido en móviles y TV.
+ *
+ * Navegadores sin animaciones CSS sin prefijo (TV webOS 3.5) reciben la clase
+ * .gi-legacy: sin barridos ni efectos, el logo aparece fijo y los números
+ * cambian a golpe de JS.
+ */
+
+.gi{position:fixed;top:0;left:0;right:0;bottom:0;z-index:10050;overflow:hidden;pointer-events:none;display:none}
+.gi.is-on{display:block;pointer-events:auto}
+.gi-bg{position:absolute;top:0;left:0;right:0;bottom:0;opacity:0;
+  background:radial-gradient(ellipse at 50% 55%,#5e2e5b 0%,#3f2746 45%,#1a0f1d 100%)}
+.gi.s-bg .gi-bg{opacity:1}
+.gi-stage{position:absolute;top:0;left:0;right:0;bottom:0;visibility:hidden}
+.gi.s-bg .gi-stage{visibility:visible}
+
+/* Rayos giratorios */
+.gi-rays{position:absolute;left:50%;top:50%;width:220vmax;height:220vmax;margin:-110vmax 0 0 -110vmax;opacity:0;
+  transition:opacity .6s ease}
+.gi.s-bg .gi-rays{opacity:1}
+.gi-rays svg{width:100%;height:100%;animation:gi-spin 24s linear infinite}
+.gi-rays-pulse{animation:gi-rays-pulse .5s cubic-bezier(.2,.8,.2,1)}
+@keyframes gi-spin{to{transform:rotate(360deg)}}
+@keyframes gi-rays-pulse{0%{transform:scale(1.12)}100%{transform:scale(1)}}
+
+/* Barrido de paneles: las tres bandas viajan juntas en un tren a velocidad
+   constante (linear), así ningún color se queda más tiempo en pantalla. */
+.gi-wipes{position:absolute;top:-30vh;left:0;width:180vw;height:160vh;transform:translateX(-230vw)}
+.gi-wipe{position:absolute;top:0;height:100%;width:37vw;transform:skewX(-16deg);
+  border-left:1.4vmin solid #000;border-right:1.4vmin solid #000}
+/* De delante (derecha) a atrás: verde, amarillo, rojo, amarillo, verde */
+.gi-wipe.w1{left:144vw;background:#8ab817}.gi-wipe.w2{left:108vw;background:#f9b518}.gi-wipe.w3{left:72vw;background:#e65453}
+.gi-wipe.w4{left:36vw;background:#f9b518}.gi-wipe.w5{left:0;background:#8ab817}
+.gi.s-wipe .gi-wipes{animation:gi-wipes .9s linear both}
+@keyframes gi-wipes{from{transform:translateX(-230vw)}to{transform:translateX(140vw)}}
+
+/* Logo */
+.gi-logo{position:absolute;left:50%;top:50%;width:102.8vmin;margin-left:-51.4vmin;margin-top:-44vmin;
+  -webkit-transform-origin:50% 61.8%;transform-origin:50% 61.8%;
+  transition:transform .55s cubic-bezier(.7,-0.3,.25,1.25)}
+.gi-logo svg{display:block;width:100%;height:auto;overflow:visible}
+.gi.s-logo-up .gi-logo{transform:translateY(-31vh) scale(.5)}
+.gi-l,.gi-sticker{transform-box:fill-box;-webkit-transform-origin:50% 50%;transform-origin:50% 50%}
+.gi-l{opacity:0}
+.gi-l.is-in{opacity:1;animation:gi-pop .62s cubic-bezier(.2,.9,.3,1) both}
+.gi-l.drop.is-in{animation-name:gi-drop}
+.gi-sticker{opacity:0}
+.gi-sticker.is-in{opacity:1;animation:gi-sticker .5s cubic-bezier(.2,.9,.3,1.4) both}
+@keyframes gi-pop{0%{transform:scale(0) rotate(-28deg)}55%{transform:scale(1.2) rotate(7deg)}78%{transform:scale(.93) rotate(-2deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes gi-drop{0%{transform:translateY(-460px) scale(.8,1.25)}55%{transform:translateY(0) scale(1.18,.82)}75%{transform:translateY(-40px) scale(.96,1.05)}100%{transform:translateY(0) scale(1)}}
+@keyframes gi-sticker{0%{transform:scale(.7);opacity:0}60%{transform:scale(1.06);opacity:1}100%{transform:scale(1)}}
+
+/* Destellos */
+.gi-glint{position:absolute;width:12vmin;height:12vmin;margin:-6vmin 0 0 -6vmin;opacity:0}
+.gi-glint.is-in{animation:gi-glint .7s ease-out both}
+@keyframes gi-glint{0%{transform:scale(0) rotate(0);opacity:0}35%{transform:scale(1.1) rotate(70deg);opacity:1}100%{transform:scale(0) rotate(160deg);opacity:0}}
+
+/* Cuenta atrás */
+.gi-count{position:absolute;left:50%;top:61%;width:0;height:0}
+.gi-ring{position:absolute;width:56vmin;height:56vmin;left:-28vmin;top:-28vmin;opacity:0;transition:opacity .3s}
+.gi.s-count .gi-ring{opacity:1}
+.gi-ring circle{fill:none;stroke-linecap:round}
+.gi-ring .track{stroke:rgba(255,255,255,.12);stroke-width:5}
+.gi-ring .prog{stroke-width:7;stroke-dasharray:289;stroke-dashoffset:0}
+.gi-digit{position:absolute;width:32vmin;height:48vmin;left:-16vmin;top:-24vmin;opacity:0}
+.gi-digit svg{width:100%;height:100%;overflow:visible}
+.gi-digit.is-in{opacity:1;animation:gi-slam .75s cubic-bezier(.2,.9,.3,1) both}
+.gi-digit.is-out{animation:gi-out .22s cubic-bezier(.6,0,.9,.4) both}
+.gi-digit.is-boom{animation:gi-boom .28s cubic-bezier(.2,.8,.4,1) both}
+@keyframes gi-slam{0%{transform:scale(3.2) rotate(-12deg);opacity:0}28%{transform:scale(.9) rotate(3deg);opacity:1}42%{transform:scale(1.05) rotate(-1deg)}100%{transform:scale(1.1) rotate(0)}}
+@keyframes gi-out{0%{transform:scale(1.1);opacity:1}100%{transform:scale(.3) rotate(25deg);opacity:0}}
+@keyframes gi-boom{0%{transform:scale(1.1);opacity:1}100%{transform:scale(2.4);opacity:0}}
+
+.gi-wave{position:absolute;width:40vmin;height:40vmin;left:-20vmin;top:-20vmin;border-radius:50%;
+  border:1.6vmin solid #fff;box-sizing:border-box;opacity:0}
+.gi-wave.is-in{animation:gi-wave .65s cubic-bezier(.1,.7,.3,1) both}
+@keyframes gi-wave{0%{transform:scale(.35);opacity:.9}100%{transform:scale(2.6);opacity:0;border-width:.2vmin}}
+
+.gi-flash{position:absolute;top:0;left:0;right:0;bottom:0;background:#fff;opacity:0}
+.gi-flash.is-in{animation:gi-flash .35s ease-out both}
+@keyframes gi-flash{0%{opacity:0}20%{opacity:.9}100%{opacity:0}}
+
+.gi-bit{position:absolute;left:0;top:0;border:.45vmin solid #000;box-sizing:border-box}
+.gi.s-shake .gi-stage{animation:gi-shake .3s linear}
+@keyframes gi-shake{0%,100%{transform:translate(0,0)}20%{transform:translate(-1.2vmin,.8vmin)}40%{transform:translate(1vmin,-.9vmin)}60%{transform:translate(-.7vmin,-.4vmin)}80%{transform:translate(.5vmin,.6vmin)}}
+
+.gi.s-covered .gi-bg,.gi.s-covered .gi-stage,.gi.s-covered .gi-flash{visibility:hidden}
+
+/* Salida: iris de color que nace del 0 y se abre revelando la pregunta */
+.gi-iris{position:absolute;left:50%;top:61%;width:300vmax;height:300vmax;margin:-150vmax 0 0 -150vmax;border-radius:50%;
+  box-sizing:border-box;border:150vmax solid #000;box-shadow:0 0 0 1.2vmin #000;transform:scale(0)}
+.gi-iris.i1{border-color:#8ab817}.gi-iris.i2{border-color:#f9b518}.gi-iris.i3{border-color:#e65453}
+.gi.s-iris .gi-iris{animation:gi-iris-in .42s cubic-bezier(.6,0,.2,1) both}
+.gi.s-iris .i2{animation-delay:.07s}.gi.s-iris .i3{animation-delay:.14s}
+.gi.s-iris-out .gi-iris{transform:scale(1);animation:gi-iris-out .5s cubic-bezier(.5,0,.2,1) both}
+.gi.s-iris-out .i2{animation-delay:.07s}.gi.s-iris-out .i1{animation-delay:.14s}
+@keyframes gi-iris-in{0%{transform:scale(0)}100%{transform:scale(1)}}
+@keyframes gi-iris-out{0%{border-width:150vmax;box-shadow:0 0 0 1.2vmin #000,inset 0 0 0 1.2vmin #000}100%{border-width:0;box-shadow:0 0 0 1.2vmin #000,inset 0 0 0 1.2vmin #000}}
+
+@media (prefers-reduced-motion: reduce){
+  .gi *{animation-duration:.01s!important;transition:none!important}
+  .gi-wipe,.gi-iris{display:none}
+}
+
+/* TV antiguas: sin @keyframes sin prefijo ni transform-box */
+.gi-legacy .gi-l,.gi-legacy .gi-sticker,.gi-legacy .gi-digit.is-in{opacity:1}
+.gi-legacy .gi-wipes,.gi-legacy .gi-iris,.gi-legacy .gi-wave,.gi-legacy .gi-flash,.gi-legacy .gi-glint{display:none}
