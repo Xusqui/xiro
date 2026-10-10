@@ -57,13 +57,15 @@ async function processAnswerByGameMode(ctx) {
             answerIndex: (flags.isOrderQuestion
                 || flags.isMatchingQuestion
                 || flags.isNumericQuestion
-                || flags.isMultipleChoiceQuestion)
+                || flags.isMultipleChoiceQuestion
+                || flags.isWordSearchQuestion)
                 ? null
                 : payload.index,
             order: payload.order,
             matches: payload.matches,
             orderDetails: flags.isOrderQuestion ? answerResult.details : null,
             matchingDetails: flags.isMatchingQuestion ? answerResult.details : null,
+            wordSearchDetails: flags.isWordSearchQuestion ? answerResult.details : null,
             multipleChoiceDetails: fullMultipleChoiceDetails,
             streakInfo: enrichedStreakInfo
         },

@@ -24,6 +24,8 @@
     "instructions.question_types.word_scramble.title": "猜字（猜字）",
     "instructions.question_types.word_scramble.description": "挑战是通过对屏幕上出现的无序字母进行排序来找到隐藏的单词。",
     "instructions.question_types.multiple.title": "多项选择",
-    "instructions.question_types.multiple.description": "与测验类似，但在这种情况下，可以同时有 1 到 6 个正确答案。"
+    "instructions.question_types.multiple.description": "与测验类似，但在这种情况下，可以同时有 1 到 6 个正确答案。",
+    "instructions.question_types.word_search.title": "找字游戏 (Word Search)",
+    "instructions.question_types.word_search.description": "在 10×10 的字母格中找出隐藏在任意方向的单词。每找到一个单词都能得分。点击单词可查看起始位置，但该词得分减半。"
   }
 }

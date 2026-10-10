@@ -254,6 +254,7 @@ function getJustification(selectedOption, correctOption) {
 function getCorrectAnswerText(question, correctOption) {
     if (question?.question_type === 'numeric_approximation') return question.correct_answer ?? null;
     if (question?.question_type === 'word_scramble') return question.correct_word ?? null;
+    if (question?.question_type === 'word_search') return (question.ws_words || []).join(', ');
     return correctOption?.text || correctOption?.optionText || correctOption?.option_text || '';
 }
 

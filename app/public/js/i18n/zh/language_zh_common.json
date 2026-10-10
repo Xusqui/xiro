@@ -8,6 +8,7 @@
     "common.btn_retry": "重试",
     "common.footer.copyright_holder": "版权所有：Fernández Villatoro 家族",
     "common.skip_link": "跳到内容",
-    "common.label_language": "题目语言"
+    "common.label_language": "题目语言",
+    "common.wordsearch.grid_label": "找字游戏"
   }
 }

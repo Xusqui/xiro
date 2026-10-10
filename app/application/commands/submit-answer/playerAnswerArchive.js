@@ -92,7 +92,7 @@ function buildSingleIndexAnswer({ payload, options }) {
     return { answerGiven: optionText(option, payload.index) };
 }
 
-function buildAnswerDetails({ flags, payload, options }) {
+function buildAnswerDetails({ flags, payload, options, answerResult }) {
     if (flags.isOrderQuestion) {
         return buildOrderAnswer({ payload, options });
     }
@@ -105,7 +105,15 @@ function buildAnswerDetails({ flags, payload, options }) {
     if (flags.isMultipleChoiceQuestion) {
         return buildMultipleChoiceAnswer({ payload, options });
     }
+    if (flags.isWordSearchQuestion) {
+        return buildWordSearchAnswer(answerResult);
+    }
     return buildSingleIndexAnswer({ payload, options });
+}
+
+function buildWordSearchAnswer(answerResult) {
+    const { foundWords = [], totalWords = 0 } = answerResult?.details || {};
+    return { answerGiven: `${foundWords.join(', ')} (${foundWords.length}/${totalWords})` };
 }
 
 function persistSnapshotToRedis({ sPin, slot, nickname, snapshot }) {
@@ -174,7 +182,7 @@ function persistPlayerAnswerSnapshot(ctx) {
 
     const slot = ensurePlayerAnswerSlot(game);
     const options = currentQuestion.options || [];
-    const answerDetails = buildAnswerDetails({ flags, payload, options });
+    const answerDetails = buildAnswerDetails({ flags, payload, options, answerResult });
 
     const snapshot = buildSnapshot({
         game,

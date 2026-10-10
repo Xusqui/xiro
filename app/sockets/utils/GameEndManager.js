@@ -16,6 +16,7 @@ const sessionStore = require('../../services/SessionStore');
 const answerStatsStore = require('../../services/AnswerStatsStore');
 const { getRedisClient } = require('../../config/redis');
 const { logVoteDistribution } = require('./VoteDistributionLogger');
+const { buildPlayerRevealPayload, applyQuestionTypeOverrides } = require('./RevealTypePayloads');
 const logger = require('../../config/logger');
 const { saveGameSession } = require('../../services/db/game-session.service');
 
@@ -235,16 +236,16 @@ function getQuestionFlags(question) {
         isSurveyQuestion: question.question_type === 'survey',
         isWordScrambleQuestion: question.question_type === 'word_scramble',
         isMultipleChoiceQuestion: question.question_type === 'multiple_choice',
-        isNumericQuestion: question.question_type === 'numeric_approximation'
+        isNumericQuestion: question.question_type === 'numeric_approximation',
+        isWordSearchQuestion: question.question_type === 'word_search'
     };
 }
 
+// Tipos sin una única opción correcta que marcar (no tienen correctIndex)
+const NO_SINGLE_CORRECT_TYPES = new Set(['order', 'matching', 'survey', 'word_scramble', 'word_search', 'multiple_choice']);
+
 function resolveCorrectAnswerData(question, flags) {
-    const hasSingleCorrectIndex = !flags.isOrderQuestion
-        && !flags.isMatchingQuestion
-        && !flags.isSurveyQuestion
-        && !flags.isWordScrambleQuestion
-        && !flags.isMultipleChoiceQuestion;
+    const hasSingleCorrectIndex = !NO_SINGLE_CORRECT_TYPES.has(question.question_type);
 
     const correctIndex = hasSingleCorrectIndex
         ? (question.options?.findIndex(option => option.isCorrect) ?? -1)
@@ -368,56 +369,6 @@ function buildPresenterPayload(input) {
         correctMatches,
         isSurvey: isSurveyQuestion
     };
-}
-
-function optionText(option) {
-    return option?.text || option?.optionText || option?.option_text || '';
-}
-
-/**
- * Lo que ven los jugadores al revelar: la respuesta correcta en el formato
- * de cada tipo (número, palabra, parejas, orden u opciones correctas).
- */
-function buildPlayerRevealPayload(presenterPayload) {
-    return {
-        correctAnswer: presenterPayload.correctAnswer ?? null,
-        justification: presenterPayload.justification ?? null,
-        correctOrder: presenterPayload.correctOrder ?? null,
-        correctMatches: presenterPayload.correctMatches ?? null,
-        correctWord: presenterPayload.correctWord ?? null,
-        correctOptionTexts: presenterPayload.correctOptionTexts ?? null
-    };
-}
-
-function applyQuestionTypeOverrides(presenterPayload, currentQuestion, flags, correctIndicesMultiple) {
-    if (flags.isNumericQuestion) {
-        presenterPayload.correctAnswer = currentQuestion.correct_answer;
-        presenterPayload.maxPoints = currentQuestion.max_points;
-        presenterPayload.toleranceMode = currentQuestion.tolerance_mode;
-        presenterPayload.toleranceValue = currentQuestion.tolerance_value;
-        presenterPayload.toleranceCap = currentQuestion.tolerance_cap;
-        presenterPayload.correctIndex = null;
-        presenterPayload.correctOrder = null;
-        presenterPayload.correctMatches = null;
-    }
-
-    if (flags.isWordScrambleQuestion) {
-        presenterPayload.correctWord = currentQuestion.correct_word || null;
-        presenterPayload.correctIndex = null;
-        presenterPayload.correctOrder = null;
-        presenterPayload.correctMatches = null;
-    }
-
-    if (flags.isMultipleChoiceQuestion) {
-        presenterPayload.correctIndices = correctIndicesMultiple;
-        presenterPayload.correctOptionTexts = (correctIndicesMultiple || [])
-            .map(idx => optionText(currentQuestion.options?.[idx]))
-            .filter(Boolean);
-        presenterPayload.correctIndex = null;
-        presenterPayload.correctOrder = null;
-        presenterPayload.correctMatches = null;
-        presenterPayload.correctAnswer = null;
-    }
 }
 
 async function revealToUnrevealedTeamsIfNeeded(input) {
@@ -559,7 +510,7 @@ async function triggerAutoSaveSession(roomId, game, ranking) {
     try {
         const questionsSnapshot = (game.questions || []).map(q => ({
             question_text: q.question_text || q.text || '',
-            correct_answer: q.correct_answer || q.correct_word || '',
+            correct_answer: q.correct_answer || q.correct_word || (q.ws_words || []).join(', '),
             question_type: q.question_type || q.type || 'quiz'
         }));
 
@@ -708,7 +659,14 @@ async function revealAnswer({ roomId, game, io, timeExpired = false }) {
         isSurveyQuestion: flags.isSurveyQuestion
     });
 
-    applyQuestionTypeOverrides(presenterPayload, currentQuestion, flags, correctIndicesMultiple);
+    await applyQuestionTypeOverrides({
+        presenterPayload,
+        question: currentQuestion,
+        flags,
+        correctIndicesMultiple,
+        roomId,
+        revealIndex
+    });
     addTeamScoresIfNeeded(isTeamMode, presenterPayload, teamConfigData, game.scores || {});
 
     logger.debug('Emitiendo reveal-answer a presentador:', {

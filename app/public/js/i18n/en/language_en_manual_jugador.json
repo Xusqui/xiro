@@ -40,6 +40,8 @@
     "manual_player.answer.scramble.text": "Tap the letters in the correct order to reveal the hidden word before the other players.",
     "manual_player.answer.matching.title": "Matching",
     "manual_player.answer.matching.text": "You will see two columns. The left is fixed; drag the items on the right to place each one in front of its correct pair. Tap Confirm when ready. You earn points for each correct match!",
+    "manual_player.answer.word_search.title": "Word Search",
+    "manual_player.answer.word_search.text": "Find the words hidden in any direction in a 10×10 grid: drag your finger from the first to the last letter, or tap both. If you get stuck, tap a word in the list to see where it starts (it will be worth half). In teams, whatever one player finds, the whole group sees. The sooner you finish, the bigger the bonus!",
 
     "manual_player.score.section.title": "Scoring & Streaks",
     "manual_player.score.section.subtitle": "Answer fast and don't miss to maximise your points.",

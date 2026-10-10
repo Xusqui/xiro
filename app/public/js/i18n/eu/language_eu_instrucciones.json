@@ -24,6 +24,8 @@
     "instructions.question_types.word_scramble.title": "Guess Word (Word Scramble)",
     "instructions.question_types.word_scramble.description": "Erronka ezkutuko hitz bat aurkitzea da, pantailan agertzen diren letra desordenatuak ordenatuz.",
     "instructions.question_types.multiple.title": "Aukera anitzak",
-    "instructions.question_types.multiple.description": "Galdetegiaren antzekoa, baina kasu honetan 1 eta 6 erantzun zuzen artean egon daitezke aldi berean."
+    "instructions.question_types.multiple.description": "Galdetegiaren antzekoa, baina kasu honetan 1 eta 6 erantzun zuzen artean egon daitezke aldi berean.",
+    "instructions.question_types.word_search.title": "Letra-zopa (Word Search)",
+    "instructions.question_types.word_search.description": "10x10eko sare batean edozein norabidetan ezkutatutako hitzak aurkitu behar dira. Aurkitutako hitz bakoitzak puntuak ematen ditu. Hitz bat ukituz gero non hasten den ikusiko duzu, baina erdia balioko du."
   }
 }

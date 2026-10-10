@@ -15,7 +15,7 @@ import {
     clearAnswerInputState
 } from './player-state.js?v=20260922172926';
 import { removeDisconnectOverlay, activarWakeLock } from './player-connection.js?v=20260922172926';
-import { renderizarPregunta, renderizarPreguntaOrdena, renderizarSlideComentario, renderizarSlideInfo, renderizarSlideTexto, renderizarSlideImagen, renderizarPreguntaWordScramble, renderizarPreguntaMultipleChoice, renderizarPreguntaMatching } from './player-question-ui.js?v=20260922172926';
+import { renderizarPregunta, renderizarPreguntaOrdena, renderizarSlideComentario, renderizarSlideInfo, renderizarSlideTexto, renderizarSlideImagen, renderizarPreguntaWordScramble, renderizarPreguntaWordSearch, renderizarPreguntaMultipleChoice, renderizarPreguntaMatching } from './player-question-ui.js?v=20260922172926';
 import { renderizarPreguntaNumerica } from './player-numeric-ui.js?v=20260922172926';
 import { injectStreakBadge } from './player-streak-ui.js?v=20260922172926';
 import { syncTrivialBadgesFromSnapshot } from './player-trivial-badges-ui.js?v=20260922172926';
@@ -216,6 +216,8 @@ function renderQuestion(question) {
         renderizarPreguntaNumerica(question);
     } else if (question.question_type === 'word_scramble') {
         renderizarPreguntaWordScramble(question);
+    } else if (question.question_type === 'word_search') {
+        renderizarPreguntaWordSearch(question);
     } else if (question.question_type === 'multiple_choice') {
         renderizarPreguntaMultipleChoice(question);
     } else {

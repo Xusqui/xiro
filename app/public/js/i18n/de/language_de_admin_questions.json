@@ -46,6 +46,18 @@
     "admin.q.justification_label": "Begründung der richtigen Antwort",
     "admin.q.btn_add_option": "+ Option hinzufügen",
     "admin.q.btn_add": "Frage hinzufügen",
-    "admin.q.label_end": "Ende der Fragen"
+    "admin.q.label_end": "Ende der Fragen",
+    "admin.q.type_word_search": "Buchstabensalat (Finde die Wörter)",
+    "admin.q.type_word_search_short": "Buchstabensalat",
+    "admin.q.wordsearch_intro": "Die Wörter sind in einem 10x10-Raster in jeder Richtung versteckt: waagerecht, senkrecht oder diagonal, vorwärts oder rückwärts.",
+    "admin.q.wordsearch_words_label": "Zu versteckende Wörter (2-6, mit 3 bis 10 Buchstaben)",
+    "admin.q.wordsearch_placeholder": "Wort (3-10 Buchstaben)",
+    "admin.q.wordsearch_add": "Wort hinzufügen",
+    "admin.q.wordsearch_max": "Maximum von 6 Wörtern erreicht",
+    "admin.q.how_it_works": "So funktioniert es:",
+    "admin.q.wordsearch_help_grid": "Jedes Spiel erzeugt mit diesen Wörtern ein anderes Raster",
+    "admin.q.wordsearch_help_play": "Die Spieler sehen die Liste und markieren jedes Wort, indem sie vom ersten zum letzten Buchstaben ziehen oder beide antippen",
+    "admin.q.wordsearch_help_points": "Punkte: 20 Pkt. pro gefundenem Wort",
+    "admin.q.wordsearch_help_time": "Genug Zeit geben: 60-120 Sekunden je nach Anzahl der Wörter"
   }
 }

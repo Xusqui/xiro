@@ -24,6 +24,10 @@
     "player.answer.waiting_server": "等待服务器确认...",
     "player.answer.mc_missed": "未选择",
     "player.answer.mc_perfect": "完美",
-    "player.answer.matching_pairs": "{total} 对中的 {n} 对"
+    "player.answer.matching_pairs": "{total} 对中的 {n} 对",
+    "player.answer.wordsearch_found": "{total} 个词中的 {n} 个",
+    "player.wordsearch.finish": "完成",
+    "player.wordsearch.hint_help": "提示：点击单词（得分减半）",
+    "player.wordsearch.hint_aria": "提示："
   }
 }

@@ -9,6 +9,7 @@ import { registerSessionEvents, initSessionDetection, validarSession, unirseAlLo
 import { registerTeamEvents, seleccionarEquipo, mostrarSeleccionEquipo } from './player-team.js?v=20260922172926';
 import { registerAnswerEvents } from './player-answer-events.js?v=20260922172926';
 import { enviarRespuesta, enviarOrdenRespuesta, enviarMatchingRespuesta, enviarRespuestaNumerica, enviarRespuestaWordScramble, enviarPendiente } from './player-answer.js?v=20260922172926';
+import { enviarRespuestaWordSearch } from './player-answer-wordsearch.js?v=20260922172926';
 import { registerResultsEvents } from './player-results.js?v=20260922172926';
 import { registerGameFlowEvents, salirDelLobby } from './player-game-flow.js?v=20260922172926';
 import { registerReconnectionEvents } from './player-reconnection.js?v=20260922172926';
@@ -34,6 +35,7 @@ window.enviarOrdenRespuesta = enviarOrdenRespuesta;
 window.enviarMatchingRespuesta = enviarMatchingRespuesta;
 window.enviarRespuestaNumerica = enviarRespuestaNumerica;
 window.enviarRespuestaWordScramble = enviarRespuestaWordScramble;
+window.enviarRespuestaWordSearch = enviarRespuestaWordSearch;
 window.enviarPendiente = enviarPendiente;
 
 // Game flow functions

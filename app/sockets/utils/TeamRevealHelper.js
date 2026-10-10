@@ -262,6 +262,18 @@ function shouldSkipPlayerReveal(playerSocket, game, playerNick) {
     return true;
 }
 
+/** Detalle propio del tipo de pregunta en el resultado del jugador (null si no aplica). */
+function typedDetailFields(question, playerAnswer, isOrderQuestion) {
+    const type = question.question_type;
+    return {
+        orderDetails: isOrderQuestion ? playerAnswer?.orderDetails || null : null,
+        multipleChoiceDetails: type === 'multiple_choice' ? playerAnswer?.multipleChoiceDetails || null : null,
+        matchingDetails: type === 'matching' ? playerAnswer?.matchingDetails || null : null,
+        // Solo en sopa de letras: el resto de tipos conserva su payload tal cual
+        ...(type === 'word_search' ? { wordSearchDetails: playerAnswer?.wordSearchDetails || null } : {})
+    };
+}
+
 function buildPlayerRevealPayload({
     playerNick,
     game,
@@ -294,9 +306,7 @@ function buildPlayerRevealPayload({
             ranking: revealContext.ranking,
             justification: justificationText,
             teamName: team.name,
-            orderDetails: revealContext.isOrderQuestion ? playerAnswer?.orderDetails || null : null,
-            multipleChoiceDetails: question.question_type === 'multiple_choice' ? playerAnswer?.multipleChoiceDetails || null : null,
-            matchingDetails: question.question_type === 'matching' ? playerAnswer?.matchingDetails || null : null,
+            ...typedDetailFields(question, playerAnswer, revealContext.isOrderQuestion),
             streak: game.playerStreakInfos?.[playerNick] || null
         }
     };

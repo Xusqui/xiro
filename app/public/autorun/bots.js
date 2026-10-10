@@ -224,6 +224,8 @@ class QuizBotIndividual extends BaseBot {
                 payload = { ...base, answerType: 'matching', matches: Array.from({ length: n }, (_, i) => i) }; break;
             case 'word_scramble':
                 payload = { ...base, answerType: 'word_scramble', playerAnswer: 'BOTANSWER' }; break;
+            case 'word_search':
+                payload = { ...base, answerType: 'word_search', found: [] }; break;
             case 'multiple_choice':
                 payload = { ...base, answerType: 'multiple_choice', selectedIndices: [randInt(0, n - 1)] }; break;
             case 'numeric_approximation':
@@ -313,6 +315,8 @@ class TrivialBotIndividual extends BaseBot {
                 payload = { ...base, answerType: 'matching', matches: (question.options || []).map((_, i) => i) }; break;
             case 'word_scramble':
                 payload = { ...base, answerType: 'word_scramble', playerAnswer: 'respuesta' }; break;
+            case 'word_search':
+                payload = { ...base, answerType: 'word_search', found: [] }; break;
             default:
                 payload = { ...base, index: randInt(0, Math.max(0, (question.options?.length || 4) - 1)) };
         }

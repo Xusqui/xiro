@@ -46,6 +46,18 @@
     "admin.q.justification_label": "Justification de la réponse correcte",
     "admin.q.btn_add_option": "+ Ajouter une option",
     "admin.q.btn_add": "Ajouter une question",
-    "admin.q.label_end": "Fin des questions"
+    "admin.q.label_end": "Fin des questions",
+    "admin.q.type_word_search": "Mots mêlés (Trouvez les mots)",
+    "admin.q.type_word_search_short": "Mots mêlés",
+    "admin.q.wordsearch_intro": "Les mots sont cachés dans une grille de 10x10 dans n’importe quelle direction : horizontale, verticale ou diagonale, à l’endroit ou à l’envers.",
+    "admin.q.wordsearch_words_label": "Mots à cacher (2 à 6, de 3 à 10 lettres)",
+    "admin.q.wordsearch_placeholder": "Mot (3 à 10 lettres)",
+    "admin.q.wordsearch_add": "Ajouter un mot",
+    "admin.q.wordsearch_max": "Maximum de 6 mots atteint",
+    "admin.q.how_it_works": "Fonctionnement :",
+    "admin.q.wordsearch_help_grid": "Chaque partie génère une grille différente avec ces mots",
+    "admin.q.wordsearch_help_play": "Le joueur voit la liste et marque chaque mot en faisant glisser ou en touchant sa première et sa dernière lettre",
+    "admin.q.wordsearch_help_points": "Score : 20 pts par mot trouvé",
+    "admin.q.wordsearch_help_time": "Prévoyez assez de temps : 60 à 120 secondes selon le nombre de mots"
   }
 }

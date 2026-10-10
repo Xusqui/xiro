@@ -63,6 +63,10 @@
     "standalone.game.word_length_pre": "MOT DE",
     "standalone.game.play_audio": "▶ Touche pour lire l'audio",
     "standalone.footer.back": "Retour au début",
-    "standalone.game.mc_missed": "Non cochée"
+    "standalone.game.mc_missed": "Non cochée",
+    "standalone.game.wordsearch_finish": "Terminer",
+    "standalone.game.wordsearch_found": "{n} mots sur {total}",
+    "standalone.game.wordsearch_hint_help": "Indice : touchez un mot (vaut la moitié)",
+    "standalone.game.wordsearch_hint_aria": "Indice :"
   }
 }

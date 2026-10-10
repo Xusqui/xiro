@@ -24,6 +24,10 @@
     "player.answer.waiting_server": "Zerbitzariaren berrespenaren zain...",
     "player.answer.mc_missed": "EZ MARKATUA",
     "player.answer.mc_perfect": "PERFEKTUA",
-    "player.answer.matching_pairs": "{total} bikotetatik {n}"
+    "player.answer.matching_pairs": "{total} bikotetatik {n}",
+    "player.answer.wordsearch_found": "{total} hitzetatik {n}",
+    "player.wordsearch.finish": "Amaitu",
+    "player.wordsearch.hint_help": "Pista: ukitu hitz bat (erdia balio du)",
+    "player.wordsearch.hint_aria": "Pista:"
   }
 }

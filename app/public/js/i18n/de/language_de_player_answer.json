@@ -24,6 +24,10 @@
     "player.answer.waiting_server": "Warte auf Serverbestätigung...",
     "player.answer.mc_missed": "NICHT GEWÄHLT",
     "player.answer.mc_perfect": "PERFEKT",
-    "player.answer.matching_pairs": "{n} von {total} Paaren"
+    "player.answer.matching_pairs": "{n} von {total} Paaren",
+    "player.answer.wordsearch_found": "{n} von {total} Wörtern",
+    "player.wordsearch.finish": "Fertig",
+    "player.wordsearch.hint_help": "Hinweis: Wort antippen (zählt die Hälfte)",
+    "player.wordsearch.hint_aria": "Hinweis:"
   }
 }

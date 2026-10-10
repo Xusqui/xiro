@@ -40,6 +40,8 @@
     "manual_player.answer.scramble.text": "Tippe die Buchstaben in der richtigen Reihenfolge, um das versteckte Wort vor den anderen Spielern aufzudecken.",
     "manual_player.answer.matching.title": "Zuordnen",
     "manual_player.answer.matching.text": "Du siehst zwei Spalten. Die linke ist fest; ziehe die Elemente rechts, um jedes vor sein korrektes Paar zu platzieren. Tippe auf Bestätigen, wenn du fertig bist. Du erhältst Punkte für jedes korrekte Paar!",
+    "manual_player.answer.word_search.title": "Buchstabensalat",
+    "manual_player.answer.word_search.text": "Finde die in alle Richtungen versteckten Wörter in einem 10×10-Raster: Ziehe den Finger vom ersten zum letzten Buchstaben oder tippe beide an. Kommst du nicht weiter, tippe auf ein Wort in der Liste, um zu sehen, wo es beginnt (es zählt dann nur die Hälfte). Im Team sieht die ganze Gruppe, was einer findet. Je schneller du fertig bist, desto größer der Bonus!",
 
     "manual_player.score.section.title": "Punkte & Serien",
     "manual_player.score.section.subtitle": "Antworte schnell und mach keine Fehler, um deine Punkte zu maximieren.",

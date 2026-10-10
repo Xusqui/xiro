@@ -8,6 +8,7 @@
     "common.btn_retry": "Reintentar",
     "common.footer.copyright_holder": "Copyright: Família Fernández Villatoro",
     "common.skip_link": "Salta al contingut",
-    "common.label_language": "Idioma de les preguntes"
+    "common.label_language": "Idioma de les preguntes",
+    "common.wordsearch.grid_label": "Sopa de lletres"
   }
 }

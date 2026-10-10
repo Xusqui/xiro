@@ -63,6 +63,8 @@ const { createJoinRemotePresenterHandler, removeRemotePresenter } = require('./u
 
 // Servicios de broadcast y notificaciones (WEEK 18)
 const TrivialSocketHandler = require('./handlers/TrivialSocketHandler');
+const { handleWordSearchHint } = require('./handlers/WordSearchHintHandler');
+const { handleWordSearchFound, handleWordSearchSync } = require('./handlers/WordSearchTeamHandler');
 const AnswerBatchService = require('./services/AnswerBatchService');
 const PresenterNotificationService = require('./services/PresenterNotificationService');
 let answerBatchService = null;
@@ -204,6 +206,9 @@ function registerGeneralSocketEvents(socket, handlers) {
     socket.on('join-lobby', (data) => handlers.handleJoinLobby(socket, data));
     socket.on('join-presenter-lobby', (data) => handlers.handleJoinPresenterLobby(socket, data));
     socket.on('submit-answer', (data, callback) => handlers.handleSubmitAnswer(socket, data, callback));
+    socket.on('word-search-hint', (data, callback) => handleWordSearchHint(socket, data, callback));
+    socket.on('word-search-found', (data, callback) => handleWordSearchFound(socket, data, callback));
+    socket.on('word-search-sync', (data, callback) => handleWordSearchSync(socket, data, callback));
     socket.on('select-team', (data) => handlers.handleSelectTeam(socket, data));
     socket.on('reconnect-player', (data) => handlers.handleReconnectPlayer(socket, data));
     socket.on('reconnect-presenter', (data) => handlers.handleReconnectPresenter(socket, data));

@@ -168,9 +168,10 @@ const StandaloneReveal = (() => {
      * @param {Object} data - payload de 'answer-result'
      */
     function showAnswerResult(container, data, { onNext }) {
-        const isOrder = !!data.orderDetails;
-        const totalOptions = data.orderDetails?.totalOptions || 0;
-        const correctCount = data.orderDetails?.correctCount || 0;
+        // Sopa de letras: mismo color que ordenar (verde si todas, azul si parcial)
+        const isOrder = !!(data.orderDetails || data.wordSearchDetails);
+        const totalOptions = data.orderDetails?.totalOptions || data.wordSearchDetails?.totalWords || 0;
+        const correctCount = data.orderDetails?.correctCount || data.wordSearchDetails?.foundCount || 0;
         const isFullyCorrect = totalOptions > 0 && correctCount === totalOptions;
         const currentSlideType = StandaloneState.get().currentQuestion?.question_type || '';
 
@@ -179,10 +180,12 @@ const StandaloneReveal = (() => {
         const color = visualLogic.resolveResultColor({ isOrder, isFullyCorrect, isApproximate, isCorrect: data.correct });
 
         let message;
-        if (isOrder) {
+        if (data.orderDetails) {
             message = _orderMessage(data);
         } else if (data.multipleChoiceDetails?.options) {
             message = _multipleChoiceMessage(data);
+        } else if (data.wordSearchDetails) {
+            message = StandaloneQuestionWordSearch.resultMessage(data, _pointsPill);
         } else {
             message = _headerMessage(data, isApproximate);
         }

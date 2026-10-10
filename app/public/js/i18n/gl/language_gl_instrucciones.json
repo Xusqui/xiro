@@ -24,6 +24,8 @@
     "instructions.question_types.word_scramble.title": "Adiviña palabra (Word Scramble)",
     "instructions.question_types.word_scramble.description": "O reto é atopar unha palabra oculta ordenando as letras desordenadas que aparecen na pantalla.",
     "instructions.question_types.multiple.title": "Opción múltiple",
-    "instructions.question_types.multiple.description": "Similar ao Quiz, pero neste caso pode haber entre 1 e 6 respostas correctas á vez."
+    "instructions.question_types.multiple.description": "Similar ao Quiz, pero neste caso pode haber entre 1 e 6 respostas correctas á vez.",
+    "instructions.question_types.word_search.title": "Sopa de Letras (Word Search)",
+    "instructions.question_types.word_search.description": "Hai que atopar nunha grella de 10x10 as palabras escondidas en calquera dirección. Cada palabra atopada suma puntos. Se tocas unha palabra verás onde comeza, pero valerá a metade."
   }
 }

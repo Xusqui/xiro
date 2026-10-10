@@ -63,6 +63,10 @@
     "standalone.game.word_length_pre": "WORT MIT",
     "standalone.game.play_audio": "▶ Tippen, um das Audio abzuspielen",
     "standalone.footer.back": "Zurück zum Start",
-    "standalone.game.mc_missed": "Nicht gewählt"
+    "standalone.game.mc_missed": "Nicht gewählt",
+    "standalone.game.wordsearch_finish": "Fertig",
+    "standalone.game.wordsearch_found": "{n} von {total} Wörtern",
+    "standalone.game.wordsearch_hint_help": "Hinweis: Wort antippen (zählt die Hälfte)",
+    "standalone.game.wordsearch_hint_aria": "Hinweis:"
   }
 }

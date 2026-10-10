@@ -8,6 +8,8 @@ import { socket } from './player-socket-config.js?v=20260922172926';
 import { applyStreakToResult, replacePendingStreakResult, buildLostStreakInfo } from './player-streak-ui.js?v=20260922172926';
 import { renderLastRankingSince } from './player-results.js?v=20260922172926';
 import { enviarOrdenRespuesta, enviarMatchingRespuesta } from './player-answer.js?v=20260922172926';
+import { enviarRespuestaWordSearch } from './player-answer-wordsearch.js?v=20260922172926';
+import { hasActiveWordSearch } from './player-wordsearch-state.js?v=20260922172926';
 import { buildAnswerResultHTML } from './player-answer-result.js?v=20260922172926';
 import { appendCorrectAnswerToResult, rememberReveal, timeUpScreenHtml } from './player-reveal-correct.js?v=20260922172926';
 import {
@@ -50,6 +52,11 @@ function onBlockedAnswer(data) {
     // Auto-enviar emparejamiento actual antes de bloquear
     if (!getHaRespondido() && getCurrentMatches()) {
         enviarMatchingRespuesta(true);
+    }
+
+    // Sopa de letras: enviar las palabras encontradas hasta ahora
+    if (!getHaRespondido() && hasActiveWordSearch()) {
+        enviarRespuestaWordSearch(true);
     }
 
     setCanAnswer(false);

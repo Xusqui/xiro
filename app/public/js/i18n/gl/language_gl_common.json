@@ -8,6 +8,7 @@
     "common.btn_retry": "Reintentar",
     "common.footer.copyright_holder": "Copyright: Familia Fernández Villatoro",
     "common.skip_link": "Saltar ao contido",
-    "common.label_language": "Idioma das preguntas"
+    "common.label_language": "Idioma das preguntas",
+    "common.wordsearch.grid_label": "Sopa de letras"
   }
 }

@@ -60,6 +60,7 @@
     "admin.slides.comment_ph": "Ex: Team Pictionary or Imitate an Elephant",
     "admin.slides.info_title": "Informative Slide",
     "admin.slides.error_comment": "Please write a comment",
-    "admin.slides.error_info": "Please write the informative text"
+    "admin.slides.error_info": "Please write the informative text",
+    "admin.custom.badge_wordsearch": "WORD SEARCH"
   }
 }

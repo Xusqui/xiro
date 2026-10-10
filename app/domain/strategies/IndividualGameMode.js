@@ -141,6 +141,7 @@ class IndividualGameMode extends GameModeStrategy {
             isOrderQuestion,
             isMultipleChoiceQuestion,
             isMatchingQuestion,
+            isWordSearchQuestion: question.question_type === 'word_search',
             correctOption,
             correctAnswerText: isOrderQuestion ? null : getCorrectAnswerText(question, correctOption),
             justificationText
@@ -158,6 +159,7 @@ class IndividualGameMode extends GameModeStrategy {
             orderDetails: context.isOrderQuestion ? answer.orderDetails : null,
             multipleChoiceDetails: context.isMultipleChoiceQuestion ? answer.multipleChoiceDetails : null,
             matchingDetails: context.isMatchingQuestion ? answer.matchingDetails || null : null,
+            ...(context.isWordSearchQuestion ? { wordSearchDetails: answer.wordSearchDetails || null } : {}),
             streak: answer.streakInfo || null
         };
     }

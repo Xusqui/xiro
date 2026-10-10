@@ -90,6 +90,10 @@ function getTypedDetailConfig(flags, answerResult, fullMultipleChoiceDetails) {
         return { field: 'wordScrambleDetails', value: answerResult.details };
     }
 
+    if (flags.isWordSearchQuestion) {
+        return { field: 'wordSearchDetails', value: answerResult.details };
+    }
+
     if (flags.isMultipleChoiceQuestion) {
         return { field: 'multipleChoiceDetails', value: fullMultipleChoiceDetails };
     }

@@ -8,6 +8,7 @@
     "common.btn_retry": "Retry",
     "common.footer.copyright_holder": "Copyright: Fernández Villatoro Family",
     "common.skip_link": "Skip to content",
-    "common.label_language": "Question language"
+    "common.label_language": "Question language",
+    "common.wordsearch.grid_label": "Word search"
   }
 }

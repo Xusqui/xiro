@@ -63,6 +63,10 @@
     "standalone.game.word_length_pre": "单词长度",
     "standalone.game.play_audio": "▶ 点击播放音频",
     "standalone.footer.back": "返回开始",
-    "standalone.game.mc_missed": "未选择"
+    "standalone.game.mc_missed": "未选择",
+    "standalone.game.wordsearch_finish": "完成",
+    "standalone.game.wordsearch_found": "{total} 个词中的 {n} 个",
+    "standalone.game.wordsearch_hint_help": "提示：点击单词（得分减半）",
+    "standalone.game.wordsearch_hint_aria": "提示："
   }
 }

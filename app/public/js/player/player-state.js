@@ -3,6 +3,8 @@
  * Centraliza todas las variables de estado del juego
  */
 
+import { clearWordSearchState } from './player-wordsearch-state.js?v=20260922172926';
+
 // ===== ESTADO DE SESIÓN =====
 let pin = '';
 let sessionId = '';
@@ -137,6 +139,7 @@ export function startMatchAutoSendTimer(timeLimit) {
 export function clearAnswerInputState() {
     clearOrderState();
     clearMatchState();
+    clearWordSearchState();
 }
 
 export function clearOrderState() {

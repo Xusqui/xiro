@@ -8,6 +8,8 @@ const path = require('path');
 const fs = require('fs');
 const logger = require('../config/logger');
 const { extractCorrectAnswer, generateCorrectAnswerHTML } = require('../application/helpers/CorrectAnswerExtractor');
+const { generateWordSearchQuestionHTML, generateWordSearchSolutionHTML } = require('./pdf-word-search');
+const { prepareWordSearchQuestion } = require('../domain/services/WordSearchService');
 
 const PUBLIC_ROOT = '/usr/src/app/public';
 
@@ -119,7 +121,9 @@ function generateFullPDFHTML(game, questions) {
     pages.push(generatePortadaHTML(game, questions));
 
     // Preguntas y respuestas
-    questions.forEach((q, i) => {
+    questions.forEach((rawQuestion, i) => {
+        // Sopa de letras: una sola rejilla para la pregunta y su solución
+        const q = rawQuestion.question_type === 'word_search' ? prepareWordSearchQuestion(rawQuestion) : rawQuestion;
         pages.push(generateQuestionHTML(q, i + 1, questions.length));
         if (q.slide_type !== 'comment' && q.slide_type !== 'info' && q.slide_type !== 'text' && q.slide_type !== 'image' && q.slide_type !== 'text-image') {
             pages.push(generateAnswerHTML(q, i + 1));
@@ -218,6 +222,10 @@ function generateQuestionHTML(question, index, total) {
 
     if (question.question_type === 'multiple_choice') {
         return generateMultipleChoiceQuestionHTML(question, index, total);
+    }
+
+    if (question.question_type === 'word_search') {
+        return generateWordSearchQuestionHTML(question, index, total, escapeHtml);
     }
 
     return generateStandardQuestionHTML(question, index, total);
@@ -521,8 +529,9 @@ function generateTextImageSlideHTML(slide, index, total) {
  * Genera HTML de la respuesta
  */
 function generateAnswerHTML(question, index) {
-    const correctAnswer = extractCorrectAnswer(question);
-    const answerHTML = generateCorrectAnswerHTML(correctAnswer);
+    const answerHTML = question.question_type === 'word_search'
+        ? generateWordSearchSolutionHTML(question, escapeHtml)
+        : generateCorrectAnswerHTML(extractCorrectAnswer(question));
 
     return `
 <div class="page" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">

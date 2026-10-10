@@ -40,6 +40,8 @@
     "manual_player.answer.scramble.text": "按正确顺序点击字母，在其他玩家之前揭示隐藏的单词。",
     "manual_player.answer.matching.title": "配对",
     "manual_player.answer.matching.text": "您会看到两列。左列固定；将右列中的元素拖动到其正确配对的对面。准备好后点击确认。每配对正确一对就能得分！",
+    "manual_player.answer.word_search.title": "找字游戏",
+    "manual_player.answer.word_search.text": "在 10×10 的字母格中找出隐藏在任意方向的单词：用手指从第一个字母拖到最后一个字母，或依次点击首尾两个字母。卡住时，点击列表中的单词即可查看起始位置（该词得分减半）。团队模式下，一人找到的单词全队都能看到。越早完成，奖励越多！",
 
     "manual_player.score.section.title": "得分与连击系统",
     "manual_player.score.section.subtitle": "快速答对，不要失误，以最大化您的得分。",

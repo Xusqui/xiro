@@ -92,11 +92,23 @@ window.TVApp.RenderQuestion = (function () {
         return '<div id="word-scramble-placeholder" style="text-align:center;padding:30px 20px;background:rgba(245,158,11,0.1);border-radius:15px;margin:20px 0;border:2px solid #f59e0b"><div style="font-size:18px;color:#fbbf24;font-weight:bold;margin-bottom:10px">🔤 ANAGRAMA</div><div style="font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:15px">Palabra de <strong style="color:#fde68a">' + Number(wordLength) + '</strong> letras</div><div style="display:flex;flex-wrap:wrap;justify-content:center;margin:15px 0" id="ws-tv-boxes">' + emptyBoxes + '</div>' + lettersHTML + '<div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:10px">La respuesta correcta se mostrará al revelar</div></div>';
     }
 
+    /** Sopa de letras: la misma rejilla que los móviles y la lista de palabras (ES5). */
+    function wordSearchAreaHtml(q) {
+        const grid = Array.isArray(q.ws_grid) ? q.ws_grid : [];
+        const words = Array.isArray(q.ws_words) ? q.ws_words : [];
+        const WS = window.XiroWordSearch;
+        if (grid.length === 0 || !WS) return '';
+        return '<div id="ws-stage" style="display:-webkit-box;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;margin:20px 0">' +
+            WS.gridHtml(grid, 'wsg--tv', _t('tv.wordsearch.grid_label', null, 'Sopa de letras')) +
+            '<div class="ws-words ws-words--tv" role="list" style="-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:flex-start;align-items:flex-start;margin-left:30px">' + WS.chipsHtml(words) + '</div></div>';
+    }
+
     /** Zona de respuesta: numérica (salvo con imagen), anagrama, opciones o aviso de que se ven en el móvil. */
     function answerAreaHtml(q, tieneImagen) {
         if (q.question_type === 'numeric_approximation') return tieneImagen ? '' : numericAreaHtml(q);
         // El anagrama se muestra también con imagen (como en el presentador): no son opciones
         if (q.question_type === 'word_scramble') return wordScrambleAreaHtml(q);
+        if (q.question_type === 'word_search') return wordSearchAreaHtml(q);
         if (tieneImagen) return '<div style="text-align:center;padding:20px;color:rgba(255,255,255,0.6);font-style:italic;font-size:18px">📱 Los jugadores ven las opciones en sus dispositivos</div>';
         return '<div class="options-grid" id="options-grid">' + optionsHtml(q) + '</div>';
     }

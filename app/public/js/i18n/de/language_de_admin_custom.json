@@ -60,6 +60,7 @@
     "admin.slides.comment_ph": "z.B.: Pictionary in Teams oder Einen Elefanten imitieren",
     "admin.slides.info_title": "Informationsfolie",
     "admin.slides.error_comment": "Bitte schreibe einen Kommentar",
-    "admin.slides.error_info": "Bitte schreibe den Informationstext"
+    "admin.slides.error_info": "Bitte schreibe den Informationstext",
+    "admin.custom.badge_wordsearch": "BUCHSTABENSALAT"
   }
 }

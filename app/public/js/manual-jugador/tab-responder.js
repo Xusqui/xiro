@@ -55,6 +55,12 @@ export function getTabResponderHTML() {
             title: _t('manual_player.answer.matching.title'),
             text: _t('manual_player.answer.matching.text'),
             placeholderId: 'img-matching', imgSrc: './images/manual/img-matching.jpg', mascotImg: 'cooking.svg'
+        },
+        {
+            color: '#6366f1', icon: 'fas fa-magnifying-glass',
+            title: _t('manual_player.answer.word_search.title'),
+            text: _t('manual_player.answer.word_search.text'),
+            placeholderId: 'img-word-search', imgSrc: './images/manual/img-word-search.jpg', mascotImg: 'searching.svg'
         }
     ];
 

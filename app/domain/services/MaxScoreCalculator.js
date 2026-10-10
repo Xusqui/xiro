@@ -46,8 +46,11 @@ function calculatePerfectBasePoints(question, game) {
 
     switch (question.question_type) {
         case 'order':
-        case 'matching':
+        case 'matching': // BASE_POINTS por elemento, sin bonus de tiempo
             return (question.options?.length || 0) * SCORING.BASE_POINTS;
+
+        case 'word_search': // por palabra: BASE_POINTS + bonus de tiempo (WordSearchService)
+            return (question.options?.length || 0) * (SCORING.BASE_POINTS + timeBonusFor(question.time_limit));
 
         case 'word_scramble':
             return SCORING.BASE_POINTS + timeBonusFor(question.time_limit);

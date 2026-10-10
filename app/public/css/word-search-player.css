@@ -1,0 +1,80 @@
+/*
+ * Sopa de letras en el móvil: jugador.html y standalone.html (no la carga la TV,
+ * así que aquí sí valen gap, variables y container queries).
+ *
+ * La lista de palabras siempre se ve entera: ocupa su alto natural y la rejilla
+ * se encoge hasta caber en el hueco que queda (ancho y alto del contenedor).
+ * Con 6 palabras largas la rejilla baja de ~34 px a ~28 px por celda en un
+ * móvil de 375 px, en vez de cortar las últimas palabras.
+ */
+
+.ws-play {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    min-height: 0;
+    padding: 8px 8px 6px;
+    /* Navegadores sin container queries: al menos se llega a las palabras con scroll */
+    overflow-y: auto;
+}
+
+.ws-play__board {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 0;
+}
+
+@supports (container-type: size) {
+    .ws-play {
+        overflow: hidden;
+    }
+
+    .ws-play__board {
+        container-type: size;
+    }
+
+    .ws-play__board .wsg--player {
+        padding: 4px;
+    }
+
+    /* Celda: lo que permita el ancho o el alto libre, lo que sea menor */
+    .ws-play__board .wsg--player .wsg-cell {
+        --wsg-cell: min(9.4cqw, calc(10cqh - 1px));
+        width: var(--wsg-cell);
+        height: var(--wsg-cell);
+        margin: 0;
+        font-size: calc(var(--wsg-cell) * .58);
+        border-radius: calc(var(--wsg-cell) * .14);
+    }
+}
+
+/* Texto de ayuda de la pista: una línea */
+.ws-play__help {
+    margin: 0;
+    color: rgba(255, 255, 255, .7);
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* Fichas compactas: caben dos de 10 letras por fila sin bajar de 40 px de alto */
+.ws-play .ws-words {
+    flex: 0 0 auto;
+    max-width: 100%;
+}
+
+.ws-play .ws-word {
+    margin: 2px;
+    padding: 4px 10px;
+    font-size: 14px;
+    letter-spacing: .04em;
+}
+
+.ws-play .ws-bulb {
+    margin-left: 4px;
+}

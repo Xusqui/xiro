@@ -63,6 +63,10 @@
     "standalone.game.word_length_pre": "WORD OF",
     "standalone.game.play_audio": "▶ Tap to play the audio",
     "standalone.footer.back": "Back to start",
-    "standalone.game.mc_missed": "Not selected"
+    "standalone.game.mc_missed": "Not selected",
+    "standalone.game.wordsearch_finish": "Finish",
+    "standalone.game.wordsearch_found": "{n} of {total} words",
+    "standalone.game.wordsearch_hint_help": "Hint: tap a word (worth half)",
+    "standalone.game.wordsearch_hint_aria": "Hint:"
   }
 }

@@ -13,6 +13,8 @@ const { emitAnswerSubmitted, updateScoreAndEmitPlayerScored } = require('./event
 const { persistPlayerAnswerSnapshot } = require('./playerAnswerArchive');
 const { processAnswerByGameMode } = require('./strategyExecution');
 const { syncPostAnswerState } = require('./postAnswerSync');
+const { recordWordSearchStats } = require('../../../sockets/utils/WordSearchRevealStats');
+const { getWordSearchScoringContext } = require('../../../sockets/utils/WordSearchTeam');
 
 function buildValidationFailure(validation) {
     return {
@@ -116,8 +118,14 @@ async function evaluateAnswerAndStreak(ctx) {
 
     const basePoints = await resolveCanonicalRandomPoints({ game, currentQuestion, sPin });
 
+    // Sopa de letras: pistas (valen la mitad) y, en equipos, palabras del equipo
+    const wordSearchShared = flags.isWordSearchQuestion
+        ? await getWordSearchScoringContext(sPin, game.currentIndex, nickname, game)
+        : {};
+
     const answerResult = evaluateAnswer({
         flags,
+        ...wordSearchShared,
         payload,
         currentQuestion,
         resolvedStartTime,
@@ -125,6 +133,11 @@ async function evaluateAnswerAndStreak(ctx) {
         game,
         basePoints
     });
+
+    // Sopa de letras: cuántos encontraron cada palabra (se muestra al revelar)
+    if (flags.isWordSearchQuestion) {
+        await recordWordSearchStats(sPin, game.currentIndex, answerResult.details);
+    }
 
     const scoreContext = computeStreakAndPoints({ game, nickname, flags, answerResult, sPin });
     const fullMultipleChoiceDetails = buildMultipleChoiceDetails({ flags, answerResult, currentQuestion });

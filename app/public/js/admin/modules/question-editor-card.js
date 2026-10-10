@@ -20,7 +20,7 @@ function normalizeQuestionDefaults(q) {
         ensureOrderIndexes(q);
     }
 
-    if (q.type === 'matching') {
+    if (q.type === 'matching' || q.type === 'word_search') {
         ensureOrderIndexes(q);
     }
 }
@@ -35,6 +35,7 @@ const QUESTION_TYPE_CHIPS = {
     matching: 'bg-orange-100 text-orange-700',
     numeric_approximation: 'bg-cyan-100 text-cyan-700',
     word_scramble: 'bg-pink-100 text-pink-700',
+    word_search: 'bg-yellow-100 text-yellow-700',
     multiple_choice: 'bg-aubergine-100 text-aubergine-700'
 };
 
@@ -95,6 +96,7 @@ function questionCardHtml(q, qIdx) {
                             <option value="numeric_approximation" ${q.type === 'numeric_approximation' ? 'selected' : ''}>${_t('admin.q.type_numeric', null, 'Numérica (Aproximación)')}</option>
                             <option value="word_scramble" ${q.type === 'word_scramble' ? 'selected' : ''}>${_t('admin.q.type_word_scramble', null, 'Anagrama (Descifra la palabra)')}</option>
                             <option value="multiple_choice" ${q.type === 'multiple_choice' ? 'selected' : ''}>${_t('admin.q.type_multiple_choice', null, 'Selección Múltiple (1-6 respuestas)')}</option>
+                            <option value="word_search" ${q.type === 'word_search' ? 'selected' : ''}>${_t('admin.q.type_word_search', null, 'Sopa de letras (Encuentra las palabras)')}</option>
                         </select>
                     </div>
                     <div class="mb-4">

@@ -15,6 +15,8 @@
  * @param {Object} payload - Raw command payload.
  * @returns {{valid: boolean, errors: string[]}} Validation result.
  */
+const { isValidFoundPayload } = require('../../validators/WordSearchQuestionValidator');
+
 function hasLegacyAnswerShape(payload) {
     return typeof payload.index === 'number' || Array.isArray(payload.order);
 }
@@ -23,7 +25,8 @@ const typedAnswerValidators = {
     matching: (payload) => Array.isArray(payload.matches),
     numeric: (payload) => Number.isFinite(Number(payload.playerAnswer)),
     word_scramble: (payload) => typeof payload.playerAnswer === 'string',
-    multiple_choice: (payload) => Array.isArray(payload.selectedIndices) && payload.selectedIndices.length > 0
+    multiple_choice: (payload) => Array.isArray(payload.selectedIndices) && payload.selectedIndices.length > 0,
+    word_search: (payload) => isValidFoundPayload(payload.found)
 };
 
 function hasTypedAnswerShape(payload) {
@@ -46,7 +49,7 @@ function validateSubmitAnswerPayload(payload = {}) {
     if (!nickname) errors.push('nickname is required');
 
     if (!hasSupportedAnswerShape(payload)) {
-        errors.push('index, order, matches, numeric playerAnswer, word_scramble or multiple_choice selectedIndices is required');
+        errors.push('index, order, matches, numeric playerAnswer, word_scramble, word_search found or multiple_choice selectedIndices is required');
     }
 
     if (!playerId) errors.push('playerId is required');

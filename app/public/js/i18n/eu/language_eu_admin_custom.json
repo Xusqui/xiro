@@ -60,6 +60,7 @@
     "admin.slides.comment_ph": "Adib.: Taldeko Pictionary edo Elefantea imitatu",
     "admin.slides.info_title": "Informazio-Diapositiba",
     "admin.slides.error_comment": "Mesedez, idatzi iruzkin bat",
-    "admin.slides.error_info": "Mesedez, idatzi informazio-testua"
+    "admin.slides.error_info": "Mesedez, idatzi informazio-testua",
+    "admin.custom.badge_wordsearch": "LETRA-ZOPA"
   }
 }

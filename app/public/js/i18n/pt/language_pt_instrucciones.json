@@ -24,6 +24,8 @@
     "instructions.question_types.word_scramble.title": "Adivinhe a palavra (embaralhamento de palavras)",
     "instructions.question_types.word_scramble.description": "O desafio é encontrar uma palavra escondida ordenando as letras desordenadas que aparecem na tela.",
     "instructions.question_types.multiple.title": "Múltipla escolha",
-    "instructions.question_types.multiple.description": "Semelhante ao Quiz, mas neste caso pode haver entre 1 e 6 respostas corretas simultaneamente."
+    "instructions.question_types.multiple.description": "Semelhante ao Quiz, mas neste caso pode haver entre 1 e 6 respostas corretas simultaneamente.",
+    "instructions.question_types.word_search.title": "Caça-palavras (Word Search)",
+    "instructions.question_types.word_search.description": "É preciso encontrar numa grelha de 10x10 as palavras escondidas em qualquer direção. Cada palavra encontrada soma pontos. Se tocar numa palavra verá onde começa, mas valerá metade."
   }
 }

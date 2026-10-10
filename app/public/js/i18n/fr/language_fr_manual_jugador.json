@@ -40,6 +40,8 @@
     "manual_player.answer.scramble.text": "Appuyez sur les lettres dans le bon ordre pour révéler le mot caché avant les autres joueurs.",
     "manual_player.answer.matching.title": "Association",
     "manual_player.answer.matching.text": "Vous verrez deux colonnes. La gauche est fixe ; faites glisser les éléments de droite pour les placer face à leur paire. Appuyez sur Confirmer quand c'est prêt. Vous gagnez des points pour chaque paire correcte !",
+    "manual_player.answer.word_search.title": "Mots Mêlés",
+    "manual_player.answer.word_search.text": "Trouvez les mots cachés dans n'importe quelle direction dans une grille de 10×10 : faites glisser le doigt de la première à la dernière lettre, ou touchez les deux. Si vous bloquez, touchez un mot de la liste pour voir où il commence (il vaudra la moitié). En équipe, ce qu'un joueur trouve, tout le groupe le voit. Plus vous finissez tôt, plus le bonus est grand !",
 
     "manual_player.score.section.title": "Score et séries",
     "manual_player.score.section.subtitle": "Répondez vite et ne ratez pas pour maximiser vos points.",

@@ -21,7 +21,7 @@ function _orderIndexOrZero(option) {
 /** Ordenar y emparejar se muestran en su orden guardado. */
 function _bankOptionsFromApi(q, questionType) {
     const options = (q.options || []).map(_bankOptionFromApi);
-    if (questionType === 'order' || questionType === 'matching') {
+    if (questionType === 'order' || questionType === 'matching' || questionType === 'word_search') {
         options.sort((a, b) => _orderIndexOrZero(a) - _orderIndexOrZero(b));
     }
     return options;
@@ -114,10 +114,11 @@ function _optionJustificationForSave(q, opt) {
 }
 
 function _bankOptionForSave(q, opt, index) {
-    const ordered = q.type === 'order' || q.type === 'matching';
+    const ordered = q.type === 'order' || q.type === 'matching' || q.type === 'word_search';
     return {
         optionText: opt.optionText || opt.text,
-        isCorrect: (q.type === 'quiz' || q.type === 'multiple_choice') ? !!opt.isCorrect : false,
+        // Sopa de letras: todas las palabras son "correctas"
+        isCorrect: (q.type === 'quiz' || q.type === 'multiple_choice') ? !!opt.isCorrect : q.type === 'word_search',
         order_index: ordered ? index : (opt.order_index ?? opt.orderIndex ?? null),
         match_value: q.type === 'matching' ? (opt.match_value ?? null) : null,
         justification: _optionJustificationForSave(q, opt),

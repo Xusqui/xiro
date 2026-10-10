@@ -8,6 +8,7 @@
     "common.btn_retry": "再試行",
     "common.footer.copyright_holder": "Copyright: フェルナンデス・ビジャトロ家",
     "common.skip_link": "コンテンツへスキップ",
-    "common.label_language": "問題の言語"
+    "common.label_language": "問題の言語",
+    "common.wordsearch.grid_label": "ワードサーチ"
   }
 }

@@ -14,6 +14,7 @@ const OrderAnswerStateService = require('../../../domain/services/OrderAnswerSta
 const MatchingAnswerStateService = require('../../../domain/services/MatchingAnswerStateService');
 const MultipleChoiceAnswerStateService = require('../../../domain/services/MultipleChoiceAnswerStateService');
 const { getRedisClient } = require('../../../config/redis');
+const { isValidFoundPayload } = require('../../validators/WordSearchQuestionValidator');
 
 const LATE_ANSWER_GRACE_MS = 800;
 
@@ -29,8 +30,9 @@ const LATE_ANSWER_GRACE_MS = 800;
  * @returns {Promise<Object>} flags con el plazo ampliado si la pregunta sigue en tiempo.
  */
 async function applyTimerStateToLateWindow(flags, sPin, now = Date.now()) {
-    const lateAnswerType = flags.isOrderQuestion || flags.isMatchingQuestion;
-    if (!lateAnswerType || flags.canAnswerOrEnded || flags.allowOrderAfterClose || flags.allowMatchingAfterClose) {
+    const lateAnswerType = flags.isOrderQuestion || flags.isMatchingQuestion || flags.isWordSearchQuestion;
+    if (!lateAnswerType || flags.canAnswerOrEnded || flags.allowOrderAfterClose
+        || flags.allowMatchingAfterClose || flags.allowWordSearchAfterClose) {
         return flags;
     }
 
@@ -50,7 +52,8 @@ async function applyTimerStateToLateWindow(flags, sPin, now = Date.now()) {
     return {
         ...flags,
         allowOrderAfterClose: flags.isOrderQuestion,
-        allowMatchingAfterClose: flags.isMatchingQuestion
+        allowMatchingAfterClose: flags.isMatchingQuestion,
+        allowWordSearchAfterClose: flags.isWordSearchQuestion
     };
 }
 
@@ -84,6 +87,7 @@ function buildQuestionContext(game) {
     const isNumericQuestion = currentQuestion?.question_type === 'numeric_approximation';
     const isWordScrambleQuestion = currentQuestion?.question_type === 'word_scramble';
     const isMultipleChoiceQuestion = currentQuestion?.question_type === 'multiple_choice';
+    const isWordSearchQuestion = currentQuestion?.question_type === 'word_search';
 
     const questionTimeLimit = currentQuestion?.time_limit || 30;
     const elapsedMs = Date.now() - (game.questionStartTime || Date.now());
@@ -97,10 +101,12 @@ function buildQuestionContext(game) {
         isNumericQuestion,
         isWordScrambleQuestion,
         isMultipleChoiceQuestion,
+        isWordSearchQuestion,
         questionTimeLimit,
         canAnswerOrEnded: game?.canAnswer || game?.ended || lastQuestion,
         allowOrderAfterClose: isOrderQuestion && elapsedMs <= (questionTimeLimit * 1000 + graceMs),
-        allowMatchingAfterClose: isMatchingQuestion && elapsedMs <= (questionTimeLimit * 1000 + graceMs)
+        allowMatchingAfterClose: isMatchingQuestion && elapsedMs <= (questionTimeLimit * 1000 + graceMs),
+        allowWordSearchAfterClose: isWordSearchQuestion && elapsedMs <= (questionTimeLimit * 1000 + graceMs)
     };
 }
 
@@ -113,12 +119,32 @@ function buildQuestionContext(game) {
  * @param {Object} ctx.flags - Question metadata flags.
  * @returns {{valid: boolean, reason: string|null}}
  */
+// Tipos de respuesta libre (sin servicio de estado propio): cuándo es válido el payload
+// y, si lo hay, el flag del plazo extra tras el cierre (envío automático).
+const FREE_INPUT_CHECKS = [
+    { flag: 'isNumericQuestion', isValid: (p) => Number.isFinite(Number(p.playerAnswer)) },
+    { flag: 'isWordScrambleQuestion', isValid: (p) => typeof p.playerAnswer === 'string' && p.playerAnswer.trim().length > 0 },
+    { flag: 'isWordSearchQuestion', lateFlag: 'allowWordSearchAfterClose', isValid: (p) => isValidFoundPayload(p.found) }
+];
+
+/**
+ * Numérica, anagrama y sopa de letras. Devuelve null si la pregunta es de otro tipo.
+ * @returns {{valid: boolean, reason: string|null}|null}
+ */
+function validateFreeInputAnswer(payload, flags) {
+    const check = FREE_INPUT_CHECKS.find((c) => flags[c.flag]);
+    if (!check) return null;
+    const isOpen = flags.canAnswerOrEnded || flags.lastQuestion || Boolean(check.lateFlag && flags[check.lateFlag]);
+    if (!isOpen) return { valid: false, reason: 'game-closed' };
+    if (!check.isValid(payload)) return { valid: false, reason: 'invalid-payload' };
+    return { valid: true, reason: null };
+}
+
 function validateAnswerByType({ payload, question, flags }) {
     const {
         index,
         order,
         matches,
-        playerAnswer,
         selectedIndices
     } = payload;
 
@@ -127,8 +153,6 @@ function validateAnswerByType({ payload, question, flags }) {
         lastQuestion,
         isOrderQuestion,
         isMatchingQuestion,
-        isNumericQuestion,
-        isWordScrambleQuestion,
         isMultipleChoiceQuestion,
         allowOrderAfterClose,
         allowMatchingAfterClose
@@ -152,19 +176,8 @@ function validateAnswerByType({ payload, question, flags }) {
         });
     }
 
-    if (isNumericQuestion) {
-        if (!canAnswerOrEnded && !lastQuestion) return { valid: false, reason: 'game-closed' };
-        if (!Number.isFinite(Number(playerAnswer))) return { valid: false, reason: 'invalid-payload' };
-        return { valid: true, reason: null };
-    }
-
-    if (isWordScrambleQuestion) {
-        if (!canAnswerOrEnded && !lastQuestion) return { valid: false, reason: 'game-closed' };
-        if (typeof playerAnswer !== 'string' || playerAnswer.trim().length === 0) {
-            return { valid: false, reason: 'invalid-payload' };
-        }
-        return { valid: true, reason: null };
-    }
+    const freeInputResult = validateFreeInputAnswer(payload, flags);
+    if (freeInputResult) return freeInputResult;
 
     if (isMultipleChoiceQuestion) {
         return MultipleChoiceAnswerStateService.validateMultipleChoiceAnswer({

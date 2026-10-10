@@ -1,0 +1,295 @@
+/*
+ * Sopa de letras (word_search): rejilla compartida por jugador, presentador,
+ * standalone y tv.html. La carga también la TV (webOS 3.5): flex con prefijo,
+ * sin grid, gap, clamp() ni variables CSS. Las celdas las genera
+ * js/core/word-search-grid.js (.wsg > .wsg-row > .wsg-cell).
+ */
+
+.wsg {
+    display: inline-block;
+    padding: 6px;
+    /* Fondo del tablero (jugador, presentador, standalone y TV): blanco al 90 % */
+    background-color: rgba(255, 255, 255, .75);
+    border-radius: 12px;
+    -webkit-box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    touch-action: none;
+}
+
+.wsg-row {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+}
+
+.wsg-cell {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    margin: 1px;
+    border-radius: 6px;
+    color: #1e293b;
+    font-size: 18px;
+    font-weight: 900;
+    line-height: 1;
+    -webkit-transition: background-color .15s ease-out, color .15s ease-out;
+    transition: background-color .15s ease-out, color .15s ease-out;
+}
+
+/* Palabra encontrada: el color de fondo lo pone el JS (colores de las opciones A-F) */
+.wsg-cell.wsg-found {
+    color: #ffffff;
+}
+
+/* Selección en curso (arrastre) y celda de inicio (toque-toque) */
+.wsg-cell.wsg-sel {
+    background-color: #fde047;
+    color: #1e293b;
+}
+
+.wsg-cell.wsg-anchor {
+    -webkit-box-shadow: inset 0 0 0 3px #94438e;
+    box-shadow: inset 0 0 0 3px #94438e;
+}
+
+/* Teclado: foco de la rejilla y celda bajo el cursor (flechas + Enter) */
+/* bindSelection pone tabindex en el contenedor de la rejilla */
+:focus>.wsg {
+    outline: 3px solid #94438e;
+    outline-offset: 3px;
+}
+
+.wsg-cell.wsg-cursor {
+    -webkit-box-shadow: inset 0 0 0 3px #2563eb;
+    box-shadow: inset 0 0 0 3px #2563eb;
+}
+
+/* Selección que no forma ninguna palabra */
+.wsg-cell.wsg-miss {
+    background-color: #fecaca;
+}
+
+/* Revelado: las palabras aparecen celda a celda */
+.wsg-cell.wsg-reveal {
+    -webkit-animation: wsg-pop .35s ease-out both;
+    animation: wsg-pop .35s ease-out both;
+}
+
+@-webkit-keyframes wsg-pop {
+    from {
+        -webkit-transform: scale(.6);
+        opacity: .4;
+    }
+
+    to {
+        -webkit-transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes wsg-pop {
+    from {
+        transform: scale(.6);
+        opacity: .4;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .wsg-cell.wsg-reveal {
+        -webkit-animation: none;
+        animation: none;
+    }
+
+    .wsg-cell {
+        -webkit-transition: none;
+        transition: none;
+    }
+}
+
+/* ===== Tamaños por pantalla ===== */
+
+/*
+ * Jugador: casi todo el ancho del móvil en vertical. Con 10 columnas en 360 px
+ * cada celda mide ~32 px (no caben los 44 px recomendados); por eso los márgenes
+ * son mínimos (sin huecos que no respondan al dedo) y arrastrar se ajusta solo
+ * a la línea válida más cercana.
+ */
+.wsg--player {
+    padding: 1vw;
+}
+
+.wsg--player .wsg-cell {
+    width: 9vw;
+    height: 9vw;
+    margin: 0;
+    font-size: 5.2vw;
+    border-radius: 1.2vw;
+}
+
+/* Jugador en horizontal o tablet: se ajusta al alto */
+@media (min-aspect-ratio: 3/4) {
+    .wsg--player .wsg-cell {
+        width: 5.4vh;
+        height: 5.4vh;
+        margin: .15vh;
+        font-size: 3.2vh;
+        border-radius: .8vh;
+    }
+}
+
+/* Presentador (proyector) */
+.wsg--stage .wsg-cell {
+    width: 6.4vh;
+    height: 6.4vh;
+    margin: .2vh;
+    font-size: 4vh;
+    border-radius: .9vh;
+}
+
+/* TV antigua: píxeles fijos */
+.wsg--tv .wsg-cell {
+    width: 56px;
+    height: 56px;
+    margin: 2px;
+    font-size: 34px;
+    border-radius: 8px;
+}
+
+/* ===== Lista de palabras ===== */
+
+.ws-words {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+}
+
+.ws-word {
+    display: inline-block;
+    margin: 3px;
+    padding: 4px 12px;
+    border: 2px solid rgba(255, 255, 255, .5);
+    border-radius: 999px;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: .08em;
+}
+
+.ws-word.is-found {
+    border-color: transparent;
+    text-decoration: line-through;
+}
+
+.ws-word.is-missed {
+    opacity: .55;
+}
+
+/* Pista a demanda: la palabra es un botón; con pista, su casilla inicial late en ámbar */
+.ws-word--hint {
+    min-height: 40px;
+    white-space: nowrap;
+    background-color: transparent;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+/* inline-block: el preflight de common.css pone svg { display: block } */
+.ws-word--hint .ws-bulb {
+    display: inline-block;
+    margin-left: 6px;
+    color: #fde047;
+    vertical-align: -2px;
+}
+
+.ws-word.is-hinted {
+    border-color: #f9b518;
+}
+
+.ws-word.is-hinted .ws-bulb,
+.ws-word.is-found .ws-bulb {
+    display: none;
+}
+
+/* Con pista la palabra vale la mitad */
+.ws-word.is-hinted::after {
+    content: "½";
+    margin-left: 6px;
+    color: #fde047;
+    text-decoration: none;
+}
+
+.wsg-cell.wsg-hint {
+    background-color: #fff0c2;
+    -webkit-box-shadow: inset 0 0 0 3px #f9b518;
+    box-shadow: inset 0 0 0 3px #f9b518;
+    -webkit-animation: wsg-hint-pulse 1.4s ease-in-out infinite;
+    animation: wsg-hint-pulse 1.4s ease-in-out infinite;
+}
+
+.wsg-cell.wsg-hint.wsg-found {
+    -webkit-animation: none;
+    animation: none;
+}
+
+@-webkit-keyframes wsg-hint-pulse {
+    50% {
+        -webkit-box-shadow: inset 0 0 0 3px rgba(249, 181, 24, .25);
+    }
+}
+
+@keyframes wsg-hint-pulse {
+    50% {
+        box-shadow: inset 0 0 0 3px rgba(249, 181, 24, .25);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .wsg-cell.wsg-hint {
+        -webkit-animation: none;
+        animation: none;
+    }
+}
+
+/* Revelado: porcentaje de jugadores que encontró la palabra (sin tachar) */
+.ws-word-stat {
+    display: inline-block;
+    margin-left: .5em;
+    padding: 0 .4em;
+    border-radius: 999px;
+    background-color: rgba(0, 0, 0, .25);
+    font-size: .8em;
+    text-decoration: none;
+}
+
+.ws-words--stage .ws-word {
+    margin: .4vh;
+    padding: .6vh 1.6vh;
+    font-size: 2.6vh;
+}
+
+.ws-words--tv .ws-word {
+    margin: 4px;
+    padding: 6px 16px;
+    font-size: 24px;
+}

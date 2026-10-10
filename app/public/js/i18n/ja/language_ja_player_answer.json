@@ -24,6 +24,10 @@
     "player.answer.waiting_server": "サーバーの確認を待っています...",
     "player.answer.mc_missed": "未選択",
     "player.answer.mc_perfect": "パーフェクト",
-    "player.answer.matching_pairs": "{total} 組中 {n} 組"
+    "player.answer.matching_pairs": "{total} 組中 {n} 組",
+    "player.answer.wordsearch_found": "{total} 語中 {n} 語",
+    "player.wordsearch.finish": "終了",
+    "player.wordsearch.hint_help": "ヒント：単語をタップ（得点は半分）",
+    "player.wordsearch.hint_aria": "ヒント："
   }
 }

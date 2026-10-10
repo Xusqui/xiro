@@ -94,9 +94,14 @@
         return option.isCorrect ? (option.justification || question.justification || null) : null;
     }
 
-    /** Quiz, encuesta, ordenar y emparejar. */
+    /** Tipos cuyas opciones guardan su posición (en sopa de letras, el orden de las palabras). */
+    function isOrderedType(questionType) {
+        return questionType === 'order' || questionType === 'matching' || questionType === 'word_search';
+    }
+
+    /** Quiz, encuesta, ordenar, emparejar y sopa de letras. */
     function mapOptionsQuestionForExport(question, questionType) {
-        const ordered = questionType === 'order' || questionType === 'matching';
+        const ordered = isOrderedType(questionType);
         return {
             question_text: questionText(question),
             type: questionType,
@@ -166,7 +171,7 @@
     }
 
     function mapOptionsQuestionForImport(question, questionType) {
-        const ordered = questionType === 'order' || questionType === 'matching';
+        const ordered = isOrderedType(questionType);
         return {
             ...importBase(question, questionType),
             ...EMPTY_NUMERIC_FIELDS,

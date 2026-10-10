@@ -60,6 +60,7 @@
     "admin.slides.comment_ph": "Ex: Pictionary per equips o Imita un elefant",
     "admin.slides.info_title": "Diapositiva Informativa",
     "admin.slides.error_comment": "Si us plau, escriu un comentari",
-    "admin.slides.error_info": "Si us plau, escriu el text informatiu"
+    "admin.slides.error_info": "Si us plau, escriu el text informatiu",
+    "admin.custom.badge_wordsearch": "SOPA DE LLETRES"
   }
 }

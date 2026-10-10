@@ -23,6 +23,8 @@
  * const answer = extractCorrectAnswer(question);
  * // Devuelve: { type: 'quiz', display: 'Opción A', optionIndex: 0 }
  */
+const { getQuestionWords } = require('../../domain/services/WordSearchService');
+
 function toOptionsArray(options) {
     return Array.isArray(options) ? options : [];
 }
@@ -117,11 +119,18 @@ function extractQuizAnswer(question) {
     };
 }
 
+function extractWordSearchAnswer(question) {
+    const words = Array.isArray(question.ws_words) ? question.ws_words : getQuestionWords(question);
+    const items = words.filter(Boolean);
+    return items.length > 0 ? { type: 'word_search', items } : null;
+}
+
 const ANSWER_EXTRACTORS = {
     order: extractOrderAnswer,
     numeric_approximation: extractNumericAnswer,
     word_scramble: extractWordScrambleAnswer,
-    multiple_choice: extractMultipleChoiceAnswer
+    multiple_choice: extractMultipleChoiceAnswer,
+    word_search: extractWordSearchAnswer
 };
 
 function extractCorrectAnswer(question) {
@@ -164,7 +173,7 @@ function formatCorrectAnswerForDisplay(answer) {
         return answer.word;
     }
 
-    if (answer.type === 'multiple_choice') {
+    if (answer.type === 'multiple_choice' || answer.type === 'word_search') {
         return answer.items.join(', ');
     }
 
@@ -263,6 +272,16 @@ function generateCorrectAnswerHTML(answer) {
                         </div>
                     `).join('')}
                 </div>
+            </div>
+        `;
+    }
+
+    if (answer.type === 'word_search') {
+        return `
+            <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                ${answer.items.map(word => `
+                    <span style="background: rgba(16, 185, 129, 0.15); border: 3px solid #10b981; color: white; padding: 10px 18px; border-radius: 12px; font-size: 26px; font-weight: 800; letter-spacing: 2px;">${escapeHtml(word)}</span>
+                `).join('')}
             </div>
         `;
     }

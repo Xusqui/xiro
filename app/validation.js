@@ -11,6 +11,7 @@ const {
     DEFAULT_MIN: RANDOM_POINTS_DEFAULT_MIN,
     DEFAULT_MAX: RANDOM_POINTS_DEFAULT_MAX,
 } = require('./application/validators/RandomPointsValidator');
+const { wordSearchOptionsSchema } = require('./application/validators/WordSearchQuestionValidator');
 
 const RANDOM_POINTS_LIMITS = {
     MIN_VALUE: RANDOM_POINTS_MIN_VALUE,
@@ -356,7 +357,7 @@ const questionSchema = Joi.object({
     id: dbIdSchema.allow(null).optional(),
     questionText: questionTextSchema.required(),
     type: Joi.string()
-        .valid('quiz', 'survey', 'order', 'numeric_approximation', 'word_scramble', 'multiple_choice', 'matching')
+        .valid('quiz', 'survey', 'order', 'numeric_approximation', 'word_scramble', 'multiple_choice', 'matching', 'word_search')
         .default('quiz'),
     tipo_contenido: Joi.string()
         .valid('texto', 'imagen', 'audio')
@@ -500,8 +501,10 @@ const questionSchema = Joi.object({
             'any.required': 'El bonus por perfección es requerido para preguntas de selección múltiple',
         }),
     options: Joi.when('type', {
-        is: Joi.valid('numeric_approximation', 'word_scramble'),
-        then: Joi.optional(),
+        switch: [
+            { is: Joi.valid('numeric_approximation', 'word_scramble'), then: Joi.optional() },
+            { is: 'word_search', then: wordSearchOptionsSchema },
+        ],
         otherwise: Joi.array()
             .items(Joi.when('type', {
                 is: 'order',

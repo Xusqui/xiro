@@ -40,6 +40,8 @@
     "manual_player.answer.scramble.text": "Preme as letras na orde correcta para revelar a palabra oculta antes que o resto de xogadores.",
     "manual_player.answer.matching.title": "Emparellar",
     "manual_player.answer.matching.text": "Verás dúas columnas. A esquerda está fixa; arrastra os elementos da dereita para colocar cada un fronte á súa parella correcta. Preme Confirmar cando o teñas. Gañas puntos por cada parella acertada!",
+    "manual_player.answer.word_search.title": "Sopa de Letras",
+    "manual_player.answer.word_search.text": "Busca nunha grella de 10×10 as palabras agochadas en calquera dirección: arrastra o dedo da primeira á última letra, ou toca as dúas. Se te atascas, toca unha palabra da lista para ver onde comeza (valerá a metade). En equipos, o que atopa un véxao todo o grupo. Canto antes remates, máis bonificación!",
 
     "manual_player.score.section.title": "Sistema de puntuación e rachas",
     "manual_player.score.section.subtitle": "Acerta rápido e non falles para maximizar os teus puntos.",

@@ -40,6 +40,8 @@
     "manual_player.answer.scramble.text": "Toque nas letras na ordem correta para revelar a palavra oculta antes dos outros jogadores.",
     "manual_player.answer.matching.title": "Combinar",
     "manual_player.answer.matching.text": "Você verá duas colunas. A esquerda é fixa; arraste os elementos da direita para colocá-los à frente de seu par correto. Toque em Confirmar quando estiver pronto. Você ganha pontos por cada par acertado!",
+    "manual_player.answer.word_search.title": "Caça-palavras",
+    "manual_player.answer.word_search.text": "Procura numa grelha de 10×10 as palavras escondidas em qualquer direção: arrasta o dedo da primeira à última letra, ou toca nas duas. Se ficares preso, toca numa palavra da lista para ver onde começa (valerá metade). Em equipas, o que um encontra todo o grupo vê. Quanto mais cedo terminares, maior o bónus!",
 
     "manual_player.score.section.title": "Sistema de pontuação e sequências",
     "manual_player.score.section.subtitle": "Acerte rápido e não erre para maximizar seus pontos.",

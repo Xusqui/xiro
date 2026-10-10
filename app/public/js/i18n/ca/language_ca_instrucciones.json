@@ -24,6 +24,8 @@
     "instructions.question_types.word_scramble.title": "Endevinar Paraula (Word Scramble)",
     "instructions.question_types.word_scramble.description": "El repte consisteix a trobar una paraula oculta ordenant les lletres desordenades que apareixen a la pantalla.",
     "instructions.question_types.multiple.title": "Opció Múltiple",
-    "instructions.question_types.multiple.description": "Similar al Quiz, però en aquest cas hi pot haver entre 1 i 6 respostes correctes simultàniament."
+    "instructions.question_types.multiple.description": "Similar al Quiz, però en aquest cas hi pot haver entre 1 i 6 respostes correctes simultàniament.",
+    "instructions.question_types.word_search.title": "Sopa de Lletres (Word Search)",
+    "instructions.question_types.word_search.description": "Cal trobar en una graella de 10x10 les paraules amagades en qualsevol direcció. Cada paraula trobada suma punts. Si toques una paraula veuràs on comença, però valdrà la meitat."
   }
 }

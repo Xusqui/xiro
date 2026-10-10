@@ -63,6 +63,10 @@
     "standalone.game.word_length_pre": "PALABRA DE",
     "standalone.game.play_audio": "▶ Toca para reproducir el audio",
     "standalone.footer.back": "Volver al inicio",
-    "standalone.game.mc_missed": "No marcada"
+    "standalone.game.mc_missed": "No marcada",
+    "standalone.game.wordsearch_finish": "Terminar",
+    "standalone.game.wordsearch_found": "{n} de {total} palabras",
+    "standalone.game.wordsearch_hint_help": "Pista: toca una palabra (vale la mitad)",
+    "standalone.game.wordsearch_hint_aria": "Pista:"
   }
 }

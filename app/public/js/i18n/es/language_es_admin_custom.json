@@ -60,6 +60,7 @@
     "admin.slides.comment_ph": "Ej: Pictionary por equipos o Imita un elefante",
     "admin.slides.info_title": "Slide Informativo",
     "admin.slides.error_comment": "Por favor, escribe un comentario",
-    "admin.slides.error_info": "Por favor, escribe el texto informativo"
+    "admin.slides.error_info": "Por favor, escribe el texto informativo",
+    "admin.custom.badge_wordsearch": "SOPA DE LETRAS"
   }
 }

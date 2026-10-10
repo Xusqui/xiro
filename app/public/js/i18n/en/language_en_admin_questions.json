@@ -46,6 +46,18 @@
     "admin.q.justification_label": "Correct answer justification",
     "admin.q.btn_add_option": "+ Add Option",
     "admin.q.btn_add": "Add Question",
-    "admin.q.label_end": "End of Questions"
+    "admin.q.label_end": "End of Questions",
+    "admin.q.type_word_search": "Word search (Find the words)",
+    "admin.q.type_word_search_short": "Word search",
+    "admin.q.wordsearch_intro": "The words are hidden in a 10x10 grid in any direction: horizontal, vertical or diagonal, forwards or backwards.",
+    "admin.q.wordsearch_words_label": "Words to hide (2-6, 3 to 10 letters each)",
+    "admin.q.wordsearch_placeholder": "Word (3-10 letters)",
+    "admin.q.wordsearch_add": "Add word",
+    "admin.q.wordsearch_max": "Maximum of 6 words reached",
+    "admin.q.how_it_works": "How it works:",
+    "admin.q.wordsearch_help_grid": "Each game generates a different grid with these words",
+    "admin.q.wordsearch_help_play": "Players see the list and mark each word by dragging or tapping its first and last letter",
+    "admin.q.wordsearch_help_points": "Scoring: 20 pts per word found",
+    "admin.q.wordsearch_help_time": "Allow enough time: 60-120 seconds depending on the number of words"
   }
 }

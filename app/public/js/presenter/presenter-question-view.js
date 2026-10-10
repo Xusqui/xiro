@@ -5,6 +5,7 @@
 
 import { renderWordScramblePresenter } from './presenter-wordscramble-layout.js?v=20260922172926';
 import { renderMatchingPresenter } from './presenter-matching-layout.js?v=20260922172926';
+import { renderWordSearchPresenter } from './presenter-wordsearch-layout.js?v=20260922172926';
 import { nextButtonLabel } from './presenter-reveal.js?v=20260922172926';
 import { escapeHtml, sanitizeResourceUrl } from '../core/sanitize.js?v=20260922172926';
 
@@ -17,6 +18,7 @@ export function describeQuestion(q) {
     const tieneImagen = Boolean(tipoContenido === 'imagen' && urlRecurso);
     const esNumerica = q.question_type === 'numeric_approximation';
     const esWordScramble = q.question_type === 'word_scramble';
+    const esWordSearch = q.question_type === 'word_search';
     // Con imagen principal, matching sigue la regla general: opciones en los móviles
     const esMatching = q.question_type === 'matching' && !tieneImagen;
     return {
@@ -27,9 +29,10 @@ export function describeQuestion(q) {
         tieneImagenEnunciado: Boolean(!tieneImagen && q.question_image_url),
         esNumerica,
         esWordScramble,
+        esWordSearch,
         esMultipleChoice: q.question_type === 'multiple_choice',
         esMatching,
-        mostrarOpciones: !tieneImagen && !esNumerica && !esWordScramble && !esMatching
+        mostrarOpciones: !tieneImagen && !esNumerica && !esWordScramble && !esWordSearch && !esMatching
     };
 }
 
@@ -125,6 +128,7 @@ function numericAreaHtml() {
 function answerAreaHtml(q, view) {
     if (view.esNumerica && !view.tieneImagen) return numericAreaHtml();
     if (view.esWordScramble) return renderWordScramblePresenter(q);
+    if (view.esWordSearch) return renderWordSearchPresenter(q);
     if (view.esMatching) return renderMatchingPresenter(q);
     if (view.mostrarOpciones) return '';
     return `

@@ -24,6 +24,8 @@
     "instructions.question_types.word_scramble.title": "Wort erraten (Word Scramble)",
     "instructions.question_types.word_scramble.description": "Die Herausforderung besteht darin, ein verstecktes Wort zu finden, indem Sie die ungeordneten Buchstaben, die auf dem Bildschirm erscheinen, ordnen.",
     "instructions.question_types.multiple.title": "Multiple Choice",
-    "instructions.question_types.multiple.description": "Ähnlich wie beim Quiz, allerdings kann es in diesem Fall zwischen 1 und 6 gleichzeitig richtige Antworten geben."
+    "instructions.question_types.multiple.description": "Ähnlich wie beim Quiz, allerdings kann es in diesem Fall zwischen 1 und 6 gleichzeitig richtige Antworten geben.",
+    "instructions.question_types.word_search.title": "Buchstabensalat (Word Search)",
+    "instructions.question_types.word_search.description": "In einem 10x10-Raster müssen die in jeder Richtung versteckten Wörter gefunden werden. Jedes gefundene Wort bringt Punkte. Tippst du auf ein Wort, siehst du, wo es beginnt – dann zählt es nur die Hälfte."
   }
 }

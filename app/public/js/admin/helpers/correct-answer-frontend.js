@@ -58,12 +58,19 @@ function _extractQuizAnswer(question) {
     return correctOption ? { type: 'quiz', display: _optionText(correctOption) } : null;
 }
 
+/** Sopa de letras: todas sus palabras (cada opción es una palabra). */
+function _extractWordSearchAnswer(question) {
+    const words = (question.options || []).map(_optionText).filter(Boolean).map(w => w.toUpperCase());
+    return words.length > 0 ? { type: 'word_search', items: words } : null;
+}
+
 const _CORRECT_ANSWER_EXTRACTORS = {
     survey: () => null,
     order: _extractOrderAnswer,
     numeric_approximation: _extractNumericAnswer,
     word_scramble: _extractWordScrambleAnswer,
-    multiple_choice: _extractMultipleChoiceAnswer
+    multiple_choice: _extractMultipleChoiceAnswer,
+    word_search: _extractWordSearchAnswer
 };
 
 /**
@@ -106,7 +113,7 @@ function formatCorrectAnswerDisplayFrontend(answer) {
         return answer.word;
     }
 
-    if (answer.type === 'multiple_choice') {
+    if (answer.type === 'multiple_choice' || answer.type === 'word_search') {
         return answer.items.join(', ');
     }
 

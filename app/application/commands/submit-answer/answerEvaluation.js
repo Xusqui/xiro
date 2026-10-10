@@ -15,6 +15,7 @@ const MatchingAnswerService = require('../../../domain/services/MatchingAnswerSe
 const MultipleChoiceAnswerService = require('../../../domain/services/MultipleChoiceAnswerService');
 const ScoringService = require('../../../domain/services/ScoringService');
 const { processWordScrambleAnswer } = require('../../../domain/services/WordScrambleService');
+const { processWordSearchAnswer } = require('../../../domain/services/WordSearchService');
 
 /**
  * Resolve canonical question start time across cluster workers.
@@ -102,6 +103,17 @@ function evaluateAnswer(ctx) {
             currentTime: Date.now(),
             questionTimeLimit,
             basePoints
+        });
+    }
+
+    if (flags.isWordSearchQuestion) {
+        return processWordSearchAnswer({
+            question: currentQuestion,
+            found: payload.found,
+            hintedWords: ctx.hintedWords,
+            sharedFound: ctx.sharedFound,
+            timeElapsed: resolvedStartTime ? (Date.now() - Number(resolvedStartTime)) / 1000 : undefined,
+            questionTimeLimit
         });
     }
 

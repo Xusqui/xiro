@@ -46,6 +46,18 @@
     "admin.q.justification_label": "正解の説明",
     "admin.q.btn_add_option": "+ オプションを追加",
     "admin.q.btn_add": "質問を追加",
-    "admin.q.label_end": "質問の終わり"
+    "admin.q.label_end": "質問の終わり",
+    "admin.q.type_word_search": "ワードサーチ（単語を探す）",
+    "admin.q.type_word_search_short": "ワードサーチ",
+    "admin.q.wordsearch_intro": "単語は10×10のマスに、横・縦・斜めのどの方向にも、順向きにも逆向きにも隠されます。",
+    "admin.q.wordsearch_words_label": "隠す単語（2〜6個、各3〜10文字のアルファベット）",
+    "admin.q.wordsearch_placeholder": "単語（3〜10文字）",
+    "admin.q.wordsearch_add": "単語を追加",
+    "admin.q.wordsearch_max": "最大6語に達しました",
+    "admin.q.how_it_works": "仕組み：",
+    "admin.q.wordsearch_help_grid": "ゲームごとに、これらの単語で異なるマスが作られます",
+    "admin.q.wordsearch_help_play": "プレイヤーはリストを見て、各単語の最初と最後の文字をドラッグまたはタップして印を付けます",
+    "admin.q.wordsearch_help_points": "得点：見つけた単語1つにつき20ポイント",
+    "admin.q.wordsearch_help_time": "単語数に応じて60〜120秒の十分な時間を設定してください"
   }
 }

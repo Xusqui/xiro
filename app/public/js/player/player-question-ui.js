@@ -9,4 +9,5 @@ export { renderizarPreguntaOrdena } from './player-order-ui.js?v=20260922172926'
 export { renderizarPreguntaMatching } from './player-matching-ui.js?v=20260922172926';
 export { renderizarPreguntaNumerica } from './player-numeric-ui.js?v=20260922172926';
 export { renderizarPreguntaWordScramble } from './player-wordscramble-ui.js?v=20260922172926';
+export { renderizarPreguntaWordSearch } from './player-wordsearch-ui.js?v=20260922172926';
 export { renderizarPreguntaMultipleChoice } from './player-multiplechoice-ui.js?v=20260922172926';

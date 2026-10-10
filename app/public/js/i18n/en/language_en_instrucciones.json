@@ -24,6 +24,8 @@
     "instructions.question_types.word_scramble.title": "Guess Word (Word Scramble)",
     "instructions.question_types.word_scramble.description": "The challenge is to find a hidden word by ordering the disordered letters that appear on the screen.",
     "instructions.question_types.multiple.title": "Multiple Choice",
-    "instructions.question_types.multiple.description": "Similar to the Quiz, but in this case there can be between 1 and 6 correct answers simultaneously."
+    "instructions.question_types.multiple.description": "Similar to the Quiz, but in this case there can be between 1 and 6 correct answers simultaneously.",
+    "instructions.question_types.word_search.title": "Word Search",
+    "instructions.question_types.word_search.description": "Find the words hidden in a 10x10 grid in any direction. Every word found scores points. Tap a word to see where it starts, but it will be worth half."
   }
 }

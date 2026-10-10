@@ -8,6 +8,7 @@
     "common.btn_retry": "Réessayer",
     "common.footer.copyright_holder": "Copyright : Famille Fernández Villatoro",
     "common.skip_link": "Passer au contenu",
-    "common.label_language": "Langue des questions"
+    "common.label_language": "Langue des questions",
+    "common.wordsearch.grid_label": "Mots mêlés"
   }
 }

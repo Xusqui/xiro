@@ -63,6 +63,10 @@
     "standalone.game.word_length_pre": "PARAULA DE",
     "standalone.game.play_audio": "▶ Toca per reproduir l'àudio",
     "standalone.footer.back": "Tornar a l'inici",
-    "standalone.game.mc_missed": "No marcada"
+    "standalone.game.mc_missed": "No marcada",
+    "standalone.game.wordsearch_finish": "Acabar",
+    "standalone.game.wordsearch_found": "{n} de {total} paraules",
+    "standalone.game.wordsearch_hint_help": "Pista: toca una paraula (val la meitat)",
+    "standalone.game.wordsearch_hint_aria": "Pista:"
   }
 }

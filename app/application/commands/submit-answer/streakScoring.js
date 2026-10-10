@@ -16,6 +16,7 @@ const GameStreakApplicator = require('../../../domain/services/GameStreakApplica
 const { registerAnswerAndGetProgress } = require('../../../sockets/utils/AtomicAnswerCounter');
 const { getOrderStreakAction } = require('../../../domain/services/OrderAnswerService');
 const { getMatchingStreakAction } = require('../../../domain/services/MatchingAnswerService');
+const { getWordSearchStreakAction } = require('../../../domain/services/WordSearchService');
 
 function runWithRedisClient(action, onError = () => { }) {
     Promise.resolve()
@@ -41,14 +42,18 @@ function computeStreakAndPoints(ctx) {
     const { isCorrect, pointsEarned } = answerResult;
     const prevStreak = game.playerStreaks?.[nickname] || 0;
 
+    // Tipos con acierto parcial: la racha sube, se mantiene o se rompe según la proporción
+    const isPartialCreditType = flags.isOrderQuestion || flags.isMatchingQuestion || flags.isWordSearchQuestion;
     const orderStreakIsCorrect = flags.isOrderQuestion
         ? getOrderStreakAction(answerResult.details.correctCount, answerResult.details.totalOptions)
         : flags.isMatchingQuestion
             ? getMatchingStreakAction(answerResult.details.correctCount, answerResult.details.totalPairs)
-            : undefined;
+            : flags.isWordSearchQuestion
+                ? getWordSearchStreakAction(answerResult.details.foundCount, answerResult.details.totalWords)
+                : undefined;
 
     const isTrackedForStreak = !flags.isMultipleChoiceQuestion && !answerResult.isSurvey;
-    const streakIsCorrect = (flags.isOrderQuestion || flags.isMatchingQuestion) ? orderStreakIsCorrect : isCorrect;
+    const streakIsCorrect = isPartialCreditType ? orderStreakIsCorrect : isCorrect;
 
     const streakInfo = StreakTrackingService.processPlayerStreak({
         game,
@@ -57,7 +62,7 @@ function computeStreakAndPoints(ctx) {
         isTracked: isTrackedForStreak || flags.isMultipleChoiceQuestion
     });
 
-    const effectiveCorrectForBonus = (flags.isOrderQuestion || flags.isMatchingQuestion)
+    const effectiveCorrectForBonus = isPartialCreditType
         ? (orderStreakIsCorrect === true)
         : isCorrect;
 

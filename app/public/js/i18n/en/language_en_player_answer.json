@@ -24,6 +24,10 @@
     "player.answer.waiting_server": "Waiting for server confirmation...",
     "player.answer.mc_missed": "NOT SELECTED",
     "player.answer.mc_perfect": "PERFECT",
-    "player.answer.matching_pairs": "{n} of {total} pairs"
+    "player.answer.matching_pairs": "{n} of {total} pairs",
+    "player.answer.wordsearch_found": "{n} of {total} words",
+    "player.wordsearch.finish": "Finish",
+    "player.wordsearch.hint_help": "Hint: tap a word (worth half)",
+    "player.wordsearch.hint_aria": "Hint:"
   }
 }

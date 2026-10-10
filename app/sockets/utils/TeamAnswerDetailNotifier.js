@@ -6,7 +6,7 @@
  * un equipo puedan replicar la respuesta de un jugador concreto.
  */
 
-const ANSWER_FIELDS = ['answerType', 'index', 'order', 'matches', 'selectedIndices', 'playerAnswer'];
+const ANSWER_FIELDS = ['answerType', 'index', 'order', 'matches', 'selectedIndices', 'playerAnswer', 'found'];
 
 function pickAnswer(data) {
     const answer = {};

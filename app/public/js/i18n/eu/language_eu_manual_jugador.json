@@ -40,6 +40,8 @@
     "manual_player.answer.scramble.text": "Sakatu hizkiak ordenan ezkutuko hitza beste jokalariak baino lehen aurkitzeko.",
     "manual_player.answer.matching.title": "Parekatu",
     "manual_player.answer.matching.text": "Bi zutabe ikusiko dituzu. Ezkerra finkoa da; arrastatu eskuineko elementuak bakoitza bere bikotearen aurrean jartzeko. Sakatu Baieztatu prest duzunean. Puntu bat irabazten duzu bikote zuzen bakoitzeko!",
+    "manual_player.answer.word_search.title": "Letra-zopa",
+    "manual_player.answer.word_search.text": "Bilatu 10×10 sareta batean edozein norabidetan ezkututa dauden hitzak: arrastatu hatza lehen letratik azkenera, edo ukitu biak. Trabatzen bazara, ukitu zerrendako hitz bat non hasten den ikusteko (erdia balioko du). Taldeetan, batek aurkitzen duena talde osoak ikusten du. Zenbat eta lehenago amaitu, orduan eta bonus handiagoa!",
 
     "manual_player.score.section.title": "Puntuazio sistema eta segidak",
     "manual_player.score.section.subtitle": "Erantzun azkar eta ez huts egin puntuak maximizatzeko.",

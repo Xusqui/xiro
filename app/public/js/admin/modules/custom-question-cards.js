@@ -130,7 +130,8 @@ const _CUSTOM_TYPE_BADGES = [
     ['numeric_approximation', 'bg-emerald-100 text-emerald-700', 'admin.custom.badge_numeric', 'NUMÉRICA'],
     ['order', 'bg-orange-100 text-orange-700', 'admin.custom.badge_order', 'ORDENA'],
     ['word_scramble', 'bg-yellow-100 text-yellow-700', 'admin.custom.badge_scramble', 'ANAGRAMA'],
-    ['multiple_choice', 'bg-cyan-100 text-cyan-700', 'admin.custom.badge_multiple', 'MÚLTIPLE']
+    ['multiple_choice', 'bg-cyan-100 text-cyan-700', 'admin.custom.badge_multiple', 'MÚLTIPLE'],
+    ['word_search', 'bg-plum-100 text-plum-700', 'admin.custom.badge_wordsearch', 'SOPA DE LETRAS']
 ];
 
 function _customQuestionBody(q) {

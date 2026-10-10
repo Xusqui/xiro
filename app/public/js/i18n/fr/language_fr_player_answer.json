@@ -24,6 +24,10 @@
     "player.answer.waiting_server": "En attente de la confirmation du serveur...",
     "player.answer.mc_missed": "NON COCHÉE",
     "player.answer.mc_perfect": "PARFAIT",
-    "player.answer.matching_pairs": "{n} paires sur {total}"
+    "player.answer.matching_pairs": "{n} paires sur {total}",
+    "player.answer.wordsearch_found": "{n} mots sur {total}",
+    "player.wordsearch.finish": "Terminer",
+    "player.wordsearch.hint_help": "Indice : touchez un mot (vaut la moitié)",
+    "player.wordsearch.hint_aria": "Indice :"
   }
 }

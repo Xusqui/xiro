@@ -60,6 +60,7 @@
     "admin.slides.comment_ph": "例：团队你绘我猜 或 模仿大象",
     "admin.slides.info_title": "信息幻灯片",
     "admin.slides.error_comment": "请输入评论",
-    "admin.slides.error_info": "请输入信息文字"
+    "admin.slides.error_info": "请输入信息文字",
+    "admin.custom.badge_wordsearch": "找字游戏"
   }
 }

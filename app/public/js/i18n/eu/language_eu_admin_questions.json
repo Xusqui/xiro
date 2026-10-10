@@ -46,6 +46,18 @@
     "admin.q.justification_label": "Erantzun zuzenaren justifikazioa",
     "admin.q.btn_add_option": "+ Aukera gehitu",
     "admin.q.btn_add": "Galdera gehitu",
-    "admin.q.label_end": "Galderen amaiera"
+    "admin.q.label_end": "Galderen amaiera",
+    "admin.q.type_word_search": "Letra-zopa (Aurkitu hitzak)",
+    "admin.q.type_word_search_short": "Letra-zopa",
+    "admin.q.wordsearch_intro": "Hitzak 10x10eko sare batean ezkutatzen dira edozein norabidetan: horizontalean, bertikalean edo diagonalean, aurrera edo atzera.",
+    "admin.q.wordsearch_words_label": "Ezkutatu beharreko hitzak (2-6, 3 eta 10 letra artean)",
+    "admin.q.wordsearch_placeholder": "Hitza (3-10 letra)",
+    "admin.q.wordsearch_add": "Gehitu hitza",
+    "admin.q.wordsearch_max": "Gehienezko 6 hitzetara iritsi zara",
+    "admin.q.how_it_works": "Nola dabil:",
+    "admin.q.wordsearch_help_grid": "Partida bakoitzak zopa desberdin bat sortzen du hitz hauekin",
+    "admin.q.wordsearch_help_play": "Jokalariak zerrenda ikusten du eta hitz bakoitza markatzen du lehen letratik azkenera arrastatuz edo biak ukituz",
+    "admin.q.wordsearch_help_points": "Puntuazioa: 20 puntu aurkitutako hitz bakoitzeko",
+    "admin.q.wordsearch_help_time": "Eman denbora nahikoa: 60-120 segundo hitz kopuruaren arabera"
   }
 }

@@ -91,6 +91,30 @@ window.TVApp.RevealRenderers = (function () {
         insertRevealBlock(main.querySelector('#word-scramble-placeholder') || main.querySelector('#ws-tv-boxes'), html);
     }
 
+    /** Sopa de letras: pinta cada palabra en su sitio y añade el ranking debajo. */
+    function renderWordSearchReveal(data) {
+        const WS = window.XiroWordSearch;
+        const stage = getEl('ws-stage');
+        const info = data.wordSearch;
+        if (!stage || !WS || !info) return;
+
+        const words = info.words || [];
+        const placements = info.placements || [];
+        const stats = info.foundStats || { answers: 0, counts: [] };
+        for (let i = 0; i < placements.length; i++) {
+            const index = words.indexOf(placements[i].word);
+            if (index === -1) continue;
+            WS.paintCells(stage, WS.placementCells(placements[i]), WS.colorFor(index));
+            WS.paintChip(stage, index);
+            const chip = stage.querySelector('.ws-word[data-word-index="' + index + '"]');
+            if (chip && stats.answers > 0) {
+                const percent = Math.round(((stats.counts[index] || 0) / stats.answers) * 100);
+                chip.insertAdjacentHTML('beforeend', '<span class="ws-word-stat">' + percent + '%</span>');
+            }
+        }
+        stage.insertAdjacentHTML('afterend', _tHtml(wordScrambleRankingHtml(data.ranking)));
+    }
+
     /** Marca la tarjeta de la opción `k` como correcta (con ✓) o incorrecta. */
     function markOptionCorrectness(tarjeta, k, data) {
         let isCorrect;
@@ -150,6 +174,7 @@ window.TVApp.RevealRenderers = (function () {
     return {
         renderNumericReveal: renderNumericReveal,
         renderWordScrambleReveal: renderWordScrambleReveal,
+        renderWordSearchReveal: renderWordSearchReveal,
         renderOptionsReveal: renderOptionsReveal
     };
 })();

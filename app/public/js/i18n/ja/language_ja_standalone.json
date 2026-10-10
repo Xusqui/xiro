@@ -63,6 +63,10 @@
     "standalone.game.word_length_pre": "文字数",
     "standalone.game.play_audio": "▶ タップして音声を再生",
     "standalone.footer.back": "トップに戻る",
-    "standalone.game.mc_missed": "未選択"
+    "standalone.game.mc_missed": "未選択",
+    "standalone.game.wordsearch_finish": "終了",
+    "standalone.game.wordsearch_found": "{total} 語中 {n} 語",
+    "standalone.game.wordsearch_hint_help": "ヒント：単語をタップ（得点は半分）",
+    "standalone.game.wordsearch_hint_aria": "ヒント："
   }
 }

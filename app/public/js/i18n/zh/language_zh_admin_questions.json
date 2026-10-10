@@ -46,6 +46,18 @@
     "admin.q.justification_label": "正确答案说明",
     "admin.q.btn_add_option": "+ 添加选项",
     "admin.q.btn_add": "添加问题",
-    "admin.q.label_end": "问题结束"
+    "admin.q.label_end": "问题结束",
+    "admin.q.type_word_search": "找字游戏（找出单词）",
+    "admin.q.type_word_search_short": "找字游戏",
+    "admin.q.wordsearch_intro": "单词隐藏在 10×10 的字母格中，可以是任意方向：横向、纵向或斜向，正向或反向。",
+    "admin.q.wordsearch_words_label": "要隐藏的单词（2-6 个，每个 3 到 10 个字母）",
+    "admin.q.wordsearch_placeholder": "单词（3-10 个字母）",
+    "admin.q.wordsearch_add": "添加单词",
+    "admin.q.wordsearch_max": "已达到最多 6 个单词",
+    "admin.q.how_it_works": "玩法说明：",
+    "admin.q.wordsearch_help_grid": "每局游戏都会用这些单词生成不同的字母格",
+    "admin.q.wordsearch_help_play": "玩家看到单词列表，通过拖动或依次点击单词的首字母和末字母来标记",
+    "admin.q.wordsearch_help_points": "计分：每找到一个单词得 20 分",
+    "admin.q.wordsearch_help_time": "请留出足够时间：根据单词数量设为 60-120 秒"
   }
 }

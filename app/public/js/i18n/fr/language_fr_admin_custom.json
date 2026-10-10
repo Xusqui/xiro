@@ -60,6 +60,7 @@
     "admin.slides.comment_ph": "Ex : Pictionary en équipe ou Imiter un éléphant",
     "admin.slides.info_title": "Diapositive Informative",
     "admin.slides.error_comment": "Veuillez écrire un commentaire",
-    "admin.slides.error_info": "Veuillez écrire le texte informatif"
+    "admin.slides.error_info": "Veuillez écrire le texte informatif",
+    "admin.custom.badge_wordsearch": "MOTS MÊLÉS"
   }
 }

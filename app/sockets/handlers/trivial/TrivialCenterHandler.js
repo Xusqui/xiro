@@ -19,6 +19,7 @@ const { startTimer } = require('../../utils/TimerManager');
 const { activeGames } = require('../../../state/globalState');
 const { RedisSyncBus } = require('../../sync/RedisSyncBus');
 const { generateScrambledLetters, normalizeWord } = require('../../../domain/services/WordScrambleService');
+const { prepareWordSearchLogged } = require('../../utils/QuestionPreparation');
 const { shuffle } = require('../../../services/game.logic');
 const { getRedisClient } = require('../../../config/redis');
 const { assignRandomPointsForCurrentQuestion } = require('../../utils/QuestionTransitionManager');
@@ -122,6 +123,9 @@ function buildNormalizedQuestion(question, roomId) {
         normalizedQuestion.scrambled_letters = generateScrambledLetters(word);
         normalizedQuestion.word_length = normalizeWord(word).length;
         normalizedQuestion.options = [];
+    }
+    if (normalizedQuestion.question_type === 'word_search') {
+        return prepareWordSearchLogged(normalizedQuestion, { roomId, mode: 'trivial' });
     }
 
     return normalizedQuestion;

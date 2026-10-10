@@ -60,6 +60,7 @@
     "admin.slides.comment_ph": "例：チームピクショナリー、または象のものまね",
     "admin.slides.info_title": "情報スライド",
     "admin.slides.error_comment": "コメントを入力してください",
-    "admin.slides.error_info": "情報テキストを入力してください"
+    "admin.slides.error_info": "情報テキストを入力してください",
+    "admin.custom.badge_wordsearch": "ワードサーチ"
   }
 }

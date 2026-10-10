@@ -7,6 +7,7 @@
 import './player-answer-visual-logic.js?v=20260922172926';
 import { buildMultipleChoiceBreakdownHTML } from './player-answer-mc-breakdown.js?v=20260922172926';
 import { matchingResultHtml } from './player-answer-matching-breakdown.js?v=20260922172926';
+import { wordSearchResultHtml } from './player-answer-wordsearch.js?v=20260922172926';
 import { getCurrentOrder, getCurrentOrderOptions, getCurrentSlideType } from './player-state.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
@@ -180,7 +181,7 @@ function hasCorrectAnswer(data) {
  */
 function showsCorrectAnswer(data, isApproximate) {
     if (data.correct === true || data.correct === null) return true;
-    if (data.matchingDetails || data.multipleChoiceDetails?.options) return true;
+    if (data.matchingDetails || data.wordSearchDetails || data.multipleChoiceDetails?.options) return true;
     if (data.orderDetails || isApproximate) return false;
     return hasCorrectAnswer(data);
 }
@@ -190,6 +191,7 @@ function resultMessageHtml(data, isApproximate) {
     const rankingHTML = rankingHtml(data);
     if (data.orderDetails) return orderResultHtml(data, rankingHTML);
     if (data.matchingDetails) return matchingResultHtml(data, rankingHTML);
+    if (data.wordSearchDetails) return wordSearchResultHtml(data, rankingHTML);
     if (data.multipleChoiceDetails && data.multipleChoiceDetails.options) return multipleChoiceResultHtml(data, rankingHTML);
     if (data.correct === null) return surveyResultHtml();
     if (data.correct) return correctResultHtml(data, rankingHTML);
@@ -199,10 +201,12 @@ function resultMessageHtml(data, isApproximate) {
 
 /** HTML completo de la pantalla de resultado (fondo según acierto/fallo). */
 export function buildAnswerResultHTML(data) {
-    // Ordenar y emparejar: verde si todo está bien, azul si es parcial
-    const isOrder = !!(data.orderDetails || data.matchingDetails);
-    const correctCount = (data.orderDetails || data.matchingDetails)?.correctCount || 0;
-    const totalOptions = data.orderDetails?.totalOptions || data.matchingDetails?.totalPairs || 0;
+    // Ordenar, emparejar y sopa de letras: verde si todo está bien, azul si es parcial
+    const isOrder = !!(data.orderDetails || data.matchingDetails || data.wordSearchDetails);
+    const correctCount = (data.orderDetails || data.matchingDetails)?.correctCount
+        || data.wordSearchDetails?.foundCount || 0;
+    const totalOptions = data.orderDetails?.totalOptions || data.matchingDetails?.totalPairs
+        || data.wordSearchDetails?.totalWords || 0;
     const isFullyCorrect = totalOptions > 0 && correctCount === totalOptions;
     const visualLogic = getPlayerAnswerVisualLogic();
     const isApproximate = visualLogic.shouldShowApproximateResult({

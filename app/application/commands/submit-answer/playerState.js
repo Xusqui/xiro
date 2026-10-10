@@ -64,8 +64,10 @@ function persistPlayerAnswerState(ctx) {
         return;
     }
 
-    if (flags.isNumericQuestion || flags.isWordScrambleQuestion) {
-        const normalizedAnswer = flags.isNumericQuestion ? Number(playerAnswer) : String(playerAnswer);
+    if (flags.isNumericQuestion || flags.isWordScrambleQuestion || flags.isWordSearchQuestion) {
+        const normalizedAnswer = flags.isNumericQuestion
+            ? Number(playerAnswer)
+            : flags.isWordSearchQuestion ? [...(payload.found || [])] : String(playerAnswer);
 
         if (player) {
             player.answeredQuestions.add(game.currentIndex);
@@ -130,6 +132,7 @@ async function updateOptionAnswerStats(ctx) {
         || flags.isMatchingQuestion
         || flags.isNumericQuestion
         || flags.isWordScrambleQuestion
+        || flags.isWordSearchQuestion
         || flags.isMultipleChoiceQuestion) {
         return;
     }

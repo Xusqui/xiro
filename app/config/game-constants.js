@@ -257,6 +257,16 @@ module.exports = {
         ORDER: 'order',
         SCRAMBLE: 'word_scramble',
         MATCHING: 'matching',
+        WORD_SEARCH: 'word_search',
+    },
+
+    // ===== SOPA DE LETRAS (word_search) =====
+    WORD_SEARCH: {
+        GRID_SIZE: 10,
+        MIN_WORDS: 2,
+        MAX_WORDS: 6,
+        MIN_WORD_LENGTH: 3,
+        MAX_WORD_LENGTH: 10,
     },
 
     // ===== TIPOS DE PREGUNTA ELEGIBLES PARA PUNTUACIÓN ALEATORIA =====

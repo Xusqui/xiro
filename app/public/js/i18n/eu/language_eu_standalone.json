@@ -63,6 +63,10 @@
     "standalone.game.word_length_pre": "HITZA",
     "standalone.game.play_audio": "▶ Ukitu audioa erreproduzitzeko",
     "standalone.footer.back": "Hasierara itzuli",
-    "standalone.game.mc_missed": "Ez markatua"
+    "standalone.game.mc_missed": "Ez markatua",
+    "standalone.game.wordsearch_finish": "Amaitu",
+    "standalone.game.wordsearch_found": "{total} hitzetatik {n}",
+    "standalone.game.wordsearch_hint_help": "Pista: ukitu hitz bat (erdia balio du)",
+    "standalone.game.wordsearch_hint_aria": "Pista:"
   }
 }

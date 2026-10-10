@@ -32,7 +32,10 @@ function sanitizeQuestionForPlayers(question) {
         question_image_url: question.question_image_url,
         // word_scramble: campos necesarios para el jugador (scrambled_letters no son sensibles)
         word_length: question.word_length,
-        scrambled_letters: question.scrambled_letters
+        scrambled_letters: question.scrambled_letters,
+        // word_search: rejilla y lista de palabras. ❌ NUNCA ws_placements (revelaría la solución)
+        ws_grid: question.ws_grid,
+        ws_words: question.ws_words
     };
 
     // Sanitizar opciones: eliminar is_correct y justification

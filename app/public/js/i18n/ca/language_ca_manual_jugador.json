@@ -40,6 +40,8 @@
     "manual_player.answer.scramble.text": "Prem les lletres en l'ordre correcte per revelar la paraula oculta abans que la resta de jugadors.",
     "manual_player.answer.matching.title": "Emparellar",
     "manual_player.answer.matching.text": "Veuràs dues columnes. L'esquerra és fixa; arrossega els elements de la dreta per col·locar cadascun davant de la seva parella. Prem Confirmar quan ho tinguis. Guanyes punts per cada parella encertada!",
+    "manual_player.answer.word_search.title": "Sopa de Lletres",
+    "manual_player.answer.word_search.text": "Busca en una graella de 10×10 les paraules amagades en qualsevol direcció: arrossega el dit de la primera a l'última lletra, o toca-les totes dues. Si t'encalles, toca una paraula de la llista per veure on comença (valdrà la meitat). En equips, el que troba un ho veu tot el grup. Com més aviat acabis, més bonificació!",
 
     "manual_player.score.section.title": "Sistema de puntuació i ratxes",
     "manual_player.score.section.subtitle": "Encerta ràpid i no fallis per maximitzar els teus punts.",

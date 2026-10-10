@@ -24,6 +24,8 @@
     "instructions.question_types.word_scramble.title": "Devinez le mot (mots brouillés)",
     "instructions.question_types.word_scramble.description": "Le défi consiste à trouver un mot caché en ordonnant les lettres désordonnées qui apparaissent à l'écran.",
     "instructions.question_types.multiple.title": "Choix multiples",
-    "instructions.question_types.multiple.description": "Similaire au Quiz, mais dans ce cas il peut y avoir entre 1 et 6 bonnes réponses simultanément."
+    "instructions.question_types.multiple.description": "Similaire au Quiz, mais dans ce cas il peut y avoir entre 1 et 6 bonnes réponses simultanément.",
+    "instructions.question_types.word_search.title": "Mots mêlés (Word Search)",
+    "instructions.question_types.word_search.description": "Il faut trouver dans une grille de 10x10 les mots cachés dans n’importe quelle direction. Chaque mot trouvé rapporte des points. Touchez un mot pour voir où il commence, mais il ne vaudra que la moitié."
   }
 }

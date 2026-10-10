@@ -46,6 +46,18 @@
     "admin.q.justification_label": "Justificativa da resposta correta",
     "admin.q.btn_add_option": "+ Adicionar opção",
     "admin.q.btn_add": "Adicionar pergunta",
-    "admin.q.label_end": "Fim das perguntas"
+    "admin.q.label_end": "Fim das perguntas",
+    "admin.q.type_word_search": "Caça-palavras (Encontre as palavras)",
+    "admin.q.type_word_search_short": "Caça-palavras",
+    "admin.q.wordsearch_intro": "As palavras ficam escondidas numa grelha de 10x10 em qualquer direção: horizontal, vertical ou diagonal, no sentido normal ou ao contrário.",
+    "admin.q.wordsearch_words_label": "Palavras a esconder (2-6, de 3 a 10 letras)",
+    "admin.q.wordsearch_placeholder": "Palavra (3-10 letras)",
+    "admin.q.wordsearch_add": "Adicionar palavra",
+    "admin.q.wordsearch_max": "Máximo de 6 palavras atingido",
+    "admin.q.how_it_works": "Como funciona:",
+    "admin.q.wordsearch_help_grid": "Cada jogo gera uma grelha diferente com estas palavras",
+    "admin.q.wordsearch_help_play": "O jogador vê a lista e marca cada palavra arrastando ou tocando na primeira e na última letra",
+    "admin.q.wordsearch_help_points": "Pontuação: 20 pts por palavra encontrada",
+    "admin.q.wordsearch_help_time": "Dê tempo suficiente: 60-120 segundos conforme o número de palavras"
   }
 }

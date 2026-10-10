@@ -109,6 +109,11 @@ function cambiarTipoPregunta(qIdx, newType) {
         question.options = [];
         question.correctWord = question.correctWord || '';
     }
+    // Sopa de letras: 3 palabras vacías y tiempo de sobra para buscarlas
+    else if (newType === 'word_search') {
+        question.options = [0, 1, 2].map(i => ({ optionText: '', isCorrect: true, justification: null, order_index: i }));
+        question.time_limit = Math.max(Number(question.time_limit) || 0, 90);
+    }
     // Para preguntas de emparejamiento, inicializar 2 pares vacíos
     else if (newType === 'matching') {
         question.options = [

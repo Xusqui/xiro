@@ -24,6 +24,10 @@
     "player.answer.waiting_server": "Agardando confirmación do servidor...",
     "player.answer.mc_missed": "NON MARCADA",
     "player.answer.mc_perfect": "PERFECTO",
-    "player.answer.matching_pairs": "{n} de {total} parellas"
+    "player.answer.matching_pairs": "{n} de {total} parellas",
+    "player.answer.wordsearch_found": "{n} de {total} palabras",
+    "player.wordsearch.finish": "Rematar",
+    "player.wordsearch.hint_help": "Pista: toca unha palabra (vale a metade)",
+    "player.wordsearch.hint_aria": "Pista:"
   }
 }

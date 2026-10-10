@@ -20,6 +20,7 @@ const {
 } = require('../chain');
 const ImprovedSubmitAnswerCommand = require('../commands/ImprovedSubmitAnswerCommand');
 const { validateSocket, schemas } = require('../../validation');
+const { isValidFoundPayload } = require('../validators/WordSearchQuestionValidator');
 const { createRedisRateLimiter } = require('../helpers/SocketRateLimiterFactory');
 const { getRedisClient } = require('../../config/redis');
 const { getIdempotencyService } = require('../services/idempotency');
@@ -78,11 +79,19 @@ function validateMatchingPayload(data) {
     return { valid: true, value: { ...data } };
 }
 
+function validateWordSearchPayload(data) {
+    if (!hasRoom(data) || !hasNickname(data) || !isValidFoundPayload(data.found)) {
+        return { valid: false, errors: ['invalid word_search payload'] };
+    }
+    return { valid: true, value: { ...data } };
+}
+
 const ANSWER_VALIDATORS = {
     numeric: validateNumericPayload,
     word_scramble: validateWordScramblePayload,
     multiple_choice: validateMultipleChoicePayload,
-    matching: validateMatchingPayload
+    matching: validateMatchingPayload,
+    word_search: validateWordSearchPayload
 };
 
 function validateSubmitAnswerPayload(data) {
@@ -104,6 +113,7 @@ function mapSubmitAnswerCommandContext(context) {
         answerType: context.validatedData.answerType,
         playerAnswer: context.validatedData.playerAnswer,
         selectedIndices: context.validatedData.selectedIndices,
+        found: context.validatedData.found,
         playerId: context.playerId,
         socket: context.socket,
         requestId: context.data.requestId

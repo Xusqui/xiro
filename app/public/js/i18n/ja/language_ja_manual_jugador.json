@@ -40,6 +40,8 @@
     "manual_player.answer.scramble.text": "他のプレイヤーより先に隠れた単語を明かすために、正しい順序で文字をタップします。",
     "manual_player.answer.matching.title": "マッチング",
     "manual_player.answer.matching.text": "2 列が表示されます。左列は固定です。右列の要素をドラッグして正しいペアの前に配置します。準備ができたら「確認」をタップします。正しいペアごとにポイントが獲得できます！",
+    "manual_player.answer.word_search.title": "ワードサーチ",
+    "manual_player.answer.word_search.text": "10×10 のマスにあらゆる方向で隠された単語を探します。最初の文字から最後の文字まで指でなぞるか、両端をタップしてください。行き詰まったら、リストの単語をタップすると開始位置が分かります（得点は半分）。チーム戦では、誰かが見つけた単語はチーム全員に表示されます。早く終えるほどボーナスが増えます！",
 
     "manual_player.score.section.title": "得点とストリーク",
     "manual_player.score.section.subtitle": "速く正確に答えてポイントを最大化しましょう。",

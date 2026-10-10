@@ -152,6 +152,17 @@ const StandaloneSocket = (() => {
         });
     }
 
+    /** Sopa de letras: pide dónde empieza la palabra `wordIndex` (vale la mitad). */
+    function requestWordSearchHint(wordIndex) {
+        return new Promise((resolve) => {
+            if (!playerSocket) {
+                resolve({ ok: false, reason: 'not-connected' });
+                return;
+            }
+            playerSocket.emit('word-search-hint', { wordIndex }, (ack) => resolve(ack || { ok: false }));
+        });
+    }
+
     function nextQuestion() {
         const sessionId = StandaloneState.get().sessionId;
         if (presenterSocket && sessionId) {
@@ -186,6 +197,7 @@ const StandaloneSocket = (() => {
     return {
         startSession,
         submitAnswer,
+        requestWordSearchHint,
         nextQuestion,
         abandonAndDisconnect
     };

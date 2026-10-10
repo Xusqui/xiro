@@ -4,6 +4,29 @@
 
 const { shuffle } = require('../../services/game.logic');
 const { generateScrambledLetters, normalizeWord } = require('../../domain/services/WordScrambleService');
+const { prepareWordSearchQuestion } = require('../../domain/services/WordSearchService');
+const logger = require('../../config/logger');
+
+/**
+ * Prepara una sopa de letras y avisa en el log si no se pudo generar la rejilla
+ * (palabras inválidas en bancos antiguos o importados a mano): sin rejilla la
+ * pregunta se muestra vacía y nadie puntúa, así que debe quedar rastro.
+ * También lo usan los manejadores del Trivial.
+ * @param {Object} question
+ * @param {Object} [context] - Datos extra para el log (sala, tipo de juego…)
+ * @returns {Object} Pregunta preparada
+ */
+function prepareWordSearchLogged(question, context = {}) {
+    const prepared = prepareWordSearchQuestion(question);
+    if (!prepared.ws_grid) {
+        logger.warn('word_search sin rejilla: palabras inválidas, la pregunta no puntuará', {
+            ...context,
+            questionId: question?.id,
+            words: prepared.ws_words
+        });
+    }
+    return prepared;
+}
 
 /**
  * Prepara las preguntas según el tipo de juego
@@ -63,6 +86,11 @@ function prepareQuestions(questions, gameType) {
             };
         }
 
+        // Sopa de letras: generar la rejilla una sola vez (viaja a Redis con el gameState)
+        if (q.question_type === 'word_search') {
+            return prepareWordSearchLogged(q, { gameType });
+        }
+
         // Barajar opciones para preguntas normales
         return {
             ...q,
@@ -72,5 +100,6 @@ function prepareQuestions(questions, gameType) {
 }
 
 module.exports = {
-    prepareQuestions
+    prepareQuestions,
+    prepareWordSearchLogged
 };

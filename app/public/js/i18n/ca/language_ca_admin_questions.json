@@ -46,6 +46,18 @@
     "admin.q.justification_label": "Justificació de la resposta correcta",
     "admin.q.btn_add_option": "+ Afegir opció",
     "admin.q.btn_add": "Afegir pregunta",
-    "admin.q.label_end": "Fi de les preguntes"
+    "admin.q.label_end": "Fi de les preguntes",
+    "admin.q.type_word_search": "Sopa de lletres (Troba les paraules)",
+    "admin.q.type_word_search_short": "Sopa de lletres",
+    "admin.q.wordsearch_intro": "Les paraules s’amaguen en una graella de 10x10 en qualsevol direcció: horitzontal, vertical o diagonal, i del dret o del revés.",
+    "admin.q.wordsearch_words_label": "Paraules per amagar (2-6, de 3 a 10 lletres)",
+    "admin.q.wordsearch_placeholder": "Paraula (3-10 lletres)",
+    "admin.q.wordsearch_add": "Afegeix una paraula",
+    "admin.q.wordsearch_max": "S’ha arribat al màxim de 6 paraules",
+    "admin.q.how_it_works": "Com funciona:",
+    "admin.q.wordsearch_help_grid": "Cada partida genera una sopa diferent amb aquestes paraules",
+    "admin.q.wordsearch_help_play": "El jugador veu la llista i marca cada paraula arrossegant o tocant-ne la primera i l’última lletra",
+    "admin.q.wordsearch_help_points": "Puntuació: 20 pts per paraula trobada",
+    "admin.q.wordsearch_help_time": "Dona prou temps: 60-120 segons segons el nombre de paraules"
   }
 }

@@ -46,6 +46,18 @@
     "admin.q.justification_label": "Justificación de la respuesta correcta",
     "admin.q.btn_add_option": "+ Añadir Opción",
     "admin.q.btn_add": "Añadir Pregunta",
-    "admin.q.label_end": "Fin Preguntas"
+    "admin.q.label_end": "Fin Preguntas",
+    "admin.q.type_word_search": "Sopa de letras (Encuentra las palabras)",
+    "admin.q.type_word_search_short": "Sopa de letras",
+    "admin.q.wordsearch_intro": "Las palabras se esconden en una rejilla de 10x10 en cualquier dirección: horizontal, vertical o diagonal, y del derecho o del revés.",
+    "admin.q.wordsearch_words_label": "Palabras a esconder (2-6, de 3 a 10 letras)",
+    "admin.q.wordsearch_placeholder": "Palabra (3-10 letras)",
+    "admin.q.wordsearch_add": "Añadir palabra",
+    "admin.q.wordsearch_max": "Máximo 6 palabras alcanzado",
+    "admin.q.how_it_works": "Cómo funciona:",
+    "admin.q.wordsearch_help_grid": "Cada partida genera una sopa distinta con estas palabras",
+    "admin.q.wordsearch_help_play": "El jugador ve la lista y marca cada palabra arrastrando o tocando su primera y última letra",
+    "admin.q.wordsearch_help_points": "Puntuación: 20 pts por palabra encontrada",
+    "admin.q.wordsearch_help_time": "Da tiempo suficiente: 60-120 segundos según el número de palabras"
   }
 }
