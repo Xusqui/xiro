@@ -132,8 +132,10 @@
         let html = '';
         for (let i = 0; i < words.length; i++) {
             if (hintLabel) {
+                // --ws-len: la hoja del jugador encoge la letra según la longitud de la palabra
                 html += '<button type="button" class="ws-word ws-word--hint" data-word-index="' + i + '" aria-label="' +
-                    escapeText(hintLabel + ' ' + words[i]).replace(/"/g, '&quot;') + '">' + escapeText(words[i]) + BULB_SVG + '</button>';
+                    escapeText(hintLabel + ' ' + words[i]).replace(/"/g, '&quot;') + '" style="--ws-len:' + String(words[i]).length + '">' +
+                    '<span class="ws-word__text">' + escapeText(words[i]) + '</span>' + BULB_SVG + '</button>';
             } else {
                 html += '<span class="ws-word" role="listitem" data-word-index="' + i + '">' + escapeText(words[i]) + '</span>';
             }

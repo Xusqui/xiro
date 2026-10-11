@@ -31,13 +31,13 @@ globalThis.StandaloneQuestionWordSearch = (() => {
         container.innerHTML = `
             <div class="pl-viewport">
                 <div class="pl-nickname-bar"><p>${escapeHtml(StandaloneState.get().nickname)}</p></div>
-                <div class="pl-question-panel"><h2>${escapeHtml(question.question_text)}</h2></div>
+                <div class="pl-question-panel ws-question"><h2>${escapeHtml(question.question_text)}</h2></div>
                 <div class="ws-play">
                     <div id="sa-ws-board" class="ws-play__board">${WS.gridHtml(grid, 'wsg--player', _t('common.wordsearch.grid_label', 'Sopa de letras'))}</div>
                     <p class="ws-play__help">${_t('standalone.game.wordsearch_hint_help', 'Pista: toca una palabra (vale la mitad)')}</p>
                     <div id="sa-ws-words" class="ws-words">${WS.chipsHtml(words, _t('standalone.game.wordsearch_hint_aria', 'Pista:'))}</div>
                 </div>
-                <div class="pl-submit-bar">
+                <div class="pl-submit-bar ws-submit">
                     <button type="button" class="pl-submit-btn" data-standalone-action="submit-wordsearch">
                         ${_t('standalone.game.wordsearch_finish', 'Terminar')} (<span id="sa-ws-progress">0</span>/${words.length})
                     </button>

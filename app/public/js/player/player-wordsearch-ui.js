@@ -41,7 +41,7 @@ function layoutHtml(pregunta, grid, words) {
             <div class="bg-plum-600 px-3 py-2 text-center shrink-0">
                 <p class="text-white font-black text-base uppercase">${escapeHtml(getNickname())}</p>
             </div>
-            <div class="bg-white p-3 border-b-8 border-plum-600 text-slate-800 text-center max-h-[20vh] flex items-center justify-center shrink-0 overflow-y-auto">
+            <div class="ws-question bg-white px-3 py-2 border-b-4 border-plum-600 text-slate-800 text-center flex items-center justify-center shrink-0 overflow-y-auto">
                 <h2 class="${fontClass} font-black uppercase italic hyphens-auto" lang="es">${escapeHtml(pregunta.question_text)}</h2>
             </div>
             <div class="ws-play">
@@ -49,9 +49,9 @@ function layoutHtml(pregunta, grid, words) {
                 <p class="ws-play__help">${_t('player.wordsearch.hint_help', null, 'Pista: toca una palabra (vale la mitad)')}</p>
                 <div id="ws-word-list" class="ws-words">${ws().chipsHtml(words, _t('player.wordsearch.hint_aria', null, 'Pista:'))}</div>
             </div>
-            <div class="p-3 bg-slate-900/60 border-t border-white/10 flex items-center gap-3">
+            <div class="px-3 py-2 bg-slate-900/60 border-t border-white/10 flex items-center gap-3">
                 <p class="text-white font-black text-lg shrink-0"><span id="ws-progress">0</span>/${words.length}</p>
-                <button id="ws-finish" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-4 rounded-2xl font-black uppercase text-base shadow-lg transition active:scale-95">
+                <button id="ws-finish" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-3 rounded-xl font-black uppercase text-base shadow-lg transition active:scale-95">
                     <i class="fas fa-paper-plane mr-2"></i>${_t('player.wordsearch.finish', null, 'Terminar')}
                 </button>
             </div>

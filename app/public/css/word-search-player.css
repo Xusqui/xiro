@@ -4,8 +4,7 @@
  *
  * La lista de palabras siempre se ve entera: ocupa su alto natural y la rejilla
  * se encoge hasta caber en el hueco que queda (ancho y alto del contenedor).
- * Con 6 palabras largas la rejilla baja de ~34 px a ~28 px por celda en un
- * móvil de 375 px, en vez de cortar las últimas palabras.
+ * Para que ese hueco sea grande, la lista nunca pasa de dos filas de 36 px.
  */
 
 .ws-play {
@@ -53,16 +52,17 @@
     }
 }
 
-/* Texto de ayuda de la pista: una línea */
+/* Texto de ayuda de la pista: una línea discreta */
 .ws-play__help {
     margin: 0;
     color: rgba(255, 255, 255, .7);
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
+    line-height: 1.2;
     text-align: center;
 }
 
-/* Fichas compactas: caben dos de 10 letras por fila sin bajar de 40 px de alto */
+/* Sin container queries: fichas compactas que se reparten en filas */
 .ws-play .ws-words {
     flex: 0 0 auto;
     max-width: 100%;
@@ -77,4 +77,95 @@
 
 .ws-play .ws-bulb {
     margin-left: 4px;
+}
+
+/*
+ * Fichas en rejilla de dos filas como máximo, sea cual sea la lista
+ * (2-3 palabras: una fila; 4: 2×2; 5-6: 3×2). Cada ficha mide 36 px de alto
+ * y la letra se encoge según la longitud de su palabra (--ws-len, que pone
+ * chipsHtml) para caber en una línea. Antes, seis palabras largas ocupaban
+ * tres filas de 44 px y la rejilla de letras perdía casi la mitad del alto.
+ */
+@supports (container-type: inline-size) {
+    .ws-play .ws-words {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 4px;
+        width: 100%;
+        max-width: 480px;
+    }
+
+    .ws-play .ws-words:has(> :nth-child(2):last-child),
+    .ws-play .ws-words:has(> :nth-child(4):last-child) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ws-play .ws-word {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* Una palabra de 10 W anchas se sale: que recorte por la derecha, no por los dos lados */
+        justify-content: safe center;
+        min-width: 0;
+        height: 36px;
+        min-height: 36px;
+        margin: 0;
+        padding: 0 4px;
+        overflow: hidden;
+        letter-spacing: .02em;
+        container-type: inline-size;
+    }
+
+    /* Ancho libre (menos la bombilla o el ½) repartido entre las letras */
+    .ws-play .ws-word__text {
+        font-size: clamp(9px, calc((100cqi - 18px) / (var(--ws-len, 8) * .78)), 15px);
+        white-space: nowrap;
+    }
+
+    .ws-play .ws-bulb {
+        flex: 0 0 auto;
+        margin-left: 3px;
+    }
+
+    .ws-play .ws-word.is-hinted::after {
+        margin-left: 3px;
+    }
+}
+
+/*
+ * Enunciado y botón Terminar compactos: en la sopa de letras el alto que
+ * no ocupan se lo queda la rejilla. El texto más largo sigue haciendo
+ * scroll dentro del enunciado en vez de empujar el tablero.
+ */
+.ws-question {
+    max-height: 16vh;
+}
+
+/* Solo encoge las clases grandes de getResponsiveFontClass (textos cortos) */
+.ws-question .text-adaptive-lg,
+.ws-question .text-adaptive {
+    font-size: clamp(16px, 4.6vw, 19px);
+    line-height: 1.2;
+}
+
+/* standalone.html: mismas medidas sobre sus clases pl-* */
+.pl-question-panel.ws-question {
+    min-height: 0;
+    padding: 8px 12px;
+    border-bottom-width: 4px;
+}
+
+.pl-question-panel.ws-question h2 {
+    font-size: clamp(16px, 4.6vw, 19px);
+    line-height: 1.2;
+}
+
+.pl-submit-bar.ws-submit {
+    padding: 8px 12px;
+}
+
+.ws-submit .pl-submit-btn {
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 16px;
 }
