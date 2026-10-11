@@ -119,6 +119,10 @@ const configureHelmet = () => {
                     defaultSrc: ['\'self\''],
                     scriptSrc: [...scriptSrc, '\'unsafe-inline\'', '\'unsafe-eval\''],
                     scriptSrcAttr: ['\'none\''],
+                    // El reloj de Tone.js (música del presentador) corre en un Worker creado
+                    // desde un Blob; sin esto cae en script-src, se bloquea sin error y el
+                    // Transport no avanza (silencio total)
+                    workerSrc: ['\'self\'', 'blob:'],
                     styleSrc: [
                         '\'self\'',
                         'https://cdnjs.cloudflare.com',

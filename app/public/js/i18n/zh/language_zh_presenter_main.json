@@ -14,6 +14,9 @@
     "presenter.game.abandon": "离开游戏",
     "presenter.game.abandon.title": "离开会话",
     "presenter.fullscreen.title": "全屏",
-    "presenter.menu.title": "菜单"
+    "presenter.menu.title": "菜单",
+    "presenter.music.pause": "暂停音乐",
+    "presenter.music.resume": "继续播放音乐",
+    "presenter.music.volume": "音乐音量"
   }
 }

@@ -123,7 +123,7 @@ function createPauseTimerHandler(dependencies) {
 
         // Notificar a todos los clientes (sala base + sala presenter)
         io.to(sPin).emit('timer-paused', { remainingTime: timerState.remainingTime });
-        io.to(sPin + ':presenter').emit('timer-paused', { remainingTime: timerState.remainingTime });
+        io.to(sPin + ':presenter').emit('timer-paused', { remainingTime: timerState.remainingTime, serverNow: Date.now() });
     };
 }
 
@@ -222,7 +222,7 @@ function createResumeTimerHandler(dependencies) {
 
         // Notificar a todos los clientes (sala base + sala presenter)
         io.to(sPin).emit('timer-resumed', { remainingTime: timerState.remainingTime });
-        io.to(sPin + ':presenter').emit('timer-resumed', { remainingTime: timerState.remainingTime });
+        io.to(sPin + ':presenter').emit('timer-resumed', { remainingTime: timerState.remainingTime, serverNow: Date.now() });
     };
 }
 

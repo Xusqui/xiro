@@ -31,6 +31,7 @@ const { errorHandler, notFoundHandler } = require('./middlewares/errorHandler');
 const maintenanceMiddleware = require('./middlewares/maintenanceMode');
 const tvAccessGuard = require('./middlewares/tvAccessGuard');
 const standaloneAccessGuard = require('./middlewares/standaloneAccessGuard');
+const devMusicPanelGuard = require('./middlewares/devMusicPanelGuard');
 const assetVersioningMiddleware = require('./middlewares/assetVersioning');
 const metricsMiddleware = require('./middlewares/metrics.middleware');
 
@@ -126,6 +127,9 @@ app.use(tvAccessGuard);
 
 // Bloquea acceso directo a /standalone.html si la tarjeta de Standalone está deshabilitada.
 app.use(standaloneAccessGuard);
+
+// Panel de pruebas de la música (/dev/music): solo con MUSIC_DEV_PANEL=true (beta).
+app.use(devMusicPanelGuard);
 
 // Reescribe ?v=... de assets (.js/.css/.svg) con hash de contenido antes de servir estático
 app.use(assetVersioningMiddleware);

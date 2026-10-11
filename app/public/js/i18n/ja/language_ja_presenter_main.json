@@ -14,6 +14,9 @@
     "presenter.game.abandon": "ゲームを離れる",
     "presenter.game.abandon.title": "セッションを離れる",
     "presenter.fullscreen.title": "全画面表示",
-    "presenter.menu.title": "メニュー"
+    "presenter.menu.title": "メニュー",
+    "presenter.music.pause": "音楽を一時停止",
+    "presenter.music.resume": "音楽を再開",
+    "presenter.music.volume": "音楽の音量"
   }
 }

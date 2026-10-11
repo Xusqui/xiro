@@ -109,7 +109,8 @@ class GameStartedHandler extends EventHandler {
                 team: p.team
             })),
             currentQuestionIndex: 0,
-            startedAt: Date.now()
+            startedAt: Date.now(),
+            serverNow: Date.now() // reloj de la música del presentador
         };
 
         if (this.ackManager) {

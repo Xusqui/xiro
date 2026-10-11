@@ -171,6 +171,19 @@
             <i id="fullscreen-icon" class="fas fa-expand"></i>
             <span data-i18n="presenter.fullscreen.title">...</span>
         </button>
+        <!-- Música de la partida (solo si el administrador la tiene activada) -->
+        <div id="stage-music" class="stage-menu-music" hidden>
+            <button id="music-toggle-btn" data-presenter-action="toggle-music" class="stage-menu-item"
+                title="Pausar música">
+                <i id="music-toggle-icon" class="fas fa-pause"></i>
+                <span id="music-toggle-label">Pausar música</span>
+            </button>
+            <label class="stage-menu-volume" title="Volumen de la música" data-i18n-title="presenter.music.volume">
+                <i class="fas fa-music"></i>
+                <input id="music-volume" type="range" min="0" max="1" step="0.05" value="0.8"
+                    aria-label="Volumen de la música" data-i18n-aria-label="presenter.music.volume">
+            </label>
+        </div>
     <div id="game-action-btns" class="flex flex-col gap-2"
         style="display: none;">
         <button id="terminate-btn" data-presenter-action="terminate-game" style="display: none;"

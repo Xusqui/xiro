@@ -1,0 +1,82 @@
+Muestras de la música generativa de XiRo!
+=========================================
+
+Todas son de uso libre: CC0 1.0 (dominio público), sin restricciones (Iowa) o
+CC BY 4.0 (Naked Drums, que exige citar a sus autores, como aquí). El juego de
+sonidos por defecto (elegido de oído el 2026-10-11) es: metales de Iowa, melodía
+de metales, bajo Babyblue, Naked Drums y sala Liverpool Philharmonic; el resto se
+puede comparar en /dev/music.
+
+Se han recortado, normalizado, pasado a mono y convertido a FLAC; las notas se
+han comprobado midiendo su afinación.
+
+lead/, stab/, stablow/, timp/, cues/
+  VSCO 2 Community Edition — Versilian Studios
+  https://github.com/sgossner/VSCO-2-CE  (CC0 1.0)
+  Trompa, trombón tenor y trompeta (sostenido y staccato), timbales, claves y
+  bloque de madera (cues/clave_*, cues/wood_*).
+
+bass/
+  Black and Blue Basses — Karoryfer Samples
+  https://github.com/sfzinstruments/karoryfer.black-and-blue-basses  (CC0 1.0)
+  Bajo "darkblack" a dedo, dinámica f.
+
+kick/, snare/, hatc/, hato/, crash/, cues/xstick_*
+  Big Rusty Drums — Karoryfer Samples
+  https://github.com/sfzinstruments/karoryfer.big-rusty-drums  (CC0 1.0)
+  Bombo y caja mezclados con el micro de ambiente; charles, crash y baqueta en
+  el aro de la caja.
+
+cues/bip.flac
+  El bip de cuenta atrás del propio juego (public/audio/bip.wav).
+
+--- Juegos de sonidos alternativos (para comparar en /dev/music) ---
+
+iowa/lead/, iowa/stablow/
+  University of Iowa Electronic Music Studios — Musical Instrument Samples
+  https://theremin.music.uiowa.edu/MIS.html
+  "freely available on this website and may be downloaded and used for any
+  projects, without restrictions".
+  Trompa, trompeta (sin vibrato) y trombón tenor en pp, mf y ff: escalas cortadas
+  nota a nota, afinación comprobada (corregida si se desviaba más de 6 céntimos).
+
+basses/stac/, basses/babyblue/
+  Black and Blue Basses — Karoryfer Samples
+  https://github.com/sfzinstruments/karoryfer.black-and-blue-basses  (CC0 1.0)
+  Bajo "darkblack" en staccato y bajo "babyblue" a dedo (f).
+
+basses/upright/
+  VSCO 2 Community Edition — Versilian Studios
+  https://github.com/sgossner/VSCO-2-CE  (CC0 1.0)
+  Contrabajo solista en pizzicato.
+
+melody/altosax/, melody/sopsax/, melody/flute/, melody/clarinet/, melody/oboe/
+  University of Iowa Electronic Music Studios — Musical Instrument Samples
+  https://theremin.music.uiowa.edu/MIS.html  (uso sin restricciones)
+  Saxo alto y soprano (con vibrato), flauta (con vibrato), clarinete en si bemol y
+  oboe, en pp, mf y ff; escalas cortadas nota a nota y afinación comprobada.
+
+melody/violins/
+  VSCO 2 Community Edition — Versilian Studios
+  https://github.com/sgossner/VSCO-2-CE  (CC0 1.0)
+  Sección de violines, sostenido con vibrato, dos dinámicas.
+
+virtuosity/
+  Virtuosity Drums — Versilian Studios y Karoryfer Samples
+  https://github.com/sfzinstruments/virtuosity_drums  (CC0 1.0)
+  Bombo, caja, charles cerrado y abierto y crash; mezcla a mono de micro
+  cercano, aéreos y sala.
+
+naked/
+  Naked Drums — Wilkinson Audio (versión SFZ de kinwie)
+  https://github.com/sfzinstruments/WilkinsonAudio.NakedDrums  (CC BY 4.0)
+  "Naked Drums" by Wilkinson Audio, licensed under CC BY 4.0
+  (https://creativecommons.org/licenses/by/4.0/). Modificado: mezcla a mono de
+  varios micros, recortes y normalización.
+
+ir/
+  Respuestas al impulso de salas reales — johnnyguitar01 en Freesound (CC0 1.0)
+  ir/liverpool.flac  IR Liverpool Philharmonic Hall   https://freesound.org/s/423866/
+  ir/nordea.flac     IR Estonia Nordea Hall (Tallin)  https://freesound.org/s/423803/
+  ir/knights.flac    The Knights Hall (La Valeta)     https://freesound.org/s/423712/
+  Recortadas al inicio, con fundido final y normalizadas.

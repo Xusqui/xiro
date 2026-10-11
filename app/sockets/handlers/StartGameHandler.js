@@ -83,7 +83,10 @@ module.exports = function createStartGameHandler(dependencies) {
                 sessionId: roomId,
                 firstQuestion: preparedQuestions[0],
                 totalQuestions: preparedQuestions.length,
-                randomPoints: activeGames.get(roomId)?.currentRandomPoints ?? null
+                randomPoints: activeGames.get(roomId)?.currentRandomPoints ?? null,
+                // Reloj de la primera pregunta para la música del presentador
+                questionStartedAt: activeGames.get(roomId)?.questionStartTime || Date.now(),
+                serverNow: Date.now()
             };
 
             io.to(roomId + ':presenter').emit('game-started', fullPayload);

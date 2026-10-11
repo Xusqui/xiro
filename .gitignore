@@ -96,3 +96,4 @@ app/public/js/clientes-dashboard.js
 CLAUDE.md
 app/.eslintrc.js
 app/.eslintignore
+app/eslint-public-globals.json

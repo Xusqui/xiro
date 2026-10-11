@@ -231,7 +231,10 @@ function buildGameStateSnapshot(game, player, roomId) {
             ? Math.max(0, runtimeConfig.get('QUESTION_TIME_LIMIT') - (Date.now() - game.questionStartTime) / 1000)
             : null,
         ...buildReconnectIntroState(game),
-        ...buildReconnectRandomPointsState(game)
+        ...buildReconnectRandomPointsState(game),
+        // Para recolocar la cuenta atrás y la música del presentador al reconectar
+        questionStartedAt: game.questionStartTime || null,
+        serverNow: Date.now()
     };
 }
 
@@ -466,7 +469,10 @@ function buildPresenterGameState(game, roomId) {
         players: game.players || [],
         scores: game.scores || {},
         ...buildReconnectIntroState(game),
-        ...buildReconnectRandomPointsState(game)
+        ...buildReconnectRandomPointsState(game),
+        // Para recolocar la cuenta atrás y la música del presentador al reconectar
+        questionStartedAt: game.questionStartTime || null,
+        serverNow: Date.now()
     };
 
     if (game.questions && game.questions[currentQuestionIndex]) {

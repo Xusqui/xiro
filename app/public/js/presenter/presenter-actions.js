@@ -116,6 +116,7 @@ function toggleStageMenu() {
 const PRESENTER_CLICK_ACTIONS = {
     'toggle-stage-menu': () => toggleStageMenu(),
     'toggle-fullscreen': () => toggleFullscreen(),
+    'toggle-music': () => window.XiroPresenterMusic?.togglePause(),
     'start-game': () => empezar(),
     'abandon-game': () => abandonarJuego(),
     'terminate-game': () => terminarJuego(),

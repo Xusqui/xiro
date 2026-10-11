@@ -7,6 +7,8 @@
 
 const fs = require('fs');
 const path = require('path');
+// Mismas reglas que el admin y el presentador (módulo UMD compartido)
+const musicSettings = require('../public/js/audio/music-settings.js');
 
 const SETTINGS_FILE = path.join(__dirname, 'ui-overrides.json');
 
@@ -27,6 +29,8 @@ const DEFAULTS = {
     showStandaloneCard: true,   // Muestra la tarjeta "Modo Standalone" en el menú principal
     animarFondo: true,          // Anima el degradado y las hojas de fondo; si es false, el fondo queda estático
     animacionInicio: true,      // Intro con el logo y cuenta atrás 3-2-1-0 antes de cada partida
+    musicaPartida: true,        // Música generativa en el presentador (el presentador puede pausarla)
+    musicSettings: musicSettings.defaults(), // Sonidos, tempo, semilla, volumen, tic-tac y mezcla (pestaña Música)
     teamNames: [...DEFAULT_TEAM_NAMES], // Nombres personalizados de equipos (1-9)
 
     // Configuración de fuegos artificiales del podio
@@ -55,6 +59,7 @@ const BOOLEAN_SETTINGS = new Set([
     'showStandaloneCard',
     'animarFondo',
     'animacionInicio',
+    'musicaPartida',
     'fireworksFinaleMode',
     'fireworksSound',
     'personalizationEnabled'
@@ -237,6 +242,13 @@ function set(key, value) {
 
     if (key === 'personalizationImage') {
         _store[key] = _validatePersonalizationImage(value);
+        return;
+    }
+
+    if (key === 'musicSettings') {
+        const error = musicSettings.firstError(value);
+        if (error) throw new Error(error);
+        _store[key] = musicSettings.normalize(value);
         return;
     }
 

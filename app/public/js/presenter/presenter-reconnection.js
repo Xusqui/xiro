@@ -18,6 +18,7 @@ import {
 } from './presenter-game-ui.js?v=20260922172926';
 import { restoreLobbyHTML, showAbandonButton } from './presenter-utils.js?v=20260922172926';
 import { handleGameAbandoned } from './presenter-session-control.js?v=20260922172926';
+import { startQuestionCountdown } from './presenter-question-timer.js?v=20260922172926';
 
 function getStoredSessionId() {
     return sessionStorage.getItem('xiro_presenter_sessionId')
@@ -233,6 +234,12 @@ function restoreGameScreen(snapshot) {
     } else {
         window.canShowRanking = true;
         renderPregunta(question);
+        // renderPregunta arranca la cuenta atrás desde el tiempo completo: recolocarla con lo
+        // que de verdad queda según el servidor
+        if (gs.questionStartedAt && gs.serverNow) {
+            const elapsed = (gs.serverNow - gs.questionStartedAt) / 1000;
+            startQuestionCountdown(Math.max(0, Math.ceil((question.time_limit || 20) - elapsed)));
+        }
     }
 
     updatePlayersPanel();

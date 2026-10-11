@@ -5,6 +5,7 @@
 
 import { removeFloatingCards, hideAbandonButton } from './presenter-utils.js?v=20260922172926';
 import { cleanupRevealElements } from './presenter-reveal.js?v=20260922172926';
+import { restRowDelay, startPodiumReveal } from './presenter-podio-reveal.js?v=20260922172926';
 
 // Variable global para el controlador de fuegos artificiales
 let fireworksController = null;
@@ -229,9 +230,11 @@ export function renderPodio(ranking) {
                 ? (p.color && teamColorClasses[p.color] ? teamColorClasses[p.color] + ' text-white' : 'bg-white/10 text-white')
                 : (['bg-yellow-400 text-slate-900 scale-105', 'podium-silver', 'podium-bronze'][i] || 'bg-white/10 text-white');
             const icon = isTeamMode ? '<i class="fas fa-users mr-3"></i>' : '';
-            const delay = ((total - 1 - i) * 0.12).toFixed(2);
+            // Del 10º al 4º, rápido; el 3º, 2º y 1º esperan su nota (presenter-podio-reveal.js)
+            const top = i < 3;
+            const delay = top ? 0 : restRowDelay(i, total).toFixed(2);
             return `
-                        <div class="podium-row flex justify-between items-center p-6 rounded-3xl ${bgClass} border-b-4 border-black/20" style="animation-delay:${delay}s">
+                        <div class="podium-row ${top ? 'podium-row-wait' : ''} flex justify-between items-center p-6 rounded-3xl ${bgClass} border-b-4 border-black/20" data-place="${i + 1}" style="animation-delay:${delay}s">
                             <span class="text-3xl font-black uppercase italic">${icon}${i + 1}º ${escapeHtml(p.name)}</span>
                             <span class="podium-score text-4xl font-black">${p.scoreLabel || (p.pts + ' PTS')}</span>
                         </div>`;
@@ -244,6 +247,8 @@ export function renderPodio(ranking) {
             </button>
 
         </div>`);
+
+    startPodiumReveal(lobbyMain, Math.min(ranking.length, 10));
 
     // Ocultar botón de abandonar en pantalla final de podio
     hideAbandonButton();

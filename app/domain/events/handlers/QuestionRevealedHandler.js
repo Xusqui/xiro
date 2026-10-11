@@ -118,12 +118,18 @@ class QuestionRevealedHandler extends EventHandler {
      */
     notifyPresenter(roomId, question, questionIndex, totalQuestions, randomPoints = null) {
         const presenterRoom = `${roomId}:presenter`;
+        const game = this.dependencies.activeGames?.get(roomId);
+        const serverNow = Date.now();
 
         const payload = {
             question,
             currentIndex: questionIndex,
             totalQuestions,
-            ...(typeof randomPoints === 'number' && { randomPoints })
+            ...(typeof randomPoints === 'number' && { randomPoints }),
+            // Reloj de la pregunta para la música del presentador (tensión con la hora
+            // del servidor, no con un contador local)
+            questionStartedAt: game?.questionStartTime || serverNow,
+            serverNow
         };
 
         // Broadcast via Redis Adapter (multi-worker compatible)

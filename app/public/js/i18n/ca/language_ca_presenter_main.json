@@ -14,6 +14,9 @@
     "presenter.game.abandon": "Abandonar joc",
     "presenter.game.abandon.title": "Abandonar sessió",
     "presenter.fullscreen.title": "Pantalla completa",
-    "presenter.menu.title": "Menú"
+    "presenter.menu.title": "Menú",
+    "presenter.music.pause": "Pausa la música",
+    "presenter.music.resume": "Reprèn la música",
+    "presenter.music.volume": "Volum de la música"
   }
 }

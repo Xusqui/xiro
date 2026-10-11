@@ -53,51 +53,59 @@ export function optionCaseClass(texts = []) {
  * mayor tamaño que cabe en su tarjeta, entre un mínimo legible y un máximo.
  * Sustituye en la práctica a la clase por longitud de getResponsiveFontClass,
  * que daba 2rem a textos de 80-120 caracteres y se salían de la tarjeta.
- * Se repite al cargar las fuentes y al girar el móvil (cambian las medidas).
+ * Se repite al cargar las fuentes, al girar el móvil (cambian las medidas)
+ * y al cargar la imagen de cada opción.
  *
  * @param {string} [textSelector] - Textos a ajustar; su caja es el botón padre
  */
 export function fitOptionButtonText(textSelector = 'button .btn-text') {
-    const fitAll = () => {
-        document.querySelectorAll(textSelector).forEach((text) => {
-            const box = text.closest('button');
-            if (!box || box.clientHeight === 0) return;
-            const fits = () => box.scrollHeight <= box.clientHeight && box.scrollWidth <= box.clientWidth
-                && text.scrollWidth <= text.clientWidth;
-            const largestFit = () => {
-                let low = 11;
-                let high = Math.max(low, Math.min(box.clientHeight * 0.3, 40));
-                while (high - low > 0.5) {
-                    const mid = (low + high) / 2;
-                    text.style.fontSize = `${mid}px`;
-                    if (fits()) low = mid;
-                    else high = mid;
-                }
-                return Math.floor(low);
-            };
-
-            // Sin cortar palabras («SATURNO», no «SA-TURNO») mientras se lea
-            // bien (>= 18 px); con una palabra muy larga, mejor guion que letra diminuta
-            // Valores explícitos (no los previos): una segunda pasada al cargar
-            // fuentes o girar el móvil no debe heredar el estado de la anterior.
-            // -webkit-hyphens: Safari parte con él aunque hyphens diga otra cosa.
-            const allowBreaks = (allow) => {
-                text.style.setProperty('hyphens', allow ? 'auto' : 'manual');
-                text.style.setProperty('-webkit-hyphens', allow ? 'auto' : 'manual');
-                text.style.setProperty('overflow-wrap', allow ? 'break-word' : 'normal');
-            };
-            allowBreaks(true);
-            const hyphenated = largestFit();
-            allowBreaks(false);
-            const wholeWords = largestFit();
-            if (wholeWords >= Math.min(18, hyphenated)) {
-                text.style.fontSize = `${wholeWords}px`;
-            } else {
-                allowBreaks(true);
-                text.style.fontSize = `${hyphenated}px`;
-            }
+    const fitOne = (text) => {
+        const box = text.closest('button');
+        if (!box || !text.isConnected || box.clientHeight === 0) return;
+        // La imagen de la opción ocupa 0 px hasta que carga: al llegar,
+        // se vuelve a ajustar con el hueco que de verdad queda al texto.
+        box.querySelectorAll('img').forEach((img) => {
+            if (img.complete) return;
+            const refit = () => fitOne(text);
+            img.addEventListener('load', refit, { once: true });
+            img.addEventListener('error', refit, { once: true });
         });
+        const fits = () => box.scrollHeight <= box.clientHeight && box.scrollWidth <= box.clientWidth
+            && text.scrollWidth <= text.clientWidth;
+        const largestFit = () => {
+            let low = 11;
+            let high = Math.max(low, Math.min(box.clientHeight * 0.3, 40));
+            while (high - low > 0.5) {
+                const mid = (low + high) / 2;
+                text.style.fontSize = `${mid}px`;
+                if (fits()) low = mid;
+                else high = mid;
+            }
+            return Math.floor(low);
+        };
+
+        // Sin cortar palabras («SATURNO», no «SA-TURNO») mientras se lea
+        // bien (>= 18 px); con una palabra muy larga, mejor guion que letra diminuta
+        // Valores explícitos (no los previos): una segunda pasada al cargar
+        // fuentes o girar el móvil no debe heredar el estado de la anterior.
+        // -webkit-hyphens: Safari parte con él aunque hyphens diga otra cosa.
+        const allowBreaks = (allow) => {
+            text.style.setProperty('hyphens', allow ? 'auto' : 'manual');
+            text.style.setProperty('-webkit-hyphens', allow ? 'auto' : 'manual');
+            text.style.setProperty('overflow-wrap', allow ? 'break-word' : 'normal');
+        };
+        allowBreaks(true);
+        const hyphenated = largestFit();
+        allowBreaks(false);
+        const wholeWords = largestFit();
+        if (wholeWords >= Math.min(18, hyphenated)) {
+            text.style.fontSize = `${wholeWords}px`;
+        } else {
+            allowBreaks(true);
+            text.style.fontSize = `${hyphenated}px`;
+        }
     };
+    const fitAll = () => document.querySelectorAll(textSelector).forEach(fitOne);
 
     fitAll();
     document.fonts?.ready?.then(fitAll);

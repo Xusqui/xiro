@@ -14,6 +14,9 @@
     "presenter.game.abandon": "Utzi jokoa",
     "presenter.game.abandon.title": "Utzi saioa",
     "presenter.fullscreen.title": "Pantaila osoa",
-    "presenter.menu.title": "Menua"
+    "presenter.menu.title": "Menua",
+    "presenter.music.pause": "Pausatu musika",
+    "presenter.music.resume": "Berrekin musikari",
+    "presenter.music.volume": "Musikaren bolumena"
   }
 }

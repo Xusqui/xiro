@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Música · Panel de pruebas</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/css/dev-music.css?v=20260922172926">
+</head>
+
+<body>
+    <main class="dm">
+        <header class="dm-header">
+            <h1>Música generativa · panel de pruebas</h1>
+            <p id="dm-status" class="dm-status">Audio parado. Pulsa «Iniciar audio».</p>
+        </header>
+
+        <section class="dm-card">
+            <div class="dm-row">
+                <button id="dm-start" class="dm-btn dm-btn-primary" type="button">Iniciar audio</button>
+                <button id="dm-stop" class="dm-btn" type="button" disabled>Parar (idle)</button>
+            </div>
+            <dl class="dm-info">
+                <dt>Escena</dt><dd id="dm-info-scene">—</dd>
+                <dt>Sección</dt><dd id="dm-info-section">—</dd>
+                <dt>Posición</dt><dd id="dm-info-position">—</dd>
+                <dt>BPM</dt><dd id="dm-info-bpm">—</dd>
+                <dt>Tonalidad</dt><dd id="dm-info-key">—</dd>
+                <dt>Acordes</dt><dd id="dm-info-chords">—</dd>
+                <dt>Contexto</dt><dd id="dm-info-context">—</dd>
+                <dt>Instrumentos</dt><dd id="dm-info-samples">—</dd>
+                <dt>Tensión</dt><dd id="dm-info-tension">—</dd>
+            </dl>
+        </section>
+
+        <section class="dm-card">
+            <h2>Escena</h2>
+            <div id="dm-scenes" class="dm-row dm-wrap">
+                <label><input type="radio" name="dm-scene" value="idle"> idle</label>
+                <label><input type="radio" name="dm-scene" value="lobby" checked> lobby</label>
+                <label><input type="radio" name="dm-scene" value="question"> question</label>
+                <label><input type="radio" name="dm-scene" value="leaderboard"> leaderboard (marcador)</label>
+                <label><input type="radio" name="dm-scene" value="board"> board (tablero del Trivial)</label>
+                <label><input type="radio" name="dm-scene" value="podium"> podium</label>
+            </div>
+        </section>
+
+        <section class="dm-card">
+            <h2>Sonidos (comparar muestras y reverb)</h2>
+            <div id="dm-sounds" class="dm-sounds">
+                <fieldset class="dm-seg">
+                    <legend>Metales</legend>
+                    <label><input type="radio" name="dm-sound-brass" value="vsco"><span>VSCO 2</span></label>
+                    <label><input type="radio" name="dm-sound-brass" value="iowa" checked><span>Iowa · pp/mf/ff (por defecto)</span></label>
+                </fieldset>
+                <fieldset class="dm-seg">
+                    <legend>Melodía</legend>
+                    <label><input type="radio" name="dm-sound-melody" value="brass" checked><span>Metales (por defecto)</span></label>
+                    <label><input type="radio" name="dm-sound-melody" value="altosax"><span>Saxo alto</span></label>
+                    <label><input type="radio" name="dm-sound-melody" value="sopsax"><span>Saxo soprano</span></label>
+                    <label><input type="radio" name="dm-sound-melody" value="flute"><span>Flauta</span></label>
+                    <label><input type="radio" name="dm-sound-melody" value="clarinet"><span>Clarinete</span></label>
+                    <label><input type="radio" name="dm-sound-melody" value="oboe"><span>Oboe</span></label>
+                    <label><input type="radio" name="dm-sound-melody" value="violins"><span>Violines</span></label>
+                    <label><input type="radio" name="dm-sound-melody" value="synth"><span>Sintetizada (80s)</span></label>
+                </fieldset>
+                <fieldset class="dm-seg">
+                    <legend>Bajo</legend>
+                    <label><input type="radio" name="dm-sound-bass" value="finger"><span>Eléctrico a dedo</span></label>
+                    <label><input type="radio" name="dm-sound-bass" value="stac"><span>Eléctrico staccato</span></label>
+                    <label><input type="radio" name="dm-sound-bass" value="babyblue" checked><span>Babyblue (por defecto)</span></label>
+                    <label><input type="radio" name="dm-sound-bass" value="upright"><span>Contrabajo pizzicato</span></label>
+                    <label><input type="radio" name="dm-sound-bass" value="synth"><span>Sintetizado (80s)</span></label>
+                </fieldset>
+                <fieldset class="dm-seg">
+                    <legend>Batería</legend>
+                    <label><input type="radio" name="dm-sound-drums" value="rusty"><span>Big Rusty</span></label>
+                    <label><input type="radio" name="dm-sound-drums" value="virtuosity"><span>Virtuosity (jazz/club)</span></label>
+                    <label><input type="radio" name="dm-sound-drums" value="naked" checked><span>Naked Drums (por defecto)</span></label>
+                </fieldset>
+                <fieldset class="dm-seg">
+                    <legend>Reverb</legend>
+                    <label><input type="radio" name="dm-sound-reverb" value="generated"><span>Generada</span></label>
+                    <label><input type="radio" name="dm-sound-reverb" value="liverpool" checked><span>Liverpool Philharmonic (por defecto)</span></label>
+                    <label><input type="radio" name="dm-sound-reverb" value="nordea"><span>Nordea Hall</span></label>
+                    <label><input type="radio" name="dm-sound-reverb" value="knights"><span>Knights Hall</span></label>
+                </fieldset>
+            </div>
+            <p id="dm-sound-status" class="dm-hint">Metales, melodía, bajo y batería entran en el compás siguiente (tras descargarse); la reverb cambia al momento. La elección se recuerda en este navegador.</p>
+        </section>
+
+        <section class="dm-card">
+            <h2>Mejoras (comparación A/B)</h2>
+            <div id="dm-options" class="dm-row dm-wrap">
+                <label title="Intro, A, B, respiro y subida en vez de un bucle fijo"><input type="checkbox" data-option="sections" checked> Secciones</label>
+                <label title="Swing, intensidad variable y microdesajustes"><input type="checkbox" data-option="humanize" checked> Humanización</label>
+                <label title="Reverb, estéreo, bombeo, chorus y vibrato (cambia al momento)"><input type="checkbox" data-option="fx" checked> Efectos</label>
+                <label title="Melodía con motivo que se desarrolla (si no, paseo aleatorio)"><input type="checkbox" data-option="motif" checked> Motivo</label>
+                <label title="Al revelar, la música de la pregunta resuelve (IV-V-I) en vez del «TA-DAAAA» fijo"><input type="checkbox" data-option="cadence" checked> Cadencia</label>
+            </div>
+            <p class="dm-hint">Salvo «Efectos» y «Cadencia» (cuenta en la próxima revelación), cada cambio entra en el siguiente compás y la música vuelve a empezar desde la intro.</p>
+        </section>
+
+        <section class="dm-card">
+            <h2>Eventos</h2>
+            <label class="dm-field">Tensión (escena question) <output id="dm-tension-value">0.00</output>
+                <input id="dm-tension" type="range" min="0" max="1" step="0.01" value="0">
+            </label>
+            <div class="dm-row dm-wrap">
+                <label>Pregunta de <input id="dm-q-seconds" class="dm-input dm-input-short" type="number" min="5" max="120" value="20"> s</label>
+                <button id="dm-q-start" class="dm-btn" type="button">Simular pregunta</button>
+                <button id="dm-q-pause" class="dm-btn" type="button" disabled>Pausar</button>
+                <button id="dm-q-stop" class="dm-btn" type="button">Detener reloj</button>
+                <output id="dm-q-left" class="dm-status">—</output>
+            </div>
+            <div class="dm-row dm-wrap">
+                <label>Sonido del tic-tac
+                    <select id="dm-tick-sound" class="dm-input">
+                        <option value="wood" selected>Bloque de madera (por defecto)</option>
+                        <option value="claves">Claves</option>
+                        <option value="xstick">Baqueta en el aro de la caja</option>
+                        <option value="bip">El «bip» actual del juego</option>
+                        <option value="mech">Reloj mecánico (sintetizado)</option>
+                    </select>
+                </label>
+                <button id="dm-tick-preview" class="dm-btn" type="button">Probar (4 tics)</button>
+            </div>
+            <p class="dm-hint">La simulación calcula la tensión desde el instante de inicio (como hará el juego con la hora del servidor). En los 5 s finales sube un ruido y en los 3 últimos suena el tic-tac.</p>
+            <div class="dm-row dm-wrap">
+                <button id="dm-reveal" class="dm-btn" type="button" title="Fill, corte seco y stinger">Revelar</button>
+                <label><input id="dm-reveal-next" type="checkbox" checked> después, al marcador</label>
+                <button id="dm-podium" class="dm-btn" type="button" title="Redoble, 3º-2º-1º a negras y final">Podio (3º · 2º · 1º)</button>
+            </div>
+        </section>
+
+        <section class="dm-card">
+            <h2>Semilla y tempo</h2>
+            <div class="dm-row dm-wrap">
+                <input id="dm-seed" class="dm-input" type="text" maxlength="32" autocomplete="off" spellcheck="false">
+                <button id="dm-seed-apply" class="dm-btn" type="button">Aplicar</button>
+                <button id="dm-seed-random" class="dm-btn" type="button">Aleatoria</button>
+            </div>
+            <label class="dm-field">BPM <output id="dm-bpm-value">112</output>
+                <input id="dm-bpm" type="range" min="80" max="140" step="1" value="112">
+            </label>
+        </section>
+
+        <section class="dm-card">
+            <h2>Mezcla</h2>
+            <div class="dm-row">
+                <label class="dm-field dm-grow">Volumen general <output id="dm-volume-value">0.80</output>
+                    <input id="dm-volume" type="range" min="0" max="1" step="0.01" value="0.8">
+                </label>
+                <label><input id="dm-mute" type="checkbox"> Mute</label>
+            </div>
+            <div id="dm-layers" class="dm-layers"></div>
+        </section>
+
+        <section class="dm-card">
+            <h2>Forma de onda</h2>
+            <canvas id="dm-wave" class="dm-wave" width="800" height="160"></canvas>
+        </section>
+
+        <section class="dm-card">
+            <h2>Rastro de la última partida</h2>
+            <p class="dm-hint">Últimos pasos de la música guardados en este navegador (si se colgó, el último es dónde).</p>
+            <ol id="dm-trace" class="dm-log"></ol>
+            <button id="dm-trace-clear" class="dm-btn" type="button">Borrar rastro</button>
+        </section>
+
+        <section class="dm-card">
+            <h2>Registro</h2>
+            <ol id="dm-log" class="dm-log"></ol>
+        </section>
+    </main>
+
+    <script type="module" src="/js/audio/dev/music-panel.js?v=20260922172926"></script>
+</body>
+
+</html>

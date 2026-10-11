@@ -18,7 +18,8 @@ const _PARAM_SECTIONS = [
     { id: 'smtp', titleKey: 'admin.config.tab.smtp', icon: 'fa-envelope', color: 'bg-plum-600', keys: ['SMTP_HOST', 'SMTP_PORT', 'SMTP_SECURE', 'SMTP_USER', 'SMTP_PASS', 'SMTP_FROM', 'CONTACT_TOKEN_SECRET'] },
     { id: 'lambda', titleKey: 'admin.config.tab.lambda', icon: 'fa-users-cog', color: 'bg-plum-500', isLambda: true, keys: ['TEAM_SCORE_LAMBDA'] },
     { id: 'fireworks', titleKey: 'admin.config.tab.fireworks', icon: 'fa-fire', color: 'bg-fuchsia-500', isFireworks: true, keys: [] },
-    { id: 'ui', titleKey: 'admin.config.tab.ui', icon: 'fa-eye', color: 'bg-emerald-500', isUi: true, keys: [] }
+    { id: 'ui', titleKey: 'admin.config.tab.ui', icon: 'fa-eye', color: 'bg-emerald-500', isUi: true, keys: [] },
+    { id: 'music', titleKey: 'admin.config.tab.music', icon: 'fa-music', color: 'bg-aubergine-700', isMusic: true, keys: [] }
 ];
 
 let _activeTab = 'partidas';
@@ -42,6 +43,7 @@ function _renderTabContent(config) {
     const sec = _PARAM_SECTIONS.find(s => s.id === _activeTab);
     if (!sec) return '';
     if (sec.isUi) return _renderUiTab(config.__ui || {});
+    if (sec.isMusic) return _renderMusicTab(config.__ui || {});
     if (sec.isFireworks) return _renderFireworksTab(config.__ui || {});
     if (sec.isLicense) { setTimeout(renderLicenseTab, 0); return `<div class="text-slate-400 flex items-center gap-2"><i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.config.server.loading')}</div>`; }
     if (sec.isGroq) { setTimeout(renderAIConfigTab, 0); return `<div class="text-slate-400 flex items-center gap-2"><i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.config.server.loading')}</div>`; }
@@ -75,6 +77,7 @@ function _paintConfigForm(area) {
 
     const discard = () => switchConfigTab(_activeTab);
     if (sec.isUi) bindSaveBar({ snapshot: uiTabSnapshot, save: saveUiTab, discard });
+    else if (sec.isMusic) bindSaveBar({ snapshot: musicTabSnapshot, save: saveMusicTab, discard });
     else if (sec.isFireworks) bindSaveBar({ snapshot: fireworksTabSnapshot, save: saveFireworksTab, discard });
     else if (sec.isLambda) bindSaveBar({ snapshot: _lambdaTabSnapshot, save: _saveLambdaTab, discard });
     else bindSaveBar({ snapshot: _serverFieldsSnapshot, save: initial => _postServerConfig(_serverUpdates(initial)), discard });

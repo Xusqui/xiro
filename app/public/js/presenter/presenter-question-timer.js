@@ -56,7 +56,8 @@ export function startQuestionCountdown(seconds) {
             void bigNumber.offsetWidth;
             bigNumber.classList.add('count-anim');
 
-            const tickSound = document.getElementById('tick-sound');
+            // Con la música sonando, el tic-tac final lo pone ella (bloque de madera)
+            const tickSound = window.XiroPresenterMusic?.isPlaying() ? null : document.getElementById('tick-sound');
             if (tickSound) {
                 tickSound.currentTime = 0;
                 tickSound.play().catch(() => { });
