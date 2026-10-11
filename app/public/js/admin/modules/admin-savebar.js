@@ -11,6 +11,9 @@
  *   cleanText → texto del estado "sin cambios" (p. ej. "Todavía sin guardar" en uno nuevo)
  * Mientras está conectada revisa además el estado cada segundo: en los editores muchos
  * cambios no pasan por input/change (añadir, quitar o reordenar, modales, imágenes).
+ * Hasta que el usuario toca la vista (pulsación o tecla dentro de root), lo que cambie solo
+ * se toma como parte de la carga (datos que llegan o se normalizan al pintar) y pasa a ser
+ * el estado guardado: así no aparecen "cambios" que nadie ha hecho.
  * Estilos en css/admin-savebar.css.
  */
 
@@ -68,8 +71,15 @@ function _saveBarShowDirtyState() {
  */
 function bindSaveBar(opts) {
     const initial = _saveBarSignature(opts.snapshot);
-    _saveBar = { guard: 'config', root: 'config-tab-content', ...opts, initial, lastSeen: initial };
-    if (typeof setUnsavedChangesGuard === 'function') setUnsavedChangesGuard(_saveBar.guard, opts.snapshot);
+    const bar = { guard: 'config', root: 'config-tab-content', ...opts, initial, lastSeen: initial, touched: false };
+    _saveBar = bar;
+    // El guard caduca cuando esta vista deja de estar en pantalla; antes de que decida,
+    // se recalcula la barra para absorber lo que haya cargado en el último segundo
+    const isActive = () => {
+        refreshSaveBar();
+        return _saveBar === bar && Boolean(document.getElementById('savebar'));
+    };
+    if (typeof setUnsavedChangesGuard === 'function') setUnsavedChangesGuard(bar.guard, opts.snapshot, isActive);
     clearInterval(_saveBarTimer);
     _saveBarTimer = setInterval(refreshSaveBar, _SAVE_BAR_POLL_MS);
     _saveBarShowDirtyState();
@@ -95,7 +105,7 @@ function refreshSaveBar() {
     if (!_saveBar) return;
     const bar = document.getElementById('savebar');
     if (!bar) {
-        // La vista ya no está (se navegó a otra): se suelta sin tocar el guard, que es de la vista nueva
+        // La vista ya no está (se navegó a otra): se suelta; su guard caduca solo (isActive)
         _saveBar = null;
         clearInterval(_saveBarTimer);
         return;
@@ -104,6 +114,11 @@ function refreshSaveBar() {
     const signature = _saveBarSignature(_saveBar.snapshot);
     if (signature === _saveBar.lastSeen && bar.dataset.state !== 'idle') return;
     _saveBar.lastSeen = signature;
+    if (!_saveBar.touched && signature !== _saveBar.initial) {
+        // Aún cargando (nadie ha tocado la vista): lo nuevo es el punto de partida
+        _saveBar.initial = signature;
+        if (typeof markUnsavedChangesAsSaved === 'function') markUnsavedChangesAsSaved();
+    }
     _saveBarShowDirtyState();
 }
 
@@ -158,10 +173,20 @@ function _initSaveBarDelegation() {
     if (_saveBarDelegationReady) return;
     _saveBarDelegationReady = true;
 
-    const onEdit = event => {
+    const inRoot = target => {
         const root = _saveBar && document.getElementById(_saveBar.root);
-        if (root && root.contains(event.target)) refreshSaveBar();
+        return Boolean(root && root.contains(target));
     };
+    // Solo eventos del usuario (isTrusted): los que lanza el propio código al pintar no cuentan
+    const onTouch = event => { if (event.isTrusted && inRoot(event.target)) _saveBar.touched = true; };
+    const onEdit = event => {
+        if (!inRoot(event.target)) return;
+        if (event.isTrusted) _saveBar.touched = true;
+        refreshSaveBar();
+    };
+    // En captura: cuenta como "tocado" antes de que el clic cambie nada
+    document.addEventListener('pointerdown', onTouch, true);
+    document.addEventListener('keydown', onTouch, true);
     document.addEventListener('input', onEdit);
     document.addEventListener('change', onEdit);
 

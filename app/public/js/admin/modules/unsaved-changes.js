@@ -3,10 +3,11 @@
  *
  * [TAG:OBJETIVO]
  * - Avisar al usuario antes de salir de un editor con cambios no guardados.
- * - Reutilizable para: bancos, juegos mezcla y juegos personalizados.
+ * - Lo registra la barra de guardado común (admin-savebar.js) en Configuración y en los
+ *   editores de Preguntas.
  *
  * [TAG:USO]
- * 1) setUnsavedChangesGuard('bancos', () => ({ ...snapshotActual }))
+ * 1) setUnsavedChangesGuard('bancos', () => ({ ...snapshotActual }), () => vistaSigueEnPantalla)
  * 2) navigateWithUnsavedChangesGuard(() => mostrarVista('bancos'))
  * 3) markUnsavedChangesAsSaved() tras guardar con éxito
  * 4) clearUnsavedChangesGuard() al abandonar editor definitivamente
@@ -30,12 +31,16 @@ function buildGuardSignature(getSnapshot) {
  * Inicializa/actualiza el guard de un editor.
  * @param {string} editorType - 'bancos' | 'juegos' | 'personalizados'
  * @param {Function} getSnapshot - Función que devuelve snapshot serializable del estado actual
+ * @param {Function} [isActive] - Devuelve false cuando el editor ya no está en pantalla. Sin
+ *   ella, un guard que nadie limpia (se salió sin cambios hacia una vista que no lo limpia)
+ *   leía los campos de una vista que ya no existe, los veía vacíos y daba falsos positivos.
  */
-function setUnsavedChangesGuard(editorType, getSnapshot) {
+function setUnsavedChangesGuard(editorType, getSnapshot, isActive) {
     const initialSignature = buildGuardSignature(getSnapshot);
     unsavedGuardState = {
         editorType,
         getSnapshot,
+        isActive: typeof isActive === 'function' ? isActive : null,
         initialSignature
     };
 }
@@ -61,6 +66,11 @@ function markUnsavedChangesAsSaved() {
  */
 function hasUnsavedChanges() {
     if (!unsavedGuardState) return false;
+    if (unsavedGuardState.isActive && !unsavedGuardState.isActive()) {
+        // El editor de este guard ya no está en pantalla: no hay nada que perder
+        unsavedGuardState = null;
+        return false;
+    }
     const currentSignature = buildGuardSignature(unsavedGuardState.getSnapshot);
 
     if (unsavedGuardState.initialSignature === null || currentSignature === null) {
