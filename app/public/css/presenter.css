@@ -412,7 +412,8 @@ body.stage-split #matching-reveal-card > div:last-child > div {
     position: fixed;
     left: 1.25rem;
     bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
-    z-index: 60;
+    /* Por encima de la mascota del camaleón (z-index 500) */
+    z-index: 600;
     width: 3rem;
     height: 3rem;
     border-radius: 9999px;
@@ -438,7 +439,7 @@ body.stage-split #matching-reveal-card > div:last-child > div {
     position: fixed;
     left: 1.25rem;
     bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
-    z-index: 60;
+    z-index: 600;
     display: grid;
     gap: 0.5rem;
     min-width: 15rem;
