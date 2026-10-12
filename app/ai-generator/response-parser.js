@@ -5,7 +5,7 @@
 
 // Tipos en los que se piden candidatas de más (prompt-builder): las inválidas
 // se descartan en vez de rechazar el lote entero.
-const LENIENT_TYPES = new Set(['word_scramble', 'fill_blanks', 'word_search']);
+const LENIENT_TYPES = new Set(['word_scramble', 'fill_blanks', 'word_search', 'matching']);
 
 const TYPE_VALIDATORS = {
     quiz: require('./question-types/quiz').validate,
@@ -15,7 +15,8 @@ const TYPE_VALIDATORS = {
     word_scramble: require('./question-types/word-scramble').validate,
     multiple_choice: require('./question-types/multiple-choice').validate,
     fill_blanks: require('./question-types/fill-blanks').validate,
-    word_search: require('./question-types/word-search').validate
+    word_search: require('./question-types/word-search').validate,
+    matching: require('./question-types/matching').validate
 };
 
 /**

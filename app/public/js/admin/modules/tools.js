@@ -148,7 +148,8 @@ Tu tarea:
 7. En las preguntas "numeric_approximation": "correctAnswer" debe ser un número ENTERO, sin decimales (si el dato real tiene decimales, reformula la pregunta en otra unidad o redondéalo e indícalo en el enunciado); "maxPoints" debe ser un entero mayor que 0 (usa 100); "toleranceMode" debe ser "absolute", "percentage" o "hybrid"; "toleranceValue" y "toleranceCap" deben ser números MAYORES QUE 0, nunca 0 ni negativos, ajustados a la magnitud de la respuesta.
 8. En las preguntas "word_scramble": "correctWord" debe ser UNA sola palabra en MAYÚSCULAS con EXACTAMENTE entre 7 y 10 letras, ni más ni menos, sin espacios, guiones, números ni signos. Si la respuesta no cumple esa longitud, elige otra palabra o reformula la pregunta.
 9. En las preguntas "fill_blanks": "question_text" es una frase completa con entre 1 y 3 palabras a adivinar escritas entre corchetes, por ejemplo "La infección por [Helicobacter] [pylori] causa úlceras [duodenales]". Cada palabra entre corchetes es UNA sola palabra de entre 4 y 14 letras, solo letras (sin espacios, números, guiones ni signos), y la pregunta NO lleva "options". Si una palabra clave no cumple, elige otra o reformula la frase.
-10. Devuélveme SOLO el JSON final, válido y bien formado, listo para guardarlo como archivo .json.
+10. En las preguntas "word_search": "question_text" es la consigna (por ejemplo "Encuentra estos ríos de España") y "options" lleva entre 2 y 6 palabras, cada una en "option_text" con EXACTAMENTE entre 3 y 10 letras, en MAYÚSCULAS, solo letras (sin espacios, números, guiones ni signos), sin repetir, todas con "is_correct": true y "order_index" correlativo desde 0. La consigna no debe contener las palabras ocultas. Si una palabra no cumple, elige otra.
+11. Devuélveme SOLO el JSON final, válido y bien formado, listo para guardarlo como archivo .json.
 
 Lista de preguntas y respuestas:
 `;

@@ -20,7 +20,8 @@ const QUESTION_TYPE_LABELS = [
     { type: 'word_scramble', label: 'Adivinar palabra', icon: 'fa-font', color: 'pink' },
     { type: 'multiple_choice', label: 'Selección múltiple', icon: 'fa-tasks', color: 'aubergine' },
     { type: 'fill_blanks', label: 'Completa la frase', icon: 'fa-i-cursor', color: 'emerald' },
-    { type: 'word_search', label: 'Sopa de letras', icon: 'fa-th', color: 'teal' }
+    { type: 'word_search', label: 'Sopa de letras', icon: 'fa-th', color: 'teal' },
+    { type: 'matching', label: 'Emparejar', icon: 'fa-link', color: 'orange' }
 ];
 
 // ===== PUNTO DE ENTRADA =====

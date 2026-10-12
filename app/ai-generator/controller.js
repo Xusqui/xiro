@@ -11,6 +11,7 @@ const { buildQuestionsForType, buildBankPayload } = require('./schema-builder');
 const prompts = require('./prompt-builder');
 const { buildFillBlanksPrompt } = require('./prompt-fill-blanks');
 const { buildWordSearchPrompt } = require('./prompt-word-search');
+const { buildMatchingPrompt } = require('./prompt-matching');
 const logger = require('../config/logger');
 
 const PROMPT_BUILDERS = {
@@ -21,7 +22,8 @@ const PROMPT_BUILDERS = {
     word_scramble: prompts.buildWordScramblePrompt,
     multiple_choice: prompts.buildMultipleChoicePrompt,
     fill_blanks: buildFillBlanksPrompt,
-    word_search: buildWordSearchPrompt
+    word_search: buildWordSearchPrompt,
+    matching: buildMatchingPrompt
 };
 
 const QUESTION_TYPES = Object.keys(PROMPT_BUILDERS);
@@ -235,7 +237,7 @@ async function generateForType(input) {
  *   name: string,
  *   quiz?: number, survey?: number, numeric_approximation?: number,
  *   order?: number, word_scramble?: number, multiple_choice?: number, fill_blanks?: number,
- *   word_search?: number,
+ *   word_search?: number, matching?: number,
  *   dificultad?: string
  * }} config
  * @param {AbortSignal} [signal]

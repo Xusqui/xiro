@@ -12,7 +12,8 @@ const NORMALIZERS = {
     word_scramble: require('./question-types/word-scramble').normalize,
     multiple_choice: require('./question-types/multiple-choice').normalize,
     fill_blanks: require('./question-types/fill-blanks').normalize,
-    word_search: require('./question-types/word-search').normalize
+    word_search: require('./question-types/word-search').normalize,
+    matching: require('./question-types/matching').normalize
 };
 
 /**
