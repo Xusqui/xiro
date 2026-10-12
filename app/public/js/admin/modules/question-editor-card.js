@@ -36,11 +36,23 @@ const QUESTION_TYPE_CHIPS = {
     numeric_approximation: 'bg-cyan-100 text-cyan-700',
     word_scramble: 'bg-pink-100 text-pink-700',
     word_search: 'bg-yellow-100 text-yellow-700',
-    multiple_choice: 'bg-aubergine-100 text-aubergine-700'
+    multiple_choice: 'bg-aubergine-100 text-aubergine-700',
+    fill_blanks: 'bg-emerald-100 text-emerald-700'
 };
 
 function questionTypeChip(type) {
     return Object.hasOwn(QUESTION_TYPE_CHIPS, type) ? QUESTION_TYPE_CHIPS[type] : 'bg-slate-100 text-slate-600';
+}
+
+/** Enunciado: en «Completa la frase» se escribe en su propia sección, con los corchetes. */
+function questionStatementHtml(q, qIdx) {
+    const label = `<label class="text-[10px] font-bold text-slate-400 uppercase">${_t('admin.q.label', null, 'Enunciado de la pregunta')} ${qIdx + 1}</label>`;
+    if (q.type === 'fill_blanks') {
+        return `${label}
+                    <p class="text-sm text-slate-500 mb-4 italic">${_t('admin.q.fillblanks_statement_note', null, 'La frase se escribe más abajo, con las palabras a adivinar entre corchetes.')}</p>`;
+    }
+    return `${label}
+                    <input type="text" data-admin-input="preguntasData[${qIdx}].questionText = this.value" value="${escapeHtml(q.questionText || '')}" placeholder="¿Cómo se llama el proceso...?" class="w-full text-lg font-bold border-b-2 border-slate-50 mb-4 focus:border-plum-400 outline-none py-2 transition bg-transparent">`;
 }
 
 /** HTML de la tarjeta de una pregunta en el editor. */
@@ -52,8 +64,7 @@ function questionCardHtml(q, qIdx) {
                     <button data-admin-click="eliminarPregunta(${qIdx})" class="absolute top-4 right-4 text-slate-300 hover:text-red-500 transition"><i class="fas fa-trash-alt"></i></button>
                     <span class="absolute top-4 right-14 text-[10px] font-bold uppercase px-2 py-1 rounded-full ${typeChip}">${_t(`admin.q.type_${q.type}_short`, null, q.type.replace(/_/g, ' '))}</span>
                     
-                    <label class="text-[10px] font-bold text-slate-400 uppercase">${_t('admin.q.label', null, 'Enunciado de la pregunta')} ${qIdx + 1}</label>
-                    <input type="text" data-admin-input="preguntasData[${qIdx}].questionText = this.value" value="${escapeHtml(q.questionText || '')}" placeholder="¿Cómo se llama el proceso...?" class="w-full text-lg font-bold border-b-2 border-slate-50 mb-4 focus:border-plum-400 outline-none py-2 transition bg-transparent">
+                    ${questionStatementHtml(q, qIdx)}
 
                     <!-- IMAGEN PEQUEÑA DE ENUNCIADO -->
                     <div class="mb-5 p-3 bg-slate-50 rounded-xl border border-slate-200">
@@ -97,6 +108,7 @@ function questionCardHtml(q, qIdx) {
                             <option value="word_scramble" ${q.type === 'word_scramble' ? 'selected' : ''}>${_t('admin.q.type_word_scramble', null, 'Anagrama (Descifra la palabra)')}</option>
                             <option value="multiple_choice" ${q.type === 'multiple_choice' ? 'selected' : ''}>${_t('admin.q.type_multiple_choice', null, 'Selección Múltiple (1-6 respuestas)')}</option>
                             <option value="word_search" ${q.type === 'word_search' ? 'selected' : ''}>${_t('admin.q.type_word_search', null, 'Sopa de letras (Encuentra las palabras)')}</option>
+                            <option value="fill_blanks" ${q.type === 'fill_blanks' ? 'selected' : ''}>${_t('admin.q.type_fill_blanks', null, 'Completa la frase (Rellena los huecos)')}</option>
                         </select>
                     </div>
                     <div class="mb-4">

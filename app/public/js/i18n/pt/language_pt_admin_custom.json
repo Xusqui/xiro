@@ -61,6 +61,7 @@
     "admin.slides.info_title": "Diapositivo Informativo",
     "admin.slides.error_comment": "Por favor, escreva um comentário",
     "admin.slides.error_info": "Por favor, escreva o texto informativo",
-    "admin.custom.badge_wordsearch": "CAÇA-PALAVRAS"
+    "admin.custom.badge_wordsearch": "CAÇA-PALAVRAS",
+    "admin.custom.badge_fillblanks": "COMPLETA A FRASE"
   }
 }

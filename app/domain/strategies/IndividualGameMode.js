@@ -142,6 +142,7 @@ class IndividualGameMode extends GameModeStrategy {
             isMultipleChoiceQuestion,
             isMatchingQuestion,
             isWordSearchQuestion: question.question_type === 'word_search',
+            isFillBlanksQuestion: question.question_type === 'fill_blanks',
             correctOption,
             correctAnswerText: isOrderQuestion ? null : getCorrectAnswerText(question, correctOption),
             justificationText
@@ -160,6 +161,7 @@ class IndividualGameMode extends GameModeStrategy {
             multipleChoiceDetails: context.isMultipleChoiceQuestion ? answer.multipleChoiceDetails : null,
             matchingDetails: context.isMatchingQuestion ? answer.matchingDetails || null : null,
             ...(context.isWordSearchQuestion ? { wordSearchDetails: answer.wordSearchDetails || null } : {}),
+            ...(context.isFillBlanksQuestion ? { fillBlanksDetails: answer.fillBlanksDetails || null } : {}),
             streak: answer.streakInfo || null
         };
     }

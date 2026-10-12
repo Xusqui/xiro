@@ -7,6 +7,7 @@ function questionTypeSectionHtml(q, qIdx, isHybridToleranceMode) {
     if (q.type === 'word_scramble') return wordScrambleEditorHtml(q, qIdx);
     if (q.type === 'matching') return matchingEditorSectionHtml(q, qIdx);
     if (q.type === 'word_search') return wordSearchEditorSectionHtml(q, qIdx);
+    if (q.type === 'fill_blanks') return fillBlanksEditorSectionHtml(q, qIdx);
     if (q.type === 'multiple_choice') return multipleChoiceEditorHtml(q, qIdx);
     return standardOptionsEditorHtml(q, qIdx);
 }

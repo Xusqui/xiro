@@ -61,6 +61,7 @@
     "admin.slides.info_title": "Informative Slide",
     "admin.slides.error_comment": "Please write a comment",
     "admin.slides.error_info": "Please write the informative text",
-    "admin.custom.badge_wordsearch": "WORD SEARCH"
+    "admin.custom.badge_wordsearch": "WORD SEARCH",
+    "admin.custom.badge_fillblanks": "FILL IN THE BLANKS"
   }
 }

@@ -6,6 +6,7 @@
 import { renderWordScramblePresenter } from './presenter-wordscramble-layout.js?v=20260922172926';
 import { renderMatchingPresenter } from './presenter-matching-layout.js?v=20260922172926';
 import { renderWordSearchPresenter } from './presenter-wordsearch-layout.js?v=20260922172926';
+import { renderFillBlanksPresenter } from './presenter-fillblanks-layout.js?v=20260922172926';
 import { nextButtonLabel } from './presenter-reveal.js?v=20260922172926';
 import { escapeHtml, sanitizeResourceUrl } from '../core/sanitize.js?v=20260922172926';
 
@@ -19,6 +20,7 @@ export function describeQuestion(q) {
     const esNumerica = q.question_type === 'numeric_approximation';
     const esWordScramble = q.question_type === 'word_scramble';
     const esWordSearch = q.question_type === 'word_search';
+    const esFillBlanks = q.question_type === 'fill_blanks';
     // Con imagen principal, matching sigue la regla general: opciones en los móviles
     const esMatching = q.question_type === 'matching' && !tieneImagen;
     return {
@@ -30,9 +32,10 @@ export function describeQuestion(q) {
         esNumerica,
         esWordScramble,
         esWordSearch,
+        esFillBlanks,
         esMultipleChoice: q.question_type === 'multiple_choice',
         esMatching,
-        mostrarOpciones: !tieneImagen && !esNumerica && !esWordScramble && !esWordSearch && !esMatching
+        mostrarOpciones: !tieneImagen && !esNumerica && !esWordScramble && !esWordSearch && !esFillBlanks && !esMatching
     };
 }
 
@@ -129,6 +132,7 @@ function answerAreaHtml(q, view) {
     if (view.esNumerica && !view.tieneImagen) return numericAreaHtml();
     if (view.esWordScramble) return renderWordScramblePresenter(q);
     if (view.esWordSearch) return renderWordSearchPresenter(q);
+    if (view.esFillBlanks) return renderFillBlanksPresenter(q);
     if (view.esMatching) return renderMatchingPresenter(q);
     if (view.mostrarOpciones) return '';
     return `
@@ -149,13 +153,19 @@ function nextButtonHtml() {
             </button>`;
 }
 
+/** Enunciado: en «Completa la frase» la frase con casillas ES el contenido (ver answerAreaHtml). */
+function titleHtml(q, view) {
+    if (view.esFillBlanks) return '';
+    const titleMargin = view.tieneImagen && !view.esWordScramble ? '4' : '8';
+    return `<h1 id="question-title" class="font-black text-center uppercase italic mb-${titleMargin} drop-shadow-lg" style="line-height: 1.2;">${escapeHtml(q.question_text)}</h1>`;
+}
+
 /** HTML completo de la pregunta para #lobby-main. */
 export function questionHtml(q, view, totalPlayers) {
-    const titleMargin = view.tieneImagen && !view.esWordScramble ? '4' : '8';
     return `
         <div class="h-full w-full flex flex-col">
             ${headerHtml(q, totalPlayers)}
-            <h1 id="question-title" class="font-black text-center uppercase italic mb-${titleMargin} drop-shadow-lg" style="line-height: 1.2;">${escapeHtml(q.question_text)}</h1>
+            ${titleHtml(q, view)}
             ${view.esMultipleChoice ? multipleChoiceBadgeHtml() : ''}
             ${mediaHtml(view)}
             ${statementImageHtml(view)}

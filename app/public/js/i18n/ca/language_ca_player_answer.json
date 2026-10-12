@@ -28,6 +28,8 @@
     "player.answer.wordsearch_found": "{n} de {total} paraules",
     "player.wordsearch.finish": "Acabar",
     "player.wordsearch.hint_help": "Pista: toca una paraula (val la meitat)",
-    "player.wordsearch.hint_aria": "Pista:"
+    "player.wordsearch.hint_aria": "Pista:",
+    "player.answer.fillblanks_correct": "{n} de {total} paraules",
+    "player.answer.fillblanks_time_bonus": "+{pts} de bonus per temps"
   }
 }

@@ -28,6 +28,8 @@
     "player.answer.wordsearch_found": "{total} hitzetatik {n}",
     "player.wordsearch.finish": "Amaitu",
     "player.wordsearch.hint_help": "Pista: ukitu hitz bat (erdia balio du)",
-    "player.wordsearch.hint_aria": "Pista:"
+    "player.wordsearch.hint_aria": "Pista:",
+    "player.answer.fillblanks_correct": "{total} hitzetatik {n}",
+    "player.answer.fillblanks_time_bonus": "+{pts} denbora-bonusa"
   }
 }

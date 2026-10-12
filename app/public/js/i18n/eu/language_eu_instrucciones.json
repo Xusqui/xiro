@@ -26,6 +26,8 @@
     "instructions.question_types.multiple.title": "Aukera anitzak",
     "instructions.question_types.multiple.description": "Galdetegiaren antzekoa, baina kasu honetan 1 eta 6 erantzun zuzen artean egon daitezke aldi berean.",
     "instructions.question_types.word_search.title": "Letra-zopa (Word Search)",
-    "instructions.question_types.word_search.description": "10x10eko sare batean edozein norabidetan ezkutatutako hitzak aurkitu behar dira. Aurkitutako hitz bakoitzak puntuak ematen ditu. Hitz bat ukituz gero non hasten den ikusiko duzu, baina erdia balioko du."
+    "instructions.question_types.word_search.description": "10x10eko sare batean edozein norabidetan ezkutatutako hitzak aurkitu behar dira. Aurkitutako hitz bakoitzak puntuak ematen ditu. Hitz bat ukituz gero non hasten den ikusiko duzu, baina erdia balioko du.",
+    "instructions.question_types.fill_blanks.title": "Osatu Esaldia (Fill Blanks)",
+    "instructions.question_types.fill_blanks.description": "Hiru hutsune arteko esaldi bat: bakoitzaren hitza idatzi behar da (zenbat letra dituen ikusten da). Asmatutako hitz bakoitzak puntuak ematen ditu eta denbora-bonus bat dago. Hutsune bakoitzeko hiru pista-letra arte eska ditzakezu, baina hitzak gutxiago balioko du."
   }
 }

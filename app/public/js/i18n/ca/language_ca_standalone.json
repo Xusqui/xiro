@@ -67,6 +67,12 @@
     "standalone.game.wordsearch_finish": "Acabar",
     "standalone.game.wordsearch_found": "{n} de {total} paraules",
     "standalone.game.wordsearch_hint_help": "Pista: toca una paraula (val la meitat)",
-    "standalone.game.wordsearch_hint_aria": "Pista:"
+    "standalone.game.wordsearch_hint_aria": "Pista:",
+    "standalone.game.fillblanks_title": "Completa la frase",
+    "standalone.game.fillblanks_help": "Toca un buit i escriu la paraula. Envia quan tinguis totes les que sàpigues.",
+    "standalone.game.fillblanks_hint_cost": "Pista −{pct} %",
+    "standalone.game.fillblanks_hint_none": "Sense pistes",
+    "standalone.game.fillblanks_blank_aria": "Buit {n}",
+    "standalone.game.fillblanks_correct": "{n} de {total} paraules"
   }
 }

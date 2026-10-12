@@ -43,6 +43,9 @@ globalThis.StandaloneQuestionRouter = (() => {
             case 'word_search':
                 StandaloneQuestionWordSearch.render(container, question, actions);
                 break;
+            case 'fill_blanks':
+                StandaloneQuestionFillBlanks.render(container, question, actions);
+                break;
             default:
                 // multiple / quiz / survey / true_false comparten UI de opción única
                 StandaloneQuestionChoice.render(container, question, actions);

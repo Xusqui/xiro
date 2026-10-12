@@ -67,6 +67,12 @@
     "standalone.game.wordsearch_finish": "Finish",
     "standalone.game.wordsearch_found": "{n} of {total} words",
     "standalone.game.wordsearch_hint_help": "Hint: tap a word (worth half)",
-    "standalone.game.wordsearch_hint_aria": "Hint:"
+    "standalone.game.wordsearch_hint_aria": "Hint:",
+    "standalone.game.fillblanks_title": "Fill in the blanks",
+    "standalone.game.fillblanks_help": "Tap a blank and type the word. Send when you have all the ones you know.",
+    "standalone.game.fillblanks_hint_cost": "Hint −{pct}%",
+    "standalone.game.fillblanks_hint_none": "No hints left",
+    "standalone.game.fillblanks_blank_aria": "Blank {n}",
+    "standalone.game.fillblanks_correct": "{n} of {total} words"
   }
 }

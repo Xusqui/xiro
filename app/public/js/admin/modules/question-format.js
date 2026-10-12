@@ -116,10 +116,23 @@
         };
     }
 
+    /** Completa la frase: en el JSON la frase lleva las palabras entre corchetes y no hay opciones. */
+    function mapFillBlanksForExport(question) {
+        const FB = window.XiroFillBlanks;
+        const text = questionText(question) || '';
+        const withBrackets = FB && FB.hasMarkers(text) ? FB.toEditorText(text, FB.wordsFromOptions(question.options)) : text;
+        return {
+            question_text: withBrackets,
+            type: 'fill_blanks',
+            ...mediaFields(question)
+        };
+    }
+
     const EXPORT_BY_TYPE = {
         numeric_approximation: mapNumericQuestionForExport,
         word_scramble: mapWordScrambleForExport,
-        multiple_choice: mapMultipleChoiceForExport
+        multiple_choice: mapMultipleChoiceForExport,
+        fill_blanks: mapFillBlanksForExport
     };
 
     function mapQuestionForExport(question) {
@@ -185,10 +198,27 @@
         };
     }
 
+    /**
+     * Completa la frase: la frase con corchetes pasa tal cual (el servidor la convierte en
+     * marcadores + palabras). Si llega en formato interno (marcadores + opciones) se vuelve a corchetes.
+     */
+    function mapFillBlanksForImport(question) {
+        const FB = window.XiroFillBlanks;
+        const text = questionText(question) || '';
+        const hasWords = Array.isArray(question.options) && question.options.length > 0;
+        return {
+            ...importBase(question, 'fill_blanks'),
+            questionText: FB && hasWords && FB.hasMarkers(text) ? FB.toEditorText(text, FB.wordsFromOptions(question.options)) : text,
+            ...EMPTY_NUMERIC_FIELDS,
+            options: []
+        };
+    }
+
     const IMPORT_BY_TYPE = {
         numeric_approximation: mapNumericQuestionForImport,
         word_scramble: mapWordScrambleForImport,
-        multiple_choice: mapMultipleChoiceForImport
+        multiple_choice: mapMultipleChoiceForImport,
+        fill_blanks: mapFillBlanksForImport
     };
 
     function mapQuestionForImport(question) {

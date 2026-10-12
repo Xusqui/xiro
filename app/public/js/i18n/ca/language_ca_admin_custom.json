@@ -61,6 +61,7 @@
     "admin.slides.info_title": "Diapositiva Informativa",
     "admin.slides.error_comment": "Si us plau, escriu un comentari",
     "admin.slides.error_info": "Si us plau, escriu el text informatiu",
-    "admin.custom.badge_wordsearch": "SOPA DE LLETRES"
+    "admin.custom.badge_wordsearch": "SOPA DE LLETRES",
+    "admin.custom.badge_fillblanks": "COMPLETA LA FRASE"
   }
 }

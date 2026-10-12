@@ -28,6 +28,8 @@
     "player.answer.wordsearch_found": "{n} de {total} palavras",
     "player.wordsearch.finish": "Terminar",
     "player.wordsearch.hint_help": "Dica: toque numa palavra (vale metade)",
-    "player.wordsearch.hint_aria": "Dica:"
+    "player.wordsearch.hint_aria": "Dica:",
+    "player.answer.fillblanks_correct": "{n} de {total} palavras",
+    "player.answer.fillblanks_time_bonus": "+{pts} de bónus de tempo"
   }
 }

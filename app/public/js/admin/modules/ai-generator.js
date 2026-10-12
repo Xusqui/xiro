@@ -18,7 +18,9 @@ const QUESTION_TYPE_LABELS = [
     { type: 'numeric_approximation', label: 'Aproximación numérica', icon: 'fa-hashtag', color: 'amber' },
     { type: 'order', label: 'Ordenar secuencia', icon: 'fa-sort', color: 'green' },
     { type: 'word_scramble', label: 'Adivinar palabra', icon: 'fa-font', color: 'pink' },
-    { type: 'multiple_choice', label: 'Selección múltiple', icon: 'fa-tasks', color: 'aubergine' }
+    { type: 'multiple_choice', label: 'Selección múltiple', icon: 'fa-tasks', color: 'aubergine' },
+    { type: 'fill_blanks', label: 'Completa la frase', icon: 'fa-i-cursor', color: 'emerald' },
+    { type: 'word_search', label: 'Sopa de letras', icon: 'fa-th', color: 'teal' }
 ];
 
 // ===== PUNTO DE ENTRADA =====

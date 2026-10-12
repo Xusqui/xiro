@@ -89,6 +89,30 @@ function moverOpcion(qIdx, oIdx, delta) {
 }
 
 /**
+ * Tipos sin opciones clásicas: anagrama (palabra), sopa de letras (palabras a esconder) y
+ * Completa la frase (las palabras van entre corchetes en la frase). Devuelve true si lo aplicó.
+ */
+function applyWordTypeDefaults(question, newType) {
+    if (newType === 'word_scramble') {
+        question.options = [];
+        question.correctWord = question.correctWord || '';
+        return true;
+    }
+    if (newType === 'word_search') {
+        // 3 palabras vacías y tiempo de sobra para buscarlas
+        question.options = [0, 1, 2].map(i => ({ optionText: '', isCorrect: true, justification: null, order_index: i }));
+        question.time_limit = Math.max(Number(question.time_limit) || 0, 90);
+        return true;
+    }
+    if (newType === 'fill_blanks') {
+        question.options = [];
+        question.time_limit = Math.max(Number(question.time_limit) || 0, 45);
+        return true;
+    }
+    return false;
+}
+
+/**
  * Cambiar tipo de pregunta y limpiar opciones si es necesario
  */
 function cambiarTipoPregunta(qIdx, newType) {
@@ -97,22 +121,18 @@ function cambiarTipoPregunta(qIdx, newType) {
 
     question.type = newType;
 
+    // Anagrama, sopa de letras y Completa la frase
+    if (applyWordTypeDefaults(question, newType)) {
+        dibujarPreguntas();
+        return;
+    }
+
     // Para preguntas de aproximación numérica, limpiar opciones
     if (newType === 'numeric_approximation') {
         question.options = [];
         question.toleranceMode = question.toleranceMode || 'hybrid';
         question.toleranceValue = Number(question.toleranceValue) || 25;
         if (question.toleranceCap === undefined) question.toleranceCap = 1000;
-    }
-    // Para preguntas de anagrama, limpiar opciones y preparar correctWord
-    else if (newType === 'word_scramble') {
-        question.options = [];
-        question.correctWord = question.correctWord || '';
-    }
-    // Sopa de letras: 3 palabras vacías y tiempo de sobra para buscarlas
-    else if (newType === 'word_search') {
-        question.options = [0, 1, 2].map(i => ({ optionText: '', isCorrect: true, justification: null, order_index: i }));
-        question.time_limit = Math.max(Number(question.time_limit) || 0, 90);
     }
     // Para preguntas de emparejamiento, inicializar 2 pares vacíos
     else if (newType === 'matching') {

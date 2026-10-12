@@ -58,6 +58,27 @@
     "admin.q.wordsearch_help_grid": "Chaque partie génère une grille différente avec ces mots",
     "admin.q.wordsearch_help_play": "Le joueur voit la liste et marque chaque mot en faisant glisser ou en touchant sa première et sa dernière lettre",
     "admin.q.wordsearch_help_points": "Score : 20 pts par mot trouvé",
-    "admin.q.wordsearch_help_time": "Prévoyez assez de temps : 60 à 120 secondes selon le nombre de mots"
+    "admin.q.wordsearch_help_time": "Prévoyez assez de temps : 60 à 120 secondes selon le nombre de mots",
+    "admin.q.type_fill_blanks": "Complète la phrase (Texte à trous)",
+    "admin.q.type_fill_blanks_short": "Complète la phrase",
+    "admin.q.fillblanks_statement_note": "La phrase s’écrit plus bas, avec les mots à deviner entre crochets.",
+    "admin.q.fillblanks_intro": "Le joueur voit la phrase à trous (une case par lettre) et écrit le mot de chaque trou. Les mots à deviner vont entre crochets.",
+    "admin.q.fillblanks_text_label": "Phrase avec les mots à deviner entre crochets (1 à 3 mots, de 4 à 14 lettres)",
+    "admin.q.fillblanks_placeholder": "L’infection par [Helicobacter] [pylori] cause plus de 90% des ulcères [duodénaux]",
+    "admin.q.fillblanks_normalize_note": "Accents et minuscules sont normalisés automatiquement ([Époque] → EPOQUE). Ñ et Ç sont conservés.",
+    "admin.q.fillblanks_preview": "Ce que verront les joueurs",
+    "admin.q.fillblanks_help_play": "Le joueur écrit chaque mot avec le clavier du téléphone ; le nombre de cases indique la longueur",
+    "admin.q.fillblanks_help_points": "Score : 20 pts par mot juste (ou les points aléatoires) + un bonus de temps par question",
+    "admin.q.fillblanks_help_hints": "Indices : jusqu’à 3 lettres par trou ; le mot vaut alors 70 %, 40 % et 25 %",
+    "admin.q.fillblanks_help_streak": "Compte comme réussite (et pour la série) avec la moitié des trous ou plus",
+    "admin.q.fillblanks_help_team": "En équipes, chaque trou est vérifié une fois complété et les mots justes apparaissent à toute l’équipe",
+    "admin.q.fillblanks_err_no_blanks": "Écris au moins un mot entre crochets : [mot]",
+    "admin.q.fillblanks_err_too_many": "Au maximum 3 mots entre crochets",
+    "admin.q.fillblanks_err_unbalanced": "Il y a un crochet non fermé ou isolé",
+    "admin.q.fillblanks_err_chars": "« {word} » : seulement des lettres, sans espaces, chiffres, tirets ni signes",
+    "admin.q.fillblanks_err_short": "« {word} » : au moins 4 lettres",
+    "admin.q.fillblanks_err_long": "« {word} » : au plus 14 lettres",
+    "admin.q.fillblanks_err_generic": "La phrase n’est pas valide",
+    "admin.q.fillblanks_err_marker": "N’écris pas {{n}} dans la phrase : les mots à deviner vont entre crochets"
   }
 }

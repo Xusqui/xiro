@@ -226,6 +226,9 @@ class QuizBotIndividual extends BaseBot {
                 payload = { ...base, answerType: 'word_scramble', playerAnswer: 'BOTANSWER' }; break;
             case 'word_search':
                 payload = { ...base, answerType: 'word_search', found: [] }; break;
+            case 'fill_blanks':
+                // Palabras al azar de la longitud de cada hueco (casi siempre falla, como un jugador despistado)
+                payload = { ...base, answerType: 'fill_blanks', words: (question.fb_lengths || []).map(len => 'A'.repeat(len)) }; break;
             case 'multiple_choice':
                 payload = { ...base, answerType: 'multiple_choice', selectedIndices: [randInt(0, n - 1)] }; break;
             case 'numeric_approximation':
@@ -317,6 +320,8 @@ class TrivialBotIndividual extends BaseBot {
                 payload = { ...base, answerType: 'word_scramble', playerAnswer: 'respuesta' }; break;
             case 'word_search':
                 payload = { ...base, answerType: 'word_search', found: [] }; break;
+            case 'fill_blanks':
+                payload = { ...base, answerType: 'fill_blanks', words: (question.fb_lengths || []).map(len => 'A'.repeat(len)) }; break;
             default:
                 payload = { ...base, index: randInt(0, Math.max(0, (question.options?.length || 4) - 1)) };
         }

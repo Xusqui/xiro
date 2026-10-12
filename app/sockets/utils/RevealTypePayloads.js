@@ -7,6 +7,8 @@
 'use strict';
 
 const { buildWordSearchReveal } = require('./WordSearchRevealStats');
+const { buildFillBlanksReveal } = require('./FillBlanksRevealStats');
+const { questionSlot } = require('./QuestionSlot');
 
 function optionText(option) {
     return option?.text || option?.optionText || option?.option_text || '';
@@ -25,6 +27,7 @@ function clearOptionFields(presenterPayload) {
  */
 function buildPlayerRevealPayload(presenterPayload) {
     const wordSearch = presenterPayload.wordSearch;
+    const fillBlanks = presenterPayload.fillBlanks;
     return {
         correctAnswer: presenterPayload.correctAnswer ?? null,
         justification: presenterPayload.justification ?? null,
@@ -33,15 +36,19 @@ function buildPlayerRevealPayload(presenterPayload) {
         correctWord: presenterPayload.correctWord ?? null,
         correctOptionTexts: presenterPayload.correctOptionTexts ?? null,
         // Sopa de letras: tras revelar, el jugador ya puede ver dónde estaban las palabras
-        ...(wordSearch ? { wordSearch: { words: wordSearch.words, placements: wordSearch.placements } } : {})
+        ...(wordSearch ? { wordSearch: { words: wordSearch.words, placements: wordSearch.placements } } : {}),
+        // Completa la frase: tras revelar, el jugador ve la frase completa (sin las estadísticas)
+        ...(fillBlanks ? { fillBlanks: { text: fillBlanks.text, words: fillBlanks.words, lengths: fillBlanks.lengths } } : {})
     };
 }
 
 /**
  * Ajusta el payload del presentador según el tipo de pregunta.
- * Async solo por la sopa de letras (lee de Redis cuántos encontraron cada palabra).
+ * Async por la sopa de letras y Completa la frase (leen de Redis cuántos acertaron cada palabra/hueco).
  */
-async function applyQuestionTypeOverrides({ presenterPayload, question, flags, correctIndicesMultiple, roomId, revealIndex }) {
+async function applyQuestionTypeOverrides({ presenterPayload, question, flags, correctIndicesMultiple, roomId, revealIndex, game }) {
+    // Clave de las estadísticas por pregunta: en Trivial, por época (QuestionSlot)
+    const slot = game ? questionSlot(game) : revealIndex;
     if (flags.isNumericQuestion) {
         presenterPayload.correctAnswer = question.correct_answer;
         presenterPayload.maxPoints = question.max_points;
@@ -57,8 +64,14 @@ async function applyQuestionTypeOverrides({ presenterPayload, question, flags, c
     }
 
     if (flags.isWordSearchQuestion) {
-        presenterPayload.wordSearch = await buildWordSearchReveal(roomId, revealIndex, question);
+        presenterPayload.wordSearch = await buildWordSearchReveal(roomId, slot, question);
         presenterPayload.correctAnswer = (question.ws_words || []).join(', ');
+        clearOptionFields(presenterPayload);
+    }
+
+    if (flags.isFillBlanksQuestion) {
+        presenterPayload.fillBlanks = await buildFillBlanksReveal(roomId, slot, question);
+        presenterPayload.correctAnswer = presenterPayload.fillBlanks.words.join(', ');
         clearOptionFields(presenterPayload);
     }
 

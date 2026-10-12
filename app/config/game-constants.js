@@ -6,6 +6,9 @@
  * Fecha: 31 de enero de 2026
  */
 
+// Reglas de «Completa la frase» (fill_blanks): un solo origen para servidor y navegador
+const FILL_BLANKS_LIMITS = require('../public/js/core/fill-blanks-text.js').LIMITS;
+
 module.exports = {
     // ===== PUNTUACIÓN =====
     SCORING: {
@@ -267,6 +270,7 @@ module.exports = {
         SCRAMBLE: 'word_scramble',
         MATCHING: 'matching',
         WORD_SEARCH: 'word_search',
+        FILL_BLANKS: 'fill_blanks',
     },
 
     // ===== SOPA DE LETRAS (word_search) =====
@@ -278,12 +282,18 @@ module.exports = {
         MAX_WORD_LENGTH: 10,
     },
 
+    // ===== COMPLETA LA FRASE (fill_blanks) =====
+    // 1-3 huecos, palabras de 4-14 letras, hasta 3 pistas por hueco (100/70/40/25 %).
+    // Definido en public/js/core/fill-blanks-text.js, que también usa el navegador.
+    FILL_BLANKS: FILL_BLANKS_LIMITS,
+
     // ===== TIPOS DE PREGUNTA ELEGIBLES PARA PUNTUACIÓN ALEATORIA =====
-    // Solo los tipos cuya puntuación es "acierto/fallo + bonus de tiempo".
+    // Solo los tipos cuya puntuación es "acierto/fallo + bonus de tiempo". En
+    // fill_blanks el valor sorteado es por palabra acertada (FillBlanksService).
     // Quedan fuera: survey (no puntúa), order y matching (puntos por posición/par),
-    // numeric_approximation (puntos por cercanía) y multiple_choice (puntos por
-    // opción con penalización, configurados en la propia pregunta).
-    RANDOM_POINTS_ELIGIBLE_TYPES: ['quiz', 'word_scramble'],
+    // numeric_approximation (puntos por cercanía), multiple_choice (puntos por
+    // opción con penalización, configurados en la propia pregunta) y word_search.
+    RANDOM_POINTS_ELIGIBLE_TYPES: ['quiz', 'word_scramble', 'fill_blanks'],
 
     // ===== TIPOS DE SLIDE =====
     SLIDE_TYPES: {

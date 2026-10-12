@@ -444,7 +444,7 @@ async function cargarPreguntasBanco(selectorId = 'selectorBanco', contenedorId =
                             <i class="fas ${alreadyAdded ? 'fa-check' : 'fa-plus'}"></i>
                         </button>
                         <div class="flex-1">
-                            <p class="font-medium text-sm text-slate-800">${escapeHtml(q.question_text)}</p>
+                            <p class="font-medium text-sm text-slate-800">${escapeHtml(displayQuestionTextFrontend(q))}</p>
             <p class="text-xs text-green-600 mt-1"><i class="fas fa-check-circle mr-1"></i>${q.question_type === 'survey' ? _t('admin.custom.survey_answer', null, 'Encuesta (votos)') : escapeHtml(correctDisplay)}</p>
                         </div>
                     </div>
@@ -507,7 +507,9 @@ function _customQuestionFromBank(question, questionId, bankName) {
         options: withoutOptions ? [] : safeOptions.map(o => ({
             optionText: o.option_text,
             isCorrect: !!o.is_correct,
-            justification: o.justification
+            justification: o.justification,
+            // Completa la frase y sopa de letras: el orden de las palabras
+            order_index: o.order_index ?? null
         })),
         ..._CUSTOM_EMPTY_TYPE_FIELDS,
         ...typeFields,

@@ -14,6 +14,7 @@
 const { getWordStart } = require('../../domain/services/WordSearchService');
 const { hintOwner, recordWordSearchHint } = require('../utils/WordSearchHints');
 const { resolveWordSearchContext, emitToTeammates } = require('../utils/WordSearchTeam');
+const { questionSlot } = require('../utils/QuestionSlot');
 const logger = require('../../config/logger');
 
 /**
@@ -38,7 +39,7 @@ async function handleWordSearchHint(socket, data, callback) {
             return reply({ ok: false, reason: 'invalid-word' });
         }
 
-        const isNew = await recordWordSearchHint(roomId, game.currentIndex, hintOwner(nickname, team), wordIndex);
+        const isNew = await recordWordSearchHint(roomId, questionSlot(game), hintOwner(nickname, team), wordIndex);
         const hint = { wordIndex, row: start.row, col: start.col };
         if (team && isNew) {
             emitToTeammates({ io: socket.nsp, roomId, team, nickname }, 'word-search-team-hint', { ...hint, by: nickname });

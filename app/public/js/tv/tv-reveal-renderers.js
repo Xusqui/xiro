@@ -115,6 +115,32 @@ window.TVApp.RevealRenderers = (function () {
         stage.insertAdjacentHTML('afterend', _tHtml(wordScrambleRankingHtml(data.ranking)));
     }
 
+    /** Completa la frase: escribe cada palabra en sus casillas y el porcentaje que la acertó. */
+    function renderFillBlanksReveal(data) {
+        const stage = getEl('fb-tv-stage');
+        const info = data.fillBlanks;
+        if (!stage || !info || !info.words) return;
+
+        const stats = info.stats || { answers: 0, counts: [] };
+        const sentence = stage.querySelector('.fb-sentence');
+        if (sentence && stats.answers > 0) sentence.className += ' fb-sentence--revealed';
+
+        for (let i = 0; i < info.words.length; i++) {
+            const blank = stage.querySelector('.fb-blank[data-blank="' + i + '"]');
+            if (!blank) continue;
+            const cells = blank.querySelectorAll('.fb-cell');
+            for (let pos = 0; pos < cells.length; pos++) {
+                cells[pos].textContent = info.words[i].charAt(pos);
+            }
+            blank.className += ' fb-blank--ok';
+            if (stats.answers > 0) {
+                const percent = Math.round(((stats.counts[i] || 0) / stats.answers) * 100);
+                blank.insertAdjacentHTML('beforeend', '<span class="fb-stat">' + percent + '%</span>');
+            }
+        }
+        stage.insertAdjacentHTML('afterend', _tHtml(wordScrambleRankingHtml(data.ranking)));
+    }
+
     /** Marca la tarjeta de la opción `k` como correcta (con ✓) o incorrecta. */
     function markOptionCorrectness(tarjeta, k, data) {
         let isCorrect;
@@ -175,6 +201,7 @@ window.TVApp.RevealRenderers = (function () {
         renderNumericReveal: renderNumericReveal,
         renderWordScrambleReveal: renderWordScrambleReveal,
         renderWordSearchReveal: renderWordSearchReveal,
+        renderFillBlanksReveal: renderFillBlanksReveal,
         renderOptionsReveal: renderOptionsReveal
     };
 })();

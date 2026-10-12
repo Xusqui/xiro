@@ -9,6 +9,7 @@ import { removeFloatingCards, fitSplitOptionText, fitSplitSolutionCards } from '
 import { updatePlayersPanel } from './presenter-players-panel.js?v=20260922172926';
 import { getWordScrambleRevealHTML, revealWordScramble } from './presenter-wordscramble-layout.js?v=20260922172926';
 import { revealWordSearchOnStage } from './presenter-wordsearch-layout.js?v=20260922172926';
+import { revealFillBlanksOnStage } from './presenter-fillblanks-layout.js?v=20260922172926';
 import { rankingCardHtml, justificationCardHtml } from './presenter-reveal-cards.js?v=20260922172926';
 import { numericRevealCardHtml, markNumericAnswerRevealed } from './presenter-reveal-numeric.js?v=20260922172926';
 import { revealOptionCards } from './presenter-reveal-options.js?v=20260922172926';
@@ -152,6 +153,11 @@ function revealWordSearch(data, showTopAnswers) {
     if (showTopAnswers) insertTopAnswersCard(data);
 }
 
+function revealFillBlanks(data, showTopAnswers) {
+    revealFillBlanksOnStage(data.fillBlanks);
+    if (showTopAnswers) insertTopAnswersCard(data);
+}
+
 function revealMultipleChoice(data, showTopAnswers) {
     const correctIndices = data.correctIndices || [];
     // Marca correctas e incorrectas en la rejilla (estilo quiz)
@@ -252,6 +258,7 @@ export function handleRevealAnswer(data) {
     if (questionType === 'numeric_approximation') revealNumeric(data, showTopAnswers);
     else if (questionType === 'word_scramble') revealWordScrambleAnswer(data, showTopAnswers);
     else if (questionType === 'word_search') revealWordSearch(data, showTopAnswers);
+    else if (questionType === 'fill_blanks') revealFillBlanks(data, showTopAnswers);
     else if (questionType === 'multiple_choice') revealMultipleChoice(data, showTopAnswers);
     else revealOptions(data, isInfoSlide);
 

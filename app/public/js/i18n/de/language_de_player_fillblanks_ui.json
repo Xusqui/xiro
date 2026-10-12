@@ -1,0 +1,11 @@
+{
+  "keys": {
+    "player.fillblanks.hint_cost": "Tipp −{pct} %",
+    "player.fillblanks.hint_none": "Keine Tipps mehr",
+    "player.fillblanks.hint_aria": "Tipp für Lücke {n}",
+    "player.fillblanks.help": "Tippe auf eine Lücke und schreibe das Wort. Sende, wenn du alle hast, die du kennst.",
+    "player.fillblanks.help_team": "Tippe auf eine Lücke und schreibe. Jedes Wort wird beim Ausfüllen geprüft und zählt für das ganze Team.",
+    "player.fillblanks.submit": "Senden",
+    "player.fillblanks.blank_aria": "Lücke {n}"
+  }
+}

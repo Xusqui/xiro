@@ -26,6 +26,8 @@
     "instructions.question_types.multiple.title": "Opció Múltiple",
     "instructions.question_types.multiple.description": "Similar al Quiz, però en aquest cas hi pot haver entre 1 i 6 respostes correctes simultàniament.",
     "instructions.question_types.word_search.title": "Sopa de Lletres (Word Search)",
-    "instructions.question_types.word_search.description": "Cal trobar en una graella de 10x10 les paraules amagades en qualsevol direcció. Cada paraula trobada suma punts. Si toques una paraula veuràs on comença, però valdrà la meitat."
+    "instructions.question_types.word_search.description": "Cal trobar en una graella de 10x10 les paraules amagades en qualsevol direcció. Cada paraula trobada suma punts. Si toques una paraula veuràs on comença, però valdrà la meitat.",
+    "instructions.question_types.fill_blanks.title": "Completa la Frase (Fill Blanks)",
+    "instructions.question_types.fill_blanks.description": "Una frase amb fins a tres buits: cal escriure la paraula de cadascun (es veu quantes lletres té). Cada paraula encertada suma punts i hi ha un bonus de temps. Pots demanar fins a tres lletres de pista per buit, però la paraula valdrà menys."
   }
 }

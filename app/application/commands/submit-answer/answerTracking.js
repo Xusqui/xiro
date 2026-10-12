@@ -94,6 +94,10 @@ function getTypedDetailConfig(flags, answerResult, fullMultipleChoiceDetails) {
         return { field: 'wordSearchDetails', value: answerResult.details };
     }
 
+    if (flags.isFillBlanksQuestion) {
+        return { field: 'fillBlanksDetails', value: answerResult.details };
+    }
+
     if (flags.isMultipleChoiceQuestion) {
         return { field: 'multipleChoiceDetails', value: fullMultipleChoiceDetails };
     }

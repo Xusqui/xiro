@@ -58,6 +58,27 @@
     "admin.q.wordsearch_help_grid": "Jedes Spiel erzeugt mit diesen Wörtern ein anderes Raster",
     "admin.q.wordsearch_help_play": "Die Spieler sehen die Liste und markieren jedes Wort, indem sie vom ersten zum letzten Buchstaben ziehen oder beide antippen",
     "admin.q.wordsearch_help_points": "Punkte: 20 Pkt. pro gefundenem Wort",
-    "admin.q.wordsearch_help_time": "Genug Zeit geben: 60-120 Sekunden je nach Anzahl der Wörter"
+    "admin.q.wordsearch_help_time": "Genug Zeit geben: 60-120 Sekunden je nach Anzahl der Wörter",
+    "admin.q.type_fill_blanks": "Satz vervollständigen (Lückentext)",
+    "admin.q.type_fill_blanks_short": "Lückentext",
+    "admin.q.fillblanks_statement_note": "Der Satz wird weiter unten geschrieben, mit den gesuchten Wörtern in eckigen Klammern.",
+    "admin.q.fillblanks_intro": "Die Spieler sehen den Satz mit Lücken (ein Kästchen pro Buchstabe) und tippen das Wort jeder Lücke. Die gesuchten Wörter stehen in eckigen Klammern.",
+    "admin.q.fillblanks_text_label": "Satz mit den gesuchten Wörtern in eckigen Klammern (1-3 Wörter, 4 bis 14 Buchstaben)",
+    "admin.q.fillblanks_placeholder": "Die Infektion mit [Helicobacter] [pylori] verursacht über 90% der [Zwölffingerdarm]-Geschwüre",
+    "admin.q.fillblanks_normalize_note": "Akzente und Kleinbuchstaben werden automatisch normalisiert ([Époque] → EPOQUE). Ñ und Ç bleiben erhalten.",
+    "admin.q.fillblanks_preview": "So sehen es die Spieler",
+    "admin.q.fillblanks_help_play": "Die Spieler tippen jedes Wort mit der Handytastatur; die Kästchen zeigen die Wortlänge",
+    "admin.q.fillblanks_help_points": "Punkte: 20 Pkt. pro richtigem Wort (oder die Zufallspunkte) + ein Zeitbonus pro Frage",
+    "admin.q.fillblanks_help_hints": "Tipps: bis zu 3 Buchstaben pro Lücke; das Wort ist dann 70 %, 40 % und 25 % wert",
+    "admin.q.fillblanks_help_streak": "Zählt als richtig (und für die Serie) ab der Hälfte der Lücken",
+    "admin.q.fillblanks_help_team": "In Teams wird jede Lücke beim Ausfüllen geprüft und richtige Wörter erscheinen beim ganzen Team",
+    "admin.q.fillblanks_err_no_blanks": "Schreibe mindestens ein Wort in eckigen Klammern: [Wort]",
+    "admin.q.fillblanks_err_too_many": "Höchstens 3 Wörter in eckigen Klammern",
+    "admin.q.fillblanks_err_unbalanced": "Eine eckige Klammer ist nicht geschlossen oder steht allein",
+    "admin.q.fillblanks_err_chars": "„{word}“: nur Buchstaben, ohne Leerzeichen, Ziffern, Bindestriche oder Zeichen",
+    "admin.q.fillblanks_err_short": "„{word}“: mindestens 4 Buchstaben",
+    "admin.q.fillblanks_err_long": "„{word}“: höchstens 14 Buchstaben",
+    "admin.q.fillblanks_err_generic": "Der Satz ist ungültig",
+    "admin.q.fillblanks_err_marker": "Schreibe kein {{n}} in den Satz: die gesuchten Wörter stehen in eckigen Klammern"
   }
 }

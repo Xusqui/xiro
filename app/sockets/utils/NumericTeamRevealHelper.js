@@ -27,6 +27,10 @@ function resolveTeamRevealCorrectAnswer(question, correctOption, isOrderQuestion
         return (question.ws_words || []).join(', ');
     }
 
+    if (question?.question_type === 'fill_blanks') {
+        return (question.fb_words || []).join(', ');
+    }
+
     return correctOption?.text || correctOption?.optionText || correctOption?.option_text || '';
 }
 

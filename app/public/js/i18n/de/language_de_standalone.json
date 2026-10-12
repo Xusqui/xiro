@@ -67,6 +67,12 @@
     "standalone.game.wordsearch_finish": "Fertig",
     "standalone.game.wordsearch_found": "{n} von {total} Wörtern",
     "standalone.game.wordsearch_hint_help": "Hinweis: Wort antippen (zählt die Hälfte)",
-    "standalone.game.wordsearch_hint_aria": "Hinweis:"
+    "standalone.game.wordsearch_hint_aria": "Hinweis:",
+    "standalone.game.fillblanks_title": "Lückentext",
+    "standalone.game.fillblanks_help": "Tippe auf eine Lücke und schreibe das Wort. Sende, wenn du alle hast, die du kennst.",
+    "standalone.game.fillblanks_hint_cost": "Tipp −{pct} %",
+    "standalone.game.fillblanks_hint_none": "Keine Tipps mehr",
+    "standalone.game.fillblanks_blank_aria": "Lücke {n}",
+    "standalone.game.fillblanks_correct": "{n} von {total} Wörtern"
   }
 }

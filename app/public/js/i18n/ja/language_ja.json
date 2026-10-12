@@ -67,6 +67,7 @@
     "/js/i18n/ja/language_ja_player_trivial_winner.json",
     "/js/i18n/ja/language_ja_player_wake_lock.json",
     "/js/i18n/ja/language_ja_player_wordscramble_ui.json",
+    "/js/i18n/ja/language_ja_player_fillblanks_ui.json",
     "/js/i18n/ja/language_ja_presenter_answer_counter.json",
     "/js/i18n/ja/language_ja_presenter_chamaleon.json",
     "/js/i18n/ja/language_ja_presenter_game_ui.json",

@@ -26,6 +26,8 @@
     "instructions.question_types.multiple.title": "Opción múltiple",
     "instructions.question_types.multiple.description": "Similar ao Quiz, pero neste caso pode haber entre 1 e 6 respostas correctas á vez.",
     "instructions.question_types.word_search.title": "Sopa de Letras (Word Search)",
-    "instructions.question_types.word_search.description": "Hai que atopar nunha grella de 10x10 as palabras escondidas en calquera dirección. Cada palabra atopada suma puntos. Se tocas unha palabra verás onde comeza, pero valerá a metade."
+    "instructions.question_types.word_search.description": "Hai que atopar nunha grella de 10x10 as palabras escondidas en calquera dirección. Cada palabra atopada suma puntos. Se tocas unha palabra verás onde comeza, pero valerá a metade.",
+    "instructions.question_types.fill_blanks.title": "Completa a Frase (Fill Blanks)",
+    "instructions.question_types.fill_blanks.description": "Unha frase con ata tres ocos: hai que escribir a palabra de cada un (vese cantas letras ten). Cada palabra acertada suma puntos e hai un bonus de tempo. Podes pedir ata tres letras de pista por oco, pero a palabra valerá menos."
   }
 }

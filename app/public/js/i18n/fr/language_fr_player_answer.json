@@ -28,6 +28,8 @@
     "player.answer.wordsearch_found": "{n} mots sur {total}",
     "player.wordsearch.finish": "Terminer",
     "player.wordsearch.hint_help": "Indice : touchez un mot (vaut la moitié)",
-    "player.wordsearch.hint_aria": "Indice :"
+    "player.wordsearch.hint_aria": "Indice :",
+    "player.answer.fillblanks_correct": "{n} mots sur {total}",
+    "player.answer.fillblanks_time_bonus": "+{pts} de bonus de temps"
   }
 }

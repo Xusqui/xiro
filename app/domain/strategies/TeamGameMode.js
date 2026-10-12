@@ -225,7 +225,8 @@ class TeamGameMode extends GameModeStrategy {
             justification: justificationText,
             orderDetails: isOrderQuestion ? answer.orderDetails : null,
             matchingDetails: question.question_type === 'matching' ? answer.matchingDetails || null : null,
-            ...(question.question_type === 'word_search' ? { wordSearchDetails: answer.wordSearchDetails || null } : {})
+            ...(question.question_type === 'word_search' ? { wordSearchDetails: answer.wordSearchDetails || null } : {}),
+            ...(question.question_type === 'fill_blanks' ? { fillBlanksDetails: answer.fillBlanksDetails || null } : {})
         };
     }
 

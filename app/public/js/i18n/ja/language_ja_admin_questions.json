@@ -58,6 +58,27 @@
     "admin.q.wordsearch_help_grid": "ゲームごとに、これらの単語で異なるマスが作られます",
     "admin.q.wordsearch_help_play": "プレイヤーはリストを見て、各単語の最初と最後の文字をドラッグまたはタップして印を付けます",
     "admin.q.wordsearch_help_points": "得点：見つけた単語1つにつき20ポイント",
-    "admin.q.wordsearch_help_time": "単語数に応じて60〜120秒の十分な時間を設定してください"
+    "admin.q.wordsearch_help_time": "単語数に応じて60〜120秒の十分な時間を設定してください",
+    "admin.q.type_fill_blanks": "文を完成させる（穴埋め）",
+    "admin.q.type_fill_blanks_short": "穴埋め",
+    "admin.q.fillblanks_statement_note": "文は下に入力します。当てる単語は角かっこ [ ] で囲みます。",
+    "admin.q.fillblanks_intro": "プレイヤーには空欄のある文が表示され（1文字につき1マス）、各空欄の単語を入力します。当てる単語は角かっこで囲みます。",
+    "admin.q.fillblanks_text_label": "当てる単語を角かっこで囲んだ文（1〜3語、4〜14文字）",
+    "admin.q.fillblanks_placeholder": "[Helicobacter] [pylori] の感染は [duodenal] 潰瘍の90%以上の原因です",
+    "admin.q.fillblanks_normalize_note": "アクセント記号と小文字は自動的に正規化されます（[Época] → EPOCA）。Ñ と Ç は保持されます。",
+    "admin.q.fillblanks_preview": "プレイヤーに表示される内容",
+    "admin.q.fillblanks_help_play": "プレイヤーはスマホのキーボードで単語を入力します。マス数が文字数を示します",
+    "admin.q.fillblanks_help_points": "得点：正解の単語ごとに20点（またはランダム得点）＋ 1問につき1回の時間ボーナス",
+    "admin.q.fillblanks_help_hints": "ヒント：空欄ごとに最大3文字。単語の価値は70%、40%、25%になります",
+    "admin.q.fillblanks_help_streak": "空欄の半分以上を正解すると正解（連続記録にも）扱いになります",
+    "admin.q.fillblanks_help_team": "チーム戦では空欄を埋めるごとに判定され、正解はチーム全員に表示されます",
+    "admin.q.fillblanks_err_no_blanks": "角かっこで囲んだ単語を少なくとも1つ書いてください：[単語]",
+    "admin.q.fillblanks_err_too_many": "角かっこの単語は最大3つです",
+    "admin.q.fillblanks_err_unbalanced": "閉じていない、または余分な角かっこがあります",
+    "admin.q.fillblanks_err_chars": "「{word}」：文字のみ。スペース、数字、ハイフン、記号は使えません",
+    "admin.q.fillblanks_err_short": "「{word}」：4文字以上",
+    "admin.q.fillblanks_err_long": "「{word}」：14文字以下",
+    "admin.q.fillblanks_err_generic": "文が無効です",
+    "admin.q.fillblanks_err_marker": "文中に {{n}} を書かないでください。当てる単語は角かっこで囲みます"
   }
 }

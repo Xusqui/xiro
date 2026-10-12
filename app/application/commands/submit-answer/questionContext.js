@@ -15,6 +15,7 @@ const MatchingAnswerStateService = require('../../../domain/services/MatchingAns
 const MultipleChoiceAnswerStateService = require('../../../domain/services/MultipleChoiceAnswerStateService');
 const { getRedisClient } = require('../../../config/redis');
 const { isValidFoundPayload } = require('../../validators/WordSearchQuestionValidator');
+const { isValidWordsPayload } = require('../../validators/FillBlanksQuestionValidator');
 
 const LATE_ANSWER_GRACE_MS = 800;
 
@@ -30,9 +31,10 @@ const LATE_ANSWER_GRACE_MS = 800;
  * @returns {Promise<Object>} flags con el plazo ampliado si la pregunta sigue en tiempo.
  */
 async function applyTimerStateToLateWindow(flags, sPin, now = Date.now()) {
-    const lateAnswerType = flags.isOrderQuestion || flags.isMatchingQuestion || flags.isWordSearchQuestion;
+    const lateAnswerType = flags.isOrderQuestion || flags.isMatchingQuestion || flags.isWordSearchQuestion
+        || flags.isFillBlanksQuestion;
     if (!lateAnswerType || flags.canAnswerOrEnded || flags.allowOrderAfterClose
-        || flags.allowMatchingAfterClose || flags.allowWordSearchAfterClose) {
+        || flags.allowMatchingAfterClose || flags.allowWordSearchAfterClose || flags.allowFillBlanksAfterClose) {
         return flags;
     }
 
@@ -53,7 +55,8 @@ async function applyTimerStateToLateWindow(flags, sPin, now = Date.now()) {
         ...flags,
         allowOrderAfterClose: flags.isOrderQuestion,
         allowMatchingAfterClose: flags.isMatchingQuestion,
-        allowWordSearchAfterClose: flags.isWordSearchQuestion
+        allowWordSearchAfterClose: flags.isWordSearchQuestion,
+        allowFillBlanksAfterClose: flags.isFillBlanksQuestion
     };
 }
 
@@ -88,6 +91,7 @@ function buildQuestionContext(game) {
     const isWordScrambleQuestion = currentQuestion?.question_type === 'word_scramble';
     const isMultipleChoiceQuestion = currentQuestion?.question_type === 'multiple_choice';
     const isWordSearchQuestion = currentQuestion?.question_type === 'word_search';
+    const isFillBlanksQuestion = currentQuestion?.question_type === 'fill_blanks';
 
     const questionTimeLimit = currentQuestion?.time_limit || 30;
     const elapsedMs = Date.now() - (game.questionStartTime || Date.now());
@@ -102,11 +106,14 @@ function buildQuestionContext(game) {
         isWordScrambleQuestion,
         isMultipleChoiceQuestion,
         isWordSearchQuestion,
+        isFillBlanksQuestion,
         questionTimeLimit,
         canAnswerOrEnded: game?.canAnswer || game?.ended || lastQuestion,
         allowOrderAfterClose: isOrderQuestion && elapsedMs <= (questionTimeLimit * 1000 + graceMs),
         allowMatchingAfterClose: isMatchingQuestion && elapsedMs <= (questionTimeLimit * 1000 + graceMs),
-        allowWordSearchAfterClose: isWordSearchQuestion && elapsedMs <= (questionTimeLimit * 1000 + graceMs)
+        allowWordSearchAfterClose: isWordSearchQuestion && elapsedMs <= (questionTimeLimit * 1000 + graceMs),
+        // Completa la frase en equipos: el envío automático al agotarse el tiempo llega justo después del cierre
+        allowFillBlanksAfterClose: isFillBlanksQuestion && elapsedMs <= (questionTimeLimit * 1000 + graceMs)
     };
 }
 
@@ -124,7 +131,8 @@ function buildQuestionContext(game) {
 const FREE_INPUT_CHECKS = [
     { flag: 'isNumericQuestion', isValid: (p) => Number.isFinite(Number(p.playerAnswer)) },
     { flag: 'isWordScrambleQuestion', isValid: (p) => typeof p.playerAnswer === 'string' && p.playerAnswer.trim().length > 0 },
-    { flag: 'isWordSearchQuestion', lateFlag: 'allowWordSearchAfterClose', isValid: (p) => isValidFoundPayload(p.found) }
+    { flag: 'isWordSearchQuestion', lateFlag: 'allowWordSearchAfterClose', isValid: (p) => isValidFoundPayload(p.found) },
+    { flag: 'isFillBlanksQuestion', lateFlag: 'allowFillBlanksAfterClose', isValid: (p) => isValidWordsPayload(p.words) }
 ];
 
 /**

@@ -64,14 +64,37 @@ function _extractWordSearchAnswer(question) {
     return words.length > 0 ? { type: 'word_search', items: words } : null;
 }
 
+/** Completa la frase: las palabras de los huecos, en orden (cada opción es una palabra). */
+function _extractFillBlanksAnswer(question) {
+    const words = window.XiroFillBlanks
+        ? window.XiroFillBlanks.wordsFromOptions(question.options)
+        : (question.options || []).map(_optionText).map(w => w.toUpperCase());
+    const items = words.filter(Boolean);
+    return items.length > 0 ? { type: 'fill_blanks', items } : null;
+}
+
 const _CORRECT_ANSWER_EXTRACTORS = {
     survey: () => null,
     order: _extractOrderAnswer,
     numeric_approximation: _extractNumericAnswer,
     word_scramble: _extractWordScrambleAnswer,
     multiple_choice: _extractMultipleChoiceAnswer,
-    word_search: _extractWordSearchAnswer
+    word_search: _extractWordSearchAnswer,
+    fill_blanks: _extractFillBlanksAnswer
 };
+
+/**
+ * Enunciado para mostrar en listados del admin: en «Completa la frase» la frase se
+ * guarda con marcadores {{n}}; aquí vuelve con las palabras entre corchetes.
+ * @param {Object} question - Pregunta de la API (question_text + options)
+ * @returns {string}
+ */
+function displayQuestionTextFrontend(question) {
+    const text = question?.question_text || question?.questionText || '';
+    const type = question?.question_type || question?.type;
+    if (type !== 'fill_blanks' || !window.XiroFillBlanks || !window.XiroFillBlanks.hasMarkers(text)) return text;
+    return window.XiroFillBlanks.toEditorText(text, window.XiroFillBlanks.wordsFromOptions(question.options));
+}
 
 /**
  * Extrae la respuesta correcta de una pregunta
@@ -113,7 +136,7 @@ function formatCorrectAnswerDisplayFrontend(answer) {
         return answer.word;
     }
 
-    if (answer.type === 'multiple_choice' || answer.type === 'word_search') {
+    if (answer.type === 'multiple_choice' || answer.type === 'word_search' || answer.type === 'fill_blanks') {
         return answer.items.join(', ');
     }
 

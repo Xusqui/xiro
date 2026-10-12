@@ -26,6 +26,8 @@
     "instructions.question_types.multiple.title": "Múltipla escolha",
     "instructions.question_types.multiple.description": "Semelhante ao Quiz, mas neste caso pode haver entre 1 e 6 respostas corretas simultaneamente.",
     "instructions.question_types.word_search.title": "Caça-palavras (Word Search)",
-    "instructions.question_types.word_search.description": "É preciso encontrar numa grelha de 10x10 as palavras escondidas em qualquer direção. Cada palavra encontrada soma pontos. Se tocar numa palavra verá onde começa, mas valerá metade."
+    "instructions.question_types.word_search.description": "É preciso encontrar numa grelha de 10x10 as palavras escondidas em qualquer direção. Cada palavra encontrada soma pontos. Se tocar numa palavra verá onde começa, mas valerá metade.",
+    "instructions.question_types.fill_blanks.title": "Completa a Frase (Fill Blanks)",
+    "instructions.question_types.fill_blanks.description": "Uma frase com até três espaços: é preciso escrever a palavra de cada um (vê-se quantas letras tem). Cada palavra certa soma pontos e há um bónus de tempo. Podes pedir até três letras de pista por espaço, mas a palavra valerá menos."
   }
 }

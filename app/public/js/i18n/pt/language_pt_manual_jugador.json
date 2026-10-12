@@ -8,7 +8,6 @@
     "manual_player.tabs.score": "Pontuação",
     "manual_player.tabs.trivial": "Trivial",
     "manual_player.tabs.aria_label": "Seções do manual",
-
     "manual_player.join.s1.title": "Vá para xiro.pro",
     "manual_player.join.s1.text": "<p>Abra o navegador no seu celular ou tablet e vá para <strong>xiro.pro</strong>.</p><p>Você também pode escanear o <strong>código QR</strong> na tela.</p>",
     "manual_player.join.s2.title": "Insira o ID de sessão",
@@ -19,7 +18,6 @@
     "manual_player.join.s4.text": "<p><strong>(Opcional)</strong> Se o jogo for por equipes, a tela pedirá que você escolha uma. Toque na sua equipe!</p>",
     "manual_player.join.s5.title": "Aguarde e jogue!",
     "manual_player.join.s5.text": "<p>Seu nome aparecerá na tela. Quando «INICIAR» for pressionado, você verá uma contagem regressiva.</p><p><strong>A velocidade soma pontos!</strong></p>",
-
     "manual_player.answer.section.title": "Tipos de pergunta",
     "manual_player.answer.section.subtitle": "Existem diferentes mecânicas de resposta. Entenda como cada uma funciona!",
     "manual_player.answer.quiz.title": "Quiz",
@@ -42,7 +40,6 @@
     "manual_player.answer.matching.text": "Você verá duas colunas. A esquerda é fixa; arraste os elementos da direita para colocá-los à frente de seu par correto. Toque em Confirmar quando estiver pronto. Você ganha pontos por cada par acertado!",
     "manual_player.answer.word_search.title": "Caça-palavras",
     "manual_player.answer.word_search.text": "Procura numa grelha de 10×10 as palavras escondidas em qualquer direção: arrasta o dedo da primeira à última letra, ou toca nas duas. Se ficares preso, toca numa palavra da lista para ver onde começa (valerá metade). Em equipas, o que um encontra todo o grupo vê. Quanto mais cedo terminares, maior o bónus!",
-
     "manual_player.score.section.title": "Sistema de pontuação e sequências",
     "manual_player.score.section.subtitle": "Acerte rápido e não erre para maximizar seus pontos.",
     "manual_player.score.streak_section.title": "Multiplicadores por sequência",
@@ -56,7 +53,6 @@
     "manual_player.score.streak.text": "<p>Ao acertar várias vezes consecutivas, você entrará em Sequência e seus pontos por pergunta serão multiplicados por um bônus extra.</p>",
     "manual_player.score.double.title": "Dupla sequência",
     "manual_player.score.double.text": "<p>Se mantiver a sequência por ainda mais tempo sem errar, você sobe de nível e o bônus aumenta. Quanto mais durar, mais ganha!</p>",
-
     "manual_player.trivial.section.title": "Mecânica do Trivial",
     "manual_player.trivial.section.subtitle": "Às vezes o jogo se desenvolve em um tabuleiro animado. Veja como funciona:",
     "manual_player.trivial.s1.title": "Jogue o dado",
@@ -64,6 +60,8 @@
     "manual_player.trivial.s2.title": "Escolha a casa",
     "manual_player.trivial.s2.text": "<p>A peça avança até pousar em uma casa específica do tabuleiro. A cor da casa indica a categoria.</p>",
     "manual_player.trivial.s3.title": "Responda à pergunta",
-    "manual_player.trivial.s3.text": "<p>Todos os jogadores recebem uma pergunta aleatória baseada na categoria da casa onde pousou. Hora de responder!</p>"
+    "manual_player.trivial.s3.text": "<p>Todos os jogadores recebem uma pergunta aleatória baseada na categoria da casa onde pousou. Hora de responder!</p>",
+    "manual_player.answer.fill_blanks.title": "Completa a Frase",
+    "manual_player.answer.fill_blanks.text": "Toca num espaço e escreve a palavra com o teclado: cada casa é uma letra. Se ficares preso, pede uma pista (revela a primeira letra, depois a última e a central), mas essa palavra valerá menos (70 %, 40 %, 25 %). Conta como acerto com metade dos espaços ou mais. Em equipas, cada palavra é verificada ao completá-la e o acertado é visto por todo o grupo; o primeiro a enviar fecha a pergunta para todos."
   }
 }

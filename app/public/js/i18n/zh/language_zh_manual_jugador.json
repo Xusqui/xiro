@@ -8,7 +8,6 @@
     "manual_player.tabs.score": "得分",
     "manual_player.tabs.trivial": "知识问答",
     "manual_player.tabs.aria_label": "手册章节",
-
     "manual_player.join.s1.title": "访问 xiro.pro",
     "manual_player.join.s1.text": "<p>在手机或平板上打开浏览器，访问 <strong>xiro.pro</strong>。</p><p>您也可以扫描屏幕上的 <strong>QR 码</strong>。</p>",
     "manual_player.join.s2.title": "输入会话 ID",
@@ -19,7 +18,6 @@
     "manual_player.join.s4.text": "<p><strong>（可选）</strong>如果游戏是团队模式，屏幕会询问您加入哪个队伍。点击您的队伍！</p>",
     "manual_player.join.s5.title": "等待并开始游戏！",
     "manual_player.join.s5.text": "<p>您的名字将出现在屏幕上。当按下「开始」时，您会看到倒计时。</p><p><strong>速度越快，积分越多！</strong></p>",
-
     "manual_player.answer.section.title": "题目类型",
     "manual_player.answer.section.subtitle": "有不同的答题机制，了解每种机制的工作原理！",
     "manual_player.answer.quiz.title": "问答",
@@ -42,7 +40,6 @@
     "manual_player.answer.matching.text": "您会看到两列。左列固定；将右列中的元素拖动到其正确配对的对面。准备好后点击确认。每配对正确一对就能得分！",
     "manual_player.answer.word_search.title": "找字游戏",
     "manual_player.answer.word_search.text": "在 10×10 的字母格中找出隐藏在任意方向的单词：用手指从第一个字母拖到最后一个字母，或依次点击首尾两个字母。卡住时，点击列表中的单词即可查看起始位置（该词得分减半）。团队模式下，一人找到的单词全队都能看到。越早完成，奖励越多！",
-
     "manual_player.score.section.title": "得分与连击系统",
     "manual_player.score.section.subtitle": "快速答对，不要失误，以最大化您的得分。",
     "manual_player.score.streak_section.title": "连击倍增",
@@ -56,7 +53,6 @@
     "manual_player.score.streak.text": "<p>连续多次答对后，您将进入连击状态，每道题的得分将乘以额外奖励倍数。</p>",
     "manual_player.score.double.title": "双倍连击",
     "manual_player.score.double.text": "<p>连击保持更长时间不失误，您将升级，奖励倍数增加。坚持得越久，赢得越多！</p>",
-
     "manual_player.trivial.section.title": "知识问答机制",
     "manual_player.trivial.section.subtitle": "有时游戏在动态棋盘上进行，以下是玩法：",
     "manual_player.trivial.s1.title": "掷骰子",
@@ -64,6 +60,8 @@
     "manual_player.trivial.s2.title": "选择格子",
     "manual_player.trivial.s2.text": "<p>棋子前进到棋盘上的特定格子。格子的颜色表示题目类别。</p>",
     "manual_player.trivial.s3.title": "回答问题",
-    "manual_player.trivial.s3.text": "<p>所有玩家将收到一道基于落点格子类别的随机题目。开始作答！</p>"
+    "manual_player.trivial.s3.text": "<p>所有玩家将收到一道基于落点格子类别的随机题目。开始作答！</p>",
+    "manual_player.answer.fill_blanks.title": "填空",
+    "manual_player.answer.fill_blanks.text": "点击空格用键盘输入单词：每个格子是一个字母。卡住时可请求提示（先显示首字母，再显示末字母，再显示中间字母），但该单词分值会降低（70%、40%、25%）。答对一半或以上的空格即算正确。团队模式下每个单词填完即校验，正确的单词全组可见；第一个发送的人会为所有人关闭该题。"
   }
 }

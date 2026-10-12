@@ -131,7 +131,8 @@ const _CUSTOM_TYPE_BADGES = [
     ['order', 'bg-orange-100 text-orange-700', 'admin.custom.badge_order', 'ORDENA'],
     ['word_scramble', 'bg-yellow-100 text-yellow-700', 'admin.custom.badge_scramble', 'ANAGRAMA'],
     ['multiple_choice', 'bg-cyan-100 text-cyan-700', 'admin.custom.badge_multiple', 'MÚLTIPLE'],
-    ['word_search', 'bg-plum-100 text-plum-700', 'admin.custom.badge_wordsearch', 'SOPA DE LETRAS']
+    ['word_search', 'bg-plum-100 text-plum-700', 'admin.custom.badge_wordsearch', 'SOPA DE LETRAS'],
+    ['fill_blanks', 'bg-emerald-100 text-emerald-700', 'admin.custom.badge_fillblanks', 'COMPLETA LA FRASE']
 ];
 
 function _customQuestionBody(q) {
@@ -147,7 +148,7 @@ function _customQuestionBody(q) {
                                 <span class="bg-plum-100 text-plum-700 px-2 py-1 rounded text-xs font-bold">${escapeHtml(q.bank_name)}</span>
                                 ${badges}
                             </div>
-                            <p class="font-medium text-sm text-slate-800">${escapeHtml(q.question_text)}</p>
+                            <p class="font-medium text-sm text-slate-800">${escapeHtml(displayQuestionTextFrontend(q))}</p>
                             <p class="text-xs text-green-600 mt-1"><i class="fas fa-check-circle mr-1"></i>${answer}</p>
                         </div>`;
 }

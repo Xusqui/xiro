@@ -11,7 +11,7 @@ import {
     resetSessionState,
     clearAnswerInputState
 } from './player-state.js?v=20260922172926';
-import { renderizarPregunta, renderizarPreguntaOrdena, renderizarPreguntaMatching, renderizarPreguntaNumerica, renderizarPreguntaWordScramble, renderizarPreguntaWordSearch, renderizarPreguntaMultipleChoice } from './player-question-ui.js?v=20260922172926';
+import { renderizarPregunta, renderizarPreguntaOrdena, renderizarPreguntaMatching, renderizarPreguntaNumerica, renderizarPreguntaWordScramble, renderizarPreguntaWordSearch, renderizarPreguntaFillBlanks, renderizarPreguntaMultipleChoice } from './player-question-ui.js?v=20260922172926';
 import { renderizarSlideComentario, renderizarSlideInfo, renderizarSlideTexto, renderizarSlideImagen, renderizarSlideTextoImagen } from './player-question-ui.js?v=20260922172926';
 import { removeDisconnectOverlay } from './player-connection.js?v=20260922172926';
 import { mostrarModalConfirmacion, mostrarModalMensaje } from '../shared/modal.js?v=20260922172926';
@@ -112,6 +112,8 @@ function onGameStarted(data, ack) {
         renderizarPreguntaWordScramble(data.firstQuestion);
     } else if (data.firstQuestion.question_type === 'word_search') {
         renderizarPreguntaWordSearch(data.firstQuestion);
+    } else if (data.firstQuestion.question_type === 'fill_blanks') {
+        renderizarPreguntaFillBlanks(data.firstQuestion);
     } else if (data.firstQuestion.question_type === 'multiple_choice') {
         renderizarPreguntaMultipleChoice(data.firstQuestion);
     } else {
@@ -168,6 +170,8 @@ function onNewQuestion(data, ack) {
         renderizarPreguntaWordScramble(data.question);
     } else if (data.question.question_type === 'word_search') {
         renderizarPreguntaWordSearch(data.question);
+    } else if (data.question.question_type === 'fill_blanks') {
+        renderizarPreguntaFillBlanks(data.question);
     } else if (data.question.question_type === 'multiple_choice') {
         renderizarPreguntaMultipleChoice(data.question);
     } else {

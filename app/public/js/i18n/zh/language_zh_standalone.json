@@ -67,6 +67,12 @@
     "standalone.game.wordsearch_finish": "完成",
     "standalone.game.wordsearch_found": "{total} 个词中的 {n} 个",
     "standalone.game.wordsearch_hint_help": "提示：点击单词（得分减半）",
-    "standalone.game.wordsearch_hint_aria": "提示："
+    "standalone.game.wordsearch_hint_aria": "提示：",
+    "standalone.game.fillblanks_title": "填空",
+    "standalone.game.fillblanks_help": "点击空格并输入单词。把你知道的都填好后发送。",
+    "standalone.game.fillblanks_hint_cost": "提示 −{pct}%",
+    "standalone.game.fillblanks_hint_none": "无提示",
+    "standalone.game.fillblanks_blank_aria": "空格 {n}",
+    "standalone.game.fillblanks_correct": "{total} 个词中的 {n} 个"
   }
 }

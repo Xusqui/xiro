@@ -67,6 +67,12 @@
     "standalone.game.wordsearch_finish": "Terminar",
     "standalone.game.wordsearch_found": "{n} de {total} palavras",
     "standalone.game.wordsearch_hint_help": "Dica: toque numa palavra (vale metade)",
-    "standalone.game.wordsearch_hint_aria": "Dica:"
+    "standalone.game.wordsearch_hint_aria": "Dica:",
+    "standalone.game.fillblanks_title": "Completa a frase",
+    "standalone.game.fillblanks_help": "Toca num espaço e escreve a palavra. Envia quando tiveres todas as que souberes.",
+    "standalone.game.fillblanks_hint_cost": "Pista −{pct} %",
+    "standalone.game.fillblanks_hint_none": "Sem pistas",
+    "standalone.game.fillblanks_blank_aria": "Espaço {n}",
+    "standalone.game.fillblanks_correct": "{n} de {total} palavras"
   }
 }

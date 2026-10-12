@@ -61,6 +61,7 @@
     "admin.slides.info_title": "Diapositiva Informativa",
     "admin.slides.error_comment": "Por favor, escribe un comentario",
     "admin.slides.error_info": "Por favor, escribe o texto informativo",
-    "admin.custom.badge_wordsearch": "SOPA DE LETRAS"
+    "admin.custom.badge_wordsearch": "SOPA DE LETRAS",
+    "admin.custom.badge_fillblanks": "COMPLETA A FRASE"
   }
 }

@@ -35,8 +35,16 @@ function sanitizeQuestionForPlayers(question) {
         scrambled_letters: question.scrambled_letters,
         // word_search: rejilla y lista de palabras. ❌ NUNCA ws_placements (revelaría la solución)
         ws_grid: question.ws_grid,
-        ws_words: question.ws_words
+        ws_words: question.ws_words,
+        // fill_blanks: letras de cada hueco. ❌ NUNCA fb_words (es la solución)
+        fb_lengths: question.fb_lengths
     };
+
+    // fill_blanks: las opciones SON la solución (una palabra por hueco): no viajan al jugador
+    if (question.question_type === 'fill_blanks') {
+        sanitized.options = [];
+        return sanitized;
+    }
 
     // Sanitizar opciones: eliminar is_correct y justification
     if (question.options && Array.isArray(question.options)) {

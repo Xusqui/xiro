@@ -59,13 +59,19 @@ function _multipleChoiceFieldsFromApi(q, questionType) {
     };
 }
 
+/** Completa la frase: la frase vuelve al editor con las palabras entre corchetes. */
+function _bankQuestionTextFromApi(q, questionType) {
+    if (questionType !== 'fill_blanks' || !window.XiroFillBlanks) return q.question_text;
+    return window.XiroFillBlanks.toEditorText(q.question_text, window.XiroFillBlanks.wordsFromOptions(q.options));
+}
+
 /** Pregunta de la API (/api/banks/:id) → objeto del editor (preguntasData). */
 function mapBankQuestionFromApi(q) {
     const questionType = q.question_type || 'quiz';
-    const options = _bankOptionsFromApi(q, questionType);
+    const options = questionType === 'fill_blanks' ? [] : _bankOptionsFromApi(q, questionType);
     return {
         id: q.id,
-        questionText: q.question_text,
+        questionText: _bankQuestionTextFromApi(q, questionType),
         justification: _bankJustificationFromApi(q, questionType, options),
         type: questionType,
         tipo_contenido: q.tipo_contenido || 'texto',
@@ -131,11 +137,29 @@ function _bankOptionsForSave(q) {
     return q.options.map((opt, index) => _bankOptionForSave(q, opt, index));
 }
 
+/**
+ * Completa la frase: corchetes → marcadores + una opción por palabra (mismas reglas que
+ * el servidor). Con errores se envía la frase tal cual: el servidor devuelve el mensaje.
+ */
+function _fillBlanksForSave(q) {
+    if (q.type !== 'fill_blanks' || !window.XiroFillBlanks) return null;
+    const editorText = q.questionText || q.question_text || '';
+    const parsed = window.XiroFillBlanks.parseEditorText(editorText);
+    if (parsed.errors.length > 0) return { questionText: editorText, options: [] };
+    return {
+        questionText: parsed.text,
+        options: parsed.words.map((word, index) => ({
+            optionText: word, isCorrect: true, order_index: index, justification: null, match_value: null, option_image_url: null
+        }))
+    };
+}
+
 /** Pregunta del editor → pregunta del payload de /api/banks/save-all. */
 function mapBankQuestionForSave(q) {
+    const fillBlanks = _fillBlanksForSave(q);
     return {
         id: q.id || null,
-        questionText: q.questionText || q.question_text || q.text,
+        questionText: fillBlanks ? fillBlanks.questionText : (q.questionText || q.question_text || q.text),
         type: q.type || 'quiz',
         tipo_contenido: q.tipo_contenido || 'texto',
         url_recurso: q.url_recurso || null,
@@ -145,6 +169,6 @@ function mapBankQuestionForSave(q) {
         ..._numericFieldsForSave(q),
         correctWord: q.type === 'word_scramble' ? (q.correctWord || null) : null,
         ..._multipleChoiceFieldsForSave(q),
-        options: _bankOptionsForSave(q)
+        options: fillBlanks ? fillBlanks.options : _bankOptionsForSave(q)
     };
 }

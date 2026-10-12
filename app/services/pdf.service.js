@@ -9,6 +9,7 @@ const fs = require('fs');
 const logger = require('../config/logger');
 const { extractCorrectAnswer, generateCorrectAnswerHTML } = require('../application/helpers/CorrectAnswerExtractor');
 const { generateWordSearchQuestionHTML, generateWordSearchSolutionHTML } = require('./pdf-word-search');
+const { generateFillBlanksQuestionHTML, generateFillBlanksSolutionHTML } = require('./pdf-fill-blanks');
 const { prepareWordSearchQuestion } = require('../domain/services/WordSearchService');
 
 const PUBLIC_ROOT = '/usr/src/app/public';
@@ -226,6 +227,10 @@ function generateQuestionHTML(question, index, total) {
 
     if (question.question_type === 'word_search') {
         return generateWordSearchQuestionHTML(question, index, total, escapeHtml);
+    }
+
+    if (question.question_type === 'fill_blanks') {
+        return generateFillBlanksQuestionHTML(question, index, total, escapeHtml);
     }
 
     return generateStandardQuestionHTML(question, index, total);
@@ -528,10 +533,22 @@ function generateTextImageSlideHTML(slide, index, total) {
 /**
  * Genera HTML de la respuesta
  */
+/** Respuesta según el tipo: sopa y Completa la frase tienen su propia página */
+function answerContentHTML(question) {
+    if (question.question_type === 'word_search') return generateWordSearchSolutionHTML(question, escapeHtml);
+    if (question.question_type === 'fill_blanks') return generateFillBlanksSolutionHTML(question, escapeHtml);
+    return generateCorrectAnswerHTML(extractCorrectAnswer(question));
+}
+
+/** Enunciado del pie de la respuesta: en Completa la frase, con las palabras entre corchetes */
+function answerQuestionText(question) {
+    if (question.question_type !== 'fill_blanks') return question.question_text;
+    const FB = require('../public/js/core/fill-blanks-text.js');
+    return FB.toEditorText(question.question_text || '', question.fb_words || FB.wordsFromOptions(question.options));
+}
+
 function generateAnswerHTML(question, index) {
-    const answerHTML = question.question_type === 'word_search'
-        ? generateWordSearchSolutionHTML(question, escapeHtml)
-        : generateCorrectAnswerHTML(extractCorrectAnswer(question));
+    const answerHTML = answerContentHTML(question);
 
     return `
 <div class="page" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
@@ -546,7 +563,7 @@ function generateAnswerHTML(question, index) {
         </div>
         <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 25px 35px; border-radius: 20px; margin-bottom: 35px;">
             <div style="font-size: 22px; color: rgba(255,255,255,0.95); font-style: italic; text-align: center; line-height: 1.5;">
-                ${escapeHtml(question.question_text)}
+                ${escapeHtml(answerQuestionText(question))}
             </div>
         </div>
         ${answerHTML}

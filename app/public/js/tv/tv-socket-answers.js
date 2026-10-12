@@ -82,6 +82,7 @@ window.TVApp.SocketAnswers = (function () {
             if (type === 'numeric_approximation') Reveal.renderNumericReveal(data, question);
             else if (type === 'word_scramble') Reveal.renderWordScrambleReveal(data, question);
             else if (type === 'word_search') Reveal.renderWordSearchReveal(data);
+            else if (type === 'fill_blanks') Reveal.renderFillBlanksReveal(data);
             else Reveal.renderOptionsReveal(data);
 
             const nextBtn = getEl('btn-next');

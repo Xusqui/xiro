@@ -10,7 +10,9 @@ const NORMALIZERS = {
     numeric_approximation: require('./question-types/numeric').normalize,
     order: require('./question-types/order').normalize,
     word_scramble: require('./question-types/word-scramble').normalize,
-    multiple_choice: require('./question-types/multiple-choice').normalize
+    multiple_choice: require('./question-types/multiple-choice').normalize,
+    fill_blanks: require('./question-types/fill-blanks').normalize,
+    word_search: require('./question-types/word-search').normalize
 };
 
 /**

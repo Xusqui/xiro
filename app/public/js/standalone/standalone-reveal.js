@@ -155,6 +155,11 @@ const StandaloneReveal = (() => {
         return `<div class="pl-reveal-breakdown">${items}</div>`;
     }
 
+    /** Completa la frase enseña la frase entera: no repetir la lista de palabras */
+    function _showsPlainAnswer(data) {
+        return Boolean(data.correctAnswer) && !data.fillBlanks;
+    }
+
     function _nextButton() {
         return `<div class="pl-reveal-continue"><button type="button" class="pl-submit-btn" data-standalone-action="reveal-next">${_t('standalone.game.next', 'Siguiente')}</button></div>`;
     }
@@ -177,7 +182,8 @@ const StandaloneReveal = (() => {
 
         const visualLogic = window.PlayerAnswerVisualLogic;
         const isApproximate = visualLogic.shouldShowApproximateResult({ isOrder, currentSlideType, data });
-        const color = visualLogic.resolveResultColor({ isOrder, isFullyCorrect, isApproximate, isCorrect: data.correct });
+        const color = StandaloneQuestionFillBlanks.resultColor(data)
+            || visualLogic.resolveResultColor({ isOrder, isFullyCorrect, isApproximate, isCorrect: data.correct });
 
         let message;
         if (data.orderDetails) {
@@ -186,6 +192,8 @@ const StandaloneReveal = (() => {
             message = _multipleChoiceMessage(data);
         } else if (data.wordSearchDetails) {
             message = StandaloneQuestionWordSearch.resultMessage(data, _pointsPill);
+        } else if (data.fillBlanksDetails) {
+            message = StandaloneQuestionFillBlanks.resultMessage(data, _pointsPill);
         } else {
             message = _headerMessage(data, isApproximate);
         }
@@ -211,8 +219,9 @@ const StandaloneReveal = (() => {
             <div class="pl-reveal" style="background:linear-gradient(135deg,#0f172a 0%,#1e293b 50%,#0f172a 100%);">
                 <i class="fas fa-clock pl-reveal-icon" style="color:#fbbf24;"></i>
                 <h2>${_t('standalone.game.time_up', '¡Tiempo agotado!')}</h2>
-                ${data.correctAnswer ? `<div class="pl-reveal-box"><p>${_t('standalone.game.correct_answer', 'Respuesta correcta')}</p><p>${escapeHtml(data.correctAnswer)}</p></div>` : ''}
+                ${_showsPlainAnswer(data) ? `<div class="pl-reveal-box"><p>${_t('standalone.game.correct_answer', 'Respuesta correcta')}</p><p>${escapeHtml(data.correctAnswer)}</p></div>` : ''}
                 ${_correctWordBox(escapeHtml(data.correctWord))}
+                ${StandaloneQuestionFillBlanks.revealSentence(data.fillBlanks)}
                 ${orderList}
                 ${_correctIndicesList(data.correctIndices)}
                 ${_correctMatchesList(data.correctMatches)}

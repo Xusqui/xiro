@@ -196,8 +196,10 @@
             : (payload.durationMs != null ? payload.durationMs : 3500);
         const animateDigits = opts.animate !== false && !_prefersReducedMotion();
         const pointsMarkup = buildPointsMarkup(payload.points, animateDigits);
-        const headline = _t('game.random_points.headline', { points: pointsMarkup },
-            'JUGÁIS POR {points} PUNTOS');
+        // Completa la frase: el valor sorteado es por palabra acertada
+        const headline = payload.perWord
+            ? _t('game.random_points.headline_per_word', { points: pointsMarkup }, 'JUGÁIS POR {points} PUNTOS POR PALABRA')
+            : _t('game.random_points.headline', { points: pointsMarkup }, 'JUGÁIS POR {points} PUNTOS');
         const subtitle = _t('game.random_points.time_bonus', null, '+ BONUS DE TIEMPO');
         const streakLine = opts.currentStreak ? buildStreakLine(payload, opts.currentStreak) : '';
 

@@ -4,6 +4,7 @@
  */
 
 import { clearWordSearchState } from './player-wordsearch-state.js?v=20260922172926';
+import { clearFillBlanksState } from './player-fillblanks-state.js?v=20260922172926';
 
 // ===== ESTADO DE SESIÓN =====
 let pin = '';
@@ -140,6 +141,7 @@ export function clearAnswerInputState() {
     clearOrderState();
     clearMatchState();
     clearWordSearchState();
+    clearFillBlanksState();
 }
 
 export function clearOrderState() {

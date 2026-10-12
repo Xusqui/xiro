@@ -1,0 +1,11 @@
+{
+  "keys": {
+    "player.fillblanks.hint_cost": "Indice −{pct} %",
+    "player.fillblanks.hint_none": "Plus d’indices",
+    "player.fillblanks.hint_aria": "Indice pour le trou {n}",
+    "player.fillblanks.help": "Touche un trou et écris le mot. Envoie quand tu as tous ceux que tu connais.",
+    "player.fillblanks.help_team": "Touche un trou et écris. Chaque mot est vérifié une fois complet et compte pour toute l’équipe.",
+    "player.fillblanks.submit": "Envoyer",
+    "player.fillblanks.blank_aria": "Trou {n}"
+  }
+}

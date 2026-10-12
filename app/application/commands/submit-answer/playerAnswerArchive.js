@@ -10,6 +10,7 @@
 
 const { getRedisClient } = require('../../../config/redis');
 const OrderAnswerService = require('../../../domain/services/OrderAnswerService');
+const FB = require('../../../public/js/core/fill-blanks-text.js');
 
 function runWithRedisClient(action) {
     Promise.resolve()
@@ -108,7 +109,24 @@ function buildAnswerDetails({ flags, payload, options, answerResult }) {
     if (flags.isWordSearchQuestion) {
         return buildWordSearchAnswer(answerResult);
     }
+    if (flags.isFillBlanksQuestion) {
+        return buildFillBlanksAnswer(answerResult);
+    }
     return buildSingleIndexAnswer({ payload, options });
+}
+
+/** Completa la frase: lo escrito en cada hueco con ✓/✗ y el recuento ("PYLORI ✓ | — ✗ (1/2)") */
+function buildFillBlanksAnswer(answerResult) {
+    const { given = [], blanksCorrect = [], correctCount = 0, totalBlanks = 0 } = answerResult?.details || {};
+    const parts = given.map((word, i) => `${word || '—'} ${blanksCorrect[i] ? '✓' : '✗'}`);
+    return { answerGiven: `${parts.join(' | ')} (${correctCount}/${totalBlanks})` };
+}
+
+/** Enunciado legible para el informe: en Completa la frase, con las palabras entre corchetes */
+function snapshotQuestionText(question) {
+    const text = question?.question_text || question?.text || null;
+    if (question?.question_type !== 'fill_blanks' || !text) return text;
+    return FB.toEditorText(text, question.fb_words || FB.wordsFromOptions(question.options));
 }
 
 function buildWordSearchAnswer(answerResult) {
@@ -150,7 +168,7 @@ function buildSnapshot(ctx) {
         isCorrect: answerResult.isSurvey ? null : isCorrect,
         pointsEarned: answerResult.isSurvey ? 0 : finalPointsEarned,
         responseTimeMs: Date.now() - game.questionStartTime,
-        questionText: currentQuestion?.question_text || currentQuestion?.text || null,
+        questionText: snapshotQuestionText(currentQuestion),
         categoryName: game.isTrivial ? (game.trivialCategoryName || null) : null,
         matchingPairs: answerDetails.matchingPairs || undefined,
         orderItems: answerDetails.orderItems || undefined,

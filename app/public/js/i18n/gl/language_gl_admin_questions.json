@@ -58,6 +58,27 @@
     "admin.q.wordsearch_help_grid": "Cada partida xera unha sopa distinta con estas palabras",
     "admin.q.wordsearch_help_play": "O xogador ve a lista e marca cada palabra arrastrando ou tocando a súa primeira e última letra",
     "admin.q.wordsearch_help_points": "Puntuación: 20 pts por palabra atopada",
-    "admin.q.wordsearch_help_time": "Dá tempo dabondo: 60-120 segundos segundo o número de palabras"
+    "admin.q.wordsearch_help_time": "Dá tempo dabondo: 60-120 segundos segundo o número de palabras",
+    "admin.q.type_fill_blanks": "Completa a frase (Enche os ocos)",
+    "admin.q.type_fill_blanks_short": "Completa a frase",
+    "admin.q.fillblanks_statement_note": "A frase escríbese máis abaixo, coas palabras a adiviñar entre corchetes.",
+    "admin.q.fillblanks_intro": "O xogador ve a frase con ocos (unha casa por letra) e escribe a palabra de cada un. As palabras a adiviñar van entre corchetes.",
+    "admin.q.fillblanks_text_label": "Frase coas palabras a adiviñar entre corchetes (1-3 palabras, de 4 a 14 letras)",
+    "admin.q.fillblanks_placeholder": "A infección por [Helicobacter] [pylori] causa máis do 90% das úlceras [duodenais]",
+    "admin.q.fillblanks_normalize_note": "Os acentos e as minúsculas normalízanse soas ([Época] → EPOCA). O Ñ e o Ç consérvanse.",
+    "admin.q.fillblanks_preview": "Así o verán os xogadores",
+    "admin.q.fillblanks_help_play": "O xogador escribe cada palabra co teclado do móbil; a lonxitude de cada oco vese nas casas",
+    "admin.q.fillblanks_help_points": "Puntuación: 20 pts por palabra acertada (ou a puntuación aleatoria) + un bonus de tempo por pregunta",
+    "admin.q.fillblanks_help_hints": "Pistas: ata 3 letras por oco; a palabra pasa a valer o 70 %, o 40 % e o 25 %",
+    "admin.q.fillblanks_help_streak": "Conta como acerto (e para a racha) coa metade dos ocos ou máis",
+    "admin.q.fillblanks_help_team": "En equipos cada oco compróbase ao completalo e o acertado aparece a todo o equipo",
+    "admin.q.fillblanks_err_no_blanks": "Escribe polo menos unha palabra entre corchetes: [palabra]",
+    "admin.q.fillblanks_err_too_many": "Como máximo 3 palabras entre corchetes",
+    "admin.q.fillblanks_err_unbalanced": "Hai un corchete sen cerrar ou solto",
+    "admin.q.fillblanks_err_chars": "«{word}»: só letras, sen espazos, números, guións nin signos",
+    "admin.q.fillblanks_err_short": "«{word}»: polo menos 4 letras",
+    "admin.q.fillblanks_err_long": "«{word}»: como moito 14 letras",
+    "admin.q.fillblanks_err_generic": "A frase non é válida",
+    "admin.q.fillblanks_err_marker": "Non escribas {{n}} na frase: as palabras a adiviñar van entre corchetes"
   }
 }

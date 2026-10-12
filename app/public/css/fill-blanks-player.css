@@ -1,0 +1,216 @@
+/*
+ * Completa la frase en el móvil: jugador.html y standalone.html (no la carga la TV,
+ * así que aquí sí valen gap, variables y :has()). La frase (fill-blanks.css) va en
+ * una tarjeta oscura; bajo ella, una fila de pistas por hueco y el botón ENVIAR.
+ *
+ * Cada hueco lleva un <input> invisible que cubre sus casillas: el jugador toca el
+ * hueco, sale el teclado y las letras van cayendo en las casillas (player-fillblanks-ui.js).
+ */
+
+.fb-play {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 0;
+    padding: 10px 10px 8px;
+    overflow-y: auto;
+}
+
+.fb-play__card {
+    position: relative;
+    padding: 18px 12px 14px;
+    border-radius: 18px;
+    background:
+        radial-gradient(120% 90% at 0% 0%, rgba(148, 67, 142, .35), transparent 60%),
+        radial-gradient(120% 90% at 100% 100%, rgba(37, 99, 235, .25), transparent 60%),
+        #0f172a;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .08);
+    color: #ffffff;
+    text-align: center;
+}
+
+.fb-play__card .fb-sentence {
+    color: #f8fafc;
+}
+
+/* El hueco es un botón: toca para escribir en él */
+.fb-play .fb-blank {
+    cursor: text;
+    background-color: rgba(255, 255, 255, .06);
+}
+
+.fb-play .fb-blank--focus {
+    background-color: rgba(253, 224, 71, .12);
+}
+
+.fb-play .fb-blank--locked {
+    cursor: default;
+}
+
+/* Campo real de texto, invisible pero enfocable (16px: iOS no hace zoom) */
+.fb-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: transparent;
+    caret-color: transparent;
+    font-size: 16px;
+    opacity: 0;
+    outline: none;
+}
+
+.fb-input:disabled {
+    pointer-events: none;
+}
+
+/* Palabras largas: la casilla se encoge para que el hueco quepa en un móvil de 360 px
+   (data-len lo pone sanitizeSentenceHtml). 14 letras × 5,2 vw ≈ 73 vw. */
+.fb-sentence--player .fb-blank[data-len="11"] .fb-cell,
+.fb-sentence--player .fb-blank[data-len="12"] .fb-cell {
+    width: 5.4vw;
+    height: 7.2vw;
+    margin: 0 .25vw;
+    font-size: 4.6vw;
+    line-height: 7.2vw;
+}
+
+.fb-sentence--player .fb-blank[data-len="13"] .fb-cell,
+.fb-sentence--player .fb-blank[data-len="14"] .fb-cell {
+    width: 4.7vw;
+    height: 6.6vw;
+    margin: 0 .25vw;
+    font-size: 4.1vw;
+    line-height: 6.6vw;
+}
+
+@media (min-width: 640px) {
+    .fb-sentence--player .fb-blank[data-len] .fb-cell {
+        width: 32px;
+        height: 42px;
+        margin: 0 2px;
+        font-size: 24px;
+        line-height: 42px;
+    }
+}
+
+/* Pistas: una por hueco, con el coste de la siguiente */
+.fb-hints {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+}
+
+.fb-hint-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 40px;
+    padding: 6px 12px;
+    border: 2px solid rgba(253, 224, 71, .55);
+    border-radius: 12px;
+    background: rgba(253, 224, 71, .1);
+    color: #fde68a;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    transition: background-color .15s ease-out, transform .1s ease-out;
+}
+
+.fb-hint-btn:active {
+    transform: scale(.96);
+}
+
+.fb-hint-btn__num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    background: #fde047;
+    color: #422006;
+    font-size: 12px;
+}
+
+.fb-hint-btn__cost {
+    color: #fde68a;
+}
+
+.fb-hint-btn:disabled {
+    border-color: rgba(255, 255, 255, .15);
+    background: rgba(255, 255, 255, .05);
+    color: rgba(255, 255, 255, .4);
+    cursor: default;
+}
+
+.fb-hint-btn:disabled .fb-hint-btn__num {
+    background: rgba(255, 255, 255, .25);
+    color: rgba(0, 0, 0, .5);
+}
+
+/* Equipos: quién resolvió el hueco */
+.fb-play__by {
+    margin: 0;
+    color: rgba(255, 255, 255, .65);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* Ayuda bajo la tarjeta */
+.fb-play__help {
+    margin: 0;
+    color: rgba(255, 255, 255, .7);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.3;
+    text-align: center;
+}
+
+/* Resultado: la frase completa con cada hueco en verde o rojo, y el desglose */
+.fb-result__sentence {
+    padding: 14px 10px;
+    border-radius: 16px;
+    background: rgba(0, 0, 0, .25);
+}
+
+.fb-result__sentence .fb-sentence--player {
+    line-height: 2.2;
+}
+
+.fb-result__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, .12);
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.fb-result__given {
+    opacity: .75;
+    text-decoration: line-through;
+}
+
+/* standalone.html: mismas medidas sobre sus clases pl-* */
+.pl-question-panel.fb-question {
+    min-height: 0;
+    padding: 8px 12px;
+    border-bottom-width: 4px;
+}
+
+.pl-question-panel.fb-question h2 {
+    font-size: clamp(14px, 4vw, 17px);
+    line-height: 1.2;
+}

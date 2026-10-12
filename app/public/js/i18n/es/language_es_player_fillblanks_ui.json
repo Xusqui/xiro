@@ -1,0 +1,11 @@
+{
+  "keys": {
+    "player.fillblanks.hint_cost": "Pista −{pct} %",
+    "player.fillblanks.hint_none": "Sin pistas",
+    "player.fillblanks.hint_aria": "Pista para el hueco {n}",
+    "player.fillblanks.help": "Toca un hueco y escribe la palabra. Envía cuando tengas todas las que sepas.",
+    "player.fillblanks.help_team": "Toca un hueco y escribe. Cada palabra se comprueba al completarla y vale para todo el equipo.",
+    "player.fillblanks.submit": "Enviar",
+    "player.fillblanks.blank_aria": "Hueco {n}"
+  }
+}

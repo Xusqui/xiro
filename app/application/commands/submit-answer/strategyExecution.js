@@ -17,6 +17,12 @@ const {
 } = require('../../../sockets/utils/TeamRevealHelper');
 const { checkAllTeamsCompleted, notifyTeamWaiting } = require('../../../sockets/utils/TeamManager');
 
+/** Tipos que no responden con un índice de opción (el índice va a null en la estrategia) */
+function hasNoAnswerIndex(flags) {
+    return Boolean(flags.isOrderQuestion || flags.isMatchingQuestion || flags.isNumericQuestion
+        || flags.isMultipleChoiceQuestion || flags.isWordSearchQuestion || flags.isFillBlanksQuestion);
+}
+
 /**
  * Process answer using the active game strategy and apply side effects.
  *
@@ -54,18 +60,13 @@ async function processAnswerByGameMode(ctx) {
             isCorrect,
             pointsEarned: finalPointsEarned,
             isSurvey: answerResult.isSurvey,
-            answerIndex: (flags.isOrderQuestion
-                || flags.isMatchingQuestion
-                || flags.isNumericQuestion
-                || flags.isMultipleChoiceQuestion
-                || flags.isWordSearchQuestion)
-                ? null
-                : payload.index,
+            answerIndex: hasNoAnswerIndex(flags) ? null : payload.index,
             order: payload.order,
             matches: payload.matches,
             orderDetails: flags.isOrderQuestion ? answerResult.details : null,
             matchingDetails: flags.isMatchingQuestion ? answerResult.details : null,
             wordSearchDetails: flags.isWordSearchQuestion ? answerResult.details : null,
+            fillBlanksDetails: flags.isFillBlanksQuestion ? answerResult.details : null,
             multipleChoiceDetails: fullMultipleChoiceDetails,
             streakInfo: enrichedStreakInfo
         },

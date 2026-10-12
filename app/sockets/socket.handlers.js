@@ -65,6 +65,7 @@ const { createJoinRemotePresenterHandler, removeRemotePresenter } = require('./u
 const TrivialSocketHandler = require('./handlers/TrivialSocketHandler');
 const { handleWordSearchHint } = require('./handlers/WordSearchHintHandler');
 const { handleWordSearchFound, handleWordSearchSync } = require('./handlers/WordSearchTeamHandler');
+const { handleFillBlanksHint, handleFillBlanksCheck, handleFillBlanksSync } = require('./handlers/FillBlanksHandler');
 const AnswerBatchService = require('./services/AnswerBatchService');
 const PresenterNotificationService = require('./services/PresenterNotificationService');
 let answerBatchService = null;
@@ -209,6 +210,10 @@ function registerGeneralSocketEvents(socket, handlers) {
     socket.on('word-search-hint', (data, callback) => handleWordSearchHint(socket, data, callback));
     socket.on('word-search-found', (data, callback) => handleWordSearchFound(socket, data, callback));
     socket.on('word-search-sync', (data, callback) => handleWordSearchSync(socket, data, callback));
+    // Completa la frase: pista (letra), comprobación de un hueco (equipos) y sincronización
+    socket.on('fill-blanks-hint', (data, callback) => handleFillBlanksHint(socket, data, callback));
+    socket.on('fill-blanks-check', (data, callback) => handleFillBlanksCheck(socket, data, callback));
+    socket.on('fill-blanks-sync', (data, callback) => handleFillBlanksSync(socket, data, callback));
     socket.on('select-team', (data) => handlers.handleSelectTeam(socket, data));
     socket.on('reconnect-player', (data) => handlers.handleReconnectPlayer(socket, data));
     socket.on('reconnect-presenter', (data) => handlers.handleReconnectPresenter(socket, data));

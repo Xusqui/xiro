@@ -20,7 +20,7 @@ function statsSlot(questionIndex) {
 /**
  * Suma una respuesta y las palabras que encontró.
  * @param {string} sPin - Sala
- * @param {number} questionIndex
+ * @param {string|number} questionIndex - Índice de la pregunta o `t<epoch>` en Trivial (QuestionSlot)
  * @param {{ wordsFound?: boolean[] }} details - answerResult.details de WordSearchService
  * @returns {Promise<void>}
  */
@@ -37,9 +37,9 @@ async function recordWordSearchStats(sPin, questionIndex, details) {
  * Datos de la sopa para el reveal: palabras, posiciones y cuántos encontraron cada una.
  * @returns {Promise<{ words: string[], placements: Array, foundStats: { answers: number, counts: number[] } }>}
  */
-async function buildWordSearchReveal(roomId, revealIndex, question) {
+async function buildWordSearchReveal(roomId, slot, question) {
     const words = question.ws_words || [];
-    const stats = (await answerStatsStore.getStats(roomId, statsSlot(revealIndex))) || {};
+    const stats = (await answerStatsStore.getStats(roomId, statsSlot(slot))) || {};
     return {
         words,
         placements: question.ws_placements || [],

@@ -1,0 +1,11 @@
+{
+  "keys": {
+    "player.fillblanks.hint_cost": "Pista −{pct} %",
+    "player.fillblanks.hint_none": "Sense pistes",
+    "player.fillblanks.hint_aria": "Pista per al buit {n}",
+    "player.fillblanks.help": "Toca un buit i escriu la paraula. Envia quan tinguis totes les que sàpigues.",
+    "player.fillblanks.help_team": "Toca un buit i escriu. Cada paraula es comprova al completar-la i val per a tot l’equip.",
+    "player.fillblanks.submit": "Enviar",
+    "player.fillblanks.blank_aria": "Buit {n}"
+  }
+}

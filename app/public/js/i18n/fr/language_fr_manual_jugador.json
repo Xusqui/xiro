@@ -8,7 +8,6 @@
     "manual_player.tabs.score": "Score",
     "manual_player.tabs.trivial": "Trivial",
     "manual_player.tabs.aria_label": "Sections du manuel",
-
     "manual_player.join.s1.title": "Allez sur xiro.pro",
     "manual_player.join.s1.text": "<p>Ouvrez le navigateur sur votre téléphone ou tablette et allez sur <strong>xiro.pro</strong>.</p><p>Vous pouvez aussi scanner le <strong>code QR</strong> à l'écran.</p>",
     "manual_player.join.s2.title": "Entrez l'ID de session",
@@ -19,7 +18,6 @@
     "manual_player.join.s4.text": "<p><strong>(Optionnel)</strong> Si le jeu est en équipes, l'écran vous demandera quelle équipe rejoindre. Appuyez sur votre équipe !</p>",
     "manual_player.join.s5.title": "Attendez et jouez !",
     "manual_player.join.s5.text": "<p>Votre nom apparaîtra à l'écran. Quand «DÉMARRER» sera appuyé, vous verrez un compte à rebours.</p><p><strong>La vitesse rapporte des points bonus !</strong></p>",
-
     "manual_player.answer.section.title": "Types de questions",
     "manual_player.answer.section.subtitle": "Il existe différentes mécaniques de réponse. Comprenez le fonctionnement de chacune !",
     "manual_player.answer.quiz.title": "Quiz",
@@ -42,7 +40,6 @@
     "manual_player.answer.matching.text": "Vous verrez deux colonnes. La gauche est fixe ; faites glisser les éléments de droite pour les placer face à leur paire. Appuyez sur Confirmer quand c'est prêt. Vous gagnez des points pour chaque paire correcte !",
     "manual_player.answer.word_search.title": "Mots Mêlés",
     "manual_player.answer.word_search.text": "Trouvez les mots cachés dans n'importe quelle direction dans une grille de 10×10 : faites glisser le doigt de la première à la dernière lettre, ou touchez les deux. Si vous bloquez, touchez un mot de la liste pour voir où il commence (il vaudra la moitié). En équipe, ce qu'un joueur trouve, tout le groupe le voit. Plus vous finissez tôt, plus le bonus est grand !",
-
     "manual_player.score.section.title": "Score et séries",
     "manual_player.score.section.subtitle": "Répondez vite et ne ratez pas pour maximiser vos points.",
     "manual_player.score.streak_section.title": "Multiplicateurs de série",
@@ -56,7 +53,6 @@
     "manual_player.score.streak.text": "<p>En répondant correctement plusieurs fois de suite, vous entrez en Série et vos points par question sont multipliés par un bonus supplémentaire.</p>",
     "manual_player.score.double.title": "Double série",
     "manual_player.score.double.text": "<p>Maintenez la série encore plus longtemps sans rater et vous montez de niveau — le bonus augmente. Plus vous tenez, plus vous gagnez !</p>",
-
     "manual_player.trivial.section.title": "Mécanique du Trivial",
     "manual_player.trivial.section.subtitle": "Parfois le jeu se déroule sur un plateau animé. Voici comment ça marche :",
     "manual_player.trivial.s1.title": "Lancez le dé",
@@ -64,6 +60,8 @@
     "manual_player.trivial.s2.title": "Choisissez la case",
     "manual_player.trivial.s2.text": "<p>La pièce avance jusqu'à atterrir sur une case spécifique du plateau. La couleur de la case indique la catégorie.</p>",
     "manual_player.trivial.s3.title": "Répondez à la question",
-    "manual_player.trivial.s3.text": "<p>Tous les joueurs voient une question aléatoire basée sur la catégorie de la case sur laquelle on est tombé. À vous de répondre !</p>"
+    "manual_player.trivial.s3.text": "<p>Tous les joueurs voient une question aléatoire basée sur la catégorie de la case sur laquelle on est tombé. À vous de répondre !</p>",
+    "manual_player.answer.fill_blanks.title": "Complète la Phrase",
+    "manual_player.answer.fill_blanks.text": "Touche un trou et écris le mot au clavier : chaque case est une lettre. Si tu bloques, demande un indice (il révèle la première lettre, puis la dernière, puis celle du milieu), mais ce mot vaudra moins (70 %, 40 %, 25 %). C’est une réussite avec la moitié des trous ou plus. En équipes, chaque mot est vérifié une fois complet et les mots justes sont partagés avec le groupe ; le premier qui envoie clôt la question pour tous."
   }
 }

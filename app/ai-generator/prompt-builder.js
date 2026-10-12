@@ -314,5 +314,13 @@ module.exports = {
     buildNumericPrompt,
     buildOrderPrompt,
     buildWordScramblePrompt,
-    buildMultipleChoicePrompt
+    buildMultipleChoicePrompt,
+    // Helpers que reutilizan los prompts que viven en otros ficheros (prompt-fill-blanks.js)
+    DIFICULTAD_INSTRUCCION,
+    MAX_PROMPT_CHARS,
+    INJECTION_GUARD,
+    getLanguageName,
+    getText,
+    wrapDocumentInput,
+    getExclusionInstruction
 };

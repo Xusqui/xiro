@@ -8,7 +8,6 @@
     "manual_player.tabs.score": "Puntuazioa",
     "manual_player.tabs.trivial": "Trivial",
     "manual_player.tabs.aria_label": "Eskuliburuaren atalak",
-
     "manual_player.join.s1.title": "Joan xiro.pro-ra",
     "manual_player.join.s1.text": "<p>Ireki arakatzailea zure mugikorrean edo tabletan eta joan <strong>xiro.pro</strong>-ra.</p><p><strong>QR kodea</strong> ere eskana dezakezu pantailan.</p>",
     "manual_player.join.s2.title": "Sartu saio-IDa",
@@ -19,7 +18,6 @@
     "manual_player.join.s4.text": "<p><strong>(Aukerakoa)</strong> Jokoa taldekakoa bada, pantailak galdetuko dizu zein taldetara batu nahi duzun. Sakatu zure taldea!</p>",
     "manual_player.join.s5.title": "Itxaron eta jolastu!",
     "manual_player.join.s5.text": "<p>Zure izena pantailan agertuko da. «HASI» sakatzen denean atzerako kontaketa ikusiko duzu.</p><p><strong>Abiadura puntuak gehitzen ditu!</strong></p>",
-
     "manual_player.answer.section.title": "Galdera motak",
     "manual_player.answer.section.subtitle": "Erantzun mekanismo desberdinak daude. Ulertu nola funtzionatzen duen bakoitzak!",
     "manual_player.answer.quiz.title": "Quiz",
@@ -42,7 +40,6 @@
     "manual_player.answer.matching.text": "Bi zutabe ikusiko dituzu. Ezkerra finkoa da; arrastatu eskuineko elementuak bakoitza bere bikotearen aurrean jartzeko. Sakatu Baieztatu prest duzunean. Puntu bat irabazten duzu bikote zuzen bakoitzeko!",
     "manual_player.answer.word_search.title": "Letra-zopa",
     "manual_player.answer.word_search.text": "Bilatu 10×10 sareta batean edozein norabidetan ezkututa dauden hitzak: arrastatu hatza lehen letratik azkenera, edo ukitu biak. Trabatzen bazara, ukitu zerrendako hitz bat non hasten den ikusteko (erdia balioko du). Taldeetan, batek aurkitzen duena talde osoak ikusten du. Zenbat eta lehenago amaitu, orduan eta bonus handiagoa!",
-
     "manual_player.score.section.title": "Puntuazio sistema eta segidak",
     "manual_player.score.section.subtitle": "Erantzun azkar eta ez huts egin puntuak maximizatzeko.",
     "manual_player.score.streak_section.title": "Segida biderkatzaileak",
@@ -56,7 +53,6 @@
     "manual_player.score.streak.text": "<p>Jarraian hainbat aldiz zuzen erantzunez gero, Segidan sartuko zara eta galdera bakoitzeko puntuak bonus gehigarri baten bidez biderkatuko dira.</p>",
     "manual_player.score.double.title": "Segida bikoitza",
     "manual_player.score.double.text": "<p>Segida are gehiago mantentzen baduzu huts egin gabe, maila igotzea lortzen duzu eta bonusa handitu egiten da. Zenbat eta gehiago iraun, orduan eta gehiago irabazi!</p>",
-
     "manual_player.trivial.section.title": "Trivialaren mekanika",
     "manual_player.trivial.section.subtitle": "Batzuetan jokoa taula animatu batean garatzen da. Horrela funtzionatzen du:",
     "manual_player.trivial.s1.title": "Bota dadoa",
@@ -64,6 +60,8 @@
     "manual_player.trivial.s2.title": "Aukeratu laukia",
     "manual_player.trivial.s2.text": "<p>Fitxa aurreratu egiten da taula bateko lauki zehatz bateraino. Laukiaren kolorea kategoria adierazten du.</p>",
     "manual_player.trivial.s3.title": "Erantzun galdera",
-    "manual_player.trivial.s3.text": "<p>Jokalari guztiei eroritako laukiaren kategorian oinarritutako ausazko galdera bat aurkezten zaie. Erantzutera!</p>"
+    "manual_player.trivial.s3.text": "<p>Jokalari guztiei eroritako laukiaren kategorian oinarritutako ausazko galdera bat aurkezten zaie. Erantzutera!</p>",
+    "manual_player.answer.fill_blanks.title": "Osatu Esaldia",
+    "manual_player.answer.fill_blanks.text": "Ukitu hutsune bat eta idatzi hitza teklatuarekin: laukitxo bakoitza letra bat da. Trabatzen bazara, eskatu pista bat (lehen letra, gero azkena eta erdikoa agertzen ditu), baina hitz horrek gutxiago balioko du (%70, %40, %25). Hutsuneen erdiarekin edo gehiagorekin asmatutzat jotzen da. Taldeetan, hitz bakoitza osatzean egiaztatzen da eta asmatutakoa talde osoak ikusten du; bidaltzen duen lehenak galdera ixten du guztientzat."
   }
 }

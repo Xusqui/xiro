@@ -21,6 +21,7 @@ const {
 const ImprovedSubmitAnswerCommand = require('../commands/ImprovedSubmitAnswerCommand');
 const { validateSocket, schemas } = require('../../validation');
 const { isValidFoundPayload } = require('../validators/WordSearchQuestionValidator');
+const { isValidWordsPayload } = require('../validators/FillBlanksQuestionValidator');
 const { createRedisRateLimiter } = require('../helpers/SocketRateLimiterFactory');
 const { getRedisClient } = require('../../config/redis');
 const { getIdempotencyService } = require('../services/idempotency');
@@ -86,12 +87,20 @@ function validateWordSearchPayload(data) {
     return { valid: true, value: { ...data } };
 }
 
+function validateFillBlanksPayload(data) {
+    if (!hasRoom(data) || !hasNickname(data) || !isValidWordsPayload(data.words)) {
+        return { valid: false, errors: ['invalid fill_blanks payload'] };
+    }
+    return { valid: true, value: { ...data } };
+}
+
 const ANSWER_VALIDATORS = {
     numeric: validateNumericPayload,
     word_scramble: validateWordScramblePayload,
     multiple_choice: validateMultipleChoicePayload,
     matching: validateMatchingPayload,
-    word_search: validateWordSearchPayload
+    word_search: validateWordSearchPayload,
+    fill_blanks: validateFillBlanksPayload
 };
 
 function validateSubmitAnswerPayload(data) {
@@ -114,6 +123,7 @@ function mapSubmitAnswerCommandContext(context) {
         playerAnswer: context.validatedData.playerAnswer,
         selectedIndices: context.validatedData.selectedIndices,
         found: context.validatedData.found,
+        words: context.validatedData.words,
         playerId: context.playerId,
         socket: context.socket,
         requestId: context.data.requestId

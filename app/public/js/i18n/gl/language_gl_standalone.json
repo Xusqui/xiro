@@ -67,6 +67,12 @@
     "standalone.game.wordsearch_finish": "Rematar",
     "standalone.game.wordsearch_found": "{n} de {total} palabras",
     "standalone.game.wordsearch_hint_help": "Pista: toca unha palabra (vale a metade)",
-    "standalone.game.wordsearch_hint_aria": "Pista:"
+    "standalone.game.wordsearch_hint_aria": "Pista:",
+    "standalone.game.fillblanks_title": "Completa a frase",
+    "standalone.game.fillblanks_help": "Toca un oco e escribe a palabra. Envía cando teñas todas as que saibas.",
+    "standalone.game.fillblanks_hint_cost": "Pista −{pct} %",
+    "standalone.game.fillblanks_hint_none": "Sen pistas",
+    "standalone.game.fillblanks_blank_aria": "Oco {n}",
+    "standalone.game.fillblanks_correct": "{n} de {total} palabras"
   }
 }

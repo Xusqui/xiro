@@ -8,7 +8,6 @@
     "manual_player.tabs.score": "得点",
     "manual_player.tabs.trivial": "トリビア",
     "manual_player.tabs.aria_label": "マニュアルのセクション",
-
     "manual_player.join.s1.title": "xiro.pro にアクセス",
     "manual_player.join.s1.text": "<p>スマートフォンまたはタブレットでブラウザを開き、<strong>xiro.pro</strong> にアクセスします。</p><p>画面の<strong>QRコード</strong>をスキャンすることもできます。</p>",
     "manual_player.join.s2.title": "セッション ID を入力",
@@ -19,7 +18,6 @@
     "manual_player.join.s4.text": "<p><strong>（任意）</strong>チーム制の場合、どのチームに参加するか聞かれます。あなたのチームをタップしてください！</p>",
     "manual_player.join.s5.title": "待機してプレイ！",
     "manual_player.join.s5.text": "<p>あなたの名前が画面に表示されます。「スタート」が押されるとカウントダウンが始まります。</p><p><strong>速さがボーナスポイントになります！</strong></p>",
-
     "manual_player.answer.section.title": "問題の種類",
     "manual_player.answer.section.subtitle": "さまざまな回答メカニクスがあります。それぞれの仕組みを理解しましょう！",
     "manual_player.answer.quiz.title": "クイズ",
@@ -42,7 +40,6 @@
     "manual_player.answer.matching.text": "2 列が表示されます。左列は固定です。右列の要素をドラッグして正しいペアの前に配置します。準備ができたら「確認」をタップします。正しいペアごとにポイントが獲得できます！",
     "manual_player.answer.word_search.title": "ワードサーチ",
     "manual_player.answer.word_search.text": "10×10 のマスにあらゆる方向で隠された単語を探します。最初の文字から最後の文字まで指でなぞるか、両端をタップしてください。行き詰まったら、リストの単語をタップすると開始位置が分かります（得点は半分）。チーム戦では、誰かが見つけた単語はチーム全員に表示されます。早く終えるほどボーナスが増えます！",
-
     "manual_player.score.section.title": "得点とストリーク",
     "manual_player.score.section.subtitle": "速く正確に答えてポイントを最大化しましょう。",
     "manual_player.score.streak_section.title": "ストリーク倍率",
@@ -56,7 +53,6 @@
     "manual_player.score.streak.text": "<p>連続して正解するとストリークが発動し、問題ごとのポイントが追加ボーナスで倍増されます。</p>",
     "manual_player.score.double.title": "ダブルストリーク",
     "manual_player.score.double.text": "<p>ストリークをさらに長く続けるとレベルアップし、ボーナスが増加します。続ければ続けるほど稼げます！</p>",
-
     "manual_player.trivial.section.title": "トリビアの仕組み",
     "manual_player.trivial.section.subtitle": "ゲームがアニメーションボードで進む場合があります。仕組みは次の通りです：",
     "manual_player.trivial.s1.title": "サイコロを振る",
@@ -64,6 +60,8 @@
     "manual_player.trivial.s2.title": "マスを選ぶ",
     "manual_player.trivial.s2.text": "<p>駒がボード上の特定のマスに進みます。マスの色がカテゴリを示します。</p>",
     "manual_player.trivial.s3.title": "質問に答える",
-    "manual_player.trivial.s3.text": "<p>全プレイヤーが、止まったマスのカテゴリに基づいたランダムな質問を受け取ります。さあ答えましょう！</p>"
+    "manual_player.trivial.s3.text": "<p>全プレイヤーが、止まったマスのカテゴリに基づいたランダムな質問を受け取ります。さあ答えましょう！</p>",
+    "manual_player.answer.fill_blanks.title": "穴埋め",
+    "manual_player.answer.fill_blanks.text": "空欄をタップしてキーボードで単語を入力：1マスが1文字です。困ったらヒントを求めましょう（最初の文字、次に最後、次に真ん中が開きます）が、その単語の価値は下がります（70%、40%、25%）。空欄の半分以上で正解扱い。チーム戦では単語は埋めた時点で判定され、正解は全員に共有されます。最初に送信した人が全員の問題を締めます。"
   }
 }

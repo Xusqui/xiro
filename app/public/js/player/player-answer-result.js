@@ -8,6 +8,7 @@ import './player-answer-visual-logic.js?v=20260922172926';
 import { buildMultipleChoiceBreakdownHTML } from './player-answer-mc-breakdown.js?v=20260922172926';
 import { matchingResultHtml } from './player-answer-matching-breakdown.js?v=20260922172926';
 import { wordSearchResultHtml } from './player-answer-wordsearch.js?v=20260922172926';
+import { fillBlanksResultHtml } from './player-answer-fillblanks.js?v=20260922172926';
 import { getCurrentOrder, getCurrentOrderOptions, getCurrentSlideType } from './player-state.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
@@ -181,7 +182,7 @@ function hasCorrectAnswer(data) {
  */
 function showsCorrectAnswer(data, isApproximate) {
     if (data.correct === true || data.correct === null) return true;
-    if (data.matchingDetails || data.wordSearchDetails || data.multipleChoiceDetails?.options) return true;
+    if (data.matchingDetails || data.wordSearchDetails || data.fillBlanksDetails || data.multipleChoiceDetails?.options) return true;
     if (data.orderDetails || isApproximate) return false;
     return hasCorrectAnswer(data);
 }
@@ -192,11 +193,20 @@ function resultMessageHtml(data, isApproximate) {
     if (data.orderDetails) return orderResultHtml(data, rankingHTML);
     if (data.matchingDetails) return matchingResultHtml(data, rankingHTML);
     if (data.wordSearchDetails) return wordSearchResultHtml(data, rankingHTML);
+    if (data.fillBlanksDetails) return fillBlanksResultHtml(data, rankingHTML);
     if (data.multipleChoiceDetails && data.multipleChoiceDetails.options) return multipleChoiceResultHtml(data, rankingHTML);
     if (data.correct === null) return surveyResultHtml();
     if (data.correct) return correctResultHtml(data, rankingHTML);
     if (isApproximate) return approximateResultHtml(data, rankingHTML);
     return wrongResultHtml(data, rankingHTML);
+}
+
+/** Completa la frase: verde con todo, azul con la mitad o más (acierto), rojo con menos. */
+function fillBlanksColor(data) {
+    const details = data.fillBlanksDetails;
+    if (!details) return null;
+    if (details.totalBlanks > 0 && details.correctCount === details.totalBlanks) return 'bg-green-500';
+    return data.correct ? 'bg-blue-500' : 'bg-red-500';
 }
 
 /** HTML completo de la pantalla de resultado (fondo según acierto/fallo). */
@@ -214,7 +224,7 @@ export function buildAnswerResultHTML(data) {
         currentSlideType: getCurrentSlideType(),
         data
     });
-    const color = visualLogic.resolveResultColor({
+    const color = fillBlanksColor(data) || visualLogic.resolveResultColor({
         isOrder,
         isFullyCorrect,
         isApproximate,

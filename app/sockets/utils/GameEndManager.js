@@ -17,6 +17,7 @@ const answerStatsStore = require('../../services/AnswerStatsStore');
 const { getRedisClient } = require('../../config/redis');
 const { logVoteDistribution } = require('./VoteDistributionLogger');
 const { buildPlayerRevealPayload, applyQuestionTypeOverrides } = require('./RevealTypePayloads');
+const FB = require('../../public/js/core/fill-blanks-text.js');
 const logger = require('../../config/logger');
 const { saveGameSession } = require('../../services/db/game-session.service');
 
@@ -237,12 +238,13 @@ function getQuestionFlags(question) {
         isWordScrambleQuestion: question.question_type === 'word_scramble',
         isMultipleChoiceQuestion: question.question_type === 'multiple_choice',
         isNumericQuestion: question.question_type === 'numeric_approximation',
-        isWordSearchQuestion: question.question_type === 'word_search'
+        isWordSearchQuestion: question.question_type === 'word_search',
+        isFillBlanksQuestion: question.question_type === 'fill_blanks'
     };
 }
 
 // Tipos sin una única opción correcta que marcar (no tienen correctIndex)
-const NO_SINGLE_CORRECT_TYPES = new Set(['order', 'matching', 'survey', 'word_scramble', 'word_search', 'multiple_choice']);
+const NO_SINGLE_CORRECT_TYPES = new Set(['order', 'matching', 'survey', 'word_scramble', 'word_search', 'multiple_choice', 'fill_blanks']);
 
 function resolveCorrectAnswerData(question, flags) {
     const hasSingleCorrectIndex = !NO_SINGLE_CORRECT_TYPES.has(question.question_type);
@@ -509,8 +511,11 @@ function buildAutoSaveParams({ roomId, game, ranking, gameStartTime, mergedPlaye
 async function triggerAutoSaveSession(roomId, game, ranking) {
     try {
         const questionsSnapshot = (game.questions || []).map(q => ({
-            question_text: q.question_text || q.text || '',
-            correct_answer: q.correct_answer || q.correct_word || (q.ws_words || []).join(', '),
+            // Completa la frase: el informe muestra la frase con las palabras entre corchetes, no los marcadores
+            question_text: q.question_type === 'fill_blanks'
+                ? FB.toEditorText(q.question_text || '', q.fb_words || FB.wordsFromOptions(q.options))
+                : (q.question_text || q.text || ''),
+            correct_answer: q.correct_answer || q.correct_word || (q.ws_words || q.fb_words || []).join(', '),
             question_type: q.question_type || q.type || 'quiz'
         }));
 
@@ -665,7 +670,8 @@ async function revealAnswer({ roomId, game, io, timeExpired = false }) {
         flags,
         correctIndicesMultiple,
         roomId,
-        revealIndex
+        revealIndex,
+        game
     });
     addTeamScoresIfNeeded(isTeamMode, presenterPayload, teamConfigData, game.scores || {});
 

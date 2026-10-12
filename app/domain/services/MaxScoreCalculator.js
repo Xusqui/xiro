@@ -32,16 +32,29 @@ function timeBonusFor(timeLimit) {
     return roundScore(bonusRatio * SCORING.MAX_TIME_BONUS);
 }
 
+/** Huecos de una pregunta «Completa la frase» (preparada o tal cual sale del banco) */
+function blankCount(question) {
+    return Array.isArray(question.fb_words) ? question.fb_words.length : (question.options?.length || 0);
+}
+
 /**
  * Puntos base de una respuesta perfecta, replicando la lógica de cada
  * servicio de dominio usado en app/application/commands/submit-answer/answerEvaluation.js
  */
+/**
+ * Con puntuación aleatoria, la cota superior de una pregunta elegible es el máximo
+ * del rango (nunca puede salir un valor mayor en el sorteo). En Completa la frase el
+ * valor sorteado es por palabra; el bonus de tiempo, único.
+ */
+function randomPointsPerfectBase(question, game) {
+    const maxBase = Number(game.random_points_max) || SCORING.BASE_POINTS;
+    const words = question.question_type === 'fill_blanks' ? blankCount(question) : 1;
+    return maxBase * words + timeBonusFor(question.time_limit);
+}
+
 function calculatePerfectBasePoints(question, game) {
-    // Con puntuación aleatoria, la cota superior de una pregunta elegible es el
-    // máximo del rango (nunca puede salir un valor mayor en el sorteo).
     if (usesRandomPoints(question, game)) {
-        const maxBase = Number(game.random_points_max) || SCORING.BASE_POINTS;
-        return maxBase + timeBonusFor(question.time_limit);
+        return randomPointsPerfectBase(question, game);
     }
 
     switch (question.question_type) {
@@ -51,6 +64,9 @@ function calculatePerfectBasePoints(question, game) {
 
         case 'word_search': // por palabra: BASE_POINTS + bonus de tiempo (WordSearchService)
             return (question.options?.length || 0) * (SCORING.BASE_POINTS + timeBonusFor(question.time_limit));
+
+        case 'fill_blanks': // BASE_POINTS por palabra + un solo bonus de tiempo (FillBlanksService)
+            return blankCount(question) * SCORING.BASE_POINTS + timeBonusFor(question.time_limit);
 
         case 'word_scramble':
             return SCORING.BASE_POINTS + timeBonusFor(question.time_limit);

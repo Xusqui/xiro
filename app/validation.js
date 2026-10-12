@@ -12,6 +12,11 @@ const {
     DEFAULT_MAX: RANDOM_POINTS_DEFAULT_MAX,
 } = require('./application/validators/RandomPointsValidator');
 const { wordSearchOptionsSchema } = require('./application/validators/WordSearchQuestionValidator');
+const {
+    fillBlanksOptionsSchema,
+    fillBlanksQuestionRule,
+    fillBlanksRuleMessages
+} = require('./application/validators/FillBlanksQuestionValidator');
 
 const RANDOM_POINTS_LIMITS = {
     MIN_VALUE: RANDOM_POINTS_MIN_VALUE,
@@ -357,7 +362,7 @@ const questionSchema = Joi.object({
     id: dbIdSchema.allow(null).optional(),
     questionText: questionTextSchema.required(),
     type: Joi.string()
-        .valid('quiz', 'survey', 'order', 'numeric_approximation', 'word_scramble', 'multiple_choice', 'matching', 'word_search')
+        .valid('quiz', 'survey', 'order', 'numeric_approximation', 'word_scramble', 'multiple_choice', 'matching', 'word_search', 'fill_blanks')
         .default('quiz'),
     tipo_contenido: Joi.string()
         .valid('texto', 'imagen', 'audio')
@@ -504,6 +509,9 @@ const questionSchema = Joi.object({
         switch: [
             { is: Joi.valid('numeric_approximation', 'word_scramble'), then: Joi.optional() },
             { is: 'word_search', then: wordSearchOptionsSchema },
+            // Opcionales a nivel de clave: con la frase entre corchetes (JSON importado) las
+            // palabras las genera fillBlanksQuestionRule, que exige después que cuadren
+            { is: 'fill_blanks', then: fillBlanksOptionsSchema.optional() },
         ],
         otherwise: Joi.array()
             .items(Joi.when('type', {
@@ -519,7 +527,10 @@ const questionSchema = Joi.object({
             'array.min': `Debe haber al menos ${LIMITS.MIN_OPTIONS} opciones`,
             'array.max': `No puede haber más de ${LIMITS.MAX_OPTIONS} opciones`,
         }),
-});
+})
+    // Completa la frase: corchetes → marcadores + palabras, y tantos huecos como palabras
+    .custom(fillBlanksQuestionRule, 'fill_blanks question')
+    .messages(fillBlanksRuleMessages);
 
 // Imagen de portada de un juego/banco (URL relativa devuelta por /api/upload/game-cover-image)
 const imageUrlSchema = Joi.string().max(2048).trim().allow(null, '').optional();

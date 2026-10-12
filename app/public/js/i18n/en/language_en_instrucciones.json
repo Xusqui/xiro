@@ -26,6 +26,8 @@
     "instructions.question_types.multiple.title": "Multiple Choice",
     "instructions.question_types.multiple.description": "Similar to the Quiz, but in this case there can be between 1 and 6 correct answers simultaneously.",
     "instructions.question_types.word_search.title": "Word Search",
-    "instructions.question_types.word_search.description": "Find the words hidden in a 10x10 grid in any direction. Every word found scores points. Tap a word to see where it starts, but it will be worth half."
+    "instructions.question_types.word_search.description": "Find the words hidden in a 10x10 grid in any direction. Every word found scores points. Tap a word to see where it starts, but it will be worth half.",
+    "instructions.question_types.fill_blanks.title": "Fill in the Blanks",
+    "instructions.question_types.fill_blanks.description": "A sentence with up to three blanks: type the word for each one (the number of letters is shown). Every correct word scores points, plus a time bonus. You can ask for up to three hint letters per blank, but the word will be worth less."
   }
 }

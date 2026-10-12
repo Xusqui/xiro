@@ -1,0 +1,11 @@
+{
+  "keys": {
+    "player.fillblanks.hint_cost": "ヒント −{pct}%",
+    "player.fillblanks.hint_none": "ヒントなし",
+    "player.fillblanks.hint_aria": "空欄 {n} のヒント",
+    "player.fillblanks.help": "空欄をタップして単語を入力。分かるものを全部入れたら送信。",
+    "player.fillblanks.help_team": "空欄をタップして入力。単語は埋めた時点で判定され、チーム全員に反映されます。",
+    "player.fillblanks.submit": "送信",
+    "player.fillblanks.blank_aria": "空欄 {n}"
+  }
+}

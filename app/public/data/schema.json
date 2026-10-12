@@ -312,6 +312,20 @@
                     "order_index": 3
                 }
             ]
+        },
+        {
+            "question_text": "La infección por [Helicobacter] [pylori] causa más del 90% de las úlceras [duodenales]",
+            "type": "fill_blanks",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 45
+        },
+        {
+            "question_text": "La capital de Francia es [París]",
+            "type": "fill_blanks",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30
         }
     ]
 }

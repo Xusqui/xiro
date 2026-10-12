@@ -1,0 +1,11 @@
+{
+  "keys": {
+    "player.fillblanks.hint_cost": "Hint −{pct}%",
+    "player.fillblanks.hint_none": "No hints left",
+    "player.fillblanks.hint_aria": "Hint for blank {n}",
+    "player.fillblanks.help": "Tap a blank and type the word. Send when you have all the ones you know.",
+    "player.fillblanks.help_team": "Tap a blank and type. Each word is checked when complete and counts for the whole team.",
+    "player.fillblanks.submit": "Send",
+    "player.fillblanks.blank_aria": "Blank {n}"
+  }
+}

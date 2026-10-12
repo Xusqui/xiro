@@ -8,7 +8,6 @@
     "manual_player.tabs.score": "Punktestand",
     "manual_player.tabs.trivial": "Trivial",
     "manual_player.tabs.aria_label": "Anleitungsabschnitte",
-
     "manual_player.join.s1.title": "Gehe zu xiro.pro",
     "manual_player.join.s1.text": "<p>Öffne den Browser auf deinem Handy oder Tablet und gehe zu <strong>xiro.pro</strong>.</p><p>Du kannst auch den <strong>QR-Code</strong> auf dem Bildschirm scannen.</p>",
     "manual_player.join.s2.title": "Sitzungs-ID eingeben",
@@ -19,7 +18,6 @@
     "manual_player.join.s4.text": "<p><strong>(Optional)</strong> Falls das Spiel teambasiert ist, wirst du gefragt, welchem Team du beitreten möchtest. Tippe auf dein Team!</p>",
     "manual_player.join.s5.title": "Warten und spielen!",
     "manual_player.join.s5.text": "<p>Dein Name erscheint auf dem Bildschirm. Wenn «STARTEN» gedrückt wird, siehst du einen Countdown.</p><p><strong>Schnelligkeit bringt Bonuspunkte!</strong></p>",
-
     "manual_player.answer.section.title": "Fragetypen",
     "manual_player.answer.section.subtitle": "Es gibt verschiedene Antwortmechaniken. Verstehe, wie jede funktioniert!",
     "manual_player.answer.quiz.title": "Quiz",
@@ -42,7 +40,6 @@
     "manual_player.answer.matching.text": "Du siehst zwei Spalten. Die linke ist fest; ziehe die Elemente rechts, um jedes vor sein korrektes Paar zu platzieren. Tippe auf Bestätigen, wenn du fertig bist. Du erhältst Punkte für jedes korrekte Paar!",
     "manual_player.answer.word_search.title": "Buchstabensalat",
     "manual_player.answer.word_search.text": "Finde die in alle Richtungen versteckten Wörter in einem 10×10-Raster: Ziehe den Finger vom ersten zum letzten Buchstaben oder tippe beide an. Kommst du nicht weiter, tippe auf ein Wort in der Liste, um zu sehen, wo es beginnt (es zählt dann nur die Hälfte). Im Team sieht die ganze Gruppe, was einer findet. Je schneller du fertig bist, desto größer der Bonus!",
-
     "manual_player.score.section.title": "Punkte & Serien",
     "manual_player.score.section.subtitle": "Antworte schnell und mach keine Fehler, um deine Punkte zu maximieren.",
     "manual_player.score.streak_section.title": "Serienmultiplikatoren",
@@ -56,7 +53,6 @@
     "manual_player.score.streak.text": "<p>Wenn du mehrere Male hintereinander richtig antwortest, aktivierst du eine Serie und deine Punkte pro Frage werden mit einem Bonusfaktor multipliziert.</p>",
     "manual_player.score.double.title": "Doppelserie",
     "manual_player.score.double.text": "<p>Halte die Serie noch länger aufrecht ohne Fehler und du steigst auf — der Bonus erhöht sich. Je länger du durchhältst, desto mehr gewinnst du!</p>",
-
     "manual_player.trivial.section.title": "Trivial-Mechanik",
     "manual_player.trivial.section.subtitle": "Manchmal findet das Spiel auf einem animierten Brett statt. So funktioniert es:",
     "manual_player.trivial.s1.title": "Würfeln",
@@ -64,6 +60,8 @@
     "manual_player.trivial.s2.title": "Feld auswählen",
     "manual_player.trivial.s2.text": "<p>Die Figur rückt auf ein bestimmtes Feld des Brettes vor. Die Farbe des Feldes gibt die Kategorie an.</p>",
     "manual_player.trivial.s3.title": "Frage beantworten",
-    "manual_player.trivial.s3.text": "<p>Alle Spieler erhalten eine zufällige Frage basierend auf der Kategorie des gelandeten Feldes. Jetzt antworten!</p>"
+    "manual_player.trivial.s3.text": "<p>Alle Spieler erhalten eine zufällige Frage basierend auf der Kategorie des gelandeten Feldes. Jetzt antworten!</p>",
+    "manual_player.answer.fill_blanks.title": "Lückentext",
+    "manual_player.answer.fill_blanks.text": "Tippe auf eine Lücke und schreibe das Wort mit der Tastatur: jedes Kästchen ist ein Buchstabe. Wenn du nicht weiterkommst, fordere einen Tipp an (zeigt den ersten Buchstaben, dann den letzten, dann den mittleren), aber das Wort ist weniger wert (70 %, 40 %, 25 %). Ab der Hälfte der Lücken zählt es als richtig. In Teams wird jedes Wort beim Ausfüllen geprüft und richtige Wörter sieht die ganze Gruppe; wer zuerst sendet, schließt die Frage für alle."
   }
 }

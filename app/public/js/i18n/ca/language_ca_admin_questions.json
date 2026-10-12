@@ -58,6 +58,27 @@
     "admin.q.wordsearch_help_grid": "Cada partida genera una sopa diferent amb aquestes paraules",
     "admin.q.wordsearch_help_play": "El jugador veu la llista i marca cada paraula arrossegant o tocant-ne la primera i l’última lletra",
     "admin.q.wordsearch_help_points": "Puntuació: 20 pts per paraula trobada",
-    "admin.q.wordsearch_help_time": "Dona prou temps: 60-120 segons segons el nombre de paraules"
+    "admin.q.wordsearch_help_time": "Dona prou temps: 60-120 segons segons el nombre de paraules",
+    "admin.q.type_fill_blanks": "Completa la frase (Omple els buits)",
+    "admin.q.type_fill_blanks_short": "Completa la frase",
+    "admin.q.fillblanks_statement_note": "La frase s’escriu més avall, amb les paraules a endevinar entre claudàtors.",
+    "admin.q.fillblanks_intro": "El jugador veu la frase amb buits (una casella per lletra) i escriu la paraula de cadascun. Les paraules a endevinar van entre claudàtors.",
+    "admin.q.fillblanks_text_label": "Frase amb les paraules a endevinar entre claudàtors (1-3 paraules, de 4 a 14 lletres)",
+    "admin.q.fillblanks_placeholder": "La infecció per [Helicobacter] [pylori] causa més del 90% de les úlceres [duodenals]",
+    "admin.q.fillblanks_normalize_note": "Els accents i les minúscules es normalitzen sols ([Època] → EPOCA). La Ñ i la Ç es conserven.",
+    "admin.q.fillblanks_preview": "Així ho veuran els jugadors",
+    "admin.q.fillblanks_help_play": "El jugador escriu cada paraula amb el teclat del mòbil; la llargada de cada buit es veu a les caselles",
+    "admin.q.fillblanks_help_points": "Puntuació: 20 pts per paraula encertada (o la puntuació aleatòria) + un bonus de temps per pregunta",
+    "admin.q.fillblanks_help_hints": "Pistes: fins a 3 lletres per buit; la paraula passa a valer el 70 %, el 40 % i el 25 %",
+    "admin.q.fillblanks_help_streak": "Compta com a encert (i per a la ratxa) amb la meitat dels buits o més",
+    "admin.q.fillblanks_help_team": "En equips cada buit es comprova al completar-lo i l’encertat apareix a tot l’equip",
+    "admin.q.fillblanks_err_no_blanks": "Escriu almenys una paraula entre claudàtors: [paraula]",
+    "admin.q.fillblanks_err_too_many": "Com a màxim 3 paraules entre claudàtors",
+    "admin.q.fillblanks_err_unbalanced": "Hi ha un claudàtor sense tancar o solt",
+    "admin.q.fillblanks_err_chars": "«{word}»: només lletres, sense espais, números, guions ni signes",
+    "admin.q.fillblanks_err_short": "«{word}»: almenys 4 lletres",
+    "admin.q.fillblanks_err_long": "«{word}»: com a molt 14 lletres",
+    "admin.q.fillblanks_err_generic": "La frase no és vàlida",
+    "admin.q.fillblanks_err_marker": "No escriguis {{n}} a la frase: les paraules a endevinar van entre claudàtors"
   }
 }

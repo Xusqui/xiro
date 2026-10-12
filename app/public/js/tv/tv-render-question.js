@@ -103,9 +103,20 @@ window.TVApp.RenderQuestion = (function () {
             '<div class="ws-words ws-words--tv" role="list" style="-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:flex-start;align-items:flex-start;margin-left:30px">' + WS.chipsHtml(words) + '</div></div>';
     }
 
+    /** Enunciado: en Completa la frase, la frase con una casilla por letra (core/fill-blanks-text.js). */
+    function questionTextHtml(q) {
+        const FB = window.XiroFillBlanks;
+        if (q.question_type === 'fill_blanks' && FB) {
+            return '<div class="question-text" id="fb-tv-stage">' + FB.sanitizeSentenceHtml(q.question_text, q.fb_lengths || [], { sizeClass: 'fb-sentence--tv' }) + '</div>';
+        }
+        return '<div class="question-text">' + escapeHtml(q.question_text) + '</div>';
+    }
+
     /** Zona de respuesta: numérica (salvo con imagen), anagrama, opciones o aviso de que se ven en el móvil. */
     function answerAreaHtml(q, tieneImagen) {
         if (q.question_type === 'numeric_approximation') return tieneImagen ? '' : numericAreaHtml(q);
+        // Completa la frase: la frase con casillas ya es el enunciado (questionTextHtml)
+        if (q.question_type === 'fill_blanks') return '';
         // El anagrama se muestra también con imagen (como en el presentador): no son opciones
         if (q.question_type === 'word_scramble') return wordScrambleAreaHtml(q);
         if (q.question_type === 'word_search') return wordSearchAreaHtml(q);
@@ -137,7 +148,7 @@ window.TVApp.RenderQuestion = (function () {
         const questionTimeLimit = q.time_limit || 30;
         const answerAreaHTML = answerAreaHtml(q, tieneImagen);
         const nxtText = nextButtonText(state);
-        const mainHtml = '<div class="question-container"><div class="question-header"><table><tr><td style="width:150px"><img src="/images/logo.svg" style="max-width:100px"></td><td style="text-align:center"><div class="timer" id="timer" data-tv-action="toggle-pause-timer" style="cursor:pointer" title="Clic para pausar/reanudar">' + questionTimeLimit + '</div></td><td style="text-align:right;font-size:18px;font-weight:bold">RESPUESTAS: <span id="ans-count">0</span> / <span id="ans-total">' + state.totalPlayers + '</span></td></tr></table></div><div class="question-text">' + escapeHtml(q.question_text) + '</div>' + multimediaHTML + answerAreaHTML + '<button id="btn-next" data-tv-action="next-question" class="btn btn-secondary btn-next hidden">' + nxtText + '</button></div>';
+        const mainHtml = '<div class="question-container"><div class="question-header"><table><tr><td style="width:150px"><img src="/images/logo.svg" style="max-width:100px"></td><td style="text-align:center"><div class="timer" id="timer" data-tv-action="toggle-pause-timer" style="cursor:pointer" title="Clic para pausar/reanudar">' + questionTimeLimit + '</div></td><td style="text-align:right;font-size:18px;font-weight:bold">RESPUESTAS: <span id="ans-count">0</span> / <span id="ans-total">' + state.totalPlayers + '</span></td></tr></table></div>' + questionTextHtml(q) + multimediaHTML + answerAreaHTML + '<button id="btn-next" data-tv-action="next-question" class="btn btn-secondary btn-next hidden">' + nxtText + '</button></div>';
 
         getEl('main-container').innerHTML = _tHtml(mainHtml);
         clearCache();

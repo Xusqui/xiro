@@ -9,6 +9,8 @@ const { callLLM, getProviderPlan } = require('./ai-client');
 const { parseLLMResponse } = require('./response-parser');
 const { buildQuestionsForType, buildBankPayload } = require('./schema-builder');
 const prompts = require('./prompt-builder');
+const { buildFillBlanksPrompt } = require('./prompt-fill-blanks');
+const { buildWordSearchPrompt } = require('./prompt-word-search');
 const logger = require('../config/logger');
 
 const PROMPT_BUILDERS = {
@@ -17,7 +19,9 @@ const PROMPT_BUILDERS = {
     numeric_approximation: prompts.buildNumericPrompt,
     order: prompts.buildOrderPrompt,
     word_scramble: prompts.buildWordScramblePrompt,
-    multiple_choice: prompts.buildMultipleChoicePrompt
+    multiple_choice: prompts.buildMultipleChoicePrompt,
+    fill_blanks: buildFillBlanksPrompt,
+    word_search: buildWordSearchPrompt
 };
 
 const QUESTION_TYPES = Object.keys(PROMPT_BUILDERS);
@@ -230,7 +234,8 @@ async function generateForType(input) {
  * @param {{
  *   name: string,
  *   quiz?: number, survey?: number, numeric_approximation?: number,
- *   order?: number, word_scramble?: number, multiple_choice?: number,
+ *   order?: number, word_scramble?: number, multiple_choice?: number, fill_blanks?: number,
+ *   word_search?: number,
  *   dificultad?: string
  * }} config
  * @param {AbortSignal} [signal]

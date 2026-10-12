@@ -1,0 +1,11 @@
+{
+  "keys": {
+    "player.fillblanks.hint_cost": "提示 −{pct}%",
+    "player.fillblanks.hint_none": "无提示",
+    "player.fillblanks.hint_aria": "空格 {n} 的提示",
+    "player.fillblanks.help": "点击空格并输入单词。把你知道的都填好后发送。",
+    "player.fillblanks.help_team": "点击空格并输入。每个单词填完即校验，并对全队有效。",
+    "player.fillblanks.submit": "发送",
+    "player.fillblanks.blank_aria": "空格 {n}"
+  }
+}

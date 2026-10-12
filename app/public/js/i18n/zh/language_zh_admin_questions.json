@@ -58,6 +58,27 @@
     "admin.q.wordsearch_help_grid": "每局游戏都会用这些单词生成不同的字母格",
     "admin.q.wordsearch_help_play": "玩家看到单词列表，通过拖动或依次点击单词的首字母和末字母来标记",
     "admin.q.wordsearch_help_points": "计分：每找到一个单词得 20 分",
-    "admin.q.wordsearch_help_time": "请留出足够时间：根据单词数量设为 60-120 秒"
+    "admin.q.wordsearch_help_time": "请留出足够时间：根据单词数量设为 60-120 秒",
+    "admin.q.type_fill_blanks": "完成句子（填空）",
+    "admin.q.type_fill_blanks_short": "填空",
+    "admin.q.fillblanks_statement_note": "句子在下方填写，要猜的单词放在方括号 [ ] 中。",
+    "admin.q.fillblanks_intro": "玩家看到带空格的句子（每个字母一个格子），并输入每个空格的单词。要猜的单词放在方括号中。",
+    "admin.q.fillblanks_text_label": "句子，要猜的单词放在方括号中（1-3 个单词，4 到 14 个字母）",
+    "admin.q.fillblanks_placeholder": "[Helicobacter] [pylori] 感染导致超过 90% 的 [duodenal] 溃疡",
+    "admin.q.fillblanks_normalize_note": "重音和小写会自动规范化（[Época] → EPOCA）。Ñ 和 Ç 保留。",
+    "admin.q.fillblanks_preview": "玩家将看到的效果",
+    "admin.q.fillblanks_help_play": "玩家用手机键盘输入每个单词；格子数显示单词长度",
+    "admin.q.fillblanks_help_points": "计分：每个正确单词 20 分（或随机分数）+ 每题一次时间奖励",
+    "admin.q.fillblanks_help_hints": "提示：每个空格最多 3 个字母；该单词的分值变为 70%、40% 和 25%",
+    "admin.q.fillblanks_help_streak": "答对一半或以上的空格即算正确（并计入连胜）",
+    "admin.q.fillblanks_help_team": "团队模式下每个空格填完即校验，正确的单词显示给全队",
+    "admin.q.fillblanks_err_no_blanks": "至少写一个方括号中的单词：[单词]",
+    "admin.q.fillblanks_err_too_many": "方括号中的单词最多 3 个",
+    "admin.q.fillblanks_err_unbalanced": "有未闭合或多余的方括号",
+    "admin.q.fillblanks_err_chars": "“{word}”：只能是字母，不能有空格、数字、连字符或符号",
+    "admin.q.fillblanks_err_short": "“{word}”：至少 4 个字母",
+    "admin.q.fillblanks_err_long": "“{word}”：最多 14 个字母",
+    "admin.q.fillblanks_err_generic": "句子无效",
+    "admin.q.fillblanks_err_marker": "不要在句子中写 {{n}}：要猜的单词放在方括号中"
   }
 }

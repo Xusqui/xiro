@@ -1,0 +1,11 @@
+{
+  "keys": {
+    "player.fillblanks.hint_cost": "Pista −{pct} %",
+    "player.fillblanks.hint_none": "Sen pistas",
+    "player.fillblanks.hint_aria": "Pista para o oco {n}",
+    "player.fillblanks.help": "Toca un oco e escribe a palabra. Envía cando teñas todas as que saibas.",
+    "player.fillblanks.help_team": "Toca un oco e escribe. Cada palabra compróbase ao completala e vale para todo o equipo.",
+    "player.fillblanks.submit": "Enviar",
+    "player.fillblanks.blank_aria": "Oco {n}"
+  }
+}

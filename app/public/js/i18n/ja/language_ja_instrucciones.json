@@ -26,6 +26,8 @@
     "instructions.question_types.multiple.title": "多肢選択",
     "instructions.question_types.multiple.description": "クイズと似ていますが、この場合は同時に 1 ～ 6 つの正解が存在する可能性があります。",
     "instructions.question_types.word_search.title": "ワードサーチ (Word Search)",
-    "instructions.question_types.word_search.description": "10×10 のマスにあらゆる方向で隠された単語を見つけます。見つけた単語ごとに得点が入ります。単語をタップすると開始位置が分かりますが、得点は半分になります。"
+    "instructions.question_types.word_search.description": "10×10 のマスにあらゆる方向で隠された単語を見つけます。見つけた単語ごとに得点が入ります。単語をタップすると開始位置が分かりますが、得点は半分になります。",
+    "instructions.question_types.fill_blanks.title": "穴埋め（Fill Blanks）",
+    "instructions.question_types.fill_blanks.description": "最大3つの空欄がある文。各空欄の単語を入力します（文字数が表示されます）。正解の単語ごとに得点、さらに時間ボーナス。空欄ごとに最大3文字のヒントを求められますが、その単語の価値は下がります。"
   }
 }

@@ -67,6 +67,12 @@
     "standalone.game.wordsearch_finish": "Terminer",
     "standalone.game.wordsearch_found": "{n} mots sur {total}",
     "standalone.game.wordsearch_hint_help": "Indice : touchez un mot (vaut la moitié)",
-    "standalone.game.wordsearch_hint_aria": "Indice :"
+    "standalone.game.wordsearch_hint_aria": "Indice :",
+    "standalone.game.fillblanks_title": "Complète la phrase",
+    "standalone.game.fillblanks_help": "Touche un trou et écris le mot. Envoie quand tu as tous ceux que tu connais.",
+    "standalone.game.fillblanks_hint_cost": "Indice −{pct} %",
+    "standalone.game.fillblanks_hint_none": "Plus d’indices",
+    "standalone.game.fillblanks_blank_aria": "Trou {n}",
+    "standalone.game.fillblanks_correct": "{n} mots sur {total}"
   }
 }

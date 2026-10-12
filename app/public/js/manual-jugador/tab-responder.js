@@ -61,6 +61,12 @@ export function getTabResponderHTML() {
             title: _t('manual_player.answer.word_search.title'),
             text: _t('manual_player.answer.word_search.text'),
             placeholderId: 'img-word-search', imgSrc: './images/manual/img-word-search.jpg', mascotImg: 'searching.svg'
+        },
+        {
+            color: '#10b981', icon: 'fas fa-i-cursor',
+            title: _t('manual_player.answer.fill_blanks.title'),
+            text: _t('manual_player.answer.fill_blanks.text'),
+            placeholderId: 'img-fill-blanks', imgSrc: './images/manual/img-fill-blanks.jpg', mascotImg: 'detective.svg'
         }
     ];
 

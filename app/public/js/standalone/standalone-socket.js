@@ -163,6 +163,17 @@ const StandaloneSocket = (() => {
         });
     }
 
+    /** Completa la frase: pide una letra del hueco `blankIndex` (la palabra vale 70/40/25 %). */
+    function requestFillBlanksHint(blankIndex) {
+        return new Promise((resolve) => {
+            if (!playerSocket) {
+                resolve({ ok: false, reason: 'not-connected' });
+                return;
+            }
+            playerSocket.emit('fill-blanks-hint', { blankIndex }, (ack) => resolve(ack || { ok: false }));
+        });
+    }
+
     function nextQuestion() {
         const sessionId = StandaloneState.get().sessionId;
         if (presenterSocket && sessionId) {
@@ -198,6 +209,7 @@ const StandaloneSocket = (() => {
         startSession,
         submitAnswer,
         requestWordSearchHint,
+        requestFillBlanksHint,
         nextQuestion,
         abandonAndDisconnect
     };

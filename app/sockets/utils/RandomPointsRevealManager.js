@@ -39,14 +39,19 @@ function delay(ms) {
  * calcula su propio multiplicador con la racha que ya tiene en cliente, así que el
  * servidor solo manda la configuración de rachas, no un valor por jugador.
  *
+ * En «Completa la frase» el valor es por palabra acertada: `perWord` cambia el texto
+ * de la pantalla ("JUGÁIS POR X PUNTOS POR PALABRA").
+ *
  * @param {Object} game
+ * @param {Object} [question] - Pregunta que se va a revelar (por defecto la actual)
  * @returns {Object}
  */
-function buildRevealPayload(game) {
+function buildRevealPayload(game, question = game?.questions?.[game.currentIndex]) {
     const streak = extractStreakConfig(game);
 
     return {
         points: game.currentRandomPoints,
+        perWord: question?.question_type === 'fill_blanks',
         questionIndex: game.currentIndex,
         durationMs: revealDurationMs(),
         startedAt: Date.now(),
@@ -112,7 +117,7 @@ async function runRandomPointsReveal({ game, question, roomId, io, syncBus }) {
         return true;
     }
 
-    const payload = buildRevealPayload(game);
+    const payload = buildRevealPayload(game, question);
     const snapshot = { currentIndex: game.currentIndex, epoch: game._epoch || 0 };
 
     io.to(`${roomId}:players`).emit(REVEAL_EVENT, payload);

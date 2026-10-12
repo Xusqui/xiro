@@ -144,6 +144,18 @@ function normalizePlayerPayloadInput(input, legacyArgs) {
     };
 }
 
+/** Detalle propio del tipo de pregunta en el resultado del jugador */
+function typedDetails(currentQuestion, playerAnswer, ctx) {
+    const type = currentQuestion.question_type;
+    return {
+        orderDetails: ctx.isOrderQuestion ? playerAnswer?.orderDetails || null : null,
+        multipleChoiceDetails: ctx.isMultipleChoiceQuestion ? playerAnswer?.multipleChoiceDetails || null : null,
+        matchingDetails: type === 'matching' ? playerAnswer?.matchingDetails || null : null,
+        ...(type === 'word_search' ? { wordSearchDetails: playerAnswer?.wordSearchDetails || null } : {}),
+        ...(type === 'fill_blanks' ? { fillBlanksDetails: playerAnswer?.fillBlanksDetails || null } : {})
+    };
+}
+
 function buildAnsweredPayload({ currentQuestion, playerAnswer, scores, game, playerNick, teamName }) {
     const ctx = resolveAnswerContext(currentQuestion, playerAnswer);
     const isCorrect = resolveTeamRevealCorrectness(currentQuestion, playerAnswer);
@@ -160,11 +172,7 @@ function buildAnsweredPayload({ currentQuestion, playerAnswer, scores, game, pla
             ctx.isSurveyQuestion
         ),
         ranking: buildRanking(scores),
-        orderDetails: ctx.isOrderQuestion ? playerAnswer?.orderDetails || null : null,
-        multipleChoiceDetails: ctx.isMultipleChoiceQuestion ? playerAnswer?.multipleChoiceDetails || null : null,
-        matchingDetails: currentQuestion.question_type === 'matching' ? playerAnswer?.matchingDetails || null : null,
-        ...(currentQuestion.question_type === 'word_search'
-            ? { wordSearchDetails: playerAnswer?.wordSearchDetails || null } : {}),
+        ...typedDetails(currentQuestion, playerAnswer, ctx),
         streak: (game && playerNick) ? (game.playerStreakInfos?.[playerNick] || null) : null
     };
 

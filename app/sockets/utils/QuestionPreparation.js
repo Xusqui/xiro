@@ -5,6 +5,7 @@
 const { shuffle } = require('../../services/game.logic');
 const { generateScrambledLetters, normalizeWord } = require('../../domain/services/WordScrambleService');
 const { prepareWordSearchQuestion } = require('../../domain/services/WordSearchService');
+const { prepareFillBlanksQuestion } = require('../../domain/services/FillBlanksService');
 const logger = require('../../config/logger');
 
 /**
@@ -23,6 +24,28 @@ function prepareWordSearchLogged(question, context = {}) {
             ...context,
             questionId: question?.id,
             words: prepared.ws_words
+        });
+    }
+    return prepared;
+}
+
+/**
+ * Prepara una pregunta de Completa la frase y avisa en el log si los huecos de la
+ * frase no cuadran con las palabras guardadas (bancos antiguos o importados a mano):
+ * la pregunta se juega igual, pero conviene que quede rastro.
+ * También lo usan los manejadores del Trivial.
+ * @param {Object} question
+ * @param {Object} [context] - Datos extra para el log (sala, tipo de juego…)
+ * @returns {Object} Pregunta preparada (fb_words, fb_lengths)
+ */
+function prepareFillBlanksLogged(question, context = {}) {
+    const prepared = prepareFillBlanksQuestion(question);
+    if (!prepared.fb_valid) {
+        logger.warn('fill_blanks con huecos y palabras que no cuadran', {
+            ...context,
+            questionId: question?.id,
+            blanks: (question?.question_text || '').match(/\{\{\d+\}\}/g)?.length || 0,
+            words: prepared.fb_words
         });
     }
     return prepared;
@@ -91,6 +114,11 @@ function prepareQuestions(questions, gameType) {
             return prepareWordSearchLogged(q, { gameType });
         }
 
+        // Completa la frase: solución normalizada (fb_words) y longitud de cada hueco (fb_lengths)
+        if (q.question_type === 'fill_blanks') {
+            return prepareFillBlanksLogged(q, { gameType });
+        }
+
         // Barajar opciones para preguntas normales
         return {
             ...q,
@@ -101,5 +129,6 @@ function prepareQuestions(questions, gameType) {
 
 module.exports = {
     prepareQuestions,
-    prepareWordSearchLogged
+    prepareWordSearchLogged,
+    prepareFillBlanksLogged
 };

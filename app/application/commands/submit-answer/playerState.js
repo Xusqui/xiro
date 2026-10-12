@@ -15,6 +15,14 @@ const MultipleChoiceAnswerStateService = require('../../../domain/services/Multi
 const AnswerProcessingService = require('../../../domain/services/AnswerProcessingService');
 const answerStatsStore = require('../../../services/AnswerStatsStore');
 
+/** Respuesta libre tal cual se guarda: número, palabra, selecciones de la sopa o palabras de los huecos */
+function resolveFreeInputAnswer(flags, payload) {
+    if (flags.isNumericQuestion) return Number(payload.playerAnswer);
+    if (flags.isWordSearchQuestion) return [...(payload.found || [])];
+    if (flags.isFillBlanksQuestion) return [...(payload.words || [])];
+    return String(payload.playerAnswer);
+}
+
 /**
  * Persist the submitted answer in player and socket state.
  *
@@ -36,7 +44,6 @@ function persistPlayerAnswerState(ctx) {
         index,
         order,
         matches,
-        playerAnswer,
         selectedIndices
     } = payload;
 
@@ -64,10 +71,8 @@ function persistPlayerAnswerState(ctx) {
         return;
     }
 
-    if (flags.isNumericQuestion || flags.isWordScrambleQuestion || flags.isWordSearchQuestion) {
-        const normalizedAnswer = flags.isNumericQuestion
-            ? Number(playerAnswer)
-            : flags.isWordSearchQuestion ? [...(payload.found || [])] : String(playerAnswer);
+    if (flags.isNumericQuestion || flags.isWordScrambleQuestion || flags.isWordSearchQuestion || flags.isFillBlanksQuestion) {
+        const normalizedAnswer = resolveFreeInputAnswer(flags, payload);
 
         if (player) {
             player.answeredQuestions.add(game.currentIndex);
@@ -133,6 +138,7 @@ async function updateOptionAnswerStats(ctx) {
         || flags.isNumericQuestion
         || flags.isWordScrambleQuestion
         || flags.isWordSearchQuestion
+        || flags.isFillBlanksQuestion
         || flags.isMultipleChoiceQuestion) {
         return;
     }

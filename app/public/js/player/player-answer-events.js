@@ -10,6 +10,9 @@ import { renderLastRankingSince } from './player-results.js?v=20260922172926';
 import { enviarOrdenRespuesta, enviarMatchingRespuesta } from './player-answer.js?v=20260922172926';
 import { enviarRespuestaWordSearch } from './player-answer-wordsearch.js?v=20260922172926';
 import { hasActiveWordSearch } from './player-wordsearch-state.js?v=20260922172926';
+import { enviarRespuestaFillBlanks } from './player-answer-fillblanks.js?v=20260922172926';
+import { hasActiveFillBlanks } from './player-fillblanks-state.js?v=20260922172926';
+import { isTeamFillBlanks } from './player-fillblanks-team.js?v=20260922172926';
 import { buildAnswerResultHTML } from './player-answer-result.js?v=20260922172926';
 import { appendCorrectAnswerToResult, rememberReveal, timeUpScreenHtml } from './player-reveal-correct.js?v=20260922172926';
 import {
@@ -57,6 +60,12 @@ function onBlockedAnswer(data) {
     // Sopa de letras: enviar las palabras encontradas hasta ahora
     if (!getHaRespondido() && hasActiveWordSearch()) {
         enviarRespuestaWordSearch(true);
+    }
+
+    // Completa la frase en equipos: cuentan los huecos ya validados (sin bonus de tiempo).
+    // En individual, sin ENVIAR no hay puntos: no se envía nada.
+    if (!getHaRespondido() && hasActiveFillBlanks() && isTeamFillBlanks()) {
+        enviarRespuestaFillBlanks(true);
     }
 
     setCanAnswer(false);

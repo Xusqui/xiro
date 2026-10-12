@@ -1,0 +1,11 @@
+{
+  "keys": {
+    "player.fillblanks.hint_cost": "Pista −{pct} %",
+    "player.fillblanks.hint_none": "Sem pistas",
+    "player.fillblanks.hint_aria": "Pista para o espaço {n}",
+    "player.fillblanks.help": "Toca num espaço e escreve a palavra. Envia quando tiveres todas as que souberes.",
+    "player.fillblanks.help_team": "Toca num espaço e escreve. Cada palavra é verificada ao completá-la e vale para toda a equipa.",
+    "player.fillblanks.submit": "Enviar",
+    "player.fillblanks.blank_aria": "Espaço {n}"
+  }
+}

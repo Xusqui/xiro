@@ -1,0 +1,11 @@
+{
+  "keys": {
+    "player.fillblanks.hint_cost": "Pista −%{pct}",
+    "player.fillblanks.hint_none": "Pistarik ez",
+    "player.fillblanks.hint_aria": "{n}. hutsunerako pista",
+    "player.fillblanks.help": "Ukitu hutsune bat eta idatzi hitza. Bidali dakizkizun guztiak dituzunean.",
+    "player.fillblanks.help_team": "Ukitu hutsune bat eta idatzi. Hitz bakoitza osatzean egiaztatzen da eta talde osoarentzat balio du.",
+    "player.fillblanks.submit": "Bidali",
+    "player.fillblanks.blank_aria": "{n}. hutsunea"
+  }
+}

@@ -24,6 +24,7 @@
  * // Devuelve: { type: 'quiz', display: 'Opción A', optionIndex: 0 }
  */
 const { getQuestionWords } = require('../../domain/services/WordSearchService');
+const FB = require('../../public/js/core/fill-blanks-text.js');
 
 function toOptionsArray(options) {
     return Array.isArray(options) ? options : [];
@@ -125,12 +126,26 @@ function extractWordSearchAnswer(question) {
     return items.length > 0 ? { type: 'word_search', items } : null;
 }
 
+/** Completa la frase: las palabras de los huecos y la frase con ellas entre corchetes */
+function extractFillBlanksAnswer(question) {
+    const words = Array.isArray(question.fb_words) ? question.fb_words : FB.wordsFromOptions(question.options);
+    const items = words.filter(Boolean);
+    if (items.length === 0) return null;
+    return {
+        type: 'fill_blanks',
+        items,
+        text: question.question_text || '',
+        display: FB.toEditorText(question.question_text || '', items)
+    };
+}
+
 const ANSWER_EXTRACTORS = {
     order: extractOrderAnswer,
     numeric_approximation: extractNumericAnswer,
     word_scramble: extractWordScrambleAnswer,
     multiple_choice: extractMultipleChoiceAnswer,
-    word_search: extractWordSearchAnswer
+    word_search: extractWordSearchAnswer,
+    fill_blanks: extractFillBlanksAnswer
 };
 
 function extractCorrectAnswer(question) {
@@ -173,7 +188,7 @@ function formatCorrectAnswerForDisplay(answer) {
         return answer.word;
     }
 
-    if (answer.type === 'multiple_choice' || answer.type === 'word_search') {
+    if (answer.type === 'multiple_choice' || answer.type === 'word_search' || answer.type === 'fill_blanks') {
         return answer.items.join(', ');
     }
 
@@ -286,7 +301,24 @@ function generateCorrectAnswerHTML(answer) {
         `;
     }
 
+    if (answer.type === 'fill_blanks') {
+        return fillBlanksAnswerHtml(answer);
+    }
+
     return ''; // Fallback
+}
+
+/** Completa la frase: frase completa con cada palabra resaltada (los marcadores {{n}} pasan a fichas) */
+function fillBlanksAnswerHtml(answer) {
+    const sentence = escapeHtml(answer.text).replace(/\{\{(\d+)\}\}/g, (_m, n) => {
+        const word = answer.items[Number(n) - 1] || '';
+        return `<span style="display: inline-block; background: rgba(16, 185, 129, 0.25); border: 3px solid #10b981; color: white; padding: 4px 16px; margin: 0 4px; border-radius: 12px; font-weight: 900; letter-spacing: 2px;">${escapeHtml(word)}</span>`;
+    });
+    return `
+            <div style="text-align: center; color: white; font-size: 30px; font-weight: 700; line-height: 1.7;">
+                ${sentence}
+            </div>
+        `;
 }
 
 /**

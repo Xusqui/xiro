@@ -117,7 +117,7 @@ function renderResultadosBusqueda(questions) {
                     </button>
                     <div class="flex-1 min-w-0">
                         <span class="text-xs font-bold text-plum-700 bg-plum-100 px-2 py-0.5 rounded">${escapeHtml(q.bank_name)}</span>
-                        <p class="font-medium text-sm text-slate-800 mt-1">${escapeHtml(q.question_text)}</p>
+                        <p class="font-medium text-sm text-slate-800 mt-1">${escapeHtml(displayQuestionTextFrontend(q))}</p>
                         <p class="text-xs text-green-600 mt-0.5">
                             <i class="fas fa-check-circle mr-1"></i>
                             ${q.question_type === 'survey' ? 'Encuesta (votos)' : escapeHtml(correctDisplay)}
@@ -162,7 +162,9 @@ function agregarPreguntaDesdeBusqueda(questionId) {
         options: (isNumericApproximation || isWordScramble) ? [] : safeOptions.map(o => ({
             optionText: o.option_text,
             isCorrect: !!o.is_correct,
-            justification: o.justification
+            justification: o.justification,
+            // Completa la frase y sopa de letras: el orden de las palabras
+            order_index: o.order_index ?? null
         })),
         correct_answer: isNumericApproximation ? question.correct_answer : null,
         correct_word: isWordScramble ? (question.correct_word || null) : null,

@@ -67,6 +67,12 @@
     "standalone.game.wordsearch_finish": "Amaitu",
     "standalone.game.wordsearch_found": "{total} hitzetatik {n}",
     "standalone.game.wordsearch_hint_help": "Pista: ukitu hitz bat (erdia balio du)",
-    "standalone.game.wordsearch_hint_aria": "Pista:"
+    "standalone.game.wordsearch_hint_aria": "Pista:",
+    "standalone.game.fillblanks_title": "Osatu esaldia",
+    "standalone.game.fillblanks_help": "Ukitu hutsune bat eta idatzi hitza. Bidali dakizkizun guztiak dituzunean.",
+    "standalone.game.fillblanks_hint_cost": "Pista −%{pct}",
+    "standalone.game.fillblanks_hint_none": "Pistarik ez",
+    "standalone.game.fillblanks_blank_aria": "{n}. hutsunea",
+    "standalone.game.fillblanks_correct": "{total} hitzetatik {n}"
   }
 }

@@ -8,7 +8,6 @@
     "manual_player.tabs.score": "Puntuació",
     "manual_player.tabs.trivial": "Trivial",
     "manual_player.tabs.aria_label": "Seccions del manual",
-
     "manual_player.join.s1.title": "Vés a xiro.pro",
     "manual_player.join.s1.text": "<p>Obre el navegador al teu mòbil o tauleta i vés a <strong>xiro.pro</strong>.</p><p>També pots escanejar el <strong>codi QR</strong> a la pantalla.</p>",
     "manual_player.join.s2.title": "Introdueix l'ID de sessió",
@@ -19,7 +18,6 @@
     "manual_player.join.s4.text": "<p><strong>(Opcional)</strong> Si el joc és per equips, la pantalla et demanarà a quin et vols unir. Prem el teu equip!</p>",
     "manual_player.join.s5.title": "Espera i juga!",
     "manual_player.join.s5.text": "<p>El teu nom apareixerà a la pantalla. Quan premis «INICIAR» veuràs un compte enrere.</p><p><strong>La velocitat suma punts!</strong></p>",
-
     "manual_player.answer.section.title": "Tipus de pregunta",
     "manual_player.answer.section.subtitle": "Hi ha diferents mecàniques de resposta. Entén com funciona cadascuna!",
     "manual_player.answer.quiz.title": "Quiz",
@@ -42,7 +40,6 @@
     "manual_player.answer.matching.text": "Veuràs dues columnes. L'esquerra és fixa; arrossega els elements de la dreta per col·locar cadascun davant de la seva parella. Prem Confirmar quan ho tinguis. Guanyes punts per cada parella encertada!",
     "manual_player.answer.word_search.title": "Sopa de Lletres",
     "manual_player.answer.word_search.text": "Busca en una graella de 10×10 les paraules amagades en qualsevol direcció: arrossega el dit de la primera a l'última lletra, o toca-les totes dues. Si t'encalles, toca una paraula de la llista per veure on comença (valdrà la meitat). En equips, el que troba un ho veu tot el grup. Com més aviat acabis, més bonificació!",
-
     "manual_player.score.section.title": "Sistema de puntuació i ratxes",
     "manual_player.score.section.subtitle": "Encerta ràpid i no fallis per maximitzar els teus punts.",
     "manual_player.score.streak_section.title": "Multiplicadors per ratxa",
@@ -56,7 +53,6 @@
     "manual_player.score.streak.text": "<p>En encertar diverses vegades consecutives entraràs en Ratxa i els teus punts per pregunta es multiplicaran per una bonificació extra.</p>",
     "manual_player.score.double.title": "Doble ratxa",
     "manual_player.score.double.text": "<p>Si mantens la ratxa encara més temps sense fallar, puges de nivell i la bonificació augmenta. El que més aguanta, més guanya!</p>",
-
     "manual_player.trivial.section.title": "Mecànica del Trivial",
     "manual_player.trivial.section.subtitle": "De vegades el joc es desenvolupa en un tauler animat. Així funciona:",
     "manual_player.trivial.s1.title": "Llança el dau",
@@ -64,6 +60,8 @@
     "manual_player.trivial.s2.title": "Tria la casella",
     "manual_player.trivial.s2.text": "<p>La fitxa avança la seva posició fins a aterrar en una casella específica del tauler. El color de la casella marca la categoria.</p>",
     "manual_player.trivial.s3.title": "Respon la pregunta",
-    "manual_player.trivial.s3.text": "<p>A tots els jugadors se'ls presenta una pregunta aleatòria basada en la categoria de la casella en la qual s'ha caigut. A respondre!</p>"
+    "manual_player.trivial.s3.text": "<p>A tots els jugadors se'ls presenta una pregunta aleatòria basada en la categoria de la casella en la qual s'ha caigut. A respondre!</p>",
+    "manual_player.answer.fill_blanks.title": "Completa la Frase",
+    "manual_player.answer.fill_blanks.text": "Toca un buit i escriu la paraula amb el teclat: cada casella és una lletra. Si t’encalles, demana una pista (destapa la primera lletra, després l’última i la central), però aquella paraula valdrà menys (70 %, 40 %, 25 %). Compta com a encert amb la meitat dels buits o més. En equips, cada paraula es comprova al completar-la i l’encertat el veu tot el grup; el primer que envia tanca la pregunta per a tots."
   }
 }

@@ -26,6 +26,8 @@
     "instructions.question_types.multiple.title": "Opción Múltiple",
     "instructions.question_types.multiple.description": "Similar al Quiz, pero en este caso puede haber entre 1 y 6 respuestas correctas simultáneamente.",
     "instructions.question_types.word_search.title": "Sopa de Letras (Word Search)",
-    "instructions.question_types.word_search.description": "Hay que encontrar en una rejilla de 10x10 las palabras escondidas en cualquier dirección. Cada palabra encontrada suma puntos. Si tocas una palabra verás dónde empieza, pero valdrá la mitad."
+    "instructions.question_types.word_search.description": "Hay que encontrar en una rejilla de 10x10 las palabras escondidas en cualquier dirección. Cada palabra encontrada suma puntos. Si tocas una palabra verás dónde empieza, pero valdrá la mitad.",
+    "instructions.question_types.fill_blanks.title": "Completa la Frase (Fill Blanks)",
+    "instructions.question_types.fill_blanks.description": "Una frase con hasta tres huecos: hay que escribir la palabra de cada uno (se ve cuántas letras tiene). Cada palabra acertada suma puntos y hay un bonus de tiempo. Puedes pedir hasta tres letras de pista por hueco, pero la palabra valdrá menos."
   }
 }

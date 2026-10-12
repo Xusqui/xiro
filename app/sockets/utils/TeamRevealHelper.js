@@ -270,7 +270,8 @@ function typedDetailFields(question, playerAnswer, isOrderQuestion) {
         multipleChoiceDetails: type === 'multiple_choice' ? playerAnswer?.multipleChoiceDetails || null : null,
         matchingDetails: type === 'matching' ? playerAnswer?.matchingDetails || null : null,
         // Solo en sopa de letras: el resto de tipos conserva su payload tal cual
-        ...(type === 'word_search' ? { wordSearchDetails: playerAnswer?.wordSearchDetails || null } : {})
+        ...(type === 'word_search' ? { wordSearchDetails: playerAnswer?.wordSearchDetails || null } : {}),
+        ...(type === 'fill_blanks' ? { fillBlanksDetails: playerAnswer?.fillBlanksDetails || null } : {})
     };
 }
 

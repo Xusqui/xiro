@@ -8,7 +8,6 @@
     "manual_player.tabs.score": "Puntuación",
     "manual_player.tabs.trivial": "Trivial",
     "manual_player.tabs.aria_label": "Seccións do manual",
-
     "manual_player.join.s1.title": "Vai a xiro.pro",
     "manual_player.join.s1.text": "<p>Abre o navegador no teu móbil ou tableta e vai a <strong>xiro.pro</strong>.</p><p>Tamén podes escanear o <strong>código QR</strong> en pantalla.</p>",
     "manual_player.join.s2.title": "Introduce o ID de sesión",
@@ -19,7 +18,6 @@
     "manual_player.join.s4.text": "<p><strong>(Opcional)</strong> Se o xogo é por equipos, a pantalla pedirache a cal te unes. Preme o teu equipo!</p>",
     "manual_player.join.s5.title": "Agarda e xoga!",
     "manual_player.join.s5.text": "<p>O teu nome aparecerá en pantalla. Cando preman «COMEZAR» verás unha conta atrás.</p><p><strong>A velocidade suma puntos!</strong></p>",
-
     "manual_player.answer.section.title": "Tipos de pregunta",
     "manual_player.answer.section.subtitle": "Existen diferentes mecánicas de resposta. Entende como funciona cada unha!",
     "manual_player.answer.quiz.title": "Quiz",
@@ -42,7 +40,6 @@
     "manual_player.answer.matching.text": "Verás dúas columnas. A esquerda está fixa; arrastra os elementos da dereita para colocar cada un fronte á súa parella correcta. Preme Confirmar cando o teñas. Gañas puntos por cada parella acertada!",
     "manual_player.answer.word_search.title": "Sopa de Letras",
     "manual_player.answer.word_search.text": "Busca nunha grella de 10×10 as palabras agochadas en calquera dirección: arrastra o dedo da primeira á última letra, ou toca as dúas. Se te atascas, toca unha palabra da lista para ver onde comeza (valerá a metade). En equipos, o que atopa un véxao todo o grupo. Canto antes remates, máis bonificación!",
-
     "manual_player.score.section.title": "Sistema de puntuación e rachas",
     "manual_player.score.section.subtitle": "Acerta rápido e non falles para maximizar os teus puntos.",
     "manual_player.score.streak_section.title": "Multiplicadores por racha",
@@ -56,7 +53,6 @@
     "manual_player.score.streak.text": "<p>Ao acertar varias veces consecutivas entrarás en Racha e os teus puntos por pregunta multiplicaranse por unha bonificación extra.</p>",
     "manual_player.score.double.title": "Dobre racha",
     "manual_player.score.double.text": "<p>Se mantés a racha aínda máis tempo sen fallar, sobes de nivel e a bonificación aumenta. O que máis aguanta, máis gaña!</p>",
-
     "manual_player.trivial.section.title": "Mecánica do Trivial",
     "manual_player.trivial.section.subtitle": "Ás veces o xogo desenvólvese nun taboleiro animado. Así funciona:",
     "manual_player.trivial.s1.title": "Lanza o dado",
@@ -64,6 +60,8 @@
     "manual_player.trivial.s2.title": "Escolle a casa",
     "manual_player.trivial.s2.text": "<p>A ficha avanza a súa posición ata aterrar nunha casa específica do taboleiro. A cor da casa marca a categoría.</p>",
     "manual_player.trivial.s3.title": "Contesta a pregunta",
-    "manual_player.trivial.s3.text": "<p>A todos os xogadores preséntaselles unha pregunta aleatoria baseada na categoría da casa na que se caeu. A responder!</p>"
+    "manual_player.trivial.s3.text": "<p>A todos os xogadores preséntaselles unha pregunta aleatoria baseada na categoría da casa na que se caeu. A responder!</p>",
+    "manual_player.answer.fill_blanks.title": "Completa a Frase",
+    "manual_player.answer.fill_blanks.text": "Toca un oco e escribe a palabra co teclado: cada casa é unha letra. Se te atascas, pide unha pista (destapa a primeira letra, logo a última e a central), pero esa palabra valerá menos (70 %, 40 %, 25 %). Conta como acerto coa metade dos ocos ou máis. En equipos, cada palabra compróbase ao completala e o acertado veo todo o grupo; o primeiro que envía cerra a pregunta para todos."
   }
 }

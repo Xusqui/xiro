@@ -3,6 +3,7 @@
     "game.random_points.headline": "VOUS JOUEZ POUR {points} POINTS",
     "game.random_points.time_bonus": "+ BONUS DE TEMPS",
     "game.random_points.streak_multiplier": "x{multiplier} pour ta série",
-    "game.random_points.badge": "🎲 {points} pts"
+    "game.random_points.badge": "🎲 {points} pts",
+    "game.random_points.headline_per_word": "VOUS JOUEZ POUR {points} POINTS PAR MOT"
   }
 }

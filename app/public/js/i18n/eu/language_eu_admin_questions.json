@@ -58,6 +58,27 @@
     "admin.q.wordsearch_help_grid": "Partida bakoitzak zopa desberdin bat sortzen du hitz hauekin",
     "admin.q.wordsearch_help_play": "Jokalariak zerrenda ikusten du eta hitz bakoitza markatzen du lehen letratik azkenera arrastatuz edo biak ukituz",
     "admin.q.wordsearch_help_points": "Puntuazioa: 20 puntu aurkitutako hitz bakoitzeko",
-    "admin.q.wordsearch_help_time": "Eman denbora nahikoa: 60-120 segundo hitz kopuruaren arabera"
+    "admin.q.wordsearch_help_time": "Eman denbora nahikoa: 60-120 segundo hitz kopuruaren arabera",
+    "admin.q.type_fill_blanks": "Osatu esaldia (Bete hutsuneak)",
+    "admin.q.type_fill_blanks_short": "Osatu esaldia",
+    "admin.q.fillblanks_statement_note": "Esaldia beherago idazten da, asmatu beharreko hitzak kortxete artean.",
+    "admin.q.fillblanks_intro": "Jokalariak esaldia hutsuneekin ikusten du (laukitxo bat letra bakoitzeko) eta hutsune bakoitzaren hitza idazten du. Asmatu beharreko hitzak kortxete artean doaz.",
+    "admin.q.fillblanks_text_label": "Esaldia, asmatu beharreko hitzak kortxete artean (1-3 hitz, 4 eta 14 letra artean)",
+    "admin.q.fillblanks_placeholder": "[Helicobacter] [pylori] infekzioak ultzera [duodenalen] %90 baino gehiago eragiten ditu",
+    "admin.q.fillblanks_normalize_note": "Azentuak eta minuskulak automatikoki normalizatzen dira ([Época] → EPOCA). Ñ eta Ç mantentzen dira.",
+    "admin.q.fillblanks_preview": "Horrela ikusiko dute jokalariek",
+    "admin.q.fillblanks_help_play": "Jokalariak hitz bakoitza mugikorreko teklatuarekin idazten du; laukitxoek hitzaren luzera erakusten dute",
+    "admin.q.fillblanks_help_points": "Puntuazioa: 20 puntu asmatutako hitz bakoitzeko (edo ausazko puntuazioa) + denbora-bonus bat galdera bakoitzeko",
+    "admin.q.fillblanks_help_hints": "Pistak: 3 letra arte hutsune bakoitzeko; hitzak orduan %70, %40 eta %25 balio du",
+    "admin.q.fillblanks_help_streak": "Asmatutzat jotzen da (eta bolada baterako) hutsuneen erdiarekin edo gehiagorekin",
+    "admin.q.fillblanks_help_team": "Taldeetan hutsune bakoitza osatzean egiaztatzen da eta asmatutakoa talde osoari agertzen zaio",
+    "admin.q.fillblanks_err_no_blanks": "Idatzi gutxienez hitz bat kortxete artean: [hitza]",
+    "admin.q.fillblanks_err_too_many": "Gehienez 3 hitz kortxete artean",
+    "admin.q.fillblanks_err_unbalanced": "Kortxete bat itxi gabe edo solte dago",
+    "admin.q.fillblanks_err_chars": "«{word}»: letrak soilik, zuriune, zenbaki, marratxo edo zeinurik gabe",
+    "admin.q.fillblanks_err_short": "«{word}»: gutxienez 4 letra",
+    "admin.q.fillblanks_err_long": "«{word}»: gehienez 14 letra",
+    "admin.q.fillblanks_err_generic": "Esaldia ez da baliozkoa",
+    "admin.q.fillblanks_err_marker": "Ez idatzi {{n}} esaldian: asmatu beharreko hitzak kortxete artean doaz"
   }
 }

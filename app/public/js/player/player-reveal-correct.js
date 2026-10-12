@@ -15,8 +15,17 @@ function listHtml(items) {
     ).join('')}</div>`;
 }
 
+/** Completa la frase: la frase entera con las palabras en sus huecos. */
+function fillBlanksSentenceHtml(fillBlanks) {
+    if (!fillBlanks || !Array.isArray(fillBlanks.words) || !window.XiroFillBlanks) return '';
+    const states = fillBlanks.words.map(() => 'fb-blank--ok');
+    return `<div class="text-center">${window.XiroFillBlanks.sanitizeSentenceHtml(fillBlanks.text, fillBlanks.lengths || [], { letters: fillBlanks.words, states, sizeClass: 'fb-sentence--player' })}</div>`;
+}
+
 /** Contenido de la respuesta correcta, o '' si el reveal no trae ninguna. */
 function correctContentHtml(data) {
+    const fillBlanks = fillBlanksSentenceHtml(data.fillBlanks);
+    if (fillBlanks) return fillBlanks;
     if (Array.isArray(data.correctMatches) && data.correctMatches.length > 0) {
         return listHtml(data.correctMatches.map(pair =>
             `${escapeHtml(pair.leftText)} ↔ ${escapeHtml(pair.rightText)}`));

@@ -28,6 +28,8 @@
     "player.answer.wordsearch_found": "{n} von {total} Wörtern",
     "player.wordsearch.finish": "Fertig",
     "player.wordsearch.hint_help": "Hinweis: Wort antippen (zählt die Hälfte)",
-    "player.wordsearch.hint_aria": "Hinweis:"
+    "player.wordsearch.hint_aria": "Hinweis:",
+    "player.answer.fillblanks_correct": "{n} von {total} Wörtern",
+    "player.answer.fillblanks_time_bonus": "+{pts} Zeitbonus"
   }
 }
