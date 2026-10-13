@@ -55,7 +55,6 @@ app/scripts/autorun-tests/
 rpi/
 secrets/
 skills-lock.json
-clientes.csv
 
 # Overrides sensibles
 app/config/runtime-overrides.json
@@ -71,6 +70,7 @@ docs/DOCKERHUB_README.md
 
 # Tests
 **/__tests__/
+**/__mocks__/
 **/*.test.js
 **/*.spec.js
 **/jest.setup.js
@@ -88,12 +88,11 @@ package-lock.json
 package.json
 app/package-lock.json
 app/package.json
-app/public/clientes.html
 docker_images
 graphify-out
 app/graphify-out
-app/public/js/clientes-dashboard.js
 CLAUDE.md
 app/.eslintrc.js
 app/.eslintignore
 app/eslint-public-globals.json
+app/.graphifyignore
