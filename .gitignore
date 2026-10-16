@@ -96,3 +96,4 @@ app/.eslintrc.js
 app/.eslintignore
 app/eslint-public-globals.json
 app/.graphifyignore
+docs/legal-audit/
