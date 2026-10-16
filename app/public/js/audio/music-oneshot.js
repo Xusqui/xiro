@@ -4,7 +4,7 @@
  * los conecta directamente a los canales de la mezcla. Programa pistas en un tick del
  * Transport y avisos en otros; clear() lo cancela todo.
  *
- * El pad, las campanas y los metales pasan por un filtro: la cadencia de la revelación
+ * El pad, las campanas, los metales y el piano pasan por un filtro: la cadencia de la revelación
  * arranca con el filtro de la pregunta y lo abre hasta el golpe (más o menos según la
  * tensión). Cada momento nuevo empieza con el filtro abierto.
  */
@@ -13,7 +13,7 @@ import { createInstruments } from './music-instruments.js?v=20260922172926';
 import { createDrumKit } from './music-drums.js?v=20260922172926';
 
 const OPEN_FILTER_HZ = 18000;
-const FILTERED = ['pad', 'arp', 'brass'];
+const FILTERED = ['pad', 'arp', 'brass', 'piano'];
 
 export function createOneShotPlayer(Tone, mixer) {
     const transport = Tone.getTransport();
@@ -42,6 +42,7 @@ export function createOneShotPlayer(Tone, mixer) {
             lead: (t, e) => inst.lead.triggerAttackRelease(e.note, e.dur, t, e.vel),
             bells: (t, e) => inst.bells.triggerAttackRelease(e.note, e.dur, t, e.vel),
             pad: (t, e) => inst.pad.triggerAttackRelease(e.notes, e.dur, t, e.vel),
+            piano: (t, e) => inst.piano.triggerAttackRelease(e.notes, e.dur, t, e.vel),
             timp: (t, e) => kit.timp(e.note, t, e.vel),
             crash: (t, e) => kit.crash(t, e.vel),
             kick: (t, e) => kit.kick(t, e.vel),
@@ -65,7 +66,7 @@ export function createOneShotPlayer(Tone, mixer) {
     }
 
     return {
-        /** Programa las pistas de `tracks` (brass, bass, lead, bells, pad, timp, crash, kick, snare) en `atTick`. */
+        /** Programa las pistas de `tracks` (brass, piano, bass, lead, bells, pad, timp, crash, kick, snare) en `atTick`. */
         play(tracks, atTick, bank) {
             const { players } = ensureVoices(bank);
             Object.keys(players).forEach((track) => {

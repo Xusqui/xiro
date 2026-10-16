@@ -1,7 +1,9 @@
 /**
- * @fileoverview Melodía compuesta a partir de un MOTIVO de 2 compases que se expone,
- * se secuencia, se varía y cadencia (como un tema de televisión), más la respuesta
- * de las campanas en las notas largas. Pasos de semicorchea y grados de la escala.
+ * @fileoverview Melodía generativa basada en un MOTIVO de 2 compases:
+ * exposición, secuencia, variación y cadencia. Las campanas responden a las
+ * notas largas para crear una identidad reconocible de música de videojuego.
+ *
+ * Pasos de semicorchea y grados de escala.
  *
  * Export dual (Jest con require; navegador en self.XiroMusic.melody).
  */
@@ -17,70 +19,126 @@
 
     const BAR = theory.STEPS_PER_BAR;
 
-    // Ritmos de motivo de 2 compases [paso, duración]: largos con anacrusa, de fanfarria
+    // Ritmos de 2 compases: anacrusas, síncopas y notas largas para la fanfarria.
     const MOTIF_RHYTHMS = [
         [[0, 6], [6, 2], [8, 8], [16, 4], [20, 4], [24, 8]],
         [[0, 4], [4, 4], [8, 6], [14, 2], [16, 12], [28, 4]],
         [[0, 2], [2, 2], [4, 12], [16, 6], [22, 2], [24, 8]],
         [[0, 3], [3, 3], [6, 2], [8, 8], [16, 8], [26, 6]]
     ];
-    const STEP_WEIGHTS = [1, 4, 1, 3, 1]; // -2, -1, 0, +1, +2: tras el salto, se baja por grados
 
-    /** Motivo: ritmo + contorno relativo. Abre con salto de 4ª/5ª (grados +3/+4) como un metal. */
+    // Probabilidades de movimiento: -2, -1, 0, +1, +2 grados.
+    // Predomina el movimiento conjunto para facilitar la memorización.
+    const STEP_WEIGHTS = [1, 4, 2, 4, 1];
+
+    /**
+     * Genera un motivo con salto inicial expresivo y continuación conjunta.
+     * El contorno se mantiene acotado para conservar una identidad reconocible.
+     */
     function generateMotif(rng) {
         const rhythm = rng.pick(MOTIF_RHYTHMS);
         const rel = [0];
         for (let i = 1; i < rhythm.length; i++) {
-            if (i === 1) rel.push(rng.chance(0.65) ? rng.pick([3, 4]) : 1);
-            else rel.push(Math.max(-3, Math.min(6, rel[i - 1] + rng.weightedIndex(STEP_WEIGHTS) - 2)));
+            // Salto de cuarta o quinta, característico de una fanfarria.
+            if (i === 1) {
+                rel.push(rng.chance(0.7) ? rng.pick([3, 4]) : 1);
+                continue;
+            }
+            // Evita saltos extremos y mantiene un contorno cantable.
+            const next = rel[i - 1] + rng.weightedIndex(STEP_WEIGHTS) - 2;
+            rel.push(Math.max(-3, Math.min(6, next)));
         }
         return { rhythm: rhythm, rel: rel };
     }
 
-    function nearestChordTone(degree, chord) {
+    /**
+     * Busca la nota de acorde más cercana.
+     * En caso de empate, favorece la dirección melódica indicada:
+     * -1 = descendente, +1 = ascendente, 0 = descendente por defecto.
+     */
+    function nearestChordTone(degree, chord, direction) {
         for (let dist = 0; dist <= 3; dist++) {
-            if (theory.isChordTone(degree - dist, chord.d, chord.k)) return degree - dist;
-            if (theory.isChordTone(degree + dist, chord.d, chord.k)) return degree + dist;
+            const lower = degree - dist;
+            const upper = degree + dist;
+            const lowerIsChordTone = theory.isChordTone(lower, chord.d, chord.k);
+            const upperIsChordTone = theory.isChordTone(upper, chord.d, chord.k);
+            if (dist === 0 && lowerIsChordTone) return degree;
+            if (lowerIsChordTone && upperIsChordTone) return direction > 0 ? upper : lower;
+            if (lowerIsChordTone) return lower;
+            if (upperIsChordTone) return upper;
         }
         return degree;
     }
 
+    /**
+     * Pliega una nota por octavas dentro del registro.
+     * Si el registro no contiene ninguna octava equivalente, devuelve
+     * el límite más cercano en vez de entrar en un bucle infinito.
+     */
     function clampOctave(degree, range) {
-        let d = degree;
-        while (d > range[1]) d -= 7;
-        while (d < range[0]) d += 7;
-        return d;
+        const low = range[0];
+        const high = range[1];
+        if (low > high) return degree;
+        const minOctave = Math.ceil((low - degree) / 7);
+        const maxOctave = Math.floor((high - degree) / 7);
+        // Conserva la octava original siempre que sea posible.
+        if (minOctave <= maxOctave) return degree + Math.max(minOctave, Math.min(maxOctave, 0)) * 7;
+        // Registro demasiado estrecho: evita alternar indefinidamente.
+        return Math.max(low, Math.min(high, degree));
     }
 
-    /** Desplaza la base por octavas para que el contorno entero quepa en el registro. */
+    /**
+     * Desplaza la base por octavas para encajar el contorno completo.
+     * Si no cabe, busca la posición que minimiza el desplazamiento del centro.
+     */
     function fitBase(base, rel, range) {
-        let b = base;
-        const max = Math.max.apply(null, rel);
+        if (!rel.length || range[0] > range[1]) return base;
         const min = Math.min.apply(null, rel);
-        while (b + max > range[1] && b + min - 7 >= range[0]) b -= 7;
-        while (b + min < range[0] && b + max + 7 <= range[1]) b += 7;
-        return b;
+        const max = Math.max.apply(null, rel);
+        const minShift = Math.ceil((range[0] - (base + min)) / 7);
+        const maxShift = Math.floor((range[1] - (base + max)) / 7);
+        if (minShift <= maxShift) return base + Math.max(minShift, Math.min(maxShift, 0)) * 7;
+        const center = base + (min + max) / 2;
+        const target = (range[0] + range[1]) / 2;
+        return base + Math.round((target - center) / 7) * 7;
     }
 
-    /** Coloca el motivo desde `startBar`; los tiempos fuertes caen en nota del acorde. */
+    /**
+     * Realiza el motivo sobre la progresión.
+     * En los tiempos fuertes prioriza las notas del acorde correspondiente.
+     */
     function realize(motif, chords, startBar, base, range) {
         const b = fitBase(base, motif.rel, range);
+        let previousDegree = b;
         return motif.rhythm.map(function (slot, i) {
             const bar = startBar + Math.floor(slot[0] / BAR);
             let degree = b + motif.rel[i];
-            if (slot[0] % 8 === 0) degree = nearestChordTone(degree, chords[bar]);
-            return { step: startBar * BAR + slot[0], len: slot[1], degree: clampOctave(degree, range) };
+            if (slot[0] % 8 === 0 && chords[bar]) {
+                degree = nearestChordTone(degree, chords[bar], Math.sign(degree - previousDegree));
+            }
+            degree = clampOctave(degree, range);
+            previousDegree = degree;
+            return { step: startBar * BAR + slot[0], len: slot[1], degree: degree };
         });
     }
 
-    /** Variación: parte la primera nota larga en dos (la segunda, bordadura superior). */
+    /**
+     * Variación ornamental:
+     * divide una nota larga en dos y añade una bordadura superior.
+     */
     function varyMotif(rng, motif) {
-        const rhythm = motif.rhythm.map(function (s) { return [s[0], s[1]]; });
+        const rhythm = motif.rhythm.map(function (slot) { return [slot[0], slot[1]]; });
         const rel = motif.rel.slice();
-        const idx = rhythm.findIndex(function (s) { return s[1] >= 8; });
-        if (idx >= 0 && rng.chance(0.6)) {
+        const candidates = [];
+        rhythm.forEach(function (slot, i) {
+            if (slot[1] >= 8) candidates.push(i);
+        });
+        if (candidates.length && rng.chance(0.6)) {
+            const idx = rng.pick(candidates);
+            const start = rhythm[idx][0];
             const half = rhythm[idx][1] / 2;
-            rhythm.splice(idx, 1, [rhythm[idx][0], half], [rhythm[idx][0] + half, half]);
+            rhythm.splice(idx, 1, [start, half], [start + half, half]);
+            // Bordadura: el motivo sigue siendo reconocible.
             rel.splice(idx + 1, 0, rel[idx] + 1);
         }
         return { rhythm: rhythm, rel: rel };
@@ -91,29 +149,43 @@
     }
 
     /**
-     * Frase de 8 compases: motivo (1-2), secuencia (3-4), motivo variado (5-6) y
-     * cadencia (7-8) en la fundamental del último acorde. `variantRng` cambia los
-     * detalles de cada aparición sin perder el tema.
+     * Frase de 8 compases:
+     * 1-2: exposición
+     * 3-4: secuencia transpuesta
+     * 5-6: variación ornamental
+     * 7: retorno del motivo
+     * 8: nota de cierre en la fundamental del último acorde
      */
     function buildThemePhrase(motif, chords, range, base, variantRng) {
+        // Usa el desplazamiento diatónico más corto para evitar secuencias
+        // excesivamente alejadas del registro y del centro tonal.
         let shift = chords[2].d - chords[0].d;
-        if (shift === 0) shift = variantRng.pick([2, -1]);
+        shift = ((shift + 3) % 7 + 7) % 7 - 3;
+        if (shift === 0) shift = variantRng.pick([1, -1, 2, -2]);
         const first = realize(motif, chords, 0, base, range);
         const sequence = realize(motif, chords, 2, base + shift, range);
         const varied = realize(varyMotif(variantRng, motif), chords, 4, base, range);
-        const head = realize(motif, chords, 6, base, range).filter(function (n) { return n.step < 6 * BAR + 8; });
-        const near = head.length ? head[head.length - 1].degree : base;
-        const ending = clampOctave(nearestChordTone(near, { d: chords[7].d, k: 'triad' }), range);
-        return first.concat(sequence, varied, head, [{ step: 7 * BAR, len: BAR, degree: ending }]);
+        const head = realize(motif, chords, 6, base, range).filter(function (note) {
+            return note.step < 6 * BAR + 8;
+        });
+        // La cadencia utiliza realmente la fundamental del acorde final.
+        const ending = { step: 7 * BAR, len: BAR, degree: clampOctave(chords[7].d, range) };
+        return first.concat(sequence, varied, head, [ending]);
     }
 
-    /** Respiro: solo la cabeza del motivo (3 notas) en los compases 1 y 5, con aire. */
+    /**
+     * Frase de respiro: tres notas del motivo en los compases 1 y 5.
+     * Útil para transiciones, pantallas de espera o pausas entre preguntas.
+     */
     function buildFragmentPhrase(motif, chords, range, base) {
         const head = headOf(motif, 3);
         return realize(head, chords, 0, base, range).concat(realize(head, chords, 4, base + 2, range));
     }
 
-    /** Melodía sin motivo (paseo aleatorio por grados): solo para comparar A/B en el panel. */
+    /**
+     * Melodía alternativa aleatoria para comparar con el tema principal.
+     * Cada compás usa la primera mitad de un patrón rítmico de dos compases.
+     */
     function buildRandomPhrase(rng, chords, range, base) {
         const notes = [];
         let degree = base;
@@ -121,29 +193,47 @@
             rng.pick(MOTIF_RHYTHMS).forEach(function (slot) {
                 if (slot[0] >= BAR) return;
                 const moved = degree + rng.int(-2, 2);
-                degree = clampOctave(slot[0] % 8 === 0 ? nearestChordTone(moved, chord) : moved, range);
-                notes.push({ step: bar * BAR + slot[0], len: slot[1], degree: degree });
+                degree = slot[0] % 8 === 0 ? nearestChordTone(moved, chord, Math.sign(moved - degree)) : moved;
+                degree = clampOctave(degree, range);
+                notes.push({ step: bar * BAR + slot[0], len: Math.min(slot[1], BAR - slot[0]), degree: degree });
             });
         });
         return notes;
     }
 
     /**
-     * Respuesta de campanas: en cada nota larga de la melodía, tres notas que bajan
-     * por grados hacia la nota sostenida una octava arriba (pregunta-respuesta).
+     * Respuesta de campanas en las notas largas.
+     * Genera tres notas descendentes una octava por encima de la melodía.
+     *
+     * `chords` es opcional para mantener la compatibilidad con las llamadas
+     * existentes: buildResponse(melodyNotes, range).
+     *
+     * Si se proporciona, se usa la armonía del compás para escoger notas
+     * compatibles con el acorde sin modificar el ritmo de la respuesta.
      */
-    function buildResponse(melodyNotes, range) {
+    function buildResponse(melodyNotes, range, chords) {
         const out = [];
-        melodyNotes.forEach(function (n) {
-            if (n.len < 8) return;
-            const start = n.step + n.len - 6;
-            if (Math.floor(start / BAR) !== Math.floor(n.step / BAR)) return;
+        melodyNotes.forEach(function (note) {
+            if (note.len < 8) return;
+            const start = note.step + note.len - 6;
+            // No generar respuestas que atraviesen el límite del compás.
+            if (Math.floor(start / BAR) !== Math.floor(note.step / BAR)) return;
+            const chord = chords && chords[Math.floor(note.step / BAR)];
             [2, 1, 0].forEach(function (offset, i) {
-                out.push({ step: start + i * 2, len: 2, degree: clampOctave(n.degree + 7 + offset, range) });
+                let degree = note.degree + 7 + offset;
+                if (chord) degree = nearestChordTone(degree, chord, -1);
+                out.push({ step: start + i * 2, len: 2, degree: clampOctave(degree, range) });
             });
         });
         return out;
     }
 
-    return { MOTIF_RHYTHMS, generateMotif, buildThemePhrase, buildFragmentPhrase, buildRandomPhrase, buildResponse };
+    return {
+        MOTIF_RHYTHMS,
+        generateMotif,
+        buildThemePhrase,
+        buildFragmentPhrase,
+        buildRandomPhrase,
+        buildResponse
+    };
 });

@@ -1063,10 +1063,7 @@
     "wordSearchEditorSectionHtml": "writable"
   },
   "modules": [
-    "public/js/audio/dev/music-panel-moments.js",
-    "public/js/audio/dev/music-panel-question.js",
-    "public/js/audio/dev/music-panel-sounds.js",
-    "public/js/audio/dev/music-panel.js",
+    "public/js/audio/music-accents.js",
     "public/js/audio/music-apply-settings.js",
     "public/js/audio/music-clock.js",
     "public/js/audio/music-controller.js",
@@ -1079,6 +1076,8 @@
     "public/js/audio/music-mixer.js",
     "public/js/audio/music-moments.js",
     "public/js/audio/music-oneshot.js",
+    "public/js/audio/music-piano-voice.js",
+    "public/js/audio/music-question-clock.js",
     "public/js/audio/music-sampled.js",
     "public/js/audio/music-samples.js",
     "public/js/audio/music-scene-director.js",

@@ -5,25 +5,29 @@
  * antes de sonar; los callbacks de audio no crean objetos ni hacen cálculos.
  *
  * Export dual (Jest con require; navegador en self.XiroMusic.scores). En el
- * navegador depende de prng, theory, melody, groove y parts (en ese orden).
+ * navegador depende de prng, theory, melody, groove, parts y piano (en ese orden).
  */
 (function (root, factory) {
     if (typeof module !== 'undefined' && module.exports) {
         const req = module.require.bind(module);
-        module.exports = factory(req('./music-prng.js'), req('./music-theory.js'), req('./music-melody.js'),
-            req('./music-groove.js'), req('./music-parts.js'));
+        module.exports = factory({
+            prng: req('./music-prng.js'), theory: req('./music-theory.js'), melody: req('./music-melody.js'),
+            groove: req('./music-groove.js'), parts: req('./music-parts.js'), piano: req('./music-piano.js')
+        });
     } else {
-        const m = root.XiroMusic;
-        m.scores = factory(m.prng, m.theory, m.melody, m.groove, m.parts);
+        root.XiroMusic.scores = factory(root.XiroMusic);
     }
-})(typeof self !== 'undefined' ? self : this, function (prng, theory, melody, groove, parts) {
+})(typeof self !== 'undefined' ? self : this, function (deps) {
     'use strict';
+
+    const { prng, theory, melody, groove, parts, piano } = deps;
 
     const STEP = theory.STEP_TICKS;
 
     const RANGES = {
         pad: [55, 74],
         brass: [58, 79],
+        piano: piano.RANGE,  // mano derecha; la izquierda (fundamental) va en piano.LEFT
         bass: [28, 43],     // E1-G2: registro de bajo (una octava por debajo de lo que sonaba)
         bells: [67, 93],
         melody: [57, 79],   // A3-G5: donde suenan bien trompa, trombón agudo y trompeta
@@ -32,7 +36,7 @@
     };
 
     // Humanización por pista: [variación de intensidad, retraso máximo en ticks]
-    const FEEL = { drums: [0.08, 6], bass: [0.06, 4], bells: [0.1, 5], melody: [0.06, 5], brass: [0.05, 3] };
+    const FEEL = { drums: [0.08, 6], bass: [0.06, 4], bells: [0.1, 5], melody: [0.06, 5], brass: [0.05, 3], piano: [0.07, 4] };
 
     const LOBBY = { bpm: 112, swing: 0.12 };
 
@@ -110,14 +114,14 @@
 
     /**
      * Platillos: al entrar el tema después de la intro o de una subida, al empezar cada
-     * sección con batería de pop (detrás venía un fill) y los que pone la batería tras
-     * sus fills.
+     * sección con batería de pop (detrás venía un fill), al entrar la última pregunta y
+     * los que pone la batería tras sus fills.
      */
     function crashEvents(plan, fromDrums) {
         const style = groove.STYLES[plan.styles.drums];
         const theme = plan.styles.brass === 'stabs' && (plan.prevType === 'build' || plan.prevType === 'intro');
         const section = style && style.crash && plan.index > 0 && plan.type !== 'question';
-        const entry = theme || section ? [{ time: tick(0), vel: theme ? 0.8 : 0.75 }] : [];
+        const entry = theme || section || plan.finalEntry ? [{ time: tick(0), vel: theme ? 0.8 : 0.75 }] : [];
         return entry.concat(fromDrums.filter((e) => !entry.length || e.time !== tick(0)));
     }
 
@@ -137,6 +141,11 @@
         const bass = parts.bassLine(prng.createRng(seed, 'bass:' + plan.variant), bassChords, plan.styles.bass, nextRoot);
         const drums = groove.generateDrums(prng.createRng(seed, 'drums:' + plan.variant), plan.styles.drums, plan.bars, plan.phrase);
         const brass = parts.brassLine(prng.createRng(seed, 'brass:' + plan.variant), brassVoicings, plan.styles.brass, plan.prevType);
+        // Piano: golpea con los metales (mismos ticks) o parte el acorde
+        const pianoLine = piano.pianoLine(prng.createRng(seed, 'piano:' + plan.variant), {
+            key: key, chords: plan.chords, voicings: parts.voiceChords(key, plan.chords, RANGES.piano),
+            style: plan.styles.piano, brass: brass
+        });
         const drumFeel = prng.createRng(seed, 'feel:drums:' + plan.variant);
         const drumTrack = (piece) => hitEvents(feel(drumFeel, drums[piece], 'drums', options));
 
@@ -146,6 +155,7 @@
             chords: plan.chords,
             pad: chordEvents(parts.padLine(padVoicings, plan.chords, 0.5), false),
             brass: chordEvents(feel(prng.createRng(seed, 'feel:brass:' + plan.variant), brass, 'brass', options), true),
+            piano: chordEvents(feel(prng.createRng(seed, 'feel:piano:' + plan.variant), pianoLine, 'piano', options), false),
             bass: noteEvents(key, feel(prng.createRng(seed, 'feel:bass:' + plan.variant), bass, 'bass', options, 0.75), RANGES.bass, 0.75, 6),
             bells: noteEvents(key, bellEvents(seed, plan, melodyNotes, options), RANGES.bells, 0.35, 0),
             melody: withTrumpets(noteEvents(key, feel(prng.createRng(seed, 'feel:melody:' + plan.variant), melodyNotes, 'melody', options, 0.7), RANGES.melody, 0.7, 8), plan),
@@ -155,7 +165,8 @@
             clap: drumTrack('clap'),
             hatC: drumTrack('hatC'),
             hatO: drumTrack('hatO'),
-            timp: drums.timp.map(function (h) {
+            // Última pregunta: timbal en la tónica al entrar (con el platillo de crashEvents)
+            timp: drums.timp.concat(plan.finalEntry ? [{ step: 0, vel: 0.95 }] : []).map(function (h) {
                 const chord = plan.chords[Math.floor(h.step / theory.STEPS_PER_BAR)];
                 const midi = theory.fitToRange([theory.degreeToMidi(key, chord.d)], RANGES.timp[0], RANGES.timp[1])[0];
                 return { time: tick(h.step * STEP), note: theory.midiToName(midi), midi: midi, vel: h.vel };

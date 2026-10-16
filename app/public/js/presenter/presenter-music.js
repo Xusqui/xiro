@@ -9,7 +9,7 @@
  */
 
 import { getSocket } from './presenter-socket-config.js?v=20260922172926';
-import { getSessionId } from './presenter-state.js?v=20260922172926';
+import { getSessionId, getPlayersData, getConnectedPlayers } from './presenter-state.js?v=20260922172926';
 import { createMusicController } from '../audio/music-controller.js?v=20260922172926';
 import { normalizeMusicSettings } from '../audio/music-apply-settings.js?v=20260922172926';
 import { bindMusicControls } from './presenter-music-controls.js?v=20260922172926';
@@ -27,6 +27,12 @@ async function loadUiSettings() {
     }
 }
 
+/** Respondidos y total de jugadores (los manejadores del juego ya han marcado la respuesta). */
+function answerCount() {
+    const players = Object.values(getPlayersData());
+    return { answered: players.filter((p) => p.answered).length, total: players.length };
+}
+
 function bindSocket(socket, music) {
     // Se registra después de los manejadores del juego: la pregunta ya está pintada
     // (así se sabe si trae audio propio, y entonces la música calla)
@@ -40,9 +46,19 @@ function bindSocket(socket, music) {
             durationMs: (q.time_limit || DEFAULT_TIME_LIMIT_S) * 1000,
             startedAt: data.questionStartedAt || data.startedAt,
             serverNow: data.serverNow,
-            hasAudio: Boolean(document.getElementById('question-audio'))
+            hasAudio: Boolean(document.getElementById('question-audio')),
+            index: data.currentIndex,
+            total: data.totalQuestions
         });
     };
+    const onAnswers = () => {
+        const { answered, total } = answerCount();
+        music.answered(answered, total);
+    };
+    socket.on('answer-result', onAnswers);
+    socket.on('answer-result-batch', onAnswers);
+    socket.on('player-joined', () => music.playerJoined(getConnectedPlayers().length));
+    socket.on('trivial-dice-rolled', () => music.dice());
     socket.on('join-success', () => {
         music.lobby();
         music.preload();

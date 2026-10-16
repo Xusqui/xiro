@@ -8,8 +8,8 @@
 
 const { arrangement, loops, scores } = self.XiroMusic;
 
-// Comparación A/B en el panel: cada mejora se puede apagar por separado
-export const DEFAULT_OPTIONS = { sections: true, humanize: true, fx: true, motif: true, cadence: true };
+// Mejoras que se pueden apagar por separado (setOption)
+export const DEFAULT_OPTIONS = { sections: true, humanize: true, fx: true, motif: true, cadence: true, reactions: true };
 
 export const SCENES = {
     lobby: {
@@ -18,14 +18,16 @@ export const SCENES = {
         build: (seed, index, options) => scores.buildSection(seed, arrangement.planSection(seed, index, options), options)
     },
     // Pregunta: compás a compás, para que cada uno se genere con la tensión del momento;
-    // los niveles de capa, el filtro y el tempo los mueve la tensión (MusicEngine.setTension)
+    // los niveles de capa, el filtro y el tempo los mueve la tensión (MusicEngine.setTension);
+    // `question` = { final } de la pregunta (la última entra con timbal y platillo)
     question: {
         bpm: scores.LOBBY.bpm,
         swing: 0.08,
         sectionBars: 1,
         lookahead: 1,
         levelsFromPlan: false,
-        build: (seed, index, options, tension) => scores.buildSection(seed, arrangement.planQuestionBar(seed, index, tension), options)
+        build: (seed, index, options, tension, question) =>
+            scores.buildSection(seed, arrangement.planQuestionBar(seed, index, tension, question), options)
     },
     // Marcador tras la revelación: entra despacio (relajar la tensión sin cortes)
     leaderboard: {

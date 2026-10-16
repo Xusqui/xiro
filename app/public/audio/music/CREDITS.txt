@@ -2,10 +2,11 @@ Muestras de la música generativa de XiRo!
 =========================================
 
 Todas son de uso libre: CC0 1.0 (dominio público), sin restricciones (Iowa) o
-CC BY 4.0 (Naked Drums, que exige citar a sus autores, como aquí). El juego de
+CC BY 4.0 / CC BY 3.0 (Naked Drums y el piano Salamander, que exigen citar a sus
+autores, como aquí). El juego de
 sonidos por defecto (elegido de oído el 2026-10-11) es: metales de Iowa, melodía
-de metales, bajo Babyblue, Naked Drums y sala Liverpool Philharmonic; el resto se
-puede comparar en /dev/music.
+de metales, piano eléctrico FM (sintetizado), bajo Babyblue, Naked Drums y sala
+Liverpool Philharmonic; el resto se elige en el admin (pestaña «Música»).
 
 Se han recortado, normalizado, pasado a mono y convertido a FLAC; las notas se
 han comprobado midiendo su afinación.
@@ -30,7 +31,7 @@ kick/, snare/, hatc/, hato/, crash/, cues/xstick_*
 cues/bip.flac
   El bip de cuenta atrás del propio juego (public/audio/bip.wav).
 
---- Juegos de sonidos alternativos (para comparar en /dev/music) ---
+--- Juegos de sonidos alternativos (se eligen en el admin, pestaña «Música») ---
 
 iowa/lead/, iowa/stablow/
   University of Iowa Electronic Music Studios — Musical Instrument Samples
@@ -80,3 +81,9 @@ ir/
   ir/nordea.flac     IR Estonia Nordea Hall (Tallin)  https://freesound.org/s/423803/
   ir/knights.flac    The Knights Hall (La Valeta)     https://freesound.org/s/423712/
   Recortadas al inicio, con fundido final y normalizadas.
+
+piano/grand/
+  Salamander Grand Piano V3 — Alexander Holm
+  https://archive.org/details/SalamanderGrandPianoV3  (CC BY 3.0)
+  Yamaha C5, una dinámica, cada tercera menor de F#2 a A6. En MP3 (las copias
+  de https://tonejs.github.io/audio/salamander/), sin pasar todavía a FLAC.

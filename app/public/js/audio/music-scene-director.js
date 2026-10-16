@@ -19,7 +19,7 @@ const CUT_SECONDS = 0.04;
  * @param {object} mixer
  * @param {{ seed: () => string, options: () => object, tension: () => number,
  *           tempoScale: () => number, bank: () => object|null,
- *           emit: (type: string, detail: any) => void }} ctx
+ *           question?: () => object|null, emit: (type: string, detail: any) => void }} ctx
  */
 export function createSceneDirector(Tone, mixer, ctx) {
     const transport = Tone.getTransport();
@@ -31,7 +31,7 @@ export function createSceneDirector(Tone, mixer, ctx) {
         const created = createScene(Tone, mixer, Object.assign({}, scene, {
             bpm: scene.bpm * ctx.tempoScale(),
             swing: options.humanize ? scene.swing : 0,
-            build: (index) => scene.build(seed, index, options, ctx.tension())
+            build: (index) => scene.build(seed, index, options, ctx.tension(), ctx.question ? ctx.question() : null)
         }), ctx.bank());
         created.setFx(options.fx);
         created.isQuestion = scene === SCENES.question;

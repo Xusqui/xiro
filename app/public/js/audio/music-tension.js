@@ -76,13 +76,15 @@
 
     /**
      * Parámetros musicales para una tensión t (0..1).
-     * Capas: pad siempre → bajo → charles en corcheas → en semicorcheas → campanas → metales.
+     * Capas: pad y piano siempre → bajo → charles en corcheas → en semicorcheas → campanas
+     * → metales. El piano pasa de acorde partido (calma) a acordes a corcheas (empuje).
      */
     function tensionParams(t) {
         const x = clamp01(t);
         return {
             layers: {
                 pad: 1,
+                piano: 0.45 + 0.35 * ramp(x, 0.3, 0.7),
                 bass: ramp(x, 0.1, 0.3),
                 drums: 0.55 + 0.45 * ramp(x, 0.3, 0.6),
                 arp: ramp(x, 0.6, 0.75),
@@ -93,6 +95,7 @@
             bass: x < 0.45 ? 'pedal' : (x < 0.7 ? 'pop' : 'octave'),
             arp: x < 0.6 ? 'none' : 'sparkle',
             brass: x < 0.8 ? 'none' : 'stabs',
+            piano: x < 0.45 ? 'arp' : 'pulse',
             // Paso bajo del pad y las campanas: de 500 Hz a 5 kHz (exponencial, como el oído)
             filterHz: Math.round(500 * Math.pow(10, x)),
             tempoFactor: 1 + MAX_TEMPO_BOOST * x * x,

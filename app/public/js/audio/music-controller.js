@@ -1,20 +1,19 @@
 /**
  * @fileoverview Controlador de la música de una partida: recibe sucesos del juego
- * (lobby, pregunta, revelación, podio…), los pasa a la máquina de estados musical
- * (XState) y esta mueve MusicEngine. Lleva el reloj de la pregunta con la hora del
- * SERVIDOR (desfase medido al recibir cada mensaje) para calcular la tensión.
+ * (lobby, pregunta, respuestas, revelación, podio…), los pasa a la máquina de estados
+ * musical (XState) y esta mueve MusicEngine. El reloj de la pregunta (hora del servidor,
+ * respuestas y arco de la partida → tensión) vive en music-question-clock.js.
  *
  * No sabe nada de sockets ni del DOM (eso es el puente del presentador). El motor, la
  * máquina y XState se cargan bajo demanda en el primer gesto del usuario; los sucesos
  * de antes se guardan y se aplican al arrancar.
  */
 
-import './music-tension.js?v=20260922172926';
 import { unlockAudio, loadMusicEngine, preloadMusicEngine } from './music-loader.js?v=20260922172926';
 import { trace } from './music-trace.js?v=20260922172926';
 import { normalizeMusicSettings, engineOptions, applyMix } from './music-apply-settings.js?v=20260922172926';
+import { createQuestionClock } from './music-question-clock.js?v=20260922172926';
 
-const TENSION_SAMPLE_MS = 250;
 // Sucesos que fijan la escena (el último se aplica al arrancar el motor)
 const SCENE_EVENTS = new Set(['LOBBY', 'BOARD', 'PRE_QUESTION', 'QUESTION', 'SLIDE', 'PODIUM', 'STOP']);
 
@@ -55,51 +54,24 @@ function preloadDependencies() {
  *           paused: boolean, onEngineEvent?: (type: string, detail: any) => void }} opts
  */
 export function createMusicController(opts) {
-    const T = self.XiroMusic.tension;
     let engine = null;
     let actor = null;
     let starting = null;
     let pending = null;          // último suceso de escena antes de arrancar
-    let question = null;         // { startedAt, durationMs, pausedAt } en hora del servidor
-    let offset = 0;              // servidor − local (ms)
-    let timer = null;
     let trivial = false;
     let paused = Boolean(opts.paused);
     let introPlaying = false;    // durante la intro, la música calla (suena la de la intro)
-
-    const serverNow = () => Date.now() + offset;
-    const syncClock = (serverTime) => {
-        if (typeof serverTime === 'number') offset = T.clockOffset(serverTime, Date.now());
-    };
-
-    function sampleTension() {
-        if (engine && question) engine.setTension(T.tensionCurve(T.questionProgress(question, serverNow())));
-    }
-
-    function stopTension() {
-        if (timer) clearInterval(timer);
-        timer = null;
-        if (engine) engine.stopQuestionClock();
-    }
-
-    function startTension() {
-        stopTension();
-        if (!question) return;
-        sampleTension();
-        engine.startQuestionClock(T.remainingMs(question, serverNow()));
-        timer = setInterval(sampleTension, TENSION_SAMPLE_MS);
-        trace(`  reloj de pregunta en marcha (desfase ${offset} ms)`);
-    }
+    const clock = createQuestionClock(() => engine);
 
     function actions() {
         const calm = (name) => () => {
-            stopTension();
+            clock.stop();
             engine.setSilenced(introPlaying);
             engine.setScene(name);
         };
         // Sin reloj de pregunta y con la salida abierta (aunque sonara la intro)
         const loud = (play) => () => {
-            stopTension();
+            clock.stop();
             engine.setSilenced(false);
             play();
         };
@@ -110,20 +82,22 @@ export function createMusicController(opts) {
             playLeaderboard: calm('leaderboard'),
             // Pantalla de puntuación aleatoria: la pregunta entra ya (tensión 0, sin reloj)
             playPreQuestion: loud(() => {
+                engine.setQuestionContext(null);
                 engine.setTension(0);
                 engine.setScene('question');
             }),
             playQuestion: ({ event }) => {
                 engine.setSilenced(Boolean(event.hasAudio));
-                engine.setTension(0);
+                engine.setQuestionContext({ final: clock.arc.final });
+                engine.setTension(clock.tension());
                 engine.setScene('question');
-                startTension();
+                clock.start();
             },
             // La escena que sigue entra en el golpe: la música no se corta
             playReveal: loud(() => engine.triggerReveal(trivial ? 'board' : 'leaderboard')),
             playPodium: loud(() => engine.triggerPodium()),
-            pauseTension: () => stopTension(),
-            resumeTension: () => startTension()
+            pauseTension: () => clock.stop(),
+            resumeTension: () => clock.start()
         };
     }
 
@@ -181,28 +155,43 @@ export function createMusicController(opts) {
          * transición; al llegar la pregunta solo arranca su reloj.
          */
         preQuestion() {
-            question = null;
+            clock.clear();
             send({ type: 'PRE_QUESTION' });
         },
         slide() {
-            question = null;
+            clock.clear();
             send({ type: 'SLIDE' });
         },
-        /** q: { durationMs, startedAt?, serverNow?, hasAudio } (horas del servidor en ms) */
+        /**
+         * q: { durationMs, startedAt?, serverNow?, hasAudio, index?, total? } (horas del
+         * servidor en ms; index 0-based y total de preguntas, para el arco de la partida)
+         */
         question(q) {
-            syncClock(q.serverNow);
-            question = { startedAt: q.startedAt || serverNow(), durationMs: q.durationMs, pausedAt: null };
+            clock.sync(q.serverNow);
+            clock.begin(q);
             send({ type: 'QUESTION', hasAudio: Boolean(q.hasAudio), durationMs: q.durationMs });
         },
+        /** Han respondido `count` de `total` jugadores: sube la tensión y suena una campana. */
+        answered(count, total) {
+            const ratio = clock.answered(count, total);
+            if (ratio !== null && engine) engine.react('answer', ratio);
+        },
+        /** Ha entrado un jugador al lobby (`count`: los que hay ya). */
+        playerJoined(count) {
+            if (engine) engine.react('join', count);
+        },
+        /** Dados del Trivial. */
+        dice() {
+            if (engine) engine.react('dice');
+        },
         timerPaused(data) {
-            syncClock(data.serverNow);
-            if (question) question = T.pauseQuestion(question, serverNow());
+            clock.sync(data.serverNow);
+            clock.pause();
             send({ type: 'TIMER_PAUSE' });
         },
         timerResumed(data) {
-            syncClock(data.serverNow);
-            const remaining = typeof data.remainingTime === 'number' ? data.remainingTime * 1000 : null;
-            if (question) question = T.resumeQuestion(question, serverNow(), remaining);
+            clock.sync(data.serverNow);
+            clock.resume(typeof data.remainingTime === 'number' ? data.remainingTime * 1000 : null);
             send({ type: 'TIMER_RESUME' });
         },
         reveal: () => send({ type: 'REVEAL' }),

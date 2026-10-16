@@ -10,6 +10,7 @@
  */
 
 import { createSampledVoices } from './music-sampled.js?v=20260922172926';
+import { createPianoVoice } from './music-piano-voice.js?v=20260922172926';
 
 /** Reserva sin muestras: metales, bajo y lead sintetizados. */
 function createSynthVoices(Tone, outputs, own) {
@@ -44,7 +45,7 @@ function createSynthVoices(Tone, outputs, own) {
 
 /**
  * @param {object} Tone
- * @param {Object<string, object>} outputs  Entrada por capa (pad, brass, bass, arp, melody);
+ * @param {Object<string, object>} outputs  Entrada por capa (pad, brass, piano, bass, arp, melody);
  *        la reverb y el delay los pone la mezcla en cada capa
  * @param {object|null} bank  Banco de muestras (loadSampleBank) o null para sintetizar todo
  */
@@ -84,12 +85,15 @@ export function createInstruments(Tone, outputs, bank) {
 
     const sampled = bank ? createSampledVoices(Tone, outputs, bank) : null;
     const voices = sampled || createSynthVoices(Tone, outputs, own);
+    // Piano: de cola si el banco lo trae; si no (o si se eligió), el eléctrico FM
+    const piano = createPianoVoice(Tone, own, outputs.piano, bank ? bank.pitchedLayers('piano') : []);
 
-    return Object.assign({ pad, bells, sampled: Boolean(sampled) }, voices, {
+    return Object.assign({ pad, bells, piano, sampled: Boolean(sampled) }, voices, {
         /** Chorus y filtro que respira on/off (comparación A/B). */
         setFx(on) {
             padChorus.wet.rampTo(on ? 0.5 : 0, 0.2);
             padFilter.depth.rampTo(on ? 0.45 : 0, 0.2);
+            piano.setFx(on);
         },
         dispose() {
             if (sampled) sampled.dispose();

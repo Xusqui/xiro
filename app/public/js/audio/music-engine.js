@@ -11,11 +11,13 @@ import '../../vendor/tone/tone-15.1.22.min.js?v=20260922172926';
 import './music-prng.js?v=20260922172926';
 import './music-theory.js?v=20260922172926';
 import './music-tension.js?v=20260922172926';
+import './music-reactions.js?v=20260922172926';
 import './music-arrangement.js?v=20260922172926';
 import './music-loops.js?v=20260922172926';
 import './music-melody.js?v=20260922172926';
 import './music-groove.js?v=20260922172926';
 import './music-parts.js?v=20260922172926';
+import './music-piano.js?v=20260922172926';
 import './music-scores.js?v=20260922172926';
 import './music-stingers.js?v=20260922172926';
 import './music-reveal-cadence.js?v=20260922172926';
@@ -27,6 +29,7 @@ import { DEFAULT_OPTIONS } from './music-scene-registry.js?v=20260922172926';
 import { createSceneDirector } from './music-scene-director.js?v=20260922172926';
 import { createOneShotPlayer } from './music-oneshot.js?v=20260922172926';
 import { createMoments } from './music-moments.js?v=20260922172926';
+import { createAccents } from './music-accents.js?v=20260922172926';
 import { trace } from './music-trace.js?v=20260922172926';
 import { engineStatus } from './music-engine-status.js?v=20260922172926';
 import { resolveSounds, loadInitialSounds, switchSounds } from './music-sound-sets.js?v=20260922172926';
@@ -59,6 +62,7 @@ export class MusicEngine {
         this.silenced = false;
         this.listeners = new Set();
         this.bank = null;
+        this.questionContext = null; // { final } de la pregunta que entra (setQuestionContext)
         this.sounds = resolveSounds(options.sounds);
         this.director = createSceneDirector(Tone, this.mixer, {
             seed: () => this.seed,
@@ -66,9 +70,15 @@ export class MusicEngine {
             tension: () => this.tension,
             tempoScale: () => this.tempoScale,
             bank: () => this.bank,
+            question: () => this.questionContext,
             emit: (type, detail) => this.emit(type, detail)
         });
         this.moments = createMoments(Tone, { player: this.oneShot, director: this.director, emit: (t, d) => this.emit(t, d) });
+        this.accents = createAccents(Tone, this.mixer.layers.arp, {
+            key: () => arrangement.baseKey(this.seed),
+            scene: () => this.sceneName,
+            active: () => this.options.reactions && !this.revealing
+        });
         // Las muestras cargan en segundo plano; sin ellas, todo sintetizado
         this.ready = loadInitialSounds(this);
         watchClock(Tone, () => this.emit('warn', 'Reloj en Worker bloqueado (¿CSP worker-src?): se usa setTimeout'));
@@ -98,6 +108,17 @@ export class MusicEngine {
         this.tempoTarget = null;
         if (next && next.isQuestion) this.applyTension(next);
         if (name !== 'question') this.cues.cancel();
+        if (name === 'idle') this.accents.cancel();
+    }
+
+    /** Pregunta que va a entrar: { final } (la última se anuncia con timbal y platillo). */
+    setQuestionContext(context) {
+        this.questionContext = context || null;
+    }
+
+    /** Campana de reacción ('answer' con la proporción, 'join' con los jugadores, 'dice'). */
+    react(kind, value) {
+        this.accents.react(kind, value);
     }
 
     /**
@@ -107,7 +128,7 @@ export class MusicEngine {
     setOption(name, value) {
         if (!(name in this.options)) return;
         this.options[name] = Boolean(value);
-        if (name === 'cadence') return; // solo cuenta en la próxima revelación
+        if (name === 'cadence' || name === 'reactions') return; // cuentan en el próximo suceso
         if (name === 'fx') {
             this.mixer.setFx(this.options.fx);
             this.director.live().forEach((scene) => scene.setFx(this.options.fx));
@@ -250,7 +271,7 @@ export class MusicEngine {
         this.mixer.setMuted(muted);
     }
 
-    /** Mezcla (volumen y mute por capa, onda), avisos (tic-tac) y tempo: solo para el panel. */
+    /** Mezcla (volumen y mute por capa, onda), avisos (tic-tac) y tempo: para la escucha del admin. */
     get debug() {
         return { mixer: this.mixer, cues: this.cues, setBpm: (bpm) => this.transport.bpm.rampTo(Number(bpm), 1) };
     }
@@ -263,7 +284,7 @@ export class MusicEngine {
         this.director.dispose();
         this.transport.stop();
         this.transport.cancel(0);
-        [this.oneShot, this.cues, this.mixer].forEach((part) => part.dispose());
+        [this.oneShot, this.accents, this.cues, this.mixer].forEach((part) => part.dispose());
         if (this.bank) this.bank.dispose();
         this.listeners.clear();
     }

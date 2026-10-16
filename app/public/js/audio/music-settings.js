@@ -19,11 +19,11 @@
 })(typeof self !== 'undefined' ? self : this, function (sampleMap) {
     'use strict';
 
-    const LAYERS = ['pad', 'brass', 'bass', 'drums', 'arp', 'melody'];
-    // Mezcla por defecto en dB (ajustada de oído en /dev/music, 2026-10-11)
-    const LAYER_DB = { pad: 0, brass: -5, bass: -4, drums: 0, arp: -2, melody: 0 };
+    const LAYERS = ['pad', 'brass', 'piano', 'bass', 'drums', 'arp', 'melody'];
+    // Mezcla por defecto en dB (ajustada de oído el 2026-10-11)
+    const LAYER_DB = { pad: 0, brass: -5, piano: -4, bass: -4, drums: 0, arp: -2, melody: 0 };
     const TICK_SOUNDS = ['claves', 'wood', 'xstick', 'bip', 'mech'];
-    const SOUND_GROUPS = ['brass', 'melody', 'bass', 'drums', 'reverb'];
+    const SOUND_GROUPS = ['brass', 'piano', 'melody', 'bass', 'drums', 'reverb'];
     const SEED_MODES = ['session', 'fixed'];
     const SEED_PATTERN = /^[a-z0-9_-]{1,32}$/i;
     const TEMPO = { min: 80, max: 140, base: 112 };
@@ -36,6 +36,7 @@
         return {
             brass: Object.keys(map.BRASS_BANKS),
             melody: Object.keys(map.MELODY_BANKS),
+            piano: Object.keys(map.PIANO_BANKS),
             bass: Object.keys(map.BASS_BANKS),
             drums: Object.keys(map.DRUM_KITS),
             reverb: Object.keys(map.REVERBS)

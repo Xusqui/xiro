@@ -1,7 +1,8 @@
 /**
  * @fileoverview Rastro de diagnóstico de la música: los últimos pasos (escenas, sucesos
- * del juego, reloj) se guardan al momento en localStorage. Si el navegador se cuelga,
- * al volver se ve en /dev/music cuál fue el último paso.
+ * del juego, reloj) se guardan al momento en localStorage (clave `xiro_music_trace`).
+ * Si el navegador se cuelga, al volver se ve en las herramientas de desarrollo cuál
+ * fue el último paso.
  */
 
 const KEY = 'xiro_music_trace';
@@ -13,12 +14,4 @@ export function trace(message) {
         list.push(`${new Date().toISOString().slice(11, 23)} ${message}`);
         localStorage.setItem(KEY, JSON.stringify(list.slice(-MAX_ENTRIES)));
     } catch { }
-}
-
-export function readTrace() {
-    try {
-        return JSON.parse(localStorage.getItem(KEY) || '[]');
-    } catch {
-        return [];
-    }
 }

@@ -18,35 +18,35 @@
 
     /*
      * Escenas de espera en bucle, en la tonalidad del lobby y sin subidas:
-     * marcador (versión ligera del tema: fragmentos del motivo A, campanas, batería suave)
-     * y tablero del Trivial (espera tranquila: pad, campanas y bajo pedal).
+     * marcador (versión ligera del tema: fragmentos del motivo A, campanas, piano partido,
+     * batería suave) y tablero del Trivial (espera tranquila: pad, piano, campanas y bajo pedal).
      */
     const LOOP_TYPES = {
         lbA: {
-            prog: 'A', layers: { pad: 0.8, brass: 0, bass: 0.8, drums: 0.55, arp: 0.8, melody: 0.65 },
-            drums: 'light', bass: 'pop', arp: 'sparkle', brass: 'none', melody: 'response'
+            prog: 'A', layers: { pad: 0.8, brass: 0, piano: 0.6, bass: 0.8, drums: 0.55, arp: 0.8, melody: 0.65 },
+            drums: 'light', bass: 'pop', arp: 'sparkle', brass: 'none', piano: 'arp', melody: 'response'
         },
         lbB: {
-            prog: 'B', layers: { pad: 0.9, brass: 0, bass: 0.75, drums: 0.5, arp: 0.9, melody: 0 },
-            drums: 'light', bass: 'pop', arp: 'sparkle', brass: 'none', melody: 'none'
+            prog: 'B', layers: { pad: 0.9, brass: 0, piano: 0.6, bass: 0.75, drums: 0.5, arp: 0.9, melody: 0 },
+            drums: 'light', bass: 'pop', arp: 'sparkle', brass: 'none', piano: 'stabs', melody: 'none'
         },
         boardA: {
-            prog: 'break', layers: { pad: 1, brass: 0, bass: 0.55, drums: 0, arp: 0.9, melody: 0 },
-            drums: 'none', bass: 'pedal', arp: 'sparse', brass: 'none', melody: 'none'
+            prog: 'break', layers: { pad: 1, brass: 0, piano: 0.7, bass: 0.55, drums: 0, arp: 0.9, melody: 0 },
+            drums: 'none', bass: 'pedal', arp: 'sparse', brass: 'none', piano: 'arp', melody: 'none'
         },
         boardB: {
-            prog: 'intro', layers: { pad: 1, brass: 0, bass: 0.55, drums: 0.35, arp: 0.8, melody: 0.45 },
-            drums: 'light', bass: 'pedal', arp: 'sparkle', brass: 'none', melody: 'response'
+            prog: 'intro', layers: { pad: 1, brass: 0, piano: 0.55, bass: 0.55, drums: 0.35, arp: 0.8, melody: 0.45 },
+            drums: 'light', bass: 'pedal', arp: 'sparkle', brass: 'none', piano: 'arp', melody: 'response'
         }
     };
     // Podio: espera mientras salen los puestos y cierre tras el ganador (sin batería)
     LOOP_TYPES.podBed = {
-        prog: 'podium', layers: { pad: 0.9, brass: 0, bass: 0.5, drums: 0.55, arp: 0.6, melody: 0 },
-        drums: 'intro', bass: 'pedal', arp: 'sparse', brass: 'none', melody: 'none'
+        prog: 'podium', layers: { pad: 0.9, brass: 0, piano: 0.55, bass: 0.5, drums: 0.55, arp: 0.6, melody: 0 },
+        drums: 'intro', bass: 'pedal', arp: 'sparse', brass: 'none', piano: 'pulse', melody: 'none'
     };
     LOOP_TYPES.podEnd = {
-        prog: 'podiumEnd', layers: { pad: 1, brass: 0, bass: 0.6, drums: 0, arp: 0.8, melody: 0 },
-        drums: 'none', bass: 'pedal', arp: 'sparkle', brass: 'none', melody: 'none'
+        prog: 'podiumEnd', layers: { pad: 1, brass: 0, piano: 0.65, bass: 0.6, drums: 0, arp: 0.8, melody: 0 },
+        drums: 'none', bass: 'pedal', arp: 'sparkle', brass: 'none', piano: 'arp', melody: 'none'
     };
     const LOOP_FORMS = { leaderboard: ['lbA', 'lbB'], board: ['boardA', 'boardB'], podium: ['podBed'], podiumEnd: ['podEnd'] };
 
@@ -69,7 +69,7 @@
             chords: prng.createRng(seed, 'prog:' + typeName + ':' + round).pick(theory.PROGRESSIONS[type.prog]),
             bars: arrangement.SECTION_BARS,
             layers: Object.assign({}, type.layers),
-            styles: { drums: type.drums, bass: type.bass, arp: type.arp, brass: type.brass, melody: type.melody },
+            styles: { drums: type.drums, bass: type.bass, arp: type.arp, brass: type.brass, piano: type.piano, melody: type.melody },
             variant: scene + ':' + index,
             climax: false
         };
@@ -88,7 +88,7 @@
             chords: theory.PROGRESSIONS.A[0],
             bars: arrangement.SECTION_BARS,
             layers: Object.assign({}, type.layers, { melody: 1, brass: 1 }),
-            styles: { drums: 'disco', bass: type.bass, arp: 'sparkle', brass: type.brass, melody: type.melody },
+            styles: { drums: 'disco', bass: type.bass, arp: 'sparkle', brass: type.brass, piano: type.piano, melody: type.melody },
             variant: 'podium:finale',
             climax: true
         };

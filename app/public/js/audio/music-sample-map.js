@@ -2,7 +2,8 @@
  * @fileoverview Mapa del banco de muestras de la música (public/audio/music; créditos
  * y licencias en CREDITS.txt): qué fichero suena en cada nota de cada instrumento y
  * cómo elegir capa de intensidad y alternancia. Hay varios juegos de sonidos para
- * compararlos en /dev/music: metales (VSCO 2 o Iowa con pp/mf/ff), melodía (metales,
+ * elegirlos en el admin: metales (VSCO 2 o Iowa con pp/mf/ff), piano (de cola o
+ * eléctrico FM), melodía (metales,
  * saxos, flauta, clarinete, oboe, violines o sintetizada), bajo (a dedo, staccato,
  * Babyblue, contrabajo o sintetizado), batería (Big Rusty, Virtuosity o Naked Drums)
  * y reverb (generada o salas reales). Datos puros.
@@ -29,11 +30,11 @@
     };
     const midiToName = (midi) => NOTE_NAMES[midi % 12] + (Math.floor(midi / 12) - 1);
     // En disco el sostenido va como 's' (C#4 → Cs4.flac)
-    const fileOf = (dir, note) => dir + '/' + note.replace('#', 's') + '.flac';
+    const fileOf = (dir, note, ext) => dir + '/' + note.replace('#', 's') + (ext || '.flac');
 
-    function pitched(dir, notes) {
+    function pitched(dir, notes, ext) {
         const urls = {};
-        notes.forEach((note) => { urls[note] = fileOf(dir, note); });
+        notes.forEach((note) => { urls[note] = fileOf(dir, note, ext); });
         return urls;
     }
 
@@ -92,6 +93,14 @@
         synth: []
     };
 
+    // Piano: de cola (Salamander Grand Piano V3, CC BY 3.0; en MP3, cada tercera menor) o
+    // eléctrico FM sintetizado (sin capas: el «E.Piano» del DX7)
+    const PIANO_NOTES = ['F#2', 'A2', 'C3', 'D#3', 'F#3', 'A3', 'C4', 'D#4', 'F#4', 'A4', 'C5', 'D#5', 'F#5', 'A5', 'C6', 'D#6', 'F#6', 'A6'];
+    const PIANO_BANKS = {
+        epiano: [],
+        grand: [pitched('piano/grand', PIANO_NOTES, '.mp3')]
+    };
+
     // Melodía: metales (los del banco de metales, grupo lead), maderas de Iowa (pp, mf, ff),
     // violines de VSCO (p, f) o sintetizada (sin capas)
     const SCALE_A = ['A3', 'C4', 'D#4', 'F#4', 'A4', 'C5', 'D#5', 'F#5'];
@@ -126,8 +135,8 @@
     // Reverb: generada (Tone.Reverb) o respuesta al impulso de una sala real (CC0)
     const REVERBS = { generated: null, liverpool: 'ir/liverpool.flac', nordea: 'ir/nordea.flac', knights: 'ir/knights.flac' };
 
-    // Por defecto (elegido de oído en /dev/music, 2026-10-11)
-    const DEFAULT_SOUNDS = { brass: 'iowa', melody: 'brass', bass: 'babyblue', drums: 'naked', reverb: 'liverpool' };
+    // Por defecto (elegido de oído el 2026-10-11)
+    const DEFAULT_SOUNDS = { brass: 'iowa', piano: 'epiano', melody: 'brass', bass: 'babyblue', drums: 'naked', reverb: 'liverpool' };
     const soundsOf = (sounds) => Object.assign({}, DEFAULT_SOUNDS, sounds);
 
     /** Capas de un instrumento afinado ([{ nota: fichero }], de suave a fuerte; [] = sintetizado). */
@@ -135,6 +144,7 @@
         const chosen = soundsOf(sounds);
         if (group === 'bass') return BASS_BANKS[chosen.bass] || [PITCHED.bass];
         if (group === 'melody') return MELODY_BANKS[chosen.melody] || [];
+        if (group === 'piano') return PIANO_BANKS[chosen.piano] || [];
         const bank = BRASS_BANKS[chosen.brass];
         return bank && bank[group] ? bank[group] : [PITCHED[group]];
     }
@@ -168,7 +178,7 @@
     function allUrls(sounds) {
         const out = {};
         const chosen = soundsOf(sounds);
-        Object.keys(PITCHED).concat('melody').forEach((group) => {
+        Object.keys(PITCHED).concat('melody', 'piano').forEach((group) => {
             pitchedLayers(group, chosen).forEach((layer, i) => {
                 Object.keys(layer).forEach((note) => { out[group + '|' + i + '|' + note] = layer[note]; });
             });
@@ -184,7 +194,7 @@
     }
 
     return {
-        BASE_URL, PITCHED, BRASS_BANKS, MELODY_BANKS, BASS_BANKS, DRUM_LAYERS, DRUM_KITS, REVERBS, DEFAULT_SOUNDS, TICK_SOUNDS,
+        BASE_URL, PITCHED, BRASS_BANKS, PIANO_BANKS, MELODY_BANKS, BASS_BANKS, DRUM_LAYERS, DRUM_KITS, REVERBS, DEFAULT_SOUNDS, TICK_SOUNDS,
         noteToMidi, pitchedLayers, drumKit, layerFor, nearestDistance, allUrls
     };
 });

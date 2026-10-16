@@ -1,6 +1,6 @@
 /**
  * @fileoverview Mesa de mezcla de la música: un canal por capa con panorama
- * (volumen del panel), envíos a una reverb corta y a un delay que rebota, bombeo
+ * (volumen del admin), envíos a una reverb corta y a un delay que rebota, bombeo
  * de pad/metales/bajo con cada bombo y cadena master compresor → limitador →
  * volumen del usuario. Lo crea y lo posee MusicEngine.
  *
@@ -13,12 +13,12 @@ import './music-settings.js?v=20260922172926';
 // Capas y mezcla por defecto: viven con los ajustes del admin (music-settings.js)
 export const { LAYERS, LAYER_DB } = self.XiroMusic.settings;
 
-// Panorama por capa: metales a la izquierda y campanas a la derecha, como en un plató
-const PANS = { pad: 0, brass: -0.2, bass: 0, drums: 0, arp: 0.25, melody: 0.05 };
-const PUMPED = new Set(['pad', 'brass', 'bass', 'arp']);
-// Envíos por capa, después del canal (silenciar una capa en el panel silencia también su eco)
+// Panorama por capa: metales a la izquierda, piano y campanas a la derecha, como en un plató
+const PANS = { pad: 0, brass: -0.2, piano: 0.12, bass: 0, drums: 0, arp: 0.25, melody: 0.05 };
+const PUMPED = new Set(['pad', 'brass', 'piano', 'bass', 'arp']);
+// Envíos por capa, después del canal (silenciar una capa en el admin silencia también su eco)
 const SENDS = {
-    pad: { reverb: 0.35 }, brass: { reverb: 0.45, delay: 0.08 }, drums: { reverb: 0.2 },
+    pad: { reverb: 0.35 }, brass: { reverb: 0.45, delay: 0.08 }, piano: { reverb: 0.3, delay: 0.06 }, drums: { reverb: 0.2 },
     arp: { reverb: 0.4, delay: 0.45 }, melody: { reverb: 0.3, delay: 0.18 }
 };
 const PUMP_DEPTH = 0.3;
@@ -85,7 +85,7 @@ export function createMixer(Tone) {
             pump.gain.linearRampToValueAtTime(1 - PUMP_DEPTH, time + 0.008);
             pump.gain.linearRampToValueAtTime(1, time + 0.24);
         },
-        /** Efectos de mezcla on/off (comparación A/B en el panel). */
+        /** Efectos de mezcla on/off (opción fx). */
         setFx(on) {
             fxOn = Boolean(on);
             reverbReturn.gain.rampTo(fxOn ? REVERB_LEVEL : 0, 0.2);
@@ -115,7 +115,7 @@ export function createMixer(Tone) {
                 setTimeout(() => [old.convolver, old.level].forEach((node) => node.dispose()), REVERB_SWAP_SECONDS * 2500);
             }
         },
-        /** Volumen de una capa en dB (panel de depuración). */
+        /** Volumen de una capa en dB (mezcla del admin). */
         setLayerVolume(name, db) {
             if (layers[name]) layers[name].volume.rampTo(db, 0.1);
         },

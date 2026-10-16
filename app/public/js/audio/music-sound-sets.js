@@ -1,5 +1,5 @@
 /**
- * @fileoverview Juego de sonidos de MusicEngine ({ brass, melody, bass, drums, reverb }, ver
+ * @fileoverview Juego de sonidos de MusicEngine ({ brass, piano, melody, bass, drums, reverb }, ver
  * music-sample-map.js): carga el banco de muestras elegido y la reverb. Al cambiar en
  * marcha, el banco nuevo se descarga sin cortar la música y la escena se rehace en el
  * compás siguiente; el banco viejo se libera cuando ya no lo usa nadie.
@@ -40,7 +40,7 @@ export function applyReverb(mixer, sounds) {
 }
 
 /**
- * Cambia el juego de sonidos del motor. Si cambian metales, melodía, bajo o batería, descarga el
+ * Cambia el juego de sonidos del motor. Si cambian metales, piano, melodía, bajo o batería, descarga el
  * banco nuevo y rehace la escena; la reverb cambia al momento.
  * @returns {Promise<object>} el juego de sonidos aplicado
  */
@@ -49,7 +49,7 @@ export async function switchSounds(engine, partial) {
     const next = resolveSounds(Object.assign({}, before, partial));
     engine.sounds = next;
     if (next.reverb !== before.reverb) await applyReverb(engine.mixer, next);
-    if (['brass', 'melody', 'bass', 'drums'].every((group) => next[group] === before[group])) return next;
+    if (['brass', 'piano', 'melody', 'bass', 'drums'].every((group) => next[group] === before[group])) return next;
     const bank = await loadSampleBank(engine.Tone, next);
     if (engine.sounds !== next) {
         if (bank) bank.dispose(); // otro cambio llegó antes de terminar este

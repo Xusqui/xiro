@@ -72,7 +72,7 @@
 .xm-wave { width: 7.5rem; height: 2.5rem; color: var(--camaleon-400); }
 
 /* ===== Mesa de mezcla ===== */
-.xm-desk { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.5rem; padding: 1rem 0.75rem; border-radius: var(--radius-xl); background: var(--console-ink); }
+.xm-desk { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0.5rem; padding: 1rem 0.75rem; border-radius: var(--radius-xl); background: var(--console-ink); }
 .xm-strip { display: flex; flex-direction: column; align-items: center; gap: 0.625rem; padding: 0.625rem 0.25rem; border-radius: var(--radius-lg); background: rgb(255 255 255 / 0.04); transition: opacity 150ms ease-out; }
 .xm-strip__name { font-size: 0.6875rem; font-weight: 700; color: #cbd5e1; text-align: center; }
 .xm-strip__fader { writing-mode: vertical-lr; direction: rtl; width: 1.75rem; height: 9.5rem; accent-color: var(--plum-400); cursor: pointer; }
@@ -89,7 +89,7 @@
     .xm-split { grid-template-columns: 1fr; }
     .xm-player { grid-template-columns: auto 1fr; }
     .xm-wave { display: none; }
-    .xm-desk { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .xm-desk { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
 @media (prefers-reduced-motion: reduce) {

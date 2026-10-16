@@ -4,7 +4,7 @@
  * el relativo mayor (la tonalidad del lobby y del marcador) con VI–VII–I del menor,
  * que en el mayor es IV–V–I:
  *  - fill: pad, metales y bajo en el IV, enlazados desde el acorde que sonaba, con el
- *    redoble de caja de siempre;
+ *    redoble de caja de siempre y el piano repitiendo el IV a corcheas en crescendo;
  *  - golpe: «TA» (V, una semicorchea) y «DAAAA» (I) con los mismos instrumentos, de
  *    un compás: la escena siguiente (marcador o tablero) entra en el golpe, debajo.
  * La intensidad sigue a la tensión. Con poca, suave y oscuro: trompas sostenidas (sin
@@ -32,6 +32,8 @@
     const RANGES = {
         pad: [55, 74],
         brass: [58, 79],
+        piano: [55, 79],
+        pianoLeft: [43, 54],
         bass: [28, 43],
         lead: [60, 88],
         bells: [65, 100],
@@ -85,13 +87,18 @@
         const padIV = lead(ref(RANGES.pad), key, IV, 'triad', RANGES.pad);
         const brassIV = lead(ref(RANGES.brass), key, IV, 'triad', RANGES.brass);
         const brassV = lead(brassIV, key, V, 'triad', RANGES.brass);
+        const pianoIV = lead(ref(RANGES.piano), key, IV, 'triad', RANGES.piano);
+        const pianoV = lead(pianoIV, key, V, 'triad', RANGES.piano);
         return {
             from: from ? { pad: ref(RANGES.pad), brass: ref(RANGES.brass) } : null,
             padIV: padIV,
             padI: lead(padIV, key, I, 'add9', RANGES.pad),
             brassIV: brassIV,
             brassV: brassV,
-            brassI: lead(brassV, key, I, 'add9', RANGES.brass)
+            brassI: lead(brassV, key, I, 'add9', RANGES.brass),
+            pianoIV: pianoIV,
+            pianoV: pianoV,
+            pianoI: lead(pianoV, key, I, 'add9', RANGES.piano)
         };
     }
 
@@ -102,8 +109,11 @@
         const bassNote = rootIn(key, IV, RANGES.bass);
         const half = BEAT / 2;
         const bass = [];
+        const piano = [];
         for (let tick = 0; tick < total; tick += half) {
-            bass.push(noteEvent(tick, half * 0.9, bassNote, energy * (0.55 + 0.35 * (tick / total))));
+            const swell = tick / total;
+            bass.push(noteEvent(tick, half * 0.9, bassNote, energy * (0.55 + 0.35 * swell)));
+            piano.push(chordEvent(tick, half * 0.8, v.pianoIV, energy * (0.35 + 0.35 * swell), true));
         }
         const soft = (e) => Object.assign({}, e, { vel: e.vel * energy });
         return {
@@ -112,6 +122,7 @@
             pad: [chordEvent(0, total, v.padIV, 0.35 * energy, true)],
             brass: [chordEvent(0, total, v.brassIV, 0.5 * energy, true)],
             bass: bass,
+            piano: piano,
             lengthTicks: total
         };
     }
@@ -130,6 +141,11 @@
                 chordEvent(ta, DA_TICKS, v.brassI, 0.8 * energy, true)
             ],
             pad: [chordEvent(ta, DA_TICKS, v.padI, 0.45 * energy, true)],
+            // Piano con los metales: TA en el V y DAAAA en el I con la fundamental abajo
+            piano: [
+                chordEvent(0, ta, v.pianoV, 0.7 * energy, true),
+                chordEvent(ta, 2 * BEAT, [rootIn(key, I, RANGES.pianoLeft)].concat(v.pianoI), 0.85 * energy, true)
+            ],
             // El bajo de la escena siguiente sigue enseguida
             bass: [noteEvent(0, ta, rootIn(key, V, RANGES.bass), 0.85 * energy), noteEvent(ta, BEAT, rootIn(key, I, RANGES.bass), 0.95 * energy)],
             timp: [noteEvent(0, ta, rootIn(key, V, RANGES.timp), 0.9 * energy), noteEvent(ta, 2 * BEAT, rootIn(key, I, RANGES.timp), 0.9 * energy)],

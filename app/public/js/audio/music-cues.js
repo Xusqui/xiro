@@ -4,7 +4,7 @@
  * cuadrado con el pulso del Transport. Se programan a partir del tiempo que queda
  * (reloj del servidor) y se cancelan al pausar o revelar.
  *
- * El sonido del tic-tac se puede elegir (panel de pruebas): muestras del banco
+ * El sonido del tic-tac se elige en el admin (pestaña «Música»): muestras del banco
  * (claves, madera, aro de caja, el bip del juego) o un reloj mecánico sintetizado.
  */
 
@@ -16,7 +16,7 @@ const RISER_TOP_HZ = 4000;
 const SAMPLE_TICK_DB = 0;
 const MECH_TICK_DB = 18;
 const MECH_TICK_HZ = [2900, 2100]; // tic, tac del reloj mecánico
-const DEFAULT_TICK = 'wood'; // elegido de oído en el panel
+const DEFAULT_TICK = 'wood'; // elegido de oído
 const MAX_TICKS = 32; // salvaguarda: el tic-tac son ~6 golpes; nunca un bucle desbocado
 export const TICK_SOUND_NAMES = ['claves', 'wood', 'xstick', 'bip', 'mech'];
 

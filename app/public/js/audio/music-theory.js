@@ -56,33 +56,20 @@
      * break: lentas y abiertas; build: pedal de dominante que pide resolver.
      */
     const PROGRESSIONS = {
-        intro: [
-            [c(0, 'add9'), c(3, 'seventh'), c(0, 'add9'), c(3, 'seventh'), c(5, 'seventh'), c(3, 'seventh'), c(1, 'seventh'), c(4, 'sus4')]
-        ],
-        A: [
-            [c(0, 'triad'), c(3, 'triad'), c(0, 'triad'), c(4, 'triad'), c(0, 'triad'), c(3, 'triad'), c(1, 'seventh'), c(4, 'sus4')],
-            [c(0, 'add9'), c(2, 'seventh'), c(3, 'seventh'), c(4, 'triad'), c(0, 'add9'), c(2, 'seventh'), c(3, 'seventh'), c(4, 'sus4')],
-            [c(0, 'triad'), c(5, 'seventh'), c(3, 'triad'), c(4, 'triad'), c(0, 'triad'), c(5, 'seventh'), c(1, 'seventh'), c(4, 'seventh')]
-        ],
-        B: [
-            [c(5, 'seventh'), c(3, 'seventh'), c(0, 'add9'), c(4, 'triad'), c(5, 'seventh'), c(3, 'seventh'), c(1, 'seventh'), c(4, 'sus4')],
+        intro: [[c(0, 'add9'), c(3, 'seventh'), c(5, 'seventh'), c(4, 'sus4'), c(0, 'add9'), c(3, 'seventh'), c(1, 'seventh'), c(4, 'sus4')]],
+        A: [[c(0, 'add9'), c(3, 'seventh'), c(0, 'triad'), c(4, 'sus4'), c(0, 'add9'), c(5, 'seventh'), c(1, 'seventh'), c(4, 'sus4')],
+            [c(0, 'add9'), c(2, 'seventh'), c(3, 'seventh'), c(4, 'triad'), c(0, 'add9'), c(2, 'seventh'), c(5, 'seventh'), c(4, 'sus4')],
+            [c(0, 'triad'), c(5, 'seventh'), c(3, 'seventh'), c(4, 'triad'), c(0, 'add9'), c(5, 'seventh'), c(1, 'seventh'), c(4, 'sus4')]],
+        B: [[c(5, 'seventh'), c(3, 'seventh'), c(0, 'add9'), c(4, 'triad'), c(5, 'seventh'), c(3, 'seventh'), c(1, 'seventh'), c(4, 'sus4')],
             [c(3, 'seventh'), c(4, 'triad'), c(2, 'seventh'), c(5, 'seventh'), c(3, 'seventh'), c(4, 'triad'), c(0, 'add9'), c(4, 'sus4')],
-            [c(1, 'seventh'), c(4, 'triad'), c(0, 'seventh'), c(5, 'seventh'), c(1, 'seventh'), c(4, 'triad'), c(2, 'seventh'), c(4, 'sus4')]
-        ],
-        break: [
-            [c(3, 'seventh'), c(3, 'seventh'), c(0, 'add9'), c(0, 'add9'), c(5, 'seventh'), c(5, 'seventh'), c(1, 'seventh'), c(4, 'sus4')],
-            [c(5, 'seventh'), c(2, 'seventh'), c(3, 'seventh'), c(0, 'add9'), c(5, 'seventh'), c(2, 'seventh'), c(3, 'seventh'), c(4, 'sus4')]
-        ],
-        build: [
-            [c(4, 'sus4'), c(4, 'triad'), c(4, 'sus4'), c(4, 'triad'), c(3, 'triad'), c(3, 'triad'), c(4, 'sus4'), c(4, 'seventh')]
-        ],
-        // Podio: espera solemne mientras salen los puestos, y cierre sostenido tras el ganador
-        podium: [
-            [c(0, 'add9'), c(3, 'seventh'), c(5, 'seventh'), c(3, 'triad'), c(1, 'seventh'), c(4, 'sus4'), c(4, 'triad'), c(0, 'add9')]
-        ],
-        podiumEnd: [
-            [c(0, 'add9'), c(0, 'add9'), c(3, 'seventh'), c(3, 'seventh'), c(0, 'add9'), c(0, 'add9'), c(0, 'add9'), c(0, 'add9')]
-        ]
+            [c(1, 'seventh'), c(4, 'triad'), c(0, 'add9'), c(5, 'seventh'), c(1, 'seventh'), c(4, 'triad'), c(2, 'seventh'), c(4, 'sus4')]],
+        break: [[c(3, 'seventh'), c(3, 'seventh'), c(0, 'add9'), c(0, 'add9'), c(5, 'seventh'), c(5, 'seventh'), c(1, 'seventh'), c(4, 'sus4')],
+            [c(5, 'seventh'), c(2, 'seventh'), c(3, 'seventh'), c(0, 'add9'), c(5, 'seventh'), c(2, 'seventh'), c(3, 'seventh'), c(4, 'sus4')]],
+        build: [[c(4, 'sus4'), c(4, 'triad'), c(4, 'sus4'), c(4, 'seventh'), c(3, 'triad'), c(3, 'seventh'), c(4, 'sus4'), c(4, 'seventh')]],
+        // Podio: expectación, progresión emocional y resolución triunfal.
+        podium: [[c(0, 'add9'), c(3, 'seventh'), c(5, 'seventh'), c(3, 'triad'), c(1, 'seventh'), c(4, 'sus4'), c(4, 'triad'), c(0, 'add9')]],
+        // Cierre del ganador: estabilidad armónica y sensación de victoria.
+        podiumEnd: [[c(0, 'add9'), c(3, 'seventh'), c(0, 'add9'), c(0, 'add9'), c(5, 'seventh'), c(3, 'triad'), c(0, 'add9'), c(0, 'add9')]]
     };
 
     function midiToName(midi) {

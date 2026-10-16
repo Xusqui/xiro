@@ -16,8 +16,9 @@ import { trace } from './music-trace.js?v=20260922172926';
 const DEFAULT_SECTION_BARS = 8;
 const DEFAULT_LOOKAHEAD = 2;
 const OPEN_FILTER_HZ = 18000;
-// Capas que pasan por el filtro de tensión (se abre al subir la tensión)
-const FILTERED = new Set(['pad', 'arp']);
+// Capas que pasan por el filtro de tensión (se abre al subir la tensión): en la pregunta, el
+// piano suena apagado con poca tensión y se abre con ella
+const FILTERED = new Set(['pad', 'piano', 'arp']);
 const LAYER_UP_SECONDS = 0.06;
 const LAYER_DOWN_SECONDS = 0.5;
 
@@ -78,6 +79,7 @@ export function createScene(Tone, mixer, source, bank) {
         brass: playBrass,
         bass: (t, e) => inst.bass.triggerAttackRelease(e.note, e.dur, t, e.vel),
         bells: (t, e) => inst.bells.triggerAttackRelease(e.note, e.dur, t, e.vel),
+        piano: (t, e) => inst.piano.triggerAttackRelease(e.notes, e.dur, t, e.vel),
         melody: playMelody,
         kick: (t, e) => kit.kick(t, e.vel),
         snare: (t, e) => kit.snare(t, e.vel),

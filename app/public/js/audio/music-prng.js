@@ -67,7 +67,7 @@
         };
     }
 
-    /** Semilla aleatoria legible para el panel de depuración y partidas nuevas. */
+    /** Semilla aleatoria legible para partidas nuevas. */
     function randomSeed() {
         return Math.floor(Math.random() * 0xFFFFFF).toString(36);
     }

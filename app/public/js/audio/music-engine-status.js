@@ -1,5 +1,5 @@
 /**
- * @fileoverview Estado de MusicEngine para el panel de pruebas y el puente del
+ * @fileoverview Estado de MusicEngine para depurar y para el puente del
  * presentador: escena, sección, tempo, tonalidad, acordes, opciones y tensión.
  */
 
