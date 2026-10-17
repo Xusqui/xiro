@@ -40,22 +40,23 @@ function extractStreakConfig(game) {
  * @param {number} basePoints   Puntos base ya calculados por la estrategia
  * @param {number} prevStreak   Racha del jugador ANTES de procesar esta respuesta
  * @param {Object} game         Estado del juego en memoria (debe tener campos streak)
- * @param {string} nickname     Nickname del jugador (para logs)
+ * @param {string} [nickname]   Nickname del jugador (para logs). Sin él no se registra nada:
+ *                              es el caso de la simulación de MaxScoreCalculator al final de la partida.
  * @returns {{ bonusPoints: number, bonusType: string|null, bonusPercentage: number }}
  */
-function applyStreakBonus(basePoints, prevStreak, game, nickname = '?') {
+function applyStreakBonus(basePoints, prevStreak, game, nickname = null) {
     if (!basePoints || basePoints <= 0) {
         return { bonusPoints: 0, bonusType: null, bonusPercentage: 0 };
     }
 
     const cfg = extractStreakConfig(game);
     const ctx = { roomId: game.roomId || game.pin, nickname, prevStreak, basePoints };
+    const log = (level, msg, extra) => { if (nickname) logger[level](msg, { ...ctx, ...extra }); };
 
     // Doble racha tiene prioridad y SUSTITUYE a la racha normal
     if (cfg.use_double_streaks && prevStreak >= cfg.double_streak_threshold) {
         const bonusPoints = roundScore(basePoints * cfg.double_streak_bonus_percentage);
-        logger.debug('🔥🔥Doble racha aplicada', {
-            ...ctx,
+        log('debug', '🔥🔥Doble racha aplicada', {
             bonusType: 'double',
             threshold: cfg.double_streak_threshold,
             bonusPercentage: cfg.double_streak_bonus_percentage,
@@ -67,8 +68,7 @@ function applyStreakBonus(basePoints, prevStreak, game, nickname = '?') {
     // Racha normal
     if (cfg.use_streaks && prevStreak >= cfg.streak_threshold) {
         const bonusPoints = roundScore(basePoints * cfg.streak_bonus_percentage);
-        logger.info('🔥 Racha aplicada', {
-            ...ctx,
+        log('info', '🔥 Racha aplicada', {
             bonusType: 'normal',
             threshold: cfg.streak_threshold,
             bonusPercentage: cfg.streak_bonus_percentage,
