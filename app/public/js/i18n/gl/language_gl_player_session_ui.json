@@ -16,7 +16,7 @@
     "player.session_ui.game_will_start": "A PARTIDA COMEZARÁ CANDO O PRESENTADOR INICIE O XOGO",
     "player.session_ui.exit_game": "SAÍR DO XOGO",
     "player.session_ui.get_ready": "PREPÁRATE, {nickname}!",
-    "player.session_ui.your_name": "O teu nome?",
+    "player.session_ui.your_name": "O teu alcume?",
     "player.session_ui.connecting_server": "Conectando ao servidor...",
     "player.session_ui.connecting_wait_moment": "Por favor, agarda un momento",
     "player.session_ui.retry_btn": "REINTENTAR"

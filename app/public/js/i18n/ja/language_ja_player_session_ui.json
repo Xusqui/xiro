@@ -16,7 +16,7 @@
     "player.session_ui.game_will_start": "進行役がゲームを開始するとゲームが始まります",
     "player.session_ui.exit_game": "ゲームを退出",
     "player.session_ui.get_ready": "準備して、{nickname}！",
-    "player.session_ui.your_name": "お名前は？",
+    "player.session_ui.your_name": "ニックネームは？",
     "player.session_ui.connecting_server": "サーバーに接続中...",
     "player.session_ui.connecting_wait_moment": "少々お待ちください",
     "player.session_ui.retry_btn": "再試行"

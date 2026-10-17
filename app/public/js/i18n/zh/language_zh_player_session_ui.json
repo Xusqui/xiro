@@ -16,7 +16,7 @@
     "player.session_ui.game_will_start": "主持人开始游戏后将正式开始",
     "player.session_ui.exit_game": "退出游戏",
     "player.session_ui.get_ready": "准备好，{nickname}！",
-    "player.session_ui.your_name": "您的名字？",
+    "player.session_ui.your_name": "您的昵称？",
     "player.session_ui.connecting_server": "正在连接服务器...",
     "player.session_ui.connecting_wait_moment": "请稍候片刻",
     "player.session_ui.retry_btn": "重试"

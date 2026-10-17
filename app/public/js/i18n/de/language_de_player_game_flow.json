@@ -1,7 +1,7 @@
 {
   "keys": {
     "player.game_flow.exit_title": "Beende das Spiel",
-    "player.game_flow.exit_msg": "Sind Sie sicher, dass Sie das Spiel beenden möchten? Ihr Benutzername wird freigegeben.",
+    "player.game_flow.exit_msg": "Bist du sicher, dass du das Spiel verlassen möchtest? Dein Spitzname wird freigegeben.",
     "player.game_flow.btn_exit": "Hinausgehen",
     "player.game_flow.session_ended": "Sitzung beendet",
     "player.game_flow.presenter_left": "Der Moderator hat die Sitzung verlassen.",

@@ -1,7 +1,7 @@
 {
   "keys": {
     "player.game_flow.exit_title": "Irten jokotik",
-    "player.game_flow.exit_msg": "Ziur jokotik irten nahi duzula? Zure erabiltzaile-izena kaleratuko da.",
+    "player.game_flow.exit_msg": "Ziur jokotik irten nahi duzula? Zure ezizena libre geratuko da.",
     "player.game_flow.btn_exit": "Irten",
     "player.game_flow.session_ended": "Saioa amaitu da",
     "player.game_flow.presenter_left": "Aurkezleak saioa utzi du.",

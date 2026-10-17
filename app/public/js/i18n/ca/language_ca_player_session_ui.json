@@ -16,7 +16,7 @@
     "player.session_ui.game_will_start": "LA PARTIDA COMENÇARÀ QUAN EL PRESENTADOR INICIÏ EL JOC",
     "player.session_ui.exit_game": "SORTIR DEL JOC",
     "player.session_ui.get_ready": "PREPARA'T, {nickname}!",
-    "player.session_ui.your_name": "El teu nom?",
+    "player.session_ui.your_name": "El teu àlies?",
     "player.session_ui.connecting_server": "Connectant al servidor...",
     "player.session_ui.connecting_wait_moment": "Si us plau, espera un moment",
     "player.session_ui.retry_btn": "REINTENTAR"

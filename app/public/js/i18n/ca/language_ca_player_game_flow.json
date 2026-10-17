@@ -1,7 +1,7 @@
 {
   "keys": {
     "player.game_flow.exit_title": "Sortir del joc",
-    "player.game_flow.exit_msg": "¿Seguro que quieres salir del juego? Tu nombre de usuario será liberado.",
+    "player.game_flow.exit_msg": "Segur que vols sortir del joc? El teu àlies quedarà lliure.",
     "player.game_flow.btn_exit": "Sortir",
     "player.game_flow.session_ended": "Sessió finalitzada",
     "player.game_flow.presenter_left": "El presentador ha abandonado la sesión.",

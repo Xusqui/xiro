@@ -5,8 +5,8 @@
     "player.session.placeholder": "XXXXXX-XXXX",
     "player.session.submit": "INGRESAR",
     "player.loading": "Buscando juego…",
-    "player.nickname.label": "¿Tu nombre?",
-    "player.nickname.placeholder": "NOMBRE",
+    "player.nickname.label": "¿Tu apodo?",
+    "player.nickname.placeholder": "APODO",
     "player.nickname.submit": "¡LISTO!"
   }
 }

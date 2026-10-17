@@ -16,7 +16,7 @@
     "player.session_ui.game_will_start": "THE GAME WILL START WHEN THE PRESENTER BEGINS",
     "player.session_ui.exit_game": "LEAVE GAME",
     "player.session_ui.get_ready": "GET READY, {nickname}!",
-    "player.session_ui.your_name": "Your name?",
+    "player.session_ui.your_name": "Your nickname?",
     "player.session_ui.connecting_server": "Connecting to server...",
     "player.session_ui.connecting_wait_moment": "Please wait a moment",
     "player.session_ui.retry_btn": "RETRY"

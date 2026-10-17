@@ -16,7 +16,7 @@
     "player.session_ui.game_will_start": "LA PARTIE COMMENCERA QUAND LE PRÉSENTATEUR LANCERA LE JEU",
     "player.session_ui.exit_game": "QUITTER LE JEU",
     "player.session_ui.get_ready": "PRÉPARE-TOI, {nickname} !",
-    "player.session_ui.your_name": "Votre prénom ?",
+    "player.session_ui.your_name": "Votre pseudo ?",
     "player.session_ui.connecting_server": "Connexion au serveur...",
     "player.session_ui.connecting_wait_moment": "Veuillez patienter un moment",
     "player.session_ui.retry_btn": "RÉESSAYER"

@@ -5,8 +5,8 @@
     "player.session.placeholder": "XXXXXX-XXXX",
     "player.session.submit": "入る",
     "player.loading": "ゲームを探しています…",
-    "player.nickname.label": "あなたの名前？",
-    "player.nickname.placeholder": "名前",
+    "player.nickname.label": "ニックネームは？",
+    "player.nickname.placeholder": "ニックネーム",
     "player.nickname.submit": "準備ができて！"
   }
 }

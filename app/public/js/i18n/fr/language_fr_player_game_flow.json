@@ -1,7 +1,7 @@
 {
   "keys": {
     "player.game_flow.exit_title": "Quittez le jeu",
-    "player.game_flow.exit_msg": "Êtes-vous sûr de vouloir quitter le jeu ? Votre nom d'utilisateur sera publié.",
+    "player.game_flow.exit_msg": "Êtes-vous sûr de vouloir quitter le jeu ? Votre pseudo sera libéré.",
     "player.game_flow.btn_exit": "Sortir",
     "player.game_flow.session_ended": "Séance terminée",
     "player.game_flow.presenter_left": "Le présentateur a quitté la séance.",

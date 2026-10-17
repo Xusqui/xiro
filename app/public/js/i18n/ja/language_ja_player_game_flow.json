@@ -1,7 +1,7 @@
 {
   "keys": {
     "player.game_flow.exit_title": "ゲームを終了する",
-    "player.game_flow.exit_msg": "ゲームを終了してもよろしいですか?あなたのユーザー名は公開されます。",
+    "player.game_flow.exit_msg": "ゲームを終了してもよろしいですか？ニックネームは解放されます。",
     "player.game_flow.btn_exit": "外出",
     "player.game_flow.session_ended": "セッションが終了しました",
     "player.game_flow.presenter_left": "発表者がセッションを退席しました。",

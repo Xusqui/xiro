@@ -247,11 +247,11 @@ globalThis.StandaloneLobby = (() => {
         }
 
         window.mostrarModalInput(
-            window.XiroI18n?.t('standalone.lobby.nickname_required_title') || 'Nombre requerido',
-            window.XiroI18n?.t('standalone.lobby.nickname_required_message') || 'Por favor, introduce tu nombre para continuar.',
+            window.XiroI18n?.t('standalone.lobby.nickname_required_title') || 'Apodo requerido',
+            window.XiroI18n?.t('standalone.lobby.nickname_required_message') || 'Por favor, introduce tu apodo para continuar.',
             {
                 tipo: 'warning',
-                placeholder: window.XiroI18n?.t('standalone.lobby.nickname_placeholder') || 'Tu nombre',
+                placeholder: window.XiroI18n?.t('standalone.lobby.nickname_placeholder') || 'Tu apodo',
                 textoConfirm: window.XiroI18n?.t('standalone.lobby.nickname_required_confirm') || 'Entendido',
                 onConfirm: (nickname) => {
                     if (input) {

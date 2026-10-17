@@ -1,7 +1,7 @@
 {
   "keys": {
     "player.game_flow.exit_title": "退出游戏",
-    "player.game_flow.exit_msg": "您确定要退出游戏吗？您的用户名将被释放。",
+    "player.game_flow.exit_msg": "您确定要退出游戏吗？您的昵称将被释放。",
     "player.game_flow.btn_exit": "出去",
     "player.game_flow.session_ended": "会议结束",
     "player.game_flow.presenter_left": "演示者已离开会议。",

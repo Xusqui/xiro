@@ -27,7 +27,7 @@ import { forgetReveal } from './player-reveal-correct.js?v=20260922172926';
 export function salirDelLobby() {
     mostrarModalConfirmacion(
         _t('player.game_flow.exit_title', null, 'Salir del juego'),
-        _t('player.game_flow.exit_msg', null, '¿Seguro que quieres salir del juego? Tu nombre de usuario será liberado.'),
+        _t('player.game_flow.exit_msg', null, '¿Seguro que quieres salir del juego? Tu apodo quedará libre.'),
         () => {
             console.log('🚪 Saliendo del lobby...');
 

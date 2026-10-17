@@ -16,7 +16,7 @@
     "player.session_ui.game_will_start": "DAS SPIEL BEGINNT, WENN DER MODERATOR ES STARTET",
     "player.session_ui.exit_game": "SPIEL VERLASSEN",
     "player.session_ui.get_ready": "MACH DICH BEREIT, {nickname}!",
-    "player.session_ui.your_name": "Dein Name?",
+    "player.session_ui.your_name": "Dein Spitzname?",
     "player.session_ui.connecting_server": "Verbinde mit dem Server...",
     "player.session_ui.connecting_wait_moment": "Bitte warte einen Moment",
     "player.session_ui.retry_btn": "NOCHMAL VERSUCHEN"

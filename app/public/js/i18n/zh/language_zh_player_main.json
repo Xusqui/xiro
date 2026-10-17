@@ -5,8 +5,8 @@
     "player.session.placeholder": "XXXXXX-XXXX",
     "player.session.submit": "进入",
     "player.loading": "正在寻找游戏...",
-    "player.nickname.label": "你的名字？",
-    "player.nickname.placeholder": "姓名",
+    "player.nickname.label": "你的昵称？",
+    "player.nickname.placeholder": "昵称",
     "player.nickname.submit": "准备好！"
   }
 }

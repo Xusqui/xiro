@@ -1,7 +1,7 @@
 {
   "keys": {
     "player.game_flow.exit_title": "Sae do xogo",
-    "player.game_flow.exit_msg": "¿Seguro que quieres salir del juego? Tu nombre de usuario será liberado.",
+    "player.game_flow.exit_msg": "Seguro que queres saír do xogo? O teu alcume quedará libre.",
     "player.game_flow.btn_exit": "Saia",
     "player.game_flow.session_ended": "Rematou a sesión",
     "player.game_flow.presenter_left": "El presentador ha abandonado la sesión.",

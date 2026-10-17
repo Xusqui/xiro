@@ -5,8 +5,8 @@
     "player.session.placeholder": "XXXXXX-XXXX",
     "player.session.submit": "SARTU",
     "player.loading": "Joko bila...",
-    "player.nickname.label": "Zure izena?",
-    "player.nickname.placeholder": "IZENA",
+    "player.nickname.label": "Zure ezizena?",
+    "player.nickname.placeholder": "EZIZENA",
     "player.nickname.submit": "PREST!"
   }
 }
