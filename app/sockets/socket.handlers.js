@@ -193,6 +193,17 @@ function assertIsPresenter(socket, roomIdOrPin, errorEvent) {
     return false;
 }
 
+// Al acabar una partida, EndGameUseCase saca a todos los sockets de las salas
+// (también de `:presenter`). El «Ver juegos» del podio (presentador, TV, mando)
+// envía luego abandon-game 'concluded' para una sesión que ya no existe: no hay
+// nada que cerrar, así que se ignora sin avisar de rol no autorizado.
+function isConcludeOfFinishedSession(socket, roomId, data) {
+    return data?.reason === 'concluded'
+        && !socket.rooms.has(roomId + ':presenter')
+        && !activeGames.has(roomId)
+        && !lobbyPlayers.has(roomId);
+}
+
 function resolveRoomId(data, keys = []) {
     for (const key of keys) {
         if (data?.[key]) {
@@ -283,6 +294,10 @@ function registerPresenterSocketEvents(socket, handlers) {
 
     socket.on('abandon-game', (data) => {
         const roomId = resolveRoomId(data, ['roomId', 'roomIdOrPin', 'pin']);
+        if (isConcludeOfFinishedSession(socket, roomId, data)) {
+            logger.debug('abandon-game ignored: session already finished', { socketId: socket.id, roomId });
+            return;
+        }
         if (assertIsPresenter(socket, roomId, 'abandon-game-error')) {
             handlers.handleAbandonGame(socket, data);
         }
