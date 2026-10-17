@@ -17,6 +17,7 @@ import { handleRevealAnswer, cleanupRevealElements } from './presenter-reveal.js
 import { updateAnswerCounter } from './presenter-answer-counter.js?v=20260922172926';
 import { hideWaitingPanelNow, renderWaitingPanel } from './presenter-waiting-panel.js?v=20260922172926';
 import { mostrarModalMensaje } from '../shared/modal.js?v=20260922172926';
+import { currentSlideFooterText } from '../core/slide-footer-dom.js?v=20261017120000';
 
 const SLIDE_RENDERERS = {
     comment: renderCommentSlide,
@@ -360,13 +361,13 @@ export function assignManualPoints(nameOrTeam, points, isTeam = false) {
             });
 
             updatePlayersPanel();
-            renderCommentSlide({ comment_text: document.querySelector('h1').textContent });
+            renderCommentSlide({ comment_text: document.querySelector('h1').textContent, slide_footer: currentSlideFooterText() });
         }
     } else {
         socket.emit('manual-points', { sessionId, nickname: nameOrTeam, points });
 
         updatePlayerData(nameOrTeam, { score: (playersData[nameOrTeam]?.score || 0) + points });
         updatePlayersPanel();
-        renderCommentSlide({ comment_text: document.querySelector('h1').textContent });
+        renderCommentSlide({ comment_text: document.querySelector('h1').textContent, slide_footer: currentSlideFooterText() });
     }
 }

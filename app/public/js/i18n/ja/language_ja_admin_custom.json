@@ -62,6 +62,9 @@
     "admin.slides.error_comment": "コメントを入力してください",
     "admin.slides.error_info": "情報テキストを入力してください",
     "admin.custom.badge_wordsearch": "ワードサーチ",
-    "admin.custom.badge_fillblanks": "穴埋め"
+    "admin.custom.badge_fillblanks": "穴埋め",
+    "admin.custom.slide_footer_label": "スライドのフッター（任意）",
+    "admin.custom.slide_footer_placeholder": "例：出典：Wikipedia · 画面下部に小さく表示されます",
+    "admin.custom.slide_footer_preview": "フッター："
   }
 }

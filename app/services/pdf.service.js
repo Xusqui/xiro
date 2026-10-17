@@ -10,6 +10,7 @@ const logger = require('../config/logger');
 const { extractCorrectAnswer, generateCorrectAnswerHTML } = require('../application/helpers/CorrectAnswerExtractor');
 const { generateWordSearchQuestionHTML, generateWordSearchSolutionHTML } = require('./pdf-word-search');
 const { generateFillBlanksQuestionHTML, generateFillBlanksSolutionHTML } = require('./pdf-fill-blanks');
+const { generateSlideFooterHTML } = require('./pdf-slide-footer');
 const { prepareWordSearchQuestion } = require('../domain/services/WordSearchService');
 
 const PUBLIC_ROOT = '/usr/src/app/public';
@@ -477,6 +478,7 @@ function generateTextSlideHTML(slide, index, total) {
             </div>
         </div>
     </div>
+    ${generateSlideFooterHTML(slide)}
 </div>
     `.trim();
 }
@@ -526,6 +528,7 @@ function generateTextImageSlideHTML(slide, index, total) {
         ${leftCol}
         ${rightCol}
     </div>
+    ${generateSlideFooterHTML(slide)}
 </div>
     `.trim();
 }
@@ -609,6 +612,7 @@ function generateImageSlideHTML(slide, index, total) {
     <div style="display: flex; justify-content: center; align-items: center; flex: 1;">
         ${imageHTML}
     </div>
+    ${generateSlideFooterHTML(slide)}
 </div>
     `.trim();
 }
@@ -639,6 +643,7 @@ function generateCommentSlideHTML(slide, index, total) {
             💡 Ejemplos: Pictionary, imitaciones, actuaciones, etc.
         </div>
     </div>
+    ${generateSlideFooterHTML(slide)}
 </div>
     `.trim();
 }
@@ -669,6 +674,7 @@ function generateInfoSlideHTML(slide, index, total) {
             ℹ️ Este slide solo se muestra, no requiere respuesta
         </div>
     </div>
+    ${generateSlideFooterHTML(slide)}
 </div>
     `.trim();
 }

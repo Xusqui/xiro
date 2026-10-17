@@ -42,6 +42,7 @@ function mostrarModalImagen() {
                 <input id="imagenUrl" type="text" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-pink-500 outline-none transition" placeholder="https://... o /uploads/..." />
             </div>
 
+            ${slideFooterFieldHtml('')}
             <div class="flex gap-3 mt-6">
                 <button data-slide-image-action="close-create-modal" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold transition">Cancelar</button>
                 <button data-slide-image-action="add-slide" class="flex-1 bg-camaleon-600 hover:bg-camaleon-700 text-white px-6 py-3 rounded-xl font-bold transition">
@@ -146,6 +147,7 @@ function agregarSlideImagen() {
 
     currentCustomGameQuestions.push({
         slide_type: 'image',
+        slide_footer: readSlideFooterField(),
         slide_image: finalUrl,
         question_id: null,
         position: currentCustomGameQuestions.length
@@ -197,6 +199,7 @@ function editarSlideImagen(index) {
                     value="${_escapeAttrImagen(currentSrc)}" />
             </div>
 
+            ${slideFooterFieldHtml(slide.slide_footer)}
             <div class="flex gap-3 mt-6">
                 <button data-slide-image-action="close-edit-modal" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold transition">Cancelar</button>
                 <button data-slide-image-action="save-slide" data-index="${index}" class="flex-1 bg-camaleon-600 hover:bg-camaleon-700 text-white px-6 py-3 rounded-xl font-bold transition">
@@ -234,6 +237,7 @@ function guardarEditImagen(index) {
     }
 
     currentCustomGameQuestions[index].slide_image = finalUrl;
+    currentCustomGameQuestions[index].slide_footer = readSlideFooterField();
     dibujarPreguntasPersonalizadas();
     cerrarModalEditImagen();
 }

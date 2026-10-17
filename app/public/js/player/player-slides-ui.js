@@ -5,6 +5,7 @@
 import { getNickname, clearOrderState, setCanAnswer, setCurrentSlideType } from './player-state.js?v=20260922172926';
 import { renderizarSlideTextoImagen } from './player-slide-text-image-ui.js?v=20260922172926';
 import { escapeHtml, sanitizeResourceUrl } from '../core/sanitize.js?v=20260922172926';
+import { appendSlideFooter } from '../core/slide-footer-dom.js?v=20261017120000';
 export { renderizarSlideTextoImagen };
 
 /**
@@ -34,6 +35,7 @@ export function renderizarSlideComentario(slide) {
                     <div class="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-amber-500 via-orange-500 to-pink-500"></div>
                 </div>
             `);
+    appendSlideFooter(document.body, slide, 'player');
 }
 
 /**
@@ -63,6 +65,7 @@ export function renderizarSlideInfo(slide) {
                     <div class="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-400"></div>
                 </div>
             `);
+    appendSlideFooter(document.body, slide, 'player');
 }
 
 /**
@@ -94,6 +97,7 @@ export function renderizarSlideTexto(slide) {
             <div class="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-aubergine-500 via-plum-500 to-aubergine-400"></div>
         </div>
     `);
+    appendSlideFooter(document.body, slide, 'player');
 }
 
 /**
@@ -116,4 +120,5 @@ export function renderizarSlideImagen(slide) {
 }
         </div>
     `);
+    appendSlideFooter(document.body, slide, 'player');
 }

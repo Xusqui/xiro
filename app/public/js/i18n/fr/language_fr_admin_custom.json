@@ -62,6 +62,9 @@
     "admin.slides.error_comment": "Veuillez écrire un commentaire",
     "admin.slides.error_info": "Veuillez écrire le texte informatif",
     "admin.custom.badge_wordsearch": "MOTS MÊLÉS",
-    "admin.custom.badge_fillblanks": "COMPLÈTE LA PHRASE"
+    "admin.custom.badge_fillblanks": "COMPLÈTE LA PHRASE",
+    "admin.custom.slide_footer_label": "Pied de diapositive (facultatif)",
+    "admin.custom.slide_footer_placeholder": "Ex. : Source : Wikipédia · Affiché en petit en bas de l'écran",
+    "admin.custom.slide_footer_preview": "Pied :"
   }
 }

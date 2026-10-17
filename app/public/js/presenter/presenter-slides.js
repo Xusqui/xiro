@@ -8,6 +8,7 @@ import { cleanupRevealElements } from './presenter-reveal.js?v=20260922172926';
 import { cleanupPodio } from './presenter-podio.js?v=20260922172926';
 import { showChamaleonOverlay } from './presenter-chamaleon.js?v=20260922172926';
 import { escapeHtml, sanitizeResourceUrl, encodeInlineArg } from '../core/sanitize.js?v=20260922172926';
+import { appendSlideFooter } from '../core/slide-footer-dom.js?v=20261017120000';
 
 export { renderTextImageSlide } from './presenter-slide-text-image.js?v=20260922172926';
 
@@ -124,6 +125,7 @@ export function renderCommentSlide(slide) {
             </button>
         </div>
     `);
+    appendSlideFooter(lobbyMain, slide, 'presenter');
 }
 
 /**
@@ -163,6 +165,7 @@ export function renderInfoSlide(slide) {
             </button>
         </div>
     `);
+    appendSlideFooter(lobbyMain, slide, 'presenter');
     showAbandonButton();
     showTerminateButton();
 }
@@ -207,6 +210,7 @@ export function renderTextSlide(slide) {
             </button>
         </div>
     `);
+    appendSlideFooter(lobbyMain, slide, 'presenter');
     showAbandonButton();
     showTerminateButton();
 }
@@ -244,6 +248,7 @@ export function renderImageSlide(slide) {
             </button>
         </div>
     `);
+    appendSlideFooter(lobbyMain, slide, 'presenter');
     showAbandonButton();
     showTerminateButton();
 }

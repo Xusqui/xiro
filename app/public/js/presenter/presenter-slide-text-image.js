@@ -9,6 +9,7 @@ import { cleanupRevealElements } from './presenter-reveal.js?v=20260922172926';
 import { cleanupPodio } from './presenter-podio.js?v=20260922172926';
 import { showChamaleonOverlay } from './presenter-chamaleon.js?v=20260922172926';
 import { escapeHtml, sanitizeResourceUrl } from '../core/sanitize.js?v=20260922172926';
+import { appendSlideFooter } from '../core/slide-footer-dom.js?v=20261017120000';
 
 export function renderTextImageSlide(slide) {
     removeFloatingCards();
@@ -63,6 +64,7 @@ export function renderTextImageSlide(slide) {
             </button>
         </div>
     `);
+    appendSlideFooter(lobbyMain, slide, 'presenter');
 
     showAbandonButton();
     showTerminateButton();

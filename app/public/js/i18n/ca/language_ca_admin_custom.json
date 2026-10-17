@@ -62,6 +62,9 @@
     "admin.slides.error_comment": "Si us plau, escriu un comentari",
     "admin.slides.error_info": "Si us plau, escriu el text informatiu",
     "admin.custom.badge_wordsearch": "SOPA DE LLETRES",
-    "admin.custom.badge_fillblanks": "COMPLETA LA FRASE"
+    "admin.custom.badge_fillblanks": "COMPLETA LA FRASE",
+    "admin.custom.slide_footer_label": "Peu de diapositiva (opcional)",
+    "admin.custom.slide_footer_placeholder": "Ex.: Font: Viquipèdia · Es veurà en petit al peu de la pantalla",
+    "admin.custom.slide_footer_preview": "Peu:"
   }
 }

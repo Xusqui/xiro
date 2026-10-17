@@ -1,0 +1,67 @@
+/*
+ * Pie de diapositiva (slide_footer) de las diapositivas especiales.
+ * HTML generado por js/core/slide-footer.js. Lo cargan presentador, jugador,
+ * standalone y tv.html: CSS de época (sin variables, gap ni transform) por webOS 3.5.
+ */
+.slide-footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 2.75rem;
+    margin: 0 auto;
+    max-width: 56%;
+    text-align: center;
+    z-index: 50;
+    pointer-events: none;
+}
+
+.slide-footer-text {
+    display: inline-block;
+    max-width: 100%;
+    padding: 0.4rem 1.1rem;
+    border-radius: 0.75rem;
+    background: rgba(0, 0, 0, 0.35);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.35rem;
+    font-weight: 600;
+    line-height: 1.35;
+    white-space: pre-line;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+}
+
+/* Presentador: a la altura del botón «Siguiente» (fixed bottom-10 right-10), sin pisarlo */
+@media (max-width: 1100px) {
+    .slide-footer--presenter { bottom: 7.5rem; max-width: 90%; }
+}
+
+/* TV: centrado en .main-content (la barra lateral de tv.css mide 260px);
+   el botón «Siguiente» queda abajo a la derecha de esa zona */
+.slide-footer--tv { right: 260px; bottom: 80px; max-width: 60%; }
+.slide-footer--tv .slide-footer-text { font-size: 22px; }
+
+@media screen and (max-width: 768px) {
+    .slide-footer--tv { right: 0; max-width: 90%; }
+}
+
+/* Jugador y standalone (móvil): por encima de la barra degradada inferior */
+.slide-footer--player,
+.slide-footer--standalone {
+    bottom: 1rem;
+    max-width: 92%;
+}
+
+.slide-footer--player .slide-footer-text,
+.slide-footer--standalone .slide-footer-text {
+    font-size: 0.95rem;
+    padding: 0.35rem 0.85rem;
+}
+
+@media (min-width: 768px) {
+    .slide-footer--player .slide-footer-text,
+    .slide-footer--standalone .slide-footer-text { font-size: 1.15rem; }
+}
+
+/* Standalone, diapositiva de imagen: por encima de la barra «Continuar» */
+.pl-slide-image-view .slide-footer--standalone { bottom: 84px; }

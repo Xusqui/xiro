@@ -9,13 +9,20 @@
 globalThis.StandaloneQuestionSlides = (() => {
     const { escapeHtml } = StandaloneQuestionCommon;
 
+    /** Pie de diapositiva (core/slide-footer.js escapa el texto) al final de la vista. */
+    function _appendFooter(container, question) {
+        const viewport = container.querySelector('.pl-viewport');
+        const html = window.XiroSlideFooter ? window.XiroSlideFooter.footerHtml(question, 'standalone') : '';
+        if (viewport && html) viewport.insertAdjacentHTML('beforeend', html);
+    }
+
     function _freeActivityFallback() {
         return window.XiroI18n?.t('standalone.game.free_activity') || 'Actividad libre';
     }
 
     function _renderImage(container, question) {
         container.innerHTML = `
-            <div class="pl-viewport" style="background:#111827; justify-content:center; align-items:center;">
+            <div class="pl-viewport pl-slide-image-view" style="background:#111827; justify-content:center; align-items:center;">
                 ${question.slide_image
         ? `<img class="pl-slide-image-img" src="${escapeHtml(question.slide_image)}" alt="">`
         : '<i class="fas fa-image" style="font-size:64px;color:rgba(255,255,255,0.3);"></i>'}
@@ -71,6 +78,7 @@ globalThis.StandaloneQuestionSlides = (() => {
         } else {
             _renderTextual(container, question, onContinue);
         }
+        _appendFooter(container, question);
 
         container.querySelector('[data-standalone-action="continue-slide"]')
             .addEventListener('click', () => onContinue());

@@ -62,6 +62,9 @@
     "admin.slides.error_comment": "Por favor, escribe un comentario",
     "admin.slides.error_info": "Por favor, escribe o texto informativo",
     "admin.custom.badge_wordsearch": "SOPA DE LETRAS",
-    "admin.custom.badge_fillblanks": "COMPLETA A FRASE"
+    "admin.custom.badge_fillblanks": "COMPLETA A FRASE",
+    "admin.custom.slide_footer_label": "Pé de diapositiva (opcional)",
+    "admin.custom.slide_footer_placeholder": "Ex.: Fonte: Wikipedia · Verase en pequeno ao pé da pantalla",
+    "admin.custom.slide_footer_preview": "Pé:"
   }
 }

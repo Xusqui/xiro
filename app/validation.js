@@ -43,6 +43,7 @@ const LIMITS = {
     COMMENT_TEXT_MAX: 500,
     SLIDE_TITLE_MAX: 120,
     SLIDE_BODY_MAX: 2000,
+    SLIDE_FOOTER_MAX: 300,
     PASSWORD_MIN: 4,
     PASSWORD_MAX: 100,
     USERNAME_MIN: 3,
@@ -691,7 +692,12 @@ const customGameQuestionSchema = Joi.object({
             is: 'text-image',
             then: Joi.required(),
             otherwise: Joi.allow(null, '').optional(),
-        }),
+        }),    // Pie opcional de las diapositivas especiales (texto plano; los clientes lo escapan)
+    slide_footer: Joi.string()
+        .max(LIMITS.SLIDE_FOOTER_MAX)
+        .trim()
+        .allow(null, '')
+        .optional(),
 });
 
 // Crear juego personalizado

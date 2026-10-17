@@ -13,6 +13,7 @@ const {
     normalizeCreatorRole
 } = require('./resource-ownership.service');
 const { DEFAULTS: RANDOM_POINTS_DEFAULTS } = require('./random-points-config.service');
+const { insertCustomGameQuestion } = require('./custom-game-slides');
 
 /**
  * Obtiene todos los juegos personalizados
@@ -108,43 +109,7 @@ async function createCustomGame(data) {
 
         if (questions && Array.isArray(questions) && questions.length > 0) {
             for (let i = 0; i < questions.length; i++) {
-                const q = questions[i];
-                if (q.slide_type === 'comment' || q.slide_type === 'info') {
-                    await client.query(
-                        'INSERT INTO custom_game_questions (custom_game_id, question_id, position, slide_type, comment_text) VALUES ($1, $2, $3, $4, $5)',
-                        [customGameId, null, i, q.slide_type, q.comment_text]
-                    );
-                    continue;
-                }
-
-                if (q.slide_type === 'text') {
-                    await client.query(
-                        'INSERT INTO custom_game_questions (custom_game_id, question_id, position, slide_type, slide_title, slide_body) VALUES ($1, $2, $3, $4, $5, $6)',
-                        [customGameId, null, i, 'text', q.slide_title, q.slide_body]
-                    );
-                    continue;
-                }
-
-                if (q.slide_type === 'image') {
-                    await client.query(
-                        'INSERT INTO custom_game_questions (custom_game_id, question_id, position, slide_type, slide_image) VALUES ($1, $2, $3, $4, $5)',
-                        [customGameId, null, i, 'image', q.slide_image]
-                    );
-                    continue;
-                }
-
-                if (q.slide_type === 'text-image') {
-                    await client.query(
-                        'INSERT INTO custom_game_questions (custom_game_id, question_id, position, slide_type, slide_title, slide_body, slide_image, slide_image_position) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
-                        [customGameId, null, i, 'text-image', q.slide_title, q.slide_body, q.slide_image, q.slide_image_position]
-                    );
-                    continue;
-                }
-
-                await client.query(
-                    'INSERT INTO custom_game_questions (custom_game_id, question_id, position, slide_type) VALUES ($1, $2, $3, $4)',
-                    [customGameId, q.question_id, i, 'question']
-                );
+                await insertCustomGameQuestion(client, customGameId, i, questions[i]);
             }
         }
 
@@ -172,7 +137,7 @@ async function getCustomGameWithQuestions(customGameId) {
         if (game.rows.length === 0) return null;
 
         const questions = await pool.query(`
-            SELECT cgq.position, cgq.slide_type, cgq.comment_text, cgq.slide_title, cgq.slide_body, cgq.slide_image, cgq.slide_image_position,
+            SELECT cgq.position, cgq.slide_type, cgq.comment_text, cgq.slide_title, cgq.slide_body, cgq.slide_image, cgq.slide_image_position, cgq.slide_footer,
                 q.id as question_id, q.question_text, q.bank_id,
                 q.question_type,
                 q.tipo_contenido, q.url_recurso, q.question_image_url,
@@ -259,33 +224,7 @@ async function updateCustomGame(customGameId, data, actorUserId = null) {
         );
 
         for (let i = 0; i < questions.length; i++) {
-            const q = questions[i];
-            if (q.slide_type === 'comment' || q.slide_type === 'info') {
-                await client.query(
-                    'INSERT INTO custom_game_questions (custom_game_id, question_id, position, slide_type, comment_text) VALUES ($1, $2, $3, $4, $5)',
-                    [customGameId, null, i, q.slide_type, q.comment_text]
-                );
-            } else if (q.slide_type === 'text') {
-                await client.query(
-                    'INSERT INTO custom_game_questions (custom_game_id, question_id, position, slide_type, slide_title, slide_body) VALUES ($1, $2, $3, $4, $5, $6)',
-                    [customGameId, null, i, 'text', q.slide_title, q.slide_body]
-                );
-            } else if (q.slide_type === 'image') {
-                await client.query(
-                    'INSERT INTO custom_game_questions (custom_game_id, question_id, position, slide_type, slide_image) VALUES ($1, $2, $3, $4, $5)',
-                    [customGameId, null, i, 'image', q.slide_image]
-                );
-            } else if (q.slide_type === 'text-image') {
-                await client.query(
-                    'INSERT INTO custom_game_questions (custom_game_id, question_id, position, slide_type, slide_title, slide_body, slide_image, slide_image_position) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
-                    [customGameId, null, i, 'text-image', q.slide_title, q.slide_body, q.slide_image, q.slide_image_position]
-                );
-            } else {
-                await client.query(
-                    'INSERT INTO custom_game_questions (custom_game_id, question_id, position, slide_type) VALUES ($1, $2, $3, $4)',
-                    [customGameId, q.question_id, i, 'question']
-                );
-            }
+            await insertCustomGameQuestion(client, customGameId, i, questions[i]);
         }
 
         await client.query('COMMIT');
@@ -372,6 +311,7 @@ async function getCustomGameQuestionsForPlay(customGameId) {
                 cgq.slide_body,
                 cgq.slide_image,
                 cgq.slide_image_position,
+                cgq.slide_footer,
                 q.id, 
                 q.question_text, 
                 q.question_type, 

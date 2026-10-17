@@ -72,7 +72,8 @@ window.TVApp.Main = (function () {
         if (state.playersData[nickname]) {
             state.playersData[nickname].score = (state.playersData[nickname].score || 0) + points;
             const commentText = document.querySelector('.comment-text');
-            if (commentText) renderCommentSlide({ comment_text: commentText.textContent });
+            const footerText = document.querySelector('.slide-footer-text');
+            if (commentText) renderCommentSlide({ comment_text: commentText.textContent, slide_footer: footerText ? footerText.textContent : null });
         }
     }
 

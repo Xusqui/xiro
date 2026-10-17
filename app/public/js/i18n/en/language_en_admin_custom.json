@@ -62,6 +62,9 @@
     "admin.slides.error_comment": "Please write a comment",
     "admin.slides.error_info": "Please write the informative text",
     "admin.custom.badge_wordsearch": "WORD SEARCH",
-    "admin.custom.badge_fillblanks": "FILL IN THE BLANKS"
+    "admin.custom.badge_fillblanks": "FILL IN THE BLANKS",
+    "admin.custom.slide_footer_label": "Slide footer (optional)",
+    "admin.custom.slide_footer_placeholder": "e.g. Source: Wikipedia · Shown in small print at the bottom of the screen",
+    "admin.custom.slide_footer_preview": "Footer:"
   }
 }

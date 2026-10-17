@@ -62,6 +62,9 @@
     "admin.slides.error_comment": "Bitte schreibe einen Kommentar",
     "admin.slides.error_info": "Bitte schreibe den Informationstext",
     "admin.custom.badge_wordsearch": "BUCHSTABENSALAT",
-    "admin.custom.badge_fillblanks": "LÜCKENTEXT"
+    "admin.custom.badge_fillblanks": "LÜCKENTEXT",
+    "admin.custom.slide_footer_label": "Fußzeile der Folie (optional)",
+    "admin.custom.slide_footer_placeholder": "z. B. Quelle: Wikipedia · Wird klein unten auf dem Bildschirm angezeigt",
+    "admin.custom.slide_footer_preview": "Fußzeile:"
   }
 }

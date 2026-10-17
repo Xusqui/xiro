@@ -27,6 +27,7 @@ function sanitizeQuestionForPlayers(question) {
         slide_body: question.slide_body,
         slide_image: (question.slide_type === 'text-image') ? undefined : question.slide_image,
         slide_image_position: question.slide_image_position,
+        slide_footer: question.slide_footer,
         tipo_contenido: question.tipo_contenido,
         url_recurso: question.url_recurso,
         question_image_url: question.question_image_url,

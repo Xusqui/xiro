@@ -62,6 +62,9 @@
     "admin.slides.error_comment": "请输入评论",
     "admin.slides.error_info": "请输入信息文字",
     "admin.custom.badge_wordsearch": "找字游戏",
-    "admin.custom.badge_fillblanks": "填空"
+    "admin.custom.badge_fillblanks": "填空",
+    "admin.custom.slide_footer_label": "幻灯片页脚（可选）",
+    "admin.custom.slide_footer_placeholder": "例如：来源：维基百科 · 以小字显示在屏幕底部",
+    "admin.custom.slide_footer_preview": "页脚："
   }
 }

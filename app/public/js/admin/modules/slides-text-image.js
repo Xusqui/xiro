@@ -39,6 +39,7 @@ function mostrarModalTextoImagen() {
             <div id="tiPreviewWrap" class="hidden mb-3"><img id="tiPreviewImg" class="w-full max-h-36 object-contain rounded-xl border border-slate-200" /></div>
             <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest">O pega una URL externa</label>
             <input id="tiImagenUrl" type="text" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-plum-500 outline-none transition mb-4" placeholder="https://... o /uploads/..." />
+            ${slideFooterFieldHtml('')}
             <div class="flex gap-3 mt-4">
                 <button data-slide-text-image-action="close-create-modal" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold transition">Cancelar</button>
                 <button data-slide-text-image-action="add-slide" class="flex-1 bg-camaleon-600 hover:bg-camaleon-700 text-white px-6 py-3 rounded-xl font-bold transition">
@@ -72,6 +73,7 @@ function agregarSlideTextoImagen() {
 
     currentCustomGameQuestions.push({
         slide_type: 'text-image',
+        slide_footer: readSlideFooterField(),
         slide_title: titulo,
         slide_body: cuerpo,
         slide_image: finalUrl,
@@ -124,6 +126,7 @@ function editarSlideTextoImagen(index) {
             <input type="file" id="editTIImagenFile" accept="image/*" class="hidden" />
             <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest">O URL externa</label>
             <input id="editTIImagenUrl" type="text" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-plum-500 outline-none transition mb-4" value="${_escapeAttrImagen(currentSrc)}" />
+            ${slideFooterFieldHtml(slide.slide_footer)}
             <div class="flex gap-3 mt-4">
                 <button data-slide-text-image-action="close-edit-modal" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold transition">Cancelar</button>
                 <button data-slide-text-image-action="save-slide" data-index="${index}" class="flex-1 bg-camaleon-600 hover:bg-camaleon-700 text-white px-6 py-3 rounded-xl font-bold transition">
@@ -167,6 +170,8 @@ function guardarEditTextoImagen(index) {
     currentCustomGameQuestions[index].slide_body = cuerpo;
     currentCustomGameQuestions[index].slide_image = finalUrl;
     currentCustomGameQuestions[index].slide_image_position = posicion;
+
+    currentCustomGameQuestions[index].slide_footer = readSlideFooterField();
 
     dibujarPreguntasPersonalizadas();
     cerrarModalEditTextoImagen();

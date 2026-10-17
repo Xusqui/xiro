@@ -6,6 +6,7 @@
 
 import { getNickname, clearOrderState, setCanAnswer, setCurrentSlideType } from './player-state.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
+import { appendSlideFooter } from '../core/slide-footer-dom.js?v=20261017120000';
 
 export function renderizarSlideTextoImagen(slide) {
     clearOrderState();
@@ -18,7 +19,7 @@ export function renderizarSlideTextoImagen(slide) {
     document.body.innerHTML = _tHtml(`
         <div class="h-screen w-screen flex flex-col items-center justify-center text-white text-center p-8 overflow-hidden" style="background: radial-gradient(circle at 15% 20%, rgba(56,189,248,0.25), transparent 35%), radial-gradient(circle at 85% 15%, rgba(244,114,182,0.22), transparent 32%), radial-gradient(circle at 50% 85%, rgba(251,191,36,0.2), transparent 38%), linear-gradient(135deg, #3f2746 0%, #793475 40%, #1d4ed8 100%);">
             <div class="bg-aubergine-600 px-6 py-3 rounded-full mb-8 shadow-2xl">
-                <p class="font-black text-xl uppercase">${getNickname()}</p>
+                <p class="font-black text-xl uppercase">${escapeHtml(getNickname())}</p>
             </div>
             <div class="max-w-5xl">
                 <div class="inline-block bg-blue-500 text-white px-6 py-3 rounded-full mb-8 shadow-2xl border border-white/20">
@@ -32,4 +33,5 @@ export function renderizarSlideTextoImagen(slide) {
             <div class="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-aubergine-500 via-plum-500 to-aubergine-400"></div>
         </div>
     `);
+    appendSlideFooter(document.body, slide, 'player');
 }

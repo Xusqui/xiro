@@ -30,6 +30,7 @@ function mostrarModalTexto() {
             <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest mt-4">Texto</label>
             <textarea id="textoSlideCuerpo" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-aubergine-500 outline-none resize-none" rows="6" placeholder="Ej: 1) Sin móviles\n2) 30s por pregunta\n3) ..."></textarea>
 
+            ${slideFooterFieldHtml('')}
             <div class="flex gap-3 mt-6">
                 <button data-slide-text-action="close-create-modal" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold transition">Cancelar</button>
                 <button data-slide-text-action="add-slide" class="flex-1 bg-camaleon-600 hover:bg-camaleon-700 text-white px-6 py-3 rounded-xl font-bold transition">
@@ -64,6 +65,7 @@ function agregarSlideTexto() {
 
     currentCustomGameQuestions.push({
         slide_type: 'text',
+        slide_footer: readSlideFooterField(),
         slide_title: titulo,
         slide_body: cuerpo,
         question_id: null,
@@ -98,6 +100,7 @@ function editarSlideTexto(index) {
             <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest mt-4">Texto</label>
             <textarea id="textoEditSlideCuerpo" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-aubergine-500 outline-none resize-none" rows="6">${escapeHtml(slide.slide_body)}</textarea>
 
+            ${slideFooterFieldHtml(slide.slide_footer)}
             <div class="flex gap-3 mt-6">
                 <button data-slide-text-action="close-edit-modal" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold transition">Cancelar</button>
                 <button data-slide-text-action="save-slide" data-index="${index}" class="flex-1 bg-camaleon-600 hover:bg-camaleon-700 text-white px-6 py-3 rounded-xl font-bold transition">
@@ -131,6 +134,8 @@ function guardarEditTexto(index) {
 
     currentCustomGameQuestions[index].slide_title = titulo;
     currentCustomGameQuestions[index].slide_body = cuerpo;
+
+    currentCustomGameQuestions[index].slide_footer = readSlideFooterField();
 
     dibujarPreguntasPersonalizadas();
     cerrarModalEditTexto();

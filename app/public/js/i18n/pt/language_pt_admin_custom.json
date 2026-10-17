@@ -62,6 +62,9 @@
     "admin.slides.error_comment": "Por favor, escreva um comentário",
     "admin.slides.error_info": "Por favor, escreva o texto informativo",
     "admin.custom.badge_wordsearch": "CAÇA-PALAVRAS",
-    "admin.custom.badge_fillblanks": "COMPLETA A FRASE"
+    "admin.custom.badge_fillblanks": "COMPLETA A FRASE",
+    "admin.custom.slide_footer_label": "Rodapé do diapositivo (opcional)",
+    "admin.custom.slide_footer_placeholder": "Ex.: Fonte: Wikipédia · Aparece em letra pequena no fundo do ecrã",
+    "admin.custom.slide_footer_preview": "Rodapé:"
   }
 }

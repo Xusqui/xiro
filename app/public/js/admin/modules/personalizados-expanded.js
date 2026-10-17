@@ -157,6 +157,7 @@ async function cargarEditorJuegoPersonalizado(id) {
             slide_body: q.slide_body,
             slide_image: q.slide_image,
             slide_image_position: q.slide_image_position,
+            slide_footer: q.slide_footer,
             position: q.position,
             tipo_contenido: q.tipo_contenido,
             url_recurso: q.url_recurso
@@ -653,7 +654,8 @@ function _customSlideForSave(q) {
         slide_title: q.slide_title || null,
         slide_body: q.slide_body || null,
         slide_image: q.slide_image || null,
-        slide_image_position: q.slide_image_position || null
+        slide_image_position: q.slide_image_position || null,
+        slide_footer: q.slide_footer || null
     };
 }
 

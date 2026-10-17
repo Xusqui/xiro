@@ -18,6 +18,7 @@ function mostrarModalComentario() {
                     </h3>
                     <p class="text-sm text-slate-600 mb-4">Añade una actividad donde podrás asignar puntos manualmente (ej: pictionary, imitar, etc.).</p>
                     <textarea id="textoComentario" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-amber-500 outline-none resize-none" rows="4" placeholder="Ej: Pictionary por equipos o Imita un elefante"></textarea>
+                    ${slideFooterFieldHtml('')}
                     <div class="flex gap-3 mt-6">
                         <button data-slide-ci-action="close-comment-create" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold transition">
                             Cancelar
@@ -46,6 +47,7 @@ function agregarSlideComentario() {
 
     currentCustomGameQuestions.push({
         slide_type: 'comment',
+        slide_footer: readSlideFooterField(),
         comment_text: texto,
         question_id: null,
         position: currentCustomGameQuestions.length
@@ -68,6 +70,7 @@ function mostrarModalInfo() {
                     </h3>
                     <p class="text-sm text-slate-600 mb-4">Añade información que se mostrará sin asignación de puntos. Solo aparecerá el botón "Siguiente".</p>
                     <textarea id="textoInfo" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none resize-none" rows="4" placeholder="Ej: ¡Descanso! o Recordatorio: beber agua"></textarea>
+                    ${slideFooterFieldHtml('')}
                     <div class="flex gap-3 mt-6">
                         <button data-slide-ci-action="close-info-create" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold transition">
                             Cancelar
@@ -96,6 +99,7 @@ function agregarSlideInfo() {
 
     currentCustomGameQuestions.push({
         slide_type: 'info',
+        slide_footer: readSlideFooterField(),
         comment_text: texto,
         question_id: null,
         position: currentCustomGameQuestions.length
@@ -121,6 +125,7 @@ function editarSlideComentario(index) {
                     </h3>
                     <p class="text-sm text-slate-600 mb-4">Modifica el texto de la actividad.</p>
                     <textarea id="textoEditComentario" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-amber-500 outline-none resize-none" rows="4" placeholder="Ej: Pictionary por equipos o Imita un elefante">${escapeHtml(slide.comment_text)}</textarea>
+                    ${slideFooterFieldHtml(slide.slide_footer)}
                     <div class="flex gap-3 mt-6">
                         <button data-slide-ci-action="close-comment-edit" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold transition">
                             Cancelar
@@ -148,6 +153,7 @@ function guardarEditComentario(index) {
     }
 
     currentCustomGameQuestions[index].comment_text = texto;
+    currentCustomGameQuestions[index].slide_footer = readSlideFooterField();
     dibujarPreguntasPersonalizadas();
     cerrarModalEditComentario();
 }
@@ -168,6 +174,7 @@ function editarSlideInfo(index) {
                     </h3>
                     <p class="text-sm text-slate-600 mb-4">Modifica el texto informativo.</p>
                     <textarea id="textoEditInfo" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none resize-none" rows="4" placeholder="Ej: ¡Descanso! o Recordatorio: beber agua">${escapeHtml(slide.comment_text)}</textarea>
+                    ${slideFooterFieldHtml(slide.slide_footer)}
                     <div class="flex gap-3 mt-6">
                         <button data-slide-ci-action="close-info-edit" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold transition">
                             Cancelar
@@ -195,6 +202,7 @@ function guardarEditInfo(index) {
     }
 
     currentCustomGameQuestions[index].comment_text = texto;
+    currentCustomGameQuestions[index].slide_footer = readSlideFooterField();
     dibujarPreguntasPersonalizadas();
     cerrarModalEditInfo();
 }

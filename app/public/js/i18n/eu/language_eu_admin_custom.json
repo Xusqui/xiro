@@ -62,6 +62,9 @@
     "admin.slides.error_comment": "Mesedez, idatzi iruzkin bat",
     "admin.slides.error_info": "Mesedez, idatzi informazio-testua",
     "admin.custom.badge_wordsearch": "LETRA-ZOPA",
-    "admin.custom.badge_fillblanks": "OSATU ESALDIA"
+    "admin.custom.badge_fillblanks": "OSATU ESALDIA",
+    "admin.custom.slide_footer_label": "Diapositibaren oina (aukerakoa)",
+    "admin.custom.slide_footer_placeholder": "Adib.: Iturria: Wikipedia · Txiki ikusiko da pantailaren behealdean",
+    "admin.custom.slide_footer_preview": "Oina:"
   }
 }
