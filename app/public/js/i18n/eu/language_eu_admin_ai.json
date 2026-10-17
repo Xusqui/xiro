@@ -15,7 +15,7 @@
     "admin.ai.tab_upload": "Kargatu dokumentua",
     "admin.ai.tab_prompt": "Escribir tema",
     "admin.ai.drop_zone": "Arrastatu hona edo egin klik hautatzeko",
-    "admin.ai.formats": ".pdf · .docx · .txt",
+    "admin.ai.formats": ".pdf · .docx · .odt · .pptx · .epub · .rtf · .html · .md · .txt",
     "admin.ai.processing": "Procesando...",
     "admin.ai.doc_ready": "Dokumentua prest",
     "admin.ai.ph_prompt": "Adib.: Espainiako Lehen Errepublikari buruzko galderak egin...",

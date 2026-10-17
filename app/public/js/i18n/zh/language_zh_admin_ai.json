@@ -15,7 +15,7 @@
     "admin.ai.tab_upload": "上传文件",
     "admin.ai.tab_prompt": "Escribir tema",
     "admin.ai.drop_zone": "拖动此处或单击以选择",
-    "admin.ai.formats": ".pdf · .docx · .txt",
+    "admin.ai.formats": ".pdf · .docx · .odt · .pptx · .epub · .rtf · .html · .md · .txt",
     "admin.ai.processing": "Procesando...",
     "admin.ai.doc_ready": "文件准备好",
     "admin.ai.ph_prompt": "例如：询问有关西班牙第一共和国的问题......",

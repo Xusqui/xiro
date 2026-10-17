@@ -178,8 +178,24 @@ groq-client.js       → HTTP a api.groq.com (módulo https nativo con Temperatu
 gemini-client.js     → HTTP a generativelanguage.googleapis.com (generateContent, cabecera x-goog-api-key).
 ollama-client.js     → HTTP(S) al servidor Ollama: /api/chat (callOllama) y /api/tags (listOllamaModels); normalizeBaseUrl valida la URL.
 prompt-builder.js    → diseña la estructura agnóstica para extraer preguntas únicas; aquí vive el límite de 11.000 caracteres (MAX_DOC_CHARS).
-document-parser.js   → extrae texto de PDF/DOCX/TXT y busca priorizar las "Conclusiones" multilingüe.
+document-parser.js   → extractor de texto plano anterior (red de seguridad del conversor) y priorización multilingüe de las "Conclusiones".
+batch-chunks.js      → reparte el documento por secciones entre los lotes (AI_CHUNK_CHARS en runtime-config; 0 = documento entero en cada lote).
+markdown/            → conversor propio de cualquier documento subido a Markdown (sin dependencias nuevas), ver abajo.
 ```
+
+### Conversión a Markdown (`app/ai-generator/markdown/`)
+
+`POST /api/ai-generator/upload` convierte el documento a Markdown antes de dárselo a la IA, sin que el usuario lo note. La respuesta es la misma de siempre (`text`, `wordCount`) más `format`. Así la IA recibe la estructura (encabezados, listas, tablas) y no recibe ruido: cabeceras y pies de página, números de página, índices, notas al pie, revisiones borradas ni bibliografía.
+
+| Formato | Cómo se lee |
+|---|---|
+| DOCX, PPTX, ODT, ODP, EPUB | `zip-reader.js` (zlib nativo, límites contra zip bombs) + `xml-lite.js` (sin DTD ni entidades externas, inmune a XXE) |
+| PDF | `pdf-extract.js` saca de pdf.js (pdf-parse) los fragmentos con su posición; `pdf-lines.js` y `pdf-blocks.js` reconstruyen líneas, dos columnas, cabeceras y pies repetidos, encabezados por tamaño de letra, viñetas y palabras cortadas con guion |
+| HTML, RTF, MD, TXT | `html-to-md.js` (tokenizador tolerante y lineal), `rtf-to-md.js` (cp1252 y `\uN`), texto en UTF-8 o Windows-1252 |
+
+No se admiten el `.doc` binario antiguo (se pide guardarlo como .docx) ni las hojas de cálculo. Si el conversor propio falla con un PDF, DOCX o TXT, `documentToMarkdown` vuelve al extractor anterior (`document-parser.js`) y lo deja en el log (`fallback: true`).
+
+**Troceo por lotes.** Antes, cada lote de 3 preguntas enviaba los mismos 11.000 primeros caracteres. Ahora `md-sections.js` parte el Markdown por encabezados en trozos de unos `AI_CHUNK_CHARS` caracteres (3.500 por defecto), y cada uno lleva delante la ruta de encabezados de su sección. Si hay menos lotes que trozos, los lotes se reparten por todo el documento. Se envían muchos menos tokens por lote y las preguntas salen de todo el documento. La contrapartida es que se pierde el prefijo común entre lotes que aprovecha la caché implícita de Gemini y Groq. Para volver al comportamiento anterior sin reiniciar: `POST /api/admin/config` con `{ "updates": { "AI_CHUNK_CHARS": 0 } }`, o la variable de entorno `AI_CHUNK_CHARS=0`.
 
 ```
 public/js/admin/modules/config-ui.js            → pestaña "IA" en el panel de configuración (fuera de app/ai-generator/): proveedor activo, respaldo y barra de guardado.

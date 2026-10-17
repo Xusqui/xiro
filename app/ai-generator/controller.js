@@ -12,6 +12,7 @@ const prompts = require('./prompt-builder');
 const { buildFillBlanksPrompt } = require('./prompt-fill-blanks');
 const { buildWordSearchPrompt } = require('./prompt-word-search');
 const { buildMatchingPrompt } = require('./prompt-matching');
+const { buildChunkPlan } = require('./batch-chunks');
 const logger = require('../config/logger');
 
 const PROMPT_BUILDERS = {
@@ -171,6 +172,7 @@ async function generateBatchWithRetries(input) {
  * @param {string} [input.mode]
  * @param {string} [input.language] - código de idioma de las preguntas (config/languages.js)
  * @param {{primary: string|null, fallback: string|null}} input.plan - proveedores (ai-config)
+ * @param {{next: () => string}} [input.chunkPlan] - trozo de documento de cada lote (md-sections)
  * @returns {Promise<{type: string, questions: Array, error?: string}>}
  */
 async function generateForType(input) {
@@ -182,7 +184,8 @@ async function generateForType(input) {
         signal,
         mode = 'document',
         language,
-        plan
+        plan,
+        chunkPlan
     } = input;
     const questions = [];
     questions.targetCount = count;
@@ -196,7 +199,8 @@ async function generateForType(input) {
         const batchCount = Math.min(BATCH_SIZE, count - i);
         const batchInput = {
             type,
-            text,
+            // Cada lote recibe su trozo; reintentos y respaldo reutilizan el mismo
+            text: chunkPlan ? chunkPlan.next() : text,
             batchCount,
             dificultad,
             questions,
@@ -262,6 +266,7 @@ async function generateBank(documentText, config, signal, mode = 'document') {
 
     const plan = getProviderPlan();
     logger.info(`[ai-generator] Proveedor: ${plan.primary || 'ninguno'}${plan.fallback ? `, respaldo: ${plan.fallback}` : ''}`);
+    const chunkPlan = buildChunkPlan(documentText, { mode, counts: activeTypes.map(t => Number(counts[t])), batchSize: BATCH_SIZE });
 
     // Ejecución secuencial por tipo de pregunta y control de lotes para prevenir Rate Limits de APIS
     const results = [];
@@ -275,7 +280,8 @@ async function generateBank(documentText, config, signal, mode = 'document') {
             signal,
             mode,
             language,
-            plan
+            plan,
+            chunkPlan
         }));
     }
     const allQuestions = results.flatMap(r => r.questions);

@@ -15,7 +15,7 @@
     "admin.ai.tab_upload": "Upload document",
     "admin.ai.tab_prompt": "Escribir tema",
     "admin.ai.drop_zone": "Drag here or click to select",
-    "admin.ai.formats": ".pdf · .docx · .txt",
+    "admin.ai.formats": ".pdf · .docx · .odt · .pptx · .epub · .rtf · .html · .md · .txt",
     "admin.ai.processing": "Procesando...",
     "admin.ai.doc_ready": "Document ready",
     "admin.ai.ph_prompt": "Ex: Ask questions about the First Spanish Republic...",

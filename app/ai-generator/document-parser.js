@@ -55,7 +55,8 @@ async function extractFromPdf(buffer) {
         }
     }
     try {
-        const data = await pdfParse(buffer, { normalizeWhitespace: false });
+        // Copia propia: pdf.js ignora el byteOffset de los Buffer que comparten pool
+        const data = await pdfParse(new Uint8Array(buffer), { normalizeWhitespace: false });
         return cleanText(data.text);
     } catch (err) {
         // pdfjs-dist lanza este error en PDFs con codificaciones especiales de fuentes
@@ -103,7 +104,8 @@ function prioritizeConclusionsAndTruncate(text, limit = 20000) {
     if (text.length <= limit) return text;
 
     // Buscar encabezados típicos de conclusiones en múltiples idiomas (español, inglés, francés, italiano, portugués, alemán)
-    const conclusionRegex = /\n\s*(?:[0-9]+[.-]\s*)?(?:Conclusiones?|Conclusions?|Resumen|Summary|Consideraciones finales|Concluding remarks|Conclusioni|Conclusões|Zusammenfassung|Résumé)\b[:\s]*/i;
+    // Admite encabezados Markdown («## Conclusiones») del conversor ./markdown
+    const conclusionRegex = /\n\s*(?:#{1,6}\s*)?(?:[0-9]+[.-]\s*)?(?:Conclusiones?|Conclusions?|Resumen|Summary|Consideraciones finales|Concluding remarks|Conclusioni|Conclusões|Zusammenfassung|Résumé)\b[:\s]*/i;
     const match = text.search(conclusionRegex);
 
     if (match !== -1) {

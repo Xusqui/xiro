@@ -55,6 +55,8 @@ const PARAM_SCHEMA = {
     SMTP_PASS: { type: 'string', envKey: 'SMTP_PASS', sensitive: true },
     SMTP_FROM: { type: 'string', envKey: 'SMTP_FROM' },
     CONTACT_TOKEN_SECRET: { type: 'string', envKey: 'CONTACT_TOKEN_SECRET', sensitive: true },
+    // Generación IA: tamaño de cada trozo de documento por lote (0 = documento entero en cada lote)
+    AI_CHUNK_CHARS: { type: 'int', min: 0, max: 11000, envKey: 'AI_CHUNK_CHARS' },
 };
 
 // Estado en memoria - se inicializa desde process.env
@@ -109,6 +111,7 @@ function _getDefault(key) {
         SMTP_PASS: '',
         SMTP_FROM: '"XIRO! Contacto" <noreply@xiro.pro>',
         CONTACT_TOKEN_SECRET: 'xiro-contact-default-secret-2026',
+        AI_CHUNK_CHARS: 3500,
     };
     return defaults[key];
 }

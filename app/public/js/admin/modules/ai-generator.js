@@ -84,9 +84,9 @@ function _renderAIStep1() {
                     <div id="ai-drop-zone" class="border-3 border-dashed border-aubergine-300 rounded-xl p-8 text-center bg-aubergine-50 hover:bg-aubergine-100 transition cursor-pointer">
                         <i class="fas fa-file-upload text-4xl text-aubergine-400 mb-3"></i>
                         <p class="font-bold text-aubergine-800">Arrastra aquí o haz clic para seleccionar</p>
-                        <p class="text-xs text-slate-400 mt-1">.pdf · .docx · .txt</p>
+                        <p class="text-xs text-slate-400 mt-1">.pdf · .docx · .odt · .pptx · .epub · .rtf · .html · .md · .txt</p>
                     </div>
-                    <input type="file" id="ai-file-input" accept=".pdf,.docx,.doc,.txt" class="hidden">
+                    <input type="file" id="ai-file-input" accept=".pdf,.docx,.doc,.odt,.odp,.pptx,.epub,.rtf,.html,.htm,.xhtml,.md,.markdown,.txt" class="hidden">
                     <div id="ai-file-info" class="hidden mt-3 p-3 bg-green-50 border border-green-200 rounded-xl flex items-center gap-3 text-sm">
                         <i class="fas fa-check-circle text-green-600 text-xl"></i>
                         <div><p id="ai-file-name" class="font-bold text-green-800"></p>
@@ -181,7 +181,7 @@ async function _aiUploadFile(file) {
 function _aiClearFile() {
     aiGenText = '';
     document.getElementById('ai-file-info').classList.add('hidden');
-    document.getElementById('ai-drop-zone').innerHTML = _tHtml('<i class="fas fa-file-upload text-4xl text-aubergine-400 mb-3"></i><p class="font-bold text-aubergine-800">Arrastra aquí o haz clic para seleccionar</p><p class="text-xs text-slate-400 mt-1">.pdf · .docx · .txt</p>');
+    document.getElementById('ai-drop-zone').innerHTML = _tHtml('<i class="fas fa-file-upload text-4xl text-aubergine-400 mb-3"></i><p class="font-bold text-aubergine-800">Arrastra aquí o haz clic para seleccionar</p><p class="text-xs text-slate-400 mt-1">.pdf · .docx · .odt · .pptx · .epub · .rtf · .html · .md · .txt</p>');
 }
 
 async function _checkIAStatus() {
