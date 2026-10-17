@@ -1,0 +1,21 @@
+/*
+ * Imagen de diapositiva que ocupa el máximo espacio disponible sin deformarse,
+ * aunque sea más pequeña que la pantalla. js/core/slide-image-fit.js pone la
+ * proporción de la imagen en --slide-img-ar. Lo cargan presentador y standalone.
+ */
+.slide-img-box {
+    container-type: size;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 0;
+}
+
+.slide-img-fit {
+    display: block;
+    width: min(100cqw, 100cqh * var(--slide-img-ar, 1));
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+}

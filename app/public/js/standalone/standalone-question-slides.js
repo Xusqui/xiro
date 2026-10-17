@@ -24,7 +24,7 @@ globalThis.StandaloneQuestionSlides = (() => {
         container.innerHTML = `
             <div class="pl-viewport pl-slide-image-view" style="background:#111827; justify-content:center; align-items:center;">
                 ${question.slide_image
-        ? `<img class="pl-slide-image-img" src="${escapeHtml(question.slide_image)}" alt="">`
+        ? `<div class="pl-slide-image-box slide-img-box"><img class="pl-slide-image-img slide-img-fit" src="${escapeHtml(question.slide_image)}" alt=""></div>`
         : '<i class="fas fa-image" style="font-size:64px;color:rgba(255,255,255,0.3);"></i>'}
                 <div class="pl-submit-bar" style="position:absolute; bottom:0; left:0; right:0;">
                     <button type="button" class="pl-submit-btn" data-standalone-action="continue-slide">
@@ -75,6 +75,7 @@ globalThis.StandaloneQuestionSlides = (() => {
     function render(container, question, { onContinue }) {
         if (question.slide_type === 'image') {
             _renderImage(container, question, onContinue);
+            window.XiroSlideImageFit?.fitImages(container);
         } else {
             _renderTextual(container, question, onContinue);
         }

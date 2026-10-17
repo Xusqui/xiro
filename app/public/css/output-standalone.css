@@ -585,13 +585,17 @@
     max-width: 640px;
 }
 
+/* Hueco de la imagen: la amplía o reduce css/slide-image-fit.css,
+   dejando sitio a la barra «Continuar» y al pie */
+.pl-slide-image-box {
+    width: 92vw;
+    height: calc(100dvh - 220px);
+    margin-bottom: 20px;
+}
+
 .pl-slide-image-img {
-    max-width: 90vw;
-    max-height: 60vh;
-    object-fit: contain;
     border-radius: 16px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    margin-bottom: 20px;
 }
 
 /* ===== Order / Matching (glass 3D, igual que el jugador) ===== */

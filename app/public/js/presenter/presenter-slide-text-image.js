@@ -41,9 +41,9 @@ export function renderTextImageSlide(slide) {
         </div>`;
 
     const imgCol = `
-        <div style="flex:1; display:flex; align-items:center; justify-content:center;">
+        <div class="slide-img-box" style="flex:1; align-self:stretch;">
             ${imageUrl
-        ? `<img src="${sanitizeResourceUrl(imageUrl)}" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:1.5rem;box-shadow:0 20px 60px rgba(0,0,0,0.5);" />`
+        ? `<img class="slide-img-fit" src="${sanitizeResourceUrl(imageUrl)}" style="border-radius:1.5rem;box-shadow:0 20px 60px rgba(0,0,0,0.5);" />`
         : '<div style="color:rgba(255,255,255,.3);text-align:center;font-size:4rem;"><i class="fas fa-image"></i></div>'
 }
         </div>`;
@@ -64,6 +64,7 @@ export function renderTextImageSlide(slide) {
             </button>
         </div>
     `);
+    window.XiroSlideImageFit?.fitImages(lobbyMain);
     appendSlideFooter(lobbyMain, slide, 'presenter');
 
     showAbandonButton();
