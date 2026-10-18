@@ -1,0 +1,10 @@
+FROM node:24-alpine
+# Parches de seguridad + CLI de Docker y plugin compose (el actualizador ejecuta docker compose contra el daemon del host)
+RUN apk upgrade --no-cache && apk add --no-cache docker-cli docker-cli-compose
+WORKDIR /opt/xiro-updater
+COPY app/updater/*.js ./
+ENV NODE_ENV=production PORT=8080
+EXPOSE 8080
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD wget -qO- http://127.0.0.1:8080/health >/dev/null || exit 1
+# Sin USER: necesita el socket de Docker del host (root:root). No publica puertos; solo lo alcanza la red interna.
+CMD ["node", "server.js"]

@@ -144,6 +144,7 @@ services:
       - .env
     environment:
       PORT: ${APP_PORT:-3000}
+      XIRO_INSTALL: source   # el panel muestra «git pull && ./manage.sh update» en vez del botón de actualizar
       MACHINE_ID_PATH: /host/machine-id
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}

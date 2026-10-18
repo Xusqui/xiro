@@ -159,6 +159,9 @@ function applyRolePermissions() {
 
     // Inicializar tabs de sección (Preguntas / Configuración)
     initSectionTabs();
+
+    // Aviso de versión nueva (solo admin; ver update-notice.js)
+    if (typeof checkForUpdateNotice === 'function') checkForUpdateNotice();
 }
 
 // ===== LOGIN HANDLER =====

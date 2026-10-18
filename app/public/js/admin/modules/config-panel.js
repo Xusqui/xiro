@@ -46,6 +46,7 @@ function _renderTabContent(config) {
     if (sec.isMusic) return _renderMusicTab(config.__ui || {});
     if (sec.isFireworks) return _renderFireworksTab(config.__ui || {});
     if (sec.isLicense) { setTimeout(renderLicenseTab, 0); return `<div class="text-slate-400 flex items-center gap-2"><i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.config.server.loading')}</div>`; }
+    if (sec.isUpdates) { setTimeout(renderUpdatesTab, 0); return `<div class="text-slate-400 flex items-center gap-2"><i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.updates.loading')}</div>`; }
     if (sec.isGroq) { setTimeout(renderAIConfigTab, 0); return `<div class="text-slate-400 flex items-center gap-2"><i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.config.server.loading')}</div>`; }
     if (sec.isLambda) {
         const entry = config['TEAM_SCORE_LAMBDA'];
@@ -73,7 +74,7 @@ function _paintConfigForm(area) {
     area.innerHTML = _tHtml(_renderConfigForm(_configData));
     unbindSaveBar();
     const sec = _PARAM_SECTIONS.find(s => s.id === _activeTab) || {};
-    if (sec.isGroq || sec.isLicense) return;
+    if (sec.isGroq || sec.isLicense || sec.isUpdates) return;
 
     const discard = () => switchConfigTab(_activeTab);
     if (sec.isUi) bindSaveBar({ snapshot: uiTabSnapshot, save: saveUiTab, discard });
@@ -89,6 +90,13 @@ function switchConfigTab(tabId) {
     _activeTab = tabId;
     const formArea = document.getElementById('config-form-area');
     if (formArea) _paintConfigForm(formArea);
+}
+
+/** Abre la sección Configuración directamente en la pestaña indicada (p. ej. desde el aviso de versión nueva). */
+function openConfigTab(tabId) {
+    _activeTab = tabId;
+    if (typeof switchSectionTab === 'function') switchSectionTab('config');
+    else renderConfigPanel();
 }
 
 /* ===== MAIN RENDER ===== */

@@ -69,6 +69,7 @@ services:
     environment:
       MACHINE_ID_PATH: /host/machine-id
       CHROME_WS_ENDPOINT: ws://chrome:3000
+      UPDATER_URL: http://updater:8080
     env_file: .env
     depends_on:
       db:
@@ -92,6 +93,21 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+  # Actualizador: descarga e instala versiones nuevas desde el panel (Configuración → Actualizaciones).
+  # Tiene el socket de Docker, así que no publica puertos: solo lo alcanza el backend por la red interna,
+  # autenticado con UPDATER_TOKEN (.env). Solo actualiza backend y backup.
+  updater:
+    image: xusqui/xiro-updater:latest
+    container_name: xiro_updater
+    restart: unless-stopped
+    networks:
+      - xiro_internal
+    environment:
+      UPDATER_TOKEN: ${UPDATER_TOKEN:-}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./:/deploy:ro
 
   caddy:
     image: caddy:2-alpine

@@ -78,6 +78,7 @@ In `docker-compose.yml`, `caddy` service, replace `xiro.pro` with your domain:
 |----------|-------|
 | `DB_PASSWORD`, `REDIS_PASSWORD` | Random passwords, no spaces |
 | `JWT_SECRET` | Random string, at least 32 characters |
+| `UPDATER_TOKEN` | Another random string of at least 32 characters (enables the **Update** button of the admin panel) |
 | `CORS_ORIGIN`, `ALLOWED_ORIGINS` | Your public URL, e.g. `https://quiz.example.com` |
 | `SERVER_HOST` | Your domain without `https://`, e.g. `quiz.example.com` |
 
@@ -96,6 +97,12 @@ Open `https://<your-domain>/admin.html`. **The first account you register become
 
 ### Updating
 
+**From the admin panel (recommended).** Xiro! checks Docker Hub once an hour. When a new version is out, a **New version** badge appears in the admin sidebar. In **Config → Updates**, **Update now** backs up the database, downloads the new images, restarts `backend` and `backup` and checks that the new version starts; if it doesn't, it goes back to the previous one by itself. Games in progress are cut, so the panel warns you first.
+
+The button is handled by the `updater` container. It has access to the Docker socket (it can manage the server's containers), so it publishes no ports and only accepts requests from the backend signed with `UPDATER_TOKEN`.
+
+**By hand:**
+
 ```bash
 cd /opt/xiro
 docker compose pull
@@ -105,6 +112,8 @@ docker compose up -d
 Data lives in the folder's subdirectories (`postgres_data/`, `redis_data/`, `public/`, `config/`, `backups/`), so updates don't lose it.
 
 `docker compose pull` updates the images, not `docker-compose.yml`. When a release changes `docker-compose.deploy.yml`, copy it again over your `docker-compose.yml` and set your domain in the `caddy` service again (step 2) before `docker compose up -d`.
+
+**Installed before the update button existed?** Copy the current `docker-compose.deploy.yml` over your `docker-compose.yml` (and set your domain again, step 2), add `UPDATER_TOKEN=<openssl rand -hex 32>` to `.env` and run `docker compose pull && docker compose up -d`. From then on, updates can be installed from the panel.
 
 > **PDF export fails with "Error al generar el PDF":** the backend can't reach the `chrome` container. Check that `docker compose exec backend printenv CHROME_WS_ENDPOINT` prints `ws://chrome:3000` and that the `xiro_chrome` container is running. If it is empty, copy the current `docker-compose.deploy.yml` again (it sets this variable) or add `CHROME_WS_ENDPOINT=ws://chrome:3000` to `.env`, then run `docker compose up -d`.
 
@@ -229,6 +238,7 @@ From `/admin.html` you can:
 - Generate questions with **AI** (enter the Groq or Gemini API key, and pick the active provider, in the Config section)
 - Adjust game parameters, scoring, fireworks, UI and backups without restarting
 - See the **game history** and download results
+- **Update** Xiro! with one click when a new version is published (**Config → Updates**)
 - Take control of a game in progress from your phone (**Config → Games In Progress → Control**)
 - Manage the **license** (Config → Licencia). Without a valid license, sessions are limited to 5 participants.
 
