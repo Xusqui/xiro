@@ -8,7 +8,7 @@
 .wsg {
     display: inline-block;
     padding: 6px;
-    /* Fondo del tablero (jugador, presentador, standalone y TV): blanco al 90 % */
+    /* Fondo del tablero: blanco translúcido (presentador y TV); jugador y standalone, opaco (.wsg--player) */
     background-color: rgba(255, 255, 255, .75);
     border-radius: 12px;
     -webkit-box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
@@ -132,6 +132,8 @@
  */
 .wsg--player {
     padding: 1vw;
+    /* Opaco: en el móvil el fondo de la pantalla no debe verse a través del tablero */
+    background-color: #fff;
 }
 
 .wsg--player .wsg-cell {

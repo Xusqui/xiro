@@ -200,11 +200,28 @@
 
     // ===== Interacción (estado compartido por los manejadores de bindSelection) =====
 
+    /** Regla de copias «sombra» (word-search-shadow.js): global en el navegador, require en Jest */
+    function shadowRule() {
+        if (root.XiroWordSearchShadow) return root.XiroWordSearchShadow;
+        if (typeof module !== 'undefined' && module.exports && typeof require === 'function') {
+            // eslint-disable-next-line no-undef -- solo en Jest (CommonJS)
+            return require('./word-search-shadow.js');
+        }
+        return null;
+    }
+
+    /** ¿La selección es la copia de la palabra `index` escondida dentro de otra más larga? */
+    function isShadowCopy(opts, a, b, index) {
+        let rule = shadowRule();
+        return Boolean(rule) && rule.isShadowed(opts.grid, opts.words, index, { r1: a[0], c1: a[1], r2: b[0], c2: b[1] });
+    }
+
     /** Comprueba la selección de `a` a `b`; si forma una palabra pendiente, la marca */
     function tryPair(state, a, b) {
         let cells = cellsBetween(a[0], a[1], b[0], b[1]);
         let opts = state.opts;
         let index = cells ? matchWord(opts.words, opts.getFoundFlags(), readCells(opts.grid, cells)) : -1;
+        if (index !== -1 && isShadowCopy(opts, a, b, index)) index = -1;
         if (index === -1) {
             markCells(state.board, 'wsg-miss', cells || [a, b]);
             setTimeout(function () { markCells(state.board, 'wsg-miss', []); }, MISS_FLASH_MS);

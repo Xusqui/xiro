@@ -12,6 +12,7 @@
  */
 
 const { SCORING, WORD_SEARCH } = require('../../config/game-constants');
+const Shadow = require('../../public/js/core/word-search-shadow.js');
 
 // 8 direcciones [dr, dc]: → ← ↓ ↑ ↘ ↖ ↙ ↗
 const DIRECTIONS = [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [-1, -1], [1, -1], [-1, 1]];
@@ -207,6 +208,7 @@ function toIndexSet(list) {
 
 /**
  * Índice de la palabra que forma una selección (en cualquier sentido), o -1.
+ * Una copia «sombra» (la palabra dentro de otra más larga, cuando tiene otra copia libre) no cuenta.
  * @param {Object} question - Pregunta preparada (ws_grid)
  * @param {{r1:number,c1:number,r2:number,c2:number}} sel
  * @param {boolean[]} [skip] - Palabras que no hay que volver a buscar
@@ -216,7 +218,10 @@ function matchSelection(question, sel, skip = []) {
     const letters = readSelection(question?.ws_grid, sel);
     if (!letters) return -1;
     const reversed = [...letters].reverse().join('');
-    return getQuestionWords(question).findIndex((w, i) => !skip[i] && (w === letters || w === reversed));
+    const words = getQuestionWords(question);
+    const index = words.findIndex((w, i) => !skip[i] && (w === letters || w === reversed));
+    if (index === -1) return -1;
+    return Shadow.isShadowed(question.ws_grid, words, index, sel) ? -1 : index;
 }
 
 /**
