@@ -7,7 +7,7 @@
 'use strict';
 
 globalThis.StandaloneQuestionRouter = (() => {
-    const SLIDE_TYPES = new Set(['comment', 'info', 'text', 'image', 'text-image']);
+    const SLIDE_TYPES = new Set(['comment', 'info', 'text', 'image', 'text-image', 'video']);
 
     function isSlide(question) {
         return SLIDE_TYPES.has(question?.slide_type);

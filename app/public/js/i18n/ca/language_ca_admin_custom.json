@@ -65,6 +65,10 @@
     "admin.custom.badge_fillblanks": "COMPLETA LA FRASE",
     "admin.custom.slide_footer_label": "Peu de diapositiva (opcional)",
     "admin.custom.slide_footer_placeholder": "Ex.: Font: Viquipèdia · Es veurà en petit al peu de la pantalla",
-    "admin.custom.slide_footer_preview": "Peu:"
+    "admin.custom.slide_footer_preview": "Peu:",
+    "admin.custom.slide_video_badge": "DIAPOSITIVA DE VÍDEO",
+    "admin.custom.slide_video_help": "Només es reprodueix al presentador",
+    "admin.custom.btn_video_slide": "AFEGIR DIAPOSITIVA DE VÍDEO",
+    "admin.custom.btn_short_video": "Vídeo"
   }
 }

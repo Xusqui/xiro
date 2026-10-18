@@ -12,6 +12,7 @@ const {
     DEFAULT_MAX: RANDOM_POINTS_DEFAULT_MAX,
 } = require('./application/validators/RandomPointsValidator');
 const { wordSearchOptionsSchema } = require('./application/validators/WordSearchQuestionValidator');
+const { slideVideoSchema } = require('./application/validators/VideoSlideValidator');
 const {
     fillBlanksOptionsSchema,
     fillBlanksQuestionRule,
@@ -647,7 +648,7 @@ const gameSchema = Joi.object({
 // Pregunta de juego personalizado
 const customGameQuestionSchema = Joi.object({
     slide_type: Joi.string()
-        .valid('question', 'comment', 'info', 'text', 'image', 'text-image')
+        .valid('question', 'comment', 'info', 'text', 'image', 'text-image', 'video')
         .default('question'),
     question_id: dbIdSchema.allow(null).when('slide_type', {
         is: 'question',
@@ -692,7 +693,10 @@ const customGameQuestionSchema = Joi.object({
             is: 'text-image',
             then: Joi.required(),
             otherwise: Joi.allow(null, '').optional(),
-        }),    // Pie opcional de las diapositivas especiales (texto plano; los clientes lo escapan)
+        }),
+    // URL de la diapositiva de vídeo (archivo, YouTube, Vimeo o Dailymotion)
+    slide_video: slideVideoSchema,
+    // Pie opcional de las diapositivas especiales (texto plano; los clientes lo escapan)
     slide_footer: Joi.string()
         .max(LIMITS.SLIDE_FOOTER_MAX)
         .trim()

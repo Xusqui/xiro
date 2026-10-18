@@ -73,6 +73,8 @@
     "standalone.game.fillblanks_hint_cost": "提示 −{pct}%",
     "standalone.game.fillblanks_hint_none": "无提示",
     "standalone.game.fillblanks_blank_aria": "空格 {n}",
-    "standalone.game.fillblanks_correct": "{total} 个词中的 {n} 个"
+    "standalone.game.fillblanks_correct": "{total} 个词中的 {n} 个",
+    "standalone.game.video_title": "视频",
+    "standalone.game.video_presenter_only": "此视频仅在主持人屏幕上可见"
   }
 }

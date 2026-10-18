@@ -10,6 +10,9 @@ const runtimeConfig = require('../config/runtime-config');
 const { DEFAULT_ORIGINS, parseOriginList } = require('../config/origin-list');
 const { getRedisClient, isRedisAvailable } = require('../config/redis');
 
+// Orígenes de los reproductores incrustados de la diapositiva de vídeo (YouTube, Vimeo, Dailymotion)
+const { EMBED_ORIGINS: VIDEO_EMBED_ORIGINS } = require('../public/js/core/video-source');
+
 /**
  * Obtiene logger de forma lazy para evitar dependencia circular
  * @private
@@ -136,6 +139,9 @@ const configureHelmet = () => {
                     ],
                     connectSrc: connectSrc,
                     imgSrc: ['\'self\'', 'data:', 'blob:'],
+                    // Diapositiva de vídeo: archivos de vídeo de cualquier origen https y reproductores incrustados
+                    mediaSrc: ['\'self\'', 'https:', 'blob:'],
+                    frameSrc: ['\'self\'', ...VIDEO_EMBED_ORIGINS],
                     objectSrc: ['\'none\''],
                     baseUri: ['\'self\''],
                 },

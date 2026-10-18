@@ -158,9 +158,11 @@ export function createMusicController(opts) {
             clock.clear();
             send({ type: 'PRE_QUESTION' });
         },
-        slide() {
+        /** Diapositiva sin pregunta; con { hasAudio: true } (vídeo) la música calla hasta la siguiente escena. */
+        slide(opts) {
             clock.clear();
             send({ type: 'SLIDE' });
+            if (engine) engine.setSilenced(Boolean(opts && opts.hasAudio));
         },
         /**
          * q: { durationMs, startedAt?, serverNow?, hasAudio, index?, total? } (horas del

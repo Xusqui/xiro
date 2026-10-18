@@ -1,3 +1,6 @@
 {
-  "keys": {}
+  "keys": {
+    "player.slides.video_title": "Video",
+    "player.slides.video_watch_screen": "Watch the presenter's screen"
+  }
 }

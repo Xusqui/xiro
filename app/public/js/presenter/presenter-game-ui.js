@@ -142,5 +142,5 @@ export function renderPregunta(q) {
  * Re-exportar funciones de otros módulos
  */
 export { renderTeamLobby, updatePlayersPanel } from './presenter-players-panel.js?v=20260922172926';
-export { renderCommentSlide, renderInfoSlide, renderTextSlide, renderImageSlide, renderTextImageSlide } from './presenter-slides.js?v=20260922172926';
+export { renderCommentSlide, renderInfoSlide, renderTextSlide, renderImageSlide, renderTextImageSlide, renderVideoSlide } from './presenter-slides.js?v=20260922172926';
 export { renderPodio } from './presenter-podio.js?v=20260922172926';

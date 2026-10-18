@@ -1,3 +1,6 @@
 {
-  "keys": {}
+  "keys": {
+    "player.slides.video_title": "Bideoa",
+    "player.slides.video_watch_screen": "Ikusi aurkezlearen pantaila"
+  }
 }

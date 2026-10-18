@@ -72,7 +72,8 @@ const MIGRATION_QUERIES = [
     'ALTER TABLE custom_game_questions ADD COLUMN IF NOT EXISTS slide_image_position VARCHAR(5) CHECK (slide_image_position IN (\'left\', \'right\'))',
     'ALTER TABLE custom_game_questions ADD COLUMN IF NOT EXISTS slide_title TEXT',
     'ALTER TABLE custom_game_questions ADD COLUMN IF NOT EXISTS slide_body TEXT',
-    'ALTER TABLE custom_game_questions ADD COLUMN IF NOT EXISTS slide_footer TEXT'
+    'ALTER TABLE custom_game_questions ADD COLUMN IF NOT EXISTS slide_footer TEXT',
+    'ALTER TABLE custom_game_questions ADD COLUMN IF NOT EXISTS slide_video TEXT'
 ];
 
 const INDEX_QUERIES = [

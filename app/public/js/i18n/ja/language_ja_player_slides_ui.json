@@ -1,3 +1,6 @@
 {
-  "keys": {}
+  "keys": {
+    "player.slides.video_title": "動画",
+    "player.slides.video_watch_screen": "プレゼンターの画面を見てください"
+  }
 }

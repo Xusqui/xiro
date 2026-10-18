@@ -73,6 +73,8 @@
     "standalone.game.fillblanks_hint_cost": "Indice −{pct} %",
     "standalone.game.fillblanks_hint_none": "Plus d’indices",
     "standalone.game.fillblanks_blank_aria": "Trou {n}",
-    "standalone.game.fillblanks_correct": "{n} mots sur {total}"
+    "standalone.game.fillblanks_correct": "{n} mots sur {total}",
+    "standalone.game.video_title": "Vidéo",
+    "standalone.game.video_presenter_only": "Cette vidéo n'est visible que sur l'écran du présentateur"
   }
 }

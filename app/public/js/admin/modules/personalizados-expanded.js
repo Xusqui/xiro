@@ -158,6 +158,7 @@ async function cargarEditorJuegoPersonalizado(id) {
             slide_image: q.slide_image,
             slide_image_position: q.slide_image_position,
             slide_footer: q.slide_footer,
+            slide_video: q.slide_video,
             position: q.position,
             tipo_contenido: q.tipo_contenido,
             url_recurso: q.url_recurso
@@ -337,7 +338,7 @@ async function renderEditorJuegoPersonalizado(game) {
     });
 }
 
-/** Barra "Añadir contenido": actividad, info, texto, imagen, texto+imagen. */
+/** Barra "Añadir contenido": actividad, info, texto, imagen, texto+imagen, vídeo. */
 function _customToolbarHtml() {
     return `
             <div class="xiro-toolbar-bar xiro-toolbar-bar--below-header bg-white/90 backdrop-blur-sm border border-slate-200 rounded-2xl shadow-sm px-4 py-2 mb-6 flex items-center justify-center gap-2" role="toolbar" aria-label="${_t('admin.custom.toolbar_label', null, 'Añadir contenido')}">
@@ -365,6 +366,11 @@ function _customToolbarHtml() {
                     class="bg-plum-600 hover:bg-plum-700 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
                     aria-label="${_t('admin.custom.btn_text_img_slide', null, 'AÑADIR DIAPOSITIVA TEXTO + IMAGEN')}">
                     <i class="fas fa-columns" aria-hidden="true"></i> ${_t('admin.custom.btn_short_text_img', null, 'Texto+Img')}
+                </button>
+                <button type="button" data-admin-click="mostrarModalVideo()"
+                    class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
+                    aria-label="${_t('admin.custom.btn_video_slide', null, 'AÑADIR DIAPOSITIVA DE VÍDEO')}">
+                    <i class="fas fa-film" aria-hidden="true"></i> ${_t('admin.custom.btn_short_video', null, 'Vídeo')}
                 </button>
             </div>`;
 }
@@ -655,7 +661,8 @@ function _customSlideForSave(q) {
         slide_body: q.slide_body || null,
         slide_image: q.slide_image || null,
         slide_image_position: q.slide_image_position || null,
-        slide_footer: q.slide_footer || null
+        slide_footer: q.slide_footer || null,
+        slide_video: q.slide_video || null
     };
 }
 

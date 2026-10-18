@@ -73,6 +73,8 @@
     "standalone.game.fillblanks_hint_cost": "Hint −{pct}%",
     "standalone.game.fillblanks_hint_none": "No hints left",
     "standalone.game.fillblanks_blank_aria": "Blank {n}",
-    "standalone.game.fillblanks_correct": "{n} of {total} words"
+    "standalone.game.fillblanks_correct": "{n} of {total} words",
+    "standalone.game.video_title": "Video",
+    "standalone.game.video_presenter_only": "This video is only visible on the presenter's screen"
   }
 }

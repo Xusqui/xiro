@@ -10,6 +10,7 @@
     "presenter.slides.info_no_points": "Informació - Sense punts assignats",
     "presenter.slides.points_per_player": "Els punts s'afegeixen a cada jugador",
     "presenter.slides.player_singular": "jugador",
-    "presenter.slides.player_plural": "jugadors"
+    "presenter.slides.player_plural": "jugadors",
+    "presenter.slides.video_unsupported": "No es pot reproduir aquest vídeo"
   }
 }

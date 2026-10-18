@@ -6,6 +6,7 @@ const { shuffle } = require('../../services/game.logic');
 const { generateScrambledLetters, normalizeWord } = require('../../domain/services/WordScrambleService');
 const { prepareWordSearchQuestion } = require('../../domain/services/WordSearchService');
 const { prepareFillBlanksQuestion } = require('../../domain/services/FillBlanksService');
+const { parseVideoSource } = require('../../public/js/core/video-source');
 const logger = require('../../config/logger');
 
 /**
@@ -74,6 +75,13 @@ function prepareQuestions(questions, gameType) {
 
     // Procesar cada pregunta (barajar opciones según tipo de slide)
     return orderedQuestions.map(q => {
+        // Diapositiva de vídeo: el origen ya analizado (tipo y URL del reproductor) viaja al
+        // presentador y a la TV, que es ES5 y no carga core/video-source.js. El saneado de los
+        // jugadores no copia este campo: los jugadores nunca reciben el vídeo.
+        if (q.slide_type === 'video') {
+            return { ...q, video_source: parseVideoSource(q.slide_video) };
+        }
+
         // No barajar opciones para slides especiales (comment/info/text) o encuestas
         if (
             q.slide_type === 'comment'

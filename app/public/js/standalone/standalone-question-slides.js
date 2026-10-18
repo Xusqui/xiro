@@ -35,6 +35,28 @@ globalThis.StandaloneQuestionSlides = (() => {
         `;
     }
 
+    /** Vídeo: solo se reproduce en una pantalla de presentador; aquí se avisa y se sigue. */
+    function _renderVideoNotice(container) {
+        const nickname = escapeHtml(StandaloneState.get().nickname);
+        const title = window.XiroI18n?.t('standalone.game.video_title') || 'Vídeo';
+        const notice = window.XiroI18n?.t('standalone.game.video_presenter_only') || 'Este vídeo solo se ve en la pantalla del presentador';
+        container.innerHTML = `
+            <div class="pl-viewport pl-slide-text">
+                <div class="pl-nickname-bar"><p>${nickname}</p></div>
+                <div class="pl-slide-content">
+                    <div class="pl-slide-badge"><i class="fas fa-film"></i></div>
+                    <h2 class="pl-slide-title">${escapeHtml(title)}</h2>
+                    <p class="pl-slide-body">${escapeHtml(notice)}</p>
+                </div>
+                <div class="pl-submit-bar" style="position:absolute; bottom:0; left:0; right:0;">
+                    <button type="button" class="pl-submit-btn" data-standalone-action="continue-slide">
+                        ${window.XiroI18n?.t('standalone.game.continue') || 'Continuar'}
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+
     function _renderTextual(container, question) {
         // comment/info muestran un texto principal; el resto, título + cuerpo
         const hasMainText = question.slide_type === 'comment' || question.slide_type === 'info';
@@ -76,6 +98,8 @@ globalThis.StandaloneQuestionSlides = (() => {
         if (question.slide_type === 'image') {
             _renderImage(container, question, onContinue);
             window.XiroSlideImageFit?.fitImages(container);
+        } else if (question.slide_type === 'video') {
+            _renderVideoNotice(container);
         } else {
             _renderTextual(container, question, onContinue);
         }

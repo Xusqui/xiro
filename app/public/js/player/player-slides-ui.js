@@ -4,9 +4,10 @@
 
 import { getNickname, clearOrderState, setCanAnswer, setCurrentSlideType } from './player-state.js?v=20260922172926';
 import { renderizarSlideTextoImagen } from './player-slide-text-image-ui.js?v=20260922172926';
+import { renderizarSlideVideo } from './player-slide-video-ui.js?v=20261018120000';
 import { escapeHtml, sanitizeResourceUrl } from '../core/sanitize.js?v=20260922172926';
 import { appendSlideFooter } from '../core/slide-footer-dom.js?v=20261017120000';
-export { renderizarSlideTextoImagen };
+export { renderizarSlideTextoImagen, renderizarSlideVideo };
 
 /**
  * Renderizar slide de comentario

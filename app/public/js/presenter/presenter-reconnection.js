@@ -13,7 +13,7 @@ import {
     setIsTeamMode, setTeamConfig, getIsTeamMode, getTeamConfig
 } from './presenter-state.js?v=20260922172926';
 import {
-    renderPregunta, renderCommentSlide, renderInfoSlide, renderTextSlide, renderImageSlide, renderTextImageSlide,
+    renderPregunta, renderCommentSlide, renderInfoSlide, renderTextSlide, renderImageSlide, renderTextImageSlide, renderVideoSlide,
     updatePlayersPanel, renderTeamLobby, mostrarQR
 } from './presenter-game-ui.js?v=20260922172926';
 import { restoreLobbyHTML, showAbandonButton } from './presenter-utils.js?v=20260922172926';
@@ -231,6 +231,8 @@ function restoreGameScreen(snapshot) {
         renderImageSlide(question);
     } else if (question.slide_type === 'text-image') {
         renderTextImageSlide(question);
+    } else if (question.slide_type === 'video') {
+        renderVideoSlide(question);
     } else {
         window.canShowRanking = true;
         renderPregunta(question);

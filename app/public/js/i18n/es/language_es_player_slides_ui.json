@@ -1,3 +1,6 @@
 {
-  "keys": {}
+  "keys": {
+    "player.slides.video_title": "Vídeo",
+    "player.slides.video_watch_screen": "Mira la pantalla del presentador"
+  }
 }

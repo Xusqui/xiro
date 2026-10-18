@@ -10,6 +10,7 @@
     "presenter.slides.info_no_points": "Información - Sin asignación de puntos",
     "presenter.slides.points_per_player": "Los puntos se suman a cada jugador",
     "presenter.slides.player_singular": "jugador",
-    "presenter.slides.player_plural": "jugadores"
+    "presenter.slides.player_plural": "jugadores",
+    "presenter.slides.video_unsupported": "No se puede reproducir este vídeo"
   }
 }

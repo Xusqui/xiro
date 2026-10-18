@@ -65,6 +65,10 @@
     "admin.custom.badge_fillblanks": "COMPLETA LA FRASE",
     "admin.custom.slide_footer_label": "Pie de diapositiva (opcional)",
     "admin.custom.slide_footer_placeholder": "Ej: Fuente: Wikipedia · Se verá en pequeño al pie de la pantalla",
-    "admin.custom.slide_footer_preview": "Pie:"
+    "admin.custom.slide_footer_preview": "Pie:",
+    "admin.custom.slide_video_badge": "DIAPOSITIVA VÍDEO",
+    "admin.custom.slide_video_help": "Solo se reproduce en el presentador",
+    "admin.custom.btn_video_slide": "AÑADIR DIAPOSITIVA DE VÍDEO",
+    "admin.custom.btn_short_video": "Vídeo"
   }
 }

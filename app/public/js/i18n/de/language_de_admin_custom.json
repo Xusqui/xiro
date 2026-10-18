@@ -65,6 +65,10 @@
     "admin.custom.badge_fillblanks": "LÜCKENTEXT",
     "admin.custom.slide_footer_label": "Fußzeile der Folie (optional)",
     "admin.custom.slide_footer_placeholder": "z. B. Quelle: Wikipedia · Wird klein unten auf dem Bildschirm angezeigt",
-    "admin.custom.slide_footer_preview": "Fußzeile:"
+    "admin.custom.slide_footer_preview": "Fußzeile:",
+    "admin.custom.slide_video_badge": "VIDEOSLIDE",
+    "admin.custom.slide_video_help": "Wird nur beim Moderator abgespielt",
+    "admin.custom.btn_video_slide": "VIDEOSLIDE HINZUFÜGEN",
+    "admin.custom.btn_short_video": "Video"
   }
 }

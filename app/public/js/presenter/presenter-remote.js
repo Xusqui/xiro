@@ -282,7 +282,7 @@ function remoteConclude() {
 
 // ── Timer handlers ─────────────────────────────────────────────────────────
 
-const SLIDE_TYPES = new Set(['info', 'comment', 'text', 'image', 'text-image']);
+const SLIDE_TYPES = new Set(['info', 'comment', 'text', 'image', 'text-image', 'video']);
 
 /**
  * Muestra el valor de la puntuación aleatoria en el control remoto.

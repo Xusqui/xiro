@@ -65,6 +65,10 @@
     "admin.custom.badge_fillblanks": "OSATU ESALDIA",
     "admin.custom.slide_footer_label": "Diapositibaren oina (aukerakoa)",
     "admin.custom.slide_footer_placeholder": "Adib.: Iturria: Wikipedia · Txiki ikusiko da pantailaren behealdean",
-    "admin.custom.slide_footer_preview": "Oina:"
+    "admin.custom.slide_footer_preview": "Oina:",
+    "admin.custom.slide_video_badge": "BIDEO DIAPOSITIBA",
+    "admin.custom.slide_video_help": "Aurkezlearen pantailan bakarrik erreproduzitzen da",
+    "admin.custom.btn_video_slide": "GEHITU BIDEO DIAPOSITIBA",
+    "admin.custom.btn_short_video": "Bideoa"
   }
 }

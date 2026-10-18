@@ -73,6 +73,8 @@
     "standalone.game.fillblanks_hint_cost": "ヒント −{pct}%",
     "standalone.game.fillblanks_hint_none": "ヒントなし",
     "standalone.game.fillblanks_blank_aria": "空欄 {n}",
-    "standalone.game.fillblanks_correct": "{total} 語中 {n} 語"
+    "standalone.game.fillblanks_correct": "{total} 語中 {n} 語",
+    "standalone.game.video_title": "動画",
+    "standalone.game.video_presenter_only": "この動画はプレゼンターの画面でのみ表示されます"
   }
 }

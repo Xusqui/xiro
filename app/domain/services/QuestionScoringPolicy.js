@@ -24,7 +24,7 @@ const { RANDOM_POINTS_ELIGIBLE_TYPES } = require('../../config/game-constants');
 // Diapositivas sin temporizador ni puntuación. Los valores coinciden con el
 // CHECK de slide_type en BD (migrations/20260321000001_add_text_image_slide_type.sql)
 // y con las listas equivalentes del frontend.
-const NO_TIMER_SLIDE_TYPES = new Set(['comment', 'info', 'text', 'image', 'text-image']);
+const NO_TIMER_SLIDE_TYPES = new Set(['comment', 'info', 'text', 'image', 'text-image', 'video']);
 
 const ELIGIBLE_TYPES = new Set(RANDOM_POINTS_ELIGIBLE_TYPES);
 

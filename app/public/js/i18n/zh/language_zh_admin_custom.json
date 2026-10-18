@@ -65,6 +65,10 @@
     "admin.custom.badge_fillblanks": "填空",
     "admin.custom.slide_footer_label": "幻灯片页脚（可选）",
     "admin.custom.slide_footer_placeholder": "例如：来源：维基百科 · 以小字显示在屏幕底部",
-    "admin.custom.slide_footer_preview": "页脚："
+    "admin.custom.slide_footer_preview": "页脚：",
+    "admin.custom.slide_video_badge": "视频幻灯片",
+    "admin.custom.slide_video_help": "仅在主持人端播放",
+    "admin.custom.btn_video_slide": "添加视频幻灯片",
+    "admin.custom.btn_short_video": "视频"
   }
 }

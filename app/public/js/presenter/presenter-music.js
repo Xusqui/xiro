@@ -14,7 +14,7 @@ import { createMusicController } from '../audio/music-controller.js?v=2026092217
 import { normalizeMusicSettings } from '../audio/music-apply-settings.js?v=20260922172926';
 import { bindMusicControls } from './presenter-music-controls.js?v=20260922172926';
 
-const SLIDE_TYPES = new Set(['comment', 'info', 'text', 'image', 'text-image']);
+const SLIDE_TYPES = new Set(['comment', 'info', 'text', 'image', 'text-image', 'video']);
 const DEFAULT_TIME_LIMIT_S = 20;
 
 /** Ajustes de interfaz: «Música de la partida» y los de la pestaña «Música» del admin. */
@@ -39,7 +39,8 @@ function bindSocket(socket, music) {
     const onQuestion = (q, data) => {
         if (!q) return;
         if (SLIDE_TYPES.has(q.slide_type)) {
-            music.slide();
+            // El vídeo trae su propio sonido: la música calla mientras se ve
+            music.slide({ hasAudio: q.slide_type === 'video' });
             return;
         }
         music.question({

@@ -6,7 +6,8 @@
 
 const NEXT_KEYS = new Set(['Enter', 'ArrowRight']);
 const NEXT_COOLDOWN_MS = 1000;
-const EDITABLE_SELECTOR = 'input, textarea, select, button, [contenteditable]:not([contenteditable="false"])';
+// También vídeos y audios enfocados: ahí Intro reproduce/pausa y → adelanta el vídeo
+const EDITABLE_SELECTOR = 'input, textarea, select, button, video, audio, [contenteditable]:not([contenteditable="false"])';
 
 let lastTriggerAt = 0;
 

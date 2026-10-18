@@ -73,6 +73,8 @@
     "standalone.game.fillblanks_hint_cost": "Pista −{pct} %",
     "standalone.game.fillblanks_hint_none": "Sense pistes",
     "standalone.game.fillblanks_blank_aria": "Buit {n}",
-    "standalone.game.fillblanks_correct": "{n} de {total} paraules"
+    "standalone.game.fillblanks_correct": "{n} de {total} paraules",
+    "standalone.game.video_title": "Vídeo",
+    "standalone.game.video_presenter_only": "Aquest vídeo només es veu a la pantalla del presentador"
   }
 }

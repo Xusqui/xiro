@@ -116,12 +116,37 @@ window.TVApp.RenderSlides = (function () {
         clearCache();
     }
 
+    /** Diapositiva de vídeo: la TV es una pantalla de presentador y lo reproduce a toda pantalla. */
+    function renderVideoSlide(slide) {
+        resetTimers();
+        stopQuestionAudio();
+
+        const state = window.TVApp.State;
+        const source = slide.video_source || null;
+        const isTrivial = window.isTrivialGame;
+        const isLast = state.totalQuestions > 0 && state.currentQuestionIndex >= state.totalQuestions - 1;
+        const nextBtnText = (isLast && !isTrivial) ? 'Ver Ránking ★' : 'Siguiente →';
+        const mediaStyle = 'width:100%;height:100%;object-fit:contain;border:0;background:#000;display:block;';
+        let mediaHtml = '<div style="color:rgba(255,255,255,.5);text-align:center;font-size:2rem;font-weight:700;"><i class="fas fa-film" style="font-size:6rem;"></i><p style="margin-top:1.5rem;">No se puede reproducir este vídeo</p></div>';
+        if (source && source.kind === 'file' && source.url) {
+            mediaHtml = '<video id="tv-slide-video" src="' + escapeHtml(source.url) + '" autoplay controls playsinline preload="auto" style="' + mediaStyle + '"></video>';
+        } else if (source && source.embedUrl) {
+            mediaHtml = '<iframe src="' + escapeHtml(source.embedUrl + '&autoplay=1') + '" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" title="Vídeo" style="' + mediaStyle + '"></iframe>';
+        }
+
+        // Hueco inferior para que «Siguiente» no tape los controles del vídeo
+        getEl('main-container').innerHTML = _tHtml('<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100vh;background:#111827;padding:20px 20px 110px;box-sizing:border-box;">' + mediaHtml + '</div><button id="btn-next" data-tv-action="next-question" class="btn btn-secondary btn-next">' + nextBtnText + '</button>');
+        appendFooter(slide);
+        clearCache();
+    }
+
     return {
         renderCommentSlide: renderCommentSlide,
         renderInfoSlide: renderInfoSlide,
         renderTextSlide: renderTextSlide,
         renderImageSlide: renderImageSlide,
         renderTextImageSlide: renderTextImageSlide,
+        renderVideoSlide: renderVideoSlide,
         resetTimers: resetTimers
     };
 })();

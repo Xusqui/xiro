@@ -10,6 +10,7 @@
     "presenter.slides.info_no_points": "情報 - ポイントなし",
     "presenter.slides.points_per_player": "ポイントは各プレイヤーに加算されます",
     "presenter.slides.player_singular": "プレイヤー",
-    "presenter.slides.player_plural": "プレイヤー"
+    "presenter.slides.player_plural": "プレイヤー",
+    "presenter.slides.video_unsupported": "この動画を再生できません"
   }
 }

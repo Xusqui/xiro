@@ -10,6 +10,7 @@
     "presenter.slides.info_no_points": "Informazioa - Punturik gabe",
     "presenter.slides.points_per_player": "Puntuak jokalari bakoitzari gehitzen zaizkio",
     "presenter.slides.player_singular": "jokalari",
-    "presenter.slides.player_plural": "jokalari"
+    "presenter.slides.player_plural": "jokalari",
+    "presenter.slides.video_unsupported": "Ezin da bideo hau erreproduzitu"
   }
 }

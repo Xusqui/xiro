@@ -73,6 +73,8 @@
     "standalone.game.fillblanks_hint_cost": "Tipp −{pct} %",
     "standalone.game.fillblanks_hint_none": "Keine Tipps mehr",
     "standalone.game.fillblanks_blank_aria": "Lücke {n}",
-    "standalone.game.fillblanks_correct": "{n} von {total} Wörtern"
+    "standalone.game.fillblanks_correct": "{n} von {total} Wörtern",
+    "standalone.game.video_title": "Video",
+    "standalone.game.video_presenter_only": "Dieses Video ist nur auf dem Bildschirm des Moderators zu sehen"
   }
 }

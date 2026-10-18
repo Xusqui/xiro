@@ -10,6 +10,7 @@
     "presenter.slides.info_no_points": "信息 - 不计分",
     "presenter.slides.points_per_player": "分数会添加到每位玩家",
     "presenter.slides.player_singular": "玩家",
-    "presenter.slides.player_plural": "玩家"
+    "presenter.slides.player_plural": "玩家",
+    "presenter.slides.video_unsupported": "无法播放此视频"
   }
 }

@@ -65,6 +65,10 @@
     "admin.custom.badge_fillblanks": "FILL IN THE BLANKS",
     "admin.custom.slide_footer_label": "Slide footer (optional)",
     "admin.custom.slide_footer_placeholder": "e.g. Source: Wikipedia · Shown in small print at the bottom of the screen",
-    "admin.custom.slide_footer_preview": "Footer:"
+    "admin.custom.slide_footer_preview": "Footer:",
+    "admin.custom.slide_video_badge": "VIDEO SLIDE",
+    "admin.custom.slide_video_help": "Only plays on the presenter",
+    "admin.custom.btn_video_slide": "ADD VIDEO SLIDE",
+    "admin.custom.btn_short_video": "Video"
   }
 }

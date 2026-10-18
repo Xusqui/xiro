@@ -1024,6 +1024,7 @@ router.post('/api/uploads/cleanup', authenticateAdmin, authorizeAdmin, async (re
         const results = await Promise.all([
             pool.query('SELECT DISTINCT url_recurso AS ref FROM questions WHERE url_recurso IS NOT NULL'),
             pool.query('SELECT DISTINCT slide_image AS ref FROM custom_game_questions WHERE slide_image IS NOT NULL'),
+            pool.query('SELECT DISTINCT slide_video AS ref FROM custom_game_questions WHERE slide_video IS NOT NULL'),
             pool.query('SELECT DISTINCT question_image_url AS ref FROM questions WHERE question_image_url IS NOT NULL'),
             pool.query('SELECT DISTINCT option_image_url AS ref FROM options WHERE option_image_url IS NOT NULL'),
             pool.query(`SELECT image_url AS ref FROM question_banks WHERE image_url IS NOT NULL

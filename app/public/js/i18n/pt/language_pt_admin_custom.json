@@ -65,6 +65,10 @@
     "admin.custom.badge_fillblanks": "COMPLETA A FRASE",
     "admin.custom.slide_footer_label": "Rodapé do diapositivo (opcional)",
     "admin.custom.slide_footer_placeholder": "Ex.: Fonte: Wikipédia · Aparece em letra pequena no fundo do ecrã",
-    "admin.custom.slide_footer_preview": "Rodapé:"
+    "admin.custom.slide_footer_preview": "Rodapé:",
+    "admin.custom.slide_video_badge": "DIAPÓSITIVA DE VÍDEO",
+    "admin.custom.slide_video_help": "Apenas reproduzido no apresentador",
+    "admin.custom.btn_video_slide": "ADICIONAR DIAPÓSITIVA DE VÍDEO",
+    "admin.custom.btn_short_video": "Vídeo"
   }
 }

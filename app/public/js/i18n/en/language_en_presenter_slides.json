@@ -10,6 +10,7 @@
     "presenter.slides.info_no_points": "Information - No points assigned",
     "presenter.slides.points_per_player": "Points are added to each player",
     "presenter.slides.player_singular": "player",
-    "presenter.slides.player_plural": "players"
+    "presenter.slides.player_plural": "players",
+    "presenter.slides.video_unsupported": "Cannot play this video"
   }
 }

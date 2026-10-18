@@ -65,6 +65,10 @@
     "admin.custom.badge_fillblanks": "COMPLÈTE LA PHRASE",
     "admin.custom.slide_footer_label": "Pied de diapositive (facultatif)",
     "admin.custom.slide_footer_placeholder": "Ex. : Source : Wikipédia · Affiché en petit en bas de l'écran",
-    "admin.custom.slide_footer_preview": "Pied :"
+    "admin.custom.slide_footer_preview": "Pied :",
+    "admin.custom.slide_video_badge": "DIAPPOSITIVE VIDÉO",
+    "admin.custom.slide_video_help": "Ne se lit que sur le présentateur",
+    "admin.custom.btn_video_slide": "AJOUTER UNE DIAPPOSITIVE VIDÉO",
+    "admin.custom.btn_short_video": "Vidéo"
   }
 }

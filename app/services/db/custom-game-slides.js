@@ -32,6 +32,10 @@ const SLIDE_INSERTS = {
     'text-image': {
         sql: 'INSERT INTO custom_game_questions (custom_game_id, question_id, position, slide_type, slide_title, slide_body, slide_image, slide_image_position, slide_footer) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)',
         fields: ['slide_title', 'slide_body', 'slide_image', 'slide_image_position']
+    },
+    video: {
+        sql: 'INSERT INTO custom_game_questions (custom_game_id, question_id, position, slide_type, slide_video, slide_footer) VALUES ($1, $2, $3, $4, $5, $6)',
+        fields: ['slide_video']
     }
 };
 

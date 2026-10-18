@@ -10,7 +10,7 @@ import {
     setGameSessionDbId, setConnectedPlayers, setTotalPlayers
 } from './presenter-state.js?v=20260922172926';
 import {
-    renderPregunta, renderCommentSlide, renderInfoSlide, renderTextSlide, renderImageSlide, renderTextImageSlide,
+    renderPregunta, renderCommentSlide, renderInfoSlide, renderTextSlide, renderImageSlide, renderTextImageSlide, renderVideoSlide,
     updatePlayersPanel, removeFloatingCards, renderPodio
 } from './presenter-game-ui.js?v=20260922172926';
 import { handleRevealAnswer, cleanupRevealElements } from './presenter-reveal.js?v=20260922172926';
@@ -18,17 +18,23 @@ import { updateAnswerCounter } from './presenter-answer-counter.js?v=20260922172
 import { hideWaitingPanelNow, renderWaitingPanel } from './presenter-waiting-panel.js?v=20260922172926';
 import { mostrarModalMensaje } from '../shared/modal.js?v=20260922172926';
 import { currentSlideFooterText } from '../core/slide-footer-dom.js?v=20261017120000';
+import { stopActiveVideo } from './presenter-slide-video.js?v=20261018120000';
+import { planVideoPreloads, advanceVideoPreloads } from './presenter-video-preloader.js?v=20261018120000';
 
 const SLIDE_RENDERERS = {
     comment: renderCommentSlide,
     info: renderInfoSlide,
     text: renderTextSlide,
     image: renderImageSlide,
-    'text-image': renderTextImageSlide
+    'text-image': renderTextImageSlide,
+    video: renderVideoSlide
 };
 
 /** Diapositiva según slide_type; si no lo es, pregunta (y se permite el ranking). */
 function renderSlideOrQuestion(question) {
+    // El vídeo de la diapositiva anterior deja de sonar y libera su memoria
+    stopActiveVideo();
+
     const renderSlide = Object.hasOwn(SLIDE_RENDERERS, question.slide_type) ? SLIDE_RENDERERS[question.slide_type] : null;
     if (renderSlide) {
         renderSlide(question);
@@ -100,6 +106,8 @@ export function registerGameSocketHandlers() {
         resetAnswerState(playersData);
 
         renderSlideOrQuestion(data.firstQuestion);
+        // Después de pintar: así el vídeo de la primera diapositiva no se descarta
+        planVideoPreloads(data.questions, data.currentIndex);
 
         updatePlayersPanel();
 
@@ -138,6 +146,7 @@ export function registerGameSocketHandlers() {
         setCurrentQuestionIndex(data.currentIndex);
 
         renderSlideOrQuestion(data.question);
+        advanceVideoPreloads(data.currentIndex);
 
         if (typeof ack === 'function') ack();
     });

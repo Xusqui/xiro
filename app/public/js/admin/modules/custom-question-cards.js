@@ -8,6 +8,7 @@ const _CUSTOM_CARD_COLORS = {
     aubergine: { btn: 'bg-aubergine-700 hover:bg-aubergine-600', input: 'text-aubergine-700 text-center border border-aubergine-300 rounded bg-white focus:outline-none focus:border-aubergine-500' },
     pink: { btn: 'bg-pink-700 hover:bg-pink-600', input: 'text-pink-700 text-center border border-pink-300 rounded bg-white focus:outline-none focus:border-pink-500' },
     plum: { btn: 'bg-plum-700 hover:bg-plum-600', input: 'text-plum-700 text-center border border-plum-300 rounded bg-white focus:outline-none focus:border-plum-500' },
+    red: { btn: 'bg-red-700 hover:bg-red-600', input: 'text-red-700 text-center border border-red-300 rounded bg-white focus:outline-none focus:border-red-500' },
     slate: { btn: 'bg-slate-700 hover:bg-slate-600', input: 'text-slate-500 text-center border border-slate-300 rounded bg-white focus:outline-none focus:border-slate-500' }
 };
 
@@ -168,7 +169,9 @@ const _CUSTOM_SLIDE_CARDS = {
     info: ['bg-blue-50 border-blue-300', 'blue', _customInfoBody, 'editarSlideInfo', 'text-blue-600 hover:text-blue-800'],
     text: ['bg-aubergine-50 border-aubergine-300', 'aubergine', _customTextBody, 'editarSlideTexto', 'text-aubergine-700 hover:text-aubergine-900'],
     image: ['bg-pink-50 border-pink-300', 'pink', _customImageBody, 'editarSlideImagen', 'text-pink-700 hover:text-pink-900'],
-    'text-image': ['bg-plum-50 border-plum-300', 'plum', _customTextImageBody, 'editarSlideTextoImagen', 'text-plum-700 hover:text-plum-900']
+    'text-image': ['bg-plum-50 border-plum-300', 'plum', _customTextImageBody, 'editarSlideTextoImagen', 'text-plum-700 hover:text-plum-900'],
+    // customVideoCardBody está en slides-video.js, que se carga después: se resuelve al pintar
+    video: ['bg-red-50 border-red-300', 'red', (q) => customVideoCardBody(q), 'editarSlideVideo', 'text-red-600 hover:text-red-700']
 };
 
 /** HTML de una entrada de la lista (diapositiva o pregunta de banco). */

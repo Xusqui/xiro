@@ -38,6 +38,7 @@ function shuffleOptions(questions) {
             || q.slide_type === 'info'
             || q.slide_type === 'text'
             || q.slide_type === 'image'
+            || q.slide_type === 'video'
             || q.question_type === 'survey'
         ) {
             return q;
