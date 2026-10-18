@@ -30,6 +30,16 @@ const _ACTIVATION_BASE = [
 
 const LICENSE_KEY_PATTERN = /^[A-Za-z0-9]{4}(-[A-Za-z0-9]{4}){4}$/;
 
+// Sin límite, una conexión colgada dejaba esperando /api/license/public-status
+// (fetch de Node no corta hasta varios minutos).
+const REQUEST_TIMEOUT_MS = 10 * 1000;
+
+function _timeoutSignal() {
+    return typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function'
+        ? AbortSignal.timeout(REQUEST_TIMEOUT_MS)
+        : undefined;
+}
+
 // Secreto HMAC embebido (no configurable: si viviera en .env, quitarlo
 // desactivaría el control de activaciones). Manipularlo solo puede invalidar
 // la licencia (falla cerrado), nunca saltarse la comprobación.
@@ -78,13 +88,18 @@ async function probeActivationStatus(licenseKey, fetchImpl = globalThis.fetch, d
                 'x-xiro-signature': signPayload(secret, timestamp, rawBody),
                 'x-xiro-client': instanceId
             },
-            body: rawBody
+            body: rawBody,
+            signal: _timeoutSignal()
         });
 
         if (!response) return _result(false, null, 'validation_failed');
 
         if (response.status === 409) {
             return _result(false, null, 'license_in_use');
+        }
+
+        if (response.status === 429) {
+            return _result(false, null, 'rate_limited');
         }
 
         const payload = await response.json().catch(() => null);
@@ -129,7 +144,8 @@ async function autoProvision(fetchImpl = globalThis.fetch, deps = {}) {
                 'x-xiro-signature': signPayload(secret, timestamp, rawBody),
                 'x-xiro-client': instanceId
             },
-            body: rawBody
+            body: rawBody,
+            signal: _timeoutSignal()
         });
 
         if (!response) return { success: false, reason: 'auto_provision_failed' };
