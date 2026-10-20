@@ -11,9 +11,7 @@ function buildKeys(roomId, questionIndex = null) {
     // El lock de reveal se llava por pregunta para evitar que el TTL del lock
     // de una pregunta previa bloquee el auto-reveal de la siguiente cuando los
     // jugadores contestan en una ventana corta (<8s desde el anterior reveal).
-    const lockSuffix = questionIndex === null || questionIndex === undefined
-        ? ''
-        : `:${questionIndex}`;
+    const lockSuffix = questionIndex === null || questionIndex === undefined ? '' : `:${questionIndex}`;
     return {
         expectedKey: `game:expected:${safeRoomId}`,
         answeredKey: `game:answered:${safeRoomId}`,
@@ -21,7 +19,12 @@ function buildKeys(roomId, questionIndex = null) {
     };
 }
 
-async function initializeExpectedPlayers({ roomId, io, ttlSeconds = DEFAULT_TTL_SECONDS, nicknames: nicknamesOverride = null }) {
+async function initializeExpectedPlayers({
+    roomId,
+    io,
+    ttlSeconds = DEFAULT_TTL_SECONDS,
+    nicknames: nicknamesOverride = null
+}) {
     const redis = await getRedisClient();
     const { expectedKey, answeredKey } = buildKeys(roomId);
 
@@ -32,19 +35,19 @@ async function initializeExpectedPlayers({ roomId, io, ttlSeconds = DEFAULT_TTL_
     // que el contador "expected" quede por debajo del número real de jugadores.
     let nicknames;
     if (Array.isArray(nicknamesOverride) && nicknamesOverride.length > 0) {
-        nicknames = [...new Set(
-            nicknamesOverride.filter(n => typeof n === 'string' && n.trim().length > 0 && n !== 'HOST')
-        )];
+        nicknames = [
+            ...new Set(nicknamesOverride.filter(n => typeof n === 'string' && n.trim().length > 0 && n !== 'HOST'))
+        ];
     } else {
-        const sockets = io
-            ? await io.in(`${roomId}:players`).fetchSockets()
-            : [];
+        const sockets = io ? await io.in(`${roomId}:players`).fetchSockets() : [];
 
-        nicknames = [...new Set(
-            sockets
-                .map(s => s?.data?.nickname)
-                .filter(n => typeof n === 'string' && n.trim().length > 0 && n !== 'HOST')
-        )];
+        nicknames = [
+            ...new Set(
+                sockets
+                    .map(s => s?.data?.nickname)
+                    .filter(n => typeof n === 'string' && n.trim().length > 0 && n !== 'HOST')
+            )
+        ];
     }
 
     const tx = redis.multi();
@@ -68,7 +71,7 @@ async function initializeExpectedPlayers({ roomId, io, ttlSeconds = DEFAULT_TTL_
 }
 
 async function ensureExpectedPlayers({ roomId, io, ttlSeconds = DEFAULT_TTL_SECONDS, redisClient = null }) {
-    const redis = redisClient || await getRedisClient();
+    const redis = redisClient || (await getRedisClient());
     const { expectedKey } = buildKeys(roomId);
 
     const expectedCount = await redis.sCard(expectedKey);
@@ -159,7 +162,9 @@ async function releaseRevealLock({ roomId, questionIndex = null }) {
         const redis = await getRedisClient();
         const { revealLockKey } = buildKeys(roomId, questionIndex);
         await redis.del(revealLockKey);
-    } catch (_) { /* best-effort */ }
+    } catch (_) {
+        /* best-effort */
+    }
 }
 
 module.exports = {

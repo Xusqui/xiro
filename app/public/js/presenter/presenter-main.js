@@ -7,17 +7,30 @@ import { initializePresenterSession } from './presenter-socket-config.js?v=20260
 import { initRemoteControlMode } from './presenter-remote.js?v=20260922172926';
 import { createRemoteWakeLockController } from './presenter-remote-wake-lock.js?v=20260922172926';
 import {
-    mostrarSelectorPIN, cambiarFiltro, seleccionarPIN, volverAJuegos,
-    mostrarSeleccionModo, configurarModoIndividual, mostrarSeleccionModoDirecto,
+    mostrarSelectorPIN,
+    cambiarFiltro,
+    seleccionarPIN,
+    volverAJuegos,
+    mostrarSeleccionModo,
+    configurarModoIndividual,
+    mostrarSeleccionModoDirecto,
     rerenderCurrentLobbyView
 } from './presenter-lobby.js?v=20260922172926';
 import {
-    mostrarConfiguracionEquipos, seleccionarNumEquipos,
-    confirmarEquipos, updateColorOptions
+    mostrarConfiguracionEquipos,
+    seleccionarNumEquipos,
+    confirmarEquipos,
+    updateColorOptions
 } from './presenter-team-config.js?v=20260922172926';
 import { iniciarLobby, empezar } from './presenter-lobby-init.js?v=20260922172926';
 import { registerLobbySocketHandlers } from './presenter-socket-handlers-lobby.js?v=20260922172926';
-import { registerGameSocketHandlers, nextQuestionClick, togglePauseTimer, revealAnswerClick, assignManualPoints } from './presenter-socket-handlers-game.js?v=20260922172926';
+import {
+    registerGameSocketHandlers,
+    nextQuestionClick,
+    togglePauseTimer,
+    revealAnswerClick,
+    assignManualPoints
+} from './presenter-socket-handlers-game.js?v=20260922172926';
 import { registerPresenterReconnectionEvents } from './presenter-reconnection.js?v=20260922172926';
 import { toggleFullscreen, saveOriginalLobbyHTML } from './presenter-utils.js?v=20260922172926';
 import { abandonarJuego, concluirJuegoYVolver, terminarJuego } from './presenter-session-control.js?v=20260922172926';
@@ -30,8 +43,8 @@ import { registerMusicBridge } from './presenter-music.js?v=20260922172926';
 // Detect remote mode early (URL params available synchronously) to avoid registering
 // full-presenter socket handlers that crash when their DOM elements don't exist.
 const _remoteParams = new URLSearchParams(window.location.search);
-const _isRemoteMode = _remoteParams.get('remote') === 'true'
-    && Boolean(_remoteParams.get('session_id') || _remoteParams.get('pin'));
+const _isRemoteMode =
+    _remoteParams.get('remote') === 'true' && Boolean(_remoteParams.get('session_id') || _remoteParams.get('pin'));
 
 // Inicializar socket y registrar handlers
 // IMPORTANT: Register reconnection handlers FIRST so reconnected-success/reconnect-failed
@@ -169,8 +182,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const lobbyMain = document.getElementById('lobby-main');
             if (lobbyMain) {
                 lobbyMain.style.display = 'flex';
-                const reconnectingText = (window._t && window._t('presenter.reconnect.reconnecting', null, 'Reconectando...')) || 'Reconectando...';
-                const pleaseWaitText = (window._t && window._t('presenter.reconnect.please_wait', null, 'Por favor, espera mientras restablecemos la conexión.')) || 'Por favor, espera mientras restablecemos la conexión.';
+                const reconnectingText =
+                    (window._t && window._t('presenter.reconnect.reconnecting', null, 'Reconectando...')) ||
+                    'Reconectando...';
+                const pleaseWaitText =
+                    (window._t &&
+                        window._t(
+                            'presenter.reconnect.please_wait',
+                            null,
+                            'Por favor, espera mientras restablecemos la conexión.'
+                        )) ||
+                    'Por favor, espera mientras restablecemos la conexión.';
                 lobbyMain.innerHTML = `
                     <div class="h-full w-full flex flex-col items-center justify-center pt-10 px-10 pb-16">
                         <div class="w-20 h-20 border-8 border-plum-500 border-t-transparent rounded-full animate-spin mb-6"></div>
@@ -186,16 +208,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             window._xiroReconnectTimeout = setTimeout(() => {
                 console.warn('⌛ Timeout de 10s alcanzado esperando reconexión. Volviendo al selector.');
-                
+
                 localStorage.removeItem('xiro_presenter_sessionId');
                 localStorage.removeItem('xiro_presenter_pin');
                 sessionStorage.removeItem('xiro_presenter_sessionId');
                 sessionStorage.removeItem('xiro_presenter_pin');
-                
+
                 const cleanUrl = new URL(window.location.href);
                 cleanUrl.searchParams.delete('session');
                 window.history.replaceState({}, '', cleanUrl);
-                
+
                 mostrarSelectorPIN();
             }, 10000);
         }

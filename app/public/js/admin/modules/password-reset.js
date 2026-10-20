@@ -16,10 +16,14 @@ const resetHelper = document.getElementById('reset-helper');
 let pendingResetToken = null;
 
 function _showAuthForm(formToShow) {
-    [document.getElementById('admin-login-form'), forgotForm, resetForm, document.getElementById('admin-register-form')]
-        .forEach((form) => {
-            if (form) form.classList.toggle('hidden', form !== formToShow);
-        });
+    [
+        document.getElementById('admin-login-form'),
+        forgotForm,
+        resetForm,
+        document.getElementById('admin-register-form')
+    ].forEach(form => {
+        if (form) form.classList.toggle('hidden', form !== formToShow);
+    });
 }
 
 function _setForgotError(message, i18nKey) {
@@ -69,7 +73,10 @@ function showForgotPasswordForm() {
     const title = document.getElementById('login-card-title');
     title.setAttribute('data-i18n', 'admin.forgot.title');
     title.textContent = _t('admin.forgot.title', null, 'Recuperar contraseña');
-    _setForgotHelper(_t('admin.forgot.helper', null, 'Te enviaremos un enlace para restablecer tu contraseña.'), 'admin.forgot.helper');
+    _setForgotHelper(
+        _t('admin.forgot.helper', null, 'Te enviaremos un enlace para restablecer tu contraseña.'),
+        'admin.forgot.helper'
+    );
     _showAuthForm(forgotForm);
 }
 
@@ -101,14 +108,32 @@ async function submitForgotPasswordRequest() {
         const data = await res.json();
 
         if (res.status === 429) {
-            _setForgotError(_t('admin.login.error_rate_limit_15m', null, 'Has excedido el número de intentos permitidos. Intenta de nuevo en 15 minutos.'), 'admin.login.error_rate_limit_15m');
+            _setForgotError(
+                _t(
+                    'admin.login.error_rate_limit_15m',
+                    null,
+                    'Has excedido el número de intentos permitidos. Intenta de nuevo en 15 minutos.'
+                ),
+                'admin.login.error_rate_limit_15m'
+            );
             return;
         }
 
         forgotForm.reset();
-        _setForgotHelper(data.message || _t('admin.forgot.success', null, 'Si el correo existe, recibirás un enlace para restablecer tu contraseña.'), data.message ? null : 'admin.forgot.success');
+        _setForgotHelper(
+            data.message ||
+                _t(
+                    'admin.forgot.success',
+                    null,
+                    'Si el correo existe, recibirás un enlace para restablecer tu contraseña.'
+                ),
+            data.message ? null : 'admin.forgot.success'
+        );
     } catch (_err) {
-        _setForgotError(_t('admin.common.error_connection', null, 'Error de conexión'), 'admin.common.error_connection');
+        _setForgotError(
+            _t('admin.common.error_connection', null, 'Error de conexión'),
+            'admin.common.error_connection'
+        );
     }
 }
 
@@ -119,12 +144,18 @@ async function submitPasswordReset() {
     _clearResetError();
 
     if (!newPassword || !confirmNewPassword) {
-        _setResetError(_t('admin.register.error_empty', null, 'Todos los campos son obligatorios'), 'admin.register.error_empty');
+        _setResetError(
+            _t('admin.register.error_empty', null, 'Todos los campos son obligatorios'),
+            'admin.register.error_empty'
+        );
         return;
     }
 
     if (newPassword !== confirmNewPassword) {
-        _setResetError(_t('admin.reset.error_mismatch', null, 'Las contraseñas no coinciden'), 'admin.reset.error_mismatch');
+        _setResetError(
+            _t('admin.reset.error_mismatch', null, 'Las contraseñas no coinciden'),
+            'admin.reset.error_mismatch'
+        );
         return;
     }
 
@@ -139,16 +170,25 @@ async function submitPasswordReset() {
         if (res.ok && data.success) {
             pendingResetToken = null;
             _backToLogin();
-            setLoginHelperMessage(data.message || _t('admin.reset.success', null, 'Contraseña actualizada. Ya puedes iniciar sesión.'), data.message ? null : 'admin.reset.success');
+            setLoginHelperMessage(
+                data.message || _t('admin.reset.success', null, 'Contraseña actualizada. Ya puedes iniciar sesión.'),
+                data.message ? null : 'admin.reset.success'
+            );
             return;
         }
 
         if (res.status === 400) {
-            _setResetError(_t('admin.reset.error_token', null, 'El enlace de restablecimiento no es válido o ha expirado'), 'admin.reset.error_token');
+            _setResetError(
+                _t('admin.reset.error_token', null, 'El enlace de restablecimiento no es válido o ha expirado'),
+                'admin.reset.error_token'
+            );
             return;
         }
 
-        _setResetError(data.error || _t('admin.reset.error_failed', null, 'No se pudo restablecer la contraseña'), data.error ? null : 'admin.reset.error_failed');
+        _setResetError(
+            data.error || _t('admin.reset.error_failed', null, 'No se pudo restablecer la contraseña'),
+            data.error ? null : 'admin.reset.error_failed'
+        );
     } catch (_err) {
         _setResetError(_t('admin.common.error_connection', null, 'Error de conexión'), 'admin.common.error_connection');
     }

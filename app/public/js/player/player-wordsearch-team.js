@@ -39,7 +39,7 @@ export function joinTeamWordSearch({ onFound, onHint }) {
     socket.on('word-search-team-hint', current.hint);
     listeners = current;
 
-    socket.emit('word-search-sync', {}, (ack) => {
+    socket.emit('word-search-sync', {}, ack => {
         // Si ya se pasó a otra pregunta, la respuesta no vale
         if (!ack?.ok || listeners !== current) return;
         (ack.found || []).forEach(found => onFound(found));

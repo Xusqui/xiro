@@ -97,5 +97,5 @@ module.exports = {
     INTRO_EVENT,
     isIntroEnabled,
     runGameIntro,
-    buildReconnectIntroState,
+    buildReconnectIntroState
 };

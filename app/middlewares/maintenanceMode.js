@@ -19,8 +19,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const LOCK_FILE_PATH = process.env.MAINTENANCE_LOCK_FILE
-    || path.resolve(__dirname, '../../.maintenance.lock');
+const LOCK_FILE_PATH = process.env.MAINTENANCE_LOCK_FILE || path.resolve(__dirname, '../../.maintenance.lock');
 const MAINTENANCE_HTML = path.resolve(__dirname, '../public/error/maintenance.html');
 
 // Caché para evitar acceso a disco en cada petición
@@ -57,15 +56,7 @@ function isMaintenanceActive() {
 /**
  * Lista de prefijos de ruta que deben seguir funcionando durante el mantenimiento.
  */
-const EXEMPT_PREFIXES = [
-    '/api/health',
-    '/api/admin',
-    '/admin',
-    '/css/',
-    '/images/',
-    '/js/',
-    '/favicon',
-];
+const EXEMPT_PREFIXES = ['/api/health', '/api/admin', '/admin', '/css/', '/images/', '/js/', '/favicon'];
 
 /**
  * Middleware de modo mantenimiento.

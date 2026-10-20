@@ -76,9 +76,11 @@ function renderLicenseExemptions() {
     const area = document.getElementById('license-exemptions-area');
     if (!area) return;
 
-    area.innerHTML = _tHtml(`<div class="text-slate-400 flex items-center gap-2 mt-4"><i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.exempt.loading', null, 'Cargando juegos de editores…')}</div>`);
+    area.innerHTML = _tHtml(
+        `<div class="text-slate-400 flex items-center gap-2 mt-4"><i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.exempt.loading', null, 'Cargando juegos de editores…')}</div>`
+    );
 
-    fetch('/api/admin/license-exemptions', { headers: { 'Authorization': 'Bearer ' + getAuthToken() } })
+    fetch('/api/admin/license-exemptions', { headers: { Authorization: 'Bearer ' + getAuthToken() } })
         .then(response => response.json())
         .then(data => {
             const liveArea = document.getElementById('license-exemptions-area');
@@ -86,12 +88,17 @@ function renderLicenseExemptions() {
             if (data.success) {
                 liveArea.innerHTML = _tHtml(_renderExemptionsBlock(Array.isArray(data.items) ? data.items : []));
             } else {
-                liveArea.innerHTML = _tHtml(`<p class="text-sm text-red-600 mt-4">${escapeHtml(data.error || _t('admin.exempt.error_load', null, 'No se pudo cargar el listado'))}</p>`);
+                liveArea.innerHTML = _tHtml(
+                    `<p class="text-sm text-red-600 mt-4">${escapeHtml(data.error || _t('admin.exempt.error_load', null, 'No se pudo cargar el listado'))}</p>`
+                );
             }
         })
         .catch(() => {
             const liveArea = document.getElementById('license-exemptions-area');
-            if (liveArea) liveArea.innerHTML = _tHtml(`<p class="text-sm text-red-600 mt-4">${_t('admin.exempt.error_load', null, 'No se pudo cargar el listado')}</p>`);
+            if (liveArea)
+                liveArea.innerHTML = _tHtml(
+                    `<p class="text-sm text-red-600 mt-4">${_t('admin.exempt.error_load', null, 'No se pudo cargar el listado')}</p>`
+                );
         });
 }
 
@@ -109,7 +116,7 @@ function _toggleLicenseExemption(type, id, exempt, buttonElement) {
 
     fetch(`/api/admin/license-exemptions/${encodeURIComponent(type)}/${encodeURIComponent(id)}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getAuthToken() },
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getAuthToken() },
         body: JSON.stringify({ exempt })
     })
         .then(response => response.json())
@@ -131,7 +138,7 @@ function _initLicenseExemptionsDelegation() {
     if (_licenseExemptionsDelegationReady) return;
     _licenseExemptionsDelegationReady = true;
 
-    document.addEventListener('click', (event) => {
+    document.addEventListener('click', event => {
         const button = event.target.closest('[data-license-exempt-type]');
         if (!button) return;
 

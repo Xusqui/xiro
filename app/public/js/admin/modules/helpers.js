@@ -4,7 +4,7 @@
  * Código extraído 1:1 del original admin.js
  */
 
-window._t = window._t || ((k, v, f) => (window.XiroI18n?.t(k, v, f) ?? f ?? k));
+window._t = window._t || ((k, v, f) => window.XiroI18n?.t(k, v, f) ?? f ?? k);
 
 function dibujarPreguntas() {
     const contenedor = document.getElementById('listaPreguntasDOM');
@@ -17,10 +17,12 @@ function dibujarPreguntas() {
     const scrollPosition = parent ? parent.scrollTop : 0;
     const windowScrollY = window.scrollY;
 
-    contenedor.innerHTML = preguntasData.map((q, qIdx) => {
-        normalizeQuestionDefaults(q);
-        return questionCardHtml(q, qIdx);
-    }).join('');
+    contenedor.innerHTML = preguntasData
+        .map((q, qIdx) => {
+            normalizeQuestionDefaults(q);
+            return questionCardHtml(q, qIdx);
+        })
+        .join('');
 
     // SOLUCIÓN AL BUG: Restaurar el scroll y el foco después de re-renderizar
     requestAnimationFrame(() => {
@@ -100,7 +102,12 @@ function applyWordTypeDefaults(question, newType) {
     }
     if (newType === 'word_search') {
         // 3 palabras vacías y tiempo de sobra para buscarlas
-        question.options = [0, 1, 2].map(i => ({ optionText: '', isCorrect: true, justification: null, order_index: i }));
+        question.options = [0, 1, 2].map(i => ({
+            optionText: '',
+            isCorrect: true,
+            justification: null,
+            order_index: i
+        }));
         question.time_limit = Math.max(Number(question.time_limit) || 0, 90);
         return true;
     }
@@ -192,10 +199,30 @@ function mostrarModalError(titulo, mensaje, tipo = 'error') {
 
     // Definir colores según tipo
     const colores = {
-        error: { bg: 'bg-red-50', border: 'border-red-300', texto: 'text-red-900', boton: 'bg-red-600 hover:bg-red-700' },
-        success: { bg: 'bg-green-50', border: 'border-green-300', texto: 'text-green-900', boton: 'bg-green-600 hover:bg-green-700' },
-        warning: { bg: 'bg-yellow-50', border: 'border-yellow-300', texto: 'text-yellow-900', boton: 'bg-yellow-600 hover:bg-yellow-700' },
-        info: { bg: 'bg-blue-50', border: 'border-blue-300', texto: 'text-blue-900', boton: 'bg-blue-600 hover:bg-blue-700' }
+        error: {
+            bg: 'bg-red-50',
+            border: 'border-red-300',
+            texto: 'text-red-900',
+            boton: 'bg-red-600 hover:bg-red-700'
+        },
+        success: {
+            bg: 'bg-green-50',
+            border: 'border-green-300',
+            texto: 'text-green-900',
+            boton: 'bg-green-600 hover:bg-green-700'
+        },
+        warning: {
+            bg: 'bg-yellow-50',
+            border: 'border-yellow-300',
+            texto: 'text-yellow-900',
+            boton: 'bg-yellow-600 hover:bg-yellow-700'
+        },
+        info: {
+            bg: 'bg-blue-50',
+            border: 'border-blue-300',
+            texto: 'text-blue-900',
+            boton: 'bg-blue-600 hover:bg-blue-700'
+        }
     };
 
     const estilos = colores[tipo] || colores.error;
@@ -221,14 +248,14 @@ function mostrarModalError(titulo, mensaje, tipo = 'error') {
     document.body.appendChild(modal);
 
     // Cerrar al hacer clic fuera del modal
-    modal.addEventListener('click', (e) => {
+    modal.addEventListener('click', e => {
         if (e.target === modal) {
             modal.remove();
         }
     });
 
     // Cerrar con tecla Escape
-    const closeOnEscape = (e) => {
+    const closeOnEscape = e => {
         if (e.key === 'Escape') {
             modal.remove();
             document.removeEventListener('keydown', closeOnEscape);
@@ -296,7 +323,7 @@ function mostrarModalConfirmacion(titulo, mensaje, onConfirm, onCancel, textoCon
     });
 
     // Cerrar al hacer clic fuera del modal
-    modal.addEventListener('click', (e) => {
+    modal.addEventListener('click', e => {
         if (e.target === modal) {
             modal.remove();
             if (onCancel) onCancel();
@@ -304,7 +331,7 @@ function mostrarModalConfirmacion(titulo, mensaje, onConfirm, onCancel, textoCon
     });
 
     // Cerrar con tecla Escape
-    const closeOnEscape = (e) => {
+    const closeOnEscape = e => {
         if (e.key === 'Escape') {
             modal.remove();
             if (onCancel) onCancel();
@@ -342,10 +369,20 @@ function toggleAllVisibleToPresenter(apiPath, visible, renderFn) {
                     await renderFn();
                 } else {
                     const err = await res.json();
-                    mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), err.message || err.error || _t('admin.common.error_generic', null, 'No se pudo completar la acción'), 'error');
+                    mostrarModalError(
+                        _t('admin.common.error_title', null, '❌ Error'),
+                        err.message ||
+                            err.error ||
+                            _t('admin.common.error_generic', null, 'No se pudo completar la acción'),
+                        'error'
+                    );
                 }
             } catch {
-                mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.common.error_server', null, 'Error de conexión con el servidor'), 'error');
+                mostrarModalError(
+                    _t('admin.common.error_title', null, '❌ Error'),
+                    _t('admin.common.error_server', null, 'Error de conexión con el servidor'),
+                    'error'
+                );
             }
         },
         null,

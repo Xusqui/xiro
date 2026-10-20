@@ -1,12 +1,12 @@
 /**
  * @fileoverview Broadcast Optimizer - Optimización de emits de Socket.IO (v2)
- * 
+ *
  * Mejoras v2:
  * - Debouncing configurable por tipo de evento (50-200ms)
  * - Smart flush: >10 pendientes → flush inmediato
  * - Soporte para múltiples tipos de eventos
  * - Integración con PayloadCompressor
- * 
+ *
  * @version 2.0.0
  */
 
@@ -16,11 +16,11 @@ const PayloadCompressor = require('../utils/PayloadCompressor');
  * Configuración de debouncing por tipo de evento
  */
 const DEBOUNCE_CONFIG = {
-    'ranking-update': 100,      // Rankings: 100ms
-    'player-answered': 50,       // Respuestas: 50ms (rápido)
-    'game-state': 150,           // Estado de juego: 150ms
-    'team-update': 100,          // Equipos: 100ms
-    'default': 75                // Default: 75ms
+    'ranking-update': 100, // Rankings: 100ms
+    'player-answered': 50, // Respuestas: 50ms (rápido)
+    'game-state': 150, // Estado de juego: 150ms
+    'team-update': 100, // Equipos: 100ms
+    default: 75 // Default: 75ms
 };
 
 class BroadcastOptimizer {
@@ -28,7 +28,7 @@ class BroadcastOptimizer {
         this.io = io;
         this.pendingBroadcasts = new Map(); // eventKey → {data, timeout, count}
         this.SMART_FLUSH_THRESHOLD = 10; // Flush si >10 pendientes del mismo eventKey
-        this.MAX_PENDING_ENTRIES = 500;  // Límite total de entradas para evitar fuga de memoria
+        this.MAX_PENDING_ENTRIES = 500; // Límite total de entradas para evitar fuga de memoria
         this.stats = {
             originalBroadcasts: 0,
             optimizedBroadcasts: 0,
@@ -39,7 +39,7 @@ class BroadcastOptimizer {
 
     /**
      * Emit con debouncing configurable
-     * 
+     *
      * @param {string} eventType - Tipo de evento ('ranking-update', 'player-answered', etc)
      * @param {string} roomId - Room ID
      * @param {Object} payload - Payload a enviar
@@ -61,7 +61,7 @@ class BroadcastOptimizer {
             const compressed = await PayloadCompressor.prepareForEmit(payload);
             if (PayloadCompressor.isCompressed(compressed)) {
                 finalPayload = compressed;
-                this.stats.bytesSaved += (compressed._originalSize - compressed._compressedSize);
+                this.stats.bytesSaved += compressed._originalSize - compressed._compressedSize;
             }
         }
 
@@ -134,7 +134,7 @@ class BroadcastOptimizer {
 
     /**
      * Emit ranking update (backward compatible con método original)
-     * 
+     *
      * @param {string} roomId - Room ID
      * @param {Object} ranking - Ranking actualizado
      * @param {string} target - 'presenter' | 'players' | 'all'
@@ -171,7 +171,7 @@ class BroadcastOptimizer {
 
     /**
      * Flush broadcasts de una sala específica
-     * 
+     *
      * @param {string} roomId - ID de la sala
      */
     flushRoom(roomId) {
@@ -194,9 +194,8 @@ class BroadcastOptimizer {
      */
     getStats() {
         const saved = this.stats.originalBroadcasts - this.stats.optimizedBroadcasts;
-        const savePercent = this.stats.originalBroadcasts > 0
-            ? (saved / this.stats.originalBroadcasts * 100).toFixed(1)
-            : 0;
+        const savePercent =
+            this.stats.originalBroadcasts > 0 ? ((saved / this.stats.originalBroadcasts) * 100).toFixed(1) : 0;
 
         return {
             originalBroadcasts: this.stats.originalBroadcasts,
@@ -224,7 +223,7 @@ class BroadcastOptimizer {
 
     /**
      * Obtener configuración de debouncing
-     * 
+     *
      * @param {string} eventType - Tipo de evento
      * @returns {number} Milisegundos de debounce
      */
@@ -234,7 +233,7 @@ class BroadcastOptimizer {
 
     /**
      * Configurar debounce personalizado para un tipo de evento
-     * 
+     *
      * @param {string} eventType - Tipo de evento
      * @param {number} debounceMs - Milisegundos
      */

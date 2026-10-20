@@ -41,14 +41,10 @@ class HealthCheckService {
      */
     start() {
         // Check inicial inmediato
-        this.runChecks().catch(err =>
-            logger.warn('Initial health check failed', { error: err.message })
-        );
+        this.runChecks().catch(err => logger.warn('Initial health check failed', { error: err.message }));
 
         this._intervalId = setInterval(() => {
-            this.runChecks().catch(err =>
-                logger.warn('Periodic health check failed', { error: err.message })
-            );
+            this.runChecks().catch(err => logger.warn('Periodic health check failed', { error: err.message }));
         }, this.checkIntervalMs);
 
         // No bloquear el event loop para shutdown
@@ -76,10 +72,7 @@ class HealthCheckService {
     async runChecks() {
         const now = new Date().toISOString();
 
-        const [db, redis] = await Promise.allSettled([
-            checkDatabase(),
-            checkRedis()
-        ]);
+        const [db, redis] = await Promise.allSettled([checkDatabase(), checkRedis()]);
 
         const socketIO = checkSocketIO(this._io);
 
@@ -121,8 +114,8 @@ class HealthCheckService {
             status: 'not_ready',
             code: 503,
             issues: {
-                ...((!dbOk) && { database: db?.error || db?.status }),
-                ...((!sioOk) && { socketio: sio?.error || sio?.status })
+                ...(!dbOk && { database: db?.error || db?.status }),
+                ...(!sioOk && { socketio: sio?.error || sio?.status })
             }
         };
     }

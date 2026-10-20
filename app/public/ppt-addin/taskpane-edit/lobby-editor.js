@@ -6,10 +6,9 @@
  */
 
 const XiroLobbyEditor = (() => {
-
     let _container = null;
     let _games = [];
-    let _currentMeta = null;  // meta existente para pre-rellenar el form
+    let _currentMeta = null; // meta existente para pre-rellenar el form
 
     /**
      * Monta el editor en el contenedor.
@@ -36,25 +35,30 @@ const XiroLobbyEditor = (() => {
         const teams = _currentMeta?.teams || ['Equipo A', 'Equipo B'];
 
         const game = _games.find(g => String(g.id) === String(sel));
-        const gameCards = _games.map(g => {
-            const picked = sel && String(g.id) === String(sel) ? ' active' : '';
-            return `<button class="game-card${picked}" data-pin="${_esc(g.pin)}" data-id="${_esc(String(g.id || ''))}" data-type="${_esc(g.type || '')}">${_esc(g.name)}</button>`;
-        }).join('');
+        const gameCards = _games
+            .map(g => {
+                const picked = sel && String(g.id) === String(sel) ? ' active' : '';
+                return `<button class="game-card${picked}" data-pin="${_esc(g.pin)}" data-id="${_esc(String(g.id || ''))}" data-type="${_esc(g.type || '')}">${_esc(g.name)}</button>`;
+            })
+            .join('');
 
-        const teamRows = teams.map((t, i) =>
-            `<div class="team-row">
+        const teamRows = teams
+            .map(
+                (t, i) =>
+                    `<div class="team-row">
                 <span class="team-row__num">${i + 1}</span>
                 <input class="team-name-input" data-i="${i}" type="text" maxlength="30" value="${_esc(t)}" placeholder="Equipo ${i + 1}">
             </div>`
-        ).join('');
+            )
+            .join('');
 
         _container.innerHTML = `
             <div class="editor-field">
                 <p class="tp-section-title">Juego</p>
                 <div class="game-cards" id="le-game-cards">${gameCards}</div>
-                <input type="hidden" id="le-game-pin"  value="${sel ? (game?.pin || '') : ''}">
+                <input type="hidden" id="le-game-pin"  value="${sel ? game?.pin || '' : ''}">
                 <input type="hidden" id="le-game-id"   value="${sel || ''}">
-                <input type="hidden" id="le-game-type" value="${sel ? (game?.type || '') : ''}">
+                <input type="hidden" id="le-game-type" value="${sel ? game?.type || '' : ''}">
             </div>
             <div class="editor-field">
                 <p class="tp-section-title">Modo</p>
@@ -114,12 +118,15 @@ const XiroLobbyEditor = (() => {
         const next = Math.max(2, Math.min(8, names.length + delta));
         while (names.length < next) names.push(`Equipo ${names.length + 1}`);
         const trimmed = names.slice(0, next);
-        document.getElementById('le-teams-list').innerHTML = trimmed.map((t, i) =>
-            `<div class="team-row">
+        document.getElementById('le-teams-list').innerHTML = trimmed
+            .map(
+                (t, i) =>
+                    `<div class="team-row">
                 <span class="team-row__num">${i + 1}</span>
                 <input class="team-name-input" data-i="${i}" type="text" maxlength="30" value="${_esc(t)}" placeholder="Equipo ${i + 1}">
             </div>`
-        ).join('');
+            )
+            .join('');
         document.getElementById('le-team-count').textContent = next + ' equipos';
     }
 
@@ -131,33 +138,46 @@ const XiroLobbyEditor = (() => {
         const modeBtn = _container.querySelector('.mode-btn.active');
         const modeVal = modeBtn ? modeBtn.dataset.mode : 'individual';
 
-        if (!pin) { alert('Selecciona un juego.'); return; }
+        if (!pin) {
+            alert('Selecciona un juego.');
+            return;
+        }
 
         const meta = { role: 'lobby', pin, gameId, gameType, mode: modeVal };
 
         if (modeVal === 'teams') {
-            meta.teams = Array.from(document.querySelectorAll('.team-name-input'))
-                .map(i => (i.value || '').trim() || `Equipo ${Number(i.dataset.i) + 1}`);
+            meta.teams = Array.from(document.querySelectorAll('.team-name-input')).map(
+                i => (i.value || '').trim() || `Equipo ${Number(i.dataset.i) + 1}`
+            );
         }
 
-        btn.disabled = true; btn.textContent = 'Guardando…';
+        btn.disabled = true;
+        btn.textContent = 'Guardando…';
         try {
             await XiroNotesWriter.writeXiroMeta(meta); // eslint-disable-line no-undef
             btn.textContent = '✓ Guardado';
             if (typeof XiroEditPanel !== 'undefined') XiroEditPanel.refresh(); // eslint-disable-line no-undef
-            setTimeout(() => { if (btn.isConnected) btn.textContent = 'Guardar en diapositiva'; }, 2000);
+            setTimeout(() => {
+                if (btn.isConnected) btn.textContent = 'Guardar en diapositiva';
+            }, 2000);
         } catch (err) {
             alert('Error al guardar: ' + err.message);
             btn.textContent = 'Guardar en diapositiva';
-        } finally { btn.disabled = false; }
+        } finally {
+            btn.disabled = false;
+        }
     }
 
     function _esc(str) {
-        return String(str).replace(/[&<>"']/g, c =>
-            ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', '\'': '&#39;' }[c]));
+        return String(str).replace(
+            /[&<>"']/g,
+            c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', '\'': '&#39;' })[c]
+        );
     }
 
-    function unmount() { if (_container) _container.innerHTML = ''; }
+    function unmount() {
+        if (_container) _container.innerHTML = '';
+    }
 
     return { mount, unmount };
 })();

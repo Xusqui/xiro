@@ -28,15 +28,20 @@ export function createSceneDirector(Tone, mixer, ctx) {
     function build(scene) {
         const options = Object.assign({}, ctx.options());
         const seed = ctx.seed();
-        const created = createScene(Tone, mixer, Object.assign({}, scene, {
-            bpm: scene.bpm * ctx.tempoScale(),
-            swing: options.humanize ? scene.swing : 0,
-            build: (index) => scene.build(seed, index, options, ctx.tension(), ctx.question ? ctx.question() : null)
-        }), ctx.bank());
+        const created = createScene(
+            Tone,
+            mixer,
+            Object.assign({}, scene, {
+                bpm: scene.bpm * ctx.tempoScale(),
+                swing: options.humanize ? scene.swing : 0,
+                build: index => scene.build(seed, index, options, ctx.tension(), ctx.question ? ctx.question() : null)
+            }),
+            ctx.bank()
+        );
         created.setFx(options.fx);
         created.isQuestion = scene === SCENES.question;
         created.fadeInBeats = scene.fadeInBeats || CROSSFADE_BEATS;
-        created.onSection((plan) => ctx.emit('section', plan));
+        created.onSection(plan => ctx.emit('section', plan));
         return created;
     }
 
@@ -66,7 +71,8 @@ export function createSceneDirector(Tone, mixer, ctx) {
             next.fadeIn(time, beatsToSeconds(transport, next.fadeInBeats));
             // El tempo vuelve a su sitio desde que entra la escena (en una revelación, el
             // fill va al tempo de la pregunta)
-            if (Math.abs(next.bpm - transport.bpm.value) > 0.25) transport.bpm.rampTo(next.bpm, beatsToSeconds(transport, TEMPO_RETURN_BEATS), time);
+            if (Math.abs(next.bpm - transport.bpm.value) > 0.25)
+                transport.bpm.rampTo(next.bpm, beatsToSeconds(transport, TEMPO_RETURN_BEATS), time);
         } else {
             afterAudioTime(Tone, time + beatsToSeconds(transport, CROSSFADE_BEATS), () => {
                 // Solo si sigue sin escena: si ya se programó otra, parar aquí la dejaría colgada
@@ -105,7 +111,7 @@ export function createSceneDirector(Tone, mixer, ctx) {
                 next.start(startTick);
                 trace('  partes en marcha');
             }
-            const id = transport.scheduleOnce((time) => swap(next, time), `${startTick}i`);
+            const id = transport.scheduleOnce(time => swap(next, time), `${startTick}i`);
             trace('  cambio programado');
             state.pending = { id, scene: next };
             ctx.emit('scene', { name, bar: startTick / (transport.PPQ * 4) });
@@ -117,7 +123,11 @@ export function createSceneDirector(Tone, mixer, ctx) {
             if (state.current) retire(state.current, time, CUT_SECONDS);
             state.current = null;
             state.name = nextName;
-            transport.bpm.rampTo(SCENES.lobby.bpm * ctx.tempoScale(), beatsToSeconds(transport, TEMPO_RETURN_BEATS), time);
+            transport.bpm.rampTo(
+                SCENES.lobby.bpm * ctx.tempoScale(),
+                beatsToSeconds(transport, TEMPO_RETURN_BEATS),
+                time
+            );
         },
         /** Salida: fundido de `seconds` desde `time` y, al acabar, se para el Transport. */
         fadeAndStop(time, seconds) {
@@ -133,7 +143,7 @@ export function createSceneDirector(Tone, mixer, ctx) {
         live,
         /** Baja a 0 las capas `layers` de la escena que suena desde `time` (revelación). */
         duck(time, layers, seconds) {
-            if (state.current) layers.forEach((name) => state.current.setLayerLevel(name, 0, time, seconds));
+            if (state.current) layers.forEach(name => state.current.setLayerLevel(name, 0, time, seconds));
         },
         /** Acorde que suena en la pregunta ({ key, d, k }), o null si no suena una pregunta. */
         questionChord() {

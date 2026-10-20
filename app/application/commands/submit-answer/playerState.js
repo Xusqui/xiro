@@ -30,22 +30,9 @@ function resolveFreeInputAnswer(flags, payload) {
  * @returns {void}
  */
 function persistPlayerAnswerState(ctx) {
-    const {
-        payload,
-        flags,
-        player,
-        socket,
-        game,
-        currentQuestion,
-        questionTimeLimit
-    } = ctx;
+    const { payload, flags, player, socket, game, currentQuestion, questionTimeLimit } = ctx;
 
-    const {
-        index,
-        order,
-        matches,
-        selectedIndices
-    } = payload;
+    const { index, order, matches, selectedIndices } = payload;
 
     if (flags.isOrderQuestion) {
         const answerState = OrderAnswerStateService.buildOrderAnswerState({
@@ -71,7 +58,12 @@ function persistPlayerAnswerState(ctx) {
         return;
     }
 
-    if (flags.isNumericQuestion || flags.isWordScrambleQuestion || flags.isWordSearchQuestion || flags.isFillBlanksQuestion) {
+    if (
+        flags.isNumericQuestion ||
+        flags.isWordScrambleQuestion ||
+        flags.isWordSearchQuestion ||
+        flags.isFillBlanksQuestion
+    ) {
         const normalizedAnswer = resolveFreeInputAnswer(flags, payload);
 
         if (player) {
@@ -81,7 +73,7 @@ function persistPlayerAnswerState(ctx) {
             player.answers[game.currentIndex] = {
                 playerAnswer: normalizedAnswer,
                 timestamp: Date.now(),
-                timeLeft: Math.max(0, questionTimeLimit - ((Date.now() - game.questionStartTime) / 1000)),
+                timeLeft: Math.max(0, questionTimeLimit - (Date.now() - game.questionStartTime) / 1000),
                 pointsEarned: 0,
                 isCorrect: false
             };
@@ -133,13 +125,15 @@ function persistPlayerAnswerState(ctx) {
 async function updateOptionAnswerStats(ctx) {
     const { flags, game, sPin, index } = ctx;
 
-    if (flags.isOrderQuestion
-        || flags.isMatchingQuestion
-        || flags.isNumericQuestion
-        || flags.isWordScrambleQuestion
-        || flags.isWordSearchQuestion
-        || flags.isFillBlanksQuestion
-        || flags.isMultipleChoiceQuestion) {
+    if (
+        flags.isOrderQuestion ||
+        flags.isMatchingQuestion ||
+        flags.isNumericQuestion ||
+        flags.isWordScrambleQuestion ||
+        flags.isWordSearchQuestion ||
+        flags.isFillBlanksQuestion ||
+        flags.isMultipleChoiceQuestion
+    ) {
         return;
     }
 

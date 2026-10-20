@@ -4,7 +4,13 @@
  */
 
 import { getTotalPlayers, getPlayersData } from './presenter-state.js?v=20260922172926';
-import { adjustTextSize, adjustQuestionTitleSize, removeFloatingCards as removeCards, showAbandonButton, showTerminateButton } from './presenter-utils.js?v=20260922172926';
+import {
+    adjustTextSize,
+    adjustQuestionTitleSize,
+    removeFloatingCards as removeCards,
+    showAbandonButton,
+    showTerminateButton
+} from './presenter-utils.js?v=20260922172926';
 import { cleanupRevealElements } from './presenter-reveal.js?v=20260922172926';
 import { showChamaleonOverlay } from './presenter-chamaleon.js?v=20260922172926';
 import { describeQuestion, questionHtml } from './presenter-question-view.js?v=20260922172926';
@@ -66,8 +72,8 @@ export function mostrarQR(sessionIdParam) {
 
     // Intentar generar SVG, con fallback a canvas
     qr.getRawData('svg')
-        .then((svgBlob) => svgBlob.text())
-        .then((svgMarkup) => {
+        .then(svgBlob => svgBlob.text())
+        .then(svgMarkup => {
             qrCanvas.innerHTML = _tHtml(svgMarkup);
             const svgElement = qrCanvas.querySelector('svg');
             if (svgElement) {
@@ -142,5 +148,13 @@ export function renderPregunta(q) {
  * Re-exportar funciones de otros módulos
  */
 export { renderTeamLobby, updatePlayersPanel } from './presenter-players-panel.js?v=20260922172926';
-export { renderCommentSlide, renderInfoSlide, renderTextSlide, renderImageSlide, renderTextImageSlide, renderVideoSlide, renderCanvasSlide } from './presenter-slides.js?v=20260922172926';
+export {
+    renderCommentSlide,
+    renderInfoSlide,
+    renderTextSlide,
+    renderImageSlide,
+    renderTextImageSlide,
+    renderVideoSlide,
+    renderCanvasSlide
+} from './presenter-slides.js?v=20260922172926';
 export { renderPodio } from './presenter-podio.js?v=20260922172926';

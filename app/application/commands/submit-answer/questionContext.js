@@ -31,10 +31,16 @@ const LATE_ANSWER_GRACE_MS = 800;
  * @returns {Promise<Object>} flags con el plazo ampliado si la pregunta sigue en tiempo.
  */
 async function applyTimerStateToLateWindow(flags, sPin, now = Date.now()) {
-    const lateAnswerType = flags.isOrderQuestion || flags.isMatchingQuestion || flags.isWordSearchQuestion
-        || flags.isFillBlanksQuestion;
-    if (!lateAnswerType || flags.canAnswerOrEnded || flags.allowOrderAfterClose
-        || flags.allowMatchingAfterClose || flags.allowWordSearchAfterClose || flags.allowFillBlanksAfterClose) {
+    const lateAnswerType =
+        flags.isOrderQuestion || flags.isMatchingQuestion || flags.isWordSearchQuestion || flags.isFillBlanksQuestion;
+    if (
+        !lateAnswerType ||
+        flags.canAnswerOrEnded ||
+        flags.allowOrderAfterClose ||
+        flags.allowMatchingAfterClose ||
+        flags.allowWordSearchAfterClose ||
+        flags.allowFillBlanksAfterClose
+    ) {
         return flags;
     }
 
@@ -109,11 +115,11 @@ function buildQuestionContext(game) {
         isFillBlanksQuestion,
         questionTimeLimit,
         canAnswerOrEnded: game?.canAnswer || game?.ended || lastQuestion,
-        allowOrderAfterClose: isOrderQuestion && elapsedMs <= (questionTimeLimit * 1000 + graceMs),
-        allowMatchingAfterClose: isMatchingQuestion && elapsedMs <= (questionTimeLimit * 1000 + graceMs),
-        allowWordSearchAfterClose: isWordSearchQuestion && elapsedMs <= (questionTimeLimit * 1000 + graceMs),
+        allowOrderAfterClose: isOrderQuestion && elapsedMs <= questionTimeLimit * 1000 + graceMs,
+        allowMatchingAfterClose: isMatchingQuestion && elapsedMs <= questionTimeLimit * 1000 + graceMs,
+        allowWordSearchAfterClose: isWordSearchQuestion && elapsedMs <= questionTimeLimit * 1000 + graceMs,
         // Completa la frase en equipos: el envío automático al agotarse el tiempo llega justo después del cierre
-        allowFillBlanksAfterClose: isFillBlanksQuestion && elapsedMs <= (questionTimeLimit * 1000 + graceMs)
+        allowFillBlanksAfterClose: isFillBlanksQuestion && elapsedMs <= questionTimeLimit * 1000 + graceMs
     };
 }
 
@@ -129,10 +135,13 @@ function buildQuestionContext(game) {
 // Tipos de respuesta libre (sin servicio de estado propio): cuándo es válido el payload
 // y, si lo hay, el flag del plazo extra tras el cierre (envío automático).
 const FREE_INPUT_CHECKS = [
-    { flag: 'isNumericQuestion', isValid: (p) => Number.isFinite(Number(p.playerAnswer)) },
-    { flag: 'isWordScrambleQuestion', isValid: (p) => typeof p.playerAnswer === 'string' && p.playerAnswer.trim().length > 0 },
-    { flag: 'isWordSearchQuestion', lateFlag: 'allowWordSearchAfterClose', isValid: (p) => isValidFoundPayload(p.found) },
-    { flag: 'isFillBlanksQuestion', lateFlag: 'allowFillBlanksAfterClose', isValid: (p) => isValidWordsPayload(p.words) }
+    { flag: 'isNumericQuestion', isValid: p => Number.isFinite(Number(p.playerAnswer)) },
+    {
+        flag: 'isWordScrambleQuestion',
+        isValid: p => typeof p.playerAnswer === 'string' && p.playerAnswer.trim().length > 0
+    },
+    { flag: 'isWordSearchQuestion', lateFlag: 'allowWordSearchAfterClose', isValid: p => isValidFoundPayload(p.found) },
+    { flag: 'isFillBlanksQuestion', lateFlag: 'allowFillBlanksAfterClose', isValid: p => isValidWordsPayload(p.words) }
 ];
 
 /**
@@ -140,7 +149,7 @@ const FREE_INPUT_CHECKS = [
  * @returns {{valid: boolean, reason: string|null}|null}
  */
 function validateFreeInputAnswer(payload, flags) {
-    const check = FREE_INPUT_CHECKS.find((c) => flags[c.flag]);
+    const check = FREE_INPUT_CHECKS.find(c => flags[c.flag]);
     if (!check) return null;
     const isOpen = flags.canAnswerOrEnded || flags.lastQuestion || Boolean(check.lateFlag && flags[check.lateFlag]);
     if (!isOpen) return { valid: false, reason: 'game-closed' };
@@ -149,12 +158,7 @@ function validateFreeInputAnswer(payload, flags) {
 }
 
 function validateAnswerByType({ payload, question, flags }) {
-    const {
-        index,
-        order,
-        matches,
-        selectedIndices
-    } = payload;
+    const { index, order, matches, selectedIndices } = payload;
 
     const {
         canAnswerOrEnded,

@@ -7,7 +7,8 @@ import { calculatePercentages, createPercentageHTML } from './presenter-percenta
 import { renderOrderReveal, renderMatchingReveal } from './presenter-reveal-cards.js?v=20260922172926';
 import { revealMatchingBoard } from './presenter-matching-layout.js?v=20260922172926';
 
-const CORRECT_BADGE_HTML = '<div class="absolute -top-4 -right-4 bg-white text-green-600 w-14 h-14 rounded-full flex items-center justify-center text-3xl border-4 border-green-500 shadow-xl"><i class="fas fa-check"></i></div>';
+const CORRECT_BADGE_HTML =
+    '<div class="absolute -top-4 -right-4 bg-white text-green-600 w-14 h-14 rounded-full flex items-center justify-center text-3xl border-4 border-green-500 shadow-xl"><i class="fas fa-check"></i></div>';
 
 /** Encuesta: porcentaje de votos en cada tarjeta, sin respuesta correcta. */
 function revealSurveyCard(tarjeta, i, percentages) {

@@ -36,7 +36,7 @@ function normalizeIdentifier(value) {
  */
 function deriveInstanceId(identifiers) {
     const list = Array.isArray(identifiers) ? identifiers : [];
-    const normalized = list.map(normalizeIdentifier).filter((v) => v.length > 0);
+    const normalized = list.map(normalizeIdentifier).filter(v => v.length > 0);
     if (normalized.length === 0) return null;
 
     const material = [FINGERPRINT_SALT, ...normalized].join(SEPARATOR);
@@ -58,14 +58,16 @@ function parseRegMachineGuid(text) {
 
 /** Windows: extrae el UUID de Win32_ComputerSystemProduct (wmic/PowerShell). */
 function parseHardwareUuid(text) {
-    const match = /([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/i
-        .exec(String(text || ''));
+    const match = /([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/i.exec(String(text || ''));
     return match ? match[1] : '';
 }
 
 /** Linux: contenido de /etc/machine-id (una línea hex). */
 function parseMachineIdFile(text) {
-    const line = String(text || '').trim().split('\n')[0].trim();
+    const line = String(text || '')
+        .trim()
+        .split('\n')[0]
+        .trim();
     return /^[0-9a-f]{32}$/i.test(line) ? line : '';
 }
 

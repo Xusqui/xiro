@@ -1,7 +1,7 @@
 /**
  * @fileoverview Payload Compressor - Compresión gzip de payloads grandes
  * @module sockets/utils/PayloadCompressor
- * 
+ *
  * Responsabilidades:
  * - Comprimir payloads >2KB con gzip
  * - Auto-detect: solo comprimir si reducción >20%
@@ -17,7 +17,7 @@ const gunzip = promisify(zlib.gunzip);
 class PayloadCompressor {
     /**
      * Comprimir payload si cumple criterios
-     * 
+     *
      * @param {Object} payload - Payload a comprimir
      * @returns {Promise<Object>} Payload original o comprimido
      */
@@ -56,9 +56,7 @@ class PayloadCompressor {
 
             // Comprimir con gzip, con timeout de seguridad
             const gzipPromise = gzip(jsonStr, { level: this.COMPRESSION_LEVEL });
-            const timeoutPromise = new Promise((resolve) =>
-                setTimeout(() => resolve(null), this.GZIP_TIMEOUT_MS)
-            );
+            const timeoutPromise = new Promise(resolve => setTimeout(() => resolve(null), this.GZIP_TIMEOUT_MS));
 
             const compressed = await Promise.race([gzipPromise, timeoutPromise]);
 
@@ -113,7 +111,7 @@ class PayloadCompressor {
 
     /**
      * Descomprimir payload (para testing o server-side)
-     * 
+     *
      * @param {Buffer|string} compressedInput - Payload comprimido (Buffer o base64)
      * @returns {Promise<Object>} Payload descomprimido
      */
@@ -132,7 +130,7 @@ class PayloadCompressor {
 
     /**
      * Comprimir payload y preparar para Socket.IO
-     * 
+     *
      * @param {Object} payload - Payload original
      * @returns {Promise<Object>} {compressed: boolean, payload: Object|String}
      */
@@ -154,7 +152,7 @@ class PayloadCompressor {
 
     /**
      * Estimar tamaño de payload sin comprimir
-     * 
+     *
      * @param {Object} payload - Payload
      * @returns {number} Tamaño en bytes
      */
@@ -165,7 +163,7 @@ class PayloadCompressor {
 
     /**
      * Calcular estadísticas de compresión
-     * 
+     *
      * @param {Object} payload - Payload original
      * @returns {Promise<Object>} Estadísticas
      */
@@ -185,7 +183,7 @@ class PayloadCompressor {
 
     /**
      * Comprimir múltiples payloads en batch
-     * 
+     *
      * @param {Array<Object>} payloads - Array de payloads
      * @returns {Promise<Array<Object>>} Payloads procesados
      */
@@ -196,7 +194,7 @@ class PayloadCompressor {
 
     /**
      * Verificar si un payload está comprimido
-     * 
+     *
      * @param {Object} payload - Payload a verificar
      * @returns {boolean} true si está comprimido
      */
@@ -206,7 +204,7 @@ class PayloadCompressor {
 
     /**
      * Obtener tamaño de payload (comprimido o sin comprimir)
-     * 
+     *
      * @param {Object} payload - Payload
      * @returns {number} Tamaño en bytes
      */
@@ -222,7 +220,7 @@ class PayloadCompressor {
 PayloadCompressor.MIN_SIZE = 2048;
 PayloadCompressor.MAX_UNCOMPRESSED_BYTES = 256 * 1024; // 256 KB
 PayloadCompressor.GZIP_TIMEOUT_MS = 500;
-PayloadCompressor.MIN_REDUCTION = 0.20;
+PayloadCompressor.MIN_REDUCTION = 0.2;
 PayloadCompressor.COMPRESSION_LEVEL = 6;
 
 module.exports = PayloadCompressor;

@@ -37,8 +37,20 @@ globalThis.StandaloneLobby = (() => {
     // Misma paleta por tipo que el selector de PINs del presentador
     // (ver renderizarPINs en js/presenter/presenter-lobby.js).
     const CARD_COLORS = {
-        custom: { bg: 'linear-gradient(135deg,#0d9488,#044f49)', from: '#0d9488', to: '#044f49', border: '#033b36', text: '#ccfbf1' },
-        bank: { bg: 'linear-gradient(135deg,#d97706,#b45309)', from: '#d97706', to: '#b45309', border: '#92400e', text: '#fde68a' }
+        custom: {
+            bg: 'linear-gradient(135deg,#0d9488,#044f49)',
+            from: '#0d9488',
+            to: '#044f49',
+            border: '#033b36',
+            text: '#ccfbf1'
+        },
+        bank: {
+            bg: 'linear-gradient(135deg,#d97706,#b45309)',
+            from: '#d97706',
+            to: '#b45309',
+            border: '#92400e',
+            text: '#fde68a'
+        }
     };
 
     // Tiñe el color de rol sobre la imagen de portada de una tarjeta, para que el texto siga siendo legible
@@ -52,9 +64,10 @@ globalThis.StandaloneLobby = (() => {
 
     function _renderGameCard(game) {
         const c = CARD_COLORS[game.type] || CARD_COLORS.bank;
-        const typeLabel = game.type === 'custom'
-            ? (window.XiroI18n?.t('standalone.lobby.filter.custom') || 'Personalizados')
-            : (window.XiroI18n?.t('standalone.lobby.filter.banks') || 'Bancos de preguntas');
+        const typeLabel =
+            game.type === 'custom'
+                ? window.XiroI18n?.t('standalone.lobby.filter.custom') || 'Personalizados'
+                : window.XiroI18n?.t('standalone.lobby.filter.banks') || 'Bancos de preguntas';
         const safePin = _escapeHtml(String(game.pin || ''));
 
         const flagCode = game.language ? _escapeHtml(game.language) : '';
@@ -121,7 +134,10 @@ globalThis.StandaloneLobby = (() => {
         if (state.filteredGames.length === 0) {
             const term = state.searchTerm.trim();
             const emptyMsg = state.searchResults
-                ? (window.XiroI18n?.t('standalone.lobby.search.no_results', { term }) || 'No se han encontrado juegos para "{term}".').replace('{term}', term)
+                ? (
+                    window.XiroI18n?.t('standalone.lobby.search.no_results', { term }) ||
+                      'No se han encontrado juegos para "{term}".'
+                ).replace('{term}', term)
                 : window.XiroI18n?.t('standalone.lobby.empty') || 'No hay juegos disponibles.';
             _renderMessage(container, emptyMsg, false);
             return;
@@ -154,10 +170,14 @@ globalThis.StandaloneLobby = (() => {
     }
 
     function _loadGames() {
-        _requestGames('', games => {
-            state.games = games;
-            _applyFilter(state.currentFilter);
-        }, err => console.error('Error loading games:', err));
+        _requestGames(
+            '',
+            games => {
+                state.games = games;
+                _applyFilter(state.currentFilter);
+            },
+            err => console.error('Error loading games:', err)
+        );
     }
 
     function _cancelSearch() {
@@ -190,20 +210,24 @@ globalThis.StandaloneLobby = (() => {
         _renderGames();
         searchTimer = setTimeout(() => {
             searchTimer = null;
-            const request = _requestGames(term, games => {
-                if (searchRequest !== request) return;
-                searchRequest = null;
-                state.searching = false;
-                state.searchResults = games;
-                _applyFilter(state.currentFilter);
-            }, err => {
-                if (searchRequest !== request) return; // abortada por una búsqueda posterior
-                searchRequest = null;
-                console.error('Error searching games:', err);
-                state.searching = false;
-                state.searchResults = [];
-                _applyFilter(state.currentFilter);
-            });
+            const request = _requestGames(
+                term,
+                games => {
+                    if (searchRequest !== request) return;
+                    searchRequest = null;
+                    state.searching = false;
+                    state.searchResults = games;
+                    _applyFilter(state.currentFilter);
+                },
+                err => {
+                    if (searchRequest !== request) return; // abortada por una búsqueda posterior
+                    searchRequest = null;
+                    console.error('Error searching games:', err);
+                    state.searching = false;
+                    state.searchResults = [];
+                    _applyFilter(state.currentFilter);
+                }
+            );
             searchRequest = request;
         }, SEARCH_DELAY_MS);
     }
@@ -248,12 +272,13 @@ globalThis.StandaloneLobby = (() => {
 
         window.mostrarModalInput(
             window.XiroI18n?.t('standalone.lobby.nickname_required_title') || 'Apodo requerido',
-            window.XiroI18n?.t('standalone.lobby.nickname_required_message') || 'Por favor, introduce tu apodo para continuar.',
+            window.XiroI18n?.t('standalone.lobby.nickname_required_message') ||
+                'Por favor, introduce tu apodo para continuar.',
             {
                 tipo: 'warning',
                 placeholder: window.XiroI18n?.t('standalone.lobby.nickname_placeholder') || 'Tu apodo',
                 textoConfirm: window.XiroI18n?.t('standalone.lobby.nickname_required_confirm') || 'Entendido',
-                onConfirm: (nickname) => {
+                onConfirm: nickname => {
                     if (input) {
                         input.value = nickname;
                         input.classList.remove('is-invalid');

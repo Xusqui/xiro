@@ -7,7 +7,6 @@
  */
 
 const XiroStatusBar = (() => {
-
     let _container = null;
     let _onStart = null;
 
@@ -43,11 +42,15 @@ const XiroStatusBar = (() => {
                     <span class="sv-dot${_dotModifier(polling, sessionId)}"></span>
                     <span class="sv-status-label">${_statusLabel(polling, sessionId)}</span>
                 </div>
-                ${sessionId ? `
+                ${
+    sessionId
+        ? `
                 <div class="sv-session">
                     <span class="sv-session__label">ID de sesión</span>
                     <span class="sv-session__value" id="sb-session-id">${sessionId}</span>
-                </div>` : ''}
+                </div>`
+        : ''
+    }
                 <p class="sv-hint">Avanza la diapositiva para que XIRO abra automáticamente el diálogo correcto.</p>
                 ${canStart ? `<button id="sb-start-btn" class="save-btn">Iniciar XIRO</button>` : ''}
                 ${hasDialog ? `<button id="sb-close-dialog" class="sv-emergency-btn">✕ Cerrar diálogo bloqueado</button>` : ''}
@@ -83,7 +86,9 @@ const XiroStatusBar = (() => {
     function _onEmergencyClose() {
         const dlg = typeof XiroState !== 'undefined' && XiroState && XiroState.get('dialog'); // eslint-disable-line no-undef
         if (dlg) {
-            try { dlg.close(); } catch (_) { }
+            try {
+                dlg.close();
+            } catch (_) {}
             if (typeof XiroState !== 'undefined') XiroState.set('dialog', null); // eslint-disable-line no-undef
         }
         _render();

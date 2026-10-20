@@ -9,7 +9,12 @@ import {
     clearOrderState,
     setCurrentSlideType
 } from './player-state.js?v=20260922172926';
-import { OPTION_COLORS, getResponsiveFontClass, fitOptionButtonText, optionCaseClass } from './player-question-utils.js?v=20260922172926';
+import {
+    OPTION_COLORS,
+    getResponsiveFontClass,
+    fitOptionButtonText,
+    optionCaseClass
+} from './player-question-utils.js?v=20260922172926';
 import { setBodyHTML } from './player-streak-ui.js?v=20260922172926';
 import { escapeHtml, sanitizeResourceUrl } from '../core/sanitize.js?v=20260922172926';
 
@@ -54,7 +59,7 @@ export function renderizarPregunta(pregunta) {
             </div>`;
     }
 
-    const caseClass = optionCaseClass(pregunta.options.map((opt) => opt.optionText));
+    const caseClass = optionCaseClass(pregunta.options.map(opt => opt.optionText));
 
     setBodyHTML(`
                 <div class="h-screen w-screen flex flex-col bg-slate-900 overflow-hidden">
@@ -67,18 +72,22 @@ export function renderizarPregunta(pregunta) {
                         ${tieneImagenEnunciado ? `<img src="${safeQuestionImageUrl}" alt="" class="mt-2 max-h-[150px] max-w-full object-contain rounded-lg shadow mx-auto">` : ''}
                     </div>
                     <div class="grid grid-cols-2 gap-1.5 flex-1 p-1.5 bg-slate-200 overflow-hidden" style="grid-template-rows: repeat(${pregunta.options.length > 4 ? 3 : 2}, minmax(0, 1fr));">
-                        ${pregunta.options.map((opt, i) => {
-        const fontClass = getResponsiveFontClass(opt.optionText);
-        const safeOptionText = escapeHtml(opt.optionText || '');
-        const safeOptImg = opt.option_image_url ? sanitizeResourceUrl(opt.option_image_url) : null;
-        return `
+                        ${pregunta.options
+        .map((opt, i) => {
+            const fontClass = getResponsiveFontClass(opt.optionText);
+            const safeOptionText = escapeHtml(opt.optionText || '');
+            const safeOptImg = opt.option_image_url
+                ? sanitizeResourceUrl(opt.option_image_url)
+                : null;
+            return `
                             <button data-player-action="send-answer" data-answer-index="${i}" class="btn-glass-3d ${colores[i]} rounded-xl flex flex-col items-center justify-center p-1.5 relative overflow-hidden transition-all active:scale-95">
                                 <span class="absolute top-2 left-2 font-black text-white/50 text-xl italic">${i + 1}</span>
                                 ${safeOptImg ? `<img src="${safeOptImg}" alt="" class="max-h-[80px] max-w-[80px] object-contain rounded-lg mb-1 shrink-0">` : ''}
                                 <span class="btn-text text-white font-bold ${fontClass} ${caseClass} px-1 break-words hyphens-auto leading-tight text-center" lang="es">${safeOptionText}</span>
                             </button>
                         `;
-    }).join('')}
+        })
+        .join('')}
                     </div>
                 </div>`);
 

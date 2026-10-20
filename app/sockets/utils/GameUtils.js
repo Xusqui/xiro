@@ -3,7 +3,14 @@
  * @module sockets/utils/GameUtils
  */
 
-const { players, activeGames, lobbyPlayers, teamConfigs, clearGameTimer, timerPausedState } = require('../../state/globalState');
+const {
+    players,
+    activeGames,
+    lobbyPlayers,
+    teamConfigs,
+    clearGameTimer,
+    timerPausedState
+} = require('../../state/globalState');
 const runtimeConfig = require('../../config/runtime-config');
 const logger = require('../../config/logger');
 
@@ -45,7 +52,7 @@ async function terminateExpiredPresenterSession(roomId, io) {
     if (io) {
         const roomSockets = await io.in(roomId).fetchSockets();
         roomSockets.forEach(s => s.emit('game-abandoned', payload));
-        
+
         try {
             if (typeof io.in === 'function') {
                 io.in(roomId).socketsLeave([roomId, roomId + ':players', roomId + ':presenter']);
@@ -59,8 +66,16 @@ async function terminateExpiredPresenterSession(roomId, io) {
 
     // Tombstone en Redis para que GetActiveSessionsQuery lo filtre en todos los workers
     const SessionStore = require('../../services/SessionStore');
-    try { await SessionStore.save(roomId, { ended: true, savedAt: Date.now() }, 60); } catch (_) { /* best-effort tombstone */ }
-    try { await SessionStore.invalidate(roomId); } catch (_) { /* best-effort invalidate */ }
+    try {
+        await SessionStore.save(roomId, { ended: true, savedAt: Date.now() }, 60);
+    } catch (_) {
+        /* best-effort tombstone */
+    }
+    try {
+        await SessionStore.invalidate(roomId);
+    } catch (_) {
+        /* best-effort invalidate */
+    }
 
     // Limpiar estado local
     activeGames.delete(roomId);
@@ -141,7 +156,7 @@ function transitionPlayersToConnected(roomId) {
  * Limpiar juegos inactivos (>4 horas)
  */
 function cleanupInactiveGames() {
-    const inactiveThreshold = runtimeConfig.get('INACTIVE_GAME_THRESHOLD') || (4 * 60 * 60 * 1000);
+    const inactiveThreshold = runtimeConfig.get('INACTIVE_GAME_THRESHOLD') || 4 * 60 * 60 * 1000;
     const now = Date.now();
 
     for (const [pin, game] of activeGames.entries()) {
@@ -187,7 +202,11 @@ async function checkExpiredPlayers(io = null) {
     for (const [playerId, player] of players.entries()) {
         // Use expiresAt (set by DisconnectHandler) instead of lastSeen
         // to avoid inconsistencies.
-        if ((player.status === 'disconnected' || player.status === 'presenter_disconnected') && player.expiresAt && now > player.expiresAt) {
+        if (
+            (player.status === 'disconnected' || player.status === 'presenter_disconnected') &&
+            player.expiresAt &&
+            now > player.expiresAt
+        ) {
             logger.debug(`Marcando jugador como expirado: ${player.nickname} (playerId: ${playerId})`);
             expiredPlayers.push(playerId);
         }

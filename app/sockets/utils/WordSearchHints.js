@@ -47,7 +47,12 @@ async function getWordSearchHints(sPin, questionIndex, owner) {
         const members = await redis.sMembers(hintsKey(sPin, questionIndex, owner));
         return (members || []).map(Number).filter(Number.isInteger);
     } catch (error) {
-        logger.warn('No se pudieron leer las pistas de la sopa de letras', { sPin, questionIndex, owner, error: error.message });
+        logger.warn('No se pudieron leer las pistas de la sopa de letras', {
+            sPin,
+            questionIndex,
+            owner,
+            error: error.message
+        });
         return [];
     }
 }

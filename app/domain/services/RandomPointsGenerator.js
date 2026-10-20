@@ -67,7 +67,7 @@ function generateForGame(game, rng = Math.random) {
     return generateRandomPoints({
         min: game?.random_points_min,
         max: game?.random_points_max,
-        rng,
+        rng
     });
 }
 

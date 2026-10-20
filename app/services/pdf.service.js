@@ -39,7 +39,7 @@ async function generateQuizPDF(gameData, res) {
     let browser;
     try {
         const wsEndpoint = process.env.CHROME_WS_ENDPOINT;
-        
+
         if (wsEndpoint) {
             logger.info('Conectando a navegador Chrome remoto (browserless) en: ' + wsEndpoint);
             browser = await puppeteer.connect({
@@ -102,7 +102,6 @@ async function generateQuizPDF(gameData, res) {
         // Actualizar Content-Length y enviar
         res.setHeader('Content-Length', pdfBuffer.length);
         res.end(pdfBuffer, 'binary');
-
     } catch (error) {
         if (browser) {
             try {
@@ -129,7 +128,15 @@ function generateFullPDFHTML(game, questions) {
         // Sopa de letras: una sola rejilla para la pregunta y su solución
         const q = rawQuestion.question_type === 'word_search' ? prepareWordSearchQuestion(rawQuestion) : rawQuestion;
         pages.push(generateQuestionHTML(q, i + 1, questions.length));
-        if (q.slide_type !== 'comment' && q.slide_type !== 'info' && q.slide_type !== 'text' && q.slide_type !== 'image' && q.slide_type !== 'text-image' && q.slide_type !== 'video' && q.slide_type !== 'canvas') {
+        if (
+            q.slide_type !== 'comment' &&
+            q.slide_type !== 'info' &&
+            q.slide_type !== 'text' &&
+            q.slide_type !== 'image' &&
+            q.slide_type !== 'text-image' &&
+            q.slide_type !== 'video' &&
+            q.slide_type !== 'canvas'
+        ) {
             pages.push(generateAnswerHTML(q, i + 1));
         }
     });
@@ -255,10 +262,13 @@ function resolveScrambledLetters(question) {
 }
 
 function buildWordScrambleEmptyBoxes(wordLength) {
-    return Array.from({ length: wordLength }, () => `
+    return Array.from(
+        { length: wordLength },
+        () => `
             <div style="background: rgba(255,255,255,0.15); border: 3px solid rgba(255,255,255,0.5); border-bottom: 5px solid rgba(255,255,255,0.8); width: 62px; height: 62px; border-radius: 10px;">
             </div>
-        `).join('');
+        `
+    ).join('');
 }
 
 function buildWordScrambleLettersHTML(scrambledLetters) {
@@ -266,11 +276,15 @@ function buildWordScrambleLettersHTML(scrambledLetters) {
         return '<div style="color: rgba(255,255,255,0.75); font-size: 20px; font-style: italic;">(Letras disponibles en el dispositivo del jugador)</div>';
     }
 
-    return scrambledLetters.map(letter => `
+    return scrambledLetters
+        .map(
+            letter => `
                 <div style="background: linear-gradient(135deg, #7c3aed, #6d28d9); color: white; width: 55px; height: 55px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 900; text-transform: uppercase; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
                     ${escapeHtml(letter)}
                 </div>
-            `).join('');
+            `
+        )
+        .join('');
 }
 
 function generateWordScrambleQuestionHTML(question, index, total) {
@@ -314,10 +328,11 @@ function generateWordScrambleQuestionHTML(question, index, total) {
 function buildOptionsHTML(options, letterGradient) {
     const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
 
-    return options.map((opt, idx) => {
-        const optionText = opt.text || opt.option_text || '';
+    return options
+        .map((opt, idx) => {
+            const optionText = opt.text || opt.option_text || '';
 
-        return `
+            return `
             <div style="background: white; padding: 20px 30px; border-radius: 16px; margin-bottom: 12px; font-size: 22px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; align-items: center;">
                 <div style="background: linear-gradient(135deg, ${letterGradient}); color: white; width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 24px; margin-right: 20px; flex-shrink: 0;">
                     ${letters[idx]}
@@ -325,7 +340,8 @@ function buildOptionsHTML(options, letterGradient) {
                 <div style="flex: 1;">${escapeHtml(optionText)}</div>
             </div>
         `;
-    }).join('');
+        })
+        .join('');
 }
 
 function generateMultipleChoiceQuestionHTML(question, index, total) {
@@ -367,7 +383,14 @@ function generateImageMultimediaHTML(question) {
         const imageBuffer = fs.readFileSync(imagePath);
         const imageBase64 = imageBuffer.toString('base64');
         const ext = path.extname(imagePath).toLowerCase();
-        const mimeType = ext === '.svg' ? 'image/svg+xml' : ext === '.png' ? 'image/png' : ext === '.gif' ? 'image/gif' : 'image/jpeg';
+        const mimeType =
+            ext === '.svg'
+                ? 'image/svg+xml'
+                : ext === '.png'
+                    ? 'image/png'
+                    : ext === '.gif'
+                        ? 'image/gif'
+                        : 'image/jpeg';
 
         logger.debug('Imagen convertida a base64:', imagePath);
         return `
@@ -491,7 +514,8 @@ function generateTextSlideHTML(slide, index, total) {
  * Genera HTML para slide de texto + imagen (dos columnas)
  */
 function generateTextImageSlideHTML(slide, index, total) {
-    let imageHTML = '<div style="color:rgba(255,255,255,.5);font-size:3rem;text-align:center;"><i class="fas fa-image"></i></div>';
+    let imageHTML =
+        '<div style="color:rgba(255,255,255,.5);font-size:3rem;text-align:center;"><i class="fas fa-image"></i></div>';
     if (slide.slide_image) {
         const imagePath = resolvePublicPath(slide.slide_image);
         try {
@@ -499,7 +523,14 @@ function generateTextImageSlideHTML(slide, index, total) {
                 const imageBuffer = fs.readFileSync(imagePath);
                 const imageBase64 = imageBuffer.toString('base64');
                 const ext = path.extname(imagePath).toLowerCase();
-                const mimeType = ext === '.svg' ? 'image/svg+xml' : ext === '.png' ? 'image/png' : ext === '.gif' ? 'image/gif' : 'image/jpeg';
+                const mimeType =
+                    ext === '.svg'
+                        ? 'image/svg+xml'
+                        : ext === '.png'
+                            ? 'image/png'
+                            : ext === '.gif'
+                                ? 'image/gif'
+                                : 'image/jpeg';
                 imageHTML = `<img src="data:${mimeType};base64,${imageBase64}" style="max-width:100%;max-height:600px;object-fit:contain;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.5);" />`;
             }
         } catch (err) {
@@ -591,7 +622,14 @@ function generateImageSlideHTML(slide, index, total) {
                 const imageBuffer = fs.readFileSync(imagePath);
                 const imageBase64 = imageBuffer.toString('base64');
                 const ext = path.extname(imagePath).toLowerCase();
-                const mimeType = ext === '.svg' ? 'image/svg+xml' : ext === '.png' ? 'image/png' : ext === '.gif' ? 'image/gif' : 'image/jpeg';
+                const mimeType =
+                    ext === '.svg'
+                        ? 'image/svg+xml'
+                        : ext === '.png'
+                            ? 'image/png'
+                            : ext === '.gif'
+                                ? 'image/gif'
+                                : 'image/jpeg';
                 imageHTML = `<img src="data:${mimeType};base64,${imageBase64}" style="max-width: 95%; max-height: 700px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.4);" />`;
             } else {
                 imageHTML = `<div style="color: rgba(255,255,255,0.7); font-size: 20px; font-style: italic;">Imagen no encontrada: ${escapeHtml(slide.slide_image)}</div>`;
@@ -607,12 +645,16 @@ function generateImageSlideHTML(slide, index, total) {
     <div style="position: absolute; top: 30px; right: 40px; color: rgba(255,255,255,0.7); font-size: 18px; font-weight: 600;">
         Imagen ${index} de ${total}
     </div>
-    ${slide.slide_title ? `
+    ${
+    slide.slide_title
+        ? `
     <div style="margin-bottom: 30px;">
         <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); display: inline-block; padding: 12px 30px; border-radius: 12px; color: white; font-size: 28px; font-weight: 700;">
             ${escapeHtml(slide.slide_title)}
         </div>
-    </div>` : ''}
+    </div>`
+        : ''
+}
     <div style="display: flex; justify-content: center; align-items: center; flex: 1;">
         ${imageHTML}
     </div>
@@ -707,4 +749,3 @@ function sanitizeFilename(filename) {
 }
 
 module.exports = { generateQuizPDF };
-

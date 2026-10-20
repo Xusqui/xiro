@@ -46,17 +46,19 @@ export function createScene(Tone, mixer, source, bank) {
     const arrange = {};
     const fade = {};
     const filters = {};
-    LAYERS.forEach((name) => {
+    LAYERS.forEach(name => {
         fade[name] = new Tone.Gain(0).connect(mixer.layers[name]);
         let into = fade[name];
         if (FILTERED.has(name)) {
-            filters[name] = new Tone.Filter({ frequency: OPEN_FILTER_HZ, type: 'lowpass', rolloff: -12 }).connect(fade[name]);
+            filters[name] = new Tone.Filter({ frequency: OPEN_FILTER_HZ, type: 'lowpass', rolloff: -12 }).connect(
+                fade[name]
+            );
             into = filters[name];
         }
         arrange[name] = new Tone.Gain(0).connect(into);
     });
     const inst = createInstruments(Tone, arrange, bank);
-    const kit = createDrumKit(Tone, arrange.drums, (time) => mixer.pumpAt(time), bank);
+    const kit = createDrumKit(Tone, arrange.drums, time => mixer.pumpAt(time), bank);
 
     // Metales: largos → sostenidos; cortos → golpe de trompeta + trombón una octava abajo
     const playBrass = (t, e) => {
@@ -105,7 +107,7 @@ export function createScene(Tone, mixer, source, bank) {
         const score = source.build(index);
         const at = `${startTick + index * sectionTicks}i`;
         const parts = [];
-        TRACKS.forEach((track) => {
+        TRACKS.forEach(track => {
             const events = score[track];
             if (!events || !events.length) return;
             parts.push(new Tone.Part(PLAY[track], events).start(at));
@@ -116,15 +118,20 @@ export function createScene(Tone, mixer, source, bank) {
     function release(index) {
         const section = sections.get(index);
         if (!section) return;
-        section.parts.forEach((part) => part.dispose());
+        section.parts.forEach(part => part.dispose());
         sections.delete(index);
     }
 
     function applyLevels(layers, time, instant) {
-        LAYERS.forEach((name) => {
+        LAYERS.forEach(name => {
             const target = layers[name] || 0;
             const goingUp = target > arrange[name].gain.getValueAtTime(time);
-            rampParam(arrange[name].gain, target, time, instant ? 0.01 : (goingUp ? LAYER_UP_SECONDS : LAYER_DOWN_SECONDS));
+            rampParam(
+                arrange[name].gain,
+                target,
+                time,
+                instant ? 0.01 : goingUp ? LAYER_UP_SECONDS : LAYER_DOWN_SECONDS
+            );
         });
     }
 
@@ -153,10 +160,10 @@ export function createScene(Tone, mixer, source, bank) {
             repeatId = transport.scheduleRepeat(enterSection, `${sectionTicks}i`, `${tick}i`);
         },
         fadeIn(time, seconds) {
-            LAYERS.forEach((name) => rampParam(fade[name].gain, 1, time, seconds));
+            LAYERS.forEach(name => rampParam(fade[name].gain, 1, time, seconds));
         },
         fadeOut(time, seconds) {
-            LAYERS.forEach((name) => rampParam(fade[name].gain, 0, time, seconds));
+            LAYERS.forEach(name => rampParam(fade[name].gain, 0, time, seconds));
         },
         /** Nivel 0..1 de una capa (lo usará la tensión de la pregunta). */
         setLayerLevel(name, level, time, seconds) {
@@ -164,7 +171,7 @@ export function createScene(Tone, mixer, source, bank) {
         },
         /** Frecuencia del filtro de tensión del pad y las campanas. */
         setFilter(hz, time, seconds) {
-            Object.values(filters).forEach((f) => {
+            Object.values(filters).forEach(f => {
                 f.frequency.cancelAndHoldAtTime(time);
                 f.frequency.exponentialRampToValueAtTime(hz, time + seconds);
             });
@@ -185,11 +192,11 @@ export function createScene(Tone, mixer, source, bank) {
             Array.from(sections.keys()).forEach(release);
             inst.dispose();
             kit.dispose();
-            LAYERS.forEach((name) => {
+            LAYERS.forEach(name => {
                 arrange[name].dispose();
                 fade[name].dispose();
             });
-            Object.values(filters).forEach((f) => f.dispose());
+            Object.values(filters).forEach(f => f.dispose());
         }
     };
 }

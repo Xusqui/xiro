@@ -7,7 +7,8 @@
 const NEXT_KEYS = new Set(['Enter', 'ArrowRight']);
 const NEXT_COOLDOWN_MS = 1000;
 // También vídeos y audios enfocados: ahí Intro reproduce/pausa y → adelanta el vídeo
-const EDITABLE_SELECTOR = 'input, textarea, select, button, video, audio, [contenteditable]:not([contenteditable="false"])';
+const EDITABLE_SELECTOR =
+    'input, textarea, select, button, video, audio, [contenteditable]:not([contenteditable="false"])';
 
 let lastTriggerAt = 0;
 
@@ -37,5 +38,5 @@ export function handleNextQuestionKey(event, doc = document, now = Date.now()) {
 }
 
 export function setupNextQuestionShortcut() {
-    document.addEventListener('keydown', (event) => handleNextQuestionKey(event));
+    document.addEventListener('keydown', event => handleNextQuestionKey(event));
 }

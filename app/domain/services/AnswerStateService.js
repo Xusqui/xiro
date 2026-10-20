@@ -1,15 +1,15 @@
 /**
  * AnswerStateService - Lógica pura de gestión de estado de respuestas
- * 
+ *
  * Funciones puras para preparar, validar y estructurar datos de respuestas
  * sin dependencias de Socket.IO, DB o Redis.
- * 
+ *
  * @module domain/services/AnswerStateService
  */
 
 /**
  * Prepara los datos de respuesta del jugador
- * 
+ *
  * @param {Object} params - Parámetros
  * @param {number} params.answerIndex - Índice de la opción seleccionada
  * @param {Object} params.option - Opción seleccionada
@@ -18,7 +18,7 @@
  * @param {number} params.pointsEarned - Puntos ganados (opcional, default 0)
  * @param {boolean} params.isCorrect - Si es correcta (opcional)
  * @returns {Object} Datos de respuesta estructurados
- * 
+ *
  * @example
  * const answerData = prepareAnswerData({
  *   answerIndex: 2,
@@ -42,7 +42,7 @@ function prepareAnswerData({ answerIndex, option, timestamp, timeLeft, pointsEar
 
 /**
  * Prepara datos de respuesta para socket.data (versión simplificada cross-worker)
- * 
+ *
  * @param {Object} params - Parámetros
  * @param {number} params.answerIndex - Índice de la respuesta
  * @param {boolean} params.isCorrect - Si es correcta
@@ -61,11 +61,11 @@ function prepareSocketDataAnswer({ answerIndex, isCorrect, pointsEarned = 0, tim
 
 /**
  * Actualiza las estadísticas de respuestas del juego
- * 
+ *
  * @param {Object} currentStats - Estadísticas actuales { 0: 5, 1: 3, 2: 7 }
  * @param {number} answerIndex - Índice de la opción respondida
  * @returns {Object} Estadísticas actualizadas (nuevo objeto, inmutable)
- * 
+ *
  * @example
  * const stats = { 0: 5, 1: 3 };
  * const updated = updateAnswerStats(stats, 1);
@@ -80,12 +80,12 @@ function updateAnswerStats(currentStats, answerIndex) {
 
 /**
  * Calcula el tiempo restante cuando el jugador respondió
- * 
+ *
  * @param {number} gameStartTime - Timestamp de inicio del juego
  * @param {number} currentTime - Timestamp actual
  * @param {number} questionTimeLimit - Límite de tiempo de la pregunta
  * @returns {number} Tiempo restante (>= 0)
- * 
+ *
  * @example
  * const timeLeft = calculateTimeLeft(1000000, 1002000, 30);
  * // gameStartTime=1000000, currentTime=1002000 → elapsed=2s
@@ -98,11 +98,11 @@ function calculateTimeLeft(gameStartTime, currentTime, questionTimeLimit) {
 
 /**
  * Verifica si un jugador ya respondió una pregunta específica
- * 
+ *
  * @param {Object} playerAnswers - Objeto de respuestas del jugador { 0: {...}, 1: {...} }
  * @param {number} questionIndex - Índice de la pregunta
  * @returns {boolean} true si ya respondió
- * 
+ *
  * @example
  * const answers = { 0: { index: 2 }, 1: { index: 0 } };
  * hasAnswered(answers, 1); // => true
@@ -117,7 +117,7 @@ function hasAnswered(playerAnswers, questionIndex) {
 
 /**
  * Obtiene la respuesta previa de un jugador para una pregunta
- * 
+ *
  * @param {Object} playerAnswers - Respuestas del jugador
  * @param {number} questionIndex - Índice de la pregunta
  * @returns {Object|null} Respuesta previa o null
@@ -131,7 +131,7 @@ function getPreviousAnswer(playerAnswers, questionIndex) {
 
 /**
  * Prepara payload de respuesta duplicada
- * 
+ *
  * @param {Object} params - Parámetros
  * @param {Object} params.previousAnswer - Respuesta previa
  * @param {Object} params.question - Pregunta actual
@@ -156,7 +156,7 @@ function prepareDuplicateAnswerPayload({ previousAnswer, question, ranking, corr
 /**
  * Construye el estado completo de una respuesta de jugador
  * Combina todos los datos necesarios en un solo objeto estructurado
- * 
+ *
  * @param {Object} params - Parámetros
  * @param {number} params.answerIndex - Índice de la respuesta
  * @param {Object} params.option - Opción seleccionada
@@ -208,7 +208,7 @@ function buildCompleteAnswerState({
 
 /**
  * Valida que una respuesta sea procesable
- * 
+ *
  * @param {Object} params - Parámetros
  * @param {Object} params.question - Pregunta actual
  * @param {number} params.answerIndex - Índice de respuesta
@@ -217,7 +217,7 @@ function buildCompleteAnswerState({
  * @returns {Object} Resultado de validación
  * @property {boolean} valid - Si es válida
  * @property {string|null} reason - Razón del rechazo si invalid
- * 
+ *
  * @example
  * const result = validateAnswer({ question, answerIndex: 2, gameCanAnswer: true });
  * if (!result.valid) {

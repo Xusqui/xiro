@@ -17,14 +17,14 @@ const FILTERED = ['pad', 'arp', 'brass', 'piano'];
 
 export function createOneShotPlayer(Tone, mixer) {
     const transport = Tone.getTransport();
-    let voices = null;   // { players, inst, kit, bank }
+    let voices = null; // { players, inst, kit, bank }
     let parts = [];
     let ids = [];
 
     function disposeVoices() {
         voices.inst.dispose();
         voices.kit.dispose();
-        voices.filters.forEach((f) => f.dispose());
+        voices.filters.forEach(f => f.dispose());
         voices = null;
     }
 
@@ -54,13 +54,15 @@ export function createOneShotPlayer(Tone, mixer) {
         if (voices && voices.bank === bank) return voices;
         if (voices) disposeVoices();
         const outputs = Object.assign({}, mixer.layers);
-        const filters = FILTERED.map((name) => {
-            const filter = new Tone.Filter({ frequency: OPEN_FILTER_HZ, type: 'lowpass', rolloff: -12 }).connect(mixer.layers[name]);
+        const filters = FILTERED.map(name => {
+            const filter = new Tone.Filter({ frequency: OPEN_FILTER_HZ, type: 'lowpass', rolloff: -12 }).connect(
+                mixer.layers[name]
+            );
             outputs[name] = filter;
             return filter;
         });
         const inst = createInstruments(Tone, outputs, bank);
-        const kit = createDrumKit(Tone, mixer.layers.drums, (time) => mixer.pumpAt(time), bank);
+        const kit = createDrumKit(Tone, mixer.layers.drums, time => mixer.pumpAt(time), bank);
         voices = { players: playersFor(inst, kit), inst, kit, bank, filters };
         return voices;
     }
@@ -69,14 +71,15 @@ export function createOneShotPlayer(Tone, mixer) {
         /** Programa las pistas de `tracks` (brass, piano, bass, lead, bells, pad, timp, crash, kick, snare) en `atTick`. */
         play(tracks, atTick, bank) {
             const { players } = ensureVoices(bank);
-            Object.keys(players).forEach((track) => {
-                if (tracks[track] && tracks[track].length) parts.push(new Tone.Part(players[track], tracks[track]).start(`${atTick}i`));
+            Object.keys(players).forEach(track => {
+                if (tracks[track] && tracks[track].length)
+                    parts.push(new Tone.Part(players[track], tracks[track]).start(`${atTick}i`));
             });
         },
         /** Filtro del pad, campanas y metales: de `fromHz` en `time` a `toHz` en `seconds`. */
         sweep(fromHz, toHz, time, seconds) {
             if (!voices) return;
-            voices.filters.forEach((f) => {
+            voices.filters.forEach(f => {
                 f.frequency.cancelAndHoldAtTime(time);
                 f.frequency.setValueAtTime(Math.min(fromHz, toHz), time);
                 f.frequency.exponentialRampToValueAtTime(toHz, time + seconds);
@@ -88,13 +91,13 @@ export function createOneShotPlayer(Tone, mixer) {
         },
         clear() {
             if (voices) {
-                voices.filters.forEach((f) => {
+                voices.filters.forEach(f => {
                     f.frequency.cancelScheduledValues(0);
                     f.frequency.value = OPEN_FILTER_HZ;
                 });
             }
-            ids.forEach((id) => transport.clear(id));
-            parts.forEach((p) => p.dispose());
+            ids.forEach(id => transport.clear(id));
+            parts.forEach(p => p.dispose());
             ids = [];
             parts = [];
         },

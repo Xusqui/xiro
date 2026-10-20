@@ -6,7 +6,6 @@
  */
 
 const ViewRanking = (() => {
-
     function mount(container, { meta, revealData }) {
         const ranking = (revealData && revealData.ranking) || [];
 
@@ -35,16 +34,20 @@ const ViewRanking = (() => {
             el.innerHTML = '<p style="color:#64748b;text-align:center">Sin datos de ranking</p>';
             return;
         }
-        el.innerHTML = ranking.map((r, i) => `
+        el.innerHTML = ranking
+            .map(
+                (r, i) => `
             <div class="ranking-row">
                 <span class="ranking-pos">${i + 1}</span>
                 <span class="ranking-name">${_esc(r.name || r.nickname || '—')}</span>
                 <span class="ranking-pts">${r.pts ?? r.score ?? 0} pts</span>
             </div>
-        `).join('');
+        `
+            )
+            .join('');
     }
 
-    function unmount() { }
+    function unmount() {}
 
     return { mount, unmount };
 })();

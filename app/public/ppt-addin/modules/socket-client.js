@@ -22,15 +22,25 @@
 
 // Eventos de juego que se reenvían automáticamente a los listeners
 const GAME_EVENTS = [
-    'join-success', 'join-error',
-    'player-joined', 'player-left',
-    'game-started', 'game-start-error',
-    'new-question', 'answer-result', 'answer-result-batch',
-    'ranking-update', 'reveal-answer',
-    'timer-paused', 'timer-resumed',
-    'game-ended', 'results-ready',
-    'reconnected-success', 'reconnect-failed',
-    'next-question-error', 'error',
+    'join-success',
+    'join-error',
+    'player-joined',
+    'player-left',
+    'game-started',
+    'game-start-error',
+    'new-question',
+    'answer-result',
+    'answer-result-batch',
+    'ranking-update',
+    'reveal-answer',
+    'timer-paused',
+    'timer-resumed',
+    'game-ended',
+    'results-ready',
+    'reconnected-success',
+    'reconnect-failed',
+    'next-question-error',
+    'error'
 ];
 
 const XiroSocket = {
@@ -50,14 +60,14 @@ const XiroSocket = {
      */
     connect(playerId) {
         if (this._socket && this._socket.connected) return;
-        this.disconnect();            // limpia socket anterior
+        this.disconnect(); // limpia socket anterior
         this._updateStatus('connecting');
 
         // io() sin URL: conecta al mismo origen que el HTML del taskpane
         // (xiro.pro/ppt-addin/taskpane.html → wss://xiro.pro/socket.io/)
-        this._socket = io({           // eslint-disable-line no-undef
+        this._socket = io({
             auth: { playerId },
-            transports: ['websocket'],  // WebSocket directo; polling no es fiable en Office
+            transports: ['websocket'], // WebSocket directo; polling no es fiable en Office
             upgrade: false,
             reconnection: true,
             reconnectionDelay: 500,
@@ -65,26 +75,26 @@ const XiroSocket = {
             reconnectionAttempts: Infinity,
             timeout: 10000,
             path: '/socket.io/',
-            withCredentials: false,
+            withCredentials: false
         });
 
         this._socket.on('connect', () => {
             this._updateStatus('connected');
         });
 
-        this._socket.on('disconnect', (reason) => {
+        this._socket.on('disconnect', reason => {
             this._updateStatus('disconnected');
             console.warn('[XiroSocket] Desconectado:', reason);
         });
 
-        this._socket.on('connect_error', (err) => {
+        this._socket.on('connect_error', err => {
             this._updateStatus('error');
             console.error('[XiroSocket] Error de conexión:', err.message);
         });
 
         // Al reconectar automáticamente, emitir reconnect-presenter
         this._socket.io.on('reconnect', () => {
-            const playerId = XiroState.get('playerId');  // eslint-disable-line no-undef
+            const playerId = XiroState.get('playerId'); // eslint-disable-line no-undef
             const sessionId = XiroState.get('sessionId'); // eslint-disable-line no-undef
             if (playerId && sessionId) {
                 console.log('[XiroSocket] Reconectado — emitiendo reconnect-presenter');
@@ -141,7 +151,9 @@ const XiroSocket = {
     },
 
     /** @returns {'disconnected'|'connecting'|'connected'|'error'} */
-    getStatus() { return this._status; },
+    getStatus() {
+        return this._status;
+    },
 
     // ── Privados ─────────────────────────────────────────────
 
@@ -152,9 +164,11 @@ const XiroSocket = {
 
     _dispatch(event, ...args) {
         (this._listeners[event] || []).forEach(cb => {
-            try { cb(...args); } catch (e) {
+            try {
+                cb(...args);
+            } catch (e) {
                 console.error(`[XiroSocket] Error en listener "${event}":`, e);
             }
         });
-    },
+    }
 };

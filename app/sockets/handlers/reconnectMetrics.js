@@ -77,7 +77,7 @@ async function recordReconnectFailedMetric({ reason, actor = 'player', redisClie
     });
 
     try {
-        const redis = redisClient || await getRedisClient();
+        const redis = redisClient || (await getRedisClient());
         await incrementReconnectKey(redis, getGlobalMetricsKey(), normalizedReason);
         await incrementReconnectKey(redis, getActorMetricsKey(normalizedActor), normalizedReason);
     } catch (error) {

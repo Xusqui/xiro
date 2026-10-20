@@ -7,10 +7,7 @@ const { roundScore } = require('../../services/game.logic');
 const { getJustification } = require('../../domain/services/ScoringService');
 const logger = require('../../config/logger');
 const { getRedisClient } = require('../../config/redis');
-const {
-    resolveTeamRevealCorrectness,
-    resolveTeamRevealCorrectAnswer
-} = require('./NumericTeamRevealHelper');
+const { resolveTeamRevealCorrectness, resolveTeamRevealCorrectAnswer } = require('./NumericTeamRevealHelper');
 
 /**
  * Construir ranking formateado (inline para evitar dependencia circular)
@@ -59,12 +56,16 @@ async function checkTeamCompleted(team, game, io, roomId, players = null) {
         let answeredNicknames = [];
         try {
             const redis = await getRedisClient();
-            const answeredKey = game?.isTrivial && game.trivialQuestionEpoch !== undefined
-                ? `game:answered:${roomId}:${game.trivialQuestionEpoch}`
-                : `game:answered:${roomId}`;
-            answeredNicknames = await redis.sMembers(answeredKey) || [];
+            const answeredKey =
+                game?.isTrivial && game.trivialQuestionEpoch !== undefined
+                    ? `game:answered:${roomId}:${game.trivialQuestionEpoch}`
+                    : `game:answered:${roomId}`;
+            answeredNicknames = (await redis.sMembers(answeredKey)) || [];
         } catch (err) {
-            logger.warn('checkTeamCompleted: failed to fetch from Redis, using game.answeredCurrent', { roomId, error: err.message });
+            logger.warn('checkTeamCompleted: failed to fetch from Redis, using game.answeredCurrent', {
+                roomId,
+                error: err.message
+            });
             answeredNicknames = game.answeredCurrent ? Array.from(game.answeredCurrent) : [];
         }
 
@@ -80,7 +81,7 @@ async function checkTeamCompleted(team, game, io, roomId, players = null) {
         });
 
         const teamAnswersCount = connectedTeamPlayers.filter(nickname => answeredSet.has(nickname)).length;
-        completed = connectedTeamPlayers.length > 0 ? (teamAnswersCount >= connectedTeamPlayers.length) : true;
+        completed = connectedTeamPlayers.length > 0 ? teamAnswersCount >= connectedTeamPlayers.length : true;
 
         logger.debug(`Team completion check (fast path): ${team.name}`, {
             teamAnswered: teamAnswersCount,
@@ -148,7 +149,7 @@ function markTeamAsRevealed(game, teamName) {
 const TEAM_REVEALED_TTL_SECONDS = 7200;
 
 function teamRevealedKey(game, roomId) {
-    const slot = game.isTrivial ? (game.trivialQuestionEpoch || 0) : game.currentIndex;
+    const slot = game.isTrivial ? game.trivialQuestionEpoch || 0 : game.currentIndex;
     return `game:teamrevealed:${roomId}:${slot}`;
 }
 
@@ -176,7 +177,11 @@ async function claimTeamReveal(game, roomId, teamName) {
         }
         return true;
     } catch (err) {
-        logger.warn('claimTeamReveal: Redis no disponible, usando solo el registro local', { roomId, teamName, error: err.message });
+        logger.warn('claimTeamReveal: Redis no disponible, usando solo el registro local', {
+            roomId,
+            teamName,
+            error: err.message
+        });
         return true;
     }
 }
@@ -194,7 +199,11 @@ async function isTeamRevealedAnywhere(game, roomId, teamName) {
         const redis = await getRedisClient();
         return Boolean(await redis.sIsMember(teamRevealedKey(game, roomId), teamName));
     } catch (err) {
-        logger.warn('isTeamRevealedAnywhere: Redis no disponible, usando solo el registro local', { roomId, teamName, error: err.message });
+        logger.warn('isTeamRevealedAnywhere: Redis no disponible, usando solo el registro local', {
+            roomId,
+            teamName,
+            error: err.message
+        });
         return false;
     }
 }
@@ -275,19 +284,10 @@ function typedDetailFields(question, playerAnswer, isOrderQuestion) {
     };
 }
 
-function buildPlayerRevealPayload({
-    playerNick,
-    game,
-    question,
-    playerAnswer,
-    team,
-    revealContext
-}) {
+function buildPlayerRevealPayload({ playerNick, game, question, playerAnswer, team, revealContext }) {
     const playerPoints = playerAnswer?.pointsEarned || 0;
     const isCorrect = resolveTeamRevealCorrectness(question, playerAnswer);
-    const selectedOption = playerAnswer && !revealContext.isOrderQuestion
-        ? question.options[playerAnswer.index]
-        : null;
+    const selectedOption = playerAnswer && !revealContext.isOrderQuestion ? question.options[playerAnswer.index] : null;
     const justificationText = revealContext.isOrderQuestion
         ? null
         : getJustification(selectedOption, revealContext.correctOption);
@@ -368,13 +368,13 @@ async function revealToSingleTeam({ team, game, question, io, roomId, players = 
  * @private
  */
 async function revealTeamFastPath({ team, game, question, io, roomId, players }) {
-    const slot = game.isTrivial ? (game.trivialQuestionEpoch || 0) : game.currentIndex;
+    const slot = game.isTrivial ? game.trivialQuestionEpoch || 0 : game.currentIndex;
     const rawSocketAnswers = {};
 
     try {
         const redis = await getRedisClient();
         const rawKey = `game:rawsocketanswers:${roomId}:${slot}`;
-        const redisData = await redis.hGetAll(rawKey) || {};
+        const redisData = (await redis.hGetAll(rawKey)) || {};
         for (const [nick, jsonStr] of Object.entries(redisData)) {
             try {
                 rawSocketAnswers[nick] = JSON.parse(jsonStr);
@@ -406,7 +406,12 @@ async function revealTeamFastPath({ team, game, question, io, roomId, players })
     for (const playerNick of team.players) {
         const playerObj = playerObjectsByNick.get(playerNick);
 
-        if (!playerObj || !playerObj.socketId || playerObj.status === 'disconnected' || playerObj.status === 'presenter_disconnected') {
+        if (
+            !playerObj ||
+            !playerObj.socketId ||
+            playerObj.status === 'disconnected' ||
+            playerObj.status === 'presenter_disconnected'
+        ) {
             logger.debug(`Player not connected, skipping reveal: ${playerNick}`);
             continue;
         }

@@ -1,7 +1,7 @@
 /**
  * @fileoverview Comando mejorado para iniciar un juego
  * @module application/commands/ImprovedStartGameCommand
- * 
+ *
  * Encapsula toda la lógica de inicio de juego:
  * - Validación de PIN
  * - Carga de preguntas
@@ -52,15 +52,12 @@ class ImprovedStartGameCommand extends Command {
         // En clúster PM2, fetchSockets() (cross-worker vía Redis adapter)
         // puede no devolver todos los sockets remotos por latencia o saturación.
         // Se prioriza lobbyPlayers (pubsub) y se hace merge con sockets vivos.
-        const lobbySnapshot = Array.isArray(lobbyPlayers.get(roomId))
-            ? lobbyPlayers.get(roomId).slice()
-            : [];
+        const lobbySnapshot = Array.isArray(lobbyPlayers.get(roomId)) ? lobbyPlayers.get(roomId).slice() : [];
         const socketSnapshot = await getPlayersInRoom(roomId, io);
 
-        const playersInLobby = [...new Set([
-            ...lobbySnapshot,
-            ...socketSnapshot
-        ])].filter(n => typeof n === 'string' && n.trim().length > 0 && n !== 'HOST');
+        const playersInLobby = [...new Set([...lobbySnapshot, ...socketSnapshot])].filter(
+            n => typeof n === 'string' && n.trim().length > 0 && n !== 'HOST'
+        );
 
         logger.info('Start-game player set resolved', {
             roomId,
@@ -93,7 +90,7 @@ class ImprovedStartGameCommand extends Command {
             answeredCurrent: new Set(),
             ...streakConfig,
             ...randomPointsConfig,
-            currentRandomPoints: null,
+            currentRandomPoints: null
         };
 
         // La primera pregunta no pasa por AdvanceQuestionUseCase: se sortea aquí
@@ -110,11 +107,13 @@ class ImprovedStartGameCommand extends Command {
 
     _persistStartTimestamps(roomId, questionStartTime) {
         Promise.resolve(getRedisClient())
-            .then(rc => Promise.all([
-                rc.set(`game:started:${roomId}`, String(Date.now()), { EX: 86400 }),
-                rc.set(`game:questionstart:${roomId}`, String(questionStartTime), { EX: 7200 })
-            ]))
-            .catch(() => { });
+            .then(rc =>
+                Promise.all([
+                    rc.set(`game:started:${roomId}`, String(Date.now()), { EX: 86400 }),
+                    rc.set(`game:questionstart:${roomId}`, String(questionStartTime), { EX: 7200 })
+                ])
+            )
+            .catch(() => {});
     }
 
     async _initializeExpectedCounters(roomId, io, playersInLobby) {
@@ -142,13 +141,16 @@ class ImprovedStartGameCommand extends Command {
     }
 
     _emitGameStarted(roomId, pin, preparedQuestions, playersInLobby) {
-        EventBus.emit('game.started', new GameStartedEvent({
-            gameId: roomId,
-            pin,
-            mode: 'individual',
-            questionCount: preparedQuestions.length,
-            playerCount: playersInLobby.length
-        }));
+        EventBus.emit(
+            'game.started',
+            new GameStartedEvent({
+                gameId: roomId,
+                pin,
+                mode: 'individual',
+                questionCount: preparedQuestions.length,
+                playerCount: playersInLobby.length
+            })
+        );
     }
 
     _findEmptyTeam(roomId, teamConfigs) {
@@ -242,7 +244,6 @@ class ImprovedStartGameCommand extends Command {
                 preparedQuestions,
                 playersInLobby
             };
-
         } catch (error) {
             logger.error('Error en ImprovedStartGameCommand', { error: error.message, stack: error.stack });
             return {

@@ -90,9 +90,11 @@ function callGemini({ apiKey, model, userPrompt, systemPrompt, timeout }) {
             }
         };
 
-        const req = https.request(options, (res) => {
+        const req = https.request(options, res => {
             let data = '';
-            res.on('data', chunk => { data += chunk; });
+            res.on('data', chunk => {
+                data += chunk;
+            });
             res.on('end', () => {
                 let parsed;
                 try {
@@ -116,7 +118,7 @@ function callGemini({ apiKey, model, userPrompt, systemPrompt, timeout }) {
             reject(new Error(`Timeout: Gemini no respondió en ${timeout / 1000}s`));
         });
 
-        req.on('error', (err) => reject(new Error(`Error de red: ${err.message}`)));
+        req.on('error', err => reject(new Error(`Error de red: ${err.message}`)));
         req.write(body);
         req.end();
     });

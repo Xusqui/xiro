@@ -20,7 +20,8 @@ async function searchQuestions(query) {
 
     const pattern = `%${query.trim()}%`;
 
-    const result = await pool.query(`
+    const result = await pool.query(
+        `
         SELECT 
             q.id,
             q.question_text,
@@ -50,7 +51,9 @@ async function searchQuestions(query) {
            )
         ORDER BY q.id
         LIMIT 150
-    `, [pattern]);
+    `,
+        [pattern]
+    );
 
     return result.rows;
 }

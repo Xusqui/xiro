@@ -10,7 +10,13 @@ import { getNickname, setHaRespondido, setCanAnswer, setCurrentSlideType } from 
 import { getResponsiveFontClass } from './player-question-utils.js?v=20260922172926';
 import { setBodyHTML } from './player-streak-ui.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
-import { startWordSearch, getFoundFlags, addFoundWord, addHint, hasHint } from './player-wordsearch-state.js?v=20260922172926';
+import {
+    startWordSearch,
+    getFoundFlags,
+    addFoundWord,
+    addHint,
+    hasHint
+} from './player-wordsearch-state.js?v=20260922172926';
 import { socket } from './player-socket-config.js?v=20260922172926';
 import { joinTeamWordSearch, shareFoundWord } from './player-wordsearch-team.js?v=20260922172926';
 
@@ -26,7 +32,7 @@ function requestHint(event, board, wordList) {
     if (getFoundFlags()[index] || hasHint(index) || chip.dataset.pending) return;
 
     chip.dataset.pending = '1';
-    socket.emit('word-search-hint', { wordIndex: index }, (ack) => {
+    socket.emit('word-search-hint', { wordIndex: index }, ack => {
         delete chip.dataset.pending;
         if (!ack?.ok) return;
         addHint(index, ack.row, ack.col);
@@ -79,7 +85,7 @@ function finishIfComplete(total) {
 /** Equipos: palabras y pistas de los compañeros aparecen en esta rejilla. */
 function bindTeam(board, wordList, words) {
     joinTeamWordSearch({
-        onFound: (data) => {
+        onFound: data => {
             const sel = { r1: data.r1, c1: data.c1, r2: data.r2, c2: data.c2, index: Number(data.wordIndex) };
             if (!board.isConnected || !words[sel.index] || getFoundFlags()[sel.index]) return;
             addFoundWord(sel);
@@ -87,7 +93,7 @@ function bindTeam(board, wordList, words) {
             navigator.vibrate?.(30);
             finishIfComplete(words.length);
         },
-        onHint: (data) => {
+        onHint: data => {
             const index = Number(data.wordIndex);
             if (!board.isConnected || hasHint(index)) return;
             addHint(index, data.row, data.col);
@@ -119,7 +125,7 @@ export function renderizarPreguntaWordSearch(pregunta) {
     state.hints.forEach(h => ws().markHint(board, wordList, h.index, [h.row, h.col]));
     updateProgress();
 
-    wordList.addEventListener('click', (event) => requestHint(event, board, wordList));
+    wordList.addEventListener('click', event => requestHint(event, board, wordList));
     bindTeam(board, wordList, words);
 
     ws().bindSelection(board, {

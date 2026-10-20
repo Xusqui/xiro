@@ -42,7 +42,8 @@ export function renderTextImageSlide(slide) {
 
     const imgCol = `
         <div class="slide-img-box" style="flex:1; align-self:stretch;">
-            ${imageUrl
+            ${
+    imageUrl
         ? `<img class="slide-img-fit" src="${sanitizeResourceUrl(imageUrl)}" style="border-radius:1.5rem;box-shadow:0 20px 60px rgba(0,0,0,0.5);" />`
         : '<div style="color:rgba(255,255,255,.3);text-align:center;font-size:4rem;"><i class="fas fa-image"></i></div>'
 }
@@ -52,8 +53,12 @@ export function renderTextImageSlide(slide) {
     const rightCol = pos === 'left' ? textCol : imgCol;
 
     const isLast = getCurrentQuestionIndex() >= getTotalQuestions() - 1;
-    const btnLabel = window.isTrivialGame ? _t('presenter.slides.next_round', null, 'Siguiente Ronda') : (isLast ? _t('presenter.slides.view_ranking', null, 'Ver Ránking') : _t('presenter.slides.next', null, 'Siguiente'));
-    const btnIcon = window.isTrivialGame ? 'fa-rotate-right' : (isLast ? 'fa-trophy' : 'fa-chevron-right');
+    const btnLabel = window.isTrivialGame
+        ? _t('presenter.slides.next_round', null, 'Siguiente Ronda')
+        : isLast
+            ? _t('presenter.slides.view_ranking', null, 'Ver Ránking')
+            : _t('presenter.slides.next', null, 'Siguiente');
+    const btnIcon = window.isTrivialGame ? 'fa-rotate-right' : isLast ? 'fa-trophy' : 'fa-chevron-right';
 
     lobbyMain.innerHTML = _tHtml(`
         <div class="h-full w-full flex items-center px-10 pb-20 pt-8 gap-8" style="background:radial-gradient(circle at 20% 20%,rgba(56,189,248,.25),transparent 35%),radial-gradient(circle at 80% 15%,rgba(236,72,153,.22),transparent 35%),radial-gradient(circle at 50% 85%,rgba(251,191,36,.2),transparent 40%),linear-gradient(135deg,#3f2746 0%,#793475 40%,#1d4ed8 100%);">

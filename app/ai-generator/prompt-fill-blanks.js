@@ -22,13 +22,15 @@ const SCHEMA = `[
   }
 ]`;
 
-const RULES = 'REGLAS: cada frase es un dato REAL, completo y con sentido, con entre 1 y 3 palabras entre corchetes [así] '
-    + 'que el jugador tiene que adivinar; cada palabra entre corchetes es UNA sola palabra de entre 4 y 14 letras y SOLO letras '
-    + '(sin espacios, números, guiones, apóstrofos ni signos); el resto de la frase da contexto suficiente para deducirlas y no '
-    + 'repite la palabra oculta; options=[]';
+const RULES =
+    'REGLAS: cada frase es un dato REAL, completo y con sentido, con entre 1 y 3 palabras entre corchetes [así] ' +
+    'que el jugador tiene que adivinar; cada palabra entre corchetes es UNA sola palabra de entre 4 y 14 letras y SOLO letras ' +
+    '(sin espacios, números, guiones, apóstrofos ni signos); el resto de la frase da contexto suficiente para deducirlas y no ' +
+    'repite la palabra oculta; options=[]';
 
-const COUNT_HINT = 'Cuenta las letras de cada palabra entre corchetes antes de responder: [Paris] (5) y [Roma] (4) valen; '
-    + '[Uso] (3), [Nueva York] (dos palabras) y [COVID-19] (números y guion) NO valen.';
+const COUNT_HINT =
+    'Cuenta las letras de cada palabra entre corchetes antes de responder: [Paris] (5) y [Roma] (4) valen; ' +
+    '[Uso] (3), [Nueva York] (dos palabras) y [COVID-19] (números y guion) NO valen.';
 
 /**
  * @param {string} text - Documento o tema
@@ -37,7 +39,12 @@ const COUNT_HINT = 'Cuenta las letras de cada palabra entre corchetes antes de r
  * @param {{ previousQuestions?: string[], mode?: 'document'|'prompt', language?: string }} [options]
  * @returns {string}
  */
-function buildFillBlanksPrompt(text, count, dificultad, { previousQuestions = [], mode = 'document', language = 'es' } = {}) {
+function buildFillBlanksPrompt(
+    text,
+    count,
+    dificultad,
+    { previousQuestions = [], mode = 'document', language = 'es' } = {}
+) {
     const lang = builder.getLanguageName(language);
     const candidates = count + FILL_BLANKS_EXTRA;
     const difficulty = builder.DIFICULTAD_INSTRUCCION[dificultad] || 'media';

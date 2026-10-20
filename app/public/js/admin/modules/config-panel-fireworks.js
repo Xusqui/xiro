@@ -70,8 +70,12 @@ function updateFireworksSlider(key, value) {
 function fireworksTabSnapshot() {
     const content = document.getElementById('config-tab-content');
     const values = {};
-    content?.querySelectorAll('input[data-fw-key]').forEach(el => { values[el.dataset.fwKey] = parseFloat(el.value); });
-    content?.querySelectorAll('input[data-config-action="toggle-fireworks-setting-neon"]').forEach(el => { values[el.dataset.key] = el.checked; });
+    content?.querySelectorAll('input[data-fw-key]').forEach(el => {
+        values[el.dataset.fwKey] = parseFloat(el.value);
+    });
+    content?.querySelectorAll('input[data-config-action="toggle-fireworks-setting-neon"]').forEach(el => {
+        values[el.dataset.key] = el.checked;
+    });
     return values;
 }
 

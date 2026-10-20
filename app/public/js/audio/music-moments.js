@@ -22,7 +22,7 @@ const FINALE_BARS = 8;
 // cadencia, también el resto (sigue la cadencia con los mismos instrumentos)
 const DRUMS_DUCK_SECONDS = 0.05;
 const PITCHED_DUCK_SECONDS = 0.12;
-const PITCHED_LAYERS = LAYERS.filter((name) => name !== 'drums');
+const PITCHED_LAYERS = LAYERS.filter(name => name !== 'drums');
 const OUTRO_SECONDS = 4;
 // Con la cadencia, la escena siguiente (marcador o tablero) entra de golpe en el golpe
 const REVEAL_ENTRY_BEATS = 0.25;
@@ -34,7 +34,7 @@ const REVEAL_ENTRY_BEATS = 0.25;
 export function createMoments(Tone, ctx) {
     const { stingers, cadence } = self.XiroMusic;
     const { player, director, emit } = ctx;
-    const onScreen = (fn) => (time) => Tone.getDraw().schedule(fn, time);
+    const onScreen = fn => time => Tone.getDraw().schedule(fn, time);
 
     return {
         /**
@@ -48,12 +48,17 @@ export function createMoments(Tone, ctx) {
             player.clear();
             const q = quantizeHit(Tone, REVEAL_PREP_BEATS, REVEAL_GRID_BEATS);
             const music = opts.cadence
-                ? cadence.buildRevealCadence({ key: opts.key, beats: q.beats, tension: opts.tension, from: director.questionChord() })
+                ? cadence.buildRevealCadence({
+                    key: opts.key,
+                    beats: q.beats,
+                    tension: opts.tension,
+                    from: director.questionChord()
+                })
                 : { fill: stingers.buildRevealFill(q.beats), stinger: stingers.buildStinger(opts.key) };
             const stinger = music.stinger;
             player.play(music.fill, q.startTick, opts.bank);
             player.play(stinger, q.hitTick, opts.bank);
-            player.at((time) => {
+            player.at(time => {
                 director.duck(time, ['drums'], DRUMS_DUCK_SECONDS);
                 if (!opts.cadence) return;
                 director.duck(time, PITCHED_LAYERS, PITCHED_DUCK_SECONDS);
@@ -86,13 +91,21 @@ export function createMoments(Tone, ctx) {
             const reveal = stingers.buildPodiumReveal(opts.key);
             player.play(stingers.buildPodiumRoll(q.beats), q.startTick, opts.bank);
             player.play(reveal, q.hitTick, opts.bank);
-            reveal.steps.forEach((step) => player.at(onScreen(() => emit('podiumHit', step.place)), q.hitTick + step.tick));
+            reveal.steps.forEach(step =>
+                player.at(
+                    onScreen(() => emit('podiumHit', step.place)),
+                    q.hitTick + step.tick
+                )
+            );
             const finaleTick = q.hitTick + q.bar;
             director.setScene('podiumFinale', true, finaleTick);
-            player.at((time) => {
-                director.fadeAndStop(time, OUTRO_SECONDS);
-                Tone.getDraw().schedule(() => emit('podiumEnd'), time + OUTRO_SECONDS);
-            }, finaleTick + FINALE_BARS * q.bar);
+            player.at(
+                time => {
+                    director.fadeAndStop(time, OUTRO_SECONDS);
+                    Tone.getDraw().schedule(() => emit('podiumEnd'), time + OUTRO_SECONDS);
+                },
+                finaleTick + FINALE_BARS * q.bar
+            );
             return q;
         },
 

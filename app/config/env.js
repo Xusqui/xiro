@@ -18,7 +18,7 @@ function loadEnvFile(filePath) {
     const content = fs.readFileSync(filePath, 'utf8');
     const lines = content.split('\n');
 
-    lines.forEach((line) => {
+    lines.forEach(line => {
         const trimmed = line.trim();
         if (!trimmed || trimmed.startsWith('#')) return;
 

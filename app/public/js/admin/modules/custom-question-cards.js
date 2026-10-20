@@ -3,13 +3,34 @@
 
 // Clases literales por color (definidas a mano en css/common.css).
 const _CUSTOM_CARD_COLORS = {
-    amber: { btn: 'bg-amber-600 hover:bg-amber-500', input: 'text-amber-700 text-center border border-amber-300 rounded bg-white focus:outline-none focus:border-amber-500' },
-    blue: { btn: 'bg-blue-600 hover:bg-blue-500', input: 'text-blue-700 text-center border border-blue-300 rounded bg-white focus:outline-none focus:border-blue-500' },
-    aubergine: { btn: 'bg-aubergine-700 hover:bg-aubergine-600', input: 'text-aubergine-700 text-center border border-aubergine-300 rounded bg-white focus:outline-none focus:border-aubergine-500' },
-    pink: { btn: 'bg-pink-700 hover:bg-pink-600', input: 'text-pink-700 text-center border border-pink-300 rounded bg-white focus:outline-none focus:border-pink-500' },
-    plum: { btn: 'bg-plum-700 hover:bg-plum-600', input: 'text-plum-700 text-center border border-plum-300 rounded bg-white focus:outline-none focus:border-plum-500' },
-    red: { btn: 'bg-red-700 hover:bg-red-600', input: 'text-red-700 text-center border border-red-300 rounded bg-white focus:outline-none focus:border-red-500' },
-    slate: { btn: 'bg-slate-700 hover:bg-slate-600', input: 'text-slate-500 text-center border border-slate-300 rounded bg-white focus:outline-none focus:border-slate-500' }
+    amber: {
+        btn: 'bg-amber-600 hover:bg-amber-500',
+        input: 'text-amber-700 text-center border border-amber-300 rounded bg-white focus:outline-none focus:border-amber-500'
+    },
+    blue: {
+        btn: 'bg-blue-600 hover:bg-blue-500',
+        input: 'text-blue-700 text-center border border-blue-300 rounded bg-white focus:outline-none focus:border-blue-500'
+    },
+    aubergine: {
+        btn: 'bg-aubergine-700 hover:bg-aubergine-600',
+        input: 'text-aubergine-700 text-center border border-aubergine-300 rounded bg-white focus:outline-none focus:border-aubergine-500'
+    },
+    pink: {
+        btn: 'bg-pink-700 hover:bg-pink-600',
+        input: 'text-pink-700 text-center border border-pink-300 rounded bg-white focus:outline-none focus:border-pink-500'
+    },
+    plum: {
+        btn: 'bg-plum-700 hover:bg-plum-600',
+        input: 'text-plum-700 text-center border border-plum-300 rounded bg-white focus:outline-none focus:border-plum-500'
+    },
+    red: {
+        btn: 'bg-red-700 hover:bg-red-600',
+        input: 'text-red-700 text-center border border-red-300 rounded bg-white focus:outline-none focus:border-red-500'
+    },
+    slate: {
+        btn: 'bg-slate-700 hover:bg-slate-600',
+        input: 'text-slate-500 text-center border border-slate-300 rounded bg-white focus:outline-none focus:border-slate-500'
+    }
 };
 
 /** Botones subir/bajar y campo de posición. */
@@ -148,11 +169,15 @@ const _CUSTOM_TYPE_BADGES = [
 function _customQuestionBody(q) {
     const badges = _CUSTOM_TYPE_BADGES
         .filter(([type]) => q.question_type === type)
-        .map(([, cls, key, fallback]) => `<span class="${cls} px-2 py-1 rounded text-xs font-bold">${_t(key, null, fallback)}</span>`)
+        .map(
+            ([, cls, key, fallback]) =>
+                `<span class="${cls} px-2 py-1 rounded text-xs font-bold">${_t(key, null, fallback)}</span>`
+        )
         .join('');
-    const answer = q.question_type === 'survey'
-        ? _t('admin.custom.survey_answer', null, 'Encuesta (votos)')
-        : escapeHtml(formatCorrectAnswerDisplayFrontend(extractCorrectAnswerFrontend(q)));
+    const answer =
+        q.question_type === 'survey'
+            ? _t('admin.custom.survey_answer', null, 'Encuesta (votos)')
+            : escapeHtml(formatCorrectAnswerDisplayFrontend(extractCorrectAnswerFrontend(q)));
     return `<div class="flex-1">
                             <div class="flex items-center gap-2 mb-2">
                                 <span class="bg-plum-100 text-plum-700 px-2 py-1 rounded text-xs font-bold">${escapeHtml(q.bank_name)}</span>
@@ -165,15 +190,57 @@ function _customQuestionBody(q) {
 
 // Diapositivas: [envoltorio, color, cuerpo, función de editar, clases del botón editar]
 const _CUSTOM_SLIDE_CARDS = {
-    comment: ['bg-amber-50 border-amber-300', 'amber', _customCommentBody, 'editarSlideComentario', 'text-amber-600 hover:text-amber-800'],
-    info: ['bg-blue-50 border-blue-300', 'blue', _customInfoBody, 'editarSlideInfo', 'text-blue-600 hover:text-blue-800'],
-    text: ['bg-aubergine-50 border-aubergine-300', 'aubergine', _customTextBody, 'editarSlideTexto', 'text-aubergine-700 hover:text-aubergine-900'],
-    image: ['bg-pink-50 border-pink-300', 'pink', _customImageBody, 'editarSlideImagen', 'text-pink-700 hover:text-pink-900'],
-    'text-image': ['bg-plum-50 border-plum-300', 'plum', _customTextImageBody, 'editarSlideTextoImagen', 'text-plum-700 hover:text-plum-900'],
+    comment: [
+        'bg-amber-50 border-amber-300',
+        'amber',
+        _customCommentBody,
+        'editarSlideComentario',
+        'text-amber-600 hover:text-amber-800'
+    ],
+    info: [
+        'bg-blue-50 border-blue-300',
+        'blue',
+        _customInfoBody,
+        'editarSlideInfo',
+        'text-blue-600 hover:text-blue-800'
+    ],
+    text: [
+        'bg-aubergine-50 border-aubergine-300',
+        'aubergine',
+        _customTextBody,
+        'editarSlideTexto',
+        'text-aubergine-700 hover:text-aubergine-900'
+    ],
+    image: [
+        'bg-pink-50 border-pink-300',
+        'pink',
+        _customImageBody,
+        'editarSlideImagen',
+        'text-pink-700 hover:text-pink-900'
+    ],
+    'text-image': [
+        'bg-plum-50 border-plum-300',
+        'plum',
+        _customTextImageBody,
+        'editarSlideTextoImagen',
+        'text-plum-700 hover:text-plum-900'
+    ],
     // customCanvasCardBody está en slides-canvas-card.js (se carga después): se resuelve al pintar
-    canvas: ['bg-plum-50 border-plum-300', 'plum', (q) => customCanvasCardBody(q), 'editarSlideLienzo', 'text-plum-700 hover:text-plum-900'],
+    canvas: [
+        'bg-plum-50 border-plum-300',
+        'plum',
+        q => customCanvasCardBody(q),
+        'editarSlideLienzo',
+        'text-plum-700 hover:text-plum-900'
+    ],
     // customVideoCardBody está en slides-video.js, que se carga después: se resuelve al pintar
-    video: ['bg-red-50 border-red-300', 'red', (q) => customVideoCardBody(q), 'editarSlideVideo', 'text-red-600 hover:text-red-700']
+    video: [
+        'bg-red-50 border-red-300',
+        'red',
+        q => customVideoCardBody(q),
+        'editarSlideVideo',
+        'text-red-600 hover:text-red-700'
+    ]
 };
 
 /** HTML de una entrada de la lista (diapositiva o pregunta de banco). */
@@ -183,10 +250,21 @@ function renderCustomQuestionCard(q, idx, total) {
         const [wrapClass, color, bodyFn, editFn, editClass] = slide;
         // Las diapositivas antiguas (no Actividad) se pueden pasar a diapositiva libre (slides-canvas-card.js)
         const convert = q.slide_type !== 'comment' && q.slide_type !== 'canvas' ? customCanvasConvertButton(idx) : '';
-        return _customCardShell({ idx, total, wrapClass, color, body: bodyFn(q), actions: _customSlideActions(idx, editFn, editClass), footer: _customSlideFooterPreview(q) + convert });
+        return _customCardShell({
+            idx,
+            total,
+            wrapClass,
+            color,
+            body: bodyFn(q),
+            actions: _customSlideActions(idx, editFn, editClass),
+            footer: _customSlideFooterPreview(q) + convert
+        });
     }
     return _customCardShell({
-        idx, total, wrapClass: 'bg-slate-50 border-slate-200', color: 'slate',
+        idx,
+        total,
+        wrapClass: 'bg-slate-50 border-slate-200',
+        color: 'slate',
         body: _customQuestionBody(q),
         actions: _customDeleteButton(idx, false)
     });

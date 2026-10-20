@@ -83,7 +83,12 @@ function _aiBuildRequests(initial) {
         const modelChanged = model !== initial[id + 'Model'];
         // Sin clave guardada ni escrita, cambiar el modelo no tiene nada que guardar
         if (apiKey || (providers[id]?.configured && modelChanged)) {
-            requests.push({ provider: id, method: 'POST', url: '/api/ai-generator/config', body: { provider: id, apiKey, model } });
+            requests.push({
+                provider: id,
+                method: 'POST',
+                url: '/api/ai-generator/config',
+                body: { provider: id, apiKey, model }
+            });
         }
     });
 
@@ -91,7 +96,12 @@ function _aiBuildRequests(initial) {
     if (ollama) requests.push({ provider: 'ollama', method: 'POST', ...ollama });
 
     if (now.provider !== initial.provider || now.fallback !== initial.fallback) {
-        requests.push({ provider: null, method: 'PUT', url: '/api/ai-generator/config/settings', body: { provider: now.provider, fallback: now.fallback } });
+        requests.push({
+            provider: null,
+            method: 'PUT',
+            url: '/api/ai-generator/config/settings',
+            body: { provider: now.provider, fallback: now.fallback }
+        });
     }
     return requests;
 }
@@ -105,7 +115,10 @@ function _aiFail(provider, html) {
         row.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
     _aiShowRowError(provider, html);
-    return { ok: false, message: _t('admin.ai.save_error', { provider: escapeHtml(AI_PROVIDER_META[provider].label) }) };
+    return {
+        ok: false,
+        message: _t('admin.ai.save_error', { provider: escapeHtml(AI_PROVIDER_META[provider].label) })
+    };
 }
 
 /**
@@ -125,7 +138,7 @@ async function saveAIConfig(initial) {
         try {
             const res = await fetch(req.url, {
                 method: req.method,
-                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getAuthToken() },
+                headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getAuthToken() },
                 body: JSON.stringify(req.body)
             });
             data = await res.json();
@@ -147,10 +160,13 @@ function deleteAIProviderKey(provider) {
     mostrarModalConfirmacion(_t('admin.groq.delete_title'), _t(meta.deleteMsgKey), () => {
         fetch('/api/ai-generator/config?provider=' + encodeURIComponent(provider), {
             method: 'DELETE',
-            headers: { 'Authorization': 'Bearer ' + getAuthToken() }
-        }).then(r => r.json()).then(data => {
-            if (data.success) renderAIConfigTab();
-            else _aiShowRowError(provider, _t('admin.groq.error_delete'));
-        }).catch(() => _aiShowRowError(provider, _t('admin.groq.error_net')));
+            headers: { Authorization: 'Bearer ' + getAuthToken() }
+        })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) renderAIConfigTab();
+                else _aiShowRowError(provider, _t('admin.groq.error_delete'));
+            })
+            .catch(() => _aiShowRowError(provider, _t('admin.groq.error_net')));
     });
 }

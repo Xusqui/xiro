@@ -13,11 +13,20 @@ function renderContent(targetId) {
     let htmlContent = '';
 
     switch (targetId) {
-        case 'tab-unirse':      htmlContent = getTabUnirseHTML(); break;
-        case 'tab-responder':   htmlContent = getTabResponderHTML(); break;
-        case 'tab-puntuacion':  htmlContent = getTabPuntuacionHTML(); break;
-        case 'tab-trivial':     htmlContent = getTabTrivialHTML(); break;
-        default:                htmlContent = getTabUnirseHTML();
+        case 'tab-unirse':
+            htmlContent = getTabUnirseHTML();
+            break;
+        case 'tab-responder':
+            htmlContent = getTabResponderHTML();
+            break;
+        case 'tab-puntuacion':
+            htmlContent = getTabPuntuacionHTML();
+            break;
+        case 'tab-trivial':
+            htmlContent = getTabTrivialHTML();
+            break;
+        default:
+            htmlContent = getTabUnirseHTML();
     }
 
     contentContainer.innerHTML = htmlContent;
@@ -44,7 +53,7 @@ function initTabs() {
     tabBtns.forEach((btn, index) => {
         btn.addEventListener('click', () => activate(btn));
 
-        btn.addEventListener('keydown', (event) => {
+        btn.addEventListener('keydown', event => {
             let targetIndex = null;
             if (event.key === 'ArrowRight') targetIndex = (index + 1) % tabBtns.length;
             else if (event.key === 'ArrowLeft') targetIndex = (index - 1 + tabBtns.length) % tabBtns.length;

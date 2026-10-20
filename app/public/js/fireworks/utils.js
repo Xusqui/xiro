@@ -10,7 +10,7 @@ const MyMath = {
     },
 
     randomChoice(arr) {
-        return arr[Math.random() * arr.length | 0];
+        return arr[(Math.random() * arr.length) | 0];
     },
 
     clamp(value, min, max) {
@@ -56,12 +56,12 @@ COLOR_CODES.forEach(hex => {
     COLOR_TUPLES[hex] = {
         r: parseInt(hex.substr(1, 2), 16),
         g: parseInt(hex.substr(3, 2), 16),
-        b: parseInt(hex.substr(5, 2), 16),
+        b: parseInt(hex.substr(5, 2), 16)
     };
 });
 
 function randomColorSimple() {
-    return COLOR_CODES[Math.random() * COLOR_CODES.length | 0];
+    return COLOR_CODES[(Math.random() * COLOR_CODES.length) | 0];
 }
 
 let lastColor;
@@ -79,8 +79,7 @@ function randomColor(options) {
         while (color === lastColor) {
             color = randomColorSimple();
         }
-    }
-    else if (notColor) {
+    } else if (notColor) {
         while (color === notColor) {
             color = randomColorSimple();
         }
@@ -104,7 +103,7 @@ function createParticleCollection() {
 
 function createParticleArc(start, arcLength, count, randomness, particleFactory) {
     const angleDelta = arcLength / count;
-    const end = start + arcLength - (angleDelta * 0.5);
+    const end = start + arcLength - angleDelta * 0.5;
 
     if (end > start) {
         for (let angle = start; angle < end; angle = angle + angleDelta) {
@@ -123,7 +122,7 @@ function createBurst(count, particleFactory, startAngle = 0, arcLength = PI_2) {
     const C_HALF = C / 2;
 
     for (let i = 0; i <= C_HALF; i++) {
-        const ringAngle = i / C_HALF * PI_HALF;
+        const ringAngle = (i / C_HALF) * PI_HALF;
         const ringSize = Math.cos(ringAngle);
         const partsPerFullRing = C * ringSize;
         const partsPerArc = partsPerFullRing * (arcLength / PI_2);

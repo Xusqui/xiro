@@ -38,7 +38,9 @@
         host.style.pointerEvents = 'none';
 
         const pos = _resolvePosition();
-        Object.keys(pos).forEach(function (prop) { host.style[prop] = pos[prop]; });
+        Object.keys(pos).forEach(function (prop) {
+            host.style[prop] = pos[prop];
+        });
 
         const img = document.createElement('img');
         img.src = '/images/personalizations/' + encodeURIComponent(filename);
@@ -50,8 +52,11 @@
         img.style.display = 'block';
         // Halo de neón blanco: drop-shadow sigue la silueta del logo (no el
         // recuadro), así que funciona bien con PNG/SVG con fondo transparente.
-        img.style.filter = 'drop-shadow(0 0 4px #fff) drop-shadow(0 0 10px rgba(255,255,255,0.85)) drop-shadow(0 0 18px rgba(255,255,255,0.6))';
-        img.onerror = function () { host.remove(); };
+        img.style.filter =
+            'drop-shadow(0 0 4px #fff) drop-shadow(0 0 10px rgba(255,255,255,0.85)) drop-shadow(0 0 18px rgba(255,255,255,0.6))';
+        img.onerror = function () {
+            host.remove();
+        };
 
         host.appendChild(img);
         return host;
@@ -64,14 +69,16 @@
 
     function start() {
         fetch('/api/ui-settings')
-            .then(function (res) { return res.json(); })
+            .then(function (res) {
+                return res.json();
+            })
             .then(function (s) {
                 if (s.personalizationEnabled !== true || !s.personalizationImage) return;
                 filename = s.personalizationImage;
                 ensureBadge();
                 new MutationObserver(ensureBadge).observe(document.body, { childList: true });
             })
-            .catch(function () { });
+            .catch(function () {});
     }
 
     if (document.readyState === 'loading') {

@@ -16,11 +16,11 @@ function runWithRedisClient(action) {
     Promise.resolve()
         .then(() => getRedisClient())
         .then(action)
-        .catch(() => { });
+        .catch(() => {});
 }
 
 function ensurePlayerAnswerSlot(game) {
-    const slot = game.isTrivial ? (game.trivialQuestionEpoch || 0) : game.currentIndex;
+    const slot = game.isTrivial ? game.trivialQuestionEpoch || 0 : game.currentIndex;
 
     if (!game.playerAnswers) game.playerAnswers = {};
     if (!game.playerAnswers[slot]) game.playerAnswers[slot] = {};
@@ -44,7 +44,7 @@ function buildOrderAnswer({ payload, options }) {
     }));
 
     return {
-        answerGiven: orderItems.map((item) => item.text).join(' → '),
+        answerGiven: orderItems.map(item => item.text).join(' → '),
         orderItems
     };
 }
@@ -61,7 +61,7 @@ function buildMatchingAnswer({ payload, options }) {
     }));
 
     return {
-        answerGiven: matchingPairs.map((pair) => `${pair.left} → ${pair.right}`).join(' | '),
+        answerGiven: matchingPairs.map(pair => `${pair.left} → ${pair.right}`).join(' | '),
         matchingPairs
     };
 }
@@ -72,18 +72,16 @@ function buildMultipleChoiceAnswer({ payload, options }) {
     }
 
     const correctSet = new Set(
-        options
-            .map((opt, idx) => (opt.is_correct || opt.isCorrect) ? idx : null)
-            .filter((idx) => idx !== null)
+        options.map((opt, idx) => (opt.is_correct || opt.isCorrect ? idx : null)).filter(idx => idx !== null)
     );
 
-    const multipleChoiceItems = payload.selectedIndices.map((idx) => ({
+    const multipleChoiceItems = payload.selectedIndices.map(idx => ({
         text: optionText(options[idx], idx),
         correct: correctSet.has(idx)
     }));
 
     return {
-        answerGiven: multipleChoiceItems.map((item) => item.text).join(', '),
+        answerGiven: multipleChoiceItems.map(item => item.text).join(', '),
         multipleChoiceItems
     };
 }
@@ -138,20 +136,18 @@ function persistSnapshotToRedis({ sPin, slot, nickname, snapshot }) {
     const key = `game:playeranswers:${sPin}`;
     const field = `${slot}:${nickname}`;
 
-    runWithRedisClient((redisClient) => Promise.all([
-        redisClient.hSet(key, field, JSON.stringify(snapshot)),
-        redisClient.expire(key, 7200)
-    ]));
+    runWithRedisClient(redisClient =>
+        Promise.all([redisClient.hSet(key, field, JSON.stringify(snapshot)), redisClient.expire(key, 7200)])
+    );
 }
 
 function persistRawSocketAnswer({ sPin, slot, nickname, socketAnswer }) {
     const key = `game:rawsocketanswers:${sPin}:${slot}`;
     const field = nickname;
 
-    runWithRedisClient((redisClient) => Promise.all([
-        redisClient.hSet(key, field, JSON.stringify(socketAnswer)),
-        redisClient.expire(key, 7200)
-    ]));
+    runWithRedisClient(redisClient =>
+        Promise.all([redisClient.hSet(key, field, JSON.stringify(socketAnswer)), redisClient.expire(key, 7200)])
+    );
 }
 
 /**
@@ -169,7 +165,7 @@ function buildSnapshot(ctx) {
         pointsEarned: answerResult.isSurvey ? 0 : finalPointsEarned,
         responseTimeMs: Date.now() - game.questionStartTime,
         questionText: snapshotQuestionText(currentQuestion),
-        categoryName: game.isTrivial ? (game.trivialCategoryName || null) : null,
+        categoryName: game.isTrivial ? game.trivialCategoryName || null : null,
         matchingPairs: answerDetails.matchingPairs || undefined,
         orderItems: answerDetails.orderItems || undefined,
         multipleChoiceItems: answerDetails.multipleChoiceItems || undefined,

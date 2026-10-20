@@ -4,7 +4,9 @@
     // Doble rAF: si la animación se activa en el mismo tick del innerHTML,
     // Safari no la arranca y Chrome la arranca antes de asentar el layout.
     function afterNextLayout(callback) {
-        requestAnimationFrame(function () { requestAnimationFrame(callback); });
+        requestAnimationFrame(function () {
+            requestAnimationFrame(callback);
+        });
     }
 
     function inject(animar) {
@@ -16,20 +18,32 @@
         document.body.appendChild(layer);
 
         fetch('/images/hojas3.svg?v=20260828012843')
-            .then(function (res) { return res.text(); })
+            .then(function (res) {
+                return res.text();
+            })
             .then(function (svgText) {
                 layer.innerHTML = svgText;
                 if (!animar) return;
-                afterNextLayout(function () { layer.classList.add('is-animated'); });
+                afterNextLayout(function () {
+                    layer.classList.add('is-animated');
+                });
             })
-            .catch(function () { layer.remove(); });
+            .catch(function () {
+                layer.remove();
+            });
     }
 
     function start() {
         fetch('/api/ui-settings')
-            .then(function (res) { return res.json(); })
-            .then(function (s) { inject(s.animarFondo !== false); })
-            .catch(function () { inject(true); });
+            .then(function (res) {
+                return res.json();
+            })
+            .then(function (s) {
+                inject(s.animarFondo !== false);
+            })
+            .catch(function () {
+                inject(true);
+            });
     }
 
     if (document.readyState === 'loading') {

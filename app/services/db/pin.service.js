@@ -25,7 +25,8 @@ async function validatePinInDatabase(pin) {
     const startTime = Date.now();
 
     try {
-        const result = await pool.query(`
+        const result = await pool.query(
+            `
             SELECT id, 'custom_game' as type FROM custom_games WHERE pin = $1
             UNION ALL
             SELECT id, 'game' as type FROM games WHERE pin = $1
@@ -36,7 +37,9 @@ async function validatePinInDatabase(pin) {
             UNION ALL
             SELECT id, 'trivial' as type FROM trivial_games WHERE pin = $1
             LIMIT 1
-        `, [sPin]);
+        `,
+            [sPin]
+        );
 
         metrics.recordDbQuery(Date.now() - startTime);
 
@@ -77,7 +80,8 @@ async function validatePinForPresenter(pin) {
     const startTime = Date.now();
 
     try {
-        const result = await pool.query(`
+        const result = await pool.query(
+            `
             SELECT id, 'custom_game' as type FROM custom_games 
             WHERE pin = $1 AND visible_to_presenter = true
             UNION ALL
@@ -92,7 +96,9 @@ async function validatePinForPresenter(pin) {
             SELECT id, 'trivial' as type FROM trivial_games 
             WHERE pin = $1 AND visible_to_presenter = true
             LIMIT 1
-        `, [sPin]);
+        `,
+            [sPin]
+        );
 
         metrics.recordDbQuery(Date.now() - startTime);
 
@@ -209,9 +215,7 @@ async function pinExistsGlobally(pin, options = {}) {
 async function getAllPins() {
     const pins = [];
 
-    const games = await pool.query(
-        'SELECT pin, name FROM games WHERE pin IS NOT NULL ORDER BY created_at DESC'
-    );
+    const games = await pool.query('SELECT pin, name FROM games WHERE pin IS NOT NULL ORDER BY created_at DESC');
     games.rows.forEach(g => pins.push({ pin: g.pin, name: g.name, type: 'Juego' }));
 
     const customGames = await pool.query(
@@ -224,9 +228,7 @@ async function getAllPins() {
     );
     banks.rows.forEach(b => pins.push({ pin: b.pin, name: b.name, type: 'Banco' }));
 
-    const quizzes = await pool.query(
-        'SELECT pin FROM quizzes WHERE pin IS NOT NULL ORDER BY created_at DESC'
-    );
+    const quizzes = await pool.query('SELECT pin FROM quizzes WHERE pin IS NOT NULL ORDER BY created_at DESC');
     quizzes.rows.forEach(q => pins.push({ pin: q.pin, name: `Quiz ${q.pin}`, type: 'Quiz' }));
 
     const trivials = await pool.query(
@@ -287,15 +289,49 @@ async function getPinsForPresenter() {
             WHERE qz.pin IS NOT NULL
             ORDER BY qz.created_at DESC
         `),
-        pool.query('SELECT pin, name, language, image_url FROM trivial_games WHERE pin IS NOT NULL AND visible_to_presenter = true ORDER BY created_at DESC'),
+        pool.query(
+            'SELECT pin, name, language, image_url FROM trivial_games WHERE pin IS NOT NULL AND visible_to_presenter = true ORDER BY created_at DESC'
+        )
     ]);
 
     return [
-        ...games.rows.map(g => ({ pin: g.pin, name: g.name, type: 'Juego', language: g.language, image_url: g.image_url, question_count: Number(g.question_count) || 0 })),
-        ...customGames.rows.map(cg => ({ pin: cg.pin, name: cg.name, type: 'Juego Personalizado', language: cg.language, image_url: cg.image_url, question_count: Number(cg.question_count) || 0 })),
-        ...banks.rows.map(b => ({ pin: b.pin, name: b.name, type: 'Banco', language: b.language, image_url: b.image_url, question_count: Number(b.question_count) || 0 })),
-        ...quizzes.rows.map(q => ({ pin: q.pin, name: `Quiz ${q.pin}`, type: 'Quiz', question_count: Number(q.question_count) || 0 })),
-        ...trivials.rows.map(t => ({ pin: t.pin, name: t.name, type: 'Trivial', language: t.language, image_url: t.image_url })),
+        ...games.rows.map(g => ({
+            pin: g.pin,
+            name: g.name,
+            type: 'Juego',
+            language: g.language,
+            image_url: g.image_url,
+            question_count: Number(g.question_count) || 0
+        })),
+        ...customGames.rows.map(cg => ({
+            pin: cg.pin,
+            name: cg.name,
+            type: 'Juego Personalizado',
+            language: cg.language,
+            image_url: cg.image_url,
+            question_count: Number(cg.question_count) || 0
+        })),
+        ...banks.rows.map(b => ({
+            pin: b.pin,
+            name: b.name,
+            type: 'Banco',
+            language: b.language,
+            image_url: b.image_url,
+            question_count: Number(b.question_count) || 0
+        })),
+        ...quizzes.rows.map(q => ({
+            pin: q.pin,
+            name: `Quiz ${q.pin}`,
+            type: 'Quiz',
+            question_count: Number(q.question_count) || 0
+        })),
+        ...trivials.rows.map(t => ({
+            pin: t.pin,
+            name: t.name,
+            type: 'Trivial',
+            language: t.language,
+            image_url: t.image_url
+        }))
     ];
 }
 

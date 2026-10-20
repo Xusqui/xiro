@@ -28,13 +28,31 @@ const ALLOWED_MIME = [
     'application/vnd.oasis.opendocument.text',
     'application/vnd.oasis.opendocument.presentation',
     'application/epub+zip',
-    'application/rtf', 'text/rtf',
-    'text/html', 'application/xhtml+xml',
-    'text/markdown', 'text/x-markdown',
+    'application/rtf',
+    'text/rtf',
+    'text/html',
+    'application/xhtml+xml',
+    'text/markdown',
+    'text/x-markdown',
     'application/msword',
     'text/plain'
 ];
-const ALLOWED_EXT = ['pdf', 'docx', 'doc', 'odt', 'odp', 'pptx', 'epub', 'rtf', 'html', 'htm', 'xhtml', 'md', 'markdown', 'txt'];
+const ALLOWED_EXT = [
+    'pdf',
+    'docx',
+    'doc',
+    'odt',
+    'odp',
+    'pptx',
+    'epub',
+    'rtf',
+    'html',
+    'htm',
+    'xhtml',
+    'md',
+    'markdown',
+    'txt'
+];
 const FORMATS_LABEL = 'PDF, DOCX, ODT, PPTX, ODP, EPUB, RTF, HTML, MD o TXT';
 
 // Multer exclusivo para documentos: memoria, máx 10 MB
@@ -63,8 +81,15 @@ function fileLabel(file) {
 function logConversion(file, result, wordCount) {
     const { stats = {}, format, fallback } = result;
     logger.info('[ai-generator] Documento convertido a Markdown', {
-        file: fileLabel(file), mime: file.mimetype, format, fallback, bytes: stats.bytes,
-        ms: stats.ms, rawChars: stats.rawChars, chars: stats.mdChars, wordCount
+        file: fileLabel(file),
+        mime: file.mimetype,
+        format,
+        fallback,
+        bytes: stats.bytes,
+        ms: stats.ms,
+        rawChars: stats.rawChars,
+        chars: stats.mdChars,
+        wordCount
     });
     logger.debug('[ai-generator] Detalle de la conversión', { file: fileLabel(file), ...stats });
 }
@@ -95,21 +120,36 @@ router.post('/api/ai-generator/upload', authenticateAdmin, documentUpload.single
         }
         const result = await documentToMarkdown(req.file, {
             legacyExtract: extractText,
-            onFallback: err => logger.warn('[ai-generator] Conversor Markdown falló, se usa el extractor de texto', {
-                file: fileLabel(req.file), error: err.message, stack: err.stack
-            })
+            onFallback: err =>
+                logger.warn('[ai-generator] Conversor Markdown falló, se usa el extractor de texto', {
+                    file: fileLabel(req.file),
+                    error: err.message,
+                    stack: err.stack
+                })
         });
         const { markdown: text, format } = result;
         if (!text || text.trim().length === 0) {
-            logger.warn('[ai-generator] Documento sin texto extraíble', { file: fileLabel(req.file), format, bytes: req.file.size });
-            return res.status(400).json({ error: 'No se pudo extraer texto del documento (está vacío o protegido)', code: 'DOCUMENT_TEXT_EXTRACTION_FAILED' });
+            logger.warn('[ai-generator] Documento sin texto extraíble', {
+                file: fileLabel(req.file),
+                format,
+                bytes: req.file.size
+            });
+            return res.status(400).json({
+                error: 'No se pudo extraer texto del documento (está vacío o protegido)',
+                code: 'DOCUMENT_TEXT_EXTRACTION_FAILED'
+            });
         }
         const wordCount = text.split(/\s+/).filter(Boolean).length;
         logConversion(req.file, result, wordCount);
         res.json({ text, wordCount, format });
     } catch (err) {
         // Rechazos esperables (.doc antiguo, hoja de cálculo, cifrado…) en warn; fallos internos en error con traza
-        const meta = { file: fileLabel(req.file), mime: req.file && req.file.mimetype, bytes: req.file && req.file.size, error: err.message };
+        const meta = {
+            file: fileLabel(req.file),
+            mime: req.file && req.file.mimetype,
+            bytes: req.file && req.file.size,
+            error: err.message
+        };
         if (err.definitive) logger.warn('[ai-generator] Documento rechazado', meta);
         else logger.error('[ai-generator] Error convirtiendo documento', { ...meta, stack: err.stack });
         res.status(400).json({ error: err.message });
@@ -122,55 +162,62 @@ router.post('/api/ai-generator/upload', authenticateAdmin, documentUpload.single
  * Body: { text: string, config: { name, quiz, survey, ..., dificultad } }
  * Respuesta: { bankPayload, results, totalGenerated }
  */
-router.post('/api/ai-generator/generate', authenticateAdmin, (req, res, next) => {
-    // Timeout extendido para procesar documentos largos sobre APIS con Rate Limit
-    req.socket.setTimeout(0);
-    res.setTimeout(0);
-    next();
-}, async (req, res) => {
-    const { text, config, mode = 'document' } = req.body;
+router.post(
+    '/api/ai-generator/generate',
+    authenticateAdmin,
+    (req, res, next) => {
+        // Timeout extendido para procesar documentos largos sobre APIS con Rate Limit
+        req.socket.setTimeout(0);
+        res.setTimeout(0);
+        next();
+    },
+    async (req, res) => {
+        const { text, config, mode = 'document' } = req.body;
 
-    if (!text || typeof text !== 'string') {
-        return res.status(400).json({ error: 'El campo "text" es obligatorio', code: 'AI_TEXT_FIELD_REQUIRED' });
-    }
-    if (!config || typeof config !== 'object' || !config.name) {
-        return res.status(400).json({ error: 'El campo "config" debe incluir al menos "name"', code: 'AI_CONFIG_NAME_REQUIRED' });
-    }
+        if (!text || typeof text !== 'string') {
+            return res.status(400).json({ error: 'El campo "text" es obligatorio', code: 'AI_TEXT_FIELD_REQUIRED' });
+        }
+        if (!config || typeof config !== 'object' || !config.name) {
+            return res
+                .status(400)
+                .json({ error: 'El campo "config" debe incluir al menos "name"', code: 'AI_CONFIG_NAME_REQUIRED' });
+        }
 
-    try {
-        // Enviar cabeceras JSON para la respuesta
-        res.setHeader('Content-Type', 'application/json');
+        try {
+            // Enviar cabeceras JSON para la respuesta
+            res.setHeader('Content-Type', 'application/json');
 
-        // Anti-Timeout para proxies (Nginx, Synology) que cortan a los 60s sin inactividad:
-        const keepAliveInterval = setInterval(() => {
-            res.write(' ');
-            // Importante: hacer un flush de red si el método existe en el socket (Node/Express internals)
-            if (res.flushHeaders) res.flushHeaders();
-        }, 15000);
+            // Anti-Timeout para proxies (Nginx, Synology) que cortan a los 60s sin inactividad:
+            const keepAliveInterval = setInterval(() => {
+                res.write(' ');
+                // Importante: hacer un flush de red si el método existe en el socket (Node/Express internals)
+                if (res.flushHeaders) res.flushHeaders();
+            }, 15000);
 
-        // Control de cancelación si el cliente desconecta
-        const abortController = new AbortController();
-        req.on('close', () => {
+            // Control de cancelación si el cliente desconecta
+            const abortController = new AbortController();
+            req.on('close', () => {
+                clearInterval(keepAliveInterval);
+                abortController.abort();
+            });
+
+            const result = await generateBank(text, config, abortController.signal, mode);
+
             clearInterval(keepAliveInterval);
-            abortController.abort();
-        });
-
-        const result = await generateBank(text, config, abortController.signal, mode);
-
-        clearInterval(keepAliveInterval);
-        if (!abortController.signal.aborted) {
-            res.end(JSON.stringify(result));
-        }
-    } catch (err) {
-        // Si no se han enviado cabeceras, enviamos el error normal.
-        // Si ya se enviaron, mandamos el error dentro de JSON (cuidado con el JSON en ese caso)
-        logger.error('[ai-generator] Error generando banco', err);
-        if (!res.headersSent) {
-            res.status(500).json({ error: err.message });
-        } else {
-            res.end(JSON.stringify({ error: err.message }));
+            if (!abortController.signal.aborted) {
+                res.end(JSON.stringify(result));
+            }
+        } catch (err) {
+            // Si no se han enviado cabeceras, enviamos el error normal.
+            // Si ya se enviaron, mandamos el error dentro de JSON (cuidado con el JSON en ese caso)
+            logger.error('[ai-generator] Error generando banco', err);
+            if (!res.headersSent) {
+                res.status(500).json({ error: err.message });
+            } else {
+                res.end(JSON.stringify({ error: err.message }));
+            }
         }
     }
-});
+);
 
 module.exports = router;

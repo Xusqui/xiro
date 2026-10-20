@@ -20,7 +20,7 @@ const rawPool = new Pool({
     idleTimeoutMillis: parseInt(process.env.DB_IDLE_TIMEOUT) || 20000, // Reducido de 30000 a 20000 - liberar conexiones más rápido
     connectionTimeoutMillis: parseInt(process.env.DB_CONNECTION_TIMEOUT) || 5000,
     statement_timeout: 30000,
-    query_timeout: 30000,
+    query_timeout: 30000
 });
 
 // Wrapper con Circuit Breaker

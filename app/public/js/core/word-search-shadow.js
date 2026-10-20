@@ -10,7 +10,16 @@
     'use strict';
 
     /** Direcciones 8-way: vertical, horizontal y diagonales */
-    let DIRECTIONS = [[0,1],[1,0],[1,1],[-1,1],[0,-1],[-1,0],[-1,-1],[1,-1]];
+    let DIRECTIONS = [
+        [0, 1],
+        [1, 0],
+        [1, 1],
+        [-1, 1],
+        [0, -1],
+        [-1, 0],
+        [-1, -1],
+        [1, -1]
+    ];
 
     /**
      * Celdas [r, c] de una línea recta (8 direcciones), o null si no es recta

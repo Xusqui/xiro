@@ -1,7 +1,7 @@
 /**
  * @fileoverview HeartbeatService - Gestión de heartbeat/ping-pong para mantener conexiones vivas
  * @module domain/services/HeartbeatService
- * 
+ *
  * Responsabilidades:
  * - Gestionar ping/pong automático de Socket.io
  * - Detectar conexiones muertas (sin respuesta a ping)
@@ -19,7 +19,7 @@ class HeartbeatService extends EventEmitter {
 
         // Configuración por defecto
         this.pingInterval = options.pingInterval || 25000; // 25s (Socket.io default)
-        this.pingTimeout = options.pingTimeout || 60000;   // 60s (Socket.io default)
+        this.pingTimeout = options.pingTimeout || 60000; // 60s (Socket.io default)
 
         // Mapa de sockets monitoreados: socketId -> { lastPing, timeoutId }
         this.monitoredSockets = new Map();
@@ -157,7 +157,7 @@ class HeartbeatService extends EventEmitter {
             if (monitor.timeoutId) {
                 stats.socketsWithTimeout++;
             }
-            totalTime += (now - monitor.lastPing);
+            totalTime += now - monitor.lastPing;
         }
 
         if (stats.totalMonitored > 0) {

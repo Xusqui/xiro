@@ -14,11 +14,13 @@ const CLAP_SPACING = 0.011;
 
 function createClap(Tone, output, own) {
     const clapFilter = own(new Tone.Filter({ type: 'bandpass', frequency: 1150, Q: 1.1 })).connect(output);
-    const clap = own(new Tone.NoiseSynth({
-        noise: { type: 'pink' },
-        envelope: { attack: 0.001, decay: 0.08, sustain: 0, release: 0.02 },
-        volume: -12
-    })).connect(clapFilter);
+    const clap = own(
+        new Tone.NoiseSynth({
+            noise: { type: 'pink' },
+            envelope: { attack: 0.001, decay: 0.08, sustain: 0, release: 0.02 },
+            volume: -12
+        })
+    ).connect(clapFilter);
     return (time, vel) => {
         clap.triggerAttackRelease('64n', time, vel * 0.6);
         clap.triggerAttackRelease('64n', time + CLAP_SPACING, vel * 0.5);
@@ -68,25 +70,52 @@ function createSampledKit(Tone, output, own, bank) {
 }
 
 function createSynthKit(Tone, output, own) {
-    const kick = own(new Tone.MembraneSynth({
-        pitchDecay: 0.028, octaves: 6.5, oscillator: { type: 'sine' },
-        envelope: { attack: 0.001, decay: 0.36, sustain: 0, release: 0.05 }, volume: -6
-    })).connect(output);
+    const kick = own(
+        new Tone.MembraneSynth({
+            pitchDecay: 0.028,
+            octaves: 6.5,
+            oscillator: { type: 'sine' },
+            envelope: { attack: 0.001, decay: 0.36, sustain: 0, release: 0.05 },
+            volume: -6
+        })
+    ).connect(output);
     const snareFilter = own(new Tone.Filter(1500, 'highpass')).connect(output);
-    const snareNoise = own(new Tone.NoiseSynth({
-        noise: { type: 'white' }, envelope: { attack: 0.001, decay: 0.17, sustain: 0, release: 0.03 }, volume: -15
-    })).connect(snareFilter);
-    const snareBody = own(new Tone.MembraneSynth({
-        pitchDecay: 0.015, octaves: 1.6, envelope: { attack: 0.001, decay: 0.11, sustain: 0, release: 0.02 }, volume: -17
-    })).connect(output);
+    const snareNoise = own(
+        new Tone.NoiseSynth({
+            noise: { type: 'white' },
+            envelope: { attack: 0.001, decay: 0.17, sustain: 0, release: 0.03 },
+            volume: -15
+        })
+    ).connect(snareFilter);
+    const snareBody = own(
+        new Tone.MembraneSynth({
+            pitchDecay: 0.015,
+            octaves: 1.6,
+            envelope: { attack: 0.001, decay: 0.11, sustain: 0, release: 0.02 },
+            volume: -17
+        })
+    ).connect(output);
     const hatFilter = own(new Tone.Filter(7000, 'highpass')).connect(own(new Tone.Panner(0.28)).connect(output));
     const hatOptions = { harmonicity: 5.1, modulationIndex: 32, resonance: 5200, octaves: 1.4 };
-    const hatC = own(new Tone.MetalSynth(Object.assign({ envelope: { attack: 0.001, decay: 0.035, release: 0.01 }, volume: -31 }, hatOptions))).connect(hatFilter);
-    const hatO = own(new Tone.MetalSynth(Object.assign({ envelope: { attack: 0.001, decay: 0.28, release: 0.08 }, volume: -34 }, hatOptions))).connect(hatFilter);
-    const timp = own(new Tone.MembraneSynth({
-        pitchDecay: 0.06, octaves: 1.2, oscillator: { type: 'sine' },
-        envelope: { attack: 0.004, decay: 1.6, sustain: 0, release: 1 }, volume: -9
-    })).connect(own(new Tone.Filter(1000, 'lowpass')).connect(output));
+    const hatC = own(
+        new Tone.MetalSynth(
+            Object.assign({ envelope: { attack: 0.001, decay: 0.035, release: 0.01 }, volume: -31 }, hatOptions)
+        )
+    ).connect(hatFilter);
+    const hatO = own(
+        new Tone.MetalSynth(
+            Object.assign({ envelope: { attack: 0.001, decay: 0.28, release: 0.08 }, volume: -34 }, hatOptions)
+        )
+    ).connect(hatFilter);
+    const timp = own(
+        new Tone.MembraneSynth({
+            pitchDecay: 0.06,
+            octaves: 1.2,
+            oscillator: { type: 'sine' },
+            envelope: { attack: 0.004, decay: 1.6, sustain: 0, release: 1 },
+            volume: -9
+        })
+    ).connect(own(new Tone.Filter(1000, 'lowpass')).connect(output));
     return {
         kick: (time, vel) => kick.triggerAttackRelease(KICK_NOTE, '8n', time, vel),
         snare(time, vel) {
@@ -98,7 +127,7 @@ function createSynthKit(Tone, output, own) {
             hatC.triggerAttackRelease(HAT_FREQ, '32n', time, vel);
         },
         hatO: (time, vel) => hatO.triggerAttackRelease(HAT_FREQ, '8n', time, vel),
-        crash: () => { },
+        crash: () => {},
         timp: (note, time, vel) => timp.triggerAttackRelease(note, '2n', time, vel)
     };
 }
@@ -111,7 +140,7 @@ function createSynthKit(Tone, output, own) {
  */
 export function createDrumKit(Tone, output, onKick, bank) {
     const nodes = [];
-    const own = (node) => {
+    const own = node => {
         nodes.push(node);
         return node;
     };
@@ -130,7 +159,7 @@ export function createDrumKit(Tone, output, onKick, bank) {
         crash: kit.crash,
         timp: kit.timp,
         dispose() {
-            nodes.forEach((node) => node.dispose());
+            nodes.forEach(node => node.dispose());
         }
     };
 }

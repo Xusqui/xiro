@@ -36,7 +36,8 @@ globalThis.StandaloneQuestionCommon = (() => {
         let seconds = Math.round(timeLimit);
         const el = document.createElement('div');
         el.id = 'standalone-question-timer';
-        el.className = 'mx-auto mt-3 mb-1 w-16 h-16 shrink-0 rounded-full border-4 border-red-800 bg-black/40 flex items-center justify-center text-3xl font-black italic text-white shadow-lg';
+        el.className =
+            'mx-auto mt-3 mb-1 w-16 h-16 shrink-0 rounded-full border-4 border-red-800 bg-black/40 flex items-center justify-center text-3xl font-black italic text-white shadow-lg';
         el.textContent = String(seconds);
 
         const nicknameBar = container.querySelector('.pl-nickname-bar');

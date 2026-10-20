@@ -20,7 +20,7 @@ async function checkForUpdateNotice() {
 
     try {
         const res = await fetch('/api/admin/update/status', {
-            headers: { 'Authorization': 'Bearer ' + getAuthToken() }
+            headers: { Authorization: 'Bearer ' + getAuthToken() }
         });
         const body = await res.json();
         _updRenderNotice(body && body.success && body.updateAvailable ? body.latest : null);
@@ -49,12 +49,14 @@ function _updRenderNotice(version) {
         notice.id = 'update-notice';
         notice.type = 'button';
         notice.dataset.updateAction = 'open-tab';
-        notice.className = 'mt-2 w-full px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center gap-1.5 cursor-pointer border-0';
+        notice.className =
+            'mt-2 w-full px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center gap-1.5 cursor-pointer border-0';
         badge.insertAdjacentElement('afterend', notice);
     }
 
     notice.title = _t('admin.updates.notice_title');
-    notice.innerHTML = '<i class="fas fa-cloud-download-alt"></i> ' + escapeHtml(_t('admin.updates.notice', { version }));
+    notice.innerHTML =
+        '<i class="fas fa-cloud-download-alt"></i> ' + escapeHtml(_t('admin.updates.notice', { version }));
 }
 
 /**

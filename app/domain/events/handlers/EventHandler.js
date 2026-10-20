@@ -3,7 +3,7 @@ const fallbackLogger = require('../../../config/logger');
 /**
  * @fileoverview Base class para Event Handlers
  * @module domain/events/handlers/EventHandler
- * 
+ *
  * Event Handlers escuchan eventos del EventBus y ejecutan side effects.
  * Esto desacopla la lógica de negocio (Commands/Services) de los efectos secundarios
  * (socket broadcasts, persistencia, logging, etc.)

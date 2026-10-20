@@ -1,9 +1,9 @@
 /**
  * GameStateMachine - Máquina de estados del juego usando XState
- * 
+ *
  * Define el flujo completo del juego desde el lobby hasta el final,
  * con transiciones, guards y actions explícitas.
- * 
+ *
  * Estados:
  * - idle: Juego no iniciado
  * - lobby: Esperando jugadores
@@ -13,7 +13,7 @@
  * - scoring: Calculando puntuaciones
  * - results: Mostrando resultados de la pregunta
  * - gameEnd: Juego terminado
- * 
+ *
  * @module domain/state/GameStateMachine
  */
 
@@ -81,11 +81,14 @@ const gameStateMachine = createMachine({
                             if (existingPlayer) {
                                 return context.players;
                             }
-                            return [...context.players, {
-                                nickname: event.playerNickname,
-                                score: 0,
-                                answeredQuestions: []
-                            }];
+                            return [
+                                ...context.players,
+                                {
+                                    nickname: event.playerNickname,
+                                    score: 0,
+                                    answeredQuestions: []
+                                }
+                            ];
                         }
                     })
                 },

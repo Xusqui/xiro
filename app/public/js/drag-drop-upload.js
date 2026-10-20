@@ -27,7 +27,7 @@ function setupDragAndDrop(dropZone, config) {
     }
 
     // Prevenir comportamiento por defecto en todos los eventos relevantes
-    const preventDefaults = (e) => {
+    const preventDefaults = e => {
         e.preventDefault();
         e.stopPropagation();
     };
@@ -38,47 +38,59 @@ function setupDragAndDrop(dropZone, config) {
 
     // Añadir clase visual cuando se arrastra sobre el elemento
     ['dragenter', 'dragover'].forEach(eventName => {
-        dropZone.addEventListener(eventName, () => {
-            dropZone.classList.add(dropZoneActiveClass);
-        }, false);
+        dropZone.addEventListener(
+            eventName,
+            () => {
+                dropZone.classList.add(dropZoneActiveClass);
+            },
+            false
+        );
     });
 
     // Remover clase visual cuando se sale del elemento
     ['dragleave', 'drop'].forEach(eventName => {
-        dropZone.addEventListener(eventName, () => {
-            dropZone.classList.remove(dropZoneActiveClass);
-        }, false);
+        dropZone.addEventListener(
+            eventName,
+            () => {
+                dropZone.classList.remove(dropZoneActiveClass);
+            },
+            false
+        );
     });
 
     // Manejar el drop
-    dropZone.addEventListener('drop', (e) => {
-        const dt = e.dataTransfer;
-        const files = dt.files;
+    dropZone.addEventListener(
+        'drop',
+        e => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
 
-        if (files.length === 0) return;
+            if (files.length === 0) return;
 
-        // Solo tomar el primer archivo
-        const file = files[0];
+            // Solo tomar el primer archivo
+            const file = files[0];
 
-        // Validar tipo
-        if (acceptedTypes.length > 0 && !isFileTypeAccepted(file, acceptedTypes)) {
-            showError('Tipo de archivo no permitido');
-            return;
-        }
+            // Validar tipo
+            if (acceptedTypes.length > 0 && !isFileTypeAccepted(file, acceptedTypes)) {
+                showError('Tipo de archivo no permitido');
+                return;
+            }
 
-        // Validar tamaño
-        if (file.size > maxSize) {
-            const maxSizeMB = (maxSize / 1024 / 1024).toFixed(1);
-            const fileSizeMB = (file.size / 1024 / 1024).toFixed(2);
-            showError(`Archivo demasiado grande. Max: ${maxSizeMB}MB, Actual: ${fileSizeMB}MB`);
-            return;
-        }
+            // Validar tamaño
+            if (file.size > maxSize) {
+                const maxSizeMB = (maxSize / 1024 / 1024).toFixed(1);
+                const fileSizeMB = (file.size / 1024 / 1024).toFixed(2);
+                showError(`Archivo demasiado grande. Max: ${maxSizeMB}MB, Actual: ${fileSizeMB}MB`);
+                return;
+            }
 
-        // Archivo válido, ejecutar callback
-        if (typeof onFileSelected === 'function') {
-            onFileSelected(file);
-        }
-    }, false);
+            // Archivo válido, ejecutar callback
+            if (typeof onFileSelected === 'function') {
+                onFileSelected(file);
+            }
+        },
+        false
+    );
 }
 
 /**
@@ -113,7 +125,8 @@ function isFileTypeAccepted(file, acceptedTypes) {
 function showError(message) {
     // Crear toast de error
     const toast = document.createElement('div');
-    toast.className = 'fixed bottom-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-slide-up';
+    toast.className =
+        'fixed bottom-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-slide-up';
     toast.innerHTML = `
         <div class="flex items-center gap-2">
             <i class="fas fa-exclamation-circle"></i>

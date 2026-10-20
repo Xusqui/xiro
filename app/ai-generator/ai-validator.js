@@ -19,7 +19,11 @@ const MODEL_PATTERN = /^[A-Za-z0-9._/:-]{1,100}$/;
 
 function _validateGroqKey(trimmed) {
     if (!trimmed.startsWith('gsk_')) {
-        return { valid: false, error: 'La API key de Groq debe comenzar con "gsk_"', code: 'GROQ_API_KEY_INVALID_PREFIX' };
+        return {
+            valid: false,
+            error: 'La API key de Groq debe comenzar con "gsk_"',
+            code: 'GROQ_API_KEY_INVALID_PREFIX'
+        };
     }
     if (trimmed.length < GROQ_MIN_LENGTH) {
         return { valid: false, error: 'La API key parece demasiado corta', code: 'GROQ_API_KEY_TOO_SHORT' };
@@ -29,10 +33,18 @@ function _validateGroqKey(trimmed) {
 
 function _validateGeminiKey(trimmed) {
     if (!trimmed.startsWith('AQ.')) {
-        return { valid: false, error: 'La API key de Gemini debe comenzar con "AQ."', code: 'GEMINI_API_KEY_INVALID_PREFIX' };
+        return {
+            valid: false,
+            error: 'La API key de Gemini debe comenzar con "AQ."',
+            code: 'GEMINI_API_KEY_INVALID_PREFIX'
+        };
     }
     if (!GEMINI_KEY_PATTERN.test(trimmed)) {
-        return { valid: false, error: 'La API key de Gemini no tiene un formato válido', code: 'GEMINI_API_KEY_INVALID_FORMAT' };
+        return {
+            valid: false,
+            error: 'La API key de Gemini no tiene un formato válido',
+            code: 'GEMINI_API_KEY_INVALID_FORMAT'
+        };
     }
     return { valid: true };
 }

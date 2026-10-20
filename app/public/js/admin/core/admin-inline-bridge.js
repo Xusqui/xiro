@@ -4,7 +4,9 @@
 let _adminInlineBridgeReady = false;
 
 function _runAdminInlineAssignment(statement, element) {
-    const optionAssignment = statement.match(/^([A-Za-z_$][\w$]*)\[(\d+)\]\.options\[(\d+)\]\.([A-Za-z_$][\w$]*)\s*=\s*(.+)$/);
+    const optionAssignment = statement.match(
+        /^([A-Za-z_$][\w$]*)\[(\d+)\]\.options\[(\d+)\]\.([A-Za-z_$][\w$]*)\s*=\s*(.+)$/
+    );
     if (optionAssignment) {
         const [, rootName, rootIdxRaw, optionIdxRaw, property, expression] = optionAssignment;
         const rootCollection = globalThis[rootName];
@@ -75,7 +77,7 @@ function _runAdminInlineCall(statement, event, element) {
     }
 
     const args = argSource.trim()
-        ? _splitAdminInlineTopLevel(argSource, ',').map((token) => _evalAdminInlineArg(token, event, element))
+        ? _splitAdminInlineTopLevel(argSource, ',').map(token => _evalAdminInlineArg(token, event, element))
         : [];
 
     handler(...args);
@@ -101,19 +103,19 @@ function setupAdminInlineAttributeBridge() {
     if (_adminInlineBridgeReady) return;
     _adminInlineBridgeReady = true;
 
-    document.addEventListener('click', (event) => {
+    document.addEventListener('click', event => {
         const element = event.target.closest('[data-admin-click]');
         if (!element) return;
         _runDelegatedInlineExpression(element.getAttribute('data-admin-click'), event, element);
     });
 
-    document.addEventListener('change', (event) => {
+    document.addEventListener('change', event => {
         const element = event.target.closest('[data-admin-change]');
         if (!element) return;
         _runDelegatedInlineExpression(element.getAttribute('data-admin-change'), event, element);
     });
 
-    document.addEventListener('input', (event) => {
+    document.addEventListener('input', event => {
         const element = event.target.closest('[data-admin-input]');
         if (!element) return;
         _runDelegatedInlineExpression(element.getAttribute('data-admin-input'), event, element);

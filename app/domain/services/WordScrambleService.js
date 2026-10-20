@@ -21,9 +21,14 @@ const VOWELS = 'AEIOU';
  */
 function normalizeWord(word) {
     if (!word) return '';
-    return word.toUpperCase()
-        .replace(/Á/g, 'A').replace(/É/g, 'E').replace(/Í/g, 'I')
-        .replace(/Ó/g, 'O').replace(/Ú/g, 'U').replace(/Ü/g, 'U')
+    return word
+        .toUpperCase()
+        .replace(/Á/g, 'A')
+        .replace(/É/g, 'E')
+        .replace(/Í/g, 'I')
+        .replace(/Ó/g, 'O')
+        .replace(/Ú/g, 'U')
+        .replace(/Ü/g, 'U')
         .replace(/[^A-ZÑ]/g, '');
 }
 
@@ -66,7 +71,7 @@ function generateScrambledLetters(correctWord) {
         let attempts = 0;
         do {
             // Garantizar al menos una vocal extra si hay pocas
-            const pool = (i === 0 && vowelCount < 2) ? VOWELS : ALPHABET;
+            const pool = i === 0 && vowelCount < 2 ? VOWELS : ALPHABET;
             letter = pool[Math.floor(Math.random() * pool.length)];
             attempts++;
         } while (attempts < 20 && extraLetters.filter(l => l === letter).length >= 2);

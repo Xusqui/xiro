@@ -20,9 +20,20 @@ const _LIENZO_TEMPLATES = [
 function _lienzoTemplateCanvas(template) {
     const M = window.XiroSlideCanvas;
     const t = window.XiroCanvasEditor.t;
-    if (template === 'text') return M.fromLegacySlide({ slide_type: 'text', slide_title: t('content.title'), slide_body: t('content.body') });
+    if (template === 'text')
+        return M.fromLegacySlide({
+            slide_type: 'text',
+            slide_title: t('content.title'),
+            slide_body: t('content.body')
+        });
     if (template === 'info') return M.fromLegacySlide({ slide_type: 'info', comment_text: t('content.info') });
-    if (template === 'text_image') return M.fromLegacySlide({ slide_type: 'text-image', slide_title: t('content.title'), slide_body: t('content.short_body'), slide_image_position: 'right' });
+    if (template === 'text_image')
+        return M.fromLegacySlide({
+            slide_type: 'text-image',
+            slide_title: t('content.title'),
+            slide_body: t('content.short_body'),
+            slide_image_position: 'right'
+        });
     return M.createCanvas();
 }
 
@@ -48,12 +59,16 @@ function mostrarSelectorLienzo() {
                 </div>
             </div>
             <div class="xsce-templates">
-                ${_LIENZO_TEMPLATES.map(([id, icon, hole]) => `
+                ${_LIENZO_TEMPLATES
+        .map(
+            ([id, icon, hole]) => `
                     <button type="button" class="xsce-tpl" data-lienzo-template="${id}">
                         ${_lienzoTemplateThumb(id, icon, hole)}
                         <span class="xsce-tpl-name">${th('tpl.' + id)}</span>
                         <span class="xsce-tpl-desc">${th('tpl.' + id + '_desc')}</span>
-                    </button>`).join('')}
+                    </button>`
+        )
+        .join('')}
             </div>
             <div class="xsce-dialog-foot">
                 <button type="button" data-lienzo-template="close" class="xsce-btn xsce-btn--ghost">${th('cancel')}</button>

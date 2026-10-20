@@ -30,7 +30,7 @@ const XiroTeams = {
         const teams = Array.from({ length: n }, (_, i) => ({
             name: DEFAULT_NAMES[i] || `Equipo ${i + 1}`,
             color: DEFAULT_COLORS[i] || 'AAAAAA',
-            players: [],
+            players: []
         }));
         return { isTeamMode: true, teams };
     },
@@ -44,7 +44,7 @@ const XiroTeams = {
         const cfg = this._getConfig();
         if (!cfg || !cfg.teams[index]) return;
         cfg.teams[index].name = this._sanitizeName(name);
-        XiroState.set('teamConfig', cfg);          // eslint-disable-line no-undef
+        XiroState.set('teamConfig', cfg); // eslint-disable-line no-undef
     },
 
     /**
@@ -56,7 +56,7 @@ const XiroTeams = {
         const cfg = this._getConfig();
         if (!cfg || !cfg.teams[index]) return;
         cfg.teams[index].color = color.replace(/^#/, '').toUpperCase();
-        XiroState.set('teamConfig', cfg);          // eslint-disable-line no-undef
+        XiroState.set('teamConfig', cfg); // eslint-disable-line no-undef
     },
 
     /**
@@ -74,14 +74,14 @@ const XiroTeams = {
                 cfg.teams.push({
                     name: DEFAULT_NAMES[i] || `Equipo ${i + 1}`,
                     color: DEFAULT_COLORS[i] || 'AAAAAA',
-                    players: [],
+                    players: []
                 });
             }
         } else {
             cfg.teams = cfg.teams.slice(0, n);
         }
 
-        XiroState.set('teamConfig', cfg);          // eslint-disable-line no-undef
+        XiroState.set('teamConfig', cfg); // eslint-disable-line no-undef
         return cfg;
     },
 
@@ -91,18 +91,18 @@ const XiroTeams = {
      */
     init() {
         const cfg = this.buildConfig(MIN_TEAMS);
-        XiroState.set({ mode: 'teams', teamConfig: cfg });  // eslint-disable-line no-undef
+        XiroState.set({ mode: 'teams', teamConfig: cfg }); // eslint-disable-line no-undef
         return cfg;
     },
 
     /** Resetea al modo individual. */
     clear() {
-        XiroState.set({ mode: 'individual', teamConfig: null });  // eslint-disable-line no-undef
+        XiroState.set({ mode: 'individual', teamConfig: null }); // eslint-disable-line no-undef
     },
 
     /** @returns {Object|null} config actual desde state */
     getConfig() {
-        return XiroState.get('teamConfig');        // eslint-disable-line no-undef
+        return XiroState.get('teamConfig'); // eslint-disable-line no-undef
     },
 
     /** @returns {boolean} true si el modo actual es por equipos */
@@ -118,13 +118,18 @@ const XiroTeams = {
     // ── Privados ─────────────────────────────────────────────
 
     _getConfig() {
-        const cfg = XiroState.get('teamConfig');   // eslint-disable-line no-undef
+        const cfg = XiroState.get('teamConfig'); // eslint-disable-line no-undef
         // Devolver copia superficial para evitar mutación accidental
         return cfg ? { ...cfg, teams: cfg.teams.map(t => ({ ...t })) } : null;
     },
 
     _sanitizeName(name) {
         // Eliminar caracteres problemáticos; máximo 30 caracteres
-        return String(name).replace(/[<>"'&]/g, '').trim().slice(0, 30) || 'Equipo';
-    },
+        return (
+            String(name)
+                .replace(/[<>"'&]/g, '')
+                .trim()
+                .slice(0, 30) || 'Equipo'
+        );
+    }
 };

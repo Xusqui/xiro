@@ -11,7 +11,7 @@
 /**
  * Clase base abstracta para todos los comandos
  * Un comando representa una intención de acción que modifica estado
- * 
+ *
  * @abstract
  */
 class Command {

@@ -11,7 +11,12 @@ import {
     getPendingAnswer,
     getSendingAnswer
 } from './player-state.js?v=20260922172926';
-import { OPTION_COLORS, getResponsiveFontClass, fitOptionButtonText, optionCaseClass } from './player-question-utils.js?v=20260922172926';
+import {
+    OPTION_COLORS,
+    getResponsiveFontClass,
+    fitOptionButtonText,
+    optionCaseClass
+} from './player-question-utils.js?v=20260922172926';
 import { setBodyHTML } from './player-streak-ui.js?v=20260922172926';
 import { enviarRespuestaMultipleChoice } from './player-answer.js?v=20260922172926';
 import { escapeHtml, sanitizeResourceUrl } from '../core/sanitize.js?v=20260922172926';
@@ -63,9 +68,12 @@ function updateOptionUI(index) {
     if (selectedIndices.includes(index)) {
         // Crear overlay verde que ocupa toda la casilla
         const overlay = document.createElement('div');
-        overlay.className = 'check-overlay absolute inset-0 bg-green-500/30 rounded-xl flex items-center justify-center z-10 pointer-events-none';
+        overlay.className =
+            'check-overlay absolute inset-0 bg-green-500/30 rounded-xl flex items-center justify-center z-10 pointer-events-none';
         overlay.style.animation = 'fadeIn 0.2s ease-out';
-        overlay.innerHTML = _tHtml('<i class="fas fa-check text-white" style="font-size: 8rem; text-shadow: 0 0 20px rgba(34, 197, 94, 0.8), 0 0 40px rgba(34, 197, 94, 0.6), 0 0 60px rgba(34, 197, 94, 0.4), 0 4px 10px rgba(0,0,0,0.3); -webkit-text-stroke: 3px rgba(34, 197, 94, 0.9);"></i>');
+        overlay.innerHTML = _tHtml(
+            '<i class="fas fa-check text-white" style="font-size: 8rem; text-shadow: 0 0 20px rgba(34, 197, 94, 0.8), 0 0 40px rgba(34, 197, 94, 0.6), 0 0 60px rgba(34, 197, 94, 0.4), 0 4px 10px rgba(0,0,0,0.3); -webkit-text-stroke: 3px rgba(34, 197, 94, 0.9);"></i>'
+        );
         button.appendChild(overlay);
         button.classList.add('ring-4', 'ring-green-400', 'shadow-lg', 'shadow-green-400/50');
     } else {
@@ -108,7 +116,7 @@ window.enviarRespuestaMultiple = function () {
 
     // Deshabilitar botones inmediatamente
     const buttons = document.querySelectorAll('.btn-multiplechoice');
-    buttons.forEach(btn => btn.disabled = true);
+    buttons.forEach(btn => (btn.disabled = true));
 
     const enviarBtn = document.getElementById('btn-enviar-multiple');
     if (enviarBtn) {
@@ -163,7 +171,7 @@ export function renderizarPreguntaMultipleChoice(pregunta) {
             </div>`;
     }
 
-    const caseClass = optionCaseClass(pregunta.options.map((opt) => opt.optionText));
+    const caseClass = optionCaseClass(pregunta.options.map(opt => opt.optionText));
 
     setBodyHTML(`
         <style>
@@ -187,9 +195,10 @@ export function renderizarPreguntaMultipleChoice(pregunta) {
                 </p>
             </div>
             <div class="grid grid-cols-2 gap-1.5 flex-1 p-1.5 bg-slate-200 overflow-hidden" style="grid-template-rows: repeat(${pregunta.options.length > 4 ? 3 : 2}, minmax(0, 1fr));">
-                ${pregunta.options.map((opt, i) => {
-        const fontClass = getResponsiveFontClass(opt.optionText);
-        return `
+                ${pregunta.options
+        .map((opt, i) => {
+            const fontClass = getResponsiveFontClass(opt.optionText);
+            return `
                     <button 
                         data-index="${i}"
                         data-player-action="toggle-multiple"
@@ -200,7 +209,8 @@ export function renderizarPreguntaMultipleChoice(pregunta) {
                         <span class="btn-text text-white font-bold ${fontClass} ${caseClass} px-1 break-words hyphens-auto leading-tight text-center" lang="es">${escapeHtml(opt.optionText)}</span>
                     </button>
                 `;
-    }).join('')}
+        })
+        .join('')}
             </div>
             <div class="bg-slate-900 p-3 shrink-0">
                 <button 

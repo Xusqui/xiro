@@ -37,14 +37,19 @@ window.TVApp.Lobby = (function () {
         x.onreadystatechange = function () {
             if (x.readyState === 4) {
                 if (x.status === 200) {
-                    try { callback(null, JSON.parse(x.responseText)); }
-                    catch (e) { callback(e, null); }
+                    try {
+                        callback(null, JSON.parse(x.responseText));
+                    } catch (e) {
+                        callback(e, null);
+                    }
                 } else {
                     callback(new Error('HTTP ' + x.status), null);
                 }
             }
         };
-        x.onerror = function () { callback(new Error('Network error'), null); };
+        x.onerror = function () {
+            callback(new Error('Network error'), null);
+        };
         x.send();
         return x;
     }
@@ -55,7 +60,14 @@ window.TVApp.Lobby = (function () {
 
         fetchPresenterPins(adminToken, function (err, data) {
             if (err || !Array.isArray(data)) {
-                getEl('main-container').innerHTML = '<div class="pin-selector"><div class="final-trophy">⚠</div><h1 class="pin-selector-title">' + _t('Error al cargar PINs', null, 'Error al cargar PINs') + '</h1><p class="pin-selector-subtitle">' + (err ? err.message : _t('Error desconocido', null, 'Error desconocido')) + '</p><button data-tv-action="retry-pin-selector" class="btn btn-secondary">' + _t('Reintentar', null, 'Reintentar') + '</button></div>';
+                getEl('main-container').innerHTML =
+                    '<div class="pin-selector"><div class="final-trophy">⚠</div><h1 class="pin-selector-title">' +
+                    _t('Error al cargar PINs', null, 'Error al cargar PINs') +
+                    '</h1><p class="pin-selector-subtitle">' +
+                    (err ? err.message : _t('Error desconocido', null, 'Error desconocido')) +
+                    '</p><button data-tv-action="retry-pin-selector" class="btn btn-secondary">' +
+                    _t('Reintentar', null, 'Reintentar') +
+                    '</button></div>';
                 clearCache();
                 return;
             }
@@ -75,7 +87,11 @@ window.TVApp.Lobby = (function () {
         if (peticionBusqueda) {
             const peticion = peticionBusqueda;
             peticionBusqueda = null;
-            try { peticion.abort(); } catch (e) { /* ignorar */ }
+            try {
+                peticion.abort();
+            } catch (e) {
+                /* ignorar */
+            }
         }
         buscandoPins = false;
     }
@@ -102,14 +118,18 @@ window.TVApp.Lobby = (function () {
         renderizarRejillaPINs();
         temporizadorBusqueda = setTimeout(function () {
             temporizadorBusqueda = null;
-            const peticion = fetchPresenterPins('', function (err, data) {
-                if (peticionBusqueda !== peticion) return; // respuesta de una búsqueda anterior
-                peticionBusqueda = null;
-                buscandoPins = false;
-                if (err) console.log('Error buscando PINs:', err);
-                resultadosBusqueda = (!err && Array.isArray(data)) ? data : [];
-                renderizarRejillaPINs();
-            }, termino);
+            const peticion = fetchPresenterPins(
+                '',
+                function (err, data) {
+                    if (peticionBusqueda !== peticion) return; // respuesta de una búsqueda anterior
+                    peticionBusqueda = null;
+                    buscandoPins = false;
+                    if (err) console.log('Error buscando PINs:', err);
+                    resultadosBusqueda = !err && Array.isArray(data) ? data : [];
+                    renderizarRejillaPINs();
+                },
+                termino
+            );
             peticionBusqueda = peticion;
         }, RETARDO_BUSQUEDA_MS);
     }
@@ -117,22 +137,58 @@ window.TVApp.Lobby = (function () {
     function renderizarPINs() {
         const state = window.TVApp.State;
 
-        const tabsHTML = '<div class="pin-tabs">'
-            + '<button data-tv-action="change-filter" data-filter="Juego Personalizado" class="pin-tab ' + (state.filtroActivo === 'Juego Personalizado' ? 'pin-tab-active' : '') + '">' + _t('tv.lobby.filter.custom', null, 'Personalizados') + '</button>'
-            + '<button data-tv-action="change-filter" data-filter="Juego" class="pin-tab ' + (state.filtroActivo === 'Juego' ? 'pin-tab-active' : '') + '">' + _t('tv.lobby.filter.games', null, 'Juegos') + '</button>'
-            + '<button data-tv-action="change-filter" data-filter="Banco" class="pin-tab ' + (state.filtroActivo === 'Banco' ? 'pin-tab-active' : '') + '">' + _t('tv.lobby.filter.banks', null, 'Bancos') + '</button>'
-            + '<button data-tv-action="change-filter" data-filter="Trivial" class="pin-tab ' + (state.filtroActivo === 'Trivial' ? 'pin-tab-active' : '') + '">' + _t('tv.lobby.filter.trivial', null, 'Trivial') + '</button>'
-            + '<button data-tv-action="change-filter" data-filter="todos" class="pin-tab ' + (state.filtroActivo === 'todos' ? 'pin-tab-active' : '') + '">' + _t('tv.lobby.filter.all', null, 'Todos') + '</button>'
-            + '</div>';
+        const tabsHTML =
+            '<div class="pin-tabs">' +
+            '<button data-tv-action="change-filter" data-filter="Juego Personalizado" class="pin-tab ' +
+            (state.filtroActivo === 'Juego Personalizado' ? 'pin-tab-active' : '') +
+            '">' +
+            _t('tv.lobby.filter.custom', null, 'Personalizados') +
+            '</button>' +
+            '<button data-tv-action="change-filter" data-filter="Juego" class="pin-tab ' +
+            (state.filtroActivo === 'Juego' ? 'pin-tab-active' : '') +
+            '">' +
+            _t('tv.lobby.filter.games', null, 'Juegos') +
+            '</button>' +
+            '<button data-tv-action="change-filter" data-filter="Banco" class="pin-tab ' +
+            (state.filtroActivo === 'Banco' ? 'pin-tab-active' : '') +
+            '">' +
+            _t('tv.lobby.filter.banks', null, 'Bancos') +
+            '</button>' +
+            '<button data-tv-action="change-filter" data-filter="Trivial" class="pin-tab ' +
+            (state.filtroActivo === 'Trivial' ? 'pin-tab-active' : '') +
+            '">' +
+            _t('tv.lobby.filter.trivial', null, 'Trivial') +
+            '</button>' +
+            '<button data-tv-action="change-filter" data-filter="todos" class="pin-tab ' +
+            (state.filtroActivo === 'todos' ? 'pin-tab-active' : '') +
+            '">' +
+            _t('tv.lobby.filter.all', null, 'Todos') +
+            '</button>' +
+            '</div>';
 
-        const searchHTML = '<div class="pin-search">'
-            + '<input type="text" class="pin-search-input" data-tv-input="search-pins" maxlength="100" autocomplete="off"'
-            + ' value="' + escapeHtml(terminoBusqueda) + '"'
-            + ' aria-label="' + escapeHtml(_t('tv.lobby.search.label', null, 'Buscar por PIN o título')) + '"'
-            + ' placeholder="' + escapeHtml(_t('tv.lobby.search.placeholder', null, 'Busca por PIN o título (mín. 3 caracteres)')) + '">'
-            + '</div>';
+        const searchHTML =
+            '<div class="pin-search">' +
+            '<input type="text" class="pin-search-input" data-tv-input="search-pins" maxlength="100" autocomplete="off"' +
+            ' value="' +
+            escapeHtml(terminoBusqueda) +
+            '"' +
+            ' aria-label="' +
+            escapeHtml(_t('tv.lobby.search.label', null, 'Buscar por PIN o título')) +
+            '"' +
+            ' placeholder="' +
+            escapeHtml(_t('tv.lobby.search.placeholder', null, 'Busca por PIN o título (mín. 3 caracteres)')) +
+            '">' +
+            '</div>';
 
-        getEl('main-container').innerHTML = '<div class="pin-selector"><h1 class="pin-selector-title">' + _t('tv.lobby.title', null, 'Selecciona un Juego') + '</h1>' + searchHTML + tabsHTML + '<div id="tv-pin-grid">' + htmlRejillaPINs() + '</div></div>';
+        getEl('main-container').innerHTML =
+            '<div class="pin-selector"><h1 class="pin-selector-title">' +
+            _t('tv.lobby.title', null, 'Selecciona un Juego') +
+            '</h1>' +
+            searchHTML +
+            tabsHTML +
+            '<div id="tv-pin-grid">' +
+            htmlRejillaPINs() +
+            '</div></div>';
         clearCache();
     }
 
@@ -150,9 +206,9 @@ window.TVApp.Lobby = (function () {
         const state = window.TVApp.State;
         const pinsTextos = {
             'Juego Personalizado': _t('tv.lobby.type.custom', null, 'Juegos Personalizados'),
-            'Juego': _t('tv.lobby.type.games', null, 'Juegos'),
-            'Banco': _t('tv.lobby.type.banks', null, 'Bancos de Preguntas'),
-            'Trivial': _t('tv.lobby.type.trivial', null, 'Juegos Trivial')
+            Juego: _t('tv.lobby.type.games', null, 'Juegos'),
+            Banco: _t('tv.lobby.type.banks', null, 'Bancos de Preguntas'),
+            Trivial: _t('tv.lobby.type.trivial', null, 'Juegos Trivial')
         };
 
         if (buscandoPins) {
@@ -160,25 +216,48 @@ window.TVApp.Lobby = (function () {
         }
 
         const origen = resultadosBusqueda || state.todosLosPins || [];
-        const pinsFiltrados = state.filtroActivo === 'todos' ? origen : origen.filter(function (p) { return p.type === state.filtroActivo; });
+        const pinsFiltrados =
+            state.filtroActivo === 'todos'
+                ? origen
+                : origen.filter(function (p) {
+                    return p.type === state.filtroActivo;
+                });
 
         let cardsHTML = '';
         if (pinsFiltrados.length === 0) {
             let emptyMsg;
             if (resultadosBusqueda) {
                 const termino = escapeHtml(terminoBusqueda.replace(/^\s+|\s+$/g, ''));
-                emptyMsg = _t('tv.lobby.search.no_results', { term: termino }, 'No se han encontrado juegos para "{term}".').replace('{term}', termino);
+                emptyMsg = _t(
+                    'tv.lobby.search.no_results',
+                    { term: termino },
+                    'No se han encontrado juegos para "{term}".'
+                ).replace('{term}', termino);
             } else {
-                emptyMsg = state.filtroActivo === 'todos'
-                    ? _t('tv.lobby.empty.all', null, 'No hay PINs disponibles. Crea un juego o banco primero.')
-                    : _t('tv.lobby.empty.by_type', { type: pinsTextos[state.filtroActivo] || state.filtroActivo }, 'No hay {type} disponibles.').replace('{type}', pinsTextos[state.filtroActivo] || state.filtroActivo);
+                emptyMsg =
+                    state.filtroActivo === 'todos'
+                        ? _t('tv.lobby.empty.all', null, 'No hay PINs disponibles. Crea un juego o banco primero.')
+                        : _t(
+                            'tv.lobby.empty.by_type',
+                            { type: pinsTextos[state.filtroActivo] || state.filtroActivo },
+                            'No hay {type} disponibles.'
+                        ).replace('{type}', pinsTextos[state.filtroActivo] || state.filtroActivo);
             }
             cardsHTML = htmlMensajeRejilla(emptyMsg);
         } else {
             cardsHTML = '<div class="pins-grid">';
             for (let i = 0; i < pinsFiltrados.length; i++) {
                 const p = pinsFiltrados[i];
-                cardsHTML += '<div class="pin-card" data-tv-action="select-pin" data-pin="' + escapeHtml(p.pin) + '"><div class="pin-card-type">' + escapeHtml(p.type) + '</div><div class="pin-card-pin">' + escapeHtml(p.pin) + '</div><div class="pin-card-name">' + escapeHtml(p.name) + '</div></div>';
+                cardsHTML +=
+                    '<div class="pin-card" data-tv-action="select-pin" data-pin="' +
+                    escapeHtml(p.pin) +
+                    '"><div class="pin-card-type">' +
+                    escapeHtml(p.type) +
+                    '</div><div class="pin-card-pin">' +
+                    escapeHtml(p.pin) +
+                    '</div><div class="pin-card-name">' +
+                    escapeHtml(p.name) +
+                    '</div></div>';
             }
             cardsHTML += '</div>';
         }
@@ -226,7 +305,20 @@ window.TVApp.Lobby = (function () {
         const url = baseUrl + '/jugador.html?session=' + encodeURIComponent(state.sessionId);
         const qrUrl = baseUrl + '/api/qr?url=' + encodeURIComponent(url);
 
-        getEl('main-container').innerHTML = '<div class="header"><table style="width:100%"><tr><td class="header-cell"><img src="/images/logo.svg" class="logo" alt="Logo"></td><td class="header-cell header-center"><div class="pin-box"><div class="pin-label">' + _t('tv.lobby.pin_label', null, 'PIN DE ACCESO') + '</div><div class="pin-number" id="display-pin">' + state.sessionId + '</div><img src="' + qrUrl + '" alt="Código QR" style="margin-top:10px;border-radius:8px" width="200" height="200"><div class="pin-url">' + url + '</div></div></td><td class="header-cell header-right"><button id="btn-empezar" data-tv-action="start-game" class="btn" disabled>' + _t('tv.lobby.btn_start', null, '¡EMPEZAR!') + '</button></td></tr></table></div><div class="players-section"><div class="players-title">' + _t('tv.lobby.players_label', null, 'Jugadores: ') + '<span class="player-badge" id="p-count">0</span></div><div id="p-list" class="players-grid"></div></div>';
+        getEl('main-container').innerHTML =
+            '<div class="header"><table style="width:100%"><tr><td class="header-cell"><img src="/images/logo.svg" class="logo" alt="Logo"></td><td class="header-cell header-center"><div class="pin-box"><div class="pin-label">' +
+            _t('tv.lobby.pin_label', null, 'PIN DE ACCESO') +
+            '</div><div class="pin-number" id="display-pin">' +
+            state.sessionId +
+            '</div><img src="' +
+            qrUrl +
+            '" alt="Código QR" style="margin-top:10px;border-radius:8px" width="200" height="200"><div class="pin-url">' +
+            url +
+            '</div></div></td><td class="header-cell header-right"><button id="btn-empezar" data-tv-action="start-game" class="btn" disabled>' +
+            _t('tv.lobby.btn_start', null, '¡EMPEZAR!') +
+            '</button></td></tr></table></div><div class="players-section"><div class="players-title">' +
+            _t('tv.lobby.players_label', null, 'Jugadores: ') +
+            '<span class="player-badge" id="p-count">0</span></div><div id="p-list" class="players-grid"></div></div>';
         clearCache();
 
         if (state.isTeamMode && state.teamConfig && window.TVApp.Teams) {
@@ -236,7 +328,14 @@ window.TVApp.Lobby = (function () {
         xhr('GET', '/api/quizzes/validate/' + encodeURIComponent(state.pin), function (err, data) {
             if (err || !data || !data.exists) {
                 console.log('Error validando PIN en tv-lobby:', err);
-                getEl('main-container').innerHTML = '<div class="pin-selector"><div class="final-trophy">⚠</div><h1 class="pin-selector-title">' + _t('Error de Conexión', null, 'Error de Conexión') + '</h1><p class="pin-selector-subtitle">' + _t('PIN No Válido o Error de servidor.', null, 'PIN No Válido o Error de servidor.') + '</p><button data-tv-action="go-tv-home" class="btn btn-secondary">' + _t('Volver', null, 'Volver') + '</button></div>';
+                getEl('main-container').innerHTML =
+                    '<div class="pin-selector"><div class="final-trophy">⚠</div><h1 class="pin-selector-title">' +
+                    _t('Error de Conexión', null, 'Error de Conexión') +
+                    '</h1><p class="pin-selector-subtitle">' +
+                    _t('PIN No Válido o Error de servidor.', null, 'PIN No Válido o Error de servidor.') +
+                    '</p><button data-tv-action="go-tv-home" class="btn btn-secondary">' +
+                    _t('Volver', null, 'Volver') +
+                    '</button></div>';
                 clearCache();
                 return;
             }

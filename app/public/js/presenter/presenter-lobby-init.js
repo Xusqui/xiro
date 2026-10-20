@@ -5,9 +5,15 @@
 
 import { getSocket, getPresenterPlayerId } from './presenter-socket-config.js?v=20260922172926';
 import {
-    getSessionId, setSessionId, getPin,
-    getIsTeamMode, setIsTeamMode, getTeamConfig, setTeamConfig,
-    setGameType, getGameType
+    getSessionId,
+    setSessionId,
+    getPin,
+    getIsTeamMode,
+    setIsTeamMode,
+    getTeamConfig,
+    setTeamConfig,
+    setGameType,
+    getGameType
 } from './presenter-state.js?v=20260922172926';
 import { generateSessionId, mostrarLobbyMain, restoreLobbyHTML } from './presenter-utils.js?v=20260922172926';
 import { mostrarQR, renderTeamLobby } from './presenter-game-ui.js?v=20260922172926';
@@ -37,7 +43,7 @@ export async function iniciarLobby() {
     // el presentador ya estará en pantalla completa sin necesitar un segundo gesto.
     if (!document.fullscreenElement) {
         if (document.documentElement.requestFullscreen) {
-            document.documentElement.requestFullscreen().catch(() => { });
+            document.documentElement.requestFullscreen().catch(() => {});
         } else if (document.documentElement.webkitRequestFullscreen) {
             document.documentElement.webkitRequestFullscreen();
         }
@@ -70,7 +76,7 @@ export async function iniciarLobby() {
                 <div class="h-full w-full flex flex-col items-center justify-center pt-10 px-10 pb-16">
                     <i class="fas fa-exclamation-triangle text-red-500 text-8xl mb-6"></i>
                     <h1 class="text-4xl font-black text-white mb-4">${_t('presenter.selector.invalid_pin.title', null, 'PIN No Válido')}</h1>
-                    <p class="text-slate-400 mb-2 text-xl">${_t('presenter.selector.invalid_pin.message', {pin: String(pin)}, `El código <span class="font-mono bg-red-500/20 px-3 py-1 rounded">${pin}</span> no existe.`)}</p>
+                    <p class="text-slate-400 mb-2 text-xl">${_t('presenter.selector.invalid_pin.message', { pin: String(pin) }, `El código <span class="font-mono bg-red-500/20 px-3 py-1 rounded">${pin}</span> no existe.`)}</p>
                     <p class="text-slate-500 mb-6">${_t('presenter.selector.invalid_pin.hint', null, 'Verifica el PIN o selecciona un juego de la lista.')}</p>
                     <button data-presenter-action="volver-juegos" class="bg-plum-600 hover:bg-plum-500 px-6 py-3 rounded-full text-white font-bold uppercase transition shadow-lg">
                         <i class="fas fa-list mr-2"></i>${_t('presenter.selector.actions.show_games_available', null, 'Mostrar juegos disponibles')}
@@ -86,8 +92,10 @@ export async function iniciarLobby() {
         setSessionId(newSessionId);
         const resolvedGameType = data.gameType || 'standard';
         setGameType(resolvedGameType);
-        window.isTrivialGame = (resolvedGameType === 'trivial');
-        console.log(`✅ PIN ${pin} validado, generando sesión: ${newSessionId}, tipo: ${resolvedGameType}, isTrivialGame: ${window.isTrivialGame}`);
+        window.isTrivialGame = resolvedGameType === 'trivial';
+        console.log(
+            `✅ PIN ${pin} validado, generando sesión: ${newSessionId}, tipo: ${resolvedGameType}, isTrivialGame: ${window.isTrivialGame}`
+        );
 
         // Guardar datos de sesión en AMBOS storages para reconexión
         // sessionStorage: persiste en F5 (misma pestaña) — fuente primaria
@@ -188,7 +196,6 @@ export async function iniciarLobby() {
                 }
             }, 10000);
         }
-
     } catch (err) {
         console.error('Error validando PIN:', err);
         mostrarLobbyMain(`
@@ -220,7 +227,7 @@ export function empezar() {
 
     // Entrar en pantalla completa
     if (document.documentElement.requestFullscreen) {
-        document.documentElement.requestFullscreen().catch(() => { });
+        document.documentElement.requestFullscreen().catch(() => {});
     } else if (document.documentElement.webkitRequestFullscreen) {
         document.documentElement.webkitRequestFullscreen();
     }
@@ -228,10 +235,13 @@ export function empezar() {
     // Activar audio con interacción del usuario
     const tickSound = document.getElementById('tick-sound');
     if (tickSound) {
-        tickSound.play().then(() => {
-            tickSound.pause();
-            tickSound.currentTime = 0;
-        }).catch(() => { });
+        tickSound
+            .play()
+            .then(() => {
+                tickSound.pause();
+                tickSound.currentTime = 0;
+            })
+            .catch(() => {});
     }
 
     if (getGameType() === 'trivial') {

@@ -24,14 +24,16 @@ const MAX_SEARCH_LENGTH = 100;
 
 // Minúsculas y sin acentos, para que "matematicas" encuentre "Matemáticas"
 function normalizeSearch(value) {
-    return String(value || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+    return String(value || '')
+        .normalize('NFD')
+        .replace(/[̀-ͯ]/g, '')
+        .toLowerCase()
+        .trim();
 }
 
 /** Filtra por PIN o nombre según ?q=; sin q (o con menos de 3 caracteres) devuelve todo. */
 function filterPinsBySearch(pins, rawQuery) {
-    const query = typeof rawQuery === 'string'
-        ? normalizeSearch(rawQuery.slice(0, MAX_SEARCH_LENGTH))
-        : '';
+    const query = typeof rawQuery === 'string' ? normalizeSearch(rawQuery.slice(0, MAX_SEARCH_LENGTH)) : '';
     if (query.length < MIN_SEARCH_LENGTH) return pins;
     return pins.filter(p => normalizeSearch(p.pin).includes(query) || normalizeSearch(p.name).includes(query));
 }

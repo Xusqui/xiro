@@ -45,7 +45,9 @@
 
     function defaultMix() {
         const mix = {};
-        LAYERS.forEach((layer) => { mix[layer] = { db: LAYER_DB[layer], muted: false }; });
+        LAYERS.forEach(layer => {
+            mix[layer] = { db: LAYER_DB[layer], muted: false };
+        });
         return mix;
     }
 
@@ -61,19 +63,19 @@
         };
     }
 
-    const isObject = (v) => v !== null && typeof v === 'object' && !Array.isArray(v);
+    const isObject = v => v !== null && typeof v === 'object' && !Array.isArray(v);
     const inRange = (v, r) => typeof v === 'number' && Number.isFinite(v) && v >= r.min && v <= r.max;
 
     function soundsError(sounds) {
         if (!isObject(sounds)) return 'sounds debe ser un objeto';
         const options = soundOptions();
-        const bad = Object.keys(sounds).find((g) => !Object.hasOwn(options, g) || !options[g].includes(sounds[g]));
+        const bad = Object.keys(sounds).find(g => !Object.hasOwn(options, g) || !options[g].includes(sounds[g]));
         return bad ? `Sonido no válido para ${bad}` : null;
     }
 
     function mixError(mix) {
         if (!isObject(mix)) return 'mix debe ser un objeto';
-        const bad = Object.keys(mix).find((layer) => {
+        const bad = Object.keys(mix).find(layer => {
             const ch = mix[layer];
             return !LAYERS.includes(layer) || !isObject(ch) || !inRange(ch.db, DB) || typeof ch.muted !== 'boolean';
         });
@@ -81,8 +83,13 @@
     }
 
     function seedError(raw) {
-        if (raw.seedMode !== undefined && !SEED_MODES.includes(raw.seedMode)) return 'seedMode debe ser session o fixed';
-        if (raw.seed !== undefined && raw.seed !== '' && !(typeof raw.seed === 'string' && SEED_PATTERN.test(raw.seed))) {
+        if (raw.seedMode !== undefined && !SEED_MODES.includes(raw.seedMode))
+            return 'seedMode debe ser session o fixed';
+        if (
+            raw.seed !== undefined &&
+            raw.seed !== '' &&
+            !(typeof raw.seed === 'string' && SEED_PATTERN.test(raw.seed))
+        ) {
             return 'La semilla admite letras, números, - y _ (máximo 32)';
         }
         if (raw.seedMode === 'fixed' && !raw.seed) return 'Con semilla fija hay que escribir una semilla';
@@ -92,7 +99,7 @@
     /** Primer problema de `raw` (texto) o null si es válido. Las claves ausentes valen. */
     function firstError(raw) {
         if (!isObject(raw)) return 'Los ajustes de música deben ser un objeto';
-        const unknown = Object.keys(raw).find((key) => !Object.hasOwn(defaults(), key));
+        const unknown = Object.keys(raw).find(key => !Object.hasOwn(defaults(), key));
         if (unknown) return `Ajuste de música desconocido: ${unknown}`;
         if (raw.sounds !== undefined && soundsError(raw.sounds)) return soundsError(raw.sounds);
         if (raw.tempo !== undefined && !(Number.isInteger(raw.tempo) && inRange(raw.tempo, TEMPO))) {
@@ -105,7 +112,7 @@
     }
 
     function normalizeMix(out, mix) {
-        LAYERS.forEach((layer) => {
+        LAYERS.forEach(layer => {
             const ch = mix[layer];
             if (!isObject(ch)) return;
             if (inRange(ch.db, DB)) out.mix[layer].db = ch.db;
@@ -122,7 +129,7 @@
         if (!isObject(raw)) return out;
         const options = soundOptions();
         if (isObject(raw.sounds)) {
-            SOUND_GROUPS.forEach((g) => {
+            SOUND_GROUPS.forEach(g => {
                 if (options[g].includes(raw.sounds[g])) out.sounds[g] = raw.sounds[g];
             });
         }
@@ -146,7 +153,19 @@
     }
 
     return {
-        LAYERS, LAYER_DB, TICK_SOUNDS, SOUND_GROUPS, SEED_MODES, TEMPO, DB, VOLUME,
-        soundOptions, defaults, firstError, normalize, seedFor, tempoScale
+        LAYERS,
+        LAYER_DB,
+        TICK_SOUNDS,
+        SOUND_GROUPS,
+        SEED_MODES,
+        TEMPO,
+        DB,
+        VOLUME,
+        soundOptions,
+        defaults,
+        firstError,
+        normalize,
+        seedFor,
+        tempoScale
     };
 });

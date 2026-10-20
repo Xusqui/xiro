@@ -22,10 +22,7 @@ class AnswerProcessingService {
             correctOption
         });
 
-        const playerJustification = ScoringService.getJustification(
-            previousAnswer.option,
-            correctOption
-        );
+        const playerJustification = ScoringService.getJustification(previousAnswer.option, correctOption);
         if (playerJustification) {
             duplicatePayload.justification = playerJustification;
         }
@@ -118,10 +115,7 @@ class AnswerProcessingService {
      */
     static prepareAnswerPayload({ answerResult, isCorrect, pointsEarned, currentQuestion, sortedScores }) {
         const correctOption = ScoringService.getCorrectOption(currentQuestion);
-        const justificationText = ScoringService.getJustification(
-            answerResult.optionSelected,
-            correctOption
-        );
+        const justificationText = ScoringService.getJustification(answerResult.optionSelected, correctOption);
 
         const payload = {
             correct: answerResult.isSurvey ? null : isCorrect,

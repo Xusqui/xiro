@@ -7,7 +7,13 @@
 function _updFormatDate(iso) {
     if (!iso) return '';
     const date = new Date(iso);
-    return date.toLocaleString('es-ES', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
+    return date.toLocaleString('es-ES', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
 }
 
 /** Genera la tarjeta de versión con estado actual y disponible. */
@@ -64,9 +70,10 @@ function _updActionCard(data) {
 
     if (data.updateAvailable) {
         if (data.mode === 'button') {
-            const sessionsWarning = data.activeSessions > 0
-                ? `<div class="bg-amber-50 border-2 border-amber-200 rounded-xl p-4 mb-4"><p class="font-bold text-amber-800">${_t('admin.updates.active_sessions', { count: data.activeSessions })}</p></div>`
-                : '';
+            const sessionsWarning =
+                data.activeSessions > 0
+                    ? `<div class="bg-amber-50 border-2 border-amber-200 rounded-xl p-4 mb-4"><p class="font-bold text-amber-800">${_t('admin.updates.active_sessions', { count: data.activeSessions })}</p></div>`
+                    : '';
 
             return `
                 <div class="bg-emerald-50 border-2 border-emerald-200 rounded-xl p-4 mb-4">
@@ -86,9 +93,10 @@ function _updActionCard(data) {
                 </div>
                 <p id="update-start-error" class="hidden text-sm text-red-600 mt-2"></p>`;
         } else {
-            const commands = data.updaterReason === 'source_install'
-                ? 'git pull\n./manage.sh update'
-                : 'cd /opt/xiro\ndocker compose pull\ndocker compose up -d';
+            const commands =
+                data.updaterReason === 'source_install'
+                    ? 'git pull\n./manage.sh update'
+                    : 'cd /opt/xiro\ndocker compose pull\ndocker compose up -d';
             return `
                 <div class="bg-emerald-50 border-2 border-emerald-200 rounded-xl p-4 mb-4">
                     <p class="font-bold text-emerald-800">${_t('admin.updates.available', { version: escapeHtml(data.latest) })}</p>
@@ -127,7 +135,10 @@ function _updProgressCard(progress, targetVersion) {
 
     let stepHtml = '';
     for (let i = 0; i < steps.length; i++) {
-        stepHtml += _updStepItem(_t('admin.updates.step.' + steps[i]), _updStepIcon(i, stepIndex, progress.state, inRollback));
+        stepHtml += _updStepItem(
+            _t('admin.updates.step.' + steps[i]),
+            _updStepIcon(i, stepIndex, progress.state, inRollback)
+        );
     }
     if (inRollback) {
         const icon = running ? 'text-cyan-600 fas fa-spin fa-circle-notch' : 'text-amber-600 fas fa-check-circle';

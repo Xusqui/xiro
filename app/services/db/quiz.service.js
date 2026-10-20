@@ -4,10 +4,7 @@
  */
 
 const { pool } = require('../../config/database');
-const {
-    assertEditorCanModifyResource,
-    normalizeCreatorRole
-} = require('./resource-ownership.service');
+const { assertEditorCanModifyResource, normalizeCreatorRole } = require('./resource-ownership.service');
 
 /**
  * Obtiene todos los quizzes
@@ -27,9 +24,10 @@ async function createQuiz(data) {
     const { title, pin, created_by_role = 'admin', created_by_user_id = null } = data;
     const finalPin = (pin || Math.floor(100000 + Math.random() * 900000).toString()).toUpperCase();
     const ownerRole = normalizeCreatorRole(created_by_role);
-    const ownerUserId = Number.isInteger(Number(created_by_user_id)) && Number(created_by_user_id) > 0
-        ? Number(created_by_user_id)
-        : null;
+    const ownerUserId =
+        Number.isInteger(Number(created_by_user_id)) && Number(created_by_user_id) > 0
+            ? Number(created_by_user_id)
+            : null;
     const result = await pool.query(
         'INSERT INTO quizzes (title, pin, created_by_role, created_by_user_id) VALUES ($1, $2, $3, $4) RETURNING *',
         [title, finalPin, ownerRole, ownerUserId]
@@ -46,10 +44,13 @@ async function getQuizWithQuestions(quizId) {
     const quiz = await pool.query('SELECT * FROM quizzes WHERE id = $1', [quizId]);
     if (quiz.rows.length === 0) return null;
 
-    const questions = await pool.query(`
+    const questions = await pool.query(
+        `
         SELECT q.*, (SELECT json_agg(o.*) FROM options o WHERE o.question_id = q.id) as options
         FROM questions q WHERE q.quiz_id = $1 ORDER BY q.id ASC
-    `, [quizId]);
+    `,
+        [quizId]
+    );
 
     return { quiz: quiz.rows[0], questions: questions.rows || [] };
 }
@@ -73,9 +74,10 @@ async function saveQuizComplete(data, actorUserId = null) {
     const { id, title, pin, questions, created_by_role = 'admin', created_by_user_id = null } = data;
     const upperPin = pin ? pin.toUpperCase() : null;
     const ownerRole = normalizeCreatorRole(created_by_role);
-    const ownerUserId = Number.isInteger(Number(created_by_user_id)) && Number(created_by_user_id) > 0
-        ? Number(created_by_user_id)
-        : null;
+    const ownerUserId =
+        Number.isInteger(Number(created_by_user_id)) && Number(created_by_user_id) > 0
+            ? Number(created_by_user_id)
+            : null;
     const client = await pool.connect();
 
     try {
@@ -87,10 +89,7 @@ async function saveQuizComplete(data, actorUserId = null) {
         }
 
         if (quizId) {
-            await client.query(
-                'UPDATE quizzes SET title = $1, pin = $2 WHERE id = $3',
-                [title, upperPin, quizId]
-            );
+            await client.query('UPDATE quizzes SET title = $1, pin = $2 WHERE id = $3', [title, upperPin, quizId]);
             await client.query('DELETE FROM questions WHERE quiz_id = $1', [quizId]);
         } else {
             const resQuiz = await client.query(
@@ -118,28 +117,44 @@ async function saveQuizComplete(data, actorUserId = null) {
  * @returns {Promise<Array>}
  */
 async function getQuizQuestions(quizId) {
-    const questionsRes = await pool.query(`
+    const questionsRes = await pool.query(
+        `
         SELECT q.id, q.question_text, q.question_type, q.tipo_contenido, q.url_recurso, q.time_limit,
         json_agg(json_build_object('optionText', o.option_text, 'isCorrect', o.is_correct, 'justification', o.justification, 'order_index', o.order_index, 'match_value', o.match_value, 'option_image_url', o.option_image_url) ORDER BY COALESCE(o.order_index, o.id)) as options
         FROM questions q JOIN options o ON q.id = o.question_id
         WHERE q.quiz_id = $1 GROUP BY q.id, q.tipo_contenido, q.url_recurso, q.time_limit ORDER BY q.id ASC
-    `, [quizId]);
+    `,
+        [quizId]
+    );
 
     return questionsRes.rows;
 }
 
 async function insertQuizQuestions(client, quizId, questions) {
     if (!questions || !questions.length) return;
-    
+
     for (const q of questions) {
         const resQ = await client.query(
             'INSERT INTO questions (quiz_id, question_text, tipo_contenido, url_recurso, time_limit, question_image_url) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
-            [quizId, q.questionText, q.tipo_contenido || 'texto', q.url_recurso || null, q.time_limit || 20, q.question_image_url || null]
+            [
+                quizId,
+                q.questionText,
+                q.tipo_contenido || 'texto',
+                q.url_recurso || null,
+                q.time_limit || 20,
+                q.question_image_url || null
+            ]
         );
         for (const opt of q.options || []) {
             await client.query(
                 'INSERT INTO options (question_id, option_text, is_correct, justification, option_image_url) VALUES ($1, $2, $3, $4, $5)',
-                [resQ.rows[0].id, opt.optionText || '', opt.isCorrect, opt.justification || null, opt.option_image_url || null]
+                [
+                    resQ.rows[0].id,
+                    opt.optionText || '',
+                    opt.isCorrect,
+                    opt.justification || null,
+                    opt.option_image_url || null
+                ]
             );
         }
     }

@@ -29,7 +29,7 @@ function extractStreakConfig(game) {
         streak_bonus_percentage: game.streak_bonus_percentage ?? SCORING.STREAK.DEFAULT_BONUS_PERCENTAGE,
         use_double_streaks: !!game.use_double_streaks,
         double_streak_threshold: game.double_streak_threshold ?? SCORING.STREAK.DEFAULT_DOUBLE_THRESHOLD,
-        double_streak_bonus_percentage: game.double_streak_bonus_percentage ?? 1.00,
+        double_streak_bonus_percentage: game.double_streak_bonus_percentage ?? 1.0
     };
 }
 
@@ -51,7 +51,9 @@ function applyStreakBonus(basePoints, prevStreak, game, nickname = null) {
 
     const cfg = extractStreakConfig(game);
     const ctx = { roomId: game.roomId || game.pin, nickname, prevStreak, basePoints };
-    const log = (level, msg, extra) => { if (nickname) logger[level](msg, { ...ctx, ...extra }); };
+    const log = (level, msg, extra) => {
+        if (nickname) logger[level](msg, { ...ctx, ...extra });
+    };
 
     // Doble racha tiene prioridad y SUSTITUYE a la racha normal
     if (cfg.use_double_streaks && prevStreak >= cfg.double_streak_threshold) {
@@ -60,7 +62,7 @@ function applyStreakBonus(basePoints, prevStreak, game, nickname = null) {
             bonusType: 'double',
             threshold: cfg.double_streak_threshold,
             bonusPercentage: cfg.double_streak_bonus_percentage,
-            bonusPoints,
+            bonusPoints
         });
         return { bonusPoints, bonusType: 'double', bonusPercentage: cfg.double_streak_bonus_percentage };
     }
@@ -72,7 +74,7 @@ function applyStreakBonus(basePoints, prevStreak, game, nickname = null) {
             bonusType: 'normal',
             threshold: cfg.streak_threshold,
             bonusPercentage: cfg.streak_bonus_percentage,
-            bonusPoints,
+            bonusPoints
         });
         return { bonusPoints, bonusType: 'normal', bonusPercentage: cfg.streak_bonus_percentage };
     }
@@ -103,7 +105,7 @@ function enrichStreakInfo(streakInfo, game) {
             justEntered: false,
             justLost: false,
             isInDoubleStreak: false,
-            justEnteredDoubleStreak: false,
+            justEnteredDoubleStreak: false
         };
     }
 
@@ -111,8 +113,8 @@ function enrichStreakInfo(streakInfo, game) {
         ...streakInfo,
         doubleThreshold: cfg.use_double_streaks ? cfg.double_streak_threshold : null,
         isInDoubleStreak: cfg.use_double_streaks && curr >= cfg.double_streak_threshold,
-        justEnteredDoubleStreak: cfg.use_double_streaks && prev < cfg.double_streak_threshold
-            && curr >= cfg.double_streak_threshold,
+        justEnteredDoubleStreak:
+            cfg.use_double_streaks && prev < cfg.double_streak_threshold && curr >= cfg.double_streak_threshold
     };
 }
 

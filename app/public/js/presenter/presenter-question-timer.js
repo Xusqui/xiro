@@ -17,9 +17,13 @@ export function ensureQuestionAudioPlays() {
         if (!container || container.querySelector('.audio-play-btn')) return;
         const btn = document.createElement('button');
         btn.className = 'audio-play-btn';
-        btn.style.cssText = 'display:block;width:100%;margin-top:1rem;padding:0.75rem;background:#94438e;color:#fff;border:none;border-radius:0.75rem;font-size:1.25rem;font-weight:900;cursor:pointer;';
+        btn.style.cssText =
+            'display:block;width:100%;margin-top:1rem;padding:0.75rem;background:#94438e;color:#fff;border:none;border-radius:0.75rem;font-size:1.25rem;font-weight:900;cursor:pointer;';
         btn.textContent = _t('presenter.game.play_audio', null, '▶ Toca para reproducir el audio');
-        btn.onclick = () => { audioEl.play(); btn.remove(); };
+        btn.onclick = () => {
+            audioEl.play();
+            btn.remove();
+        };
         container.appendChild(btn);
     });
 }
@@ -60,7 +64,7 @@ export function startQuestionCountdown(seconds) {
             const tickSound = window.XiroPresenterMusic?.isPlaying() ? null : document.getElementById('tick-sound');
             if (tickSound) {
                 tickSound.currentTime = 0;
-                tickSound.play().catch(() => { });
+                tickSound.play().catch(() => {});
             }
         }
 

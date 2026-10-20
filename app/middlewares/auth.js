@@ -7,7 +7,9 @@ const { JWT_SECRET } = require('../config/constants');
 const adminUserService = require('../services/db/admin-user.service');
 
 function shouldEnforceDbSessionValidation() {
-    const explicit = String(process.env.AUTH_STRICT_DB_REVALIDATION || '').trim().toLowerCase();
+    const explicit = String(process.env.AUTH_STRICT_DB_REVALIDATION || '')
+        .trim()
+        .toLowerCase();
     if (explicit === 'true') return true;
     if (explicit === 'false') return false;
 
@@ -34,8 +36,7 @@ function parseCookieToken(cookieHeader) {
 async function authenticateAdmin(req, res, next) {
     const cookieToken = parseCookieToken(req.headers.cookie);
     const authHeader = req.headers.authorization;
-    const bearerToken =
-        authHeader && authHeader.startsWith('Bearer ') ? authHeader.split(' ')[1] : null;
+    const bearerToken = authHeader && authHeader.startsWith('Bearer ') ? authHeader.split(' ')[1] : null;
     const token = cookieToken || bearerToken;
 
     if (!token) {

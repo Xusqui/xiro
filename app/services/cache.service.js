@@ -14,7 +14,8 @@ const { calculateHitRate, buildCacheStats } = require('./helpers/CacheStatsHelpe
  * Usa el orden de inserción de Map para O(1) en get/set/delete/evict.
  */
 class LRUCache {
-    constructor(maxSize = 1000, ttl = 5 * 60 * 1000) { // 5 minutos TTL por defecto
+    constructor(maxSize = 1000, ttl = 5 * 60 * 1000) {
+        // 5 minutos TTL por defecto
         this.maxSize = maxSize;
         this.ttl = ttl;
         this.cache = new Map();

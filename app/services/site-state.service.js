@@ -55,7 +55,7 @@ function _toPublicStatus(state) {
         licensed,
         checkedAt: state.checkedAt,
         expiresAt: state.expiresAt ?? null,
-        reason: expiredNow ? 'expired' : (state.reason || null)
+        reason: expiredNow ? 'expired' : state.reason || null
     };
 }
 
@@ -128,7 +128,7 @@ function _markSourceChecked(nowMs) {
 }
 
 async function _refreshFromSource(nowMs, sourceState) {
-    const source = sourceState || await _readSourceState();
+    const source = sourceState || (await _readSourceState());
     let license = source.license;
     let sourceUpdatedAtMs = source.updatedAtMs;
     let provisioned = null;
@@ -186,15 +186,19 @@ async function _checkSource(nowMs, force) {
             return _toPublicStatus(_cache);
         }
 
-        return _settle({
-            licensed: false,
-            checkedAt: nowMs,
-            expiresAt: null,
-            reason: 'status_unavailable',
-            sourceLicense: '',
-            sourceUpdatedAtMs: 0,
-            sourceCheckedAt: nowMs
-        }, nowMs, true);
+        return _settle(
+            {
+                licensed: false,
+                checkedAt: nowMs,
+                expiresAt: null,
+                reason: 'status_unavailable',
+                sourceLicense: '',
+                sourceUpdatedAtMs: 0,
+                sourceCheckedAt: nowMs
+            },
+            nowMs,
+            true
+        );
     }
 }
 
@@ -212,7 +216,9 @@ async function getPublicLicenseStatus(options = {}) {
     // Peticiones simultáneas comparten una sola comprobación: evita ráfagas
     // contra el servidor de licencias (rate limit, firmas repetidas).
     if (!_inflight) {
-        _inflight = _checkSource(nowMs, force).finally(() => { _inflight = null; });
+        _inflight = _checkSource(nowMs, force).finally(() => {
+            _inflight = null;
+        });
     }
     return await _inflight;
 }
@@ -226,7 +232,7 @@ function _startDailyRefresh() {
     if (_refreshTimer || process.env.NODE_ENV === 'test') return;
 
     _refreshTimer = setInterval(() => {
-        getPublicLicenseStatus().catch(() => { });
+        getPublicLicenseStatus().catch(() => {});
     }, REFRESH_TICK_MS);
 
     if (typeof _refreshTimer.unref === 'function') {

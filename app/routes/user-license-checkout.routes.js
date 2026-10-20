@@ -47,7 +47,11 @@ router.get('/api/user/license/plans', authenticateAdmin, async (_req, res) => {
         res.json({ success: true, plans });
     } catch (error) {
         logger.error('Error listing license plans', { error: error.message });
-        res.status(502).json({ success: false, error: 'No se pudieron obtener los planes', code: 'LICENSE_PLANS_FAILED' });
+        res.status(502).json({
+            success: false,
+            error: 'No se pudieron obtener los planes',
+            code: 'LICENSE_PLANS_FAILED'
+        });
     }
 });
 
@@ -83,7 +87,11 @@ router.post(
         } catch (error) {
             logger.error('Error creating license checkout', { error: error.message });
             const status = error.status === 400 ? 400 : 502;
-            res.status(status).json({ success: false, error: 'No se pudo iniciar la compra', code: 'LICENSE_CHECKOUT_FAILED' });
+            res.status(status).json({
+                success: false,
+                error: 'No se pudo iniciar la compra',
+                code: 'LICENSE_CHECKOUT_FAILED'
+            });
         }
     }
 );

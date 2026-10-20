@@ -12,7 +12,15 @@
 
 const express = require('express');
 const router = express.Router();
-const { getLastGameSessionByPin, getGameSessionById, getGameSessionByShareToken, listRecentGameSessions, deleteAllGameSessions, deleteGameSessionById, deleteGameSessionsByIds } = require('../services/db/game-session.service');
+const {
+    getLastGameSessionByPin,
+    getGameSessionById,
+    getGameSessionByShareToken,
+    listRecentGameSessions,
+    deleteAllGameSessions,
+    deleteGameSessionById,
+    deleteGameSessionsByIds
+} = require('../services/db/game-session.service');
 const { authenticateAdmin, authorizeAdmin } = require('../middlewares/auth');
 const { formatSessionLogsAsText } = require('../services/game-logs.service');
 const logger = require('../config/logger');
@@ -34,7 +42,9 @@ router.get('/api/results/history', authenticateAdmin, authorizeAdmin, async (req
         const includeTests = req.query.includeTests === 'true';
         const sessions = await listRecentGameSessions(limit, includeTests);
         // Omitir player_answers del listado (puede ser grande)
-        const light = sessions.map(({ player_answers: _player_answers, questions_snapshot: _questions_snapshot, ...s }) => s);
+        const light = sessions.map(
+            ({ player_answers: _player_answers, questions_snapshot: _questions_snapshot, ...s }) => s
+        );
         res.json(light);
     } catch (err) {
         next(err);
@@ -131,7 +141,11 @@ async function loadSessionByPin(req, res) {
     }
     const session = await getLastGameSessionByPin(pin);
     if (!session) {
-        res.status(404).json({ error: `No hay resultados guardados para el PIN ${pin}`, code: 'NO_RESULTS_FOR_PIN', params: { pin } });
+        res.status(404).json({
+            error: `No hay resultados guardados para el PIN ${pin}`,
+            code: 'NO_RESULTS_FOR_PIN',
+            params: { pin }
+        });
         return null;
     }
     return session;
@@ -187,8 +201,9 @@ function registerExportRoutes(base, middlewares, loadSession, logExport) {
     });
 }
 
-registerExportRoutes('/api/results/session/:id', [authenticateAdmin, authorizeAdmin], loadSessionById,
-    (req, session) => logger.info('Game session exported by id', { id: session.id, pin: session.pin }));
+registerExportRoutes('/api/results/session/:id', [authenticateAdmin, authorizeAdmin], loadSessionById, (req, session) =>
+    logger.info('Game session exported by id', { id: session.id, pin: session.pin })
+);
 
 /**
  * GET /api/results/session/:id/export-logs?format=txt|json
@@ -212,14 +227,20 @@ router.get('/api/results/session/:id/export-logs', authenticateAdmin, authorizeA
             const filename = buildLogsFilename(session.pin, session.played_at, 'json');
             res.setHeader('Content-Type', 'application/json; charset=utf-8');
             res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
-            res.send(JSON.stringify({
-                id: session.id,
-                pin: session.pin,
-                game_type: session.game_type,
-                played_at: session.played_at,
-                reason: session.reason,
-                events: sessionLogs
-            }, null, 2));
+            res.send(
+                JSON.stringify(
+                    {
+                        id: session.id,
+                        pin: session.pin,
+                        game_type: session.game_type,
+                        played_at: session.played_at,
+                        reason: session.reason,
+                        events: sessionLogs
+                    },
+                    null,
+                    2
+                )
+            );
             return;
         }
 
@@ -241,8 +262,9 @@ router.get('/api/results/session/:id/export-logs', authenticateAdmin, authorizeA
 });
 
 // El PIN actúa como token de acceso (ver cabecera del fichero)
-registerExportRoutes('/api/results/:pin', [], loadSessionByPin,
-    (req, session) => logger.info('Game session exported', { pin: session.pin, sessionId: session.id }));
+registerExportRoutes('/api/results/:pin', [], loadSessionByPin, (req, session) =>
+    logger.info('Game session exported', { pin: session.pin, sessionId: session.id })
+);
 
 // Rutas públicas compartidas (sin auth — acceso mediante share_token UUID no adivinable)
 registerExportRoutes('/api/results/shared/:shareToken', [], loadSessionByShareToken);

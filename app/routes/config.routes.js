@@ -68,12 +68,16 @@ router.get('/api/admin/config', authenticateAdmin, authorizeAdmin, (req, res) =>
         const response = {};
         for (const [key, entry] of Object.entries(all)) {
             response[key] = {
-                value: entry.schema.sensitive ? (entry.value ? '\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022' : '') : entry.value,
+                value: entry.schema.sensitive
+                    ? entry.value
+                        ? '\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022'
+                        : ''
+                    : entry.value,
                 type: entry.schema.type,
                 sensitive: entry.schema.sensitive || false,
                 ...(entry.schema.min !== undefined && { min: entry.schema.min }),
                 ...(entry.schema.max !== undefined && { max: entry.schema.max }),
-                ...(entry.schema.values && { values: entry.schema.values }),
+                ...(entry.schema.values && { values: entry.schema.values })
             };
         }
         res.json({ success: true, config: response });
@@ -92,7 +96,9 @@ router.post('/api/admin/config', authenticateAdmin, authorizeAdmin, async (req, 
     try {
         const { updates } = req.body;
         if (!updates || typeof updates !== 'object' || Array.isArray(updates)) {
-            return res.status(400).json({ success: false, error: 'Body debe incluir { updates: { ... } }', code: 'CONFIG_BODY_INVALID' });
+            return res
+                .status(400)
+                .json({ success: false, error: 'Body debe incluir { updates: { ... } }', code: 'CONFIG_BODY_INVALID' });
         }
 
         const schema = runtimeConfig.getSchema();
@@ -119,12 +125,17 @@ router.post('/api/admin/config', authenticateAdmin, authorizeAdmin, async (req, 
             for (const [key, value] of Object.entries(previous)) {
                 if (value !== undefined) runtimeConfig.set(key, value);
             }
-            logger.error('Runtime config not persisted', { error: err.message, code: err.code, keys: Object.keys(updates) });
+            logger.error('Runtime config not persisted', {
+                error: err.message,
+                code: err.code,
+                keys: Object.keys(updates)
+            });
             return res.status(500).json({
                 success: false,
                 code: 'CONFIG_PERSIST_FAILED',
-                error: `No se pudo guardar la configuración (${err.code || err.message}). `
-                    + 'Revisa en el servidor que config/runtime-overrides.json es un fichero y pertenece al uid 1001 (usuario del contenedor).'
+                error:
+                    `No se pudo guardar la configuración (${err.code || err.message}). ` +
+                    'Revisa en el servidor que config/runtime-overrides.json es un fichero y pertenece al uid 1001 (usuario del contenedor).'
             });
         }
 
@@ -133,8 +144,12 @@ router.post('/api/admin/config', authenticateAdmin, authorizeAdmin, async (req, 
         // Notificar a todos los workers via Redis para que recarguen su store
         try {
             const syncBus = RedisSyncBus.getInstance();
-            syncBus.publish('config-updated', { originWorkerId: process.pid, keys: Object.keys(updates) }).catch(() => { });
-        } catch (_) { /* Redis no disponible, solo afecta a otros workers */ }
+            syncBus
+                .publish('config-updated', { originWorkerId: process.pid, keys: Object.keys(updates) })
+                .catch(() => {});
+        } catch (_) {
+            /* Redis no disponible, solo afecta a otros workers */
+        }
 
         logger.info('Runtime config updated', {
             keys: Object.keys(updates),
@@ -145,11 +160,15 @@ router.post('/api/admin/config', authenticateAdmin, authorizeAdmin, async (req, 
         res.json({
             success: true,
             persisted: true,
-            applied: Object.keys(updates),
+            applied: Object.keys(updates)
         });
     } catch (err) {
         logger.error('Error updating runtime config', { error: err.message });
-        res.status(500).json({ success: false, error: 'Error al actualizar configuración', code: 'UPDATE_CONFIG_FAILED' });
+        res.status(500).json({
+            success: false,
+            error: 'Error al actualizar configuración',
+            code: 'UPDATE_CONFIG_FAILED'
+        });
     }
 });
 

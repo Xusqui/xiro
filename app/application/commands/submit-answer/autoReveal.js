@@ -21,7 +21,7 @@ async function handleTrivialAutoReveal({ sPin, game, io, clearGameTimer, isTeamM
         roomId: sPin,
         allAnswered,
         isTeamMode,
-        totalPlayers: (game.players || []).filter((p) => p !== 'HOST').length,
+        totalPlayers: (game.players || []).filter(p => p !== 'HOST').length,
         currentIndex: game.currentIndex
     });
 
@@ -91,7 +91,7 @@ async function handleIndividualAutoReveal({
         allAnswered,
         expectedCount: atomicProgress?.expectedCount,
         answeredCount: atomicProgress?.answeredCount,
-        totalPlayers: (game.players || []).filter((p) => p !== 'HOST').length,
+        totalPlayers: (game.players || []).filter(p => p !== 'HOST').length,
         currentIndex: game.currentIndex
     });
 
@@ -130,17 +130,7 @@ async function handleIndividualAutoReveal({
  * @returns {Promise<{shouldReturn: boolean, result?: Object}>}
  */
 function handleAutoRevealAfterAnswer(ctx) {
-    const {
-        sPin,
-        game,
-        io,
-        players,
-        clearGameTimer,
-        isTeamMode,
-        modeResult,
-        atomicProgress,
-        lockMissResponse
-    } = ctx;
+    const { sPin, game, io, players, clearGameTimer, isTeamMode, modeResult, atomicProgress, lockMissResponse } = ctx;
 
     logger.debug('🔍 Checking auto-stop timer conditions', {
         roomId: sPin,

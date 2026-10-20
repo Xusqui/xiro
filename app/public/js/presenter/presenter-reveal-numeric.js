@@ -12,9 +12,10 @@ function toPositiveNumber(value) {
 
 function getNumericToleranceConfig(question = {}) {
     const modeRaw = String(question.tolerance_mode ?? question.toleranceMode ?? '').toLowerCase();
-    const mode = modeRaw === 'absolute' || modeRaw === 'percentage' || modeRaw === 'hybrid' || modeRaw === 'relative'
-        ? modeRaw
-        : 'hybrid';
+    const mode =
+        modeRaw === 'absolute' || modeRaw === 'percentage' || modeRaw === 'hybrid' || modeRaw === 'relative'
+            ? modeRaw
+            : 'hybrid';
 
     const value = toPositiveNumber(question.tolerance_value ?? question.toleranceValue) ?? 25;
     const cap = toPositiveNumber(question.tolerance_cap ?? question.toleranceCap);
@@ -34,10 +35,12 @@ function resolveToleranceWindowForDisplay(correctAnswer, toleranceConfig) {
         return toleranceConfig.value;
     }
 
-    if (toleranceConfig.mode === 'percentage' || toleranceConfig.mode === 'relative' || toleranceConfig.mode === 'hybrid') {
-        return toleranceConfig.cap
-            ? Math.min(percentageTolerance, toleranceConfig.cap)
-            : percentageTolerance;
+    if (
+        toleranceConfig.mode === 'percentage' ||
+        toleranceConfig.mode === 'relative' ||
+        toleranceConfig.mode === 'hybrid'
+    ) {
+        return toleranceConfig.cap ? Math.min(percentageTolerance, toleranceConfig.cap) : percentageTolerance;
     }
 
     return percentageTolerance;

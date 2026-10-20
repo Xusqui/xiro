@@ -30,10 +30,13 @@
         })
         .then(data => {
             if (data && data.umamiServerUrl && data.umamiWebsiteId) {
-                sessionStorage.setItem('xiro_umami_config', JSON.stringify({
-                    umamiServerUrl: data.umamiServerUrl,
-                    umamiWebsiteId: data.umamiWebsiteId
-                }));
+                sessionStorage.setItem(
+                    'xiro_umami_config',
+                    JSON.stringify({
+                        umamiServerUrl: data.umamiServerUrl,
+                        umamiWebsiteId: data.umamiWebsiteId
+                    })
+                );
                 injectScript(data.umamiServerUrl, data.umamiWebsiteId);
             }
         })

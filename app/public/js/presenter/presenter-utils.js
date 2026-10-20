@@ -70,7 +70,9 @@ export function mostrarLobbyMain(htmlContent) {
  * @returns {string} sessionId en formato PIN-XXXX
  */
 export function generateSessionId(pin) {
-    const randomNumber = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+    const randomNumber = Math.floor(Math.random() * 10000)
+        .toString()
+        .padStart(4, '0');
     return `${pin.toUpperCase()}-${randomNumber}`;
 }
 
@@ -98,13 +100,13 @@ export function adjustTextSize() {
         // Tamaños a probar en orden descendente
         const sizes = [
             Math.min(containerHeight * 0.35, containerWidth * 0.08),
-            Math.min(containerHeight * 0.30, containerWidth * 0.07),
+            Math.min(containerHeight * 0.3, containerWidth * 0.07),
             Math.min(containerHeight * 0.25, containerWidth * 0.06),
             Math.min(containerHeight * 0.22, containerWidth * 0.05),
             Math.min(containerHeight * 0.18, containerWidth * 0.04),
             Math.min(containerHeight * 0.15, containerWidth * 0.035),
             Math.min(containerHeight * 0.12, containerWidth * 0.03),
-            Math.min(containerHeight * 0.10, containerWidth * 0.025)
+            Math.min(containerHeight * 0.1, containerWidth * 0.025)
         ];
 
         // Probar cada tamaño hasta encontrar uno que quepa
@@ -112,8 +114,7 @@ export function adjustTextSize() {
         for (const size of sizes) {
             textElement.style.fontSize = size + 'px';
 
-            if (textElement.scrollHeight <= containerHeight &&
-                textElement.scrollWidth <= containerWidth) {
+            if (textElement.scrollHeight <= containerHeight && textElement.scrollWidth <= containerWidth) {
                 optimalSize = size;
                 break;
             }
@@ -153,7 +154,7 @@ export function fitSplitOptionText() {
         // (>= 18 px); con una palabra muy larga, mejor guion que letra diminuta
         // Valores explícitos para que repetir el ajuste (resize) no herede el
         // estado anterior; -webkit-hyphens para Safari
-        const allowBreaks = (allow) => {
+        const allowBreaks = allow => {
             text.style.setProperty('hyphens', allow ? 'auto' : 'manual');
             text.style.setProperty('-webkit-hyphens', allow ? 'auto' : 'manual');
             text.style.setProperty('overflow-wrap', allow ? 'break-word' : 'normal');
@@ -202,7 +203,7 @@ export function adjustQuestionTitleSize() {
     const title = document.getElementById('question-title');
     if (!title) return;
 
-    const maxHeight = window.innerHeight * 0.20;
+    const maxHeight = window.innerHeight * 0.2;
     let fontSize = Math.min(48, Math.max(24, window.innerWidth * 0.03));
 
     title.style.fontSize = fontSize + 'px';

@@ -39,7 +39,7 @@
         input.focus({ preventScroll: true });
     }
 
-    document.querySelectorAll('.xiro-reveal-toggle').forEach((button) => {
+    document.querySelectorAll('.xiro-reveal-toggle').forEach(button => {
         button.addEventListener('click', () => toggle(button));
     });
 })();

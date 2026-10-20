@@ -24,13 +24,17 @@ function loadOnce(Tone, sounds) {
     const byKey = map.allUrls(chosen);
     const files = Array.from(new Set(Object.values(byKey)));
     const fileIds = {};
-    files.forEach((file, i) => { fileIds[file] = 'f' + i; });
+    files.forEach((file, i) => {
+        fileIds[file] = 'f' + i;
+    });
     const urls = {};
-    files.forEach((file) => { urls[fileIds[file]] = file; });
+    files.forEach(file => {
+        urls[fileIds[file]] = file;
+    });
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
         let settled = false;
-        const finish = (value) => {
+        const finish = value => {
             if (settled) return;
             settled = true;
             resolve(value);
@@ -52,9 +56,11 @@ function loadOnce(Tone, sounds) {
 }
 
 function createBank(map, buffers, fileIds, sounds) {
-    const toBuffers = (noteUrls) => {
+    const toBuffers = noteUrls => {
         const out = {};
-        Object.keys(noteUrls).forEach((note) => { out[note] = buffers.get(fileIds[noteUrls[note]]); });
+        Object.keys(noteUrls).forEach(note => {
+            out[note] = buffers.get(fileIds[noteUrls[note]]);
+        });
         return out;
     };
     return {

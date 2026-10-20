@@ -41,19 +41,26 @@ router.get('/api/games', authenticateAdmin, async (req, res) => {
     }
 });
 
-router.post('/api/games', authenticateAdmin, validateBody(schemas.game), validateUniqueGameBanks, validateUniquePIN('game'), async (req, res) => {
-    try {
-        const payload = {
-            ...req.body,
-            created_by_role: req.user?.role,
-            created_by_user_id: req.user?.userId
-        };
-        const game = await dbService.createGame(payload);
-        res.status(201).json(game);
-    } catch (err) {
-        handleRouteError(err, res);
+router.post(
+    '/api/games',
+    authenticateAdmin,
+    validateBody(schemas.game),
+    validateUniqueGameBanks,
+    validateUniquePIN('game'),
+    async (req, res) => {
+        try {
+            const payload = {
+                ...req.body,
+                created_by_role: req.user?.role,
+                created_by_user_id: req.user?.userId
+            };
+            const game = await dbService.createGame(payload);
+            res.status(201).json(game);
+        } catch (err) {
+            handleRouteError(err, res);
+        }
     }
-});
+);
 
 router.get('/api/games/:id', authenticateAdmin, async (req, res) => {
     try {
@@ -65,18 +72,25 @@ router.get('/api/games/:id', authenticateAdmin, async (req, res) => {
     }
 });
 
-router.put('/api/games/:id', authenticateAdmin, validateBody(schemas.game), validateUniqueGameBanks, validateUniquePIN('game'), async (req, res) => {
-    try {
-        const actorUserId = req.user?.role === 'editor' ? req.user?.userId : null;
-        const result = await dbService.updateGame(req.params.id, req.body, actorUserId);
-        if (!result.success) {
-            return handleBusinessError(res, result.error);
+router.put(
+    '/api/games/:id',
+    authenticateAdmin,
+    validateBody(schemas.game),
+    validateUniqueGameBanks,
+    validateUniquePIN('game'),
+    async (req, res) => {
+        try {
+            const actorUserId = req.user?.role === 'editor' ? req.user?.userId : null;
+            const result = await dbService.updateGame(req.params.id, req.body, actorUserId);
+            if (!result.success) {
+                return handleBusinessError(res, result.error);
+            }
+            res.json({ success: true });
+        } catch (err) {
+            handleRouteError(err, res);
         }
-        res.json({ success: true });
-    } catch (err) {
-        handleRouteError(err, res);
     }
-});
+);
 
 router.delete('/api/games/:id', authenticateAdmin, checkUsageBeforeDelete('game'), async (req, res) => {
     try {

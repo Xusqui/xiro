@@ -32,12 +32,15 @@ function cellHtml(letter, escapeHtml, filled) {
  */
 function buildSentenceHTML(question, escapeHtml, filled) {
     const words = wordsOf(question);
-    return FB.splitSegments(question.question_text || '').map(segment => {
-        if (segment.type === 'text') return `<span style="white-space: pre-wrap;">${escapeHtml(segment.value)}</span>`;
-        const word = words[segment.index] || '';
-        const cells = [...word].map(letter => cellHtml(filled ? letter : '', escapeHtml, filled)).join('');
-        return `<span style="display: inline-block; white-space: nowrap; margin: 6px 4px; vertical-align: middle;">${cells}</span>`;
-    }).join('');
+    return FB.splitSegments(question.question_text || '')
+        .map(segment => {
+            if (segment.type === 'text')
+                return `<span style="white-space: pre-wrap;">${escapeHtml(segment.value)}</span>`;
+            const word = words[segment.index] || '';
+            const cells = [...word].map(letter => cellHtml(filled ? letter : '', escapeHtml, filled)).join('');
+            return `<span style="display: inline-block; white-space: nowrap; margin: 6px 4px; vertical-align: middle;">${cells}</span>`;
+        })
+        .join('');
 }
 
 /**
@@ -70,8 +73,12 @@ function generateFillBlanksQuestionHTML(question, index, total, escapeHtml) {
  */
 function generateFillBlanksSolutionHTML(question, escapeHtml) {
     const words = wordsOf(question);
-    const chips = words.map(word => `
-                <span style="background: rgba(16, 185, 129, 0.25); border: 3px solid #10b981; color: white; padding: 8px 18px; border-radius: 12px; font-size: 24px; font-weight: 800; letter-spacing: 2px;">${escapeHtml(word)}</span>`).join('');
+    const chips = words
+        .map(
+            word => `
+                <span style="background: rgba(16, 185, 129, 0.25); border: 3px solid #10b981; color: white; padding: 8px 18px; border-radius: 12px; font-size: 24px; font-weight: 800; letter-spacing: 2px;">${escapeHtml(word)}</span>`
+        )
+        .join('');
     return `
         <div style="text-align: center; color: white; font-size: 30px; font-weight: 700; line-height: 2.1; margin-bottom: 30px;">
             ${buildSentenceHTML(question, escapeHtml, true)}

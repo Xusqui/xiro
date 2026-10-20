@@ -6,7 +6,12 @@
  */
 
 const { validateSubmitAnswerPayload } = require('./validatePayload');
-const { resolveGameContext, buildQuestionContext, validateAnswerByType, applyTimerStateToLateWindow } = require('./questionContext');
+const {
+    resolveGameContext,
+    buildQuestionContext,
+    validateAnswerByType,
+    applyTimerStateToLateWindow
+} = require('./questionContext');
 const { runEarlyChecks } = require('./earlyChecks');
 const { handleAutoRevealAfterAnswer } = require('./autoReveal');
 const {
@@ -30,7 +35,8 @@ async function executeSubmitAnswer(payload, dependencies) {
         return buildValidationFailure(validation);
     }
 
-    const { activeGames, players, teamConfigs, io, syncBus, clearGameTimer, ackManager, presenterNotification } = dependencies;
+    const { activeGames, players, teamConfigs, io, syncBus, clearGameTimer, ackManager, presenterNotification } =
+        dependencies;
     const { playerId, socket } = payload;
     const claimedNickname = payload.nickname;
     const { roomId, sPin, game } = resolveGameContext(payload, activeGames);

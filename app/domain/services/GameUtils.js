@@ -34,13 +34,13 @@ function shuffleOptions(questions) {
     return questions.map(q => {
         // No modificar slides especiales (comment/info/text) ni encuestas
         if (
-            q.slide_type === 'comment'
-            || q.slide_type === 'info'
-            || q.slide_type === 'text'
-            || q.slide_type === 'image'
-            || q.slide_type === 'video'
-            || q.slide_type === 'canvas'
-            || q.question_type === 'survey'
+            q.slide_type === 'comment' ||
+            q.slide_type === 'info' ||
+            q.slide_type === 'text' ||
+            q.slide_type === 'image' ||
+            q.slide_type === 'video' ||
+            q.slide_type === 'canvas' ||
+            q.question_type === 'survey'
         ) {
             return q;
         }

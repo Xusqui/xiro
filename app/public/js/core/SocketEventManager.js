@@ -5,11 +5,7 @@
  * @week Semana 19 - Frontend Cleanup
  */
 
-import {
-    isValidEvent,
-    isDeprecatedEvent,
-    getEventInfo
-} from './socket-events.js?v=20260922172926';
+import { isValidEvent, isDeprecatedEvent, getEventInfo } from './socket-events.js?v=20260922172926';
 
 /**
  * Gestor centralizado de eventos Socket.IO
@@ -31,14 +27,14 @@ export class SocketEventManager {
         this.handlers = new Map();
         this.options = {
             debug: options.debug || false,
-            strict: options.strict || false,
+            strict: options.strict || false
         };
 
         // Estadísticas de eventos
         this.stats = {
             emitted: new Map(),
             received: new Map(),
-            errors: new Map(),
+            errors: new Map()
         };
 
         this._log('SocketEventManager inicializado', { options: this.options });
@@ -89,7 +85,7 @@ export class SocketEventManager {
         // Guardar handler para poder eliminarlo después
         this.handlers.set(event, {
             original: handler,
-            wrapped: wrappedHandler,
+            wrapped: wrappedHandler
         });
 
         // Registrar en Socket.IO
@@ -135,7 +131,7 @@ export class SocketEventManager {
 
         // Emitir evento
         if (ack) {
-            this.socket.emit(event, data, (response) => {
+            this.socket.emit(event, data, response => {
                 this._log(`✅ ACK recibido: ${event}`, response);
                 ack(response);
             });
@@ -184,7 +180,7 @@ export class SocketEventManager {
             errors: Object.fromEntries(this.stats.errors),
             totalEmitted: Array.from(this.stats.emitted.values()).reduce((sum, n) => sum + n, 0),
             totalReceived: Array.from(this.stats.received.values()).reduce((sum, n) => sum + n, 0),
-            totalErrors: Array.from(this.stats.errors.values()).reduce((sum, n) => sum + n, 0),
+            totalErrors: Array.from(this.stats.errors.values()).reduce((sum, n) => sum + n, 0)
         };
     }
 

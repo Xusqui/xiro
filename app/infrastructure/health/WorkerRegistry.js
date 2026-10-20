@@ -8,11 +8,7 @@ const { getRedisClient } = require('../../config/redis');
 const logger = require('../../config/logger');
 
 class WorkerRegistry {
-    constructor({
-        prefix = 'worker:presence:',
-        ttlSeconds = 60,
-        refreshIntervalSeconds = 20
-    } = {}) {
+    constructor({ prefix = 'worker:presence:', ttlSeconds = 60, refreshIntervalSeconds = 20 } = {}) {
         this.prefix = prefix;
         this.ttlSeconds = ttlSeconds;
         this.refreshIntervalSeconds = refreshIntervalSeconds;
@@ -34,7 +30,7 @@ class WorkerRegistry {
         await this._refresh();
 
         this._intervalId = setInterval(() => {
-            this._refresh().catch((error) => {
+            this._refresh().catch(error => {
                 logger.warn('Worker registry refresh failed', { error: error.message });
             });
         }, this.refreshIntervalSeconds * 1000);
@@ -105,7 +101,7 @@ class WorkerRegistry {
     }
 
     async _refresh() {
-        const client = this._client || await getRedisClient();
+        const client = this._client || (await getRedisClient());
         await client.setEx(this._key(), this.ttlSeconds, JSON.stringify(this._payload()));
     }
 

@@ -11,13 +11,13 @@ import EventEmitter from './EventEmitter.js?v=20260922172926';
  * Estados posibles del juego
  */
 export const GameStates = {
-    IDLE: 'idle',                   // Sin juego activo
-    LOBBY: 'lobby',                 // En sala de espera
-    COUNTDOWN: 'countdown',         // Cuenta regresiva
-    PLAYING: 'playing',             // Jugando
-    REVEALING: 'revealing',         // Revelando respuesta
-    ENDED: 'ended',                 // Juego terminado
-    RECONNECTING: 'reconnecting',   // Reconectando
+    IDLE: 'idle', // Sin juego activo
+    LOBBY: 'lobby', // En sala de espera
+    COUNTDOWN: 'countdown', // Cuenta regresiva
+    PLAYING: 'playing', // Jugando
+    REVEALING: 'revealing', // Revelando respuesta
+    ENDED: 'ended', // Juego terminado
+    RECONNECTING: 'reconnecting' // Reconectando
 };
 
 /**
@@ -74,7 +74,7 @@ export class GameStateManager extends EventEmitter {
             // Reconexión
             sessionId: null,
             isReconnecting: false,
-            reconnectAttempts: 0,
+            reconnectAttempts: 0
         };
     }
 
@@ -156,7 +156,7 @@ export class GameStateManager extends EventEmitter {
             timerRemainingTime: null,
             sessionId: null,
             isReconnecting: false,
-            reconnectAttempts: 0,
+            reconnectAttempts: 0
         };
 
         this.emit('stateReset');
@@ -177,7 +177,7 @@ export class GameStateManager extends EventEmitter {
             team: data.team || null,
             players: data.players || [],
             totalPlayers: (data.players || []).length,
-            gameState: GameStates.LOBBY,
+            gameState: GameStates.LOBBY
         });
     }
 
@@ -194,7 +194,7 @@ export class GameStateManager extends EventEmitter {
             timerDuration: questionData.timerDuration,
             selectedAnswer: null,
             hasAnswered: false,
-            gameState: GameStates.PLAYING,
+            gameState: GameStates.PLAYING
         });
     }
 
@@ -204,7 +204,7 @@ export class GameStateManager extends EventEmitter {
     submitAnswer(answer) {
         this.setState({
             selectedAnswer: answer,
-            hasAnswered: true,
+            hasAnswered: true
         });
     }
 
@@ -222,9 +222,7 @@ export class GameStateManager extends EventEmitter {
         this.setState({ ranking });
 
         // Encontrar posición del jugador actual
-        const position = ranking.findIndex(entry =>
-            entry.nickname === this._state.nickname
-        ) + 1;
+        const position = ranking.findIndex(entry => entry.nickname === this._state.nickname) + 1;
 
         if (position > 0) {
             this.setState({ position }, true);
@@ -237,7 +235,7 @@ export class GameStateManager extends EventEmitter {
     updatePlayers(players) {
         this.setState({
             players,
-            totalPlayers: players.length,
+            totalPlayers: players.length
         });
     }
 
@@ -273,7 +271,7 @@ export class GameStateManager extends EventEmitter {
      */
     startCountdown(countdown) {
         this.setState({
-            gameState: GameStates.COUNTDOWN,
+            gameState: GameStates.COUNTDOWN
         });
         this.emit('countdownStarted', countdown);
     }
@@ -286,7 +284,7 @@ export class GameStateManager extends EventEmitter {
             bank: gameData.bank,
             totalQuestions: gameData.totalQuestions,
             timerDuration: gameData.timerDuration,
-            gameState: GameStates.PLAYING,
+            gameState: GameStates.PLAYING
         });
     }
 
@@ -296,7 +294,7 @@ export class GameStateManager extends EventEmitter {
     endGame(ranking) {
         this.setState({
             gameState: GameStates.ENDED,
-            ranking,
+            ranking
         });
     }
 
@@ -307,7 +305,7 @@ export class GameStateManager extends EventEmitter {
         this.setState({
             timerStartTime: state.startTime || null,
             timerPaused: state.paused || false,
-            timerRemainingTime: state.remainingTime || null,
+            timerRemainingTime: state.remainingTime || null
         });
     }
 
@@ -316,7 +314,7 @@ export class GameStateManager extends EventEmitter {
      */
     revealAnswer(correctAnswer) {
         this.setState({
-            gameState: GameStates.REVEALING,
+            gameState: GameStates.REVEALING
         });
         this.emit('answerRevealed', correctAnswer);
     }
@@ -328,7 +326,7 @@ export class GameStateManager extends EventEmitter {
         this.setState({
             isReconnecting: true,
             gameState: GameStates.RECONNECTING,
-            reconnectAttempts: this._state.reconnectAttempts + 1,
+            reconnectAttempts: this._state.reconnectAttempts + 1
         });
     }
 
@@ -339,7 +337,7 @@ export class GameStateManager extends EventEmitter {
         this.setState({
             isReconnecting: false,
             gameState: snapshot.gameState || GameStates.LOBBY,
-            reconnectAttempts: 0,
+            reconnectAttempts: 0
         });
 
         // Restaurar estado del snapshot

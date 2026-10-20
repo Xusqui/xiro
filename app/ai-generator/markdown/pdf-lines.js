@@ -9,9 +9,10 @@
 
 'use strict';
 
-const WIDE_GAP = 2.5;      // en múltiplos del tamaño de letra
+const WIDE_GAP = 2.5; // en múltiplos del tamaño de letra
 const SPACE_GAP = 0.15;
-const PAGE_NUMBER = /^(?:p[áa]g(?:ina)?\.?|page|p\.)?\s*[-–]?\s*\d{1,4}\s*[-–]?\s*(?:(?:de|of|\/)\s*\d{1,4})?$|^[ivxlc]{1,7}$/i;
+const PAGE_NUMBER =
+    /^(?:p[áa]g(?:ina)?\.?|page|p\.)?\s*[-–]?\s*\d{1,4}\s*[-–]?\s*(?:(?:de|of|\/)\s*\d{1,4})?$|^[ivxlc]{1,7}$/i;
 
 function finishLine(line) {
     const items = line.items.sort((a, b) => a.x - b.x);
@@ -58,9 +59,7 @@ function median(values) {
 /** x del canal entre dos columnas, o null si la página no es a dos columnas. */
 function findGutter(lines) {
     if (lines.length < 8) return null;
-    const mids = lines
-        .filter(l => l.segments.length === 2)
-        .map(l => (l.segments[0].xEnd + l.segments[1].x) / 2);
+    const mids = lines.filter(l => l.segments.length === 2).map(l => (l.segments[0].xEnd + l.segments[1].x) / 2);
     if (mids.length < lines.length * 0.4) return null;
     const gutter = median(mids);
     const size = median(lines.map(l => l.size));
@@ -115,8 +114,11 @@ function removeRunningLines(pages, stats) {
         ...page,
         lines: page.lines.filter((line, i) => {
             if (!isEdge(page, line, i)) return true;
-            const kind = PAGE_NUMBER.test(line.text.trim()) ? 'pageNumbers'
-                : (repeated(runningKey(line.text)) ? 'runningLines' : null);
+            const kind = PAGE_NUMBER.test(line.text.trim())
+                ? 'pageNumbers'
+                : repeated(runningKey(line.text))
+                    ? 'runningLines'
+                    : null;
             if (!kind) return true;
             noteRemoved(stats, kind, line.text);
             return false;

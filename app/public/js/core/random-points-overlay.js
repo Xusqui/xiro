@@ -35,8 +35,7 @@
     }
 
     function _prefersReducedMotion() {
-        return typeof global.matchMedia === 'function'
-            && global.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        return typeof global.matchMedia === 'function' && global.matchMedia('(prefers-reduced-motion: reduce)').matches;
     }
 
     /**
@@ -53,20 +52,31 @@
         if (!animate || !/^\d+$/.test(text)) return text;
 
         // Mitades fijas (top/bottom) y pestaña que cae (leaf) con sus dos caras
-        const tiles = text.split('')
+        const tiles = text
+            .split('')
             .map(function (digit) {
-                return '<span class="rpo-digit" data-digit="' + digit + '">'
-                    + '<span class="rpo-half rpo-top"></span>'
-                    + '<span class="rpo-half rpo-bottom"></span>'
-                    + '<span class="rpo-leaf">'
-                    + '<span class="rpo-half rpo-front"></span>'
-                    + '<span class="rpo-half rpo-back"></span>'
-                    + '</span></span>';
+                return (
+                    '<span class="rpo-digit" data-digit="' +
+                    digit +
+                    '">' +
+                    '<span class="rpo-half rpo-top"></span>' +
+                    '<span class="rpo-half rpo-bottom"></span>' +
+                    '<span class="rpo-leaf">' +
+                    '<span class="rpo-half rpo-front"></span>' +
+                    '<span class="rpo-half rpo-back"></span>' +
+                    '</span></span>'
+                );
             })
             .join('');
 
-        return '<span class="rpo-board" aria-hidden="true">' + tiles + '</span>'
-            + '<span class="rpo-sr-only">' + text + '</span>';
+        return (
+            '<span class="rpo-board" aria-hidden="true">' +
+            tiles +
+            '</span>' +
+            '<span class="rpo-sr-only">' +
+            text +
+            '</span>'
+        );
     }
 
     /**
@@ -84,10 +94,10 @@
         const bottom = tile.querySelector('.rpo-bottom');
         const leaf = tile.querySelector('.rpo-leaf');
 
-        tile.querySelector('.rpo-top').textContent = next;            // mitad de arriba de la nueva
-        bottom.textContent = current;                                // mitad de abajo de la anterior
-        tile.querySelector('.rpo-front').textContent = current;      // la pestaña cae con la anterior
-        tile.querySelector('.rpo-back').textContent = next;          // y su dorso trae la nueva
+        tile.querySelector('.rpo-top').textContent = next; // mitad de arriba de la nueva
+        bottom.textContent = current; // mitad de abajo de la anterior
+        tile.querySelector('.rpo-front').textContent = current; // la pestaña cae con la anterior
+        tile.querySelector('.rpo-back').textContent = next; // y su dorso trae la nueva
 
         leaf.classList.remove('rpo-flipping');
         void leaf.offsetWidth; // reflow: permite re-disparar la animación
@@ -108,7 +118,9 @@
         // Array.prototype.forEach.call: NodeList.forEach no existe en los
         // navegadores de TV antiguos (tv.html, webOS)
         const tiles = container.querySelectorAll('.rpo-digit');
-        const forEachTile = function (fn) { Array.prototype.forEach.call(tiles, fn); };
+        const forEachTile = function (fn) {
+            Array.prototype.forEach.call(tiles, fn);
+        };
 
         forEachTile(function (tile) {
             const leaf = tile.querySelector('.rpo-leaf');
@@ -117,7 +129,9 @@
         });
 
         setTimeout(function () {
-            forEachTile(function (tile) { _flipTile(tile, ' '); });
+            forEachTile(function (tile) {
+                _flipTile(tile, ' ');
+            });
         }, FLIP_START_DELAY_MS);
     }
 
@@ -144,8 +158,10 @@
 
     function formatMultiplier(bonusPercentage) {
         // El idioma lo fija i18n-dom en <html lang>; decide el separador decimal
-        const locale = (document.documentElement && document.documentElement.lang)
-            || (global.navigator && global.navigator.language) || 'es';
+        const locale =
+            (document.documentElement && document.documentElement.lang) ||
+            (global.navigator && global.navigator.language) ||
+            'es';
         // Number() defensivo: si bonusPercentage llegara como string (p.ej. un DECIMAL
         // de BD sin parsear), "1 + '0.5'" concatenaría ("10.5") en vez de sumar.
         const multiplier = 1 + Number(bonusPercentage);
@@ -159,11 +175,17 @@
         const bonus = streakBonusFor(payload.streak, currentStreak);
         if (bonus === null) return '';
 
-        const text = _t('game.random_points.streak_multiplier',
+        const text = _t(
+            'game.random_points.streak_multiplier',
             { multiplier: formatMultiplier(bonus) },
-            'x{multiplier} por racha');
+            'x{multiplier} por racha'
+        );
 
-        return '<p style="font-size:1.2rem;font-weight:900;margin-top:20px;padding:8px 20px;border-radius:9999px;background:rgba(255,255,255,.18)">🔥 ' + text + '</p>';
+        return (
+            '<p style="font-size:1.2rem;font-weight:900;margin-top:20px;padding:8px 20px;border-radius:9999px;background:rgba(255,255,255,.18)">🔥 ' +
+            text +
+            '</p>'
+        );
     }
 
     /** Quita el overlay si está visible. */
@@ -192,13 +214,17 @@
 
         const opts = options || {};
         // Sin ?? (ES2020): tv.html lo carga en navegadores de TV antiguos
-        const duration = opts.durationMs != null ? opts.durationMs
-            : (payload.durationMs != null ? payload.durationMs : 3500);
+        const duration =
+            opts.durationMs != null ? opts.durationMs : payload.durationMs != null ? payload.durationMs : 3500;
         const animateDigits = opts.animate !== false && !_prefersReducedMotion();
         const pointsMarkup = buildPointsMarkup(payload.points, animateDigits);
         // Completa la frase: el valor sorteado es por palabra acertada
         const headline = payload.perWord
-            ? _t('game.random_points.headline_per_word', { points: pointsMarkup }, 'JUGÁIS POR {points} PUNTOS POR PALABRA')
+            ? _t(
+                'game.random_points.headline_per_word',
+                { points: pointsMarkup },
+                'JUGÁIS POR {points} PUNTOS POR PALABRA'
+            )
             : _t('game.random_points.headline', { points: pointsMarkup }, 'JUGÁIS POR {points} PUNTOS');
         const subtitle = _t('game.random_points.time_bonus', null, '+ BONUS DE TIEMPO');
         const streakLine = opts.currentStreak ? buildStreakLine(payload, opts.currentStreak) : '';
@@ -207,14 +233,19 @@
         el.id = OVERLAY_ID;
         el.setAttribute('role', 'status');
         el.setAttribute('aria-live', 'polite');
-        el.style.cssText = 'position:fixed;inset:0;z-index:10000;display:flex;flex-direction:column;'
-            + 'align-items:center;justify-content:center;text-align:center;padding:0 24px;'
-            + 'background:linear-gradient(135deg,#793475,#684374);color:#fff;pointer-events:none';
+        el.style.cssText =
+            'position:fixed;inset:0;z-index:10000;display:flex;flex-direction:column;' +
+            'align-items:center;justify-content:center;text-align:center;padding:0 24px;' +
+            'background:linear-gradient(135deg,#793475,#684374);color:#fff;pointer-events:none';
         el.innerHTML =
-            '<div style="font-size:88px;font-size:clamp(56px,12vw,88px);line-height:1;margin-bottom:16px" class="animate-float">🎲</div>'
-            + '<h2 style="font-size:4.5rem;font-size:clamp(2rem,7vw,4.5rem);font-weight:900;font-style:italic;text-transform:uppercase;letter-spacing:-.02em;margin:0;max-width:20ch">' + headline + '</h2>'
-            + '<p style="font-size:2rem;font-size:clamp(1rem,3vw,2rem);font-weight:700;margin-top:12px;opacity:.9;text-transform:uppercase">' + subtitle + '</p>'
-            + streakLine;
+            '<div style="font-size:88px;font-size:clamp(56px,12vw,88px);line-height:1;margin-bottom:16px" class="animate-float">🎲</div>' +
+            '<h2 style="font-size:4.5rem;font-size:clamp(2rem,7vw,4.5rem);font-weight:900;font-style:italic;text-transform:uppercase;letter-spacing:-.02em;margin:0;max-width:20ch">' +
+            headline +
+            '</h2>' +
+            '<p style="font-size:2rem;font-size:clamp(1rem,3vw,2rem);font-weight:700;margin-top:12px;opacity:.9;text-transform:uppercase">' +
+            subtitle +
+            '</p>' +
+            streakLine;
 
         document.body.appendChild(el);
 

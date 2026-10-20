@@ -44,9 +44,7 @@ function resolveCurrentActorNickname(state, actorOrTeamName, preferredNickname =
         return preferredNickname;
     }
 
-    return Object.keys(state.players).find(
-        nick => state.players[nick]?.teamName === actorOrTeamName
-    ) || null;
+    return Object.keys(state.players).find(nick => state.players[nick]?.teamName === actorOrTeamName) || null;
 }
 
 function buildPlayers(state) {
@@ -70,10 +68,12 @@ function buildStreakConfig(trivialData) {
     return {
         use_streaks: !!trivialData.use_streaks,
         streak_threshold: Number(trivialData.streak_threshold) || SCORING.STREAK.DEFAULT_THRESHOLD,
-        streak_bonus_percentage: parseFloat(trivialData.streak_bonus_percentage) || SCORING.STREAK.DEFAULT_BONUS_PERCENTAGE,
+        streak_bonus_percentage:
+            parseFloat(trivialData.streak_bonus_percentage) || SCORING.STREAK.DEFAULT_BONUS_PERCENTAGE,
         use_double_streaks: !!trivialData.use_double_streaks,
         double_streak_threshold: Number(trivialData.double_streak_threshold) || SCORING.STREAK.DEFAULT_DOUBLE_THRESHOLD,
-        double_streak_bonus_percentage: parseFloat(trivialData.double_streak_bonus_percentage) || SCORING.STREAK.DEFAULT_DOUBLE_BONUS_PERCENTAGE
+        double_streak_bonus_percentage:
+            parseFloat(trivialData.double_streak_bonus_percentage) || SCORING.STREAK.DEFAULT_DOUBLE_BONUS_PERCENTAGE
     };
 }
 
@@ -89,7 +89,9 @@ function createInitializedState(trivialData, playersInRoom, isTeamMode, teamConf
     const state = trivialState.createTrivialState(trivialData, playersInRoom, isTeamMode, teamConfig);
     const categoryCount = trivialData.categories.length;
     const outerCasillas = trivialData.outer_casillas;
-    const cgPositions = Array.from({ length: categoryCount }, (_, k) => Math.floor(k * outerCasillas / categoryCount));
+    const cgPositions = Array.from({ length: categoryCount }, (_, k) =>
+        Math.floor((k * outerCasillas) / categoryCount)
+    );
 
     state.board = {
         N: categoryCount,
@@ -134,7 +136,7 @@ function persistActiveTrivialGame(roomId, playersInRoom, isTeamMode, trivialData
 function persistGameStartTimestamp(roomId) {
     Promise.resolve(getRedisClient())
         .then(redisClient => redisClient.set(`game:started:${roomId}`, String(Date.now()), { EX: 86400 }))
-        .catch(() => { });
+        .catch(() => {});
 }
 
 function emitTrivialStart(io, roomId, payload) {
@@ -411,7 +413,10 @@ function createMoveBoundHandler({ handleMove }) {
         const position = data?.position;
 
         if (!roomId || !socket.rooms.has(roomId)) {
-            socket.emit('trivial-error', { message: 'No autorizado para esta sala', code: 'TRIVIAL_ROOM_UNAUTHORIZED' });
+            socket.emit('trivial-error', {
+                message: 'No autorizado para esta sala',
+                code: 'TRIVIAL_ROOM_UNAUTHORIZED'
+            });
             return;
         }
 
@@ -431,7 +436,10 @@ function createMoveBoundHandler({ handleMove }) {
             : socketNickname;
 
         if (!nickname || !state.players[nickname]) {
-            socket.emit('trivial-error', { message: 'Actor no autorizado para mover', code: 'TRIVIAL_ACTOR_UNAUTHORIZED_MOVE' });
+            socket.emit('trivial-error', {
+                message: 'Actor no autorizado para mover',
+                code: 'TRIVIAL_ACTOR_UNAUTHORIZED_MOVE'
+            });
             return;
         }
 
@@ -445,7 +453,10 @@ function createCategoryChosenBoundHandler({ handleCategoryChosen }) {
         const categoryIndex = data?.categoryIndex;
 
         if (!roomId || !socket.rooms.has(roomId)) {
-            socket.emit('trivial-error', { message: 'No autorizado para esta sala', code: 'TRIVIAL_ROOM_UNAUTHORIZED' });
+            socket.emit('trivial-error', {
+                message: 'No autorizado para esta sala',
+                code: 'TRIVIAL_ROOM_UNAUTHORIZED'
+            });
             return;
         }
 
@@ -471,7 +482,10 @@ function createCategoryChosenBoundHandler({ handleCategoryChosen }) {
             const isActor = state.teamMode ? teamName === actor : socketNickname === actor;
 
             if (!isActor) {
-                socket.emit('trivial-error', { message: 'No autorizado para elegir categoría', code: 'TRIVIAL_CATEGORY_UNAUTHORIZED' });
+                socket.emit('trivial-error', {
+                    message: 'No autorizado para elegir categoría',
+                    code: 'TRIVIAL_CATEGORY_UNAUTHORIZED'
+                });
                 return;
             }
         }

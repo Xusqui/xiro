@@ -111,13 +111,15 @@ function multipleChoiceEditorHtml(q, qIdx) {
                         </div>
                     </div>
                     <div class="grid grid-cols-2 gap-4">
-                        ${q.options.map((opt, oIdx) => {
-        return `
+                        ${q.options
+        .map((opt, oIdx) => {
+            return `
                                 <div class="flex flex-col gap-1">
                                     <div class="flex items-center gap-3 bg-slate-50 p-3 rounded-xl border-2 ${opt.isCorrect ? 'border-green-400 bg-green-50' : 'border-transparent'}">
                                         <input type="checkbox" ${opt.isCorrect ? 'checked' : ''} data-admin-change="marcarCorrectaMultiple(${qIdx}, ${oIdx})" class="w-5 h-5 accent-green-600">
                                         <input type="text" value="${escapeHtml(opt.optionText || '')}" data-admin-input="preguntasData[${qIdx}].options[${oIdx}].optionText = this.value" placeholder="Respuesta..." class="bg-transparent flex-1 outline-none text-sm font-medium">
-                                        ${opt.option_image_url
+                                        ${
+    opt.option_image_url
         ? `<div class="relative flex-shrink-0"><img src="${escapeHtml(opt.option_image_url)}" class="w-12 h-12 object-cover rounded-lg border border-slate-200" alt="Imagen opción"><button id="opt-img-btn-${qIdx}-${oIdx}" data-admin-click="eliminarImagenOpcion(${qIdx}, ${oIdx})" class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 text-xs flex items-center justify-center leading-none" title="Quitar imagen">×</button></div>`
         : `<label class="cursor-pointer text-slate-400 hover:text-plum-600 transition flex-shrink-0" title="Añadir imagen (máx. 200 KB)"><i class="fas fa-image"></i><input type="file" accept="image/jpeg,image/png,image/gif,image/webp" class="hidden" data-admin-change="onImagenOpcionChange(this, ${qIdx}, ${oIdx})"></label>`
 }
@@ -125,12 +127,17 @@ function multipleChoiceEditorHtml(q, qIdx) {
                                     </div>
                                 </div>
                             `;
-    }).join('')}
+        })
+        .join('')}
                         
-                        ${q.options.length < 6 ? `
+                        ${
+    q.options.length < 6
+        ? `
                         <button data-admin-click="añadirOpcion(${qIdx})" class="text-xs text-plum-600 font-bold border-2 border-dashed border-plum-200 rounded-xl py-3 hover:bg-plum-50 transition">
                             ${_t('admin.q.btn_add_option', null, '+ Añadir Opción')}
-                        </button>` : ''}
+                        </button>`
+        : ''
+}
                     </div>
                     `;
 }
@@ -139,9 +146,10 @@ function multipleChoiceEditorHtml(q, qIdx) {
 function standardOptionsEditorHtml(q, qIdx) {
     return `
                     <div class="grid grid-cols-2 gap-4">
-                        ${q.options.map((opt, oIdx) => {
-        if (q.type === 'order') {
-            return `
+                        ${q.options
+        .map((opt, oIdx) => {
+            if (q.type === 'order') {
+                return `
                                     <div class="flex flex-col gap-2 bg-slate-50 p-3 rounded-xl border-2 border-aubergine-200">
                                         <div class="flex items-center gap-3">
                                             <div class="flex flex-col gap-1">
@@ -155,14 +163,15 @@ function standardOptionsEditorHtml(q, qIdx) {
                                         <input type="text" value="${escapeHtml(opt.justification || '')}" data-admin-input="preguntasData[${qIdx}].options[${oIdx}].justification = this.value" placeholder="Ej: 250,000 km de vías" class="bg-white border border-aubergine-200 rounded-lg px-3 py-2 text-xs outline-none focus:border-aubergine-500 transition">
                                     </div>
                                 `;
-        }
+            }
 
-        return `
+            return `
                                 <div class="flex flex-col gap-1">
                                     <div class="flex items-center gap-3 bg-slate-50 p-3 rounded-xl border-2 ${q.type === 'quiz' && opt.isCorrect ? 'border-green-400 bg-green-50' : 'border-transparent'}">
                                         ${q.type === 'quiz' ? `<input type="radio" name="correct_${qIdx}" ${opt.isCorrect ? 'checked' : ''} data-admin-change="marcarCorrecta(${qIdx}, ${oIdx})" class="w-5 h-5 accent-green-600">` : `<input type="checkbox" checked disabled class="w-5 h-5 accent-blue-600">`}
                                         <input type="text" value="${escapeHtml(opt.optionText || '')}" data-admin-input="preguntasData[${qIdx}].options[${oIdx}].optionText = this.value" placeholder="Respuesta..." class="bg-transparent flex-1 outline-none text-sm font-medium">
-                                        ${opt.option_image_url
+                                        ${
+    opt.option_image_url
         ? `<div class="relative flex-shrink-0"><img src="${escapeHtml(opt.option_image_url)}" class="w-12 h-12 object-cover rounded-lg border border-slate-200" alt="Imagen opción"><button id="opt-img-btn-${qIdx}-${oIdx}" data-admin-click="eliminarImagenOpcion(${qIdx}, ${oIdx})" class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 text-xs flex items-center justify-center leading-none" title="Quitar imagen">×</button></div>`
         : `<label class="cursor-pointer text-slate-400 hover:text-plum-600 transition flex-shrink-0" title="Añadir imagen (máx. 200 KB)"><i class="fas fa-image"></i><input type="file" accept="image/jpeg,image/png,image/gif,image/webp" class="hidden" data-admin-change="onImagenOpcionChange(this, ${qIdx}, ${oIdx})"></label>`
 }
@@ -170,18 +179,27 @@ function standardOptionsEditorHtml(q, qIdx) {
                                     </div>
                                 </div>
                             `;
-    }).join('')}
+        })
+        .join('')}
                         
-                        ${q.options.length < 6 ? `
+                        ${
+    q.options.length < 6
+        ? `
                         <button data-admin-click="añadirOpcion(${qIdx})" class="text-xs text-plum-600 font-bold border-2 border-dashed border-plum-200 rounded-xl py-3 hover:bg-plum-50 transition">
                             ${_t('admin.q.btn_add_option', null, '+ Añadir Opción')}
-                        </button>` : ''}
+                        </button>`
+        : ''
+}
                     </div>
 
-                    ${q.type !== 'survey' && q.type !== 'order' ? `
+                    ${
+    q.type !== 'survey' && q.type !== 'order'
+        ? `
                     <div class="mt-4">
                         <label class="text-[10px] font-bold text-slate-400 uppercase">${_t('admin.q.justification_label', null, 'Justificación de la respuesta correcta')}</label>
                         <textarea data-admin-input="preguntasData[${qIdx}].justification = this.value" class="w-full mt-2 p-3 border-2 border-slate-100 rounded-xl focus:border-plum-500 outline-none transition text-sm" rows="3" placeholder="Explica por qué esta es la respuesta correcta">${escapeHtml(q.justification || '')}</textarea>
-                    </div>` : ''}
+                    </div>`
+        : ''
+}
                     `;
 }

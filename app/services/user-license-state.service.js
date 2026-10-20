@@ -50,7 +50,7 @@ function _toPublicStatus(state, nowMs) {
         licensed: state.licensed === true && !expiredNow,
         checkedAt: state.checkedAt,
         expiresAt: state.expiresAt ?? null,
-        reason: expiredNow ? 'expired' : (state.reason || null)
+        reason: expiredNow ? 'expired' : state.reason || null
     };
 }
 
@@ -66,7 +66,10 @@ async function _refreshUserStatus(userId, nowMs, source) {
 
     if (!source.license) {
         state = {
-            licensed: false, checkedAt: nowMs, expiresAt: null, reason: 'missing_license'
+            licensed: false,
+            checkedAt: nowMs,
+            expiresAt: null,
+            reason: 'missing_license'
         };
     } else {
         const validation = await probeRemoteStatus(source.license);
@@ -117,9 +120,8 @@ async function getUserLicenseStatus(userId) {
 
     try {
         const source = await userLicenseDb.getUserLicenseWithMeta(uid);
-        const sourceUnchanged = fresh
-            && source.license === entry.sourceLicense
-            && source.updatedAtMs === entry.sourceUpdatedAtMs;
+        const sourceUnchanged =
+            fresh && source.license === entry.sourceLicense && source.updatedAtMs === entry.sourceUpdatedAtMs;
 
         if (sourceUnchanged) {
             entry.sourceCheckedAt = nowMs;
@@ -162,7 +164,9 @@ async function _resolveOwner(pin) {
  * @returns {Promise<{licensed: boolean, reason: string|null}>}
  */
 async function getOwnerLicenseStatusByPin(pinValue) {
-    const pin = String(pinValue || '').trim().toUpperCase();
+    const pin = String(pinValue || '')
+        .trim()
+        .toUpperCase();
     if (!pin) {
         return { licensed: false, reason: 'no_pin' };
     }
@@ -199,7 +203,9 @@ function invalidateUserLicenseStatus(userId) {
  * @param {string} pinValue - PIN del contenido
  */
 function invalidateOwnerCacheForPin(pinValue) {
-    const pin = String(pinValue || '').trim().toUpperCase();
+    const pin = String(pinValue || '')
+        .trim()
+        .toUpperCase();
     if (pin) _ownerByPin.delete(pin);
 }
 

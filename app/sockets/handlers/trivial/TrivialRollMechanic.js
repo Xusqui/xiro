@@ -9,7 +9,7 @@
 
 'use strict';
 
-const MAX_CONSECUTIVE = 2;  // Máximo de re-tiradas (total = 1 inicial + 2 = 3)
+const MAX_CONSECUTIVE = 2; // Máximo de re-tiradas (total = 1 inicial + 2 = 3)
 
 /**
  * Decide qué hacer después de revelar la respuesta.

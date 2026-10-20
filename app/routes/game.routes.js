@@ -27,7 +27,7 @@ router.get('/api/all-games', authenticateAdmin, async (req, res) => {
         const [banks, custom, trivial] = await Promise.all([
             dbService.getAllGames(),
             dbService.getAllCustomGames(),
-            dbService.getAllTrivialGames(),
+            dbService.getAllTrivialGames()
         ]);
         res.json({ banks, custom, trivial });
     } catch (err) {
@@ -51,9 +51,16 @@ router.get('/api/presenter-game-info/:pin', async (req, res) => {
              FROM custom_games cg
              LEFT JOIN custom_game_questions cgq ON cgq.custom_game_id = cg.id
              WHERE cg.pin = $1 AND cg.visible_to_presenter = true
-             GROUP BY cg.id`, [pin]);
+             GROUP BY cg.id`,
+            [pin]
+        );
         if (cg.rows.length) {
-            return res.json({ pin, name: cg.rows[0].name, type: 'custom', questionCount: parseInt(cg.rows[0].question_count, 10) });
+            return res.json({
+                pin,
+                name: cg.rows[0].name,
+                type: 'custom',
+                questionCount: parseInt(cg.rows[0].question_count, 10)
+            });
         }
         // Banco de preguntas
         const bk = await pool.query(
@@ -62,9 +69,16 @@ router.get('/api/presenter-game-info/:pin', async (req, res) => {
              FROM question_banks qb
              LEFT JOIN questions q ON q.bank_id = qb.id
              WHERE qb.pin = $1 AND qb.visible_to_presenter = true
-             GROUP BY qb.id`, [pin]);
+             GROUP BY qb.id`,
+            [pin]
+        );
         if (bk.rows.length) {
-            return res.json({ pin, name: bk.rows[0].name, type: 'bank', questionCount: parseInt(bk.rows[0].question_count, 10) });
+            return res.json({
+                pin,
+                name: bk.rows[0].name,
+                type: 'bank',
+                questionCount: parseInt(bk.rows[0].question_count, 10)
+            });
         }
         // Trivial
         const tr = await pool.query(
@@ -73,11 +87,20 @@ router.get('/api/presenter-game-info/:pin', async (req, res) => {
              FROM trivial_games tg
              LEFT JOIN trivial_questions tq ON tq.trivial_game_id = tg.id
              WHERE tg.pin = $1 AND tg.visible_to_presenter = true
-             GROUP BY tg.id`, [pin]);
+             GROUP BY tg.id`,
+            [pin]
+        );
         if (tr.rows.length) {
-            return res.json({ pin, name: tr.rows[0].name, type: 'trivial', questionCount: parseInt(tr.rows[0].question_count, 10) });
+            return res.json({
+                pin,
+                name: tr.rows[0].name,
+                type: 'trivial',
+                questionCount: parseInt(tr.rows[0].question_count, 10)
+            });
         }
-        return res.status(404).json({ error: 'PIN no encontrado o no visible al presentador', code: 'PRESENTER_PIN_NOT_VISIBLE' });
+        return res
+            .status(404)
+            .json({ error: 'PIN no encontrado o no visible al presentador', code: 'PRESENTER_PIN_NOT_VISIBLE' });
     } catch (err) {
         handleRouteError(err, res);
     }
@@ -93,10 +116,9 @@ router.get('/api/presenter-game-questions/:pin', async (req, res) => {
     const pin = req.params.pin.toUpperCase();
     try {
         // Juego personalizado — preguntas ordenadas por posición
-        const cg = await pool.query(
-            `SELECT id FROM custom_games WHERE pin = $1 AND visible_to_presenter = true`,
-            [pin]
-        );
+        const cg = await pool.query(`SELECT id FROM custom_games WHERE pin = $1 AND visible_to_presenter = true`, [
+            pin
+        ]);
         if (cg.rows.length) {
             const qr = await pool.query(
                 `SELECT q.question_text, q.question_type, q.time_limit,
@@ -115,10 +137,9 @@ router.get('/api/presenter-game-questions/:pin', async (req, res) => {
             return res.json({ questions: qr.rows });
         }
         // Banco de preguntas — preguntas ordenadas por id (el orden real se define al iniciar)
-        const bk = await pool.query(
-            `SELECT id FROM question_banks WHERE pin = $1 AND visible_to_presenter = true`,
-            [pin]
-        );
+        const bk = await pool.query(`SELECT id FROM question_banks WHERE pin = $1 AND visible_to_presenter = true`, [
+            pin
+        ]);
         if (bk.rows.length) {
             const qr = await pool.query(
                 `SELECT q.question_text, q.question_type, q.time_limit,
@@ -135,7 +156,9 @@ router.get('/api/presenter-game-questions/:pin', async (req, res) => {
             );
             return res.json({ questions: qr.rows });
         }
-        return res.status(404).json({ error: 'PIN no encontrado o no visible al presentador', code: 'PRESENTER_PIN_NOT_VISIBLE' });
+        return res
+            .status(404)
+            .json({ error: 'PIN no encontrado o no visible al presentador', code: 'PRESENTER_PIN_NOT_VISIBLE' });
     } catch (err) {
         handleRouteError(err, res);
     }

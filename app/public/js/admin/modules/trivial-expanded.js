@@ -50,14 +50,18 @@ async function renderVistaTrivial() {
                     </button>
                 </div>
             </div>
-            ${games.length === 0 ? `
+            ${
+    games.length === 0
+        ? `
                 <div class="text-center py-20">
                     <i class="fas fa-dice text-slate-300 text-6xl mb-4"></i>
                     <p class="text-slate-400 text-xl">${_t('admin.trivial.empty', null, 'No hay juegos Trivial todavía')}</p>
-                </div>` : `
+                </div>`
+        : `
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     ${games.map(g => _trivialCard(g)).join('')}
-                </div>`}
+                </div>`
+}
         </div>`);
 }
 
@@ -71,10 +75,13 @@ function _trivialCard(g) {
     const editClasses = canModify
         ? 'flex-1 btn-edit py-2 px-3 rounded-lg text-sm font-bold transition'
         : `flex-1 py-2 px-3 rounded-lg text-sm font-bold transition ${getLockedButtonClasses()}`;
-    const cats = (g.categories || []);
-    const swatches = cats.map(c =>
-        `<span class="inline-block w-4 h-4 rounded-full border border-white/30" style="background:${c.color}"></span>`
-    ).join('');
+    const cats = g.categories || [];
+    const swatches = cats
+        .map(
+            c =>
+                `<span class="inline-block w-4 h-4 rounded-full border border-white/30" style="background:${c.color}"></span>`
+        )
+        .join('');
     return `
         <div class="bg-white rounded-2xl shadow-sm border-2 border-slate-200 hover:border-orange-500 transition-all hover:shadow-xl group overflow-hidden">
             <div class="p-6">
@@ -120,7 +127,7 @@ async function cargarEditorTrivial(id) {
         return;
     }
 
-    await renderEditorTrivial(data.game || data, data.game ? data.categories : (data.categories || []));
+    await renderEditorTrivial(data.game || data, data.game ? data.categories : data.categories || []);
 }
 
 function _readTrivialForm() {
@@ -165,8 +172,18 @@ function _readTrivialCategories() {
 /** Categorías sin origen o casillas externas que no reparten: mensaje, o null si todo cuadra. */
 function _trivialCategoriesError(form, categories) {
     const missingSource = categories.findIndex(c => !c.source_id);
-    if (missingSource !== -1) return _t('admin.trivial.error_missing_source', { n: missingSource + 1 }, 'La categoría {n} no tiene banco, mezcla o personalizado seleccionado.');
-    if (form.outerCasillas % categories.length !== 0) return _t('admin.trivial.error_outer_mismatch', { outer: form.outerCasillas, n: categories.length }, 'Las casillas externas ({outer}) deben ser múltiplo de {n} categorías.');
+    if (missingSource !== -1)
+        return _t(
+            'admin.trivial.error_missing_source',
+            { n: missingSource + 1 },
+            'La categoría {n} no tiene banco, mezcla o personalizado seleccionado.'
+        );
+    if (form.outerCasillas % categories.length !== 0)
+        return _t(
+            'admin.trivial.error_outer_mismatch',
+            { outer: form.outerCasillas, n: categories.length },
+            'Las casillas externas ({outer}) deben ser múltiplo de {n} categorías.'
+        );
     return null;
 }
 
@@ -193,7 +210,11 @@ async function guardarTrivial() {
     const randomPointsCheck = validateRandomPointsConfig(randomPoints);
     if (!randomPointsCheck.valid) return { ok: false, message: escapeHtml(randomPointsCheck.message) };
     const categories = _readTrivialCategories();
-    if (!form.name || !form.pin || categories.length < 2) return { ok: false, message: _t('admin.trivial.error_required', null, 'Nombre, PIN y al menos 2 categorías son obligatorios.') };
+    if (!form.name || !form.pin || categories.length < 2)
+        return {
+            ok: false,
+            message: _t('admin.trivial.error_required', null, 'Nombre, PIN y al menos 2 categorías son obligatorios.')
+        };
     if (form.id && !canModifyOwnedResource(form.ownerUserId)) {
         showOwnershipDeniedModal('este trivial');
         return { ok: false, message: _t('admin.savebar.error_ownership') };
@@ -204,10 +225,14 @@ async function guardarTrivial() {
     const method = form.id ? 'PUT' : 'POST';
     const url = form.id ? `/api/trivial-games/${form.id}` : '/api/trivial-games';
     const res = await fetchWithAuth(url, {
-        method, headers: { 'Content-Type': 'application/json' },
+        method,
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            name: form.name, pin: form.pin, language: form.language,
-            outer_casillas: form.outerCasillas, visible_to_presenter: form.visibleToPresenter,
+            name: form.name,
+            pin: form.pin,
+            language: form.language,
+            outer_casillas: form.outerCasillas,
+            visible_to_presenter: form.visibleToPresenter,
             ..._readTrivialStreaks(),
             image_url: form.imageUrl,
             ...randomPoints,
@@ -215,7 +240,11 @@ async function guardarTrivial() {
         })
     });
     const data = await res.json();
-    if (!res.ok) return { ok: false, message: escapeHtml(data.error || _t('admin.trivial.error_save', null, 'Error al guardar')) };
+    if (!res.ok)
+        return {
+            ok: false,
+            message: escapeHtml(data.error || _t('admin.trivial.error_save', null, 'Error al guardar'))
+        };
     return _afterTrivialSaved(data);
 }
 
@@ -240,7 +269,7 @@ function _initTrivialListDelegation() {
     if (_trivialListDelegationReady) return;
     _trivialListDelegationReady = true;
 
-    document.addEventListener('click', (event) => {
+    document.addEventListener('click', event => {
         const actionElement = event.target.closest('[data-trivial-list-action]');
         if (!actionElement) return;
 

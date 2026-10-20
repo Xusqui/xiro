@@ -2,12 +2,7 @@
  * @fileoverview Renderizado de preguntas numéricas por aproximación
  */
 
-import {
-    getNickname,
-    setHaRespondido,
-    setCanAnswer,
-    setCurrentSlideType
-} from './player-state.js?v=20260922172926';
+import { getNickname, setHaRespondido, setCanAnswer, setCurrentSlideType } from './player-state.js?v=20260922172926';
 import { getResponsiveFontClass } from './player-question-utils.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
@@ -28,8 +23,9 @@ export function renderizarPreguntaNumerica(pregunta) {
     setCurrentSlideType('numeric_approximation');
 
     const preguntaFontClass = getResponsiveFontClass(pregunta.question_text);
-    const hintText = (pregunta.hint_text || pregunta.hint || pregunta.hintText || '').trim()
-        || t('player.numeric.hint_fallback', 'El presentador no quiere dar pistas');
+    const hintText =
+        (pregunta.hint_text || pregunta.hint || pregunta.hintText || '').trim() ||
+        t('player.numeric.hint_fallback', 'El presentador no quiere dar pistas');
 
     document.body.innerHTML = _tHtml(`
         <div class="h-dvh w-screen flex flex-col bg-slate-900 overflow-hidden">
@@ -87,7 +83,7 @@ export function renderizarPreguntaNumerica(pregunta) {
     }
 
     if (inputElement) {
-        inputElement.addEventListener('keydown', (event) => {
+        inputElement.addEventListener('keydown', event => {
             if (event.key === 'Enter') {
                 event.preventDefault();
                 window.enviarRespuestaNumerica(false);

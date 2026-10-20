@@ -11,13 +11,15 @@ window.TVApp.Tolerance = (function () {
 
     /** Campo de tolerancia: primero de la pregunta (snake, camel) y si no, del reveal (camel, snake). */
     function toleranceField(question, revealData, snakeKey, camelKey) {
-        const fromQuestion = question ? (question[snakeKey] || question[camelKey]) : undefined;
+        const fromQuestion = question ? question[snakeKey] || question[camelKey] : undefined;
         if (fromQuestion) return fromQuestion;
-        return revealData ? (revealData[camelKey] || revealData[snakeKey]) : undefined;
+        return revealData ? revealData[camelKey] || revealData[snakeKey] : undefined;
     }
 
     function getNumericToleranceConfig(question, revealData) {
-        const modeRaw = String(toleranceField(question, revealData, 'tolerance_mode', 'toleranceMode') || '').toLowerCase();
+        const modeRaw = String(
+            toleranceField(question, revealData, 'tolerance_mode', 'toleranceMode') || ''
+        ).toLowerCase();
         const mode = TOLERANCE_MODES.indexOf(modeRaw) !== -1 ? modeRaw : 'hybrid';
 
         const value = toPositiveNumber(toleranceField(question, revealData, 'tolerance_value', 'toleranceValue')) || 25;
@@ -43,10 +45,12 @@ window.TVApp.Tolerance = (function () {
             return toleranceConfig.value;
         }
 
-        if (toleranceConfig.mode === 'percentage' || toleranceConfig.mode === 'relative' || toleranceConfig.mode === 'hybrid') {
-            return toleranceConfig.cap
-                ? Math.min(percentageTolerance, toleranceConfig.cap)
-                : percentageTolerance;
+        if (
+            toleranceConfig.mode === 'percentage' ||
+            toleranceConfig.mode === 'relative' ||
+            toleranceConfig.mode === 'hybrid'
+        ) {
+            return toleranceConfig.cap ? Math.min(percentageTolerance, toleranceConfig.cap) : percentageTolerance;
         }
 
         return percentageTolerance;

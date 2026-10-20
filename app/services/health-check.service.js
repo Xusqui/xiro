@@ -1,7 +1,7 @@
 /**
  * @fileoverview Health Check Service
  * @module services/health-check.service
- * 
+ *
  * Proporciona endpoints de salud para monitoreo de la aplicación
  */
 
@@ -22,7 +22,7 @@ async function checkDatabaseHealth() {
         const responseTime = Date.now() - startTime;
 
         return {
-            status: circuitHealth.healthy ? 'healthy' : (circuitHealth.degraded ? 'degraded' : 'unhealthy'),
+            status: circuitHealth.healthy ? 'healthy' : circuitHealth.degraded ? 'degraded' : 'unhealthy',
             details: {
                 ...circuitHealth,
                 responseTime: `${responseTime}ms`,

@@ -113,7 +113,6 @@ function transitionStateMachine(roomId, questions, isTeamMode) {
 
         // Ready de sincronización (no gatea ejecución de juego)
         return adapter.getCurrentState() !== 'idle';
-
     } catch (err) {
         logger.error('State machine transition error:', err.message);
         return false;
@@ -125,13 +124,7 @@ function transitionStateMachine(roomId, questions, isTeamMode) {
  * @param {Object} params - Transition parameters
  * @returns {Object} Transition result
  */
-async function prepareNextQuestion({
-    game,
-    players,
-    syncBus,
-    clearGameTimer,
-    io
-}) {
+async function prepareNextQuestion({ game, players, syncBus, clearGameTimer, io }) {
     if (!game) {
         return { success: false, error: 'Game not found' };
     }
@@ -148,7 +141,6 @@ async function prepareNextQuestion({
 
     // Stop current question timer
     clearGameTimer(roomId);
-
 
     // Move to next question
     game.currentIndex = nextIndex;
@@ -167,11 +159,7 @@ async function prepareNextQuestion({
     await resetPlayerStatesForNextQuestion(players, game);
 
     // Transition state machine
-    const stateMachineReady = transitionStateMachine(
-        roomId,
-        game.questions,
-        game.teamMode
-    );
+    const stateMachineReady = transitionStateMachine(roomId, game.questions, game.teamMode);
 
     if (!stateMachineReady) {
         logger.warn('State machine no sincronizada, continuando en modo legacy');
@@ -194,19 +182,14 @@ async function prepareNextQuestion({
         });
         Promise.resolve(getRedisClient())
             .then(r => r.del(`game:answered:${roomId}`))
-            .catch(() => { });
+            .catch(() => {});
     }
 
     // Broadcast to other workers via Redis.
     // IMPORTANT: pass game.questionStartTime so every worker uses the same canonical epoch
     // for time-based scoring. Without this, non-originating workers keep the stale
     // questionStartTime from the previous question and compute timeElapsed incorrectly.
-    await syncBus.publishNextQuestion(
-        roomId,
-        game.currentIndex,
-        game.questionStartTime,
-        game.currentRandomPoints
-    );
+    await syncBus.publishNextQuestion(roomId, game.currentIndex, game.questionStartTime, game.currentRandomPoints);
 
     return {
         success: true,

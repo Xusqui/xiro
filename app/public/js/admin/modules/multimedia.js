@@ -10,7 +10,15 @@ async function subirArchivo(qIdx, file) {
     const isAudio = ALLOWED_AUDIO_TYPES.some(type => file.type.includes(type.split('/')[1]));
 
     if (!isImage && !isAudio) {
-        mostrarModalError(_t('admin.media.error_type_title', null, '❌ Tipo no permitido'), _t('admin.media.error_type_msg', null, 'Solo se permiten imágenes (JPG, PNG, GIF, WebP) y audio (MP3, WAV, OGG)'), 'error');
+        mostrarModalError(
+            _t('admin.media.error_type_title', null, '❌ Tipo no permitido'),
+            _t(
+                'admin.media.error_type_msg',
+                null,
+                'Solo se permiten imágenes (JPG, PNG, GIF, WebP) y audio (MP3, WAV, OGG)'
+            ),
+            'error'
+        );
         return;
     }
 
@@ -18,7 +26,11 @@ async function subirArchivo(qIdx, file) {
     const maxSizeMB = isImage ? '5MB' : '10MB';
 
     if (file.size > maxSize) {
-        mostrarModalError(_t('admin.media.error_size_title', null, '❌ Archivo demasiado grande'), `El archivo excede el límite de ${maxSizeMB}. Tamaño actual: ${(file.size / 1024 / 1024).toFixed(2)}MB`, 'error');
+        mostrarModalError(
+            _t('admin.media.error_size_title', null, '❌ Archivo demasiado grande'),
+            `El archivo excede el límite de ${maxSizeMB}. Tamaño actual: ${(file.size / 1024 / 1024).toFixed(2)}MB`,
+            'error'
+        );
         return;
     }
 
@@ -45,17 +57,29 @@ async function subirArchivo(qIdx, file) {
             preguntasData[qIdx].tipo_contenido = data.tipo_contenido;
             preguntasData[qIdx].url_recurso = data.url;
 
-            mostrarModalError(_t('admin.common.success_title', null, '✅ Éxito'), `Archivo subido correctamente: ${data.filename}`, 'success');
+            mostrarModalError(
+                _t('admin.common.success_title', null, '✅ Éxito'),
+                `Archivo subido correctamente: ${data.filename}`,
+                'success'
+            );
             dibujarPreguntas();
         } else {
             const error = await response.json();
-            mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), `Error al subir archivo: ${error.error}`, 'error');
+            mostrarModalError(
+                _t('admin.common.error_title', null, '❌ Error'),
+                `Error al subir archivo: ${error.error}`,
+                'error'
+            );
             uploadBtn.innerHTML = _tHtml(originalText);
             uploadBtn.disabled = false;
         }
     } catch (err) {
         console.error('Error subiendo archivo:', err);
-        mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.common.error_server', null, 'Error de conexión al subir el archivo'), 'error');
+        mostrarModalError(
+            _t('admin.common.error_title', null, '❌ Error'),
+            _t('admin.common.error_server', null, 'Error de conexión al subir el archivo'),
+            'error'
+        );
         uploadBtn.innerHTML = _tHtml(originalText);
         uploadBtn.disabled = false;
     }
@@ -80,7 +104,7 @@ function abrirSelectorArchivo(qIdx) {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'image/jpeg,image/png,image/gif,image/webp,audio/mpeg,audio/mp3,audio/wav,audio/ogg';
-    input.onchange = (e) => {
+    input.onchange = e => {
         const file = e.target.files[0];
         if (file) {
             subirArchivo(qIdx, file);
@@ -109,7 +133,7 @@ function inicializarDragAndDrop() {
         }
 
         setupDragAndDrop(dropZone, {
-            onFileSelected: (file) => {
+            onFileSelected: file => {
                 subirArchivo(qIdx, file);
             },
             acceptedTypes: [
@@ -151,7 +175,11 @@ async function subirImagenPregunta(qIdx, file) {
         const kbActual = (file.size / 1024).toFixed(1);
         mostrarModalError(
             _t('admin.media.error_size_title', null, '❌ Imagen demasiado grande'),
-            _t('admin.q_img.error_size', null, `La imagen supera los 200 KB (tamaño actual: ${kbActual} KB). Usa una imagen de máximo 200×200 px.`).replace('${kbActual}', kbActual),
+            _t(
+                'admin.q_img.error_size',
+                null,
+                `La imagen supera los 200 KB (tamaño actual: ${kbActual} KB). Usa una imagen de máximo 200×200 px.`
+            ).replace('${kbActual}', kbActual),
             'error'
         );
         return;
@@ -220,7 +248,7 @@ function abrirSelectorImagenPregunta(qIdx) {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'image/jpeg,image/png,image/gif,image/webp';
-    input.onchange = (e) => {
+    input.onchange = e => {
         const file = e.target.files[0];
         if (file) {
             subirImagenPregunta(qIdx, file);
@@ -298,7 +326,10 @@ async function subirImagenOpcion(qIdx, oIdx, file) {
                 error.error || 'Error al subir la imagen de la opción',
                 'error'
             );
-            if (btn) { btn.innerHTML = '<i class="fas fa-image"></i>'; btn.disabled = false; }
+            if (btn) {
+                btn.innerHTML = '<i class="fas fa-image"></i>';
+                btn.disabled = false;
+            }
         }
     } catch (err) {
         console.error('Error subiendo imagen de opción:', err);
@@ -307,7 +338,10 @@ async function subirImagenOpcion(qIdx, oIdx, file) {
             _t('admin.common.error_server', null, 'Error de conexión al subir la imagen'),
             'error'
         );
-        if (btn) { btn.innerHTML = '<i class="fas fa-image"></i>'; btn.disabled = false; }
+        if (btn) {
+            btn.innerHTML = '<i class="fas fa-image"></i>';
+            btn.disabled = false;
+        }
     }
 }
 
@@ -330,7 +364,7 @@ function abrirSelectorImagenOpcion(qIdx, oIdx) {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'image/jpeg,image/png,image/gif,image/webp';
-    input.onchange = (e) => {
+    input.onchange = e => {
         const file = e.target.files[0];
         if (file) {
             subirImagenOpcion(qIdx, oIdx, file);
@@ -342,10 +376,34 @@ function abrirSelectorImagenOpcion(qIdx, oIdx) {
 // ===== IMAGEN DE PORTADA DE JUEGO/BANCO (bancos, personalizados, mezclas, trivial) =====
 
 const GAME_COVER_KIND_STYLES = {
-    bank: { hiddenId: 'editBankImageUrl', previewId: 'bankCoverPreview', border: 'border-plum-200 hover:border-plum-300', text: 'text-plum-700', bg: 'bg-plum-50 hover:bg-plum-100' },
-    customGame: { hiddenId: 'customGameImageUrl', previewId: 'customGameCoverPreview', border: 'border-blue-200 hover:border-blue-300', text: 'text-blue-700', bg: 'bg-blue-50 hover:bg-blue-100' },
-    game: { hiddenId: 'gameImageUrl', previewId: 'gameCoverPreview', border: 'border-green-200 hover:border-green-300', text: 'text-green-700', bg: 'bg-green-50 hover:bg-green-100' },
-    trivial: { hiddenId: 'trivial-image-url', previewId: 'trivialCoverPreview', border: 'border-orange-200 hover:border-orange-300', text: 'text-orange-700', bg: 'bg-orange-50 hover:bg-orange-100' },
+    bank: {
+        hiddenId: 'editBankImageUrl',
+        previewId: 'bankCoverPreview',
+        border: 'border-plum-200 hover:border-plum-300',
+        text: 'text-plum-700',
+        bg: 'bg-plum-50 hover:bg-plum-100'
+    },
+    customGame: {
+        hiddenId: 'customGameImageUrl',
+        previewId: 'customGameCoverPreview',
+        border: 'border-blue-200 hover:border-blue-300',
+        text: 'text-blue-700',
+        bg: 'bg-blue-50 hover:bg-blue-100'
+    },
+    game: {
+        hiddenId: 'gameImageUrl',
+        previewId: 'gameCoverPreview',
+        border: 'border-green-200 hover:border-green-300',
+        text: 'text-green-700',
+        bg: 'bg-green-50 hover:bg-green-100'
+    },
+    trivial: {
+        hiddenId: 'trivial-image-url',
+        previewId: 'trivialCoverPreview',
+        border: 'border-orange-200 hover:border-orange-300',
+        text: 'text-orange-700',
+        bg: 'bg-orange-50 hover:bg-orange-100'
+    }
 };
 
 /**
@@ -397,7 +455,7 @@ function abrirSelectorImagenPortada(kind) {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'image/jpeg,image/png,image/gif,image/webp';
-    input.onchange = (e) => {
+    input.onchange = e => {
         const file = e.target.files[0];
         if (file) subirImagenPortada(kind, file);
     };
@@ -425,7 +483,11 @@ async function subirImagenPortada(kind, file) {
         const mbActual = (file.size / 1024 / 1024).toFixed(2);
         mostrarModalError(
             _t('admin.media.error_size_title', null, '❌ Archivo demasiado grande'),
-            _t('admin.cover.error_size', { mb: mbActual }, 'La imagen de portada no puede superar 1 MB. Tamaño actual: {mb} MB'),
+            _t(
+                'admin.cover.error_size',
+                { mb: mbActual },
+                'La imagen de portada no puede superar 1 MB. Tamaño actual: {mb} MB'
+            ),
             'error'
         );
         return;

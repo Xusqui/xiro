@@ -11,8 +11,9 @@
     'use strict';
 
     const HTML_ESCAPES = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', '\'': '&#39;', '`': '&#96;' };
-    const VIDEO_BOX = 'background-color:#000;color:rgba(255,255,255,0.7);display:-webkit-box;display:-webkit-flex;display:flex;'
-        + '-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;height:100%;';
+    const VIDEO_BOX =
+        'background-color:#000;color:rgba(255,255,255,0.7);display:-webkit-box;display:-webkit-flex;display:flex;' +
+        '-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;height:100%;';
 
     function isNode() {
         return typeof module !== 'undefined' && module.exports;
@@ -29,7 +30,9 @@
     }
 
     function escapeText(s) {
-        return String(s === undefined || s === null ? '' : s).replace(/[&<>"'`]/g, function (ch) { return HTML_ESCAPES[ch]; });
+        return String(s === undefined || s === null ? '' : s).replace(/[&<>"'`]/g, function (ch) {
+            return HTML_ESCAPES[ch];
+        });
     }
 
     function safeColor(v, fallback) {
@@ -42,19 +45,49 @@
 
     function textHtml(p) {
         const m = model();
-        let style = 'font-family:' + escapeText(m.FONTS[p.font] || m.FONTS.sans) + ';font-size:' + p.size + 'px;'
-            + 'font-weight:' + (p.bold ? '700' : '400') + ';font-style:' + (p.italic ? 'italic' : 'normal') + ';'
-            + 'color:' + safeColor(p.color, '#ffffff') + ';text-align:' + p.align + ';';
+        let style =
+            'font-family:' +
+            escapeText(m.FONTS[p.font] || m.FONTS.sans) +
+            ';font-size:' +
+            p.size +
+            'px;' +
+            'font-weight:' +
+            (p.bold ? '700' : '400') +
+            ';font-style:' +
+            (p.italic ? 'italic' : 'normal') +
+            ';' +
+            'color:' +
+            safeColor(p.color, '#ffffff') +
+            ';text-align:' +
+            p.align +
+            ';';
         if (p.fill) style += 'background-color:' + safeColor(p.fill, 'transparent') + ';';
-        return '<div class="xsc-text xsc-valign--' + p.valign + '" data-size="' + p.size + '" style="' + style + '">'
-            + '<div class="xsc-text-inner">' + escapeText(p.text) + '</div></div>';
+        return (
+            '<div class="xsc-text xsc-valign--' +
+            p.valign +
+            '" data-size="' +
+            p.size +
+            '" style="' +
+            style +
+            '">' +
+            '<div class="xsc-text-inner">' +
+            escapeText(p.text) +
+            '</div></div>'
+        );
     }
 
     function imageHtml(p) {
         const src = safeUrl(p.src);
         if (!src) return '';
-        return '<img class="xsc-img" src="' + src + '" alt="" draggable="false" style="object-fit:' + p.fit
-            + ';border-radius:' + p.radius + 'px">';
+        return (
+            '<img class="xsc-img" src="' +
+            src +
+            '" alt="" draggable="false" style="object-fit:' +
+            p.fit +
+            ';border-radius:' +
+            p.radius +
+            'px">'
+        );
     }
 
     /** Rótulo del hueco del vídeo: dominio de origen, o el texto que pase quien pinta (labels). */
@@ -62,7 +95,7 @@
         const l = labels || {};
         if (String(url).indexOf('/uploads/') === 0) return l.localVideo || '';
         const match = /^https?:\/\/([^/?#]+)/i.exec(String(url));
-        return match ? match[1] : (l.video || '');
+        return match ? match[1] : l.video || '';
     }
 
     /** Hueco del vídeo: vacío en presentador/TV (el cliente monta el reproductor). */
@@ -71,23 +104,58 @@
         let inner = '';
         if (mode === 'player') {
             const label = options.labels && options.labels.videoOnScreen ? options.labels.videoOnScreen : '';
-            inner = '<div class="xsc-video-label" style="' + VIDEO_BOX + '"><i class="fas fa-film"></i>&nbsp;' + escapeText(label) + '</div>';
+            inner =
+                '<div class="xsc-video-label" style="' +
+                VIDEO_BOX +
+                '"><i class="fas fa-film"></i>&nbsp;' +
+                escapeText(label) +
+                '</div>';
         } else if (mode !== 'presenter' && mode !== 'tv') {
-            inner = '<div class="xsc-video-label" style="' + VIDEO_BOX + '"><i class="fas fa-film"></i>&nbsp;' + escapeText(hostOf(el.props.url, options.labels)) + '</div>';
+            inner =
+                '<div class="xsc-video-label" style="' +
+                VIDEO_BOX +
+                '"><i class="fas fa-film"></i>&nbsp;' +
+                escapeText(hostOf(el.props.url, options.labels)) +
+                '</div>';
         }
         return '<div class="xsc-video" data-xsc-video="' + index + '">' + inner + '</div>';
     }
 
     function elementHtml(el, index, options) {
-        let style = 'left:' + el.x + 'px;top:' + el.y + 'px;width:' + el.w + 'px;height:' + el.h + 'px;z-index:' + (index + 1) + ';';
-        if (el.rotation) style += '-webkit-transform:rotate(' + el.rotation + 'deg);transform:rotate(' + el.rotation + 'deg);';
+        let style =
+            'left:' +
+            el.x +
+            'px;top:' +
+            el.y +
+            'px;width:' +
+            el.w +
+            'px;height:' +
+            el.h +
+            'px;z-index:' +
+            (index + 1) +
+            ';';
+        if (el.rotation)
+            style += '-webkit-transform:rotate(' + el.rotation + 'deg);transform:rotate(' + el.rotation + 'deg);';
         let inner = '';
         if (el.type === 'text') inner = textHtml(el.props);
         else if (el.type === 'shape') inner = shapes().shapeSvg(el);
         else if (el.type === 'image') inner = imageHtml(el.props);
         else inner = videoHtml(el, index, options);
-        return '<div class="xsc-el xsc-el--' + el.type + '" data-el-id="' + escapeText(el.id) + '" data-el-index="' + index + '"'
-            + (el.type === 'text' ? ' data-fit="' + el.props.fit + '"' : '') + ' style="' + style + '">' + inner + '</div>';
+        return (
+            '<div class="xsc-el xsc-el--' +
+            el.type +
+            '" data-el-id="' +
+            escapeText(el.id) +
+            '" data-el-index="' +
+            index +
+            '"' +
+            (el.type === 'text' ? ' data-fit="' + el.props.fit + '"' : '') +
+            ' style="' +
+            style +
+            '">' +
+            inner +
+            '</div>'
+        );
     }
 
     /**
@@ -101,11 +169,21 @@
         const m = model();
         const opts = options || {};
         const c = m.normalizeCanvas(canvas) || m.createCanvas();
-        let style = 'width:' + m.WIDTH + 'px;height:' + m.HEIGHT + 'px;background-color:' + safeColor(c.background.color, m.DEFAULT_BACKGROUND) + ';';
+        let style =
+            'width:' +
+            m.WIDTH +
+            'px;height:' +
+            m.HEIGHT +
+            'px;background-color:' +
+            safeColor(c.background.color, m.DEFAULT_BACKGROUND) +
+            ';';
         const bgImage = safeUrl(c.background.image);
         if (bgImage) style += 'background-image:url(&quot;' + bgImage + '&quot;);';
         // data-i18n-skip: la traducción automática del DOM no debe tocar los textos del autor
-        let html = '<div class="xsc-frame" data-xsc-frame="1" data-i18n-skip="true"><div class="xsc-stage" style="' + style + '">';
+        let html =
+            '<div class="xsc-frame" data-xsc-frame="1" data-i18n-skip="true"><div class="xsc-stage" style="' +
+            style +
+            '">';
         for (let i = 0; i < c.elements.length; i++) html += elementHtml(c.elements[i], i, opts);
         return html + '</div></div>';
     }
@@ -119,8 +197,8 @@
         const s = Math.min(w / 1920, h / 1080);
         stage.style.webkitTransform = 'scale(' + s + ')';
         stage.style.transform = 'scale(' + s + ')';
-        stage.style.left = ((w - 1920 * s) / 2) + 'px';
-        stage.style.top = ((h - 1080 * s) / 2) + 'px';
+        stage.style.left = (w - 1920 * s) / 2 + 'px';
+        stage.style.top = (h - 1080 * s) / 2 + 'px';
         frame.setAttribute('data-xsc-scale', String(s));
         return s;
     }

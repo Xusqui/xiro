@@ -16,8 +16,8 @@ const SAMPLE_MS = 250;
 export function createQuestionClock(getEngine) {
     const T = self.XiroMusic.tension;
     const R = self.XiroMusic.reactions;
-    let question = null;         // { startedAt, durationMs, pausedAt } en hora del servidor
-    let offset = 0;              // servidor − local (ms)
+    let question = null; // { startedAt, durationMs, pausedAt } en hora del servidor
+    let offset = 0; // servidor − local (ms)
     let timer = null;
     let arc = R.gameArc(0, 0);
     let answered = 0;

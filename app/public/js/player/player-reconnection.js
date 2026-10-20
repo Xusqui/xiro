@@ -8,14 +8,37 @@
 
 import { socket } from './player-socket-config.js?v=20260922172926';
 import {
-    setIsReconnecting, setNickname, setPin, setSessionId,
-    setHaRespondido, setCanAnswer, setSelectedTeam, setTeamMode,
-    setPendingAnswer, setSendingAnswer, setStreakInfo,
-    getJoinTimeoutId, setJoinTimeoutId,
+    setIsReconnecting,
+    setNickname,
+    setPin,
+    setSessionId,
+    setHaRespondido,
+    setCanAnswer,
+    setSelectedTeam,
+    setTeamMode,
+    setPendingAnswer,
+    setSendingAnswer,
+    setStreakInfo,
+    getJoinTimeoutId,
+    setJoinTimeoutId,
     clearAnswerInputState
 } from './player-state.js?v=20260922172926';
 import { removeDisconnectOverlay, activarWakeLock } from './player-connection.js?v=20260922172926';
-import { renderizarPregunta, renderizarPreguntaOrdena, renderizarSlideComentario, renderizarSlideInfo, renderizarSlideTexto, renderizarSlideImagen, renderizarSlideTextoImagen, renderizarSlideVideo, renderizarPreguntaWordScramble, renderizarPreguntaWordSearch, renderizarPreguntaFillBlanks, renderizarPreguntaMultipleChoice, renderizarPreguntaMatching } from './player-question-ui.js?v=20260922172926';
+import {
+    renderizarPregunta,
+    renderizarPreguntaOrdena,
+    renderizarSlideComentario,
+    renderizarSlideInfo,
+    renderizarSlideTexto,
+    renderizarSlideImagen,
+    renderizarSlideTextoImagen,
+    renderizarSlideVideo,
+    renderizarPreguntaWordScramble,
+    renderizarPreguntaWordSearch,
+    renderizarPreguntaFillBlanks,
+    renderizarPreguntaMultipleChoice,
+    renderizarPreguntaMatching
+} from './player-question-ui.js?v=20260922172926';
 import { renderizarSlideLienzo } from './player-slide-canvas-ui.js?v=20261019120000';
 import { renderizarPreguntaNumerica } from './player-numeric-ui.js?v=20260922172926';
 import { injectStreakBadge } from './player-streak-ui.js?v=20260922172926';
@@ -116,7 +139,10 @@ function handleReconnectedSuccess(snapshot) {
 
         if (!question) {
             console.log('[RECONNECT DEBUG] No hay pregunta actual → mostrando pantalla de espera');
-            showWaitingScreen(snapshot.nickname, _t('player.reconnection.waiting_next', null, 'Esperando siguiente pregunta...'));
+            showWaitingScreen(
+                snapshot.nickname,
+                _t('player.reconnection.waiting_next', null, 'Esperando siguiente pregunta...')
+            );
             return;
         }
 

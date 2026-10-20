@@ -19,14 +19,16 @@ function renderSitePublicUrlCard() {
     const area = document.getElementById('public-url-area');
     if (!area) return Promise.resolve();
 
-    area.innerHTML = _tHtml(`<div class="text-slate-400 flex items-center gap-2"><i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.publicurl.loading', null, 'Cargando configuración…')}</div>`);
+    area.innerHTML = _tHtml(
+        `<div class="text-slate-400 flex items-center gap-2"><i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.publicurl.loading', null, 'Cargando configuración…')}</div>`
+    );
 
-    return fetch('/api/admin/config', { headers: { 'Authorization': 'Bearer ' + getAuthToken() } })
+    return fetch('/api/admin/config', { headers: { Authorization: 'Bearer ' + getAuthToken() } })
         .then(response => response.json())
         .then(data => {
             const liveArea = document.getElementById('public-url-area');
             if (!liveArea) return;
-            const currentValue = data.success ? (data.config?.PUBLIC_BASE_URL?.value || '') : '';
+            const currentValue = data.success ? data.config?.PUBLIC_BASE_URL?.value || '' : '';
             liveArea.innerHTML = _tHtml(_renderPublicUrlCard(currentValue));
         })
         .catch(() => {
@@ -42,12 +44,13 @@ function renderSitePublicUrlCard() {
 async function savePublicUrl(value) {
     const res = await fetch('/api/admin/config', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getAuthToken() },
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getAuthToken() },
         body: JSON.stringify({ updates: { PUBLIC_BASE_URL: value } })
     });
     const data = await res.json();
     if (!data.success) {
-        const error = data.errors?.PUBLIC_BASE_URL || data.error || _t('admin.publicurl.error_save', null, 'No se pudo guardar');
+        const error =
+            data.errors?.PUBLIC_BASE_URL || data.error || _t('admin.publicurl.error_save', null, 'No se pudo guardar');
         return { ok: false, message: escapeHtml(error) };
     }
     return {

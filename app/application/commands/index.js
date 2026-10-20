@@ -1,7 +1,7 @@
 /**
  * @fileoverview Índice de comandos CQRS
  * @module application/commands
- * 
+ *
  * MIGRADO: EndGameCommand y NextQuestionCommand eliminados
  * Usar EndGameUseCase y AdvanceQuestionUseCase directamente
  */
@@ -23,7 +23,7 @@ module.exports = {
     SubmitAnswerCommand,
     // EndGameCommand - ELIMINADO (usar EndGameUseCase)
     // NextQuestionCommand - ELIMINADO (usar AdvanceQuestionUseCase)
-    ImprovedStartGameCommand,  // ← comando activo en producción
+    ImprovedStartGameCommand, // ← comando activo en producción
     ImprovedSubmitAnswerCommand, // ← comando activo en producción
     JoinGameCommand
 };

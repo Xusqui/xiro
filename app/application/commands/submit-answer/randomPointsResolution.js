@@ -36,15 +36,13 @@ function randomPointsKey(roomId) {
  */
 function persistRandomPoints({ roomId, questionIndex, points }) {
     Promise.resolve(getRedisClient())
-        .then(rc => rc.set(
-            randomPointsKey(roomId),
-            JSON.stringify({ index: questionIndex, points }),
-            { EX: 7200 }
-        ))
-        .catch(err => logger.warn('Failed to persist random points to Redis', {
-            roomId,
-            error: err.message
-        }));
+        .then(rc => rc.set(randomPointsKey(roomId), JSON.stringify({ index: questionIndex, points }), { EX: 7200 }))
+        .catch(err =>
+            logger.warn('Failed to persist random points to Redis', {
+                roomId,
+                error: err.message
+            })
+        );
 }
 
 /**
@@ -107,5 +105,5 @@ async function resolveCanonicalRandomPoints({ game, currentQuestion, sPin }) {
 module.exports = {
     randomPointsKey,
     persistRandomPoints,
-    resolveCanonicalRandomPoints,
+    resolveCanonicalRandomPoints
 };

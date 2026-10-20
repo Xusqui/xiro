@@ -10,14 +10,35 @@
 const { decodeEntities } = require('./xml-lite');
 const { HTML_ENTITIES } = require('./html-entities');
 
-const DROP = /<(script|style|noscript|svg|math|template|nav|aside|footer|head|iframe|object|form|select|button)\b[\s\S]*?<\/\1\s*>/gi;
-const BLOCK = new Set(['p', 'div', 'section', 'article', 'main', 'header', 'blockquote', 'pre', 'dt', 'dd', 'dl',
-    'figcaption', 'figure', 'address', 'hr', 'caption', 'details', 'summary']);
+const DROP =
+    /<(script|style|noscript|svg|math|template|nav|aside|footer|head|iframe|object|form|select|button)\b[\s\S]*?<\/\1\s*>/gi;
+const BLOCK = new Set([
+    'p',
+    'div',
+    'section',
+    'article',
+    'main',
+    'header',
+    'blockquote',
+    'pre',
+    'dt',
+    'dd',
+    'dl',
+    'figcaption',
+    'figure',
+    'address',
+    'hr',
+    'caption',
+    'details',
+    'summary'
+]);
 // Ninguna alternativa cruza un '<': coste lineal incluso con etiquetas sin cerrar
 const TOKEN = /<(\/?)([a-zA-Z][a-zA-Z0-9]*)\b(?:[^<>"']|"[^"<]*"|'[^'<]*')*>|([^<]+)|</g;
 
 function preprocess(html) {
-    let src = String(html).replace(/<!--[\s\S]*?-->/g, ' ').replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1');
+    let src = String(html)
+        .replace(/<!--[\s\S]*?-->/g, ' ')
+        .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1');
     const body = src.match(/<body\b[^>]*>([\s\S]*)<\/body\s*>/i);
     if (body) src = body[1];
     let prev;

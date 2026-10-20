@@ -120,11 +120,15 @@ function setupCleanupIntervals() {
     // Ojo: un intervalo undefined hace que Node lo ejecute cada 1 ms.
     timerManager.setInterval(cleanupInactiveGames, TIMEOUTS.INACTIVE_CLEANUP_INTERVAL, 'cleanup-inactive-games');
     timerManager.setInterval(cleanupEmptyLobbies, TIMEOUTS.EMPTY_LOBBY_CLEANUP_INTERVAL, 'cleanup-empty-lobbies');
-    timerManager.setInterval(() => {
-        checkExpiredPlayers(io).catch((error) => {
-            logger.error('cleanup-expired-players failed', { error: error.message });
-        });
-    }, TIMEOUTS.CLEANUP_INTERVAL, 'cleanup-expired-players');
+    timerManager.setInterval(
+        () => {
+            checkExpiredPlayers(io).catch(error => {
+                logger.error('cleanup-expired-players failed', { error: error.message });
+            });
+        },
+        TIMEOUTS.CLEANUP_INTERVAL,
+        'cleanup-expired-players'
+    );
     timerManager.setInterval(cleanupRateLimits, TIMEOUTS.RATE_LIMIT_CLEANUP_INTERVAL, 'cleanup-rate-limits');
 }
 
@@ -189,7 +193,10 @@ function assertIsPresenter(socket, roomIdOrPin, errorEvent) {
         role: socket.data.role
     });
 
-    socket.emit(errorEvent, { message: 'No autorizado: se requiere rol de presentador.', code: 'PRESENTER_ROLE_REQUIRED' });
+    socket.emit(errorEvent, {
+        message: 'No autorizado: se requiere rol de presentador.',
+        code: 'PRESENTER_ROLE_REQUIRED'
+    });
     return false;
 }
 
@@ -198,10 +205,12 @@ function assertIsPresenter(socket, roomIdOrPin, errorEvent) {
 // envía luego abandon-game 'concluded' para una sesión que ya no existe: no hay
 // nada que cerrar, así que se ignora sin avisar de rol no autorizado.
 function isConcludeOfFinishedSession(socket, roomId, data) {
-    return data?.reason === 'concluded'
-        && !socket.rooms.has(roomId + ':presenter')
-        && !activeGames.has(roomId)
-        && !lobbyPlayers.has(roomId);
+    return (
+        data?.reason === 'concluded' &&
+        !socket.rooms.has(roomId + ':presenter') &&
+        !activeGames.has(roomId) &&
+        !lobbyPlayers.has(roomId)
+    );
 }
 
 function resolveRoomId(data, keys = []) {
@@ -214,9 +223,9 @@ function resolveRoomId(data, keys = []) {
 }
 
 function registerGeneralSocketEvents(socket, handlers) {
-    socket.on('validate-session', (data) => handlers.handleValidateSession(socket, data));
-    socket.on('join-lobby', (data) => handlers.handleJoinLobby(socket, data));
-    socket.on('join-presenter-lobby', (data) => handlers.handleJoinPresenterLobby(socket, data));
+    socket.on('validate-session', data => handlers.handleValidateSession(socket, data));
+    socket.on('join-lobby', data => handlers.handleJoinLobby(socket, data));
+    socket.on('join-presenter-lobby', data => handlers.handleJoinPresenterLobby(socket, data));
     socket.on('submit-answer', (data, callback) => handlers.handleSubmitAnswer(socket, data, callback));
     socket.on('word-search-hint', (data, callback) => handleWordSearchHint(socket, data, callback));
     socket.on('word-search-found', (data, callback) => handleWordSearchFound(socket, data, callback));
@@ -225,34 +234,34 @@ function registerGeneralSocketEvents(socket, handlers) {
     socket.on('fill-blanks-hint', (data, callback) => handleFillBlanksHint(socket, data, callback));
     socket.on('fill-blanks-check', (data, callback) => handleFillBlanksCheck(socket, data, callback));
     socket.on('fill-blanks-sync', (data, callback) => handleFillBlanksSync(socket, data, callback));
-    socket.on('select-team', (data) => handlers.handleSelectTeam(socket, data));
-    socket.on('reconnect-player', (data) => handlers.handleReconnectPlayer(socket, data));
-    socket.on('reconnect-presenter', (data) => handlers.handleReconnectPresenter(socket, data));
-    socket.on('get-current-state', (data) => handlers.handleGetCurrentState(socket, data));
-    socket.on('leave-lobby', (data) => handlers.handleLeaveLobby(socket, data));
-    socket.on('join-remote-presenter', (data) => handlers.handleJoinRemotePresenter(socket, data));
+    socket.on('select-team', data => handlers.handleSelectTeam(socket, data));
+    socket.on('reconnect-player', data => handlers.handleReconnectPlayer(socket, data));
+    socket.on('reconnect-presenter', data => handlers.handleReconnectPresenter(socket, data));
+    socket.on('get-current-state', data => handlers.handleGetCurrentState(socket, data));
+    socket.on('leave-lobby', data => handlers.handleLeaveLobby(socket, data));
+    socket.on('join-remote-presenter', data => handlers.handleJoinRemotePresenter(socket, data));
 }
 
 function registerPresenterSocketEvents(socket, handlers) {
-    socket.on('start-game', (roomIdOrPin) => {
+    socket.on('start-game', roomIdOrPin => {
         if (assertIsPresenter(socket, roomIdOrPin, 'start-game-error')) {
             handlers.handleStartGame(socket, roomIdOrPin);
         }
     });
 
-    socket.on('pause-timer', (roomIdOrPin) => {
+    socket.on('pause-timer', roomIdOrPin => {
         if (assertIsPresenter(socket, roomIdOrPin, 'pause-timer-error')) {
             handlers.handlePauseTimer(socket, roomIdOrPin);
         }
     });
 
-    socket.on('resume-timer', (roomIdOrPin) => {
+    socket.on('resume-timer', roomIdOrPin => {
         if (assertIsPresenter(socket, roomIdOrPin, 'resume-timer-error')) {
             handlers.handleResumeTimer(socket, roomIdOrPin);
         }
     });
 
-    socket.on('next-question', async (roomIdOrPin) => {
+    socket.on('next-question', async roomIdOrPin => {
         if (!assertIsPresenter(socket, roomIdOrPin, 'next-question-error')) {
             return;
         }
@@ -267,7 +276,7 @@ function registerPresenterSocketEvents(socket, handlers) {
         handlers.handleNextQuestion(socket, roomIdOrPin);
     });
 
-    socket.on('reveal-answer', async (roomIdOrPin) => {
+    socket.on('reveal-answer', async roomIdOrPin => {
         if (!assertIsPresenter(socket, roomIdOrPin, 'reveal-answer-error')) {
             return;
         }
@@ -278,21 +287,21 @@ function registerPresenterSocketEvents(socket, handlers) {
         await handlers.trivialHandler.handlePostReveal(roomId, game);
     });
 
-    socket.on('manual-points', (data) => {
+    socket.on('manual-points', data => {
         const roomId = resolveRoomId(data, ['roomId', 'sessionId', 'pin']);
         if (assertIsPresenter(socket, roomId, 'manual-points-error')) {
             handlers.handleManualPoints(socket, data);
         }
     });
 
-    socket.on('end-game', (data) => {
+    socket.on('end-game', data => {
         const roomId = resolveRoomId(data, ['roomId', 'roomIdOrPin', 'pin']);
         if (assertIsPresenter(socket, roomId, 'end-game-error')) {
             handlers.handleEndGame(socket, data);
         }
     });
 
-    socket.on('abandon-game', (data) => {
+    socket.on('abandon-game', data => {
         const roomId = resolveRoomId(data, ['roomId', 'roomIdOrPin', 'pin']);
         if (isConcludeOfFinishedSession(socket, roomId, data)) {
             logger.debug('abandon-game ignored: session already finished', { socketId: socket.id, roomId });
@@ -305,11 +314,11 @@ function registerPresenterSocketEvents(socket, handlers) {
 }
 
 function registerTrivialSocketEvents(socket, handlers) {
-    socket.on('trivial-start', (data) => handlers.trivialHandler.handleStart(socket, data));
-    socket.on('trivial-roll-dice', (data) => handlers.trivialHandler.handleRollDice(socket, data));
-    socket.on('trivial-move', (data) => handlers.trivialHandler.handleMove(socket, data));
-    socket.on('trivial-category-chosen', (data) => handlers.trivialHandler.handleCategoryChosen(socket, data));
-    socket.on('trivial-end-game', (data) => {
+    socket.on('trivial-start', data => handlers.trivialHandler.handleStart(socket, data));
+    socket.on('trivial-roll-dice', data => handlers.trivialHandler.handleRollDice(socket, data));
+    socket.on('trivial-move', data => handlers.trivialHandler.handleMove(socket, data));
+    socket.on('trivial-category-chosen', data => handlers.trivialHandler.handleCategoryChosen(socket, data));
+    socket.on('trivial-end-game', data => {
         const roomId = resolveRoomId(data, ['roomId', 'sessionId', 'pin']);
         if (assertIsPresenter(socket, roomId, 'trivial-error')) {
             handlers.trivialHandler.handleEndGame(socket, data);
@@ -318,7 +327,7 @@ function registerTrivialSocketEvents(socket, handlers) {
 }
 
 function registerDisconnectAndErrorEvents(socket, handlers, ackManager) {
-    socket.on('disconnect', (reason) => {
+    socket.on('disconnect', reason => {
         if (ackManager && typeof ackManager.cleanupSocket === 'function') {
             ackManager.cleanupSocket(socket.id);
         }
@@ -330,7 +339,7 @@ function registerDisconnectAndErrorEvents(socket, handlers, ackManager) {
         handlers.handleDisconnect(socket, reason);
     });
 
-    socket.on('error', (error) => handlers.handleError(socket, error));
+    socket.on('error', error => handlers.handleError(socket, error));
 }
 
 function onSocketConnection(socket, handlers, ackManager) {
@@ -354,12 +363,24 @@ function onSocketConnection(socket, handlers, ackManager) {
 function logConfiguredSocketHandlers() {
     logger.info('Socket handlers configured', {
         handlers: [
-            'validate-session', 'join-lobby', 'start-game', 'submit-answer',
+            'validate-session',
+            'join-lobby',
+            'start-game',
+            'submit-answer',
             'join-presenter-lobby',
-            'pause-timer', 'resume-timer', 'select-team',
-            'reconnect-player', 'reconnect-presenter', 'get-current-state',
-            'next-question', 'reveal-answer', 'manual-points', 'end-game', 'leave-lobby',
-            'disconnect', 'error'
+            'pause-timer',
+            'resume-timer',
+            'select-team',
+            'reconnect-player',
+            'reconnect-presenter',
+            'get-current-state',
+            'next-question',
+            'reveal-answer',
+            'manual-points',
+            'end-game',
+            'leave-lobby',
+            'disconnect',
+            'error'
         ],
         ...getWorkerContext()
     });
@@ -382,7 +403,7 @@ function setupSocketHandlers(ioInstance, ackManager = null) {
     const dependencies = createSocketDependencies(ackManager);
     const handlers = createHandlerSet(dependencies);
 
-    io.on('connection', (socket) => onSocketConnection(socket, handlers, ackManager));
+    io.on('connection', socket => onSocketConnection(socket, handlers, ackManager));
 
     logConfiguredSocketHandlers();
 }

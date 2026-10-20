@@ -28,7 +28,7 @@ function calculateLinearPoints({ distance, tolerance, maxPoints, isExact, exactB
         return 0;
     }
 
-    const basePoints = maxPoints * (1 - (distance / tolerance));
+    const basePoints = maxPoints * (1 - distance / tolerance);
     return Math.max(0, Math.round(basePoints));
 }
 

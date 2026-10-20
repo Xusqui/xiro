@@ -11,7 +11,7 @@
 function escHtml(str) {
     return String(str).replace(
         /[&<>"']/g,
-        c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', '\'': '&#39;' }[c])
+        c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', '\'': '&#39;' })[c]
     );
 }
 
@@ -131,7 +131,7 @@ function bindActionButton(id, handler) {
     const el = document.getElementById(id);
     if (!el || typeof handler !== 'function') return;
 
-    const wrapped = (event) => {
+    const wrapped = event => {
         const now = Date.now();
         if (now - lastRemoteActionAt < REMOTE_ACTION_COOLDOWN_MS) {
             return;

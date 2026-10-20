@@ -29,7 +29,8 @@ const ERROR_MESSAGES = {
     too_many_blanks: `La frase admite como máximo ${LIMITS.MAX_BLANKS} palabras entre corchetes`,
     unbalanced: 'Hay corchetes sin cerrar o sueltos en la frase',
     // Sin llaves en el texto: Joi las interpretaría como plantilla del mensaje
-    marker_literal: 'La frase no puede contener marcadores de hueco escritos a mano: escribe las palabras a adivinar entre corchetes',
+    marker_literal:
+        'La frase no puede contener marcadores de hueco escritos a mano: escribe las palabras a adivinar entre corchetes',
     mismatch: 'Los huecos de la frase no coinciden con las palabras'
 };
 

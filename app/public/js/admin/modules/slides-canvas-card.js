@@ -9,7 +9,12 @@
 function customCanvasCardBody(q) {
     const canvas = q.slide_canvas || {};
     const count = Array.isArray(canvas.elements) ? canvas.elements.length : 0;
-    const thumb = window.XiroSlideCanvasRender ? window.XiroSlideCanvasRender.stageHtml(canvas, { mode: 'thumb', labels: window.XiroCanvasEditor.videoLabels() }) : '';
+    const thumb = window.XiroSlideCanvasRender
+        ? window.XiroSlideCanvasRender.stageHtml(canvas, {
+            mode: 'thumb',
+            labels: window.XiroCanvasEditor.videoLabels()
+        })
+        : '';
     const th = window.XiroCanvasEditor.th;
     return `
                             <div class="flex-1 min-w-0 flex items-center gap-4">

@@ -55,7 +55,11 @@ router.get('/api/user/license', authenticateAdmin, async (req, res) => {
         });
     } catch (error) {
         logger.error('Error reading user license', { error: error.message });
-        res.status(500).json({ success: false, error: 'No se pudo obtener la licencia', code: 'USER_LICENSE_GET_FAILED' });
+        res.status(500).json({
+            success: false,
+            error: 'No se pudo obtener la licencia',
+            code: 'USER_LICENSE_GET_FAILED'
+        });
     }
 });
 
@@ -91,7 +95,11 @@ router.post(
             });
         } catch (error) {
             logger.error('Error saving user license', { error: error.message });
-            res.status(500).json({ success: false, error: 'No se pudo guardar la licencia', code: 'USER_LICENSE_SAVE_FAILED' });
+            res.status(500).json({
+                success: false,
+                error: 'No se pudo guardar la licencia',
+                code: 'USER_LICENSE_SAVE_FAILED'
+            });
         }
     }
 );

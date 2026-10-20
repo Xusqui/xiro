@@ -57,10 +57,7 @@ async function main() {
                     process.exit(1);
                 }
 
-                const timestamp = new Date().toISOString()
-                    .replace(/[-:]/g, '')
-                    .replace(/T/, '')
-                    .slice(0, 14);
+                const timestamp = new Date().toISOString().replace(/[-:]/g, '').replace(/T/, '').slice(0, 14);
 
                 const filename = `${timestamp}_${migrationName}.sql`;
                 const filepath = path.join(__dirname, filename);

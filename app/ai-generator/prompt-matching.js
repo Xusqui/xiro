@@ -28,11 +28,12 @@ const SCHEMA = `[
   }
 ]`;
 
-const RULES = `REGLAS: cada pregunta tiene una consigna clara y entre ${MIN_PAIRS} y ${MAX_PAIRS} pares (mejor 4) `
-    + 'de datos REALES del tema; option_text es el elemento de la izquierda y match_value su ÚNICA pareja correcta; '
-    + 'todos los option_text son distintos entre sí y todos los match_value son distintos entre sí, para que ningún '
-    + 'elemento pueda emparejarse con dos parejas; textos cortos (máximo 60 caracteres); is_correct=false en todas '
-    + 'y order_index correlativo desde 0';
+const RULES =
+    `REGLAS: cada pregunta tiene una consigna clara y entre ${MIN_PAIRS} y ${MAX_PAIRS} pares (mejor 4) ` +
+    'de datos REALES del tema; option_text es el elemento de la izquierda y match_value su ÚNICA pareja correcta; ' +
+    'todos los option_text son distintos entre sí y todos los match_value son distintos entre sí, para que ningún ' +
+    'elemento pueda emparejarse con dos parejas; textos cortos (máximo 60 caracteres); is_correct=false en todas ' +
+    'y order_index correlativo desde 0';
 
 /**
  * @param {string} text - Documento o tema
@@ -41,7 +42,12 @@ const RULES = `REGLAS: cada pregunta tiene una consigna clara y entre ${MIN_PAIR
  * @param {{ previousQuestions?: string[], mode?: 'document'|'prompt', language?: string }} [options]
  * @returns {string}
  */
-function buildMatchingPrompt(text, count, dificultad, { previousQuestions = [], mode = 'document', language = 'es' } = {}) {
+function buildMatchingPrompt(
+    text,
+    count,
+    dificultad,
+    { previousQuestions = [], mode = 'document', language = 'es' } = {}
+) {
     const lang = builder.getLanguageName(language);
     const candidates = count + MATCHING_EXTRA;
     const difficulty = builder.DIFICULTAD_INSTRUCCION[dificultad] || 'media';

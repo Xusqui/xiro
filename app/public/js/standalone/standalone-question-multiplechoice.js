@@ -11,7 +11,14 @@
 const StandaloneQuestionMultipleChoice = (() => {
     const { escapeHtml, optionText, submitAnswer, buildQuestionMedia, wireQuestionAudio } = StandaloneQuestionCommon;
 
-    const OPTION_GRADIENTS = ['pl-gradient-red', 'pl-gradient-blue', 'pl-gradient-yellow', 'pl-gradient-green', 'pl-gradient-purple', 'pl-gradient-pink'];
+    const OPTION_GRADIENTS = [
+        'pl-gradient-red',
+        'pl-gradient-blue',
+        'pl-gradient-yellow',
+        'pl-gradient-green',
+        'pl-gradient-purple',
+        'pl-gradient-pink'
+    ];
 
     function _markSelected(btn, isSelected) {
         const prevOverlay = btn.querySelector('.pl-check-overlay');
@@ -44,13 +51,17 @@ const StandaloneQuestionMultipleChoice = (() => {
                 </div>
                 <div class="pl-multi-banner"><p>✓ ${window.XiroI18n?.t('standalone.game.multiple_hint') || 'Selección múltiple (puedes marcar varias)'}</p></div>
                 <div class="pl-answers-grid">
-                    ${options.map((opt, idx) => `
+                    ${options
+        .map(
+            (opt, idx) => `
                         <button type="button" class="pl-answer-btn pl-glass-3d ${OPTION_GRADIENTS[idx % OPTION_GRADIENTS.length]}" data-standalone-answer data-index="${idx}">
                             <span class="pl-answer-number">${idx + 1}</span>
                             ${opt.option_image_url ? `<img src="${escapeHtml(opt.option_image_url)}" alt="" class="pl-answer-image">` : ''}
                             <span class="pl-answer-text">${escapeHtml(optionText(opt))}</span>
                         </button>
-                    `).join('')}
+                    `
+        )
+        .join('')}
                 </div>
                 <div class="pl-submit-bar">
                     <button type="button" class="pl-submit-btn" data-standalone-action="submit-multiple" disabled>
@@ -65,25 +76,31 @@ const StandaloneQuestionMultipleChoice = (() => {
         const buttons = Array.from(container.querySelectorAll('[data-standalone-answer]'));
         const submitBtn = container.querySelector('[data-standalone-action="submit-multiple"]');
 
-        buttons.forEach(btn => btn.addEventListener('click', () => {
-            const idx = Number(btn.dataset.index);
-            if (selected.has(idx)) {
-                selected.delete(idx);
-            } else {
-                selected.add(idx);
-            }
-            _markSelected(btn, selected.has(idx));
-            submitBtn.disabled = selected.size === 0;
-        }));
+        buttons.forEach(btn =>
+            btn.addEventListener('click', () => {
+                const idx = Number(btn.dataset.index);
+                if (selected.has(idx)) {
+                    selected.delete(idx);
+                } else {
+                    selected.add(idx);
+                }
+                _markSelected(btn, selected.has(idx));
+                submitBtn.disabled = selected.size === 0;
+            })
+        );
 
         submitBtn.addEventListener('click', async () => {
-            buttons.forEach(btn => { btn.disabled = true; });
+            buttons.forEach(btn => {
+                btn.disabled = true;
+            });
             submitBtn.disabled = true;
 
             const ack = await submitAnswer({ selectedIndices: [...selected] }, 'multiple_choice');
             if (ack && ack.ok === false) {
                 StandaloneState.get().answered = false;
-                buttons.forEach(btn => { btn.disabled = false; });
+                buttons.forEach(btn => {
+                    btn.disabled = false;
+                });
                 submitBtn.disabled = false;
                 return;
             }

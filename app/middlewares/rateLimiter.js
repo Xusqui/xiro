@@ -17,13 +17,13 @@ class SocketRateLimiter {
 
         // Configuración por tipo de acción
         this.limits = {
-            'submit-answer': { max: 2, window: 1000 },      // 2 respuestas por segundo
-            'join-lobby': { max: 3, window: 5000 },         // 3 joins en 5 segundos
-            'leave-game': { max: 5, window: 10000 },        // 5 leaves en 10 segundos
-            'next-question': { max: 10, window: 5000 },     // 10 next en 5 segundos (presentador)
-            'select-team': { max: 5, window: 3000 },        // 5 cambios de equipo en 3s
-            'manual-points': { max: 20, window: 10000 },    // 20 asignaciones en 10s
-            'default': { max: 20, window: 1000 }            // 20 acciones/segundo por defecto
+            'submit-answer': { max: 2, window: 1000 }, // 2 respuestas por segundo
+            'join-lobby': { max: 3, window: 5000 }, // 3 joins en 5 segundos
+            'leave-game': { max: 5, window: 10000 }, // 5 leaves en 10 segundos
+            'next-question': { max: 10, window: 5000 }, // 10 next en 5 segundos (presentador)
+            'select-team': { max: 5, window: 3000 }, // 5 cambios de equipo en 3s
+            'manual-points': { max: 20, window: 10000 }, // 20 asignaciones en 10s
+            default: { max: 20, window: 1000 } // 20 acciones/segundo por defecto
         };
 
         // Cleanup cada 5 minutos sin mantener vivo el event loop

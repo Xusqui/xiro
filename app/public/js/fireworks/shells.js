@@ -7,22 +7,15 @@
 const GRAVITY = 1;
 
 function makePistilColor(shellColor) {
-    return (shellColor === COLOR.White || shellColor === COLOR.Gold)
+    return shellColor === COLOR.White || shellColor === COLOR.Gold
         ? randomColor({ notColor: shellColor })
         : whiteOrGold();
 }
 
 function crossetteEffect(star) {
     const startAngle = Math.random() * (Math.PI * 0.5);
-    createParticleArc(startAngle, Math.PI * 2, 4, 0.5, (angle) => {
-        Star.add(
-            star.x,
-            star.y,
-            star.color,
-            angle,
-            Math.random() * 0.6 + 0.75,
-            600
-        );
+    createParticleArc(startAngle, Math.PI * 2, 4, 0.5, angle => {
+        Star.add(star.x, star.y, star.color, angle, Math.random() * 0.6 + 0.75, 600);
     });
 }
 
@@ -45,15 +38,8 @@ function floralEffect(star) {
 
 function crackleEffect(star) {
     const count = 16;
-    createParticleArc(0, Math.PI * 2, count, 1.8, (angle) => {
-        Spark.add(
-            star.x,
-            star.y,
-            COLOR.Gold,
-            angle,
-            Math.pow(Math.random(), 0.45) * 2.4,
-            300 + Math.random() * 200
-        );
+    createParticleArc(0, Math.PI * 2, count, 1.8, angle => {
+        Spark.add(star.x, star.y, COLOR.Gold, angle, Math.pow(Math.random(), 0.45) * 2.4, 300 + Math.random() * 200);
     });
 }
 
@@ -84,7 +70,10 @@ const crysanthemumShell = (size = 1) => {
     const color = singleColor ? randomColor({ limitWhite: true }) : [randomColor(), randomColor({ notSame: true })];
     const pistil = singleColor && Math.random() < 0.42;
     const pistilColor = pistil && makePistilColor(color);
-    const secondColor = singleColor && (Math.random() < 0.2 || color === COLOR.White) ? pistilColor || randomColor({ notColor: color, limitWhite: true }) : null;
+    const secondColor =
+        singleColor && (Math.random() < 0.2 || color === COLOR.White)
+            ? pistilColor || randomColor({ notColor: color, limitWhite: true })
+            : null;
     const streamers = !pistil && color !== COLOR.White && Math.random() < 0.42;
     const starDensity = glitter ? 1.1 : 1.25;
 
@@ -155,7 +144,12 @@ const floralShell = (size = 1) => ({
     starDensity: 0.12,
     starLife: 500 + size * 50,
     starLifeVariation: 0.5,
-    color: Math.random() < 0.65 ? 'random' : (Math.random() < 0.15 ? randomColor() : [randomColor(), randomColor({ notSame: true })]),
+    color:
+        Math.random() < 0.65
+            ? 'random'
+            : Math.random() < 0.15
+                ? randomColor()
+                : [randomColor(), randomColor({ notSame: true })],
     floral: true
 });
 
@@ -230,7 +224,7 @@ const strobeShell = (size = 1) => {
         shellSize: size,
         spreadSize: 280 + size * 92,
         starLife: 1100 + size * 200,
-        starLifeVariation: 0.40,
+        starLifeVariation: 0.4,
         starDensity: 1.1,
         color,
         glitter: 'light',
@@ -244,25 +238,34 @@ const strobeShell = (size = 1) => {
 
 function randomShell(size) {
     const shells = [
-        crysanthemumShell, ringShell, palmShell, crossetteShell, floralShell,
-        willowShell, crackleShell, fallingLeavesShell, ghostShell, horsetailShell, strobeShell
+        crysanthemumShell,
+        ringShell,
+        palmShell,
+        crossetteShell,
+        floralShell,
+        willowShell,
+        crackleShell,
+        fallingLeavesShell,
+        ghostShell,
+        horsetailShell,
+        strobeShell
     ];
     return MyMath.randomChoice(shells)(size);
 }
 
 const shellTypes = {
-    'Random': randomShell,
-    'Crackle': crackleShell,
-    'Crossette': crossetteShell,
-    'Crysanthemum': crysanthemumShell,
+    Random: randomShell,
+    Crackle: crackleShell,
+    Crossette: crossetteShell,
+    Crysanthemum: crysanthemumShell,
     'Falling Leaves': fallingLeavesShell,
-    'Floral': floralShell,
-    'Ghost': ghostShell,
+    Floral: floralShell,
+    Ghost: ghostShell,
     'Horse Tail': horsetailShell,
-    'Palm': palmShell,
-    'Ring': ringShell,
-    'Strobe': strobeShell,
-    'Willow': willowShell
+    Palm: palmShell,
+    Ring: ringShell,
+    Strobe: strobeShell,
+    Willow: willowShell
 };
 
 class Shell {
@@ -287,19 +290,19 @@ class Shell {
 
         const launchX = position * (stageW - hpad * 2) + hpad;
         const launchY = stageH;
-        const burstY = minHeight - (launchHeight * (minHeight - vpad));
+        const burstY = minHeight - launchHeight * (minHeight - vpad);
 
         const launchDistance = launchY - burstY;
         const launchVelocity = Math.pow(launchDistance * 0.04, 0.64);
 
-        const comet = this.comet = Star.add(
+        const comet = (this.comet = Star.add(
             launchX,
             launchY,
             typeof this.color === 'string' && this.color !== 'random' ? this.color : COLOR.White,
             Math.PI,
             launchVelocity,
             launchVelocity * 400
-        );
+        ));
 
         comet.heavy = true;
         comet.spinRadius = MyMath.random(0.32, 0.85);
@@ -326,42 +329,54 @@ class Shell {
         let sparkLifeVariation = 0.25;
         let playedDeathSound = false;
 
-        if (this.crossette) onDeath = (star) => {
-            if (!playedDeathSound) { soundManager.playSound('crackleSmall'); playedDeathSound = true; }
-            crossetteEffect(star);
-        };
-        if (this.crackle) onDeath = (star) => {
-            if (!playedDeathSound) { soundManager.playSound('crackle'); playedDeathSound = true; }
-            crackleEffect(star);
-        };
-        if (this.floral) onDeath = (star) => { floralEffect(star); soundManager.playSound('burstSmall'); };
-        if (this.fallingLeaves) onDeath = (star) => { fallingLeavesEffect(star); soundManager.playSound('burstSmall'); };
+        if (this.crossette)
+            onDeath = star => {
+                if (!playedDeathSound) {
+                    soundManager.playSound('crackleSmall');
+                    playedDeathSound = true;
+                }
+                crossetteEffect(star);
+            };
+        if (this.crackle)
+            onDeath = star => {
+                if (!playedDeathSound) {
+                    soundManager.playSound('crackle');
+                    playedDeathSound = true;
+                }
+                crackleEffect(star);
+            };
+        if (this.floral)
+            onDeath = star => {
+                floralEffect(star);
+                soundManager.playSound('burstSmall');
+            };
+        if (this.fallingLeaves)
+            onDeath = star => {
+                fallingLeavesEffect(star);
+                soundManager.playSound('burstSmall');
+            };
 
         if (this.glitter === 'light') {
             sparkFreq = 400;
             sparkSpeed = 0.3;
             sparkLife = 300;
             sparkLifeVariation = 2;
-        }
-        else if (this.glitter === 'medium') {
+        } else if (this.glitter === 'medium') {
             sparkFreq = 200;
             sparkSpeed = 0.44;
             sparkLife = 700;
             sparkLifeVariation = 2;
-        }
-        else if (this.glitter === 'heavy') {
+        } else if (this.glitter === 'heavy') {
             sparkFreq = 80;
             sparkSpeed = 0.8;
             sparkLife = 1400;
             sparkLifeVariation = 2;
-        }
-        else if (this.glitter === 'thick') {
+        } else if (this.glitter === 'thick') {
             sparkFreq = 16;
             sparkSpeed = 1.5;
             sparkLife = 1400;
             sparkLifeVariation = 3;
-        }
-        else if (this.glitter === 'willow') {
+        } else if (this.glitter === 'willow') {
             sparkFreq = 120;
             sparkSpeed = 0.34;
             sparkLife = 1400;
@@ -445,8 +460,7 @@ class Shell {
             } else {
                 createBurst(this.starCount, starFactory);
             }
-        }
-        else if (Array.isArray(this.color)) {
+        } else if (Array.isArray(this.color)) {
             if (Math.random() < 0.5) {
                 const start = Math.random() * Math.PI;
                 const start2 = start + Math.PI;

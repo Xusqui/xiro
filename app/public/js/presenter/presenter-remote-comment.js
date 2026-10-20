@@ -4,14 +4,22 @@
  */
 
 const TEAM_COLORS = {
-    red: '#dc2626', blue: '#2563eb', green: '#16a34a',
-    yellow: '#ca8a04', purple: '#7c3aed', pink: '#db2777',
-    orange: '#ea580c', cyan: '#0891b2', lime: '#65a30d'
+    red: '#dc2626',
+    blue: '#2563eb',
+    green: '#16a34a',
+    yellow: '#ca8a04',
+    purple: '#7c3aed',
+    pink: '#db2777',
+    orange: '#ea580c',
+    cyan: '#0891b2',
+    lime: '#65a30d'
 };
 
 function esc(str) {
-    return String(str).replace(/[&<>"']/g,
-        c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', '\'': '&#39;' }[c]));
+    return String(str).replace(
+        /[&<>"']/g,
+        c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', '\'': '&#39;' })[c]
+    );
 }
 
 let assignPointsHandler = null;
@@ -23,7 +31,7 @@ export function setRemotePointsHandler(handler) {
 function bindCommentPanelActions(panel) {
     if (!panel || panel.dataset.pointsBound === 'true') return;
 
-    panel.addEventListener('click', (event) => {
+    panel.addEventListener('click', event => {
         const pointsBtn = event.target.closest('[data-remote-points]');
         if (!pointsBtn) return;
 
@@ -79,12 +87,16 @@ export function renderCommentPanel(commentText, scores, teamConfig) {
     let cards = '';
 
     if (isTeam) {
-        cards = teamConfig.teams.map(team => {
-            const teamScore = team.players.reduce((s, p) => s + (scores[p] || 0), 0);
-            return teamCard(team, teamScore);
-        }).join('');
+        cards = teamConfig.teams
+            .map(team => {
+                const teamScore = team.players.reduce((s, p) => s + (scores[p] || 0), 0);
+                return teamCard(team, teamScore);
+            })
+            .join('');
     } else {
-        cards = Object.entries(scores).map(([nick, score]) => playerCard(nick, score)).join('');
+        cards = Object.entries(scores)
+            .map(([nick, score]) => playerCard(nick, score))
+            .join('');
     }
 
     panel.innerHTML = _tHtml(`
@@ -104,7 +116,9 @@ export function refreshCommentScores(ranking, teamConfig) {
 
     if (isTeam) {
         const ps = {};
-        ranking.forEach(r => { ps[r.nickname] = r.score; });
+        ranking.forEach(r => {
+            ps[r.nickname] = r.score;
+        });
         teamConfig.teams.forEach(team => {
             const el = document.getElementById(`rc-score-team-${esc(team.name)}`);
             if (!el) return;

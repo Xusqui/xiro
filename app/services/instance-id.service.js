@@ -66,18 +66,23 @@ function collectHardwareIdentifiers(platform, { exec = execFileSync, read = fs.r
         return [];
     }
     if (platform === 'win32') {
-        const reg = _safeExec(exec, 'reg', [
-            'query', 'HKLM\\SOFTWARE\\Microsoft\\Cryptography', '/v', 'MachineGuid'
-        ]);
+        const reg = _safeExec(exec, 'reg', ['query', 'HKLM\\SOFTWARE\\Microsoft\\Cryptography', '/v', 'MachineGuid']);
         const csproduct = _safeExec(exec, 'powershell', [
-            '-NoProfile', '-Command', '(Get-CimInstance Win32_ComputerSystemProduct).UUID'
+            '-NoProfile',
+            '-Command',
+            '(Get-CimInstance Win32_ComputerSystemProduct).UUID'
         ]);
         return [fingerprint.parseRegMachineGuid(reg), fingerprint.parseHardwareUuid(csproduct)];
     }
     return [];
 }
 
-function _loadOrCreateFallbackId({ read = fs.readFileSync, write = fs.writeFileSync, uuid = crypto.randomUUID, storePath = FALLBACK_FILE } = {}) {
+function _loadOrCreateFallbackId({
+    read = fs.readFileSync,
+    write = fs.writeFileSync,
+    uuid = crypto.randomUUID,
+    storePath = FALLBACK_FILE
+} = {}) {
     try {
         const stored = JSON.parse(read(storePath, 'utf8'));
         if (typeof stored?.fallbackInstanceId === 'string' && stored.fallbackInstanceId.length >= 3) {

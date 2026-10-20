@@ -7,10 +7,7 @@ const { pool } = require('../../config/database');
 const logger = require('../../config/logger');
 const { questionBankCache } = require('../cache.service');
 const pinCache = require('../pin-cache.service');
-const {
-    assertEditorCanModifyResource,
-    normalizeCreatorRole
-} = require('./resource-ownership.service');
+const { assertEditorCanModifyResource, normalizeCreatorRole } = require('./resource-ownership.service');
 const { DEFAULTS: RANDOM_POINTS_DEFAULTS } = require('./random-points-config.service');
 
 async function getAllTrivialGames() {
@@ -38,19 +35,23 @@ async function getTrivialGameById(id) {
     const game = await pool.query('SELECT * FROM trivial_games WHERE id = $1', [id]);
     if (game.rows.length === 0) return null;
 
-    const cats = await pool.query(`
+    const cats = await pool.query(
+        `
         SELECT tc.*, qb.name AS bank_name
         FROM trivial_categories tc
         LEFT JOIN question_banks qb ON qb.id = CASE WHEN tc.source_type = 'bank' OR tc.source_type IS NULL THEN tc.source_id ELSE NULL END
         WHERE tc.trivial_id = $1
         ORDER BY tc.position
-    `, [id]);
+    `,
+        [id]
+    );
 
     return { game: game.rows[0], categories: cats.rows };
 }
 
 async function getTrivialGameByPin(pin) {
-    const result = await pool.query(`
+    const result = await pool.query(
+        `
         SELECT tg.id, tg.name, tg.pin, tg.outer_casillas,
                tg.use_streaks, tg.streak_threshold, tg.streak_bonus_percentage,
                tg.use_double_streaks, tg.double_streak_threshold, tg.double_streak_bonus_percentage,
@@ -68,27 +69,38 @@ async function getTrivialGameByPin(pin) {
         LEFT JOIN question_banks qb ON qb.id = CASE WHEN tc.source_type = 'bank' OR tc.source_type IS NULL THEN tc.source_id ELSE NULL END
         WHERE tg.pin = $1
         GROUP BY tg.id
-    `, [String(pin).toUpperCase()]);
+    `,
+        [String(pin).toUpperCase()]
+    );
     return result.rows[0] || null;
 }
 
 async function createTrivialGame(data) {
     const {
-        name, language, categories, outer_casillas = 24, visible_to_presenter = true,
+        name,
+        language,
+        categories,
+        outer_casillas = 24,
+        visible_to_presenter = true,
         created_by_role = 'admin',
         created_by_user_id = null,
-        use_streaks = false, streak_threshold = 3, streak_bonus_percentage = 0.50,
-        use_double_streaks = false, double_streak_threshold = 5, double_streak_bonus_percentage = 1.00,
+        use_streaks = false,
+        streak_threshold = 3,
+        streak_bonus_percentage = 0.5,
+        use_double_streaks = false,
+        double_streak_threshold = 5,
+        double_streak_bonus_percentage = 1.0,
         image_url = null,
         use_random_points = false,
         random_points_min = RANDOM_POINTS_DEFAULTS.random_points_min,
-        random_points_max = RANDOM_POINTS_DEFAULTS.random_points_max,
+        random_points_max = RANDOM_POINTS_DEFAULTS.random_points_max
     } = data;
     const pin = (data.pin || Math.floor(100000 + Math.random() * 900000).toString()).toUpperCase();
     const ownerRole = normalizeCreatorRole(created_by_role);
-    const ownerUserId = Number.isInteger(Number(created_by_user_id)) && Number(created_by_user_id) > 0
-        ? Number(created_by_user_id)
-        : null;
+    const ownerUserId =
+        Number.isInteger(Number(created_by_user_id)) && Number(created_by_user_id) > 0
+            ? Number(created_by_user_id)
+            : null;
     const client = await pool.connect();
     try {
         await client.query('BEGIN');
@@ -100,11 +112,25 @@ async function createTrivialGame(data) {
                  image_url,
                  use_random_points, random_points_min, random_points_max)
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING *`,
-            [name, pin, language, outer_casillas, visible_to_presenter, ownerRole, ownerUserId,
-                use_streaks, streak_threshold, streak_bonus_percentage,
-                use_double_streaks, double_streak_threshold, double_streak_bonus_percentage,
+            [
+                name,
+                pin,
+                language,
+                outer_casillas,
+                visible_to_presenter,
+                ownerRole,
+                ownerUserId,
+                use_streaks,
+                streak_threshold,
+                streak_bonus_percentage,
+                use_double_streaks,
+                double_streak_threshold,
+                double_streak_bonus_percentage,
                 image_url,
-                use_random_points, random_points_min, random_points_max]
+                use_random_points,
+                random_points_min,
+                random_points_max
+            ]
         );
         const gameId = res.rows[0].id;
         for (let i = 0; i < (categories || []).length; i++) {
@@ -128,13 +154,22 @@ async function createTrivialGame(data) {
 
 async function updateTrivialGame(id, data, actorUserId = null) {
     const {
-        name, pin, language, categories, outer_casillas, visible_to_presenter = true,
-        use_streaks = false, streak_threshold = 3, streak_bonus_percentage = 0.50,
-        use_double_streaks = false, double_streak_threshold = 5, double_streak_bonus_percentage = 1.00,
+        name,
+        pin,
+        language,
+        categories,
+        outer_casillas,
+        visible_to_presenter = true,
+        use_streaks = false,
+        streak_threshold = 3,
+        streak_bonus_percentage = 0.5,
+        use_double_streaks = false,
+        double_streak_threshold = 5,
+        double_streak_bonus_percentage = 1.0,
         image_url = null,
         use_random_points = false,
         random_points_min = RANDOM_POINTS_DEFAULTS.random_points_min,
-        random_points_max = RANDOM_POINTS_DEFAULTS.random_points_max,
+        random_points_max = RANDOM_POINTS_DEFAULTS.random_points_max
     } = data;
     const upperPin = String(pin).toUpperCase();
     const client = await pool.connect();
@@ -149,11 +184,24 @@ async function updateTrivialGame(id, data, actorUserId = null) {
                 image_url=$12,
                 use_random_points=$13, random_points_min=$14, random_points_max=$15
              WHERE id=$16`,
-            [name, upperPin, language, outer_casillas, visible_to_presenter,
-                use_streaks, streak_threshold, streak_bonus_percentage,
-                use_double_streaks, double_streak_threshold, double_streak_bonus_percentage,
+            [
+                name,
+                upperPin,
+                language,
+                outer_casillas,
+                visible_to_presenter,
+                use_streaks,
+                streak_threshold,
+                streak_bonus_percentage,
+                use_double_streaks,
+                double_streak_threshold,
+                double_streak_bonus_percentage,
                 image_url,
-                use_random_points, random_points_min, random_points_max, id]
+                use_random_points,
+                random_points_min,
+                random_points_max,
+                id
+            ]
         );
         await client.query('DELETE FROM trivial_categories WHERE trivial_id=$1', [id]);
         for (let i = 0; i < (categories || []).length; i++) {
@@ -234,8 +282,7 @@ async function getRandomQuestionFromBank(bankId, excludeIds = []) {
 }
 
 async function getTrivialCategoryQuestion(sourceType, sourceId, excludeIds = []) {
-    const excl = excludeIds.length > 0
-        ? `AND q.id NOT IN (${excludeIds.map((_, i) => `$${i + 2}`).join(',')})` : '';
+    const excl = excludeIds.length > 0 ? `AND q.id NOT IN (${excludeIds.map((_, i) => `$${i + 2}`).join(',')})` : '';
     const params = [sourceId, ...excludeIds];
     let sql;
     if (sourceType === 'game') {

@@ -90,11 +90,7 @@ function validateToken(token) {
 
 // ── Escape HTML para el cuerpo del email ──────────────────────────────────────
 function escapeHtml(str) {
-    return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 // ── GET /api/contact/token ───────────────────────────────────────────────────
@@ -114,12 +110,18 @@ router.post('/api/contact', contactLimiter, async (req, res) => {
     // 2. Token HMAC + timing
     const tokenData = validateToken(token);
     if (!tokenData) {
-        return res.status(400).json({ error: 'El formulario ha expirado o es inv\u00e1lido. Recarga la p\u00e1gina.', code: 'CONTACT_FORM_EXPIRED' });
+        return res.status(400).json({
+            error: 'El formulario ha expirado o es inv\u00e1lido. Recarga la p\u00e1gina.',
+            code: 'CONTACT_FORM_EXPIRED'
+        });
     }
 
     // 3. Desafío matemático
     if (parseInt(captcha, 10) !== tokenData.answer) {
-        return res.status(400).json({ error: 'Respuesta incorrecta al desaf\u00edo matem\u00e1tico.', code: 'CONTACT_CHALLENGE_INCORRECT' });
+        return res.status(400).json({
+            error: 'Respuesta incorrecta al desaf\u00edo matem\u00e1tico.',
+            code: 'CONTACT_CHALLENGE_INCORRECT'
+        });
     }
 
     // 4. Campos requeridos
@@ -131,7 +133,9 @@ router.post('/api/contact', contactLimiter, async (req, res) => {
     const messageStr = String(message).trim();
 
     if (nameStr.length > 100 || emailStr.length > 200 || messageStr.length > 5000) {
-        return res.status(400).json({ error: 'Los datos superan la longitud m\u00e1xima permitida.', code: 'CONTACT_DATA_TOO_LONG' });
+        return res
+            .status(400)
+            .json({ error: 'Los datos superan la longitud m\u00e1xima permitida.', code: 'CONTACT_DATA_TOO_LONG' });
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailStr)) {
         return res.status(400).json({ error: 'Email no v\u00e1lido.', code: 'CONTACT_EMAIL_INVALID' });
@@ -176,7 +180,10 @@ router.post('/api/contact', contactLimiter, async (req, res) => {
     } catch (err) {
         const logger = require('../config/logger');
         logger.error('Error al enviar email de contacto', { error: err.message });
-        res.status(500).json({ error: 'Error al enviar el mensaje. Int\u00e9ntalo m\u00e1s tarde.', code: 'CONTACT_SEND_FAILED' });
+        res.status(500).json({
+            error: 'Error al enviar el mensaje. Int\u00e9ntalo m\u00e1s tarde.',
+            code: 'CONTACT_SEND_FAILED'
+        });
     }
 });
 

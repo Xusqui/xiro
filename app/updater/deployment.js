@@ -18,7 +18,7 @@ function discoverDeployment(options = {}) {
     const apiGet = options.apiGet || dockerApiGet;
     const hostname = options.hostname || os.hostname();
 
-    return apiGet('/containers/' + encodeURIComponent(hostname) + '/json').then((info) => {
+    return apiGet('/containers/' + encodeURIComponent(hostname) + '/json').then(info => {
         const labels = (info && info.Config && info.Config.Labels) || {};
         const project = labels['com.docker.compose.project'];
         const workingDir = labels['com.docker.compose.project.working_dir'];
@@ -32,7 +32,10 @@ function discoverDeployment(options = {}) {
             throw new Error('La carpeta del despliegue no es una ruta absoluta: ' + workingDir);
         }
 
-        const files = configFiles.split(',').map(f => f.trim()).filter(f => f);
+        const files = configFiles
+            .split(',')
+            .map(f => f.trim())
+            .filter(f => f);
         for (const file of files) {
             if (!file.startsWith(workingDir + '/')) {
                 throw new Error(`El archivo de configuración ${file} no está dentro del directorio de trabajo`);

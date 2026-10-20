@@ -18,7 +18,10 @@ const _FILL_BLANKS_ERRORS = {
     no_blanks: ['admin.q.fillblanks_err_no_blanks', 'Escribe al menos una palabra entre corchetes: [palabra]'],
     too_many_blanks: ['admin.q.fillblanks_err_too_many', 'Como máximo 3 palabras entre corchetes'],
     unbalanced: ['admin.q.fillblanks_err_unbalanced', 'Hay un corchete sin cerrar o suelto'],
-    marker_literal: ['admin.q.fillblanks_err_marker', 'No escribas {{n}} en la frase: las palabras a adivinar van entre corchetes'],
+    marker_literal: [
+        'admin.q.fillblanks_err_marker',
+        'No escribas {{n}} en la frase: las palabras a adivinar van entre corchetes'
+    ],
     word_chars: ['admin.q.fillblanks_err_chars', '«{word}»: solo letras, sin espacios, números, guiones ni signos'],
     word_short: ['admin.q.fillblanks_err_short', '«{word}»: al menos 4 letras'],
     word_long: ['admin.q.fillblanks_err_long', '«{word}»: como mucho 14 letras']
@@ -42,7 +45,9 @@ function sanitizeFillBlanksPreview(text) {
             </ul>`;
     }
     const lengths = parsed.words.map(word => word.length);
-    const words = parsed.words.map(word => `<span class="font-mono font-bold tracking-widest">${escapeHtml(word)}</span>`).join(' · ');
+    const words = parsed.words
+        .map(word => `<span class="font-mono font-bold tracking-widest">${escapeHtml(word)}</span>`)
+        .join(' · ');
     return `<div class="fb-editor-preview">${core.sanitizeSentenceHtml(parsed.text, lengths, { sizeClass: 'fb-sentence--editor' })}</div>
             <p class="text-xs text-emerald-700 mt-2"><i class="fas fa-key mr-1"></i>${words}</p>`;
 }

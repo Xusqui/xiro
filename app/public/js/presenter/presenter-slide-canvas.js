@@ -21,11 +21,7 @@ function nextButtonHtml() {
             ? _t('presenter.slides.view_ranking', null, 'Ver Ránking')
             : _t('presenter.slides.next', null, 'Siguiente');
 
-    const iconClass = window.isTrivialGame
-        ? 'fa-rotate-right'
-        : isLastQuestion
-            ? 'fa-trophy'
-            : 'fa-chevron-right';
+    const iconClass = window.isTrivialGame ? 'fa-rotate-right' : isLastQuestion ? 'fa-trophy' : 'fa-chevron-right';
 
     return `<button id="btn-next" data-presenter-action="next-question" class="fixed bottom-10 right-10 bg-white text-slate-900 px-10 py-5 rounded-3xl font-black text-2xl shadow-2xl hover:bg-aubergine-600 hover:text-white transition italic uppercase" style="z-index: 10000;">
         ${buttonText}
@@ -59,7 +55,7 @@ export function hasCanvasVideo(slide) {
 /** Cada hueco [data-xsc-video] recibe el reproductor de su elemento (video_source lo añade el servidor). */
 function mountCanvasVideos(host, canvas) {
     const elements = Array.isArray(canvas.elements) ? canvas.elements : [];
-    host.querySelectorAll('[data-xsc-video]').forEach((box) => {
+    host.querySelectorAll('[data-xsc-video]').forEach(box => {
         const element = elements[Number(box.getAttribute('data-xsc-video'))];
         if (element && element.video_source) {
             mountVideoMedia(box, element.video_source, { autoplay: element.props?.autoplay === true });

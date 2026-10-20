@@ -12,8 +12,11 @@ const _MUSIC_SEED_PATTERN = /^[a-z0-9_-]{1,32}$/i;
 
 function _renderMusicPlayer() {
     const scenes = _musicPills({
-        name: 'xm-scene', values: _MUSIC_SCENES, current: 'lobby',
-        labelOf: v => _musicT('scene.' + v), labelledBy: 'xm-scene-label'
+        name: 'xm-scene',
+        values: _MUSIC_SCENES,
+        current: 'lobby',
+        labelOf: v => _musicT('scene.' + v),
+        labelledBy: 'xm-scene-label'
     });
     return `<div class="xm-player" id="xm-player" data-state="idle">
         <button type="button" class="xm-play" data-music-action="toggle-preview" aria-describedby="xm-player-status">
@@ -56,7 +59,9 @@ function _musicRadio(root, name) {
 /** Ajustes tal como están en el formulario (los mismos que se guardan). */
 function _musicFormSettings(root) {
     const sounds = {};
-    self.XiroMusic.settings.SOUND_GROUPS.forEach(group => { sounds[group] = _musicRadio(root, 'xm-sound-' + group); });
+    self.XiroMusic.settings.SOUND_GROUPS.forEach(group => {
+        sounds[group] = _musicRadio(root, 'xm-sound-' + group);
+    });
     return {
         sounds,
         tempo: Number(root.querySelector('#xm-tempo').value),
@@ -99,7 +104,7 @@ function _validateMusicSeed() {
     return error;
 }
 
-const _randomMusicSeed = () => Math.floor(Math.random() * 0xFFFFFFF).toString(36);
+const _randomMusicSeed = () => Math.floor(Math.random() * 0xfffffff).toString(36);
 
 function _onMusicSeedMode(root) {
     const fixed = _musicRadio(root, 'xm-seed-mode') === 'fixed';

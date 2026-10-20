@@ -17,7 +17,9 @@ globalThis.StandaloneQuestionFillBlanks = (() => {
 
     function _t(key, fallback, vars) {
         const value = window.XiroI18n?.t(key, vars, fallback);
-        return value && value !== key ? value : fallback.replace(/\{(\w+)\}/g, (m, k) => (vars && k in vars ? vars[k] : m));
+        return value && value !== key
+            ? value
+            : fallback.replace(/\{(\w+)\}/g, (m, k) => (vars && k in vars ? vars[k] : m));
     }
 
     function hintButtonHtml(i, used) {
@@ -90,7 +92,7 @@ globalThis.StandaloneQuestionFillBlanks = (() => {
             if (button) button.outerHTML = hintButtonHtml(i, model.hints[i]);
         }
 
-        container.querySelectorAll('.fb-blank').forEach((blank) => {
+        container.querySelectorAll('.fb-blank').forEach(blank => {
             const i = Number(blank.dataset.blank);
             const input = document.createElement('input');
             input.className = 'fb-input';
@@ -101,7 +103,10 @@ globalThis.StandaloneQuestionFillBlanks = (() => {
             input.setAttribute('aria-label', _t('standalone.game.fillblanks_blank_aria', 'Hueco {n}', { n: i + 1 }));
             blank.appendChild(input);
             input.addEventListener('input', () => {
-                model.typed[i] = input.value.replace(/[^A-Za-zÀ-ɏ]/g, '').toUpperCase().slice(0, freeCount(i));
+                model.typed[i] = input.value
+                    .replace(/[^A-Za-zÀ-ɏ]/g, '')
+                    .toUpperCase()
+                    .slice(0, freeCount(i));
                 renderBlank(i);
                 // Palabra completa: seguir escribiendo en el siguiente hueco
                 if (isComplete(i)) focusNextOpenBlank(i + 1);
@@ -112,7 +117,7 @@ globalThis.StandaloneQuestionFillBlanks = (() => {
             renderBlank(i);
         });
 
-        container.querySelector('.fb-hints').addEventListener('click', async (event) => {
+        container.querySelector('.fb-hints').addEventListener('click', async event => {
             const button = event.target.closest('.fb-hint-btn');
             if (!button || button.disabled || sent) return;
             const i = Number(button.dataset.hint);
@@ -136,12 +141,16 @@ globalThis.StandaloneQuestionFillBlanks = (() => {
         async function send() {
             if (sent || StandaloneState.get().currentQuestion !== question) return;
             sent = true;
-            container.querySelectorAll('button, input').forEach(el => { el.disabled = true; });
+            container.querySelectorAll('button, input').forEach(el => {
+                el.disabled = true;
+            });
             const ack = await submitAnswer({ words: lengths.map((_, i) => merged(i).join('')) }, 'fill_blanks');
             if (ack && ack.ok === false) {
                 sent = false;
                 StandaloneState.get().answered = false;
-                container.querySelectorAll('button, input').forEach(el => { el.disabled = false; });
+                container.querySelectorAll('button, input').forEach(el => {
+                    el.disabled = false;
+                });
                 return;
             }
             onSubmitted();
@@ -164,12 +173,20 @@ globalThis.StandaloneQuestionFillBlanks = (() => {
     function resultMessage(data, pointsPill) {
         const details = data.fillBlanksDetails || {};
         const total = details.totalBlanks || (details.words || []).length;
-        const summary = _t('standalone.game.fillblanks_correct', '{n} de {total} palabras', { n: details.correctCount || 0, total });
-        const rows = (details.words || []).map((word, i) => {
-            const ok = Boolean(details.blanksCorrect?.[i]);
-            const given = !ok && details.given?.[i] ? `<span class="fb-result__given">${escapeHtml(details.given[i])}</span>` : '';
-            return `<div class="fb-result__row"><span><i class="fas ${ok ? 'fa-check' : 'fa-times'}"></i> ${escapeHtml(word)} ${given}</span><span>+${details.wordPoints?.[i] || 0}</span></div>`;
-        }).join('');
+        const summary = _t('standalone.game.fillblanks_correct', '{n} de {total} palabras', {
+            n: details.correctCount || 0,
+            total
+        });
+        const rows = (details.words || [])
+            .map((word, i) => {
+                const ok = Boolean(details.blanksCorrect?.[i]);
+                const given =
+                    !ok && details.given?.[i]
+                        ? `<span class="fb-result__given">${escapeHtml(details.given[i])}</span>`
+                        : '';
+                return `<div class="fb-result__row"><span><i class="fas ${ok ? 'fa-check' : 'fa-times'}"></i> ${escapeHtml(word)} ${given}</span><span>+${details.wordPoints?.[i] || 0}</span></div>`;
+            })
+            .join('');
         return `
             <i class="fas fa-i-cursor pl-reveal-icon"></i>
             <h2>${escapeHtml(summary)}</h2>

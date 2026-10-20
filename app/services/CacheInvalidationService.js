@@ -1,16 +1,16 @@
 /**
  * @fileoverview Servicio de invalidación inteligente de cachés
- * 
+ *
  * Coordina la invalidación en cascada de múltiples capas de caché
  * cuando ocurren eventos relevantes del dominio (game.ended, player.joined).
- * 
+ *
  * Patrón: Event-driven cache invalidation
  * - game.ended → RankingCache + SessionStore + QuestionBankCache
  * - player.joined → SessionStore (refresco de sesión)
- * 
+ *
  * La invalidación en cascada es tolerante a fallos: si un caché falla,
  * los demás se siguen invalidando igualmente.
- * 
+ *
  * @module CacheInvalidationService
  * @extends EventHandler
  * @requires domain/events/handlers/EventHandler
@@ -35,7 +35,13 @@ class CacheInvalidationService extends EventHandler {
      */
     constructor(eventBus, io, dependencies = {}) {
         super(eventBus, io, dependencies);
-        this.stats = { gameEndedInvalidations: 0, playerJoinedInvalidations: 0, cascadeInvalidations: 0, errors: 0, lastInvalidation: null };
+        this.stats = {
+            gameEndedInvalidations: 0,
+            playerJoinedInvalidations: 0,
+            cascadeInvalidations: 0,
+            errors: 0,
+            lastInvalidation: null
+        };
     }
 
     /**
@@ -57,7 +63,7 @@ class CacheInvalidationService extends EventHandler {
      * Maneja el evento game.ended con invalidación en cascada.
      * Orden: RankingCache → SessionStore → QuestionBankCache
      * Cada paso es independiente: si uno falla, los demás continúan.
-     * 
+     *
      * @param {object} event - Evento game.ended
      * @param {string} event.gameId - ID del juego finalizado
      * @param {string} [event.sessionId] - ID de sesión (usa gameId si no se proporciona)
@@ -72,7 +78,8 @@ class CacheInvalidationService extends EventHandler {
 
         try {
             logger.info('CacheInvalidationService: Iniciando invalidación en cascada (game.ended)', {
-                gameId, sessionId: sessionId || gameId
+                gameId,
+                sessionId: sessionId || gameId
             });
 
             const invalidatedCaches = [];
@@ -107,12 +114,18 @@ class CacheInvalidationService extends EventHandler {
             this.stats.lastInvalidation = new Date();
 
             logger.info('CacheInvalidationService: Invalidación en cascada completada', {
-                gameId, sessionId: actualSessionId, invalidatedCaches, count: invalidatedCaches.length
+                gameId,
+                sessionId: actualSessionId,
+                invalidatedCaches,
+                count: invalidatedCaches.length
             });
         } catch (error) {
             this.stats.errors++;
             logger.error('CacheInvalidationService: Error en handleGameEnded', {
-                gameId, sessionId, error: error.message, stack: error.stack
+                gameId,
+                sessionId,
+                error: error.message,
+                stack: error.stack
             });
         }
     }
@@ -120,7 +133,7 @@ class CacheInvalidationService extends EventHandler {
     /**
      * Maneja el evento player.joined invalidando la sesión.
      * Esto fuerza un refresco de los datos de sesión del juego.
-     * 
+     *
      * @param {object} event - Evento player.joined
      * @param {string} event.gameId - ID del juego
      * @param {string} event.playerId - ID del jugador
@@ -136,7 +149,9 @@ class CacheInvalidationService extends EventHandler {
 
         try {
             logger.debug('CacheInvalidationService: Invalidando SessionStore (player.joined)', {
-                gameId, playerId, nickname
+                gameId,
+                playerId,
+                nickname
             });
 
             await sessionStore.invalidate(gameId);
@@ -146,7 +161,10 @@ class CacheInvalidationService extends EventHandler {
         } catch (error) {
             this.stats.errors++;
             logger.error('CacheInvalidationService: Error en handlePlayerJoined', {
-                gameId, playerId, error: error.message, stack: error.stack
+                gameId,
+                playerId,
+                error: error.message,
+                stack: error.stack
             });
         }
     }
@@ -164,7 +182,13 @@ class CacheInvalidationService extends EventHandler {
 
     /** Resetea todas las estadísticas a cero. */
     resetStats() {
-        this.stats = { gameEndedInvalidations: 0, playerJoinedInvalidations: 0, cascadeInvalidations: 0, errors: 0, lastInvalidation: null };
+        this.stats = {
+            gameEndedInvalidations: 0,
+            playerJoinedInvalidations: 0,
+            cascadeInvalidations: 0,
+            errors: 0,
+            lastInvalidation: null
+        };
     }
 
     unregister() {

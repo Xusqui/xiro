@@ -9,15 +9,9 @@ function _normalizeUpdatedAtMs(updatedAtValue) {
 }
 
 async function getSiteLicenseWithMeta(queryable = pool) {
-    await queryable.query(
-        'INSERT INTO site_settings (id, license) VALUES (1, \'\') ON CONFLICT (id) DO NOTHING',
-        []
-    );
+    await queryable.query('INSERT INTO site_settings (id, license) VALUES (1, \'\') ON CONFLICT (id) DO NOTHING', []);
 
-    const result = await queryable.query(
-        'SELECT license, updated_at FROM site_settings WHERE id = 1 LIMIT 1',
-        []
-    );
+    const result = await queryable.query('SELECT license, updated_at FROM site_settings WHERE id = 1 LIMIT 1', []);
 
     const row = result.rows[0] || {};
     return {

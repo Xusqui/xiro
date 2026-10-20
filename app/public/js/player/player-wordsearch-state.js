@@ -53,7 +53,9 @@ export function hasActiveWordSearch() {
 export function getFoundFlags() {
     if (!current) return [];
     const flags = current.words.map(() => false);
-    current.found.forEach(sel => { flags[sel.index] = true; });
+    current.found.forEach(sel => {
+        flags[sel.index] = true;
+    });
     return flags;
 }
 

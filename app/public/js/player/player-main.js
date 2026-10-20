@@ -5,10 +5,22 @@
 import { redirectIfConcluded } from './player-game-concluded.js?v=20260922172926';
 import './player-socket-config.js?v=20260922172926'; // Socket se inicializa automáticamente al importar
 import { registerConnectionEvents, setupVisibilityDetection } from './player-connection.js?v=20260922172926';
-import { registerSessionEvents, initSessionDetection, validarSession, unirseAlLobby } from './player-session.js?v=20260922172926';
+import {
+    registerSessionEvents,
+    initSessionDetection,
+    validarSession,
+    unirseAlLobby
+} from './player-session.js?v=20260922172926';
 import { registerTeamEvents, seleccionarEquipo, mostrarSeleccionEquipo } from './player-team.js?v=20260922172926';
 import { registerAnswerEvents } from './player-answer-events.js?v=20260922172926';
-import { enviarRespuesta, enviarOrdenRespuesta, enviarMatchingRespuesta, enviarRespuestaNumerica, enviarRespuestaWordScramble, enviarPendiente } from './player-answer.js?v=20260922172926';
+import {
+    enviarRespuesta,
+    enviarOrdenRespuesta,
+    enviarMatchingRespuesta,
+    enviarRespuestaNumerica,
+    enviarRespuestaWordScramble,
+    enviarPendiente
+} from './player-answer.js?v=20260922172926';
 import { enviarRespuestaWordSearch } from './player-answer-wordsearch.js?v=20260922172926';
 import { enviarRespuestaFillBlanks } from './player-answer-fillblanks.js?v=20260922172926';
 import { registerResultsEvents } from './player-results.js?v=20260922172926';
@@ -82,7 +94,7 @@ const PLAYER_CLICK_ACTIONS = {
 };
 
 function setupPlayerActionDelegation() {
-    document.addEventListener('click', (event) => {
+    document.addEventListener('click', event => {
         const actionElement = event.target.closest('[data-player-action]');
         if (!actionElement) return;
 
@@ -94,7 +106,7 @@ function setupPlayerActionDelegation() {
 setupPlayerActionDelegation();
 
 // ===== EVENT LISTENER: ENTER KEY SUBMIT =====
-document.addEventListener('keydown', (e) => {
+document.addEventListener('keydown', e => {
     if (e.key === 'Enter') {
         const step1 = document.getElementById('step-1');
         const step2 = document.getElementById('step-2');

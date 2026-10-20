@@ -168,14 +168,7 @@ function ensureTrivialGameEntry(roomId, state) {
 }
 
 function updateGameForCenterQuestion(input) {
-    const {
-        game,
-        roomId,
-        state,
-        normalizedQuestion,
-        actorNick,
-        catIdx
-    } = input;
+    const { game, roomId, state, normalizedQuestion, actorNick, catIdx } = input;
 
     game.roomId = roomId;
     game.players = Object.keys(state.players);
@@ -228,23 +221,18 @@ async function resetRoundRedisState(roomId, game) {
 function clearAnswerStats(roomId) {
     const answerStatsStore = require('../../../services/AnswerStatsStore');
     const sessionPin = String(roomId).split('-')[0];
-    answerStatsStore.clearQuestion(roomId, 0).catch(() => { });
-    answerStatsStore.clearQuestion(sessionPin, 0).catch(() => { });
+    answerStatsStore.clearQuestion(roomId, 0).catch(() => {});
+    answerStatsStore.clearQuestion(sessionPin, 0).catch(() => {});
 }
 
 async function dispatchCenterPipeline(input) {
-    const {
-        io,
-        roomId,
-        game,
-        normalizedQuestion,
-        question,
-        actorNick
-    } = input;
+    const { io, roomId, game, normalizedQuestion, question, actorNick } = input;
 
-    RedisSyncBus.getInstance().publishGameStarted(roomId, game).catch(err => {
-        logger.warn('trivial: publishGameStarted failed (center)', { error: err.message });
-    });
+    RedisSyncBus.getInstance()
+        .publishGameStarted(roomId, game)
+        .catch(err => {
+            logger.warn('trivial: publishGameStarted failed (center)', { error: err.message });
+        });
 
     // Pantalla "JUGÁIS POR XXX PUNTOS" antes de revelar la pregunta del centro
     const shouldReveal = await runRandomPointsReveal({
@@ -257,13 +245,16 @@ async function dispatchCenterPipeline(input) {
 
     if (!shouldReveal) return;
 
-    EventBus.emit('question.revealed', new QuestionRevealedEvent({
-        roomId,
-        question: normalizedQuestion,
-        questionIndex: 0,
-        totalQuestions: 1,
-        timestamp: Date.now()
-    }));
+    EventBus.emit(
+        'question.revealed',
+        new QuestionRevealedEvent({
+            roomId,
+            question: normalizedQuestion,
+            questionIndex: 0,
+            totalQuestions: 1,
+            timestamp: Date.now()
+        })
+    );
 
     const timeLimit = typeof question.time_limit === 'number' ? question.time_limit : 30;
     if (timeLimit > 0) {
@@ -328,8 +319,8 @@ async function handleCategoryChosen(io, socket, { roomId, categoryIndex }) {
     }
 
     // Solo números o texto numérico: Number(null), Number('') y Number(true) darían 0 o 1
-    const isNumericInput = typeof categoryIndex === 'number'
-        || (typeof categoryIndex === 'string' && categoryIndex.trim() !== '');
+    const isNumericInput =
+        typeof categoryIndex === 'number' || (typeof categoryIndex === 'string' && categoryIndex.trim() !== '');
     const catIdx = isNumericInput ? Number(categoryIndex) : NaN;
     const invalidCategory = !Number.isInteger(catIdx) || catIdx < 0 || catIdx >= state.categories.length;
     if (invalidCategory) {

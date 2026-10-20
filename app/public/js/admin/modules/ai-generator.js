@@ -27,7 +27,11 @@ const QUESTION_TYPE_LABELS = [
 // ===== PUNTO DE ENTRADA =====
 
 function renderVistaAIGenerator() {
-    aiGenStep = 1; aiGenText = ''; aiGenConfig = {}; aiGenResult = null; aiGenMode = 'document';
+    aiGenStep = 1;
+    aiGenText = '';
+    aiGenConfig = {};
+    aiGenResult = null;
+    aiGenMode = 'document';
     _renderAIStep1();
 }
 
@@ -60,9 +64,13 @@ function _renderAIStep1() {
             </div>
             <div>
                 <label class="block text-sm font-bold text-slate-700 mb-2">Dificultad</label>
-                <div class="flex gap-3">${['BAJA', 'MEDIA', 'ALTA'].map(d => `
+                <div class="flex gap-3">${['BAJA', 'MEDIA', 'ALTA']
+        .map(
+            d => `
                     <label class="flex-1 cursor-pointer"><input type="radio" name="ai-dificultad" value="${d}" ${d === 'MEDIA' ? 'checked' : ''} class="sr-only">
-                    <div class="text-center py-3 rounded-xl border-2 ${d === 'MEDIA' ? 'border-aubergine-500' : 'border-slate-200'} font-bold text-sm transition ai-dif-btn" data-val="${d}">${d}</div></label>`).join('')}
+                    <div class="text-center py-3 rounded-xl border-2 ${d === 'MEDIA' ? 'border-aubergine-500' : 'border-slate-200'} font-bold text-sm transition ai-dif-btn" data-val="${d}">${d}</div></label>`
+        )
+        .join('')}
                 </div>
             </div>
 
@@ -119,15 +127,28 @@ function _initAIStep1Events() {
     const dz = document.getElementById('ai-drop-zone');
     const fi = document.getElementById('ai-file-input');
     dz.addEventListener('click', () => fi.click());
-    dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('bg-aubergine-100'); });
+    dz.addEventListener('dragover', e => {
+        e.preventDefault();
+        dz.classList.add('bg-aubergine-100');
+    });
     dz.addEventListener('dragleave', () => dz.classList.remove('bg-aubergine-100'));
-    dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('bg-aubergine-100'); if (e.dataTransfer.files[0]) _aiUploadFile(e.dataTransfer.files[0]); });
-    fi.addEventListener('change', () => { if (fi.files[0]) _aiUploadFile(fi.files[0]); });
+    dz.addEventListener('drop', e => {
+        e.preventDefault();
+        dz.classList.remove('bg-aubergine-100');
+        if (e.dataTransfer.files[0]) _aiUploadFile(e.dataTransfer.files[0]);
+    });
+    fi.addEventListener('change', () => {
+        if (fi.files[0]) _aiUploadFile(fi.files[0]);
+    });
     document.querySelectorAll('.ai-dif-btn').forEach(btn => {
-        btn.closest('label').querySelector('input').addEventListener('change', () => {
-            document.querySelectorAll('.ai-dif-btn').forEach(b => b.classList.replace('border-aubergine-500', 'border-slate-200'));
-            btn.classList.replace('border-slate-200', 'border-aubergine-500');
-        });
+        btn.closest('label')
+            .querySelector('input')
+            .addEventListener('change', () => {
+                document
+                    .querySelectorAll('.ai-dif-btn')
+                    .forEach(b => b.classList.replace('border-aubergine-500', 'border-slate-200'));
+                btn.classList.replace('border-slate-200', 'border-aubergine-500');
+            });
     });
 }
 
@@ -159,7 +180,9 @@ function _aiPromptInput(val) {
 async function _aiUploadFile(file) {
     const errEl = document.getElementById('ai-upload-error');
     errEl.classList.add('hidden');
-    document.getElementById('ai-drop-zone').innerHTML = _tHtml('<i class="fas fa-circle-notch fa-spin text-2xl text-aubergine-400"></i><p class="mt-2 text-aubergine-600 font-bold">Procesando...</p>');
+    document.getElementById('ai-drop-zone').innerHTML = _tHtml(
+        '<i class="fas fa-circle-notch fa-spin text-2xl text-aubergine-400"></i><p class="mt-2 text-aubergine-600 font-bold">Procesando...</p>'
+    );
     const fd = new FormData();
     fd.append('document', file);
     try {
@@ -169,19 +192,27 @@ async function _aiUploadFile(file) {
         aiGenText = data.text;
         document.getElementById('ai-file-info').classList.remove('hidden');
         document.getElementById('ai-file-name').textContent = _t(file.name);
-        document.getElementById('ai-word-count').textContent = _t(data.wordCount.toLocaleString() + ' palabras extraídas');
-        document.getElementById('ai-drop-zone').innerHTML = _tHtml('<i class="fas fa-check text-green-500 text-2xl"></i><p class="mt-2 text-green-600 font-bold">Documento listo</p>');
+        document.getElementById('ai-word-count').textContent = _t(
+            data.wordCount.toLocaleString() + ' palabras extraídas'
+        );
+        document.getElementById('ai-drop-zone').innerHTML = _tHtml(
+            '<i class="fas fa-check text-green-500 text-2xl"></i><p class="mt-2 text-green-600 font-bold">Documento listo</p>'
+        );
     } catch (err) {
         errEl.textContent = _t(err.message);
         errEl.classList.remove('hidden');
-        document.getElementById('ai-drop-zone').innerHTML = _tHtml('<i class="fas fa-file-upload text-4xl text-aubergine-400 mb-3"></i><p class="font-bold text-aubergine-800">Arrastra aquí o haz clic</p>');
+        document.getElementById('ai-drop-zone').innerHTML = _tHtml(
+            '<i class="fas fa-file-upload text-4xl text-aubergine-400 mb-3"></i><p class="font-bold text-aubergine-800">Arrastra aquí o haz clic</p>'
+        );
     }
 }
 
 function _aiClearFile() {
     aiGenText = '';
     document.getElementById('ai-file-info').classList.add('hidden');
-    document.getElementById('ai-drop-zone').innerHTML = _tHtml('<i class="fas fa-file-upload text-4xl text-aubergine-400 mb-3"></i><p class="font-bold text-aubergine-800">Arrastra aquí o haz clic para seleccionar</p><p class="text-xs text-slate-400 mt-1">.pdf · .docx · .odt · .pptx · .epub · .rtf · .html · .md · .txt</p>');
+    document.getElementById('ai-drop-zone').innerHTML = _tHtml(
+        '<i class="fas fa-file-upload text-4xl text-aubergine-400 mb-3"></i><p class="font-bold text-aubergine-800">Arrastra aquí o haz clic para seleccionar</p><p class="text-xs text-slate-400 mt-1">.pdf · .docx · .odt · .pptx · .epub · .rtf · .html · .md · .txt</p>'
+    );
 }
 
 async function _checkIAStatus() {
@@ -193,26 +224,55 @@ async function _checkIAStatus() {
         if (data.available) {
             badge.className = 'ml-auto text-xs px-3 py-1 rounded-full font-bold bg-green-100 text-green-700';
             const providerLabel = data.providerLabel ? escapeHtml(data.providerLabel) + ' · ' : '';
-            badge.innerHTML = _tHtml('<i class="fas fa-circle text-green-500 mr-1"></i>IA lista · ' + providerLabel + escapeHtml(data.model));
+            badge.innerHTML = _tHtml(
+                '<i class="fas fa-circle text-green-500 mr-1"></i>IA lista · ' + providerLabel + escapeHtml(data.model)
+            );
         } else {
             badge.className = 'ml-auto text-xs px-3 py-1 rounded-full font-bold bg-red-100 text-red-700';
             badge.innerHTML = _tHtml('<i class="fas fa-circle text-red-500 mr-1"></i>IA no disponible');
         }
-    } catch { /* silencioso */ }
+    } catch {
+        /* silencioso */
+    }
 }
 
 function _aiGoToStep2() {
     const name = document.getElementById('ai-bank-name')?.value?.trim();
-    if (!name) { mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), 'Introduce un nombre para el banco', 'warning'); return; }
+    if (!name) {
+        mostrarModalError(
+            _t('admin.common.validation_title', null, '⚠️ Validación'),
+            'Introduce un nombre para el banco',
+            'warning'
+        );
+        return;
+    }
     if (aiGenMode === 'prompt') {
         const promptVal = document.getElementById('ai-free-prompt')?.value?.trim();
-        if (!promptVal) { mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), 'Escribe un tema o descripción para generar las preguntas', 'warning'); return; }
+        if (!promptVal) {
+            mostrarModalError(
+                _t('admin.common.validation_title', null, '⚠️ Validación'),
+                'Escribe un tema o descripción para generar las preguntas',
+                'warning'
+            );
+            return;
+        }
         aiGenText = promptVal;
     } else {
-        if (!aiGenText) { mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), 'Primero sube un documento', 'warning'); return; }
+        if (!aiGenText) {
+            mostrarModalError(
+                _t('admin.common.validation_title', null, '⚠️ Validación'),
+                'Primero sube un documento',
+                'warning'
+            );
+            return;
+        }
     }
     const language = document.getElementById('ai-bank-language')?.value || 'es';
-    aiGenConfig = { name, language, dificultad: document.querySelector('input[name="ai-dificultad"]:checked')?.value || 'MEDIA' };
+    aiGenConfig = {
+        name,
+        language,
+        dificultad: document.querySelector('input[name="ai-dificultad"]:checked')?.value || 'MEDIA'
+    };
     _renderAIStep2();
 }
 
@@ -229,7 +289,8 @@ function _renderAIStep2() {
                 <p class="text-slate-500 text-sm">Banco: <strong>${aiGenConfig.name}</strong> · Dificultad: ${aiGenConfig.dificultad}</p></div>
         </div>
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 space-y-4">
-            ${QUESTION_TYPE_LABELS.map(t => `
+            ${QUESTION_TYPE_LABELS.map(
+        t => `
             <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100">
                 <div class="w-10 h-10 bg-${t.color}-100 rounded-lg flex items-center justify-center flex-shrink-0">
                     <i class="fas ${t.icon} text-${t.color}-600"></i></div>
@@ -237,7 +298,8 @@ function _renderAIStep2() {
                 <input type="number" min="0" max="20" value="0" id="ai-count-${t.type}"
                     data-ai-gen-action="update-total"
                     class="w-20 border-2 border-slate-200 rounded-lg p-2 text-center font-bold focus:border-aubergine-500 outline-none">
-            </div>`).join('')}
+            </div>`
+    ).join('')}
             <div class="pt-4 border-t border-slate-200 flex items-center justify-between">
                 <span class="text-slate-600 font-bold">Total de preguntas:</span>
                 <span id="ai-total-count" class="text-2xl font-black text-aubergine-600">0</span>
@@ -252,7 +314,7 @@ function _initAIGeneratorDelegation() {
     if (_aiGeneratorDelegationReady) return;
     _aiGeneratorDelegationReady = true;
 
-    document.addEventListener('click', (event) => {
+    document.addEventListener('click', event => {
         const actionElement = event.target.closest('[data-ai-gen-action]');
         if (!actionElement) return;
 
@@ -278,7 +340,7 @@ function _initAIGeneratorDelegation() {
         }
     });
 
-    document.addEventListener('input', (event) => {
+    document.addEventListener('input', event => {
         const actionElement = event.target.closest('[data-ai-gen-action]');
         if (!actionElement) return;
 
@@ -294,7 +356,10 @@ function _initAIGeneratorDelegation() {
 }
 
 function _aiUpdateTotal() {
-    const total = QUESTION_TYPE_LABELS.reduce((s, t) => s + (parseInt(document.getElementById('ai-count-' + t.type)?.value) || 0), 0);
+    const total = QUESTION_TYPE_LABELS.reduce(
+        (s, t) => s + (parseInt(document.getElementById('ai-count-' + t.type)?.value) || 0),
+        0
+    );
     const el = document.getElementById('ai-total-count');
     if (el) el.textContent = _t(total);
 }
@@ -307,7 +372,14 @@ async function _aiGenerate() {
         counts[t.type] = val;
         total += val;
     });
-    if (total === 0) { mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), 'Indica al menos 1 pregunta en algún tipo', 'warning'); return; }
+    if (total === 0) {
+        mostrarModalError(
+            _t('admin.common.validation_title', null, '⚠️ Validación'),
+            'Indica al menos 1 pregunta en algún tipo',
+            'warning'
+        );
+        return;
+    }
 
     _renderAIStep3Loading(total);
 
@@ -318,10 +390,16 @@ async function _aiGenerate() {
             body: JSON.stringify({ text: aiGenText, mode: aiGenMode, config: Object.assign({}, aiGenConfig, counts) })
         });
         if (res.status === 504 || res.status === 502) {
-            throw new Error('Tiempo de espera agotado (504). El proxy del servidor cortó la conexión. Aumenta el timeout del proxy inverso en DSM o reduce el número de preguntas.');
+            throw new Error(
+                'Tiempo de espera agotado (504). El proxy del servidor cortó la conexión. Aumenta el timeout del proxy inverso en DSM o reduce el número de preguntas.'
+            );
         }
         let data;
-        try { data = await res.json(); } catch { throw new Error(`Error HTTP ${res.status} — respuesta no JSON del servidor`); }
+        try {
+            data = await res.json();
+        } catch {
+            throw new Error(`Error HTTP ${res.status} — respuesta no JSON del servidor`);
+        }
         if (!res.ok || data.error) throw new Error(data.error || 'Error desconocido del servidor');
         aiGenResult = data;
         _renderAIStep3Result(data);
@@ -331,5 +409,3 @@ async function _aiGenerate() {
 }
 
 _initAIGeneratorDelegation();
-
-

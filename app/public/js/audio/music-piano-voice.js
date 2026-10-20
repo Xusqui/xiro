@@ -8,25 +8,30 @@
 /** Piano eléctrico FM (dos PolySynth en paralelo: cuerpo y púa). */
 function electricPiano(Tone, own, output) {
     const chorus = own(new Tone.Chorus({ frequency: 1.2, delayTime: 3, depth: 0.35, spread: 120, wet: 0.35 }))
-        .start().connect(output);
-    const body = own(new Tone.PolySynth(Tone.FMSynth, {
-        harmonicity: 1,
-        modulationIndex: 2.4,
-        oscillator: { type: 'sine' },
-        modulation: { type: 'sine' },
-        envelope: { attack: 0.002, decay: 1.8, sustain: 0.18, release: 0.9 },
-        modulationEnvelope: { attack: 0.002, decay: 0.45, sustain: 0.12, release: 0.5 },
-        volume: -12
-    })).connect(chorus);
-    const tine = own(new Tone.PolySynth(Tone.FMSynth, {
-        harmonicity: 7,
-        modulationIndex: 1.2,
-        oscillator: { type: 'sine' },
-        modulation: { type: 'sine' },
-        envelope: { attack: 0.001, decay: 0.28, sustain: 0, release: 0.2 },
-        modulationEnvelope: { attack: 0.001, decay: 0.12, sustain: 0, release: 0.1 },
-        volume: -24
-    })).connect(chorus);
+        .start()
+        .connect(output);
+    const body = own(
+        new Tone.PolySynth(Tone.FMSynth, {
+            harmonicity: 1,
+            modulationIndex: 2.4,
+            oscillator: { type: 'sine' },
+            modulation: { type: 'sine' },
+            envelope: { attack: 0.002, decay: 1.8, sustain: 0.18, release: 0.9 },
+            modulationEnvelope: { attack: 0.002, decay: 0.45, sustain: 0.12, release: 0.5 },
+            volume: -12
+        })
+    ).connect(chorus);
+    const tine = own(
+        new Tone.PolySynth(Tone.FMSynth, {
+            harmonicity: 7,
+            modulationIndex: 1.2,
+            oscillator: { type: 'sine' },
+            modulation: { type: 'sine' },
+            envelope: { attack: 0.001, decay: 0.28, sustain: 0, release: 0.2 },
+            modulationEnvelope: { attack: 0.001, decay: 0.12, sustain: 0, release: 0.1 },
+            volume: -24
+        })
+    ).connect(chorus);
     body.maxPolyphony = 24;
     tine.maxPolyphony = 24;
     return {
@@ -50,7 +55,7 @@ function grandPiano(Tone, own, output, layer) {
         triggerAttackRelease(notes, dur, time, vel) {
             sampler.triggerAttackRelease(notes, dur, time, vel);
         },
-        setFx() { }
+        setFx() {}
     };
 }
 
@@ -61,5 +66,7 @@ function grandPiano(Tone, own, output, layer) {
  * @param {object[]} layers  Capas de muestras del banco ([] = eléctrico FM)
  */
 export function createPianoVoice(Tone, own, output, layers) {
-    return layers && layers.length ? grandPiano(Tone, own, output, layers[layers.length - 1]) : electricPiano(Tone, own, output);
+    return layers && layers.length
+        ? grandPiano(Tone, own, output, layers[layers.length - 1])
+        : electricPiano(Tone, own, output);
 }

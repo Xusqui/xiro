@@ -23,7 +23,7 @@ const _UPD_POLL_MS = 3000;
 const _UPD_POLL_MAX_MS = 15 * 60 * 1000;
 
 function _updHeaders(json) {
-    const headers = { 'Authorization': 'Bearer ' + getAuthToken() };
+    const headers = { Authorization: 'Bearer ' + getAuthToken() };
     if (json) headers['Content-Type'] = 'application/json';
     return headers;
 }
@@ -34,7 +34,9 @@ async function renderUpdatesTab(refresh = false) {
     const area = document.getElementById('config-tab-content');
     if (!area) return;
 
-    area.innerHTML = _tHtml(`<div class="text-slate-400 flex items-center gap-2"><i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.updates.loading')}</div>`);
+    area.innerHTML = _tHtml(
+        `<div class="text-slate-400 flex items-center gap-2"><i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.updates.loading')}</div>`
+    );
 
     try {
         const url = `/api/admin/update/status${refresh ? '?refresh=1' : ''}`;
@@ -192,7 +194,7 @@ const _UPD_ACTIONS = {
     }
 };
 
-document.addEventListener('click', (event) => {
+document.addEventListener('click', event => {
     const btn = event.target.closest('[data-update-action]');
     if (!btn) return;
 

@@ -98,14 +98,17 @@
 
         // Optional viewport hint: small warmup when card is visible and user is likely to click.
         if ('IntersectionObserver' in window) {
-            const observer = new IntersectionObserver(function (entries) {
-                entries.forEach(function (entry) {
-                    if (entry.isIntersecting) {
-                        runLightWarmup();
-                        observer.disconnect();
-                    }
-                });
-            }, { rootMargin: '120px' });
+            const observer = new IntersectionObserver(
+                function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            runLightWarmup();
+                            observer.disconnect();
+                        }
+                    });
+                },
+                { rootMargin: '120px' }
+            );
             observer.observe(target);
         }
     }

@@ -6,7 +6,7 @@
 /**
  * Elimina un jugador del lobby y sincroniza con otros workers
  * Consolida código duplicado en DisconnectHandler.js y GameUtils.js
- * 
+ *
  * @param {Map} lobbyPlayers - Map de lobbies
  * @param {string} roomId - ID de la sala
  * @param {string} nickname - Nickname del jugador
@@ -34,7 +34,7 @@ async function removePlayerFromLobby(lobbyPlayers, roomId, nickname) {
 
 /**
  * Verifica si una sala tiene jugadores en el lobby
- * 
+ *
  * @param {Map} lobbyPlayers - Map de lobbies
  * @param {string} roomId - ID de la sala
  * @returns {boolean} true si hay jugadores
@@ -46,7 +46,7 @@ function hasLobbyPlayers(lobbyPlayers, roomId) {
 
 /**
  * Obtiene cantidad de jugadores en un lobby
- * 
+ *
  * @param {Map} lobbyPlayers - Map de lobbies
  * @param {string} roomId - ID de la sala
  * @returns {number} Cantidad de jugadores

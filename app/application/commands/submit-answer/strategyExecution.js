@@ -19,8 +19,14 @@ const { checkAllTeamsCompleted, notifyTeamWaiting } = require('../../../sockets/
 
 /** Tipos que no responden con un índice de opción (el índice va a null en la estrategia) */
 function hasNoAnswerIndex(flags) {
-    return Boolean(flags.isOrderQuestion || flags.isMatchingQuestion || flags.isNumericQuestion
-        || flags.isMultipleChoiceQuestion || flags.isWordSearchQuestion || flags.isFillBlanksQuestion);
+    return Boolean(
+        flags.isOrderQuestion ||
+            flags.isMatchingQuestion ||
+            flags.isNumericQuestion ||
+            flags.isMultipleChoiceQuestion ||
+            flags.isWordSearchQuestion ||
+            flags.isFillBlanksQuestion
+    );
 }
 
 /**
@@ -84,7 +90,7 @@ async function processAnswerByGameMode(ctx) {
     // Equipo ya revelado (p. ej. por tiempo agotado): la respuesta llega tarde, como el
     // envío automático de ordenar/emparejar, y su resultado va directo al jugador.
     const playerTeam = modeResult.teamToReveal || modeResult.teamToNotifyWaiting;
-    if (playerTeam && await isTeamRevealedAnywhere(game, sPin, playerTeam.name)) {
+    if (playerTeam && (await isTeamRevealedAnywhere(game, sPin, playerTeam.name))) {
         await revealToLatePlayer({
             team: playerTeam,
             game,

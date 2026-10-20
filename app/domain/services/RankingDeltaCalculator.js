@@ -1,12 +1,12 @@
 /**
  * @fileoverview Ranking Delta Calculator - Calcula diferencias entre rankings
  * @module domain/services/RankingDeltaCalculator
- * 
+ *
  * Responsabilidades:
  * - Comparar rankings (anterior vs actual)
  * - Generar delta con solo cambios de posición
  * - Decidir cuándo enviar delta vs ranking completo
- * 
+ *
  * Optimización:
  * - Si <30% de jugadores cambiaron: enviar delta (60-70% menos datos)
  * - Si >=30% cambiaron: enviar ranking completo (más eficiente)
@@ -24,7 +24,7 @@ class RankingDeltaCalculator {
 
     /**
      * Calcular delta entre dos rankings
-     * 
+     *
      * @param {Array<Object>} oldRanking - Ranking anterior [{id, nickname, score, position}]
      * @param {Array<Object>} newRanking - Ranking nuevo [{id, nickname, score, position}]
      * @returns {Object} {type: 'delta'|'full', data: Array|Object}
@@ -127,7 +127,7 @@ class RankingDeltaCalculator {
 
     /**
      * Estimar tamaño del payload (para comparar delta vs full)
-     * 
+     *
      * @param {Object} result - Resultado de calculate()
      * @returns {number} Tamaño aproximado en bytes
      */
@@ -138,7 +138,7 @@ class RankingDeltaCalculator {
 
     /**
      * Calcular estadísticas de reducción de datos
-     * 
+     *
      * @param {Array} newRanking - Ranking completo
      * @param {Object} deltaResult - Resultado de calculate()
      * @returns {Object} Estadísticas {fullSize, deltaSize, reduction}
@@ -158,7 +158,7 @@ class RankingDeltaCalculator {
 
     /**
      * Validar que el ranking tenga el formato esperado
-     * 
+     *
      * @param {Array} ranking - Ranking a validar
      * @returns {boolean} true si es válido
      */
@@ -167,18 +167,15 @@ class RankingDeltaCalculator {
             return false;
         }
 
-        return ranking.every(player =>
-            player &&
-            typeof player.id === 'string' &&
-            typeof player.score === 'number' &&
-            player.nickname
+        return ranking.every(
+            player => player && typeof player.id === 'string' && typeof player.score === 'number' && player.nickname
         );
     }
 
     /**
      * Aplicar delta a un ranking existente (para reconstrucción en cliente)
      * Esta función es de referencia para el cliente, no se usa en backend
-     * 
+     *
      * @param {Array} currentRanking - Ranking actual en cliente
      * @param {Object} delta - Delta recibido del servidor
      * @returns {Array} Ranking actualizado

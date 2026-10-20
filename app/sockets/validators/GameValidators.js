@@ -28,8 +28,10 @@ function canReclaimDisconnectedNickname(existingPlayerWithNick, isReconnect) {
     }
 
     const now = Date.now();
-    return DISCONNECTED_STATUSES.has(existingPlayerWithNick.status)
-        && (!existingPlayerWithNick.expiresAt || now <= existingPlayerWithNick.expiresAt);
+    return (
+        DISCONNECTED_STATUSES.has(existingPlayerWithNick.status) &&
+        (!existingPlayerWithNick.expiresAt || now <= existingPlayerWithNick.expiresAt)
+    );
 }
 
 function hasNicknameInLobby(lobby, nickname) {
@@ -45,12 +47,16 @@ function validateCapacityConstraints(lobbyLength, isReconnect) {
     }
 
     if (players.size >= MAX_TOTAL_PLAYERS) {
-        return invalidJoin('max-players-total', `Servidor lleno (${MAX_TOTAL_PLAYERS} jugadores)`, 'SERVER_FULL', { max: MAX_TOTAL_PLAYERS });
+        return invalidJoin('max-players-total', `Servidor lleno (${MAX_TOTAL_PLAYERS} jugadores)`, 'SERVER_FULL', {
+            max: MAX_TOTAL_PLAYERS
+        });
     }
 
     const maxPlayersPerGame = runtimeConfig.get('MAX_PLAYERS_PER_GAME');
     if (lobbyLength >= maxPlayersPerGame) {
-        return invalidJoin('max-players-game', `Partida llena (${maxPlayersPerGame} jugadores)`, 'ROOM_FULL', { max: maxPlayersPerGame });
+        return invalidJoin('max-players-game', `Partida llena (${maxPlayersPerGame} jugadores)`, 'ROOM_FULL', {
+            max: maxPlayersPerGame
+        });
     }
 
     return null;
@@ -77,7 +83,8 @@ async function validatePinCached(pin) {
 
     if (pinValidationCache.has(sPin)) {
         const cached = pinValidationCache.get(sPin);
-        if (Date.now() - cached.timestamp < 60000) { //1min cache
+        if (Date.now() - cached.timestamp < 60000) {
+            //1min cache
             return cached.result;
         }
     }

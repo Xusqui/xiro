@@ -164,7 +164,7 @@
      */
     function hintPositions(length) {
         let len = Number(length) || 0;
-        if (len < 3) return len === 2 ? [0, 1] : (len === 1 ? [0] : []);
+        if (len < 3) return len === 2 ? [0, 1] : len === 1 ? [0] : [];
         return [0, len - 1, Math.floor(len / 2)];
     }
 
@@ -188,7 +188,12 @@
         let words = [];
         for (let i = 0; i < list.length; i++) {
             let opt = list[i] || {};
-            let text = opt.option_text !== undefined ? opt.option_text : (opt.optionText !== undefined ? opt.optionText : opt.text);
+            let text =
+                opt.option_text !== undefined
+                    ? opt.option_text
+                    : opt.optionText !== undefined
+                        ? opt.optionText
+                        : opt.text;
             words.push(normalizeWord(text));
         }
         return words;
@@ -207,7 +212,7 @@
         let queue = String(typed || '').split('');
         let letters = [];
         for (let pos = 0; pos < (Number(length) || 0); pos++) {
-            letters.push(map[pos] ? map[pos] : (queue.length ? queue.shift() : ''));
+            letters.push(map[pos] ? map[pos] : queue.length ? queue.shift() : '');
         }
         return letters;
     }
@@ -260,10 +265,26 @@
             let len = Number((lengths || [])[seg.index]) || 0;
             let letters = (options.letters || [])[seg.index] || '';
             let state = (options.states || [])[seg.index] || '';
-            html += '<span class="fb-blank' + (state ? ' ' + state : '') + '" data-blank="' + seg.index + '" data-len="' + len + '" role="group" aria-label="' + (seg.index + 1) + '">';
+            html +=
+                '<span class="fb-blank' +
+                (state ? ' ' + state : '') +
+                '" data-blank="' +
+                seg.index +
+                '" data-len="' +
+                len +
+                '" role="group" aria-label="' +
+                (seg.index + 1) +
+                '">';
             for (let j = 0; j < len; j++) {
                 let letter = letters.charAt(j);
-                html += '<span class="fb-cell' + (letter ? ' fb-cell--filled' : '') + '" data-pos="' + j + '">' + escapeText(letter) + '</span>';
+                html +=
+                    '<span class="fb-cell' +
+                    (letter ? ' fb-cell--filled' : '') +
+                    '" data-pos="' +
+                    j +
+                    '">' +
+                    escapeText(letter) +
+                    '</span>';
             }
             html += '</span>';
         }

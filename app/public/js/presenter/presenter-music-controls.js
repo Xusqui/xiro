@@ -19,7 +19,7 @@ function readPref(key) {
 function writePref(key, value) {
     try {
         localStorage.setItem(key, String(value));
-    } catch { }
+    } catch {}
 }
 
 /**

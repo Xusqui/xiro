@@ -17,7 +17,11 @@ function fb() {
 function blankLengths(q) {
     if (Array.isArray(q.fb_lengths)) return q.fb_lengths;
     if (Array.isArray(q.fb_words)) return q.fb_words.map(w => w.length);
-    return fb() ? fb().wordsFromOptions(q.options).map(w => w.length) : [];
+    return fb()
+        ? fb()
+            .wordsFromOptions(q.options)
+            .map(w => w.length)
+        : [];
 }
 
 /**

@@ -126,11 +126,13 @@ function enableSplitReveal() {
 
 /** Tarjeta "Top Respuestas" (numérica, anagrama, selección múltiple). */
 function insertTopAnswersCard(data) {
-    insertSidebarRanking(rankingCardHtml(data.ranking, {
-        top: '0',
-        sideCss: '',
-        title: _t('presenter.reveal.top_answers', null, 'Top Respuestas')
-    }));
+    insertSidebarRanking(
+        rankingCardHtml(data.ranking, {
+            top: '0',
+            sideCss: '',
+            title: _t('presenter.reveal.top_answers', null, 'Top Respuestas')
+        })
+    );
 }
 
 function revealNumeric(data, showTopAnswers) {
@@ -175,12 +177,14 @@ function revealOptions(data, isInfoSlide) {
     // En el Trivial no hay puntos: la columna ya muestra los quesitos
     if (data.ranking && isScoredQuiz && window.canShowRanking && !window.isTrivialGame) {
         try {
-            insertSidebarRanking(rankingCardHtml(data.ranking, {
-                top: '0',
-                sideCss: '',
-                title: 'Top 5',
-                emptyMessage: _t('presenter.reveal.no_scores_yet', null, 'Aún no hay puntuaciones')
-            }));
+            insertSidebarRanking(
+                rankingCardHtml(data.ranking, {
+                    top: '0',
+                    sideCss: '',
+                    title: 'Top 5',
+                    emptyMessage: _t('presenter.reveal.no_scores_yet', null, 'Aún no hay puntuaciones')
+                })
+            );
         } catch (error) {
             console.error('❌ Error al mostrar ranking:', error);
         }

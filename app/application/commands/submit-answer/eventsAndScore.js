@@ -22,31 +22,26 @@ const logger = require('../../../config/logger');
  * @returns {void}
  */
 function emitAnswerSubmitted(ctx) {
-    const {
-        sPin,
-        playerId,
-        nickname,
-        game,
-        payload,
-        flags,
-        answerResult,
-        isCorrect
-    } = ctx;
+    const { sPin, playerId, nickname, game, payload, flags, answerResult, isCorrect } = ctx;
 
-    EventBus.emit('answer.submitted', new AnswerSubmittedEvent({
-        gameId: sPin,
-        playerId,
-        nickname,
-        questionIndex: game.currentIndex,
-        answerIndex: (flags.isOrderQuestion
-            || flags.isNumericQuestion
-            || flags.isWordScrambleQuestion
-            || flags.isMultipleChoiceQuestion)
-            ? null
-            : payload.index,
-        isCorrect: answerResult.isSurvey ? null : isCorrect,
-        timeElapsed: Date.now() - game.questionStartTime
-    }));
+    EventBus.emit(
+        'answer.submitted',
+        new AnswerSubmittedEvent({
+            gameId: sPin,
+            playerId,
+            nickname,
+            questionIndex: game.currentIndex,
+            answerIndex:
+                flags.isOrderQuestion ||
+                flags.isNumericQuestion ||
+                flags.isWordScrambleQuestion ||
+                flags.isMultipleChoiceQuestion
+                    ? null
+                    : payload.index,
+            isCorrect: answerResult.isSurvey ? null : isCorrect,
+            timeElapsed: Date.now() - game.questionStartTime
+        })
+    );
 }
 
 /**
@@ -56,18 +51,8 @@ function emitAnswerSubmitted(ctx) {
  * @returns {Promise<number>} Canonical total score after update.
  */
 async function updateScoreAndEmitPlayerScored(ctx) {
-    const {
-        game,
-        sPin,
-        playerId,
-        nickname,
-        player,
-        socket,
-        isCorrect,
-        answerResult,
-        finalPointsEarned,
-        streakBonus
-    } = ctx;
+    const { game, sPin, playerId, nickname, player, socket, isCorrect, answerResult, finalPointsEarned, streakBonus } =
+        ctx;
 
     if (answerResult.isSurvey) {
         return game.scores[nickname] || 0;
@@ -87,7 +72,7 @@ async function updateScoreAndEmitPlayerScored(ctx) {
         const redisClient = await getRedisClient();
         const scoreKey = `game:scores:${sPin}`;
         const redisTotal = await redisClient.hIncrByFloat(scoreKey, nickname, finalPointsEarned);
-        redisClient.expire(scoreKey, 7200).catch(() => { });
+        redisClient.expire(scoreKey, 7200).catch(() => {});
 
         if (redisTotal !== null && !isNaN(Number(redisTotal))) {
             canonicalTotalScore = ScoringService.roundScore(Number(redisTotal));
@@ -101,21 +86,24 @@ async function updateScoreAndEmitPlayerScored(ctx) {
         });
     }
 
-    EventBus.emit('player.scored', new PlayerScoredEvent({
-        gameId: sPin,
-        playerId,
-        nickname,
-        questionIndex: game.currentIndex,
-        pointsEarned: finalPointsEarned,
-        totalScore: canonicalTotalScore,
-        isCorrect,
-        scoringDetails: {
-            ...(answerResult.details || {}),
-            streakBonus: streakBonus.bonusPoints,
-            streakBonusType: streakBonus.bonusType,
-            streakBonusPercentage: streakBonus.bonusPercentage
-        }
-    }));
+    EventBus.emit(
+        'player.scored',
+        new PlayerScoredEvent({
+            gameId: sPin,
+            playerId,
+            nickname,
+            questionIndex: game.currentIndex,
+            pointsEarned: finalPointsEarned,
+            totalScore: canonicalTotalScore,
+            isCorrect,
+            scoringDetails: {
+                ...(answerResult.details || {}),
+                streakBonus: streakBonus.bonusPoints,
+                streakBonusType: streakBonus.bonusType,
+                streakBonusPercentage: streakBonus.bonusPercentage
+            }
+        })
+    );
 
     return canonicalTotalScore;
 }

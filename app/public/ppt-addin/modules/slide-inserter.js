@@ -23,7 +23,6 @@ const GREY = '94A3B8';
 const PURPLE = 'A78BFA';
 
 const XiroSlideInserter = {
-
     // ── Diapositiva de podio ──────────────────────────────────
 
     /**
@@ -36,7 +35,7 @@ const XiroSlideInserter = {
             console.warn('[SlideInserter] PowerPoint.run no disponible en esta plataforma.');
             return;
         }
-        await PowerPoint.run(async (ctx) => {    // eslint-disable-line no-undef
+        await PowerPoint.run(async ctx => {
             // Cargar count ANTES de añadir para saber el índice exacto de la nueva diapositiva.
             const slides = ctx.presentation.slides;
             slides.load('count');
@@ -66,7 +65,7 @@ const XiroSlideInserter = {
         let startIdx;
         const slideMap = new Map();
 
-        await PowerPoint.run(async (ctx) => {    // eslint-disable-line no-undef
+        await PowerPoint.run(async ctx => {
             ctx.presentation.slides.load('count');
             await ctx.sync();
             startIdx = ctx.presentation.slides.count;
@@ -109,47 +108,80 @@ const XiroSlideInserter = {
 
     _buildLobbySlide(slide, sessionId, gameName, joinUrl) {
         this._addBg(slide);
-        this._addText(slide, '⚡ Únete a la partida', { l: 40, t: 60, w: 640, h: 60 },
-            { size: 32, color: WHITE, bold: true, alignH: 'center' });
-        this._addText(slide, gameName || '', { l: 40, t: 120, w: 640, h: 36 },
-            { size: 18, color: PURPLE, alignH: 'center' });
-        this._addText(slide, 'Sesión:', { l: 40, t: 175, w: 640, h: 26 },
-            { size: 13, color: GREY, alignH: 'center' });
-        this._addText(slide, sessionId, { l: 40, t: 200, w: 640, h: 66 },
-            { size: 38, color: WHITE, bold: true, alignH: 'center' });
-        this._addText(slide, joinUrl, { l: 40, t: 480, w: 640, h: 30 },
-            { size: 11, color: GREY, alignH: 'center' });
+        this._addText(
+            slide,
+            '⚡ Únete a la partida',
+            { l: 40, t: 60, w: 640, h: 60 },
+            { size: 32, color: WHITE, bold: true, alignH: 'center' }
+        );
+        this._addText(
+            slide,
+            gameName || '',
+            { l: 40, t: 120, w: 640, h: 36 },
+            { size: 18, color: PURPLE, alignH: 'center' }
+        );
+        this._addText(slide, 'Sesión:', { l: 40, t: 175, w: 640, h: 26 }, { size: 13, color: GREY, alignH: 'center' });
+        this._addText(
+            slide,
+            sessionId,
+            { l: 40, t: 200, w: 640, h: 66 },
+            { size: 38, color: WHITE, bold: true, alignH: 'center' }
+        );
+        this._addText(slide, joinUrl, { l: 40, t: 480, w: 640, h: 30 }, { size: 11, color: GREY, alignH: 'center' });
     },
 
     _buildQuestionPlaceholder(slide, num, total) {
         this._addBg(slide);
-        this._addText(slide, `Pregunta ${num} / ${total}`, { l: 30, t: 30, w: 660, h: 40 },
-            { size: 16, color: GREY, alignH: 'right' });
-        this._addText(slide, '¿ … ?', { l: 60, t: 130, w: 600, h: 200 },
-            { size: 40, color: WHITE, bold: true, alignH: 'center' });
+        this._addText(
+            slide,
+            `Pregunta ${num} / ${total}`,
+            { l: 30, t: 30, w: 660, h: 40 },
+            { size: 16, color: GREY, alignH: 'right' }
+        );
+        this._addText(
+            slide,
+            '¿ … ?',
+            { l: 60, t: 130, w: 600, h: 200 },
+            { size: 40, color: WHITE, bold: true, alignH: 'center' }
+        );
     },
 
     _buildPodiumSlide(slide, ranking, gameName, sessionId) {
         this._addBg(slide);
-        this._addText(slide, '¡Resultados!', { l: 40, t: 30, w: 640, h: 56 },
-            { size: 34, color: GOLD, bold: true, alignH: 'center' });
-        this._addText(slide, gameName, { l: 40, t: 84, w: 640, h: 30 },
-            { size: 15, color: PURPLE, alignH: 'center' });
+        this._addText(
+            slide,
+            '¡Resultados!',
+            { l: 40, t: 30, w: 640, h: 56 },
+            { size: 34, color: GOLD, bold: true, alignH: 'center' }
+        );
+        this._addText(slide, gameName, { l: 40, t: 84, w: 640, h: 30 }, { size: 15, color: PURPLE, alignH: 'center' });
 
         const medals = ['🥇', '🥈', '🥉'];
         const top = ranking.slice(0, 3);
         top.forEach((p, i) => {
             const y = 140 + i * 76;
-            this._addText(slide, `${medals[i] || (i + 1) + '.'} ${p.nickname || p.name || '—'}`,
-                { l: 60, t: y, w: 440, h: 60 }, { size: 20, color: WHITE, bold: i === 0 });
+            this._addText(
+                slide,
+                `${medals[i] || (i + 1) + '.'} ${p.nickname || p.name || '—'}`,
+                { l: 60, t: y, w: 440, h: 60 },
+                { size: 20, color: WHITE, bold: i === 0 }
+            );
             const pts = typeof p.score === 'number' ? p.score.toLocaleString() : '—';
-            this._addText(slide, pts + ' pts',
-                { l: 510, t: y, w: 160, h: 60 }, { size: 18, color: GOLD, alignH: 'right' });
+            this._addText(
+                slide,
+                pts + ' pts',
+                { l: 510, t: y, w: 160, h: 60 },
+                { size: 18, color: GOLD, alignH: 'right' }
+            );
         });
 
         if (sessionId) {
-            this._addText(slide, `Sesión: ${sessionId}`,
-                { l: 40, t: 500, w: 640, h: 26 }, { size: 11, color: GREY, alignH: 'center' });
+            this._addText(
+                slide,
+                `Sesión: ${sessionId}`,
+                { l: 40, t: 500, w: 640, h: 26 },
+                { size: 11, color: GREY, alignH: 'center' }
+            );
         }
     },
 
@@ -157,7 +189,7 @@ const XiroSlideInserter = {
 
     _addBg(slide) {
         const bg = slide.shapes.addGeometricShape(
-            PowerPoint.GeometricShapeType.rectangle,     // eslint-disable-line no-undef
+            PowerPoint.GeometricShapeType.rectangle, // eslint-disable-line no-undef
             { left: 0, top: 0, width: SLIDE.W, height: SLIDE.H }
         );
         bg.fill.setSolidColor(BG);
@@ -173,7 +205,7 @@ const XiroSlideInserter = {
         if (style.alignH) {
             const align = { center: 'center', right: 'right', left: 'left' };
             tb.textFrame.textRange.paragraphFormat.horizontalAlignment =
-                PowerPoint.ParagraphHorizontalAlignment[align[style.alignH] || 'left'];  // eslint-disable-line no-undef
+                PowerPoint.ParagraphHorizontalAlignment[align[style.alignH] || 'left']; // eslint-disable-line no-undef
         }
     },
 
@@ -187,6 +219,6 @@ const XiroSlideInserter = {
     },
 
     _isAvailable() {
-        return typeof PowerPoint !== 'undefined' && typeof PowerPoint.run === 'function';  // eslint-disable-line no-undef
-    },
+        return typeof PowerPoint !== 'undefined' && typeof PowerPoint.run === 'function'; // eslint-disable-line no-undef
+    }
 };

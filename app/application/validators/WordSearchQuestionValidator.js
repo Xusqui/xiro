@@ -32,7 +32,7 @@ const wordSchema = Joi.string()
     .messages({
         'string.empty': 'La palabra no puede estar vacía',
         'wordSearch.letters': 'La palabra solo puede contener letras (sin espacios, números ni símbolos)',
-        'wordSearch.length': `Cada palabra debe tener entre ${WORD_SEARCH.MIN_WORD_LENGTH} y ${WORD_SEARCH.MAX_WORD_LENGTH} letras`,
+        'wordSearch.length': `Cada palabra debe tener entre ${WORD_SEARCH.MIN_WORD_LENGTH} y ${WORD_SEARCH.MAX_WORD_LENGTH} letras`
     });
 
 // Mismos campos opcionales que optionSchema: el editor envía la opción genérica
@@ -44,7 +44,7 @@ const wordSearchOptionSchema = Joi.object({
     order_index: Joi.number().integer().min(0).allow(null).optional(),
     orderIndex: Joi.number().integer().min(0).allow(null).optional(),
     match_value: Joi.string().allow(null, '').optional(),
-    option_image_url: Joi.string().allow(null, '').optional(),
+    option_image_url: Joi.string().allow(null, '').optional()
 });
 
 const wordSearchOptionsSchema = Joi.array()
@@ -57,7 +57,7 @@ const wordSearchOptionsSchema = Joi.array()
         'array.min': `La sopa de letras necesita al menos ${WORD_SEARCH.MIN_WORDS} palabras`,
         'array.max': `La sopa de letras admite como máximo ${WORD_SEARCH.MAX_WORDS} palabras`,
         'array.unique': 'Las palabras de la sopa de letras no pueden repetirse',
-        'any.required': 'La sopa de letras necesita sus palabras',
+        'any.required': 'La sopa de letras necesita sus palabras'
     });
 
 const SELECTION_KEYS = ['r1', 'c1', 'r2', 'c2'];

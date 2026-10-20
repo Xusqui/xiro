@@ -15,7 +15,7 @@ function runWithRedisClient(action) {
     Promise.resolve()
         .then(() => getRedisClient())
         .then(action)
-        .catch(() => { });
+        .catch(() => {});
 }
 
 /**
@@ -25,14 +25,7 @@ function runWithRedisClient(action) {
  * @returns {void}
  */
 function trackTrivialResults(ctx) {
-    const {
-        game,
-        teamConfigs,
-        roomId,
-        nickname,
-        isCorrect,
-        sPin
-    } = ctx;
+    const { game, teamConfigs, roomId, nickname, isCorrect, sPin } = ctx;
 
     if (!game.isTrivial) {
         return;
@@ -41,24 +34,26 @@ function trackTrivialResults(ctx) {
     if (game.trivialMeta) {
         const actorNick = game.trivialMeta.actorNick;
         const teamConf = teamConfigs.get(sPin);
-        const playerTeam = teamConf?.teams?.find((team) => team.players?.includes(nickname));
+        const playerTeam = teamConf?.teams?.find(team => team.players?.includes(nickname));
         const isActiveActor = actorNick === nickname;
         const isActiveTeamMember = playerTeam && playerTeam.name === actorNick;
 
         if (isActiveActor) {
-            runWithRedisClient((client) => (
+            runWithRedisClient(client =>
                 client.set(`trivial:lastcorrect:${roomId}`, isCorrect ? '1' : '0', { EX: 3600 })
-            ));
+            );
         } else if (isActiveTeamMember && isCorrect) {
-            runWithRedisClient((client) => (
-                client.set(`trivial:lastcorrect:${roomId}`, '1', { EX: 3600 })
-            ));
+            runWithRedisClient(client => client.set(`trivial:lastcorrect:${roomId}`, '1', { EX: 3600 }));
         }
     }
 
-    runWithRedisClient((client) => {
+    runWithRedisClient(client => {
         const key = `trivial:roundresults:${roomId}`;
-        return client.multi().hSet(key, nickname, isCorrect ? '1' : '0').expire(key, 3600).exec();
+        return client
+            .multi()
+            .hSet(key, nickname, isCorrect ? '1' : '0')
+            .expire(key, 3600)
+            .exec();
     });
 }
 
@@ -121,21 +116,12 @@ function applyTypedAnswerDetails(answerState, detailConfig, applyAnswerOutcome) 
  * @returns {void}
  */
 function attachTypedAnswerDetails(ctx) {
-    const {
-        flags,
-        game,
-        player,
-        socket,
-        answerResult,
-        isCorrect,
-        finalPointsEarned,
-        fullMultipleChoiceDetails
-    } = ctx;
+    const { flags, game, player, socket, answerResult, isCorrect, finalPointsEarned, fullMultipleChoiceDetails } = ctx;
 
     const playerAnswer = player?.answers?.[game.currentIndex];
     const socketAnswer = socket?.data?.answers?.[game.currentIndex];
 
-    const applyAnswerOutcome = (answerState) => {
+    const applyAnswerOutcome = answerState => {
         if (!answerState) {
             return;
         }

@@ -26,8 +26,10 @@ export function renderWordScramblePresenter(q) {
             </div>`;
     }
 
-    const emptyBoxes = Array.from({ length: wordLength }, () =>
-        `<div style="
+    const emptyBoxes = Array.from(
+        { length: wordLength },
+        () =>
+            `<div style="
             width: 3rem; height: 3rem;
             border: 2px solid #fbbf24;
             border-radius: 0.5rem;
@@ -38,8 +40,10 @@ export function renderWordScramblePresenter(q) {
         "></div>`
     ).join('');
 
-    const letterTiles = letters.map(letter =>
-        `<div style="
+    const letterTiles = letters
+        .map(
+            letter =>
+                `<div style="
             width: 3rem; height: 3rem;
             border: 2px solid #cd81c6;
             border-radius: 0.5rem;
@@ -48,7 +52,8 @@ export function renderWordScramblePresenter(q) {
             color: #f2ceed;
             background: rgba(121,52,117,0.4);
         ">${letter}</div>`
-    ).join('');
+        )
+        .join('');
 
     return `
         <div class="flex-1 pb-6 flex items-center justify-center">
@@ -78,7 +83,11 @@ export function revealWordScramble(correctWord) {
     const container = document.getElementById('ws-presenter-boxes');
     if (!container) return;
 
-    container.innerHTML = _tHtml(word.split('').map(letter => `
+    container.innerHTML = _tHtml(
+        word
+            .split('')
+            .map(
+                letter => `
         <div style="
             width: 3rem; height: 3rem;
             border: 2px solid #4ade80;
@@ -88,7 +97,10 @@ export function revealWordScramble(correctWord) {
             color: #86efac;
             background: rgba(20,83,45,0.6);
         ">${letter}</div>
-    `).join(''));
+    `
+            )
+            .join('')
+    );
 }
 
 /**

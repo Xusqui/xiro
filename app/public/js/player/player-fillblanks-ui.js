@@ -8,11 +8,22 @@
  * HTML de la frase en core/fill-blanks-text.js (window.XiroFillBlanks).
  */
 
-import { getNickname, getHaRespondido, setHaRespondido, setCanAnswer, setCurrentSlideType } from './player-state.js?v=20260922172926';
+import {
+    getNickname,
+    getHaRespondido,
+    setHaRespondido,
+    setCanAnswer,
+    setCurrentSlideType
+} from './player-state.js?v=20260922172926';
 import { setBodyHTML } from './player-streak-ui.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 import * as state from './player-fillblanks-state.js?v=20260922172926';
-import { joinFillBlanks, checkBlank, requestHint, isTeamFillBlanks } from './player-fillblanks-team.js?v=20260922172926';
+import {
+    joinFillBlanks,
+    checkBlank,
+    requestHint,
+    isTeamFillBlanks
+} from './player-fillblanks-team.js?v=20260922172926';
 
 const HINT_COSTS = [30, 60, 75];
 const MAX_HINTS = 3;
@@ -53,9 +64,19 @@ function layoutHtml(pregunta) {
                 <div class="fb-play__card">
                     ${fb().sanitizeSentenceHtml(pregunta.question_text, s.lengths, { letters, states: blankStates(), sizeClass: 'fb-sentence--player' })}
                 </div>
-                <p class="fb-play__help">${isTeamFillBlanks()
-        ? _t('player.fillblanks.help_team', null, 'Toca un hueco y escribe. Cada palabra se comprueba al completarla y vale para todo el equipo.')
-        : _t('player.fillblanks.help', null, 'Toca un hueco y escribe la palabra. Envía cuando tengas todas las que sepas.')}</p>
+                <p class="fb-play__help">${
+    isTeamFillBlanks()
+        ? _t(
+            'player.fillblanks.help_team',
+            null,
+            'Toca un hueco y escribe. Cada palabra se comprueba al completarla y vale para todo el equipo.'
+        )
+        : _t(
+            'player.fillblanks.help',
+            null,
+            'Toca un hueco y escribe la palabra. Envía cuando tengas todas las que sepas.'
+        )
+}</p>
                 <div class="fb-hints">${s.lengths.map((_, i) => hintButtonHtml(i)).join('')}</div>
             </div>
             <div class="px-3 py-2 bg-slate-900/60 border-t border-white/10">
@@ -143,7 +164,7 @@ function rejectBlankUi(root, i) {
 /** Palabra completa en equipos: el servidor la comprueba */
 function maybeCheck(root, i) {
     if (!isTeamFillBlanks() || !state.isComplete(i) || state.isLocked(i)) return;
-    checkBlank(i, state.mergedWord(i)).then((ack) => {
+    checkBlank(i, state.mergedWord(i)).then(ack => {
         if (!ack?.ok || state.isLocked(i)) return;
         if (ack.correct) lockBlankUi(root, i, ack.word);
         else rejectBlankUi(root, i);
@@ -176,23 +197,25 @@ function bindBlank(root, blank) {
     });
     input.addEventListener('focus', () => blank.classList.add('fb-blank--focus'));
     input.addEventListener('blur', () => blank.classList.remove('fb-blank--focus'));
-    input.addEventListener('keydown', (event) => {
+    input.addEventListener('keydown', event => {
         if (event.key !== 'Enter') return;
         event.preventDefault();
         const next = root.querySelector(`.fb-blank[data-blank="${i + 1}"] .fb-input`);
         if (next && !next.disabled) next.focus();
         else input.blur();
     });
-    blank.addEventListener('click', () => { if (!input.disabled) input.focus(); });
+    blank.addEventListener('click', () => {
+        if (!input.disabled) input.focus();
+    });
 }
 
 function bindHints(root) {
-    root.querySelector('.fb-hints').addEventListener('click', (event) => {
+    root.querySelector('.fb-hints').addEventListener('click', event => {
         const button = event.target.closest('.fb-hint-btn');
         if (!button || button.disabled || button.dataset.pending) return;
         const i = Number(button.dataset.hint);
         button.dataset.pending = '1';
-        requestHint(i).then((ack) => {
+        requestHint(i).then(ack => {
             delete button.dataset.pending;
             if (ack?.ok) applyHint(root, ack);
         });
@@ -201,12 +224,18 @@ function bindHints(root) {
 
 function bindTeam(root) {
     joinFillBlanks({
-        onSolved: (data) => { if (root.isConnected && !state.isLocked(data.blankIndex)) lockBlankUi(root, data.blankIndex, data.word); },
-        onHint: (data) => { if (root.isConnected) applyHint(root, data); },
-        onSubmitted: (data) => window.enviarRespuestaFillBlanks(false, data.words),
-        onSync: (ack) => {
+        onSolved: data => {
+            if (root.isConnected && !state.isLocked(data.blankIndex)) lockBlankUi(root, data.blankIndex, data.word);
+        },
+        onHint: data => {
+            if (root.isConnected) applyHint(root, data);
+        },
+        onSubmitted: data => window.enviarRespuestaFillBlanks(false, data.words),
+        onSync: ack => {
             if (!root.isConnected) return;
-            (ack.hints || []).forEach(h => h.letters.forEach(l => applyHint(root, { blankIndex: h.blankIndex, ...l, hintCount: h.hintCount })));
+            (ack.hints || []).forEach(h =>
+                h.letters.forEach(l => applyHint(root, { blankIndex: h.blankIndex, ...l, hintCount: h.hintCount }))
+            );
             (ack.solved || []).forEach(s => lockBlankUi(root, s.blankIndex, s.word));
             // El equipo ya envió mientras este jugador estaba fuera: envía lo mismo (si no lo hizo ya)
             if (ack.submitted && !getHaRespondido()) window.enviarRespuestaFillBlanks(false, ack.submitted.words);

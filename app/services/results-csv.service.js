@@ -92,27 +92,26 @@ function buildQuestionLabel(qInfo, firstPlayerData, qIdx) {
 }
 
 function appendTrivialDetailLine(lines, payload) {
-    const {
-        qIdx,
-        categoryName,
-        questionText,
-        nick,
-        data,
-        correct
-    } = payload;
+    const { qIdx, categoryName, questionText, nick, data, correct } = payload;
 
     const wedge = data.wedgeEarned ? escapeCsv(data.wedgeEarned) : '';
-    lines.push(`${qIdx};${categoryName};${questionText};${escapeCsv(nick)};${escapeCsv(data.answer)};${correct};${wedge};${data.pointsEarned ?? 0};${data.responseTimeMs ?? ''}`);
+    lines.push(
+        `${qIdx};${categoryName};${questionText};${escapeCsv(nick)};${escapeCsv(data.answer)};${correct};${wedge};${data.pointsEarned ?? 0};${data.responseTimeMs ?? ''}`
+    );
 }
 
 function appendClassicDetailLine(lines, payload) {
     const { qIdx, questionText, nick, data, correct } = payload;
-    lines.push(`${qIdx + 1};${questionText};${escapeCsv(nick)};${escapeCsv(data.answer)};${correct};${data.pointsEarned ?? 0};${data.responseTimeMs ?? ''}`);
+    lines.push(
+        `${qIdx + 1};${questionText};${escapeCsv(nick)};${escapeCsv(data.answer)};${correct};${data.pointsEarned ?? 0};${data.responseTimeMs ?? ''}`
+    );
 }
 
 function appendQuestionDetails(lines, session, questionsArray, trivialMeta) {
     const playerAnswers = session.player_answers || {};
-    const questionIndices = Object.keys(playerAnswers).map(Number).sort((a, b) => a - b);
+    const questionIndices = Object.keys(playerAnswers)
+        .map(Number)
+        .sort((a, b) => a - b);
     const isTrivial = !!trivialMeta;
 
     if (questionIndices.length === 0) {
@@ -126,7 +125,9 @@ function appendQuestionDetails(lines, session, questionsArray, trivialMeta) {
         const firstPlayerData = Object.values(playerAnswers[qIdx] || {})[0];
         const questionText = buildQuestionLabel(qInfo, firstPlayerData, qIdx);
         const playersAtQuestion = playerAnswers[qIdx] || {};
-        const sorted = Object.entries(playersAtQuestion).sort((a, b) => (b[1].pointsEarned ?? 0) - (a[1].pointsEarned ?? 0));
+        const sorted = Object.entries(playersAtQuestion).sort(
+            (a, b) => (b[1].pointsEarned ?? 0) - (a[1].pointsEarned ?? 0)
+        );
 
         for (const [nick, data] of sorted) {
             const correct = data.isCorrect === null ? 'Encuesta' : data.isCorrect ? 'Sí' : 'No';

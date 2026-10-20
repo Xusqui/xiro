@@ -10,17 +10,25 @@
  */
 
 function getRoot() {
-    return document.getElementById('game-area')
-        || document.getElementById('jugador-content')
-        || document.getElementById('main-container')
-        || document.body;
+    return (
+        document.getElementById('game-area') ||
+        document.getElementById('jugador-content') ||
+        document.getElementById('main-container') ||
+        document.body
+    );
 }
 
 const SCREEN_STYLE = [
-    'display:flex', 'flex-direction:column',
-    'align-items:center', 'justify-content:center',
-    'height:100%', 'gap:20px', 'padding:32px',
-    'background:#0f172a', 'border-radius:16px', 'text-align:center',
+    'display:flex',
+    'flex-direction:column',
+    'align-items:center',
+    'justify-content:center',
+    'height:100%',
+    'gap:20px',
+    'padding:32px',
+    'background:#0f172a',
+    'border-radius:16px',
+    'text-align:center'
 ].join(';');
 
 const TITLE_STYLE = [
@@ -28,13 +36,10 @@ const TITLE_STYLE = [
     'font-size:clamp(1.4rem,5vw,2rem)',
     'font-weight:900',
     'text-shadow:0 0 30px rgba(251,191,36,0.6)',
-    'text-transform:uppercase',
+    'text-transform:uppercase'
 ].join(';');
 
-const SUB_STYLE = [
-    'color:#94a3b8',
-    'font-size:0.95rem',
-].join(';');
+const SUB_STYLE = ['color:#94a3b8', 'font-size:0.95rem'].join(';');
 
 /**
  * Renders a "¡Juego terminado!" screen without revealing who won.

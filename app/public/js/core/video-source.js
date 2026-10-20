@@ -6,10 +6,23 @@
     'use strict';
 
     const MAX_URL_LENGTH = 2048;
-    const EMBED_ORIGINS = ['https://www.youtube-nocookie.com', 'https://www.youtube.com', 'https://player.vimeo.com', 'https://www.dailymotion.com', 'https://geo.dailymotion.com'];
+    const EMBED_ORIGINS = [
+        'https://www.youtube-nocookie.com',
+        'https://www.youtube.com',
+        'https://player.vimeo.com',
+        'https://www.dailymotion.com',
+        'https://geo.dailymotion.com'
+    ];
     const FILE_EXTENSIONS = /\.(mp4|m4v|webm|ogv|ogg|mov)$/i;
     const YOUTUBE_ID = /^[A-Za-z0-9_-]{11}$/;
-    const YOUTUBE_HOSTS = new Set(['youtube.com', 'www.youtube.com', 'm.youtube.com', 'music.youtube.com', 'youtube-nocookie.com', 'www.youtube-nocookie.com']);
+    const YOUTUBE_HOSTS = new Set([
+        'youtube.com',
+        'www.youtube.com',
+        'm.youtube.com',
+        'music.youtube.com',
+        'youtube-nocookie.com',
+        'www.youtube-nocookie.com'
+    ]);
     const VIMEO_HOSTS = new Set(['vimeo.com', 'www.vimeo.com', 'player.vimeo.com']);
     const DAILYMOTION_HOSTS = new Set(['dailymotion.com', 'www.dailymotion.com']);
     const YOUTUBE_PATH_PREFIXES = ['/embed/', '/shorts/', '/live/', '/v/'];
@@ -85,7 +98,11 @@
         const id = youtubeId(u, host);
         if (!id || !YOUTUBE_ID.test(id)) return null;
         const start = parseStartSeconds(u.searchParams.get('t') || u.searchParams.get('start'));
-        const embedUrl = 'https://www.youtube-nocookie.com/embed/' + id + '?rel=0&playsinline=1&modestbranding=1' + (start > 0 ? '&start=' + start : '');
+        const embedUrl =
+            'https://www.youtube-nocookie.com/embed/' +
+            id +
+            '?rel=0&playsinline=1&modestbranding=1' +
+            (start > 0 ? '&start=' + start : '');
         return { kind: 'youtube', url: trimmed, id, start, embedUrl };
     }
 

@@ -5,13 +5,29 @@
 
 import { getSocket } from './presenter-socket-config.js?v=20260922172926';
 import {
-    setTotalQuestions, setCurrentQuestionIndex,
-    getPlayersData, setPlayerData, updatePlayerData, getSessionId, getTeamConfig,
-    setGameSessionDbId, setConnectedPlayers, setTotalPlayers
+    setTotalQuestions,
+    setCurrentQuestionIndex,
+    getPlayersData,
+    setPlayerData,
+    updatePlayerData,
+    getSessionId,
+    getTeamConfig,
+    setGameSessionDbId,
+    setConnectedPlayers,
+    setTotalPlayers
 } from './presenter-state.js?v=20260922172926';
 import {
-    renderPregunta, renderCommentSlide, renderInfoSlide, renderTextSlide, renderImageSlide, renderTextImageSlide, renderVideoSlide,
-    renderCanvasSlide, updatePlayersPanel, removeFloatingCards, renderPodio
+    renderPregunta,
+    renderCommentSlide,
+    renderInfoSlide,
+    renderTextSlide,
+    renderImageSlide,
+    renderTextImageSlide,
+    renderVideoSlide,
+    renderCanvasSlide,
+    updatePlayersPanel,
+    removeFloatingCards,
+    renderPodio
 } from './presenter-game-ui.js?v=20260922172926';
 import { handleRevealAnswer, cleanupRevealElements } from './presenter-reveal.js?v=20260922172926';
 import { updateAnswerCounter } from './presenter-answer-counter.js?v=20260922172926';
@@ -36,7 +52,9 @@ function renderSlideOrQuestion(question) {
     // El vídeo de la diapositiva anterior deja de sonar y libera su memoria
     stopActiveVideo();
 
-    const renderSlide = Object.hasOwn(SLIDE_RENDERERS, question.slide_type) ? SLIDE_RENDERERS[question.slide_type] : null;
+    const renderSlide = Object.hasOwn(SLIDE_RENDERERS, question.slide_type)
+        ? SLIDE_RENDERERS[question.slide_type]
+        : null;
     if (renderSlide) {
         renderSlide(question);
         return;
@@ -75,14 +93,18 @@ export function registerGameSocketHandlers() {
     const socket = getSocket();
 
     // Error al iniciar juego
-    socket.on('game-start-error', (data) => {
+    socket.on('game-start-error', data => {
         console.error('❌ Error al iniciar juego:', data);
         // El servidor manda el texto en castellano: se traduce por código y, si el
         // código no tiene clave, se muestra tal cual
         const message = data.code
             ? _t(`presenter.session.start_error.${data.code}`, data.params || null, data.message)
             : data.message;
-        mostrarModalMensaje(_t('presenter.session.start_error_title', null, 'Error al iniciar el juego'), message, 'error');
+        mostrarModalMensaje(
+            _t('presenter.session.start_error_title', null, 'Error al iniciar el juego'),
+            message,
+            'error'
+        );
     });
 
     // Juego iniciado
@@ -116,12 +138,12 @@ export function registerGameSocketHandlers() {
     });
 
     // Intro con el logo y cuenta atrás antes de la partida (solo aquí lleva sonido)
-    socket.on('game-intro', (payload) => {
+    socket.on('game-intro', payload => {
         window.XiroGameIntro?.show(payload, { sound: true });
     });
 
     // Nueva pregunta
-    socket.on('random-points-reveal', (payload) => {
+    socket.on('random-points-reveal', payload => {
         window.XiroGameIntro?.release();
         window.XiroRandomPointsOverlay?.show(payload);
     });
@@ -153,7 +175,7 @@ export function registerGameSocketHandlers() {
     });
 
     // Respuesta individual
-    socket.on('answer-result', (data) => {
+    socket.on('answer-result', data => {
         console.log('📩 answer-result recibido (individual):', data);
         const { nickname } = data;
 
@@ -171,7 +193,7 @@ export function registerGameSocketHandlers() {
     });
 
     // Batch de respuestas
-    socket.on('answer-result-batch', (raw) => {
+    socket.on('answer-result-batch', raw => {
         const data = raw._b64 ? JSON.parse(atob(raw.data)) : raw;
         console.log('📦 answer-result-batch recibido:', data);
         const playersData = getPlayersData();
@@ -187,7 +209,7 @@ export function registerGameSocketHandlers() {
     });
 
     // Actualización de ranking
-    socket.on('ranking-update', (data) => {
+    socket.on('ranking-update', data => {
         if (data.ranking) {
             data.ranking.forEach(player => {
                 updatePlayerData(player.nickname, { score: player.score });
@@ -197,12 +219,12 @@ export function registerGameSocketHandlers() {
     });
 
     // Revelar respuesta
-    socket.on('reveal-answer', (data) => {
+    socket.on('reveal-answer', data => {
         handleRevealAnswer(data);
     });
 
     // Pausar timer
-    socket.on('timer-paused', (data) => {
+    socket.on('timer-paused', data => {
         console.log('⏸️  Frontend: timer-paused recibido', data);
         window.timerPaused = true;
         window.currentSeconds = Math.ceil(data.remainingTime);
@@ -218,7 +240,7 @@ export function registerGameSocketHandlers() {
     });
 
     // Reanudar timer
-    socket.on('timer-resumed', (data) => {
+    socket.on('timer-resumed', data => {
         console.log('▶️  Frontend: timer-resumed recibido', data);
         window.timerPaused = false;
         window.currentSeconds = Math.ceil(data.remainingTime);
@@ -371,13 +393,19 @@ export function assignManualPoints(nameOrTeam, points, isTeam = false) {
             });
 
             updatePlayersPanel();
-            renderCommentSlide({ comment_text: document.querySelector('h1').textContent, slide_footer: currentSlideFooterText() });
+            renderCommentSlide({
+                comment_text: document.querySelector('h1').textContent,
+                slide_footer: currentSlideFooterText()
+            });
         }
     } else {
         socket.emit('manual-points', { sessionId, nickname: nameOrTeam, points });
 
         updatePlayerData(nameOrTeam, { score: (playersData[nameOrTeam]?.score || 0) + points });
         updatePlayersPanel();
-        renderCommentSlide({ comment_text: document.querySelector('h1').textContent, slide_footer: currentSlideFooterText() });
+        renderCommentSlide({
+            comment_text: document.querySelector('h1').textContent,
+            slide_footer: currentSlideFooterText()
+        });
     }
 }

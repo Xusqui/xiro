@@ -20,7 +20,7 @@
     let ARROW_STEPS = { ArrowUp: [-1, 0], ArrowDown: [1, 0], ArrowLeft: [0, -1], ArrowRight: [0, 1] };
 
     function sign(n) {
-        return n > 0 ? 1 : (n < 0 ? -1 : 0);
+        return n > 0 ? 1 : n < 0 ? -1 : 0;
     }
 
     /** Celdas [r, c] de una línea recta (8 direcciones), o null si no es recta */
@@ -51,11 +51,12 @@
         let dc = c2 - c1;
         if (dr === 0 && dc === 0) return [r1, c1];
         let octant = Math.round(Math.atan2(dr, dc) / (Math.PI / 4));
-        let stepR = Math.round(Math.sin(octant * Math.PI / 4));
-        let stepC = Math.round(Math.cos(octant * Math.PI / 4));
-        let len = (stepR !== 0 && stepC !== 0)
-            ? Math.round((Math.abs(dr) + Math.abs(dc)) / 2)
-            : Math.max(Math.abs(dr), Math.abs(dc));
+        let stepR = Math.round(Math.sin((octant * Math.PI) / 4));
+        let stepC = Math.round(Math.cos((octant * Math.PI) / 4));
+        let len =
+            stepR !== 0 && stepC !== 0
+                ? Math.round((Math.abs(dr) + Math.abs(dc)) / 2)
+                : Math.max(Math.abs(dr), Math.abs(dc));
         while (len > 0) {
             let er = r1 + stepR * len;
             let ec = c1 + stepC * len;
@@ -110,19 +111,33 @@
      * Roles ARIA de rejilla para lectores de pantalla.
      */
     function gridHtml(grid, extraClass, label) {
-        let html = '<div class="wsg' + (extraClass ? ' ' + extraClass : '') + '" data-size="' + grid.length +
-            '" role="grid" aria-label="' + escapeText(label || 'Sopa de letras').replace(/"/g, '&quot;') + '">';
+        let html =
+            '<div class="wsg' +
+            (extraClass ? ' ' + extraClass : '') +
+            '" data-size="' +
+            grid.length +
+            '" role="grid" aria-label="' +
+            escapeText(label || 'Sopa de letras').replace(/"/g, '&quot;') +
+            '">';
         for (let r = 0; r < grid.length; r++) {
             html += '<div class="wsg-row" role="row">';
             for (let c = 0; c < grid[r].length; c++) {
-                html += '<span class="wsg-cell" role="gridcell" data-r="' + r + '" data-c="' + c + '">' + escapeText(grid[r].charAt(c)) + '</span>';
+                html +=
+                    '<span class="wsg-cell" role="gridcell" data-r="' +
+                    r +
+                    '" data-c="' +
+                    c +
+                    '">' +
+                    escapeText(grid[r].charAt(c)) +
+                    '</span>';
             }
             html += '</div>';
         }
         return html + '</div>';
     }
 
-    let BULB_SVG = '<svg class="ws-bulb" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V17h6v-.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"></path></svg>';
+    let BULB_SVG =
+        '<svg class="ws-bulb" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V17h6v-.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"></path></svg>';
 
     /**
      * HTML de la lista de palabras. Sin `hintLabel`: fichas (contenedor con role="list").
@@ -133,11 +148,26 @@
         for (let i = 0; i < words.length; i++) {
             if (hintLabel) {
                 // --ws-len: la hoja del jugador encoge la letra según la longitud de la palabra
-                html += '<button type="button" class="ws-word ws-word--hint" data-word-index="' + i + '" aria-label="' +
-                    escapeText(hintLabel + ' ' + words[i]).replace(/"/g, '&quot;') + '" style="--ws-len:' + String(words[i]).length + '">' +
-                    '<span class="ws-word__text">' + escapeText(words[i]) + '</span>' + BULB_SVG + '</button>';
+                html +=
+                    '<button type="button" class="ws-word ws-word--hint" data-word-index="' +
+                    i +
+                    '" aria-label="' +
+                    escapeText(hintLabel + ' ' + words[i]).replace(/"/g, '&quot;') +
+                    '" style="--ws-len:' +
+                    String(words[i]).length +
+                    '">' +
+                    '<span class="ws-word__text">' +
+                    escapeText(words[i]) +
+                    '</span>' +
+                    BULB_SVG +
+                    '</button>';
             } else {
-                html += '<span class="ws-word" role="listitem" data-word-index="' + i + '">' + escapeText(words[i]) + '</span>';
+                html +=
+                    '<span class="ws-word" role="listitem" data-word-index="' +
+                    i +
+                    '">' +
+                    escapeText(words[i]) +
+                    '</span>';
             }
         }
         return html;
@@ -213,7 +243,9 @@
     /** ¿La selección es la copia de la palabra `index` escondida dentro de otra más larga? */
     function isShadowCopy(opts, a, b, index) {
         let rule = shadowRule();
-        return Boolean(rule) && rule.isShadowed(opts.grid, opts.words, index, { r1: a[0], c1: a[1], r2: b[0], c2: b[1] });
+        return (
+            Boolean(rule) && rule.isShadowed(opts.grid, opts.words, index, { r1: a[0], c1: a[1], r2: b[0], c2: b[1] })
+        );
     }
 
     /** Comprueba la selección de `a` a `b`; si forma una palabra pendiente, la marca */
@@ -224,7 +256,9 @@
         if (index !== -1 && isShadowCopy(opts, a, b, index)) index = -1;
         if (index === -1) {
             markCells(state.board, 'wsg-miss', cells || [a, b]);
-            setTimeout(function () { markCells(state.board, 'wsg-miss', []); }, MISS_FLASH_MS);
+            setTimeout(function () {
+                markCells(state.board, 'wsg-miss', []);
+            }, MISS_FLASH_MS);
             return;
         }
         paintCells(state.board, cells, colorFor(index));
@@ -314,13 +348,27 @@
     function bindSelection(board, opts) {
         let state = { board: board, opts: opts, start: null, end: null, moved: false, anchor: null, cursor: [0, 0] };
         board.setAttribute('tabindex', '0');
-        board.addEventListener('pointerdown', function (e) { onPointerDown(state, e); });
-        board.addEventListener('pointermove', function (e) { onPointerMove(state, e); });
-        board.addEventListener('pointerup', function () { onPointerUp(state); });
-        board.addEventListener('pointercancel', function () { onPointerCancel(state); });
-        board.addEventListener('keydown', function (e) { onKeyDown(state, e); });
-        board.addEventListener('focus', function () { markCells(board, 'wsg-cursor', [state.cursor]); });
-        board.addEventListener('blur', function () { markCells(board, 'wsg-cursor', []); });
+        board.addEventListener('pointerdown', function (e) {
+            onPointerDown(state, e);
+        });
+        board.addEventListener('pointermove', function (e) {
+            onPointerMove(state, e);
+        });
+        board.addEventListener('pointerup', function () {
+            onPointerUp(state);
+        });
+        board.addEventListener('pointercancel', function () {
+            onPointerCancel(state);
+        });
+        board.addEventListener('keydown', function (e) {
+            onKeyDown(state, e);
+        });
+        board.addEventListener('focus', function () {
+            markCells(board, 'wsg-cursor', [state.cursor]);
+        });
+        board.addEventListener('blur', function () {
+            markCells(board, 'wsg-cursor', []);
+        });
     }
 
     let api = {

@@ -8,10 +8,7 @@ const metrics = require('../../state/metrics');
 const logger = require('../../config/logger');
 const { questionBankCache } = require('../cache.service');
 const pinCache = require('../pin-cache.service');
-const {
-    assertEditorCanModifyResource,
-    normalizeCreatorRole
-} = require('./resource-ownership.service');
+const { assertEditorCanModifyResource, normalizeCreatorRole } = require('./resource-ownership.service');
 const { DEFAULTS: RANDOM_POINTS_DEFAULTS } = require('./random-points-config.service');
 
 /**
@@ -41,7 +38,8 @@ async function getAllGamesPaginated({ page = 1, limit = 50 } = {}) {
     const offset = (page - 1) * limit;
     const startTime = Date.now();
     const [result, countResult] = await Promise.all([
-        pool.query(`
+        pool.query(
+            `
             SELECT g.*, au.username AS created_by_username,
                 json_agg(json_build_object('bank_id', gb.bank_id, 'bank_name', qb.name, 'question_count', gb.question_count)) as banks
             FROM games g
@@ -51,11 +49,20 @@ async function getAllGamesPaginated({ page = 1, limit = 50 } = {}) {
             GROUP BY g.id, au.username
             ORDER BY g.created_at DESC
             LIMIT $1 OFFSET $2
-        `, [limit, offset]),
+        `,
+            [limit, offset]
+        ),
         pool.query('SELECT COUNT(*) FROM games')
     ]);
     const total = parseInt(countResult.rows[0].count, 10);
-    logger.debug('getAllGamesPaginated', { page, limit, offset, returned: result.rows.length, total, duration: `${Date.now() - startTime}ms` });
+    logger.debug('getAllGamesPaginated', {
+        page,
+        limit,
+        offset,
+        returned: result.rows.length,
+        total,
+        duration: `${Date.now() - startTime}ms`
+    });
     return { games: result.rows, total, page, limit };
 }
 
@@ -69,19 +76,27 @@ async function getGameWithBanks(gameId) {
     const startTime = Date.now();
     const [game, banks] = await Promise.all([
         pool.query('SELECT * FROM games WHERE id = $1', [gameId]),
-        pool.query(`
+        pool.query(
+            `
             SELECT gb.*, qb.name as bank_name,
                 (SELECT COUNT(*) FROM questions WHERE bank_id = gb.bank_id) as total_questions
             FROM game_banks gb
             JOIN question_banks qb ON gb.bank_id = qb.id
             WHERE gb.game_id = $1
-        `, [gameId])
+        `,
+            [gameId]
+        )
     ]);
 
     const gameRows = Array.isArray(game?.rows) ? game.rows : [];
     const bankRows = Array.isArray(banks?.rows) ? banks.rows : [];
 
-    logger.debug('getGameWithBanks parallel queries', { gameId, found: gameRows.length > 0, banks: bankRows.length, duration: `${Date.now() - startTime}ms` });
+    logger.debug('getGameWithBanks parallel queries', {
+        gameId,
+        found: gameRows.length > 0,
+        banks: bankRows.length,
+        duration: `${Date.now() - startTime}ms`
+    });
     if (gameRows.length === 0) return null;
     return { game: gameRows[0], banks: bankRows };
 }
@@ -93,27 +108,31 @@ async function getGameWithBanks(gameId) {
  */
 async function createGame(data) {
     const {
-        name, pin, language, banks,
+        name,
+        pin,
+        language,
+        banks,
         created_by_role = 'admin',
         created_by_user_id = null,
         visible_to_presenter = true,
         use_streaks = false,
         streak_threshold = 3,
-        streak_bonus_percentage = 0.50,
+        streak_bonus_percentage = 0.5,
         use_double_streaks = false,
         double_streak_threshold = 5,
-        double_streak_bonus_percentage = 1.00,
+        double_streak_bonus_percentage = 1.0,
         pool_question_count = null,
         image_url = null,
         use_random_points = false,
         random_points_min = RANDOM_POINTS_DEFAULTS.random_points_min,
-        random_points_max = RANDOM_POINTS_DEFAULTS.random_points_max,
+        random_points_max = RANDOM_POINTS_DEFAULTS.random_points_max
     } = data;
     const finalPin = (pin || Math.floor(100000 + Math.random() * 900000).toString()).toUpperCase();
     const ownerRole = normalizeCreatorRole(created_by_role);
-    const ownerUserId = Number.isInteger(Number(created_by_user_id)) && Number(created_by_user_id) > 0
-        ? Number(created_by_user_id)
-        : null;
+    const ownerUserId =
+        Number.isInteger(Number(created_by_user_id)) && Number(created_by_user_id) > 0
+            ? Number(created_by_user_id)
+            : null;
     const client = await pool.connect();
 
     try {
@@ -126,19 +145,34 @@ async function createGame(data) {
                  pool_question_count, image_url,
                  use_random_points, random_points_min, random_points_max)
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING *`,
-            [name, finalPin, language, visible_to_presenter, ownerRole, ownerUserId,
-                use_streaks, streak_threshold, streak_bonus_percentage,
-                use_double_streaks, double_streak_threshold, double_streak_bonus_percentage,
-                pool_question_count, image_url,
-                use_random_points, random_points_min, random_points_max]
+            [
+                name,
+                finalPin,
+                language,
+                visible_to_presenter,
+                ownerRole,
+                ownerUserId,
+                use_streaks,
+                streak_threshold,
+                streak_bonus_percentage,
+                use_double_streaks,
+                double_streak_threshold,
+                double_streak_bonus_percentage,
+                pool_question_count,
+                image_url,
+                use_random_points,
+                random_points_min,
+                random_points_max
+            ]
         );
         const gameId = gameRes.rows[0].id;
 
         for (const bank of banks) {
-            await client.query(
-                'INSERT INTO game_banks (game_id, bank_id, question_count) VALUES ($1, $2, $3)',
-                [gameId, bank.bank_id, bank.question_count]
-            );
+            await client.query('INSERT INTO game_banks (game_id, bank_id, question_count) VALUES ($1, $2, $3)', [
+                gameId,
+                bank.bank_id,
+                bank.question_count
+            ]);
         }
 
         await client.query('COMMIT');
@@ -159,19 +193,22 @@ async function createGame(data) {
  */
 async function updateGame(gameId, data, actorUserId = null) {
     const {
-        name, pin, language, banks,
+        name,
+        pin,
+        language,
+        banks,
         visible_to_presenter = true,
         use_streaks = false,
         streak_threshold = 3,
-        streak_bonus_percentage = 0.50,
+        streak_bonus_percentage = 0.5,
         use_double_streaks = false,
         double_streak_threshold = 5,
-        double_streak_bonus_percentage = 1.00,
+        double_streak_bonus_percentage = 1.0,
         pool_question_count = null,
         image_url = null,
         use_random_points = false,
         random_points_min = RANDOM_POINTS_DEFAULTS.random_points_min,
-        random_points_max = RANDOM_POINTS_DEFAULTS.random_points_max,
+        random_points_max = RANDOM_POINTS_DEFAULTS.random_points_max
     } = data;
     const upperPin = pin.toUpperCase();
     const client = await pool.connect();
@@ -180,20 +217,14 @@ async function updateGame(gameId, data, actorUserId = null) {
         await client.query('BEGIN');
         await assertEditorCanModifyResource('game', gameId, actorUserId, client);
 
-        const pinCheck = await client.query(
-            'SELECT id FROM games WHERE pin = $1 AND id != $2',
-            [upperPin, gameId]
-        );
+        const pinCheck = await client.query('SELECT id FROM games WHERE pin = $1 AND id != $2', [upperPin, gameId]);
         const pinCheckRows = Array.isArray(pinCheck?.rows) ? pinCheck.rows : [];
         if (pinCheckRows.length > 0) {
             await client.query('ROLLBACK');
             return { success: false, error: 'El PIN ya está en uso por otro juego', code: 'PIN_DUPLICATE' };
         }
 
-        const currentGameRes = await client.query(
-            'SELECT pin FROM games WHERE id = $1',
-            [gameId]
-        );
+        const currentGameRes = await client.query('SELECT pin FROM games WHERE id = $1', [gameId]);
         const currentRows = Array.isArray(currentGameRes?.rows) ? currentGameRes.rows : [];
         const previousPin = currentRows[0]?.pin || null;
 
@@ -205,19 +236,33 @@ async function updateGame(gameId, data, actorUserId = null) {
                 pool_question_count = $11, image_url = $12,
                 use_random_points = $13, random_points_min = $14, random_points_max = $15
              WHERE id = $16`,
-            [name, upperPin, language, visible_to_presenter,
-                use_streaks, streak_threshold, streak_bonus_percentage,
-                use_double_streaks, double_streak_threshold, double_streak_bonus_percentage,
-                pool_question_count, image_url,
-                use_random_points, random_points_min, random_points_max, gameId]
+            [
+                name,
+                upperPin,
+                language,
+                visible_to_presenter,
+                use_streaks,
+                streak_threshold,
+                streak_bonus_percentage,
+                use_double_streaks,
+                double_streak_threshold,
+                double_streak_bonus_percentage,
+                pool_question_count,
+                image_url,
+                use_random_points,
+                random_points_min,
+                random_points_max,
+                gameId
+            ]
         );
         await client.query('DELETE FROM game_banks WHERE game_id = $1', [gameId]);
 
         for (const bank of banks) {
-            await client.query(
-                'INSERT INTO game_banks (game_id, bank_id, question_count) VALUES ($1, $2, $3)',
-                [gameId, bank.bank_id, bank.question_count]
-            );
+            await client.query('INSERT INTO game_banks (game_id, bank_id, question_count) VALUES ($1, $2, $3)', [
+                gameId,
+                bank.bank_id,
+                bank.question_count
+            ]);
         }
 
         await client.query('COMMIT');
@@ -294,7 +339,8 @@ async function getGameQuestions(gameId) {
     const startTime = Date.now();
 
     try {
-        const result = await pool.query(`
+        const result = await pool.query(
+            `
             WITH pool_config AS (
                 SELECT COALESCE(pool_question_count, 0) AS pool_question_count
                 FROM games WHERE id = $1
@@ -372,7 +418,9 @@ async function getGameQuestions(gameId) {
                      sq.tipo_contenido, sq.url_recurso, sq.question_image_url, sq.time_limit, sq.correct_answer, sq.max_points, sq.hint_text,
                      sq.tolerance_mode, sq.tolerance_value, sq.tolerance_cap, sq.correct_word
             ORDER BY RANDOM()
-        `, [gameId]);
+        `,
+            [gameId]
+        );
 
         const duration = Date.now() - startTime;
         metrics.recordDbQuery(duration);

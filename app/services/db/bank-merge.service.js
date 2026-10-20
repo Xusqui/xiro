@@ -1,7 +1,7 @@
 /**
  * @fileoverview Servicio para mezclar bancos de preguntas
  * @module services/db/bank-merge.service
- * 
+ *
  * Funcionalidad modular para combinar preguntas de múltiples bancos
  * en un nuevo banco sin modificar los originales.
  */
@@ -18,10 +18,10 @@ function normalizeMergeOptions(options = {}) {
         visible_to_presenter = true,
         use_streaks = false,
         streak_threshold = 3,
-        streak_bonus_percentage = 0.50,
+        streak_bonus_percentage = 0.5,
         use_double_streaks = false,
         double_streak_threshold = 5,
-        double_streak_bonus_percentage = 1.00,
+        double_streak_bonus_percentage = 1.0,
         use_random_points = false,
         random_points_min = RANDOM_POINTS_DEFAULTS.random_points_min,
         random_points_max = RANDOM_POINTS_DEFAULTS.random_points_max
@@ -29,9 +29,10 @@ function normalizeMergeOptions(options = {}) {
 
     return {
         ownerRole: normalizeCreatorRole(created_by_role),
-        ownerUserId: Number.isInteger(Number(created_by_user_id)) && Number(created_by_user_id) > 0
-            ? Number(created_by_user_id)
-            : null,
+        ownerUserId:
+            Number.isInteger(Number(created_by_user_id)) && Number(created_by_user_id) > 0
+                ? Number(created_by_user_id)
+                : null,
         visible_to_presenter,
         use_streaks,
         streak_threshold,
@@ -78,10 +79,7 @@ async function getExistingBanks(client, bankIds) {
 }
 
 async function ensurePinAvailable(client, pin) {
-    const pinCheck = await client.query(
-        'SELECT id FROM question_banks WHERE pin = $1',
-        [pin]
-    );
+    const pinCheck = await client.query('SELECT id FROM question_banks WHERE pin = $1', [pin]);
 
     if (pinCheck.rows.length > 0) {
         throw new Error(`Ya existe un banco con el PIN ${pin}`);

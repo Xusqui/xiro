@@ -9,16 +9,8 @@ const { validatePanelToken } = require('../utils/RemoteControlHelper');
 const logger = require('../../config/logger');
 
 module.exports = function createJoinPresenterLobbyHandler(dependencies) {
-    const {
-        players,
-        socketToPlayer,
-        lobbyPlayers,
-        teamConfigs,
-        activeGames,
-        socketRateLimits,
-        roomPresenterMap,
-        io
-    } = dependencies;
+    const { players, socketToPlayer, lobbyPlayers, teamConfigs, activeGames, socketRateLimits, roomPresenterMap, io } =
+        dependencies;
 
     const joinGameUseCase = new JoinGameUseCase({
         players,
@@ -82,8 +74,8 @@ module.exports = function createJoinPresenterLobbyHandler(dependencies) {
                 return;
             }
 
-            socket.data.presenterUserId = panelUser ? (panelUser.userId || null) : null;
-            socket.data.presenterRole = panelUser ? (panelUser.role || null) : null;
+            socket.data.presenterUserId = panelUser ? panelUser.userId || null : null;
+            socket.data.presenterRole = panelUser ? panelUser.role || null : null;
             socket.data.playerId = playerId;
 
             const { roomId, playersInLobby, teamMode } = result;

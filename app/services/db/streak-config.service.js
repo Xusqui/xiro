@@ -15,7 +15,7 @@ const TABLE_BY_TYPE = {
     game: 'games',
     custom_game: 'custom_games',
     trivial: 'trivial_games',
-    bank: 'question_banks',
+    bank: 'question_banks'
 };
 
 const STREAK_FIELDS = [
@@ -24,16 +24,16 @@ const STREAK_FIELDS = [
     'streak_bonus_percentage',
     'use_double_streaks',
     'double_streak_threshold',
-    'double_streak_bonus_percentage',
+    'double_streak_bonus_percentage'
 ].join(', ');
 
 const DEFAULTS = {
     use_streaks: false,
     streak_threshold: 3,
-    streak_bonus_percentage: 0.50,
+    streak_bonus_percentage: 0.5,
     use_double_streaks: false,
     double_streak_threshold: 5,
-    double_streak_bonus_percentage: 1.00,
+    double_streak_bonus_percentage: 1.0
 };
 
 /**
@@ -51,10 +51,7 @@ async function getStreakConfig(type, id) {
     }
 
     try {
-        const res = await pool.query(
-            `SELECT ${STREAK_FIELDS} FROM ${table} WHERE id = $1`,
-            [id]
-        );
+        const res = await pool.query(`SELECT ${STREAK_FIELDS} FROM ${table} WHERE id = $1`, [id]);
         if (!res.rows.length) {
             logger.warn('getStreakConfig: registro no encontrado, usando defaults', { type, id });
             return { ...DEFAULTS };
@@ -67,7 +64,8 @@ async function getStreakConfig(type, id) {
             streak_bonus_percentage: parseFloat(row.streak_bonus_percentage) || DEFAULTS.streak_bonus_percentage,
             use_double_streaks: !!row.use_double_streaks,
             double_streak_threshold: Number(row.double_streak_threshold) || DEFAULTS.double_streak_threshold,
-            double_streak_bonus_percentage: parseFloat(row.double_streak_bonus_percentage) || DEFAULTS.double_streak_bonus_percentage,
+            double_streak_bonus_percentage:
+                parseFloat(row.double_streak_bonus_percentage) || DEFAULTS.double_streak_bonus_percentage
         };
     } catch (err) {
         logger.warn('getStreakConfig: error de BD, usando defaults', { type, id, error: err.message });

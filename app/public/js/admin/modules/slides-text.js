@@ -55,11 +55,19 @@ function agregarSlideTexto() {
 
     // [TAG:VALIDATION]
     if (!titulo) {
-        mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), 'Por favor, escribe un título', 'warning');
+        mostrarModalError(
+            _t('admin.common.validation_title', null, '⚠️ Validación'),
+            'Por favor, escribe un título',
+            'warning'
+        );
         return;
     }
     if (!cuerpo) {
-        mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), 'Por favor, escribe el texto de la diapositiva', 'warning');
+        mostrarModalError(
+            _t('admin.common.validation_title', null, '⚠️ Validación'),
+            'Por favor, escribe el texto de la diapositiva',
+            'warning'
+        );
         return;
     }
 
@@ -124,11 +132,19 @@ function guardarEditTexto(index) {
     const cuerpo = document.getElementById('textoEditSlideCuerpo')?.value?.trim();
 
     if (!titulo) {
-        mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), 'Por favor, escribe un título', 'warning');
+        mostrarModalError(
+            _t('admin.common.validation_title', null, '⚠️ Validación'),
+            'Por favor, escribe un título',
+            'warning'
+        );
         return;
     }
     if (!cuerpo) {
-        mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), 'Por favor, escribe el texto de la diapositiva', 'warning');
+        mostrarModalError(
+            _t('admin.common.validation_title', null, '⚠️ Validación'),
+            'Por favor, escribe el texto de la diapositiva',
+            'warning'
+        );
         return;
     }
 
@@ -145,7 +161,7 @@ function initSlideTextoDelegation() {
     if (_slideTextoDelegationReady) return;
     _slideTextoDelegationReady = true;
 
-    document.addEventListener('click', (event) => {
+    document.addEventListener('click', event => {
         const actionElement = event.target.closest('[data-slide-text-action]');
         if (!actionElement) return;
 
@@ -178,9 +194,5 @@ initSlideTextoDelegation();
 // ==============================
 
 function escapeHtmlForAttribute(value) {
-    return String(value)
-        .replace(/&/g, '&amp;')
-        .replace(/"/g, '&quot;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
+    return String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }

@@ -116,14 +116,18 @@ function renderAnswerOptions(options, onClickHandler) {
     const labels = ['A', 'B', 'C', 'D', 'E', 'F'];
 
     options.forEach((option, index) => {
-        const button = createElement('button', {
-            className: 'answer-option',
-            'data-index': index,
-            onclick: () => onClickHandler(index)
-        }, [
-            createElement('span', { className: 'answer-label' }, labels[index]),
-            createElement('span', { className: 'answer-text' }, option.text || option)
-        ]);
+        const button = createElement(
+            'button',
+            {
+                className: 'answer-option',
+                'data-index': index,
+                onclick: () => onClickHandler(index)
+            },
+            [
+                createElement('span', { className: 'answer-label' }, labels[index]),
+                createElement('span', { className: 'answer-text' }, option.text || option)
+            ]
+        );
 
         fragment.appendChild(button);
     });
@@ -145,13 +149,23 @@ function renderRanking(players, showPoints = true) {
         const position = index + 1;
         const medal = position <= 3 ? medals[index] : position + '.';
 
-        const item = createElement('div', {
-            className: `ranking-item ${position <= 3 ? 'top-3' : ''}`
-        }, [
-            createElement('span', { className: 'ranking-position' }, medal),
-            createElement('span', { className: 'ranking-nickname' }, player.nickname || player.name),
-            showPoints ? createElement('span', { className: 'ranking-points' }, `${player.score || player.points || 0} pts`) : null
-        ].filter(Boolean));
+        const item = createElement(
+            'div',
+            {
+                className: `ranking-item ${position <= 3 ? 'top-3' : ''}`
+            },
+            [
+                createElement('span', { className: 'ranking-position' }, medal),
+                createElement('span', { className: 'ranking-nickname' }, player.nickname || player.name),
+                showPoints
+                    ? createElement(
+                        'span',
+                        { className: 'ranking-points' },
+                        `${player.score || player.points || 0} pts`
+                    )
+                    : null
+            ].filter(Boolean)
+        );
 
         fragment.appendChild(item);
     });

@@ -31,8 +31,9 @@ function getLobbyMainRect() {
 }
 
 export function pinNumericInfoPanelUnderQuestion() {
-    const numericTitle = Array.from(document.querySelectorAll('p'))
-        .find(el => (el.textContent || '').trim() === 'PREGUNTA NUMÉRICA');
+    const numericTitle = Array.from(document.querySelectorAll('p')).find(
+        el => (el.textContent || '').trim() === 'PREGUNTA NUMÉRICA'
+    );
 
     if (!numericTitle) return;
 
@@ -60,13 +61,14 @@ export function renderCenteredNumericHint(hintText) {
     if (!overlay) {
         overlay = document.createElement('div');
         overlay.id = HINT_OVERLAY_ID;
-        overlay.style.cssText = 'position:fixed;left:50%;top:100px;transform:translateX(-50%);width:min(calc(100vw - 24px), 1400px);z-index:9996;pointer-events:none;display:flex;align-items:flex-start;justify-content:center;';
+        overlay.style.cssText =
+            'position:fixed;left:50%;top:100px;transform:translateX(-50%);width:min(calc(100vw - 24px), 1400px);z-index:9996;pointer-events:none;display:flex;align-items:flex-start;justify-content:center;';
         document.body.appendChild(overlay);
     }
 
     const lobbyRect = getLobbyMainRect();
     if (lobbyRect) {
-        const centerX = lobbyRect.left + (lobbyRect.width / 2);
+        const centerX = lobbyRect.left + lobbyRect.width / 2;
         const width = Math.max(320, Math.min(lobbyRect.width - 24, 1400));
         overlay.style.left = `${centerX}px`;
         overlay.style.width = `${width}px`;
@@ -76,9 +78,7 @@ export function renderCenteredNumericHint(hintText) {
     }
 
     const questionTitle = document.getElementById('question-title');
-    const topPx = questionTitle
-        ? Math.max(8, Math.round(questionTitle.getBoundingClientRect().bottom + 8))
-        : 100;
+    const topPx = questionTitle ? Math.max(8, Math.round(questionTitle.getBoundingClientRect().bottom + 8)) : 100;
     overlay.style.top = `${topPx}px`;
 
     overlay.innerHTML = _tHtml(`

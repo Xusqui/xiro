@@ -12,7 +12,15 @@
 
 let _lienzoDelegationReady = false;
 
-const _LIENZO_LEGACY_FIELDS = { comment_text: null, slide_title: null, slide_body: null, slide_image: null, slide_image_position: null, slide_video: null, slide_footer: null };
+const _LIENZO_LEGACY_FIELDS = {
+    comment_text: null,
+    slide_title: null,
+    slide_body: null,
+    slide_image: null,
+    slide_image_position: null,
+    slide_video: null,
+    slide_footer: null
+};
 
 // Atajos que se recuerdan al pie (admin.canvas.hint_<id>_key y admin.canvas.hint_<id>)
 const _LIENZO_HINTS = ['dblclick', 'shift', 'alt', 'arrows', 'delete', 'undo'];
@@ -21,9 +29,13 @@ function _lienzoAskMedia(template) {
     const E = window.XiroCanvasEditor;
     if (template === 'image' || template === 'text_image') {
         const box = template === 'image' ? { x: 0, y: 0, w: 1920, h: 1080 } : { x: 960, y: 0, w: 960, h: 1080 };
-        E.media.openImage((r) => E.addElement('image', Object.assign({ props: { src: r.src, ratio: r.ratio || null, fit: 'contain' } }, box)));
+        E.media.openImage(r =>
+            E.addElement('image', Object.assign({ props: { src: r.src, ratio: r.ratio || null, fit: 'contain' } }, box))
+        );
     } else if (template === 'video') {
-        E.media.openVideo((r) => E.addElement('video', { x: 160, y: 90, w: 1600, h: 900, props: { url: r.url, autoplay: true } }));
+        E.media.openVideo(r =>
+            E.addElement('video', { x: 160, y: 90, w: 1600, h: 900, props: { url: r.url, autoplay: true } })
+        );
     }
 }
 
@@ -59,7 +71,7 @@ function _lienzoModalHtml(modal) {
             <aside id="lienzoProps" class="xsce-panel" aria-label="${th('properties')}"></aside>
         </div>
         <p class="xsce-hints">
-            ${_LIENZO_HINTS.map((id) => `<span><kbd>${th('hint_' + id + '_key')}</kbd>${th('hint_' + id)}</span>`).join('')}
+            ${_LIENZO_HINTS.map(id => `<span><kbd>${th('hint_' + id + '_key')}</kbd>${th('hint_' + id)}</span>`).join('')}
         </p>`;
 }
 
@@ -133,9 +145,15 @@ function _lienzoApply() {
         return;
     }
     const index = E.state.index;
-    const item = Object.assign({}, _LIENZO_LEGACY_FIELDS, { slide_type: 'canvas', slide_canvas: canvas, question_id: null });
+    const item = Object.assign({}, _LIENZO_LEGACY_FIELDS, {
+        slide_type: 'canvas',
+        slide_canvas: canvas,
+        question_id: null
+    });
     if (Number.isInteger(index)) {
-        currentCustomGameQuestions[index] = Object.assign(item, { position: currentCustomGameQuestions[index].position });
+        currentCustomGameQuestions[index] = Object.assign(item, {
+            position: currentCustomGameQuestions[index].position
+        });
     } else {
         currentCustomGameQuestions.push(Object.assign(item, { position: currentCustomGameQuestions.length }));
     }
@@ -149,14 +167,21 @@ function _lienzoCancel() {
         _lienzoClose();
         return;
     }
-    mostrarModalConfirmacion(E.t('discard_title'), E.t('discard_msg'), _lienzoClose, null, E.t('discard_confirm'), E.t('discard_keep'));
+    mostrarModalConfirmacion(
+        E.t('discard_title'),
+        E.t('discard_msg'),
+        _lienzoClose,
+        null,
+        E.t('discard_confirm'),
+        E.t('discard_keep')
+    );
 }
 
 function initSlideLienzoDelegation() {
     if (_lienzoDelegationReady) return;
     _lienzoDelegationReady = true;
 
-    document.addEventListener('click', (event) => {
+    document.addEventListener('click', event => {
         // Clic fuera del cuadro de plantillas: se cierra sin elegir
         if (event.target.id === 'modalLienzoPlantillas') {
             event.target.remove();
@@ -192,7 +217,7 @@ function initSlideLienzoDelegation() {
     });
 
     // Escape cierra (preguntando si hay cambios) salvo que lo haya usado el editor para deseleccionar
-    document.addEventListener('keydown', (event) => {
+    document.addEventListener('keydown', event => {
         if (event.key === 'Escape') document.getElementById('modalLienzoPlantillas')?.remove();
         if (event.key !== 'Escape' || event.defaultPrevented || !document.getElementById('modalLienzo')) return;
         const E = window.XiroCanvasEditor;

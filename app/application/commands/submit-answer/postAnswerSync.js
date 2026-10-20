@@ -17,13 +17,7 @@ const GameStateUpdateService = require('../../../domain/services/GameStateUpdate
  * @returns {Promise<void>}
  */
 async function syncPostAnswerState(ctx) {
-    const {
-        sPin,
-        nickname,
-        game,
-        syncBus,
-        logger
-    } = ctx;
+    const { sPin, nickname, game, syncBus, logger } = ctx;
 
     await GameStateUpdateService.publishScoreUpdate({
         roomId: sPin,

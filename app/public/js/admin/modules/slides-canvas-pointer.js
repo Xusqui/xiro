@@ -12,7 +12,7 @@
     'use strict';
 
     const root = typeof window !== 'undefined' ? window : globalThis;
-    const XiroCanvasEditor = root.XiroCanvasEditor = root.XiroCanvasEditor || {};
+    const XiroCanvasEditor = (root.XiroCanvasEditor = root.XiroCanvasEditor || {});
 
     const DRAG_THRESHOLD_PX = 3;
     const EDITABLE = 'input, textarea, select, [contenteditable="true"]';
@@ -62,7 +62,9 @@
         }
         // Las imágenes mantienen la proporción salvo con Mayúsculas; el resto, al revés
         const keepRatio = el.type === 'image' ? el.props.lockRatio !== p.shift : p.shift;
-        return Object.assign(G.resizeBox(drag.start, drag.kind, dx, dy, { keepRatio }), { rotation: drag.start.rotation });
+        return Object.assign(G.resizeBox(drag.start, drag.kind, dx, dy, { keepRatio }), {
+            rotation: drag.start.rotation
+        });
     }
 
     function applyFrame() {
@@ -108,7 +110,9 @@
             // click y dblclick al contenedor y el doble clic no encontraría el texto.
             try {
                 host.setPointerCapture(event.pointerId);
-            } catch (_) { /* puntero ya liberado */ }
+            } catch (_) {
+                /* puntero ya liberado */
+            }
         }
         drag.moved = true;
         pending = { dx, dy, alt: event.altKey, shift: event.shiftKey };
@@ -126,7 +130,9 @@
         pending = null;
         try {
             host.releasePointerCapture(event.pointerId);
-        } catch (_) { /* captura ya liberada */ }
+        } catch (_) {
+            /* captura ya liberada */
+        }
         XiroCanvasEditor.stage.hideGuides();
         if (done.moved && done.box) {
             const b = done.box;

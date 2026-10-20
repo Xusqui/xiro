@@ -5,10 +5,7 @@
 const { calculateTeamScore } = require('../../services/game.logic');
 const { teamScoreParams } = require('../../domain/services/TeamScoreParams');
 const runtimeConfig = require('../../config/runtime-config');
-const {
-    resolveTeamRevealCorrectness,
-    resolveTeamRevealCorrectAnswer
-} = require('./NumericTeamRevealHelper');
+const { resolveTeamRevealCorrectness, resolveTeamRevealCorrectAnswer } = require('./NumericTeamRevealHelper');
 const { hasAnsweredCurrentRound, claimTeamReveal } = require('./TeamRevealHelper');
 const { getRedisClient } = require('../../config/redis');
 const logger = require('../../config/logger');
@@ -17,9 +14,8 @@ const logger = require('../../config/logger');
  * Revelar resultados a equipos que no han sido revelados (timeout)
  */
 async function revealToUnrevealedTeams(game, teamConfig, currentQuestion, io, sPin) {
-    const teamsRevealed = game.teamRevealed && game.teamRevealed[game.currentIndex]
-        ? game.teamRevealed[game.currentIndex]
-        : [];
+    const teamsRevealed =
+        game.teamRevealed && game.teamRevealed[game.currentIndex] ? game.teamRevealed[game.currentIndex] : [];
 
     logger.debug(`Timer expirado en modo equipos. Equipos ya revelados: ${teamsRevealed.join(', ')}`);
 
@@ -33,11 +29,18 @@ async function revealToUnrevealedTeams(game, teamConfig, currentQuestion, io, sP
         if (redisInfos && Object.keys(redisInfos).length > 0) {
             if (!game.playerStreakInfos) game.playerStreakInfos = {};
             for (const [nick, jsonStr] of Object.entries(redisInfos)) {
-                try { game.playerStreakInfos[nick] = JSON.parse(jsonStr); } catch (_) { /* ignore */ }
+                try {
+                    game.playerStreakInfos[nick] = JSON.parse(jsonStr);
+                } catch (_) {
+                    /* ignore */
+                }
             }
         }
     } catch (err) {
-        logger.warn('revealToUnrevealedTeams: could not load streakinfos from Redis', { roomId: sPin, error: err.message });
+        logger.warn('revealToUnrevealedTeams: could not load streakinfos from Redis', {
+            roomId: sPin,
+            error: err.message
+        });
     }
 
     const playersRoom = `${sPin}:players`;
@@ -74,9 +77,8 @@ function resolveAnswerContext(currentQuestion, playerAnswer) {
     const isSurveyQuestion = currentQuestion.question_type === 'survey';
     const isMultipleChoiceQuestion = currentQuestion.question_type === 'multiple_choice';
     const correctOption = isOrderQuestion ? null : currentQuestion.options.find(opt => opt.isCorrect);
-    const playerOption = isOrderQuestion || isMultipleChoiceQuestion
-        ? null
-        : currentQuestion.options[playerAnswer?.index];
+    const playerOption =
+        isOrderQuestion || isMultipleChoiceQuestion ? null : currentQuestion.options[playerAnswer?.index];
 
     return {
         isOrderQuestion,
@@ -112,7 +114,7 @@ function buildNoAnswerPayload({ currentQuestion, scores, game, playerNick }) {
             ctx.isSurveyQuestion
         ),
         ranking: buildRanking(scores),
-        streak: (game && playerNick) ? (game.playerStreakInfos?.[playerNick] || null) : null
+        streak: game && playerNick ? game.playerStreakInfos?.[playerNick] || null : null
     };
 }
 
@@ -173,7 +175,7 @@ function buildAnsweredPayload({ currentQuestion, playerAnswer, scores, game, pla
         ),
         ranking: buildRanking(scores),
         ...typedDetails(currentQuestion, playerAnswer, ctx),
-        streak: (game && playerNick) ? (game.playerStreakInfos?.[playerNick] || null) : null
+        streak: game && playerNick ? game.playerStreakInfos?.[playerNick] || null : null
     };
 
     return appendOptionalPayloadFields(payload, { teamName, playerJustification });
@@ -185,20 +187,13 @@ function buildAnsweredPayload({ currentQuestion, playerAnswer, scores, game, pla
 function buildPlayerResultPayload(input, ...legacyArgs) {
     const normalizedInput = normalizePlayerPayloadInput(input, legacyArgs);
 
-    const {
-        currentQuestion,
-        playerAnswer,
-        scores,
-        game,
-        playerNick,
-        teamName = null
-    } = normalizedInput;
+    const { currentQuestion, playerAnswer, scores, game, playerNick, teamName = null } = normalizedInput;
 
     if (!playerAnswer) {
-        return appendOptionalPayloadFields(
-            buildNoAnswerPayload({ currentQuestion, scores, game, playerNick }),
-            { teamName, playerJustification: null }
-        );
+        return appendOptionalPayloadFields(buildNoAnswerPayload({ currentQuestion, scores, game, playerNick }), {
+            teamName,
+            playerJustification: null
+        });
     }
 
     return buildAnsweredPayload({
@@ -245,12 +240,16 @@ async function checkAllTeamsCompleted(teamConfig, game, io, sPin, players = null
         let answeredNicknames = [];
         try {
             const redis = await getRedisClient();
-            const answeredKey = game?.isTrivial && game.trivialQuestionEpoch !== undefined
-                ? `game:answered:${sPin}:${game.trivialQuestionEpoch}`
-                : `game:answered:${sPin}`;
-            answeredNicknames = await redis.sMembers(answeredKey) || [];
+            const answeredKey =
+                game?.isTrivial && game.trivialQuestionEpoch !== undefined
+                    ? `game:answered:${sPin}:${game.trivialQuestionEpoch}`
+                    : `game:answered:${sPin}`;
+            answeredNicknames = (await redis.sMembers(answeredKey)) || [];
         } catch (err) {
-            logger.warn('checkAllTeamsCompleted: failed to fetch from Redis, using game.answeredCurrent', { roomId: sPin, error: err.message });
+            logger.warn('checkAllTeamsCompleted: failed to fetch from Redis, using game.answeredCurrent', {
+                roomId: sPin,
+                error: err.message
+            });
             answeredNicknames = game.answeredCurrent ? Array.from(game.answeredCurrent) : [];
         }
 
@@ -267,7 +266,7 @@ async function checkAllTeamsCompleted(teamConfig, game, io, sPin, players = null
             });
 
             const teamAnswersCount = connectedTeamPlayers.filter(nickname => answeredSet.has(nickname)).length;
-            return connectedTeamPlayers.length > 0 ? (teamAnswersCount >= connectedTeamPlayers.length) : true;
+            return connectedTeamPlayers.length > 0 ? teamAnswersCount >= connectedTeamPlayers.length : true;
         });
     } else {
         const playersRoom = `${sPin}:players`;
@@ -301,12 +300,16 @@ async function notifyTeamWaitingFastPath(team, game, io, sPin, players) {
     let answeredNicknames = [];
     try {
         const redis = await getRedisClient();
-        const answeredKey = game?.isTrivial && game.trivialQuestionEpoch !== undefined
-            ? `game:answered:${sPin}:${game.trivialQuestionEpoch}`
-            : `game:answered:${sPin}`;
-        answeredNicknames = await redis.sMembers(answeredKey) || [];
+        const answeredKey =
+            game?.isTrivial && game.trivialQuestionEpoch !== undefined
+                ? `game:answered:${sPin}:${game.trivialQuestionEpoch}`
+                : `game:answered:${sPin}`;
+        answeredNicknames = (await redis.sMembers(answeredKey)) || [];
     } catch (err) {
-        logger.warn('notifyTeamWaiting: failed to fetch from Redis, using game.answeredCurrent', { roomId: sPin, error: err.message });
+        logger.warn('notifyTeamWaiting: failed to fetch from Redis, using game.answeredCurrent', {
+            roomId: sPin,
+            error: err.message
+        });
         answeredNicknames = game.answeredCurrent ? Array.from(game.answeredCurrent) : [];
     }
 
@@ -338,7 +341,9 @@ async function notifyTeamWaitingFastPath(team, game, io, sPin, players) {
                     total: connectedTeamLength,
                     teamName: team.name
                 });
-                logger.debug(`Actualizado contador para ${teamMemberNick} (fast path): ${teamAnswers.length}/${connectedTeamLength}`);
+                logger.debug(
+                    `Actualizado contador para ${teamMemberNick} (fast path): ${teamAnswers.length}/${connectedTeamLength}`
+                );
             }
         }
     }
@@ -376,7 +381,9 @@ async function notifyTeamWaitingFallback(team, game, io, sPin) {
                 total: connectedTeamLength,
                 teamName: team.name
             });
-            logger.debug(`Actualizado contador para ${teamMemberNick} (fallback): ${teamAnswers.length}/${connectedTeamLength}`);
+            logger.debug(
+                `Actualizado contador para ${teamMemberNick} (fallback): ${teamAnswers.length}/${connectedTeamLength}`
+            );
         }
     }
 }
@@ -390,7 +397,11 @@ function addTeamScoresToPayload(payload, teamConfig, scores = {}) {
     const teams = teamConfig.teams || [];
     // Misma λ (la configurable del admin) que el podio final, para que el marcador
     // en vivo y el ranking final coincidan
-    const { globalMean, lambda: effectiveLambda } = teamScoreParams(teams, scores, runtimeConfig.get('TEAM_SCORE_LAMBDA'));
+    const { globalMean, lambda: effectiveLambda } = teamScoreParams(
+        teams,
+        scores,
+        runtimeConfig.get('TEAM_SCORE_LAMBDA')
+    );
 
     payload.teamScores = teams.map(team => ({
         name: team.name,

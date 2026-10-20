@@ -38,7 +38,7 @@ function buildPlayerWedges(state) {
         for (const team of state.teamConfig.teams) {
             const token = state.teamTokens?.[team.name] || [];
             result[team.name] = categories
-                .map((category, index) => token[index] ? category.category_name : null)
+                .map((category, index) => (token[index] ? category.category_name : null))
                 .filter(Boolean);
         }
         return result;
@@ -46,7 +46,7 @@ function buildPlayerWedges(state) {
 
     for (const [nick, player] of Object.entries(state.players || {})) {
         result[nick] = categories
-            .map((category, index) => (player.token || [])[index] ? category.category_name : null)
+            .map((category, index) => ((player.token || [])[index] ? category.category_name : null))
             .filter(Boolean);
     }
 
@@ -94,13 +94,13 @@ async function mergeTrivialAnswersAndStartTime(roomId, game) {
 
         if (allEntries && Object.keys(allEntries).length > 0) {
             mergeAnswersFromRedisEntries(mergedAnswers, allEntries);
-            redis.del(answersKey).catch(() => { });
+            redis.del(answersKey).catch(() => {});
         }
 
         const startTs = await redis.get(startKey);
         if (startTs) {
             redisStartTime = Number(startTs);
-            redis.del(startKey).catch(() => { });
+            redis.del(startKey).catch(() => {});
         }
     } catch (_e) {
         // Ignore Redis merge/start-time failures.
@@ -159,7 +159,7 @@ function countWedges(token) {
  * @returns {Array<Object>}
  */
 function buildTrivialRanking(state, scores) {
-    const isTeamMode = !!state.teamMode;  // state.teamMode is set in TrivialSocketHandler
+    const isTeamMode = !!state.teamMode; // state.teamMode is set in TrivialSocketHandler
 
     if (isTeamMode && state.teamConfig?.teams?.length) {
         return _buildTeamRanking(state, scores);
@@ -171,9 +171,8 @@ function _buildTeamRanking(state, scores) {
     const entries = state.teamConfig.teams.map(team => {
         const token = state.teamTokens?.[team.name] || [];
         const memberPts = (team.players || []).map(nick => scores[nick] || 0);
-        const avgPts = memberPts.length > 0
-            ? Math.round(memberPts.reduce((a, b) => a + b, 0) / memberPts.length * 10) / 10
-            : 0;
+        const avgPts =
+            memberPts.length > 0 ? Math.round((memberPts.reduce((a, b) => a + b, 0) / memberPts.length) * 10) / 10 : 0;
         // Miembros con sus puntos: el visor de resultados los usa para el desglose del equipo.
         const members = (team.players || [])
             .map(nick => ({ name: nick, pts: scores[nick] || 0 }))
@@ -183,12 +182,22 @@ function _buildTeamRanking(state, scores) {
     entries.sort((a, b) => b.wedges - a.wedges || b.pts - a.pts);
 
     const wedgeFreq = {};
-    entries.forEach(e => { wedgeFreq[e.wedges] = (wedgeFreq[e.wedges] || 0) + 1; });
+    entries.forEach(e => {
+        wedgeFreq[e.wedges] = (wedgeFreq[e.wedges] || 0) + 1;
+    });
     return entries.map((p, i) => {
         const tied = wedgeFreq[p.wedges] > 1;
         const noun = p.wedges !== 1 ? 'Categorías' : 'Categoría';
         const scoreLabel = tied ? `${p.wedges} ${noun} · ${p.pts} pts` : `${p.wedges} ${noun}`;
-        return { name: p.name, pts: p.pts, position: i + 1, isTeam: true, scoreLabel, color: p.color, members: p.members };
+        return {
+            name: p.name,
+            pts: p.pts,
+            position: i + 1,
+            isTeam: true,
+            scoreLabel,
+            color: p.color,
+            members: p.members
+        };
     });
 }
 
@@ -202,7 +211,9 @@ function _buildIndividualRanking(state, scores) {
     entries.sort((a, b) => b.wedges - a.wedges || b.pts - a.pts);
 
     const wedgeFreq = {};
-    entries.forEach(e => { wedgeFreq[e.wedges] = (wedgeFreq[e.wedges] || 0) + 1; });
+    entries.forEach(e => {
+        wedgeFreq[e.wedges] = (wedgeFreq[e.wedges] || 0) + 1;
+    });
     return entries.map((p, i) => {
         const tied = wedgeFreq[p.wedges] > 1;
         const noun = p.wedges !== 1 ? 'Categorías' : 'Categoría';

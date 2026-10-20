@@ -60,7 +60,10 @@ function _extractQuizAnswer(question) {
 
 /** Sopa de letras: todas sus palabras (cada opción es una palabra). */
 function _extractWordSearchAnswer(question) {
-    const words = (question.options || []).map(_optionText).filter(Boolean).map(w => w.toUpperCase());
+    const words = (question.options || [])
+        .map(_optionText)
+        .filter(Boolean)
+        .map(w => w.toUpperCase());
     return words.length > 0 ? { type: 'word_search', items: words } : null;
 }
 

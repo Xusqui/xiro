@@ -1,7 +1,7 @@
 /**
  * @fileoverview Registro centralizado de Event Handlers
  * @module domain/events/handlers
- * 
+ *
  * Configura y registra todos los event handlers del sistema.
  * Los handlers escuchan eventos del EventBus y ejecutan side effects.
  */

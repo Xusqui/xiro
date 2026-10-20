@@ -23,11 +23,11 @@
 })(typeof self !== 'undefined' ? self : this, function () {
     'use strict';
 
-    const clamp01 = (v) => Math.max(0, Math.min(1, Number(v) || 0));
+    const clamp01 = v => Math.max(0, Math.min(1, Number(v) || 0));
 
-    const ARC_FLOOR = 0.1;     // suelo de tensión en la penúltima pregunta (crece desde 0)
-    const FINAL_FLOOR = 0.2;   // última pregunta: bajo y charles desde el primer compás
-    const ANSWER_PUSH = 0.35;  // con todos respondidos, la tensión sube hasta aquí (desde 0)
+    const ARC_FLOOR = 0.1; // suelo de tensión en la penúltima pregunta (crece desde 0)
+    const FINAL_FLOOR = 0.2; // última pregunta: bajo y charles desde el primer compás
+    const ANSWER_PUSH = 0.35; // con todos respondidos, la tensión sube hasta aquí (desde 0)
 
     // Pentatónica mayor (grados 0, 1, 2, 4, 5 de la escala) en tres octavas
     const PENTATONIC = [0, 1, 2, 4, 5];
@@ -87,7 +87,16 @@
     }
 
     return {
-        ANSWER_PUSH, ARC_FLOOR, FINAL_FLOOR, ANSWER_LADDER, JOIN_LADDER, DICE_RUN,
-        gameArc, answeredRatio, questionTension, answerDegree, joinDegree
+        ANSWER_PUSH,
+        ARC_FLOOR,
+        FINAL_FLOOR,
+        ANSWER_LADDER,
+        JOIN_LADDER,
+        DICE_RUN,
+        gameArc,
+        answeredRatio,
+        questionTension,
+        answerDegree,
+        joinDegree
     };
 });

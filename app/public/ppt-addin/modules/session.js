@@ -7,7 +7,6 @@
  */
 
 const XiroSession = (() => {
-
     /**
      * Genera un sessionId único con formato PIN-DDDD (4 dígitos decimales).
      * Fallback offline — en producción usar XiroApi.createSession(pin) para

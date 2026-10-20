@@ -1,7 +1,7 @@
 /**
  * @fileoverview Ranking Broadcast Service - Gestión de emisión de rankings con deltas
  * @module domain/services/RankingBroadcastService
- * 
+ *
  * Responsabilidades:
  * - Emitir rankings al presentador con throttling
  * - Optimizar broadcasts usando delta updates (60-70% reducción)
@@ -84,14 +84,7 @@ class RankingBroadcastService {
      * @param {boolean} params.useDelta - Usar delta updates (default: true)
      * @returns {Promise<boolean>} true si se emitió, false si se hizo throttle
      */
-    static async broadcastRanking({
-        roomId,
-        game,
-        sortedScores,
-        io,
-        throttleMs = 500,
-        useDelta = true
-    }) {
+    static async broadcastRanking({ roomId, game, sortedScores, io, throttleMs = 500, useDelta = true }) {
         const lastRankingBroadcast = game.lastRankingBroadcast || 0;
         const now = Date.now();
 
@@ -119,13 +112,7 @@ class RankingBroadcastService {
      * @param {boolean} params.useDelta - Usar delta (default: false para eventos finales)
      * @returns {Promise<boolean>} Always true
      */
-    static async forceBroadcastRanking({
-        roomId,
-        game,
-        sortedScores,
-        io,
-        useDelta = false
-    }) {
+    static async forceBroadcastRanking({ roomId, game, sortedScores, io, useDelta = false }) {
         // Emitir con delta opcional (generalmente false para eventos finales)
         const payload = emitRankingOptimized(io, roomId, sortedScores, useDelta);
 

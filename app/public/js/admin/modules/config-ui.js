@@ -32,7 +32,10 @@ const AI_PROVIDER_META = {
         icon: 'fa-bolt',
         models: [
             { id: 'llama-3.3-70b-versatile', label: 'Llama 3.3 70B (Calidad Alta: ★★★★★ | Velocidad: ★★★☆☆)' },
-            { id: 'meta-llama/llama-4-scout-17b-16e-instruct', label: 'Llama 4 Scout (Avanzado/Rápido: ★★★★★ | Calidad: ★★★★☆)' },
+            {
+                id: 'meta-llama/llama-4-scout-17b-16e-instruct',
+                label: 'Llama 4 Scout (Avanzado/Rápido: ★★★★★ | Calidad: ★★★★☆)'
+            },
             { id: 'openai/gpt-oss-120b', label: 'GPT OSS 120B (Razonamiento Complejo: ★★★★★)' },
             { id: 'openai/gpt-oss-20b', label: 'GPT OSS 20B (Equilibrio: ★★★★☆)' },
             { id: 'qwen/qwen3-32b', label: 'Qwen 3 32B (Eficiencia/Multilingüe: ★★★★☆)' },
@@ -69,9 +72,12 @@ let _aiConfigData = null;
 function renderAIConfigTab() {
     unbindSaveBar();
     const area = document.getElementById('config-tab-content');
-    if (area) area.innerHTML = _tHtml(`<div class="text-slate-400 flex items-center gap-2"><i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.groq.loading')}</div>`);
+    if (area)
+        area.innerHTML = _tHtml(
+            `<div class="text-slate-400 flex items-center gap-2"><i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.groq.loading')}</div>`
+        );
 
-    fetch('/api/ai-generator/config', { headers: { 'Authorization': 'Bearer ' + getAuthToken() } })
+    fetch('/api/ai-generator/config', { headers: { Authorization: 'Bearer ' + getAuthToken() } })
         .then(r => r.json())
         .then(data => {
             const liveArea = document.getElementById('config-tab-content');
@@ -83,15 +89,20 @@ function renderAIConfigTab() {
         })
         .catch(() => {
             const liveArea = document.getElementById('config-tab-content');
-            if (liveArea) liveArea.innerHTML = _tHtml(`<p class="text-red-500 font-medium">${_t('admin.groq.error_load')}</p>`);
+            if (liveArea)
+                liveArea.innerHTML = _tHtml(`<p class="text-red-500 font-medium">${_t('admin.groq.error_load')}</p>`);
         });
 }
 
 function _renderAIConfigForm(data) {
     const providers = data.providers || {};
-    const rows = Object.keys(AI_PROVIDER_META).map(id => id === 'ollama'
-        ? _renderOllamaRow(providers.ollama || {}, data.provider === id)
-        : _renderAIProviderRow(id, providers[id] || {}, data.provider === id)).join('');
+    const rows = Object.keys(AI_PROVIDER_META)
+        .map(id =>
+            id === 'ollama'
+                ? _renderOllamaRow(providers.ollama || {}, data.provider === id)
+                : _renderAIProviderRow(id, providers[id] || {}, data.provider === id)
+        )
+        .join('');
 
     return `
     <form id="ai-config-form" class="aic" novalidate autocomplete="off">
@@ -102,7 +113,9 @@ function _renderAIConfigForm(data) {
             </header>
             <fieldset class="aic-tiles">
                 <legend class="aic-sr-only">${_t('admin.ai.label_provider')}</legend>
-                ${Object.keys(AI_PROVIDER_META).map(id => _renderAITile(id, providers[id] || {}, data.provider === id)).join('')}
+                ${Object.keys(AI_PROVIDER_META)
+        .map(id => _renderAITile(id, providers[id] || {}, data.provider === id))
+        .join('')}
             </fieldset>
             <div class="aic-fallback">
                 <div class="aic-fallback__text">
@@ -158,8 +171,10 @@ function _aiUpdateActiveWarning() {
         warningEl.hidden = true;
         return;
     }
-    const usesOther = fallbackSwitch?.checked
-        && Object.keys(AI_PROVIDER_META).some(id => id !== active && providers[id]?.configured);
-    warningEl.innerHTML = _tHtml(`<i class="fas fa-exclamation-circle"></i> ${usesOther ? _t('admin.ai.warn_no_key_fallback') : _t('admin.ai.warn_no_key')}`);
+    const usesOther =
+        fallbackSwitch?.checked && Object.keys(AI_PROVIDER_META).some(id => id !== active && providers[id]?.configured);
+    warningEl.innerHTML = _tHtml(
+        `<i class="fas fa-exclamation-circle"></i> ${usesOther ? _t('admin.ai.warn_no_key_fallback') : _t('admin.ai.warn_no_key')}`
+    );
     warningEl.hidden = false;
 }

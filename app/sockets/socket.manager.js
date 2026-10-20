@@ -1,6 +1,6 @@
 /**
  * @fileoverview Inicialización y configuración de Socket.io
- * 
+ *
  * Arquitectura sin sticky sessions:
  * - Redis Adapter sincroniza estado entre workers
  * - Clientes pueden conectarse a cualquier worker
@@ -10,9 +10,7 @@
 const { Server } = require('socket.io');
 const { createAdapter } = require('@socket.io/redis-adapter');
 const { createClient } = require('redis');
-const {
-    NODE_ENV
-} = require('../config/constants');
+const { NODE_ENV } = require('../config/constants');
 const runtimeConfig = require('../config/runtime-config');
 const { DEFAULT_ORIGINS, parseOriginList } = require('../config/origin-list');
 const logger = require('../config/logger');
@@ -44,7 +42,7 @@ function createRedisAdapterClients() {
         url: process.env.REDIS_URL || 'redis://localhost:6379',
         password: process.env.REDIS_PASSWORD || undefined,
         socket: {
-            reconnectStrategy: (retries) => {
+            reconnectStrategy: retries => {
                 if (retries % 10 === 0) {
                     logger.warn('Redis reconnecting (socket adapter)', { retries });
                 }
@@ -60,8 +58,8 @@ function createRedisAdapterClients() {
 }
 
 function attachRedisAdapterEventHandlers(pubClient, subClient) {
-    pubClient.on('error', (err) => logger.error('Redis pub client error', err));
-    subClient.on('error', (err) => logger.error('Redis sub client error', err));
+    pubClient.on('error', err => logger.error('Redis pub client error', err));
+    subClient.on('error', err => logger.error('Redis sub client error', err));
     pubClient.on('end', () => logger.error('Redis pub client ended (adapter unavailable)'));
     subClient.on('end', () => logger.error('Redis sub client ended (adapter unavailable)'));
 }

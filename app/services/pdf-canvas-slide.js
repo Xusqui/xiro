@@ -74,15 +74,25 @@ function generateCanvasSlideHTML(slide, index, total, resolvePath) {
     // Reemplazar imágenes locales por data URIs
     stage = inlineLocalImages(stage, canvas, resolvePath);
 
-    return '<div class="page" style="background:#0f172a; display:flex; flex-direction:column; align-items:center; justify-content:center;">\n' +
-           '    <div style="position: absolute; top: 30px; right: 40px; color: rgba(255,255,255,0.7); font-size: 18px; font-weight: 600;">\n' +
-           '        Diapositiva ' + index + ' de ' + total + '\n' +
-           '    </div>\n' +
-           '    <style>' + CANVAS_CSS + ' .pdf-canvas-frame .xsc-stage{-webkit-transform:scale(0.5);transform:scale(0.5);}</style>\n' +
-           '    <div class="pdf-canvas-frame" style="position:relative;width:960px;height:540px;overflow:hidden;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.4);">\n' +
-           '        ' + stage + '\n' +
-           '    </div>\n' +
-           '</div>'.trim();
+    return (
+        '<div class="page" style="background:#0f172a; display:flex; flex-direction:column; align-items:center; justify-content:center;">\n' +
+        '    <div style="position: absolute; top: 30px; right: 40px; color: rgba(255,255,255,0.7); font-size: 18px; font-weight: 600;">\n' +
+        '        Diapositiva ' +
+        index +
+        ' de ' +
+        total +
+        '\n' +
+        '    </div>\n' +
+        '    <style>' +
+        CANVAS_CSS +
+        ' .pdf-canvas-frame .xsc-stage{-webkit-transform:scale(0.5);transform:scale(0.5);}</style>\n' +
+        '    <div class="pdf-canvas-frame" style="position:relative;width:960px;height:540px;overflow:hidden;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.4);">\n' +
+        '        ' +
+        stage +
+        '\n' +
+        '    </div>\n' +
+        '</div>'.trim()
+    );
 }
 
 module.exports = { generateCanvasSlideHTML, inlineLocalImages };

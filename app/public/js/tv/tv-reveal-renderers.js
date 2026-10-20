@@ -40,11 +40,22 @@ window.TVApp.RevealRenderers = (function () {
     function numericRankingHtml(ranking) {
         if (!ranking || ranking.length === 0) return '';
         let html = '<div style="margin-top:25px;border-top:2px solid rgba(34,197,94,0.3);padding-top:20px">';
-        html += '<div style="font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:10px">📊 RESPUESTAS REGISTRADAS</div>';
+        html +=
+            '<div style="font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:10px">📊 RESPUESTAS REGISTRADAS</div>';
         ranking.slice(0, TOP_N).forEach(function (p, i) {
             const pts = p.pts || 0;
-            html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(34,197,94,0.2)">';
-            html += '<span style="font-size:14px">' + (i + 1) + '. ' + escapeHtml(p.name) + '</span><span style="font-size:14px;font-weight:bold;color:#' + pointsColor(pts, '22c55e') + '">' + pts + ' pts</span></div>';
+            html +=
+                '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(34,197,94,0.2)">';
+            html +=
+                '<span style="font-size:14px">' +
+                (i + 1) +
+                '. ' +
+                escapeHtml(p.name) +
+                '</span><span style="font-size:14px;font-weight:bold;color:#' +
+                pointsColor(pts, '22c55e') +
+                '">' +
+                pts +
+                ' pts</span></div>';
         });
         return html + '</div>';
     }
@@ -53,13 +64,24 @@ window.TVApp.RevealRenderers = (function () {
         const correctAnswer = firstDefined(question.correct_answer, data.correctAnswer, '?');
         const maxPoints = firstDefined(question.max_points, data.maxPoints, 0);
 
-        let html = '<div style="background:rgba(34,197,94,0.15);padding:30px 20px;border-radius:15px;margin:20px 0;border:3px solid #22c55e">';
-        html += '<div style="text-align:center"><div style="font-size:16px;color:rgba(255,255,255,0.7);margin-bottom:15px">✅ RESPUESTA CORRECTA</div>';
-        html += '<div style="font-size:56px;font-weight:bold;color:#22c55e;margin:15px 0">' + escapeHtml(correctAnswer) + '</div>';
+        let html =
+            '<div style="background:rgba(34,197,94,0.15);padding:30px 20px;border-radius:15px;margin:20px 0;border:3px solid #22c55e">';
+        html +=
+            '<div style="text-align:center"><div style="font-size:16px;color:rgba(255,255,255,0.7);margin-bottom:15px">✅ RESPUESTA CORRECTA</div>';
+        html +=
+            '<div style="font-size:56px;font-weight:bold;color:#22c55e;margin:15px 0">' +
+            escapeHtml(correctAnswer) +
+            '</div>';
         if (data.stats) {
             const toleranceLabel = formatToleranceLabel(correctAnswer, question, data);
-            html += '<div style="font-size:14px;color:rgba(255,255,255,0.6);margin-top:15px">Rango de tolerancia: ' + escapeHtml(toleranceLabel) + '</div>';
-            html += '<div style="font-size:14px;color:rgba(255,255,255,0.6);margin-top:6px">Puntos máximos: ' + escapeHtml(maxPoints) + '</div>';
+            html +=
+                '<div style="font-size:14px;color:rgba(255,255,255,0.6);margin-top:15px">Rango de tolerancia: ' +
+                escapeHtml(toleranceLabel) +
+                '</div>';
+            html +=
+                '<div style="font-size:14px;color:rgba(255,255,255,0.6);margin-top:6px">Puntos máximos: ' +
+                escapeHtml(maxPoints) +
+                '</div>';
         }
         html += numericRankingHtml(data.ranking) + '</div></div>';
 
@@ -72,8 +94,18 @@ window.TVApp.RevealRenderers = (function () {
         let html = '<div style="margin-top:20px;border-top:2px solid rgba(245,158,11,0.3);padding-top:15px">';
         ranking.slice(0, TOP_N).forEach(function (p, i) {
             const pts = p.pts || 0;
-            html += '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(245,158,11,0.2)">';
-            html += '<span>' + (i + 1) + '. ' + escapeHtml(p.name) + '</span><span style="font-weight:bold;color:#' + pointsColor(pts, 'fbbf24') + '">' + pts + ' pts</span></div>';
+            html +=
+                '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(245,158,11,0.2)">';
+            html +=
+                '<span>' +
+                (i + 1) +
+                '. ' +
+                escapeHtml(p.name) +
+                '</span><span style="font-weight:bold;color:#' +
+                pointsColor(pts, 'fbbf24') +
+                '">' +
+                pts +
+                ' pts</span></div>';
         });
         return html + '</div>';
     }
@@ -83,9 +115,14 @@ window.TVApp.RevealRenderers = (function () {
         if (!main) return;
         const word = (data.correctWord || question.correct_word || '').toUpperCase();
 
-        let html = '<div style="background:rgba(245,158,11,0.15);padding:30px 20px;border-radius:15px;margin:20px 0;border:3px solid #f59e0b;text-align:center">';
-        html += '<div style="font-size:16px;color:rgba(255,255,255,0.7);margin-bottom:15px">✅ RESPUESTA CORRECTA</div>';
-        html += '<div style="font-size:52px;font-weight:bold;color:#fbbf24;letter-spacing:0.2em;margin:15px 0">' + escapeHtml(word) + '</div>';
+        let html =
+            '<div style="background:rgba(245,158,11,0.15);padding:30px 20px;border-radius:15px;margin:20px 0;border:3px solid #f59e0b;text-align:center">';
+        html +=
+            '<div style="font-size:16px;color:rgba(255,255,255,0.7);margin-bottom:15px">✅ RESPUESTA CORRECTA</div>';
+        html +=
+            '<div style="font-size:52px;font-weight:bold;color:#fbbf24;letter-spacing:0.2em;margin:15px 0">' +
+            escapeHtml(word) +
+            '</div>';
         html += wordScrambleRankingHtml(data.ranking) + '</div>';
 
         insertRevealBlock(main.querySelector('#word-scramble-placeholder') || main.querySelector('#ws-tv-boxes'), html);
@@ -175,7 +212,16 @@ window.TVApp.RevealRenderers = (function () {
         if (!data.ranking || data.ranking.length === 0 || data.percentages || data.isSurvey) return '';
         let html = '<div class="ranking-box"><div class="ranking-title">🏆 TOP 5</div>';
         data.ranking.slice(0, TOP_N).forEach(function (p, i) {
-            html += '<div class="ranking-item ' + (i === 0 ? 'ranking-item-first' : '') + '"><table><tr><td><strong>' + (i + 1) + '. ' + escapeHtml(p.name) + '</strong></td><td>' + escapeHtml(p.pts) + '</td></tr></table></div>';
+            html +=
+                '<div class="ranking-item ' +
+                (i === 0 ? 'ranking-item-first' : '') +
+                '"><table><tr><td><strong>' +
+                (i + 1) +
+                '. ' +
+                escapeHtml(p.name) +
+                '</strong></td><td>' +
+                escapeHtml(p.pts) +
+                '</td></tr></table></div>';
         });
         return html + '</div>';
     }
@@ -189,7 +235,10 @@ window.TVApp.RevealRenderers = (function () {
 
         let afterHtml = '';
         if (data.justification && data.justification.trim()) {
-            afterHtml += '<div class="justification"><div class="justification-title">💡 ¿Por qué es correcta?</div><div class="justification-text">' + escapeHtml(data.justification) + '</div></div>';
+            afterHtml +=
+                '<div class="justification"><div class="justification-title">💡 ¿Por qué es correcta?</div><div class="justification-text">' +
+                escapeHtml(data.justification) +
+                '</div></div>';
         }
         afterHtml += optionsRankingHtml(data);
 

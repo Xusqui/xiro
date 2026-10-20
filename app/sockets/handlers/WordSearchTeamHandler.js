@@ -15,12 +15,7 @@
 
 const { matchSelection, getWordStart } = require('../../domain/services/WordSearchService');
 const { hintOwner, getWordSearchHints } = require('../utils/WordSearchHints');
-const {
-    resolveWordSearchContext,
-    recordTeamFound,
-    getTeamFound,
-    emitToTeammates
-} = require('../utils/WordSearchTeam');
+const { resolveWordSearchContext, recordTeamFound, getTeamFound, emitToTeammates } = require('../utils/WordSearchTeam');
 const { questionSlot } = require('../utils/QuestionSlot');
 const logger = require('../../config/logger');
 
@@ -44,9 +39,16 @@ async function handleWordSearchFound(socket, data, callback) {
         const wordIndex = matchSelection(question, selection);
         if (wordIndex === -1) return reply({ ok: false, reason: 'invalid-word' });
 
-        const isNew = await recordTeamFound(roomId, questionSlot(game), team.name, wordIndex, { ...selection, by: nickname });
+        const isNew = await recordTeamFound(roomId, questionSlot(game), team.name, wordIndex, {
+            ...selection,
+            by: nickname
+        });
         if (isNew) {
-            emitToTeammates({ io: socket.nsp, roomId, team, nickname }, 'word-search-team-found', { wordIndex, ...selection, by: nickname });
+            emitToTeammates({ io: socket.nsp, roomId, team, nickname }, 'word-search-team-found', {
+                wordIndex,
+                ...selection,
+                by: nickname
+            });
         }
         return reply({ ok: true, wordIndex, isNew });
     } catch (error) {
@@ -68,8 +70,14 @@ async function handleWordSearchSync(socket, _data, callback) {
             .filter(h => h.start)
             .map(h => ({ wordIndex: h.wordIndex, row: h.start.row, col: h.start.col }));
         const found = team
-            ? (await getTeamFound(roomId, questionSlot(game), team.name))
-                .map(({ index, r1, c1, r2, c2, by }) => ({ wordIndex: index, r1, c1, r2, c2, by }))
+            ? (await getTeamFound(roomId, questionSlot(game), team.name)).map(({ index, r1, c1, r2, c2, by }) => ({
+                wordIndex: index,
+                r1,
+                c1,
+                r2,
+                c2,
+                by
+            }))
             : [];
 
         return reply({ ok: true, team: Boolean(team), found, hints });

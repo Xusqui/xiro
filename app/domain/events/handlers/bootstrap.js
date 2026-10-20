@@ -1,7 +1,7 @@
 /**
  * @fileoverview Bootstrap de Event Handlers
  * @module domain/events/handlers/bootstrap
- * 
+ *
  * Inicializa todos los event handlers del sistema.
  * Se llama durante el startup del servidor.
  */

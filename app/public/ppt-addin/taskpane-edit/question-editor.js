@@ -6,7 +6,6 @@
  */
 
 const XiroQuestionEditor = (() => {
-
     let _container = null;
 
     /**
@@ -30,7 +29,8 @@ const XiroQuestionEditor = (() => {
     async function _onSave() {
         const btn = document.getElementById('qe-save');
 
-        btn.disabled = true; btn.textContent = 'Guardando…';
+        btn.disabled = true;
+        btn.textContent = 'Guardando…';
         try {
             await XiroNotesWriter.writeXiroMeta({ role: 'question' }); // eslint-disable-line no-undef
             btn.textContent = '✓ Guardado';
@@ -46,7 +46,9 @@ const XiroQuestionEditor = (() => {
         }
     }
 
-    function unmount() { if (_container) _container.innerHTML = ''; }
+    function unmount() {
+        if (_container) _container.innerHTML = '';
+    }
 
     return { mount, unmount };
 })();

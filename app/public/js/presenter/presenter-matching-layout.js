@@ -80,9 +80,11 @@ function movingTileHtml(opt, optionIndex, row) {
 export function renderMatchingPresenter(q) {
     const options = Array.isArray(q.options) ? q.options : [];
     const order = matchingDisplayOrder(options.length, `${q.id ?? ''}|${q.question_text || ''}`);
-    const rows = options.map((opt, row) =>
-        leftTileHtml(opt, row) + arrowHtml(row) + movingTileHtml(options[order[row]], order[row], row)
-    ).join('');
+    const rows = options
+        .map(
+            (opt, row) => leftTileHtml(opt, row) + arrowHtml(row) + movingTileHtml(options[order[row]], order[row], row)
+        )
+        .join('');
 
     return `
             <div id="matching-board" class="stage-matching">
@@ -127,10 +129,11 @@ export function fitMatchingText() {
     const availableHeight = tiles[0].clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
     if (availableHeight <= 0) return;
 
-    const fits = () => tiles.every((tile) => {
-        const text = tile.querySelector('.stage-matching-text');
-        return text.scrollHeight <= availableHeight && text.scrollWidth <= text.clientWidth + 1;
-    });
+    const fits = () =>
+        tiles.every(tile => {
+            const text = tile.querySelector('.stage-matching-text');
+            return text.scrollHeight <= availableHeight && text.scrollWidth <= text.clientWidth + 1;
+        });
     const largestFit = () => {
         let low = MIN_FONT_PX;
         let high = Math.max(low, Math.min(availableHeight * 0.6, MAX_FONT_PX));

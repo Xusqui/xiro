@@ -52,13 +52,15 @@ window.TVApp.SocketConnection = (function () {
                     } else {
                         promise = decompressGzip(payload.data);
                     }
-                    promise.then(function (decompressedData) {
-                        args[0] = decompressedData;
-                        callback.apply(self, args);
-                    }).catch(function (err) {
-                        console.error('Failed to decompress socket payload:', err);
-                        callback.apply(self, args);
-                    });
+                    promise
+                        .then(function (decompressedData) {
+                            args[0] = decompressedData;
+                            callback.apply(self, args);
+                        })
+                        .catch(function (err) {
+                            console.error('Failed to decompress socket payload:', err);
+                            callback.apply(self, args);
+                        });
                 } else {
                     callback.apply(self, args);
                 }
@@ -180,7 +182,7 @@ window.TVApp.SocketConnection = (function () {
 
         socket.on('join-error', function (data) {
             console.log('Error uniendo lobby:', data);
-            const msg = (data && data.message) ? data.message : 'Error al crear la sala';
+            const msg = data && data.message ? data.message : 'Error al crear la sala';
             showTvModal('Error', msg, 'error');
         });
 

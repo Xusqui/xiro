@@ -19,7 +19,7 @@ class DomainEvent {
         this.payload = payload;
 
         if (payload && typeof payload === 'object') {
-            Object.keys(payload).forEach((key) => {
+            Object.keys(payload).forEach(key => {
                 if (this[key] === undefined) {
                     this[key] = payload[key];
                 }

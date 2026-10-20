@@ -45,9 +45,16 @@ export function createRemoteWakeLockController({ hasActiveSessionContext }) {
             badge = document.createElement('div');
             badge.id = '__wl_debug_badge';
             Object.assign(badge.style, {
-                position: 'fixed', top: '4px', right: '4px', zIndex: '99999',
-                padding: '2px 8px', borderRadius: '8px', fontSize: '11px',
-                fontWeight: 'bold', color: '#fff', pointerEvents: 'none'
+                position: 'fixed',
+                top: '4px',
+                right: '4px',
+                zIndex: '99999',
+                padding: '2px 8px',
+                borderRadius: '8px',
+                fontSize: '11px',
+                fontWeight: 'bold',
+                color: '#fff',
+                pointerEvents: 'none'
             });
             document.body.appendChild(badge);
         }

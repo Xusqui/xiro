@@ -27,12 +27,7 @@ const { TIMING } = require('../../config/game-constants');
  *   currentTime: 1000010000
  * });
  */
-function processNumericAnswer({
-    question,
-    playerAnswer,
-    gameStartTime,
-    currentTime = Date.now()
-}) {
+function processNumericAnswer({ question, playerAnswer, gameStartTime, currentTime = Date.now() }) {
     // Validación básica
     if (!question || question.correct_answer === null || question.max_points === null) {
         return {

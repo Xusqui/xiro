@@ -14,31 +14,42 @@
 
 /** Bajo sintetizado de los 80: dos sierras algo desafinadas y filtro con envolvente. */
 function synthBass(Tone, own, output) {
-    return own(new Tone.MonoSynth({
-        oscillator: { type: 'fatsawtooth', count: 2, spread: 14 },
-        filter: { Q: 3, type: 'lowpass', rolloff: -24 },
-        envelope: { attack: 0.003, decay: 0.3, sustain: 0.55, release: 0.1 },
-        filterEnvelope: { attack: 0.002, decay: 0.2, sustain: 0.2, release: 0.15, baseFrequency: 80, octaves: 3.4 },
-        volume: -9
-    })).connect(output);
+    return own(
+        new Tone.MonoSynth({
+            oscillator: { type: 'fatsawtooth', count: 2, spread: 14 },
+            filter: { Q: 3, type: 'lowpass', rolloff: -24 },
+            envelope: { attack: 0.003, decay: 0.3, sustain: 0.55, release: 0.1 },
+            filterEnvelope: { attack: 0.002, decay: 0.2, sustain: 0.2, release: 0.15, baseFrequency: 80, octaves: 3.4 },
+            volume: -9
+        })
+    ).connect(output);
 }
 
 /** Lead sintetizado de los 80: sierras gruesas, filtro que se abre y un poco de portamento. */
 function synthLead(Tone, own, output) {
-    return own(new Tone.MonoSynth({
-        portamento: 0.025,
-        oscillator: { type: 'fatsawtooth', count: 3, spread: 18 },
-        filter: { Q: 1.5, type: 'lowpass', rolloff: -24 },
-        envelope: { attack: 0.012, decay: 0.25, sustain: 0.7, release: 0.3 },
-        filterEnvelope: { attack: 0.01, decay: 0.35, sustain: 0.45, release: 0.3, baseFrequency: 700, octaves: 2.6 },
-        volume: -15
-    })).connect(output);
+    return own(
+        new Tone.MonoSynth({
+            portamento: 0.025,
+            oscillator: { type: 'fatsawtooth', count: 3, spread: 18 },
+            filter: { Q: 1.5, type: 'lowpass', rolloff: -24 },
+            envelope: { attack: 0.012, decay: 0.25, sustain: 0.7, release: 0.3 },
+            filterEnvelope: {
+                attack: 0.01,
+                decay: 0.35,
+                sustain: 0.45,
+                release: 0.3,
+                baseFrequency: 700,
+                octaves: 2.6
+            },
+            volume: -15
+        })
+    ).connect(output);
 }
 
 /** Varios Sampler (uno por dinámica) que se tocan como uno: la capa sale de la intensidad. */
 function layeredSampler(Tone, own, layers, opts) {
     const layerFor = self.XiroMusic.sampleMap.layerFor;
-    const samplers = layers.map((urls) => {
+    const samplers = layers.map(urls => {
         const s = own(new Tone.Sampler({ urls, attack: 0.005, release: opts.release }));
         s.volume.value = opts.volume;
         return s.connect(opts.output);
@@ -57,7 +68,7 @@ function layeredSampler(Tone, own, layers, opts) {
  */
 export function createSampledVoices(Tone, outputs, bank) {
     const nodes = [];
-    const own = (node) => {
+    const own = node => {
         nodes.push(node);
         return node;
     };
@@ -76,7 +87,9 @@ export function createSampledVoices(Tone, outputs, bank) {
     };
 
     // Lead: un poco menos de agudos para que trompa, trombón y trompeta empasten
-    const leadEq = own(new Tone.EQ3({ low: 0, mid: 1, high: -3, lowFrequency: 250, highFrequency: 3500 })).connect(outputs.melody);
+    const leadEq = own(new Tone.EQ3({ low: 0, mid: 1, high: -3, lowFrequency: 250, highFrequency: 3500 })).connect(
+        outputs.melody
+    );
     const lead = melodyVoice(bank.sounds.melody);
     const trumpet = sampler('trumpet', 0.35, -13, leadEq);
 
@@ -86,14 +99,23 @@ export function createSampledVoices(Tone, outputs, bank) {
     const brassSus = sampler('lead', 0.5, -13, outputs.brass);
 
     // Bajo: graves arriba, compresión para que empuje parejo
-    const bassComp = own(new Tone.Compressor({ threshold: -22, ratio: 4, attack: 0.005, release: 0.12 })).connect(outputs.bass);
-    const bassEq = own(new Tone.EQ3({ low: 3, mid: -1, high: -2, lowFrequency: 120, highFrequency: 2500 })).connect(bassComp);
+    const bassComp = own(new Tone.Compressor({ threshold: -22, ratio: 4, attack: 0.005, release: 0.12 })).connect(
+        outputs.bass
+    );
+    const bassEq = own(new Tone.EQ3({ low: 3, mid: -1, high: -2, lowFrequency: 120, highFrequency: 2500 })).connect(
+        bassComp
+    );
     const bass = bank.pitchedLayers('bass').length ? sampler('bass', 0.08, 0, bassEq) : synthBass(Tone, own, bassEq);
 
     return {
-        lead, trumpet, brass, brassLow, brassSus, bass,
+        lead,
+        trumpet,
+        brass,
+        brassLow,
+        brassSus,
+        bass,
         dispose() {
-            nodes.forEach((node) => node.dispose());
+            nodes.forEach(node => node.dispose());
         }
     };
 }

@@ -10,9 +10,9 @@ function hasValue(value) {
 }
 
 function listHtml(items) {
-    return `<div class="space-y-1 text-left">${items.map(item =>
-        `<p class="text-base font-black break-words hyphens-auto" lang="es">${item}</p>`
-    ).join('')}</div>`;
+    return `<div class="space-y-1 text-left">${items
+        .map(item => `<p class="text-base font-black break-words hyphens-auto" lang="es">${item}</p>`)
+        .join('')}</div>`;
 }
 
 /** Completa la frase: la frase entera con las palabras en sus huecos. */
@@ -27,8 +27,9 @@ function correctContentHtml(data) {
     const fillBlanks = fillBlanksSentenceHtml(data.fillBlanks);
     if (fillBlanks) return fillBlanks;
     if (Array.isArray(data.correctMatches) && data.correctMatches.length > 0) {
-        return listHtml(data.correctMatches.map(pair =>
-            `${escapeHtml(pair.leftText)} ↔ ${escapeHtml(pair.rightText)}`));
+        return listHtml(
+            data.correctMatches.map(pair => `${escapeHtml(pair.leftText)} ↔ ${escapeHtml(pair.rightText)}`)
+        );
     }
     if (Array.isArray(data.correctOrder) && data.correctOrder.length > 0) {
         return listHtml(data.correctOrder.map((item, i) => `${i + 1}. ${escapeHtml(item.text)}`));

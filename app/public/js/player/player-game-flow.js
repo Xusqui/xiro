@@ -3,16 +3,38 @@
 
 import { getSocket, getPlayerId } from './player-socket-config.js?v=20260922172926';
 import {
-    getPin, getNickname,
-    setPin, setNickname, setSessionId,
-    setHaRespondido, setResultReceived,
-    setPendingAnswer, setSendingAnswer,
-    getWakeLock, setWakeLock,
+    getPin,
+    getNickname,
+    setPin,
+    setNickname,
+    setSessionId,
+    setHaRespondido,
+    setResultReceived,
+    setPendingAnswer,
+    setSendingAnswer,
+    getWakeLock,
+    setWakeLock,
     resetSessionState,
     clearAnswerInputState
 } from './player-state.js?v=20260922172926';
-import { renderizarPregunta, renderizarPreguntaOrdena, renderizarPreguntaMatching, renderizarPreguntaNumerica, renderizarPreguntaWordScramble, renderizarPreguntaWordSearch, renderizarPreguntaFillBlanks, renderizarPreguntaMultipleChoice } from './player-question-ui.js?v=20260922172926';
-import { renderizarSlideComentario, renderizarSlideInfo, renderizarSlideTexto, renderizarSlideImagen, renderizarSlideTextoImagen, renderizarSlideVideo } from './player-question-ui.js?v=20260922172926';
+import {
+    renderizarPregunta,
+    renderizarPreguntaOrdena,
+    renderizarPreguntaMatching,
+    renderizarPreguntaNumerica,
+    renderizarPreguntaWordScramble,
+    renderizarPreguntaWordSearch,
+    renderizarPreguntaFillBlanks,
+    renderizarPreguntaMultipleChoice
+} from './player-question-ui.js?v=20260922172926';
+import {
+    renderizarSlideComentario,
+    renderizarSlideInfo,
+    renderizarSlideTexto,
+    renderizarSlideImagen,
+    renderizarSlideTextoImagen,
+    renderizarSlideVideo
+} from './player-question-ui.js?v=20260922172926';
 import { renderizarSlideLienzo } from './player-slide-canvas-ui.js?v=20261019120000';
 import { removeDisconnectOverlay } from './player-connection.js?v=20260922172926';
 import { mostrarModalConfirmacion, mostrarModalMensaje } from '../shared/modal.js?v=20260922172926';
@@ -277,7 +299,7 @@ export function registerGameFlowEvents() {
     socket.on('game-started', onGameStarted);
     socket.on('new-question', onNewQuestion);
     socket.on('random-points-reveal', onRandomPointsReveal);
-    socket.on('game-intro', (payload) => window.XiroGameIntro?.show(payload));
+    socket.on('game-intro', payload => window.XiroGameIntro?.show(payload));
     socket.on('server-restarting', onServerRestarting);
     socket.on('game-abandoned', onGameAbandoned);
 

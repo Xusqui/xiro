@@ -12,7 +12,14 @@
 globalThis.StandaloneQuestionMatching = (() => {
     const { escapeHtml, submitAnswer } = StandaloneQuestionCommon;
 
-    const OPTION_GRADIENTS = ['pl-gradient-red', 'pl-gradient-blue', 'pl-gradient-yellow', 'pl-gradient-green', 'pl-gradient-purple', 'pl-gradient-pink'];
+    const OPTION_GRADIENTS = [
+        'pl-gradient-red',
+        'pl-gradient-blue',
+        'pl-gradient-yellow',
+        'pl-gradient-green',
+        'pl-gradient-purple',
+        'pl-gradient-pink'
+    ];
 
     function _shuffle(indices) {
         const arr = [...indices];
@@ -37,11 +44,15 @@ globalThis.StandaloneQuestionMatching = (() => {
                 <div class="pl-hint-banner">${window.XiroI18n?.t('standalone.game.matching_hint') || 'Arrastra la columna derecha para emparejar con la izquierda'}</div>
                 <div class="pl-match-columns">
                     <div class="pl-match-column">
-                        ${options.map((opt, idx) => `
+                        ${options
+        .map(
+            (opt, idx) => `
                             <div class="pl-glass-item ${OPTION_GRADIENTS[idx % OPTION_GRADIENTS.length]}">
                                 <span class="pl-item-text">${escapeHtml(opt.optionText || opt.text || '')}</span>
                             </div>
-                        `).join('')}
+                        `
+        )
+        .join('')}
                     </div>
                     <div class="pl-match-arrow">↔</div>
                     <div id="standalone-match-right" class="pl-match-column"></div>
@@ -56,12 +67,16 @@ globalThis.StandaloneQuestionMatching = (() => {
 
         function drawRight() {
             const right = container.querySelector('#standalone-match-right');
-            right.innerHTML = matches.map((optIdx, pos) => `
+            right.innerHTML = matches
+                .map(
+                    (optIdx, pos) => `
                 <div class="pl-glass-item pl-gradient-amber" data-match-item draggable="true" data-position="${pos}" data-option-index="${optIdx}">
                     <span class="pl-item-text">${escapeHtml(options[optIdx].match_value || '')}</span>
                     <span style="color:rgba(255,255,255,0.7);">≡</span>
                 </div>
-            `).join('');
+            `
+                )
+                .join('');
 
             bindDragHandlers(right);
             bindPointerHandlers(right);
@@ -76,17 +91,17 @@ globalThis.StandaloneQuestionMatching = (() => {
 
         function bindDragHandlers(right) {
             right.querySelectorAll('[data-match-item]').forEach(item => {
-                item.addEventListener('dragstart', (event) => {
+                item.addEventListener('dragstart', event => {
                     dragSourcePos = Number(item.dataset.position);
                     event.dataTransfer.effectAllowed = 'move';
                     event.dataTransfer.setData('text/plain', String(dragSourcePos));
                 });
-                item.addEventListener('dragover', (event) => {
+                item.addEventListener('dragover', event => {
                     event.preventDefault();
                     item.classList.add('is-drag-over');
                 });
                 item.addEventListener('dragleave', () => item.classList.remove('is-drag-over'));
-                item.addEventListener('drop', (event) => {
+                item.addEventListener('drop', event => {
                     event.preventDefault();
                     item.classList.remove('is-drag-over');
                     const targetPos = Number(item.dataset.position);
@@ -99,7 +114,7 @@ globalThis.StandaloneQuestionMatching = (() => {
         }
 
         function bindPointerHandlers(right) {
-            right.addEventListener('pointerdown', (event) => {
+            right.addEventListener('pointerdown', event => {
                 const item = event.target.closest('[data-match-item]');
                 if (!item) return;
                 if (event.pointerType === 'mouse' && event.button !== 0) return;
@@ -110,7 +125,7 @@ globalThis.StandaloneQuestionMatching = (() => {
                 item.classList.add('is-dragging');
             });
 
-            right.addEventListener('pointermove', (event) => {
+            right.addEventListener('pointermove', event => {
                 if (!pointerDragState || event.pointerId !== pointerDragState.pointerId) return;
                 event.preventDefault();
 
@@ -135,7 +150,7 @@ globalThis.StandaloneQuestionMatching = (() => {
                 }
             });
 
-            const finish = (event) => {
+            const finish = event => {
                 if (!pointerDragState || event.pointerId !== pointerDragState.pointerId) return;
                 pointerDragState.draggedItem.style.transform = '';
                 pointerDragState.draggedItem.classList.remove('is-dragging');
@@ -153,11 +168,15 @@ globalThis.StandaloneQuestionMatching = (() => {
         }
 
         container.querySelector('[data-standalone-action="submit-matching"]').addEventListener('click', async () => {
-            container.querySelectorAll('button').forEach(el => { el.disabled = true; });
+            container.querySelectorAll('button').forEach(el => {
+                el.disabled = true;
+            });
             const ack = await submitAnswer({ matches: [...matches] }, 'matching');
             if (ack && ack.ok === false) {
                 StandaloneState.get().answered = false;
-                container.querySelectorAll('button').forEach(el => { el.disabled = false; });
+                container.querySelectorAll('button').forEach(el => {
+                    el.disabled = false;
+                });
                 return;
             }
             onSubmitted();

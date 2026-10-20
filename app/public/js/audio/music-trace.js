@@ -13,5 +13,5 @@ export function trace(message) {
         const list = JSON.parse(localStorage.getItem(KEY) || '[]');
         list.push(`${new Date().toISOString().slice(11, 23)} ${message}`);
         localStorage.setItem(KEY, JSON.stringify(list.slice(-MAX_ENTRIES)));
-    } catch { }
+    } catch {}
 }

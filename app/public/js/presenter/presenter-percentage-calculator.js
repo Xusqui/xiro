@@ -23,8 +23,7 @@ export function calculatePercentages(stats, optionCount) {
     }
 
     // Calcular total de votos
-    const totalVotes = Object.values(stats)
-        .reduce((sum, count) => sum + (Number(count) || 0), 0);
+    const totalVotes = Object.values(stats).reduce((sum, count) => sum + (Number(count) || 0), 0);
 
     // Calcular porcentaje para cada opción
     return Array.from({ length: optionCount }).map((_, index) => {
@@ -50,7 +49,8 @@ export function createPercentageHTML(percentage, optionIndex) {
     const positionClass = isLeftColumn ? 'top-2 right-4' : 'top-2 left-4';
 
     // Outline negro de 2px + tamaños responsivos usando vmin para mejor adaptabilidad
-    const textStyle = 'text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000; font-size: clamp(1.5rem, 3.5vmin, 4rem); line-height: 1;';
+    const textStyle =
+        'text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000; font-size: clamp(1.5rem, 3.5vmin, 4rem); line-height: 1;';
     const iconStyle = 'font-size: clamp(0.75rem, 1.5vmin, 1.75rem); margin-right: clamp(0.25rem, 0.5vmin, 0.75rem);';
 
     return `<div class="absolute ${positionClass} pointer-events-none">
@@ -59,4 +59,3 @@ export function createPercentageHTML(percentage, optionIndex) {
         </div>
     </div>`;
 }
-

@@ -17,19 +17,15 @@ const TABLE_BY_TYPE = {
     game: 'games',
     custom_game: 'custom_games',
     trivial: 'trivial_games',
-    bank: 'question_banks',
+    bank: 'question_banks'
 };
 
-const RANDOM_POINTS_FIELDS = [
-    'use_random_points',
-    'random_points_min',
-    'random_points_max',
-].join(', ');
+const RANDOM_POINTS_FIELDS = ['use_random_points', 'random_points_min', 'random_points_max'].join(', ');
 
 const DEFAULTS = {
     use_random_points: false,
     random_points_min: SCORING.RANDOM_POINTS.DEFAULT_MIN,
-    random_points_max: SCORING.RANDOM_POINTS.DEFAULT_MAX,
+    random_points_max: SCORING.RANDOM_POINTS.DEFAULT_MAX
 };
 
 /**
@@ -47,10 +43,7 @@ async function getRandomPointsConfig(type, id) {
     }
 
     try {
-        const res = await pool.query(
-            `SELECT ${RANDOM_POINTS_FIELDS} FROM ${table} WHERE id = $1`,
-            [id]
-        );
+        const res = await pool.query(`SELECT ${RANDOM_POINTS_FIELDS} FROM ${table} WHERE id = $1`, [id]);
         if (!res.rows.length) {
             logger.warn('getRandomPointsConfig: registro no encontrado, usando defaults', { type, id });
             return { ...DEFAULTS };
@@ -60,7 +53,7 @@ async function getRandomPointsConfig(type, id) {
         return {
             use_random_points: !!row.use_random_points,
             random_points_min: Number(row.random_points_min) || DEFAULTS.random_points_min,
-            random_points_max: Number(row.random_points_max) || DEFAULTS.random_points_max,
+            random_points_max: Number(row.random_points_max) || DEFAULTS.random_points_max
         };
     } catch (err) {
         logger.warn('getRandomPointsConfig: error de BD, usando defaults', { type, id, error: err.message });

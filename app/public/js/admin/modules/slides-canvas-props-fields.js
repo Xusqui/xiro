@@ -14,7 +14,7 @@
     'use strict';
 
     const root = typeof window !== 'undefined' ? window : globalThis;
-    const XiroCanvasEditor = root.XiroCanvasEditor = root.XiroCanvasEditor || {};
+    const XiroCanvasEditor = (root.XiroCanvasEditor = root.XiroCanvasEditor || {});
 
     // Clases de admin-slide-canvas-panel.css
     const INPUT = 'xsce-input';
@@ -41,11 +41,31 @@
     /** Muestra de color con su código al lado (o «Sin …» cuando el campo admite no tener color). */
     function colorControl(field, value, attr) {
         const none = value === null;
-        let html = '<div class="xsce-color' + (none ? ' is-none' : '') + '">'
-            + '<input type="color" class="xsce-swatch" id="' + fieldId(field) + '" ' + attr + ' value="' + colorValue(value, '#000000') + '"' + (none ? ' disabled' : '') + '>'
-            + '<span class="xsce-color-hex">' + (none ? tx(field.noneLabel) : colorValue(value, '#000000')) + '</span></div>';
+        let html =
+            '<div class="xsce-color' +
+            (none ? ' is-none' : '') +
+            '">' +
+            '<input type="color" class="xsce-swatch" id="' +
+            fieldId(field) +
+            '" ' +
+            attr +
+            ' value="' +
+            colorValue(value, '#000000') +
+            '"' +
+            (none ? ' disabled' : '') +
+            '>' +
+            '<span class="xsce-color-hex">' +
+            (none ? tx(field.noneLabel) : colorValue(value, '#000000')) +
+            '</span></div>';
         if (field.noneLabel) {
-            html += '<label class="xsce-check xsce-check--sub"><input type="checkbox" data-canvas-none="' + field.key + '"' + (none ? ' checked' : '') + '> ' + tx(field.noneLabel) + '</label>';
+            html +=
+                '<label class="xsce-check xsce-check--sub"><input type="checkbox" data-canvas-none="' +
+                field.key +
+                '"' +
+                (none ? ' checked' : '') +
+                '> ' +
+                tx(field.noneLabel) +
+                '</label>';
         }
         return html;
     }
@@ -54,32 +74,87 @@
         const attr = 'data-canvas-prop="' + field.key + '" data-kind="' + field.kind + '"';
         const id = ' id="' + fieldId(field) + '"';
         if (field.kind === 'number') {
-            return '<input type="number" class="' + INPUT + '"' + id + ' ' + attr + ' value="' + esc(value) + '" min="' + field.min + '" max="' + field.max + '" step="1">';
+            return (
+                '<input type="number" class="' +
+                INPUT +
+                '"' +
+                id +
+                ' ' +
+                attr +
+                ' value="' +
+                esc(value) +
+                '" min="' +
+                field.min +
+                '" max="' +
+                field.max +
+                '" step="1">'
+            );
         }
         if (field.kind === 'textarea') {
             return '<textarea class="' + INPUT + '"' + id + ' rows="4" ' + attr + '>' + esc(value) + '</textarea>';
         }
         if (field.kind === 'select') {
-            return '<select class="' + INPUT + '"' + id + ' ' + attr + '>' + field.options.map((o) => (
-                '<option value="' + esc(o[0]) + '"' + (o[0] === value ? ' selected' : '') + '>' + tx(o[1]) + '</option>'
-            )).join('') + '</select>';
+            return (
+                '<select class="' +
+                INPUT +
+                '"' +
+                id +
+                ' ' +
+                attr +
+                '>' +
+                field.options
+                    .map(
+                        o =>
+                            '<option value="' +
+                            esc(o[0]) +
+                            '"' +
+                            (o[0] === value ? ' selected' : '') +
+                            '>' +
+                            tx(o[1]) +
+                            '</option>'
+                    )
+                    .join('') +
+                '</select>'
+            );
         }
         if (field.kind === 'check') {
-            return '<label class="xsce-check"><input type="checkbox" ' + attr + (value ? ' checked' : '') + '> ' + tx(field.label) + '</label>';
+            return (
+                '<label class="xsce-check"><input type="checkbox" ' +
+                attr +
+                (value ? ' checked' : '') +
+                '> ' +
+                tx(field.label) +
+                '</label>'
+            );
         }
         if (field.kind === 'action') {
             const icon = field.icon ? '<i class="fas ' + field.icon + '" aria-hidden="true"></i>' : '';
-            return '<button type="button" class="xsce-action' + (field.quiet ? ' xsce-action--quiet' : '') + '" data-canvas-panel-action="' + field.action + '">' + icon + tx(field.label) + '</button>';
+            return (
+                '<button type="button" class="xsce-action' +
+                (field.quiet ? ' xsce-action--quiet' : '') +
+                '" data-canvas-panel-action="' +
+                field.action +
+                '">' +
+                icon +
+                tx(field.label) +
+                '</button>'
+            );
         }
         return colorControl(field, value, attr);
     }
 
     /** HTML de una lista de campos para el elemento (o el fondo) dado. */
     function fieldsHtml(fields, values, el) {
-        return fields.filter((f) => !f.when || f.when(el)).map((f) => {
-            const label = f.kind === 'check' || f.kind === 'action' ? '' : '<label class="' + LABEL + '" for="' + fieldId(f) + '">' + tx(f.label) + '</label>';
-            return '<div class="xsce-field">' + label + control(f, values[f.key]) + '</div>';
-        }).join('');
+        return fields
+            .filter(f => !f.when || f.when(el))
+            .map(f => {
+                const label =
+                    f.kind === 'check' || f.kind === 'action'
+                        ? ''
+                        : '<label class="' + LABEL + '" for="' + fieldId(f) + '">' + tx(f.label) + '</label>';
+                return '<div class="xsce-field">' + label + control(f, values[f.key]) + '</div>';
+            })
+            .join('');
     }
 
     /** Valor con su tipo real a partir del control que ha cambiado (null si no es válido). */

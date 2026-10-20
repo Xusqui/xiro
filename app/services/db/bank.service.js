@@ -5,10 +5,7 @@
 
 const { pool } = require('../../config/database');
 const pinCache = require('../pin-cache.service');
-const {
-    assertEditorCanModifyResource,
-    normalizeCreatorRole
-} = require('./resource-ownership.service');
+const { assertEditorCanModifyResource, normalizeCreatorRole } = require('./resource-ownership.service');
 const { DEFAULTS: RANDOM_POINTS_DEFAULTS } = require('./random-points-config.service');
 const runtimeConfig = require('../../config/runtime-config');
 
@@ -63,16 +60,16 @@ async function getAllBanksWithQuestionCounts() {
  * @returns {Promise<{bank: Object, questions: Array}|null>}
  */
 async function getBankWithQuestions(bankId) {
-    const bank = await pool.query(
-        'SELECT * FROM question_banks WHERE id = $1',
-        [bankId]
-    );
+    const bank = await pool.query('SELECT * FROM question_banks WHERE id = $1', [bankId]);
     if (bank.rows.length === 0) return null;
 
-    const questions = await pool.query(`
+    const questions = await pool.query(
+        `
         SELECT q.*, (SELECT json_agg(o.* ORDER BY COALESCE(o.order_index, o.id)) FROM options o WHERE o.question_id = q.id) as options
         FROM questions q WHERE q.bank_id = $1 ORDER BY q.id ASC
-    `, [bankId]);
+    `,
+        [bankId]
+    );
 
     return { bank: bank.rows[0], questions: questions.rows || [] };
 }
@@ -84,9 +81,8 @@ async function getBankWithQuestions(bankId) {
  */
 async function createBank(name, createdByRole = 'admin', createdByUserId = null) {
     const ownerRole = normalizeCreatorRole(createdByRole);
-    const ownerUserId = Number.isInteger(Number(createdByUserId)) && Number(createdByUserId) > 0
-        ? Number(createdByUserId)
-        : null;
+    const ownerUserId =
+        Number.isInteger(Number(createdByUserId)) && Number(createdByUserId) > 0 ? Number(createdByUserId) : null;
     const result = await pool.query(
         'INSERT INTO question_banks (name, created_by_role, created_by_user_id) VALUES ($1, $2, $3) RETURNING *',
         [name, ownerRole, ownerUserId]
@@ -110,10 +106,7 @@ async function deleteBank(bankId, actorUserId = null) {
 
     const bankData = await pool.query('SELECT pin FROM question_banks WHERE id = $1', [bankId]);
 
-    const usage = await pool.query(
-        'SELECT COUNT(*) as count FROM game_banks WHERE bank_id = $1',
-        [bankId]
-    );
+    const usage = await pool.query('SELECT COUNT(*) as count FROM game_banks WHERE bank_id = $1', [bankId]);
     if (parseInt(usage.rows[0].count) > 0) {
         return {
             success: false,
@@ -141,9 +134,12 @@ async function deleteBank(bankId, actorUserId = null) {
  */
 async function batchInsertOptions(client, questionId, options) {
     if (!options || options.length === 0) return;
-    const placeholders = options.map((_, i) =>
-        `($${i * 7 + 1}, $${i * 7 + 2}, $${i * 7 + 3}, $${i * 7 + 4}, $${i * 7 + 5}, $${i * 7 + 6}, $${i * 7 + 7})`
-    ).join(', ');
+    const placeholders = options
+        .map(
+            (_, i) =>
+                `($${i * 7 + 1}, $${i * 7 + 2}, $${i * 7 + 3}, $${i * 7 + 4}, $${i * 7 + 5}, $${i * 7 + 6}, $${i * 7 + 7})`
+        )
+        .join(', ');
     const values = options.flatMap(opt => [
         questionId,
         opt.optionText || '',
@@ -204,10 +200,7 @@ async function ensureEditPin(client, bankId, currentPin) {
         return currentPin;
     }
 
-    const existingBank = await client.query(
-        'SELECT pin FROM question_banks WHERE id = $1',
-        [bankId]
-    );
+    const existingBank = await client.query('SELECT pin FROM question_banks WHERE id = $1', [bankId]);
     return existingBank.rows[0]?.pin || generateFallbackPin();
 }
 
@@ -330,10 +323,7 @@ async function insertQuestion(client, bankId, question) {
 }
 
 async function syncExistingBankQuestions(client, bankId, questions) {
-    const existingQuestionsRes = await client.query(
-        'SELECT id FROM questions WHERE bank_id = $1',
-        [bankId]
-    );
+    const existingQuestionsRes = await client.query('SELECT id FROM questions WHERE bank_id = $1', [bankId]);
     const existingQuestionIds = existingQuestionsRes.rows.map(r => r.id);
     const existingQuestionIdSet = new Set(existingQuestionIds);
     const processedQuestionIds = new Set();
@@ -462,16 +452,20 @@ function invalidateDependentResourceCaches(questionBankCache, dependencies) {
  */
 async function saveBankComplete(data, actorUserId = null) {
     const {
-        id, name, pin, language, questions,
+        id,
+        name,
+        pin,
+        language,
+        questions,
         created_by_role = 'admin',
         created_by_user_id = null,
         visible_to_presenter = true,
         use_streaks = false,
         streak_threshold = 3,
-        streak_bonus_percentage = 0.50,
+        streak_bonus_percentage = 0.5,
         use_double_streaks = false,
         double_streak_threshold = 5,
-        double_streak_bonus_percentage = 1.00,
+        double_streak_bonus_percentage = 1.0,
         image_url = null,
         use_random_points = false,
         random_points_min = RANDOM_POINTS_DEFAULTS.random_points_min,
@@ -586,7 +580,8 @@ async function getBankQuestions(bankId) {
     const startTime = Date.now();
 
     try {
-        const questionsRes = await pool.query(`
+        const questionsRes = await pool.query(
+            `
             SELECT 
                 q.id, 
                 q.question_text, 
@@ -620,7 +615,9 @@ async function getBankQuestions(bankId) {
                      q.correct_answer, q.max_points, q.hint_text,
                      q.tolerance_mode, q.tolerance_value, q.tolerance_cap, q.correct_word
             ORDER BY RANDOM()
-        `, [bankId]);
+        `,
+            [bankId]
+        );
 
         const duration = Date.now() - startTime;
         metrics.recordDbQuery(duration);

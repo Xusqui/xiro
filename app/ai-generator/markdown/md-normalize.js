@@ -12,12 +12,16 @@
 // eslint-disable-next-line no-control-regex
 const INVISIBLE = /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u00ad\u200b-\u200d\u2060\ufeff]/g;
 const TOC_LINE = /^(?:[-*]\s+)?.{2,}?(?:\.{4,}|…{2,}|(?:\s?\.){4,}|_{4,})\s*\d{1,4}\s*$/;
-const BACK_MATTER = /^(?:\d+[.\s-]*)?(?:bibliograf[íi]a|referencias(?: bibliogr[áa]ficas)?|references|bibliography|webgraf[íi]a|works cited|[íi]ndice(?: general)?|table of contents|contents|sumario|tabla de contenidos?)\s*:?$/i;
+const BACK_MATTER =
+    /^(?:\d+[.\s-]*)?(?:bibliograf[íi]a|referencias(?: bibliogr[áa]ficas)?|references|bibliography|webgraf[íi]a|works cited|[íi]ndice(?: general)?|table of contents|contents|sumario|tabla de contenidos?)\s*:?$/i;
 const HEADING = /^(#{1,6})\s+(.*)$/;
 
 function cleanLine(line) {
     const indent = (line.match(/^ */) || [''])[0];
-    const body = line.replace(INVISIBLE, '').replace(/[\t\u00a0 ]+/g, ' ').trim();
+    const body = line
+        .replace(INVISIBLE, '')
+        .replace(/[\t\u00a0 ]+/g, ' ')
+        .trim();
     // La sangría solo importa en listas anidadas
     return /^([-*]|\d+\.)\s/.test(body) ? indent + body : body;
 }
@@ -75,7 +79,10 @@ function normalizeMarkdown(markdown, { dropBackMatter: dropBack = true, stats = 
     lines = dropRepeats(lines);
     stats.repeatedLines = beforeRepeats - lines.length;
 
-    return lines.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+    return lines
+        .join('\n')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
 }
 
 module.exports = { normalizeMarkdown };

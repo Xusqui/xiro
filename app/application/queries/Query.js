@@ -12,7 +12,7 @@
 /**
  * Clase base abstracta para todas las queries
  * Una query representa una petición de datos SIN modificar estado
- * 
+ *
  * @abstract
  */
 class Query {

@@ -13,14 +13,16 @@ function _notifyParent(data) {
 // Utilidad global — escapar HTML (prevenir XSS)
 function _esc(str) {
     return String(str == null ? '' : str)
-        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-        .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
 }
 
 const XiroDialogRouter = (() => {
-
     let _currentView = null;
-    let _container   = null;
+    let _container = null;
 
     /**
      * Inicializa el router con el contenedor raíz.
@@ -38,9 +40,15 @@ const XiroDialogRouter = (() => {
     function start(meta, session) {
         _unmountCurrent();
         switch (meta.role) {
-            case 'lobby':    _mount(ViewLobby,    { meta, session }); break;    // eslint-disable-line no-undef
-            case 'question': _mount(ViewQuestion, { meta, session }); break;    // eslint-disable-line no-undef
-            case 'podium':   _mount(ViewPodium,   { meta, session }); break;    // eslint-disable-line no-undef
+            case 'lobby':
+                _mount(ViewLobby, { meta, session });
+                break; // eslint-disable-line no-undef
+            case 'question':
+                _mount(ViewQuestion, { meta, session });
+                break; // eslint-disable-line no-undef
+            case 'podium':
+                _mount(ViewPodium, { meta, session });
+                break; // eslint-disable-line no-undef
             default:
                 _container.innerHTML = `<p style="color:#94a3b8;text-align:center;padding:2rem">Rol desconocido: ${_esc(meta.role)}</p>`;
         }
@@ -57,7 +65,9 @@ const XiroDialogRouter = (() => {
     /** @private */
     function _unmountCurrent() {
         if (_currentView && typeof _currentView.unmount === 'function') {
-            try { _currentView.unmount(); } catch (_) {}
+            try {
+                _currentView.unmount();
+            } catch (_) {}
         }
         _currentView = null;
         if (_container) _container.innerHTML = '';

@@ -39,7 +39,7 @@ function dockerApiGet(apiPath, options = {}) {
     const socketPath = options.socketPath || SOCKET_PATH;
     const timeout = options.timeoutMs || 10000;
     return new Promise((resolve, reject) => {
-        const req = http.get({ socketPath, path: apiPath, timeout }, (res) => {
+        const req = http.get({ socketPath, path: apiPath, timeout }, res => {
             if (res.statusCode >= 400) {
                 res.resume();
                 reject(new Error(`Docker API ${res.statusCode} en ${apiPath}`));
@@ -47,7 +47,9 @@ function dockerApiGet(apiPath, options = {}) {
             }
 
             let body = '';
-            res.on('data', (chunk) => { body += chunk; });
+            res.on('data', chunk => {
+                body += chunk;
+            });
             res.on('end', () => {
                 try {
                     resolve(JSON.parse(body));
@@ -57,7 +59,7 @@ function dockerApiGet(apiPath, options = {}) {
             });
         });
 
-        req.on('error', (err) => {
+        req.on('error', err => {
             reject(new Error(`Error de conexión con Docker API en ${apiPath}: ${err.message}`));
         });
 

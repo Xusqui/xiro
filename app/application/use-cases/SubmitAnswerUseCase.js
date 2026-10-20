@@ -1,13 +1,13 @@
 /**
  * @fileoverview Submit Answer Use Case - Flujo completo de envío de respuesta
  * @module application/use-cases/SubmitAnswerUseCase
- * 
+ *
  * Encapsula todo el flujo de negocio para enviar una respuesta:
  * 1. Rate limiting
  * 2. Validación
  * 3. Ejecución del comando
  * 4. Respuesta al cliente
- * 
+ *
  * Usa Chain of Responsibility pattern para pipeline modular.
  */
 
@@ -62,9 +62,8 @@ function validateWordScramblePayload(data) {
 }
 
 function validateMultipleChoicePayload(data) {
-    const hasSelectedIndices = Array.isArray(data.selectedIndices)
-        && data.selectedIndices.length > 0
-        && data.selectedIndices.length <= 6;
+    const hasSelectedIndices =
+        Array.isArray(data.selectedIndices) && data.selectedIndices.length > 0 && data.selectedIndices.length <= 6;
 
     if (!hasRoom(data) || !hasNickname(data) || !hasSelectedIndices) {
         return { valid: false, errors: ['invalid multiple_choice payload'] };
@@ -190,10 +189,7 @@ class SubmitAnswerUseCase {
         const validationHandler = new ValidationHandler(validateSubmitAnswerPayload);
 
         // 4. Ejecución del comando
-        const commandHandler = new CommandExecutionHandler(
-            ImprovedSubmitAnswerCommand,
-            mapSubmitAnswerCommandContext
-        );
+        const commandHandler = new CommandExecutionHandler(ImprovedSubmitAnswerCommand, mapSubmitAnswerCommandContext);
 
         // 5. Respuesta
         const responseHandler = new ResponseHandler(mapSubmitAnswerResponse);

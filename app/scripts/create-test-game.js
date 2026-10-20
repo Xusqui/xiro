@@ -23,10 +23,7 @@ async function createTestGame() {
         await client.query('BEGIN');
 
         // Verificar si ya existe
-        const existing = await client.query(
-            'SELECT id FROM games WHERE pin = $1',
-            ['TEST123']
-        );
+        const existing = await client.query('SELECT id FROM games WHERE pin = $1', ['TEST123']);
 
         if (existing.rows.length > 0) {
             logger.info('Partida TEST123 ya existe', { id: existing.rows[0].id });
@@ -44,18 +41,17 @@ async function createTestGame() {
         logger.info('Juego creado con PIN: TEST123', { id: gameId });
 
         // Obtener primer banco de preguntas disponible
-        const bankResult = await client.query(
-            'SELECT id FROM question_banks LIMIT 1'
-        );
+        const bankResult = await client.query('SELECT id FROM question_banks LIMIT 1');
 
         if (bankResult.rows.length > 0) {
             const bankId = bankResult.rows[0].id;
 
             // Asociar banco al juego
-            await client.query(
-                'INSERT INTO game_banks (game_id, bank_id, question_count) VALUES ($1, $2, $3)',
-                [gameId, bankId, 10]
-            );
+            await client.query('INSERT INTO game_banks (game_id, bank_id, question_count) VALUES ($1, $2, $3)', [
+                gameId,
+                bankId,
+                10
+            ]);
 
             logger.info('Banco asociado al juego');
         } else {
@@ -64,7 +60,6 @@ async function createTestGame() {
 
         await client.query('COMMIT');
         logger.info('Partida lista para load testing con Artillery');
-
     } catch (err) {
         await client.query('ROLLBACK');
         logger.error('Error:', err.message);

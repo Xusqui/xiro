@@ -19,17 +19,17 @@ function refreshUiSettingsFromServer() {
         cache: 'no-store',
         headers: { 'Cache-Control': 'no-cache' }
     })
-        .then((response) => {
+        .then(response => {
             if (!response.ok) {
                 throw new Error(`ui-settings HTTP ${response.status}`);
             }
             return response.json();
         })
-        .then((settings) => {
+        .then(settings => {
             window.__xiroUiSettings = settings;
             return settings;
         })
-        .catch((error) => {
+        .catch(error => {
             console.warn('No se pudieron refrescar los ui-settings para equipos:', error);
             return window.__xiroUiSettings || null;
         })
@@ -57,10 +57,11 @@ function getDefaultTeamNames() {
         _t('presenter.team.default.7', 'Leones')
     ];
     // Opción 3: nombres del admin como sugerencias adicionales que el presentador puede editar
-    const adminNames = window.__xiroUiSettings && Array.isArray(window.__xiroUiSettings.teamNames)
-        ? window.__xiroUiSettings.teamNames
-        : [];
-    return i18nDefaults.map((name, i) => (adminNames[i] && adminNames[i].trim()) ? adminNames[i].trim() : name);
+    const adminNames =
+        window.__xiroUiSettings && Array.isArray(window.__xiroUiSettings.teamNames)
+            ? window.__xiroUiSettings.teamNames
+            : [];
+    return i18nDefaults.map((name, i) => (adminNames[i] && adminNames[i].trim() ? adminNames[i].trim() : name));
 }
 
 // Colores disponibles para equipos
@@ -68,13 +69,33 @@ function getTeamColors() {
     return [
         { name: _t('presenter.team.color.red', 'Rojo'), value: 'red', bg: 'bg-red-600', hover: 'hover:bg-red-700' },
         { name: _t('presenter.team.color.blue', 'Azul'), value: 'blue', bg: 'bg-blue-600', hover: 'hover:bg-blue-700' },
-        { name: _t('presenter.team.color.green', 'Verde'), value: 'green', bg: 'bg-green-600', hover: 'hover:bg-green-700' },
-        { name: _t('presenter.team.color.yellow', 'Amarillo'), value: 'yellow', bg: 'bg-yellow-500', hover: 'hover:bg-yellow-600' },
-        { name: _t('presenter.team.color.purple', 'Morado'), value: 'purple', bg: 'bg-purple-600', hover: 'hover:bg-purple-700' },
+        {
+            name: _t('presenter.team.color.green', 'Verde'),
+            value: 'green',
+            bg: 'bg-green-600',
+            hover: 'hover:bg-green-700'
+        },
+        {
+            name: _t('presenter.team.color.yellow', 'Amarillo'),
+            value: 'yellow',
+            bg: 'bg-yellow-500',
+            hover: 'hover:bg-yellow-600'
+        },
+        {
+            name: _t('presenter.team.color.purple', 'Morado'),
+            value: 'purple',
+            bg: 'bg-purple-600',
+            hover: 'hover:bg-purple-700'
+        },
         { name: _t('presenter.team.color.pink', 'Rosa'), value: 'pink', bg: 'bg-pink-600', hover: 'hover:bg-pink-700' },
-        { name: _t('presenter.team.color.orange', 'Naranja'), value: 'orange', bg: 'bg-orange-600', hover: 'hover:bg-orange-700' },
+        {
+            name: _t('presenter.team.color.orange', 'Naranja'),
+            value: 'orange',
+            bg: 'bg-orange-600',
+            hover: 'hover:bg-orange-700'
+        },
         { name: _t('presenter.team.color.cyan', 'Cyan'), value: 'cyan', bg: 'bg-cyan-600', hover: 'hover:bg-cyan-700' },
-        { name: _t('presenter.team.color.lime', 'Lima'), value: 'lime', bg: 'bg-lime-500', hover: 'hover:bg-lime-600' },
+        { name: _t('presenter.team.color.lime', 'Lima'), value: 'lime', bg: 'bg-lime-500', hover: 'hover:bg-lime-600' }
     ];
 }
 
@@ -160,7 +181,9 @@ export async function seleccionarNumEquipos(numTeams, selectedPin) {
             
             <div class="bg-slate-800 p-8 rounded-3xl shadow-2xl max-w-4xl w-full mb-6">
                 <div id="teams-form" class="space-y-6">
-                    ${Array.from({ length: numTeams }, (_, i) => `
+                    ${Array.from(
+        { length: numTeams },
+        (_, i) => `
                         <div class="flex gap-4 items-center">
                             <span class="text-white font-black text-2xl w-12">#${i + 1}</span>
                             <input type="text" id="team-name-${i}" 
@@ -171,12 +194,17 @@ export async function seleccionarNumEquipos(numTeams, selectedPin) {
                                     data-presenter-change="team-colors"
                                     data-num-teams="${numTeams}"
                                     class="w-56 shrink-0 p-4 border-4 border-slate-700 bg-slate-900 text-white rounded-xl font-bold text-lg focus:border-plum-500 outline-none">
-                                ${getTeamColors().map((color, idx) => `
+                                ${getTeamColors()
+        .map(
+            (color, idx) => `
                                     <option value="${color.value}" ${idx === i % getTeamColors().length ? 'selected' : ''}>${color.name}</option>
-                                `).join('')}
+                                `
+        )
+        .join('')}
                             </select>
                         </div>
-                    `).join('')}
+                    `
+    ).join('')}
                 </div>
                 
                 <button data-presenter-action="confirm-teams" data-num-teams="${numTeams}" data-pin="${selectedPin}" 
@@ -202,11 +230,16 @@ export function confirmarEquipos(numTeams, selectedPin) {
     const teams = [];
     for (let i = 0; i < numTeams; i++) {
         const nameInput = document.getElementById(`team-name-${i}`);
-        const rawName = nameInput?.value.trim() || getDefaultTeamNames()[i] || `${_t('presenter.team.label', 'Equipo')} ${i + 1}`;
+        const rawName =
+            nameInput?.value.trim() || getDefaultTeamNames()[i] || `${_t('presenter.team.label', 'Equipo')} ${i + 1}`;
         if (!isValidTeamName(rawName)) {
             mostrarModalMensaje(
                 _t('presenter.team.name_invalid', null, 'Nombre inválido'),
-                _t('presenter.team.name_validation', null, 'El nombre del equipo solo puede contener letras, números, espacios y guiones (2-30 caracteres).'),
+                _t(
+                    'presenter.team.name_validation',
+                    null,
+                    'El nombre del equipo solo puede contener letras, números, espacios y guiones (2-30 caracteres).'
+                ),
                 'warning'
             );
             if (nameInput) {
@@ -272,10 +305,14 @@ export function updateColorOptions(numTeams) {
 
         const currentValue = select.value;
 
-        select.innerHTML = _tHtml(getTeamColors().map(color => {
-            const isUsed = selectedColors.includes(color.value) && color.value !== currentValue;
-            return `<option value="${color.value}" ${isUsed ? 'disabled' : ''}>${color.name}${isUsed ? ` ${_t('presenter.team.in_use', '(en uso)')}` : ''}</option>`;
-        }).join(''));
+        select.innerHTML = _tHtml(
+            getTeamColors()
+                .map(color => {
+                    const isUsed = selectedColors.includes(color.value) && color.value !== currentValue;
+                    return `<option value="${color.value}" ${isUsed ? 'disabled' : ''}>${color.name}${isUsed ? ` ${_t('presenter.team.in_use', '(en uso)')}` : ''}</option>`;
+                })
+                .join('')
+        );
 
         select.value = currentValue;
     }

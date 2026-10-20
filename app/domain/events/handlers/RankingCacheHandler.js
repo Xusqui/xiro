@@ -10,7 +10,7 @@ const logger = require('../../../config/logger');
 /**
  * Handler de eventos relacionados con ranking
  * Escucha: PlayerScoredEvent, GameEndedEvent
- * 
+ *
  * Responsabilidades:
  * - Actualizar caché incremental cuando cambia score de jugador
  * - Invalidar caché cuando termina el juego
@@ -31,16 +31,16 @@ class RankingCacheHandler extends EventHandler {
      */
     register() {
         // Listener para PlayerScoredEvent
-        this.subscribe('player.scored', (event) => this.handlePlayerScored(event));
+        this.subscribe('player.scored', event => this.handlePlayerScored(event));
 
         // Listener para GameEndedEvent
-        this.subscribe('game.ended', (event) => this.handleGameEnded(event));
+        this.subscribe('game.ended', event => this.handleGameEnded(event));
     }
 
     /**
      * Manejar evento PlayerScoredEvent
      * Actualiza score de jugador en caché incremental
-     * 
+     *
      * @param {Object} event - PlayerScoredEvent
      * @param {string} event.gameId - ID del juego
      * @param {string} event.playerId - ID del jugador
@@ -52,10 +52,7 @@ class RankingCacheHandler extends EventHandler {
             const gameId = event?.gameId || event?.payload?.gameId;
             const nickname = event?.nickname || event?.payload?.nickname;
             const newScore =
-                event?.newScore ??
-                event?.totalScore ??
-                event?.payload?.newScore ??
-                event?.payload?.totalScore;
+                event?.newScore ?? event?.totalScore ?? event?.payload?.newScore ?? event?.payload?.totalScore;
 
             if (!gameId || !nickname || newScore === undefined) {
                 logger.warn('RankingCacheHandler: PlayerScoredEvent incompleto', { event });
@@ -64,7 +61,6 @@ class RankingCacheHandler extends EventHandler {
 
             // Actualizar score en caché incremental
             await rankingCache.updateIncremental(gameId, nickname, newScore);
-
         } catch (error) {
             logger.error('RankingCacheHandler: Error en handlePlayerScored', {
                 error: error.message,
@@ -76,7 +72,7 @@ class RankingCacheHandler extends EventHandler {
     /**
      * Manejar evento GameEndedEvent
      * Invalida caché de ranking cuando termina el juego
-     * 
+     *
      * @param {Object} event - GameEndedEvent
      * @param {string} event.gameId - ID del juego
      */
@@ -97,7 +93,6 @@ class RankingCacheHandler extends EventHandler {
             } else {
                 logger.debug(`RankingCacheHandler: No había caché de ranking para ${gameId}`);
             }
-
         } catch (error) {
             logger.error('RankingCacheHandler: Error en handleGameEnded', {
                 error: error.message,

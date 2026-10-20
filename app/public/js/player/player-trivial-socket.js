@@ -12,12 +12,17 @@
 import { getSocket } from './player-socket-config.js?v=20260922172926';
 import { getNickname, getSessionId } from './player-state.js?v=20260922172926';
 import {
-    showDiceScreen, showMoveSelection,
-    showTrivialWaiting, registerTrivialPlayerActions
+    showDiceScreen,
+    showMoveSelection,
+    showTrivialWaiting,
+    registerTrivialPlayerActions
 } from './player-trivial-ui.js?v=20260922172926';
 import { showTrivialWinnerScreen } from './player-trivial-winner.js?v=20260922172926';
 import {
-    initTrivialTeamState, isMeTurnTeamAware, isMyTeamActor, clearTrivialTeamState
+    initTrivialTeamState,
+    isMeTurnTeamAware,
+    isMyTeamActor,
+    clearTrivialTeamState
 } from './player-trivial-team.js?v=20260922172926';
 import {
     setTrivialBadgesVisible,
@@ -28,7 +33,9 @@ import {
 import { cancelStreakAnimation } from './player-streak-ui.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
-function myNickname() { return getNickname(); }
+function myNickname() {
+    return getNickname();
+}
 
 // Timer handle for the delayed showMoveSelection call after dice roll.
 // Cleared when trivial-player-moved arrives to avoid overwriting the question UI.
@@ -38,18 +45,26 @@ let _pendingMoveSelectionTimer = null;
 // Persisted in sessionStorage to survive iOS Safari page reloads between turns.
 const _CATS_KEY = 'xiro_trivial_categories';
 let _trivialCategories = (() => {
-    try { return JSON.parse(sessionStorage.getItem(_CATS_KEY) || '[]'); } catch { return []; }
+    try {
+        return JSON.parse(sessionStorage.getItem(_CATS_KEY) || '[]');
+    } catch {
+        return [];
+    }
 })();
 function _saveCategories(cats) {
     _trivialCategories = cats;
-    try { sessionStorage.setItem(_CATS_KEY, JSON.stringify(cats)); } catch { /* quota */ }
+    try {
+        sessionStorage.setItem(_CATS_KEY, JSON.stringify(cats));
+    } catch {
+        /* quota */
+    }
 }
 
 export function registerTrivialPlayerSocketHandlers() {
     registerTrivialPlayerActions();
     const socket = getSocket();
 
-    socket.on('trivial-game-started', (data) => {
+    socket.on('trivial-game-started', data => {
         window.XiroGameIntro?.release(); // abrir el iris de la intro sobre lo que se pinta ahora
         _saveCategories(data.categories || []);
         setTrivialBadgeCategories(data.categories || []);
@@ -99,16 +114,24 @@ export function registerTrivialPlayerSocketHandlers() {
         setTrivialBadgesVisible(true);
         if (isMyTeamActor(actorNick, myNickname())) {
             // Soy el actor — muestro los botones para elegir categoría
-            const btns = (categories || []).map(c =>
-                `<button data-player-action="trivial-category" data-category-index="${c.index}"
+            const btns = (categories || [])
+                .map(
+                    c =>
+                        `<button data-player-action="trivial-category" data-category-index="${c.index}"
                     style="background:${c.color};color:#fff;border:none;border-radius:12px;
                            padding:12px 18px;font-weight:900;font-size:1rem;cursor:pointer;
                            text-transform:uppercase;width:100%;box-shadow:0 4px 12px ${c.color}66">
                     ${escapeHtml(c.name)}
                 </button>`
-            ).join('');
-            const root = document.getElementById('game-area') || document.getElementById('jugador-content') || document.getElementById('main-container') || document.body;
-            root.innerHTML = _tHtml(`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;
+                )
+                .join('');
+            const root =
+                document.getElementById('game-area') ||
+                document.getElementById('jugador-content') ||
+                document.getElementById('main-container') ||
+                document.body;
+            root.innerHTML =
+                _tHtml(`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;
                 height:100%;gap:12px;padding:20px;background:#0f172a">
                 <p style="color:#fbbf24;font-size:1.2rem;font-weight:900;text-align:center;margin-bottom:8px">🎯 ¡Casilla central!</p>
                 <p style="color:#fff;font-size:1rem;text-align:center;margin-bottom:4px">Elige una categoría:</p>
@@ -119,7 +142,7 @@ export function registerTrivialPlayerSocketHandlers() {
         }
     });
 
-    window.trivialChooseCategoryPlayer = (categoryIndex) => {
+    window.trivialChooseCategoryPlayer = categoryIndex => {
         const s = getSocket();
         s.emit('trivial-category-chosen', { roomId: getSessionId(), categoryIndex });
         showTrivialWaiting('Categoría elegida. Preparando pregunta...');
@@ -134,7 +157,7 @@ export function registerTrivialPlayerSocketHandlers() {
     });
 
     // trivial-token-update: wedge earned — nothing visible for the player beyond the waiting screen
-    socket.on('trivial-token-update', (data) => {
+    socket.on('trivial-token-update', data => {
         syncTrivialBadgesFromPayload(data);
     });
 
@@ -144,7 +167,10 @@ export function registerTrivialPlayerSocketHandlers() {
 
     socket.on('trivial-turn-changed', ({ currentTurn, rollAgain, players, teamTokens }) => {
         // Always cancel any pending deferred screen transition first
-        if (_turnChangeTimer) { clearTimeout(_turnChangeTimer); _turnChangeTimer = null; }
+        if (_turnChangeTimer) {
+            clearTimeout(_turnChangeTimer);
+            _turnChangeTimer = null;
+        }
 
         // Cancel any pending streak animation render. If the presenter advances before
         // the 2000ms streak overlay finishes, the deferred _render() inside
@@ -175,7 +201,10 @@ export function registerTrivialPlayerSocketHandlers() {
                 color: '#34d399',
                 noDots: true
             });
-            _turnChangeTimer = setTimeout(() => { _turnChangeTimer = null; showDiceScreen(currentTurn, false); }, 1200);
+            _turnChangeTimer = setTimeout(() => {
+                _turnChangeTimer = null;
+                showDiceScreen(currentTurn, false);
+            }, 1200);
         } else {
             showDiceScreen(currentTurn, true);
         }
@@ -191,6 +220,4 @@ export function registerTrivialPlayerSocketHandlers() {
     socket.on('trivial-error', ({ message }) => {
         showTrivialWaiting(`⚠ ${message}`);
     });
-
 }
-

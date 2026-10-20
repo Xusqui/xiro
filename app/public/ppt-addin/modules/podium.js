@@ -19,27 +19,29 @@ const XiroPodium = {
      * @param {Function} onUpdate — fn({ ranking, csvUrl, isTeamMode, teams })
      */
     start(onUpdate) {
-        this._onUpdate = onUpdate || (() => { });
+        this._onUpdate = onUpdate || (() => {});
 
-        XiroSocket.on('game-ended', (ranking, ack) => {  // eslint-disable-line no-undef
+        XiroSocket.on('game-ended', (ranking, ack) => {
             // Limpiar datos de sesión del almacenamiento para evitar auto-reconexión
-            XiroSession.clearSavedSession();               // eslint-disable-line no-undef
+            XiroSession.clearSavedSession(); // eslint-disable-line no-undef
 
             // Normalizar ranking: puede ser array directo o {ranking:[]}
             const list = Array.isArray(ranking)
                 ? ranking
-                : (ranking && Array.isArray(ranking.ranking) ? ranking.ranking : []);
+                : ranking && Array.isArray(ranking.ranking)
+                    ? ranking.ranking
+                    : [];
 
-            XiroState.set({ isGameActive: false });        // eslint-disable-line no-undef
+            XiroState.set({ isGameActive: false }); // eslint-disable-line no-undef
             this._notify(list, null);
 
             if (typeof ack === 'function') ack();
         });
 
-        XiroSocket.on('results-ready', (data) => {       // eslint-disable-line no-undef
+        XiroSocket.on('results-ready', data => {
             const dbId = data && data.sessionId;
             const csvUrl = dbId ? `/api/results/session/${encodeURIComponent(dbId)}/export.csv` : null;
-            const curRanking = XiroState.get('podiumRanking') || [];  // eslint-disable-line no-undef
+            const curRanking = XiroState.get('podiumRanking') || []; // eslint-disable-line no-undef
             this._notify(curRanking, csvUrl);
         });
     },
@@ -52,10 +54,10 @@ const XiroPodium = {
 
     _notify(ranking, csvUrl) {
         // Guardar el ranking en state para que slide-inserter pueda usarlo
-        XiroState.set('podiumRanking', ranking);         // eslint-disable-line no-undef
+        XiroState.set('podiumRanking', ranking); // eslint-disable-line no-undef
 
-        const isTeamMode = XiroState.get('mode') === 'teams';  // eslint-disable-line no-undef
-        const teams = isTeamMode ? (XiroState.get('teamConfig') || {}).teams : null;  // eslint-disable-line no-undef
+        const isTeamMode = XiroState.get('mode') === 'teams'; // eslint-disable-line no-undef
+        const teams = isTeamMode ? (XiroState.get('teamConfig') || {}).teams : null; // eslint-disable-line no-undef
 
         if (this._onUpdate) {
             this._onUpdate({
@@ -63,8 +65,8 @@ const XiroPodium = {
                 csvUrl,
                 isTeamMode,
                 teams,
-                total: ranking.length,
+                total: ranking.length
             });
         }
-    },
+    }
 };

@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         // Generar nombre único: timestamp-random-originalname
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
         const ext = path.extname(file.originalname);
         const basename = path.basename(file.originalname, ext);
         // Sanitizar el nombre del archivo
@@ -43,7 +43,12 @@ const fileFilter = (req, file, cb) => {
     if (allowedTypes.includes(file.mimetype)) {
         cb(null, true);
     } else {
-        cb(new Error(`Tipo de archivo no permitido: ${file.mimetype}. Solo se permiten imágenes (JPG, PNG, GIF, WebP, SVG) y audio (MP3, WAV, OGG)`), false);
+        cb(
+            new Error(
+                `Tipo de archivo no permitido: ${file.mimetype}. Solo se permiten imágenes (JPG, PNG, GIF, WebP, SVG) y audio (MP3, WAV, OGG)`
+            ),
+            false
+        );
     }
 };
 
@@ -56,7 +61,7 @@ const upload = multer({
     storage: storage,
     fileFilter: fileFilter,
     limits: {
-        fileSize: 10 * 1024 * 1024, // 10MB máximo (se valida por tipo en el controlador)
+        fileSize: 10 * 1024 * 1024 // 10MB máximo (se valida por tipo en el controlador)
     }
 });
 
@@ -75,7 +80,7 @@ const uploadQuestionImage = multer({
     storage: storage,
     fileFilter: imageOnlyFilter,
     limits: {
-        fileSize: MAX_QUESTION_IMAGE_BYTES,
+        fileSize: MAX_QUESTION_IMAGE_BYTES
     }
 });
 
@@ -84,7 +89,7 @@ const uploadGameCoverImage = multer({
     storage: storage,
     fileFilter: imageOnlyFilter,
     limits: {
-        fileSize: MAX_GAME_COVER_IMAGE_BYTES,
+        fileSize: MAX_GAME_COVER_IMAGE_BYTES
     }
 });
 

@@ -88,34 +88,35 @@ function _parseAdminInlineString(raw) {
 // Expresiones fijas que el HTML del panel usa como argumento (p. ej.
 // data-admin-change="setTiempo(0, Math.max(5, Math.min(120, parseInt(this.value) || 30)))").
 // Se interpretan sin eval: cada una tiene aquí su implementación.
-const _intOr = (fallback) => (value) => {
+const _intOr = fallback => value => {
     const parsed = parseInt(value, 10);
     return Number.isNaN(parsed) ? fallback : parsed;
 };
 const _clamp = (min, max, value) => Math.max(min, Math.min(max, value));
 
 const ADMIN_INLINE_VALUES = {
-    'this.value': (value) => value,
-    'this.value - 1': (value) => Number(value) - 1,
-    'parseInt(this.value)': (value) => parseInt(value, 10),
+    'this.value': value => value,
+    'this.value - 1': value => Number(value) - 1,
+    'parseInt(this.value)': value => parseInt(value, 10),
     'parseInt(this.value) || null': _intOr(null),
     'parseInt(this.value) || 0': _intOr(0),
     'parseInt(this.value) || 30': _intOr(30),
-    'Number(this.value) || 25': (value) => {
+    'Number(this.value) || 25': value => {
         const parsed = Number(value);
         return Number.isFinite(parsed) && parsed !== 0 ? parsed : 25;
     },
-    'this.value === \'\' ? null : (Number(this.value) || null)': (value) => {
+    'this.value === \'\' ? null : (Number(this.value) || null)': value => {
         if (value === '') return null;
         const parsed = Number(value);
         return Number.isFinite(parsed) && parsed !== 0 ? parsed : null;
     },
-    'Math.max(5, Math.min(120, parseInt(this.value) || 30))': (value) => _clamp(5, 120, _intOr(30)(value)),
-    'Math.max(5, Math.min(120, parseInt(this.value) || getDefaultQuestionTimeLimit()))': (value) => _clamp(5, 120, _intOr(globalThis.getDefaultQuestionTimeLimit?.() ?? 30)(value)),
-    'Math.max(1, parseInt(this.value) || 0)': (value) => Math.max(1, _intOr(0)(value)),
-    'Math.max(1, Math.min(100, parseInt(this.value) || 10))': (value) => _clamp(1, 100, _intOr(10)(value)),
-    'Math.max(0, Math.min(100, parseInt(this.value) || 10))': (value) => _clamp(0, 100, _intOr(10)(value)),
-    'Math.max(0, Math.min(100, parseInt(this.value) || 20))': (value) => _clamp(0, 100, _intOr(20)(value))
+    'Math.max(5, Math.min(120, parseInt(this.value) || 30))': value => _clamp(5, 120, _intOr(30)(value)),
+    'Math.max(5, Math.min(120, parseInt(this.value) || getDefaultQuestionTimeLimit()))': value =>
+        _clamp(5, 120, _intOr(globalThis.getDefaultQuestionTimeLimit?.() ?? 30)(value)),
+    'Math.max(1, parseInt(this.value) || 0)': value => Math.max(1, _intOr(0)(value)),
+    'Math.max(1, Math.min(100, parseInt(this.value) || 10))': value => _clamp(1, 100, _intOr(10)(value)),
+    'Math.max(0, Math.min(100, parseInt(this.value) || 10))': value => _clamp(0, 100, _intOr(10)(value)),
+    'Math.max(0, Math.min(100, parseInt(this.value) || 20))': value => _clamp(0, 100, _intOr(20)(value))
 };
 
 const ADMIN_INLINE_LITERALS = { null: null, true: true, false: false };

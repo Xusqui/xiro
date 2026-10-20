@@ -9,10 +9,10 @@
  * Los grados vienen de music-reactions.js (pentatónica de la tonalidad de la partida).
  */
 
-const EIGHTH_DIV = 2;          // corcheas
-const MAX_QUEUE = 4;           // como mucho 4 corcheas por delante
-const RANGE = [64, 96];        // registro de campana
-const RUN_STEP_DIV = 4;        // corrida de los dados a semicorcheas
+const EIGHTH_DIV = 2; // corcheas
+const MAX_QUEUE = 4; // como mucho 4 corcheas por delante
+const RANGE = [64, 96]; // registro de campana
+const RUN_STEP_DIV = 4; // corrida de los dados a semicorcheas
 
 // Escena en la que tiene sentido cada reacción
 const SCENE_OF = { answer: 'question', join: 'lobby', dice: 'board' };
@@ -42,11 +42,11 @@ export function createAccents(Tone, output, ctx) {
 
     /** Grados → notas, moviendo la figura entera por octavas para que quepa en el registro. */
     function notesFor(degrees) {
-        const midis = degrees.map((d) => theory.degreeToMidi(ctx.key(), d));
+        const midis = degrees.map(d => theory.degreeToMidi(ctx.key(), d));
         let shift = 0;
         while (Math.max(...midis) + shift > RANGE[1]) shift -= 12;
         while (Math.min(...midis) + shift < RANGE[0]) shift += 12;
-        return midis.map((m) => theory.midiToName(m + shift));
+        return midis.map(m => theory.midiToName(m + shift));
     }
 
     /** Siguiente corchea libre (o null si la cola va demasiado por delante). */
@@ -66,16 +66,16 @@ export function createAccents(Tone, output, ctx) {
         if (slot === null) return;
         notes.forEach((note, i) => {
             const at = slot + i * stepTicks;
-            ids.push(transport.scheduleOnce((time) => bell.triggerAttackRelease(note, '8n', time, vel), `${at}i`));
+            ids.push(transport.scheduleOnce(time => bell.triggerAttackRelease(note, '8n', time, vel), `${at}i`));
         });
         if (ids.length > 64) ids = ids.slice(-32);
     }
 
     const PLAY = {
         // value: proporción de respondidos (0..1); más fuerte cuantos más
-        answer: (ratio) => schedule(notesFor([reactions.answerDegree(ratio)]), 0.25 + 0.2 * ratio, 0),
+        answer: ratio => schedule(notesFor([reactions.answerDegree(ratio)]), 0.25 + 0.2 * ratio, 0),
         // value: jugadores en el lobby
-        join: (count) => schedule(notesFor([reactions.joinDegree(count)]), 0.38, 0),
+        join: count => schedule(notesFor([reactions.joinDegree(count)]), 0.38, 0),
         dice: () => schedule(notesFor(reactions.DICE_RUN), 0.32, transport.PPQ / RUN_STEP_DIV)
     };
 
@@ -86,7 +86,7 @@ export function createAccents(Tone, output, ctx) {
             PLAY[kind](value);
         },
         cancel() {
-            ids.forEach((id) => transport.clear(id));
+            ids.forEach(id => transport.clear(id));
             ids = [];
             lastSlot = -Infinity;
         },

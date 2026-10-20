@@ -3,7 +3,7 @@
 
     // Espacio de nombres compartido por los módulos del editor (scripts clásicos del admin)
     const root = typeof window !== 'undefined' ? window : globalThis;
-    const XiroCanvasEditor = root.XiroCanvasEditor = root.XiroCanvasEditor || {};
+    const XiroCanvasEditor = (root.XiroCanvasEditor = root.XiroCanvasEditor || {});
 
     /**
      * Crea un historial para el editor de canvas
@@ -12,7 +12,7 @@
      */
     XiroCanvasEditor.history = XiroCanvasEditor.history || {};
 
-    XiroCanvasEditor.history.createHistory = function(maxSnapshots) {
+    XiroCanvasEditor.history.createHistory = function (maxSnapshots) {
         let history = [];
         let currentIndex = -1;
         const limit = maxSnapshots || 50;
@@ -22,7 +22,7 @@
              * Reinicia el historial con un snapshot
              * @param {string} snapshot - Snapshot JSON
              */
-            reset: function(snapshot) {
+            reset: function (snapshot) {
                 history = [snapshot];
                 currentIndex = 0;
             },
@@ -31,7 +31,7 @@
              * Agrega un snapshot al historial
              * @param {string} snapshot - Snapshot JSON
              */
-            push: function(snapshot) {
+            push: function (snapshot) {
                 // Si es igual al actual, no hacer nada
                 if (currentIndex >= 0 && history[currentIndex] === snapshot) {
                     return;
@@ -56,7 +56,7 @@
              * Deshace la última acción
              * @returns {string|null} Snapshot o null si no hay nada que deshacer
              */
-            undo: function() {
+            undo: function () {
                 if (currentIndex <= 0) {
                     return null;
                 }
@@ -69,7 +69,7 @@
              * Rehace la última acción deshecha
              * @returns {string|null} Snapshot o null si no hay nada que rehacer
              */
-            redo: function() {
+            redo: function () {
                 if (currentIndex >= history.length - 1) {
                     return null;
                 }
@@ -82,7 +82,7 @@
              * Verifica si se puede deshacer
              * @returns {boolean}
              */
-            canUndo: function() {
+            canUndo: function () {
                 return currentIndex > 0;
             },
 
@@ -90,7 +90,7 @@
              * Verifica si se puede rehacer
              * @returns {boolean}
              */
-            canRedo: function() {
+            canRedo: function () {
                 return currentIndex < history.length - 1;
             }
         };

@@ -12,12 +12,17 @@ const WORD_SEARCH_MAX_LETTERS = 10;
 
 /** Solo letras (con tildes, Ñ…), en mayúsculas y como mucho 10 */
 function _sanitizeSearchWord(value) {
-    return String(value || '').replace(/[^\p{L}]/gu, '').toUpperCase().slice(0, WORD_SEARCH_MAX_LETTERS);
+    return String(value || '')
+        .replace(/[^\p{L}]/gu, '')
+        .toUpperCase()
+        .slice(0, WORD_SEARCH_MAX_LETTERS);
 }
 
 function _wordRowsHtml(qIdx, words) {
     const canDelete = words.length > WORD_SEARCH_MIN_WORDS;
-    return words.map((opt, oIdx) => `
+    return words
+        .map(
+            (opt, oIdx) => `
         <div class="flex items-center gap-3 mb-2">
             <span class="text-xs font-bold text-slate-400 w-4">${oIdx + 1}</span>
             <input
@@ -28,14 +33,20 @@ function _wordRowsHtml(qIdx, words) {
                 placeholder="${_t('admin.q.wordsearch_placeholder', null, 'Palabra (3-10 letras)')}"
                 class="flex-1 p-2 border-2 border-slate-100 rounded-xl focus:border-plum-500 outline-none text-sm font-mono font-bold tracking-widest uppercase"
             >
-            ${canDelete ? `
+            ${
+    canDelete
+        ? `
                 <button data-admin-click="eliminarPalabraSopa(${qIdx}, ${oIdx})"
                     class="w-8 h-8 flex items-center justify-center text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition">
                     <i class="fas fa-times text-xs"></i>
                 </button>
-            ` : '<span class="w-8"></span>'}
+            `
+        : '<span class="w-8"></span>'
+}
         </div>
-    `).join('');
+    `
+        )
+        .join('');
 }
 
 /** Sección del editor para la Sopa de letras (questionTypeSectionHtml). */
@@ -55,16 +66,20 @@ function wordSearchEditorSectionHtml(q, qIdx) {
                             <i class="fas fa-font"></i> ${_t('admin.q.wordsearch_words_label', null, 'Palabras a esconder (2-6, de 3 a 10 letras)')}
                         </label>
                         ${_wordRowsHtml(qIdx, words)}
-                        ${canAdd ? `
+                        ${
+    canAdd
+        ? `
                             <button data-admin-click="añadirPalabraSopa(${qIdx})"
                                 class="mt-2 text-plum-600 hover:text-plum-800 text-xs font-bold flex items-center gap-1 transition">
                                 <i class="fas fa-plus-circle"></i> ${_t('admin.q.wordsearch_add', null, 'Añadir palabra')}
                             </button>
-                        ` : `
+                        `
+        : `
                             <p class="mt-2 text-xs text-slate-400 italic">
                                 <i class="fas fa-lock mr-1"></i>${_t('admin.q.wordsearch_max', null, 'Máximo 6 palabras alcanzado')}
                             </p>
-                        `}
+                        `
+}
                         <div class="mt-3 bg-white p-3 rounded-lg border border-plum-300">
                             <p class="text-xs font-bold text-plum-700 mb-1"><i class="fas fa-lightbulb mr-1"></i>${_t('admin.q.how_it_works', null, 'Cómo funciona:')}</p>
                             <ul class="text-xs text-plum-600 space-y-1 ml-4 list-disc">
@@ -89,7 +104,9 @@ function eliminarPalabraSopa(qIdx, oIdx) {
     const q = preguntasData[qIdx];
     if (!q || !Array.isArray(q.options) || q.options.length <= WORD_SEARCH_MIN_WORDS) return;
     q.options.splice(oIdx, 1);
-    q.options.forEach((opt, i) => { opt.order_index = i; });
+    q.options.forEach((opt, i) => {
+        opt.order_index = i;
+    });
     dibujarPreguntas();
 }
 

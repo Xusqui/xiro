@@ -34,7 +34,7 @@ const XiroQR = {
                 size: px,
                 background: '#ffffff',
                 foreground: '#1e1e3f',
-                level: 'M',
+                level: 'M'
             });
             return;
         }
@@ -69,13 +69,29 @@ const XiroQR = {
         ctx.strokeStyle = c;
         ctx.lineWidth = 4;
         // esquina sup-izq
-        ctx.beginPath(); ctx.moveTo(14, 14 + d); ctx.lineTo(14, 14); ctx.lineTo(14 + d, 14); ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(14, 14 + d);
+        ctx.lineTo(14, 14);
+        ctx.lineTo(14 + d, 14);
+        ctx.stroke();
         // esquina sup-der
-        ctx.beginPath(); ctx.moveTo(size - 14 - d, 14); ctx.lineTo(size - 14, 14); ctx.lineTo(size - 14, 14 + d); ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(size - 14 - d, 14);
+        ctx.lineTo(size - 14, 14);
+        ctx.lineTo(size - 14, 14 + d);
+        ctx.stroke();
         // esquina inf-izq
-        ctx.beginPath(); ctx.moveTo(14, size - 14 - d); ctx.lineTo(14, size - 14); ctx.lineTo(14 + d, size - 14); ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(14, size - 14 - d);
+        ctx.lineTo(14, size - 14);
+        ctx.lineTo(14 + d, size - 14);
+        ctx.stroke();
         // esquina inf-der
-        ctx.beginPath(); ctx.moveTo(size - 14 - d, size - 14); ctx.lineTo(size - 14, size - 14); ctx.lineTo(size - 14, size - 14 - d); ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(size - 14 - d, size - 14);
+        ctx.lineTo(size - 14, size - 14);
+        ctx.lineTo(size - 14, size - 14 - d);
+        ctx.stroke();
 
         // Texto centrado
         ctx.fillStyle = '#1e1e3f';
@@ -99,5 +115,5 @@ const XiroQR = {
      */
     buildJoinUrl(sessionId) {
         return `${window.location.origin}/jugador.html?session=${encodeURIComponent(sessionId)}`;
-    },
+    }
 };

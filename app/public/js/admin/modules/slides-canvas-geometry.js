@@ -3,7 +3,7 @@
 
     // Espacio de nombres compartido por los módulos del editor (scripts clásicos del admin)
     const root = typeof window !== 'undefined' ? window : globalThis;
-    const XiroCanvasEditor = root.XiroCanvasEditor = root.XiroCanvasEditor || {};
+    const XiroCanvasEditor = (root.XiroCanvasEditor = root.XiroCanvasEditor || {});
 
     /**
      * Convierte coordenadas del cliente a coordenadas lógicas
@@ -23,7 +23,7 @@
      * @param {number} scale - Escala actual
      * @returns {Object} Coordenadas lógicas {x, y}
      */
-    XiroCanvasEditor.geometry.toLogical = function(clientX, clientY, rect, scale) {
+    XiroCanvasEditor.geometry.toLogical = function (clientX, clientY, rect, scale) {
         return {
             x: (clientX - rect.left) / scale,
             y: (clientY - rect.top) / scale
@@ -40,7 +40,7 @@
      * @param {number} opts.threshold - Umbral para el ajuste (por defecto 12)
      * @returns {Object} Nueva posición {x, y, guides}
      */
-    XiroCanvasEditor.geometry.moveBox = function(start, dx, dy, opts) {
+    XiroCanvasEditor.geometry.moveBox = function (start, dx, dy, opts) {
         // Valores por defecto
         let options = opts || {};
         let snap = options.snap !== undefined ? options.snap : true;
@@ -61,8 +61,8 @@
             } else if (Math.abs(newX + start.w - 1920) < threshold) {
                 newX = 1920 - start.w;
                 guides.v.push(1920);
-            } else if (Math.abs(newX + start.w/2 - 960) < threshold) {
-                newX = 960 - start.w/2;
+            } else if (Math.abs(newX + start.w / 2 - 960) < threshold) {
+                newX = 960 - start.w / 2;
                 guides.v.push(960);
             }
 
@@ -73,8 +73,8 @@
             } else if (Math.abs(newY + start.h - 1080) < threshold) {
                 newY = 1080 - start.h;
                 guides.h.push(1080);
-            } else if (Math.abs(newY + start.h/2 - 540) < threshold) {
-                newY = 540 - start.h/2;
+            } else if (Math.abs(newY + start.h / 2 - 540) < threshold) {
+                newY = 540 - start.h / 2;
                 guides.h.push(540);
             }
         }
@@ -101,21 +101,22 @@
      * @param {number} opts.minSize - Tamaño mínimo (por defecto 20)
      * @returns {Object} Nueva posición y tamaño {x, y, w, h}
      */
-    XiroCanvasEditor.geometry.resizeBox = function(start, handle, dx, dy, opts) {
+    XiroCanvasEditor.geometry.resizeBox = function (start, handle, dx, dy, opts) {
         // Valores por defecto
         let options = opts || {};
         let keepRatio = options.keepRatio !== undefined ? options.keepRatio : false;
         let minSize = options.minSize !== undefined ? options.minSize : 20;
 
         // Convertir rotación a radianes
-        let theta = start.rotation * Math.PI / 180;
+        let theta = (start.rotation * Math.PI) / 180;
 
         // Calcular desplazamiento local (rotado inversamente)
         let lx = dx * Math.cos(-theta) - dy * Math.sin(-theta);
         let ly = dx * Math.sin(-theta) + dy * Math.cos(-theta);
 
         // Determinar factores de escala por dirección
-        let sx = 0, sy = 0;
+        let sx = 0,
+            sy = 0;
         if (handle.includes('e')) sx = 1;
         else if (handle.includes('w')) sx = -1;
         if (handle.includes('s')) sy = 1;
@@ -141,13 +142,16 @@
         if (keepRatio && start.w !== 0 && start.h !== 0) {
             let ratio = start.w / start.h;
 
-            if (sx !== 0 && sy !== 0) { // Esquina
+            if (sx !== 0 && sy !== 0) {
+                // Esquina
                 let k = Math.max(nw / start.w, nh / start.h);
                 nw = start.w * k;
                 nh = start.h * k;
-            } else if (sx !== 0) { // Borde horizontal
+            } else if (sx !== 0) {
+                // Borde horizontal
                 nh = nw / ratio;
-            } else if (sy !== 0) { // Borde vertical
+            } else if (sy !== 0) {
+                // Borde vertical
                 nw = nh * ratio;
             }
 
@@ -157,8 +161,8 @@
         }
 
         // Calcular desplazamiento del centro en el espacio local
-        let cx = sx * (nw - start.w) / 2;
-        let cy = sy * (nh - start.h) / 2;
+        let cx = (sx * (nw - start.w)) / 2;
+        let cy = (sy * (nh - start.h)) / 2;
 
         // Rotar el desplazamiento de nuevo
         let cxGlobal = cx * Math.cos(theta) - cy * Math.sin(theta);
@@ -188,12 +192,12 @@
      * @param {Object} el - Elemento con x, y, w, h, rotation
      * @returns {Object} Coordenadas de los extremos {x1, y1, x2, y2}
      */
-    XiroCanvasEditor.geometry.lineEndpoints = function(el) {
+    XiroCanvasEditor.geometry.lineEndpoints = function (el) {
         let centerX = el.x + el.w / 2;
         let centerY = el.y + el.h / 2;
 
         // Convertir rotación a radianes
-        let theta = el.rotation * Math.PI / 180;
+        let theta = (el.rotation * Math.PI) / 180;
 
         // Calcular extremos de la línea (horizontal en el centro)
         let halfWidth = el.w / 2;
@@ -217,7 +221,7 @@
      * @param {number} h - Altura del elemento (por defecto 40)
      * @returns {Object} Coordenadas del elemento {x, y, w, h, rotation}
      */
-    XiroCanvasEditor.geometry.lineFromEndpoints = function(p1, p2, h) {
+    XiroCanvasEditor.geometry.lineFromEndpoints = function (p1, p2, h) {
         // Calcular centro
         let cx = (p1.x + p2.x) / 2;
         let cy = (p1.y + p2.y) / 2;
@@ -228,7 +232,7 @@
         let w = Math.max(20, Math.round(Math.sqrt(dx * dx + dy * dy)));
 
         // Calcular rotación
-        let rotation = Math.round(Math.atan2(dy, dx) * 180 / Math.PI);
+        let rotation = Math.round((Math.atan2(dy, dx) * 180) / Math.PI);
 
         // Normalizar rotación al rango [-180, 180]
         if (rotation > 180) rotation -= 360;
@@ -252,7 +256,7 @@
      * @param {Object} box - Posición del cuadro {x, y, w, h}
      * @returns {Object} Nueva posición {x, y}
      */
-    XiroCanvasEditor.geometry.keepVisible = function(box) {
+    XiroCanvasEditor.geometry.keepVisible = function (box) {
         let newX = Math.max(20 - box.w, Math.min(1900, box.x));
         let newY = Math.max(20 - box.h, Math.min(1060, box.y));
 

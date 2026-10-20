@@ -24,7 +24,17 @@ class GameStartedEvent extends DomainEvent {
  * Evento: Pregunta revelada a jugadores
  */
 class QuestionRevealedEvent extends DomainEvent {
-    constructor({ roomId, gameId, question, questionIndex, questionId, questionType, timeLimit, totalQuestions, showAnswersToPlayers }) {
+    constructor({
+        roomId,
+        gameId,
+        question,
+        questionIndex,
+        questionId,
+        questionType,
+        timeLimit,
+        totalQuestions,
+        showAnswersToPlayers
+    }) {
         super('question.revealed', {
             roomId: roomId || gameId,
             gameId: gameId || roomId,
@@ -58,7 +68,7 @@ class AnswerSubmittedEvent extends DomainEvent {
 
 /**
  * Evento: Puntos calculados para jugador
- * 
+ *
  * @param {Object} params
  * @param {string} params.gameId - ID del juego
  * @param {string} params.playerId - ID del jugador
@@ -77,7 +87,16 @@ class AnswerSubmittedEvent extends DomainEvent {
  * @param {number} [params.scoringDetails.betAmount] - Cantidad apostada (si betting)
  */
 class PlayerScoredEvent extends DomainEvent {
-    constructor({ gameId, playerId, nickname, questionIndex, pointsEarned, totalScore, isCorrect, scoringDetails = null }) {
+    constructor({
+        gameId,
+        playerId,
+        nickname,
+        questionIndex,
+        pointsEarned,
+        totalScore,
+        isCorrect,
+        scoringDetails = null
+    }) {
         super('player.scored', {
             gameId,
             playerId,
@@ -109,7 +128,21 @@ class AnswerRevealedEvent extends DomainEvent {
  * Evento: Juego finalizado
  */
 class GameEndedEvent extends DomainEvent {
-    constructor({ roomId, gameId, pin, finalRanking, ranking, totalQuestions, questionCount, duration, playerCount, stats, reason, timestamp, maxPossibleScore }) {
+    constructor({
+        roomId,
+        gameId,
+        pin,
+        finalRanking,
+        ranking,
+        totalQuestions,
+        questionCount,
+        duration,
+        playerCount,
+        stats,
+        reason,
+        timestamp,
+        maxPossibleScore
+    }) {
         super('game.ended', {
             roomId: roomId || gameId,
             gameId: gameId || roomId,

@@ -15,5 +15,5 @@ const ViewWaiting = (() => ({
                 <p class="waiting-msg">${safeMsg}</p>
             </div>`;
     },
-    unmount() {},
+    unmount() {}
 }))();

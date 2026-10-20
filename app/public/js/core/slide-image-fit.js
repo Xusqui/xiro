@@ -30,7 +30,13 @@
         for (let i = 0; i < images.length; i++) {
             const img = images[i];
             if (!(img.complete && applyRatio(img))) {
-                img.addEventListener('load', function () { applyRatio(img); }, { once: true });
+                img.addEventListener(
+                    'load',
+                    function () {
+                        applyRatio(img);
+                    },
+                    { once: true }
+                );
             }
         }
     }

@@ -100,12 +100,16 @@ function statementImageHtml(view) {
 }
 
 function optionsGridHtml(q, view) {
-    const options = q.options.map((opt, i) => `
+    const options = q.options
+        .map(
+            (opt, i) => `
                     <div id="opt-${i}" class="${OPTION_COLORS[i]} relative rounded-[30px] p-6 flex items-center shadow-2xl border-b-8 border-black/20 h-full transition-all duration-500">
                         <span class="bg-black/20 w-16 h-16 rounded-xl flex items-center justify-center text-4xl font-black mr-6 border-2 border-white/20 italic text-white">${i + 1}</span>
                         ${opt.option_image_url ? `<img src="${sanitizeResourceUrl(opt.option_image_url)}" alt="" class="max-h-[120px] max-w-[120px] object-contain rounded-xl mr-3 shrink-0">` : ''}
                         <span class="option-text font-black uppercase text-white break-words" style="flex: 1; overflow-wrap: break-word; hyphens: auto; line-height: 1.1;">${escapeHtml(opt.optionText)}</span>
-                    </div>`).join('');
+                    </div>`
+        )
+        .join('');
     return `
             <div id="options-grid" class="grid grid-cols-2 gap-4 flex-1 pb-14 ${!view.mostrarOpciones ? 'hidden' : ''}" style="grid-auto-rows: minmax(0, 1fr); min-height: 0;">
                 ${options}

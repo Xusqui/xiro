@@ -26,7 +26,9 @@ function getLogger() {
 }
 
 function parseBooleanFlag(value) {
-    const explicit = String(value || '').trim().toLowerCase();
+    const explicit = String(value || '')
+        .trim()
+        .toLowerCase();
     if (explicit === 'true') return true;
     if (explicit === 'false') return false;
     return null;
@@ -80,12 +82,16 @@ const configureHelmet = () => {
 
         // Extraer orígenes WS permitidos desde CORS
         const allowedOrigins = getAllowedCorsOrigins();
-        const wsOrigins = allowedOrigins.map(o => {
-            try {
-                const u = new URL(o);
-                return (u.protocol === 'https:' ? 'wss:' : 'ws:') + '//' + u.host;
-            } catch (e) { return ''; }
-        }).filter(Boolean);
+        const wsOrigins = allowedOrigins
+            .map(o => {
+                try {
+                    const u = new URL(o);
+                    return (u.protocol === 'https:' ? 'wss:' : 'ws:') + '//' + u.host;
+                } catch (e) {
+                    return '';
+                }
+            })
+            .filter(Boolean);
 
         const scriptSrc = [
             '\'self\'',
@@ -103,7 +109,7 @@ const configureHelmet = () => {
             '\'sha256-GN5mcXaPICRaVYTyha8rvCUnuZOH8P7yITutSD0PRK4=\'', // ppt-redirect.html
             '\'sha256-ul/v0CisU7Zqw8SY+9SvXyoYEdITat4Z8gaRKnu25ak=\'', // fireworks-preview.html
             '\'sha256-kLPXYcEGPWpndeLvpPR1HRMZJ9PVTnVqa/1dUNJ1GFk=\'', // xiro-results-viewer.html
-            '\'sha256-5FKiUvj99wyDNTbzh2Ic/7hMwqYXv2DaakTc9D36gWc=\'', // about.html: mascota decorativa aleatoria
+            '\'sha256-5FKiUvj99wyDNTbzh2Ic/7hMwqYXv2DaakTc9D36gWc=\'' // about.html: mascota decorativa aleatoria
         ];
         if (umamiHost) scriptSrc.push(umamiHost);
 
@@ -112,7 +118,7 @@ const configureHelmet = () => {
             'ws://localhost:*',
             ...wsOrigins,
             'https://api-gateway.umami.dev', // Umami analytics endpoint
-            'https://cdn.jsdelivr.net',      // qr-code-styling sourcemaps
+            'https://cdn.jsdelivr.net' // qr-code-styling sourcemaps
         ];
         if (umamiHost) connectSrc.push(umamiHost);
 
@@ -130,28 +136,24 @@ const configureHelmet = () => {
                         '\'self\'',
                         'https://cdnjs.cloudflare.com',
                         'https://fonts.googleapis.com',
-                        '\'unsafe-inline\'',  // Requerido por bloques <style> y atributos style=""
+                        '\'unsafe-inline\'' // Requerido por bloques <style> y atributos style=""
                     ],
-                    fontSrc: [
-                        '\'self\'',
-                        'https://cdnjs.cloudflare.com',
-                        'https://fonts.gstatic.com',
-                    ],
+                    fontSrc: ['\'self\'', 'https://cdnjs.cloudflare.com', 'https://fonts.gstatic.com'],
                     connectSrc: connectSrc,
                     imgSrc: ['\'self\'', 'data:', 'blob:'],
                     // Diapositiva de vídeo: archivos de vídeo de cualquier origen https y reproductores incrustados
                     mediaSrc: ['\'self\'', 'https:', 'blob:'],
                     frameSrc: ['\'self\'', ...VIDEO_EMBED_ORIGINS],
                     objectSrc: ['\'none\''],
-                    baseUri: ['\'self\''],
-                },
+                    baseUri: ['\'self\'']
+                }
             },
             crossOriginEmbedderPolicy: false,
             // cross-origin allows assets to be loaded by the add-in WebView
             crossOriginResourcePolicy: { policy: 'cross-origin' },
             frameguard: { action: 'sameorigin' },
             // cross-origin-opener-policy: same-origin no es necesario para esta app
-            crossOriginOpenerPolicy: false,
+            crossOriginOpenerPolicy: false
         })(req, res, next);
     };
 };
@@ -217,7 +219,7 @@ const loginLimiterConfig = {
     },
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: (req) => {
+    keyGenerator: req => {
         return req.ip || (req.connection && req.connection.remoteAddress) || 'unknown';
     }
 };
@@ -231,7 +233,7 @@ const panicRestartLimiterConfig = {
     },
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: (req) => req.ip || (req.connection && req.connection.remoteAddress) || 'unknown'
+    keyGenerator: req => req.ip || (req.connection && req.connection.remoteAddress) || 'unknown'
 };
 
 const accountMutationLimiterConfig = {
@@ -239,11 +241,12 @@ const accountMutationLimiterConfig = {
     max: 6, // evitar abuso de cambios sensibles por cuenta
     message: {
         error: 'Demasiadas solicitudes',
-        message: 'Has excedido el número de intentos permitidos para operaciones de cuenta. Intenta de nuevo en unos minutos.'
+        message:
+            'Has excedido el número de intentos permitidos para operaciones de cuenta. Intenta de nuevo en unos minutos.'
     },
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: (req) => {
+    keyGenerator: req => {
         const ip = req.ip || (req.connection && req.connection.remoteAddress) || 'unknown';
         const userId = req.user?.userId || 'anonymous';
         return `${ip}:${userId}`;
@@ -259,7 +262,7 @@ const pinValidationLimiterConfig = {
     },
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: (req) => req.ip || (req.connection && req.connection.remoteAddress) || 'unknown'
+    keyGenerator: req => req.ip || (req.connection && req.connection.remoteAddress) || 'unknown'
 };
 
 const presenterPinsLimiterConfig = {
@@ -271,7 +274,7 @@ const presenterPinsLimiterConfig = {
     },
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: (req) => req.ip || (req.connection && req.connection.remoteAddress) || 'unknown'
+    keyGenerator: req => req.ip || (req.connection && req.connection.remoteAddress) || 'unknown'
 };
 
 const memoryPanicRestartLimiter = rateLimit(panicRestartLimiterConfig);
@@ -282,7 +285,7 @@ const memoryLoginLimiter = rateLimit(loginLimiterConfig);
 
 if (process.env.NODE_ENV !== 'test') {
     void getRedisClient()
-        .then((client) => {
+        .then(client => {
             redisClient = client;
             redisLoginLimiter = createRedisLimiter(loginLimiterConfig);
             redisPanicRestartLimiter = createRedisLimiter(panicRestartLimiterConfig, 'rl:panic:');
@@ -290,7 +293,7 @@ if (process.env.NODE_ENV !== 'test') {
             redisPresenterPinsLimiter = createRedisLimiter(presenterPinsLimiterConfig, 'rl:presenter-pins:');
             redisPinValidationLimiter = createRedisLimiter(pinValidationLimiterConfig, 'rl:pin-val:');
         })
-        .catch((error) => {
+        .catch(error => {
             // Usar getLogger con fallback a stderr si logger no está disponible
             const log = getLogger();
             if (typeof log.warn === 'function') {
@@ -355,7 +358,7 @@ const loginLimiter = (req, res, next) => {
  * Resetea el contador del rate limiter de login.
  * Se llama tras un inicio de sesión exitoso.
  */
-const resetLoginLimiter = (req) => {
+const resetLoginLimiter = req => {
     const key = loginLimiterConfig.keyGenerator(req, null);
     if (redisClient && isRedisAvailable() && redisLoginLimiter) {
         if (typeof redisLoginLimiter.resetKey === 'function') {

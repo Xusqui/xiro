@@ -50,8 +50,12 @@ function mostrarModalTextoImagen() {
     `);
     document.body.appendChild(modal);
     _iniciarDropZone({
-        dropZoneId: 'dropZoneTI', fileInputId: 'tiImagenFile', statusMsgId: 'tiUploadStatus',
-        urlInputId: 'tiImagenUrl', previewImgId: 'tiPreviewImg', previewWrapId: 'tiPreviewWrap'
+        dropZoneId: 'dropZoneTI',
+        fileInputId: 'tiImagenFile',
+        statusMsgId: 'tiUploadStatus',
+        urlInputId: 'tiImagenUrl',
+        previewImgId: 'tiPreviewImg',
+        previewWrapId: 'tiPreviewWrap'
     });
 }
 
@@ -67,9 +71,24 @@ function agregarSlideTextoImagen() {
     const posRadio = document.querySelector('input[name="tiImagenPos"]:checked');
     const posicion = posRadio ? posRadio.value : 'right';
 
-    if (!titulo) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), 'Por favor, escribe un título', 'warning');
-    if (!cuerpo) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), 'Por favor, escribe el texto', 'warning');
-    if (!finalUrl) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), 'Por favor, sube una imagen o introduce una URL', 'warning');
+    if (!titulo)
+        return mostrarModalError(
+            _t('admin.common.validation_title', null, '⚠️ Validación'),
+            'Por favor, escribe un título',
+            'warning'
+        );
+    if (!cuerpo)
+        return mostrarModalError(
+            _t('admin.common.validation_title', null, '⚠️ Validación'),
+            'Por favor, escribe el texto',
+            'warning'
+        );
+    if (!finalUrl)
+        return mostrarModalError(
+            _t('admin.common.validation_title', null, '⚠️ Validación'),
+            'Por favor, sube una imagen o introduce una URL',
+            'warning'
+        );
 
     currentCustomGameQuestions.push({
         slide_type: 'text-image',
@@ -145,8 +164,12 @@ function editarSlideTextoImagen(index) {
     }
 
     _iniciarDropZone({
-        dropZoneId: 'dropZoneEditTI', fileInputId: 'editTIImagenFile', statusMsgId: 'editTIUploadStatus',
-        urlInputId: 'editTIImagenUrl', previewImgId: 'editTIPreviewImg', previewWrapId: 'editTIPreviewWrap'
+        dropZoneId: 'dropZoneEditTI',
+        fileInputId: 'editTIImagenFile',
+        statusMsgId: 'editTIUploadStatus',
+        urlInputId: 'editTIImagenUrl',
+        previewImgId: 'editTIPreviewImg',
+        previewWrapId: 'editTIPreviewWrap'
     });
 }
 
@@ -162,9 +185,24 @@ function guardarEditTextoImagen(index) {
     const posRadio = document.querySelector('input[name="editTIImagenPos"]:checked');
     const posicion = posRadio ? posRadio.value : 'right';
 
-    if (!titulo) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), 'Por favor, escribe un título', 'warning');
-    if (!cuerpo) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), 'Por favor, escribe el texto', 'warning');
-    if (!finalUrl) return mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), 'Por favor, sube una imagen o introduce una URL', 'warning');
+    if (!titulo)
+        return mostrarModalError(
+            _t('admin.common.validation_title', null, '⚠️ Validación'),
+            'Por favor, escribe un título',
+            'warning'
+        );
+    if (!cuerpo)
+        return mostrarModalError(
+            _t('admin.common.validation_title', null, '⚠️ Validación'),
+            'Por favor, escribe el texto',
+            'warning'
+        );
+    if (!finalUrl)
+        return mostrarModalError(
+            _t('admin.common.validation_title', null, '⚠️ Validación'),
+            'Por favor, sube una imagen o introduce una URL',
+            'warning'
+        );
 
     currentCustomGameQuestions[index].slide_title = titulo;
     currentCustomGameQuestions[index].slide_body = cuerpo;
@@ -181,7 +219,7 @@ function initSlideTextoImagenDelegation() {
     if (_slideTextoImagenDelegationReady) return;
     _slideTextoImagenDelegationReady = true;
 
-    document.addEventListener('click', (event) => {
+    document.addEventListener('click', event => {
         const actionElement = event.target.closest('[data-slide-text-image-action]');
         if (!actionElement) return;
 

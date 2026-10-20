@@ -12,7 +12,7 @@ const { SCORING } = require('../../config/game-constants');
 const { clearGameTimer, timerPausedState, roomPresenterMap } = require('../../state/globalState');
 const runtimeConfig = require('../../config/runtime-config');
 
-const DEFAULT_DOUBLE_STREAK_BONUS_PERCENTAGE = 1.00;
+const DEFAULT_DOUBLE_STREAK_BONUS_PERCENTAGE = 1.0;
 
 function firstDefined(...values) {
     for (const value of values) {
@@ -201,8 +201,8 @@ class RedisSyncBus {
             this.syncPub = createClient({ url, password: process.env.REDIS_PASSWORD || undefined });
             this.syncSub = this.syncPub.duplicate();
 
-            this.syncPub.on('error', (err) => logger.error('syncPub redis error', err));
-            this.syncSub.on('error', (err) => logger.error('syncSub redis error', err));
+            this.syncPub.on('error', err => logger.error('syncPub redis error', err));
+            this.syncSub.on('error', err => logger.error('syncSub redis error', err));
 
             await Promise.all([this.syncPub.connect(), this.syncSub.connect()]);
 
@@ -213,17 +213,24 @@ class RedisSyncBus {
 
         let initTimer;
         const timeoutPromise = new Promise((_, reject) => {
-            initTimer = setTimeout(() => reject(new Error('RedisSyncBus init timed out after ' + INIT_TIMEOUT_MS + 'ms')), INIT_TIMEOUT_MS);
+            initTimer = setTimeout(
+                () => reject(new Error('RedisSyncBus init timed out after ' + INIT_TIMEOUT_MS + 'ms')),
+                INIT_TIMEOUT_MS
+            );
         });
 
-        this.syncReady = Promise.race([connectPromise, timeoutPromise]).catch((err) => {
-            logger.error('RedisSyncBus initialization failed — cross-worker sync unavailable', { error: err.message });
-            // No re-lanzar: las operaciones que llamen await this.syncReady continuarán
-            // sin pub/sub (degraded mode). El fallo ya fue logueado.
-        }).finally(() => {
-            // Promise.race no cancela al perdedor: sin esto el temporizador seguía vivo 15 s
-            clearTimeout(initTimer);
-        });
+        this.syncReady = Promise.race([connectPromise, timeoutPromise])
+            .catch(err => {
+                logger.error('RedisSyncBus initialization failed — cross-worker sync unavailable', {
+                    error: err.message
+                });
+                // No re-lanzar: las operaciones que llamen await this.syncReady continuarán
+                // sin pub/sub (degraded mode). El fallo ya fue logueado.
+            })
+            .finally(() => {
+                // Promise.race no cancela al perdedor: sin esto el temporizador seguía vivo 15 s
+                clearTimeout(initTimer);
+            });
 
         return this.syncReady;
     }
@@ -239,36 +246,36 @@ class RedisSyncBus {
     }
 
     async registerLobbySubscriptions() {
-        await this.syncSub.subscribe('lobby-created', (roomId) => {
+        await this.syncSub.subscribe('lobby-created', roomId => {
             const { lobbyPlayers } = this.state;
             if (!lobbyPlayers.has(roomId)) {
                 lobbyPlayers.set(roomId, []);
             }
         });
 
-        await this.syncSub.subscribe('lobby-player-joined', (message) => {
+        await this.syncSub.subscribe('lobby-player-joined', message => {
             this.handleLobbyPlayerJoined(message);
         });
 
-        await this.syncSub.subscribe('lobby-player-left', (message) => {
+        await this.syncSub.subscribe('lobby-player-left', message => {
             this.handleLobbyPlayerLeft(message);
         });
     }
 
     async registerGameSubscriptions() {
-        await this.syncSub.subscribe('game-started', (message) => {
+        await this.syncSub.subscribe('game-started', message => {
             this.handleGameStartedSync(message);
         });
 
-        await this.syncSub.subscribe('game-state-updated', (message) => {
+        await this.syncSub.subscribe('game-state-updated', message => {
             this.handleGameStateUpdatedSync(message);
         });
 
-        await this.syncSub.subscribe('next-question-sync', (message) => {
+        await this.syncSub.subscribe('next-question-sync', message => {
             this.handleNextQuestionSync(message);
         });
 
-        await this.syncSub.subscribe('team-config-sync', (message) => {
+        await this.syncSub.subscribe('team-config-sync', message => {
             const data = parseRedisMessage(message, 'team-config-sync');
             if (!data) {
                 return;
@@ -276,7 +283,7 @@ class RedisSyncBus {
             this.state.teamConfigs.set(data.roomId, data.teamConfig);
         });
 
-        await this.syncSub.subscribe('team-membership-sync', (message) => {
+        await this.syncSub.subscribe('team-membership-sync', message => {
             this.handleTeamMembershipSync(message);
         });
     }
@@ -297,25 +304,25 @@ class RedisSyncBus {
     }
 
     async registerSessionAndPlayerSubscriptions() {
-        await this.syncSub.subscribe('session-abandoned', (message) => {
+        await this.syncSub.subscribe('session-abandoned', message => {
             this.handleSessionAbandonedSync(message);
         });
 
-        await this.syncSub.subscribe('player-data-sync', (message) => {
+        await this.syncSub.subscribe('player-data-sync', message => {
             this.handlePlayerDataSync(message);
         });
 
-        await this.syncSub.subscribe('player-answered-sync', (_message) => {
+        await this.syncSub.subscribe('player-answered-sync', _message => {
             // Redis adapter auto-propagates io.to(room).emit().
         });
 
-        await this.syncSub.subscribe('player-disconnected-sync', (message) => {
+        await this.syncSub.subscribe('player-disconnected-sync', message => {
             this.handlePlayerDisconnectedSync(message);
         });
     }
 
     async registerRevealSubscriptions() {
-        await this.syncSub.subscribe('reveal-answer-sync', (message) => {
+        await this.syncSub.subscribe('reveal-answer-sync', message => {
             const data = parseRedisMessage(message, 'reveal-answer-sync');
             if (!data) {
                 return;
@@ -325,29 +332,29 @@ class RedisSyncBus {
             this.io.to(data.roomId + ':players').emit('reveal-answer', data.playerPayload);
         });
 
-        await this.syncSub.subscribe('question-revealed', (message) => {
+        await this.syncSub.subscribe('question-revealed', message => {
             this.handleQuestionRevealedSync(message);
         });
     }
 
     async registerStreakTimerAndConfigSubscriptions() {
-        await this.syncSub.subscribe('streak-reset-sync', (message) => {
+        await this.syncSub.subscribe('streak-reset-sync', message => {
             this.handleStreakResetSync(message);
         });
 
-        await this.syncSub.subscribe('streak-restored-sync', (message) => {
+        await this.syncSub.subscribe('streak-restored-sync', message => {
             this.handleStreakRestoredSync(message);
         });
 
-        await this.syncSub.subscribe('timer-paused-sync', (message) => {
+        await this.syncSub.subscribe('timer-paused-sync', message => {
             this.handleTimerPausedSync(message);
         });
 
-        await this.syncSub.subscribe('timer-resumed-sync', (message) => {
+        await this.syncSub.subscribe('timer-resumed-sync', message => {
             this.handleTimerResumedSync(message);
         });
 
-        await this.syncSub.subscribe('config-updated', (message) => {
+        await this.syncSub.subscribe('config-updated', message => {
             this.handleConfigUpdatedSync(message);
         });
     }
@@ -360,7 +367,9 @@ class RedisSyncBus {
 
         const added = addPlayerToLobby(this.state.lobbyPlayers, data.roomId, data.nickname);
         if (added) {
-            logger.debug(`Jugador ${data.nickname} añadido al lobby ${data.roomId} (desde worker ${data.originWorkerId})`);
+            logger.debug(
+                `Jugador ${data.nickname} añadido al lobby ${data.roomId} (desde worker ${data.originWorkerId})`
+            );
         }
     }
 
@@ -381,7 +390,9 @@ class RedisSyncBus {
         }
 
         lobby.splice(idx, 1);
-        logger.debug(`Jugador ${data.nickname} eliminado del lobby ${data.roomId} (desde worker ${data.originWorkerId})`);
+        logger.debug(
+            `Jugador ${data.nickname} eliminado del lobby ${data.roomId} (desde worker ${data.originWorkerId})`
+        );
     }
 
     handleGameStartedSync(message) {
@@ -414,7 +425,9 @@ class RedisSyncBus {
 
         const localEpoch = game._epoch || 0;
         if (incomingEpoch !== undefined && incomingEpoch < localEpoch) {
-            logger.debug(`Redis sync ignorado (stale epoch): incoming=${incomingEpoch} < local=${localEpoch}, room=${roomId}`);
+            logger.debug(
+                `Redis sync ignorado (stale epoch): incoming=${incomingEpoch} < local=${localEpoch}, room=${roomId}`
+            );
             return;
         }
 
@@ -434,7 +447,9 @@ class RedisSyncBus {
         game.currentIndex = currentIndex;
 
         if (debugEnabled) {
-            logger.debug(`Redis sync recibido: worker=${process.pid}, origin=${originWorkerId}, room=${roomId}, player=${nickname}, oldScore=${oldScore}, newScore=${score}, epoch=${incomingEpoch}, allScoresBefore=${scoresBefore}, allScoresAfter=${JSON.stringify(game.scores)}`);
+            logger.debug(
+                `Redis sync recibido: worker=${process.pid}, origin=${originWorkerId}, room=${roomId}, player=${nickname}, oldScore=${oldScore}, newScore=${score}, epoch=${incomingEpoch}, allScoresBefore=${scoresBefore}, allScoresAfter=${JSON.stringify(game.scores)}`
+            );
         }
     }
 
@@ -506,7 +521,9 @@ class RedisSyncBus {
         const existing = this.state.players.get(playerId);
         if (!existing || (normalizedPlayer.lastSeen && normalizedPlayer.lastSeen >= (existing.lastSeen || 0))) {
             this.state.players.set(playerId, normalizedPlayer);
-            logger.debug(`Player data synced: ${normalizedPlayer.nickname} (playerId: ${playerId}, from worker ${originWorkerId})`);
+            logger.debug(
+                `Player data synced: ${normalizedPlayer.nickname} (playerId: ${playerId}, from worker ${originWorkerId})`
+            );
         }
     }
 
@@ -518,7 +535,8 @@ class RedisSyncBus {
 
         const { playerId, playerData, originWorkerId } = data;
         const existingPlayer = this.state.players.get(playerId);
-        const canOverwrite = !existingPlayer ||
+        const canOverwrite =
+            !existingPlayer ||
             (existingPlayer.status !== 'disconnected' && existingPlayer.status !== 'presenter_disconnected');
 
         if (!canOverwrite) {
@@ -526,12 +544,12 @@ class RedisSyncBus {
         }
 
         const normalizedPlayer = { ...playerData, answeredQuestions: toSetOrEmpty(playerData.answeredQuestions) };
-        const mergedPlayer = existingPlayer
-            ? { ...existingPlayer, ...normalizedPlayer }
-            : normalizedPlayer;
+        const mergedPlayer = existingPlayer ? { ...existingPlayer, ...normalizedPlayer } : normalizedPlayer;
 
         this.state.players.set(playerId, mergedPlayer);
-        logger.debug(`${mergedPlayer.nickname} marcado como ${mergedPlayer.status} (playerId: ${playerId}, desde worker ${originWorkerId})`);
+        logger.debug(
+            `${mergedPlayer.nickname} marcado como ${mergedPlayer.status} (playerId: ${playerId}, desde worker ${originWorkerId})`
+        );
     }
 
     handleQuestionRevealedSync(message) {
@@ -716,8 +734,17 @@ class RedisSyncBus {
     async publishGameStateUpdate(roomId, nickname, score, currentIndex) {
         const localGame = this.state?.activeGames?.get(roomId);
         const epoch = localGame?._epoch;
-        logger.debug(`Publicando delta: worker=${process.pid}, room=${roomId}, player=${nickname}, score=${score}, index=${currentIndex}, epoch=${epoch}`);
-        await this.publish('game-state-updated', { roomId, nickname, score, currentIndex, originWorkerId: process.pid, _epoch: epoch });
+        logger.debug(
+            `Publicando delta: worker=${process.pid}, room=${roomId}, player=${nickname}, score=${score}, index=${currentIndex}, epoch=${epoch}`
+        );
+        await this.publish('game-state-updated', {
+            roomId,
+            nickname,
+            score,
+            currentIndex,
+            originWorkerId: process.pid,
+            _epoch: epoch
+        });
         logger.debug(`Delta publicado exitosamente: ${roomId} - ${nickname}: ${score} pts (worker ${process.pid})`);
     }
 
@@ -728,8 +755,17 @@ class RedisSyncBus {
             localGame._epoch = (localGame._epoch || 0) + 1;
         }
         const epoch = localGame?._epoch;
-        await this.publish('next-question-sync', { roomId, currentIndex, startTime, randomPoints, originWorkerId: process.pid, _epoch: epoch });
-        logger.debug(`next-question-sync publicado: ${roomId} pregunta ${currentIndex + 1} epoch=${epoch} (worker ${process.pid})`);
+        await this.publish('next-question-sync', {
+            roomId,
+            currentIndex,
+            startTime,
+            randomPoints,
+            originWorkerId: process.pid,
+            _epoch: epoch
+        });
+        logger.debug(
+            `next-question-sync publicado: ${roomId} pregunta ${currentIndex + 1} epoch=${epoch} (worker ${process.pid})`
+        );
     }
 
     async publishTeamConfig(roomId, teamConfig) {
@@ -756,7 +792,12 @@ class RedisSyncBus {
     }
 
     async publishRevealAnswer(roomId, presenterPayload, playerPayload) {
-        await this.publish('reveal-answer-sync', { roomId, presenterPayload, playerPayload, originWorkerId: process.pid });
+        await this.publish('reveal-answer-sync', {
+            roomId,
+            presenterPayload,
+            playerPayload,
+            originWorkerId: process.pid
+        });
     }
 
     async publishQuestionRevealed(roomId, questionIndex, metadata = {}) {
@@ -783,8 +824,16 @@ class RedisSyncBus {
     }
 
     async publishStreakRestored(roomId, nickname, streak, streakInfo) {
-        await this.publish('streak-restored-sync', { roomId, nickname, streak, streakInfo, originWorkerId: process.pid });
-        logger.debug(`streak-restored-sync publicado: ${roomId} - ${nickname} streak=${streak} (worker ${process.pid})`);
+        await this.publish('streak-restored-sync', {
+            roomId,
+            nickname,
+            streak,
+            streakInfo,
+            originWorkerId: process.pid
+        });
+        logger.debug(
+            `streak-restored-sync publicado: ${roomId} - ${nickname} streak=${streak} (worker ${process.pid})`
+        );
     }
 
     async publishTimerPaused(roomId) {
@@ -799,7 +848,9 @@ class RedisSyncBus {
 
     async publishPlayerDisconnected(playerId, playerData) {
         await this.publish('player-disconnected-sync', { playerId, playerData, originWorkerId: process.pid });
-        logger.debug(`player-disconnected-sync publicado: ${playerData.nickname} (playerId: ${playerId}, worker ${process.pid})`);
+        logger.debug(
+            `player-disconnected-sync publicado: ${playerData.nickname} (playerId: ${playerId}, worker ${process.pid})`
+        );
     }
 
     /**
@@ -808,7 +859,9 @@ class RedisSyncBus {
      */
     async publishPlayerData(playerId, playerData) {
         await this.publish('player-data-sync', { playerId, playerData, originWorkerId: process.pid });
-        logger.debug(`player-data-sync publicado: ${playerData.nickname} (playerId: ${playerId}, worker ${process.pid})`);
+        logger.debug(
+            `player-data-sync publicado: ${playerData.nickname} (playerId: ${playerId}, worker ${process.pid})`
+        );
     }
 }
 

@@ -1,13 +1,13 @@
 /**
  * @fileoverview Advance Question Use Case - Flujo completo para avanzar pregunta
  * @module application/use-cases/AdvanceQuestionUseCase
- * 
+ *
  * Encapsula todo el flujo de negocio para avanzar a la siguiente pregunta:
  * 1. Validación
  * 2. Preparación de siguiente pregunta
  * 3. Emisión de evento de dominio (QuestionRevealedEvent)
  * 4. Respuesta al cliente
- * 
+ *
  * MIGRADO: Ya no usa NextQuestionCommand (eliminado)
  * Ahora usa prepareNextQuestion + EventBus directamente
  */
@@ -118,13 +118,16 @@ class AdvanceQuestionUseCase {
             }
 
             // 4. Emitir evento de dominio (QuestionRevealedHandler lo procesará)
-            EventBus.emit('question.revealed', new QuestionRevealedEvent({
-                roomId,
-                question: currentQuestion,
-                questionIndex: game.currentIndex,
-                totalQuestions: game.questions.length,
-                timestamp: Date.now()
-            }));
+            EventBus.emit(
+                'question.revealed',
+                new QuestionRevealedEvent({
+                    roomId,
+                    question: currentQuestion,
+                    questionIndex: game.currentIndex,
+                    totalQuestions: game.questions.length,
+                    timestamp: Date.now()
+                })
+            );
 
             // 5. Iniciar timer solo en slides con respuesta
             // - comment/info/text/image/text-image: slides sin respuestas ni cuenta atrás
@@ -134,7 +137,6 @@ class AdvanceQuestionUseCase {
             }
 
             return { success: true };
-
         } catch (error) {
             logger.error('Error in AdvanceQuestionUseCase', {
                 error: error.message,

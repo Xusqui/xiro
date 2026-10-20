@@ -23,9 +23,11 @@ export function clearSavedSessionData() {
     try {
         const cur = window.name || '';
         const pidMatch = /(?:^|\|)pid=([0-9a-f-]{36})/i.exec(cur);
-        window.name = pidMatch ? ('pid=' + pidMatch[1]) : '';
-    } catch (_) { }
-    try { sessionStorage.removeItem('xiro_sessionSecret'); } catch (_) { }
+        window.name = pidMatch ? 'pid=' + pidMatch[1] : '';
+    } catch (_) {}
+    try {
+        sessionStorage.removeItem('xiro_sessionSecret');
+    } catch (_) {}
 }
 
 export function isSameSession(savedSessionId, sessionIdFromUrl) {

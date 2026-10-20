@@ -10,7 +10,7 @@
     'use strict';
 
     const root = typeof window !== 'undefined' ? window : globalThis;
-    const XiroCanvasEditor = root.XiroCanvasEditor = root.XiroCanvasEditor || {};
+    const XiroCanvasEditor = (root.XiroCanvasEditor = root.XiroCanvasEditor || {});
 
     // Etiquetas: claves admin.canvas.* (slides-canvas-i18n.js)
     const GEOMETRY_FIELDS = [
@@ -23,7 +23,14 @@
     const BACKGROUND_FIELDS = [
         { key: 'color', label: 'field.background_color', kind: 'color' },
         { label: 'field.background_image', kind: 'action', action: 'bg-image', icon: 'fa-image' },
-        { label: 'field.background_clear', kind: 'action', action: 'bg-clear', icon: 'fa-xmark', quiet: true, when: (bg) => !!bg.image }
+        {
+            label: 'field.background_clear',
+            kind: 'action',
+            action: 'bg-clear',
+            icon: 'fa-xmark',
+            quiet: true,
+            when: bg => !!bg.image
+        }
     ];
     // Cabecera del panel: icono de cada tipo (el título lo da propsByType)
     const TYPE_ICONS = { text: 'fa-font', shape: 'fa-shapes', image: 'fa-image', video: 'fa-film' };
@@ -38,13 +45,22 @@
     }
 
     function head(icon, title, subtitle) {
-        return '<header class="xsce-panel-head"><span class="xsce-panel-icon"><i class="fas ' + icon + '" aria-hidden="true"></i></span>'
-            + '<div><h4>' + title + '</h4><p>' + subtitle + '</p></div></header>';
+        return (
+            '<header class="xsce-panel-head"><span class="xsce-panel-icon"><i class="fas ' +
+            icon +
+            '" aria-hidden="true"></i></span>' +
+            '<div><h4>' +
+            title +
+            '</h4><p>' +
+            subtitle +
+            '</p></div></header>'
+        );
     }
 
     function subtitle(el) {
         const th = XiroCanvasEditor.th;
-        if (el.type === 'shape') return th(SHAPES.indexOf(el.props.shape) >= 0 ? 'tool.' + el.props.shape : 'type.shape');
+        if (el.type === 'shape')
+            return th(SHAPES.indexOf(el.props.shape) >= 0 ? 'tool.' + el.props.shape : 'type.shape');
         const elements = XiroCanvasEditor.state.canvas.elements;
         return th('panel.layer', { n: elements.indexOf(el) + 1, total: elements.length });
     }
@@ -66,15 +82,25 @@
         if (!el) {
             const bg = state.canvas.background;
             const count = state.canvas.elements.length;
-            panel.innerHTML = head('fa-object-group', th('panel.slide'), count === 1 ? th('panel.count_one') : th('panel.count_many', { n: count }))
-                + section(th('panel.background'), F.fieldsHtml(BACKGROUND_FIELDS, bg, bg)) + emptyTip();
+            panel.innerHTML =
+                head(
+                    'fa-object-group',
+                    th('panel.slide'),
+                    count === 1 ? th('panel.count_one') : th('panel.count_many', { n: count })
+                ) +
+                section(th('panel.background'), F.fieldsHtml(BACKGROUND_FIELDS, bg, bg)) +
+                emptyTip();
             return;
         }
         const type = XiroCanvasEditor.propsByType[el.type];
         // Primero lo propio del elemento (texto, fuente, colores…); la geometría también se cambia arrastrando
-        panel.innerHTML = head(TYPE_ICONS[el.type] || 'fa-shapes', th(type ? type.title : 'type.shape'), subtitle(el))
-            + (type ? section('', F.fieldsHtml(type.fields, el.props, el)) : '')
-            + section(th('panel.geometry'), '<div class="xsce-grid2">' + F.fieldsHtml(GEOMETRY_FIELDS, el, el) + '</div>');
+        panel.innerHTML =
+            head(TYPE_ICONS[el.type] || 'fa-shapes', th(type ? type.title : 'type.shape'), subtitle(el)) +
+            (type ? section('', F.fieldsHtml(type.fields, el.props, el)) : '') +
+            section(
+                th('panel.geometry'),
+                '<div class="xsce-grid2">' + F.fieldsHtml(GEOMETRY_FIELDS, el, el) + '</div>'
+            );
     }
 
     /** Aplica el cambio de un control al fondo o al elemento seleccionado. */
@@ -103,24 +129,29 @@
     function onPanelAction(action) {
         const media = XiroCanvasEditor.media;
         const el = XiroCanvasEditor.getSelected();
-        if (action === 'bg-image') media.openImage((r) => XiroCanvasEditor.setBackground({ image: r.src }));
+        if (action === 'bg-image') media.openImage(r => XiroCanvasEditor.setBackground({ image: r.src }));
         if (action === 'bg-clear') XiroCanvasEditor.setBackground({ image: null });
-        if (action === 'change-image' && el) media.openImage((r) => XiroCanvasEditor.updateElement(el.id, { props: { src: r.src, ratio: r.ratio || null } }));
-        if (action === 'change-video' && el) media.openVideo((r) => XiroCanvasEditor.updateElement(el.id, { props: { url: r.url } }));
+        if (action === 'change-image' && el)
+            media.openImage(r =>
+                XiroCanvasEditor.updateElement(el.id, { props: { src: r.src, ratio: r.ratio || null } })
+            );
+        if (action === 'change-video' && el)
+            media.openVideo(r => XiroCanvasEditor.updateElement(el.id, { props: { url: r.url } }));
     }
 
     XiroCanvasEditor.props = {
         attach(panelEl) {
             panel = panelEl;
             shownId = undefined;
-            panel.addEventListener('input', (e) => {
+            panel.addEventListener('input', e => {
                 if (e.target.type === 'checkbox') return;
                 // El código junto a la muestra sigue al color mientras se elige
-                if (e.target.type === 'color' && e.target.nextElementSibling) e.target.nextElementSibling.textContent = e.target.value;
+                if (e.target.type === 'color' && e.target.nextElementSibling)
+                    e.target.nextElementSibling.textContent = e.target.value;
                 apply(e.target, true);
             });
-            panel.addEventListener('change', (e) => apply(e.target, false));
-            panel.addEventListener('click', (e) => {
+            panel.addEventListener('change', e => apply(e.target, false));
+            panel.addEventListener('click', e => {
                 const button = e.target.closest('[data-canvas-panel-action]');
                 if (button) onPanelAction(button.getAttribute('data-canvas-panel-action'));
             });

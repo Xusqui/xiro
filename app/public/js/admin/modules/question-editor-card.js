@@ -73,7 +73,9 @@ function questionCardHtml(q, qIdx) {
                             ${_t('admin.q.q_image_label', null, 'Imagen del enunciado')}
                             <span class="font-normal normal-case text-slate-300">— máx. 200×200 px / 200 KB</span>
                         </label>
-                        ${q.question_image_url ? `
+                        ${
+    q.question_image_url
+        ? `
                             <div class="flex items-center gap-3">
                                 <img src="${escapeHtml(q.question_image_url)}" alt="Imagen enunciado"
                                     class="w-16 h-16 object-contain rounded-lg border border-slate-200 bg-white shadow-sm flex-shrink-0"
@@ -87,14 +89,16 @@ function questionCardHtml(q, qIdx) {
                                     </button>
                                 </div>
                             </div>
-                        ` : `
+                        `
+        : `
                             <button type="button" id="q-img-btn-${qIdx}"
                                 data-admin-click="abrirSelectorImagenPregunta(${qIdx})"
                                 class="flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-plum-600 border border-dashed border-slate-300 hover:border-plum-400 rounded-lg px-3 py-2 transition bg-white">
                                 <i class="fas fa-plus-circle"></i>
                                 ${_t('admin.q.q_image_add', null, 'Añadir imagen pequeña (opcional)')}
                             </button>
-                        `}
+                        `
+}
                     </div>
 
                     <div class="mb-4">
@@ -133,7 +137,9 @@ function questionCardHtml(q, qIdx) {
                             <i class="fas fa-photo-video"></i> ${_t('admin.q.media_label', null, 'Contenido Multimedia')}
                         </label>
 
-                        ${q.tipo_contenido === 'texto' ? `
+                        ${
+    q.tipo_contenido === 'texto'
+        ? `
                             <div id="drop-zone-${qIdx}" class="drop-zone text-center">
                                 <p class="text-xs text-slate-500 mb-3">${_t('admin.q.media_drop', null, 'Arrastra un archivo aquí o haz clic para seleccionar')}</p>
                                 <button type="button" id="upload-btn-${qIdx}" data-admin-click="abrirSelectorArchivo(${qIdx})" class="bg-plum-600 hover:bg-plum-700 text-white px-4 py-2 rounded-lg text-sm font-bold transition">
@@ -141,13 +147,16 @@ function questionCardHtml(q, qIdx) {
                                 </button>
                                 <p class="text-xs text-slate-400 mt-2">${_t('admin.q.media_limit', null, 'Max: 5MB (imagen) / 10MB (audio)')}</p>
                             </div>
-                        ` : `
+                        `
+        : `
                             <div class="space-y-3">
                                 <div class="flex items-center justify-between bg-white p-3 rounded-lg border border-plum-300">
                                     <div class="flex items-center gap-3">
-                                        ${q.tipo_contenido === 'imagen'
+                                        ${
+    q.tipo_contenido === 'imagen'
         ? '<i class="fas fa-image text-plum-600 text-xl"></i>'
-        : '<i class="fas fa-volume-up text-blue-600 text-xl"></i>'}
+        : '<i class="fas fa-volume-up text-blue-600 text-xl"></i>'
+}
                                         <div>
                                             <p class="font-bold text-sm text-slate-800">${q.tipo_contenido === 'imagen' ? 'Imagen' : 'Audio'}</p>
                                             <p class="text-xs text-slate-500 font-mono break-all">${escapeHtml(q.url_recurso)}</p>
@@ -157,18 +166,22 @@ function questionCardHtml(q, qIdx) {
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
-                                ${q.tipo_contenido === 'imagen'
+                                ${
+    q.tipo_contenido === 'imagen'
         ? `<div class="text-center"><img src="${escapeHtml(q.url_recurso)}" alt="Preview" class="max-w-full max-h-48 mx-auto rounded-lg shadow-md"></div>`
         : `<div id="audio-container-${qIdx}" class="audio-placeholder" data-audio-src="${escapeHtml(q.url_recurso)}"></div>`
 }
                                 <p class="text-xs text-slate-500 italic">
                                     <i class="fas fa-info-circle mr-1"></i>
-                                    ${q.tipo_contenido === 'imagen'
+                                    ${
+    q.tipo_contenido === 'imagen'
         ? 'En presentador.html las opciones se ocultarán. En jugador.html se mostrarán normalmente.'
-        : 'El audio se reproducirá automáticamente en presentador.html y estará muto en jugador.html.'}
+        : 'El audio se reproducirá automáticamente en presentador.html y estará muto en jugador.html.'
+}
                                 </p>
                             </div>
-                        `}
+                        `
+}
                     </div>
                     
                     ${questionTypeSectionHtml(q, qIdx, isHybridToleranceMode)}

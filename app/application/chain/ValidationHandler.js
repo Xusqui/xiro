@@ -21,7 +21,7 @@ class ValidationHandler extends Handler {
         this.options = {
             passFullContext: options.passFullContext === true, // Default false (pasar solo data)
             requireSocket: options.requireSocket !== false, // Default true
-            requireData: options.requireData !== false, // Default true  
+            requireData: options.requireData !== false, // Default true
             requirePlayerId: options.requirePlayerId !== false // Default true
         };
     }
@@ -54,7 +54,7 @@ class ValidationHandler extends Handler {
         }
 
         // Decidir qué pasar a la función de validación
-        const dataToValidate = this.options.passFullContext ? context : (context.data || context);
+        const dataToValidate = this.options.passFullContext ? context : context.data || context;
 
         // Validar los datos específicos usando la función de validación
         let validation;

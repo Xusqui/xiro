@@ -35,9 +35,7 @@ async function getUserLicenseWithMeta(userId, queryable = pool) {
     }
 
     const row = result.rows[0];
-    const updatedAtMs = row.license_updated_at
-        ? new Date(row.license_updated_at).getTime()
-        : 0;
+    const updatedAtMs = row.license_updated_at ? new Date(row.license_updated_at).getTime() : 0;
 
     return {
         license: String(row.license_key || '').trim(),

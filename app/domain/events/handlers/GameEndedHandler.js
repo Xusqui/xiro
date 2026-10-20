@@ -1,7 +1,7 @@
 /**
  * @fileoverview Handler para el evento GameEndedEvent
  * @module domain/events/handlers/GameEndedHandler
- * 
+ *
  * Responsabilidades:
  * - Calcular y emitir ranking final
  * - Emitir resultados finales a todos los participantes
@@ -23,7 +23,17 @@ class GameEndedHandler extends EventHandler {
 
     async handleGameEnded(event) {
         // Extraer del payload del evento
-        const { roomId, gameId, finalRanking, ranking, stats, duration, timestamp: _timestamp, playerCount, maxPossibleScore } = event.payload || event;
+        const {
+            roomId,
+            gameId,
+            finalRanking,
+            ranking,
+            stats,
+            duration,
+            timestamp: _timestamp,
+            playerCount,
+            maxPossibleScore
+        } = event.payload || event;
         const actualRoomId = roomId || gameId;
         const actualRanking = finalRanking || ranking;
 
@@ -57,7 +67,6 @@ class GameEndedHandler extends EventHandler {
             });
 
             this.log('info', 'Game ended event processed', { roomId: actualRoomId });
-
         } catch (error) {
             this.log('error', 'Error processing game ended event', {
                 roomId: actualRoomId,

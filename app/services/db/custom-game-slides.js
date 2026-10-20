@@ -44,7 +44,8 @@ const SLIDE_INSERTS = {
     }
 };
 
-const QUESTION_INSERT_SQL = 'INSERT INTO custom_game_questions (custom_game_id, question_id, position, slide_type) VALUES ($1, $2, $3, $4)';
+const QUESTION_INSERT_SQL =
+    'INSERT INTO custom_game_questions (custom_game_id, question_id, position, slide_type) VALUES ($1, $2, $3, $4)';
 
 /**
  * Normaliza el pie: texto recortado o null si está vacío o no es texto.
@@ -77,7 +78,14 @@ function insertCustomGameQuestion(client, customGameId, position, q) {
         }
         return value;
     });
-    return client.query(slide.sql, [customGameId, null, position, q.slide_type, ...values, normalizeSlideFooter(q.slide_footer)]);
+    return client.query(slide.sql, [
+        customGameId,
+        null,
+        position,
+        q.slide_type,
+        ...values,
+        normalizeSlideFooter(q.slide_footer)
+    ]);
 }
 
 module.exports = { insertCustomGameQuestion, normalizeSlideFooter, SLIDE_FOOTER_MAX };

@@ -25,9 +25,9 @@ export function renderWordSearchPresenter(q) {
     const words = Array.isArray(q.ws_words) ? q.ws_words : [];
     if (grid.length === 0 || !ws()) return '';
 
-    const chips = words.map((word, i) =>
-        `<span class="ws-word" role="listitem" data-word-index="${i}">${escapeHtml(word)}</span>`
-    ).join('');
+    const chips = words
+        .map((word, i) => `<span class="ws-word" role="listitem" data-word-index="${i}">${escapeHtml(word)}</span>`)
+        .join('');
 
     return `
         <div id="ws-stage" class="flex items-center justify-center pb-14" style="gap: 4vh;">

@@ -1,14 +1,14 @@
 /**
  * @fileoverview Estrategia de puntuación con bonificación por racha
  * Añade bonus acumulativo por respuestas correctas consecutivas
- * 
+ *
  * CARACTERÍSTICAS:
  * - Racha individual: +X% después de N respuestas correctas
  * - Racha de equipo: +Y% adicional si TODO el equipo está en racha
  * - Acumulación ADITIVA: points × (1 + bonusIndividual + bonusEquipo)
  * - Reset individual: al fallar una pregunta
  * - Reset equipo: si UN jugador falla
- * 
+ *
  * FASE 17.2 - Día 2
  * Fecha: 3 de febrero de 2026
  */
@@ -18,7 +18,7 @@ const { SCORING, TIMING } = require('../../../config/game-constants');
 
 /**
  * Estrategia con bonus por racha de aciertos consecutivos
- * 
+ *
  * Ejemplo con threshold=3, bonus=50%:
  * - Pregunta 1 correcta: 40 puntos (sin racha)
  * - Pregunta 2 correcta: 40 puntos (sin racha)
@@ -41,12 +41,14 @@ class StreakBonusScoring extends ScoringStrategy {
         this.basePoints = config.basePoints || SCORING.BASE_POINTS;
         this.maxTimeBonus = config.maxTimeBonus || SCORING.MAX_TIME_BONUS;
         this.streakThreshold = config.streakThreshold || SCORING.STREAK.DEFAULT_THRESHOLD;
-        this.streakBonusPercentage = config.streakBonusPercentage !== undefined
-            ? config.streakBonusPercentage
-            : SCORING.STREAK.DEFAULT_BONUS_PERCENTAGE;
-        this.teamStreakBonusPercentage = config.teamStreakBonusPercentage !== undefined
-            ? config.teamStreakBonusPercentage
-            : SCORING.STREAK.DEFAULT_TEAM_BONUS_PERCENTAGE;
+        this.streakBonusPercentage =
+            config.streakBonusPercentage !== undefined
+                ? config.streakBonusPercentage
+                : SCORING.STREAK.DEFAULT_BONUS_PERCENTAGE;
+        this.teamStreakBonusPercentage =
+            config.teamStreakBonusPercentage !== undefined
+                ? config.teamStreakBonusPercentage
+                : SCORING.STREAK.DEFAULT_TEAM_BONUS_PERCENTAGE;
         this.teamStreakEnabled = config.teamStreakEnabled || false;
     }
 
@@ -121,13 +123,7 @@ class StreakBonusScoring extends ScoringStrategy {
      * @inheritdoc
      */
     calculatePoints(params) {
-        const {
-            isCorrect,
-            timeElapsed,
-            questionTimeLimit,
-            playerState = {},
-            teamState = {}
-        } = params;
+        const { isCorrect, timeElapsed, questionTimeLimit, playerState = {}, teamState = {} } = params;
 
         const timeLimit = questionTimeLimit || TIMING.DEFAULT_QUESTION_TIME;
         const currentStreak = playerState.currentStreak || 0;
@@ -156,11 +152,7 @@ class StreakBonusScoring extends ScoringStrategy {
 
         // Calcular bonus de racha
         const teamInStreak = this.isTeamInStreak(teamState);
-        const streakInfo = this.calculateStreakBonus(
-            currentStreak,
-            teamInStreak,
-            basePointsWithTime
-        );
+        const streakInfo = this.calculateStreakBonus(currentStreak, teamInStreak, basePointsWithTime);
 
         const totalPoints = basePointsWithTime + streakInfo.bonusPoints;
 

@@ -1,14 +1,14 @@
 /**
  * @fileoverview AckManager - Gestión de acknowledgments con retry automático
  * @module sockets/services/AckManager
- * 
+ *
  * Responsabilidades:
  * - Enviar mensajes críticos con acknowledgment
  * - Retry automático si no se recibe ACK en timeout
  * - Tracking de mensajes pendientes
  * - Limpieza de mensajes expirados
  * - Métricas de entrega
- * 
+ *
  * Casos de uso:
  * - answer-result: Confirmación de respuesta procesada
  * - game-started: Confirmación de inicio de juego
@@ -72,7 +72,7 @@ class AckManager extends EventEmitter {
             socketId: socket.id
         });
 
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
             const message = {
                 socket,
                 event,
@@ -109,7 +109,7 @@ class AckManager extends EventEmitter {
         message.attempts++;
 
         // Enviar con callback para ACK
-        socket.emit(event, data, (ackData) => {
+        socket.emit(event, data, ackData => {
             this._handleAck(messageId, ackData);
         });
 
@@ -279,9 +279,8 @@ class AckManager extends EventEmitter {
         return {
             ...this.stats,
             pending: this.pendingMessages.size,
-            successRate: this.stats.sent > 0
-                ? ((this.stats.acknowledged / this.stats.sent) * 100).toFixed(2) + '%'
-                : '0%'
+            successRate:
+                this.stats.sent > 0 ? ((this.stats.acknowledged / this.stats.sent) * 100).toFixed(2) + '%' : '0%'
         };
     }
 

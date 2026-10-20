@@ -114,7 +114,12 @@ function removeInfoOverlay() {
     if (overlay) overlay.remove();
 }
 
-function showInfoOverlay({ title, message, buttonText = _t('presenter.session.btn_accept', null, 'Aceptar'), onClose }) {
+function showInfoOverlay({
+    title,
+    message,
+    buttonText = _t('presenter.session.btn_accept', null, 'Aceptar'),
+    onClose
+}) {
     removeInfoOverlay();
 
     const overlay = document.createElement('div');
@@ -149,16 +154,7 @@ function showAbandonOverlay({ onConfirm, onCancel }) {
         return;
     }
 
-    const confirmWords = [
-        'JAEN',
-        'CORDOBA',
-        'SEVILLA',
-        'HUELVA',
-        'CADIZ',
-        'MALAGA',
-        'GRANADA',
-        'ALMERIA'
-    ];
+    const confirmWords = ['JAEN', 'CORDOBA', 'SEVILLA', 'HUELVA', 'CADIZ', 'MALAGA', 'GRANADA', 'ALMERIA'];
     const confirmWord = confirmWords[Math.floor(Math.random() * confirmWords.length)];
 
     const overlay = document.createElement('div');
@@ -196,7 +192,7 @@ function showAbandonOverlay({ onConfirm, onCancel }) {
     if (input) {
         input.focus();
         input.addEventListener('input', syncConfirmState);
-        input.addEventListener('keydown', (event) => {
+        input.addEventListener('keydown', event => {
             if (event.key === 'Enter') {
                 confirmBtn.click();
             } else if (event.key === 'Escape') {
@@ -281,7 +277,11 @@ export function terminarJuego() {
 
     mostrarModalConfirmacion(
         _t('presenter.session.end_title', null, '¿Terminar partida?'),
-        _t('presenter.session.end_msg', null, 'Se finalizará el juego y se mostrará el podio con la clasificación actual.'),
+        _t(
+            'presenter.session.end_msg',
+            null,
+            'Se finalizará el juego y se mostrará el podio con la clasificación actual.'
+        ),
         () => {
             // Detener cuenta atrás inmediatamente al confirmar, sin esperar al servidor
             clearInterval(window.timerInterval);

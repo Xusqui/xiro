@@ -31,7 +31,7 @@ function getCpuPercent() {
     const usage = process.cpuUsage(_lastCpuUsage);
     const elapsedUs = (now - _lastCpuCheck) * 1000; // ms → µs
     const cpuUs = usage.user + usage.system;
-    const percent = elapsedUs > 0 ? Math.min(100, parseFloat((cpuUs / elapsedUs * 100).toFixed(1))) : 0;
+    const percent = elapsedUs > 0 ? Math.min(100, parseFloat(((cpuUs / elapsedUs) * 100).toFixed(1))) : 0;
     _lastCpuUsage = process.cpuUsage();
     _lastCpuCheck = now;
     return percent;
@@ -344,8 +344,9 @@ router.get('/api/health/performance', authenticateAdmin, authorizeAdmin, (req, r
 
         // Calcular promedio de jugadores por juego
         if (roomAnalysis.playerRooms > 0) {
-            roomAnalysis.averagePlayersPerGame =
-                (roomAnalysis.totalPlayersInRooms / roomAnalysis.playerRooms).toFixed(1);
+            roomAnalysis.averagePlayersPerGame = (roomAnalysis.totalPlayersInRooms / roomAnalysis.playerRooms).toFixed(
+                1
+            );
         }
     }
 

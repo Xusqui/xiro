@@ -1,6 +1,6 @@
 /**
  * @fileoverview Game Cleanup Manager - Handles player notifications and cleanup
- * 
+ *
  * Separado de GameEndManager para evitar dependencias circulares con EndGameUseCase
  */
 
@@ -54,13 +54,18 @@ async function sendFinalPositions({ io, roomId, ranking, teamConfig }) {
         // Individual mode
         const sockets = await io.in(`${roomId}:players`).fetchSockets();
         logger.debug(`Sockets en room '${roomId}:players': ${sockets.length}`);
-        logger.debug(`Nicknames en sockets:`, sockets.map(s => s.data?.nickname || 'NO_NICKNAME'));
+        logger.debug(
+            `Nicknames en sockets:`,
+            sockets.map(s => s.data?.nickname || 'NO_NICKNAME')
+        );
         const socketByNickname = new Map(sockets.map(s => [s.data?.nickname, s]));
 
         ranking.forEach(player => {
             const playerSocket = socketByNickname.get(player.name);
             if (playerSocket) {
-                logger.debug(`Enviando posición a ${player.name} (${playerSocket.id}) - Pos: ${player.position}, Score: ${player.pts}`);
+                logger.debug(
+                    `Enviando posición a ${player.name} (${playerSocket.id}) - Pos: ${player.position}, Score: ${player.pts}`
+                );
                 io.to(playerSocket.id).emit('player-final-position', {
                     position: player.position,
                     totalPlayers: ranking.length,
@@ -70,7 +75,10 @@ async function sendFinalPositions({ io, roomId, ranking, teamConfig }) {
                 });
             } else {
                 logger.warn(`No se encontró socket para jugador: ${player.name}`);
-                logger.debug(`Sockets disponibles:`, sockets.map(s => `${s.id}:${s.data?.nickname}`));
+                logger.debug(
+                    `Sockets disponibles:`,
+                    sockets.map(s => `${s.id}:${s.data?.nickname}`)
+                );
             }
         });
     }

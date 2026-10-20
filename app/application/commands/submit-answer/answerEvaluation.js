@@ -40,14 +40,17 @@ async function resolveCanonicalQuestionStartTime(ctx) {
                 const redisStartMs = Number(redisStart);
 
                 if (resolvedStartTime && !isNaN(localAge) && localAge > maxAgeMs) {
-                    logger.warn('Stale game.questionStartTime detected on non-originating worker — using Redis canonical epoch', {
-                        roomId: sPin,
-                        nickname,
-                        localStartTime: resolvedStartTime,
-                        redisStartTime: redisStartMs,
-                        localAgeMs: localAge,
-                        maxAgeMs: maxAgeMs
-                    });
+                    logger.warn(
+                        'Stale game.questionStartTime detected on non-originating worker — using Redis canonical epoch',
+                        {
+                            roomId: sPin,
+                            nickname,
+                            localStartTime: resolvedStartTime,
+                            redisStartTime: redisStartMs,
+                            localAgeMs: localAge,
+                            maxAgeMs: maxAgeMs
+                        }
+                    );
                 }
 
                 resolvedStartTime = redisStartMs;
@@ -72,15 +75,7 @@ async function resolveCanonicalQuestionStartTime(ctx) {
  * @returns {Object} Service result with correctness and points.
  */
 function evaluateAnswer(ctx) {
-    const {
-        flags,
-        payload,
-        currentQuestion,
-        resolvedStartTime,
-        questionTimeLimit,
-        game,
-        basePoints
-    } = ctx;
+    const { flags, payload, currentQuestion, resolvedStartTime, questionTimeLimit, game, basePoints } = ctx;
 
     if (flags.isOrderQuestion) {
         return OrderAnswerService.processOrderAnswer({

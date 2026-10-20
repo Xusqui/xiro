@@ -53,12 +53,14 @@ function getQuestionWords(question) {
  * @returns {Object}
  */
 function prepareFillBlanksQuestion(question) {
-    const options = [...(question?.options || [])]
-        .sort((a, b) => (a.order_index ?? a.orderIndex ?? 0) - (b.order_index ?? b.orderIndex ?? 0));
+    const options = [...(question?.options || [])].sort(
+        (a, b) => (a.order_index ?? a.orderIndex ?? 0) - (b.order_index ?? b.orderIndex ?? 0)
+    );
     const words = FB.wordsFromOptions(options);
-    const valid = words.length > 0
-        && words.every(word => FB.wordError(word) === null)
-        && FB.countBlanks(question?.question_text) === words.length;
+    const valid =
+        words.length > 0 &&
+        words.every(word => FB.wordError(word) === null) &&
+        FB.countBlanks(question?.question_text) === words.length;
     return {
         ...question,
         options,
@@ -118,7 +120,15 @@ function meetsThreshold(correctCount, totalBlanks) {
  * @param {number} [params.basePoints] - Puntos por palabra (aleatorios si procede); por defecto BASE_POINTS
  * @returns {{ isCorrect: boolean, pointsEarned: number, isSurvey: false, details: Object }}
  */
-function processFillBlanksAnswer({ question, words, hintCounts = [], sharedSolved = [], timeElapsed, questionTimeLimit, basePoints }) {
+function processFillBlanksAnswer({
+    question,
+    words,
+    hintCounts = [],
+    sharedSolved = [],
+    timeElapsed,
+    questionTimeLimit,
+    basePoints
+}) {
     const expected = getQuestionWords(question);
     const perWord = Number(basePoints) > 0 ? Number(basePoints) : SCORING.BASE_POINTS;
     const shared = toIndexSet(sharedSolved);

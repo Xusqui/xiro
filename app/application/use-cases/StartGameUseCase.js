@@ -1,7 +1,7 @@
 /**
  * @fileoverview Use Case - Start Game
  * @module application/use-cases/StartGameUseCase
- * 
+ *
  * Encapsula el flujo completo de iniciar una partida:
  * - Idempotencia (evita inicio duplicado)
  * - Validación de PIN, preguntas y jugadores
@@ -11,7 +11,13 @@
  */
 
 const ImprovedStartGameCommand = require('../commands/ImprovedStartGameCommand');
-const { ValidationHandler, RateLimitHandler, CommandExecutionHandler, ResponseHandler, IdempotencyHandler } = require('../chain');
+const {
+    ValidationHandler,
+    RateLimitHandler,
+    CommandExecutionHandler,
+    ResponseHandler,
+    IdempotencyHandler
+} = require('../chain');
 const logger = require('../../config/logger');
 const { getIdempotencyService } = require('../services/idempotency');
 const { createRedisRateLimiter } = require('../helpers/SocketRateLimiterFactory');
@@ -35,19 +41,14 @@ class StartGameUseCase {
     setupChain() {
         // 1. Idempotencia (evita inicio duplicado)
         const idempotencyService = getIdempotencyService();
-        const idempotencyHandler = idempotencyService
-            ? new IdempotencyHandler(idempotencyService, 'start-game')
-            : null;
+        const idempotencyHandler = idempotencyService ? new IdempotencyHandler(idempotencyService, 'start-game') : null;
 
         // 2. Validación de entrada
-        const validationHandler = new ValidationHandler(
-            this.validateStartGameInput.bind(this),
-            {
-                passFullContext: true,
-                requireData: false,
-                requirePlayerId: false
-            }
-        );
+        const validationHandler = new ValidationHandler(this.validateStartGameInput.bind(this), {
+            passFullContext: true,
+            requireData: false,
+            requirePlayerId: false
+        });
 
         // 3. Rate Limiting — distributed via Redis, local fallback
         const rateLimiter = createRedisRateLimiter({
@@ -59,18 +60,20 @@ class StartGameUseCase {
         const rateLimitHandler = new RateLimitHandler(rateLimiter, 'start-game');
 
         // 4. Ejecución del comando
-        const commandHandler = new CommandExecutionHandler(
-            ImprovedStartGameCommand,
-            (context) => ({
-                roomId: context.roomId,
-                io: context.io
-            })
-        );
+        const commandHandler = new CommandExecutionHandler(ImprovedStartGameCommand, context => ({
+            roomId: context.roomId,
+            io: context.io
+        }));
 
         // 5. Respuesta al cliente
         const responseHandler = new ResponseHandler((result, context) => {
             if (!result.success) {
-                return { success: false, error: result.error, code: result.code, ...(result.params && { params: result.params }) };
+                return {
+                    success: false,
+                    error: result.error,
+                    code: result.code,
+                    ...(result.params && { params: result.params })
+                };
             }
             // Devolver todos los datos del comando
             return {
@@ -151,7 +154,6 @@ class StartGameUseCase {
             }
 
             return result;
-
         } catch (error) {
             logger.error('StartGameUseCase: Error crítico', { error: error.message, stack: error.stack });
             return {

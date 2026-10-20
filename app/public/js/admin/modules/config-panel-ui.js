@@ -16,7 +16,7 @@ async function postUiSettings(changes) {
     for (const [key, value] of Object.entries(changes)) {
         const res = await fetch('/api/admin/ui-settings', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getAuthToken() },
+            headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getAuthToken() },
             body: JSON.stringify({ key, value })
         });
         const data = await res.json();
@@ -38,8 +38,10 @@ function changedSettings(now, initial) {
 /* ===== RENDER ===== */
 
 function _tvCardModeClass(active) {
-    return 'px-3 py-1.5 rounded-lg text-xs font-bold transition-all border-0 ' +
-        (active ? 'bg-cyan-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200');
+    return (
+        'px-3 py-1.5 rounded-lg text-xs font-bold transition-all border-0 ' +
+        (active ? 'bg-cyan-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200')
+    );
 }
 
 function _renderTvCardModeOptions(currentMode) {
@@ -48,11 +50,13 @@ function _renderTvCardModeOptions(currentMode) {
         { mode: 'always', labelKey: 'admin.config.ui.tv_card_mode_always' },
         { mode: 'old_devices_only', labelKey: 'admin.config.ui.tv_card_mode_old_devices' }
     ];
-    return options.map(opt => {
-        const active = opt.mode === currentMode;
-        return `<button type="button" data-config-action="set-tv-card-mode" data-mode="${opt.mode}" aria-pressed="${active}"
+    return options
+        .map(opt => {
+            const active = opt.mode === currentMode;
+            return `<button type="button" data-config-action="set-tv-card-mode" data-mode="${opt.mode}" aria-pressed="${active}"
             class="${_tvCardModeClass(active)}">${_t(opt.labelKey)}</button>`;
-    }).join('');
+        })
+        .join('');
 }
 
 /**

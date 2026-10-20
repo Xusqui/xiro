@@ -16,9 +16,10 @@ function rightText(option) {
 }
 
 function pairRowHtml({ left, chosen, correct, isCorrect }) {
-    const correctHint = isCorrect || !correct
-        ? ''
-        : `<div class="text-xs text-white/80 mt-1 break-words"><i class="fas fa-arrow-right mr-1"></i>${escapeHtml(correct)}</div>`;
+    const correctHint =
+        isCorrect || !correct
+            ? ''
+            : `<div class="text-xs text-white/80 mt-1 break-words"><i class="fas fa-arrow-right mr-1"></i>${escapeHtml(correct)}</div>`;
     return `
         <div class="relative rounded-xl p-2 flex items-center gap-2 ${isCorrect ? 'bg-green-500/20 border-2 border-green-500' : 'bg-gray-500/20 border-2 border-gray-500'}">
             <div class="flex-1 min-w-0 text-left">
@@ -41,12 +42,15 @@ function pairRowsHtml(details) {
     const matches = getCurrentMatches();
     const pairsCorrect = details.pairsCorrect || [];
 
-    return options.map((option, pos) => {
-        const isCorrect = !!pairsCorrect[pos];
-        const chosenIndex = Array.isArray(matches) ? matches[pos] : null;
-        const chosen = chosenIndex === null || chosenIndex === undefined ? rightText(option) : rightText(options[chosenIndex]);
-        return pairRowHtml({ left: leftText(option), chosen, correct: rightText(option), isCorrect });
-    }).join('');
+    return options
+        .map((option, pos) => {
+            const isCorrect = !!pairsCorrect[pos];
+            const chosenIndex = Array.isArray(matches) ? matches[pos] : null;
+            const chosen =
+                chosenIndex === null || chosenIndex === undefined ? rightText(option) : rightText(options[chosenIndex]);
+            return pairRowHtml({ left: leftText(option), chosen, correct: rightText(option), isCorrect });
+        })
+        .join('');
 }
 
 /** Pantalla de resultado de emparejar: puntos, x/N parejas, filas y ranking. */

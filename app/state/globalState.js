@@ -2,7 +2,7 @@
  * @fileoverview Estado global de la aplicación
  * CRÍTICO: Este archivo contiene las instancias únicas de Maps y objetos globales
  * NO duplicar estas estructuras en otros módulos - siempre importar desde aquí
- * 
+ *
  * NOTA: activeGames ahora usa sessionId (formato: PIN-UUID) como clave
  * esto permite múltiples sesiones independientes del mismo PIN simultáneamente
  */
@@ -88,22 +88,25 @@ const roomPresenterMap = new Map();
 const pinValidationCache = new Map();
 
 // Cleanup automático de caché cada 5 minutos
-setInterval(() => {
-    const now = Date.now();
-    const TTL = 5 * 60 * 1000; // 5 minutos
-    let cleaned = 0;
+setInterval(
+    () => {
+        const now = Date.now();
+        const TTL = 5 * 60 * 1000; // 5 minutos
+        let cleaned = 0;
 
-    for (const [pin, data] of pinValidationCache.entries()) {
-        if (now - data.timestamp > TTL) {
-            pinValidationCache.delete(pin);
-            cleaned++;
+        for (const [pin, data] of pinValidationCache.entries()) {
+            if (now - data.timestamp > TTL) {
+                pinValidationCache.delete(pin);
+                cleaned++;
+            }
         }
-    }
 
-    if (cleaned > 0) {
-        logger.debug('PIN validation cache cleanup', { cleaned, remaining: pinValidationCache.size });
-    }
-}, 5 * 60 * 1000).unref();
+        if (cleaned > 0) {
+            logger.debug('PIN validation cache cleanup', { cleaned, remaining: pinValidationCache.size });
+        }
+    },
+    5 * 60 * 1000
+).unref();
 
 /**
  * FASE 3: Limpieza proactiva del caché cuando un juego finaliza

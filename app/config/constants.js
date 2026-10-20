@@ -30,7 +30,9 @@ module.exports = {
     // para evitar duplicación. Usar: require('./game-constants').TIMEOUTS.RECONNECTION_TIMEOUT
 
     // ===== CORS =====
-    CORS_ORIGIN: process.env.CORS_ORIGIN || 'https://xiro.pro,https://www.xiro.pro,https://test.xiro.pro,http://localhost:3000,http://localhost',
+    CORS_ORIGIN:
+        process.env.CORS_ORIGIN ||
+        'https://xiro.pro,https://www.xiro.pro,https://test.xiro.pro,http://localhost:3000,http://localhost',
     SERVER_HOST: process.env.SERVER_HOST || 'xiro.pro',
 
     // ===== ALLOWED ORIGINS =====
@@ -55,5 +57,5 @@ module.exports = {
     PORT: process.env.PORT || 3000,
 
     // ===== PUNTUACIÓN DE EQUIPOS =====
-    TEAM_SCORE_LAMBDA: parseFloat(process.env.TEAM_SCORE_LAMBDA) || 0.5,
+    TEAM_SCORE_LAMBDA: parseFloat(process.env.TEAM_SCORE_LAMBDA) || 0.5
 };

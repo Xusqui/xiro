@@ -142,16 +142,7 @@ async function handleFallbackPresenterDisconnect(context) {
 }
 
 async function handleFallbackPlayerDisconnect(context) {
-    const {
-        fallbackNickname,
-        fallbackRoomId,
-        lobbyPlayers,
-        activeGames,
-        teamConfigs,
-        players,
-        io,
-        logger
-    } = context;
+    const { fallbackNickname, fallbackRoomId, lobbyPlayers, activeGames, teamConfigs, players, io, logger } = context;
     const { removePlayerFromLobby } = require('../utils/LobbyManager');
     const { getPlayersInRoom } = require('../utils/GameUtils');
     const { removePlayerFromActiveGame } = require('../utils/GamePlayerRemover');
@@ -188,17 +179,7 @@ async function handleFallbackPlayerDisconnect(context) {
 }
 
 async function handleDisconnectWithoutPlayerId(context) {
-    const {
-        socket,
-        lobbyPlayers,
-        activeGames,
-        teamConfigs,
-        players,
-        roomPresenterMap,
-        metrics,
-        io,
-        logger
-    } = context;
+    const { socket, lobbyPlayers, activeGames, teamConfigs, players, roomPresenterMap, metrics, io, logger } = context;
 
     const fallbackNickname = socket.data?.nickname;
     const fallbackRoomId = socket.data?.roomId;
@@ -238,17 +219,7 @@ async function handleDisconnectWithoutPlayerId(context) {
 }
 
 async function handleKnownPlayerDisconnect(context) {
-    const {
-        socket,
-        playerId,
-        player,
-        lobbyPlayers,
-        activeGames,
-        teamConfigs,
-        metrics,
-        io,
-        logger
-    } = context;
+    const { socket, playerId, player, lobbyPlayers, activeGames, teamConfigs, metrics, io, logger } = context;
 
     const { nickname, roomId } = player;
     const isPresenter = player.role === 'presenter' || nickname === 'HOST';
@@ -301,12 +272,15 @@ async function handleKnownPlayerDisconnect(context) {
 
     await publishPlayerDisconnected(playerId, player);
 
-    EventBus.emit('player.disconnected', new PlayerDisconnectedEvent({
-        gameId: roomId,
-        playerId,
-        nickname,
-        reason: 'connection_lost'
-    }));
+    EventBus.emit(
+        'player.disconnected',
+        new PlayerDisconnectedEvent({
+            gameId: roomId,
+            playerId,
+            nickname,
+            reason: 'connection_lost'
+        })
+    );
 
     logger.info('Player disconnected', {
         playerId,
@@ -320,16 +294,8 @@ async function handleKnownPlayerDisconnect(context) {
 }
 
 module.exports = function createDisconnectHandler(dependencies) {
-    const {
-        players,
-        socketToPlayer,
-        lobbyPlayers,
-        activeGames,
-        teamConfigs,
-        roomPresenterMap,
-        metrics,
-        io
-    } = dependencies;
+    const { players, socketToPlayer, lobbyPlayers, activeGames, teamConfigs, roomPresenterMap, metrics, io } =
+        dependencies;
 
     return async function handleDisconnect(socket, reason) {
         const logger = require('../../config/logger');

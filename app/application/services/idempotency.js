@@ -30,7 +30,7 @@ async function initializeIdempotencyService(options = {}) {
             url: redisUrl,
             password: process.env.REDIS_PASSWORD || undefined,
             socket: {
-                reconnectStrategy: (retries) => {
+                reconnectStrategy: retries => {
                     if (retries > 10) {
                         logger.error('Redis idempotency client exceeded max retries');
                         return new Error('Redis unavailable');
@@ -40,7 +40,7 @@ async function initializeIdempotencyService(options = {}) {
             }
         });
 
-        redisClient.on('error', (err) => {
+        redisClient.on('error', err => {
             logger.error('Redis idempotency client error', { error: err.message });
         });
 

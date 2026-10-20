@@ -19,13 +19,32 @@
     'use strict';
 
     const MUSIC_EVENTS = [
-        'LOBBY', 'BOARD', 'PRE_QUESTION', 'QUESTION', 'SLIDE', 'REVEAL', 'REVEAL_DONE',
-        'PODIUM', 'PODIUM_STEP', 'TIMER_PAUSE', 'TIMER_RESUME', 'STOP'
+        'LOBBY',
+        'BOARD',
+        'PRE_QUESTION',
+        'QUESTION',
+        'SLIDE',
+        'REVEAL',
+        'REVEAL_DONE',
+        'PODIUM',
+        'PODIUM_STEP',
+        'TIMER_PAUSE',
+        'TIMER_RESUME',
+        'STOP'
     ];
 
     const ACTIONS = [
-        'stopMusic', 'playLobby', 'playBoard', 'playPreQuestion', 'playQuestion', 'playReveal',
-        'playLeaderboard', 'playPodium', 'podiumStep', 'pauseTension', 'resumeTension'
+        'stopMusic',
+        'playLobby',
+        'playBoard',
+        'playPreQuestion',
+        'playQuestion',
+        'playReveal',
+        'playLeaderboard',
+        'playPodium',
+        'podiumStep',
+        'pauseTension',
+        'resumeTension'
     ];
 
     // Una pregunta nueva vuelve a entrar en 'question' aunque ya se esté ahí
@@ -40,21 +59,35 @@
             idle: {
                 entry: 'stopMusic',
                 on: {
-                    LOBBY: 'lobby', BOARD: 'board', PRE_QUESTION: TO_PRE_QUESTION, QUESTION: TO_QUESTION,
-                    SLIDE: 'leaderboard', PODIUM: 'podium'
+                    LOBBY: 'lobby',
+                    BOARD: 'board',
+                    PRE_QUESTION: TO_PRE_QUESTION,
+                    QUESTION: TO_QUESTION,
+                    SLIDE: 'leaderboard',
+                    PODIUM: 'podium'
                 }
             },
             lobby: {
                 entry: 'playLobby',
                 on: {
-                    PRE_QUESTION: TO_PRE_QUESTION, QUESTION: TO_QUESTION, BOARD: 'board',
-                    SLIDE: 'leaderboard', PODIUM: 'podium', STOP: 'idle'
+                    PRE_QUESTION: TO_PRE_QUESTION,
+                    QUESTION: TO_QUESTION,
+                    BOARD: 'board',
+                    SLIDE: 'leaderboard',
+                    PODIUM: 'podium',
+                    STOP: 'idle'
                 }
             },
             // Tablero del Trivial: espera tranquila entre tiradas
             board: {
                 entry: 'playBoard',
-                on: { PRE_QUESTION: TO_PRE_QUESTION, QUESTION: TO_QUESTION, SLIDE: 'leaderboard', PODIUM: 'podium', STOP: 'idle' }
+                on: {
+                    PRE_QUESTION: TO_PRE_QUESTION,
+                    QUESTION: TO_QUESTION,
+                    SLIDE: 'leaderboard',
+                    PODIUM: 'podium',
+                    STOP: 'idle'
+                }
             },
             // Mientras se ve la puntuación aleatoria: suena la pregunta (tensión 0, sin
             // reloj); al llegar la pregunta solo arranca el reloj, sin otro cambio de escena
@@ -80,13 +113,24 @@
             reveal: {
                 entry: 'playReveal',
                 on: {
-                    REVEAL_DONE: 'leaderboard', PRE_QUESTION: TO_PRE_QUESTION, QUESTION: TO_QUESTION, SLIDE: 'leaderboard',
-                    BOARD: 'board', PODIUM: 'podium', STOP: 'idle'
+                    REVEAL_DONE: 'leaderboard',
+                    PRE_QUESTION: TO_PRE_QUESTION,
+                    QUESTION: TO_QUESTION,
+                    SLIDE: 'leaderboard',
+                    BOARD: 'board',
+                    PODIUM: 'podium',
+                    STOP: 'idle'
                 }
             },
             leaderboard: {
                 entry: 'playLeaderboard',
-                on: { PRE_QUESTION: TO_PRE_QUESTION, QUESTION: TO_QUESTION, BOARD: 'board', PODIUM: 'podium', STOP: 'idle' }
+                on: {
+                    PRE_QUESTION: TO_PRE_QUESTION,
+                    QUESTION: TO_QUESTION,
+                    BOARD: 'board',
+                    PODIUM: 'podium',
+                    STOP: 'idle'
+                }
             },
             podium: {
                 entry: 'playPodium',
@@ -103,7 +147,7 @@
     function createMusicMachine(XState, actions) {
         const impl = {};
         ACTIONS.forEach(function (name) {
-            impl[name] = (actions && actions[name]) || function () { };
+            impl[name] = (actions && actions[name]) || function () {};
         });
         return XState.createMachine(musicMachineConfig).provide({ actions: impl });
     }

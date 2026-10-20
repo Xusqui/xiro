@@ -56,7 +56,9 @@ function _saveBarSetStatus(state, html) {
     document.getElementById('savebar-save-btn').disabled = locked;
     document.getElementById('savebar-discard-btn').disabled = locked;
     const icon = { saving: 'fa-spin fa-circle-notch', ok: 'fa-check-circle', error: 'fa-times-circle' }[state];
-    statusEl.innerHTML = _tHtml((icon ? `<i class="fas ${icon}"></i>` : '<span class="savebar__dot"></span>') + `<span>${html}</span>`);
+    statusEl.innerHTML = _tHtml(
+        (icon ? `<i class="fas ${icon}"></i>` : '<span class="savebar__dot"></span>') + `<span>${html}</span>`
+    );
 }
 
 /** Pone "sin cambios" o "cambios sin guardar" según el formulario. */
@@ -178,7 +180,9 @@ function _initSaveBarDelegation() {
         return Boolean(root && root.contains(target));
     };
     // Solo eventos del usuario (isTrusted): los que lanza el propio código al pintar no cuentan
-    const onTouch = event => { if (event.isTrusted && inRoot(event.target)) _saveBar.touched = true; };
+    const onTouch = event => {
+        if (event.isTrusted && inRoot(event.target)) _saveBar.touched = true;
+    };
     const onEdit = event => {
         if (!inRoot(event.target)) return;
         if (event.isTrusted) _saveBar.touched = true;

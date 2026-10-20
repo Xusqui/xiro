@@ -21,9 +21,7 @@ function resolvePublicBaseUrl() {
         .split(',')[0]
         .trim();
     const fallbackBaseUrl = 'https://xiro.pro';
-    const withProtocol = /^https?:\/\//i.test(rawBaseUrl)
-        ? rawBaseUrl
-        : `https://${rawBaseUrl || 'xiro.pro'}`;
+    const withProtocol = /^https?:\/\//i.test(rawBaseUrl) ? rawBaseUrl : `https://${rawBaseUrl || 'xiro.pro'}`;
 
     try {
         const parsedUrl = new URL(withProtocol);
@@ -39,97 +37,108 @@ function resolvePublicBaseUrl() {
     }
 }
 
-const GENERIC_REQUEST_MESSAGE = 'Si el correo existe en nuestro sistema, recibirás un enlace para restablecer tu contraseña.';
+const GENERIC_REQUEST_MESSAGE =
+    'Si el correo existe en nuestro sistema, recibirás un enlace para restablecer tu contraseña.';
 
 /**
  * Solicita el restablecimiento de contraseña (requiere confirmación por email).
  * Responde siempre el mismo mensaje genérico exista o no la cuenta, para no
  * permitir enumeración de usuarios por email.
  */
-router.post('/api/admin-password-reset/request', loginLimiter, validateBody(schemas.passwordResetRequest), async (req, res) => {
-    const { email } = req.body;
+router.post(
+    '/api/admin-password-reset/request',
+    loginLimiter,
+    validateBody(schemas.passwordResetRequest),
+    async (req, res) => {
+        const { email } = req.body;
 
-    try {
-        const user = await adminUserService.getActiveUserByEmail(email);
+        try {
+            const user = await adminUserService.getActiveUserByEmail(email);
 
-        if (user) {
-            const pending = await passwordResetTokenService.createPendingPasswordReset({
-                userId: user.id
+            if (user) {
+                const pending = await passwordResetTokenService.createPendingPasswordReset({
+                    userId: user.id
+                });
+
+                const resetUrl = `${resolvePublicBaseUrl()}/admin.html?reset_token=${encodeURIComponent(pending.token)}`;
+
+                await sendAdminPasswordResetEmail({
+                    to: user.email,
+                    username: user.username,
+                    resetUrl
+                });
+
+                logger.auth('Admin panel password reset requested', {
+                    userId: user.id,
+                    ip: req.ip
+                });
+            }
+
+            return res.status(202).json({
+                success: true,
+                message: GENERIC_REQUEST_MESSAGE,
+                code: 'PASSWORD_RESET_REQUEST_SENT'
             });
+        } catch (error) {
+            if (error.code === 'SMTP_NOT_CONFIGURED') {
+                return res.status(500).json({
+                    success: false,
+                    error: 'El correo SMTP no está configurado. Contacta con un administrador.',
+                    code: 'SMTP_NOT_CONFIGURED'
+                });
+            }
 
-            const resetUrl = `${resolvePublicBaseUrl()}/admin.html?reset_token=${encodeURIComponent(pending.token)}`;
-
-            await sendAdminPasswordResetEmail({
-                to: user.email,
-                username: user.username,
-                resetUrl
-            });
-
-            logger.auth('Admin panel password reset requested', {
-                userId: user.id,
-                ip: req.ip
-            });
-        }
-
-        return res.status(202).json({
-            success: true,
-            message: GENERIC_REQUEST_MESSAGE,
-            code: 'PASSWORD_RESET_REQUEST_SENT'
-        });
-    } catch (error) {
-        if (error.code === 'SMTP_NOT_CONFIGURED') {
+            logger.error('Admin password reset request failed', { error: error.message, ip: req.ip });
             return res.status(500).json({
                 success: false,
-                error: 'El correo SMTP no está configurado. Contacta con un administrador.',
-                code: 'SMTP_NOT_CONFIGURED'
+                error: 'No se pudo procesar la solicitud de restablecimiento',
+                code: 'PASSWORD_RESET_REQUEST_FAILED'
             });
         }
-
-        logger.error('Admin password reset request failed', { error: error.message, ip: req.ip });
-        return res.status(500).json({
-            success: false,
-            error: 'No se pudo procesar la solicitud de restablecimiento',
-            code: 'PASSWORD_RESET_REQUEST_FAILED'
-        });
     }
-});
+);
 
 /**
  * Confirma el restablecimiento de contraseña con token de un solo uso.
  */
-router.post('/api/admin-password-reset/confirm', loginLimiter, validateBody(schemas.passwordResetConfirm), async (req, res) => {
-    const { token, newPassword } = req.body;
+router.post(
+    '/api/admin-password-reset/confirm',
+    loginLimiter,
+    validateBody(schemas.passwordResetConfirm),
+    async (req, res) => {
+        const { token, newPassword } = req.body;
 
-    try {
-        const newPasswordHash = await hashPassword(newPassword);
-        const user = await passwordResetTokenService.consumePasswordResetToken(token, newPasswordHash);
+        try {
+            const newPasswordHash = await hashPassword(newPassword);
+            const user = await passwordResetTokenService.consumePasswordResetToken(token, newPasswordHash);
 
-        logger.auth('Admin panel password reset confirmed', {
-            userId: user.id,
-            ip: req.ip
-        });
+            logger.auth('Admin panel password reset confirmed', {
+                userId: user.id,
+                ip: req.ip
+            });
 
-        return res.json({
-            success: true,
-            message: 'Contraseña actualizada correctamente. Ya puedes iniciar sesión.',
-            code: 'PASSWORD_RESET_CONFIRMED'
-        });
-    } catch (error) {
-        if (['TOKEN_INVALID', 'TOKEN_EXPIRED', 'TOKEN_ALREADY_USED'].includes(error.code)) {
-            return res.status(400).json({
+            return res.json({
+                success: true,
+                message: 'Contraseña actualizada correctamente. Ya puedes iniciar sesión.',
+                code: 'PASSWORD_RESET_CONFIRMED'
+            });
+        } catch (error) {
+            if (['TOKEN_INVALID', 'TOKEN_EXPIRED', 'TOKEN_ALREADY_USED'].includes(error.code)) {
+                return res.status(400).json({
+                    success: false,
+                    error: 'El enlace de restablecimiento no es válido o ha expirado',
+                    code: 'CONFIRMATION_LINK_EXPIRED'
+                });
+            }
+
+            logger.error('Admin password reset confirmation failed', { error: error.message, ip: req.ip });
+            return res.status(500).json({
                 success: false,
-                error: 'El enlace de restablecimiento no es válido o ha expirado',
-                code: 'CONFIRMATION_LINK_EXPIRED'
+                error: 'No se pudo restablecer la contraseña',
+                code: 'PASSWORD_RESET_CONFIRM_FAILED'
             });
         }
-
-        logger.error('Admin password reset confirmation failed', { error: error.message, ip: req.ip });
-        return res.status(500).json({
-            success: false,
-            error: 'No se pudo restablecer la contraseña',
-            code: 'PASSWORD_RESET_CONFIRM_FAILED'
-        });
     }
-});
+);
 
 module.exports = router;

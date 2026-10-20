@@ -9,7 +9,6 @@
  */
 
 const ViewLobby = (() => {
-
     let _socket = null;
     let _meta = null;
     let _session = null;
@@ -57,7 +56,7 @@ const ViewLobby = (() => {
                     gameType: _meta.gameType || '',
                     mode: _meta.mode || 'individual',
                     teams: _meta.teams || [],
-                    playerId: _session.playerId || crypto.randomUUID(),
+                    playerId: _session.playerId || crypto.randomUUID()
                 };
                 _notifyParent({ event: 'session-created', data });
                 _session.sessionId = sessionId;
@@ -87,24 +86,30 @@ const ViewLobby = (() => {
 
         _socket.on('connect', () => {
             const lobbyData = {
-                pin, sessionId, playerId, token,
+                pin,
+                sessionId,
+                playerId,
+                token,
                 isTeamMode: _meta.mode === 'teams'
             };
             if (_meta.mode === 'teams' && _meta.teams) {
-                lobbyData.teamConfig = { isTeamMode: true, teams: (_meta.teams || []).map(name => ({ name, color: '#7c3aed', players: [] })) };
+                lobbyData.teamConfig = {
+                    isTeamMode: true,
+                    teams: (_meta.teams || []).map(name => ({ name, color: '#7c3aed', players: [] }))
+                };
             }
             _socket.emit('join-presenter-lobby', lobbyData);
         });
 
-        _socket.on('player-joined', (data) => {
-            const nick = typeof data === 'string' ? data : (data.nickname || data);
+        _socket.on('player-joined', data => {
+            const nick = typeof data === 'string' ? data : data.nickname || data;
             if (nick && nick !== 'HOST' && !_players.includes(nick)) {
                 _players.push(nick);
                 _renderPlayers();
             }
         });
 
-        _socket.on('join-error', (d) => {
+        _socket.on('join-error', d => {
             const pinEl = document.getElementById('vl-pin');
             if (pinEl) pinEl.textContent = 'Error lobby: ' + (d.message || '');
         });
@@ -142,7 +147,10 @@ const ViewLobby = (() => {
         const sessionId = _session.sessionId;
         if (!_socket || !sessionId) return;
         const btn = document.getElementById('vl-start');
-        if (btn) { btn.disabled = true; btn.textContent = 'Completado ✓'; }
+        if (btn) {
+            btn.disabled = true;
+            btn.textContent = 'Completado ✓';
+        }
 
         // Desconectar del lobby. El task-pane cerrará este diálogo y
         // avanzará la diapositiva. Al llegar a la pregunta, un nuevo
@@ -154,7 +162,12 @@ const ViewLobby = (() => {
     }
 
     function unmount() {
-        if (_socket) { try { _socket.disconnect(); } catch (_) { } _socket = null; }
+        if (_socket) {
+            try {
+                _socket.disconnect();
+            } catch (_) {}
+            _socket = null;
+        }
     }
 
     return { mount, unmount };

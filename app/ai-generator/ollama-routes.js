@@ -34,7 +34,11 @@ function _badRequest(res, error, code) {
 
 function _unreachable(res, err) {
     logger.warn(`[ai-generator] Ollama no accesible: ${err.message}`);
-    res.status(502).json({ success: false, error: `No se pudo contactar con Ollama: ${err.message}`, code: 'OLLAMA_UNREACHABLE' });
+    res.status(502).json({
+        success: false,
+        error: `No se pudo contactar con Ollama: ${err.message}`,
+        code: 'OLLAMA_UNREACHABLE'
+    });
 }
 
 /**
@@ -96,11 +100,17 @@ router.post('/api/ai-generator/ollama/config', authenticateAdmin, async (req, re
             return _unreachable(res, err);
         }
         if (!models.some(m => m.name === model)) {
-            return _badRequest(res, `El modelo "${model}" no está instalado en ese servidor Ollama`, 'OLLAMA_MODEL_NOT_FOUND');
+            return _badRequest(
+                res,
+                `El modelo "${model}" no está instalado en ese servidor Ollama`,
+                'OLLAMA_MODEL_NOT_FOUND'
+            );
         }
 
         setOllamaConfig(baseUrl, model, key.apiKey);
-        logger.info(`[ai-generator] Config de ollama actualizada (${baseUrl}, ${model}, ${key.apiKey ? 'con' : 'sin'} API key)`);
+        logger.info(
+            `[ai-generator] Config de ollama actualizada (${baseUrl}, ${model}, ${key.apiKey ? 'con' : 'sin'} API key)`
+        );
         res.json({ success: true, provider: 'ollama', baseUrl, model });
     } catch (err) {
         handleRouteError(err, res);

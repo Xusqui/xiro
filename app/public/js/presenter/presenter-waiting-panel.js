@@ -3,10 +3,7 @@
  */
 
 import { getPlayersData } from './presenter-state.js?v=20260922172926';
-import {
-    renderCenteredNumericHint,
-    removeCenteredNumericHint
-} from './presenter-numeric-layout.js?v=20260922172926';
+import { renderCenteredNumericHint, removeCenteredNumericHint } from './presenter-numeric-layout.js?v=20260922172926';
 import { getNumericProgressMetrics } from './presenter-progress-metrics.js?v=20260922172926';
 
 let resizeHandler = null;
@@ -15,14 +12,20 @@ function isNumericQuestionWaitingState() {
     const btnNext = document.getElementById('btn-next');
     const questionTitle = document.getElementById('question-title');
     const currentQuestion = window.currentQuestion || {};
-    return !!questionTitle && currentQuestion.question_type === 'numeric_approximation' && (!btnNext || btnNext.classList.contains('hidden'));
+    return (
+        !!questionTitle &&
+        currentQuestion.question_type === 'numeric_approximation' &&
+        (!btnNext || btnNext.classList.contains('hidden'))
+    );
 }
 
 function isNumericQuestionWithImage() {
     const currentQuestion = window.currentQuestion || {};
-    return currentQuestion.question_type === 'numeric_approximation'
-        && currentQuestion.tipo_contenido === 'imagen'
-        && !!currentQuestion.url_recurso;
+    return (
+        currentQuestion.question_type === 'numeric_approximation' &&
+        currentQuestion.tipo_contenido === 'imagen' &&
+        !!currentQuestion.url_recurso
+    );
 }
 
 function ensurePanel() {
@@ -30,7 +33,8 @@ function ensurePanel() {
     if (panel) return panel;
     panel = document.createElement('div');
     panel.id = 'presenter-waiting-panel';
-    panel.style.cssText = 'position:fixed;left:50%;bottom:72px;transform:translateX(-50%);width:min(calc(100vw - 24px), 1400px);min-width:320px;z-index:9997;color:#fff;';
+    panel.style.cssText =
+        'position:fixed;left:50%;bottom:72px;transform:translateX(-50%);width:min(calc(100vw - 24px), 1400px);min-width:320px;z-index:9997;color:#fff;';
     document.body.appendChild(panel);
     return panel;
 }
@@ -50,7 +54,7 @@ function alignPanelToLobbyMain(panel) {
         return;
     }
 
-    const centerX = rect.left + (rect.width / 2);
+    const centerX = rect.left + rect.width / 2;
     const panelWidth = Math.max(320, Math.min(rect.width - 24, 1400));
 
     panel.style.left = `${centerX}px`;
@@ -75,8 +79,9 @@ function renderWaitingPanel() {
     }
 
     const currentQuestion = window.currentQuestion || {};
-    const hint = (currentQuestion.hint_text || currentQuestion.hint || currentQuestion.hintText || '').trim()
-        || 'El presentador no quiere dar pistas';
+    const hint =
+        (currentQuestion.hint_text || currentQuestion.hint || currentQuestion.hintText || '').trim() ||
+        'El presentador no quiere dar pistas';
 
     renderCenteredNumericHint(hint);
 

@@ -30,9 +30,7 @@ function checkNicknameDuplicate(nickname, roomId, lobbyPlayers, game) {
     // Verificar en lobby
     const lobby = lobbyPlayers.get(roomId);
     if (lobby) {
-        const isDuplicateInLobby = lobby.some(p =>
-            p.toLowerCase() === normalizedNickname && p !== nickname
-        );
+        const isDuplicateInLobby = lobby.some(p => p.toLowerCase() === normalizedNickname && p !== nickname);
         if (isDuplicateInLobby) {
             return { duplicate: true, location: 'lobby' };
         }
@@ -40,9 +38,7 @@ function checkNicknameDuplicate(nickname, roomId, lobbyPlayers, game) {
 
     // Verificar en juego
     if (game && game.players) {
-        const isDuplicateInGame = game.players.some(p =>
-            p.toLowerCase() === normalizedNickname && p !== nickname
-        );
+        const isDuplicateInGame = game.players.some(p => p.toLowerCase() === normalizedNickname && p !== nickname);
         if (isDuplicateInGame) {
             return { duplicate: true, location: 'game' };
         }
@@ -179,7 +175,7 @@ function buildGameStateSnapshot(game, player, roomId) {
     // the system think the player already answered the current round's question.
     let hasAnswered;
     if (game.isTrivial && game.trivialQuestionEpoch !== undefined) {
-        hasAnswered = (player.trivialAnswerEpoch === game.trivialQuestionEpoch);
+        hasAnswered = player.trivialAnswerEpoch === game.trivialQuestionEpoch;
     } else {
         hasAnswered = hasPlayerAnsweredCurrentQuestion(player, currentQuestionIndex);
     }
@@ -196,9 +192,9 @@ function buildGameStateSnapshot(game, player, roomId) {
         // answer regardless of adapter state (adapter may say false because other
         // players finished while this player was disconnected)
         if (!hasAnswered) {
-            canAnswer = true;  // Always allow if player hasn't answered yet
+            canAnswer = true; // Always allow if player hasn't answered yet
         } else {
-            canAnswer = false;  // Player already answered
+            canAnswer = false; // Player already answered
         }
     } else {
         // No adapter yet (game just started, before first next-question)
@@ -214,9 +210,8 @@ function buildGameStateSnapshot(game, player, roomId) {
         hasAdapter: !!adapter,
         canAcceptAnswers: canAcceptAnswers,
         hasAnswered: hasAnswered,
-        answeredQuestions: player.answeredQuestions instanceof Set
-            ? Array.from(player.answeredQuestions)
-            : player.answeredQuestions,
+        answeredQuestions:
+            player.answeredQuestions instanceof Set ? Array.from(player.answeredQuestions) : player.answeredQuestions,
         canAnswer: canAnswer,
         gameCanAnswer: game.canAnswer,
         reasoning: hasAnswered ? 'player already answered' : 'player can answer (not answered yet)'
@@ -227,9 +222,10 @@ function buildGameStateSnapshot(game, player, roomId) {
         currentQuestion: sanitizeQuestionForPlayers(currentQuestion),
         totalQuestions: game.questions.length,
         canAnswer: canAnswer,
-        timeRemaining: adapter && canAcceptAnswers
-            ? Math.max(0, runtimeConfig.get('QUESTION_TIME_LIMIT') - (Date.now() - game.questionStartTime) / 1000)
-            : null,
+        timeRemaining:
+            adapter && canAcceptAnswers
+                ? Math.max(0, runtimeConfig.get('QUESTION_TIME_LIMIT') - (Date.now() - game.questionStartTime) / 1000)
+                : null,
         ...buildReconnectIntroState(game),
         ...buildReconnectRandomPointsState(game),
         // Para recolocar la cuenta atrás y la música del presentador al reconectar
@@ -331,8 +327,7 @@ async function buildPlayerSnapshot(player, roomId, game, teamConfigs, trivialBoa
         return snapshot;
     }
 
-    const gameHasStarted = game && game.questions && game.questions.length > 0 &&
-        game.questionStartTime;
+    const gameHasStarted = game && game.questions && game.questions.length > 0 && game.questionStartTime;
 
     if (gameHasStarted) {
         snapshot.gameState = buildGameStateSnapshot(game, player, roomId);
@@ -495,14 +490,10 @@ function appendPresenterTeamAndLobby(snapshot, roomId, teamConfigs, lobbyPlayers
 }
 
 function buildPresenterSnapshot(input, ...legacyArgs) {
-    const {
-        player,
-        roomId,
-        game,
-        teamConfigs,
-        lobbyPlayers,
-        players
-    } = normalizePresenterSnapshotInput(input, legacyArgs);
+    const { player, roomId, game, teamConfigs, lobbyPlayers, players } = normalizePresenterSnapshotInput(
+        input,
+        legacyArgs
+    );
 
     const snapshot = {
         ...buildPresenterBaseSnapshot(player, roomId)
@@ -567,9 +558,12 @@ async function reconnectPlayer({ socket, nickname, roomId, game, players, socket
             const syncBus = RedisSyncBus.getInstance();
             const serializablePlayer = {
                 ...player,
-                answeredQuestions: player.answeredQuestions instanceof Set
-                    ? Array.from(player.answeredQuestions)
-                    : (Array.isArray(player.answeredQuestions) ? player.answeredQuestions : [])
+                answeredQuestions:
+                    player.answeredQuestions instanceof Set
+                        ? Array.from(player.answeredQuestions)
+                        : Array.isArray(player.answeredQuestions)
+                            ? player.answeredQuestions
+                            : []
             };
             syncBus.publishPlayerData(playerId, serializablePlayer).catch(err => {
                 logger.warn('[RECONNECT] Failed to publish player-data-sync', { playerId, error: err.message });
@@ -587,7 +581,10 @@ async function reconnectPlayer({ socket, nickname, roomId, game, players, socket
         }
 
         logger.info('Player reconnected successfully via ReconnectionService', {
-            nickname, playerId, roomId, hasGame: !!game
+            nickname,
+            playerId,
+            roomId,
+            hasGame: !!game
         });
 
         return { success: true, player };

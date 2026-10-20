@@ -117,7 +117,7 @@ class GetActiveSessionsQuery extends Query {
         const seen = new Set();
 
         for (const [sessionId, game] of activeGames.entries()) {
-            if (game.ended) continue;   // skip games that have already ended
+            if (game.ended) continue; // skip games that have already ended
             seen.add(sessionId);
             sessions.push({
                 sessionId,
@@ -159,9 +159,7 @@ class GetActiveSessionsQuery extends Query {
     }
 
     _pinFromSessionId(sessionId) {
-        return String(sessionId).includes('-')
-            ? String(sessionId).split('-')[0]
-            : String(sessionId);
+        return String(sessionId).includes('-') ? String(sessionId).split('-')[0] : String(sessionId);
     }
 }
 

@@ -29,7 +29,11 @@ window.TVApp.Main = (function () {
         if (!state.sessionId || !window.TVApp.socket) return;
         window.TVApp.ConfirmModal.show(
             _t('tv.game.abort', null, 'Abortar partida'),
-            _t('tv.game.abort_msg', null, 'Se desconectara a todos los jugadores y volveras al selector de PIN. ¿Continuar?'),
+            _t(
+                'tv.game.abort_msg',
+                null,
+                'Se desconectara a todos los jugadores y volveras al selector de PIN. ¿Continuar?'
+            ),
             function () {
                 window.TVApp.socket.emit('abandon-game', { roomIdOrPin: state.sessionId, reason: 'abandoned' });
             }
@@ -39,7 +43,7 @@ window.TVApp.Main = (function () {
     // Funciones de partida; las acciones delegadas (tv-actions.js) las llaman vía TVApp.Main
     function empezar() {
         if (document.documentElement.requestFullscreen) {
-            document.documentElement.requestFullscreen().catch(function () { });
+            document.documentElement.requestFullscreen().catch(function () {});
         } else if (document.documentElement.webkitRequestFullscreen) {
             document.documentElement.webkitRequestFullscreen();
         }
@@ -73,7 +77,11 @@ window.TVApp.Main = (function () {
             state.playersData[nickname].score = (state.playersData[nickname].score || 0) + points;
             const commentText = document.querySelector('.comment-text');
             const footerText = document.querySelector('.slide-footer-text');
-            if (commentText) renderCommentSlide({ comment_text: commentText.textContent, slide_footer: footerText ? footerText.textContent : null });
+            if (commentText)
+                renderCommentSlide({
+                    comment_text: commentText.textContent,
+                    slide_footer: footerText ? footerText.textContent : null
+                });
         }
     }
 

@@ -42,7 +42,7 @@ function readSlideFooterField() {
 function initSlideFooterField() {
     if (_slideFooterFieldReady) return;
     _slideFooterFieldReady = true;
-    document.addEventListener('input', (event) => {
+    document.addEventListener('input', event => {
         if (event.target?.id !== SLIDE_FOOTER_FIELD_ID) return;
         const counter = document.getElementById('slideFooterCount');
         if (counter) counter.textContent = String(event.target.value.length);

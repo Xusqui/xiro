@@ -17,7 +17,8 @@ const _VIDEO_PROVIDER_LABELS = {
 };
 const _VIDEO_PREVIEW_DELAY_MS = 400;
 const _VIDEO_URL_HINT = 'Pega la dirección de YouTube, Vimeo, Dailymotion o de un archivo .mp4, .webm, .ogg o .mov';
-const _VIDEO_URL_UNSUPPORTED = 'La URL del vídeo no es compatible: usa YouTube, Vimeo, Dailymotion o un archivo .mp4, .webm, .ogg o .mov';
+const _VIDEO_URL_UNSUPPORTED =
+    'La URL del vídeo no es compatible: usa YouTube, Vimeo, Dailymotion o un archivo .mp4, .webm, .ogg o .mov';
 
 function _parseVideoUrl(url) {
     return window.XiroVideoSource ? window.XiroVideoSource.parseVideoSource(url) : null;
@@ -105,18 +106,20 @@ function mostrarModalVideo() {
     const modal = document.createElement('div');
     modal.id = 'modalVideo';
     modal.className = 'fixed inset-0 bg-slate-900/90 z-50 flex items-center justify-center';
-    modal.innerHTML = _tHtml(_videoModalHtml({
-        title: 'Diapositiva de Vídeo',
-        icon: 'fa-film',
-        url: '',
-        footer: '',
-        actions: `
+    modal.innerHTML = _tHtml(
+        _videoModalHtml({
+            title: 'Diapositiva de Vídeo',
+            icon: 'fa-film',
+            url: '',
+            footer: '',
+            actions: `
             <button data-slide-video-action="close-create-modal" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold transition">Cancelar</button>
             <button data-slide-video-action="add-slide" class="flex-1 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-bold transition">
                 <i class="fas fa-plus mr-2"></i>Añadir
             </button>
         `
-    }));
+        })
+    );
     document.body.appendChild(modal);
     _refreshVideoPreview();
     document.getElementById('videoUrl')?.focus();
@@ -134,7 +137,11 @@ function _readValidVideoUrl() {
     const url = urlInput.value.trim();
 
     if (!url) {
-        mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), 'Por favor, introduce la URL del vídeo', 'warning');
+        mostrarModalError(
+            _t('admin.common.validation_title', null, '⚠️ Validación'),
+            'Por favor, introduce la URL del vídeo',
+            'warning'
+        );
         return null;
     }
 
@@ -169,18 +176,20 @@ function editarSlideVideo(index) {
     const modal = document.createElement('div');
     modal.id = 'modalEditVideo';
     modal.className = 'fixed inset-0 bg-slate-900/90 z-50 flex items-center justify-center';
-    modal.innerHTML = _tHtml(_videoModalHtml({
-        title: 'Editar Diapositiva de Vídeo',
-        icon: 'fa-edit',
-        url: slide.slide_video,
-        footer: slide.slide_footer,
-        actions: `
+    modal.innerHTML = _tHtml(
+        _videoModalHtml({
+            title: 'Editar Diapositiva de Vídeo',
+            icon: 'fa-edit',
+            url: slide.slide_video,
+            footer: slide.slide_footer,
+            actions: `
             <button data-slide-video-action="close-edit-modal" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold transition">Cancelar</button>
             <button data-slide-video-action="save-slide" data-index="${index}" class="flex-1 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-bold transition">
                 <i class="fas fa-save mr-2"></i>Guardar
             </button>
         `
-    }));
+        })
+    );
     document.body.appendChild(modal);
     _refreshVideoPreview();
 }
@@ -225,7 +234,7 @@ function initSlideVideoDelegation() {
     if (_slideVideoDelegationReady) return;
     _slideVideoDelegationReady = true;
 
-    document.addEventListener('click', (event) => {
+    document.addEventListener('click', event => {
         const actionElement = event.target.closest('[data-slide-video-action]');
         if (!actionElement) return;
 
@@ -250,7 +259,7 @@ function initSlideVideoDelegation() {
         }
     });
 
-    document.addEventListener('input', (event) => {
+    document.addEventListener('input', event => {
         if (event.target && event.target.id === 'videoUrl') {
             clearTimeout(_videoPreviewTimer);
             _videoPreviewTimer = setTimeout(_refreshVideoPreview, _VIDEO_PREVIEW_DELAY_MS);

@@ -55,7 +55,8 @@ const timerState = {
 };
 
 const wakeLockController = createRemoteWakeLockController({
-    hasActiveSessionContext: () => Boolean(state.sessionId || state.pin || sessionStorage.getItem('xiro_remote_sessionId'))
+    hasActiveSessionContext: () =>
+        Boolean(state.sessionId || state.pin || sessionStorage.getItem('xiro_remote_sessionId'))
 });
 
 /**
@@ -89,7 +90,13 @@ export function initRemoteControlMode({ sessionId, pin }) {
     }
 
     if (!token && !hasSession) {
-        renderError(_t('presenter.remote.no_admin_session', null, 'No se encontró sesión de administrador.<br>Inicia sesión en el panel de admin primero.'));
+        renderError(
+            _t(
+                'presenter.remote.no_admin_session',
+                null,
+                'No se encontró sesión de administrador.<br>Inicia sesión en el panel de admin primero.'
+            )
+        );
         return;
     }
 
@@ -115,13 +122,17 @@ function bindSocketEvents() {
     socket.off('trivial-game-started', handleRemoteTrivialStarted);
 
     socket.on('remote-join-success', handleJoinSuccess);
-    socket.on('remote-join-failed', (d) => renderError(d.message || _t('presenter.remote.connect_error', null, 'Error al conectar como control remoto')));
-    socket.on('game-over', () => showEndedBanner(_t('presenter.remote.game_finished', null, 'La partida ha finalizado')));
+    socket.on('remote-join-failed', d =>
+        renderError(d.message || _t('presenter.remote.connect_error', null, 'Error al conectar como control remoto'))
+    );
+    socket.on('game-over', () =>
+        showEndedBanner(_t('presenter.remote.game_finished', null, 'La partida ha finalizado'))
+    );
     socket.on('game-ended', handleRemoteGameEnded);
     socket.on('reveal-answer', handleRemoteRevealEvent);
     socket.on('game-started', handleRemoteGameStarted);
     socket.on('new-question', handleRemoteNewQuestion);
-    socket.on('random-points-reveal', (payload) => updateRemoteRandomPoints(payload.points));
+    socket.on('random-points-reveal', payload => updateRemoteRandomPoints(payload.points));
     socket.on('timer-paused', handleRemoteTimerPaused);
     socket.on('timer-resumed', handleRemoteTimerResumed);
     socket.on('ranking-update', handleRemoteRankingUpdate);
@@ -440,7 +451,9 @@ function handleRemoteGameStarted(data) {
 /** Updates local scores from server ranking-update (fires during comment slides). */
 function handleRemoteRankingUpdate(data) {
     if (!data.ranking) return;
-    data.ranking.forEach(r => { state.scores[r.nickname] = r.score; });
+    data.ranking.forEach(r => {
+        state.scores[r.nickname] = r.score;
+    });
     if (state.isCommentSlide) {
         refreshCommentScores(data.ranking, state.teamConfig);
     }

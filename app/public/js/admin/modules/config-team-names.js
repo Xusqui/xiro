@@ -30,7 +30,9 @@ function getTeamNamesFromSettings(uiSettings) {
 function renderTeamNamesSection(uiSettings) {
     const names = getTeamNamesFromSettings(uiSettings);
 
-    const inputs = names.map((name, i) => `
+    const inputs = names
+        .map(
+            (name, i) => `
         <div class="flex items-center gap-3">
             <span class="w-8 h-8 flex items-center justify-center bg-plum-100 text-plum-700
                          rounded-lg font-black text-sm flex-shrink-0">${i + 1}</span>
@@ -43,7 +45,9 @@ function renderTeamNamesSection(uiSettings) {
                           text-slate-800 focus:border-plum-400 focus:outline-none transition-colors
                           placeholder:text-slate-400">
         </div>
-    `).join('');
+    `
+        )
+        .join('');
 
     return `
         <div class="bg-white rounded-2xl border-2 border-slate-200 p-6 mt-6">

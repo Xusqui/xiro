@@ -9,7 +9,9 @@ const TRIVIAL_COLORS = ['#DB2777', '#16A34A', '#2563EB', '#F59E0B', '#8000FF', '
 async function renderEditorTrivial(game, cats) {
     activeView = null; // Salir de la vista de grid
     const [rB, rG, rC] = await Promise.all([
-        fetchWithAuth('/api/banks'), fetchWithAuth('/api/games'), fetchWithAuth('/api/custom-games')
+        fetchWithAuth('/api/banks'),
+        fetchWithAuth('/api/games'),
+        fetchWithAuth('/api/custom-games')
     ]);
     const [allBanks, allGames, allCGs] = await Promise.all([rB.json(), rG.json(), rC.json()]);
     window._trivialSources = {
@@ -18,11 +20,14 @@ async function renderEditorTrivial(game, cats) {
         custom_game: allCGs.map(c => ({ id: c.id, name: c.name }))
     };
 
-    const defaultCats = cats.length > 0 ? cats : [
-        { category_name: 'Categoría 1', color: TRIVIAL_COLORS[0], source_type: 'bank', source_id: null },
-        { category_name: 'Categoría 2', color: TRIVIAL_COLORS[1], source_type: 'bank', source_id: null },
-        { category_name: 'Categoría 3', color: TRIVIAL_COLORS[2], source_type: 'bank', source_id: null }
-    ];
+    const defaultCats =
+        cats.length > 0
+            ? cats
+            : [
+                { category_name: 'Categoría 1', color: TRIVIAL_COLORS[0], source_type: 'bank', source_id: null },
+                { category_name: 'Categoría 2', color: TRIVIAL_COLORS[1], source_type: 'bank', source_id: null },
+                { category_name: 'Categoría 3', color: TRIVIAL_COLORS[2], source_type: 'bank', source_id: null }
+            ];
     const N = defaultCats.length;
     const outerDefault = Math.floor(42 / (N * (N + 1))) * (N * (N + 1));
 
@@ -205,13 +210,16 @@ function _trivialCatRow(cat, idx) {
     const srcType = cat.source_type || 'bank';
     const srcId = cat.source_id || cat.bank_id;
     const colorLabels = _trivialColorLabels();
-    const colorOpts = TRIVIAL_COLORS.map(c =>
-        `<option value="${c}"${c === color ? ' selected' : ''}>${colorLabels[c] || c}</option>`
+    const colorOpts = TRIVIAL_COLORS.map(
+        c => `<option value="${c}"${c === color ? ' selected' : ''}>${colorLabels[c] || c}</option>`
     ).join('');
     const sources = (window._trivialSources || {})[srcType] || [];
-    const srcOpts = sources.map(s =>
-        `<option value="${s.id}"${String(s.id) === String(srcId) ? ' selected' : ''}>${escapeHtml(s.name)}</option>`
-    ).join('');
+    const srcOpts = sources
+        .map(
+            s =>
+                `<option value="${s.id}"${String(s.id) === String(srcId) ? ' selected' : ''}>${escapeHtml(s.name)}</option>`
+        )
+        .join('');
     return `
         <div class="trivial-cat-row flex items-center gap-3 bg-slate-50 rounded-xl p-3">
             <select class="cat-color border rounded-lg px-2 py-2 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-orange-300"
@@ -248,9 +256,15 @@ function _trivialRecalcOuter() {
 function trivialAddCategory() {
     const container = document.getElementById('trivial-cats-container');
     const count = container.querySelectorAll('.trivial-cat-row').length;
-    if (count >= 6) return mostrarModalError(_t('admin.common.warning_title', null, '⚠️ Advertencia'), _t('admin.trivial.error_max_categories', null, 'Máximo 6 categorías.'), 'warning');
+    if (count >= 6)
+        return mostrarModalError(
+            _t('admin.common.warning_title', null, '⚠️ Advertencia'),
+            _t('admin.trivial.error_max_categories', null, 'Máximo 6 categorías.'),
+            'warning'
+        );
     const usedColors = Array.from(container.querySelectorAll('.cat-color')).map(s => s.value);
-    const freeColor = TRIVIAL_COLORS.find(c => !usedColors.includes(c)) || TRIVIAL_COLORS[count % TRIVIAL_COLORS.length];
+    const freeColor =
+        TRIVIAL_COLORS.find(c => !usedColors.includes(c)) || TRIVIAL_COLORS[count % TRIVIAL_COLORS.length];
     const cat = { category_name: '', color: freeColor, source_type: 'bank', source_id: null };
     container.insertAdjacentHTML('beforeend', _tHtml(_trivialCatRow(cat, count)));
     _trivialSyncColorOptions();
@@ -286,11 +300,15 @@ function _trivialSyncSrcOptions() {
     if (!container) return;
     const rows = Array.from(container.querySelectorAll('.trivial-cat-row'));
     // Build set of used "type:id" combos
-    const used = new Set(rows.map(r => {
-        const t = r.querySelector('.cat-src-type')?.value || '';
-        const v = r.querySelector('.cat-src-id')?.value || '';
-        return v ? `${t}:${v}` : '';
-    }).filter(Boolean));
+    const used = new Set(
+        rows
+            .map(r => {
+                const t = r.querySelector('.cat-src-type')?.value || '';
+                const v = r.querySelector('.cat-src-id')?.value || '';
+                return v ? `${t}:${v}` : '';
+            })
+            .filter(Boolean)
+    );
     rows.forEach(row => {
         const type = row.querySelector('.cat-src-type')?.value || '';
         const srcSel = row.querySelector('.cat-src-id');
@@ -318,7 +336,12 @@ function _trivialSyncColorOptions() {
 
 function trivialRemoveCategory(btn) {
     const container = document.getElementById('trivial-cats-container');
-    if (container.querySelectorAll('.trivial-cat-row').length <= 2) return mostrarModalError(_t('admin.common.warning_title', null, '⚠️ Advertencia'), _t('admin.trivial.error_min_categories', null, 'Mínimo 2 categorías.'), 'warning');
+    if (container.querySelectorAll('.trivial-cat-row').length <= 2)
+        return mostrarModalError(
+            _t('admin.common.warning_title', null, '⚠️ Advertencia'),
+            _t('admin.trivial.error_min_categories', null, 'Mínimo 2 categorías.'),
+            'warning'
+        );
     btn.closest('.trivial-cat-row').remove();
     _trivialSyncColorOptions();
     _trivialSyncSrcOptions();

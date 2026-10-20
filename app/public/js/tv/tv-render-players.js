@@ -38,7 +38,9 @@ window.TVApp.RenderPlayers = (function () {
         if (count) count.textContent = tText(state.connectedPlayers.length);
 
         if (state.connectedPlayers.length === 0) {
-            panel.innerHTML = tHtml('<div style="color:#999;font-style:italic;text-align:center;padding:20px 10px;font-size:11px">Esperando jugadores...</div>');
+            panel.innerHTML = tHtml(
+                '<div style="color:#999;font-style:italic;text-align:center;padding:20px 10px;font-size:11px">Esperando jugadores...</div>'
+            );
         } else {
             const sorted = state.connectedPlayers.slice().sort(function (a, b) {
                 const scoreA = state.playersData[a] ? state.playersData[a].score : 0;
@@ -62,7 +64,17 @@ window.TVApp.RenderPlayers = (function () {
                 if (i === 0 && data.score > 0) medal = '👑 ';
                 else if (i === 1 && data.score > 0) medal = '🥈 ';
                 else if (i === 2 && data.score > 0) medal = '🥉 ';
-                html += '<div class="sidebar-player"' + statusClass + '><div class="sidebar-player-name">' + statusIcon + ' ' + medal + escapeHtml(nick) + '</div><div class="sidebar-player-score">Puntos: ' + data.score.toFixed(1) + '</div></div>';
+                html +=
+                    '<div class="sidebar-player"' +
+                    statusClass +
+                    '><div class="sidebar-player-name">' +
+                    statusIcon +
+                    ' ' +
+                    medal +
+                    escapeHtml(nick) +
+                    '</div><div class="sidebar-player-score">Puntos: ' +
+                    data.score.toFixed(1) +
+                    '</div></div>';
             }
             panel.innerHTML = tHtml(html);
         }

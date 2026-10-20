@@ -53,11 +53,12 @@ function sha1(data) {
 function getI18nJsonHash() {
     if (i18nJsonHash === undefined) {
         try {
-            const files = fs.readdirSync(I18N_DIR, { recursive: true })
-                .filter((file) => file.endsWith('.json'))
+            const files = fs
+                .readdirSync(I18N_DIR, { recursive: true })
+                .filter(file => file.endsWith('.json'))
                 .sort();
             i18nJsonHash = files.length
-                ? sha1(files.map((file) => `${file}:${sha1(fs.readFileSync(path.join(I18N_DIR, file)))}`).join('\n'))
+                ? sha1(files.map(file => `${file}:${sha1(fs.readFileSync(path.join(I18N_DIR, file)))}`).join('\n'))
                 : null;
         } catch {
             i18nJsonHash = null;
@@ -127,9 +128,7 @@ function getModuleVersion(absPath) {
 
 function resolveAssetAbsPath(baseDir, assetPath) {
     const cleanPath = decodeURIComponent(assetPath.split('?')[0]);
-    const abs = cleanPath.startsWith('/')
-        ? path.join(PUBLIC_DIR, cleanPath)
-        : path.resolve(baseDir, cleanPath);
+    const abs = cleanPath.startsWith('/') ? path.join(PUBLIC_DIR, cleanPath) : path.resolve(baseDir, cleanPath);
 
     if (abs !== PUBLIC_DIR && !abs.startsWith(PUBLIC_DIR + path.sep)) {
         return null; // fuera de public/, posible path traversal
@@ -227,9 +226,7 @@ function assetVersioningMiddleware(req, res, next) {
         }
 
         const baseDir = path.dirname(absFile);
-        let versioned = isHtml
-            ? versionHtmlExternalRefs(content, baseDir)
-            : versionExternalRefs(content, baseDir);
+        let versioned = isHtml ? versionHtmlExternalRefs(content, baseDir) : versionExternalRefs(content, baseDir);
         if (isJs) {
             // Solo los ficheros .js externos versionan sus "import ... from"; el
             // contenido de scripts inline en HTML (fijados por hash CSP) no se toca.

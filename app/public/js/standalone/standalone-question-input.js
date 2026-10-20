@@ -12,8 +12,11 @@ globalThis.StandaloneQuestionInput = (() => {
 
     function renderNumeric(container, question, { onSubmitted }) {
         const nickname = escapeHtml(StandaloneState.get().nickname);
-        const hint = escapeHtml((question.hint_text || question.hint || '').trim()
-            || window.XiroI18n?.t('standalone.game.numeric_hint_fallback') || 'El presentador no quiere dar pistas');
+        const hint = escapeHtml(
+            (question.hint_text || question.hint || '').trim() ||
+                window.XiroI18n?.t('standalone.game.numeric_hint_fallback') ||
+                'El presentador no quiere dar pistas'
+        );
 
         container.innerHTML = `
             <div class="pl-viewport">
@@ -72,13 +75,20 @@ globalThis.StandaloneQuestionInput = (() => {
         const usedIndices = new Set();
 
         function draw() {
-            const boxes = Array.from({ length: wordLength }, (_, i) => `
+            const boxes = Array.from(
+                { length: wordLength },
+                (_, i) => `
                 <div class="pl-scramble-box ${i < filled.length ? 'is-filled' : ''}">${i < filled.length ? escapeHtml(filled[i]) : ''}</div>
-            `).join('');
+            `
+            ).join('');
 
-            const tiles = letters.map((letter, idx) => `
+            const tiles = letters
+                .map(
+                    (letter, idx) => `
                 <button type="button" class="pl-scramble-letter" data-standalone-letter data-idx="${idx}" ${usedIndices.has(idx) ? 'disabled' : ''}>${escapeHtml(letter)}</button>
-            `).join('');
+            `
+                )
+                .join('');
 
             container.innerHTML = `
                 <div class="pl-viewport">
@@ -116,14 +126,18 @@ globalThis.StandaloneQuestionInput = (() => {
                 draw();
             });
 
-            container.querySelector('[data-standalone-action="submit-input"]').addEventListener('click', () => submit());
+            container
+                .querySelector('[data-standalone-action="submit-input"]')
+                .addEventListener('click', () => submit());
         }
 
         async function submit() {
             const value = filled.join('').trim();
             if (!value) return;
 
-            container.querySelectorAll('button').forEach(el => { el.disabled = true; });
+            container.querySelectorAll('button').forEach(el => {
+                el.disabled = true;
+            });
             const ack = await submitAnswer({ playerAnswer: value }, 'word_scramble');
             if (ack && ack.ok === false) {
                 StandaloneState.get().answered = false;

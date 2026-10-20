@@ -30,7 +30,7 @@ function _serialize(state) {
         ...rest,
         _boardN: board?.N,
         _boardM: board?.M,
-        _boardCgPositions: board?.cgPositions,
+        _boardCgPositions: board?.cgPositions
     });
 }
 
@@ -44,8 +44,9 @@ function _deserialize(json) {
         rest.board = {
             N: _boardN,
             M: _boardM,
-            cgPositions: _boardCgPositions || Array.from({ length: _boardN }, (_, k) => Math.floor(k * _boardM / _boardN)),
-            graph: buildBoardGraph(_boardN, _boardM),
+            cgPositions:
+                _boardCgPositions || Array.from({ length: _boardN }, (_, k) => Math.floor((k * _boardM) / _boardN)),
+            graph: buildBoardGraph(_boardN, _boardM)
         };
     }
     return rest;
@@ -168,7 +169,10 @@ async function setTrivialState(roomId, state) {
 async function deleteTrivialState(roomId) {
     try {
         const timer = _answerTimers.get(roomId);
-        if (timer) { clearTimeout(timer); _answerTimers.delete(roomId); }
+        if (timer) {
+            clearTimeout(timer);
+            _answerTimers.delete(roomId);
+        }
         const client = await getRedisClient();
         await client.del(_redisKey(roomId));
     } catch (err) {
@@ -219,5 +223,5 @@ module.exports = {
     getCurrentTurnActor,
     advanceTurn,
     getPlayerToken,
-    isAllTokensFilled,
+    isAllTokensFilled
 };

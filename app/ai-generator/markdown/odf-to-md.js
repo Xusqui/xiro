@@ -10,8 +10,15 @@
 const { parseXml, elements, findFirst } = require('./xml-lite');
 
 const SKIP = new Set([
-    'text:note', 'office:annotation', 'text:tracked-changes', 'presentation:notes', 'text:sequence-decls',
-    'text:table-of-content', 'text:illustration-index', 'text:alphabetical-index', 'text:bibliography'
+    'text:note',
+    'office:annotation',
+    'text:tracked-changes',
+    'presentation:notes',
+    'text:sequence-decls',
+    'text:table-of-content',
+    'text:illustration-index',
+    'text:alphabetical-index',
+    'text:bibliography'
 ]);
 
 function inlineText(node) {

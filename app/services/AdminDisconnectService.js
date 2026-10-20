@@ -1,12 +1,12 @@
 /**
  * @fileoverview Admin Disconnect Service - Desconexión forzada de jugadores
  * @module services/AdminDisconnectService
- * 
+ *
  * Responsabilidades:
  * - Desconectar jugador específico por nickname
  * - Desconectar todos los jugadores de una sala
  * - Validar permisos y existencia de sala/jugador
- * 
+ *
  * Reemplaza: disconnect-helper.js (script manual)
  */
 
@@ -19,7 +19,7 @@ class AdminDisconnectService {
 
     /**
      * Desconectar un jugador específico de una sala
-     * 
+     *
      * @param {string} pin - PIN de la sala
      * @param {string} nickname - Nickname del jugador
      * @returns {Promise<Object>} Resultado de la operación
@@ -41,8 +41,8 @@ class AdminDisconnectService {
             }
 
             // Buscar jugador por nickname
-            const targetSocket = sockets.find(socket =>
-                socket.data?.nickname?.toLowerCase() === nickname.toLowerCase()
+            const targetSocket = sockets.find(
+                socket => socket.data?.nickname?.toLowerCase() === nickname.toLowerCase()
             );
 
             if (!targetSocket) {
@@ -52,9 +52,7 @@ class AdminDisconnectService {
                     code: 'PLAYER_NOT_FOUND',
                     pin,
                     nickname,
-                    availablePlayers: sockets
-                        .map(s => s.data?.nickname)
-                        .filter(Boolean)
+                    availablePlayers: sockets.map(s => s.data?.nickname).filter(Boolean)
                 };
             }
 
@@ -93,7 +91,7 @@ class AdminDisconnectService {
 
     /**
      * Desconectar todos los jugadores de una sala
-     * 
+     *
      * @param {string} pin - PIN de la sala
      * @returns {Promise<Object>} Resultado de la operación
      */
@@ -151,7 +149,7 @@ class AdminDisconnectService {
 
     /**
      * Obtener lista de jugadores conectados en una sala
-     * 
+     *
      * @param {string} pin - PIN de la sala
      * @returns {Promise<Object>} Lista de jugadores
      */

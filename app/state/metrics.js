@@ -157,12 +157,8 @@ function recordAnswerLockAttempt({ acquired, degraded }) {
  * @param {string} params.actor - player|presenter
  */
 function recordReconnectFailedAttempt({ reason, actor }) {
-    const safeReason = typeof reason === 'string' && reason.trim()
-        ? reason.trim().toLowerCase()
-        : 'unknown';
-    const safeActor = typeof actor === 'string' && actor.trim()
-        ? actor.trim().toLowerCase()
-        : 'player';
+    const safeReason = typeof reason === 'string' && reason.trim() ? reason.trim().toLowerCase() : 'unknown';
+    const safeActor = typeof actor === 'string' && actor.trim() ? actor.trim().toLowerCase() : 'player';
 
     metrics.reconnectFailed.total++;
     metrics.reconnectFailed.byReason[safeReason] = (metrics.reconnectFailed.byReason[safeReason] || 0) + 1;
@@ -179,18 +175,16 @@ function getMetrics() {
     const uptimeHours = Math.floor(uptimeMinutes / 60);
 
     // Calcular promedios de queries
-    const avgQueryTime = metrics.dbQueryTimes.length > 0
-        ? Math.round(metrics.dbQueryTimes.reduce((a, b) => a + b, 0) / metrics.dbQueryTimes.length)
-        : 0;
+    const avgQueryTime =
+        metrics.dbQueryTimes.length > 0
+            ? Math.round(metrics.dbQueryTimes.reduce((a, b) => a + b, 0) / metrics.dbQueryTimes.length)
+            : 0;
 
-    const maxQueryTime = metrics.dbQueryTimes.length > 0
-        ? Math.max(...metrics.dbQueryTimes)
-        : 0;
+    const maxQueryTime = metrics.dbQueryTimes.length > 0 ? Math.max(...metrics.dbQueryTimes) : 0;
 
     const answerLockAttempts = metrics.answerLock.attempts;
-    const answerLockMissRate = answerLockAttempts > 0
-        ? Number(((metrics.answerLock.lockMiss / answerLockAttempts) * 100).toFixed(2))
-        : 0;
+    const answerLockMissRate =
+        answerLockAttempts > 0 ? Number(((metrics.answerLock.lockMiss / answerLockAttempts) * 100).toFixed(2)) : 0;
 
     return {
         system: {

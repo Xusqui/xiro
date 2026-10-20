@@ -163,7 +163,7 @@ function createManualPointsHandler(dependencies) {
                 const redisClient = await getRedisClient();
                 const scoreKey = `game:scores:${sPin}`;
                 const redisTotal = await redisClient.hIncrByFloat(scoreKey, nick, points);
-                redisClient.expire(scoreKey, 7200).catch(() => { });
+                redisClient.expire(scoreKey, 7200).catch(() => {});
 
                 if (redisTotal !== null && !isNaN(Number(redisTotal))) {
                     game.scores[nick] = roundScore(Number(redisTotal));

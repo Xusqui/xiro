@@ -1,12 +1,12 @@
 /**
  * @fileoverview Servicio de notificaciones al presentador
  * @module sockets/services/PresenterNotificationService
- * 
+ *
  * Responsabilidades:
  * - Notificar al presentador cuando un jugador responde (usando AnswerBatchService)
  * - Centralizar toda comunicación con presentador
  * - Usar compresión y batching automático
- * 
+ *
  * Arquitectura:
  * - Usa AnswerBatchService para batching de respuestas
  * - Usa BroadcastOptimizer para ranking updates (vía PlayerScoredHandler)
@@ -28,7 +28,7 @@ class PresenterNotificationService {
     /**
      * Notifica al presentador cuando un jugador responde
      * Usa batching automático para múltiples respuestas simultáneas
-     * 
+     *
      * @param {Object} params
      * @param {string} params.roomId - ID del juego
      * @param {string} params.nickname - Nombre del jugador
@@ -91,7 +91,7 @@ class PresenterNotificationService {
     /**
      * Notifica al presentador cambio de estado del juego
      * (Usado para eventos que no son respuestas)
-     * 
+     *
      * @param {string} roomId - ID del juego
      * @param {string} eventType - Tipo de evento
      * @param {Object} payload - Datos del evento
@@ -116,7 +116,7 @@ class PresenterNotificationService {
     /**
      * Fuerza el flush de todas las respuestas pendientes
      * Útil para fin de pregunta o fin de juego
-     * 
+     *
      * @param {string} [roomId] - ID del juego (opcional, flush all si no se especifica)
      */
     forceFlush(roomId) {

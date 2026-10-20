@@ -1,13 +1,13 @@
 /**
  * @fileoverview Factory para crear instancias de estrategias de puntuación
  * Implementa el patrón Factory para desacoplar creación de estrategias
- * 
+ *
  * RESPONSABILIDADES:
  * - Registrar estrategias disponibles
  * - Crear instancias con configuración
  * - Validar parámetros antes de instanciar
  * - Proveer estrategia por defecto (time_based)
- * 
+ *
  * FASE 17.2 - Día 4
  * Fecha: 3 de febrero de 2026
  */
@@ -35,15 +35,15 @@ class ScoringStrategyFactory {
 
     /**
      * Crea una instancia de estrategia de puntuación
-     * 
+     *
      * @param {string} strategyName - Nombre de la estrategia ('time_based', 'streak_bonus', 'betting')
      * @param {Object} config - Configuración opcional para la estrategia
      * @returns {ScoringStrategy} Instancia de la estrategia
      * @throws {Error} Si la estrategia no existe
-     * 
+     *
      * @example
      * const strategy = factory.create('time_based');
-     * const customStrategy = factory.create('streak_bonus', { 
+     * const customStrategy = factory.create('streak_bonus', {
      *   streakThreshold: 5,
      *   streakBonusPercentage: 0.30
      * });
@@ -59,7 +59,7 @@ class ScoringStrategyFactory {
         if (!this.strategies.has(normalizedName)) {
             throw new Error(
                 `Estrategia de puntuación desconocida: "${strategyName}". ` +
-                `Disponibles: ${Array.from(this.strategies.keys()).join(', ')}`
+                    `Disponibles: ${Array.from(this.strategies.keys()).join(', ')}`
             );
         }
 
@@ -75,15 +75,13 @@ class ScoringStrategyFactory {
 
             return instance;
         } catch (error) {
-            throw new Error(
-                `Error al crear estrategia "${strategyName}": ${error.message}`
-            );
+            throw new Error(`Error al crear estrategia "${strategyName}": ${error.message}`);
         }
     }
 
     /**
      * Crea estrategia basada en pregunta y configuración de juego
-     * 
+     *
      * @param {Object} question - Objeto de pregunta
      * @param {string} question.scoring_strategy - Estrategia de la pregunta (opcional)
      * @param {Object} question.scoring_params - Parámetros de puntuación (opcional)
@@ -96,7 +94,7 @@ class ScoringStrategyFactory {
      * @param {number} [overrides.basePoints] - Puntos base sorteados (puntuación aleatoria);
      *   si se omite, se usa el valor global de runtimeConfig
      * @returns {ScoringStrategy} Estrategia configurada
-     * 
+     *
      * @example
      * const strategy = factory.createFromQuestion(question, game, { basePoints: 37 });
      */
@@ -111,7 +109,7 @@ class ScoringStrategyFactory {
         config = {
             basePoints: runtimeConfig.get('BASE_POINTS'),
             maxTimeBonus: runtimeConfig.get('MAX_TIME_BONUS'),
-            ...config,
+            ...config
         };
 
         // La base sorteada de esta pregunta tiene prioridad sobre el valor global.
@@ -125,9 +123,10 @@ class ScoringStrategyFactory {
             config = {
                 ...config,
                 streakThreshold: game.streak_threshold || runtimeConfig.get('STREAK_THRESHOLD'),
-                streakBonusPercentage: game.streak_bonus_percentage !== undefined
-                    ? game.streak_bonus_percentage
-                    : runtimeConfig.get('STREAK_BONUS_PERCENTAGE'),
+                streakBonusPercentage:
+                    game.streak_bonus_percentage !== undefined
+                        ? game.streak_bonus_percentage
+                        : runtimeConfig.get('STREAK_BONUS_PERCENTAGE'),
                 teamStreakEnabled: game.team_streak_enabled,
                 teamStreakBonusPercentage: game.team_streak_bonus_percentage
             };
@@ -138,7 +137,7 @@ class ScoringStrategyFactory {
 
     /**
      * Registra una nueva estrategia
-     * 
+     *
      * @param {string} name - Nombre de la estrategia
      * @param {Class} StrategyClass - Clase de la estrategia
      * @throws {Error} Si la clase no extiende ScoringStrategy
@@ -155,7 +154,7 @@ class ScoringStrategyFactory {
 
     /**
      * Obtiene lista de estrategias disponibles
-     * 
+     *
      * @returns {string[]} Array de nombres de estrategias
      */
     getAvailableStrategies() {
@@ -164,7 +163,7 @@ class ScoringStrategyFactory {
 
     /**
      * Verifica si una estrategia existe
-     * 
+     *
      * @param {string} strategyName - Nombre de la estrategia
      * @returns {boolean} true si existe
      */

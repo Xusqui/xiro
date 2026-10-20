@@ -71,7 +71,8 @@ function ensureContainer() {
     if (!container) {
         container = document.createElement('div');
         container.id = CONTAINER_ID;
-        container.className = 'hidden fixed bottom-0 left-0 w-full flex justify-center gap-1 p-2 bg-black/20 backdrop-blur-sm z-40 pointer-events-none';
+        container.className =
+            'hidden fixed bottom-0 left-0 w-full flex justify-center gap-1 p-2 bg-black/20 backdrop-blur-sm z-40 pointer-events-none';
         container.style.paddingBottom = 'max(0.5rem, env(safe-area-inset-bottom))';
         document.body.appendChild(container);
     }
@@ -90,13 +91,15 @@ function render() {
 
     const badges = normalizeBadges(_badges, _categories);
     container.classList.remove('hidden');
-    container.innerHTML = _categories.map((cat, idx) => {
-        const active = !!badges[idx];
-        const bg = active ? cat.color : 'rgba(255,255,255,0.12)';
-        const border = active ? 'transparent' : 'rgba(209,213,219,0.9)';
-        return `<span title="${escapeHtml(cat.name)}"
+    container.innerHTML = _categories
+        .map((cat, idx) => {
+            const active = !!badges[idx];
+            const bg = active ? cat.color : 'rgba(255,255,255,0.12)';
+            const border = active ? 'transparent' : 'rgba(209,213,219,0.9)';
+            return `<span title="${escapeHtml(cat.name)}"
             style="display:inline-block;width:1.05rem;height:1.05rem;border-radius:9999px;background:${bg};border:1px solid ${border};box-shadow:${active ? `0 0 8px ${cat.color}99` : 'none'}"></span>`;
-    }).join('');
+        })
+        .join('');
 }
 
 export function setTrivialBadgesVisible(visible) {
@@ -171,7 +174,12 @@ function firstSnapshotValue(snapshot, getters) {
 }
 
 const SNAPSHOT_CATEGORIES = [s => s?.playerData?.categories, s => s?.gameState?.categories, s => s?.categories];
-const SNAPSHOT_BADGES = [s => s?.playerData?.badges, s => s?.playerData?.token, s => s?.gameState?.badges, s => s?.badges];
+const SNAPSHOT_BADGES = [
+    s => s?.playerData?.badges,
+    s => s?.playerData?.token,
+    s => s?.gameState?.badges,
+    s => s?.badges
+];
 
 export function syncTrivialBadgesFromSnapshot(snapshot) {
     if (!isTrivialSnapshot(snapshot)) {

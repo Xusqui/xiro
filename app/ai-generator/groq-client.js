@@ -39,15 +39,17 @@ function callGroq({ apiKey, model, userPrompt, systemPrompt, timeout, maxTokens 
             path: GROQ_PATH,
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${apiKey}`,
+                Authorization: `Bearer ${apiKey}`,
                 'Content-Type': 'application/json',
                 'Content-Length': Buffer.byteLength(body)
             }
         };
 
-        const req = https.request(options, (res) => {
+        const req = https.request(options, res => {
             let data = '';
-            res.on('data', chunk => { data += chunk; });
+            res.on('data', chunk => {
+                data += chunk;
+            });
             res.on('end', () => {
                 try {
                     const parsed = JSON.parse(data);
@@ -69,7 +71,7 @@ function callGroq({ apiKey, model, userPrompt, systemPrompt, timeout, maxTokens 
             reject(new Error(`Timeout: Groq no respondió en ${timeout / 1000}s`));
         });
 
-        req.on('error', (err) => reject(new Error(`Error de red: ${err.message}`)));
+        req.on('error', err => reject(new Error(`Error de red: ${err.message}`)));
         req.write(body);
         req.end();
     });

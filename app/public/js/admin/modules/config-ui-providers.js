@@ -38,12 +38,16 @@ function _renderAIRow(provider, info, isActive, parts) {
             <div class="aic-row__body">
                 ${parts.body}
                 <p class="aic-row__error" id="ai-error-${provider}" role="alert" hidden></p>
-                ${configured ? `
+                ${
+    configured
+        ? `
                 <div class="aic-row__footer">
                     <button type="button" data-admin-action="ai-delete-key" data-provider="${provider}" class="aic-btn aic-btn--danger-text">
                         <i class="fas fa-trash-alt"></i> ${parts.deleteLabel}
                     </button>
-                </div>` : ''}
+                </div>`
+        : ''
+}
             </div>
         </details>`;
 }
@@ -54,16 +58,15 @@ function _renderAIProviderRow(provider, info, isActive) {
     const model = info.model || meta.models[0].id;
 
     // Si el modelo guardado no está en la lista (p. ej. GROQ_MODEL), se ofrece igualmente
-    const models = meta.models.some(m => m.id === model)
-        ? meta.models
-        : [{ id: model, label: model }, ...meta.models];
-    const modelOptions = models.map(m =>
-        `<option value="${escapeHtml(m.id)}" ${model === m.id ? 'selected' : ''}>${escapeHtml(m.label)}</option>`
-    ).join('');
+    const models = meta.models.some(m => m.id === model) ? meta.models : [{ id: model, label: model }, ...meta.models];
+    const modelOptions = models
+        .map(
+            m =>
+                `<option value="${escapeHtml(m.id)}" ${model === m.id ? 'selected' : ''}>${escapeHtml(m.label)}</option>`
+        )
+        .join('');
 
-    const keyPlaceholder = info.maskedKey
-        ? _t('admin.ai.key_saved', { key: info.maskedKey })
-        : meta.placeholder;
+    const keyPlaceholder = info.maskedKey ? _t('admin.ai.key_saved', { key: info.maskedKey }) : meta.placeholder;
 
     const body = `
         <div class="aic-fields">

@@ -18,7 +18,7 @@ export function resolveSounds(sounds) {
 /** Banco de arranque del motor (en segundo plano) y su reverb. Resuelve con el motor. */
 export function loadInitialSounds(engine) {
     if (engine.sounds.reverb !== 'generated') applyReverb(engine.mixer, engine.sounds);
-    return loadSampleBank(engine.Tone, engine.sounds).then((bank) => {
+    return loadSampleBank(engine.Tone, engine.sounds).then(bank => {
         useBank(engine, bank);
         if (!bank) engine.emit('warn', 'No se pudieron cargar las muestras: se usan instrumentos sintetizados');
         return engine;
@@ -49,7 +49,7 @@ export async function switchSounds(engine, partial) {
     const next = resolveSounds(Object.assign({}, before, partial));
     engine.sounds = next;
     if (next.reverb !== before.reverb) await applyReverb(engine.mixer, next);
-    if (['brass', 'piano', 'melody', 'bass', 'drums'].every((group) => next[group] === before[group])) return next;
+    if (['brass', 'piano', 'melody', 'bass', 'drums'].every(group => next[group] === before[group])) return next;
     const bank = await loadSampleBank(engine.Tone, next);
     if (engine.sounds !== next) {
         if (bank) bank.dispose(); // otro cambio llegó antes de terminar este

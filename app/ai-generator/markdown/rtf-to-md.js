@@ -9,15 +9,58 @@
 'use strict';
 
 const SKIP_DESTINATIONS = new Set([
-    'fonttbl', 'colortbl', 'stylesheet', 'info', 'pict', 'object', 'objdata', 'fldinst', 'themedata',
-    'colorschememapping', 'datastore', 'latentstyles', 'listtable', 'listoverridetable', 'rsidtbl',
-    'generator', 'xmlnstbl', 'mmathPr', 'header', 'headerl', 'headerr', 'headerf', 'footer', 'footerl',
-    'footerr', 'footerf', 'footnote', 'annotation', 'bkmkstart', 'bkmkend', 'pgdsctbl', 'revtbl', 'filetbl'
+    'fonttbl',
+    'colortbl',
+    'stylesheet',
+    'info',
+    'pict',
+    'object',
+    'objdata',
+    'fldinst',
+    'themedata',
+    'colorschememapping',
+    'datastore',
+    'latentstyles',
+    'listtable',
+    'listoverridetable',
+    'rsidtbl',
+    'generator',
+    'xmlnstbl',
+    'mmathPr',
+    'header',
+    'headerl',
+    'headerr',
+    'headerf',
+    'footer',
+    'footerl',
+    'footerr',
+    'footerf',
+    'footnote',
+    'annotation',
+    'bkmkstart',
+    'bkmkend',
+    'pgdsctbl',
+    'revtbl',
+    'filetbl'
 ]);
 const CHAR_WORDS = {
-    par: '\n', line: '\n', sect: '\n', page: '\n', row: '\n', cell: ' | ', tab: ' ',
-    emdash: '—', endash: '–', bullet: '•', lquote: '‘', rquote: '’', ldblquote: '“', rdblquote: '”',
-    emspace: ' ', enspace: ' ', qmspace: ' '
+    par: '\n',
+    line: '\n',
+    sect: '\n',
+    page: '\n',
+    row: '\n',
+    cell: ' | ',
+    tab: ' ',
+    emdash: '—',
+    endash: '–',
+    bullet: '•',
+    lquote: '‘',
+    rquote: '’',
+    ldblquote: '“',
+    rdblquote: '”',
+    emspace: ' ',
+    enspace: ' ',
+    qmspace: ' '
 };
 const CP1252 = '€\u0081‚ƒ„…†‡ˆ‰Š‹Œ\u008dŽ\u008f\u0090‘’“”•–—˜™š›œ\u009džŸ';
 

@@ -8,7 +8,7 @@
  * @depends [dialog-router, views/*]
  */
 
-Office.initialize = function () { // eslint-disable-line no-undef
+Office.initialize = function () {
     const root = document.getElementById('xiro-root');
     XiroDialogRouter.init(root);
 
@@ -16,11 +16,15 @@ Office.initialize = function () { // eslint-disable-line no-undef
     _notifyParent({ event: 'ready' });
 
     // Escuchar mensajes del task pane
-    Office.context.ui.addHandlerAsync( // eslint-disable-line no-undef
+    Office.context.ui.addHandlerAsync(
         Office.EventType.DialogParentMessageReceived, // eslint-disable-line no-undef
-        (args) => {
+        args => {
             let msg;
-            try { msg = JSON.parse(args.message); } catch (_) { return; }
+            try {
+                msg = JSON.parse(args.message);
+            } catch (_) {
+                return;
+            }
 
             if ((msg.action === 'init' || msg.action === 'navigate') && msg.meta) {
                 // Tanto la inicialización como la navegación usan el mismo router.

@@ -80,21 +80,23 @@ async function _updateWedgeEarnedInRedis(roomId, epoch, nicknames, categoryName)
 
     try {
         const rc = await getRedisClient();
-        await Promise.all(nicknames.map(async nick => {
-            const field = `${epoch}:${nick}`;
-            const existing = await rc.hGet(key, field);
-            if (!existing) {
-                return;
-            }
+        await Promise.all(
+            nicknames.map(async nick => {
+                const field = `${epoch}:${nick}`;
+                const existing = await rc.hGet(key, field);
+                if (!existing) {
+                    return;
+                }
 
-            try {
-                const entry = JSON.parse(existing);
-                entry.wedgeEarned = categoryName;
-                await rc.hSet(key, field, JSON.stringify(entry));
-            } catch (_) {
-                // ignore malformed Redis payload
-            }
-        }));
+                try {
+                    const entry = JSON.parse(existing);
+                    entry.wedgeEarned = categoryName;
+                    await rc.hSet(key, field, JSON.stringify(entry));
+                } catch (_) {
+                    // ignore malformed Redis payload
+                }
+            })
+        );
     } catch (_) {
         // ignore redis update failure
     }
@@ -225,10 +227,19 @@ function _ensureGame(roomId, state) {
     let game = activeGames.get(roomId);
     if (!game) {
         game = {
-            pin: roomId, isTrivial: true, questions: [], currentIndex: 0,
-            scores: {}, players: Object.keys(state.players), canAnswer: false,
-            state: 'in-progress', startTime: Date.now(), answerStats: {},
-            revealedQuestions: new Set(), trivialMeta: null, trivialLastCorrect: null,
+            pin: roomId,
+            isTrivial: true,
+            questions: [],
+            currentIndex: 0,
+            scores: {},
+            players: Object.keys(state.players),
+            canAnswer: false,
+            state: 'in-progress',
+            startTime: Date.now(),
+            answerStats: {},
+            revealedQuestions: new Set(),
+            trivialMeta: null,
+            trivialLastCorrect: null,
             answeredCurrent: new Set(),
             teamMode: !!state?.teamMode
         };
@@ -282,7 +293,12 @@ function createHandleNextTurn(io) {
         const game = _ensureGame(roomId, state);
         const actorNick = trivialState.getCurrentTurnActor(state);
         const wasCorrect = await _readWasCorrect(roomId, game, state);
-        logger.debug('trivial handleNextTurn: actor and result', { roomId, actorNick, wasCorrect, hasMeta: !!state.currentTrivialMeta });
+        logger.debug('trivial handleNextTurn: actor and result', {
+            roomId,
+            actorNick,
+            wasCorrect,
+            hasMeta: !!state.currentTrivialMeta
+        });
 
         // Award wedges to all players who answered correctly this round.
         // This covers the auto-reveal path (all-answered) where handlePostReveal is never called,
@@ -296,9 +312,13 @@ function createHandleNextTurn(io) {
             const { isHQ: isHQPos } = isHQPosition(position, N, M);
             const isWedgePosition = isHQPos || position === 'center';
             logger.debug('trivial handleNextTurn: wedge check', {
-                roomId, actorNick, position, hqCatIdx,
+                roomId,
+                actorNick,
+                position,
+                hqCatIdx,
                 hqCatIdxType: typeof hqCatIdx,
-                isHQPos, isWedgePosition,
+                isHQPos,
+                isWedgePosition,
                 rawMeta: JSON.stringify(state.currentTrivialMeta)
             });
             if (isWedgePosition && hqCatIdx !== null && hqCatIdx !== undefined) {
@@ -318,7 +338,10 @@ function createHandleNextTurn(io) {
 
         if (action === 'advance-turn') {
             trivialState.advanceTurn(state);
-            logger.debug('trivial handleNextTurn: turn advanced', { roomId, nextActor: trivialState.getCurrentTurnActor(state) });
+            logger.debug('trivial handleNextTurn: turn advanced', {
+                roomId,
+                nextActor: trivialState.getCurrentTurnActor(state)
+            });
         } else {
             logger.debug('trivial handleNextTurn: roll-again — same actor keeps turn', { roomId, actorNick });
         }
@@ -359,7 +382,9 @@ function createHandlePostReveal(io) {
 
         const state = await trivialState.getTrivialState(roomId);
         if (!state?.currentTrivialMeta) {
-            logger.debug('trivial handlePostReveal: no currentTrivialMeta — not a trivial question, skipping', { roomId });
+            logger.debug('trivial handlePostReveal: no currentTrivialMeta — not a trivial question, skipping', {
+                roomId
+            });
             return;
         }
 

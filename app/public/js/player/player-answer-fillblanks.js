@@ -7,9 +7,15 @@
 import { setBodyHTML } from './player-streak-ui.js?v=20260922172926';
 import { enviarPendiente } from './player-answer.js?v=20260922172926';
 import {
-    getPin, getSessionId, getNickname,
-    getCanAnswer, getHaRespondido, setHaRespondido,
-    getPendingAnswer, setPendingAnswer, getSendingAnswer
+    getPin,
+    getSessionId,
+    getNickname,
+    getCanAnswer,
+    getHaRespondido,
+    setHaRespondido,
+    getPendingAnswer,
+    setPendingAnswer,
+    getSendingAnswer
 } from './player-state.js?v=20260922172926';
 import { getFillBlanksState, getWords, hasActiveFillBlanks } from './player-fillblanks-state.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
@@ -42,7 +48,13 @@ export function enviarRespuestaFillBlanks(isAuto = false, teamWords = null) {
     setHaRespondido(true);
 
     const room = getSessionId() ? { sessionId: getSessionId() } : { pin: getPin() };
-    const payload = { ...room, nickname: getNickname(), answerType: 'fill_blanks', words, requestId: createRequestId() };
+    const payload = {
+        ...room,
+        nickname: getNickname(),
+        answerType: 'fill_blanks',
+        words,
+        requestId: createRequestId()
+    };
     setPendingAnswer({ payload, words, isAuto });
 
     if (!isAuto) {
@@ -70,19 +82,21 @@ function sentenceHtml(details) {
 /** Una fila por hueco: palabra correcta, lo escrito si falló, puntos y pistas */
 function rowsHtml(details) {
     const words = details.words || [];
-    return words.map((word, i) => {
-        const ok = Boolean(details.blanksCorrect?.[i]);
-        const given = details.given?.[i] || '';
-        const hints = details.hintCounts?.[i] || 0;
-        const points = details.wordPoints?.[i] || 0;
-        return `<div class="fb-result__row">
+    return words
+        .map((word, i) => {
+            const ok = Boolean(details.blanksCorrect?.[i]);
+            const given = details.given?.[i] || '';
+            const hints = details.hintCounts?.[i] || 0;
+            const points = details.wordPoints?.[i] || 0;
+            return `<div class="fb-result__row">
             <span><i class="fas ${ok ? 'fa-check text-green-200' : 'fa-times text-red-200'} mr-2"></i>${escapeHtml(word)}
                 ${!ok && given ? `<span class="fb-result__given ml-2">${escapeHtml(given)}</span>` : ''}
                 ${hints ? `<span class="ml-2 text-yellow-200">💡×${hints}</span>` : ''}
             </span>
             <span>+${points}</span>
         </div>`;
-    }).join('');
+        })
+        .join('');
 }
 
 /** Pantalla de resultado: puntos, x/N palabras, la frase y el desglose. */

@@ -11,7 +11,14 @@
 const StandaloneQuestionOrder = (() => {
     const { escapeHtml, optionText, submitAnswer } = StandaloneQuestionCommon;
 
-    const OPTION_GRADIENTS = ['pl-gradient-red', 'pl-gradient-blue', 'pl-gradient-yellow', 'pl-gradient-green', 'pl-gradient-purple', 'pl-gradient-pink'];
+    const OPTION_GRADIENTS = [
+        'pl-gradient-red',
+        'pl-gradient-blue',
+        'pl-gradient-yellow',
+        'pl-gradient-green',
+        'pl-gradient-purple',
+        'pl-gradient-pink'
+    ];
 
     function _shuffle(indices) {
         const arr = [...indices];
@@ -45,14 +52,18 @@ const StandaloneQuestionOrder = (() => {
 
         function drawList() {
             const list = container.querySelector('#standalone-order-list');
-            list.innerHTML = order.map((optionIndex, position) => `
+            list.innerHTML = order
+                .map(
+                    (optionIndex, position) => `
                 <div class="pl-glass-item ${OPTION_GRADIENTS[optionIndex % OPTION_GRADIENTS.length]} order-item"
                     data-order-item draggable="true" data-position="${position}" data-option-index="${optionIndex}">
                     <span class="pl-item-number">${position + 1}</span>
                     <span class="pl-item-text">${escapeHtml(optionText(options[optionIndex]))}</span>
                     <span style="color:rgba(255,255,255,0.7);">≡</span>
                 </div>
-            `).join('');
+            `
+                )
+                .join('');
 
             bindDragHandlers(list);
             bindPointerHandlers(list);
@@ -69,17 +80,17 @@ const StandaloneQuestionOrder = (() => {
 
         function bindDragHandlers(list) {
             list.querySelectorAll('[data-order-item]').forEach(item => {
-                item.addEventListener('dragstart', (event) => {
+                item.addEventListener('dragstart', event => {
                     dragSourceIndex = Number(item.dataset.position);
                     event.dataTransfer.effectAllowed = 'move';
                     event.dataTransfer.setData('text/plain', String(dragSourceIndex));
                 });
-                item.addEventListener('dragover', (event) => {
+                item.addEventListener('dragover', event => {
                     event.preventDefault();
                     item.classList.add('is-drag-over');
                 });
                 item.addEventListener('dragleave', () => item.classList.remove('is-drag-over'));
-                item.addEventListener('drop', (event) => {
+                item.addEventListener('drop', event => {
                     event.preventDefault();
                     item.classList.remove('is-drag-over');
                     const targetIndex = Number(item.dataset.position);
@@ -92,7 +103,7 @@ const StandaloneQuestionOrder = (() => {
         }
 
         function bindPointerHandlers(list) {
-            list.addEventListener('pointerdown', (event) => {
+            list.addEventListener('pointerdown', event => {
                 const item = event.target.closest('[data-order-item]');
                 if (!item) return;
                 if (event.pointerType === 'mouse' && event.button !== 0) return;
@@ -103,7 +114,7 @@ const StandaloneQuestionOrder = (() => {
                 item.classList.add('is-dragging');
             });
 
-            list.addEventListener('pointermove', (event) => {
+            list.addEventListener('pointermove', event => {
                 if (!pointerDragState || event.pointerId !== pointerDragState.pointerId) return;
                 event.preventDefault();
 
@@ -128,7 +139,7 @@ const StandaloneQuestionOrder = (() => {
                 }
             });
 
-            const finishPointerDrag = (event) => {
+            const finishPointerDrag = event => {
                 if (!pointerDragState || event.pointerId !== pointerDragState.pointerId) return;
                 pointerDragState.draggedItem.style.transform = '';
                 pointerDragState.draggedItem.classList.remove('is-dragging');
@@ -146,11 +157,15 @@ const StandaloneQuestionOrder = (() => {
         }
 
         container.querySelector('[data-standalone-action="submit-order"]').addEventListener('click', async () => {
-            container.querySelectorAll('button').forEach(el => { el.disabled = true; });
+            container.querySelectorAll('button').forEach(el => {
+                el.disabled = true;
+            });
             const ack = await submitAnswer({ order: [...order] }, 'order');
             if (ack && ack.ok === false) {
                 StandaloneState.get().answered = false;
-                container.querySelectorAll('button').forEach(el => { el.disabled = false; });
+                container.querySelectorAll('button').forEach(el => {
+                    el.disabled = false;
+                });
                 return;
             }
             onSubmitted();

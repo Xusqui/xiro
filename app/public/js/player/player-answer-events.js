@@ -5,7 +5,11 @@
  */
 
 import { socket } from './player-socket-config.js?v=20260922172926';
-import { applyStreakToResult, replacePendingStreakResult, buildLostStreakInfo } from './player-streak-ui.js?v=20260922172926';
+import {
+    applyStreakToResult,
+    replacePendingStreakResult,
+    buildLostStreakInfo
+} from './player-streak-ui.js?v=20260922172926';
 import { renderLastRankingSince } from './player-results.js?v=20260922172926';
 import { enviarOrdenRespuesta, enviarMatchingRespuesta } from './player-answer.js?v=20260922172926';
 import { enviarRespuestaWordSearch } from './player-answer-wordsearch.js?v=20260922172926';
@@ -14,12 +18,24 @@ import { enviarRespuestaFillBlanks } from './player-answer-fillblanks.js?v=20260
 import { hasActiveFillBlanks } from './player-fillblanks-state.js?v=20260922172926';
 import { isTeamFillBlanks } from './player-fillblanks-team.js?v=20260922172926';
 import { buildAnswerResultHTML } from './player-answer-result.js?v=20260922172926';
-import { appendCorrectAnswerToResult, rememberReveal, timeUpScreenHtml } from './player-reveal-correct.js?v=20260922172926';
 import {
-    setCanAnswer, getHaRespondido,
-    setPendingAnswer, setSendingAnswer, setResultReceived,
-    getCurrentOrder, getCurrentMatches, clearOrderAutoSendTimer, clearMatchAutoSendTimer,
-    startOrderAutoSendTimer, getCurrentSlideType, getStreakInfo
+    appendCorrectAnswerToResult,
+    rememberReveal,
+    timeUpScreenHtml
+} from './player-reveal-correct.js?v=20260922172926';
+import {
+    setCanAnswer,
+    getHaRespondido,
+    setPendingAnswer,
+    setSendingAnswer,
+    setResultReceived,
+    getCurrentOrder,
+    getCurrentMatches,
+    clearOrderAutoSendTimer,
+    clearMatchAutoSendTimer,
+    startOrderAutoSendTimer,
+    getCurrentSlideType,
+    getStreakInfo
 } from './player-state.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 

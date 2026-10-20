@@ -14,7 +14,7 @@ const ERROR_PAGES = {
     410: path.resolve(__dirname, '../public/error/410.html'),
     429: path.resolve(__dirname, '../public/error/429.html'),
     500: path.resolve(__dirname, '../public/error/500.html'),
-    503: path.resolve(__dirname, '../public/error/503.html'),
+    503: path.resolve(__dirname, '../public/error/503.html')
 };
 
 /**
@@ -96,9 +96,7 @@ function errorHandler(err, req, res, _next) {
 
     // Respuesta JSON para clientes API
     // Los errores 5xx no exponen detalles internos
-    const errorMessage = status < 500
-        ? (err.message || 'Error de solicitud')
-        : 'Error interno del servidor';
+    const errorMessage = status < 500 ? err.message || 'Error de solicitud' : 'Error interno del servidor';
 
     res.status(status).json(buildErrorPayload(status, err, errorMessage));
 }

@@ -21,10 +21,7 @@ class AnswerStatsStore {
             const client = await getRedisClient();
             const key = this._getKey(sessionId, questionIndex);
             // Pipeline increment and TTL using MULTI/EXEC
-            await client.multi()
-                .hIncrBy(key, String(answerIndex), 1)
-                .expire(key, ttl)
-                .exec();
+            await client.multi().hIncrBy(key, String(answerIndex), 1).expire(key, ttl).exec();
             return true;
         } catch (error) {
             logger.warn('Failed to increment answer stats', {
@@ -44,7 +41,7 @@ class AnswerStatsStore {
             const raw = await client.hGetAll(key);
 
             const stats = {};
-            Object.keys(raw || {}).forEach((k) => {
+            Object.keys(raw || {}).forEach(k => {
                 const count = Number(raw[k]);
                 if (Number.isFinite(count)) {
                     stats[k] = count;

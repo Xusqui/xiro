@@ -1,7 +1,7 @@
 /**
  * @fileoverview Reconnect Player Use Case - Flujo completo de reconexión
  * @module application/use-cases/ReconnectPlayerUseCase
- * 
+ *
  * Encapsula todo el flujo de negocio para reconectar un jugador:
  * 1. Validación
  * 2. Restaurar sesión (disconnect old, update state, setup socket)
@@ -23,8 +23,9 @@ function validateLobbyPresence({ game, lobbyPlayers, roomId, nickname, players }
 
     const lobby = lobbyPlayers.get(roomId) || [];
     const lobbyHasNick = lobby.includes(nickname);
-    const hasPlayer = Array.from(players.values())
-        .some(player => player.nickname === nickname && player.roomId === roomId);
+    const hasPlayer = Array.from(players.values()).some(
+        player => player.nickname === nickname && player.roomId === roomId
+    );
 
     if (lobbyHasNick || hasPlayer) {
         return null;
@@ -150,21 +151,23 @@ class ReconnectPlayerUseCase {
             io.to(roomId).emit('player-rejoined', playerReconnectData);
 
             // 7. Emitir evento de dominio
-            EventBus.emit('player.joined', new PlayerJoinedEvent({
-                gameId: roomId,
-                playerId: player.id,
-                nickname: player.nickname,
-                roomId,
-                isReconnection: true,
-                timestamp: Date.now()
-            }));
+            EventBus.emit(
+                'player.joined',
+                new PlayerJoinedEvent({
+                    gameId: roomId,
+                    playerId: player.id,
+                    nickname: player.nickname,
+                    roomId,
+                    isReconnection: true,
+                    timestamp: Date.now()
+                })
+            );
 
             return {
                 success: true,
                 player,
                 snapshot
             };
-
         } catch (error) {
             logger.error('Error in ReconnectPlayerUseCase', {
                 error: error.message,

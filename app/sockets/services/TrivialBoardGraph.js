@@ -1,7 +1,7 @@
 /**
  * @fileoverview Trivial board graph and reachable-position calculator
  * @module sockets/services/TrivialBoardGraph
- * 
+ *
  * Position encoding:
  *   'center'        – the center starting circle
  *   'outer:I'       – outer ring casilla at index I (0..M-1)
@@ -18,10 +18,13 @@ function buildBoardGraph(N, M) {
     const graph = new Map();
 
     // CG positions on outer ring: evenly spaced
-    const cgPositions = Array.from({ length: N }, (_, k) => Math.floor(k * M / N));
+    const cgPositions = Array.from({ length: N }, (_, k) => Math.floor((k * M) / N));
 
     // Center connects to spoke_k_1 for each k
-    graph.set('center', Array.from({ length: N }, (_, k) => `spoke:${k}:1`));
+    graph.set(
+        'center',
+        Array.from({ length: N }, (_, k) => `spoke:${k}:1`)
+    );
 
     // Spokes: 5 steps each
     for (let k = 0; k < N; k++) {
@@ -105,7 +108,7 @@ function getCategoryForPosition(pos, N, M, cgPositions) {
         const s = parseInt(parts[2]);
         // Must match the visual colour formula used in presenter-trivial-board.js:
         //   altIdx = (masterColorIdx + (6 - s)) % N
-        const masterColorIdx = Math.floor(k * M / N) % N;
+        const masterColorIdx = Math.floor((k * M) / N) % N;
         return (masterColorIdx + (6 - s)) % N;
     }
 
@@ -113,7 +116,7 @@ function getCategoryForPosition(pos, N, M, cgPositions) {
         const i = parseInt(pos.split(':')[1]);
         // If this is an HQ position, its category is the spoke it belongs to (cgIndex),
         // NOT i%N — those diverge when N is small (e.g. N=2, outer:6 → 6%2=0 but category=1).
-        const cg = cgPositions || Array.from({ length: N }, (_, k) => Math.floor(k * M / N));
+        const cg = cgPositions || Array.from({ length: N }, (_, k) => Math.floor((k * M) / N));
         const cgIndex = cg.indexOf(i);
         if (cgIndex !== -1) return cgIndex;
         return i % N;
@@ -131,7 +134,7 @@ function getCategoryForPosition(pos, N, M, cgPositions) {
 function isHQPosition(pos, N, M) {
     if (!pos.startsWith('outer:')) return { isHQ: false, categoryIndex: null };
     const i = parseInt(pos.split(':')[1]);
-    const cgPositions = Array.from({ length: N }, (_, k) => Math.floor(k * M / N));
+    const cgPositions = Array.from({ length: N }, (_, k) => Math.floor((k * M) / N));
     const cgIndex = cgPositions.indexOf(i);
     if (cgIndex === -1) return { isHQ: false, categoryIndex: null };
     // categoryIndex is the spoke index (k) that owns this HQ — not i%N,

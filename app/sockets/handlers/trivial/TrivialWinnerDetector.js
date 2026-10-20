@@ -27,9 +27,7 @@ const logger = require('../../../config/logger');
  */
 async function checkAndEmitWinner({ io, roomId, state }) {
     for (const [nick, playerData] of Object.entries(state.players)) {
-        const token = state.teamMode
-            ? state.teamTokens[playerData.teamName]
-            : playerData.token;
+        const token = state.teamMode ? state.teamTokens[playerData.teamName] : playerData.token;
 
         if (!trivialState.isAllTokensFilled(token)) continue;
 
@@ -46,9 +44,7 @@ async function checkAndEmitWinner({ io, roomId, state }) {
 
         // Finalize in background: send player-final-position + cleanup.
         // Passes teamConfig so sendFinalPositions uses team-mode path for team games.
-        const teamConfig = state.teamMode && state.teamConfig
-            ? { ...state.teamConfig, isTeamMode: true }
-            : null;
+        const teamConfig = state.teamMode && state.teamConfig ? { ...state.teamConfig, isTeamMode: true } : null;
         finalizeTrivialGame({ io, roomId, ranking, teamConfig }).catch(err =>
             logger.error('TrivialFinalize error', { roomId, error: err.message })
         );

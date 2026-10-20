@@ -100,10 +100,7 @@ class Hexagon {
             y: maxy / 2 - (this.kx + 0.5 * this.ky) * radiush
         };
         this.isVisible =
-      this.c.x >= -radius &&
-      this.c.x <= maxx + radius &&
-      this.c.y >= -radius &&
-      this.c.y <= maxy + radius;
+            this.c.x >= -radius && this.c.x <= maxx + radius && this.c.y >= -radius && this.c.y <= maxy + radius;
     } // constructor
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     draw() {
@@ -129,7 +126,7 @@ class Hexagon {
 class Group extends Map {
     constructor(kx, ky) {
         super();
-        const addhex = (h) => {
+        const addhex = h => {
             if (h.key < key) key = h.key;
             if (h.isVisible) this.set(h.key, h);
         };
@@ -219,8 +216,7 @@ let messages = [];
                         break;
                     }
                     currGroup = reachable.shift();
-                    if (currGroup.size > 0 && !visitedGroups.includes(currGroup.key))
-                        ++animState;
+                    if (currGroup.size > 0 && !visitedGroups.includes(currGroup.key)) ++animState;
                     // go with this group
                     else break;
                     // falls through
@@ -228,15 +224,15 @@ let messages = [];
                 case 3:
                     visitedGroups.push(currGroup.key);
                     evolHue = (evolHue + dHue) % 360;
-                    currGroup.forEach((hex) => hex.draw());
+                    currGroup.forEach(hex => hex.draw());
                     // make list of all neighbour groups
                     neighGroups = new Set();
                     repr = currGroup.values().next().value;
-                    Hexagon.dneighbors.forEach((dk) => {
+                    Hexagon.dneighbors.forEach(dk => {
                         ng = new Group(repr.kx + dk.dx, repr.ky + dk.dy);
                         if (ng.size === 0) return; // all neighbors off screen
                         if (visitedGroups.includes(ng.key)) return; // already visited
-                        if (reachable.find((r) => r.key === ng.key)) return;
+                        if (reachable.find(r => r.key === ng.key)) return;
                         neighGroups.add(ng);
                     });
 

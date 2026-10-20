@@ -7,10 +7,10 @@
     'use strict';
 
     const root = typeof window !== 'undefined' ? window : globalThis;
-    const XiroCanvasEditor = root.XiroCanvasEditor = root.XiroCanvasEditor || {};
+    const XiroCanvasEditor = (root.XiroCanvasEditor = root.XiroCanvasEditor || {});
     XiroCanvasEditor.propsByType = XiroCanvasEditor.propsByType || {};
 
-    const isClosed = (el) => el.props.shape === 'rect' || el.props.shape === 'ellipse';
+    const isClosed = el => el.props.shape === 'rect' || el.props.shape === 'ellipse';
 
     XiroCanvasEditor.propsByType.shape = {
         title: 'type.shape',
@@ -18,7 +18,14 @@
             { key: 'fill', label: 'field.fill', kind: 'color', noneLabel: 'none.fill', when: isClosed },
             { key: 'stroke', label: 'field.stroke', kind: 'color', noneLabel: 'none.stroke' },
             { key: 'strokeWidth', label: 'field.stroke_width', kind: 'number', min: 0, max: 60 },
-            { key: 'radius', label: 'field.radius', kind: 'number', min: 0, max: 540, when: (el) => el.props.shape === 'rect' }
+            {
+                key: 'radius',
+                label: 'field.radius',
+                kind: 'number',
+                min: 0,
+                max: 540,
+                when: el => el.props.shape === 'rect'
+            }
         ]
     };
 
@@ -27,7 +34,15 @@
         fields: [
             { label: 'field.change_image', kind: 'action', action: 'change-image', icon: 'fa-image' },
             { key: 'lockRatio', label: 'field.lock_ratio', kind: 'check' },
-            { key: 'fit', label: 'field.image_fit', kind: 'select', options: [['contain', 'image_fit.contain'], ['cover', 'image_fit.cover']] },
+            {
+                key: 'fit',
+                label: 'field.image_fit',
+                kind: 'select',
+                options: [
+                    ['contain', 'image_fit.contain'],
+                    ['cover', 'image_fit.cover']
+                ]
+            },
             { key: 'radius', label: 'field.radius', kind: 'number', min: 0, max: 540 }
         ]
     };

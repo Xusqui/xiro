@@ -30,5 +30,4 @@ export function showTurnOrderOverlay(boardContainer, turnOrder) {
     return TrivialShared.showTurnOrderOverlay(boardContainer, turnOrder);
 }
 
-export function renderTrivialScoreboard() { } // kept for import compat
-
+export function renderTrivialScoreboard() {} // kept for import compat

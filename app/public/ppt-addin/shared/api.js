@@ -32,10 +32,10 @@ async function apiGet(path) {
     const res = await fetch(`${BASE}${path}`, {
         method: 'GET',
         headers: {
-            'Accept': 'application/json',
-            ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+            Accept: 'application/json',
+            ...(token ? { Authorization: `Bearer ${token}` } : {})
         },
-        credentials: 'omit',
+        credentials: 'omit'
     });
     if (!res.ok) {
         const text = await res.text().catch(() => '');
@@ -55,12 +55,12 @@ async function apiPost(path, body) {
     const res = await fetch(`${BASE}${path}`, {
         method: 'POST',
         headers: {
-            'Accept': 'application/json',
+            Accept: 'application/json',
             'Content-Type': 'application/json',
-            ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+            ...(token ? { Authorization: `Bearer ${token}` } : {})
         },
         credentials: 'omit',
-        body: JSON.stringify(body),
+        body: JSON.stringify(body)
     });
     if (!res.ok) {
         const text = await res.text().catch(() => '');
@@ -96,5 +96,5 @@ const XiroApi = {
      */
     createSession(pin) {
         return apiPost('/api/addin/create-session', { pin });
-    },
+    }
 };

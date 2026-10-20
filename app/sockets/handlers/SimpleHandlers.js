@@ -100,7 +100,11 @@ function createPauseTimerHandler(dependencies) {
                 startTime: String(timerState.startTime),
                 remainingTime: String(timerState.remainingTime)
             });
-            logger.debug('Paused state saved to Redis', { sPin, isPaused: true, remainingTime: timerState.remainingTime });
+            logger.debug('Paused state saved to Redis', {
+                sPin,
+                isPaused: true,
+                remainingTime: timerState.remainingTime
+            });
         } catch (err) {
             logger.warn('Failed to save paused state to Redis', { error: err.message });
         }
@@ -123,7 +127,10 @@ function createPauseTimerHandler(dependencies) {
 
         // Notificar a todos los clientes (sala base + sala presenter)
         io.to(sPin).emit('timer-paused', { remainingTime: timerState.remainingTime });
-        io.to(sPin + ':presenter').emit('timer-paused', { remainingTime: timerState.remainingTime, serverNow: Date.now() });
+        io.to(sPin + ':presenter').emit('timer-paused', {
+            remainingTime: timerState.remainingTime,
+            serverNow: Date.now()
+        });
     };
 }
 
@@ -192,7 +199,11 @@ function createResumeTimerHandler(dependencies) {
                 startTime: String(timerState.startTime),
                 remainingTime: String(timerState.remainingTime)
             });
-            logger.debug('Resumed state saved to Redis', { sPin, isPaused: false, remainingTime: timerState.remainingTime });
+            logger.debug('Resumed state saved to Redis', {
+                sPin,
+                isPaused: false,
+                remainingTime: timerState.remainingTime
+            });
         } catch (err) {
             logger.warn('Failed to save resumed state to Redis', { error: err.message });
         }
@@ -222,7 +233,10 @@ function createResumeTimerHandler(dependencies) {
 
         // Notificar a todos los clientes (sala base + sala presenter)
         io.to(sPin).emit('timer-resumed', { remainingTime: timerState.remainingTime });
-        io.to(sPin + ':presenter').emit('timer-resumed', { remainingTime: timerState.remainingTime, serverNow: Date.now() });
+        io.to(sPin + ':presenter').emit('timer-resumed', {
+            remainingTime: timerState.remainingTime,
+            serverNow: Date.now()
+        });
     };
 }
 
@@ -279,15 +293,7 @@ function createSelectTeamHandler(dependencies) {
  * Leave Lobby Handler
  */
 function createLeaveLobbyHandler(dependencies) {
-    const {
-        players,
-        socketToPlayer,
-        lobbyPlayers,
-        activeGames,
-        teamConfigs,
-        syncBus,
-        io
-    } = dependencies;
+    const { players, socketToPlayer, lobbyPlayers, activeGames, teamConfigs, syncBus, io } = dependencies;
     const resolvedSyncBus = syncBus || require('../sync/RedisSyncBus').RedisSyncBus.getInstance();
 
     function removePlayerFromTeams(roomId, nickname) {
@@ -422,9 +428,7 @@ function createValidateSessionHandler(dependencies) {
                 totalGames: activeGames.size
             });
 
-            const sessionIsLive = lobbyExists
-                || gameExists
-                || (redisSessionExists && !redisSessionEnded);
+            const sessionIsLive = lobbyExists || gameExists || (redisSessionExists && !redisSessionEnded);
 
             if (!sessionIsLive) {
                 logger.warn('Session validation failed - room not found', { sessionId, roomId });
@@ -448,7 +452,6 @@ function createValidateSessionHandler(dependencies) {
                 valid: true,
                 sessionId
             });
-
         } catch (error) {
             logger.error('Error validating session', {
                 error: error.message,

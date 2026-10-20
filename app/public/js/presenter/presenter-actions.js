@@ -4,15 +4,26 @@
  */
 
 import {
-    cambiarFiltro, buscarPINs, seleccionarPIN, volverAJuegos,
-    mostrarSeleccionModo, configurarModoIndividual
+    cambiarFiltro,
+    buscarPINs,
+    seleccionarPIN,
+    volverAJuegos,
+    mostrarSeleccionModo,
+    configurarModoIndividual
 } from './presenter-lobby.js?v=20260922172926';
 import {
-    mostrarConfiguracionEquipos, seleccionarNumEquipos,
-    confirmarEquipos, updateColorOptions
+    mostrarConfiguracionEquipos,
+    seleccionarNumEquipos,
+    confirmarEquipos,
+    updateColorOptions
 } from './presenter-team-config.js?v=20260922172926';
 import { empezar } from './presenter-lobby-init.js?v=20260922172926';
-import { nextQuestionClick, togglePauseTimer, revealAnswerClick, assignManualPoints } from './presenter-socket-handlers-game.js?v=20260922172926';
+import {
+    nextQuestionClick,
+    togglePauseTimer,
+    revealAnswerClick,
+    assignManualPoints
+} from './presenter-socket-handlers-game.js?v=20260922172926';
 import { toggleFullscreen } from './presenter-utils.js?v=20260922172926';
 import { abandonarJuego, concluirJuegoYVolver, terminarJuego } from './presenter-session-control.js?v=20260922172926';
 
@@ -92,7 +103,8 @@ function expandQr() {
     if (!qrCanvas) return;
     const overlay = document.createElement('div');
     overlay.id = 'qr-fullscreen-overlay';
-    overlay.style.cssText = 'position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.88);display:flex;align-items:center;justify-content:center;cursor:zoom-out';
+    overlay.style.cssText =
+        'position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.88);display:flex;align-items:center;justify-content:center;cursor:zoom-out';
     const copy = qrCopyForOverlay(qrCanvas);
     if (copy) overlay.appendChild(copy);
     overlay.addEventListener('click', () => overlay.remove());
@@ -140,7 +152,7 @@ const PRESENTER_CLICK_ACTIONS = {
 };
 
 export function setupPresenterActionDelegation() {
-    document.addEventListener('click', (event) => {
+    document.addEventListener('click', event => {
         // Un clic fuera del menú del operador lo cierra
         if (!event.target.closest('#stage-menu-panel, #stage-menu-btn')) setStageMenuOpen(false);
 
@@ -151,14 +163,14 @@ export function setupPresenterActionDelegation() {
         if (Object.hasOwn(PRESENTER_CLICK_ACTIONS, action)) PRESENTER_CLICK_ACTIONS[action](actionElement);
     });
 
-    document.addEventListener('input', (event) => {
+    document.addEventListener('input', event => {
         const inputElement = event.target.closest('[data-presenter-input]');
         if (inputElement?.dataset.presenterInput === 'search-pins') {
             buscarPINs(inputElement.value);
         }
     });
 
-    document.addEventListener('change', (event) => {
+    document.addEventListener('change', event => {
         const changeElement = event.target.closest('[data-presenter-change]');
         if (!changeElement) return;
 

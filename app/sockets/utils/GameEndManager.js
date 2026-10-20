@@ -1,6 +1,6 @@
 /**
  * @fileoverview Game End Manager - Handles automatic game ending and cleanup
- * 
+ *
  * Refactorizado para usar EndGameUseCase (migrado desde EndGameCommand)
  */
 
@@ -79,7 +79,9 @@ function resolveRevealBase(game, roomId, timeExpired) {
     const revealTrigger = timeExpired ? 'timeout' : 'all-answered';
 
     if (hasQuestionBeenRevealed(game, revealIndex)) {
-        logger.debug(`revealAnswer: Pregunta ${revealIndex + 1} ya revelada en ${roomId} - ignorando (${revealTrigger})`);
+        logger.debug(
+            `revealAnswer: Pregunta ${revealIndex + 1} ya revelada en ${roomId} - ignorando (${revealTrigger})`
+        );
         return null;
     }
 
@@ -99,7 +101,9 @@ function resolveQuestionToReveal(game, roomId, revealIndex, revealTrigger) {
     }
 
     if (hasQuestionBeenRevealed(game, revealIndex)) {
-        logger.debug(`revealAnswer: Pregunta ${revealIndex + 1} ya revelada tras refresco en ${roomId} - ignorando (${revealTrigger})`);
+        logger.debug(
+            `revealAnswer: Pregunta ${revealIndex + 1} ya revelada tras refresco en ${roomId} - ignorando (${revealTrigger})`
+        );
         return null;
     }
 
@@ -111,12 +115,15 @@ function emitTimerExpiredIfNeeded(timeExpired, roomId, revealIndex, answeredCoun
         return;
     }
 
-    EventBus.emit('timer.expired', new TimeExpiredEvent({
-        gameId: roomId,
-        questionIndex: revealIndex,
-        answeredCount,
-        totalPlayers
-    }));
+    EventBus.emit(
+        'timer.expired',
+        new TimeExpiredEvent({
+            gameId: roomId,
+            questionIndex: revealIndex,
+            answeredCount,
+            totalPlayers
+        })
+    );
 }
 
 function emitBlockedAnswer(io, roomId, revealIndex, timeExpired) {
@@ -164,13 +171,15 @@ function normalizeStats(rawStats) {
     }
 
     const counts = {};
-    values.forEach((value) => {
+    values.forEach(value => {
         if (!value || typeof value !== 'object') {
             return;
         }
         const answerIndex = Number.isInteger(value.answerIndex)
             ? value.answerIndex
-            : (Number.isInteger(value.index) ? value.index : null);
+            : Number.isInteger(value.index)
+                ? value.index
+                : null;
         if (answerIndex === null) {
             return;
         }
@@ -216,10 +225,12 @@ function setAnswerBlockingState(game, revealIndex, timeExpired) {
 }
 
 function buildRankings(game) {
-    const rankingNicknames = [...new Set([
-        ...((game.players || []).filter(name => name && name !== 'HOST')),
-        ...Object.keys(game.scores || {}).filter(name => name && name !== 'HOST')
-    ])];
+    const rankingNicknames = [
+        ...new Set([
+            ...(game.players || []).filter(name => name && name !== 'HOST'),
+            ...Object.keys(game.scores || {}).filter(name => name && name !== 'HOST')
+        ])
+    ];
 
     return rankingNicknames
         .map(nickname => ({
@@ -244,14 +255,20 @@ function getQuestionFlags(question) {
 }
 
 // Tipos sin una única opción correcta que marcar (no tienen correctIndex)
-const NO_SINGLE_CORRECT_TYPES = new Set(['order', 'matching', 'survey', 'word_scramble', 'word_search', 'multiple_choice', 'fill_blanks']);
+const NO_SINGLE_CORRECT_TYPES = new Set([
+    'order',
+    'matching',
+    'survey',
+    'word_scramble',
+    'word_search',
+    'multiple_choice',
+    'fill_blanks'
+]);
 
 function resolveCorrectAnswerData(question, flags) {
     const hasSingleCorrectIndex = !NO_SINGLE_CORRECT_TYPES.has(question.question_type);
 
-    const correctIndex = hasSingleCorrectIndex
-        ? (question.options?.findIndex(option => option.isCorrect) ?? -1)
-        : null;
+    const correctIndex = hasSingleCorrectIndex ? (question.options?.findIndex(option => option.isCorrect) ?? -1) : null;
 
     let correctAnswer = null;
     if (flags.isNumericQuestion) {
@@ -262,7 +279,7 @@ function resolveCorrectAnswerData(question, flags) {
 
     const correctIndicesMultiple = flags.isMultipleChoiceQuestion
         ? question.options
-            ?.map((option, idx) => (option.isCorrect || option.is_correct) ? idx : null)
+            ?.map((option, idx) => (option.isCorrect || option.is_correct ? idx : null))
             .filter(idx => idx !== null)
         : null;
 
@@ -322,17 +339,16 @@ function buildCorrectMatchesPayload(currentQuestion) {
 }
 
 function buildJustificationData(currentQuestion, flags, correctIndex) {
-    const correctOption = (flags.isOrderQuestion || flags.isMatchingQuestion)
-        ? null
-        : currentQuestion.options?.[correctIndex];
+    const correctOption =
+        flags.isOrderQuestion || flags.isMatchingQuestion ? null : currentQuestion.options?.[correctIndex];
 
     const orderJustification = flags.isOrderQuestion
-        ? (currentQuestion.justification || currentQuestion.options?.find(option => option?.justification)?.justification || null)
+        ? currentQuestion.justification ||
+          currentQuestion.options?.find(option => option?.justification)?.justification ||
+          null
         : null;
 
-    const justificationText = flags.isOrderQuestion
-        ? orderJustification
-        : (correctOption?.justification || null);
+    const justificationText = flags.isOrderQuestion ? orderJustification : correctOption?.justification || null;
 
     const correctOrder = flags.isOrderQuestion ? buildCorrectOrderPayload(currentQuestion) : null;
     const correctMatches = flags.isMatchingQuestion ? buildCorrectMatchesPayload(currentQuestion) : null;
@@ -445,11 +461,11 @@ function mergeRedisPlayerAnswers(mergedAnswers, allEntries) {
         const colonIdx = field.indexOf(':');
         const qIdx = Number(field.substring(0, colonIdx));
         const nick = field.substring(colonIdx + 1);
-        
+
         if (!mergedAnswers[qIdx]) {
             mergedAnswers[qIdx] = {};
         }
-        
+
         if (!mergedAnswers[qIdx][nick]) {
             try {
                 mergedAnswers[qIdx][nick] = JSON.parse(val);
@@ -466,11 +482,11 @@ async function loadRedisAutoSaveData(roomId, mergedAnswers) {
     try {
         const rc = await getRedisClient();
         const allEntries = await rc.hGetAll(`game:playeranswers:${roomId}`);
-        
+
         if (allEntries && Object.keys(allEntries).length > 0) {
             mergeRedisPlayerAnswers(mergedAnswers, allEntries);
         }
-        
+
         const startTs = await rc.get(`game:started:${roomId}`);
         if (startTs) {
             redisStartTime = Number(startTs);
@@ -488,8 +504,17 @@ async function loadRedisAutoSaveData(roomId, mergedAnswers) {
     return { redisStartTime, redisDbSessionId };
 }
 
-function buildAutoSaveParams({ roomId, game, ranking, gameStartTime, mergedPlayerAnswers, questionsSnapshot, dbSessionId }) {
-    const playerCount = ranking.length || (Array.isArray(game.players) ? game.players.length : Object.keys(game.scores || {}).length);
+function buildAutoSaveParams({
+    roomId,
+    game,
+    ranking,
+    gameStartTime,
+    mergedPlayerAnswers,
+    questionsSnapshot,
+    dbSessionId
+}) {
+    const playerCount =
+        ranking.length || (Array.isArray(game.players) ? game.players.length : Object.keys(game.scores || {}).length);
     const durationMs = gameStartTime ? Date.now() - gameStartTime : null;
 
     return {
@@ -512,9 +537,10 @@ async function triggerAutoSaveSession(roomId, game, ranking) {
     try {
         const questionsSnapshot = (game.questions || []).map(q => ({
             // Completa la frase: el informe muestra la frase con las palabras entre corchetes, no los marcadores
-            question_text: q.question_type === 'fill_blanks'
-                ? FB.toEditorText(q.question_text || '', q.fb_words || FB.wordsFromOptions(q.options))
-                : (q.question_text || q.text || ''),
+            question_text:
+                q.question_type === 'fill_blanks'
+                    ? FB.toEditorText(q.question_text || '', q.fb_words || FB.wordsFromOptions(q.options))
+                    : q.question_text || q.text || '',
             correct_answer: q.correct_answer || q.correct_word || (q.ws_words || q.fb_words || []).join(', '),
             question_type: q.question_type || q.type || 'quiz'
         }));
@@ -555,7 +581,7 @@ async function triggerAutoSaveSession(roomId, game, ranking) {
 /**
  * Reveal answer for current question
  * Can be called when timer expires OR when all players have answered
- * 
+ *
  * @param {Object} params - Reveal parameters
  * @param {string} params.roomId - Room ID
  * @param {Object} params.game - Game state
@@ -586,7 +612,9 @@ async function revealAnswer({ roomId, game, io, timeExpired = false }) {
 
     markQuestionAsRevealed(game, revealIndex, revealTrigger);
 
-    logger.info(`Revelando respuesta para pregunta ${revealIndex + 1} en partida ${roomId}${timeExpired ? ' (tiempo agotado)' : ' (todos respondieron)'}`);
+    logger.info(
+        `Revelando respuesta para pregunta ${revealIndex + 1} en partida ${roomId}${timeExpired ? ' (tiempo agotado)' : ' (todos respondieron)'}`
+    );
 
     const normalizedStats = resolveStatsForReveal(game, revealIndex, statsResult);
     const answeredCount = countAnsweredFromStats(normalizedStats);
@@ -636,12 +664,15 @@ async function revealAnswer({ roomId, game, io, timeExpired = false }) {
     });
 
     // Emitir evento de dominio: respuesta revelada
-    EventBus.emit('answer.revealed', new AnswerRevealedEvent({
-        gameId: roomId,
-        questionIndex: revealIndex,
-        correctIndex,
-        stats
-    }));
+    EventBus.emit(
+        'answer.revealed',
+        new AnswerRevealedEvent({
+            gameId: roomId,
+            questionIndex: revealIndex,
+            correctIndex,
+            stats
+        })
+    );
 
     // Convertir rankings al formato esperado por el cliente
     const rankingFormatted = buildRankingFormatted(rankings);

@@ -44,7 +44,7 @@ async function resolveWordSearchContext(socket) {
     if (!room || !nickname) return { ok: false, reason: 'invalid-payload' };
 
     const roomId = String(room);
-    const game = activeGames.get(roomId) || await sessionStore.load(roomId);
+    const game = activeGames.get(roomId) || (await sessionStore.load(roomId));
     const question = game?.questions?.[game.currentIndex];
     if (!question || question.question_type !== 'word_search') return { ok: false, reason: 'not-word-search' };
     if (!game.canAnswer) return { ok: false, reason: 'game-closed' };
@@ -59,7 +59,8 @@ async function resolveWordSearchContext(socket) {
 async function recordTeamFound(sPin, questionIndex, teamName, wordIndex, selection) {
     const key = foundKey(sPin, questionIndex, teamName);
     const redis = await getRedisClient();
-    const [added] = await redis.multi()
+    const [added] = await redis
+        .multi()
         .hSetNX(key, String(wordIndex), JSON.stringify(selection))
         .expire(key, FOUND_TTL_SECONDS)
         .exec();
@@ -73,16 +74,23 @@ async function recordTeamFound(sPin, questionIndex, teamName, wordIndex, selecti
 async function getTeamFound(sPin, questionIndex, teamName) {
     try {
         const redis = await getRedisClient();
-        const entries = await redis.hGetAll(foundKey(sPin, questionIndex, teamName)) || {};
-        return Object.entries(entries).map(([index, json]) => {
-            try {
-                return { index: Number(index), ...JSON.parse(json) };
-            } catch {
-                return null;
-            }
-        }).filter(entry => entry && Number.isInteger(entry.index));
+        const entries = (await redis.hGetAll(foundKey(sPin, questionIndex, teamName))) || {};
+        return Object.entries(entries)
+            .map(([index, json]) => {
+                try {
+                    return { index: Number(index), ...JSON.parse(json) };
+                } catch {
+                    return null;
+                }
+            })
+            .filter(entry => entry && Number.isInteger(entry.index));
     } catch (error) {
-        logger.warn('No se pudieron leer las palabras del equipo', { sPin, questionIndex, teamName, error: error.message });
+        logger.warn('No se pudieron leer las palabras del equipo', {
+            sPin,
+            questionIndex,
+            teamName,
+            error: error.message
+        });
         return [];
     }
 }

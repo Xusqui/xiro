@@ -3,12 +3,7 @@
  * Muestra letras mezcladas y casillas para descifrar la palabra
  */
 
-import {
-    getNickname,
-    setHaRespondido,
-    setCanAnswer,
-    setCurrentSlideType
-} from './player-state.js?v=20260922172926';
+import { getNickname, setHaRespondido, setCanAnswer, setCurrentSlideType } from './player-state.js?v=20260922172926';
 import { getResponsiveFontClass } from './player-question-utils.js?v=20260922172926';
 import { setBodyHTML } from './player-streak-ui.js?v=20260922172926';
 import { escapeHtml, sanitizeResourceUrl } from '../core/sanitize.js?v=20260922172926';
@@ -59,8 +54,10 @@ export function renderizarPreguntaWordScramble(pregunta) {
             </div>`;
     }
 
-    const emptyBoxes = Array.from({ length: wordLength }, (_, i) =>
-        `<div id="ws-box-${i}" class="ws-box border-2 border-plum-400 rounded-lg flex items-center justify-center font-black text-plum-200 bg-slate-800/70 transition-all duration-200"
+    const emptyBoxes = Array.from(
+        { length: wordLength },
+        (_, i) =>
+            `<div id="ws-box-${i}" class="ws-box border-2 border-plum-400 rounded-lg flex items-center justify-center font-black text-plum-200 bg-slate-800/70 transition-all duration-200"
             style="width:100%; aspect-ratio:1/1; font-size: clamp(0.85rem, 3.5vw, 1.5rem);"
         ></div>`
     ).join('');
@@ -68,12 +65,15 @@ export function renderizarPreguntaWordScramble(pregunta) {
     // Letras en dos filas (como mucho 6 por fila): en una sola fila de 10 cada
     // ficha medía ~32 px en un móvil, por debajo del mínimo táctil de 44 px
     const letterColumns = Math.max(1, letters.length <= 6 ? letters.length : Math.ceil(letters.length / 2));
-    const letterButtons = letters.map((letter, i) =>
-        `<button id="ws-letter-${i}" data-idx="${i}" data-letter="${letter}"
+    const letterButtons = letters
+        .map(
+            (letter, i) =>
+                `<button id="ws-letter-${i}" data-idx="${i}" data-letter="${letter}"
             class="ws-letter bg-plum-600 hover:bg-plum-500 active:scale-95 text-white font-black rounded-xl shadow-md transition-all duration-150 border-b-4 border-plum-800"
             style="width:100%; aspect-ratio:1/1; font-size: clamp(1.25rem, 6vw, 2rem);"
         >${letter}</button>`
-    ).join('');
+        )
+        .join('');
 
     setBodyHTML(`
         <div class="h-dvh w-screen flex flex-col bg-slate-900 overflow-hidden">

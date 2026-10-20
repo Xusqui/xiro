@@ -18,7 +18,9 @@ const StandaloneSocket = (() => {
     let handlers = {};
 
     function _generateSessionId(pin) {
-        const randomNumber = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+        const randomNumber = Math.floor(Math.random() * 10000)
+            .toString()
+            .padStart(4, '0');
         return `${pin.toUpperCase()}-${randomNumber}`;
     }
 
@@ -33,10 +35,10 @@ const StandaloneSocket = (() => {
     }
 
     function _wirePlayerEvents(socket) {
-        socket.on('game-started', (data) => handlers.onGameStarted && handlers.onGameStarted(data));
-        socket.on('new-question', (data) => handlers.onNewQuestion && handlers.onNewQuestion(data));
-        socket.on('random-points-reveal', (data) => handlers.onRandomPointsReveal && handlers.onRandomPointsReveal(data));
-        socket.on('answer-result', (data) => handlers.onAnswerResult && handlers.onAnswerResult(data));
+        socket.on('game-started', data => handlers.onGameStarted && handlers.onGameStarted(data));
+        socket.on('new-question', data => handlers.onNewQuestion && handlers.onNewQuestion(data));
+        socket.on('random-points-reveal', data => handlers.onRandomPointsReveal && handlers.onRandomPointsReveal(data));
+        socket.on('answer-result', data => handlers.onAnswerResult && handlers.onAnswerResult(data));
         // 'reveal-answer' NO se escucha aquí: el servidor envía a la room ':players'
         // una versión reducida (correctAnswer/justification/correctOrder únicamente,
         // ver GameEndManager.emitRevealPayloads) porque en una partida real el
@@ -44,21 +46,21 @@ const StandaloneSocket = (() => {
         // no hay pantalla compartida, así que usamos el payload completo que sí le
         // llega al socket "presenter" (ver _wirePresenterEvents) — evita duplicar
         // el manejo con datos incompletos.
-        socket.on('ranking-update', (data) => handlers.onRankingUpdate && handlers.onRankingUpdate(data));
-        socket.on('game-max-score', (data) => handlers.onMaxScore && handlers.onMaxScore(data));
-        socket.on('game-ended', (ranking) => handlers.onGameEnded && handlers.onGameEnded(ranking));
-        socket.on('blocked-answer', (data) => handlers.onBlockedAnswer && handlers.onBlockedAnswer(data));
-        socket.on('answer-error', (data) => handlers.onError && handlers.onError('answer-error', data));
-        socket.on('disconnect', (reason) => handlers.onDisconnected && handlers.onDisconnected('player', reason));
+        socket.on('ranking-update', data => handlers.onRankingUpdate && handlers.onRankingUpdate(data));
+        socket.on('game-max-score', data => handlers.onMaxScore && handlers.onMaxScore(data));
+        socket.on('game-ended', ranking => handlers.onGameEnded && handlers.onGameEnded(ranking));
+        socket.on('blocked-answer', data => handlers.onBlockedAnswer && handlers.onBlockedAnswer(data));
+        socket.on('answer-error', data => handlers.onError && handlers.onError('answer-error', data));
+        socket.on('disconnect', reason => handlers.onDisconnected && handlers.onDisconnected('player', reason));
     }
 
     function _wirePresenterEvents(socket) {
-        socket.on('game-start-error', (data) => handlers.onError && handlers.onError('game-start-error', data));
-        socket.on('next-question-error', (data) => handlers.onError && handlers.onError('next-question-error', data));
+        socket.on('game-start-error', data => handlers.onError && handlers.onError('game-start-error', data));
+        socket.on('next-question-error', data => handlers.onError && handlers.onError('next-question-error', data));
         // Payload completo (correctIndex/correctIndices/correctWord/correctMatches/
         // correctOrder/stats/...), ver nota en _wirePlayerEvents.
-        socket.on('reveal-answer', (data) => handlers.onRevealAnswer && handlers.onRevealAnswer(data));
-        socket.on('disconnect', (reason) => handlers.onDisconnected && handlers.onDisconnected('presenter', reason));
+        socket.on('reveal-answer', data => handlers.onRevealAnswer && handlers.onRevealAnswer(data));
+        socket.on('disconnect', reason => handlers.onDisconnected && handlers.onDisconnected('presenter', reason));
     }
 
     function _waitForJoinSuccess(socket) {
@@ -141,12 +143,12 @@ const StandaloneSocket = (() => {
      * @returns {Promise<Object>} ack del servidor { ok, success, reason? }
      */
     function submitAnswer(payload) {
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
             if (!playerSocket) {
                 resolve({ ok: false, reason: 'not-connected' });
                 return;
             }
-            playerSocket.emit('submit-answer', payload, (ack) => {
+            playerSocket.emit('submit-answer', payload, ack => {
                 resolve(ack || { ok: true });
             });
         });
@@ -154,23 +156,23 @@ const StandaloneSocket = (() => {
 
     /** Sopa de letras: pide dónde empieza la palabra `wordIndex` (vale la mitad). */
     function requestWordSearchHint(wordIndex) {
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
             if (!playerSocket) {
                 resolve({ ok: false, reason: 'not-connected' });
                 return;
             }
-            playerSocket.emit('word-search-hint', { wordIndex }, (ack) => resolve(ack || { ok: false }));
+            playerSocket.emit('word-search-hint', { wordIndex }, ack => resolve(ack || { ok: false }));
         });
     }
 
     /** Completa la frase: pide una letra del hueco `blankIndex` (la palabra vale 70/40/25 %). */
     function requestFillBlanksHint(blankIndex) {
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
             if (!playerSocket) {
                 resolve({ ok: false, reason: 'not-connected' });
                 return;
             }
-            playerSocket.emit('fill-blanks-hint', { blankIndex }, (ack) => resolve(ack || { ok: false }));
+            playerSocket.emit('fill-blanks-hint', { blankIndex }, ack => resolve(ack || { ok: false }));
         });
     }
 
@@ -192,7 +194,9 @@ const StandaloneSocket = (() => {
                 // ['roomId','roomIdOrPin','pin'] (ver socket.handlers.js) — no 'sessionId'.
                 presenterSocket.emit('abandon-game', { roomId: sessionId });
             }
-        } catch (_) { /* best-effort */ }
+        } catch (_) {
+            /* best-effort */
+        }
 
         if (presenterSocket) {
             presenterSocket.disconnect();

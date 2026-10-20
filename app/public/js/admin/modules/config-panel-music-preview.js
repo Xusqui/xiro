@@ -11,8 +11,8 @@ const musicPreview = (() => {
     const QUESTION_MS = 20000;
     const TENSION_SAMPLE_MS = 250;
     const UPDATE_DELAY_MS = 200;
-    let loading = null;   // promesa de los módulos
-    let mods = null;      // módulos ya cargados (para desbloquear el audio dentro del gesto)
+    let loading = null; // promesa de los módulos
+    let mods = null; // módulos ya cargados (para desbloquear el audio dentro del gesto)
     let engine = null;
     let state = 'idle';
     let scene = 'lobby';
@@ -28,16 +28,15 @@ const musicPreview = (() => {
     function warm() {
         if (!loading) {
             // Rutas literales: middlewares/assetVersioning.js les pone ?v=<hash> al servir
-            loading = Promise.all([
-                import('/js/audio/music-loader.js'),
-                import('/js/audio/music-apply-settings.js')
-            ]).then(([loader, apply]) => {
-                mods = { loader, apply };
-                return mods;
-            }).catch(err => {
-                loading = null;
-                throw err;
-            });
+            loading = Promise.all([import('/js/audio/music-loader.js'), import('/js/audio/music-apply-settings.js')])
+                .then(([loader, apply]) => {
+                    mods = { loader, apply };
+                    return mods;
+                })
+                .catch(err => {
+                    loading = null;
+                    throw err;
+                });
         }
         return loading;
     }
@@ -59,7 +58,8 @@ const musicPreview = (() => {
         return _musicT('player.playing', { sounds, bpm: s.tempo });
     }
 
-    const seedFor = s => (s.seedMode === 'fixed' ? s.seed : seed || 'preview-' + Math.floor(Math.random() * 0xFFFFFF).toString(36));
+    const seedFor = s =>
+        s.seedMode === 'fixed' ? s.seed : seed || 'preview-' + Math.floor(Math.random() * 0xffffff).toString(36);
 
     function clearQuestion() {
         clearInterval(questionTimer);
@@ -185,8 +185,9 @@ const musicPreview = (() => {
                 settings = self.XiroMusic.settings.normalize(raw);
                 if (settings.seedMode === 'fixed') seed = settings.seed;
                 engine.setVolume(settings.volume);
-                void mods.apply.applyMusicSettings(engine, settings, seed)
-                    .then(() => { if (state === 'playing') setState('playing', describe(settings)); });
+                void mods.apply.applyMusicSettings(engine, settings, seed).then(() => {
+                    if (state === 'playing') setState('playing', describe(settings));
+                });
             }, UPDATE_DELAY_MS);
         },
         stop,

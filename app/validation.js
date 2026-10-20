@@ -9,7 +9,7 @@ const {
     MIN_VALUE: RANDOM_POINTS_MIN_VALUE,
     MAX_VALUE: RANDOM_POINTS_MAX_VALUE,
     DEFAULT_MIN: RANDOM_POINTS_DEFAULT_MIN,
-    DEFAULT_MAX: RANDOM_POINTS_DEFAULT_MAX,
+    DEFAULT_MAX: RANDOM_POINTS_DEFAULT_MAX
 } = require('./application/validators/RandomPointsValidator');
 const { wordSearchOptionsSchema } = require('./application/validators/WordSearchQuestionValidator');
 const { slideVideoSchema } = require('./application/validators/VideoSlideValidator');
@@ -24,10 +24,12 @@ const RANDOM_POINTS_LIMITS = {
     MIN_VALUE: RANDOM_POINTS_MIN_VALUE,
     MAX_VALUE: RANDOM_POINTS_MAX_VALUE,
     DEFAULT_MIN: RANDOM_POINTS_DEFAULT_MIN,
-    DEFAULT_MAX: RANDOM_POINTS_DEFAULT_MAX,
+    DEFAULT_MAX: RANDOM_POINTS_DEFAULT_MAX
 };
 
-const languageSchema = Joi.string().valid(...SUPPORTED_LANGUAGES).required();
+const languageSchema = Joi.string()
+    .valid(...SUPPORTED_LANGUAGES)
+    .required();
 
 // ===== CONSTANTES DE VALIDACIÓN =====
 const LIMITS = {
@@ -52,7 +54,7 @@ const LIMITS = {
     USERNAME_MAX: 32,
     MAX_OPTIONS: 6,
     MIN_OPTIONS: 2,
-    MAX_QUESTIONS_PER_BANK: 500,
+    MAX_QUESTIONS_PER_BANK: 500
 };
 
 // ===== ESQUEMAS BASE REUTILIZABLES =====
@@ -67,7 +69,7 @@ const pinSchema = Joi.string()
     .messages({
         'string.alphanum': 'El PIN solo puede contener letras y números',
         'string.min': `El PIN debe tener al menos ${LIMITS.PIN_MIN} caracteres`,
-        'string.max': `El PIN no puede exceder ${LIMITS.PIN_MAX} caracteres`,
+        'string.max': `El PIN no puede exceder ${LIMITS.PIN_MAX} caracteres`
     });
 
 // Nombre genérico (bancos, juegos, etc.)
@@ -79,7 +81,7 @@ const nameSchema = Joi.string()
     .messages({
         'string.min': 'El nombre no puede estar vacío',
         'string.max': `El nombre no puede exceder ${LIMITS.NAME_MAX} caracteres`,
-        'string.pattern.base': 'El nombre contiene caracteres no permitidos',
+        'string.pattern.base': 'El nombre contiene caracteres no permitidos'
     });
 
 // Nickname de jugador: más restrictivo
@@ -92,7 +94,7 @@ const nicknameSchema = Joi.string()
         'string.min': `El nombre debe tener al menos ${LIMITS.NICKNAME_MIN} caracteres`,
         'string.max': `El nombre no puede exceder ${LIMITS.NICKNAME_MAX} caracteres`,
         'string.pattern.base': 'El nombre solo puede contener letras, números, espacios y guiones',
-        'string.empty': 'El nombre no puede estar vacío',
+        'string.empty': 'El nombre no puede estar vacío'
     });
 
 // Nombre de equipo: similar a nickname pero con longitud mayor
@@ -105,31 +107,26 @@ const teamNameSchema = Joi.string()
         'string.min': `El nombre del equipo debe tener al menos ${LIMITS.TEAM_NAME_MIN} caracteres`,
         'string.max': `El nombre del equipo no puede exceder ${LIMITS.TEAM_NAME_MAX} caracteres`,
         'string.pattern.base': 'El nombre del equipo solo puede contener letras, números, espacios y guiones',
-        'string.empty': 'El nombre del equipo no puede estar vacío',
+        'string.empty': 'El nombre del equipo no puede estar vacío'
     });
 
 // UUID v4
-const uuidSchema = Joi.string()
-    .guid({ version: 'uuidv4' })
-    .messages({
-        'string.guid': 'Identificador de jugador inválido',
-    });
+const uuidSchema = Joi.string().guid({ version: 'uuidv4' }).messages({
+    'string.guid': 'Identificador de jugador inválido'
+});
 
 // Session ID: formato PIN-XXXX (ej: ABCD-1234 donde XXXX son 4 dígitos aleatorios)
 const sessionIdSchema = Joi.string()
     .pattern(/^[A-Z0-9]{4,10}-\d{4}$/)
     .messages({
-        'string.pattern.base': 'Session ID inválido. Formato esperado: PIN-XXXX',
+        'string.pattern.base': 'Session ID inválido. Formato esperado: PIN-XXXX'
     });
 
 // ID numérico de base de datos
-const dbIdSchema = Joi.number()
-    .integer()
-    .positive()
-    .messages({
-        'number.base': 'ID inválido',
-        'number.positive': 'ID debe ser positivo',
-    });
+const dbIdSchema = Joi.number().integer().positive().messages({
+    'number.base': 'ID inválido',
+    'number.positive': 'ID debe ser positivo'
+});
 
 // Texto de pregunta
 const questionTextSchema = Joi.string()
@@ -138,7 +135,7 @@ const questionTextSchema = Joi.string()
     .trim()
     .messages({
         'string.empty': 'El texto de la pregunta no puede estar vacío',
-        'string.max': `La pregunta no puede exceder ${LIMITS.QUESTION_TEXT_MAX} caracteres`,
+        'string.max': `La pregunta no puede exceder ${LIMITS.QUESTION_TEXT_MAX} caracteres`
     });
 
 // Texto de opción
@@ -148,7 +145,7 @@ const optionTextSchema = Joi.string()
     .trim()
     .messages({
         'string.empty': 'El texto de la opción no puede estar vacío',
-        'string.max': `La opción no puede exceder ${LIMITS.OPTION_TEXT_MAX} caracteres`,
+        'string.max': `La opción no puede exceder ${LIMITS.OPTION_TEXT_MAX} caracteres`
     });
 
 // ===== ESQUEMAS DE ENDPOINTS =====
@@ -165,7 +162,7 @@ const usernameSchema = Joi.string()
         'string.min': `El usuario debe tener al menos ${LIMITS.USERNAME_MIN} caracteres`,
         'string.max': `El usuario no puede exceder ${LIMITS.USERNAME_MAX} caracteres`,
         'string.pattern.base': 'El usuario solo puede contener letras minúsculas, números, punto, guion y guion bajo',
-        'any.required': 'El usuario es requerido',
+        'any.required': 'El usuario es requerido'
     });
 
 const passwordSchema = Joi.string()
@@ -176,7 +173,7 @@ const passwordSchema = Joi.string()
         'string.empty': 'La contraseña es requerida',
         'string.min': `La contraseña debe tener al menos ${LIMITS.PASSWORD_MIN} caracteres`,
         'string.max': `La contraseña no puede exceder ${LIMITS.PASSWORD_MAX} caracteres`,
-        'any.required': 'La contraseña es requerida',
+        'any.required': 'La contraseña es requerida'
     });
 
 const emailSchema = Joi.string()
@@ -189,13 +186,13 @@ const emailSchema = Joi.string()
         'string.empty': 'El correo es requerido',
         'string.email': 'El correo no es válido',
         'string.max': 'El correo no puede exceder 255 caracteres',
-        'any.required': 'El correo es requerido',
+        'any.required': 'El correo es requerido'
     });
 
 // Login
 const loginSchema = Joi.object({
     username: usernameSchema,
-    password: passwordSchema,
+    password: passwordSchema
 });
 
 // Registro
@@ -203,14 +200,11 @@ const registerSchema = Joi.object({
     username: usernameSchema,
     email: emailSchema,
     password: passwordSchema,
-    confirmPassword: Joi.string()
-        .valid(Joi.ref('password'))
-        .required()
-        .messages({
-            'any.only': 'Las contraseñas no coinciden',
-            'string.empty': 'La confirmación de contraseña es requerida',
-            'any.required': 'La confirmación de contraseña es requerida',
-        })
+    confirmPassword: Joi.string().valid(Joi.ref('password')).required().messages({
+        'any.only': 'Las contraseñas no coinciden',
+        'string.empty': 'La confirmación de contraseña es requerida',
+        'any.required': 'La confirmación de contraseña es requerida'
+    })
 });
 
 const changePasswordSchema = Joi.object({
@@ -225,16 +219,13 @@ const changePasswordSchema = Joi.object({
             'string.min': `La nueva contraseña debe tener al menos ${LIMITS.PASSWORD_MIN} caracteres`,
             'string.max': `La nueva contraseña no puede exceder ${LIMITS.PASSWORD_MAX} caracteres`,
             'any.invalid': 'La nueva contraseña debe ser distinta a la actual',
-            'any.required': 'La nueva contraseña es requerida',
+            'any.required': 'La nueva contraseña es requerida'
         }),
-    confirmNewPassword: Joi.string()
-        .valid(Joi.ref('newPassword'))
-        .required()
-        .messages({
-            'any.only': 'La confirmación no coincide con la nueva contraseña',
-            'string.empty': 'La confirmación de nueva contraseña es requerida',
-            'any.required': 'La confirmación de nueva contraseña es requerida',
-        })
+    confirmNewPassword: Joi.string().valid(Joi.ref('newPassword')).required().messages({
+        'any.only': 'La confirmación no coincide con la nueva contraseña',
+        'string.empty': 'La confirmación de nueva contraseña es requerida',
+        'any.required': 'La confirmación de nueva contraseña es requerida'
+    })
 });
 
 const passwordResetRequestSchema = Joi.object({
@@ -242,15 +233,10 @@ const passwordResetRequestSchema = Joi.object({
 });
 
 const passwordResetConfirmSchema = Joi.object({
-    token: Joi.string()
-        .trim()
-        .min(10)
-        .max(255)
-        .required()
-        .messages({
-            'string.empty': 'El token es requerido',
-            'any.required': 'El token es requerido',
-        }),
+    token: Joi.string().trim().min(10).max(255).required().messages({
+        'string.empty': 'El token es requerido',
+        'any.required': 'El token es requerido'
+    }),
     newPassword: Joi.string()
         .min(LIMITS.PASSWORD_MIN)
         .max(LIMITS.PASSWORD_MAX)
@@ -259,68 +245,50 @@ const passwordResetConfirmSchema = Joi.object({
             'string.empty': 'La nueva contraseña es requerida',
             'string.min': `La nueva contraseña debe tener al menos ${LIMITS.PASSWORD_MIN} caracteres`,
             'string.max': `La nueva contraseña no puede exceder ${LIMITS.PASSWORD_MAX} caracteres`,
-            'any.required': 'La nueva contraseña es requerida',
+            'any.required': 'La nueva contraseña es requerida'
         }),
-    confirmNewPassword: Joi.string()
-        .valid(Joi.ref('newPassword'))
-        .required()
-        .messages({
-            'any.only': 'La confirmación no coincide con la nueva contraseña',
-            'string.empty': 'La confirmación de nueva contraseña es requerida',
-            'any.required': 'La confirmación de nueva contraseña es requerida',
-        })
+    confirmNewPassword: Joi.string().valid(Joi.ref('newPassword')).required().messages({
+        'any.only': 'La confirmación no coincide con la nueva contraseña',
+        'string.empty': 'La confirmación de nueva contraseña es requerida',
+        'any.required': 'La confirmación de nueva contraseña es requerida'
+    })
 });
 
 const changeEmailRequestSchema = Joi.object({
     currentPassword: passwordSchema,
     newEmail: emailSchema,
-    confirmNewEmail: Joi.string()
-        .valid(Joi.ref('newEmail'))
-        .required()
-        .messages({
-            'any.only': 'La confirmación no coincide con el nuevo correo',
-            'string.empty': 'La confirmación de correo es requerida',
-            'any.required': 'La confirmación de correo es requerida',
-        })
+    confirmNewEmail: Joi.string().valid(Joi.ref('newEmail')).required().messages({
+        'any.only': 'La confirmación no coincide con el nuevo correo',
+        'string.empty': 'La confirmación de correo es requerida',
+        'any.required': 'La confirmación de correo es requerida'
+    })
 });
 
 // Compra integrada de licencia: plan elegido
 const userLicenseCheckoutSchema = Joi.object({
-    planCode: Joi.string()
-        .trim()
-        .min(2)
-        .max(32)
-        .required()
-        .messages({
-            'string.empty': 'El plan es requerido',
-            'any.required': 'El plan es requerido',
-            'string.min': 'Plan no válido',
-            'string.max': 'Plan no válido',
-        })
+    planCode: Joi.string().trim().min(2).max(32).required().messages({
+        'string.empty': 'El plan es requerido',
+        'any.required': 'El plan es requerido',
+        'string.min': 'Plan no válido',
+        'string.max': 'Plan no válido'
+    })
 });
 
 // Liberación de contenido de editores (toggle del administrador)
 const licenseExemptionSchema = Joi.object({
-    exempt: Joi.boolean()
-        .required()
-        .messages({
-            'boolean.base': 'El campo exempt debe ser booleano',
-            'any.required': 'El campo exempt es requerido',
-        })
+    exempt: Joi.boolean().required().messages({
+        'boolean.base': 'El campo exempt debe ser booleano',
+        'any.required': 'El campo exempt es requerido'
+    })
 });
 
 // Licencia individual del usuario (vacía = eliminarla)
 const userLicenseSchema = Joi.object({
-    license: Joi.string()
-        .trim()
-        .allow('')
-        .max(160)
-        .required()
-        .messages({
-            'string.max': 'La licencia no puede exceder 160 caracteres',
-            'string.base': 'La licencia debe ser un texto',
-            'any.required': 'El campo license es requerido',
-        })
+    license: Joi.string().trim().allow('').max(160).required().messages({
+        'string.max': 'La licencia no puede exceder 160 caracteres',
+        'string.base': 'La licencia debe ser un texto',
+        'any.required': 'El campo license es requerido'
+    })
 });
 
 // Opción de pregunta
@@ -328,31 +296,24 @@ const optionSchema = Joi.object({
     optionText: Joi.when('option_image_url', {
         is: Joi.string().min(1).exist(),
         then: optionTextSchema.allow('', null).optional(),
-        otherwise: optionTextSchema.required(),
+        otherwise: optionTextSchema.required()
     }),
     isCorrect: Joi.boolean().required(),
-    justification: Joi.string()
-        .max(LIMITS.JUSTIFICATION_MAX)
-        .allow(null, '')
-        .optional(),
+    justification: Joi.string().max(LIMITS.JUSTIFICATION_MAX).allow(null, '').optional(),
     order_index: Joi.number().integer().min(0).allow(null).optional(),
     orderIndex: Joi.number().integer().min(0).allow(null).optional(),
     match_value: Joi.string().max(200).allow(null, '').optional(),
-    option_image_url: Joi.alternatives().try(
-        Joi.string().uri({ relativeOnly: true }).max(2048),
-        Joi.string().allow('').max(2048)
-    ).allow(null)
-        .optional(),
+    option_image_url: Joi.alternatives()
+        .try(Joi.string().uri({ relativeOnly: true }).max(2048), Joi.string().allow('').max(2048))
+        .allow(null)
+        .optional()
 });
 
 const orderOptionSchema = Joi.object({
     optionText: optionTextSchema.required(),
     order_index: Joi.number().integer().min(0).optional(),
     orderIndex: Joi.number().integer().min(0).optional(),
-    justification: Joi.string()
-        .max(LIMITS.JUSTIFICATION_MAX)
-        .allow(null, '')
-        .optional(),
+    justification: Joi.string().max(LIMITS.JUSTIFICATION_MAX).allow(null, '').optional()
 }).custom((value, helpers) => {
     if (value.order_index === undefined && value.orderIndex === undefined) {
         return helpers.error('any.required');
@@ -365,55 +326,54 @@ const questionSchema = Joi.object({
     id: dbIdSchema.allow(null).optional(),
     questionText: questionTextSchema.required(),
     type: Joi.string()
-        .valid('quiz', 'survey', 'order', 'numeric_approximation', 'word_scramble', 'multiple_choice', 'matching', 'word_search', 'fill_blanks')
+        .valid(
+            'quiz',
+            'survey',
+            'order',
+            'numeric_approximation',
+            'word_scramble',
+            'multiple_choice',
+            'matching',
+            'word_search',
+            'fill_blanks'
+        )
         .default('quiz'),
-    tipo_contenido: Joi.string()
-        .valid('texto', 'imagen', 'audio')
-        .default('texto')
+    tipo_contenido: Joi.string().valid('texto', 'imagen', 'audio').default('texto').optional(),
+    url_recurso: Joi.alternatives()
+        .try(Joi.string().uri({ relativeOnly: true }).max(2048), Joi.string().allow('').max(2048))
+        .allow(null)
         .optional(),
-    url_recurso: Joi.alternatives().try(
-        Joi.string().uri({ relativeOnly: true }).max(2048),
-        Joi.string().allow('').max(2048)
-    ).allow(null)
+    question_image_url: Joi.alternatives()
+        .try(Joi.string().uri({ relativeOnly: true }).max(2048), Joi.string().allow('').max(2048))
+        .allow(null)
         .optional(),
-    question_image_url: Joi.alternatives().try(
-        Joi.string().uri({ relativeOnly: true }).max(2048),
-        Joi.string().allow('').max(2048)
-    ).allow(null)
-        .optional(),
-    time_limit: Joi.number()
-        .integer()
-        .min(5)
-        .max(120)
-        .default(20)
-        .optional()
-        .messages({
-            'number.min': 'El tiempo debe ser al menos 5 segundos',
-            'number.max': 'El tiempo no puede exceder 120 segundos',
-        }),
+    time_limit: Joi.number().integer().min(5).max(120).default(20).optional().messages({
+        'number.min': 'El tiempo debe ser al menos 5 segundos',
+        'number.max': 'El tiempo no puede exceder 120 segundos'
+    }),
     correctWord: Joi.string()
         .min(7)
         .max(10)
         .when('type', {
             is: 'word_scramble',
             then: Joi.required(),
-            otherwise: Joi.optional().allow(null, ''),
+            otherwise: Joi.optional().allow(null, '')
         })
         .messages({
             'string.min': 'La palabra debe tener al menos 7 letras',
             'string.max': 'La palabra no puede exceder 10 letras',
-            'any.required': 'La palabra correcta es requerida para preguntas de anagrama',
+            'any.required': 'La palabra correcta es requerida para preguntas de anagrama'
         }),
     correctAnswer: Joi.number()
         .integer()
         .when('type', {
             is: 'numeric_approximation',
             then: Joi.required(),
-            otherwise: Joi.optional().allow(null),
+            otherwise: Joi.optional().allow(null)
         })
         .messages({
             'number.base': 'La respuesta correcta debe ser un número entero',
-            'any.required': 'La respuesta correcta es requerida para preguntas numéricas',
+            'any.required': 'La respuesta correcta es requerida para preguntas numéricas'
         }),
     maxPoints: Joi.number()
         .integer()
@@ -421,48 +381,38 @@ const questionSchema = Joi.object({
         .when('type', {
             is: 'numeric_approximation',
             then: Joi.required(),
-            otherwise: Joi.optional().allow(null),
+            otherwise: Joi.optional().allow(null)
         })
         .messages({
             'number.base': 'Los puntos máximos deben ser un número',
             'number.positive': 'Los puntos máximos deben ser mayor a 0',
-            'any.required': 'Los puntos máximos son requeridos para preguntas numéricas',
+            'any.required': 'Los puntos máximos son requeridos para preguntas numéricas'
         }),
     toleranceMode: Joi.string()
         .valid('absolute', 'percentage', 'hybrid')
         .when('type', {
             is: 'numeric_approximation',
             then: Joi.string().valid('absolute', 'percentage', 'hybrid').default('hybrid'),
-            otherwise: Joi.optional().allow(null),
+            otherwise: Joi.optional().allow(null)
         }),
     toleranceValue: Joi.number()
         .positive()
         .when('type', {
             is: 'numeric_approximation',
             then: Joi.required(),
-            otherwise: Joi.optional().allow(null),
+            otherwise: Joi.optional().allow(null)
         })
         .messages({
             'number.base': 'El valor de tolerancia debe ser numérico',
             'number.positive': 'El valor de tolerancia debe ser mayor a 0',
-            'any.required': 'El valor de tolerancia es requerido para preguntas numéricas',
+            'any.required': 'El valor de tolerancia es requerido para preguntas numéricas'
         }),
-    toleranceCap: Joi.number()
-        .positive()
-        .allow(null)
-        .optional()
-        .messages({
-            'number.base': 'El límite de tolerancia debe ser numérico',
-            'number.positive': 'El límite de tolerancia debe ser mayor a 0',
-        }),
-    hint: Joi.string()
-        .max(300)
-        .allow(null, '')
-        .optional(),
-    justification: Joi.string()
-        .max(LIMITS.JUSTIFICATION_MAX)
-        .allow(null, '')
-        .optional(),
+    toleranceCap: Joi.number().positive().allow(null).optional().messages({
+        'number.base': 'El límite de tolerancia debe ser numérico',
+        'number.positive': 'El límite de tolerancia debe ser mayor a 0'
+    }),
+    hint: Joi.string().max(300).allow(null, '').optional(),
+    justification: Joi.string().max(LIMITS.JUSTIFICATION_MAX).allow(null, '').optional(),
     mc_points_per_correct: Joi.number()
         .integer()
         .min(1)
@@ -470,13 +420,13 @@ const questionSchema = Joi.object({
         .when('type', {
             is: 'multiple_choice',
             then: Joi.required(),
-            otherwise: Joi.optional().allow(null),
+            otherwise: Joi.optional().allow(null)
         })
         .messages({
             'number.base': 'Los puntos por acierto deben ser un número entero',
             'number.min': 'Los puntos por acierto deben ser al menos 1',
             'number.max': 'Los puntos por acierto no pueden exceder 100',
-            'any.required': 'Los puntos por acierto son requeridos para preguntas de selección múltiple',
+            'any.required': 'Los puntos por acierto son requeridos para preguntas de selección múltiple'
         }),
     mc_penalty_per_incorrect: Joi.number()
         .integer()
@@ -485,13 +435,13 @@ const questionSchema = Joi.object({
         .when('type', {
             is: 'multiple_choice',
             then: Joi.required(),
-            otherwise: Joi.optional().allow(null),
+            otherwise: Joi.optional().allow(null)
         })
         .messages({
             'number.base': 'La penalización debe ser un número entero',
             'number.min': 'La penalización debe ser al menos 0',
             'number.max': 'La penalización no puede exceder 100',
-            'any.required': 'La penalización es requerida para preguntas de selección múltiple',
+            'any.required': 'La penalización es requerida para preguntas de selección múltiple'
         }),
     mc_perfect_bonus: Joi.number()
         .integer()
@@ -500,13 +450,13 @@ const questionSchema = Joi.object({
         .when('type', {
             is: 'multiple_choice',
             then: Joi.required(),
-            otherwise: Joi.optional().allow(null),
+            otherwise: Joi.optional().allow(null)
         })
         .messages({
             'number.base': 'El bonus por perfección debe ser un número entero',
             'number.min': 'El bonus por perfección debe ser al menos 0',
             'number.max': 'El bonus por perfección no puede exceder 100',
-            'any.required': 'El bonus por perfección es requerido para preguntas de selección múltiple',
+            'any.required': 'El bonus por perfección es requerido para preguntas de selección múltiple'
         }),
     options: Joi.when('type', {
         switch: [
@@ -514,22 +464,23 @@ const questionSchema = Joi.object({
             { is: 'word_search', then: wordSearchOptionsSchema },
             // Opcionales a nivel de clave: con la frase entre corchetes (JSON importado) las
             // palabras las genera fillBlanksQuestionRule, que exige después que cuadren
-            { is: 'fill_blanks', then: fillBlanksOptionsSchema.optional() },
+            { is: 'fill_blanks', then: fillBlanksOptionsSchema.optional() }
         ],
         otherwise: Joi.array()
-            .items(Joi.when('type', {
-                is: 'order',
-                then: orderOptionSchema,
-                otherwise: optionSchema
-            }))
+            .items(
+                Joi.when('type', {
+                    is: 'order',
+                    then: orderOptionSchema,
+                    otherwise: optionSchema
+                })
+            )
             .min(LIMITS.MIN_OPTIONS)
             .max(LIMITS.MAX_OPTIONS)
             .required()
+    }).messages({
+        'array.min': `Debe haber al menos ${LIMITS.MIN_OPTIONS} opciones`,
+        'array.max': `No puede haber más de ${LIMITS.MAX_OPTIONS} opciones`
     })
-        .messages({
-            'array.min': `Debe haber al menos ${LIMITS.MIN_OPTIONS} opciones`,
-            'array.max': `No puede haber más de ${LIMITS.MAX_OPTIONS} opciones`,
-        }),
 })
     // Completa la frase: corchetes → marcadores + palabras, y tantos huecos como palabras
     .custom(fillBlanksQuestionRule, 'fill_blanks question')
@@ -542,12 +493,14 @@ const imageUrlSchema = Joi.string().max(2048).trim().allow(null, '').optional();
 // quien valida el lado que no usa Joi — routes/trivial.routes.js — y el panel admin)
 const randomPointsFields = {
     use_random_points: Joi.boolean().default(false).optional(),
-    random_points_min: Joi.number().integer()
+    random_points_min: Joi.number()
+        .integer()
         .min(RANDOM_POINTS_LIMITS.MIN_VALUE)
         .max(RANDOM_POINTS_LIMITS.MAX_VALUE)
         .default(RANDOM_POINTS_LIMITS.DEFAULT_MIN)
         .optional(),
-    random_points_max: Joi.number().integer()
+    random_points_max: Joi.number()
+        .integer()
         .min(RANDOM_POINTS_LIMITS.MIN_VALUE)
         .max(RANDOM_POINTS_LIMITS.MAX_VALUE)
         .default(RANDOM_POINTS_LIMITS.DEFAULT_MAX)
@@ -555,9 +508,9 @@ const randomPointsFields = {
         .when('use_random_points', {
             is: true,
             then: Joi.number().min(Joi.ref('random_points_min')).messages({
-                'number.min': 'El máximo de puntuación aleatoria debe ser mayor o igual que el mínimo',
-            }),
-        }),
+                'number.min': 'El máximo de puntuación aleatoria debe ser mayor o igual que el mínimo'
+            })
+        })
 };
 
 // Banco de preguntas (guardar)
@@ -570,10 +523,10 @@ const saveBankSchema = Joi.object({
     visible_to_presenter: Joi.boolean().default(true).optional(),
     use_streaks: Joi.boolean().default(false).optional(),
     streak_threshold: Joi.number().integer().min(1).max(20).default(3).optional(),
-    streak_bonus_percentage: Joi.number().min(0).max(2).default(0.50).optional(),
+    streak_bonus_percentage: Joi.number().min(0).max(2).default(0.5).optional(),
     use_double_streaks: Joi.boolean().default(false).optional(),
     double_streak_threshold: Joi.number().integer().min(1).max(20).default(5).optional(),
-    double_streak_bonus_percentage: Joi.number().min(0).max(2).default(1.00).optional(),
+    double_streak_bonus_percentage: Joi.number().min(0).max(2).default(1.0).optional(),
     ...randomPointsFields,
     questions: Joi.array()
         .items(questionSchema)
@@ -582,13 +535,13 @@ const saveBankSchema = Joi.object({
         .required()
         .messages({
             'array.min': 'Debe haber al menos una pregunta',
-            'array.max': `No puede haber más de ${LIMITS.MAX_QUESTIONS_PER_BANK} preguntas`,
-        }),
+            'array.max': `No puede haber más de ${LIMITS.MAX_QUESTIONS_PER_BANK} preguntas`
+        })
 });
 
 // Crear banco (solo nombre)
 const createBankSchema = Joi.object({
-    name: nameSchema.required(),
+    name: nameSchema.required()
 });
 
 // Configuración de banco en juego
@@ -596,15 +549,9 @@ const createBankSchema = Joi.object({
 // (ver gameSchema.pool_question_count)
 const gameBankConfigSchema = Joi.object({
     bank_id: dbIdSchema.required(),
-    question_count: Joi.number()
-        .integer()
-        .min(1)
-        .max(LIMITS.MAX_QUESTIONS_PER_BANK)
-        .allow(null)
-        .optional()
-        .messages({
-            'number.min': 'Debe seleccionar al menos 1 pregunta',
-        }),
+    question_count: Joi.number().integer().min(1).max(LIMITS.MAX_QUESTIONS_PER_BANK).allow(null).optional().messages({
+        'number.min': 'Debe seleccionar al menos 1 pregunta'
+    })
 });
 
 // Crear/Actualizar juego
@@ -616,35 +563,25 @@ const gameSchema = Joi.object({
     visible_to_presenter: Joi.boolean().default(true).optional(),
     use_streaks: Joi.boolean().default(false).optional(),
     streak_threshold: Joi.number().integer().min(1).max(20).default(3).optional(),
-    streak_bonus_percentage: Joi.number().min(0).max(2).default(0.50).optional(),
+    streak_bonus_percentage: Joi.number().min(0).max(2).default(0.5).optional(),
     use_double_streaks: Joi.boolean().default(false).optional(),
     double_streak_threshold: Joi.number().integer().min(1).max(20).default(5).optional(),
-    double_streak_bonus_percentage: Joi.number().min(0).max(2).default(1.00).optional(),
+    double_streak_bonus_percentage: Joi.number().min(0).max(2).default(1.0).optional(),
     ...randomPointsFields,
-    pool_question_count: Joi.number()
-        .integer()
-        .min(1)
-        .max(LIMITS.MAX_QUESTIONS_PER_BANK)
-        .allow(null)
-        .optional(),
-    banks: Joi.array()
-        .items(gameBankConfigSchema)
-        .min(1)
-        .required()
-        .messages({
-            'array.min': 'Debe seleccionar al menos un banco de preguntas',
-        }),
-})
-    .custom((value, helpers) => {
-        const hasPoolBank = value.banks.some(b => b.question_count === null || b.question_count === undefined);
-        if (hasPoolBank && !value.pool_question_count) {
-            return helpers.message('Debes indicar el total de preguntas del pool cuando hay bancos sin cantidad fija');
-        }
-        if (!hasPoolBank && value.pool_question_count) {
-            return helpers.message('El total de preguntas del pool solo aplica si hay bancos sin cantidad fija');
-        }
-        return value;
-    });
+    pool_question_count: Joi.number().integer().min(1).max(LIMITS.MAX_QUESTIONS_PER_BANK).allow(null).optional(),
+    banks: Joi.array().items(gameBankConfigSchema).min(1).required().messages({
+        'array.min': 'Debe seleccionar al menos un banco de preguntas'
+    })
+}).custom((value, helpers) => {
+    const hasPoolBank = value.banks.some(b => b.question_count === null || b.question_count === undefined);
+    if (hasPoolBank && !value.pool_question_count) {
+        return helpers.message('Debes indicar el total de preguntas del pool cuando hay bancos sin cantidad fija');
+    }
+    if (!hasPoolBank && value.pool_question_count) {
+        return helpers.message('El total de preguntas del pool solo aplica si hay bancos sin cantidad fija');
+    }
+    return value;
+});
 
 // Pregunta de juego personalizado
 const customGameQuestionSchema = Joi.object({
@@ -654,7 +591,7 @@ const customGameQuestionSchema = Joi.object({
     question_id: dbIdSchema.allow(null).when('slide_type', {
         is: 'question',
         then: Joi.required(),
-        otherwise: Joi.optional(),
+        otherwise: Joi.optional()
     }),
     comment_text: Joi.string()
         .max(LIMITS.COMMENT_TEXT_MAX)
@@ -662,7 +599,7 @@ const customGameQuestionSchema = Joi.object({
         .when('slide_type', {
             is: Joi.valid('comment', 'info'),
             then: Joi.required(),
-            otherwise: Joi.allow(null, '').optional(),
+            otherwise: Joi.allow(null, '').optional()
         }),
     slide_title: Joi.string()
         .max(LIMITS.SLIDE_TITLE_MAX)
@@ -670,7 +607,7 @@ const customGameQuestionSchema = Joi.object({
         .when('slide_type', {
             is: Joi.valid('text', 'text-image'),
             then: Joi.required(),
-            otherwise: Joi.allow(null, '').optional(),
+            otherwise: Joi.allow(null, '').optional()
         }),
     slide_body: Joi.string()
         .max(LIMITS.SLIDE_BODY_MAX)
@@ -678,7 +615,7 @@ const customGameQuestionSchema = Joi.object({
         .when('slide_type', {
             is: Joi.valid('text', 'text-image'),
             then: Joi.required(),
-            otherwise: Joi.allow(null, '').optional(),
+            otherwise: Joi.allow(null, '').optional()
         }),
     slide_image: Joi.string()
         .max(2048)
@@ -686,25 +623,21 @@ const customGameQuestionSchema = Joi.object({
         .when('slide_type', {
             is: Joi.valid('image', 'text-image'),
             then: Joi.required(),
-            otherwise: Joi.allow(null, '').optional(),
+            otherwise: Joi.allow(null, '').optional()
         }),
     slide_image_position: Joi.string()
         .valid('left', 'right')
         .when('slide_type', {
             is: 'text-image',
             then: Joi.required(),
-            otherwise: Joi.allow(null, '').optional(),
+            otherwise: Joi.allow(null, '').optional()
         }),
     // URL de la diapositiva de vídeo (archivo, YouTube, Vimeo o Dailymotion)
     slide_video: slideVideoSchema,
     // Diapositiva libre (canvas) - contiene elementos gráficos personalizados
     slide_canvas: slideCanvasSchema,
     // Pie opcional de las diapositivas especiales (texto plano; los clientes lo escapan)
-    slide_footer: Joi.string()
-        .max(LIMITS.SLIDE_FOOTER_MAX)
-        .trim()
-        .allow(null, '')
-        .optional(),
+    slide_footer: Joi.string().max(LIMITS.SLIDE_FOOTER_MAX).trim().allow(null, '').optional()
 });
 
 // Crear juego personalizado
@@ -716,18 +649,14 @@ const createCustomGameSchema = Joi.object({
     visible_to_presenter: Joi.boolean().default(true).optional(),
     use_streaks: Joi.boolean().default(false).optional(),
     streak_threshold: Joi.number().integer().min(1).max(20).default(3).optional(),
-    streak_bonus_percentage: Joi.number().min(0).max(2).default(0.50).optional(),
+    streak_bonus_percentage: Joi.number().min(0).max(2).default(0.5).optional(),
     use_double_streaks: Joi.boolean().default(false).optional(),
     double_streak_threshold: Joi.number().integer().min(1).max(20).default(5).optional(),
-    double_streak_bonus_percentage: Joi.number().min(0).max(2).default(1.00).optional(),
+    double_streak_bonus_percentage: Joi.number().min(0).max(2).default(1.0).optional(),
     ...randomPointsFields,
-    questions: Joi.array()
-        .items(customGameQuestionSchema)
-        .min(0)
-        .optional()
-        .messages({
-            'array.min': 'Debe haber al menos una pregunta o comentario',
-        }),
+    questions: Joi.array().items(customGameQuestionSchema).min(0).optional().messages({
+        'array.min': 'Debe haber al menos una pregunta o comentario'
+    })
 });
 
 // Actualizar juego personalizado
@@ -739,18 +668,14 @@ const updateCustomGameSchema = Joi.object({
     visible_to_presenter: Joi.boolean().default(true).optional(),
     use_streaks: Joi.boolean().default(false).optional(),
     streak_threshold: Joi.number().integer().min(1).max(20).default(3).optional(),
-    streak_bonus_percentage: Joi.number().min(0).max(2).default(0.50).optional(),
+    streak_bonus_percentage: Joi.number().min(0).max(2).default(0.5).optional(),
     use_double_streaks: Joi.boolean().default(false).optional(),
     double_streak_threshold: Joi.number().integer().min(1).max(20).default(5).optional(),
-    double_streak_bonus_percentage: Joi.number().min(0).max(2).default(1.00).optional(),
+    double_streak_bonus_percentage: Joi.number().min(0).max(2).default(1.0).optional(),
     ...randomPointsFields,
-    questions: Joi.array()
-        .items(customGameQuestionSchema)
-        .min(1)
-        .required()
-        .messages({
-            'array.min': 'Debe haber al menos una pregunta o comentario',
-        }),
+    questions: Joi.array().items(customGameQuestionSchema).min(1).required().messages({
+        'array.min': 'Debe haber al menos una pregunta o comentario'
+    })
 });
 
 // ===== ESQUEMAS DE WEBSOCKET =====
@@ -766,16 +691,19 @@ const joinLobbySchema = Joi.object({
     sessionSecret: Joi.string().allow('').optional(),
     isTeamMode: Joi.boolean().optional(), // Modo equipos (solo para HOST)
     teamConfig: Joi.object({
-        teams: Joi.array().items(
-            Joi.object({
-                name: teamNameSchema.required(),
-                color: Joi.string().required()
-            })
-        ).required()
+        teams: Joi.array()
+            .items(
+                Joi.object({
+                    name: teamNameSchema.required(),
+                    color: Joi.string().required()
+                })
+            )
+            .required()
     }).optional() // Configuración de equipos (solo para HOST)
-}).or('pin', 'sessionId') // Al menos uno debe estar presente
+})
+    .or('pin', 'sessionId') // Al menos uno debe estar presente
     .messages({
-        'object.missing': 'Se requiere pin o sessionId',
+        'object.missing': 'Se requiere pin o sessionId'
     });
 
 // Join presenter lobby (flujo separado; token de panel opcional para metadata)
@@ -787,16 +715,19 @@ const joinPresenterLobbySchema = Joi.object({
     sessionSecret: Joi.string().allow('').optional(),
     isTeamMode: Joi.boolean().optional(),
     teamConfig: Joi.object({
-        teams: Joi.array().items(
-            Joi.object({
-                name: teamNameSchema.required(),
-                color: Joi.string().required()
-            })
-        ).required()
+        teams: Joi.array()
+            .items(
+                Joi.object({
+                    name: teamNameSchema.required(),
+                    color: Joi.string().required()
+                })
+            )
+            .required()
     }).optional()
-}).or('pin', 'sessionId')
+})
+    .or('pin', 'sessionId')
     .messages({
-        'object.missing': 'Se requiere pin o sessionId',
+        'object.missing': 'Se requiere pin o sessionId'
     });
 
 // Reconnect player
@@ -814,9 +745,7 @@ const submitAnswerSchema = Joi.object({
     pin: pinSchema.optional(),
     sessionId: sessionIdSchema.optional(),
     nickname: nicknameSchema.required(),
-    answerType: Joi.string()
-        .valid('order', 'multiple_choice')
-        .optional(),
+    answerType: Joi.string().valid('order', 'multiple_choice').optional(),
     index: Joi.number()
         .integer()
         .min(0)
@@ -824,25 +753,35 @@ const submitAnswerSchema = Joi.object({
         .optional()
         .messages({
             'number.min': 'Índice de respuesta inválido',
-            'number.max': 'Índice de respuesta inválido',
+            'number.max': 'Índice de respuesta inválido'
         }),
     order: Joi.array()
-        .items(Joi.number().integer().min(0).max(LIMITS.MAX_OPTIONS - 1))
+        .items(
+            Joi.number()
+                .integer()
+                .min(0)
+                .max(LIMITS.MAX_OPTIONS - 1)
+        )
         .min(LIMITS.MIN_OPTIONS)
         .max(LIMITS.MAX_OPTIONS)
         .optional()
         .messages({
             'array.min': `Debe haber al menos ${LIMITS.MIN_OPTIONS} opciones`,
-            'array.max': `No puede haber más de ${LIMITS.MAX_OPTIONS} opciones`,
+            'array.max': `No puede haber más de ${LIMITS.MAX_OPTIONS} opciones`
         }),
     selectedIndices: Joi.array()
-        .items(Joi.number().integer().min(0).max(LIMITS.MAX_OPTIONS - 1))
+        .items(
+            Joi.number()
+                .integer()
+                .min(0)
+                .max(LIMITS.MAX_OPTIONS - 1)
+        )
         .min(1)
         .max(6)
         .optional()
         .messages({
             'array.min': 'Debe seleccionar al menos 1 opción',
-            'array.max': 'No puede seleccionar más de 6 opciones',
+            'array.max': 'No puede seleccionar más de 6 opciones'
         })
 }).or('pin', 'sessionId');
 
@@ -851,32 +790,24 @@ const manualPointsSchema = Joi.object({
     pin: pinSchema.optional(),
     sessionId: sessionIdSchema.optional(),
     nickname: nicknameSchema.optional(),
-    nicknames: Joi.array()
-        .items(nicknameSchema)
-        .min(1)
-        .max(50)
-        .optional()
-        .messages({
-            'array.min': 'Debe haber al menos un jugador',
-            'array.max': 'No se pueden asignar puntos a más de 50 jugadores a la vez',
-        }),
-    points: Joi.number()
-        .integer()
-        .min(-1000)
-        .max(1000)
-        .required()
-        .messages({
-            'number.min': 'Puntos fuera de rango permitido',
-            'number.max': 'Puntos fuera de rango permitido',
-        }),
-}).or('pin', 'sessionId').or('nickname', 'nicknames');
+    nicknames: Joi.array().items(nicknameSchema).min(1).max(50).optional().messages({
+        'array.min': 'Debe haber al menos un jugador',
+        'array.max': 'No se pueden asignar puntos a más de 50 jugadores a la vez'
+    }),
+    points: Joi.number().integer().min(-1000).max(1000).required().messages({
+        'number.min': 'Puntos fuera de rango permitido',
+        'number.max': 'Puntos fuera de rango permitido'
+    })
+})
+    .or('pin', 'sessionId')
+    .or('nickname', 'nicknames');
 
 // FASE 1 - Semana 3: Nuevos schemas para eventos sin validación
 
 // Leave lobby
 const leaveLobbySchema = Joi.object({
     playerId: uuidSchema.optional(),
-    roomId: Joi.alternatives().try(pinSchema, sessionIdSchema).optional(),
+    roomId: Joi.alternatives().try(pinSchema, sessionIdSchema).optional()
 });
 
 // Select team
@@ -884,133 +815,97 @@ const selectTeamSchema = Joi.object({
     pin: pinSchema.optional(),
     sessionId: sessionIdSchema.optional(),
     nickname: nicknameSchema.required(),
-    teamIndex: Joi.number()
-        .integer()
-        .min(0)
-        .max(10)
-        .required()
-        .messages({
-            'number.min': 'Índice de equipo inválido',
-            'number.max': 'Índice de equipo inválido (máximo 10 equipos)',
-        }),
+    teamIndex: Joi.number().integer().min(0).max(10).required().messages({
+        'number.min': 'Índice de equipo inválido',
+        'number.max': 'Índice de equipo inválido (máximo 10 equipos)'
+    })
 }).or('pin', 'sessionId');
 
 // Start game
 const startGameSchema = Joi.object({
-    roomIdOrPin: Joi.alternatives()
-        .try(pinSchema, sessionIdSchema)
-        .required()
-        .messages({
-            'alternatives.match': 'Se requiere un PIN o session ID válido',
-        }),
+    roomIdOrPin: Joi.alternatives().try(pinSchema, sessionIdSchema).required().messages({
+        'alternatives.match': 'Se requiere un PIN o session ID válido'
+    })
 });
 
 // Next question
 const nextQuestionSchema = Joi.object({
-    roomIdOrPin: Joi.alternatives()
-        .try(pinSchema, sessionIdSchema)
-        .required()
-        .messages({
-            'alternatives.match': 'Se requiere un PIN o session ID válido',
-        }),
+    roomIdOrPin: Joi.alternatives().try(pinSchema, sessionIdSchema).required().messages({
+        'alternatives.match': 'Se requiere un PIN o session ID válido'
+    })
 });
 
 // Pause timer
 const pauseTimerSchema = Joi.object({
-    roomIdOrPin: Joi.alternatives()
-        .try(pinSchema, sessionIdSchema)
-        .required()
-        .messages({
-            'alternatives.match': 'Se requiere un PIN o session ID válido',
-        }),
+    roomIdOrPin: Joi.alternatives().try(pinSchema, sessionIdSchema).required().messages({
+        'alternatives.match': 'Se requiere un PIN o session ID válido'
+    })
 });
 
 // Resume timer
 const resumeTimerSchema = Joi.object({
-    roomIdOrPin: Joi.alternatives()
-        .try(pinSchema, sessionIdSchema)
-        .required()
-        .messages({
-            'alternatives.match': 'Se requiere un PIN o session ID válido',
-        }),
+    roomIdOrPin: Joi.alternatives().try(pinSchema, sessionIdSchema).required().messages({
+        'alternatives.match': 'Se requiere un PIN o session ID válido'
+    })
 });
 
 // Get current state
 const getCurrentStateSchema = Joi.object({
     playerId: uuidSchema.required(),
-    roomId: Joi.alternatives()
-        .try(pinSchema, sessionIdSchema)
-        .required()
-        .messages({
-            'alternatives.match': 'Se requiere un PIN o session ID válido',
-        }),
+    roomId: Joi.alternatives().try(pinSchema, sessionIdSchema).required().messages({
+        'alternatives.match': 'Se requiere un PIN o session ID válido'
+    })
 });
 
 // Reconnect presenter
 const reconnectPresenterSchema = Joi.object({
     playerId: uuidSchema.required(),
     token: Joi.string().allow('').optional(),
-    sessionId: sessionIdSchema.optional(),
+    sessionId: sessionIdSchema.optional()
 });
 
 // End game (manual)
 const endGameSchema = Joi.object({
-    roomIdOrPin: Joi.alternatives()
-        .try(pinSchema, sessionIdSchema)
-        .required()
-        .messages({
-            'alternatives.match': 'Se requiere un PIN o session ID válido',
-        }),
-    reason: Joi.string()
-        .valid('manual', 'emergency', 'cancelled')
-        .default('manual')
-        .messages({
-            'any.only': 'Razón de finalización inválida',
-        }),
+    roomIdOrPin: Joi.alternatives().try(pinSchema, sessionIdSchema).required().messages({
+        'alternatives.match': 'Se requiere un PIN o session ID válido'
+    }),
+    reason: Joi.string().valid('manual', 'emergency', 'cancelled').default('manual').messages({
+        'any.only': 'Razón de finalización inválida'
+    })
 });
 
 // Abandon game (presenter hard stop)
 const abandonGameSchema = Joi.object({
-    roomIdOrPin: Joi.alternatives()
-        .try(pinSchema, sessionIdSchema)
-        .required()
-        .messages({
-            'alternatives.match': 'Se requiere un PIN o session ID válido',
-        }),
-    reason: Joi.string()
-        .valid('abandoned', 'concluded')
-        .default('abandoned')
-        .messages({
-            'any.only': 'Razón de abandono inválida',
-        }),
+    roomIdOrPin: Joi.alternatives().try(pinSchema, sessionIdSchema).required().messages({
+        'alternatives.match': 'Se requiere un PIN o session ID válido'
+    }),
+    reason: Joi.string().valid('abandoned', 'concluded').default('abandoned').messages({
+        'any.only': 'Razón de abandono inválida'
+    })
 });
 
 // Validar PIN query param
 const validatePinQuerySchema = Joi.object({
     pin: pinSchema.required(),
-    excludeId: dbIdSchema.optional(),
+    excludeId: dbIdSchema.optional()
 });
 
 // Mezclar bancos de preguntas
 const mergeBanksSchema = Joi.object({
-    bankIds: Joi.array()
-        .items(dbIdSchema)
-        .min(2)
-        .required()
-        .messages({
-            'array.min': 'Debes seleccionar al menos 2 bancos para mezclar',
-            'array.base': 'bankIds debe ser un array',
-        }),
+    bankIds: Joi.array().items(dbIdSchema).min(2).required().messages({
+        'array.min': 'Debes seleccionar al menos 2 bancos para mezclar',
+        'array.base': 'bankIds debe ser un array'
+    }),
     name: nameSchema.required(),
     pin: pinSchema.allow(null, '').optional(),
     visible_to_presenter: Joi.boolean().default(true).optional(),
     use_streaks: Joi.boolean().default(false).optional(),
     streak_threshold: Joi.number().integer().min(1).max(20).default(3).optional(),
-    streak_bonus_percentage: Joi.number().min(0).max(2).default(0.50).optional(),
+    streak_bonus_percentage: Joi.number().min(0).max(2).default(0.5).optional(),
     use_double_streaks: Joi.boolean().default(false).optional(),
     double_streak_threshold: Joi.number().integer().min(1).max(20).default(5).optional(),
-    double_streak_bonus_percentage: Joi.number().min(0).max(2).default(1.00).optional(),
-    ...randomPointsFields,
+    double_streak_bonus_percentage: Joi.number().min(0).max(2).default(1.0).optional(),
+    ...randomPointsFields
 });
 
 // ===== FUNCIONES DE VALIDACIÓN =====
@@ -1024,7 +919,7 @@ const mergeBanksSchema = Joi.object({
 function validate(schema, data) {
     const { value, error } = schema.validate(data, {
         abortEarly: false,
-        stripUnknown: true,
+        stripUnknown: true
     });
 
     if (error) {
@@ -1097,7 +992,7 @@ function validateQuery(schema) {
         if (error) {
             return res.status(400).json({
                 error: 'Parámetros inválidos',
-                message: error,
+                message: error
             });
         }
         req.query = value;
@@ -1115,7 +1010,7 @@ function validateParams(schema) {
         if (error) {
             return res.status(400).json({
                 error: 'Parámetros de URL inválidos',
-                message: error,
+                message: error
             });
         }
         req.params = value;
@@ -1134,7 +1029,7 @@ function validateSocket(schema, data) {
     return {
         valid: !error,
         value,
-        error,
+        error
     };
 }
 
@@ -1191,7 +1086,7 @@ module.exports = {
         // Comunes
         dbId: dbIdSchema,
         pin: pinSchema,
-        nickname: nicknameSchema,
+        nickname: nicknameSchema
     },
 
     // Funciones
@@ -1199,5 +1094,5 @@ module.exports = {
     validateBody,
     validateQuery,
     validateParams,
-    validateSocket,
+    validateSocket
 };

@@ -179,7 +179,9 @@ async function ejecutarBusqueda(termino) {
     const controlador = new AbortController();
     controladorBusqueda = controlador;
     try {
-        const response = await fetch(`/api/presenter-pins?q=${encodeURIComponent(termino)}`, { signal: controlador.signal });
+        const response = await fetch(`/api/presenter-pins?q=${encodeURIComponent(termino)}`, {
+            signal: controlador.signal
+        });
         const data = await response.json();
         if (!response.ok || !Array.isArray(data)) {
             throw new Error(data?.message || data?.error || `Error HTTP ${response.status}`);
@@ -264,44 +266,83 @@ function htmlMensajeRejilla(texto) {
 function htmlRejillaPINs() {
     const pinsTextos = {
         'Juego Personalizado': t('presenter.selector.filter.custom.long', 'Juegos Personalizados'),
-        'Juego': t('presenter.selector.filter.games.long', 'Juegos'),
-        'Banco': t('presenter.selector.filter.banks.long', 'Bancos de Preguntas'),
-        'Trivial': t('presenter.selector.filter.trivial', 'Trivial')
+        Juego: t('presenter.selector.filter.games.long', 'Juegos'),
+        Banco: t('presenter.selector.filter.banks.long', 'Bancos de Preguntas'),
+        Trivial: t('presenter.selector.filter.trivial', 'Trivial')
     };
 
     if (buscandoPins) {
-        return htmlMensajeRejilla(`<i class="fas fa-spinner fa-spin mr-2"></i>${t('presenter.selector.search.loading', 'Buscando...')}`);
+        return htmlMensajeRejilla(
+            `<i class="fas fa-spinner fa-spin mr-2"></i>${t('presenter.selector.search.loading', 'Buscando...')}`
+        );
     }
 
     const origen = resultadosBusqueda ?? todosLosPins;
-    const pinsFiltrados = filtroActivo === 'todos'
-        ? origen
-        : origen.filter(p => p.type === filtroActivo);
+    const pinsFiltrados = filtroActivo === 'todos' ? origen : origen.filter(p => p.type === filtroActivo);
 
     if (pinsFiltrados.length === 0) {
         if (resultadosBusqueda) {
-            return htmlMensajeRejilla(t('presenter.selector.search.no_results', 'No se han encontrado juegos para "{term}".', { term: escapeHtml(terminoBusqueda.trim()) }));
+            return htmlMensajeRejilla(
+                t('presenter.selector.search.no_results', 'No se han encontrado juegos para "{term}".', {
+                    term: escapeHtml(terminoBusqueda.trim())
+                })
+            );
         }
-        return htmlMensajeRejilla(filtroActivo === 'Juego Personalizado'
-            ? t('presenter.selector.empty.custom', 'No hay PINs disponibles. Crea un juego o banco primero.')
-            : t('presenter.selector.empty.by_type', 'No hay {type} disponibles.', { type: pinsTextos[filtroActivo] || filtroActivo }));
+        return htmlMensajeRejilla(
+            filtroActivo === 'Juego Personalizado'
+                ? t('presenter.selector.empty.custom', 'No hay PINs disponibles. Crea un juego o banco primero.')
+                : t('presenter.selector.empty.by_type', 'No hay {type} disponibles.', {
+                    type: pinsTextos[filtroActivo] || filtroActivo
+                })
+        );
     }
 
-    return pinsFiltrados.map(p => {
-        const cardColors = {
-            'Juego Personalizado': { bg: 'linear-gradient(135deg,#0d9488,#044f49)', from: '#0d9488', to: '#044f49', border: '#033b36', text: '#ccfbf1' },
-            'Juego': { bg: 'linear-gradient(135deg,#8ab817,#5a7a0f)', from: '#8ab817', to: '#5a7a0f', border: '#455c09', text: '#d9f199' },
-            'Banco': { bg: 'linear-gradient(135deg,#d97706,#b45309)', from: '#d97706', to: '#b45309', border: '#92400e', text: '#fde68a' },
-            'Trivial': { bg: 'linear-gradient(135deg,#e65453,#b91c1c)', from: '#e65453', to: '#b91c1c', border: '#7f1d1d', text: '#fecaca' },
-        };
-        const c = cardColors[p.type] || { bg: 'linear-gradient(135deg,#f9b518,#d49500)', from: '#f9b518', to: '#d49500', border: '#a37200', text: '#fef9c3' };
-        const typeLabel = pinsTextos[p.type] || p.type;
-        const safeImageUrl = sanitizeResourceUrl(p.image_url || '');
-        const cardBackground = safeImageUrl
-            ? `linear-gradient(135deg, ${_hexToRgba(c.from, 0.4)}, ${_hexToRgba(c.to, 0.4)}), url('${safeImageUrl}') center/cover no-repeat`
-            : c.bg;
-        const textShadow = safeImageUrl ? 'text-shadow:0 1px 4px rgba(0,0,0,.7);' : '';
-        return `
+    return pinsFiltrados
+        .map(p => {
+            const cardColors = {
+                'Juego Personalizado': {
+                    bg: 'linear-gradient(135deg,#0d9488,#044f49)',
+                    from: '#0d9488',
+                    to: '#044f49',
+                    border: '#033b36',
+                    text: '#ccfbf1'
+                },
+                Juego: {
+                    bg: 'linear-gradient(135deg,#8ab817,#5a7a0f)',
+                    from: '#8ab817',
+                    to: '#5a7a0f',
+                    border: '#455c09',
+                    text: '#d9f199'
+                },
+                Banco: {
+                    bg: 'linear-gradient(135deg,#d97706,#b45309)',
+                    from: '#d97706',
+                    to: '#b45309',
+                    border: '#92400e',
+                    text: '#fde68a'
+                },
+                Trivial: {
+                    bg: 'linear-gradient(135deg,#e65453,#b91c1c)',
+                    from: '#e65453',
+                    to: '#b91c1c',
+                    border: '#7f1d1d',
+                    text: '#fecaca'
+                }
+            };
+            const c = cardColors[p.type] || {
+                bg: 'linear-gradient(135deg,#f9b518,#d49500)',
+                from: '#f9b518',
+                to: '#d49500',
+                border: '#a37200',
+                text: '#fef9c3'
+            };
+            const typeLabel = pinsTextos[p.type] || p.type;
+            const safeImageUrl = sanitizeResourceUrl(p.image_url || '');
+            const cardBackground = safeImageUrl
+                ? `linear-gradient(135deg, ${_hexToRgba(c.from, 0.4)}, ${_hexToRgba(c.to, 0.4)}), url('${safeImageUrl}') center/cover no-repeat`
+                : c.bg;
+            const textShadow = safeImageUrl ? 'text-shadow:0 1px 4px rgba(0,0,0,.7);' : '';
+            return `
                             <div data-presenter-action="select-pin" data-pin="${p.pin}"
                              class="p-6 rounded-3xl cursor-pointer transition-all hover:scale-105 shadow-2xl flex flex-col justify-between min-h-[180px] w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)]"
                              style="background:${cardBackground};border-bottom:4px solid ${c.border};position:relative;">
@@ -319,7 +360,8 @@ function htmlRejillaPINs() {
                             ${p.language ? `<img src="/images/flags/${p.language}.svg" alt="" style="position:absolute;bottom:12px;right:12px;width:34px;height:24px;object-fit:cover;border-radius:4px;border:2px solid rgba(255,255,255,.85);box-shadow:0 3px 8px rgba(0,0,0,.35);transform:rotate(-9deg);pointer-events:none;">` : ''}
                         </div>
                     `;
-    }).join('');
+        })
+        .join('');
 }
 
 export function seleccionarPIN(selectedPin) {
@@ -446,7 +488,7 @@ export function volverAJuegos() {
     if (!document.fullscreenElement) {
         const root = document.documentElement;
         if (root.requestFullscreen) {
-            root.requestFullscreen().catch(() => { });
+            root.requestFullscreen().catch(() => {});
         } else if (root.webkitRequestFullscreen) {
             root.webkitRequestFullscreen();
         }

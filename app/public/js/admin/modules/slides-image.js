@@ -53,8 +53,12 @@ function mostrarModalImagen() {
     `);
     document.body.appendChild(modal);
     _iniciarDropZone({
-        dropZoneId: 'dropZoneImagen', fileInputId: 'imagenFile', statusMsgId: 'uploadStatusMsg',
-        urlInputId: 'imagenUrl', previewImgId: 'previewImagen', previewWrapId: 'previewWrapImagen'
+        dropZoneId: 'dropZoneImagen',
+        fileInputId: 'imagenFile',
+        statusMsgId: 'uploadStatusMsg',
+        urlInputId: 'imagenUrl',
+        previewImgId: 'previewImagen',
+        previewWrapId: 'previewWrapImagen'
     });
 }
 
@@ -68,7 +72,7 @@ function _iniciarDropZone({ dropZoneId, fileInputId, statusMsgId, urlInputId, pr
     const fileInput = document.getElementById(fileInputId);
     if (!zone || !fileInput) return;
 
-    const upload = async (file) => {
+    const upload = async file => {
         const url = await _subirArchivoImagen(file, statusMsgId);
         if (url) {
             const urlInput = document.getElementById(urlInputId);
@@ -79,7 +83,9 @@ function _iniciarDropZone({ dropZoneId, fileInputId, statusMsgId, urlInputId, pr
                 previewImg.src = url;
                 previewWrap.classList.remove('hidden');
             }
-            zone.innerHTML = _tHtml(`<i class="fas fa-check-circle text-3xl text-green-500"></i><p class="text-sm text-green-600 font-bold">Imagen subida correctamente</p>`);
+            zone.innerHTML = _tHtml(
+                `<i class="fas fa-check-circle text-3xl text-green-500"></i><p class="text-sm text-green-600 font-bold">Imagen subida correctamente</p>`
+            );
         }
     };
 
@@ -87,21 +93,25 @@ function _iniciarDropZone({ dropZoneId, fileInputId, statusMsgId, urlInputId, pr
     fileInput.addEventListener('change', () => {
         if (fileInput.files.length) upload(fileInput.files[0]);
     });
-    zone.addEventListener('dragover', (e) => {
+    zone.addEventListener('dragover', e => {
         e.preventDefault();
         zone.classList.add('border-pink-500', 'bg-pink-50');
     });
     zone.addEventListener('dragleave', () => {
         zone.classList.remove('border-pink-500', 'bg-pink-50');
     });
-    zone.addEventListener('drop', (e) => {
+    zone.addEventListener('drop', e => {
         e.preventDefault();
         zone.classList.remove('border-pink-500', 'bg-pink-50');
         const file = e.dataTransfer.files[0];
         if (file && file.type.startsWith('image/')) {
             upload(file);
         } else {
-            mostrarModalError(_t('admin.common.warning_title', null, '⚠️ Advertencia'), 'Solo se admiten imágenes', 'warning');
+            mostrarModalError(
+                _t('admin.common.warning_title', null, '⚠️ Advertencia'),
+                'Solo se admiten imágenes',
+                'warning'
+            );
         }
     });
 }
@@ -141,7 +151,11 @@ function agregarSlideImagen() {
     const finalUrl = document.getElementById('imagenUrl')?.value?.trim();
 
     if (!finalUrl) {
-        mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), 'Por favor, sube una imagen o introduce una URL', 'warning');
+        mostrarModalError(
+            _t('admin.common.validation_title', null, '⚠️ Validación'),
+            'Por favor, sube una imagen o introduce una URL',
+            'warning'
+        );
         return;
     }
 
@@ -218,8 +232,12 @@ function editarSlideImagen(index) {
     }
 
     _iniciarDropZone({
-        dropZoneId: 'dropZoneEditImagen', fileInputId: 'editImagenFile', statusMsgId: 'editUploadStatus',
-        urlInputId: 'editImagenUrl', previewImgId: 'previewEditImagen', previewWrapId: 'previewWrapEditImagen'
+        dropZoneId: 'dropZoneEditImagen',
+        fileInputId: 'editImagenFile',
+        statusMsgId: 'editUploadStatus',
+        urlInputId: 'editImagenUrl',
+        previewImgId: 'previewEditImagen',
+        previewWrapId: 'previewWrapEditImagen'
     });
 }
 
@@ -232,7 +250,11 @@ function guardarEditImagen(index) {
     const finalUrl = document.getElementById('editImagenUrl')?.value?.trim();
 
     if (!finalUrl) {
-        mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), 'Por favor, sube una imagen o introduce una URL', 'warning');
+        mostrarModalError(
+            _t('admin.common.validation_title', null, '⚠️ Validación'),
+            'Por favor, sube una imagen o introduce una URL',
+            'warning'
+        );
         return;
     }
 
@@ -246,7 +268,7 @@ function initSlideImagenDelegation() {
     if (_slideImagenDelegationReady) return;
     _slideImagenDelegationReady = true;
 
-    document.addEventListener('click', (event) => {
+    document.addEventListener('click', event => {
         const actionElement = event.target.closest('[data-slide-image-action]');
         if (!actionElement) return;
 

@@ -7,9 +7,14 @@
 import { setBodyHTML } from './player-streak-ui.js?v=20260922172926';
 import { enviarPendiente } from './player-answer.js?v=20260922172926';
 import {
-    getPin, getSessionId, getNickname,
-    getCanAnswer, setHaRespondido,
-    getPendingAnswer, setPendingAnswer, getSendingAnswer
+    getPin,
+    getSessionId,
+    getNickname,
+    getCanAnswer,
+    setHaRespondido,
+    getPendingAnswer,
+    setPendingAnswer,
+    getSendingAnswer
 } from './player-state.js?v=20260922172926';
 import { getFoundSelections, hasActiveWordSearch } from './player-wordsearch-state.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
@@ -32,7 +37,13 @@ export function enviarRespuestaWordSearch(isAuto = false) {
     setHaRespondido(true);
 
     const room = getSessionId() ? { sessionId: getSessionId() } : { pin: getPin() };
-    const payload = { ...room, nickname: getNickname(), answerType: 'word_search', found, requestId: createRequestId() };
+    const payload = {
+        ...room,
+        nickname: getNickname(),
+        answerType: 'word_search',
+        found,
+        requestId: createRequestId()
+    };
     setPendingAnswer({ payload, found, isAuto });
 
     if (!isAuto) {
@@ -52,14 +63,16 @@ export function wordSearchResultHtml(data, rankingHTML) {
     const details = data.wordSearchDetails || {};
     const words = Array.isArray(details.words) ? details.words : [];
     const flags = Array.isArray(details.wordsFound) ? details.wordsFound : [];
-    const chips = words.map((word, i) => {
-        const found = Boolean(flags[i]) && Boolean(window.XiroWordSearch);
-        // Encontrada con pista: la ficha muestra ½ (valió la mitad)
-        const hinted = found && Boolean(details.hintedWords?.[i]);
-        const style = found ? ` style="${window.XiroWordSearch.chipStyle(i)}"` : '';
-        const label = escapeHtml(`${word} ${found ? '✓' : '✗'}${hinted ? ' ½' : ''}`);
-        return `<span class="ws-word ${found ? 'is-found' : 'is-missed'}${hinted ? ' is-hinted' : ''}" role="listitem" aria-label="${label}"${style}>${escapeHtml(word)}</span>`;
-    }).join('');
+    const chips = words
+        .map((word, i) => {
+            const found = Boolean(flags[i]) && Boolean(window.XiroWordSearch);
+            // Encontrada con pista: la ficha muestra ½ (valió la mitad)
+            const hinted = found && Boolean(details.hintedWords?.[i]);
+            const style = found ? ` style="${window.XiroWordSearch.chipStyle(i)}"` : '';
+            const label = escapeHtml(`${word} ${found ? '✓' : '✗'}${hinted ? ' ½' : ''}`);
+            return `<span class="ws-word ${found ? 'is-found' : 'is-missed'}${hinted ? ' is-hinted' : ''}" role="listitem" aria-label="${label}"${style}>${escapeHtml(word)}</span>`;
+        })
+        .join('');
 
     return `
         <div class="h-screen w-screen flex flex-col items-center justify-center p-6 overflow-y-auto relative">

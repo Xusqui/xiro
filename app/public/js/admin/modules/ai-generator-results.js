@@ -33,7 +33,9 @@ function _renderAIStep3Result(data) {
                 <p class="text-slate-500 text-sm">${hasErrors ? 'Algunos tipos tuvieron errores' : 'Generación correcta'}</p>
             </div>
         </div>
-        ${data.results.map(r => `
+        ${data.results
+        .map(
+            r => `
         <div class="mb-4 bg-white rounded-xl border ${r.error ? 'border-red-300' : 'border-slate-200'} shadow-sm overflow-hidden">
             <button data-ai-results-action="toggle-section" class="w-full flex items-center justify-between p-4 font-bold text-left hover:bg-slate-50 transition">
                 <span>${(QUESTION_TYPE_LABELS.find(t => t.type === r.type) || { label: r.type }).label}
@@ -43,15 +45,23 @@ function _renderAIStep3Result(data) {
                 <i class="fas fa-chevron-down text-slate-400 transition-transform"></i>
             </button>
             <div class="ai-section-body hidden p-4 border-t border-slate-100 max-h-64 overflow-y-auto">
-                ${r.error
+                ${
+    r.error
         ? `<div class="text-red-600 text-sm p-3 bg-red-50 rounded-lg">${r.error}
                         <button data-ai-results-action="regenerate-type" data-type="${r.type}"
                             class="mt-2 block text-sm bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-bold transition">
                             <i class="fas fa-redo mr-1"></i>Regenerar solo este tipo</button></div>`
-        : r.questions.map((q, i) => `<p class="text-sm py-1 border-b border-slate-50 last:border-0">${i + 1}. ${escapeHtml(q.questionText)}</p>`).join('')
+        : r.questions
+            .map(
+                (q, i) =>
+                    `<p class="text-sm py-1 border-b border-slate-50 last:border-0">${i + 1}. ${escapeHtml(q.questionText)}</p>`
+            )
+            .join('')
 }
             </div>
-        </div>`).join('')}
+        </div>`
+        )
+        .join('')}
         <div class="flex gap-4 mt-8">
             <button data-ai-results-action="import-bank"
                 class="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl transition flex items-center justify-center gap-2 text-lg">
@@ -107,7 +117,9 @@ async function _aiRegenerateType(type) {
             aiGenResult.totalGenerated = aiGenResult.bankPayload.questions.length;
         }
         _renderAIStep3Result(aiGenResult);
-    } catch (err) { mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), err.message, 'error'); }
+    } catch (err) {
+        mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), err.message, 'error');
+    }
 }
 
 async function _aiImportBank() {
@@ -125,7 +137,9 @@ async function _aiImportBank() {
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Error desconocido');
         statusEl.className = 'mt-4 p-4 bg-green-50 rounded-xl text-green-700 font-bold text-sm';
-        statusEl.innerHTML = '<i class="fas fa-check mr-2"></i>¡Banco importado correctamente! ID: ' + data.id +
+        statusEl.innerHTML =
+            '<i class="fas fa-check mr-2"></i>¡Banco importado correctamente! ID: ' +
+            data.id +
             ' <button data-ai-results-action="go-banks" class="ml-4 underline">Ver bancos</button>';
     } catch (err) {
         statusEl.className = 'mt-4 p-4 bg-red-50 rounded-xl text-red-700 font-bold text-sm';
@@ -148,7 +162,7 @@ function _initAIResultsDelegation() {
     if (_aiResultsDelegationReady) return;
     _aiResultsDelegationReady = true;
 
-    document.addEventListener('click', (event) => {
+    document.addEventListener('click', event => {
         const actionElement = event.target.closest('[data-ai-results-action]');
         if (!actionElement) return;
 

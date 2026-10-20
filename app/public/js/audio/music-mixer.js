@@ -18,8 +18,12 @@ const PANS = { pad: 0, brass: -0.2, piano: 0.12, bass: 0, drums: 0, arp: 0.25, m
 const PUMPED = new Set(['pad', 'brass', 'piano', 'bass', 'arp']);
 // Envíos por capa, después del canal (silenciar una capa en el admin silencia también su eco)
 const SENDS = {
-    pad: { reverb: 0.35 }, brass: { reverb: 0.45, delay: 0.08 }, piano: { reverb: 0.3, delay: 0.06 }, drums: { reverb: 0.2 },
-    arp: { reverb: 0.4, delay: 0.45 }, melody: { reverb: 0.3, delay: 0.18 }
+    pad: { reverb: 0.35 },
+    brass: { reverb: 0.45, delay: 0.08 },
+    piano: { reverb: 0.3, delay: 0.06 },
+    drums: { reverb: 0.2 },
+    arp: { reverb: 0.4, delay: 0.45 },
+    melody: { reverb: 0.3, delay: 0.18 }
 };
 const PUMP_DEPTH = 0.3;
 const REVERB_LEVEL = 0.32;
@@ -31,7 +35,7 @@ const REVERB_SWAP_SECONDS = 0.4;
 
 export function createMixer(Tone) {
     const nodes = [];
-    const own = (node) => {
+    const own = node => {
         nodes.push(node);
         return node;
     };
@@ -61,8 +65,10 @@ export function createMixer(Tone) {
     const pump = own(new Tone.Gain(1)).connect(bus);
     const sendInputs = { reverb: reverbIn, delay };
     const layers = {};
-    LAYERS.forEach((name) => {
-        const channel = own(new Tone.Channel({ volume: LAYER_DB[name], pan: PANS[name] })).connect(PUMPED.has(name) ? pump : bus);
+    LAYERS.forEach(name => {
+        const channel = own(new Tone.Channel({ volume: LAYER_DB[name], pan: PANS[name] })).connect(
+            PUMPED.has(name) ? pump : bus
+        );
         Object.entries(SENDS[name] || {}).forEach(([fx, amount]) => {
             channel.connect(own(new Tone.Gain(amount)).connect(sendInputs[fx]));
         });
@@ -90,7 +96,7 @@ export function createMixer(Tone) {
             fxOn = Boolean(on);
             reverbReturn.gain.rampTo(fxOn ? REVERB_LEVEL : 0, 0.2);
             delayReturn.gain.rampTo(fxOn ? DELAY_LEVEL : 0, 0.2);
-            LAYERS.forEach((name) => layers[name].pan.rampTo(fxOn ? PANS[name] : 0, 0.2));
+            LAYERS.forEach(name => layers[name].pan.rampTo(fxOn ? PANS[name] : 0, 0.2));
             if (!fxOn) pump.gain.rampTo(1, 0.05);
         },
         /**
@@ -112,7 +118,10 @@ export function createMixer(Tone) {
             if (room) room.level.gain.rampTo(ROOM_LEVEL, REVERB_SWAP_SECONDS);
             if (old) {
                 old.level.gain.rampTo(0, REVERB_SWAP_SECONDS);
-                setTimeout(() => [old.convolver, old.level].forEach((node) => node.dispose()), REVERB_SWAP_SECONDS * 2500);
+                setTimeout(
+                    () => [old.convolver, old.level].forEach(node => node.dispose()),
+                    REVERB_SWAP_SECONDS * 2500
+                );
             }
         },
         /** Volumen de una capa en dB (mezcla del admin). */
@@ -136,8 +145,8 @@ export function createMixer(Tone) {
             gate.gain.linearRampToValueAtTime(open ? 1 : 0, time + seconds);
         },
         dispose() {
-            if (room) [room.convolver, room.level].forEach((node) => node.dispose());
-            nodes.forEach((node) => node.dispose());
+            if (room) [room.convolver, room.level].forEach(node => node.dispose());
+            nodes.forEach(node => node.dispose());
         }
     };
 }

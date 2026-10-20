@@ -27,9 +27,7 @@ class RateLimitHandler extends Handler {
 
         let isAllowed;
         try {
-            isAllowed = await Promise.resolve(
-                this.rateLimiter.checkLimit(socket.id, this.operation)
-            );
+            isAllowed = await Promise.resolve(this.rateLimiter.checkLimit(socket.id, this.operation));
         } catch (err) {
             logger.error('RateLimitHandler: checkLimit threw an exception', {
                 socketId: socket.id,

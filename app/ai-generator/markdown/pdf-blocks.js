@@ -31,9 +31,9 @@ function bodySize(lines) {
 
 /** tamaño → nivel de encabezado (0 = cuerpo). */
 function headingScale(lines, body) {
-    const sizes = [...new Set(lines
-        .filter(l => l.text.length <= 150 && round(l.size) >= body * 1.15)
-        .map(l => round(l.size)))].sort((a, b) => b - a);
+    const sizes = [
+        ...new Set(lines.filter(l => l.text.length <= 150 && round(l.size) >= body * 1.15).map(l => round(l.size)))
+    ].sort((a, b) => b - a);
     const levelOf = size => {
         const idx = sizes.indexOf(round(size));
         return idx === -1 ? 0 : Math.min(idx + 1, 3);
@@ -55,8 +55,13 @@ function gapBetween(a, b) {
 function isIsolatedShortLine(text, gapBefore, gapAfter, normal) {
     if (gapBefore === null && gapAfter === null) return false; // línea sola en su página
     const big = g => g === null || g > normal * 1.6;
-    return text.length <= 70 && !/[.,;:!?]$/.test(text) && /^[A-ZÁÉÍÓÚÑÜ0-9¿¡]/.test(text)
-        && big(gapBefore) && big(gapAfter);
+    return (
+        text.length <= 70 &&
+        !/[.,;:!?]$/.test(text) &&
+        /^[A-ZÁÉÍÓÚÑÜ0-9¿¡]/.test(text) &&
+        big(gapBefore) &&
+        big(gapAfter)
+    );
 }
 
 function normalGap(lines, body) {
@@ -81,8 +86,13 @@ function lineLevel(state, line, text, gaps) {
 
 function addHeading(state, level, text, gapBefore) {
     const last = state.blocks[state.blocks.length - 1];
-    const continues = last && last === state.cur && last.type === 'h' && last.level === level
-        && gapBefore !== null && gapBefore < state.normal * 1.6;
+    const continues =
+        last &&
+        last === state.cur &&
+        last.type === 'h' &&
+        last.level === level &&
+        gapBefore !== null &&
+        gapBefore < state.normal * 1.6;
     if (continues) {
         last.text += ` ${text}`; // encabezado en varias líneas
         return;
@@ -103,10 +113,17 @@ function addBodyLine(state, line, text, gapBefore) {
     if (bullet) {
         state.stats.bullets = (state.stats.bullets || 0) + 1;
         state.cur = { type: 'li', depth: 0, ordered: Boolean(bullet[1]), text: bullet[2] };
-    } else if (!cur || cur.type === 'h' || cur.table || line.cells > 1 || breaksParagraph(cur, gapBefore, state.normal)) {
+    } else if (
+        !cur ||
+        cur.type === 'h' ||
+        cur.table ||
+        line.cells > 1 ||
+        breaksParagraph(cur, gapBefore, state.normal)
+    ) {
         state.cur = { type: 'p', text, table: line.cells > 1 };
     } else {
-        if (/[A-Za-zÀ-ÿ]-$/.test(cur.text) && /^[a-zà-ÿñ]/.test(text)) state.stats.hyphenJoins = (state.stats.hyphenJoins || 0) + 1;
+        if (/[A-Za-zÀ-ÿ]-$/.test(cur.text) && /^[a-zà-ÿñ]/.test(text))
+            state.stats.hyphenJoins = (state.stats.hyphenJoins || 0) + 1;
         cur.text = joinLines(cur.text, text); // continuación del párrafo o de la viñeta
         return;
     }

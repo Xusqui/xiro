@@ -1,11 +1,11 @@
 /**
  * @fileoverview Estrategia de puntuación basada en tiempo de respuesta
  * Implementa el sistema actual: BASE_POINTS + TIME_BONUS
- * 
+ *
  * ARQUITECTURA: Strategy Pattern
  * - Refactor del comportamiento actual en ScoringService
  * - Bonus lineal basado en tiempo restante
- * 
+ *
  * FASE 17.2 - Día 2
  * Fecha: 3 de febrero de 2026
  */
@@ -15,9 +15,9 @@ const { SCORING, TIMING } = require('../../../config/game-constants');
 
 /**
  * Estrategia de puntuación basada en velocidad de respuesta
- * 
+ *
  * Fórmula: BASE_POINTS + (timeLeft / timeLimit) × MAX_TIME_BONUS
- * 
+ *
  * Ejemplos:
  * - Respuesta instantánea (0s): 20 + 20 = 40 puntos
  * - Respuesta a mitad (15s de 30s): 20 + 10 = 30 puntos
@@ -44,7 +44,7 @@ class TimeBasedScoring extends ScoringStrategy {
 
     /**
      * Calcula el bonus de tiempo basado en velocidad de respuesta
-     * 
+     *
      * @param {number} timeElapsed - Tiempo transcurrido en segundos
      * @param {number} questionTimeLimit - Límite de tiempo en segundos
      * @returns {number} Bonus de tiempo (0 a maxTimeBonus)

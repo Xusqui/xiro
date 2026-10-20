@@ -1,7 +1,7 @@
 /**
  * @fileoverview Ranking Calculator - Cálculo de rankings finales
  * @module sockets/utils/RankingCalculator
- * 
+ *
  * Separado de GameEndManager para evitar dependencias circulares
  */
 

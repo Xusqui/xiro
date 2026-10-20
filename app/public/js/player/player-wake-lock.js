@@ -10,8 +10,8 @@ let lastWakeLockNotAllowedLogAt = 0;
 
 function hasActiveSessionContext() {
     return Boolean(
-        (getPin() && getNickname())
-        || (localStorage.getItem('xiro_lastPin') && localStorage.getItem('xiro_lastNickname'))
+        (getPin() && getNickname()) ||
+            (localStorage.getItem('xiro_lastPin') && localStorage.getItem('xiro_lastNickname'))
     );
 }
 

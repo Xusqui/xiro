@@ -89,7 +89,7 @@
                             _writeCache(state);
                             _applyStatus(state.licensed);
                         }
-                    } catch (e) { }
+                    } catch (e) {}
                 }
             }
         };
@@ -110,7 +110,9 @@
                     _applyStatus(state.licensed);
                     return state;
                 })
-                .catch(function () { return null; });
+                .catch(function () {
+                    return null;
+                });
         } else {
             _fetchStatusFallback();
             return {

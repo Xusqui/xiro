@@ -6,8 +6,8 @@ const { getRedisClient } = require('../config/redis');
 const { version: APP_VERSION } = require('../package.json');
 
 const CACHE_KEY = 'xiro:update:check';
-const CHECK_TTL_S = 3600;   // una comprobación por hora como máximo
-const ERROR_TTL_S = 900;    // si Docker Hub falla, se reintenta a los 15 minutos
+const CHECK_TTL_S = 3600; // una comprobación por hora como máximo
+const ERROR_TTL_S = 900; // si Docker Hub falla, se reintenta a los 15 minutos
 const DEFAULT_REPO = 'xusqui/xiro-backend';
 const SEMVER_RE = /^(\d+)\.(\d+)\.(\d+)$/;
 
@@ -51,13 +51,10 @@ async function fetchLatestVersion(options = {}) {
     const fetchImpl = options.fetchImpl || globalThis.fetch;
     const repo = options.repo || process.env.XIRO_IMAGE_REPO || DEFAULT_REPO;
 
-    const res = await fetchImpl(
-        `https://hub.docker.com/v2/repositories/${repo}/tags?page_size=100`,
-        {
-            headers: { Accept: 'application/json' },
-            signal: AbortSignal.timeout(10000)
-        }
-    );
+    const res = await fetchImpl(`https://hub.docker.com/v2/repositories/${repo}/tags?page_size=100`, {
+        headers: { Accept: 'application/json' },
+        signal: AbortSignal.timeout(10000)
+    });
 
     if (!res.ok) throw new Error('Docker Hub respondió ' + res.status);
 

@@ -34,7 +34,7 @@ function timeBonusFor(timeLimit) {
 
 /** Huecos de una pregunta «Completa la frase» (preparada o tal cual sale del banco) */
 function blankCount(question) {
-    return Array.isArray(question.fb_words) ? question.fb_words.length : (question.options?.length || 0);
+    return Array.isArray(question.fb_words) ? question.fb_words.length : question.options?.length || 0;
 }
 
 /**
@@ -76,8 +76,7 @@ function calculatePerfectBasePoints(question, game) {
             return (question.max_points || 0) + 20;
 
         case 'multiple_choice': {
-            const correctCount = (question.options || [])
-                .filter(opt => opt.is_correct || opt.isCorrect).length;
+            const correctCount = (question.options || []).filter(opt => opt.is_correct || opt.isCorrect).length;
             const pointsPerCorrect = question.mc_points_per_correct || 10;
             const perfectBonus = question.mc_perfect_bonus || 20;
             return correctCount * pointsPerCorrect + perfectBonus;

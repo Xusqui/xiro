@@ -48,13 +48,16 @@ export function createCues(Tone, output, timing) {
         if (!bank || name === 'mech') return null;
         if (!samplers[name]) {
             const kit = bank.tick(name);
-            samplers[name] = { sampler: new Tone.Sampler({ urls: kit.urls, release: 0.1 }).connect(output), notes: kit.notes };
+            samplers[name] = {
+                sampler: new Tone.Sampler({ urls: kit.urls, release: 0.1 }).connect(output),
+                notes: kit.notes
+            };
             samplers[name].sampler.volume.value = SAMPLE_TICK_DB;
         }
         return samplers[name];
     }
 
-    const playTick = (time) => {
+    const playTick = time => {
         const i = tickCount++ % 2;
         const s = samplerFor(sound);
         if (s) {
@@ -86,7 +89,11 @@ export function createCues(Tone, output, timing) {
         const startTick = transport.getTicksAtTime(Math.max(Tone.now(), fromTime));
         const endTick = transport.getTicksAtTime(endTime);
         let count = 0;
-        for (let t = Math.ceil(startTick / transport.PPQ) * transport.PPQ; t < endTick && count < MAX_TICKS; t += transport.PPQ) {
+        for (
+            let t = Math.ceil(startTick / transport.PPQ) * transport.PPQ;
+            t < endTick && count < MAX_TICKS;
+            t += transport.PPQ
+        ) {
             tickIds.push(transport.scheduleOnce(playTick, `${t}i`));
             count++;
         }
@@ -116,11 +123,13 @@ export function createCues(Tone, output, timing) {
             trace(`  avisos: quedan ${Math.round(remainingMs)} ms`);
             scheduleRiser(endTime);
             const ticks = scheduleTicks(endTime - timing.TICK_SECONDS, endTime);
-            trace(`  tic-tac: ${ticks.count} golpes (ticks ${Math.round(ticks.startTick)}→${Math.round(ticks.endTick)})`);
+            trace(
+                `  tic-tac: ${ticks.count} golpes (ticks ${Math.round(ticks.startTick)}→${Math.round(ticks.endTick)})`
+            );
         },
         cancel() {
             const now = Tone.now();
-            tickIds.forEach((id) => transport.clear(id));
+            tickIds.forEach(id => transport.clear(id));
             tickIds = [];
             riserGain.gain.cancelScheduledValues(now);
             riserGain.gain.rampTo(0, 0.08, now);
@@ -129,8 +138,8 @@ export function createCues(Tone, output, timing) {
         },
         dispose() {
             this.cancel();
-            [riser, riserFilter, riserGain, mech, mechFilter].forEach((node) => node.dispose());
-            Object.values(samplers).forEach((s) => s.sampler.dispose());
+            [riser, riserFilter, riserGain, mech, mechFilter].forEach(node => node.dispose());
+            Object.values(samplers).forEach(s => s.sampler.dispose());
         }
     };
 }

@@ -52,7 +52,10 @@ async function renderVistaRemote() {
 
 async function cargarSesionesActivas() {
     const list = document.getElementById('remote-sessions-list');
-    if (!list) { stopRemoteRefresh(); return; }
+    if (!list) {
+        stopRemoteRefresh();
+        return;
+    }
 
     try {
         const token = getAuthToken();
@@ -60,7 +63,10 @@ async function cargarSesionesActivas() {
             headers: { Authorization: `Bearer ${token}` }
         });
 
-        if (res.status === 401 || res.status === 403) { handleUnauthorized(); return; }
+        if (res.status === 401 || res.status === 403) {
+            handleUnauthorized();
+            return;
+        }
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
         const data = await res.json();
@@ -106,18 +112,15 @@ function renderSessionsList(sessions) {
         return;
     }
 
-    list.innerHTML = sessions.map(s => {
-        const stateLabel = s.state === 'lobby'
-            ? 'En lobby'
-            : `P ${s.currentIndex + 1}/${s.totalQuestions}`;
-        const stateCss = s.state === 'lobby'
-            ? 'bg-yellow-100 text-yellow-700'
-            : 'bg-green-100 text-green-700';
-        const url = `/presentador.html?session_id=${encodeURIComponent(s.sessionId)}&remote=true`;
-        const players = `${s.playerCount} jugador${s.playerCount !== 1 ? 'es' : ''}`;
-        const sessionIdEsc = _escHtml(s.sessionId);
+    list.innerHTML = sessions
+        .map(s => {
+            const stateLabel = s.state === 'lobby' ? 'En lobby' : `P ${s.currentIndex + 1}/${s.totalQuestions}`;
+            const stateCss = s.state === 'lobby' ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700';
+            const url = `/presentador.html?session_id=${encodeURIComponent(s.sessionId)}&remote=true`;
+            const players = `${s.playerCount} jugador${s.playerCount !== 1 ? 'es' : ''}`;
+            const sessionIdEsc = _escHtml(s.sessionId);
 
-        return `
+            return `
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5
                     flex items-center justify-between gap-4 mb-3">
             <div class="flex items-center gap-4">
@@ -149,7 +152,8 @@ function renderSessionsList(sessions) {
                 </button>
             </div>
         </div>`;
-    }).join('');
+        })
+        .join('');
 }
 
 /* ── Terminar sesión ─────────────────────────────────────────────────────── */
@@ -170,13 +174,20 @@ function terminarSesionAdmin(sessionId) {
                     body: JSON.stringify({ sessionId })
                 });
 
-                if (res.status === 401 || res.status === 403) { handleUnauthorized(); return; }
+                if (res.status === 401 || res.status === 403) {
+                    handleUnauthorized();
+                    return;
+                }
 
                 const data = await res.json();
                 if (data.success) {
                     await cargarSesionesActivas();
                 } else {
-                    mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), `Error al terminar sesión: ${data.error || 'Error desconocido'}`, 'error');
+                    mostrarModalError(
+                        _t('admin.common.error_title', null, '❌ Error'),
+                        `Error al terminar sesión: ${data.error || 'Error desconocido'}`,
+                        'error'
+                    );
                 }
             } catch (err) {
                 mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), err.message, 'error');
@@ -190,6 +201,6 @@ function terminarSesionAdmin(sessionId) {
 function _escHtml(str) {
     return String(str).replace(
         /[&<>"']/g,
-        c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', '\'': '&#39;' }[c])
+        c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', '\'': '&#39;' })[c]
     );
 }

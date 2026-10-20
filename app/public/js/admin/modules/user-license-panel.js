@@ -28,9 +28,8 @@ function _renderUserLicenseStatus(data) {
     if (isValid) {
         const expiry = _formatLicenseExpiry(_userLicenseField(data, 1, null));
         const daysLeft = _userLicenseDaysLeft(_userLicenseField(data, 1, null));
-        const daysText = daysLeft !== null
-            ? ` (${daysLeft} ${_t('admin.userlicense.days_left', null, 'días restantes')})`
-            : '';
+        const daysText =
+            daysLeft !== null ? ` (${daysLeft} ${_t('admin.userlicense.days_left', null, 'días restantes')})` : '';
         return `
             <div class="rounded-xl border border-emerald-200 bg-emerald-50 p-4">
                 <p class="font-bold text-emerald-800"><i class="fas fa-check-circle mr-2"></i>${_t('admin.userlicense.valid', null, 'Licencia individual activa')}</p>
@@ -111,7 +110,9 @@ function renderUserLicenseCard() {
     if (!card) return;
 
     card.className = 'bg-white rounded-2xl shadow-sm border border-slate-200 p-5 md:p-6';
-    card.innerHTML = _tHtml(`<div class="text-slate-400 flex items-center gap-2"><i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.userlicense.loading', null, 'Comprobando tu licencia…')}</div>`);
+    card.innerHTML = _tHtml(
+        `<div class="text-slate-400 flex items-center gap-2"><i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.userlicense.loading', null, 'Comprobando tu licencia…')}</div>`
+    );
 
     fetchWithAuth('/api/user/license')
         .then(response => response.json())
@@ -131,7 +132,9 @@ function _saveUserLicense() {
     const license = input ? input.value.trim() : '';
 
     if (resultEl) {
-        resultEl.innerHTML = _tHtml(`<span class="text-slate-400"><i class="fas fa-spin fa-circle-notch mr-1"></i>${_t('admin.userlicense.saving', null, 'Guardando y validando…')}</span>`);
+        resultEl.innerHTML = _tHtml(
+            `<span class="text-slate-400"><i class="fas fa-spin fa-circle-notch mr-1"></i>${_t('admin.userlicense.saving', null, 'Guardando y validando…')}</span>`
+        );
     }
 
     fetchWithAuth('/api/user/license', {
@@ -146,11 +149,16 @@ function _saveUserLicense() {
             if (data.success) {
                 setTimeout(renderUserLicenseCard, 700);
             } else {
-                resultEl.innerHTML = _tHtml(`<span class="text-red-600 font-medium"><i class="fas fa-times-circle mr-1"></i>${escapeHtml(data.error || data.message || _t('admin.userlicense.error_save', null, 'No se pudo guardar'))}</span>`);
+                resultEl.innerHTML = _tHtml(
+                    `<span class="text-red-600 font-medium"><i class="fas fa-times-circle mr-1"></i>${escapeHtml(data.error || data.message || _t('admin.userlicense.error_save', null, 'No se pudo guardar'))}</span>`
+                );
             }
         })
         .catch(() => {
-            if (resultEl) resultEl.innerHTML = _tHtml(`<span class="text-red-600 font-medium"><i class="fas fa-times-circle mr-1"></i>${_t('admin.userlicense.error_net', null, 'Error de red al guardar')}</span>`);
+            if (resultEl)
+                resultEl.innerHTML = _tHtml(
+                    `<span class="text-red-600 font-medium"><i class="fas fa-times-circle mr-1"></i>${_t('admin.userlicense.error_net', null, 'Error de red al guardar')}</span>`
+                );
         });
 }
 
@@ -158,7 +166,7 @@ function _initUserLicenseDelegation() {
     if (_userLicenseDelegationReady) return;
     _userLicenseDelegationReady = true;
 
-    document.addEventListener('click', (event) => {
+    document.addEventListener('click', event => {
         const actionElement = event.target.closest('[data-user-license-action]');
         if (!actionElement) return;
 

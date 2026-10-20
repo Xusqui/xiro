@@ -20,9 +20,11 @@ function getWordText(opt) {
 function isValidWord(word) {
     if (!LETTERS_ONLY.test(word)) return false;
     const normalized = normalizeSearchWord(word);
-    return normalized.length === [...word].length
-        && normalized.length >= WORD_SEARCH.MIN_WORD_LENGTH
-        && normalized.length <= WORD_SEARCH.MAX_WORD_LENGTH;
+    return (
+        normalized.length === [...word].length &&
+        normalized.length >= WORD_SEARCH.MIN_WORD_LENGTH &&
+        normalized.length <= WORD_SEARCH.MAX_WORD_LENGTH
+    );
 }
 
 function validate(q) {

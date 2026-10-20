@@ -3,37 +3,54 @@ import { renderCard, renderSmallVerticalCard } from './ui-components.js?v=202609
 export function getTabPuntuacionHTML() {
     const scores = [
         {
-            color: '#22c55e', icon: 'fas fa-check-circle',
+            color: '#22c55e',
+            icon: 'fas fa-check-circle',
             title: _t('manual_player.score.exact.title'),
             text: _t('manual_player.score.exact.text'),
-            placeholderId: 'img-score-green', imgSrc: './images/manual/img-score-green.jpg', mascotImg: 'party.svg'
+            placeholderId: 'img-score-green',
+            imgSrc: './images/manual/img-score-green.jpg',
+            mascotImg: 'party.svg'
         },
         {
-            color: '#eab308', icon: 'fas fa-exclamation-triangle',
+            color: '#eab308',
+            icon: 'fas fa-exclamation-triangle',
             title: _t('manual_player.score.approx.title'),
             text: _t('manual_player.score.approx.text'),
-            placeholderId: 'img-score-yellow', imgSrc: './images/manual/img-score-yellow.jpg', mascotImg: 'thinking.svg'
+            placeholderId: 'img-score-yellow',
+            imgSrc: './images/manual/img-score-yellow.jpg',
+            mascotImg: 'thinking.svg'
         },
         {
-            color: '#ef4444', icon: 'fas fa-times-circle',
+            color: '#ef4444',
+            icon: 'fas fa-times-circle',
             title: _t('manual_player.score.fail.title'),
             text: _t('manual_player.score.fail.text'),
-            placeholderId: 'img-score-red', imgSrc: './images/manual/img-score-red.jpg', mascotImg: 'angry.svg'
+            placeholderId: 'img-score-red',
+            imgSrc: './images/manual/img-score-red.jpg',
+            mascotImg: 'angry.svg'
         }
     ];
 
     const streaks = [
         {
-            color: '#f97316', icon: 'fas fa-fire',
+            color: '#f97316',
+            icon: 'fas fa-fire',
             title: _t('manual_player.score.streak.title'),
             text: _t('manual_player.score.streak.text'),
-            placeholderId: 'img-score-streak', imgSrc: './images/manual/img-score-streak.jpg', mascotImg: 'cool.svg', isSmall: true
+            placeholderId: 'img-score-streak',
+            imgSrc: './images/manual/img-score-streak.jpg',
+            mascotImg: 'cool.svg',
+            isSmall: true
         },
         {
-            color: '#f43f5e', icon: 'fas fa-fire-flame-curved',
+            color: '#f43f5e',
+            icon: 'fas fa-fire-flame-curved',
             title: _t('manual_player.score.double.title'),
             text: _t('manual_player.score.double.text'),
-            placeholderId: 'img-score-double', imgSrc: './images/manual/img-score-double.jpg', mascotImg: 'love.svg', isSmall: true
+            placeholderId: 'img-score-double',
+            imgSrc: './images/manual/img-score-double.jpg',
+            mascotImg: 'love.svg',
+            isSmall: true
         }
     ];
 

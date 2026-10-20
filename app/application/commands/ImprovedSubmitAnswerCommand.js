@@ -8,10 +8,7 @@
  */
 
 const Command = require('./Command');
-const {
-    executeSubmitAnswer,
-    validateSubmitAnswerPayload
-} = require('./submit-answer/executeSubmitAnswer');
+const { executeSubmitAnswer, validateSubmitAnswerPayload } = require('./submit-answer/executeSubmitAnswer');
 
 class ImprovedSubmitAnswerCommand extends Command {
     /**

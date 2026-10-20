@@ -18,7 +18,9 @@
     const HTML_ESCAPES = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', '\'': '&#39;', '`': '&#96;' };
 
     function escapeText(value) {
-        return String(value).replace(/[&<>"'`]/g, function (ch) { return HTML_ESCAPES[ch]; });
+        return String(value).replace(/[&<>"'`]/g, function (ch) {
+            return HTML_ESCAPES[ch];
+        });
     }
 
     /** Texto del pie recortado, o '' si no hay (null, no texto o solo espacios). */
@@ -38,8 +40,14 @@
         const text = footerText(slide);
         if (!text) return '';
         const safeVariant = VARIANTS.indexOf(variant) >= 0 ? variant : 'presenter';
-        return '<div class="slide-footer slide-footer--' + safeVariant + '" data-i18n-skip="true" role="note">'
-            + '<span class="slide-footer-text">' + escapeText(text) + '</span></div>';
+        return (
+            '<div class="slide-footer slide-footer--' +
+            safeVariant +
+            '" data-i18n-skip="true" role="note">' +
+            '<span class="slide-footer-text">' +
+            escapeText(text) +
+            '</span></div>'
+        );
     }
 
     const api = {

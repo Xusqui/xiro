@@ -10,7 +10,6 @@
  */
 
 const XiroGameSelector = {
-
     // Caché de la última lista cargada
     _games: [],
 
@@ -24,14 +23,14 @@ const XiroGameSelector = {
      * @returns {Promise<Array>} lista normalizada de juegos
      */
     async load() {
-        const raw = await XiroApi.getPresenterPins();   // eslint-disable-line no-undef
+        const raw = await XiroApi.getPresenterPins(); // eslint-disable-line no-undef
 
         // Normalizar tipo al inglés para uso interno
         this._games = raw.map(g => ({
             pin: g.pin || '',
             name: g.name || g.pin || '',
             type: this._normalizeType(g.type || ''),
-            questionCount: Number(g.question_count) || 0,
+            questionCount: Number(g.question_count) || 0
         }));
 
         return this._games;
@@ -76,24 +75,24 @@ const XiroGameSelector = {
      * @param {{ pin, name, type, questionCount }} game
      */
     select(game) {
-        XiroState.set({                          // eslint-disable-line no-undef
+        XiroState.set({
             selectedPin: game.pin,
             selectedGameName: game.name,
-            selectedQuestionCount: game.questionCount,
+            selectedQuestionCount: game.questionCount
         });
     },
 
     /** Limpia la selección actual. */
     clearSelection() {
-        XiroState.set({                          // eslint-disable-line no-undef
+        XiroState.set({
             selectedPin: null,
             selectedGameName: '',
-            selectedQuestionCount: 0,
+            selectedQuestionCount: 0
         });
     },
 
     /** @returns {boolean} true si hay un juego seleccionado */
     hasSelection() {
-        return !!XiroState.get('selectedPin');   // eslint-disable-line no-undef
-    },
+        return !!XiroState.get('selectedPin'); // eslint-disable-line no-undef
+    }
 };

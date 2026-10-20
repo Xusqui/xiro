@@ -8,7 +8,6 @@
  */
 
 const ViewPodium = (() => {
-
     let _podiumData = null;
     let _meta = null;
     let _session = null;
@@ -25,7 +24,7 @@ const ViewPodium = (() => {
     }
 
     function _log(level, msg, data) {
-        apiPost('/api/addin-log', { level, module: 'view-podium', message: msg, data }).catch(() => { }); // eslint-disable-line no-undef
+        apiPost('/api/addin-log', { level, module: 'view-podium', message: msg, data }).catch(() => {}); // eslint-disable-line no-undef
     }
 
     async function _loadPodium(container) {
@@ -35,9 +34,9 @@ const ViewPodium = (() => {
             return _fetchAndRender(container, _session.dbSessionId, null);
         }
 
-        const sessionId = _session.sessionId;   // roomId completo, ej. "DIATERMIA-7294"
-        const pin = _session.pin;         // PIN del juego, ej. "DIATERMIA"
-        const gameType = (_session.gameType || '');
+        const sessionId = _session.sessionId; // roomId completo, ej. "DIATERMIA-7294"
+        const pin = _session.pin; // PIN del juego, ej. "DIATERMIA"
+        const gameType = _session.gameType || '';
 
         _log('info', 'loadPodium: start', { sessionId, pin, gameType });
 
@@ -110,13 +109,17 @@ const ViewPodium = (() => {
         const medals = ['🥇', '🥈', '🥉'];
         const slotClass = ['p1', 'p2', 'p3'];
 
-        const top3Html = top3.map((r, i) => `
+        const top3Html = top3
+            .map(
+                (r, i) => `
             <div class="podium-slot ${slotClass[i]}">
                 <span class="podium-medal">${medals[i]}</span>
                 <span class="podium-name">${_esc(r.name || r.nickname || '—')}</span>
                 <span class="podium-score">${r.pts ?? r.score ?? 0} pts</span>
             </div>
-        `).join('');
+        `
+            )
+            .join('');
 
         container.innerHTML = `
             <div class="view-podium">
@@ -135,7 +138,7 @@ const ViewPodium = (() => {
         });
     }
 
-    function unmount() { }
+    function unmount() {}
 
     return { mount, unmount };
 })();

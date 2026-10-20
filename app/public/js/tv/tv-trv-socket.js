@@ -13,7 +13,7 @@ window.TVApp.TrvSocket = (function () {
         if (!state || !state.players) return;
         const pKeys = Object.keys(state.players);
         let isTeamMode = state.teamMode || false;
-        
+
         for (let i = 0; i < pKeys.length; i++) {
             if (state.players[pKeys[i]].teamName) isTeamMode = true;
         }
@@ -33,13 +33,19 @@ window.TVApp.TrvSocket = (function () {
                 teamCfg = { teams: tArr };
             }
             Tokens.updateBoardTokensTeam(
-                state.players, teamCfg, state.outerCasillas,
-                state.currentTurn, state.turnOrder
+                state.players,
+                teamCfg,
+                state.outerCasillas,
+                state.currentTurn,
+                state.turnOrder
             );
         } else {
             Tokens.updateBoardTokens(
-                state.players, state.categories, state.outerCasillas,
-                state.currentTurn, state.turnOrder
+                state.players,
+                state.categories,
+                state.outerCasillas,
+                state.currentTurn,
+                state.turnOrder
             );
         }
     }
@@ -80,7 +86,7 @@ window.TVApp.TrvSocket = (function () {
             const posLabels = data.positionLabels || [];
 
             Layout.setStatus(nickname, 'Sacó ' + diceValue + ' — ¿Dónde caerá?');
-            
+
             // TV es espectador, solo muestra parpadeos de highlight pero sin interactividad de onClick callback (que recibe null)
             Highlights.updateBoardHighlights(avail, posLabels);
         });
@@ -88,7 +94,7 @@ window.TVApp.TrvSocket = (function () {
         socket.on('trivial-player-moved', function (data) {
             const state = State.getTrivialGameState();
             if (!state) return;
-            
+
             const moved = data.movedPlayers;
             if (moved && moved.length > 0) {
                 for (let i = 0; i < moved.length; i++) {
@@ -102,7 +108,10 @@ window.TVApp.TrvSocket = (function () {
             }
 
             callUpdateBoardTokens(state);
-            Layout.setStatus(state.currentTurn, data.nickname + ' movió -> ' + data.position + '. Preparando pregunta...');
+            Layout.setStatus(
+                state.currentTurn,
+                data.nickname + ' movió -> ' + data.position + '. Preparando pregunta...'
+            );
         });
 
         socket.on('trivial-choose-category', function (data) {
@@ -121,7 +130,7 @@ window.TVApp.TrvSocket = (function () {
         socket.on('trivial-token-update', function (data) {
             if (data.players) State.updateTrivialPlayers(data.players);
             if (data.teamTokens || data.players) State.updateTrivialTokens(data.teamTokens, data.players);
-            
+
             const st = State.getTrivialGameState();
             callUpdateBoardTokens(st);
             Layout.refreshPlayerScores(st);
@@ -136,7 +145,7 @@ window.TVApp.TrvSocket = (function () {
 
             if (data.players) State.updateTrivialPlayers(data.players);
             State.updateTrivialTurn(data.currentTurn, data.phase);
-            
+
             // Si por error se había renderizado una slide global encima (ej. pregunta), volvemos a poner el layout TRV
             if (!trvC) {
                 Layout.buildTrivialLayout();
@@ -146,7 +155,7 @@ window.TVApp.TrvSocket = (function () {
                     Board.renderBoardBackground(boardEl, stateB);
                 }
             }
-            
+
             const st = State.getTrivialGameState();
             callUpdateBoardTokens(st);
             Layout.refreshPlayerScores(st);

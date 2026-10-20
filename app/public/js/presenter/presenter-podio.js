@@ -16,7 +16,7 @@ function tr(key, fallback) {
 }
 
 function escapeHtml(text) {
-    return String(text || '').replace(/[&<>'"]/g, (char) => {
+    return String(text || '').replace(/[&<>'"]/g, char => {
         const map = {
             '&': '&amp;',
             '<': '&lt;',
@@ -80,8 +80,10 @@ async function loadFireworksConfig() {
             shellSize: settings.fireworksShellSize !== undefined ? settings.fireworksShellSize : 2,
             finaleMode: settings.fireworksFinaleMode !== false,
             simSpeed: settings.fireworksSimSpeed !== undefined ? settings.fireworksSimSpeed : 1,
-            launchIntervalMin: settings.fireworksLaunchIntervalMin !== undefined ? settings.fireworksLaunchIntervalMin : 900,
-            launchIntervalMax: settings.fireworksLaunchIntervalMax !== undefined ? settings.fireworksLaunchIntervalMax : 1500,
+            launchIntervalMin:
+                settings.fireworksLaunchIntervalMin !== undefined ? settings.fireworksLaunchIntervalMin : 900,
+            launchIntervalMax:
+                settings.fireworksLaunchIntervalMax !== undefined ? settings.fireworksLaunchIntervalMax : 1500,
             maxFinaleCount: settings.fireworksMaxFinaleCount !== undefined ? settings.fireworksMaxFinaleCount : 32,
             trailIntensity: settings.fireworksTrailIntensity !== undefined ? settings.fireworksTrailIntensity : 0.175,
             starWidth: settings.fireworksStarWidth !== undefined ? settings.fireworksStarWidth : 3,
@@ -225,20 +227,25 @@ export function renderPodio(ranking) {
         const rows = ranking.slice(0, 10);
         const total = rows.length;
         // Suspense: lowest rank appears first, the winner appears last.
-        return rows.map((p, i) => {
-            const bgClass = isTeamMode
-                ? (p.color && teamColorClasses[p.color] ? teamColorClasses[p.color] + ' text-white' : 'bg-white/10 text-white')
-                : (['bg-yellow-400 text-slate-900 scale-105', 'podium-silver', 'podium-bronze'][i] || 'bg-white/10 text-white');
-            const icon = isTeamMode ? '<i class="fas fa-users mr-3"></i>' : '';
-            // Del 10º al 4º, rápido; el 3º, 2º y 1º esperan su nota (presenter-podio-reveal.js)
-            const top = i < 3;
-            const delay = top ? 0 : restRowDelay(i, total).toFixed(2);
-            return `
+        return rows
+            .map((p, i) => {
+                const bgClass = isTeamMode
+                    ? p.color && teamColorClasses[p.color]
+                        ? teamColorClasses[p.color] + ' text-white'
+                        : 'bg-white/10 text-white'
+                    : ['bg-yellow-400 text-slate-900 scale-105', 'podium-silver', 'podium-bronze'][i] ||
+                                  'bg-white/10 text-white';
+                const icon = isTeamMode ? '<i class="fas fa-users mr-3"></i>' : '';
+                // Del 10º al 4º, rápido; el 3º, 2º y 1º esperan su nota (presenter-podio-reveal.js)
+                const top = i < 3;
+                const delay = top ? 0 : restRowDelay(i, total).toFixed(2);
+                return `
                         <div class="podium-row ${top ? 'podium-row-wait' : ''} flex justify-between items-center p-6 rounded-3xl ${bgClass} border-b-4 border-black/20" data-place="${i + 1}" style="animation-delay:${delay}s">
                             <span class="text-3xl font-black uppercase italic">${icon}${i + 1}º ${escapeHtml(p.name)}</span>
-                            <span class="podium-score text-4xl font-black">${p.scoreLabel || (p.pts + ' PTS')}</span>
+                            <span class="podium-score text-4xl font-black">${p.scoreLabel || p.pts + ' PTS'}</span>
                         </div>`;
-        }).join('');
+            })
+            .join('');
     })()}
             </div>
             ${isTeamMode ? `<p class="podium-team-note">${_t('presenter.podio.team_score_note', null, 'Puntuación de equipo: media de sus jugadores, ajustada cuando los equipos tienen distinto tamaño')}</p>` : ''}

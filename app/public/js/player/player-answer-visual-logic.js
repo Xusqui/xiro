@@ -21,10 +21,12 @@
     }
 
     function shouldShowApproximateResult({ isOrder, currentSlideType, data }) {
-        return !isOrder
-            && isNumericApproximationQuestion(currentSlideType, data?.correctAnswer)
-            && data?.correct === false
-            && Number(data?.points) > 0;
+        return (
+            !isOrder &&
+            isNumericApproximationQuestion(currentSlideType, data?.correctAnswer) &&
+            data?.correct === false &&
+            Number(data?.points) > 0
+        );
     }
 
     function resolveResultColor({ isOrder, isFullyCorrect, isApproximate, isCorrect }) {
@@ -58,4 +60,4 @@
     if (typeof module !== 'undefined' && module.exports) {
         module.exports = api;
     }
-}(typeof globalThis !== 'undefined' ? globalThis : (typeof window !== 'undefined' ? window : this)));
+})(typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : this);

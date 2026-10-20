@@ -27,7 +27,11 @@ function buildChunkPlan(text, { mode, counts, batchSize }) {
         const sizes = plan.chunks.map(c => c.length);
         const avg = Math.round(sizes.reduce((a, b) => a + b, 0) / sizes.length);
         logger.info(`[ai-generator] Documento troceado en ${plan.chunks.length} secciones para ${totalBatches} lotes`, {
-            docChars: text.length, chunkChars: maxChars, avgChars: avg, smallestChars: Math.min(...sizes), largestChars: Math.max(...sizes)
+            docChars: text.length,
+            chunkChars: maxChars,
+            avgChars: avg,
+            smallestChars: Math.min(...sizes),
+            largestChars: Math.max(...sizes)
         });
         logger.debug('[ai-generator] Tamaño de cada trozo', { sizes });
     }
@@ -41,7 +45,9 @@ function withBatchLog(plan, totalBatches) {
     plan.next = () => {
         const chunk = next();
         batch++;
-        logger.debug(`[ai-generator] Lote ${batch}/${totalBatches}: trozo ${plan.lastIndex + 1}/${plan.chunks.length} (${chunk.length} caracteres)`);
+        logger.debug(
+            `[ai-generator] Lote ${batch}/${totalBatches}: trozo ${plan.lastIndex + 1}/${plan.chunks.length} (${chunk.length} caracteres)`
+        );
         return chunk;
     };
     return plan;

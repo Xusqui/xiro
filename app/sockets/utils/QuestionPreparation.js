@@ -82,7 +82,7 @@ function prepareFillBlanksLogged(question, context = {}) {
  * - custom_game: NO barajar preguntas (orden definido por admin), sí barajar opciones
  * - bank/quiz: SÍ barajar preguntas y opciones
  * - order: SÍ barajar opciones, manteniendo order_index para corrección
- * 
+ *
  * @param {Array} questions - Array de preguntas cargadas
  * @param {String} gameType - Tipo de juego: 'custom_game', 'bank', 'quiz'
  * @returns {Array} Preguntas preparadas
@@ -114,11 +114,11 @@ function prepareQuestions(questions, gameType) {
 
         // No barajar opciones para slides especiales (comment/info/text) o encuestas
         if (
-            q.slide_type === 'comment'
-            || q.slide_type === 'info'
-            || q.slide_type === 'text'
-            || q.slide_type === 'image'
-            || q.question_type === 'survey'
+            q.slide_type === 'comment' ||
+            q.slide_type === 'info' ||
+            q.slide_type === 'text' ||
+            q.slide_type === 'image' ||
+            q.question_type === 'survey'
         ) {
             return q;
         }

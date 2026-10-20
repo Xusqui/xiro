@@ -12,34 +12,73 @@
     'use strict';
 
     const root = typeof window !== 'undefined' ? window : globalThis;
-    const XiroCanvasEditor = root.XiroCanvasEditor = root.XiroCanvasEditor || {};
+    const XiroCanvasEditor = (root.XiroCanvasEditor = root.XiroCanvasEditor || {});
 
     const SIZE_STEP = 4;
     // Textos: claves admin.canvas.tb.* (slides-canvas-i18n.js)
-    const ALIGNS = [['left', 'fa-align-left'], ['center', 'fa-align-center'], ['right', 'fa-align-right']];
+    const ALIGNS = [
+        ['left', 'fa-align-left'],
+        ['center', 'fa-align-center'],
+        ['right', 'fa-align-right']
+    ];
 
     let bar = null;
     let shownId = null;
 
     function button(attrs, icon, key) {
         const title = XiroCanvasEditor.th(key);
-        return '<button type="button" class="xsce-tool xiro-toolbar-btn" ' + attrs + ' data-tooltip="' + title + '" aria-label="' + title + '"><i class="fas ' + icon + '" aria-hidden="true"></i></button>';
+        return (
+            '<button type="button" class="xsce-tool xiro-toolbar-btn" ' +
+            attrs +
+            ' data-tooltip="' +
+            title +
+            '" aria-label="' +
+            title +
+            '"><i class="fas ' +
+            icon +
+            '" aria-hidden="true"></i></button>'
+        );
     }
 
     function html() {
         const th = XiroCanvasEditor.th;
         const families = root.XiroSlideCanvas.FONTS;
-        const fonts = XiroCanvasEditor.FONT_OPTIONS.map((f) => '<option value="' + f[0] + '" style="font-family:' + families[f[0]].replace(/"/g, '') + '">' + th(f[1]) + '</option>').join('');
-        return '<select class="xsce-tb-font" data-tb="font" title="' + th('tb.font') + '" aria-label="' + th('tb.font') + '">' + fonts + '</select>'
-            + button('data-tb-step="-' + SIZE_STEP + '"', 'fa-minus', 'tb.smaller')
-            + '<input type="number" class="xsce-tb-size" data-tb="size" min="8" max="400" title="' + th('tb.size') + '" aria-label="' + th('tb.size') + '">'
-            + button('data-tb-step="' + SIZE_STEP + '"', 'fa-plus', 'tb.bigger')
-            + '<span class="xsce-sep" aria-hidden="true"></span>'
-            + button('data-tb-toggle="bold"', 'fa-bold', 'tb.bold')
-            + button('data-tb-toggle="italic"', 'fa-italic', 'tb.italic')
-            + '<input type="color" class="xsce-swatch" data-tb="color" title="' + th('tb.color') + '" aria-label="' + th('tb.color') + '">'
-            + '<span class="xsce-sep" aria-hidden="true"></span>'
-            + ALIGNS.map((a) => button('data-tb-align="' + a[0] + '"', a[1], 'tb.align_' + a[0])).join('');
+        const fonts = XiroCanvasEditor.FONT_OPTIONS.map(
+            f =>
+                '<option value="' +
+                f[0] +
+                '" style="font-family:' +
+                families[f[0]].replace(/"/g, '') +
+                '">' +
+                th(f[1]) +
+                '</option>'
+        ).join('');
+        return (
+            '<select class="xsce-tb-font" data-tb="font" title="' +
+            th('tb.font') +
+            '" aria-label="' +
+            th('tb.font') +
+            '">' +
+            fonts +
+            '</select>' +
+            button('data-tb-step="-' + SIZE_STEP + '"', 'fa-minus', 'tb.smaller') +
+            '<input type="number" class="xsce-tb-size" data-tb="size" min="8" max="400" title="' +
+            th('tb.size') +
+            '" aria-label="' +
+            th('tb.size') +
+            '">' +
+            button('data-tb-step="' + SIZE_STEP + '"', 'fa-plus', 'tb.bigger') +
+            '<span class="xsce-sep" aria-hidden="true"></span>' +
+            button('data-tb-toggle="bold"', 'fa-bold', 'tb.bold') +
+            button('data-tb-toggle="italic"', 'fa-italic', 'tb.italic') +
+            '<input type="color" class="xsce-swatch" data-tb="color" title="' +
+            th('tb.color') +
+            '" aria-label="' +
+            th('tb.color') +
+            '">' +
+            '<span class="xsce-sep" aria-hidden="true"></span>' +
+            ALIGNS.map(a => button('data-tb-align="' + a[0] + '"', a[1], 'tb.align_' + a[0])).join('')
+        );
     }
 
     function selectedText() {
@@ -55,7 +94,7 @@
         bar.title = el ? '' : XiroCanvasEditor.t('tb.idle');
         if (!el) {
             shownId = null;
-            bar.querySelectorAll('.is-on').forEach((b) => b.classList.remove('is-on'));
+            bar.querySelectorAll('.is-on').forEach(b => b.classList.remove('is-on'));
             return;
         }
         // No se pisa el número que se está escribiendo
@@ -65,8 +104,12 @@
         bar.querySelector('[data-tb="font"]').value = p.font;
         if (!typing) bar.querySelector('[data-tb="size"]').value = p.size;
         bar.querySelector('[data-tb="color"]').value = p.color.slice(0, 7);
-        bar.querySelectorAll('[data-tb-toggle]').forEach((b) => b.classList.toggle('is-on', !!p[b.getAttribute('data-tb-toggle')]));
-        bar.querySelectorAll('[data-tb-align]').forEach((b) => b.classList.toggle('is-on', p.align === b.getAttribute('data-tb-align')));
+        bar.querySelectorAll('[data-tb-toggle]').forEach(b =>
+            b.classList.toggle('is-on', !!p[b.getAttribute('data-tb-toggle')])
+        );
+        bar.querySelectorAll('[data-tb-align]').forEach(b =>
+            b.classList.toggle('is-on', p.align === b.getAttribute('data-tb-align'))
+        );
     }
 
     function setProp(key, value, silent) {
@@ -104,8 +147,8 @@
             bar = barEl;
             shownId = null;
             bar.innerHTML = html();
-            bar.addEventListener('input', (e) => onField(e, true));
-            bar.addEventListener('change', (e) => onField(e, false));
+            bar.addEventListener('input', e => onField(e, true));
+            bar.addEventListener('change', e => onField(e, false));
             bar.addEventListener('click', onClick);
             XiroCanvasEditor.onRender(render);
             render();

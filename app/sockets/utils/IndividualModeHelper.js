@@ -129,11 +129,14 @@ async function checkAllPlayersAnswered(game, players, io, currentIndex) {
     const answeredCount = answeredPlayers.length;
     const connectedCount = answeredPlayers.length + notAnsweredPlayers.length;
 
-    logger.info(`Modo individual - Respondieron ${answeredCount}/${connectedCount} jugadores conectados (de ${activePlayers.length} activos)`, {
-        answeredPlayers,
-        notAnsweredPlayers,
-        allAnswered: notAnsweredPlayers.length === 0
-    });
+    logger.info(
+        `Modo individual - Respondieron ${answeredCount}/${connectedCount} jugadores conectados (de ${activePlayers.length} activos)`,
+        {
+            answeredPlayers,
+            notAnsweredPlayers,
+            allAnswered: notAnsweredPlayers.length === 0
+        }
+    );
 
     return notAnsweredPlayers.length === 0;
 }

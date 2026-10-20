@@ -22,9 +22,7 @@ function toPositiveNumber(value) {
 
 function normalizeToleranceConfig(question = {}) {
     const rawMode = String(question.tolerance_mode || '').toLowerCase();
-    const mode = Object.values(NUMERIC_TOLERANCE_MODES).includes(rawMode)
-        ? rawMode
-        : NUMERIC_TOLERANCE_DEFAULTS.mode;
+    const mode = Object.values(NUMERIC_TOLERANCE_MODES).includes(rawMode) ? rawMode : NUMERIC_TOLERANCE_DEFAULTS.mode;
 
     const value = toPositiveNumber(question.tolerance_value) ?? NUMERIC_TOLERANCE_DEFAULTS.value;
     const cap = toPositiveNumber(question.tolerance_cap);

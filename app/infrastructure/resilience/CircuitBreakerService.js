@@ -1,12 +1,12 @@
 /**
  * @fileoverview Circuit Breaker Pattern Implementation
  * @module infrastructure/resilience/CircuitBreakerService
- * 
+ *
  * Implementa el patrón Circuit Breaker para proteger servicios externos:
  * - CLOSED: Funcionamiento normal
  * - OPEN: Circuito abierto (fail fast sin intentar)
  * - HALF_OPEN: Probando si el servicio se recuperó
- * 
+ *
  * Estados:
  * CLOSED → (threshold errores) → OPEN → (timeout) → HALF_OPEN → (success) → CLOSED
  *                                                  → (error) → OPEN
@@ -18,9 +18,9 @@ const EventEmitter = require('events');
  * Estados posibles del Circuit Breaker
  */
 const CircuitState = {
-    CLOSED: 'CLOSED',       // Funcionamiento normal
-    OPEN: 'OPEN',           // Circuito abierto (fail fast)
-    HALF_OPEN: 'HALF_OPEN'  // Probando recuperación
+    CLOSED: 'CLOSED', // Funcionamiento normal
+    OPEN: 'OPEN', // Circuito abierto (fail fast)
+    HALF_OPEN: 'HALF_OPEN' // Probando recuperación
 };
 
 /**
@@ -174,9 +174,7 @@ class CircuitBreakerService extends EventEmitter {
         this.recentCalls.push({ timestamp: now, success });
 
         // Limpiar llamadas antiguas fuera del período de monitoreo
-        this.recentCalls = this.recentCalls.filter(
-            call => now - call.timestamp < this.monitoringPeriod
-        );
+        this.recentCalls = this.recentCalls.filter(call => now - call.timestamp < this.monitoringPeriod);
     }
 
     /**

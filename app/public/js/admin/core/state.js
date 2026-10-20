@@ -13,14 +13,22 @@ let cuestionarioCargado = null;
 
 // Exponer al bridge seguro (let no es propiedad de globalThis, pero sí con defineProperty)
 Object.defineProperty(globalThis, 'preguntasData', {
-    get() { return preguntasData; },
-    set(v) { preguntasData = v; },
+    get() {
+        return preguntasData;
+    },
+    set(v) {
+        preguntasData = v;
+    },
     configurable: true,
     enumerable: false
 });
 Object.defineProperty(globalThis, 'currentBanks', {
-    get() { return currentBanks; },
-    set(v) { currentBanks = v; },
+    get() {
+        return currentBanks;
+    },
+    set(v) {
+        currentBanks = v;
+    },
     configurable: true,
     enumerable: false
 });
@@ -43,7 +51,7 @@ if (typeof fetch === 'function') {
     fetch('/api/ui-settings')
         .then(r => r.json())
         .then(settings => setDefaultQuestionTimeLimit(settings.questionTimeLimit))
-        .catch(() => { });
+        .catch(() => {});
 }
 
 // ===== MULTIMEDIA - CONSTANTES =====
@@ -71,5 +79,7 @@ function escapeHtml(text) {
 // de data-admin-click/data-admin-change se usa como escapeHtml(jsStringContent(x)):
 // el navegador deshace el escape HTML y _parseAdminInlineString el de JS.
 function jsStringContent(value) {
-    return String(value ?? '').replace(/\\/g, '\\\\').replace(/'/g, '\\\'');
+    return String(value ?? '')
+        .replace(/\\/g, '\\\\')
+        .replace(/'/g, '\\\'');
 }

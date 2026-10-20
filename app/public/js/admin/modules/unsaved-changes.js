@@ -92,7 +92,11 @@ function navigateWithUnsavedChangesGuard(onContinue) {
 
     mostrarModalConfirmacion(
         _t('admin.unsaved.title', null, '⚠️ Cambios sin guardar'),
-        _t('admin.unsaved.msg_exit', null, 'Tienes cambios sin guardar. Si sales ahora, se perderán. ¿Quieres continuar?'),
+        _t(
+            'admin.unsaved.msg_exit',
+            null,
+            'Tienes cambios sin guardar. Si sales ahora, se perderán. ¿Quieres continuar?'
+        ),
         () => {
             clearUnsavedChangesGuard();
             onContinue();
@@ -115,7 +119,11 @@ function executeWithUnsavedChangesGuard(onContinue) {
 
     mostrarModalConfirmacion(
         _t('admin.unsaved.title', null, '⚠️ Cambios sin guardar'),
-        _t('admin.unsaved.msg_navigate', null, 'Tienes cambios sin guardar. Si continúas, se perderán. ¿Quieres continuar?'),
+        _t(
+            'admin.unsaved.msg_navigate',
+            null,
+            'Tienes cambios sin guardar. Si continúas, se perderán. ¿Quieres continuar?'
+        ),
         () => {
             clearUnsavedChangesGuard();
             onContinue();

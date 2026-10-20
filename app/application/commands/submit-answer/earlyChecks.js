@@ -23,15 +23,7 @@ const MIN_RESPONSE_MS = 300;
  * @returns {Promise<{shouldStop: boolean, result?: Object}>}
  */
 async function runEarlyChecks(ctx) {
-    const {
-        game,
-        player,
-        playerId,
-        socket,
-        currentQuestion,
-        nickname,
-        sPin
-    } = ctx;
+    const { game, player, playerId, socket, currentQuestion, nickname, sPin } = ctx;
 
     // If game ended, answer is accepted but ignored for scoring.
     if (game?.ended) {

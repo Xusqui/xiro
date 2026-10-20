@@ -2,7 +2,13 @@
  * @fileoverview Renderizado de slides (comentarios e info)
  */
 
-import { getIsTeamMode, getTeamConfig, getCurrentQuestionIndex, getTotalQuestions, getPlayersData } from './presenter-state.js?v=20260922172926';
+import {
+    getIsTeamMode,
+    getTeamConfig,
+    getCurrentQuestionIndex,
+    getTotalQuestions,
+    getPlayersData
+} from './presenter-state.js?v=20260922172926';
 import { removeFloatingCards, showAbandonButton, showTerminateButton } from './presenter-utils.js?v=20260922172926';
 import { cleanupRevealElements } from './presenter-reveal.js?v=20260922172926';
 import { cleanupPodio } from './presenter-podio.js?v=20260922172926';
@@ -51,10 +57,11 @@ export function renderCommentSlide(slide) {
             lime: 'bg-lime-500'
         };
 
-        pointsGrid = teamConfig.teams.map(team => {
-            const safeTeamName = escapeHtml(team.name);
-            const encodedTeamName = encodeInlineArg(team.name);
-            return `
+        pointsGrid = teamConfig.teams
+            .map(team => {
+                const safeTeamName = escapeHtml(team.name);
+                const encodedTeamName = encodeInlineArg(team.name);
+                return `
                 <div class="manual-points-card ${teamColors[team.color] || 'bg-plum-600'} backdrop-blur rounded-xl p-4 flex flex-col items-center gap-3 border-2 border-white/30">
                     <div class="flex items-center gap-2">
                         <i class="fas fa-users text-white text-xl"></i>
@@ -75,13 +82,15 @@ export function renderCommentSlide(slide) {
                     <p class="text-white/70 text-xs italic text-center mt-1">${_t('presenter.slides.points_per_player', null, 'Los puntos se suman a cada jugador')}</p>
                 </div>
             `;
-        }).join('');
+            })
+            .join('');
     } else {
         // MODO INDIVIDUAL
-        pointsGrid = Object.keys(playersData).map(nick => {
-            const safeNick = escapeHtml(nick);
-            const encodedNick = encodeInlineArg(nick);
-            return `
+        pointsGrid = Object.keys(playersData)
+            .map(nick => {
+                const safeNick = escapeHtml(nick);
+                const encodedNick = encodeInlineArg(nick);
+                return `
             <div class="manual-points-card manual-points-card--player bg-white/20 backdrop-blur rounded-xl p-4 flex flex-col items-center gap-2">
                 <span class="text-white font-bold text-sm truncate w-full text-center">${safeNick}</span>
                 <span class="text-white/80 text-xs">${playersData[nick].score || 0} pts</span>
@@ -98,7 +107,8 @@ export function renderCommentSlide(slide) {
                 </div>
             </div>
         `;
-        }).join('');
+            })
+            .join('');
     }
 
     const safeCommentText = escapeHtml(slide?.comment_text || '');
@@ -122,8 +132,8 @@ export function renderCommentSlide(slide) {
             </div>
             
             <button id="btn-next" data-presenter-action="next-question" class="fixed bottom-10 right-10 bg-white text-slate-900 px-10 py-5 rounded-3xl font-black text-2xl shadow-2xl hover:bg-plum-600 hover:text-white transition italic uppercase" style="z-index: 10000;">
-                ${window.isTrivialGame ? _t('presenter.slides.next_round', null, 'Siguiente Ronda') : (getCurrentQuestionIndex() >= getTotalQuestions() - 1 ? _t('presenter.slides.view_ranking', null, 'Ver Ránking') : _t('presenter.slides.next', null, 'Siguiente'))}
-                <i class="fas ${window.isTrivialGame ? 'fa-rotate-right' : (getCurrentQuestionIndex() >= getTotalQuestions() - 1 ? 'fa-trophy' : 'fa-chevron-right')} ml-2"></i>
+                ${window.isTrivialGame ? _t('presenter.slides.next_round', null, 'Siguiente Ronda') : getCurrentQuestionIndex() >= getTotalQuestions() - 1 ? _t('presenter.slides.view_ranking', null, 'Ver Ránking') : _t('presenter.slides.next', null, 'Siguiente')}
+                <i class="fas ${window.isTrivialGame ? 'fa-rotate-right' : getCurrentQuestionIndex() >= getTotalQuestions() - 1 ? 'fa-trophy' : 'fa-chevron-right'} ml-2"></i>
             </button>
         </div>
     `);
@@ -162,8 +172,8 @@ export function renderInfoSlide(slide) {
             </div>
             
             <button id="btn-next" data-presenter-action="next-question" class="fixed bottom-10 right-10 bg-white text-slate-900 px-10 py-5 rounded-3xl font-black text-2xl shadow-2xl hover:bg-blue-600 hover:text-white transition italic uppercase" style="z-index: 10000;">
-                ${window.isTrivialGame ? _t('presenter.slides.next_round', null, 'Siguiente Ronda') : (getCurrentQuestionIndex() >= getTotalQuestions() - 1 ? _t('presenter.slides.view_ranking', null, 'Ver Ránking') : _t('presenter.slides.next', null, 'Siguiente'))}
-                <i class="fas ${window.isTrivialGame ? 'fa-rotate-right' : (getCurrentQuestionIndex() >= getTotalQuestions() - 1 ? 'fa-trophy' : 'fa-chevron-right')} ml-2"></i>
+                ${window.isTrivialGame ? _t('presenter.slides.next_round', null, 'Siguiente Ronda') : getCurrentQuestionIndex() >= getTotalQuestions() - 1 ? _t('presenter.slides.view_ranking', null, 'Ver Ránking') : _t('presenter.slides.next', null, 'Siguiente')}
+                <i class="fas ${window.isTrivialGame ? 'fa-rotate-right' : getCurrentQuestionIndex() >= getTotalQuestions() - 1 ? 'fa-trophy' : 'fa-chevron-right'} ml-2"></i>
             </button>
         </div>
     `);
@@ -207,8 +217,8 @@ export function renderTextSlide(slide) {
             </div>
 
             <button id="btn-next" data-presenter-action="next-question" class="fixed bottom-10 right-10 bg-white text-slate-900 px-10 py-5 rounded-3xl font-black text-2xl shadow-2xl hover:bg-aubergine-600 hover:text-white transition italic uppercase" style="z-index: 10000;">
-                ${window.isTrivialGame ? _t('presenter.slides.next_round', null, 'Siguiente Ronda') : (getCurrentQuestionIndex() >= getTotalQuestions() - 1 ? _t('presenter.slides.view_ranking', null, 'Ver Ránking') : _t('presenter.slides.next', null, 'Siguiente'))}
-                <i class="fas ${window.isTrivialGame ? 'fa-rotate-right' : (getCurrentQuestionIndex() >= getTotalQuestions() - 1 ? 'fa-trophy' : 'fa-chevron-right')} ml-2"></i>
+                ${window.isTrivialGame ? _t('presenter.slides.next_round', null, 'Siguiente Ronda') : getCurrentQuestionIndex() >= getTotalQuestions() - 1 ? _t('presenter.slides.view_ranking', null, 'Ver Ránking') : _t('presenter.slides.next', null, 'Siguiente')}
+                <i class="fas ${window.isTrivialGame ? 'fa-rotate-right' : getCurrentQuestionIndex() >= getTotalQuestions() - 1 ? 'fa-trophy' : 'fa-chevron-right'} ml-2"></i>
             </button>
         </div>
     `);
@@ -240,13 +250,14 @@ export function renderImageSlide(slide) {
 
     lobbyMain.innerHTML = _tHtml(`
         <div class="h-full w-full flex items-center justify-center" style="background: #111827; padding: 0; margin: 0;">
-            ${imageUrl
+            ${
+    imageUrl
         ? `<div class="slide-img-box" style="width: 100%; height: 100%;"><img class="slide-img-fit" src="${imageUrl}" /></div>`
         : '<div style="color: rgba(255,255,255,0.3); text-align: center;"><i class="fas fa-image fa-6x"></i></div>'
 }
             <button id="btn-next" data-presenter-action="next-question" class="fixed bottom-10 right-10 bg-white text-slate-900 px-10 py-5 rounded-3xl font-black text-2xl shadow-2xl hover:bg-aubergine-600 hover:text-white transition italic uppercase" style="z-index: 10000;">
-                ${window.isTrivialGame ? _t('presenter.slides.next_round', null, 'Siguiente Ronda') : (getCurrentQuestionIndex() >= getTotalQuestions() - 1 ? _t('presenter.slides.view_ranking', null, 'Ver Ránking') : _t('presenter.slides.next', null, 'Siguiente'))}
-                <i class="fas ${window.isTrivialGame ? 'fa-rotate-right' : (getCurrentQuestionIndex() >= getTotalQuestions() - 1 ? 'fa-trophy' : 'fa-chevron-right')} ml-2"></i>
+                ${window.isTrivialGame ? _t('presenter.slides.next_round', null, 'Siguiente Ronda') : getCurrentQuestionIndex() >= getTotalQuestions() - 1 ? _t('presenter.slides.view_ranking', null, 'Ver Ránking') : _t('presenter.slides.next', null, 'Siguiente')}
+                <i class="fas ${window.isTrivialGame ? 'fa-rotate-right' : getCurrentQuestionIndex() >= getTotalQuestions() - 1 ? 'fa-trophy' : 'fa-chevron-right'} ml-2"></i>
             </button>
         </div>
     `);

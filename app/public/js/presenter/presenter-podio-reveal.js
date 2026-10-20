@@ -4,10 +4,10 @@
  * que emite el motor en el instante del golpe); sin música, a un ritmo fijo.
  */
 
-const REST_SECONDS = 2;          // filas del 10º al 4º, en total
+const REST_SECONDS = 2; // filas del 10º al 4º, en total
 const MAX_ROW_STEP = 0.3;
-const FALLBACK_STEP_MS = 550;    // sin música: un puesto cada ~negra
-const SAFETY_MS = 9000;          // si la música no avisa, se enseñan igualmente
+const FALLBACK_STEP_MS = 550; // sin música: un puesto cada ~negra
+const SAFETY_MS = 9000; // si la música no avisa, se enseñan igualmente
 
 /** Retraso (s) de la fila `index` (0 = 1º) cuando hay `total` filas: la 10ª primero. */
 export function restRowDelay(index, total) {
@@ -22,12 +22,12 @@ export function restRowDelay(index, total) {
  */
 export function startPodiumReveal(container, total) {
     const timers = [];
-    const reveal = (place) => {
+    const reveal = place => {
         const row = container.querySelector(`.podium-row[data-place="${place}"]`);
         if (row) row.classList.remove('podium-row-wait');
     };
     const revealAll = () => [3, 2, 1].forEach(reveal);
-    const onHit = (e) => reveal(e.detail.place);
+    const onHit = e => reveal(e.detail.place);
     const music = window.XiroPresenterMusic;
 
     if (music && music.drivesPodium()) {

@@ -23,7 +23,11 @@ router.get('/api/admin/license-exemptions', authenticateAdmin, authorizeAdmin, a
         res.json({ success: true, items });
     } catch (error) {
         logger.error('Error listing license exemptions', { error: error.message });
-        res.status(500).json({ success: false, error: 'No se pudo obtener el listado', code: 'LICENSE_EXEMPTIONS_LIST_FAILED' });
+        res.status(500).json({
+            success: false,
+            error: 'No se pudo obtener el listado',
+            code: 'LICENSE_EXEMPTIONS_LIST_FAILED'
+        });
     }
 });
 
@@ -41,9 +45,15 @@ router.post(
         }
 
         try {
-            const result = await exemptionService.setLicenseExemption(resourceType, resourceId, req.body.exempt === true);
+            const result = await exemptionService.setLicenseExemption(
+                resourceType,
+                resourceId,
+                req.body.exempt === true
+            );
             if (!result) {
-                return res.status(404).json({ success: false, error: 'Contenido no encontrado', code: 'RESOURCE_NOT_FOUND' });
+                return res
+                    .status(404)
+                    .json({ success: false, error: 'Contenido no encontrado', code: 'RESOURCE_NOT_FOUND' });
             }
 
             invalidateOwnerCacheForPin(result.pin);
@@ -57,7 +67,11 @@ router.post(
             res.json({ success: true, type: resourceType, id: result.id, licenseExempt: result.licenseExempt });
         } catch (error) {
             logger.error('Error updating license exemption', { resourceType, resourceId, error: error.message });
-            res.status(500).json({ success: false, error: 'No se pudo actualizar', code: 'LICENSE_EXEMPTION_UPDATE_FAILED' });
+            res.status(500).json({
+                success: false,
+                error: 'No se pudo actualizar',
+                code: 'LICENSE_EXEMPTION_UPDATE_FAILED'
+            });
         }
     }
 );

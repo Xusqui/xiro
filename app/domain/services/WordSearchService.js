@@ -15,7 +15,16 @@ const { SCORING, WORD_SEARCH } = require('../../config/game-constants');
 const Shadow = require('../../public/js/core/word-search-shadow.js');
 
 // 8 direcciones [dr, dc]: → ← ↓ ↑ ↘ ↖ ↙ ↗
-const DIRECTIONS = [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [-1, -1], [1, -1], [-1, 1]];
+const DIRECTIONS = [
+    [0, 1],
+    [0, -1],
+    [1, 0],
+    [-1, 0],
+    [1, 1],
+    [-1, -1],
+    [1, -1],
+    [-1, 1]
+];
 const FILLER_ALPHABET = 'ABCDEFGHIJLMNOPRSTUVZ';
 const MAX_LAYOUT_ATTEMPTS = 40;
 const MAX_FILL_ATTEMPTS = 25;
@@ -79,14 +88,19 @@ function candidatesFor(word, [dr, dc], cells, size) {
 function layoutWords(words, cells, size, rng) {
     const placements = [];
     for (const word of words) {
-        const options = DIRECTIONS
-            .map(dir => ({ dir, spots: candidatesFor(word, dir, cells, size) }))
-            .filter(o => o.spots.length > 0);
+        const options = DIRECTIONS.map(dir => ({ dir, spots: candidatesFor(word, dir, cells, size) })).filter(
+            o => o.spots.length > 0
+        );
         if (options.length === 0) return null;
 
-        const { dir: [dr, dc], spots } = randomItem(options, rng);
+        const {
+            dir: [dr, dc],
+            spots
+        } = randomItem(options, rng);
         const { row, col } = randomItem(spots, rng);
-        [...word].forEach((letter, i) => { cells[row + dr * i][col + dc * i] = letter; });
+        [...word].forEach((letter, i) => {
+            cells[row + dr * i][col + dc * i] = letter;
+        });
         placements.push({ word, row, col, dr, dc });
     }
     return placements;
@@ -166,8 +180,9 @@ function generateGrid(rawWords, { size = WORD_SEARCH.GRID_SIZE, rng = Math.rando
  * @returns {Object}
  */
 function prepareWordSearchQuestion(question, rng = Math.random) {
-    const options = [...(question?.options || [])]
-        .sort((a, b) => (a.order_index ?? a.orderIndex ?? 0) - (b.order_index ?? b.orderIndex ?? 0));
+    const options = [...(question?.options || [])].sort(
+        (a, b) => (a.order_index ?? a.orderIndex ?? 0) - (b.order_index ?? b.orderIndex ?? 0)
+    );
     const prepared = { ...question, options, ws_words: getQuestionWords({ options }) };
     try {
         const { grid, placements } = generateGrid(prepared.ws_words, { rng });
@@ -246,7 +261,14 @@ function wordSearchTimeBonus(basePoints, timeElapsed, questionTimeLimit) {
  *           timeElapsed?: number, questionTimeLimit?: number }} params
  * @returns {{ isCorrect, pointsEarned, isSurvey, details }}
  */
-function processWordSearchAnswer({ question, found, hintedWords = [], sharedFound = [], timeElapsed, questionTimeLimit }) {
+function processWordSearchAnswer({
+    question,
+    found,
+    hintedWords = [],
+    sharedFound = [],
+    timeElapsed,
+    questionTimeLimit
+}) {
     const hinted = toIndexSet(hintedWords);
     const shared = toIndexSet(sharedFound);
     const words = getQuestionWords(question);

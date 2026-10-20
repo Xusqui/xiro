@@ -90,5 +90,5 @@ module.exports = {
     isScorable,
     hasTimer,
     usesRandomPoints,
-    resolveBasePoints,
+    resolveBasePoints
 };

@@ -18,7 +18,7 @@ const createRedisClient = async () => {
         url: REDIS_URL,
         password: process.env.REDIS_PASSWORD || undefined
     });
-    client.on('error', (err) => {
+    client.on('error', err => {
         logger.error('Redis client error', err);
     });
     client.on('connect', () => {
@@ -55,7 +55,7 @@ const bootstrapWorker = async () => {
 
     await refreshStateFromRedis();
 
-    await stateSubscriber.subscribe('estado_partida_sync', (message) => {
+    await stateSubscriber.subscribe('estado_partida_sync', message => {
         try {
             inMemoryState = JSON.parse(message);
         } catch (err) {
@@ -66,9 +66,7 @@ const bootstrapWorker = async () => {
     const httpServer = http.createServer();
 
     // Convertir CORS_ORIGIN a array para Socket.IO
-    const corsOrigin = process.env.CORS_ORIGIN
-        ? process.env.CORS_ORIGIN.split(',').map(o => o.trim())
-        : '*';
+    const corsOrigin = process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',').map(o => o.trim()) : '*';
 
     const io = new Server(httpServer, {
         serveClient: false,
@@ -78,15 +76,15 @@ const bootstrapWorker = async () => {
             credentials: true
         },
         // Configuración para soportar 2000+ conexiones simultáneas
-        maxHttpBufferSize: 64e3,        // 64KB — suficiente para el estado del juego (antes 1MB)
-        connectTimeout: 10000,          // Abortar handshakes lentos tras 10s
-        pingInterval: 10000,            // Ping cada 10s
-        pingTimeout: 5000,              // Timeout después de 5s sin respuesta
+        maxHttpBufferSize: 64e3, // 64KB — suficiente para el estado del juego (antes 1MB)
+        connectTimeout: 10000, // Abortar handshakes lentos tras 10s
+        pingInterval: 10000, // Ping cada 10s
+        pingTimeout: 5000, // Timeout después de 5s sin respuesta
         transports: ['websocket', 'polling'],
         allowUpgrades: true,
-        httpCompression: true,          // Comprime respuestas HTTP/polling
+        httpCompression: true, // Comprime respuestas HTTP/polling
         perMessageDeflate: {
-            threshold: 512              // Comprimir frames WS desde 512B (antes 1024)
+            threshold: 512 // Comprimir frames WS desde 512B (antes 1024)
         }
     });
 
@@ -95,7 +93,7 @@ const bootstrapWorker = async () => {
     // Middleware de autenticación/asignación de rol
     io.use(createSocketRoleMiddleware());
 
-    io.on('connection', (socket) => {
+    io.on('connection', socket => {
         socket.join(GLOBAL_ROOM);
         logger.debug(`[${process.pid}] connection established role=${socket.data.role} joined=${GLOBAL_ROOM}`);
 
@@ -118,7 +116,7 @@ const bootstrapWorker = async () => {
             void Promise.allSettled([
                 stateClient.set('estado_partida', serialized),
                 stateClient.publish('estado_partida_sync', serialized)
-            ]).catch((err) => {
+            ]).catch(err => {
                 logger.error('Persist/sync error', err);
             });
 
@@ -128,7 +126,7 @@ const bootstrapWorker = async () => {
             }
         });
 
-        socket.on('cliente:solicita_estado', (ack) => {
+        socket.on('cliente:solicita_estado', ack => {
             if (typeof ack === 'function') {
                 ack({ estado: inMemoryState, role: socket.data.role });
             }
@@ -159,12 +157,12 @@ if (cluster.isPrimary) {
         cluster.fork();
     }
 
-    cluster.on('exit', (worker) => {
+    cluster.on('exit', worker => {
         logger.warn(`Worker ${worker.process.pid} died, restarting`);
         cluster.fork();
     });
 } else {
-    bootstrapWorker().catch((err) => {
+    bootstrapWorker().catch(err => {
         logger.error('Worker bootstrap failed', err);
         process.exit(1);
     });

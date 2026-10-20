@@ -96,20 +96,37 @@ function validateRandomPointsConfig(config) {
     const { random_points_min: min, random_points_max: max } = config;
 
     if (!Number.isInteger(min) || !Number.isInteger(max)) {
-        return { valid: false, message: _t('admin.random_points.error_integer', null, 'Los puntos mínimo y máximo deben ser números enteros') };
-    }
-
-    if (min < RANDOM_POINTS_MIN_VALUE || max < RANDOM_POINTS_MIN_VALUE
-        || min > RANDOM_POINTS_MAX_VALUE || max > RANDOM_POINTS_MAX_VALUE) {
         return {
             valid: false,
-            message: _t('admin.random_points.error_range', { min: RANDOM_POINTS_MIN_VALUE, max: RANDOM_POINTS_MAX_VALUE },
-                'Los puntos deben estar entre {min} y {max}')
+            message: _t(
+                'admin.random_points.error_integer',
+                null,
+                'Los puntos mínimo y máximo deben ser números enteros'
+            )
+        };
+    }
+
+    if (
+        min < RANDOM_POINTS_MIN_VALUE ||
+        max < RANDOM_POINTS_MIN_VALUE ||
+        min > RANDOM_POINTS_MAX_VALUE ||
+        max > RANDOM_POINTS_MAX_VALUE
+    ) {
+        return {
+            valid: false,
+            message: _t(
+                'admin.random_points.error_range',
+                { min: RANDOM_POINTS_MIN_VALUE, max: RANDOM_POINTS_MAX_VALUE },
+                'Los puntos deben estar entre {min} y {max}'
+            )
         };
     }
 
     if (max < min) {
-        return { valid: false, message: _t('admin.random_points.error_inverted', null, 'El máximo debe ser mayor o igual que el mínimo') };
+        return {
+            valid: false,
+            message: _t('admin.random_points.error_inverted', null, 'El máximo debe ser mayor o igual que el mínimo')
+        };
     }
 
     return { valid: true, message: null };

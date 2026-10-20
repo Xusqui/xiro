@@ -1,7 +1,7 @@
 /**
  * @fileoverview Query Helpers - Funciones comunes para queries
  * @module application/queries/QueryHelpers
- * 
+ *
  * Consolidación de lógica duplicada en queries:
  * - Validación de parámetros
  * - Error handling común
@@ -31,7 +31,7 @@ function createQueryErrorResponse(errorType, context = {}) {
 /**
  * Validar y ejecutar query con error handling común
  * Consolidación del patrón duplicado en las queries
- * 
+ *
  * @param {Query} query - Instancia de la query a ejecutar
  * @param {Function} executor - Función que ejecuta la query
  * @returns {Promise<Object>} Resultado de la query

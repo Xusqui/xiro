@@ -37,8 +37,8 @@ import { resolveSounds, loadInitialSounds, switchSounds } from './music-sound-se
 const { prng, tension, arrangement, settings: musicSettings } = self.XiroMusic;
 
 const TENSION_RAMP_SECONDS = 0.4;
-const GATE_OUT_SECONDS = 1;    // pausa: fundido de 1 s
-const GATE_IN_SECONDS = 0.4;   // reanudar: fundido corto que empieza en el siguiente compás
+const GATE_OUT_SECONDS = 1; // pausa: fundido de 1 s
+const GATE_IN_SECONDS = 0.4; // reanudar: fundido corto que empieza en el siguiente compás
 const TENSION_TEMPO_SECONDS = 1.5;
 // Paso del tempo de tensión: rampas de bpm casi planas descuadran el reloj de Tone
 // (TickParam.getTimeOfTick da tiempos absurdos y Safari se cuelga)
@@ -73,7 +73,11 @@ export class MusicEngine {
             question: () => this.questionContext,
             emit: (type, detail) => this.emit(type, detail)
         });
-        this.moments = createMoments(Tone, { player: this.oneShot, director: this.director, emit: (t, d) => this.emit(t, d) });
+        this.moments = createMoments(Tone, {
+            player: this.oneShot,
+            director: this.director,
+            emit: (t, d) => this.emit(t, d)
+        });
         this.accents = createAccents(Tone, this.mixer.layers.arp, {
             key: () => arrangement.baseKey(this.seed),
             scene: () => this.sceneName,
@@ -94,7 +98,7 @@ export class MusicEngine {
     }
 
     emit(type, detail) {
-        this.listeners.forEach((fn) => fn(type, detail));
+        this.listeners.forEach(fn => fn(type, detail));
     }
 
     get sceneName() {
@@ -131,7 +135,7 @@ export class MusicEngine {
         if (name === 'cadence' || name === 'reactions') return; // cuentan en el próximo suceso
         if (name === 'fx') {
             this.mixer.setFx(this.options.fx);
-            this.director.live().forEach((scene) => scene.setFx(this.options.fx));
+            this.director.live().forEach(scene => scene.setFx(this.options.fx));
             return;
         }
         if (this.sceneName !== 'idle') this.setScene(this.sceneName, { force: true });
@@ -168,7 +172,7 @@ export class MusicEngine {
     setTension(value) {
         this.tension = Math.max(0, Math.min(1, Number(value) || 0));
         if (this.sceneName !== 'question' || this.revealing) return;
-        this.director.live().forEach((scene) => {
+        this.director.live().forEach(scene => {
             if (scene.isQuestion) this.applyTension(scene);
         });
     }
@@ -176,9 +180,11 @@ export class MusicEngine {
     applyTension(scene) {
         const params = tension.tensionParams(this.tension);
         const now = this.Tone.now();
-        Object.keys(params.layers).forEach((name) => scene.setLayerLevel(name, params.layers[name], now, TENSION_RAMP_SECONDS));
+        Object.keys(params.layers).forEach(name =>
+            scene.setLayerLevel(name, params.layers[name], now, TENSION_RAMP_SECONDS)
+        );
         scene.setFilter(params.filterHz, now, TENSION_RAMP_SECONDS);
-        const bpm = Math.round(scene.bpm * params.tempoFactor / TENSION_TEMPO_STEP) * TENSION_TEMPO_STEP;
+        const bpm = Math.round((scene.bpm * params.tempoFactor) / TENSION_TEMPO_STEP) * TENSION_TEMPO_STEP;
         if (bpm !== this.tempoTarget) {
             this.tempoTarget = bpm;
             this.transport.bpm.rampTo(bpm, TENSION_TEMPO_SECONDS);
@@ -215,16 +221,17 @@ export class MusicEngine {
             cadence: this.options.cadence,
             tension: this.tension,
             filterHz: tension.tensionParams(this.tension).filterHz,
-            onHit: (time) => {
+            onHit: time => {
                 if (!q.continues) this.director.cut(time, 'reveal');
                 this.emit('reveal');
             },
             // Fuera del callback de audio: quien escuche puede cambiar de escena sin
             // programar nada desde dentro del reloj
-            onDone: () => setTimeout(() => {
-                this.revealing = false;
-                this.emit('revealDone');
-            }, 0)
+            onDone: () =>
+                setTimeout(() => {
+                    this.revealing = false;
+                    this.emit('revealDone');
+                }, 0)
         });
     }
 
@@ -273,7 +280,7 @@ export class MusicEngine {
 
     /** Mezcla (volumen y mute por capa, onda), avisos (tic-tac) y tempo: para la escucha del admin. */
     get debug() {
-        return { mixer: this.mixer, cues: this.cues, setBpm: (bpm) => this.transport.bpm.rampTo(Number(bpm), 1) };
+        return { mixer: this.mixer, cues: this.cues, setBpm: bpm => this.transport.bpm.rampTo(Number(bpm), 1) };
     }
 
     getStatus() {
@@ -284,7 +291,7 @@ export class MusicEngine {
         this.director.dispose();
         this.transport.stop();
         this.transport.cancel(0);
-        [this.oneShot, this.accents, this.cues, this.mixer].forEach((part) => part.dispose());
+        [this.oneShot, this.accents, this.cues, this.mixer].forEach(part => part.dispose());
         if (this.bank) this.bank.dispose();
         this.listeners.clear();
     }

@@ -1,7 +1,7 @@
 /**
  * @fileoverview Redis Session Store - Almacenamiento de sesiones de juego
  * @module services/SessionStore
- * 
+ *
  * Funcionalidades:
  * - Guardar estado completo del juego por sessionId
  * - Cargar estado para reconexiones

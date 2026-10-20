@@ -19,10 +19,28 @@ window.TVApp.Teams = (function () {
         { name: 'Lima', value: 'lime', bg: '#65a30d', border: '#4d7c0f' }
     ];
 
-    const DEFAULT_TEAM_NAMES = ['Águilas', 'Tigres', 'Leones', 'Delfines', 'Halcones', 'Panteras', 'Lobos', 'Osos', 'Zorros'];
+    const DEFAULT_TEAM_NAMES = [
+        'Águilas',
+        'Tigres',
+        'Leones',
+        'Delfines',
+        'Halcones',
+        'Panteras',
+        'Lobos',
+        'Osos',
+        'Zorros'
+    ];
 
     function mostrarSeleccionModo(selectedPin) {
-        getEl('main-container').innerHTML = _tHtml('<div class="pin-selector"><h1 class="pin-selector-title">¿Cómo quieres jugar?</h1><p class="pin-selector-subtitle">PIN: <strong>' + selectedPin + '</strong></p><div class="mode-grid"><div class="mode-card" data-tv-action="teams-mode-individual" data-pin="' + selectedPin + '"><div class="mode-icon">👤</div><h2 class="mode-title">INDIVIDUAL</h2><p class="mode-desc">Cada jugador compite por su cuenta</p></div><div class="mode-card" data-tv-action="teams-mode-team" data-pin="' + selectedPin + '"><div class="mode-icon">👤👤</div><h2 class="mode-title">POR EQUIPOS</h2><p class="mode-desc">Los jugadores se unen en equipos</p></div></div><button data-tv-action="go-tv-home" class="btn btn-secondary">Volver</button></div>');
+        getEl('main-container').innerHTML = _tHtml(
+            '<div class="pin-selector"><h1 class="pin-selector-title">¿Cómo quieres jugar?</h1><p class="pin-selector-subtitle">PIN: <strong>' +
+                selectedPin +
+                '</strong></p><div class="mode-grid"><div class="mode-card" data-tv-action="teams-mode-individual" data-pin="' +
+                selectedPin +
+                '"><div class="mode-icon">👤</div><h2 class="mode-title">INDIVIDUAL</h2><p class="mode-desc">Cada jugador compite por su cuenta</p></div><div class="mode-card" data-tv-action="teams-mode-team" data-pin="' +
+                selectedPin +
+                '"><div class="mode-icon">👤👤</div><h2 class="mode-title">POR EQUIPOS</h2><p class="mode-desc">Los jugadores se unen en equipos</p></div></div><button data-tv-action="go-tv-home" class="btn btn-secondary">Volver</button></div>'
+        );
         clearCache();
     }
 
@@ -34,32 +52,64 @@ window.TVApp.Teams = (function () {
     }
 
     function mostrarConfiguracionEquipos(selectedPin) {
-        let html = '<div class="pin-selector"><h1 class="pin-selector-title">Configurar Equipos</h1><p class="pin-selector-subtitle">PIN: <strong>' + selectedPin + '</strong></p>';
+        let html =
+            '<div class="pin-selector"><h1 class="pin-selector-title">Configurar Equipos</h1><p class="pin-selector-subtitle">PIN: <strong>' +
+            selectedPin +
+            '</strong></p>';
         html += '<p style="font-size:18px;margin:20px 0;color:#ccc">¿Cuántos equipos?</p>';
         html += '<div class="teams-number-grid">';
         for (let i = 2; i <= 9; i++) {
-            html += '<button class="team-number-btn" data-tv-action="teams-select-num" data-num-teams="' + i + '" data-pin="' + selectedPin + '">' + i + '</button>';
+            html +=
+                '<button class="team-number-btn" data-tv-action="teams-select-num" data-num-teams="' +
+                i +
+                '" data-pin="' +
+                selectedPin +
+                '">' +
+                i +
+                '</button>';
         }
-        html += '</div><button data-tv-action="teams-back-mode" data-pin="' + selectedPin + '" class="btn btn-secondary" style="margin-top:20px">Volver</button></div>';
+        html +=
+            '</div><button data-tv-action="teams-back-mode" data-pin="' +
+            selectedPin +
+            '" class="btn btn-secondary" style="margin-top:20px">Volver</button></div>';
         getEl('main-container').innerHTML = _tHtml(html);
         clearCache();
     }
 
     function seleccionarNumEquipos(numTeams, selectedPin) {
-        let html = '<div class="pin-selector"><h1 class="pin-selector-title">Nombra los ' + numTeams + ' Equipos</h1><p class="pin-selector-subtitle">Asigna un nombre y color a cada equipo</p>';
+        let html =
+            '<div class="pin-selector"><h1 class="pin-selector-title">Nombra los ' +
+            numTeams +
+            ' Equipos</h1><p class="pin-selector-subtitle">Asigna un nombre y color a cada equipo</p>';
         html += '<div class="teams-config-form">';
         for (let i = 0; i < numTeams; i++) {
             html += '<div class="team-config-row"><span class="team-number">#' + (i + 1) + '</span>';
-            html += '<input type="text" id="team-name-' + i + '" class="team-name-input" placeholder="Nombre equipo ' + (i + 1) + '" value="' + (DEFAULT_TEAM_NAMES[i] || 'Equipo ' + (i + 1)) + '">';
+            html +=
+                '<input type="text" id="team-name-' +
+                i +
+                '" class="team-name-input" placeholder="Nombre equipo ' +
+                (i + 1) +
+                '" value="' +
+                (DEFAULT_TEAM_NAMES[i] || 'Equipo ' + (i + 1)) +
+                '">';
             html += '<select id="team-color-' + i + '" class="team-color-select">';
             for (let j = 0; j < TEAM_COLORS.length; j++) {
-                const selected = j === (i % TEAM_COLORS.length) ? ' selected' : '';
-                html += '<option value="' + TEAM_COLORS[j].value + '"' + selected + '>' + TEAM_COLORS[j].name + '</option>';
+                const selected = j === i % TEAM_COLORS.length ? ' selected' : '';
+                html +=
+                    '<option value="' + TEAM_COLORS[j].value + '"' + selected + '>' + TEAM_COLORS[j].name + '</option>';
             }
             html += '</select></div>';
         }
-        html += '</div><button data-tv-action="teams-confirm" data-num-teams="' + numTeams + '" data-pin="' + selectedPin + '" class="btn" style="margin-top:20px;padding:15px 40px;font-size:20px">✓ CONFIRMAR</button>';
-        html += '<button data-tv-action="teams-back-config" data-pin="' + selectedPin + '" class="btn btn-secondary" style="margin-left:10px">Volver</button></div>';
+        html +=
+            '</div><button data-tv-action="teams-confirm" data-num-teams="' +
+            numTeams +
+            '" data-pin="' +
+            selectedPin +
+            '" class="btn" style="margin-top:20px;padding:15px 40px;font-size:20px">✓ CONFIRMAR</button>';
+        html +=
+            '<button data-tv-action="teams-back-config" data-pin="' +
+            selectedPin +
+            '" class="btn btn-secondary" style="margin-left:10px">Volver</button></div>';
         getEl('main-container').innerHTML = _tHtml(html);
         clearCache();
     }
@@ -77,11 +127,17 @@ window.TVApp.Teams = (function () {
         for (let i = 0; i < numTeams; i++) {
             const nameInput = getEl('team-name-' + i);
             const colorSelect = getEl('team-color-' + i);
-            const name = nameInput ? (nameInput.value.trim() || DEFAULT_TEAM_NAMES[i] || 'Equipo ' + (i + 1)) : 'Equipo ' + (i + 1);
+            const name = nameInput
+                ? nameInput.value.trim() || DEFAULT_TEAM_NAMES[i] || 'Equipo ' + (i + 1)
+                : 'Equipo ' + (i + 1);
             if (!isValidTeamName(name, teamNamePattern, 2, 30)) {
                 showTvModal(
                     _t('presenter.team.name_invalid', null, 'Nombre inválido'),
-                    _t('presenter.team.name_validation', null, 'El nombre del equipo solo puede contener letras, números, espacios y guiones (2-30 caracteres).'),
+                    _t(
+                        'presenter.team.name_validation',
+                        null,
+                        'El nombre del equipo solo puede contener letras, números, espacios y guiones (2-30 caracteres).'
+                    ),
                     'warning'
                 );
                 if (nameInput) {
@@ -93,14 +149,29 @@ window.TVApp.Teams = (function () {
             const colorValue = colorSelect ? colorSelect.value : TEAM_COLORS[i % TEAM_COLORS.length].value;
             let colorObj = null;
             for (let j = 0; j < TEAM_COLORS.length; j++) {
-                if (TEAM_COLORS[j].value === colorValue) { colorObj = TEAM_COLORS[j]; break; }
+                if (TEAM_COLORS[j].value === colorValue) {
+                    colorObj = TEAM_COLORS[j];
+                    break;
+                }
             }
             if (!colorObj) colorObj = TEAM_COLORS[0];
-            teams.push({ name: name, color: colorValue, colorName: colorObj.name, bg: colorObj.bg, border: colorObj.border, players: [], score: 0 });
+            teams.push({
+                name: name,
+                color: colorValue,
+                colorName: colorObj.name,
+                bg: colorObj.bg,
+                border: colorObj.border,
+                players: [],
+                score: 0
+            });
         }
         state.isTeamMode = true;
         state.teamConfig = { teams: teams };
-        window.location.href = '/tv.html?pin=' + selectedPin.toUpperCase() + '&mode=teams&teams=' + encodeURIComponent(JSON.stringify(teams));
+        window.location.href =
+            '/tv.html?pin=' +
+            selectedPin.toUpperCase() +
+            '&mode=teams&teams=' +
+            encodeURIComponent(JSON.stringify(teams));
     }
 
     function renderTeamLobby() {
@@ -112,14 +183,16 @@ window.TVApp.Teams = (function () {
         let html = '';
         for (let i = 0; i < state.teamConfig.teams.length; i++) {
             const team = state.teamConfig.teams[i];
-            html += '<div class="team-box" style="background-color:' + team.bg + ';border:3px solid ' + team.border + '">';
+            html +=
+                '<div class="team-box" style="background-color:' + team.bg + ';border:3px solid ' + team.border + '">';
             html += '<div class="team-box-header">' + escapeHtml(team.name) + '</div><div class="team-box-players">';
             if (team.players && team.players.length > 0) {
                 for (let j = 0; j < team.players.length; j++) {
                     html += '<div class="team-player-item">' + escapeHtml(team.players[j]) + '</div>';
                 }
             } else {
-                html += '<div style="color:rgba(255,255,255,0.5);font-style:italic;padding:10px;font-size:12px">Esperando jugadores...</div>';
+                html +=
+                    '<div style="color:rgba(255,255,255,0.5);font-style:italic;padding:10px;font-size:12px">Esperando jugadores...</div>';
             }
             html += '</div></div>';
         }

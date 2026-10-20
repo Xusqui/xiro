@@ -22,8 +22,9 @@ function slidePaths(zip) {
     const presentation = zip.readText('ppt/presentation.xml');
     const rels = zip.readText('ppt/_rels/presentation.xml.rels');
     if (presentation && rels) {
-        const targets = new Map(findAll(parseXml(rels), 'Relationship')
-            .map(r => [r.attrs.Id, resolveTarget(r.attrs.Target || '')]));
+        const targets = new Map(
+            findAll(parseXml(rels), 'Relationship').map(r => [r.attrs.Id, resolveTarget(r.attrs.Target || '')])
+        );
         const ordered = findAll(parseXml(presentation), 'p:sldId')
             .map(s => targets.get(s.attrs['r:id']))
             .filter(p => p && zip.has(p));
@@ -38,7 +39,10 @@ function slidePaths(zip) {
 function paragraphText(p) {
     let out = '';
     for (const c of elements(p)) {
-        if (c.name === 'a:r' || c.name === 'a:fld') out += findAll(c, 'a:t').map(t => t.children.join('')).join('');
+        if (c.name === 'a:r' || c.name === 'a:fld')
+            out += findAll(c, 'a:t')
+                .map(t => t.children.join(''))
+                .join('');
         else if (c.name === 'a:br') out += ' ';
     }
     return out.trim();
@@ -51,7 +55,8 @@ function isTitleShape(sp) {
 
 function tableBlock(tbl) {
     const rows = elements(tbl, 'a:tr').map(tr =>
-        elements(tr, 'a:tc').map(tc => findAll(tc, 'a:p').map(paragraphText).join(' ')));
+        elements(tr, 'a:tc').map(tc => findAll(tc, 'a:p').map(paragraphText).join(' '))
+    );
     return { type: 'table', rows };
 }
 

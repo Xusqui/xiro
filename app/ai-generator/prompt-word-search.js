@@ -29,14 +29,16 @@ const SCHEMA = `[
   }
 ]`;
 
-const RULES = `REGLAS: cada sopa de letras tiene una consigna clara y entre ${MIN_WORDS} y ${MAX_WORDS} palabras `
-    + '(mejor 4 o 5) que son términos REALES y relevantes del tema; cada palabra es UNA sola palabra en MAYÚSCULAS '
-    + `de entre ${MIN_WORD_LENGTH} y ${MAX_WORD_LENGTH} letras y SOLO letras (sin espacios, números, guiones, apóstrofos `
-    + 'ni signos), sin repetir dentro de la misma sopa; la consigna NO contiene las palabras ocultas; '
-    + 'todas las opciones llevan is_correct=true y order_index correlativo desde 0';
+const RULES =
+    `REGLAS: cada sopa de letras tiene una consigna clara y entre ${MIN_WORDS} y ${MAX_WORDS} palabras ` +
+    '(mejor 4 o 5) que son términos REALES y relevantes del tema; cada palabra es UNA sola palabra en MAYÚSCULAS ' +
+    `de entre ${MIN_WORD_LENGTH} y ${MAX_WORD_LENGTH} letras y SOLO letras (sin espacios, números, guiones, apóstrofos ` +
+    'ni signos), sin repetir dentro de la misma sopa; la consigna NO contiene las palabras ocultas; ' +
+    'todas las opciones llevan is_correct=true y order_index correlativo desde 0';
 
-const COUNT_HINT = 'Cuenta las letras de cada palabra antes de responder: EBRO (4) y GUADIANA (8) valen; '
-    + 'GUADALQUIVIR (12), RIO TAJO (dos palabras) y COVID-19 (números y guion) NO valen.';
+const COUNT_HINT =
+    'Cuenta las letras de cada palabra antes de responder: EBRO (4) y GUADIANA (8) valen; ' +
+    'GUADALQUIVIR (12), RIO TAJO (dos palabras) y COVID-19 (números y guion) NO valen.';
 
 /**
  * @param {string} text - Documento o tema
@@ -45,7 +47,12 @@ const COUNT_HINT = 'Cuenta las letras de cada palabra antes de responder: EBRO (
  * @param {{ previousQuestions?: string[], mode?: 'document'|'prompt', language?: string }} [options]
  * @returns {string}
  */
-function buildWordSearchPrompt(text, count, dificultad, { previousQuestions = [], mode = 'document', language = 'es' } = {}) {
+function buildWordSearchPrompt(
+    text,
+    count,
+    dificultad,
+    { previousQuestions = [], mode = 'document', language = 'es' } = {}
+) {
     const lang = builder.getLanguageName(language);
     const candidates = count + WORD_SEARCH_EXTRA;
     const difficulty = builder.DIFICULTAD_INSTRUCCION[dificultad] || 'media';

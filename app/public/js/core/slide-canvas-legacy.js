@@ -38,7 +38,8 @@
         const textX = imageLeft ? 1000 : 40;
         const list = [];
         if (safeImage) list.push(image([imageLeft ? 0 : 960, 0, 960, 1080], slide.slide_image));
-        if (hasText(slide.slide_title)) list.push(text([textX, 100, 880, 260], slide.slide_title, { size: 80, bold: true }));
+        if (hasText(slide.slide_title))
+            list.push(text([textX, 100, 880, 260], slide.slide_title, { size: 80, bold: true }));
         if (hasText(slide.slide_body)) list.push(text([textX, 400, 880, 560], slide.slide_body, { size: 44 }));
         return list;
     }
@@ -47,11 +48,14 @@
         const type = slide.slide_type;
         const safeImage = m.isSafeMediaUrl(slide.slide_image);
         if (type === 'info') {
-            return hasText(slide.comment_text) ? [text([160, 140, 1600, 800], slide.comment_text, { size: 96, bold: true })] : [];
+            return hasText(slide.comment_text)
+                ? [text([160, 140, 1600, 800], slide.comment_text, { size: 96, bold: true })]
+                : [];
         }
         if (type === 'text') {
             const list = [];
-            if (hasText(slide.slide_title)) list.push(text([160, 100, 1600, 260], slide.slide_title, { size: 96, bold: true }));
+            if (hasText(slide.slide_title))
+                list.push(text([160, 100, 1600, 260], slide.slide_title, { size: 96, bold: true }));
             if (hasText(slide.slide_body)) list.push(text([160, 400, 1600, 520], slide.slide_body, { size: 48 }));
             return list;
         }
@@ -73,7 +77,11 @@
         if (hasText(slide.slide_footer)) {
             elements.push(text([160, 960, 1600, 100], slide.slide_footer, { size: 36 }));
         }
-        return m.normalizeCanvas({ version: 1, background: { color: m.DEFAULT_BACKGROUND, image: null }, elements: elements });
+        return m.normalizeCanvas({
+            version: 1,
+            background: { color: m.DEFAULT_BACKGROUND, image: null },
+            elements: elements
+        });
     }
 
     const api = { LEGACY_TYPES: LEGACY_TYPES, fromLegacySlide: fromLegacySlide };

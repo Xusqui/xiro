@@ -3,7 +3,12 @@
  * Actualización y renderizado del panel de jugadores conectados
  */
 
-import { getConnectedPlayers, getPlayersData, getIsTeamMode, getTeamConfig } from './presenter-state.js?v=20260922172926';
+import {
+    getConnectedPlayers,
+    getPlayersData,
+    getIsTeamMode,
+    getTeamConfig
+} from './presenter-state.js?v=20260922172926';
 import { getTeamColorStyle } from './presenter-team-config.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
@@ -112,9 +117,12 @@ export function updatePlayersPanel() {
 
             // Medallas para top 3
             let medal = '';
-            if (index === 0 && data.score > 0) medal = '<i class="fas fa-crown text-yellow-400 mr-1" style="font-size: 10px;"></i>';
-            else if (index === 1 && data.score > 0) medal = '<i class="fas fa-medal text-slate-300 mr-1" style="font-size: 10px;"></i>';
-            else if (index === 2 && data.score > 0) medal = '<i class="fas fa-medal text-amber-600 mr-1" style="font-size: 10px;"></i>';
+            if (index === 0 && data.score > 0)
+                medal = '<i class="fas fa-crown text-yellow-400 mr-1" style="font-size: 10px;"></i>';
+            else if (index === 1 && data.score > 0)
+                medal = '<i class="fas fa-medal text-slate-300 mr-1" style="font-size: 10px;"></i>';
+            else if (index === 2 && data.score > 0)
+                medal = '<i class="fas fa-medal text-amber-600 mr-1" style="font-size: 10px;"></i>';
 
             const team = teamLookup[nick];
             const teamStyle = team ? getTeamColorStyle(team.color) : null;
@@ -178,7 +186,12 @@ export function updatePlayersPanel() {
         sortedPlayers.forEach((nick, index) => {
             const team = teamLookup[nick];
             const teamKey = team ? `${team.name || ''}|${team.color || ''}` : '';
-            const fp = cardFingerprint(playersData[nick] || { score: 0, answered: false, correct: null }, index, isTeamMode, teamKey);
+            const fp = cardFingerprint(
+                playersData[nick] || { score: 0, answered: false, correct: null },
+                index,
+                isTeamMode,
+                teamKey
+            );
             let el = playerCards.get(nick);
             if (!el) {
                 el = document.createElement('div');
@@ -230,7 +243,10 @@ export function renderTeamLobby() {
 
     // Optimización: Usar renderList si está disponible
     if (typeof window.renderList === 'function') {
-        window.renderList(pList, teamConfig.teams, (team) => `
+        window.renderList(
+            pList,
+            teamConfig.teams,
+            team => `
             <div style="align-self: stretch;">
                 <div class="${teamColors[team.color] || 'bg-plum-600'} rounded-2xl p-6 border-b-4 border-black/20" style="height: 100%; display: flex; flex-direction: column;">
                     <div class="flex items-center justify-between mb-4">
@@ -242,19 +258,27 @@ export function renderTeamLobby() {
                         </span>
                     </div>
                     <div class="flex flex-wrap gap-3">
-                        ${team.players.map(player => {
-        return `
+                        ${
+    team.players
+        .map(player => {
+            return `
                                 <div class="bg-white text-slate-900 px-3 py-2 rounded-lg font-black text-center uppercase italic text-xs inline-flex whitespace-nowrap" data-nickname="${escapeHtml(player)}">
                                     <div>${escapeHtml(player)}</div>
                                 </div>
                             `;
-    }).join('') || `<p class="text-white/70 italic w-full text-center py-4">${_t('presenter.lobby.waiting', null, 'Esperando jugadores...')}</p>`}
+        })
+        .join('') ||
+                            `<p class="text-white/70 italic w-full text-center py-4">${_t('presenter.lobby.waiting', null, 'Esperando jugadores...')}</p>`
+}
                     </div>
                 </div>
             </div>
-        `);
+        `
+        );
     } else {
-        pList.innerHTML = teamConfig.teams.map(team => `
+        pList.innerHTML = teamConfig.teams
+            .map(
+                team => `
             <div style="align-self: stretch;">
                 <div class="${teamColors[team.color] || 'bg-plum-600'} rounded-2xl p-6 border-b-4 border-black/20" style="height: 100%; display: flex; flex-direction: column;">
                     <div class="flex items-center justify-between mb-4">
@@ -266,16 +290,23 @@ export function renderTeamLobby() {
                         </span>
                     </div>
                     <div class="flex flex-wrap gap-3">
-                        ${team.players.map(player => {
-        return `
+                        ${
+    team.players
+        .map(player => {
+            return `
                                 <div class="bg-white text-slate-900 px-3 py-2 rounded-lg font-black text-center uppercase italic text-xs inline-flex whitespace-nowrap" data-nickname="${escapeHtml(player)}">
                                     <div>${escapeHtml(player)}</div>
                                 </div>
                             `;
-    }).join('') || `<p class="text-white/70 italic w-full text-center py-4">${_t('presenter.lobby.waiting', null, 'Esperando jugadores...')}</p>`}
+        })
+        .join('') ||
+                            `<p class="text-white/70 italic w-full text-center py-4">${_t('presenter.lobby.waiting', null, 'Esperando jugadores...')}</p>`
+}
                     </div>
                 </div>
             </div>
-        `).join('');
+        `
+            )
+            .join('');
     }
 }

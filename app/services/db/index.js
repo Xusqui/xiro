@@ -1,7 +1,7 @@
 /**
  * @fileoverview Database services barrel export
  * @module services/db
- * 
+ *
  * Re-exports all domain-specific database modules from a single entry point.
  * Each module is focused on a single domain entity and stays under 200 lines.
  */

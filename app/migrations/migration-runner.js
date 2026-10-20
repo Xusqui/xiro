@@ -13,18 +13,15 @@ const MIGRATION_LOCK_KEY_1 = 91734;
 const MIGRATION_LOCK_KEY_2 = 240214;
 
 async function acquireMigrationLock(client) {
-    const result = await client.query(
-        'SELECT pg_try_advisory_lock($1, $2) AS locked',
-        [MIGRATION_LOCK_KEY_1, MIGRATION_LOCK_KEY_2]
-    );
+    const result = await client.query('SELECT pg_try_advisory_lock($1, $2) AS locked', [
+        MIGRATION_LOCK_KEY_1,
+        MIGRATION_LOCK_KEY_2
+    ]);
     return result.rows[0]?.locked === true;
 }
 
 async function releaseMigrationLock(client) {
-    await client.query('SELECT pg_advisory_unlock($1, $2)', [
-        MIGRATION_LOCK_KEY_1,
-        MIGRATION_LOCK_KEY_2
-    ]);
+    await client.query('SELECT pg_advisory_unlock($1, $2)', [MIGRATION_LOCK_KEY_1, MIGRATION_LOCK_KEY_2]);
 }
 
 /**
@@ -55,9 +52,7 @@ async function ensureMigrationsTable() {
  */
 async function getExecutedMigrations() {
     await ensureMigrationsTable();
-    const result = await pool.query(
-        'SELECT version FROM schema_migrations ORDER BY version'
-    );
+    const result = await pool.query('SELECT version FROM schema_migrations ORDER BY version');
     return result.rows.map(row => row.version);
 }
 
@@ -65,10 +60,11 @@ async function getExecutedMigrations() {
  * Registrar migración ejecutada
  */
 async function recordMigration(version, name, executionTimeMs) {
-    await pool.query(
-        'INSERT INTO schema_migrations (version, name, execution_time_ms) VALUES ($1, $2, $3)',
-        [version, name, executionTimeMs]
-    );
+    await pool.query('INSERT INTO schema_migrations (version, name, execution_time_ms) VALUES ($1, $2, $3)', [
+        version,
+        name,
+        executionTimeMs
+    ]);
 }
 
 /**
@@ -78,9 +74,7 @@ async function getAvailableMigrations() {
     const migrationsDir = __dirname;
     const files = await fs.readdir(migrationsDir);
 
-    return files
-        .filter(file => file.endsWith('.sql') && file.match(/^\d{14}_.*\.sql$/))
-        .sort();
+    return files.filter(file => file.endsWith('.sql') && file.match(/^\d{14}_.*\.sql$/)).sort();
 }
 
 /**

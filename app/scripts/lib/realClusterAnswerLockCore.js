@@ -34,7 +34,9 @@ async function runRealClusterAnswerLock(cfg) {
         }
 
         const baselineRoom = getLockMetrics(baselineMetrics);
-        console.log(`[${nowIso()}] baseline lock metrics room=${roomId} lock_miss=${baselineRoom.lock_miss} attempts=${baselineRoom.attempts}`);
+        console.log(
+            `[${nowIso()}] baseline lock metrics room=${roomId} lock_miss=${baselineRoom.lock_miss} attempts=${baselineRoom.attempts}`
+        );
 
         for (let i = 0; i < cfg.clients; i++) {
             const client = await joinClient(cfg.target, cfg.pin, i + 1);
@@ -49,7 +51,9 @@ async function runRealClusterAnswerLock(cfg) {
         if (!hasDistributedLockMetrics(baselineMetrics)) distributedMetricsAvailable = false;
 
         const baselineRoomResolved = getLockMetrics(baselineMetrics);
-        console.log(`[${nowIso()}] baseline (resolved room) room=${roomId} lock_miss=${baselineRoomResolved.lock_miss} attempts=${baselineRoomResolved.attempts}`);
+        console.log(
+            `[${nowIso()}] baseline (resolved room) room=${roomId} lock_miss=${baselineRoomResolved.lock_miss} attempts=${baselineRoomResolved.attempts}`
+        );
 
         const questionPromises = clients.map(c =>
             waitForEvent(c.socket, 'new-question', 20000)
@@ -61,7 +65,8 @@ async function runRealClusterAnswerLock(cfg) {
 
         const questions = await Promise.all(questionPromises);
         const ready = questions.filter(q => q.ok && q.data?.question);
-        if (ready.length === 0) throw new Error('No clients received new-question; cannot execute submit-answer load burst');
+        if (ready.length === 0)
+            throw new Error('No clients received new-question; cannot execute submit-answer load burst');
 
         console.log(`[${nowIso()}] clients with new-question=${ready.length}/${clients.length}`);
 
@@ -74,7 +79,9 @@ async function runRealClusterAnswerLock(cfg) {
 
         const acks = await Promise.all(burstTasks);
         const ackSummary = summarizeAcks(acks);
-        console.log(`[${nowIso()}] submit burst completed totalAcks=${ackSummary.totalAcks} ok=${ackSummary.okTrue} dup=${ackSummary.duplicates}`);
+        console.log(
+            `[${nowIso()}] submit burst completed totalAcks=${ackSummary.totalAcks} ok=${ackSummary.okTrue} dup=${ackSummary.duplicates}`
+        );
 
         const loops = Math.max(1, Math.floor(cfg.soakSeconds / cfg.pollSeconds));
         for (let i = 0; i < loops; i++) {
@@ -83,7 +90,9 @@ async function runRealClusterAnswerLock(cfg) {
             if (!hasDistributedLockMetrics(snap)) distributedMetricsAvailable = false;
             const lock = getLockMetrics(snap);
             samples.push({ timestamp: nowIso(), lock });
-            console.log(`[${nowIso()}] soak sample ${i + 1}/${loops} attempts=${lock.attempts} lock_miss=${lock.lock_miss} miss_rate=${lock.miss_rate}%`);
+            console.log(
+                `[${nowIso()}] soak sample ${i + 1}/${loops} attempts=${lock.attempts} lock_miss=${lock.lock_miss} miss_rate=${lock.miss_rate}%`
+            );
         }
 
         const finalMetrics = await fetchJson(roomMetricsUrl(roomId));

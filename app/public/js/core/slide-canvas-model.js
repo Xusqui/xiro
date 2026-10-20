@@ -34,8 +34,13 @@
     const DEFAULT_BACKGROUND = '#1e1b2e';
     // Tamaño por defecto de cada clase de elemento (las figuras según su forma)
     const DEFAULT_SIZE = {
-        text: [1200, 200], rect: [480, 300], ellipse: [400, 400], line: [600, 40],
-        arrow: [600, 40], image: [800, 450], video: [1280, 720]
+        text: [1200, 200],
+        rect: [480, 300],
+        ellipse: [400, 400],
+        line: [600, 40],
+        arrow: [600, 40],
+        image: [800, 450],
+        video: [1280, 720]
     };
 
     function isColor(v) {
@@ -81,7 +86,9 @@
 
     function textProps(p) {
         return {
-            text: String(p.text === undefined || p.text === null ? '' : p.text).replace(/\r\n?/g, '\n').slice(0, MAX_TEXT),
+            text: String(p.text === undefined || p.text === null ? '' : p.text)
+                .replace(/\r\n?/g, '\n')
+                .slice(0, MAX_TEXT),
             font: Object.prototype.hasOwnProperty.call(FONTS, p.font) ? p.font : 'sans',
             size: num(p.size, 8, 400, 64),
             bold: bool(p.bold, false),
@@ -117,8 +124,11 @@
         if (type === 'image') {
             if (!isSafeMediaUrl(p.src)) return null;
             return {
-                src: p.src, ratio: ratioOf(p.ratio), lockRatio: bool(p.lockRatio, true),
-                fit: pick(p.fit, ['contain', 'cover'], 'contain'), radius: num(p.radius, 0, 540, 0)
+                src: p.src,
+                ratio: ratioOf(p.ratio),
+                lockRatio: bool(p.lockRatio, true),
+                fit: pick(p.fit, ['contain', 'cover'], 'contain'),
+                radius: num(p.radius, 0, 540, 0)
             };
         }
         if (typeof p.url !== 'string' || !p.url.trim() || p.url.length > MAX_URL) return null;
@@ -154,7 +164,7 @@
         if (!size) return null;
         const ratio = type === 'image' ? ratioOf(props.ratio) : null;
         const w = typeof o.w === 'number' ? o.w : size[0];
-        const h = typeof o.h === 'number' ? o.h : (ratio ? Math.round(w / ratio) : size[1]);
+        const h = typeof o.h === 'number' ? o.h : ratio ? Math.round(w / ratio) : size[1];
         return normalizeElement({
             id: newId(o.existingIds),
             type: type,
@@ -198,7 +208,8 @@
     function collectMediaRefs(canvas) {
         const refs = { images: [], videos: [] };
         if (!canvas || typeof canvas !== 'object') return refs;
-        if (canvas.background && isSafeMediaUrl(canvas.background.image)) pushUnique(refs.images, canvas.background.image);
+        if (canvas.background && isSafeMediaUrl(canvas.background.image))
+            pushUnique(refs.images, canvas.background.image);
         const list = Array.isArray(canvas.elements) ? canvas.elements : [];
         for (let i = 0; i < list.length; i++) {
             const el = list[i];
@@ -211,10 +222,11 @@
 
     /** Conversión sin pérdida de las diapositivas antiguas (slide-canvas-legacy.js). */
     function fromLegacySlide(slide) {
-        const legacy = typeof module !== 'undefined' && module.exports
-            // eslint-disable-next-line no-undef -- require solo en Node/Jest (CommonJS)
-            ? require('./slide-canvas-legacy')
-            : root.XiroSlideCanvasLegacy;
+        const legacy =
+            typeof module !== 'undefined' && module.exports
+                ? // eslint-disable-next-line no-undef -- require solo en Node/Jest (CommonJS)
+                require('./slide-canvas-legacy')
+                : root.XiroSlideCanvasLegacy;
         return legacy ? legacy.fromLegacySlide(slide) : null;
     }
 
@@ -223,13 +235,29 @@
     }
 
     const api = {
-        WIDTH: WIDTH, HEIGHT: HEIGHT, VERSION: 1, MAX_ELEMENTS: 50, MAX_TEXT: MAX_TEXT,
-        MAX_JSON_BYTES: 65536, MIN_SIZE: MIN_SIZE, MAX_URL: MAX_URL, TEXT_PADDING: 16,
-        FONTS: FONTS, ELEMENT_TYPES: ELEMENT_TYPES, SHAPES: SHAPES, DEFAULT_BACKGROUND: DEFAULT_BACKGROUND,
-        isColor: isColor, isSafeMediaUrl: isSafeMediaUrl, newId: newId,
-        createCanvas: createCanvas, createElement: createElement, normalizeElement: normalizeElement,
-        normalizeCanvas: normalizeCanvas, collectMediaRefs: collectMediaRefs,
-        fromLegacySlide: fromLegacySlide, isCanvasSlide: isCanvasSlide
+        WIDTH: WIDTH,
+        HEIGHT: HEIGHT,
+        VERSION: 1,
+        MAX_ELEMENTS: 50,
+        MAX_TEXT: MAX_TEXT,
+        MAX_JSON_BYTES: 65536,
+        MIN_SIZE: MIN_SIZE,
+        MAX_URL: MAX_URL,
+        TEXT_PADDING: 16,
+        FONTS: FONTS,
+        ELEMENT_TYPES: ELEMENT_TYPES,
+        SHAPES: SHAPES,
+        DEFAULT_BACKGROUND: DEFAULT_BACKGROUND,
+        isColor: isColor,
+        isSafeMediaUrl: isSafeMediaUrl,
+        newId: newId,
+        createCanvas: createCanvas,
+        createElement: createElement,
+        normalizeElement: normalizeElement,
+        normalizeCanvas: normalizeCanvas,
+        collectMediaRefs: collectMediaRefs,
+        fromLegacySlide: fromLegacySlide,
+        isCanvasSlide: isCanvasSlide
     };
 
     root.XiroSlideCanvas = api;

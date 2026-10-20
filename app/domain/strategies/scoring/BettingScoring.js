@@ -1,7 +1,7 @@
 /**
  * @fileoverview Estrategia de puntuación basada en apuestas
  * El jugador apuesta puntos antes de responder
- * 
+ *
  * FLUJO:
  * 1. Jugador ve la pregunta (sin opciones)
  * 2. Jugador apuesta X puntos (mínimo: 10% de sus puntos)
@@ -10,7 +10,7 @@
  * 5. Jugador responde
  * 6. Si acierta: +apuesta + timeBonus
  *    Si falla: -apuesta
- * 
+ *
  * FASE 17.2 - Día 3
  * Fecha: 3 de febrero de 2026
  */
@@ -20,14 +20,14 @@ const { SCORING, TIMING } = require('../../../config/game-constants');
 
 /**
  * Estrategia de apuesta de puntos
- * 
+ *
  * Ejemplo:
  * - Jugador tiene 100 puntos
  * - Apuesta 50 puntos
  * - Responde correctamente en 5s
  * - Gana: 50 (apuesta) + 16.67 (timeBonus) = 66.67 puntos
  * - Total: 166.67 puntos
- * 
+ *
  * Si falla:
  * - Pierde: 50 puntos
  * - Total: 50 puntos
@@ -45,21 +45,16 @@ class BettingScoring extends ScoringStrategy {
     constructor(config = {}) {
         super(config);
         this.maxTimeBonus = config.maxTimeBonus || SCORING.MAX_TIME_BONUS;
-        this.minBetPercentage = config.minBetPercentage !== undefined
-            ? config.minBetPercentage
-            : SCORING.BETTING.MIN_BET_PERCENTAGE;
-        this.minBetAbsolute = config.minBetAbsolute !== undefined
-            ? config.minBetAbsolute
-            : SCORING.BETTING.MIN_BET_ABSOLUTE;
-        this.maxBetAbsolute = config.maxBetAbsolute !== undefined
-            ? config.maxBetAbsolute
-            : SCORING.BETTING.MAX_BET_ABSOLUTE;
-        this.allowNegativeScore = config.allowNegativeScore !== undefined
-            ? config.allowNegativeScore
-            : SCORING.BETTING.ALLOW_NEGATIVE_SCORE;
-        this.includeTimeBonus = config.includeTimeBonus !== undefined
-            ? config.includeTimeBonus
-            : SCORING.BETTING.INCLUDE_TIME_BONUS;
+        this.minBetPercentage =
+            config.minBetPercentage !== undefined ? config.minBetPercentage : SCORING.BETTING.MIN_BET_PERCENTAGE;
+        this.minBetAbsolute =
+            config.minBetAbsolute !== undefined ? config.minBetAbsolute : SCORING.BETTING.MIN_BET_ABSOLUTE;
+        this.maxBetAbsolute =
+            config.maxBetAbsolute !== undefined ? config.maxBetAbsolute : SCORING.BETTING.MAX_BET_ABSOLUTE;
+        this.allowNegativeScore =
+            config.allowNegativeScore !== undefined ? config.allowNegativeScore : SCORING.BETTING.ALLOW_NEGATIVE_SCORE;
+        this.includeTimeBonus =
+            config.includeTimeBonus !== undefined ? config.includeTimeBonus : SCORING.BETTING.INCLUDE_TIME_BONUS;
     }
 
     /**
@@ -136,13 +131,7 @@ class BettingScoring extends ScoringStrategy {
      * @inheritdoc
      */
     calculatePoints(params) {
-        const {
-            isCorrect,
-            timeElapsed,
-            questionTimeLimit,
-            playerState = {},
-            betState = {}
-        } = params;
+        const { isCorrect, timeElapsed, questionTimeLimit, playerState = {}, betState = {} } = params;
 
         const timeLimit = questionTimeLimit || TIMING.DEFAULT_QUESTION_TIME;
         const currentScore = playerState.currentScore || 0;
@@ -206,8 +195,7 @@ class BettingScoring extends ScoringStrategy {
         if (config.maxTimeBonus !== undefined && config.maxTimeBonus < 0) {
             throw new Error('maxTimeBonus debe ser >= 0');
         }
-        if (config.minBetPercentage !== undefined &&
-            (config.minBetPercentage < 0 || config.minBetPercentage > 1)) {
+        if (config.minBetPercentage !== undefined && (config.minBetPercentage < 0 || config.minBetPercentage > 1)) {
             throw new Error('minBetPercentage debe estar entre 0 y 1');
         }
         if (config.minBetAbsolute !== undefined && config.minBetAbsolute < 0) {

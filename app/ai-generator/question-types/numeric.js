@@ -5,9 +5,11 @@
 
 // maxPoints es opcional: el prompt no lo pide y normalize pone 100 por defecto
 function validate(q) {
-    return Number.isFinite(q.correctAnswer) &&
+    return (
+        Number.isFinite(q.correctAnswer) &&
         Number.isFinite(q.toleranceValue) &&
-        (q.maxPoints === undefined || Number.isFinite(q.maxPoints));
+        (q.maxPoints === undefined || Number.isFinite(q.maxPoints))
+    );
 }
 
 // La subida de bancos exige tolerancias > 0 y el juego ignora las demás:

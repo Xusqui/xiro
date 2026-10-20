@@ -36,8 +36,17 @@ winston.addColors(customLevels.colors);
 // Nunca se registran en consola ni en ficheros: password, token, JWT_SECRET,
 // authorization, cookie, secret, apikey, etc.
 const SENSITIVE_LOG_KEYS = new Set([
-    'password', 'token', 'authorization', 'jwt_secret', 'jwt',
-    'secret', 'cookie', 'apikey', 'api_key', 'x-api-key', 'x_api_key'
+    'password',
+    'token',
+    'authorization',
+    'jwt_secret',
+    'jwt',
+    'secret',
+    'cookie',
+    'apikey',
+    'api_key',
+    'x-api-key',
+    'x_api_key'
 ]);
 
 function deepMaskSensitive(obj, depth = 0) {
@@ -56,7 +65,7 @@ function deepMaskSensitive(obj, depth = 0) {
     return result;
 }
 
-const sensitiveFieldsMask = winston.format((info) => {
+const sensitiveFieldsMask = winston.format(info => {
     const { message: _message, level: _level, timestamp: _timestamp, ...metadata } = info;
     const masked = deepMaskSensitive(metadata);
     return Object.assign(Object.create(Object.getPrototypeOf(info)), info, masked);
@@ -133,7 +142,7 @@ if (NODE_ENV === 'production') {
             level: 'error',
             format: fileFormat,
             maxSize: '10m', // Reducido de 20m a 10m
-            maxFiles: '7d',  // Reducido de 14d a 7d para NAS
+            maxFiles: '7d', // Reducido de 14d a 7d para NAS
             zippedArchive: true
         })
     );
@@ -279,16 +288,18 @@ logger.performance = (operation, duration, metadata = {}) => {
 
 // Stream para Morgan (HTTP logging)
 logger.stream = {
-    write: (message) => logger.http(message.trim())
+    write: message => logger.http(message.trim())
 };
 
 /**
  * Cambia el nivel de log en tiempo de ejecución (sin reiniciar el servidor).
  * Actualiza el logger y todos sus transports.
  */
-logger.setLogLevel = (newLevel) => {
+logger.setLogLevel = newLevel => {
     logger.level = newLevel;
-    logger.transports.forEach(t => { t.level = newLevel; });
+    logger.transports.forEach(t => {
+        t.level = newLevel;
+    });
 };
 
 logger.isDebugEnabled = () => {

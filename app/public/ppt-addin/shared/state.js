@@ -25,7 +25,7 @@ const INITIAL = {
 
     // Session keeper: estado que persiste entre diálogos durante la presentación
     // Ver taskpane-present/session-keeper.js
-    sessionKeeper: null,
+    sessionKeeper: null
 };
 
 // Estado mutable (deep copy del inicial)
@@ -61,7 +61,11 @@ const XiroState = {
     _setOne(key, value) {
         _state[key] = value;
         (_listeners[key] || []).forEach(fn => {
-            try { fn(value); } catch (e) { console.error('[XiroState] listener error:', e); }
+            try {
+                fn(value);
+            } catch (e) {
+                console.error('[XiroState] listener error:', e);
+            }
         });
     },
 
@@ -97,5 +101,5 @@ const XiroState = {
     /** Devuelve snapshot del estado para depuración. */
     snapshot() {
         return Object.assign({}, _state);
-    },
+    }
 };

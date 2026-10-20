@@ -25,14 +25,17 @@ class CacheWarmingService {
      */
     async getPopularGames(limit = 10) {
         try {
-            const result = await pool.query(`
+            const result = await pool.query(
+                `
                 SELECT id, pin, name, 'game' as type
                 FROM games 
                 WHERE pin IS NOT NULL 
                   AND visible_to_presenter = true
                 ORDER BY created_at DESC
                 LIMIT $1
-            `, [limit]);
+            `,
+                [limit]
+            );
 
             logger.debug('Popular games retrieved', { count: result.rows.length, limit });
             return result.rows;
@@ -49,7 +52,8 @@ class CacheWarmingService {
      */
     async loadGameQuestions(gameId) {
         try {
-            const result = await pool.query(`
+            const result = await pool.query(
+                `
                 WITH pool_config AS (
                     SELECT COALESCE(pool_question_count, 0) AS pool_question_count
                     FROM games WHERE id = $1
@@ -107,7 +111,9 @@ class CacheWarmingService {
                 GROUP BY sq.id, sq.question_text, sq.question_type,
                          sq.tipo_contenido, sq.url_recurso, sq.time_limit
                 ORDER BY RANDOM()
-            `, [gameId]);
+            `,
+                [gameId]
+            );
 
             return result.rows;
         } catch (error) {

@@ -11,7 +11,11 @@
  * "Ya has contestado esta pregunta" overlay.
  */
 
-import { showDiceScreen, showTrivialWaiting, registerTrivialPlayerActions } from './player-trivial-ui.js?v=20260922172926';
+import {
+    showDiceScreen,
+    showTrivialWaiting,
+    registerTrivialPlayerActions
+} from './player-trivial-ui.js?v=20260922172926';
 import { getNickname } from './player-state.js?v=20260922172926';
 
 /**

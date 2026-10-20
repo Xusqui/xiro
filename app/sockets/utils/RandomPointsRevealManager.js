@@ -25,9 +25,7 @@ const REVEAL_EVENT = 'random-points-reveal';
 
 function revealDurationMs() {
     const configured = runtimeConfig.get('RANDOM_POINTS_REVEAL_MS');
-    return Number.isFinite(Number(configured))
-        ? Number(configured)
-        : SCORING.RANDOM_POINTS.DEFAULT_REVEAL_MS;
+    return Number.isFinite(Number(configured)) ? Number(configured) : SCORING.RANDOM_POINTS.DEFAULT_REVEAL_MS;
 }
 
 function delay(ms) {
@@ -61,8 +59,8 @@ function buildRevealPayload(game, question = game?.questions?.[game.currentIndex
             bonusPercentage: streak.streak_bonus_percentage,
             doubleEnabled: streak.use_double_streaks,
             doubleThreshold: streak.double_streak_threshold,
-            doubleBonusPercentage: streak.double_streak_bonus_percentage,
-        },
+            doubleBonusPercentage: streak.double_streak_bonus_percentage
+        }
     };
 }
 
@@ -71,9 +69,7 @@ function buildRevealPayload(game, question = game?.questions?.[game.currentIndex
  * Cubre que el presentador avance, se pause o termine la partida durante la pantalla.
  */
 function revealStillValid(game, snapshot) {
-    return !game.ended
-        && game.currentIndex === snapshot.currentIndex
-        && (game._epoch || 0) === snapshot.epoch;
+    return !game.ended && game.currentIndex === snapshot.currentIndex && (game._epoch || 0) === snapshot.epoch;
 }
 
 /**
@@ -85,18 +81,15 @@ async function restampQuestionEpoch({ game, roomId, syncBus }) {
 
     Promise.resolve(getRedisClient())
         .then(rc => rc.set(`game:questionstart:${roomId}`, String(game.questionStartTime), { EX: 7200 }))
-        .catch(err => logger.warn('Failed to re-persist questionStartTime after random points screen', {
-            roomId,
-            error: err.message
-        }));
+        .catch(err =>
+            logger.warn('Failed to re-persist questionStartTime after random points screen', {
+                roomId,
+                error: err.message
+            })
+        );
 
     if (syncBus?.publishNextQuestion) {
-        await syncBus.publishNextQuestion(
-            roomId,
-            game.currentIndex,
-            game.questionStartTime,
-            game.currentRandomPoints
-        );
+        await syncBus.publishNextQuestion(roomId, game.currentIndex, game.questionStartTime, game.currentRandomPoints);
     }
 }
 
@@ -179,5 +172,5 @@ module.exports = {
     buildRevealPayload,
     buildReconnectRandomPointsState,
     restampQuestionEpoch,
-    runRandomPointsReveal,
+    runRandomPointsReveal
 };

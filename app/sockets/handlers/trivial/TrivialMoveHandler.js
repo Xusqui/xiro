@@ -37,13 +37,13 @@ const { runRandomPointsReveal } = require('../../utils/RandomPointsRevealManager
 function _buildGameEntry(state, roomId) {
     return {
         pin: roomId,
-        roomId,                          // ← full session ID para checkAllPlayersAnswered
+        roomId, // ← full session ID para checkAllPlayersAnswered
         isTrivial: true,
         teamMode: !!state?.teamMode,
         questions: [],
         currentIndex: 0,
         scores: Object.fromEntries(Object.keys(state.players).map(n => [n, 0])),
-        players: Object.keys(state.players),   // ← TODOS los jugadores
+        players: Object.keys(state.players), // ← TODOS los jugadores
         canAnswer: false,
         state: 'in-progress',
         startTime: Date.now(),
@@ -84,8 +84,7 @@ function applyMoveToPlayers(state, nickname, position) {
     let movedPlayers = [nickname];
 
     if (state.teamMode && teamName) {
-        movedPlayers = Object.keys(state.players)
-            .filter(playerNick => state.players[playerNick].teamName === teamName);
+        movedPlayers = Object.keys(state.players).filter(playerNick => state.players[playerNick].teamName === teamName);
         movedPlayers.forEach(playerNick => {
             state.players[playerNick].position = position;
         });
@@ -178,15 +177,7 @@ function ensureGameEntry(roomId, state) {
 }
 
 function updateGameForQuestion(input) {
-    const {
-        game,
-        roomId,
-        state,
-        normalizedQuestion,
-        actorNick,
-        catIdx,
-        position
-    } = input;
+    const { game, roomId, state, normalizedQuestion, actorNick, catIdx, position } = input;
 
     const sessionPin = String(roomId).split('-')[0];
 
@@ -199,8 +190,8 @@ function updateGameForQuestion(input) {
     game.revealedQuestions = new Set();
     game.answeredCurrent = new Set();
 
-    answerStatsStore.clearQuestion(roomId, 0).catch(() => { });
-    answerStatsStore.clearQuestion(sessionPin, 0).catch(() => { });
+    answerStatsStore.clearQuestion(roomId, 0).catch(() => {});
+    answerStatsStore.clearQuestion(sessionPin, 0).catch(() => {});
 
     game.trivialMeta = { catIdx, position, actorNick };
     game.trivialCategoryName = state.categories[catIdx]?.category_name || null;
@@ -256,13 +247,16 @@ function dispatchQuestionPipeline(io, roomId, normalizedQuestion, question, acto
 
         if (!shouldReveal) return;
 
-        EventBus.emit('question.revealed', new QuestionRevealedEvent({
-            roomId,
-            question: normalizedQuestion,
-            questionIndex: 0,
-            totalQuestions: 1,
-            timestamp: Date.now()
-        }));
+        EventBus.emit(
+            'question.revealed',
+            new QuestionRevealedEvent({
+                roomId,
+                question: normalizedQuestion,
+                questionIndex: 0,
+                totalQuestions: 1,
+                timestamp: Date.now()
+            })
+        );
 
         const timeLimit = typeof question.time_limit === 'number' ? question.time_limit : 30;
         if (timeLimit > 0) {

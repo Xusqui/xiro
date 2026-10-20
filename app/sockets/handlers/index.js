@@ -53,4 +53,3 @@ module.exports = {
     createLeaveLobbyHandler: SimpleHandlers.createLeaveLobbyHandler,
     createErrorHandler: SimpleHandlers.createErrorHandler
 };
-

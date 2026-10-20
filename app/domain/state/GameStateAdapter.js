@@ -1,9 +1,9 @@
 /**
  * GameStateAdapter - Adaptador entre el estado legacy y la state machine
- * 
+ *
  * Permite usar la máquina de estados en paralelo con el código existente
  * sin romper funcionalidad. Sincroniza ambos sistemas.
- * 
+ *
  * @module domain/state/GameStateAdapter
  */
 
@@ -37,7 +37,9 @@ class GameStateAdapter {
         });
 
         const finalState = this.getCurrentState();
-        logger.debug(`Estado después de CREATE_GAME: ${finalState}, totalQuestions: ${this.getContext().totalQuestions}`);
+        logger.debug(
+            `Estado después de CREATE_GAME: ${finalState}, totalQuestions: ${this.getContext().totalQuestions}`
+        );
 
         return this;
     }
@@ -195,8 +197,6 @@ class GameStateAdapter {
         return this.getCurrentState() === 'questionActive';
     }
 
-
-
     /**
      * Termina el juego (results → gameEnd)
      */
@@ -288,7 +288,9 @@ class GameStateAdapter {
 
         // Validar índice de pregunta
         if (context.currentQuestionIndex !== this.legacyState.currentIndex) {
-            errors.push(`Question index mismatch: SM=${context.currentQuestionIndex}, Legacy=${this.legacyState.currentIndex}`);
+            errors.push(
+                `Question index mismatch: SM=${context.currentQuestionIndex}, Legacy=${this.legacyState.currentIndex}`
+            );
         }
 
         // Validar canAnswer (solo si estamos en answering)
@@ -341,7 +343,9 @@ function getAdapter(gameId) {
  * Crea o obtiene un adaptador para un juego
  */
 function getOrCreateAdapter(gameId, questions, isTeamMode = false) {
-    logger.debug(`getOrCreateAdapter called: gameId=${gameId}, questions=${questions?.length || 'undefined'}, isTeamMode=${isTeamMode}, exists=${gameStateAdapters.has(gameId)}`);
+    logger.debug(
+        `getOrCreateAdapter called: gameId=${gameId}, questions=${questions?.length || 'undefined'}, isTeamMode=${isTeamMode}, exists=${gameStateAdapters.has(gameId)}`
+    );
 
     if (!gameStateAdapters.has(gameId)) {
         const adapter = new GameStateAdapter(gameId);

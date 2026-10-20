@@ -4,7 +4,17 @@
 
 import { tr, ensureModalStyles } from './modal.js?v=20260922172926';
 
-function buildInputModal({ title, message, type, placeholder, initialValue, confirmText, cancelText, onConfirm, onCancel }) {
+function buildInputModal({
+    title,
+    message,
+    type,
+    placeholder,
+    initialValue,
+    confirmText,
+    cancelText,
+    onConfirm,
+    onCancel
+}) {
     ensureModalStyles();
     const openedAt = Date.now();
 
@@ -65,7 +75,7 @@ function buildInputModal({ title, message, type, placeholder, initialValue, conf
     }
 
     input.addEventListener('input', () => input.classList.remove('is-invalid'));
-    input.addEventListener('keydown', (event) => {
+    input.addEventListener('keydown', event => {
         if (event.key === 'Enter') {
             event.preventDefault();
             attemptConfirm();
@@ -76,7 +86,7 @@ function buildInputModal({ title, message, type, placeholder, initialValue, conf
         if (event.key === 'Escape') close('cancel');
     }
 
-    overlay.addEventListener('click', (event) => {
+    overlay.addEventListener('click', event => {
         // Ver mismo comentario en modal.js: evita cierre por el click sintético
         // que en móviles puede generar el tap que abrió el modal.
         if (Date.now() - openedAt < 400) return;

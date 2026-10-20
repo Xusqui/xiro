@@ -36,7 +36,9 @@ const StandaloneGame = (() => {
         const question = StandaloneState.get().currentQuestion;
 
         StandaloneQuestionRouter.render(container, question, {
-            onSubmitted: () => { /* el jugador real tampoco muestra aviso: solo espera */ },
+            onSubmitted: () => {
+                /* el jugador real tampoco muestra aviso: solo espera */
+            },
             onContinue: () => StandaloneSocket.nextQuestion()
         });
 
@@ -73,9 +75,10 @@ const StandaloneGame = (() => {
     }
 
     function _handleRandomPointsReveal(payload) {
-        window.XiroRandomPointsOverlay && window.XiroRandomPointsOverlay.show(payload, {
-            currentStreak: StandaloneState.get().streakInfo?.current || 0
-        });
+        window.XiroRandomPointsOverlay &&
+            window.XiroRandomPointsOverlay.show(payload, {
+                currentStreak: StandaloneState.get().streakInfo?.current || 0
+            });
     }
 
     function _handleNewQuestion(data) {
@@ -108,11 +111,13 @@ const StandaloneGame = (() => {
     }
 
     return {
-        init: function () { /* sin acción: la lógica arranca desde startGame() */ },
+        init: function () {
+            /* sin acción: la lógica arranca desde startGame() */
+        },
 
         startGame: async function (pin) {
-            const nickname = StandaloneState.getNickname() ||
-                (window.XiroI18n?.t('standalone.lobby.default_nickname') || 'Jugador');
+            const nickname =
+                StandaloneState.getNickname() || window.XiroI18n?.t('standalone.lobby.default_nickname') || 'Jugador';
 
             StandaloneState.reset();
             const state = StandaloneState.get();
@@ -128,20 +133,25 @@ const StandaloneGame = (() => {
             `;
 
             try {
-                await StandaloneSocket.startSession({ pin, nickname }, {
-                    onGameStarted: _handleGameStarted,
-                    onNewQuestion: _handleNewQuestion,
-                    onRandomPointsReveal: _handleRandomPointsReveal,
-                    onAnswerResult: (data) => _showReveal('answer-result', data),
-                    onRevealAnswer: (data) => _showReveal('reveal-answer', data),
-                    onMaxScore: _handleMaxScore,
-                    onGameEnded: _handleGameEnded,
-                    onError: _handleError,
-                    onDisconnected: _handleDisconnected
-                });
+                await StandaloneSocket.startSession(
+                    { pin, nickname },
+                    {
+                        onGameStarted: _handleGameStarted,
+                        onNewQuestion: _handleNewQuestion,
+                        onRandomPointsReveal: _handleRandomPointsReveal,
+                        onAnswerResult: data => _showReveal('answer-result', data),
+                        onRevealAnswer: data => _showReveal('reveal-answer', data),
+                        onMaxScore: _handleMaxScore,
+                        onGameEnded: _handleGameEnded,
+                        onError: _handleError,
+                        onDisconnected: _handleDisconnected
+                    }
+                );
             } catch (err) {
                 StandaloneSocket.abandonAndDisconnect();
-                _showErrorAndReturn(err?.message || (window.XiroI18n?.t('standalone.game.join_error') || 'No se pudo iniciar la partida.'));
+                _showErrorAndReturn(
+                    err?.message || window.XiroI18n?.t('standalone.game.join_error') || 'No se pudo iniciar la partida.'
+                );
             }
         }
     };

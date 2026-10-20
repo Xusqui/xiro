@@ -61,16 +61,18 @@ function _request(baseUrl, apiPath, payload, timeout, apiKey = null) {
         const url = new URL(baseUrl + apiPath);
         const transport = url.protocol === 'https:' ? https : http;
         const body = payload ? JSON.stringify(payload) : null;
-        const headers = { 'Accept': 'application/json' };
+        const headers = { Accept: 'application/json' };
         if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`;
         if (body) {
             headers['Content-Type'] = 'application/json';
             headers['Content-Length'] = Buffer.byteLength(body);
         }
 
-        const req = transport.request(url, { method: body ? 'POST' : 'GET', headers }, (res) => {
+        const req = transport.request(url, { method: body ? 'POST' : 'GET', headers }, res => {
             let data = '';
-            res.on('data', chunk => { data += chunk; });
+            res.on('data', chunk => {
+                data += chunk;
+            });
             res.on('end', () => {
                 let parsed = null;
                 let parseError = null;
@@ -95,7 +97,7 @@ function _request(baseUrl, apiPath, payload, timeout, apiKey = null) {
             reject(new Error(`Timeout: Ollama no respondió en ${timeout / 1000}s`));
         });
 
-        req.on('error', (err) => reject(new Error(`Error de red con Ollama: ${err.message}`)));
+        req.on('error', err => reject(new Error(`Error de red con Ollama: ${err.message}`)));
         if (body) req.write(body);
         req.end();
     });
@@ -113,18 +115,24 @@ function _request(baseUrl, apiPath, payload, timeout, apiKey = null) {
  * @returns {Promise<string>}
  */
 async function callOllama({ baseUrl, apiKey, model, userPrompt, systemPrompt, timeout, maxTokens }) {
-    const parsed = await _request(baseUrl, '/api/chat', {
-        model,
-        messages: [
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: userPrompt }
-        ],
-        stream: false,
-        // Los modelos con razonamiento (qwen3, deepseek-r1…) gastaban todo num_predict
-        // pensando y devolvían content vacío. Los modelos sin razonamiento lo ignoran.
-        think: false,
-        options: { temperature: 0.7, num_ctx: NUM_CTX, num_predict: Math.max(maxTokens * 3, MIN_NUM_PREDICT) }
-    }, Math.max(timeout || 0, MIN_TIMEOUT), apiKey);
+    const parsed = await _request(
+        baseUrl,
+        '/api/chat',
+        {
+            model,
+            messages: [
+                { role: 'system', content: systemPrompt },
+                { role: 'user', content: userPrompt }
+            ],
+            stream: false,
+            // Los modelos con razonamiento (qwen3, deepseek-r1…) gastaban todo num_predict
+            // pensando y devolvían content vacío. Los modelos sin razonamiento lo ignoran.
+            think: false,
+            options: { temperature: 0.7, num_ctx: NUM_CTX, num_predict: Math.max(maxTokens * 3, MIN_NUM_PREDICT) }
+        },
+        Math.max(timeout || 0, MIN_TIMEOUT),
+        apiKey
+    );
 
     // Versiones antiguas de Ollama dejan el razonamiento dentro de content
     const text = (parsed.message?.content || '').replace(THINK_BLOCK, '').trim();

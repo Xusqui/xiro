@@ -6,7 +6,6 @@
  */
 
 const ViewQuestion = (() => {
-
     let _socket = null;
     let _meta = null;
     let _session = null;
@@ -36,7 +35,7 @@ const ViewQuestion = (() => {
     }
 
     function _log(level, msg, data) {
-        apiPost('/api/addin-log', { level, module: 'view-question', message: msg, data }).catch(() => { }); // eslint-disable-line no-undef
+        apiPost('/api/addin-log', { level, module: 'view-question', message: msg, data }).catch(() => {}); // eslint-disable-line no-undef
     }
 
     function _connectSocket() {
@@ -49,7 +48,7 @@ const ViewQuestion = (() => {
             _socket.emit('reconnect-presenter', { playerId, token: localStorage.getItem('adminToken') || '' });
         });
 
-        _socket.on('reconnected-success', (snapshot) => {
+        _socket.on('reconnected-success', snapshot => {
             const hasGame = !!(snapshot && snapshot.gameState && snapshot.gameState.currentQuestion);
             _log('info', 'reconnected-success', { hasGame, sessionId: _session.sessionId });
             if (hasGame) {
@@ -66,33 +65,36 @@ const ViewQuestion = (() => {
             _socket.emit('start-game', _session.sessionId);
         });
 
-        _socket.on('connect_error', (err) => {
+        _socket.on('connect_error', err => {
             _log('error', 'connect_error', { message: err.message });
             const metaEl = document.getElementById('vq-meta');
             if (metaEl) metaEl.textContent = 'Error de conexión: ' + err.message;
         });
 
-        _socket.on('game-start-error', (d) => {
+        _socket.on('game-start-error', d => {
             _log('error', 'game-start-error', d);
             const metaEl = document.getElementById('vq-meta');
             if (metaEl) metaEl.textContent = 'Error al iniciar: ' + (d.message || '');
         });
 
-        _socket.on('new-question', (data) => {
+        _socket.on('new-question', data => {
             _log('info', 'new-question received', { index: data.currentIndex });
             _question = data.question;
             _total = 0;
             _renderQuestion(data);
         });
 
-        _socket.on('game-started', (data) => {
-            _log('info', 'game-started received', { totalQuestions: data.totalQuestions, currentIndex: data.currentIndex });
+        _socket.on('game-started', data => {
+            _log('info', 'game-started received', {
+                totalQuestions: data.totalQuestions,
+                currentIndex: data.currentIndex
+            });
             _total = data.totalQuestions || 0;
             _question = data.firstQuestion;
             _renderQuestion({
                 question: data.firstQuestion,
                 currentIndex: data.currentIndex || 0,
-                totalQuestions: data.totalQuestions || 0,
+                totalQuestions: data.totalQuestions || 0
             });
         });
 
@@ -107,8 +109,14 @@ const ViewQuestion = (() => {
             _showRevealButtons();
         });
 
-        _socket.on('timer-paused', (d) => { _clearTimer(); _timeLeft = Math.ceil(d.remainingTime); });
-        _socket.on('timer-resumed', (d) => { _timeLeft = Math.ceil(d.remainingTime); _startCountdown(); });
+        _socket.on('timer-paused', d => {
+            _clearTimer();
+            _timeLeft = Math.ceil(d.remainingTime);
+        });
+        _socket.on('timer-resumed', d => {
+            _timeLeft = Math.ceil(d.remainingTime);
+            _startCountdown();
+        });
     }
 
     function _renderQuestion(data) {
@@ -143,14 +151,17 @@ const ViewQuestion = (() => {
         const totalTime = _question?.time_limit || 30;
         _timerHandle = setInterval(() => {
             _timeLeft = Math.max(0, _timeLeft - 1);
-            if (fill) fill.style.width = ((_timeLeft / totalTime) * 100) + '%';
+            if (fill) fill.style.width = (_timeLeft / totalTime) * 100 + '%';
             _updateStats();
             if (_timeLeft <= 0) _clearTimer();
         }, 1000);
     }
 
     function _clearTimer() {
-        if (_timerHandle) { clearInterval(_timerHandle); _timerHandle = null; }
+        if (_timerHandle) {
+            clearInterval(_timerHandle);
+            _timerHandle = null;
+        }
     }
 
     function _updateStats() {
@@ -172,7 +183,12 @@ const ViewQuestion = (() => {
 
     function unmount() {
         _clearTimer();
-        if (_socket) { try { _socket.disconnect(); } catch (_) { } _socket = null; }
+        if (_socket) {
+            try {
+                _socket.disconnect();
+            } catch (_) {}
+            _socket = null;
+        }
     }
 
     return { mount, unmount };

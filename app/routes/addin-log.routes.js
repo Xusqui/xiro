@@ -26,7 +26,7 @@ const logLimiter = rateLimit({
     max: 120,
     standardHeaders: true,
     legacyHeaders: false,
-    message: { error: 'Too many log requests', code: 'ADDIN_LOG_RATE_LIMITED' },
+    message: { error: 'Too many log requests', code: 'ADDIN_LOG_RATE_LIMITED' }
 });
 
 // Limitar a 30 req/min para creación de sesiones
@@ -35,7 +35,7 @@ const sessionLimiter = rateLimit({
     max: 30,
     standardHeaders: true,
     legacyHeaders: false,
-    message: { error: 'Too many session creation requests', code: 'ADDIN_SESSION_RATE_LIMITED' },
+    message: { error: 'Too many session creation requests', code: 'ADDIN_SESSION_RATE_LIMITED' }
 });
 
 /**
@@ -52,7 +52,7 @@ router.post('/api/addin-log', logLimiter, (req, res) => {
     const entry = {
         source: 'ppt-addin',
         module: String(mod).slice(0, 64),
-        ...(data && typeof data === 'object' ? { data } : {}),
+        ...(data && typeof data === 'object' ? { data } : {})
     };
 
     logger[safeLevel](`[addin] ${String(message).slice(0, 512)}`, entry);

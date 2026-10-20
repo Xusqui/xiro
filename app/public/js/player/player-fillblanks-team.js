@@ -43,7 +43,7 @@ export function joinFillBlanks({ onSolved, onHint, onSubmitted, onSync }) {
         listeners = current;
     }
 
-    socket.emit('fill-blanks-sync', {}, (ack) => {
+    socket.emit('fill-blanks-sync', {}, ack => {
         // Si ya se pasó a otra pregunta, la respuesta no vale
         if (!ack?.ok || (isTeamFillBlanks() && listeners !== current)) return;
         onSync(ack);
@@ -55,18 +55,18 @@ export function joinFillBlanks({ onSolved, onHint, onSubmitted, onSync }) {
  * @returns {Promise<{ ok: boolean, correct?: boolean, word?: string, reason?: string }>}
  */
 export function checkBlank(blankIndex, word) {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
         if (!isTeamFillBlanks()) {
             resolve({ ok: false, reason: 'not-team' });
             return;
         }
-        socket.emit('fill-blanks-check', { blankIndex, word }, (ack) => resolve(ack || { ok: false, reason: 'error' }));
+        socket.emit('fill-blanks-check', { blankIndex, word }, ack => resolve(ack || { ok: false, reason: 'error' }));
     });
 }
 
 /** Pide una letra del hueco (vale para el equipo si juega en equipos). */
 export function requestHint(blankIndex) {
-    return new Promise((resolve) => {
-        socket.emit('fill-blanks-hint', { blankIndex }, (ack) => resolve(ack || { ok: false, reason: 'error' }));
+    return new Promise(resolve => {
+        socket.emit('fill-blanks-hint', { blankIndex }, ack => resolve(ack || { ok: false, reason: 'error' }));
     });
 }

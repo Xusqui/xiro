@@ -23,7 +23,10 @@ window.XiroTeamLeader = (function () {
     const answers = new Map();
     const waiters = new Map();
 
-    const isLeader = nick => String(nick || '').trim().toLowerCase() === LEADER_NICK;
+    const isLeader = nick =>
+        String(nick || '')
+            .trim()
+            .toLowerCase() === LEADER_NICK;
     const key = (teamName, questionKey) => `${teamName}|${questionKey}`;
 
     /** Clave de la pregunta actual; null si no se puede identificar. */
@@ -72,7 +75,11 @@ window.XiroTeamLeader = (function () {
         if (!diagnosticTimer) {
             diagnosticTimer = setTimeout(() => {
                 if (socket && detailsSeen === 0) {
-                    logFn('leader', 'warn', 'No llega player-answer-detail: ¿servidor reiniciado tras la actualización?');
+                    logFn(
+                        'leader',
+                        'warn',
+                        'No llega player-answer-detail: ¿servidor reiniciado tras la actualización?'
+                    );
                 }
             }, DIAGNOSTIC_DELAY_MS);
         }
@@ -88,23 +95,32 @@ window.XiroTeamLeader = (function () {
         logFn = log || logFn;
         trivial = !!options.trivial;
         let token = null;
-        try { token = localStorage.getItem('adminToken'); } catch { /* cookie fallback en servidor */ }
+        try {
+            token = localStorage.getItem('adminToken');
+        } catch {
+            /* cookie fallback en servidor */
+        }
 
         socket = io(window.location.origin, { transports: ['websocket'], reconnection: true });
         const join = () => socket.emit('join-remote-presenter', { pin: sessionId.split('-')[0], token });
         socket.on('connect', join);
-        socket.on('remote-join-success', (snapshot) => {
+        socket.on('remote-join-success', snapshot => {
             if (snapshot?.sessionId && snapshot.sessionId !== sessionId) {
                 logFn('leader', 'warn', `Observador unido a otra sesión (${snapshot.sessionId})`);
             }
-            if (typeof snapshot?.currentIndex === 'number' && snapshot.state !== 'lobby') currentIndex = snapshot.currentIndex;
+            if (typeof snapshot?.currentIndex === 'number' && snapshot.state !== 'lobby')
+                currentIndex = snapshot.currentIndex;
             setTeams(snapshot?.teamConfig?.teams);
         });
-        socket.on('remote-join-failed', d => logFn('leader', 'warn', `Observador Xiro no disponible: ${d?.message || d?.reason}`));
+        socket.on('remote-join-failed', d =>
+            logFn('leader', 'warn', `Observador Xiro no disponible: ${d?.message || d?.reason}`)
+        );
         socket.on('team-update', d => setTeams(d?.teams));
         socket.on('player-answer-detail', record);
-        socket.on('game-started', d => { currentIndex = d?.currentIndex ?? 0; });
-        socket.on('new-question', (d) => {
+        socket.on('game-started', d => {
+            currentIndex = d?.currentIndex ?? 0;
+        });
+        socket.on('new-question', d => {
             if (trivial) round++;
             if (typeof d?.currentIndex === 'number') currentIndex = d.currentIndex;
         });
@@ -125,4 +141,4 @@ window.XiroTeamLeader = (function () {
     }
 
     return { start, stop, keyFor, teamHasLeader, waitForAnswer, isLeader };
-}());
+})();

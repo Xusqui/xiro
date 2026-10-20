@@ -6,9 +6,7 @@ const MODAL_STYLE_ID = 'xiro-modal-styles';
 
 export function tr(text) {
     if (typeof text !== 'string') return text;
-    return window.XiroI18n?.translateLiteral
-        ? window.XiroI18n.translateLiteral(text)
-        : text;
+    return window.XiroI18n?.translateLiteral ? window.XiroI18n.translateLiteral(text) : text;
 }
 
 /**
@@ -169,7 +167,7 @@ function buildModal({ title, message, type, showCancel, confirmText, cancelText,
         }
     }
 
-    overlay.addEventListener('click', (event) => {
+    overlay.addEventListener('click', event => {
         // En móviles, el tap que abre el modal puede generar un click sintético
         // tardío sobre el overlay y cerrarlo al instante. Ignoramos ese primer
         // tramo temporal para evitar falsos "Cancelar".
@@ -201,7 +199,15 @@ export function mostrarModalMensaje(titulo, mensaje, tipo = 'info', textoConfirm
 
 // Firma posicional compartida por presentador y jugador: se mantiene a propósito
 // eslint-disable-next-line max-params
-export function mostrarModalConfirmacion(titulo, mensaje, onConfirm, onCancel, textoConfirm = 'Confirmar', textoCancelar, tipo = 'warning') {
+export function mostrarModalConfirmacion(
+    titulo,
+    mensaje,
+    onConfirm,
+    onCancel,
+    textoConfirm = 'Confirmar',
+    textoCancelar,
+    tipo = 'warning'
+) {
     buildModal({
         title: titulo,
         message: mensaje,

@@ -18,11 +18,21 @@ const soundManager = {
     _fadeSteps: 12,
 
     sources: {
-        lift: { volume: 1, playbackRateMin: 0.85, playbackRateMax: 0.95, fileNames: ['lift1.mp3', 'lift2.mp3', 'lift3.mp3'] },
-        burst: { volume: 1, playbackRateMin: 0.80, playbackRateMax: 0.90, fileNames: ['burst1.mp3', 'burst2.mp3'] },
-        burstSmall: { volume: 0.25, playbackRateMin: 0.80, playbackRateMax: 1.00, fileNames: ['burst-sm-1.mp3', 'burst-sm-2.mp3'] },
-        crackle: { volume: 0.20, playbackRateMin: 1, playbackRateMax: 1, fileNames: ['crackle1.mp3'] },
-        crackleSmall: { volume: 0.30, playbackRateMin: 1, playbackRateMax: 1, fileNames: ['crackle-sm-1.mp3'] }
+        lift: {
+            volume: 1,
+            playbackRateMin: 0.85,
+            playbackRateMax: 0.95,
+            fileNames: ['lift1.mp3', 'lift2.mp3', 'lift3.mp3']
+        },
+        burst: { volume: 1, playbackRateMin: 0.8, playbackRateMax: 0.9, fileNames: ['burst1.mp3', 'burst2.mp3'] },
+        burstSmall: {
+            volume: 0.25,
+            playbackRateMin: 0.8,
+            playbackRateMax: 1.0,
+            fileNames: ['burst-sm-1.mp3', 'burst-sm-2.mp3']
+        },
+        crackle: { volume: 0.2, playbackRateMin: 1, playbackRateMax: 1, fileNames: ['crackle1.mp3'] },
+        crackleSmall: { volume: 0.3, playbackRateMin: 1, playbackRateMax: 1, fileNames: ['crackle-sm-1.mp3'] }
     },
 
     _getCtx() {
@@ -41,14 +51,21 @@ const soundManager = {
         Object.values(this.sources).forEach(src => {
             const filePromises = src.fileNames.map(name =>
                 fetch(baseURL + name)
-                    .then(r => { if (!r.ok) throw new Error(r.statusText); return r.arrayBuffer(); })
+                    .then(r => {
+                        if (!r.ok) throw new Error(r.statusText);
+                        return r.arrayBuffer();
+                    })
                     .then(data => new Promise(resolve => ctx.decodeAudioData(data, resolve)))
             );
-            const p = Promise.all(filePromises).then(buffers => { src.buffers = buffers; });
+            const p = Promise.all(filePromises).then(buffers => {
+                src.buffers = buffers;
+            });
             allPromises.push(p);
         });
 
-        return Promise.all(allPromises).then(() => { this._loaded = true; });
+        return Promise.all(allPromises).then(() => {
+            this._loaded = true;
+        });
     },
 
     resetFade() {
@@ -71,7 +88,7 @@ const soundManager = {
     _unlockOnInteraction() {
         if (!this._ctx || this._ctx.state === 'running') return;
         const unlock = () => {
-            if (this._ctx) this._ctx.resume().catch(() => { });
+            if (this._ctx) this._ctx.resume().catch(() => {});
         };
         ['click', 'touchstart', 'keydown', 'pointerdown'].forEach(evt =>
             document.addEventListener(evt, unlock, { once: true, capture: true })
@@ -102,7 +119,7 @@ const soundManager = {
         const gainNode = ctx.createGain();
         gainNode.gain.value = src.volume * scale * fadeFactor;
 
-        const buffer = src.buffers[Math.random() * src.buffers.length | 0];
+        const buffer = src.buffers[(Math.random() * src.buffers.length) | 0];
         const bufSrc = ctx.createBufferSource();
         bufSrc.playbackRate.value = MyMath.random(src.playbackRateMin, src.playbackRateMax) * (2 - scale);
         bufSrc.buffer = buffer;
@@ -232,7 +249,7 @@ class FireworksController {
 
     updateParticles(timeStep, lag) {
         const speed = this.simSpeed * lag;
-        const gAcc = timeStep / 1000 * GRAVITY;
+        const gAcc = (timeStep / 1000) * GRAVITY;
         const starDrag = 1 - (1 - Star.airDrag) * speed;
         const starDragHeavy = 1 - (1 - Star.airDragHeavy) * speed;
         const sparkDrag = 1 - (1 - Spark.airDrag) * speed;
@@ -423,7 +440,7 @@ class FireworksController {
         const maxVariance = Math.min(2.5, baseSize);
         const variance = Math.random() * maxVariance;
         const shellSize = baseSize - variance;
-        const height = maxVariance === 0 ? Math.random() : 1 - (variance / maxVariance);
+        const height = maxVariance === 0 ? Math.random() : 1 - variance / maxVariance;
         const centerOffset = Math.random() * (1 - height * 0.65) * 0.5;
         const x = Math.random() < 0.5 ? 0.5 - centerOffset : 0.5 + centerOffset;
 

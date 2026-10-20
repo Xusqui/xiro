@@ -6,13 +6,23 @@
  * Devuelven el fallback/texto original sin traducir.
  * Fichero externo (no inline) para que lo permita la CSP via 'self'.
  */
-window._t = window._t || function (k, v, f) {
-    var text = f != null ? String(f) : (k != null ? String(k) : '');
-    if (!v || typeof v !== 'object') return text;
-    // Sustituye {nombre} por vars.nombre, como _t de i18n-core (p. ej. "JUGÁIS POR {points} PUNTOS")
-    return text.replace(/\{(\w+)\}/g, function (match, name) {
-        return Object.prototype.hasOwnProperty.call(v, name) && v[name] != null ? String(v[name]) : match;
-    });
-};
-window._tHtml = window._tHtml || function (h) { return h != null ? String(h) : ''; };
-window._tHtmlApply = window._tHtmlApply || function (v) { return v != null ? String(v) : ''; };
+window._t =
+    window._t ||
+    function (k, v, f) {
+        var text = f != null ? String(f) : k != null ? String(k) : '';
+        if (!v || typeof v !== 'object') return text;
+        // Sustituye {nombre} por vars.nombre, como _t de i18n-core (p. ej. "JUGÁIS POR {points} PUNTOS")
+        return text.replace(/\{(\w+)\}/g, function (match, name) {
+            return Object.prototype.hasOwnProperty.call(v, name) && v[name] != null ? String(v[name]) : match;
+        });
+    };
+window._tHtml =
+    window._tHtml ||
+    function (h) {
+        return h != null ? String(h) : '';
+    };
+window._tHtmlApply =
+    window._tHtmlApply ||
+    function (v) {
+        return v != null ? String(v) : '';
+    };

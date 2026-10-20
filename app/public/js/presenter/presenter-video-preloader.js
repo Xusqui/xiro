@@ -12,7 +12,8 @@ const LOOKAHEAD = 2;
 const LOAD_TIMEOUT_MS = 90000;
 const HOLDER_ID = 'video-preload-holder';
 // Fuera de pantalla y no con display:none: Safari no precarga vídeos ocultos así
-const HOLDER_STYLE = 'position:fixed;left:-10000px;top:0;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none;';
+const HOLDER_STYLE =
+    'position:fixed;left:-10000px;top:0;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none;';
 
 let videoSlides = [];
 const pool = new Map();
@@ -100,7 +101,7 @@ function preconnect(embedUrl) {
  * Olvida la partida (nueva partida o fin)
  */
 export function clearVideoPreloads() {
-    pool.forEach((video) => releaseVideo(video));
+    pool.forEach(video => releaseVideo(video));
     pool.clear();
     queue = [];
     loadingUrl = null;
@@ -113,9 +114,9 @@ export function clearVideoPreloads() {
  */
 export function advanceVideoPreloads(currentIndex) {
     const upcoming = videoSlides
-        .filter((slide) => slide.index > currentIndex)
+        .filter(slide => slide.index > currentIndex)
         .slice(0, LOOKAHEAD)
-        .map((slide) => slide.url);
+        .map(slide => slide.url);
     const keep = new Set(upcoming);
     pool.forEach((video, url) => {
         if (keep.has(url)) return;
@@ -123,7 +124,7 @@ export function advanceVideoPreloads(currentIndex) {
         if (url === loadingUrl) loadingUrl = null;
         releaseVideo(video);
     });
-    queue = upcoming.filter((url) => !pool.has(url));
+    queue = upcoming.filter(url => !pool.has(url));
     loadNext();
 }
 
@@ -152,7 +153,7 @@ export function planVideoPreloads(questions, currentIndex) {
 
         // Manejar videos en canvas
         if (q.slide_type === 'canvas' && q.slide_canvas && Array.isArray(q.slide_canvas.elements)) {
-            q.slide_canvas.elements.forEach((element) => {
+            q.slide_canvas.elements.forEach(element => {
                 if (element && element.type === 'video' && element.video_source) {
                     const source = element.video_source;
                     if (source.kind === 'file') {

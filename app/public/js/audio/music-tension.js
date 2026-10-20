@@ -22,7 +22,7 @@
 })(typeof self !== 'undefined' ? self : this, function () {
     'use strict';
 
-    const clamp01 = (v) => Math.max(0, Math.min(1, v));
+    const clamp01 = v => Math.max(0, Math.min(1, v));
 
     // Punto de inflexión: hasta el 70 % del tiempo la tensión solo llega a 0,35
     const KNEE_PROGRESS = 0.7;
@@ -91,8 +91,8 @@
                 brass: 0.8 * ramp(x, 0.8, 0.95),
                 melody: 0
             },
-            drums: x < 0.3 ? 'qPulse' : (x < 0.55 ? 'q8' : 'q16'),
-            bass: x < 0.45 ? 'pedal' : (x < 0.7 ? 'pop' : 'octave'),
+            drums: x < 0.3 ? 'qPulse' : x < 0.55 ? 'q8' : 'q16',
+            bass: x < 0.45 ? 'pedal' : x < 0.7 ? 'pop' : 'octave',
             arp: x < 0.6 ? 'none' : 'sparkle',
             brass: x < 0.8 ? 'none' : 'stabs',
             piano: x < 0.45 ? 'arp' : 'pulse',
@@ -112,8 +112,18 @@
     }
 
     return {
-        RISER_SECONDS, TICK_SECONDS, MAX_TEMPO_BOOST, KNEE_PROGRESS, KNEE_TENSION,
-        clockOffset, questionProgress, remainingMs, pauseQuestion, resumeQuestion,
-        tensionCurve, tensionParams, timeCues
+        RISER_SECONDS,
+        TICK_SECONDS,
+        MAX_TEMPO_BOOST,
+        KNEE_PROGRESS,
+        KNEE_TENSION,
+        clockOffset,
+        questionProgress,
+        remainingMs,
+        pauseQuestion,
+        resumeQuestion,
+        tensionCurve,
+        tensionParams,
+        timeCues
     };
 });

@@ -5,17 +5,29 @@
  */
 
 import { socket } from './player-socket-config.js?v=20260922172926';
-import { setBodyHTML, applyStreakToResult, replacePendingStreakResult, buildLostStreakInfo } from './player-streak-ui.js?v=20260922172926';
+import {
+    setBodyHTML,
+    applyStreakToResult,
+    replacePendingStreakResult,
+    buildLostStreakInfo
+} from './player-streak-ui.js?v=20260922172926';
 import { getRememberedReveal, timeUpScreenHtml } from './player-reveal-correct.js?v=20260922172926';
 import { renderLastRankingSince } from './player-results.js?v=20260922172926';
 import {
-    getPin, getSessionId, getNickname,
-    getCanAnswer, setHaRespondido,
-    getPendingAnswer, setPendingAnswer,
-    getSendingAnswer, setSendingAnswer,
+    getPin,
+    getSessionId,
+    getNickname,
+    getCanAnswer,
+    setHaRespondido,
+    getPendingAnswer,
+    setPendingAnswer,
+    getSendingAnswer,
+    setSendingAnswer,
     getResultReceived,
-    getCurrentOrder, clearOrderAutoSendTimer,
-    getCurrentMatches, clearMatchAutoSendTimer,
+    getCurrentOrder,
+    clearOrderAutoSendTimer,
+    getCurrentMatches,
+    clearMatchAutoSendTimer,
     getStreakInfo
 } from './player-state.js?v=20260922172926';
 
@@ -65,7 +77,10 @@ export function enviarOrdenRespuesta(isAuto = false) {
         return;
     }
     if (getPendingAnswer() || getSendingAnswer()) return;
-    if (!getNickname()) { console.warn('Bloqueado: estado de jugador vacío'); return; }
+    if (!getNickname()) {
+        console.warn('Bloqueado: estado de jugador vacío');
+        return;
+    }
 
     const order = getCurrentOrder();
     if (!Array.isArray(order) || order.length === 0) {
@@ -77,8 +92,20 @@ export function enviarOrdenRespuesta(isAuto = false) {
     setHaRespondido(true);
 
     const payload = getSessionId()
-        ? { sessionId: getSessionId(), nickname: getNickname(), answerType: 'order', order: [...order], requestId: createRequestId() }
-        : { pin: getPin(), nickname: getNickname(), answerType: 'order', order: [...order], requestId: createRequestId() };
+        ? {
+            sessionId: getSessionId(),
+            nickname: getNickname(),
+            answerType: 'order',
+            order: [...order],
+            requestId: createRequestId()
+        }
+        : {
+            pin: getPin(),
+            nickname: getNickname(),
+            answerType: 'order',
+            order: [...order],
+            requestId: createRequestId()
+        };
 
     setPendingAnswer({ payload, order: [...order], isAuto });
 
@@ -114,8 +141,20 @@ export function enviarMatchingRespuesta(isAuto = false) {
     setHaRespondido(true);
 
     const payload = getSessionId()
-        ? { sessionId: getSessionId(), nickname: getNickname(), answerType: 'matching', matches: [...matches], requestId: createRequestId() }
-        : { pin: getPin(), nickname: getNickname(), answerType: 'matching', matches: [...matches], requestId: createRequestId() };
+        ? {
+            sessionId: getSessionId(),
+            nickname: getNickname(),
+            answerType: 'matching',
+            matches: [...matches],
+            requestId: createRequestId()
+        }
+        : {
+            pin: getPin(),
+            nickname: getNickname(),
+            answerType: 'matching',
+            matches: [...matches],
+            requestId: createRequestId()
+        };
 
     setPendingAnswer({ payload, matches: [...matches], isAuto });
 
@@ -167,8 +206,20 @@ export function enviarRespuestaNumerica(isAuto = false) {
     setHaRespondido(true);
 
     const payload = getSessionId()
-        ? { sessionId: getSessionId(), nickname: getNickname(), answerType: 'numeric', playerAnswer: parseInt(playerAnswer), requestId: createRequestId() }
-        : { pin: getPin(), nickname: getNickname(), answerType: 'numeric', playerAnswer: parseInt(playerAnswer), requestId: createRequestId() };
+        ? {
+            sessionId: getSessionId(),
+            nickname: getNickname(),
+            answerType: 'numeric',
+            playerAnswer: parseInt(playerAnswer),
+            requestId: createRequestId()
+        }
+        : {
+            pin: getPin(),
+            nickname: getNickname(),
+            answerType: 'numeric',
+            playerAnswer: parseInt(playerAnswer),
+            requestId: createRequestId()
+        };
 
     setPendingAnswer({ payload, playerAnswer: parseInt(playerAnswer) });
 
@@ -193,7 +244,7 @@ export function enviarRespuestaWordScramble(isAuto = false) {
         return;
     }
     if (getPendingAnswer() || getSendingAnswer()) return;
- 
+
     if (!getNickname()) {
         console.warn('Bloqueado envío de respuesta: No hay nickname (estado reseteado)');
         return;
@@ -212,8 +263,20 @@ export function enviarRespuestaWordScramble(isAuto = false) {
     setHaRespondido(true);
 
     const payload = getSessionId()
-        ? { sessionId: getSessionId(), nickname: getNickname(), answerType: 'word_scramble', playerAnswer: wordAnswer, requestId: createRequestId() }
-        : { pin: getPin(), nickname: getNickname(), answerType: 'word_scramble', playerAnswer: wordAnswer, requestId: createRequestId() };
+        ? {
+            sessionId: getSessionId(),
+            nickname: getNickname(),
+            answerType: 'word_scramble',
+            playerAnswer: wordAnswer,
+            requestId: createRequestId()
+        }
+        : {
+            pin: getPin(),
+            nickname: getNickname(),
+            answerType: 'word_scramble',
+            playerAnswer: wordAnswer,
+            requestId: createRequestId()
+        };
 
     setPendingAnswer({ payload, playerAnswer: wordAnswer });
 
@@ -253,8 +316,20 @@ export function enviarRespuestaMultipleChoice(selectedIndices, isAuto = false) {
     setHaRespondido(true);
 
     const payload = getSessionId()
-        ? { sessionId: getSessionId(), nickname: getNickname(), answerType: 'multiple_choice', selectedIndices: [...selectedIndices], requestId: createRequestId() }
-        : { pin: getPin(), nickname: getNickname(), answerType: 'multiple_choice', selectedIndices: [...selectedIndices], requestId: createRequestId() };
+        ? {
+            sessionId: getSessionId(),
+            nickname: getNickname(),
+            answerType: 'multiple_choice',
+            selectedIndices: [...selectedIndices],
+            requestId: createRequestId()
+        }
+        : {
+            pin: getPin(),
+            nickname: getNickname(),
+            answerType: 'multiple_choice',
+            selectedIndices: [...selectedIndices],
+            requestId: createRequestId()
+        };
 
     setPendingAnswer({ payload, selectedIndices: [...selectedIndices] });
 

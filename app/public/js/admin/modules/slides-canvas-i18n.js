@@ -8,7 +8,7 @@
     'use strict';
 
     const root = typeof window !== 'undefined' ? window : globalThis;
-    const XiroCanvasEditor = root.XiroCanvasEditor = root.XiroCanvasEditor || {};
+    const XiroCanvasEditor = (root.XiroCanvasEditor = root.XiroCanvasEditor || {});
     const PREFIX = 'admin.canvas.';
     const HTML_ESCAPES = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', '\'': '&#39;' };
 
@@ -21,7 +21,7 @@
 
     /** Lo mismo, escapado para meterlo en HTML (texto o atributo). */
     function th(key, vars) {
-        return t(key, vars).replace(/[&<>"']/g, (c) => HTML_ESCAPES[c]);
+        return t(key, vars).replace(/[&<>"']/g, c => HTML_ESCAPES[c]);
     }
 
     /** Rótulos del hueco de vídeo para core/slide-canvas-render.js (opción labels). */

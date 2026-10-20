@@ -70,7 +70,7 @@ async function startTimer(roomId, timeLimit, io) {
     try {
         const redis = await getRedisClient();
         await redis.hSet(`timer:state:${roomId}`, {
-            isPaused: '0',  // Siempre false al iniciar
+            isPaused: '0', // Siempre false al iniciar
             startTime: String(timerState.startTime),
             remainingTime: String(timeLimit)
         });
@@ -88,11 +88,14 @@ async function startTimer(roomId, timeLimit, io) {
     }
 
     // Emitir evento de dominio
-    EventBus.emit('timer.started', new TimerStartedEvent({
-        gameId: roomId,
-        questionIndex: currentIndex,
-        timeLimit
-    }));
+    EventBus.emit(
+        'timer.started',
+        new TimerStartedEvent({
+            gameId: roomId,
+            questionIndex: currentIndex,
+            timeLimit
+        })
+    );
 
     // USAR timerManager para tracking correcto
     const timerId = timerManager.setTimeout(
@@ -133,7 +136,9 @@ async function claimRevealLock(roomId) {
     } catch (err) {
         const localState = timerPausedState.get(roomId);
         if (localState?.isPaused) {
-            logger.warn('revelarResultadosAutomatico: Timer pausado localmente (fallback), abortando reveal', { roomId });
+            logger.warn('revelarResultadosAutomatico: Timer pausado localmente (fallback), abortando reveal', {
+                roomId
+            });
             return false;
         }
         return true;
@@ -149,7 +154,9 @@ async function loadAnsweredSet(roomId, game) {
             const redis = await getRedisClient();
             return new Set(await redis.sMembers(`game:answered:${roomId}:${game.trivialQuestionEpoch}`));
         } catch (err) {
-            logger.warn('TimerManager: no se pudo leer answeredCurrent de Redis, usando Set local', { error: err.message });
+            logger.warn('TimerManager: no se pudo leer answeredCurrent de Redis, usando Set local', {
+                error: err.message
+            });
             return game.answeredCurrent || new Set();
         }
     }
@@ -186,7 +193,11 @@ async function persistStreakReset(roomId, game, nonAnswering, previousStreaks) {
 
         for (const nickname of nonAnswering) {
             await redis.hSet(streakKey, nickname, '0');
-            await redis.hSet(streakInfoKey, nickname, JSON.stringify(buildLostStreakInfo(game, previousStreaks[nickname])));
+            await redis.hSet(
+                streakInfoKey,
+                nickname,
+                JSON.stringify(buildLostStreakInfo(game, previousStreaks[nickname]))
+            );
         }
     } catch (err) {
         logger.warn('TimerManager: no se pudo persistir streak reset en Redis', { error: err.message });

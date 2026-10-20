@@ -55,36 +55,44 @@ async function renderVistaBancos() {
                 </div>
             </div>
 
-            ${bancos.length === 0 ? `
+            ${
+    bancos.length === 0
+        ? `
                 <div class="text-center py-20">
                     <i class="fas fa-inbox text-slate-300 text-6xl mb-4"></i>
                     <p class="text-slate-400 text-xl">${_t('admin.banks.empty_title', null, 'No hay bancos de preguntas todavía')}</p>
                     <p class="text-slate-400 mt-2">${_t('admin.banks.empty_msg', null, 'Crea tu primer banco para comenzar')}</p>
                 </div>
-            ` : `
+            `
+        : `
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    ${bancos.map(banco => {
-        const ownerInfo = {
-            created_by_role: banco.created_by_role,
-            created_by_user_id: banco.created_by_user_id,
-            created_by_username: banco.created_by_username
-        };
-        const canModify = canModifyOwnedResource(ownerInfo);
-        const editClasses = canModify
-            ? 'flex-1 btn-edit px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2'
-            : `flex-1 px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 ${getLockedButtonClasses()}`;
+                    ${bancos
+        .map(banco => {
+            const ownerInfo = {
+                created_by_role: banco.created_by_role,
+                created_by_user_id: banco.created_by_user_id,
+                created_by_username: banco.created_by_username
+            };
+            const canModify = canModifyOwnedResource(ownerInfo);
+            const editClasses = canModify
+                ? 'flex-1 btn-edit px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2'
+                : `flex-1 px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 ${getLockedButtonClasses()}`;
 
-        return `
+            return `
                         <div class="bg-white rounded-2xl shadow-sm border-2 border-slate-200 hover:border-plum-500 transition-all hover:shadow-xl group overflow-hidden">
                             <div class="p-6">
                                 <div class="flex justify-between items-start mb-4">
                                     <div class="flex-1">
                                         <h3 class="text-lg font-bold text-slate-900 mb-2 line-clamp-2">${escapeHtml(banco.name)}</h3>
                                         ${getOwnerBadgeHtml(ownerInfo)}
-                                        ${banco.pin ? `<div class="inline-flex items-center gap-2 bg-plum-100 text-plum-700 px-3 py-1 rounded-lg text-xs font-mono font-bold">
+                                        ${
+    banco.pin
+        ? `<div class="inline-flex items-center gap-2 bg-plum-100 text-plum-700 px-3 py-1 rounded-lg text-xs font-mono font-bold">
                                             <i class="fas fa-key"></i>
                                             PIN: ${banco.pin}
-                                        </div>` : ''}
+                                        </div>`
+        : ''
+}
                                     </div>
                                 </div>
                                 
@@ -102,9 +110,11 @@ async function renderVistaBancos() {
                             </div>
                         </div>
                     `;
-    }).join('')}
+        })
+        .join('')}
                 </div>
-            `}
+            `
+}
         </div>
     `);
 }
@@ -201,7 +211,7 @@ function renderEditorBanco(bank) {
                             </div>
                             <div>
                                 <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.banks.streak_bonus_label', null, 'Bonus (%)')}</label>
-                                <input type="number" id="editBankStreakBonusPercentage" value="${bank.streak_bonus_percentage ?? 0.50}" min="0" max="2" step="0.05" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-plum-500 outline-none text-sm">
+                                <input type="number" id="editBankStreakBonusPercentage" value="${bank.streak_bonus_percentage ?? 0.5}" min="0" max="2" step="0.05" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-plum-500 outline-none text-sm">
                             </div>
                         </div>
 
@@ -217,7 +227,7 @@ function renderEditorBanco(bank) {
                             </div>
                             <div>
                                 <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.banks.dbl_bonus_label', null, 'Bonus doble (%)')}</label>
-                                <input type="number" id="editBankDoubleStreakBonusPercentage" value="${bank.double_streak_bonus_percentage ?? 1.00}" min="0" max="2" step="0.05" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-plum-500 outline-none text-sm">
+                                <input type="number" id="editBankDoubleStreakBonusPercentage" value="${bank.double_streak_bonus_percentage ?? 1.0}" min="0" max="2" step="0.05" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-plum-500 outline-none text-sm">
                             </div>
                         </div>
 
@@ -247,13 +257,17 @@ function renderEditorBanco(bank) {
                     </button>
                 </div>
 
-                ${bank.id ? `
+                ${
+    bank.id
+        ? `
                 <div class="mt-4">
                     <button data-admin-click="exportarBanco()" class="bg-plum-50 text-plum-700 border-2 border-plum-200 px-6 py-3 rounded-lg font-bold hover:bg-plum-100 hover:border-plum-300 transition w-full flex items-center justify-center gap-3">
                         <i class="fas fa-file-export text-lg"></i> Exportar Banco
                     </button>
                 </div>
-                ` : ''}
+                `
+        : ''
+}
                 ${renderSaveBar(_t('admin.savebar.btn_save_changes'))}
             </div>
         </div>`);
@@ -312,10 +326,20 @@ function exportarBanco() {
     const id = document.getElementById('editId').value;
     const name = document.getElementById('editName').value || 'banco';
 
-    if (!id) return mostrarModalError(_t('admin.common.warning_title', null, '⚠️ Advertencia'), _t('admin.banks.error_export_saved', null, 'Sólo se puede exportar un banco guardado previamente'), 'warning');
-    if (!preguntasData || preguntasData.length === 0) return mostrarModalError(_t('admin.common.warning_title', null, '⚠️ Advertencia'), _t('admin.banks.error_export_empty', null, 'El banco no tiene preguntas para exportar'), 'warning');
+    if (!id)
+        return mostrarModalError(
+            _t('admin.common.warning_title', null, '⚠️ Advertencia'),
+            _t('admin.banks.error_export_saved', null, 'Sólo se puede exportar un banco guardado previamente'),
+            'warning'
+        );
+    if (!preguntasData || preguntasData.length === 0)
+        return mostrarModalError(
+            _t('admin.common.warning_title', null, '⚠️ Advertencia'),
+            _t('admin.banks.error_export_empty', null, 'El banco no tiene preguntas para exportar'),
+            'warning'
+        );
 
-    const preguntasValidas = preguntasData.filter(q => ((q.questionText || q.question_text || '').trim() !== ''));
+    const preguntasValidas = preguntasData.filter(q => (q.questionText || q.question_text || '').trim() !== '');
 
     const language = document.getElementById('editBankLanguage')?.value || 'es';
 
@@ -360,7 +384,9 @@ function _readBankStreaks() {
         streak_bonus_percentage: parseFloat(document.getElementById('editBankStreakBonusPercentage')?.value || '0.50'),
         use_double_streaks: document.getElementById('editBankUseDoubleStreaks')?.checked ?? false,
         double_streak_threshold: parseInt(document.getElementById('editBankDoubleStreakThreshold')?.value || '5', 10),
-        double_streak_bonus_percentage: parseFloat(document.getElementById('editBankDoubleStreakBonusPercentage')?.value || '1.00')
+        double_streak_bonus_percentage: parseFloat(
+            document.getElementById('editBankDoubleStreakBonusPercentage')?.value || '1.00'
+        )
     };
 }
 
@@ -449,10 +475,20 @@ function borrarBanco(id, e, ownerUserId = null) {
                     renderVistaBancos();
                 } else {
                     const err = await res.json();
-                    mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), err.message || err.error || _t('admin.banks.error_delete', null, 'No se pudo eliminar el banco'), 'error');
+                    mostrarModalError(
+                        _t('admin.common.error_title', null, '❌ Error'),
+                        err.message ||
+                            err.error ||
+                            _t('admin.banks.error_delete', null, 'No se pudo eliminar el banco'),
+                        'error'
+                    );
                 }
             } catch {
-                mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.common.error_server', null, 'Error de conexión con el servidor'), 'error');
+                mostrarModalError(
+                    _t('admin.common.error_title', null, '❌ Error'),
+                    _t('admin.common.error_server', null, 'Error de conexión con el servidor'),
+                    'error'
+                );
             }
         },
         null,
@@ -487,7 +523,7 @@ function añadirPregunta() {
 }
 
 function marcarCorrecta(qIdx, oIdx) {
-    preguntasData[qIdx].options.forEach((opt, i) => opt.isCorrect = (i === oIdx));
+    preguntasData[qIdx].options.forEach((opt, i) => (opt.isCorrect = i === oIdx));
     dibujarPreguntas();
 }
 
@@ -502,5 +538,11 @@ function añadirOpcion(qIdx) {
     question.options.push({ optionText: '', isCorrect: false, order_index: orderIndex, option_image_url: null });
     dibujarPreguntas();
 }
-function eliminarOpcion(qIdx, oIdx) { preguntasData[qIdx].options.splice(oIdx, 1); dibujarPreguntas(); }
-function eliminarPregunta(idx) { preguntasData.splice(idx, 1); dibujarPreguntas(); }
+function eliminarOpcion(qIdx, oIdx) {
+    preguntasData[qIdx].options.splice(oIdx, 1);
+    dibujarPreguntas();
+}
+function eliminarPregunta(idx) {
+    preguntasData.splice(idx, 1);
+    dibujarPreguntas();
+}

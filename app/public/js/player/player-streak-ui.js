@@ -35,7 +35,8 @@ function _getOrCreateBadge() {
     if (!badge) {
         badge = document.createElement('div');
         badge.id = BADGE_ID;
-        badge.style.cssText = 'position:fixed;top:12px;right:12px;z-index:9999;pointer-events:none;select:none;display:none';
+        badge.style.cssText =
+            'position:fixed;top:12px;right:12px;z-index:9999;pointer-events:none;select:none;display:none';
         document.body.appendChild(badge);
     }
     return badge;
@@ -59,7 +60,9 @@ function _syncBadge() {
         : 'background:linear-gradient(135deg,#ea580c,#f97316);box-shadow:0 0 10px rgba(234,88,12,.5),0 2px 8px rgba(0,0,0,.3);outline:2px solid #fdba74';
 
     badge.style.cssText = `position:fixed;top:12px;right:12px;z-index:9999;pointer-events:none;user-select:none;display:flex;align-items:center;gap:4px;padding:6px 12px;border-radius:9999px;font-weight:900;font-size:14px;color:#fff;${bg}`;
-    badge.innerHTML = _tHtml(`<span style="font-size:16px;line-height:1">${emoji}</span><span style="font-size:18px">${info.current}</span><span style="font-size:11px;letter-spacing:.05em">${label}</span>`);
+    badge.innerHTML = _tHtml(
+        `<span style="font-size:16px;line-height:1">${emoji}</span><span style="font-size:18px">${info.current}</span><span style="font-size:11px;letter-spacing:.05em">${label}</span>`
+    );
 }
 
 // Reinyectar el badge cada vez que body cambia de hijos (innerHTML replacement)

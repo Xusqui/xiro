@@ -131,10 +131,14 @@ router.put('/api/ai-generator/config/settings', authenticateAdmin, (req, res) =>
     try {
         const { provider, fallback } = req.body || {};
         if (!isValidProvider(provider)) {
-            return res.status(400).json({ success: false, error: 'Proveedor de IA desconocido', code: 'AI_PROVIDER_INVALID' });
+            return res
+                .status(400)
+                .json({ success: false, error: 'Proveedor de IA desconocido', code: 'AI_PROVIDER_INVALID' });
         }
         if (typeof fallback !== 'boolean') {
-            return res.status(400).json({ success: false, error: 'El campo "fallback" debe ser booleano', code: 'AI_FALLBACK_INVALID' });
+            return res
+                .status(400)
+                .json({ success: false, error: 'El campo "fallback" debe ser booleano', code: 'AI_FALLBACK_INVALID' });
         }
 
         setSettings({ provider, fallback });

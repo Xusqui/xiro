@@ -1,7 +1,7 @@
 /**
  * @fileoverview ReconnectionManager - Gestión inteligente de reconexiones con exponential backoff
  * @module domain/services/ReconnectionManager
- * 
+ *
  * Responsabilidades:
  * - Rastrear intentos de reconexión por jugador
  * - Implementar exponential backoff para evitar spam
@@ -19,7 +19,7 @@ class ReconnectionManager {
         // Configuración
         this.maxAttempts = options.maxAttempts || 10;
         this.baseDelay = options.baseDelay || 1000; // 1s inicial
-        this.maxDelay = options.maxDelay || 30000;  // 30s máximo
+        this.maxDelay = options.maxDelay || 30000; // 30s máximo
         this.timeoutDuration = options.timeoutDuration || runtimeConfig.get('RECONNECTION_TIMEOUT');
 
         // Mapa de intentos: playerId -> { attempts, lastAttempt, blockedUntil }

@@ -38,7 +38,7 @@ function buildQuestionsForType(type, rawQuestions) {
  */
 function buildBankPayload(bankName, allQuestions, language) {
     return {
-        id: null,       // null = nuevo banco
+        id: null, // null = nuevo banco
         name: bankName,
         language,
         questions: allQuestions

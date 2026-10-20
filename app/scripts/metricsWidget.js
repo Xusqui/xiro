@@ -38,10 +38,7 @@ async function fetchMetrics(url) {
     healthReq.timeoutInterval = 10;
     metricsReq.timeoutInterval = 10;
 
-    const [health, metrics] = await Promise.all([
-        healthReq.loadJSON(),
-        metricsReq.loadJSON()
-    ]);
+    const [health, metrics] = await Promise.all([healthReq.loadJSON(), metricsReq.loadJSON()]);
 
     // Combinar ambos
     return { ...health, metrics };
@@ -93,7 +90,9 @@ function addHeader(widget, metrics) {
     title.font = Font.boldSystemFont(12);
     title.textColor = Color.white();
     header.addSpacer(4);
-    const updated = header.addText(new Date(metrics.timestamp || Date.now()).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }));
+    const updated = header.addText(
+        new Date(metrics.timestamp || Date.now()).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })
+    );
     updated.font = Font.systemFont(8);
     updated.textColor = new Color('#9ca3af');
 }
@@ -139,7 +138,12 @@ function addDatabaseCard(row, metrics) {
     dbStatusText.textColor = dbBadge.color;
     dbCard.addSpacer(0.2);
     addCompactKV(dbCard, 'Lat', `${metrics.database?.latencyMs || 0}ms`, metrics.database?.latencyMs > 50);
-    addCompactKV(dbCard, 'Q Avg', `${metrics.metrics?.database?.avg_query_time_ms || 0}ms`, metrics.metrics?.database?.avg_query_time_ms > 50);
+    addCompactKV(
+        dbCard,
+        'Q Avg',
+        `${metrics.metrics?.database?.avg_query_time_ms || 0}ms`,
+        metrics.metrics?.database?.avg_query_time_ms > 50
+    );
 }
 
 function addGamesCard(row, metrics) {

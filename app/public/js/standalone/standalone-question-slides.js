@@ -23,9 +23,11 @@ globalThis.StandaloneQuestionSlides = (() => {
     function _renderImage(container, question) {
         container.innerHTML = `
             <div class="pl-viewport pl-slide-image-view" style="background:#111827; justify-content:center; align-items:center;">
-                ${question.slide_image
+                ${
+    question.slide_image
         ? `<div class="pl-slide-image-box slide-img-box"><img class="pl-slide-image-img slide-img-fit" src="${escapeHtml(question.slide_image)}" alt=""></div>`
-        : '<i class="fas fa-image" style="font-size:64px;color:rgba(255,255,255,0.3);"></i>'}
+        : '<i class="fas fa-image" style="font-size:64px;color:rgba(255,255,255,0.3);"></i>'
+    }
                 <div class="pl-submit-bar" style="position:absolute; bottom:0; left:0; right:0;">
                     <button type="button" class="pl-submit-btn" data-standalone-action="continue-slide">
                         ${window.XiroI18n?.t('standalone.game.continue') || 'Continuar'}
@@ -39,7 +41,9 @@ globalThis.StandaloneQuestionSlides = (() => {
     function _renderVideoNotice(container) {
         const nickname = escapeHtml(StandaloneState.get().nickname);
         const title = window.XiroI18n?.t('standalone.game.video_title') || 'Vídeo';
-        const notice = window.XiroI18n?.t('standalone.game.video_presenter_only') || 'Este vídeo solo se ve en la pantalla del presentador';
+        const notice =
+            window.XiroI18n?.t('standalone.game.video_presenter_only') ||
+            'Este vídeo solo se ve en la pantalla del presentador';
         container.innerHTML = `
             <div class="pl-viewport pl-slide-text">
                 <div class="pl-nickname-bar"><p>${nickname}</p></div>
@@ -64,10 +68,16 @@ globalThis.StandaloneQuestionSlides = (() => {
             comment: { bgClass: 'pl-slide-comment', icon: 'fa-comment' },
             info: { bgClass: 'pl-slide-info', icon: 'fa-info-circle' }
         }[hasMainText ? question.slide_type : ''] || { bgClass: 'pl-slide-text', icon: 'fa-info-circle' };
-        const mainText = hasMainText ? (question.comment_text || question.question_text || _freeActivityFallback()) : null;
+        const mainText = hasMainText
+            ? question.comment_text || question.question_text || _freeActivityFallback()
+            : null;
 
         const nickname = escapeHtml(StandaloneState.get().nickname);
-        const title = mainText ? '' : (question.slide_title ? `<h2 class="pl-slide-title">${escapeHtml(question.slide_title)}</h2>` : '');
+        const title = mainText
+            ? ''
+            : question.slide_title
+                ? `<h2 class="pl-slide-title">${escapeHtml(question.slide_title)}</h2>`
+                : '';
         const body = mainText
             ? `<h2 class="pl-slide-title">${escapeHtml(mainText)}</h2>`
             : `<p class="pl-slide-body">${escapeHtml(question.slide_body || question.question_text)}</p>`;
@@ -107,7 +117,8 @@ globalThis.StandaloneQuestionSlides = (() => {
         }
         _appendFooter(container, question);
 
-        container.querySelector('[data-standalone-action="continue-slide"]')
+        container
+            .querySelector('[data-standalone-action="continue-slide"]')
             .addEventListener('click', () => onContinue());
     }
 

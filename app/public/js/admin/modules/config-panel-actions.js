@@ -20,13 +20,23 @@ function _requestConfigTab(tabId) {
 
 /** Acciones de clic del panel, con el elemento que la dispara. */
 const _CONFIG_CLICK_ACTIONS = {
-    'switch-tab': el => { if (el.dataset.tabId) _requestConfigTab(el.dataset.tabId); },
+    'switch-tab': el => {
+        if (el.dataset.tabId) _requestConfigTab(el.dataset.tabId);
+    },
     'toggle-personalization-enabled': el => togglePersonalizationEnabled(el.checked),
-    'select-personalization-image': el => { if (el.dataset.filename) selectPersonalizationImage(el.dataset.filename); },
-    'delete-personalization-image': el => { if (el.dataset.filename) deletePersonalizationImage(el.dataset.filename); },
-    'set-tv-card-mode': el => { if (el.dataset.mode) setTvCardMode(el.dataset.mode, el); },
+    'select-personalization-image': el => {
+        if (el.dataset.filename) selectPersonalizationImage(el.dataset.filename);
+    },
+    'delete-personalization-image': el => {
+        if (el.dataset.filename) deletePersonalizationImage(el.dataset.filename);
+    },
+    'set-tv-card-mode': el => {
+        if (el.dataset.mode) setTvCardMode(el.dataset.mode, el);
+    },
     'preview-fireworks': () => previewFireworks(),
-    'toggle-sensitive': el => { if (el.dataset.key) toggleSensitiveField(el.dataset.key); },
+    'toggle-sensitive': el => {
+        if (el.dataset.key) toggleSensitiveField(el.dataset.key);
+    },
     'reset-team-names': () => resetTeamNames()
 };
 
@@ -34,7 +44,7 @@ function _initConfigPanelDelegation() {
     if (_configPanelDelegationReady) return;
     _configPanelDelegationReady = true;
 
-    document.addEventListener('click', (event) => {
+    document.addEventListener('click', event => {
         const actionElement = event.target.closest('[data-config-action]');
         if (!actionElement) return;
 
@@ -42,7 +52,7 @@ function _initConfigPanelDelegation() {
         if (Object.hasOwn(_CONFIG_CLICK_ACTIONS, action)) _CONFIG_CLICK_ACTIONS[action](actionElement);
     });
 
-    document.addEventListener('input', (event) => {
+    document.addEventListener('input', event => {
         const actionElement = event.target.closest('[data-config-action]');
         if (!actionElement) return;
         if (actionElement.dataset.configAction === 'update-fireworks-slider' && actionElement.dataset.key) {
@@ -50,7 +60,7 @@ function _initConfigPanelDelegation() {
         }
     });
 
-    document.addEventListener('change', (event) => {
+    document.addEventListener('change', event => {
         const actionElement = event.target.closest('[data-config-action="upload-personalization-image"]');
         if (!actionElement || !actionElement.files || !actionElement.files[0]) return;
         uploadPersonalizationImage(actionElement.files[0]);

@@ -57,10 +57,9 @@ async function joinClient(target, pin, idx) {
     });
 
     const joinSuccessPromise = waitForEvent(socket, 'join-success', 10000);
-    const joinErrorPromise = waitForEvent(socket, 'join-error', 10000)
-        .then(err => {
-            throw new Error(`join-error ${JSON.stringify(err)}`);
-        });
+    const joinErrorPromise = waitForEvent(socket, 'join-error', 10000).then(err => {
+        throw new Error(`join-error ${JSON.stringify(err)}`);
+    });
 
     socket.emit('join-lobby', { pin, nickname, playerId });
     const joinData = await Promise.race([joinSuccessPromise, joinErrorPromise]);
@@ -110,13 +109,15 @@ function hasDistributedLockMetrics(snapshot) {
 }
 
 function getLockMetrics(snapshot) {
-    return snapshot?.answer_lock_distributed?.room || {
-        attempts: 0,
-        acquired: 0,
-        lock_miss: 0,
-        degraded_fallback: 0,
-        miss_rate: 0
-    };
+    return (
+        snapshot?.answer_lock_distributed?.room || {
+            attempts: 0,
+            acquired: 0,
+            lock_miss: 0,
+            degraded_fallback: 0,
+            miss_rate: 0
+        }
+    );
 }
 
 async function triggerTrivialQuestionRound(clients, roomId) {
@@ -128,10 +129,9 @@ async function triggerTrivialQuestionRound(clients, roomId) {
     const actorClient = clients.find(c => c.nickname === currentTurn) || starter;
 
     const diceRolledPromise = waitForEvent(actorClient.socket, 'trivial-dice-rolled', 10000);
-    const diceErrorPromise = waitForEvent(actorClient.socket, 'trivial-error', 10000)
-        .then(err => {
-            throw new Error(`trivial-error on roll: ${JSON.stringify(err)}`);
-        });
+    const diceErrorPromise = waitForEvent(actorClient.socket, 'trivial-error', 10000).then(err => {
+        throw new Error(`trivial-error on roll: ${JSON.stringify(err)}`);
+    });
 
     actorClient.socket.emit('trivial-roll-dice', {
         roomId,

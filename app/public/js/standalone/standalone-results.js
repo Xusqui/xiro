@@ -37,8 +37,10 @@ const StandaloneResults = (() => {
         return `
             <div class="score-number">${pts}</div>
             <div class="score-label">
-                ${window.XiroI18n?.t('standalone.game.score_of_max', { score: pts, max: maxPossibleScore })
-                    || `${pts} Puntos de un máximo de ${maxPossibleScore}`}
+                ${
+    window.XiroI18n?.t('standalone.game.score_of_max', { score: pts, max: maxPossibleScore }) ||
+                    `${pts} Puntos de un máximo de ${maxPossibleScore}`
+    }
             </div>
             <div class="score-grade">
                 <span class="score-grade-number">${continuous.toFixed(1)}/10</span>
@@ -66,11 +68,10 @@ const StandaloneResults = (() => {
             </div>
         `;
 
-        container.querySelector('[data-standalone-action="back-to-lobby"]')
-            .addEventListener('click', () => {
-                StandaloneSocket.abandonAndDisconnect();
-                window.location.href = '/standalone.html';
-            });
+        container.querySelector('[data-standalone-action="back-to-lobby"]').addEventListener('click', () => {
+            StandaloneSocket.abandonAndDisconnect();
+            window.location.href = '/standalone.html';
+        });
     }
 
     return { render };

@@ -17,7 +17,7 @@ const { MIN_VALUE, MAX_VALUE, DEFAULT_MIN, DEFAULT_MAX } = SCORING.RANDOM_POINTS
 const ERROR_CODES = {
     NOT_INTEGER: 'random-points-not-integer',
     OUT_OF_RANGE: 'random-points-out-of-range',
-    INVERTED_RANGE: 'random-points-inverted-range',
+    INVERTED_RANGE: 'random-points-inverted-range'
 };
 
 function isInteger(value) {
@@ -44,7 +44,10 @@ function validateRandomPointsConfig(config = {}) {
     const min = config.random_points_min;
     const max = config.random_points_max;
 
-    for (const [field, value] of [['random_points_min', min], ['random_points_max', max]]) {
+    for (const [field, value] of [
+        ['random_points_min', min],
+        ['random_points_max', max]
+    ]) {
         if (!isInteger(value)) {
             return { valid: false, code: ERROR_CODES.NOT_INTEGER, field };
         }
@@ -74,7 +77,7 @@ function normalizeRandomPointsConfig(config = {}) {
     return {
         use_random_points: !!config.use_random_points,
         random_points_min: min,
-        random_points_max: max,
+        random_points_max: max
     };
 }
 
@@ -85,5 +88,5 @@ module.exports = {
     DEFAULT_MIN,
     DEFAULT_MAX,
     validateRandomPointsConfig,
-    normalizeRandomPointsConfig,
+    normalizeRandomPointsConfig
 };

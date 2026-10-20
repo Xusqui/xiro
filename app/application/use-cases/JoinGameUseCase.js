@@ -1,7 +1,7 @@
 /**
  * @fileoverview Use Case - Join Game
  * @module application/use-cases/JoinGameUseCase
- * 
+ *
  * Encapsula el flujo completo de unirse a un lobby:
  * - Idempotencia (evita doble-join)
  * - Validación de PIN, nickname y capacidad
@@ -12,7 +12,13 @@
  */
 
 const JoinGameCommand = require('../commands/JoinGameCommand');
-const { ValidationHandler, RateLimitHandler, CommandExecutionHandler, ResponseHandler, IdempotencyHandler } = require('../chain');
+const {
+    ValidationHandler,
+    RateLimitHandler,
+    CommandExecutionHandler,
+    ResponseHandler,
+    IdempotencyHandler
+} = require('../chain');
 const logger = require('../../config/logger');
 const { validateJoinGameInput } = require('../validators/JoinGameValidator');
 const { validateSessionAccessCapacity } = require('../validators/SessionAccessCapacityValidator');
@@ -38,19 +44,14 @@ class JoinGameUseCase {
     setupChain() {
         // 1. Idempotencia (evita procesamiento duplicado)
         const idempotencyService = getIdempotencyService();
-        const idempotencyHandler = idempotencyService
-            ? new IdempotencyHandler(idempotencyService, 'join-game')
-            : null;
+        const idempotencyHandler = idempotencyService ? new IdempotencyHandler(idempotencyService, 'join-game') : null;
 
         // 2. Validación de entrada
-        const validationHandler = new ValidationHandler(
-            this.validateJoinGameInput.bind(this),
-            {
-                passFullContext: true,
-                requireData: false, // JoinGame recibe datos directamente en context
-                requirePlayerId: false // No requiere playerId
-            }
-        );
+        const validationHandler = new ValidationHandler(this.validateJoinGameInput.bind(this), {
+            passFullContext: true,
+            requireData: false, // JoinGame recibe datos directamente en context
+            requirePlayerId: false // No requiere playerId
+        });
 
         // 3. Rate Limiting — distributed via Redis, local fallback
         const rateLimiter = createRedisRateLimiter({
@@ -62,18 +63,15 @@ class JoinGameUseCase {
         const rateLimitHandler = new RateLimitHandler(rateLimiter, 'join-game');
 
         // 4. Ejecución del comando
-        const commandHandler = new CommandExecutionHandler(
-            JoinGameCommand,
-            (context) => ({
-                pin: context.pin,
-                sessionId: context.sessionId,
-                nickname: context.nickname,
-                sessionSecret: context.sessionSecret,
-                socket: context.socket,
-                isTeamMode: context.isTeamMode,
-                teamConfig: context.teamConfig
-            })
-        );
+        const commandHandler = new CommandExecutionHandler(JoinGameCommand, context => ({
+            pin: context.pin,
+            sessionId: context.sessionId,
+            nickname: context.nickname,
+            sessionSecret: context.sessionSecret,
+            socket: context.socket,
+            isTeamMode: context.isTeamMode,
+            teamConfig: context.teamConfig
+        }));
 
         // 5. Respuesta al cliente
         const responseHandler = new ResponseHandler((result, _context) => {
@@ -190,11 +188,12 @@ class JoinGameUseCase {
             if (result.success) {
                 logger.info(`JoinGameUseCase: ${nickname} unido a ${pin || sessionId}`);
             } else {
-                logger.warn(`JoinGameUseCase: Error al unir ${nickname} a ${pin || sessionId}`, { error: result.error });
+                logger.warn(`JoinGameUseCase: Error al unir ${nickname} a ${pin || sessionId}`, {
+                    error: result.error
+                });
             }
 
             return result;
-
         } catch (error) {
             logger.error('JoinGameUseCase: Error crítico', { error: error.message, stack: error.stack });
             return {

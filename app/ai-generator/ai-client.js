@@ -14,7 +14,8 @@ const { callOllama } = require('./ollama-client');
 const { getApiKey, getBaseUrl, getModel, getProviderPlan, getSettings } = require('./ai-config');
 
 const DEFAULT_TIMEOUT = 60000;
-const DEFAULT_SYSTEM = 'Eres un asistente experto en diseño de preguntas educativas. Responde SOLO con JSON válido, sin texto adicional.';
+const DEFAULT_SYSTEM =
+    'Eres un asistente experto en diseño de preguntas educativas. Responde SOLO con JSON válido, sin texto adicional.';
 
 const CLIENTS = {
     groq: callGroq,

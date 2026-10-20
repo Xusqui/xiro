@@ -17,7 +17,7 @@ async function getAllBanksWithCounts(forceRefresh = false) {
     const now = Date.now();
 
     // Usar caché si existe y es válido
-    if (!forceRefresh && banksCache && banksCacheTimestamp && (now - banksCacheTimestamp < CACHE_DURATION)) {
+    if (!forceRefresh && banksCache && banksCacheTimestamp && now - banksCacheTimestamp < CACHE_DURATION) {
         return banksCache;
     }
 

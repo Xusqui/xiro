@@ -9,13 +9,21 @@
 const { arrangement, loops, scores } = self.XiroMusic;
 
 // Mejoras que se pueden apagar por separado (setOption)
-export const DEFAULT_OPTIONS = { sections: true, humanize: true, fx: true, motif: true, cadence: true, reactions: true };
+export const DEFAULT_OPTIONS = {
+    sections: true,
+    humanize: true,
+    fx: true,
+    motif: true,
+    cadence: true,
+    reactions: true
+};
 
 export const SCENES = {
     lobby: {
         bpm: scores.LOBBY.bpm,
         swing: scores.LOBBY.swing,
-        build: (seed, index, options) => scores.buildSection(seed, arrangement.planSection(seed, index, options), options)
+        build: (seed, index, options) =>
+            scores.buildSection(seed, arrangement.planSection(seed, index, options), options)
     },
     // Pregunta: compás a compás, para que cada uno se genere con la tensión del momento;
     // los niveles de capa, el filtro y el tempo los mueve la tensión (MusicEngine.setTension);
@@ -34,14 +42,16 @@ export const SCENES = {
         bpm: scores.LOBBY.bpm,
         swing: scores.LOBBY.swing,
         fadeInBeats: 8,
-        build: (seed, index, options) => scores.buildSection(seed, loops.planLoopSection('leaderboard', seed, index), options)
+        build: (seed, index, options) =>
+            scores.buildSection(seed, loops.planLoopSection('leaderboard', seed, index), options)
     },
     // Podio: espera solemne mientras salen los puestos (el redoble y los puestos los pone triggerPodium)
     podium: {
         bpm: scores.LOBBY.bpm,
         swing: scores.LOBBY.swing,
         fadeInBeats: 4,
-        build: (seed, index, options) => scores.buildSection(seed, loops.planLoopSection('podium', seed, index), options)
+        build: (seed, index, options) =>
+            scores.buildSection(seed, loops.planLoopSection('podium', seed, index), options)
     },
     // Final del podio tras el ganador: tema A, entra de golpe (el tutti)
     podiumFinale: {

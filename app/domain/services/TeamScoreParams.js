@@ -17,9 +17,7 @@
  */
 function teamScoreParams(teams = [], scores = {}, baseLambda = 0) {
     const values = Object.values(scores || {}).map(value => Number(value) || 0);
-    const globalMean = values.length > 0
-        ? values.reduce((sum, value) => sum + value, 0) / values.length
-        : 0;
+    const globalMean = values.length > 0 ? values.reduce((sum, value) => sum + value, 0) / values.length : 0;
 
     // Los equipos vacíos no cuentan: con tamaño 0 la proporción sería infinita
     const sizes = (teams || [])

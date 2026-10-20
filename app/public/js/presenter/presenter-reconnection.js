@@ -8,22 +8,37 @@
 
 import { socket, presenterPlayerId } from './presenter-socket-config.js?v=20260922172926';
 import {
-    setSessionId, setPin, setCurrentQuestionIndex, setTotalQuestions,
-    setPlayersData, setConnectedPlayers, setTotalPlayers,
-    setIsTeamMode, setTeamConfig, getIsTeamMode, getTeamConfig
+    setSessionId,
+    setPin,
+    setCurrentQuestionIndex,
+    setTotalQuestions,
+    setPlayersData,
+    setConnectedPlayers,
+    setTotalPlayers,
+    setIsTeamMode,
+    setTeamConfig,
+    getIsTeamMode,
+    getTeamConfig
 } from './presenter-state.js?v=20260922172926';
 import {
-    renderPregunta, renderCommentSlide, renderInfoSlide, renderTextSlide, renderImageSlide, renderTextImageSlide, renderVideoSlide,
-    renderCanvasSlide, updatePlayersPanel, renderTeamLobby, mostrarQR
+    renderPregunta,
+    renderCommentSlide,
+    renderInfoSlide,
+    renderTextSlide,
+    renderImageSlide,
+    renderTextImageSlide,
+    renderVideoSlide,
+    renderCanvasSlide,
+    updatePlayersPanel,
+    renderTeamLobby,
+    mostrarQR
 } from './presenter-game-ui.js?v=20260922172926';
 import { restoreLobbyHTML, showAbandonButton } from './presenter-utils.js?v=20260922172926';
 import { handleGameAbandoned } from './presenter-session-control.js?v=20260922172926';
 import { startQuestionCountdown } from './presenter-question-timer.js?v=20260922172926';
 
 function getStoredSessionId() {
-    return sessionStorage.getItem('xiro_presenter_sessionId')
-        || localStorage.getItem('xiro_presenter_sessionId')
-        || '';
+    return sessionStorage.getItem('xiro_presenter_sessionId') || localStorage.getItem('xiro_presenter_sessionId') || '';
 }
 
 function getSessionIdFromUrl() {
@@ -49,8 +64,8 @@ function buildFallbackJoinLobbyPayload() {
         payload.token = token;
     }
 
-    const sessionSecret = sessionStorage.getItem('xiro_presenter_sessionSecret')
-        || localStorage.getItem('xiro_presenter_sessionSecret');
+    const sessionSecret =
+        sessionStorage.getItem('xiro_presenter_sessionSecret') || localStorage.getItem('xiro_presenter_sessionSecret');
     if (sessionSecret) {
         payload.sessionSecret = sessionSecret;
     }
@@ -280,7 +295,8 @@ function restoreLobbyScreen(snapshot) {
             pList.innerHTML = _tHtml('');
             nonHostPlayers.forEach(nick => {
                 const div = document.createElement('div');
-                div.className = 'bg-white text-slate-900 p-3 rounded-xl font-black text-center uppercase italic text-sm';
+                div.className =
+                    'bg-white text-slate-900 p-3 rounded-xl font-black text-center uppercase italic text-sm';
                 div.setAttribute('data-nickname', nick);
                 div.textContent = _t(nick);
                 pList.appendChild(div);
@@ -334,7 +350,7 @@ export function registerPresenterReconnectionEvents() {
     // Handle server responses
     socket.on('reconnected-success', handleReconnectedSuccess);
     socket.on('reconnect-failed', handleReconnectFailed);
-    socket.on('game-abandoned', (data) => {
+    socket.on('game-abandoned', data => {
         handleGameAbandoned(data);
     });
 
@@ -368,7 +384,14 @@ export function registerPresenterReconnectionEvents() {
         if (matchingSession && presenterPlayerId) {
             const token = localStorage.getItem('adminToken') || '';
             console.log('🔄 Sesión de presentador detectada on connect — emitting reconnect-presenter');
-            console.log('   urlSession:', urlSession, '| storageSession:', hasSession, '| playerId:', presenterPlayerId);
+            console.log(
+                '   urlSession:',
+                urlSession,
+                '| storageSession:',
+                hasSession,
+                '| playerId:',
+                presenterPlayerId
+            );
             console.log('   adminToken present:', !!token, '| length:', token.length);
             if (!token) {
                 console.warn('⚠️ adminToken is EMPTY — server will reject with invalid-token');

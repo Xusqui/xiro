@@ -4,9 +4,14 @@
  */
 
 import {
-    getConnectedPlayers, addConnectedPlayer,
-    getPlayersData, setPlayerData, getTotalPlayers, setTotalPlayers,
-    getIsTeamMode, getTeamConfig
+    getConnectedPlayers,
+    addConnectedPlayer,
+    getPlayersData,
+    setPlayerData,
+    getTotalPlayers,
+    setTotalPlayers,
+    getIsTeamMode,
+    getTeamConfig
 } from './presenter-state.js?v=20260922172926';
 import { updatePlayersPanel, renderTeamLobby } from './presenter-game-ui.js?v=20260922172926';
 import { updateAnswerCounter } from './presenter-answer-counter.js?v=20260922172926';
@@ -120,7 +125,8 @@ function createLobbyPlayerElement(nickname) {
     } else {
         // Modo individual: crear tarjeta individual
         const playerDiv = document.createElement('div');
-        playerDiv.className = 'bg-white text-slate-900 p-3 rounded-xl font-black text-center uppercase italic text-sm animate-pulse';
+        playerDiv.className =
+            'bg-white text-slate-900 p-3 rounded-xl font-black text-center uppercase italic text-sm animate-pulse';
         playerDiv.setAttribute('data-nickname', nickname);
         playerDiv.textContent = _t(nickname);
         pList.appendChild(playerDiv);

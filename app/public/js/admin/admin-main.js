@@ -1,7 +1,7 @@
 /**
  * @fileoverview Punto de entrada principal del panel de administración
  * Código extraído 1:1 del original admin.js
- * 
+ *
  * Este archivo carga después de todos los módulos y contiene:
  * - showAdmin: mostrar panel tras login
  * - mostrarVista: sistema de navegación
@@ -83,12 +83,14 @@ const SIDEBAR_SECTION_BORDER = {
 // pantallas ajenas a esa lista, como "Cargar Preguntas" y los paneles de
 // la pestaña User.
 function highlightSidebarNav(vista) {
-    document.querySelectorAll(
-        '#sidebar-nav-section .nav-button, #user-sidebar-section .nav-button, #config-sidebar-section .nav-button'
-    ).forEach(btn => {
-        btn.classList.remove('bg-slate-800', ...SIDEBAR_ACTIVE_BORDER_CLASSES);
-        btn.style.backgroundColor = '';
-    });
+    document
+        .querySelectorAll(
+            '#sidebar-nav-section .nav-button, #user-sidebar-section .nav-button, #config-sidebar-section .nav-button'
+        )
+        .forEach(btn => {
+            btn.classList.remove('bg-slate-800', ...SIDEBAR_ACTIVE_BORDER_CLASSES);
+            btn.style.backgroundColor = '';
+        });
 
     const btnActivo = document.getElementById(`nav-${vista}`);
     if (btnActivo) {
@@ -151,9 +153,10 @@ function applyRolePermissions() {
         const badge = document.createElement('div');
         badge.id = 'role-badge';
         badge.className = `text-center mt-3 px-3 py-1.5 rounded-full text-xs font-bold ${role === 'admin' ? 'bg-plum-600' : 'bg-blue-600'}`;
-        badge.innerHTML = role === 'admin'
-            ? '<div class="text-2xl">🔑</div><div class="text-xs font-bold uppercase tracking-wider">ADMIN</div>'
-            : '<div class="text-2xl">✏️</div><div class="text-xs font-bold uppercase tracking-wider">EDITOR</div>';
+        badge.innerHTML =
+            role === 'admin'
+                ? '<div class="text-2xl">🔑</div><div class="text-xs font-bold uppercase tracking-wider">ADMIN</div>'
+                : '<div class="text-2xl">✏️</div><div class="text-xs font-bold uppercase tracking-wider">EDITOR</div>';
         logoDiv.appendChild(badge);
     }
 
@@ -225,7 +228,10 @@ function showLoginForm() {
     loginCardTitle.textContent = _t('admin.login.title', null, 'Administrador');
     loginForm.classList.remove('hidden');
     registerForm.classList.add('hidden');
-    setLoginHelperMessage(_t('admin.login.helper', null, 'Inicia sesión o crea una cuenta de Editor.'), 'admin.login.helper');
+    setLoginHelperMessage(
+        _t('admin.login.helper', null, 'Inicia sesión o crea una cuenta de Editor.'),
+        'admin.login.helper'
+    );
 }
 
 function showRegisterForm(isAdminSetup) {
@@ -243,12 +249,18 @@ function showRegisterForm(isAdminSetup) {
         registerSubmitButton.setAttribute('data-i18n', 'admin.register.btn_admin');
         registerSubmitButton.textContent = _t('admin.register.btn_admin', null, 'Crear Admin');
         registerBackButton.classList.add('hidden');
-        setRegisterHelperMessage(_t('admin.register.helper_setup', null, 'Primer acceso: crea el usuario Administrador principal.'), 'admin.register.helper_setup');
+        setRegisterHelperMessage(
+            _t('admin.register.helper_setup', null, 'Primer acceso: crea el usuario Administrador principal.'),
+            'admin.register.helper_setup'
+        );
     } else {
         registerSubmitButton.setAttribute('data-i18n', 'admin.register.btn_editor');
         registerSubmitButton.textContent = _t('admin.register.btn_editor', null, 'Crear cuenta');
         registerBackButton.classList.remove('hidden');
-        setRegisterHelperMessage(_t('admin.register.helper_email', null, 'Te enviaremos un email con el enlace de confirmación.'), 'admin.register.helper_email');
+        setRegisterHelperMessage(
+            _t('admin.register.helper_email', null, 'Te enviaremos un email con el enlace de confirmación.'),
+            'admin.register.helper_email'
+        );
     }
 }
 
@@ -259,7 +271,10 @@ async function submitLogin() {
     clearLoginError();
 
     if (!username || !password) {
-        showLoginError(_t('admin.login.error_empty', null, 'Usuario y contraseña son obligatorios'), 'admin.login.error_empty');
+        showLoginError(
+            _t('admin.login.error_empty', null, 'Usuario y contraseña son obligatorios'),
+            'admin.login.error_empty'
+        );
         return;
     }
 
@@ -278,11 +293,21 @@ async function submitLogin() {
         }
 
         if (res.status === 429) {
-            showLoginError(_t('admin.login.error_rate_limit_15m', null, 'Has excedido el número de intentos permitidos. Intenta de nuevo en 15 minutos.'), 'admin.login.error_rate_limit_15m');
+            showLoginError(
+                _t(
+                    'admin.login.error_rate_limit_15m',
+                    null,
+                    'Has excedido el número de intentos permitidos. Intenta de nuevo en 15 minutos.'
+                ),
+                'admin.login.error_rate_limit_15m'
+            );
             return;
         }
 
-        showLoginError(data.error || _t('admin.login.error_credentials', null, 'Credenciales inválidas'), data.error ? null : 'admin.login.error_credentials');
+        showLoginError(
+            data.error || _t('admin.login.error_credentials', null, 'Credenciales inválidas'),
+            data.error ? null : 'admin.login.error_credentials'
+        );
     } catch (_err) {
         showLoginError(_t('admin.common.error_connection', null, 'Error de conexión'), 'admin.common.error_connection');
     }
@@ -297,12 +322,18 @@ async function submitRegistration() {
     clearRegisterError();
 
     if (!username || !email || !password || !confirmPassword) {
-        showRegisterError(_t('admin.register.error_empty', null, 'Todos los campos son obligatorios'), 'admin.register.error_empty');
+        showRegisterError(
+            _t('admin.register.error_empty', null, 'Todos los campos son obligatorios'),
+            'admin.register.error_empty'
+        );
         return;
     }
 
     if (password !== confirmPassword) {
-        showRegisterError(_t('admin.register.error_password', null, 'Las contraseñas no coinciden'), 'admin.register.error_password');
+        showRegisterError(
+            _t('admin.register.error_password', null, 'Las contraseñas no coinciden'),
+            'admin.register.error_password'
+        );
         return;
     }
 
@@ -321,23 +352,42 @@ async function submitRegistration() {
         }
 
         if (res.status === 202) {
-            setRegisterHelperMessage(data.message || _t('admin.register.success_pending', null, 'Revisa tu email para activar la cuenta.'), data.message ? null : 'admin.register.success_pending');
+            setRegisterHelperMessage(
+                data.message || _t('admin.register.success_pending', null, 'Revisa tu email para activar la cuenta.'),
+                data.message ? null : 'admin.register.success_pending'
+            );
             registerForm.reset();
             if (!setupRequired) {
                 showLoginForm();
-                setLoginHelperMessage(_t('admin.login.pending', null, 'Cuenta pendiente de confirmación. Revisa tu correo electrónico.'), 'admin.login.pending');
+                setLoginHelperMessage(
+                    _t('admin.login.pending', null, 'Cuenta pendiente de confirmación. Revisa tu correo electrónico.'),
+                    'admin.login.pending'
+                );
             }
             return;
         }
 
         if (res.status === 429) {
-            showRegisterError(_t('admin.login.error_rate_limit_15m', null, 'Has excedido el número de intentos permitidos. Intenta de nuevo en 15 minutos.'), 'admin.login.error_rate_limit_15m');
+            showRegisterError(
+                _t(
+                    'admin.login.error_rate_limit_15m',
+                    null,
+                    'Has excedido el número de intentos permitidos. Intenta de nuevo en 15 minutos.'
+                ),
+                'admin.login.error_rate_limit_15m'
+            );
             return;
         }
 
-        showRegisterError(data.error || _t('admin.register.error_failed', null, 'No se pudo crear la cuenta'), data.error ? null : 'admin.register.error_failed');
+        showRegisterError(
+            data.error || _t('admin.register.error_failed', null, 'No se pudo crear la cuenta'),
+            data.error ? null : 'admin.register.error_failed'
+        );
     } catch (_err) {
-        showRegisterError(_t('admin.common.error_connection', null, 'Error de conexión'), 'admin.common.error_connection');
+        showRegisterError(
+            _t('admin.common.error_connection', null, 'Error de conexión'),
+            'admin.common.error_connection'
+        );
     }
 }
 
@@ -352,13 +402,22 @@ async function confirmRegistrationTokenFromUrl() {
 
         showLoginForm();
         if (res.ok && data.success) {
-            setLoginHelperMessage(_t('admin.register.success_confirmed', null, 'Cuenta confirmada. Ya puedes iniciar sesión.'), 'admin.register.success_confirmed');
+            setLoginHelperMessage(
+                _t('admin.register.success_confirmed', null, 'Cuenta confirmada. Ya puedes iniciar sesión.'),
+                'admin.register.success_confirmed'
+            );
         } else {
-            showLoginError(data.error || _t('admin.register.error_confirmed', null, 'No se pudo confirmar la cuenta'), data.error ? null : 'admin.register.error_confirmed');
+            showLoginError(
+                data.error || _t('admin.register.error_confirmed', null, 'No se pudo confirmar la cuenta'),
+                data.error ? null : 'admin.register.error_confirmed'
+            );
         }
     } catch (_err) {
         showLoginForm();
-        showLoginError(_t('admin.register.error_token', null, 'No se pudo validar el enlace de confirmación'), 'admin.register.error_token');
+        showLoginError(
+            _t('admin.register.error_token', null, 'No se pudo validar el enlace de confirmación'),
+            'admin.register.error_token'
+        );
     } finally {
         params.delete('verify_token');
         const newQuery = params.toString();
@@ -378,13 +437,22 @@ async function confirmEmailChangeTokenFromUrl() {
 
         showLoginForm();
         if (res.ok && data.success) {
-            setLoginHelperMessage(_t('admin.account.email_updated', null, 'Correo actualizado correctamente.'), 'admin.account.email_updated');
+            setLoginHelperMessage(
+                _t('admin.account.email_updated', null, 'Correo actualizado correctamente.'),
+                'admin.account.email_updated'
+            );
         } else {
-            showLoginError(data.error || _t('admin.account.email_error', null, 'No se pudo confirmar el cambio de correo'), data.error ? null : 'admin.account.email_error');
+            showLoginError(
+                data.error || _t('admin.account.email_error', null, 'No se pudo confirmar el cambio de correo'),
+                data.error ? null : 'admin.account.email_error'
+            );
         }
     } catch (_err) {
         showLoginForm();
-        showLoginError(_t('admin.account.email_token_error', null, 'No se pudo validar el enlace de cambio de correo'), 'admin.account.email_token_error');
+        showLoginError(
+            _t('admin.account.email_token_error', null, 'No se pudo validar el enlace de cambio de correo'),
+            'admin.account.email_token_error'
+        );
     } finally {
         params.delete('verify_email_token');
         const newQuery = params.toString();
@@ -443,7 +511,11 @@ window.addEventListener('DOMContentLoaded', () => {
         .then(() => confirmRegistrationTokenFromUrl())
         .then(() => confirmEmailChangeTokenFromUrl())
         .then(() => checkPasswordResetTokenFromUrl())
-        .catch(() => confirmRegistrationTokenFromUrl().then(() => confirmEmailChangeTokenFromUrl()).then(() => checkPasswordResetTokenFromUrl()));
+        .catch(() =>
+            confirmRegistrationTokenFromUrl()
+                .then(() => confirmEmailChangeTokenFromUrl())
+                .then(() => checkPasswordResetTokenFromUrl())
+        );
 });
 
 // ===== RE-RENDER ON LANGUAGE CHANGE =====
@@ -469,7 +541,7 @@ function logout() {
             () => {
                 // Limpiar la cookie HttpOnly en el servidor antes de recargar
                 fetch('/api/admin-logout', { method: 'POST', credentials: 'include' })
-                    .catch(() => { })
+                    .catch(() => {})
                     .finally(() => {
                         clearAdminSession();
                         location.reload();

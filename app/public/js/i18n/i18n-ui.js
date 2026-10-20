@@ -17,25 +17,32 @@
         ja: '/images/flags/ja.svg'
     };
 
-    const WRAPPER_CHROME_STYLE = 'z-index:10001;background:rgba(255,255,255,.74);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#0f172a;padding:8px 10px;border-radius:10px;border:1px solid rgba(148,163,184,.5);font:600 12px/1.2 system-ui,-apple-system,Segoe UI,sans-serif;display:flex;gap:8px;align-items:center;box-shadow:0 8px 20px rgba(15,23,42,.15);';
+    const WRAPPER_CHROME_STYLE =
+        'z-index:10001;background:rgba(255,255,255,.74);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#0f172a;padding:8px 10px;border-radius:10px;border:1px solid rgba(148,163,184,.5);font:600 12px/1.2 system-ui,-apple-system,Segoe UI,sans-serif;display:flex;gap:8px;align-items:center;box-shadow:0 8px 20px rgba(15,23,42,.15);';
 
-    function i18n() { return global.XiroI18n || null; }
+    function i18n() {
+        return global.XiroI18n || null;
+    }
     function translate(text) {
         const api = i18n();
         return api ? api.translateLiteral(text || '') : String(text || '');
     }
     function t(key, fallback) {
         const api = i18n();
-        return api ? api.t(key, null, fallback || key) : (fallback || key);
+        return api ? api.t(key, null, fallback || key) : fallback || key;
     }
 
     function languageName(code) {
-        const normalized = String(code || '').trim().toLowerCase();
+        const normalized = String(code || '')
+            .trim()
+            .toLowerCase();
         return t(`language.${normalized}`, normalized.toUpperCase());
     }
 
     function languageOptionLabel(code) {
-        const normalized = String(code || '').trim().toLowerCase();
+        const normalized = String(code || '')
+            .trim()
+            .toLowerCase();
         const flag = LANGUAGE_FLAGS[normalized] || '🏳️';
         const name = languageName(normalized);
         if (isSvgFlag(flag)) return name;
@@ -47,14 +54,17 @@
     }
 
     function createFlagNode(code) {
-        const normalized = String(code || '').trim().toLowerCase();
+        const normalized = String(code || '')
+            .trim()
+            .toLowerCase();
         const flag = LANGUAGE_FLAGS[normalized] || '🏳️';
 
         if (isSvgFlag(flag)) {
             const svgNode = document.createElement('img');
             svgNode.src = flag;
             svgNode.alt = '';
-            svgNode.style.cssText = 'width:19px;height:14px;object-fit:cover;border-radius:2px;border:1px solid rgba(148,163,184,.55);background:rgba(255,255,255,.82);';
+            svgNode.style.cssText =
+                'width:19px;height:14px;object-fit:cover;border-radius:2px;border:1px solid rgba(148,163,184,.55);background:rgba(255,255,255,.82);';
             return svgNode;
         }
 
@@ -75,7 +85,7 @@
         const viewportWidth = global.innerWidth || document.documentElement.clientWidth || 0;
         const triggerRect = trigger.getBoundingClientRect();
         const spacing = 8;
-        const widthLimit = Math.max(240, Math.min(420, viewportWidth - (spacing * 2)));
+        const widthLimit = Math.max(240, Math.min(420, viewportWidth - spacing * 2));
 
         menu.style.width = `${widthLimit}px`;
 
@@ -87,7 +97,7 @@
 
         const spaceBelow = Math.max(0, viewportHeight - triggerRect.bottom - spacing);
         const spaceAbove = Math.max(0, triggerRect.top - spacing);
-        const preferredHeight = Math.min(menu.scrollHeight || 320, Math.max(120, viewportHeight - (spacing * 2)));
+        const preferredHeight = Math.min(menu.scrollHeight || 320, Math.max(120, viewportHeight - spacing * 2));
         const openUpwards = spaceBelow < preferredHeight && spaceAbove > spaceBelow;
         const availableSpace = Math.max(0, Math.floor(openUpwards ? spaceAbove : spaceBelow));
         const maxHeight = Math.max(120, Math.min(preferredHeight, Math.max(120, availableSpace)));
@@ -119,9 +129,7 @@
     function setTileHiddenState(tile) {
         const flow = getTileFlow(tile);
         tile.style.opacity = '0';
-        tile.style.transform = flow === 'up'
-            ? 'translateY(14px) scale(.97)'
-            : 'translateY(-14px) scale(.97)';
+        tile.style.transform = flow === 'up' ? 'translateY(14px) scale(.97)' : 'translateY(-14px) scale(.97)';
     }
 
     function setTileVisibleState(tile) {
@@ -130,7 +138,9 @@
     }
 
     function renderTrigger(trigger, select) {
-        const selected = String(select.value || '').trim().toLowerCase();
+        const selected = String(select.value || '')
+            .trim()
+            .toLowerCase();
         trigger.innerHTML = '';
 
         const left = document.createElement('span');
@@ -161,7 +171,8 @@
         item.setAttribute('tooltip', String(option.value || '').toUpperCase());
         item.setAttribute('flow', flow);
         item.title = String(option.value || '').toUpperCase();
-        item.style.cssText = 'width:100%;display:flex;align-items:center;gap:8px;padding:8px;border:1px solid rgba(148,163,184,.35);background:rgba(255,255,255,.62);color:#0f172a;border-radius:8px;font:600 12px system-ui,-apple-system,Segoe UI,sans-serif;text-align:left;cursor:pointer;min-width:0;';
+        item.style.cssText =
+            'width:100%;display:flex;align-items:center;gap:8px;padding:8px;border:1px solid rgba(148,163,184,.35);background:rgba(255,255,255,.62);color:#0f172a;border-radius:8px;font:600 12px system-ui,-apple-system,Segoe UI,sans-serif;text-align:left;cursor:pointer;min-width:0;';
 
         if (option.value === select.value) {
             item.style.background = 'rgba(15,23,42,.09)';
@@ -203,14 +214,16 @@
         trigger.setAttribute('aria-haspopup', 'dialog');
         trigger.setAttribute('aria-controls', 'xiro-lang-menu');
         trigger.setAttribute('aria-expanded', 'false');
-        trigger.style.cssText = 'width:100%;display:inline-flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid rgba(148,163,184,.55);border-radius:6px;background:rgba(255,255,255,.82);color:#0f172a;padding:3px 8px;font:600 12px system-ui,-apple-system,Segoe UI,sans-serif;cursor:pointer;';
+        trigger.style.cssText =
+            'width:100%;display:inline-flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid rgba(148,163,184,.55);border-radius:6px;background:rgba(255,255,255,.82);color:#0f172a;padding:3px 8px;font:600 12px system-ui,-apple-system,Segoe UI,sans-serif;cursor:pointer;';
 
         const menu = document.createElement('div');
         menu.id = 'xiro-lang-menu';
         menu.setAttribute('role', 'dialog');
         menu.setAttribute('aria-modal', 'false');
         menu.setAttribute('aria-hidden', 'true');
-        menu.style.cssText = 'display:none;position:fixed;left:0;top:0;z-index:2147483647;width:min(420px,calc(100vw - 20px));max-height:min(70vh,340px);overflow:auto;background:rgba(255,255,255,.98);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);border:1px solid rgba(148,163,184,.55);border-radius:12px;box-shadow:0 16px 32px rgba(15,23,42,.2);padding:8px;opacity:0;visibility:hidden;pointer-events:none;transform:translateY(8px) scale(.98);transform-origin:top right;transition:opacity .2s ease,transform .2s cubic-bezier(.22,.61,.36,1),visibility 0s linear 0s;';
+        menu.style.cssText =
+            'display:none;position:fixed;left:0;top:0;z-index:2147483647;width:min(420px,calc(100vw - 20px));max-height:min(70vh,340px);overflow:auto;background:rgba(255,255,255,.98);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);border:1px solid rgba(148,163,184,.55);border-radius:12px;box-shadow:0 16px 32px rgba(15,23,42,.2);padding:8px;opacity:0;visibility:hidden;pointer-events:none;transform:translateY(8px) scale(.98);transform-origin:top right;transition:opacity .2s ease,transform .2s cubic-bezier(.22,.61,.36,1),visibility 0s linear 0s;';
 
         let isOpen = false;
         let hideTimerId = null;
@@ -221,7 +234,8 @@
             isOpen = false;
             trigger.setAttribute('aria-expanded', 'false');
             menu.setAttribute('aria-hidden', 'true');
-            menu.style.transition = 'opacity .2s ease,transform .2s cubic-bezier(.22,.61,.36,1),visibility 0s linear .2s';
+            menu.style.transition =
+                'opacity .2s ease,transform .2s cubic-bezier(.22,.61,.36,1),visibility 0s linear .2s';
 
             const tiles = Array.from(menu.querySelectorAll('[data-lang-item="1"]'));
             tiles.forEach((tile, index) => {
@@ -250,7 +264,8 @@
 
             isOpen = true;
             menu.style.display = 'block';
-            menu.style.transition = 'opacity .2s ease,transform .2s cubic-bezier(.22,.61,.36,1),visibility 0s linear 0s';
+            menu.style.transition =
+                'opacity .2s ease,transform .2s cubic-bezier(.22,.61,.36,1),visibility 0s linear 0s';
             menu.style.opacity = '0';
             menu.style.transform = 'translateY(8px) scale(.98)';
             menu.style.visibility = 'hidden';
@@ -263,7 +278,7 @@
             void menu.offsetHeight;
 
             const tiles = menu.querySelectorAll('[data-lang-item="1"]');
-            tiles.forEach((tile) => {
+            tiles.forEach(tile => {
                 tile.style.transition = 'none';
                 setTileHiddenState(tile);
             });
@@ -286,7 +301,8 @@
             menu.innerHTML = '';
             const title = document.createElement('div');
             title.textContent = t('language.label', 'Idioma');
-            title.style.cssText = 'padding:2px 4px 9px 4px;font:700 11px/1.1 system-ui,-apple-system,Segoe UI,sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#334155;';
+            title.style.cssText =
+                'padding:2px 4px 9px 4px;font:700 11px/1.1 system-ui,-apple-system,Segoe UI,sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#334155;';
             menu.appendChild(title);
 
             const grid = document.createElement('div');
@@ -311,7 +327,7 @@
             if (isOpen) positionMenu(menu, trigger);
         }
 
-        trigger.addEventListener('click', (event) => {
+        trigger.addEventListener('click', event => {
             event.preventDefault();
             if (isOpen) {
                 closeMenu();
@@ -324,15 +340,19 @@
             if (isOpen) positionMenu(menu, trigger);
         });
 
-        global.addEventListener('scroll', () => {
-            if (isOpen) positionMenu(menu, trigger);
-        }, true);
+        global.addEventListener(
+            'scroll',
+            () => {
+                if (isOpen) positionMenu(menu, trigger);
+            },
+            true
+        );
 
-        document.addEventListener('click', (event) => {
+        document.addEventListener('click', event => {
             if (!container.contains(event.target) && !menu.contains(event.target)) closeMenu();
         });
 
-        document.addEventListener('keydown', (event) => {
+        document.addEventListener('keydown', event => {
             if (event.key === 'Escape') closeMenu();
         });
 
@@ -387,7 +407,10 @@
         }
 
         if (page === 'jugador') {
-            applyWrapperStyle(wrapper, 'position:fixed;left:50%;transform:translateX(-50%);bottom:calc(10px + env(safe-area-inset-bottom));');
+            applyWrapperStyle(
+                wrapper,
+                'position:fixed;left:50%;transform:translateX(-50%);bottom:calc(10px + env(safe-area-inset-bottom));'
+            );
             document.body.appendChild(wrapper);
             return;
         }
@@ -401,7 +424,10 @@
         // Móvil: en las páginas de contenido, fijo abajo tapaba formularios y textos;
         // va en el flujo, al final de la página
         if (global.matchMedia && global.matchMedia('(max-width: 767px)').matches) {
-            applyWrapperStyle(wrapper, 'position:static;margin:16px auto calc(16px + env(safe-area-inset-bottom)) auto;width:max-content;');
+            applyWrapperStyle(
+                wrapper,
+                'position:static;margin:16px auto calc(16px + env(safe-area-inset-bottom)) auto;width:max-content;'
+            );
             document.body.appendChild(wrapper);
             return;
         }
@@ -418,8 +444,8 @@
         const nativeConfirm = typeof global.confirm === 'function' ? global.confirm.bind(global) : null;
         const nativePrompt = typeof global.prompt === 'function' ? global.prompt.bind(global) : null;
 
-        if (nativeAlert) global.alert = (message) => nativeAlert(translate(message));
-        if (nativeConfirm) global.confirm = (message) => nativeConfirm(translate(message));
+        if (nativeAlert) global.alert = message => nativeAlert(translate(message));
+        if (nativeConfirm) global.confirm = message => nativeConfirm(translate(message));
         if (nativePrompt) global.prompt = (message, defaultValue) => nativePrompt(translate(message), defaultValue);
     }
 
@@ -430,7 +456,7 @@
         if (!label || !select || !api) return;
 
         label.textContent = t('language.label', 'Idioma');
-        Array.from(select.options).forEach((option) => {
+        Array.from(select.options).forEach(option => {
             option.textContent = languageOptionLabel(option.value);
         });
         select.value = api.getLanguage();
@@ -456,8 +482,10 @@
         select.tabIndex = -1;
         select.setAttribute('aria-hidden', 'true');
 
-        const supported = i18n() ? i18n().getSupportedLanguages() : ['es', 'en', 'fr', 'ca', 'eu', 'gl', 'de', 'pt', 'zh', 'ja'];
-        supported.forEach((code) => {
+        const supported = i18n()
+            ? i18n().getSupportedLanguages()
+            : ['es', 'en', 'fr', 'ca', 'eu', 'gl', 'de', 'pt', 'zh', 'ja'];
+        supported.forEach(code => {
             const option = document.createElement('option');
             option.value = code;
             option.textContent = languageOptionLabel(code);

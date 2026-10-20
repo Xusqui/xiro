@@ -44,10 +44,9 @@ function _timeoutSignal() {
 // desactivaría el control de activaciones). Manipularlo solo puede invalidar
 // la licencia (falla cerrado), nunca saltarse la comprobación.
 const _SECRET_SEED = [
-    107, 56, 106, 107, 105, 110, 59, 109, 109, 98, 98, 104, 106, 60, 105, 99,
-    59, 57, 62, 60, 62, 62, 60, 109, 104, 108, 57, 59, 106, 56, 59, 108,
-    104, 56, 108, 106, 105, 62, 105, 60, 105, 111, 111, 60, 104, 111, 110, 108,
-    105, 60, 106, 56, 107, 105, 109, 109, 106, 98, 57, 99, 63, 56, 111, 56
+    107, 56, 106, 107, 105, 110, 59, 109, 109, 98, 98, 104, 106, 60, 105, 99, 59, 57, 62, 60, 62, 62, 60, 109, 104, 108,
+    57, 59, 106, 56, 59, 108, 104, 56, 108, 106, 105, 62, 105, 60, 105, 111, 111, 60, 104, 111, 110, 108, 105, 60, 106,
+    56, 107, 105, 109, 109, 106, 98, 57, 99, 63, 56, 111, 56
 ];
 
 // Claves ya validadas con éxito en este proceso → las siguientes llamadas
@@ -55,7 +54,7 @@ const _SECRET_SEED = [
 const _validatedKeys = new Set();
 
 function _hmacSecret(deps = {}) {
-    return deps.secret || _fromCodes(_SECRET_SEED.map((code) => code ^ 90));
+    return deps.secret || _fromCodes(_SECRET_SEED.map(code => code ^ 90));
 }
 
 /** El flujo de activación aplica a toda clave con el formato del servidor. */

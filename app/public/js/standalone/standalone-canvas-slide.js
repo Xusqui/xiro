@@ -22,7 +22,9 @@ globalThis.StandaloneCanvasSlide = (() => {
             window.XiroSlideCanvasRender.mount(host, question.slide_canvas, {
                 mode: 'player',
                 labels: {
-                    videoOnScreen: window.XiroI18n?.t('standalone.game.video_presenter_only') || 'Este vídeo solo se ve en la pantalla del presentador'
+                    videoOnScreen:
+                        window.XiroI18n?.t('standalone.game.video_presenter_only') ||
+                        'Este vídeo solo se ve en la pantalla del presentador'
                 }
             });
         }

@@ -13,7 +13,6 @@
  */
 
 const XiroNotesParser = (() => {
-
     const XIRO_RE = /^XIRO:(\{.+\})$/m;
 
     /**

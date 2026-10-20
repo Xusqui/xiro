@@ -6,17 +6,19 @@
 const { pool } = require('../../config/database');
 
 function normalizeUsername(username) {
-    return String(username || '').trim().toLowerCase();
+    return String(username || '')
+        .trim()
+        .toLowerCase();
 }
 
 function normalizeEmail(email) {
-    return String(email || '').trim().toLowerCase();
+    return String(email || '')
+        .trim()
+        .toLowerCase();
 }
 
 async function hasAnyUsers(queryable = pool) {
-    const result = await queryable.query(
-        'SELECT EXISTS(SELECT 1 FROM admin_users) AS has_users'
-    );
+    const result = await queryable.query('SELECT EXISTS(SELECT 1 FROM admin_users) AS has_users');
     return result.rows[0]?.has_users === true;
 }
 
@@ -117,9 +119,7 @@ async function createFirstAdminUser(username, email, passwordHash) {
         await client.query('BEGIN');
         await client.query('LOCK TABLE admin_users IN EXCLUSIVE MODE');
 
-        const countResult = await client.query(
-            'SELECT COUNT(*)::int AS total FROM admin_users'
-        );
+        const countResult = await client.query('SELECT COUNT(*)::int AS total FROM admin_users');
 
         if ((countResult.rows[0]?.total || 0) > 0) {
             await client.query('COMMIT');
@@ -170,9 +170,7 @@ async function createUserWithAutoRole(username, email, passwordHash) {
         await client.query('BEGIN');
         await client.query('LOCK TABLE admin_users IN EXCLUSIVE MODE');
 
-        const countResult = await client.query(
-            'SELECT COUNT(*)::int AS total FROM admin_users'
-        );
+        const countResult = await client.query('SELECT COUNT(*)::int AS total FROM admin_users');
 
         const isFirstUser = countResult.rows[0]?.total === 0;
         const role = isFirstUser ? 'admin' : 'editor';

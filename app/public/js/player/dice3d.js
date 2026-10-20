@@ -16,7 +16,7 @@ const FACE_TARGETS = {
     3: { x: 0, y: 90 },
     4: { x: 0, y: -90 },
     5: { x: -90, y: 0 },
-    6: { x: 180, y: 0 },
+    6: { x: 180, y: 0 }
 };
 
 function _buildHTML() {
@@ -61,11 +61,11 @@ export function startRoll(onComplete) {
     if (!_diceEl) return;
 
     const value = Math.floor(Math.random() * 6) + 1;
-    const spins = Math.floor(Math.random() * 3) + 3;   // 3-5 vueltas completas
+    const spins = Math.floor(Math.random() * 3) + 3; // 3-5 vueltas completas
     const { x, y } = FACE_TARGETS[value];
     const finalX = spins * 360 + x;
     const finalY = spins * 360 + y;
-    const dice = _diceEl;                              // captura local (guard vs. destroy)
+    const dice = _diceEl; // captura local (guard vs. destroy)
 
     // 1. Resetear sin transición al origen
     dice.style.transition = 'none';
@@ -74,11 +74,11 @@ export function startRoll(onComplete) {
     // 2. Doble rAF asegura que el browser flushea el reset antes de animar
     requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-            if (_diceEl !== dice) return;                // descartado entre frames
+            if (_diceEl !== dice) return; // descartado entre frames
             dice.style.transition = 'transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
             dice.style.transform = `rotateX(${finalX}deg) rotateY(${finalY}deg)`;
 
-            const onEnd = (e) => {
+            const onEnd = e => {
                 if (e.propertyName !== 'transform') return;
                 dice.removeEventListener('transitionend', onEnd);
                 if (typeof onComplete === 'function') onComplete(value);

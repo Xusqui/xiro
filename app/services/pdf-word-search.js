@@ -31,19 +31,27 @@ function buildGridHTML(grid, escapeHtml, cellStyles = {}) {
     if (!Array.isArray(grid)) {
         return '<div style="color: rgba(255,255,255,0.75); font-size: 20px; font-style: italic;">(Rejilla no disponible)</div>';
     }
-    const cells = grid.flatMap((row, r) => [...row].map((letter, c) => `
-                <div style="width: ${CELL_PX}px; height: ${CELL_PX}px; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 800; color: #1e293b; ${cellStyles[`${r},${c}`] || ''}">${escapeHtml(letter)}</div>`)).join('');
+    const cells = grid
+        .flatMap((row, r) =>
+            [...row].map(
+                (letter, c) => `
+                <div style="width: ${CELL_PX}px; height: ${CELL_PX}px; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 800; color: #1e293b; ${cellStyles[`${r},${c}`] || ''}">${escapeHtml(letter)}</div>`
+            )
+        )
+        .join('');
     return `
             <div style="display: inline-grid; grid-template-columns: repeat(${grid.length}, ${CELL_PX}px); background: rgba(255,255,255,0.95); padding: 12px; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.2);">${cells}
             </div>`;
 }
 
 function buildWordsHTML(words, escapeHtml, withColors = false) {
-    return words.map((word, i) => {
-        const colors = withColors ? WordSearchGrid.chipStyle(i) : 'background: rgba(255,255,255,0.2); color: white';
-        return `
+    return words
+        .map((word, i) => {
+            const colors = withColors ? WordSearchGrid.chipStyle(i) : 'background: rgba(255,255,255,0.2); color: white';
+            return `
                 <span style="${colors}; padding: 8px 16px; border-radius: 10px; font-size: 20px; font-weight: 700; letter-spacing: 2px;">${escapeHtml(word)}</span>`;
-    }).join('');
+        })
+        .join('');
 }
 
 function withGrid(question) {

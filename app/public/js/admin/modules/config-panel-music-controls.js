@@ -34,13 +34,17 @@ function _musicCardHead(icon, key, extraClass) {
  * @param {{ name: string, values: string[], current: string, fallback?: string, labelOf: (v: string) => string, labelledBy: string }} o
  */
 function _musicPills(o) {
-    const pills = o.values.map(v => {
-        const isDefault = v === o.fallback;
-        const star = isDefault ? '<i class="fas fa-star" aria-hidden="true"></i>' : '';
-        const mark = isDefault ? ` <span class="sr-only">${_musicT('default_mark')}</span>` : '';
-        return `<label class="xm-pill"><input type="radio" name="${o.name}" value="${escapeHtml(v)}"${v === o.current ? ' checked' : ''}>`
-            + `<span>${star}${escapeHtml(o.labelOf(v))}${mark}</span></label>`;
-    }).join('');
+    const pills = o.values
+        .map(v => {
+            const isDefault = v === o.fallback;
+            const star = isDefault ? '<i class="fas fa-star" aria-hidden="true"></i>' : '';
+            const mark = isDefault ? ` <span class="sr-only">${_musicT('default_mark')}</span>` : '';
+            return (
+                `<label class="xm-pill"><input type="radio" name="${o.name}" value="${escapeHtml(v)}"${v === o.current ? ' checked' : ''}>` +
+                `<span>${star}${escapeHtml(o.labelOf(v))}${mark}</span></label>`
+            );
+        })
+        .join('');
     return `<div class="xm-pills" role="radiogroup" aria-labelledby="${o.labelledBy}">${pills}</div>`;
 }
 
@@ -48,9 +52,11 @@ function _renderMusicInstruments(s) {
     const S = self.XiroMusic.settings;
     const options = S.soundOptions();
     const fallback = S.defaults().sounds;
-    const rows = S.SOUND_GROUPS.map(group => `
+    const rows = S.SOUND_GROUPS.map(
+        group => `
         <span class="xm-groups__label" id="xm-group-${group}">${_musicT('group.' + group)}</span>
-        ${_musicPills({ name: 'xm-sound-' + group, values: options[group], current: s.sounds[group], fallback: fallback[group], labelOf: v => _musicOptionLabel(group, v), labelledBy: 'xm-group-' + group })}`).join('');
+        ${_musicPills({ name: 'xm-sound-' + group, values: options[group], current: s.sounds[group], fallback: fallback[group], labelOf: v => _musicOptionLabel(group, v), labelledBy: 'xm-group-' + group })}`
+    ).join('');
     return `<section class="xm-card" aria-labelledby="xm-title-instruments">
         ${_musicCardHead('fa-guitar', 'instruments')}
         <div class="xm-groups">${rows}</div>
@@ -70,8 +76,11 @@ function _renderMusicTempo(s) {
 function _renderMusicSeed(s) {
     const fixed = s.seedMode === 'fixed';
     const modes = _musicPills({
-        name: 'xm-seed-mode', values: ['session', 'fixed'], current: s.seedMode,
-        labelOf: v => _musicT('seed.mode_' + v), labelledBy: 'xm-title-seed'
+        name: 'xm-seed-mode',
+        values: ['session', 'fixed'],
+        current: s.seedMode,
+        labelOf: v => _musicT('seed.mode_' + v),
+        labelledBy: 'xm-title-seed'
     });
     return `${modes}
         <div class="xm-seed">
@@ -98,8 +107,12 @@ function _renderMusicVolumeTick(s) {
     const S = self.XiroMusic.settings;
     const pct = Math.round(s.volume * 100);
     const ticks = _musicPills({
-        name: 'xm-tick', values: S.TICK_SOUNDS, current: s.tick, fallback: S.defaults().tick,
-        labelOf: v => _musicT('tick.' + v), labelledBy: 'xm-title-tick'
+        name: 'xm-tick',
+        values: S.TICK_SOUNDS,
+        current: s.tick,
+        fallback: S.defaults().tick,
+        labelOf: v => _musicT('tick.' + v),
+        labelledBy: 'xm-title-tick'
     });
     return `<section class="xm-card xm-split">
         <div>

@@ -1,7 +1,7 @@
 /**
  * @fileoverview Redis Client Singleton - Cliente Redis compartido
  * @module config/redis
- * 
+ *
  * Proporciona un único cliente Redis para múltiples servicios (SessionStore, Cache, etc.)
  * Evita múltiples conexiones Redis innecesarias.
  */
@@ -83,7 +83,7 @@ function getRedisClient() {
                 url: redisUrl,
                 password: redisPassword,
                 socket: {
-                    reconnectStrategy: (retries) => {
+                    reconnectStrategy: retries => {
                         if (isTestEnv) {
                             return false;
                         }
@@ -106,7 +106,7 @@ function getRedisClient() {
 
             // Nota: Usar console directamente para evitar dependencia circular con logger
             // Los event listeners de Redis se ejecutan durante la carga del módulo
-            redisClient.on('error', (err) => {
+            redisClient.on('error', err => {
                 getLogger().error('Redis client error:', { error: err.message });
             });
 

@@ -25,18 +25,20 @@ const StandaloneReveal = (() => {
 
     /** @param {string} safeJustification justificación ya escapada con escapeHtml */
     function _justificationBox(safeJustification) {
-        return safeJustification
-            ? `<div class="pl-reveal-box"><p>${safeJustification}</p></div>`
-            : '';
+        return safeJustification ? `<div class="pl-reveal-box"><p>${safeJustification}</p></div>` : '';
     }
 
     function _orderMessage(data) {
         const positionsCorrect = data.orderDetails?.positionsCorrect || [];
-        const rows = positionsCorrect.map((isCorrect, position) => `
+        const rows = positionsCorrect
+            .map(
+                (isCorrect, position) => `
             <div class="pl-reveal-breakdown-item ${isCorrect ? 'is-correct' : 'is-incorrect'}">
                 <span class="pl-reveal-breakdown-label"><i class="fas ${isCorrect ? 'fa-check' : 'fa-times'}"></i> ${_t('standalone.game.order_position', 'Posición')} ${position + 1}</span>
             </div>
-        `).join('');
+        `
+            )
+            .join('');
 
         return `
             <i class="fas fa-list-ol pl-reveal-icon"></i>
@@ -68,17 +70,22 @@ const StandaloneReveal = (() => {
         const missedRows = [...correctSet]
             .filter(idx => !selectedSet.has(idx))
             .sort((a, b) => a - b)
-            .map(idx => `
+            .map(
+                idx => `
                 <div class="pl-reveal-breakdown-item is-missed">
                     <span class="pl-reveal-breakdown-label"><i class="fas fa-eye-slash"></i> ${escapeHtml(mcDetails.options[idx]?.text || '')} (${escapeHtml(missedLabel)})</span>
                     <span class="pl-reveal-breakdown-points">0</span>
                 </div>
-            `);
+            `
+            );
 
         const breakdown = selectedRows.concat(missedRows).join('');
 
         const totalIcon = data.points > 0 ? 'fa-circle-check' : 'fa-circle-xmark';
-        const totalText = data.points > 0 ? _t('standalone.game.correct', '¡Correcto!') : _t('standalone.game.incorrect', 'Incorrecto');
+        const totalText =
+            data.points > 0
+                ? _t('standalone.game.correct', '¡Correcto!')
+                : _t('standalone.game.incorrect', 'Incorrecto');
 
         return `
             <i class="fas ${totalIcon} pl-reveal-icon"></i>
@@ -137,21 +144,29 @@ const StandaloneReveal = (() => {
     function _correctIndicesList(indices) {
         if (!Array.isArray(indices) || indices.length === 0) return '';
         const options = StandaloneState.get().currentQuestion?.options || [];
-        const items = indices.map(idx => `
+        const items = indices
+            .map(
+                idx => `
             <div class="pl-reveal-breakdown-item is-correct">
                 <span class="pl-reveal-breakdown-label"><i class="fas fa-check"></i> ${escapeHtml(optionText(options[idx]))}</span>
             </div>
-        `).join('');
+        `
+            )
+            .join('');
         return `<div class="pl-reveal-breakdown">${items}</div>`;
     }
 
     function _correctMatchesList(matches) {
         if (!Array.isArray(matches) || matches.length === 0) return '';
-        const items = matches.map(m => `
+        const items = matches
+            .map(
+                m => `
             <div class="pl-reveal-breakdown-item is-correct">
                 <span class="pl-reveal-breakdown-label">${escapeHtml(m.leftText)} → ${escapeHtml(m.rightText)}</span>
             </div>
-        `).join('');
+        `
+            )
+            .join('');
         return `<div class="pl-reveal-breakdown">${items}</div>`;
     }
 
@@ -182,8 +197,9 @@ const StandaloneReveal = (() => {
 
         const visualLogic = window.PlayerAnswerVisualLogic;
         const isApproximate = visualLogic.shouldShowApproximateResult({ isOrder, currentSlideType, data });
-        const color = StandaloneQuestionFillBlanks.resultColor(data)
-            || visualLogic.resolveResultColor({ isOrder, isFullyCorrect, isApproximate, isCorrect: data.correct });
+        const color =
+            StandaloneQuestionFillBlanks.resultColor(data) ||
+            visualLogic.resolveResultColor({ isOrder, isFullyCorrect, isApproximate, isCorrect: data.correct });
 
         let message;
         if (data.orderDetails) {

@@ -1,6 +1,6 @@
 /**
  * @fileoverview Player Lookup Helper - Búsquedas optimizadas de jugadores
- * 
+ *
  * Problema: Array.from(players.values()).find() es O(n) y se ejecuta frecuentemente
  * Solución: Crear índices temporales para búsquedas O(1)
  */
@@ -16,9 +16,7 @@
 function findPlayerByNickname(players, nickname, roomId, excludeId = null) {
     // Iterar una sola vez en lugar de Array.from + find
     for (const player of players.values()) {
-        if (player.nickname === nickname &&
-            player.roomId === roomId &&
-            player.id !== excludeId) {
+        if (player.nickname === nickname && player.roomId === roomId && player.id !== excludeId) {
             return player;
         }
     }
@@ -28,7 +26,7 @@ function findPlayerByNickname(players, nickname, roomId, excludeId = null) {
 /**
  * Crear índice de players por roomId para búsquedas O(1)
  * Útil cuando se necesitan hacer múltiples búsquedas en la misma room
- * 
+ *
  * @param {Map} players - Map global de players
  * @param {string} roomId - Room ID
  * @returns {Map<string, Object>} Map de nickname → player

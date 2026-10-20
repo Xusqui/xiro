@@ -6,10 +6,7 @@
 const ScoringStrategy = require('./ScoringStrategy');
 const { TIMING } = require('../../../config/game-constants');
 const { normalizeToleranceConfig } = require('../../services/numeric/NumericToleranceConfig');
-const {
-    resolveToleranceWindow,
-    calculateLinearPoints
-} = require('../../services/numeric/NumericToleranceCalculator');
+const { resolveToleranceWindow, calculateLinearPoints } = require('../../services/numeric/NumericToleranceCalculator');
 
 /**
  * Estrategia de respuesta numérica aproximada
@@ -96,15 +93,14 @@ class NumericApproximationScoring extends ScoringStrategy {
             exactBonus: toleranceConfig.exactBonus
         });
 
-        const distancePercentage = validatedCorrectAnswer !== 0
-            ? (distance / Math.abs(validatedCorrectAnswer)) * 100
-            : 0;
+        const distancePercentage =
+            validatedCorrectAnswer !== 0 ? (distance / Math.abs(validatedCorrectAnswer)) * 100 : 0;
 
         const formula = isCorrect
             ? `${pointsEarned} = ${maxPoints} + ${toleranceConfig.exactBonus}`
-            : (tolerance > 0
+            : tolerance > 0
                 ? `${pointsEarned} = ${maxPoints} × (1 - (${distance} / ${tolerance}))`
-                : `${pointsEarned} = 0 (tolerancia no positiva)`);
+                : `${pointsEarned} = 0 (tolerancia no positiva)`;
 
         return {
             pointsEarned: Math.max(0, pointsEarned),
@@ -176,11 +172,10 @@ class NumericApproximationScoring extends ScoringStrategy {
      */
     validateConfig(config) {
         // 0 es una respuesta válida: solo falta si no viene o viene vacía
-        const missingAnswer = config.correctAnswer === undefined || config.correctAnswer === null || config.correctAnswer === '';
+        const missingAnswer =
+            config.correctAnswer === undefined || config.correctAnswer === null || config.correctAnswer === '';
         if (missingAnswer || config.maxPoints === undefined) {
-            throw new Error(
-                'NumericApproximationScoring requiere correctAnswer y maxPoints'
-            );
+            throw new Error('NumericApproximationScoring requiere correctAnswer y maxPoints');
         }
         if (config.maxPoints <= 0) {
             throw new Error('maxPoints debe ser mayor a 0');

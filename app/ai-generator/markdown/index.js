@@ -150,7 +150,12 @@ async function documentToMarkdown(file, { legacyExtract, onFallback }) {
         if (onFallback) onFallback(err);
         try {
             const markdown = await legacyExtract(file);
-            const stats = { bytes: file.buffer.length, format: ext, mdChars: markdown.length, ms: Date.now() - started };
+            const stats = {
+                bytes: file.buffer.length,
+                format: ext,
+                mdChars: markdown.length,
+                ms: Date.now() - started
+            };
             return { markdown, format: ext, fallback: true, stats };
         } catch {
             throw err;

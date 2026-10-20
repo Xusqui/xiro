@@ -50,26 +50,30 @@ async function renderVistaPersonalizados() {
                 </div>
             </div>
             
-            ${personalizados.length === 0 ? `
+            ${
+    personalizados.length === 0
+        ? `
                 <div class="text-center py-20">
                     <i class="fas fa-inbox text-slate-300 text-6xl mb-4"></i>
                     <p class="text-slate-400 text-xl">${_t('admin.custom.empty_title', null, 'No hay juegos personalizados todavía')}</p>
                     <p class="text-slate-400 mt-2">${_t('admin.custom.empty_msg', null, 'Crea un juego personalizado para mayor flexibilidad')}</p>
                 </div>
-            ` : `
+            `
+        : `
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    ${personalizados.map(juego => {
-        const ownerInfo = {
-            created_by_role: juego.created_by_role,
-            created_by_user_id: juego.created_by_user_id,
-            created_by_username: juego.created_by_username
-        };
-        const canModify = canModifyOwnedResource(ownerInfo);
-        const editClasses = canModify
-            ? 'flex-1 btn-edit px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2'
-            : `flex-1 px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 ${getLockedButtonClasses()}`;
+                    ${personalizados
+        .map(juego => {
+            const ownerInfo = {
+                created_by_role: juego.created_by_role,
+                created_by_user_id: juego.created_by_user_id,
+                created_by_username: juego.created_by_username
+            };
+            const canModify = canModifyOwnedResource(ownerInfo);
+            const editClasses = canModify
+                ? 'flex-1 btn-edit px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2'
+                : `flex-1 px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 ${getLockedButtonClasses()}`;
 
-        return `
+            return `
                         <div class="bg-white rounded-2xl shadow-sm border-2 border-slate-200 hover:border-blue-500 transition-all hover:shadow-xl group overflow-hidden">
                             <div class="p-6">
                                 <div class="flex justify-between items-start mb-4">
@@ -106,9 +110,11 @@ async function renderVistaPersonalizados() {
                             </div>
                         </div>
                     `;
-    }).join('')}
+        })
+        .join('')}
                 </div>
-            `}
+            `
+}
         </div>
     `);
 }
@@ -168,7 +174,11 @@ async function cargarEditorJuegoPersonalizado(id) {
         await renderEditorJuegoPersonalizado(data.game, data.questions);
     } catch (err) {
         console.error('Error cargando juego personalizado:', err);
-        mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), 'Error al cargar el juego: ' + err.message, 'error');
+        mostrarModalError(
+            _t('admin.common.error_title', null, '❌ Error'),
+            'Error al cargar el juego: ' + err.message,
+            'error'
+        );
     }
 }
 
@@ -273,7 +283,7 @@ async function renderEditorJuegoPersonalizado(game) {
         </div>
 
         <div class="xiro-editor-wide-row xiro-editor-twocard-grid">
-            ${(typeof getHTMLBusquedaPreguntas === 'function') ? getHTMLBusquedaPreguntas() : ''}
+            ${typeof getHTMLBusquedaPreguntas === 'function' ? getHTMLBusquedaPreguntas() : ''}
 
             <div class="bg-white rounded-2xl shadow-sm p-8 border border-slate-200">
                 <div class="flex justify-between items-center mb-6">
@@ -384,7 +394,9 @@ function _customGameEditorSnapshot() {
         streak_bonus_percentage: parseFloat(document.getElementById('customGameStreakBonusPercentage')?.value ?? 0.5),
         use_double_streaks: document.getElementById('customGameUseDoubleStreaks')?.checked ?? false,
         double_streak_threshold: parseFloat(document.getElementById('customGameDoubleStreakThreshold')?.value ?? 5),
-        double_streak_bonus_percentage: parseFloat(document.getElementById('customGameDoubleStreakBonusPercentage')?.value ?? 1.0),
+        double_streak_bonus_percentage: parseFloat(
+            document.getElementById('customGameDoubleStreakBonusPercentage')?.value ?? 1.0
+        ),
         image_url: document.getElementById('customGameImageUrl')?.value || '',
         ...snapshotRandomPoints('customGame'),
         questions: currentCustomGameQuestions
@@ -408,7 +420,9 @@ async function cargarPreguntasBanco(selectorId = 'selectorBanco', contenedorId =
     if (!selectorEl) return;
     const bankId = selectorEl.value;
     if (!bankId) {
-        document.getElementById(contenedorId).innerHTML = _tHtml(`<p class="text-slate-400 text-sm italic text-center py-8">${_t('admin.custom.bank_placeholder', null, 'Selecciona un banco para ver las preguntas disponibles')}</p>`);
+        document.getElementById(contenedorId).innerHTML = _tHtml(
+            `<p class="text-slate-400 text-sm italic text-center py-8">${_t('admin.custom.bank_placeholder', null, 'Selecciona un banco para ver las preguntas disponibles')}</p>`
+        );
         return;
     }
 
@@ -417,12 +431,15 @@ async function cargarPreguntasBanco(selectorId = 'selectorBanco', contenedorId =
     currentBankData = data; // Guardar para uso posterior
 
     const contenedor = document.getElementById(contenedorId);
-    contenedor.innerHTML = data.questions.map((q) => {
-        const correctAnswer = extractCorrectAnswerFrontend(q);
-        const correctDisplay = formatCorrectAnswerDisplayFrontend(correctAnswer);
-        const alreadyAdded = currentCustomGameQuestions.some(cq => cq.question_id != null && Number(cq.question_id) === Number(q.id));
+    contenedor.innerHTML = data.questions
+        .map(q => {
+            const correctAnswer = extractCorrectAnswerFrontend(q);
+            const correctDisplay = formatCorrectAnswerDisplayFrontend(correctAnswer);
+            const alreadyAdded = currentCustomGameQuestions.some(
+                cq => cq.question_id != null && Number(cq.question_id) === Number(q.id)
+            );
 
-        return `
+            return `
                 <div class="bg-slate-50 p-4 rounded-xl border-2 ${alreadyAdded ? 'border-green-300 bg-green-50' : 'border-slate-200'}">
                     <div class="flex items-start gap-4">
                         <button 
@@ -439,7 +456,8 @@ async function cargarPreguntasBanco(selectorId = 'selectorBanco', contenedorId =
                     </div>
                 </div>
             `;
-    }).join('');
+        })
+        .join('');
 }
 
 // ===== REFRESCAR TODOS LOS SELECTORES DE BANCO =====
@@ -454,9 +472,18 @@ function refreshAllBancosSelectors() {
 // ===== AGREGAR PREGUNTA PERSONALIZADA =====
 
 const _CUSTOM_EMPTY_TYPE_FIELDS = {
-    correct_answer: null, correct_word: null, word_length: null, scrambled_letters: null,
-    max_points: null, tolerance_mode: null, tolerance_value: null, tolerance_cap: null, hint_text: null,
-    mc_points_per_correct: null, mc_penalty_per_incorrect: null, mc_perfect_bonus: null
+    correct_answer: null,
+    correct_word: null,
+    word_length: null,
+    scrambled_letters: null,
+    max_points: null,
+    tolerance_mode: null,
+    tolerance_value: null,
+    tolerance_cap: null,
+    hint_text: null,
+    mc_points_per_correct: null,
+    mc_penalty_per_incorrect: null,
+    mc_perfect_bonus: null
 };
 
 // Campos propios de cada tipo; el resto queda a null (_CUSTOM_EMPTY_TYPE_FIELDS)
@@ -493,13 +520,15 @@ function _customQuestionFromBank(question, questionId, bankName) {
         question_type: type,
         question_text: question.question_text,
         bank_name: bankName,
-        options: withoutOptions ? [] : safeOptions.map(o => ({
-            optionText: o.option_text,
-            isCorrect: !!o.is_correct,
-            justification: o.justification,
-            // Completa la frase y sopa de letras: el orden de las palabras
-            order_index: o.order_index ?? null
-        })),
+        options: withoutOptions
+            ? []
+            : safeOptions.map(o => ({
+                optionText: o.option_text,
+                isCorrect: !!o.is_correct,
+                justification: o.justification,
+                // Completa la frase y sopa de letras: el orden de las palabras
+                order_index: o.order_index ?? null
+            })),
         ..._CUSTOM_EMPTY_TYPE_FIELDS,
         ...typeFields,
         position: currentCustomGameQuestions.length
@@ -514,7 +543,11 @@ function agregarPreguntaPersonalizada(questionId) {
 
     // Usar los datos del banco actual
     if (!currentBankData) {
-        mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), 'Error: No hay banco seleccionado', 'error');
+        mostrarModalError(
+            _t('admin.common.error_title', null, '❌ Error'),
+            'Error: No hay banco seleccionado',
+            'error'
+        );
         return;
     }
 
@@ -537,13 +570,18 @@ function dibujarPreguntasPersonalizadas() {
     const contenedor = document.getElementById('listaCustomQuestions');
     if (!contenedor) return;
 
-    const label = _t('admin.custom.section_selected', null, 'Preguntas Seleccionadas ({n})').replace('{n}', currentCustomGameQuestions.length);
+    const label = _t('admin.custom.section_selected', null, 'Preguntas Seleccionadas ({n})').replace(
+        '{n}',
+        currentCustomGameQuestions.length
+    );
     contenedor.parentElement.querySelectorAll('h3').forEach(h3 => {
         h3.textContent = label;
     });
 
     if (currentCustomGameQuestions.length === 0) {
-        contenedor.innerHTML = _tHtml(`<p class="text-slate-400 text-sm italic text-center py-8">${_t('admin.custom.no_questions', null, 'Aún no has seleccionado ninguna pregunta')}</p>`);
+        contenedor.innerHTML = _tHtml(
+            `<p class="text-slate-400 text-sm italic text-center py-8">${_t('admin.custom.no_questions', null, 'Aún no has seleccionado ninguna pregunta')}</p>`
+        );
         return;
     }
 
@@ -621,7 +659,8 @@ function _readCustomGameStreaks() {
         streak_bonus_percentage: parseFloat(document.getElementById('customGameStreakBonusPercentage').value) ?? 0.5,
         use_double_streaks: document.getElementById('customGameUseDoubleStreaks').checked,
         double_streak_threshold: parseFloat(document.getElementById('customGameDoubleStreakThreshold').value) || 5,
-        double_streak_bonus_percentage: parseFloat(document.getElementById('customGameDoubleStreakBonusPercentage').value) ?? 1.0
+        double_streak_bonus_percentage:
+            parseFloat(document.getElementById('customGameDoubleStreakBonusPercentage').value) ?? 1.0
     };
 }
 
@@ -630,7 +669,8 @@ function _customGameValidationError(form, randomPoints) {
     const randomPointsCheck = validateRandomPointsConfig(randomPoints);
     if (!randomPointsCheck.valid) return randomPointsCheck.message;
     if (!form.name) return _t('admin.custom.error_name', null, 'Por favor, ponle un nombre al juego');
-    if (currentCustomGameQuestions.length === 0) return _t('admin.custom.error_questions', null, 'Añade al menos una pregunta');
+    if (currentCustomGameQuestions.length === 0)
+        return _t('admin.custom.error_questions', null, 'Añade al menos una pregunta');
     return null;
 }
 
@@ -722,10 +762,20 @@ function borrarJuegoPersonalizado(id, ownerUserId = null) {
                     renderVistaPersonalizados();
                 } else {
                     const err = await res.json();
-                    mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), err.error || err.message || _t('admin.custom.error_delete', null, 'No se pudo eliminar el juego personalizado'), 'error');
+                    mostrarModalError(
+                        _t('admin.common.error_title', null, '❌ Error'),
+                        err.error ||
+                            err.message ||
+                            _t('admin.custom.error_delete', null, 'No se pudo eliminar el juego personalizado'),
+                        'error'
+                    );
                 }
             } catch {
-                mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.custom.error_delete', null, 'Error al eliminar el juego personalizado'), 'error');
+                mostrarModalError(
+                    _t('admin.common.error_title', null, '❌ Error'),
+                    _t('admin.custom.error_delete', null, 'Error al eliminar el juego personalizado'),
+                    'error'
+                );
             }
         },
         null,

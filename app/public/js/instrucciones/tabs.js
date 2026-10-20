@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     tabBtns.forEach((btn, i) => {
         btn.addEventListener('click', () => selectTab(btn));
-        btn.addEventListener('keydown', (e) => {
+        btn.addEventListener('keydown', e => {
             if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
             e.preventDefault();
             const next = tabBtns[(i + (e.key === 'ArrowRight' ? 1 : tabBtns.length - 1)) % tabBtns.length];
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (subTabBtns.length > 0) {
         const subTabContents = document.querySelectorAll('.sub-tab-content');
 
-        const selectSubTab = (btn) => {
+        const selectSubTab = btn => {
             subTabBtns.forEach(b => {
                 b.classList.remove('active', 'font-bold');
                 b.style.backgroundColor = '';
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         subTabBtns.forEach((btn, i) => {
             btn.addEventListener('click', () => selectSubTab(btn));
-            btn.addEventListener('keydown', (e) => {
+            btn.addEventListener('keydown', e => {
                 if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
                 e.preventDefault();
                 const next = subTabBtns[(i + (e.key === 'ArrowRight' ? 1 : subTabBtns.length - 1)) % subTabBtns.length];

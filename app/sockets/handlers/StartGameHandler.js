@@ -12,15 +12,7 @@ const StartGameUseCase = require('../../application/use-cases/StartGameUseCase')
 const { pushSessionLog } = require('../../services/game-logs.service');
 
 module.exports = function createStartGameHandler(dependencies) {
-    const {
-        activeGames,
-        lobbyPlayers,
-        teamConfigs,
-        metrics,
-        io,
-        syncBus,
-        socketRateLimits
-    } = dependencies;
+    const { activeGames, lobbyPlayers, teamConfigs, metrics, io, syncBus, socketRateLimits } = dependencies;
 
     // Instanciar Use Case
     const startGameUseCase = new StartGameUseCase({
@@ -116,7 +108,6 @@ module.exports = function createStartGameHandler(dependencies) {
             if (preparedQuestions[0].time_limit) {
                 startTimer(roomId, preparedQuestions[0].time_limit, io);
             }
-
         } catch (error) {
             logger.error('Error starting game', { roomId, error: error.message, stack: error.stack });
             socket.emit('game-start-error', { message: 'Error al iniciar el juego', code: 'GAME_START_FAILED' });

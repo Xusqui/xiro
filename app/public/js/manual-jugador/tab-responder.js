@@ -3,70 +3,103 @@ import { renderSmallVerticalCard } from './ui-components.js?v=20260922172926';
 export function getTabResponderHTML() {
     const types = [
         {
-            color: '#8ab817', icon: 'fas fa-check-circle',
+            color: '#8ab817',
+            icon: 'fas fa-check-circle',
             title: _t('manual_player.answer.quiz.title'),
             text: _t('manual_player.answer.quiz.text'),
-            placeholderId: 'img-quiz', imgSrc: './images/manual/img-quiz.jpg', mascotImg: 'thinking.svg'
+            placeholderId: 'img-quiz',
+            imgSrc: './images/manual/img-quiz.jpg',
+            mascotImg: 'thinking.svg'
         },
         {
-            color: '#10b981', icon: 'fas fa-image',
+            color: '#10b981',
+            icon: 'fas fa-image',
             title: _t('manual_player.answer.quiz_img.title'),
             text: _t('manual_player.answer.quiz_img.text'),
-            placeholderId: 'img-quiz-img', imgSrc: './images/manual/img-quiz-img.jpg', mascotImg: 'hello.svg'
+            placeholderId: 'img-quiz-img',
+            imgSrc: './images/manual/img-quiz-img.jpg',
+            mascotImg: 'hello.svg'
         },
         {
-            color: '#14b8a6', icon: 'fas fa-music',
+            color: '#14b8a6',
+            icon: 'fas fa-music',
             title: _t('manual_player.answer.quiz_music.title'),
             text: _t('manual_player.answer.quiz_music.text'),
-            placeholderId: 'img-quiz-music', imgSrc: './images/manual/img-quiz-music.jpg', mascotImg: 'party.svg'
+            placeholderId: 'img-quiz-music',
+            imgSrc: './images/manual/img-quiz-music.jpg',
+            mascotImg: 'party.svg'
         },
         {
-            color: '#0ea5e9', icon: 'fas fa-poll',
+            color: '#0ea5e9',
+            icon: 'fas fa-poll',
             title: _t('manual_player.answer.survey.title'),
             text: _t('manual_player.answer.survey.text'),
-            placeholderId: 'img-survey', imgSrc: './images/manual/img-survey.jpg', mascotImg: 'cool.svg'
+            placeholderId: 'img-survey',
+            imgSrc: './images/manual/img-survey.jpg',
+            mascotImg: 'cool.svg'
         },
         {
-            color: '#b05baa', icon: 'fas fa-check-double',
+            color: '#b05baa',
+            icon: 'fas fa-check-double',
             title: _t('manual_player.answer.multiple.title'),
             text: _t('manual_player.answer.multiple.text'),
-            placeholderId: 'img-multiple', imgSrc: './images/manual/img-multiple.jpg', mascotImg: 'disguise.svg'
+            placeholderId: 'img-multiple',
+            imgSrc: './images/manual/img-multiple.jpg',
+            mascotImg: 'disguise.svg'
         },
         {
-            color: '#f59e0b', icon: 'fas fa-sort-numeric-up-alt',
+            color: '#f59e0b',
+            icon: 'fas fa-sort-numeric-up-alt',
             title: _t('manual_player.answer.numeric.title'),
             text: _t('manual_player.answer.numeric.text'),
-            placeholderId: 'img-numeric', imgSrc: './images/manual/img-numeric.jpg', mascotImg: 'nerd.svg'
+            placeholderId: 'img-numeric',
+            imgSrc: './images/manual/img-numeric.jpg',
+            mascotImg: 'nerd.svg'
         },
         {
-            color: '#ec4899', icon: 'fas fa-list-ol',
+            color: '#ec4899',
+            icon: 'fas fa-list-ol',
             title: _t('manual_player.answer.order.title'),
             text: _t('manual_player.answer.order.text'),
-            placeholderId: 'img-order', imgSrc: './images/manual/img-order.jpg', mascotImg: 'worker.svg'
+            placeholderId: 'img-order',
+            imgSrc: './images/manual/img-order.jpg',
+            mascotImg: 'worker.svg'
         },
         {
-            color: '#ef4444', icon: 'fas fa-font',
+            color: '#ef4444',
+            icon: 'fas fa-font',
             title: _t('manual_player.answer.scramble.title'),
             text: _t('manual_player.answer.scramble.text'),
-            placeholderId: 'img-scramble', imgSrc: './images/manual/img-scramble.jpg', mascotImg: 'angry.svg'
+            placeholderId: 'img-scramble',
+            imgSrc: './images/manual/img-scramble.jpg',
+            mascotImg: 'angry.svg'
         },
         {
-            color: '#f59e0b', icon: 'fas fa-link',
+            color: '#f59e0b',
+            icon: 'fas fa-link',
             title: _t('manual_player.answer.matching.title'),
             text: _t('manual_player.answer.matching.text'),
-            placeholderId: 'img-matching', imgSrc: './images/manual/img-matching.jpg', mascotImg: 'cooking.svg'
+            placeholderId: 'img-matching',
+            imgSrc: './images/manual/img-matching.jpg',
+            mascotImg: 'cooking.svg'
         },
         {
-            color: '#6366f1', icon: 'fas fa-magnifying-glass',
+            color: '#6366f1',
+            icon: 'fas fa-magnifying-glass',
             title: _t('manual_player.answer.word_search.title'),
             text: _t('manual_player.answer.word_search.text'),
-            placeholderId: 'img-word-search', imgSrc: './images/manual/img-word-search.jpg', mascotImg: 'searching.svg'
+            placeholderId: 'img-word-search',
+            imgSrc: './images/manual/img-word-search.jpg',
+            mascotImg: 'searching.svg'
         },
         {
-            color: '#10b981', icon: 'fas fa-i-cursor',
+            color: '#10b981',
+            icon: 'fas fa-i-cursor',
             title: _t('manual_player.answer.fill_blanks.title'),
             text: _t('manual_player.answer.fill_blanks.text'),
-            placeholderId: 'img-fill-blanks', imgSrc: './images/manual/img-fill-blanks.jpg', mascotImg: 'detective.svg'
+            placeholderId: 'img-fill-blanks',
+            imgSrc: './images/manual/img-fill-blanks.jpg',
+            mascotImg: 'detective.svg'
         }
     ];
 

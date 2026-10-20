@@ -37,7 +37,8 @@ async function exportBank(bankIdOrName) {
         logger.info(`Exportando banco: "${bank.name}" (ID: ${bank.id}, PIN: ${bank.pin || 'sin PIN'})`);
 
         // Obtener todas las preguntas con sus opciones
-        const questionsResult = await pool.query(`
+        const questionsResult = await pool.query(
+            `
             SELECT q.id, q.question_text,
                 json_agg(
                     json_build_object(
@@ -51,7 +52,9 @@ async function exportBank(bankIdOrName) {
             WHERE q.bank_id = $1
             GROUP BY q.id
             ORDER BY q.id
-        `, [bank.id]);
+        `,
+            [bank.id]
+        );
 
         const exportData = {
             bank: {
@@ -74,7 +77,6 @@ async function exportBank(bankIdOrName) {
 
         logger.info(`Exportacion completada: ${questionsResult.rows.length} preguntas`);
         logger.info(`Archivo generado: ${fileName}`);
-
     } catch (error) {
         logger.error('Error:', error.message);
     } finally {

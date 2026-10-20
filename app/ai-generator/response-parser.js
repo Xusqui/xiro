@@ -55,18 +55,18 @@ function parseLLMResponse(raw, expectedType) {
     } catch (err) {
         throw new Error(
             `JSON inválido para tipo '${expectedType}': ${err.message}\n` +
-            `Fragmento recibido: ${cleaned.slice(0, 200)}`
+                `Fragmento recibido: ${cleaned.slice(0, 200)}`
         );
     }
 
     // Normalizar: puede venir como objeto con array, o directamente como array
-    const items = Array.isArray(parsed) ? parsed : (parsed.questions || [parsed]);
+    const items = Array.isArray(parsed) ? parsed : parsed.questions || [parsed];
 
     if (items.length === 0) {
         throw new Error(`IA devolvió un array vacío para tipo '${expectedType}'`);
     }
 
-    // Reparación automática: En algunos casos, si la IA no marca ningún is_correct, 
+    // Reparación automática: En algunos casos, si la IA no marca ningún is_correct,
     // lo forzamos a true para la primera opción para que no se rompa la validación de Xiro.
     if (expectedType === 'quiz' || expectedType === 'multiple_choice') {
         items.forEach(q => {
@@ -91,8 +91,8 @@ function parseLLMResponse(raw, expectedType) {
     if (invalid.length > 0) {
         throw new Error(
             `${invalid.length} de ${items.length} preguntas de tipo '${expectedType}' ` +
-            `no superan la validación de estructura.\n` +
-            `Primera inválida: ${JSON.stringify(invalid[0]).slice(0, 300)}`
+                `no superan la validación de estructura.\n` +
+                `Primera inválida: ${JSON.stringify(invalid[0]).slice(0, 300)}`
         );
     }
 

@@ -6,8 +6,8 @@
     function _isOldDevice() {
         if (!window.CSS || typeof CSS.supports !== 'function') return true;
         const hasGrid = CSS.supports('display', 'grid');
-        const hasBackdropFilter = CSS.supports('backdrop-filter', 'blur(1px)') ||
-            CSS.supports('-webkit-backdrop-filter', 'blur(1px)');
+        const hasBackdropFilter =
+            CSS.supports('backdrop-filter', 'blur(1px)') || CSS.supports('-webkit-backdrop-filter', 'blur(1px)');
         return !hasGrid || !hasBackdropFilter;
     }
 
@@ -21,7 +21,7 @@
         if (cardTv) cardTv.style.display = _shouldShowTvCard(s.tvCardMode) ? '' : 'none';
 
         const cardStandalone = document.getElementById('card-standalone');
-        if (cardStandalone) cardStandalone.style.display = (s.showStandaloneCard === false) ? 'none' : '';
+        if (cardStandalone) cardStandalone.style.display = s.showStandaloneCard === false ? 'none' : '';
     }
 
     function _pollUiSettings() {
@@ -32,7 +32,7 @@
                 try {
                     const r = JSON.parse(xhr.responseText);
                     _applyUiSettings(r);
-                } catch (e) { }
+                } catch (e) {}
             }
         };
         xhr.send();

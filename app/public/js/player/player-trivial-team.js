@@ -24,10 +24,14 @@ export function initTrivialTeamState(data, myNickname) {
 }
 
 /** Returns true when the current game is in team mode. */
-export function isTeamMode() { return _teamMode; }
+export function isTeamMode() {
+    return _teamMode;
+}
 
 /** Returns the local player's team name, or null in individual mode. */
-export function getMyTeamName() { return _myTeamName; }
+export function getMyTeamName() {
+    return _myTeamName;
+}
 
 /**
  * Returns true when it is the local player's turn to act.

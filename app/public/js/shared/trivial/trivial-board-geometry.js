@@ -9,7 +9,11 @@ window.TrivialShared = window.TrivialShared || {};
 (function (ns) {
     'use strict';
 
-    const CX = 200, CY = 200, OUTER_R = 183, INNER_R = 30, CASILLA_R = 13;
+    const CX = 200,
+        CY = 200,
+        OUTER_R = 183,
+        INNER_R = 30,
+        CASILLA_R = 13;
 
     ns.CX = CX;
     ns.CY = CY;
@@ -26,9 +30,10 @@ window.TrivialShared = window.TrivialShared || {};
             return { x: CX + OUTER_R * Math.cos(angle), y: CY + OUTER_R * Math.sin(angle) };
         }
         if (parts[0] === 'spoke') {
-            const k = parseInt(parts[1], 10), s = parseInt(parts[2], 10);
+            const k = parseInt(parts[1], 10),
+                s = parseInt(parts[2], 10);
             const a = (k / N) * 2 * Math.PI - Math.PI / 2;
-            const r = (INNER_R + 1 + CASILLA_R) + (s - 1) * 27.5;
+            const r = INNER_R + 1 + CASILLA_R + (s - 1) * 27.5;
             return { x: CX + r * Math.cos(a), y: CY + r * Math.sin(a) };
         }
         return { x: CX, y: CY };
@@ -36,7 +41,7 @@ window.TrivialShared = window.TrivialShared || {};
 
     ns.isHQ = function (i, N, M) {
         for (let k = 0; k < N; k++) {
-            if (Math.floor(k * M / N) === i) return k;
+            if (Math.floor((k * M) / N) === i) return k;
         }
         return -1;
     };
@@ -49,9 +54,10 @@ window.TrivialShared = window.TrivialShared || {};
             return { x: CX + rO * Math.cos(angO), y: CY + rO * Math.sin(angO) };
         }
         if (parts[0] === 'spoke') {
-            const k = parseInt(parts[1], 10), s = parseInt(parts[2], 10);
+            const k = parseInt(parts[1], 10),
+                s = parseInt(parts[2], 10);
             const angS = (k / N) * 2 * Math.PI - Math.PI / 2;
-            const baseR = (INNER_R + 1 + CASILLA_R) + (s - 1) * 27.5;
+            const baseR = INNER_R + 1 + CASILLA_R + (s - 1) * 27.5;
             const offset = CASILLA_R + 11;
             return {
                 x: CX + baseR * Math.cos(angS) - offset * Math.sin(angS),
@@ -67,5 +73,4 @@ window.TrivialShared = window.TrivialShared || {};
         hue = hue % 360;
         return 'hsl(' + hue + ', 75%, 60%)';
     };
-
 })(window.TrivialShared);

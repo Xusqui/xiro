@@ -15,16 +15,16 @@ const logger = require('../../config/logger');
 
 /**
  * Event Bus singleton para comunicación desacoplada entre componentes
- * 
+ *
  * @example
  * // Suscribirse a un evento
  * EventBus.on('game.started', (event) => {
  *   logger.info(`Game ${event.gameId} started`);
  * });
- * 
+ *
  * // Emitir un evento
  * EventBus.emit('game.started', new GameStartedEvent({ gameId: '1234' }));
- * 
+ *
  * // Wildcards
  * EventBus.on('game.*', handler); // Todos los eventos game.*
  * EventBus.on('**', handler);      // TODOS los eventos
@@ -74,7 +74,7 @@ class EventBus extends EventEmitter {
      * @returns {Function} Función para unsubscribe
      */
     once(eventName, handler, priority = 0) {
-        const wrapper = (event) => {
+        const wrapper = event => {
             this.off(eventName, wrapper);
             handler(event);
         };

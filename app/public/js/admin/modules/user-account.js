@@ -75,7 +75,8 @@ function _setUserEmailSubmitPending(isPending) {
     }
 
     button.disabled = false;
-    button.textContent = button.dataset.defaultLabel || _t('admin.user.btn_email_change', null, 'Solicitar cambio de correo');
+    button.textContent =
+        button.dataset.defaultLabel || _t('admin.user.btn_email_change', null, 'Solicitar cambio de correo');
     button.classList.remove('bg-slate-400', 'cursor-not-allowed');
     button.classList.add('bg-slate-900', 'hover:bg-slate-800');
     button.removeAttribute('aria-busy');
@@ -125,7 +126,8 @@ function _setUserDeleteSubmitPending(isPending) {
     }
 
     button.disabled = false;
-    button.textContent = button.dataset.defaultLabel || _t('admin.user.btn_delete_account', null, 'Solicitar eliminación');
+    button.textContent =
+        button.dataset.defaultLabel || _t('admin.user.btn_delete_account', null, 'Solicitar eliminación');
     button.classList.remove('bg-slate-400', 'cursor-not-allowed');
     button.classList.add('bg-red-600', 'hover:bg-red-700');
     button.removeAttribute('aria-busy');
@@ -187,7 +189,10 @@ async function _loadUserAccountData() {
         usernameEl.textContent = _t('-');
         emailEl.textContent = _t('-');
         roleEl.textContent = _t('-');
-        _setUserPanelMessage(_t('admin.user.error_load_account', null, 'No se pudo cargar la información de la cuenta.'), true);
+        _setUserPanelMessage(
+            _t('admin.user.error_load_account', null, 'No se pudo cargar la información de la cuenta.'),
+            true
+        );
     }
 }
 
@@ -207,28 +212,25 @@ function _renderAdminUsersRows(users, currentUserId) {
         return;
     }
 
-    tableBody.innerHTML = users.map(user => {
-        const isSelf = user.id === currentUserId;
-        const roleBadgeClass = user.role === 'admin'
-            ? 'bg-plum-100 text-plum-700'
-            : 'bg-blue-100 text-blue-700';
-        const statusBadgeClass = user.isActive
-            ? 'bg-emerald-100 text-emerald-700'
-            : 'bg-slate-200 text-slate-700';
-        const deleteButtonClass = isSelf
-            ? 'bg-slate-200 text-slate-500 cursor-not-allowed'
-            : 'bg-rose-600 hover:bg-rose-700 text-white';
+    tableBody.innerHTML = users
+        .map(user => {
+            const isSelf = user.id === currentUserId;
+            const roleBadgeClass = user.role === 'admin' ? 'bg-plum-100 text-plum-700' : 'bg-blue-100 text-blue-700';
+            const statusBadgeClass = user.isActive ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-700';
+            const deleteButtonClass = isSelf
+                ? 'bg-slate-200 text-slate-500 cursor-not-allowed'
+                : 'bg-rose-600 hover:bg-rose-700 text-white';
 
-        const roleCellContent = isSelf
-            ? `<span class="px-2 py-1 rounded-full text-xs font-bold uppercase ${roleBadgeClass}">${escapeHtml(_formatUserRole(user.role))}</span>`
-            : `
+            const roleCellContent = isSelf
+                ? `<span class="px-2 py-1 rounded-full text-xs font-bold uppercase ${roleBadgeClass}">${escapeHtml(_formatUserRole(user.role))}</span>`
+                : `
                 <select data-change-role-user="${user.id}" class="bg-slate-50 border border-slate-300 text-slate-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 font-semibold uppercase">
                     <option value="admin" ${user.role === 'admin' ? 'selected' : ''}>ADMIN</option>
                     <option value="editor" ${user.role === 'editor' ? 'selected' : ''}>EDITOR</option>
                 </select>
             `;
 
-        return `
+            return `
             <tr class="border-t border-slate-100 hover:bg-slate-50 transition-colors">
                 <td class="px-4 py-3 font-semibold text-slate-900">${escapeHtml(user.username || '-')}</td>
                 <td class="px-4 py-3 text-slate-700">${escapeHtml(user.email || '-')}</td>
@@ -249,7 +251,8 @@ function _renderAdminUsersRows(users, currentUserId) {
                 </td>
             </tr>
         `;
-    }).join('');
+        })
+        .join('');
 
     tableBody.querySelectorAll('[data-delete-admin-user]').forEach(button => {
         button.addEventListener('click', _handleDeleteAdminUserClick);
@@ -271,7 +274,13 @@ function _handleChangeUserRole(event) {
     if (!Number.isInteger(userId) || !user) return;
 
     const title = _t('admin.user.change_role_title', null, 'Cambiar rol');
-    const message = _t('admin.user.change_role_confirm', { username: user.username, role: newRole }, `¿Seguro que quieres cambiar el rol de "{username}" a {role}?`).replace('{username}', user.username).replace('{role}', newRole.toUpperCase());
+    const message = _t(
+        'admin.user.change_role_confirm',
+        { username: user.username, role: newRole },
+        `¿Seguro que quieres cambiar el rol de "{username}" a {role}?`
+    )
+        .replace('{username}', user.username)
+        .replace('{role}', newRole.toUpperCase());
 
     const onConfirmRoleChange = async () => {
         try {
@@ -286,10 +295,15 @@ function _handleChangeUserRole(event) {
                 throw new Error(data.error || _t('admin.user.error_change_role', null, 'No se pudo cambiar el rol'));
             }
 
-            _setUserManagementMessage(data.message || _t('admin.user.role_changed', null, 'Rol cambiado correctamente.'));
+            _setUserManagementMessage(
+                data.message || _t('admin.user.role_changed', null, 'Rol cambiado correctamente.')
+            );
             await _loadAdminUsers();
         } catch (error) {
-            _setUserManagementMessage(error.message || _t('admin.user.error_change_role', null, 'No se pudo cambiar el rol.'), true);
+            _setUserManagementMessage(
+                error.message || _t('admin.user.error_change_role', null, 'No se pudo cambiar el rol.'),
+                true
+            );
             select.value = user.role; // Restaurar visualmente si hay error
         }
     };
@@ -299,7 +313,9 @@ function _handleChangeUserRole(event) {
             title,
             message,
             onConfirmRoleChange,
-            () => { select.value = user.role; },
+            () => {
+                select.value = user.role;
+            },
             _t('admin.common.confirm', null, 'Confirmar'),
             _t('admin.common.cancel', null, 'Cancelar')
         );
@@ -330,13 +346,18 @@ async function _loadAdminUsers() {
         const data = await response.json();
 
         if (!response.ok || !data.success || !Array.isArray(data.users)) {
-            throw new Error(data.error || _t('admin.user.error_load_users', null, 'No se pudo cargar la lista de usuarios'));
+            throw new Error(
+                data.error || _t('admin.user.error_load_users', null, 'No se pudo cargar la lista de usuarios')
+            );
         }
 
         _renderAdminUsersRows(data.users, currentUser.id);
     } catch (error) {
         tableBody.innerHTML = `<tr><td colspan="6" class="px-4 py-6 text-center text-rose-600">${_t('admin.user.error_load_users', null, 'No se pudo cargar la lista de usuarios.')}</td></tr>`;
-        _setUserManagementMessage(error.message || _t('admin.user.error_load_users', null, 'No se pudo cargar la lista de usuarios.'), true);
+        _setUserManagementMessage(
+            error.message || _t('admin.user.error_load_users', null, 'No se pudo cargar la lista de usuarios.'),
+            true
+        );
     }
 }
 
@@ -369,7 +390,11 @@ function _handleDeleteAdminUserClick(event) {
     if (!user) return;
 
     const title = _t('admin.user.delete_title', null, 'Eliminar usuario');
-    const message = _t('admin.user.delete_confirm_msg', { username: user.username }, `¿Seguro que quieres eliminar a "{username}"? Esta acción no se puede deshacer.`).replace('{username}', user.username);
+    const message = _t(
+        'admin.user.delete_confirm_msg',
+        { username: user.username },
+        `¿Seguro que quieres eliminar a "{username}"? Esta acción no se puede deshacer.`
+    ).replace('{username}', user.username);
 
     const onConfirmDelete = () => {
         _deleteAdminUser(user);
@@ -406,7 +431,10 @@ async function _handleUserPasswordChange(event) {
     }
 
     if (newPassword !== confirmNewPassword) {
-        _setUserPanelMessage(_t('admin.user.validation.password_mismatch', null, 'La confirmación no coincide con la nueva contraseña.'), true);
+        _setUserPanelMessage(
+            _t('admin.user.validation.password_mismatch', null, 'La confirmación no coincide con la nueva contraseña.'),
+            true
+        );
         return;
     }
 
@@ -430,9 +458,14 @@ async function _handleUserPasswordChange(event) {
         const form = document.getElementById('user-password-form');
         if (form) form.reset();
 
-        _setUserPanelMessage(data.message || _t('admin.user.success.password', null, 'Contraseña actualizada correctamente.'));
+        _setUserPanelMessage(
+            data.message || _t('admin.user.success.password', null, 'Contraseña actualizada correctamente.')
+        );
     } catch (error) {
-        _setUserPanelMessage(error.message || _t('admin.user.error.password', null, 'No se pudo cambiar la contraseña.'), true);
+        _setUserPanelMessage(
+            error.message || _t('admin.user.error.password', null, 'No se pudo cambiar la contraseña.'),
+            true
+        );
     }
 }
 
@@ -449,12 +482,22 @@ async function _handleUserEmailChangeRequest(event) {
     const confirmNewEmail = document.getElementById('user-confirm-new-email')?.value.trim().toLowerCase() || '';
 
     if (!currentPassword || !newEmail || !confirmNewEmail) {
-        _setUserEmailMessage(_t('admin.user.validation.all_fields_email', null, 'Debes completar todos los campos para cambiar el correo.'), true);
+        _setUserEmailMessage(
+            _t(
+                'admin.user.validation.all_fields_email',
+                null,
+                'Debes completar todos los campos para cambiar el correo.'
+            ),
+            true
+        );
         return;
     }
 
     if (newEmail !== confirmNewEmail) {
-        _setUserEmailMessage(_t('admin.user.validation.email_mismatch', null, 'La confirmación no coincide con el nuevo correo.'), true);
+        _setUserEmailMessage(
+            _t('admin.user.validation.email_mismatch', null, 'La confirmación no coincide con el nuevo correo.'),
+            true
+        );
         return;
     }
 
@@ -474,15 +517,23 @@ async function _handleUserEmailChangeRequest(event) {
         const data = await response.json();
 
         if (!response.ok || !data.success) {
-            throw new Error(data.error || _t('admin.user.error.email_request', null, 'No se pudo solicitar el cambio de correo'));
+            throw new Error(
+                data.error || _t('admin.user.error.email_request', null, 'No se pudo solicitar el cambio de correo')
+            );
         }
 
         const form = document.getElementById('user-email-form');
         if (form) form.reset();
 
-        _setUserEmailMessage(data.message || _t('admin.user.success.email_request', null, 'Revisa el nuevo correo para confirmar el cambio.'));
+        _setUserEmailMessage(
+            data.message ||
+                _t('admin.user.success.email_request', null, 'Revisa el nuevo correo para confirmar el cambio.')
+        );
     } catch (error) {
-        _setUserEmailMessage(error.message || _t('admin.user.error.email_request', null, 'No se pudo solicitar el cambio de correo.'), true);
+        _setUserEmailMessage(
+            error.message || _t('admin.user.error.email_request', null, 'No se pudo solicitar el cambio de correo.'),
+            true
+        );
     } finally {
         _setUserEmailSubmitPending(false);
     }
@@ -499,12 +550,23 @@ function _handleUserDeletionRequest(event) {
     const currentPassword = document.getElementById('user-delete-password')?.value || '';
 
     if (!currentPassword) {
-        _setUserDeleteMessage(_t('admin.user.validation.password_required', null, 'La contraseña es obligatoria para eliminar la cuenta.'), true);
+        _setUserDeleteMessage(
+            _t(
+                'admin.user.validation.password_required',
+                null,
+                'La contraseña es obligatoria para eliminar la cuenta.'
+            ),
+            true
+        );
         return;
     }
 
     const title = _t('admin.user.delete_request_title', null, 'Confirmar solicitud de eliminación');
-    const message = _t('admin.user.delete_request_msg', null, '¿Seguro que quieres eliminar tu cuenta? Recibirás un correo electrónico para confirmar esta acción.');
+    const message = _t(
+        'admin.user.delete_request_msg',
+        null,
+        '¿Seguro que quieres eliminar tu cuenta? Recibirás un correo electrónico para confirmar esta acción.'
+    );
 
     const onConfirmRequest = async () => {
         _setUserDeleteSubmitPending(true);
@@ -521,15 +583,29 @@ function _handleUserDeletionRequest(event) {
             const data = await response.json();
 
             if (!response.ok || !data.success) {
-                throw new Error(data.error || _t('admin.user.error.delete_request', null, 'No se pudo solicitar la eliminación de la cuenta'));
+                throw new Error(
+                    data.error ||
+                        _t('admin.user.error.delete_request', null, 'No se pudo solicitar la eliminación de la cuenta')
+                );
             }
 
             const form = document.getElementById('user-delete-form');
             if (form) form.reset();
 
-            _setUserDeleteMessage(data.message || _t('admin.user.success.delete_request', null, 'Revisa tu correo electrónico para confirmar la eliminación de la cuenta.'));
+            _setUserDeleteMessage(
+                data.message ||
+                    _t(
+                        'admin.user.success.delete_request',
+                        null,
+                        'Revisa tu correo electrónico para confirmar la eliminación de la cuenta.'
+                    )
+            );
         } catch (error) {
-            _setUserDeleteMessage(error.message || _t('admin.user.error.delete_request', null, 'No se pudo solicitar la eliminación de la cuenta.'), true);
+            _setUserDeleteMessage(
+                error.message ||
+                    _t('admin.user.error.delete_request', null, 'No se pudo solicitar la eliminación de la cuenta.'),
+                true
+            );
         } finally {
             _setUserDeleteSubmitPending(false);
         }

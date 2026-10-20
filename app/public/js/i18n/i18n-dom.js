@@ -6,10 +6,12 @@
     let observer = null;
     let titleBase = null;
 
-    function i18n() { return global.XiroI18n || null; }
+    function i18n() {
+        return global.XiroI18n || null;
+    }
     function t(key, fallback) {
         const api = i18n();
-        return api ? api.t(key, null, fallback || key) : (fallback || key);
+        return api ? api.t(key, null, fallback || key) : fallback || key;
     }
     function translate(text) {
         const api = i18n();
@@ -65,8 +67,9 @@
         if (root.nodeType === 1) translateElementAttributes(root);
 
         if (root.querySelectorAll) {
-            root.querySelectorAll('[data-i18n],[data-i18n-html],[data-i18n-placeholder],[data-i18n-title],[data-i18n-aria-label],[data-i18n-value]')
-                .forEach(translateElementAttributes);
+            root.querySelectorAll(
+                '[data-i18n],[data-i18n-html],[data-i18n-placeholder],[data-i18n-title],[data-i18n-aria-label],[data-i18n-value]'
+            ).forEach(translateElementAttributes);
         }
 
         if (root.nodeType === 3) {
@@ -94,13 +97,13 @@
 
     function startObserver() {
         if (observer || !document.body || typeof MutationObserver === 'undefined') return;
-        observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
+        observer = new MutationObserver(mutations => {
+            mutations.forEach(mutation => {
                 if (mutation.type === 'characterData') {
                     translateTextNode(mutation.target);
                     return;
                 }
-                mutation.addedNodes.forEach((node) => {
+                mutation.addedNodes.forEach(node => {
                     if (node.nodeType === 1 || node.nodeType === 3) translateRoot(node);
                 });
             });

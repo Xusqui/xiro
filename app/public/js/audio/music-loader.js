@@ -21,12 +21,12 @@ function playSilentBuffer(ctx) {
 }
 
 // iPhone/iPad (también iPadOS, que se presenta como Mac con pantalla táctil)
-const IS_IOS = /iP(hone|ad|od)/.test(navigator.userAgent)
-    || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const IS_IOS =
+    /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
 function resumeIfNeeded() {
     // Safari puede dejarlo 'suspended' o 'interrupted' (otra app de audio, llamada…)
-    if (audioContext && audioContext.state !== 'running' && !document.hidden) audioContext.resume().catch(() => { });
+    if (audioContext && audioContext.state !== 'running' && !document.hidden) audioContext.resume().catch(() => {});
 }
 
 function bindLifecycle() {
@@ -52,10 +52,11 @@ export function unlockAudio() {
         // iOS: antes de crear el contexto, que el interruptor de silencio no mate la música
         try {
             if (IS_IOS && navigator.audioSession) navigator.audioSession.type = 'playback';
-        } catch { }
+        } catch {}
         // Un solo AudioContext en la página: el de la intro (game-intro-fx.js) si existe.
         // Safari en macOS se cuelga con dos contextos sonando a la vez.
-        const shared = window.XiroGameIntroFx && window.XiroGameIntroFx.ensureAudio ? window.XiroGameIntroFx.ensureAudio() : null;
+        const shared =
+            window.XiroGameIntroFx && window.XiroGameIntroFx.ensureAudio ? window.XiroGameIntroFx.ensureAudio() : null;
         audioContext = shared || new AudioContextClass();
     }
     resumeIfNeeded();
@@ -80,8 +81,8 @@ export function preloadMusicEngine() {
 export function loadMusicEngine(options) {
     if (!enginePromise) {
         enginePromise = import('./music-engine.js?v=20260922172926')
-            .then((mod) => mod.createMusicEngine(audioContext, options).ready)
-            .catch((err) => {
+            .then(mod => mod.createMusicEngine(audioContext, options).ready)
+            .catch(err => {
                 enginePromise = null;
                 throw err;
             });
@@ -96,5 +97,5 @@ export async function disposeMusicEngine() {
     enginePromise = null;
     try {
         (await pending).dispose();
-    } catch { }
+    } catch {}
 }

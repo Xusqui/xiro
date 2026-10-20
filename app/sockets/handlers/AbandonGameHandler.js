@@ -71,15 +71,8 @@ async function disconnectRoomSockets(io, roomId, payload) {
 }
 
 function cleanupRoomState(roomId, dependencies, sockets) {
-    const {
-        activeGames,
-        lobbyPlayers,
-        teamConfigs,
-        players,
-        socketToPlayer,
-        clearGameTimer,
-        timerPausedState
-    } = dependencies;
+    const { activeGames, lobbyPlayers, teamConfigs, players, socketToPlayer, clearGameTimer, timerPausedState } =
+        dependencies;
 
     activeGames.delete(roomId);
     lobbyPlayers.delete(roomId);
@@ -108,9 +101,10 @@ function buildAbandonPayload(roomId, reason) {
     return {
         roomId,
         reason,
-        message: reason === 'concluded'
-            ? 'Juego concluido, puede cerrar el navegador.'
-            : 'El presentador ha abandonado la sesión.',
+        message:
+            reason === 'concluded'
+                ? 'Juego concluido, puede cerrar el navegador.'
+                : 'El presentador ha abandonado la sesión.',
         ...(reason === 'concluded' && { code: 'GAME_ENDED' })
     };
 }
@@ -123,7 +117,7 @@ async function resolveAbandonStartTime(roomId, game) {
         const redisStart = await redisClient.get(`game:started:${roomId}`);
         if (redisStart) {
             abandonStart = Number(redisStart);
-            redisClient.del(`game:started:${roomId}`).catch(() => { });
+            redisClient.del(`game:started:${roomId}`).catch(() => {});
         }
     } catch (_error) {
         // Ignore best-effort Redis lookup
@@ -168,7 +162,7 @@ async function saveAbortedSession(roomId, reason, activeGames) {
         pin,
         sessionId: roomId,
         dbId: dbSessionId,
-        gameType: game.isTrivial ? 'trivial' : (game.gameType || null),
+        gameType: game.isTrivial ? 'trivial' : game.gameType || null,
         startedAt: abandonStart,
         durationMs: abandonStart ? Date.now() - abandonStart : null,
         playerCount,

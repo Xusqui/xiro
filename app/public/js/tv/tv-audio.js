@@ -23,14 +23,14 @@ window.TVApp.Audio = (function () {
         try {
             tickSound.currentTime = 0;
             const p = tickSound.play();
-            if (p && p.catch) p.catch(function () { });
-        } catch (e) { }
+            if (p && p.catch) p.catch(function () {});
+        } catch (e) {}
     }
 
     function retryQuestionAudio() {
         try {
             if (questionAudio) questionAudio.play();
-        } catch (e) { }
+        } catch (e) {}
     }
 
     function playQuestionAudio(url) {
@@ -40,7 +40,7 @@ window.TVApp.Audio = (function () {
             try {
                 questionAudio.pause();
                 questionAudio.currentTime = 0;
-            } catch (e) { }
+            } catch (e) {}
             questionAudio = null;
         }
 
@@ -52,12 +52,14 @@ window.TVApp.Audio = (function () {
                     const playPromise = questionAudio.play();
 
                     if (playPromise && playPromise.then) {
-                        playPromise.then(function () {
-                            console.log('Audio reproduciendo correctamente');
-                        }).catch(function (error) {
-                            console.log('Error al reproducir audio:', error);
-                            setTimeout(retryQuestionAudio, 500);
-                        });
+                        playPromise
+                            .then(function () {
+                                console.log('Audio reproduciendo correctamente');
+                            })
+                            .catch(function (error) {
+                                console.log('Error al reproducir audio:', error);
+                                setTimeout(retryQuestionAudio, 500);
+                            });
                     }
                 }
             } catch (e) {
@@ -71,7 +73,7 @@ window.TVApp.Audio = (function () {
             try {
                 questionAudio.pause();
                 questionAudio.currentTime = 0;
-            } catch (e) { }
+            } catch (e) {}
         }
     }
 
@@ -81,11 +83,14 @@ window.TVApp.Audio = (function () {
             const unlockAudio = new Audio();
             unlockAudio.src = '/audio/bip.wav';
             unlockAudio.volume = 0.01;
-            unlockAudio.play().then(function () {
-                unlockAudio.pause();
-                unlockAudio.src = '';
-            }).catch(function () { });
-        } catch (e) { }
+            unlockAudio
+                .play()
+                .then(function () {
+                    unlockAudio.pause();
+                    unlockAudio.src = '';
+                })
+                .catch(function () {});
+        } catch (e) {}
     }
 
     return {

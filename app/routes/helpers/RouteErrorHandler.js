@@ -20,9 +20,7 @@ function handleRouteError(err, res, statusCode = null) {
         logger.error('Route error', { error: err.message, stack: err.stack });
     }
 
-    const message = isServerError
-        ? 'Error interno del servidor'
-        : (err.message || 'Error de solicitud');
+    const message = isServerError ? 'Error interno del servidor' : err.message || 'Error de solicitud';
 
     const payload = { error: message };
 

@@ -5,10 +5,19 @@
 
 import { getSocket } from './presenter-socket-config.js?v=20260922172926';
 import {
-    getSessionId, setSessionId, getTotalPlayers, setTotalPlayers,
-    getConnectedPlayers, addConnectedPlayer, removeConnectedPlayer,
-    getPlayersData, setPlayerData, deletePlayerData,
-    getTeamConfig, setTeamConfig, getIsTeamMode
+    getSessionId,
+    setSessionId,
+    getTotalPlayers,
+    setTotalPlayers,
+    getConnectedPlayers,
+    addConnectedPlayer,
+    removeConnectedPlayer,
+    getPlayersData,
+    setPlayerData,
+    deletePlayerData,
+    getTeamConfig,
+    setTeamConfig,
+    getIsTeamMode
 } from './presenter-state.js?v=20260922172926';
 import { mostrarQR, renderTeamLobby, updatePlayersPanel } from './presenter-game-ui.js?v=20260922172926';
 import { updateAnswerCounter } from './presenter-answer-counter.js?v=20260922172926';
@@ -59,7 +68,8 @@ function onPlayerJoined(data) {
             } else {
                 // Modo individual
                 const playerDiv = document.createElement('div');
-                playerDiv.className = 'bg-white text-slate-900 p-3 rounded-xl font-black text-center animate-pop uppercase italic text-sm';
+                playerDiv.className =
+                    'bg-white text-slate-900 p-3 rounded-xl font-black text-center animate-pop uppercase italic text-sm';
                 playerDiv.setAttribute('data-nickname', nick);
                 playerDiv.textContent = _t(nick);
                 pList.appendChild(playerDiv);
@@ -93,7 +103,7 @@ export function registerLobbySocketHandlers() {
     const socket = getSocket();
 
     // Error al unirse al lobby
-    socket.on('join-error', (data) => {
+    socket.on('join-error', data => {
         console.error('❌ join-error recibido del servidor:', data);
         window._xiroReconnectJoinFallbackTried = false;
         window._xiroFreshJoinPending = false;
@@ -119,7 +129,7 @@ export function registerLobbySocketHandlers() {
     });
 
     // Confirmación exitosa de join
-    socket.on('join-success', (data) => {
+    socket.on('join-success', data => {
         console.log('✅ join-success recibido del servidor:', data);
         console.log('✅ Lobby creado correctamente - Esperando jugadores...');
 
@@ -167,17 +177,17 @@ export function registerLobbySocketHandlers() {
     socket.on('player-joined', onPlayerJoined);
 
     // Jugador reconectado
-    socket.on('player-rejoined', (data) => {
+    socket.on('player-rejoined', data => {
         const nick = typeof data === 'string' ? data : data.nickname || data;
         handlePlayerRejoined(nick);
     });
 
-    socket.on('game-abandoned', (data) => {
+    socket.on('game-abandoned', data => {
         handleGameAbandoned(data);
     });
 
     // Jugador se fue
-    socket.on('player-left', (data) => {
+    socket.on('player-left', data => {
         const nick = typeof data === 'string' ? data : data.nickname || data;
         if (nick === 'HOST') return;
 
@@ -207,7 +217,7 @@ export function registerLobbySocketHandlers() {
     });
 
     // Actualización de equipos
-    socket.on('team-update', (data) => {
+    socket.on('team-update', data => {
         const currentTeamConfig = getTeamConfig();
         if (!currentTeamConfig || !getIsTeamMode()) return;
 

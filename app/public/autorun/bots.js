@@ -94,7 +94,9 @@ class BaseBot {
         this.teamName = null;
     }
 
-    log(level, msg, data) { log(`Bot:${this.nickname}`, level, msg, data); }
+    log(level, msg, data) {
+        log(`Bot:${this.nickname}`, level, msg, data);
+    }
 
     connectAndJoin(sessionId, transports = ['websocket']) {
         return new Promise((resolve, reject) => {
@@ -105,10 +107,13 @@ class BaseBot {
                 reconnectionDelayMax: 5000,
                 reconnectionAttempts: Infinity,
                 timeout: 20000,
-                auth: { playerId: this.playerId },
+                auth: { playerId: this.playerId }
             });
             this.socket = socket;
-            const timer = setTimeout(() => { socket.disconnect(); reject(new Error('Timeout')); }, 20000);
+            const timer = setTimeout(() => {
+                socket.disconnect();
+                reject(new Error('Timeout'));
+            }, 20000);
 
             socket.on('connect', () => {
                 if (this.sessionSecret) {
@@ -118,18 +123,21 @@ class BaseBot {
                         pin: sessionId.split('-')[0],
                         sessionId,
                         nickname: this.nickname,
-                        playerId: this.playerId,
+                        playerId: this.playerId
                     });
                 }
             });
 
-            socket.on('join-success', (data) => {
+            socket.on('join-success', data => {
                 clearTimeout(timer);
                 this.roomId = data.roomId || sessionId;
                 this.playerId = data.playerId || this.playerId;
                 this.sessionSecret = data.sessionSecret;
                 const transportName = socket.io?.engine?.transport?.name || 'unknown';
-                this.log('debug', _t('autorun.log.join_success_transport', { transport: transportName }, 'join-success ({transport})'));
+                this.log(
+                    'debug',
+                    _t('autorun.log.join_success_transport', { transport: transportName }, 'join-success ({transport})')
+                );
 
                 if (data.teamMode?.isTeamMode && data.teamMode.teams?.length) {
                     const numTeams = data.teamMode.teams.length;
@@ -140,7 +148,7 @@ class BaseBot {
                         pin: this.roomId.split('-')[0],
                         sessionId: this.roomId,
                         nickname: this.nickname,
-                        teamIndex,
+                        teamIndex
                     });
                 }
 
@@ -148,35 +156,45 @@ class BaseBot {
                 resolve();
             });
 
-            socket.on('reconnected-success', (snapshot) => {
+            socket.on('reconnected-success', snapshot => {
                 this.roomId = snapshot.roomId || this.roomId;
                 if (snapshot.gameState?.currentQuestion && snapshot.gameState?.canAnswer) {
-                    setTimeout(() => this._submitAnswer(snapshot.gameState.currentQuestion, snapshot.gameState.currentIndex), randInt(BOT_ANSWER_MIN_MS, BOT_ANSWER_MAX_MS));
+                    setTimeout(
+                        () => this._submitAnswer(snapshot.gameState.currentQuestion, snapshot.gameState.currentIndex),
+                        randInt(BOT_ANSWER_MIN_MS, BOT_ANSWER_MAX_MS)
+                    );
                 }
             });
 
             socket.on('reconnect-failed', () => {
                 this.sessionSecret = null;
                 socket.emit('join-lobby', {
-                    pin: sessionId.split('-')[0], sessionId,
-                    nickname: this.nickname, playerId: this.playerId,
+                    pin: sessionId.split('-')[0],
+                    sessionId,
+                    nickname: this.nickname,
+                    playerId: this.playerId
                 });
             });
 
-            socket.on('join-error', (data) => {
+            socket.on('join-error', data => {
                 clearTimeout(timer);
                 socket.disconnect();
                 reject(new Error(data?.message || 'join-error'));
             });
 
-            socket.on('connect_error', (err) => { clearTimeout(timer); reject(err); });
+            socket.on('connect_error', err => {
+                clearTimeout(timer);
+                reject(err);
+            });
         });
     }
 
     _answerBase() {
         return {
-            sessionId: this.roomId, pin: this.roomId.split('-')[0],
-            nickname: this.nickname, requestId: reqId(this.nickname),
+            sessionId: this.roomId,
+            pin: this.roomId.split('-')[0],
+            nickname: this.nickname,
+            requestId: reqId(this.nickname)
         };
     }
 
@@ -185,26 +203,44 @@ class BaseBot {
         this.answersSubmitted++;
         stats.answers++;
         updateStats();
-        this.log('debug', _t('autorun.log.bot_answered', { count: this.answersSubmitted, type: qType }, 'Respondio #{count} ({type})'));
+        this.log(
+            'debug',
+            _t('autorun.log.bot_answered', { count: this.answersSubmitted, type: qType }, 'Respondio #{count} ({type})')
+        );
     }
 
-    disconnect() { if (this.socket?.connected) this.socket.disconnect(); }
+    disconnect() {
+        if (this.socket?.connected) this.socket.disconnect();
+    }
 }
 
 // ─── QuizBotIndividual ────────────────────────────────────────────────────────
 class QuizBotIndividual extends BaseBot {
     _setupListeners() {
         const s = this.socket;
-        s.on('game-started', (data) => {
+        s.on('game-started', data => {
             if (data.firstQuestion)
-                setTimeout(() => this._submitAnswer(data.firstQuestion, data.currentIndex ?? 0), randInt(BOT_ANSWER_MIN_MS, BOT_ANSWER_MAX_MS));
+                setTimeout(
+                    () => this._submitAnswer(data.firstQuestion, data.currentIndex ?? 0),
+                    randInt(BOT_ANSWER_MIN_MS, BOT_ANSWER_MAX_MS)
+                );
         });
-        s.on('new-question', (data) => {
+        s.on('new-question', data => {
             if (data.question)
-                setTimeout(() => this._submitAnswer(data.question, data.currentIndex), randInt(BOT_ANSWER_MIN_MS, BOT_ANSWER_MAX_MS));
+                setTimeout(
+                    () => this._submitAnswer(data.question, data.currentIndex),
+                    randInt(BOT_ANSWER_MIN_MS, BOT_ANSWER_MAX_MS)
+                );
         });
-        s.on('answer-result', (data) => {
-            this.log('debug', _t('autorun.log.answer_result', { points: data.points, correct: data.correct }, 'answer-result: pts={points} ok={correct}'));
+        s.on('answer-result', data => {
+            this.log(
+                'debug',
+                _t(
+                    'autorun.log.answer_result',
+                    { points: data.points, correct: data.correct },
+                    'answer-result: pts={points} ok={correct}'
+                )
+            );
         });
     }
 
@@ -219,20 +255,31 @@ class QuizBotIndividual extends BaseBot {
 
         switch (qType) {
             case 'order':
-                payload = { ...base, answerType: 'order', order: Array.from({ length: n }, (_, i) => i) }; break;
+                payload = { ...base, answerType: 'order', order: Array.from({ length: n }, (_, i) => i) };
+                break;
             case 'matching':
-                payload = { ...base, answerType: 'matching', matches: Array.from({ length: n }, (_, i) => i) }; break;
+                payload = { ...base, answerType: 'matching', matches: Array.from({ length: n }, (_, i) => i) };
+                break;
             case 'word_scramble':
-                payload = { ...base, answerType: 'word_scramble', playerAnswer: 'BOTANSWER' }; break;
+                payload = { ...base, answerType: 'word_scramble', playerAnswer: 'BOTANSWER' };
+                break;
             case 'word_search':
-                payload = { ...base, answerType: 'word_search', found: [] }; break;
+                payload = { ...base, answerType: 'word_search', found: [] };
+                break;
             case 'fill_blanks':
                 // Palabras al azar de la longitud de cada hueco (casi siempre falla, como un jugador despistado)
-                payload = { ...base, answerType: 'fill_blanks', words: (question.fb_lengths || []).map(len => 'A'.repeat(len)) }; break;
+                payload = {
+                    ...base,
+                    answerType: 'fill_blanks',
+                    words: (question.fb_lengths || []).map(len => 'A'.repeat(len))
+                };
+                break;
             case 'multiple_choice':
-                payload = { ...base, answerType: 'multiple_choice', selectedIndices: [randInt(0, n - 1)] }; break;
+                payload = { ...base, answerType: 'multiple_choice', selectedIndices: [randInt(0, n - 1)] };
+                break;
             case 'numeric_approximation':
-                payload = { ...base, answerType: 'numeric', playerAnswer: randInt(1, 100) }; break;
+                payload = { ...base, answerType: 'numeric', playerAnswer: randInt(1, 100) };
+                break;
             default:
                 payload = { ...base, index: randInt(0, n - 1) };
         }
@@ -251,10 +298,12 @@ function followLeader(bot, question, questionIndex) {
     if (!bot.roomId || !question) return true;
 
     bot.log('debug', `Esperando a Xiro (${key})`);
-    leader.waitForAnswer(bot.teamName, key).then((answer) => {
+    leader.waitForAnswer(bot.teamName, key).then(answer => {
         if (!bot.socket?.connected) return;
-        setTimeout(() => bot._emitAnswer({ ...answer, ...bot._answerBase() },
-            `${answer.answerType || 'index'}=Xiro`), randInt(200, 1200));
+        setTimeout(
+            () => bot._emitAnswer({ ...answer, ...bot._answerBase() }, `${answer.answerType || 'index'}=Xiro`),
+            randInt(200, 1200)
+        );
     });
     return true;
 }
@@ -270,27 +319,29 @@ class QuizBotTeam extends QuizBotIndividual {
 class TrivialBotIndividual extends BaseBot {
     _setupListeners() {
         const s = this.socket;
-        s.on('trivial-game-started', (data) => {
-            if (data.currentTurn === this.nickname)
-                setTimeout(() => this._rollDice(), randInt(1000, 2000));
+        s.on('trivial-game-started', data => {
+            if (data.currentTurn === this.nickname) setTimeout(() => this._rollDice(), randInt(1000, 2000));
         });
-        s.on('trivial-turn-changed', (data) => {
+        s.on('trivial-turn-changed', data => {
             if (data.phase === 'waiting_roll' && data.currentTurn === this.nickname)
                 setTimeout(() => this._rollDice(), randInt(800, 2000));
         });
-        s.on('trivial-dice-rolled', (data) => {
+        s.on('trivial-dice-rolled', data => {
             if (data.nickname !== this.nickname) return;
             const positions = data.availablePositions || [];
             if (!positions.length) return;
             setTimeout(() => this._move(positions[randInt(0, positions.length - 1)]), randInt(1000, 2000));
         });
-        s.on('trivial-choose-category', (data) => {
+        s.on('trivial-choose-category', data => {
             if (data.actorNick !== this.nickname) return;
             const cats = data.categories || [];
             const idx = cats.length > 0 ? randInt(0, cats.length - 1) : 0;
-            setTimeout(() => s.emit('trivial-category-chosen', { roomId: this.roomId, categoryIndex: idx }), randInt(500, 1500));
+            setTimeout(
+                () => s.emit('trivial-category-chosen', { roomId: this.roomId, categoryIndex: idx }),
+                randInt(500, 1500)
+            );
         });
-        s.on('new-question', (data) => {
+        s.on('new-question', data => {
             setTimeout(() => this._submitAnswer(data.question), randInt(BOT_ANSWER_MIN_MS, BOT_ANSWER_MAX_MS));
         });
         s.on('trivial-error', d => this.log('warn', 'trivial-error', { msg: d?.message }));
@@ -313,15 +364,24 @@ class TrivialBotIndividual extends BaseBot {
         let payload;
         switch (question.question_type) {
             case 'order':
-                payload = { ...base, answerType: 'order', order: (question.options || []).map((_, i) => i) }; break;
+                payload = { ...base, answerType: 'order', order: (question.options || []).map((_, i) => i) };
+                break;
             case 'matching':
-                payload = { ...base, answerType: 'matching', matches: (question.options || []).map((_, i) => i) }; break;
+                payload = { ...base, answerType: 'matching', matches: (question.options || []).map((_, i) => i) };
+                break;
             case 'word_scramble':
-                payload = { ...base, answerType: 'word_scramble', playerAnswer: 'respuesta' }; break;
+                payload = { ...base, answerType: 'word_scramble', playerAnswer: 'respuesta' };
+                break;
             case 'word_search':
-                payload = { ...base, answerType: 'word_search', found: [] }; break;
+                payload = { ...base, answerType: 'word_search', found: [] };
+                break;
             case 'fill_blanks':
-                payload = { ...base, answerType: 'fill_blanks', words: (question.fb_lengths || []).map(len => 'A'.repeat(len)) }; break;
+                payload = {
+                    ...base,
+                    answerType: 'fill_blanks',
+                    words: (question.fb_lengths || []).map(len => 'A'.repeat(len))
+                };
+                break;
             default:
                 payload = { ...base, index: randInt(0, Math.max(0, (question.options?.length || 4) - 1)) };
         }
@@ -342,21 +402,21 @@ class TrivialBotTeam extends TrivialBotIndividual {
 
     _setupListeners() {
         const s = this.socket;
-        s.on('trivial-game-started', (data) => {
+        s.on('trivial-game-started', data => {
             if (data.currentTurn === this.teamName && this._isShooter())
                 setTimeout(() => this._rollDice(), randInt(1000, 2000));
         });
-        s.on('trivial-turn-changed', (data) => {
+        s.on('trivial-turn-changed', data => {
             if (data.phase === 'waiting_roll' && data.currentTurn === this.teamName && this._isShooter())
                 setTimeout(() => this._rollDice(), randInt(800, 2000));
         });
-        s.on('trivial-dice-rolled', (data) => {
+        s.on('trivial-dice-rolled', data => {
             if (!this._isShooter() || data.nickname !== this.nickname) return;
             const positions = data.availablePositions || [];
             if (!positions.length) return;
             setTimeout(() => this._move(positions[randInt(0, positions.length - 1)]), randInt(1000, 2000));
         });
-        s.on('trivial-choose-category', (data) => {
+        s.on('trivial-choose-category', data => {
             if (!this._isShooter() || data.actorNick !== this.teamName) return;
             // En el equipo de "Xiro" la categoría la elige solo Xiro.
             if (window.XiroTeamLeader?.teamHasLeader(this.teamName)) {
@@ -365,9 +425,12 @@ class TrivialBotTeam extends TrivialBotIndividual {
             }
             const cats = data.categories || [];
             const idx = cats.length > 0 ? randInt(0, cats.length - 1) : 0;
-            setTimeout(() => s.emit('trivial-category-chosen', { roomId: this.roomId, categoryIndex: idx }), randInt(500, 1500));
+            setTimeout(
+                () => s.emit('trivial-category-chosen', { roomId: this.roomId, categoryIndex: idx }),
+                randInt(500, 1500)
+            );
         });
-        s.on('new-question', (data) => {
+        s.on('new-question', data => {
             setTimeout(() => this._submitAnswer(data.question), randInt(BOT_ANSWER_MIN_MS, BOT_ANSWER_MAX_MS));
         });
         s.on('trivial-error', d => this.log('warn', 'trivial-error', { msg: d?.message }));
@@ -381,7 +444,9 @@ class TrivialBotTeam extends TrivialBotIndividual {
 // ─── Factory & swarm ──────────────────────────────────────────────────────────
 function createBot(mode, gameType, nickname, botIndex) {
     if (gameType === 'trivial')
-        return mode === 'equipos' ? new TrivialBotTeam(nickname, botIndex, 2) : new TrivialBotIndividual(nickname, botIndex);
+        return mode === 'equipos'
+            ? new TrivialBotTeam(nickname, botIndex, 2)
+            : new TrivialBotIndividual(nickname, botIndex);
     return mode === 'equipos' ? new QuizBotTeam(nickname, botIndex) : new QuizBotIndividual(nickname, botIndex);
 }
 
@@ -390,16 +455,30 @@ async function spawnBots(sessionId, mode, gameType, numBots) {
     const used = new Set();
     stats.total = numBots;
     updateStats();
-    log('bots', 'info', _t('autorun.log.launching', { count: numBots, mode, gameType }, 'Lanzando {count} bots - modo: {mode}, tipo: {gameType}'));
+    log(
+        'bots',
+        'info',
+        _t(
+            'autorun.log.launching',
+            { count: numBots, mode, gameType },
+            'Lanzando {count} bots - modo: {mode}, tipo: {gameType}'
+        )
+    );
 
     for (let i = 0; i < numBots && isRunning; i += BOT_BATCH_SIZE) {
         const batchEnd = Math.min(i + BOT_BATCH_SIZE, numBots);
-        log('bots', 'info', _t('autorun.log.connecting_batch', { from: i + 1, to: batchEnd }, 'Conectando bots {from}-{to}...'));
+        log(
+            'bots',
+            'info',
+            _t('autorun.log.connecting_batch', { from: i + 1, to: batchEnd }, 'Conectando bots {from}-{to}...')
+        );
 
         const batch = [];
         for (let j = i; j < batchEnd; j++) {
             let nick;
-            do { nick = generateNickname(); } while (used.has(nick));
+            do {
+                nick = generateNickname();
+            } while (used.has(nick));
             used.add(nick);
             batch.push(createBot(mode, gameType, nick, j));
         }
@@ -413,7 +492,11 @@ async function spawnBots(sessionId, mode, gameType, numBots) {
                 stats.connected++;
                 updateStats();
             } catch (err) {
-                log('bots', 'warn', _t('autorun.log.bot_failed', { nick: bot.nickname, reason: err.message }, '{nick} fallo: {reason}'));
+                log(
+                    'bots',
+                    'warn',
+                    _t('autorun.log.bot_failed', { nick: bot.nickname, reason: err.message }, '{nick} fallo: {reason}')
+                );
                 stats.failed++;
                 updateStats();
             }
@@ -421,12 +504,24 @@ async function spawnBots(sessionId, mode, gameType, numBots) {
         }
 
         if (batchEnd < numBots && isRunning) {
-            log('bots', 'info', _t('autorun.log.online_waiting', { count: bots.length }, '{count} bots online. Esperando...'));
+            log(
+                'bots',
+                'info',
+                _t('autorun.log.online_waiting', { count: bots.length }, '{count} bots online. Esperando...')
+            );
             await delay(BOT_BATCH_DELAY_MS);
         }
     }
 
-    log('bots', 'info', _t('autorun.log.swarm_ready', { connected: bots.length, total: numBots }, 'Enjambre listo: {connected}/{total} bots conectados.'));
+    log(
+        'bots',
+        'info',
+        _t(
+            'autorun.log.swarm_ready',
+            { connected: bots.length, total: numBots },
+            'Enjambre listo: {connected}/{total} bots conectados.'
+        )
+    );
     return bots;
 }
 
@@ -451,7 +546,11 @@ function setRunning(running) {
 btnStart.addEventListener('click', async () => {
     const sessionId = document.getElementById('sessionId').value.trim().toUpperCase();
     if (!sessionId || !sessionId.includes('-')) {
-        log('ui', 'error', _t('autorun.log.invalid_session', null, 'Session ID invalido. Formato: PIN-NUMERO (ej: TEST-123456)'));
+        log(
+            'ui',
+            'error',
+            _t('autorun.log.invalid_session', null, 'Session ID invalido. Formato: PIN-NUMERO (ej: TEST-123456)')
+        );
         return;
     }
     const mode = document.querySelector('input[name="mode"]:checked').value;
@@ -466,7 +565,15 @@ btnStart.addEventListener('click', async () => {
 
     if (mode === 'equipos') window.XiroTeamLeader?.start(sessionId, log, { trivial: gameType === 'trivial' });
 
-    log('main', 'info', _t('autorun.log.session_summary', { sessionId, mode, gameType, bots: numBots }, 'Session: {sessionId} | Modo: {mode} | Tipo: {gameType} | Bots: {bots}'));
+    log(
+        'main',
+        'info',
+        _t(
+            'autorun.log.session_summary',
+            { sessionId, mode, gameType, bots: numBots },
+            'Session: {sessionId} | Modo: {mode} | Tipo: {gameType} | Bots: {bots}'
+        )
+    );
 
     activeBots = await spawnBots(sessionId, mode, gameType, numBots);
 
@@ -476,7 +583,15 @@ btnStart.addEventListener('click', async () => {
         return;
     }
 
-    log('main', 'info', _t('autorun.log.lobby_ready', { count: activeBots.length }, '{count} bots en el lobby. Pulsa "Detener" para finalizar.'));
+    log(
+        'main',
+        'info',
+        _t(
+            'autorun.log.lobby_ready',
+            { count: activeBots.length },
+            '{count} bots en el lobby. Pulsa "Detener" para finalizar.'
+        )
+    );
     btnDownload.disabled = false;
 });
 
@@ -499,9 +614,9 @@ btnDownload.addEventListener('click', () => {
             gameType: document.querySelector('input[name="gameType"]:checked').value,
             botsConnected: stats.connected,
             botsFailed: stats.failed,
-            answersSubmitted: stats.answers,
+            answersSubmitted: stats.answers
         },
-        events: eventLog,
+        events: eventLog
     };
     const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
     const a = document.createElement('a');
@@ -511,7 +626,9 @@ btnDownload.addEventListener('click', () => {
     URL.revokeObjectURL(a.href);
 });
 
-document.getElementById('btnClear').addEventListener('click', () => { logContainer.innerHTML = ''; });
+document.getElementById('btnClear').addEventListener('click', () => {
+    logContainer.innerHTML = '';
+});
 
 document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -551,6 +668,6 @@ document.querySelectorAll('input[name="gameType"]').forEach(r => {
     }
     input.addEventListener('input', clamp);
     input.addEventListener('change', clamp);
-}());
+})();
 
 log('ui', 'info', _t('autorun.log.ready', null, 'Bot Runner listo. Configura los parametros y pulsa "Lanzar bots".'));

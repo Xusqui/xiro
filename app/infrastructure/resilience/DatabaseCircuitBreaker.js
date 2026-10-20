@@ -1,7 +1,7 @@
 /**
  * @fileoverview Database Circuit Breaker Wrapper
  * @module infrastructure/resilience/DatabaseCircuitBreaker
- * 
+ *
  * Wrappea el pool de PostgreSQL con Circuit Breaker para:
  * - Proteger contra cascadas de errores de DB
  * - Fail fast cuando la DB no responde
@@ -71,8 +71,7 @@ class DatabaseCircuitBreaker {
      */
     _isReadQuery(text) {
         const queryUpper = text.trim().toUpperCase();
-        return queryUpper.startsWith('SELECT') ||
-            queryUpper.startsWith('WITH') && queryUpper.includes('SELECT');
+        return queryUpper.startsWith('SELECT') || (queryUpper.startsWith('WITH') && queryUpper.includes('SELECT'));
     }
 
     /**
@@ -97,10 +96,7 @@ class DatabaseCircuitBreaker {
      * @returns {Promise<Object>} Client de PostgreSQL
      */
     connect() {
-        return this.writeCircuit.execute(
-            () => this.pool.connect(),
-            null
-        );
+        return this.writeCircuit.execute(() => this.pool.connect(), null);
     }
 
     /**

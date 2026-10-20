@@ -47,7 +47,9 @@ globalThis.StandaloneState = (() => {
         state.nickname = nickname;
         try {
             localStorage.setItem('xiro_standalone_nickname', nickname);
-        } catch (_) { /* localStorage no disponible */ }
+        } catch (_) {
+            /* localStorage no disponible */
+        }
     }
 
     return {

@@ -91,13 +91,12 @@ async function consumeDeletionToken(rawToken) {
              WHERE id = $1`,
             [tokenRow.id]
         );
-        
+
         // Obtener el usuario para poder devolver info
-        const userResult = await client.query(
-            `SELECT id, username, email, role FROM admin_users WHERE id = $1`,
-            [tokenRow.user_id]
-        );
-        
+        const userResult = await client.query(`SELECT id, username, email, role FROM admin_users WHERE id = $1`, [
+            tokenRow.user_id
+        ]);
+
         const user = userResult.rows[0];
         if (!user) {
             const err = new Error('Usuario no encontrado');
@@ -111,7 +110,7 @@ async function consumeDeletionToken(rawToken) {
         // Para mantener atomicidad real y asegurarnos, llamamos a la funcion del servicio despues del commit del token, o lo hacemos aquí.
         // Vamos a hacer commit del token y luego delegar al adminUserService. Si falla el borrado, el token queda usado, pero el usuario debe repetir.
         await client.query('COMMIT');
-        
+
         await adminUserService.deleteUserById(user.id);
 
         return {

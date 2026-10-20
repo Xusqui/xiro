@@ -15,11 +15,16 @@ const OVERLAY_ID = 'trivial-winner-overlay';
 const BTN_ID = 'trivial-winner-podium-btn';
 
 const OVERLAY_STYLE = [
-    'position:fixed', 'inset:0', 'z-index:9999',
-    'display:flex', 'align-items:center', 'justify-content:center',
-    'backdrop-filter:blur(8px)', '-webkit-backdrop-filter:blur(8px)',
+    'position:fixed',
+    'inset:0',
+    'z-index:9999',
+    'display:flex',
+    'align-items:center',
+    'justify-content:center',
+    'backdrop-filter:blur(8px)',
+    '-webkit-backdrop-filter:blur(8px)',
     'background:rgba(15,23,42,0.82)',
-    'animation:fadeIn 0.5s ease',
+    'animation:fadeIn 0.5s ease'
 ].join(';');
 
 const CARD_STYLE = [
@@ -31,7 +36,10 @@ const CARD_STYLE = [
     'width:100%',
     'text-align:center',
     'box-shadow:0 32px 80px rgba(0,0,0,0.7),0 0 60px rgba(251,191,36,0.15)',
-    'display:flex', 'flex-direction:column', 'align-items:center', 'gap:28px',
+    'display:flex',
+    'flex-direction:column',
+    'align-items:center',
+    'gap:28px'
 ].join(';');
 
 const TITLE_STYLE = [
@@ -41,7 +49,7 @@ const TITLE_STYLE = [
     'letter-spacing:-0.5px',
     'text-shadow:0 0 40px rgba(251,191,36,0.6)',
     'line-height:1.2',
-    'text-transform:uppercase',
+    'text-transform:uppercase'
 ].join(';');
 
 const BTN_STYLE = [
@@ -56,7 +64,7 @@ const BTN_STYLE = [
     'letter-spacing:0.5px',
     'box-shadow:0 8px 24px rgba(217,119,6,0.5)',
     'transition:transform 0.15s',
-    'text-transform:uppercase',
+    'text-transform:uppercase'
 ].join(';');
 
 /**

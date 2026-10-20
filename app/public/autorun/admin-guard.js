@@ -13,13 +13,7 @@
     const ADMIN_TOKEN_KEY = 'adminToken';
     const ADMIN_SESSION_KEY = 'adminSession';
     // Mismas claves que limpia el panel admin (core/auth.js → clearAdminSession).
-    const ADMIN_SESSION_KEYS = [
-        ADMIN_SESSION_KEY,
-        ADMIN_TOKEN_KEY,
-        'adminRole',
-        'adminUserId',
-        'adminUsername'
-    ];
+    const ADMIN_SESSION_KEYS = [ADMIN_SESSION_KEY, ADMIN_TOKEN_KEY, 'adminRole', 'adminUserId', 'adminUsername'];
     const LOGIN_URL = '/admin.html';
     const BOTS_SCRIPT = '/autorun/bots.js?v=20260929-140000';
     const LEADER_SCRIPT = '/autorun/team-leader.js?v=20260929-140000';
@@ -55,7 +49,7 @@
 
         // Cargar la herramienta solo tras verificar el rol de administrador.
         // async=false preserva el orden: team-leader.js antes que bots.js.
-        [LEADER_SCRIPT, BOTS_SCRIPT].forEach((src) => {
+        [LEADER_SCRIPT, BOTS_SCRIPT].forEach(src => {
             const script = document.createElement('script');
             script.src = src;
             script.async = false;
@@ -88,4 +82,4 @@
     } else {
         verify();
     }
-}());
+})();

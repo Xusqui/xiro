@@ -77,12 +77,15 @@ function loadPersonalizationImages() {
     const list = document.getElementById('personalization-images-list');
     if (!list) return;
 
-    fetch('/api/admin/ui-settings/personalization-images', { headers: { 'Authorization': 'Bearer ' + getAuthToken() } })
+    fetch('/api/admin/ui-settings/personalization-images', { headers: { Authorization: 'Bearer ' + getAuthToken() } })
         .then(r => r.json())
         .then(data => _renderPersonalizationGrid(data.images || []))
         .catch(() => {
             const liveList = document.getElementById('personalization-images-list');
-            if (liveList) liveList.innerHTML = _tHtml(`<p class="text-xs text-red-500"><i class="fas fa-times-circle mr-1"></i>${_t('admin.config.ui.personalization_error')}</p>`);
+            if (liveList)
+                liveList.innerHTML = _tHtml(
+                    `<p class="text-xs text-red-500"><i class="fas fa-times-circle mr-1"></i>${_t('admin.config.ui.personalization_error')}</p>`
+                );
         });
 }
 
@@ -91,7 +94,9 @@ function _renderPersonalizationGrid(images) {
     if (!liveList) return;
 
     if (!images.length) {
-        liveList.innerHTML = _tHtml(`<p class="text-xs text-slate-400">${_t('admin.config.ui.personalization_empty')}</p>`);
+        liveList.innerHTML = _tHtml(
+            `<p class="text-xs text-slate-400">${_t('admin.config.ui.personalization_empty')}</p>`
+        );
         return;
     }
 
@@ -102,8 +107,10 @@ function _renderPersonalizationGrid(images) {
 }
 
 function _personalizationThumbClass(selected) {
-    return 'relative bg-slate-50 border-2 rounded-xl p-2 transition-all ' +
-        (selected ? 'border-green-500 ring-2 ring-green-300' : 'border-slate-200 hover:border-green-300');
+    return (
+        'relative bg-slate-50 border-2 rounded-xl p-2 transition-all ' +
+        (selected ? 'border-green-500 ring-2 ring-green-300' : 'border-slate-200 hover:border-green-300')
+    );
 }
 
 function _renderPersonalizationThumb(img, selected) {
@@ -139,7 +146,10 @@ function selectPersonalizationImage(filename) {
         wrapper.className = _personalizationThumbClass(isSelected);
         const badge = wrapper.querySelector('.absolute.-top-1\\.5.-right-1\\.5');
         if (isSelected && !badge) {
-            wrapper.insertAdjacentHTML('afterbegin', '<span class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-green-500 text-white rounded-full flex items-center justify-center text-[10px]"><i class="fas fa-check"></i></span>');
+            wrapper.insertAdjacentHTML(
+                'afterbegin',
+                '<span class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-green-500 text-white rounded-full flex items-center justify-center text-[10px]"><i class="fas fa-check"></i></span>'
+            );
         } else if (!isSelected && badge) {
             badge.remove();
         }
@@ -156,18 +166,21 @@ function uploadPersonalizationImage(file) {
 
     fetch('/api/admin/ui-settings/personalization-images', {
         method: 'POST',
-        headers: { 'Authorization': 'Bearer ' + getAuthToken() },
+        headers: { Authorization: 'Bearer ' + getAuthToken() },
         body: formData
-    }).then(r => r.json()).then(data => {
-        if (status) status.textContent = '';
-        if (data.success) {
-            loadPersonalizationImages();
-        } else if (status) {
-            status.textContent = data.error || _t('admin.config.ui.personalization_upload_error');
-        }
-    }).catch(() => {
-        if (status) status.textContent = _t('admin.config.ui.personalization_upload_error');
-    });
+    })
+        .then(r => r.json())
+        .then(data => {
+            if (status) status.textContent = '';
+            if (data.success) {
+                loadPersonalizationImages();
+            } else if (status) {
+                status.textContent = data.error || _t('admin.config.ui.personalization_upload_error');
+            }
+        })
+        .catch(() => {
+            if (status) status.textContent = _t('admin.config.ui.personalization_upload_error');
+        });
 }
 
 function deletePersonalizationImage(filename) {
@@ -177,25 +190,29 @@ function deletePersonalizationImage(filename) {
         () => {
             fetch('/api/admin/ui-settings/personalization-images/' + encodeURIComponent(filename), {
                 method: 'DELETE',
-                headers: { 'Authorization': 'Bearer ' + getAuthToken() }
-            }).then(r => r.json()).then(data => {
-                if (data.success) {
-                    // El servidor quita la imagen de la configuración si era la guardada
-                    if (_configData.__ui && _configData.__ui.personalizationImage === filename) {
-                        _configData.__ui.personalizationImage = null;
-                        patchSaveBarInitial({ personalizationImage: null });
+                headers: { Authorization: 'Bearer ' + getAuthToken() }
+            })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        // El servidor quita la imagen de la configuración si era la guardada
+                        if (_configData.__ui && _configData.__ui.personalizationImage === filename) {
+                            _configData.__ui.personalizationImage = null;
+                            patchSaveBarInitial({ personalizationImage: null });
+                        }
+                        if (_personalizationSelected === filename) _personalizationSelected = null;
+                        refreshSaveBar();
+                        loadPersonalizationImages();
+                    } else {
+                        const status = document.getElementById('personalization-upload-status');
+                        if (status)
+                            status.textContent = data.error || _t('admin.config.ui.personalization_delete_error');
                     }
-                    if (_personalizationSelected === filename) _personalizationSelected = null;
-                    refreshSaveBar();
-                    loadPersonalizationImages();
-                } else {
+                })
+                .catch(() => {
                     const status = document.getElementById('personalization-upload-status');
-                    if (status) status.textContent = data.error || _t('admin.config.ui.personalization_delete_error');
-                }
-            }).catch(() => {
-                const status = document.getElementById('personalization-upload-status');
-                if (status) status.textContent = _t('admin.config.ui.personalization_delete_error');
-            });
+                    if (status) status.textContent = _t('admin.config.ui.personalization_delete_error');
+                });
         }
     );
 }

@@ -43,23 +43,30 @@ router.get('/api/custom-games', authenticateAdmin, async (req, res) => {
     }
 });
 
-router.post('/api/custom-games', authenticateAdmin, validateBody(schemas.createCustomGame), validateUniquePIN('custom_game'), async (req, res) => {
-    try {
-        const payload = {
-            ...req.body,
-            created_by_role: req.user?.role,
-            created_by_user_id: req.user?.userId
-        };
-        const customGame = await dbService.createCustomGame(payload);
-        res.status(201).json(customGame);
-    } catch (err) {
-        if (err.code === '23505') { // Unique violation
-            res.status(400).json({ error: 'El PIN ya está en uso', code: 'PIN_DUPLICATE' });
-        } else {
-            handleRouteError(err, res);
+router.post(
+    '/api/custom-games',
+    authenticateAdmin,
+    validateBody(schemas.createCustomGame),
+    validateUniquePIN('custom_game'),
+    async (req, res) => {
+        try {
+            const payload = {
+                ...req.body,
+                created_by_role: req.user?.role,
+                created_by_user_id: req.user?.userId
+            };
+            const customGame = await dbService.createCustomGame(payload);
+            res.status(201).json(customGame);
+        } catch (err) {
+            if (err.code === '23505') {
+                // Unique violation
+                res.status(400).json({ error: 'El PIN ya está en uso', code: 'PIN_DUPLICATE' });
+            } else {
+                handleRouteError(err, res);
+            }
         }
     }
-});
+);
 
 router.get('/api/custom-games/:id', authenticateAdmin, async (req, res) => {
     try {
@@ -71,18 +78,24 @@ router.get('/api/custom-games/:id', authenticateAdmin, async (req, res) => {
     }
 });
 
-router.put('/api/custom-games/:id', authenticateAdmin, validateBody(schemas.updateCustomGame), validateUniquePIN('custom_game'), async (req, res) => {
-    try {
-        const actorUserId = req.user?.role === 'editor' ? req.user?.userId : null;
-        const result = await dbService.updateCustomGame(req.params.id, req.body, actorUserId);
-        if (!result.success) {
-            return handleBusinessError(res, result.error);
+router.put(
+    '/api/custom-games/:id',
+    authenticateAdmin,
+    validateBody(schemas.updateCustomGame),
+    validateUniquePIN('custom_game'),
+    async (req, res) => {
+        try {
+            const actorUserId = req.user?.role === 'editor' ? req.user?.userId : null;
+            const result = await dbService.updateCustomGame(req.params.id, req.body, actorUserId);
+            if (!result.success) {
+                return handleBusinessError(res, result.error);
+            }
+            res.json({ success: true });
+        } catch (err) {
+            handleRouteError(err, res);
         }
-        res.json({ success: true });
-    } catch (err) {
-        handleRouteError(err, res);
     }
-});
+);
 
 router.delete('/api/custom-games/:id', authenticateAdmin, checkUsageBeforeDelete('custom_game'), async (req, res) => {
     try {
@@ -150,10 +163,10 @@ router.delete('/api/custom-games/:id/questions/:questionId', authenticateAdmin, 
             return res.status(404).json({ error: 'Pregunta no encontrada', code: 'QUESTION_NOT_FOUND' });
         }
 
-        await client.query(
-            'DELETE FROM custom_game_questions WHERE custom_game_id = $1 AND question_id = $2',
-            [req.params.id, req.params.questionId]
-        );
+        await client.query('DELETE FROM custom_game_questions WHERE custom_game_id = $1 AND question_id = $2', [
+            req.params.id,
+            req.params.questionId
+        ]);
 
         await client.query(
             'UPDATE custom_game_questions SET position = position - 1 WHERE custom_game_id = $1 AND position > $2',

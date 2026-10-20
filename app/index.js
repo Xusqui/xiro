@@ -1,7 +1,7 @@
 /**
  * @fileoverview Entry point de la aplicación Xiro!
  * Arquitectura modular que integra Express, Socket.io y PostgreSQL
- * 
+ *
  * Estructura:
  * - /config: Configuración y constantes
  * - /state: Estado global compartido
@@ -16,12 +16,7 @@ const http = require('http');
 const compression = require('compression');
 
 // ===== CONFIGURACIÓN =====
-const {
-    PORT,
-    MAX_PLAYERS_PER_GAME,
-    QUESTION_TIME_LIMIT,
-    GAME_CLEANUP_INTERVAL
-} = require('./config/constants');
+const { PORT, MAX_PLAYERS_PER_GAME, QUESTION_TIME_LIMIT, GAME_CLEANUP_INTERVAL } = require('./config/constants');
 const { pool, initDB } = require('./config/database');
 const logger = require('./config/logger');
 const { getWorkerContext } = require('./config/log-context');
@@ -80,13 +75,13 @@ const server = http.createServer(app);
 
 // ===== INSTANCIA GLOBAL DE ACK MANAGER =====
 const ackManager = new AckManager({
-    timeout: 5000,    // 5 segundos para recibir ACK
-    maxRetries: 3,    // Máximo 3 reintentos
-    retryDelay: 1000  // 1 segundo entre reintentos
+    timeout: 5000, // 5 segundos para recibir ACK
+    maxRetries: 3, // Máximo 3 reintentos
+    retryDelay: 1000 // 1 segundo entre reintentos
 });
 
 // Monitorear fallos de entrega
-ackManager.on('message-failed', (data) => {
+ackManager.on('message-failed', data => {
     logger.error('Message delivery failed after retries', {
         messageId: data.messageId,
         event: data.event,
@@ -111,16 +106,18 @@ app.use(metricsMiddleware); // Registrar métricas de requests
 
 // Compresión Gzip/Brotli para reducir ancho de banda del NAS
 // Las rutas /api/ quedan excluidas para mitigar el ataque BREACH
-app.use(compression({
-    filter: (req, res) => {
-        if (req.headers['x-no-compression'] || req.path.startsWith('/api/')) {
-            return false;
-        }
-        return compression.filter(req, res);
-    },
-    threshold: 1024, // Solo comprimir si > 1KB
-    level: 6 // Balance entre CPU y compresión (1-9)
-}));
+app.use(
+    compression({
+        filter: (req, res) => {
+            if (req.headers['x-no-compression'] || req.path.startsWith('/api/')) {
+                return false;
+            }
+            return compression.filter(req, res);
+        },
+        threshold: 1024, // Solo comprimir si > 1KB
+        level: 6 // Balance entre CPU y compresión (1-9)
+    })
+);
 
 // Bloquea acceso directo a /tv.html si la tarjeta de TV está deshabilitada.
 app.use(tvAccessGuard);
@@ -131,16 +128,18 @@ app.use(standaloneAccessGuard);
 // Reescribe ?v=... de assets (.js/.css/.svg) con hash de contenido antes de servir estático
 app.use(assetVersioningMiddleware);
 
-app.use(express.static('public', {
-    maxAge: '1d',
-    setHeaders: (res, filePath) => {
-        if (filePath.endsWith('.html')) {
-            res.setHeader('Cache-Control', 'no-cache');
-        } else if (filePath.endsWith('.js') || filePath.endsWith('.css')) {
-            res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+app.use(
+    express.static('public', {
+        maxAge: '1d',
+        setHeaders: (res, filePath) => {
+            if (filePath.endsWith('.html')) {
+                res.setHeader('Cache-Control', 'no-cache');
+            } else if (filePath.endsWith('.js') || filePath.endsWith('.css')) {
+                res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+            }
         }
-    }
-}));
+    })
+);
 app.use(express.json({ limit: '10mb' }));
 
 // ===== MODO MANTENIMIENTO =====
@@ -215,9 +214,10 @@ const isMasterWorker = process.env.NODE_APP_INSTANCE === '0' || !process.env.NOD
 
 if (isMasterWorker) {
     logger.info('👑 Worker maestro (0): Inicializando base de datos...', getWorkerContext());
-    initDB().then(() => {
-        return runPendingMigrations();
-    })
+    initDB()
+        .then(() => {
+            return runPendingMigrations();
+        })
         .then(result => {
             if (result && result.executed > 0) {
                 logger.info(`✅ ${result.executed} migración(es) ejecutada(s)`, getWorkerContext());
@@ -266,7 +266,13 @@ async function main() {
             });
             logger.info('📂 Modular architecture loaded', {
                 ...getWorkerContext(),
-                modules: ['Config & Database', 'Security & Auth', 'Routes', 'Socket.io with Redis Adapter', 'Global State in Redis']
+                modules: [
+                    'Config & Database',
+                    'Security & Auth',
+                    'Routes',
+                    'Socket.io with Redis Adapter',
+                    'Global State in Redis'
+                ]
             });
         });
     } catch (error) {

@@ -1,12 +1,12 @@
 /**
  * @fileoverview LastRankingBuffer - Almacena el último ranking emitido por sala
  * @module domain/services/LastRankingBuffer
- * 
+ *
  * Responsabilidades:
  * - Almacenar último ranking enviado por sala
  * - Recuperar último ranking para comparar deltas
  * - Limpiar cachés de salas finalizadas
- * 
+ *
  * Estructura:
  * - Map<roomId, {ranking, timestamp}>
  */
@@ -27,7 +27,7 @@ class LastRankingBuffer {
 
     /**
      * Guardar ranking en caché
-     * 
+     *
      * @param {string} roomId - ID de la sala
      * @param {Array} ranking - Ranking completo
      */
@@ -40,7 +40,7 @@ class LastRankingBuffer {
 
     /**
      * Obtener último ranking de una sala
-     * 
+     *
      * @param {string} roomId - ID de la sala
      * @returns {Array|null} Ranking o null si no existe
      */
@@ -63,7 +63,7 @@ class LastRankingBuffer {
 
     /**
      * Eliminar ranking de una sala (al finalizar juego)
-     * 
+     *
      * @param {string} roomId - ID de la sala
      */
     delete(roomId) {
@@ -72,7 +72,7 @@ class LastRankingBuffer {
 
     /**
      * Limpiar rankings antiguos (ejecutar periódicamente)
-     * 
+     *
      * @returns {number} Número de cachés eliminados
      */
     cleanup() {
@@ -92,7 +92,7 @@ class LastRankingBuffer {
 
     /**
      * Obtener estadísticas del caché
-     * 
+     *
      * @returns {Object} Estadísticas
      */
     getStats() {
@@ -101,14 +101,11 @@ class LastRankingBuffer {
 
         return {
             totalRooms: this.cache.size,
-            oldestCache: entries.length > 0
-                ? Math.max(...entries.map(([, v]) => now - v.timestamp))
-                : 0,
-            avgSize: entries.length > 0
-                ? Math.round(
-                    entries.reduce((sum, [, v]) => sum + v.ranking.length, 0) / entries.length
-                )
-                : 0
+            oldestCache: entries.length > 0 ? Math.max(...entries.map(([, v]) => now - v.timestamp)) : 0,
+            avgSize:
+                entries.length > 0
+                    ? Math.round(entries.reduce((sum, [, v]) => sum + v.ranking.length, 0) / entries.length)
+                    : 0
         };
     }
 

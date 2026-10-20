@@ -8,13 +8,19 @@ import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 const RANKING_SIZE = 5;
 
 function rankingItemsHtml(ranking) {
-    return ranking.slice(0, RANKING_SIZE).map((p, i) => {
-        const bgColor = i === 0 ? 'background: rgba(251, 191, 36, 0.3); border: 2px solid rgb(251, 191, 36);' : 'background: rgba(255, 255, 255, 0.1);';
-        return `<div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-radius: 0.75rem; ${bgColor}">
+    return ranking
+        .slice(0, RANKING_SIZE)
+        .map((p, i) => {
+            const bgColor =
+                i === 0
+                    ? 'background: rgba(251, 191, 36, 0.3); border: 2px solid rgb(251, 191, 36);'
+                    : 'background: rgba(255, 255, 255, 0.1);';
+            return `<div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-radius: 0.75rem; ${bgColor}">
                 <span style="font-weight: 900; font-size: 1.125em; text-transform: uppercase;">${i + 1}. ${escapeHtml(p.name)}</span>
                 <span style="font-weight: 900; font-size: 1.25em;">${p.pts}</span>
             </div>`;
-    }).join('');
+        })
+        .join('');
 }
 
 /**
@@ -24,9 +30,10 @@ function rankingItemsHtml(ranking) {
  */
 export function rankingCardHtml(ranking, { top, sideCss, title, emptyMessage }) {
     const players = ranking.filter(p => p.name !== 'HOST');
-    const items = players.length === 0 && emptyMessage
-        ? `<div style="text-align: center; color: rgba(255, 255, 255, 0.7); font-style: italic;">${emptyMessage}</div>`
-        : rankingItemsHtml(players);
+    const items =
+        players.length === 0 && emptyMessage
+            ? `<div style="text-align: center; color: rgba(255, 255, 255, 0.7); font-style: italic;">${emptyMessage}</div>`
+            : rankingItemsHtml(players);
 
     return `
         <div id="ranking-card" style="
@@ -88,11 +95,12 @@ export function renderOrderReveal(correctOrder, options = {}) {
 
     const topOffset = options.topOffset || '7.5rem';
 
-    const items = correctOrder.map((item, index) => {
-        const text = item?.text || '';
-        const justification = item?.justification || '';
+    const items = correctOrder
+        .map((item, index) => {
+            const text = item?.text || '';
+            const justification = item?.justification || '';
 
-        return `
+            return `
             <div style="display:flex; align-items:center; gap:0.75rem; background: rgba(255,255,255,0.12); border: 2px solid rgba(255,255,255,0.3); border-radius: 1rem; padding: 0.75rem 1rem;">
                 <span style="background: rgba(0,0,0,0.35); width: 2.25em; height: 2.25em; flex-shrink: 0; border-radius: 9999px; display:flex; align-items:center; justify-content:center; font-weight: 900;">${index + 1}</span>
                 <div style="display: flex; flex-direction: column; gap: 0.25rem; flex: 1;">
@@ -101,7 +109,8 @@ export function renderOrderReveal(correctOrder, options = {}) {
                 </div>
             </div>
         `;
-    }).join('');
+        })
+        .join('');
 
     const html = `
         <div id="order-reveal-card" style="position: fixed; top: ${topOffset}; left: 50%; transform: translateX(-50%); width: 520px; max-width: 80vw; background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(127,84,141,0.95)); color: white; border-radius: 2rem; border: 4px solid white; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35); padding: 1.5rem; z-index: 9998;">
@@ -122,13 +131,17 @@ export function renderMatchingReveal(correctMatches, options = {}) {
 
     const topOffset = options.topOffset || '7.5rem';
 
-    const rows = correctMatches.map((pair) => `
+    const rows = correctMatches
+        .map(
+            pair => `
         <div style="display:grid; grid-template-columns: 1fr auto 1fr; align-items:center; gap:0.5rem; background: rgba(255,255,255,0.12); border: 2px solid rgba(255,255,255,0.3); border-radius: 1rem; padding: 0.6rem 0.75rem;">
             <span style="font-weight: 800; text-transform: uppercase; font-style: italic; text-align:right;">${escapeHtml(pair.leftText)}</span>
             <span style="color: #fde047; font-size: 1.2em; font-weight: 900; flex-shrink: 0;">↔</span>
             <span style="font-weight: 800; text-transform: uppercase; font-style: italic; text-align:left;">${escapeHtml(pair.rightText)}</span>
         </div>
-    `).join('');
+    `
+        )
+        .join('');
 
     const html = `
         <div id="matching-reveal-card" style="position: fixed; top: ${topOffset}; left: 50%; transform: translateX(-50%); width: 560px; max-width: 82vw; background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(180,83,9,0.9)); color: white; border-radius: 2rem; border: 4px solid white; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35); padding: 1.5rem; z-index: 9998;">

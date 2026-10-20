@@ -61,23 +61,52 @@ window.TrivialShared = window.TrivialShared || {};
             const cy = pC.y.toFixed(1);
 
             // Halo exterior pulsante
-            html += '<circle cx="' + cx + '" cy="' + cy + '" r="' + (CASILLA_R + 9) + '"' +
-                    ' fill="rgba(251,191,36,0.30)" stroke="none" pointer-events="none">' +
-                    '<animate attributeName="r" values="' + (CASILLA_R+7) + ';' + (CASILLA_R+14) + ';' + (CASILLA_R+7) + '" dur="0.9s" repeatCount="indefinite"/>' +
-                    '<animate attributeName="fill-opacity" values="0.30;0.06;0.30" dur="0.9s" repeatCount="indefinite"/>' +
-                    '</circle>';
+            html +=
+                '<circle cx="' +
+                cx +
+                '" cy="' +
+                cy +
+                '" r="' +
+                (CASILLA_R + 9) +
+                '"' +
+                ' fill="rgba(251,191,36,0.30)" stroke="none" pointer-events="none">' +
+                '<animate attributeName="r" values="' +
+                (CASILLA_R + 7) +
+                ';' +
+                (CASILLA_R + 14) +
+                ';' +
+                (CASILLA_R + 7) +
+                '" dur="0.9s" repeatCount="indefinite"/>' +
+                '<animate attributeName="fill-opacity" values="0.30;0.06;0.30" dur="0.9s" repeatCount="indefinite"/>' +
+                '</circle>';
 
             // Anillo dorado clicable
-            html += '<circle cx="' + cx + '" cy="' + cy + '" r="' + (CASILLA_R + 4) + '"' +
-                    ' fill="rgba(251,191,36,0.45)" stroke="#fbbf24" stroke-width="3"' +
-                    ' cursor="pointer" data-avail-pos="' + pos + '">' +
-                    '<animate attributeName="stroke-opacity" values="1;0.2;1" dur="0.9s" repeatCount="indefinite"/>' +
-                    '</circle>';
+            html +=
+                '<circle cx="' +
+                cx +
+                '" cy="' +
+                cy +
+                '" r="' +
+                (CASILLA_R + 4) +
+                '"' +
+                ' fill="rgba(251,191,36,0.45)" stroke="#fbbf24" stroke-width="3"' +
+                ' cursor="pointer" data-avail-pos="' +
+                pos +
+                '">' +
+                '<animate attributeName="stroke-opacity" values="1;0.2;1" dur="0.9s" repeatCount="indefinite"/>' +
+                '</circle>';
 
             if (label !== '') {
-                html += '<text x="' + pL.x.toFixed(1) + '" y="' + (pL.y + 4).toFixed(1) + '"' +
-                        ' text-anchor="middle" font-size="11" font-weight="bold" fill="#fbbf24"' +
-                        ' pointer-events="none">' + label + '</text>';
+                html +=
+                    '<text x="' +
+                    pL.x.toFixed(1) +
+                    '" y="' +
+                    (pL.y + 4).toFixed(1) +
+                    '"' +
+                    ' text-anchor="middle" font-size="11" font-weight="bold" fill="#fbbf24"' +
+                    ' pointer-events="none">' +
+                    label +
+                    '</text>';
             }
         }
 
@@ -91,18 +120,27 @@ window.TrivialShared = window.TrivialShared || {};
 
         const el = document.createElement('div');
         el.id = 'trv-turn-order-overlay';
-        el.style.cssText = 'position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;z-index:20;cursor:pointer;';
+        el.style.cssText =
+            'position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;z-index:20;cursor:pointer;';
 
         let rows = '';
         for (let i = 0; i < turnOrder.length; i++) {
-            rows += '<div style="display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,0.07)">' +
-                '<span style="width:26px;height:26px;border-radius:50%;background:#fbbf24;color:#1e293b;font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0">' + (i + 1) + '</span>' +
-                '<span style="color:#fff;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.5px">' + turnOrder[i] + '</span></div>';
+            rows +=
+                '<div style="display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,0.07)">' +
+                '<span style="width:26px;height:26px;border-radius:50%;background:#fbbf24;color:#1e293b;font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0">' +
+                (i + 1) +
+                '</span>' +
+                '<span style="color:#fff;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.5px">' +
+                turnOrder[i] +
+                '</span></div>';
         }
 
-        el.innerHTML = '<div style="background:rgba(15,23,42,0.94);border:2px solid rgba(251,191,36,0.4);border-radius:16px;padding:22px 28px;min-width:180px;max-width:260px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.7);">' +
+        el.innerHTML =
+            '<div style="background:rgba(15,23,42,0.94);border:2px solid rgba(251,191,36,0.4);border-radius:16px;padding:22px 28px;min-width:180px;max-width:260px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.7);">' +
             '<div style="color:#fbbf24;font-size:1.1rem;font-weight:900;letter-spacing:.8px;margin-bottom:14px">🎲 Orden de tiradas</div>' +
-            '<div style="display:flex;flex-direction:column;gap:6px">' + rows + '</div>' +
+            '<div style="display:flex;flex-direction:column;gap:6px">' +
+            rows +
+            '</div>' +
             '<div style="color:#64748b;font-size:11px;margin-top:14px">Toca para continuar</div>' +
             '</div>';
 
@@ -112,11 +150,12 @@ window.TrivialShared = window.TrivialShared || {};
             dismissed = true;
             el.style.transition = 'opacity 0.4s';
             el.style.opacity = '0';
-            setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 400);
+            setTimeout(function () {
+                if (el.parentNode) el.parentNode.removeChild(el);
+            }, 400);
         };
         el.addEventListener('click', dismiss);
         setTimeout(dismiss, 5500);
         boardContainer.appendChild(el);
     };
-
 })(window.TrivialShared);

@@ -5,17 +5,55 @@
  */
 
 const CHAMALEON_IMAGES = [
-    'afraid.svg', 'albanil.svg', 'angry.svg', 'astronauta.svg', 'bailarina.svg',
-    'banco-de-preguntas.svg', 'branch.svg', 'busca-tesoros.svg', 'chamaleon.svg',
-    'cooking.svg', 'cool.svg', 'detective.svg', 'disguise.svg', 'dizzy.svg',
-    'farewell.svg', 'gameover.svg', 'gamer.svg', 'gaming.svg', 'gris.svg',
-    'hello.svg', 'inteligencia-artificial.svg', 'jardinero.svg', 'jetpack.svg',
-    'juegos-personalizados.svg', 'leyendo.svg', 'love.svg', 'mago.svg',
-    'mezcla-de-preguntas.svg', 'musico.svg', 'nerd.svg', 'painting.svg', 'party.svg',
-    'pastelero.svg', 'pintor.svg', 'pirata.svg', 'planting.svg',
-    'pointing.svg', 'pregunta-ia.svg', 'quimico.svg', 'running.svg', 'searching.svg',
-    'sleep.svg', 'subir-preguntas.svg', 'surfero.svg', 'thinking.svg',
-    'thumbs_down.svg', 'thumbs_up.svg', 'trivial-pursuit.svg', 'worker.svg',
+    'afraid.svg',
+    'albanil.svg',
+    'angry.svg',
+    'astronauta.svg',
+    'bailarina.svg',
+    'banco-de-preguntas.svg',
+    'branch.svg',
+    'busca-tesoros.svg',
+    'chamaleon.svg',
+    'cooking.svg',
+    'cool.svg',
+    'detective.svg',
+    'disguise.svg',
+    'dizzy.svg',
+    'farewell.svg',
+    'gameover.svg',
+    'gamer.svg',
+    'gaming.svg',
+    'gris.svg',
+    'hello.svg',
+    'inteligencia-artificial.svg',
+    'jardinero.svg',
+    'jetpack.svg',
+    'juegos-personalizados.svg',
+    'leyendo.svg',
+    'love.svg',
+    'mago.svg',
+    'mezcla-de-preguntas.svg',
+    'musico.svg',
+    'nerd.svg',
+    'painting.svg',
+    'party.svg',
+    'pastelero.svg',
+    'pintor.svg',
+    'pirata.svg',
+    'planting.svg',
+    'pointing.svg',
+    'pregunta-ia.svg',
+    'quimico.svg',
+    'running.svg',
+    'searching.svg',
+    'sleep.svg',
+    'subir-preguntas.svg',
+    'surfero.svg',
+    'thinking.svg',
+    'thumbs_down.svg',
+    'thumbs_up.svg',
+    'trivial-pursuit.svg',
+    'worker.svg',
     'yoda.svg'
 ];
 
@@ -49,15 +87,17 @@ export function showChamaleonOverlay() {
 
     // Elegir imagen diferente a la anterior
     let imgIndex;
-    do { imgIndex = Math.floor(Math.random() * CHAMALEON_IMAGES.length); }
-    while (CHAMALEON_IMAGES[imgIndex] === _lastImage && CHAMALEON_IMAGES.length > 1);
+    do {
+        imgIndex = Math.floor(Math.random() * CHAMALEON_IMAGES.length);
+    } while (CHAMALEON_IMAGES[imgIndex] === _lastImage && CHAMALEON_IMAGES.length > 1);
     const img = CHAMALEON_IMAGES[imgIndex];
     _lastImage = img;
 
     // Elegir esquina diferente a la anterior
     let cornerIndex;
-    do { cornerIndex = Math.floor(Math.random() * CORNERS.length); }
-    while (cornerIndex === _lastCorner && CORNERS.length > 1);
+    do {
+        cornerIndex = Math.floor(Math.random() * CORNERS.length);
+    } while (cornerIndex === _lastCorner && CORNERS.length > 1);
     const corner = CORNERS[cornerIndex];
     _lastCorner = cornerIndex;
 
@@ -72,7 +112,9 @@ export function showChamaleonOverlay() {
         corner.right ? `right: ${corner.right}` : '',
         'z-index: 500',
         'pointer-events: none'
-    ].filter(Boolean).join('; ');
+    ]
+        .filter(Boolean)
+        .join('; ');
 
     const image = document.createElement('img');
     image.src = `/images/chamaleon/${img}`;

@@ -1,20 +1,20 @@
 /**
  * @fileoverview MultipleChoiceAnswerService - Lógica de puntuación para preguntas de selección múltiple
- * 
+ *
  * Maneja el cálculo de puntos basado en:
  * - Correctas marcadas: +mc_points_per_correct cada una
  * - Incorrectas marcadas: -mc_penalty_per_incorrect cada una
  * - Bonus perfección: +mc_perfect_bonus si marca todas las correctas y ninguna incorrecta
- * 
+ *
  * @module domain/services/MultipleChoiceAnswerService
  */
 
 /**
  * Extrae los índices de las opciones correctas de una pregunta
- * 
+ *
  * @param {Array<Object>} options - Opciones de la pregunta
  * @returns {Array<number>} Array de índices correctos [0, 2, 4]
- * 
+ *
  * @example
  * const options = [
  *   { optionText: 'A', is_correct: true },
@@ -28,21 +28,19 @@ function extractCorrectIndices(options) {
         return [];
     }
 
-    return options
-        .map((opt, idx) => (opt.is_correct || opt.isCorrect) ? idx : null)
-        .filter(idx => idx !== null);
+    return options.map((opt, idx) => (opt.is_correct || opt.isCorrect ? idx : null)).filter(idx => idx !== null);
 }
 
 /**
  * Calcula la puntuación para una respuesta de selección múltiple
- * 
+ *
  * Sistema de puntuación:
  * - +X puntos por cada correcta marcada
  * - 0 puntos por cada correcta NO marcada
  * - -Y puntos por cada incorrecta marcada
  * - +Z bonus si marca TODAS las correctas y NINGUNA incorrecta (perfección)
  * - Permite puntos negativos (sin mínimo)
- * 
+ *
  * @param {Object} params - Parámetros
  * @param {Array<number>} params.selectedIndices - Índices seleccionados por el jugador [0, 2, 4]
  * @param {Array<number>} params.correctIndices - Índices de respuestas correctas [0, 2, 5]
@@ -50,7 +48,7 @@ function extractCorrectIndices(options) {
  * @param {number} params.penaltyPerIncorrect - Penalización por cada incorrecta marcada
  * @param {number} params.perfectBonus - Bonus extra por perfección absoluta
  * @returns {Object} { pointsEarned, details: { correctSelected, incorrectSelected, correctMissed, isPerfect } }
- * 
+ *
  * @example
  * calculateMultipleChoiceScore({
  *   selectedIndices: [0, 2, 4],
@@ -136,14 +134,14 @@ function calculateMultipleChoiceScore({
 
 /**
  * Procesa una respuesta completa de selección múltiple
- * 
+ *
  * @param {Object} params - Parámetros
  * @param {Object} params.question - Pregunta con options y configuración de puntos
  * @param {Array<number>} params.selectedIndices - Índices seleccionados por el jugador
  * @param {number} params.gameStartTime - Timestamp de inicio de la pregunta
  * @param {number} params.currentTime - Timestamp actual
  * @returns {Object} Resultado completo del procesamiento
- * 
+ *
  * @example
  * processMultipleChoiceAnswer({
  *   question: {
@@ -158,12 +156,7 @@ function calculateMultipleChoiceScore({
  *   currentTime: 1015000
  * });
  */
-function processMultipleChoiceAnswer({
-    question,
-    selectedIndices,
-    gameStartTime,
-    currentTime
-}) {
+function processMultipleChoiceAnswer({ question, selectedIndices, gameStartTime, currentTime }) {
     const correctIndices = extractCorrectIndices(question.options || []);
 
     const pointsPerCorrect = question.mc_points_per_correct || 10;

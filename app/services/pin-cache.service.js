@@ -1,7 +1,7 @@
 /**
  * @fileoverview Servicio de caché para validación de PINs
  * Cachea PINs válidos para reducir hits a la BD
- * 
+ *
  * Estrategia:
  * - TTL: 5 minutos (PINs cambian raramente)
  * - Invalidación: Al crear/actualizar/eliminar bancos/games
@@ -135,7 +135,7 @@ class PinCacheService {
      */
     getStats() {
         const total = this.stats.hits + this.stats.misses;
-        const hitRate = total > 0 ? (this.stats.hits / total * 100).toFixed(2) : 0;
+        const hitRate = total > 0 ? ((this.stats.hits / total) * 100).toFixed(2) : 0;
 
         return {
             hits: this.stats.hits,

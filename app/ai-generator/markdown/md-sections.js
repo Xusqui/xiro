@@ -35,7 +35,7 @@ function parseSections(markdown) {
 function units(text, max) {
     const out = [];
     for (const para of text.split(/\n{2,}/)) {
-        const pieces = para.length <= max ? [para] : (para.match(/[^.!?]+[.!?]*\s*/g) || [para]);
+        const pieces = para.length <= max ? [para] : para.match(/[^.!?]+[.!?]*\s*/g) || [para];
         pieces.forEach((piece, i) => {
             const parts = piece.length <= max ? [piece] : piece.match(new RegExp(`[\\s\\S]{1,${max}}`, 'g'));
             parts.forEach((part, j) => out.push({ text: part, sep: i === 0 && j === 0 ? '\n\n' : '' }));
@@ -115,7 +115,7 @@ function createChunkPlan(markdown, { maxChars, totalBatches }) {
         lastIndex: -1,
         next() {
             const i = index++;
-            const pick = chunks.length > batches ? Math.floor(i * chunks.length / batches) : i;
+            const pick = chunks.length > batches ? Math.floor((i * chunks.length) / batches) : i;
             this.lastIndex = pick % chunks.length;
             return chunks[this.lastIndex];
         }

@@ -86,9 +86,7 @@ function createGetCurrentStateHandler(dependencies) {
 
                 // Si hay pregunta actual, sanitizarla para jugadores
                 if (game.questions && game.questions[currentIndex]) {
-                    currentState.currentQuestion = sanitizeQuestionForPlayers(
-                        game.questions[currentIndex]
-                    );
+                    currentState.currentQuestion = sanitizeQuestionForPlayers(game.questions[currentIndex]);
                 }
             }
         } else {

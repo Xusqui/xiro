@@ -19,9 +19,12 @@ function _ollamaModelOptions(models, selected) {
     if (!models.length) {
         return `<option value="">${escapeHtml(_t('admin.ollama.model_placeholder'))}</option>`;
     }
-    return models.map(m =>
-        `<option value="${escapeHtml(m.name)}" ${m.name === selected ? 'selected' : ''}>${escapeHtml(_ollamaModelLabel(m))}</option>`
-    ).join('');
+    return models
+        .map(
+            m =>
+                `<option value="${escapeHtml(m.name)}" ${m.name === selected ? 'selected' : ''}>${escapeHtml(_ollamaModelLabel(m))}</option>`
+        )
+        .join('');
 }
 
 function _renderOllamaRow(info, isActive) {
@@ -97,28 +100,34 @@ function loadOllamaModels(quiet) {
 
     fetch('/api/ai-generator/ollama/models', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getAuthToken() },
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getAuthToken() },
         body: JSON.stringify({ baseUrl, apiKey: _ollamaTypedKey() })
-    }).then(r => r.json()).then(data => {
-        if (!data.success) {
+    })
+        .then(r => r.json())
+        .then(data => {
+            if (!data.success) {
+                _ollamaModelsStatus('idle', _t('admin.ollama.model_desc'));
+                _aiShowRowError('ollama', escapeHtml(data.error || _t('admin.tools.error_unknown')));
+                return;
+            }
+            const previous = select.value;
+            select.innerHTML = _ollamaModelOptions(data.models, previous);
+            if (!data.models.length) {
+                _ollamaModelsStatus('idle', _t('admin.ollama.model_desc'));
+                _aiShowRowError('ollama', _t('admin.ollama.no_models'));
+            } else if (!quiet) {
+                _ollamaModelsStatus(
+                    'ok',
+                    `<i class="fas fa-check-circle"></i> ${_t('admin.ollama.models_ok', { count: data.models.length })}`
+                );
+            }
+            // Cambiar la lista puede cambiar el modelo elegido: se recalcula si hay cambios
+            if (select.value !== previous) refreshSaveBar();
+        })
+        .catch(() => {
             _ollamaModelsStatus('idle', _t('admin.ollama.model_desc'));
-            _aiShowRowError('ollama', escapeHtml(data.error || _t('admin.tools.error_unknown')));
-            return;
-        }
-        const previous = select.value;
-        select.innerHTML = _ollamaModelOptions(data.models, previous);
-        if (!data.models.length) {
-            _ollamaModelsStatus('idle', _t('admin.ollama.model_desc'));
-            _aiShowRowError('ollama', _t('admin.ollama.no_models'));
-        } else if (!quiet) {
-            _ollamaModelsStatus('ok', `<i class="fas fa-check-circle"></i> ${_t('admin.ollama.models_ok', { count: data.models.length })}`);
-        }
-        // Cambiar la lista puede cambiar el modelo elegido: se recalcula si hay cambios
-        if (select.value !== previous) refreshSaveBar();
-    }).catch(() => {
-        _ollamaModelsStatus('idle', _t('admin.ollama.model_desc'));
-        _aiShowRowError('ollama', _t('admin.groq.error_net'));
-    });
+            _aiShowRowError('ollama', _t('admin.groq.error_net'));
+        });
 }
 
 /**

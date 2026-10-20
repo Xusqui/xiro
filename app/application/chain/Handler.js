@@ -1,7 +1,7 @@
 /**
  * @fileoverview Base Handler para Chain of Responsibility pattern
  * @module application/chain/Handler
- * 
+ *
  * Permite crear pipelines de procesamiento modulares donde cada handler
  * puede procesar la request y decidir si pasa al siguiente handler.
  */

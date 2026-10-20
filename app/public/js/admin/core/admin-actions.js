@@ -107,13 +107,13 @@ const ADMIN_ACTIONS = {
     'panic-restart': () => {
         if (typeof panicRestart === 'function') panicRestart();
     },
-    'logout': () => {
+    logout: () => {
         if (typeof logout === 'function') logout();
     }
 };
 
 function setupAdminActionDelegation() {
-    document.addEventListener('click', (event) => {
+    document.addEventListener('click', event => {
         const actionElement = event.target.closest('[data-admin-action]');
         if (!actionElement) return;
 

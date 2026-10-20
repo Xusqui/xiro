@@ -23,7 +23,7 @@ export function engineOptions(settings, sessionSeed) {
 /** Mezcla por capa y tic-tac (al momento). */
 export function applyMix(engine, settings) {
     engine.cues.setTickSound(settings.tick);
-    S().LAYERS.forEach((layer) => {
+    S().LAYERS.forEach(layer => {
         const channel = settings.mix[layer];
         engine.mixer.setLayerVolume(layer, channel.db);
         engine.mixer.setLayerMuted(layer, channel.muted);

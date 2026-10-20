@@ -37,7 +37,10 @@ function validatePayload(data, socket) {
             error: validation.error,
             dataKeys: data ? Object.keys(data) : null
         });
-        emitReconnectFailed(socket, buildReconnectFailed('invalid-data', validation.error, { sessionId: data?.sessionId }));
+        emitReconnectFailed(
+            socket,
+            buildReconnectFailed('invalid-data', validation.error, { sessionId: data?.sessionId })
+        );
         return null;
     }
 
@@ -101,11 +104,13 @@ function logPlayerFound(playerId, player, socketId) {
 function canPresenterReconnect(reconnectionManager, playerId, socket, sessionId) {
     const canReconnect = reconnectionManager.canReconnect(playerId);
     if (!canReconnect.allowed) {
-        emitReconnectFailed(socket, buildReconnectFailed(
-            canReconnect.reason,
-            canReconnect.message,
-            { waitTime: canReconnect.waitTime, sessionId }
-        ));
+        emitReconnectFailed(
+            socket,
+            buildReconnectFailed(canReconnect.reason, canReconnect.message, {
+                waitTime: canReconnect.waitTime,
+                sessionId
+            })
+        );
         logger.warn('Presenter reconnection blocked', {
             playerId,
             reason: canReconnect.reason
@@ -118,11 +123,10 @@ function canPresenterReconnect(reconnectionManager, playerId, socket, sessionId)
 function validatePresenterState(player, playerId, reconnectionManager, socket, sessionId) {
     if (player.role !== 'presenter') {
         reconnectionManager.recordAttempt(playerId, false);
-        emitReconnectFailed(socket, buildReconnectFailed(
-            'invalid-role',
-            'Este playerId no corresponde a un presentador',
-            { sessionId }
-        ));
+        emitReconnectFailed(
+            socket,
+            buildReconnectFailed('invalid-role', 'Este playerId no corresponde a un presentador', { sessionId })
+        );
         logger.warn('Presenter reconnection failed - not a presenter', { playerId, role: player.role });
         return false;
     }
@@ -137,11 +141,10 @@ function validatePresenterState(player, playerId, reconnectionManager, socket, s
             socketId: socket.id,
             oldSocketId: player.socketId
         });
-        emitReconnectFailed(socket, buildReconnectFailed(
-            'invalid-state',
-            'Estado de presentador no válido para reconexión',
-            { sessionId }
-        ));
+        emitReconnectFailed(
+            socket,
+            buildReconnectFailed('invalid-state', 'Estado de presentador no válido para reconexión', { sessionId })
+        );
         return false;
     }
 
@@ -182,11 +185,10 @@ async function runPresenterReconnectFlow({ socket, playerId, sessionId, dependen
 
     if (!player) {
         logPlayerNotFound(playerId, socket.id, players);
-        emitReconnectFailed(socket, buildReconnectFailed(
-            'not-found',
-            'Sesión de presentador no encontrada o expirada.',
-            { sessionId }
-        ));
+        emitReconnectFailed(
+            socket,
+            buildReconnectFailed('not-found', 'Sesión de presentador no encontrada o expirada.', { sessionId })
+        );
         return;
     }
 
@@ -221,9 +223,10 @@ async function runPresenterReconnectFlow({ socket, playerId, sessionId, dependen
         try {
             await syncBus.publishPlayerData(playerId, {
                 ...player,
-                answeredQuestions: player.answeredQuestions instanceof Set
-                    ? [...player.answeredQuestions]
-                    : (player.answeredQuestions || []),
+                answeredQuestions:
+                    player.answeredQuestions instanceof Set
+                        ? [...player.answeredQuestions]
+                        : player.answeredQuestions || []
             });
         } catch (error) {
             // El sync cross-worker es best-effort: la reconexión local ya está
@@ -239,13 +242,7 @@ async function runPresenterReconnectFlow({ socket, playerId, sessionId, dependen
     await joinPresenterRooms(socket, roomId);
     configurePresenterSocketData(socket, roomId, nickname, playerId);
 
-    const snapshot = ReconnectionService.buildPresenterSnapshot(
-        player,
-        roomId,
-        game,
-        teamConfigs,
-        lobbyPlayers
-    );
+    const snapshot = ReconnectionService.buildPresenterSnapshot(player, roomId, game, teamConfigs, lobbyPlayers);
     if (sessionId) {
         snapshot.sessionId = sessionId;
     }
@@ -300,18 +297,18 @@ function createReconnectPresenterHandler(dependencies) {
                 sessionId,
                 dependencies
             });
-
         } catch (error) {
             logger.error('Error in ReconnectPresenterHandler', {
                 error: error.message,
                 stack: error.stack,
                 socketId: socket.id
             });
-            emitReconnectFailed(socket, buildReconnectFailed(
-                'server-error',
-                'Error interno al reconectar presentador',
-                { sessionId: data?.sessionId }
-            ));
+            emitReconnectFailed(
+                socket,
+                buildReconnectFailed('server-error', 'Error interno al reconectar presentador', {
+                    sessionId: data?.sessionId
+                })
+            );
         }
     };
 }

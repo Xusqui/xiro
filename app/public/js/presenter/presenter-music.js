@@ -31,7 +31,7 @@ async function loadUiSettings() {
 /** Respondidos y total de jugadores (los manejadores del juego ya han marcado la respuesta). */
 function answerCount() {
     const players = Object.values(getPlayersData());
-    return { answered: players.filter((p) => p.answered).length, total: players.length };
+    return { answered: players.filter(p => p.answered).length, total: players.length };
 }
 
 function bindSocket(socket, music) {
@@ -68,16 +68,16 @@ function bindSocket(socket, music) {
     socket.on('game-intro', () => music.intro());
     // Con puntuación aleatoria, su pantalla da tiempo a la transición hacia la pregunta
     socket.on('random-points-reveal', () => music.preQuestion());
-    socket.on('game-started', (data) => onQuestion(data.firstQuestion, data));
-    socket.on('new-question', (data) => onQuestion(data.question, data));
-    socket.on('timer-paused', (data) => music.timerPaused(data || {}));
-    socket.on('timer-resumed', (data) => music.timerResumed(data || {}));
+    socket.on('game-started', data => onQuestion(data.firstQuestion, data));
+    socket.on('new-question', data => onQuestion(data.question, data));
+    socket.on('timer-paused', data => music.timerPaused(data || {}));
+    socket.on('timer-resumed', data => music.timerResumed(data || {}));
     socket.on('reveal-answer', () => music.reveal());
     socket.on('trivial-game-started', () => music.board());
     socket.on('game-ended', () => music.podium());
     socket.on('trivial-winner', () => music.podium());
     socket.on('game-abandoned', () => music.stop());
-    socket.on('reconnected-success', (snapshot) => onReconnected(snapshot, music, onQuestion));
+    socket.on('reconnected-success', snapshot => onReconnected(snapshot, music, onQuestion));
 }
 
 /** Al recargar en mitad de la partida: retomar la escena que toca. */
@@ -98,17 +98,18 @@ export function registerMusicBridge() {
     let enabled = null; // aún sin saber
     let music = null;
     const controls = bindMusicControls({
-        paused: (on) => music.setPaused(on),
-        volume: (v) => music.setVolume(v)
+        paused: on => music.setPaused(on),
+        volume: v => music.setVolume(v)
     });
     const uiSettings = loadUiSettings();
     music = createMusicController({
         seed: () => getSessionId() || String(Date.now()),
-        settings: () => uiSettings.then((s) => s.musicSettings || null),
+        settings: () => uiSettings.then(s => s.musicSettings || null),
         volume: null, // el del admin, hasta que el presentador mueva el deslizador
         paused: controls.state.paused,
         onEngineEvent: (type, detail) => {
-            if (type === 'podiumHit') document.dispatchEvent(new CustomEvent('xiro:podium-hit', { detail: { place: detail } }));
+            if (type === 'podiumHit')
+                document.dispatchEvent(new CustomEvent('xiro:podium-hit', { detail: { place: detail } }));
         }
     });
     window.XiroPresenterMusic = {
@@ -123,7 +124,7 @@ export function registerMusicBridge() {
     document.addEventListener('pointerdown', unlock, { capture: true });
     document.addEventListener('keydown', unlock, { capture: true });
     bindSocket(getSocket(), music);
-    void uiSettings.then((s) => {
+    void uiSettings.then(s => {
         enabled = s.musicaPartida !== false;
         if (enabled) {
             controls.syncVolume(normalizeMusicSettings(s.musicSettings).volume);

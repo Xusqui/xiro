@@ -92,8 +92,9 @@ function extractWordScrambleAnswer(question) {
 }
 
 function extractMultipleChoiceAnswer(question) {
-    const correctOptions = toOptionsArray(question.options)
-        .filter(option => option && (option.is_correct || option.isCorrect));
+    const correctOptions = toOptionsArray(question.options).filter(
+        option => option && (option.is_correct || option.isCorrect)
+    );
 
     if (correctOptions.length === 0) {
         return null;
@@ -215,12 +216,16 @@ function generateCorrectAnswerHTML(answer) {
         return `
             <div style="background: transparent; padding: 0;">
                 <ol style="list-style-position: inside; color: white; font-size: 24px; line-height: 1.8; margin: 0; padding: 0;">
-                    ${answer.items.map((item) => `
+                    ${answer.items
+        .map(
+            item => `
                         <li style="margin-bottom: 8px;">
                             <strong>${escapeHtml(item.text)}</strong>
                             ${item.justification ? `<div style="margin-left: 20px; font-size: 18px; font-weight: normal; color: rgba(255,255,255,0.9); margin-top: 4px;">→ ${escapeHtml(item.justification)}</div>` : ''}
                         </li>
-                    `).join('')}
+                    `
+        )
+        .join('')}
                 </ol>
             </div>
         `;
@@ -261,11 +266,15 @@ function generateCorrectAnswerHTML(answer) {
                     PALABRA CORRECTA
                 </div>
                 <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
-                    ${letters.map(letter => `
+                    ${letters
+        .map(
+            letter => `
                         <div style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; width: 70px; height: 70px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 900; text-transform: uppercase; box-shadow: 0 6px 16px rgba(0,0,0,0.3);">
                             ${escapeHtml(letter)}
                         </div>
-                    `).join('')}
+                    `
+        )
+        .join('')}
                 </div>
             </div>
         `;
@@ -278,14 +287,18 @@ function generateCorrectAnswerHTML(answer) {
                     ✓ RESPUESTAS CORRECTAS (Pueden ser múltiples)
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 12px;">
-                    ${answer.items.map(item => `
+                    ${answer.items
+        .map(
+            item => `
                         <div style="background: rgba(16, 185, 129, 0.15); backdrop-filter: blur(10px); padding: 20px 30px; border-radius: 16px; border: 3px solid #10b981;">
                             <div style="font-size: 28px; font-weight: 700; color: white; display: flex; align-items: center;">
                                 <span style="color: #10b981; margin-right: 15px; font-size: 32px;">✓</span>
                                 <span>${escapeHtml(item)}</span>
                             </div>
                         </div>
-                    `).join('')}
+                    `
+        )
+        .join('')}
                 </div>
             </div>
         `;
@@ -294,9 +307,13 @@ function generateCorrectAnswerHTML(answer) {
     if (answer.type === 'word_search') {
         return `
             <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
-                ${answer.items.map(word => `
+                ${answer.items
+        .map(
+            word => `
                     <span style="background: rgba(16, 185, 129, 0.15); border: 3px solid #10b981; color: white; padding: 10px 18px; border-radius: 12px; font-size: 26px; font-weight: 800; letter-spacing: 2px;">${escapeHtml(word)}</span>
-                `).join('')}
+                `
+        )
+        .join('')}
             </div>
         `;
     }

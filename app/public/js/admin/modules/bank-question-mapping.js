@@ -80,7 +80,7 @@ function mapBankQuestionFromApi(q) {
         time_limit: q.time_limit || getDefaultQuestionTimeLimit(),
         options,
         ..._numericFieldsFromApi(q, questionType),
-        correctWord: questionType === 'word_scramble' ? (q.correct_word || '') : null,
+        correctWord: questionType === 'word_scramble' ? q.correct_word || '' : null,
         hint: q.hint_text || '',
         ..._multipleChoiceFieldsFromApi(q, questionType)
     };
@@ -90,7 +90,14 @@ function mapBankQuestionFromApi(q) {
 
 function _numericFieldsForSave(q) {
     if (q.type !== 'numeric_approximation') {
-        return { correctAnswer: null, maxPoints: null, toleranceMode: null, toleranceValue: null, toleranceCap: null, hint: null };
+        return {
+            correctAnswer: null,
+            maxPoints: null,
+            toleranceMode: null,
+            toleranceValue: null,
+            toleranceCap: null,
+            hint: null
+        };
     }
     return {
         correctAnswer: q.correctAnswer,
@@ -116,7 +123,7 @@ function _multipleChoiceFieldsForSave(q) {
 /** Ordenar: la de cada opción; resto: solo la opción correcta lleva justificación. */
 function _optionJustificationForSave(q, opt) {
     if (q.type === 'order') return opt.justification || null;
-    return opt.isCorrect ? (opt.justification || q.justification || null) : null;
+    return opt.isCorrect ? opt.justification || q.justification || null : null;
 }
 
 function _bankOptionForSave(q, opt, index) {
@@ -124,7 +131,7 @@ function _bankOptionForSave(q, opt, index) {
     return {
         optionText: opt.optionText || opt.text,
         // Sopa de letras: todas las palabras son "correctas"
-        isCorrect: (q.type === 'quiz' || q.type === 'multiple_choice') ? !!opt.isCorrect : q.type === 'word_search',
+        isCorrect: q.type === 'quiz' || q.type === 'multiple_choice' ? !!opt.isCorrect : q.type === 'word_search',
         order_index: ordered ? index : (opt.order_index ?? opt.orderIndex ?? null),
         match_value: q.type === 'matching' ? (opt.match_value ?? null) : null,
         justification: _optionJustificationForSave(q, opt),
@@ -149,7 +156,12 @@ function _fillBlanksForSave(q) {
     return {
         questionText: parsed.text,
         options: parsed.words.map((word, index) => ({
-            optionText: word, isCorrect: true, order_index: index, justification: null, match_value: null, option_image_url: null
+            optionText: word,
+            isCorrect: true,
+            order_index: index,
+            justification: null,
+            match_value: null,
+            option_image_url: null
         }))
     };
 }
@@ -159,7 +171,7 @@ function mapBankQuestionForSave(q) {
     const fillBlanks = _fillBlanksForSave(q);
     return {
         id: q.id || null,
-        questionText: fillBlanks ? fillBlanks.questionText : (q.questionText || q.question_text || q.text),
+        questionText: fillBlanks ? fillBlanks.questionText : q.questionText || q.question_text || q.text,
         type: q.type || 'quiz',
         tipo_contenido: q.tipo_contenido || 'texto',
         url_recurso: q.url_recurso || null,
@@ -167,7 +179,7 @@ function mapBankQuestionForSave(q) {
         time_limit: Number(q.time_limit) || getDefaultQuestionTimeLimit(),
         justification: q.justification || null,
         ..._numericFieldsForSave(q),
-        correctWord: q.type === 'word_scramble' ? (q.correctWord || null) : null,
+        correctWord: q.type === 'word_scramble' ? q.correctWord || null : null,
         ..._multipleChoiceFieldsForSave(q),
         options: fillBlanks ? fillBlanks.options : _bankOptionsForSave(q)
     };

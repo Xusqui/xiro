@@ -15,10 +15,12 @@ import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 function getPlayerAnswerVisualLogic() {
     const fallback = {
         shouldShowApproximateResult({ isOrder, currentSlideType, data }) {
-            return !isOrder
-                && (currentSlideType === 'numeric_approximation' || typeof data.correctAnswer === 'number')
-                && data.correct === false
-                && Number(data.points) > 0;
+            return (
+                !isOrder &&
+                (currentSlideType === 'numeric_approximation' || typeof data.correctAnswer === 'number') &&
+                data.correct === false &&
+                Number(data.points) > 0
+            );
         },
         resolveResultColor({ isOrder, isFullyCorrect, isApproximate, isCorrect }) {
             if (isOrder) {
@@ -46,13 +48,18 @@ function rankingHtml(data) {
                 <div class="mt-6 bg-black/20 rounded-2xl p-4 max-w-md w-full mx-auto">
                     <h3 class="text-xl font-black uppercase mb-3 text-center">${_t('player.answer.ranking', null, 'Ranking')}</h3>
                     <div id="ranking-container" class="space-y-2">
-                        ${data.ranking.slice(0, 5).map(player => `
+                        ${data.ranking
+        .slice(0, 5)
+        .map(
+            player => `
                             <div class="flex justify-center items-center bg-white/10 rounded-lg px-3 py-2">
                                 <span class="font-bold">${player.position}. ${escapeHtml(player.nickname)}</span>
                                 <span class="mx-3"><i class="fas fa-arrow-right"></i></span>
                                 <span class="font-black">${player.score} pts</span>
                             </div>
-                        `).join('')}
+                        `
+        )
+        .join('')}
                     </div>
                 </div>
             `;
@@ -70,12 +77,13 @@ function orderResultHtml(data, rankingHTML) {
     if (currentOrder.length > 0) {
         optionsCardsHTML = `
             <div class="space-y-2 w-full max-w-md mx-auto px-4">
-                ${currentOrder.map((optionIndex, position) => {
-        const isCorrect = positionsCorrect[position] || false;
-        const option = orderOptions[optionIndex];
-        const optionText = option?.optionText || option?.text || option?.option_text || '';
+                ${currentOrder
+        .map((optionIndex, position) => {
+            const isCorrect = positionsCorrect[position] || false;
+            const option = orderOptions[optionIndex];
+            const optionText = option?.optionText || option?.text || option?.option_text || '';
 
-        return `
+            return `
                         <div class="relative rounded-xl p-2 flex items-center gap-2 ${isCorrect ? 'bg-green-500/20 border-2 border-green-500' : 'bg-gray-500/20 border-2 border-gray-500'}">
                             <span class="text-white font-black text-lg shrink-0 w-9 h-9 flex items-center justify-center bg-white/20 rounded-full">${position + 1}</span>
                             <span class="text-white font-bold text-sm uppercase flex-1 break-words">${escapeHtml(optionText)}</span>
@@ -84,7 +92,8 @@ function orderResultHtml(data, rankingHTML) {
                             </div>
                         </div>
                     `;
-    }).join('')}
+        })
+        .join('')}
             </div>
         `;
     }
@@ -114,7 +123,8 @@ function multipleChoiceResultHtml(data, rankingHTML) {
     const breakdownHTML = buildMultipleChoiceBreakdownHTML(data.multipleChoiceDetails);
 
     const totalIcon = data.points > 0 ? 'fa-check-circle' : 'fa-times-circle';
-    const totalText = data.points > 0 ? _t('player.answer.correct', null, '¡BIEN!') : _t('player.answer.wrong', null, '¡FALLASTE!');
+    const totalText =
+        data.points > 0 ? _t('player.answer.correct', null, '¡BIEN!') : _t('player.answer.wrong', null, '¡FALLASTE!');
     const totalPointsSign = data.points >= 0 ? '+' : '';
 
     return `
@@ -163,10 +173,14 @@ function wrongResultHtml(data, rankingHTML) {
     return `
         ${_t('player.answer.no', null, '<img src="/images/chamaleon/thumbs_down.svg" class="w-32 h-32 mb-4 animate-float drop-shadow-lg" alt="👎">')}
         <p class="text-3xl font-black mt-4 bg-black/20 py-2 px-8 rounded-full">+${data.points} PTS</p>
-        ${hasCorrectAnswer(data) ? `<div class="mt-4 bg-white/20 p-4 rounded-2xl max-w-md">
+        ${
+    hasCorrectAnswer(data)
+        ? `<div class="mt-4 bg-white/20 p-4 rounded-2xl max-w-md">
             <p class="text-sm uppercase font-bold mb-2">${_t('player.answer.correct_answer_label', null, 'Respuesta correcta:')}</p>
             <p class="text-xl font-black">${escapeHtml(String(data.correctAnswer))}</p>
-        </div>` : ''}
+        </div>`
+        : ''
+}
         ${data.justification ? `<p class="text-lg mt-4 bg-white/20 p-4 rounded-2xl max-w-md">${escapeHtml(data.justification)}</p>` : ''}
         ${rankingHTML}
     `;
@@ -182,7 +196,8 @@ function hasCorrectAnswer(data) {
  */
 function showsCorrectAnswer(data, isApproximate) {
     if (data.correct === true || data.correct === null) return true;
-    if (data.matchingDetails || data.wordSearchDetails || data.fillBlanksDetails || data.multipleChoiceDetails?.options) return true;
+    if (data.matchingDetails || data.wordSearchDetails || data.fillBlanksDetails || data.multipleChoiceDetails?.options)
+        return true;
     if (data.orderDetails || isApproximate) return false;
     return hasCorrectAnswer(data);
 }
@@ -194,7 +209,8 @@ function resultMessageHtml(data, isApproximate) {
     if (data.matchingDetails) return matchingResultHtml(data, rankingHTML);
     if (data.wordSearchDetails) return wordSearchResultHtml(data, rankingHTML);
     if (data.fillBlanksDetails) return fillBlanksResultHtml(data, rankingHTML);
-    if (data.multipleChoiceDetails && data.multipleChoiceDetails.options) return multipleChoiceResultHtml(data, rankingHTML);
+    if (data.multipleChoiceDetails && data.multipleChoiceDetails.options)
+        return multipleChoiceResultHtml(data, rankingHTML);
     if (data.correct === null) return surveyResultHtml();
     if (data.correct) return correctResultHtml(data, rankingHTML);
     if (isApproximate) return approximateResultHtml(data, rankingHTML);
@@ -213,10 +229,10 @@ function fillBlanksColor(data) {
 export function buildAnswerResultHTML(data) {
     // Ordenar, emparejar y sopa de letras: verde si todo está bien, azul si es parcial
     const isOrder = !!(data.orderDetails || data.matchingDetails || data.wordSearchDetails);
-    const correctCount = (data.orderDetails || data.matchingDetails)?.correctCount
-        || data.wordSearchDetails?.foundCount || 0;
-    const totalOptions = data.orderDetails?.totalOptions || data.matchingDetails?.totalPairs
-        || data.wordSearchDetails?.totalWords || 0;
+    const correctCount =
+        (data.orderDetails || data.matchingDetails)?.correctCount || data.wordSearchDetails?.foundCount || 0;
+    const totalOptions =
+        data.orderDetails?.totalOptions || data.matchingDetails?.totalPairs || data.wordSearchDetails?.totalWords || 0;
     const isFullyCorrect = totalOptions > 0 && correctCount === totalOptions;
     const visualLogic = getPlayerAnswerVisualLogic();
     const isApproximate = visualLogic.shouldShowApproximateResult({
@@ -224,12 +240,14 @@ export function buildAnswerResultHTML(data) {
         currentSlideType: getCurrentSlideType(),
         data
     });
-    const color = fillBlanksColor(data) || visualLogic.resolveResultColor({
-        isOrder,
-        isFullyCorrect,
-        isApproximate,
-        isCorrect: data.correct
-    });
+    const color =
+        fillBlanksColor(data) ||
+        visualLogic.resolveResultColor({
+            isOrder,
+            isFullyCorrect,
+            isApproximate,
+            isCorrect: data.correct
+        });
 
     const messageHTML = resultMessageHtml(data, isApproximate);
     const correctShown = showsCorrectAnswer(data, isApproximate) ? ' data-correct-shown="1"' : '';

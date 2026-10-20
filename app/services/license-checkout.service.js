@@ -68,11 +68,15 @@ async function listPlans(fetchImpl) {
  * @returns {Promise<{orderId, paypalOrderId, status, approveUrl}>}
  */
 function createCheckoutOrder({ planCode, customerEmail, returnUrl, cancelUrl }, fetchImpl) {
-    return _remoteRequest('/paypal/create-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ planCode, customerEmail, returnUrl, cancelUrl })
-    }, fetchImpl);
+    return _remoteRequest(
+        '/paypal/create-order',
+        {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ planCode, customerEmail, returnUrl, cancelUrl })
+        },
+        fetchImpl
+    );
 }
 
 /**
@@ -80,11 +84,15 @@ function createCheckoutOrder({ planCode, customerEmail, returnUrl, cancelUrl }, 
  * @returns {Promise<Object>} Resultado con la licencia emitida si se completó
  */
 function captureCheckoutOrder(paypalOrderId, fetchImpl) {
-    return _remoteRequest('/paypal/capture-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ paypalOrderId })
-    }, fetchImpl);
+    return _remoteRequest(
+        '/paypal/capture-order',
+        {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ paypalOrderId })
+        },
+        fetchImpl
+    );
 }
 
 /**
@@ -92,11 +100,9 @@ function captureCheckoutOrder(paypalOrderId, fetchImpl) {
  */
 async function savePendingCheckout(paypalOrderId, userId) {
     const redisClient = await Promise.resolve(getRedisClient());
-    await redisClient.set(
-        `${CHECKOUT_KEY_PREFIX}${paypalOrderId}`,
-        JSON.stringify({ userId }),
-        { EX: CHECKOUT_TTL_SECONDS }
-    );
+    await redisClient.set(`${CHECKOUT_KEY_PREFIX}${paypalOrderId}`, JSON.stringify({ userId }), {
+        EX: CHECKOUT_TTL_SECONDS
+    });
 }
 
 /**

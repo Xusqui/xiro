@@ -1,7 +1,7 @@
 /**
  * @fileoverview Database Metrics Service
  * @module services/db-metrics.service
- * 
+ *
  * Proporciona métricas detalladas de la base de datos para monitoreo
  */
 
@@ -43,11 +43,13 @@ async function getQueryMetrics() {
             WHERE datname = current_database()
         `);
 
-        return result.rows[0] || {
-            total_queries: 0,
-            active_queries: 0,
-            idle_connections: 0
-        };
+        return (
+            result.rows[0] || {
+                total_queries: 0,
+                active_queries: 0,
+                idle_connections: 0
+            }
+        );
     } catch (error) {
         return {
             total_queries: 0,

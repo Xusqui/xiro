@@ -18,9 +18,7 @@ class CommandExecutionHandler extends Handler {
     }
 
     async handle(context) {
-        const payload = this.payloadMapper
-            ? this.payloadMapper(context)
-            : context.validatedData;
+        const payload = this.payloadMapper ? this.payloadMapper(context) : context.validatedData;
 
         logger.debug('CommandExecutionHandler executing', {
             commandName: this.CommandClass.name,

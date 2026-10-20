@@ -48,7 +48,7 @@ function buildPlayerWedges(state) {
         for (const team of state.teamConfig.teams) {
             const token = state.teamTokens?.[team.name] || [];
             result[team.name] = categories
-                .map((category, index) => token[index] ? category.category_name : null)
+                .map((category, index) => (token[index] ? category.category_name : null))
                 .filter(Boolean);
         }
         return result;
@@ -56,7 +56,7 @@ function buildPlayerWedges(state) {
 
     for (const [nick, player] of Object.entries(state.players || {})) {
         result[nick] = categories
-            .map((category, index) => (player.token || [])[index] ? category.category_name : null)
+            .map((category, index) => ((player.token || [])[index] ? category.category_name : null))
             .filter(Boolean);
     }
 
@@ -108,13 +108,13 @@ async function mergeAnswersAndStartTime(roomId, game) {
 
         if (allEntries && Object.keys(allEntries).length > 0) {
             mergeAnswersFromRedisEntries(mergedAnswers, allEntries);
-            redis.del(answersKey).catch(() => { });
+            redis.del(answersKey).catch(() => {});
         }
 
         const startTs = await redis.get(startKey);
         if (startTs) {
             redisStartTime = Number(startTs);
-            redis.del(startKey).catch(() => { });
+            redis.del(startKey).catch(() => {});
         }
     } catch (_e) {
         // Ignore Redis merge/start-time failures.

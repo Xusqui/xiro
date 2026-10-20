@@ -37,7 +37,8 @@ function save() {
 export function startFillBlanks(key, text, lengths) {
     const saved = load(key) || {};
     const n = lengths.length;
-    const list = (value, fill) => Array.from({ length: n }, (_, i) => (Array.isArray(value) && value[i] !== undefined ? value[i] : fill()));
+    const list = (value, fill) =>
+        Array.from({ length: n }, (_, i) => (Array.isArray(value) && value[i] !== undefined ? value[i] : fill()));
     current = {
         key,
         text,
@@ -71,7 +72,9 @@ export function freeCount(i) {
 /** Guarda lo escrito (solo letras, en mayúsculas, hasta las posiciones libres) */
 export function setTyped(i, letters) {
     if (!current || current.locked[i]) return;
-    current.typed[i] = String(letters || '').toUpperCase().slice(0, freeCount(i));
+    current.typed[i] = String(letters || '')
+        .toUpperCase()
+        .slice(0, freeCount(i));
     save();
 }
 
@@ -80,7 +83,12 @@ export function addHintLetter(i, position, letter, hintCount) {
     if (!current || !current.fixed[i]) return;
     // La letra tecleada que ocupaba esa posición se retira (no se desplaza a la siguiente casilla)
     if (window.XiroFillBlanks && !current.fixed[i][position]) {
-        current.typed[i] = window.XiroFillBlanks.dropTypedAt(current.lengths[i], current.fixed[i], current.typed[i], position);
+        current.typed[i] = window.XiroFillBlanks.dropTypedAt(
+            current.lengths[i],
+            current.fixed[i],
+            current.typed[i],
+            position
+        );
     }
     current.fixed[i][position] = String(letter || '').toUpperCase();
     current.hints[i] = Math.max(current.hints[i], Number(hintCount) || Object.keys(current.fixed[i]).length);

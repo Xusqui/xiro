@@ -80,7 +80,8 @@ async function getTrivialBoardInfo(roomId) {
         };
     } catch (err) {
         logger.error('TrivialReconnectService.getTrivialBoardInfo: error', {
-            roomId, error: err.message
+            roomId,
+            error: err.message
         });
         return null;
     }
@@ -100,7 +101,6 @@ function emitBoardEventToSocket(socket, boardInfo) {
     if (phase === 'waiting_roll') {
         socket.emit('trivial-turn-changed', { currentTurn: actorNick, rollAgain: false });
         logger.debug('TrivialReconnectService: emitted trivial-turn-changed (reconnect)', { actorNick });
-
     } else if (phase === 'waiting_move') {
         const positionLabels = availablePositions.map((_, i) => String.fromCharCode(65 + i));
         socket.emit('trivial-dice-rolled', {
@@ -111,9 +111,9 @@ function emitBoardEventToSocket(socket, boardInfo) {
             positionColors
         });
         logger.debug('TrivialReconnectService: emitted trivial-dice-rolled (reconnect)', {
-            actorNick, positions: availablePositions.length
+            actorNick,
+            positions: availablePositions.length
         });
-
     } else if (phase === 'choosing_category') {
         socket.emit('trivial-choose-category', { categories: categories || [], actorNick });
         logger.debug('TrivialReconnectService: emitted trivial-choose-category (reconnect)', { actorNick });

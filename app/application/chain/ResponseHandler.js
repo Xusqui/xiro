@@ -30,9 +30,7 @@ class ResponseHandler extends Handler {
             return super.handle(context);
         }
 
-        const response = this.responseMapper
-            ? this.responseMapper(commandResult, context)
-            : commandResult;
+        const response = this.responseMapper ? this.responseMapper(commandResult, context) : commandResult;
 
         logger.debug('ResponseHandler sending response', {
             hasCallback: !!callback && typeof callback === 'function',

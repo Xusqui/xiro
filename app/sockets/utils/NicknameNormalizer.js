@@ -1,6 +1,6 @@
 /**
  * @fileoverview Utilidad para normalizar nicknames a mayúsculas
- * 
+ *
  * REGLA CRÍTICA: Todos los nicknames deben almacenarse en MAYÚSCULAS
  * para evitar conflictos de case-sensitivity (xiro, Xiro, XIRO son el mismo jugador)
  */

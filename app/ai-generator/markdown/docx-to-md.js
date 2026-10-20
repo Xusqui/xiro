@@ -10,14 +10,24 @@
 
 const { parseXml, elements, child, findFirst, findAll } = require('./xml-lite');
 
-const SKIP = new Set(['w:pPr', 'w:rPr', 'w:del', 'w:delText', 'w:instrText', 'w:fldData', 'mc:Fallback', 'w:footnoteReference', 'w:endnoteReference']);
+const SKIP = new Set([
+    'w:pPr',
+    'w:rPr',
+    'w:del',
+    'w:delText',
+    'w:instrText',
+    'w:fldData',
+    'mc:Fallback',
+    'w:footnoteReference',
+    'w:endnoteReference'
+]);
 const BREAKS = new Set(['w:tab', 'w:br', 'w:cr', 'w:ptab']);
 const CONTAINERS = new Set(['w:sdt', 'w:sdtContent', 'w:customXml', 'w:ins', 'w:smartTag']);
 const TOC_STYLE = /^(?:toc|tdc)\s?\d$/i;
 const STYLE_NAME_LEVEL = /^(?:heading|t[íi]tulo|encabezado|titre|überschrift|titolo)\s*(\d)$/i;
 
 function val(node) {
-    return node ? (node.attrs['w:val'] || '') : '';
+    return node ? node.attrs['w:val'] || '' : '';
 }
 
 function styleLevel(styleNode) {
@@ -76,7 +86,8 @@ function runText(node) {
         if (c.name === 'w:t') out += c.children.join('');
         else if (BREAKS.has(c.name)) out += ' ';
         else if (c.name === 'w:noBreakHyphen') out += '-';
-        else if (c.name === 'w:p') out += ` ${runText(c)} `; // cuadros de texto
+        else if (c.name === 'w:p')
+            out += ` ${runText(c)} `; // cuadros de texto
         else if (!SKIP.has(c.name)) out += runText(c);
     }
     return out;
@@ -127,7 +138,8 @@ function paragraphBlock(p, ctx) {
 
 function tableBlock(tbl) {
     const rows = elements(tbl, 'w:tr').map(tr =>
-        elements(tr, 'w:tc').map(tc => findAll(tc, 'w:p').map(runText).join(' ')));
+        elements(tr, 'w:tc').map(tc => findAll(tc, 'w:p').map(runText).join(' '))
+    );
     return { type: 'table', rows };
 }
 

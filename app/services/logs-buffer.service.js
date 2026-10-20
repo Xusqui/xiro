@@ -11,8 +11,8 @@ class LogsBufferService {
         this.enabled = true;
         this.redisKey = 'xiro:logs:buffer';
         // Backoff: tras un error de Redis, esperar antes de reintentar
-        this._retryAfter = 0;       // timestamp ms hasta el que no reintentar
-        this._retryDelay = 10000;   // 10 segundos de backoff
+        this._retryAfter = 0; // timestamp ms hasta el que no reintentar
+        this._retryDelay = 10000; // 10 segundos de backoff
     }
 
     /**
@@ -110,13 +110,15 @@ class LogsBufferService {
             // Obtener todos los logs de Redis (LRANGE 0 -1)
             const rawLogs = await client.lRange(this.redisKey, 0, -1);
 
-            let logs = rawLogs.map(raw => {
-                try {
-                    return JSON.parse(raw);
-                } catch (e) {
-                    return null;
-                }
-            }).filter(log => log !== null);
+            let logs = rawLogs
+                .map(raw => {
+                    try {
+                        return JSON.parse(raw);
+                    } catch (e) {
+                        return null;
+                    }
+                })
+                .filter(log => log !== null);
 
             // Ordenar por timestamp (más antiguos primero)
             logs.sort((a, b) => {

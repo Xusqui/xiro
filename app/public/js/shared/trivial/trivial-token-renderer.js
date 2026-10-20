@@ -16,7 +16,7 @@ window.TrivialShared = window.TrivialShared || {};
     //   SVG origin (user 0,0 = CSS 22/444*W from top-left) by x/444*W,
     //   landing at (22+x)/444*W CSS pixels from SVG origin. No DOM query needed.
     function toVBPct(coord) {
-        return (coord / 444 * 100).toFixed(3) + '%';
+        return ((coord / 444) * 100).toFixed(3) + '%';
     }
 
     function animateBounce(inner) {
@@ -32,15 +32,15 @@ window.TrivialShared = window.TrivialShared || {};
             return { bg: '#ffffff', stroke: '#1e293b', text: '#1e293b' };
         }
         const colorMap = {
-            'red': '#ef4444',
-            'blue': '#3b82f6',
-            'green': '#22c55e',
-            'yellow': '#eab308',
-            'purple': '#a855f7',
-            'pink': '#ec4899',
-            'orange': '#f97316',
-            'cyan': '#06b6d4',
-            'lime': '#84cc16'
+            red: '#ef4444',
+            blue: '#3b82f6',
+            green: '#22c55e',
+            yellow: '#eab308',
+            purple: '#a855f7',
+            pink: '#ec4899',
+            orange: '#f97316',
+            cyan: '#06b6d4',
+            lime: '#84cc16'
         };
         let hex = colorMap[colorStr.toLowerCase()] || colorStr;
         hex = hex.replace('#', '');
@@ -53,35 +53,37 @@ window.TrivialShared = window.TrivialShared || {};
         if (isNaN(r) || isNaN(g) || isNaN(b)) {
             return { bg: '#ffffff', stroke: '#1e293b', text: '#1e293b' };
         }
-        
+
         // Blend 97% white and 3% base color to get a very pale tint background (almost white)
         const bgR = Math.round(255 * 0.97 + r * 0.03);
         const bgG = Math.round(255 * 0.97 + g * 0.03);
         const bgB = Math.round(255 * 0.97 + b * 0.03);
-        
-        const bgHex = '#' + 
-            ('0' + bgR.toString(16)).slice(-2) + 
-            ('0' + bgG.toString(16)).slice(-2) + 
+
+        const bgHex =
+            '#' +
+            ('0' + bgR.toString(16)).slice(-2) +
+            ('0' + bgG.toString(16)).slice(-2) +
             ('0' + bgB.toString(16)).slice(-2);
-            
+
         // Use the base color for stroke and text, but darken it if it's too light/bright (like yellow or lime)
         const brightness = (r * 299 + g * 587 + b * 114) / 1000;
         let strokeColor = '#' + hex;
         let textColor = '#' + hex;
-        
+
         if (brightness > 165) {
             // Darken by 35% to make sure it is clearly visible on a pale background
             const darkR = Math.max(0, Math.round(r * 0.65));
             const darkG = Math.max(0, Math.round(g * 0.65));
             const darkB = Math.max(0, Math.round(b * 0.65));
-            const darkHex = '#' + 
-                ('0' + darkR.toString(16)).slice(-2) + 
-                ('0' + darkG.toString(16)).slice(-2) + 
+            const darkHex =
+                '#' +
+                ('0' + darkR.toString(16)).slice(-2) +
+                ('0' + darkG.toString(16)).slice(-2) +
                 ('0' + darkB.toString(16)).slice(-2);
             strokeColor = darkHex;
             textColor = darkHex;
         }
-        
+
         return {
             bg: bgHex,
             stroke: strokeColor,
@@ -94,7 +96,7 @@ window.TrivialShared = window.TrivialShared || {};
         g.id = safeId;
         g.style.setProperty('transform-box', 'view-box');
         g.style.transform = 'translate(' + toVBPct(x) + ', ' + toVBPct(y) + ')';
-        
+
         const style = getTokenColorStyle(color);
         console.log('createTokenEl:', { safeId: safeId, color: color, label: label, fontSize: fontSize, style: style });
 
@@ -204,7 +206,14 @@ window.TrivialShared = window.TrivialShared || {};
         g.style.transform = newT;
         const inner = g.querySelector('.trivial-inner');
         if (inner) {
-            setTimeout((function (inn) { return function () { animateBounce(inn); }; })(inner), 560);
+            setTimeout(
+                (function (inn) {
+                    return function () {
+                        animateBounce(inn);
+                    };
+                })(inner),
+                560
+            );
         }
     }
 
@@ -215,7 +224,9 @@ window.TrivialShared = window.TrivialShared || {};
             g = createTokenEl(token);
             layer.appendChild(g);
             (function (el) {
-                window.requestAnimationFrame(function () { el.setAttribute('class', 'trivial-token'); });
+                window.requestAnimationFrame(function () {
+                    el.setAttribute('class', 'trivial-token');
+                });
             })(g);
             return;
         }
@@ -245,7 +256,7 @@ window.TrivialShared = window.TrivialShared || {};
             const xy = ns.posToXY(p.position || 'center', board.N, M);
             const safeId = 'token-' + nick.replace(/[^a-zA-Z0-9]/g, '_');
             seen[safeId] = true;
-            const isActive = (nick === currentTurnNick);
+            const isActive = nick === currentTurnNick;
 
             const orderIdx = turnOrder.indexOf(nick);
             const colorIdx = orderIdx >= 0 ? orderIdx : nickList.indexOf(nick);
@@ -254,7 +265,13 @@ window.TrivialShared = window.TrivialShared || {};
             const initials = tokenInitials(nick);
             const fontSize = initials.length > 1 ? '7.5' : '9.5';
 
-            console.log('Token Render (player):', { nick: nick, initials: initials, fontSize: fontSize, safeId: safeId, isActive: isActive });
+            console.log('Token Render (player):', {
+                nick: nick,
+                initials: initials,
+                fontSize: fontSize,
+                safeId: safeId,
+                isActive: isActive
+            });
             upsertToken(board.layer, { safeId, x: xy.x, y: xy.y, isActive, color, label: initials, fontSize });
         }
         removeStale(board.layer, seen);
@@ -275,7 +292,7 @@ window.TrivialShared = window.TrivialShared || {};
         const board = boardTokenLayer();
         if (!board) return;
 
-        const teams = (teamConfig && teamConfig.teams) ? teamConfig.teams : [];
+        const teams = teamConfig && teamConfig.teams ? teamConfig.teams : [];
         const seen = {};
 
         for (let i = 0; i < teams.length; i++) {
@@ -286,16 +303,22 @@ window.TrivialShared = window.TrivialShared || {};
             seen[safeId] = true;
 
             const xy = ns.posToXY(teamPosition(team, players), board.N, M);
-            const isActive = (teamName === currentTurn);
+            const isActive = teamName === currentTurn;
 
             const teamInitials = tokenInitials(teamName);
             const label = teamInitials;
             const fontSize = label.length > 1 ? '7.5' : '9.5';
-            console.log('Token Render (team):', { teamName: teamName, initials: teamInitials, label: label, fontSize: fontSize, safeId: safeId, isActive: isActive });
+            console.log('Token Render (team):', {
+                teamName: teamName,
+                initials: teamInitials,
+                label: label,
+                fontSize: fontSize,
+                safeId: safeId,
+                isActive: isActive
+            });
 
             upsertToken(board.layer, { safeId, x: xy.x, y: xy.y, isActive, color, label, fontSize });
         }
         removeStale(board.layer, seen);
     };
-
 })(window.TrivialShared);

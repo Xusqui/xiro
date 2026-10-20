@@ -9,12 +9,29 @@
     'use strict';
 
     const root = typeof window !== 'undefined' ? window : globalThis;
-    const XiroCanvasEditor = root.XiroCanvasEditor = root.XiroCanvasEditor || {};
+    const XiroCanvasEditor = (root.XiroCanvasEditor = root.XiroCanvasEditor || {});
 
-    const HANDLE_POS = { nw: [0, 0], n: [0.5, 0], ne: [1, 0], e: [1, 0.5], se: [1, 1], s: [0.5, 1], sw: [0, 1], w: [0, 0.5] };
+    const HANDLE_POS = {
+        nw: [0, 0],
+        n: [0.5, 0],
+        ne: [1, 0],
+        e: [1, 0.5],
+        se: [1, 1],
+        s: [0.5, 1],
+        sw: [0, 1],
+        w: [0, 0.5]
+    };
     // Hueco aproximado del botón «Siguiente» del presentador (abajo a la derecha)
     const SAFE_ZONE = { x: 1500, y: 950, w: 400, h: 110 };
-    const TEXT_STYLE_KEYS = ['fontFamily', 'fontSize', 'fontWeight', 'fontStyle', 'color', 'textAlign', 'backgroundColor'];
+    const TEXT_STYLE_KEYS = [
+        'fontFamily',
+        'fontSize',
+        'fontWeight',
+        'fontStyle',
+        'color',
+        'textAlign',
+        'backgroundColor'
+    ];
 
     let host = null;
     let mounted = null;
@@ -64,7 +81,7 @@
 
     /** Selección: caja girada con 8 tiradores, o 2 extremos en líneas y flechas. */
     function drawSelection(el) {
-        overlay.querySelectorAll('.xsce-selection, .xsce-handle--p1, .xsce-handle--p2').forEach((n) => n.remove());
+        overlay.querySelectorAll('.xsce-selection, .xsce-handle--p1, .xsce-handle--p2').forEach(n => n.remove());
         if (isLine(el)) {
             const p = XiroCanvasEditor.geometry.lineEndpoints(el);
             addHandle(overlay, 'p1', p.x1, p.y1);
@@ -73,7 +90,9 @@
         }
         const selection = addDiv(overlay, 'xsce-selection', el);
         selection.style.outlineWidth = px(2 / scale());
-        Object.keys(HANDLE_POS).forEach((name) => addHandle(selection, name, HANDLE_POS[name][0] * el.w, HANDLE_POS[name][1] * el.h));
+        Object.keys(HANDLE_POS).forEach(name =>
+            addHandle(selection, name, HANDLE_POS[name][0] * el.w, HANDLE_POS[name][1] * el.h)
+        );
     }
 
     function elementNode(id) {
@@ -96,11 +115,16 @@
         const area = document.createElement('textarea');
         area.className = 'xsce-textedit';
         placeBox(area, el);
-        if (text) TEXT_STYLE_KEYS.forEach((key) => { area.style[key] = text.style[key]; });
+        if (text)
+            TEXT_STYLE_KEYS.forEach(key => {
+                area.style[key] = text.style[key];
+            });
         area.value = el.props.text;
         overlay.appendChild(area);
-        area.addEventListener('input', () => XiroCanvasEditor.updateElement(el.id, { props: { text: area.value }, silent: true }));
-        area.addEventListener('keydown', (event) => {
+        area.addEventListener('input', () =>
+            XiroCanvasEditor.updateElement(el.id, { props: { text: area.value }, silent: true })
+        );
+        area.addEventListener('keydown', event => {
             event.stopPropagation();
             if (event.key === 'Escape') {
                 event.preventDefault();
@@ -117,7 +141,10 @@
         if (!host || (editingId && overlay && overlay.querySelector('.xsce-textedit'))) return;
         if (mounted) mounted.destroy();
         const state = XiroCanvasEditor.state;
-        mounted = root.XiroSlideCanvasRender.mount(host, state.canvas, { mode: 'editor', labels: XiroCanvasEditor.videoLabels() });
+        mounted = root.XiroSlideCanvasRender.mount(host, state.canvas, {
+            mode: 'editor',
+            labels: XiroCanvasEditor.videoLabels()
+        });
         overlay = addDiv(mounted.stage, 'xsce-overlay');
         addDiv(overlay, 'xsce-safezone', SAFE_ZONE).title = XiroCanvasEditor.t('safezone');
         const el = XiroCanvasEditor.getSelected();
@@ -139,12 +166,12 @@
         hideGuides();
         if (!overlay || !guides) return;
         const width = 2 / scale();
-        (guides.v || []).forEach((x) => addDiv(overlay, 'xsce-guide', { x: x - width / 2, y: 0, w: width, h: 1080 }));
-        (guides.h || []).forEach((y) => addDiv(overlay, 'xsce-guide', { x: 0, y: y - width / 2, w: 1920, h: width }));
+        (guides.v || []).forEach(x => addDiv(overlay, 'xsce-guide', { x: x - width / 2, y: 0, w: width, h: 1080 }));
+        (guides.h || []).forEach(y => addDiv(overlay, 'xsce-guide', { x: 0, y: y - width / 2, w: 1920, h: width }));
     }
 
     function hideGuides() {
-        if (overlay) overlay.querySelectorAll('.xsce-guide').forEach((n) => n.remove());
+        if (overlay) overlay.querySelectorAll('.xsce-guide').forEach(n => n.remove());
     }
 
     function onResize() {

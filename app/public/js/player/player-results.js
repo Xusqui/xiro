@@ -38,27 +38,30 @@ function renderRanking(data) {
         // Agregar position si no existe
         const rankingWithPosition = data.ranking.map((player, index) => ({
             ...player,
-            position: player.position || (index + 1)
+            position: player.position || index + 1
         }));
 
         // Renderizar ranking con mismo HTML que la pantalla de resultado
-        const rankingHTML = rankingWithPosition.slice(0, 5).map(player => {
-            const podioImgs = {
-                1: '/images/chamaleon/podium/primero.svg',
-                2: '/images/chamaleon/podium/segundo.svg',
-                3: '/images/chamaleon/podium/tercero.svg'
-            };
-            const mascotHtml = podioImgs[player.position]
-                ? `<img src="${podioImgs[player.position]}" alt="" class="w-7 h-7 inline-block mr-1 align-middle">`
-                : '';
-            return `
+        const rankingHTML = rankingWithPosition
+            .slice(0, 5)
+            .map(player => {
+                const podioImgs = {
+                    1: '/images/chamaleon/podium/primero.svg',
+                    2: '/images/chamaleon/podium/segundo.svg',
+                    3: '/images/chamaleon/podium/tercero.svg'
+                };
+                const mascotHtml = podioImgs[player.position]
+                    ? `<img src="${podioImgs[player.position]}" alt="" class="w-7 h-7 inline-block mr-1 align-middle">`
+                    : '';
+                return `
             <div class="flex justify-center items-center bg-white/10 rounded-lg px-3 py-2">
                 <span class="font-bold">${player.position}. ${mascotHtml}${escapeHtml(player.nickname)}</span>
                 <span class="mx-3"><i class="fas fa-arrow-right"></i></span>
                 <span class="font-black">${player.score} pts</span>
             </div>
         `;
-        }).join('');
+            })
+            .join('');
 
         rankingContainer.innerHTML = _tHtml(rankingHTML);
     }
@@ -78,7 +81,7 @@ export function renderLastRankingSince(since) {
  */
 export function registerResultsEvents() {
     // ===== RANKING UPDATE =====
-    socket.on('ranking-update', (data) => {
+    socket.on('ranking-update', data => {
         console.log('📊 ranking-update recibido');
         _lastRanking = data;
         _lastRankingAt = Date.now();
@@ -104,7 +107,7 @@ export function registerResultsEvents() {
     });
 
     // ===== PLAYER FINAL POSITION =====
-    socket.on('player-final-position', (data) => {
+    socket.on('player-final-position', data => {
         console.log('🏆 Posición final recibida:', data);
 
         // Determinar medalla y color según posición
@@ -155,14 +158,26 @@ export function registerResultsEvents() {
                             <p class="text-4xl font-black">${data.score} pts</p>
                         </div>
                         <div class="mt-2 text-xs opacity-75">
-                            <p>${data.isTeam
-        ? _t('player.results.of_teams', { totalTeams: data.totalPlayers }, 'de {totalTeams} equipos')
-        : _t('player.results.of_players', { totalPlayers: data.totalPlayers }, 'de {totalPlayers} jugadores')}</p>
+                            <p>${
+    data.isTeam
+        ? _t(
+            'player.results.of_teams',
+            { totalTeams: data.totalPlayers },
+            'de {totalTeams} equipos'
+        )
+        : _t(
+            'player.results.of_players',
+            { totalPlayers: data.totalPlayers },
+            'de {totalPlayers} jugadores'
+        )
+}</p>
                         </div>
                     </div>
-                    ${data.position === 1
+                    ${
+    data.position === 1
         ? `<p class="text-xl font-black animate-pulse mt-3">${_t(resultMessage.key, null, resultMessage.fallback)}</p>`
-        : resultMessageHtml}
+        : resultMessageHtml
+}
                 </div>
             </div>
         `);

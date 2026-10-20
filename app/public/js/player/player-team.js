@@ -4,10 +4,7 @@
  */
 
 import { socket } from './player-socket-config.js?v=20260922172926';
-import {
-    getPin, getSessionId, getNickname,
-    getTeamMode, setSelectedTeam
-} from './player-state.js?v=20260922172926';
+import { getPin, getSessionId, getNickname, getTeamMode, setSelectedTeam } from './player-state.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
 // ===== COLORES DE EQUIPOS =====
@@ -33,18 +30,24 @@ export function mostrarSeleccionEquipo() {
     const teamMode = getTeamMode();
     if (!teamMode || !teamMode.teams) return;
 
-    const teamsHTML = teamMode.teams.map((team, index) => `
+    const teamsHTML = teamMode.teams
+        .map(
+            (team, index) => `
         <button data-player-action="select-team" data-team-index="${index}" 
                 id="team-btn-${index}"
                 class="team-button ${TEAM_COLORS[team.color] || 'team-purple'}">
             <span class="team-name">${escapeHtml(team.name.toUpperCase())}</span>
             <div class="team-players-count">
-                ${team.players.length > 0 ?
-        `${team.players.length} ${team.players.length === 1 ? 'jugador' : 'jugadores'}` :
-        _t('player.team.no_players', null, 'Sin jugadores aún')}
+                ${
+    team.players.length > 0
+        ? `${team.players.length} ${team.players.length === 1 ? 'jugador' : 'jugadores'}`
+        : _t('player.team.no_players', null, 'Sin jugadores aún')
+}
             </div>
         </button>
-    `).join('');
+    `
+        )
+        .join('');
 
     document.getElementById('main-container').innerHTML = _tHtml(`
         <div class="team-selection-container">
@@ -106,7 +109,7 @@ export function seleccionarEquipo(teamIndex) {
  */
 export function registerTeamEvents() {
     // ===== TEAM UPDATE =====
-    socket.on('team-update', (data) => {
+    socket.on('team-update', data => {
         console.log('👥 team-update recibido:', data);
 
         const teamMode = getTeamMode();

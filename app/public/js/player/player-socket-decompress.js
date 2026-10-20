@@ -59,12 +59,14 @@
                     } else {
                         promise = decompressGzip(payload.data);
                     }
-                    promise.then(decompressedData => {
-                        callback.call(self, decompressedData, ...args);
-                    }).catch(err => {
-                        console.error('Failed to decompress socket payload:', err);
-                        callback.call(self, payload, ...args);
-                    });
+                    promise
+                        .then(decompressedData => {
+                            callback.call(self, decompressedData, ...args);
+                        })
+                        .catch(err => {
+                            console.error('Failed to decompress socket payload:', err);
+                            callback.call(self, payload, ...args);
+                        });
                 } else {
                     callback.call(self, payload, ...args);
                 }
@@ -90,4 +92,4 @@
     if (typeof module !== 'undefined' && module.exports) {
         module.exports = api;
     }
-}(typeof globalThis !== 'undefined' ? globalThis : (typeof window !== 'undefined' ? window : this)));
+})(typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : this);

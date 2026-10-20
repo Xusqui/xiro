@@ -66,11 +66,15 @@ async function ejecutarBusquedaPreguntas() {
     const query = input.value.trim();
 
     if (query.length < 2) {
-        contenedor.innerHTML = _tHtml('<p class="text-amber-500 text-sm italic text-center py-4">Escribe al menos 2 caracteres</p>');
+        contenedor.innerHTML = _tHtml(
+            '<p class="text-amber-500 text-sm italic text-center py-4">Escribe al menos 2 caracteres</p>'
+        );
         return;
     }
 
-    contenedor.innerHTML = _tHtml('<p class="text-slate-400 text-sm italic text-center py-4"><i class="fas fa-spinner fa-spin mr-2"></i>Buscando...</p>');
+    contenedor.innerHTML = _tHtml(
+        '<p class="text-slate-400 text-sm italic text-center py-4"><i class="fas fa-spinner fa-spin mr-2"></i>Buscando...</p>'
+    );
 
     try {
         const res = await fetchWithAuth(`/api/questions/search?q=${encodeURIComponent(query)}`);
@@ -79,7 +83,9 @@ async function ejecutarBusquedaPreguntas() {
         _resultadosBusqueda = questions;
         renderResultadosBusqueda(questions);
     } catch (err) {
-        contenedor.innerHTML = _tHtml('<p class="text-red-500 text-sm text-center py-4"><i class="fas fa-exclamation-triangle mr-1"></i>Error al buscar preguntas</p>');
+        contenedor.innerHTML = _tHtml(
+            '<p class="text-red-500 text-sm text-center py-4"><i class="fas fa-exclamation-triangle mr-1"></i>Error al buscar preguntas</p>'
+        );
     }
 }
 
@@ -94,16 +100,21 @@ function renderResultadosBusqueda(questions) {
     if (!contenedor) return;
 
     if (!questions || questions.length === 0) {
-        contenedor.innerHTML = _tHtml('<p class="text-slate-400 text-sm italic text-center py-4">No se encontraron preguntas</p>');
+        contenedor.innerHTML = _tHtml(
+            '<p class="text-slate-400 text-sm italic text-center py-4">No se encontraron preguntas</p>'
+        );
         return;
     }
 
-    const filas = questions.map(q => {
-        const correctAnswer = extractCorrectAnswerFrontend(q);
-        const correctDisplay = formatCorrectAnswerDisplayFrontend(correctAnswer);
-        const yaAñadida = currentCustomGameQuestions.some(cq => cq.question_id != null && Number(cq.question_id) === Number(q.id));
+    const filas = questions
+        .map(q => {
+            const correctAnswer = extractCorrectAnswerFrontend(q);
+            const correctDisplay = formatCorrectAnswerDisplayFrontend(correctAnswer);
+            const yaAñadida = currentCustomGameQuestions.some(
+                cq => cq.question_id != null && Number(cq.question_id) === Number(q.id)
+            );
 
-        return `
+            return `
             <div class="bg-slate-50 p-4 rounded-xl border-2 ${yaAñadida ? 'border-green-300 bg-green-50' : 'border-slate-200'}">
                 <div class="flex items-start gap-4">
                     <button
@@ -126,7 +137,8 @@ function renderResultadosBusqueda(questions) {
                 </div>
             </div>
         `;
-    }).join('');
+        })
+        .join('');
 
     contenedor.innerHTML = _tHtml(`
         <p class="text-xs text-slate-400 mb-2">
@@ -144,7 +156,8 @@ function renderResultadosBusqueda(questions) {
  * @param {number} questionId
  */
 function agregarPreguntaDesdeBusqueda(questionId) {
-    if (currentCustomGameQuestions.some(q => q.question_id != null && Number(q.question_id) === Number(questionId))) return;
+    if (currentCustomGameQuestions.some(q => q.question_id != null && Number(q.question_id) === Number(questionId)))
+        return;
 
     const question = _resultadosBusqueda.find(q => q.id === questionId);
     if (!question) return;
@@ -159,20 +172,23 @@ function agregarPreguntaDesdeBusqueda(questionId) {
         question_type: question.question_type,
         question_text: question.question_text,
         bank_name: question.bank_name,
-        options: (isNumericApproximation || isWordScramble) ? [] : safeOptions.map(o => ({
-            optionText: o.option_text,
-            isCorrect: !!o.is_correct,
-            justification: o.justification,
-            // Completa la frase y sopa de letras: el orden de las palabras
-            order_index: o.order_index ?? null
-        })),
+        options:
+            isNumericApproximation || isWordScramble
+                ? []
+                : safeOptions.map(o => ({
+                    optionText: o.option_text,
+                    isCorrect: !!o.is_correct,
+                    justification: o.justification,
+                    // Completa la frase y sopa de letras: el orden de las palabras
+                    order_index: o.order_index ?? null
+                })),
         correct_answer: isNumericApproximation ? question.correct_answer : null,
-        correct_word: isWordScramble ? (question.correct_word || null) : null,
+        correct_word: isWordScramble ? question.correct_word || null : null,
         max_points: isNumericApproximation ? question.max_points : null,
-        tolerance_mode: isNumericApproximation ? (question.tolerance_mode || 'hybrid') : null,
+        tolerance_mode: isNumericApproximation ? question.tolerance_mode || 'hybrid' : null,
         tolerance_value: isNumericApproximation ? (question.tolerance_value ?? 25) : null,
         tolerance_cap: isNumericApproximation ? (question.tolerance_cap ?? 1000) : null,
-        hint_text: isNumericApproximation ? (question.hint_text || null) : null,
+        hint_text: isNumericApproximation ? question.hint_text || null : null,
         position: currentCustomGameQuestions.length
     });
 
@@ -197,7 +213,7 @@ function initBusquedaPreguntasDelegation() {
     if (_busquedaDelegationReady) return;
     _busquedaDelegationReady = true;
 
-    document.addEventListener('click', (event) => {
+    document.addEventListener('click', event => {
         const actionElement = event.target.closest('[data-busqueda-action]');
         if (!actionElement) return;
 
@@ -208,7 +224,7 @@ function initBusquedaPreguntasDelegation() {
         }
     });
 
-    document.addEventListener('keydown', (event) => {
+    document.addEventListener('keydown', event => {
         const target = event.target;
         if (!target || target.id !== 'busquedaInput') return;
         if (event.key !== 'Enter') return;
@@ -219,7 +235,7 @@ function initBusquedaPreguntasDelegation() {
 
     // Búsqueda en vivo: dispara sola mientras se escribe, con debounce
     // para no lanzar una petición por cada tecla.
-    document.addEventListener('input', (event) => {
+    document.addEventListener('input', event => {
         if (!event.target || event.target.id !== 'busquedaInput') return;
 
         clearTimeout(_busquedaDebounceTimer);

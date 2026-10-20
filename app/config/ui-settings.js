@@ -18,36 +18,43 @@ const TEAM_NAME_MAX = 30;
 
 // Nombres de equipo por defecto (se usarán si el admin no personaliza)
 const DEFAULT_TEAM_NAMES = [
-    'Relámpagos', 'Campeones', 'Halcones', 'Titanes',
-    'Invencibles', 'Guerreros', 'Fénix', 'Dragones', 'Leones'
+    'Relámpagos',
+    'Campeones',
+    'Halcones',
+    'Titanes',
+    'Invencibles',
+    'Guerreros',
+    'Fénix',
+    'Dragones',
+    'Leones'
 ];
 
 const TV_CARD_MODES = new Set(['never', 'always', 'old_devices_only']);
 
 const DEFAULTS = {
-    tvCardMode: 'always',       // Visibilidad de la tarjeta "Versión TV": never | always | old_devices_only
-    showStandaloneCard: true,   // Muestra la tarjeta "Modo Standalone" en el menú principal
-    animarFondo: true,          // Anima el degradado y las hojas de fondo; si es false, el fondo queda estático
-    animacionInicio: true,      // Intro con el logo y cuenta atrás 3-2-1-0 antes de cada partida
-    musicaPartida: true,        // Música generativa en el presentador (el presentador puede pausarla)
+    tvCardMode: 'always', // Visibilidad de la tarjeta "Versión TV": never | always | old_devices_only
+    showStandaloneCard: true, // Muestra la tarjeta "Modo Standalone" en el menú principal
+    animarFondo: true, // Anima el degradado y las hojas de fondo; si es false, el fondo queda estático
+    animacionInicio: true, // Intro con el logo y cuenta atrás 3-2-1-0 antes de cada partida
+    musicaPartida: true, // Música generativa en el presentador (el presentador puede pausarla)
     musicSettings: musicSettings.defaults(), // Sonidos, tempo, semilla, volumen, tic-tac y mezcla (pestaña Música)
     teamNames: [...DEFAULT_TEAM_NAMES], // Nombres personalizados de equipos (1-9)
 
     // Configuración de fuegos artificiales del podio
-    fireworksShellSize: 2,              // Tamaño de fuegos: 0 (pequeño) - 16 (enorme)
-    fireworksFinaleMode: true,          // Modo finale (muchos fuegos simultáneos)
-    fireworksSimSpeed: 1,               // Velocidad de simulación (0.1 - 3)
-    fireworksLaunchIntervalMin: 900,    // Intervalo mínimo entre lanzamientos (ms)
-    fireworksLaunchIntervalMax: 1500,   // Intervalo máximo entre lanzamientos (ms)
-    fireworksMaxFinaleCount: 32,        // Máximo de fuegos en modo finale (8 - 64)
-    fireworksTrailIntensity: 0.175,     // Intensidad del rastro de partículas (0.05 - 0.3)
-    fireworksStarWidth: 3,              // Grosor de las estrellas (1 - 6)
-    fireworksSparkWidth: 1,             // Grosor de las chispas (0.5 - 4)
-    fireworksSound: false,              // Sonido de fuegos artificiales
+    fireworksShellSize: 2, // Tamaño de fuegos: 0 (pequeño) - 16 (enorme)
+    fireworksFinaleMode: true, // Modo finale (muchos fuegos simultáneos)
+    fireworksSimSpeed: 1, // Velocidad de simulación (0.1 - 3)
+    fireworksLaunchIntervalMin: 900, // Intervalo mínimo entre lanzamientos (ms)
+    fireworksLaunchIntervalMax: 1500, // Intervalo máximo entre lanzamientos (ms)
+    fireworksMaxFinaleCount: 32, // Máximo de fuegos en modo finale (8 - 64)
+    fireworksTrailIntensity: 0.175, // Intensidad del rastro de partículas (0.05 - 0.3)
+    fireworksStarWidth: 3, // Grosor de las estrellas (1 - 6)
+    fireworksSparkWidth: 1, // Grosor de las chispas (0.5 - 4)
+    fireworksSound: false, // Sonido de fuegos artificiales
 
     // Personalización de interfaz (branding de evento, ej. logo de un patrocinador)
-    personalizationEnabled: false,      // Activa la insignia de personalización en el frontend
-    personalizationImage: null,         // Nombre de fichero seleccionado dentro de public/images/personalizations/
+    personalizationEnabled: false, // Activa la insignia de personalización en el frontend
+    personalizationImage: null // Nombre de fichero seleccionado dentro de public/images/personalizations/
 };
 
 const PERSONALIZATIONS_DIR = path.join(__dirname, '../public/images/personalizations');
@@ -112,7 +119,8 @@ const RANGE_SETTINGS = {
 
 function listPersonalizationImages() {
     try {
-        return fs.readdirSync(PERSONALIZATIONS_DIR)
+        return fs
+            .readdirSync(PERSONALIZATIONS_DIR)
             .filter(f => PERSONALIZATION_IMAGE_PATTERN.test(f))
             .sort();
     } catch {

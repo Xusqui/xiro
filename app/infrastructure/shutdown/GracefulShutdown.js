@@ -39,12 +39,12 @@ function registerShutdownHandlers(deps) {
     process.on('SIGTERM', handler);
     process.on('SIGINT', handler);
 
-    process.on('uncaughtException', (error) => {
+    process.on('uncaughtException', error => {
         logger.error('Uncaught exception', { error: error.message, stack: error.stack });
         shutdown(deps, 'uncaughtException');
     });
 
-    process.on('unhandledRejection', (reason) => {
+    process.on('unhandledRejection', reason => {
         logger.error('Unhandled promise rejection', { reason: String(reason) });
         // No salir: solo registrar
     });
@@ -148,7 +148,7 @@ function cleanupTimers() {
 
 function closeSocketIO(io) {
     if (!io) return;
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
         io.close(() => resolve());
         // Si no cierra rapido, seguir adelante
         setTimeout(resolve, CLOSE_TIMEOUT_MS);
@@ -177,7 +177,7 @@ async function closeDataConnections(pool) {
 
 function closeHttpServer(server) {
     if (!server) return;
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
         server.close(() => resolve());
         setTimeout(resolve, CLOSE_TIMEOUT_MS);
     });

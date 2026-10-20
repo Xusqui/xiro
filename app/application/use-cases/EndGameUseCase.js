@@ -1,14 +1,14 @@
 /**
  * @fileoverview Use Case - End Game
  * @module application/use-cases/EndGameUseCase
- * 
+ *
  * Encapsula el flujo completo de finalizar una partida:
  * - Validación de partida activa
  * - Cálculo de ranking final
  * - Envío de posiciones a jugadores
  * - Emisión de evento de dominio (GameEndedEvent)
  * - Cleanup de recursos
- * 
+ *
  * MIGRADO: Ya no usa EndGameCommand (eliminado)
  * Ahora usa lógica directa + EventBus
  */
@@ -102,13 +102,13 @@ class EndGameUseCase {
 
             if (allEntries && Object.keys(allEntries).length > 0) {
                 this._mergePlayerAnswersFromRedisEntries(mergedPlayerAnswers, allEntries);
-                rc.del(`game:playeranswers:${roomId}`).catch(() => { });
+                rc.del(`game:playeranswers:${roomId}`).catch(() => {});
             }
 
             const startTs = await rc.get(`game:started:${roomId}`);
             if (startTs) {
                 redisStartTime = Number(startTs);
-                rc.del(`game:started:${roomId}`).catch(() => { });
+                rc.del(`game:started:${roomId}`).catch(() => {});
             }
 
             const SessionStore = require('../../services/SessionStore');
@@ -135,7 +135,17 @@ class EndGameUseCase {
         return scored || ranking.length;
     }
 
-    _persistSessionNonBlocking({ roomId, game, ranking, reason, questionsSnapshot, mergedPlayerAnswers, redisStartTime, redisDbSessionId, io }) {
+    _persistSessionNonBlocking({
+        roomId,
+        game,
+        ranking,
+        reason,
+        questionsSnapshot,
+        mergedPlayerAnswers,
+        redisStartTime,
+        redisDbSessionId,
+        io
+    }) {
         const gameStartTime = redisStartTime || game.gameStartTime || null;
         const currentDbSessionId = redisDbSessionId || game.dbSessionId || null;
 
@@ -152,32 +162,37 @@ class EndGameUseCase {
             finalRanking: ranking,
             questionsSnapshot,
             playerAnswers: mergedPlayerAnswers
-        }).then(id => {
-            if (id) {
-                if (!game.dbSessionId) game.dbSessionId = id;
-                io.to(roomId + ':presenter').emit('results-ready', { sessionId: id });
-            }
-        }).catch(err => logger.error('EndGameUseCase: no se pudo persistir sesión', { error: err.message }));
+        })
+            .then(id => {
+                if (id) {
+                    if (!game.dbSessionId) game.dbSessionId = id;
+                    io.to(roomId + ':presenter').emit('results-ready', { sessionId: id });
+                }
+            })
+            .catch(err => logger.error('EndGameUseCase: no se pudo persistir sesión', { error: err.message }));
     }
 
     _emitGameEndedEvent({ roomId, game, ranking, reason, startedAt, maxPossibleScore }) {
         const playerCount = this._countPlayers(game, ranking);
-        EventBus.emit('game.ended', new GameEndedEvent({
-            roomId,
-            gameId: roomId,
-            pin: game.pin,
-            finalRanking: ranking,
-            stats: {
-                totalQuestions: game.questions?.length || 0,
-                totalPlayers: playerCount
-            },
-            duration: Date.now() - (game.startedAt || startedAt),
-            playerCount,
-            questionCount: game.questions?.length || 0,
-            reason,
-            timestamp: Date.now(),
-            maxPossibleScore
-        }));
+        EventBus.emit(
+            'game.ended',
+            new GameEndedEvent({
+                roomId,
+                gameId: roomId,
+                pin: game.pin,
+                finalRanking: ranking,
+                stats: {
+                    totalQuestions: game.questions?.length || 0,
+                    totalPlayers: playerCount
+                },
+                duration: Date.now() - (game.startedAt || startedAt),
+                playerCount,
+                questionCount: game.questions?.length || 0,
+                reason,
+                timestamp: Date.now(),
+                maxPossibleScore
+            })
+        );
     }
 
     _schedulePlayerAutoRedirect(io, roomId) {
@@ -195,23 +210,26 @@ class EndGameUseCase {
             return;
         }
 
-        io.in(roomId + ':players').fetchSockets().then(playerSockets => {
-            setTimeout(() => {
-                // Sin comprobar s.connected: con varios workers, fetchSockets() devuelve
-                // RemoteSocket para los jugadores de otros workers y esos no tienen esa
-                // propiedad (se quedaban sin redirigir). Emitir a uno ya desconectado no hace nada.
-                playerSockets.forEach(s => {
-                    s.emit('game-abandoned', {
-                        roomId,
-                        reason: 'concluded',
-                        message: 'Juego concluido.',
-                        code: 'GAME_ENDED'
+        io.in(roomId + ':players')
+            .fetchSockets()
+            .then(playerSockets => {
+                setTimeout(() => {
+                    // Sin comprobar s.connected: con varios workers, fetchSockets() devuelve
+                    // RemoteSocket para los jugadores de otros workers y esos no tienen esa
+                    // propiedad (se quedaban sin redirigir). Emitir a uno ya desconectado no hace nada.
+                    playerSockets.forEach(s => {
+                        s.emit('game-abandoned', {
+                            roomId,
+                            reason: 'concluded',
+                            message: 'Juego concluido.',
+                            code: 'GAME_ENDED'
+                        });
                     });
-                });
-            }, 15000);
-        }).catch(err => {
-            logger.warn('Failed to schedule player auto redirect', { error: err.message });
-        });
+                }, 15000);
+            })
+            .catch(err => {
+                logger.warn('Failed to schedule player auto redirect', { error: err.message });
+            });
     }
 
     async _invalidateSessionState(roomId) {
@@ -265,7 +283,8 @@ class EndGameUseCase {
             const SessionSaveDebouncer = require('../../services/SessionSaveDebouncer');
             await SessionSaveDebouncer.flush(roomId);
 
-            const { activeGames, players, socketToPlayer, lobbyPlayers, teamConfigs, io } = this._getRuntimeDependencies();
+            const { activeGames, players, socketToPlayer, lobbyPlayers, teamConfigs, io } =
+                this._getRuntimeDependencies();
 
             const game = activeGames?.get(roomId);
             if (!game) {
@@ -294,11 +313,16 @@ class EndGameUseCase {
             const ranking = calculateFinalRanking(game, teamConfig);
             const maxPossibleScore = calculateMaxPossibleScore(game);
 
-            logger.info(`EndGameUseCase: Ranking calculado (${ranking.length} entradas):`,
-                JSON.stringify(ranking.slice(0, 5), null, 2));
+            logger.info(
+                `EndGameUseCase: Ranking calculado (${ranking.length} entradas):`,
+                JSON.stringify(ranking.slice(0, 5), null, 2)
+            );
 
             const questionsSnapshot = this._buildQuestionsSnapshot(game);
-            const { mergedPlayerAnswers, redisStartTime, redisDbSessionId } = await this._loadRedisEndGameSnapshot(roomId, game);
+            const { mergedPlayerAnswers, redisStartTime, redisDbSessionId } = await this._loadRedisEndGameSnapshot(
+                roomId,
+                game
+            );
             this._persistSessionNonBlocking({
                 roomId,
                 game,
@@ -342,7 +366,10 @@ class EndGameUseCase {
             }
 
             logger.info(`EndGameUseCase: Partida ${roomId} finalizada (${reason})`);
-            logger.info(`Ranking final top 3:`, ranking.slice(0, 3).map(p => `${p.name}: ${p.pts}`));
+            logger.info(
+                `Ranking final top 3:`,
+                ranking.slice(0, 3).map(p => `${p.name}: ${p.pts}`)
+            );
 
             return {
                 success: true,
@@ -350,7 +377,6 @@ class EndGameUseCase {
                 roomId,
                 timestamp: Date.now()
             };
-
         } catch (error) {
             logger.error('EndGameUseCase: Error crítico', {
                 roomId,

@@ -82,7 +82,11 @@ async function handleUpdate(req, res, job) {
     try {
         const body = await readJsonBody(req);
         const started = job.start(body.version);
-        sendJson(res, started ? 202 : 409, started ? { started: true } : { error: 'Ya hay una actualización en curso' });
+        sendJson(
+            res,
+            started ? 202 : 409,
+            started ? { started: true } : { error: 'Ya hay una actualización en curso' }
+        );
     } catch (err) {
         sendJson(res, 400, { error: err.message });
     }
@@ -123,7 +127,11 @@ async function routeAuthorized(req, res, job, pathname) {
  * @returns {Object} Servidor HTTP
  */
 function createServer(options) {
-    const ctx = { token: options.token || '', getJob: options.getJob, getSetupError: options.getSetupError || (() => null) };
+    const ctx = {
+        token: options.token || '',
+        getJob: options.getJob,
+        getSetupError: options.getSetupError || (() => null)
+    };
     return http.createServer((req, res) => {
         handleRequest(req, res, ctx);
     });
@@ -183,7 +191,9 @@ function main() {
     let setupError = null;
 
     if (token.length < MIN_TOKEN_LENGTH) {
-        console.warn('UPDATER_TOKEN no está configurado o tiene menos de 32 caracteres: el botón de actualizar del panel no funcionará');
+        console.warn(
+            'UPDATER_TOKEN no está configurado o tiene menos de 32 caracteres: el botón de actualizar del panel no funcionará'
+        );
     }
 
     const server = createServer({
@@ -196,14 +206,16 @@ function main() {
         console.log('Actualizador escuchando en el puerto ' + port);
     });
 
-    discoverDeployment().then(d => {
-        linkWorkingDir(d.workingDir);
-        job = createJob({ deployment: d });
-        console.log('Despliegue detectado: proyecto ' + d.project + ' en ' + d.workingDir);
-    }).catch(err => {
-        setupError = err.message;
-        console.error(err.message);
-    });
+    discoverDeployment()
+        .then(d => {
+            linkWorkingDir(d.workingDir);
+            job = createJob({ deployment: d });
+            console.log('Despliegue detectado: proyecto ' + d.project + ' en ' + d.workingDir);
+        })
+        .catch(err => {
+            setupError = err.message;
+            console.error(err.message);
+        });
 }
 
 if (require.main === module) {

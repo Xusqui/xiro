@@ -72,7 +72,5 @@ export function syncLobbyStartButton(isLobby) {
  */
 export function startErrorMessage(data) {
     const fallback = data?.message || _t('presenter.session.start_error_title', null, 'Error al iniciar el juego');
-    return data?.code
-        ? _t(`presenter.session.start_error.${data.code}`, data.params || null, fallback)
-        : fallback;
+    return data?.code ? _t(`presenter.session.start_error.${data.code}`, data.params || null, fallback) : fallback;
 }

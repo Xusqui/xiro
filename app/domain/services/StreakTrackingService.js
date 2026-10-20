@@ -17,9 +17,7 @@ const { SCORING } = require('../../config/game-constants');
  * Prioridad: game.streak_threshold → runtimeConfig → constante por defecto
  */
 function getThreshold(game) {
-    return (game && game.streak_threshold)
-        || runtimeConfig.get('STREAK_THRESHOLD')
-        || SCORING.STREAK.DEFAULT_THRESHOLD;
+    return (game && game.streak_threshold) || runtimeConfig.get('STREAK_THRESHOLD') || SCORING.STREAK.DEFAULT_THRESHOLD;
 }
 
 /**

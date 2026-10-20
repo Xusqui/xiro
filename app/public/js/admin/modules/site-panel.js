@@ -16,7 +16,6 @@
     });
 })();
 
-
 const _STATUS_IMAGES = {
     active: String.fromCharCode(47, 105, 109, 97, 103, 101, 115, 47, 109, 48, 46, 115, 118, 103),
     inactive: String.fromCharCode(47, 105, 109, 97, 103, 101, 115, 47, 109, 49, 46, 115, 118, 103)
@@ -127,10 +126,12 @@ function renderLicenseTab() {
     unbindSaveBar();
     const area = document.getElementById('config-tab-content');
     if (area) {
-        area.innerHTML = _tHtml(`<div class="text-slate-400 flex items-center gap-2"><i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.license.loading')}</div>`);
+        area.innerHTML = _tHtml(
+            `<div class="text-slate-400 flex items-center gap-2"><i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.license.loading')}</div>`
+        );
     }
 
-    fetch('/api/admin/license', { headers: { 'Authorization': 'Bearer ' + getAuthToken() } })
+    fetch('/api/admin/license', { headers: { Authorization: 'Bearer ' + getAuthToken() } })
         .then(response => response.json())
         .then(data => {
             const liveArea = document.getElementById('config-tab-content');
@@ -149,7 +150,10 @@ function renderLicenseTab() {
         })
         .catch(() => {
             const liveArea = document.getElementById('config-tab-content');
-            if (liveArea) liveArea.innerHTML = _tHtml(`<p class="text-red-500 font-medium">${_t('admin.license.error_load_tab')}</p>`);
+            if (liveArea)
+                liveArea.innerHTML = _tHtml(
+                    `<p class="text-red-500 font-medium">${_t('admin.license.error_load_tab')}</p>`
+                );
         });
 }
 
@@ -172,7 +176,7 @@ async function _saveLicenseTab(initial) {
 async function _saveLicense(license) {
     const res = await fetch('/api/admin/license', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getAuthToken() },
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getAuthToken() },
         body: JSON.stringify({ license })
     });
     const data = await res.json();
@@ -180,7 +184,8 @@ async function _saveLicense(license) {
 
     setTimeout(renderLicenseTab, 1500);
     if (_licenseField(data, 0, false) === true) return { ok: true, message: _t('admin.license.save_validated') };
-    if (_licenseField(data, 2, null) === 'invalid_format') return { ok: false, message: _t('admin.license.save_invalid_format') };
+    if (_licenseField(data, 2, null) === 'invalid_format')
+        return { ok: false, message: _t('admin.license.save_invalid_format') };
     if (data.license) return { ok: false, message: _t('admin.license.save_invalid') };
     return { ok: true, message: _t('admin.license.save_deleted') };
 }

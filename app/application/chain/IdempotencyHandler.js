@@ -1,7 +1,7 @@
 /**
  * @fileoverview IdempotencyHandler - Handler para validar y cachear requests duplicados
  * @module application/chain/IdempotencyHandler
- * 
+ *
  * Funciona en el Chain of Responsibility ANTES de ejecutar el comando.
  * Si el requestId ya fue procesado, retorna resultado cacheado.
  * Si no, continúa la cadena y cachea el resultado.

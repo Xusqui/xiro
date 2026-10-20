@@ -1,12 +1,12 @@
 /**
  * @fileoverview Servicio de dominio para cálculo de puntuaciones
  * Orquestador que delega cálculos a estrategias específicas
- * 
+ *
  * ARQUITECTURA: Domain Service (Clean Architecture)
  * - Orquesta estrategias de puntuación
  * - Funciones puras testables
  * - Sin dependencias de infraestructura
- * 
+ *
  * REFACTORIZADO: Fase 17.2 - Día 4
  * - Delegación a ScoringStrategyFactory
  * - Mantiene backward compatibility
@@ -28,7 +28,7 @@ function roundScore(score) {
 
 /**
  * Calcula el bonus de tiempo basado en velocidad de respuesta
- * 
+ *
  * @deprecated Usar estrategias de puntuación (TimeBasedScoring, etc.)
  * @param {number} timeElapsed - Tiempo transcurrido desde inicio de pregunta (segundos)
  * @param {number} questionTimeLimit - Límite de tiempo de la pregunta (segundos)
@@ -42,7 +42,7 @@ function calculateTimeBonus(timeElapsed, questionTimeLimit) {
 
 /**
  * Calcula puntos ganados por una respuesta correcta
- * 
+ *
  * @deprecated Usar estrategias de puntuación (TimeBasedScoring, etc.)
  * @param {Object} params - Parámetros de cálculo
  * @param {number} params.timeElapsed - Tiempo desde inicio de pregunta (segundos)
@@ -57,7 +57,7 @@ function calculatePointsEarned({ timeElapsed, questionTimeLimit }) {
 
 /**
  * Procesa una respuesta de jugador y calcula puntuación
- * 
+ *
  * @param {Object} params - Parámetros de procesamiento
  * @param {Object} params.question - Pregunta actual
  * @param {string} params.question.question_type - Tipo: 'quiz' o 'survey'
@@ -67,13 +67,13 @@ function calculatePointsEarned({ timeElapsed, questionTimeLimit }) {
  * @param {number} params.gameStartTime - Timestamp inicio de pregunta (ms)
  * @param {number} params.currentTime - Timestamp actual (ms) - inyectable para tests
  * @returns {Object} Resultado del procesamiento
- * 
+ *
  * @example
  * const result = processAnswer({
  *   question: {  usando estrategias
- * 
+ *
  * REFACTORIZADO: Delega cálculo a ScoringStrategy
- * 
+ *
  * @param {Object} params - Parámetros de procesamiento
  * @param {Object} params.question - Pregunta actual
  * @param {string} params.question.question_type - Tipo: 'quiz' o 'survey'
@@ -173,7 +173,7 @@ function processAnswer({
 
 /**
  * Actualiza puntuación de equipo
- * 
+ *
  * @param {Object} params - Parámetros
  * @param {number} params.currentTeamScore - Puntuación actual del equipo
  * @param {number} params.pointsEarned - Puntos ganados por el jugador
@@ -185,7 +185,7 @@ function updateTeamScore({ currentTeamScore = 0, pointsEarned }) {
 
 /**
  * Actualiza puntuación de jugador
- * 
+ *
  * @param {Object} params - Parámetros
  * @param {number} params.currentScore - Puntuación actual
  * @param {number} params.pointsEarned - Puntos ganados/perdidos
@@ -197,10 +197,10 @@ function updatePlayerScore({ currentScore = 0, pointsEarned }) {
 
 /**
  * Genera ranking ordenado por puntuación
- * 
+ *
  * @param {Object} scores - Mapa de nickname → score
  * @returns {Array<Object>} Ranking ordenado
- * 
+ *
  * @example
  * generateRanking({ 'Alice': 100, 'Bob': 150, 'Charlie': 75 })
  * // → [
@@ -222,7 +222,7 @@ function generateRanking(scores, isTeam = false) {
 
 /**
  * Encuentra la opción correcta de una pregunta
- * 
+ *
  * @param {Object} question - Pregunta
  * @returns {Object|null} Opción correcta o null si es encuesta
  */
@@ -235,7 +235,7 @@ function getCorrectOption(question) {
 
 /**
  * Obtiene justificación de una opción (o de la correcta como fallback)
- * 
+ *
  * @param {Object} selectedOption - Opción seleccionada
  * @param {Object} correctOption - Opción correcta
  * @returns {string|null} Texto de justificación
@@ -261,7 +261,7 @@ function getCorrectAnswerText(question, correctOption) {
 
 /**
  * Obtiene la estrategia de puntuación para una pregunta
- * 
+ *
  * @param {Object} question - Pregunta
  * @param {Object} game - Objeto de juego
  * @returns {ScoringStrategy} Estrategia configurada

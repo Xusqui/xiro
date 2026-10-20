@@ -7,7 +7,7 @@ import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 /**
  * Renderiza pregunta de selección múltiple en el presentador
  * Durante la pregunta, se muestra igual que quiz (grid de opciones)
- * 
+ *
  * @param {Object} question - Datos de la pregunta
  * @returns {void} - Usa renderPregunta() que ya maneja el grid
  */
@@ -21,7 +21,7 @@ export function renderMultipleChoicePresenter(_question) {
 /**
  * Obtiene HTML para el reveal de respuestas múltiples
  * Muestra todas las opciones correctas marcadas con ✓
- * 
+ *
  * @param {Object} question - Datos de la pregunta
  * @param {Array<number>} correctIndices - Índices de respuestas correctas [0, 2, 4]
  * @returns {string} HTML del reveal
@@ -46,7 +46,9 @@ export function getMultipleChoiceRevealHTML(question, correctIndices) {
                             <span>RESPUESTAS CORRECTAS:</span>
                         </h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                            ${correctOptions.map(opt => `
+                            ${correctOptions
+        .map(
+            opt => `
                                 <div class="flex items-center gap-3 bg-white/20 backdrop-blur-sm rounded-xl px-4 py-3 border-2 border-white/30">
                                     <div class="w-10 h-10 ${opt.color} rounded-full flex items-center justify-center font-black text-white text-lg shrink-0">
                                         ${opt.index}
@@ -54,7 +56,9 @@ export function getMultipleChoiceRevealHTML(question, correctIndices) {
                                     <span class="text-white font-bold text-lg flex-1">${escapeHtml(opt.text)}</span>
                                     <span class="text-white text-2xl shrink-0">✓</span>
                                 </div>
-                            `).join('')}
+                            `
+        )
+        .join('')}
                         </div>
                     </div>
                 </div>
@@ -65,7 +69,7 @@ export function getMultipleChoiceRevealHTML(question, correctIndices) {
 
 /**
  * Revela las respuestas correctas marcándolas en el grid
- * 
+ *
  * @param {Array<number>} correctIndices - Índices de respuestas correctas
  */
 export function revealMultipleChoiceInGrid(correctIndices) {

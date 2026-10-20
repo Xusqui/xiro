@@ -33,9 +33,7 @@ function buildCorrectMatchIndices(options) {
  */
 function calculateMatchingScore(matches, options) {
     const correctOrder = buildCorrectMatchIndices(options);
-    const pairsCorrect = correctOrder.map(
-        (correctIndex, pos) => matches[pos] === correctIndex
-    );
+    const pairsCorrect = correctOrder.map((correctIndex, pos) => matches[pos] === correctIndex);
     const correctCount = pairsCorrect.filter(Boolean).length;
 
     return {

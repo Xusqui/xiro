@@ -101,7 +101,7 @@ function main() {
             if (ast) collectTopLevel(ast, names);
         }
     }
-    const globals = Object.fromEntries([...names].sort().map((n) => [n, 'writable']));
+    const globals = Object.fromEntries([...names].sort().map(n => [n, 'writable']));
     fs.writeFileSync(OUT, JSON.stringify({ globals, modules: modules.sort() }, null, 2) + '\n');
     console.log(`${names.size} globales y ${modules.length} módulos escritos en ${path.relative(process.cwd(), OUT)}`);
 }

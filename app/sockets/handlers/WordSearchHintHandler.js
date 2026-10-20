@@ -42,7 +42,10 @@ async function handleWordSearchHint(socket, data, callback) {
         const isNew = await recordWordSearchHint(roomId, questionSlot(game), hintOwner(nickname, team), wordIndex);
         const hint = { wordIndex, row: start.row, col: start.col };
         if (team && isNew) {
-            emitToTeammates({ io: socket.nsp, roomId, team, nickname }, 'word-search-team-hint', { ...hint, by: nickname });
+            emitToTeammates({ io: socket.nsp, roomId, team, nickname }, 'word-search-team-hint', {
+                ...hint,
+                by: nickname
+            });
         }
         return reply({ ok: true, ...hint });
     } catch (error) {

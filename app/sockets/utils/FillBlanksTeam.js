@@ -53,7 +53,7 @@ async function resolveFillBlanksContext(socket) {
     if (!room || !nickname) return { ok: false, reason: 'invalid-payload' };
 
     const roomId = String(room);
-    const game = activeGames.get(roomId) || await sessionStore.load(roomId);
+    const game = activeGames.get(roomId) || (await sessionStore.load(roomId));
     const question = game?.questions?.[game.currentIndex];
     if (!question || question.question_type !== 'fill_blanks') return { ok: false, reason: 'not-fill-blanks' };
     if (!game.canAnswer) return { ok: false, reason: 'game-closed' };
@@ -85,13 +85,19 @@ async function getHintCounts(sPin, questionIndex, owner, totalBlanks) {
     const counts = Array.from({ length: totalBlanks }, () => 0);
     try {
         const redis = await getRedisClient();
-        const entries = await redis.hGetAll(keys.hints(sPin, questionIndex, owner)) || {};
+        const entries = (await redis.hGetAll(keys.hints(sPin, questionIndex, owner))) || {};
         Object.entries(entries).forEach(([index, value]) => {
             const i = Number(index);
-            if (Number.isInteger(i) && i >= 0 && i < totalBlanks) counts[i] = Math.min(LIMITS.MAX_HINTS_PER_BLANK, Number(value) || 0);
+            if (Number.isInteger(i) && i >= 0 && i < totalBlanks)
+                counts[i] = Math.min(LIMITS.MAX_HINTS_PER_BLANK, Number(value) || 0);
         });
     } catch (error) {
-        logger.warn('No se pudieron leer las pistas de Completa la frase', { sPin, questionIndex, owner, error: error.message });
+        logger.warn('No se pudieron leer las pistas de Completa la frase', {
+            sPin,
+            questionIndex,
+            owner,
+            error: error.message
+        });
     }
     return counts;
 }
@@ -103,7 +109,8 @@ async function getHintCounts(sPin, questionIndex, owner, totalBlanks) {
 async function recordTeamSolved(sPin, questionIndex, teamName, blankIndex, entry) {
     const key = keys.solved(sPin, questionIndex, teamName);
     const redis = await getRedisClient();
-    const [added] = await redis.multi()
+    const [added] = await redis
+        .multi()
         .hSetNX(key, String(blankIndex), JSON.stringify(entry))
         .expire(key, TTL_SECONDS)
         .exec();
@@ -114,16 +121,23 @@ async function recordTeamSolved(sPin, questionIndex, teamName, blankIndex, entry
 async function getTeamSolved(sPin, questionIndex, teamName) {
     try {
         const redis = await getRedisClient();
-        const entries = await redis.hGetAll(keys.solved(sPin, questionIndex, teamName)) || {};
-        return Object.entries(entries).map(([index, json]) => {
-            try {
-                return { blankIndex: Number(index), ...JSON.parse(json) };
-            } catch {
-                return null;
-            }
-        }).filter(entry => entry && Number.isInteger(entry.blankIndex));
+        const entries = (await redis.hGetAll(keys.solved(sPin, questionIndex, teamName))) || {};
+        return Object.entries(entries)
+            .map(([index, json]) => {
+                try {
+                    return { blankIndex: Number(index), ...JSON.parse(json) };
+                } catch {
+                    return null;
+                }
+            })
+            .filter(entry => entry && Number.isInteger(entry.blankIndex));
     } catch (error) {
-        logger.warn('No se pudieron leer los huecos del equipo', { sPin, questionIndex, teamName, error: error.message });
+        logger.warn('No se pudieron leer los huecos del equipo', {
+            sPin,
+            questionIndex,
+            teamName,
+            error: error.message
+        });
         return [];
     }
 }
@@ -142,7 +156,12 @@ async function claimTeamSubmit(sPin, questionIndex, teamName, record) {
         const existing = await redis.get(key);
         return { isFirst: false, record: existing ? JSON.parse(existing) : record };
     } catch (error) {
-        logger.warn('No se pudo registrar el envío del equipo', { sPin, questionIndex, teamName, error: error.message });
+        logger.warn('No se pudo registrar el envío del equipo', {
+            sPin,
+            questionIndex,
+            teamName,
+            error: error.message
+        });
         return { isFirst: false, record };
     }
 }
@@ -184,7 +203,11 @@ async function getFillBlanksScoringContext({ sPin, questionIndex, nickname, game
     if (!team) return { hintCounts, sharedSolved: [], team: null, teamToNotify: null };
 
     const solved = await getTeamSolved(sPin, questionIndex, team.name);
-    const { isFirst, record } = await claimTeamSubmit(sPin, questionIndex, team.name, { by: nickname, elapsed, words: words || [] });
+    const { isFirst, record } = await claimTeamSubmit(sPin, questionIndex, team.name, {
+        by: nickname,
+        elapsed,
+        words: words || []
+    });
     return {
         hintCounts,
         sharedSolved: solved.map(entry => entry.blankIndex),

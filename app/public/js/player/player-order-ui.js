@@ -73,26 +73,24 @@ function renderOrderList() {
     if (!container || !currentOrderQuestion) return;
 
     const order = getCurrentOrder() || [];
-    const caseClass = optionCaseClass(currentOrderQuestion.options.map((opt) => opt.optionText || opt.text));
-    const sizeClass = order.length >= 6
-        ? 'order-list-compact-6'
-        : (order.length === 5 ? 'order-list-compact-5' : '');
+    const caseClass = optionCaseClass(currentOrderQuestion.options.map(opt => opt.optionText || opt.text));
+    const sizeClass = order.length >= 6 ? 'order-list-compact-6' : order.length === 5 ? 'order-list-compact-5' : '';
 
     container.classList.remove('order-list-compact-5', 'order-list-compact-6');
     if (sizeClass) {
         container.classList.add(sizeClass);
     }
 
-    container.innerHTML = _tHtml(order.map((optionIndex, position) => {
-        const option = currentOrderQuestion.options[optionIndex];
-        const colorClass = OPTION_COLORS[optionIndex % OPTION_COLORS.length];
-        const fontClass = getResponsiveFontClass(option.optionText || option.text || '');
-        const isMoved = optionIndex === lastMoveOptionIndex;
-        const moveClass = isMoved
-            ? (lastMoveDirection === 'up' ? 'order-move-up' : 'order-move-down')
-            : '';
+    container.innerHTML = _tHtml(
+        order
+            .map((optionIndex, position) => {
+                const option = currentOrderQuestion.options[optionIndex];
+                const colorClass = OPTION_COLORS[optionIndex % OPTION_COLORS.length];
+                const fontClass = getResponsiveFontClass(option.optionText || option.text || '');
+                const isMoved = optionIndex === lastMoveOptionIndex;
+                const moveClass = isMoved ? (lastMoveDirection === 'up' ? 'order-move-up' : 'order-move-down') : '';
 
-        return `
+                return `
             <div
                 class="btn-glass-3d ${colorClass} order-item ${moveClass} rounded-xl flex items-center px-4 py-2 gap-3 cursor-grab active:cursor-grabbing flex-1"
                 data-order-item
@@ -110,7 +108,9 @@ function renderOrderList() {
                 <div class="drag-indicator text-white/70 shrink-0 text-sm">≡</div>
             </div>
         `;
-    }).join(''));
+            })
+            .join('')
+    );
 
     bindOrderDragHandlers(container);
     bindOrderMoveHandlers(container);
@@ -124,8 +124,8 @@ function bindOrderMoveHandlers(_container) {
 }
 
 function bindOrderDragHandlers(container) {
-    container.querySelectorAll('[data-order-item]').forEach((item) => {
-        item.addEventListener('dragstart', (event) => {
+    container.querySelectorAll('[data-order-item]').forEach(item => {
+        item.addEventListener('dragstart', event => {
             const position = Number(item.dataset.position);
             dragSourceIndex = position;
             event.dataTransfer.effectAllowed = 'move';
@@ -133,9 +133,8 @@ function bindOrderDragHandlers(container) {
         });
     });
 
-    container.querySelectorAll('[data-order-item]').forEach((item) => {
-
-        item.addEventListener('dragover', (event) => {
+    container.querySelectorAll('[data-order-item]').forEach(item => {
+        item.addEventListener('dragover', event => {
             event.preventDefault();
             item.classList.add('ring-4', 'ring-white/70', 'scale-105');
         });
@@ -144,7 +143,7 @@ function bindOrderDragHandlers(container) {
             item.classList.remove('ring-4', 'ring-white/70', 'scale-105');
         });
 
-        item.addEventListener('drop', (event) => {
+        item.addEventListener('drop', event => {
             event.preventDefault();
             item.classList.remove('ring-4', 'ring-white/70', 'scale-105');
 
@@ -161,7 +160,7 @@ function bindOrderDragHandlers(container) {
 function bindOrderPointerHandlers(container) {
     if (container.dataset.pointerBound === 'true') return;
 
-    container.addEventListener('pointerdown', (event) => {
+    container.addEventListener('pointerdown', event => {
         const item = event.target.closest('[data-order-item]');
         if (!item) return;
         if (event.pointerType === 'mouse' && event.button !== 0) return;
@@ -181,7 +180,7 @@ function bindOrderPointerHandlers(container) {
         item.classList.add('order-dragging');
     });
 
-    container.addEventListener('pointermove', (event) => {
+    container.addEventListener('pointermove', event => {
         if (!pointerDragState || event.pointerId !== pointerDragState.pointerId) return;
         event.preventDefault();
 
@@ -221,7 +220,7 @@ function bindOrderPointerHandlers(container) {
         }
     });
 
-    const finishPointerDrag = (event) => {
+    const finishPointerDrag = event => {
         if (!pointerDragState || event.pointerId !== pointerDragState.pointerId) return;
 
         // Remover transformación y volver a posición normal

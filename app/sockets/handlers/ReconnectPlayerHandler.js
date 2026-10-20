@@ -18,8 +18,7 @@ function createEmitReconnectFailed(socket) {
             ...extra
         });
 
-        recordReconnectFailedMetric({ reason, actor: 'player' })
-            .catch(() => { });
+        recordReconnectFailedMetric({ reason, actor: 'player' }).catch(() => {});
     };
 }
 
@@ -52,13 +51,15 @@ function logPlayerState(playerId, player) {
     logger.debug('[RECONNECT DEBUG BACKEND] Estado del jugador:', {
         found: !!player,
         playerId,
-        playerData: player ? {
-            nickname: player.nickname,
-            roomId: player.roomId,
-            status: player.status,
-            expiresAt: player.expiresAt ? new Date(player.expiresAt).toISOString() : null,
-            lastSeen: player.lastSeen ? new Date(player.lastSeen).toISOString() : null
-        } : null
+        playerData: player
+            ? {
+                nickname: player.nickname,
+                roomId: player.roomId,
+                status: player.status,
+                expiresAt: player.expiresAt ? new Date(player.expiresAt).toISOString() : null,
+                lastSeen: player.lastSeen ? new Date(player.lastSeen).toISOString() : null
+            }
+            : null
     });
 }
 
@@ -69,9 +70,11 @@ function isValidSessionSecret(player, sessionSecret) {
     try {
         const providedBuffer = Buffer.from(provided);
         const expectedBuffer = Buffer.from(expected);
-        return providedBuffer.length > 0
-            && providedBuffer.length === expectedBuffer.length
-            && crypto.timingSafeEqual(providedBuffer, expectedBuffer);
+        return (
+            providedBuffer.length > 0 &&
+            providedBuffer.length === expectedBuffer.length &&
+            crypto.timingSafeEqual(providedBuffer, expectedBuffer)
+        );
     } catch (_) {
         return false;
     }

@@ -40,7 +40,7 @@ function getBaseUrl() {
 function buildHtmlTemplate(innerHtml) {
     const baseUrl = getBaseUrl();
     const year = new Date().getFullYear();
-    
+
     return `
 <!DOCTYPE html>
 <html lang="es">

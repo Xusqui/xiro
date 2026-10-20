@@ -29,7 +29,9 @@ function isAdminSessionValid() {
         if (!stored) return false;
         const parsed = JSON.parse(stored);
         return parsed.expires && parsed.expires > Date.now();
-    } catch { return false; }
+    } catch {
+        return false;
+    }
 }
 
 function startAdminSession(token, role, username = null) {

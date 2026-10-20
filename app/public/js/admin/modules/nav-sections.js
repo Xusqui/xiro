@@ -89,9 +89,7 @@ window.addEventListener('xiro:language-changed', () => {
     if (activeSectionTab === 'config' && typeof renderConfigPanel === 'function') {
         renderConfigPanel();
     } else if (activeSectionTab === 'user' && typeof switchUserPanelView === 'function') {
-        switchUserPanelView(
-            (typeof activeUserPanelView !== 'undefined' ? activeUserPanelView : null) || 'account'
-        );
+        switchUserPanelView((typeof activeUserPanelView !== 'undefined' ? activeUserPanelView : null) || 'account');
     }
     // 'questions' section is handled by admin-main.js via mostrarVista(activeView);
     // sin vista activa puede verse la portada o un editor: solo se repinta la portada,
@@ -109,21 +107,51 @@ window.addEventListener('xiro:language-changed', () => {
 // cuenta y, si su petición falla, se oculta sin romper el resto.
 
 const ADMIN_HOME_SHORTCUTS = [
-    { view: 'bancos', key: 'admin.nav.banks', fallback: 'Bancos de Preguntas', icon: 'fa-database', color: '#94438e', tint: '#f9e6f7' },
-    { view: 'juegos', key: 'admin.nav.games', fallback: 'Mezcla de Preguntas', icon: 'fa-gamepad', color: '#16a34a', tint: '#dcfce7' },
-    { view: 'personalizados', key: 'admin.nav.custom', fallback: 'Juegos Personalizados', icon: 'fa-star', color: '#2563eb', tint: '#dbeafe' },
-    { view: 'trivial', key: 'admin.nav.trivial', fallback: 'Trivial Pursuit', icon: 'fa-dice', color: '#ea580c', tint: '#ffedd5' }
+    {
+        view: 'bancos',
+        key: 'admin.nav.banks',
+        fallback: 'Bancos de Preguntas',
+        icon: 'fa-database',
+        color: '#94438e',
+        tint: '#f9e6f7'
+    },
+    {
+        view: 'juegos',
+        key: 'admin.nav.games',
+        fallback: 'Mezcla de Preguntas',
+        icon: 'fa-gamepad',
+        color: '#16a34a',
+        tint: '#dcfce7'
+    },
+    {
+        view: 'personalizados',
+        key: 'admin.nav.custom',
+        fallback: 'Juegos Personalizados',
+        icon: 'fa-star',
+        color: '#2563eb',
+        tint: '#dbeafe'
+    },
+    {
+        view: 'trivial',
+        key: 'admin.nav.trivial',
+        fallback: 'Trivial Pursuit',
+        icon: 'fa-dice',
+        color: '#ea580c',
+        tint: '#ffedd5'
+    }
 ];
 
 function renderAdminHome(editorArea) {
-    const shortcuts = ADMIN_HOME_SHORTCUTS.map(s => `
+    const shortcuts = ADMIN_HOME_SHORTCUTS.map(
+        s => `
         <button data-admin-action="show-view" data-view="${s.view}"
             class="bg-white rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition p-5 flex items-center gap-4 text-left">
             <span class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style="background:${s.tint};color:${s.color}">
                 <i class="fas ${s.icon} text-xl"></i>
             </span>
             <span class="font-bold text-slate-800">${_t(s.key, null, s.fallback)}</span>
-        </button>`).join('');
+        </button>`
+    ).join('');
 
     editorArea.innerHTML = _tHtml(`
         <div class="p-6 max-w-6xl mx-auto" data-admin-home>
@@ -146,7 +174,9 @@ function renderAdminHome(editorArea) {
 
 function _adminHomeFetch(url, withAuth) {
     const headers = withAuth && typeof getAuthToken === 'function' ? { Authorization: 'Bearer ' + getAuthToken() } : {};
-    return fetch(url, { headers }).then(res => (res.ok ? res.json() : null)).catch(() => null);
+    return fetch(url, { headers })
+        .then(res => (res.ok ? res.json() : null))
+        .catch(() => null);
 }
 
 function _adminHomePanel(title, body, extra) {
@@ -182,19 +212,28 @@ async function _renderAdminHomeLive() {
     const data = await _adminHomeFetch('/api/admin/active-sessions', true);
     if (!box || !data || !Array.isArray(data.sessions)) return;
     const playersLabel = _t('admin.history.col_players', null, 'Jugadores');
-    const body = data.sessions.length === 0
-        ? `<p class="px-5 py-6 text-sm text-slate-400">${_t('admin.home.live_empty', null, 'No hay ninguna partida en curso')}</p>`
-        : `<ul class="admin-home-list">${data.sessions.map(s => {
-            const where = s.state === 'lobby'
-                ? _t('admin.home.lobby', null, 'En sala')
-                : _t('admin.home.question_of', { n: (s.currentIndex || 0) + 1, total: s.totalQuestions || 0 }, 'Pregunta {n} de {total}')
-                    .replace('{n}', (s.currentIndex || 0) + 1).replace('{total}', s.totalQuestions || 0);
-            return `<li class="px-5 py-3 flex items-center justify-between gap-4 text-sm">
+    const body =
+        data.sessions.length === 0
+            ? `<p class="px-5 py-6 text-sm text-slate-400">${_t('admin.home.live_empty', null, 'No hay ninguna partida en curso')}</p>`
+            : `<ul class="admin-home-list">${data.sessions
+                .map(s => {
+                    const where =
+                          s.state === 'lobby'
+                              ? _t('admin.home.lobby', null, 'En sala')
+                              : _t(
+                                  'admin.home.question_of',
+                                  { n: (s.currentIndex || 0) + 1, total: s.totalQuestions || 0 },
+                                  'Pregunta {n} de {total}'
+                              )
+                                  .replace('{n}', (s.currentIndex || 0) + 1)
+                                  .replace('{total}', s.totalQuestions || 0);
+                    return `<li class="px-5 py-3 flex items-center justify-between gap-4 text-sm">
                 <span class="font-mono font-bold text-slate-700">${escapeHtml(s.sessionId || s.pin || '')}</span>
                 <span class="text-slate-500">${where}</span>
                 <span class="text-slate-500 whitespace-nowrap">${s.playerCount || 0} ${playersLabel.toLowerCase()}</span>
             </li>`;
-        }).join('')}</ul>`;
+                })
+                .join('')}</ul>`;
     box.innerHTML = _tHtml(_adminHomePanel(_t('admin.home.live_title', null, 'Partidas en curso'), body));
 }
 
@@ -202,17 +241,22 @@ async function _renderAdminHomeRecent() {
     const box = document.getElementById('admin-home-recent');
     const sessions = await _adminHomeFetch('/api/results/history?limit=5', true);
     if (!box || !Array.isArray(sessions)) return;
-    const fmtDate = typeof _fmtDate === 'function' ? _fmtDate : (d => d || '—');
-    const fmtType = typeof _fmtType === 'function' ? _fmtType : (t => t || '—');
-    const body = sessions.length === 0
-        ? `<p class="px-5 py-6 text-sm text-slate-400">${_t('admin.history.empty_title', null, 'No hay partidas registradas todavía')}</p>`
-        : `<ul class="admin-home-list">${sessions.map(s => `
+    const fmtDate = typeof _fmtDate === 'function' ? _fmtDate : d => d || '—';
+    const fmtType = typeof _fmtType === 'function' ? _fmtType : t => t || '—';
+    const body =
+        sessions.length === 0
+            ? `<p class="px-5 py-6 text-sm text-slate-400">${_t('admin.history.empty_title', null, 'No hay partidas registradas todavía')}</p>`
+            : `<ul class="admin-home-list">${sessions
+                .map(
+                    s => `
             <li class="px-5 py-3 flex items-center gap-4 text-sm">
                 <span class="font-mono font-bold text-slate-700 w-24 shrink-0">${escapeHtml(s.pin || '')}</span>
                 <span class="text-slate-500 flex-1">${fmtDate(s.played_at)}</span>
                 <span class="bg-slate-100 text-slate-700 text-xs font-bold px-2 py-0.5 rounded-full whitespace-nowrap">${escapeHtml(fmtType(s.game_type))}</span>
                 <span class="text-slate-500 whitespace-nowrap w-12 text-right">${s.player_count ?? '—'} <i class="fas fa-user text-xs"></i></span>
-            </li>`).join('')}</ul>`;
+            </li>`
+                )
+                .join('')}</ul>`;
     const seeAll = `<button data-admin-action="show-view" data-view="historial"
         class="text-sm font-bold text-aubergine-600 whitespace-nowrap">${_t('admin.home.see_all', null, 'Ver historial completo')} <i class="fas fa-arrow-right text-xs"></i></button>`;
     box.innerHTML = _tHtml(_adminHomePanel(_t('admin.home.recent_title', null, 'Últimas partidas'), body, seeAll));

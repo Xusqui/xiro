@@ -15,7 +15,7 @@ function findEnvFile() {
     const candidates = [
         path.resolve(process.cwd(), '.env'),
         path.resolve(process.cwd(), '..', '.env'),
-        path.resolve(__dirname, '..', '..', '.env'),
+        path.resolve(__dirname, '..', '..', '.env')
     ];
     for (const c of candidates) {
         if (fs.existsSync(c)) return c;
@@ -42,7 +42,12 @@ function updateEnvKey(envKey, newValue) {
     try {
         content = fs.readFileSync(filePath, 'utf8');
     } catch (err) {
-        return { ok: false, error: `No se pudo leer .env: ${err.message}`, code: 'ENV_READ_FAILED', params: { detail: err.message } };
+        return {
+            ok: false,
+            error: `No se pudo leer .env: ${err.message}`,
+            code: 'ENV_READ_FAILED',
+            params: { detail: err.message }
+        };
     }
 
     const lines = content.split('\n');
@@ -63,9 +68,7 @@ function updateEnvKey(envKey, newValue) {
         // Preservar si había comentario inline al final de la línea
         const valueAndComment = line.slice(eqIdx + 1);
         const commentIdx = valueAndComment.indexOf('  #');
-        const inlineComment = commentIdx !== -1
-            ? valueAndComment.slice(commentIdx)
-            : '';
+        const inlineComment = commentIdx !== -1 ? valueAndComment.slice(commentIdx) : '';
 
         return `${envKey}=${newValue}${inlineComment}`;
     });
@@ -78,7 +81,12 @@ function updateEnvKey(envKey, newValue) {
         fs.writeFileSync(filePath, updated.join('\n'), 'utf8');
         return { ok: true };
     } catch (err) {
-        return { ok: false, error: `No se pudo escribir .env: ${err.message}`, code: 'ENV_WRITE_FAILED', params: { detail: err.message } };
+        return {
+            ok: false,
+            error: `No se pudo escribir .env: ${err.message}`,
+            code: 'ENV_WRITE_FAILED',
+            params: { detail: err.message }
+        };
     }
 }
 
@@ -97,7 +105,12 @@ function updateEnvKeys(updates) {
     try {
         content = fs.readFileSync(filePath, 'utf8');
     } catch (err) {
-        return { ok: false, error: `No se pudo leer .env: ${err.message}`, code: 'ENV_READ_FAILED', params: { detail: err.message } };
+        return {
+            ok: false,
+            error: `No se pudo leer .env: ${err.message}`,
+            code: 'ENV_READ_FAILED',
+            params: { detail: err.message }
+        };
     }
 
     const found = {};
@@ -127,7 +140,12 @@ function updateEnvKeys(updates) {
         fs.writeFileSync(filePath, updated.join('\n'), 'utf8');
         return { ok: true };
     } catch (err) {
-        return { ok: false, error: `No se pudo escribir .env: ${err.message}`, code: 'ENV_WRITE_FAILED', params: { detail: err.message } };
+        return {
+            ok: false,
+            error: `No se pudo escribir .env: ${err.message}`,
+            code: 'ENV_WRITE_FAILED',
+            params: { detail: err.message }
+        };
     }
 }
 

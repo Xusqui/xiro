@@ -38,7 +38,7 @@ function getOptionText(mcDetails, index) {
 }
 
 function buildSelectedRows(mcDetails, correctSet) {
-    return (mcDetails.selectedIndices || []).map((idx) => {
+    return (mcDetails.selectedIndices || []).map(idx => {
         const isCorrect = correctSet.has(idx);
         const points = isCorrect ? mcDetails.pointsPerCorrect : -mcDetails.penaltyPerIncorrect;
         const sign = points >= 0 ? '+' : '';
@@ -56,14 +56,16 @@ function buildMissedRows(mcDetails, correctSet) {
     const missedTag = translate('player.answer.mc_missed', 'NO MARCADA');
 
     return [...correctSet]
-        .filter((idx) => !selectedSet.has(idx))
+        .filter(idx => !selectedSet.has(idx))
         .sort((a, b) => a - b)
-        .map((idx) => buildRow({
-            text: getOptionText(mcDetails, idx),
-            style: STYLES.missed,
-            pointsLabel: '0',
-            tag: missedTag
-        }));
+        .map(idx =>
+            buildRow({
+                text: getOptionText(mcDetails, idx),
+                style: STYLES.missed,
+                pointsLabel: '0',
+                tag: missedTag
+            })
+        );
 }
 
 function buildPerfectRow(mcDetails) {
@@ -94,10 +96,7 @@ export function buildMultipleChoiceBreakdownHTML(mcDetails) {
     }
 
     const correctSet = new Set(mcDetails.correctIndices || []);
-    const rows = [
-        ...buildSelectedRows(mcDetails, correctSet),
-        ...buildMissedRows(mcDetails, correctSet)
-    ].join('');
+    const rows = [...buildSelectedRows(mcDetails, correctSet), ...buildMissedRows(mcDetails, correctSet)].join('');
 
     return `<div class="w-full max-w-lg space-y-2 mb-4">${rows}${buildPerfectRow(mcDetails)}</div>`;
 }

@@ -122,9 +122,7 @@ async function drainSessionLogs(sessionId, limit = DEFAULT_LOG_LIMIT) {
 
 function normalizeSessionLogs(logs) {
     if (!Array.isArray(logs)) return [];
-    return logs
-        .map(entry => normalizeLogEntry(entry || {}))
-        .slice(0, DEFAULT_LOG_LIMIT);
+    return logs.map(entry => normalizeLogEntry(entry || {})).slice(0, DEFAULT_LOG_LIMIT);
 }
 
 function resolveSessionLogsForSave({ sessionId, sessionLogs }) {

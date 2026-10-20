@@ -10,7 +10,9 @@
 
 /** Colapsa espacios y saltos de línea de un fragmento en línea. */
 function inline(text) {
-    return String(text || '').replace(/[\s\u00a0]+/g, ' ').trim();
+    return String(text || '')
+        .replace(/[\s\u00a0]+/g, ' ')
+        .trim();
 }
 
 function cell(text) {
@@ -18,14 +20,16 @@ function cell(text) {
 }
 
 function renderTable(rows) {
-    const clean = rows
-        .map(r => r.map(cell))
-        .filter(r => r.some(Boolean));
+    const clean = rows.map(r => r.map(cell)).filter(r => r.some(Boolean));
     if (clean.length === 0) return '';
     const cols = Math.max(...clean.map(r => r.length));
 
     // Tablas de maquetación (una sola columna o una sola celda) se leen como párrafos
-    if (cols === 1) return clean.map(r => r[0]).filter(Boolean).join('\n\n');
+    if (cols === 1)
+        return clean
+            .map(r => r[0])
+            .filter(Boolean)
+            .join('\n\n');
 
     const line = r => `| ${Array.from({ length: cols }, (_, i) => r[i] || '').join(' | ')} |`;
     const separator = `|${'---|'.repeat(cols)}`;
@@ -58,7 +62,7 @@ function renderBlocks(blocks) {
         const md = renderBlock(block);
         if (!md) continue;
         // Los elementos de lista consecutivos van pegados; el resto, separados por línea en blanco
-        const sep = !out ? '' : (prevType === 'li' && block.type === 'li' ? '\n' : '\n\n');
+        const sep = !out ? '' : prevType === 'li' && block.type === 'li' ? '\n' : '\n\n';
         out += sep + md;
         prevType = block.type;
     }

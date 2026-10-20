@@ -76,8 +76,7 @@ async function validateSessionAccessCapacity({ pin, sessionId, nickname, depende
         // editores exige además su licencia individual válida.
         const status = await siteStateService.getPublicLicenseStatus();
         if (status.licensed === true) {
-            const ownerStatus = await userLicenseStateService
-                .getOwnerLicenseStatusByPin(extractPin(pin, roomId));
+            const ownerStatus = await userLicenseStateService.getOwnerLicenseStatusByPin(extractPin(pin, roomId));
             if (ownerStatus.licensed === true) {
                 return { valid: true };
             }
@@ -86,7 +85,10 @@ async function validateSessionAccessCapacity({ pin, sessionId, nickname, depende
         return {
             valid: false,
             reason: Buffer.from('bWF4LXBsYXllcnMtZ2FtZQ==', 'base64').toString('utf-8'),
-            message: Buffer.from('TW9kbyBzaW4gbGljZW5jaWE6IG3DoXhpbW8gMTEgcGFydGljaXBhbnRlcyAoSE9TVCArIDEwIGp1Z2Fkb3Jlcyku', 'base64').toString('utf-8'),
+            message: Buffer.from(
+                'TW9kbyBzaW4gbGljZW5jaWE6IG3DoXhpbW8gMTEgcGFydGljaXBhbnRlcyAoSE9TVCArIDEwIGp1Z2Fkb3Jlcyku',
+                'base64'
+            ).toString('utf-8'),
             code: Buffer.from('TElDRU5TRV9QTEFZRVJfTElNSVQ=', 'base64').toString('utf-8'),
             params: { max: SESSION_PARTICIPANT_LIMIT }
         };

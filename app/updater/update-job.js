@@ -20,14 +20,26 @@ class UpdateJob {
         this.now = options.now || (() => Date.now());
         this.verifyTimeoutMs = options.verifyTimeoutMs || 180000;
         this.pollMs = options.pollMs || 5000;
-        this.status = { state: 'idle', step: null, targetVersion: null, startedAt: null, finishedAt: null, error: null, log: [] };
+        this.status = {
+            state: 'idle',
+            step: null,
+            targetVersion: null,
+            startedAt: null,
+            finishedAt: null,
+            error: null,
+            log: []
+        };
     }
 
     /** Devuelve la fecha y hora actual en formato ISO */
-    iso() { return new Date(this.now()).toISOString(); }
+    iso() {
+        return new Date(this.now()).toISOString();
+    }
 
     /** Genera los argumentos para docker-compose */
-    compose(extra) { return composeArgs(this.deployment, extra); }
+    compose(extra) {
+        return composeArgs(this.deployment, extra);
+    }
 
     /** Añade una entrada al registro */
     log(text) {
@@ -46,7 +58,9 @@ class UpdateJob {
     }
 
     /** Devuelve el estado actual del trabajo */
-    getStatus() { return { ...this.status, log: this.status.log.slice() }; }
+    getStatus() {
+        return { ...this.status, log: this.status.log.slice() };
+    }
 
     /** Inicia una actualización a la versión especificada */
     start(targetVersion) {
@@ -89,10 +103,13 @@ class UpdateJob {
         const snapshots = [];
         try {
             this.beginStep('backup');
-            const backup = await this.run(this.compose(['exec', '-T', 'backup', 'sh', '/scripts/docker-backup-run.sh']), { timeoutMs: 600000 });
+            const backup = await this.run(
+                this.compose(['exec', '-T', 'backup', 'sh', '/scripts/docker-backup-run.sh']),
+                { timeoutMs: 600000 }
+            );
             this.log(backup.stdout);
             this.beginStep('snapshot');
-            snapshots.push(...await this.takeSnapshots());
+            snapshots.push(...(await this.takeSnapshots()));
         } catch (err) {
             this.finish('failed', 'No se pudo preparar la actualización: ' + err.message);
             return;
@@ -146,7 +163,9 @@ class UpdateJob {
         this.log('Causa del fallo: ' + cause.message);
         try {
             await this.restoreTags(snapshots);
-            await this.run(this.compose(['up', '-d', '--no-deps', '--pull', 'never', ...SERVICES]), { timeoutMs: 600000 });
+            await this.run(this.compose(['up', '-d', '--no-deps', '--pull', 'never', ...SERVICES]), {
+                timeoutMs: 600000
+            });
             this.finish('rolled_back', cause.message);
         } catch (err) {
             this.finish('failed', cause.message + ' / vuelta atrás: ' + err.message);
@@ -160,7 +179,13 @@ class UpdateJob {
             if (await this.backendReady(version)) return;
             await this.sleep(this.pollMs);
         }
-        throw new Error('El backend no ha arrancado con la versión ' + version + ' en ' + Math.round(this.verifyTimeoutMs / 1000) + ' s');
+        throw new Error(
+            'El backend no ha arrancado con la versión ' +
+                version +
+                ' en ' +
+                Math.round(this.verifyTimeoutMs / 1000) +
+                ' s'
+        );
     }
 
     /** Verifica si el backend está listo para la versión especificada */

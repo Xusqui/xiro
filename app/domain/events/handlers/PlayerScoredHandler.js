@@ -1,7 +1,7 @@
 /**
  * @fileoverview Handler para el evento PlayerScoredEvent
  * @module domain/events/handlers/PlayerScoredHandler
- * 
+ *
  * Responsabilidades:
  * - Broadcast de ranking actualizado a jugadores que respondieron
  * - Broadcast de ranking al presentador
@@ -57,7 +57,6 @@ class PlayerScoredHandler extends EventHandler {
             if (this.dependencies.analytics) {
                 this.dependencies.analytics.trackScore(playerId, totalScore, questionIndex);
             }
-
         } catch (error) {
             this.log('error', 'Error processing player scored event', {
                 roomId,
@@ -86,20 +85,10 @@ class PlayerScoredHandler extends EventHandler {
         };
 
         // Broadcast al presentador usando BroadcastOptimizer
-        await this.broadcastOptimizer.emit(
-            'ranking-update',
-            roomId,
-            payload,
-            `${roomId}:presenter`
-        );
+        await this.broadcastOptimizer.emit('ranking-update', roomId, payload, `${roomId}:presenter`);
 
         // Broadcast a jugadores usando BroadcastOptimizer
-        await this.broadcastOptimizer.emit(
-            'ranking-update',
-            roomId,
-            payload,
-            `${roomId}:players`
-        );
+        await this.broadcastOptimizer.emit('ranking-update', roomId, payload, `${roomId}:players`);
 
         this.log('debug', 'Ranking queued for broadcast', {
             roomId,
@@ -153,21 +142,9 @@ class PlayerScoredHandler extends EventHandler {
         this.broadcastOptimizer.flushRoom(roomId);
 
         // Emitir inmediatamente (debounceMs: 0)
-        this.broadcastOptimizer.emit(
-            'ranking-update',
-            roomId,
-            payload,
-            `${roomId}:presenter`,
-            { debounceMs: 0 }
-        );
+        this.broadcastOptimizer.emit('ranking-update', roomId, payload, `${roomId}:presenter`, { debounceMs: 0 });
 
-        this.broadcastOptimizer.emit(
-            'ranking-update',
-            roomId,
-            payload,
-            `${roomId}:players`,
-            { debounceMs: 0 }
-        );
+        this.broadcastOptimizer.emit('ranking-update', roomId, payload, `${roomId}:players`, { debounceMs: 0 });
 
         this.log('debug', 'Ranking force broadcasted', { roomId });
     }

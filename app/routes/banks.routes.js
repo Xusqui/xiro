@@ -41,9 +41,7 @@ router.post('/api/banks/visibility-all', authenticateAdmin, async (req, res) => 
 router.get('/api/banks', authenticateAdmin, async (req, res) => {
     try {
         const includeCount = req.query.includeCount === 'true';
-        const banks = includeCount
-            ? await dbService.getAllBanksWithQuestionCounts()
-            : await dbService.getAllBanks();
+        const banks = includeCount ? await dbService.getAllBanksWithQuestionCounts() : await dbService.getAllBanks();
         res.json(banks);
     } catch (err) {
         handleRouteError(err, res);
@@ -53,11 +51,7 @@ router.get('/api/banks', authenticateAdmin, async (req, res) => {
 router.post('/api/banks', authenticateAdmin, validateBody(schemas.createBank), async (req, res) => {
     const { name } = req.body;
     try {
-        const bank = await dbService.createBank(
-            name,
-            req.user?.role,
-            req.user?.userId
-        );
+        const bank = await dbService.createBank(name, req.user?.role, req.user?.userId);
         res.status(201).json(bank);
     } catch (err) {
         handleRouteError(err, res);
@@ -98,36 +92,48 @@ router.delete('/api/banks/:id', authenticateAdmin, checkUsageBeforeDelete('bank'
     }
 });
 
-router.post('/api/banks/save-all', authenticateAdmin, validateBody(schemas.saveBank), validateUniquePIN('bank'), async (req, res) => {
-    try {
-        const payload = req.body.id
-            ? req.body
-            : {
-                ...req.body,
+router.post(
+    '/api/banks/save-all',
+    authenticateAdmin,
+    validateBody(schemas.saveBank),
+    validateUniquePIN('bank'),
+    async (req, res) => {
+        try {
+            const payload = req.body.id
+                ? req.body
+                : {
+                    ...req.body,
+                    created_by_role: req.user?.role,
+                    created_by_user_id: req.user?.userId
+                };
+            const actorUserId = req.user?.role === 'editor' ? req.user?.userId : null;
+            const result = await dbService.saveBankComplete(payload, actorUserId);
+            res.json(result);
+        } catch (err) {
+            handleRouteError(err, res);
+        }
+    }
+);
+
+router.post(
+    '/api/banks/merge',
+    authenticateAdmin,
+    validateBody(schemas.mergeBanks),
+    validateUniquePIN('bank'),
+    async (req, res) => {
+        try {
+            const { bankIds, name, pin, ...options } = req.body;
+            const mergeOptions = {
+                ...options,
                 created_by_role: req.user?.role,
                 created_by_user_id: req.user?.userId
             };
-        const actorUserId = req.user?.role === 'editor' ? req.user?.userId : null;
-        const result = await dbService.saveBankComplete(payload, actorUserId);
-        res.json(result);
-    } catch (err) {
-        handleRouteError(err, res);
+            const result = await bankMergeService.mergeBanks(bankIds, name, pin, mergeOptions);
+            res.json(result);
+        } catch (err) {
+            handleRouteError(err, res);
+        }
     }
-});
-
-router.post('/api/banks/merge', authenticateAdmin, validateBody(schemas.mergeBanks), validateUniquePIN('bank'), async (req, res) => {
-    try {
-        const { bankIds, name, pin, ...options } = req.body;
-        const mergeOptions = {
-            ...options,
-            created_by_role: req.user?.role,
-            created_by_user_id: req.user?.userId
-        };
-        const result = await bankMergeService.mergeBanks(bankIds, name, pin, mergeOptions);
-        res.json(result);
-    } catch (err) {
-        handleRouteError(err, res);
-    }
-});
+);
 
 module.exports = router;

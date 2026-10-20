@@ -23,7 +23,7 @@ function getOrCreatePlayerId() {
     try {
         const m = /(?:^|\|)pid=([0-9a-f-]{36})/i.exec(window.name || '');
         if (m) playerId = m[1];
-    } catch (_) { }
+    } catch (_) {}
 
     if (!playerId) {
         playerId = crypto.randomUUID();
@@ -36,9 +36,9 @@ function getOrCreatePlayerId() {
     try {
         const cur = window.name || '';
         if (!/(?:^|\|)pid=/i.test(cur)) {
-            window.name = cur ? (cur + '|pid=' + playerId) : ('pid=' + playerId);
+            window.name = cur ? cur + '|pid=' + playerId : 'pid=' + playerId;
         }
-    } catch (_) { }
+    } catch (_) {}
 
     return playerId;
 }

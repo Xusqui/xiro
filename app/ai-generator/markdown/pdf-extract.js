@@ -41,8 +41,8 @@ function toItem(raw) {
 async function extractPdfPages(buffer) {
     const pdfParse = loadPdfParse();
     const pages = [];
-    const pagerender = page => page.getTextContent({ normalizeWhitespace: true, disableCombineTextItems: false })
-        .then(content => {
+    const pagerender = page =>
+        page.getTextContent({ normalizeWhitespace: true, disableCombineTextItems: false }).then(content => {
             const view = page.view || [0, 0, 0, 792];
             pages.push({
                 number: page.pageNumber || pages.length + 1,

@@ -8,7 +8,12 @@ const fs = require('fs').promises;
 const path = require('path');
 const { exec } = require('child_process');
 const { JWT_SECRET, JWT_EXPIRES_IN, SERVER_HOST } = require('../config/constants');
-const { loginLimiter, resetLoginLimiter, panicRestartLimiter, accountMutationLimiter } = require('../middlewares/security');
+const {
+    loginLimiter,
+    resetLoginLimiter,
+    panicRestartLimiter,
+    accountMutationLimiter
+} = require('../middlewares/security');
 const { authenticateAdmin, authorizeAdmin } = require('../middlewares/auth');
 const { schemas, validateBody } = require('../validation');
 const logger = require('../config/logger');
@@ -64,9 +69,7 @@ function resolvePublicBaseUrl() {
         .split(',')[0]
         .trim();
     const fallbackBaseUrl = 'https://xiro.pro';
-    const withProtocol = /^https?:\/\//i.test(rawBaseUrl)
-        ? rawBaseUrl
-        : `https://${rawBaseUrl || 'xiro.pro'}`;
+    const withProtocol = /^https?:\/\//i.test(rawBaseUrl) ? rawBaseUrl : `https://${rawBaseUrl || 'xiro.pro'}`;
 
     try {
         const parsedUrl = new URL(withProtocol);
@@ -356,163 +359,182 @@ router.put('/api/admin/users/:userId/role', authenticateAdmin, authorizeAdmin, a
 /**
  * Cambio de contraseña de la cuenta autenticada
  */
-router.post('/api/admin/account/change-password', authenticateAdmin, accountMutationLimiter, validateBody(schemas.changePassword), async (req, res) => {
-    const userId = req.user?.userId;
-    const { currentPassword, newPassword } = req.body;
+router.post(
+    '/api/admin/account/change-password',
+    authenticateAdmin,
+    accountMutationLimiter,
+    validateBody(schemas.changePassword),
+    async (req, res) => {
+        const userId = req.user?.userId;
+        const { currentPassword, newPassword } = req.body;
 
-    if (!userId) {
-        return res.status(401).json({
-            success: false,
-            error: 'Sesión inválida. Vuelve a iniciar sesión.',
-            code: 'ADMIN_SESSION_INVALID'
-        });
-    }
-
-    try {
-        const user = await adminUserService.getActiveUserById(userId);
-        if (!user) {
-            return res.status(404).json({
+        if (!userId) {
+            return res.status(401).json({
                 success: false,
-                error: 'Usuario no encontrado',
-                code: 'USER_NOT_FOUND'
+                error: 'Sesión inválida. Vuelve a iniciar sesión.',
+                code: 'ADMIN_SESSION_INVALID'
             });
         }
 
-        const passwordOk = await verifyPassword(currentPassword, user.password_hash);
-        if (!passwordOk) {
-            return res.status(400).json({
+        try {
+            const user = await adminUserService.getActiveUserById(userId);
+            if (!user) {
+                return res.status(404).json({
+                    success: false,
+                    error: 'Usuario no encontrado',
+                    code: 'USER_NOT_FOUND'
+                });
+            }
+
+            const passwordOk = await verifyPassword(currentPassword, user.password_hash);
+            if (!passwordOk) {
+                return res.status(400).json({
+                    success: false,
+                    error: 'La contraseña actual no es correcta',
+                    code: 'CURRENT_PASSWORD_INCORRECT'
+                });
+            }
+
+            const newPasswordHash = await hashPassword(newPassword);
+            await adminUserService.updateUserPassword(user.id, newPasswordHash);
+
+            logger.auth('Admin panel password changed', {
+                userId: user.id,
+                role: user.role,
+                ip: req.ip
+            });
+
+            return res.json({
+                success: true,
+                message: 'Contraseña actualizada correctamente',
+                code: 'PASSWORD_UPDATED'
+            });
+        } catch (error) {
+            logger.error('Admin password change failed', { error: error.message, userId, ip: req.ip });
+            return res.status(500).json({
                 success: false,
-                error: 'La contraseña actual no es correcta',
-                code: 'CURRENT_PASSWORD_INCORRECT'
+                error: 'No se pudo cambiar la contraseña',
+                code: 'CHANGE_PASSWORD_FAILED'
             });
         }
-
-        const newPasswordHash = await hashPassword(newPassword);
-        await adminUserService.updateUserPassword(user.id, newPasswordHash);
-
-        logger.auth('Admin panel password changed', {
-            userId: user.id,
-            role: user.role,
-            ip: req.ip
-        });
-
-        return res.json({
-            success: true,
-            message: 'Contraseña actualizada correctamente',
-            code: 'PASSWORD_UPDATED'
-        });
-    } catch (error) {
-        logger.error('Admin password change failed', { error: error.message, userId, ip: req.ip });
-        return res.status(500).json({
-            success: false,
-            error: 'No se pudo cambiar la contraseña',
-            code: 'CHANGE_PASSWORD_FAILED'
-        });
     }
-});
+);
 
 /**
  * Solicita cambio de correo (requiere confirmación por email)
  */
-router.post('/api/admin/account/change-email/request', authenticateAdmin, accountMutationLimiter, validateBody(schemas.changeEmailRequest), async (req, res) => {
-    const userId = req.user?.userId;
-    const { currentPassword, newEmail } = req.body;
+router.post(
+    '/api/admin/account/change-email/request',
+    authenticateAdmin,
+    accountMutationLimiter,
+    validateBody(schemas.changeEmailRequest),
+    async (req, res) => {
+        const userId = req.user?.userId;
+        const { currentPassword, newEmail } = req.body;
 
-    if (!userId) {
-        return res.status(401).json({
-            success: false,
-            error: 'Sesión inválida. Vuelve a iniciar sesión.',
-            code: 'ADMIN_SESSION_INVALID'
-        });
-    }
-
-    try {
-        const user = await adminUserService.getActiveUserById(userId);
-        if (!user) {
-            return res.status(404).json({
+        if (!userId) {
+            return res.status(401).json({
                 success: false,
-                error: 'Usuario no encontrado',
-                code: 'USER_NOT_FOUND'
+                error: 'Sesión inválida. Vuelve a iniciar sesión.',
+                code: 'ADMIN_SESSION_INVALID'
             });
         }
 
-        const passwordOk = await verifyPassword(currentPassword, user.password_hash);
-        if (!passwordOk) {
-            return res.status(400).json({
-                success: false,
-                error: 'La contraseña actual no es correcta',
-                code: 'CURRENT_PASSWORD_INCORRECT'
+        try {
+            const user = await adminUserService.getActiveUserById(userId);
+            if (!user) {
+                return res.status(404).json({
+                    success: false,
+                    error: 'Usuario no encontrado',
+                    code: 'USER_NOT_FOUND'
+                });
+            }
+
+            const passwordOk = await verifyPassword(currentPassword, user.password_hash);
+            if (!passwordOk) {
+                return res.status(400).json({
+                    success: false,
+                    error: 'La contraseña actual no es correcta',
+                    code: 'CURRENT_PASSWORD_INCORRECT'
+                });
+            }
+
+            const normalizedNewEmail = String(newEmail || '')
+                .trim()
+                .toLowerCase();
+            if (
+                normalizedNewEmail ===
+                String(user.email || '')
+                    .trim()
+                    .toLowerCase()
+            ) {
+                return res.status(400).json({
+                    success: false,
+                    error: 'El nuevo correo debe ser distinto al actual',
+                    code: 'NEW_EMAIL_SAME_AS_CURRENT'
+                });
+            }
+
+            const existingByEmail = await adminUserService.findUserByEmail(normalizedNewEmail);
+            if (existingByEmail && existingByEmail.id !== user.id) {
+                return res.status(409).json({
+                    success: false,
+                    error: 'El correo ya está en uso por otra cuenta',
+                    code: 'EMAIL_ALREADY_IN_USE'
+                });
+            }
+
+            const pending = await emailChangeTokenService.createPendingEmailChange({
+                userId: user.id,
+                oldEmail: user.email,
+                newEmail: normalizedNewEmail
             });
-        }
 
-        const normalizedNewEmail = String(newEmail || '').trim().toLowerCase();
-        if (normalizedNewEmail === String(user.email || '').trim().toLowerCase()) {
-            return res.status(400).json({
-                success: false,
-                error: 'El nuevo correo debe ser distinto al actual',
-                code: 'NEW_EMAIL_SAME_AS_CURRENT'
+            const confirmationUrl = `${resolvePublicBaseUrl()}/admin.html?verify_email_token=${encodeURIComponent(pending.token)}`;
+
+            await sendAdminEmailChangeConfirmationEmail({
+                to: normalizedNewEmail,
+                username: user.username,
+                confirmationUrl
             });
-        }
 
-        const existingByEmail = await adminUserService.findUserByEmail(normalizedNewEmail);
-        if (existingByEmail && existingByEmail.id !== user.id) {
-            return res.status(409).json({
-                success: false,
-                error: 'El correo ya está en uso por otra cuenta',
-                code: 'EMAIL_ALREADY_IN_USE'
+            await sendAdminEmailChangeAlertEmail({
+                to: user.email,
+                username: user.username,
+                newEmail: normalizedNewEmail
             });
-        }
 
-        const pending = await emailChangeTokenService.createPendingEmailChange({
-            userId: user.id,
-            oldEmail: user.email,
-            newEmail: normalizedNewEmail
-        });
+            logger.auth('Admin panel email change requested', {
+                userId: user.id,
+                oldEmail: user.email,
+                newEmail: normalizedNewEmail,
+                ip: req.ip
+            });
 
-        const confirmationUrl = `${resolvePublicBaseUrl()}/admin.html?verify_email_token=${encodeURIComponent(pending.token)}`;
+            return res.status(202).json({
+                success: true,
+                requiresConfirmation: true,
+                message: 'Hemos enviado un enlace de confirmación al nuevo correo.',
+                code: 'EMAIL_CHANGE_CONFIRMATION_SENT'
+            });
+        } catch (error) {
+            if (error.code === 'SMTP_NOT_CONFIGURED') {
+                return res.status(500).json({
+                    success: false,
+                    error: 'El correo SMTP no está configurado. Contacta con un administrador.',
+                    code: 'SMTP_NOT_CONFIGURED'
+                });
+            }
 
-        await sendAdminEmailChangeConfirmationEmail({
-            to: normalizedNewEmail,
-            username: user.username,
-            confirmationUrl
-        });
-
-        await sendAdminEmailChangeAlertEmail({
-            to: user.email,
-            username: user.username,
-            newEmail: normalizedNewEmail
-        });
-
-        logger.auth('Admin panel email change requested', {
-            userId: user.id,
-            oldEmail: user.email,
-            newEmail: normalizedNewEmail,
-            ip: req.ip
-        });
-
-        return res.status(202).json({
-            success: true,
-            requiresConfirmation: true,
-            message: 'Hemos enviado un enlace de confirmación al nuevo correo.',
-            code: 'EMAIL_CHANGE_CONFIRMATION_SENT'
-        });
-    } catch (error) {
-        if (error.code === 'SMTP_NOT_CONFIGURED') {
+            logger.error('Admin email change request failed', { error: error.message, userId, ip: req.ip });
             return res.status(500).json({
                 success: false,
-                error: 'El correo SMTP no está configurado. Contacta con un administrador.',
-                code: 'SMTP_NOT_CONFIGURED'
+                error: 'No se pudo solicitar el cambio de correo',
+                code: 'EMAIL_CHANGE_REQUEST_FAILED'
             });
         }
-
-        logger.error('Admin email change request failed', { error: error.message, userId, ip: req.ip });
-        return res.status(500).json({
-            success: false,
-            error: 'No se pudo solicitar el cambio de correo',
-            code: 'EMAIL_CHANGE_REQUEST_FAILED'
-        });
     }
-});
+);
 
 /**
  * Confirma cambio de correo con token de un solo uso
@@ -611,7 +633,9 @@ router.post('/api/admin/account/delete/request', authenticateAdmin, accountMutat
             });
         }
 
-        const activeAdminCount = (await adminUserService.listUsers()).filter(u => u.role === 'admin' && u.is_active).length;
+        const activeAdminCount = (await adminUserService.listUsers()).filter(
+            u => u.role === 'admin' && u.is_active
+        ).length;
         if (user.role === 'admin' && activeAdminCount <= 1) {
             return res.status(400).json({
                 success: false,
@@ -978,16 +1002,17 @@ router.get('/api/banks/list-files', async (req, res) => {
 
         // Filtrar solo archivos .json válidos, excluyendo schema.json y archivos temporales
         const jsonFiles = files
-            .filter(file =>
-                file.endsWith('.json') &&
-                file !== 'schema.json' &&
-                !file.startsWith('.') &&
-                !file.startsWith('._')
+            .filter(
+                file =>
+                    file.endsWith('.json') && file !== 'schema.json' && !file.startsWith('.') && !file.startsWith('._')
             )
             .map(file => ({
                 filename: file,
                 path: `data/${file}`,
-                name: file.replace('.json', '').replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+                name: file
+                    .replace('.json', '')
+                    .replace(/_/g, ' ')
+                    .replace(/\b\w/g, l => l.toUpperCase())
             }));
 
         res.json({ success: true, files: jsonFiles });
@@ -1053,13 +1078,15 @@ router.post('/api/uploads/cleanup', authenticateAdmin, authorizeAdmin, async (re
         ]);
 
         const referencedFiles = new Set();
-        results.flatMap(r => r.rows).forEach(row => {
-            if (row.ref) {
-                // Extraer el nombre del archivo de la URL (formato: /uploads/filename)
-                const filename = row.ref.replace('/uploads/', '');
-                referencedFiles.add(filename);
-            }
-        });
+        results
+            .flatMap(r => r.rows)
+            .forEach(row => {
+                if (row.ref) {
+                    // Extraer el nombre del archivo de la URL (formato: /uploads/filename)
+                    const filename = row.ref.replace('/uploads/', '');
+                    referencedFiles.add(filename);
+                }
+            });
 
         // Identificar archivos huérfanos
         const orphanedFiles = uploadedFiles.filter(file => !referencedFiles.has(file));
@@ -1083,7 +1110,11 @@ router.post('/api/uploads/cleanup', authenticateAdmin, authorizeAdmin, async (re
         });
     } catch (error) {
         logger.error('Error cleaning orphaned files', { error: error.message });
-        res.status(500).json({ success: false, error: 'Error al limpiar archivos huérfanos', code: 'CLEANUP_ORPHANED_FILES_FAILED' });
+        res.status(500).json({
+            success: false,
+            error: 'Error al limpiar archivos huérfanos',
+            code: 'CLEANUP_ORPHANED_FILES_FAILED'
+        });
     }
 });
 
@@ -1176,7 +1207,9 @@ router.post('/api/admin/clear-cache', authenticateAdmin, authorizeAdmin, async (
         try {
             await redisSyncBus.publish('cache-invalidate-all', { originWorkerId: process.pid });
         } catch (redisErr) {
-            logger.warn('Redis broadcast for cache-invalidate-all failed (solo se limpió este worker)', { error: redisErr.message });
+            logger.warn('Redis broadcast for cache-invalidate-all failed (solo se limpió este worker)', {
+                error: redisErr.message
+            });
         }
 
         logger.info('Game cache cleared by admin (all workers)', {
@@ -1209,7 +1242,7 @@ router.post('/api/admin/clear-cache', authenticateAdmin, authorizeAdmin, async (
  * POST /api/admin/force-disconnect
  * Requiere: autenticación admin (dev mode)
  * Body: {action: 'disconnect'|'disconnect-all'|'list', pin: string, nickname?: string}
- * 
+ *
  * IMPORTANTE: Solo funciona en modo desarrollo
  * SEGURIDAD: Usar con precaución, afecta jugadores reales
  */
@@ -1313,9 +1346,7 @@ router.post('/api/admin/clear-logs', authenticateAdmin, authorizeAdmin, async (r
     try {
         const logsDir = path.join(__dirname, '../logs');
         const entries = await fs.readdir(logsDir);
-        const logFiles = entries
-            .filter(f => f.endsWith('.log'))
-            .map(f => path.join(logsDir, f));
+        const logFiles = entries.filter(f => f.endsWith('.log')).map(f => path.join(logsDir, f));
 
         const results = [];
         for (const logFile of logFiles) {

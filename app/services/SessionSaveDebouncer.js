@@ -60,7 +60,7 @@ class SessionSaveDebouncer {
             return Promise.resolve(false);
         }
 
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
             let pending = this.pendingSaves.get(sPin);
             if (pending) {
                 clearTimeout(pending.timer);
@@ -109,7 +109,7 @@ class SessionSaveDebouncer {
 
         try {
             const existing = await sessionStore.load(sPin);
-            
+
             // Limpiar valores undefined de data para no sobrescribir datos válidos en Redis
             const cleanData = { ...data };
             Object.keys(cleanData).forEach(key => {

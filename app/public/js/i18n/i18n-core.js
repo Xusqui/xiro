@@ -25,21 +25,33 @@
     let internalHtmlSetDepth = 0;
 
     function normalizeLanguage(value) {
-        const short = String(value || '').trim().toLowerCase().split('-')[0];
+        const short = String(value || '')
+            .trim()
+            .toLowerCase()
+            .split('-')[0];
         return CONFIG.supported.includes(short) ? short : CONFIG.defaultLanguage;
     }
 
     function getStoredLanguage() {
-        try { return localStorage.getItem(CONFIG.storageKey); } catch (_) { return null; }
+        try {
+            return localStorage.getItem(CONFIG.storageKey);
+        } catch (_) {
+            return null;
+        }
     }
 
     function setStoredLanguage(language) {
-        try { localStorage.setItem(CONFIG.storageKey, language); } catch (_) { }
+        try {
+            localStorage.setItem(CONFIG.storageKey, language);
+        } catch (_) {}
     }
 
     function getQueryLanguage() {
-        try { return new URLSearchParams(global.location.search || '').get(CONFIG.queryParam); }
-        catch (_) { return null; }
+        try {
+            return new URLSearchParams(global.location.search || '').get(CONFIG.queryParam);
+        } catch (_) {
+            return null;
+        }
     }
 
     function detectInitialLanguage() {
@@ -47,7 +59,10 @@
     }
 
     function normalizeSection(value) {
-        return String(value || '').trim().toLowerCase().replace(/-/g, '_');
+        return String(value || '')
+            .trim()
+            .toLowerCase()
+            .replace(/-/g, '_');
     }
 
     function parseSections(input) {
@@ -55,7 +70,7 @@
         const raw = Array.isArray(input) ? input : String(input).split(',');
         const out = new Set();
 
-        raw.forEach((entry) => {
+        raw.forEach(entry => {
             const section = normalizeSection(entry);
             if (!section) return;
             out.add(section);
@@ -92,7 +107,9 @@
     }
 
     function normalizePathname(pathname) {
-        const value = String(pathname || '/').trim().toLowerCase();
+        const value = String(pathname || '/')
+            .trim()
+            .toLowerCase();
         if (!value) return '/';
         return value.startsWith('/') ? value : `/${value}`;
     }
@@ -141,10 +158,24 @@
         }
 
         if (section === 'manual_admin') {
-            const toolTabs = ['partidas', 'puntuacion', 'logging', 'conexion', 'backup', 'licencia', 'correo', 'equipos', 'fuegos', 'interfaz', 'ia', 'historial', 'botrunner', 'mantenimiento'];
+            const toolTabs = [
+                'partidas',
+                'puntuacion',
+                'logging',
+                'conexion',
+                'backup',
+                'licencia',
+                'correo',
+                'equipos',
+                'fuegos',
+                'interfaz',
+                'ia',
+                'historial',
+                'botrunner',
+                'mantenimiento'
+            ];
             toolTabs.forEach(t => sections.add('manual_admin_tools_' + t));
         }
-
 
         if (section === 'manual_jugador') {
             sections.add('manual_jugador');
@@ -176,18 +207,21 @@
 
     function resolveActiveSections(pathname) {
         const domConfigured = readSectionsFromDom();
-        const base = state.explicitSections && state.explicitSections.size
-            ? state.explicitSections
-            : (domConfigured.size ? domConfigured : getPageSections(pathname));
+        const base =
+            state.explicitSections && state.explicitSections.size
+                ? state.explicitSections
+                : domConfigured.size
+                    ? domConfigured
+                    : getPageSections(pathname);
 
         const sections = new Set(base);
         sections.add('common');
-        state.dynamicSections.forEach((section) => sections.add(section));
+        state.dynamicSections.forEach(section => sections.add(section));
         return sections;
     }
 
     function selectIncludesForPage(includes, code, sections) {
-        const selected = (includes || []).filter((includePath) => {
+        const selected = (includes || []).filter(includePath => {
             const section = getIncludeSection(includePath, code);
             if (!section) return true;
             return isSectionEnabled(section, sections);
@@ -241,19 +275,21 @@
             return pageDictionaryCache.get(pageCacheKey);
         }
 
-        const includeParts = await Promise.all(selected.map(async (includePath) => {
-            const resolved = resolveIncludePath(includePath);
-            if (!resolved) return null;
+        const includeParts = await Promise.all(
+            selected.map(async includePath => {
+                const resolved = resolveIncludePath(includePath);
+                if (!resolved) return null;
 
-            try {
-                return await fetchJson(resolved);
-            } catch (error) {
-                console.warn('[i18n] include skipped', resolved, error?.message || error);
-                return null;
-            }
-        }));
+                try {
+                    return await fetchJson(resolved);
+                } catch (error) {
+                    console.warn('[i18n] include skipped', resolved, error?.message || error);
+                    return null;
+                }
+            })
+        );
 
-        includeParts.forEach((part) => mergeDictionary(merged, part));
+        includeParts.forEach(part => mergeDictionary(merged, part));
 
         mergeDictionary(merged, root);
         pageDictionaryCache.set(pageCacheKey, merged);
@@ -282,7 +318,7 @@
         const parsed = parseSections(sections);
         let changed = false;
 
-        parsed.forEach((section) => {
+        parsed.forEach(section => {
             if (state.dynamicSections.has(section)) return;
             state.dynamicSections.add(section);
             changed = true;
@@ -299,14 +335,13 @@
     }
 
     function getSections() {
-        const base = state.explicitSections && state.explicitSections.size
-            ? state.explicitSections
-            : readSectionsFromDom();
+        const base =
+            state.explicitSections && state.explicitSections.size ? state.explicitSections : readSectionsFromDom();
         const sections = new Set(base);
         if (!sections.size) {
-            resolveActiveSections(global.location.pathname).forEach((section) => sections.add(section));
+            resolveActiveSections(global.location.pathname).forEach(section => sections.add(section));
         }
-        state.dynamicSections.forEach((section) => sections.add(section));
+        state.dynamicSections.forEach(section => sections.add(section));
         return Array.from(sections).sort();
     }
 
@@ -337,7 +372,7 @@
                 if (regex.test(normalized)) {
                     return normalized.replace(regex, pattern.to);
                 }
-            } catch (_) { }
+            } catch (_) {}
         }
 
         return normalized;
@@ -415,10 +450,10 @@
         }
 
         const elements = tpl.content.querySelectorAll('*');
-        elements.forEach((el) => {
+        elements.forEach(el => {
             if (!shouldTranslateTag(el.tagName)) return;
 
-            TRANSLATABLE_HTML_ATTRS.forEach((attrName) => {
+            TRANSLATABLE_HTML_ATTRS.forEach(attrName => {
                 if (!el.hasAttribute(attrName)) return;
                 const attrValue = el.getAttribute(attrName) || '';
                 if (!attrValue.trim()) return;
@@ -501,45 +536,85 @@
 
         const proto = Element.prototype;
 
-        patchPropertySetter(proto, 'innerHTML', nativeSet => function patchedInnerHTML(value) {
-            if (internalHtmlSetDepth > 0) {
-                return nativeSet.call(this, value);
-            }
-            return nativeSet.call(this, tHtmlApply(value, this));
-        });
+        patchPropertySetter(
+            proto,
+            'innerHTML',
+            nativeSet =>
+                function patchedInnerHTML(value) {
+                    if (internalHtmlSetDepth > 0) {
+                        return nativeSet.call(this, value);
+                    }
+                    return nativeSet.call(this, tHtmlApply(value, this));
+                }
+        );
 
-        patchMethod(proto, 'insertAdjacentHTML', nativeInsertAdjacentHTML => function patchedIAH(position, text) {
-            return nativeInsertAdjacentHTML.call(this, position, tHtmlApply(text, this));
-        });
+        patchMethod(
+            proto,
+            'insertAdjacentHTML',
+            nativeInsertAdjacentHTML =>
+                function patchedIAH(position, text) {
+                    return nativeInsertAdjacentHTML.call(this, position, tHtmlApply(text, this));
+                }
+        );
 
-        patchMethod(proto, 'insertAdjacentText', nativeInsertAdjacentText => function patchedIAT(position, text) {
-            return nativeInsertAdjacentText.call(this, position, tTextApply(text, this));
-        });
+        patchMethod(
+            proto,
+            'insertAdjacentText',
+            nativeInsertAdjacentText =>
+                function patchedIAT(position, text) {
+                    return nativeInsertAdjacentText.call(this, position, tTextApply(text, this));
+                }
+        );
 
-        patchMethod(proto, 'setAttribute', nativeSetAttribute => function patchedSetAttribute(name, value) {
-            return nativeSetAttribute.call(this, name, tAttributeApply(name, value));
-        });
+        patchMethod(
+            proto,
+            'setAttribute',
+            nativeSetAttribute =>
+                function patchedSetAttribute(name, value) {
+                    return nativeSetAttribute.call(this, name, tAttributeApply(name, value));
+                }
+        );
 
         const nodeProto = Node.prototype;
-        patchPropertySetter(nodeProto, 'textContent', nativeSetTextContent => function patchedTextContent(value) {
-            return nativeSetTextContent.call(this, tTextApply(value, this));
-        });
+        patchPropertySetter(
+            nodeProto,
+            'textContent',
+            nativeSetTextContent =>
+                function patchedTextContent(value) {
+                    return nativeSetTextContent.call(this, tTextApply(value, this));
+                }
+        );
 
-        patchPropertySetter(nodeProto, 'nodeValue', nativeSetNodeValue => function patchedNodeValue(value) {
-            if (this.nodeType !== 3) return nativeSetNodeValue.call(this, value);
-            return nativeSetNodeValue.call(this, tTextApply(value, this));
-        });
+        patchPropertySetter(
+            nodeProto,
+            'nodeValue',
+            nativeSetNodeValue =>
+                function patchedNodeValue(value) {
+                    if (this.nodeType !== 3) return nativeSetNodeValue.call(this, value);
+                    return nativeSetNodeValue.call(this, tTextApply(value, this));
+                }
+        );
 
         if (typeof HTMLElement !== 'undefined') {
-            patchPropertySetter(HTMLElement.prototype, 'innerText', nativeSetInnerText => function patchedInnerText(value) {
-                return nativeSetInnerText.call(this, tTextApply(value, this));
-            });
+            patchPropertySetter(
+                HTMLElement.prototype,
+                'innerText',
+                nativeSetInnerText =>
+                    function patchedInnerText(value) {
+                        return nativeSetInnerText.call(this, tTextApply(value, this));
+                    }
+            );
         }
 
         if (typeof Document !== 'undefined') {
-            patchPropertySetter(Document.prototype, 'title', nativeSetTitle => function patchedTitle(value) {
-                return nativeSetTitle.call(this, tTextApply(value, this));
-            });
+            patchPropertySetter(
+                Document.prototype,
+                'title',
+                nativeSetTitle =>
+                    function patchedTitle(value) {
+                        return nativeSetTitle.call(this, tTextApply(value, this));
+                    }
+            );
         }
     }
 
@@ -590,8 +665,9 @@
     };
 
     global._t = global._t || ((key, vars, fallbackValue) => global.XiroI18n.tSmart(key, vars, fallbackValue));
-    global._tHtml = global._tHtml || ((html) => global.XiroI18n.tHtml(html));
-    global._tHtmlApply = global._tHtmlApply || ((value, targetElement) => global.XiroI18n.tHtmlApply(value, targetElement));
+    global._tHtml = global._tHtml || (html => global.XiroI18n.tHtml(html));
+    global._tHtmlApply =
+        global._tHtmlApply || ((value, targetElement) => global.XiroI18n.tHtmlApply(value, targetElement));
     global.__ = (input, vars, fallbackValue) => global.XiroI18n.__(input, vars, fallbackValue);
     void init();
 })(window);

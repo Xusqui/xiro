@@ -1,7 +1,7 @@
 /**
  * @fileoverview Handler para el evento QuestionRevealedEvent
  * @module domain/events/handlers/QuestionRevealedHandler
- * 
+ *
  * Responsabilidades:
  * - Emitir pregunta a jugadores (con/sin respuestas según configuración)
  * - Emitir pregunta completa al presentador
@@ -22,7 +22,15 @@ class QuestionRevealedHandler extends EventHandler {
     }
 
     async handleQuestionRevealed(event) {
-        const { roomId, gameId, question, questionIndex, showAnswersToPlayers: _showAnswersToPlayers, timeLimit, totalQuestions } = event.payload || event;
+        const {
+            roomId,
+            gameId,
+            question,
+            questionIndex,
+            showAnswersToPlayers: _showAnswersToPlayers,
+            timeLimit,
+            totalQuestions
+        } = event.payload || event;
         const actualRoomId = roomId || gameId;
 
         try {
@@ -73,7 +81,6 @@ class QuestionRevealedHandler extends EventHandler {
                 timeLimit: question?.time_limit,
                 totalQuestions: total
             });
-
         } catch (error) {
             this.log('error', 'Error processing question revealed event', {
                 roomId: actualRoomId,

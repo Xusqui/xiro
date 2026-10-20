@@ -4,9 +4,7 @@ window.TVApp.Utils = (function () {
 
     function tr(text) {
         if (typeof text !== 'string') return text;
-        return (window.XiroI18n && window.XiroI18n.translateLiteral)
-            ? window.XiroI18n.translateLiteral(text)
-            : text;
+        return window.XiroI18n && window.XiroI18n.translateLiteral ? window.XiroI18n.translateLiteral(text) : text;
     }
 
     // Polyfill para requestAnimationFrame
@@ -41,7 +39,9 @@ window.TVApp.Utils = (function () {
         if (!cache[id]) cache[id] = document.getElementById(id);
         return cache[id];
     }
-    function clearCache() { cache = {}; }
+    function clearCache() {
+        cache = {};
+    }
 
     // Debouncing
     let updateTimeout = null;
@@ -68,12 +68,19 @@ window.TVApp.Utils = (function () {
         x.onreadystatechange = function () {
             if (x.readyState === 4) {
                 if (x.status === 200) {
-                    try { callback(null, JSON.parse(x.responseText)); }
-                    catch (e) { callback(e, null); }
-                } else { callback(new Error('HTTP ' + x.status), null); }
+                    try {
+                        callback(null, JSON.parse(x.responseText));
+                    } catch (e) {
+                        callback(e, null);
+                    }
+                } else {
+                    callback(new Error('HTTP ' + x.status), null);
+                }
             }
         };
-        x.onerror = function () { callback(new Error('Network error'), null); };
+        x.onerror = function () {
+            callback(new Error('Network error'), null);
+        };
         x.send();
     }
 
@@ -132,7 +139,9 @@ window.TVApp.Utils = (function () {
         btn.style.borderRadius = '999px';
         btn.style.fontWeight = '800';
         btn.style.cursor = 'pointer';
-        btn.onclick = function () { overlay.remove(); };
+        btn.onclick = function () {
+            overlay.remove();
+        };
 
         actions.appendChild(btn);
         modal.appendChild(titleEl);

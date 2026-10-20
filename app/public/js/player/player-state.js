@@ -48,47 +48,125 @@ let wakeLock = null;
 let streakInfo = null;
 
 // ===== GETTERS =====
-export function getPin() { return pin; }
-export function getSessionId() { return sessionId; }
-export function getNickname() { return nickname; }
-export function getHaRespondido() { return haRespondido; }
-export function getResultReceived() { return resultReceived; }
-export function getCanAnswer() { return canAnswer; }
-export function getIsReconnecting() { return isReconnecting; }
-export function getCurrentSlideType() { return currentSlideType; }
-export function getSelectedTeam() { return selectedTeam; }
-export function getTeamMode() { return teamMode; }
-export function getPendingAnswer() { return pendingAnswer; }
-export function getSendingAnswer() { return sendingAnswer; }
-export function getCurrentOrder() { return currentOrder; }
-export function getCurrentOrderOptions() { return currentOrderOptions; }
-export function getOrderAutoSendTimerId() { return orderAutoSendTimerId; }
-export function getCurrentMatches() { return currentMatches; }
-export function getCurrentMatchOptions() { return currentMatchOptions; }
-export function getMatchAutoSendTimerId() { return matchAutoSendTimerId; }
-export function getJoinTimeoutId() { return joinTimeoutId; }
-export function getWakeLock() { return wakeLock; }
-export function getStreakInfo() { return streakInfo; }
+export function getPin() {
+    return pin;
+}
+export function getSessionId() {
+    return sessionId;
+}
+export function getNickname() {
+    return nickname;
+}
+export function getHaRespondido() {
+    return haRespondido;
+}
+export function getResultReceived() {
+    return resultReceived;
+}
+export function getCanAnswer() {
+    return canAnswer;
+}
+export function getIsReconnecting() {
+    return isReconnecting;
+}
+export function getCurrentSlideType() {
+    return currentSlideType;
+}
+export function getSelectedTeam() {
+    return selectedTeam;
+}
+export function getTeamMode() {
+    return teamMode;
+}
+export function getPendingAnswer() {
+    return pendingAnswer;
+}
+export function getSendingAnswer() {
+    return sendingAnswer;
+}
+export function getCurrentOrder() {
+    return currentOrder;
+}
+export function getCurrentOrderOptions() {
+    return currentOrderOptions;
+}
+export function getOrderAutoSendTimerId() {
+    return orderAutoSendTimerId;
+}
+export function getCurrentMatches() {
+    return currentMatches;
+}
+export function getCurrentMatchOptions() {
+    return currentMatchOptions;
+}
+export function getMatchAutoSendTimerId() {
+    return matchAutoSendTimerId;
+}
+export function getJoinTimeoutId() {
+    return joinTimeoutId;
+}
+export function getWakeLock() {
+    return wakeLock;
+}
+export function getStreakInfo() {
+    return streakInfo;
+}
 
 // ===== SETTERS =====
-export function setPin(value) { pin = value; }
-export function setSessionId(value) { sessionId = value; }
-export function setNickname(value) { nickname = value; }
-export function setHaRespondido(value) { haRespondido = value; }
-export function setResultReceived(value) { resultReceived = value; }
-export function setCanAnswer(value) { canAnswer = value; }
-export function setIsReconnecting(value) { isReconnecting = value; }
-export function setCurrentSlideType(value) { currentSlideType = value; }
-export function setSelectedTeam(value) { selectedTeam = value; }
-export function setTeamMode(value) { teamMode = value; }
-export function setPendingAnswer(value) { pendingAnswer = value; }
-export function setSendingAnswer(value) { sendingAnswer = value; }
-export function setCurrentOrder(value) { currentOrder = Array.isArray(value) ? [...value] : value; }
-export function setCurrentOrderOptions(value) { currentOrderOptions = Array.isArray(value) ? [...value] : value; }
-export function setOrderAutoSendTimerId(value) { orderAutoSendTimerId = value; }
-export function setCurrentMatches(value) { currentMatches = Array.isArray(value) ? [...value] : value; }
-export function setCurrentMatchOptions(value) { currentMatchOptions = Array.isArray(value) ? [...value] : value; }
-export function setMatchAutoSendTimerId(value) { matchAutoSendTimerId = value; }
+export function setPin(value) {
+    pin = value;
+}
+export function setSessionId(value) {
+    sessionId = value;
+}
+export function setNickname(value) {
+    nickname = value;
+}
+export function setHaRespondido(value) {
+    haRespondido = value;
+}
+export function setResultReceived(value) {
+    resultReceived = value;
+}
+export function setCanAnswer(value) {
+    canAnswer = value;
+}
+export function setIsReconnecting(value) {
+    isReconnecting = value;
+}
+export function setCurrentSlideType(value) {
+    currentSlideType = value;
+}
+export function setSelectedTeam(value) {
+    selectedTeam = value;
+}
+export function setTeamMode(value) {
+    teamMode = value;
+}
+export function setPendingAnswer(value) {
+    pendingAnswer = value;
+}
+export function setSendingAnswer(value) {
+    sendingAnswer = value;
+}
+export function setCurrentOrder(value) {
+    currentOrder = Array.isArray(value) ? [...value] : value;
+}
+export function setCurrentOrderOptions(value) {
+    currentOrderOptions = Array.isArray(value) ? [...value] : value;
+}
+export function setOrderAutoSendTimerId(value) {
+    orderAutoSendTimerId = value;
+}
+export function setCurrentMatches(value) {
+    currentMatches = Array.isArray(value) ? [...value] : value;
+}
+export function setCurrentMatchOptions(value) {
+    currentMatchOptions = Array.isArray(value) ? [...value] : value;
+}
+export function setMatchAutoSendTimerId(value) {
+    matchAutoSendTimerId = value;
+}
 
 export function clearOrderAutoSendTimer() {
     if (orderAutoSendTimerId) {
@@ -155,9 +233,15 @@ export function clearMatchState() {
     currentMatchOptions = null;
     clearMatchAutoSendTimer();
 }
-export function setJoinTimeoutId(value) { joinTimeoutId = value; }
-export function setWakeLock(value) { wakeLock = value; }
-export function setStreakInfo(value) { streakInfo = value; }
+export function setJoinTimeoutId(value) {
+    joinTimeoutId = value;
+}
+export function setWakeLock(value) {
+    wakeLock = value;
+}
+export function setStreakInfo(value) {
+    streakInfo = value;
+}
 
 // ===== FUNCIÓN DE RESET =====
 export function resetGameState() {

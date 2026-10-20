@@ -41,7 +41,12 @@ async function checkCanStart(req) {
         return {
             error: {
                 status: 503,
-                body: { success: false, code: 'UPDATER_UNAVAILABLE', reason: updater.reason, error: 'El actualizador no está disponible' }
+                body: {
+                    success: false,
+                    code: 'UPDATER_UNAVAILABLE',
+                    reason: updater.reason,
+                    error: 'El actualizador no está disponible'
+                }
             }
         };
     }

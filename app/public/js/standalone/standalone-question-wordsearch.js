@@ -50,12 +50,19 @@ globalThis.StandaloneQuestionWordSearch = (() => {
             if (sent || StandaloneState.get().currentQuestion !== question) return;
             sent = true;
             clearTimeout(autoSubmitTimer);
-            container.querySelectorAll('button').forEach(el => { el.disabled = true; });
-            const ack = await submitAnswer({ found: found.map(({ r1, c1, r2, c2 }) => ({ r1, c1, r2, c2 })) }, 'word_search');
+            container.querySelectorAll('button').forEach(el => {
+                el.disabled = true;
+            });
+            const ack = await submitAnswer(
+                { found: found.map(({ r1, c1, r2, c2 }) => ({ r1, c1, r2, c2 })) },
+                'word_search'
+            );
             if (ack && ack.ok === false) {
                 sent = false;
                 StandaloneState.get().answered = false;
-                container.querySelectorAll('button').forEach(el => { el.disabled = false; });
+                container.querySelectorAll('button').forEach(el => {
+                    el.disabled = false;
+                });
                 return;
             }
             onSubmitted();
@@ -66,7 +73,7 @@ globalThis.StandaloneQuestionWordSearch = (() => {
         const hinted = new Set();
 
         // Pista a demanda: el servidor dice dónde empieza la palabra (vale la mitad)
-        wordList.addEventListener('click', async (event) => {
+        wordList.addEventListener('click', async event => {
             const chip = event.target.closest && event.target.closest('.ws-word--hint');
             if (!chip || sent) return;
             const index = Number(chip.dataset.wordIndex);
@@ -107,12 +114,14 @@ globalThis.StandaloneQuestionWordSearch = (() => {
         const details = data.wordSearchDetails || {};
         const words = Array.isArray(details.words) ? details.words : [];
         const flags = Array.isArray(details.wordsFound) ? details.wordsFound : [];
-        const chips = words.map((word, i) => {
-            const hinted = flags[i] && Boolean(details.hintedWords?.[i]);
-            const style = flags[i] ? ` style="${window.XiroWordSearch.chipStyle(i)}"` : '';
-            const label = escapeHtml(`${word} ${flags[i] ? '✓' : '✗'}${hinted ? ' ½' : ''}`);
-            return `<span class="ws-word ${flags[i] ? 'is-found' : 'is-missed'}${hinted ? ' is-hinted' : ''}" role="listitem" aria-label="${label}"${style}>${escapeHtml(word)}</span>`;
-        }).join('');
+        const chips = words
+            .map((word, i) => {
+                const hinted = flags[i] && Boolean(details.hintedWords?.[i]);
+                const style = flags[i] ? ` style="${window.XiroWordSearch.chipStyle(i)}"` : '';
+                const label = escapeHtml(`${word} ${flags[i] ? '✓' : '✗'}${hinted ? ' ½' : ''}`);
+                return `<span class="ws-word ${flags[i] ? 'is-found' : 'is-missed'}${hinted ? ' is-hinted' : ''}" role="listitem" aria-label="${label}"${style}>${escapeHtml(word)}</span>`;
+            })
+            .join('');
         const summary = _t('standalone.game.wordsearch_found', '{n} de {total} palabras')
             .replace('{n}', String(details.foundCount || 0))
             .replace('{total}', String(details.totalWords || words.length));

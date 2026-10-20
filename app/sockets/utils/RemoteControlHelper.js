@@ -76,8 +76,7 @@ function findSessionByPin(pin, activeGames, lobbyPlayers) {
     const pinStr = String(pin);
 
     for (const [sessionId, game] of activeGames.entries()) {
-        const gamePin = game.pin
-            || (sessionId.includes('-') ? sessionId.split('-')[0] : sessionId);
+        const gamePin = game.pin || (sessionId.includes('-') ? sessionId.split('-')[0] : sessionId);
         if (gamePin === pinStr) return { sessionId, game };
     }
 
@@ -162,24 +161,28 @@ function resolveRemoteToken(socket, data) {
 function resolveRemoteSession(requestedId, pin, activeGames, lobbyPlayers) {
     if (requestedId) {
         const found = findSessionById(requestedId, activeGames, lobbyPlayers);
-        return found ? { found } : {
-            error: {
-                reason: 'session-not-found',
-                message: `No se encontró ninguna sesión activa con id ${requestedId}`,
-                code: 'NO_ACTIVE_SESSION_FOR_ID',
-                params: { sessionId: requestedId }
-            }
-        };
+        return found
+            ? { found }
+            : {
+                error: {
+                    reason: 'session-not-found',
+                    message: `No se encontró ninguna sesión activa con id ${requestedId}`,
+                    code: 'NO_ACTIVE_SESSION_FOR_ID',
+                    params: { sessionId: requestedId }
+                }
+            };
     }
     const found = findSessionByPin(String(pin).toUpperCase(), activeGames, lobbyPlayers);
-    return found ? { found } : {
-        error: {
-            reason: 'session-not-found',
-            message: `No se encontró ninguna sesión activa con PIN ${pin}`,
-            code: 'NO_ACTIVE_SESSION_FOR_PIN',
-            params: { pin }
-        }
-    };
+    return found
+        ? { found }
+        : {
+            error: {
+                reason: 'session-not-found',
+                message: `No se encontró ninguna sesión activa con PIN ${pin}`,
+                code: 'NO_ACTIVE_SESSION_FOR_PIN',
+                params: { pin }
+            }
+        };
 }
 
 /**
@@ -227,7 +230,9 @@ function createJoinRemotePresenterHandler({ activeGames, lobbyPlayers, teamConfi
                 code: 'REMOTE_JOIN_TOKEN_INVALID'
             });
             logger.warn('Remote presenter join denied – invalid token', {
-                socketId: socket.id, pin, sessionId: requestedId
+                socketId: socket.id,
+                pin,
+                sessionId: requestedId
             });
             return;
         }
@@ -256,7 +261,10 @@ function createJoinRemotePresenterHandler({ activeGames, lobbyPlayers, teamConfi
         socket.emit('remote-join-success', snapshot);
 
         logger.info('Remote presenter joined successfully', {
-            socketId: socket.id, sessionId, pin: pin || pinStr, adminRole: user.role
+            socketId: socket.id,
+            sessionId,
+            pin: pin || pinStr,
+            adminRole: user.role
         });
     };
 }

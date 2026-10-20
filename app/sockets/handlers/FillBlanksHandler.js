@@ -63,7 +63,8 @@ async function handleFillBlanksHint(socket, data, callback) {
 
         if (playerTeam) {
             const solved = await team.getTeamSolved(roomId, questionSlot(game), playerTeam.name);
-            if (solved.some(entry => entry.blankIndex === blankIndex)) return reply({ ok: false, reason: 'already-solved' });
+            if (solved.some(entry => entry.blankIndex === blankIndex))
+                return reply({ ok: false, reason: 'already-solved' });
         }
 
         const owner = team.hintOwner(nickname, playerTeam);
@@ -71,9 +72,18 @@ async function handleFillBlanksHint(socket, data, callback) {
         if (!granted) return reply({ ok: false, reason: 'no-hints-left', hintCount: count });
 
         const letter = getHintLetter(question, blankIndex, count - 1);
-        const hint = { blankIndex, position: letter.position, letter: letter.letter, hintCount: count, factor: FB.hintFactor(count) };
+        const hint = {
+            blankIndex,
+            position: letter.position,
+            letter: letter.letter,
+            hintCount: count,
+            factor: FB.hintFactor(count)
+        };
         if (playerTeam) {
-            team.emitToTeammates({ io: socket.nsp, roomId, team: playerTeam, nickname }, 'fill-blanks-team-hint', { ...hint, by: nickname });
+            team.emitToTeammates({ io: socket.nsp, roomId, team: playerTeam, nickname }, 'fill-blanks-team-hint', {
+                ...hint,
+                by: nickname
+            });
         }
         return reply({ ok: true, ...hint });
     } catch (error) {
@@ -86,7 +96,8 @@ async function handleFillBlanksCheck(socket, data, callback) {
     const reply = replier(callback);
     const blankIndex = Number(data?.blankIndex);
     const word = typeof data?.word === 'string' ? data.word : '';
-    if (!isValidBlankIndex(blankIndex) || !isValidWordsPayload([word])) return reply({ ok: false, reason: 'invalid-payload' });
+    if (!isValidBlankIndex(blankIndex) || !isValidWordsPayload([word]))
+        return reply({ ok: false, reason: 'invalid-payload' });
     if (isRateLimited(socket.id)) return reply({ ok: false, reason: 'rate-limited' });
 
     try {
@@ -98,13 +109,23 @@ async function handleFillBlanksCheck(socket, data, callback) {
         if (!isBlankCorrect(question, blankIndex, word)) return reply({ ok: true, correct: false, blankIndex });
 
         const normalized = FB.normalizeWord(word);
-        const isNew = await team.recordTeamSolved(roomId, questionSlot(game), playerTeam.name, blankIndex, { word: normalized, by: nickname });
+        const isNew = await team.recordTeamSolved(roomId, questionSlot(game), playerTeam.name, blankIndex, {
+            word: normalized,
+            by: nickname
+        });
         if (isNew) {
-            team.emitToTeammates({ io: socket.nsp, roomId, team: playerTeam, nickname }, 'fill-blanks-team-solved', { blankIndex, word: normalized, by: nickname });
+            team.emitToTeammates({ io: socket.nsp, roomId, team: playerTeam, nickname }, 'fill-blanks-team-solved', {
+                blankIndex,
+                word: normalized,
+                by: nickname
+            });
         }
         return reply({ ok: true, correct: true, blankIndex, word: normalized, isNew });
     } catch (error) {
-        logger.error('Error al comprobar un hueco de Completa la frase', { socketId: socket?.id, error: error.message });
+        logger.error('Error al comprobar un hueco de Completa la frase', {
+            socketId: socket?.id,
+            error: error.message
+        });
         return reply({ ok: false, reason: 'error' });
     }
 }
@@ -117,17 +138,31 @@ async function handleFillBlanksSync(socket, _data, callback) {
         const { roomId, nickname, game, question, team: playerTeam } = ctx;
 
         const words = getQuestionWords(question);
-        const counts = await team.getHintCounts(roomId, questionSlot(game), team.hintOwner(nickname, playerTeam), words.length);
-        const hints = counts.map((count, blankIndex) => ({
-            blankIndex,
-            hintCount: count,
-            factor: FB.hintFactor(count),
-            letters: hintLetters(question, blankIndex, count)
-        })).filter(h => h.hintCount > 0);
+        const counts = await team.getHintCounts(
+            roomId,
+            questionSlot(game),
+            team.hintOwner(nickname, playerTeam),
+            words.length
+        );
+        const hints = counts
+            .map((count, blankIndex) => ({
+                blankIndex,
+                hintCount: count,
+                factor: FB.hintFactor(count),
+                letters: hintLetters(question, blankIndex, count)
+            }))
+            .filter(h => h.hintCount > 0);
 
         const solved = playerTeam ? await team.getTeamSolved(roomId, questionSlot(game), playerTeam.name) : [];
         const submitted = playerTeam ? await team.getTeamSubmit(roomId, questionSlot(game), playerTeam.name) : null;
-        return reply({ ok: true, team: Boolean(playerTeam), maxHints: LIMITS.MAX_HINTS_PER_BLANK, hints, solved, submitted });
+        return reply({
+            ok: true,
+            team: Boolean(playerTeam),
+            maxHints: LIMITS.MAX_HINTS_PER_BLANK,
+            hints,
+            solved,
+            submitted
+        });
     } catch (error) {
         logger.error('Error al sincronizar Completa la frase', { socketId: socket?.id, error: error.message });
         return reply({ ok: false, reason: 'error' });

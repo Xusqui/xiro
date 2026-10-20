@@ -94,17 +94,7 @@ function buildAnswerValidationFailure(answerValidation, sPin, game) {
 }
 
 async function evaluateAnswerAndStreak(ctx) {
-    const {
-        payload,
-        game,
-        io,
-        roomId,
-        sPin,
-        player,
-        socket,
-        nickname,
-        flags
-    } = ctx;
+    const { payload, game, io, roomId, sPin, player, socket, nickname, flags } = ctx;
 
     const currentQuestion = flags.currentQuestion;
     const questionTimeLimit = flags.questionTimeLimit;

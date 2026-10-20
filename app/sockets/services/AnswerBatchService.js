@@ -1,7 +1,7 @@
 /**
  * @fileoverview Answer Batch Service - Agrupa respuestas simultáneas
  * @module sockets/services/AnswerBatchService
- * 
+ *
  * Responsabilidades:
  * - Agrupar answer-result de múltiples jugadores
  * - Enviar en un solo broadcast cuando sea beneficioso
@@ -25,7 +25,7 @@ class AnswerBatchService {
 
     /**
      * Agregar respuesta al batch
-     * 
+     *
      * @param {string} roomId - ID de la sala
      * @param {Object} answerResult - Resultado de la respuesta
      */
@@ -80,7 +80,7 @@ class AnswerBatchService {
 
     /**
      * Enviar batch de respuestas
-     * 
+     *
      * @param {string} roomId - ID de la sala
      */
     flush(roomId) {
@@ -119,7 +119,7 @@ class AnswerBatchService {
             });
             this.io.to(`${roomId}:presenter`).emit('answer-result-batch', batchPayload);
 
-            this.stats.answersSaved += (batch.answers.length - 1);
+            this.stats.answersSaved += batch.answers.length - 1;
         }
 
         this.stats.totalBatches++;
@@ -139,7 +139,7 @@ class AnswerBatchService {
 
     /**
      * Limpiar batch de una sala (al finalizar juego)
-     * 
+     *
      * @param {string} roomId - ID de la sala
      */
     clear(roomId) {
@@ -166,18 +166,16 @@ class AnswerBatchService {
      * Obtener estadísticas
      */
     getStats() {
-        const savePercent = this.stats.totalAnswers > 0
-            ? ((this.stats.answersSaved / this.stats.totalAnswers) * 100).toFixed(1)
-            : 0;
+        const savePercent =
+            this.stats.totalAnswers > 0 ? ((this.stats.answersSaved / this.stats.totalAnswers) * 100).toFixed(1) : 0;
 
         return {
             totalAnswers: this.stats.totalAnswers,
             totalBatches: this.stats.totalBatches,
             answersSaved: this.stats.answersSaved,
             savePercent: parseFloat(savePercent),
-            avgBatchSize: this.stats.totalBatches > 0
-                ? (this.stats.totalAnswers / this.stats.totalBatches).toFixed(1)
-                : 0
+            avgBatchSize:
+                this.stats.totalBatches > 0 ? (this.stats.totalAnswers / this.stats.totalBatches).toFixed(1) : 0
         };
     }
 

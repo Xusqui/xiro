@@ -54,16 +54,7 @@ function getRateLimitWaitTime(message) {
 }
 
 async function buildBatchPromptPayload(input) {
-    const {
-        type,
-        text,
-        batchCount,
-        dificultad,
-        questions,
-        mode,
-        language,
-        provider
-    } = input;
+    const { type, text, batchCount, dificultad, questions, mode, language, provider } = input;
     const buildPrompt = PROMPT_BUILDERS[type];
     const previousTexts = questions.map(q => q.question_text);
     const prompt = buildPrompt(text, batchCount, dificultad, { previousQuestions: previousTexts, mode, language });
@@ -76,7 +67,9 @@ async function buildBatchPromptPayload(input) {
 
 async function handleBatchError(context) {
     const { err, type, attempt, batchStart, batchCount, provider, canFallback } = context;
-    logger.warn(`[ai-generator] Preguntas lote ${batchStart + 1}-${batchStart + batchCount} tipo '${type}' (${provider}) intento ${attempt}: ${err.message}`);
+    logger.warn(
+        `[ai-generator] Preguntas lote ${batchStart + 1}-${batchStart + batchCount} tipo '${type}' (${provider}) intento ${attempt}: ${err.message}`
+    );
 
     const waitTime = getRateLimitWaitTime(err.message);
     if (waitTime !== null) {
@@ -133,7 +126,9 @@ async function generateBatchWithRetries(input) {
 
             if (normalized.length > 0) {
                 questions.push(...normalized);
-                logger.info(`[ai-generator] Tipo '${type}' (${provider}): lote generado (${questions.length}/${questions.targetCount})`);
+                logger.info(
+                    `[ai-generator] Tipo '${type}' (${provider}): lote generado (${questions.length}/${questions.targetCount})`
+                );
             }
 
             await sleep(1000);
@@ -176,17 +171,7 @@ async function generateBatchWithRetries(input) {
  * @returns {Promise<{type: string, questions: Array, error?: string}>}
  */
 async function generateForType(input) {
-    const {
-        type,
-        text,
-        count,
-        dificultad,
-        signal,
-        mode = 'document',
-        language,
-        plan,
-        chunkPlan
-    } = input;
+    const { type, text, count, dificultad, signal, mode = 'document', language, plan, chunkPlan } = input;
     const questions = [];
     questions.targetCount = count;
 
@@ -215,7 +200,9 @@ async function generateForType(input) {
 
         // Si el proveedor principal no ha sacado nada, el lote se repite con el de respaldo
         if (plan.fallback && questions.length === before && !signal?.aborted) {
-            logger.warn(`[ai-generator] Lote ${i + 1}-${i + batchCount} tipo '${type}' sin resultado con '${plan.primary}', se usa '${plan.fallback}'`);
+            logger.warn(
+                `[ai-generator] Lote ${i + 1}-${i + batchCount} tipo '${type}' sin resultado con '${plan.primary}', se usa '${plan.fallback}'`
+            );
             await generateBatchWithRetries({ ...batchInput, provider: plan.fallback });
         }
     }
@@ -265,24 +252,32 @@ async function generateBank(documentText, config, signal, mode = 'document') {
     }
 
     const plan = getProviderPlan();
-    logger.info(`[ai-generator] Proveedor: ${plan.primary || 'ninguno'}${plan.fallback ? `, respaldo: ${plan.fallback}` : ''}`);
-    const chunkPlan = buildChunkPlan(documentText, { mode, counts: activeTypes.map(t => Number(counts[t])), batchSize: BATCH_SIZE });
+    logger.info(
+        `[ai-generator] Proveedor: ${plan.primary || 'ninguno'}${plan.fallback ? `, respaldo: ${plan.fallback}` : ''}`
+    );
+    const chunkPlan = buildChunkPlan(documentText, {
+        mode,
+        counts: activeTypes.map(t => Number(counts[t])),
+        batchSize: BATCH_SIZE
+    });
 
     // Ejecución secuencial por tipo de pregunta y control de lotes para prevenir Rate Limits de APIS
     const results = [];
     for (const type of activeTypes) {
         if (signal?.aborted) break;
-        results.push(await generateForType({
-            type,
-            text: documentText,
-            count: Number(counts[type]),
-            dificultad,
-            signal,
-            mode,
-            language,
-            plan,
-            chunkPlan
-        }));
+        results.push(
+            await generateForType({
+                type,
+                text: documentText,
+                count: Number(counts[type]),
+                dificultad,
+                signal,
+                mode,
+                language,
+                plan,
+                chunkPlan
+            })
+        );
     }
     const allQuestions = results.flatMap(r => r.questions);
     const bankPayload = buildBankPayload(name, allQuestions, language);

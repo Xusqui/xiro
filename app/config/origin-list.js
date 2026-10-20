@@ -17,7 +17,7 @@ function normalizeRawOrigins(rawValue) {
 
     return String(rawValue || '')
         .split(',')
-        .map((origin) => origin.trim())
+        .map(origin => origin.trim())
         .filter(Boolean);
 }
 
@@ -42,7 +42,7 @@ function validateOriginList(rawValue, keyName = 'origenes permitidos') {
         return `${keyName} debe contener al menos un origen`;
     }
 
-    const invalid = parsed.find((origin) => !isValidOriginFormat(origin));
+    const invalid = parsed.find(origin => !isValidOriginFormat(origin));
     if (invalid) {
         return `${keyName} contiene un origen invalido: ${invalid}`;
     }
@@ -59,5 +59,5 @@ module.exports = {
     DEFAULT_ORIGINS_CSV,
     parseOriginList,
     validateOriginList,
-    formatOriginList,
+    formatOriginList
 };

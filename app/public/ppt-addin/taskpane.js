@@ -27,15 +27,15 @@
 
 /* ── Ciclo de vida del runtime ───────────────────────────────────────────── */
 
-Office.initialize = function () {  // eslint-disable-line no-undef
-    XiroLog.info('taskpane', 'Office.initialize');  // eslint-disable-line no-undef
-    XiroLog.mountPanel(document.body);              // eslint-disable-line no-undef
+Office.initialize = function () {
+    XiroLog.info('taskpane', 'Office.initialize'); // eslint-disable-line no-undef
+    XiroLog.mountPanel(document.body); // eslint-disable-line no-undef
 
     // Registrar la función del botón de cinta "Iniciar XIRO" (ExecuteFunction).
     // Con Shared Runtime esta asociación persiste incluso si el panel se cierra.
-    if (Office.actions) {                           // eslint-disable-line no-undef
-        Office.actions.associate('xiroStartPresenting', function (event) {  // eslint-disable-line no-undef
-            XiroLog.info('taskpane', 'xiroStartPresenting — activado desde la cinta');  // eslint-disable-line no-undef
+    if (Office.actions) {
+        Office.actions.associate('xiroStartPresenting', function (event) {
+            XiroLog.info('taskpane', 'xiroStartPresenting — activado desde la cinta'); // eslint-disable-line no-undef
             _activatePolling();
             event.completed();
         });
@@ -52,14 +52,16 @@ Office.initialize = function () {  // eslint-disable-line no-undef
     // Con Shared Runtime el panel puede cerrarse y reabrirse sin reiniciar
     // el runtime. onVisibilityModeChanged nos notifica cuando vuelve a ser visible.
     try {
-        Office.addin.onVisibilityModeChanged(function (args) {  // eslint-disable-line no-undef
-            XiroLog.info('taskpane', 'visibilityModeChanged → ' + args.visibilityMode);  // eslint-disable-line no-undef
+        Office.addin.onVisibilityModeChanged(function (args) {
+            XiroLog.info('taskpane', 'visibilityModeChanged → ' + args.visibilityMode); // eslint-disable-line no-undef
             if (args.visibilityMode === 'Taskpane') {
-                XiroLog.mountPanel(document.body);  // eslint-disable-line no-undef
+                XiroLog.mountPanel(document.body); // eslint-disable-line no-undef
                 _mountPanelUI();
             }
         });
-    } catch (_) { /* Office antiguo sin Shared Runtime, se ignora */ }
+    } catch (_) {
+        /* Office antiguo sin Shared Runtime, se ignora */
+    }
 };
 
 /* ── UI del panel lateral ───────────────────────────────────────────────── */
@@ -76,7 +78,7 @@ function _mountPanelUI() {
     _updateBadge(savedView);
 
     // Boton toggle: alterna entre el editor de slides y el estado de sesion
-    const fresh = toggleBtn.cloneNode(true);  // evita acumulacion de listeners al reabrir
+    const fresh = toggleBtn.cloneNode(true); // evita acumulacion de listeners al reabrir
     toggleBtn.parentNode.replaceChild(fresh, toggleBtn);
 
     _applyView(savedView, content, fresh);
@@ -93,8 +95,8 @@ function _applyView(view, content, toggleBtn) {
     _updateBadge(view);
     if (view === 'edit') {
         if (toggleBtn) toggleBtn.textContent = 'Sesión';
-        XiroEditPanel.mount(content);  // eslint-disable-line no-undef
-        XiroLog.info('taskpane', 'edit panel mounted');  // eslint-disable-line no-undef
+        XiroEditPanel.mount(content); // eslint-disable-line no-undef
+        XiroLog.info('taskpane', 'edit panel mounted'); // eslint-disable-line no-undef
     } else {
         if (toggleBtn) toggleBtn.textContent = 'Edición';
         _mountStatusView(content);
@@ -102,16 +104,18 @@ function _applyView(view, content, toggleBtn) {
 }
 
 function _mountStatusView(content) {
-    try { XiroEditPanel.unmount(); } catch (_) { }  // eslint-disable-line no-undef
+    try {
+        XiroEditPanel.unmount();
+    } catch (_) {} // eslint-disable-line no-undef
     content.innerHTML = '';
-    XiroStatusBar.mount(content, _onStartPolling);  // eslint-disable-line no-undef
-    XiroLog.info('taskpane', 'status view mounted');  // eslint-disable-line no-undef
+    XiroStatusBar.mount(content, _onStartPolling); // eslint-disable-line no-undef
+    XiroLog.info('taskpane', 'status view mounted'); // eslint-disable-line no-undef
 }
 
 function _onStartPolling() {
     _activatePolling();
     _updateBadge('status');
-    XiroStatusBar.refresh();  // eslint-disable-line no-undef
+    XiroStatusBar.refresh(); // eslint-disable-line no-undef
 }
 
 function _updateBadge(view) {
@@ -121,7 +125,7 @@ function _updateBadge(view) {
         badge.textContent = 'EDICIÓN';
         badge.classList.remove('active');
     } else {
-        const polling = XiroSlideWatcher.isRunning();  // eslint-disable-line no-undef
+        const polling = XiroSlideWatcher.isRunning(); // eslint-disable-line no-undef
         badge.textContent = polling ? 'EN VIVO' : 'INACTIVO';
         badge.classList.toggle('active', polling);
     }
@@ -131,8 +135,8 @@ function _updateBadge(view) {
 /* ── Polling ─────────────────────────────────────────────────────────────── */
 
 function _activatePolling() {
-    if (XiroSlideWatcher.isRunning()) return;  // eslint-disable-line no-undef
-    XiroSlideWatcher.start();                  // eslint-disable-line no-undef
-    XiroSlideWatcher.checkCurrentSlide();      // eslint-disable-line no-undef
-    XiroLog.info('taskpane', 'polling started');  // eslint-disable-line no-undef
+    if (XiroSlideWatcher.isRunning()) return; // eslint-disable-line no-undef
+    XiroSlideWatcher.start(); // eslint-disable-line no-undef
+    XiroSlideWatcher.checkCurrentSlide(); // eslint-disable-line no-undef
+    XiroLog.info('taskpane', 'polling started'); // eslint-disable-line no-undef
 }

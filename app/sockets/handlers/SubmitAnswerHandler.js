@@ -82,7 +82,6 @@ module.exports = function createSubmitAnswerHandler(dependencies) {
             // El Use Case ya maneja el callback y las emisiones de eventos.
             // En modo equipos, detalle de la respuesta al presentador (Bot Runner).
             notifyTeamAnswerDetail({ io, players, teamConfigs, activeGames, playerId, data, result });
-
         } catch (error) {
             logger.error('Error in submit-answer handler', {
                 error: error.message,

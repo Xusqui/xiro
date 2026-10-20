@@ -1,7 +1,7 @@
 /**
  * @fileoverview Handler para el evento GameStartedEvent
  * @module domain/events/handlers/GameStartedHandler
- * 
+ *
  * Responsabilidades:
  * - Emitir evento 'game-started' a todos los jugadores
  * - Emitir estado inicial al presentador
@@ -39,7 +39,6 @@ class GameStartedHandler extends EventHandler {
 
             this.log('info', 'Game started event processed successfully', { gameId });
             return Promise.resolve();
-
         } catch (error) {
             this.log('error', 'Error processing game started event', {
                 gameId,

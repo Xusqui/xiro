@@ -41,7 +41,11 @@ function cerrarModalComentario() {
 function agregarSlideComentario() {
     const texto = document.getElementById('textoComentario').value.trim();
     if (!texto) {
-        mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), 'Por favor, escribe un comentario', 'warning');
+        mostrarModalError(
+            _t('admin.common.validation_title', null, '⚠️ Validación'),
+            'Por favor, escribe un comentario',
+            'warning'
+        );
         return;
     }
 
@@ -93,7 +97,11 @@ function cerrarModalInfo() {
 function agregarSlideInfo() {
     const texto = document.getElementById('textoInfo').value.trim();
     if (!texto) {
-        mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), 'Por favor, escribe el texto informativo', 'warning');
+        mostrarModalError(
+            _t('admin.common.validation_title', null, '⚠️ Validación'),
+            'Por favor, escribe el texto informativo',
+            'warning'
+        );
         return;
     }
 
@@ -148,7 +156,11 @@ function cerrarModalEditComentario() {
 function guardarEditComentario(index) {
     const texto = document.getElementById('textoEditComentario').value.trim();
     if (!texto) {
-        mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), 'Por favor, escribe un comentario', 'warning');
+        mostrarModalError(
+            _t('admin.common.validation_title', null, '⚠️ Validación'),
+            'Por favor, escribe un comentario',
+            'warning'
+        );
         return;
     }
 
@@ -197,7 +209,11 @@ function cerrarModalEditInfo() {
 function guardarEditInfo(index) {
     const texto = document.getElementById('textoEditInfo').value.trim();
     if (!texto) {
-        mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), 'Por favor, escribe el texto informativo', 'warning');
+        mostrarModalError(
+            _t('admin.common.validation_title', null, '⚠️ Validación'),
+            'Por favor, escribe el texto informativo',
+            'warning'
+        );
         return;
     }
 
@@ -211,7 +227,7 @@ function initSlidesCommentInfoDelegation() {
     if (_slidesCommentInfoDelegationReady) return;
     _slidesCommentInfoDelegationReady = true;
 
-    document.addEventListener('click', (event) => {
+    document.addEventListener('click', event => {
         const actionElement = event.target.closest('[data-slide-ci-action]');
         if (!actionElement) return;
 

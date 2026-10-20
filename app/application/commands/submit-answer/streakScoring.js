@@ -18,7 +18,7 @@ const { getOrderStreakAction } = require('../../../domain/services/OrderAnswerSe
 const { getMatchingStreakAction } = require('../../../domain/services/MatchingAnswerService');
 const { getWordSearchStreakAction } = require('../../../domain/services/WordSearchService');
 
-function runWithRedisClient(action, onError = () => { }) {
+function runWithRedisClient(action, onError = () => {}) {
     Promise.resolve()
         .then(() => getRedisClient())
         .then(action)
@@ -32,12 +32,7 @@ function runWithRedisClient(action, onError = () => { }) {
  * @returns {Object} Computed streak and points information.
  */
 function computeStreakAndPoints(ctx) {
-    const {
-        game,
-        nickname,
-        flags,
-        answerResult
-    } = ctx;
+    const { game, nickname, flags, answerResult } = ctx;
 
     const { isCorrect, pointsEarned } = answerResult;
     const prevStreak = game.playerStreaks?.[nickname] || 0;
@@ -62,13 +57,12 @@ function computeStreakAndPoints(ctx) {
         isTracked: isTrackedForStreak || flags.isMultipleChoiceQuestion
     });
 
-    const effectiveCorrectForBonus = isPartialCreditType
-        ? (orderStreakIsCorrect === true)
-        : isCorrect;
+    const effectiveCorrectForBonus = isPartialCreditType ? orderStreakIsCorrect === true : isCorrect;
 
-    const streakBonus = ((isTrackedForStreak || flags.isMultipleChoiceQuestion) && effectiveCorrectForBonus)
-        ? GameStreakApplicator.applyStreakBonus(pointsEarned, prevStreak, game, nickname)
-        : { bonusPoints: 0, bonusType: null, bonusPercentage: 0 };
+    const streakBonus =
+        (isTrackedForStreak || flags.isMultipleChoiceQuestion) && effectiveCorrectForBonus
+            ? GameStreakApplicator.applyStreakBonus(pointsEarned, prevStreak, game, nickname)
+            : { bonusPoints: 0, bonusType: null, bonusPercentage: 0 };
 
     const finalPointsEarned = ScoringService.roundScore(pointsEarned + streakBonus.bonusPoints);
     const enrichedStreakInfo = GameStreakApplicator.enrichStreakInfo(streakInfo, game);
@@ -113,7 +107,7 @@ async function registerProgressAndPersistStreak(ctx) {
 
     if (game?.isTrivial && game?.trivialQuestionEpoch) {
         const answeredKey = `game:answered:${sPin}:${game.trivialQuestionEpoch}`;
-        runWithRedisClient((client) => client.sAdd(answeredKey, nickname));
+        runWithRedisClient(client => client.sAdd(answeredKey, nickname));
     } else {
         try {
             atomicProgress = await registerAnswerAndGetProgress({
@@ -133,12 +127,16 @@ async function registerProgressAndPersistStreak(ctx) {
     const streakKey = game.isTrivial ? `trivial:streaks:${roomId}` : `game:streaks:${roomId}`;
     const streakInfoKey = game.isTrivial ? `trivial:streakinfos:${roomId}` : `game:streakinfos:${roomId}`;
 
-    runWithRedisClient((client) => Promise.all([
-        client.hSet(streakKey, nickname, String(game.playerStreaks[nickname] || 0)),
-        client.hSet(streakInfoKey, nickname, JSON.stringify(enrichedStreakInfo))
-    ]), (error) => {
-        logger.warn('Failed to persist streak to Redis', { roomId, nickname, error: error.message });
-    });
+    runWithRedisClient(
+        client =>
+            Promise.all([
+                client.hSet(streakKey, nickname, String(game.playerStreaks[nickname] || 0)),
+                client.hSet(streakInfoKey, nickname, JSON.stringify(enrichedStreakInfo))
+            ]),
+        error => {
+            logger.warn('Failed to persist streak to Redis', { roomId, nickname, error: error.message });
+        }
+    );
 
     return atomicProgress;
 }

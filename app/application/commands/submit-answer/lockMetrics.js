@@ -60,9 +60,7 @@ function parseHashCounters(hash) {
     const safeLockMiss = Number.isFinite(lockMiss) ? lockMiss : 0;
     const safeDegradedFallback = Number.isFinite(degradedFallback) ? degradedFallback : 0;
 
-    const missRate = safeAttempts > 0
-        ? Number(((safeLockMiss / safeAttempts) * 100).toFixed(2))
-        : 0;
+    const missRate = safeAttempts > 0 ? Number(((safeLockMiss / safeAttempts) * 100).toFixed(2)) : 0;
 
     return {
         ...base,
@@ -92,7 +90,7 @@ async function recordAnswerLockMetric({ roomId, acquired, degraded, redisClient 
     metrics.recordAnswerLockAttempt({ acquired, degraded });
 
     try {
-        const redis = redisClient || await getRedisClient();
+        const redis = redisClient || (await getRedisClient());
         await applyPatchToKey(redis, getGlobalMetricsKey(), patch);
 
         const normalizedRoom = normalizeRoomId(roomId);

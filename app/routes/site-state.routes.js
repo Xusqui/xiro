@@ -46,7 +46,11 @@ router.get('/api/license/public-status', async (_req, res) => {
         });
     } catch (error) {
         logger.error('Error getting public license status', { error: error.message });
-        res.status(500).json({ success: false, error: 'No se pudo comprobar el estado de licencia', code: 'LICENSE_STATUS_CHECK_FAILED' });
+        res.status(500).json({
+            success: false,
+            error: 'No se pudo comprobar el estado de licencia',
+            code: 'LICENSE_STATUS_CHECK_FAILED'
+        });
     }
 });
 

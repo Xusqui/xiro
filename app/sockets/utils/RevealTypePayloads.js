@@ -38,7 +38,9 @@ function buildPlayerRevealPayload(presenterPayload) {
         // Sopa de letras: tras revelar, el jugador ya puede ver dónde estaban las palabras
         ...(wordSearch ? { wordSearch: { words: wordSearch.words, placements: wordSearch.placements } } : {}),
         // Completa la frase: tras revelar, el jugador ve la frase completa (sin las estadísticas)
-        ...(fillBlanks ? { fillBlanks: { text: fillBlanks.text, words: fillBlanks.words, lengths: fillBlanks.lengths } } : {})
+        ...(fillBlanks
+            ? { fillBlanks: { text: fillBlanks.text, words: fillBlanks.words, lengths: fillBlanks.lengths } }
+            : {})
     };
 }
 
@@ -46,7 +48,15 @@ function buildPlayerRevealPayload(presenterPayload) {
  * Ajusta el payload del presentador según el tipo de pregunta.
  * Async por la sopa de letras y Completa la frase (leen de Redis cuántos acertaron cada palabra/hueco).
  */
-async function applyQuestionTypeOverrides({ presenterPayload, question, flags, correctIndicesMultiple, roomId, revealIndex, game }) {
+async function applyQuestionTypeOverrides({
+    presenterPayload,
+    question,
+    flags,
+    correctIndicesMultiple,
+    roomId,
+    revealIndex,
+    game
+}) {
     // Clave de las estadísticas por pregunta: en Trivial, por época (QuestionSlot)
     const slot = game ? questionSlot(game) : revealIndex;
     if (flags.isNumericQuestion) {

@@ -21,7 +21,10 @@ async function _downloadSessionFile(url, filename) {
         a.download = filename || 'resultados.csv';
         document.body.appendChild(a);
         a.click();
-        setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+        setTimeout(() => {
+            URL.revokeObjectURL(a.href);
+            a.remove();
+        }, 1000);
     } catch (err) {
         mostrarModalError(_t('admin.history.error_download', null, 'Error al descargar'), err.message, 'error');
     }
@@ -66,7 +69,7 @@ async function renderVistaHistorial() {
 
     try {
         const res = await fetch('/api/results/history?limit=100', {
-            headers: { 'Authorization': 'Bearer ' + getAuthToken() }
+            headers: { Authorization: 'Bearer ' + getAuthToken() }
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const sessions = await res.json();
@@ -110,8 +113,9 @@ function _fmtType(type) {
 /* ===== SELECCIÓN Y BORRADO EN LOTE ===== */
 
 function _getSelectedIds() {
-    return Array.from(document.querySelectorAll('.historial-row-checkbox:checked'))
-        .map(cb => parseInt(cb.dataset.id, 10));
+    return Array.from(document.querySelectorAll('.historial-row-checkbox:checked')).map(cb =>
+        parseInt(cb.dataset.id, 10)
+    );
 }
 
 function _updateBatchBar() {
@@ -131,7 +135,9 @@ function _updateBatchBar() {
 
 function _toggleSelectAll(masterCb) {
     const checkboxes = document.querySelectorAll('.historial-row-checkbox');
-    checkboxes.forEach(cb => { cb.checked = masterCb.checked; });
+    checkboxes.forEach(cb => {
+        cb.checked = masterCb.checked;
+    });
     _updateBatchBar();
 }
 
@@ -139,14 +145,22 @@ function _borrarSeleccionadas() {
     const ids = _getSelectedIds();
     if (ids.length === 0) return;
     mostrarModalConfirmacion(
-        _t('admin.historial.confirm_delete_selected_title', { n: ids.length }, `🗑️ Borrar ${ids.length} partida${ids.length !== 1 ? 's' : ''}`),
-        _t('admin.historial.confirm_delete_selected_msg', { n: ids.length }, `¿Estás seguro de que quieres borrar las ${ids.length} partidas seleccionadas? Esta acción no se puede deshacer.`),
+        _t(
+            'admin.historial.confirm_delete_selected_title',
+            { n: ids.length },
+            `🗑️ Borrar ${ids.length} partida${ids.length !== 1 ? 's' : ''}`
+        ),
+        _t(
+            'admin.historial.confirm_delete_selected_msg',
+            { n: ids.length },
+            `¿Estás seguro de que quieres borrar las ${ids.length} partidas seleccionadas? Esta acción no se puede deshacer.`
+        ),
         async () => {
             try {
                 const res = await fetch('/api/results/sessions/batch', {
                     method: 'DELETE',
                     headers: {
-                        'Authorization': 'Bearer ' + getAuthToken(),
+                        Authorization: 'Bearer ' + getAuthToken(),
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ ids })
@@ -154,7 +168,11 @@ function _borrarSeleccionadas() {
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 renderVistaHistorial();
             } catch (err) {
-                mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), 'Error al borrar: ' + err.message, 'error');
+                mostrarModalError(
+                    _t('admin.common.error_title', null, '❌ Error'),
+                    'Error al borrar: ' + err.message,
+                    'error'
+                );
             }
         },
         null,
@@ -168,14 +186,18 @@ function _borrarSeleccionadas() {
 function _borrarSesion(id, btn) {
     mostrarModalConfirmacion(
         _t('admin.historial.confirm_delete_one_title', null, '🗑️ Borrar partida'),
-        _t('admin.historial.confirm_delete_one_msg', null, '¿Estás seguro de que quieres borrar esta partida? Esta acción no se puede deshacer.'),
+        _t(
+            'admin.historial.confirm_delete_one_msg',
+            null,
+            '¿Estás seguro de que quieres borrar esta partida? Esta acción no se puede deshacer.'
+        ),
         async () => {
             btn.disabled = true;
             btn.innerHTML = _tHtml('<i class="fas fa-spinner fa-spin"></i>');
             try {
                 const res = await fetch(`/api/results/session/${id}`, {
                     method: 'DELETE',
-                    headers: { 'Authorization': 'Bearer ' + getAuthToken() }
+                    headers: { Authorization: 'Bearer ' + getAuthToken() }
                 });
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 btn.closest('tr').remove();
@@ -183,7 +205,11 @@ function _borrarSesion(id, btn) {
             } catch (err) {
                 btn.disabled = false;
                 btn.innerHTML = _tHtml('<i class="fas fa-trash-alt"></i>');
-                mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), 'Error al borrar: ' + err.message, 'error');
+                mostrarModalError(
+                    _t('admin.common.error_title', null, '❌ Error'),
+                    'Error al borrar: ' + err.message,
+                    'error'
+                );
             }
         },
         null,
@@ -195,17 +221,25 @@ function _borrarSesion(id, btn) {
 function _confirmarBorrarHistorial() {
     mostrarModalConfirmacion(
         _t('admin.historial.confirm_delete_all_title', null, '⚠️ Borrar todo el historial'),
-        _t('admin.historial.confirm_delete_all_msg', null, '¿Estás seguro de que quieres borrar TODAS las partidas guardadas? Esta acción no se puede deshacer.'),
+        _t(
+            'admin.historial.confirm_delete_all_msg',
+            null,
+            '¿Estás seguro de que quieres borrar TODAS las partidas guardadas? Esta acción no se puede deshacer.'
+        ),
         async () => {
             try {
                 const res = await fetch('/api/results/history', {
                     method: 'DELETE',
-                    headers: { 'Authorization': 'Bearer ' + getAuthToken() }
+                    headers: { Authorization: 'Bearer ' + getAuthToken() }
                 });
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 renderVistaHistorial();
             } catch (err) {
-                mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), 'Error al borrar: ' + err.message, 'error');
+                mostrarModalError(
+                    _t('admin.common.error_title', null, '❌ Error'),
+                    'Error al borrar: ' + err.message,
+                    'error'
+                );
             }
         },
         null,
@@ -223,7 +257,10 @@ function _requireTypedConfirmation() {
     const btn = document.getElementById('btnConfirmarModal');
     if (!btn || !btn.parentElement) return;
     const word = _t('admin.history.delete_confirm_word', null, 'BORRAR');
-    const hint = _t('admin.history.delete_confirm_hint', { word }, 'Escribe {word} para confirmar').replace('{word}', word);
+    const hint = _t('admin.history.delete_confirm_hint', { word }, 'Escribe {word} para confirmar').replace(
+        '{word}',
+        word
+    );
 
     const label = document.createElement('label');
     label.className = 'block w-full text-left text-sm font-bold text-yellow-900 mb-6';
@@ -258,28 +295,31 @@ function _renderHistorialTable(sessions) {
         return;
     }
 
-    const rows = sessions.map(s => {
-        const csvUrl = s.share_token ? '/api/results/shared/' + s.share_token + '/export.csv' : '/api/results/session/' + s.id + '/export.csv';
-        const csvFilename = 'partida-' + s.pin + '-' + s.id + '.csv';
-        const logsUrl = '/api/results/session/' + s.id + '/export-logs?format=txt';
-        const logsFilename = 'logs-' + s.pin + '-' + s.id + '.txt';
-        // nowrap: «⏳ Autoguardada» o «✓ Completada» se partían en dos líneas
-        // con el icono separado del texto
-        const badge = 'inline-block whitespace-nowrap text-xs font-bold px-2 py-0.5 rounded-full';
-        let reasonBadge = '';
-        if (s.reason === 'completed') {
-            reasonBadge = `<span class="${badge} bg-emerald-100 text-emerald-700">${_t('admin.history.status_completed', null, '✓ Completada')}</span>`;
-        } else if (s.reason === 'manual') {
-            reasonBadge = `<span class="${badge} bg-blue-100 text-blue-700">${_t('admin.history.status_finalized', null, '✓ Finalizada')}</span>`;
-        } else if (s.reason === 'aborted' || s.reason === 'abandoned') {
-            reasonBadge = `<span class="${badge} bg-red-100 text-red-700">${_t('admin.history.status_abandoned', null, '✗ Abandonada')}</span>`;
-        } else if (s.reason === 'auto-saved') {
-            reasonBadge = `<span class="${badge} bg-yellow-100 text-yellow-700">${_t('admin.history.status_autosaved', null, '⏳ Autoguardada')}</span>`;
-        } else {
-            reasonBadge = `<span class="${badge} bg-slate-100 text-slate-700">${s.reason || '—'}</span>`;
-        }
+    const rows = sessions
+        .map(s => {
+            const csvUrl = s.share_token
+                ? '/api/results/shared/' + s.share_token + '/export.csv'
+                : '/api/results/session/' + s.id + '/export.csv';
+            const csvFilename = 'partida-' + s.pin + '-' + s.id + '.csv';
+            const logsUrl = '/api/results/session/' + s.id + '/export-logs?format=txt';
+            const logsFilename = 'logs-' + s.pin + '-' + s.id + '.txt';
+            // nowrap: «⏳ Autoguardada» o «✓ Completada» se partían en dos líneas
+            // con el icono separado del texto
+            const badge = 'inline-block whitespace-nowrap text-xs font-bold px-2 py-0.5 rounded-full';
+            let reasonBadge = '';
+            if (s.reason === 'completed') {
+                reasonBadge = `<span class="${badge} bg-emerald-100 text-emerald-700">${_t('admin.history.status_completed', null, '✓ Completada')}</span>`;
+            } else if (s.reason === 'manual') {
+                reasonBadge = `<span class="${badge} bg-blue-100 text-blue-700">${_t('admin.history.status_finalized', null, '✓ Finalizada')}</span>`;
+            } else if (s.reason === 'aborted' || s.reason === 'abandoned') {
+                reasonBadge = `<span class="${badge} bg-red-100 text-red-700">${_t('admin.history.status_abandoned', null, '✗ Abandonada')}</span>`;
+            } else if (s.reason === 'auto-saved') {
+                reasonBadge = `<span class="${badge} bg-yellow-100 text-yellow-700">${_t('admin.history.status_autosaved', null, '⏳ Autoguardada')}</span>`;
+            } else {
+                reasonBadge = `<span class="${badge} bg-slate-100 text-slate-700">${s.reason || '—'}</span>`;
+            }
 
-        return `
+            return `
             <tr class="border-b border-slate-100 hover:bg-slate-50 transition">
                 <td class="py-3 px-3">
                     <input type="checkbox" class="historial-row-checkbox w-4 h-4 accent-aubergine-600 cursor-pointer"
@@ -323,7 +363,8 @@ function _renderHistorialTable(sessions) {
                     </div>
                 </td>
             </tr>`;
-    }).join('');
+        })
+        .join('');
 
     container.innerHTML = _tHtml(`
         <!-- Barra de selección / borrado en lote -->
@@ -362,7 +403,13 @@ function _renderHistorialTable(sessions) {
             </table>
             </div>
             <div class="p-4 text-xs text-slate-400 border-t border-slate-100 flex items-center justify-between gap-4">
-                <span>${_t('admin.history.footer', { n: sessions.length, s: sessions.length !== 1 ? 's' : '' }, '{n} partida{s} registrada{s}').replace(/\{n\}/g, sessions.length).replace(/\{s\}/g, sessions.length !== 1 ? 's' : '')}</span>
+                <span>${_t(
+        'admin.history.footer',
+        { n: sessions.length, s: sessions.length !== 1 ? 's' : '' },
+        '{n} partida{s} registrada{s}'
+    )
+        .replace(/\{n\}/g, sessions.length)
+        .replace(/\{s\}/g, sessions.length !== 1 ? 's' : '')}</span>
                 <!-- Zona de peligro: al pie, lejos de «Actualizar», con confirmación escrita -->
                 <button data-historial-action="delete-all"
                     class="inline-flex items-center gap-2 border border-red-200 text-red-600 hover:bg-red-50 font-bold px-3 py-1.5 rounded-lg transition">
@@ -376,7 +423,7 @@ function _initHistorialDelegation() {
     if (_historialDelegationReady) return;
     _historialDelegationReady = true;
 
-    document.addEventListener('click', (event) => {
+    document.addEventListener('click', event => {
         const actionElement = event.target.closest('[data-historial-action]');
         if (!actionElement) return;
 
@@ -414,7 +461,7 @@ function _initHistorialDelegation() {
         }
     });
 
-    document.addEventListener('change', (event) => {
+    document.addEventListener('change', event => {
         const actionElement = event.target.closest('[data-historial-action]');
         if (!actionElement) return;
 
@@ -430,4 +477,3 @@ function _initHistorialDelegation() {
 }
 
 _initHistorialDelegation();
-

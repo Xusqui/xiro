@@ -51,10 +51,9 @@ async function getResourceOwner(resourceType, resourceId, queryable = pool) {
     if (!resourceId) return null;
 
     const table = resolveTable(resourceType);
-    const result = await queryable.query(
-        `SELECT created_by_role, created_by_user_id FROM ${table} WHERE id = $1`,
-        [resourceId]
-    );
+    const result = await queryable.query(`SELECT created_by_role, created_by_user_id FROM ${table} WHERE id = $1`, [
+        resourceId
+    ]);
 
     if (!result.rows.length) return null;
     const row = result.rows[0];

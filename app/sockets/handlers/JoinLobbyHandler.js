@@ -90,16 +90,8 @@ async function emitJoinSuccess({ socket, nickname, result }) {
 }
 
 module.exports = function createJoinLobbyHandler(dependencies) {
-    const {
-        players,
-        socketToPlayer,
-        lobbyPlayers,
-        teamConfigs,
-        activeGames,
-        socketRateLimits,
-        roomPresenterMap,
-        io
-    } = dependencies;
+    const { players, socketToPlayer, lobbyPlayers, teamConfigs, activeGames, socketRateLimits, roomPresenterMap, io } =
+        dependencies;
 
     // Instanciar Use Case con dependencias
     const joinGameUseCase = new JoinGameUseCase({
@@ -156,7 +148,6 @@ module.exports = function createJoinLobbyHandler(dependencies) {
             }
 
             await emitJoinSuccess({ socket, nickname, result });
-
         } catch (error) {
             logger.error('Error in join-lobby handler', {
                 error: error.message,

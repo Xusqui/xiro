@@ -44,7 +44,7 @@ export function getResponsiveFontClass(text, narrow = false) {
  * @param {Array<string>} [texts] - Textos de todas las opciones de la pregunta
  */
 export function optionCaseClass(texts = []) {
-    const tooLong = texts.some((text) => String(text || '').length > 40);
+    const tooLong = texts.some(text => String(text || '').length > 40);
     return tooLong ? 'normal-case' : 'uppercase';
 }
 
@@ -59,19 +59,21 @@ export function optionCaseClass(texts = []) {
  * @param {string} [textSelector] - Textos a ajustar; su caja es el botón padre
  */
 export function fitOptionButtonText(textSelector = 'button .btn-text') {
-    const fitOne = (text) => {
+    const fitOne = text => {
         const box = text.closest('button');
         if (!box || !text.isConnected || box.clientHeight === 0) return;
         // La imagen de la opción ocupa 0 px hasta que carga: al llegar,
         // se vuelve a ajustar con el hueco que de verdad queda al texto.
-        box.querySelectorAll('img').forEach((img) => {
+        box.querySelectorAll('img').forEach(img => {
             if (img.complete) return;
             const refit = () => fitOne(text);
             img.addEventListener('load', refit, { once: true });
             img.addEventListener('error', refit, { once: true });
         });
-        const fits = () => box.scrollHeight <= box.clientHeight && box.scrollWidth <= box.clientWidth
-            && text.scrollWidth <= text.clientWidth;
+        const fits = () =>
+            box.scrollHeight <= box.clientHeight &&
+            box.scrollWidth <= box.clientWidth &&
+            text.scrollWidth <= text.clientWidth;
         const largestFit = () => {
             let low = 11;
             let high = Math.max(low, Math.min(box.clientHeight * 0.3, 40));
@@ -89,7 +91,7 @@ export function fitOptionButtonText(textSelector = 'button .btn-text') {
         // Valores explícitos (no los previos): una segunda pasada al cargar
         // fuentes o girar el móvil no debe heredar el estado de la anterior.
         // -webkit-hyphens: Safari parte con él aunque hyphens diga otra cosa.
-        const allowBreaks = (allow) => {
+        const allowBreaks = allow => {
             text.style.setProperty('hyphens', allow ? 'auto' : 'manual');
             text.style.setProperty('-webkit-hyphens', allow ? 'auto' : 'manual');
             text.style.setProperty('overflow-wrap', allow ? 'break-word' : 'normal');
@@ -116,31 +118,35 @@ export function fitOptionButtonText(textSelector = 'button .btn-text') {
     fitOptionButtonText.lastFit = fitAll;
 }
 
-export function fitTextToContainer(container, {
-    textSelector = '[data-fit-text]',
-    boxSelector = '[data-fit-box]',
-    minFontPx = 9,
-    minBoxHeightPx = 24,
-    maxSteps = 40
-} = {}) {
+export function fitTextToContainer(
+    container,
+    {
+        textSelector = '[data-fit-text]',
+        boxSelector = '[data-fit-box]',
+        minFontPx = 9,
+        minBoxHeightPx = 24,
+        maxSteps = 40
+    } = {}
+) {
     if (!container) return;
     const texts = Array.from(container.querySelectorAll(textSelector));
     const boxes = Array.from(container.querySelectorAll(boxSelector));
     if (!texts.length) return;
 
-    const currentSize = (el) => parseFloat(el.style.fontSize) || parseFloat(getComputedStyle(el).fontSize);
-    const currentMinHeight = (el) => parseFloat(el.style.minHeight) || parseFloat(getComputedStyle(el).minHeight) || minBoxHeightPx;
+    const currentSize = el => parseFloat(el.style.fontSize) || parseFloat(getComputedStyle(el).fontSize);
+    const currentMinHeight = el =>
+        parseFloat(el.style.minHeight) || parseFloat(getComputedStyle(el).minHeight) || minBoxHeightPx;
 
     for (let step = 0; step < maxSteps && container.scrollHeight > container.clientHeight + 1; step++) {
         let shrunkAny = false;
-        texts.forEach((el) => {
+        texts.forEach(el => {
             const size = currentSize(el);
             if (size > minFontPx) {
                 el.style.fontSize = `${Math.max(minFontPx, size - 1)}px`;
                 shrunkAny = true;
             }
         });
-        boxes.forEach((el) => {
+        boxes.forEach(el => {
             const height = currentMinHeight(el);
             if (height > minBoxHeightPx) {
                 el.style.minHeight = `${Math.max(minBoxHeightPx, height - 2)}px`;

@@ -23,18 +23,35 @@
     let PAD = { x: 160, top: 480 };
     let LETTERS = ['x', 'i', 'r', 'o', 'excl'];
 
-    let root = null, timers = [], soundOn = false, released = false, holding = false;
+    let root = null,
+        timers = [],
+        soundOn = false,
+        released = false,
+        holding = false;
 
-    function fx() { return global.XiroGameIntroFx; }
-    function $(cls) { return root.querySelector('.' + cls); }
-    function later(ms, fn) { timers.push(setTimeout(fn, Math.max(0, ms))); }
-    function restart(el, cls) { el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); }
-    function sfx(name, arg) { if (soundOn) fx().play(name, arg); }
+    function fx() {
+        return global.XiroGameIntroFx;
+    }
+    function $(cls) {
+        return root.querySelector('.' + cls);
+    }
+    function later(ms, fn) {
+        timers.push(setTimeout(fn, Math.max(0, ms)));
+    }
+    function restart(el, cls) {
+        el.classList.remove(cls);
+        void el.offsetWidth;
+        el.classList.add(cls);
+    }
+    function sfx(name, arg) {
+        if (soundOn) fx().play(name, arg);
+    }
 
     function isLegacy() {
         let css = global.CSS;
-        return !('animation' in document.body.style)
-            || !(css && css.supports && css.supports('transform-box', 'fill-box'));
+        return (
+            !('animation' in document.body.style) || !(css && css.supports && css.supports('transform-box', 'fill-box'))
+        );
     }
 
     function build() {
@@ -44,13 +61,13 @@
         root.innerHTML =
             '<div class="gi-bg"></div>' +
             '<div class="gi-stage">' +
-                '<div class="gi-rays"><svg viewBox="-100 -100 200 200"></svg></div>' +
-                '<div class="gi-logo"></div>' +
-                '<div class="gi-count">' +
-                    '<svg class="gi-ring" viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="46"/>' +
-                    '<circle class="prog" cx="50" cy="50" r="46" transform="rotate(-90 50 50)"/></svg>' +
-                    '<div class="gi-wave"></div><div class="gi-digit"></div>' +
-                '</div>' +
+            '<div class="gi-rays"><svg viewBox="-100 -100 200 200"></svg></div>' +
+            '<div class="gi-logo"></div>' +
+            '<div class="gi-count">' +
+            '<svg class="gi-ring" viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="46"/>' +
+            '<circle class="prog" cx="50" cy="50" r="46" transform="rotate(-90 50 50)"/></svg>' +
+            '<div class="gi-wave"></div><div class="gi-digit"></div>' +
+            '</div>' +
             '</div>' +
             '<div class="gi-flash"></div>' +
             '<div class="gi-wipes"><div class="gi-wipe w1"></div><div class="gi-wipe w2"></div>' +
@@ -76,7 +93,10 @@
     function prepareLogo(svg) {
         if (!svg) return;
         let NS = 'http://www.w3.org/2000/svg';
-        let vb = svg.getAttribute('viewBox').split(/[\s,]+/).map(Number);
+        let vb = svg
+            .getAttribute('viewBox')
+            .split(/[\s,]+/)
+            .map(Number);
         let shift = document.createElementNS(NS, 'g');
         shift.setAttribute('transform', 'translate(' + (PAD.x - vb[0]) + ' ' + (PAD.top - vb[1]) + ')');
         while (svg.firstChild) shift.appendChild(svg.firstChild);
@@ -85,10 +105,15 @@
         svg.removeAttribute('width');
         svg.removeAttribute('height');
 
-        let sticker = document.createElementNS(NS, 'g'), node = shift.firstElementChild;
+        let sticker = document.createElementNS(NS, 'g'),
+            node = shift.firstElementChild;
         sticker.setAttribute('class', 'gi-sticker');
         shift.insertBefore(sticker, node);
-        while (node && node.id !== 'x') { let next = node.nextElementSibling; sticker.appendChild(node); node = next; }
+        while (node && node.id !== 'x') {
+            let next = node.nextElementSibling;
+            sticker.appendChild(node);
+            node = next;
+        }
 
         for (let i = 0; i < LETTERS.length; i++) {
             let g = svg.querySelector('#' + LETTERS[i]);
@@ -111,7 +136,9 @@
     }
 
     function showDigit(n) {
-        let d = $('gi-digit'), color = fx().DIGITS[n].color, prog = root.querySelector('.gi-ring .prog');
+        let d = $('gi-digit'),
+            color = fx().DIGITS[n].color,
+            prog = root.querySelector('.gi-ring .prog');
         d.className = 'gi-digit';
         d.innerHTML = '';
         d.appendChild(fx().digitSvg(n));
@@ -128,7 +155,11 @@
         restart(root, 's-shake');
         root.classList.add('is-on', 's-bg', 's-logo-up', 's-count');
         sfx(n > 0 ? 'hit' : 'go');
-        if (n > 0) later(T.step - 220, function () { d.classList.remove('is-in'); d.classList.add('is-out'); });
+        if (n > 0)
+            later(T.step - 220, function () {
+                d.classList.remove('is-in');
+                d.classList.add('is-out');
+            });
     }
 
     function explode() {
@@ -147,11 +178,18 @@
      * se reincorpora a mitad de intro). Lo ya pasado se aplica sin animar.
      */
     function run(offset) {
-        function at(t, fn) { if (t >= offset) later(t - offset, fn); }
-        let letters = root.querySelectorAll('.gi-l'), sticker = $('gi-sticker');
+        function at(t, fn) {
+            if (t >= offset) later(t - offset, fn);
+        }
+        let letters = root.querySelectorAll('.gi-l'),
+            sticker = $('gi-sticker');
 
         root.classList.add('is-on');
-        if (offset === 0) { void root.offsetWidth; root.classList.add('s-wipe'); sfx('whoosh'); }
+        if (offset === 0) {
+            void root.offsetWidth;
+            root.classList.add('s-wipe');
+            sfx('whoosh');
+        }
         if (offset >= T.bg) root.classList.add('s-bg');
         if (offset >= T.logo + 620) {
             for (let i = 0; i < letters.length; i++) letters[i].classList.add('is-in');
@@ -159,23 +197,45 @@
         }
         if (offset >= T.up) root.classList.add('s-logo-up');
 
-        at(T.bg, function () { root.classList.add('s-bg'); });
+        at(T.bg, function () {
+            root.classList.add('s-bg');
+        });
         for (let k = 0; k < letters.length; k++) {
             (function (el, idx) {
-                at(T.logo + idx * 110, function () { el.classList.add('is-in'); sfx('pop', idx); });
+                at(T.logo + idx * 110, function () {
+                    el.classList.add('is-in');
+                    sfx('pop', idx);
+                });
             })(letters[k], k);
         }
-        at(T.logo + 620, function () { if (sticker) sticker.classList.add('is-in'); });
-        at(T.logo + 950, function () { fx().glint($('gi-logo'), 81.8, 41.8); sfx('sparkle'); });
-        at(T.logo + 1150, function () { fx().glint($('gi-logo'), 54.2, 51.3); });
-        at(T.up, function () { root.classList.add('s-logo-up'); });
+        at(T.logo + 620, function () {
+            if (sticker) sticker.classList.add('is-in');
+        });
+        at(T.logo + 950, function () {
+            fx().glint($('gi-logo'), 81.8, 41.8);
+            sfx('sparkle');
+        });
+        at(T.logo + 1150, function () {
+            fx().glint($('gi-logo'), 54.2, 51.3);
+        });
+        at(T.up, function () {
+            root.classList.add('s-logo-up');
+        });
         [3, 2, 1, 0].forEach(function (n, idx) {
-            at(T.count + idx * T.step, function () { showDigit(n); });
+            at(T.count + idx * T.step, function () {
+                showDigit(n);
+            });
         });
         at(T.boom, explode);
-        at(T.iris, function () { root.classList.add('s-iris'); sfx('swell'); });
+        at(T.iris, function () {
+            root.classList.add('s-iris');
+            sfx('swell');
+        });
         at(T.reveal, function () {
-            if (released) { reveal(); return; }
+            if (released) {
+                reveal();
+                return;
+            }
             holding = true;
             later(RELEASE_TIMEOUT_MS, reveal);
         });
@@ -215,12 +275,18 @@
         run(offset);
     }
 
-    function hide() { reset(); }
+    function hide() {
+        reset();
+    }
 
-    function unlockAudio() { if (fx()) fx().unlockAudio(); }
+    function unlockAudio() {
+        if (fx()) fx().unlockAudio();
+    }
 
     // Precarga: overlay y logo listos antes de que llegue el evento
-    function preload() { if (!root && fx()) build(); }
+    function preload() {
+        if (!root && fx()) build();
+    }
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', preload);
     else preload();
 

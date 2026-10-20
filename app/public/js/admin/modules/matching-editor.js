@@ -17,7 +17,9 @@ function renderMatchingEditor(qIdx, options) {
     const canDelete = pairs.length > 2;
     const canAdd = pairs.length < 6;
 
-    const pairRows = pairs.map((opt, oIdx) => `
+    const pairRows = pairs
+        .map(
+            (opt, oIdx) => `
         <div class="flex items-center gap-3 mb-2" data-pair="${oIdx}">
             <span class="text-xs font-bold text-slate-400 w-4">${oIdx + 1}</span>
             <input
@@ -35,14 +37,20 @@ function renderMatchingEditor(qIdx, options) {
                 placeholder="Par correcto"
                 class="flex-1 p-2 border-2 border-slate-100 rounded-xl focus:border-plum-500 outline-none text-sm font-medium"
             >
-            ${canDelete ? `
+            ${
+    canDelete
+        ? `
                 <button data-admin-click="eliminarPar(${qIdx}, ${oIdx})"
                     class="w-8 h-8 flex items-center justify-center text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition">
                     <i class="fas fa-times text-xs"></i>
                 </button>
-            ` : '<span class="w-8"></span>'}
+            `
+        : '<span class="w-8"></span>'
+}
         </div>
-    `).join('');
+    `
+        )
+        .join('');
 
     return `
         <div class="mt-4">
@@ -59,16 +67,20 @@ function renderMatchingEditor(qIdx, options) {
             <div id="matchingPairs-${qIdx}">
                 ${pairRows}
             </div>
-            ${canAdd ? `
+            ${
+    canAdd
+        ? `
                 <button data-admin-click="añadirPar(${qIdx})"
                     class="mt-2 text-plum-600 hover:text-plum-800 text-xs font-bold flex items-center gap-1 transition">
                     <i class="fas fa-plus-circle"></i> Añadir par
                 </button>
-            ` : `
+            `
+        : `
                 <p class="mt-2 text-xs text-slate-400 italic">
                     <i class="fas fa-lock mr-1"></i>Máximo 6 pares alcanzado
                 </p>
-            `}
+            `
+}
         </div>
     `;
 }
@@ -101,7 +113,9 @@ function eliminarPar(qIdx, oIdx) {
     if (!q || !Array.isArray(q.options) || q.options.length <= 2) return;
     q.options.splice(oIdx, 1);
     // Recalcular order_index
-    q.options.forEach((opt, i) => { opt.order_index = i; });
+    q.options.forEach((opt, i) => {
+        opt.order_index = i;
+    });
     dibujarPreguntas();
 }
 

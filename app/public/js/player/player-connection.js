@@ -5,11 +5,21 @@
 
 import { socket, playerId } from './player-socket-config.js?v=20260922172926';
 import { mostrarModalMensaje } from '../shared/modal.js?v=20260922172926';
-import { activarWakeLock, setupWakeLockVisibilityHandlers, hasActiveWakeLockSession } from './player-wake-lock.js?v=20260922172926';
 import {
-    getPin, setPin, getNickname, setNickname,
-    setSessionId, getIsReconnecting, setIsReconnecting,
-    getPendingAnswer, getSendingAnswer
+    activarWakeLock,
+    setupWakeLockVisibilityHandlers,
+    hasActiveWakeLockSession
+} from './player-wake-lock.js?v=20260922172926';
+import {
+    getPin,
+    setPin,
+    getNickname,
+    setNickname,
+    setSessionId,
+    getIsReconnecting,
+    setIsReconnecting,
+    getPendingAnswer,
+    getSendingAnswer
 } from './player-state.js?v=20260922172926';
 
 export { activarWakeLock };
@@ -19,7 +29,7 @@ export { activarWakeLock };
 export function removeDisconnectOverlay() {
     const overlays = document.querySelectorAll('#disconnect-overlay');
     if (overlays.length > 0) {
-        overlays.forEach((overlay) => overlay.remove());
+        overlays.forEach(overlay => overlay.remove());
         console.log('✅ Overlay de desconexión eliminado');
     }
 }
@@ -51,11 +61,21 @@ export function registerConnectionEvents(enviarPendiente) {
         // mismo perfil incognito). Lo usamos como marcador fiable de que esta
         // ventana es la dueña de la sesión y puede reconectar.
         let windowOwnsSession = false;
-        try { windowOwnsSession = window.name && window.name.startsWith('xiro:'); } catch (_) { }
+        try {
+            windowOwnsSession = window.name && window.name.startsWith('xiro:');
+        } catch (_) {}
         const tabSessionSecret = sessionStorage.getItem('xiro_sessionSecret');
 
         // Only reconnect if we have CURRENT session data (not just old localStorage)
-        if (windowOwnsSession && tabSessionSecret && currentPin && currentNickname && lastPin && lastNickname && !getIsReconnecting()) {
+        if (
+            windowOwnsSession &&
+            tabSessionSecret &&
+            currentPin &&
+            currentNickname &&
+            lastPin &&
+            lastNickname &&
+            !getIsReconnecting()
+        ) {
             console.log('🔄 Sesión activa detectada en connect - Intentando reconexión...');
 
             setIsReconnecting(true);
@@ -98,7 +118,7 @@ export function registerConnectionEvents(enviarPendiente) {
         handleConnect();
     }
 
-    socket.on('disconnect', (reason) => {
+    socket.on('disconnect', reason => {
         console.log('🔌 Desconectado:', reason);
 
         // Si fue desconexión del servidor (no manual), mostrar UI
@@ -135,26 +155,30 @@ export function registerConnectionEvents(enviarPendiente) {
 
     // On auto-reconnect the 'connect' handler above already fires and emits reconnect-player.
     // This handler only logs the event for debugging.
-    socket.io.on('reconnect', (attemptNumber) => {
+    socket.io.on('reconnect', attemptNumber => {
         console.log(`✅ [EVENT] reconnect - Reconectado después de ${attemptNumber} intentos`);
     });
 
-    socket.on('force-disconnect', (data) => {
+    socket.on('force-disconnect', data => {
         console.log('⚠️ Desconectado por:', data.reason);
         mostrarModalMensaje(
             _t('player.connection.disconnected', 'Desconectado'),
-            _t('player.connection.disconnected_prefix', 'Has sido desconectado:') + ' ' + (data.reason === 'replaced' ? _t('player.connection.other_device', 'Conectado desde otro dispositivo') : data.reason),
+            _t('player.connection.disconnected_prefix', 'Has sido desconectado:') +
+                ' ' +
+                (data.reason === 'replaced'
+                    ? _t('player.connection.other_device', 'Conectado desde otro dispositivo')
+                    : data.reason),
             'warning',
             _t('player.connection.retry', 'Reintentar'),
             () => location.reload()
         );
     });
 
-    socket.on('reconnect_attempt', (attemptNumber) => {
+    socket.on('reconnect_attempt', attemptNumber => {
         console.log(`🔄 [EVENT] reconnect_attempt #${attemptNumber}`);
     });
 
-    socket.on('reconnect_error', (error) => {
+    socket.on('reconnect_error', error => {
         console.error('❌ [EVENT] reconnect_error:', error);
     });
 
@@ -162,7 +186,7 @@ export function registerConnectionEvents(enviarPendiente) {
         console.error('❌ [EVENT] reconnect_failed - Socket.IO ha dejado de intentar reconectar');
     });
 
-    socket.on('connect_error', (error) => {
+    socket.on('connect_error', error => {
         console.error('❌ [EVENT] connect_error:', error);
     });
 }

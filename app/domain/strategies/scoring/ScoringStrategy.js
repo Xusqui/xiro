@@ -1,19 +1,19 @@
 /**
  * @fileoverview Interfaz base para estrategias de puntuación
  * Define el contrato que deben cumplir todas las estrategias
- * 
+ *
  * ARQUITECTURA: Strategy Pattern
  * - Permite intercambiar algoritmos de puntuación en runtime
  * - Cada estrategia implementa calculatePoints()
  * - Facilita testing y extensibilidad
- * 
+ *
  * FASE 17.2 - Día 1: Diseño de interfaces
  * Fecha: 3 de febrero de 2026
  */
 
 /**
  * Clase base abstracta para estrategias de puntuación
- * 
+ *
  * @abstract
  */
 class ScoringStrategy {
@@ -30,7 +30,7 @@ class ScoringStrategy {
 
     /**
      * Calcula los puntos ganados por una respuesta
-     * 
+     *
      * @abstract
      * @param {Object} params - Parámetros de cálculo
      * @param {boolean} params.isCorrect - Si la respuesta es correcta
@@ -47,7 +47,7 @@ class ScoringStrategy {
      * @returns {Object} Resultado del cálculo
      * @returns {number} return.pointsEarned - Puntos ganados (puede ser negativo)
      * @returns {Object} return.details - Detalles del cálculo (para debugging/analytics)
-     * 
+     *
      * @throws {Error} Si no está implementado en la clase hija
      */
     calculatePoints(_params) {

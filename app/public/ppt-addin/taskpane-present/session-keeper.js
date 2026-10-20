@@ -7,7 +7,6 @@
  */
 
 const XiroSessionKeeper = (() => {
-
     // Estado persistente durante toda la presentación
     let _state = {
         sessionId: null,
@@ -19,7 +18,7 @@ const XiroSessionKeeper = (() => {
         socket: null,
         playerId: null,
         dbSessionId: null,
-        gameType: null,
+        gameType: null
     };
 
     /**
@@ -62,7 +61,7 @@ const XiroSessionKeeper = (() => {
             questionIndex: _state.questionIndex,
             playerId: _state.playerId,
             dbSessionId: _state.dbSessionId,
-            gameType: _state.gameType,
+            gameType: _state.gameType
         };
     }
 
@@ -79,12 +78,21 @@ const XiroSessionKeeper = (() => {
      */
     function reset() {
         if (_state.socket) {
-            try { _state.socket.disconnect(); } catch (_) { }
+            try {
+                _state.socket.disconnect();
+            } catch (_) {}
         }
         _state = {
-            sessionId: null, gameId: null, pin: null,
-            mode: 'individual', teams: [], questionIndex: -1,
-            socket: null, playerId: null, dbSessionId: null, gameType: null,
+            sessionId: null,
+            gameId: null,
+            pin: null,
+            mode: 'individual',
+            teams: [],
+            questionIndex: -1,
+            socket: null,
+            playerId: null,
+            dbSessionId: null,
+            gameType: null
         };
     }
 
@@ -116,7 +124,7 @@ const XiroSessionKeeper = (() => {
             });
         });
 
-        _state.socket.on('results-ready', (data) => {
+        _state.socket.on('results-ready', data => {
             if (data && data.sessionId) {
                 _state.dbSessionId = data.sessionId;
                 XiroLog.debug('session-keeper', 'dbSessionId stored: ' + data.sessionId); // eslint-disable-line no-undef
@@ -130,7 +138,7 @@ const XiroSessionKeeper = (() => {
      */
     function emitEndGame() {
         const socket = _state.socket;
-        const roomId = _state.sessionId;   // full roomId e.g. "DIATERMIA-7294"
+        const roomId = _state.sessionId; // full roomId e.g. "DIATERMIA-7294"
         if (!socket || !socket.connected || !roomId) {
             XiroLog.warn('session-keeper', 'emitEndGame: no hay socket conectado'); // eslint-disable-line no-undef
             return false;

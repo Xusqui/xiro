@@ -38,7 +38,9 @@ async function mostrarMezclarBancos() {
                     </div>
                 </div>
 
-                ${bancos.length < 2 ? `
+                ${
+    bancos.length < 2
+        ? `
                     <div class="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-6 text-center">
                         <i class="fas fa-exclamation-triangle text-yellow-600 text-4xl mb-3"></i>
                         <p class="text-yellow-800 font-bold text-lg mb-2">${_t('admin.merge.error_min_title', null, 'No hay suficientes bancos')}</p>
@@ -48,7 +50,8 @@ async function mostrarMezclarBancos() {
                             ${_t('admin.merge.btn_create_banks', null, 'Crear Bancos')}
                         </button>
                     </div>
-                ` : `
+                `
+        : `
                     <!-- Sección de selección de bancos -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
                         <div class="flex justify-between items-center mb-4">
@@ -69,7 +72,9 @@ async function mostrarMezclarBancos() {
                         </div>
 
                         <div id="listaBancosSeleccion" class="space-y-2 max-h-96 overflow-y-auto">
-                            ${bancos.map(banco => `
+                            ${bancos
+        .map(
+            banco => `
                                 <label class="flex items-center gap-4 p-4 bg-slate-50 hover:bg-plum-50 rounded-xl border-2 border-slate-200 hover:border-plum-300 transition cursor-pointer group">
                                     <input type="checkbox" 
                                         class="banco-checkbox w-5 h-5 text-plum-600 rounded focus:ring-plum-500" 
@@ -88,7 +93,9 @@ async function mostrarMezclarBancos() {
                                         </div>
                                     </div>
                                 </label>
-                            `).join('')}
+                            `
+        )
+        .join('')}
                         </div>
 
                         <!-- Resumen de selección -->
@@ -118,7 +125,8 @@ async function mostrarMezclarBancos() {
                             Crear Banco Mezclado
                         </button>
                     </div>
-                `}
+                `
+}
             </div>
         </div>
     `);
@@ -294,30 +302,45 @@ function ejecutarMezclaBancos() {
     const visibleToPresenter = document.getElementById('mergeVisibleToPresenter').checked;
     const useStreaks = document.getElementById('mergeUseStreaks').checked;
     const streakThreshold = parseInt(document.getElementById('mergeStreakThreshold').value) || 3;
-    const streakBonusPercentage = parseFloat(document.getElementById('mergeStreakBonusPercentage').value) || 0.50;
+    const streakBonusPercentage = parseFloat(document.getElementById('mergeStreakBonusPercentage').value) || 0.5;
     const useDoubleStreaks = document.getElementById('mergeUseDoubleStreaks').checked;
     const doubleStreakThreshold = parseInt(document.getElementById('mergeDoubleStreakThreshold').value) || 5;
-    const doubleStreakBonusPercentage = parseFloat(document.getElementById('mergeDoubleStreakBonusPercentage').value) || 1.00;
+    const doubleStreakBonusPercentage =
+        parseFloat(document.getElementById('mergeDoubleStreakBonusPercentage').value) || 1.0;
     const randomPoints = readRandomPointsConfig('merge');
 
     // Validaciones
     const randomPointsCheck = validateRandomPointsConfig(randomPoints);
     if (!randomPointsCheck.valid) {
-        mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), randomPointsCheck.message, 'warning');
+        mostrarModalError(
+            _t('admin.common.validation_title', null, '⚠️ Validación'),
+            randomPointsCheck.message,
+            'warning'
+        );
         return;
     }
 
     if (bankIds.length < 2) {
-        mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), _t('admin.merge.error_select', null, 'Debes seleccionar al menos 2 bancos para mezclar'), 'warning');
+        mostrarModalError(
+            _t('admin.common.validation_title', null, '⚠️ Validación'),
+            _t('admin.merge.error_select', null, 'Debes seleccionar al menos 2 bancos para mezclar'),
+            'warning'
+        );
         return;
     }
 
     if (!name) {
-        mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), _t('admin.merge.error_name', null, 'Por favor, introduce un nombre para el nuevo banco'), 'warning');
+        mostrarModalError(
+            _t('admin.common.validation_title', null, '⚠️ Validación'),
+            _t('admin.merge.error_name', null, 'Por favor, introduce un nombre para el nuevo banco'),
+            'warning'
+        );
         return;
     }
 
-    const bankNames = Array.from(checkboxes).map(cb => cb.dataset.bankName).join(', ');
+    const bankNames = Array.from(checkboxes)
+        .map(cb => cb.dataset.bankName)
+        .join(', ');
     const totalPreguntas = Array.from(checkboxes).reduce((sum, cb) => sum + parseInt(cb.dataset.questionCount), 0);
 
     mostrarModalConfirmacion(
@@ -366,14 +389,24 @@ function ejecutarMezclaBancos() {
                         `¡Banco "${name}" creado exitosamente!\n\nPIN: ${data.pin}\nTotal de preguntas: ${data.totalQuestions}\n\nLos bancos originales permanecen sin cambios.`,
                         'success'
                     );
-                    setTimeout(() => { mostrarVista('bancos'); }, 2000);
+                    setTimeout(() => {
+                        mostrarVista('bancos');
+                    }, 2000);
                 } else {
                     const error = await response.json();
-                    mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), error.message || error.error || _t('admin.merge.error_failed', null, 'Error al mezclar bancos'), 'error');
+                    mostrarModalError(
+                        _t('admin.common.error_title', null, '❌ Error'),
+                        error.message || error.error || _t('admin.merge.error_failed', null, 'Error al mezclar bancos'),
+                        'error'
+                    );
                 }
             } catch (error) {
                 console.error('Error al mezclar bancos:', error);
-                mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.common.error_server', null, 'Error de conexión con el servidor'), 'error');
+                mostrarModalError(
+                    _t('admin.common.error_title', null, '❌ Error'),
+                    _t('admin.common.error_server', null, 'Error de conexión con el servidor'),
+                    'error'
+                );
             }
         },
         null,
@@ -386,7 +419,7 @@ function _initMergeBancosDelegation() {
     if (_mergeBancosDelegationReady) return;
     _mergeBancosDelegationReady = true;
 
-    document.addEventListener('click', (event) => {
+    document.addEventListener('click', event => {
         const actionElement = event.target.closest('[data-merge-action]');
         if (!actionElement) return;
 
@@ -406,7 +439,7 @@ function _initMergeBancosDelegation() {
         }
     });
 
-    document.addEventListener('change', (event) => {
+    document.addEventListener('change', event => {
         const actionElement = event.target.closest('[data-merge-action]');
         if (!actionElement) return;
 

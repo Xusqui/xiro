@@ -55,7 +55,7 @@ function formatGameType(type) {
         quiz: 'Quiz',
         trivial: 'Trivial'
     };
-    return labels[type] || (type || '-');
+    return labels[type] || type || '-';
 }
 
 /** Nombre seguro para el archivo descargado */

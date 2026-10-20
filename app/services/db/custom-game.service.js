@@ -8,10 +8,7 @@ const metrics = require('../../state/metrics');
 const logger = require('../../config/logger');
 const { questionBankCache } = require('../cache.service');
 const pinCache = require('../pin-cache.service');
-const {
-    assertEditorCanModifyResource,
-    normalizeCreatorRole
-} = require('./resource-ownership.service');
+const { assertEditorCanModifyResource, normalizeCreatorRole } = require('./resource-ownership.service');
 const { DEFAULTS: RANDOM_POINTS_DEFAULTS } = require('./random-points-config.service');
 const { insertCustomGameQuestion } = require('./custom-game-slides');
 
@@ -45,7 +42,8 @@ async function getAllCustomGamesPaginated({ page = 1, limit = 50 } = {}) {
     const offset = (page - 1) * limit;
     const startTime = Date.now();
     const [result, countResult] = await Promise.all([
-        pool.query(`
+        pool.query(
+            `
             SELECT cg.*, au.username AS created_by_username,
                 COALESCE(q.question_count, 0) AS question_count
             FROM custom_games cg
@@ -58,11 +56,20 @@ async function getAllCustomGamesPaginated({ page = 1, limit = 50 } = {}) {
             ) q ON q.custom_game_id = cg.id
             ORDER BY cg.created_at DESC
             LIMIT $1 OFFSET $2
-        `, [limit, offset]),
+        `,
+            [limit, offset]
+        ),
         pool.query('SELECT COUNT(*) FROM custom_games')
     ]);
     const total = parseInt(countResult.rows[0].count, 10);
-    logger.debug('getAllCustomGamesPaginated', { page, limit, offset, returned: result.rows.length, total, duration: `${Date.now() - startTime}ms` });
+    logger.debug('getAllCustomGamesPaginated', {
+        page,
+        limit,
+        offset,
+        returned: result.rows.length,
+        total,
+        duration: `${Date.now() - startTime}ms`
+    });
     return { games: result.rows, total, page, limit };
 }
 
@@ -73,19 +80,28 @@ async function getAllCustomGamesPaginated({ page = 1, limit = 50 } = {}) {
  */
 async function createCustomGame(data) {
     const {
-        name, pin, language, questions, visible_to_presenter = true,
+        name,
+        pin,
+        language,
+        questions,
+        visible_to_presenter = true,
         created_by_role = 'admin',
         created_by_user_id = null,
-        use_streaks = false, streak_threshold = 3, streak_bonus_percentage = 0.50,
-        use_double_streaks = false, double_streak_threshold = 5, double_streak_bonus_percentage = 1.00,
-        image_url = null,
+        use_streaks = false,
+        streak_threshold = 3,
+        streak_bonus_percentage = 0.5,
+        use_double_streaks = false,
+        double_streak_threshold = 5,
+        double_streak_bonus_percentage = 1.0,
+        image_url = null
     } = data;
     const { use_random_points, random_points_min, random_points_max } = { ...RANDOM_POINTS_DEFAULTS, ...data };
     const finalPin = (pin || Math.floor(100000 + Math.random() * 900000).toString()).toUpperCase();
     const ownerRole = normalizeCreatorRole(created_by_role);
-    const ownerUserId = Number.isInteger(Number(created_by_user_id)) && Number(created_by_user_id) > 0
-        ? Number(created_by_user_id)
-        : null;
+    const ownerUserId =
+        Number.isInteger(Number(created_by_user_id)) && Number(created_by_user_id) > 0
+            ? Number(created_by_user_id)
+            : null;
     const client = await pool.connect();
 
     try {
@@ -99,11 +115,24 @@ async function createCustomGame(data) {
                  image_url,
                  use_random_points, random_points_min, random_points_max)
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING *`,
-            [name, finalPin, language, visible_to_presenter, ownerRole, ownerUserId,
-                use_streaks, streak_threshold, streak_bonus_percentage,
-                use_double_streaks, double_streak_threshold, double_streak_bonus_percentage,
+            [
+                name,
+                finalPin,
+                language,
+                visible_to_presenter,
+                ownerRole,
+                ownerUserId,
+                use_streaks,
+                streak_threshold,
+                streak_bonus_percentage,
+                use_double_streaks,
+                double_streak_threshold,
+                double_streak_bonus_percentage,
                 image_url,
-                use_random_points, random_points_min, random_points_max]
+                use_random_points,
+                random_points_min,
+                random_points_max
+            ]
         );
         const customGameId = result.rows[0].id;
 
@@ -130,13 +159,11 @@ async function createCustomGame(data) {
  */
 async function getCustomGameWithQuestions(customGameId) {
     try {
-        const game = await pool.query(
-            'SELECT * FROM custom_games WHERE id = $1',
-            [customGameId]
-        );
+        const game = await pool.query('SELECT * FROM custom_games WHERE id = $1', [customGameId]);
         if (game.rows.length === 0) return null;
 
-        const questions = await pool.query(`
+        const questions = await pool.query(
+            `
             SELECT cgq.position, cgq.slide_type, cgq.comment_text, cgq.slide_title, cgq.slide_body, cgq.slide_image, cgq.slide_image_position, cgq.slide_footer, cgq.slide_video, cgq.slide_canvas,
                 q.id as question_id, q.question_text, q.bank_id,
                 q.question_type,
@@ -156,7 +183,9 @@ async function getCustomGameWithQuestions(customGameId) {
             LEFT JOIN question_banks qb ON q.bank_id = qb.id
             WHERE cgq.custom_game_id = $1
             ORDER BY cgq.position ASC
-        `, [customGameId]);
+        `,
+            [customGameId]
+        );
 
         logger.debug('Custom game loaded', { customGameId, questionCount: questions.rows.length });
         return { game: game.rows[0], questions: questions.rows || [] };
@@ -174,10 +203,18 @@ async function getCustomGameWithQuestions(customGameId) {
  */
 async function updateCustomGame(customGameId, data, actorUserId = null) {
     const {
-        name, pin, language, questions, visible_to_presenter = true,
-        use_streaks = false, streak_threshold = 3, streak_bonus_percentage = 0.50,
-        use_double_streaks = false, double_streak_threshold = 5, double_streak_bonus_percentage = 1.00,
-        image_url = null,
+        name,
+        pin,
+        language,
+        questions,
+        visible_to_presenter = true,
+        use_streaks = false,
+        streak_threshold = 3,
+        streak_bonus_percentage = 0.5,
+        use_double_streaks = false,
+        double_streak_threshold = 5,
+        double_streak_bonus_percentage = 1.0,
+        image_url = null
     } = data;
     const { use_random_points, random_points_min, random_points_max } = { ...RANDOM_POINTS_DEFAULTS, ...data };
     const upperPin = pin.toUpperCase();
@@ -187,20 +224,21 @@ async function updateCustomGame(customGameId, data, actorUserId = null) {
         await client.query('BEGIN');
         await assertEditorCanModifyResource('custom_game', customGameId, actorUserId, client);
 
-        const pinCheck = await client.query(
-            'SELECT id FROM custom_games WHERE pin = $1 AND id != $2',
-            [upperPin, customGameId]
-        );
+        const pinCheck = await client.query('SELECT id FROM custom_games WHERE pin = $1 AND id != $2', [
+            upperPin,
+            customGameId
+        ]);
         const pinCheckRows = Array.isArray(pinCheck?.rows) ? pinCheck.rows : [];
         if (pinCheckRows.length > 0) {
             await client.query('ROLLBACK');
-            return { success: false, error: 'El PIN ya está en uso por otro juego personalizado', code: 'PIN_DUPLICATE' };
+            return {
+                success: false,
+                error: 'El PIN ya está en uso por otro juego personalizado',
+                code: 'PIN_DUPLICATE'
+            };
         }
 
-        const currentGameRes = await client.query(
-            'SELECT pin FROM custom_games WHERE id = $1',
-            [customGameId]
-        );
+        const currentGameRes = await client.query('SELECT pin FROM custom_games WHERE id = $1', [customGameId]);
         const currentRows = Array.isArray(currentGameRes?.rows) ? currentGameRes.rows : [];
         const previousPin = currentRows[0]?.pin || null;
 
@@ -212,16 +250,25 @@ async function updateCustomGame(customGameId, data, actorUserId = null) {
                 image_url = $11,
                 use_random_points = $12, random_points_min = $13, random_points_max = $14
              WHERE id = $15`,
-            [name, upperPin, language, visible_to_presenter,
-                use_streaks, streak_threshold, streak_bonus_percentage,
-                use_double_streaks, double_streak_threshold, double_streak_bonus_percentage,
+            [
+                name,
+                upperPin,
+                language,
+                visible_to_presenter,
+                use_streaks,
+                streak_threshold,
+                streak_bonus_percentage,
+                use_double_streaks,
+                double_streak_threshold,
+                double_streak_bonus_percentage,
                 image_url,
-                use_random_points, random_points_min, random_points_max, customGameId]
+                use_random_points,
+                random_points_min,
+                random_points_max,
+                customGameId
+            ]
         );
-        await client.query(
-            'DELETE FROM custom_game_questions WHERE custom_game_id = $1',
-            [customGameId]
-        );
+        await client.query('DELETE FROM custom_game_questions WHERE custom_game_id = $1', [customGameId]);
 
         for (let i = 0; i < questions.length; i++) {
             await insertCustomGameQuestion(client, customGameId, i, questions[i]);
@@ -302,7 +349,8 @@ async function getCustomGameQuestionsForPlay(customGameId) {
     const startTime = Date.now();
 
     try {
-        const questionsRes = await pool.query(`
+        const questionsRes = await pool.query(
+            `
             SELECT 
                 cgq.position,
                 cgq.slide_type, 
@@ -351,7 +399,9 @@ async function getCustomGameQuestionsForPlay(customGameId) {
             LEFT JOIN questions q ON cgq.question_id = q.id
             WHERE cgq.custom_game_id = $1
             ORDER BY cgq.position ASC
-        `, [customGameId]);
+        `,
+            [customGameId]
+        );
 
         const duration = Date.now() - startTime;
         metrics.recordDbQuery(duration);

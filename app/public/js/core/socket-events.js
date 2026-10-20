@@ -27,17 +27,17 @@ export const CONNECTION_EVENTS = {
     /** Error de conexión (nativo Socket.IO) */
     CONNECT_ERROR: 'connect_error',
 
-    /** 
+    /**
      * Servidor fuerza desconexión del cliente (ej: sesión duplicada)
      * @payload {Object} { reason: string }
      */
     FORCE_DISCONNECT: 'force-disconnect',
 
-    /** 
+    /**
      * Servidor se está reiniciando
      * @payload {Object} { message: string, timestamp: number }
      */
-    SERVER_RESTARTING: 'server-restarting',
+    SERVER_RESTARTING: 'server-restarting'
 };
 
 // ============================================================================
@@ -53,9 +53,9 @@ export const JOIN_EVENTS = {
 
     /**
      * Join exitoso (backend → frontend)
-     * @payload {Object} { 
-     *   roomId: string, 
-     *   nickname: string, 
+     * @payload {Object} {
+     *   roomId: string,
+     *   nickname: string,
      *   isTeamMode: boolean,
      *   team?: string,
      *   players: Array<{nickname: string, team?: string}>
@@ -85,7 +85,7 @@ export const JOIN_EVENTS = {
      * Jugador se reconectó (backend → frontend)
      * @payload {string} nickname
      */
-    PLAYER_REJOINED: 'player-rejoined',
+    PLAYER_REJOINED: 'player-rejoined'
 };
 
 // ============================================================================
@@ -133,7 +133,7 @@ export const GAME_EVENTS = {
      *   winners: Array<string>
      * }
      */
-    GAME_ENDED: 'game-ended',
+    GAME_ENDED: 'game-ended'
 };
 
 // ============================================================================
@@ -175,7 +175,7 @@ export const QUESTION_EVENTS = {
      * Jugador bloqueado (tiempo agotado) (backend → frontend)
      * @payload {Object} { message: string }
      */
-    BLOCKED_ANSWER: 'blocked-answer',
+    BLOCKED_ANSWER: 'blocked-answer'
 };
 
 // ============================================================================
@@ -185,10 +185,10 @@ export const QUESTION_EVENTS = {
 export const ANSWER_EVENTS = {
     /**
      * Enviar respuesta (frontend → backend)
-     * @emit {Object} { 
-     *   pin: string, 
-     *   answer: string, 
-     *   timeToAnswer: number 
+     * @emit {Object} {
+     *   pin: string,
+     *   answer: string,
+     *   timeToAnswer: number
      * }
      */
     SUBMIT_ANSWER: 'submit-answer',
@@ -225,9 +225,9 @@ export const ANSWER_EVENTS = {
 
     /**
      * Respuesta pendiente (modo equipo) (backend → frontend)
-     * @payload {Object} { 
-     *   message: string, 
-     *   waitingFor: Array<string> 
+     * @payload {Object} {
+     *   message: string,
+     *   waitingFor: Array<string>
      * }
      */
     ANSWER_PENDING: 'answer-pending',
@@ -236,7 +236,7 @@ export const ANSWER_EVENTS = {
      * Error al enviar respuesta (backend → frontend)
      * @payload {Object} { error: string, code?: string }
      */
-    ANSWER_ERROR: 'answer-error',
+    ANSWER_ERROR: 'answer-error'
 };
 
 // ============================================================================
@@ -283,7 +283,7 @@ export const UPDATE_EVENTS = {
      *   score: number
      * }
      */
-    PLAYER_FINAL_POSITION: 'player-final-position',
+    PLAYER_FINAL_POSITION: 'player-final-position'
 };
 
 // ============================================================================
@@ -310,8 +310,8 @@ export const RECONNECTION_EVENTS = {
 
     /**
      * Estado actual del juego (backend → frontend)
-     * @payload {Object} { 
-     *   gameState: string, 
+     * @payload {Object} {
+     *   gameState: string,
      *   currentQuestion?: Object,
      *   players?: Array,
      *   ranking?: Array
@@ -330,7 +330,7 @@ export const RECONNECTION_EVENTS = {
      * Solo para jugadores
      * @payload {Object} { timestamp: number }
      */
-    PRESENTER_RECONNECTED: 'presenter-reconnected',
+    PRESENTER_RECONNECTED: 'presenter-reconnected'
 };
 
 // ============================================================================
@@ -360,7 +360,7 @@ export const ADMIN_EVENTS = {
      * Expulsar jugador (frontend → backend)
      * @emit {Object} { pin: string, nickname: string }
      */
-    KICK_PLAYER: 'kick-player',
+    KICK_PLAYER: 'kick-player'
 };
 
 // ============================================================================
@@ -378,7 +378,7 @@ export const ALL_EVENTS = {
     ...ANSWER_EVENTS,
     ...UPDATE_EVENTS,
     ...RECONNECTION_EVENTS,
-    ...ADMIN_EVENTS,
+    ...ADMIN_EVENTS
 };
 
 /**
@@ -389,24 +389,17 @@ export const EVENT_LIST = Object.values(ALL_EVENTS);
 /**
  * Eventos que usan AckManager (requieren acknowledgment)
  */
-export const ACK_EVENTS = [
-    ANSWER_EVENTS.ANSWER_RESULT,
-    GAME_EVENTS.GAME_STARTED,
-];
+export const ACK_EVENTS = [ANSWER_EVENTS.ANSWER_RESULT, GAME_EVENTS.GAME_STARTED];
 
 /**
  * Eventos que usan BroadcastOptimizer (con debouncing)
  */
-export const OPTIMIZED_EVENTS = [
-    UPDATE_EVENTS.RANKING_UPDATE,
-];
+export const OPTIMIZED_EVENTS = [UPDATE_EVENTS.RANKING_UPDATE];
 
 /**
  * Eventos que usan AnswerBatchService (batching)
  */
-export const BATCH_EVENTS = [
-    ANSWER_EVENTS.ANSWER_RESULT_BATCH,
-];
+export const BATCH_EVENTS = [ANSWER_EVENTS.ANSWER_RESULT_BATCH];
 
 // ============================================================================
 // 🚫 EVENTOS DEPRECADOS (NO USAR)
@@ -430,7 +423,7 @@ export const DEPRECATED_EVENTS = {
     PLAYER_ANSWERED: 'player-answered',
 
     /** @deprecated Sincronización global no implementada */
-    ESTADO_SYNC: 'estado:sync',
+    ESTADO_SYNC: 'estado:sync'
 };
 
 // ============================================================================
@@ -474,7 +467,7 @@ export function getEventInfo(eventName) {
         return {
             name: eventName,
             status: 'deprecated',
-            warning: 'Este evento está deprecado y no debe usarse',
+            warning: 'Este evento está deprecado y no debe usarse'
         };
     }
 
@@ -487,7 +480,7 @@ export function getEventInfo(eventName) {
         status: 'active',
         requiresAck: requiresAck(eventName),
         isOptimized: OPTIMIZED_EVENTS.includes(eventName),
-        isBatched: BATCH_EVENTS.includes(eventName),
+        isBatched: BATCH_EVENTS.includes(eventName)
     };
 }
 
@@ -509,5 +502,5 @@ export default {
     isValidEvent,
     isDeprecatedEvent,
     requiresAck,
-    getEventInfo,
+    getEventInfo
 };

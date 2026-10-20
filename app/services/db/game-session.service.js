@@ -209,10 +209,7 @@ async function getLastGameSessionByPin(pin) {
  */
 async function getGameSessionById(id) {
     try {
-        const result = await pool.query(
-            'SELECT * FROM game_sessions WHERE id = $1',
-            [id]
-        );
+        const result = await pool.query('SELECT * FROM game_sessions WHERE id = $1', [id]);
         return result.rows[0] || null;
     } catch (error) {
         logger.error('Failed to get game session by id', { id, error: error.message });
@@ -269,10 +266,7 @@ async function deleteGameSessionById(id) {
  */
 async function deleteGameSessionsByIds(ids) {
     if (!ids || ids.length === 0) return 0;
-    const result = await pool.query(
-        'DELETE FROM game_sessions WHERE id = ANY($1::int[])',
-        [ids]
-    );
+    const result = await pool.query('DELETE FROM game_sessions WHERE id = ANY($1::int[])', [ids]);
     logger.info('Game sessions batch deleted', { count: result.rowCount, ids });
     return result.rowCount;
 }
@@ -284,10 +278,7 @@ async function deleteGameSessionsByIds(ids) {
  */
 async function getGameSessionByShareToken(shareToken) {
     try {
-        const result = await pool.query(
-            'SELECT * FROM game_sessions WHERE share_token = $1',
-            [shareToken]
-        );
+        const result = await pool.query('SELECT * FROM game_sessions WHERE share_token = $1', [shareToken]);
         return result.rows[0] || null;
     } catch (error) {
         logger.error('Failed to get game session by share_token', { shareToken, error: error.message });

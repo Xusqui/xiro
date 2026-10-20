@@ -1,7 +1,7 @@
 /**
  * @fileoverview Join Game Command - Comando para unirse a un lobby
  * @module application/commands/JoinGameCommand
- * 
+ *
  * Encapsula toda la lógica de unirse a un juego:
  * - Validación de PIN (presenter vs player)
  * - Validación de jugador (duplicados, capacidad)
@@ -17,7 +17,11 @@ const Command = require('./Command');
 const { PlayerJoinedEvent } = require('../../domain/events/GameEvents');
 const EventBus = require('../../domain/events/EventBus');
 const { RedisSyncBus } = require('../../sockets/sync/RedisSyncBus');
-const { validatePinCached, validatePinForPresenter, validatePlayerJoin } = require('../../sockets/validators/GameValidators');
+const {
+    validatePinCached,
+    validatePinForPresenter,
+    validatePlayerJoin
+} = require('../../sockets/validators/GameValidators');
 const { validateJoinGameInput } = require('../validators/JoinGameValidator');
 const { addPlayerToLobby } = require('../../sockets/utils/LobbyPlayerSync');
 const SessionStore = require('../../services/SessionStore');
@@ -73,15 +77,7 @@ class JoinGameCommand extends Command {
     }
 
     _createExecutionContext(deps) {
-        const {
-            players,
-            socketToPlayer,
-            lobbyPlayers,
-            teamConfigs,
-            activeGames,
-            roomPresenterMap,
-            io
-        } = deps;
+        const { players, socketToPlayer, lobbyPlayers, teamConfigs, activeGames, roomPresenterMap, io } = deps;
 
         const { pin, sessionId, nickname, sessionSecret, socket, isTeamMode, teamConfig } = this.payload;
         const sPin = String(pin).toUpperCase();
@@ -228,7 +224,14 @@ class JoinGameCommand extends Command {
         const { socket, nickname, roomId, players, socketToPlayer, lobbyPlayers, io } = context;
 
         const reconnectResult = await ReconnectionService.reconnectPlayer({
-            socket, nickname, roomId, game, players, socketToPlayer, lobbyPlayers, io
+            socket,
+            nickname,
+            roomId,
+            game,
+            players,
+            socketToPlayer,
+            lobbyPlayers,
+            io
         });
 
         if (!reconnectResult.success) {
@@ -251,8 +254,7 @@ class JoinGameCommand extends Command {
     }
 
     _buildFallbackPlayerId(socket) {
-        return socket.handshake.auth?.playerId ||
-            `player_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`;
+        return socket.handshake.auth?.playerId || `player_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`;
     }
 
     _validatePresenterReclaim(context, fallbackPlayerId) {
@@ -261,8 +263,9 @@ class JoinGameCommand extends Command {
             return null;
         }
 
-        const existingPresenter = Array.from(players.values()).find(player =>
-            player.roomId === roomId && (player.role === 'presenter' || player.nickname === PRESENTER_NICKNAME)
+        const existingPresenter = Array.from(players.values()).find(
+            player =>
+                player.roomId === roomId && (player.role === 'presenter' || player.nickname === PRESENTER_NICKNAME)
         );
 
         if (!existingPresenter || existingPresenter.id === fallbackPlayerId) {
@@ -300,13 +303,7 @@ class JoinGameCommand extends Command {
     async _validateAndResolvePlayer(context, fallbackPlayerId) {
         const { nickname, roomId, socket } = context;
 
-        const playerValidation = await validatePlayerJoin(
-            fallbackPlayerId,
-            nickname,
-            roomId,
-            socket,
-            false
-        );
+        const playerValidation = await validatePlayerJoin(fallbackPlayerId, nickname, roomId, socket, false);
 
         if (!playerValidation.valid) {
             return {
@@ -371,9 +368,12 @@ class JoinGameCommand extends Command {
     _publishPlayerDataSync(context, playerId, playerData) {
         const serializablePlayer = {
             ...playerData,
-            answeredQuestions: playerData.answeredQuestions instanceof Set
-                ? Array.from(playerData.answeredQuestions)
-                : (Array.isArray(playerData.answeredQuestions) ? playerData.answeredQuestions : [])
+            answeredQuestions:
+                playerData.answeredQuestions instanceof Set
+                    ? Array.from(playerData.answeredQuestions)
+                    : Array.isArray(playerData.answeredQuestions)
+                        ? playerData.answeredQuestions
+                        : []
         };
 
         context.syncBus.publishPlayerData(playerId, serializablePlayer).catch(error => {
@@ -450,12 +450,15 @@ class JoinGameCommand extends Command {
     }
 
     _emitJoinedEvent(context, playerId, playersInLobby) {
-        EventBus.emit('player.joined', new PlayerJoinedEvent({
-            gameId: context.roomId,
-            playerId,
-            nickname: context.nickname,
-            playerCount: playersInLobby.length
-        }));
+        EventBus.emit(
+            'player.joined',
+            new PlayerJoinedEvent({
+                gameId: context.roomId,
+                playerId,
+                nickname: context.nickname,
+                playerCount: playersInLobby.length
+            })
+        );
     }
 
     _logJoinResult(context, playerId, playersInLobby) {
@@ -573,7 +576,6 @@ class JoinGameCommand extends Command {
             this._logJoinResult(context, playerId, playersInLobby);
 
             return this._buildSuccessResponse(context, playerId, playerData, playersInLobby);
-
         } catch (error) {
             return this._handleExecutionError(error, context);
         }

@@ -3,12 +3,19 @@
 import { getSocket } from './presenter-socket-config.js?v=20260922172926';
 import { mostrarLobbyMain, showTerminateButton } from './presenter-utils.js?v=20260922172926';
 import {
-    setTrivialGameState, getTrivialGameState,
-    updateTrivialPlayers, updateTrivialTurn, updateTrivialTokens, clearTrivialGameState
+    setTrivialGameState,
+    getTrivialGameState,
+    updateTrivialPlayers,
+    updateTrivialTurn,
+    updateTrivialTokens,
+    clearTrivialGameState
 } from './presenter-trivial-state.js?v=20260922172926';
 import {
-    renderBoardBackground, updateBoardTokens, updateBoardTokensTeam,
-    updateBoardHighlights, showTurnOrderOverlay
+    renderBoardBackground,
+    updateBoardTokens,
+    updateBoardTokensTeam,
+    updateBoardHighlights,
+    showTurnOrderOverlay
 } from './presenter-trivial-board.js?v=20260922172926';
 import { updatePlayersPanel } from './presenter-players-panel.js?v=20260922172926';
 import { cleanupRevealElements } from './presenter-reveal.js?v=20260922172926';
@@ -16,7 +23,9 @@ import { mostrarModalConfirmacion, mostrarModalMensaje } from '../shared/modal.j
 import { showTrivialWinnerOverlay, isWinnerOverlayActive } from './presenter-trivial-winner.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
-function getSession() { return new URLSearchParams(window.location.search).get('session'); }
+function getSession() {
+    return new URLSearchParams(window.location.search).get('session');
+}
 
 /** Dispatches to the team-mode or individual board-token renderer. */
 function callUpdateBoardTokens(state) {
@@ -35,15 +44,9 @@ function callUpdateBoardTokens(state) {
             });
             teamCfg = { teams: Object.values(teamMap) };
         }
-        updateBoardTokensTeam(
-            state.players, teamCfg, state.outerCasillas,
-            state.currentTurn, state.turnOrder
-        );
+        updateBoardTokensTeam(state.players, teamCfg, state.outerCasillas, state.currentTurn, state.turnOrder);
     } else {
-        updateBoardTokens(
-            state.players, state.categories, state.outerCasillas,
-            state.currentTurn, state.turnOrder
-        );
+        updateBoardTokens(state.players, state.categories, state.outerCasillas, state.currentTurn, state.turnOrder);
     }
 }
 
@@ -82,13 +85,17 @@ function buildTrivialLayout() {
 function buildCategoryLegend(state) {
     const el = document.getElementById('trv-category-legend');
     if (!el || !state?.categories?.length) return;
-    el.innerHTML =
-        _tHtml(`<div style="font-size:clamp(9px,0.85vw,18px);color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.6px;padding:2px 4px 4px">Bancos</div>` +
-            state.categories.map(c =>
-                `<div style="display:flex;align-items:center;gap:clamp(5px,0.65vw,14px);padding:clamp(4px,0.6vh,14px) clamp(5px,0.75vw,16px);background:rgba(30,41,59,0.85);border-radius:8px;">` +
-                `<span style="width:clamp(10px,1.1vw,22px);height:clamp(10px,1.1vw,22px);border-radius:50%;flex-shrink:0;background:${c.color || '#888'};box-shadow:0 0 6px ${c.color || '#888'}aa"></span>` +
-                `<span style="font-size:clamp(10px,1vw,20px);color:#fff;font-weight:700;line-height:1.3;word-break:break-word">${escapeHtml(c.bank_name || c.category_name)}</span></div>`
-            ).join(''));
+    el.innerHTML = _tHtml(
+        `<div style="font-size:clamp(9px,0.85vw,18px);color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.6px;padding:2px 4px 4px">Bancos</div>` +
+            state.categories
+                .map(
+                    c =>
+                        `<div style="display:flex;align-items:center;gap:clamp(5px,0.65vw,14px);padding:clamp(4px,0.6vh,14px) clamp(5px,0.75vw,16px);background:rgba(30,41,59,0.85);border-radius:8px;">` +
+                        `<span style="width:clamp(10px,1.1vw,22px);height:clamp(10px,1.1vw,22px);border-radius:50%;flex-shrink:0;background:${c.color || '#888'};box-shadow:0 0 6px ${c.color || '#888'}aa"></span>` +
+                        `<span style="font-size:clamp(10px,1vw,20px);color:#fff;font-weight:700;line-height:1.3;word-break:break-word">${escapeHtml(c.bank_name || c.category_name)}</span></div>`
+                )
+                .join('')
+    );
 }
 
 function setStatus(turn, phase) {
@@ -122,59 +129,74 @@ function refreshPlayerScores(state) {
         }
         if (!teamCfg?.teams?.length) return; // nothing to show yet
 
-        panel.innerHTML = teamCfg.teams.map((team, idx) => {
-            const teamName = team.name;
-            const color = team.color || '#888';
-            // Use state.teamTokens if available; otherwise fall back to the
-            // union of individual player tokens (for legacy state shape)
-            const rawTokens = state.teamTokens?.[teamName] ||
-                (team.players?.[0] && players?.[team.players[0]]?.token) || [];
-            const members = (team.players || []).map(member => escapeHtml(member)).join(', ');
-            const pos = turnOrder.indexOf(teamName) + 1 || idx + 1;
-            return standingRowHtml({
-                pos, posColor: color, name: teamName, isTurn: teamName === currentTurn,
-                wedges: wedgesHtml(rawTokens, categories), members
-            });
-        }).join('');
+        panel.innerHTML = teamCfg.teams
+            .map((team, idx) => {
+                const teamName = team.name;
+                const color = team.color || '#888';
+                // Use state.teamTokens if available; otherwise fall back to the
+                // union of individual player tokens (for legacy state shape)
+                const rawTokens =
+                    state.teamTokens?.[teamName] || (team.players?.[0] && players?.[team.players[0]]?.token) || [];
+                const members = (team.players || []).map(member => escapeHtml(member)).join(', ');
+                const pos = turnOrder.indexOf(teamName) + 1 || idx + 1;
+                return standingRowHtml({
+                    pos,
+                    posColor: color,
+                    name: teamName,
+                    isTurn: teamName === currentTurn,
+                    wedges: wedgesHtml(rawTokens, categories),
+                    members
+                });
+            })
+            .join('');
         return;
     }
 
     // ── Individual mode ───────────────────────────────────────────────────────
     // Iterate in turnOrder so the numbered positions are stable
     const ordered = turnOrder.length ? turnOrder : Object.keys(players || {});
-    panel.innerHTML = ordered.map((nick, idx) => {
-        const p = players?.[nick];
-        if (!p) return '';
-        return standingRowHtml({
-            pos: idx + 1, name: nick, isTurn: nick === currentTurn,
-            wedges: wedgesHtml(p.token, categories)
-        });
-    }).join('') || '';
+    panel.innerHTML =
+        ordered
+            .map((nick, idx) => {
+                const p = players?.[nick];
+                if (!p) return '';
+                return standingRowHtml({
+                    pos: idx + 1,
+                    name: nick,
+                    isTurn: nick === currentTurn,
+                    wedges: wedgesHtml(p.token, categories)
+                });
+            })
+            .join('') || '';
 }
 
 /** Quesitos: uno por categoría, con su color; apagados hasta conseguirlos. */
 function wedgesHtml(tokens, categories) {
-    return (tokens || []).map((filled, i) => {
-        const col = categories[i]?.color || '#888';
-        return `<span class="trv-wedge${filled ? ' is-filled' : ''}" style="background:${col};color:${col}"></span>`;
-    }).join('');
+    return (tokens || [])
+        .map((filled, i) => {
+            const col = categories[i]?.color || '#888';
+            return `<span class="trv-wedge${filled ? ' is-filled' : ''}" style="background:${col};color:${col}"></span>`;
+        })
+        .join('');
 }
 
 /** Fila de la clasificación (jugador o equipo) en la columna del escenario. */
 function standingRowHtml({ pos, posColor, name, isTurn, wedges, members }) {
     const posStyle = posColor ? ` style="background:${posColor};color:#fff"` : '';
-    return `<div class="trv-standing${isTurn ? ' is-turn' : ''}">` +
+    return (
+        `<div class="trv-standing${isTurn ? ' is-turn' : ''}">` +
         `<div class="trv-standing-head"><span class="trv-standing-pos"${posStyle}>${pos}</span>` +
         `<span class="trv-standing-name">${escapeHtml(name)}</span></div>` +
         `<div class="trv-wedges">${wedges}</div>` +
         (members ? `<div class="trv-standing-members">${members}</div>` : '') +
-        `</div>`;
+        `</div>`
+    );
 }
 
 export function registerTrivialSocketHandlers() {
     const socket = getSocket();
 
-    socket.on('trivial-game-started', (data) => {
+    socket.on('trivial-game-started', data => {
         window.XiroGameIntro?.release(); // abrir el iris de la intro sobre lo que se pinta ahora
         window.isTrivialGame = true;
         setTrivialGameState({ ...data });
@@ -193,16 +215,27 @@ export function registerTrivialSocketHandlers() {
     });
 
     socket.on('trivial-dice-rolled', ({ nickname, diceValue, availablePositions, positionLabels }) => {
-        setStatus(nickname, _t('presenter.trivial.rolled', { diceValue }, `Sacó ${diceValue} — toca una casilla brillante en el tablero`));
+        setStatus(
+            nickname,
+            _t(
+                'presenter.trivial.rolled',
+                { diceValue },
+                `Sacó ${diceValue} — toca una casilla brillante en el tablero`
+            )
+        );
         const state = getTrivialGameState();
-        updateBoardHighlights(availablePositions, (pos) => {
-            updateBoardHighlights([], null);
-            socket.emit('trivial-move', {
-                roomId: getSession(),
-                nickname: state?.currentTurn,
-                position: pos
-            });
-        }, positionLabels || []);
+        updateBoardHighlights(
+            availablePositions,
+            pos => {
+                updateBoardHighlights([], null);
+                socket.emit('trivial-move', {
+                    roomId: getSession(),
+                    nickname: state?.currentTurn,
+                    position: pos
+                });
+            },
+            positionLabels || []
+        );
     });
 
     socket.on('trivial-player-moved', ({ nickname, position, movedPlayers }) => {
@@ -217,11 +250,25 @@ export function registerTrivialSocketHandlers() {
             state.players[nickname].position = position;
         }
         callUpdateBoardTokens(state);
-        setStatus(state?.currentTurn, _t('presenter.trivial.moved', { nickname, position }, `${nickname} movió → ${position}. Preparando pregunta...`));
+        setStatus(
+            state?.currentTurn,
+            _t(
+                'presenter.trivial.moved',
+                { nickname, position },
+                `${nickname} movió → ${position}. Preparando pregunta...`
+            )
+        );
     });
 
     socket.on('trivial-choose-category', ({ actorNick }) => {
-        setStatus(actorNick, _t('presenter.trivial.choosing_category', { actorNick }, `🎯 Casilla central — ${actorNick} está eligiendo categoría...`));
+        setStatus(
+            actorNick,
+            _t(
+                'presenter.trivial.choosing_category',
+                { actorNick },
+                `🎯 Casilla central — ${actorNick} está eligiendo categoría...`
+            )
+        );
     });
 
     socket.on('trivial-winner', ({ ranking }) => {
@@ -233,7 +280,7 @@ export function registerTrivialSocketHandlers() {
     });
 
     // trivial-token-update: wedges earned mid-game — refresh the scores panel
-    socket.on('trivial-token-update', (data) => {
+    socket.on('trivial-token-update', data => {
         if (data.players) updateTrivialPlayers(data.players);
         if (data.teamTokens || data.players) updateTrivialTokens(data.teamTokens, data.players);
         const state = getTrivialGameState();
@@ -241,7 +288,7 @@ export function registerTrivialSocketHandlers() {
         refreshPlayerScores(state);
     });
 
-    socket.on('trivial-turn-changed', (data) => {
+    socket.on('trivial-turn-changed', data => {
         // Ignore turn events once the winner overlay is active
         if (isWinnerOverlayActive()) return;
 
@@ -260,7 +307,14 @@ export function registerTrivialSocketHandlers() {
         buildCategoryLegend(state);
         updateBoardHighlights([], null);
         if (data.rollAgain) {
-            setStatus(data.currentTurn, _t('presenter.trivial.roll_again', { nick: data.currentTurn }, `¡${data.currentTurn} acierta! Vuelve a tirar...`));
+            setStatus(
+                data.currentTurn,
+                _t(
+                    'presenter.trivial.roll_again',
+                    { nick: data.currentTurn },
+                    `¡${data.currentTurn} acierta! Vuelve a tirar...`
+                )
+            );
         } else {
             setStatus(data.currentTurn, _t('presenter.trivial.waiting_dice', null, 'Esperando que tire el dado'));
         }
@@ -283,14 +337,22 @@ export function registerTrivialSocketHandlers() {
         if (document.getElementById('trv-turn')) {
             setStatus('', `⚠ ${message}`);
         } else {
-            mostrarModalMensaje(_t('presenter.trivial.start_error_title', null, 'Error al iniciar el juego'), message, 'error');
+            mostrarModalMensaje(
+                _t('presenter.trivial.start_error_title', null, 'Error al iniciar el juego'),
+                message,
+                'error'
+            );
         }
     });
 
     window.trivialEndGame = () => {
         mostrarModalConfirmacion(
             _t('presenter.trivial.end_confirm_title', null, '¿Terminar partida?'),
-            _t('presenter.trivial.end_confirm_msg', null, 'Si confirmas, se finalizará el juego y se mostrará el podio con la clasificación actual.'),
+            _t(
+                'presenter.trivial.end_confirm_msg',
+                null,
+                'Si confirmas, se finalizará el juego y se mostrará el podio con la clasificación actual.'
+            ),
             () => getSocket().emit('trivial-end-game', { roomId: getSession() }),
             null,
             _t('presenter.trivial.end_confirm_yes', null, 'Sí, terminar'),
@@ -299,4 +361,3 @@ export function registerTrivialSocketHandlers() {
         );
     };
 }
-

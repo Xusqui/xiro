@@ -21,7 +21,17 @@ class TeamGameMode extends GameModeStrategy {
      * Procesa respuesta en modo equipos (revelación coordinada)
      */
     async processAnswer(params) {
-        const { player, answer, game, io, teamConfigs, presenterNotification, checkTeamCompletedFn, checkAllTeamsCompletedFn, players } = params;
+        const {
+            player,
+            answer,
+            game,
+            io,
+            teamConfigs,
+            presenterNotification,
+            checkTeamCompletedFn,
+            checkAllTeamsCompletedFn,
+            players
+        } = params;
         const { nickname } = player;
         const roomId = game.roomId || game.sessionId;
         const teamConfig = teamConfigs.get(roomId);
@@ -98,7 +108,6 @@ class TeamGameMode extends GameModeStrategy {
      * Broadcast coordinado en modo equipos
      */
     broadcastResults({ roomId }) {
-
         logger.debug('Broadcasting results in Team mode', { roomId });
 
         // La revelación ya se hace en _revealToAllTeams
@@ -170,7 +179,11 @@ class TeamGameMode extends GameModeStrategy {
         // Misma fórmula que el marcador en vivo y el podio final (media ajustada
         // por tamaño de equipo), no la suma: con equipos desiguales la suma
         // favorece al equipo más grande y daría otra clasificación.
-        const { globalMean, lambda } = teamScoreParams(teamConfig.teams, scores, runtimeConfig.get('TEAM_SCORE_LAMBDA'));
+        const { globalMean, lambda } = teamScoreParams(
+            teamConfig.teams,
+            scores,
+            runtimeConfig.get('TEAM_SCORE_LAMBDA')
+        );
 
         return teamConfig.teams
             .map(team => ({
@@ -225,7 +238,9 @@ class TeamGameMode extends GameModeStrategy {
             justification: justificationText,
             orderDetails: isOrderQuestion ? answer.orderDetails : null,
             matchingDetails: question.question_type === 'matching' ? answer.matchingDetails || null : null,
-            ...(question.question_type === 'word_search' ? { wordSearchDetails: answer.wordSearchDetails || null } : {}),
+            ...(question.question_type === 'word_search'
+                ? { wordSearchDetails: answer.wordSearchDetails || null }
+                : {}),
             ...(question.question_type === 'fill_blanks' ? { fillBlanksDetails: answer.fillBlanksDetails || null } : {})
         };
     }

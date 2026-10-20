@@ -14,7 +14,12 @@ import {
     startMatchAutoSendTimer,
     setCurrentSlideType
 } from './player-state.js?v=20260922172926';
-import { OPTION_COLORS, getResponsiveFontClass, fitTextToContainer, optionCaseClass } from './player-question-utils.js?v=20260922172926';
+import {
+    OPTION_COLORS,
+    getResponsiveFontClass,
+    fitTextToContainer,
+    optionCaseClass
+} from './player-question-utils.js?v=20260922172926';
 import { setBodyHTML } from './player-streak-ui.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
@@ -79,27 +84,33 @@ function renderMatchColumns() {
     const options = currentMatchQuestion.options;
     const matches = getCurrentMatches() || options.map((_, i) => i);
     // Misma caja (mayúsculas/minúsculas) en las dos columnas
-    const caseClass = optionCaseClass(options.flatMap((opt) => [opt.optionText || opt.option_text, opt.match_value]));
+    const caseClass = optionCaseClass(options.flatMap(opt => [opt.optionText || opt.option_text, opt.match_value]));
 
     // Columna izquierda: fija, en orden original
-    leftContainer.innerHTML = _tHtml(options.map((opt, i) => {
-        const colorClass = OPTION_COLORS[i % OPTION_COLORS.length];
-        const fontClass = getResponsiveFontClass(opt.optionText || opt.option_text || '', true);
-        return `
+    leftContainer.innerHTML = _tHtml(
+        options
+            .map((opt, i) => {
+                const colorClass = OPTION_COLORS[i % OPTION_COLORS.length];
+                const fontClass = getResponsiveFontClass(opt.optionText || opt.option_text || '', true);
+                return `
             <div data-fit-box class="btn-glass-3d ${colorClass} rounded-xl flex items-center px-3 py-2 shrink-0 min-h-[3rem] overflow-hidden">
                 <span data-fit-text class="text-white font-bold ${fontClass} ${caseClass} break-words w-full text-center" lang="es">
                     ${escapeHtml(opt.optionText || opt.option_text || '')}
                 </span>
             </div>
         `;
-    }).join(''));
+            })
+            .join('')
+    );
 
     // Columna derecha: reordenable — color dorado fijo para no revelar los pares
-    rightContainer.innerHTML = _tHtml(matches.map((optIdx, pos) => {
-        const opt = options[optIdx];
-        const colorClass = 'bg-amber-500';
-        const fontClass = getResponsiveFontClass(opt.match_value || '', true);
-        return `
+    rightContainer.innerHTML = _tHtml(
+        matches
+            .map((optIdx, pos) => {
+                const opt = options[optIdx];
+                const colorClass = 'bg-amber-500';
+                const fontClass = getResponsiveFontClass(opt.match_value || '', true);
+                return `
             <div
                 data-fit-box
                 class="btn-glass-3d ${colorClass} order-item rounded-xl flex items-center px-3 py-2 gap-2 cursor-grab active:cursor-grabbing shrink-0 min-h-[3rem] overflow-hidden"
@@ -114,14 +125,21 @@ function renderMatchColumns() {
                 <div class="drag-indicator text-white/70 shrink-0 text-sm">≡</div>
             </div>
         `;
-    }).join(''));
+            })
+            .join('')
+    );
 
     // Una flecha por pareja, en la misma fila que sus dos tarjetas
     const arrowsContainer = document.getElementById('matching-arrows');
     if (arrowsContainer) {
-        arrowsContainer.innerHTML = _tHtml(options.map(() =>
-            '<div data-match-arrow class="flex items-center justify-center text-white/60 text-xl font-black shrink-0">↔</div>'
-        ).join(''));
+        arrowsContainer.innerHTML = _tHtml(
+            options
+                .map(
+                    () =>
+                        '<div data-match-arrow class="flex items-center justify-center text-white/60 text-xl font-black shrink-0">↔</div>'
+                )
+                .join('')
+        );
     }
 
     // Un solo scroll para las tres columnas: el texto se reduce para caber,
@@ -142,7 +160,9 @@ function syncMatchRows() {
     const lefts = Array.from(document.querySelectorAll('#matching-left > [data-fit-box]'));
     const rights = Array.from(document.querySelectorAll('#matching-right > [data-match-item]'));
     const arrows = Array.from(document.querySelectorAll('#matching-arrows > [data-match-arrow]'));
-    [...lefts, ...rights, ...arrows].forEach(el => { el.style.height = ''; });
+    [...lefts, ...rights, ...arrows].forEach(el => {
+        el.style.height = '';
+    });
     lefts.forEach((left, i) => {
         const right = rights[i];
         if (!right) return;
@@ -161,21 +181,21 @@ window.addEventListener('resize', () => {
 function bindMatchDragHandlers(container) {
     let dragSourcePos = null;
 
-    container.querySelectorAll('[data-match-item]').forEach((item) => {
-        item.addEventListener('dragstart', (e) => {
+    container.querySelectorAll('[data-match-item]').forEach(item => {
+        item.addEventListener('dragstart', e => {
             dragSourcePos = Number(item.dataset.position);
             e.dataTransfer.effectAllowed = 'move';
             e.dataTransfer.setData('text/plain', String(dragSourcePos));
         });
 
-        item.addEventListener('dragover', (e) => {
+        item.addEventListener('dragover', e => {
             e.preventDefault();
             item.classList.add('ring-4', 'ring-white/70', 'scale-105');
         });
         item.addEventListener('dragleave', () => {
             item.classList.remove('ring-4', 'ring-white/70', 'scale-105');
         });
-        item.addEventListener('drop', (e) => {
+        item.addEventListener('drop', e => {
             e.preventDefault();
             item.classList.remove('ring-4', 'ring-white/70', 'scale-105');
             const targetPos = Number(item.dataset.position);
@@ -190,7 +210,7 @@ function bindMatchDragHandlers(container) {
 function bindMatchPointerHandlers(container) {
     if (container.dataset.pointerBound === 'true') return;
 
-    container.addEventListener('pointerdown', (e) => {
+    container.addEventListener('pointerdown', e => {
         const item = e.target.closest('[data-match-item]');
         if (!item) return;
         if (e.pointerType === 'mouse' && e.button !== 0) return;
@@ -200,7 +220,7 @@ function bindMatchPointerHandlers(container) {
         item.classList.add('order-dragging');
     });
 
-    container.addEventListener('pointermove', (e) => {
+    container.addEventListener('pointermove', e => {
         if (!pointerDragState || e.pointerId !== pointerDragState.pointerId) return;
         e.preventDefault();
         const offsetY = e.clientY - pointerDragState.startY;
@@ -218,7 +238,7 @@ function bindMatchPointerHandlers(container) {
         container.insertBefore(pointerDragState.draggedItem, from < to ? over.nextSibling : over);
     });
 
-    const finish = (e) => {
+    const finish = e => {
         if (!pointerDragState || e.pointerId !== pointerDragState.pointerId) return;
         pointerDragState.draggedItem.style.transform = '';
         pointerDragState.draggedItem.classList.remove('order-dragging');

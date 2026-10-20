@@ -38,8 +38,7 @@ function clearStaleAnswers(player, socket, game) {
     // Borrar en socket.data (cross-worker compatible porque socket es local)
     if (socket?.data?.answers) delete socket.data.answers[idx];
     if (Array.isArray(socket?.data?.answeredQuestions)) {
-        socket.data.answeredQuestions =
-            socket.data.answeredQuestions.filter(i => i !== idx);
+        socket.data.answeredQuestions = socket.data.answeredQuestions.filter(i => i !== idx);
     }
 
     // Resetear epoch del socket para que no pase el check de checkAllTrivialPlayersAnswered
@@ -101,9 +100,7 @@ async function checkAllTrivialPlayersAnswered(game, io) {
         logger.warn('checkAllTrivialPlayersAnswered: Redis fallback to socket.data', { roomId, error: err.message });
         const epoch = game.trivialQuestionEpoch;
         const allSockets = await io.in(roomId + ':players').fetchSockets();
-        const answered = allSockets
-            .filter(s => s.data?.trivialAnswerEpoch === epoch)
-            .map(s => s.data?.nickname);
+        const answered = allSockets.filter(s => s.data?.trivialAnswerEpoch === epoch).map(s => s.data?.nickname);
         answeredSet = new Set(answered);
     }
 
@@ -111,8 +108,12 @@ async function checkAllTrivialPlayersAnswered(game, io) {
     const notAnswered = activePlayers.filter(n => !answeredSet.has(n));
 
     logger.debug('checkAllTrivialPlayersAnswered', {
-        roomId, epoch: game.trivialQuestionEpoch, activePlayers,
-        answeredNicks, notAnswered, allAnswered: notAnswered.length === 0
+        roomId,
+        epoch: game.trivialQuestionEpoch,
+        activePlayers,
+        answeredNicks,
+        notAnswered,
+        allAnswered: notAnswered.length === 0
     });
 
     return notAnswered.length === 0;

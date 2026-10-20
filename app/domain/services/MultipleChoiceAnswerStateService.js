@@ -1,27 +1,27 @@
 /**
  * @fileoverview MultipleChoiceAnswerStateService - Gestión de estado para respuestas de selección múltiple
- * 
+ *
  * Maneja validación, construcción de estado y actualización de jugadores
  * para preguntas tipo multiple_choice
- * 
+ *
  * @module domain/services/MultipleChoiceAnswerStateService
  */
 
 /**
  * Valida una respuesta de selección múltiple
- * 
+ *
  * Reglas de validación:
  * - Debe tener al menos 1 opción seleccionada
  * - Los índices deben ser válidos (dentro del rango de opciones)
  * - El juego debe permitir respuestas (canAnswer = true)
- * 
+ *
  * @param {Object} params - Parámetros
  * @param {Object} params.question - Pregunta con options
  * @param {Array<number>} params.selectedIndices - Índices seleccionados [0, 2, 4]
  * @param {boolean} params.gameCanAnswer - Si el juego permite respuestas
  * @param {boolean} params.allowWhenClosed - Permitir respuesta tardía (últimos segundos)
  * @returns {Object} { valid: boolean, reason: string|null }
- * 
+ *
  * @example
  * validateMultipleChoiceAnswer({
  *   question: { options: [{}, {}, {}] },
@@ -31,12 +31,7 @@
  * });
  * // => { valid: true, reason: null }
  */
-function validateMultipleChoiceAnswer({
-    question,
-    selectedIndices,
-    gameCanAnswer,
-    allowWhenClosed = false
-}) {
+function validateMultipleChoiceAnswer({ question, selectedIndices, gameCanAnswer, allowWhenClosed = false }) {
     // Validar que la pregunta exista
     if (!question) {
         return { valid: false, reason: 'question-missing' };
@@ -82,14 +77,14 @@ function validateMultipleChoiceAnswer({
 
 /**
  * Construye el estado de respuesta para selección múltiple
- * 
+ *
  * @param {Object} params - Parámetros
  * @param {Array<number>} params.selectedIndices - Índices seleccionados
  * @param {number} params.gameStartTime - Timestamp inicio de pregunta
  * @param {number} params.currentTime - Timestamp actual
  * @param {number} params.questionTimeLimit - Límite de tiempo en segundos
  * @returns {Object} Estado estructurado de la respuesta
- * 
+ *
  * @example
  * buildMultipleChoiceAnswerState({
  *   selectedIndices: [0, 2, 4],
@@ -104,12 +99,7 @@ function validateMultipleChoiceAnswer({
  * //   timeElapsed: 15
  * // }
  */
-function buildMultipleChoiceAnswerState({
-    selectedIndices,
-    gameStartTime,
-    currentTime,
-    questionTimeLimit
-}) {
+function buildMultipleChoiceAnswerState({ selectedIndices, gameStartTime, currentTime, questionTimeLimit }) {
     const timeElapsed = (currentTime - gameStartTime) / 1000;
     const timeLeft = Math.max(0, questionTimeLimit - timeElapsed);
 
@@ -123,13 +113,13 @@ function buildMultipleChoiceAnswerState({
 
 /**
  * Actualiza el estado del jugador con la respuesta de selección múltiple
- * 
+ *
  * @param {Object} params - Parámetros
  * @param {Object} params.player - Objeto del jugador
  * @param {Object} params.socket - Socket del jugador
  * @param {Object} params.game - Objeto del juego
  * @param {Object} params.answerState - Estado de la respuesta construido
- * 
+ *
  * @example
  * updatePlayerState({
  *   player: { answers: {}, answeredQuestions: new Set() },
@@ -138,12 +128,7 @@ function buildMultipleChoiceAnswerState({
  *   answerState: { selectedIndices: [0, 2], timestamp: 123, ... }
  * });
  */
-function updatePlayerState({
-    player,
-    socket,
-    game,
-    answerState
-}) {
+function updatePlayerState({ player, socket, game, answerState }) {
     if (!player) {
         return;
     }

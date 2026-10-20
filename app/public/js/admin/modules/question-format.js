@@ -28,7 +28,8 @@
     function multipleChoiceScoring(question) {
         return {
             mc_points_per_correct: toNumberOrNull(question.mcPointsPerCorrect ?? question.mc_points_per_correct) ?? 10,
-            mc_penalty_per_incorrect: toNumberOrNull(question.mcPenaltyPerIncorrect ?? question.mc_penalty_per_incorrect) ?? 10,
+            mc_penalty_per_incorrect:
+                toNumberOrNull(question.mcPenaltyPerIncorrect ?? question.mc_penalty_per_incorrect) ?? 10,
             mc_perfect_bonus: toNumberOrNull(question.mcPerfectBonus ?? question.mc_perfect_bonus) ?? 20
         };
     }
@@ -79,7 +80,7 @@
             type: 'multiple_choice',
             ...mediaFields(question),
             ...multipleChoiceScoring(question),
-            options: (question.options || []).map((option) => ({
+            options: (question.options || []).map(option => ({
                 option_text: option.optionText,
                 is_correct: !!option.isCorrect,
                 order_index: null,
@@ -91,7 +92,7 @@
     /** Justificación de una opción: la suya en ordenar; en el resto, solo la correcta. */
     function exportOptionJustification(option, question, questionType) {
         if (questionType === 'order') return option.justification || null;
-        return option.isCorrect ? (option.justification || question.justification || null) : null;
+        return option.isCorrect ? option.justification || question.justification || null : null;
     }
 
     /** Tipos cuyas opciones guardan su posición (en sopa de letras, el orden de las palabras). */
@@ -120,7 +121,8 @@
     function mapFillBlanksForExport(question) {
         const FB = window.XiroFillBlanks;
         const text = questionText(question) || '';
-        const withBrackets = FB && FB.hasMarkers(text) ? FB.toEditorText(text, FB.wordsFromOptions(question.options)) : text;
+        const withBrackets =
+            FB && FB.hasMarkers(text) ? FB.toEditorText(text, FB.wordsFromOptions(question.options)) : text;
         return {
             question_text: withBrackets,
             type: 'fill_blanks',
@@ -174,7 +176,7 @@
             ...importBase(question, 'multiple_choice'),
             ...multipleChoiceScoring(question),
             ...EMPTY_NUMERIC_FIELDS,
-            options: (question.options || []).map((option) => ({
+            options: (question.options || []).map(option => ({
                 optionText: option.optionText || option.option_text,
                 isCorrect: !!option.isCorrect || !!option.is_correct,
                 order_index: null,
@@ -208,7 +210,10 @@
         const hasWords = Array.isArray(question.options) && question.options.length > 0;
         return {
             ...importBase(question, 'fill_blanks'),
-            questionText: FB && hasWords && FB.hasMarkers(text) ? FB.toEditorText(text, FB.wordsFromOptions(question.options)) : text,
+            questionText:
+                FB && hasWords && FB.hasMarkers(text)
+                    ? FB.toEditorText(text, FB.wordsFromOptions(question.options))
+                    : text,
             ...EMPTY_NUMERIC_FIELDS,
             options: []
         };

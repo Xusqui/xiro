@@ -7,22 +7,40 @@
 
 function panicRestart() {
     if (!isAdmin()) {
-        mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.tools.panic_no_perm', null, 'No tienes permisos para usar el botón PANIC'), 'error');
+        mostrarModalError(
+            _t('admin.common.error_title', null, '❌ Error'),
+            _t('admin.tools.panic_no_perm', null, 'No tienes permisos para usar el botón PANIC'),
+            'error'
+        );
         return;
     }
 
     executeWithUnsavedChangesGuard(() => {
         mostrarModalConfirmacion(
             _t('admin.tools.panic_title', null, '⚠️ ADVERTENCIA'),
-            _t('admin.tools.panic_message', null, 'Esto reiniciará el contenedor Docker completo inmediatamente. Todas las partidas activas se perderán. ¿Continuar?'),
+            _t(
+                'admin.tools.panic_message',
+                null,
+                'Esto reiniciará el contenedor Docker completo inmediatamente. Todas las partidas activas se perderán. ¿Continuar?'
+            ),
             async () => {
                 try {
                     await fetchWithAuth('/api/panic-restart', { method: 'POST' });
-                    mostrarModalError(_t('admin.tools.panic_success_title', null, '✅ Contenedor reiniciando'), _t('admin.tools.panic_success_msg', null, 'El contenedor Docker está reiniciando. La página se recargará en ~10 segundos...'), 'success');
+                    mostrarModalError(
+                        _t('admin.tools.panic_success_title', null, '✅ Contenedor reiniciando'),
+                        _t(
+                            'admin.tools.panic_success_msg',
+                            null,
+                            'El contenedor Docker está reiniciando. La página se recargará en ~10 segundos...'
+                        ),
+                        'success'
+                    );
                 } catch (err) {
                     console.log('Contenedor reiniciando...');
                 }
-                setTimeout(() => { location.reload(); }, 10000);
+                setTimeout(() => {
+                    location.reload();
+                }, 10000);
             },
             null,
             _t('admin.tools.reload_btn', null, 'Reiniciar'),
@@ -35,20 +53,38 @@ function panicRestart() {
 
 function reloadServer() {
     if (!isAdmin()) {
-        mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.tools.reload_no_perm', null, 'No tienes permisos para reiniciar el servidor'), 'error');
+        mostrarModalError(
+            _t('admin.common.error_title', null, '❌ Error'),
+            _t('admin.tools.reload_no_perm', null, 'No tienes permisos para reiniciar el servidor'),
+            'error'
+        );
         return;
     }
     mostrarModalConfirmacion(
         _t('admin.tools.reload_title', null, '🔄 Reiniciar Servidor'),
-        _t('admin.tools.reload_message', null, 'Recargará los workers del servidor uno a uno (pm2 reload). Las partidas activas pueden sufrir una breve interrupción. ¿Continuar?'),
+        _t(
+            'admin.tools.reload_message',
+            null,
+            'Recargará los workers del servidor uno a uno (pm2 reload). Las partidas activas pueden sufrir una breve interrupción. ¿Continuar?'
+        ),
         async () => {
             try {
                 await fetchWithAuth('/api/admin/reload-server', { method: 'POST' });
-                mostrarModalError(_t('admin.tools.reload_success_title', null, '✅ Recargando'), _t('admin.tools.reload_success_msg', null, 'Los workers se están recargando. La página se recargará en ~5 segundos...'), 'success');
+                mostrarModalError(
+                    _t('admin.tools.reload_success_title', null, '✅ Recargando'),
+                    _t(
+                        'admin.tools.reload_success_msg',
+                        null,
+                        'Los workers se están recargando. La página se recargará en ~5 segundos...'
+                    ),
+                    'success'
+                );
             } catch (err) {
                 console.log('Servidor recargando...');
             }
-            setTimeout(() => { location.reload(); }, 5000);
+            setTimeout(() => {
+                location.reload();
+            }, 5000);
         },
         null,
         _t('admin.tools.reload_btn', null, 'Reiniciar'),
@@ -60,13 +96,21 @@ function reloadServer() {
 
 function limpiarArchivosHuerfanos() {
     if (!isAdmin()) {
-        mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.tools.cleanup_no_perm', null, 'No tienes permisos para limpiar archivos'), 'error');
+        mostrarModalError(
+            _t('admin.common.error_title', null, '❌ Error'),
+            _t('admin.tools.cleanup_no_perm', null, 'No tienes permisos para limpiar archivos'),
+            'error'
+        );
         return;
     }
 
     mostrarModalConfirmacion(
         _t('admin.tools.cleanup_title', null, '⚠️ Confirmación'),
-        _t('admin.tools.cleanup_message', null, '¿Estás seguro de que quieres eliminar los archivos huérfanos de uploads? Esta acción no se puede deshacer.'),
+        _t(
+            'admin.tools.cleanup_message',
+            null,
+            '¿Estás seguro de que quieres eliminar los archivos huérfanos de uploads? Esta acción no se puede deshacer.'
+        ),
         async () => {
             try {
                 const response = await fetchWithAuth('/api/uploads/cleanup', { method: 'POST' });
@@ -74,16 +118,32 @@ function limpiarArchivosHuerfanos() {
 
                 if (data.success) {
                     if (data.deleted === 0) {
-                        mostrarModalError(_t('admin.common.success_title', null, '✅ Éxito'), _t('admin.tools.cleanup_no_orphans', null, 'No se encontraron archivos huérfanos'), 'success');
+                        mostrarModalError(
+                            _t('admin.common.success_title', null, '✅ Éxito'),
+                            _t('admin.tools.cleanup_no_orphans', null, 'No se encontraron archivos huérfanos'),
+                            'success'
+                        );
                     } else {
-                        mostrarModalError(_t('admin.common.success_title', null, '✅ Éxito'), `${data.message}`, 'success');
+                        mostrarModalError(
+                            _t('admin.common.success_title', null, '✅ Éxito'),
+                            `${data.message}`,
+                            'success'
+                        );
                     }
                 } else {
-                    mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), `${_t('admin.tools.error_prefix', null, 'Error:')} ${data.error}`, 'error');
+                    mostrarModalError(
+                        _t('admin.common.error_title', null, '❌ Error'),
+                        `${_t('admin.tools.error_prefix', null, 'Error:')} ${data.error}`,
+                        'error'
+                    );
                 }
             } catch (err) {
                 console.error('Error al limpiar archivos:', err);
-                mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.common.error_server', null, 'Error de conexión con el servidor'), 'error');
+                mostrarModalError(
+                    _t('admin.common.error_title', null, '❌ Error'),
+                    _t('admin.common.error_server', null, 'Error de conexión con el servidor'),
+                    'error'
+                );
             }
         },
         null,
@@ -96,13 +156,21 @@ function limpiarArchivosHuerfanos() {
 
 function limpiarCache() {
     if (!isAdmin()) {
-        mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.tools.cache_no_perm', null, 'No tienes permisos para limpiar la caché'), 'error');
+        mostrarModalError(
+            _t('admin.common.error_title', null, '❌ Error'),
+            _t('admin.tools.cache_no_perm', null, 'No tienes permisos para limpiar la caché'),
+            'error'
+        );
         return;
     }
 
     mostrarModalConfirmacion(
         _t('admin.tools.cache_title', null, '🧹 Limpiar Caché de Juegos'),
-        _t('admin.tools.cache_message', null, '¿Estás seguro de que quieres limpiar la caché de juegos de la base de datos? Esto fuerza a recargar los juegos en la próxima petición.'),
+        _t(
+            'admin.tools.cache_message',
+            null,
+            '¿Estás seguro de que quieres limpiar la caché de juegos de la base de datos? Esto fuerza a recargar los juegos en la próxima petición.'
+        ),
         async () => {
             try {
                 const response = await fetchWithAuth('/api/admin/clear-cache', { method: 'POST' });
@@ -110,20 +178,29 @@ function limpiarCache() {
 
                 if (data.success) {
                     const gamesCleared = data.cleared.games || 0;
-                    const removedLabel = gamesCleared === 1
-                        ? _t('admin.tools.cache_removed_single', null, 'juego eliminado')
-                        : _t('admin.tools.cache_removed_plural', null, 'juegos eliminados');
+                    const removedLabel =
+                        gamesCleared === 1
+                            ? _t('admin.tools.cache_removed_single', null, 'juego eliminado')
+                            : _t('admin.tools.cache_removed_plural', null, 'juegos eliminados');
                     mostrarModalError(
                         _t('admin.tools.cache_success_title', null, '✅ Caché Limpiada'),
                         `${_t('admin.tools.cache_success_prefix', null, 'Caché de juegos limpiada exitosamente.')} ${gamesCleared} ${removedLabel} ${_t('admin.tools.cache_suffix', null, 'de la caché.')}`,
                         'success'
                     );
                 } else {
-                    mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), `${_t('admin.tools.cache_error_prefix', null, 'Error al limpiar caché:')} ${data.error}`, 'error');
+                    mostrarModalError(
+                        _t('admin.common.error_title', null, '❌ Error'),
+                        `${_t('admin.tools.cache_error_prefix', null, 'Error al limpiar caché:')} ${data.error}`,
+                        'error'
+                    );
                 }
             } catch (err) {
                 console.error('Error limpiando caché:', err);
-                mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.common.error_server', null, 'Error de conexión con el servidor'), 'error');
+                mostrarModalError(
+                    _t('admin.common.error_title', null, '❌ Error'),
+                    _t('admin.common.error_server', null, 'Error de conexión con el servidor'),
+                    'error'
+                );
             }
         },
         null,
@@ -164,7 +241,9 @@ function copiarPromptIA() {
         if (!btn) return;
         const original = btn.innerHTML;
         btn.innerHTML = `<i class="fas fa-check mr-2"></i>${_t('admin.tools.upload_ai_prompt_copied', null, 'Copiado')}`;
-        setTimeout(() => { btn.innerHTML = original; }, 2000);
+        setTimeout(() => {
+            btn.innerHTML = original;
+        }, 2000);
     });
 }
 
@@ -335,7 +414,7 @@ function setupFileUpload() {
     });
 
     // Manejar drop
-    dropZone.addEventListener('drop', (e) => {
+    dropZone.addEventListener('drop', e => {
         const dt = e.dataTransfer;
         const files = dt.files;
         handleFile(files[0]);
@@ -347,13 +426,13 @@ function setupFileUpload() {
     });
 
     // Clic en botón abre selector
-    selectFileBtn.addEventListener('click', (e) => {
+    selectFileBtn.addEventListener('click', e => {
         e.stopPropagation();
         fileInput.click();
     });
 
     // Manejar selección de archivo
-    fileInput.addEventListener('change', (e) => {
+    fileInput.addEventListener('change', e => {
         if (e.target.files.length > 0) {
             handleFile(e.target.files[0]);
         }
@@ -369,19 +448,25 @@ function setupFileUpload() {
 
         // Validar que sea JSON
         if (!file.name.endsWith('.json') && file.type !== 'application/json') {
-            mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.tools.upload_error_type', null, 'Por favor selecciona un archivo JSON válido'), 'error');
+            mostrarModalError(
+                _t('admin.common.error_title', null, '❌ Error'),
+                _t('admin.tools.upload_error_type', null, 'Por favor selecciona un archivo JSON válido'),
+                'error'
+            );
             return;
         }
 
         // Mostrar información del archivo
         fileName.textContent = _t(file.name);
-        fileSize.textContent = _t(`${(file.size / 1024).toFixed(2)} ${_t('admin.tools.upload_size_unit_kb', null, 'KB')}`);
+        fileSize.textContent = _t(
+            `${(file.size / 1024).toFixed(2)} ${_t('admin.tools.upload_size_unit_kb', null, 'KB')}`
+        );
         fileInfo.classList.remove('hidden');
         dropZone.classList.add('hidden');
 
         // Leer el archivo
         const reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = e => {
             try {
                 cuestionarioCargado = JSON.parse(e.target.result);
 
@@ -397,12 +482,18 @@ function setupFileUpload() {
                 const resultado = document.getElementById('resultadoCarga');
                 resultado.classList.remove('hidden', 'bg-blue-100');
                 resultado.classList.add('bg-red-100');
-                resultado.innerHTML = _tHtml(`<p class="text-red-800">${_t('admin.tools.upload_file_read_error_prefix', null, '❌ Error al leer el archivo:')} ${escapeHtml(err.message)}</p>`);
+                resultado.innerHTML = _tHtml(
+                    `<p class="text-red-800">${_t('admin.tools.upload_file_read_error_prefix', null, '❌ Error al leer el archivo:')} ${escapeHtml(err.message)}</p>`
+                );
                 clearFile();
             }
         };
         reader.onerror = () => {
-            mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.tools.upload_read_error', null, 'Error al leer el archivo'), 'error');
+            mostrarModalError(
+                _t('admin.common.error_title', null, '❌ Error'),
+                _t('admin.tools.upload_read_error', null, 'Error al leer el archivo'),
+                'error'
+            );
             clearFile();
         };
         reader.readAsText(file);
@@ -427,12 +518,18 @@ async function cargarBancoDesdeJSON() {
     const pin = document.getElementById('bankPin').value.trim();
 
     if (!cuestionarioCargado) {
-        mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), _t('admin.tools.upload_no_file', null, 'Debes seleccionar un archivo JSON primero'), 'warning');
+        mostrarModalError(
+            _t('admin.common.validation_title', null, '⚠️ Validación'),
+            _t('admin.tools.upload_no_file', null, 'Debes seleccionar un archivo JSON primero'),
+            'warning'
+        );
         return;
     }
 
     resultado.classList.remove('hidden', 'bg-green-100', 'bg-red-100', 'bg-blue-100');
-    resultado.innerHTML = _tHtml(`<p class="text-slate-600">${_t('admin.tools.upload_creating_bank_prefix', null, 'Creando banco')} "${escapeHtml(cuestionarioCargado.name)}"...</p>`);
+    resultado.innerHTML = _tHtml(
+        `<p class="text-slate-600">${_t('admin.tools.upload_creating_bank_prefix', null, 'Creando banco')} "${escapeHtml(cuestionarioCargado.name)}"...</p>`
+    );
 
     try {
         // Transformar el JSON de formato BD a formato API
@@ -485,7 +582,11 @@ async function cargarBancoDesdeJSON() {
             mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), mensaje, 'error');
         }
     } catch (err) {
-        mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), `${_t('admin.tools.upload_server_error_prefix', null, 'No se pudo conectar con el servidor:')} ${err.message}`, 'error');
+        mostrarModalError(
+            _t('admin.common.error_title', null, '❌ Error'),
+            `${_t('admin.tools.upload_server_error_prefix', null, 'No se pudo conectar con el servidor:')} ${err.message}`,
+            'error'
+        );
     }
 }
 
@@ -511,7 +612,7 @@ async function exportarJuegoAPDF(gameId, gameName) {
         const response = await fetch(`/api/custom-games/${gameId}/export-pdf`, {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${token}`
+                Authorization: `Bearer ${token}`
             }
         });
 
@@ -536,7 +637,8 @@ async function exportarJuegoAPDF(gameId, gameName) {
 
         // Mostrar mensaje de éxito
         const successDiv = document.createElement('div');
-        successDiv.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-4 rounded-xl shadow-2xl z-50 flex items-center gap-3';
+        successDiv.className =
+            'fixed top-4 right-4 bg-green-500 text-white px-6 py-4 rounded-xl shadow-2xl z-50 flex items-center gap-3';
         successDiv.innerHTML = _tHtml(`
             <i class="fas fa-check-circle text-2xl"></i>
             <span class="font-bold">${_t('admin.tools.pdf_success', null, 'PDF generado correctamente')}</span>
@@ -546,10 +648,13 @@ async function exportarJuegoAPDF(gameId, gameName) {
         setTimeout(() => {
             successDiv.remove();
         }, 3000);
-
     } catch (error) {
         console.error('Error exportando PDF:', error);
-        mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), `${_t('admin.tools.pdf_export_error_prefix', null, 'Error al exportar a PDF:')} ${error.message}`, 'error');
+        mostrarModalError(
+            _t('admin.common.error_title', null, '❌ Error'),
+            `${_t('admin.tools.pdf_export_error_prefix', null, 'Error al exportar a PDF:')} ${error.message}`,
+            'error'
+        );
     }
 }
 
@@ -557,30 +662,52 @@ async function exportarJuegoAPDF(gameId, gameName) {
 
 function borrarLogs() {
     if (!isAdmin()) {
-        mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.tools.logs_no_perm', null, 'No tienes permisos para borrar los logs'), 'error');
+        mostrarModalError(
+            _t('admin.common.error_title', null, '❌ Error'),
+            _t('admin.tools.logs_no_perm', null, 'No tienes permisos para borrar los logs'),
+            'error'
+        );
         return;
     }
 
     mostrarModalConfirmacion(
         _t('admin.tools.logs_title', null, '🗑️ Borrar Logs'),
-        _t('admin.tools.logs_message', null, '¿Estás seguro de que quieres vaciar todos los archivos de log (backend, Redis y backup)?'),
+        _t(
+            'admin.tools.logs_message',
+            null,
+            '¿Estás seguro de que quieres vaciar todos los archivos de log (backend, Redis y backup)?'
+        ),
         async () => {
             try {
                 const response = await fetchWithAuth('/api/admin/clear-logs', { method: 'POST' });
                 const data = await response.json();
 
                 if (data.success) {
-                    const cleared = data.results.filter(r => r.cleared).map(r => r.file).join(', ');
-                    const failed = data.results.filter(r => !r.cleared).map(r => r.file).join(', ');
+                    const cleared = data.results
+                        .filter(r => r.cleared)
+                        .map(r => r.file)
+                        .join(', ');
+                    const failed = data.results
+                        .filter(r => !r.cleared)
+                        .map(r => r.file)
+                        .join(', ');
                     let msg = `${_t('admin.tools.logs_deleted_prefix', null, 'Logs borrados:')} ${cleared || _t('admin.tools.logs_none', null, 'ninguno')}`;
                     if (failed) msg += `\n${_t('admin.tools.logs_failed_prefix', null, 'Fallaron:')} ${failed}`;
                     mostrarModalError(_t('admin.tools.logs_success_title', null, '✅ Logs vaciados'), msg, 'success');
                 } else {
-                    mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), `${_t('admin.tools.error_prefix', null, 'Error:')} ${data.error}`, 'error');
+                    mostrarModalError(
+                        _t('admin.common.error_title', null, '❌ Error'),
+                        `${_t('admin.tools.error_prefix', null, 'Error:')} ${data.error}`,
+                        'error'
+                    );
                 }
             } catch (err) {
                 console.error('Error al borrar logs:', err);
-                mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.common.error_server', null, 'Error de conexión con el servidor'), 'error');
+                mostrarModalError(
+                    _t('admin.common.error_title', null, '❌ Error'),
+                    _t('admin.common.error_server', null, 'Error de conexión con el servidor'),
+                    'error'
+                );
             }
         },
         null,

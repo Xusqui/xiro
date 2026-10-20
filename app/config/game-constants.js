@@ -1,7 +1,7 @@
 /**
  * @fileoverview Constantes de lógica de juego y puntuación
  * Centraliza todos los números mágicos relacionados con la mecánica del juego
- * 
+ *
  * FASE 1 - Semana 3: Extracción de constantes
  * Fecha: 31 de enero de 2026
  */
@@ -32,9 +32,9 @@ module.exports = {
 
         // ===== ESTRATEGIAS DE PUNTUACIÓN =====
         STRATEGIES: {
-            TIME_BASED: 'time_based',        // Estrategia por defecto (base + tiempo)
-            STREAK_BONUS: 'streak_bonus',    // Racha de aciertos
-            BETTING: 'betting',              // Apuesta de puntos (FUTURO: requiere UI)
+            TIME_BASED: 'time_based', // Estrategia por defecto (base + tiempo)
+            STREAK_BONUS: 'streak_bonus', // Racha de aciertos
+            BETTING: 'betting' // Apuesta de puntos (FUTURO: requiere UI)
         },
 
         // ===== CONFIGURACIÓN DE RACHAS =====
@@ -46,22 +46,22 @@ module.exports = {
             DEFAULT_DOUBLE_THRESHOLD: parseInt(process.env.DOUBLE_STREAK_THRESHOLD) || 5,
 
             // Bonus por defecto de racha individual (50% = 0.50)
-            DEFAULT_BONUS_PERCENTAGE: parseFloat(process.env.STREAK_BONUS_PERCENTAGE) || 0.50,
+            DEFAULT_BONUS_PERCENTAGE: parseFloat(process.env.STREAK_BONUS_PERCENTAGE) || 0.5,
 
             // Bonus por defecto de doble racha (100% = 1.00)
-            DEFAULT_DOUBLE_BONUS_PERCENTAGE: parseFloat(process.env.DOUBLE_STREAK_BONUS_PERCENTAGE) || 1.00,
+            DEFAULT_DOUBLE_BONUS_PERCENTAGE: parseFloat(process.env.DOUBLE_STREAK_BONUS_PERCENTAGE) || 1.0,
 
             // Bonus por defecto de racha de equipo (50% = 0.50)
-            DEFAULT_TEAM_BONUS_PERCENTAGE: 0.50,
+            DEFAULT_TEAM_BONUS_PERCENTAGE: 0.5,
 
             // Racha máxima permitida (evitar bonuses infinitos)
-            MAX_STREAK: 20,
+            MAX_STREAK: 20
         },
 
         // ===== CONFIGURACIÓN DE APUESTAS =====
         BETTING: {
             // Porcentaje mínimo de apuesta sobre puntos actuales (10% = 0.10)
-            MIN_BET_PERCENTAGE: 0.10,
+            MIN_BET_PERCENTAGE: 0.1,
 
             // Apuesta mínima absoluta (si tiene < 100 puntos)
             MIN_BET_ABSOLUTE: 10,
@@ -76,7 +76,7 @@ module.exports = {
             MAX_BET_TIMEOUT_MS: 0, // FUTURO: configurable por juego
 
             // Incluir bonus de tiempo en apuestas
-            INCLUDE_TIME_BONUS: true,
+            INCLUDE_TIME_BONUS: true
         },
 
         // ===== CONFIGURACIÓN DE PUNTUACIÓN ALEATORIA =====
@@ -92,8 +92,8 @@ module.exports = {
             DEFAULT_MAX: 50,
 
             // Duración de la pantalla "JUGÁIS POR XXX PUNTOS" antes de mostrar la pregunta (ms)
-            DEFAULT_REVEAL_MS: 3500,
-        },
+            DEFAULT_REVEAL_MS: 3500
+        }
     },
 
     // ===== INTRO DE PARTIDA =====
@@ -102,7 +102,7 @@ module.exports = {
         // momento en que el iris de colores de public/js/core/game-intro-overlay.js
         // cubre la pantalla (T.reveal = 5710): la primera pregunta llega justo
         // entonces y el iris se abre sobre ella, sin volver a enseñar el lobby.
-        DURATION_MS: 5750,
+        DURATION_MS: 5750
     },
 
     // ===== TIEMPO =====
@@ -120,7 +120,7 @@ module.exports = {
         FAST_ANSWER_THRESHOLD: 5,
 
         // Umbral de tiempo para considerar respuesta "lenta" (segundos)
-        SLOW_ANSWER_THRESHOLD: 10,
+        SLOW_ANSWER_THRESHOLD: 10
     },
 
     // ===== TIMEOUTS Y CLEANUP =====
@@ -147,7 +147,7 @@ module.exports = {
         RATE_LIMIT_CLEANUP_INTERVAL: 300000, // 5 minutos
 
         // Tiempo de expiración adicional del rate limiter (milisegundos)
-        RATE_LIMIT_EXPIRY_BUFFER: 60000, // 1 minuto
+        RATE_LIMIT_EXPIRY_BUFFER: 60000 // 1 minuto
     },
 
     // ===== LÍMITES DE JUGADORES =====
@@ -162,7 +162,7 @@ module.exports = {
         MAX_PLAYERS_PER_LOBBY: parseInt(process.env.MAX_PLAYERS_PER_LOBBY) || 1000,
 
         // Máximo de lobbies activos simultáneos
-        MAX_ACTIVE_LOBBIES: parseInt(process.env.MAX_LOBBIES) || 10,
+        MAX_ACTIVE_LOBBIES: parseInt(process.env.MAX_LOBBIES) || 10
     },
 
     // ===== RATE LIMITING =====
@@ -180,7 +180,7 @@ module.exports = {
         SUBMIT_ANSWER_WINDOW_MS: 1000,
 
         // Máximo de entradas en el rate limiter
-        MAX_RATE_LIMIT_ENTRIES: 5000,
+        MAX_RATE_LIMIT_ENTRIES: 5000
     },
 
     // ===== CACHÉ =====
@@ -189,7 +189,7 @@ module.exports = {
         PIN_VALIDATION_TTL: 5 * 60 * 1000, // 5 minutos
 
         // Intervalo de limpieza del caché de PINs (milisegundos)
-        PIN_CACHE_CLEANUP_INTERVAL: 5 * 60 * 1000, // 5 minutos
+        PIN_CACHE_CLEANUP_INTERVAL: 5 * 60 * 1000 // 5 minutos
     },
 
     // ===== MODO EQUIPOS =====
@@ -207,7 +207,7 @@ module.exports = {
         MIN_PLAYERS_PER_TEAM: 1,
 
         // Máximo de jugadores por equipo (null = sin límite)
-        MAX_PLAYERS_PER_TEAM: null,
+        MAX_PLAYERS_PER_TEAM: null
     },
 
     // ===== RANKINGS Y BROADCASTS =====
@@ -216,7 +216,7 @@ module.exports = {
         TOP_PLAYERS_DURING_GAME: parseInt(process.env.TOP_PLAYERS_DURING_GAME) || 5,
 
         // Throttling de broadcasts de ranking (milisegundos)
-        RANKING_UPDATE_THROTTLE: 500,
+        RANKING_UPDATE_THROTTLE: 500
     },
 
     // ===== ESTADOS DEL JUEGO =====
@@ -228,7 +228,7 @@ module.exports = {
         ANSWERING: 'answering',
         SCORING: 'scoring',
         RESULTS: 'results',
-        GAME_OVER: 'game_over',
+        GAME_OVER: 'game_over'
     },
 
     // ===== ESTADOS DEL JUGADOR =====
@@ -238,26 +238,26 @@ module.exports = {
         LOBBY_WAITING: 'lobby_waiting',
         PRESENTER_LOBBY: 'presenter_lobby',
         PRESENTER_CONNECTED: 'presenter_connected',
-        PRESENTER_DISCONNECTED: 'presenter_disconnected',
+        PRESENTER_DISCONNECTED: 'presenter_disconnected'
     },
 
     // ===== ROLES =====
     ROLES: {
         PLAYER: 'player',
         PRESENTER: 'presenter',
-        HOST: 'host',
+        HOST: 'host'
     },
 
     // ===== NOMBRES ESPECIALES =====
     SPECIAL_NAMES: {
-        HOST: 'HOST',
+        HOST: 'HOST'
     },
 
     // ===== ROOMS DE SOCKET.IO =====
     ROOMS: {
         GLOBAL: 'partida_global',
         PLAYERS_SUFFIX: ':players',
-        PRESENTER_SUFFIX: ':presenter',
+        PRESENTER_SUFFIX: ':presenter'
     },
 
     // ===== TIPOS DE PREGUNTA =====
@@ -270,7 +270,7 @@ module.exports = {
         SCRAMBLE: 'word_scramble',
         MATCHING: 'matching',
         WORD_SEARCH: 'word_search',
-        FILL_BLANKS: 'fill_blanks',
+        FILL_BLANKS: 'fill_blanks'
     },
 
     // ===== SOPA DE LETRAS (word_search) =====
@@ -279,7 +279,7 @@ module.exports = {
         MIN_WORDS: 2,
         MAX_WORDS: 6,
         MIN_WORD_LENGTH: 3,
-        MAX_WORD_LENGTH: 10,
+        MAX_WORD_LENGTH: 10
     },
 
     // ===== COMPLETA LA FRASE (fill_blanks) =====
@@ -299,7 +299,7 @@ module.exports = {
     SLIDE_TYPES: {
         QUESTION: 'question',
         COMMENT: 'comment',
-        INFO: 'info',
+        INFO: 'info'
     },
 
     // ===== REDIS PUB/SUB CHANNELS =====
@@ -310,7 +310,7 @@ module.exports = {
         NEXT_QUESTION_SYNC: 'next-question-sync',
         TEAM_CONFIG_SYNC: 'team-config-sync',
         PLAYER_ANSWERED_SYNC: 'player-answered-sync',
-        REVEAL_ANSWER_SYNC: 'reveal-answer-sync',
+        REVEAL_ANSWER_SYNC: 'reveal-answer-sync'
     },
 
     // ===== MENSAJES DE ERROR =====
@@ -324,7 +324,8 @@ module.exports = {
         SESSION_NOT_FOUND: 'Sesión no encontrada o expirada. Únete de nuevo.',
         GAME_ENDED: 'El juego ha finalizado.',
         GAME_CLOSED: 'El juego ya no acepta respuestas.',
-        NAME_MISMATCH: 'Ya tienes una sesión activa con el nombre "{name}". Usa el mismo nombre o espera a que termine la partida.',
+        NAME_MISMATCH:
+            'Ya tienes una sesión activa con el nombre "{name}". Usa el mismo nombre o espera a que termine la partida.'
     },
 
     // ===== RAZONES DE DESCONEXIÓN =====
@@ -332,6 +333,6 @@ module.exports = {
         REPLACED: 'replaced',
         EXPIRED: 'expired',
         VOLUNTARY: 'voluntary',
-        ERROR: 'error',
-    },
+        ERROR: 'error'
+    }
 };

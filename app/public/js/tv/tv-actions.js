@@ -9,9 +9,15 @@ window.TVApp.Actions = (function () {
 
     let initialized = false;
 
-    function main() { return window.TVApp.Main; }
-    function lobby() { return window.TVApp.Lobby; }
-    function teams() { return window.TVApp.Teams; }
+    function main() {
+        return window.TVApp.Main;
+    }
+    function lobby() {
+        return window.TVApp.Lobby;
+    }
+    function teams() {
+        return window.TVApp.Teams;
+    }
 
     function isValidTeamCount(n) {
         return Number.isFinite(n) && n > 0;
@@ -29,32 +35,60 @@ window.TVApp.Actions = (function () {
     }
 
     const TV_ACTIONS = {
-        'next-question': function () { main().nextQuestion(); },
-        'toggle-pause-timer': function () { main().togglePauseTimer(); },
+        'next-question': function () {
+            main().nextQuestion();
+        },
+        'toggle-pause-timer': function () {
+            main().togglePauseTimer();
+        },
         'assign-manual-points': function (c) {
             if (c.nickname && Number.isFinite(c.points)) main().assignManualPoints(c.nickname, c.points);
         },
-        'retry-pin-selector': function () { if (lobby()) lobby().mostrarSelectorPIN(); },
-        'change-filter': function (c) { if (lobby() && c.filter) lobby().cambiarFiltro(c.filter); },
-        'select-pin': function (c) { if (lobby() && c.pin) lobby().seleccionarPIN(c.pin); },
-        'start-game': function () { main().empezar(); },
-        'go-tv-home': function () { main().volverAJuegos(); },
-        'concluir-y-volver': function () { main().concluirYVolver(); },
-        'teams-mode-individual': function (c) { if (teams() && c.pin) teams().configurarModoIndividual(c.pin); },
-        'teams-mode-team': function (c) { if (teams() && c.pin) teams().mostrarConfiguracionEquipos(c.pin); },
+        'retry-pin-selector': function () {
+            if (lobby()) lobby().mostrarSelectorPIN();
+        },
+        'change-filter': function (c) {
+            if (lobby() && c.filter) lobby().cambiarFiltro(c.filter);
+        },
+        'select-pin': function (c) {
+            if (lobby() && c.pin) lobby().seleccionarPIN(c.pin);
+        },
+        'start-game': function () {
+            main().empezar();
+        },
+        'go-tv-home': function () {
+            main().volverAJuegos();
+        },
+        'concluir-y-volver': function () {
+            main().concluirYVolver();
+        },
+        'teams-mode-individual': function (c) {
+            if (teams() && c.pin) teams().configurarModoIndividual(c.pin);
+        },
+        'teams-mode-team': function (c) {
+            if (teams() && c.pin) teams().mostrarConfiguracionEquipos(c.pin);
+        },
         'teams-select-num': function (c) {
             if (teams() && c.pin && isValidTeamCount(c.numTeams)) teams().seleccionarNumEquipos(c.numTeams, c.pin);
         },
-        'teams-back-mode': function (c) { if (teams() && c.pin) teams().mostrarSeleccionModo(c.pin); },
+        'teams-back-mode': function (c) {
+            if (teams() && c.pin) teams().mostrarSeleccionModo(c.pin);
+        },
         'teams-confirm': function (c) {
             if (teams() && c.pin && isValidTeamCount(c.numTeams)) teams().confirmarEquipos(c.numTeams, c.pin);
         },
-        'teams-back-config': function (c) { if (teams() && c.pin) teams().mostrarConfiguracionEquipos(c.pin); },
+        'teams-back-config': function (c) {
+            if (teams() && c.pin) teams().mostrarConfiguracionEquipos(c.pin);
+        },
         'render-podio': function () {
             if (window.TVApp.Podio) window.TVApp.Podio.renderPodio(window._tempRanking || []);
         },
-        'finalizar-juego': function () { main().finalizarJuego(); },
-        'abortar-juego': function () { main().abortarJuego(); }
+        'finalizar-juego': function () {
+            main().finalizarJuego();
+        },
+        'abortar-juego': function () {
+            main().abortarJuego();
+        }
     };
 
     function findActionElement(target) {

@@ -50,26 +50,30 @@ async function renderVistaJuegos() {
                 </div>
             </div>
 
-            ${juegos.length === 0 ? `
+            ${
+    juegos.length === 0
+        ? `
                 <div class="text-center py-20">
                     <i class="fas fa-inbox text-slate-300 text-6xl mb-4"></i>
                     <p class="text-slate-400 text-xl">${_t('admin.games.empty_title', null, 'No hay juegos creados todavía')}</p>
                     <p class="text-slate-400 mt-2">${_t('admin.games.empty_msg', null, 'Crea tu primer juego mezclando bancos')}</p>
                 </div>
-            ` : `
+            `
+        : `
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    ${juegos.map(juego => {
-        const ownerInfo = {
-            created_by_role: juego.created_by_role,
-            created_by_user_id: juego.created_by_user_id,
-            created_by_username: juego.created_by_username
-        };
-        const canModify = canModifyOwnedResource(ownerInfo);
-        const editClasses = canModify
-            ? 'flex-1 btn-edit px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2'
-            : `flex-1 px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 ${getLockedButtonClasses()}`;
-        const validBanks = juego.banks.filter(b => b.bank_id !== null);
-        return `
+                    ${juegos
+        .map(juego => {
+            const ownerInfo = {
+                created_by_role: juego.created_by_role,
+                created_by_user_id: juego.created_by_user_id,
+                created_by_username: juego.created_by_username
+            };
+            const canModify = canModifyOwnedResource(ownerInfo);
+            const editClasses = canModify
+                ? 'flex-1 btn-edit px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2'
+                : `flex-1 px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 ${getLockedButtonClasses()}`;
+            const validBanks = juego.banks.filter(b => b.bank_id !== null);
+            return `
                             <div class="bg-white rounded-2xl shadow-sm border-2 border-slate-200 hover:border-green-500 transition-all hover:shadow-xl group overflow-hidden">
                                 <div class="p-6">
                                     <div class="flex justify-between items-start mb-4">
@@ -101,9 +105,11 @@ async function renderVistaJuegos() {
                                 </div>
                             </div>
                         `;
-    }).join('')}
+        })
+        .join('')}
                 </div>
-            `}
+            `
+}
         </div>
     `);
 }
@@ -274,7 +280,9 @@ function _gameEditorSnapshot() {
         streak_bonus_percentage: parseFloat(document.getElementById('gameStreakBonusPercentage')?.value ?? 0.5),
         use_double_streaks: document.getElementById('gameUseDoubleStreaks')?.checked ?? false,
         double_streak_threshold: parseFloat(document.getElementById('gameDoubleStreakThreshold')?.value ?? 5),
-        double_streak_bonus_percentage: parseFloat(document.getElementById('gameDoubleStreakBonusPercentage')?.value ?? 1.0),
+        double_streak_bonus_percentage: parseFloat(
+            document.getElementById('gameDoubleStreakBonusPercentage')?.value ?? 1.0
+        ),
         pool_question_count: document.getElementById('gamePoolQuestionCount')?.value || '',
         image_url: document.getElementById('gameImageUrl')?.value || '',
         ...snapshotRandomPoints('game'),
@@ -297,13 +305,14 @@ async function dibujarBancosJuego() {
         banksMap[bank.id] = bank.question_count || 0;
     }
 
-    contenedor.innerHTML = currentBanks.map((gb, idx) => {
-        const bankInfo = allBanks.find(b => b.id === gb.bank_id);
-        if (!bankInfo) return '';
+    contenedor.innerHTML = currentBanks
+        .map((gb, idx) => {
+            const bankInfo = allBanks.find(b => b.id === gb.bank_id);
+            if (!bankInfo) return '';
 
-        const totalQuestions = banksMap[gb.bank_id] || 1;
+            const totalQuestions = banksMap[gb.bank_id] || 1;
 
-        return `
+            return `
                 <div class="bg-slate-50 p-4 rounded-xl border-2 border-slate-200">
                     <div class="flex items-center gap-4">
                         <div class="flex-1">
@@ -322,7 +331,8 @@ async function dibujarBancosJuego() {
                     </p>
                 </div>
             `;
-    }).join('');
+        })
+        .join('');
 
     dibujarSeccionPool();
 }
@@ -333,7 +343,11 @@ async function cambiarBanco(idx, newBankId) {
     // Obtener info del banco desde el caché
     const bankInfo = await getBankFromCache(newBankId);
     if (!bankInfo) {
-        mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), 'No se pudo cargar la información del banco', 'error');
+        mostrarModalError(
+            _t('admin.common.error_title', null, '❌ Error'),
+            'No se pudo cargar la información del banco',
+            'error'
+        );
         return;
     }
 
@@ -353,7 +367,11 @@ async function añadirBancoAlJuego() {
     const allBanks = await getAllBanksWithCounts();
 
     if (allBanks.length === 0) {
-        mostrarModalError(_t('admin.common.validation_title', null, '⚠️ Validación'), 'No hay bancos disponibles. Crea uno primero.', 'warning');
+        mostrarModalError(
+            _t('admin.common.validation_title', null, '⚠️ Validación'),
+            'No hay bancos disponibles. Crea uno primero.',
+            'warning'
+        );
         return;
     }
 
@@ -408,7 +426,14 @@ async function guardarJuego() {
 
     const bankIds = currentBanks.map(b => b.bank_id);
     if (new Set(bankIds).size !== bankIds.length) {
-        return { ok: false, message: _t('admin.games.error_duplicate_banks', null, 'Tienes bancos repetidos. Los bancos de preguntas deben de ser únicos') };
+        return {
+            ok: false,
+            message: _t(
+                'admin.games.error_duplicate_banks',
+                null,
+                'Tienes bancos repetidos. Los bancos de preguntas deben de ser únicos'
+            )
+        };
     }
 
     const poolQuestionCount = obtenerPoolQuestionCount();
@@ -467,7 +492,8 @@ function _readGameStreaks() {
         streak_bonus_percentage: parseFloat(document.getElementById('gameStreakBonusPercentage').value) ?? 0.5,
         use_double_streaks: document.getElementById('gameUseDoubleStreaks').checked,
         double_streak_threshold: parseFloat(document.getElementById('gameDoubleStreakThreshold').value) || 5,
-        double_streak_bonus_percentage: parseFloat(document.getElementById('gameDoubleStreakBonusPercentage').value) ?? 1.0
+        double_streak_bonus_percentage:
+            parseFloat(document.getElementById('gameDoubleStreakBonusPercentage').value) ?? 1.0
     };
 }
 
@@ -512,10 +538,20 @@ function borrarJuego(id, event, ownerUserId = null) {
                     renderVistaJuegos();
                 } else {
                     const err = await res.json();
-                    mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), err.error || err.message || _t('admin.games.error_delete', null, 'No se pudo eliminar el juego'), 'error');
+                    mostrarModalError(
+                        _t('admin.common.error_title', null, '❌ Error'),
+                        err.error ||
+                            err.message ||
+                            _t('admin.games.error_delete', null, 'No se pudo eliminar el juego'),
+                        'error'
+                    );
                 }
             } catch {
-                mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), _t('admin.common.error_server', null, 'Error de conexión'), 'error');
+                mostrarModalError(
+                    _t('admin.common.error_title', null, '❌ Error'),
+                    _t('admin.common.error_server', null, 'Error de conexión'),
+                    'error'
+                );
             }
         },
         null,

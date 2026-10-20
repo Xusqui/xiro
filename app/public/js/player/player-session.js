@@ -5,9 +5,18 @@
 
 import { socket, playerId } from './player-socket-config.js?v=20260922172926';
 import {
-    getPin, setPin, getNickname, setNickname,
-    getSessionId, setSessionId, getIsReconnecting, setIsReconnecting,
-    setTeamMode, getJoinTimeoutId, setJoinTimeoutId, resetGameState
+    getPin,
+    setPin,
+    getNickname,
+    setNickname,
+    getSessionId,
+    setSessionId,
+    getIsReconnecting,
+    setIsReconnecting,
+    setTeamMode,
+    getJoinTimeoutId,
+    setJoinTimeoutId,
+    resetGameState
 } from './player-state.js?v=20260922172926';
 import { removeDisconnectOverlay, activarWakeLock } from './player-connection.js?v=20260922172926';
 import {
@@ -19,7 +28,12 @@ import {
     mostrarErrorSocketDesconectado
 } from './player-session-ui.js?v=20260922172926';
 import { mostrarModalMensaje } from '../shared/modal.js?v=20260922172926';
-import { getSavedSessionData, clearSavedSessionData, isSameSession, getWindowSessionMarkers } from './player-session-storage.js?v=20260922172926';
+import {
+    getSavedSessionData,
+    clearSavedSessionData,
+    isSameSession,
+    getWindowSessionMarkers
+} from './player-session-storage.js?v=20260922172926';
 
 // ===== FUNCIONES DE SESIÓN =====
 
@@ -49,17 +63,21 @@ export function validarSession(sessionParam) {
     const pin = session.split('-')[0];
     setSessionId(session);
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
         const timeout = setTimeout(() => {
             console.error('⏱️ Timeout validando sesión');
-            mostrarModalMensaje(_t('player.session.connection_error_title', null, 'Error de conexión'), _t('player.session.validation_error', null, 'No se pudo validar la sesión. Inténtalo de nuevo.'), 'error');
+            mostrarModalMensaje(
+                _t('player.session.connection_error_title', null, 'Error de conexión'),
+                _t('player.session.validation_error', null, 'No se pudo validar la sesión. Inténtalo de nuevo.'),
+                'error'
+            );
             resolve();
         }, 5000);
 
         console.log('🔍 Validando sesión:', session, '(PIN:', pin, ')');
         socket.emit('validate-session', { sessionId: session });
 
-        socket.once('session-validation-result', async (result) => {
+        socket.once('session-validation-result', async result => {
             clearTimeout(timeout);
             console.log('📩 Resultado validación:', result);
 
@@ -98,11 +116,7 @@ export function validarSession(sessionParam) {
             setPin(pin);
 
             // Verificar si hay sesión activa con este PIN
-            const {
-                pin: savedPin,
-                nickname: savedNickname,
-                sessionId: savedSessionId
-            } = getSavedSessionData();
+            const { pin: savedPin, nickname: savedNickname, sessionId: savedSessionId } = getSavedSessionData();
 
             // Marcador de "esta ventana es la dueña de la sesión".
             // Usamos window.name porque es la ÚNICA forma de storage que está
@@ -114,17 +128,30 @@ export function validarSession(sessionParam) {
             let windowOwnsSession = false;
             try {
                 windowOwnsSession = window.name && window.name.startsWith('xiro:');
-            } catch (_) { windowOwnsSession = false; }
+            } catch (_) {
+                windowOwnsSession = false;
+            }
             const tabSessionSecret = sessionStorage.getItem('xiro_sessionSecret');
 
             // Solo reconectar si el sessionId es exactamente el mismo Y esta
             // ventana es la dueña de la sesión (window.name marker presente).
-            if (windowOwnsSession && tabSessionSecret && savedPin === pin && savedSessionId === getSessionId() && savedNickname) {
-                console.log('🔄 Sesión activa detectada (mismo sessionId), reconectando automáticamente:', savedNickname);
+            if (
+                windowOwnsSession &&
+                tabSessionSecret &&
+                savedPin === pin &&
+                savedSessionId === getSessionId() &&
+                savedNickname
+            ) {
+                console.log(
+                    '🔄 Sesión activa detectada (mismo sessionId), reconectando automáticamente:',
+                    savedNickname
+                );
                 console.log('[RECONNECT DEBUG] validarSession: detectada sesión activa, emitiendo reconnect-player');
 
                 // Mostrar mensaje de reconexión
-                document.getElementById('main-container').innerHTML = _tHtml(mostrarPantallaReconectando(savedNickname));
+                document.getElementById('main-container').innerHTML = _tHtml(
+                    mostrarPantallaReconectando(savedNickname)
+                );
 
                 // Reconectar automáticamente
                 setNickname(savedNickname.toUpperCase());
@@ -155,8 +182,13 @@ export function validarSession(sessionParam) {
             // nombre) o si la sesión anterior sigue viva (rechaza con
             // nickname-taken y aquí caemos al formulario manual).
             if (savedPin === pin && savedSessionId === getSessionId() && savedNickname) {
-                console.log('[RECONNECT DEBUG] Sin marcador de ventana pero mismo sessionId guardado - reclamando nickname automáticamente:', savedNickname);
-                document.getElementById('main-container').innerHTML = _tHtml(mostrarPantallaReconectando(savedNickname));
+                console.log(
+                    '[RECONNECT DEBUG] Sin marcador de ventana pero mismo sessionId guardado - reclamando nickname automáticamente:',
+                    savedNickname
+                );
+                document.getElementById('main-container').innerHTML = _tHtml(
+                    mostrarPantallaReconectando(savedNickname)
+                );
                 await activarWakeLock();
                 emitJoinLobby(savedNickname.toUpperCase());
                 resolve();
@@ -207,7 +239,11 @@ function emitJoinLobby(nickname) {
 
         // Volver al formulario con mensaje de error
         document.getElementById('main-container').innerHTML = mostrarErrorJoinLobby(
-            _t('player.session.server_error', null, 'No se pudo conectar con el servidor. Verifica que el presentador haya iniciado el juego e intenta de nuevo.'),
+            _t(
+                'player.session.server_error',
+                null,
+                'No se pudo conectar con el servidor. Verifica que el presentador haya iniciado el juego e intenta de nuevo.'
+            ),
             getNickname()
         );
 
@@ -262,7 +298,7 @@ export async function unirseAlLobby() {
  */
 export function registerSessionEvents(mostrarSeleccionEquipo) {
     // ===== JOIN SUCCESS =====
-    socket.on('join-success', (data) => {
+    socket.on('join-success', data => {
         console.log('✅ join-success recibido:', data);
         console.log('[RECONNECT DEBUG] join-success recibido. isReconnecting =', getIsReconnecting());
 
@@ -318,9 +354,9 @@ export function registerSessionEvents(mostrarSeleccionEquipo) {
         try {
             const cur = window.name || '';
             const pidMatch = /(?:^|\|)pid=([0-9a-f-]{36})/i.exec(cur);
-            const pidSuffix = pidMatch ? ('|pid=' + pidMatch[1]) : '';
+            const pidSuffix = pidMatch ? '|pid=' + pidMatch[1] : '';
             window.name = 'xiro:' + (getPin() || '') + ':' + Date.now() + pidSuffix;
-        } catch (_) { }
+        } catch (_) {}
 
         // Nota: La reconexión automática ya está configurada en player-socket-config.js
         // y manejada por registerConnectionEvents() en player-connection.js
@@ -337,7 +373,7 @@ export function registerSessionEvents(mostrarSeleccionEquipo) {
     });
 
     // ===== JOIN ERROR =====
-    socket.on('join-error', (data) => {
+    socket.on('join-error', data => {
         const errorMessage = data.message || data || _t('player.session.join_error', null, 'Error al unirse al juego');
         console.log(`❌ join-error recibido:`, { reason: data.reason, message: errorMessage });
 
@@ -365,8 +401,14 @@ export function registerSessionEvents(mostrarSeleccionEquipo) {
             try {
                 const cur = window.name || '';
                 window.name = cur.replace(/(?:^|\|)pid=[0-9a-f-]{36}/i, '').replace(/^\|/, '');
-            } catch (_) { }
-            mostrarModalMensaje(_t('common.error_title', null, 'Error'), errorMessage, 'error', _t('common.btn_retry', null, 'Reintentar'), () => location.reload());
+            } catch (_) {}
+            mostrarModalMensaje(
+                _t('common.error_title', null, 'Error'),
+                errorMessage,
+                'error',
+                _t('common.btn_retry', null, 'Reintentar'),
+                () => location.reload()
+            );
             return;
         }
 
@@ -375,11 +417,21 @@ export function registerSessionEvents(mostrarSeleccionEquipo) {
             localStorage.removeItem('xiro_lastPin');
             localStorage.removeItem('xiro_lastNickname');
             localStorage.removeItem('xiro_lastSessionId');
-            mostrarModalMensaje(_t('common.error_title', null, 'Error'), errorMessage, 'error', _t('common.btn_retry', null, 'Reintentar'), () => location.reload());
+            mostrarModalMensaje(
+                _t('common.error_title', null, 'Error'),
+                errorMessage,
+                'error',
+                _t('common.btn_retry', null, 'Reintentar'),
+                () => location.reload()
+            );
             return;
         }
 
-        if (data.reason === 'invalid-session' || data.reason === 'session-not-found' || data.reason === 'session-not-exist') {
+        if (
+            data.reason === 'invalid-session' ||
+            data.reason === 'session-not-found' ||
+            data.reason === 'session-not-exist'
+        ) {
             console.error('⚠️ Sesión no encontrada o expirada');
             localStorage.removeItem('xiro_lastPin');
             localStorage.removeItem('xiro_lastNickname');
@@ -464,7 +516,9 @@ export async function initSessionDetection() {
         const shouldPreserve = isSameSession(savedSessionId, urlSessionId);
 
         if (shouldPreserve) {
-            console.log('[RECONNECT DEBUG] SessionId coincide con storage, conservando datos para reconexión automática');
+            console.log(
+                '[RECONNECT DEBUG] SessionId coincide con storage, conservando datos para reconexión automática'
+            );
         } else {
             console.log('[RECONNECT DEBUG] SessionId diferente, limpiando storage de sesión anterior');
             clearSavedSessionData();
@@ -483,11 +537,7 @@ export async function initSessionDetection() {
     // Socket.IO buffers emits when disconnected — both reconnect-player AND
     // join-lobby would reach the server, and join-success would overwrite the
     // restored game UI with the "Prepárate" lobby screen.
-    const {
-        nickname: savedNickname,
-        pin: savedPin,
-        sessionId: savedSessionId
-    } = getSavedSessionData();
+    const { nickname: savedNickname, pin: savedPin, sessionId: savedSessionId } = getSavedSessionData();
 
     console.log('[RECONNECT DEBUG] localStorage values:', {
         savedNickname,
@@ -520,7 +570,9 @@ export async function initSessionDetection() {
         const { windowOwnsSession, tabSessionSecret } = getWindowSessionMarkers();
 
         if (windowOwnsSession && tabSessionSecret) {
-            console.log('[RECONNECT DEBUG] Marcador de ventana presente - emitiendo reconnect-player desde initSessionDetection');
+            console.log(
+                '[RECONNECT DEBUG] Marcador de ventana presente - emitiendo reconnect-player desde initSessionDetection'
+            );
             setIsReconnecting(true);
             await activarWakeLock();
             socket.emit('reconnect-player', { playerId, sessionSecret: tabSessionSecret });

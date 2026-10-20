@@ -1,13 +1,13 @@
 /**
  * @fileoverview Gestor de estado de apuestas para preguntas de tipo betting
  * Coordina el proceso de apuestas antes de revelar opciones
- * 
+ *
  * RESPONSABILIDADES:
  * - Registrar apuestas de jugadores
  * - Detectar cuándo todos han apostado
  * - Calcular estadísticas de apuestas
  * - Limpiar estado después de pregunta
- * 
+ *
  * FASE 17.2 - Día 3
  * Fecha: 3 de febrero de 2026
  */
@@ -16,7 +16,7 @@ const logger = require('../../../config/logger');
 
 /**
  * Gestor de apuestas por juego/pregunta
- * 
+ *
  * Almacena estado en memoria:
  * bets = {
  *   'gameId:questionIndex': {
@@ -44,7 +44,7 @@ class BettingManager {
 
     /**
      * Registra apuesta de un jugador
-     * 
+     *
      * @param {Object} params - Parámetros
      * @param {string} params.gameId - ID del juego
      * @param {number} params.questionIndex - Índice de pregunta
@@ -85,7 +85,7 @@ class BettingManager {
 
     /**
      * Obtiene apuesta de un jugador específico
-     * 
+     *
      * @param {string} gameId - ID del juego
      * @param {number} questionIndex - Índice de pregunta
      * @param {string} playerId - ID del jugador
@@ -102,7 +102,7 @@ class BettingManager {
 
     /**
      * Obtiene todas las apuestas de una pregunta
-     * 
+     *
      * @param {string} gameId - ID del juego
      * @param {number} questionIndex - Índice de pregunta
      * @returns {Map<string, Object>} Map de playerId -> betData
@@ -114,7 +114,7 @@ class BettingManager {
 
     /**
      * Verifica si todos los jugadores han apostado
-     * 
+     *
      * @param {string} gameId - ID del juego
      * @param {number} questionIndex - Índice de pregunta
      * @param {number} expectedPlayerCount - Número de jugadores esperados
@@ -127,7 +127,7 @@ class BettingManager {
 
     /**
      * Obtiene estadísticas de apuestas
-     * 
+     *
      * @param {string} gameId - ID del juego
      * @param {number} questionIndex - Índice de pregunta
      * @returns {Object} Estadísticas
@@ -159,7 +159,7 @@ class BettingManager {
 
     /**
      * Elimina apuestas de una pregunta específica
-     * 
+     *
      * @param {string} gameId - ID del juego
      * @param {number} questionIndex - Índice de pregunta
      * @returns {boolean} true si se eliminó
@@ -177,7 +177,7 @@ class BettingManager {
 
     /**
      * Elimina todas las apuestas de un juego
-     * 
+     *
      * @param {string} gameId - ID del juego
      * @returns {number} Número de preguntas limpiadas
      */
@@ -200,7 +200,7 @@ class BettingManager {
 
     /**
      * Obtiene número total de apuestas activas
-     * 
+     *
      * @returns {number} Total de preguntas con apuestas
      */
     getActiveCount() {
@@ -218,8 +218,7 @@ class BettingManager {
 
         for (const [key, questionBets] of this.bets.entries()) {
             // Verificar si todas las apuestas son antiguas
-            const allOld = Array.from(questionBets.values())
-                .every(bet => (now - bet.timestamp) > threshold);
+            const allOld = Array.from(questionBets.values()).every(bet => now - bet.timestamp > threshold);
 
             if (allOld) {
                 this.bets.delete(key);

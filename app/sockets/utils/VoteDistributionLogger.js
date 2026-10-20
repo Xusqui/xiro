@@ -18,8 +18,7 @@ function buildVoteDistribution({ question, stats }) {
     const optionCount = question?.options?.length || 0;
     const normalizedStats = stats && typeof stats === 'object' ? stats : {};
 
-    const totalVotes = Object.values(normalizedStats)
-        .reduce((sum, count) => sum + (Number(count) || 0), 0);
+    const totalVotes = Object.values(normalizedStats).reduce((sum, count) => sum + (Number(count) || 0), 0);
 
     const options = Array.from({ length: optionCount }).map((_, index) => {
         const count = Number(normalizedStats[index]) || 0;

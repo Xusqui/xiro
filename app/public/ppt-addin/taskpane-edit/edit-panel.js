@@ -8,7 +8,6 @@
  */
 
 const XiroEditPanel = (() => {
-
     let _container = null;
     let _debounceT = null;
 
@@ -34,7 +33,7 @@ const XiroEditPanel = (() => {
         `;
 
         // Escuchar cambios de selección de diapositiva (debounce 180 ms)
-        Office.context.document.addHandlerAsync( // eslint-disable-line no-undef
+        Office.context.document.addHandlerAsync(
             Office.EventType.DocumentSelectionChanged, // eslint-disable-line no-undef
             _debouncedSlideSelected
         );
@@ -63,11 +62,9 @@ const XiroEditPanel = (() => {
             const meta = await XiroNotesWriter.readMeta(); // eslint-disable-line no-undef
             const role = meta?.role || null;
 
-            labelEl.textContent = role
-                ? `Diapositiva XIRO: ${_roleLabel(role)}`
-                : 'Diapositiva sin rol XIRO';
+            labelEl.textContent = role ? `Diapositiva XIRO: ${_roleLabel(role)}` : 'Diapositiva sin rol XIRO';
 
-            XiroSlideTypeSelector.mount( // eslint-disable-line no-undef
+            XiroSlideTypeSelector.mount(
                 document.getElementById('ep-selector-area'),
                 document.getElementById('ep-editor-area'),
                 role,
@@ -77,7 +74,7 @@ const XiroEditPanel = (() => {
             const msg = err?.message || String(err);
             labelEl.textContent = 'Error al leer diapositiva';
             labelEl.style.color = '#ef4444';
-            labelEl.title = msg;                          // tooltip con detalle
+            labelEl.title = msg; // tooltip con detalle
             const selectorArea = document.getElementById('ep-selector-area');
             if (selectorArea) {
                 selectorArea.innerHTML = `<p style="color:#ef4444;font-size:.8rem;margin-top:.5rem;word-break:break-word">${_esc(msg)}</p>`;
@@ -92,14 +89,17 @@ const XiroEditPanel = (() => {
 
     function _esc(str) {
         return String(str == null ? '' : str)
-            .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
     }
 
     function unmount() {
         XiroLog.info('edit-panel', 'unmount()'); // eslint-disable-line no-undef
         clearTimeout(_debounceT);
-        Office.context.document.removeHandlerAsync( // eslint-disable-line no-undef
+        Office.context.document.removeHandlerAsync(
             Office.EventType.DocumentSelectionChanged, // eslint-disable-line no-undef
             { handler: _debouncedSlideSelected }
         );

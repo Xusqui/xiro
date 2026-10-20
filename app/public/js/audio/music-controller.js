@@ -57,20 +57,20 @@ export function createMusicController(opts) {
     let engine = null;
     let actor = null;
     let starting = null;
-    let pending = null;          // último suceso de escena antes de arrancar
+    let pending = null; // último suceso de escena antes de arrancar
     let trivial = false;
     let paused = Boolean(opts.paused);
-    let introPlaying = false;    // durante la intro, la música calla (suena la de la intro)
+    let introPlaying = false; // durante la intro, la música calla (suena la de la intro)
     const clock = createQuestionClock(() => engine);
 
     function actions() {
-        const calm = (name) => () => {
+        const calm = name => () => {
             clock.stop();
             engine.setSilenced(introPlaying);
             engine.setScene(name);
         };
         // Sin reloj de pregunta y con la salida abierta (aunque sonara la intro)
-        const loud = (play) => () => {
+        const loud = play => () => {
             clock.stop();
             engine.setSilenced(false);
             play();
@@ -127,7 +127,7 @@ export function createMusicController(opts) {
         unlock() {
             unlockAudio();
             if (!starting) {
-                starting = start().catch((err) => {
+                starting = start().catch(err => {
                     starting = null;
                     console.warn('Música no disponible:', err);
                 });

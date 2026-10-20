@@ -91,12 +91,14 @@ export const socket = io({
                 } else {
                     promise = decompressGzip(payload.data);
                 }
-                promise.then(decompressedData => {
-                    callback.call(self, decompressedData, ...args);
-                }).catch(err => {
-                    console.error('Failed to decompress socket payload:', err);
-                    callback.call(self, payload, ...args);
-                });
+                promise
+                    .then(decompressedData => {
+                        callback.call(self, decompressedData, ...args);
+                    })
+                    .catch(err => {
+                        console.error('Failed to decompress socket payload:', err);
+                        callback.call(self, payload, ...args);
+                    });
             } else {
                 callback.call(self, payload, ...args);
             }
@@ -114,7 +116,7 @@ socket.on('connect', () => {
     console.log('🔑 PlayerId del presentador:', presenterPlayerId);
 });
 
-socket.on('disconnect', (reason) => {
+socket.on('disconnect', reason => {
     console.log('⚠️ Socket desconectado:', reason, '| socket.id:', socket.id, '| connected:', socket.connected);
     console.log('   → active transport was:', socket.io?.engine?.transport?.name || 'n/a');
 
@@ -126,11 +128,18 @@ socket.on('disconnect', (reason) => {
     }
 });
 
-socket.on('connect_error', (error) => {
-    console.log('⚠️ Error conectando (intentando alternativa):', error.message, '| type:', error.type, '| description:', error.description);
+socket.on('connect_error', error => {
+    console.log(
+        '⚠️ Error conectando (intentando alternativa):',
+        error.message,
+        '| type:',
+        error.type,
+        '| description:',
+        error.description
+    );
 });
 
-socket.io.on('reconnect', (attempt) => {
+socket.io.on('reconnect', attempt => {
     const transport = socket.io.engine.transport.name;
     console.log('✅ Reconectado en intento', attempt);
     console.log('🔌 Usando:', transport === 'websocket' ? '⚡ WebSocket' : '📡 Polling');
@@ -143,7 +152,7 @@ socket.io.engine.on('upgrade', () => {
     console.log('🚀 ¡UPGRADE EXITOSO! Ahora usando WebSocket rápido');
 });
 
-socket.io.engine.on('upgradeError', (error) => {
+socket.io.engine.on('upgradeError', error => {
     console.warn('❌ Upgrade a WebSocket falló, continúa con polling:', error.message);
 });
 
@@ -170,7 +179,7 @@ function showReconnectionOverlay() {
 
 /**
  * Auto-reconexión al cargar si hay sessionId en URL o storage.
- * 
+ *
  * Prioridad de fuentes:
  *  1) sessionStorage (persiste en F5 dentro de la misma pestaña — fuente primaria)
  *  2) localStorage   (persiste entre pestañas/ventanas — fuente secundaria)
@@ -212,7 +221,8 @@ export function initializePresenterSession() {
         newUrl.searchParams.set('session', bestSessionId);
         window.history.replaceState({}, '', newUrl);
         setSessionId(bestSessionId);
-        const gt2 = sessionStorage.getItem('xiro_presenter_gameType') || localStorage.getItem('xiro_presenter_gameType');
+        const gt2 =
+            sessionStorage.getItem('xiro_presenter_gameType') || localStorage.getItem('xiro_presenter_gameType');
         if (gt2) setGameType(gt2);
         // Sincronizar
         sessionStorage.setItem('xiro_presenter_sessionId', bestSessionId);
@@ -234,10 +244,13 @@ export function initializePresenterSession() {
     // --- Case 4: URL tiene session pero storage apunta a otra sesión ---
     // Evita reconexiones inválidas con playerId de una sesión antigua.
     if (sessionFromUrl && bestSessionId && bestSessionId !== sessionFromUrl) {
-        console.warn('⚠️ SessionId en URL y storage desalineados — limpiando sesión local para evitar reconnect inválido', {
-            urlSession: sessionFromUrl,
-            storedSession: bestSessionId
-        });
+        console.warn(
+            '⚠️ SessionId en URL y storage desalineados — limpiando sesión local para evitar reconnect inválido',
+            {
+                urlSession: sessionFromUrl,
+                storedSession: bestSessionId
+            }
+        );
 
         localStorage.removeItem('xiro_presenter_sessionId');
         localStorage.removeItem('xiro_presenter_pin');

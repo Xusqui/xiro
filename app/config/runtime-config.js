@@ -8,11 +8,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const {
-    DEFAULT_ORIGINS_CSV,
-    validateOriginList,
-    formatOriginList,
-} = require('./origin-list');
+const { DEFAULT_ORIGINS_CSV, validateOriginList, formatOriginList } = require('./origin-list');
 
 // Archivo de overrides persistente dentro del directorio app (montado en el contenedor).
 // RUNTIME_OVERRIDES_FILE permite aislarlo (jest.setup.js lo apunta a una ruta inexistente
@@ -39,7 +35,11 @@ const PARAM_SCHEMA = {
     LOG_LEVEL: { type: 'enum', values: ['debug', 'info', 'warn', 'error'], envKey: 'LOG_LEVEL' },
     LOG_MAX_SIZE: { type: 'string', envKey: 'LOG_MAX_SIZE' },
     LOG_MAX_FILES: { type: 'string', envKey: 'LOG_MAX_FILES' },
-    BACKUP_SCHEDULE: { type: 'enum', values: ['disabled', '0 2 * * *', '0 2 * * 0', '0 2 1 * *'], envKey: 'BACKUP_SCHEDULE' },
+    BACKUP_SCHEDULE: {
+        type: 'enum',
+        values: ['disabled', '0 2 * * *', '0 2 * * 0', '0 2 1 * *'],
+        envKey: 'BACKUP_SCHEDULE'
+    },
     BACKUP_RETENTION_DAYS: { type: 'int', min: 1, max: 365, envKey: 'BACKUP_RETENTION_DAYS' },
     CORS_ORIGIN: { type: 'origin_list', envKey: 'CORS_ORIGIN' },
     ALLOWED_ORIGINS: { type: 'origin_list', envKey: 'ALLOWED_ORIGINS' },
@@ -56,7 +56,7 @@ const PARAM_SCHEMA = {
     SMTP_FROM: { type: 'string', envKey: 'SMTP_FROM' },
     CONTACT_TOKEN_SECRET: { type: 'string', envKey: 'CONTACT_TOKEN_SECRET', sensitive: true },
     // Generación IA: tamaño de cada trozo de documento por lote (0 = documento entero en cada lote)
-    AI_CHUNK_CHARS: { type: 'int', min: 0, max: 11000, envKey: 'AI_CHUNK_CHARS' },
+    AI_CHUNK_CHARS: { type: 'int', min: 0, max: 11000, envKey: 'AI_CHUNK_CHARS' }
 };
 
 // Estado en memoria - se inicializa desde process.env
@@ -111,7 +111,7 @@ function _getDefault(key) {
         SMTP_PASS: '',
         SMTP_FROM: '"XIRO! Contacto" <noreply@xiro.pro>',
         CONTACT_TOKEN_SECRET: 'xiro-contact-default-secret-2026',
-        AI_CHUNK_CHARS: 3500,
+        AI_CHUNK_CHARS: 3500
     };
     return defaults[key];
 }
@@ -147,16 +147,18 @@ function _validateUrl(key, value) {
 }
 
 const _VALIDATORS_BY_TYPE = {
-    int: (key, value, schema) => _validateNumber(key, value, schema, {
-        isValid: (n) => !isNaN(n),
-        parse: (v) => parseInt(v, 10),
-        typeLabel: 'entero'
-    }),
-    float: (key, value, schema) => _validateNumber(key, value, schema, {
-        isValid: (n) => !isNaN(n),
-        parse: (v) => parseFloat(v),
-        typeLabel: 'decimal'
-    }),
+    int: (key, value, schema) =>
+        _validateNumber(key, value, schema, {
+            isValid: n => !isNaN(n),
+            parse: v => parseInt(v, 10),
+            typeLabel: 'entero'
+        }),
+    float: (key, value, schema) =>
+        _validateNumber(key, value, schema, {
+            isValid: n => !isNaN(n),
+            parse: v => parseFloat(v),
+            typeLabel: 'decimal'
+        }),
     enum: _validateEnum,
     origin_list: (key, value) => validateOriginList(value, key),
     url: _validateUrl
@@ -250,7 +252,10 @@ function set(key, value) {
     if (schema.type === 'int') parsed = parseInt(value, 10);
     else if (schema.type === 'float') parsed = parseFloat(value);
     else if (schema.type === 'origin_list') parsed = formatOriginList(value, []);
-    else if (schema.type === 'url') parsed = String(value ?? '').trim().replace(/\/+$/, '');
+    else if (schema.type === 'url')
+        parsed = String(value ?? '')
+            .trim()
+            .replace(/\/+$/, '');
     else parsed = String(value);
 
     _store[key] = parsed;

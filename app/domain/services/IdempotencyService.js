@@ -1,13 +1,13 @@
 /**
  * @fileoverview IdempotencyService - Prevención de procesamiento duplicado de comandos
  * @module domain/services/IdempotencyService
- * 
+ *
  * Responsabilidades:
  * - Detectar requests duplicados usando requestId
  * - Cachear resultados de requests procesados (Redis)
  * - Retornar resultados cacheados para requests duplicados
  * - Auto-expiración con TTL configurable
- * 
+ *
  * Casos de uso:
  * - Evitar double-submit de respuestas
  * - Proteger contra spam de reconexiones

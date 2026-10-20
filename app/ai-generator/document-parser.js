@@ -88,8 +88,8 @@ function cleanText(raw) {
     return raw
         .replace(/\r\n/g, '\n')
         .replace(/\r/g, '\n')
-        .replace(/[ \t]+/g, ' ')          // normalizar espacios
-        .replace(/\n{3,}/g, '\n\n')       // máx 2 saltos seguidos
+        .replace(/[ \t]+/g, ' ') // normalizar espacios
+        .replace(/\n{3,}/g, '\n\n') // máx 2 saltos seguidos
         .trim();
 }
 
@@ -105,7 +105,8 @@ function prioritizeConclusionsAndTruncate(text, limit = 20000) {
 
     // Buscar encabezados típicos de conclusiones en múltiples idiomas (español, inglés, francés, italiano, portugués, alemán)
     // Admite encabezados Markdown («## Conclusiones») del conversor ./markdown
-    const conclusionRegex = /\n\s*(?:#{1,6}\s*)?(?:[0-9]+[.-]\s*)?(?:Conclusiones?|Conclusions?|Resumen|Summary|Consideraciones finales|Concluding remarks|Conclusioni|Conclusões|Zusammenfassung|Résumé)\b[:\s]*/i;
+    const conclusionRegex =
+        /\n\s*(?:#{1,6}\s*)?(?:[0-9]+[.-]\s*)?(?:Conclusiones?|Conclusions?|Resumen|Summary|Consideraciones finales|Concluding remarks|Conclusioni|Conclusões|Zusammenfassung|Résumé)\b[:\s]*/i;
     const match = text.search(conclusionRegex);
 
     if (match !== -1) {
@@ -118,9 +119,11 @@ function prioritizeConclusionsAndTruncate(text, limit = 20000) {
         }
 
         // Si hay espacio, devolvemos el inicio del documento + un separador + las conclusiones enteras
-        return text.slice(0, Math.floor(remainingSpace * 0.95)) +
+        return (
+            text.slice(0, Math.floor(remainingSpace * 0.95)) +
             '\n\n[... TEXTO OMITIDO POR EXCESO DE LONGITUD ...]\n\n' +
-            conclusionsText;
+            conclusionsText
+        );
     }
 
     // Si no hay sección de conclusiones evidente, quedarse con el principio orgánicamente
