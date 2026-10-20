@@ -15,6 +15,7 @@ function mostrarTodosPersonalizados() {
 
 async function renderVistaPersonalizados() {
     clearUnsavedChangesGuard();
+    activeView = 'personalizados'; // También al volver del editor sin pasar por mostrarVista
 
     const res = await fetchWithAuth('/api/custom-games');
     const personalizados = await res.json();

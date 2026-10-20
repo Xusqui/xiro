@@ -94,10 +94,11 @@ window.addEventListener('xiro:language-changed', () => {
         );
     }
     // 'questions' section is handled by admin-main.js via mostrarVista(activeView);
-    // sin vista activa lo que se ve es la portada
+    // sin vista activa puede verse la portada o un editor: solo se repinta la portada,
+    // porque repintar encima de un editor lo cerraría y perdería lo no guardado
     if (activeSectionTab === 'questions' && typeof activeView !== 'undefined' && !activeView) {
         const editorArea = document.getElementById('editorArea');
-        if (editorArea) renderAdminHome(editorArea);
+        if (editorArea && editorArea.querySelector('[data-admin-home]')) renderAdminHome(editorArea);
     }
 });
 
@@ -125,7 +126,7 @@ function renderAdminHome(editorArea) {
         </button>`).join('');
 
     editorArea.innerHTML = _tHtml(`
-        <div class="p-6 max-w-6xl mx-auto">
+        <div class="p-6 max-w-6xl mx-auto" data-admin-home>
             <div class="flex items-start justify-between gap-4 mb-6">
                 <div>
                     <h2 class="text-2xl font-black text-slate-800">${_t('admin.home.title', null, 'Inicio')}</h2>

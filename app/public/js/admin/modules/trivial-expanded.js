@@ -17,6 +17,7 @@ function mostrarTodosTrivial() {
 
 async function renderVistaTrivial() {
     clearUnsavedChangesGuard();
+    activeView = 'trivial'; // También al volver del editor sin pasar por mostrarVista
     const res = await fetchWithAuth('/api/trivial-games');
     const games = await res.json();
     const area = document.getElementById('editorArea');

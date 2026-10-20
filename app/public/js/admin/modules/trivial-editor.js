@@ -7,6 +7,7 @@
 const TRIVIAL_COLORS = ['#DB2777', '#16A34A', '#2563EB', '#F59E0B', '#8000FF', '#5A2E0C'];
 
 async function renderEditorTrivial(game, cats) {
+    activeView = null; // Salir de la vista de grid
     const [rB, rG, rC] = await Promise.all([
         fetchWithAuth('/api/banks'), fetchWithAuth('/api/games'), fetchWithAuth('/api/custom-games')
     ]);

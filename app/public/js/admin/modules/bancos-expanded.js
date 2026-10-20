@@ -15,6 +15,7 @@ function mostrarTodosBancos() {
 
 async function renderVistaBancos() {
     clearUnsavedChangesGuard();
+    activeView = 'bancos'; // También al volver del editor sin pasar por mostrarVista
 
     const res = await fetchWithAuth('/api/banks');
     const bancos = await res.json();

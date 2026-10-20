@@ -15,6 +15,7 @@ function mostrarTodosJuegos() {
 
 async function renderVistaJuegos() {
     clearUnsavedChangesGuard();
+    activeView = 'juegos'; // También al volver del editor sin pasar por mostrarVista
 
     const res = await fetchWithAuth('/api/games');
     const juegos = await res.json();
