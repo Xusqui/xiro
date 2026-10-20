@@ -107,6 +107,15 @@
     "admin.random_points.max_help": "与最低分相同即为固定分值",
     "admin.random_points.error_integer": "最低分值和最高分值必须是整数",
     "admin.random_points.error_range": "分值必须介于 {min} 和 {max} 之间",
-    "admin.random_points.error_inverted": "最高分值必须大于或等于最低分值"
+    "admin.random_points.error_inverted": "最高分值必须大于或等于最低分值",
+    "admin.editor.settings": "设置",
+    "admin.editor.done": "完成",
+    "admin.editor.section_general": "常规",
+    "admin.editor.section_scoring": "计分",
+    "admin.editor.chip_hidden": "隐藏",
+    "admin.editor.chip_streaks": "连胜",
+    "admin.editor.chip_double": "双连胜",
+    "admin.editor.chip_random": "随机",
+    "admin.editor.ph_pin_auto": "自动"
   }
 }

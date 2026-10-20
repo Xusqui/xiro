@@ -79,6 +79,25 @@
     "admin.q.fillblanks_err_short": "«{word}»: al menos 4 letras",
     "admin.q.fillblanks_err_long": "«{word}»: como mucho 14 letras",
     "admin.q.fillblanks_err_generic": "La frase no es válida",
-    "admin.q.fillblanks_err_marker": "No escribas {{n}} en la frase: las palabras a adivinar van entre corchetes"
+    "admin.q.fillblanks_err_marker": "No escribas {{n}} en la frase: las palabras a adivinar van entre corchetes",
+    "admin.q.type_quiz_short": "Quiz",
+    "admin.q.type_multiple_choice_short": "Selección múltiple",
+    "admin.q.type_survey_short": "Encuesta",
+    "admin.q.type_order_short": "Ordena",
+    "admin.q.type_matching_short": "Emparejar",
+    "admin.q.type_numeric_approximation_short": "Numérica",
+    "admin.q.type_word_scramble_short": "Anagrama",
+    "admin.q.type_quiz_hint": "Una respuesta correcta",
+    "admin.q.type_multiple_choice_hint": "De 1 a 6 respuestas correctas",
+    "admin.q.type_survey_hint": "Votos, sin respuesta correcta",
+    "admin.q.type_order_hint": "Arrastrar al orden correcto",
+    "admin.q.type_matching_hint": "Unir dos columnas",
+    "admin.q.type_numeric_approximation_hint": "Acercarse a un número",
+    "admin.q.type_word_scramble_hint": "Descifrar la palabra",
+    "admin.q.type_word_search_hint": "Encontrar las palabras",
+    "admin.q.type_fill_blanks_hint": "Rellenar los huecos",
+    "admin.q.type_change_title": "¿Cambiar el tipo de pregunta?",
+    "admin.q.type_change_msg": "Al pasar a «{type}» se borrarán las opciones y respuestas que ya has escrito en esta pregunta.",
+    "admin.q.type_change_confirm": "Cambiar tipo"
   }
 }

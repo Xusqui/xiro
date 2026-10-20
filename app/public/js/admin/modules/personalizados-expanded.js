@@ -182,6 +182,45 @@ async function cargarEditorJuegoPersonalizado(id) {
     }
 }
 
+/** Cabecera compacta del editor de juego personalizado (editor-header.js), con los ids de siempre. */
+function _customGameHeaderConfig(game) {
+    return {
+        entity: game,
+        accent: 'blue',
+        icon: 'fa-star',
+        kind: _t('admin.custom.form_title', null, 'Juego Personalizado'),
+        hiddenHtml: `<input type="hidden" id="customGameEditId" value="${game.id || ''}">
+                <input type="hidden" id="customGameOwnerUserId" value="${game.created_by_user_id ?? ''}">`,
+        back: { action: "mostrarVista('personalizados')", label: _t('admin.custom.btn_back', null, 'Volver a Juegos Personalizados') },
+        name: { id: 'customGameName', label: _t('admin.custom.label_name', null, 'Nombre del Juego'), placeholder: _t('admin.custom.ph_name', null, 'Ej: Examen Final Anatomía') },
+        pin: { id: 'customGamePin', label: _t('admin.games.label_pin', null, 'PIN Personalizado'), placeholder: _t('admin.editor.ph_pin_auto', null, 'Automático') },
+        visible: {
+            id: 'customGameVisibleToPresenter',
+            label: _t('admin.banks.label_visible', null, 'Mostrar al presentador'),
+            help: _t('admin.games.help_visible', null, 'Si está marcado, el presentador podrá ver y usar este juego')
+        },
+        languageId: 'customGameLanguage',
+        coverKind: 'customGame',
+        randomPrefix: 'customGame',
+        streaks: {
+            keys: 'admin.games',
+            toggle: 'customGameUseStreaks',
+            panel: 'customStreakConfigPanel',
+            threshold: 'customGameStreakThreshold',
+            bonus: 'customGameStreakBonusPercentage',
+            onToggle: 'toggleCustomStreakConfig()'
+        },
+        doubleStreaks: {
+            keys: 'admin.games',
+            toggle: 'customGameUseDoubleStreaks',
+            panel: 'customDoubleStreakConfigPanel',
+            threshold: 'customGameDoubleStreakThreshold',
+            bonus: 'customGameDoubleStreakBonusPercentage',
+            onToggle: 'toggleCustomDoubleStreakConfig()'
+        }
+    };
+}
+
 // ===== RENDERIZAR EDITOR PERSONALIZADO =====
 
 async function renderEditorJuegoPersonalizado(game) {
@@ -190,97 +229,7 @@ async function renderEditorJuegoPersonalizado(game) {
 
     const area = document.getElementById('editorArea');
     area.innerHTML = _tHtml(`
-        <div class="max-w-5xl mx-auto px-10 pt-6">
-            <!-- Botón volver -->
-            <button data-admin-click="mostrarVista('personalizados')"
-                class="mb-4 text-slate-600 hover:text-blue-600 font-bold flex items-center gap-2 transition">
-                <i class="fas fa-arrow-left"></i>
-                ${_t('admin.custom.btn_back', null, 'Volver a Juegos Personalizados')}
-            </button>
-        </div>
-
-        <div class="xiro-editor-sticky-header">
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
-                <input type="hidden" id="customGameEditId" value="${game.id || ''}">
-                <input type="hidden" id="customGameOwnerUserId" value="${game.created_by_user_id ?? ''}">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-lg font-black text-slate-900 italic uppercase">
-                        <i class="fas fa-star text-blue-500 mr-2"></i>${_t('admin.custom.form_title', null, 'Juego Personalizado')}
-                    </h2>
-                    ${game.id ? `<span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold">ID: ${game.id}</span>` : ''}
-                </div>
-
-                <div class="xiro-editor-header-grid">
-                    <!-- Columna 1: Identidad -->
-                    <div>
-                        <div class="grid grid-cols-2 gap-3 mb-3">
-                            <div>
-                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.custom.label_name', null, 'Nombre del Juego')}</label>
-                                <input type="text" id="customGameName" value="${escapeHtml(game.name)}" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-blue-500 outline-none transition text-sm" placeholder="${_t('admin.custom.ph_name', null, 'Ej: Examen Final Anatomía')}">
-                            </div>
-                            <div>
-                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.label_pin', null, 'PIN Personalizado')}</label>
-                                <input type="text" id="customGamePin" value="${game.pin}" class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-blue-500 outline-none transition font-mono text-sm" placeholder="${_t('admin.custom.ph_pin', null, 'Ej: 123456 (vacío = aleatorio)')}">
-                            </div>
-                        </div>
-
-                        <div class="mb-3 flex items-center justify-center gap-3" title="${_t('admin.games.help_visible', null, 'Si está marcado, el presentador podrá ver y usar este juego')}">
-                            <span class="text-base font-bold text-slate-700"><i class="fas fa-eye mr-1"></i>${_t('admin.banks.label_visible', null, 'Mostrar al presentador')}</span>
-                            <span style="transform: scale(1); transform-origin: left center;">${renderCheckbox({ id: 'customGameVisibleToPresenter', checked: game.visible_to_presenter !== false, action: null })}</span>
-                        </div>
-                        <div class="mb-3 text-center">
-                            <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('common.label_language', null, 'Idioma de las preguntas')}</label>
-                            <div class="flex justify-center">${renderLanguageSelect({ id: 'customGameLanguage', value: game.language })}</div>
-                        </div>
-                        <div class="flex flex-col items-center text-center">${renderGameCoverField('customGame', game.image_url)}</div>
-                    </div>
-
-                    <!-- Columna 2: Reglas de puntuación -->
-                    <div>
-                        <!-- Rachas -->
-                        <div class="flex items-center gap-3 mb-2" title="${_t('admin.games.help_streaks', null, 'Aplica bonus de puntos a jugadores con respuestas correctas consecutivas')}">
-                            <span class="text-sm font-bold text-slate-700"><i class="fas fa-fire text-orange-400 mr-1"></i>${_t('admin.games.label_streaks', null, 'Usar Rachas')}</span>
-                            ${renderCheckbox({ id: 'customGameUseStreaks', checked: game.use_streaks, action: null, attrs: 'data-admin-change="toggleCustomStreakConfig()"' })}
-                        </div>
-
-                        <div id="customStreakConfigPanel" class="${game.use_streaks ? '' : 'hidden'} ml-6 grid grid-cols-2 gap-3 mb-3 p-3 bg-orange-50 rounded-lg border border-orange-100">
-                            <div>
-                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.streak_threshold_label', null, 'Preguntas para activar Racha')}</label>
-                                <input type="number" id="customGameStreakThreshold" min="1" max="20" value="${game.streak_threshold ?? 3}"
-                                    class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-orange-400 outline-none text-sm">
-                            </div>
-                            <div>
-                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.streak_bonus_label', null, 'Multiplicador de bonus racha')}</label>
-                                <input type="number" id="customGameStreakBonusPercentage" min="0" max="2" step="0.05" value="${game.streak_bonus_percentage ?? 0.5}"
-                                    class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-orange-400 outline-none text-sm">
-                            </div>
-                        </div>
-
-                        <!-- Dobles Rachas -->
-                        <div class="flex items-center gap-3 mb-2" title="${_t('admin.games.help_dbl_streaks', null, 'Bonus adicional para jugadores que superan un umbral mayor de aciertos consecutivos')}">
-                            <span class="text-sm font-bold text-slate-700"><i class="fas fa-fire text-red-500 mr-1"></i>${_t('admin.games.label_dbl_streaks', null, 'Usar Dobles Rachas')}</span>
-                            ${renderCheckbox({ id: 'customGameUseDoubleStreaks', checked: game.use_double_streaks, action: null, attrs: 'data-admin-change="toggleCustomDoubleStreakConfig()"' })}
-                        </div>
-
-                        <div id="customDoubleStreakConfigPanel" class="${game.use_double_streaks ? '' : 'hidden'} ml-6 grid grid-cols-2 gap-3 mb-3 p-3 bg-red-50 rounded-lg border border-red-100">
-                            <div>
-                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.dbl_threshold_label', null, 'Preguntas para Doble Racha')}</label>
-                                <input type="number" id="customGameDoubleStreakThreshold" min="1" max="20" value="${game.double_streak_threshold ?? 5}"
-                                    class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-red-400 outline-none text-sm">
-                            </div>
-                            <div>
-                                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">${_t('admin.games.dbl_bonus_label', null, 'Multiplicador bonus doble racha')}</label>
-                                <input type="number" id="customGameDoubleStreakBonusPercentage" min="0" max="2" step="0.05" value="${game.double_streak_bonus_percentage ?? 1.0}"
-                                    class="w-full p-2 border-2 border-slate-100 rounded-lg focus:border-red-400 outline-none text-sm">
-                            </div>
-                        </div>
-
-                        <!-- Puntuación Aleatoria -->
-                        ${renderRandomPointsHtml('customGame', game)}
-                    </div>
-                </div>
-            </div>
-        </div>
+        ${renderEditorHeader(_customGameHeaderConfig(game))}
 
         <div class="xiro-editor-wide-row xiro-editor-twocard-grid">
             ${typeof getHTMLBusquedaPreguntas === 'function' ? getHTMLBusquedaPreguntas() : ''}
@@ -304,7 +253,7 @@ async function renderEditorJuegoPersonalizado(game) {
             </div>
         </div>
 
-        <div class="max-w-5xl mx-auto px-10 pb-10">
+        <div class="xiro-editor-body">
             ${_customToolbarHtml()}
 
             <div class="bg-white rounded-2xl shadow-sm p-8 mb-8 border border-slate-200">
@@ -404,13 +353,16 @@ function _customGameEditorSnapshot() {
 }
 
 /** Mantiene la toolbar "Añadir contenido" pegada justo debajo de la
- * cabecera sticky de Nombre+Configuración, cuya altura varía al
- * desplegar los paneles de Rachas/Dobles Rachas. */
+ * barra fija de la cabecera (el panel «Ajustes» flota encima y no
+ * cambia su altura, pero la barra puede pasar a dos filas en pantallas
+ * estrechas). */
 function _syncPersonalizadosToolbarOffset() {
     const header = document.querySelector('.xiro-editor-sticky-header');
     const toolbar = document.querySelector('.xiro-toolbar-bar--below-header');
     if (!header || !toolbar) return;
-    toolbar.style.top = `${header.offsetHeight}px`;
+    // La cabecera se pega a cierta distancia del borde (top en admin-editor-header.css)
+    const headerTop = parseFloat(getComputedStyle(header).top) || 0;
+    toolbar.style.top = `${headerTop + header.offsetHeight}px`;
 }
 
 // ===== CARGAR PREGUNTAS DE UN BANCO =====

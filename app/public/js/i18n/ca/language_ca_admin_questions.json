@@ -79,6 +79,25 @@
     "admin.q.fillblanks_err_short": "«{word}»: almenys 4 lletres",
     "admin.q.fillblanks_err_long": "«{word}»: com a molt 14 lletres",
     "admin.q.fillblanks_err_generic": "La frase no és vàlida",
-    "admin.q.fillblanks_err_marker": "No escriguis {{n}} a la frase: les paraules a endevinar van entre claudàtors"
+    "admin.q.fillblanks_err_marker": "No escriguis {{n}} a la frase: les paraules a endevinar van entre claudàtors",
+    "admin.q.type_quiz_short": "Quiz",
+    "admin.q.type_multiple_choice_short": "Selecció múltiple",
+    "admin.q.type_survey_short": "Enquesta",
+    "admin.q.type_order_short": "Ordena",
+    "admin.q.type_matching_short": "Emparellar",
+    "admin.q.type_numeric_approximation_short": "Numèrica",
+    "admin.q.type_word_scramble_short": "Anagrama",
+    "admin.q.type_quiz_hint": "Una resposta correcta",
+    "admin.q.type_multiple_choice_hint": "D'1 a 6 respostes correctes",
+    "admin.q.type_survey_hint": "Vots, sense resposta correcta",
+    "admin.q.type_order_hint": "Arrossegar a l'ordre correcte",
+    "admin.q.type_matching_hint": "Unir dues columnes",
+    "admin.q.type_numeric_approximation_hint": "Acostar-se a un número",
+    "admin.q.type_word_scramble_hint": "Desxifrar la paraula",
+    "admin.q.type_word_search_hint": "Trobar les paraules",
+    "admin.q.type_fill_blanks_hint": "Omplir els buits",
+    "admin.q.type_change_title": "Vols canviar el tipus de pregunta?",
+    "admin.q.type_change_msg": "En passar a «{type}» s'esborraran les opcions i respostes que ja has escrit en aquesta pregunta.",
+    "admin.q.type_change_confirm": "Canvia el tipus"
   }
 }

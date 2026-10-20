@@ -79,6 +79,25 @@
     "admin.q.fillblanks_err_short": "「{word}」：4文字以上",
     "admin.q.fillblanks_err_long": "「{word}」：14文字以下",
     "admin.q.fillblanks_err_generic": "文が無効です",
-    "admin.q.fillblanks_err_marker": "文中に {{n}} を書かないでください。当てる単語は角かっこで囲みます"
+    "admin.q.fillblanks_err_marker": "文中に {{n}} を書かないでください。当てる単語は角かっこで囲みます",
+    "admin.q.type_quiz_short": "クイズ",
+    "admin.q.type_multiple_choice_short": "複数選択",
+    "admin.q.type_survey_short": "アンケート",
+    "admin.q.type_order_short": "並べ替え",
+    "admin.q.type_matching_short": "マッチング",
+    "admin.q.type_numeric_approximation_short": "数値",
+    "admin.q.type_word_scramble_short": "アナグラム",
+    "admin.q.type_quiz_hint": "正解は1つ",
+    "admin.q.type_multiple_choice_hint": "正解は1〜6個",
+    "admin.q.type_survey_hint": "投票（正解なし）",
+    "admin.q.type_order_hint": "正しい順に並べ替える",
+    "admin.q.type_matching_hint": "2列を結びつける",
+    "admin.q.type_numeric_approximation_hint": "数値に近づける",
+    "admin.q.type_word_scramble_hint": "単語を解読する",
+    "admin.q.type_word_search_hint": "単語を見つける",
+    "admin.q.type_fill_blanks_hint": "空欄を埋める",
+    "admin.q.type_change_title": "問題の種類を変更しますか？",
+    "admin.q.type_change_msg": "「{type}」に変更すると、この問題に入力済みの選択肢と解答が削除されます。",
+    "admin.q.type_change_confirm": "種類を変更"
   }
 }

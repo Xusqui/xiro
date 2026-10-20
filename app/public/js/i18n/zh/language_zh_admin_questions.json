@@ -79,6 +79,25 @@
     "admin.q.fillblanks_err_short": "“{word}”：至少 4 个字母",
     "admin.q.fillblanks_err_long": "“{word}”：最多 14 个字母",
     "admin.q.fillblanks_err_generic": "句子无效",
-    "admin.q.fillblanks_err_marker": "不要在句子中写 {{n}}：要猜的单词放在方括号中"
+    "admin.q.fillblanks_err_marker": "不要在句子中写 {{n}}：要猜的单词放在方括号中",
+    "admin.q.type_quiz_short": "问答",
+    "admin.q.type_multiple_choice_short": "多选",
+    "admin.q.type_survey_short": "调查",
+    "admin.q.type_order_short": "排序",
+    "admin.q.type_matching_short": "匹配",
+    "admin.q.type_numeric_approximation_short": "数字",
+    "admin.q.type_word_scramble_short": "字谜",
+    "admin.q.type_quiz_hint": "一个正确答案",
+    "admin.q.type_multiple_choice_hint": "1–6个正确答案",
+    "admin.q.type_survey_hint": "投票，无正确答案",
+    "admin.q.type_order_hint": "拖动到正确顺序",
+    "admin.q.type_matching_hint": "连接两列",
+    "admin.q.type_numeric_approximation_hint": "尽量接近一个数字",
+    "admin.q.type_word_scramble_hint": "解读单词",
+    "admin.q.type_word_search_hint": "找出单词",
+    "admin.q.type_fill_blanks_hint": "填写空格",
+    "admin.q.type_change_title": "更改题目类型？",
+    "admin.q.type_change_msg": "切换到“{type}”将删除此题中已填写的选项和答案。",
+    "admin.q.type_change_confirm": "更改类型"
   }
 }

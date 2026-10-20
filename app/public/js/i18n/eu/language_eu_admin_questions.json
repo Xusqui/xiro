@@ -79,6 +79,25 @@
     "admin.q.fillblanks_err_short": "«{word}»: gutxienez 4 letra",
     "admin.q.fillblanks_err_long": "«{word}»: gehienez 14 letra",
     "admin.q.fillblanks_err_generic": "Esaldia ez da baliozkoa",
-    "admin.q.fillblanks_err_marker": "Ez idatzi {{n}} esaldian: asmatu beharreko hitzak kortxete artean doaz"
+    "admin.q.fillblanks_err_marker": "Ez idatzi {{n}} esaldian: asmatu beharreko hitzak kortxete artean doaz",
+    "admin.q.type_quiz_short": "Quiz",
+    "admin.q.type_multiple_choice_short": "Aukera anitza",
+    "admin.q.type_survey_short": "Inkesta",
+    "admin.q.type_order_short": "Ordenatu",
+    "admin.q.type_matching_short": "Parekatu",
+    "admin.q.type_numeric_approximation_short": "Zenbakizkoa",
+    "admin.q.type_word_scramble_short": "Anagrama",
+    "admin.q.type_quiz_hint": "Erantzun zuzen bat",
+    "admin.q.type_multiple_choice_hint": "1etik 6ra erantzun zuzen",
+    "admin.q.type_survey_hint": "Botoak, erantzun zuzenik gabe",
+    "admin.q.type_order_hint": "Ordena zuzenera arrastatu",
+    "admin.q.type_matching_hint": "Bi zutabe lotu",
+    "admin.q.type_numeric_approximation_hint": "Zenbaki batera hurbildu",
+    "admin.q.type_word_scramble_hint": "Hitza deszifratu",
+    "admin.q.type_word_search_hint": "Hitzak aurkitu",
+    "admin.q.type_fill_blanks_hint": "Hutsuneak bete",
+    "admin.q.type_change_title": "Galdera mota aldatu?",
+    "admin.q.type_change_msg": "«{type}» motara aldatzean, galdera honetan idatzitako aukerak eta erantzunak ezabatuko dira.",
+    "admin.q.type_change_confirm": "Mota aldatu"
   }
 }

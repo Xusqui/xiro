@@ -107,6 +107,15 @@
     "admin.random_points.max_help": "Gutxienekoaren berdina = puntuazio finkoa",
     "admin.random_points.error_integer": "Gutxieneko eta gehieneko puntuak zenbaki osoak izan behar dira",
     "admin.random_points.error_range": "Puntuek {min} eta {max} artean egon behar dute",
-    "admin.random_points.error_inverted": "Gehienekoa gutxienekoa baino handiagoa edo berdina izan behar da"
+    "admin.random_points.error_inverted": "Gehienekoa gutxienekoa baino handiagoa edo berdina izan behar da",
+    "admin.editor.settings": "Ezarpenak",
+    "admin.editor.done": "Eginda",
+    "admin.editor.section_general": "Orokorra",
+    "admin.editor.section_scoring": "Puntuazioa",
+    "admin.editor.chip_hidden": "Ezkutuan",
+    "admin.editor.chip_streaks": "Bolada",
+    "admin.editor.chip_double": "Bikoitza",
+    "admin.editor.chip_random": "Ausazkoa",
+    "admin.editor.ph_pin_auto": "Automatikoa"
   }
 }

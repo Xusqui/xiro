@@ -107,6 +107,15 @@
     "admin.random_points.max_help": "Same as the minimum = fixed score",
     "admin.random_points.error_integer": "Minimum and maximum points must be whole numbers",
     "admin.random_points.error_range": "Points must be between {min} and {max}",
-    "admin.random_points.error_inverted": "The maximum must be greater than or equal to the minimum"
+    "admin.random_points.error_inverted": "The maximum must be greater than or equal to the minimum",
+    "admin.editor.settings": "Settings",
+    "admin.editor.done": "Done",
+    "admin.editor.section_general": "General",
+    "admin.editor.section_scoring": "Scoring",
+    "admin.editor.chip_hidden": "Hidden",
+    "admin.editor.chip_streaks": "Streak",
+    "admin.editor.chip_double": "Double",
+    "admin.editor.chip_random": "Random",
+    "admin.editor.ph_pin_auto": "Automatic"
   }
 }

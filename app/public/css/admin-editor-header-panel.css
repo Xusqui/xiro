@@ -1,0 +1,149 @@
+/*
+ * Panel «Ajustes» de la cabecera de los editores (admin/modules/editor-header*.js): cuelga
+ * de la barra fija y reúne General (visible, idioma, portada) y Puntuación (rachas, dobles
+ * rachas, puntuación aleatoria). Colores del editor: .xeh--<color> en admin-editor-header.css.
+ */
+
+.xeh-panel {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    left: 0;
+    max-height: calc(100vh - 120px);
+    overflow: auto;
+    padding: 20px 22px 16px;
+    border-radius: var(--radius-2xl, 16px);
+    background: #ffffff;
+    transform-origin: top center;
+    animation: xeh-in 0.18s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.xeh-panel[hidden] { display: none; }
+
+@keyframes xeh-in {
+    from { opacity: 0; transform: translateY(-6px) scale(0.985); }
+    to { opacity: 1; transform: none; }
+}
+
+.xeh-panel__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; }
+
+.xeh-panel__title {
+    margin: 0 0 10px;
+    color: #1e293b;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.xeh-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 40px;
+}
+
+.xeh-row__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #334155;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.xeh-row__label .fa-eye { color: #64748b; }
+
+.xeh-field { margin: 10px 0; }
+
+.xeh-field__label {
+    display: block;
+    margin-bottom: 6px;
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.xeh-sub {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin: 4px 0 10px 24px;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius-xl, 12px);
+    background: #f8fafc;
+}
+
+.xeh-sub.hidden { display: none; }
+
+.xeh-input {
+    width: 100%;
+    height: 36px;
+    padding: 0 10px;
+    border: 2px solid #f1f5f9;
+    border-radius: 8px;
+    background: #ffffff;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.15s ease-out;
+}
+
+.xeh-input:focus { border-color: var(--xeh-accent); }
+
+.xeh-panel__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.xeh-panel__id { color: #64748b; font: 600 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+.xeh-panel__done {
+    height: 38px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: var(--radius-xl, 12px);
+    background: var(--camaleon-600, #557400);
+    box-shadow: 0 8px 18px -10px rgba(85, 116, 0, 0.8);
+    color: #ffffff;
+    font: 700 14px/1 var(--font-body, 'DM Sans', sans-serif);
+    cursor: pointer;
+    transition: background-color 0.15s ease-out, transform 0.15s ease-out;
+}
+
+.xeh-panel__done:hover { background: var(--camaleon-700, #445e02); transform: translateY(-1px); }
+.xeh-panel__done:active { transform: scale(0.97); }
+
+@container (min-width: 760px) {
+    .xeh-panel__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .xeh-panel__section:first-child { padding-right: 24px; border-right: 1px solid #f1f5f9; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .xeh-panel { animation: none; }
+    .xeh-input,
+    .xeh-panel__done { transition: none; }
+}
+
+.xeh-input--readonly { background: #f1f5f9; color: #64748b; cursor: not-allowed; }
+
+/* Flota sobre las preguntas: más sombra que la barra de la que cuelga. */
+.xiro-editor-sticky-header > .xeh-panel {
+    box-shadow: 0 24px 48px -18px rgba(15, 23, 42, 0.3), 0 4px 10px rgba(15, 23, 42, 0.06);
+}
+
+/* Bloque de puntuación aleatoria (random-points-config.js, compartido con la fusión):
+   misma fila y misma caja que las rachas. */
+.xeh-panel .flex.items-center.gap-3.mb-2 { justify-content: space-between; min-height: 40px; margin-bottom: 0; }
+.xeh-panel [id$="RandomPointsPanel"] {
+    margin: 4px 0 10px 24px;
+    border-color: #e2e8f0;
+    border-radius: var(--radius-xl, 12px);
+    background: #f8fafc;
+}

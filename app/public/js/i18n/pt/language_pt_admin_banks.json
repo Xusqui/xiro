@@ -107,6 +107,15 @@
     "admin.random_points.max_help": "Igual ao mínimo = pontuação fixa",
     "admin.random_points.error_integer": "Os pontos mínimo e máximo têm de ser números inteiros",
     "admin.random_points.error_range": "Os pontos têm de estar entre {min} e {max}",
-    "admin.random_points.error_inverted": "O máximo tem de ser maior ou igual ao mínimo"
+    "admin.random_points.error_inverted": "O máximo tem de ser maior ou igual ao mínimo",
+    "admin.editor.settings": "Definições",
+    "admin.editor.done": "Concluído",
+    "admin.editor.section_general": "Geral",
+    "admin.editor.section_scoring": "Pontuação",
+    "admin.editor.chip_hidden": "Oculto",
+    "admin.editor.chip_streaks": "Sequência",
+    "admin.editor.chip_double": "Dupla",
+    "admin.editor.chip_random": "Aleatória",
+    "admin.editor.ph_pin_auto": "Automático"
   }
 }

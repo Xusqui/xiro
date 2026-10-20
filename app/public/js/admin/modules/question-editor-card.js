@@ -1,5 +1,6 @@
 // Editor de preguntas del admin (dibujarPreguntas, en helpers.js): valores por defecto
-// de cada pregunta y tarjeta común (enunciado, imagen, tipo, tiempo y multimedia).
+// de cada pregunta y tarjeta común (tipo, enunciado, imagen, tiempo y multimedia).
+// El selector de tipo está en question-type-picker.js.
 // La sección propia de cada tipo está en question-editor-numeric.js y question-editor-options.js.
 
 /** Completa en la propia pregunta los campos que el editor necesita. */
@@ -63,7 +64,9 @@ function questionCardHtml(q, qIdx) {
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 relative animate-fade-in">
                     <button data-admin-click="eliminarPregunta(${qIdx})" class="absolute top-4 right-4 text-slate-300 hover:text-red-500 transition"><i class="fas fa-trash-alt"></i></button>
                     <span class="absolute top-4 right-14 text-[10px] font-bold uppercase px-2 py-1 rounded-full ${typeChip}">${_t(`admin.q.type_${q.type}_short`, null, q.type.replace(/_/g, ' '))}</span>
-                    
+
+                    ${questionTypePickerHtml(q, qIdx)}
+
                     ${questionStatementHtml(q, qIdx)}
 
                     <!-- IMAGEN PEQUEÑA DE ENUNCIADO -->
@@ -101,20 +104,6 @@ function questionCardHtml(q, qIdx) {
 }
                     </div>
 
-                    <div class="mb-4">
-                        <label class="text-[10px] font-bold text-slate-400 uppercase">${_t('admin.q.type_label', null, 'Tipo de pregunta')}</label>
-                        <select data-admin-change="cambiarTipoPregunta(${qIdx}, this.value)" class="w-full p-2 border-2 border-slate-100 rounded-xl focus:border-plum-500 outline-none transition">
-                            <option value="quiz" ${q.type === 'quiz' ? 'selected' : ''}>${_t('admin.q.type_quiz', null, 'Quiz (Correcta/Incorrecta)')}</option>
-                            <option value="survey" ${q.type === 'survey' ? 'selected' : ''}>${_t('admin.q.type_survey', null, 'Encuesta (Votos)')}</option>
-                            <option value="order" ${q.type === 'order' ? 'selected' : ''}>${_t('admin.q.type_order', null, 'Ordena (Arrastrar)')}</option>
-                            <option value="matching" ${q.type === 'matching' ? 'selected' : ''}>${_t('admin.q.type_matching', null, 'Emparejar (Dos columnas)')}</option>
-                            <option value="numeric_approximation" ${q.type === 'numeric_approximation' ? 'selected' : ''}>${_t('admin.q.type_numeric', null, 'Numérica (Aproximación)')}</option>
-                            <option value="word_scramble" ${q.type === 'word_scramble' ? 'selected' : ''}>${_t('admin.q.type_word_scramble', null, 'Anagrama (Descifra la palabra)')}</option>
-                            <option value="multiple_choice" ${q.type === 'multiple_choice' ? 'selected' : ''}>${_t('admin.q.type_multiple_choice', null, 'Selección Múltiple (1-6 respuestas)')}</option>
-                            <option value="word_search" ${q.type === 'word_search' ? 'selected' : ''}>${_t('admin.q.type_word_search', null, 'Sopa de letras (Encuentra las palabras)')}</option>
-                            <option value="fill_blanks" ${q.type === 'fill_blanks' ? 'selected' : ''}>${_t('admin.q.type_fill_blanks', null, 'Completa la frase (Rellena los huecos)')}</option>
-                        </select>
-                    </div>
                     <div class="mb-4">
                         <label class="text-[10px] font-bold text-slate-400 uppercase flex items-center gap-2">
                             <i class="fas fa-clock"></i> ${_t('admin.q.time_label', null, 'Tiempo para responder (segundos)')}

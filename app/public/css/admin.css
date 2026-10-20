@@ -516,10 +516,9 @@
     }
 }
 
-/* ===== Cabecera sticky "Nombre + Configuración" de los editores
-   (Juego Personalizado, Mezcla de Preguntas, Banco de Preguntas, Trivial).
-   Posición, anchura y grid responsive en CSS puro: igual que la toolbar
-   de iconos, sin depender de clases utilitarias. ===== */
+/* ===== Cabecera sticky de los editores (Juego Personalizado, Mezcla de
+   Preguntas, Banco de Preguntas, Trivial): posición y anchura. La barra
+   compacta y su panel «Ajustes» están en admin-editor-header*.css. ===== */
 .xiro-editor-sticky-header {
     position: sticky;
     top: 0;
@@ -548,21 +547,13 @@
     z-index: 20;
 }
 
-.xiro-editor-header-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-}
-
-@media (min-width: 1024px) {
-    .xiro-editor-header-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .xiro-editor-header-grid>:first-child {
-        padding-right: 1.5rem;
-        border-right: 1px solid rgb(241, 245, 249);
-    }
+/* Área de edición bajo la cabecera: mismo ancho que .xiro-editor-sticky-header
+   en los cuatro editores, para que barra y contenido coincidan en todos. */
+.xiro-editor-body {
+    width: 92%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-bottom: 2.5rem;
 }
 
 /* Fila ancha (mismo ancho que .xiro-editor-sticky-header) para las

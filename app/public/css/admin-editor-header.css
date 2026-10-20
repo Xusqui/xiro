@@ -1,0 +1,225 @@
+/*
+ * Cabecera fija de los editores de banco, mezcla, personalizado y trivial
+ * (admin/modules/editor-header*.js). Una barra blanca con volver, portada, nombre, PIN y
+ * el resumen de ajustes; el panel «Ajustes» cuelga de ella, así se abre desde cualquier
+ * punto del scroll. Borde y sombra de las dos tarjetas: .xiro-editor-sticky-header>div
+ * en admin.css. Cada editor conserva su color con .xeh--<color>. El panel está en
+ * admin-editor-header-panel.css.
+ */
+
+.xeh--plum { --xeh-accent: var(--plum-600, #94438e); --xeh-deep: var(--plum-700, #793475); --xeh-tint: var(--plum-50, #fdf4fc); --xeh-soft: var(--plum-100, #f9e6f7); --xeh-edge: var(--plum-200, #f2ceed); }
+.xeh--green { --xeh-accent: #16a34a; --xeh-deep: #15803d; --xeh-tint: #f0fdf4; --xeh-soft: #dcfce7; --xeh-edge: #bbf7d0; }
+.xeh--blue { --xeh-accent: #2563eb; --xeh-deep: #1d4ed8; --xeh-tint: #eff6ff; --xeh-soft: #dbeafe; --xeh-edge: #bfdbfe; }
+.xeh--orange { --xeh-accent: #ea580c; --xeh-deep: #c2410c; --xeh-tint: #fff7ed; --xeh-soft: #ffedd5; --xeh-edge: #fed7aa; }
+
+.xeh-host {
+    top: 8px;
+    margin: 1.5rem auto;
+    container-type: inline-size;
+    font-family: var(--font-body, 'DM Sans', system-ui, sans-serif);
+}
+
+.xeh-host ::selection { background: var(--xeh-soft); color: var(--xeh-deep); }
+
+.xeh-host :focus-visible {
+    outline: 2px solid var(--xeh-accent);
+    outline-offset: 2px;
+}
+
+/* ---- Barra ---- */
+.xeh {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 60px;
+    padding: 10px 12px;
+    background: #ffffff;
+    border-radius: var(--radius-2xl, 16px);
+}
+
+.xeh__back {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: #64748b;
+    cursor: pointer;
+    transition: background-color 0.15s ease-out, color 0.15s ease-out;
+}
+
+.xeh__back:hover { background: #f1f5f9; color: var(--xeh-deep); }
+
+.xeh__tile {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: var(--radius-xl, 12px);
+    background: linear-gradient(135deg, var(--xeh-accent), var(--xeh-deep));
+    box-shadow: 0 6px 14px -8px var(--xeh-accent);
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.xeh__tile img { width: 100%; height: 100%; object-fit: cover; }
+
+.xeh__name {
+    flex: 1 1 12rem;
+    min-width: 0;
+    height: 40px;
+    padding: 0 10px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background: transparent;
+    color: #0f172a;
+    font: 800 1.125rem/1 var(--font-body, 'DM Sans', sans-serif);
+    letter-spacing: -0.01em;
+    text-overflow: ellipsis;
+    transition: background-color 0.15s ease-out, border-color 0.15s ease-out, box-shadow 0.15s ease-out;
+}
+
+.xeh__name::placeholder { color: #94a3b8; font-weight: 600; }
+.xeh__name:hover { background: #f8fafc; border-color: #e2e8f0; }
+
+.xeh__name:focus {
+    outline: none;
+    background: #ffffff;
+    border-color: var(--xeh-accent);
+    box-shadow: 0 0 0 3px var(--xeh-soft);
+}
+
+.xeh__pin {
+    display: inline-flex;
+    flex: none;
+    align-items: stretch;
+    height: 36px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #f8fafc;
+    transition: border-color 0.15s ease-out, box-shadow 0.15s ease-out;
+}
+
+.xeh__pin:focus-within { border-color: var(--xeh-accent); box-shadow: 0 0 0 3px var(--xeh-soft); }
+
+.xeh__pin-label {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    border-right: 1px solid #e2e8f0;
+    background: #f1f5f9;
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+.xeh__pin input {
+    width: 8.5rem;
+    padding: 0 10px;
+    border: 0;
+    background: #ffffff;
+    color: #1e293b;
+    font: 600 14px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: 0.04em;
+    outline: none;
+}
+
+.xeh__pin input::placeholder { color: #94a3b8; font-family: var(--font-body, 'DM Sans', sans-serif); letter-spacing: 0; }
+
+/* Botón «Ajustes» con el resumen dentro: todo él abre el panel. */
+.xeh__settings {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: 10px;
+    height: 40px;
+    padding: 0 12px 0 6px;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius-xl, 12px);
+    background: #ffffff;
+    color: #334155;
+    font: 700 13px/1 var(--font-body, 'DM Sans', sans-serif);
+    cursor: pointer;
+    transition: background-color 0.15s ease-out, border-color 0.15s ease-out, color 0.15s ease-out;
+}
+
+.xeh__settings:hover { border-color: #cbd5e1; background: #f8fafc; }
+.xeh__settings[aria-expanded="true"] { border-color: var(--xeh-edge); background: var(--xeh-tint); color: var(--xeh-deep); }
+.xeh__settings:active { transform: scale(0.98); }
+
+.xeh__chips {
+    display: inline-flex;
+    gap: 4px;
+    padding-right: 10px;
+    border-right: 1px solid #e2e8f0;
+}
+
+.xeh__settings-label { display: inline-flex; align-items: center; gap: 6px; }
+
+.xeh__chevron {
+    font-size: 10px;
+    color: #94a3b8;
+    transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.xeh__settings[aria-expanded="true"] .xeh__chevron { transform: rotate(180deg); }
+
+.xeh-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    height: 24px;
+    padding: 0 8px;
+    border-radius: 9999px;
+    background: #f1f5f9;
+    color: #475569;
+    font: 600 11px/1 var(--font-body, 'DM Sans', sans-serif);
+    white-space: nowrap;
+}
+
+.xeh-chip i { font-size: 10px; }
+.xeh-chip__label { margin-right: -1px; }
+.xeh-chip--muted { background: #ffffff; box-shadow: inset 0 0 0 1px #cbd5e1; color: #64748b; }
+.xeh-chip--streak { background: #fff7ed; color: #c2410c; }
+.xeh-chip--double { background: #fef2f2; color: #b91c1c; }
+.xeh-chip--random { background: var(--plum-50, #fdf4fc); color: var(--plum-700, #793475); }
+
+.xeh-chip__flag {
+    width: 14px;
+    height: 10px;
+    border-radius: 2px;
+    object-fit: cover;
+    box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.12);
+}
+
+/* ---- Anchos: el resumen se recorta antes que el nombre ---- */
+@container (max-width: 959px) {
+    .xeh-chip__label { display: none; }
+}
+
+@container (max-width: 719px) {
+    .xeh__chips { display: none; }
+    .xeh__pin input { width: 6.5rem; }
+}
+
+@container (max-width: 539px) {
+    .xeh { flex-wrap: wrap; }
+    .xeh__settings { padding: 0 10px; }
+    .xeh__pin { order: 5; flex: 1 1 100%; }
+    .xeh__pin input { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .xeh__chevron,
+    .xeh__name,
+    .xeh__settings { transition: none; }
+}

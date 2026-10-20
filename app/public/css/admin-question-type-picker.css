@@ -1,0 +1,177 @@
+/*
+ * Selector del tipo de pregunta del editor de bancos (admin/modules/question-type-picker.js).
+ * Rejilla de baldosas-radio: un pozo hundido (sombra interior) cuyo punto se llena con el
+ * color del tipo al elegirlo. Cada tipo usa la familia de color de su chip en la lista
+ * (QUESTION_TYPE_CHIPS en question-editor-card.js).
+ */
+
+.xq-type {
+    min-width: 0;
+    margin: 0 0 1rem;
+    padding: 0;
+    border: 0;
+}
+
+.xq-type__legend {
+    padding: 0;
+    margin-bottom: 8px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #94a3b8;
+}
+
+.xq-type__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+}
+
+/* ---- Color de cada tipo: acento, tinte de fondo, borde y tinta ---- */
+.xq-type__tile[data-type="quiz"] { --xq-accent: var(--plum-600, #94438e); --xq-tint: var(--plum-50, #fdf4fc); --xq-edge: var(--plum-200, #f2ceed); --xq-ink: var(--plum-800, #642d61); }
+.xq-type__tile[data-type="multiple_choice"] { --xq-accent: var(--aubergine-600, #7f548d); --xq-tint: var(--aubergine-50, #faf5fc); --xq-edge: var(--aubergine-200, #e7d0ef); --xq-ink: var(--aubergine-800, #52335b); }
+.xq-type__tile[data-type="survey"] { --xq-accent: #2563eb; --xq-tint: #eff6ff; --xq-edge: #bfdbfe; --xq-ink: #1e40af; }
+.xq-type__tile[data-type="order"] { --xq-accent: #16a34a; --xq-tint: #f0fdf4; --xq-edge: #bbf7d0; --xq-ink: #166534; }
+.xq-type__tile[data-type="matching"] { --xq-accent: #ea580c; --xq-tint: #fff7ed; --xq-edge: #fed7aa; --xq-ink: #9a3412; }
+.xq-type__tile[data-type="numeric_approximation"] { --xq-accent: #0891b2; --xq-tint: #ecfeff; --xq-edge: #a5f3fc; --xq-ink: #155e75; }
+.xq-type__tile[data-type="word_scramble"] { --xq-accent: #db2777; --xq-tint: #fdf2f8; --xq-edge: #fbcfe8; --xq-ink: #9d174d; }
+.xq-type__tile[data-type="word_search"] { --xq-accent: #ca8a04; --xq-tint: #fefce8; --xq-edge: #fde68a; --xq-ink: #854d0e; }
+.xq-type__tile[data-type="fill_blanks"] { --xq-accent: #059669; --xq-tint: #ecfdf5; --xq-edge: #a7f3d0; --xq-ink: #065f46; }
+
+/* ---- Baldosa ---- */
+.xq-type__tile {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto auto minmax(0, 1fr);
+    align-items: center;
+    gap: 10px;
+    min-height: 52px;
+    padding: 8px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius-xl, 12px);
+    background: #f8fafc;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease-out, border-color 0.2s ease-out, box-shadow 0.2s ease-out, transform 0.12s ease-out;
+}
+
+.xq-type__tile:hover {
+    background: #ffffff;
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 12px -6px rgba(15, 23, 42, 0.22);
+}
+
+.xq-type__tile:active { transform: scale(0.98); }
+
+/* El radio sigue en el árbol de accesibilidad y responde a Tab y flechas. */
+.xq-type__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Pozo hundido: luz arriba a la izquierda, sombra abajo a la derecha. */
+.xq-type__pit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    padding: 4px;
+    border-radius: 9999px;
+    background: #e2e8f0;
+    box-shadow: inset -1px -2px 5px #ffffff, inset 1px 2px 3px #aab4c3;
+    transition: box-shadow 0.3s ease-out;
+}
+
+.xq-type__dot {
+    width: 100%;
+    height: 100%;
+    border-radius: 9999px;
+    background: transparent;
+    transform: scale(0.4);
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.25s ease-out, box-shadow 0.25s ease-out;
+}
+
+.xq-type__tile:hover .xq-type__dot {
+    background: #cbd5e1;
+    transform: scale(0.55);
+}
+
+.xq-type__icon {
+    width: 18px;
+    text-align: center;
+    font-size: 15px;
+    color: #94a3b8;
+    transition: color 0.2s ease-out;
+}
+
+.xq-type__tile:hover .xq-type__icon { color: var(--xq-accent); }
+
+.xq-type__text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.2;
+}
+
+.xq-type__name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.xq-type__hint {
+    overflow: hidden;
+    font-size: 11px;
+    color: #64748b;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ---- Elegida ---- */
+.xq-type__tile:has(.xq-type__input:checked) {
+    background: var(--xq-tint);
+    border-color: var(--xq-edge);
+    box-shadow: 0 6px 14px -10px var(--xq-accent);
+}
+
+.xq-type__input:checked + .xq-type__pit .xq-type__dot {
+    background: var(--xq-accent);
+    box-shadow: 0 0 0 2px #ffffff, 0 2px 4px rgba(15, 23, 42, 0.25);
+    transform: scale(1.1);
+}
+
+.xq-type__input:checked ~ .xq-type__icon { color: var(--xq-accent); }
+.xq-type__input:checked ~ .xq-type__text .xq-type__name { color: var(--xq-ink); }
+.xq-type__input:checked ~ .xq-type__text .xq-type__hint { color: var(--xq-ink); opacity: 0.75; }
+
+/* ---- Foco de teclado ---- */
+.xq-type__input:focus-visible + .xq-type__pit {
+    outline: 2px solid var(--plum-500, #b05baa);
+    outline-offset: 2px;
+}
+
+.xq-type__tile:has(.xq-type__input:focus-visible) {
+    border-color: var(--plum-400, #d384ca);
+}
+
+@media (max-width: 640px) {
+    .xq-type__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    /* En dos columnas estrechas la pista saldría cortada: queda como descripción accesible */
+    .xq-type__hint { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
+}
+
+@media (max-width: 380px) {
+    .xq-type__grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .xq-type__tile,
+    .xq-type__pit,
+    .xq-type__dot,
+    .xq-type__icon { transition: none; }
+}

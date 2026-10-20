@@ -79,6 +79,25 @@
     "admin.q.fillblanks_err_short": "« {word} » : au moins 4 lettres",
     "admin.q.fillblanks_err_long": "« {word} » : au plus 14 lettres",
     "admin.q.fillblanks_err_generic": "La phrase n’est pas valide",
-    "admin.q.fillblanks_err_marker": "N’écris pas {{n}} dans la phrase : les mots à deviner vont entre crochets"
+    "admin.q.fillblanks_err_marker": "N’écris pas {{n}} dans la phrase : les mots à deviner vont entre crochets",
+    "admin.q.type_quiz_short": "Quiz",
+    "admin.q.type_multiple_choice_short": "Choix multiple",
+    "admin.q.type_survey_short": "Sondage",
+    "admin.q.type_order_short": "Ordonner",
+    "admin.q.type_matching_short": "Associer",
+    "admin.q.type_numeric_approximation_short": "Numérique",
+    "admin.q.type_word_scramble_short": "Anagramme",
+    "admin.q.type_quiz_hint": "Une bonne réponse",
+    "admin.q.type_multiple_choice_hint": "De 1 à 6 bonnes réponses",
+    "admin.q.type_survey_hint": "Votes, sans bonne réponse",
+    "admin.q.type_order_hint": "Glisser dans le bon ordre",
+    "admin.q.type_matching_hint": "Relier deux colonnes",
+    "admin.q.type_numeric_approximation_hint": "S'approcher d'un nombre",
+    "admin.q.type_word_scramble_hint": "Déchiffrer le mot",
+    "admin.q.type_word_search_hint": "Trouver les mots",
+    "admin.q.type_fill_blanks_hint": "Remplir les trous",
+    "admin.q.type_change_title": "Changer le type de question ?",
+    "admin.q.type_change_msg": "En passant à « {type} », les options et réponses déjà saisies pour cette question seront supprimées.",
+    "admin.q.type_change_confirm": "Changer le type"
   }
 }
