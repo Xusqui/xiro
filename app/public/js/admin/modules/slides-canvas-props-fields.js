@@ -4,9 +4,11 @@
  * se pintan y se leen con su tipo real (números, booleanos, colores o null), para que el
  * modelo (core/slide-canvas-model.js) no los descarte por llegar como texto.
  *
+ * Etiquetas, opciones y noneLabel son claves admin.canvas.* que se traducen aquí al pintar.
+ *
  * Descriptor: { key, label, kind: number|color|select|check|textarea|action, min, max,
  *               options: [[valor, etiqueta]], noneLabel (color que admite «sin color»),
- *               action (botón), when(el) }
+ *               action (botón), icon, quiet (acción discreta), when(el) }
  */
 (function () {
     'use strict';
@@ -14,11 +16,17 @@
     const root = typeof window !== 'undefined' ? window : globalThis;
     const XiroCanvasEditor = root.XiroCanvasEditor = root.XiroCanvasEditor || {};
 
-    const INPUT = 'w-full p-2 border-2 border-slate-200 rounded-lg text-sm focus:border-plum-500 outline-none';
-    const LABEL = 'block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest';
+    // Clases de admin-slide-canvas-panel.css
+    const INPUT = 'xsce-input';
+    const LABEL = 'xsce-label';
 
     function esc(value) {
         return root.XiroSlideCanvasRender.escapeText(value);
+    }
+
+    /** Texto traducido y escapado de una clave admin.canvas.* */
+    function tx(key) {
+        return XiroCanvasEditor.th(key);
     }
 
     /** input type=color solo admite #rrggbb: se quita el canal alfa al mostrarlo. */
@@ -26,37 +34,51 @@
         return typeof value === 'string' && value.length >= 7 ? value.slice(0, 7) : fallback;
     }
 
+    function fieldId(field) {
+        return 'xsce-f-' + field.key;
+    }
+
+    /** Muestra de color con su código al lado (o «Sin …» cuando el campo admite no tener color). */
+    function colorControl(field, value, attr) {
+        const none = value === null;
+        let html = '<div class="xsce-color' + (none ? ' is-none' : '') + '">'
+            + '<input type="color" class="xsce-swatch" id="' + fieldId(field) + '" ' + attr + ' value="' + colorValue(value, '#000000') + '"' + (none ? ' disabled' : '') + '>'
+            + '<span class="xsce-color-hex">' + (none ? tx(field.noneLabel) : colorValue(value, '#000000')) + '</span></div>';
+        if (field.noneLabel) {
+            html += '<label class="xsce-check xsce-check--sub"><input type="checkbox" data-canvas-none="' + field.key + '"' + (none ? ' checked' : '') + '> ' + tx(field.noneLabel) + '</label>';
+        }
+        return html;
+    }
+
     function control(field, value) {
         const attr = 'data-canvas-prop="' + field.key + '" data-kind="' + field.kind + '"';
+        const id = ' id="' + fieldId(field) + '"';
         if (field.kind === 'number') {
-            return '<input type="number" class="' + INPUT + '" ' + attr + ' value="' + esc(value) + '" min="' + field.min + '" max="' + field.max + '" step="1">';
+            return '<input type="number" class="' + INPUT + '"' + id + ' ' + attr + ' value="' + esc(value) + '" min="' + field.min + '" max="' + field.max + '" step="1">';
         }
         if (field.kind === 'textarea') {
-            return '<textarea class="' + INPUT + '" rows="4" ' + attr + '>' + esc(value) + '</textarea>';
+            return '<textarea class="' + INPUT + '"' + id + ' rows="4" ' + attr + '>' + esc(value) + '</textarea>';
         }
         if (field.kind === 'select') {
-            return '<select class="' + INPUT + '" ' + attr + '>' + field.options.map((o) => (
-                '<option value="' + esc(o[0]) + '"' + (o[0] === value ? ' selected' : '') + '>' + esc(o[1]) + '</option>'
+            return '<select class="' + INPUT + '"' + id + ' ' + attr + '>' + field.options.map((o) => (
+                '<option value="' + esc(o[0]) + '"' + (o[0] === value ? ' selected' : '') + '>' + tx(o[1]) + '</option>'
             )).join('') + '</select>';
         }
         if (field.kind === 'check') {
-            return '<label class="flex items-center gap-2 text-sm text-slate-700"><input type="checkbox" ' + attr + (value ? ' checked' : '') + '> ' + esc(field.label) + '</label>';
+            return '<label class="xsce-check"><input type="checkbox" ' + attr + (value ? ' checked' : '') + '> ' + tx(field.label) + '</label>';
         }
         if (field.kind === 'action') {
-            return '<button type="button" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-lg text-sm font-bold transition" data-canvas-panel-action="' + field.action + '">' + esc(field.label) + '</button>';
+            const icon = field.icon ? '<i class="fas ' + field.icon + '" aria-hidden="true"></i>' : '';
+            return '<button type="button" class="xsce-action' + (field.quiet ? ' xsce-action--quiet' : '') + '" data-canvas-panel-action="' + field.action + '">' + icon + tx(field.label) + '</button>';
         }
-        let html = '<input type="color" class="w-full h-9 p-0 border-2 border-slate-200 rounded-lg" ' + attr + ' value="' + colorValue(value, '#000000') + '"' + (value === null ? ' disabled' : '') + '>';
-        if (field.noneLabel) {
-            html += '<label class="flex items-center gap-2 text-xs text-slate-500 mt-1"><input type="checkbox" data-canvas-none="' + field.key + '"' + (value === null ? ' checked' : '') + '> ' + esc(field.noneLabel) + '</label>';
-        }
-        return html;
+        return colorControl(field, value, attr);
     }
 
     /** HTML de una lista de campos para el elemento (o el fondo) dado. */
     function fieldsHtml(fields, values, el) {
         return fields.filter((f) => !f.when || f.when(el)).map((f) => {
-            const label = f.kind === 'check' || f.kind === 'action' ? '' : '<label class="' + LABEL + '">' + esc(f.label) + '</label>';
-            return '<div class="mb-3">' + label + control(f, values[f.key]) + '</div>';
+            const label = f.kind === 'check' || f.kind === 'action' ? '' : '<label class="' + LABEL + '" for="' + fieldId(f) + '">' + tx(f.label) + '</label>';
+            return '<div class="xsce-field">' + label + control(f, values[f.key]) + '</div>';
         }).join('');
     }
 

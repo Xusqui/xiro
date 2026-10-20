@@ -12,25 +12,46 @@
     const root = typeof window !== 'undefined' ? window : globalThis;
     const XiroCanvasEditor = root.XiroCanvasEditor = root.XiroCanvasEditor || {};
 
+    // Etiquetas: claves admin.canvas.* (slides-canvas-i18n.js)
     const GEOMETRY_FIELDS = [
-        { key: 'x', label: 'X', kind: 'number', min: -1920, max: 3840 },
-        { key: 'y', label: 'Y', kind: 'number', min: -1080, max: 2160 },
-        { key: 'w', label: 'Ancho', kind: 'number', min: 20, max: 3840 },
-        { key: 'h', label: 'Alto', kind: 'number', min: 20, max: 2160 },
-        { key: 'rotation', label: 'Giro (grados)', kind: 'number', min: -180, max: 180 }
+        { key: 'x', label: 'field.x', kind: 'number', min: -1920, max: 3840 },
+        { key: 'y', label: 'field.y', kind: 'number', min: -1080, max: 2160 },
+        { key: 'w', label: 'field.w', kind: 'number', min: 20, max: 3840 },
+        { key: 'h', label: 'field.h', kind: 'number', min: 20, max: 2160 },
+        { key: 'rotation', label: 'field.rotation', kind: 'number', min: -180, max: 180 }
     ];
     const BACKGROUND_FIELDS = [
-        { key: 'color', label: 'Color de fondo', kind: 'color' },
-        { label: 'Imagen de fondo', kind: 'action', action: 'bg-image' },
-        { label: 'Quitar la imagen de fondo', kind: 'action', action: 'bg-clear', when: (bg) => !!bg.image }
+        { key: 'color', label: 'field.background_color', kind: 'color' },
+        { label: 'field.background_image', kind: 'action', action: 'bg-image', icon: 'fa-image' },
+        { label: 'field.background_clear', kind: 'action', action: 'bg-clear', icon: 'fa-xmark', quiet: true, when: (bg) => !!bg.image }
     ];
+    // Cabecera del panel: icono de cada tipo (el título lo da propsByType)
+    const TYPE_ICONS = { text: 'fa-font', shape: 'fa-shapes', image: 'fa-image', video: 'fa-film' };
+    const SHAPES = ['rect', 'ellipse', 'line', 'arrow'];
     const GEOMETRY_KEYS = ['x', 'y', 'w', 'h', 'rotation'];
 
     let panel = null;
     let shownId = undefined;
 
     function section(title, body) {
-        return '<h4 class="text-xs font-black uppercase text-slate-500 tracking-widest mb-3 mt-1">' + title + '</h4>' + body;
+        return '<section class="xsce-section">' + (title ? '<h5>' + title + '</h5>' : '') + body + '</section>';
+    }
+
+    function head(icon, title, subtitle) {
+        return '<header class="xsce-panel-head"><span class="xsce-panel-icon"><i class="fas ' + icon + '" aria-hidden="true"></i></span>'
+            + '<div><h4>' + title + '</h4><p>' + subtitle + '</p></div></header>';
+    }
+
+    function subtitle(el) {
+        const th = XiroCanvasEditor.th;
+        if (el.type === 'shape') return th(SHAPES.indexOf(el.props.shape) >= 0 ? 'tool.' + el.props.shape : 'type.shape');
+        const elements = XiroCanvasEditor.state.canvas.elements;
+        return th('panel.layer', { n: elements.indexOf(el) + 1, total: elements.length });
+    }
+
+    function emptyTip() {
+        const key = '<kbd>' + XiroCanvasEditor.th('hint_dblclick_key') + '</kbd>';
+        return '<p class="xsce-tip">' + XiroCanvasEditor.th('panel.tip').replace('{dblclick}', key) + '</p>';
     }
 
     function render(state) {
@@ -41,16 +62,19 @@
         // No se repinta el campo en el que se está escribiendo (perdería el cursor)
         if (id === shownId && panel.contains(document.activeElement) && document.activeElement !== panel) return;
         shownId = id;
+        const th = XiroCanvasEditor.th;
         if (!el) {
             const bg = state.canvas.background;
-            panel.innerHTML = section('Fondo de la diapositiva', F.fieldsHtml(BACKGROUND_FIELDS, bg, bg))
-                + '<p class="text-xs text-slate-400 mt-4">Selecciona un elemento para editarlo. Doble clic en un texto para escribir.</p>';
+            const count = state.canvas.elements.length;
+            panel.innerHTML = head('fa-object-group', th('panel.slide'), count === 1 ? th('panel.count_one') : th('panel.count_many', { n: count }))
+                + section(th('panel.background'), F.fieldsHtml(BACKGROUND_FIELDS, bg, bg)) + emptyTip();
             return;
         }
         const type = XiroCanvasEditor.propsByType[el.type];
         // Primero lo propio del elemento (texto, fuente, colores…); la geometría también se cambia arrastrando
-        panel.innerHTML = (type ? section(type.title, F.fieldsHtml(type.fields, el.props, el)) : '')
-            + section('Posición y tamaño', '<div class="grid grid-cols-2 gap-x-2">' + F.fieldsHtml(GEOMETRY_FIELDS, el, el) + '</div>');
+        panel.innerHTML = head(TYPE_ICONS[el.type] || 'fa-shapes', th(type ? type.title : 'type.shape'), subtitle(el))
+            + (type ? section('', F.fieldsHtml(type.fields, el.props, el)) : '')
+            + section(th('panel.geometry'), '<div class="xsce-grid2">' + F.fieldsHtml(GEOMETRY_FIELDS, el, el) + '</div>');
     }
 
     /** Aplica el cambio de un control al fondo o al elemento seleccionado. */
@@ -90,7 +114,10 @@
             panel = panelEl;
             shownId = undefined;
             panel.addEventListener('input', (e) => {
-                if (e.target.type !== 'checkbox') apply(e.target, true);
+                if (e.target.type === 'checkbox') return;
+                // El código junto a la muestra sigue al color mientras se elige
+                if (e.target.type === 'color' && e.target.nextElementSibling) e.target.nextElementSibling.textContent = e.target.value;
+                apply(e.target, true);
             });
             panel.addEventListener('change', (e) => apply(e.target, false));
             panel.addEventListener('click', (e) => {

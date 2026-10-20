@@ -1,18 +1,38 @@
 /*
- * Editor de diapositivas libres del admin (admin/modules/slides-canvas-*.js).
+ * Editor de diapositivas libres del admin (admin/modules/slides-canvas-*.js): lienzo y capa de
+ * edición. La interfaz que lo rodea (cabecera, barras, panel, selector) está en
+ * admin-slide-canvas-ui.css.
  * La capa .xsce-overlay vive dentro del escenario de 1920x1080 (unidades lógicas): los
  * tamaños fijos de aquí se ven a la mitad con el lienzo al 50 %. Tiradores y contorno de la
  * selección se escalan desde JS para verse siempre igual.
+ * Colores: selección en ciruela (marca); guías y zona del botón «Siguiente» en coral admin,
+ * con un halo blanco para que se vean sobre cualquier fondo de diapositiva.
  */
+
+/* Mesa: el lienzo ocupa el mayor 16:9 que cabe, sin franjas (unidades de contenedor) */
+.xsce-desk {
+    container-type: size;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 0;
+}
+
 .xsce-host {
     position: relative;
-    width: 100%;
-    height: 100%;
-    background: #0f172a;
-    border-radius: 12px;
+    width: min(100cqw, 100cqh * 16 / 9);
+    aspect-ratio: 16 / 9;
+    background: #ffffff;
+    border-radius: var(--radius-lg, 8px);
     overflow: hidden;
+    box-shadow:
+        0 0 0 1px rgba(15, 23, 42, 0.06),
+        0 2px 4px rgba(15, 23, 42, 0.06),
+        0 24px 48px -16px rgba(15, 23, 42, 0.28);
     touch-action: none;
     user-select: none;
+    -webkit-user-select: none;
 }
 
 .xsce-host .xsc-el {
@@ -28,7 +48,9 @@
 
 .xsce-selection {
     position: absolute;
-    outline: 2px solid #a855f7;
+    outline: 2px solid var(--plum-500, #b05baa);
+    /* Filo blanco por dentro: el contorno se ve también sobre fondos ciruela u oscuros */
+    box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.85);
     pointer-events: none;
 }
 
@@ -36,8 +58,9 @@
     position: absolute;
     box-sizing: border-box;
     background: #ffffff;
-    border: 2px solid #7c3aed;
-    border-radius: 3px;
+    border: 2px solid var(--plum-600, #94438e);
+    border-radius: 30%;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.35);
     pointer-events: auto;
 }
 
@@ -54,14 +77,16 @@
 
 .xsce-safezone {
     position: absolute;
-    border: 4px dashed rgba(244, 114, 182, 0.6);
+    border: 4px dashed rgba(230, 84, 83, 0.75);
     border-radius: 24px;
+    background: rgba(230, 84, 83, 0.06);
     pointer-events: none;
 }
 
 .xsce-guide {
     position: absolute;
-    background: #f472b6;
+    background: var(--admin-coral, #e65453);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.85);
     pointer-events: none;
 }
 
@@ -71,7 +96,7 @@
     margin: 0;
     padding: 16px;
     border: 0;
-    outline: 3px dashed rgba(168, 85, 247, 0.8);
+    outline: 3px dashed var(--plum-500, #b05baa);
     background: transparent;
     line-height: 1.2;
     white-space: pre-wrap;
@@ -79,6 +104,8 @@
     resize: none;
     pointer-events: auto;
     user-select: text;
+    -webkit-user-select: text;
+    caret-color: currentColor;
 }
 
 /* Miniatura de la tarjeta en la lista del juego (240x135 = lienzo al 12,5 %) */
@@ -87,79 +114,8 @@
     transform: scale(0.125);
 }
 
-/* Barra de formato del texto seleccionado (slides-canvas-textbar.js). Su fila reserva
-   siempre el alto: si apareciera y desapareciera, el lienzo saltaría entre dos clics. */
-.xsce-textbar-row {
-    display: flex;
-    min-height: 40px;
-}
-
-.xsce-textbar {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    padding: 4px 6px;
-    background: #ffffff;
-    border-radius: 12px;
-}
-
-.xsce-textbar[hidden] {
-    display: flex;
-    visibility: hidden;
-}
-
-.xsce-tb-btn {
-    width: 32px;
-    height: 32px;
-    border: 0;
-    border-radius: 8px;
-    background: transparent;
-    color: #334155;
-    cursor: pointer;
-}
-
-.xsce-tb-btn:hover {
-    background: #f1f5f9;
-}
-
-.xsce-tb-btn.is-on {
-    background: #ede9fe;
-    color: #6d28d9;
-}
-
-.xsce-tb-font {
-    height: 32px;
-    max-width: 210px;
-    padding: 0 6px;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    background: #ffffff;
-    color: #0f172a;
-}
-
-.xsce-tb-size {
-    width: 60px;
-    height: 32px;
-    padding: 0 6px;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    text-align: center;
-    color: #0f172a;
-}
-
-.xsce-tb-color {
-    width: 36px;
-    height: 32px;
-    padding: 2px;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    background: #ffffff;
-    cursor: pointer;
-}
-
-.xsce-tb-sep {
-    width: 1px;
-    height: 22px;
-    margin: 0 4px;
-    background: #e2e8f0;
+/* Miniatura del selector de plantillas (192x108 = lienzo al 10 %) */
+.xsce-thumb--sm .xsc-stage {
+    -webkit-transform: scale(0.1);
+    transform: scale(0.1);
 }

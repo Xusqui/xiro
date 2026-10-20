@@ -57,10 +57,12 @@
             + ';border-radius:' + p.radius + 'px">';
     }
 
-    function hostOf(url) {
-        if (String(url).indexOf('/uploads/') === 0) return 'vídeo local';
+    /** Rótulo del hueco del vídeo: dominio de origen, o el texto que pase quien pinta (labels). */
+    function hostOf(url, labels) {
+        const l = labels || {};
+        if (String(url).indexOf('/uploads/') === 0) return l.localVideo || '';
         const match = /^https?:\/\/([^/?#]+)/i.exec(String(url));
-        return match ? match[1] : 'vídeo';
+        return match ? match[1] : (l.video || '');
     }
 
     /** Hueco del vídeo: vacío en presentador/TV (el cliente monta el reproductor). */
@@ -71,7 +73,7 @@
             const label = options.labels && options.labels.videoOnScreen ? options.labels.videoOnScreen : '';
             inner = '<div class="xsc-video-label" style="' + VIDEO_BOX + '"><i class="fas fa-film"></i>&nbsp;' + escapeText(label) + '</div>';
         } else if (mode !== 'presenter' && mode !== 'tv') {
-            inner = '<div class="xsc-video-label" style="' + VIDEO_BOX + '"><i class="fas fa-film"></i>&nbsp;' + escapeText(hostOf(el.props.url)) + '</div>';
+            inner = '<div class="xsc-video-label" style="' + VIDEO_BOX + '"><i class="fas fa-film"></i>&nbsp;' + escapeText(hostOf(el.props.url, options.labels)) + '</div>';
         }
         return '<div class="xsc-video" data-xsc-video="' + index + '">' + inner + '</div>';
     }
@@ -91,7 +93,8 @@
     /**
      * HTML del lienzo completo (marco + escenario de 1920x1080 sin escalar).
      * @param {Object} canvas - slide_canvas
-     * @param {Object} [options] - { mode: editor|presenter|player|tv|pdf|thumb, labels: { videoOnScreen } }
+     * @param {Object} [options] - { mode: editor|presenter|player|tv|pdf|thumb,
+     *                              labels: { videoOnScreen (jugador), localVideo, video (editor, miniatura, PDF) } }
      * @returns {string}
      */
     function stageHtml(canvas, options) {

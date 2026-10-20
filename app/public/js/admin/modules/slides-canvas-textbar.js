@@ -2,7 +2,8 @@
  * @fileoverview Barra de formato del editor de diapositivas libres: con un cuadro de texto
  * seleccionado muestra, junto a la barra de herramientas, fuente, tamaño (con − y +),
  * negrita, cursiva, color y alineación. Son los mismos campos que el panel de la derecha
- * (slides-canvas-props-text.js), pero siempre a la vista.
+ * (slides-canvas-props-text.js), pero siempre a la vista. La barra es un <fieldset>: sin
+ * texto seleccionado se desactiva entera (sigue visible y el lienzo no salta).
  *
  * Igual que el panel: 'input' se ve al momento sin entrar en el historial y 'change'
  * guarda un paso para deshacer.
@@ -14,28 +15,31 @@
     const XiroCanvasEditor = root.XiroCanvasEditor = root.XiroCanvasEditor || {};
 
     const SIZE_STEP = 4;
-    const ALIGNS = [['left', 'fa-align-left', 'Alinear a la izquierda'], ['center', 'fa-align-center', 'Centrar'], ['right', 'fa-align-right', 'Alinear a la derecha']];
+    // Textos: claves admin.canvas.tb.* (slides-canvas-i18n.js)
+    const ALIGNS = [['left', 'fa-align-left'], ['center', 'fa-align-center'], ['right', 'fa-align-right']];
 
     let bar = null;
     let shownId = null;
 
-    function button(attrs, icon, title) {
-        return '<button type="button" class="xsce-tb-btn" ' + attrs + ' title="' + title + '" aria-label="' + title + '"><i class="fas ' + icon + '"></i></button>';
+    function button(attrs, icon, key) {
+        const title = XiroCanvasEditor.th(key);
+        return '<button type="button" class="xsce-tool xiro-toolbar-btn" ' + attrs + ' data-tooltip="' + title + '" aria-label="' + title + '"><i class="fas ' + icon + '" aria-hidden="true"></i></button>';
     }
 
     function html() {
+        const th = XiroCanvasEditor.th;
         const families = root.XiroSlideCanvas.FONTS;
-        const fonts = XiroCanvasEditor.FONT_OPTIONS.map((f) => '<option value="' + f[0] + '" style="font-family:' + families[f[0]].replace(/"/g, '') + '">' + f[1] + '</option>').join('');
-        return '<select class="xsce-tb-font" data-tb="font" title="Fuente" aria-label="Fuente">' + fonts + '</select>'
-            + button('data-tb-step="-' + SIZE_STEP + '"', 'fa-minus', 'Letra más pequeña')
-            + '<input type="number" class="xsce-tb-size" data-tb="size" min="8" max="400" title="Tamaño de letra" aria-label="Tamaño de letra">'
-            + button('data-tb-step="' + SIZE_STEP + '"', 'fa-plus', 'Letra más grande')
-            + '<span class="xsce-tb-sep"></span>'
-            + button('data-tb-toggle="bold"', 'fa-bold', 'Negrita')
-            + button('data-tb-toggle="italic"', 'fa-italic', 'Cursiva')
-            + '<input type="color" class="xsce-tb-color" data-tb="color" title="Color del texto" aria-label="Color del texto">'
-            + '<span class="xsce-tb-sep"></span>'
-            + ALIGNS.map((a) => button('data-tb-align="' + a[0] + '"', a[1], a[2])).join('');
+        const fonts = XiroCanvasEditor.FONT_OPTIONS.map((f) => '<option value="' + f[0] + '" style="font-family:' + families[f[0]].replace(/"/g, '') + '">' + th(f[1]) + '</option>').join('');
+        return '<select class="xsce-tb-font" data-tb="font" title="' + th('tb.font') + '" aria-label="' + th('tb.font') + '">' + fonts + '</select>'
+            + button('data-tb-step="-' + SIZE_STEP + '"', 'fa-minus', 'tb.smaller')
+            + '<input type="number" class="xsce-tb-size" data-tb="size" min="8" max="400" title="' + th('tb.size') + '" aria-label="' + th('tb.size') + '">'
+            + button('data-tb-step="' + SIZE_STEP + '"', 'fa-plus', 'tb.bigger')
+            + '<span class="xsce-sep" aria-hidden="true"></span>'
+            + button('data-tb-toggle="bold"', 'fa-bold', 'tb.bold')
+            + button('data-tb-toggle="italic"', 'fa-italic', 'tb.italic')
+            + '<input type="color" class="xsce-swatch" data-tb="color" title="' + th('tb.color') + '" aria-label="' + th('tb.color') + '">'
+            + '<span class="xsce-sep" aria-hidden="true"></span>'
+            + ALIGNS.map((a) => button('data-tb-align="' + a[0] + '"', a[1], 'tb.align_' + a[0])).join('');
     }
 
     function selectedText() {
@@ -43,13 +47,15 @@
         return el && el.type === 'text' ? el : null;
     }
 
-    /** Muestra la barra con los valores del texto seleccionado (o la oculta). */
+    /** Activa la barra con los valores del texto seleccionado (o la desactiva). */
     function render() {
         if (!bar) return;
         const el = selectedText();
-        bar.hidden = !el;
+        bar.disabled = !el;
+        bar.title = el ? '' : XiroCanvasEditor.t('tb.idle');
         if (!el) {
             shownId = null;
+            bar.querySelectorAll('.is-on').forEach((b) => b.classList.remove('is-on'));
             return;
         }
         // No se pisa el número que se está escribiendo

@@ -11,10 +11,8 @@
     const XiroCanvasEditor = root.XiroCanvasEditor = root.XiroCanvasEditor || {};
 
     const MODAL_ID = 'modalLienzoMedia';
-    const TEXTS = {
-        image: { title: 'Imagen', placeholder: 'https://... o /uploads/...', hint: 'Sube un archivo o pega la dirección de una imagen' },
-        video: { title: 'Vídeo', placeholder: 'https://www.youtube.com/watch?v=... o /uploads/video.mp4', hint: 'YouTube, Vimeo, Dailymotion o un archivo .mp4, .webm, .ogg o .mov' }
-    };
+    // Textos: claves admin.canvas.media.<tipo>_* (slides-canvas-i18n.js)
+    const ICONS = { image: 'fa-image', video: 'fa-film' };
 
     function close() {
         const modal = document.getElementById(MODAL_ID);
@@ -29,20 +27,20 @@
     }
 
     function modalHtml(kind) {
-        const t = TEXTS[kind];
-        const esc = root.XiroSlideCanvasRender.escapeText;
+        const th = XiroCanvasEditor.th;
         const upload = kind === 'image'
-            ? '<label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest">Subir archivo</label>'
-              + '<input id="lienzoMediaFile" type="file" accept="image/*" class="w-full text-sm mb-4">'
+            ? '<label class="xsce-label" for="lienzoMediaFile">' + th('media.upload') + '</label>'
+              + '<input id="lienzoMediaFile" type="file" accept="image/*" class="xsce-file">'
             : '';
-        return '<div class="bg-white rounded-2xl shadow-2xl p-6 max-w-md w-full">'
-            + '<h3 class="text-xl font-black text-plum-700 mb-4">' + esc(t.title) + '</h3>' + upload
-            + '<label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest">Dirección</label>'
-            + '<input id="lienzoMediaUrl" type="text" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-plum-500 outline-none" placeholder="' + esc(t.placeholder) + '">'
-            + '<p id="lienzoMediaStatus" class="text-xs text-slate-500 mt-2">' + esc(t.hint) + '</p>'
-            + '<div class="flex gap-3 mt-6">'
-            + '<button type="button" data-lienzo-media="cancel" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-3 rounded-xl font-bold transition">Cancelar</button>'
-            + '<button type="button" data-lienzo-media="accept" class="flex-1 bg-camaleon-600 hover:bg-camaleon-700 text-white px-4 py-3 rounded-xl font-bold transition">Añadir</button>'
+        return '<div class="xsce-dialog" role="dialog" aria-modal="true" aria-labelledby="lienzoMediaTitulo" style="max-width:460px">'
+            + '<div class="xsce-dialog-head"><span class="xsce-tile"><i class="fas ' + ICONS[kind] + '" aria-hidden="true"></i></span>'
+            + '<div class="xsce-heading"><h3 id="lienzoMediaTitulo">' + th('media.' + kind + '_title') + '</h3></div></div>' + upload
+            + '<label class="xsce-label" for="lienzoMediaUrl">' + th('media.address') + '</label>'
+            + '<input id="lienzoMediaUrl" type="text" class="xsce-input" placeholder="' + th('media.' + kind + '_placeholder') + '">'
+            + '<p id="lienzoMediaStatus" class="text-xs text-slate-500 mt-2">' + th('media.' + kind + '_hint') + '</p>'
+            + '<div class="xsce-dialog-foot">'
+            + '<button type="button" data-lienzo-media="cancel" class="xsce-btn xsce-btn--ghost">' + th('cancel') + '</button>'
+            + '<button type="button" data-lienzo-media="accept" class="xsce-btn xsce-btn--primary"><i class="fas fa-plus" aria-hidden="true"></i>' + th('media.add') + '</button>'
             + '</div></div>';
     }
 
@@ -58,14 +56,14 @@
         const url = (document.getElementById('lienzoMediaUrl').value || '').trim();
         if (kind === 'video') {
             const source = root.XiroVideoSource ? root.XiroVideoSource.parseVideoSource(url) : null;
-            if (!source) return setStatus('La URL del vídeo no es compatible', false);
+            if (!source) return setStatus(XiroCanvasEditor.t('media.bad_video'), false);
             close();
             return onDone({ url });
         }
-        if (!root.XiroSlideCanvas.isSafeMediaUrl(url)) return setStatus('La imagen debe estar en /uploads/ o ser una URL http(s)', false);
-        setStatus('Comprobando la imagen…', true);
+        if (!root.XiroSlideCanvas.isSafeMediaUrl(url)) return setStatus(XiroCanvasEditor.t('media.bad_image_url'), false);
+        setStatus(XiroCanvasEditor.t('media.checking'), true);
         loadRatio(url, (ratio) => {
-            if (ratio === false) return setStatus('No se ha podido cargar la imagen', false);
+            if (ratio === false) return setStatus(XiroCanvasEditor.t('media.load_error'), false);
             close();
             onDone({ src: url, ratio });
         });
@@ -75,7 +73,7 @@
         close();
         const modal = document.createElement('div');
         modal.id = MODAL_ID;
-        modal.className = 'fixed inset-0 bg-slate-900/80 flex items-center justify-center';
+        modal.className = 'xsce-overlay-dim';
         modal.style.zIndex = '70';
         modal.innerHTML = modalHtml(kind);
         document.body.appendChild(modal);

@@ -117,9 +117,9 @@
         if (!host || (editingId && overlay && overlay.querySelector('.xsce-textedit'))) return;
         if (mounted) mounted.destroy();
         const state = XiroCanvasEditor.state;
-        mounted = root.XiroSlideCanvasRender.mount(host, state.canvas, { mode: 'editor' });
+        mounted = root.XiroSlideCanvasRender.mount(host, state.canvas, { mode: 'editor', labels: XiroCanvasEditor.videoLabels() });
         overlay = addDiv(mounted.stage, 'xsce-overlay');
-        addDiv(overlay, 'xsce-safezone', SAFE_ZONE).title = 'Zona del botón «Siguiente» del presentador';
+        addDiv(overlay, 'xsce-safezone', SAFE_ZONE).title = XiroCanvasEditor.t('safezone');
         const el = XiroCanvasEditor.getSelected();
         if (!el) return;
         drawSelection(el);

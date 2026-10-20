@@ -7,60 +7,36 @@
     const root = typeof window !== 'undefined' ? window : globalThis;
     const XiroCanvasEditor = root.XiroCanvasEditor = root.XiroCanvasEditor || {};
 
+    // [acción, icono, clave del texto (admin.canvas.tool.*), mostrar el texto, con atajo
+    // (admin.canvas.shortcut.*)]: el texto va visible en los botones de añadir contenido y como
+    // tooltip inmediato (admin.css .xiro-toolbar-btn) en los de solo icono.
+    const GROUPS = [
+        [['add-text', 'fa-font', 'text', true], ['add-rect', 'fa-square', 'rect'], ['add-ellipse', 'fa-circle', 'ellipse'],
+            ['add-line', 'fa-minus', 'line'], ['add-arrow', 'fa-arrow-right', 'arrow'],
+            ['add-image', 'fa-image', 'image', true], ['add-video', 'fa-film', 'video', true]],
+        [['duplicate', 'fa-clone', 'duplicate', false, true], ['delete', 'fa-trash-can', 'delete', false, true]],
+        [['front', 'fa-angles-up', 'front'], ['forward', 'fa-angle-up', 'forward'],
+            ['backward', 'fa-angle-down', 'backward'], ['back', 'fa-angles-down', 'back']],
+        [['undo', 'fa-rotate-left', 'undo', false, true], ['redo', 'fa-rotate-right', 'redo', false, true]]
+    ];
+
+    function toolButton(tool) {
+        const [action, icon, name, showLabel, shortcut] = tool;
+        const th = XiroCanvasEditor.th;
+        const label = th('tool.' + name);
+        const tip = shortcut ? th('tool.with_shortcut', { label: XiroCanvasEditor.t('tool.' + name), keys: XiroCanvasEditor.t('shortcut.' + name) }) : label;
+        const cls = 'xsce-tool xiro-toolbar-btn' + (showLabel ? ' xsce-tool--label' : '') + (action === 'delete' ? ' xsce-tool--danger' : '');
+        return '<button type="button" class="' + cls + '" data-canvas-action="' + action + '" aria-label="' + tip + '"'
+            + (showLabel ? '' : ' data-tooltip="' + tip + '"') + '>'
+            + '<i class="fas ' + icon + '" aria-hidden="true"></i>' + (showLabel ? '<span>' + label + '</span>' : '') + '</button>';
+    }
+
     XiroCanvasEditor.toolbar = {
         html: function () {
-            return `
-                <div class="xsce-toolbar flex items-center gap-1 p-2 bg-slate-800 text-white">
-                    <button type="button" class="xsce-btn p-2 rounded hover:bg-slate-700" title="Texto" aria-label="Texto" data-canvas-action="add-text">
-                        <i class="fas fa-font"></i>
-                    </button>
-                    <button type="button" class="xsce-btn p-2 rounded hover:bg-slate-700" title="Rectángulo" aria-label="Rectángulo" data-canvas-action="add-rect">
-                        <i class="fas fa-square"></i>
-                    </button>
-                    <button type="button" class="xsce-btn p-2 rounded hover:bg-slate-700" title="Elipse" aria-label="Elipse" data-canvas-action="add-ellipse">
-                        <i class="fas fa-circle"></i>
-                    </button>
-                    <button type="button" class="xsce-btn p-2 rounded hover:bg-slate-700" title="Línea" aria-label="Línea" data-canvas-action="add-line">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="xsce-btn p-2 rounded hover:bg-slate-700" title="Flecha" aria-label="Flecha" data-canvas-action="add-arrow">
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
-                    <button type="button" class="xsce-btn p-2 rounded hover:bg-slate-700" title="Imagen" aria-label="Imagen" data-canvas-action="add-image">
-                        <i class="fas fa-image"></i>
-                    </button>
-                    <button type="button" class="xsce-btn p-2 rounded hover:bg-slate-700" title="Video" aria-label="Video" data-canvas-action="add-video">
-                        <i class="fas fa-film"></i>
-                    </button>
-                    <span class="xsce-separator w-px h-6 bg-slate-600 mx-1"></span>
-                    <button type="button" class="xsce-btn p-2 rounded hover:bg-slate-700" title="Duplicar" aria-label="Duplicar" data-canvas-action="duplicate">
-                        <i class="fas fa-clone"></i>
-                    </button>
-                    <button type="button" class="xsce-btn p-2 rounded hover:bg-slate-700" title="Eliminar" aria-label="Eliminar" data-canvas-action="delete">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                    <span class="xsce-separator w-px h-6 bg-slate-600 mx-1"></span>
-                    <button type="button" class="xsce-btn p-2 rounded hover:bg-slate-700" title="Traer al frente" aria-label="Traer al frente" data-canvas-action="front">
-                        <i class="fas fa-angles-up"></i>
-                    </button>
-                    <button type="button" class="xsce-btn p-2 rounded hover:bg-slate-700" title="Avanzar" aria-label="Avanzar" data-canvas-action="forward">
-                        <i class="fas fa-angle-up"></i>
-                    </button>
-                    <button type="button" class="xsce-btn p-2 rounded hover:bg-slate-700" title="Retroceder" aria-label="Retroceder" data-canvas-action="backward">
-                        <i class="fas fa-angle-down"></i>
-                    </button>
-                    <button type="button" class="xsce-btn p-2 rounded hover:bg-slate-700" title="Enviar al fondo" aria-label="Enviar al fondo" data-canvas-action="back">
-                        <i class="fas fa-angles-down"></i>
-                    </button>
-                    <span class="xsce-separator w-px h-6 bg-slate-600 mx-1"></span>
-                    <button type="button" class="xsce-btn p-2 rounded hover:bg-slate-700" title="Deshacer" aria-label="Deshacer" data-canvas-action="undo">
-                        <i class="fas fa-rotate-left"></i>
-                    </button>
-                    <button type="button" class="xsce-btn p-2 rounded hover:bg-slate-700" title="Rehacer" aria-label="Rehacer" data-canvas-action="redo">
-                        <i class="fas fa-rotate-right"></i>
-                    </button>
-                </div>
-            `;
+            const sep = '<span class="xsce-sep" aria-hidden="true"></span>';
+            return '<div class="xsce-toolbar xsce-bar" role="toolbar" aria-label="' + XiroCanvasEditor.th('toolbar_label') + '">'
+                + GROUPS.map((group) => group.map(toolButton).join('')).join(sep)
+                + '</div>';
         },
 
         refresh: function (state) {
@@ -84,7 +60,7 @@
         handle: function (action) {
             switch (action) {
                 case 'add-text':
-                    XiroCanvasEditor.addElement('text', { props: { text: 'Escribe aquí' } });
+                    XiroCanvasEditor.addElement('text', { props: { text: XiroCanvasEditor.t('default_text') } });
                     XiroCanvasEditor.setMode('editing');
                     break;
                 case 'add-rect':
