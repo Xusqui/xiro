@@ -69,6 +69,8 @@
     "admin.custom.slide_video_badge": "BIDEO DIAPOSITIBA",
     "admin.custom.slide_video_help": "Aurkezlearen pantailan bakarrik erreproduzitzen da",
     "admin.custom.btn_video_slide": "GEHITU BIDEO DIAPOSITIBA",
-    "admin.custom.btn_short_video": "Bideoa"
+    "admin.custom.btn_short_video": "Bideoa",
+    "admin.custom.btn_canvas_slide": "GARDENKI LIBREA GEHITU",
+    "admin.custom.btn_short_canvas": "Gardenki librea"
   }
 }

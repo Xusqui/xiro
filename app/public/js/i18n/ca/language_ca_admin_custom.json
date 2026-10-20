@@ -69,6 +69,8 @@
     "admin.custom.slide_video_badge": "DIAPOSITIVA DE VÍDEO",
     "admin.custom.slide_video_help": "Només es reprodueix al presentador",
     "admin.custom.btn_video_slide": "AFEGIR DIAPOSITIVA DE VÍDEO",
-    "admin.custom.btn_short_video": "Vídeo"
+    "admin.custom.btn_short_video": "Vídeo",
+    "admin.custom.btn_canvas_slide": "AFEGIR DIAPOSITIVA LLIURE",
+    "admin.custom.btn_short_canvas": "Diapositiva lliure"
   }
 }

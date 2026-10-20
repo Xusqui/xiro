@@ -1,0 +1,165 @@
+/*
+ * Editor de diapositivas libres del admin (admin/modules/slides-canvas-*.js).
+ * La capa .xsce-overlay vive dentro del escenario de 1920x1080 (unidades lógicas): los
+ * tamaños fijos de aquí se ven a la mitad con el lienzo al 50 %. Tiradores y contorno de la
+ * selección se escalan desde JS para verse siempre igual.
+ */
+.xsce-host {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #0f172a;
+    border-radius: 12px;
+    overflow: hidden;
+    touch-action: none;
+    user-select: none;
+}
+
+.xsce-host .xsc-el {
+    cursor: move;
+}
+
+.xsce-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+.xsce-selection {
+    position: absolute;
+    outline: 2px solid #a855f7;
+    pointer-events: none;
+}
+
+.xsce-handle {
+    position: absolute;
+    box-sizing: border-box;
+    background: #ffffff;
+    border: 2px solid #7c3aed;
+    border-radius: 3px;
+    pointer-events: auto;
+}
+
+.xsce-handle--nw, .xsce-handle--se { cursor: nwse-resize; }
+.xsce-handle--ne, .xsce-handle--sw { cursor: nesw-resize; }
+.xsce-handle--n, .xsce-handle--s { cursor: ns-resize; }
+.xsce-handle--e, .xsce-handle--w { cursor: ew-resize; }
+
+.xsce-handle--p1,
+.xsce-handle--p2 {
+    cursor: crosshair;
+    border-radius: 50%;
+}
+
+.xsce-safezone {
+    position: absolute;
+    border: 4px dashed rgba(244, 114, 182, 0.6);
+    border-radius: 24px;
+    pointer-events: none;
+}
+
+.xsce-guide {
+    position: absolute;
+    background: #f472b6;
+    pointer-events: none;
+}
+
+.xsce-textedit {
+    position: absolute;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 16px;
+    border: 0;
+    outline: 3px dashed rgba(168, 85, 247, 0.8);
+    background: transparent;
+    line-height: 1.2;
+    white-space: pre-wrap;
+    overflow: hidden;
+    resize: none;
+    pointer-events: auto;
+    user-select: text;
+}
+
+/* Miniatura de la tarjeta en la lista del juego (240x135 = lienzo al 12,5 %) */
+.xsce-thumb .xsc-stage {
+    -webkit-transform: scale(0.125);
+    transform: scale(0.125);
+}
+
+/* Barra de formato del texto seleccionado (slides-canvas-textbar.js). Su fila reserva
+   siempre el alto: si apareciera y desapareciera, el lienzo saltaría entre dos clics. */
+.xsce-textbar-row {
+    display: flex;
+    min-height: 40px;
+}
+
+.xsce-textbar {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 6px;
+    background: #ffffff;
+    border-radius: 12px;
+}
+
+.xsce-textbar[hidden] {
+    display: flex;
+    visibility: hidden;
+}
+
+.xsce-tb-btn {
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #334155;
+    cursor: pointer;
+}
+
+.xsce-tb-btn:hover {
+    background: #f1f5f9;
+}
+
+.xsce-tb-btn.is-on {
+    background: #ede9fe;
+    color: #6d28d9;
+}
+
+.xsce-tb-font {
+    height: 32px;
+    max-width: 210px;
+    padding: 0 6px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #0f172a;
+}
+
+.xsce-tb-size {
+    width: 60px;
+    height: 32px;
+    padding: 0 6px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    text-align: center;
+    color: #0f172a;
+}
+
+.xsce-tb-color {
+    width: 36px;
+    height: 32px;
+    padding: 2px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #ffffff;
+    cursor: pointer;
+}
+
+.xsce-tb-sep {
+    width: 1px;
+    height: 22px;
+    margin: 0 4px;
+    background: #e2e8f0;
+}

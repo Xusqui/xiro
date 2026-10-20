@@ -69,6 +69,8 @@
     "admin.custom.slide_video_badge": "DIAPÓSITIVA DE VÍDEO",
     "admin.custom.slide_video_help": "Apenas reproduzido no apresentador",
     "admin.custom.btn_video_slide": "ADICIONAR DIAPÓSITIVA DE VÍDEO",
-    "admin.custom.btn_short_video": "Vídeo"
+    "admin.custom.btn_short_video": "Vídeo",
+    "admin.custom.btn_canvas_slide": "ADICIONAR DIAPOSITIVO LIVRE",
+    "admin.custom.btn_short_canvas": "Diapositivo livre"
   }
 }

@@ -69,6 +69,8 @@
     "admin.custom.slide_video_badge": "DIAPÓSITIVA DE VÍDEO",
     "admin.custom.slide_video_help": "Só se reproduce no presentador",
     "admin.custom.btn_video_slide": "ENGADIR DIAPÓSITIVA DE VÍDEO",
-    "admin.custom.btn_short_video": "Vídeo"
+    "admin.custom.btn_short_video": "Vídeo",
+    "admin.custom.btn_canvas_slide": "ENGADIR DIAPOSITIVA LIBRE",
+    "admin.custom.btn_short_canvas": "Diapositiva libre"
   }
 }

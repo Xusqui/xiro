@@ -6,7 +6,7 @@ const BOT_BATCH_DELAY_MS = 100;
 const BOT_CONNECT_DELAY_MS = 50;
 const BOT_ANSWER_MIN_MS = 500;
 const BOT_ANSWER_MAX_MS = 3500;
-const SLIDE_TYPES = ['comment', 'info', 'text', 'image', 'text-image', 'video'];
+const SLIDE_TYPES = ['comment', 'info', 'text', 'image', 'text-image', 'video', 'canvas'];
 
 // ─── State ────────────────────────────────────────────────────────────────────
 let activeBots = [];

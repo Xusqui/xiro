@@ -10,6 +10,31 @@ const { parseVideoSource } = require('../../public/js/core/video-source');
 const logger = require('../../config/logger');
 
 /**
+ * Procesa elementos de canvas para añadir video_source a los elementos de tipo video
+ * @param {Object} canvas - Canvas a procesar
+ * @returns {Object} Canvas procesado (sin mutar el original)
+ */
+function withVideoSources(canvas) {
+    if (!canvas || !canvas.elements || !Array.isArray(canvas.elements)) {
+        return canvas;
+    }
+
+    // Crear copia profunda del canvas
+    const result = JSON.parse(JSON.stringify(canvas));
+
+    // Procesar cada elemento
+    result.elements = result.elements.map(el => {
+        if (el.type === 'video' && el.props && typeof el.props.url === 'string') {
+            // video_source va junto a props (contrato), igual que en la diapositiva de vídeo
+            return { ...el, video_source: parseVideoSource(el.props.url) };
+        }
+        return el;
+    });
+
+    return result;
+}
+
+/**
  * Prepara una sopa de letras y avisa en el log si no se pudo generar la rejilla
  * (palabras inválidas en bancos antiguos o importados a mano): sin rejilla la
  * pregunta se muestra vacía y nadie puntúa, así que debe quedar rastro.
@@ -80,6 +105,11 @@ function prepareQuestions(questions, gameType) {
         // jugadores no copia este campo: los jugadores nunca reciben el vídeo.
         if (q.slide_type === 'video') {
             return { ...q, video_source: parseVideoSource(q.slide_video) };
+        }
+
+        // Diapositiva de lienzo: procesar elementos de vídeo
+        if (q.slide_type === 'canvas') {
+            return { ...q, slide_canvas: withVideoSources(q.slide_canvas) };
         }
 
         // No barajar opciones para slides especiales (comment/info/text) o encuestas

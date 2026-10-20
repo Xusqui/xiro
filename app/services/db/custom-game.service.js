@@ -137,7 +137,7 @@ async function getCustomGameWithQuestions(customGameId) {
         if (game.rows.length === 0) return null;
 
         const questions = await pool.query(`
-            SELECT cgq.position, cgq.slide_type, cgq.comment_text, cgq.slide_title, cgq.slide_body, cgq.slide_image, cgq.slide_image_position, cgq.slide_footer, cgq.slide_video,
+            SELECT cgq.position, cgq.slide_type, cgq.comment_text, cgq.slide_title, cgq.slide_body, cgq.slide_image, cgq.slide_image_position, cgq.slide_footer, cgq.slide_video, cgq.slide_canvas,
                 q.id as question_id, q.question_text, q.bank_id,
                 q.question_type,
                 q.tipo_contenido, q.url_recurso, q.question_image_url,
@@ -313,7 +313,8 @@ async function getCustomGameQuestionsForPlay(customGameId) {
                 cgq.slide_image_position,
                 cgq.slide_footer,
                 cgq.slide_video,
-                q.id, 
+                cgq.slide_canvas,
+                q.id,
                 q.question_text, 
                 q.question_type, 
                 q.tipo_contenido, 
@@ -327,8 +328,8 @@ async function getCustomGameQuestionsForPlay(customGameId) {
                 q.tolerance_value,
                 q.tolerance_cap,
                 q.correct_word,
-                CASE 
-                    WHEN cgq.slide_type IN ('comment', 'info', 'text', 'image', 'text-image', 'video') THEN NULL
+                CASE
+                    WHEN cgq.slide_type IN ('comment', 'info', 'text', 'image', 'text-image', 'video', 'canvas') THEN NULL
                     ELSE (
                         SELECT json_agg(
                             json_build_object(
@@ -342,7 +343,7 @@ async function getCustomGameQuestionsForPlay(customGameId) {
                                 'option_image_url', o.option_image_url
                             ) ORDER BY CASE WHEN q.question_type = 'order' THEN o.order_index ELSE o.id END
                         )
-                        FROM options o 
+                        FROM options o
                         WHERE o.question_id = q.id
                     )
                 END as options

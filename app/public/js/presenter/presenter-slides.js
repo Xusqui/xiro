@@ -11,7 +11,8 @@ import { escapeHtml, sanitizeResourceUrl, encodeInlineArg } from '../core/saniti
 import { appendSlideFooter } from '../core/slide-footer-dom.js?v=20261017120000';
 
 export { renderTextImageSlide } from './presenter-slide-text-image.js?v=20260922172926';
-export { renderVideoSlide } from './presenter-slide-video.js?v=20261018120000';
+export { renderVideoSlide } from './presenter-slide-video.js?v=20261019120000';
+export { renderCanvasSlide } from './presenter-slide-canvas.js?v=20261019120000';
 
 /**
  * Renderizar slide de comentario (con asignación manual de puntos)

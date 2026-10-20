@@ -3,6 +3,8 @@
  * Previene exposición de datos sensibles y reduce tamaño de mensajes
  */
 
+const { collectMediaRefs } = require('../public/js/core/slide-canvas-model');
+
 /**
  * Sanitiza una pregunta para jugadores (elimina respuestas correctas)
  * @param {Object} question - Pregunta completa con opciones
@@ -63,7 +65,39 @@ function sanitizeQuestionForPlayers(question) {
         }));
     }
 
+    // Procesar canvas para quitar video_source y url de los elementos de vídeo
+    if (question.slide_type === 'canvas' && question.slide_canvas) {
+        sanitized.slide_canvas = sanitizeCanvasForPlayers(question.slide_canvas);
+    }
+
     return sanitized;
+}
+
+/**
+ * Sanitiza un canvas para jugadores (elimina urls y video_sources sensibles)
+ * @param {Object} canvas - Canvas a sanitizar
+ * @returns {Object} Canvas sanitizado
+ */
+function sanitizeCanvasForPlayers(canvas) {
+    if (!canvas) return undefined;
+
+    // Crear copia profunda del canvas
+    const result = JSON.parse(JSON.stringify(canvas));
+
+    // Procesar elementos
+    if (result.elements && Array.isArray(result.elements)) {
+        result.elements = result.elements.map(el => {
+            if (el.type === 'video' && el.props) {
+                // Crear una copia del elemento sin url ni video_source
+                const { video_source: _source, ...rest } = el;
+                const { url: _url, ...props } = el.props;
+                return { ...rest, props };
+            }
+            return el;
+        });
+    }
+
+    return result;
 }
 
 /**
@@ -88,6 +122,14 @@ function sanitizeGameStartPayload(payload) {
     const imagePreloads = (payload.questions || [])
         .filter(q => q.slide_type === 'image' && q.slide_image)
         .map(q => q.slide_image);
+
+    // Agregar imágenes de slides canvas
+    (payload.questions || []).forEach(q => {
+        if (q.slide_type === 'canvas' && q.slide_canvas) {
+            const refs = collectMediaRefs(q.slide_canvas);
+            imagePreloads.push(...refs.images);
+        }
+    });
 
     return {
         firstQuestion: sanitizeQuestionForPlayers(payload.firstQuestion),

@@ -137,13 +137,31 @@ export function planVideoPreloads(questions, currentIndex) {
     const parse = window.XiroVideoSource?.parseVideoSource;
     if (!parse || !Array.isArray(questions)) return;
     questions.forEach((q, index) => {
-        if (!q || q.slide_type !== 'video') return;
-        const source = parse(q.slide_video);
-        if (!source) return;
-        if (source.kind === 'file') {
-            videoSlides.push({ index, url: source.url });
-        } else {
-            preconnect(source.embedUrl);
+        if (!q) return;
+
+        // Manejar videos normales
+        if (q.slide_type === 'video') {
+            const source = parse(q.slide_video);
+            if (!source) return;
+            if (source.kind === 'file') {
+                videoSlides.push({ index, url: source.url });
+            } else {
+                preconnect(source.embedUrl);
+            }
+        }
+
+        // Manejar videos en canvas
+        if (q.slide_type === 'canvas' && q.slide_canvas && Array.isArray(q.slide_canvas.elements)) {
+            q.slide_canvas.elements.forEach((element) => {
+                if (element && element.type === 'video' && element.video_source) {
+                    const source = element.video_source;
+                    if (source.kind === 'file') {
+                        videoSlides.push({ index, url: source.url });
+                    } else {
+                        preconnect(source.embedUrl);
+                    }
+                }
+            });
         }
     });
     advanceVideoPreloads(Number.isInteger(currentIndex) ? currentIndex : 0);

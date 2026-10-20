@@ -8,20 +8,21 @@ import { cleanupRevealElements } from './presenter-reveal.js?v=20260922172926';
 import { cleanupPodio } from './presenter-podio.js?v=20260922172926';
 import { showChamaleonOverlay } from './presenter-chamaleon.js?v=20260922172926';
 import { appendSlideFooter } from '../core/slide-footer-dom.js?v=20261017120000';
-import { takePreloadedVideo, createVideoElement, releaseVideo } from './presenter-video-preloader.js?v=20261018120000';
+import { takePreloadedVideo, createVideoElement, releaseVideo } from './presenter-video-preloader.js?v=20261019120000';
 
 // El vídeo ocupa todo el hueco y conserva su proporción (bandas negras si hace falta)
 const MEDIA_STYLE = 'width:100%;height:100%;object-fit:contain;border:0;background:#000;display:block;';
 const IFRAME_ALLOW = 'autoplay; fullscreen; encrypted-media; picture-in-picture';
-let activeVideo = null;
+const activeVideos = [];
 
 /**
- * Para el vídeo de archivo que se está viendo y libera su memoria (al cambiar de diapositiva)
+ * Para los vídeos de archivo que se están viendo y libera su memoria (al cambiar de diapositiva)
  */
 export function stopActiveVideo() {
-    if (activeVideo === null) return;
-    releaseVideo(activeVideo);
-    activeVideo = null;
+    while (activeVideos.length > 0) {
+        const video = activeVideos.pop();
+        releaseVideo(video);
+    }
 }
 
 function nextButtonHtml() {
@@ -56,45 +57,6 @@ function buildFileVideo(url) {
     return video;
 }
 
-function buildEmbed(source) {
-    const iframe = document.createElement('iframe');
-    iframe.src = source.embedUrl + '&autoplay=1';
-    iframe.allow = IFRAME_ALLOW;
-    iframe.allowFullscreen = true;
-    iframe.referrerPolicy = 'strict-origin-when-cross-origin';
-    iframe.title = 'Vídeo';
-    iframe.style.cssText = MEDIA_STYLE;
-    return iframe;
-}
-
-function mountMedia(box, source) {
-    if (source.kind !== 'file') {
-        box.appendChild(buildEmbed(source));
-        return;
-    }
-
-    const video = buildFileVideo(source.url);
-    box.appendChild(video);
-    activeVideo = video;
-
-    function showError() {
-        if (activeVideo !== video) return;
-        stopActiveVideo();
-        box.innerHTML = _tHtml(unsupportedHtml());
-    }
-
-    if (video.error) {
-        showError();
-        return;
-    }
-
-    video.addEventListener('error', showError, { once: true });
-
-    // Si el navegador bloquea la reproducción automática quedan los controles del vídeo
-    const playing = video.play();
-    if (playing && typeof playing.catch === 'function') playing.catch(() => {});
-}
-
 /**
  * Diapositiva de vídeo: solo en el presentador, ocupando todo el espacio disponible
  * @param {Object} slide - Objeto de diapositiva
@@ -126,8 +88,56 @@ export function renderVideoSlide(slide) {
         </div>
     `);
 
-    if (source) mountMedia(document.getElementById('slide-video-box'), source);
+    if (source) mountVideoMedia(document.getElementById('slide-video-box'), source, { autoplay: true });
     appendSlideFooter(lobbyMain, slide, 'presenter');
     showAbandonButton();
     showTerminateButton();
+}
+
+/**
+ * Monta el reproductor de una fuente de vídeo (archivo o embebido) dentro de una caja.
+ * Lo usan la diapositiva de vídeo (siempre con autoplay) y la diapositiva libre.
+ * @param {Element} box - Caja donde se monta el vídeo
+ * @param {Object} source - Resultado de parseVideoSource
+ * @param {Object} [options] - { autoplay } (por defecto true)
+ */
+export function mountVideoMedia(box, source, options = {}) {
+    const autoplay = options.autoplay !== false;
+    if (source.kind !== 'file') {
+        const iframe = document.createElement('iframe');
+        iframe.src = source.embedUrl + (autoplay ? '&autoplay=1' : '');
+        iframe.allow = IFRAME_ALLOW;
+        iframe.allowFullscreen = true;
+        iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+        iframe.title = 'Vídeo';
+        iframe.style.cssText = MEDIA_STYLE;
+        box.appendChild(iframe);
+        return;
+    }
+
+    const video = buildFileVideo(source.url);
+    box.appendChild(video);
+    activeVideos.push(video);
+
+    // Un vídeo que falla solo libera el suyo: los demás de la diapositiva siguen
+    function showError() {
+        const index = activeVideos.indexOf(video);
+        if (index < 0) return;
+        activeVideos.splice(index, 1);
+        releaseVideo(video);
+        box.innerHTML = _tHtml(unsupportedHtml());
+    }
+
+    if (video.error) {
+        showError();
+        return;
+    }
+
+    video.addEventListener('error', showError, { once: true });
+
+    // Si el navegador bloquea la reproducción automática quedan los controles del vídeo
+    if (autoplay) {
+        const playing = video.play();
+        if (playing && typeof playing.catch === 'function') playing.catch(() => {});
+    }
 }

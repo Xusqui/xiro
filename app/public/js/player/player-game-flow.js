@@ -13,6 +13,7 @@ import {
 } from './player-state.js?v=20260922172926';
 import { renderizarPregunta, renderizarPreguntaOrdena, renderizarPreguntaMatching, renderizarPreguntaNumerica, renderizarPreguntaWordScramble, renderizarPreguntaWordSearch, renderizarPreguntaFillBlanks, renderizarPreguntaMultipleChoice } from './player-question-ui.js?v=20260922172926';
 import { renderizarSlideComentario, renderizarSlideInfo, renderizarSlideTexto, renderizarSlideImagen, renderizarSlideTextoImagen, renderizarSlideVideo } from './player-question-ui.js?v=20260922172926';
+import { renderizarSlideLienzo } from './player-slide-canvas-ui.js?v=20261019120000';
 import { removeDisconnectOverlay } from './player-connection.js?v=20260922172926';
 import { mostrarModalConfirmacion, mostrarModalMensaje } from '../shared/modal.js?v=20260922172926';
 import { markGameConcluded } from './player-game-concluded.js?v=20260922172926';
@@ -104,6 +105,8 @@ function onGameStarted(data, ack) {
         renderizarSlideTextoImagen(data.firstQuestion);
     } else if (data.firstQuestion.slide_type === 'video') {
         renderizarSlideVideo(data.firstQuestion);
+    } else if (data.firstQuestion.slide_type === 'canvas') {
+        renderizarSlideLienzo(data.firstQuestion);
     } else if (data.firstQuestion.question_type === 'order') {
         renderizarPreguntaOrdena(data.firstQuestion);
     } else if (data.firstQuestion.question_type === 'matching') {
@@ -164,6 +167,8 @@ function onNewQuestion(data, ack) {
         renderizarSlideTextoImagen(data.question);
     } else if (data.question.slide_type === 'video') {
         renderizarSlideVideo(data.question);
+    } else if (data.question.slide_type === 'canvas') {
+        renderizarSlideLienzo(data.question);
     } else if (data.question.question_type === 'order') {
         renderizarPreguntaOrdena(data.question);
     } else if (data.question.question_type === 'matching') {

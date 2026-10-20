@@ -11,15 +11,15 @@ import {
 } from './presenter-state.js?v=20260922172926';
 import {
     renderPregunta, renderCommentSlide, renderInfoSlide, renderTextSlide, renderImageSlide, renderTextImageSlide, renderVideoSlide,
-    updatePlayersPanel, removeFloatingCards, renderPodio
+    renderCanvasSlide, updatePlayersPanel, removeFloatingCards, renderPodio
 } from './presenter-game-ui.js?v=20260922172926';
 import { handleRevealAnswer, cleanupRevealElements } from './presenter-reveal.js?v=20260922172926';
 import { updateAnswerCounter } from './presenter-answer-counter.js?v=20260922172926';
 import { hideWaitingPanelNow, renderWaitingPanel } from './presenter-waiting-panel.js?v=20260922172926';
 import { mostrarModalMensaje } from '../shared/modal.js?v=20260922172926';
 import { currentSlideFooterText } from '../core/slide-footer-dom.js?v=20261017120000';
-import { stopActiveVideo } from './presenter-slide-video.js?v=20261018120000';
-import { planVideoPreloads, advanceVideoPreloads } from './presenter-video-preloader.js?v=20261018120000';
+import { stopActiveVideo } from './presenter-slide-video.js?v=20261019120000';
+import { planVideoPreloads, advanceVideoPreloads } from './presenter-video-preloader.js?v=20261019120000';
 
 const SLIDE_RENDERERS = {
     comment: renderCommentSlide,
@@ -27,7 +27,8 @@ const SLIDE_RENDERERS = {
     text: renderTextSlide,
     image: renderImageSlide,
     'text-image': renderTextImageSlide,
-    video: renderVideoSlide
+    video: renderVideoSlide,
+    canvas: renderCanvasSlide
 };
 
 /** Diapositiva según slide_type; si no lo es, pregunta (y se permite el ranking). */

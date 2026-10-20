@@ -69,6 +69,8 @@
     "admin.custom.slide_video_badge": "VIDEOSLIDE",
     "admin.custom.slide_video_help": "Wird nur beim Moderator abgespielt",
     "admin.custom.btn_video_slide": "VIDEOSLIDE HINZUFÜGEN",
-    "admin.custom.btn_short_video": "Video"
+    "admin.custom.btn_short_video": "Video",
+    "admin.custom.btn_canvas_slide": "FREIE FOLIE HINZUFÜGEN",
+    "admin.custom.btn_short_canvas": "Freie Folie"
   }
 }

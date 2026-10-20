@@ -14,7 +14,7 @@ import {
 } from './presenter-state.js?v=20260922172926';
 import {
     renderPregunta, renderCommentSlide, renderInfoSlide, renderTextSlide, renderImageSlide, renderTextImageSlide, renderVideoSlide,
-    updatePlayersPanel, renderTeamLobby, mostrarQR
+    renderCanvasSlide, updatePlayersPanel, renderTeamLobby, mostrarQR
 } from './presenter-game-ui.js?v=20260922172926';
 import { restoreLobbyHTML, showAbandonButton } from './presenter-utils.js?v=20260922172926';
 import { handleGameAbandoned } from './presenter-session-control.js?v=20260922172926';
@@ -233,6 +233,8 @@ function restoreGameScreen(snapshot) {
         renderTextImageSlide(question);
     } else if (question.slide_type === 'video') {
         renderVideoSlide(question);
+    } else if (question.slide_type === 'canvas') {
+        renderCanvasSlide(question);
     } else {
         window.canShowRanking = true;
         renderPregunta(question);

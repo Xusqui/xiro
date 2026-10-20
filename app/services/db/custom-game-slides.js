@@ -36,6 +36,11 @@ const SLIDE_INSERTS = {
     video: {
         sql: 'INSERT INTO custom_game_questions (custom_game_id, question_id, position, slide_type, slide_video, slide_footer) VALUES ($1, $2, $3, $4, $5, $6)',
         fields: ['slide_video']
+    },
+    canvas: {
+        sql: 'INSERT INTO custom_game_questions (custom_game_id, question_id, position, slide_type, slide_canvas, slide_footer) VALUES ($1, $2, $3, $4, $5::jsonb, $6)',
+        fields: ['slide_canvas'],
+        serialize: { slide_canvas: JSON.stringify }
     }
 };
 
@@ -65,7 +70,13 @@ function insertCustomGameQuestion(client, customGameId, position, q) {
     if (!slide) {
         return client.query(QUESTION_INSERT_SQL, [customGameId, q.question_id, position, 'question']);
     }
-    const values = slide.fields.map(field => q[field]);
+    const values = slide.fields.map(field => {
+        const value = q[field];
+        if (slide.serialize && slide.serialize[field]) {
+            return slide.serialize[field](value);
+        }
+        return value;
+    });
     return client.query(slide.sql, [customGameId, null, position, q.slide_type, ...values, normalizeSlideFooter(q.slide_footer)]);
 }
 

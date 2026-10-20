@@ -13,6 +13,7 @@ const {
 } = require('./application/validators/RandomPointsValidator');
 const { wordSearchOptionsSchema } = require('./application/validators/WordSearchQuestionValidator');
 const { slideVideoSchema } = require('./application/validators/VideoSlideValidator');
+const { slideCanvasSchema } = require('./application/validators/CanvasSlideValidator');
 const {
     fillBlanksOptionsSchema,
     fillBlanksQuestionRule,
@@ -648,7 +649,7 @@ const gameSchema = Joi.object({
 // Pregunta de juego personalizado
 const customGameQuestionSchema = Joi.object({
     slide_type: Joi.string()
-        .valid('question', 'comment', 'info', 'text', 'image', 'text-image', 'video')
+        .valid('question', 'comment', 'info', 'text', 'image', 'text-image', 'video', 'canvas')
         .default('question'),
     question_id: dbIdSchema.allow(null).when('slide_type', {
         is: 'question',
@@ -696,6 +697,8 @@ const customGameQuestionSchema = Joi.object({
         }),
     // URL de la diapositiva de vídeo (archivo, YouTube, Vimeo o Dailymotion)
     slide_video: slideVideoSchema,
+    // Diapositiva libre (canvas) - contiene elementos gráficos personalizados
+    slide_canvas: slideCanvasSchema,
     // Pie opcional de las diapositivas especiales (texto plano; los clientes lo escapan)
     slide_footer: Joi.string()
         .max(LIMITS.SLIDE_FOOTER_MAX)

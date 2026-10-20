@@ -12,6 +12,7 @@ window.TVApp.SocketGame = (function () {
     const renderImageSlide = window.TVApp.RenderSlides.renderImageSlide;
     const renderTextImageSlide = window.TVApp.RenderSlides.renderTextImageSlide;
     const renderVideoSlide = window.TVApp.RenderSlides.renderVideoSlide;
+    const renderCanvasSlide = window.TVApp.RenderCanvas.renderCanvasSlide;
     const renderPregunta = window.TVApp.RenderQuestion.renderPregunta;
     const updateAnswerCounter = window.TVApp.RenderPlayers.updateAnswerCounter;
 
@@ -56,6 +57,8 @@ window.TVApp.SocketGame = (function () {
                 renderTextImageSlide(data.firstQuestion);
             } else if (data.firstQuestion.slide_type === 'video') {
                 renderVideoSlide(data.firstQuestion);
+            } else if (data.firstQuestion.slide_type === 'canvas') {
+                renderCanvasSlide(data.firstQuestion);
             } else {
                 renderPregunta(data.firstQuestion);
             }
@@ -103,6 +106,8 @@ window.TVApp.SocketGame = (function () {
                 renderTextImageSlide(data.question);
             } else if (data.question.slide_type === 'video') {
                 renderVideoSlide(data.question);
+            } else if (data.question.slide_type === 'canvas') {
+                renderCanvasSlide(data.question);
             } else {
                 renderPregunta(data.question);
             }

@@ -1030,7 +1030,26 @@ router.post('/api/uploads/cleanup', authenticateAdmin, authorizeAdmin, async (re
             pool.query(`SELECT image_url AS ref FROM question_banks WHERE image_url IS NOT NULL
                         UNION SELECT image_url FROM custom_games WHERE image_url IS NOT NULL
                         UNION SELECT image_url FROM games WHERE image_url IS NOT NULL
-                        UNION SELECT image_url FROM trivial_games WHERE image_url IS NOT NULL`)
+                        UNION SELECT image_url FROM trivial_games WHERE image_url IS NOT NULL`),
+            // Incluir referencias de canvas slides
+            pool.query(`
+                SELECT DISTINCT slide_canvas->'background'->>'image' AS ref
+                FROM custom_game_questions
+                WHERE slide_canvas IS NOT NULL AND jsonb_typeof(slide_canvas->'background') = 'object'
+                AND slide_canvas->'background'->>'image' IS NOT NULL
+                UNION
+                SELECT e->'props'->>'src' AS ref
+                FROM custom_game_questions,
+                     jsonb_array_elements(slide_canvas->'elements') e
+                WHERE slide_canvas IS NOT NULL AND jsonb_typeof(slide_canvas->'elements') = 'array'
+                AND e->'props'->>'src' IS NOT NULL
+                UNION
+                SELECT e->'props'->>'url' AS ref
+                FROM custom_game_questions,
+                     jsonb_array_elements(slide_canvas->'elements') e
+                WHERE slide_canvas IS NOT NULL AND jsonb_typeof(slide_canvas->'elements') = 'array'
+                AND e->'props'->>'url' IS NOT NULL
+            `)
         ]);
 
         const referencedFiles = new Set();

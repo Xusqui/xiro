@@ -13,6 +13,7 @@ const { generateFillBlanksQuestionHTML, generateFillBlanksSolutionHTML } = requi
 const { generateSlideFooterHTML } = require('./pdf-slide-footer');
 const { prepareWordSearchQuestion } = require('../domain/services/WordSearchService');
 const { generateVideoSlideHTML } = require('./pdf-video-slide');
+const { generateCanvasSlideHTML } = require('./pdf-canvas-slide');
 
 const PUBLIC_ROOT = '/usr/src/app/public';
 
@@ -128,7 +129,7 @@ function generateFullPDFHTML(game, questions) {
         // Sopa de letras: una sola rejilla para la pregunta y su solución
         const q = rawQuestion.question_type === 'word_search' ? prepareWordSearchQuestion(rawQuestion) : rawQuestion;
         pages.push(generateQuestionHTML(q, i + 1, questions.length));
-        if (q.slide_type !== 'comment' && q.slide_type !== 'info' && q.slide_type !== 'text' && q.slide_type !== 'image' && q.slide_type !== 'text-image' && q.slide_type !== 'video') {
+        if (q.slide_type !== 'comment' && q.slide_type !== 'info' && q.slide_type !== 'text' && q.slide_type !== 'image' && q.slide_type !== 'text-image' && q.slide_type !== 'video' && q.slide_type !== 'canvas') {
             pages.push(generateAnswerHTML(q, i + 1));
         }
     });
@@ -213,7 +214,8 @@ function generateQuestionHTML(question, index, total) {
         info: generateInfoSlideHTML,
         text: generateTextSlideHTML,
         image: generateImageSlideHTML,
-        video: generateVideoSlideHTML
+        video: generateVideoSlideHTML,
+        canvas: (q, i, t) => generateCanvasSlideHTML(q, i, t, resolvePublicPath)
     }[question.slide_type];
 
     if (slideRenderer) {

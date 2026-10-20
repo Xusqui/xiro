@@ -100,6 +100,8 @@ globalThis.StandaloneQuestionSlides = (() => {
             window.XiroSlideImageFit?.fitImages(container);
         } else if (question.slide_type === 'video') {
             _renderVideoNotice(container);
+        } else if (question.slide_type === 'canvas') {
+            StandaloneCanvasSlide.render(container, question);
         } else {
             _renderTextual(container, question, onContinue);
         }

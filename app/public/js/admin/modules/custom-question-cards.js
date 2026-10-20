@@ -170,6 +170,8 @@ const _CUSTOM_SLIDE_CARDS = {
     text: ['bg-aubergine-50 border-aubergine-300', 'aubergine', _customTextBody, 'editarSlideTexto', 'text-aubergine-700 hover:text-aubergine-900'],
     image: ['bg-pink-50 border-pink-300', 'pink', _customImageBody, 'editarSlideImagen', 'text-pink-700 hover:text-pink-900'],
     'text-image': ['bg-plum-50 border-plum-300', 'plum', _customTextImageBody, 'editarSlideTextoImagen', 'text-plum-700 hover:text-plum-900'],
+    // customCanvasCardBody está en slides-canvas-card.js (se carga después): se resuelve al pintar
+    canvas: ['bg-plum-50 border-plum-300', 'plum', (q) => customCanvasCardBody(q), 'editarSlideLienzo', 'text-plum-700 hover:text-plum-900'],
     // customVideoCardBody está en slides-video.js, que se carga después: se resuelve al pintar
     video: ['bg-red-50 border-red-300', 'red', (q) => customVideoCardBody(q), 'editarSlideVideo', 'text-red-600 hover:text-red-700']
 };
@@ -179,7 +181,9 @@ function renderCustomQuestionCard(q, idx, total) {
     const slide = Object.hasOwn(_CUSTOM_SLIDE_CARDS, q.slide_type) ? _CUSTOM_SLIDE_CARDS[q.slide_type] : null;
     if (slide) {
         const [wrapClass, color, bodyFn, editFn, editClass] = slide;
-        return _customCardShell({ idx, total, wrapClass, color, body: bodyFn(q), actions: _customSlideActions(idx, editFn, editClass), footer: _customSlideFooterPreview(q) });
+        // Las diapositivas antiguas (no Actividad) se pueden pasar a diapositiva libre (slides-canvas-card.js)
+        const convert = q.slide_type !== 'comment' && q.slide_type !== 'canvas' ? customCanvasConvertButton(idx) : '';
+        return _customCardShell({ idx, total, wrapClass, color, body: bodyFn(q), actions: _customSlideActions(idx, editFn, editClass), footer: _customSlideFooterPreview(q) + convert });
     }
     return _customCardShell({
         idx, total, wrapClass: 'bg-slate-50 border-slate-200', color: 'slate',

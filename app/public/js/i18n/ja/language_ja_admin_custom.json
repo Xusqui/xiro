@@ -69,6 +69,8 @@
     "admin.custom.slide_video_badge": "ビデオスライド",
     "admin.custom.slide_video_help": "プレゼンターでのみ再生されます",
     "admin.custom.btn_video_slide": "ビデオスライドを追加",
-    "admin.custom.btn_short_video": "動画"
+    "admin.custom.btn_short_video": "動画",
+    "admin.custom.btn_canvas_slide": "自由スライドを追加",
+    "admin.custom.btn_short_canvas": "自由スライド"
   }
 }

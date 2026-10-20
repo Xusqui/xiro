@@ -69,6 +69,8 @@
     "admin.custom.slide_video_badge": "VIDEO SLIDE",
     "admin.custom.slide_video_help": "Only plays on the presenter",
     "admin.custom.btn_video_slide": "ADD VIDEO SLIDE",
-    "admin.custom.btn_short_video": "Video"
+    "admin.custom.btn_short_video": "Video",
+    "admin.custom.btn_canvas_slide": "ADD FREE SLIDE",
+    "admin.custom.btn_short_canvas": "Free slide"
   }
 }

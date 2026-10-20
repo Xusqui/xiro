@@ -157,6 +157,7 @@ async function cargarEditorJuegoPersonalizado(id) {
             slide_body: q.slide_body,
             slide_image: q.slide_image,
             slide_image_position: q.slide_image_position,
+            slide_canvas: q.slide_canvas || null,
             slide_footer: q.slide_footer,
             slide_video: q.slide_video,
             position: q.position,
@@ -347,30 +348,10 @@ function _customToolbarHtml() {
                     aria-label="${_t('admin.custom.btn_activity', null, 'AÑADIR ACTIVIDAD LIBRE (PUNTOS MANUALES)')}">
                     <i class="fas fa-comment-dots" aria-hidden="true"></i> ${_t('admin.custom.btn_short_activity', null, 'Actividad')}
                 </button>
-                <button type="button" data-admin-click="mostrarModalInfo()"
-                    class="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
-                    aria-label="${_t('admin.custom.btn_info_slide', null, 'AÑADIR SLIDE INFORMATIVO')}">
-                    <i class="fas fa-info-circle" aria-hidden="true"></i> ${_t('admin.custom.btn_short_info', null, 'Info')}
-                </button>
-                <button type="button" data-admin-click="mostrarModalTexto()"
+                <button type="button" data-admin-click="mostrarSelectorLienzo()"
                     class="bg-gradient-to-r from-aubergine-600 to-plum-600 hover:from-aubergine-700 hover:to-plum-700 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
-                    aria-label="${_t('admin.custom.btn_text_slide', null, 'AÑADIR DIAPOSITIVA DE TEXTO (TÍTULO + TEXTO)')}">
-                    <i class="fas fa-align-left" aria-hidden="true"></i> ${_t('admin.custom.btn_short_text', null, 'Texto')}
-                </button>
-                <button type="button" data-admin-click="mostrarModalImagen()"
-                    class="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
-                    aria-label="${_t('admin.custom.btn_img_slide', null, 'AÑADIR DIAPOSITIVA DE IMAGEN')}">
-                    <i class="fas fa-image" aria-hidden="true"></i> ${_t('admin.custom.btn_short_image', null, 'Imagen')}
-                </button>
-                <button type="button" data-admin-click="mostrarModalTextoImagen()"
-                    class="bg-plum-600 hover:bg-plum-700 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
-                    aria-label="${_t('admin.custom.btn_text_img_slide', null, 'AÑADIR DIAPOSITIVA TEXTO + IMAGEN')}">
-                    <i class="fas fa-columns" aria-hidden="true"></i> ${_t('admin.custom.btn_short_text_img', null, 'Texto+Img')}
-                </button>
-                <button type="button" data-admin-click="mostrarModalVideo()"
-                    class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
-                    aria-label="${_t('admin.custom.btn_video_slide', null, 'AÑADIR DIAPOSITIVA DE VÍDEO')}">
-                    <i class="fas fa-film" aria-hidden="true"></i> ${_t('admin.custom.btn_short_video', null, 'Vídeo')}
+                    aria-label="${_t('admin.custom.btn_canvas_slide', null, 'AÑADIR DIAPOSITIVA LIBRE')}">
+                    <i class="fas fa-object-group" aria-hidden="true"></i> ${_t('admin.custom.btn_short_canvas', null, 'Diapositiva libre')}
                 </button>
             </div>`;
 }
@@ -661,6 +642,7 @@ function _customSlideForSave(q) {
         slide_body: q.slide_body || null,
         slide_image: q.slide_image || null,
         slide_image_position: q.slide_image_position || null,
+        slide_canvas: q.slide_canvas || null,
         slide_footer: q.slide_footer || null,
         slide_video: q.slide_video || null
     };
