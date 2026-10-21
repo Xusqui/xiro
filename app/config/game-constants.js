@@ -270,7 +270,8 @@ module.exports = {
         SCRAMBLE: 'word_scramble',
         MATCHING: 'matching',
         WORD_SEARCH: 'word_search',
-        FILL_BLANKS: 'fill_blanks'
+        FILL_BLANKS: 'fill_blanks',
+        SURVEY_MULTIPLE: 'survey_multiple'
     },
 
     // ===== SOPA DE LETRAS (word_search) =====
@@ -290,7 +291,7 @@ module.exports = {
     // ===== TIPOS DE PREGUNTA ELEGIBLES PARA PUNTUACIÓN ALEATORIA =====
     // Solo los tipos cuya puntuación es "acierto/fallo + bonus de tiempo". En
     // fill_blanks el valor sorteado es por palabra acertada (FillBlanksService).
-    // Quedan fuera: survey (no puntúa), order y matching (puntos por posición/par),
+    // Quedan fuera: survey y survey_multiple (no puntúan), order y matching (puntos por posición/par),
     // numeric_approximation (puntos por cercanía), multiple_choice (puntos por
     // opción con penalización, configurados en la propia pregunta) y word_search.
     RANDOM_POINTS_ELIGIBLE_TYPES: ['quiz', 'word_scramble', 'fill_blanks'],

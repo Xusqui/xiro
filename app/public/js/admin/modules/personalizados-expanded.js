@@ -403,7 +403,7 @@ async function cargarPreguntasBanco(selectorId = 'selectorBanco', contenedorId =
                         </button>
                         <div class="flex-1">
                             <p class="font-medium text-sm text-slate-800">${escapeHtml(displayQuestionTextFrontend(q))}</p>
-            <p class="text-xs text-green-600 mt-1"><i class="fas fa-check-circle mr-1"></i>${q.question_type === 'survey' ? _t('admin.custom.survey_answer', null, 'Encuesta (votos)') : escapeHtml(correctDisplay)}</p>
+            <p class="text-xs text-green-600 mt-1"><i class="fas fa-check-circle mr-1"></i>${surveyAnswerLabel(q.question_type) || escapeHtml(correctDisplay)}</p>
                         </div>
                     </div>
                 </div>

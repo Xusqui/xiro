@@ -1,6 +1,6 @@
 /**
  * @fileoverview Reveal sobre la rejilla de opciones del presentador: quiz,
- * encuesta, orden y matching.
+ * encuestas, orden y matching.
  */
 
 import { calculatePercentages, createPercentageHTML } from './presenter-percentage-calculator.js?v=20260922172926';
@@ -15,6 +15,28 @@ function revealSurveyCard(tarjeta, i, percentages) {
     const percentage = percentages[i]?.percentage || 0;
     tarjeta.innerHTML += createPercentageHTML(percentage, i);
     tarjeta.classList.add('ring-4', 'ring-blue-400');
+}
+
+/**
+ * Encuesta de selección múltiple: junto a su insignia, cuántos respondieron y por qué
+ * los porcentajes (de los que respondieron) pueden sumar más del 100 %.
+ */
+function appendSurveyMultipleCaption(respondents) {
+    const row = document.getElementById('sm-badge-row');
+    if (!row) return;
+    row.querySelector('[data-sm-caption]')?.remove();
+    const text =
+        respondents === 1
+            ? _t('presenter.reveal.survey_multiple_caption_one', null, '1 respuesta · cada jugador podía elegir varias')
+            : _t(
+                'presenter.reveal.survey_multiple_caption_other',
+                { count: respondents },
+                '{count} respuestas · cada jugador podía elegir varias'
+            );
+    row.insertAdjacentHTML(
+        'beforeend',
+        `<div data-sm-caption class="bg-black/30 text-white px-5 py-2 rounded-full font-bold text-lg shadow-lg">${text}</div>`
+    );
 }
 
 /** Quiz: porcentaje en cada tarjeta, resaltando la correcta y apagando el resto. */
@@ -52,6 +74,7 @@ export function revealOptionCards(data) {
     let correctCardIndex = -1;
     if (data.percentages) {
         tarjetas.forEach((tarjeta, i) => revealSurveyCard(tarjeta, i, data.percentages));
+        if (data.surveyMultiple) appendSurveyMultipleCaption(data.surveyMultiple.respondents || 0);
     } else {
         // Porcentajes calculados en cliente si el backend no los envía (quiz)
         const quizPercentages = calculatePercentages(data.stats, tarjetas.length);

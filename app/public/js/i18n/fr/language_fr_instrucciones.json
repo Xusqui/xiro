@@ -17,6 +17,8 @@
     "instructions.question_types.quiz.description": "Question classique avec plusieurs réponses possibles, mais une seule est correcte.",
     "instructions.question_types.survey.title": "Enquête",
     "instructions.question_types.survey.description": "Pas de bonnes ou de mauvaises réponses. Il sert à recueillir l'opinion du public en présentant différentes options.",
+    "instructions.question_types.survey_multiple.title": "Sondage à choix multiples",
+    "instructions.question_types.survey_multiple.description": "Un sondage où chaque joueur coche toutes les options qu'il veut, ou aucune. À la fin, on voit le pourcentage de joueurs ayant choisi chacune ; le total peut donc dépasser 100 %.",
     "instructions.question_types.numeric.title": "Approximation numérique",
     "instructions.question_types.numeric.description": "Les joueurs doivent saisir un numéro en essayant de se rapprocher le plus possible de la valeur gagnante exacte.",
     "instructions.question_types.order.title": "Séquence de tri (ordre)",

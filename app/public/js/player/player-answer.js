@@ -293,9 +293,9 @@ export function enviarRespuestaWordScramble(isAuto = false) {
 }
 
 /**
- * Enviar respuesta tipo "multiple_choice"
+ * Enviar respuesta tipo "multiple_choice" o "survey_multiple" (esta admite enviar sin marcar nada)
  */
-export function enviarRespuestaMultipleChoice(selectedIndices, isAuto = false) {
+export function enviarRespuestaMultipleChoice(selectedIndices, isAuto = false, answerType = 'multiple_choice') {
     if (!getCanAnswer() && !isAuto) {
         console.log('🚫 Respuestas bloqueadas (tiempo agotado)');
         return;
@@ -307,7 +307,8 @@ export function enviarRespuestaMultipleChoice(selectedIndices, isAuto = false) {
         return;
     }
 
-    if (!Array.isArray(selectedIndices) || selectedIndices.length === 0) {
+    const isSurvey = answerType === 'survey_multiple';
+    if (!Array.isArray(selectedIndices) || (selectedIndices.length === 0 && !isSurvey)) {
         console.warn('⚠️ Índices seleccionados no válidos');
         return;
     }
@@ -319,14 +320,14 @@ export function enviarRespuestaMultipleChoice(selectedIndices, isAuto = false) {
         ? {
             sessionId: getSessionId(),
             nickname: getNickname(),
-            answerType: 'multiple_choice',
+            answerType,
             selectedIndices: [...selectedIndices],
             requestId: createRequestId()
         }
         : {
             pin: getPin(),
             nickname: getNickname(),
-            answerType: 'multiple_choice',
+            answerType,
             selectedIndices: [...selectedIndices],
             requestId: createRequestId()
         };
@@ -337,7 +338,7 @@ export function enviarRespuestaMultipleChoice(selectedIndices, isAuto = false) {
         setBodyHTML(`
             <div class="answer-loading-container">
                 <div class="spinner spinner-purple"></div>
-                <h2>Verificando tu selección...</h2>
+                <h2>${isSurvey ? _t('player.survey_multiple.sending', null, 'Enviando tu voto...') : 'Verificando tu selección...'}</h2>
             </div>
         `);
     }

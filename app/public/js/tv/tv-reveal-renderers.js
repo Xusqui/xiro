@@ -226,6 +226,21 @@ window.TVApp.RevealRenderers = (function () {
         return html + '</div>';
     }
 
+    /** Encuesta de selección múltiple: cuántos respondieron (los % pueden sumar más de 100). */
+    function surveyMultipleCaptionHtml(survey) {
+        if (!survey) return '';
+        const count = survey.respondents || 0;
+        const text =
+            count === 1
+                ? _t('presenter.reveal.survey_multiple_caption_one', null, '1 respuesta · cada jugador podía elegir varias')
+                : _t(
+                    'presenter.reveal.survey_multiple_caption_other',
+                    { count: count },
+                    '{count} respuestas · cada jugador podía elegir varias'
+                );
+        return '<div class="survey-caption">' + escapeHtml(text) + '</div>';
+    }
+
     function renderOptionsReveal(data) {
         const optCount = document.querySelectorAll('#options-grid > div').length;
         for (let k = 0; k < optCount; k++) {
@@ -233,7 +248,7 @@ window.TVApp.RevealRenderers = (function () {
             if (tarjeta) addOptionVotes(tarjeta, k, data);
         }
 
-        let afterHtml = '';
+        let afterHtml = surveyMultipleCaptionHtml(data.surveyMultiple);
         if (data.justification && data.justification.trim()) {
             afterHtml +=
                 '<div class="justification"><div class="justification-title">💡 ¿Por qué es correcta?</div><div class="justification-text">' +

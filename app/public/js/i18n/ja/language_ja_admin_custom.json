@@ -50,6 +50,8 @@
     "admin.custom.badge_scramble": "アナグラム",
     "admin.custom.badge_multiple": "複数選択",
     "admin.custom.survey_answer": "アンケート（投票）",
+    "admin.custom.survey_multiple_answer": "複数選択アンケート（投票）",
+    "admin.custom.badge_survey_multiple": "複数選択アンケート",
     "admin.custom.error_name": "ゲームに名前を付けてください",
     "admin.custom.error_questions": "少なくとも1つの質問を追加してください",
     "admin.custom.success_saved": "カスタムゲームが正常に保存されました！",

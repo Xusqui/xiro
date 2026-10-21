@@ -3,7 +3,8 @@
 // Estilos en css/admin-question-type-picker.css; el color de cada tipo sale de
 // su data-type, el mismo color que su chip en la lista.
 
-// Orden de lectura en 3x3: elegir respuesta, ordenar o estimar, y palabras.
+// Orden de lectura en 5x2: elegir respuesta (quiz, múltiple y las dos encuestas),
+// ordenar o estimar, y palabras. En contenedores estrechos pasa a 2 columnas.
 const QUESTION_TYPE_PICKER = [
     { type: 'quiz', icon: 'fa-check', name: 'Quiz', hint: 'Una respuesta correcta' },
     {
@@ -13,6 +14,12 @@ const QUESTION_TYPE_PICKER = [
         hint: 'De 1 a 6 respuestas correctas'
     },
     { type: 'survey', icon: 'fa-square-poll-vertical', name: 'Encuesta', hint: 'Votos, sin respuesta correcta' },
+    {
+        type: 'survey_multiple',
+        icon: 'fa-square-poll-horizontal',
+        name: 'Encuesta de selección múltiple',
+        hint: 'Varias respuestas por jugador'
+    },
     { type: 'order', icon: 'fa-list-ol', name: 'Ordena', hint: 'Arrastrar al orden correcto' },
     { type: 'matching', icon: 'fa-right-left', name: 'Emparejar', hint: 'Unir dos columnas' },
     { type: 'numeric_approximation', icon: 'fa-bullseye', name: 'Numérica', hint: 'Acercarse a un número' },

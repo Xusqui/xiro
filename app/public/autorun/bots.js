@@ -277,6 +277,14 @@ class QuizBotIndividual extends BaseBot {
             case 'multiple_choice':
                 payload = { ...base, answerType: 'multiple_choice', selectedIndices: [randInt(0, n - 1)] };
                 break;
+            case 'survey_multiple':
+                // Encuesta de selección múltiple: cada opción con un 50 % (a veces ninguna)
+                payload = {
+                    ...base,
+                    answerType: 'survey_multiple',
+                    selectedIndices: Array.from({ length: n }, (_, i) => i).filter(() => Math.random() < 0.5)
+                };
+                break;
             case 'numeric_approximation':
                 payload = { ...base, answerType: 'numeric', playerAnswer: randInt(1, 100) };
                 break;

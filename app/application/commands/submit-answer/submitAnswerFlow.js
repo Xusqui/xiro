@@ -17,6 +17,7 @@ const { recordWordSearchStats } = require('../../../sockets/utils/WordSearchReve
 const { getWordSearchScoringContext } = require('../../../sockets/utils/WordSearchTeam');
 const { recordFillBlanksStats } = require('../../../sockets/utils/FillBlanksRevealStats');
 const { getFillBlanksScoringContext, emitToTeammates } = require('../../../sockets/utils/FillBlanksTeam');
+const { recordSurveyMultipleStats } = require('../../../sockets/utils/SurveyMultipleRevealStats');
 const { questionSlot } = require('../../../sockets/utils/QuestionSlot');
 
 /** Completa la frase en equipos: el primer ENVIAR vale para todos; los compañeros envían lo mismo. */
@@ -159,6 +160,11 @@ async function evaluateAnswerAndStreak(ctx) {
     if (flags.isFillBlanksQuestion) {
         await recordFillBlanksStats(sPin, questionSlot(game), answerResult.details);
         notifyTeamFirstSubmit({ io, sPin, nickname, shared: fillBlanksShared, words: payload.words });
+    }
+
+    // Encuesta de selección múltiple: encuestados y votos por opción (porcentajes al revelar)
+    if (flags.isSurveyMultipleQuestion) {
+        await recordSurveyMultipleStats(sPin, questionSlot(game), answerResult.selectedIndices);
     }
 
     const scoreContext = computeStreakAndPoints({ game, nickname, flags, answerResult, sPin });

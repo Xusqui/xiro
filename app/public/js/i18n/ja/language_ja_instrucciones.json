@@ -17,6 +17,8 @@
     "instructions.question_types.quiz.description": "いくつかの答えが考えられる古典的な質問ですが、正解は 1 つだけです。",
     "instructions.question_types.survey.title": "調査",
     "instructions.question_types.survey.description": "正解も不正解もありません。さまざまな選択肢を提示することで視聴者の意見を集めるのに役立ちます。",
+    "instructions.question_types.survey_multiple.title": "複数選択アンケート",
+    "instructions.question_types.survey_multiple.description": "各プレイヤーが好きなだけ選択肢を選べる（選ばなくても可）アンケートです。最後に各選択肢を選んだプレイヤーの割合が表示されるため、合計が100%を超えることがあります。",
     "instructions.question_types.numeric.title": "数値近似",
     "instructions.question_types.numeric.description": "プレーヤーは、正確な賞金にできるだけ近づけるように数値を入力する必要があります。",
     "instructions.question_types.order.title": "ソート順序 (順序)",

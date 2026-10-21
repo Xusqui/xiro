@@ -50,6 +50,8 @@
     "admin.custom.badge_scramble": "ANAGRAMA",
     "admin.custom.badge_multiple": "MÚLTIPLE",
     "admin.custom.survey_answer": "Enquesta (vots)",
+    "admin.custom.survey_multiple_answer": "Enquesta de selecció múltiple (vots)",
+    "admin.custom.badge_survey_multiple": "ENQUESTA DE SELECCIÓ MÚLTIPLE",
     "admin.custom.error_name": "Si us plau, dona un nom al joc",
     "admin.custom.error_questions": "Afegeix almenys una pregunta",
     "admin.custom.success_saved": "Joc personalitzat desat correctament!",

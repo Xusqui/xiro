@@ -12,6 +12,7 @@ const prompts = require('./prompt-builder');
 const { buildFillBlanksPrompt } = require('./prompt-fill-blanks');
 const { buildWordSearchPrompt } = require('./prompt-word-search');
 const { buildMatchingPrompt } = require('./prompt-matching');
+const { buildSurveyMultiplePrompt } = require('./prompt-survey-multiple');
 const { buildChunkPlan } = require('./batch-chunks');
 const logger = require('../config/logger');
 
@@ -24,7 +25,8 @@ const PROMPT_BUILDERS = {
     multiple_choice: prompts.buildMultipleChoicePrompt,
     fill_blanks: buildFillBlanksPrompt,
     word_search: buildWordSearchPrompt,
-    matching: buildMatchingPrompt
+    matching: buildMatchingPrompt,
+    survey_multiple: buildSurveyMultiplePrompt
 };
 
 const QUESTION_TYPES = Object.keys(PROMPT_BUILDERS);
@@ -228,7 +230,7 @@ async function generateForType(input) {
  *   name: string,
  *   quiz?: number, survey?: number, numeric_approximation?: number,
  *   order?: number, word_scramble?: number, multiple_choice?: number, fill_blanks?: number,
- *   word_search?: number, matching?: number,
+ *   word_search?: number, matching?: number, survey_multiple?: number,
  *   dificultad?: string
  * }} config
  * @param {AbortSignal} [signal]

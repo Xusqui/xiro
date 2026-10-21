@@ -8,6 +8,7 @@
 
 const { buildWordSearchReveal } = require('./WordSearchRevealStats');
 const { buildFillBlanksReveal } = require('./FillBlanksRevealStats');
+const { buildSurveyMultipleReveal } = require('./SurveyMultipleRevealStats');
 const { questionSlot } = require('./QuestionSlot');
 
 function optionText(option) {
@@ -28,6 +29,7 @@ function clearOptionFields(presenterPayload) {
 function buildPlayerRevealPayload(presenterPayload) {
     const wordSearch = presenterPayload.wordSearch;
     const fillBlanks = presenterPayload.fillBlanks;
+    const surveyMultiple = presenterPayload.surveyMultiple;
     return {
         correctAnswer: presenterPayload.correctAnswer ?? null,
         justification: presenterPayload.justification ?? null,
@@ -40,7 +42,9 @@ function buildPlayerRevealPayload(presenterPayload) {
         // Completa la frase: tras revelar, el jugador ve la frase completa (sin las estadísticas)
         ...(fillBlanks
             ? { fillBlanks: { text: fillBlanks.text, words: fillBlanks.words, lengths: fillBlanks.lengths } }
-            : {})
+            : {}),
+        // Encuesta de selección múltiple: el jugador ve el porcentaje de cada opción
+        ...(surveyMultiple ? { surveyMultiple } : {})
     };
 }
 
@@ -83,6 +87,17 @@ async function applyQuestionTypeOverrides({
         presenterPayload.fillBlanks = await buildFillBlanksReveal(roomId, slot, question);
         presenterPayload.correctAnswer = presenterPayload.fillBlanks.words.join(', ');
         clearOptionFields(presenterPayload);
+    }
+
+    if (flags.isSurveyMultipleQuestion) {
+        // Sin correcta: porcentaje de encuestados por opción (la suma puede pasar del 100 %)
+        const surveyMultiple = await buildSurveyMultipleReveal(roomId, slot, question);
+        presenterPayload.surveyMultiple = surveyMultiple;
+        presenterPayload.percentages = surveyMultiple.options.map(({ count, percentage }) => ({ count, percentage }));
+        presenterPayload.isSurvey = true;
+        presenterPayload.justification = null;
+        clearOptionFields(presenterPayload);
+        presenterPayload.correctAnswer = null;
     }
 
     if (flags.isMultipleChoiceQuestion) {

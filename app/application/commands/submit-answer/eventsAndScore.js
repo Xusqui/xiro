@@ -35,7 +35,8 @@ function emitAnswerSubmitted(ctx) {
                 flags.isOrderQuestion ||
                 flags.isNumericQuestion ||
                 flags.isWordScrambleQuestion ||
-                flags.isMultipleChoiceQuestion
+                flags.isMultipleChoiceQuestion ||
+                flags.isSurveyMultipleQuestion
                     ? null
                     : payload.index,
             isCorrect: answerResult.isSurvey ? null : isCorrect,

@@ -250,7 +250,8 @@ function getQuestionFlags(question) {
         isMultipleChoiceQuestion: question.question_type === 'multiple_choice',
         isNumericQuestion: question.question_type === 'numeric_approximation',
         isWordSearchQuestion: question.question_type === 'word_search',
-        isFillBlanksQuestion: question.question_type === 'fill_blanks'
+        isFillBlanksQuestion: question.question_type === 'fill_blanks',
+        isSurveyMultipleQuestion: question.question_type === 'survey_multiple'
     };
 }
 
@@ -262,7 +263,8 @@ const NO_SINGLE_CORRECT_TYPES = new Set([
     'word_scramble',
     'word_search',
     'multiple_choice',
-    'fill_blanks'
+    'fill_blanks',
+    'survey_multiple'
 ]);
 
 function resolveCorrectAnswerData(question, flags) {
@@ -578,6 +580,27 @@ async function triggerAutoSaveSession(roomId, game, ranking) {
     }
 }
 
+/** Registra el reparto de votos y emite el evento de dominio 'answer.revealed'. */
+function announceRevealedStats({ roomId, revealIndex, question, stats, correctIndex, timeExpired }) {
+    logVoteDistribution({
+        roomId,
+        questionIndex: revealIndex,
+        question,
+        stats,
+        trigger: timeExpired ? 'timeout' : 'all-answered'
+    });
+
+    EventBus.emit(
+        'answer.revealed',
+        new AnswerRevealedEvent({
+            gameId: roomId,
+            questionIndex: revealIndex,
+            correctIndex,
+            stats
+        })
+    );
+}
+
 /**
  * Reveal answer for current question
  * Can be called when timer expires OR when all players have answered
@@ -655,24 +678,7 @@ async function revealAnswer({ roomId, game, io, timeExpired = false }) {
     const stats = normalizedStats;
     const percentages = buildSurveyPercentages(currentQuestion, stats, flags.isSurveyQuestion);
 
-    logVoteDistribution({
-        roomId,
-        questionIndex: revealIndex,
-        question: currentQuestion,
-        stats,
-        trigger: timeExpired ? 'timeout' : 'all-answered'
-    });
-
-    // Emitir evento de dominio: respuesta revelada
-    EventBus.emit(
-        'answer.revealed',
-        new AnswerRevealedEvent({
-            gameId: roomId,
-            questionIndex: revealIndex,
-            correctIndex,
-            stats
-        })
-    );
+    announceRevealedStats({ roomId, revealIndex, question: currentQuestion, stats, correctIndex, timeExpired });
 
     // Convertir rankings al formato esperado por el cliente
     const rankingFormatted = buildRankingFormatted(rankings);

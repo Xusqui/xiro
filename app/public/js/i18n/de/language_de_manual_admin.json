@@ -152,6 +152,7 @@
     "manual_admin.access.users.p1": "Nur für die Admin-Rolle: Überblick über die Konten des Panels — Benutzer, E-Mail, Rolle, Status und Registrierungsdatum.",
     "manual_admin.access.users.p2": "Hier können Sie <strong>Konten löschen</strong>. Das Löschen von Benutzern ist endgültig und kann nicht rückgängig gemacht werden.",
     "manual_admin.banks.types.survey": "<strong>Umfrage</strong> — Die Spieler stimmen zwischen Optionen ab und die Ergebnisse werden angezeigt; es gibt keine richtige Antwort.",
+    "manual_admin.banks.types.survey_multiple": "<strong>Umfrage mit Mehrfachauswahl</strong> — Wie die Umfrage, aber jede Person wählt mehrere Optionen (oder keine); angezeigt wird der Anteil der Antwortenden pro Option, zusammen kann das mehr als 100 % ergeben. Kommt im Trivial nicht vor.",
     "manual_admin.banks.types.matching": "<strong>Zuordnen</strong> — Zwei Spalten; der Spieler verbindet jedes Element mit seinem richtigen Paar (bis zu 6 Paare).",
     "manual_admin.banks.ai.title": "KI-Fragengenerator",
     "manual_admin.banks.ai.intro": "Erstellen Sie automatisch eine komplette Bank über <strong>KI-Generator</strong> im Seitenmenü. Erfordert einen konfigurierten Groq- oder Gemini-API-Schlüssel (Werkzeuge → KI).",

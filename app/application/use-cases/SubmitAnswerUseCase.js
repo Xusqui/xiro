@@ -71,6 +71,15 @@ function validateMultipleChoicePayload(data) {
     return { valid: true, value: { ...data } };
 }
 
+/** Encuesta de selección múltiple: array (también vacío) de hasta 6 índices. */
+function validateSurveyMultiplePayload(data) {
+    const hasSelectedIndices = Array.isArray(data.selectedIndices) && data.selectedIndices.length <= 6;
+    if (!hasRoom(data) || !hasNickname(data) || !hasSelectedIndices) {
+        return { valid: false, errors: ['invalid survey_multiple payload'] };
+    }
+    return { valid: true, value: { ...data } };
+}
+
 function validateMatchingPayload(data) {
     const hasMatches = Array.isArray(data.matches) && data.matches.length > 0;
     if (!hasRoom(data) || !hasNickname(data) || !hasMatches) {
@@ -97,6 +106,7 @@ const ANSWER_VALIDATORS = {
     numeric: validateNumericPayload,
     word_scramble: validateWordScramblePayload,
     multiple_choice: validateMultipleChoicePayload,
+    survey_multiple: validateSurveyMultiplePayload,
     matching: validateMatchingPayload,
     word_search: validateWordSearchPayload,
     fill_blanks: validateFillBlanksPayload

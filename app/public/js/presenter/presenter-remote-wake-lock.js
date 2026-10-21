@@ -17,6 +17,45 @@
 
 const DEBUG = new URLSearchParams(window.location.search).has('wldebug');
 
+// ── Debug helpers ─────────────────────────────────────────────────────
+
+function dbgLog(msg, data) {
+    if (!DEBUG) return;
+    console.warn(`[WakeLock] ${msg}`, data ?? '');
+}
+
+function dbgBadge(state) {
+    if (!DEBUG) return;
+    let badge = document.getElementById('__wl_debug_badge');
+    if (!badge) {
+        badge = document.createElement('div');
+        badge.id = '__wl_debug_badge';
+        Object.assign(badge.style, {
+            position: 'fixed',
+            top: '4px',
+            right: '4px',
+            zIndex: '99999',
+            padding: '2px 8px',
+            borderRadius: '8px',
+            fontSize: '11px',
+            fontWeight: 'bold',
+            color: '#fff',
+            pointerEvents: 'none'
+        });
+        document.body.appendChild(badge);
+    }
+    const map = {
+        active: { text: '🔋 WL activo', bg: '#16a34a' },
+        pending: { text: '⏳ WL pendiente', bg: '#d97706' },
+        denied: { text: '🚫 WL denegado', bg: '#dc2626' },
+        released: { text: '💤 WL liberado', bg: '#9a6ba9' },
+        unsupported: { text: '❌ WL no soportado', bg: '#6b7280' }
+    };
+    const s = map[state] ?? { text: state, bg: '#1e293b' };
+    badge.style.background = s.bg;
+    badge.textContent = _t(s.text);
+}
+
 /**
  * Creates an isolated wake lock controller.
  *
@@ -30,45 +69,6 @@ export function createRemoteWakeLockController({ hasActiveSessionContext }) {
     let wakeGestureFallbackBound = false;
     let pendingReacquire = false; // set true when lock is lost and waiting for next gesture
     let lastNotAllowedLogAt = 0;
-
-    // ── Debug helpers ─────────────────────────────────────────────────────
-
-    function dbgLog(msg, data) {
-        if (!DEBUG) return;
-        console.warn(`[WakeLock] ${msg}`, data ?? '');
-    }
-
-    function dbgBadge(state) {
-        if (!DEBUG) return;
-        let badge = document.getElementById('__wl_debug_badge');
-        if (!badge) {
-            badge = document.createElement('div');
-            badge.id = '__wl_debug_badge';
-            Object.assign(badge.style, {
-                position: 'fixed',
-                top: '4px',
-                right: '4px',
-                zIndex: '99999',
-                padding: '2px 8px',
-                borderRadius: '8px',
-                fontSize: '11px',
-                fontWeight: 'bold',
-                color: '#fff',
-                pointerEvents: 'none'
-            });
-            document.body.appendChild(badge);
-        }
-        const map = {
-            active: { text: '🔋 WL activo', bg: '#16a34a' },
-            pending: { text: '⏳ WL pendiente', bg: '#d97706' },
-            denied: { text: '🚫 WL denegado', bg: '#dc2626' },
-            released: { text: '💤 WL liberado', bg: '#9a6ba9' },
-            unsupported: { text: '❌ WL no soportado', bg: '#6b7280' }
-        };
-        const s = map[state] ?? { text: state, bg: '#1e293b' };
-        badge.style.background = s.bg;
-        badge.textContent = _t(s.text);
-    }
 
     // ── Internal helpers ──────────────────────────────────────────────────
 

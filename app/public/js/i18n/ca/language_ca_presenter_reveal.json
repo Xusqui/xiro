@@ -10,6 +10,8 @@
     "presenter.reveal.no_scores_yet": "Encara no hi ha puntuacions",
     "presenter.reveal.correct_order": "Ordre correcte",
     "presenter.reveal.correct_pairs": "Parells correctes",
-    "presenter.reveal.tolerance": "Tolerància:"
+    "presenter.reveal.tolerance": "Tolerància:",
+    "presenter.reveal.survey_multiple_caption_one": "1 resposta · cada jugador en podia triar diverses",
+    "presenter.reveal.survey_multiple_caption_other": "{count} respostes · cada jugador en podia triar diverses"
   }
 }

@@ -17,6 +17,8 @@
     "instructions.question_types.quiz.description": "Pergunta clássica com várias respostas possíveis, mas apenas uma está correta.",
     "instructions.question_types.survey.title": "Enquete",
     "instructions.question_types.survey.description": "Não há respostas certas ou erradas. Serve para coletar a opinião do público apresentando diferentes opções.",
+    "instructions.question_types.survey_multiple.title": "Inquérito de escolha múltipla",
+    "instructions.question_types.survey_multiple.description": "Um inquérito em que cada jogador marca todas as opções que quiser, ou nenhuma. No fim vê-se a percentagem de jogadores que escolheu cada uma, por isso a soma pode passar dos 100 %.",
     "instructions.question_types.numeric.title": "Aproximação Numérica",
     "instructions.question_types.numeric.description": "Os jogadores devem inserir um número tentando chegar o mais próximo possível do valor exato do prêmio.",
     "instructions.question_types.order.title": "Sequência de classificação (ordem)",

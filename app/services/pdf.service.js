@@ -233,7 +233,7 @@ function generateQuestionHTML(question, index, total) {
         return generateWordScrambleQuestionHTML(question, index, total);
     }
 
-    if (question.question_type === 'multiple_choice') {
+    if (question.question_type === 'multiple_choice' || question.question_type === 'survey_multiple') {
         return generateMultipleChoiceQuestionHTML(question, index, total);
     }
 
@@ -344,18 +344,33 @@ function buildOptionsHTML(options, letterGradient) {
         .join('');
 }
 
+// Selección múltiple y encuesta de selección múltiple: misma página, otro rótulo y otro color
+const MULTI_SELECT_PAGE = {
+    multiple_choice: {
+        letters: '#06b6d4 0%, #0891b2 100%',
+        background: '#0e7490 0%, #06b6d4 50%, #22d3ee 100%',
+        label: '✓ SELECCIÓN MÚLTIPLE &mdash; Pueden haber varias respuestas correctas'
+    },
+    survey_multiple: {
+        letters: '#3b82f6 0%, #1d4ed8 100%',
+        background: '#1e40af 0%, #2563eb 50%, #60a5fa 100%',
+        label: 'ENCUESTA DE SELECCIÓN MÚLTIPLE &mdash; Se pueden marcar varias respuestas'
+    }
+};
+
 function generateMultipleChoiceQuestionHTML(question, index, total) {
-    const optionsHTML = buildOptionsHTML(question.options || [], '#06b6d4 0%, #0891b2 100%');
+    const page = MULTI_SELECT_PAGE[question.question_type] || MULTI_SELECT_PAGE.multiple_choice;
+    const optionsHTML = buildOptionsHTML(question.options || [], page.letters);
 
     return `
-<div class="page" style="background: linear-gradient(135deg, #0e7490 0%, #06b6d4 50%, #22d3ee 100%);">
+<div class="page" style="background: linear-gradient(135deg, ${page.background});">
     <div style="position: absolute; top: 30px; right: 40px; color: rgba(255,255,255,0.7); font-size: 18px; font-weight: 600;">
         Pregunta ${index} de ${total}
     </div>
     <div style="width: 100%; max-width: 1100px;">
         <div style="text-align: center; margin-bottom: 30px;">
             <div style="background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); display: inline-block; padding: 12px 30px; border-radius: 12px; color: white; font-size: 24px; font-weight: 700; margin-bottom: 25px;">
-                ✓ SELECCIÓN MÚLTIPLE &mdash; Pueden haber varias respuestas correctas
+                ${page.label}
             </div>
         </div>
         <div style="background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); padding: 35px 45px; border-radius: 24px; margin-bottom: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.2);">

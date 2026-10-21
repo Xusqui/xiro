@@ -152,6 +152,7 @@
     "manual_admin.access.users.p1": "Panell exclusiu del rol Admin per revisar els comptes del panell: usuari, correu, rol, estat i data d'alta.",
     "manual_admin.access.users.p2": "Des d'aquí pots <strong>eliminar comptes</strong>. L'esborrat d'usuaris és permanent i no es pot desfer.",
     "manual_admin.banks.types.survey": "<strong>Enquesta</strong> — Els jugadors voten entre opcions i es mostren els resultats; no hi ha resposta correcta.",
+    "manual_admin.banks.types.survey_multiple": "<strong>Enquesta de selecció múltiple</strong> — Com l'enquesta, però cada jugador marca diverses opcions (o cap); es mostra el percentatge dels que han respost que ha triat cadascuna, que pot sumar més del 100 %. No surt al Trivial.",
     "manual_admin.banks.types.matching": "<strong>Emparellar</strong> — Dues columnes; el jugador uneix cada element amb la seva parella correcta (fins a 6 parells).",
     "manual_admin.banks.ai.title": "Generador IA de preguntes",
     "manual_admin.banks.ai.intro": "Crea un banc complet automàticament des de <strong>Generador IA</strong> al menú lateral. Requereix una API key de Groq o de Gemini configurada (Eines → IA).",

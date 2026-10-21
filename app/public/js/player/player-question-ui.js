@@ -19,3 +19,4 @@ export { renderizarPreguntaWordScramble } from './player-wordscramble-ui.js?v=20
 export { renderizarPreguntaWordSearch } from './player-wordsearch-ui.js?v=20260922172926';
 export { renderizarPreguntaFillBlanks } from './player-fillblanks-ui.js?v=20260922172926';
 export { renderizarPreguntaMultipleChoice } from './player-multiplechoice-ui.js?v=20260922172926';
+export { renderizarPreguntaSurveyMultiple } from './player-survey-multiple.js?v=20261021120000';

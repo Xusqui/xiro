@@ -17,6 +17,8 @@
     "instructions.question_types.quiz.description": "Pregunta clàssica amb diverses respostes possibles, però només una és la correcta.",
     "instructions.question_types.survey.title": "Enquesta (Survey)",
     "instructions.question_types.survey.description": "Sense respostes correctes o incorrectes. Serveix per recollir l´opinió de l´audiència presentant diferents opcions.",
+    "instructions.question_types.survey_multiple.title": "Enquesta de selecció múltiple",
+    "instructions.question_types.survey_multiple.description": "Una enquesta en què cada jugador marca totes les opcions que vulgui, o cap. Al final es veu el percentatge de jugadors que ha triat cadascuna, així que la suma pot passar del 100 %.",
     "instructions.question_types.numeric.title": "Aproximació Numèrica",
     "instructions.question_types.numeric.description": "Els jugadors han d'introduir un número intentant acostar-se al màxim possible al valor exacte guanyador.",
     "instructions.question_types.order.title": "Ordenar Seqüència (Order)",

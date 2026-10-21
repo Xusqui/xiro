@@ -162,6 +162,7 @@ const _CUSTOM_TYPE_BADGES = [
     ['order', 'bg-orange-100 text-orange-700', 'admin.custom.badge_order', 'ORDENA'],
     ['word_scramble', 'bg-yellow-100 text-yellow-700', 'admin.custom.badge_scramble', 'ANAGRAMA'],
     ['multiple_choice', 'bg-cyan-100 text-cyan-700', 'admin.custom.badge_multiple', 'MÚLTIPLE'],
+    ['survey_multiple', 'bg-sky-100 text-sky-700', 'admin.custom.badge_survey_multiple', 'ENCUESTA DE SELECCIÓN MÚLTIPLE'],
     ['word_search', 'bg-plum-100 text-plum-700', 'admin.custom.badge_wordsearch', 'SOPA DE LETRAS'],
     ['fill_blanks', 'bg-emerald-100 text-emerald-700', 'admin.custom.badge_fillblanks', 'COMPLETA LA FRASE']
 ];
@@ -174,10 +175,7 @@ function _customQuestionBody(q) {
                 `<span class="${cls} px-2 py-1 rounded text-xs font-bold">${_t(key, null, fallback)}</span>`
         )
         .join('');
-    const answer =
-        q.question_type === 'survey'
-            ? _t('admin.custom.survey_answer', null, 'Encuesta (votos)')
-            : escapeHtml(formatCorrectAnswerDisplayFrontend(extractCorrectAnswerFrontend(q)));
+    const answer = surveyAnswerLabel(q.question_type) || escapeHtml(formatCorrectAnswerDisplayFrontend(extractCorrectAnswerFrontend(q)));
     return `<div class="flex-1">
                             <div class="flex items-center gap-2 mb-2">
                                 <span class="bg-plum-100 text-plum-700 px-2 py-1 rounded text-xs font-bold">${escapeHtml(q.bank_name)}</span>

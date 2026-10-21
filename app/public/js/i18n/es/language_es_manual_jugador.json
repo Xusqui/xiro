@@ -30,6 +30,8 @@
     "manual_player.answer.survey.text": "Muestra múltiples opciones. No hay respuestas correctas o incorrectas. Tu voto aporta a la estadística final.",
     "manual_player.answer.multiple.title": "Opción Múltiple",
     "manual_player.answer.multiple.text": "Entre 1 y 6 respuestas son correctas. Marca todas las que consideres válidas y pulsa Confirmar.",
+    "manual_player.answer.survey_multiple.title": "Encuesta de selección múltiple",
+    "manual_player.answer.survey_multiple.text": "Como la encuesta, pero puedes marcar tantas opciones como quieras, o ninguna, y pulsar Enviar (o Ninguna). No hay respuestas correctas ni puntos. Al final verás el porcentaje de jugadores que eligió cada opción, con las tuyas marcadas.",
     "manual_player.answer.numeric.title": "Aprox. Numérica",
     "manual_player.answer.numeric.text": "Adivina un número exacto. Introduce en tu teclado numérico el valor que consideres más cercano al correcto.",
     "manual_player.answer.order.title": "Ordenar",

@@ -10,6 +10,8 @@
     "presenter.reveal.no_scores_yet": "No scores yet",
     "presenter.reveal.correct_order": "Correct Order",
     "presenter.reveal.correct_pairs": "Correct Pairs",
-    "presenter.reveal.tolerance": "Tolerance:"
+    "presenter.reveal.tolerance": "Tolerance:",
+    "presenter.reveal.survey_multiple_caption_one": "1 answer · each player could choose several",
+    "presenter.reveal.survey_multiple_caption_other": "{count} answers · each player could choose several"
   }
 }

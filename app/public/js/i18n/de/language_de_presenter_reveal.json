@@ -10,6 +10,8 @@
     "presenter.reveal.no_scores_yet": "Noch keine Punkte",
     "presenter.reveal.correct_order": "Richtige Reihenfolge",
     "presenter.reveal.correct_pairs": "Richtige Paare",
-    "presenter.reveal.tolerance": "Toleranz:"
+    "presenter.reveal.tolerance": "Toleranz:",
+    "presenter.reveal.survey_multiple_caption_one": "1 Antwort · jede Person konnte mehrere wählen",
+    "presenter.reveal.survey_multiple_caption_other": "{count} Antworten · jede Person konnte mehrere wählen"
   }
 }

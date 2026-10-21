@@ -8,6 +8,7 @@ const { getJustification } = require('../../domain/services/ScoringService');
 const logger = require('../../config/logger');
 const { getRedisClient } = require('../../config/redis');
 const { resolveTeamRevealCorrectness, resolveTeamRevealCorrectAnswer } = require('./NumericTeamRevealHelper');
+const { isSurveyType } = require('../../domain/services/SurveyMultipleAnswerService');
 
 /**
  * Construir ranking formateado (inline para evitar dependencia circular)
@@ -248,7 +249,7 @@ async function syncStreakInfosFromRedis(game, roomId) {
 
 function buildRevealContext(game, question) {
     const isOrderQuestion = question.question_type === 'order';
-    const isSurvey = question.question_type === 'survey';
+    const isSurvey = isSurveyType(question.question_type);
 
     return {
         isOrderQuestion,
@@ -280,7 +281,10 @@ function typedDetailFields(question, playerAnswer, isOrderQuestion) {
         matchingDetails: type === 'matching' ? playerAnswer?.matchingDetails || null : null,
         // Solo en sopa de letras: el resto de tipos conserva su payload tal cual
         ...(type === 'word_search' ? { wordSearchDetails: playerAnswer?.wordSearchDetails || null } : {}),
-        ...(type === 'fill_blanks' ? { fillBlanksDetails: playerAnswer?.fillBlanksDetails || null } : {})
+        ...(type === 'fill_blanks' ? { fillBlanksDetails: playerAnswer?.fillBlanksDetails || null } : {}),
+        ...(type === 'survey_multiple'
+            ? { surveyMultipleDetails: playerAnswer?.surveyMultipleDetails || { selectedIndices: [] } }
+            : {})
     };
 }
 

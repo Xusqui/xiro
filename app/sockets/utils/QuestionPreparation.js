@@ -87,6 +87,14 @@ function prepareFillBlanksLogged(question, context = {}) {
  * @param {String} gameType - Tipo de juego: 'custom_game', 'bank', 'quiz'
  * @returns {Array} Preguntas preparadas
  */
+// Diapositivas y encuestas conservan el orden de sus opciones (no se barajan)
+const KEEP_ORDER_SLIDES = new Set(['comment', 'info', 'text', 'image']);
+const KEEP_ORDER_TYPES = new Set(['survey', 'survey_multiple']);
+
+function keepsOptionOrder(q) {
+    return KEEP_ORDER_SLIDES.has(q.slide_type) || KEEP_ORDER_TYPES.has(q.question_type);
+}
+
 function prepareQuestions(questions, gameType) {
     if (!questions || questions.length === 0) {
         return [];
@@ -113,13 +121,7 @@ function prepareQuestions(questions, gameType) {
         }
 
         // No barajar opciones para slides especiales (comment/info/text) o encuestas
-        if (
-            q.slide_type === 'comment' ||
-            q.slide_type === 'info' ||
-            q.slide_type === 'text' ||
-            q.slide_type === 'image' ||
-            q.question_type === 'survey'
-        ) {
+        if (keepsOptionOrder(q)) {
             return q;
         }
 

@@ -37,7 +37,7 @@ const ELIGIBLE_TYPES = new Set(RANDOM_POINTS_ELIGIBLE_TYPES);
 function isScorable(question) {
     if (!question) return false;
     if (NO_TIMER_SLIDE_TYPES.has(question.slide_type)) return false;
-    if (question.question_type === 'survey') return false;
+    if (question.question_type === 'survey' || question.question_type === 'survey_multiple') return false;
     return true;
 }
 

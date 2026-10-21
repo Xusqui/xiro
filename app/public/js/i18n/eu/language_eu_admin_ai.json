@@ -35,6 +35,7 @@
     "admin.ai.importing": "Importando banco...",
     "admin.ai.import_ok": "Bankua ondo inportatu da! ID:",
     "admin.ai.view_banks": "Ikusi bankuak",
-    "admin.ai.timeout": "Denbora gainditu (504)..."
+    "admin.ai.timeout": "Denbora gainditu (504)...",
+    "admin.ai.type_survey_multiple": "Aukera anitzeko inkesta"
   }
 }

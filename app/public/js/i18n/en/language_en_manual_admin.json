@@ -152,6 +152,7 @@
     "manual_admin.access.users.p1": "Admin-only panel to review the panel accounts: username, email, role, status and registration date.",
     "manual_admin.access.users.p2": "From here you can <strong>delete accounts</strong>. User deletion is permanent and cannot be undone.",
     "manual_admin.banks.types.survey": "<strong>Survey</strong> — Players vote between options and the results are shown; there is no correct answer.",
+    "manual_admin.banks.types.survey_multiple": "<strong>Multiple-choice survey</strong> — Like the survey, but each player ticks several options (or none); the share of respondents who chose each one is shown, which can add up to more than 100%. Not used in Trivial.",
     "manual_admin.banks.types.matching": "<strong>Matching</strong> — Two columns; the player links each item with its correct pair (up to 6 pairs).",
     "manual_admin.banks.ai.title": "AI question generator",
     "manual_admin.banks.ai.intro": "Create a full bank automatically from <strong>AI Generator</strong> in the sidebar. Requires a configured Groq or Gemini API key (Tools → AI).",

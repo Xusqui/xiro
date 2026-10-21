@@ -152,6 +152,7 @@
     "manual_admin.access.users.p1": "管理员角色专属面板，用于查看面板账户：用户名、邮箱、角色、状态和注册日期。",
     "manual_admin.access.users.p2": "在这里可以<strong>删除账户</strong>。删除用户是永久性的，无法撤销。",
     "manual_admin.banks.types.survey": "<strong>调查</strong> — 玩家在选项之间投票并显示结果；没有正确答案。",
+    "manual_admin.banks.types.survey_multiple": "<strong>多选调查</strong> — 与调查相同，但每位玩家可勾选多个选项（或都不选）；显示每个选项被多少比例的作答者选择，总和可能超过 100%。不会出现在 Trivial 模式中。",
     "manual_admin.banks.types.matching": "<strong>配对</strong> — 两列；玩家将每个项目与其正确的配对连接（最多6对）。",
     "manual_admin.banks.ai.title": "AI 题目生成器",
     "manual_admin.banks.ai.intro": "通过侧边菜单的<strong>AI 生成器</strong>自动创建完整题库。需要配置 Groq 或 Gemini API 密钥（工具 → AI）。",

@@ -34,6 +34,7 @@ export function describeQuestion(q) {
         esWordSearch,
         esFillBlanks,
         esMultipleChoice: q.question_type === 'multiple_choice',
+        esSurveyMultiple: q.question_type === 'survey_multiple',
         esMatching,
         mostrarOpciones: !tieneImagen && !esNumerica && !esWordScramble && !esWordSearch && !esFillBlanks && !esMatching
     };
@@ -60,6 +61,16 @@ function multipleChoiceBadgeHtml() {
                 <div class="flex justify-center mb-4">
                     <div class="bg-plum-600 text-white px-6 py-2 rounded-full font-bold text-lg uppercase tracking-wide shadow-lg border-2 border-white/30">
                         ${_t('presenter.game.multiple_choice_label', null, '✓ Selección Múltiple')}
+                    </div>
+                </div>`;
+}
+
+/** Encuesta de selección múltiple: al revelar se añade a su lado cuántos respondieron. */
+function surveyMultipleBadgeHtml() {
+    return `
+                <div id="sm-badge-row" class="flex justify-center items-center gap-3 mb-4">
+                    <div class="bg-blue-600 text-white px-6 py-2 rounded-full font-bold text-lg uppercase tracking-wide shadow-lg border-2 border-white/30">
+                        <i class="fas fa-square-poll-horizontal mr-2" aria-hidden="true"></i>${_t('presenter.game.survey_multiple_label', null, 'Encuesta de selección múltiple')}
                     </div>
                 </div>`;
 }
@@ -171,6 +182,7 @@ export function questionHtml(q, view, totalPlayers) {
             ${headerHtml(q, totalPlayers)}
             ${titleHtml(q, view)}
             ${view.esMultipleChoice ? multipleChoiceBadgeHtml() : ''}
+            ${view.esSurveyMultiple ? surveyMultipleBadgeHtml() : ''}
             ${mediaHtml(view)}
             ${statementImageHtml(view)}
             ${optionsGridHtml(q, view)}

@@ -17,6 +17,8 @@
     "instructions.question_types.quiz.description": "Galdera klasikoa hainbat erantzun posible dituena, baina bakarra da zuzena.",
     "instructions.question_types.survey.title": "Inkesta",
     "instructions.question_types.survey.description": "Ez dago erantzun zuzen edo okerrik. Entzuleen iritzia jasotzeko balio du aukera desberdinak aurkeztuz.",
+    "instructions.question_types.survey_multiple.title": "Aukera anitzeko inkesta",
+    "instructions.question_types.survey_multiple.description": "Inkesta bat, non jokalari bakoitzak nahi dituen aukera guztiak markatzen dituen, edo bat ere ez. Amaieran, aukera bakoitza zenbat jokalarik aukeratu duen ikusten da ehunekotan; beraz, batura % 100 baino handiagoa izan daiteke.",
     "instructions.question_types.numeric.title": "Zenbakizko Hurbilketa",
     "instructions.question_types.numeric.description": "Jokalariek zenbaki bat sartu behar dute irabazlearen balio zehatzera ahalik eta gehien hurbildu nahian.",
     "instructions.question_types.order.title": "Ordenatu sekuentzia (ordena)",

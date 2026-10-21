@@ -35,6 +35,7 @@
     "admin.ai.importing": "Importando banco...",
     "admin.ai.import_ok": "Bank imported successfully! ID:",
     "admin.ai.view_banks": "See banks",
-    "admin.ai.timeout": "Timed out (504)..."
+    "admin.ai.timeout": "Timed out (504)...",
+    "admin.ai.type_survey_multiple": "Multiple-choice survey"
   }
 }

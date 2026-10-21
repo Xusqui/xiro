@@ -97,6 +97,10 @@ function getTypedDetailConfig(flags, answerResult, fullMultipleChoiceDetails) {
         return { field: 'multipleChoiceDetails', value: fullMultipleChoiceDetails };
     }
 
+    if (flags.isSurveyMultipleQuestion) {
+        return { field: 'surveyMultipleDetails', value: answerResult.details };
+    }
+
     return null;
 }
 

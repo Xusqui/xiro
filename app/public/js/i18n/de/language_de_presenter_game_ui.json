@@ -16,6 +16,7 @@
     "presenter.game.answer_on_reveal": "Die richtige Antwort wird beim Aufdecken angezeigt",
     "presenter.game.points_by_proximity": "Punkte werden nach Nähe berechnet",
     "presenter.game.players_see_devices": "Spieler sehen die Optionen auf ihren Geräten",
-    "presenter.game.multiple_choice_label": "✓ Mehrfachauswahl"
+    "presenter.game.multiple_choice_label": "✓ Mehrfachauswahl",
+    "presenter.game.survey_multiple_label": "Umfrage mit Mehrfachauswahl"
   }
 }

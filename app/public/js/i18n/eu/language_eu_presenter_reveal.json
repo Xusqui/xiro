@@ -10,6 +10,8 @@
     "presenter.reveal.no_scores_yet": "Oraindik ez dago puntuaziorik",
     "presenter.reveal.correct_order": "Ordena zuzena",
     "presenter.reveal.correct_pairs": "Bikote zuzenak",
-    "presenter.reveal.tolerance": "Tolerantzia:"
+    "presenter.reveal.tolerance": "Tolerantzia:",
+    "presenter.reveal.survey_multiple_caption_one": "Erantzun 1 · jokalari bakoitzak hainbat aukera zitzakeen",
+    "presenter.reveal.survey_multiple_caption_other": "{count} erantzun · jokalari bakoitzak hainbat aukera zitzakeen"
   }
 }

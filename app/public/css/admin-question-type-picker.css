@@ -6,6 +6,8 @@
  */
 
 .xq-type {
+    /* La rejilla se adapta al ancho de la tarjeta, no al de la ventana */
+    container-type: inline-size;
     min-width: 0;
     margin: 0 0 1rem;
     padding: 0;
@@ -23,7 +25,7 @@
 
 .xq-type__grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
 }
 
@@ -31,6 +33,8 @@
 .xq-type__tile[data-type="quiz"] { --xq-accent: var(--plum-600, #94438e); --xq-tint: var(--plum-50, #fdf4fc); --xq-edge: var(--plum-200, #f2ceed); --xq-ink: var(--plum-800, #642d61); }
 .xq-type__tile[data-type="multiple_choice"] { --xq-accent: var(--aubergine-600, #7f548d); --xq-tint: var(--aubergine-50, #faf5fc); --xq-edge: var(--aubergine-200, #e7d0ef); --xq-ink: var(--aubergine-800, #52335b); }
 .xq-type__tile[data-type="survey"] { --xq-accent: #2563eb; --xq-tint: #eff6ff; --xq-edge: #bfdbfe; --xq-ink: #1e40af; }
+/* Hermana de la encuesta, un paso hacia el cielo (como quiz → selección múltiple) */
+.xq-type__tile[data-type="survey_multiple"] { --xq-accent: #0369a1; --xq-tint: #f0f9ff; --xq-edge: #bae6fd; --xq-ink: #075985; }
 .xq-type__tile[data-type="order"] { --xq-accent: #16a34a; --xq-tint: #f0fdf4; --xq-edge: #bbf7d0; --xq-ink: #166534; }
 .xq-type__tile[data-type="matching"] { --xq-accent: #ea580c; --xq-tint: #fff7ed; --xq-edge: #fed7aa; --xq-ink: #9a3412; }
 .xq-type__tile[data-type="numeric_approximation"] { --xq-accent: #0891b2; --xq-tint: #ecfeff; --xq-edge: #a5f3fc; --xq-ink: #155e75; }
@@ -159,13 +163,44 @@
     border-color: var(--plum-400, #d384ca);
 }
 
-@media (max-width: 640px) {
-    .xq-type__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    /* En dos columnas estrechas la pista saldría cortada: queda como descripción accesible */
+/* ---- Tarjeta ancha: 5x2, cada baldosa apilada (pozo e icono arriba, texto debajo) ---- */
+@container (min-width: 720px) {
+    .xq-type__grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+
+    .xq-type__tile {
+        grid-template-columns: auto minmax(0, 1fr);
+        grid-template-rows: auto 1fr;
+        align-items: start;
+        row-gap: 8px;
+        min-height: 96px;
+        padding: 10px 12px 12px;
+    }
+
+    .xq-type__icon {
+        justify-self: end;
+        font-size: 16px;
+    }
+
+    .xq-type__text {
+        grid-column: 1 / -1;
+        gap: 2px;
+    }
+
+    .xq-type__name { text-wrap: balance; }
+
+    /* Con la baldosa apilada la pista cabe entera en dos líneas */
+    .xq-type__hint {
+        white-space: normal;
+        text-wrap: pretty;
+    }
+}
+
+/* En dos columnas estrechas la pista saldría cortada: queda como descripción accesible */
+@container (max-width: 520px) {
     .xq-type__hint { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
 }
 
-@media (max-width: 380px) {
+@container (max-width: 340px) {
     .xq-type__grid { grid-template-columns: minmax(0, 1fr); }
 }
 

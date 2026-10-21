@@ -25,7 +25,8 @@ import {
     renderizarPreguntaWordScramble,
     renderizarPreguntaWordSearch,
     renderizarPreguntaFillBlanks,
-    renderizarPreguntaMultipleChoice
+    renderizarPreguntaMultipleChoice,
+    renderizarPreguntaSurveyMultiple
 } from './player-question-ui.js?v=20260922172926';
 import {
     renderizarSlideComentario,
@@ -143,6 +144,8 @@ function onGameStarted(data, ack) {
         renderizarPreguntaFillBlanks(data.firstQuestion);
     } else if (data.firstQuestion.question_type === 'multiple_choice') {
         renderizarPreguntaMultipleChoice(data.firstQuestion);
+    } else if (data.firstQuestion.question_type === 'survey_multiple') {
+        renderizarPreguntaSurveyMultiple(data.firstQuestion);
     } else {
         renderizarPregunta(data.firstQuestion);
     }
@@ -205,6 +208,8 @@ function onNewQuestion(data, ack) {
         renderizarPreguntaFillBlanks(data.question);
     } else if (data.question.question_type === 'multiple_choice') {
         renderizarPreguntaMultipleChoice(data.question);
+    } else if (data.question.question_type === 'survey_multiple') {
+        renderizarPreguntaSurveyMultiple(data.question);
     } else {
         renderizarPregunta(data.question);
     }

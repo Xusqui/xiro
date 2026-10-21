@@ -210,6 +210,8 @@ const StandaloneReveal = (() => {
             message = StandaloneQuestionWordSearch.resultMessage(data, _pointsPill);
         } else if (data.fillBlanksDetails) {
             message = StandaloneQuestionFillBlanks.resultMessage(data, _pointsPill);
+        } else if (data.surveyMultipleDetails) {
+            message = StandaloneQuestionMultipleChoice.surveyResultMessage(data);
         } else {
             message = _headerMessage(data, isApproximate);
         }

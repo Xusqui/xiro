@@ -16,6 +16,7 @@
     "presenter.game.answer_on_reveal": "正确答案将在揭示时显示",
     "presenter.game.points_by_proximity": "分数根据接近程度计算",
     "presenter.game.players_see_devices": "玩家在设备上查看选项",
-    "presenter.game.multiple_choice_label": "✓ 多选题"
+    "presenter.game.multiple_choice_label": "✓ 多选题",
+    "presenter.game.survey_multiple_label": "多选调查"
   }
 }

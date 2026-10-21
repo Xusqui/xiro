@@ -152,6 +152,7 @@
     "manual_admin.access.users.p1": "Painel exclusivo da função Admin para rever as contas do painel: utilizador, e-mail, função, estado e data de registo.",
     "manual_admin.access.users.p2": "A partir daqui pode <strong>eliminar contas</strong>. A eliminação de utilizadores é permanente e não pode ser desfeita.",
     "manual_admin.banks.types.survey": "<strong>Inquérito</strong> — Os jogadores votam entre opções e os resultados são mostrados; não há resposta correta.",
+    "manual_admin.banks.types.survey_multiple": "<strong>Inquérito de escolha múltipla</strong> — Como o inquérito, mas cada jogador marca várias opções (ou nenhuma); mostra-se a percentagem dos que responderam que escolheu cada uma, que pode somar mais de 100 %. Não aparece no Trivial.",
     "manual_admin.banks.types.matching": "<strong>Emparelhar</strong> — Duas colunas; o jogador liga cada elemento ao seu par correto (até 6 pares).",
     "manual_admin.banks.ai.title": "Gerador IA de perguntas",
     "manual_admin.banks.ai.intro": "Crie um banco completo automaticamente a partir de <strong>Gerador IA</strong> no menu lateral. Requer uma API key da Groq ou da Gemini configurada (Ferramentas → IA).",

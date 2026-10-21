@@ -153,6 +153,51 @@
             ]
         },
         {
+            "question_text": "¿Cuáles de las siguientes herramientas conoces?",
+            "type": "survey_multiple",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "time_limit": 30,
+            "options": [
+                {
+                    "option_text": "Martillo",
+                    "is_correct": false,
+                    "order_index": null,
+                    "justification": null
+                },
+                {
+                    "option_text": "Destornillador",
+                    "is_correct": false,
+                    "order_index": null,
+                    "justification": null
+                },
+                {
+                    "option_text": "Alicate",
+                    "is_correct": false,
+                    "order_index": null,
+                    "justification": null
+                },
+                {
+                    "option_text": "Llave fija",
+                    "is_correct": false,
+                    "order_index": null,
+                    "justification": null
+                },
+                {
+                    "option_text": "Llave inglesa",
+                    "is_correct": false,
+                    "order_index": null,
+                    "justification": null
+                },
+                {
+                    "option_text": "Tijeras",
+                    "is_correct": false,
+                    "order_index": null,
+                    "justification": null
+                }
+            ]
+        },
+        {
             "question_text": "Ordena los siguientes pasos del proceso de desarrollo de software:",
             "type": "order",
             "tipo_contenido": "texto",

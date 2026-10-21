@@ -17,6 +17,8 @@
     "instructions.question_types.quiz.description": "Pregunta clásica con varias respostas posibles, pero só unha é correcta.",
     "instructions.question_types.survey.title": "Enquisa",
     "instructions.question_types.survey.description": "Non hai respostas correctas ou incorrectas. Serve para recoller a opinión do público presentando diferentes opcións.",
+    "instructions.question_types.survey_multiple.title": "Enquisa de selección múltiple",
+    "instructions.question_types.survey_multiple.description": "Unha enquisa na que cada xogador marca todas as opcións que queira, ou ningunha. Ao final vese a porcentaxe de xogadores que escolleu cada unha, polo que a suma pode pasar do 100 %.",
     "instructions.question_types.numeric.title": "Aproximación Numérica",
     "instructions.question_types.numeric.description": "Os xogadores deben introducir un número intentando achegarse o máis posible ao valor gañador exacto.",
     "instructions.question_types.order.title": "Ordenar secuencia (orden)",

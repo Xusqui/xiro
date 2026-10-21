@@ -1,6 +1,6 @@
 /**
  * @fileoverview Pantalla de resultado del jugador tras responder (answer-result):
- * ranking, desglose de ordenar y de selección múltiple, encuesta, acierto,
+ * ranking, desglose de ordenar y de selección múltiple, encuestas, acierto,
  * aproximación y fallo.
  */
 
@@ -9,6 +9,8 @@ import { buildMultipleChoiceBreakdownHTML } from './player-answer-mc-breakdown.j
 import { matchingResultHtml } from './player-answer-matching-breakdown.js?v=20260922172926';
 import { wordSearchResultHtml } from './player-answer-wordsearch.js?v=20260922172926';
 import { fillBlanksResultHtml } from './player-answer-fillblanks.js?v=20260922172926';
+import { surveyMultipleResultHtml } from './player-survey-results.js?v=20261021120000';
+import { getRememberedReveal } from './player-reveal-correct.js?v=20260922172926';
 import { getCurrentOrder, getCurrentOrderOptions, getCurrentSlideType } from './player-state.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
@@ -211,6 +213,10 @@ function resultMessageHtml(data, isApproximate) {
     if (data.fillBlanksDetails) return fillBlanksResultHtml(data, rankingHTML);
     if (data.multipleChoiceDetails && data.multipleChoiceDetails.options)
         return multipleChoiceResultHtml(data, rankingHTML);
+    // Encuesta de selección múltiple: en equipos la revelación puede haber llegado antes
+    if (data.surveyMultipleDetails) {
+        return surveyMultipleResultHtml(data, getRememberedReveal()?.data?.surveyMultiple || null);
+    }
     if (data.correct === null) return surveyResultHtml();
     if (data.correct) return correctResultHtml(data, rankingHTML);
     if (isApproximate) return approximateResultHtml(data, rankingHTML);

@@ -40,7 +40,8 @@ function shuffleOptions(questions) {
             q.slide_type === 'image' ||
             q.slide_type === 'video' ||
             q.slide_type === 'canvas' ||
-            q.question_type === 'survey'
+            q.question_type === 'survey' ||
+            q.question_type === 'survey_multiple'
         ) {
             return q;
         }

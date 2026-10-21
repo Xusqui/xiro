@@ -27,6 +27,8 @@ const typedAnswerValidators = {
     numeric: payload => Number.isFinite(Number(payload.playerAnswer)),
     word_scramble: payload => typeof payload.playerAnswer === 'string',
     multiple_choice: payload => Array.isArray(payload.selectedIndices) && payload.selectedIndices.length > 0,
+    // Encuesta de selección múltiple: se puede enviar sin marcar ninguna
+    survey_multiple: payload => Array.isArray(payload.selectedIndices),
     word_search: payload => isValidFoundPayload(payload.found),
     fill_blanks: payload => isValidWordsPayload(payload.words)
 };
@@ -52,7 +54,7 @@ function validateSubmitAnswerPayload(payload = {}) {
 
     if (!hasSupportedAnswerShape(payload)) {
         errors.push(
-            'index, order, matches, numeric playerAnswer, word_scramble, word_search found, fill_blanks words or multiple_choice selectedIndices is required'
+            'index, order, matches, numeric playerAnswer, word_scramble, word_search found, fill_blanks words or multiple_choice/survey_multiple selectedIndices is required'
         );
     }
 

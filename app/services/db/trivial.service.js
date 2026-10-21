@@ -261,6 +261,9 @@ async function deleteTrivialGame(id, actorUserId = null) {
     return { success: true };
 }
 
+// Las consultas de getRandomQuestionFromBank y getTrivialCategoryQuestion llevan
+// AND q.question_type <> 'survey_multiple': la encuesta de selección múltiple no tiene
+// respuesta correcta que dé quesito, así que el tablero no la escoge.
 async function getRandomQuestionFromBank(bankId, excludeIds = []) {
     const params = [bankId];
     let exclusion = '';
@@ -274,7 +277,7 @@ async function getRandomQuestionFromBank(bankId, excludeIds = []) {
             (SELECT json_agg(o.* ORDER BY COALESCE(o.order_index, o.id))
              FROM options o WHERE o.question_id = q.id) AS options
          FROM questions q
-         WHERE q.bank_id=$1 ${exclusion}
+         WHERE q.bank_id=$1 ${exclusion} AND q.question_type <> 'survey_multiple'
          ORDER BY RANDOM() LIMIT 1`,
         params
     );
@@ -287,13 +290,13 @@ async function getTrivialCategoryQuestion(sourceType, sourceId, excludeIds = [])
     let sql;
     if (sourceType === 'game') {
         sql = `SELECT q.*, (SELECT json_agg(o.* ORDER BY COALESCE(o.order_index,o.id)) FROM options o WHERE o.question_id=q.id) AS options
-               FROM questions q INNER JOIN game_banks gb ON q.bank_id=gb.bank_id WHERE gb.game_id=$1 ${excl} ORDER BY RANDOM() LIMIT 1`;
+               FROM questions q INNER JOIN game_banks gb ON q.bank_id=gb.bank_id WHERE gb.game_id=$1 ${excl} AND q.question_type <> 'survey_multiple' ORDER BY RANDOM() LIMIT 1`;
     } else if (sourceType === 'custom_game') {
         sql = `SELECT q.*, (SELECT json_agg(o.* ORDER BY COALESCE(o.order_index,o.id)) FROM options o WHERE o.question_id=q.id) AS options
-               FROM questions q INNER JOIN custom_game_questions cgq ON q.id=cgq.question_id WHERE cgq.custom_game_id=$1 AND cgq.slide_type='question' ${excl} ORDER BY RANDOM() LIMIT 1`;
+               FROM questions q INNER JOIN custom_game_questions cgq ON q.id=cgq.question_id WHERE cgq.custom_game_id=$1 AND cgq.slide_type='question' ${excl} AND q.question_type <> 'survey_multiple' ORDER BY RANDOM() LIMIT 1`;
     } else {
         sql = `SELECT q.*, (SELECT json_agg(o.* ORDER BY COALESCE(o.order_index,o.id)) FROM options o WHERE o.question_id=q.id) AS options
-               FROM questions q WHERE q.bank_id=$1 ${excl} ORDER BY RANDOM() LIMIT 1`;
+               FROM questions q WHERE q.bank_id=$1 ${excl} AND q.question_type <> 'survey_multiple' ORDER BY RANDOM() LIMIT 1`;
     }
     const result = await pool.query(sql, params);
     return result.rows[0] || null;

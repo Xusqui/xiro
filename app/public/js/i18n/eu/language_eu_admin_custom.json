@@ -50,6 +50,8 @@
     "admin.custom.badge_scramble": "ANAGRAMA",
     "admin.custom.badge_multiple": "ANIZKOITZA",
     "admin.custom.survey_answer": "Inkesta (botoak)",
+    "admin.custom.survey_multiple_answer": "Aukera anitzeko inkesta (botoak)",
+    "admin.custom.badge_survey_multiple": "AUKERA ANITZEKO INKESTA",
     "admin.custom.error_name": "Mesedez, eman izen bat jokoari",
     "admin.custom.error_questions": "Gehitu gutxienez galdera bat",
     "admin.custom.success_saved": "Joko pertsonalizatua arrakastaz gordeta!",

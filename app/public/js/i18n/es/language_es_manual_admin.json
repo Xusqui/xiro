@@ -152,6 +152,7 @@
     "manual_admin.access.users.p1": "Panel exclusivo del rol Admin para revisar las cuentas del panel: usuario, correo, rol, estado y fecha de alta.",
     "manual_admin.access.users.p2": "Desde aquí puedes <strong>eliminar cuentas</strong>. El borrado de usuarios es permanente y no se puede deshacer.",
     "manual_admin.banks.types.survey": "<strong>Encuesta</strong> — Los jugadores votan entre opciones y se muestran los resultados; no hay respuesta correcta.",
+    "manual_admin.banks.types.survey_multiple": "<strong>Encuesta de selección múltiple</strong> — Como la encuesta, pero cada jugador marca varias opciones (o ninguna); se muestra el porcentaje de los que respondieron que eligió cada una, que puede sumar más del 100 %. No sale en el Trivial.",
     "manual_admin.banks.types.matching": "<strong>Emparejar</strong> — Dos columnas; el jugador une cada elemento con su par correcto (hasta 6 pares).",
     "manual_admin.banks.ai.title": "Generador IA de preguntas",
     "manual_admin.banks.ai.intro": "Crea un banco completo automáticamente desde <strong>Generador IA</strong> en el menú lateral. Requiere una API key de Groq o de Gemini configurada (Herramientas → IA).",

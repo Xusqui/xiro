@@ -30,6 +30,8 @@
     "manual_player.answer.survey.text": "Mostra múltiples opcions. No hi ha respostes correctes o incorrectes. El teu vot aporta a l'estadística final.",
     "manual_player.answer.multiple.title": "Opció múltiple",
     "manual_player.answer.multiple.text": "Entre 1 i 6 respostes són correctes. Marca totes les que consideris vàlides i prem Confirmar.",
+    "manual_player.answer.survey_multiple.title": "Enquesta de selecció múltiple",
+    "manual_player.answer.survey_multiple.text": "Com l'enquesta, però pots marcar tantes opcions com vulguis, o cap, i prémer Enviar (o Cap). No hi ha respostes correctes ni punts. Al final veuràs el percentatge de jugadors que ha triat cada opció, amb les teves marcades.",
     "manual_player.answer.numeric.title": "Aprox. numèrica",
     "manual_player.answer.numeric.text": "Endevina un número exacte. Introdueix al teclat numèric el valor que consideris més proper al correcte.",
     "manual_player.answer.order.title": "Ordenar",

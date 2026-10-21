@@ -30,6 +30,8 @@
     "manual_player.answer.survey.text": "複数の選択肢が表示されます。正解も不正解もありません。あなたの投票は最終統計に反映されます。",
     "manual_player.answer.multiple.title": "複数選択",
     "manual_player.answer.multiple.text": "1〜6 つの回答が正解です。有効だと思うものをすべて選択して「確認」をタップします。",
+    "manual_player.answer.survey_multiple.title": "複数選択アンケート",
+    "manual_player.answer.survey_multiple.text": "アンケートと同じですが、選択肢を好きなだけ選ぶか、何も選ばずに「回答を送信」（または「どれもない」）を押します。正解も得点もありません。最後に各選択肢を選んだプレイヤーの割合が表示され、あなたの選択が強調されます。",
     "manual_player.answer.numeric.title": "数値推定",
     "manual_player.answer.numeric.text": "正確な数字を当てます。テンキーで正解に最も近いと思う値を入力します。",
     "manual_player.answer.order.title": "並べ替え",

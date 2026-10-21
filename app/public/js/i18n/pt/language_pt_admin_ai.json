@@ -35,6 +35,7 @@
     "admin.ai.importing": "Importando banco...",
     "admin.ai.import_ok": "Banco importado com sucesso! EU IA:",
     "admin.ai.view_banks": "Ver bancos",
-    "admin.ai.timeout": "Tempo limite esgotado (504)..."
+    "admin.ai.timeout": "Tempo limite esgotado (504)...",
+    "admin.ai.type_survey_multiple": "Inquérito de escolha múltipla"
   }
 }

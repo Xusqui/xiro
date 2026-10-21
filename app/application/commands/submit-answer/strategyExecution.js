@@ -24,6 +24,7 @@ function hasNoAnswerIndex(flags) {
             flags.isMatchingQuestion ||
             flags.isNumericQuestion ||
             flags.isMultipleChoiceQuestion ||
+            flags.isSurveyMultipleQuestion ||
             flags.isWordSearchQuestion ||
             flags.isFillBlanksQuestion
     );
@@ -74,6 +75,7 @@ async function processAnswerByGameMode(ctx) {
             wordSearchDetails: flags.isWordSearchQuestion ? answerResult.details : null,
             fillBlanksDetails: flags.isFillBlanksQuestion ? answerResult.details : null,
             multipleChoiceDetails: fullMultipleChoiceDetails,
+            surveyMultipleDetails: flags.isSurveyMultipleQuestion ? answerResult.details : null,
             streakInfo: enrichedStreakInfo
         },
         game,

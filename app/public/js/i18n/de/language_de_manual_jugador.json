@@ -30,6 +30,8 @@
     "manual_player.answer.survey.text": "Zeigt mehrere Optionen. Es gibt keine richtigen oder falschen Antworten. Deine Stimme trägt zur Endstatistik bei.",
     "manual_player.answer.multiple.title": "Mehrfachauswahl",
     "manual_player.answer.multiple.text": "Zwischen 1 und 6 Antworten sind richtig. Markiere alle, die du für gültig hältst, und tippe auf Bestätigen.",
+    "manual_player.answer.survey_multiple.title": "Umfrage mit Mehrfachauswahl",
+    "manual_player.answer.survey_multiple.text": "Wie die Umfrage, aber du kannst beliebig viele Optionen ankreuzen oder keine und dann auf Senden (oder Keine) tippen. Es gibt keine richtigen Antworten und keine Punkte. Am Ende siehst du, welcher Anteil der Spieler jede Option gewählt hat; deine sind hervorgehoben.",
     "manual_player.answer.numeric.title": "Numerische Schätzung",
     "manual_player.answer.numeric.text": "Rate eine exakte Zahl. Gib über deine Zahlentastatur den Wert ein, den du für am nächsten an der richtigen Antwort hältst.",
     "manual_player.answer.order.title": "Reihenfolge",

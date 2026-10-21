@@ -1,0 +1,121 @@
+/*
+ * Encuesta de selección múltiple (survey_multiple) en el móvil y en el modo solitario:
+ * lista de opciones con el porcentaje de encuestados que eligió cada una
+ * (js/player/player-survey-multiple.js). Va sobre el fondo ciruela del resultado,
+ * así que todo es blanco con distinta opacidad; las opciones del jugador llevan
+ * borde blanco, marca rellena y barra opaca.
+ */
+
+.sm-results {
+    width: 100%;
+    max-width: 24rem;
+    margin: 1.5rem auto 0;
+    text-align: left;
+}
+
+.sm-results__status {
+    margin: 0 0 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: rgb(255 255 255 / 0.85);
+    text-align: center;
+    text-wrap: balance;
+}
+
+.sm-results__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.sm-row {
+    padding: 0.625rem 0.75rem;
+    border-radius: 0.875rem;
+    background: rgb(0 0 0 / 0.18);
+}
+
+.sm-row--mine {
+    background: rgb(255 255 255 / 0.16);
+    box-shadow: inset 0 0 0 2px rgb(255 255 255 / 0.9);
+}
+
+.sm-row__head {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sm-row__mark {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 1.375rem;
+    height: 1.375rem;
+    border: 2px solid rgb(255 255 255 / 0.45);
+    border-radius: 9999px;
+    font-size: 0.7rem;
+}
+
+.sm-row--mine .sm-row__mark {
+    border-color: #ffffff;
+    background: #ffffff;
+    color: #793475;
+}
+
+.sm-row__text {
+    flex: 1;
+    min-width: 0;
+    font-size: 0.95rem;
+    font-weight: 800;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+}
+
+.sm-row__pct {
+    flex: none;
+    font-size: 1.125rem;
+    font-weight: 900;
+    font-variant-numeric: tabular-nums;
+}
+
+.sm-row__track {
+    height: 0.5rem;
+    margin-top: 0.5rem;
+    overflow: hidden;
+    border-radius: 9999px;
+    background: rgb(255 255 255 / 0.18);
+}
+
+/* La barra crece desde la izquierda, una tras otra */
+.sm-row__fill {
+    height: 100%;
+    border-radius: inherit;
+    background: rgb(255 255 255 / 0.6);
+    transform-origin: left center;
+    animation: sm-grow 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(var(--sm-i, 0) * 70ms);
+}
+
+.sm-row--mine .sm-row__fill { background: #ffffff; }
+
+.sm-results__caption {
+    margin: 0.875rem 0 0;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: rgb(255 255 255 / 0.85);
+    text-align: center;
+    text-wrap: balance;
+}
+
+@keyframes sm-grow {
+    from { transform: scaleX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sm-row__fill { animation: none; }
+}

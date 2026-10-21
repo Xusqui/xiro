@@ -48,6 +48,17 @@ export function getTabResponderHTML() {
             mascotImg: 'disguise.svg'
         },
         {
+            color: '#0369a1',
+            icon: 'fas fa-square-poll-horizontal',
+            title: _t('manual_player.answer.survey_multiple.title'),
+            text: _t('manual_player.answer.survey_multiple.text'),
+            placeholderId: 'img-survey-multiple',
+            // Sin captura todavía: se ve el hueco «Captura: img-survey-multiple».
+            // Al tenerla, guardarla como ./images/manual/img-survey-multiple.jpg y ponerla aquí.
+            imgSrc: null,
+            mascotImg: 'cool.svg'
+        },
+        {
             color: '#f59e0b',
             icon: 'fas fa-sort-numeric-up-alt',
             title: _t('manual_player.answer.numeric.title'),

@@ -35,6 +35,7 @@
     "admin.ai.importing": "Importando banco...",
     "admin.ai.import_ok": "Banc importat correctament! ID:",
     "admin.ai.view_banks": "Veure bancs",
-    "admin.ai.timeout": "Temps d'espera esgotat (504)..."
+    "admin.ai.timeout": "Temps d'espera esgotat (504)...",
+    "admin.ai.type_survey_multiple": "Enquesta de selecció múltiple"
   }
 }

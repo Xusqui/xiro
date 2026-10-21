@@ -14,6 +14,7 @@ const MatchingAnswerStateService = require('../../../domain/services/MatchingAns
 const MultipleChoiceAnswerStateService = require('../../../domain/services/MultipleChoiceAnswerStateService');
 const AnswerProcessingService = require('../../../domain/services/AnswerProcessingService');
 const answerStatsStore = require('../../../services/AnswerStatsStore');
+const { normalizeSelection } = require('../../../domain/services/SurveyMultipleAnswerService');
 
 /** Respuesta libre tal cual se guarda: número, palabra, selecciones de la sopa o palabras de los huecos */
 function resolveFreeInputAnswer(flags, payload) {
@@ -93,9 +94,10 @@ function persistPlayerAnswerState(ctx) {
         return;
     }
 
-    if (flags.isMultipleChoiceQuestion) {
+    // Encuesta de selección múltiple: mismo estado que la selección múltiple (puede ir vacío)
+    if (flags.isMultipleChoiceQuestion || flags.isSurveyMultipleQuestion) {
         const answerState = MultipleChoiceAnswerStateService.buildMultipleChoiceAnswerState({
-            selectedIndices,
+            selectedIndices: flags.isSurveyMultipleQuestion ? normalizeSelection(selectedIndices) : selectedIndices,
             gameStartTime: game.questionStartTime,
             currentTime: Date.now(),
             questionTimeLimit
@@ -132,7 +134,8 @@ async function updateOptionAnswerStats(ctx) {
         flags.isWordScrambleQuestion ||
         flags.isWordSearchQuestion ||
         flags.isFillBlanksQuestion ||
-        flags.isMultipleChoiceQuestion
+        flags.isMultipleChoiceQuestion ||
+        flags.isSurveyMultipleQuestion
     ) {
         return;
     }

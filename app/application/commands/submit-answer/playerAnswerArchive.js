@@ -86,6 +86,13 @@ function buildMultipleChoiceAnswer({ payload, options }) {
     };
 }
 
+/** Encuesta de selección múltiple: las opciones marcadas, o «—» si envió sin marcar ninguna */
+function buildSurveyMultipleAnswer(answerResult, options) {
+    const selected = answerResult?.selectedIndices || [];
+    const texts = selected.map(idx => optionText(options[idx], idx));
+    return { answerGiven: texts.length > 0 ? texts.join(', ') : '—' };
+}
+
 function buildSingleIndexAnswer({ payload, options }) {
     const option = options[payload.index];
     return { answerGiven: optionText(option, payload.index) };
@@ -103,6 +110,9 @@ function buildAnswerDetails({ flags, payload, options, answerResult }) {
     }
     if (flags.isMultipleChoiceQuestion) {
         return buildMultipleChoiceAnswer({ payload, options });
+    }
+    if (flags.isSurveyMultipleQuestion) {
+        return buildSurveyMultipleAnswer(answerResult, options);
     }
     if (flags.isWordSearchQuestion) {
         return buildWordSearchAnswer(answerResult);

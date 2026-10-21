@@ -4,6 +4,9 @@
  * Estética E INTERACCIÓN igual que player-multiplechoice-ui.js: al tocar una
  * opción se marca con un overlay verde + check grande (no solo un borde sutil),
  * para que sea evidente qué se ha seleccionado antes y después de enviar.
+ * La encuesta de selección múltiple (survey_multiple) usa la misma pantalla con
+ * SURVEY_VARIANT: otro rótulo y se puede enviar sin marcar nada («Ninguna»).
+ * En solitario no se muestran porcentajes (con un solo jugador no dicen nada).
  */
 
 'use strict';
@@ -20,6 +23,32 @@ const StandaloneQuestionMultipleChoice = (() => {
         'pl-gradient-pink'
     ];
 
+    function _t(key, fallback) {
+        return window.XiroI18n?.t(key) || fallback;
+    }
+
+    const MULTIPLE_VARIANT = {
+        answerType: 'multiple_choice',
+        allowEmpty: false,
+        banner: () => `✓ ${_t('standalone.game.multiple_hint', 'Selección múltiple (puedes marcar varias)')}`,
+        sendLabel: () => _t('standalone.game.submit', 'Enviar respuesta'),
+        emptyLabel: () => _t('standalone.game.submit', 'Enviar respuesta')
+    };
+
+    const SURVEY_VARIANT = {
+        answerType: 'survey_multiple',
+        allowEmpty: true,
+        banner: () =>
+            `<i class="fas fa-square-poll-horizontal" aria-hidden="true"></i> ${_t('standalone.game.survey_multiple_hint', 'Encuesta · marca las que quieras, o ninguna')}`,
+        sendLabel: () => _t('standalone.game.submit', 'Enviar respuesta'),
+        emptyLabel: () => _t('standalone.game.survey_multiple_none', 'Ninguna')
+    };
+
+    function _updateSubmit(submitBtn, variant, count) {
+        submitBtn.disabled = count === 0 && !variant.allowEmpty;
+        if (variant.allowEmpty) submitBtn.textContent = count > 0 ? variant.sendLabel() : variant.emptyLabel();
+    }
+
     function _markSelected(btn, isSelected) {
         const prevOverlay = btn.querySelector('.pl-check-overlay');
         if (prevOverlay) prevOverlay.remove();
@@ -35,7 +64,7 @@ const StandaloneQuestionMultipleChoice = (() => {
         }
     }
 
-    function render(container, question, { onSubmitted }) {
+    function render(container, question, { onSubmitted }, variant = MULTIPLE_VARIANT) {
         const options = question.options || [];
         const nickname = escapeHtml(StandaloneState.get().nickname);
         const selected = new Set();
@@ -49,7 +78,7 @@ const StandaloneQuestionMultipleChoice = (() => {
                     <h2>${escapeHtml(question.question_text)}</h2>
                     ${statementImageHtml}
                 </div>
-                <div class="pl-multi-banner"><p>✓ ${window.XiroI18n?.t('standalone.game.multiple_hint') || 'Selección múltiple (puedes marcar varias)'}</p></div>
+                <div class="pl-multi-banner"><p>${variant.banner()}</p></div>
                 <div class="pl-answers-grid">
                     ${options
         .map(
@@ -65,7 +94,7 @@ const StandaloneQuestionMultipleChoice = (() => {
                 </div>
                 <div class="pl-submit-bar">
                     <button type="button" class="pl-submit-btn" data-standalone-action="submit-multiple" disabled>
-                        ${window.XiroI18n?.t('standalone.game.submit') || 'Enviar respuesta'}
+                        ${variant.emptyLabel()}
                     </button>
                 </div>
             </div>
@@ -75,6 +104,7 @@ const StandaloneQuestionMultipleChoice = (() => {
 
         const buttons = Array.from(container.querySelectorAll('[data-standalone-answer]'));
         const submitBtn = container.querySelector('[data-standalone-action="submit-multiple"]');
+        _updateSubmit(submitBtn, variant, 0);
 
         buttons.forEach(btn =>
             btn.addEventListener('click', () => {
@@ -85,7 +115,7 @@ const StandaloneQuestionMultipleChoice = (() => {
                     selected.add(idx);
                 }
                 _markSelected(btn, selected.has(idx));
-                submitBtn.disabled = selected.size === 0;
+                _updateSubmit(submitBtn, variant, selected.size);
             })
         );
 
@@ -95,7 +125,7 @@ const StandaloneQuestionMultipleChoice = (() => {
             });
             submitBtn.disabled = true;
 
-            const ack = await submitAnswer({ selectedIndices: [...selected] }, 'multiple_choice');
+            const ack = await submitAnswer({ selectedIndices: [...selected] }, variant.answerType);
             if (ack && ack.ok === false) {
                 StandaloneState.get().answered = false;
                 buttons.forEach(btn => {
@@ -108,5 +138,34 @@ const StandaloneQuestionMultipleChoice = (() => {
         });
     }
 
-    return { render };
+    /** Encuesta de selección múltiple. */
+    function renderSurvey(container, question, actions) {
+        render(container, question, actions, SURVEY_VARIANT);
+    }
+
+    /** Resultado de la encuesta: las opciones con las elegidas marcadas (css/survey-multiple.css). */
+    function surveyResultMessage(data) {
+        const chosen = new Set(data.surveyMultipleDetails?.selectedIndices || []);
+        const options = StandaloneState.get().currentQuestion?.options || [];
+        const rows = options
+            .map(
+                (opt, idx) => `<li class="sm-row${chosen.has(idx) ? ' sm-row--mine' : ''}">
+                    <div class="sm-row__head">
+                        <span class="sm-row__mark">${chosen.has(idx) ? '<i class="fas fa-check" aria-hidden="true"></i>' : ''}</span>
+                        <span class="sm-row__text">${escapeHtml(optionText(opt))}</span>
+                    </div>
+                </li>`
+            )
+            .join('');
+        const none = chosen.size === 0
+            ? `<p class="sm-results__status">${_t('standalone.game.survey_multiple_none_chosen', 'No marcaste ninguna opción')}</p>`
+            : '';
+        return `
+            <i class="fas fa-square-poll-horizontal pl-reveal-icon" aria-hidden="true"></i>
+            <h2>${_t('standalone.game.answer_registered', 'Respuesta registrada')}</h2>
+            <section class="sm-results">${none}<ol class="sm-results__list">${rows}</ol></section>
+        `;
+    }
+
+    return { render, renderSurvey, surveyResultMessage };
 })();

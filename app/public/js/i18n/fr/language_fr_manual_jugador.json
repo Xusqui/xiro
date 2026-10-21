@@ -30,6 +30,8 @@
     "manual_player.answer.survey.text": "Affiche plusieurs options. Il n'y a pas de bonnes ou mauvaises réponses. Votre vote contribue aux statistiques finales.",
     "manual_player.answer.multiple.title": "Choix multiple",
     "manual_player.answer.multiple.text": "Entre 1 et 6 réponses sont correctes. Cochez toutes celles que vous jugez valides et appuyez sur Confirmer.",
+    "manual_player.answer.survey_multiple.title": "Sondage à choix multiples",
+    "manual_player.answer.survey_multiple.text": "Comme le sondage, mais tu peux cocher autant d'options que tu veux, ou aucune, puis appuyer sur Envoyer (ou Aucune). Il n'y a ni bonne réponse ni points. À la fin, tu verras le pourcentage de joueurs ayant choisi chaque option, avec les tiennes mises en évidence.",
     "manual_player.answer.numeric.title": "Estimation numérique",
     "manual_player.answer.numeric.text": "Devinez un nombre exact. Entrez sur votre clavier numérique la valeur la plus proche de la bonne réponse.",
     "manual_player.answer.order.title": "Ordonner",

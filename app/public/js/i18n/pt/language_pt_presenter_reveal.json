@@ -10,6 +10,8 @@
     "presenter.reveal.no_scores_yet": "Sem pontuações ainda",
     "presenter.reveal.correct_order": "Ordem correta",
     "presenter.reveal.correct_pairs": "Pares corretos",
-    "presenter.reveal.tolerance": "Tolerância:"
+    "presenter.reveal.tolerance": "Tolerância:",
+    "presenter.reveal.survey_multiple_caption_one": "1 resposta · cada jogador podia escolher várias",
+    "presenter.reveal.survey_multiple_caption_other": "{count} respostas · cada jogador podia escolher várias"
   }
 }

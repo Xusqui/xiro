@@ -10,6 +10,8 @@
     "presenter.reveal.no_scores_yet": "暂无分数",
     "presenter.reveal.correct_order": "正确顺序",
     "presenter.reveal.correct_pairs": "正确配对",
-    "presenter.reveal.tolerance": "容差:"
+    "presenter.reveal.tolerance": "容差:",
+    "presenter.reveal.survey_multiple_caption_one": "1 份回答 · 每位玩家可多选",
+    "presenter.reveal.survey_multiple_caption_other": "{count} 份回答 · 每位玩家可多选"
   }
 }

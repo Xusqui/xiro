@@ -335,7 +335,8 @@ const questionSchema = Joi.object({
             'multiple_choice',
             'matching',
             'word_search',
-            'fill_blanks'
+            'fill_blanks',
+            'survey_multiple'
         )
         .default('quiz'),
     tipo_contenido: Joi.string().valid('texto', 'imagen', 'audio').default('texto').optional(),
@@ -740,12 +741,32 @@ const reconnectPlayerSchema = Joi.object({
     })
 });
 
+/** Opciones marcadas en selección múltiple / encuesta de selección múltiple (sin repetir). */
+function selectedIndicesSchema(minSelected) {
+    return Joi.array()
+        .items(
+            Joi.number()
+                .integer()
+                .min(0)
+                .max(LIMITS.MAX_OPTIONS - 1)
+        )
+        .min(minSelected)
+        .max(LIMITS.MAX_OPTIONS)
+        .unique()
+        .optional()
+        .messages({
+            'array.unique': 'Opción repetida',
+            'array.min': 'Debe seleccionar al menos 1 opción',
+            'array.max': 'No puede seleccionar más de 6 opciones'
+        });
+}
+
 // Submit answer
 const submitAnswerSchema = Joi.object({
     pin: pinSchema.optional(),
     sessionId: sessionIdSchema.optional(),
     nickname: nicknameSchema.required(),
-    answerType: Joi.string().valid('order', 'multiple_choice').optional(),
+    answerType: Joi.string().valid('order', 'multiple_choice', 'survey_multiple').optional(),
     index: Joi.number()
         .integer()
         .min(0)
@@ -769,20 +790,12 @@ const submitAnswerSchema = Joi.object({
             'array.min': `Debe haber al menos ${LIMITS.MIN_OPTIONS} opciones`,
             'array.max': `No puede haber más de ${LIMITS.MAX_OPTIONS} opciones`
         }),
-    selectedIndices: Joi.array()
-        .items(
-            Joi.number()
-                .integer()
-                .min(0)
-                .max(LIMITS.MAX_OPTIONS - 1)
-        )
-        .min(1)
-        .max(6)
-        .optional()
-        .messages({
-            'array.min': 'Debe seleccionar al menos 1 opción',
-            'array.max': 'No puede seleccionar más de 6 opciones'
-        })
+    // La encuesta de selección múltiple admite enviar sin marcar ninguna
+    selectedIndices: Joi.when('answerType', {
+        is: 'survey_multiple',
+        then: selectedIndicesSchema(0),
+        otherwise: selectedIndicesSchema(1)
+    })
 }).or('pin', 'sessionId');
 
 // Manual points (soporta nickname único o array de nicknames para equipos)

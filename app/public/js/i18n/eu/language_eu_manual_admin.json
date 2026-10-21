@@ -152,6 +152,7 @@
     "manual_admin.access.users.p1": "Admin rolaren panel esklusiboa, paneleko kontuak berrikusteko: erabiltzailea, posta, rola, egoera eta alta-data.",
     "manual_admin.access.users.p2": "Hemendik <strong>kontuak ezaba</strong> ditzakezu. Erabiltzaileen ezabaketa behin betikoa da eta ezin da desegin.",
     "manual_admin.banks.types.survey": "<strong>Inkesta</strong> — Jokalariek aukeren artean bozkatzen dute eta emaitzak erakusten dira; ez dago erantzun zuzenik.",
+    "manual_admin.banks.types.survey_multiple": "<strong>Aukera anitzeko inkesta</strong> — Inkesta bezala, baina jokalari bakoitzak hainbat aukera markatzen ditu (edo bat ere ez); erantzun dutenen artean aukera bakoitza zenbatek aukeratu duen erakusten da ehunekotan, eta batura % 100 baino handiagoa izan daiteke. Ez da Trivialean agertzen.",
     "manual_admin.banks.types.matching": "<strong>Parekatu</strong> — Bi zutabe; jokalariak elementu bakoitza bere bikote zuzenarekin lotzen du (6 bikote gehienez).",
     "manual_admin.banks.ai.title": "Galderen IA sortzailea",
     "manual_admin.banks.ai.intro": "Sortu banku oso bat automatikoki alboko menuko <strong>IA Sortzailea</strong> ataletik. Groq-eko edo Gemini-ko API key bat konfiguratuta behar da (Tresnak → IA).",

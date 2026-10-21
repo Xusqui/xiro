@@ -17,6 +17,8 @@
     "instructions.question_types.quiz.description": "经典问题，有多种可能的答案，但只有一个是正确的。",
     "instructions.question_types.survey.title": "民意调查",
     "instructions.question_types.survey.description": "没有正确或错误的答案。它通过提出不同的选项来收集观众的意见。",
+    "instructions.question_types.survey_multiple.title": "多选调查",
+    "instructions.question_types.survey_multiple.description": "每位玩家可以勾选任意多个选项（或都不选）的调查。最后显示选择每个选项的玩家比例，因此总和可能超过 100%。",
     "instructions.question_types.numeric.title": "数值近似",
     "instructions.question_types.numeric.description": "玩家必须输入一个尽可能接近准确获胜值的数字。",
     "instructions.question_types.order.title": "排序顺序（顺序）",

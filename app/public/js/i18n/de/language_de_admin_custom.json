@@ -50,6 +50,8 @@
     "admin.custom.badge_scramble": "ANAGRAMM",
     "admin.custom.badge_multiple": "MEHRFACH",
     "admin.custom.survey_answer": "Umfrage (Stimmen)",
+    "admin.custom.survey_multiple_answer": "Umfrage mit Mehrfachauswahl (Stimmen)",
+    "admin.custom.badge_survey_multiple": "UMFRAGE MIT MEHRFACHAUSWAHL",
     "admin.custom.error_name": "Bitte gib dem Spiel einen Namen",
     "admin.custom.error_questions": "Füge mindestens eine Frage hinzu",
     "admin.custom.success_saved": "Benutzerdefiniertes Spiel erfolgreich gespeichert!",

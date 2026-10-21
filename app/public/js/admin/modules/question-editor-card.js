@@ -32,6 +32,7 @@ function normalizeQuestionDefaults(q) {
 const QUESTION_TYPE_CHIPS = {
     quiz: 'bg-plum-100 text-plum-700',
     survey: 'bg-blue-100 text-blue-700',
+    survey_multiple: 'bg-sky-100 text-sky-700',
     order: 'bg-green-100 text-green-700',
     matching: 'bg-orange-100 text-orange-700',
     numeric_approximation: 'bg-cyan-100 text-cyan-700',

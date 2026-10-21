@@ -38,7 +38,7 @@ function _renderAIStep3Result(data) {
             r => `
         <div class="mb-4 bg-white rounded-xl border ${r.error ? 'border-red-300' : 'border-slate-200'} shadow-sm overflow-hidden">
             <button data-ai-results-action="toggle-section" class="w-full flex items-center justify-between p-4 font-bold text-left hover:bg-slate-50 transition">
-                <span>${(QUESTION_TYPE_LABELS.find(t => t.type === r.type) || { label: r.type }).label}
+                <span>${aiTypeLabel(QUESTION_TYPE_LABELS.find(t => t.type === r.type) || { label: r.type })}
                     <span class="ml-2 text-sm font-normal ${r.error ? 'text-red-600' : 'text-slate-500'}">
                         ${r.error ? 'Error: ' + r.error.slice(0, 80) : r.questions.length + ' preguntas'}</span>
                 </span>

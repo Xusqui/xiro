@@ -17,6 +17,8 @@
     "instructions.question_types.quiz.description": "Classic question with several possible answers, but only one is correct.",
     "instructions.question_types.survey.title": "Survey",
     "instructions.question_types.survey.description": "No right or wrong answers. It serves to collect the opinion of the audience by presenting different options.",
+    "instructions.question_types.survey_multiple.title": "Multiple-choice survey",
+    "instructions.question_types.survey_multiple.description": "A survey where each player ticks every option they like, or none. At the end you see the share of players who chose each one, so the total can go over 100%.",
     "instructions.question_types.numeric.title": "Numerical Approximation",
     "instructions.question_types.numeric.description": "Players must enter a number trying to get as close as possible to the exact winning value.",
     "instructions.question_types.order.title": "Sort Sequence (Order)",

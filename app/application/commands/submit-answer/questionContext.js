@@ -13,6 +13,7 @@ const AnswerStateService = require('../../../domain/services/AnswerStateService'
 const OrderAnswerStateService = require('../../../domain/services/OrderAnswerStateService');
 const MatchingAnswerStateService = require('../../../domain/services/MatchingAnswerStateService');
 const MultipleChoiceAnswerStateService = require('../../../domain/services/MultipleChoiceAnswerStateService');
+const { validateSurveyMultipleAnswer } = require('../../../domain/services/SurveyMultipleAnswerService');
 const { getRedisClient } = require('../../../config/redis');
 const { isValidFoundPayload } = require('../../validators/WordSearchQuestionValidator');
 const { isValidWordsPayload } = require('../../validators/FillBlanksQuestionValidator');
@@ -98,6 +99,7 @@ function buildQuestionContext(game) {
     const isMultipleChoiceQuestion = currentQuestion?.question_type === 'multiple_choice';
     const isWordSearchQuestion = currentQuestion?.question_type === 'word_search';
     const isFillBlanksQuestion = currentQuestion?.question_type === 'fill_blanks';
+    const isSurveyMultipleQuestion = currentQuestion?.question_type === 'survey_multiple';
 
     const questionTimeLimit = currentQuestion?.time_limit || 30;
     const elapsedMs = Date.now() - (game.questionStartTime || Date.now());
@@ -113,6 +115,7 @@ function buildQuestionContext(game) {
         isMultipleChoiceQuestion,
         isWordSearchQuestion,
         isFillBlanksQuestion,
+        isSurveyMultipleQuestion,
         questionTimeLimit,
         canAnswerOrEnded: game?.canAnswer || game?.ended || lastQuestion,
         allowOrderAfterClose: isOrderQuestion && elapsedMs <= questionTimeLimit * 1000 + graceMs,
@@ -166,6 +169,7 @@ function validateAnswerByType({ payload, question, flags }) {
         isOrderQuestion,
         isMatchingQuestion,
         isMultipleChoiceQuestion,
+        isSurveyMultipleQuestion,
         allowOrderAfterClose,
         allowMatchingAfterClose
     } = flags;
@@ -190,6 +194,15 @@ function validateAnswerByType({ payload, question, flags }) {
 
     const freeInputResult = validateFreeInputAnswer(payload, flags);
     if (freeInputResult) return freeInputResult;
+
+    if (isSurveyMultipleQuestion) {
+        return validateSurveyMultipleAnswer({
+            question,
+            selectedIndices,
+            gameCanAnswer: canAnswerOrEnded,
+            allowWhenClosed: lastQuestion
+        });
+    }
 
     if (isMultipleChoiceQuestion) {
         return MultipleChoiceAnswerStateService.validateMultipleChoiceAnswer({

@@ -30,6 +30,8 @@
     "manual_player.answer.survey.text": "Shows multiple options. There are no right or wrong answers. Your vote contributes to the final statistics.",
     "manual_player.answer.multiple.title": "Multiple Choice",
     "manual_player.answer.multiple.text": "Between 1 and 6 answers are correct. Check all the ones you think are valid and tap Confirm.",
+    "manual_player.answer.survey_multiple.title": "Multiple-choice survey",
+    "manual_player.answer.survey_multiple.text": "Like the survey, but you can tick as many options as you like, or none, and tap Submit (or None). There are no right answers and no points. At the end you'll see the share of players who chose each option, with yours highlighted.",
     "manual_player.answer.numeric.title": "Numeric Estimate",
     "manual_player.answer.numeric.text": "Guess an exact number. Enter on your numeric keypad the value you think is closest to the correct answer.",
     "manual_player.answer.order.title": "Order",

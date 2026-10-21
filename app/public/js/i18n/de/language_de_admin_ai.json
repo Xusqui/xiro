@@ -35,6 +35,7 @@
     "admin.ai.importing": "Importando banco...",
     "admin.ai.import_ok": "Bank erfolgreich importiert! AUSWEIS:",
     "admin.ai.view_banks": "Siehe Banken",
-    "admin.ai.timeout": "Zeitüberschreitung (504)..."
+    "admin.ai.timeout": "Zeitüberschreitung (504)...",
+    "admin.ai.type_survey_multiple": "Umfrage mit Mehrfachauswahl"
   }
 }

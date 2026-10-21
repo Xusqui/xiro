@@ -11,6 +11,7 @@
 const logger = require('../../../config/logger');
 const AnswerStateService = require('../../../domain/services/AnswerStateService');
 const AnswerProcessingService = require('../../../domain/services/AnswerProcessingService');
+const { isSurveyType } = require('../../../domain/services/SurveyMultipleAnswerService');
 const { clearStaleAnswers } = require('../../../sockets/handlers/trivial/TrivialAnswerGuard');
 const { tryAcquireAnswerLock } = require('./distributedLock');
 
@@ -47,7 +48,7 @@ async function runEarlyChecks(ctx) {
 
     // Anti-cheat: reject impossible human reaction times.
     const questionStart = game.questionStartTime;
-    if (questionStart && currentQuestion?.question_type !== 'survey') {
+    if (questionStart && !isSurveyType(currentQuestion?.question_type)) {
         const responseMs = Date.now() - questionStart;
         if (responseMs < MIN_RESPONSE_MS) {
             logger.warn('Anti-cheat: respuesta rechazada por latencia minima', {

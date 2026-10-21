@@ -1,5 +1,5 @@
 // Editor de preguntas del admin: secciones con opciones (emparejar, selección
-// múltiple, y quiz / encuesta / ordenar) y el reparto por tipo.
+// múltiple, y quiz / encuestas / ordenar) y el reparto por tipo.
 
 /** Sección propia del tipo de pregunta, bajo la cabecera común de la tarjeta. */
 function questionTypeSectionHtml(q, qIdx, isHybridToleranceMode) {
@@ -9,7 +9,17 @@ function questionTypeSectionHtml(q, qIdx, isHybridToleranceMode) {
     if (q.type === 'word_search') return wordSearchEditorSectionHtml(q, qIdx);
     if (q.type === 'fill_blanks') return fillBlanksEditorSectionHtml(q, qIdx);
     if (q.type === 'multiple_choice') return multipleChoiceEditorHtml(q, qIdx);
+    if (q.type === 'survey_multiple') return surveyMultipleNoteHtml() + standardOptionsEditorHtml(q, qIdx);
     return standardOptionsEditorHtml(q, qIdx);
+}
+
+/** Encuesta de selección múltiple: cómo vota el jugador y por qué los % pueden sumar más de 100. */
+function surveyMultipleNoteHtml() {
+    return `
+                    <p class="text-sm text-slate-500 mb-4 flex items-start gap-2">
+                        <i class="fas fa-square-poll-horizontal text-sky-700 mt-0.5" aria-hidden="true"></i>
+                        <span>${_t('admin.q.survey_multiple_note', null, 'Cada jugador marca las opciones que quiera, o ninguna. Al revelar se ve qué parte de los que respondieron eligió cada opción, así que los porcentajes pueden sumar más del 100 %.')}</span>
+                    </p>`;
 }
 
 /** Emparejar: editor de dos columnas (renderMatchingEditor, en matching-editor.js). */
@@ -193,7 +203,7 @@ function standardOptionsEditorHtml(q, qIdx) {
                     </div>
 
                     ${
-    q.type !== 'survey' && q.type !== 'order'
+    q.type !== 'survey' && q.type !== 'survey_multiple' && q.type !== 'order'
         ? `
                     <div class="mt-4">
                         <label class="text-[10px] font-bold text-slate-400 uppercase">${_t('admin.q.justification_label', null, 'Justificación de la respuesta correcta')}</label>

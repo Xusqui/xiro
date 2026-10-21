@@ -35,6 +35,7 @@
     "admin.ai.importing": "Importando banco...",
     "admin.ai.import_ok": "Banque importée avec succès ! IDENTIFIANT:",
     "admin.ai.view_banks": "Voir les banques",
-    "admin.ai.timeout": "Délai expiré (504)..."
+    "admin.ai.timeout": "Délai expiré (504)...",
+    "admin.ai.type_survey_multiple": "Sondage à choix multiples"
   }
 }

@@ -312,6 +312,18 @@ body {
     line-height: 1.6
 }
 
+/* Encuesta de selección múltiple: cuántos respondieron, bajo las opciones */
+.survey-caption {
+    display: inline-block;
+    margin: 16px 0 0;
+    padding: 10px 24px;
+    border-radius: 9999px;
+    background-color: rgba(0, 0, 0, 0.35);
+    color: #fff;
+    font-size: 22px;
+    font-weight: bold
+}
+
 .ranking-box {
     background-color: #0e7490;
     color: #fff;

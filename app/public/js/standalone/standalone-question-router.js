@@ -40,6 +40,9 @@ globalThis.StandaloneQuestionRouter = (() => {
             case 'multiple_choice':
                 StandaloneQuestionMultipleChoice.render(container, question, actions);
                 break;
+            case 'survey_multiple':
+                StandaloneQuestionMultipleChoice.renderSurvey(container, question, actions);
+                break;
             case 'word_search':
                 StandaloneQuestionWordSearch.render(container, question, actions);
                 break;

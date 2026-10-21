@@ -50,6 +50,8 @@
     "admin.custom.badge_scramble": "SCRAMBLE",
     "admin.custom.badge_multiple": "MULTIPLE",
     "admin.custom.survey_answer": "Survey (votes)",
+    "admin.custom.survey_multiple_answer": "Multiple-choice survey (votes)",
+    "admin.custom.badge_survey_multiple": "MULTIPLE-CHOICE SURVEY",
     "admin.custom.error_name": "Please give the game a name",
     "admin.custom.error_questions": "Add at least one question",
     "admin.custom.success_saved": "Custom game saved successfully!",

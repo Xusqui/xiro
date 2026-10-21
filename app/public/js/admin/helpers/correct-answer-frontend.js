@@ -78,6 +78,7 @@ function _extractFillBlanksAnswer(question) {
 
 const _CORRECT_ANSWER_EXTRACTORS = {
     survey: () => null,
+    survey_multiple: () => null,
     order: _extractOrderAnswer,
     numeric_approximation: _extractNumericAnswer,
     word_scramble: _extractWordScrambleAnswer,
@@ -85,6 +86,19 @@ const _CORRECT_ANSWER_EXTRACTORS = {
     word_search: _extractWordSearchAnswer,
     fill_blanks: _extractFillBlanksAnswer
 };
+
+/**
+ * Texto que sustituye a la respuesta correcta en los listados de las encuestas.
+ * @param {string} type - question_type
+ * @returns {string|null} null si el tipo tiene respuesta correcta
+ */
+function surveyAnswerLabel(type) {
+    if (type === 'survey') return _t('admin.custom.survey_answer', null, 'Encuesta (votos)');
+    if (type === 'survey_multiple') {
+        return _t('admin.custom.survey_multiple_answer', null, 'Encuesta de selección múltiple (votos)');
+    }
+    return null;
+}
 
 /**
  * Enunciado para mostrar en listados del admin: en «Completa la frase» la frase se

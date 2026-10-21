@@ -7,6 +7,7 @@ const { teamScoreParams } = require('../../domain/services/TeamScoreParams');
 const runtimeConfig = require('../../config/runtime-config');
 const { resolveTeamRevealCorrectness, resolveTeamRevealCorrectAnswer } = require('./NumericTeamRevealHelper');
 const { hasAnsweredCurrentRound, claimTeamReveal } = require('./TeamRevealHelper');
+const { isSurveyType } = require('../../domain/services/SurveyMultipleAnswerService');
 const { getRedisClient } = require('../../config/redis');
 const logger = require('../../config/logger');
 
@@ -74,7 +75,7 @@ async function revealToUnrevealedTeams(game, teamConfig, currentQuestion, io, sP
 
 function resolveAnswerContext(currentQuestion, playerAnswer) {
     const isOrderQuestion = currentQuestion.question_type === 'order';
-    const isSurveyQuestion = currentQuestion.question_type === 'survey';
+    const isSurveyQuestion = isSurveyType(currentQuestion.question_type);
     const isMultipleChoiceQuestion = currentQuestion.question_type === 'multiple_choice';
     const correctOption = isOrderQuestion ? null : currentQuestion.options.find(opt => opt.isCorrect);
     const playerOption =
@@ -154,7 +155,10 @@ function typedDetails(currentQuestion, playerAnswer, ctx) {
         multipleChoiceDetails: ctx.isMultipleChoiceQuestion ? playerAnswer?.multipleChoiceDetails || null : null,
         matchingDetails: type === 'matching' ? playerAnswer?.matchingDetails || null : null,
         ...(type === 'word_search' ? { wordSearchDetails: playerAnswer?.wordSearchDetails || null } : {}),
-        ...(type === 'fill_blanks' ? { fillBlanksDetails: playerAnswer?.fillBlanksDetails || null } : {})
+        ...(type === 'fill_blanks' ? { fillBlanksDetails: playerAnswer?.fillBlanksDetails || null } : {}),
+        ...(type === 'survey_multiple'
+            ? { surveyMultipleDetails: playerAnswer?.surveyMultipleDetails || { selectedIndices: [] } }
+            : {})
     };
 }
 

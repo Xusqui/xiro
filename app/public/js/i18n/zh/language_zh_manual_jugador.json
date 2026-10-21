@@ -30,6 +30,8 @@
     "manual_player.answer.survey.text": "显示多个选项。没有正确或错误的答案。您的投票将纳入最终统计。",
     "manual_player.answer.multiple.title": "多选题",
     "manual_player.answer.multiple.text": "1 到 6 个答案是正确的。勾选所有您认为有效的答案，然后点击确认。",
+    "manual_player.answer.survey_multiple.title": "多选调查",
+    "manual_player.answer.survey_multiple.text": "与调查类似，但你可以勾选任意多个选项，或都不选，然后点击“提交答案”（或“都不选”）。没有正确答案，也不计分。最后会显示选择每个选项的玩家比例，并突出显示你的选择。",
     "manual_player.answer.numeric.title": "数字估算",
     "manual_player.answer.numeric.text": "猜一个确切数字。在数字键盘上输入您认为最接近正确答案的数值。",
     "manual_player.answer.order.title": "排序",

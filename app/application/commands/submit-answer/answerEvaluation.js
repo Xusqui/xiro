@@ -17,6 +17,7 @@ const ScoringService = require('../../../domain/services/ScoringService');
 const { processWordScrambleAnswer } = require('../../../domain/services/WordScrambleService');
 const { processWordSearchAnswer } = require('../../../domain/services/WordSearchService');
 const { processFillBlanksAnswer } = require('../../../domain/services/FillBlanksService');
+const { processSurveyMultipleAnswer } = require('../../../domain/services/SurveyMultipleAnswerService');
 
 /**
  * Resolve canonical question start time across cluster workers.
@@ -125,6 +126,10 @@ function evaluateAnswer(ctx) {
             questionTimeLimit,
             basePoints
         });
+    }
+
+    if (flags.isSurveyMultipleQuestion) {
+        return processSurveyMultipleAnswer({ selectedIndices: payload.selectedIndices });
     }
 
     if (flags.isMultipleChoiceQuestion) {

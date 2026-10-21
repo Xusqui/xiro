@@ -152,6 +152,7 @@
     "manual_admin.access.users.p1": "管理者ロール専用のパネルで、パネルのアカウント（ユーザー名、メール、ロール、状態、登録日）を確認できます。",
     "manual_admin.access.users.p2": "ここから<strong>アカウントを削除</strong>できます。ユーザーの削除は永久的で、元に戻せません。",
     "manual_admin.banks.types.survey": "<strong>アンケート</strong> — プレイヤーが選択肢に投票し、結果が表示されます。正解はありません。",
+    "manual_admin.banks.types.survey_multiple": "<strong>複数選択アンケート</strong> — アンケートと同様ですが、各プレイヤーが複数の選択肢を選べます（選ばなくても可）。回答者のうち各選択肢を選んだ人の割合が表示され、合計が100%を超えることがあります。トリビアルでは出題されません。",
     "manual_admin.banks.types.matching": "<strong>マッチング</strong> — 2つの列。プレイヤーは各項目を正しいペアと結びます（最大6ペア）。",
     "manual_admin.banks.ai.title": "AI問題ジェネレーター",
     "manual_admin.banks.ai.intro": "サイドメニューの<strong>AIジェネレーター</strong>から、バンク全体を自動作成できます。Groq または Gemini の APIキーの設定が必要です（ツール → AI）。",

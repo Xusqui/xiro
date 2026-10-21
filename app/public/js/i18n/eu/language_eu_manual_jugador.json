@@ -30,6 +30,8 @@
     "manual_player.answer.survey.text": "Aukera asko erakusten ditu. Ez dago erantzun zuzen edo okerrik. Zure botoak azken estatistikari laguntzen dio.",
     "manual_player.answer.multiple.title": "Aukera anitza",
     "manual_player.answer.multiple.text": "1 eta 6 arteko erantzunak dira zuzenak. Markatu baliozkoak iruditzen zaizkizun guztiak eta sakatu Baieztatu.",
+    "manual_player.answer.survey_multiple.title": "Aukera anitzeko inkesta",
+    "manual_player.answer.survey_multiple.text": "Inkesta bezala, baina nahi adina aukera marka ditzakezu, edo bat ere ez, eta Bidali (edo Bat ere ez) sakatu. Ez dago erantzun zuzenik ezta punturik ere. Amaieran, aukera bakoitza zenbat jokalarik aukeratu duen ikusiko duzu ehunekotan, zureak nabarmenduta.",
     "manual_player.answer.numeric.title": "Zenbaki estimazioa",
     "manual_player.answer.numeric.text": "Asmatu zenbaki zehatza. Sartu zure teklatu numerikoan erantzun zuzenaren ondoen dagoela uste duzun balioa.",
     "manual_player.answer.order.title": "Ordenatu",

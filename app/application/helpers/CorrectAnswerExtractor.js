@@ -155,7 +155,7 @@ function extractCorrectAnswer(question) {
     }
 
     const questionType = getQuestionType(question);
-    if (!questionType || questionType === 'survey') {
+    if (!questionType || questionType === 'survey' || questionType === 'survey_multiple') {
         return null;
     }
 
@@ -196,133 +196,143 @@ function formatCorrectAnswerForDisplay(answer) {
     return 'Sin respuesta correcta';
 }
 
+/** Sin respuesta correcta (encuestas): aviso en lugar de la respuesta. */
+function noAnswerHtml() {
+    return `
+        <div style="background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); padding: 40px; border-radius: 20px; text-align: center;">
+            <div style="font-size: 28px; color: white; font-style: italic;">
+                Esta pregunta no tiene una respuesta correcta marcada<br/>(puede ser una encuesta)
+            </div>
+        </div>
+    `;
+}
+
+function orderAnswerHtml(answer) {
+    return `
+        <div style="background: transparent; padding: 0;">
+            <ol style="list-style-position: inside; color: white; font-size: 24px; line-height: 1.8; margin: 0; padding: 0;">
+                ${answer.items
+    .map(
+        item => `
+                    <li style="margin-bottom: 8px;">
+                        <strong>${escapeHtml(item.text)}</strong>
+                        ${item.justification ? `<div style="margin-left: 20px; font-size: 18px; font-weight: normal; color: rgba(255,255,255,0.9); margin-top: 4px;">→ ${escapeHtml(item.justification)}</div>` : ''}
+                    </li>
+                `
+    )
+    .join('')}
+            </ol>
+        </div>
+    `;
+}
+
+function numericAnswerHtml(answer) {
+    return `
+        <div style="background: rgba(16, 185, 129, 0.15); backdrop-filter: blur(10px); padding: 40px; border-radius: 20px; border: 3px solid #10b981; text-align: center;">
+            <div style="font-size: 48px; font-weight: 900; color: #10b981; margin-bottom: 15px;">
+                ${answer.display}
+            </div>
+            <div style="color: rgba(255,255,255,0.9); font-size: 20px;">
+                Respuesta numérica correcta
+            </div>
+        </div>
+    `;
+}
+
+function quizAnswerHtml(answer) {
+    const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+    const letter = letters[answer.optionIndex] || '?';
+    return `
+        <div style="background: rgba(16, 185, 129, 0.15); backdrop-filter: blur(10px); padding: 30px 40px; border-radius: 20px; margin-bottom: 20px; border: 3px solid #10b981;">
+            <div style="font-size: 36px; font-weight: 700; color: #059669; margin-bottom: 15px; display: flex; align-items: center;">
+                <span style="margin-right: 15px;">✓</span>
+                <span style="background: #10b981; color: white; width: 60px; height: 60px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; margin-right: 20px;">${letter}</span>
+                <span style="color: white; flex: 1;">${escapeHtml(answer.display)}</span>
+            </div>
+        </div>
+    `;
+}
+
+function wordScrambleAnswerHtml(answer) {
+    const letters = answer.word.toUpperCase().split('');
+    return `
+        <div style="text-align: center;">
+            <div style="font-size: 22px; font-weight: 700; color: rgba(255,255,255,0.8); margin-bottom: 24px; letter-spacing: 2px; text-transform: uppercase;">
+                PALABRA CORRECTA
+            </div>
+            <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                ${letters
+    .map(
+        letter => `
+                    <div style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; width: 70px; height: 70px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 900; text-transform: uppercase; box-shadow: 0 6px 16px rgba(0,0,0,0.3);">
+                        ${escapeHtml(letter)}
+                    </div>
+                `
+    )
+    .join('')}
+            </div>
+        </div>
+    `;
+}
+
+function multipleChoiceAnswerHtml(answer) {
+    return `
+        <div style="text-align: left;">
+            <div style="font-size: 22px; font-weight: 700; color: rgba(255,255,255,0.9); margin-bottom: 24px; letter-spacing: 1px; text-align: center;">
+                ✓ RESPUESTAS CORRECTAS (Pueden ser múltiples)
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                ${answer.items
+    .map(
+        item => `
+                    <div style="background: rgba(16, 185, 129, 0.15); backdrop-filter: blur(10px); padding: 20px 30px; border-radius: 16px; border: 3px solid #10b981;">
+                        <div style="font-size: 28px; font-weight: 700; color: white; display: flex; align-items: center;">
+                            <span style="color: #10b981; margin-right: 15px; font-size: 32px;">✓</span>
+                            <span>${escapeHtml(item)}</span>
+                        </div>
+                    </div>
+                `
+    )
+    .join('')}
+            </div>
+        </div>
+    `;
+}
+
+function wordSearchAnswerHtml(answer) {
+    return `
+        <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+            ${answer.items
+    .map(
+        word => `
+                <span style="background: rgba(16, 185, 129, 0.15); border: 3px solid #10b981; color: white; padding: 10px 18px; border-radius: 12px; font-size: 26px; font-weight: 800; letter-spacing: 2px;">${escapeHtml(word)}</span>
+            `
+    )
+    .join('')}
+        </div>
+    `;
+}
+
+// Respuesta correcta según el tipo (fill_blanks en fillBlanksAnswerHtml, más abajo)
+const ANSWER_HTML_BY_TYPE = {
+    order: orderAnswerHtml,
+    numeric_approximation: numericAnswerHtml,
+    quiz: quizAnswerHtml,
+    word_scramble: wordScrambleAnswerHtml,
+    multiple_choice: multipleChoiceAnswerHtml,
+    word_search: wordSearchAnswerHtml,
+    fill_blanks: answer => fillBlanksAnswerHtml(answer)
+};
+
 /**
  * Genera HTML para mostrar la respuesta correcta en un formato visual
  * @param {Object|null} answer - Resultado de extractCorrectAnswer
  * @returns {string} HTML formateado
  */
 function generateCorrectAnswerHTML(answer) {
-    if (!answer) {
-        return `
-            <div style="background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); padding: 40px; border-radius: 20px; text-align: center;">
-                <div style="font-size: 28px; color: white; font-style: italic;">
-                    Esta pregunta no tiene una respuesta correcta marcada<br/>(puede ser una encuesta)
-                </div>
-            </div>
-        `;
-    }
-
-    if (answer.type === 'order') {
-        return `
-            <div style="background: transparent; padding: 0;">
-                <ol style="list-style-position: inside; color: white; font-size: 24px; line-height: 1.8; margin: 0; padding: 0;">
-                    ${answer.items
-        .map(
-            item => `
-                        <li style="margin-bottom: 8px;">
-                            <strong>${escapeHtml(item.text)}</strong>
-                            ${item.justification ? `<div style="margin-left: 20px; font-size: 18px; font-weight: normal; color: rgba(255,255,255,0.9); margin-top: 4px;">→ ${escapeHtml(item.justification)}</div>` : ''}
-                        </li>
-                    `
-        )
-        .join('')}
-                </ol>
-            </div>
-        `;
-    }
-
-    if (answer.type === 'numeric_approximation') {
-        return `
-            <div style="background: rgba(16, 185, 129, 0.15); backdrop-filter: blur(10px); padding: 40px; border-radius: 20px; border: 3px solid #10b981; text-align: center;">
-                <div style="font-size: 48px; font-weight: 900; color: #10b981; margin-bottom: 15px;">
-                    ${answer.display}
-                </div>
-                <div style="color: rgba(255,255,255,0.9); font-size: 20px;">
-                    Respuesta numérica correcta
-                </div>
-            </div>
-        `;
-    }
-
-    if (answer.type === 'quiz') {
-        const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
-        const letter = letters[answer.optionIndex] || '?';
-        return `
-            <div style="background: rgba(16, 185, 129, 0.15); backdrop-filter: blur(10px); padding: 30px 40px; border-radius: 20px; margin-bottom: 20px; border: 3px solid #10b981;">
-                <div style="font-size: 36px; font-weight: 700; color: #059669; margin-bottom: 15px; display: flex; align-items: center;">
-                    <span style="margin-right: 15px;">✓</span>
-                    <span style="background: #10b981; color: white; width: 60px; height: 60px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; margin-right: 20px;">${letter}</span>
-                    <span style="color: white; flex: 1;">${escapeHtml(answer.display)}</span>
-                </div>
-            </div>
-        `;
-    }
-
-    if (answer.type === 'word_scramble') {
-        const letters = answer.word.toUpperCase().split('');
-        return `
-            <div style="text-align: center;">
-                <div style="font-size: 22px; font-weight: 700; color: rgba(255,255,255,0.8); margin-bottom: 24px; letter-spacing: 2px; text-transform: uppercase;">
-                    PALABRA CORRECTA
-                </div>
-                <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
-                    ${letters
-        .map(
-            letter => `
-                        <div style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; width: 70px; height: 70px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 900; text-transform: uppercase; box-shadow: 0 6px 16px rgba(0,0,0,0.3);">
-                            ${escapeHtml(letter)}
-                        </div>
-                    `
-        )
-        .join('')}
-                </div>
-            </div>
-        `;
-    }
-
-    if (answer.type === 'multiple_choice') {
-        return `
-            <div style="text-align: left;">
-                <div style="font-size: 22px; font-weight: 700; color: rgba(255,255,255,0.9); margin-bottom: 24px; letter-spacing: 1px; text-align: center;">
-                    ✓ RESPUESTAS CORRECTAS (Pueden ser múltiples)
-                </div>
-                <div style="display: flex; flex-direction: column; gap: 12px;">
-                    ${answer.items
-        .map(
-            item => `
-                        <div style="background: rgba(16, 185, 129, 0.15); backdrop-filter: blur(10px); padding: 20px 30px; border-radius: 16px; border: 3px solid #10b981;">
-                            <div style="font-size: 28px; font-weight: 700; color: white; display: flex; align-items: center;">
-                                <span style="color: #10b981; margin-right: 15px; font-size: 32px;">✓</span>
-                                <span>${escapeHtml(item)}</span>
-                            </div>
-                        </div>
-                    `
-        )
-        .join('')}
-                </div>
-            </div>
-        `;
-    }
-
-    if (answer.type === 'word_search') {
-        return `
-            <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
-                ${answer.items
-        .map(
-            word => `
-                    <span style="background: rgba(16, 185, 129, 0.15); border: 3px solid #10b981; color: white; padding: 10px 18px; border-radius: 12px; font-size: 26px; font-weight: 800; letter-spacing: 2px;">${escapeHtml(word)}</span>
-                `
-        )
-        .join('')}
-            </div>
-        `;
-    }
-
-    if (answer.type === 'fill_blanks') {
-        return fillBlanksAnswerHtml(answer);
-    }
-
-    return ''; // Fallback
+    if (!answer) return noAnswerHtml();
+    const render = Object.hasOwn(ANSWER_HTML_BY_TYPE, answer.type) ? ANSWER_HTML_BY_TYPE[answer.type] : null;
+    return render ? render(answer) : ''; // Fallback
 }
 
 /** Completa la frase: frase completa con cada palabra resaltada (los marcadores {{n}} pasan a fichas) */

@@ -35,6 +35,7 @@
     "admin.ai.importing": "Importando banco...",
     "admin.ai.import_ok": "銀行は正常にインポートされました。 ID:",
     "admin.ai.view_banks": "銀行を参照",
-    "admin.ai.timeout": "タイムアウトしました (504)..."
+    "admin.ai.timeout": "タイムアウトしました (504)...",
+    "admin.ai.type_survey_multiple": "複数選択アンケート"
   }
 }

@@ -50,6 +50,8 @@
     "admin.custom.badge_scramble": "ANAGRAMA",
     "admin.custom.badge_multiple": "MÚLTIPLA",
     "admin.custom.survey_answer": "Sondagem (votos)",
+    "admin.custom.survey_multiple_answer": "Inquérito de escolha múltipla (votos)",
+    "admin.custom.badge_survey_multiple": "INQUÉRITO DE ESCOLHA MÚLTIPLA",
     "admin.custom.error_name": "Por favor, dê um nome ao jogo",
     "admin.custom.error_questions": "Adicione pelo menos uma pergunta",
     "admin.custom.success_saved": "Jogo personalizado guardado com sucesso!",

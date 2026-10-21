@@ -1,5 +1,7 @@
 /**
- * @fileoverview Renderizado de preguntas tipo multiple_choice (selección múltiple)
+ * @fileoverview Renderizado de preguntas tipo multiple_choice (selección múltiple).
+ * La encuesta de selección múltiple usa la misma pantalla con otra configuración
+ * (player-survey-multiple.js): otro rótulo y se puede enviar sin marcar nada.
  */
 
 import {
@@ -25,6 +27,16 @@ import { escapeHtml, sanitizeResourceUrl } from '../core/sanitize.js?v=202609221
 let selectedIndices = [];
 let autoSubmitTimeout = null;
 let hasSubmitted = false;
+
+/** Selección múltiple: al menos una opción; el rótulo y el botón se traducen por su texto. */
+const MULTIPLE_CHOICE_CONFIG = {
+    answerType: 'multiple_choice',
+    allowEmpty: false,
+    stripHtml: () => '✓ Selección Múltiple (puedes marcar varias)',
+    sendLabel: () => 'ENVIAR RESPUESTA',
+    emptyLabel: () => 'ENVIAR RESPUESTA'
+};
+let activeConfig = MULTIPLE_CHOICE_CONFIG;
 
 /**
  * Toggle selección de una opción
@@ -89,13 +101,18 @@ function updateEnviarButton() {
     const btn = document.getElementById('btn-enviar-multiple');
     if (!btn) return;
 
-    if (selectedIndices.length > 0) {
-        btn.classList.remove('disabled');
-        btn.disabled = false;
-    } else {
-        btn.classList.add('disabled');
-        btn.disabled = true;
-    }
+    const hasSelection = selectedIndices.length > 0;
+    const enabled = hasSelection || activeConfig.allowEmpty;
+    btn.classList.toggle('disabled', !enabled);
+    btn.disabled = !enabled;
+    if (!activeConfig.allowEmpty) return;
+
+    // Encuesta: sin nada marcado el botón es secundario y dice «Ninguna»
+    btn.textContent = hasSelection ? activeConfig.sendLabel() : activeConfig.emptyLabel();
+    btn.classList.toggle('bg-green-600', hasSelection);
+    btn.classList.toggle('hover:bg-green-700', hasSelection);
+    btn.classList.toggle('bg-slate-700', !hasSelection);
+    btn.classList.toggle('hover:bg-slate-600', !hasSelection);
 }
 
 /**
@@ -103,7 +120,7 @@ function updateEnviarButton() {
  */
 window.enviarRespuestaMultiple = function () {
     if (hasSubmitted) return;
-    if (selectedIndices.length === 0) return;
+    if (selectedIndices.length === 0 && !activeConfig.allowEmpty) return;
     if (getPendingAnswer() || getSendingAnswer()) return;
 
     hasSubmitted = true;
@@ -126,15 +143,17 @@ window.enviarRespuestaMultiple = function () {
     }
 
     // Usar la función estándar de envío
-    enviarRespuestaMultipleChoice([...selectedIndices], false);
+    enviarRespuestaMultipleChoice([...selectedIndices], false, activeConfig.answerType);
 };
 
 /**
  * Renderizar pregunta con selección múltiple
  * @param {Object} pregunta - Datos de la pregunta
+ * @param {Object} [config] - Variante (la encuesta de selección múltiple pasa la suya)
  */
-export function renderizarPreguntaMultipleChoice(pregunta) {
+export function renderizarPreguntaMultipleChoice(pregunta, config = MULTIPLE_CHOICE_CONFIG) {
     clearOrderState();
+    activeConfig = config;
     selectedIndices = [];
     hasSubmitted = false;
     autoSubmitTimeout = null;
@@ -191,7 +210,7 @@ export function renderizarPreguntaMultipleChoice(pregunta) {
             </div>
             <div class="bg-plum-700 px-3 py-1 text-center shrink-0">
                 <p class="text-white text-xs font-bold uppercase tracking-wide">
-                    ✓ Selección Múltiple (puedes marcar varias)
+                    ${activeConfig.stripHtml()}
                 </p>
             </div>
             <div class="grid grid-cols-2 gap-1.5 flex-1 p-1.5 bg-slate-200 overflow-hidden" style="grid-template-rows: repeat(${pregunta.options.length > 4 ? 3 : 2}, minmax(0, 1fr));">
@@ -218,13 +237,14 @@ export function renderizarPreguntaMultipleChoice(pregunta) {
                     data-player-action="send-multiple"
                     disabled
                     class="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-500 disabled:cursor-not-allowed text-white font-black text-lg py-4 rounded-xl shadow-lg transition-all disabled">
-                    ENVIAR RESPUESTA
+                    ${activeConfig.emptyLabel()}
                 </button>
             </div>
         </div>
     `);
 
     fitOptionButtonText('[data-player-action="toggle-multiple"] .btn-text');
+    updateEnviarButton();
 
     // Auto-submit al acabar el tiempo
     const timeLimit = (pregunta.time_limit || 30) * 1000;

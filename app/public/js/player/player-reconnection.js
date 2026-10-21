@@ -37,6 +37,7 @@ import {
     renderizarPreguntaWordSearch,
     renderizarPreguntaFillBlanks,
     renderizarPreguntaMultipleChoice,
+    renderizarPreguntaSurveyMultiple,
     renderizarPreguntaMatching
 } from './player-question-ui.js?v=20260922172926';
 import { renderizarSlideLienzo } from './player-slide-canvas-ui.js?v=20261019120000';
@@ -260,6 +261,8 @@ function renderQuestion(question) {
         renderizarPreguntaFillBlanks(question);
     } else if (question.question_type === 'multiple_choice') {
         renderizarPreguntaMultipleChoice(question);
+    } else if (question.question_type === 'survey_multiple') {
+        renderizarPreguntaSurveyMultiple(question);
     } else {
         renderizarPregunta(question);
     }

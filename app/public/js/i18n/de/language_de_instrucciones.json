@@ -17,6 +17,8 @@
     "instructions.question_types.quiz.description": "Klassische Frage mit mehreren möglichen Antworten, aber nur eine ist richtig.",
     "instructions.question_types.survey.title": "Umfrage",
     "instructions.question_types.survey.description": "Keine richtigen oder falschen Antworten. Es dient dazu, die Meinung des Publikums durch die Präsentation verschiedener Optionen einzuholen.",
+    "instructions.question_types.survey_multiple.title": "Umfrage mit Mehrfachauswahl",
+    "instructions.question_types.survey_multiple.description": "Eine Umfrage, bei der jede Person beliebig viele Optionen ankreuzt oder keine. Am Ende sieht man den Anteil der Spieler pro Option; zusammen kann das mehr als 100 % ergeben.",
     "instructions.question_types.numeric.title": "Numerische Näherung",
     "instructions.question_types.numeric.description": "Die Spieler müssen eine Zahl eingeben und versuchen, dem genauen Gewinnwert so nahe wie möglich zu kommen.",
     "instructions.question_types.order.title": "Sortierreihenfolge (Reihenfolge)",

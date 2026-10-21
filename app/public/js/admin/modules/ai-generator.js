@@ -21,8 +21,20 @@ const QUESTION_TYPE_LABELS = [
     { type: 'multiple_choice', label: 'Selección múltiple', icon: 'fa-tasks', color: 'aubergine' },
     { type: 'fill_blanks', label: 'Completa la frase', icon: 'fa-i-cursor', color: 'emerald' },
     { type: 'word_search', label: 'Sopa de letras', icon: 'fa-th', color: 'teal' },
-    { type: 'matching', label: 'Emparejar', icon: 'fa-link', color: 'orange' }
+    { type: 'matching', label: 'Emparejar', icon: 'fa-link', color: 'orange' },
+    {
+        type: 'survey_multiple',
+        label: 'Encuesta de selección múltiple',
+        key: 'admin.ai.type_survey_multiple',
+        icon: 'fa-square-poll-horizontal',
+        color: 'sky'
+    }
 ];
+
+/** Nombre del tipo en el idioma de la interfaz (los que tienen clave i18n). */
+function aiTypeLabel(t) {
+    return t.key ? _t(t.key, null, t.label) : t.label;
+}
 
 // ===== PUNTO DE ENTRADA =====
 
@@ -294,7 +306,7 @@ function _renderAIStep2() {
             <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100">
                 <div class="w-10 h-10 bg-${t.color}-100 rounded-lg flex items-center justify-center flex-shrink-0">
                     <i class="fas ${t.icon} text-${t.color}-600"></i></div>
-                <span class="flex-1 font-semibold text-slate-700">${t.label}</span>
+                <span class="flex-1 font-semibold text-slate-700">${aiTypeLabel(t)}</span>
                 <input type="number" min="0" max="20" value="0" id="ai-count-${t.type}"
                     data-ai-gen-action="update-total"
                     class="w-20 border-2 border-slate-200 rounded-lg p-2 text-center font-bold focus:border-aubergine-500 outline-none">

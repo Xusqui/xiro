@@ -131,7 +131,7 @@ function renderResultadosBusqueda(questions) {
                         <p class="font-medium text-sm text-slate-800 mt-1">${escapeHtml(displayQuestionTextFrontend(q))}</p>
                         <p class="text-xs text-green-600 mt-0.5">
                             <i class="fas fa-check-circle mr-1"></i>
-                            ${q.question_type === 'survey' ? 'Encuesta (votos)' : escapeHtml(correctDisplay)}
+                            ${surveyAnswerLabel(q.question_type) || escapeHtml(correctDisplay)}
                         </p>
                     </div>
                 </div>
