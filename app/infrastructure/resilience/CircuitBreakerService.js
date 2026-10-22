@@ -30,6 +30,7 @@ const CircuitState = {
  * @property {number} successThreshold - Número de éxitos en HALF_OPEN para cerrar (default: 2)
  * @property {number} timeout - Tiempo en ms antes de pasar a HALF_OPEN (default: 30000)
  * @property {number} monitoringPeriod - Período de monitoreo de errores en ms (default: 60000)
+ * @property {Function} isFailure - Decide si un error cuenta como fallo (default: todos cuentan)
  * @property {string} name - Nombre del circuit breaker para logging
  */
 
@@ -48,6 +49,7 @@ class CircuitBreakerService extends EventEmitter {
         this.successThreshold = options.successThreshold || 2;
         this.timeout = options.timeout || 30000; // 30 segundos
         this.monitoringPeriod = options.monitoringPeriod || 60000; // 1 minuto
+        this.isFailure = options.isFailure || (() => true);
 
         this.state = CircuitState.CLOSED;
         this.failureCount = 0;
@@ -108,6 +110,11 @@ class CircuitBreakerService extends EventEmitter {
             this._onSuccess();
             return result;
         } catch (error) {
+            if (!this.isFailure(error)) {
+                // El servicio respondió (p. ej. error de validación): sigue sano
+                this._onSuccess();
+                throw error;
+            }
             this._onFailure(error);
 
             if (fallback !== null) {

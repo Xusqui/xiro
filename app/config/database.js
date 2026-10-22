@@ -6,22 +6,11 @@
 require('./env');
 const { Pool } = require('pg');
 const logger = require('./logger');
+const { buildPoolOptions } = require('./database-pool-options');
 const DatabaseCircuitBreaker = require('../infrastructure/resilience/DatabaseCircuitBreaker');
 
-// Configuración del pool de conexiones
-const rawPool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT || 5432,
-    min: parseInt(process.env.DB_POOL_MIN) || 5,
-    max: parseInt(process.env.DB_POOL_MAX) || 30, // Aumentado de 20 a 30 para alta concurrencia
-    idleTimeoutMillis: parseInt(process.env.DB_IDLE_TIMEOUT) || 20000, // Reducido de 30000 a 20000 - liberar conexiones más rápido
-    connectionTimeoutMillis: parseInt(process.env.DB_CONNECTION_TIMEOUT) || 5000,
-    statement_timeout: 30000,
-    query_timeout: 30000
-});
+// Pool de conexiones: tamaño acotado por el presupuesto de conexiones entre workers PM2
+const rawPool = new Pool(buildPoolOptions());
 
 // Wrapper con Circuit Breaker
 const pool = new DatabaseCircuitBreaker(rawPool, {
@@ -60,16 +49,16 @@ const MIGRATION_QUERIES = [
     'ALTER TABLE options ADD COLUMN IF NOT EXISTS justification TEXT',
     'ALTER TABLE options ADD COLUMN IF NOT EXISTS order_index INTEGER',
     'ALTER TABLE questions ADD COLUMN IF NOT EXISTS bank_id INTEGER REFERENCES question_banks(id) ON DELETE CASCADE',
-    'ALTER TABLE questions ADD COLUMN IF NOT EXISTS question_type VARCHAR(30) DEFAULT \'quiz\'',
+    "ALTER TABLE questions ADD COLUMN IF NOT EXISTS question_type VARCHAR(30) DEFAULT 'quiz'",
     'ALTER TABLE questions ALTER COLUMN question_type TYPE VARCHAR(30)',
     'ALTER TABLE questions ADD COLUMN IF NOT EXISTS time_limit INTEGER DEFAULT 20',
-    'ALTER TABLE questions ADD COLUMN IF NOT EXISTS tipo_contenido VARCHAR(10) DEFAULT \'texto\'',
+    "ALTER TABLE questions ADD COLUMN IF NOT EXISTS tipo_contenido VARCHAR(10) DEFAULT 'texto'",
     'ALTER TABLE questions ADD COLUMN IF NOT EXISTS url_recurso TEXT',
     'ALTER TABLE questions ADD COLUMN IF NOT EXISTS correct_answer NUMERIC',
     'ALTER TABLE questions ADD COLUMN IF NOT EXISTS max_points INTEGER',
     'ALTER TABLE questions ADD COLUMN IF NOT EXISTS hint_text TEXT',
     'ALTER TABLE question_banks ADD COLUMN IF NOT EXISTS pin VARCHAR(10) UNIQUE',
-    'ALTER TABLE custom_game_questions ADD COLUMN IF NOT EXISTS slide_image_position VARCHAR(5) CHECK (slide_image_position IN (\'left\', \'right\'))',
+    "ALTER TABLE custom_game_questions ADD COLUMN IF NOT EXISTS slide_image_position VARCHAR(5) CHECK (slide_image_position IN ('left', 'right'))",
     'ALTER TABLE custom_game_questions ADD COLUMN IF NOT EXISTS slide_title TEXT',
     'ALTER TABLE custom_game_questions ADD COLUMN IF NOT EXISTS slide_body TEXT',
     'ALTER TABLE custom_game_questions ADD COLUMN IF NOT EXISTS slide_footer TEXT',
@@ -100,7 +89,8 @@ async function runDbQueries(queries) {
 function logDatabaseReady() {
     logger.info('✅ Database ready and connected', {
         poolMin: rawPool.options.min,
-        poolMax: rawPool.options.max
+        poolMax: rawPool.options.max,
+        applicationName: rawPool.options.application_name
     });
 }
 

@@ -9,6 +9,7 @@
  */
 
 const { CircuitBreakerService } = require('./CircuitBreakerService');
+const { isInfrastructureError } = require('./pg-error-classifier');
 const logger = require('../../config/logger');
 
 /**
@@ -24,7 +25,8 @@ class DatabaseCircuitBreaker {
             failureThreshold: options.readFailureThreshold || 5,
             successThreshold: options.readSuccessThreshold || 2,
             timeout: options.readTimeout || 30000,
-            monitoringPeriod: 60000
+            monitoringPeriod: 60000,
+            isFailure: isInfrastructureError
         });
 
         // Circuit Breaker para operaciones de escritura (menos tolerante)
@@ -33,7 +35,8 @@ class DatabaseCircuitBreaker {
             failureThreshold: options.writeFailureThreshold || 3,
             successThreshold: options.writeSuccessThreshold || 2,
             timeout: options.writeTimeout || 30000,
-            monitoringPeriod: 60000
+            monitoringPeriod: 60000,
+            isFailure: isInfrastructureError
         });
 
         this._setupEventListeners();
@@ -97,6 +100,21 @@ class DatabaseCircuitBreaker {
      */
     connect() {
         return this.writeCircuit.execute(() => this.pool.connect(), null);
+    }
+
+    /** Conexiones abiertas en el pool (para health checks) */
+    get totalCount() {
+        return this.pool.totalCount || 0;
+    }
+
+    /** Conexiones libres en el pool */
+    get idleCount() {
+        return this.pool.idleCount || 0;
+    }
+
+    /** Peticiones esperando una conexión: > 0 indica pool saturado */
+    get waitingCount() {
+        return this.pool.waitingCount || 0;
     }
 
     /**
