@@ -1191,26 +1191,15 @@ router.get('/api/admin/cache-metrics', authenticateAdmin, authorizeAdmin, async 
  * Requiere: autenticación admin
  * Limpia: questionBankCache (bancos y juegos completos de la base de datos)
  */
-router.post('/api/admin/clear-cache', authenticateAdmin, authorizeAdmin, async (req, res) => {
+router.post('/api/admin/clear-cache', authenticateAdmin, authorizeAdmin, (req, res) => {
     try {
         // Obtener stats antes de limpiar (de este worker)
         const statsBeforeQuestions = questionBankCache.getStats();
         const statsPinBefore = pinCache.getStats();
 
-        // Limpiar caché en este worker inmediatamente
+        // Limpia este worker y avisa a los demás (services/cache-invalidation-bus.js)
         questionBankCache.invalidateAll();
         pinCache.clear();
-
-        // Propagar a todos los demás workers vía Redis pub/sub
-        const { RedisSyncBus } = require('../sockets/sync/RedisSyncBus');
-        const redisSyncBus = RedisSyncBus.getInstance();
-        try {
-            await redisSyncBus.publish('cache-invalidate-all', { originWorkerId: process.pid });
-        } catch (redisErr) {
-            logger.warn('Redis broadcast for cache-invalidate-all failed (solo se limpió este worker)', {
-                error: redisErr.message
-            });
-        }
 
         logger.info('Game cache cleared by admin (all workers)', {
             user: req.user.role,

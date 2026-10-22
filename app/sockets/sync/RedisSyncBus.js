@@ -11,6 +11,7 @@ const { getWorkerContext } = require('../../config/log-context');
 const { SCORING } = require('../../config/game-constants');
 const { clearGameTimer, timerPausedState, roomPresenterMap } = require('../../state/globalState');
 const runtimeConfig = require('../../config/runtime-config');
+const cacheInvalidationBus = require('../../services/cache-invalidation-bus');
 
 const DEFAULT_DOUBLE_STREAK_BONUS_PERCENTAGE = 1.0;
 
@@ -241,6 +242,7 @@ class RedisSyncBus {
         await this.registerSessionAndPlayerSubscriptions();
         await this.registerRevealSubscriptions();
         await this.registerStreakTimerAndConfigSubscriptions();
+        await cacheInvalidationBus.attach(this.syncPub, this.syncSub);
 
         logger.info('✅ RedisSyncBus subscriptions initialized', getWorkerContext());
     }

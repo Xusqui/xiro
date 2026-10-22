@@ -614,7 +614,7 @@ async function getBankQuestions(bankId) {
                      q.tipo_contenido, q.url_recurso, q.question_image_url, q.time_limit,
                      q.correct_answer, q.max_points, q.hint_text,
                      q.tolerance_mode, q.tolerance_value, q.tolerance_cap, q.correct_word
-            ORDER BY RANDOM()
+            ORDER BY q.id -- el resultado se cachea; prepareQuestions baraja en cada partida
         `,
             [bankId]
         );

@@ -9,6 +9,7 @@
 const { pool } = require('../../config/database');
 const logger = require('../../config/logger');
 const { resolveSessionLogsForSave } = require('../game-logs.service');
+const { validatePinInDatabase } = require('./pin.service');
 
 function isMissingSessionLogsColumnError(error) {
     if (!error) return false;
@@ -29,21 +30,10 @@ async function detectIsTestSession(pin) {
     if (/^\d{6}$/.test(pinStr) || /^TRIVIA-\d+$/i.test(pinStr)) {
         return false;
     }
-    const basePin = pinStr.split('-')[0];
-    try {
-        const lookup = await pool.query(
-            `SELECT 1 FROM custom_games WHERE pin = $1
-             UNION ALL SELECT 1 FROM games WHERE pin = $1
-             UNION ALL SELECT 1 FROM question_banks WHERE pin = $1
-             UNION ALL SELECT 1 FROM quizzes WHERE pin = $1
-             UNION ALL SELECT 1 FROM trivial_games WHERE pin = $1
-             LIMIT 1`,
-            [basePin]
-        );
-        return lookup.rows.length === 0;
-    } catch (_) {
-        return true; // Unknown format → treat as test on DB error
-    }
+    // validatePinInDatabase pasa por pinCache y, si la BD falla, responde valid=false:
+    // la partida cuenta entonces como test, igual que antes.
+    const { valid } = await validatePinInDatabase(pinStr.split('-')[0]);
+    return !valid;
 }
 
 /**

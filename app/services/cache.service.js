@@ -8,6 +8,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const logger = require('../config/logger');
 const { calculateHitRate, buildCacheStats } = require('./helpers/CacheStatsHelper');
+const invalidationBus = require('./cache-invalidation-bus');
 
 /**
  * Implementación de LRU Cache con TTL
@@ -271,11 +272,16 @@ class QuestionBankCache {
     }
 
     /**
-     * Invalida caché de un banco específico
+     * Invalida caché de un banco específico en todos los workers
      * @param {number} bankId - ID del banco
      * @param {string} type - Tipo: 'bank', 'game', 'custom_game'
      */
     invalidate(bankId, type = 'bank') {
+        this.invalidateLocal(bankId, type);
+        invalidationBus.broadcast('questionBank', 'invalidate', [bankId, type]);
+    }
+
+    invalidateLocal(bankId, type = 'bank') {
         const key = `${type}:${bankId}`;
         const deleted = this.cache.delete(key);
 
@@ -286,9 +292,14 @@ class QuestionBankCache {
     }
 
     /**
-     * Invalida todos los bancos
+     * Invalida todos los bancos en todos los workers
      */
     invalidateAll() {
+        this.invalidateAllLocal();
+        invalidationBus.broadcast('questionBank', 'invalidateAll');
+    }
+
+    invalidateAllLocal() {
         this.cache.clear();
         this.stats.invalidations++;
         logger.info('All question banks cache invalidated');
@@ -361,11 +372,16 @@ class QuestionBankCache {
     }
 
     /**
-     * Invalida caché de un juego completo específico
+     * Invalida caché de un juego completo específico en todos los workers
      * @param {string} gameId - ID del juego
      * @param {string} type - Tipo: 'game' o 'custom_game'
      */
     invalidateGame(gameId, type = 'game') {
+        this.invalidateGameLocal(gameId, type);
+        invalidationBus.broadcast('questionBank', 'invalidateGame', [gameId, type]);
+    }
+
+    invalidateGameLocal(gameId, type = 'game') {
         const key = `fullgame:${type}:${gameId}`;
         const deleted = this.cache.delete(key);
 
@@ -379,6 +395,7 @@ class QuestionBankCache {
 // Exportar instancias singleton
 const fileCacheService = new FileCacheService();
 const questionBankCache = new QuestionBankCache();
+invalidationBus.registerCache('questionBank', questionBankCache, ['invalidate', 'invalidateAll', 'invalidateGame']);
 
 module.exports = {
     fileCacheService,

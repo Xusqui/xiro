@@ -9,6 +9,7 @@
  */
 
 const logger = require('../config/logger');
+const invalidationBus = require('./cache-invalidation-bus');
 
 class PinCacheService {
     constructor(ttlMinutes = 5) {
@@ -72,10 +73,15 @@ class PinCacheService {
     }
 
     /**
-     * Invalidar un PIN específico
+     * Invalidar un PIN específico en todos los workers
      * @param {string} pin
      */
     invalidate(pin) {
+        this.invalidateLocal(pin);
+        invalidationBus.broadcast('pin', 'invalidate', [pin]);
+    }
+
+    invalidateLocal(pin) {
         const normalizedPin = String(pin).toUpperCase();
         const deleted = this.cache.delete(normalizedPin);
         if (deleted) {
@@ -84,10 +90,15 @@ class PinCacheService {
     }
 
     /**
-     * Invalidar todos los PINs de un tipo específico
+     * Invalidar todos los PINs de un tipo específico en todos los workers
      * @param {string} type - 'bank' | 'game' | 'custom_game' | 'quiz'
      */
     invalidateByType(type) {
+        this.invalidateByTypeLocal(type);
+        invalidationBus.broadcast('pin', 'invalidateByType', [type]);
+    }
+
+    invalidateByTypeLocal(type) {
         let count = 0;
         for (const [pin, data] of this.cache.entries()) {
             if (data.type === type) {
@@ -100,9 +111,14 @@ class PinCacheService {
     }
 
     /**
-     * Limpiar toda la caché
+     * Limpiar toda la caché en todos los workers
      */
     clear() {
+        this.clearLocal();
+        invalidationBus.broadcast('pin', 'clear');
+    }
+
+    clearLocal() {
         const size = this.cache.size;
         this.cache.clear();
         this.stats.invalidations += size;
@@ -165,11 +181,12 @@ class PinCacheService {
         if (this.cleanupInterval) {
             clearInterval(this.cleanupInterval);
         }
-        this.clear();
+        this.clearLocal();
     }
 }
 
 // Singleton
 const pinCache = new PinCacheService(5); // 5 minutos TTL
+invalidationBus.registerCache('pin', pinCache, ['invalidate', 'invalidateByType', 'clear']);
 
 module.exports = pinCache;
