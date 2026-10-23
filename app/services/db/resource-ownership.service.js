@@ -10,7 +10,8 @@ const RESOURCE_TABLES = Object.freeze({
     game: 'games',
     custom_game: 'custom_games',
     trivial: 'trivial_games',
-    quiz: 'quizzes'
+    quiz: 'quizzes',
+    canvas_slide: 'canvas_slide_library'
 });
 
 function normalizeCreatorRole(role) {

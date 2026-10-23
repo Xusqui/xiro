@@ -284,6 +284,7 @@ async function renderEditorJuegoPersonalizado(game) {
             </div>
 
             ${_customExportPdfHtml(game)}
+            ${customCanvasExportAllHtml()}
             ${renderSaveBar(_t('admin.savebar.btn_save_changes'))}
         </div>`);
 

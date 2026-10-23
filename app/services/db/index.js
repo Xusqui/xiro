@@ -16,6 +16,7 @@ const gameSessionService = require('./game-session.service');
 const siteSettingsService = require('./site-settings.service');
 const resourceOwnershipService = require('./resource-ownership.service');
 const presenterVisibilityService = require('./presenter-visibility.service');
+const canvasSlideLibraryService = require('./canvas-slide-library.service');
 
 module.exports = {
     // PIN validation
@@ -46,5 +47,8 @@ module.exports = {
     ...resourceOwnershipService,
 
     // Bulk visibility toggling
-    ...presenterVisibilityService
+    ...presenterVisibilityService,
+
+    // Free-slide library
+    ...canvasSlideLibraryService
 };

@@ -3,6 +3,8 @@
  * editor de juegos personalizados). Cada plantilla se ve con una miniatura real del lienzo
  * de partida (core/slide-canvas-render.js); las que piden imagen o vídeo al abrir muestran
  * un hueco en su lugar. Al elegir una, slides-canvas.js abre el editor (mostrarEditorLienzo).
+ * Debajo: importar un archivo .xiroslide o pegar del portapapeles (slides-canvas-import.js) y la
+ * biblioteca de diapositivas (slides-canvas-library.js).
  * Textos: claves admin.canvas.* (slides-canvas-i18n.js), también los del lienzo de partida.
  */
 
@@ -70,10 +72,23 @@ function mostrarSelectorLienzo() {
         )
         .join('')}
             </div>
+            <div class="xsce-io-row">
+                <button type="button" class="xsce-io-tile" data-admin-click="importarSlidesLienzo()">
+                    <i class="fas fa-file-import" aria-hidden="true"></i>
+                    <span><strong>${th('io.import_file')}</strong><small>${th('io.import_file_desc')}</small></span>
+                </button>
+                <button type="button" class="xsce-io-tile" data-admin-click="pegarSlidesLienzo()">
+                    <i class="fas fa-paste" aria-hidden="true"></i>
+                    <span><strong>${th('io.paste')}</strong><small>${th('io.paste_desc')}</small></span>
+                </button>
+            </div>
+            <section id="lienzoBiblioteca" class="xsce-lib" aria-labelledby="lienzoBibliotecaTitulo"></section>
             <div class="xsce-dialog-foot">
                 <button type="button" data-lienzo-template="close" class="xsce-btn xsce-btn--ghost">${th('cancel')}</button>
             </div>
         </div>`;
     document.body.appendChild(modal);
     modal.querySelector('.xsce-tpl').focus();
+    // La biblioteca se carga aparte (slides-canvas-library.js); en los tests de integración no está
+    if (typeof cargarBibliotecaLienzo === 'function') cargarBibliotecaLienzo();
 }

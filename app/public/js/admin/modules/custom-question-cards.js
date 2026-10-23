@@ -246,8 +246,8 @@ function renderCustomQuestionCard(q, idx, total) {
     const slide = Object.hasOwn(_CUSTOM_SLIDE_CARDS, q.slide_type) ? _CUSTOM_SLIDE_CARDS[q.slide_type] : null;
     if (slide) {
         const [wrapClass, color, bodyFn, editFn, editClass] = slide;
-        // Las diapositivas antiguas (no Actividad) se pueden pasar a diapositiva libre (slides-canvas-card.js)
-        const convert = q.slide_type !== 'comment' && q.slide_type !== 'canvas' ? customCanvasConvertButton(idx) : '';
+        // Pie: exportar, copiar o guardar las diapositivas libres; «Convertir» en las antiguas (slides-canvas-card.js)
+        const extra = customCanvasCardExtra(q, idx);
         return _customCardShell({
             idx,
             total,
@@ -255,7 +255,7 @@ function renderCustomQuestionCard(q, idx, total) {
             color,
             body: bodyFn(q),
             actions: _customSlideActions(idx, editFn, editClass),
-            footer: _customSlideFooterPreview(q) + convert
+            footer: _customSlideFooterPreview(q) + extra
         });
     }
     return _customCardShell({

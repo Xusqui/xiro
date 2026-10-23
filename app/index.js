@@ -27,6 +27,7 @@ const maintenanceMiddleware = require('./middlewares/maintenanceMode');
 const tvAccessGuard = require('./middlewares/tvAccessGuard');
 const standaloneAccessGuard = require('./middlewares/standaloneAccessGuard');
 const assetVersioningMiddleware = require('./middlewares/assetVersioning');
+const { uploadsSvgPolicy } = require('./middlewares/uploadsSvgPolicy');
 const metricsMiddleware = require('./middlewares/metrics.middleware');
 
 // ===== RUTAS =====
@@ -127,6 +128,9 @@ app.use(standaloneAccessGuard);
 
 // Reescribe ?v=... de assets (.js/.css/.svg) con hash de contenido antes de servir estático
 app.use(assetVersioningMiddleware);
+
+// SVG de /uploads/: CSP de sandbox para que no ejecuten nada aunque se abran directamente
+app.use(uploadsSvgPolicy);
 
 app.use(
     express.static('public', {
