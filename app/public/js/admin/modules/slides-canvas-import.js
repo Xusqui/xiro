@@ -85,11 +85,20 @@ function _lienzoAppendSlides(canvases) {
     dibujarPreguntasPersonalizadas();
 }
 
+// Textos (claves admin.canvas.*) de la confirmación y los avisos; la IA pasa los suyos (slides-canvas-ai.js)
+const _LIENZO_ADD_TEXTS = {
+    manyTitle: 'io.import_many_title',
+    many: 'io.import_many',
+    manyConfirm: 'io.import_many_confirm',
+    warningsTitle: 'io.warnings_title'
+};
+
 /** Una diapositiva va al editor; varias, al final del juego tras confirmar. */
-function _lienzoAddToGame(result) {
+function _lienzoAddToGame(result, texts) {
     const E = window.XiroCanvasEditor;
+    const keys = Object.assign({}, _LIENZO_ADD_TEXTS, texts);
     const canvases = result.slides.map(slide => slide.slide_canvas);
-    const showWarnings = () => E.pkg.showWarnings(result.warnings, 'io.warnings_title');
+    const showWarnings = () => E.pkg.showWarnings(result.warnings, keys.warningsTitle);
     if (canvases.length === 1) {
         document.getElementById('modalLienzoPlantillas')?.remove();
         mostrarEditorLienzo(null, null, canvases[0]);
@@ -98,15 +107,15 @@ function _lienzoAddToGame(result) {
     }
     const n = canvases.length;
     mostrarModalConfirmacion(
-        E.th('io.import_many_title'),
-        E.th('io.import_many', { n }),
+        E.th(keys.manyTitle),
+        E.th(keys.many, { n }),
         () => {
             document.getElementById('modalLienzoPlantillas')?.remove();
             _lienzoAppendSlides(canvases);
             showWarnings();
         },
         null,
-        E.th('io.import_many_confirm', { n }),
+        E.th(keys.manyConfirm, { n }),
         E.th('cancel')
     );
 }

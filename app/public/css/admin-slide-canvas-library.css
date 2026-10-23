@@ -1,5 +1,5 @@
-/* Diapositivas libres: importar, pegar y biblioteca en el selector de plantillas; diálogo de texto
-   (copiar o pegar a mano) y lista de avisos. Clases de slides-canvas-picker.js, slides-canvas-library.js,
+/* Diapositivas libres: generar con IA, importar, pegar y biblioteca en el selector de plantillas; diálogo de
+   texto (copiar o pegar a mano) y lista de avisos. Clases de slides-canvas-picker.js, slides-canvas-library.js,
    slides-canvas-io-dialogs.js y slides-canvas-package.js. */
 
 .xsce-io-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
@@ -22,6 +22,8 @@
 .xsce-io-tile i { font-size: 20px; }
 .xsce-io-tile strong { display: block; font-size: 14px; font-weight: 800; color: #1e293b; }
 .xsce-io-tile small { display: block; margin-top: 2px; font-size: 12px; color: #64748b; }
+/* «Generar con IA» ocupa toda la fila, encima de importar y pegar */
+.xsce-io-tile--wide { grid-column: 1 / -1; }
 
 .xsce-lib { margin-top: 24px; padding-top: 20px; border-top: 1px solid #e2e8f0; }
 .xsce-lib-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }

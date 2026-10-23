@@ -27,7 +27,8 @@
         ELEMENTS_DROPPED: 'io.warn.elements_dropped',
         SLIDE_SKIPPED: 'io.warn.slide_skipped',
         EXTERNAL_IMAGE: 'io.warn.external_image',
-        LOCAL_VIDEO: 'io.warn.local_video'
+        LOCAL_VIDEO: 'io.warn.local_video',
+        AI_FEWER_SLIDES: 'ai.warn.fewer_slides'
     };
 
     let versionPromise = null;

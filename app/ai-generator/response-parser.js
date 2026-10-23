@@ -100,4 +100,5 @@ function parseLLMResponse(raw, expectedType) {
     return items;
 }
 
-module.exports = { parseLLMResponse };
+// stripMarkdown también lo usan las diapositivas con IA (canvas-slides/generator.js)
+module.exports = { parseLLMResponse, stripMarkdown };

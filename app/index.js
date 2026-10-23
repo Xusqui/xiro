@@ -34,6 +34,7 @@ const metricsMiddleware = require('./middlewares/metrics.middleware');
 const aiGeneratorRoutes = require('./ai-generator');
 const aiGeneratorConfigRoutes = require('./ai-generator/config-routes');
 const aiGeneratorOllamaRoutes = require('./ai-generator/ollama-routes');
+const aiGeneratorCanvasRoutes = require('./ai-generator/canvas-slides/routes');
 const healthRoutes = require('./routes/health.routes');
 const adminRoutes = require('./routes/admin.routes');
 const adminRemoteRoutes = require('./routes/admin.remote.routes');
@@ -175,6 +176,7 @@ app.use(addinLogRoutes);
 app.use(aiGeneratorRoutes);
 app.use(aiGeneratorConfigRoutes);
 app.use(aiGeneratorOllamaRoutes);
+app.use(aiGeneratorCanvasRoutes);
 
 // ===== MANEJO DE ERRORES =====
 app.use(notFoundHandler);
