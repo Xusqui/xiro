@@ -1,0 +1,62 @@
+/* Columna de secciones de Configuración → Servidor (js/admin/modules/config-panel-nav.js).
+   Va fija a la izquierda de #config-form-area, con las secciones en bloques. La abierta se
+   levanta como tarjeta blanca y su icono toma el color de su sección (la clase bg-* de
+   config-panel-sections.js); las demás quedan en gris para que solo brille una. Si el
+   contenedor no da para las dos columnas, la lista pasa a tira horizontal encima del
+   formulario. Colores de tokens.css. */
+
+.xcfg { --xcfg-ease: cubic-bezier(0.22, 1, 0.36, 1); container: xcfg / inline-size; }
+.xcfg-layout { display: grid; grid-template-columns: 15rem minmax(0, 1fr); gap: 2.5rem; align-items: start; }
+.xcfg-main { min-width: 0; }
+
+/* ===== Columna ===== */
+/* El padding (compensado con margen negativo) deja sitio a la sombra y al foco, que el
+   scroll propio de la columna recortaría. Con top 1rem + padding 0.5rem, el primer título
+   queda a la altura de la primera tarjeta del formulario. */
+.xcfg-nav { position: sticky; top: 1rem; display: flex; flex-direction: column; gap: 1.25rem; max-height: calc(100vh - 2rem); margin: -0.5rem; padding: 0.5rem; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
+.xcfg-nav__group { display: flex; flex-direction: column; gap: 0.125rem; }
+/* Sangría = borde (1px) + padding izquierdo de la pestaña: el título arranca donde los iconos */
+.xcfg-nav__title { margin: 0 0 0.375rem; padding: 0 0.75rem 0 calc(0.375rem + 1px); font-size: 0.6875rem; line-height: 1rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #64748b; }
+
+/* ===== Pestaña ===== */
+.xcfg-tab { display: flex; align-items: center; gap: 0.75rem; width: 100%; min-height: 2.5rem; margin: 0; padding: 0.375rem 0.75rem 0.375rem 0.375rem; border: 1px solid transparent; border-radius: var(--radius-xl, 12px); background: transparent; color: #475569; font: inherit; font-size: 0.875rem; font-weight: 600; line-height: 1.25; text-align: left; cursor: pointer; transition: background-color 180ms var(--xcfg-ease), border-color 180ms var(--xcfg-ease), box-shadow 180ms var(--xcfg-ease), color 150ms ease-out, transform 120ms ease-out; }
+.xcfg-tab:hover { background: rgb(255 255 255 / 0.7); color: var(--console-slate); }
+.xcfg-tab:active { transform: scale(0.985); }
+.xcfg-tab:focus-visible { outline: 2px solid var(--plum-500); outline-offset: 2px; }
+.xcfg-tab[aria-selected="true"] { background: var(--surface-white); border-color: #e2e8f0; color: var(--console-ink); font-weight: 700; box-shadow: 0 12px 28px -16px rgb(15 23 42 / 0.4), 0 2px 6px rgb(15 23 42 / 0.06); }
+
+.xcfg-tab__icon { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 1.75rem; height: 1.75rem; border-radius: var(--radius-lg, 8px); color: #fff; font-size: 0.75rem; transition: background-color 180ms var(--xcfg-ease), color 180ms var(--xcfg-ease), box-shadow 180ms var(--xcfg-ease); }
+/* En reposo se apaga el color de la sección (gana a la clase bg-* por especificidad) */
+.xcfg-tab:not([aria-selected="true"]) .xcfg-tab__icon { background-color: #e2e8f0; color: #64748b; }
+.xcfg-tab:not([aria-selected="true"]):hover .xcfg-tab__icon { color: var(--console-slate); }
+.xcfg-tab[aria-selected="true"] .xcfg-tab__icon { box-shadow: 0 4px 10px -4px rgb(15 23 42 / 0.45); }
+.xcfg-tab__label { min-width: 0; overflow-wrap: break-word; }
+
+/* ===== Rejilla de campos: dos columnas solo si cada tarjeta tiene sitio ===== */
+.xcfg-fields { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+@container xcfg (min-width: 60rem) {
+    .xcfg-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ===== Contenedor estrecho: la columna pasa a tira horizontal ===== */
+@container xcfg (max-width: 52rem) {
+    .xcfg-layout { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+    .xcfg-nav { position: static; flex-direction: row; gap: 0.25rem; max-height: none; margin: -0.5rem -0.5rem -0.75rem; padding: 0.5rem 0.5rem 0.75rem; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x proximity; mask-image: linear-gradient(90deg, transparent, #000 1.25rem, #000 calc(100% - 1.25rem), transparent); }
+    .xcfg-nav__group { flex: none; flex-direction: row; gap: 0.25rem; }
+    .xcfg-nav__group + .xcfg-nav__group { margin-left: 0.25rem; padding-left: 0.5rem; border-left: 1px solid #e2e8f0; }
+    .xcfg-nav__title { display: none; }
+    .xcfg-tab { flex: none; width: auto; white-space: nowrap; scroll-snap-align: start; }
+}
+@container xcfg (min-width: 40rem) and (max-width: 52rem) {
+    .xcfg-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .xcfg-tab, .xcfg-tab__icon { transition: none; }
+    .xcfg-tab:active { transform: none; }
+}
+
+/* Alto contraste de Windows: el borde transparente se ve; la abierta lo lleva en Highlight */
+@media (forced-colors: active) {
+    .xcfg-tab[aria-selected="true"] { border-color: Highlight; }
+}

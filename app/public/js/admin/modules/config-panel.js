@@ -1,123 +1,18 @@
 /**
  * @fileoverview Panel de Configuración del servidor (sección Config)
- * Requiere: config-panel-meta.js, config-panel-fields.js y admin-savebar.js cargados previamente.
+ * Requiere: config-panel-meta.js, config-panel-fields.js, config-panel-sections.js,
+ * config-panel-nav.js y admin-savebar.js cargados previamente.
+ * La columna de secciones (izquierda) la pinta config-panel-nav.js; aquí va el formulario.
  * Las pestañas Interfaz y Fuegos artificiales viven en config-panel-ui.js y config-panel-fireworks.js;
  * IA en config-ui*.js y Licencia en site-panel.js. Todas guardan con la barra común (admin-savebar.js).
  * Las acciones de clic del panel están en config-panel-actions.js.
  */
 
-/* ===== SECCIONES ===== */
-
-const _PARAM_SECTIONS = [
-    {
-        id: 'partidas',
-        titleKey: 'admin.config.tab.partidas',
-        icon: 'fa-gamepad',
-        color: 'bg-aubergine-500',
-        keys: ['MAX_PLAYERS_PER_GAME', 'MAX_LOBBIES', 'QUESTION_TIME_LIMIT', 'GAME_CLEANUP_INTERVAL']
-    },
-    {
-        id: 'puntuacion',
-        titleKey: 'admin.config.tab.puntuacion',
-        icon: 'fa-star',
-        color: 'bg-yellow-500',
-        keys: ['BASE_POINTS', 'MAX_TIME_BONUS', 'STREAK_THRESHOLD', 'STREAK_BONUS_PERCENTAGE']
-    },
-    {
-        id: 'logging',
-        titleKey: 'admin.config.tab.logging',
-        icon: 'fa-file-alt',
-        color: 'bg-amber-500',
-        keys: ['LOG_LEVEL', 'LOG_MAX_SIZE', 'LOG_MAX_FILES']
-    },
-    {
-        id: 'conexion',
-        titleKey: 'admin.config.tab.conexion',
-        icon: 'fa-wifi',
-        color: 'bg-sky-500',
-        keys: [
-            'RECONNECTION_TIMEOUT',
-            'PRESENTER_RECONNECTION_TIMEOUT',
-            'INACTIVE_GAME_THRESHOLD',
-            'EMPTY_LOBBY_TIMEOUT',
-            'TOP_PLAYERS_DURING_GAME',
-            'CORS_ORIGIN',
-            'ALLOWED_ORIGINS',
-            'UMAMI_SERVER_URL',
-            'UMAMI_WEBSITE_ID'
-        ]
-    },
-    {
-        id: 'backup',
-        titleKey: 'admin.config.tab.backup',
-        icon: 'fa-database',
-        color: 'bg-blue-600',
-        keys: ['BACKUP_SCHEDULE', 'BACKUP_RETENTION_DAYS']
-    },
-    {
-        id: 'licencia',
-        titleKey: 'admin.config.tab.licencia',
-        icon: 'fa-certificate',
-        color: 'bg-red-600',
-        isLicense: true,
-        keys: []
-    },
-    {
-        id: 'smtp',
-        titleKey: 'admin.config.tab.smtp',
-        icon: 'fa-envelope',
-        color: 'bg-plum-600',
-        keys: ['SMTP_HOST', 'SMTP_PORT', 'SMTP_SECURE', 'SMTP_USER', 'SMTP_PASS', 'SMTP_FROM', 'CONTACT_TOKEN_SECRET']
-    },
-    {
-        id: 'lambda',
-        titleKey: 'admin.config.tab.lambda',
-        icon: 'fa-users-cog',
-        color: 'bg-plum-500',
-        isLambda: true,
-        keys: ['TEAM_SCORE_LAMBDA']
-    },
-    {
-        id: 'fireworks',
-        titleKey: 'admin.config.tab.fireworks',
-        icon: 'fa-fire',
-        color: 'bg-fuchsia-500',
-        isFireworks: true,
-        keys: []
-    },
-    { id: 'ui', titleKey: 'admin.config.tab.ui', icon: 'fa-eye', color: 'bg-emerald-500', isUi: true, keys: [] },
-    {
-        id: 'music',
-        titleKey: 'admin.config.tab.music',
-        icon: 'fa-music',
-        color: 'bg-aubergine-700',
-        isMusic: true,
-        keys: []
-    }
-];
-
 let _activeTab = 'partidas';
 let _configData = {};
 
-/* ===== TAB BAR ===== */
-
-function _renderTabBar() {
-    return (
-        '<div class="flex flex-wrap gap-1.5 p-1.5 bg-slate-100 rounded-2xl mb-6">' +
-        _PARAM_SECTIONS
-            .map(sec => {
-                const active = sec.id === _activeTab;
-                const base =
-                    'flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-bold transition-all cursor-pointer border-0';
-                const cls = active
-                    ? `${base} ${sec.color} text-white shadow-sm`
-                    : `${base} bg-transparent text-slate-500 hover:text-slate-700 hover:bg-white`;
-                return `<button class="${cls}" data-config-action="switch-tab" data-tab-id="${sec.id}"><i class="fas ${sec.icon} text-xs"></i> ${_t(sec.titleKey)}</button>`;
-            })
-            .join('') +
-        '</div>'
-    );
-}
+// Separación al subir hasta la sección: la misma que el top fijo de la columna (.xcfg-nav)
+const _CONFIG_TOP_GAP_PX = 24;
 
 /* ===== TAB CONTENT ===== */
 
@@ -151,7 +46,7 @@ function _renderTabContent(config) {
         .filter(k => config[k])
         .map(k => _renderConfigField(k, config[k]))
         .join('');
-    return `<div class="mb-8"><div class="grid grid-cols-1 md:grid-cols-2 gap-4">${fields}</div></div>`;
+    return `<div class="mb-8"><div class="xcfg-fields">${fields}</div></div>`;
 }
 
 /* ===== RENDER FORM ===== */
@@ -159,8 +54,9 @@ function _renderTabContent(config) {
 function _renderConfigForm(config) {
     _configData = config;
     return `
-        <div id="config-tab-bar">${_renderTabBar()}</div>
-        <div id="config-tab-content">${_renderTabContent(config)}</div>
+        <div id="config-tab-content" role="tabpanel" aria-labelledby="config-nav-${_activeTab}">
+            ${_renderTabContent(config)}
+        </div>
         ${renderSaveBar()}
         <div class="h-10"></div>`;
 }
@@ -188,9 +84,21 @@ function _paintConfigForm(area) {
 /* ===== TAB SWITCH ===== */
 
 function switchConfigTab(tabId) {
+    const changed = tabId !== _activeTab;
     _activeTab = tabId;
+    syncConfigNav(tabId);
     const formArea = document.getElementById('config-form-area');
-    if (formArea) _paintConfigForm(formArea);
+    if (!formArea) return;
+    _paintConfigForm(formArea);
+    if (changed) _showConfigTop(formArea);
+}
+
+/** Si se había bajado, sube hasta el principio de la sección (la columna de secciones va fija). */
+function _showConfigTop(formArea) {
+    const scroller = document.getElementById('editorArea');
+    if (!scroller) return;
+    const top = formArea.getBoundingClientRect().top - scroller.getBoundingClientRect().top;
+    if (top < 0) scroller.scrollTop += top - _CONFIG_TOP_GAP_PX;
 }
 
 /** Abre la sección Configuración directamente en la pestaña indicada (p. ej. desde el aviso de versión nueva). */
@@ -209,12 +117,15 @@ function renderConfigPanel() {
     container.dataset.fromConfig = 'true';
     container.innerHTML = _tHtml(`
         <div class="min-h-full bg-gradient-to-br from-slate-50 to-aubergine-50/30 p-6 lg:p-10">
-            <div class="max-w-4xl mx-auto">
+            <div class="xcfg max-w-6xl mx-auto">
                 <div class="mb-8">
-                    <h1 class="text-2xl font-black text-slate-800 mb-1">${_t('admin.config.server.title')}</h1>
+                    <h1 id="config-title" class="text-2xl font-black text-slate-800 mb-1">${_t('admin.config.server.title')}</h1>
                     <p class="text-sm text-slate-500">${_t('admin.config.server.subtitle')}</p>
                 </div>
-                <div id="config-form-area"><div class="text-slate-400 flex items-center gap-2"><i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.config.server.loading')}</div></div>
+                <div class="xcfg-layout">
+                    <div id="config-tab-bar" class="xcfg-nav"></div>
+                    <div id="config-form-area" class="xcfg-main"><div class="text-slate-400 flex items-center gap-2"><i class="fas fa-spin fa-circle-notch"></i> ${_t('admin.config.server.loading')}</div></div>
+                </div>
             </div>
         </div>`);
     const _h = { Authorization: 'Bearer ' + getAuthToken() };
@@ -227,6 +138,7 @@ function renderConfigPanel() {
             if (!area) return;
             _configData = cfgData.config || {};
             _configData.__ui = uiData;
+            paintConfigNav(_activeTab);
             _paintConfigForm(area);
         })
         .catch(() => {
