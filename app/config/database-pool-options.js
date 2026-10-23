@@ -1,6 +1,5 @@
 /**
- * @fileoverview Opciones del pool de PostgreSQL a partir del entorno
- * Función pura: recibe el entorno y el número de workers, sin I/O.
+ * @fileoverview Opciones del pool de PostgreSQL a partir del entorno y del número de CPU
  */
 
 const os = require('os');
@@ -9,12 +8,7 @@ const os = require('os');
 const DEFAULT_CONNECTION_BUDGET = 80;
 const MIN_POOL_MAX = 2;
 
-/**
- * Lee un entero del entorno; admite 0 y cae al valor por defecto si no es válido
- * @param {string|undefined} raw - Valor crudo
- * @param {number} fallback - Valor por defecto
- * @returns {number}
- */
+/** Lee un entero del entorno; admite 0 y cae al valor por defecto si no es válido */
 function readInt(raw, fallback) {
     const value = Number.parseInt(raw, 10);
     return Number.isFinite(value) && value >= 0 ? value : fallback;
@@ -23,8 +17,6 @@ function readInt(raw, fallback) {
 /**
  * Número de workers que comparten la base de datos.
  * PM2 (`instances: 'max'`) arranca un worker por CPU y fija NODE_APP_INSTANCE en cada uno.
- * @param {Object} env - Entorno
- * @returns {number}
  */
 function countWorkers(env) {
     if (env.DB_WORKERS) return Math.max(1, readInt(env.DB_WORKERS, 1));
@@ -34,7 +26,6 @@ function countWorkers(env) {
 /**
  * Tamaño máximo del pool por worker, limitado para que la suma de todos
  * los workers no supere el presupuesto de conexiones del servidor.
- * @param {Object} env - Entorno
  * @returns {{ min: number, max: number }}
  */
 function resolvePoolSize(env) {
@@ -46,11 +37,7 @@ function resolvePoolSize(env) {
     return { min, max };
 }
 
-/**
- * Construye las opciones de `new Pool()`
- * @param {Object} [env=process.env] - Entorno
- * @returns {Object} Opciones de pg.Pool
- */
+/** Construye las opciones de `new Pool()` */
 function buildPoolOptions(env = process.env) {
     const statementTimeout = readInt(env.DB_STATEMENT_TIMEOUT, 30000);
     const worker = env.NODE_APP_INSTANCE === undefined ? 'main' : `w${env.NODE_APP_INSTANCE}`;
@@ -64,7 +51,7 @@ function buildPoolOptions(env = process.env) {
         ...resolvePoolSize(env),
         idleTimeoutMillis: readInt(env.DB_IDLE_TIMEOUT, 20000),
         connectionTimeoutMillis: readInt(env.DB_CONNECTION_TIMEOUT, 5000),
-        // Recicla conexiones viejas (fugas de memoria del backend, cambios de red en Docker)
+        // Recicla conexiones viejas (memoria que acumula su proceso de Postgres, cambios de red en Docker)
         maxLifetimeSeconds: readInt(env.DB_MAX_LIFETIME, 1800),
         // Detecta sockets muertos (reinicio del contenedor, NAT) antes de que una query cuelgue
         keepAlive: true,

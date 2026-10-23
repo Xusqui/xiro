@@ -107,7 +107,6 @@ class DatabaseCircuitBreaker {
         return this.pool.totalCount || 0;
     }
 
-    /** Conexiones libres en el pool */
     get idleCount() {
         return this.pool.idleCount || 0;
     }

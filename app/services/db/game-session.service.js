@@ -30,8 +30,7 @@ async function detectIsTestSession(pin) {
     if (/^\d{6}$/.test(pinStr) || /^TRIVIA-\d+$/i.test(pinStr)) {
         return false;
     }
-    // validatePinInDatabase pasa por pinCache y, si la BD falla, responde valid=false:
-    // la partida cuenta entonces como test, igual que antes.
+    // Si la BD falla, validatePinInDatabase devuelve valid=false y la partida cuenta como test.
     const { valid } = await validatePinInDatabase(pinStr.split('-')[0]);
     return !valid;
 }

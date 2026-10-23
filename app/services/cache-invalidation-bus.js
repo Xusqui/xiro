@@ -2,14 +2,8 @@
  * @fileoverview Propaga las invalidaciones de las cachés en memoria a todos los workers PM2
  * @module services/cache-invalidation-bus
  *
- * pinCache y questionBankCache viven en la memoria de cada worker. Sin este bus, editar
- * un banco o un PIN solo vaciaba la caché del worker que atendía la petición, y los demás
- * seguían sirviendo datos antiguos hasta que caducaba el TTL.
- *
- * Cada caché registra las operaciones que se pueden propagar. Su método público borra en
- * local y llama a broadcast(); al recibir el mensaje, los demás workers ejecutan la versión
- * `<op>Local`, que no vuelve a publicar. RedisSyncBus aporta las conexiones (attach); hasta
- * entonces (tests, scripts sueltos, Redis caído) broadcast no hace nada y queda el TTL.
+ * Cada caché borra en local y publica; los demás workers ejecutan `<op>Local`, que no republica.
+ * Sin attach() (tests, scripts sueltos, Redis caído) broadcast no hace nada y queda el TTL.
  */
 
 const crypto = require('crypto');
@@ -32,18 +26,15 @@ function registerCache(name, target, ops) {
     caches.set(name, { target, ops: new Set(ops) });
 }
 
-/**
- * Avisa al resto de workers. No espera ni lanza: si Redis falla queda el TTL.
- * @param {string} name
- * @param {string} op
- * @param {Array} args
- */
+/** Avisa al resto de workers. No espera ni lanza: si Redis falla queda el TTL. */
 function broadcast(name, op, args = []) {
     if (!publisher) return;
     const message = JSON.stringify({ origin: ORIGIN, name, op, args });
     Promise.resolve()
         .then(() => publisher.publish(CHANNEL, message))
-        .catch(error => logger.warn('No se pudo propagar la invalidación de caché', { name, op, error: error.message }));
+        .catch(error =>
+            logger.warn('No se pudo propagar la invalidación de caché', { name, op, error: error.message })
+        );
 }
 
 function handleMessage(message) {
@@ -62,7 +53,11 @@ function handleMessage(message) {
     try {
         cache.target[`${data.op}Local`](...(Array.isArray(data.args) ? data.args : []));
     } catch (error) {
-        logger.warn('Error aplicando una invalidación de caché remota', { name: data.name, op: data.op, error: error.message });
+        logger.warn('Error aplicando una invalidación de caché remota', {
+            name: data.name,
+            op: data.op,
+            error: error.message
+        });
     }
 }
 
