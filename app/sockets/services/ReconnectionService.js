@@ -11,6 +11,7 @@ const { RedisSyncBus } = require('../sync/RedisSyncBus');
 const TrivialReconnectService = require('./TrivialReconnectService');
 const { buildReconnectRandomPointsState } = require('../utils/RandomPointsRevealManager');
 const { buildReconnectIntroState } = require('../utils/GameIntroManager');
+const { closedWhileReviewing, canGoBack } = require('../../domain/services/SlideNavigationPolicy');
 
 // Lazy-loaded to avoid circular dependencies (GameStateAdapter ↔ services)
 let _getAdapter = null;
@@ -203,6 +204,10 @@ function buildGameStateSnapshot(game, player, roomId) {
         canAnswer = canAcceptAnswers && !hasAnswered;
     }
 
+    // Juegos personalizados: la diapositiva revisada ya se jugó (el jugador pide su
+    // revisión con 'get-review-state')
+    canAnswer = closedWhileReviewing(game, canAnswer);
+
     logger.debug('[RECONNECT DEBUG BACKEND] buildGameStateSnapshot:', {
         roomId,
         nickname: player.nickname,
@@ -222,6 +227,7 @@ function buildGameStateSnapshot(game, player, roomId) {
         currentQuestion: sanitizeQuestionForPlayers(currentQuestion),
         totalQuestions: game.questions.length,
         canAnswer: canAnswer,
+        reviewMode: Boolean(game.reviewMode),
         timeRemaining:
             adapter && canAcceptAnswers
                 ? Math.max(0, runtimeConfig.get('QUESTION_TIME_LIMIT') - (Date.now() - game.questionStartTime) / 1000)
@@ -461,6 +467,9 @@ function buildPresenterGameState(game, roomId) {
         totalQuestions: game.questions.length,
         isGameActive: game.questions && game.questions.length > 0,
         canAnswer: adapter ? adapter.canAcceptAnswers() : false,
+        // Juegos personalizados: revisión (sin cuenta atrás) y botón «Anterior»
+        reviewMode: Boolean(game.reviewMode),
+        canGoBack: canGoBack(game),
         players: game.players || [],
         scores: game.scores || {},
         ...buildReconnectIntroState(game),
@@ -562,8 +571,8 @@ async function reconnectPlayer({ socket, nickname, roomId, game, players, socket
                     player.answeredQuestions instanceof Set
                         ? Array.from(player.answeredQuestions)
                         : Array.isArray(player.answeredQuestions)
-                            ? player.answeredQuestions
-                            : []
+                          ? player.answeredQuestions
+                          : []
             };
             syncBus.publishPlayerData(playerId, serializablePlayer).catch(err => {
                 logger.warn('[RECONNECT] Failed to publish player-data-sync', { playerId, error: err.message });

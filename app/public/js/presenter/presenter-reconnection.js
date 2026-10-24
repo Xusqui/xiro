@@ -36,6 +36,7 @@ import {
 import { restoreLobbyHTML, showAbandonButton } from './presenter-utils.js?v=20260922172926';
 import { handleGameAbandoned } from './presenter-session-control.js?v=20260922172926';
 import { startQuestionCountdown } from './presenter-question-timer.js?v=20260922172926';
+import { syncPrevButton, lockActivityPoints } from './presenter-slide-nav.js?v=20261024180000';
 
 function getStoredSessionId() {
     return sessionStorage.getItem('xiro_presenter_sessionId') || localStorage.getItem('xiro_presenter_sessionId') || '';
@@ -238,6 +239,7 @@ function restoreGameScreen(snapshot) {
     // Render the current question/slide
     if (question.slide_type === 'comment') {
         renderCommentSlide(question);
+        if (gs.reviewMode) lockActivityPoints();
     } else if (question.slide_type === 'info') {
         renderInfoSlide(question);
     } else if (question.slide_type === 'text') {
@@ -252,15 +254,19 @@ function restoreGameScreen(snapshot) {
         renderCanvasSlide(question);
     } else {
         window.canShowRanking = true;
-        renderPregunta(question);
+        // En revisión (juegos personalizados) la pregunta ya se jugó: sin cuenta atrás;
+        // sus resultados llegan a continuación con 'reveal-answer'
+        renderPregunta(question, { review: Boolean(gs.reviewMode) });
         // renderPregunta arranca la cuenta atrás desde el tiempo completo: recolocarla con lo
         // que de verdad queda según el servidor
-        if (gs.questionStartedAt && gs.serverNow) {
+        if (!gs.reviewMode && gs.questionStartedAt && gs.serverNow) {
             const elapsed = (gs.serverNow - gs.questionStartedAt) / 1000;
             startQuestionCountdown(Math.max(0, Math.ceil((question.time_limit || 20) - elapsed)));
         }
     }
 
+    // Juegos personalizados: «Anterior» (en preguntas lo vuelve a fijar el reveal re-emitido)
+    syncPrevButton(gs.canGoBack);
     updatePlayersPanel();
 }
 

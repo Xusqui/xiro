@@ -70,11 +70,15 @@ function applyRevealScores(data) {
             playersData[player.name].score = player.pts;
         }
     });
-    Object.keys(playersData).forEach(nick => {
-        if (!playersData[nick].answered) {
-            playersData[nick].correct = false;
-        }
-    });
+    // Revisión (juegos personalizados): la pregunta ya se jugó y aquí no se sabe quién
+    // acertó entonces; no se marca a nadie como fallo
+    if (!data.review) {
+        Object.keys(playersData).forEach(nick => {
+            if (!playersData[nick].answered) {
+                playersData[nick].correct = false;
+            }
+        });
+    }
     updatePlayersPanel();
 }
 

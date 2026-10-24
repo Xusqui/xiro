@@ -38,6 +38,9 @@ window.TVApp.Actions = (function () {
         'next-question': function () {
             main().nextQuestion();
         },
+        'previous-slide': function () {
+            main().previousSlide();
+        },
         'toggle-pause-timer': function () {
             main().togglePauseTimer();
         },

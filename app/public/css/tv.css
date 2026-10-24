@@ -636,6 +636,14 @@ body {
     z-index: 98
 }
 
+/* «Anterior» (juegos personalizados): frente a «Siguiente» */
+.btn-prev {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 98
+}
+
 .comment-slide {
     text-align: center;
     padding: 40px

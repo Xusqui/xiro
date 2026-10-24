@@ -152,6 +152,13 @@ body.remote-mode>*:not(#remote-app):not(.xiro-modal-overlay) {
     background: linear-gradient(135deg, #0891b2, #0e7490);
 }
 
+/* «Anterior» (juegos personalizados): secundario, sin competir con «Siguiente» */
+.remote-btn-prev {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    min-height: 64px;
+}
+
 .remote-btn-continue {
     background: linear-gradient(135deg, #0f766e, #115e59);
 }

@@ -3,6 +3,8 @@
  * Centralizes rendering and control visibility rules.
  */
 
+import { remotePrevButtonHtml } from './presenter-remote-nav.js?v=20261024180000';
+
 /**
  * Escapes HTML-sensitive characters to avoid accidental HTML injection in UI labels.
  * @param {string} str
@@ -85,6 +87,7 @@ export function renderControlPanel(data, handlers) {
         </div>
         <div id="remote-comment-panel" class="remote-comment-panel" style="display:none"></div>
         <div class="remote-controls">
+            ${remotePrevButtonHtml()}
             <button class="remote-btn remote-btn-next" id="btn-remote-primary">
                 <i class="fas ${primaryIcon}"></i>
                 <span>${primaryLabel}</span>
@@ -105,6 +108,7 @@ export function renderControlPanel(data, handlers) {
         <p class="remote-hint">Xiro! (https://xiro.pro) Una idea original de Familia Fernández Villatoro.</p>
     </div>`);
 
+    bindActionButton('btn-remote-prev', handlers.onPrevious);
     bindActionButton('btn-remote-primary', handlers.onPrimary);
     bindActionButton('btn-remote-reveal', handlers.onReveal);
     bindActionButton('btn-remote-end', handlers.onEnd);

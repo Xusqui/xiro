@@ -24,6 +24,7 @@ import {
 import { enviarRespuestaWordSearch } from './player-answer-wordsearch.js?v=20260922172926';
 import { enviarRespuestaFillBlanks } from './player-answer-fillblanks.js?v=20260922172926';
 import { registerResultsEvents } from './player-results.js?v=20260922172926';
+import { registerReviewEvents } from './player-review.js?v=20261024180000';
 import { registerGameFlowEvents, salirDelLobby } from './player-game-flow.js?v=20260922172926';
 import { registerReconnectionEvents } from './player-reconnection.js?v=20260922172926';
 import { registerTrivialPlayerSocketHandlers } from './player-trivial-socket.js?v=20260922172926';
@@ -141,6 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
     registerSessionEvents(mostrarSeleccionEquipo);
     registerTeamEvents();
     registerAnswerEvents();
+    registerReviewEvents();
     registerResultsEvents();
     registerGameFlowEvents();
     registerTrivialPlayerSocketHandlers();

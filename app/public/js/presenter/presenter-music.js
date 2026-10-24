@@ -44,6 +44,11 @@ function bindSocket(socket, music) {
             music.slide({ hasAudio: q.slide_type === 'video' || (q.slide_type === 'canvas' && hasCanvasVideo(q)) });
             return;
         }
+        // Pregunta ya jugada que se revisa (juegos personalizados): fondo del marcador
+        if (data.review) {
+            music.slide();
+            return;
+        }
         music.question({
             durationMs: (q.time_limit || DEFAULT_TIME_LIMIT_S) * 1000,
             startedAt: data.questionStartedAt || data.startedAt,
@@ -72,7 +77,10 @@ function bindSocket(socket, music) {
     socket.on('new-question', data => onQuestion(data.question, data));
     socket.on('timer-paused', data => music.timerPaused(data || {}));
     socket.on('timer-resumed', data => music.timerResumed(data || {}));
-    socket.on('reveal-answer', () => music.reveal());
+    // En revisión no se repite la cadencia del reveal
+    socket.on('reveal-answer', data => {
+        if (!data?.review) music.reveal();
+    });
     socket.on('trivial-game-started', () => music.board());
     socket.on('game-ended', () => music.podium());
     socket.on('trivial-winner', () => music.podium());
@@ -89,7 +97,7 @@ function onReconnected(snapshot, music, onQuestion) {
     }
     if (gs.isTrivialBoardPhase || gs.isTrivial) music.board();
     const q = gs.currentQuestion;
-    if (q && gs.canAnswer) onQuestion(q, gs);
+    if (q && gs.canAnswer && !gs.reviewMode) onQuestion(q, gs);
     else if (!gs.isTrivialBoardPhase) music.slide(); // ya revelada o entre preguntas: fondo del marcador
 }
 

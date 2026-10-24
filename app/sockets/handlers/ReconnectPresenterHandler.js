@@ -5,6 +5,7 @@
 const { validateSocket, schemas } = require('../../validation');
 const ReconnectionService = require('../services/ReconnectionService');
 const { validateAdminToken } = require('../utils/RemoteControlHelper');
+const { buildReviewRevealPayload } = require('../utils/ReviewRevealPayload');
 const logger = require('../../config/logger');
 
 function emitReconnectFailed(socket, payload) {
@@ -164,12 +165,25 @@ function configurePresenterSocketData(socket, roomId, nickname, playerId) {
     socket.data.playerId = playerId;
 }
 
-function maybeRestoreRevealState(socket, roomId, game) {
+async function maybeRestoreRevealState(socket, roomId, game, teamConfigs) {
     if (!game) {
         return;
     }
 
     const questionIndex = game.currentIndex ?? 0;
+    // Revisión (juegos personalizados): resultados de entonces con el ranking de ahora
+    if (game.reviewMode) {
+        if (!game.revealedQuestions?.[questionIndex]) return;
+        const payload = await buildReviewRevealPayload({
+            roomId,
+            game,
+            index: questionIndex,
+            teamConfig: teamConfigs?.get(roomId)
+        });
+        if (payload) socket.emit('reveal-answer', payload);
+        return;
+    }
+
     if (game.revealedQuestions?.[questionIndex] && game.revealPayloads?.[questionIndex]) {
         logger.debug('Presenter reconnect: re-emitting reveal-answer to restore revealed state', {
             roomId,
@@ -248,7 +262,7 @@ async function runPresenterReconnectFlow({ socket, playerId, sessionId, dependen
     }
     socket.emit('reconnected-success', snapshot);
 
-    maybeRestoreRevealState(socket, roomId, game);
+    await maybeRestoreRevealState(socket, roomId, game, teamConfigs);
 
     io.to(roomId + ':players').emit('presenter-reconnected', {
         message: 'El presentador se ha reconectado',

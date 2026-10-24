@@ -112,6 +112,14 @@ window.TVApp.SocketGame = (function () {
                 renderPregunta(data.question);
             }
 
+            // Juegos personalizados: diapositiva ya mostrada que se revisa (la pregunta ya
+            // se jugó: sin temporizador; la Actividad, sin asignar puntos) y botón «Anterior»
+            if (data.review) {
+                window.TVApp.RenderSlides.resetTimers();
+                if (data.question.slide_type === 'comment') window.TVApp.SlideNav.lockActivityPoints();
+            }
+            window.TVApp.SlideNav.syncPrevButton(data.canGoBack);
+
             if (typeof ack === 'function') ack();
         });
 

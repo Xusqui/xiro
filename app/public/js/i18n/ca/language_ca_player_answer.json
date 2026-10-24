@@ -41,6 +41,11 @@
     "player.wordsearch.hint_help": "Pista: toca una paraula (val la meitat)",
     "player.wordsearch.hint_aria": "Pista:",
     "player.answer.fillblanks_correct": "{n} de {total} paraules",
-    "player.answer.fillblanks_time_bonus": "+{pts} de bonus per temps"
+    "player.answer.fillblanks_time_bonus": "+{pts} de bonus per temps",
+    "player.review.title": "Repàs · Pregunta {n} de {total}",
+    "player.review.points": "+{points} punts",
+    "player.review.answered": "Has respost",
+    "player.review.not_answered": "No vas respondre",
+    "player.review.team_answer": "Resposta del teu equip ({team})"
   }
 }

@@ -116,8 +116,12 @@ export function mostrarQR(sessionIdParam) {
 
 /**
  * Renderizar pregunta normal
+ * @param {Object} q
+ * @param {Object} [options]
+ * @param {boolean} [options.review] - Pregunta ya jugada que se revisa (juegos personalizados):
+ *   sin cuenta atrás ni audio automático; los resultados llegan después con 'reveal-answer'
  */
-export function renderPregunta(q) {
+export function renderPregunta(q, { review } = {}) {
     removeCards();
     cleanupRevealElements();
     showChamaleonOverlay();
@@ -135,13 +139,15 @@ export function renderPregunta(q) {
     adjustQuestionTitleSize();
     if (view.mostrarOpciones) adjustTextSize();
     if (view.esMatching) fitMatchingText();
-    if (view.tieneAudio) ensureQuestionAudioPlays();
+    if (view.tieneAudio && !review) ensureQuestionAudioPlays();
 
     // Mostrar el botón de abandonar y el de terminar
     showAbandonButton();
     showTerminateButton();
 
-    startQuestionCountdown(q.time_limit || 20);
+    if (!review) {
+        startQuestionCountdown(q.time_limit || 20);
+    }
 }
 
 /**

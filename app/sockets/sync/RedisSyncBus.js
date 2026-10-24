@@ -12,6 +12,7 @@ const { SCORING } = require('../../config/game-constants');
 const { clearGameTimer, timerPausedState, roomPresenterMap } = require('../../state/globalState');
 const runtimeConfig = require('../../config/runtime-config');
 const cacheInvalidationBus = require('../../services/cache-invalidation-bus');
+const { markShown, enterReview } = require('../utils/SlideReviewState');
 
 const DEFAULT_DOUBLE_STREAK_BONUS_PERCENTAGE = 1.0;
 
@@ -277,6 +278,10 @@ class RedisSyncBus {
             this.handleNextQuestionSync(message);
         });
 
+        await this.syncSub.subscribe('slide-review-sync', message => {
+            this.handleSlideReviewSync(message);
+        });
+
         await this.syncSub.subscribe('team-config-sync', message => {
             const data = parseRedisMessage(message, 'team-config-sync');
             if (!data) {
@@ -446,7 +451,11 @@ class RedisSyncBus {
         if (nickname && score !== undefined) {
             game.scores[nickname] = score;
         }
-        game.currentIndex = currentIndex;
+        // En revisión manda la diapositiva revisada: una puntuación tardía de la
+        // pregunta más avanzada no debe devolver este worker a ella
+        if (!game.reviewMode) {
+            game.currentIndex = currentIndex;
+        }
 
         if (debugEnabled) {
             logger.debug(
@@ -473,6 +482,7 @@ class RedisSyncBus {
         }
 
         game.currentIndex = currentIndex;
+        markShown(game, currentIndex);
         game.questionStartTime = startTime || Date.now();
         game.answerStats = {};
         game.canAnswer = true;
@@ -480,6 +490,26 @@ class RedisSyncBus {
         // worker que avanza la pregunta y viaja aquí para que cualquier worker
         // que procese una respuesta use el MISMO valor.
         game.currentRandomPoints = randomPoints ?? null;
+    }
+
+    /** El presentador revisa una diapositiva ya mostrada (juegos personalizados). */
+    handleSlideReviewSync(message) {
+        const data = parseRedisMessage(message, 'slide-review-sync');
+        if (!data || data.originWorkerId === process.pid) {
+            return;
+        }
+
+        const game = this.state.activeGames.get(data.roomId);
+        if (!game) {
+            return;
+        }
+
+        enterReview(game, data);
+        try {
+            clearGameTimer(data.roomId);
+        } catch (err) {
+            logger.warn('Failed to clear timer after slide-review sync', { roomId: data.roomId, error: err.message });
+        }
     }
 
     handleSessionAbandonedSync(message) {
@@ -768,6 +798,14 @@ class RedisSyncBus {
         logger.debug(
             `next-question-sync publicado: ${roomId} pregunta ${currentIndex + 1} epoch=${epoch} (worker ${process.pid})`
         );
+    }
+
+    /**
+     * Revisión de una diapositiva ya mostrada. No incrementa la época: las
+     * puntuaciones tardías de la pregunta anterior deben seguir aplicándose.
+     */
+    async publishSlideReview(roomId, { currentIndex, maxShownIndex }) {
+        await this.publish('slide-review-sync', { roomId, currentIndex, maxShownIndex, originWorkerId: process.pid });
     }
 
     async publishTeamConfig(roomId, teamConfig) {

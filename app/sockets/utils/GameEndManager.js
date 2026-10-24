@@ -20,31 +20,11 @@ const { buildPlayerRevealPayload, applyQuestionTypeOverrides } = require('./Reve
 const FB = require('../../public/js/core/fill-blanks-text.js');
 const logger = require('../../config/logger');
 const { saveGameSession } = require('../../services/db/game-session.service');
+const { loadCanonicalScores, buildRankings, buildRankingFormatted } = require('./RevealRanking');
+const { saveRevealPayload } = require('./RevealPayloadStore');
+const { canGoBack } = require('../../domain/services/SlideNavigationPolicy');
 
 const syncBus = RedisSyncBus.getInstance();
-
-/**
- * Leer el hash canónico de scores desde Redis (game:scores:{roomId}).
- * Este hash se actualiza atómicamente vía HINCRBYFLOAT en ImprovedSubmitAnswerCommand
- * y es la fuente de verdad en clúster PM2, ya que cada worker solo conoce en memoria
- * los nicknames cuyas respuestas ha procesado.
- */
-async function loadCanonicalScores(roomId) {
-    try {
-        const client = await getRedisClient();
-        const raw = await client.hGetAll(`game:scores:${roomId}`);
-        if (!raw || Object.keys(raw).length === 0) return null;
-        const parsed = {};
-        for (const [nick, val] of Object.entries(raw)) {
-            const num = Number(val);
-            if (!Number.isNaN(num)) parsed[nick] = roundScore(num);
-        }
-        return parsed;
-    } catch (err) {
-        logger.warn('loadCanonicalScores failed', { roomId, error: err.message });
-        return null;
-    }
-}
 
 function hasQuestionBeenRevealed(game, questionIndex) {
     return Boolean(game?.revealedQuestions?.[questionIndex]);
@@ -178,8 +158,8 @@ function normalizeStats(rawStats) {
         const answerIndex = Number.isInteger(value.answerIndex)
             ? value.answerIndex
             : Number.isInteger(value.index)
-                ? value.index
-                : null;
+              ? value.index
+              : null;
         if (answerIndex === null) {
             return;
         }
@@ -224,23 +204,6 @@ function setAnswerBlockingState(game, revealIndex, timeExpired) {
     return allowLateAnswers;
 }
 
-function buildRankings(game) {
-    const rankingNicknames = [
-        ...new Set([
-            ...(game.players || []).filter(name => name && name !== 'HOST'),
-            ...Object.keys(game.scores || {}).filter(name => name && name !== 'HOST')
-        ])
-    ];
-
-    return rankingNicknames
-        .map(nickname => ({
-            nickname,
-            score: game.scores?.[nickname] || 0,
-            team: null
-        }))
-        .sort((a, b) => b.score - a.score);
-}
-
 function getQuestionFlags(question) {
     return {
         isOrderQuestion: question.question_type === 'order',
@@ -281,8 +244,8 @@ function resolveCorrectAnswerData(question, flags) {
 
     const correctIndicesMultiple = flags.isMultipleChoiceQuestion
         ? question.options
-            ?.map((option, idx) => (option.isCorrect || option.is_correct ? idx : null))
-            .filter(idx => idx !== null)
+              ?.map((option, idx) => (option.isCorrect || option.is_correct ? idx : null))
+              .filter(idx => idx !== null)
         : null;
 
     if (!flags.isOrderQuestion && !flags.isMatchingQuestion) {
@@ -310,14 +273,6 @@ function buildSurveyPercentages(question, stats, isSurveyQuestion) {
         const percentage = Math.round(rawPercentage * 10) / 10;
         return { count, percentage };
     });
-}
-
-function buildRankingFormatted(rankings) {
-    return rankings.map(ranking => ({
-        name: ranking.nickname,
-        pts: ranking.score,
-        team: ranking.team
-    }));
 }
 
 function buildCorrectOrderPayload(currentQuestion) {
@@ -422,9 +377,13 @@ function emitRevealPayloads(io, roomId, game, revealIndex, presenterPayload) {
     // "next" button ("Siguiente Ronda" vs "Ver Ránking"). window.isTrivialGame
     // can be stale after a presenter reload/reconnection, so stamp it here.
     presenterPayload.isTrivial = !!game.isTrivial;
+    // Juegos personalizados: el presentador ofrece "Anterior" ya revelada la pregunta
+    presenterPayload.canGoBack = canGoBack(game);
 
     game.revealPayloads = game.revealPayloads || {};
     game.revealPayloads[revealIndex] = presenterPayload;
+    // Para revisar la pregunta desde un worker que no la tenga en memoria
+    saveRevealPayload(roomId, revealIndex, presenterPayload);
 
     io.to(roomId + ':presenter').emit('reveal-answer', presenterPayload);
     io.to(roomId + ':players').emit('reveal-answer', buildPlayerRevealPayload(presenterPayload));

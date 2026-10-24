@@ -41,6 +41,11 @@
     "player.wordsearch.hint_help": "ヒント：単語をタップ（得点は半分）",
     "player.wordsearch.hint_aria": "ヒント：",
     "player.answer.fillblanks_correct": "{total} 語中 {n} 語",
-    "player.answer.fillblanks_time_bonus": "＋{pts} 時間ボーナス"
+    "player.answer.fillblanks_time_bonus": "＋{pts} 時間ボーナス",
+    "player.review.title": "振り返り · 問題 {n}/{total}",
+    "player.review.points": "+{points} ポイント",
+    "player.review.answered": "回答しました",
+    "player.review.not_answered": "回答しませんでした",
+    "player.review.team_answer": "チームの回答（{team}）"
   }
 }

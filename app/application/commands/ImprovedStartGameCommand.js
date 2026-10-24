@@ -78,6 +78,9 @@ class ImprovedStartGameCommand extends Command {
             gameType: customGame.type || null,
             questions: preparedQuestions,
             currentIndex: 0,
+            // Navegación de los juegos personalizados (SlideNavigationPolicy)
+            maxShownIndex: 0,
+            reviewMode: false,
             scores: {},
             players: playersInLobby,
             answerStats: {},

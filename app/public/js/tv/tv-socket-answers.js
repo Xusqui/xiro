@@ -14,6 +14,8 @@ window.TVApp.SocketAnswers = (function () {
         (data.ranking || []).forEach(function (player) {
             if (state.playersData[player.name]) state.playersData[player.name].score = player.pts;
         });
+        // En revisión (juegos personalizados) no se sabe aquí quién acertó entonces
+        if (data.review) return;
         for (const nick in state.playersData) {
             if (!state.playersData[nick].answered) state.playersData[nick].correct = false;
         }
@@ -87,6 +89,7 @@ window.TVApp.SocketAnswers = (function () {
 
             const nextBtn = getEl('btn-next');
             if (nextBtn) nextBtn.classList.remove('hidden');
+            window.TVApp.SlideNav.syncPrevButton(data.canGoBack);
         });
     }
 

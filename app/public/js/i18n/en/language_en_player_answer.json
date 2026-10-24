@@ -41,6 +41,11 @@
     "player.wordsearch.hint_help": "Hint: tap a word (worth half)",
     "player.wordsearch.hint_aria": "Hint:",
     "player.answer.fillblanks_correct": "{n} of {total} words",
-    "player.answer.fillblanks_time_bonus": "+{pts} time bonus"
+    "player.answer.fillblanks_time_bonus": "+{pts} time bonus",
+    "player.review.title": "Review · Question {n} of {total}",
+    "player.review.points": "+{points} points",
+    "player.review.answered": "You answered",
+    "player.review.not_answered": "You didn't answer",
+    "player.review.team_answer": "Your team's answer ({team})"
   }
 }

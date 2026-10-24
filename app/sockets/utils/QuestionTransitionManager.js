@@ -10,6 +10,7 @@ const { initializeExpectedPlayers } = require('./AtomicAnswerCounter');
 const { usesRandomPoints } = require('../../domain/services/QuestionScoringPolicy');
 const { generateForGame } = require('../../domain/services/RandomPointsGenerator');
 const { persistRandomPoints } = require('../../application/commands/submit-answer/randomPointsResolution');
+const { markShown } = require('./SlideReviewState');
 
 /**
  * Sortea los puntos base de la pregunta que se va a mostrar, si procede.
@@ -144,6 +145,7 @@ async function prepareNextQuestion({ game, players, syncBus, clearGameTimer, io 
 
     // Move to next question
     game.currentIndex = nextIndex;
+    markShown(game, nextIndex);
     game.questionStartTime = Date.now();
     game.answerStats = {};
     assignRandomPointsForCurrentQuestion(game, roomId);

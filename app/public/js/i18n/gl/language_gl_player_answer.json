@@ -41,6 +41,11 @@
     "player.wordsearch.hint_help": "Pista: toca unha palabra (vale a metade)",
     "player.wordsearch.hint_aria": "Pista:",
     "player.answer.fillblanks_correct": "{n} de {total} palabras",
-    "player.answer.fillblanks_time_bonus": "+{pts} de bonus por tempo"
+    "player.answer.fillblanks_time_bonus": "+{pts} de bonus por tempo",
+    "player.review.title": "Repaso · Pregunta {n} de {total}",
+    "player.review.points": "+{points} puntos",
+    "player.review.answered": "Respondiches",
+    "player.review.not_answered": "Non respondiches",
+    "player.review.team_answer": "Resposta do teu equipo ({team})"
   }
 }

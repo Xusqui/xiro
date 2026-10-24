@@ -20,6 +20,8 @@ const { validateSocket, schemas } = require('../../validation');
 const { startTimer } = require('../../sockets/utils/TimerManager');
 const { hasTimer } = require('../../domain/services/QuestionScoringPolicy');
 const { runRandomPointsReveal } = require('../../sockets/utils/RandomPointsRevealManager');
+const { forwardMode } = require('../../domain/services/SlideNavigationPolicy');
+const NavigateSlideUseCase = require('./NavigateSlideUseCase');
 const logger = require('../../config/logger');
 
 class AdvanceQuestionUseCase {
@@ -56,6 +58,11 @@ class AdvanceQuestionUseCase {
                     success: false,
                     reason: 'game-not-found'
                 };
+            }
+
+            // 2.5. Juegos personalizados en revisión: lo ya mostrado no se vuelve a jugar
+            if (forwardMode(game) === 'review') {
+                return new NavigateSlideUseCase().execute({ ...context, data: { roomIdOrPin, direction: 'forward' } });
             }
 
             // 3. Preparar siguiente pregunta

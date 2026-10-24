@@ -11,6 +11,7 @@ const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../../config/constants');
 const logger = require('../../config/logger');
 const { validatePinCached } = require('../validators/GameValidators');
+const { canGoBack } = require('../../domain/services/SlideNavigationPolicy');
 
 /** @type {Map<string, Set<string>>} roomId → Set de socketIds remotos */
 const remotePresenterSockets = new Map();
@@ -136,6 +137,9 @@ function buildRemoteSnapshot(sessionId, game, lobbyPlayers, gameType = null, tea
         totalQuestions: game.questions?.length ?? 0,
         playerCount: game.players?.length ?? lobbyCount,
         canAnswer: game.canAnswer ?? false,
+        // Juegos personalizados: revisión y botón «Anterior»
+        reviewMode: Boolean(game.reviewMode),
+        canGoBack: canGoBack(game),
         scores: game.scores || {},
         teamConfig: teamConfigs?.get(sessionId) || null
     };

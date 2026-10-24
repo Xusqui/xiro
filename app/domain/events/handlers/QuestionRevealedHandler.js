@@ -10,6 +10,7 @@
  */
 
 const EventHandler = require('./EventHandler');
+const { canGoBack } = require('../../services/SlideNavigationPolicy');
 
 class QuestionRevealedHandler extends EventHandler {
     constructor(eventBus, io, dependencies = {}) {
@@ -136,7 +137,9 @@ class QuestionRevealedHandler extends EventHandler {
             // Reloj de la pregunta para la música del presentador (tensión con la hora
             // del servidor, no con un contador local)
             questionStartedAt: game?.questionStartTime || serverNow,
-            serverNow
+            serverNow,
+            // Juegos personalizados: botón "Anterior" (slides sin respuesta; las preguntas, al revelar)
+            canGoBack: canGoBack(game)
         };
 
         // Broadcast via Redis Adapter (multi-worker compatible)

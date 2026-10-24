@@ -45,6 +45,7 @@ import { renderizarPreguntaNumerica } from './player-numeric-ui.js?v=20260922172
 import { injectStreakBadge } from './player-streak-ui.js?v=20260922172926';
 import { syncTrivialBadgesFromSnapshot } from './player-trivial-badges-ui.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
+import { requestReviewState } from './player-review.js?v=20261024180000';
 
 /**
  * Restore player UI based on the snapshot sent by the server
@@ -157,6 +158,13 @@ function handleReconnectedSuccess(snapshot) {
             return;
         }
 
+        // Juegos personalizados: diapositiva ya mostrada que se revisa. Las diapositivas
+        // se ven tal cual; las preguntas, con la solución y el resultado propio.
+        if (gs.reviewMode) {
+            restoreReviewScreen(question, gs);
+            return;
+        }
+
         // If canAnswer is explicitly false, player already answered
         // If canAnswer is null/undefined/true, allow player to answer (optimistic)
         if (gs.canAnswer === false) {
@@ -230,6 +238,20 @@ function handlePresenterReconnected(data) {
 }
 
 // ===== UI HELPERS =====
+
+/** Revisión (juegos personalizados): la diapositiva tal cual, o la pregunta ya revelada. */
+function restoreReviewScreen(question, gs) {
+    if (question.slide_type && question.slide_type !== 'question') {
+        renderQuestion(question);
+        return;
+    }
+    requestReviewState({
+        question,
+        currentIndex: gs.currentQuestionIndex,
+        totalQuestions: gs.totalQuestions,
+        reveal: null
+    });
+}
 
 function renderQuestion(question) {
     clearAnswerInputState();

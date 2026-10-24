@@ -11,6 +11,7 @@ const QuestionRevealedHandler = require('./QuestionRevealedHandler');
 const PlayerScoredHandler = require('./PlayerScoredHandler');
 const GameEndedHandler = require('./GameEndedHandler');
 const RankingCacheHandler = require('./RankingCacheHandler');
+const SlideReviewedHandler = require('./SlideReviewedHandler');
 const CacheInvalidationService = require('../../../services/CacheInvalidationService');
 
 /**
@@ -51,6 +52,11 @@ function registerAllHandlers(eventBus, io, dependencies = {}) {
         cacheInvalidationService.register();
         handlers.push(cacheInvalidationService);
 
+        // Revisión de diapositivas de los juegos personalizados
+        const slideReviewedHandler = new SlideReviewedHandler(eventBus, io, dependencies);
+        slideReviewedHandler.register();
+        handlers.push(slideReviewedHandler);
+
         logger.info(`✅ Event handlers registered (${handlers.length} total)`);
 
         return handlers;
@@ -86,5 +92,6 @@ module.exports = {
     PlayerScoredHandler,
     GameEndedHandler,
     RankingCacheHandler,
-    CacheInvalidationService
+    CacheInvalidationService,
+    SlideReviewedHandler
 };

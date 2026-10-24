@@ -49,6 +49,11 @@ const {
     createValidateSessionHandler,
     createErrorHandler
 } = require('./handlers');
+const {
+    createPreviousSlideHandler,
+    createReviewStateHandler,
+    registerSlideNavigationEvents
+} = require('./handlers/SlideNavigationHandler');
 
 const syncBus = RedisSyncBus.getInstance();
 let io = null;
@@ -171,6 +176,8 @@ function createHandlerSet(dependencies) {
         handleNextQuestion: createNextQuestionHandler(dependencies),
         handleRevealAnswer: createRevealAnswerHandler(dependencies),
         handleManualPoints: createManualPointsHandler(dependencies),
+        handlePreviousSlide: createPreviousSlideHandler(dependencies),
+        handleGetReviewState: createReviewStateHandler(dependencies),
         handleLeaveLobby: createLeaveLobbyHandler(dependencies),
         handleEndGame: createEndGameHandler(dependencies),
         handleAbandonGame: createAbandonGameHandler(dependencies),
@@ -356,6 +363,7 @@ function onSocketConnection(socket, handlers, ackManager) {
 
     registerGeneralSocketEvents(socket, handlers);
     registerPresenterSocketEvents(socket, handlers);
+    registerSlideNavigationEvents(socket, { handlers, assertIsPresenter });
     registerTrivialSocketEvents(socket, handlers);
     registerDisconnectAndErrorEvents(socket, handlers, ackManager);
 }
@@ -375,6 +383,8 @@ function logConfiguredSocketHandlers() {
             'reconnect-presenter',
             'get-current-state',
             'next-question',
+            'previous-slide',
+            'get-review-state',
             'reveal-answer',
             'manual-points',
             'end-game',

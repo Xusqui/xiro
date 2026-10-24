@@ -8,6 +8,7 @@ const { getAdapter } = require('../../domain/state/GameStateAdapter');
 const { sanitizeQuestionForPlayers } = require('../../services/payload.sanitizer');
 const { buildReconnectRandomPointsState } = require('../utils/RandomPointsRevealManager');
 const { buildReconnectIntroState } = require('../utils/GameIntroManager');
+const { closedWhileReviewing } = require('../../domain/services/SlideNavigationPolicy');
 
 function createGetCurrentStateHandler(dependencies) {
     const { players, activeGames, lobbyPlayers } = dependencies;
@@ -78,7 +79,9 @@ function createGetCurrentStateHandler(dependencies) {
                 currentState.gameState = {
                     currentIndex,
                     totalQuestions: gameState.questionCount,
-                    canAnswer: adapter ? adapter.canAcceptAnswers() : gameState.canAnswer,
+                    // En revisión (juegos personalizados) la diapositiva ya se jugó
+                    canAnswer: closedWhileReviewing(game, adapter ? adapter.canAcceptAnswers() : gameState.canAnswer),
+                    reviewMode: Boolean(game.reviewMode),
                     scores: gameState.scores,
                     ...buildReconnectIntroState(game),
                     ...buildReconnectRandomPointsState(game)

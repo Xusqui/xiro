@@ -36,6 +36,7 @@ import { mostrarModalMensaje } from '../shared/modal.js?v=20260922172926';
 import { currentSlideFooterText } from '../core/slide-footer-dom.js?v=20261017120000';
 import { stopActiveVideo } from './presenter-slide-video.js?v=20261019120000';
 import { planVideoPreloads, advanceVideoPreloads } from './presenter-video-preloader.js?v=20261019120000';
+import { syncPrevButton, lockActivityPoints } from './presenter-slide-nav.js?v=20261024180000';
 
 const SLIDE_RENDERERS = {
     comment: renderCommentSlide,
@@ -47,8 +48,11 @@ const SLIDE_RENDERERS = {
     canvas: renderCanvasSlide
 };
 
-/** Diapositiva según slide_type; si no lo es, pregunta (y se permite el ranking). */
-function renderSlideOrQuestion(question) {
+/**
+ * Diapositiva según slide_type; si no lo es, pregunta (y se permite el ranking).
+ * `review`: pregunta ya jugada que se revisa (juegos personalizados), sin cuenta atrás.
+ */
+function renderSlideOrQuestion(question, { review = false } = {}) {
     // El vídeo de la diapositiva anterior deja de sonar y libera su memoria
     stopActiveVideo();
 
@@ -57,10 +61,11 @@ function renderSlideOrQuestion(question) {
         : null;
     if (renderSlide) {
         renderSlide(question);
+        if (review && question.slide_type === 'comment') lockActivityPoints();
         return;
     }
     window.canShowRanking = true;
-    renderPregunta(question);
+    renderPregunta(question, { review });
 }
 
 function resetAnswerState(playersData) {
@@ -129,6 +134,7 @@ export function registerGameSocketHandlers() {
         resetAnswerState(playersData);
 
         renderSlideOrQuestion(data.firstQuestion);
+        syncPrevButton(false); // la primera diapositiva no tiene anterior
         // Después de pintar: así el vídeo de la primera diapositiva no se descarta
         planVideoPreloads(data.questions, data.currentIndex);
 
@@ -168,8 +174,10 @@ export function registerGameSocketHandlers() {
         setTotalQuestions(data.totalQuestions);
         setCurrentQuestionIndex(data.currentIndex);
 
-        renderSlideOrQuestion(data.question);
+        renderSlideOrQuestion(data.question, { review: Boolean(data.review) });
         advanceVideoPreloads(data.currentIndex);
+        // Juegos personalizados: «Anterior» en diapositivas (las preguntas, al revelar)
+        syncPrevButton(data.canGoBack);
 
         if (typeof ack === 'function') ack();
     });
@@ -221,6 +229,7 @@ export function registerGameSocketHandlers() {
     // Revelar respuesta
     socket.on('reveal-answer', data => {
         handleRevealAnswer(data);
+        syncPrevButton(data.canGoBack);
     });
 
     // Pausar timer
@@ -262,6 +271,7 @@ export function registerGameSocketHandlers() {
 
         // CRÍTICO: Limpiar elementos de reveal antes de mostrar podio
         cleanupRevealElements();
+        syncPrevButton(false);
 
         // CRÍTICO: Limpiar datos de sesión para que al reabrir no intente reconectar
         localStorage.removeItem('xiro_presenter_sessionId');

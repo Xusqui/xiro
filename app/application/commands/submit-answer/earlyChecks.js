@@ -31,6 +31,11 @@ async function runEarlyChecks(ctx) {
         return { shouldStop: true, result: { success: true, late: true } };
     }
 
+    // Juegos personalizados: una diapositiva revisada ya se jugó y no se vuelve a jugar
+    if (game?.reviewMode) {
+        return { shouldStop: true, result: { success: false, reason: 'review-mode' } };
+    }
+
     // Trivial mode cleanup for stale round answers.
     clearStaleAnswers(player, socket, game);
 

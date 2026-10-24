@@ -7,6 +7,7 @@
     "presenter.remote.disconnected": "Desconnectat",
     "presenter.remote.in_lobby": "Al lobby",
     "presenter.remote.question_label": "Pregunta",
-    "presenter.remote.tap_pause_resume": "Toca per pausar/reprendre"
+    "presenter.remote.tap_pause_resume": "Toca per pausar/reprendre",
+    "presenter.remote.previous": "Anterior"
   }
 }

@@ -41,6 +41,11 @@
     "player.wordsearch.hint_help": "Dica: toque numa palavra (vale metade)",
     "player.wordsearch.hint_aria": "Dica:",
     "player.answer.fillblanks_correct": "{n} de {total} palavras",
-    "player.answer.fillblanks_time_bonus": "+{pts} de bónus de tempo"
+    "player.answer.fillblanks_time_bonus": "+{pts} de bónus de tempo",
+    "player.review.title": "Revisão · Pergunta {n} de {total}",
+    "player.review.points": "+{points} pontos",
+    "player.review.answered": "Respondeste",
+    "player.review.not_answered": "Não respondeste",
+    "player.review.team_answer": "Resposta da tua equipa ({team})"
   }
 }

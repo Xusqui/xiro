@@ -17,6 +17,7 @@
     "presenter.game.points_by_proximity": "Os pontos são calculados por proximidade",
     "presenter.game.players_see_devices": "Os jogadores veem as opções em seus dispositivos",
     "presenter.game.multiple_choice_label": "✓ Múltipla escolha",
-    "presenter.game.survey_multiple_label": "Inquérito de escolha múltipla"
+    "presenter.game.survey_multiple_label": "Inquérito de escolha múltipla",
+    "presenter.game.previous_slide": "Anterior"
   }
 }

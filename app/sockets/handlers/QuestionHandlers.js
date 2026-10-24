@@ -149,6 +149,9 @@ function createManualPointsHandler(dependencies) {
         const game = activeGames.get(sPin);
         if (!game) return;
 
+        // Una Actividad revisada (juegos personalizados) es de solo lectura
+        if (game.reviewMode && game.questions?.[game.currentIndex]?.slide_type === 'comment') return;
+
         // Soportar tanto nickname único como array de nicknames (para equipos)
         const playersToUpdate = (nicknames || [nickname]).filter(Boolean);
 

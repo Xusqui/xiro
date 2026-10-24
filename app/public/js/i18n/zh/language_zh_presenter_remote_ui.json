@@ -7,6 +7,7 @@
     "presenter.remote.disconnected": "已断开",
     "presenter.remote.in_lobby": "在大厅",
     "presenter.remote.question_label": "问题",
-    "presenter.remote.tap_pause_resume": "点击暂停/继续"
+    "presenter.remote.tap_pause_resume": "点击暂停/继续",
+    "presenter.remote.previous": "上一页"
   }
 }

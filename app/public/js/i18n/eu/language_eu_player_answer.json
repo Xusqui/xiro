@@ -41,6 +41,11 @@
     "player.wordsearch.hint_help": "Pista: ukitu hitz bat (erdia balio du)",
     "player.wordsearch.hint_aria": "Pista:",
     "player.answer.fillblanks_correct": "{total} hitzetatik {n}",
-    "player.answer.fillblanks_time_bonus": "+{pts} denbora-bonusa"
+    "player.answer.fillblanks_time_bonus": "+{pts} denbora-bonusa",
+    "player.review.title": "Errepasoa · {n}. galdera ({total}tik)",
+    "player.review.points": "+{points} puntu",
+    "player.review.answered": "Erantzun duzu",
+    "player.review.not_answered": "Ez duzu erantzun",
+    "player.review.team_answer": "Zure taldearen erantzuna ({team})"
   }
 }

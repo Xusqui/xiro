@@ -5,6 +5,8 @@
 
 import { socket } from './presenter-socket-config.js?v=20260922172926';
 import { mostrarModalConfirmacion } from '../shared/modal.js?v=20260922172926';
+import { emitPreviousSlide } from './presenter-slide-nav.js?v=20261024180000';
+import { syncRemotePrevButton } from './presenter-remote-nav.js?v=20261024180000';
 import { createRemoteWakeLockController } from './presenter-remote-wake-lock.js?v=20260922172926';
 import {
     applyRemoteCSS,
@@ -42,6 +44,8 @@ const state = {
     isReveal: false,
     isFinal: false,
     isCommentSlide: false,
+    // Juegos personalizados: el servidor dice si hay diapositiva anterior a la que volver
+    canGoBack: false,
     // Arranque pedido y aún sin confirmar: si el servidor lo rechaza se vuelve al lobby
     pendingStart: false,
     scores: {},
@@ -172,12 +176,14 @@ function handleJoinSuccess(data) {
     state.pendingStart = false;
     state.scores = data.scores || {};
     state.teamConfig = data.teamConfig || null;
+    state.canGoBack = Boolean(data.canGoBack);
     setLobbyPlayers(data.players);
 
     sessionStorage.setItem('xiro_remote_sessionId', data.sessionId);
     sessionStorage.setItem('xiro_remote_pin', state.pin);
 
     renderControlPanel(data, {
+        onPrevious: remotePrevious,
         onPrimary: remotePrimaryAction,
         onReveal: remoteReveal,
         onEnd: remoteEnd,
@@ -248,6 +254,13 @@ function handleRemoteStartError(data) {
 
 function handleRemoteTrivialStarted() {
     state.pendingStart = false;
+}
+
+/** Vuelve a la diapositiva anterior (juegos personalizados), como «Anterior» del presentador. */
+function remotePrevious() {
+    if (!state.sessionId || state.isLobby || state.isFinal || !state.canGoBack) return;
+    wakeLockController.activateFromGesture('prev-btn');
+    emitPreviousSlide(socket, state.sessionId);
 }
 
 /** Reveals current question answer from remote. */
@@ -322,16 +335,19 @@ function handleRemoteNewQuestion(data) {
 
     hideCommentPanel();
     state.isCommentSlide = false;
+    state.canGoBack = Boolean(data.canGoBack);
 
     if (question.slide_type === 'comment') {
         state.isCommentSlide = true;
         state.isReveal = true;
-        renderCommentPanel(question.comment_text, state.scores, state.teamConfig);
+        // Actividad revisada: solo lectura, sin panel de puntos
+        if (!data.review) renderCommentPanel(question.comment_text, state.scores, state.teamConfig);
         syncUI();
         return;
     }
 
-    const isSlide = SLIDE_TYPES.has(question.slide_type);
+    // Una pregunta revisada ya se jugó: como una diapositiva, sin cuenta atrás
+    const isSlide = SLIDE_TYPES.has(question.slide_type) || Boolean(data.review);
 
     if (isSlide) {
         // Slides without answer phase: skip timer, show Continue directly
@@ -421,8 +437,9 @@ function updateRemoteTimerUI() {
 }
 
 /** Marks reveal phase when reveal-answer is received. */
-function handleRemoteRevealEvent() {
+function handleRemoteRevealEvent(data) {
     if (state.isLobby || state.isFinal) return;
+    state.canGoBack = Boolean(data?.canGoBack);
     // Parar el timer local — la respuesta ya se reveló (todos contestaron o tiempo agotado)
     clearInterval(timerState.interval);
     timerState.interval = null;
@@ -479,4 +496,5 @@ function syncUI() {
     });
     updatePrimaryButton({ isLobbyState: state.isLobby, isRevealPhase: state.isReveal });
     syncLobbyStartButton(state.isLobby);
+    syncRemotePrevButton({ canGoBack: state.canGoBack, isLobby: state.isLobby, isFinal: state.isFinal });
 }

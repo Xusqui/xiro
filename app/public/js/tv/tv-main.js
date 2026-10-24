@@ -90,6 +90,12 @@ window.TVApp.Main = (function () {
         window.TVApp.socket.emit('next-question', state.sessionId);
     }
 
+    // Juegos personalizados: «Anterior» (el servidor decide si se puede)
+    function previousSlide() {
+        if (!state.sessionId || !window.TVApp.socket) return;
+        window.TVApp.socket.emit('previous-slide', state.sessionId);
+    }
+
     function volverAJuegos() {
         window.location.href = '/tv.html';
     }
@@ -148,6 +154,7 @@ window.TVApp.Main = (function () {
         togglePauseTimer: togglePauseTimer,
         assignManualPoints: assignManualPoints,
         nextQuestion: nextQuestion,
+        previousSlide: previousSlide,
         volverAJuegos: volverAJuegos,
         concluirYVolver: concluirYVolver,
         finalizarJuego: finalizarJuego,

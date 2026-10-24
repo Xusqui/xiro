@@ -17,6 +17,7 @@
     "presenter.game.points_by_proximity": "分数根据接近程度计算",
     "presenter.game.players_see_devices": "玩家在设备上查看选项",
     "presenter.game.multiple_choice_label": "✓ 多选题",
-    "presenter.game.survey_multiple_label": "多选调查"
+    "presenter.game.survey_multiple_label": "多选调查",
+    "presenter.game.previous_slide": "上一页"
   }
 }
