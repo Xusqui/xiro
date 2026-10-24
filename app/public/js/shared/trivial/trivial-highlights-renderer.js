@@ -96,6 +96,7 @@ window.TrivialShared = window.TrivialShared || {};
                 '<animate attributeName="stroke-opacity" values="1;0.2;1" dur="0.9s" repeatCount="indefinite"/>' +
                 '</circle>';
 
+            // Letra con contorno negro bajo el relleno: legible también fuera del tablero
             if (label !== '') {
                 html +=
                     '<text x="' +
@@ -104,6 +105,7 @@ window.TrivialShared = window.TrivialShared || {};
                     (pL.y + 4).toFixed(1) +
                     '"' +
                     ' text-anchor="middle" font-size="11" font-weight="bold" fill="#fbbf24"' +
+                    ' stroke="#000" stroke-width="3" stroke-linejoin="round" paint-order="stroke"' +
                     ' pointer-events="none">' +
                     label +
                     '</text>';
