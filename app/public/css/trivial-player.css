@@ -1,0 +1,177 @@
+/*
+ * Trivial en el móvil del jugador: pantalla del dado y elección de casilla
+ * (js/player/player-trivial-ui.js). El dado 3D en sí está en dice3d.css.
+ *
+ * Antes de tirar: título, dado grande y pista, centrados. Al elegir casilla
+ * (.is-choosing, player-trivial-compact.js) el dado, pequeño, pasa a la
+ * izquierda de «¿Dónde te mueves?» y debajo va la lista. Hasta 7 casillas
+ * caben sin scroll desde 375×548 (iPhone SE con las barras de Safari); en
+ * pantallas más bajas o en apaisado solo la lista hace scroll.
+ */
+
+.trivial-dice-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    /* Altura propia: el contenedor no siempre la tiene (primer turno,
+       reconexión). 2rem = el p-4 del body de jugador.html. */
+    height: calc(100vh - 2rem);
+    height: calc(100dvh - 2rem);
+    /* Hueco para la barra fija de quesitos (player-trivial-badges-ui.js) */
+    padding-bottom: 1.5rem;
+}
+
+/* ---- Cabecera: título, dado y pista ---- */
+
+.trivial-dice-head {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    align-items: center;
+    padding: 10px 16px 6px;
+}
+
+.trivial-dice-text {
+    width: 100%;
+    min-width: 0;
+    text-align: center;
+}
+
+.trivial-dice-title {
+    margin: 0 0 28px;
+    overflow: hidden;
+    color: #fff;
+    font-size: clamp(1rem, 4.5vw, 1.4rem);
+    font-weight: 900;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.trivial-dice-question {
+    display: none;
+}
+
+/* Texto secundario: tinte ciruela a 4,96:1 sobre plum-700 (el #d4b3df de antes daba 4,42) */
+.trivial-dice-hint {
+    margin: 22px 0 0;
+    color: #dcc0e5;
+    font-size: 0.875rem;
+    text-align: center;
+}
+
+/* Elegir casilla: dado a la izquierda y texto a la derecha, alineados con los botones */
+.trivial-dice-screen.is-choosing .trivial-dice-head {
+    flex-direction: row;
+    gap: 14px;
+    align-self: center;
+    width: calc(100% - 24px);
+    max-width: 320px;
+    margin-bottom: 6px;
+    padding: 0;
+}
+
+.is-choosing #dice-wrapper {
+    order: -1;
+}
+
+.is-choosing .trivial-dice-text {
+    flex: 1;
+    text-align: left;
+}
+
+.is-choosing .trivial-dice-title {
+    margin: 0 0 2px;
+    color: #dcc0e5;
+    font-size: 0.9rem;
+    line-height: 1.2;
+}
+
+.is-choosing .trivial-dice-question {
+    display: block;
+    margin: 0;
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 900;
+    line-height: 1.15;
+    text-wrap: balance;
+}
+
+.is-choosing .trivial-dice-hint {
+    display: none;
+}
+
+/* ---- Lista de casillas ---- */
+
+/* Si no caben, solo la lista hace scroll. Su padding deja sitio a la sombra de
+   color de los botones, que el scroll recortaría. */
+.trivial-moves {
+    display: flex;
+    flex: 0 1 auto;
+    flex-direction: column;
+    gap: 8px;
+    align-self: center;
+    width: 100%;
+    max-width: 344px;
+    min-height: 0;
+    padding: 8px 12px 14px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
+    scrollbar-width: thin;
+}
+
+.trivial-moves:empty {
+    display: none;
+}
+
+/* 48 px de alto; si falta sitio encogen hasta 44 px (mínimo táctil) */
+.trivial-move {
+    display: flex;
+    flex: 0 1 48px;
+    gap: 12px;
+    align-items: center;
+    width: 100%;
+    min-height: 44px;
+    padding: 0 16px;
+    border: none;
+    border-radius: 1rem;
+    text-align: left;
+}
+
+.trivial-move:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 2px;
+}
+
+/* Con ratón; sin transform para no pisar el active:scale-95 del botón */
+@media (hover: hover) {
+    .trivial-move:hover {
+        filter: brightness(1.08);
+    }
+}
+
+.trivial-move-badge {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.25);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 900;
+}
+
+.trivial-move-name {
+    flex: 1;
+    min-width: 0;
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    line-height: 1.2;
+    text-transform: uppercase;
+}

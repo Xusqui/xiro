@@ -9,6 +9,7 @@
     "player.trivial.radio_label": "Radi",
     "player.trivial.selecting_cell": "Seleccionant casella…",
     "player.trivial.tap_dice": "Toca el dau per tirar",
-    "player.trivial.turn_of": "Torn de"
+    "player.trivial.turn_of": "Torn de",
+    "player.trivial.where_move": "On et mous?"
   }
 }

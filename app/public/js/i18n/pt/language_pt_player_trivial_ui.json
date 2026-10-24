@@ -9,6 +9,7 @@
     "player.trivial.radio_label": "Raio",
     "player.trivial.selecting_cell": "Selecionando casa…",
     "player.trivial.tap_dice": "Toque o dado para jogar",
-    "player.trivial.turn_of": "Vez de"
+    "player.trivial.turn_of": "Vez de",
+    "player.trivial.where_move": "Para onde você vai?"
   }
 }

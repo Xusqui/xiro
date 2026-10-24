@@ -9,6 +9,7 @@
     "player.trivial.radio_label": "Radius",
     "player.trivial.selecting_cell": "Feld auswählen…",
     "player.trivial.tap_dice": "Tippe den Würfel zum Würfeln",
-    "player.trivial.turn_of": "Zug von"
+    "player.trivial.turn_of": "Zug von",
+    "player.trivial.where_move": "Wohin ziehst du?"
   }
 }

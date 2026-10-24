@@ -9,6 +9,7 @@
     "player.trivial.radio_label": "Radius",
     "player.trivial.selecting_cell": "Selecting cell…",
     "player.trivial.tap_dice": "Tap the die to roll",
-    "player.trivial.turn_of": "Turn of"
+    "player.trivial.turn_of": "Turn of",
+    "player.trivial.where_move": "Where do you move?"
   }
 }

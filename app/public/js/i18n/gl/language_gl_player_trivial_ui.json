@@ -9,6 +9,7 @@
     "player.trivial.radio_label": "Radio",
     "player.trivial.selecting_cell": "Seleccionando casilla…",
     "player.trivial.tap_dice": "Toca o dado para tirar",
-    "player.trivial.turn_of": "Quenda de"
+    "player.trivial.turn_of": "Quenda de",
+    "player.trivial.where_move": "Onde te moves?"
   }
 }

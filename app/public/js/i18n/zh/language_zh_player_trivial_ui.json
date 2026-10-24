@@ -9,6 +9,7 @@
     "player.trivial.radio_label": "半径",
     "player.trivial.selecting_cell": "选择格子…",
     "player.trivial.tap_dice": "点击骰子投掷",
-    "player.trivial.turn_of": "轮到"
+    "player.trivial.turn_of": "轮到",
+    "player.trivial.where_move": "你要走到哪一格？"
   }
 }

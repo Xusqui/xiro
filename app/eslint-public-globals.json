@@ -1313,6 +1313,7 @@
     "public/js/player/player-survey-results.js",
     "public/js/player/player-team.js",
     "public/js/player/player-trivial-badges-ui.js",
+    "public/js/player/player-trivial-compact.js",
     "public/js/player/player-trivial-reconnect.js",
     "public/js/player/player-trivial-socket.js",
     "public/js/player/player-trivial-team.js",

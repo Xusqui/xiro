@@ -9,6 +9,7 @@
     "player.trivial.radio_label": "半径",
     "player.trivial.selecting_cell": "マスを選択中…",
     "player.trivial.tap_dice": "サイコロをタップして振る",
-    "player.trivial.turn_of": "の番"
+    "player.trivial.turn_of": "の番",
+    "player.trivial.where_move": "どこに進む？"
   }
 }
