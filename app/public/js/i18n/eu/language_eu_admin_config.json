@@ -123,6 +123,8 @@
     "admin.config.ui.animar_fondo_desc": "Atzeko planoko gradiente eta hosto mugimendua aktibatzen du. Desaktibatuz gero, atzeko planoa estatiko geratzen da.",
     "admin.config.ui.animacion_inicio_label": "Sarrera partida bakoitzaren aurretik",
     "admin.config.ui.animacion_inicio_desc": "Xiro! logo animatua eta 3, 2, 1, 0 atzerako kontaketa erakusten ditu aurkezlean, telebistan eta mugikorretan partida bakoitza hasi aurretik.",
+    "admin.config.ui.podio_3d_label": "3D podioa",
+    "admin.config.ui.podio_3d_desc": "Partida amaitzean, 1.a, 2.a eta 3.a aurkezlean 3D bloke gisa igotzen dira, irabazlearentzako konfetiarekin. Ordenagailuak WebGL2 ez badu, edo desaktibatzen bada, podioa errenkadetan erakusten da.",
     "admin.config.ui.musica_partida_label": "Partidako musika",
     "admin.config.ui.musica_partida_desc": "Partida musikarekin hasten da aurkezlearen pantailan (itxarongela, tentsioa handitzen duten galderak, erantzuna, sailkapena eta podiuma). Aurkezleak ⋯ menutik pausatu dezake.",
     "admin.config.ui.personalization_label": "Interfazea pertsonalizatu",

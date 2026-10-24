@@ -40,6 +40,8 @@ const DEFAULTS = {
     musicSettings: musicSettings.defaults(), // Sonidos, tempo, semilla, volumen, tic-tac y mezcla (pestaña Música)
     teamNames: [...DEFAULT_TEAM_NAMES], // Nombres personalizados de equipos (1-9)
 
+    podio3d: true, // Podio final con los tres primeros en 3D (WebGL2) en el presentador; si no, filas
+
     // Configuración de fuegos artificiales del podio
     fireworksShellSize: 2, // Tamaño de fuegos: 0 (pequeño) - 16 (enorme)
     fireworksFinaleMode: true, // Modo finale (muchos fuegos simultáneos)
@@ -67,6 +69,7 @@ const BOOLEAN_SETTINGS = new Set([
     'animarFondo',
     'animacionInicio',
     'musicaPartida',
+    'podio3d',
     'fireworksFinaleMode',
     'fireworksSound',
     'personalizationEnabled'

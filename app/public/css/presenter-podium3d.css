@@ -1,0 +1,176 @@
+/* ── Podio 3D (js/presenter/podium3d/) ──────────────────────────────────────
+   El lienzo WebGL ocupa el hueco libre entre el título y las filas del 4º al 10º.
+   Los tres primeros siguen en el DOM como filas, ocultas a la vista pero no a los
+   lectores de pantalla: el lienzo y sus etiquetas van con aria-hidden. Si el 3D
+   falla, presenter-podio.js quita .podium-content--3d y las filas vuelven. */
+
+.podium3d-stage {
+    position: relative;
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: 80rem;
+    min-height: clamp(17rem, 46vh, 44rem);
+}
+
+/* Bordes fundidos: el foco del suelo nunca termina en un corte recto */
+.podium3d-canvas {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    -webkit-mask-image:
+        linear-gradient(to right, transparent, #000 10%, #000 90%, transparent),
+        linear-gradient(to bottom, #000 82%, transparent);
+    -webkit-mask-composite: source-in;
+    mask-image:
+        linear-gradient(to right, transparent, #000 10%, #000 90%, transparent),
+        linear-gradient(to bottom, #000 82%, transparent);
+    mask-composite: intersect;
+}
+
+.podium3d-labels {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+/* Raíz de tamaño cero en el techo del bloque (la mueve el bucle con transform);
+   el cuerpo se apoya en ella por su centro inferior */
+.podium3d-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    will-change: transform;
+}
+
+.podium3d-label-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    white-space: nowrap;
+    opacity: 0;
+    filter: blur(8px);
+    transform: translate(-50%, 0.9rem);
+    transition:
+        opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.podium3d-label.is-shown .podium3d-label-body {
+    opacity: 1;
+    filter: none;
+    transform: translate(-50%, 0);
+}
+
+/* 2º y 3º: hasta dos líneas equilibradas sobre su bloque; el 1º, más alto que sus
+   vecinos, tiene sitio para una sola línea ancha */
+.podium3d-name {
+    display: -webkit-box;
+    max-width: 16vw;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    white-space: normal;
+    text-wrap: balance;
+    color: #fff;
+    font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-size: clamp(1.2rem, 2vw, 2.5rem);
+    font-style: italic;
+    font-weight: 900;
+    line-height: 1.1;
+    text-transform: uppercase;
+    text-shadow: 0 0.08em 0.35em rgb(0 0 0 / 0.6);
+}
+
+.podium3d-label--p1 .podium3d-name {
+    display: block;
+    max-width: 38vw;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: clamp(1.5rem, 2.5vw, 3.2rem);
+}
+
+.podium3d-points {
+    font-size: clamp(1.5rem, 2.3vw, 3rem);
+    line-height: 1;
+    text-shadow: 0 0.06em 0.3em rgb(0 0 0 / 0.55);
+}
+
+.podium3d-label--p1 .podium3d-points {
+    color: #fbbf24;
+    font-size: clamp(1.9rem, 3.1vw, 4rem);
+}
+
+.podium3d-label--p2 .podium3d-points {
+    color: #e2e8f0;
+}
+
+.podium3d-label--p3 .podium3d-points {
+    color: #f0b37e;
+}
+
+.podium3d-team-dot {
+    display: inline-block;
+    width: 0.62em;
+    height: 0.62em;
+    margin-right: 0.35em;
+    border-radius: 9999px;
+    box-shadow: 0 0 0 0.1em rgb(255 255 255 / 0.85);
+    vertical-align: 0.12em;
+}
+
+/* Con el 3D, los tres primeros solo para lectores de pantalla */
+.podium-content--3d .podium-row[data-place="1"],
+.podium-content--3d .podium-row[data-place="2"],
+.podium-content--3d .podium-row[data-place="3"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Del 4º al 10º: dos columnas compactas que se leen de arriba abajo */
+.podium-content--3d .podium-list {
+    display: grid;
+    flex: 0 0 auto;
+    grid-auto-columns: minmax(0, 30rem);
+    grid-auto-flow: column;
+    grid-template-rows: repeat(4, auto);
+    gap: 0.6rem 1.25rem;
+    justify-content: center;
+    max-width: 64rem;
+}
+
+.podium-content--3d .podium-list > .podium-row {
+    margin: 0;
+    padding: 0.65rem 1.4rem;
+    border-radius: 1.25rem;
+}
+
+.podium-content--3d .podium-list > .podium-row > span:first-child {
+    font-size: clamp(1rem, 1.4vw, 1.6rem);
+}
+
+.podium-content--3d .podium-list > .podium-row > .podium-score {
+    font-size: clamp(1.3rem, 1.9vw, 2.2rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .podium3d-label-body {
+        transition: opacity 0.2s ease;
+        filter: none;
+        transform: translate(-50%, 0);
+    }
+}

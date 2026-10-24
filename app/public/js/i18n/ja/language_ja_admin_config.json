@@ -123,6 +123,8 @@
     "admin.config.ui.animar_fondo_desc": "背景のグラデーションと葉の動きを有効にします。無効にすると背景は静止したままになります。",
     "admin.config.ui.animacion_inicio_label": "各ゲーム前のイントロ",
     "admin.config.ui.animacion_inicio_desc": "各ゲームの開始前に、プレゼンター・TV・スマートフォンでアニメーションするXiro!ロゴと3、2、1、0のカウントダウンを表示します。",
+    "admin.config.ui.podio_3d_label": "3D表彰台",
+    "admin.config.ui.podio_3d_desc": "ゲーム終了時、プレゼンター画面で1位・2位・3位が3Dブロックとしてせり上がり、優勝者には紙吹雪が舞います。パソコンがWebGL2に対応していない場合やオフにした場合は、表彰台は行の一覧で表示されます。",
     "admin.config.ui.musica_partida_label": "ゲーム音楽",
     "admin.config.ui.musica_partida_desc": "ゲームは司会者の画面で音楽付きで始まります（ロビー、緊張感が高まる問題、正解発表、ランキング、表彰台）。司会者は ⋯ メニューから一時停止できます。",
     "admin.config.ui.personalization_label": "インターフェースをカスタマイズ",

@@ -10,6 +10,8 @@
     "manual_admin.tools.interfaz.animar_fondo_desc": "Active ou désactive le mouvement du dégradé et des feuilles en arrière-plan sur tous les écrans. Si désactivé, le fond reste statique.",
     "manual_admin.tools.interfaz.animacion_inicio": "Intro avant chaque partie",
     "manual_admin.tools.interfaz.animacion_inicio_desc": "Avant chaque partie (Trivial compris), le présentateur, la TV et les mobiles affichent le logo Xiro! animé et un compte à rebours <strong>3, 2, 1, 0</strong>. Le son ne joue que chez le présentateur. Le chrono de la première question ne démarre qu'à la fin. Activée par défaut.",
+    "manual_admin.tools.interfaz.podio_3d": "Podium 3D",
+    "manual_admin.tools.interfaz.podio_3d_desc": "Sur le podium final du présentateur, les trois premiers montent en blocs 3D or, argent et bronze au rythme de la musique, et des confettis tombent sur le gagnant. Du 4e au 10e restent en lignes en dessous. Avec l'option système de réduction des animations, les blocs apparaissent déjà montés et sans confettis. Si le navigateur n'a pas WebGL2, le podium s'affiche en lignes comme d'habitude. Activé par défaut.",
     "manual_admin.tools.interfaz.personalization": "Personnaliser l'interface",
     "manual_admin.tools.interfaz.personalization_desc": "Affiche un badge de marque de l'événement (p. ex. le logo d'un sponsor) sur tous les écrans du jeu. Permet de téléverser, choisir et supprimer le logo directement depuis ce panneau."
   }

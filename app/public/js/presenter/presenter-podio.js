@@ -1,15 +1,34 @@
 /**
  * @fileoverview Podio final del juego
- * Renderizado de ranking final con fuegos artificiales
+ * Renderizado de ranking final con fuegos artificiales. Con «Podio 3D» y WebGL2, los tres
+ * primeros suben como bloques 3D (podium3d/) y el resto queda en filas debajo; si el 3D
+ * falla, las filas de los tres primeros vuelven a verse.
  */
 
 import { removeFloatingCards, hideAbandonButton } from './presenter-utils.js?v=20260922172926';
 import { cleanupRevealElements } from './presenter-reveal.js?v=20260922172926';
 import { restRowDelay, startPodiumReveal } from './presenter-podio-reveal.js?v=20260922172926';
+import { startFireworks, stopFireworks } from './presenter-podio-fireworks.js?v=20261024120000';
+import { mountPodium3d, podiumEntries, wantsPodium3d } from './podium3d/podium3d.js?v=20261024120000';
 
-// Variable global para el controlador de fuegos artificiales
-let fireworksController = null;
+const PODIUM_3D_STAGE =
+    '<div class="podium3d-stage" aria-hidden="true"><canvas class="podium3d-canvas"></canvas><div class="podium3d-labels"></div></div>';
+
+const TEAM_COLOR_CLASSES = {
+    red: 'bg-red-600',
+    blue: 'bg-blue-600',
+    green: 'bg-green-600',
+    yellow: 'bg-yellow-500',
+    purple: 'bg-purple-600',
+    pink: 'bg-pink-600',
+    orange: 'bg-orange-600',
+    cyan: 'bg-cyan-600',
+    lime: 'bg-lime-500'
+};
+
 let podiumLanguageListenerBound = false;
+let podium3d = null;
+let cancelPodiumReveal = null;
 
 function tr(key, fallback) {
     return _t(key, null, fallback || key);
@@ -68,115 +87,22 @@ function bindPodiumLanguageRefresh() {
     window.addEventListener('xiro:language-changed', refreshActivePodiumTitle);
 }
 
-/**
- * Cargar configuración de fuegos artificiales
- */
-async function loadFireworksConfig() {
-    try {
-        const response = await fetch('/api/ui-settings');
-        if (!response.ok) throw new Error('Error al cargar configuración');
-        const settings = await response.json();
-        return {
-            shellSize: settings.fireworksShellSize !== undefined ? settings.fireworksShellSize : 2,
-            finaleMode: settings.fireworksFinaleMode !== false,
-            simSpeed: settings.fireworksSimSpeed !== undefined ? settings.fireworksSimSpeed : 1,
-            launchIntervalMin:
-                settings.fireworksLaunchIntervalMin !== undefined ? settings.fireworksLaunchIntervalMin : 900,
-            launchIntervalMax:
-                settings.fireworksLaunchIntervalMax !== undefined ? settings.fireworksLaunchIntervalMax : 1500,
-            maxFinaleCount: settings.fireworksMaxFinaleCount !== undefined ? settings.fireworksMaxFinaleCount : 32,
-            trailIntensity: settings.fireworksTrailIntensity !== undefined ? settings.fireworksTrailIntensity : 0.175,
-            starWidth: settings.fireworksStarWidth !== undefined ? settings.fireworksStarWidth : 3,
-            sparkWidth: settings.fireworksSparkWidth !== undefined ? settings.fireworksSparkWidth : 1,
-            soundEnabled: settings.fireworksSound === true
-        };
-    } catch (error) {
-        console.warn('⚠️ Error al cargar configuración de fuegos, usando defaults:', error);
-        return {
-            shellSize: 2,
-            finaleMode: true,
-            simSpeed: 1,
-            launchIntervalMin: 900,
-            launchIntervalMax: 1500,
-            maxFinaleCount: 32,
-            trailIntensity: 0.175,
-            starWidth: 3,
-            sparkWidth: 1,
-            soundEnabled: false
-        };
-    }
-}
-
-/**
- * Iniciar fuegos artificiales de fondo
- */
-async function startFireworks() {
-    // Detener fuegos previos si existen
-    if (fireworksController) {
-        fireworksController.destroy();
-    }
-
-    // Verificar que FireworksController esté disponible
-    if (typeof FireworksController === 'undefined') {
-        console.warn('⚠️ FireworksController no disponible, fuegos artificiales deshabilitados');
-        return;
-    }
-
-    try {
-        // Cargar configuración
-        const config = await loadFireworksConfig();
-        console.log('🎆 Configuración de fuegos artificiales:', config);
-
-        // Crear contenedor para fuegos artificiales si no existe
-        let fireworksContainer = document.getElementById('fireworks-podium-container');
-        if (!fireworksContainer) {
-            fireworksContainer = document.createElement('div');
-            fireworksContainer.id = 'fireworks-podium-container';
-            document.body.appendChild(fireworksContainer);
+/** Arranca el podio 3D; si no carga o pierde el contexto, quita el lienzo y las filas vuelven. */
+function mountPodium3dIfWanted(lobbyMain, ranking, use3d) {
+    podium3d?.destroy();
+    podium3d = null;
+    if (!use3d) return;
+    const content = lobbyMain.querySelector('.podium-content');
+    const stage = content.querySelector('.podium3d-stage');
+    podium3d = mountPodium3d({
+        stage,
+        entries: podiumEntries(ranking, TEAM_COLOR_CLASSES),
+        onFail: () => {
+            content.classList.remove('podium-content--3d');
+            stage.remove();
+            podium3d = null;
         }
-
-        // Inicializar controlador con configuración
-        fireworksController = new FireworksController('fireworks-podium-container');
-        fireworksController.setShellSize(config.shellSize);
-        fireworksController.setAutoLaunch(true); // Siempre activo
-        fireworksController.setFinaleMode(config.finaleMode);
-        fireworksController.simSpeed = config.simSpeed;
-
-        // Configurar intervalos de lanzamiento
-        fireworksController.launchIntervalMin = config.launchIntervalMin;
-        fireworksController.launchIntervalMax = config.launchIntervalMax;
-
-        // Configurar parámetros avanzados
-        fireworksController.maxFinaleCount = config.maxFinaleCount;
-        fireworksController.trailIntensity = config.trailIntensity;
-        fireworksController.starWidth = config.starWidth;
-        fireworksController.sparkWidth = config.sparkWidth;
-        fireworksController.setSoundEnabled(config.soundEnabled);
-
-        fireworksController.start();
-
-        console.log('🎆 Fuegos artificiales iniciados con configuración personalizada');
-    } catch (error) {
-        console.error('❌ Error al iniciar fuegos artificiales:', error);
-    }
-}
-
-/**
- * Detener y limpiar fuegos artificiales
- */
-function stopFireworks() {
-    if (fireworksController) {
-        fireworksController.destroy();
-        fireworksController = null;
-
-        // Eliminar contenedor
-        const container = document.getElementById('fireworks-podium-container');
-        if (container) {
-            container.remove();
-        }
-
-        console.log('🎆 Fuegos artificiales detenidos');
-    }
+    });
 }
 
 /**
@@ -198,18 +124,6 @@ export function renderPodio(ranking) {
 
     bindPodiumLanguageRefresh();
 
-    const teamColorClasses = {
-        red: 'bg-red-600',
-        blue: 'bg-blue-600',
-        green: 'bg-green-600',
-        yellow: 'bg-yellow-500',
-        purple: 'bg-purple-600',
-        pink: 'bg-pink-600',
-        orange: 'bg-orange-600',
-        cyan: 'bg-cyan-600',
-        lime: 'bg-lime-500'
-    };
-
     const lobbyMain = document.getElementById('lobby-main');
     console.log('🎯 lobby-main encontrado:', lobbyMain ? 'SÍ' : 'NO');
 
@@ -218,11 +132,14 @@ export function renderPodio(ranking) {
         return;
     }
 
+    const use3d = ranking.length > 0 && wantsPodium3d();
+
     lobbyMain.style.display = 'flex';
     lobbyMain.innerHTML = _tHtml(`
-        <div class="podium-content podium-stage absolute inset-0 flex flex-col items-center justify-start text-center px-10 pt-8 pb-16 gap-6 overflow-y-auto">
+        <div class="podium-content podium-stage ${use3d ? 'podium-content--3d' : ''} absolute inset-0 flex flex-col items-center justify-start text-center px-10 pt-8 pb-16 gap-6 overflow-y-auto">
             <h1 class="neon podium-title uppercase" data-xiro-podium-title="1" data-podium-team-mode="${isTeamMode ? 'true' : 'false'}">${podiumTitleHtml}</h1>
-            <div class="w-full max-w-2xl space-y-4">
+            ${use3d ? PODIUM_3D_STAGE : ''}
+            <div class="podium-list w-full max-w-2xl space-y-4">
                 ${(() => {
         const rows = ranking.slice(0, 10);
         const total = rows.length;
@@ -230,8 +147,8 @@ export function renderPodio(ranking) {
         return rows
             .map((p, i) => {
                 const bgClass = isTeamMode
-                    ? p.color && teamColorClasses[p.color]
-                        ? teamColorClasses[p.color] + ' text-white'
+                    ? p.color && TEAM_COLOR_CLASSES[p.color]
+                        ? TEAM_COLOR_CLASSES[p.color] + ' text-white'
                         : 'bg-white/10 text-white'
                     : ['bg-yellow-400 text-slate-900 scale-105', 'podium-silver', 'podium-bronze'][i] ||
                                   'bg-white/10 text-white';
@@ -255,7 +172,9 @@ export function renderPodio(ranking) {
 
         </div>`);
 
-    startPodiumReveal(lobbyMain, Math.min(ranking.length, 10));
+    mountPodium3dIfWanted(lobbyMain, ranking, use3d);
+    cancelPodiumReveal?.();
+    cancelPodiumReveal = startPodiumReveal(lobbyMain, Math.min(ranking.length, 10), place => podium3d?.reveal(place));
 
     // Ocultar botón de abandonar en pantalla final de podio
     hideAbandonButton();
@@ -294,4 +213,8 @@ export function renderPodio(ranking) {
  */
 export function cleanupPodio() {
     stopFireworks();
+    cancelPodiumReveal?.();
+    cancelPodiumReveal = null;
+    podium3d?.destroy();
+    podium3d = null;
 }

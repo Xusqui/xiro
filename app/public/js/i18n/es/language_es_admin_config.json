@@ -151,6 +151,8 @@
     "admin.config.ui.animar_fondo_desc": "Activa el movimiento del degradado y las hojas de fondo. Si se desactiva, el fondo queda estático.",
     "admin.config.ui.animacion_inicio_label": "Intro antes de cada partida",
     "admin.config.ui.animacion_inicio_desc": "Muestra el logo de Xiro! animado y una cuenta atrás 3, 2, 1, 0 en el presentador, la TV y los móviles antes de empezar cada partida.",
+    "admin.config.ui.podio_3d_label": "Podio 3D",
+    "admin.config.ui.podio_3d_desc": "Al final de la partida, el 1º, el 2º y el 3º suben en el presentador como bloques 3D, con confeti para el ganador. Si el ordenador no tiene WebGL2, o si se desactiva, el podio se muestra en filas.",
     "admin.config.ui.musica_partida_label": "Música de la partida",
     "admin.config.ui.musica_partida_desc": "La partida empieza con música en el presentador (lobby, preguntas con tensión creciente, revelación, marcador y podio). El presentador puede pausarla desde el menú ⋯.",
     "admin.config.ui.personalization_label": "Personalizar interfaz",

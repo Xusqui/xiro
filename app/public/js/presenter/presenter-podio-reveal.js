@@ -18,13 +18,15 @@ export function restRowDelay(index, total) {
 
 /**
  * Programa la salida del 3º, 2º y 1º en `container` (filas con data-place y la clase
- * podium-row-wait). Devuelve una función para cancelarlo.
+ * podium-row-wait). `onReveal(place)` avisa de cada salida (el podio 3D sube su bloque);
+ * puede llegar más de una vez por puesto. Devuelve una función para cancelarlo.
  */
-export function startPodiumReveal(container, total) {
+export function startPodiumReveal(container, total, onReveal) {
     const timers = [];
     const reveal = place => {
         const row = container.querySelector(`.podium-row[data-place="${place}"]`);
         if (row) row.classList.remove('podium-row-wait');
+        onReveal?.(place);
     };
     const revealAll = () => [3, 2, 1].forEach(reveal);
     const onHit = e => reveal(e.detail.place);

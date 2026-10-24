@@ -123,6 +123,8 @@
     "admin.config.ui.animar_fondo_desc": "Aktiviert die Bewegung des Farbverlaufs und der Blätter im Hintergrund. Bei Deaktivierung bleibt der Hintergrund statisch.",
     "admin.config.ui.animacion_inicio_label": "Intro vor jedem Spiel",
     "admin.config.ui.animacion_inicio_desc": "Zeigt vor jedem Spielstart das animierte Xiro!-Logo und einen Countdown 3, 2, 1, 0 beim Moderator, auf dem Fernseher und auf den Handys.",
+    "admin.config.ui.podio_3d_label": "3D-Podest",
+    "admin.config.ui.podio_3d_desc": "Am Spielende steigen Platz 1, 2 und 3 beim Moderator als 3D-Blöcke auf, mit Konfetti für den Sieger. Hat der Computer kein WebGL2 oder ist die Option aus, wird das Podest als Zeilen angezeigt.",
     "admin.config.ui.musica_partida_label": "Spielmusik",
     "admin.config.ui.musica_partida_desc": "Das Spiel beginnt mit Musik beim Moderator (Lobby, Fragen mit steigender Spannung, Auflösung, Rangliste und Podium). Der Moderator kann sie im Menü ⋯ pausieren.",
     "admin.config.ui.personalization_label": "Oberfläche personalisieren",

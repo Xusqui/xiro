@@ -10,6 +10,8 @@
     "manual_admin.tools.interfaz.animar_fondo_desc": "Activa o desactiva el moviment del degradat i les fulles de fons a totes les pantalles. Si es desactiva, el fons queda estàtic.",
     "manual_admin.tools.interfaz.animacion_inicio": "Intro abans de cada partida",
     "manual_admin.tools.interfaz.animacion_inicio_desc": "Abans de cada partida (també al Trivial) es mostra al presentador, la TV i els mòbils el logo de Xiro! animat i un compte enrere <strong>3, 2, 1, 0</strong>. Només sona al presentador. El temps de la primera pregunta no comença a córrer fins que acaba. Activada per defecte.",
+    "manual_admin.tools.interfaz.podio_3d": "Podi 3D",
+    "manual_admin.tools.interfaz.podio_3d_desc": "Al podi final del presentador, els tres primers pugen com a blocs 3D d'or, plata i bronze al ritme de la música, i cau confeti sobre el guanyador. Del 4t al 10è continuen en files a sota. Amb l'opció del sistema de reduir el moviment, els blocs apareixen ja muntats i sense confeti. Si el navegador no té WebGL2, el podi es mostra en files com sempre. Activat per defecte.",
     "manual_admin.tools.interfaz.personalization": "Personalitzar interfície",
     "manual_admin.tools.interfaz.personalization_desc": "Mostra una insígnia de marca de l'esdeveniment (p. ex. el logotip d'un patrocinador) a totes les pantalles del joc. Permet pujar, triar i esborrar el logotip directament des d'aquest panell."
   }

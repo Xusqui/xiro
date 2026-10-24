@@ -10,6 +10,8 @@
     "manual_admin.tools.interfaz.animar_fondo_desc": "Atzeko planoko gradientearen eta hostoen mugimendua aktibatzen edo desaktibatzen du pantaila guztietan. Desaktibatuz gero, atzeko planoa geldirik geratzen da.",
     "manual_admin.tools.interfaz.animacion_inicio": "Sarrera partida bakoitzaren aurretik",
     "manual_admin.tools.interfaz.animacion_inicio_desc": "Partida bakoitzaren aurretik (Trivialean ere bai) aurkezlean, telebistan eta mugikorretan Xiro! logo animatua eta <strong>3, 2, 1, 0</strong> atzerako kontaketa erakusten dira. Aurkezlean bakarrik entzuten da. Lehen galderaren denbora ez da hasten amaitu arte. Lehenespenez aktibatuta.",
+    "manual_admin.tools.interfaz.podio_3d": "3D podioa",
+    "manual_admin.tools.interfaz.podio_3d_desc": "Aurkezlearen azken podioan, lehen hirurak urrezko, zilarrezko eta brontzezko 3D bloke gisa igotzen dira musikaren erritmoan, eta konfetia erortzen da irabazlearen gainera. 4.etik 10.era errenkadetan jarraitzen dute azpian. Sistemaren mugimendua murrizteko aukerarekin, blokeak eraikita eta konfetirik gabe agertzen dira. Nabigatzaileak WebGL2 ez badu, podioa errenkadetan erakusten da beti bezala. Lehenespenez aktibatuta.",
     "manual_admin.tools.interfaz.personalization": "Interfazea pertsonalizatu",
     "manual_admin.tools.interfaz.personalization_desc": "Ekitaldiaren markaren ikur bat erakusten du (adib. babesle baten logotipoa) jokoaren pantaila guztietan. Logotipoa igotzeko, aukeratzeko eta ezabatzeko aukera ematen du panel honetatik zuzenean."
   }

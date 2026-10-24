@@ -100,6 +100,7 @@ function _renderUiTab(settings) {
         ${_renderUiSwitchCard({ key: 'showStandaloneCard', checked: settings.showStandaloneCard !== false, icon: 'fa-user', iconBg: 'bg-emerald-100', iconColor: 'text-emerald-600', textKey: 'standalone_card' })}
         ${_renderUiSwitchCard({ key: 'animarFondo', checked: settings.animarFondo !== false, icon: 'fa-leaf', iconBg: 'bg-green-100', iconColor: 'text-green-600', textKey: 'animar_fondo' })}
         ${_renderUiSwitchCard({ key: 'animacionInicio', checked: settings.animacionInicio !== false, icon: 'fa-film', iconBg: 'bg-green-100', iconColor: 'text-green-600', textKey: 'animacion_inicio' })}
+        ${_renderUiSwitchCard({ key: 'podio3d', checked: settings.podio3d !== false, icon: 'fa-trophy', iconBg: 'bg-green-100', iconColor: 'text-green-600', textKey: 'podio_3d' })}
         ${renderPersonalizationSection(settings)}
     </div>`;
 }
@@ -125,6 +126,7 @@ function uiTabSnapshot() {
         showStandaloneCard: checked('ui-switch-showStandaloneCard'),
         animarFondo: checked('ui-switch-animarFondo'),
         animacionInicio: checked('ui-switch-animacionInicio'),
+        podio3d: checked('ui-switch-podio3d'),
         personalizationEnabled: checked('ui-switch-personalizationEnabled'),
         personalizationImage: personalizationSelectedImage()
     };

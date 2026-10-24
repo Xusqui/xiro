@@ -123,6 +123,8 @@
     "admin.config.ui.animar_fondo_desc": "启用背景渐变和叶片的动画效果。禁用后背景将保持静态。",
     "admin.config.ui.animacion_inicio_label": "每局开始前的片头",
     "admin.config.ui.animacion_inicio_desc": "每局游戏开始前，在主持人屏幕、电视和手机上显示 Xiro! 动画标志和 3、2、1、0 倒计时。",
+    "admin.config.ui.podio_3d_label": "3D 领奖台",
+    "admin.config.ui.podio_3d_desc": "游戏结束时，前三名会在主持人屏幕上以 3D 方块升起，并为冠军撒下彩纸。如果电脑不支持 WebGL2，或关闭此选项，领奖台将以列表形式显示。",
     "admin.config.ui.musica_partida_label": "游戏音乐",
     "admin.config.ui.musica_partida_desc": "游戏开始时主持人屏幕播放音乐（大厅、紧张感逐渐升高的题目、揭晓答案、排行榜和领奖台）。主持人可在 ⋯ 菜单中暂停。",
     "admin.config.ui.personalization_label": "自定义界面",

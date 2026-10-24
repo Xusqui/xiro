@@ -151,6 +151,8 @@
     "admin.config.ui.animar_fondo_desc": "Enables the moving gradient and leaf animation in the background. When disabled, the background stays static.",
     "admin.config.ui.animacion_inicio_label": "Intro before each game",
     "admin.config.ui.animacion_inicio_desc": "Shows the animated Xiro! logo and a 3, 2, 1, 0 countdown on the presenter, TV and phones before each game starts.",
+    "admin.config.ui.podio_3d_label": "3D podium",
+    "admin.config.ui.podio_3d_desc": "At the end of the game, 1st, 2nd and 3rd rise on the presenter as 3D blocks, with confetti for the winner. If the computer has no WebGL2, or this is off, the podium is shown as rows.",
     "admin.config.ui.musica_partida_label": "Game music",
     "admin.config.ui.musica_partida_desc": "Games start with music on the presenter screen (lobby, questions with rising tension, reveal, scoreboard and podium). The presenter can pause it from the ⋯ menu.",
     "admin.config.ui.personalization_label": "Personalize interface",

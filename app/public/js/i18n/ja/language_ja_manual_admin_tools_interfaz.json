@@ -10,6 +10,8 @@
     "manual_admin.tools.interfaz.animar_fondo_desc": "すべての画面で背景のグラデーションと葉のアニメーションのオン/オフを切り替えます。無効にすると背景は静止した状態になります。",
     "manual_admin.tools.interfaz.animacion_inicio": "各ゲーム前のイントロ",
     "manual_admin.tools.interfaz.animacion_inicio_desc": "各ゲームの前（トリビアを含む）に、プレゼンター・TV・スマートフォンでアニメーションするXiro!ロゴと<strong>3、2、1、0</strong>のカウントダウンを表示します。音はプレゼンターのみで鳴ります。最初の問題のタイマーは終了後に開始します。初期設定で有効です。",
+    "manual_admin.tools.interfaz.podio_3d": "3D表彰台",
+    "manual_admin.tools.interfaz.podio_3d_desc": "プレゼンターの最終表彰台で、上位3名が音楽に合わせて金・銀・銅の3Dブロックとしてせり上がり、優勝者に紙吹雪が降ります。4位から10位はその下に行で表示されます。システムの「動きを減らす」設定がオンの場合、ブロックは最初から組み上がった状態で表示され、紙吹雪はありません。ブラウザがWebGL2に対応していない場合は、これまでどおり行で表示されます。初期設定でオンです。",
     "manual_admin.tools.interfaz.personalization": "インターフェースをカスタマイズ",
     "manual_admin.tools.interfaz.personalization_desc": "ゲームのすべての画面にイベントのブランドバッジ（例：スポンサーのロゴ）を表示します。このパネルから直接ロゴのアップロード、選択、削除ができます。"
   }
