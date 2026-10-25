@@ -22,6 +22,7 @@ import {
 import { mostrarQR, renderTeamLobby, updatePlayersPanel } from './presenter-game-ui.js?v=20260922172926';
 import { updateAnswerCounter } from './presenter-answer-counter.js?v=20260922172926';
 import { mostrarLobbyMain } from './presenter-utils.js?v=20260922172926';
+import { mostrarLobbyNuevo } from './presenter-lobby-init.js?v=20260922172926';
 import { handlePlayerRejoined } from './presenter-player-rejoined-handler.js?v=20260922172926';
 import { handleGameAbandoned } from './presenter-session-control.js?v=20260922172926';
 import { mostrarModalMensaje } from '../shared/modal.js?v=20260922172926';
@@ -142,8 +143,15 @@ export function registerLobbySocketHandlers() {
             localStorage.setItem('xiro_presenter_sessionSecret', data.sessionSecret);
         }
 
-        // Sincronizar sessionId con el roomId que el servidor asignó
-        if (data.roomId && data.roomId !== getSessionId()) {
+        // Tras recargar (F5 o «Reintentar») el lobby sale del join de respaldo de
+        // presenter-reconnection.js y en pantalla sigue «Reconectando...»: hay que pintarlo.
+        // Tras un corte de red ese join también quita el aviso «DESCONECTADO».
+        document.getElementById('presenter-reconnect-overlay')?.remove();
+        if (data.roomId && document.querySelector('[data-presenter-view="reconnecting"]')) {
+            setSessionId(data.roomId);
+            mostrarLobbyNuevo(data.roomId);
+        } else if (data.roomId && data.roomId !== getSessionId()) {
+            // Sincronizar sessionId con el roomId que el servidor asignó
             console.warn('⚠️ sessionId local difiere del servidor. Actualizando...', {
                 local: getSessionId(),
                 servidor: data.roomId

@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         )) ||
                     'Por favor, espera mientras restablecemos la conexión.';
                 lobbyMain.innerHTML = `
-                    <div class="h-full w-full flex flex-col items-center justify-center pt-10 px-10 pb-16">
+                    <div data-presenter-view="reconnecting" class="h-full w-full flex flex-col items-center justify-center pt-10 px-10 pb-16">
                         <div class="w-20 h-20 border-8 border-plum-500 border-t-transparent rounded-full animate-spin mb-6"></div>
                         <h1 class="text-4xl font-black text-white mb-4">${reconnectingText}</h1>
                         <p class="text-slate-400 text-xl text-center">${pleaseWaitText}</p>

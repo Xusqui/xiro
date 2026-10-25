@@ -15,6 +15,7 @@
  */
 
 const trivialGameState = require('./TrivialGameState');
+const { closeTrivialSession } = require('./TrivialSessionClose');
 const { sendFinalPositions } = require('../utils/GameCleanupManager');
 const { clearGameTimer, activeGames } = require('../../state/globalState');
 const { saveGameSession } = require('../../services/db/game-session.service');
@@ -228,7 +229,7 @@ function _buildIndividualRanking(state, scores) {
  *  2. Send player-final-position to each player (existing GameCleanupManager)
  *  3. Emit game-ended to presenter (→ existing game-ended handler → renderPodio)
  *  4. Emit game-ended to players room (→ player-results.js clears localStorage)
- *  5. Cleanup: clear timer, delete trivialState, delete activeGames entry
+ *  5. Cleanup: clear timer + closeTrivialSession (trivial state, lobby, players, rooms)
  *
  * @param {{ roomId: string, io: Object }} params
  */
@@ -279,9 +280,8 @@ async function endTrivialGame({ roomId, io }) {
     // Player game-ended confirmation — triggers player-results.js cleanup
     io.to(roomId + ':players').emit('game-ended', ranking);
 
-    // State cleanup
-    await trivialGameState.deleteTrivialState(roomId);
-    activeGames.delete(roomId);
+    // Como EndGameUseCase: sin esto el «Volver» del podio desconectaba al presentador
+    await closeTrivialSession({ io, roomId });
 
     logger.info('TrivialEndGameService: cleanup done', { roomId });
 }

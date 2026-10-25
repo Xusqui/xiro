@@ -13,7 +13,8 @@
  *     (reuses GameCleanupManager.sendFinalPositions — same as standard quiz)
  *  3. Emit game-ended to the PLAYERS room only → triggers player-results.js
  *     localStorage cleanup and session reset
- *  4. Clear game timer, delete trivial state from Redis, remove activeGames entry
+ *  4. Clear game timer + closeTrivialSession (trivial state, lobby, players, rooms
+ *     and the 15 s player redirect)
  *
  * NOTE: game-ended is intentionally NOT sent to the presenter room here.
  * The presenter flow for trivial ends via the trivial-winner overlay →
@@ -25,6 +26,7 @@
  */
 
 const trivialGameState = require('../../services/TrivialGameState');
+const { closeTrivialSession } = require('../../services/TrivialSessionClose');
 const { sendFinalPositions } = require('../../utils/GameCleanupManager');
 const { clearGameTimer, activeGames } = require('../../../state/globalState');
 const { saveGameSession } = require('../../../services/db/game-session.service');
@@ -146,17 +148,6 @@ async function persistTrivialSession({ io, roomId, pin, ranking, mergedAnswers, 
     }
 }
 
-function emitAutoPlayerRedirect(io, roomId) {
-    setTimeout(() => {
-        io.to(roomId + ':players').emit('game-abandoned', {
-            roomId,
-            reason: 'concluded',
-            message: 'Juego concluido.',
-            code: 'GAME_ENDED'
-        });
-    }, 15000);
-}
-
 /**
  * Finalizes a trivial game after winner detection.
  *
@@ -198,12 +189,9 @@ async function finalizeTrivialGame({ io, roomId, ranking, teamConfig = null }) {
     // Sent to players room only — presenter gets game-ended via its own path.
     io.to(roomId + ':players').emit('game-ended', ranking);
 
-    // Redirigir jugadores automáticamente tras mostrar su posición final.
-    emitAutoPlayerRedirect(io, roomId);
-
-    // Free Redis trivial state and in-memory game entry.
-    await trivialGameState.deleteTrivialState(roomId);
-    activeGames.delete(roomId);
+    // Estado, lobby, jugadores y salas, y redirección de jugadores a los 15 s. Sin esto
+    // el «Volver» del podio se trataba como abandono y desconectaba al presentador.
+    await closeTrivialSession({ io, roomId });
 
     logger.info('TrivialFinalize: game finalized', { roomId, players: ranking.length });
 }
