@@ -57,14 +57,17 @@ const CHAMALEON_IMAGES = [
     'yoda.svg'
 ];
 
-// Solo esquinas inferiores para no tapar la pregunta
+const OVERLAY_ID = 'chamaleon-overlay';
+// Proporcional a la pantalla: 170 px a 1920x1080, 113 px a 1280x720
+const IMG_SIZE = '15.75vmin';
+
+// Solo esquinas inferiores para no tapar la pregunta. La derecha va pegada por
+// dentro al borde de la columna de jugadores (--stage-side, presenter.css) para
+// no quedar detrás de «Siguiente»; sin columna (móvil), en la esquina.
 const CORNERS = [
     { top: '', left: '16px', bottom: '16px', right: '' },
-    { top: '', left: '', bottom: '16px', right: '220px' }
+    { top: '', left: '', bottom: '16px', right: `max(16px, calc(var(--stage-side, 0px) - ${IMG_SIZE}))` }
 ];
-
-const OVERLAY_ID = 'chamaleon-overlay';
-const IMG_SIZE = 170; // px
 
 let _lastImage = null;
 let _lastCorner = -1;
@@ -116,13 +119,21 @@ export function showChamaleonOverlay() {
         .filter(Boolean)
         .join('; ');
 
-    const image = document.createElement('img');
-    image.src = `/images/chamaleon/${img}`;
-    image.alt = '';
-    image.style.cssText = `width: ${IMG_SIZE}px; height: ${IMG_SIZE}px; object-fit: contain; display: block;`;
-
-    el.appendChild(image);
+    el.appendChild(createChamaleonImage(img));
     document.body.appendChild(el);
+}
+
+/**
+ * Imagen de la mascota con el tamaño proporcional a la pantalla.
+ * @param {string} file - Fichero de /images/chamaleon/
+ * @returns {HTMLImageElement}
+ */
+export function createChamaleonImage(file) {
+    const image = document.createElement('img');
+    image.src = `/images/chamaleon/${file}`;
+    image.alt = '';
+    image.style.cssText = `width: ${IMG_SIZE}; height: ${IMG_SIZE}; object-fit: contain; display: block;`;
+    return image;
 }
 
 /**

@@ -10,6 +10,7 @@ import { cleanupRevealElements } from './presenter-reveal.js?v=20260922172926';
 import { restRowDelay, startPodiumReveal } from './presenter-podio-reveal.js?v=20260922172926';
 import { startFireworks, stopFireworks } from './presenter-podio-fireworks.js?v=20261024120000';
 import { mountPodium3d, podiumEntries, wantsPodium3d } from './podium3d/podium3d.js?v=20261024120000';
+import { createChamaleonImage } from './presenter-chamaleon.js?v=20260922172926';
 
 const PODIUM_3D_STAGE =
     '<div class="podium3d-stage" aria-hidden="true"><canvas class="podium3d-canvas"></canvas><div class="podium3d-labels"></div></div>';
@@ -194,11 +195,7 @@ export function renderPodio(ranking) {
         const el = document.createElement('div');
         el.id = 'chamaleon-overlay';
         el.style.cssText = 'position:fixed;bottom:84px;left:16px;z-index:500;opacity:1;pointer-events:none';
-        const img = document.createElement('img');
-        img.src = '/images/chamaleon/gameover.svg';
-        img.alt = '';
-        img.style.cssText = 'width:170px;height:170px;object-fit:contain;display:block';
-        el.appendChild(img);
+        el.appendChild(createChamaleonImage('gameover.svg'));
         document.body.appendChild(el);
     }
 

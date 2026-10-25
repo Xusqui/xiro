@@ -85,10 +85,11 @@
         padding: 1.5rem !important;
     }
 
+    /* !important: manuales e instrucciones fijan su propio tamaño (en su <style> o en línea) */
     .player-chameleon {
-        width: 140px !important;
-        right: -18px !important;
-        bottom: -18px !important;
+        width: var(--chameleon-size) !important;
+        right: calc(var(--chameleon-size) * -0.128) !important;
+        bottom: calc(var(--chameleon-size) * -0.128) !important;
         opacity: 0.45 !important;
     }
 }
@@ -256,10 +257,13 @@ body.bg-gradient-to-br>.w-full.max-w-6xl {
 }
 
 .player-chameleon {
+    /* Proporcional a la pantalla: 180 px a 1920x1080, 120 px a 1280x720 y unos
+       140 px en un móvil en vertical, donde manda el ancho */
+    --chameleon-size: min(16.67vh, 36vw);
     position: fixed;
-    right: -23px;
-    bottom: -23px;
-    width: 180px;
+    right: calc(var(--chameleon-size) * -0.128);
+    bottom: calc(var(--chameleon-size) * -0.128);
+    width: var(--chameleon-size);
     max-width: none;
     height: auto;
     transform-origin: bottom right;
