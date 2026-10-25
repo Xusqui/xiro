@@ -132,7 +132,6 @@
     "admin.canvas.media.load_error": "Ezin izan da irudia kargatu",
     "admin.canvas.video_label.local": "bideo lokala",
     "admin.canvas.video_label.generic": "bideoa",
-    "admin.canvas.safezone": "Aurkezlearen «Hurrengoa» botoiaren eremua",
     "admin.canvas.picker.intro": "Aukeratu abiapuntu bat. Gero testua, formak, irudiak eta bideoak mugitu, aldatu eta gehitu ahal izango dituzu.",
     "admin.canvas.tpl.blank": "Hutsik",
     "admin.canvas.tpl.blank_desc": "Oihal huts bat hutsetik hasteko",

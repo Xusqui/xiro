@@ -132,7 +132,6 @@
     "admin.canvas.media.load_error": "无法加载图片",
     "admin.canvas.video_label.local": "本地视频",
     "admin.canvas.video_label.generic": "视频",
-    "admin.canvas.safezone": "主持人“下一步”按钮区域",
     "admin.canvas.picker.intro": "选择一个起点。之后可以移动、修改和添加文字、形状、图片和视频。",
     "admin.canvas.tpl.blank": "空白",
     "admin.canvas.tpl.blank_desc": "从零开始的空白画布",

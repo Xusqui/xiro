@@ -132,7 +132,6 @@
     "admin.canvas.media.load_error": "Não foi possível carregar a imagem",
     "admin.canvas.video_label.local": "vídeo local",
     "admin.canvas.video_label.generic": "vídeo",
-    "admin.canvas.safezone": "Zona do botão «Seguinte» do apresentador",
     "admin.canvas.picker.intro": "Escolha um ponto de partida. Depois poderá mover, alterar e adicionar texto, formas, imagens e vídeos.",
     "admin.canvas.tpl.blank": "Em branco",
     "admin.canvas.tpl.blank_desc": "Uma tela vazia para começar do zero",

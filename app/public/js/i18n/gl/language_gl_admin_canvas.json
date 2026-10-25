@@ -132,7 +132,6 @@
     "admin.canvas.media.load_error": "Non se puido cargar a imaxe",
     "admin.canvas.video_label.local": "vídeo local",
     "admin.canvas.video_label.generic": "vídeo",
-    "admin.canvas.safezone": "Zona do botón «Seguinte» do presentador",
     "admin.canvas.picker.intro": "Escolle un punto de partida. Despois poderás mover, cambiar e engadir texto, figuras, imaxes e vídeos.",
     "admin.canvas.tpl.blank": "En branco",
     "admin.canvas.tpl.blank_desc": "Un lenzo baleiro para comezar de cero",

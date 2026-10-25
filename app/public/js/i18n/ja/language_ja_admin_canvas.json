@@ -132,7 +132,6 @@
     "admin.canvas.media.load_error": "画像を読み込めませんでした",
     "admin.canvas.video_label.local": "ローカル動画",
     "admin.canvas.video_label.generic": "動画",
-    "admin.canvas.safezone": "進行役の「次へ」ボタンの領域",
     "admin.canvas.picker.intro": "開始点を選んでください。あとからテキスト、図形、画像、動画を移動・変更・追加できます。",
     "admin.canvas.tpl.blank": "白紙",
     "admin.canvas.tpl.blank_desc": "ゼロから始める空のキャンバス",

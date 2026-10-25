@@ -132,7 +132,6 @@
     "admin.canvas.media.load_error": "No s’ha pogut carregar la imatge",
     "admin.canvas.video_label.local": "vídeo local",
     "admin.canvas.video_label.generic": "vídeo",
-    "admin.canvas.safezone": "Zona del botó «Següent» del presentador",
     "admin.canvas.picker.intro": "Tria un punt de partida. Després podràs moure, canviar i afegir text, figures, imatges i vídeos.",
     "admin.canvas.tpl.blank": "En blanc",
     "admin.canvas.tpl.blank_desc": "Un llenç buit per començar de zero",

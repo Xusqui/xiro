@@ -1,9 +1,9 @@
 /**
  * @fileoverview Escenario editable del editor de diapositivas libres: pinta el lienzo con
  * core/slide-canvas-render.js (modo 'editor') y, dentro del propio escenario de 1920x1080,
- * una capa con la selección, los tiradores, las guías, la zona del botón «Siguiente» y el
- * cuadro de edición de texto. Todo se coloca en unidades lógicas, así que la escala del
- * lienzo no altera la geometría; solo el tamaño en pantalla de tiradores y guías.
+ * una capa con la selección, los tiradores, las guías y el cuadro de edición de texto.
+ * Todo se coloca en unidades lógicas, así que la escala del lienzo no altera la geometría;
+ * solo el tamaño en pantalla de tiradores y guías.
  */
 (function () {
     'use strict';
@@ -21,8 +21,6 @@
         sw: [0, 1],
         w: [0, 0.5]
     };
-    // Hueco aproximado del botón «Siguiente» del presentador (abajo a la derecha)
-    const SAFE_ZONE = { x: 1500, y: 950, w: 400, h: 110 };
     const TEXT_STYLE_KEYS = [
         'fontFamily',
         'fontSize',
@@ -146,7 +144,6 @@
             labels: XiroCanvasEditor.videoLabels()
         });
         overlay = addDiv(mounted.stage, 'xsce-overlay');
-        addDiv(overlay, 'xsce-safezone', SAFE_ZONE).title = XiroCanvasEditor.t('safezone');
         const el = XiroCanvasEditor.getSelected();
         if (!el) return;
         drawSelection(el);

@@ -132,7 +132,6 @@
     "admin.canvas.media.load_error": "The image could not be loaded",
     "admin.canvas.video_label.local": "local video",
     "admin.canvas.video_label.generic": "video",
-    "admin.canvas.safezone": "Area of the presenter’s “Next” button",
     "admin.canvas.picker.intro": "Choose a starting point. Afterwards you can move, change and add text, shapes, images and videos.",
     "admin.canvas.tpl.blank": "Blank",
     "admin.canvas.tpl.blank_desc": "An empty canvas to start from scratch",

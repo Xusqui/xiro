@@ -132,7 +132,6 @@
     "admin.canvas.media.load_error": "Das Bild konnte nicht geladen werden",
     "admin.canvas.video_label.local": "lokales Video",
     "admin.canvas.video_label.generic": "Video",
-    "admin.canvas.safezone": "Bereich der „Weiter“-Schaltfläche des Präsentators",
     "admin.canvas.picker.intro": "Wähle einen Ausgangspunkt. Danach kannst du Text, Formen, Bilder und Videos verschieben, ändern und hinzufügen.",
     "admin.canvas.tpl.blank": "Leer",
     "admin.canvas.tpl.blank_desc": "Eine leere Fläche, um bei null anzufangen",

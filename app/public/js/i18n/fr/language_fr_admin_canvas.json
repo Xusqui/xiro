@@ -132,7 +132,6 @@
     "admin.canvas.media.load_error": "Impossible de charger l’image",
     "admin.canvas.video_label.local": "vidéo locale",
     "admin.canvas.video_label.generic": "vidéo",
-    "admin.canvas.safezone": "Zone du bouton « Suivant » du présentateur",
     "admin.canvas.picker.intro": "Choisissez un point de départ. Ensuite, vous pourrez déplacer, modifier et ajouter du texte, des formes, des images et des vidéos.",
     "admin.canvas.tpl.blank": "Vierge",
     "admin.canvas.tpl.blank_desc": "Une toile vide pour partir de zéro",

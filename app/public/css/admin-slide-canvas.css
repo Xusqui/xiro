@@ -5,8 +5,8 @@
  * La capa .xsce-overlay vive dentro del escenario de 1920x1080 (unidades lógicas): los
  * tamaños fijos de aquí se ven a la mitad con el lienzo al 50 %. Tiradores y contorno de la
  * selección se escalan desde JS para verse siempre igual.
- * Colores: selección en ciruela (marca); guías y zona del botón «Siguiente» en coral admin,
- * con un halo blanco para que se vean sobre cualquier fondo de diapositiva.
+ * Colores: selección en ciruela (marca); guías en coral admin, con un halo blanco para que
+ * se vean sobre cualquier fondo de diapositiva.
  */
 
 /* Mesa: el lienzo ocupa el mayor 16:9 que cabe, sin franjas (unidades de contenedor) */
@@ -73,14 +73,6 @@
 .xsce-handle--p2 {
     cursor: crosshair;
     border-radius: 50%;
-}
-
-.xsce-safezone {
-    position: absolute;
-    border: 4px dashed rgba(230, 84, 83, 0.75);
-    border-radius: 24px;
-    background: rgba(230, 84, 83, 0.06);
-    pointer-events: none;
 }
 
 .xsce-guide {
