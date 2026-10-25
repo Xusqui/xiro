@@ -17,6 +17,7 @@ import {
 } from './presenter-state.js?v=20260922172926';
 import { generateSessionId, mostrarLobbyMain, restoreLobbyHTML } from './presenter-utils.js?v=20260922172926';
 import { mostrarQR, renderTeamLobby } from './presenter-game-ui.js?v=20260922172926';
+import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
 /**
  * Iniciar lobby del presentador
@@ -30,6 +31,27 @@ function parseTeamsParam(teamsParam) {
         return JSON.parse(teamsParam);
     } catch {
         return JSON.parse(decodeURIComponent(teamsParam));
+    }
+}
+
+/**
+ * Pinta un lobby recién creado: HTML original, PIN, QR y equipos. También lo usa
+ * join-success cuando el lobby sale del join de respaldo tras recargar la página
+ * (pantalla «Reconectando...»).
+ */
+export function mostrarLobbyNuevo(sessionId) {
+    // CRÍTICO: Restaurar el HTML original del lobby antes de mostrarlo
+    restoreLobbyHTML();
+
+    // Hacer visible el lobby principal
+    document.getElementById('lobby-main').style.display = 'flex';
+
+    document.getElementById('display-pin').innerText = _t(sessionId);
+    mostrarQR(sessionId);
+
+    // Mostrar equipos desde el inicio en modo equipos
+    if (getIsTeamMode() && getTeamConfig()) {
+        renderTeamLobby();
     }
 }
 
@@ -72,11 +94,15 @@ export async function iniciarLobby() {
         const data = await response.json();
 
         if (!data.exists) {
+            // El PIN sale de la URL: escapado. Va en claro sobre su tinte rojo (el gris del
+            // párrafo no se lee ahí), con la misma pastilla que los diccionarios.
+            const safePin = escapeHtml(pin);
+            const pinChip = `<span class="font-mono bg-red-500/20 text-red-100 px-3 py-1 rounded">${safePin}</span>`;
             mostrarLobbyMain(`
                 <div class="h-full w-full flex flex-col items-center justify-center pt-10 px-10 pb-16">
                     <i class="fas fa-exclamation-triangle text-red-500 text-8xl mb-6"></i>
                     <h1 class="text-4xl font-black text-white mb-4">${_t('presenter.selector.invalid_pin.title', null, 'PIN No Válido')}</h1>
-                    <p class="text-slate-400 mb-2 text-xl">${_t('presenter.selector.invalid_pin.message', { pin: String(pin) }, `El código <span class="font-mono bg-red-500/20 px-3 py-1 rounded">${pin}</span> no existe.`)}</p>
+                    <p class="text-slate-400 mb-2 text-xl">${_t('presenter.selector.invalid_pin.message', { pin: safePin }, `El código ${pinChip} no existe.`)}</p>
                     <p class="text-slate-500 mb-6">${_t('presenter.selector.invalid_pin.hint', null, 'Verifica el PIN o selecciona un juego de la lista.')}</p>
                     <button data-presenter-action="volver-juegos" class="bg-plum-600 hover:bg-plum-500 px-6 py-3 rounded-full text-white font-bold uppercase transition shadow-lg">
                         <i class="fas fa-list mr-2"></i>${_t('presenter.selector.actions.show_games_available', null, 'Mostrar juegos disponibles')}
@@ -115,19 +141,7 @@ export async function iniciarLobby() {
         window.history.replaceState({}, '', newUrl);
         console.log('🔗 URL actualizada con sessionId:', newSessionId);
 
-        // CRÍTICO: Restaurar el HTML original del lobby antes de mostrarlo
-        restoreLobbyHTML();
-
-        // Hacer visible el lobby principal
-        document.getElementById('lobby-main').style.display = 'flex';
-
-        document.getElementById('display-pin').innerText = _t(newSessionId);
-        mostrarQR(newSessionId);
-
-        // Mostrar equipos desde el inicio en modo equipos
-        if (getIsTeamMode() && getTeamConfig()) {
-            renderTeamLobby();
-        }
+        mostrarLobbyNuevo(newSessionId);
 
         // Enviar sessionId al servidor para unirse a la sala única.
         // token del panel queda opcional para compatibilidad con sesiones autenticadas.
@@ -174,6 +188,12 @@ export async function iniciarLobby() {
             console.log('⏳ Socket no conectado — handleConnect enviará join-presenter-lobby al conectar');
             // No usamos socket.once aquí: handleConnect (presenter-reconnection.js) reintenta
             // join-presenter-lobby en cada connect mientras _xiroFreshJoinPending sea true.
+            // Si fue el servidor quien cerró el socket (p. ej. al abandonar la partida anterior),
+            // Socket.IO no reconecta solo. Con active=true ya está conectando: otro connect()
+            // podría mandar un segundo CONNECT.
+            if (!socket.active) {
+                socket.connect();
+            }
 
             // Si el socket no se conecta en 10 segundos, mostrar error
             setTimeout(() => {

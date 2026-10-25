@@ -1,7 +1,7 @@
 {
   "keys": {
     "presenter.selector.invalid_pin.title": "Ungueltige PIN",
-    "presenter.selector.invalid_pin.message": "Der Code <span class=\"font-mono bg-red-500/20 px-3 py-1 rounded\">{pin}</span> existiert nicht.",
+    "presenter.selector.invalid_pin.message": "Der Code <span class=\"font-mono bg-red-500/20 text-red-100 px-3 py-1 rounded\">{pin}</span> existiert nicht.",
     "presenter.selector.invalid_pin.hint": "Pruefen Sie die PIN oder waehlen Sie ein Spiel aus der Liste.",
     "presenter.selector.actions.show_games_available": "Verfuegbare Spiele anzeigen",
     "presenter.selector.connection_error.title": "Verbindungsfehler",

@@ -1,7 +1,7 @@
 {
   "keys": {
     "presenter.selector.invalid_pin.title": "無効なPIN",
-    "presenter.selector.invalid_pin.message": "コード <span class=\"font-mono bg-red-500/20 px-3 py-1 rounded\">{pin}</span> は存在しません。",
+    "presenter.selector.invalid_pin.message": "コード <span class=\"font-mono bg-red-500/20 text-red-100 px-3 py-1 rounded\">{pin}</span> は存在しません。",
     "presenter.selector.invalid_pin.hint": "PINを確認するか、一覧からゲームを選択してください。",
     "presenter.selector.actions.show_games_available": "利用可能なゲームを表示",
     "presenter.selector.connection_error.title": "接続エラー",

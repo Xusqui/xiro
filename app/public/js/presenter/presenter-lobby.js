@@ -52,11 +52,15 @@ function t(key, fallback, vars) {
 }
 
 function renderVistaPinNoValido(selectedPin) {
+    // El PIN sale de la URL: escapado. Va en claro sobre su tinte rojo (el gris del
+    // párrafo no se lee ahí), con la misma pastilla que los diccionarios.
+    const pin = escapeHtml(selectedPin);
+    const pinChip = '<span class="font-mono bg-red-500/20 text-red-100 px-3 py-1 rounded">{pin}</span>';
     mostrarLobbyMain(`
-        <div data-presenter-view="invalid-pin" data-pin="${selectedPin}" class="h-full w-full flex flex-col items-center justify-center pt-10 px-10 pb-16">
+        <div data-presenter-view="invalid-pin" data-pin="${pin}" class="h-full w-full flex flex-col items-center justify-center pt-10 px-10 pb-16">
             <i class="fas fa-exclamation-triangle text-red-500 text-8xl mb-6"></i>
             <h1 class="text-4xl font-black text-white mb-4">${t('presenter.selector.invalid_pin.title', 'PIN No Valido')}</h1>
-            <p class="text-slate-400 mb-2 text-xl">${t('presenter.selector.invalid_pin.message', 'El codigo <span class="font-mono bg-red-500/20 px-3 py-1 rounded">{pin}</span> no existe.', { pin: selectedPin })}</p>
+            <p class="text-slate-400 mb-2 text-xl">${t('presenter.selector.invalid_pin.message', `El codigo ${pinChip} no existe.`, { pin })}</p>
             <p class="text-slate-500 mb-6">${t('presenter.selector.invalid_pin.hint', 'Verifica el PIN o selecciona un juego de la lista.')}</p>
             <button data-presenter-action="volver-juegos" class="px-6 py-3 rounded-full text-white font-bold uppercase transition shadow-lg" style="background:#8ab817;">
                 <i class="fas fa-list mr-2"></i>${t('presenter.selector.actions.show_games_available', 'Mostrar juegos disponibles')}
@@ -292,8 +296,8 @@ function htmlRejillaPINs() {
             filtroActivo === 'Juego Personalizado'
                 ? t('presenter.selector.empty.custom', 'No hay PINs disponibles. Crea un juego o banco primero.')
                 : t('presenter.selector.empty.by_type', 'No hay {type} disponibles.', {
-                    type: pinsTextos[filtroActivo] || filtroActivo
-                })
+                      type: pinsTextos[filtroActivo] || filtroActivo
+                  })
         );
     }
 

@@ -1,7 +1,7 @@
 {
   "keys": {
     "presenter.selector.invalid_pin.title": "无效PIN",
-    "presenter.selector.invalid_pin.message": "代码 <span class=\"font-mono bg-red-500/20 px-3 py-1 rounded\">{pin}</span> 不存在。",
+    "presenter.selector.invalid_pin.message": "代码 <span class=\"font-mono bg-red-500/20 text-red-100 px-3 py-1 rounded\">{pin}</span> 不存在。",
     "presenter.selector.invalid_pin.hint": "请检查 PIN 或从列表中选择游戏。",
     "presenter.selector.actions.show_games_available": "显示可用游戏",
     "presenter.selector.connection_error.title": "连接错误",
