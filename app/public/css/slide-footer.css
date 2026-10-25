@@ -31,9 +31,13 @@
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
 }
 
-/* Presentador: a la altura del botón «Siguiente» (fixed bottom-10 right-10), sin pisarlo */
+/* Presentador: por encima de la zona de controles (presenter-slide-nav.css), sin pisar «Siguiente» */
 @media (max-width: 1100px) {
-    .slide-footer--presenter { bottom: 7.5rem; max-width: 90%; }
+    .slide-footer--presenter {
+        bottom: 7.5rem;
+        bottom: calc(var(--stage-nav-reserve, 6.5rem) + 1rem);
+        max-width: 90%;
+    }
 }
 
 /* TV: centrado en .main-content (la barra lateral de tv.css mide 260px);

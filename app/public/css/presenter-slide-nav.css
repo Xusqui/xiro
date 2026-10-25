@@ -1,0 +1,44 @@
+/* Zona de controles del presentador: «Siguiente» / «Ver ránking» (#btn-next),
+   «Anterior» (#btn-prev), «¡Empezar!» y «Mostrar juegos» del podio.
+   El tamaño sigue a la altura de la pantalla: a 1080p queda como antes y en un
+   proyector de 720p el botón baja a ~40 px y no pisa la diapositiva 16:9.
+   --stage-nav-reserve es el hueco que dejan libre las tarjetas fijas de abajo. */
+:root {
+    --stage-nav-gap: clamp(0.75rem, 2.2vh, 1.5rem);
+    --stage-nav-font: clamp(0.95rem, 2.4vh, 1.5rem);
+    --stage-nav-reserve: clamp(4rem, 9vh, 6.5rem);
+}
+
+/* El marcado lleva px-10 py-5 text-2xl rounded-3xl bottom-10: el id gana */
+#btn-next,
+#btn-prev {
+    bottom: var(--stage-nav-gap) !important;
+    padding: 0.55em 1.4em;
+    font-size: var(--stage-nav-font);
+    line-height: 1.2;
+    border-radius: 1em;
+}
+
+#btn-next {
+    right: calc(var(--stage-side) + var(--stage-nav-gap)) !important;
+}
+
+#btn-prev {
+    left: var(--stage-nav-gap) !important;
+}
+
+/* Sin !important en tamaño: las reglas de móvil (presenter-lobby-mobile*.css)
+   siguen mandando con las suyas */
+#btn-empezar.start-glass-btn {
+    right: calc(var(--stage-side) + var(--stage-nav-gap));
+    bottom: var(--stage-nav-gap);
+    padding: 0.55em 1.4em;
+    font-size: calc(var(--stage-nav-font) * 1.2);
+}
+
+.podium-home-btn {
+    right: calc(var(--stage-side) + var(--stage-nav-gap));
+    bottom: var(--stage-nav-gap);
+    padding: 0.55em 1.4em !important;
+    font-size: var(--stage-nav-font);
+}

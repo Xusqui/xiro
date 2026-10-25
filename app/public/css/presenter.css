@@ -243,11 +243,8 @@
     font-variant-numeric: tabular-nums;
 }
 
-/* Acción principal abajo a la derecha, sin entrar en la columna de jugadores */
-#btn-next {
-    right: calc(var(--stage-side) + 1.5rem) !important;
-    bottom: 1.5rem !important;
-}
+/* Acción principal abajo a la derecha, sin entrar en la columna de jugadores:
+   posición y tamaño de los botones de control en presenter-slide-nav.css */
 
 /* Top 5 del revelado dentro de la columna: sustituye a la lista mientras está */
 #players-sidebar:has(#ranking-card) #players-sidebar-list {
@@ -326,7 +323,7 @@ body.stage-split #matching-reveal-card,
 body.stage-split .justification-card:not([id]) {
     position: fixed !important;
     top: var(--stage-content-top, 9rem) !important;
-    bottom: 6.5rem !important;
+    bottom: var(--stage-nav-reserve) !important;
     left: auto !important;
     right: calc(var(--stage-side) + 1.5rem) !important;
     width: calc((100vw - var(--stage-side)) / 2 - 2.25rem) !important;
@@ -517,7 +514,7 @@ body.stage-split #matching-reveal-card > div:last-child > div {
 
 /* El aviso queda por encima de la acción principal (bottom 1.5rem + botón) */
 .stage-devices-note {
-    padding-bottom: 6.5rem !important;
+    padding-bottom: var(--stage-nav-reserve) !important;
 }
 
 /* Diapositivas: título que cabe en la zona central sin desbordar */
@@ -597,13 +594,9 @@ body.stage-split #matching-reveal-card > div:last-child > div {
    «Siguiente pregunta», sólido y grande en vez de cristal sobre la selva */
 #btn-empezar.start-glass-btn {
     position: fixed;
-    right: calc(var(--stage-side) + 1.5rem);
-    bottom: 1.5rem;
     z-index: 50;
     width: auto;
     height: auto;
-    padding: 1.1rem 2.75rem;
-    font-size: clamp(1.1rem, 1.6vw, 1.8rem);
     background: #f9b518;
     color: #1e293b;
     border: none;
@@ -692,7 +685,7 @@ body:has(#btn-empezar) .stage-player-score {
    (position: fixed) dejaría de anclarse a la zona de controles */
 .podium-stage {
     background: rgba(8, 6, 18, 0.82);
-    padding-bottom: 7rem !important;
+    padding-bottom: calc(var(--stage-nav-reserve) + 0.5rem) !important;
 }
 
 .podium-silver {
@@ -719,11 +712,7 @@ body:has(#btn-empezar) .stage-player-score {
 
 .podium-home-btn {
     position: fixed;
-    right: calc(var(--stage-side) + 1.5rem);
-    bottom: 1.5rem;
     z-index: 50;
-    padding: 1rem 2.25rem !important;
-    font-size: clamp(1rem, 1.4vw, 1.5rem);
 }
 
 /* «Jugáis por N puntos»: mismo interludio de marca, pero translúcido para
