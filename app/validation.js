@@ -529,6 +529,8 @@ const saveBankSchema = Joi.object({
     double_streak_threshold: Joi.number().integer().min(1).max(20).default(5).optional(),
     double_streak_bonus_percentage: Joi.number().min(0).max(2).default(1.0).optional(),
     ...randomPointsFields,
+    // Qué hacer con las preguntas borradas que usa algún juego personalizado (sin él, 409)
+    removed_in_use: Joi.string().valid('delete', 'keep').optional(),
     questions: Joi.array()
         .items(questionSchema)
         .min(1)

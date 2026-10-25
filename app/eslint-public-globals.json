@@ -996,6 +996,7 @@
     "personalizationSelectedImage": "writable",
     "poolQuestionCountInicial": "writable",
     "postUiSettings": "writable",
+    "preguntarBorradoPreguntasEnUso": "writable",
     "preguntasData": "writable",
     "preloadBanksCache": "writable",
     "prepararNuevoBanco": "writable",

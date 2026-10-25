@@ -102,12 +102,19 @@ router.post(
             const payload = req.body.id
                 ? req.body
                 : {
-                    ...req.body,
-                    created_by_role: req.user?.role,
-                    created_by_user_id: req.user?.userId
-                };
+                      ...req.body,
+                      created_by_role: req.user?.role,
+                      created_by_user_id: req.user?.userId
+                  };
             const actorUserId = req.user?.role === 'editor' ? req.user?.userId : null;
             const result = await dbService.saveBankComplete(payload, actorUserId);
+            if (result?.code === 'BANK_QUESTIONS_IN_USE') {
+                return res.status(409).json({
+                    error: 'Hay preguntas borradas que se usan en juegos personalizados',
+                    code: result.code,
+                    inUse: result.inUse
+                });
+            }
             res.json(result);
         } catch (err) {
             handleRouteError(err, res);

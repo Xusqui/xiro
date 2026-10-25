@@ -360,15 +360,42 @@ function _bankValidationError(form, randomPoints) {
     return null;
 }
 
-/** Resultado para la barra de guardado; un banco nuevo se recarga para tener los IDs de las preguntas. */
+/**
+ * Resultado para la barra de guardado. Se recarga un banco nuevo (para tener los
+ * IDs de las preguntas) y uno que conservó preguntas en uso (para que reaparezcan).
+ */
 async function _afterBankSaved(id, data) {
-    const message = _t('admin.banks.success_saved', null, '¡Banco guardado correctamente!');
-    if (!id && data.id) {
+    const kept = Number(data.keptQuestions) || 0;
+    const message = kept
+        ? _t('admin.banks.success_saved_kept', { n: kept })
+        : _t('admin.banks.success_saved', null, '¡Banco guardado correctamente!');
+    if ((!id || kept) && data.id) {
         document.getElementById('editId').value = data.id;
         await cargarEditorBanco(data.id);
         announceSaveBarSaved(message);
     }
     return { ok: true, message };
+}
+
+function _sendBank(payload) {
+    return fetchWithAuth('/api/banks/save-all', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    });
+}
+
+/** Envía el banco; si quita preguntas que usa algún juego personalizado, pregunta y reenvía. */
+async function _postBank(payload) {
+    const res = await _sendBank(payload);
+    if (res.status !== 409) return res;
+    const conflict = await res
+        .clone()
+        .json()
+        .catch(() => ({}));
+    if (conflict.code !== 'BANK_QUESTIONS_IN_USE') return res;
+    const decision = await preguntarBorradoPreguntasEnUso(conflict.inUse || []);
+    return _sendBank({ ...payload, removed_in_use: decision });
 }
 
 /**
@@ -404,11 +431,7 @@ async function guardarBanco() {
     };
 
     try {
-        const res = await fetchWithAuth('/api/banks/save-all', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
+        const res = await _postBank(payload);
         if (res.ok) return _afterBankSaved(form.id, await res.json());
         const err = await res.json().catch(() => ({}));
         return { ok: false, message: escapeHtml(err.message || err.error || _t('admin.tools.error_unknown')) };

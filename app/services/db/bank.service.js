@@ -8,6 +8,7 @@ const pinCache = require('../pin-cache.service');
 const { assertEditorCanModifyResource, normalizeCreatorRole } = require('./resource-ownership.service');
 const { DEFAULTS: RANDOM_POINTS_DEFAULTS } = require('./random-points-config.service');
 const runtimeConfig = require('../../config/runtime-config');
+const { findRemovedQuestionsInUse, REMOVED_IN_USE } = require('./bank-question-usage');
 
 /** time_limit de la pregunta o, si no trae, el de Config → Partidas (QUESTION_TIME_LIMIT). */
 function resolveTimeLimit(question) {
@@ -322,7 +323,7 @@ async function insertQuestion(client, bankId, question) {
     return resQ.rows[0].id;
 }
 
-async function syncExistingBankQuestions(client, bankId, questions) {
+async function syncExistingBankQuestions(client, bankId, questions, keepIds = []) {
     const existingQuestionsRes = await client.query('SELECT id FROM questions WHERE bank_id = $1', [bankId]);
     const existingQuestionIds = existingQuestionsRes.rows.map(r => r.id);
     const existingQuestionIdSet = new Set(existingQuestionIds);
@@ -344,8 +345,9 @@ async function syncExistingBankQuestions(client, bankId, questions) {
         await batchInsertOptions(client, questionId, question.options);
     }
 
+    const keepIdSet = new Set(keepIds);
     for (const existingId of existingQuestionIds) {
-        if (!processedQuestionIds.has(existingId)) {
+        if (!processedQuestionIds.has(existingId) && !keepIdSet.has(existingId)) {
             await client.query('DELETE FROM questions WHERE id = $1', [existingId]);
         }
     }
@@ -445,6 +447,39 @@ function invalidateDependentResourceCaches(questionBankCache, dependencies) {
     }
 }
 
+/** Ajustes del payload (snake_case) → campos de updateBankMetadata y createBankRecord. */
+function bankSettings({
+    name,
+    language,
+    visible_to_presenter = true,
+    use_streaks = false,
+    streak_threshold = 3,
+    streak_bonus_percentage = 0.5,
+    use_double_streaks = false,
+    double_streak_threshold = 5,
+    double_streak_bonus_percentage = 1.0,
+    image_url = null,
+    use_random_points = false,
+    random_points_min = RANDOM_POINTS_DEFAULTS.random_points_min,
+    random_points_max = RANDOM_POINTS_DEFAULTS.random_points_max
+}) {
+    return {
+        name,
+        language,
+        visibleToPresenter: visible_to_presenter,
+        useStreaks: use_streaks,
+        streakThreshold: streak_threshold,
+        streakBonusPercentage: streak_bonus_percentage,
+        useDoubleStreaks: use_double_streaks,
+        doubleStreakThreshold: double_streak_threshold,
+        doubleStreakBonusPercentage: double_streak_bonus_percentage,
+        imageUrl: image_url,
+        useRandomPoints: use_random_points,
+        randomPointsMin: random_points_min,
+        randomPointsMax: random_points_max
+    };
+}
+
 /**
  * Guarda un banco completo con sus preguntas
  * @param {Object} data - {id, name, pin, questions}
@@ -453,24 +488,13 @@ function invalidateDependentResourceCaches(questionBankCache, dependencies) {
 async function saveBankComplete(data, actorUserId = null) {
     const {
         id,
-        name,
         pin,
-        language,
         questions,
         created_by_role = 'admin',
         created_by_user_id = null,
-        visible_to_presenter = true,
-        use_streaks = false,
-        streak_threshold = 3,
-        streak_bonus_percentage = 0.5,
-        use_double_streaks = false,
-        double_streak_threshold = 5,
-        double_streak_bonus_percentage = 1.0,
-        image_url = null,
-        use_random_points = false,
-        random_points_min = RANDOM_POINTS_DEFAULTS.random_points_min,
-        random_points_max = RANDOM_POINTS_DEFAULTS.random_points_max
+        removed_in_use = null
     } = data;
+    const settings = bankSettings(data);
     const { questionBankCache } = require('../cache.service');
     const ownerRole = normalizeCreatorRole(created_by_role);
     const ownerUserId = normalizeOwnerUserId(created_by_user_id);
@@ -484,6 +508,8 @@ async function saveBankComplete(data, actorUserId = null) {
         dependentTrivials: []
     };
 
+    let keepIds = [];
+
     try {
         await client.query('BEGIN');
         let bankId = id;
@@ -496,49 +522,24 @@ async function saveBankComplete(data, actorUserId = null) {
             upperPin = await ensureEditPin(client, bankId, upperPin);
             dependentResources = await loadDependentEntities(client, bankId);
 
-            await updateBankMetadata(client, {
-                name,
-                upperPin,
-                language,
-                visibleToPresenter: visible_to_presenter,
-                useStreaks: use_streaks,
-                streakThreshold: streak_threshold,
-                streakBonusPercentage: streak_bonus_percentage,
-                useDoubleStreaks: use_double_streaks,
-                doubleStreakThreshold: double_streak_threshold,
-                doubleStreakBonusPercentage: double_streak_bonus_percentage,
-                imageUrl: image_url,
-                useRandomPoints: use_random_points,
-                randomPointsMin: random_points_min,
-                randomPointsMax: random_points_max,
-                bankId
-            });
+            // Borrar una pregunta la quita de los juegos personalizados: el editor decide antes
+            const inUse = await findRemovedQuestionsInUse(client, bankId, questions);
+            if (inUse.length > 0 && !removed_in_use) {
+                await client.query('ROLLBACK');
+                return { success: false, code: 'BANK_QUESTIONS_IN_USE', inUse };
+            }
+            if (removed_in_use === REMOVED_IN_USE.KEEP) keepIds = inUse.map(q => q.id);
 
-            await syncExistingBankQuestions(client, bankId, questions);
+            await updateBankMetadata(client, { ...settings, upperPin, bankId });
+
+            await syncExistingBankQuestions(client, bankId, questions, keepIds);
             invalidatePinCaches(upperPin);
         } else {
             if (!upperPin) {
                 upperPin = generateFallbackPin();
             }
 
-            bankId = await createBankRecord(client, {
-                name,
-                upperPin,
-                language,
-                visibleToPresenter: visible_to_presenter,
-                ownerRole,
-                ownerUserId,
-                useStreaks: use_streaks,
-                streakThreshold: streak_threshold,
-                streakBonusPercentage: streak_bonus_percentage,
-                useDoubleStreaks: use_double_streaks,
-                doubleStreakThreshold: double_streak_threshold,
-                doubleStreakBonusPercentage: double_streak_bonus_percentage,
-                imageUrl: image_url,
-                useRandomPoints: use_random_points,
-                randomPointsMin: random_points_min,
-                randomPointsMax: random_points_max
-            });
+            bankId = await createBankRecord(client, { ...settings, upperPin, ownerRole, ownerUserId });
 
             invalidatePinCaches(upperPin);
             await insertQuestionsForNewBank(client, bankId, questions);
@@ -552,7 +553,7 @@ async function saveBankComplete(data, actorUserId = null) {
             invalidateDependentResourceCaches(questionBankCache, dependentResources);
         }
 
-        return { success: true, id: bankId };
+        return { success: true, id: bankId, keptQuestions: keepIds.length };
     } catch (err) {
         await client.query('ROLLBACK');
         throw err;
