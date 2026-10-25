@@ -200,6 +200,7 @@
     "admin.canvas.io.warn.slide_skipped": "Slide {n} was skipped because it is not valid.",
     "admin.canvas.io.warn.external_image": "There are images linked to other websites: they will not be in the file and may not appear in another installation.",
     "admin.canvas.io.warn.local_video": "There are videos saved on this server: they are linked with their full address and will only be visible if the server is accessible.",
+    "admin.canvas.io.warn.image_download_failed": "Images from other websites that could not be downloaded: {n}. They have been removed from the slides.",
     "admin.canvas.library.title": "Library",
     "admin.canvas.library.intro": "Slides saved in this installation to use in any game.",
     "admin.canvas.library.empty": "The library is empty. Save a free slide with “Save to library” or import a file.",
@@ -233,6 +234,10 @@
     "admin.canvas.ai.doc_label": "Source document (optional)",
     "admin.canvas.ai.doc_reading": "Reading the document…",
     "admin.canvas.ai.doc_ready": "Document ready: {n} words",
+    "admin.canvas.ai.images_label": "Images (optional)",
+    "admin.canvas.ai.images_hint": "Up to {n}. The AI will place them where they fit. If you ask for photos without attaching any, it will look for free photos on Wikimedia Commons and credit the author at the bottom.",
+    "admin.canvas.ai.images_uploading": "Uploading the images…",
+    "admin.canvas.ai.images_ready": "Images ready: {names}",
     "admin.canvas.ai.count_label": "Slides",
     "admin.canvas.ai.theme_label": "Style",
     "admin.canvas.ai.theme.auto": "Let the AI choose",
@@ -253,11 +258,13 @@
     "admin.canvas.ai.error.failed": "The AI did not return valid slides. Try again or explain better what you want.",
     "admin.canvas.ai.error.timeout": "The server stopped waiting. Ask for fewer slides or try again.",
     "admin.canvas.ai.error.doc": "Could not read the document.",
+    "admin.canvas.ai.error.images": "Could not upload the image.",
     "admin.canvas.ai.error.generic": "Could not complete the operation. Try again.",
     "admin.canvas.ai.add_many_title": "Slides with AI",
     "admin.canvas.ai.add_many": "The AI created {n} slides. They will be added to the end of the game.",
     "admin.canvas.ai.add_many_confirm": "Add {n} slides",
     "admin.canvas.ai.warnings_title": "Slides created with warnings",
-    "admin.canvas.ai.warn.fewer_slides": "The AI only created {n} of the {total} slides requested."
+    "admin.canvas.ai.warn.fewer_slides": "The AI only created {n} of the {total} slides requested.",
+    "admin.canvas.ai.warn.image_not_found": "Images that could not be found: {n}. Those slides have no image."
   }
 }

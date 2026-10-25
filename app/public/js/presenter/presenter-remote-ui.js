@@ -13,7 +13,7 @@ import { remotePrevButtonHtml } from './presenter-remote-nav.js?v=20261024180000
 function escHtml(str) {
     return String(str).replace(
         /[&<>"']/g,
-        c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', '\'': '&#39;' })[c]
+        c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]
     );
 }
 

@@ -200,6 +200,7 @@
     "admin.canvas.io.warn.slide_skipped": "因无效而跳过第 {n} 张幻灯片。",
     "admin.canvas.io.warn.external_image": "包含链接到其他网站的图像：这些图像不会包含在文件中，可能在其他实例中无法显示。",
     "admin.canvas.io.warn.local_video": "包含保存在此服务器上的视频：使用完整地址链接，仅当服务器可访问时才能显示。",
+    "admin.canvas.io.warn.image_download_failed": "无法下载的其他网站图像：{n} 张。已从幻灯片中移除。",
     "admin.canvas.library.title": "库",
     "admin.canvas.library.intro": "保存在此实例中的幻灯片，可在任何游戏中使用。",
     "admin.canvas.library.empty": "库为空。使用“保存到库中”保存自由幻灯片或导入文件。",
@@ -233,6 +234,10 @@
     "admin.canvas.ai.doc_label": "参考文档（可选）",
     "admin.canvas.ai.doc_reading": "正在读取文档…",
     "admin.canvas.ai.doc_ready": "文档已就绪：{n} 个词",
+    "admin.canvas.ai.images_label": "图像（可选）",
+    "admin.canvas.ai.images_hint": "最多 {n} 张。AI 会把它们放在合适的位置。如果您要求配图但没有附上图像，它会在 Wikimedia Commons 上查找可自由使用的照片，并在底部注明作者。",
+    "admin.canvas.ai.images_uploading": "正在上传图像…",
+    "admin.canvas.ai.images_ready": "图像已就绪：{names}",
     "admin.canvas.ai.count_label": "幻灯片数量",
     "admin.canvas.ai.theme_label": "风格",
     "admin.canvas.ai.theme.auto": "由 AI 选择",
@@ -253,11 +258,13 @@
     "admin.canvas.ai.error.failed": "AI 未返回有效的幻灯片。请重试或更清楚地说明您的需求。",
     "admin.canvas.ai.error.timeout": "服务器已停止等待。请减少幻灯片数量或重试。",
     "admin.canvas.ai.error.doc": "无法读取文档。",
+    "admin.canvas.ai.error.images": "无法上传图像。",
     "admin.canvas.ai.error.generic": "无法完成操作。请重试。",
     "admin.canvas.ai.add_many_title": "AI 幻灯片",
     "admin.canvas.ai.add_many": "AI 已创建 {n} 个幻灯片。将添加到游戏末尾。",
     "admin.canvas.ai.add_many_confirm": "添加 {n} 个幻灯片",
     "admin.canvas.ai.warnings_title": "已创建幻灯片（有警告）",
-    "admin.canvas.ai.warn.fewer_slides": "AI 仅创建了请求的 {total} 个幻灯片中的 {n} 个。"
+    "admin.canvas.ai.warn.fewer_slides": "AI 仅创建了请求的 {total} 个幻灯片中的 {n} 个。",
+    "admin.canvas.ai.warn.image_not_found": "未能获取的图像：{n} 张。这些幻灯片将不含图像。"
   }
 }

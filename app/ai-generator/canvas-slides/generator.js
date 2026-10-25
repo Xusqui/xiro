@@ -2,8 +2,9 @@
 
 /**
  * @fileoverview Diapositivas libres con IA: pide el contenido con el prompt de prompt.js, lo sanea (spec.js),
- * lo maqueta (build.js) y lo pasa por importSlidePackage, que valida cada lienzo como al importar un
- * .xiroslide y guarda los iconos en /uploads/. Usa el proveedor configurado y, si falla, el de respaldo.
+ * consigue las imágenes que pide (media.js: adjuntas, URL o fotos libres de Wikimedia Commons), lo maqueta
+ * (build.js) y lo pasa por importSlidePackage, que valida cada lienzo como al importar un .xiroslide y guarda
+ * los iconos y las fotos en /uploads/. Usa el proveedor configurado y, si falla, el de respaldo.
  */
 
 const { callLLM, getProviderPlan } = require('../ai-client');
@@ -12,7 +13,9 @@ const { importSlidePackage } = require('../../services/slide-package/import.serv
 const { buildCanvasSlidesPrompt, SYSTEM_PROMPT } = require('./prompt');
 const { sanitizeDeck } = require('./spec');
 const { buildPackage } = require('./build');
+const { loadAttachedImages, resolveSlideImages } = require('./media');
 const { THEME_NAMES, DEFAULT_THEME } = require('./themes');
+const { uploadDir: DEFAULT_UPLOAD_DIR } = require('../../config/multer');
 const logger = require('../../config/logger');
 
 const MAX_SLIDES = 10;
@@ -113,25 +116,32 @@ async function askAI({ prompt, count, signal }) {
  * @param {number} [input.count] - De 1 a 10
  * @param {string} [input.theme] - 'auto' o un estilo de themes.js
  * @param {string} [input.language] - Idioma de los textos
+ * @param {Array<{url: string, name?: string}>} [input.images] - Imágenes adjuntas, ya subidas a /uploads/
  * @param {AbortSignal} [input.signal]
- * @param {Object} [deps] - Opciones de importSlidePackage ({ uploadDir, writeFile }), para los tests
+ * @param {Object} [deps] - Para los tests: opciones de importSlidePackage ({ uploadDir, writeFile }) y de media.js
+ *   ({ readFile, fetchImage, findPhoto })
  * @returns {Promise<{slides: Array, warnings: Array, theme: string, provider: string, layouts: string[]}>}
  */
 async function generateCanvasSlides(input, deps = {}) {
     const count = clampCount(input.count);
     const theme = THEME_NAMES.includes(input.theme) ? input.theme : 'auto';
+    const attached = await loadAttachedImages(input.images, { uploadDir: deps.uploadDir || DEFAULT_UPLOAD_DIR, readFile: deps.readFile });
     const prompt = buildCanvasSlidesPrompt({
         request: input.prompt,
         document: input.document,
         count,
         theme,
-        language: input.language
+        language: input.language,
+        images: attached
     });
     const deck = await askAI({ prompt, count, signal: input.signal });
     const themeName = theme !== 'auto' ? theme : deck.theme || DEFAULT_THEME;
-    const pkg = buildPackage(deck.slides, themeName);
-    const result = await importSlidePackage(Buffer.from(JSON.stringify(pkg), 'utf8'), deps);
+    const media = await resolveSlideImages(deck.slides, { attached, fetchImage: deps.fetchImage, findPhoto: deps.findPhoto, signal: input.signal });
+    const pkg = buildPackage(media.slides, themeName);
+    const trustedUploads = attached.map(img => img.url);
+    const result = await importSlidePackage(Buffer.from(JSON.stringify(pkg), 'utf8'), { ...deps, trustedUploads });
     const warnings = [...result.warnings];
+    if (media.missing) warnings.push({ code: 'AI_IMAGE_NOT_FOUND', params: { n: media.missing } });
     if (result.slides.length < count) {
         warnings.push({ code: 'AI_FEWER_SLIDES', params: { n: result.slides.length, total: count } });
     }
@@ -140,7 +150,7 @@ async function generateCanvasSlides(input, deps = {}) {
         warnings,
         theme: themeName,
         provider: deck.provider,
-        layouts: deck.slides.map(s => s.layout)
+        layouts: media.slides.map(s => s.layout)
     };
 }
 

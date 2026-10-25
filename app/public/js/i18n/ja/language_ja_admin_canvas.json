@@ -200,6 +200,7 @@
     "admin.canvas.io.warn.slide_skipped": "{n} 番目のスライドは無効なためスキップされました。",
     "admin.canvas.io.warn.external_image": "他のウェブサイトにリンクされた画像があります：ファイルには含まれず、別のインストールでは表示されない可能性があります。",
     "admin.canvas.io.warn.local_video": "このサーバーに保存された動画があります：完全なアドレスでリンクされ、サーバーがアクセス可能でない限り表示されません。",
+    "admin.canvas.io.warn.image_download_failed": "ダウンロードできなかった他サイトの画像：{n} 枚。スライドから削除しました。",
     "admin.canvas.library.title": "ライブラリ",
     "admin.canvas.library.intro": "このインストールに保存されたスライドで、任意のゲームで使用できます。",
     "admin.canvas.library.empty": "ライブラリは空です。「ライブラリに保存」で自由スライドを保存するか、ファイルをインポートしてください。",
@@ -233,6 +234,10 @@
     "admin.canvas.ai.doc_label": "元になる文書（任意）",
     "admin.canvas.ai.doc_reading": "文書を読み込んでいます…",
     "admin.canvas.ai.doc_ready": "文書の準備ができました：{n} 語",
+    "admin.canvas.ai.images_label": "画像（任意）",
+    "admin.canvas.ai.images_hint": "{n} 枚まで。AI が合う場所に配置します。画像を添付せずに写真を頼むと、Wikimedia Commons で自由に使える写真を探し、下部に作者を表示します。",
+    "admin.canvas.ai.images_uploading": "画像をアップロードしています…",
+    "admin.canvas.ai.images_ready": "画像の準備ができました：{names}",
     "admin.canvas.ai.count_label": "スライド数",
     "admin.canvas.ai.theme_label": "スタイル",
     "admin.canvas.ai.theme.auto": "AIにまかせる",
@@ -253,11 +258,13 @@
     "admin.canvas.ai.error.failed": "AIから有効なスライドが返されませんでした。もう一度お試しいただくか、内容をより詳しく説明してください。",
     "admin.canvas.ai.error.timeout": "サーバーの待機が打ち切られました。スライド数を減らすか、もう一度お試しください。",
     "admin.canvas.ai.error.doc": "文書を読み込めませんでした。",
+    "admin.canvas.ai.error.images": "画像をアップロードできませんでした。",
     "admin.canvas.ai.error.generic": "操作を完了できませんでした。もう一度お試しください。",
     "admin.canvas.ai.add_many_title": "AIでスライド作成",
     "admin.canvas.ai.add_many": "AIが {n} 個のスライドを作成しました。ゲームの最後に追加されます。",
     "admin.canvas.ai.add_many_confirm": "{n} 個のスライドを追加",
     "admin.canvas.ai.warnings_title": "警告付きで作成されたスライド",
-    "admin.canvas.ai.warn.fewer_slides": "AIが作成したスライドは、依頼した {total} 個のうち {n} 個だけです。"
+    "admin.canvas.ai.warn.fewer_slides": "AIが作成したスライドは、依頼した {total} 個のうち {n} 個だけです。",
+    "admin.canvas.ai.warn.image_not_found": "見つからなかった画像：{n} 枚。そのスライドは画像なしになります。"
   }
 }

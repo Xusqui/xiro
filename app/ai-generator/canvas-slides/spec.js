@@ -3,7 +3,8 @@
 /**
  * @fileoverview Saneado de lo que devuelve la IA antes de diseñar las diapositivas: diseño (layout) conocido,
  * textos limpios (sin markdown ni viñetas) y recortados a su límite, listas con el número de elementos que
- * admite cada diseño, tonos e iconos de la lista. Lo que no se puede aprovechar se descarta con un aviso.
+ * admite cada diseño, tonos e iconos de la lista, e imagen pedida (adjunta, URL o búsqueda; la consigue
+ * media.js). Lo que no se puede aprovechar se descarta con un aviso.
  */
 
 const { ICON_NAMES } = require('./icons');
@@ -27,9 +28,18 @@ const LAYOUT_ALIASES = {
     cifra: 'stat',
     number: 'stat',
     cita: 'quote',
-    pregunta: 'question'
+    pregunta: 'question',
+    imagen: 'image',
+    foto: 'image',
+    photo: 'image',
+    picture: 'image',
+    'text-image': 'split',
+    'texto-imagen': 'split'
 };
 const ELLIPSIS = '…';
+const ATTACHED_IMAGE = /^img([1-9])$/i;
+const IMAGE_URL = /^https?:\/\/[^\s"'<>]{4,2000}$/i;
+const SEARCH_PREFIX = /^(?:search|buscar|busca|query)\s*:\s*/i;
 // Viñeta o numeración al principio de una línea («- », «• », «1. », «2) »…)
 const LIST_LINE = /^\s*(?:[-*•·]|\d+[.)])\s+/;
 
@@ -69,6 +79,28 @@ const tone = v => (TONES.includes(v) ? v : null);
 const icon = v => (typeof v === 'string' && ICON_NAMES.includes(v.trim().toLowerCase()) ? v.trim().toLowerCase() : null);
 const obj = v => (v && typeof v === 'object' && !Array.isArray(v) ? v : {});
 
+/**
+ * Imagen que nombra la IA: { kind: 'attached', ref } (adjunta, "img1"…), { kind: 'url', url } o
+ * { kind: 'search', query } (foto libre de Wikimedia Commons; vale con o sin «search:»). null si no hay.
+ */
+function imageRef(value) {
+    let v = value;
+    if (v && typeof v === 'object') v = v.search ? `search: ${v.search}` : v.url || v.src;
+    if (typeof v !== 'string' || /[<>]/.test(v)) return null;
+    const s = v.trim();
+    const attached = ATTACHED_IMAGE.exec(s);
+    if (attached) return { kind: 'attached', ref: `img${attached[1]}` };
+    if (IMAGE_URL.test(s)) return { kind: 'url', url: s };
+    const query = s.replace(SEARCH_PREFIX, '').replace(/["«»“”]/g, '').replace(/\s+/g, ' ').trim().slice(0, 80);
+    return /\p{L}.*\p{L}/u.test(query) ? { kind: 'search', query } : null;
+}
+
+/** Añade la imagen pedida a un diseño que la admite como opción (portada). */
+function withImage(body, raw) {
+    const image = imageRef(raw.image);
+    return image ? { ...body, image } : body;
+}
+
 /** Campo de texto opcional; se omite si queda vacío. */
 function optional(target, key, value, max) {
     const s = str(value, max);
@@ -76,7 +108,7 @@ function optional(target, key, value, max) {
 }
 
 const SANITIZERS = {
-    cover: s => (str(s.title, 80) ? { title: str(s.title, 80), kicker: str(s.kicker, 40), subtitle: str(s.subtitle, 140), tag: str(s.tag, 40), icon: icon(s.icon) } : null),
+    cover: s => (str(s.title, 80) ? withImage({ title: str(s.title, 80), kicker: str(s.kicker, 40), subtitle: str(s.subtitle, 140), tag: str(s.tag, 40), icon: icon(s.icon) }, s) : null),
     statement: s => (str(s.title, 80) ? { title: str(s.title, 80), text: str(s.text, 220), tag: str(s.tag, 40), icon: icon(s.icon) } : null),
     text: s => (str(s.text, 600) ? { text: str(s.text, 600) } : null),
     bullets: s => {
@@ -117,12 +149,27 @@ const SANITIZERS = {
     question: s => {
         const options = list(s.options, { min: 2, max: 4, map: v => item(v, 80) });
         return options && str(s.question, 180) ? { question: str(s.question, 180), kicker: str(s.kicker, 40), options } : null;
+    },
+    image: s => {
+        const image = imageRef(s.image);
+        if (!image) return null;
+        const body = { image };
+        optional(body, 'caption', s.caption || s.text, 160);
+        return body;
+    },
+    split: s => {
+        const image = imageRef(s.image);
+        const items = list(s.items, { min: 2, max: 5, map: v => item(v, 110) });
+        if (!image || (!items && !str(s.text, 400))) return null;
+        return items ? { image, items } : { image, text: str(s.text, 400) };
     }
 };
 
 const LAYOUTS = Object.keys(SANITIZERS);
 // Diseños con título y subtítulo arriba y nota al pie (elements.js: header y footer)
 const WITH_HEADER = ['text', 'bullets', 'cards', 'steps', 'process', 'flow', 'comparison', 'timeline'];
+// Con título y subtítulo pero sin nota: el pie es para el crédito de la foto
+const WITH_TITLE = [...WITH_HEADER, 'image', 'split'];
 
 /** Un «texto» que en realidad es una lista (casi todas sus líneas empiezan por viñeta o número). */
 function textAsList(raw) {
@@ -156,7 +203,7 @@ function sanitizeSlide(raw) {
     const body = SANITIZERS[layout](s);
     if (!body) return null;
     const slide = { layout };
-    if (WITH_HEADER.includes(layout)) {
+    if (WITH_TITLE.includes(layout)) {
         optional(slide, 'title', s.title, 90);
         optional(slide, 'subtitle', s.subtitle, 140);
     }
@@ -178,4 +225,4 @@ function sanitizeDeck(data, count) {
     return { theme, slides, dropped: all.length - slides.length };
 }
 
-module.exports = { LAYOUTS, sanitizeDeck, sanitizeSlide, str };
+module.exports = { LAYOUTS, sanitizeDeck, sanitizeSlide, str, imageRef };

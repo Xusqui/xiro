@@ -200,6 +200,7 @@
     "admin.canvas.io.warn.slide_skipped": "Folie {n} wurde übersprungen, da sie ungültig ist.",
     "admin.canvas.io.warn.external_image": "Es gibt Bilder, die auf andere Webseiten verlinkt sind: Diese sind nicht in der Datei enthalten und werden in einer anderen Installation eventuell nicht angezeigt.",
     "admin.canvas.io.warn.local_video": "Es gibt Videos, die auf diesem Server gespeichert sind: Diese sind mit ihrer vollständigen Adresse verknüpft und werden nur sichtbar sein, wenn der Server zugänglich ist.",
+    "admin.canvas.io.warn.image_download_failed": "Bilder von anderen Websites, die nicht heruntergeladen werden konnten: {n}. Sie wurden von den Folien entfernt.",
     "admin.canvas.library.title": "Bibliothek",
     "admin.canvas.library.intro": "In dieser Installation gespeicherte Folien, um sie in jedem Spiel zu verwenden.",
     "admin.canvas.library.empty": "Die Bibliothek ist leer. Speichere eine freie Folie mit „In Bibliothek speichern“ oder importiere eine Datei.",
@@ -233,6 +234,10 @@
     "admin.canvas.ai.doc_label": "Ausgangsdokument (optional)",
     "admin.canvas.ai.doc_reading": "Dokument wird gelesen…",
     "admin.canvas.ai.doc_ready": "Dokument bereit: {n} Wörter",
+    "admin.canvas.ai.images_label": "Bilder (optional)",
+    "admin.canvas.ai.images_hint": "Bis zu {n}. Die KI platziert sie dort, wo sie passen. Wenn du Fotos verlangst, ohne welche anzuhängen, sucht sie freie Fotos auf Wikimedia Commons und nennt den Urheber unten.",
+    "admin.canvas.ai.images_uploading": "Bilder werden hochgeladen…",
+    "admin.canvas.ai.images_ready": "Bilder bereit: {names}",
     "admin.canvas.ai.count_label": "Folien",
     "admin.canvas.ai.theme_label": "Stil",
     "admin.canvas.ai.theme.auto": "Die KI wählen lassen",
@@ -253,11 +258,13 @@
     "admin.canvas.ai.error.failed": "Die KI hat keine gültigen Folien geliefert. Versuche es erneut oder erkläre genauer, was du willst.",
     "admin.canvas.ai.error.timeout": "Der Server hat das Warten abgebrochen. Fordere weniger Folien an oder versuche es erneut.",
     "admin.canvas.ai.error.doc": "Das Dokument konnte nicht gelesen werden.",
+    "admin.canvas.ai.error.images": "Das Bild konnte nicht hochgeladen werden.",
     "admin.canvas.ai.error.generic": "Operation konnte nicht abgeschlossen werden. Versuche es erneut.",
     "admin.canvas.ai.add_many_title": "Folien mit KI",
     "admin.canvas.ai.add_many": "Die KI hat {n} Folien erstellt. Sie werden am Ende des Spiels hinzugefügt.",
     "admin.canvas.ai.add_many_confirm": "{n} Folien hinzufügen",
     "admin.canvas.ai.warnings_title": "Folien mit Hinweisen erstellt",
-    "admin.canvas.ai.warn.fewer_slides": "Die KI hat nur {n} der {total} angeforderten Folien erstellt."
+    "admin.canvas.ai.warn.fewer_slides": "Die KI hat nur {n} der {total} angeforderten Folien erstellt.",
+    "admin.canvas.ai.warn.image_not_found": "Nicht gefundene Bilder: {n}. Diese Folien haben kein Bild."
   }
 }

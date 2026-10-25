@@ -2,8 +2,9 @@
 
 /**
  * @fileoverview De las diapositivas saneadas (spec.js) al paquete .xiroslide: cada diseño se convierte en los
- * elementos del lienzo con los colores del estilo elegido, y los iconos y gráficos SVG van como imágenes del
- * paquete (asset:aN). generator.js lo pasa por importSlidePackage, igual que «Importar archivo».
+ * elementos del lienzo con los colores del estilo elegido, y los iconos, los gráficos SVG y las fotos
+ * descargadas (media.js) van como imágenes del paquete (asset:aN); las adjuntas, con su URL de /uploads/.
+ * generator.js lo pasa por importSlidePackage, igual que «Importar archivo».
  */
 
 const SlidePackage = require('../../public/js/core/slide-package');
@@ -13,23 +14,26 @@ const { cover, statement, text, bullets, quote, stat } = require('./layouts-text
 const { cards, steps, comparison } = require('./layouts-grid');
 const { question } = require('./layouts-question');
 const { flow, process, timeline } = require('./layouts-diagram');
+const { image, split } = require('./layouts-media');
 
 // Un maquetador por diseño de spec.js (LAYOUTS)
-const BUILDERS = { cover, statement, text, bullets, quote, stat, cards, steps, comparison, question, flow, process, timeline };
+const BUILDERS = { cover, statement, text, bullets, quote, stat, cards, steps, comparison, question, flow, process, timeline, image, split };
 
-/** Imágenes SVG del paquete sin repetir: cada contenido distinto es un asset. */
+/** Imágenes del paquete sin repetir: cada contenido distinto es un asset. */
 function assetRegistry() {
     const assets = [];
     const refs = new Map();
-    const add = svg => {
-        if (!refs.has(svg)) {
+    const addData = (data, mime) => {
+        if (!refs.has(data)) {
             const id = 'a' + (assets.length + 1);
-            assets.push({ id, mime: 'image/svg+xml', name: id + '.svg', data: Buffer.from(svg, 'utf8').toString('base64') });
-            refs.set(svg, SlidePackage.assetRef(id));
+            assets.push({ id, mime, name: `${id}.${SlidePackage.MIME_EXTENSIONS[mime]}`, data });
+            refs.set(data, SlidePackage.assetRef(id));
         }
-        return refs.get(svg);
+        return refs.get(data);
     };
-    return { assets, add };
+    const add = svg => addData(Buffer.from(svg, 'utf8').toString('base64'), 'image/svg+xml');
+    const addImage = img => (img.src ? img.src : addData(img.buffer.toString('base64'), img.mime));
+    return { assets, add, addImage };
 }
 
 /**
@@ -44,6 +48,7 @@ function buildPackage(slides, themeName) {
     const ctx = {
         theme,
         asset: registry.add,
+        photo: registry.addImage,
         icon: (name, color) => {
             const svg = iconSvg(name, color);
             return svg ? registry.add(svg) : null;

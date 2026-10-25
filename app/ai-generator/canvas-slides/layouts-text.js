@@ -3,13 +3,14 @@
 /**
  * @fileoverview Diseños de texto de las diapositivas que crea la IA: portada (cover), mensaje centrado
  * (statement), texto, lista (bullets), cita (quote) y cifra destacada (stat). Cada función recibe la
- * diapositiva ya saneada (spec.js) y el contexto { theme, icon(nombre, color), asset(svg) } y devuelve
+ * diapositiva ya saneada (spec.js) y el contexto { theme, icon(nombre, color), asset(svg), photo(imagen) } y devuelve
  * los elementos del lienzo de 1920x1080. Los textos se equilibran (text-fit.js) antes de medir su caja.
  */
 
 const { LEFT, WIDTH, text, shape, image, iconCircle, header, footer, stackCentered, pill } = require('./elements');
 const { boxHeight, fitBalanced, balance } = require('./text-fit');
 const { donutSvg } = require('./icons');
+const { coverPhoto } = require('./layouts-media');
 
 /** Titular grande: en Bebas Neue (mayúsculas) si es corto; si no, DM Sans en negrita. */
 function headline(value, { w, short, display, sans }) {
@@ -19,10 +20,10 @@ function headline(value, { w, short, display, sans }) {
     return { ...fit, font, bold: !big, big, h: boxHeight(fit.text, { font, bold: !big, size: fit.size, w }) };
 }
 
-/** Portada: antetítulo, título grande, subtítulo y etiqueta; a la derecha, icono en un círculo. */
+/** Portada: antetítulo, título grande, subtítulo y etiqueta; a la derecha, una foto o un icono en un círculo. */
 function cover(slide, ctx) {
     const t = ctx.theme;
-    const w = slide.icon ? 1100 : WIDTH;
+    const w = slide.image ? 960 : slide.icon ? 1100 : WIDTH;
     const title = headline(slide.title, { w, short: 40, display: { max: 184, min: 110, maxLines: 2 }, sans: { max: 96, min: 64, maxLines: 3 } });
     const sub = slide.subtitle ? fitBalanced(slide.subtitle, { w, max: 48, min: 36, maxLines: 3 }) : null;
     const blocks = [];
@@ -32,7 +33,8 @@ function cover(slide, ctx) {
     if (slide.tag) blocks.push({ key: 'tag', h: 88, gap: 32 });
     const ys = stackCentered(blocks, { top: 80, bottom: 1000 });
     const els = [];
-    if (slide.icon) {
+    if (slide.image) els.push(...coverPhoto(ctx, slide.image));
+    else if (slide.icon) {
         els.push(shape('ellipse', { x: 1236, y: 240, w: 600, h: 600 }, { stroke: t.line + '55', strokeWidth: 4 }));
         els.push(...iconCircle(ctx, { cx: 1536, cy: 540, d: 500, icon: slide.icon, colors: t.accent2 }));
     }

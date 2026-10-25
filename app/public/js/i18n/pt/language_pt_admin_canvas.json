@@ -200,6 +200,7 @@
     "admin.canvas.io.warn.slide_skipped": "Foi ignorado o diapositivo {n} porque não é válido.",
     "admin.canvas.io.warn.external_image": "Há imagens ligadas a outras websites: não vão no ficheiro e podem não aparecer noutra instalação.",
     "admin.canvas.io.warn.local_video": "Há vídeos guardados neste servidor: são ligados com o seu endereço completo e só serão vistos se o servidor for acessível.",
+    "admin.canvas.io.warn.image_download_failed": "Imagens de outros sites que não foi possível transferir: {n}. Foram removidas dos diapositivos.",
     "admin.canvas.library.title": "Biblioteca",
     "admin.canvas.library.intro": "Diapositivos guardados nesta instalação para usá-los em qualquer jogo.",
     "admin.canvas.library.empty": "A biblioteca está vazia. Guarde um diapositivo livre com «Guardar na biblioteca» ou importe um ficheiro.",
@@ -233,6 +234,10 @@
     "admin.canvas.ai.doc_label": "Documento de partida (opcional)",
     "admin.canvas.ai.doc_reading": "A ler o documento…",
     "admin.canvas.ai.doc_ready": "Documento pronto: {n} palavras",
+    "admin.canvas.ai.images_label": "Imagens (opcional)",
+    "admin.canvas.ai.images_hint": "Até {n}. A IA coloca-as onde encaixarem. Se pedir fotos sem as anexar, procura fotos livres na Wikimedia Commons e indica o autor no rodapé.",
+    "admin.canvas.ai.images_uploading": "A carregar as imagens…",
+    "admin.canvas.ai.images_ready": "Imagens prontas: {names}",
     "admin.canvas.ai.count_label": "Diapositivos",
     "admin.canvas.ai.theme_label": "Estilo",
     "admin.canvas.ai.theme.auto": "Deixar a IA escolher",
@@ -253,11 +258,13 @@
     "admin.canvas.ai.error.failed": "A IA não devolveu diapositivos válidos. Tente novamente ou explique melhor o que pretende.",
     "admin.canvas.ai.error.timeout": "O servidor deixou de esperar. Peça menos diapositivos ou tente novamente.",
     "admin.canvas.ai.error.doc": "Não foi possível ler o documento.",
+    "admin.canvas.ai.error.images": "Não foi possível carregar a imagem.",
     "admin.canvas.ai.error.generic": "Não foi possível completar a operação. Tente novamente.",
     "admin.canvas.ai.add_many_title": "Diapositivos com IA",
     "admin.canvas.ai.add_many": "A IA criou {n} diapositivos. Serão adicionados ao final do jogo.",
     "admin.canvas.ai.add_many_confirm": "Adicionar {n} diapositivos",
     "admin.canvas.ai.warnings_title": "Diapositivos criados com avisos",
-    "admin.canvas.ai.warn.fewer_slides": "A IA só criou {n} dos {total} diapositivos pedidos."
+    "admin.canvas.ai.warn.fewer_slides": "A IA só criou {n} dos {total} diapositivos pedidos.",
+    "admin.canvas.ai.warn.image_not_found": "Imagens que não foi possível obter: {n}. Esses diapositivos ficam sem imagem."
   }
 }

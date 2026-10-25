@@ -3,7 +3,8 @@
  * diálogo (qué se quiere, documento opcional, número de diapositivas, estilo e idioma) y lo envía a
  * POST /api/ai-generator/canvas-slides. Las diapositivas que vuelven entran igual que las importadas
  * (_lienzoAddToGame de slides-canvas-import.js): una se abre en el editor y varias van al final del juego.
- * El documento se convierte a Markdown con POST /api/ai-generator/upload, como en el Generador IA.
+ * El documento se convierte a Markdown con POST /api/ai-generator/upload, como en el Generador IA; las imágenes
+ * adjuntas las gestiona slides-canvas-ai-images.js.
  * Reutiliza helpers globales: fetchWithAuth(), mostrarModalError(), renderLanguageSelect() y _lienzoAddToGame().
  */
 
@@ -54,7 +55,7 @@ function _lienzoIaDialogHtml() {
             <div class="xsce-field">
                 <label class="xsce-label" for="lienzoIADoc">${th('ai.doc_label')}</label>
                 <input type="file" id="lienzoIADoc" class="xsce-file" accept="${_LIENZO_IA_DOC_ACCEPT}">
-            </div>
+            </div>${_lienzoIaImagesFieldHtml()}
             <div class="xsce-grid2">
                 <div class="xsce-field">
                     <label class="xsce-label" for="lienzoIACount">${th('ai.count_label')}</label>
@@ -81,6 +82,7 @@ function _lienzoIaDialogHtml() {
 function _lienzoIaOpen() {
     _lienzoIaClose();
     _lienzoIaDocument = '';
+    _lienzoIaImagesReset();
     const modal = document.createElement('div');
     modal.id = _LIENZO_IA_MODAL;
     modal.className = 'xsce-overlay-dim';
@@ -94,6 +96,7 @@ function _lienzoIaOpen() {
     });
     modal.addEventListener('change', event => {
         if (event.target.id === 'lienzoIADoc') _lienzoIaReadDocument(event.target);
+        if (event.target.id === 'lienzoIAImages') _lienzoIaReadImages(event.target);
     });
     // Las teclas no llegan al editor; Ctrl/⌘+Intro genera
     modal.addEventListener('keydown', event => {
@@ -166,7 +169,8 @@ async function _lienzoIaGenerate() {
         document: _lienzoIaDocument,
         count: Number(document.getElementById('lienzoIACount').value) || 1,
         theme: document.getElementById('lienzoIATheme').value,
-        language: document.getElementById('lienzoIALanguage')?.value || 'es'
+        language: document.getElementById('lienzoIALanguage')?.value || 'es',
+        images: _lienzoIaImagesPayload()
     };
     const request = new AbortController();
     _lienzoIaRequest = request;

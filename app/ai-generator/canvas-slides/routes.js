@@ -2,8 +2,9 @@
 
 /**
  * @fileoverview POST /api/ai-generator/canvas-slides: diapositivas libres diseñadas por la IA a partir de una
- * descripción o de un documento ya convertido a Markdown (POST /api/ai-generator/upload).
- * Body: { prompt?, document?, count?: 1-10, theme?: 'auto'|estilo, language? }
+ * descripción o de un documento ya convertido a Markdown (POST /api/ai-generator/upload), con imágenes opcionales
+ * ya subidas a /uploads/ (POST /api/upload).
+ * Body: { prompt?, document?, count?: 1-10, theme?: 'auto'|estilo, language?, images?: [{ url, name }] }
  * Respuesta: { slides: [{ slide_type: 'canvas', slide_canvas }], warnings, theme, provider, layouts }, el mismo
  * formato que POST /api/canvas-slides/import (el admin decide si van al editor o al final del juego).
  * Como en /api/ai-generator/generate, se envían espacios cada 15 s para que el proxy no corte la espera;
@@ -14,11 +15,13 @@ const express = require('express');
 const { authenticateAdmin } = require('../../middlewares/auth');
 const { generateCanvasSlides } = require('./generator');
 const { MAX_REQUEST_CHARS } = require('./prompt');
+const { MAX_ATTACHED } = require('./media');
 const logger = require('../../config/logger');
 
 const router = express.Router();
 const MAX_DOCUMENT_CHARS = 300000;
 const KEEP_ALIVE_MS = 15000;
+const UPLOAD_URL_RE = /^\/uploads\/[A-Za-z0-9][A-Za-z0-9._-]{0,200}$/;
 
 /** Error de validación de la petición, o null si vale. */
 function requestError(prompt, document) {
@@ -27,6 +30,14 @@ function requestError(prompt, document) {
         return { error: 'La descripción o el documento son demasiado largos', code: 'AI_CANVAS_PROMPT_TOO_LONG' };
     }
     return null;
+}
+
+/** Imágenes adjuntas que valen: como mucho MAX_ATTACHED, con URL de /uploads/ y nombre corto. */
+function attachedImages(value) {
+    return (Array.isArray(value) ? value : [])
+        .filter(img => img && typeof img.url === 'string' && UPLOAD_URL_RE.test(img.url))
+        .slice(0, MAX_ATTACHED)
+        .map(img => ({ url: img.url, name: typeof img.name === 'string' ? img.name.slice(0, 120) : '' }));
 }
 
 router.post('/api/ai-generator/canvas-slides', authenticateAdmin, async (req, res) => {
@@ -47,7 +58,8 @@ router.post('/api/ai-generator/canvas-slides', authenticateAdmin, async (req, re
         if (!res.writableEnded) abort.abort();
     });
     try {
-        const result = await generateCanvasSlides({ ...body, prompt, document, signal: abort.signal });
+        const images = attachedImages(body.images);
+        const result = await generateCanvasSlides({ ...body, prompt, document, images, signal: abort.signal });
         logger.info('[ai-generator] Diapositivas libres generadas con IA', {
             slides: result.slides.length,
             layouts: result.layouts,

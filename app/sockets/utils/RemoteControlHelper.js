@@ -168,25 +168,25 @@ function resolveRemoteSession(requestedId, pin, activeGames, lobbyPlayers) {
         return found
             ? { found }
             : {
-                error: {
-                    reason: 'session-not-found',
-                    message: `No se encontró ninguna sesión activa con id ${requestedId}`,
-                    code: 'NO_ACTIVE_SESSION_FOR_ID',
-                    params: { sessionId: requestedId }
-                }
-            };
+                  error: {
+                      reason: 'session-not-found',
+                      message: `No se encontró ninguna sesión activa con id ${requestedId}`,
+                      code: 'NO_ACTIVE_SESSION_FOR_ID',
+                      params: { sessionId: requestedId }
+                  }
+              };
     }
     const found = findSessionByPin(String(pin).toUpperCase(), activeGames, lobbyPlayers);
     return found
         ? { found }
         : {
-            error: {
-                reason: 'session-not-found',
-                message: `No se encontró ninguna sesión activa con PIN ${pin}`,
-                code: 'NO_ACTIVE_SESSION_FOR_PIN',
-                params: { pin }
-            }
-        };
+              error: {
+                  reason: 'session-not-found',
+                  message: `No se encontró ninguna sesión activa con PIN ${pin}`,
+                  code: 'NO_ACTIVE_SESSION_FOR_PIN',
+                  params: { pin }
+              }
+          };
 }
 
 /**

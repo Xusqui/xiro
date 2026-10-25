@@ -67,9 +67,21 @@ function segment(kind, from, to, { color, width = 6 }) {
     };
 }
 
-/** Imagen (ref asset:aN del paquete) que llena la caja. */
-function image(box, ref, { fit = 'contain', ratio = 1 } = {}) {
-    return { type: 'image', ...roundBox(box), props: { src: ref, ratio, lockRatio: true, fit, radius: 0 } };
+/** Imagen (ref asset:aN del paquete o URL de /uploads/) que llena la caja. */
+function image(box, ref, { fit = 'contain', ratio = 1, radius = 0 } = {}) {
+    return { type: 'image', ...roundBox(box), props: { src: ref, ratio, lockRatio: true, fit, radius } };
+}
+
+/** Ancho y alto con la proporción ratio (ancho/alto) lo más grandes posible dentro de w × h. */
+function contain(ratio, w, h) {
+    return ratio >= w / h ? { w, h: w / ratio } : { w: h * ratio, h };
+}
+
+/** Crédito de una foto de Wikimedia Commons (autor · licencia · fuente), al pie y a la derecha; sin crédito, nada. */
+function credit(img, theme) {
+    if (!img || !img.credit) return [];
+    const size = fitSize(img.credit, { w: WIDTH, max: 24, min: 18, maxLines: 1 });
+    return [text({ x: LEFT, y: NOTE_Y, w: WIDTH, h: 68 }, img.credit, { size, color: theme.muted, align: 'right' })];
 }
 
 /** Icono centrado en un círculo de color; sin icono, solo el círculo. */
@@ -143,4 +155,4 @@ function footer(slide, theme) {
     };
 }
 
-module.exports = { LEFT, WIDTH, text, shape, segment, image, iconCircle, header, footer, stackCentered, pill };
+module.exports = { LEFT, WIDTH, text, shape, segment, image, contain, credit, iconCircle, header, footer, stackCentered, pill };

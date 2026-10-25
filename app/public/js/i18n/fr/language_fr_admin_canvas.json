@@ -200,6 +200,7 @@
     "admin.canvas.io.warn.slide_skipped": "La diapositive {n} a été ignorée car elle n’est pas valide.",
     "admin.canvas.io.warn.external_image": "Il y a des images liées à d’autres sites web : elles ne seront pas dans le fichier et peuvent ne pas s’afficher dans une autre installation.",
     "admin.canvas.io.warn.local_video": "Il y a des vidéos enregistrées sur ce serveur : elles sont liées avec leur adresse complète et ne seront visibles que si le serveur est accessible.",
+    "admin.canvas.io.warn.image_download_failed": "Images d’autres sites impossibles à télécharger : {n}. Elles ont été retirées des diapositives.",
     "admin.canvas.library.title": "Bibliothèque",
     "admin.canvas.library.intro": "Diapositives enregistrées dans cette installation pour les utiliser dans n’importe quel jeu.",
     "admin.canvas.library.empty": "La bibliothèque est vide. Enregistrez une diapositive libre avec « Enregistrer dans la bibliothèque » ou importez un fichier.",
@@ -233,6 +234,10 @@
     "admin.canvas.ai.doc_label": "Document de départ (facultatif)",
     "admin.canvas.ai.doc_reading": "Lecture du document…",
     "admin.canvas.ai.doc_ready": "Document prêt : {n} mots",
+    "admin.canvas.ai.images_label": "Images (facultatif)",
+    "admin.canvas.ai.images_hint": "Jusqu’à {n}. L’IA les placera là où elles s’intègrent. Si vous demandez des photos sans en joindre, elle cherchera des photos libres sur Wikimedia Commons et indiquera l’auteur en bas.",
+    "admin.canvas.ai.images_uploading": "Envoi des images…",
+    "admin.canvas.ai.images_ready": "Images prêtes : {names}",
     "admin.canvas.ai.count_label": "Diapositives",
     "admin.canvas.ai.theme_label": "Style",
     "admin.canvas.ai.theme.auto": "Laisser choisir l’IA",
@@ -253,11 +258,13 @@
     "admin.canvas.ai.error.failed": "L’IA n’a pas renvoyé de diapositives valides. Réessayez ou précisez ce que vous voulez.",
     "admin.canvas.ai.error.timeout": "Le serveur a cessé d’attendre. Demandez moins de diapositives ou réessayez.",
     "admin.canvas.ai.error.doc": "Impossible de lire le document.",
+    "admin.canvas.ai.error.images": "Impossible d’envoyer l’image.",
     "admin.canvas.ai.error.generic": "Impossible de terminer l’opération. Réessayez.",
     "admin.canvas.ai.add_many_title": "Diapositives avec l’IA",
     "admin.canvas.ai.add_many": "L’IA a créé {n} diapositives. Elles seront ajoutées à la fin du jeu.",
     "admin.canvas.ai.add_many_confirm": "Ajouter {n} diapositives",
     "admin.canvas.ai.warnings_title": "Diapositives créées avec des avertissements",
-    "admin.canvas.ai.warn.fewer_slides": "L’IA n’a créé que {n} des {total} diapositives demandées."
+    "admin.canvas.ai.warn.fewer_slides": "L’IA n’a créé que {n} des {total} diapositives demandées.",
+    "admin.canvas.ai.warn.image_not_found": "Images introuvables : {n}. Ces diapositives n’ont pas d’image."
   }
 }

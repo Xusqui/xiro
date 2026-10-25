@@ -200,6 +200,7 @@
     "admin.canvas.io.warn.slide_skipped": "{n}. gardenkia saltatu da baliozkoa ez delako.",
     "admin.canvas.io.warn.external_image": "Beste web-ekin estekatutako irudiak daude: fitxategian ez daude eta beste instalazio batean agertzen ez dira.",
     "admin.canvas.io.warn.local_video": "Zerbitzari honetan gordetako bideoak daude: helbide osoarekin estekatzen dira eta soilik zerbitzaria eskuragarri badago ikusiko dira.",
+    "admin.canvas.io.warn.image_download_failed": "Deskargatu ezin izan diren beste webguneetako irudiak: {n}. Gardenkietatik kendu dira.",
     "admin.canvas.library.title": "Liburutegia",
     "admin.canvas.library.intro": "Joko guztietan erabiltzeko instalazio honetan gordetako gardenkiak.",
     "admin.canvas.library.empty": "Liburutegia hutsik dago. Gorde gardenki libre bat «Gorde liburutegian» botoiarekin edo inportatu fitxategi bat.",
@@ -233,6 +234,10 @@
     "admin.canvas.ai.doc_label": "Abiapuntuko dokumentua (aukerakoa)",
     "admin.canvas.ai.doc_reading": "Dokumentua irakurtzen…",
     "admin.canvas.ai.doc_ready": "Dokumentua prest: {n} hitz",
+    "admin.canvas.ai.images_label": "Irudiak (aukerakoa)",
+    "admin.canvas.ai.images_hint": "Gehienez {n}. AAk egokien datozen lekuan jarriko ditu. Argazkiak eskatzen badituzu erantsi gabe, argazki libreak bilatuko ditu Wikimedia Commons-en eta egilea oinean jarriko du.",
+    "admin.canvas.ai.images_uploading": "Irudiak igotzen…",
+    "admin.canvas.ai.images_ready": "Irudiak prest: {names}",
     "admin.canvas.ai.count_label": "Gardenkiak",
     "admin.canvas.ai.theme_label": "Estiloa",
     "admin.canvas.ai.theme.auto": "AAk aukera dezala",
@@ -253,11 +258,13 @@
     "admin.canvas.ai.error.failed": "AAk ez du gardenki baliozkorik itzuli. Saiatu berriro edo azaldu hobeto zer nahi duzun.",
     "admin.canvas.ai.error.timeout": "Zerbitzariak itxaroteari utzi dio. Eskatu gardenki gutxiago edo saiatu berriro.",
     "admin.canvas.ai.error.doc": "Ezin izan da dokumentua irakurri.",
+    "admin.canvas.ai.error.images": "Ezin izan da irudia igo.",
     "admin.canvas.ai.error.generic": "Ezin izan da eragiketa burutu. Saiatu berriro.",
     "admin.canvas.ai.add_many_title": "Gardenkiak AArekin",
     "admin.canvas.ai.add_many": "AAk {n} gardenki sortu ditu. Jokoaren amaieran gehituko dira.",
     "admin.canvas.ai.add_many_confirm": "Gehitu {n} gardenki",
     "admin.canvas.ai.warnings_title": "Abisuekin sortutako gardenkiak",
-    "admin.canvas.ai.warn.fewer_slides": "AAk eskatutako {total} gardenkietatik {n} bakarrik sortu ditu."
+    "admin.canvas.ai.warn.fewer_slides": "AAk eskatutako {total} gardenkietatik {n} bakarrik sortu ditu.",
+    "admin.canvas.ai.warn.image_not_found": "Lortu ezin izan diren irudiak: {n}. Gardenki horiek irudirik gabe doaz."
   }
 }

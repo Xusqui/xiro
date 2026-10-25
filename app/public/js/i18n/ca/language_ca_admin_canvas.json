@@ -200,6 +200,7 @@
     "admin.canvas.io.warn.slide_skipped": "S'ha saltat la diapositiva {n} perquè no és vàlida.",
     "admin.canvas.io.warn.external_image": "Hi ha imatges enllaçades a altres webs: no van al fitxer i potser no es veuran en una altra instal·lació.",
     "admin.canvas.io.warn.local_video": "Hi ha vídeos emmagatzemats en aquest servidor: s'enllacen amb la seva adreça completa i només es veuran si el servidor és accessible.",
+    "admin.canvas.io.warn.image_download_failed": "Imatges d'altres webs que no s'han pogut baixar: {n}. S'han eliminat de les diapositives.",
     "admin.canvas.library.title": "Biblioteca",
     "admin.canvas.library.intro": "Diapositives desades en aquesta instal·lació per utilitzar-les en qualsevol joc.",
     "admin.canvas.library.empty": "La biblioteca està buida. Desa una diapositiva lliure amb «Desa a la biblioteca» o importa un fitxer.",
@@ -233,6 +234,10 @@
     "admin.canvas.ai.doc_label": "Document de partida (opcional)",
     "admin.canvas.ai.doc_reading": "S'està llegint el document…",
     "admin.canvas.ai.doc_ready": "Document a punt: {n} paraules",
+    "admin.canvas.ai.images_label": "Imatges (opcional)",
+    "admin.canvas.ai.images_hint": "Fins a {n}. La IA les col·locarà on encaixin. Si demanes fotos sense adjuntar-ne cap, en buscarà de lliures a Wikimedia Commons i posarà l'autor al peu.",
+    "admin.canvas.ai.images_uploading": "S'estan pujant les imatges…",
+    "admin.canvas.ai.images_ready": "Imatges a punt: {names}",
     "admin.canvas.ai.count_label": "Diapositives",
     "admin.canvas.ai.theme_label": "Estil",
     "admin.canvas.ai.theme.auto": "Que triï la IA",
@@ -253,11 +258,13 @@
     "admin.canvas.ai.error.failed": "La IA no ha retornat diapositives vàlides. Torna-ho a provar o explica millor què vols.",
     "admin.canvas.ai.error.timeout": "El servidor ha deixat d'esperar. Demana menys diapositives o torna-ho a provar.",
     "admin.canvas.ai.error.doc": "No s'ha pogut llegir el document.",
+    "admin.canvas.ai.error.images": "No s'ha pogut pujar la imatge.",
     "admin.canvas.ai.error.generic": "No s'ha pogut completar l'operació. Torna-ho a provar.",
     "admin.canvas.ai.add_many_title": "Diapositives amb IA",
     "admin.canvas.ai.add_many": "La IA ha creat {n} diapositives. S'afegiran al final del joc.",
     "admin.canvas.ai.add_many_confirm": "Afegeix {n} diapositives",
     "admin.canvas.ai.warnings_title": "Diapositives creades amb avisos",
-    "admin.canvas.ai.warn.fewer_slides": "La IA només ha creat {n} de les {total} diapositives demanades."
+    "admin.canvas.ai.warn.fewer_slides": "La IA només ha creat {n} de les {total} diapositives demanades.",
+    "admin.canvas.ai.warn.image_not_found": "Imatges que no s'han pogut aconseguir: {n}. Aquestes diapositives van sense imatge."
   }
 }

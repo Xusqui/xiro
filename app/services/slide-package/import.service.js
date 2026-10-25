@@ -1,9 +1,11 @@
 /**
- * @fileoverview Importación de paquetes .xiroslide (diapositivas libres de otra instalación de XiRo).
- * Valida el sobre, comprueba cada imagen por su contenido (los SVG, además, sin contenido activo),
- * sustituye las referencias asset:<id> por URLs de /uploads/ y valida cada lienzo con el mismo esquema
- * que al guardar un juego. Solo escribe ficheros si queda al menos una diapositiva válida, y los nombra
- * con el hash del contenido: importar dos veces lo mismo no duplica ficheros.
+ * @fileoverview Importación de paquetes .xiroslide (diapositivas libres de otra instalación de XiRo, de la IA
+ * de XiRo o de una IA generalista). Valida el sobre, comprueba cada imagen por su contenido (los SVG, además,
+ * sin contenido activo), sustituye las referencias asset:<id> por URLs de /uploads/ y valida cada lienzo con
+ * el mismo esquema que al guardar un juego. Las imágenes escritas como data: y las enlazadas a otra web
+ * también acaban en /uploads/ (inline-images.js): la CSP solo enseña imágenes del propio servidor.
+ * Solo escribe ficheros si queda al menos una diapositiva válida, y los nombra con el hash del contenido:
+ * importar dos veces lo mismo no duplica ficheros.
  */
 'use strict';
 
@@ -18,6 +20,7 @@ const { canvasSchema } = require('../../application/validators/CanvasSlideValida
 const { validatePackage } = require('../../application/validators/SlidePackageValidator');
 const { detectImageType } = require('./image-type');
 const { isSafeSvg } = require('./svg-guard');
+const { resolveInlineImages } = require('./inline-images');
 
 const INVALID_MESSAGE = 'El archivo no es un paquete de diapositivas válido';
 const MAX_PACKAGE_MB = SlidePackage.MAX_PACKAGE_BYTES / 1024 / 1024;
@@ -69,6 +72,12 @@ function inspectAsset(buffer) {
     return { type };
 }
 
+/** Nombre en /uploads/ de una imagen: el hash de su contenido, para no duplicar ficheros. */
+function uploadName(buffer, type) {
+    const hash = crypto.createHash('sha256').update(buffer).digest('hex').slice(0, 32);
+    return `slide-${hash}.${SlidePackage.MIME_EXTENSIONS[type]}`;
+}
+
 /** Imágenes utilizables del paquete (id → { filename, buffer }); avisa de las descartadas. */
 function decodeAssets(assets, warnings) {
     const usable = new Map();
@@ -79,17 +88,21 @@ function decodeAssets(assets, warnings) {
             warnings.push({ code: problem, params: { id: asset.id } });
             continue;
         }
-        const hash = crypto.createHash('sha256').update(buffer).digest('hex').slice(0, 32);
-        usable.set(asset.id, { filename: `slide-${hash}.${SlidePackage.MIME_EXTENSIONS[type]}`, buffer });
+        usable.set(asset.id, { filename: uploadName(buffer, type), buffer });
     }
     return usable;
 }
 
-/** URL local de una imagen del paquete; las externas http(s) se conservan y el resto se descarta. */
-function imageUrlFor(url, usable) {
+/**
+ * URL local de una imagen: las del paquete (asset:<id>) y las data: o de otra web ya descargadas pasan a
+ * /uploads/; una de /uploads/ solo se conserva si es de confianza (las que el usuario adjunta a la IA de XiRo).
+ * El resto se descarta.
+ */
+function imageUrlFor(url, media) {
     const id = SlidePackage.assetIdOf(url);
-    if (id) return usable.has(id) ? `/uploads/${usable.get(id).filename}` : null;
-    return /^https?:\/\//i.test(url) ? url : null;
+    if (id) return media.assets.has(id) ? `/uploads/${media.assets.get(id).filename}` : null;
+    if (media.inline.has(url)) return `/uploads/${media.inline.get(url).filename}`;
+    return media.trusted.has(url) ? url : null;
 }
 
 /** Los vídeos de /uploads/ de otra instalación no existen aquí; tampoco se aceptan URLs no compatibles. */
@@ -97,11 +110,17 @@ function videoUrlFor(url) {
     return SlidePackage.isLocalUpload(url) || !parseVideoSource(url) ? null : url;
 }
 
+/** Falla si algún lienzo es de una versión más reciente de XiRo (antes de descargar nada). */
+function checkCanvasVersions(slides) {
+    slides.forEach(({ slide_canvas: canvas }) => {
+        if (canvas && Number(canvas.version) > CANVAS_VERSION) throw tooNewError(canvas.version);
+    });
+}
+
 /** Lienzo listo para usar en esta instalación, o null si no es válido. */
-function rewriteCanvas(rawCanvas, usable, warnings) {
-    if (rawCanvas && Number(rawCanvas.version) > CANVAS_VERSION) throw tooNewError(rawCanvas.version);
+function rewriteCanvas(rawCanvas, media, warnings) {
     const mapped = SlidePackage.mapCanvasMedia(rawCanvas, {
-        image: url => imageUrlFor(url, usable),
+        image: url => imageUrlFor(url, media),
         video: videoUrlFor
     });
     if (mapped.dropped) warnings.push({ code: 'MEDIA_DROPPED', params: { n: mapped.dropped } });
@@ -116,11 +135,11 @@ function rewriteCanvas(rawCanvas, usable, warnings) {
 }
 
 /** Escribe las imágenes que usan las diapositivas importadas; si el fichero ya existe (mismo hash), se reutiliza. */
-async function writeUsedAssets({ slides, usable, uploadDir, writeFile }) {
+async function writeUsedAssets({ slides, files, uploadDir, writeFile }) {
     const used = new Set();
     slides.forEach(slide => collectMediaRefs(slide.slide_canvas).images.forEach(url => used.add(url)));
     const written = new Set();
-    for (const { filename, buffer } of usable.values()) {
+    for (const { filename, buffer } of files) {
         if (written.has(filename) || !used.has(`/uploads/${filename}`)) continue;
         written.add(filename);
         try {
@@ -137,24 +156,32 @@ async function writeUsedAssets({ slides, usable, uploadDir, writeFile }) {
  * @param {Object} [options]
  * @param {string} [options.uploadDir] - Carpeta de destino (por defecto public/uploads)
  * @param {Function} [options.writeFile] - Igual que fs.promises.writeFile (inyectable en tests)
+ * @param {Function} [options.fetchImage] - url → Promise<Buffer> para las imágenes de otra web (inyectable en tests)
+ * @param {string[]} [options.trustedUploads] - URLs de /uploads/ que se conservan (imágenes adjuntas a la IA)
  * @returns {Promise<{slides: Array<{slide_type: string, slide_canvas: Object}>, warnings: Array<{code: string, params: Object}>}>}
  */
 async function importSlidePackage(buffer, options = {}) {
     const uploadDir = options.uploadDir || DEFAULT_UPLOAD_DIR;
     const writeFile = options.writeFile || fs.promises.writeFile;
     const pkg = parsePackage(buffer);
+    checkCanvasVersions(pkg.slides);
     const warnings = [];
-    const usable = decodeAssets(pkg.assets, warnings);
+    const media = {
+        assets: decodeAssets(pkg.assets, warnings),
+        inline: await resolveInlineImages(pkg.slides, { warnings, inspect: inspectAsset, fileFor: uploadName, fetchImage: options.fetchImage }),
+        trusted: new Set(options.trustedUploads || [])
+    };
     const slides = [];
     pkg.slides.forEach((slide, index) => {
-        const canvas = rewriteCanvas(slide.slide_canvas, usable, warnings);
+        const canvas = rewriteCanvas(slide.slide_canvas, media, warnings);
         if (canvas) slides.push({ slide_type: 'canvas', slide_canvas: canvas });
         else warnings.push({ code: 'SLIDE_SKIPPED', params: { n: index + 1 } });
     });
     if (!slides.length) {
         throw packageError('SLIDE_PACKAGE_EMPTY', 400, 'El paquete no contiene ninguna diapositiva válida');
     }
-    await writeUsedAssets({ slides, usable, uploadDir, writeFile });
+    const files = [...media.assets.values(), ...media.inline.values()];
+    await writeUsedAssets({ slides, files, uploadDir, writeFile });
     return { slides, warnings };
 }
 

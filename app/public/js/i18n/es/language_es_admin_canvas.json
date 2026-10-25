@@ -200,6 +200,7 @@
     "admin.canvas.io.warn.slide_skipped": "Se ha saltado la diapositiva {n} porque no es válida.",
     "admin.canvas.io.warn.external_image": "Hay imágenes enlazadas a otras webs: no van en el archivo y puede que no se vean en otra instalación.",
     "admin.canvas.io.warn.local_video": "Hay vídeos guardados en este servidor: se enlazan con su dirección completa y solo se verán si el servidor es accesible.",
+    "admin.canvas.io.warn.image_download_failed": "Imágenes de otras webs que no se han podido descargar: {n}. Se han quitado de las diapositivas.",
     "admin.canvas.library.title": "Biblioteca",
     "admin.canvas.library.intro": "Diapositivas guardadas en esta instalación para usarlas en cualquier juego.",
     "admin.canvas.library.empty": "La biblioteca está vacía. Guarda una diapositiva libre con «Guardar en biblioteca» o importa un archivo.",
@@ -233,6 +234,10 @@
     "admin.canvas.ai.doc_label": "Documento de partida (opcional)",
     "admin.canvas.ai.doc_reading": "Leyendo el documento…",
     "admin.canvas.ai.doc_ready": "Documento listo: {n} palabras",
+    "admin.canvas.ai.images_label": "Imágenes (opcional)",
+    "admin.canvas.ai.images_hint": "Hasta {n}. La IA las colocará donde encajen. Si pides fotos sin adjuntarlas, buscará fotos libres en Wikimedia Commons y pondrá el autor al pie.",
+    "admin.canvas.ai.images_uploading": "Subiendo las imágenes…",
+    "admin.canvas.ai.images_ready": "Imágenes listas: {names}",
     "admin.canvas.ai.count_label": "Diapositivas",
     "admin.canvas.ai.theme_label": "Estilo",
     "admin.canvas.ai.theme.auto": "Que elija la IA",
@@ -253,11 +258,13 @@
     "admin.canvas.ai.error.failed": "La IA no ha devuelto diapositivas válidas. Prueba otra vez o explica mejor lo que quieres.",
     "admin.canvas.ai.error.timeout": "El servidor ha dejado de esperar. Pide menos diapositivas o vuelve a intentarlo.",
     "admin.canvas.ai.error.doc": "No se pudo leer el documento.",
+    "admin.canvas.ai.error.images": "No se pudo subir la imagen.",
     "admin.canvas.ai.error.generic": "No se pudo completar la operación. Inténtalo de nuevo.",
     "admin.canvas.ai.add_many_title": "Diapositivas con IA",
     "admin.canvas.ai.add_many": "La IA ha creado {n} diapositivas. Se añadirán al final del juego.",
     "admin.canvas.ai.add_many_confirm": "Añadir {n} diapositivas",
     "admin.canvas.ai.warnings_title": "Diapositivas creadas con avisos",
-    "admin.canvas.ai.warn.fewer_slides": "La IA solo ha creado {n} de las {total} diapositivas pedidas."
+    "admin.canvas.ai.warn.fewer_slides": "La IA solo ha creado {n} de las {total} diapositivas pedidas.",
+    "admin.canvas.ai.warn.image_not_found": "Imágenes que no se han podido conseguir: {n}. Esas diapositivas van sin imagen."
   }
 }

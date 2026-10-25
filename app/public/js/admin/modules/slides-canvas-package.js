@@ -28,7 +28,9 @@
         SLIDE_SKIPPED: 'io.warn.slide_skipped',
         EXTERNAL_IMAGE: 'io.warn.external_image',
         LOCAL_VIDEO: 'io.warn.local_video',
-        AI_FEWER_SLIDES: 'ai.warn.fewer_slides'
+        IMAGE_DOWNLOAD_FAILED: 'io.warn.image_download_failed',
+        AI_FEWER_SLIDES: 'ai.warn.fewer_slides',
+        AI_IMAGE_NOT_FOUND: 'ai.warn.image_not_found'
     };
 
     let versionPromise = null;
