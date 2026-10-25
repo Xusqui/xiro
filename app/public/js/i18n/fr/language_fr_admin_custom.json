@@ -55,6 +55,7 @@
     "admin.custom.error_name": "Veuillez donner un nom au jeu",
     "admin.custom.error_questions": "Ajoutez au moins une question",
     "admin.custom.success_saved": "Jeu personnalisé enregistré avec succès !",
+    "admin.custom.success_saved_removed": "Jeu enregistré. {n} question(s) qui n’existent plus dans leur banque ont été retirées.",
     "admin.custom.confirm_delete": "Voulez-vous supprimer définitivement ce jeu personnalisé ?",
     "admin.custom.error_delete": "Impossible de supprimer le jeu personnalisé",
     "admin.slides.comment_title": "Activité Libre",

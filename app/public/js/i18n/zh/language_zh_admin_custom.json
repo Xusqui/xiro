@@ -55,6 +55,7 @@
     "admin.custom.error_name": "请给游戏起个名字",
     "admin.custom.error_questions": "请至少添加一个问题",
     "admin.custom.success_saved": "自定义游戏保存成功！",
+    "admin.custom.success_saved_removed": "游戏已保存。已移除 {n} 道在题库中不再存在的题目。",
     "admin.custom.confirm_delete": "您确定要永久删除此自定义游戏吗？",
     "admin.custom.error_delete": "无法删除自定义游戏",
     "admin.slides.comment_title": "自由活动",

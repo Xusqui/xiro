@@ -55,6 +55,7 @@
     "admin.custom.error_name": "Por favor, dê um nome ao jogo",
     "admin.custom.error_questions": "Adicione pelo menos uma pergunta",
     "admin.custom.success_saved": "Jogo personalizado guardado com sucesso!",
+    "admin.custom.success_saved_removed": "Jogo guardado. Foram removidas {n} pergunta(s) que já não existem no seu banco.",
     "admin.custom.confirm_delete": "Deseja eliminar este jogo personalizado permanentemente?",
     "admin.custom.error_delete": "Não foi possível eliminar o jogo personalizado",
     "admin.slides.comment_title": "Atividade Livre",

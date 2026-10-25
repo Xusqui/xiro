@@ -88,4 +88,28 @@ function insertCustomGameQuestion(client, customGameId, position, q) {
     ]);
 }
 
-module.exports = { insertCustomGameQuestion, normalizeSlideFooter, SLIDE_FOOTER_MAX };
+/** Las diapositivas llegan con question_id null o sin él. */
+function hasQuestionId(q) {
+    return q.question_id !== null && q.question_id !== undefined;
+}
+
+/**
+ * Quita las preguntas de banco que ya no existen (borradas o recreadas desde el
+ * banco mientras el editor seguía abierto), que romperían la FK al insertar.
+ * FOR KEY SHARE impide que se borren las que quedan antes del COMMIT.
+ * @param {Object} client - Cliente pg dentro de la transacción
+ * @param {Array<Object>} questions - Preguntas/diapositivas validadas
+ * @returns {Promise<{ questions: Array<Object>, removed: number }>}
+ */
+async function keepExistingQuestions(client, questions) {
+    const list = Array.isArray(questions) ? questions : [];
+    const ids = [...new Set(list.filter(hasQuestionId).map(q => Number(q.question_id)))];
+    if (ids.length === 0) return { questions: list, removed: 0 };
+
+    const res = await client.query('SELECT id FROM questions WHERE id = ANY($1::int[]) FOR KEY SHARE', [ids]);
+    const found = new Set((Array.isArray(res?.rows) ? res.rows : []).map(r => Number(r.id)));
+    const kept = list.filter(q => !hasQuestionId(q) || found.has(Number(q.question_id)));
+    return { questions: kept, removed: list.length - kept.length };
+}
+
+module.exports = { insertCustomGameQuestion, keepExistingQuestions, normalizeSlideFooter, SLIDE_FOOTER_MAX };

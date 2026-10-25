@@ -10,7 +10,7 @@ const { questionBankCache } = require('../cache.service');
 const pinCache = require('../pin-cache.service');
 const { assertEditorCanModifyResource, normalizeCreatorRole } = require('./resource-ownership.service');
 const { DEFAULTS: RANDOM_POINTS_DEFAULTS } = require('./random-points-config.service');
-const { insertCustomGameQuestion } = require('./custom-game-slides');
+const { insertCustomGameQuestion, keepExistingQuestions } = require('./custom-game-slides');
 
 /**
  * Obtiene todos los juegos personalizados
@@ -136,14 +136,13 @@ async function createCustomGame(data) {
         );
         const customGameId = result.rows[0].id;
 
-        if (questions && Array.isArray(questions) && questions.length > 0) {
-            for (let i = 0; i < questions.length; i++) {
-                await insertCustomGameQuestion(client, customGameId, i, questions[i]);
-            }
+        const kept = await keepExistingQuestions(client, questions);
+        for (let i = 0; i < kept.questions.length; i++) {
+            await insertCustomGameQuestion(client, customGameId, i, kept.questions[i]);
         }
 
         await client.query('COMMIT');
-        return result.rows[0];
+        return { ...result.rows[0], removedQuestions: kept.removed };
     } catch (err) {
         await client.query('ROLLBACK');
         throw err;
@@ -270,8 +269,9 @@ async function updateCustomGame(customGameId, data, actorUserId = null) {
         );
         await client.query('DELETE FROM custom_game_questions WHERE custom_game_id = $1', [customGameId]);
 
-        for (let i = 0; i < questions.length; i++) {
-            await insertCustomGameQuestion(client, customGameId, i, questions[i]);
+        const kept = await keepExistingQuestions(client, questions);
+        for (let i = 0; i < kept.questions.length; i++) {
+            await insertCustomGameQuestion(client, customGameId, i, kept.questions[i]);
         }
 
         await client.query('COMMIT');
@@ -296,7 +296,7 @@ async function updateCustomGame(customGameId, data, actorUserId = null) {
         pinCache.invalidate(upperPin);
         pinCache.invalidate(`presenter:${upperPin}`);
 
-        return { success: true };
+        return { success: true, removedQuestions: kept.removed };
     } catch (err) {
         await client.query('ROLLBACK');
         throw err;

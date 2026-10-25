@@ -55,6 +55,7 @@
     "admin.custom.error_name": "Si us plau, dona un nom al joc",
     "admin.custom.error_questions": "Afegeix almenys una pregunta",
     "admin.custom.success_saved": "Joc personalitzat desat correctament!",
+    "admin.custom.success_saved_removed": "Joc desat. S’han tret {n} pregunta(es) que ja no existeixen al seu banc.",
     "admin.custom.confirm_delete": "Vols eliminar aquest joc personalitzat per sempre?",
     "admin.custom.error_delete": "No s'ha pogut eliminar el joc personalitzat",
     "admin.slides.comment_title": "Activitat Lliure",

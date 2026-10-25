@@ -55,6 +55,7 @@
     "admin.custom.error_name": "Mesedez, eman izen bat jokoari",
     "admin.custom.error_questions": "Gehitu gutxienez galdera bat",
     "admin.custom.success_saved": "Joko pertsonalizatua arrakastaz gordeta!",
+    "admin.custom.success_saved_removed": "Jokoa gordeta. Bere bankuan jada ez dauden {n} galdera kendu dira.",
     "admin.custom.confirm_delete": "Joko pertsonalizatu hau betirako ezabatu nahi al duzu?",
     "admin.custom.error_delete": "Ezin izan da joko pertsonalizatua ezabatu",
     "admin.slides.comment_title": "Jarduera Librea",

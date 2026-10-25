@@ -55,6 +55,7 @@
     "admin.custom.error_name": "Please give the game a name",
     "admin.custom.error_questions": "Add at least one question",
     "admin.custom.success_saved": "Custom game saved successfully!",
+    "admin.custom.success_saved_removed": "Game saved. {n} question(s) no longer in their bank were removed.",
     "admin.custom.confirm_delete": "Do you want to permanently delete this custom game?",
     "admin.custom.error_delete": "Could not delete the custom game",
     "admin.slides.comment_title": "Free Activity",

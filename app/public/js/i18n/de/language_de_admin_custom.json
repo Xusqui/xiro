@@ -55,6 +55,7 @@
     "admin.custom.error_name": "Bitte gib dem Spiel einen Namen",
     "admin.custom.error_questions": "Füge mindestens eine Frage hinzu",
     "admin.custom.success_saved": "Benutzerdefiniertes Spiel erfolgreich gespeichert!",
+    "admin.custom.success_saved_removed": "Spiel gespeichert. {n} Frage(n), die nicht mehr in ihrer Bank existieren, wurden entfernt.",
     "admin.custom.confirm_delete": "Möchtest du dieses benutzerdefinierte Spiel dauerhaft löschen?",
     "admin.custom.error_delete": "Das benutzerdefinierte Spiel konnte nicht gelöscht werden",
     "admin.slides.comment_title": "Freie Aktivität",

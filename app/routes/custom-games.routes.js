@@ -90,7 +90,7 @@ router.put(
             if (!result.success) {
                 return handleBusinessError(res, result.error);
             }
-            res.json({ success: true });
+            res.json({ success: true, removedQuestions: result.removedQuestions || 0 });
         } catch (err) {
             handleRouteError(err, res);
         }

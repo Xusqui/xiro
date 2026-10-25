@@ -55,6 +55,7 @@
     "admin.custom.error_name": "ゲームに名前を付けてください",
     "admin.custom.error_questions": "少なくとも1つの質問を追加してください",
     "admin.custom.success_saved": "カスタムゲームが正常に保存されました！",
+    "admin.custom.success_saved_removed": "ゲームを保存しました。バンクに存在しなくなった {n} 件の問題を削除しました。",
     "admin.custom.confirm_delete": "このカスタムゲームを完全に削除しますか？",
     "admin.custom.error_delete": "カスタムゲームを削除できませんでした",
     "admin.slides.comment_title": "フリーアクティビティ",

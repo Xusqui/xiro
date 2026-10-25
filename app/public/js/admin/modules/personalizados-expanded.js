@@ -51,29 +51,29 @@ async function renderVistaPersonalizados() {
             </div>
             
             ${
-    personalizados.length === 0
-        ? `
+                personalizados.length === 0
+                    ? `
                 <div class="text-center py-20">
                     <i class="fas fa-inbox text-slate-300 text-6xl mb-4"></i>
                     <p class="text-slate-400 text-xl">${_t('admin.custom.empty_title', null, 'No hay juegos personalizados todavía')}</p>
                     <p class="text-slate-400 mt-2">${_t('admin.custom.empty_msg', null, 'Crea un juego personalizado para mayor flexibilidad')}</p>
                 </div>
             `
-        : `
+                    : `
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     ${personalizados
-        .map(juego => {
-            const ownerInfo = {
-                created_by_role: juego.created_by_role,
-                created_by_user_id: juego.created_by_user_id,
-                created_by_username: juego.created_by_username
-            };
-            const canModify = canModifyOwnedResource(ownerInfo);
-            const editClasses = canModify
-                ? 'flex-1 btn-edit px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2'
-                : `flex-1 px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 ${getLockedButtonClasses()}`;
+                        .map(juego => {
+                            const ownerInfo = {
+                                created_by_role: juego.created_by_role,
+                                created_by_user_id: juego.created_by_user_id,
+                                created_by_username: juego.created_by_username
+                            };
+                            const canModify = canModifyOwnedResource(ownerInfo);
+                            const editClasses = canModify
+                                ? 'flex-1 btn-edit px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2'
+                                : `flex-1 px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 ${getLockedButtonClasses()}`;
 
-            return `
+                            return `
                         <div class="bg-white rounded-2xl shadow-sm border-2 border-slate-200 hover:border-blue-500 transition-all hover:shadow-xl group overflow-hidden">
                             <div class="p-6">
                                 <div class="flex justify-between items-start mb-4">
@@ -110,11 +110,11 @@ async function renderVistaPersonalizados() {
                             </div>
                         </div>
                     `;
-        })
-        .join('')}
+                        })
+                        .join('')}
                 </div>
             `
-}
+            }
         </div>
     `);
 }
@@ -191,9 +191,20 @@ function _customGameHeaderConfig(game) {
         kind: _t('admin.custom.form_title', null, 'Juego Personalizado'),
         hiddenHtml: `<input type="hidden" id="customGameEditId" value="${game.id || ''}">
                 <input type="hidden" id="customGameOwnerUserId" value="${game.created_by_user_id ?? ''}">`,
-        back: { action: "mostrarVista('personalizados')", label: _t('admin.custom.btn_back', null, 'Volver a Juegos Personalizados') },
-        name: { id: 'customGameName', label: _t('admin.custom.label_name', null, 'Nombre del Juego'), placeholder: _t('admin.custom.ph_name', null, 'Ej: Examen Final Anatomía') },
-        pin: { id: 'customGamePin', label: _t('admin.games.label_pin', null, 'PIN Personalizado'), placeholder: _t('admin.editor.ph_pin_auto', null, 'Automático') },
+        back: {
+            action: "mostrarVista('personalizados')",
+            label: _t('admin.custom.btn_back', null, 'Volver a Juegos Personalizados')
+        },
+        name: {
+            id: 'customGameName',
+            label: _t('admin.custom.label_name', null, 'Nombre del Juego'),
+            placeholder: _t('admin.custom.ph_name', null, 'Ej: Examen Final Anatomía')
+        },
+        pin: {
+            id: 'customGamePin',
+            label: _t('admin.games.label_pin', null, 'PIN Personalizado'),
+            placeholder: _t('admin.editor.ph_pin_auto', null, 'Automático')
+        },
         visible: {
             id: 'customGameVisibleToPresenter',
             label: _t('admin.banks.label_visible', null, 'Mostrar al presentador'),
@@ -476,12 +487,12 @@ function _customQuestionFromBank(question, questionId, bankName) {
         options: withoutOptions
             ? []
             : safeOptions.map(o => ({
-                optionText: o.option_text,
-                isCorrect: !!o.is_correct,
-                justification: o.justification,
-                // Completa la frase y sopa de letras: el orden de las palabras
-                order_index: o.order_index ?? null
-            })),
+                  optionText: o.option_text,
+                  isCorrect: !!o.is_correct,
+                  justification: o.justification,
+                  // Completa la frase y sopa de letras: el orden de las palabras
+                  order_index: o.order_index ?? null
+              })),
         ..._CUSTOM_EMPTY_TYPE_FIELDS,
         ...typeFields,
         position: currentCustomGameQuestions.length
@@ -644,10 +655,15 @@ function _customSlideForSave(q) {
 
 /** Resultado para la barra de guardado; un juego nuevo (POST) se recarga completo. */
 async function _afterCustomGameSaved(id, data) {
-    const message = _t('admin.custom.success_saved', null, '¡Juego personalizado guardado correctamente!');
-    if (!id && data.id) {
-        document.getElementById('customGameEditId').value = data.id;
-        await cargarEditorJuegoPersonalizado(data.id);
+    // El servidor descarta las preguntas borradas del banco mientras el editor seguía abierto
+    const removed = Number(data.removedQuestions) || 0;
+    const message = removed
+        ? _t('admin.custom.success_saved_removed', { n: removed })
+        : _t('admin.custom.success_saved', null, '¡Juego personalizado guardado correctamente!');
+    const savedId = id || data.id;
+    if (savedId && (!id || removed)) {
+        document.getElementById('customGameEditId').value = savedId;
+        await cargarEditorJuegoPersonalizado(savedId);
         announceSaveBarSaved(message);
     }
     return { ok: true, message };
