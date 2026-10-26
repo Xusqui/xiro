@@ -404,38 +404,29 @@ body.stage-split #matching-reveal-card > div:last-child > div {
 }
 
 /* Menú del operador (⋯): Terminar, Abandonar, idioma, pantalla completa y
-   créditos, fuera de la vista del público hasta que el presentador lo abre */
+   créditos, fuera de la vista del público hasta que el presentador lo abre.
+   Medidas de la fila de controles (--stage-nav-*, presenter-slide-nav.css):
+   misma base y mismo alto que «Anterior», que se coloca a su derecha.
+   Colores y estados (reposo, ratón, abierto, foco) en presenter-slide-nav.css */
 #stage-menu-btn {
     position: fixed;
-    left: 1.25rem;
-    bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+    left: var(--stage-nav-gap);
+    bottom: var(--stage-nav-bottom);
     /* Por encima de la mascota del camaleón (z-index 500) */
     z-index: 600;
-    width: 3rem;
-    height: 3rem;
+    width: var(--stage-nav-height);
+    height: var(--stage-nav-height);
     border-radius: 9999px;
-    background: rgba(15, 23, 42, 0.55);
-    color: #fff;
-    font-size: 1.25rem;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(6px);
-    transition: background 0.2s ease;
+    font-size: calc(var(--stage-nav-height) * 0.4);
 }
 
-#stage-menu-btn:hover,
-#stage-menu-btn[aria-expanded="true"] {
-    background: rgba(15, 23, 42, 0.85);
-}
-
-#stage-menu-btn:focus-visible {
-    outline: 3px solid #f9b518;
-    outline-offset: 2px;
-}
-
+/* Se abre por encima de la fila de controles, sin solaparse con «Anterior».
+   z-index bajo a propósito: los diálogos de Terminar/Abandonar (9999) se abren
+   con el menú todavía abierto y deben quedar encima */
 #stage-menu-panel {
     position: fixed;
-    left: 1.25rem;
-    bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+    left: var(--stage-nav-gap);
+    bottom: calc(var(--stage-nav-bottom) + var(--stage-nav-height) + var(--stage-nav-pair));
     z-index: 600;
     display: grid;
     gap: 0.5rem;

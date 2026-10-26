@@ -36,7 +36,7 @@ import { mostrarModalMensaje } from '../shared/modal.js?v=20260922172926';
 import { currentSlideFooterText } from '../core/slide-footer-dom.js?v=20261017120000';
 import { stopActiveVideo } from './presenter-slide-video.js?v=20261019120000';
 import { planVideoPreloads, advanceVideoPreloads } from './presenter-video-preloader.js?v=20261019120000';
-import { syncPrevButton, lockActivityPoints } from './presenter-slide-nav.js?v=20261024180000';
+import { syncPrevButton, lockActivityPoints } from './presenter-slide-nav.js?v=20261026120000';
 
 const SLIDE_RENDERERS = {
     comment: renderCommentSlide,

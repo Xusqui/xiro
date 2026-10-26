@@ -5,7 +5,7 @@
 
 import { socket } from './presenter-socket-config.js?v=20260922172926';
 import { mostrarModalConfirmacion } from '../shared/modal.js?v=20260922172926';
-import { emitPreviousSlide } from './presenter-slide-nav.js?v=20261024180000';
+import { emitPreviousSlide } from './presenter-slide-nav.js?v=20261026120000';
 import { syncRemotePrevButton } from './presenter-remote-nav.js?v=20261024180000';
 import { createRemoteWakeLockController } from './presenter-remote-wake-lock.js?v=20260922172926';
 import {

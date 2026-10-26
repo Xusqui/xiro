@@ -27,8 +27,8 @@ import {
 import { toggleFullscreen } from './presenter-utils.js?v=20260922172926';
 import { getSocket } from './presenter-socket-config.js?v=20260922172926';
 import { getSessionId } from './presenter-state.js?v=20260922172926';
-import { emitPreviousSlide } from './presenter-slide-nav.js?v=20261024180000';
-import { abandonarJuego, concluirJuegoYVolver, terminarJuego } from './presenter-session-control.js?v=20260922172926';
+import { emitPreviousSlide } from './presenter-slide-nav.js?v=20261026120000';
+import { abandonarJuego, concluirJuegoYVolver, terminarJuego } from './presenter-session-control.js?v=20261026120000';
 
 function toNumberOrNull(value) {
     const parsed = Number(value);

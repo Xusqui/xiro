@@ -1,21 +1,32 @@
 /* Zona de controles del presentador: «Siguiente» / «Ver ránking» (#btn-next),
-   «Anterior» (#btn-prev), «¡Empezar!» y «Mostrar juegos» del podio.
+   «Anterior» (#btn-prev), «¡Empezar!», «Mostrar juegos» del podio y el menú
+   del operador (⋯, presenter.css).
    El tamaño sigue a la altura de la pantalla: a 1080p queda como antes y en un
    proyector de 720p el botón baja a ~40 px y no pisa la diapositiva 16:9.
-   --stage-nav-reserve es el hueco que dejan libre las tarjetas fijas de abajo. */
+   --stage-nav-reserve es el hueco que dejan libre las tarjetas fijas de abajo.
+   Abajo a la izquierda, una fila: ⋯ y, a su derecha, «Anterior», con la misma
+   altura y la misma base que «Siguiente». */
 :root {
     --stage-nav-gap: clamp(0.75rem, 2.2vh, 1.5rem);
     --stage-nav-font: clamp(0.95rem, 2.4vh, 1.5rem);
     --stage-nav-reserve: clamp(4rem, 9vh, 6.5rem);
+    --stage-nav-bottom: calc(var(--stage-nav-gap) + env(safe-area-inset-bottom, 0px));
+    /* Alto común de la fila: 0.55em de relleno arriba y abajo + línea de 1.2 */
+    --stage-nav-height: calc(var(--stage-nav-font) * 2.3);
+    /* Separación entre ⋯ y «Anterior»: más justa que el margen, van juntos */
+    --stage-nav-pair: clamp(0.5rem, 1.2vh, 0.75rem);
 }
 
-/* El marcado lleva px-10 py-5 text-2xl rounded-3xl bottom-10: el id gana */
+/* El marcado lleva px-10 py-5 text-2xl rounded-3xl bottom-10: el id gana.
+   Alto fijo (con el borde dentro) para que ⋯, «Anterior» y «Siguiente» midan lo mismo */
 #btn-next,
 #btn-prev {
-    bottom: var(--stage-nav-gap) !important;
-    padding: 0.55em 1.4em;
+    bottom: var(--stage-nav-bottom) !important;
+    height: var(--stage-nav-height);
+    padding: 0 1.4em;
     font-size: var(--stage-nav-font);
     line-height: 1.2;
+    white-space: nowrap;
     border-radius: 1em;
 }
 
@@ -24,21 +35,95 @@
 }
 
 #btn-prev {
-    left: var(--stage-nav-gap) !important;
+    left: calc(var(--stage-nav-gap) + var(--stage-nav-height) + var(--stage-nav-pair)) !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+/* Dos pesos, un sistema. «Siguiente» es la acción principal: blanco sólido
+   (sus clases). «Anterior» y ⋯ son secundarios: pizarra casi opaca, que se lee
+   sobre cualquier zona de la selva (≥13:1). Los tres comparten el ciruela al
+   pasar el ratón, el foco ámbar del presentador y la pulsación.
+   El id gana a las clases hover:bg-* de las plantillas de «Siguiente». */
+#btn-prev,
+#stage-menu-btn {
+    background-color: rgba(15, 23, 42, 0.85);
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+#btn-next,
+#btn-prev,
+#stage-menu-btn {
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.12s ease;
+}
+
+/* Solo con ratón: en pantallas táctiles el :hover se queda pegado tras tocar */
+@media (hover: hover) {
+    #btn-next:hover,
+    #btn-prev:hover,
+    #stage-menu-btn:hover {
+        background-color: var(--plum-600, #94438e);
+        border-color: var(--plum-600, #94438e);
+        color: #fff;
+    }
+}
+
+/* Táctil: «Siguiente» se queda blanco (anula los hover:bg-* de sus plantillas) */
+@media (hover: none) {
+    #btn-next:hover {
+        background-color: #fff;
+        color: #0f172a;
+    }
+}
+
+#stage-menu-btn[aria-expanded="true"] {
+    background-color: var(--plum-700, #793475);
+    border-color: var(--plum-700, #793475);
+}
+
+#btn-next:focus-visible,
+#btn-prev:focus-visible,
+#stage-menu-btn:focus-visible {
+    outline: 3px solid #f9b518;
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    #btn-next:active,
+    #btn-prev:active,
+    #stage-menu-btn:active {
+        transform: scale(0.97);
+    }
+}
+
+/* Presentador en el móvil: «Anterior» se queda en el icono (el nombre va en
+   aria-label) para no chocar con «Siguiente» ni con textos largos de otros idiomas */
+@media (max-width: 768px) {
+    #btn-prev {
+        width: var(--stage-nav-height);
+        padding: 0;
+        justify-content: center;
+    }
+
+    #btn-prev .stage-nav-label {
+        display: none;
+    }
 }
 
 /* Sin !important en tamaño: las reglas de móvil (presenter-lobby-mobile*.css)
    siguen mandando con las suyas */
 #btn-empezar.start-glass-btn {
     right: calc(var(--stage-side) + var(--stage-nav-gap));
-    bottom: var(--stage-nav-gap);
+    bottom: var(--stage-nav-bottom);
     padding: 0.55em 1.4em;
     font-size: calc(var(--stage-nav-font) * 1.2);
 }
 
 .podium-home-btn {
     right: calc(var(--stage-side) + var(--stage-nav-gap));
-    bottom: var(--stage-nav-gap);
+    bottom: var(--stage-nav-bottom);
     padding: 0.55em 1.4em !important;
     font-size: var(--stage-nav-font);
 }

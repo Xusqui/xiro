@@ -34,9 +34,9 @@ import {
     mostrarQR
 } from './presenter-game-ui.js?v=20260922172926';
 import { restoreLobbyHTML, showAbandonButton } from './presenter-utils.js?v=20260922172926';
-import { handleGameAbandoned } from './presenter-session-control.js?v=20260922172926';
+import { handleGameAbandoned } from './presenter-session-control.js?v=20261026120000';
 import { startQuestionCountdown } from './presenter-question-timer.js?v=20260922172926';
-import { syncPrevButton, lockActivityPoints } from './presenter-slide-nav.js?v=20261024180000';
+import { syncPrevButton, lockActivityPoints } from './presenter-slide-nav.js?v=20261026120000';
 
 function getStoredSessionId() {
     return sessionStorage.getItem('xiro_presenter_sessionId') || localStorage.getItem('xiro_presenter_sessionId') || '';

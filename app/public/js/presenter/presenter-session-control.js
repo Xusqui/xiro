@@ -18,6 +18,7 @@ import {
 import { updatePlayersPanel } from './presenter-game-ui.js?v=20260922172926';
 import { cleanupPodio } from './presenter-podio.js?v=20260922172926';
 import { cleanupRevealElements } from './presenter-reveal.js?v=20260922172926';
+import { syncPrevButton } from './presenter-slide-nav.js?v=20261026120000';
 import { mostrarModalConfirmacion } from '../shared/modal.js?v=20260922172926';
 
 let returnHomeInProgress = false;
@@ -53,6 +54,9 @@ function resetPresenterUI() {
 
     // Limpiar paneles de reveal (justificación/ranking) si estaban visibles
     cleanupRevealElements();
+
+    // «Anterior» cuelga del body (no de #lobby-main): quitarlo al salir de la partida
+    syncPrevButton(false);
 
     // Ocultar el overlay de cuenta regresiva
     const countdownOverlay = document.getElementById('countdown-overlay');

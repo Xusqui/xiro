@@ -33,7 +33,7 @@ import {
 } from './presenter-socket-handlers-game.js?v=20260922172926';
 import { registerPresenterReconnectionEvents } from './presenter-reconnection.js?v=20260922172926';
 import { toggleFullscreen, saveOriginalLobbyHTML } from './presenter-utils.js?v=20260922172926';
-import { abandonarJuego, concluirJuegoYVolver, terminarJuego } from './presenter-session-control.js?v=20260922172926';
+import { abandonarJuego, concluirJuegoYVolver, terminarJuego } from './presenter-session-control.js?v=20261026120000';
 import { startWaitingPanelSync, stopWaitingPanelSync } from './presenter-waiting-panel.js?v=20260922172926';
 import { registerTrivialSocketHandlers } from './presenter-trivial-socket.js?v=20260922172926';
 import { setupPresenterActionDelegation } from './presenter-actions.js?v=20260922172926';

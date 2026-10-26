@@ -1,6 +1,7 @@
 /**
  * @fileoverview Botón «Anterior» del presentador (juegos personalizados).
- * Abajo a la izquierda, frente a «Siguiente». El servidor dice cuándo se puede
+ * Abajo a la izquierda, a la derecha del menú ⋯ y frente a «Siguiente»; en el
+ * móvil solo se ve el icono (el nombre va en aria-label). El servidor dice cuándo se puede
  * retroceder (`canGoBack` en 'new-question' y 'reveal-answer'): en diapositivas
  * sin respuesta y en preguntas ya reveladas, nunca en la primera.
  * Sin imports: se prueba cargando el fuente (presenter-slide-nav.test.js).
@@ -10,7 +11,7 @@ const PREV_BUTTON_ID = 'btn-prev';
 
 function prevButtonHtml() {
     const label = _t('presenter.game.previous_slide', null, 'Anterior');
-    return `<button id="${PREV_BUTTON_ID}" data-presenter-action="previous-slide" class="fixed bottom-10 left-10 bg-white/10 text-white border-2 border-white/30 px-10 py-5 rounded-3xl font-black text-2xl shadow-2xl hover:bg-plum-600 transition italic uppercase" style="z-index: 10000;"><i class="fas fa-chevron-left mr-2"></i>${label}</button>`;
+    return `<button id="${PREV_BUTTON_ID}" data-presenter-action="previous-slide" class="fixed bottom-10 left-10 px-10 py-5 rounded-3xl font-black text-2xl shadow-2xl italic uppercase" style="z-index: 10000;" aria-label="${label}" title="${label}"><i class="fas fa-chevron-left" aria-hidden="true"></i><span class="stage-nav-label">${label}</span></button>`;
 }
 
 /**

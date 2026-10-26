@@ -24,7 +24,7 @@ import { updateAnswerCounter } from './presenter-answer-counter.js?v=20260922172
 import { mostrarLobbyMain } from './presenter-utils.js?v=20260922172926';
 import { mostrarLobbyNuevo } from './presenter-lobby-init.js?v=20260922172926';
 import { handlePlayerRejoined } from './presenter-player-rejoined-handler.js?v=20260922172926';
-import { handleGameAbandoned } from './presenter-session-control.js?v=20260922172926';
+import { handleGameAbandoned } from './presenter-session-control.js?v=20261026120000';
 import { mostrarModalMensaje } from '../shared/modal.js?v=20260922172926';
 
 /** Alta (o vuelta) de un jugador en el lobby: tarjeta, contadores y botón de empezar. */

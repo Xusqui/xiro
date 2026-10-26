@@ -165,33 +165,8 @@
         padding: 0.35rem 0.25rem !important;
     }
 
-    /* Botones y controles */
-    #abandon-btn {
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        bottom: 4px !important;
-        padding: 0.4rem 1rem !important;
-        font-size: 0.85rem !important;
-        width: auto !important;
-        min-width: 160px !important;
-    }
-
-    #abandon-btn i {
-        font-size: 0.8rem !important;
-    }
-
-    #fullscreen-btn {
-        top: 8px !important;
-        right: 8px !important;
-        padding: 0.4rem 0.6rem !important;
-        font-size: 0.9rem !important;
-    }
-
-    footer {
-        font-size: 0.6rem !important;
-        bottom: 4px !important;
-        left: 4px !important;
-    }
+    /* Abandonar, pantalla completa y créditos viven en el menú ⋯ (presenter.css):
+       sin reglas propias aquí, que los sacaban del panel */
 
     #big-number {
         font-size: 150px !important;
@@ -280,12 +255,6 @@
 
     #p-list>div>div h3 i {
         font-size: 0.75rem !important;
-    }
-
-    #abandon-btn {
-        font-size: 0.75rem !important;
-        padding: 0.35rem 0.75rem !important;
-        min-width: 140px !important;
     }
 
     #big-number {
