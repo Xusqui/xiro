@@ -42,7 +42,9 @@ function normalize(q) {
         time_limit: q.time_limit || 45,
         options: q.options.map((opt, index) => ({
             optionText: getSide(opt, 'option_text', 'optionText'),
-            matchValue: getSide(opt, 'match_value', 'matchValue'),
+            // snake_case: el esquema Joi de /api/banks/save-all solo admite match_value
+            // y descarta claves desconocidas, así que matchValue se perdía al guardar
+            match_value: getSide(opt, 'match_value', 'matchValue'),
             isCorrect: false,
             justification: opt.justification || null,
             order_index: index
