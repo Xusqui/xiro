@@ -2,23 +2,10 @@
  * @fileoverview Vista Generador IA – Paso 3 (Resultado) e importación
  * Depende de: ai-generator.js (estado aiGenResult, aiGenConfig, aiGenText)
  * Reutiliza: fetchWithAuth (core/api.js), QUESTION_TYPE_LABELS (ai-generator.js)
+ * La pantalla de espera está en ai-generator-wait.js.
  */
 
 let _aiResultsDelegationReady = false;
-
-// ===== PASO 3: LOADING =====
-
-function _renderAIStep3Loading(total) {
-    document.getElementById('editorArea').innerHTML = _tHtml(`
-    <div class="max-w-3xl mx-auto p-10 flex flex-col items-center justify-center min-h-96 gap-6">
-        <img src="/images/chamaleon/inteligencia-artificial.svg" alt="" class="w-28 h-28">
-        <h2 class="text-2xl font-black text-slate-800">Generando ${total} preguntas con IA...</h2>
-        <p class="text-slate-500 text-center">La IA está procesando el documento. Puede tardar de 30 segundos a varios minutos.</p>
-        <div class="w-full max-w-md bg-slate-200 rounded-full h-3 overflow-hidden">
-            <div class="bg-aubergine-500 h-3 rounded-full animate-pulse" style="width:60%"></div>
-        </div>
-    </div>`);
-}
 
 // ===== PASO 3: RESULTADO =====
 
@@ -98,8 +85,19 @@ function _aiToggleSection(btn) {
     icon.style.transform = body.classList.contains('hidden') ? '' : 'rotate(180deg)';
 }
 
-async function _aiRegenerateType(type) {
+/** Botón «Regenerar solo este tipo» ocupado mientras espera a la IA. */
+function _aiRegenerateBusy(button) {
+    if (!button) return;
+    button.disabled = true;
+    button.classList.add('opacity-75', 'cursor-wait');
+    button.innerHTML =
+        '<i class="fas fa-circle-notch fa-spin mr-1"></i>' + escapeHtml(_t('admin.ai.regenerating', null, 'Regenerando…'));
+}
+
+async function _aiRegenerateType(type, button) {
     if (!aiGenConfig || !aiGenText) return;
+    const original = button ? button.innerHTML : '';
+    _aiRegenerateBusy(button);
     const prevResult = aiGenResult && aiGenResult.results ? aiGenResult.results.find(r => r.type === type) : null;
     const count = prevResult ? Math.max(prevResult.questions.length, 1) : 1;
     try {
@@ -118,6 +116,11 @@ async function _aiRegenerateType(type) {
         }
         _renderAIStep3Result(aiGenResult);
     } catch (err) {
+        if (button && button.isConnected) {
+            button.disabled = false;
+            button.classList.remove('opacity-75', 'cursor-wait');
+            button.innerHTML = original;
+        }
         mostrarModalError(_t('admin.common.error_title', null, '❌ Error'), err.message, 'error');
     }
 }
@@ -172,7 +175,7 @@ function _initAIResultsDelegation() {
                 _aiToggleSection(actionElement);
                 break;
             case 'regenerate-type':
-                if (actionElement.dataset.type) _aiRegenerateType(actionElement.dataset.type);
+                if (actionElement.dataset.type) _aiRegenerateType(actionElement.dataset.type, actionElement);
                 break;
             case 'import-bank':
                 _aiImportBank();

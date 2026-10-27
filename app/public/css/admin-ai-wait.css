@@ -1,0 +1,169 @@
+/* Generador IA de preguntas: pantalla de espera mientras la IA genera el banco
+   (js/admin/modules/ai-generator-wait.js). Una tarjeta de pregunta se escribe sola
+   (enunciado, cuatro opciones, la correcta se marca) y se archiva en el mazo, en un
+   bucle de --aiw-loop. Colores de tokens.css. */
+
+.aiw {
+    --aiw-loop: 5.6s;
+    --aiw-ease: cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 3rem 1rem 2.5rem;
+    text-align: center;
+    color: #1e293b;
+    animation: aiw-enter 400ms var(--aiw-ease) both;
+}
+
+/* ---- Escena: camaleón + mazo ---- */
+.aiw-stage { display: flex; align-items: flex-end; justify-content: center; gap: 1.25rem; margin-bottom: 2.25rem; }
+.aiw-mascot { width: 6rem; height: 6rem; flex: none; animation: aiw-bob 2.8s ease-in-out infinite; }
+.aiw-deck { position: relative; width: 12.5rem; height: 9.5rem; margin-right: 1.25rem; }
+
+.aiw-card {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-2xl, 16px);
+    background: #fff;
+    border: 2px solid #e2e8f0;
+    box-shadow: 0 12px 24px -14px rgb(63 39 70 / 0.45);
+}
+.aiw-card--back2 { transform: translate(20px, 18px) rotate(6deg); background: var(--aubergine-50); }
+.aiw-card--back1 { transform: translate(10px, 9px) rotate(3deg); }
+
+.aiw-card--live {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto 1fr 1fr;
+    gap: 0.4375rem;
+    padding: 0.875rem;
+    border-color: var(--aubergine-200);
+    animation: aiw-card var(--aiw-loop) var(--aiw-ease) infinite;
+}
+
+/* Enunciado: dos trazos que se «escriben» de izquierda a derecha */
+.aiw-line {
+    grid-column: 1 / -1;
+    height: 0.5rem;
+    border-radius: 9999px;
+    background: var(--aubergine-400);
+    transform-origin: left center;
+    animation: aiw-line-1 var(--aiw-loop) linear infinite;
+}
+.aiw-line--2 { width: 62%; background: var(--aubergine-300); animation-name: aiw-line-2; margin-bottom: 0.25rem; }
+
+/* Opciones: aparecen en orden; la tercera es la correcta */
+.aiw-opt {
+    display: grid;
+    place-items: center;
+    border-radius: 0.5rem;
+    background: var(--aubergine-50);
+    border: 2px solid var(--aubergine-100);
+    animation: aiw-opt-1 var(--aiw-loop) var(--aiw-ease) infinite;
+}
+.aiw-opt--2 { animation-name: aiw-opt-2; }
+.aiw-opt--3 { animation-name: aiw-opt-3; }
+.aiw-opt--4 { animation-name: aiw-opt-4; }
+.aiw-opt i { font-size: 0.75rem; color: var(--camaleon-600); animation: aiw-check var(--aiw-loop) var(--aiw-ease) infinite; }
+
+/* ---- Texto ---- */
+.aiw-title { margin: 0; font-size: 1.5rem; line-height: 1.25; font-weight: 900; color: #1e293b; text-wrap: balance; }
+.aiw-hint {
+    min-height: 1.5rem;
+    margin: 0.5rem 0 0;
+    max-width: 36rem;
+    color: #475569;
+    transition: opacity 220ms ease-out, transform 220ms ease-out;
+}
+.aiw-hint.is-leaving { opacity: 0; transform: translateY(4px); }
+
+/* Barra indeterminada: el servidor no da progreso, así que no hay porcentaje */
+.aiw-track { position: relative; width: min(100%, 22rem); height: 0.25rem; margin-top: 1.5rem; overflow: hidden; border-radius: 9999px; background: #e2e8f0; }
+.aiw-track span {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 32%;
+    border-radius: inherit;
+    background: var(--plum-500);
+    animation: aiw-sweep 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+.aiw-elapsed { display: flex; align-items: baseline; gap: 0.5rem; margin: 0.75rem 0 0; font-size: 0.8125rem; color: #64748b; }
+.aiw-clock { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-weight: 600; color: var(--aubergine-700); }
+
+.aiw-types { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin: 1.75rem 0 0; padding: 0; list-style: none; }
+.aiw-type {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3125rem 0.375rem 0.3125rem 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 9999px;
+    background: #fff;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #334155;
+}
+.aiw-type__n {
+    min-width: 1.5rem;
+    padding: 0.0625rem 0.4375rem;
+    border-radius: 9999px;
+    background: var(--aubergine-100);
+    color: var(--aubergine-800);
+    font-variant-numeric: tabular-nums;
+}
+
+.aiw-patience {
+    max-width: 34rem;
+    margin: 1.5rem 0 0;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-xl, 12px);
+    background: var(--signal-amber-tint);
+    color: #78350f;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    animation: aiw-enter 400ms var(--aiw-ease) both;
+}
+.aiw-patience[hidden] { display: none; }
+
+/* ---- Bucle de la tarjeta (todas las piezas comparten --aiw-loop) ---- */
+@keyframes aiw-card {
+    0% { opacity: 0; transform: translate(10px, 9px) rotate(3deg); }
+    7%, 72% { opacity: 1; transform: none; }
+    86%, 100% { opacity: 0; transform: translate(68%, -10%) rotate(10deg); }
+}
+@keyframes aiw-line-1 { 0%, 8% { transform: scaleX(0); } 22%, 100% { transform: scaleX(1); } }
+@keyframes aiw-line-2 { 0%, 22% { transform: scaleX(0); } 31%, 100% { transform: scaleX(1); } }
+@keyframes aiw-opt-1 { 0%, 34% { opacity: 0; transform: translateY(5px); } 40%, 100% { opacity: 1; transform: none; } }
+@keyframes aiw-opt-2 { 0%, 38% { opacity: 0; transform: translateY(5px); } 44%, 100% { opacity: 1; transform: none; } }
+@keyframes aiw-opt-4 { 0%, 46% { opacity: 0; transform: translateY(5px); } 52%, 100% { opacity: 1; transform: none; } }
+@keyframes aiw-opt-3 {
+    0%, 42% { opacity: 0; transform: translateY(5px); }
+    48%, 56% { opacity: 1; transform: none; background: var(--aubergine-50); border-color: var(--aubergine-100); }
+    61%, 100% { opacity: 1; transform: none; background: var(--camaleon-100); border-color: var(--camaleon-400); }
+}
+@keyframes aiw-check { 0%, 57% { opacity: 0; transform: scale(0.4); } 63%, 100% { opacity: 1; transform: none; } }
+
+@keyframes aiw-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+@keyframes aiw-sweep { 0% { transform: translateX(-100%); } 100% { transform: translateX(320%); } }
+@keyframes aiw-enter { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes aiw-breathe { 0%, 100% { opacity: 0.35; } 50% { opacity: 0.9; } }
+
+@media (max-width: 480px) {
+    .aiw { padding-top: 2rem; }
+    .aiw-mascot { width: 4.5rem; height: 4.5rem; }
+    .aiw-deck { width: 10.5rem; height: 8rem; }
+    .aiw-title { font-size: 1.25rem; }
+    /* Dos líneas reservadas: al cambiar de frase no se mueve lo de debajo */
+    .aiw-hint { min-height: 3rem; text-wrap: balance; }
+}
+
+/* Sin movimiento: tarjeta ya escrita y quieta, la barra solo respira y las frases cambian por fundido */
+@media (prefers-reduced-motion: reduce) {
+    .aiw, .aiw-patience, .aiw-mascot, .aiw-card--live, .aiw-line, .aiw-opt, .aiw-opt i { animation: none; }
+    .aiw-opt--3 { background: var(--camaleon-100); border-color: var(--camaleon-400); }
+    .aiw-track span { width: 100%; animation: aiw-breathe 2.4s ease-in-out infinite; }
+    .aiw-hint.is-leaving { transform: none; }
+}

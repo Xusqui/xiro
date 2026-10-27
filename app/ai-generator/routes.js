@@ -194,11 +194,12 @@ router.post(
                 if (res.flushHeaders) res.flushHeaders();
             }, 15000);
 
-            // Control de cancelación si el cliente desconecta
+            // Control de cancelación si el cliente desconecta. En Node moderno req 'close' salta
+            // en cuanto se ha leído el cuerpo, así que se mira la respuesta
             const abortController = new AbortController();
-            req.on('close', () => {
+            res.on('close', () => {
                 clearInterval(keepAliveInterval);
-                abortController.abort();
+                if (!res.writableEnded) abortController.abort();
             });
 
             const result = await generateBank(text, config, abortController.signal, mode);

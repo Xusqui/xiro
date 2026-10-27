@@ -36,6 +36,17 @@
     "admin.ai.import_ok": "銀行は正常にインポートされました。 ID:",
     "admin.ai.view_banks": "銀行を参照",
     "admin.ai.timeout": "タイムアウトしました (504)...",
-    "admin.ai.type_survey_multiple": "複数選択アンケート"
+    "admin.ai.type_survey_multiple": "複数選択アンケート",
+    "admin.ai.wait.title_one": "AIで1問を作成中",
+    "admin.ai.wait.title_other": "AIで{count}問を作成中",
+    "admin.ai.wait.hint_read_doc": "資料を読み、重要な情報を探しています",
+    "admin.ai.wait.hint_read_topic": "テーマについて考え、問題にする内容を選んでいます",
+    "admin.ai.wait.hint_write": "問題文を書いています",
+    "admin.ai.wait.hint_options": "もっともらしい誤答を考えています",
+    "admin.ai.wait.hint_check": "各問題が形式に合っているか確認しています",
+    "admin.ai.wait.elapsed": "経過時間",
+    "admin.ai.wait.types": "指定した種類",
+    "admin.ai.wait.patience": "まだ作業中です。長い資料や問題数が多い場合は数分かかることがあります。このタブを閉じないでください。",
+    "admin.ai.regenerating": "再生成中…"
   }
 }

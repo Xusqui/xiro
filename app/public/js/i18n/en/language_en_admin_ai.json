@@ -36,6 +36,17 @@
     "admin.ai.import_ok": "Bank imported successfully! ID:",
     "admin.ai.view_banks": "See banks",
     "admin.ai.timeout": "Timed out (504)...",
-    "admin.ai.type_survey_multiple": "Multiple-choice survey"
+    "admin.ai.type_survey_multiple": "Multiple-choice survey",
+    "admin.ai.wait.title_one": "Generating 1 question with AI",
+    "admin.ai.wait.title_other": "Generating {count} questions with AI",
+    "admin.ai.wait.hint_read_doc": "Reading the document and picking out the key facts",
+    "admin.ai.wait.hint_read_topic": "Thinking about the topic and what deserves a question",
+    "admin.ai.wait.hint_write": "Writing the questions",
+    "admin.ai.wait.hint_options": "Making up wrong options that sound believable",
+    "admin.ai.wait.hint_check": "Checking that each question follows its format",
+    "admin.ai.wait.elapsed": "Elapsed time",
+    "admin.ai.wait.types": "Requested types",
+    "admin.ai.wait.patience": "Still working. Long documents or many questions can take several minutes; do not close this tab.",
+    "admin.ai.regenerating": "Regenerating…"
   }
 }

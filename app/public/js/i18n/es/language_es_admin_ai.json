@@ -36,6 +36,17 @@
     "admin.ai.import_ok": "¡Banco importado correctamente! ID:",
     "admin.ai.view_banks": "Ver bancos",
     "admin.ai.timeout": "Tiempo de espera agotado (504)...",
-    "admin.ai.type_survey_multiple": "Encuesta de selección múltiple"
+    "admin.ai.type_survey_multiple": "Encuesta de selección múltiple",
+    "admin.ai.wait.title_one": "Generando 1 pregunta con IA",
+    "admin.ai.wait.title_other": "Generando {count} preguntas con IA",
+    "admin.ai.wait.hint_read_doc": "Leyendo el documento y buscando los datos clave",
+    "admin.ai.wait.hint_read_topic": "Pensando en el tema y en lo que merece una pregunta",
+    "admin.ai.wait.hint_write": "Redactando los enunciados",
+    "admin.ai.wait.hint_options": "Inventando opciones incorrectas que parezcan creíbles",
+    "admin.ai.wait.hint_check": "Revisando que cada pregunta cumpla su formato",
+    "admin.ai.wait.elapsed": "Tiempo transcurrido",
+    "admin.ai.wait.types": "Tipos pedidos",
+    "admin.ai.wait.patience": "Sigue trabajando. Con documentos largos o muchas preguntas puede tardar varios minutos; no cierres esta pestaña.",
+    "admin.ai.regenerating": "Regenerando…"
   }
 }

@@ -36,6 +36,17 @@
     "admin.ai.import_ok": "Bank erfolgreich importiert! AUSWEIS:",
     "admin.ai.view_banks": "Siehe Banken",
     "admin.ai.timeout": "Zeitüberschreitung (504)...",
-    "admin.ai.type_survey_multiple": "Umfrage mit Mehrfachauswahl"
+    "admin.ai.type_survey_multiple": "Umfrage mit Mehrfachauswahl",
+    "admin.ai.wait.title_one": "1 Frage wird mit KI erstellt",
+    "admin.ai.wait.title_other": "{count} Fragen werden mit KI erstellt",
+    "admin.ai.wait.hint_read_doc": "Das Dokument wird gelesen und die wichtigsten Fakten werden gesucht",
+    "admin.ai.wait.hint_read_topic": "Die KI denkt über das Thema nach und darüber, was eine Frage verdient",
+    "admin.ai.wait.hint_write": "Die Fragen werden formuliert",
+    "admin.ai.wait.hint_options": "Glaubwürdige falsche Antworten werden erfunden",
+    "admin.ai.wait.hint_check": "Es wird geprüft, ob jede Frage ihrem Format entspricht",
+    "admin.ai.wait.elapsed": "Verstrichene Zeit",
+    "admin.ai.wait.types": "Gewünschte Typen",
+    "admin.ai.wait.patience": "Die KI arbeitet noch. Bei langen Dokumenten oder vielen Fragen kann es einige Minuten dauern; schließe diesen Tab nicht.",
+    "admin.ai.regenerating": "Wird neu erstellt…"
   }
 }

@@ -36,6 +36,17 @@
     "admin.ai.import_ok": "Banco importado com sucesso! EU IA:",
     "admin.ai.view_banks": "Ver bancos",
     "admin.ai.timeout": "Tempo limite esgotado (504)...",
-    "admin.ai.type_survey_multiple": "Inquérito de escolha múltipla"
+    "admin.ai.type_survey_multiple": "Inquérito de escolha múltipla",
+    "admin.ai.wait.title_one": "A gerar 1 pergunta com IA",
+    "admin.ai.wait.title_other": "A gerar {count} perguntas com IA",
+    "admin.ai.wait.hint_read_doc": "A ler o documento e a procurar os dados principais",
+    "admin.ai.wait.hint_read_topic": "A pensar no tema e no que merece uma pergunta",
+    "admin.ai.wait.hint_write": "A redigir os enunciados",
+    "admin.ai.wait.hint_options": "A inventar opções erradas que pareçam credíveis",
+    "admin.ai.wait.hint_check": "A verificar se cada pergunta cumpre o seu formato",
+    "admin.ai.wait.elapsed": "Tempo decorrido",
+    "admin.ai.wait.types": "Tipos pedidos",
+    "admin.ai.wait.patience": "Continua a trabalhar. Com documentos longos ou muitas perguntas pode demorar vários minutos; não feches este separador.",
+    "admin.ai.regenerating": "A regenerar…"
   }
 }

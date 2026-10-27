@@ -36,6 +36,17 @@
     "admin.ai.import_ok": "Bankua ondo inportatu da! ID:",
     "admin.ai.view_banks": "Ikusi bankuak",
     "admin.ai.timeout": "Denbora gainditu (504)...",
-    "admin.ai.type_survey_multiple": "Aukera anitzeko inkesta"
+    "admin.ai.type_survey_multiple": "Aukera anitzeko inkesta",
+    "admin.ai.wait.title_one": "Galdera 1 sortzen AArekin",
+    "admin.ai.wait.title_other": "{count} galdera sortzen AArekin",
+    "admin.ai.wait.hint_read_doc": "Dokumentua irakurtzen eta funtsezko datuak bilatzen",
+    "admin.ai.wait.hint_read_topic": "Gaiari buruz pentsatzen eta zerk merezi duen galdera bat",
+    "admin.ai.wait.hint_write": "Enuntziatuak idazten",
+    "admin.ai.wait.hint_options": "Sinesgarriak diruditen aukera okerrak asmatzen",
+    "admin.ai.wait.hint_check": "Galdera bakoitzak bere formatua betetzen duela egiaztatzen",
+    "admin.ai.wait.elapsed": "Igarotako denbora",
+    "admin.ai.wait.types": "Eskatutako motak",
+    "admin.ai.wait.patience": "Lanean jarraitzen du. Dokumentu luzeekin edo galdera askorekin hainbat minutu behar izan ditzake; ez itxi fitxa hau.",
+    "admin.ai.regenerating": "Berriro sortzen…"
   }
 }

@@ -393,7 +393,7 @@ async function _aiGenerate() {
         return;
     }
 
-    _renderAIStep3Loading(total);
+    _renderAIStep3Loading(total, counts);
 
     try {
         const res = await fetchWithAuth('/api/ai-generator/generate', {

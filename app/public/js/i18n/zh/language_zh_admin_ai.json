@@ -36,6 +36,17 @@
     "admin.ai.import_ok": "银行导入成功！ ID：",
     "admin.ai.view_banks": "查看银行",
     "admin.ai.timeout": "超时 (504)...",
-    "admin.ai.type_survey_multiple": "多选调查"
+    "admin.ai.type_survey_multiple": "多选调查",
+    "admin.ai.wait.title_one": "正在用 AI 生成 1 道题",
+    "admin.ai.wait.title_other": "正在用 AI 生成 {count} 道题",
+    "admin.ai.wait.hint_read_doc": "正在阅读文档并找出关键信息",
+    "admin.ai.wait.hint_read_topic": "正在思考主题以及哪些内容值得出题",
+    "admin.ai.wait.hint_write": "正在撰写题干",
+    "admin.ai.wait.hint_options": "正在编写看似可信的错误选项",
+    "admin.ai.wait.hint_check": "正在检查每道题是否符合其格式",
+    "admin.ai.wait.elapsed": "已用时间",
+    "admin.ai.wait.types": "所选题型",
+    "admin.ai.wait.patience": "仍在处理中。文档较长或题目较多时可能需要几分钟，请不要关闭此标签页。",
+    "admin.ai.regenerating": "正在重新生成…"
   }
 }

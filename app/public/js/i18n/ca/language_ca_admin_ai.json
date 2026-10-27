@@ -36,6 +36,17 @@
     "admin.ai.import_ok": "Banc importat correctament! ID:",
     "admin.ai.view_banks": "Veure bancs",
     "admin.ai.timeout": "Temps d'espera esgotat (504)...",
-    "admin.ai.type_survey_multiple": "Enquesta de selecció múltiple"
+    "admin.ai.type_survey_multiple": "Enquesta de selecció múltiple",
+    "admin.ai.wait.title_one": "Generant 1 pregunta amb IA",
+    "admin.ai.wait.title_other": "Generant {count} preguntes amb IA",
+    "admin.ai.wait.hint_read_doc": "Llegint el document i buscant les dades clau",
+    "admin.ai.wait.hint_read_topic": "Pensant en el tema i en el que mereix una pregunta",
+    "admin.ai.wait.hint_write": "Redactant els enunciats",
+    "admin.ai.wait.hint_options": "Inventant opcions incorrectes que semblin creïbles",
+    "admin.ai.wait.hint_check": "Revisant que cada pregunta compleixi el seu format",
+    "admin.ai.wait.elapsed": "Temps transcorregut",
+    "admin.ai.wait.types": "Tipus demanats",
+    "admin.ai.wait.patience": "Continua treballant. Amb documents llargs o moltes preguntes pot trigar uns quants minuts; no tanquis aquesta pestanya.",
+    "admin.ai.regenerating": "Regenerant…"
   }
 }
