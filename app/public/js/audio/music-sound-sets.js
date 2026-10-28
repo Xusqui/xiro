@@ -33,7 +33,7 @@ function useBank(engine, bank) {
 }
 
 /** Aplica la reverb del juego (generada o sala real). */
-export function applyReverb(mixer, sounds) {
+function applyReverb(mixer, sounds) {
     const map = self.XiroMusic.sampleMap;
     const file = map.REVERBS[sounds.reverb];
     return mixer.setReverb(file ? map.BASE_URL + file : null).catch(() => mixer.setReverb(null));

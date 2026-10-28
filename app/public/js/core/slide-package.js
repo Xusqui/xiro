@@ -176,8 +176,6 @@
     const api = {
         FORMAT,
         FORMAT_VERSION,
-        FILE_EXTENSION,
-        ASSET_PREFIX,
         ASSET_ID_RE,
         MAX_SLIDES,
         MAX_ASSETS,

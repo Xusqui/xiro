@@ -143,31 +143,9 @@ function showError(message) {
     }, 3000);
 }
 
-/**
- * Añadir indicador visual de "arrastra aquí" a un elemento
- * @param {HTMLElement} element - Elemento a decorar
- */
-function addDragIndicator(element) {
-    if (!element) return;
-
-    const indicator = document.createElement('div');
-    indicator.className = 'drag-indicator';
-    indicator.innerHTML = `
-        <div class="flex flex-col items-center justify-center gap-2 text-plum-400">
-            <i class="fas fa-cloud-upload-alt text-3xl"></i>
-            <p class="text-sm font-bold">Arrastra un archivo aquí</p>
-            <p class="text-xs opacity-75">o haz clic para seleccionar</p>
-        </div>
-    `;
-
-    element.appendChild(indicator);
-}
-
 // Export para uso en otros módulos
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         setupDragAndDrop,
-        isFileTypeAccepted,
-        addDragIndicator
     };
 }

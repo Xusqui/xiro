@@ -659,7 +659,6 @@
         addSections,
         getSections,
         getLanguage: () => state.language,
-        getDictionary: () => state.dictionary,
         getSupportedLanguages: () => CONFIG.supported.slice(),
         translateLiteral
     };

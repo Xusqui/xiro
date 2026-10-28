@@ -136,14 +136,3 @@ export function createChamaleonImage(file) {
     return image;
 }
 
-/**
- * Elimina el overlay del camaleón si existe, con un fundido de salida.
- */
-export function hideChamaleonOverlay() {
-    const el = document.getElementById(OVERLAY_ID);
-    if (!el) return;
-    el.removeAttribute('id');
-    el.classList.remove('chamaleon-overlay-enter');
-    el.classList.add('chamaleon-overlay-exit');
-    setTimeout(() => el.remove(), 350);
-}

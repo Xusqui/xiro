@@ -69,4 +69,4 @@ function renderBlocks(blocks) {
     return out;
 }
 
-module.exports = { renderBlocks, inline };
+module.exports = { renderBlocks };

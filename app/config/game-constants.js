@@ -6,9 +6,6 @@
  * Fecha: 31 de enero de 2026
  */
 
-// Reglas de «Completa la frase» (fill_blanks): un solo origen para servidor y navegador
-const FILL_BLANKS_LIMITS = require('../public/js/core/fill-blanks-text.js').LIMITS;
-
 module.exports = {
     // ===== PUNTUACIÓN =====
     SCORING: {
@@ -165,51 +162,6 @@ module.exports = {
         MAX_ACTIVE_LOBBIES: parseInt(process.env.MAX_LOBBIES) || 10
     },
 
-    // ===== RATE LIMITING =====
-    RATE_LIMITS: {
-        // Ventana de tiempo para rate limiting (milisegundos)
-        WINDOW_MS: 5000, // 5 segundos
-
-        // Máximo de intentos de join por ventana
-        MAX_JOIN_ATTEMPTS: 3,
-
-        // Máximo de respuestas por segundo (anti-spam)
-        MAX_SUBMIT_ANSWER_PER_SECOND: 2,
-
-        // Ventana para submit-answer (milisegundos)
-        SUBMIT_ANSWER_WINDOW_MS: 1000,
-
-        // Máximo de entradas en el rate limiter
-        MAX_RATE_LIMIT_ENTRIES: 5000
-    },
-
-    // ===== CACHÉ =====
-    CACHE: {
-        // TTL del caché de validación de PINs (milisegundos)
-        PIN_VALIDATION_TTL: 5 * 60 * 1000, // 5 minutos
-
-        // Intervalo de limpieza del caché de PINs (milisegundos)
-        PIN_CACHE_CLEANUP_INTERVAL: 5 * 60 * 1000 // 5 minutos
-    },
-
-    // ===== MODO EQUIPOS =====
-    TEAMS: {
-        // Lambda para cálculo de puntuación de equipos (penalización por tamaño)
-        SCORE_LAMBDA: parseFloat(process.env.TEAM_SCORE_LAMBDA) || 0.5,
-
-        // Número mínimo de equipos
-        MIN_TEAMS: 2,
-
-        // Número máximo de equipos
-        MAX_TEAMS: 10,
-
-        // Mínimo de jugadores por equipo
-        MIN_PLAYERS_PER_TEAM: 1,
-
-        // Máximo de jugadores por equipo (null = sin límite)
-        MAX_PLAYERS_PER_TEAM: null
-    },
-
     // ===== RANKINGS Y BROADCASTS =====
     RANKING: {
         // Número de jugadores a mostrar en ranking durante el juego
@@ -217,47 +169,6 @@ module.exports = {
 
         // Throttling de broadcasts de ranking (milisegundos)
         RANKING_UPDATE_THROTTLE: 500
-    },
-
-    // ===== ESTADOS DEL JUEGO =====
-    GAME_STATES: {
-        IDLE: 'idle',
-        LOBBY: 'lobby',
-        COUNTDOWN: 'countdown',
-        QUESTION_ACTIVE: 'question_active',
-        ANSWERING: 'answering',
-        SCORING: 'scoring',
-        RESULTS: 'results',
-        GAME_OVER: 'game_over'
-    },
-
-    // ===== ESTADOS DEL JUGADOR =====
-    PLAYER_STATES: {
-        CONNECTED: 'connected',
-        DISCONNECTED: 'disconnected',
-        LOBBY_WAITING: 'lobby_waiting',
-        PRESENTER_LOBBY: 'presenter_lobby',
-        PRESENTER_CONNECTED: 'presenter_connected',
-        PRESENTER_DISCONNECTED: 'presenter_disconnected'
-    },
-
-    // ===== ROLES =====
-    ROLES: {
-        PLAYER: 'player',
-        PRESENTER: 'presenter',
-        HOST: 'host'
-    },
-
-    // ===== NOMBRES ESPECIALES =====
-    SPECIAL_NAMES: {
-        HOST: 'HOST'
-    },
-
-    // ===== ROOMS DE SOCKET.IO =====
-    ROOMS: {
-        GLOBAL: 'partida_global',
-        PLAYERS_SUFFIX: ':players',
-        PRESENTER_SUFFIX: ':presenter'
     },
 
     // ===== TIPOS DE PREGUNTA =====
@@ -283,57 +194,11 @@ module.exports = {
         MAX_WORD_LENGTH: 10
     },
 
-    // ===== COMPLETA LA FRASE (fill_blanks) =====
-    // 1-3 huecos, palabras de 4-14 letras, hasta 3 pistas por hueco (100/70/40/25 %).
-    // Definido en public/js/core/fill-blanks-text.js, que también usa el navegador.
-    FILL_BLANKS: FILL_BLANKS_LIMITS,
-
     // ===== TIPOS DE PREGUNTA ELEGIBLES PARA PUNTUACIÓN ALEATORIA =====
     // Solo los tipos cuya puntuación es "acierto/fallo + bonus de tiempo". En
     // fill_blanks el valor sorteado es por palabra acertada (FillBlanksService).
     // Quedan fuera: survey y survey_multiple (no puntúan), order y matching (puntos por posición/par),
     // numeric_approximation (puntos por cercanía), multiple_choice (puntos por
     // opción con penalización, configurados en la propia pregunta) y word_search.
-    RANDOM_POINTS_ELIGIBLE_TYPES: ['quiz', 'word_scramble', 'fill_blanks'],
-
-    // ===== TIPOS DE SLIDE =====
-    SLIDE_TYPES: {
-        QUESTION: 'question',
-        COMMENT: 'comment',
-        INFO: 'info'
-    },
-
-    // ===== REDIS PUB/SUB CHANNELS =====
-    REDIS_CHANNELS: {
-        LOBBY_CREATED: 'lobby-created',
-        GAME_STARTED: 'game-started',
-        GAME_STATE_UPDATED: 'game-state-updated',
-        NEXT_QUESTION_SYNC: 'next-question-sync',
-        TEAM_CONFIG_SYNC: 'team-config-sync',
-        PLAYER_ANSWERED_SYNC: 'player-answered-sync',
-        REVEAL_ANSWER_SYNC: 'reveal-answer-sync'
-    },
-
-    // ===== MENSAJES DE ERROR =====
-    ERROR_MESSAGES: {
-        INVALID_PIN: 'El código de juego no existe. Verifica el PIN e intenta de nuevo.',
-        INVALID_DATA: 'Datos inválidos',
-        RATE_LIMIT: 'Demasiados intentos. Espera unos segundos.',
-        SERVER_CAPACITY: 'Servidor al máximo de capacidad. Intenta más tarde.',
-        ROOM_FULL: 'El juego está lleno (máx. {max} jugadores)',
-        NICKNAME_TAKEN: 'Este nombre ya está en uso. Elige otro nombre.',
-        SESSION_NOT_FOUND: 'Sesión no encontrada o expirada. Únete de nuevo.',
-        GAME_ENDED: 'El juego ha finalizado.',
-        GAME_CLOSED: 'El juego ya no acepta respuestas.',
-        NAME_MISMATCH:
-            'Ya tienes una sesión activa con el nombre "{name}". Usa el mismo nombre o espera a que termine la partida.'
-    },
-
-    // ===== RAZONES DE DESCONEXIÓN =====
-    DISCONNECT_REASONS: {
-        REPLACED: 'replaced',
-        EXPIRED: 'expired',
-        VOLUNTARY: 'voluntary',
-        ERROR: 'error'
-    }
+    RANDOM_POINTS_ELIGIBLE_TYPES: ['quiz', 'word_scramble', 'fill_blanks']
 };

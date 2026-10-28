@@ -34,4 +34,4 @@ const slideVideoSchema = Joi.string()
             'La URL del vídeo no es compatible: usa YouTube, Vimeo, Dailymotion o un archivo .mp4, .webm, .ogg o .mov'
     });
 
-module.exports = { slideVideoSchema, checkVideoUrl };
+module.exports = { slideVideoSchema };

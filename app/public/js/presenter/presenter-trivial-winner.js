@@ -110,6 +110,6 @@ export function isWinnerOverlayActive() {
 }
 
 /** Removes the overlay if present. */
-export function removeWinnerOverlay() {
+function removeWinnerOverlay() {
     document.getElementById(OVERLAY_ID)?.remove();
 }

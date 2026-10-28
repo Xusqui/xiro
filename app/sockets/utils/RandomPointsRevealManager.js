@@ -168,7 +168,6 @@ function buildReconnectRandomPointsState(game) {
 
 module.exports = {
     REVEAL_EVENT,
-    revealDurationMs,
     buildRevealPayload,
     buildReconnectRandomPointsState,
     restampQuestionEpoch,

@@ -18,7 +18,7 @@ const MECH_TICK_DB = 18;
 const MECH_TICK_HZ = [2900, 2100]; // tic, tac del reloj mecánico
 const DEFAULT_TICK = 'wood'; // elegido de oído
 const MAX_TICKS = 32; // salvaguarda: el tic-tac son ~6 golpes; nunca un bucle desbocado
-export const TICK_SOUND_NAMES = ['claves', 'wood', 'xstick', 'bip', 'mech'];
+const TICK_SOUND_NAMES = ['claves', 'wood', 'xstick', 'bip', 'mech'];
 
 /**
  * @param {object} Tone

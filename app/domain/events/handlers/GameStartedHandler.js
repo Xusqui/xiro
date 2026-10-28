@@ -23,7 +23,7 @@ class GameStartedHandler extends EventHandler {
     }
 
     handleGameStarted(event) {
-        const { gameId, pin: _pin, mode, questionCount, playerCount } = event.payload || event;
+        const { gameId, mode, questionCount, playerCount } = event.payload || event;
 
         try {
             this.log('info', 'Processing game started event', {

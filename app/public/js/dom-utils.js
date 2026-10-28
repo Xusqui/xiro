@@ -4,23 +4,6 @@
  */
 
 /**
- * Renderiza HTML usando DocumentFragment para minimizar reflows
- * @param {HTMLElement} container - Elemento contenedor
- * @param {string} htmlString - HTML a renderizar
- */
-function renderWithFragment(container, htmlString) {
-    // Crear un template temporal
-    const template = document.createElement('template');
-    template.innerHTML = htmlString.trim();
-
-    // Limpiar el contenedor de una vez
-    container.textContent = '';
-
-    // Usar DocumentFragment (ya está en template.content)
-    container.appendChild(template.content);
-}
-
-/**
  * Renderiza una lista de elementos usando DocumentFragment
  * Ideal para rankings, listas de jugadores, opciones de respuesta
  * @param {HTMLElement} container - Elemento contenedor
@@ -39,27 +22,6 @@ function renderList(container, items, itemRenderer) {
     // Un solo reflow
     container.textContent = '';
     container.appendChild(fragment);
-}
-
-/**
- * Actualiza múltiples elementos del DOM en batch
- * @param {Array<{element: HTMLElement, property: string, value: any}>} updates
- */
-function batchUpdate(updates) {
-    // Usar requestAnimationFrame para hacer todos los cambios juntos
-    requestAnimationFrame(() => {
-        updates.forEach(({ element, property, value }) => {
-            if (property === 'text') {
-                element.textContent = value;
-            } else if (property === 'html') {
-                element.innerHTML = value;
-            } else if (property === 'class') {
-                element.className = value;
-            } else {
-                element[property] = value;
-            }
-        });
-    });
 }
 
 /**
@@ -106,36 +68,6 @@ function createElement(tag, attrs = {}, children = null) {
 }
 
 /**
- * Renderiza opciones de respuesta optimizado (usado en jugador.js)
- * @param {Array} options - Array de opciones {text, correct, etc}
- * @param {Function} onClickHandler - Handler para el click
- * @returns {DocumentFragment}
- */
-function renderAnswerOptions(options, onClickHandler) {
-    const fragment = document.createDocumentFragment();
-    const labels = ['A', 'B', 'C', 'D', 'E', 'F'];
-
-    options.forEach((option, index) => {
-        const button = createElement(
-            'button',
-            {
-                className: 'answer-option',
-                'data-index': index,
-                onclick: () => onClickHandler(index)
-            },
-            [
-                createElement('span', { className: 'answer-label' }, labels[index]),
-                createElement('span', { className: 'answer-text' }, option.text || option)
-            ]
-        );
-
-        fragment.appendChild(button);
-    });
-
-    return fragment;
-}
-
-/**
  * Renderiza ranking con DocumentFragment (usado en tv.js y jugador.js)
  * @param {Array} players - Array de jugadores ordenados
  * @param {boolean} showPoints - Mostrar puntos
@@ -173,29 +105,11 @@ function renderRanking(players, showPoints = true) {
     return fragment;
 }
 
-/**
- * Limpia y renderiza con protección contra XSS
- * @param {HTMLElement} container
- * @param {string} htmlString
- */
-function safeRender(container, htmlString) {
-    // Sanitización básica
-    const sanitized = htmlString
-        .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-        .replace(/on\w+="[^"]*"/gi, '');
-
-    renderWithFragment(container, sanitized);
-}
-
 // Exportar funciones (compatible con módulos y scripts globales)
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
-        renderWithFragment,
         renderList,
-        batchUpdate,
         createElement,
-        renderAnswerOptions,
         renderRanking,
-        safeRender
     };
 }

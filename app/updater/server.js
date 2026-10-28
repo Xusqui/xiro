@@ -222,4 +222,4 @@ if (require.main === module) {
     main();
 }
 
-module.exports = { createServer, isAuthorized, readJsonBody, MIN_TOKEN_LENGTH };
+module.exports = { createServer };

@@ -145,4 +145,4 @@ function rtfToBlocks(buffer) {
         .map(text => ({ type: 'p', text }));
 }
 
-module.exports = { rtfToBlocks, rtfToText };
+module.exports = { rtfToBlocks };

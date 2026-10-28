@@ -156,4 +156,4 @@ function fitBalanced(text, o) {
     return { text: value, size: value === text ? first : fitSize(value, o) };
 }
 
-module.exports = { PADDING, LINE_HEIGHT, textWidth, countLines, boxHeight, fitSize, balance, fitBalanced };
+module.exports = { textWidth, boxHeight, fitSize, balance, fitBalanced };

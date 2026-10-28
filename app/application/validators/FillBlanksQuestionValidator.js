@@ -141,7 +141,6 @@ function isValidBlankIndex(blankIndex) {
 }
 
 module.exports = {
-    ERROR_MESSAGES,
     fillBlanksOptionsSchema,
     fillBlanksQuestionRule,
     fillBlanksRuleMessages,

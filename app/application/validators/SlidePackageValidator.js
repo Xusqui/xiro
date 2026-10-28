@@ -44,4 +44,4 @@ function validatePackage(data) {
     return error ? { value: null, error: error.message } : { value, error: null };
 }
 
-module.exports = { packageSchema, validatePackage };
+module.exports = { validatePackage };

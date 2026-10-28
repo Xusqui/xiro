@@ -40,7 +40,7 @@ import {
 /**
  * Detectar sessionId en la URL
  */
-export function getSessionFromURL() {
+function getSessionFromURL() {
     const params = new URLSearchParams(window.location.search);
     // Acepta ?session= (QR) o ?pin= (enlace directo compartido)
     const session = params.get('session') || params.get('pin');
@@ -581,7 +581,5 @@ export async function initSessionDetection() {
             await activarWakeLock();
             emitJoinLobby(savedNickname.toUpperCase());
         }
-
-        return;
     }
 }

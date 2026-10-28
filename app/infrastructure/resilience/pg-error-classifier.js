@@ -32,4 +32,4 @@ function isInfrastructureError(error) {
     return !CLIENT_ERROR_CLASSES.has(code.slice(0, 2));
 }
 
-module.exports = { isInfrastructureError, CLIENT_ERROR_CLASSES };
+module.exports = { isInfrastructureError };

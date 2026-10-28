@@ -167,9 +167,7 @@ function _resetForTests() {
 }
 
 module.exports = {
-    LICENSE_KEY_PATTERN,
     canUseActivation,
-    signPayload,
     probeActivationStatus,
     autoProvision,
     _resetForTests

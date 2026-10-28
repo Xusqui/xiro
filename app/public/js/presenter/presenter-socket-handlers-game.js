@@ -12,7 +12,6 @@ import {
     updatePlayerData,
     getSessionId,
     getTeamConfig,
-    setGameSessionDbId,
     setConnectedPlayers,
     setTotalPlayers
 } from './presenter-state.js?v=20260922172926';
@@ -293,7 +292,6 @@ export function registerGameSocketHandlers() {
 
     // Resultados persistidos en BD — actualizar botón de descarga con el ID real
     socket.on('results-ready', ({ sessionId: dbId }) => {
-        setGameSessionDbId(dbId);
         const btn = document.getElementById('csv-download-btn');
         if (btn) {
             btn.href = `/api/results/session/${dbId}/export.csv`;

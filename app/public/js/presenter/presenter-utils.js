@@ -281,7 +281,7 @@ export function toggleFullscreen() {
 /**
  * Actualizar ícono de fullscreen
  */
-export function updateFullscreenIcon() {
+function updateFullscreenIcon() {
     const icon = document.getElementById('fullscreen-icon');
     if (icon) {
         if (document.fullscreenElement) {
@@ -301,23 +301,6 @@ export function removeFloatingCards() {
         card.style.animation = 'none';
         card.remove();
     });
-}
-
-/**
- * Genera el HTML del botón de abandonar juego
- * Para usar en todas las pantallas del presentador
- * @returns {string} HTML del botón de abandonar
- */
-export function getAbandonButtonHTML() {
-    return `
-        <div class="flex justify-center items-center mt-4" style="min-height: 3rem;">
-            <button data-presenter-action="abandon-game"
-                class="bg-red-900/60 hover:bg-red-800 text-red-100 px-6 py-2.5 rounded-lg transition-all duration-200 shadow-lg backdrop-blur-sm border border-red-700/50"
-                title="Abandonar sesión">
-                <i class="fas fa-door-open mr-2"></i>Abandonar juego
-            </button>
-        </div>
-    `;
 }
 
 /**
@@ -349,7 +332,7 @@ export function showTerminateButton() {
 /**
  * Oculta el botón de terminar partida
  */
-export function hideTerminateButton() {
+function hideTerminateButton() {
     const btn = document.getElementById('terminate-btn');
     if (btn) btn.style.display = 'none';
 }

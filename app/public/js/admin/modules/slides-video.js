@@ -102,34 +102,6 @@ function _refreshVideoPreview() {
     _renderVideoPreview(source);
 }
 
-function mostrarModalVideo() {
-    const modal = document.createElement('div');
-    modal.id = 'modalVideo';
-    modal.className = 'fixed inset-0 bg-slate-900/90 z-50 flex items-center justify-center';
-    modal.innerHTML = _tHtml(
-        _videoModalHtml({
-            title: 'Diapositiva de Vídeo',
-            icon: 'fa-film',
-            url: '',
-            footer: '',
-            actions: `
-            <button data-slide-video-action="close-create-modal" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold transition">Cancelar</button>
-            <button data-slide-video-action="add-slide" class="flex-1 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-bold transition">
-                <i class="fas fa-plus mr-2"></i>Añadir
-            </button>
-        `
-        })
-    );
-    document.body.appendChild(modal);
-    _refreshVideoPreview();
-    document.getElementById('videoUrl')?.focus();
-}
-
-function cerrarModalVideo() {
-    const modal = document.getElementById('modalVideo');
-    if (modal) modal.remove();
-}
-
 function _readValidVideoUrl() {
     const urlInput = document.getElementById('videoUrl');
     if (!urlInput) return null;
@@ -151,22 +123,6 @@ function _readValidVideoUrl() {
     }
 
     return url;
-}
-
-function agregarSlideVideo() {
-    const url = _readValidVideoUrl();
-    if (!url) return;
-
-    currentCustomGameQuestions.push({
-        slide_type: 'video',
-        slide_footer: readSlideFooterField(),
-        slide_video: url,
-        question_id: null,
-        position: currentCustomGameQuestions.length
-    });
-
-    dibujarPreguntasPersonalizadas();
-    cerrarModalVideo();
 }
 
 function editarSlideVideo(index) {
@@ -240,12 +196,6 @@ function initSlideVideoDelegation() {
 
         const action = actionElement.dataset.slideVideoAction;
         switch (action) {
-            case 'close-create-modal':
-                cerrarModalVideo();
-                break;
-            case 'add-slide':
-                agregarSlideVideo();
-                break;
             case 'close-edit-modal':
                 cerrarModalEditVideo();
                 break;

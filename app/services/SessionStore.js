@@ -147,7 +147,7 @@ class SessionStore {
                 logger.debug('Session TTL refreshed', { sessionId, ttl });
             }
 
-            return result === 1;
+            return Boolean(result);
         } catch (error) {
             logger.error('Failed to refresh session TTL', {
                 sessionId,

@@ -243,7 +243,6 @@
         MAX_JSON_BYTES: 65536,
         MIN_SIZE: MIN_SIZE,
         MAX_URL: MAX_URL,
-        TEXT_PADDING: 16,
         FONTS: FONTS,
         ELEMENT_TYPES: ELEMENT_TYPES,
         SHAPES: SHAPES,

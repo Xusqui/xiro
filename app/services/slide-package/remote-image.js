@@ -129,4 +129,4 @@ async function fetchImage(url, options) {
     return (await fetchRemote(url, options)).body;
 }
 
-module.exports = { checkRemoteUrl, fetchRemote, fetchImage, USER_AGENT };
+module.exports = { checkRemoteUrl, fetchRemote, fetchImage };

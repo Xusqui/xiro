@@ -209,4 +209,4 @@ function createJob(options) {
     return { getStatus: () => job.getStatus(), start: version => job.start(version) };
 }
 
-module.exports = { createJob, UpdateJob, SERVICES, VERSION_RE };
+module.exports = { createJob, UpdateJob };

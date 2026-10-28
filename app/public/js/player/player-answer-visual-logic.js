@@ -47,8 +47,6 @@
     }
 
     const api = {
-        isNumericLike,
-        isNumericApproximationQuestion,
         shouldShowApproximateResult,
         resolveResultColor
     };

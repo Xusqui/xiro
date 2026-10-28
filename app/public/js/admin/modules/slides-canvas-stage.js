@@ -197,7 +197,6 @@
         showGuides,
         hideGuides,
         getScale: scale,
-        getStageEl: () => (mounted ? mounted.stage : null),
         isEditingText: () => editingId !== null
     };
 

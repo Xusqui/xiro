@@ -95,4 +95,4 @@ function generateCanvasSlideHTML(slide, index, total, resolvePath) {
     );
 }
 
-module.exports = { generateCanvasSlideHTML, inlineLocalImages };
+module.exports = { generateCanvasSlideHTML };

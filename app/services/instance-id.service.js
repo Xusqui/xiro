@@ -131,8 +131,6 @@ function _resetCache() {
 }
 
 module.exports = {
-    FALLBACK_FILE,
-    collectHardwareIdentifiers,
     getInstanceId,
     _resetCache
 };

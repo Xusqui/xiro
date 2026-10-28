@@ -40,7 +40,7 @@ function seededRandom(seed) {
  * proyección no chiva la respuesta. Determinista por pregunta, para que un
  * presentador que reconecta vea el mismo orden.
  */
-export function matchingDisplayOrder(count, seedText) {
+function matchingDisplayOrder(count, seedText) {
     const order = Array.from({ length: count }, (_, i) => i);
     const random = seededRandom(hashSeed(String(seedText)));
     for (let i = count - 1; i > 0; i--) {

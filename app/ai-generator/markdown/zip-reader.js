@@ -117,4 +117,4 @@ function openZip(buffer) {
     };
 }
 
-module.exports = { openZip, isZip, LIMITS };
+module.exports = { openZip, isZip };

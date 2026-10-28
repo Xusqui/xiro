@@ -77,7 +77,6 @@ function getSessionLogs(session) {
 
 module.exports = {
     escapeCsv,
-    safeFilenamePart,
     formatDateTime,
     formatDuration,
     formatGameType,

@@ -2,7 +2,6 @@
  * @fileoverview Fachada de renderizado de preguntas del jugador
  */
 
-export { getResponsiveFontClass } from './player-question-utils.js?v=20260922172926';
 export {
     renderizarSlideComentario,
     renderizarSlideInfo,

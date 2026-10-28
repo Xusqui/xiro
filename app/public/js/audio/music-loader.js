@@ -65,10 +65,6 @@ export function unlockAudio() {
     return audioContext;
 }
 
-export function isAudioUnlocked() {
-    return Boolean(audioContext) && audioContext.state === 'running';
-}
-
 /** Descarga el motor sin crearlo (p. ej. en tiempo ocioso), para que el gesto no espere. */
 export function preloadMusicEngine() {
     return import('./music-engine.js?v=20260922172926').catch(() => null);

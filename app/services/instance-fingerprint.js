@@ -72,8 +72,6 @@ function parseMachineIdFile(text) {
 }
 
 module.exports = {
-    FINGERPRINT_SALT,
-    ID_PREFIX,
     normalizeIdentifier,
     deriveInstanceId,
     parseIoregPlatformUuid,

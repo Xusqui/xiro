@@ -206,7 +206,7 @@ class RankingCache {
             const ttlToUse = ttl || this.defaultTTL;
 
             const updated = await redis.expire(key, ttlToUse);
-            return updated === 1;
+            return Boolean(updated);
         } catch (error) {
             logger.error('RankingCache: Error en refreshTTL', { error: error.message, sessionId });
             return false;

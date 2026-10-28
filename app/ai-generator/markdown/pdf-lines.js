@@ -141,4 +141,4 @@ function buildPageLines(pages, stats = {}) {
     return removeRunningLines(built, stats);
 }
 
-module.exports = { buildPageLines, groupLines, median };
+module.exports = { buildPageLines, median };

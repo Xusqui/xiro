@@ -109,18 +109,6 @@ setInterval(
 ).unref();
 
 /**
- * FASE 3: Limpieza proactiva del caché cuando un juego finaliza
- * NO esperar al TTL de 5 minutos - invalidar inmediatamente
- * @param {string} pin - PIN del juego que ha finalizado
- */
-function invalidatePinCache(pin) {
-    if (pinValidationCache.has(pin)) {
-        pinValidationCache.delete(pin);
-        logger.debug('PIN cache invalidated proactively', { pin });
-    }
-}
-
-/**
  * FASE 3: Limpieza de timer con validación de existencia previa
  * Evita aceleraciones visuales por timers duplicados
  * @param {string} roomId - ID de la sala/juego
@@ -167,7 +155,6 @@ module.exports = {
     timerPausedState,
     pinValidationCache,
     // FASE 3: Funciones de limpieza proactiva
-    invalidatePinCache,
     clearGameTimer,
     cleanupStaleSessions
 };

@@ -84,7 +84,6 @@ function buildPercentages(counts, respondents) {
 }
 
 module.exports = {
-    SURVEY_MULTIPLE,
     isSurveyType,
     isSurveyMultiple,
     validateSurveyMultipleAnswer,

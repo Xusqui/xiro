@@ -37,7 +37,7 @@ export function renderWordSearchPresenter(q) {
 }
 
 /** Porcentaje de jugadores que encontraron la palabra `index` (null si nadie respondió) */
-export function foundPercent(foundStats, index) {
+function foundPercent(foundStats, index) {
     const answers = foundStats?.answers || 0;
     if (answers === 0) return null;
     return Math.round(((foundStats.counts?.[index] || 0) / answers) * 100);

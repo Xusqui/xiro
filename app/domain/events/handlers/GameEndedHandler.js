@@ -30,7 +30,6 @@ class GameEndedHandler extends EventHandler {
             ranking,
             stats,
             duration,
-            timestamp: _timestamp,
             playerCount,
             maxPossibleScore
         } = event.payload || event;

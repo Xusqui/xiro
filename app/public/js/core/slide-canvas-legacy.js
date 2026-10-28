@@ -84,7 +84,7 @@
         });
     }
 
-    const api = { LEGACY_TYPES: LEGACY_TYPES, fromLegacySlide: fromLegacySlide };
+    const api = { fromLegacySlide: fromLegacySlide };
 
     root.XiroSlideCanvasLegacy = api;
     if (typeof module !== 'undefined' && module.exports) module.exports = api;

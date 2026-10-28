@@ -51,40 +51,6 @@ export function mostrarPantallaConectando() {
     `;
 }
 
-export function mostrarEquipoSeleccionado(nickname, teamName) {
-    return `
-        <div class="team-selected-container">
-            <div class="success-icon">
-                <i class="fas fa-check-circle"></i>
-            </div>
-            <h2>${_t('player.session_ui.reconnected', null, '¡RECONECTADO!')}</h2>
-            <p class="player-name">${escapeHtml(nickname)}</p>
-            <p class="team-name">${escapeHtml(_t('player.session_ui.team_label', { teamName }, 'EQUIPO: {teamName}'))}</p>
-            <p class="status-text">${_t('player.session_ui.waiting_game_start', null, 'ESPERANDO INICIO DEL JUEGO...')}</p>
-        </div>
-    `;
-}
-
-export function mostrarLobbyReconectado(nickname) {
-    return `
-        <div class="app-container">
-            <div id="main-container">
-                <div class="lobby-container">
-                    <div class="success-icon">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <h2>${_t('player.session_ui.reconnected', null, '¡RECONECTADO!')}</h2>
-                    <p class="player-name">${escapeHtml(nickname)}</p>
-                    <p class="status-text">${_t('player.session_ui.game_will_start', null, 'LA PARTIDA COMENZARÁ CUANDO EL PRESENTADOR INICIE EL JUEGO')}</p>
-                    <button data-player-action="salir-lobby" class="btn-danger">
-                        🚪 ${_t('player.session_ui.exit_game', null, 'SALIR DEL JUEGO')}
-                    </button>
-                </div>
-            </div>
-        </div>
-    `;
-}
-
 export function mostrarLobbyNormal(nickname) {
     return `
         <div class="lobby-container">

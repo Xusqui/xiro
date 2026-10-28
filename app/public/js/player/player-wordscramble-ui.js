@@ -12,13 +12,6 @@ let wsFilledLetters = [];
 let wsUsedIndices = new Set();
 
 /**
- * Devuelve la palabra actualmente formada por el jugador
- */
-export function getWordScrambleAnswer() {
-    return wsFilledLetters.join('');
-}
-
-/**
  * Renderiza la interfaz de pregunta tipo word_scramble
  */
 export function renderizarPreguntaWordScramble(pregunta) {

@@ -355,24 +355,6 @@ function eliminarImagenOpcion(qIdx, oIdx) {
     dibujarPreguntas();
 }
 
-/**
- * Abre el selector de archivo para la imagen de una opción
- * @param {number} qIdx - Índice de la pregunta
- * @param {number} oIdx - Índice de la opción
- */
-function abrirSelectorImagenOpcion(qIdx, oIdx) {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/jpeg,image/png,image/gif,image/webp';
-    input.onchange = e => {
-        const file = e.target.files[0];
-        if (file) {
-            subirImagenOpcion(qIdx, oIdx, file);
-        }
-    };
-    input.click();
-}
-
 // ===== IMAGEN DE PORTADA DE JUEGO/BANCO (bancos, personalizados, mezclas, trivial) =====
 
 const GAME_COVER_KIND_STYLES = {

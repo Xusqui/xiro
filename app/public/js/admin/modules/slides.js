@@ -61,62 +61,6 @@ function agregarSlideComentario() {
     cerrarModalComentario();
 }
 
-// ===== MODAL DE SLIDE INFORMATIVO =====
-
-function mostrarModalInfo() {
-    const modal = document.createElement('div');
-    modal.id = 'modalInfo';
-    modal.className = 'fixed inset-0 bg-slate-900/90 z-50 flex items-center justify-center';
-    modal.innerHTML = _tHtml(`
-                <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full">
-                    <h3 class="text-2xl font-black text-blue-600 mb-4 flex items-center gap-2">
-                        <i class="fas fa-info-circle"></i> Slide Informativo
-                    </h3>
-                    <p class="text-sm text-slate-600 mb-4">Añade información que se mostrará sin asignación de puntos. Solo aparecerá el botón "Siguiente".</p>
-                    <textarea id="textoInfo" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none resize-none" rows="4" placeholder="Ej: ¡Descanso! o Recordatorio: beber agua"></textarea>
-                    ${slideFooterFieldHtml('')}
-                    <div class="flex gap-3 mt-6">
-                        <button data-slide-ci-action="close-info-create" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold transition">
-                            Cancelar
-                        </button>
-                        <button data-slide-ci-action="add-info-create" class="flex-1 bg-camaleon-600 hover:bg-camaleon-700 text-white px-6 py-3 rounded-xl font-bold transition">
-                            <i class="fas fa-plus mr-2"></i>Añadir
-                        </button>
-                    </div>
-                </div>
-            `);
-    document.body.appendChild(modal);
-    document.getElementById('textoInfo').focus();
-}
-
-function cerrarModalInfo() {
-    const modal = document.getElementById('modalInfo');
-    if (modal) modal.remove();
-}
-
-function agregarSlideInfo() {
-    const texto = document.getElementById('textoInfo').value.trim();
-    if (!texto) {
-        mostrarModalError(
-            _t('admin.common.validation_title', null, '⚠️ Validación'),
-            'Por favor, escribe el texto informativo',
-            'warning'
-        );
-        return;
-    }
-
-    currentCustomGameQuestions.push({
-        slide_type: 'info',
-        slide_footer: readSlideFooterField(),
-        comment_text: texto,
-        question_id: null,
-        position: currentCustomGameQuestions.length
-    });
-
-    dibujarPreguntasPersonalizadas();
-    cerrarModalInfo();
-}
-
 // ===== EDITAR SLIDE DE COMENTARIO =====
 
 function editarSlideComentario(index) {
@@ -238,12 +182,6 @@ function initSlidesCommentInfoDelegation() {
                 break;
             case 'add-comment-create':
                 agregarSlideComentario();
-                break;
-            case 'close-info-create':
-                cerrarModalInfo();
-                break;
-            case 'add-info-create':
-                agregarSlideInfo();
                 break;
             case 'close-comment-edit':
                 cerrarModalEditComentario();

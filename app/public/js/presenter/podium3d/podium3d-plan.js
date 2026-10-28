@@ -8,7 +8,7 @@
 
 // Colores del escenario (DESIGN.md → Projection Stage Palette): oro, plata y bronce.
 // `ink` es el número grabado en la cara del bloque (se pinta con transparencia).
-export const RANK_STYLES = {
+const RANK_STYLES = {
     1: { color: '#fbbf24', ink: '#1c1917', metalness: 0.3, height: 1.6 },
     2: { color: '#e2e8f0', ink: '#64748b', metalness: 0.5, height: 1.15 },
     3: { color: '#d08a4f', ink: '#1c1917', metalness: 0.55, height: 0.82 }

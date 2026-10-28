@@ -12,7 +12,7 @@ export function markGameConcluded() {
     localStorage.setItem(CONCLUDED_KEY, String(Date.now()));
 }
 
-export function clearGameConcluded() {
+function clearGameConcluded() {
     localStorage.removeItem(CONCLUDED_KEY);
 }
 

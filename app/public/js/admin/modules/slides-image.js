@@ -7,65 +7,8 @@
 let _slideImagenDelegationReady = false;
 
 // ==============================
-// [TAG:CREATE] Crear slide "image"
+// [TAG:UPLOAD] Subida de imágenes (también text-image y el lienzo)
 // ==============================
-
-function mostrarModalImagen() {
-    const modal = document.createElement('div');
-    modal.id = 'modalImagen';
-    modal.className = 'fixed inset-0 bg-slate-900/90 z-50 flex items-center justify-center';
-    modal.innerHTML = _tHtml(`
-        <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-lg w-full">
-            <h3 class="text-2xl font-black text-pink-600 mb-4 flex items-center gap-2">
-                <i class="fas fa-image"></i> Diapositiva de Imagen
-            </h3>
-            <p class="text-sm text-slate-600 mb-4">Añade una imagen que se mostrará a <b>pantalla completa</b> (sin respuestas).</p>
-
-            <div class="mb-4">
-                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest">Arrastra y suelta la imagen aquí</label>
-                <div id="dropZoneImagen"
-                    class="w-full h-36 border-2 border-dashed border-pink-300 rounded-xl flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-pink-500 hover:bg-pink-50 transition select-none"
-                    title="Haz clic o arrastra una imagen">
-                    <i class="fas fa-cloud-upload-alt text-4xl text-pink-400"></i>
-                    <p class="text-sm text-slate-500 font-semibold">Arrastra la imagen aquí o haz clic para seleccionar</p>
-                    <p id="uploadStatusMsg" class="text-xs text-blue-600 hidden"></p>
-                </div>
-                <input type="file" id="imagenFile" accept="image/*" class="hidden" />
-            </div>
-
-            <div id="previewWrapImagen" class="hidden mb-4">
-                <img id="previewImagen" class="w-full max-h-40 object-contain rounded-xl border border-slate-200" />
-            </div>
-
-            <div class="mb-2">
-                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2 tracking-widest">O pega una URL externa</label>
-                <input id="imagenUrl" type="text" class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-pink-500 outline-none transition" placeholder="https://... o /uploads/..." />
-            </div>
-
-            ${slideFooterFieldHtml('')}
-            <div class="flex gap-3 mt-6">
-                <button data-slide-image-action="close-create-modal" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold transition">Cancelar</button>
-                <button data-slide-image-action="add-slide" class="flex-1 bg-camaleon-600 hover:bg-camaleon-700 text-white px-6 py-3 rounded-xl font-bold transition">
-                    <i class="fas fa-plus mr-2"></i>Añadir
-                </button>
-            </div>
-        </div>
-    `);
-    document.body.appendChild(modal);
-    _iniciarDropZone({
-        dropZoneId: 'dropZoneImagen',
-        fileInputId: 'imagenFile',
-        statusMsgId: 'uploadStatusMsg',
-        urlInputId: 'imagenUrl',
-        previewImgId: 'previewImagen',
-        previewWrapId: 'previewWrapImagen'
-    });
-}
-
-function cerrarModalImagen() {
-    const modal = document.getElementById('modalImagen');
-    if (modal) modal.remove();
-}
 
 function _iniciarDropZone({ dropZoneId, fileInputId, statusMsgId, urlInputId, previewImgId, previewWrapId }) {
     const zone = document.getElementById(dropZoneId);
@@ -145,30 +88,6 @@ async function _subirArchivoImagen(file, statusMsgId) {
         }
         return null;
     }
-}
-
-function agregarSlideImagen() {
-    const finalUrl = document.getElementById('imagenUrl')?.value?.trim();
-
-    if (!finalUrl) {
-        mostrarModalError(
-            _t('admin.common.validation_title', null, '⚠️ Validación'),
-            'Por favor, sube una imagen o introduce una URL',
-            'warning'
-        );
-        return;
-    }
-
-    currentCustomGameQuestions.push({
-        slide_type: 'image',
-        slide_footer: readSlideFooterField(),
-        slide_image: finalUrl,
-        question_id: null,
-        position: currentCustomGameQuestions.length
-    });
-
-    dibujarPreguntasPersonalizadas();
-    cerrarModalImagen();
 }
 
 // ==============================
@@ -274,12 +193,6 @@ function initSlideImagenDelegation() {
 
         const action = actionElement.dataset.slideImageAction;
         switch (action) {
-            case 'close-create-modal':
-                cerrarModalImagen();
-                break;
-            case 'add-slide':
-                agregarSlideImagen();
-                break;
             case 'close-edit-modal':
                 cerrarModalEditImagen();
                 break;

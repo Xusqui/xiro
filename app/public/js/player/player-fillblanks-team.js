@@ -20,7 +20,7 @@ export function isTeamFillBlanks() {
     return Boolean(getTeamMode()?.isTeamMode);
 }
 
-export function leaveTeamFillBlanks() {
+function leaveTeamFillBlanks() {
     if (!listeners) return;
     socket.off('fill-blanks-team-solved', listeners.solved);
     socket.off('fill-blanks-team-hint', listeners.hint);

@@ -40,7 +40,7 @@ export function renderFillBlanksPresenter(q) {
 }
 
 /** Porcentaje de jugadores que acertó el hueco `index` (null si nadie respondió) */
-export function correctPercent(stats, index) {
+function correctPercent(stats, index) {
     const answers = stats?.answers || 0;
     if (answers === 0) return null;
     return Math.round(((stats.counts?.[index] || 0) / answers) * 100);

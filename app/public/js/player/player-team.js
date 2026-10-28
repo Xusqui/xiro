@@ -4,7 +4,7 @@
  */
 
 import { socket } from './player-socket-config.js?v=20260922172926';
-import { getPin, getSessionId, getNickname, getTeamMode, setSelectedTeam } from './player-state.js?v=20260922172926';
+import { getPin, getSessionId, getNickname, getTeamMode } from './player-state.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
 // ===== COLORES DE EQUIPOS =====
@@ -67,7 +67,6 @@ export function seleccionarEquipo(teamIndex) {
     const teamMode = getTeamMode();
     if (!teamMode || !teamMode.teams[teamIndex]) return;
 
-    setSelectedTeam(teamIndex);
     const team = teamMode.teams[teamIndex];
 
     console.log(`👥 Seleccionando equipo: ${team.name}`);

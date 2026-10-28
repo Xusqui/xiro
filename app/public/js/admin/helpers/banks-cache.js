@@ -33,14 +33,6 @@ async function getAllBanksWithCounts(forceRefresh = false) {
 }
 
 /**
- * Invalida el caché de bancos (a llamar después de modificar un banco)
- */
-function invalidateBanksCache() {
-    banksCache = null;
-    banksCacheTimestamp = null;
-}
-
-/**
  * Obtiene un banco específico con conteo de preguntas desde el caché
  * @param {number} bankId - ID del banco
  * @returns {Promise<Object|null>} Banco con question_count o null si no existe
@@ -50,11 +42,3 @@ async function getBankFromCache(bankId) {
     return banks.find(b => b.id === bankId) || null;
 }
 
-/**
- * Pre-carga los bancos en segundo plano (sin bloquear)
- */
-function preloadBanksCache() {
-    getAllBanksWithCounts().catch(() => {
-        // Silenciar errores en precarga
-    });
-}

@@ -113,7 +113,7 @@ export function setTrivialBadgeCategories(categories) {
     render();
 }
 
-export function renderPlayerBadges(badges) {
+function renderPlayerBadges(badges) {
     _badges = Array.isArray(badges) ? badges : [];
     writeArray(BADGES_KEY, _badges);
     render();

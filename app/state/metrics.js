@@ -115,23 +115,6 @@ function recordDbError() {
 }
 
 /**
- * Registrar un error general
- * @param {Error} error - El error ocurrido
- */
-function recordError(error) {
-    metrics.totalErrors++;
-    metrics.lastErrors.push({
-        message: error.message,
-        timestamp: new Date().toISOString()
-    });
-
-    // Mantener solo los últimos 10 errores
-    if (metrics.lastErrors.length > 10) {
-        metrics.lastErrors.shift();
-    }
-}
-
-/**
  * Registrar un intento de lock distribuido en submit-answer.
  * @param {Object} params
  * @param {boolean} params.acquired - true si se adquirió el lock
@@ -271,7 +254,6 @@ module.exports = {
     decrementGames,
     recordDbQuery,
     recordDbError,
-    recordError,
     recordAnswerLockAttempt,
     recordReconnectFailedAttempt,
     getMetrics,

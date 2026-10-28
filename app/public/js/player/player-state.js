@@ -21,7 +21,6 @@ let isReconnecting = false;
 let currentSlideType = null;
 
 // ===== ESTADO DE EQUIPOS =====
-let selectedTeam = null;
 let teamMode = null;
 
 // ===== ESTADO DE RESPUESTAS =====
@@ -72,9 +71,6 @@ export function getIsReconnecting() {
 export function getCurrentSlideType() {
     return currentSlideType;
 }
-export function getSelectedTeam() {
-    return selectedTeam;
-}
 export function getTeamMode() {
     return teamMode;
 }
@@ -90,17 +86,11 @@ export function getCurrentOrder() {
 export function getCurrentOrderOptions() {
     return currentOrderOptions;
 }
-export function getOrderAutoSendTimerId() {
-    return orderAutoSendTimerId;
-}
 export function getCurrentMatches() {
     return currentMatches;
 }
 export function getCurrentMatchOptions() {
     return currentMatchOptions;
-}
-export function getMatchAutoSendTimerId() {
-    return matchAutoSendTimerId;
 }
 export function getJoinTimeoutId() {
     return joinTimeoutId;
@@ -137,9 +127,6 @@ export function setIsReconnecting(value) {
 export function setCurrentSlideType(value) {
     currentSlideType = value;
 }
-export function setSelectedTeam(value) {
-    selectedTeam = value;
-}
 export function setTeamMode(value) {
     teamMode = value;
 }
@@ -155,19 +142,12 @@ export function setCurrentOrder(value) {
 export function setCurrentOrderOptions(value) {
     currentOrderOptions = Array.isArray(value) ? [...value] : value;
 }
-export function setOrderAutoSendTimerId(value) {
-    orderAutoSendTimerId = value;
-}
 export function setCurrentMatches(value) {
     currentMatches = Array.isArray(value) ? [...value] : value;
 }
 export function setCurrentMatchOptions(value) {
     currentMatchOptions = Array.isArray(value) ? [...value] : value;
 }
-export function setMatchAutoSendTimerId(value) {
-    matchAutoSendTimerId = value;
-}
-
 export function clearOrderAutoSendTimer() {
     if (orderAutoSendTimerId) {
         clearTimeout(orderAutoSendTimerId);
@@ -259,7 +239,6 @@ export function resetSessionState() {
     pin = '';
     sessionId = '';
     nickname = '';
-    selectedTeam = null;
     teamMode = null;
     isReconnecting = false;
     streakInfo = null;

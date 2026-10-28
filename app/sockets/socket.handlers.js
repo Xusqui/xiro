@@ -419,6 +419,5 @@ function setupSocketHandlers(ioInstance, ackManager = null) {
 }
 
 module.exports = {
-    setupSocketHandlers,
-    injectIO
+    setupSocketHandlers
 };

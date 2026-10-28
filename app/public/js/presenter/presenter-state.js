@@ -16,14 +16,10 @@ console.log('🔍 URL params detectados:', { sessionFromUrl, pinFromUrl, pin: _p
 
 // ===== ESTADO DEL JUEGO =====
 export let totalPlayers = 0;
-export let timerInterval = null;
 export let currentQuestionIndex = 0;
 export let totalQuestions = 0;
 export let connectedPlayers = []; // Lista de jugadores conectados durante el juego
 export let playersData = {}; // {nickname: {score: 0, answered: false, correct: null}}
-export let timerPaused = false; // Estado de pausa
-export let currentSeconds = 30; // Segundos actuales del timer
-export let canShowRanking = true; // Control para evitar mostrar ranking en pregunta siguiente
 
 // ===== CONFIGURACIÓN DE EQUIPOS =====
 export let isTeamMode = false; // Modo individual (false) o equipos (true)
@@ -48,10 +44,6 @@ export function setPin(value) {
 
 export function setTotalPlayers(value) {
     totalPlayers = value;
-}
-
-export function setTimerInterval(value) {
-    timerInterval = value;
 }
 
 export function setCurrentQuestionIndex(value) {
@@ -90,18 +82,6 @@ export function updatePlayerData(nickname, data) {
     Object.assign(playersData[nickname], data);
 }
 
-export function setTimerPaused(value) {
-    timerPaused = value;
-}
-
-export function setCurrentSeconds(value) {
-    currentSeconds = value;
-}
-
-export function setCanShowRanking(value) {
-    canShowRanking = value;
-}
-
 export function setIsTeamMode(value) {
     isTeamMode = value;
 }
@@ -120,10 +100,6 @@ export function getPin() {
 
 export function getTotalPlayers() {
     return totalPlayers;
-}
-
-export function getTimerInterval() {
-    return timerInterval;
 }
 
 export function getCurrentQuestionIndex() {
@@ -150,18 +126,6 @@ export function deletePlayerData(nickname) {
     delete playersData[nickname];
 }
 
-export function getTimerPaused() {
-    return timerPaused;
-}
-
-export function getCurrentSeconds() {
-    return currentSeconds;
-}
-
-export function getCanShowRanking() {
-    return canShowRanking;
-}
-
 export function getIsTeamMode() {
     return isTeamMode;
 }
@@ -178,13 +142,3 @@ export function getGameType() {
     return gameType;
 }
 
-// ===== ID DE SESIÓN EN BD (para descarga de resultados) =====
-export let gameSessionDbId = null;
-
-export function setGameSessionDbId(value) {
-    gameSessionDbId = value;
-}
-
-export function getGameSessionDbId() {
-    return gameSessionDbId;
-}

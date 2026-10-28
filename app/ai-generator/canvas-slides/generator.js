@@ -154,4 +154,4 @@ async function generateCanvasSlides(input, deps = {}) {
     };
 }
 
-module.exports = { generateCanvasSlides, MAX_SLIDES };
+module.exports = { generateCanvasSlides };

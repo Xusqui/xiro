@@ -253,11 +253,8 @@
     const api = {
         stageHtml: stageHtml,
         fitStage: fitStage,
-        fitText: fitText,
         mount: mount,
         escapeText: escapeText,
-        safeColor: safeColor,
-        safeUrl: safeUrl
     };
 
     root.XiroSlideCanvasRender = api;

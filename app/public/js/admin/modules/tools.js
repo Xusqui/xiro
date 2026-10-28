@@ -49,49 +49,6 @@ function panicRestart() {
     });
 }
 
-// ===== REINICIAR SERVIDOR (pm2 reload) =====
-
-function reloadServer() {
-    if (!isAdmin()) {
-        mostrarModalError(
-            _t('admin.common.error_title', null, '❌ Error'),
-            _t('admin.tools.reload_no_perm', null, 'No tienes permisos para reiniciar el servidor'),
-            'error'
-        );
-        return;
-    }
-    mostrarModalConfirmacion(
-        _t('admin.tools.reload_title', null, '🔄 Reiniciar Servidor'),
-        _t(
-            'admin.tools.reload_message',
-            null,
-            'Recargará los workers del servidor uno a uno (pm2 reload). Las partidas activas pueden sufrir una breve interrupción. ¿Continuar?'
-        ),
-        async () => {
-            try {
-                await fetchWithAuth('/api/admin/reload-server', { method: 'POST' });
-                mostrarModalError(
-                    _t('admin.tools.reload_success_title', null, '✅ Recargando'),
-                    _t(
-                        'admin.tools.reload_success_msg',
-                        null,
-                        'Los workers se están recargando. La página se recargará en ~5 segundos...'
-                    ),
-                    'success'
-                );
-            } catch (err) {
-                console.log('Servidor recargando...');
-            }
-            setTimeout(() => {
-                location.reload();
-            }, 5000);
-        },
-        null,
-        _t('admin.tools.reload_btn', null, 'Reiniciar'),
-        _t('admin.common.cancel', null, 'Cancelar')
-    );
-}
-
 // ===== LIMPIAR ARCHIVOS HUÉRFANOS =====
 
 function limpiarArchivosHuerfanos() {

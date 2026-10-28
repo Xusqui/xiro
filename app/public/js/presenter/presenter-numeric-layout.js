@@ -30,29 +30,6 @@ function getLobbyMainRect() {
     return rect;
 }
 
-export function pinNumericInfoPanelUnderQuestion() {
-    const numericTitle = Array.from(document.querySelectorAll('p')).find(
-        el => (el.textContent || '').trim() === 'PREGUNTA NUMÉRICA'
-    );
-
-    if (!numericTitle) return;
-
-    const infoCard = numericTitle.closest('div.bg-gradient-to-br') || numericTitle.closest('div');
-    const wrapper = infoCard?.parentElement;
-    if (!infoCard || !wrapper) return;
-
-    wrapper.style.flex = '0 0 auto';
-    wrapper.style.display = 'flex';
-    wrapper.style.alignItems = 'flex-start';
-    wrapper.style.justifyContent = 'center';
-    wrapper.style.paddingBottom = '0';
-    wrapper.style.marginTop = '-8px';
-
-    infoCard.style.width = 'min(92vw, 1120px)';
-    infoCard.style.maxWidth = '1120px';
-    infoCard.style.padding = '22px 28px';
-}
-
 export function renderCenteredNumericHint(hintText) {
     const safeHint = escapeHtml(hintText || 'El presentador no quiere dar pistas');
     const fontSize = getResponsiveHintFontSize(safeHint);

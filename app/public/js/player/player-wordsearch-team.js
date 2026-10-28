@@ -14,11 +14,11 @@ import { getTeamMode } from './player-state.js?v=20260922172926';
 
 let listeners = null;
 
-export function isTeamWordSearch() {
+function isTeamWordSearch() {
     return Boolean(getTeamMode()?.isTeamMode);
 }
 
-export function leaveTeamWordSearch() {
+function leaveTeamWordSearch() {
     if (!listeners) return;
     socket.off('word-search-team-found', listeners.found);
     socket.off('word-search-team-hint', listeners.hint);

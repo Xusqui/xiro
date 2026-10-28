@@ -85,4 +85,4 @@ function composeArgs(deployment, extra) {
     return args.concat(extra || []);
 }
 
-module.exports = { discoverDeployment, linkWorkingDir, composeArgs, DEPLOY_MOUNT };
+module.exports = { discoverDeployment, linkWorkingDir, composeArgs };

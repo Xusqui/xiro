@@ -416,8 +416,7 @@ function createHandlePostReveal(io) {
             io.to(roomId).emit('trivial-token-update', tokenPayload);
             logger.debug('trivial handlePostReveal: trivial-token-update emitted', { roomId, actorNick });
 
-            const won = await checkAndEmitWinner({ io, roomId, state });
-            if (won) return;
+            await checkAndEmitWinner({ io, roomId, state });
         }
     };
 }

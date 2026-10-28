@@ -278,9 +278,9 @@ export class MusicEngine {
         this.mixer.setMuted(muted);
     }
 
-    /** Mezcla (volumen y mute por capa, onda), avisos (tic-tac) y tempo: para la escucha del admin. */
+    /** Mezcla (volumen y mute por capa, onda) y avisos (tic-tac): para la escucha del admin. */
     get debug() {
-        return { mixer: this.mixer, cues: this.cues, setBpm: bpm => this.transport.bpm.rampTo(Number(bpm), 1) };
+        return { mixer: this.mixer, cues: this.cues };
     }
 
     getStatus() {

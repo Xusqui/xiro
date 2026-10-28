@@ -195,7 +195,5 @@ async function getMigrationsStatus() {
 
 module.exports = {
     runPendingMigrations,
-    getMigrationsStatus,
-    executeMigration,
-    ensureMigrationsTable
+    getMigrationsStatus
 };

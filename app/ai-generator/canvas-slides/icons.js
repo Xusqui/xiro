@@ -85,4 +85,4 @@ function donutSvg(percent, color, track) {
     );
 }
 
-module.exports = { ICONS, ICON_NAMES, iconSvg, donutSvg };
+module.exports = { ICON_NAMES, iconSvg, donutSvg };

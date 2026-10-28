@@ -86,6 +86,5 @@ function validateUniqueGameBanks(req, res, next) {
 
 module.exports = {
     validateUniquePIN,
-    validateUniqueGameBanks,
-    buildPinConflictMessage
+    validateUniqueGameBanks
 };

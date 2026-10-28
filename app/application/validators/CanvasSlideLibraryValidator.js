@@ -17,4 +17,4 @@ const createLibrarySlideSchema = Joi.object({
 
 const renameLibrarySlideSchema = Joi.object({ name: nameSchema });
 
-module.exports = { createLibrarySlideSchema, renameLibrarySlideSchema, MAX_NAME };
+module.exports = { createLibrarySlideSchema, renameLibrarySlideSchema };

@@ -27,7 +27,7 @@ function findVisibleButton(doc, id) {
     return btn.getClientRects().length > 0 ? btn : null;
 }
 
-export function handleNextQuestionKey(event, doc = document, now = Date.now()) {
+function handleNextQuestionKey(event, doc = document, now = Date.now()) {
     if (!isShortcutEvent(event)) return false;
     const btn = findVisibleButton(doc, KEY_TARGETS[event.key]);
     if (!btn || now - lastTriggerAt < NEXT_COOLDOWN_MS) return false;

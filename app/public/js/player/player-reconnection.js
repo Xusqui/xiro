@@ -14,7 +14,6 @@ import {
     setSessionId,
     setHaRespondido,
     setCanAnswer,
-    setSelectedTeam,
     setTeamMode,
     setPendingAnswer,
     setSendingAnswer,
@@ -92,9 +91,6 @@ function handleReconnectedSuccess(snapshot) {
     // Team info
     if (snapshot.teamMode && snapshot.teamMode.isTeamMode) {
         setTeamMode(snapshot.teamMode);
-        if (snapshot.playerTeam) {
-            setSelectedTeam(snapshot.playerTeam.teamIndex);
-        }
     }
 
     // Restaurar información de racha si existe

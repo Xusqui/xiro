@@ -44,7 +44,7 @@ function cardFingerprint(data, index, isTeamMode, teamKey = '') {
 /**
  * Construir lookup de equipos por jugador
  */
-export function buildTeamLookup() {
+function buildTeamLookup() {
     const isTeamMode = getIsTeamMode();
     const teamConfig = getTeamConfig();
 

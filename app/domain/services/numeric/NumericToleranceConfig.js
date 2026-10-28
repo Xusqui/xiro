@@ -37,6 +37,5 @@ function normalizeToleranceConfig(question = {}) {
 
 module.exports = {
     NUMERIC_TOLERANCE_MODES,
-    NUMERIC_TOLERANCE_DEFAULTS,
     normalizeToleranceConfig
 };

@@ -135,6 +135,5 @@ async function startUpdate(version, options = {}) {
 module.exports = {
     getUpdaterHealth,
     getUpdaterStatus,
-    startUpdate,
-    MIN_TOKEN_LENGTH
+    startUpdate
 };

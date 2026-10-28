@@ -100,7 +100,7 @@ function getTeamColors() {
 }
 
 // Estilos de color para renderizado
-export const TEAM_COLOR_STYLES = {
+const TEAM_COLOR_STYLES = {
     red: { solid: '#ef4444', tint: 'rgba(239, 68, 68, 0.18)', text: '#ffe4e6' },
     blue: { solid: '#3b82f6', tint: 'rgba(59, 130, 246, 0.18)', text: '#dbeafe' },
     green: { solid: '#22c55e', tint: 'rgba(34, 197, 94, 0.18)', text: '#dcfce7' },

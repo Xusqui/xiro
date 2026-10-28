@@ -289,8 +289,5 @@ module.exports = {
 
     // Constantes (re-exportar para conveniencia)
     SCORING,
-    TIMING,
-
-    // Factory (exponer para testing)
-    strategyFactory
+    TIMING
 };

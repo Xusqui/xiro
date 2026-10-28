@@ -28,7 +28,6 @@ class QuestionRevealedHandler extends EventHandler {
             gameId,
             question,
             questionIndex,
-            showAnswersToPlayers: _showAnswersToPlayers,
             timeLimit,
             totalQuestions
         } = event.payload || event;

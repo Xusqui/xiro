@@ -122,4 +122,4 @@ function createChunkPlan(markdown, { maxChars, totalBatches }) {
     };
 }
 
-module.exports = { splitSections, createChunkPlan, parseSections };
+module.exports = { splitSections, createChunkPlan };

@@ -274,7 +274,6 @@ async function revelarResultadosAutomatico(roomId, io) {
     if (isLastQuestion(game)) {
         logger.debug(`Última pregunta - esperando a que todos respondan para finalizar`);
         // No llamar endGameAutomatically aquí
-        return;
     }
 }
 

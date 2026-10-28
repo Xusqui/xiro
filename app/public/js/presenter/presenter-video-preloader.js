@@ -100,7 +100,7 @@ function preconnect(embedUrl) {
 /**
  * Olvida la partida (nueva partida o fin)
  */
-export function clearVideoPreloads() {
+function clearVideoPreloads() {
     pool.forEach(video => releaseVideo(video));
     pool.clear();
     queue = [];

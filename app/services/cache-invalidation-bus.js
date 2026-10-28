@@ -76,7 +76,6 @@ function detach() {
 }
 
 module.exports = {
-    CHANNEL,
     registerCache,
     broadcast,
     attach,

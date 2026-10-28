@@ -137,4 +137,4 @@ const slideCanvasSchema = Joi.any()
     })
     .messages(MESSAGES);
 
-module.exports = { slideCanvasSchema, canvasElementSchema, canvasSchema };
+module.exports = { slideCanvasSchema, canvasSchema };

@@ -19,7 +19,6 @@ module.exports = {
     // ===== RATE LIMITING =====
     RATE_LIMIT_WINDOW_MS: 2000, // 2 segundos
     MAX_JOIN_ATTEMPTS: 5, // Máximo 5 intentos de join por ventana
-    MAX_RATE_LIMIT_ENTRIES: 5000,
 
     // ===== JUEGO =====
     QUESTION_TIME_LIMIT: parseInt(process.env.QUESTION_TIME_LIMIT) || 30,
@@ -45,12 +44,6 @@ module.exports = {
             'http://localhost:3000',
             'http://localhost'
         ],
-
-    // ===== MULTIMEDIA =====
-    MAX_IMAGE_SIZE: 5 * 1024 * 1024, // 5MB para imágenes
-    MAX_AUDIO_SIZE: 10 * 1024 * 1024, // 10MB para audio
-    ALLOWED_IMAGE_TYPES: ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
-    ALLOWED_AUDIO_TYPES: ['audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/ogg', 'audio/webm'],
 
     // ===== ENVIRONMENT =====
     NODE_ENV: process.env.NODE_ENV || 'development',

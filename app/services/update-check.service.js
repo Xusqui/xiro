@@ -148,8 +148,5 @@ module.exports = {
     getUpdateInfo,
     fetchLatestVersion,
     compareVersions,
-    pickLatest,
-    CACHE_KEY,
-    CHECK_TTL_S,
-    ERROR_TTL_S
+    pickLatest
 };
