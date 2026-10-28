@@ -55,7 +55,10 @@ case "$1" in
     update)
         echo "📦 Actualizando Xiro!..."
         "${COMPOSE[@]}" pull --quiet db redis chrome
-        "${COMPOSE[@]}" up -d --build
+        # -V: node_modules es un volumen anónimo y Compose lo conservaría al recrear el
+        # backend, tapando las dependencias nuevas de la imagen. Los datos (Postgres,
+        # Redis, uploads, backups) están en carpetas o volúmenes con nombre: no se tocan.
+        "${COMPOSE[@]}" up -d --build --renew-anon-volumes
         echo "✅ Actualización completada"
         ;;
 

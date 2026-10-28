@@ -26,7 +26,7 @@ antes y no publica nada nuevo.
    y guarda la contraseña SMTP en `secrets/smtp_password` (ver `secrets/README.md`).
 4. Reconstruye la imagen (la app añade la dependencia `prom-client`) y arranca:
    ```bash
-   ./manage.sh update        # o docker compose ... up -d --build
+   ./manage.sh update        # o docker compose ... up -d --build --renew-anon-volumes
    ./manage.sh monitoring    # estado de los contenedores de monitorización
    ```
 5. Abre Grafana en `http://127.0.0.1:3001` (usuario `admin`). Desde otro equipo,
