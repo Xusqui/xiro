@@ -14,14 +14,14 @@ let _aiGeneratorDelegationReady = false;
 
 const QUESTION_TYPE_LABELS = [
     { type: 'quiz', label: 'Test (quiz)', icon: 'fa-check-circle', color: 'plum' },
-    { type: 'survey', label: 'Encuesta (survey)', icon: 'fa-poll', color: 'blue' },
-    { type: 'numeric_approximation', label: 'Aproximación numérica', icon: 'fa-hashtag', color: 'amber' },
-    { type: 'order', label: 'Ordenar secuencia', icon: 'fa-sort', color: 'green' },
-    { type: 'word_scramble', label: 'Adivinar palabra', icon: 'fa-font', color: 'pink' },
     { type: 'multiple_choice', label: 'Selección múltiple', icon: 'fa-tasks', color: 'aubergine' },
-    { type: 'fill_blanks', label: 'Completa la frase', icon: 'fa-i-cursor', color: 'emerald' },
-    { type: 'word_search', label: 'Sopa de letras', icon: 'fa-th', color: 'teal' },
+    { type: 'order', label: 'Ordenar secuencia', icon: 'fa-sort', color: 'green' },
     { type: 'matching', label: 'Emparejar', icon: 'fa-link', color: 'orange' },
+    { type: 'word_scramble', label: 'Adivinar palabra', icon: 'fa-font', color: 'pink' },
+    { type: 'fill_blanks', label: 'Completa la frase', icon: 'fa-i-cursor', color: 'emerald' },
+    { type: 'numeric_approximation', label: 'Aproximación numérica', icon: 'fa-hashtag', color: 'amber' },
+    { type: 'word_search', label: 'Sopa de letras', icon: 'fa-th', color: 'teal' },
+    { type: 'survey', label: 'Encuesta (survey)', icon: 'fa-poll', color: 'blue' },
     {
         type: 'survey_multiple',
         label: 'Encuesta de selección múltiple',
