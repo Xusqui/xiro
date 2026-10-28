@@ -29,6 +29,9 @@ const standaloneAccessGuard = require('./middlewares/standaloneAccessGuard');
 const assetVersioningMiddleware = require('./middlewares/assetVersioning');
 const { uploadsSvgPolicy } = require('./middlewares/uploadsSvgPolicy');
 const metricsMiddleware = require('./middlewares/metrics.middleware');
+const { traceMiddleware } = require('./infrastructure/observability/trace-context');
+const metricsCollectors = require('./infrastructure/observability/metrics-collectors');
+const { startMetricsServer } = require('./infrastructure/observability/metrics-server');
 
 // ===== RUTAS =====
 const aiGeneratorRoutes = require('./ai-generator');
@@ -96,6 +99,7 @@ ackManager.on('message-failed', data => {
 // El servidor corre detrás del proxy inverso del Synology (Nginx).
 // 'trust proxy' permite leer la IP real del cliente desde X-Forwarded-For.
 app.set('trust proxy', 1);
+app.use(traceMiddleware); // traceId por petición (logs + cabecera X-Request-Id)
 app.use(configureHelmet());
 app.use(configureCORS());
 app.use((_req, res, next) => {
@@ -257,6 +261,10 @@ async function main() {
             // Iniciar health checks periódicos (cada 30s)
             healthCheckService.setIO(io);
             healthCheckService.start();
+
+            // Métricas Prometheus en puerto interno (solo con METRICS_PORT)
+            metricsCollectors.setIO(io);
+            startMetricsServer().catch(error => logger.error('Metrics server failed to start', error));
 
             // Ping anónimo de instalación (opt-out: XIRO_TELEMETRY=false, ver README)
             sendInstallPing();

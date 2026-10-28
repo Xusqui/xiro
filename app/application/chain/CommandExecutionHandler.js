@@ -5,6 +5,23 @@
 
 const Handler = require('./Handler');
 const logger = require('../../config/logger');
+const { commandDuration } = require('../../infrastructure/observability/metrics-registry');
+
+/**
+ * Ejecuta el comando midiendo su duración. outcome: ok, rejected (el comando
+ * devolvió success: false, p. ej. respuesta fuera de tiempo) o error (lanzó).
+ */
+async function timedExecute(commandName, execute) {
+    const end = commandDuration.startTimer({ command: commandName });
+    try {
+        const result = await execute();
+        end({ outcome: result?.success === false ? 'rejected' : 'ok' });
+        return result;
+    } catch (error) {
+        end({ outcome: 'error' });
+        throw error;
+    }
+}
 
 class CommandExecutionHandler extends Handler {
     /**
@@ -28,7 +45,7 @@ class CommandExecutionHandler extends Handler {
         });
 
         const command = new this.CommandClass(payload);
-        const result = await command.execute(context.dependencies);
+        const result = await timedExecute(this.CommandClass.name, () => command.execute(context.dependencies));
 
         logger.debug('CommandExecutionHandler result', {
             commandName: this.CommandClass.name,

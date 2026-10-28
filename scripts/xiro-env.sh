@@ -19,6 +19,13 @@ else
     COMPOSE=(docker-compose -f "$XIRO_DIR/docker-compose.yml")
 fi
 
+# Con XIRO_MONITORING=true en .env, todos los comandos incluyen la monitorización
+# (si no, un «start» recrearía el backend sin METRICS_PORT). Ver monitoring/README.md.
+MONITORING_FILE="$XIRO_DIR/monitoring/docker-compose.monitoring.yml"
+if [ "$(env_get XIRO_MONITORING false)" = "true" ]; then
+    COMPOSE+=(-f "$MONITORING_FILE")
+fi
+
 DB_USER="$(env_get DB_USER postgres)"
 DB_NAME="$(env_get DB_NAME xiro_db)"
 DB_PORT="$(env_get DB_PORT 5439)"

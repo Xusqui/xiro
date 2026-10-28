@@ -81,6 +81,22 @@ case "$1" in
         echo ""
         ;;
 
+    monitoring)
+        if [ "$(env_get XIRO_MONITORING false)" != "true" ]; then
+            echo "❌ Pon XIRO_MONITORING=true en .env (ver monitoring/README.md)"
+            exit 1
+        fi
+        case "$2" in
+            up) "${COMPOSE[@]}" up -d ;;
+            reload)
+                curl -fsS -X POST http://127.0.0.1:9090/-/reload && echo "✅ Prometheus recargado"
+                curl -fsS -X POST http://127.0.0.1:9093/-/reload && echo "✅ Alertmanager recargado"
+                ;;
+            *) "${COMPOSE[@]}" ps prometheus alertmanager grafana node-exporter cadvisor \
+                postgres-exporter redis-exporter blackbox-exporter ;;
+        esac
+        ;;
+
     *)
         echo "Xiro! - Gestión de Servicios"
         echo "=============================="
@@ -100,6 +116,7 @@ case "$1" in
         echo "  db          - Conectar a PostgreSQL"
         echo "  stats       - Ver uso de recursos"
         echo "  health      - Health check del backend"
+        echo "  monitoring  - Prometheus/Grafana: up | reload | (estado)"
         echo ""
         echo "Ejemplos:"
         echo "  ./manage.sh start"

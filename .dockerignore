@@ -28,6 +28,15 @@ CLAUDE.md
 skills-lock.json
 docs/PROMPT_PREPARATORIO.md
 docs/DOCKERHUB_README.md
+
+# Solo para desarrollo: no entran en la imagen
+**/__tests__
+**/__mocks__
+**/jest.setup.js
+**/coverage
+**/graphify-out
+app/.impeccable
+monitoring
 rpi
 app/ai-generator/groq-key.json
 app/public/clientes.html

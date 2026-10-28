@@ -11,6 +11,7 @@
 const { CircuitBreakerService } = require('./CircuitBreakerService');
 const { isInfrastructureError } = require('./pg-error-classifier');
 const logger = require('../../config/logger');
+const { dbQueryDuration, timeAsync } = require('../observability/metrics-registry');
 
 /**
  * Wrapper del pool de PostgreSQL con Circuit Breaker
@@ -88,9 +89,11 @@ class DatabaseCircuitBreaker {
         const isRead = this._isReadQuery(text);
         const circuit = isRead ? this.readCircuit : this.writeCircuit;
 
-        return circuit.execute(
-            () => this.pool.query(textOrConfig, values),
-            null // Sin fallback, dejar que propague el error
+        return timeAsync(dbQueryDuration, { kind: isRead ? 'read' : 'write' }, () =>
+            circuit.execute(
+                () => this.pool.query(textOrConfig, values),
+                null // Sin fallback, dejar que propague el error
+            )
         );
     }
 

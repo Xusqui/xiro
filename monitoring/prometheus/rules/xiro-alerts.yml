@@ -1,0 +1,318 @@
+# Alertas de Xiro!. Umbrales derivados de los SLO de monitoring/README.md.
+# Las alertas de tasa exigen un mínimo de tráfico (0,1 req/s = 30 peticiones en
+# 5 min): de madrugada, un solo 500 no debe despertar a nadie.
+groups:
+  - name: xiro-availability
+    rules:
+      - alert: XiroBackendDown
+        expr: up{job="xiro-backend"} == 0
+        for: 2m
+        labels: { severity: critical }
+        annotations:
+          summary: "El backend no responde al scrape de métricas"
+          description: "Prometheus no alcanza backend:9464 desde hace 2 minutos."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#xirobackenddown"
+
+      - alert: XiroNotReady
+        expr: probe_success{job="blackbox-internal"} == 0
+        for: 2m
+        labels: { severity: critical }
+        annotations:
+          summary: "/ready falla: la app no puede atender partidas"
+          description: "/ready devuelve error (BD o Socket.IO caídos, o apagado en curso)."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#xironotready"
+
+      - alert: XiroPublicEndpointDown
+        expr: probe_success{job="blackbox-https"} == 0
+        for: 3m
+        labels: { severity: critical }
+        annotations:
+          summary: "{{ $labels.instance }} no responde desde fuera"
+          description: "La sonda HTTPS pública falla: proxy, DNS, certificado o red."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#xiropublicendpointdown"
+
+      - alert: XiroHighErrorRate
+        expr: xiro:http_errors:ratio_rate5m > 0.01 and xiro:http_requests:rate5m > 0.1
+        for: 5m
+        labels: { severity: critical }
+        annotations:
+          summary: "Más del 1 % de peticiones HTTP con error 5xx"
+          description: "Errores 5xx: {{ $value | humanizePercentage }} en los últimos 5 minutos."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#xirohigherrorrate"
+
+      # SLO 99,5 %: 6× el presupuesto (3 %) en 6 h y en 30 min = presupuesto
+      # mensual gastado en 5 días. Detecta fallos lentos que no llegan al 1 % en 5 min.
+      - alert: XiroErrorBudgetBurn
+        expr: xiro:http_errors:ratio_rate6h > 0.03 and xiro:http_errors:ratio_rate30m > 0.03
+        for: 15m
+        labels: { severity: warning }
+        annotations:
+          summary: "El presupuesto de errores del SLO se gasta 6 veces más rápido de lo previsto"
+          description: "Errores 5xx en 6 h: {{ $value | humanizePercentage }} (SLO 99,5 %)."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#xiroerrorbudgetburn"
+
+  - name: xiro-latency
+    rules:
+      - alert: XiroHighLatencyP99
+        expr: xiro:http_request_duration_seconds:p99_5m > 2 and xiro:http_requests:rate5m > 0.1
+        for: 10m
+        labels: { severity: warning }
+        annotations:
+          summary: "P99 de las peticiones HTTP por encima de 2 s"
+          description: "P99 = {{ $value | humanizeDuration }} (SLO: 99 % < 2 s)."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#xirohighlatencyp99"
+
+      - alert: XiroSlowCommands
+        expr: xiro:command_duration_seconds:p99_5m > 0.5 and xiro:commands:rate5m > 0.05
+        for: 5m
+        labels: { severity: warning }
+        annotations:
+          summary: "{{ $labels.command }}: P99 por encima de 500 ms"
+          description: "Responder o unirse va lento ({{ $value | humanizeDuration }}); los jugadores lo notan."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#xiroslowcommands"
+
+      - alert: XiroCommandErrors
+        expr: xiro:command_errors:ratio_rate5m > 0.01 and xiro:commands:rate5m > 0.05
+        for: 5m
+        labels: { severity: critical }
+        annotations:
+          summary: "{{ $labels.command }} lanza excepciones en más del 1 % de las ejecuciones"
+          description: "Proporción con excepción: {{ $value | humanizePercentage }}."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#xirocommanderrors"
+
+      - alert: XiroEventLoopLag
+        expr: max by (worker) (nodejs_eventloop_lag_p99_seconds{job="xiro-backend"}) > 0.2
+        for: 5m
+        labels: { severity: warning }
+        annotations:
+          summary: "Worker {{ $labels.worker }}: event loop bloqueado (P99 > 200 ms)"
+          description: "Los eventos de socket de ese worker se retrasan {{ $value | humanizeDuration }}."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#xiroeventlooplag"
+
+  - name: xiro-runtime
+    rules:
+      - alert: XiroWorkersMissing
+        expr: xiro_cluster_workers < max_over_time(xiro_cluster_workers[1h])
+        for: 5m
+        labels: { severity: warning }
+        annotations:
+          summary: "Faltan workers PM2: {{ $value }} activos"
+          description: "Hay menos workers publicando métricas que hace una hora."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#xiroworkersmissing"
+
+      - alert: XiroWorkerRestarting
+        expr: changes(process_start_time_seconds{job="xiro-backend"}[30m]) > 2
+        labels: { severity: warning }
+        annotations:
+          summary: "Worker {{ $labels.worker }} reiniciado {{ $value }} veces en 30 min"
+          description: "PM2 lo reinicia por errores o por superar max_memory_restart (1 GB)."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#xiroworkerrestarting"
+
+      - alert: XiroWorkerMemoryNearLimit
+        expr: process_resident_memory_bytes{job="xiro-backend"} > 0.9 * 1024 * 1024 * 1024
+        for: 10m
+        labels: { severity: warning }
+        annotations:
+          summary: "Worker {{ $labels.worker }} cerca del límite de PM2 (1 GB)"
+          description: "RSS = {{ $value | humanize1024 }}B; PM2 lo reiniciará al llegar a 1 GB."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#xiroworkermemorynearlimit"
+
+      - alert: XiroSocketConnectionsDropped
+        expr: |
+          sum(xiro_socket_connections{job="xiro-backend"}) < 0.5 * sum(xiro_socket_connections{job="xiro-backend"} offset 5m)
+          and sum(xiro_socket_connections{job="xiro-backend"} offset 5m) > 50
+        for: 2m
+        labels: { severity: warning }
+        annotations:
+          summary: "Se ha caído más de la mitad de los sockets en 5 minutos"
+          description: "Corte de red, del proxy o reinicio en mitad de una partida."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#xirosocketconnectionsdropped"
+
+  - name: xiro-database
+    rules:
+      - alert: XiroDbCircuitOpen
+        expr: max by (circuit) (xiro_db_circuit_state{job="xiro-backend"}) == 2
+        for: 1m
+        labels: { severity: critical }
+        annotations:
+          summary: "Circuit breaker de BD ({{ $labels.circuit }}) abierto"
+          description: "La app rechaza consultas sin intentarlas tras fallos repetidos de PostgreSQL."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#xirodbcircuitopen"
+
+      - alert: XiroDbPoolSaturated
+        expr: sum(xiro_db_pool_connections{job="xiro-backend",state="waiting"}) > 0
+        for: 5m
+        labels: { severity: warning }
+        annotations:
+          summary: "Peticiones esperando conexión del pool de PostgreSQL"
+          description: "{{ $value }} peticiones en cola. Ver DB_POOL_MAX y DB_CONNECTION_BUDGET."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#xirodbpoolsaturated"
+
+      - alert: XiroDbSlowQueries
+        expr: xiro:db_query_duration_seconds:p99_5m > 1
+        for: 10m
+        labels: { severity: warning }
+        annotations:
+          summary: "P99 de consultas {{ $labels.kind }} por encima de 1 s"
+          description: "P99 = {{ $value | humanizeDuration }}. El log de Postgres registra las de más de 1 s."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#xirodbslowqueries"
+
+      - alert: PostgresDown
+        expr: pg_up == 0
+        for: 1m
+        labels: { severity: critical }
+        annotations:
+          summary: "PostgreSQL no responde"
+          description: "postgres-exporter no puede conectar con la base de datos."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#postgresdown"
+
+      - alert: PostgresConnectionsHigh
+        expr: sum(pg_stat_activity_count) / max(pg_settings_max_connections) > 0.8
+        for: 5m
+        labels: { severity: warning }
+        annotations:
+          summary: "PostgreSQL al {{ $value | humanizePercentage }} de max_connections"
+          description: "Cerca del límite: las conexiones nuevas empezarán a fallar."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#postgresconnectionshigh"
+
+      - alert: PostgresLongTransaction
+        expr: max(pg_stat_activity_max_tx_duration{state=~"active|idle in transaction"}) > 600
+        for: 2m
+        labels: { severity: warning }
+        annotations:
+          summary: "Transacción abierta desde hace más de 10 minutos"
+          description: "Bloquea VACUUM y puede retener locks. Duración: {{ $value | humanizeDuration }}."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#postgreslongtransaction"
+
+      - alert: PostgresDeadlocks
+        expr: increase(pg_stat_database_deadlocks{datname!~"template.*|postgres"}[10m]) > 0
+        labels: { severity: warning }
+        annotations:
+          summary: "Deadlocks en {{ $labels.datname }}"
+          description: "{{ $value }} deadlocks en 10 minutos."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#postgresdeadlocks"
+
+  - name: xiro-redis
+    rules:
+      - alert: RedisDown
+        expr: redis_up == 0
+        for: 1m
+        labels: { severity: critical }
+        annotations:
+          summary: "Redis no responde"
+          description: "Sin Redis no hay sincronización entre workers ni reconexión de jugadores."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#redisdown"
+
+      - alert: RedisRejectedConnections
+        expr: increase(redis_rejected_connections_total[5m]) > 0
+        labels: { severity: warning }
+        annotations:
+          summary: "Redis rechaza conexiones"
+          description: "{{ $value }} conexiones rechazadas en 5 minutos (maxclients)."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#redisrejectedconnections"
+
+  - name: xiro-host
+    rules:
+      - alert: HostDiskUsageHigh
+        expr: |
+          1 - node_filesystem_avail_bytes{fstype!~"tmpfs|ramfs|overlay|squashfs|nsfs|fuse.*"}
+            / node_filesystem_size_bytes{fstype!~"tmpfs|ramfs|overlay|squashfs|nsfs|fuse.*"} > 0.8
+        for: 10m
+        labels: { severity: warning }
+        annotations:
+          summary: "Disco {{ $labels.mountpoint }} al {{ $value | humanizePercentage }}"
+          description: "Por encima del 80 %. Postgres, backups y logs comparten volumen."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#hostdiskusagehigh"
+
+      - alert: HostMemoryHigh
+        expr: 1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes > 0.9
+        for: 10m
+        labels: { severity: warning }
+        annotations:
+          summary: "Memoria del host al {{ $value | humanizePercentage }}"
+          description: "Por encima del 90 %; el kernel puede matar procesos."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#hostmemoryhigh"
+
+      - alert: ContainerMemoryNearLimit
+        expr: |
+          container_memory_working_set_bytes{name=~"xiro_.*"}
+            / (container_spec_memory_limit_bytes{name=~"xiro_.*"} > 0) > 0.9
+        for: 10m
+        labels: { severity: warning }
+        annotations:
+          summary: "{{ $labels.name }} al {{ $value | humanizePercentage }} de su mem_limit"
+          description: "Por encima del 90 %; Docker lo matará (OOM) al llegar al límite."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#containermemorynearlimit"
+
+      - alert: CertificateExpiringSoon
+        expr: probe_ssl_earliest_cert_expiry{job="blackbox-https"} - time() < 14 * 86400
+        for: 1h
+        labels: { severity: warning }
+        annotations:
+          summary: "El certificado de {{ $labels.instance }} caduca en menos de 14 días"
+          description: "Caduca en {{ $value | humanizeDuration }}. La renovación automática está fallando."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#certificateexpiringsoon"
+
+      - alert: CertificateExpiryImminent
+        expr: probe_ssl_earliest_cert_expiry{job="blackbox-https"} - time() < 3 * 86400
+        labels: { severity: critical }
+        annotations:
+          summary: "El certificado de {{ $labels.instance }} caduca en menos de 3 días"
+          description: "Caduca en {{ $value | humanizeDuration }}."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#certificateexpiringsoon"
+
+  - name: xiro-backups
+    rules:
+      - alert: BackupFailed
+        expr: xiro_backup_last_run_success == 0
+        labels: { severity: critical }
+        annotations:
+          summary: "El último backup de PostgreSQL ha fallado"
+          description: "Ver logs/backup.log."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#backupfailed"
+
+      # BACKUP_SCHEDULE por defecto es diario: 26 h deja margen para un backup lento.
+      - alert: BackupStale
+        expr: time() - xiro_backup_last_success_timestamp_seconds > 26 * 3600
+        labels: { severity: critical }
+        annotations:
+          summary: "Ningún backup correcto en más de 26 horas"
+          description: "Último backup correcto hace {{ $value | humanizeDuration }}."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#backupstale"
+
+      - alert: BackupMetricsMissing
+        expr: absent(xiro_backup_last_run_timestamp_seconds)
+        for: 26h
+        labels: { severity: warning }
+        annotations:
+          summary: "No hay métricas de backup"
+          description: "El contenedor backup no escribe backups/metrics/xiro_backup.prom (¿imagen antigua?)."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#backupstale"
+
+      - alert: BackupShrunk
+        expr: xiro_backup_last_size_bytes < 0.5 * max_over_time(xiro_backup_last_size_bytes[7d])
+        labels: { severity: warning }
+        annotations:
+          summary: "El último backup ocupa menos de la mitad que el mayor de la semana"
+          description: "Puede ser un volcado incompleto. Tamaño: {{ $value | humanize1024 }}B."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#backupshrunk"
+
+  - name: xiro-monitoring
+    rules:
+      - alert: MonitoringTargetDown
+        expr: up{job!~"xiro-backend|blackbox-.*"} == 0
+        for: 5m
+        labels: { severity: warning }
+        annotations:
+          summary: "El exporter {{ $labels.job }} no responde"
+          description: "Faltan las métricas de {{ $labels.job }}; sus alertas no saltarán."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#monitoringtargetdown"
+
+      - alert: AlertmanagerNotificationsFailing
+        expr: rate(alertmanager_notifications_failed_total[10m]) > 0
+        for: 10m
+        labels: { severity: warning }
+        annotations:
+          summary: "Alertmanager no consigue enviar notificaciones ({{ $labels.integration }})"
+          description: "Revisa la configuración SMTP en monitoring/alertmanager/alertmanager.yml."
+          runbook_url: "https://github.com/Xusqui/xiro/blob/main/monitoring/RUNBOOK.md#alertmanagernotificationsfailing"

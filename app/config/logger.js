@@ -10,6 +10,7 @@ const Transport = require('winston-transport');
 
 const { NODE_ENV } = require('./constants');
 const { getLogsBufferService } = require('../services/logs-buffer.service');
+const { getTraceContext } = require('../infrastructure/observability/trace-context');
 
 // Definir niveles personalizados con colores
 const customLevels = {
@@ -46,7 +47,15 @@ const SENSITIVE_LOG_KEYS = new Set([
     'apikey',
     'api_key',
     'x-api-key',
-    'x_api_key'
+    'x_api_key',
+    'sessionsecret',
+    'password_hash',
+    'passwordhash',
+    'updater_token',
+    'access_token',
+    'refresh_token',
+    'licensekey',
+    'license_key'
 ]);
 
 function deepMaskSensitive(obj, depth = 0) {
@@ -114,6 +123,19 @@ const fileFormat = winston.format.combine(
     winston.format.json()
 );
 
+// traceId (y evento de socket) de la petición en curso, para todos los transports
+const traceContextFormat = winston.format(info => {
+    const ctx = getTraceContext();
+    if (ctx) {
+        if (info.traceId === undefined) info.traceId = ctx.traceId;
+        if (ctx.socketEvent && info.socketEvent === undefined) info.socketEvent = ctx.socketEvent;
+    }
+    return info;
+});
+
+// LOG_FORMAT=json: consola en JSON (una línea por log) para enviarla a Loki u otro agregador
+const useJsonConsole = process.env.LOG_FORMAT === 'json';
+
 // Asegurar que los overrides persistidos (runtime-overrides.json) estén aplicados
 // antes de leer LOG_LEVEL. runtime-config no depende de logger → sin dependencia circular.
 require('./runtime-config');
@@ -127,7 +149,7 @@ const transports = [];
 // Siempre loguear a consola
 transports.push(
     new winston.transports.Console({
-        format: consoleFormat,
+        format: useJsonConsole ? fileFormat : consoleFormat,
         level: logLevel
     })
 );
@@ -227,6 +249,7 @@ transports.push(new BufferTransport({ level: logLevel }));
 // Crear logger
 const logger = winston.createLogger({
     levels: customLevels.levels,
+    format: traceContextFormat(),
     defaultMeta: {
         workerId: process.env.NODE_APP_INSTANCE || 'unknown',
         pid: process.pid

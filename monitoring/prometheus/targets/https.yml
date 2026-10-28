@@ -1,0 +1,4 @@
+# URL pública de Xiro! (la que abren los jugadores). Cambia el dominio por el tuyo.
+# Prometheus relee este fichero solo, sin reiniciar.
+- targets:
+    - https://quiz.example.com/live

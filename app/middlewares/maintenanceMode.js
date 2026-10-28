@@ -59,6 +59,13 @@ function isMaintenanceActive() {
 const EXEMPT_PREFIXES = ['/api/health', '/api/admin', '/admin', '/css/', '/images/', '/js/', '/favicon'];
 
 /**
+ * Sondas y versión: dicen si el proceso y sus dependencias están bien, no si se
+ * puede jugar. Con 503 en mantenimiento, Docker marcaría el contenedor como
+ * unhealthy y el actualizador revertiría una actualización hecha en mantenimiento.
+ */
+const EXEMPT_PATHS = new Set(['/live', '/ready', '/api/version']);
+
+/**
  * Middleware de modo mantenimiento.
  * Devuelve maintenance.html (503) a clientes navegador o JSON a clientes API.
  * @param {import('express').Request}  req
@@ -69,7 +76,7 @@ function maintenanceMiddleware(req, res, next) {
     if (!isMaintenanceActive()) return next();
 
     // Rutas exentas
-    const isExempt = EXEMPT_PREFIXES.some(prefix => req.path.startsWith(prefix));
+    const isExempt = EXEMPT_PATHS.has(req.path) || EXEMPT_PREFIXES.some(prefix => req.path.startsWith(prefix));
     if (isExempt) return next();
 
     // Clientes API reciben JSON

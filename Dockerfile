@@ -7,9 +7,14 @@ RUN addgroup -g 1001 -S xiro && \
 # Actualizar paquetes del sistema (parches de seguridad, p.ej. CVE-2026-34182 en openssl)
 RUN apk upgrade --no-cache
 
+# npm y PM2 con versión fija: dos builds del mismo código dan la misma imagen.
+# Para actualizarlos, cambia la versión aquí (npm debe aceptar el package-lock.json).
+ARG NPM_VERSION=11.17.0
+ARG PM2_VERSION=7.1.1
+
 # Actualizar npm e instalar PM2 globalmente (requiere root)
-RUN npm install -g npm@latest && \
-    npm install -g pm2 && \
+RUN npm install -g npm@${NPM_VERSION} && \
+    npm install -g pm2@${PM2_VERSION} && \
     npm cache clean --force
 
 # Establecer directorio de trabajo y darle permisos al usuario xiro
@@ -23,7 +28,7 @@ USER xiro
 COPY --chown=xiro:xiro app/package*.json ./
 
 # Instalar dependencias (se instalan directamente con permisos de xiro en una sola capa)
-RUN npm ci --only=production && \
+RUN npm ci --omit=dev && \
     npm cache clean --force
 
 # Copiar el código fuente como usuario xiro

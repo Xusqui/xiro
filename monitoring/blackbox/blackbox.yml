@@ -1,0 +1,19 @@
+modules:
+  # /ready interno: 200 = puede atender tráfico
+  http_ready:
+    prober: http
+    timeout: 5s
+    http:
+      valid_status_codes: [200]
+      preferred_ip_protocol: ip4
+
+  # URL pública: exige HTTPS válido; probe_ssl_earliest_cert_expiry da la caducidad
+  https_public:
+    prober: http
+    timeout: 10s
+    http:
+      valid_status_codes: [200]
+      fail_if_not_ssl: true
+      preferred_ip_protocol: ip4
+      tls_config:
+        insecure_skip_verify: false

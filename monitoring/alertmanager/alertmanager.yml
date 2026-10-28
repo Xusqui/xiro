@@ -1,0 +1,44 @@
+# Alertmanager de Xiro!. Cambia los valores marcados con  <-- CAMBIAR
+# La contraseña SMTP va en monitoring/secrets/smtp_password (no en este fichero).
+# Recarga sin reiniciar: curl -X POST http://127.0.0.1:9093/-/reload
+global:
+  smtp_smarthost: "smtp.example.com:587"        # <-- CAMBIAR
+  smtp_from: "xiro-alertas@example.com"         # <-- CAMBIAR
+  smtp_auth_username: "xiro-alertas@example.com" # <-- CAMBIAR
+  smtp_auth_password_file: /etc/alertmanager/secrets/smtp_password
+  smtp_require_tls: true
+
+route:
+  receiver: email
+  group_by: [alertname]
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 12h
+  routes:
+    - matchers: [severity="critical"]
+      receiver: email
+      repeat_interval: 1h
+
+receivers:
+  - name: email
+    email_configs:
+      - to: "admin@example.com"                  # <-- CAMBIAR
+        send_resolved: true
+
+  # Alternativa: Telegram. Crea el bot con @BotFather, guarda el token en
+  # monitoring/secrets/telegram_token, pon tu chat_id y usa «receiver: telegram» arriba.
+  # - name: telegram
+  #   telegram_configs:
+  #     - bot_token_file: /etc/alertmanager/secrets/telegram_token
+  #       chat_id: 123456789
+  #       parse_mode: HTML
+  #       send_resolved: true
+
+# Si el backend o la app no están disponibles, no se avisa además de cada síntoma.
+inhibit_rules:
+  - source_matchers: [alertname=~"XiroBackendDown|XiroNotReady"]
+    target_matchers: [alertname=~"Xiro(HighErrorRate|ErrorBudgetBurn|HighLatencyP99|SlowCommands|CommandErrors|PublicEndpointDown|SocketConnectionsDropped|WorkersMissing)"]
+  - source_matchers: [alertname="PostgresDown"]
+    target_matchers: [alertname=~"XiroDb.*|XiroNotReady|PostgresConnectionsHigh"]
+  - source_matchers: [alertname="CertificateExpiryImminent"]
+    target_matchers: [alertname="CertificateExpiringSoon"]

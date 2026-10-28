@@ -73,6 +73,7 @@ const { handleWordSearchFound, handleWordSearchSync } = require('./handlers/Word
 const { handleFillBlanksHint, handleFillBlanksCheck, handleFillBlanksSync } = require('./handlers/FillBlanksHandler');
 const AnswerBatchService = require('./services/AnswerBatchService');
 const PresenterNotificationService = require('./services/PresenterNotificationService');
+const { observeSocket } = require('../infrastructure/observability/socket-observability');
 let answerBatchService = null;
 let presenterNotificationService = null;
 
@@ -366,6 +367,7 @@ function onSocketConnection(socket, handlers, ackManager) {
     registerSlideNavigationEvents(socket, { handlers, assertIsPresenter });
     registerTrivialSocketEvents(socket, handlers);
     registerDisconnectAndErrorEvents(socket, handlers, ackManager);
+    observeSocket(socket);
 }
 
 function logConfiguredSocketHandlers() {
