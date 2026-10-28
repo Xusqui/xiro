@@ -1,6 +1,6 @@
 /**
  * @fileoverview Middleware consolidado para asignación de rol de socket
- * Elimina duplicación entre server.js y socket.handlers.js
+ * Asigna a cada socket el rol `host` o `jugador` según el handshake
  */
 
 /**
