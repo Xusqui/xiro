@@ -371,7 +371,7 @@
     "admin.updates.active_sessions": "当前有 {count} 个游戏或房间正在进行。更新时服务器将重启，这些会话会被中断。",
     "admin.updates.manual_title": "手动更新",
     "admin.updates.manual_help": "要更新，请在服务器的 Xiro! 文件夹中运行：",
-    "admin.updates.reason.not_installed": "此安装没有 «updater» 容器。请将当前的 docker-compose.deploy.yml 复制为 docker-compose.yml 以启用更新按钮。",
+    "admin.updates.reason.not_installed": "此安装没有 «updater» 容器。请将当前的 docker-compose.deploy.yml 模板（如果使用自己的反向代理，则为 docker-compose.deploy.nas.yml）复制为 docker-compose.yml 以启用更新按钮。",
     "admin.updates.reason.updater_unreachable": "«updater» 容器无法响应。",
     "admin.updates.reason.updater_token_missing": "服务器 .env 文件中缺少 UPDATER_TOKEN（至少 32 个字符）。",
     "admin.updates.reason.backend_token_missing": "服务器 .env 文件中缺少 UPDATER_TOKEN（至少 32 个字符）。",

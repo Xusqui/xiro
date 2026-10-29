@@ -371,7 +371,7 @@
     "admin.updates.active_sessions": "Il y a {count} partie(s) ou salle(s) en cours. La mise à jour redémarre le serveur et les interrompra.",
     "admin.updates.manual_title": "Mise à jour manuelle",
     "admin.updates.manual_help": "Pour mettre à jour, exécutez dans le dossier Xiro! du serveur :",
-    "admin.updates.reason.not_installed": "Cette installation n’a pas le conteneur « updater ». Copiez le docker-compose.deploy.yml actuel en docker-compose.yml pour activer le bouton de mise à jour.",
+    "admin.updates.reason.not_installed": "Cette installation n’a pas le conteneur « updater ». Copiez le modèle docker-compose.deploy.yml actuel (ou docker-compose.deploy.nas.yml si vous utilisez votre propre proxy inverse) en docker-compose.yml pour activer le bouton de mise à jour.",
     "admin.updates.reason.updater_unreachable": "Le conteneur « updater » ne répond pas.",
     "admin.updates.reason.updater_token_missing": "UPDATER_TOKEN manquant dans le .env du serveur (minimum 32 caractères).",
     "admin.updates.reason.backend_token_missing": "UPDATER_TOKEN manquant dans le .env du serveur (minimum 32 caractères).",

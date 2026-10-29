@@ -371,7 +371,7 @@
     "admin.updates.active_sessions": "{count} 個のゲームまたはルームが進行中です。更新によりサーバーが再起動され、それらは切断されます。",
     "admin.updates.manual_title": "手動更新",
     "admin.updates.manual_help": "更新するには、サーバー上の Xiro! フォルダで以下を実行してください:",
-    "admin.updates.reason.not_installed": "このインストールには「updater」コンテナがありません。「docker-compose.deploy.yml」を「docker-compose.yml」としてコピーし、更新ボタンを有効にしてください。",
+    "admin.updates.reason.not_installed": "このインストールには「updater」コンテナがありません。現在の「docker-compose.deploy.yml」テンプレート（独自のリバースプロキシを使う場合は「docker-compose.deploy.nas.yml」）を「docker-compose.yml」としてコピーし、更新ボタンを有効にしてください。",
     "admin.updates.reason.updater_unreachable": "「updater」コンテナに応答しません。",
     "admin.updates.reason.updater_token_missing": "サーバーの .env に UPDATER_TOKEN がありません（最低32文字）。",
     "admin.updates.reason.backend_token_missing": "サーバーの .env に UPDATER_TOKEN がありません（最低32文字）。",

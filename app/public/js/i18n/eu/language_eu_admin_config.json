@@ -371,7 +371,7 @@
     "admin.updates.active_sessions": "{count} partida edo gela aktibo daude. Eguneratzean zerbitzaria berrabiaraziko da eta itxi egingo dira.",
     "admin.updates.manual_title": "Eguneraketa eskuz",
     "admin.updates.manual_help": "Eguneratzeko, exekutatu Xiro! zerbitzariaren karpetan:",
-    "admin.updates.reason.not_installed": "Instalazio honek ez du «updater» kontainerik. Kopiatu uneko docker-compose.deploy.yml docker-compose.yml bezala eguneraketa botoia gaitzeko.",
+    "admin.updates.reason.not_installed": "Instalazio honek ez du «updater» kontainerik. Kopiatu uneko docker-compose.deploy.yml txantiloia (edo docker-compose.deploy.nas.yml, zure alderantzizko proxya erabiltzen baduzu) docker-compose.yml bezala eguneraketa botoia gaitzeko.",
     "admin.updates.reason.updater_unreachable": "«updater» kontainera ezin da iritsi.",
     "admin.updates.reason.updater_token_missing": "UPDATER_TOKEN falta da zerbitzariaren .env-an (gutxienez 32 karaktere).",
     "admin.updates.reason.backend_token_missing": "UPDATER_TOKEN falta da zerbitzariaren .env-an (gutxienez 32 karaktere).",

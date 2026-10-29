@@ -42,17 +42,28 @@
 
 ### Requirements
 
-- A **Linux** server with **Docker** and **Docker Compose**
-- A **domain** pointing to the server (Xiro! must be accessed via `https://`)
-- Ports **80** and **443** open
+- A **Linux** server or a **NAS** with **Docker** and **Docker Compose**
+- A **domain** pointing to it (Xiro! must be accessed via `https://`)
+
+### Which installation?
+
+| | **A. Public server with Caddy** | **B. Your own reverse proxy** |
+|---|---|---|
+| For | A VPS or server with nothing in front of it | A NAS (Synology, QNAP…), a home or office server, or a server that already runs nginx or Nginx Proxy Manager |
+| Template | `docker-compose.deploy.yml` | `docker-compose.deploy.nas.yml` |
+| HTTPS | The `caddy` container gets the certificate by itself | Your proxy serves HTTPS and forwards to `127.0.0.1:3000` |
+| Ports | **80** and **443** free and open | Only the ones your proxy already uses |
+
+Both use the same images and update the same way. To build the images yourself, see [install from source](#install-from-source) at the end.
 
 ### Step 1 — Prepare the folder
 
-Copy `docker-compose.deploy.yml` (renamed to `docker-compose.yml`) and `.env.example` (renamed to `.env`) from this repository into a new folder:
+Copy your template (renamed to `docker-compose.yml`) and `.env.example` (renamed to `.env`) from this repository into a new folder:
 
 ```bash
 mkdir -p /opt/xiro && cd /opt/xiro
-cp /path/to/repo/docker-compose.deploy.yml docker-compose.yml
+cp /path/to/repo/docker-compose.deploy.yml docker-compose.yml          # A. with Caddy
+# cp /path/to/repo/docker-compose.deploy.nas.yml docker-compose.yml  # B. your own proxy
 cp /path/to/repo/.env.example .env
 
 mkdir -p public/uploads public/images/personalizations logs config backups
@@ -64,13 +75,102 @@ sudo chown -R 1001:1001 public logs config
 sudo chown 1001:1001 config/*
 ```
 
-### Step 2 — Set your domain
+On a NAS, use a folder on a data volume, e.g. `/volume1/docker/xiro` (Synology) or `/share/Container/xiro` (QNAP), and run these commands over SSH.
 
-In `docker-compose.yml`, `caddy` service, replace `xiro.pro` with your domain:
+### Step 2A — Set your domain in Caddy
+
+*Installation A only.* In `docker-compose.yml`, `caddy` service, replace `xiro.pro` with your domain:
 
 ```yaml
     command: caddy reverse-proxy --from https://quiz.example.com --to http://backend:3000
 ```
+
+### Step 2B — Configure your reverse proxy
+
+*Installation B only.* The backend listens on `127.0.0.1:3000` (change the port with `APP_PORT` in `.env`). Create a proxy entry for your domain that:
+
+- serves **HTTPS** with a valid certificate (e.g. Let's Encrypt);
+- forwards to `http://127.0.0.1:3000`;
+- passes **WebSocket** (`Upgrade` and `Connection` headers). Without it, players cannot join;
+- sends `X-Forwarded-For` and `X-Forwarded-Proto`.
+
+If the proxy runs on another machine, or in a container that cannot reach the host's `127.0.0.1` (Nginx Proxy Manager in Docker, for instance), add `APP_BIND=0.0.0.0` (or the LAN IP) to `.env`. Never open port 3000 on the router: only the proxy's 80/443.
+
+<details>
+<summary><strong>Synology DSM 7</strong></summary>
+
+<br>
+
+DSM already uses ports 80 and 443, which is why Caddy is not needed here.
+
+1. **Start Xiro!** Run step 1 in `/volume1/docker/xiro` over SSH with template **B**, fill in `.env` (step 3) and start it, either with `sudo docker compose up -d` in that folder or from **Container Manager → Project → Create**: path `/volume1/docker/xiro`, source *Use existing docker-compose.yml*.
+2. **Certificate.** **Control Panel → Security → Certificate → Add → Add a new certificate → Get a certificate from Let's Encrypt**, with your domain.
+3. **Reverse proxy.** **Control Panel → Login Portal → Advanced → Reverse Proxy → Create**:
+   - **Source:** protocol `HTTPS`, hostname `quiz.example.com`, port `443`, *Enable HSTS*.
+   - **Destination:** protocol `HTTP`, hostname `localhost`, port `3000`.
+   - **Custom Header** tab → **Create → WebSocket** (adds `Upgrade` and `Connection`).
+4. **Assign the certificate.** **Control Panel → Security → Certificate → Settings**: pick the new certificate for the `quiz.example.com` entry.
+5. **Router.** Forward ports 80 and 443 to the NAS (80 is only needed to renew Let's Encrypt).
+
+</details>
+
+<details>
+<summary><strong>QNAP (QTS 5 / QuTS hero)</strong></summary>
+
+<br>
+
+1. **Start Xiro!** Run step 1 in `/share/Container/xiro` over SSH with template **B**, fill in `.env` and start it with `docker compose up -d` in that folder. A Container Station app created by pasting the YAML does not see the `.env` or the folders of step 1.
+2. **Certificate.** **Control Panel → Security → SSL Certificate & Private Key → Replace Certificate → Get from Let's Encrypt**, with your domain.
+3. **Reverse proxy.** **Control Panel → Network & File Services → Network Access → Reverse Proxy → Add**: source `HTTPS`, your domain, port `443`; destination `HTTP`, `localhost`, port `3000`.
+4. **Router.** Forward ports 80 and 443 to the NAS.
+
+If players get stuck on "connecting", the QTS proxy is not passing WebSocket: use Nginx Proxy Manager instead (next example).
+
+</details>
+
+<details>
+<summary><strong>Nginx Proxy Manager</strong> (Unraid, OpenMediaVault, any server)</summary>
+
+<br>
+
+1. In `.env`, add `APP_BIND=0.0.0.0` (NPM runs in its own container, where `127.0.0.1` is NPM itself) and run `docker compose up -d`.
+2. **Proxy Hosts → Add Proxy Host:**
+   - **Details:** domain `quiz.example.com`, scheme `http`, forward hostname/IP the server's LAN IP, port `3000`, and enable **Websockets Support**.
+   - **SSL:** *Request a new SSL Certificate*, **Force SSL** and **HTTP/2 Support**.
+3. **Router.** Forward ports 80 and 443 to NPM, never 3000.
+
+</details>
+
+<details>
+<summary><strong>Nginx</strong></summary>
+
+<br>
+
+```nginx
+server {
+    listen 443 ssl;
+    http2 on;
+    server_name quiz.example.com;
+
+    ssl_certificate     /etc/letsencrypt/live/quiz.example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/quiz.example.com/privkey.pem;
+
+    client_max_body_size 30m;  # image and slide uploads
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 300s;  # AI generation can take a while
+    }
+}
+```
+
+</details>
 
 ### Step 3 — Edit `.env`
 
@@ -90,6 +190,8 @@ Leave the rest as it is. Generate random values with `openssl rand -hex 32`.
 docker compose up -d
 docker compose ps     # every container "Up"; db and redis "healthy"
 ```
+
+With installation B, check the backend first with `curl -I http://127.0.0.1:3000/ready` (it should answer `200`), then open `https://<your-domain>`.
 
 ### Step 5 — Create the admin account
 
@@ -111,13 +213,17 @@ docker compose up -d
 
 Data lives in the folder's subdirectories (`postgres_data/`, `redis_data/`, `public/`, `config/`, `backups/`), so updates don't lose it.
 
-`docker compose pull` updates the images, not `docker-compose.yml`. When a release changes `docker-compose.deploy.yml`, copy it again over your `docker-compose.yml` and set your domain in the `caddy` service again (step 2) before `docker compose up -d`.
+`docker compose pull` updates the images, not `docker-compose.yml`. When a release changes your template (`docker-compose.deploy.yml` or `docker-compose.deploy.nas.yml`), copy it again over your `docker-compose.yml` (with A, set your domain in the `caddy` service again, step 2A) before `docker compose up -d`.
 
-**Installed before the update button existed?** Copy the current `docker-compose.deploy.yml` over your `docker-compose.yml` (and set your domain again, step 2), add `UPDATER_TOKEN=<openssl rand -hex 32>` to `.env` and run `docker compose pull && docker compose up -d`. From then on, updates can be installed from the panel.
+**Switching from A to B** (e.g. you put the server behind your own proxy): run `docker compose down`, copy `docker-compose.deploy.nas.yml` over `docker-compose.yml`, set up the proxy (step 2B) and run `docker compose up -d`. The data stays in the subdirectories.
 
-> **PDF export fails with "Error al generar el PDF":** the backend can't reach the `chrome` container. Check that `docker compose exec backend printenv CHROME_WS_ENDPOINT` prints `ws://chrome:3000` and that the `xiro_chrome` container is running. If it is empty, copy the current `docker-compose.deploy.yml` again (it sets this variable) or add `CHROME_WS_ENDPOINT=ws://chrome:3000` to `.env`, then run `docker compose up -d`.
+**Installed before the update button existed?** Copy your current template over your `docker-compose.yml` (with A, set your domain again, step 2A), add `UPDATER_TOKEN=<openssl rand -hex 32>` to `.env` and run `docker compose pull && docker compose up -d`. From then on, updates can be installed from the panel.
+
+> **PDF export fails with "Error al generar el PDF":** the backend can't reach the `chrome` container. Check that `docker compose exec backend printenv CHROME_WS_ENDPOINT` prints `ws://chrome:3000` and that the `xiro_chrome` container is running. If it is empty, copy your current template again (it sets this variable) or add `CHROME_WS_ENDPOINT=ws://chrome:3000` to `.env`, then run `docker compose up -d`.
 
 > **Troubleshooting:** if one of the JSON files from step 1 is missing, Docker creates a **directory** with that name and the app won't start. Stop the services, delete that directory, create the file and start again.
+
+<a id="install-from-source"></a>
 
 <details>
 <summary><strong>Alternative: install from source</strong> (build images locally, bring your own reverse proxy)</summary>
@@ -143,19 +249,7 @@ sudo chown -R 1001:1001 logs app/public/uploads app/public/images/personalizatio
 docker compose up -d --build
 ```
 
-The app listens only on `127.0.0.1:3000`. Point your HTTPS reverse proxy there with **WebSocket** support enabled. Nginx example:
-
-```nginx
-location / {
-    proxy_pass http://127.0.0.1:3000;
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection "upgrade";
-    proxy_set_header Host $host;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-}
-```
+The app listens only on `127.0.0.1:3000`. Set up your reverse proxy as in [step 2B](#step-2b--configure-your-reverse-proxy).
 
 Manage it with `./manage.sh start | stop | restart | status | logs | backup | restore | update | health`. To update: `git pull && ./manage.sh update`.
 

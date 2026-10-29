@@ -371,7 +371,7 @@
     "admin.updates.active_sessions": "Es sind {count} Spiel(e) oder Raum(e) aktiv. Beim Aktualisieren wird der Server neu gestartet und diese werden getrennt.",
     "admin.updates.manual_title": "Manuelle Aktualisierung",
     "admin.updates.manual_help": "Um zu aktualisieren, führen Sie im Xiro!-Ordner auf dem Server aus:",
-    "admin.updates.reason.not_installed": "Diese Installation hat keinen «updater»-Container. Kopieren Sie die aktuelle docker-compose.deploy.yml als docker-compose.yml, um die Aktualisierungsschaltfläche zu aktivieren.",
+    "admin.updates.reason.not_installed": "Diese Installation hat keinen «updater»-Container. Kopieren Sie die aktuelle Vorlage docker-compose.deploy.yml (oder docker-compose.deploy.nas.yml, wenn Sie einen eigenen Reverse Proxy verwenden) als docker-compose.yml, um die Aktualisierungsschaltfläche zu aktivieren.",
     "admin.updates.reason.updater_unreachable": "Der «updater»-Container antwortet nicht.",
     "admin.updates.reason.updater_token_missing": "UPDATER_TOKEN fehlt in der .env des Servers (mindestens 32 Zeichen).",
     "admin.updates.reason.backend_token_missing": "UPDATER_TOKEN fehlt in der .env des Servers (mindestens 32 Zeichen).",

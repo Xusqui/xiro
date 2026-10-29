@@ -371,7 +371,7 @@
     "admin.updates.active_sessions": "There are {count} active game(s) or room(s). Updating will restart the server and cut them off.",
     "admin.updates.manual_title": "Manual update",
     "admin.updates.manual_help": "To update, run in the Xiro! folder on the server:",
-    "admin.updates.reason.not_installed": "This installation does not have the «updater» container. Copy the current docker-compose.deploy.yml as docker-compose.yml to enable the update button.",
+    "admin.updates.reason.not_installed": "This installation does not have the «updater» container. Copy the current docker-compose.deploy.yml template (or docker-compose.deploy.nas.yml if you use your own reverse proxy) as docker-compose.yml to enable the update button.",
     "admin.updates.reason.updater_unreachable": "The «updater» container is unreachable.",
     "admin.updates.reason.updater_token_missing": "UPDATER_TOKEN missing in the server's .env (minimum 32 characters).",
     "admin.updates.reason.backend_token_missing": "UPDATER_TOKEN missing in the server's .env (minimum 32 characters).",

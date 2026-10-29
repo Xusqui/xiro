@@ -1,0 +1,129 @@
+# =====================================================================
+# Xiro! — despliegue detrás de TU proxy inverso (opción B del README)
+#
+# Para un NAS (Synology, QNAP…) o un servidor donde ya hay un proxy inverso
+# (DSM, QTS, nginx, Nginx Proxy Manager…). No incluye Caddy: el backend se
+# publica en 127.0.0.1:3000 y tu proxy debe:
+#   - servir HTTPS con un certificado válido (a Xiro! se entra por https://),
+#   - reenviar a http://127.0.0.1:3000 (o el APP_PORT del .env),
+#   - dejar pasar WebSocket (cabeceras Upgrade y Connection),
+#   - enviar X-Forwarded-For y X-Forwarded-Proto.
+#
+# ¿Servidor público sin proxy? Usa docker-compose.deploy.yml (opción A).
+#
+# Copia este fichero como docker-compose.yml junto al .env.
+# =====================================================================
+
+networks:
+  xiro_internal:
+    driver: bridge
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: xiro_postgres
+    restart: unless-stopped
+    mem_limit: 1500m
+    networks:
+      - xiro_internal
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_INITDB_ARGS: "-E UTF8 --locale=es_ES.UTF-8"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:8.4.0-alpine
+    container_name: xiro_redis
+    restart: unless-stopped
+    networks:
+      - xiro_internal
+    volumes:
+      - ./redis_data:/data
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a \"$${REDIS_PASSWORD}\" --no-auth-warning ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  chrome:
+    image: browserless/chrome:latest
+    container_name: xiro_chrome
+    restart: unless-stopped
+    mem_limit: 512m
+    networks:
+      - xiro_internal
+    environment:
+      - MAX_CONCURRENT_SESSIONS=5
+      - CONNECTION_TIMEOUT=60000
+
+  backend:
+    image: xusqui/xiro-backend:latest
+    container_name: xiro_backend
+    restart: unless-stopped
+    mem_limit: 1500m
+    networks:
+      - xiro_internal
+    # Solo en 127.0.0.1 por defecto: lo alcanza un proxy del mismo host (DSM, QTS, nginx).
+    # Si el proxy está en otra máquina o en un contenedor sin acceso al host, pon
+    # APP_BIND=0.0.0.0 (o la IP de la LAN) en el .env. No abras este puerto en el router.
+    ports:
+      - "${APP_BIND:-127.0.0.1}:${APP_PORT:-3000}:3000"
+    volumes:
+      - ./public/uploads:/usr/src/app/public/uploads
+      - ./public/images/personalizations:/usr/src/app/public/images/personalizations
+      - ./logs:/usr/src/app/logs
+      - ./config/ui-overrides.json:/usr/src/app/config/ui-overrides.json
+      - ./config/runtime-overrides.json:/usr/src/app/config/runtime-overrides.json
+      - ./config/groq-key.json:/usr/src/app/ai-generator/groq-key.json:rw
+      - /etc/machine-id:/host/machine-id:ro
+    environment:
+      MACHINE_ID_PATH: /host/machine-id
+      CHROME_WS_ENDPOINT: ws://chrome:3000
+      UPDATER_URL: http://updater:8080
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      chrome:
+        condition: service_started
+
+  backup:
+    image: xusqui/xiro-backup:latest
+    container_name: xiro_backup
+    restart: unless-stopped
+    networks:
+      - xiro_internal
+    env_file: .env
+    volumes:
+      - ./backups:/backups
+      - ./config:/app-config:ro
+      - ./logs:/app/logs
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # Actualizador: descarga e instala versiones nuevas desde el panel (Configuración → Actualizaciones).
+  # Tiene el socket de Docker, así que no publica puertos: solo lo alcanza el backend por la red interna,
+  # autenticado con UPDATER_TOKEN (.env). Solo actualiza backend y backup.
+  updater:
+    image: xusqui/xiro-updater:latest
+    container_name: xiro_updater
+    restart: unless-stopped
+    networks:
+      - xiro_internal
+    environment:
+      UPDATER_TOKEN: ${UPDATER_TOKEN:-}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./:/deploy:ro

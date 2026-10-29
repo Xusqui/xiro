@@ -1,3 +1,16 @@
+# =====================================================================
+# Xiro! — despliegue en un servidor público CON Caddy (opción A del README)
+#
+# Para un VPS o servidor sin proxy inverso delante: el contenedor «caddy»
+# ocupa los puertos 80 y 443 y obtiene el certificado HTTPS él solo.
+# Cambia «xiro.pro» por tu dominio en el servicio caddy (al final).
+#
+# ¿Ya tienes tu propio proxy inverso (NAS Synology/QNAP, nginx, Nginx Proxy
+# Manager…)? Usa docker-compose.deploy.nas.yml (opción B del README).
+#
+# Copia este fichero como docker-compose.yml junto al .env.
+# =====================================================================
+
 networks:
   xiro_internal:
     driver: bridge
@@ -125,7 +138,7 @@ services:
     networks:
       - xiro_internal
 
-# ESTA SECCIÓN NUEVA AL FINAL DEL ARCHIVO DECLARA LOS VOLÚMENES NOMBRADOS:
+# Volúmenes de Caddy: certificados y configuración
 volumes:
   caddy_data:
   caddy_config:
