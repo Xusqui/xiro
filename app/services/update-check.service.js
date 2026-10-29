@@ -4,26 +4,12 @@
 const logger = require('../config/logger');
 const { getRedisClient } = require('../config/redis');
 const { version: APP_VERSION } = require('../package.json');
+const { isValidVersion, compareVersions } = require('../updater/version');
 
 const CACHE_KEY = 'xiro:update:check';
 const CHECK_TTL_S = 3600; // una comprobación por hora como máximo
 const ERROR_TTL_S = 900; // si Docker Hub falla, se reintenta a los 15 minutos
 const DEFAULT_REPO = 'xusqui/xiro-backend';
-const SEMVER_RE = /^(\d+)\.(\d+)\.(\d+)$/;
-
-/**
- * Compara dos versiones semánticas en formato x.y.z
- * @param {string} a - Primera versión
- * @param {string} b - Segunda versión
- * @returns {-1|0|1} -1 si a < b, 0 si a === b, 1 si a > b
- */
-function compareVersions(a, b) {
-    const [a1, a2, a3] = a.split('.').map(Number);
-    const [b1, b2, b3] = b.split('.').map(Number);
-    if (a1 !== b1) return a1 > b1 ? 1 : -1;
-    if (a2 !== b2) return a2 > b2 ? 1 : -1;
-    return a3 > b3 ? 1 : a3 === b3 ? 0 : -1;
-}
 
 /**
  * Selecciona la versión más alta de un array de nombres
@@ -34,7 +20,7 @@ function pickLatest(names) {
     if (!Array.isArray(names)) return null;
     let latest = null;
     for (const name of names) {
-        if (typeof name !== 'string' || !SEMVER_RE.test(name) || name === 'latest') continue;
+        if (!isValidVersion(name)) continue;
         if (!latest || compareVersions(name, latest) > 0) latest = name;
     }
     return latest;

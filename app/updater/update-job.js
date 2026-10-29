@@ -3,9 +3,9 @@
 'use strict';
 const { runDocker } = require('./docker');
 const { composeArgs } = require('./deployment');
+const { isValidVersion, sameVersion } = require('./version');
 
 const SERVICES = ['backend', 'backup'];
-const VERSION_RE = /^\d+\.\d+\.\d+$/;
 const MAX_LOG_LINES = 100;
 
 /** Trabajo de actualización de Xiro! */
@@ -64,7 +64,7 @@ class UpdateJob {
 
     /** Inicia una actualización a la versión especificada */
     start(targetVersion) {
-        if (!VERSION_RE.test(String(targetVersion))) {
+        if (!isValidVersion(targetVersion)) {
             throw new Error('Versión no válida: ' + targetVersion);
         }
         if (this.status.state === 'running') return false;
@@ -194,7 +194,7 @@ class UpdateJob {
             const v = await this.fetchImpl(this.backendUrl + '/api/version', { signal: AbortSignal.timeout(5000) });
             if (!v.ok) return false;
             const body = await v.json();
-            if (body.version !== version) return false;
+            if (!sameVersion(body.version, version)) return false;
             const r = await this.fetchImpl(this.backendUrl + '/ready', { signal: AbortSignal.timeout(5000) });
             return r.status === 200;
         } catch {
