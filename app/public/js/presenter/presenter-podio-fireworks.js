@@ -45,8 +45,10 @@ async function loadFireworksConfig() {
 
 /**
  * Iniciar fuegos artificiales de fondo
+ * @param {{ behindPodium?: boolean }} [options] behindPodium: con el podio 3D, los fuegos
+ *   quedan detrás de bloques, título y filas en vez de cubrirlos (fireworks.css)
  */
-export async function startFireworks() {
+export async function startFireworks({ behindPodium = false } = {}) {
     // Detener fuegos previos si existen
     if (fireworksController) {
         fireworksController.destroy();
@@ -70,6 +72,7 @@ export async function startFireworks() {
             fireworksContainer.id = 'fireworks-podium-container';
             document.body.appendChild(fireworksContainer);
         }
+        fireworksContainer.classList.toggle('fireworks-podium-container--behind', behindPodium);
 
         // Inicializar controlador con configuración
         fireworksController = new FireworksController('fireworks-podium-container');
@@ -87,6 +90,7 @@ export async function startFireworks() {
         fireworksController.trailIntensity = config.trailIntensity;
         fireworksController.starWidth = config.starWidth;
         fireworksController.sparkWidth = config.sparkWidth;
+        fireworksController.transparentTrails = behindPodium;
         fireworksController.setSoundEnabled(config.soundEnabled);
 
         fireworksController.start();

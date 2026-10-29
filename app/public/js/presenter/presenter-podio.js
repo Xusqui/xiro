@@ -199,9 +199,9 @@ export function renderPodio(ranking) {
         document.body.appendChild(el);
     }
 
-    // Iniciar fuegos artificiales de fondo
+    // Iniciar fuegos artificiales de fondo (con el 3D, detrás del podio)
     setTimeout(() => {
-        startFireworks();
+        startFireworks({ behindPodium: Boolean(lobbyMain.querySelector('.podium-content--3d')) });
     }, 500); // Pequeño delay para que el DOM se renderice primero
 }
 

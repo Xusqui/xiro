@@ -126,6 +126,16 @@
     vertical-align: 0.12em;
 }
 
+/* Los fuegos quedan detrás (z-index 1, fireworks.css). .podium-content no crea
+   contexto de apilamiento, así que estos z-index compiten con ellos en la raíz */
+.podium-content--3d > .podium3d-stage,
+.podium-content--3d > .podium-title,
+.podium-content--3d > .podium-list,
+.podium-content--3d > .podium-team-note {
+    position: relative;
+    z-index: 2;
+}
+
 /* Con el 3D, los tres primeros solo para lectores de pantalla */
 .podium-content--3d .podium-row[data-place="1"],
 .podium-content--3d .podium-row[data-place="2"],

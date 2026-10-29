@@ -19,6 +19,15 @@
   mix-blend-mode: screen;
 }
 
+/* Podio 3D: sobre el velo del podio (z-index auto) y debajo de bloques, título y
+   filas (z-index 2 en presenter-podium3d.css). Con el lienzo WebGL encima, screen
+   no deja invisible el negro de las estelas y tapa la selva: aquí las estelas van
+   sobre transparente (transparentTrails) y se componen sin mezcla */
+#fireworks-podium-container.fireworks-podium-container--behind {
+  z-index: 1;
+  mix-blend-mode: normal;
+}
+
 /* Contenedor interno de canvas - SIN blend mode propio, SIN z-index */
 .fireworks-canvas-container {
   position: absolute;

@@ -154,6 +154,9 @@ class FireworksController {
         this.trailIntensity = 0.175;
         this.starWidth = 3;
         this.sparkWidth = 1;
+        // Estelas sobre fondo transparente en vez de negro opaco: para lienzos que no
+        // se mezclan con screen (detrás del podio 3D, donde el negro tapa el fondo)
+        this.transparentTrails = false;
 
         // Sonido
         this.soundEnabled = false;
@@ -363,9 +366,11 @@ class FireworksController {
         trailsCtx.fillStyle = `rgba(0, 0, 0, ${Math.max(0, 1 - this.trailIntensity * speed)})`;
         trailsCtx.fillRect(0, 0, width, height);
         // Rellenar zonas transparentes con negro opaco (dibuja BAJO el contenido existente).
-        trailsCtx.globalCompositeOperation = 'destination-over';
-        trailsCtx.fillStyle = 'rgb(0, 0, 0)';
-        trailsCtx.fillRect(0, 0, width, height);
+        if (!this.transparentTrails) {
+            trailsCtx.globalCompositeOperation = 'destination-over';
+            trailsCtx.fillStyle = 'rgb(0, 0, 0)';
+            trailsCtx.fillRect(0, 0, width, height);
+        }
         trailsCtx.globalCompositeOperation = 'source-over';
 
         mainCtx.clearRect(0, 0, width, height);
