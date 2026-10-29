@@ -56,11 +56,6 @@ rpi/
 secrets/
 skills-lock.json
 
-# Monitorización: solo se publica la explicación de los secretos, nunca los secretos
-!monitoring/secrets/
-monitoring/secrets/*
-!monitoring/secrets/README.md
-
 # Overrides sensibles
 app/config/runtime-overrides.json
 app/config/ui-overrides.json

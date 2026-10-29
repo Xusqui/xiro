@@ -21,40 +21,6 @@ get_json_value() {
     echo "${val:-$default}"
 }
 
-# Métricas para el textfile collector de node-exporter (monitoring/README.md).
-# $1 = 1 (éxito) o 0 (fallo); $2 = tamaño en bytes del backup (solo en éxito).
-write_metrics() {
-    local dir="/backups/metrics"
-    local file="$dir/xiro_backup.prom"
-    local now
-    now=$(date +%s)
-    mkdir -p "$dir" && chmod 755 "$dir" 2>/dev/null
-    local last_success
-    last_success=$(grep '^xiro_backup_last_success_timestamp_seconds ' "$file" 2>/dev/null | cut -d' ' -f2)
-    local last_size
-    last_size=$(grep '^xiro_backup_last_size_bytes ' "$file" 2>/dev/null | cut -d' ' -f2)
-    if [ "$1" = "1" ]; then
-        last_success="$now"
-        last_size="$2"
-    fi
-    {
-        echo "# HELP xiro_backup_last_run_timestamp_seconds Fin del último backup (con éxito o no)."
-        echo "# TYPE xiro_backup_last_run_timestamp_seconds gauge"
-        echo "xiro_backup_last_run_timestamp_seconds $now"
-        echo "# HELP xiro_backup_last_run_success 1 si el último backup terminó bien."
-        echo "# TYPE xiro_backup_last_run_success gauge"
-        echo "xiro_backup_last_run_success $1"
-        if [ -n "$last_success" ]; then
-            echo "# HELP xiro_backup_last_success_timestamp_seconds Fin del último backup correcto."
-            echo "# TYPE xiro_backup_last_success_timestamp_seconds gauge"
-            echo "xiro_backup_last_success_timestamp_seconds $last_success"
-            echo "# HELP xiro_backup_last_size_bytes Tamaño del último backup correcto."
-            echo "# TYPE xiro_backup_last_size_bytes gauge"
-            echo "xiro_backup_last_size_bytes ${last_size:-0}"
-        fi
-    } > "$file.tmp" && chmod 644 "$file.tmp" && mv "$file.tmp" "$file"
-}
-
 resolve_db_password() {
     local secret_value=""
     if [ -r "$DB_PASSWORD_FILE_RESOLVED" ]; then
@@ -102,7 +68,6 @@ chmod 700 /backups 2>/dev/null || true
 
 if ! RESOLVED_PASSWORD=$(resolve_db_password); then
     echo "[backup] $(date '+%Y-%m-%d %H:%M:%S') — ERROR: falta DB_PASSWORD o DB_PASSWORD_FILE válido" >&2
-    write_metrics 0
     exit 1
 fi
 
@@ -129,12 +94,10 @@ if {
 
     SIZE=$(du -sh "$DEST_FILE" 2>/dev/null | cut -f1)
     echo "[backup] $(date '+%Y-%m-%d %H:%M:%S') — Backup completado: $DEST_FILE ($SIZE)"
-    write_metrics 1 "$(wc -c < "$DEST_FILE" | tr -d ' ')"
 else
     echo "[backup] $(date '+%Y-%m-%d %H:%M:%S') — ERROR: pg_dump falló (código $(cat "$DUMP_STATUS_FILE" 2>/dev/null || echo '?'))" >&2
     # Solo el temporal: DEST_FILE, si existe, es un backup anterior correcto del mismo segundo.
     rm -f "$TMP_FILE" "$DUMP_STATUS_FILE"
-    write_metrics 0
     exit 1
 fi
 

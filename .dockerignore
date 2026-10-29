@@ -36,7 +36,6 @@ docs/DOCKERHUB_README.md
 **/coverage
 **/graphify-out
 app/.impeccable
-monitoring
 rpi
 app/ai-generator/groq-key.json
 app/public/clientes.html
