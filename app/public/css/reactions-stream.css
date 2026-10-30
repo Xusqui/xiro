@@ -1,0 +1,169 @@
+/*
+ * Corriente de reacciones con emoji (presentador y TV). Los emojis suben por una columna a
+ * la derecha de la pantalla, así nunca tapan el enunciado ni las respuestas, y se
+ * desvanecen arriba. Solo transform y opacity; sin variables, grid ni gap porque tv.html
+ * también la carga (navegadores de TV antiguos).
+ */
+
+.rxs-layer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 10vw;
+    min-width: 110px;
+    z-index: 60;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.rxs-item {
+    position: absolute;
+    bottom: -12vh;
+    width: 3.4vw;
+    min-width: 40px;
+    max-width: 68px;
+    opacity: 0;
+    -webkit-animation-name: rxs-rise;
+    animation-name: rxs-rise;
+    -webkit-animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+    animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.rxs-sway {
+    position: relative;
+    text-align: center;
+    -webkit-animation-name: rxs-sway;
+    animation-name: rxs-sway;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    -webkit-animation-direction: alternate;
+    animation-direction: alternate;
+}
+
+.rxs-item--left .rxs-sway {
+    -webkit-animation-name: rxs-sway-left;
+    animation-name: rxs-sway-left;
+}
+
+.rxs-sway img {
+    display: block;
+    margin: 0 auto;
+    height: auto;
+    -webkit-filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
+}
+
+/* Cifra de una ráfaga grande: dorado del escenario (stage-gold) con tinta oscura */
+.rxs-count {
+    position: absolute;
+    right: -18%;
+    top: -14%;
+    padding: 0.15em 0.5em;
+    border-radius: 9999px;
+    background: #fbbf24;
+    color: #0f172a;
+    font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-weight: 900;
+    font-size: 0.85vw;
+    line-height: 1.2;
+    white-space: nowrap;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+}
+
+@-webkit-keyframes rxs-rise {
+    0% { opacity: 0; -webkit-transform: translateY(0) scale(0.6); }
+    10% { opacity: 1; -webkit-transform: translateY(-8vh) scale(1); }
+    72% { opacity: 1; }
+    100% { opacity: 0; -webkit-transform: translateY(-88vh) scale(1); }
+}
+
+@keyframes rxs-rise {
+    0% { opacity: 0; transform: translateY(0) scale(0.6); }
+    10% { opacity: 1; transform: translateY(-8vh) scale(1); }
+    72% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-88vh) scale(1); }
+}
+
+@-webkit-keyframes rxs-sway {
+    from { -webkit-transform: translateX(-10px) rotate(-6deg); }
+    to { -webkit-transform: translateX(10px) rotate(6deg); }
+}
+
+@keyframes rxs-sway {
+    from { transform: translateX(-10px) rotate(-6deg); }
+    to { transform: translateX(10px) rotate(6deg); }
+}
+
+@-webkit-keyframes rxs-sway-left {
+    from { -webkit-transform: translateX(10px) rotate(6deg); }
+    to { -webkit-transform: translateX(-10px) rotate(-6deg); }
+}
+
+@keyframes rxs-sway-left {
+    from { transform: translateX(10px) rotate(6deg); }
+    to { transform: translateX(-10px) rotate(-6deg); }
+}
+
+/* Sin movimiento: aparecen y se desvanecen en su sitio, a media altura */
+@media (prefers-reduced-motion: reduce) {
+    .rxs-item {
+        bottom: 30vh;
+        -webkit-animation-name: rxs-fade;
+        animation-name: rxs-fade;
+        -webkit-animation-duration: 1200ms !important;
+        animation-duration: 1200ms !important;
+    }
+
+    .rxs-sway {
+        -webkit-animation: none;
+        animation: none;
+    }
+}
+
+@-webkit-keyframes rxs-fade {
+    0%, 100% { opacity: 0; }
+    25%, 70% { opacity: 1; }
+}
+
+@keyframes rxs-fade {
+    0%, 100% { opacity: 0; }
+    25%, 70% { opacity: 1; }
+}
+
+/* Aviso del presentador al silenciar o reactivar (menú ⋯ o tecla R) */
+.rxs-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 12vh;
+    z-index: 70;
+    padding: 0.7em 1.4em;
+    border-radius: 9999px;
+    background: rgba(15, 23, 42, 0.86); /* console-ink */
+    color: #fff;
+    font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-weight: 900;
+    font-size: 1.4rem;
+    white-space: nowrap;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+    pointer-events: none;
+    opacity: 0;
+    -webkit-transform: translate(-50%, 12px);
+    transform: translate(-50%, 12px);
+    -webkit-transition: opacity 200ms ease-out, -webkit-transform 260ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition: opacity 200ms ease-out, transform 260ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rxs-toast.is-visible {
+    opacity: 1;
+    -webkit-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+}
+
+.rxs-toast:empty {
+    display: none;
+}

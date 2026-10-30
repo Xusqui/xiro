@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="/css/presenter-lobby-mobile.css?v=20261026120000">
     <link rel="stylesheet" href="/css/fireworks.css?v=20260922172926">
     <link rel="stylesheet" href="/css/presenter-podium3d.css?v=20261024120000">
+    <link rel="stylesheet" href="/css/reactions-stream.css?v=20261030160000">
     <link rel="stylesheet" href="/css/game-intro.css?v=20260922172926">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -177,6 +178,11 @@
             <i id="fullscreen-icon" class="fas fa-expand"></i>
             <span data-i18n="presenter.fullscreen.title">...</span>
         </button>
+        <!-- Reacciones con emoji (oculto hasta conocer el estado de la sala; tecla R) -->
+        <button id="reactions-toggle-btn" data-presenter-action="toggle-reactions" class="stage-menu-item" hidden>
+            <i id="reactions-toggle-icon" class="fas fa-comment-slash"></i>
+            <span id="reactions-toggle-label">Silenciar reacciones</span>
+        </button>
         <!-- Música de la partida (solo si el administrador la tiene activada) -->
         <div id="stage-music" class="stage-menu-music" hidden>
             <button id="music-toggle-btn" data-presenter-action="toggle-music" class="stage-menu-item"
@@ -268,6 +274,9 @@
     <script src="/js/core/slide-canvas-legacy.js?v=20261020120000"></script>
     <script src="/js/core/slide-canvas-shapes.js?v=20261020120000"></script>
     <script src="/js/core/slide-canvas-render.js?v=20261020200000"></script>
+    <script src="/js/core/reactions-catalog.js?v=20261030120000"></script>
+    <script src="/js/core/reactions-stream-plan.js?v=20261030120000"></script>
+    <script src="/js/core/reactions-stream.js?v=20261030120000"></script>
     <script type="module" src="/js/presenter/presenter-main.js?v=20260922172926"></script>
     <script src="/js/core/random-points-overlay.js?v=20260922172926"></script>
     <script src="/js/core/game-intro-fx.js?v=20260922172926"></script>

@@ -12,6 +12,8 @@
     "manual_admin.tools.interfaz.animacion_inicio_desc": "各ゲームの前（トリビアを含む）に、プレゼンター・TV・スマートフォンでアニメーションするXiro!ロゴと<strong>3、2、1、0</strong>のカウントダウンを表示します。音はプレゼンターのみで鳴ります。最初の問題のタイマーは終了後に開始します。初期設定で有効です。",
     "manual_admin.tools.interfaz.podio_3d": "3D表彰台",
     "manual_admin.tools.interfaz.podio_3d_desc": "プレゼンターの最終表彰台で、上位3名が音楽に合わせて金・銀・銅の3Dブロックとしてせり上がり、優勝者に紙吹雪が降ります。4位から10位はその下に行で表示されます。システムの「動きを減らす」設定がオンの場合、ブロックは最初から組み上がった状態で表示され、紙吹雪はありません。ブラウザがWebGL2に対応していない場合は、これまでどおり行で表示されます。初期設定でオンです。",
+    "manual_admin.tools.interfaz.reactions": "絵文字リアクション",
+    "manual_admin.tools.interfaz.reactions_desc": "問題が出ていないとき（ロビー、スライド、回答後（チーム戦ではチーム全員の回答後）、正解発表、ランキング）、プレイヤーはスマホから絵文字を送れます。絵文字は司会者の画面とテレビの右側の列を浮かび上がります。匿名で、得点にはなりません。バーに表示する<strong>6個の絵文字</strong>を選ぶ順に選択するか、<em>リセット</em>を押してください。司会者はゲーム中に ⋯ メニュー、<strong>R</strong> キー、またはリモコンからミュートできます。変更は新しいゲームから適用されます。",
     "manual_admin.tools.interfaz.personalization": "インターフェースをカスタマイズ",
     "manual_admin.tools.interfaz.personalization_desc": "ゲームのすべての画面にイベントのブランドバッジ（例：スポンサーのロゴ）を表示します。このパネルから直接ロゴのアップロード、選択、削除ができます。"
   }

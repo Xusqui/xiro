@@ -39,6 +39,7 @@ import { registerTrivialSocketHandlers } from './presenter-trivial-socket.js?v=2
 import { setupPresenterActionDelegation } from './presenter-actions.js?v=20260922172926';
 import { setupNextQuestionShortcut } from './presenter-keyboard.js?v=20260922172926';
 import { registerMusicBridge } from './presenter-music.js?v=20260922172926';
+import { registerPresenterReactions } from './presenter-reactions.js?v=20261030120000';
 
 // Detect remote mode early (URL params available synchronously) to avoid registering
 // full-presenter socket handlers that crash when their DOM elements don't exist.
@@ -70,6 +71,7 @@ if (!_isRemoteMode) {
     registerTrivialSocketHandlers();
     // Después de los manejadores del juego: la música reacciona a lo ya pintado
     registerMusicBridge();
+    registerPresenterReactions();
     startWaitingPanelSync();
 
     // Safari solo deja sonar WebAudio tras un gesto del usuario: se aprovecha

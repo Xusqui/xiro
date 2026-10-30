@@ -469,7 +469,8 @@ body.stage-split #matching-reveal-card > div:last-child > div {
     gap: 0.5rem;
 }
 
-.stage-menu-music[hidden] {
+.stage-menu-music[hidden],
+.stage-menu-item[hidden] {
     display: none;
 }
 

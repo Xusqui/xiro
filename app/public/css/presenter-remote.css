@@ -123,6 +123,11 @@ body.remote-mode>*:not(#remote-app):not(.xiro-modal-overlay) {
     user-select: none;
 }
 
+/* Botones que aún no tocan (p. ej. reacciones antes de conocer su estado) */
+.remote-btn[hidden] {
+    display: none;
+}
+
 .remote-btn:active {
     transform: scale(0.96);
     opacity: 0.85;

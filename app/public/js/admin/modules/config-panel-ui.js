@@ -1,6 +1,7 @@
 /**
  * @fileoverview Pestaña "Interfaz" del panel de configuración: tarjeta de TV, tarjeta
- * standalone, fondo animado y personalización (config-personalization.js).
+ * standalone, fondo animado, reacciones con emoji (config-reactions.js) y personalización
+ * (config-personalization.js).
  * Los cambios se guardan con la barra común (admin-savebar.js) vía POST /api/admin/ui-settings.
  * Aquí vive también postUiSettings, que usan Fuegos artificiales y Equipos.
  * Depende de: config-panel.js (_configData) y checkbox.js cargados previamente.
@@ -101,6 +102,7 @@ function _renderUiTab(settings) {
         ${_renderUiSwitchCard({ key: 'animarFondo', checked: settings.animarFondo !== false, icon: 'fa-leaf', iconBg: 'bg-green-100', iconColor: 'text-green-600', textKey: 'animar_fondo' })}
         ${_renderUiSwitchCard({ key: 'animacionInicio', checked: settings.animacionInicio !== false, icon: 'fa-film', iconBg: 'bg-green-100', iconColor: 'text-green-600', textKey: 'animacion_inicio' })}
         ${_renderUiSwitchCard({ key: 'podio3d', checked: settings.podio3d !== false, icon: 'fa-trophy', iconBg: 'bg-green-100', iconColor: 'text-green-600', textKey: 'podio_3d' })}
+        ${renderReactionsSection(settings)}
         ${renderPersonalizationSection(settings)}
     </div>`;
 }
@@ -128,10 +130,14 @@ function uiTabSnapshot() {
         animacionInicio: checked('ui-switch-animacionInicio'),
         podio3d: checked('ui-switch-podio3d'),
         personalizationEnabled: checked('ui-switch-personalizationEnabled'),
-        personalizationImage: personalizationSelectedImage()
+        personalizationImage: personalizationSelectedImage(),
+        ...reactionsSnapshot()
     };
 }
 
 function saveUiTab(initial) {
-    return postUiSettings(changedSettings(uiTabSnapshot(), initial));
+    const snapshot = uiTabSnapshot();
+    const error = reactionsSaveError(snapshot);
+    if (error) return Promise.resolve({ ok: false, message: error });
+    return postUiSettings(changedSettings(snapshot, initial));
 }

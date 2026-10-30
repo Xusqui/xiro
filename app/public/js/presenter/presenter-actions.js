@@ -132,6 +132,7 @@ const PRESENTER_CLICK_ACTIONS = {
     'toggle-stage-menu': () => toggleStageMenu(),
     'toggle-fullscreen': () => toggleFullscreen(),
     'toggle-music': () => window.XiroPresenterMusic?.togglePause(),
+    'toggle-reactions': () => window.XiroPresenterReactions?.toggle(),
     'start-game': () => empezar(),
     'abandon-game': () => abandonarJuego(),
     'terminate-game': () => terminarJuego(),

@@ -54,6 +54,8 @@ const {
     createReviewStateHandler,
     registerSlideNavigationEvents
 } = require('./handlers/SlideNavigationHandler');
+const { registerReactionEvents } = require('./handlers/ReactionHandler');
+const { createReactionsFeature } = require('./services/ReactionsFeature');
 
 const syncBus = RedisSyncBus.getInstance();
 let io = null;
@@ -184,7 +186,8 @@ function createHandlerSet(dependencies) {
         handleAbandonGame: createAbandonGameHandler(dependencies),
         handleError: createErrorHandler(dependencies),
         handleJoinRemotePresenter: createJoinRemotePresenterHandler({ activeGames, lobbyPlayers, teamConfigs }),
-        trivialHandler: TrivialSocketHandler({ io, lobbyPlayers })
+        trivialHandler: TrivialSocketHandler({ io, lobbyPlayers }),
+        reactions: createReactionsFeature({ io, activeGames, players })
     };
 }
 
@@ -366,6 +369,7 @@ function onSocketConnection(socket, handlers, ackManager) {
     registerPresenterSocketEvents(socket, handlers);
     registerSlideNavigationEvents(socket, { handlers, assertIsPresenter });
     registerTrivialSocketEvents(socket, handlers);
+    registerReactionEvents(socket, handlers.reactions);
     registerDisconnectAndErrorEvents(socket, handlers, ackManager);
     observeSocket(socket);
 }
@@ -389,6 +393,9 @@ function logConfiguredSocketHandlers() {
             'get-review-state',
             'reveal-answer',
             'manual-points',
+            'send-reaction',
+            'get-reactions',
+            'set-reactions',
             'end-game',
             'leave-lobby',
             'disconnect',

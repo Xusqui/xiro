@@ -28,6 +28,7 @@ import { registerReviewEvents } from './player-review.js?v=20261024180000';
 import { registerGameFlowEvents, salirDelLobby } from './player-game-flow.js?v=20260922172926';
 import { registerReconnectionEvents } from './player-reconnection.js?v=20260922172926';
 import { registerTrivialPlayerSocketHandlers } from './player-trivial-socket.js?v=20260922172926';
+import { registerReactionEvents } from './player-reactions.js?v=20261030180000';
 
 if (window.XiroI18n && typeof window.XiroI18n.addSections === 'function') {
     void window.XiroI18n.addSections(['player'], { reload: false });
@@ -137,6 +138,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // (if socket connected before DOMContentLoaded).
     console.log('[RECONNECT DEBUG] 1. Registrando reconnection events');
     registerReconnectionEvents();
+    // Antes de connection events: la bandeja también escucha reconnected-success
+    registerReactionEvents();
     console.log('[RECONNECT DEBUG] 2. Registrando connection events');
     registerConnectionEvents();
     registerSessionEvents(mostrarSeleccionEquipo);

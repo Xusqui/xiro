@@ -1,0 +1,127 @@
+/*
+ * Selector de las reacciones con emoji (admin → Configuración → Interfaz).
+ * Vista previa con el mismo aspecto que la bandeja del jugador (píldora berenjena, teclas
+ * blancas) y rejilla del catálogo: elegidos en ciruela con su orden.
+ */
+
+.rx-count {
+    font-family: 'JetBrains Mono', 'DM Mono', Menlo, monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #475569;
+    font-variant-numeric: tabular-nums;
+}
+
+.rx-count--incomplete {
+    padding: 0.1rem 0.5rem;
+    border-radius: 9999px;
+    background: var(--signal-amber-tint, #fff0c2);
+    color: #92400e;
+}
+
+.rx-reset {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--camaleon-700, #445e02);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+}
+
+.rx-reset:hover {
+    color: var(--camaleon-800, #344901);
+}
+
+/* Lo que verá el jugador */
+.rx-preview {
+    display: inline-flex;
+    gap: 5px;
+    min-height: 52px;
+    margin-bottom: 1.25rem;
+    padding: 6px;
+    border-radius: 9999px;
+    background: var(--aubergine-900, #3f2746);
+    box-shadow: 0 8px 18px rgb(15 23 42 / 0.18);
+}
+
+.rx-preview__key {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-bottom: 3px solid #cbd5e1;
+    border-radius: 9999px;
+    background: #fff;
+}
+
+.rx-pick-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
+    gap: 8px;
+}
+
+.rx-pick {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    background: #fff;
+    cursor: pointer;
+    transition: border-color 120ms ease-out, background-color 120ms ease-out, transform 120ms ease-out;
+}
+
+.rx-pick:hover:not(:disabled) {
+    border-color: var(--plum-300, #e4abde);
+    transform: translateY(-1px);
+}
+
+.rx-pick:focus-visible {
+    outline: 3px solid var(--plum-400, #cd81c6);
+    outline-offset: 2px;
+}
+
+.rx-pick[aria-pressed='true'] {
+    border-color: var(--plum-600, #94438e);
+    background: var(--plum-50, #fdf4fb);
+}
+
+.rx-pick:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.rx-pick__order {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    display: grid;
+    place-items: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    border-radius: 9999px;
+    background: var(--plum-600, #94438e);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.rx-pick__order:empty {
+    display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rx-pick {
+        transition: none;
+    }
+
+    .rx-pick:hover:not(:disabled) {
+        transform: none;
+    }
+}

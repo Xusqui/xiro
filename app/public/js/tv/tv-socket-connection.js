@@ -175,6 +175,7 @@ window.TVApp.SocketConnection = (function () {
                 if (state.isTeamMode && state.teamConfig && window.TVApp.Teams) {
                     window.TVApp.Teams.renderTeamLobby();
                 }
+                if (window.TVApp.Reactions) window.TVApp.Reactions.attach(socket);
             } catch (e) {
                 console.log('Error en join-success:', e);
             }

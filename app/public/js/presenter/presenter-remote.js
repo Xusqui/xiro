@@ -4,6 +4,7 @@
  */
 
 import { socket } from './presenter-socket-config.js?v=20260922172926';
+import { mountRemoteReactions } from './presenter-remote-reactions.js?v=20261030120000';
 import { mostrarModalConfirmacion } from '../shared/modal.js?v=20260922172926';
 import { emitPreviousSlide } from './presenter-slide-nav.js?v=20261026120000';
 import { syncRemotePrevButton } from './presenter-remote-nav.js?v=20261024180000';
@@ -190,6 +191,7 @@ function handleJoinSuccess(data) {
         onConclude: remoteConclude,
         onTimer: remoteToggleTimer
     });
+    mountRemoteReactions(socket);
 
     // Registrar callback de asignacion de puntos para el panel de comentarios remoto.
     setRemotePointsHandler((nameOrTeam, points, isTeam) => {

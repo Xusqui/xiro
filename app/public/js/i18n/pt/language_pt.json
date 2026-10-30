@@ -121,7 +121,8 @@
     "/js/i18n/pt/language_pt_manual_admin_tools_botrunner.json",
     "/js/i18n/pt/language_pt_manual_admin_tools_mantenimiento.json",
     "/js/i18n/pt/language_pt_standalone.json",
-    "/js/i18n/pt/language_pt_common_random_points.json"
+    "/js/i18n/pt/language_pt_common_random_points.json",
+    "/js/i18n/pt/language_pt_common_reactions.json"
   ],
   "keys": {
     "language.label": "Idioma",

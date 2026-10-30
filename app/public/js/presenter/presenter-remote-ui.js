@@ -4,6 +4,7 @@
  */
 
 import { remotePrevButtonHtml } from './presenter-remote-nav.js?v=20261024180000';
+import { remoteReactionsButtonHtml } from './presenter-remote-reactions.js?v=20261030120000';
 
 /**
  * Escapes HTML-sensitive characters to avoid accidental HTML injection in UI labels.
@@ -104,6 +105,7 @@ export function renderControlPanel(data, handlers) {
                 <i class="fas fa-list"></i>
                 <span>Concluir</span>
             </button>
+            ${remoteReactionsButtonHtml()}
         </div>
         <p class="remote-hint">Xiro! (https://xiro.pro) Una idea original de Familia Fernández Villatoro.</p>
     </div>`);

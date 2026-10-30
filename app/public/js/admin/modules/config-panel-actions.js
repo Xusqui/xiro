@@ -4,7 +4,7 @@
  * (admin-savebar.js). Subir y borrar imágenes de personalización son la excepción
  * (operaciones de fichero inmediatas).
  * Depende de: config-panel.js, config-panel-ui.js, config-panel-fireworks.js,
- * config-personalization.js, config-team-names.js y unsaved-changes.js.
+ * config-personalization.js, config-reactions.js, config-team-names.js y unsaved-changes.js.
  */
 
 let _configPanelDelegationReady = false;
@@ -30,6 +30,11 @@ const _CONFIG_CLICK_ACTIONS = {
     'delete-personalization-image': el => {
         if (el.dataset.filename) deletePersonalizationImage(el.dataset.filename);
     },
+    'toggle-reactions-enabled': el => toggleReactionsEnabled(el.checked),
+    'pick-reaction': el => {
+        if (el.dataset.reaction) toggleReactionPick(el.dataset.reaction);
+    },
+    'reset-reaction-set': () => resetReactionSet(),
     'set-tv-card-mode': el => {
         if (el.dataset.mode) setTvCardMode(el.dataset.mode, el);
     },

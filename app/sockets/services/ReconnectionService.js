@@ -12,6 +12,8 @@ const TrivialReconnectService = require('./TrivialReconnectService');
 const { buildReconnectRandomPointsState } = require('../utils/RandomPointsRevealManager');
 const { buildReconnectIntroState } = require('../utils/GameIntroManager');
 const { closedWhileReviewing, canGoBack } = require('../../domain/services/SlideNavigationPolicy');
+const { canReact } = require('../../domain/services/ReactionPolicy');
+const { resolveTeamDone } = require('../utils/ReactionTeamGate');
 
 // Lazy-loaded to avoid circular dependencies (GameStateAdapter ↔ services)
 let _getAdapter = null;
@@ -337,6 +339,12 @@ async function buildPlayerSnapshot(player, roomId, game, teamConfigs, trivialBoa
 
     if (gameHasStarted) {
         snapshot.gameState = buildGameStateSnapshot(game, player, roomId);
+        // Bandeja de reacciones del jugador (ReactionPolicy): misma regla que el servidor
+        snapshot.gameState.reactionsOpen = canReact({
+            game,
+            player,
+            teamDone: await resolveTeamDone({ game, player, roomId })
+        });
         snapshot.ranking = buildRankingSnapshot(game);
 
         // Intentar incluir información de racha del jugador
