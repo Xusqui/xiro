@@ -9,7 +9,7 @@ import { buildMultipleChoiceBreakdownHTML } from './player-answer-mc-breakdown.j
 import { matchingResultHtml } from './player-answer-matching-breakdown.js?v=20260922172926';
 import { wordSearchResultHtml } from './player-answer-wordsearch.js?v=20260922172926';
 import { fillBlanksResultHtml } from './player-answer-fillblanks.js?v=20260922172926';
-import { surveyMultipleResultHtml } from './player-survey-results.js?v=20261021120000';
+import { surveyMultipleResultHtml, surveySingleResultHtml } from './player-survey-results.js?v=20261021120000';
 import { getRememberedReveal } from './player-reveal-correct.js?v=20260922172926';
 import { getCurrentOrder, getCurrentOrderOptions, getCurrentSlideType } from './player-state.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
@@ -141,15 +141,6 @@ function multipleChoiceResultHtml(data, rankingHTML) {
     `;
 }
 
-function surveyResultHtml() {
-    // Survey
-    return `
-        <i class="fas fa-vote-yea text-9xl mb-4 animate-pop"></i>
-        <h2 class="text-5xl font-black italic uppercase">${_t('player.answer.vote_registered', null, '¡Voto Registrado!')}</h2>
-        <p class="text-3xl font-black mt-4 bg-black/20 py-2 px-8 rounded-full">${_t('player.answer.survey_label', null, 'Encuesta')}</p>
-    `;
-}
-
 function correctResultHtml(data, rankingHTML) {
     // Correcto
     return `
@@ -217,7 +208,8 @@ function resultMessageHtml(data, isApproximate) {
     if (data.surveyMultipleDetails) {
         return surveyMultipleResultHtml(data, getRememberedReveal()?.data?.surveyMultiple || null);
     }
-    if (data.correct === null) return surveyResultHtml();
+    // Encuesta de respuesta única: lista con el voto y, al revelar, los porcentajes
+    if (data.correct === null) return surveySingleResultHtml(getRememberedReveal()?.data?.surveySingle || null);
     if (data.correct) return correctResultHtml(data, rankingHTML);
     if (isApproximate) return approximateResultHtml(data, rankingHTML);
     return wrongResultHtml(data, rankingHTML);

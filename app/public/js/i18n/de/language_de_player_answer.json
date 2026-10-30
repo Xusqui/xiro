@@ -24,6 +24,8 @@
     "player.survey_multiple.waiting": "Die Prozente erscheinen, wenn die Frage aufgedeckt wird",
     "player.survey_multiple.caption_one": "1 Antwort · jede Person konnte mehrere wählen",
     "player.survey_multiple.caption_other": "{count} Antworten · jede Person konnte mehrere wählen",
+    "player.survey.caption_one": "1 Antwort",
+    "player.survey.caption_other": "{count} Antworten",
     "player.survey_multiple.results": "Ergebnisse",
     "player.answer.yes": "<img src=\"/images/chamaleon/thumbs_up.svg\" class=\"w-32 h-32 mb-4 animate-float drop-shadow-lg\" alt=\"👍\">",
     "player.answer.approximate": "NAHA DRAN!",

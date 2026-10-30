@@ -17,6 +17,7 @@ import {
 } from './player-question-utils.js?v=20260922172926';
 import { setBodyHTML } from './player-streak-ui.js?v=20260922172926';
 import { escapeHtml, sanitizeResourceUrl } from '../core/sanitize.js?v=20260922172926';
+import { resetSurvey } from './player-survey-results.js?v=20261021120000';
 
 /**
  * Renderizar pregunta con opciones
@@ -26,6 +27,10 @@ export function renderizarPregunta(pregunta) {
     setHaRespondido(false);
     setCanAnswer(true);
     setCurrentSlideType('question');
+    // Encuesta de respuesta única: textos de las opciones para la lista de resultados
+    const isSurvey = pregunta.question_type === 'survey';
+    const surveyTexts = isSurvey ? pregunta.options.map(opt => opt.optionText || opt.text || '') : [];
+    resetSurvey(surveyTexts, isSurvey ? 'single' : null);
 
     const colores = OPTION_COLORS;
     const preguntaFontClass = getResponsiveFontClass(pregunta.question_text);

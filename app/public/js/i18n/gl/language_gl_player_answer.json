@@ -24,6 +24,8 @@
     "player.survey_multiple.waiting": "As porcentaxes aparecen ao revelar a pregunta",
     "player.survey_multiple.caption_one": "1 resposta · cada xogador podía escoller varias",
     "player.survey_multiple.caption_other": "{count} respostas · cada xogador podía escoller varias",
+    "player.survey.caption_one": "1 resposta",
+    "player.survey.caption_other": "{count} respostas",
     "player.survey_multiple.results": "Resultados",
     "player.answer.yes": "<img src=\"/images/chamaleon/thumbs_up.svg\" class=\"w-32 h-32 mb-4 animate-float drop-shadow-lg\" alt=\"👍\">",
     "player.answer.approximate": "APROXIMADO!",

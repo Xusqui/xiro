@@ -24,6 +24,8 @@
     "player.survey_multiple.waiting": "Els percentatges apareixen en revelar la pregunta",
     "player.survey_multiple.caption_one": "1 resposta · cada jugador en podia triar diverses",
     "player.survey_multiple.caption_other": "{count} respostes · cada jugador en podia triar diverses",
+    "player.survey.caption_one": "1 resposta",
+    "player.survey.caption_other": "{count} respostes",
     "player.survey_multiple.results": "Resultats",
     "player.answer.yes": "<img src=\"/images/chamaleon/thumbs_up.svg\" class=\"w-32 h-32 mb-4 animate-float drop-shadow-lg\" alt=\"👍\">",
     "player.answer.approximate": "APROXIMAT!",

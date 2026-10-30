@@ -1,21 +1,36 @@
 /**
- * @fileoverview «Encuesta de selección múltiple» en el móvil: lista de opciones con
- * las del jugador marcadas y, al revelar, el porcentaje de los que respondieron que
- * eligió cada una (la suma puede pasar del 100 %). Sin dependencias de la pantalla
- * de la pregunta, para que la use también player-reveal-correct.js sin ciclos.
- * Estilos en css/survey-multiple.css.
+ * @fileoverview Resultados de las encuestas en el móvil: lista de opciones con lo que votó
+ * el jugador marcado y, al revelar, el porcentaje de cada opción.
+ * - Selección múltiple: porcentaje de los que respondieron que eligió cada una (la suma
+ *   puede pasar del 100 %); se puede no marcar nada.
+ * - Respuesta única: cada jugador vota una opción y los porcentajes suman 100 %. El voto lo
+ *   anota enviarRespuesta (noteSurveyVote); tras recargar la página no se marca.
+ * Sin dependencias de la pantalla de la pregunta, para que la use también
+ * player-reveal-correct.js sin ciclos. Estilos en css/survey-multiple.css.
  */
 
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
-// Textos de las opciones de la pregunta en curso y lo que votó el jugador
+// Pregunta en curso: tipo de encuesta ('single', 'multiple' o null), textos de las
+// opciones y lo que votó el jugador
+let kind = null;
 let optionTexts = [];
 let mySelection = [];
 
-/** Nueva pregunta: guarda los textos de las opciones y olvida el voto anterior. */
-export function resetSurveyMultiple(texts) {
+/** Nueva pregunta: guarda el tipo y los textos de las opciones y olvida el voto anterior. */
+export function resetSurvey(texts, nextKind) {
+    kind = nextKind || null;
     optionTexts = Array.isArray(texts) ? texts : [];
     mySelection = [];
+}
+
+export function resetSurveyMultiple(texts) {
+    resetSurvey(texts, 'multiple');
+}
+
+/** Encuesta de respuesta única: el jugador ha votado la opción `index`. */
+export function noteSurveyVote(index) {
+    if (kind === 'single' && Number.isInteger(index)) mySelection = [index];
 }
 
 function formatPercentage(value) {
@@ -42,12 +57,11 @@ function rowHtml({ text, mine, percentage, index }) {
             </li>`;
 }
 
-function captionHtml(respondents) {
-    const key = respondents === 1 ? 'player.survey_multiple.caption_one' : 'player.survey_multiple.caption_other';
-    const fallback =
-        respondents === 1
-            ? '1 respuesta · cada jugador podía elegir varias'
-            : '{count} respuestas · cada jugador podía elegir varias';
+function captionHtml(respondents, single) {
+    const group = single ? 'player.survey.' : 'player.survey_multiple.';
+    const key = group + (respondents === 1 ? 'caption_one' : 'caption_other');
+    let fallback = respondents === 1 ? '1 respuesta' : '{count} respuestas';
+    if (!single) fallback += ' · cada jugador podía elegir varias';
     return `<p class="sm-results__caption">${_t(key, { count: respondents }, fallback)}</p>`;
 }
 
@@ -55,12 +69,13 @@ function captionHtml(respondents) {
  * Lista de resultados. Sin `survey` (aún no se ha revelado) solo marca lo votado.
  * @param {{ respondents: number, options: Array<{ text: string, percentage: number }> }|null} survey
  * @param {number[]|null} selection - Lo que votó el jugador (null si no respondió)
+ * @param {boolean} [single] - Encuesta de respuesta única
  */
-export function surveyResultsHtml(survey, selection) {
+export function surveyResultsHtml(survey, selection, single = false) {
     const chosen = new Set(selection || []);
     const options = survey ? survey.options : optionTexts.map(text => ({ text }));
     let status = '';
-    if (selection && chosen.size === 0) {
+    if (!single && selection && chosen.size === 0) {
         status = _t('player.survey_multiple.none_chosen', null, 'No marcaste ninguna opción');
     } else if (!survey) {
         status = _t('player.survey_multiple.waiting', null, 'Los porcentajes aparecen al revelar la pregunta');
@@ -73,7 +88,7 @@ export function surveyResultsHtml(survey, selection) {
     return `<section class="sm-results" data-survey-multiple aria-live="polite">
                 ${status ? `<p class="sm-results__status">${status}</p>` : ''}
                 ${rows ? `<ol class="sm-results__list">${rows}</ol>` : ''}
-                ${survey ? captionHtml(survey.respondents) : ''}
+                ${survey ? captionHtml(survey.respondents, single) : ''}
             </section>`;
 }
 
@@ -93,12 +108,32 @@ export function surveyMultipleResultHtml(data, revealed) {
 }
 
 /**
+ * Encuesta de respuesta única, tras votar (answer-result). Si la revelación ya llegó
+ * (equipos), sale con porcentajes.
+ * @param {Object|null} revealed - surveySingle de la última revelación, si la hay
+ */
+export function surveySingleResultHtml(revealed) {
+    return `
+        <i class="fas fa-vote-yea text-6xl mb-3 animate-pop" aria-hidden="true"></i>
+        <h2 class="text-4xl font-black italic uppercase">${_t('player.answer.vote_registered', null, '¡Voto Registrado!')}</h2>
+        <p class="text-lg font-black mt-3 bg-black/20 py-2 px-6 rounded-full">${_t('player.answer.survey_label', null, 'Encuesta')}</p>
+        ${surveyResultsHtml(revealed || null, mySelection, true)}
+    `;
+}
+
+/**
  * Revelación con el jugador ya en su pantalla de resultado: cambia la lista por la de porcentajes.
+ * @param {Object} survey - surveyMultiple o surveySingle
+ * @param {boolean} [single]
  * @returns {boolean} true si había lista que actualizar
  */
-export function applySurveyMultipleReveal(survey) {
+export function applySurveyReveal(survey, single = false) {
     const section = document.querySelector('[data-survey-multiple]');
     if (!section || !survey) return false;
-    section.outerHTML = surveyResultsHtml(survey, mySelection);
+    section.outerHTML = surveyResultsHtml(survey, mySelection, single);
     return true;
+}
+
+export function applySurveyMultipleReveal(survey) {
+    return applySurveyReveal(survey, false);
 }

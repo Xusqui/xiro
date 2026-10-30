@@ -30,6 +30,7 @@ function buildPlayerRevealPayload(presenterPayload) {
     const wordSearch = presenterPayload.wordSearch;
     const fillBlanks = presenterPayload.fillBlanks;
     const surveyMultiple = presenterPayload.surveyMultiple;
+    const surveySingle = presenterPayload.surveySingle;
     return {
         correctAnswer: presenterPayload.correctAnswer ?? null,
         justification: presenterPayload.justification ?? null,
@@ -43,9 +44,23 @@ function buildPlayerRevealPayload(presenterPayload) {
         ...(fillBlanks
             ? { fillBlanks: { text: fillBlanks.text, words: fillBlanks.words, lengths: fillBlanks.lengths } }
             : {}),
-        // Encuesta de selección múltiple: el jugador ve el porcentaje de cada opción
-        ...(surveyMultiple ? { surveyMultiple } : {})
+        // Encuestas: el jugador ve el porcentaje de cada opción
+        ...(surveyMultiple ? { surveyMultiple } : {}),
+        ...(surveySingle ? { surveySingle } : {})
     };
+}
+
+/**
+ * Encuesta de respuesta única: los porcentajes (GameEndManager) con el texto de cada opción,
+ * con la misma forma que surveyMultiple. Cada jugador vota una vez: suman 100 %.
+ */
+function buildSurveySingleReveal(question, percentages) {
+    const options = (question.options || []).map((option, index) => ({
+        text: optionText(option),
+        count: percentages?.[index]?.count || 0,
+        percentage: percentages?.[index]?.percentage || 0
+    }));
+    return { respondents: options.reduce((sum, option) => sum + option.count, 0), options };
 }
 
 /**
@@ -87,6 +102,10 @@ async function applyQuestionTypeOverrides({
         presenterPayload.fillBlanks = await buildFillBlanksReveal(roomId, slot, question);
         presenterPayload.correctAnswer = presenterPayload.fillBlanks.words.join(', ');
         clearOptionFields(presenterPayload);
+    }
+
+    if (flags.isSurveyQuestion) {
+        presenterPayload.surveySingle = buildSurveySingleReveal(question, presenterPayload.percentages);
     }
 
     if (flags.isSurveyMultipleQuestion) {

@@ -24,6 +24,8 @@
     "player.survey_multiple.waiting": "Ehunekoak galdera erakustean agertzen dira",
     "player.survey_multiple.caption_one": "Erantzun 1 · jokalari bakoitzak hainbat aukera zitzakeen",
     "player.survey_multiple.caption_other": "{count} erantzun · jokalari bakoitzak hainbat aukera zitzakeen",
+    "player.survey.caption_one": "Erantzun 1",
+    "player.survey.caption_other": "{count} erantzun",
     "player.survey_multiple.results": "Emaitzak",
     "player.answer.yes": "<img src=\"/images/chamaleon/thumbs_up.svg\" class=\"w-32 h-32 mb-4 animate-float drop-shadow-lg\" alt=\"👍\">",
     "player.answer.approximate": "HURBIL!",

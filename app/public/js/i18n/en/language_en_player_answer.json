@@ -24,6 +24,8 @@
     "player.survey_multiple.waiting": "Percentages appear when the question is revealed",
     "player.survey_multiple.caption_one": "1 answer · each player could choose several",
     "player.survey_multiple.caption_other": "{count} answers · each player could choose several",
+    "player.survey.caption_one": "1 answer",
+    "player.survey.caption_other": "{count} answers",
     "player.survey_multiple.results": "Results",
     "player.answer.yes": "<img src=\"/images/chamaleon/thumbs_up.svg\" class=\"w-32 h-32 mb-4 animate-float drop-shadow-lg\" alt=\"👍\">",
     "player.answer.approximate": "CLOSE!",

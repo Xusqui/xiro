@@ -4,7 +4,7 @@
  */
 
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
-import { surveyResultsHtml, applySurveyMultipleReveal } from './player-survey-results.js?v=20261021120000';
+import { surveyResultsHtml, applySurveyReveal } from './player-survey-results.js?v=20261021120000';
 
 function hasValue(value) {
     return value !== null && value !== undefined && String(value).trim() !== '';
@@ -49,11 +49,12 @@ function correctContentHtml(data) {
 
 /** Bloque "Correcta:" para la pantalla de tiempo agotado o bajo el resultado. */
 export function correctAnswerBlockHtml(data) {
-    // Encuesta de selección múltiple: no hay correcta, sino el porcentaje de cada opción
-    if (data && data.surveyMultiple) {
+    // Encuestas: no hay correcta, sino el porcentaje de cada opción
+    const survey = data && (data.surveyMultiple || data.surveySingle);
+    if (survey) {
         return `<div class="mt-4 w-full max-w-sm mx-auto">
                <p class="text-sm uppercase font-bold opacity-80">${_t('player.survey_multiple.results', null, 'Resultados')}</p>
-               ${surveyResultsHtml(data.surveyMultiple, null)}
+               ${surveyResultsHtml(survey, null, !data.surveyMultiple)}
            </div>`;
     }
     const content = correctContentHtml(data || {});
@@ -117,7 +118,8 @@ export function timeUpScreenHtml(data = null) {
  * correcta (p. ej. ordenar parcial o numérica aproximada), se añade al revelar.
  */
 export function appendCorrectAnswerToResult(data) {
-    if (data && data.surveyMultiple && applySurveyMultipleReveal(data.surveyMultiple)) return;
+    const survey = data && (data.surveyMultiple || data.surveySingle);
+    if (survey && applySurveyReveal(survey, !data.surveyMultiple)) return;
     const result = document.querySelector('[data-result-screen]');
     if (!result || result.hasAttribute('data-correct-shown')) return;
     const block = correctAnswerBlockHtml(data);

@@ -24,6 +24,8 @@
     "player.survey_multiple.waiting": "揭晓题目时显示百分比",
     "player.survey_multiple.caption_one": "1 份回答 · 每位玩家可多选",
     "player.survey_multiple.caption_other": "{count} 份回答 · 每位玩家可多选",
+    "player.survey.caption_one": "1 份回答",
+    "player.survey.caption_other": "{count} 份回答",
     "player.survey_multiple.results": "结果",
     "player.answer.yes": "<img src=\"/images/chamaleon/thumbs_up.svg\" class=\"w-32 h-32 mb-4 animate-float drop-shadow-lg\" alt=\"👍\">",
     "player.answer.approximate": "接近！",
