@@ -33,8 +33,23 @@ function save() {
     }
 }
 
+const KEY_PREFIX = 'xiro_fb_';
+
+/** Borra lo guardado de otras preguntas: solo se retoma la que está en juego */
+function dropOtherKeys(key) {
+    try {
+        for (let i = sessionStorage.length - 1; i >= 0; i--) {
+            const k = sessionStorage.key(i);
+            if (k && k !== key && k.startsWith(KEY_PREFIX)) sessionStorage.removeItem(k);
+        }
+    } catch {
+        // Sin sessionStorage: nada que limpiar
+    }
+}
+
 /** Empieza (o retoma tras reconectar) la pregunta identificada por `key`. */
 export function startFillBlanks(key, text, lengths) {
+    dropOtherKeys(key);
     const saved = load(key) || {};
     const n = lengths.length;
     const list = (value, fill) =>

@@ -10,6 +10,8 @@
 
 import {
     getNickname,
+    getSessionId,
+    getPin,
     getHaRespondido,
     setHaRespondido,
     setCanAnswer,
@@ -252,7 +254,13 @@ export function renderizarPreguntaFillBlanks(pregunta) {
     setCurrentSlideType('question');
 
     const lengths = Array.isArray(pregunta.fb_lengths) ? pregunta.fb_lengths : [];
-    state.startFillBlanks(`xiro_fb_${pregunta.id}_${lengths.join('-')}`, pregunta.question_text, lengths);
+    // La partida va en la clave: otra partida del mismo juego no hereda lo escrito
+    const partida = getSessionId() || getPin();
+    state.startFillBlanks(
+        `xiro_fb_${partida}_${pregunta.id}_${lengths.join('-')}`,
+        pregunta.question_text,
+        lengths
+    );
 
     setBodyHTML(layoutHtml(pregunta));
     const root = document.body;
