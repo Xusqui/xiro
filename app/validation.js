@@ -689,6 +689,8 @@ const joinLobbySchema = Joi.object({
     sessionId: sessionIdSchema.optional(), // ID de sesión único (PIN-UUID)
     nickname: nicknameSchema.required(),
     playerId: uuidSchema.required(),
+    // Avatar elegido al unirse (id del catálogo; AvatarsFeature comprueba que esté activo)
+    avatar: Joi.string().max(32).pattern(/^[a-z0-9-]+$/).allow(null, '').optional(),
     // Optional for presenter reclaim hardening. When present, it is checked
     // server-side against the stored presenter secret.
     sessionSecret: Joi.string().allow('').optional(),

@@ -259,6 +259,95 @@
     font-size: clamp(0.95rem, 1.2vw, 1.6rem);
 }
 
+/* Filas del Top 5 (presenter-reveal-cards.js): puesto · avatar y nombre · puntos en una
+   sola línea; el nombre se recorta con «…» y los números no bailan entre filas */
+#ranking-card .rk-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    padding: 0.6em 0.75em;
+    border: 2px solid transparent;
+    border-radius: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    font-weight: 900;
+    font-variant-numeric: tabular-nums;
+}
+
+#ranking-card .rk-row--lead {
+    border-color: #fbbf24;
+    background: rgba(251, 191, 36, 0.3);
+}
+
+#ranking-card .rk-rank {
+    flex-shrink: 0;
+    min-width: 1.1em;
+    font-size: 1.125em;
+    text-align: right;
+}
+
+#ranking-card .rk-who {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 0.45em;
+    min-width: 0;
+}
+
+#ranking-card .rk-who .avatar-chip {
+    width: 1.5em;
+    height: 1.5em;
+    margin: 0;
+}
+
+/* Si alguien del Top 5 tiene avatar, quien no lo tiene guarda el hueco: nombres alineados */
+#ranking-card:has(.avatar-chip) .rk-who:not(:has(> .avatar-chip))::before {
+    flex: 0 0 1.5em;
+    content: '';
+}
+
+#ranking-card .rk-name {
+    overflow: hidden;
+    font-size: 1.125em;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+#ranking-card .rk-pts {
+    flex-shrink: 0;
+    font-size: 1.25em;
+}
+
+/* Columna de jugadores (unos 14em de ancho): una fila no cabe sin cortar el nombre.
+   Puesto y avatar con el nombre arriba; los puntos debajo, alineados con el avatar */
+#ranking-card {
+    container-type: inline-size;
+}
+
+@container (max-width: 18em) {
+    #ranking-card .rk-row {
+        display: grid;
+        grid-template-areas:
+            'rank who'
+            '. pts';
+        grid-template-columns: auto minmax(0, 1fr);
+        row-gap: 0.15em;
+    }
+
+    #ranking-card .rk-rank {
+        grid-area: rank;
+    }
+
+    #ranking-card .rk-who {
+        grid-area: who;
+    }
+
+    #ranking-card .rk-pts {
+        grid-area: pts;
+        font-size: 1.1em;
+    }
+}
+
 /* Revelado con solución: opciones en una columna a la izquierda y la solución
    (orden, pares o justificación) en la mitad derecha de la zona central */
 body.stage-split #options-grid {

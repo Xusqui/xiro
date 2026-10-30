@@ -1,12 +1,11 @@
 /**
- * @fileoverview Bloques del podio 3D: caja redondeada con el puesto grabado en la cara,
+ * @fileoverview Bloques del podio 3D: caja redondeada con el puesto (y el avatar) en la cara,
  * sombra de contacto en el suelo y onda de aterrizaje. Cada bloque crece desde y = 0.
  */
 
 import * as THREE from '/vendor/three/three-0.170.0.module.min.js';
-import { BLOCK } from './podium3d-plan.js?v=20261024120000';
-
-const NUMERAL_FONT = '"Bebas Neue", ui-sans-serif, system-ui, sans-serif';
+import { BLOCK } from './podium3d-plan.js?v=20261031120000';
+import { addBlockFace } from './podium3d-face.js?v=20261031120000';
 
 /** Rectángulo redondeado centrado en el origen (planta del bloque). */
 function roundedRect(width, depth, radius) {
@@ -42,28 +41,6 @@ function blockGeometry(height) {
     return geometry;
 }
 
-/** Puesto grabado: tinta del color del bloque y un filo claro debajo, como un relieve hundido. */
-function numeralTexture(place, ink) {
-    const size = 256;
-    const canvas = document.createElement('canvas');
-    canvas.width = size;
-    canvas.height = size;
-    const ctx = canvas.getContext('2d');
-    ctx.font = `400 ${size * 0.86}px ${NUMERAL_FONT}`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    const y = size * 0.55;
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.42)';
-    ctx.fillText(String(place), size / 2, y + 5);
-    ctx.globalAlpha = 0.72;
-    ctx.fillStyle = ink;
-    ctx.fillText(String(place), size / 2, y);
-    const texture = new THREE.CanvasTexture(canvas);
-    texture.colorSpace = THREE.SRGBColorSpace;
-    texture.anisotropy = 4;
-    return texture;
-}
-
 /** Degradado radial de `inner` a transparente (sombras de contacto y foco del suelo). */
 export function radialTexture(inner = 'rgba(0,0,0,1)', outer = 'rgba(0,0,0,0)') {
     const size = 128;
@@ -88,10 +65,11 @@ function flatPlane(width, depth, material) {
 }
 
 /**
- * Construye un bloque y lo añade a `scene`. Devuelve `setRise` / `setRing` para que el bucle
+ * Construye un bloque y lo añade a `scene`, con el avatar del jugador en la cara si
+ * `avatarImage` es una imagen cargada. Devuelve `setRise` / `setRing` para que el bucle
  * de animación solo toque números.
  */
-export function createBlock(scene, spec, shadowTexture) {
+export function createBlock(scene, spec, shadowTexture, avatarImage = null) {
     const material = new THREE.MeshPhysicalMaterial({
         color: spec.color,
         metalness: spec.metalness,
@@ -102,18 +80,7 @@ export function createBlock(scene, spec, shadowTexture) {
     const mesh = new THREE.Mesh(blockGeometry(spec.height), material);
     mesh.position.x = spec.x;
 
-    const numeralSize = Math.min(0.82, spec.height * 0.74);
-    const numeralMaterial = new THREE.MeshStandardMaterial({
-        map: numeralTexture(spec.place, spec.ink),
-        transparent: true,
-        depthWrite: false,
-        roughness: 0.55,
-        polygonOffset: true,
-        polygonOffsetFactor: -2
-    });
-    const numeral = new THREE.Mesh(new THREE.PlaneGeometry(numeralSize, numeralSize), numeralMaterial);
-    numeral.position.set(0, spec.height * 0.5, BLOCK.depth / 2 + 0.002);
-    mesh.add(numeral);
+    const face = addBlockFace(mesh, spec, avatarImage);
 
     const shadowMaterial = new THREE.MeshBasicMaterial({
         map: shadowTexture,
@@ -163,9 +130,9 @@ export function createBlock(scene, spec, shadowTexture) {
             return spec.height * mesh.scale.y;
         },
         dispose() {
-            [mesh, numeral, shadow, ring].forEach(m => m.geometry.dispose());
-            numeralMaterial.map.dispose();
-            [material, numeralMaterial, shadowMaterial, ringMaterial].forEach(m => m.dispose());
+            [mesh, shadow, ring].forEach(m => m.geometry.dispose());
+            face.dispose();
+            [material, shadowMaterial, ringMaterial].forEach(m => m.dispose());
         }
     };
 }

@@ -1,0 +1,104 @@
+/*
+ * Avatares de jugador.
+ * - Jugador: selector bajo el apodo (.avp) y avatar propio en la espera del lobby.
+ * - Presentador: avatar junto al apodo en el lobby y el panel de jugadores (.avatar-chip).
+ * La TV usa tv.css (sin grid ni variables).
+ */
+
+.avp {
+    margin: -0.5rem 0 1.5rem;
+    text-align: left;
+}
+
+.avp-label {
+    margin: 0 0 0.5rem;
+    color: #64748b;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* Tres filas a la vista; el resto se desplaza dentro de la caja */
+.avp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
+    gap: 6px;
+    max-height: 168px;
+    padding: 4px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.avp-option {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    padding: 0;
+    border: 3px solid transparent;
+    border-radius: 14px;
+    background: #f1f5f9;
+    cursor: pointer;
+    transition: transform 120ms ease-out, border-color 120ms ease-out, background-color 120ms ease-out;
+}
+
+.avp-option img {
+    width: 70%;
+    height: 70%;
+    pointer-events: none;
+}
+
+.avp-option[aria-pressed='true'] {
+    border-color: var(--plum-500, #b05baa);
+    background: var(--plum-100, #f7e7f5);
+    transform: scale(1.06);
+}
+
+.avp-option:focus-visible {
+    outline: 3px solid var(--plum-300, #e4abde);
+    outline-offset: 2px;
+}
+
+.avp-self {
+    display: block;
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 1rem;
+    filter: drop-shadow(0 6px 10px rgb(0 0 0 / 0.25));
+}
+
+/* Avatar junto al apodo (presentador) */
+/* inline-block: el reset de common.css pone img{display:block} y partiría la línea */
+.avatar-chip {
+    display: inline-block;
+    flex-shrink: 0;
+    width: 1.6em;
+    height: 1.6em;
+    margin-right: 0.35em;
+    vertical-align: middle;
+}
+
+.avatar-card {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4em;
+}
+
+.avatar-card .avatar-chip {
+    margin-right: 0;
+}
+
+.podium-row .avatar-chip {
+    width: 1.4em;
+    height: 1.4em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .avp-option {
+        transition: none;
+    }
+
+    .avp-option[aria-pressed='true'] {
+        transform: none;
+    }
+}

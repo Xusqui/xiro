@@ -9,8 +9,9 @@ import { removeFloatingCards, hideAbandonButton } from './presenter-utils.js?v=2
 import { cleanupRevealElements } from './presenter-reveal.js?v=20260922172926';
 import { restRowDelay, startPodiumReveal } from './presenter-podio-reveal.js?v=20260922172926';
 import { startFireworks, stopFireworks } from './presenter-podio-fireworks.js?v=20261024120000';
-import { mountPodium3d, podiumEntries, wantsPodium3d } from './podium3d/podium3d.js?v=20261024120000';
+import { mountPodium3d, podiumEntries, wantsPodium3d } from './podium3d/podium3d.js?v=20261031120000';
 import { createChamaleonImage } from './presenter-chamaleon.js?v=20260922172926';
+import { getAvatarUrl } from './presenter-avatars.js?v=20261031120000';
 
 const PODIUM_3D_STAGE =
     '<div class="podium3d-stage" aria-hidden="true"><canvas class="podium3d-canvas"></canvas><div class="podium3d-labels"></div></div>';
@@ -97,7 +98,7 @@ function mountPodium3dIfWanted(lobbyMain, ranking, use3d) {
     const stage = content.querySelector('.podium3d-stage');
     podium3d = mountPodium3d({
         stage,
-        entries: podiumEntries(ranking, TEAM_COLOR_CLASSES),
+        entries: podiumEntries(ranking, TEAM_COLOR_CLASSES, getAvatarUrl),
         onFail: () => {
             content.classList.remove('podium-content--3d');
             stage.remove();
@@ -154,12 +155,16 @@ export function renderPodio(ranking) {
                                 : ['bg-yellow-400 text-slate-900 scale-105', 'podium-silver', 'podium-bronze'][i] ||
                                   'bg-white/10 text-white';
                             const icon = isTeamMode ? '<i class="fas fa-users mr-3"></i>' : '';
+                            // En individual, core/avatar-chips.js pone el avatar delante del nombre
+                            const nameHtml = isTeamMode
+                                ? escapeHtml(p.name)
+                                : `<span data-avatar-of="${escapeHtml(p.name)}">${escapeHtml(p.name)}</span>`;
                             // Del 10º al 4º, rápido; el 3º, 2º y 1º esperan su nota (presenter-podio-reveal.js)
                             const top = i < 3;
                             const delay = top ? 0 : restRowDelay(i, total).toFixed(2);
                             return `
                         <div class="podium-row ${top ? 'podium-row-wait' : ''} flex justify-between items-center p-6 rounded-3xl ${bgClass} border-b-4 border-black/20" data-place="${i + 1}" style="animation-delay:${delay}s">
-                            <span class="text-3xl font-black uppercase italic">${icon}${i + 1}º ${escapeHtml(p.name)}</span>
+                            <span class="text-3xl font-black uppercase italic">${icon}${i + 1}º ${nameHtml}</span>
                             <span class="podium-score text-4xl font-black">${p.scoreLabel || p.pts + ' PTS'}</span>
                         </div>`;
                         })

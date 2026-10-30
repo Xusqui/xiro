@@ -10,6 +10,7 @@ const path = require('path');
 // Mismas reglas que el admin y el presentador (módulo UMD compartido)
 const musicSettings = require('../public/js/audio/music-settings.js');
 const reactionsCatalog = require('../public/js/core/reactions-catalog.js');
+const avatarsCatalog = require('../public/js/core/avatars-catalog.js');
 
 const SETTINGS_FILE = path.join(__dirname, 'ui-overrides.json');
 
@@ -61,7 +62,11 @@ const DEFAULTS = {
 
     // Reacciones con emoji en directo (valor inicial de cada partida nueva)
     emojiReactions: true,
-    reactionSet: reactionsCatalog.DEFAULT_SET.slice() // Los 6 emojis de la barra del jugador
+    reactionSet: reactionsCatalog.DEFAULT_SET.slice(), // Los 6 emojis de la barra del jugador
+
+    // Avatar que el jugador elige al unirse (lobby, ranking y podio)
+    playerAvatars: true,
+    avatarSet: avatarsCatalog.DEFAULT_SET.slice() // Los avatares que se ofrecen (4 o más)
 };
 
 const PERSONALIZATIONS_DIR = path.join(__dirname, '../public/images/personalizations');
@@ -78,7 +83,8 @@ const BOOLEAN_SETTINGS = new Set([
     'fireworksFinaleMode',
     'fireworksSound',
     'personalizationEnabled',
-    'emojiReactions'
+    'emojiReactions',
+    'playerAvatars'
 ]);
 
 const STRING_ARRAY_SETTINGS = new Set(['teamNames']);
@@ -271,6 +277,13 @@ function set(key, value) {
 
     if (key === 'reactionSet') {
         const error = reactionsCatalog.firstError(value);
+        if (error) throw new Error(error);
+        _store[key] = value.slice();
+        return;
+    }
+
+    if (key === 'avatarSet') {
+        const error = avatarsCatalog.firstError(value);
         if (error) throw new Error(error);
         _store[key] = value.slice();
         return;

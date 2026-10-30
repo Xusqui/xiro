@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="/css/survey-multiple.css?v=20261021120000">
     <link rel="stylesheet" href="/css/game-intro.css?v=20260922172926">
     <link rel="stylesheet" href="/css/reactions-tray.css?v=20261030170000">
+    <link rel="stylesheet" href="/css/avatars.css?v=20261031120000">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
         integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
@@ -136,6 +137,7 @@
                 <input type="text" id="nickname-input" placeholder="APODO" maxlength="15"
                     data-i18n-placeholder="player.nickname.placeholder"
                     class="w-full p-4 mb-6 border-4 border-gray-100 rounded-2xl font-black text-2xl text-center focus:border-plum-500 outline-none uppercase">
+                <div id="avatar-picker" class="avp" hidden></div>
                 <button data-player-action="join-lobby" data-i18n="player.nickname.submit"
                     class="w-full bg-green-600 text-white p-4 rounded-2xl font-black text-xl">...</button>
             </div>
@@ -150,6 +152,7 @@
     <script src="/js/core/slide-canvas-model.js?v=20261020120000"></script>
     <script src="/js/core/slide-canvas-shapes.js?v=20261020120000"></script>
     <script src="/js/core/slide-canvas-render.js?v=20261020200000"></script>
+    <script src="/js/core/avatars-catalog.js?v=20261031120000"></script>
     <script type="module" src="/js/player/player-main.js?v=20261030180000"></script>
     <script src="/js/core/random-points-overlay.js?v=20260922172926"></script>
     <script src="/js/core/game-intro-fx.js?v=20260922172926"></script>

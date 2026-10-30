@@ -56,6 +56,7 @@ const {
 } = require('./handlers/SlideNavigationHandler');
 const { registerReactionEvents } = require('./handlers/ReactionHandler');
 const { createReactionsFeature } = require('./services/ReactionsFeature');
+const { createAvatarsFeature, registerAvatarEvents } = require('./services/AvatarsFeature');
 
 const syncBus = RedisSyncBus.getInstance();
 let io = null;
@@ -158,7 +159,8 @@ function createSocketDependencies(ackManager) {
         heartbeatService,
         reconnectionManager,
         io,
-        ackManager
+        ackManager,
+        avatars: createAvatarsFeature()
     };
 }
 
@@ -187,7 +189,8 @@ function createHandlerSet(dependencies) {
         handleError: createErrorHandler(dependencies),
         handleJoinRemotePresenter: createJoinRemotePresenterHandler({ activeGames, lobbyPlayers, teamConfigs }),
         trivialHandler: TrivialSocketHandler({ io, lobbyPlayers }),
-        reactions: createReactionsFeature({ io, activeGames, players })
+        reactions: createReactionsFeature({ io, activeGames, players }),
+        avatars: dependencies.avatars
     };
 }
 
@@ -370,6 +373,7 @@ function onSocketConnection(socket, handlers, ackManager) {
     registerSlideNavigationEvents(socket, { handlers, assertIsPresenter });
     registerTrivialSocketEvents(socket, handlers);
     registerReactionEvents(socket, handlers.reactions);
+    registerAvatarEvents(socket, handlers.avatars);
     registerDisconnectAndErrorEvents(socket, handlers, ackManager);
     observeSocket(socket);
 }

@@ -31,6 +31,26 @@ export function planBlocks(count) {
     }));
 }
 
+const FACE = { fill: 0.86, numeralMax: 0.7, avatarMax: 0.6, gap: 0.03 };
+
+/**
+ * Cara frontal de un bloque de altura `height`: tamaño y centro (y) del número grabado y,
+ * con `withAvatar`, del avatar debajo. Sin avatar, el número ocupa la cara como siempre.
+ * Todo cabe entre y = 0 y y = height.
+ */
+export function faceLayout(height, withAvatar) {
+    if (!withAvatar) return { numeral: { size: Math.min(0.82, height * 0.74), y: height * 0.5 }, avatar: null };
+    const usable = height * FACE.fill;
+    const numeral = Math.min(FACE.numeralMax, usable * 0.55);
+    const avatar = Math.min(FACE.avatarMax, usable - numeral - FACE.gap);
+    const top = (height + usable) / 2;
+    const numeralY = top - numeral / 2;
+    return {
+        numeral: { size: numeral, y: numeralY },
+        avatar: { size: avatar, y: numeralY - numeral / 2 - FACE.gap - avatar / 2 }
+    };
+}
+
 /**
  * Muelle amortiguado de 0 a 1: el bloque sube, se pasa un poco y se asienta.
  * `t` en segundos desde que empieza; a partir de 1,6 s devuelve 1.

@@ -11,13 +11,14 @@ function rankingItemsHtml(ranking) {
     return ranking
         .slice(0, RANKING_SIZE)
         .map((p, i) => {
-            const bgColor =
-                i === 0
-                    ? 'background: rgba(251, 191, 36, 0.3); border: 2px solid rgb(251, 191, 36);'
-                    : 'background: rgba(255, 255, 255, 0.1);';
-            return `<div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-radius: 0.75rem; ${bgColor}">
-                <span style="font-weight: 900; font-size: 1.125em; text-transform: uppercase;">${i + 1}. ${escapeHtml(p.name)}</span>
-                <span style="font-weight: 900; font-size: 1.25em;">${p.pts}</span>
+            // Una fila: puesto · (avatar) nombre · puntos. El avatar lo pone core/avatar-chips.js
+            // delante del nombre, dentro de .rk-who; el nombre se recorta si no cabe.
+            const name = escapeHtml(p.name);
+            const nameAttrs = p.isTeam ? '' : ` data-avatar-of="${name}"`;
+            return `<div class="rk-row${i === 0 ? ' rk-row--lead' : ''}">
+                <span class="rk-rank">${i + 1}</span>
+                <span class="rk-who"><span class="rk-name"${nameAttrs} title="${name}">${name}</span></span>
+                <span class="rk-pts">${p.pts}</span>
             </div>`;
         })
         .join('');

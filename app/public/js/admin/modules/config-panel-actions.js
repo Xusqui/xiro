@@ -35,6 +35,12 @@ const _CONFIG_CLICK_ACTIONS = {
         if (el.dataset.reaction) toggleReactionPick(el.dataset.reaction);
     },
     'reset-reaction-set': () => resetReactionSet(),
+    'toggle-avatars-enabled': el => toggleAvatarsEnabled(el.checked),
+    'pick-avatar': el => {
+        if (el.dataset.avatar) toggleAvatarPick(el.dataset.avatar);
+    },
+    'select-all-avatars': () => selectAllAvatars(),
+    'reset-avatar-set': () => resetAvatarSet(),
     'set-tv-card-mode': el => {
         if (el.dataset.mode) setTvCardMode(el.dataset.mode, el);
     },

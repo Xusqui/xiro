@@ -4,9 +4,9 @@
  * movimiento» los bloques aparecen ya montados, sin confeti, y solo se pinta si algo cambia.
  */
 
-import { createPodiumScene } from './podium3d-scene.js?v=20261024120000';
-import { createConfetti } from './podium3d-confetti.js?v=20261024120000';
-import { createLabels } from './podium3d-labels.js?v=20261024120000';
+import { createPodiumScene } from './podium3d-scene.js?v=20261031120000';
+import { createConfetti } from './podium3d-confetti.js?v=20261031120000';
+import { createLabels } from './podium3d-labels.js?v=20261031120000';
 import {
     BLOCK,
     CAMERA,
@@ -15,7 +15,7 @@ import {
     punchScale,
     springRise,
     squashWidth
-} from './podium3d-plan.js?v=20261024120000';
+} from './podium3d-plan.js?v=20261031120000';
 
 const LABEL_AT = 0.32; // s desde que sale el bloque: casi en lo alto del rebote
 const CONFETTI_AT = 0.3;
@@ -32,10 +32,10 @@ function obstaclesOf(blocks, revealAt) {
         .map(b => ({ minX: b.spec.x - halfW, maxX: b.spec.x + halfW, minZ: -halfD, maxZ: halfD, top: b.top() }));
 }
 
-export function startPodiumRuntime({ stage, entries, onLost }) {
+export function startPodiumRuntime({ stage, entries, avatarImages = [], onLost }) {
     const canvas = stage.querySelector('canvas');
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const view = createPodiumScene(canvas, entries.length);
+    const view = createPodiumScene(canvas, entries.length, avatarImages);
     const confetti = reduced ? null : createConfetti(view.scene);
     const labels = createLabels(stage.querySelector('.podium3d-labels'), entries);
     const byPlace = new Map(view.blocks.map(b => [b.spec.place, b]));

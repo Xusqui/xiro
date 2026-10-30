@@ -14,6 +14,8 @@
     "manual_admin.tools.interfaz.podio_3d_desc": "在主持人的最终领奖台上，前三名随音乐节奏以金、银、铜色 3D 方块升起，彩纸落在冠军身上。第 4 到第 10 名仍以列表显示在下方。如果系统开启了“减弱动态效果”，方块会直接以搭好的样子出现，且没有彩纸。如果浏览器不支持 WebGL2，领奖台照常以列表显示。默认开启。",
     "manual_admin.tools.interfaz.reactions": "表情回应",
     "manual_admin.tools.interfaz.reactions_desc": "没有题目进行时（大厅、幻灯片、作答后（团队模式下为全队作答后）、揭晓答案和排行榜），玩家可以用手机发送表情，表情会沿主持人屏幕和电视右侧的一列飘起。表情回应是匿名的，不计分。按顺序选择栏中的<strong>6 个表情</strong>，或点击<em>恢复默认</em>。主持人可在游戏中通过 ⋯ 菜单、<strong>R</strong> 键或遥控器将其静音。更改对新游戏生效。",
+    "manual_admin.tools.interfaz.avatars": "玩家头像",
+    "manual_admin.tools.interfaz.avatars_desc": "加入时，每位玩家从你在这里勾选的头像中选择一个。头像显示在大厅、玩家面板、揭晓后的排行榜和领奖台上昵称的旁边；在 3D 领奖台上，它刻在方块上、数字的下方。团队模式的领奖台不显示头像。至少要保留 4 个；关闭后，玩家只用昵称加入。",
     "manual_admin.tools.interfaz.personalization": "自定义界面",
     "manual_admin.tools.interfaz.personalization_desc": "在游戏的所有屏幕上显示活动品牌徽标（例如赞助商的徽标）。可直接在此面板中上传、选择和删除徽标。"
   }

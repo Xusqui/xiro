@@ -4,6 +4,7 @@
  */
 
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
+import { avatarImgHtml } from './player-avatar-picker.js?v=20261031120000';
 
 export function mostrarErrorSesionNoEncontrada() {
     return `
@@ -51,9 +52,10 @@ export function mostrarPantallaConectando() {
     `;
 }
 
-export function mostrarLobbyNormal(nickname) {
+export function mostrarLobbyNormal(nickname, avatar = null) {
     return `
         <div class="lobby-container">
+            ${avatarImgHtml(avatar)}
             <h2 class="lobby-title">${escapeHtml(_t('player.session_ui.get_ready', { nickname }, '¡PREPÁRATE, {nickname}!'))}</h2>
             <p class="lobby-text">${_t('player.session_ui.game_will_start', null, 'LA PARTIDA COMENZARÁ CUANDO EL PRESENTADOR INICIE EL JUEGO')}</p>
             <button data-player-action="salir-lobby" class="btn-danger">
@@ -73,6 +75,7 @@ export function mostrarErrorJoinLobby(errorMessage, lastNickname = '') {
                 <p class="text-red-600 font-bold mb-3 text-sm">⚠️ ${errorMessage}</p>
                 <input type="text" id="nickname-input" placeholder="${_t('player.nickname.placeholder', null, 'APODO')}" maxlength="15" value="${lastNickname}"
                     class="w-full p-4 mb-4 border-4 border-red-300 rounded-2xl font-black text-2xl text-center focus:border-plum-500 outline-none uppercase">
+                <div id="avatar-picker" class="avp" hidden></div>
                 <button data-player-action="join-lobby"
                     class="btn-glass-3d w-full bg-green-600 text-white p-4 rounded-2xl font-black text-xl">¡LISTO!</button>
             </div>

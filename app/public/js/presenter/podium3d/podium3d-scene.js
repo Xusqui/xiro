@@ -5,8 +5,8 @@
  */
 
 import * as THREE from '/vendor/three/three-0.170.0.module.min.js';
-import { CAMERA, cameraPosition, planBlocks } from './podium3d-plan.js?v=20261024120000';
-import { createBlock, radialTexture } from './podium3d-blocks.js?v=20261024120000';
+import { CAMERA, cameraPosition, planBlocks } from './podium3d-plan.js?v=20261031120000';
+import { createBlock, radialTexture } from './podium3d-blocks.js?v=20261031120000';
 
 const MAX_PIXEL_RATIO = 2;
 
@@ -76,9 +76,10 @@ function addFloor(scene, textures) {
 
 /**
  * Crea la escena en `canvas` con un bloque por cada uno de los `count` primeros puestos (1-3).
+ * `avatarImages[i]` es el avatar cargado del puesto i + 1, o null.
  * Lanza si el navegador no da contexto WebGL2.
  */
-export function createPodiumScene(canvas, count) {
+export function createPodiumScene(canvas, count, avatarImages = []) {
     const renderer = new THREE.WebGLRenderer({
         canvas,
         antialias: true,
@@ -101,7 +102,9 @@ export function createPodiumScene(canvas, count) {
         warm: radialTexture('rgba(255,240,194,0.22)', 'rgba(255,240,194,0)')
     };
     const floor = addFloor(scene, textures);
-    const blocks = planBlocks(count).map(spec => createBlock(scene, spec, textures.shadow));
+    const blocks = planBlocks(count).map(spec =>
+        createBlock(scene, spec, textures.shadow, avatarImages[spec.place - 1] || null)
+    );
 
     const camera = new THREE.PerspectiveCamera(CAMERA.fov, 16 / 9, 0.1, 80);
     const target = new THREE.Vector3(CAMERA.target.x, CAMERA.target.y, CAMERA.target.z);

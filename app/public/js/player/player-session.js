@@ -28,6 +28,7 @@ import {
     mostrarErrorSocketDesconectado
 } from './player-session-ui.js?v=20260922172926';
 import { mostrarModalMensaje } from '../shared/modal.js?v=20260922172926';
+import { mountAvatarPicker, getChosenAvatar } from './player-avatar-picker.js?v=20261031120000';
 import {
     getSavedSessionData,
     clearSavedSessionData,
@@ -208,6 +209,7 @@ export function validarSession(sessionParam) {
             document.getElementById('step-1').classList.add('hidden');
             document.getElementById('step-loading').classList.add('hidden');
             document.getElementById('step-2').classList.remove('hidden');
+            void mountAvatarPicker();
             // ?. : si el jugador envía su nombre en menos de 100 ms el campo ya no existe
             setTimeout(() => document.getElementById('nickname-input')?.focus(), 100);
             resolve();
@@ -246,6 +248,7 @@ function emitJoinLobby(nickname) {
             ),
             getNickname()
         );
+        void mountAvatarPicker();
 
         setTimeout(() => {
             const input = document.getElementById('nickname-input');
@@ -260,7 +263,8 @@ function emitJoinLobby(nickname) {
         pin: getPin(),
         sessionId: getSessionId() || undefined,
         nickname: getNickname(),
-        playerId: playerId
+        playerId: playerId,
+        avatar: getChosenAvatar() || undefined
     });
 
     console.log('📤 join-lobby emitido:', { pin: getPin(), nickname: getNickname(), playerId });
@@ -368,7 +372,7 @@ export function registerSessionEvents(mostrarSeleccionEquipo) {
             mostrarSeleccionEquipo();
         } else {
             // Modo individual — mostrar lobby normal
-            document.getElementById('main-container').innerHTML = _tHtml(mostrarLobbyNormal(getNickname()));
+            document.getElementById('main-container').innerHTML = _tHtml(mostrarLobbyNormal(getNickname(), data.avatar));
         }
     });
 
@@ -482,6 +486,7 @@ export function registerSessionEvents(mostrarSeleccionEquipo) {
 
         // Para otros errores (nickname-taken, room-full, validación, etc), volver al paso 2
         document.getElementById('main-container').innerHTML = _tHtml(mostrarErrorJoinLobby(errorMessage));
+        void mountAvatarPicker();
         setTimeout(() => {
             const input = document.getElementById('nickname-input');
             if (input) input.focus();

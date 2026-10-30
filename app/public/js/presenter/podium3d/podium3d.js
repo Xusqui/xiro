@@ -24,14 +24,35 @@ export function wantsPodium3d(settings = window.__xiroUiSettings) {
     return (settings || {}).podio3d !== false && supportsWebGL2();
 }
 
-/** Los tres primeros del ranking con lo que necesitan las etiquetas (`teamClasses`: color → clase). */
-export function podiumEntries(ranking, teamClasses = {}) {
+/**
+ * Los tres primeros del ranking con lo que necesitan las etiquetas (`teamClasses`: color → clase)
+ * y los bloques (`avatarOf(apodo)` → URL del avatar; los equipos no llevan avatar).
+ */
+export function podiumEntries(ranking, teamClasses = {}, avatarOf = () => null) {
     return ranking.slice(0, 3).map((p, i) => ({
         place: i + 1,
         name: String(p.name || ''),
         score: p.scoreLabel || `${p.pts} PTS`,
-        teamClass: p.isTeam ? teamClasses[p.color] || 'bg-white/10' : null
+        teamClass: p.isTeam ? teamClasses[p.color] || 'bg-white/10' : null,
+        avatar: p.isTeam ? null : avatarOf(String(p.name || '')) || null
     }));
+}
+
+/** Carga cada avatar como imagen (null si falla o tarda más que la fuente). */
+function avatarImages(entries) {
+    return Promise.all(
+        entries.map(entry => {
+            if (!entry.avatar) return null;
+            const img = new Image();
+            const loaded = new Promise(resolve => {
+                img.onload = () => resolve(img);
+                img.onerror = () => resolve(null);
+            });
+            img.src = entry.avatar;
+            const wait = new Promise(resolve => setTimeout(() => resolve(null), FONT_WAIT_MS));
+            return Promise.race([loaded, wait]);
+        })
+    );
 }
 
 /** El número grabado usa Bebas Neue: se espera a la fuente (con tope) antes de pintarlo. */
@@ -63,10 +84,10 @@ export function mountPodium3d({ stage, entries, onFail }) {
         onFail();
     }
 
-    Promise.all([import('./podium3d-runtime.js?v=20261024120000'), fontsReady()])
-        .then(([mod]) => {
+    Promise.all([import('./podium3d-runtime.js?v=20261031120000'), fontsReady(), avatarImages(entries)])
+        .then(([mod, , images]) => {
             if (destroyed) return;
-            runtime = mod.startPodiumRuntime({ stage, entries, onLost: fail });
+            runtime = mod.startPodiumRuntime({ stage, entries, avatarImages: images, onLost: fail });
             revealed.forEach(place => runtime.reveal(place));
         })
         .catch(fail);

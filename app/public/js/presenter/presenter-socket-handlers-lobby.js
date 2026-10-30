@@ -26,6 +26,7 @@ import { mostrarLobbyNuevo } from './presenter-lobby-init.js?v=20260922172926';
 import { handlePlayerRejoined } from './presenter-player-rejoined-handler.js?v=20260922172926';
 import { handleGameAbandoned } from './presenter-session-control.js?v=20261026120000';
 import { mostrarModalMensaje } from '../shared/modal.js?v=20260922172926';
+import { rememberAvatar } from './presenter-avatars.js?v=20261031120000';
 
 /** Alta (o vuelta) de un jugador en el lobby: tarjeta, contadores y botón de empezar. */
 function onPlayerJoined(data) {
@@ -33,6 +34,7 @@ function onPlayerJoined(data) {
 
     const nick = typeof data === 'string' ? data : data.nickname || data;
     if (nick === 'HOST') return;
+    if (data && typeof data === 'object') rememberAvatar(nick, data.avatar);
 
     const playersData = getPlayersData();
     const connectedPlayers = getConnectedPlayers();
@@ -70,9 +72,13 @@ function onPlayerJoined(data) {
                 // Modo individual
                 const playerDiv = document.createElement('div');
                 playerDiv.className =
-                    'bg-white text-slate-900 p-3 rounded-xl font-black text-center animate-pop uppercase italic text-sm';
+                    'avatar-card bg-white text-slate-900 p-3 rounded-xl font-black text-center animate-pop uppercase italic text-sm';
                 playerDiv.setAttribute('data-nickname', nick);
-                playerDiv.textContent = _t(nick);
+                // El avatar lo pone core/avatar-chips.js delante del nombre
+                const name = document.createElement('span');
+                name.setAttribute('data-avatar-of', nick);
+                name.textContent = _t(nick);
+                playerDiv.appendChild(name);
                 pList.appendChild(playerDiv);
             }
         }

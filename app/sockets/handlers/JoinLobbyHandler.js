@@ -42,7 +42,7 @@ async function handleReconnectJoin({ socket, io, nickname, result, teamConfigs }
     });
 }
 
-async function emitJoinSuccess({ socket, nickname, result }) {
+async function emitJoinSuccess({ socket, nickname, result, avatar }) {
     const { roomId, playerId, playersInLobby, teamMode } = result;
 
     await pushSessionLog(roomId, {
@@ -72,7 +72,8 @@ async function emitJoinSuccess({ socket, nickname, result }) {
         teamMode,
         playerId,
         players: playersInLobby,
-        sessionSecret: result.sessionSecret
+        sessionSecret: result.sessionSecret,
+        avatar
     });
 
     // Notificar a otros jugadores
@@ -85,13 +86,23 @@ async function emitJoinSuccess({ socket, nickname, result }) {
 
     socket.to(roomId).emit('player-joined', {
         nickname,
-        players: playersInLobby
+        players: playersInLobby,
+        avatar
     });
 }
 
 module.exports = function createJoinLobbyHandler(dependencies) {
-    const { players, socketToPlayer, lobbyPlayers, teamConfigs, activeGames, socketRateLimits, roomPresenterMap, io } =
-        dependencies;
+    const {
+        players,
+        socketToPlayer,
+        lobbyPlayers,
+        teamConfigs,
+        activeGames,
+        socketRateLimits,
+        roomPresenterMap,
+        io,
+        avatars
+    } = dependencies;
 
     // Instanciar Use Case con dependencias
     const joinGameUseCase = new JoinGameUseCase({
@@ -114,7 +125,8 @@ module.exports = function createJoinLobbyHandler(dependencies) {
             return;
         }
 
-        const { pin, sessionId, nickname, sessionSecret, isTeamMode, teamConfig } = validation.value;
+        const { pin, sessionId, nickname, sessionSecret, isTeamMode, teamConfig, avatar: requestedAvatar } =
+            validation.value;
 
         if (nickname === 'HOST') {
             socket.emit('join-error', {
@@ -147,7 +159,8 @@ module.exports = function createJoinLobbyHandler(dependencies) {
                 return;
             }
 
-            await emitJoinSuccess({ socket, nickname, result });
+            const avatar = avatars ? await avatars.remember(result.roomId, nickname, requestedAvatar) : null;
+            await emitJoinSuccess({ socket, nickname, result, avatar });
         } catch (error) {
             logger.error('Error in join-lobby handler', {
                 error: error.message,

@@ -161,7 +161,7 @@ export function updatePlayersPanel() {
                 <div class="stage-player bg-slate-700/50 ${statusClass} rounded-lg transition-all" ${cardStyle}>
                     <div class="stage-player-name">
                         ${statusIcon}
-                        <span class="uppercase truncate" title="${escapeHtml(nick)}" ${nameStyle}>${escapeHtml(nick)}</span>
+                        <span class="uppercase truncate" data-avatar-of="${escapeHtml(nick)}" title="${escapeHtml(nick)}" ${nameStyle}>${escapeHtml(nick)}</span>
                         ${streakFire}
                         ${medal}
                     </div>
@@ -259,17 +259,17 @@ export function renderTeamLobby() {
                     </div>
                     <div class="flex flex-wrap gap-3">
                         ${
-    team.players
-        .map(player => {
-            return `
-                                <div class="bg-white text-slate-900 px-3 py-2 rounded-lg font-black text-center uppercase italic text-xs inline-flex whitespace-nowrap" data-nickname="${escapeHtml(player)}">
-                                    <div>${escapeHtml(player)}</div>
+                            team.players
+                                .map(player => {
+                                    return `
+                                <div class="avatar-card bg-white text-slate-900 px-3 py-2 rounded-lg font-black text-center uppercase italic text-xs inline-flex whitespace-nowrap" data-nickname="${escapeHtml(player)}">
+                                    <div data-avatar-of="${escapeHtml(player)}">${escapeHtml(player)}</div>
                                 </div>
                             `;
-        })
-        .join('') ||
+                                })
+                                .join('') ||
                             `<p class="text-white/70 italic w-full text-center py-4">${_t('presenter.lobby.waiting', null, 'Esperando jugadores...')}</p>`
-}
+                        }
                     </div>
                 </div>
             </div>
@@ -291,17 +291,17 @@ export function renderTeamLobby() {
                     </div>
                     <div class="flex flex-wrap gap-3">
                         ${
-    team.players
-        .map(player => {
-            return `
-                                <div class="bg-white text-slate-900 px-3 py-2 rounded-lg font-black text-center uppercase italic text-xs inline-flex whitespace-nowrap" data-nickname="${escapeHtml(player)}">
-                                    <div>${escapeHtml(player)}</div>
+                            team.players
+                                .map(player => {
+                                    return `
+                                <div class="avatar-card bg-white text-slate-900 px-3 py-2 rounded-lg font-black text-center uppercase italic text-xs inline-flex whitespace-nowrap" data-nickname="${escapeHtml(player)}">
+                                    <div data-avatar-of="${escapeHtml(player)}">${escapeHtml(player)}</div>
                                 </div>
                             `;
-        })
-        .join('') ||
+                                })
+                                .join('') ||
                             `<p class="text-white/70 italic w-full text-center py-4">${_t('presenter.lobby.waiting', null, 'Esperando jugadores...')}</p>`
-}
+                        }
                     </div>
                 </div>
             </div>

@@ -103,6 +103,7 @@ function _renderUiTab(settings) {
         ${_renderUiSwitchCard({ key: 'animacionInicio', checked: settings.animacionInicio !== false, icon: 'fa-film', iconBg: 'bg-green-100', iconColor: 'text-green-600', textKey: 'animacion_inicio' })}
         ${_renderUiSwitchCard({ key: 'podio3d', checked: settings.podio3d !== false, icon: 'fa-trophy', iconBg: 'bg-green-100', iconColor: 'text-green-600', textKey: 'podio_3d' })}
         ${renderReactionsSection(settings)}
+        ${renderAvatarsSection(settings)}
         ${renderPersonalizationSection(settings)}
     </div>`;
 }
@@ -131,13 +132,14 @@ function uiTabSnapshot() {
         podio3d: checked('ui-switch-podio3d'),
         personalizationEnabled: checked('ui-switch-personalizationEnabled'),
         personalizationImage: personalizationSelectedImage(),
-        ...reactionsSnapshot()
+        ...reactionsSnapshot(),
+        ...avatarsSnapshot()
     };
 }
 
 function saveUiTab(initial) {
     const snapshot = uiTabSnapshot();
-    const error = reactionsSaveError(snapshot);
+    const error = reactionsSaveError(snapshot) || avatarsSaveError(snapshot);
     if (error) return Promise.resolve({ ok: false, message: error });
     return postUiSettings(changedSettings(snapshot, initial));
 }

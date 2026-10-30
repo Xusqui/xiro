@@ -12,7 +12,7 @@ window.TVApp.SocketConnection = (function () {
         if (typeof DecompressionStream === 'undefined') {
             try {
                 if (typeof process !== 'undefined' && process.release && process.release.name === 'node') {
-                    const zlib = eval('require(\'zlib\')');
+                    const zlib = eval("require('zlib')");
                     const decompressed = zlib.gunzipSync(new Uint8Array(arrayBuffer));
                     return Promise.resolve(JSON.parse(decompressed.toString('utf8')));
                 }
@@ -75,7 +75,11 @@ window.TVApp.SocketConnection = (function () {
         const playerDiv = document.createElement('div');
         playerDiv.className = 'player-item';
         playerDiv.setAttribute('data-nickname', nick);
-        playerDiv.textContent = _t(nick);
+        // El avatar lo pone core/avatar-chips.js delante del nombre
+        const name = document.createElement('span');
+        name.setAttribute('data-avatar-of', nick);
+        name.textContent = _t(nick);
+        playerDiv.appendChild(name);
         const list = getEl('p-list');
         if (list) list.appendChild(playerDiv);
     }
@@ -176,6 +180,7 @@ window.TVApp.SocketConnection = (function () {
                     window.TVApp.Teams.renderTeamLobby();
                 }
                 if (window.TVApp.Reactions) window.TVApp.Reactions.attach(socket);
+                if (window.TVApp.Avatars) window.TVApp.Avatars.request(socket);
             } catch (e) {
                 console.log('Error en join-success:', e);
             }
@@ -190,6 +195,9 @@ window.TVApp.SocketConnection = (function () {
         socket.on('player-joined', function (data) {
             const nick = typeof data === 'string' ? data : data.nickname || data;
             if (nick === 'HOST') return;
+            if (window.TVApp.Avatars && data && typeof data === 'object') {
+                window.TVApp.Avatars.remember(nick, data.avatar);
+            }
             state.totalPlayers++;
             const el = getEl('p-count');
             if (el) el.textContent = _t(state.totalPlayers);

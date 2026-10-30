@@ -5,7 +5,7 @@
  */
 
 import * as THREE from '/vendor/three/three-0.170.0.module.min.js';
-import { CONFETTI_COLORS } from './podium3d-plan.js?v=20261024120000';
+import { CONFETTI_COLORS } from './podium3d-plan.js?v=20261031120000';
 
 const COUNT = 260;
 const GRAVITY = -4.6;

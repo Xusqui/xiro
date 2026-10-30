@@ -116,7 +116,9 @@ window.TVApp.Podio = (function () {
                 '<span style="font-size:24px;font-weight:900;text-transform:uppercase;font-style:italic">' +
                 (i + 1) +
                 'º ' +
-                escapeHtml(nameText) +
+                (isTeamMode
+                    ? escapeHtml(nameText)
+                    : '<span data-avatar-of="' + escapeHtml(nameText) + '">' + escapeHtml(nameText) + '</span>') +
                 '</span>';
             rowsHtml += '<span style="font-size:28px;font-weight:900">' + escapeHtml(scoreText) + '</span>';
             rowsHtml += '</div>';
