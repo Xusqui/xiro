@@ -68,6 +68,21 @@ function processNumericAnswer({ question, playerAnswer, gameStartTime, currentTi
     };
 }
 
+/**
+ * Decide la racha según lo cerca que quedó la respuesta:
+ *   - true  → respuesta exacta                          → racha +1
+ *   - null  → aproximada y con puntos (en la tolerancia) → racha se mantiene
+ *   - false → sin puntos (fuera de tolerancia, en el borde o no numérica) → racha a 0
+ *
+ * @param {Object} answerResult  Resultado de processNumericAnswer
+ * @returns {true|null|false}
+ */
+function getNumericStreakAction(answerResult) {
+    if (answerResult?.isCorrect) return true;
+    return answerResult?.pointsEarned > 0 ? null : false;
+}
+
 module.exports = {
-    processNumericAnswer
+    processNumericAnswer,
+    getNumericStreakAction
 };

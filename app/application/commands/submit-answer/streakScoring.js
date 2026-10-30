@@ -17,6 +17,7 @@ const { registerAnswerAndGetProgress } = require('../../../sockets/utils/AtomicA
 const { getOrderStreakAction } = require('../../../domain/services/OrderAnswerService');
 const { getMatchingStreakAction } = require('../../../domain/services/MatchingAnswerService');
 const { getWordSearchStreakAction } = require('../../../domain/services/WordSearchService');
+const { getNumericStreakAction } = require('../../../domain/services/NumericAnswerService');
 
 function runWithRedisClient(action, onError = () => {}) {
     Promise.resolve()
@@ -24,6 +25,27 @@ function runWithRedisClient(action, onError = () => {}) {
         .then(action)
         .catch(onError);
 }
+
+/**
+ * Tipos con acierto parcial: la racha sube (true), se mantiene (null) o se rompe (false)
+ * según la proporción acertada; en aproximación numérica, exacta sube, aproximada con
+ * puntos mantiene y sin puntos rompe.
+ */
+const PARTIAL_CREDIT_STREAK_RULES = [
+    {
+        flag: 'isOrderQuestion',
+        action: ({ details }) => getOrderStreakAction(details.correctCount, details.totalOptions)
+    },
+    {
+        flag: 'isMatchingQuestion',
+        action: ({ details }) => getMatchingStreakAction(details.correctCount, details.totalPairs)
+    },
+    {
+        flag: 'isWordSearchQuestion',
+        action: ({ details }) => getWordSearchStreakAction(details.foundCount, details.totalWords)
+    },
+    { flag: 'isNumericQuestion', action: getNumericStreakAction }
+];
 
 /**
  * Compute streak effects and final points from base points.
@@ -37,15 +59,9 @@ function computeStreakAndPoints(ctx) {
     const { isCorrect, pointsEarned } = answerResult;
     const prevStreak = game.playerStreaks?.[nickname] || 0;
 
-    // Tipos con acierto parcial: la racha sube, se mantiene o se rompe según la proporción
-    const isPartialCreditType = flags.isOrderQuestion || flags.isMatchingQuestion || flags.isWordSearchQuestion;
-    const orderStreakIsCorrect = flags.isOrderQuestion
-        ? getOrderStreakAction(answerResult.details.correctCount, answerResult.details.totalOptions)
-        : flags.isMatchingQuestion
-            ? getMatchingStreakAction(answerResult.details.correctCount, answerResult.details.totalPairs)
-            : flags.isWordSearchQuestion
-                ? getWordSearchStreakAction(answerResult.details.foundCount, answerResult.details.totalWords)
-                : undefined;
+    const partialStreakRule = PARTIAL_CREDIT_STREAK_RULES.find(({ flag }) => flags[flag]);
+    const isPartialCreditType = Boolean(partialStreakRule);
+    const orderStreakIsCorrect = partialStreakRule ? partialStreakRule.action(answerResult) : undefined;
 
     const isTrackedForStreak = !flags.isMultipleChoiceQuestion && !answerResult.isSurvey;
     const streakIsCorrect = isPartialCreditType ? orderStreakIsCorrect : isCorrect;
