@@ -3,7 +3,7 @@
  * @description Mantiene el estado de sesión entre diálogos durante la presentación.
  *   El socket se mantiene ABIERTO en el task pane durante toda la presentación.
  *   Cada diálogo abre su propia conexión temporal.
- * @depends [shared/state, modules/socket-client]
+ * @depends [shared/state]
  */
 
 const XiroSessionKeeper = (() => {

@@ -41,7 +41,6 @@ ppt-addin/
 │   ├── state.js              # Estado global mínimo del add-in
 │   ├── api.js                # Llamadas REST al servidor (getPresenterPins, etc.)
 │   ├── notes-parser.js       # Parse/serialize línea XIRO: en notas (legado)
-│   ├── qr-renderer.js        # Renderiza QR con QRious
 │   └── logger.js             # XiroLog — panel visual + envío a /api/addin-log
 │
 ├── modules/

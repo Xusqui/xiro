@@ -386,7 +386,7 @@ COMMIT;
 ## 📚 Documentación Relacionada
 
 - **Código**: `app/domain/strategies/scoring/` (`ScoringStrategy`, `ScoringStrategyFactory`,
-  `TimeBasedScoring`, `StreakBonusScoring`, `BettingScoring`, `BettingManager`,
+  `TimeBasedScoring`, `StreakBonusScoring`, `BettingScoring`,
   `NumericApproximationScoring`)
 - **Tests**: `app/domain/strategies/scoring/__tests__/`
 - **Aplicación de rachas**: `app/domain/services/GameStreakApplicator.js`
@@ -408,6 +408,6 @@ COMMIT;
   para juegos, bancos, trivial y juegos personalizados
 - [ ] UI para apuestas en el cliente jugador (`betting`) — **pendiente**
 - [ ] Socket events de apuestas (`submit-bet`, `all-bets-placed`) — no existen aún
-  en `sockets/`; `BettingScoring`/`BettingManager` están implementados a nivel de
-  dominio pero sin flujo de socket que los dispare desde el cliente
+  en `sockets/`; `BettingScoring` está implementado a nivel de
+  dominio pero sin flujo de socket que lo dispare desde el cliente
 - [x] Admin panel para configurar estrategias de racha (no así para `betting`)
