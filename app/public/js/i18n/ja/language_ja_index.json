@@ -5,6 +5,8 @@
     "index.player.desc": "セッションIDでゲームに参加",
     "index.player.cta": "今すぐプレイ",
     "index.player.manual": "プレイヤーズマニュアル",
+    "index.player.join.label": "セッションID",
+    "index.player.join.submit": "参加",
     "index.presenter.title": "プレゼンター",
     "index.presenter.desc": "ゲームを制御して画面に投影する",
     "index.presenter.cta": "プレゼンテーションを開始する",

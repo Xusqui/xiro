@@ -5,6 +5,8 @@
     "index.player.desc": "Entre em um jogo com o ID da sessão",
     "index.player.cta": "Jogue agora",
     "index.player.manual": "Manual do Jogador",
+    "index.player.join.label": "ID da sessão",
+    "index.player.join.submit": "Entrar",
     "index.presenter.title": "Apresentador",
     "index.presenter.desc": "Controle e projete o jogo na tela",
     "index.presenter.cta": "Iniciar apresentação",

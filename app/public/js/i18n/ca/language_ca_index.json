@@ -5,6 +5,8 @@
     "index.player.desc": "Uneix-te a una partida amb l'ID de sessió",
     "index.player.cta": "Jugar ara",
     "index.player.manual": "Manual del jugador",
+    "index.player.join.label": "ID de sessió",
+    "index.player.join.submit": "Entra",
     "index.presenter.title": "Presentador",
     "index.presenter.desc": "Controla i projecta el joc a la pantalla",
     "index.presenter.cta": "Iniciar presentació",

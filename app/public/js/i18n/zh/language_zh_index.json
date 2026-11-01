@@ -5,6 +5,8 @@
     "index.player.desc": "使用会话ID加入游戏",
     "index.player.cta": "立即播放",
     "index.player.manual": "玩家手册",
+    "index.player.join.label": "会话ID",
+    "index.player.join.submit": "加入",
     "index.presenter.title": "主持人",
     "index.presenter.desc": "控制并将游戏投影到屏幕上",
     "index.presenter.cta": "开始演示",

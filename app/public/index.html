@@ -40,6 +40,16 @@
                     <span class="role-card__icon icon-wrapper"><i class="fas fa-gamepad" aria-hidden="true"></i></span>
                     <h2 class="role-card__title" data-i18n="index.player.title">Jugador</h2>
                     <p class="role-card__desc" data-i18n="index.player.desc">Únete a una partida con tu código PIN</p>
+                    <form class="role-card__join" action="./jugador.html" method="get">
+                        <label class="role-card__join-label" for="join-session-input" data-i18n="index.player.join.label">ID de sesión</label>
+                        <div class="role-card__join-row">
+                            <input id="join-session-input" class="role-card__join-input" type="text" name="session"
+                                placeholder="XXXXXX-XXXX"
+                                autocomplete="off" autocapitalize="characters" spellcheck="false"
+                                pattern="[A-Za-z0-9\-]{3,64}" maxlength="64" required>
+                            <button type="submit" class="role-card__join-btn" data-i18n="index.player.join.submit">Entrar</button>
+                        </div>
+                    </form>
                     <div class="role-card__foot">
                         <a href="./jugador.html" class="role-card__cta stretched-link"><span data-i18n="index.player.cta">Jugar ahora</span><i
                                 class="fas fa-arrow-right" aria-hidden="true"></i></a>

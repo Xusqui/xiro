@@ -5,6 +5,8 @@
     "index.player.desc": "Tritt einem Spiel mit der Sitzungs-ID bei",
     "index.player.cta": "Jetzt spielen",
     "index.player.manual": "Spielerhandbuch",
+    "index.player.join.label": "Sitzungs-ID",
+    "index.player.join.submit": "Beitreten",
     "index.presenter.title": "Moderator",
     "index.presenter.desc": "Steuern und projizieren Sie das Spiel auf den Bildschirm",
     "index.presenter.cta": "Präsentation starten",
