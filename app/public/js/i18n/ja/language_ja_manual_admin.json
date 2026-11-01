@@ -1,8 +1,8 @@
 {
   "keys": {
-    "manual_admin.page.title": "XIRO! - 管理者マニュアル",
+    "manual_admin.page.title": "XiRo! - 管理者マニュアル",
     "manual_admin.hero.title": "管理者マニュアル",
-    "manual_admin.hero.subtitle": "管理パネルから XIRO! を管理するために必要なすべて",
+    "manual_admin.hero.subtitle": "管理パネルから XiRo! を管理するために必要なすべて",
     "manual_admin.tabs.access_roles": "アクセスと役割",
     "manual_admin.tabs.question_banks": "問題バンク",
     "manual_admin.tabs.game_types": "ゲームの種類",

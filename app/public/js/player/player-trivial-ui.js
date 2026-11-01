@@ -87,7 +87,7 @@ export function showMoveSelection(availablePositions, labels, isMyTurn, colors =
     _waitingMove = true;
     if (!isMyTurn) {
         showTrivialWaiting(_t('player.trivial.selecting_cell', 'Seleccionando casilla…'), {
-            icon: '🗺️',
+            icon: '<i class="fas fa-map" aria-hidden="true"></i>',
             subtitle: _t('player.trivial.waiting_active', 'Esperando al jugador activo'),
             color: '#60a5fa'
         });
@@ -192,7 +192,7 @@ export function registerTrivialPlayerActions() {
         const socket = getSocket();
         socket.emit('trivial-move', { roomId: getSessionId(), nickname: getNickname(), position });
         showTrivialWaiting(_t('player.trivial.moving_piece', 'Moviendo ficha…'), {
-            icon: '🎲',
+            icon: '<i class="fas fa-dice" aria-hidden="true"></i>',
             color: '#fbbf24',
             noDots: true
         });

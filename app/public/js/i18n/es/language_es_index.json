@@ -2,7 +2,7 @@
   "keys": {
     "index.heading": "Elige tu rol",
     "index.player.title": "Jugador",
-    "index.player.desc": "Únete a una partida con tu código PIN",
+    "index.player.desc": "Únete a una partida con el ID de sesión",
     "index.player.cta": "Jugar ahora",
     "index.player.manual": "Manual del jugador",
     "index.presenter.title": "Presentador",
@@ -19,6 +19,6 @@
     "index.admin.desc": "Gestiona preguntas y configuración",
     "index.admin.cta": "Acceder al panel",
     "index.admin.manual": "Manual del administrador",
-    "index.title": "XIRO! - Inicio"
+    "index.title": "XiRo! - Inicio"
   }
 }

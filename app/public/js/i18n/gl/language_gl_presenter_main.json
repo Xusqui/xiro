@@ -4,7 +4,7 @@
     "presenter.loading.desc": "Preparación do panel de presentadores",
     "presenter.sidebar.connected": "Conectado",
     "presenter.lobby.waiting": "Agardando xogadores...",
-    "presenter.lobby.pin": "PIN DE ACCESO",
+    "presenter.lobby.pin": "ID de sesión",
     "presenter.lobby.start": "COMEZA!",
     "presenter.lobby.join_at": "Non podes escanear o QR? Entra en",
     "presenter.lobby.join_pin": "e escribe o ID de sesión:",

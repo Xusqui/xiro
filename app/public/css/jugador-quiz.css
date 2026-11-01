@@ -16,7 +16,7 @@
     color: white;
     border: none;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 }
 
@@ -263,7 +263,7 @@
     overflow: hidden;
     border: none;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: transform 0.2s;
     color: white;
     font-weight: 700;
 }
@@ -321,7 +321,6 @@
 .option-text {
     color: white;
     font-weight: 700;
-    text-transform: uppercase;
     padding: 0 0.25rem;
     word-wrap: break-word;
     hyphens: auto;
@@ -475,3 +474,9 @@
     font-size: 1.75rem;
 }
 
+/* Movimiento reducido: el icono de la diapositiva deja de latir */
+@media (prefers-reduced-motion: reduce) {
+    .slide-icon {
+        animation: none;
+    }
+}

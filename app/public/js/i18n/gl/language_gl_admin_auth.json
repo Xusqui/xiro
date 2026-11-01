@@ -34,7 +34,7 @@
     "admin.account.email_updated": "Correo electrónico actualizado correctamente.",
     "admin.account.email_error": "Non se puido confirmar o cambio de correo electrónico",
     "admin.account.email_token_error": "Non se puido validar a ligazón de cambio de correo electrónico",
-    "admin.logout.title": "⚠️ Pechar sesión",
+    "admin.logout.title": "Pechar sesión",
     "admin.logout.message": "Estás seguro de que queres pechar a sesión?",
     "admin.logout.confirm": "Pechar sesión",
     "admin.auth.expired_title": "A sesión caducou",

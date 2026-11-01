@@ -1,6 +1,6 @@
 {
   "keys": {
-    "admin.unsaved.title": "⚠️ Unsaved changes",
+    "admin.unsaved.title": "Unsaved changes",
     "admin.unsaved.msg_exit": "You have unsaved changes. If you leave now, they will be lost. Do you want to continue?",
     "admin.unsaved.msg_navigate": "You have unsaved changes. If you continue, they will be lost. Do you want to continue?",
     "admin.unsaved.btn_exit": "Leave without saving",

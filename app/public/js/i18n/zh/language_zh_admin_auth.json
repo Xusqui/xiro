@@ -34,7 +34,7 @@
     "admin.account.email_updated": "电子邮件已正确更新。",
     "admin.account.email_error": "无法确认电子邮件更改",
     "admin.account.email_token_error": "无法验证电子邮件更改链接",
-    "admin.logout.title": "⚠️退出",
+    "admin.logout.title": "退出",
     "admin.logout.message": "您确定要退出吗？",
     "admin.logout.confirm": "登出",
     "admin.auth.expired_title": "会话已过期",

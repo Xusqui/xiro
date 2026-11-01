@@ -1,6 +1,6 @@
 {
   "keys": {
-    "admin.unsaved.title": "⚠️ Alterações não guardadas",
+    "admin.unsaved.title": "Alterações não guardadas",
     "admin.unsaved.msg_exit": "Tem alterações não guardadas. Se sair agora, serão perdidas. Deseja continuar?",
     "admin.unsaved.msg_navigate": "Tem alterações não guardadas. Se continuar, serão perdidas. Deseja continuar?",
     "admin.unsaved.btn_exit": "Sair sem guardar",

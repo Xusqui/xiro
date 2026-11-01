@@ -24,6 +24,10 @@ function showAdmin() {
     // gestor de contraseñas del navegador los tuviera en cuenta junto a los campos sensibles
     // del panel de Config (SMTP_PASS, CONTACT_TOKEN_SECRET), provocando autorrellenados/
     // vaciados inesperados de esos campos. No hace falta recuperarlo: logout() recarga la página.
+    // El selector de idioma vive en la tarjeta de acceso: antes de quitarla, pasa al pie del sidebar
+    const langSwitcher = document.getElementById('xiro-lang-switcher');
+    const sidebarLangSlot = document.querySelector('[data-lang-slot="sidebar"]');
+    if (langSwitcher && sidebarLangSlot) sidebarLangSlot.appendChild(langSwitcher);
     document.getElementById('login-overlay').remove();
     document.getElementById('admin-content').style.display = '';
     applyRolePermissions();
@@ -36,70 +40,26 @@ function showAdmin() {
 
 // ===== SISTEMA DE NAVEGACIÓN Y VISTAS =====
 
-// Tinte de fondo por sección para el botón activo del sidebar. El tinte usa
-// style.backgroundColor (no clases utilitarias con opacidad, que habría que
-// definir una a una en css/common.css). Las vistas
-// sin entrada aquí (p.ej. cargar-preguntas) caen al bg-slate-800 plano.
-const SIDEBAR_ACTIVE_BORDER_CLASSES = [
-    'border-plum-500',
-    'border-green-500',
-    'border-blue-500',
-    'border-orange-500',
-    'border-aubergine-500',
-    'border-emerald-500',
-    'border-plum-500',
-    'border-cyan-500',
-    'border-yellow-500'
-];
-const SIDEBAR_SECTION_TINT = {
-    bancos: 'rgba(176, 91, 170, 0.18)',
-    juegos: 'rgba(34, 197, 94, 0.18)',
-    personalizados: 'rgba(59, 130, 246, 0.18)',
-    trivial: 'rgba(249, 115, 22, 0.18)',
-    'ai-generator': 'rgba(154, 107, 169, 0.18)',
-    remote: 'rgba(34, 197, 94, 0.18)',
-    historial: 'rgba(16, 185, 129, 0.18)',
-    'cargar-preguntas': 'rgba(176, 91, 170, 0.18)',
-    'user-account': 'rgba(6, 182, 212, 0.18)',
-    'user-manage-users': 'rgba(154, 107, 169, 0.18)',
-    servidor: 'rgba(234, 179, 8, 0.18)'
-};
-const SIDEBAR_SECTION_BORDER = {
-    bancos: 'border-plum-500',
-    juegos: 'border-green-500',
-    personalizados: 'border-blue-500',
-    trivial: 'border-orange-500',
-    'ai-generator': 'border-aubergine-500',
-    remote: 'border-green-500',
-    historial: 'border-emerald-500',
-    'cargar-preguntas': 'border-plum-500',
-    'user-account': 'border-cyan-500',
-    'user-manage-users': 'border-aubergine-500',
-    servidor: 'border-yellow-500'
-};
-
 // Marca `nav-${vista}` como botón activo del sidebar y limpia el resaltado
 // del resto. Usada tanto por las vistas de grid (mostrarVista) como por
 // pantallas ajenas a esa lista, como "Cargar Preguntas" y los paneles de
 // la pestaña User.
 function highlightSidebarNav(vista) {
+    // El estado activo es un escalón de superficie (admin-sidebar.css, .is-active),
+    // igual para todas las secciones: sin un color distinto por entrada
     document
         .querySelectorAll(
             '#sidebar-nav-section .nav-button, #user-sidebar-section .nav-button, #config-sidebar-section .nav-button'
         )
         .forEach(btn => {
-            btn.classList.remove('bg-slate-800', ...SIDEBAR_ACTIVE_BORDER_CLASSES);
-            btn.style.backgroundColor = '';
+            btn.classList.remove('is-active');
+            btn.removeAttribute('aria-current');
         });
 
     const btnActivo = document.getElementById(`nav-${vista}`);
     if (btnActivo) {
-        if (SIDEBAR_SECTION_TINT[vista]) {
-            btnActivo.style.backgroundColor = SIDEBAR_SECTION_TINT[vista];
-            btnActivo.classList.add(SIDEBAR_SECTION_BORDER[vista]);
-        } else {
-            btnActivo.classList.add('bg-slate-800');
-        }
+        btnActivo.classList.add('is-active');
+        btnActivo.setAttribute('aria-current', 'page');
     }
 }
 

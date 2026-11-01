@@ -34,7 +34,7 @@
     "admin.account.email_updated": "E-Mail korrekt aktualisiert.",
     "admin.account.email_error": "E-Mail-Änderung konnte nicht bestätigt werden",
     "admin.account.email_token_error": "Der E-Mail-Änderungslink konnte nicht validiert werden",
-    "admin.logout.title": "⚠️ Abmelden",
+    "admin.logout.title": "Abmelden",
     "admin.logout.message": "Möchten Sie sich wirklich abmelden?",
     "admin.logout.confirm": "Abmelden",
     "admin.auth.expired_title": "Sitzung abgelaufen",

@@ -35,7 +35,7 @@
     "admin.account.email_updated": "Email updated correctly.",
     "admin.account.email_error": "Could not confirm email change",
     "admin.account.email_token_error": "Could not validate email change link",
-    "admin.logout.title": "⚠️ Log out",
+    "admin.logout.title": "Log out",
     "admin.logout.message": "Are you sure you want to log out?",
     "admin.logout.confirm": "Sign out",
     "admin.auth.expired_title": "Session expired",

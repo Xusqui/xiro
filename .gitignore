@@ -97,3 +97,14 @@ app/.eslintignore
 app/eslint-public-globals.json
 app/.graphifyignore
 docs/legal-audit/
+docs/AI_CANVAS_SLIDES.md
+docs/EMOJI_REACTIONS.md
+docs/FREE_SLIDES.md
+docs/GAME_MUSIC.md
+docs/METRICS.md
+docs/PLAYER_AVATARS.md
+.gitignore
+docs/QUESTION_TYPES.md
+docs/PODIUM_3D.md
+docs/UPDATES.md
+docs/SLIDE_NAVIGATION.md

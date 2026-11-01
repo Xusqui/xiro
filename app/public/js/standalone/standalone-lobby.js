@@ -78,7 +78,7 @@ globalThis.StandaloneLobby = (() => {
 
         return `
             <div data-standalone-action="select-game" data-pin="${safePin}"
-                 class="p-6 rounded-3xl cursor-pointer transition-all hover:scale-105 shadow-2xl flex flex-col justify-between min-h-[180px]"
+                 class="p-6 rounded-3xl cursor-pointer transition shadow-2xl flex flex-col justify-between min-h-[180px]"
                  style="background: ${cardBackground}; border-bottom: 4px solid ${c.border}; position: relative;">
                 <div class="mb-4">
                     <div class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full inline-block mb-3">

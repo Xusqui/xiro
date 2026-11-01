@@ -1,11 +1,11 @@
 {
   "keys": {
-    "admin.trivial.title": "Xogos de Trivia",
+    "admin.trivial.title": "Xogos de trivia",
     "admin.trivial.subtitle": "Crea taboleiros triviais coas túas propias categorías",
-    "admin.trivial.btn_new": "Nova Trivia",
-    "admin.trivial.empty": "Aínda non hai xogos de Trivia",
-    "admin.trivial.form_edit": "Editar Trivia",
-    "admin.trivial.form_new": "Nova Trivia",
+    "admin.trivial.btn_new": "Nova trivia",
+    "admin.trivial.empty": "Aínda non hai xogos de trivia",
+    "admin.trivial.form_edit": "Editar trivia",
+    "admin.trivial.form_new": "Nova trivia",
     "admin.trivial.label_name": "Nome do xogo",
     "admin.trivial.label_pin": "PIN",
     "admin.trivial.ph_pin": "p.ex. TRV01",
@@ -45,7 +45,7 @@
     "admin.trivial.error_missing_source": "A categoría {n} non ten banco, mestura ou personalizado seleccionado.",
     "admin.trivial.error_outer_mismatch": "As casas exteriores ({outer}) deben ser múltiplo de {n} categorías.",
     "admin.trivial.error_save": "Erro ao gardar",
-    "admin.trivial.confirm_delete": "Eliminar este xogo de Trivia?",
+    "admin.trivial.confirm_delete": "Eliminar este xogo de trivia?",
     "admin.trivial.categories_count": "{n} categoría(s)"
   }
 }

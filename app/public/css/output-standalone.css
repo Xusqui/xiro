@@ -113,9 +113,13 @@
 }
 
 .nickname-row label {
+    align-self: flex-start;
+    padding: 2px 10px;
+    border-radius: 8px;
+    background: rgb(15 23 42 / 0.6);
     font-size: 14px;
     font-weight: 700;
-    color: rgba(255, 255, 255, 0.9);
+    color: #fff;
 }
 
 .nickname-row input {
@@ -149,24 +153,29 @@
 .filter-btn {
     padding: 10px 22px;
     border: 2px solid rgba(255, 255, 255, 0.4);
-    background: rgba(255, 255, 255, 0.08);
+    background: rgb(15 23 42 / 0.6);
     border-radius: 999px;
     font-size: 14px;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
     color: #fff;
-    backdrop-filter: blur(4px);
 }
 
 .filter-btn:hover {
-    background: rgba(255, 255, 255, 0.18);
+    background: rgb(15 23 42 / 0.75);
 }
 
+/* Fondo en el tono «ink» del rol: el blanco sobre #10b981 da 2,5:1 */
 .filter-btn.active {
-    background: var(--standalone-accent);
-    border-color: var(--standalone-accent);
+    background: var(--solo-emerald-ink, #047857);
+    border-color: var(--solo-emerald-ink, #047857);
     color: white;
+}
+
+.filter-btn:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 2px;
 }
 
 /* ===== Tarjetas de juego =====
@@ -186,8 +195,25 @@
 .loading-state {
     grid-column: 1 / -1;
     text-align: center;
-    padding: 60px 20px;
-    color: rgba(255, 255, 255, 0.85);
+    justify-self: center;
+    max-width: 420px;
+    margin: 40px auto 0;
+    padding: 24px 28px;
+    border-radius: 12px;
+    background: rgb(15 23 42 / 0.6);
+    color: #fff;
+}
+
+.standalone-heading {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 24px;
+}
+
+.standalone-back {
+    display: inline-block;
+    padding: 8px 16px;
 }
 
 .loading-state i {

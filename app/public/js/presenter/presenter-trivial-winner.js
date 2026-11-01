@@ -82,7 +82,7 @@ export function showTrivialWinnerOverlay(ranking) {
 
     overlay.innerHTML = _tHtml(`
         <div style="${CARD_STYLE}">
-            <div style="font-size:clamp(4rem,10vw,7rem);line-height:1">🏆</div>
+            <div style="font-size:clamp(4rem,10vw,7rem);line-height:1;color:#fbbf24"><i class="fas fa-trophy" aria-hidden="true"></i></div>
             <div style="${TITLE_STYLE}">¡Tenemos ganador!</div>
             <button id="${BTN_ID}" style="${BTN_STYLE}">
                 ${_t('presenter.game.view_ranking', null, 'Ver Ránking')}

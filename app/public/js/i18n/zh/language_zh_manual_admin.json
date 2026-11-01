@@ -1,8 +1,8 @@
 {
   "keys": {
-    "manual_admin.page.title": "XIRO! - 管理员手册",
+    "manual_admin.page.title": "XiRo! - 管理员手册",
     "manual_admin.hero.title": "管理员手册",
-    "manual_admin.hero.subtitle": "通过管理面板管理 XIRO! 所需的一切",
+    "manual_admin.hero.subtitle": "通过管理面板管理 XiRo! 所需的一切",
     "manual_admin.tabs.access_roles": "访问与角色",
     "manual_admin.tabs.question_banks": "题库",
     "manual_admin.tabs.game_types": "游戏类型",

@@ -1,18 +1,18 @@
 <div align="center">
 
-  <img src="https://xiro.pro/images/banner-readme.svg" alt="XIRO! — Real-Time Quiz Game" width="100%">
+  <img src="https://xiro.pro/images/banner-readme.svg" alt="XiRo! Quiz. Self-hosted Kahoot alternative" width="100%">
 
   <br>
 
-  <img src="https://xiro.pro/images/chamaleon/chamaleon.svg" alt="Xiro mascot" width="130">
+  <img src="https://xiro.pro/images/chamaleon/chamaleon.svg" alt="XiRo! Quiz. Self-hosted Kahoot alternative" width="130">
 
   <br>
 
-  <img src="https://img.shields.io/badge/Node.js-20-339933?style=flat-square&logo=nodedotjs&logoColor=white" alt="Node.js">
-  <img src="https://img.shields.io/badge/PostgreSQL-15-4169E1?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL">
-  <img src="https://img.shields.io/badge/Redis-8-DC382D?style=flat-square&logo=redis&logoColor=white" alt="Redis">
-  <img src="https://img.shields.io/badge/Socket.IO-4-010101?style=flat-square&logo=socketdotio&logoColor=white" alt="Socket.IO">
-  <img src="https://img.shields.io/badge/Docker-Compose-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker">
+  <img src="https://img.shields.io/badge/Node.js-20-339933?style=flat-square&logo=nodedotjs&logoColor=white" alt="XiRo! Quiz. Self-hosted Kahoot alternative">
+  <img src="https://img.shields.io/badge/PostgreSQL-15-4169E1?style=flat-square&logo=postgresql&logoColor=white" alt="XiRo! Quiz. Self-hosted Kahoot alternative">
+  <img src="https://img.shields.io/badge/Redis-8-DC382D?style=flat-square&logo=redis&logoColor=white" alt="XiRo! Quiz. Self-hosted Kahoot alternative">
+  <img src="https://img.shields.io/badge/Socket.IO-4-010101?style=flat-square&logo=socketdotio&logoColor=white" alt="XiRo! Quiz. Self-hosted Kahoot alternative">
+  <img src="https://img.shields.io/badge/Docker-Compose-2496ED?style=flat-square&logo=docker&logoColor=white" alt="XiRo! Quiz. Self-hosted Kahoot alternative">
 
   <br>
 
@@ -21,7 +21,7 @@
   <br>
 
   <a href="https://xiro.pro">
-    <img src="https://img.shields.io/badge/%F0%9F%8E%AE_%20TRY_ME_AT_XIRO.PRO_%F0%9F%8E%AE-8AB817?style=for-the-badge&labelColor=8AB817&logoColor=white" alt="Try me at xiro.pro" height="55">
+    <img src="https://img.shields.io/badge/%F0%9F%8E%AE_%20TRY_ME_AT_XIRO.PRO_%F0%9F%8E%AE-8AB817?style=for-the-badge&labelColor=8AB817&logoColor=white" alt="XiRo! Quiz. Self-hosted Kahoot alternative" height="55">
   </a>
 
   <sub>👆 <strong>Live demo</strong> — jump in and play now!</sub>
@@ -38,7 +38,7 @@
 
 ## 🚀 Installation
 
-<img src="https://xiro.pro/images/chamaleon/worker.svg" alt="worker mascot" width="100" align="right">
+<img src="https://xiro.pro/images/chamaleon/worker.svg" alt="XiRo! Quiz. Self-hosted Kahoot alternative" width="100" align="right">
 
 ### Requirements
 
@@ -261,7 +261,7 @@ Manage it with `./manage.sh start | stop | restart | status | logs | backup | re
 
 ## Features
 
-<img src="https://xiro.pro/images/chamaleon/party.svg" alt="party mascot" width="110" align="right">
+<img src="https://xiro.pro/images/chamaleon/party.svg" alt="XiRo! Quiz. Self-hosted Kahoot alternative" width="110" align="right">
 
 - **Real-time** play: players join from their phones with a QR code or PIN
 - **7 question types** and **4 game modes**, including a Trivial Pursuit-style board
@@ -280,7 +280,7 @@ Manage it with `./manage.sh start | stop | restart | status | logs | backup | re
 
 ## Question types
 
-<img src="https://xiro.pro/images/chamaleon/thinking.svg" alt="thinking mascot" width="100" align="right">
+<img src="https://xiro.pro/images/chamaleon/thinking.svg" alt="XiRo! Quiz. Self-hosted Kahoot alternative" width="100" align="right">
 
 | Type | Description | Scoring |
 |------|-------------|---------|
@@ -296,7 +296,7 @@ Manage it with `./manage.sh start | stop | restart | status | logs | backup | re
 
 ## Game modes
 
-<img src="https://xiro.pro/images/chamaleon/gaming.svg" alt="gaming mascot" width="110" align="right">
+<img src="https://xiro.pro/images/chamaleon/gaming.svg" alt="XiRo! Quiz. Self-hosted Kahoot alternative" width="110" align="right">
 
 - **Question Bank** — random questions from one or more banks.
 - **Question Mix** — choose how many random questions to draw from each bank.
@@ -322,7 +322,7 @@ All modes support **team play**.
 
 ## Administration
 
-<img src="https://xiro.pro/images/chamaleon/albanil.svg" alt="builder mascot" width="100" align="right">
+<img src="https://xiro.pro/images/chamaleon/albanil.svg" alt="XiRo! Quiz. Self-hosted Kahoot alternative" width="100" align="right">
 
 Two roles: **admin** (full access) and **editor** (edits only what they created).
 
@@ -340,7 +340,7 @@ From `/admin.html` you can:
 
 ## Backup and restore
 
-<img src="https://xiro.pro/images/chamaleon/pirata.svg" alt="pirate mascot" width="100" align="right">
+<img src="https://xiro.pro/images/chamaleon/pirata.svg" alt="XiRo! Quiz. Self-hosted Kahoot alternative" width="100" align="right">
 
 The `xiro_backup` container saves a daily database backup (2:00 AM) in `backups/` and keeps 7 days. Schedule and retention can be changed from **Admin → Config → Backup**.
 
@@ -374,7 +374,7 @@ Technical documentation for developers is in [`docs/`](docs/): [architecture](do
 ---
 
 <div align="center">
-  <img src="https://xiro.pro/images/chamaleon/thumbs_up.svg" alt="thumbs up mascot" width="80">
+  <img src="https://xiro.pro/images/chamaleon/thumbs_up.svg" alt="XiRo! Quiz. Self-hosted Kahoot alternative" width="80">
   <br><br>
   <em>XIRO! © Fernández Villatoro Family</em>
 </div>

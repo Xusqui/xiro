@@ -107,7 +107,7 @@ export function renderControlPanel(data, handlers) {
             </button>
             ${remoteReactionsButtonHtml()}
         </div>
-        <p class="remote-hint">Xiro! (https://xiro.pro) Una idea original de Familia Fernández Villatoro.</p>
+        <p class="remote-hint">XiRo! (https://xiro.pro) Una idea original de Familia Fernández Villatoro.</p>
     </div>`);
 
     bindActionButton('btn-remote-prev', handlers.onPrevious);

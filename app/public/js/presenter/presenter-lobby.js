@@ -24,7 +24,6 @@ if (window.XiroI18n && typeof window.XiroI18n.addSections === 'function') {
 // Estado para filtrado de PINs
 let filtroActivo = 'todos';
 let todosLosPins = [];
-let ultimoErrorCargaPins = '';
 
 // Estado de la búsqueda AJAX por PIN o título
 const MIN_CARACTERES_BUSQUEDA = 3;
@@ -62,7 +61,7 @@ function renderVistaPinNoValido(selectedPin) {
             <h1 class="text-4xl font-black text-white mb-4">${t('presenter.selector.invalid_pin.title', 'PIN No Valido')}</h1>
             <p class="text-slate-400 mb-2 text-xl">${t('presenter.selector.invalid_pin.message', `El codigo ${pinChip} no existe.`, { pin })}</p>
             <p class="text-slate-500 mb-6">${t('presenter.selector.invalid_pin.hint', 'Verifica el PIN o selecciona un juego de la lista.')}</p>
-            <button data-presenter-action="volver-juegos" class="px-6 py-3 rounded-full text-white font-bold uppercase transition shadow-lg" style="background:#8ab817;">
+            <button data-presenter-action="volver-juegos" class="px-6 py-3 rounded-full text-white font-bold uppercase transition shadow-lg" style="background:#557400;">
                 <i class="fas fa-list mr-2"></i>${t('presenter.selector.actions.show_games_available', 'Mostrar juegos disponibles')}
             </button>
         </div>
@@ -82,18 +81,24 @@ function renderVistaErrorConexionPin() {
     `);
 }
 
-function renderVistaErrorCargaPins(errorMessage) {
+function renderVistaErrorCargaPins() {
+    // El detalle técnico («Unexpected token…») ya está en la consola; la sala
+    // ve un aviso que se entiende, sobre un velo para leerse en la selva
     mostrarLobbyMain(`
         <div data-presenter-view="load-error" class="h-full w-full flex flex-col items-center justify-center pt-10 px-10 pb-16">
-            <i class="fas fa-exclamation-triangle text-red-500 text-8xl mb-6"></i>
-            <h1 class="text-4xl font-black text-white mb-4">${t('presenter.selector.load_error.title', 'Error al cargar PINs')}</h1>
-            <p class="text-slate-400 mb-6">${errorMessage || ''}</p>
-            <button data-presenter-action="volver-juegos" class="px-6 py-3 rounded-full text-white font-bold uppercase transition shadow-lg" style="background:#8ab817;">
-                <i class="fas fa-list mr-2"></i>${t('presenter.selector.actions.show_games', 'Mostrar juegos')}
-            </button>
-            <a href="/index.html" class="mt-4 px-6 py-3 rounded-full font-bold uppercase transition shadow-lg" style="background:#f9b518;color:#1a1a1a;">
-                <i class="fas fa-arrow-left mr-2"></i> ${t('presenter.selector.actions.back_home', 'Volver a la Pagina principal')}
-            </a>
+            <div class="jungle-veil flex flex-col items-center text-center px-10 py-8 max-w-xl">
+                <i class="fas fa-exclamation-triangle text-red-400 text-6xl mb-4" aria-hidden="true"></i>
+                <h1 class="text-4xl font-black text-white mb-2">${t('presenter.selector.load_error.title', 'Error al cargar PINs')}</h1>
+                <p class="text-white mb-6">${t('presenter.selector.load_error.hint', 'Comprueba la conexión con el servidor y vuelve a intentarlo.')}</p>
+                <div class="flex flex-wrap gap-3 justify-center">
+                    <button data-presenter-action="volver-juegos" class="px-6 py-3 rounded-full text-white font-bold uppercase transition shadow-lg" style="background:#557400;">
+                        <i class="fas fa-list mr-2"></i>${t('presenter.selector.actions.show_games', 'Mostrar juegos')}
+                    </button>
+                    <a href="/index.html" class="px-6 py-3 rounded-full font-bold uppercase transition shadow-lg" style="background:#f9b518;color:#1a1a1a;">
+                        <i class="fas fa-arrow-left mr-2"></i> ${t('presenter.selector.actions.back_home', 'Volver a la página principal')}
+                    </a>
+                </div>
+            </div>
         </div>
     `);
 }
@@ -140,13 +145,11 @@ export async function mostrarSelectorPIN() {
         }
 
         todosLosPins = data;
-        ultimoErrorCargaPins = '';
         buscarPINs('');
         renderizarPINs();
     } catch (err) {
         console.error('Error cargando PINs:', err);
-        ultimoErrorCargaPins = err?.message || '';
-        renderVistaErrorCargaPins(ultimoErrorCargaPins);
+        renderVistaErrorCargaPins();
     }
 }
 
@@ -221,28 +224,28 @@ function renderizarPINs() {
 
             <div class="flex gap-3 mb-8 flex-wrap justify-center">
                 <button data-presenter-action="change-filter" data-filter="Juego Personalizado" 
-                        class="px-6 py-3 rounded-full font-bold uppercase transition-all shadow-md ${filtroActivo === 'Juego Personalizado' ? 'scale-110 shadow-lg' : ''}"
-                        style="${filtroActivo === 'Juego Personalizado' ? 'background:linear-gradient(135deg,#14b8a6,#0d9488);color:#fff;' : 'background:rgba(255,255,255,0.12);color:#cbd5e1;'}">
+                        class="px-6 py-3 rounded-full font-bold uppercase transition shadow-md ${filtroActivo === 'Juego Personalizado' ? 'scale-110 shadow-lg' : ''}"
+                        style="${filtroActivo === 'Juego Personalizado' ? 'background:#0f766e;color:#fff;' : 'background:rgb(15 23 42 / 0.6);color:#fff;'}">
                     <i class="fas fa-star mr-2"></i>${t('presenter.selector.filter.custom', 'Personalizados')}
                 </button>
                 <button data-presenter-action="change-filter" data-filter="Juego" 
-                        class="px-6 py-3 rounded-full font-bold uppercase transition-all shadow-md ${filtroActivo === 'Juego' ? 'scale-110 shadow-lg' : ''}"
-                        style="${filtroActivo === 'Juego' ? 'background:#8ab817;color:#fff;' : 'background:rgba(255,255,255,0.12);color:#cbd5e1;'}">
+                        class="px-6 py-3 rounded-full font-bold uppercase transition shadow-md ${filtroActivo === 'Juego' ? 'scale-110 shadow-lg' : ''}"
+                        style="${filtroActivo === 'Juego' ? 'background:#557400;color:#fff;' : 'background:rgb(15 23 42 / 0.6);color:#fff;'}">
                     <i class="fas fa-gamepad mr-2"></i>${t('presenter.selector.filter.games', 'Juegos')}
                 </button>
                 <button data-presenter-action="change-filter" data-filter="Banco" 
-                        class="px-6 py-3 rounded-full font-bold uppercase transition-all shadow-md ${filtroActivo === 'Banco' ? 'scale-110 shadow-lg' : ''}"
-                        style="${filtroActivo === 'Banco' ? 'background:#f9b518;color:#1a1a1a;' : 'background:rgba(255,255,255,0.12);color:#cbd5e1;'}">
+                        class="px-6 py-3 rounded-full font-bold uppercase transition shadow-md ${filtroActivo === 'Banco' ? 'scale-110 shadow-lg' : ''}"
+                        style="${filtroActivo === 'Banco' ? 'background:#f9b518;color:#1a1a1a;' : 'background:rgb(15 23 42 / 0.6);color:#fff;'}">
                     <i class="fas fa-database mr-2"></i>${t('presenter.selector.filter.banks', 'Bancos')}
                 </button>
                 <button data-presenter-action="change-filter" data-filter="Trivial" 
-                        class="px-6 py-3 rounded-full font-bold uppercase transition-all shadow-md ${filtroActivo === 'Trivial' ? 'scale-110 shadow-lg' : ''}"
-                        style="${filtroActivo === 'Trivial' ? 'background:#e65453;color:#fff;' : 'background:rgba(255,255,255,0.12);color:#cbd5e1;'}">
+                        class="px-6 py-3 rounded-full font-bold uppercase transition shadow-md ${filtroActivo === 'Trivial' ? 'scale-110 shadow-lg' : ''}"
+                        style="${filtroActivo === 'Trivial' ? 'background:#b42d2c;color:#fff;' : 'background:rgb(15 23 42 / 0.6);color:#fff;'}">
                     <i class="fas fa-dice mr-2"></i>${t('presenter.selector.filter.trivial', 'Trivial')}
                 </button>
                 <button data-presenter-action="change-filter" data-filter="todos" 
-                        class="px-6 py-3 rounded-full font-bold uppercase transition-all shadow-md ${filtroActivo === 'todos' ? 'scale-110 shadow-lg' : ''}"
-                        style="${filtroActivo === 'todos' ? 'background:#f9b518;color:#1a1a1a;' : 'background:rgba(255,255,255,0.12);color:#cbd5e1;'}">
+                        class="px-6 py-3 rounded-full font-bold uppercase transition shadow-md ${filtroActivo === 'todos' ? 'scale-110 shadow-lg' : ''}"
+                        style="${filtroActivo === 'todos' ? 'background:#f9b518;color:#1a1a1a;' : 'background:rgb(15 23 42 / 0.6);color:#fff;'}">
                     <i class="fas fa-th mr-2"></i>${t('presenter.selector.filter.all', 'Todos')}
                 </button>
             </div>
@@ -251,7 +254,7 @@ function renderizarPINs() {
                 ${htmlRejillaPINs()}
             </div>
             <a href="/index.html" class="px-6 py-3 rounded-full font-bold uppercase transition shadow-lg" style="background:#f9b518;color:#1a1a1a;">
-                <i class="fas fa-arrow-left mr-2"></i> ${t('presenter.selector.actions.back_home', 'Volver a la Pagina principal')}
+                <i class="fas fa-arrow-left mr-2"></i> ${t('presenter.selector.actions.back_home', 'Volver a la página principal')}
             </a>
         </div>
     `);
@@ -348,7 +351,7 @@ function htmlRejillaPINs() {
             const textShadow = safeImageUrl ? 'text-shadow:0 1px 4px rgba(0,0,0,.7);' : '';
             return `
                             <div data-presenter-action="select-pin" data-pin="${p.pin}"
-                             class="p-6 rounded-3xl cursor-pointer transition-all hover:scale-105 shadow-2xl flex flex-col justify-between min-h-[180px] w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)]"
+                             class="p-6 rounded-3xl cursor-pointer transition shadow-2xl flex flex-col justify-between min-h-[180px] w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)]"
                              style="background:${cardBackground};border-bottom:4px solid ${c.border};position:relative;">
                             <div class="mb-4">
                                 <div class="bg-white/30 backdrop-blur-sm px-4 py-2 rounded-full inline-block mb-3">
@@ -401,7 +404,7 @@ export function rerenderCurrentLobbyView() {
     }
 
     if (view === 'load-error') {
-        renderVistaErrorCargaPins(ultimoErrorCargaPins);
+        renderVistaErrorCargaPins();
     }
 }
 
@@ -416,7 +419,7 @@ export function mostrarSeleccionModo(selectedPin) {
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl w-full mb-8">
                  <div data-presenter-action="select-individual-mode" data-pin="${selectedPin}" 
-                     class="p-10 rounded-3xl cursor-pointer transition-all hover:scale-105 shadow-2xl flex flex-col items-center justify-center min-h-[300px]"
+                     class="p-10 rounded-3xl cursor-pointer transition shadow-2xl flex flex-col items-center justify-center min-h-[300px]"
                      style="background:linear-gradient(135deg,#8ab817,#5a7a0f);border-bottom:4px solid #455c09;">
                     <i class="fas fa-user text-8xl text-white mb-6"></i>
                     <h2 class="text-3xl font-black text-white mb-3">${t('presenter.selector.mode.individual.title', 'INDIVIDUAL')}</h2>
@@ -424,7 +427,7 @@ export function mostrarSeleccionModo(selectedPin) {
                 </div>
                 
                  <div data-presenter-action="show-team-config" data-pin="${selectedPin}" 
-                     class="p-10 rounded-3xl cursor-pointer transition-all hover:scale-105 shadow-2xl flex flex-col items-center justify-center min-h-[300px]"
+                     class="p-10 rounded-3xl cursor-pointer transition shadow-2xl flex flex-col items-center justify-center min-h-[300px]"
                      style="background:linear-gradient(135deg,#f9b518,#d49500);border-bottom:4px solid #a37200;">
                     <i class="fas fa-users text-8xl mb-6" style="color:#fff;"></i>
                     <h2 class="text-3xl font-black mb-3" style="color:#fff;">${t('presenter.selector.mode.teams.title', 'POR EQUIPOS')}</h2>

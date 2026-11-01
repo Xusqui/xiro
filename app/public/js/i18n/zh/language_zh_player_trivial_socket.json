@@ -1,6 +1,6 @@
 {
   "keys": {
-    "player.trivial.launch_dice": "! 投掷🎯",
+    "player.trivial.launch_dice": "投掷！",
     "player.trivial.correct_prefix": "你答对了，",
     "player.trivial.turn_change": "换人！",
     "player.trivial.team_scores": "答对了！",

@@ -20,7 +20,7 @@
     "tv.lobby.filter.all": "Alle",
     "tv.lobby.empty.all": "Keine PINs verfügbar. Erstelle zuerst ein Spiel oder eine Bank.",
     "tv.lobby.empty.by_type": "Keine {type} verfügbar.",
-    "tv.lobby.pin_label": "ZUGANGS-PIN",
+    "tv.lobby.pin_label": "Sitzungs-ID",
     "tv.lobby.btn_start": "STARTEN!",
     "tv.lobby.players_label": "Spieler: ",
     "tv.lobby.type.custom": "Benutzerdefinierte Spiele",

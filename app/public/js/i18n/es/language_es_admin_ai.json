@@ -1,6 +1,6 @@
 {
   "keys": {
-    "admin.ai.title": "Generador IA de Preguntas",
+    "admin.ai.title": "Generador IA de preguntas",
     "admin.ai.subtitle": "100% local con IA · Sin conexión a internet",
     "admin.ai.checking": "Comprobando IA...",
     "admin.ai.step1": "1 · Fuente",
@@ -33,7 +33,7 @@
     "admin.ai.btn_download": "Descargar JSON",
     "admin.ai.error_gen_title": "Error al generar",
     "admin.ai.importing": "Importando banco...",
-    "admin.ai.import_ok": "¡Banco importado correctamente! ID:",
+    "admin.ai.import_ok": "Banco importado correctamente. ID:",
     "admin.ai.view_banks": "Ver bancos",
     "admin.ai.timeout": "Tiempo de espera agotado (504)...",
     "admin.ai.type_survey_multiple": "Encuesta de selección múltiple",

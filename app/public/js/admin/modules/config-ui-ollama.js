@@ -1,7 +1,7 @@
 /**
  * @fileoverview Fila de Ollama en la pestaña "IA" del panel de configuración.
  * Se indica la URL del servidor, se cargan los modelos instalados (el servidor
- * de Xiro! consulta /api/tags) y se elige uno. La API key es opcional: solo hace
+ * de XiRo! consulta /api/tags) y se elige uno. La API key es opcional: solo hace
  * falta si Ollama está detrás de un proxy con autenticación o es Ollama Cloud.
  * Vacía al guardar = se mantiene la guardada (si la URL no cambia).
  * El guardado va con el resto de la pestaña (config-ui-save.js).

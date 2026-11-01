@@ -1,7 +1,8 @@
 {
   "keys": {
-    "standalone.title": "XIRO! - スタンドアロンモード",
+    "standalone.title": "XiRo! - スタンドアロンモード",
     "standalone.lobby.title": "ゲームを選択",
+    "standalone.lobby.mode_title": "ソロモード",
     "standalone.lobby.subtitle": "質問銀行またはカスタムゲームを選択",
     "standalone.lobby.search.label": "PINまたはタイトルで検索",
     "standalone.lobby.search.placeholder": "PINまたはタイトルで検索（3文字以上）",

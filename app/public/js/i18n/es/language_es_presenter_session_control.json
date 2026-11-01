@@ -8,7 +8,7 @@
     "presenter.session.abandon_title": "¿Abandonar partida?",
     "presenter.session.abandon_msg_html": "Escribe <span class=\"font-black text-red-300\">{confirmWord}</span> para confirmar. Esto expulsará a todos los jugadores.",
     "presenter.session.no_session_title": "Sin sesión activa",
-    "presenter.session.no_session_msg": "No hay una sesión activa para Xiro!.",
+    "presenter.session.no_session_msg": "No hay una sesión activa para XiRo!.",
     "presenter.session.abandoned_title": "Sesión abandonada",
     "presenter.session.abandoned_msg": "La sesión fue abandonada.",
     "presenter.session.btn_back_home": "Volver al inicio",

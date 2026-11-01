@@ -4,7 +4,7 @@
     "presenter.loading.desc": "プレゼンターパネルの準備",
     "presenter.sidebar.connected": "接続済み",
     "presenter.lobby.waiting": "プレイヤーを待っています...",
-    "presenter.lobby.pin": "アクセスPIN",
+    "presenter.lobby.pin": "セッションID",
     "presenter.lobby.start": "始める！",
     "presenter.lobby.join_at": "QRコードを読み取れない場合:",
     "presenter.lobby.join_pin": "にアクセスしてセッションIDを入力:",

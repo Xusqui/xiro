@@ -120,7 +120,7 @@ async function mostrarMezclarBancos() {
                     <!-- Botón de acción -->
                     <div class="flex justify-center">
                         <button data-merge-action="execute-merge" 
-                            class="bg-gradient-to-r from-plum-600 to-plum-700 hover:from-plum-700 hover:to-plum-800 text-white px-12 py-5 rounded-2xl font-black text-xl shadow-2xl transition-all transform hover:scale-105 flex items-center gap-3">
+                            class="bg-gradient-to-r from-plum-600 to-plum-700 hover:from-plum-700 hover:to-plum-800 text-white px-12 py-5 rounded-2xl font-black text-xl shadow-2xl transition transform flex items-center gap-3">
                             <i class="fas fa-layer-group text-2xl"></i>
                             Crear Banco Mezclado
                         </button>

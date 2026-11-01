@@ -20,7 +20,7 @@
     "tv.lobby.filter.all": "Guztiak",
     "tv.lobby.empty.all": "Ez dago PINik eskuragarri. Sortu lehenik joko edo banku bat.",
     "tv.lobby.empty.by_type": "Ez dago {type} eskuragarri.",
-    "tv.lobby.pin_label": "SARTZEKO PIN",
+    "tv.lobby.pin_label": "Saioaren IDa",
     "tv.lobby.btn_start": "HASI!",
     "tv.lobby.players_label": "Jokalariak: ",
     "tv.lobby.type.custom": "Joko pertsonalizatuak",

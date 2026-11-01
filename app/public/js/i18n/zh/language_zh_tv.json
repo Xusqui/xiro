@@ -20,7 +20,7 @@
     "tv.lobby.filter.all": "全部",
     "tv.lobby.empty.all": "没有可用的PIN。请先创建游戏或题库。",
     "tv.lobby.empty.by_type": "没有可用的{type}。",
-    "tv.lobby.pin_label": "访问PIN",
+    "tv.lobby.pin_label": "会话ID",
     "tv.lobby.btn_start": "开始！",
     "tv.lobby.players_label": "玩家：",
     "tv.lobby.type.custom": "自定义游戏",

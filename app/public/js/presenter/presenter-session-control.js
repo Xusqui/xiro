@@ -1,6 +1,6 @@
 /**
  * @fileoverview Control de sesion del presentador
- * Acciones para Xiro! partida y limpiar storage.
+ * Acciones para XiRo! partida y limpiar storage.
  */
 
 import { getSocket } from './presenter-socket-config.js?v=20260922172926';
@@ -229,7 +229,7 @@ export function abandonarJuego() {
     if (!roomIdOrPin) {
         showInfoOverlay({
             title: _t('presenter.session.no_session_title', null, 'Sin sesión activa'),
-            message: _t('presenter.session.no_session_msg', null, 'No hay una sesión activa para Xiro!.'),
+            message: _t('presenter.session.no_session_msg', null, 'No hay una sesión activa para XiRo!.'),
             buttonText: _t('presenter.session.understood', null, 'Entendido')
         });
         return;
@@ -238,7 +238,7 @@ export function abandonarJuego() {
     showAbandonOverlay({
         onConfirm: () => {
             const socket = getSocket();
-            console.log('🚪 Xiro! juego solicitado:', { roomIdOrPin });
+            console.log('🚪 XiRo! juego solicitado:', { roomIdOrPin });
             socket.emit('abandon-game', { roomIdOrPin, reason: 'abandoned' });
 
             cleanupPodio();

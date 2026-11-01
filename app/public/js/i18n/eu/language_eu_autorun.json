@@ -1,13 +1,13 @@
 {
     "keys": {
-        "autorun.page.title": "Xiro! - Bot exekutatzailea",
+        "autorun.page.title": "XiRo! - Bot exekutatzailea",
         "autorun.auth.verifying": "Administratzaile sarbidea egiaztatzen...",
-        "autorun.header.title": "🤖 Xiro! Bot exekutatzailea",
+        "autorun.header.title": "XiRo! Bot exekutatzailea",
         "autorun.header.badge": "Dev tresna",
         "autorun.header.subtitle": "Aurkezleak lobbya irekita eduki behar du bot-ak abiatu aurretik.",
         "autorun.header.back": "← Itzuli panelera",
         "autorun.header.logout": "⎋ Itxi saioa",
-        "autorun.config.title": "⚙️ Konfigurazioa",
+        "autorun.config.title": "Konfigurazioa",
         "autorun.config.session_label": "Session ID <span style=\"color:var(--gray)\">(formatua PIN-NUMERO)</span>",
         "autorun.config.session_placeholder": "adib: TEST-123456",
         "autorun.config.mode": "Modua",

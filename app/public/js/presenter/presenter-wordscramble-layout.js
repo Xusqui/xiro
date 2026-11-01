@@ -58,7 +58,7 @@ export function renderWordScramblePresenter(q) {
     return `
         <div class="flex-1 pb-6 flex items-center justify-center">
             <div class="bg-gradient-to-br from-yellow-500/20 to-amber-500/20 backdrop-blur-lg rounded-3xl p-8 border-2 border-yellow-500 shadow-2xl text-center" style="max-width: 48rem; width: 100%;">
-                <p class="text-2xl font-black italic text-yellow-400 mb-4">🔤 ANAGRAMA &nbsp;·&nbsp; <span class="text-white/70 text-xl">Palabra de <span class="text-yellow-300">${Number(wordLength) || 0}</span> letras</span></p>
+                <p class="text-2xl font-black italic text-yellow-400 mb-4">ANAGRAMA &nbsp;·&nbsp; <span class="text-white/70 text-xl">Palabra de <span class="text-yellow-300">${Number(wordLength) || 0}</span> letras</span></p>
                 ${multimediaHTML}
                 <div id="ws-presenter-boxes" style="display: flex; gap: 0.6rem; flex-wrap: wrap; justify-content: center; margin-bottom: 1.5rem;">
                     ${emptyBoxes}

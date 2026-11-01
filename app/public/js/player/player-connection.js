@@ -90,7 +90,7 @@ export function registerConnectionEvents(enviarPendiente) {
                 mainContainer.innerHTML = _tHtml(`
                     <div class="text-center">
                         <div class="w-20 h-20 border-8 border-white border-t-transparent rounded-full animate-spin mb-6 mx-auto"></div>
-                        <h2 class="text-3xl font-black italic mb-4">🔄 RECONECTANDO...</h2>
+                        <h2 class="text-3xl font-black italic mb-4">RECONECTANDO...</h2>
                         <p class="text-xl font-semibold text-white/90 mb-2">${displayName.toUpperCase()}</p>
                         <p class="text-base text-white/70">Restaurando tu sesión</p>
                     </div>
@@ -133,7 +133,7 @@ export function registerConnectionEvents(enviarPendiente) {
                 mainContainer.innerHTML = _tHtml(`
                     <div class="text-center">
                         <div class="w-20 h-20 border-8 border-orange-500 border-t-transparent rounded-full animate-spin mb-6 mx-auto"></div>
-                        <h2 class="text-3xl font-black italic mb-4">⚠️ DESCONECTADO</h2>
+                        <h2 class="text-3xl font-black italic mb-4"><i class="fas fa-triangle-exclamation mr-2" aria-hidden="true"></i>DESCONECTADO</h2>
                         <p class="text-xl font-semibold text-white/90 mb-2">${getNickname().toUpperCase()}</p>
                         <p class="text-base text-white/70">Reconectando automáticamente...</p>
                     </div>

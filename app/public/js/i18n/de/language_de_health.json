@@ -1,12 +1,12 @@
 {
   "keys": {
-    "health.page.title": "Gesundheitsgremium – Xiro",
-    "health.connection.error": "⚠ Es kann keine Verbindung zum Server hergestellt werden. Erneuter Versuch...",
+    "health.page.title": "Gesundheitsgremium – XiRo!",
+    "health.connection.error": "Es kann keine Verbindung zum Server hergestellt werden. Erneuter Versuch...",
     "health.header.title": "Gesundheits-Dashboard",
     "health.header.overall.connecting": "Conectando...",
     "health.header.refresh_info": "Actualizacion: --",
     "health.header.refresh_button": "↻ Aktualisieren",
-    "health.header.pause_button": "⏸ Pause",
+    "health.header.pause_button": "Pause",
     "health.probe.liveness": "Lebendigkeit",
     "health.probe.readiness": "Bereitschaft",
     "health.probe.uptime": "Aktive Zeit",
@@ -29,7 +29,7 @@
     "health.metric.http_per_min": "Peticiones HTTP /min",
     "health.card.recent_errors": "Aktuelle Fehler",
     "health.errors.count_default": "0 Fehler",
-    "health.errors.empty": "Keine aktuellen Fehler ✅",
+    "health.errors.empty": "Keine aktuellen Fehler",
     "health.card.live_logs": "Live-Protokolle",
     "health.logs.level.all": "Alle Ebenen",
     "health.logs.level.error": "Fehler",
@@ -38,9 +38,9 @@
     "health.logs.level.http": "HTTP",
     "health.logs.level.debug": "Debuggen",
     "health.logs.search_placeholder": "Protokolle durchsuchen...",
-    "health.logs.clear_button": "🗑️ Sauber",
+    "health.logs.clear_button": "Sauber",
     "health.logs.loading": "Protokolle werden geladen...",
     "health.empty.loading": "Cargando...",
-    "health.footer.title": "Xiro – Systemzustands-Dashboard"
+    "health.footer.title": "XiRo! – Systemzustands-Dashboard"
   }
 }

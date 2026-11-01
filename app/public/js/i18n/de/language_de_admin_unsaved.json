@@ -1,6 +1,6 @@
 {
   "keys": {
-    "admin.unsaved.title": "⚠️ Nicht gespeicherte Änderungen",
+    "admin.unsaved.title": "Nicht gespeicherte Änderungen",
     "admin.unsaved.msg_exit": "Sie haben nicht gespeicherte Änderungen. Wenn Sie jetzt gehen, gehen diese verloren. Möchten Sie fortfahren?",
     "admin.unsaved.msg_navigate": "Sie haben nicht gespeicherte Änderungen. Wenn Sie fortfahren, gehen diese verloren. Möchten Sie fortfahren?",
     "admin.unsaved.btn_exit": "Ohne Speichern verlassen",

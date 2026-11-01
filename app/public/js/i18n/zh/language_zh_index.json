@@ -2,7 +2,7 @@
   "keys": {
     "index.heading": "选择您的角色",
     "index.player.title": "玩家",
-    "index.player.desc": "使用您的 PIN 码加入游戏",
+    "index.player.desc": "使用会话ID加入游戏",
     "index.player.cta": "立即播放",
     "index.player.manual": "玩家手册",
     "index.presenter.title": "主持人",

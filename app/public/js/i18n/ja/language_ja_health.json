@@ -1,12 +1,12 @@
 {
   "keys": {
-    "health.page.title": "ヘルスパネル — Xiro",
-    "health.connection.error": "⚠ サーバーに接続できません。再試行中...",
+    "health.page.title": "ヘルスパネル — XiRo!",
+    "health.connection.error": "サーバーに接続できません。再試行中...",
     "health.header.title": "ヘルスダッシュボード",
     "health.header.overall.connecting": "Conectando...",
     "health.header.refresh_info": "Actualizacion: --",
     "health.header.refresh_button": "↻アップデート",
-    "health.header.pause_button": "⏸一時停止",
+    "health.header.pause_button": "一時停止",
     "health.probe.liveness": "活気",
     "health.probe.readiness": "準備完了",
     "health.probe.uptime": "アクティブ時間",
@@ -29,7 +29,7 @@
     "health.metric.http_per_min": "Peticiones HTTP /min",
     "health.card.recent_errors": "最近のバグ",
     "health.errors.count_default": "エラー0件",
-    "health.errors.empty": "最近エラーはありません ✅",
+    "health.errors.empty": "最近エラーはありません",
     "health.card.live_logs": "ライブログ",
     "health.logs.level.all": "すべてのレベル",
     "health.logs.level.error": "エラー",
@@ -38,9 +38,9 @@
     "health.logs.level.http": "HTTP",
     "health.logs.level.debug": "デバッグ",
     "health.logs.search_placeholder": "ログを検索...",
-    "health.logs.clear_button": "🗑️ 清潔",
+    "health.logs.clear_button": "清潔",
     "health.logs.loading": "ログを読み込んでいます...",
     "health.empty.loading": "Cargando...",
-    "health.footer.title": "Xiro — システム健全性ダッシュボード"
+    "health.footer.title": "XiRo! — システム健全性ダッシュボード"
   }
 }

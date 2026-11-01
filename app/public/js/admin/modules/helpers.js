@@ -237,7 +237,7 @@ function mostrarModalError(titulo, mensaje, tipo = 'error') {
                 <p class="${estilos.texto} text-sm leading-relaxed mb-8">${mensaje}</p>
                 
                 <button data-admin-click="document.getElementById('modalErrorGlobal').remove()"
-                    class="w-full ${estilos.boton} text-white px-8 py-4 rounded-xl font-bold transition transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+                    class="w-full ${estilos.boton} text-white px-8 py-4 rounded-xl font-bold transition transform active:scale-95 flex items-center justify-center gap-2">
                     <i class="fas fa-times"></i>
                     ${_t('admin.common.close', null, 'Cerrar')}
                 </button>
@@ -294,11 +294,11 @@ function mostrarModalConfirmacion(titulo, mensaje, onConfirm, onCancel, textoCon
                 
                 <div class="flex gap-3 w-full">
                     <button data-admin-click="document.getElementById('modalConfirmacionGlobal').remove()" 
-                        class="flex-1 bg-slate-300 hover:bg-slate-400 text-slate-800 px-6 py-3 rounded-xl font-bold transition transform hover:scale-105 active:scale-95">
+                        class="flex-1 bg-slate-300 hover:bg-slate-400 text-slate-800 px-6 py-3 rounded-xl font-bold transition transform active:scale-95">
                         ${textoCancelar}
                     </button>
                     <button id="btnConfirmarModal"
-                        class="flex-1 bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-xl font-bold transition transform hover:scale-105 active:scale-95">
+                        class="flex-1 bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-xl font-bold transition transform active:scale-95">
                         ${textoConfirm}
                     </button>
                 </div>

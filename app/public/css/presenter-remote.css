@@ -419,3 +419,9 @@ body.remote-mode>*:not(#remote-app):not(.xiro-modal-overlay) {
     font-size: 1rem;
     flex-shrink: 0;
 }
+
+@media (prefers-reduced-motion: reduce) {
+    .remote-timer-ring.urgent {
+        animation: none;
+    }
+}

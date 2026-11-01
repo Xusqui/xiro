@@ -1,14 +1,14 @@
 {
   "keys": {
-    "xiro_results_viewer.page.title": "XIRO! — Visor de resultats",
+    "xiro_results_viewer.page.title": "XiRo! — Visor de resultats",
     "xiro_results_viewer.drop.title_html": "Visor de <span>resultats</span>",
-    "xiro_results_viewer.drop.zone.title": "Arrossega aquí el teu CSV de XIRO!",
+    "xiro_results_viewer.drop.zone.title": "Arrossega aquí el teu CSV de XiRo!",
     "xiro_results_viewer.drop.zone.subtitle": "O fes clic per seleccionar el fitxer",
-    "xiro_results_viewer.drop.zone.button": "🎯 Seleccionar CSV",
+    "xiro_results_viewer.drop.zone.button": "Seleccionar CSV",
     "xiro_results_viewer.drop.note_html": "Descarrega el CSV des del <strong>Taulell d'Administració → Config → Historial de partides</strong><br>El fitxer mai no surt del teu navegador — tot es processa localment.",
     "xiro_results_viewer.results.header.title_prefix": "Resultats — PIN",
     "xiro_results_viewer.results.button.load_another": "← Carregar un altre",
-    "xiro_results_viewer.results.button.print": "🖨️ Imprimir",
+    "xiro_results_viewer.results.button.print": "Imprimir",
     "xiro_results_viewer.game_type.custom": "Personalitzat",
     "xiro_results_viewer.game_type.bank": "Banc de preguntes",
     "xiro_results_viewer.game_type.game": "Joc",

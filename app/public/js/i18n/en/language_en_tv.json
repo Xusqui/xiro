@@ -20,7 +20,7 @@
     "tv.lobby.filter.all": "All",
     "tv.lobby.empty.all": "No PINs available. Create a game or bank first.",
     "tv.lobby.empty.by_type": "No {type} available.",
-    "tv.lobby.pin_label": "ACCESS PIN",
+    "tv.lobby.pin_label": "Session ID",
     "tv.lobby.btn_start": "START!",
     "tv.lobby.players_label": "Players: ",
     "tv.lobby.type.custom": "Custom Games",

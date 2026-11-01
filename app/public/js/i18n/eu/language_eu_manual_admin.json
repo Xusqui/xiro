@@ -1,8 +1,8 @@
 {
   "keys": {
-    "manual_admin.page.title": "XIRO! - Administratzailearen Eskuliburua",
+    "manual_admin.page.title": "XiRo! - Administratzailearen Eskuliburua",
     "manual_admin.hero.title": "Administratzailearen Eskuliburua",
-    "manual_admin.hero.subtitle": "XIRO! administrazio-paneletik kudeatzeko behar duzun guztia",
+    "manual_admin.hero.subtitle": "XiRo! administrazio-paneletik kudeatzeko behar duzun guztia",
     "manual_admin.tabs.access_roles": "Sarbidea eta Rolak",
     "manual_admin.tabs.question_banks": "Galdera Bankuak",
     "manual_admin.tabs.game_types": "Joko Motak",

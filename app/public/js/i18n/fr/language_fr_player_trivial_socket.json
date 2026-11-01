@@ -1,6 +1,6 @@
 {
   "keys": {
-    "player.trivial.launch_dice": "! Lance🎯",
+    "player.trivial.launch_dice": "Lance !",
     "player.trivial.correct_prefix": "Tu as trouvé,",
     "player.trivial.turn_change": "Changement de tour!",
     "player.trivial.team_scores": "marque!",

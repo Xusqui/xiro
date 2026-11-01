@@ -47,12 +47,12 @@ function headerHtml(q, totalPlayers) {
                     <img src="/images/minilogo.svg" class="w-16">
                 </div>
                 <div class="flex items-center gap-3 justify-self-center">
-                    <div id="timer" data-presenter-action="toggle-timer" class="w-16 h-16 rounded-full border-4 border-red-800 flex items-center justify-center text-3xl font-black italic cursor-pointer hover:scale-110 transition-all duration-200" title="Clic para pausar/reanudar">${Number(q.time_limit) || 20}</div>
-                    <button id="btn-reveal-answer" data-presenter-action="reveal-answer" class="bg-white/15 hover:bg-white/25 backdrop-blur-md border border-white/35 rounded-2xl px-5 py-3 font-black text-white uppercase tracking-wide transition shadow-xl">
+                    <div id="timer" data-presenter-action="toggle-timer" class="stage-timer w-16 h-16 rounded-full border-4 border-red-800 flex items-center justify-center text-3xl font-black italic cursor-pointer" title="Clic para pausar/reanudar">${Number(q.time_limit) || 20}</div>
+                    <button id="btn-reveal-answer" data-presenter-action="reveal-answer" class="stage-reveal-btn rounded-2xl px-5 py-3 font-black text-white uppercase shadow-xl">
                         ${_t('presenter.game.reveal_answer', null, 'Revelar respuesta')}
                     </button>
                 </div>
-                <div class="text-2xl font-black italic text-red-800 justify-self-end" style="margin-right: 7rem;">${_t('presenter.game.answers_label', null, 'RESPUESTAS:')} <span id="ans-count">0</span> / <span id="ans-total">${totalPlayers}</span></div>
+                <div class="stage-answer-count jungle-veil text-2xl font-black italic justify-self-end" style="margin-right: 7rem;">${_t('presenter.game.answers_label', null, 'RESPUESTAS:')} <span id="ans-count">0</span> / <span id="ans-total">${totalPlayers}</span></div>
             </div>`;
 }
 
@@ -60,7 +60,7 @@ function multipleChoiceBadgeHtml() {
     return `
                 <div class="flex justify-center mb-4">
                     <div class="bg-plum-600 text-white px-6 py-2 rounded-full font-bold text-lg uppercase tracking-wide shadow-lg border-2 border-white/30">
-                        ${_t('presenter.game.multiple_choice_label', null, '✓ Selección Múltiple')}
+                        ${_t('presenter.game.multiple_choice_label', null, 'Selección múltiple')}
                     </div>
                 </div>`;
 }
@@ -114,10 +114,10 @@ function optionsGridHtml(q, view) {
     const options = q.options
         .map(
             (opt, i) => `
-                    <div id="opt-${i}" class="${OPTION_COLORS[i]} relative rounded-[30px] p-6 flex items-center shadow-2xl border-b-8 border-black/20 h-full transition-all duration-500">
+                    <div id="opt-${i}" class="${OPTION_COLORS[i]} relative rounded-[30px] p-6 flex items-center shadow-2xl border-b-8 border-black/20 h-full transition duration-500">
                         <span class="bg-black/20 w-16 h-16 rounded-xl flex items-center justify-center text-4xl font-black mr-6 border-2 border-white/20 italic text-white">${i + 1}</span>
                         ${opt.option_image_url ? `<img src="${sanitizeResourceUrl(opt.option_image_url)}" alt="" class="max-h-[120px] max-w-[120px] object-contain rounded-xl mr-3 shrink-0">` : ''}
-                        <span class="option-text font-black uppercase text-white break-words" style="flex: 1; overflow-wrap: break-word; hyphens: auto; line-height: 1.1;">${escapeHtml(opt.optionText)}</span>
+                        <span class="option-text font-black text-white break-words" style="flex: 1; overflow-wrap: break-word; hyphens: auto; line-height: 1.1;">${escapeHtml(opt.optionText)}</span>
                     </div>`
         )
         .join('');
@@ -130,13 +130,13 @@ function optionsGridHtml(q, view) {
 function numericAreaHtml() {
     return `
                 <div class="flex-1 pb-6 flex items-center justify-center">
-                    <div class="bg-gradient-to-br from-green-500/20 to-emerald-500/20 backdrop-blur-lg rounded-3xl p-12 border-2 border-green-500 shadow-2xl text-center">
-                        <div class="text-6xl mb-4">🔢</div>
-                        <p class="text-2xl font-black italic text-green-400 mb-2">${_t('presenter.game.numeric_question', null, 'PREGUNTA NUMÉRICA')}</p>
-                        <p class="text-xl text-white/80 mb-4">${_t('presenter.game.players_write_number', null, 'Los jugadores escriben un número entero')}</p>
-                        <div class="mt-6 pt-6 border-t border-green-500/30">
-                            <p id="numeric-answer-note" class="text-sm text-white/70 mb-2">${_t('presenter.game.answer_on_reveal', null, 'La respuesta correcta se mostrará al revelar')}</p>
-                            <p class="text-xs text-white/50 mt-2">${_t('presenter.game.points_by_proximity', null, 'Los puntos se calculan según proximidad')}</p>
+                    <div class="numeric-stage-card rounded-3xl p-12 shadow-2xl text-center">
+                        <i class="fas fa-hashtag text-6xl mb-4 text-green-300" aria-hidden="true"></i>
+                        <p class="text-2xl font-black italic text-green-300 mb-2">${_t('presenter.game.numeric_question', null, 'PREGUNTA NUMÉRICA')}</p>
+                        <p class="text-xl text-white mb-4">${_t('presenter.game.players_write_number', null, 'Los jugadores escriben un número entero')}</p>
+                        <div class="mt-6 pt-6 border-t border-white/20">
+                            <p id="numeric-answer-note" class="text-base text-white/90 mb-2">${_t('presenter.game.answer_on_reveal', null, 'La respuesta correcta se mostrará al revelar')}</p>
+                            <p class="text-sm text-white/80 mt-2">${_t('presenter.game.points_by_proximity', null, 'Los puntos se calculan según proximidad')}</p>
                         </div>
                     </div>
                 </div>`;
@@ -152,8 +152,8 @@ function answerAreaHtml(q, view) {
     if (view.mostrarOpciones) return '';
     return `
                 <div class="stage-devices-note pb-14 text-center">
-                    <p class="text-white/60 text-2xl italic">
-                        <i class="fas fa-mobile-alt mr-2"></i>
+                    <p class="jungle-veil inline-block px-6 py-3 text-white text-2xl italic">
+                        <i class="fas fa-mobile-alt mr-2" aria-hidden="true"></i>
                         ${_t('presenter.game.players_see_devices', null, 'Los jugadores ven las opciones en sus dispositivos')}
                     </p>
                 </div>`;
@@ -172,7 +172,7 @@ function nextButtonHtml() {
 function titleHtml(q, view) {
     if (view.esFillBlanks) return '';
     const titleMargin = view.tieneImagen && !view.esWordScramble ? '4' : '8';
-    return `<h1 id="question-title" class="font-black text-center uppercase italic mb-${titleMargin} drop-shadow-lg" style="line-height: 1.2;">${escapeHtml(q.question_text)}</h1>`;
+    return `<h1 id="question-title" class="stage-question-title font-black text-center italic mb-${titleMargin}" style="line-height: 1.2;">${escapeHtml(q.question_text)}</h1>`;
 }
 
 /** HTML completo de la pregunta para #lobby-main. */

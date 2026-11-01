@@ -112,7 +112,7 @@
             text-align: center;
             background: rgba(249, 181, 24, 0.04);
             cursor: pointer;
-            transition: all .25s;
+            transition: border-color .25s, background-color .25s, transform .25s;
             position: relative;
         }
 
@@ -149,7 +149,7 @@
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: all .2s;
+            transition: transform .2s, box-shadow .2s;
             box-shadow: 0 4px 24px rgba(249, 181, 24, 0.35);
         }
 
@@ -258,7 +258,7 @@
             font-weight: 700;
             font-size: 0.85rem;
             cursor: pointer;
-            transition: all .2s;
+            transition: background-color .2s;
             display: flex;
             align-items: center;
             gap: 7px;

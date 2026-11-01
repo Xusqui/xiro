@@ -1,5 +1,5 @@
 /**
- * @fileoverview Intro de partida: logo de Xiro! animado + cuenta atrás 3-2-1-0.
+ * @fileoverview Intro de partida: logo de XiRo! animado + cuenta atrás 3-2-1-0.
  *
  * Overlay a pantalla completa que se muestra en presentador, TV y móviles al
  * recibir `game-intro`. El servidor gatea la espera (GameIntroManager). El iris

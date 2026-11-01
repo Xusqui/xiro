@@ -71,8 +71,8 @@ export function mostrarErrorJoinLobby(errorMessage, lastNickname = '') {
             style="width: 100%; max-width: 384px; margin: 0 auto 2rem auto; filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04));">
         <div id="login-box" class="bg-white p-8 rounded-3xl shadow-2xl text-slate-800 border-b-8 border-gray-200">
             <div id="step-2">
-                <h2 class="text-slate-500 font-bold mb-4 uppercase text-sm">${_t('player.session_ui.your_name', null, '¿Tu apodo?')}</h2>
-                <p class="text-red-600 font-bold mb-3 text-sm">⚠️ ${errorMessage}</p>
+                <h2 class="text-slate-700 font-bold mb-4 text-base">${_t('player.session_ui.your_name', null, '¿Tu apodo?')}</h2>
+                <p class="text-red-600 font-bold mb-3 text-sm"><i class="fas fa-exclamation-triangle mr-1" aria-hidden="true"></i>${errorMessage}</p>
                 <input type="text" id="nickname-input" placeholder="${_t('player.nickname.placeholder', null, 'APODO')}" maxlength="15" value="${lastNickname}"
                     class="w-full p-4 mb-4 border-4 border-red-300 rounded-2xl font-black text-2xl text-center focus:border-plum-500 outline-none uppercase">
                 <div id="avatar-picker" class="avp" hidden></div>

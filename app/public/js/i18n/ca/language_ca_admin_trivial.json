@@ -11,7 +11,7 @@
     "admin.trivial.ph_pin": "ex. TRV01",
     "admin.trivial.section_config": "Configuració del joc",
     "admin.trivial.label_visible": "Visible per al presentador",
-    "admin.trivial.label_streaks": "Usar Ratxes",
+    "admin.trivial.label_streaks": "Usar ratxes",
     "admin.trivial.help_streaks": "Aplica punts bonus als jugadors amb respostes correctes consecutives",
     "admin.trivial.streak_threshold_label": "Preguntes per activar la ratxa",
     "admin.trivial.streak_threshold_help": "Nre dencerts consecutius per entrar en ratxa",

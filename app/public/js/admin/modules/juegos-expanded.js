@@ -74,7 +74,7 @@ async function renderVistaJuegos() {
                 : `flex-1 px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 ${getLockedButtonClasses()}`;
             const validBanks = juego.banks.filter(b => b.bank_id !== null);
             return `
-                            <div class="bg-white rounded-2xl shadow-sm border-2 border-slate-200 hover:border-green-500 transition-all hover:shadow-xl group overflow-hidden">
+                            <div class="bg-white rounded-2xl shadow-sm border-2 border-slate-200 hover:border-green-500 transition hover:shadow-xl group overflow-hidden">
                                 <div class="p-6">
                                     <div class="flex justify-between items-start mb-4">
                                         <div class="flex-1">

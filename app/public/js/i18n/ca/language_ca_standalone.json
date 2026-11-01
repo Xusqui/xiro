@@ -1,7 +1,8 @@
 {
   "keys": {
-    "standalone.title": "XIRO! - Mode Autònom",
+    "standalone.title": "XiRo! - Mode Autònom",
     "standalone.lobby.title": "Tria el teu joc",
+    "standalone.lobby.mode_title": "Mode autònom",
     "standalone.lobby.subtitle": "Selecciona un banc de preguntes o un joc personalitzat",
     "standalone.lobby.search.label": "Cerca per PIN o títol",
     "standalone.lobby.search.placeholder": "Cerca per PIN o títol (mín. 3 caràcters)",

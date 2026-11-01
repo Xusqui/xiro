@@ -8,7 +8,7 @@
     "presenter.session.abandon_title": "ゲームを終了しますか？",
     "presenter.session.abandon_msg_html": "<span class=\"font-black text-red-300\">{confirmWord}</span> と入力して確認してください。すべてのプレイヤーが退出されます。",
     "presenter.session.no_session_title": "アクティブなセッションなし",
-    "presenter.session.no_session_msg": "Xiro! のアクティブなセッションがありません。",
+    "presenter.session.no_session_msg": "XiRo! のアクティブなセッションがありません。",
     "presenter.session.abandoned_title": "セッション終了",
     "presenter.session.abandoned_msg": "セッションが終了しました。",
     "presenter.session.btn_back_home": "ホームに戻る",

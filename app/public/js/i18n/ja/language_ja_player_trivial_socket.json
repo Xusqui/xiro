@@ -1,6 +1,6 @@
 {
   "keys": {
-    "player.trivial.launch_dice": "! 振る🎯",
+    "player.trivial.launch_dice": "振って！",
     "player.trivial.correct_prefix": "正解です、",
     "player.trivial.turn_change": "ターン交代！",
     "player.trivial.team_scores": "正解！",

@@ -1,0 +1,30 @@
+/* Columna de jugadores en salas grandes (presenter-players-fit.js): cuando
+   las filas no caben, fichas en mosaico con la letra ajustada para que se
+   vean todos los nombres. Los puntos se ven en el Top 5 del revelado. */
+
+#players-sidebar-list[data-density="chips"] {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 0.3rem;
+}
+
+#players-sidebar-list[data-density="chips"] .stage-player {
+    font-size: var(--stage-chip-size, 1rem);
+    gap: 0.3em;
+    padding: 0.2em 0.5em;
+    border-radius: 0.5em;
+}
+
+#players-sidebar-list[data-density="chips"] .stage-player-name {
+    flex: none;
+    gap: 0.3em;
+}
+
+#players-sidebar-list[data-density="chips"] .stage-player-name .truncate {
+    max-width: 10em;
+}
+
+#players-sidebar-list[data-density="chips"] .stage-player-score {
+    display: none;
+}

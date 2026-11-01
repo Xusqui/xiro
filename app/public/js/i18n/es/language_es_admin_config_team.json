@@ -1,7 +1,7 @@
 {
   "keys": {
-    "admin.config.tab.lambda": "Configuración Equipos",
-    "admin.config.team.names_title": "Nombres de Equipos",
+    "admin.config.tab.lambda": "Configuración equipos",
+    "admin.config.team.names_title": "Nombres de equipos",
     "admin.config.team.names_desc": "Nombres sugeridos al iniciar un juego por equipos. El presentador puede modificarlos antes de cada partida.",
     "admin.config.team.name_placeholder": "Nombre del equipo",
     "admin.config.team.btn_reset": "Restaurar por defecto"

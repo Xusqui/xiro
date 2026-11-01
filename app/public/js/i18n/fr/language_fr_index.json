@@ -2,7 +2,7 @@
   "keys": {
     "index.heading": "Choisissez votre rôle",
     "index.player.title": "Joueur",
-    "index.player.desc": "Rejoignez une partie avec votre code PIN",
+    "index.player.desc": "Rejoignez une partie avec l'ID de session",
     "index.player.cta": "Jouez maintenant",
     "index.player.manual": "Manuel du joueur",
     "index.presenter.title": "Présentateur",

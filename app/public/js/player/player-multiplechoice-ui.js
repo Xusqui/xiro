@@ -205,7 +205,7 @@ export function renderizarPreguntaMultipleChoice(pregunta, config = MULTIPLE_CHO
             </div>
             ${multimediaHTML}
             <div class="bg-white p-4 border-b-8 border-plum-600 text-slate-800 text-center ${tieneImagen ? 'min-h-[8vh]' : 'min-h-[12vh]'} ${tieneImagen ? 'max-h-[12vh]' : 'max-h-[20vh]'} flex flex-col items-center justify-center shrink-0 overflow-y-auto">
-                <h2 class="${preguntaFontClass} font-black uppercase italic hyphens-auto" lang="es">${escapeHtml(pregunta.question_text)}</h2>
+                <h2 class="${preguntaFontClass} font-black italic hyphens-auto" lang="es">${escapeHtml(pregunta.question_text)}</h2>
                 ${tieneImagenEnunciado ? `<img src="${sanitizeResourceUrl(questionImageUrl)}" alt="" class="mt-2 max-h-[150px] max-w-full object-contain rounded-lg shadow mx-auto">` : ''}
             </div>
             <div class="bg-plum-700 px-3 py-1 text-center shrink-0">
@@ -222,7 +222,7 @@ export function renderizarPreguntaMultipleChoice(pregunta, config = MULTIPLE_CHO
                         data-index="${i}"
                         data-player-action="toggle-multiple"
                         data-answer-index="${i}"
-                        class="btn-multiplechoice btn-glass-3d ${colores[i]} rounded-xl flex flex-col items-center justify-center p-1.5 overflow-hidden transition-all duration-200 ease-out relative">
+                        class="btn-multiplechoice btn-glass-3d ${colores[i]} rounded-xl flex flex-col items-center justify-center p-1.5 overflow-hidden transition duration-200 ease-out relative">
                         <span class="absolute top-2 left-2 font-black text-white/50 text-xl italic">${i + 1}</span>
                         ${opt.option_image_url ? `<img src="${sanitizeResourceUrl(opt.option_image_url)}" alt="" class="max-h-[80px] max-w-[80px] object-contain rounded-lg mb-1 shrink-0">` : ''}
                         <span class="btn-text text-white font-bold ${fontClass} ${caseClass} px-1 break-words hyphens-auto leading-tight text-center" lang="es">${escapeHtml(opt.optionText)}</span>
@@ -236,7 +236,7 @@ export function renderizarPreguntaMultipleChoice(pregunta, config = MULTIPLE_CHO
                     id="btn-enviar-multiple"
                     data-player-action="send-multiple"
                     disabled
-                    class="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-500 disabled:cursor-not-allowed text-white font-black text-lg py-4 rounded-xl shadow-lg transition-all disabled">
+                    class="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-500 disabled:cursor-not-allowed text-white font-black text-lg py-4 rounded-xl shadow-lg transition disabled">
                     ${activeConfig.emptyLabel()}
                 </button>
             </div>

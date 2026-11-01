@@ -324,7 +324,7 @@ function updateRemoteRandomPoints(points) {
         return;
     }
 
-    badge.textContent = _t('game.random_points.badge', { points }, '🎲 {points} pts');
+    badge.textContent = _t('game.random_points.badge', { points }, '{points} pts');
     badge.style.display = '';
 }
 

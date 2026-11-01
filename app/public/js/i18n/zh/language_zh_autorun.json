@@ -1,13 +1,13 @@
 {
     "keys": {
-        "autorun.page.title": "Xiro! - 机器人运行器",
+        "autorun.page.title": "XiRo! - 机器人运行器",
         "autorun.auth.verifying": "正在验证管理员访问权限...",
-        "autorun.header.title": "🤖 Xiro! 机器人运行器",
+        "autorun.header.title": "XiRo! 机器人运行器",
         "autorun.header.badge": "开发工具",
         "autorun.header.subtitle": "启动机器人前，主持人必须保持大厅页面已打开。",
         "autorun.header.back": "← 返回管理面板",
         "autorun.header.logout": "⎋ 退出登录",
-        "autorun.config.title": "⚙️ 配置",
+        "autorun.config.title": "配置",
         "autorun.config.session_label": "会话 ID <span style=\"color:var(--gray)\">(格式 PIN-NUMBER)</span>",
         "autorun.config.session_placeholder": "例如: TEST-123456",
         "autorun.config.mode": "模式",

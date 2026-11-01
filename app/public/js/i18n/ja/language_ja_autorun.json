@@ -1,13 +1,13 @@
 {
     "keys": {
-        "autorun.page.title": "Xiro! - Bot ランナー",
+        "autorun.page.title": "XiRo! - Bot ランナー",
         "autorun.auth.verifying": "管理者アクセスを確認中...",
-        "autorun.header.title": "🤖 Xiro! Bot ランナー",
+        "autorun.header.title": "XiRo! Bot ランナー",
         "autorun.header.badge": "開発ツール",
         "autorun.header.subtitle": "Bot を起動する前に、プレゼンターはロビーを開いたままにしてください。",
         "autorun.header.back": "← 管理パネルに戻る",
         "autorun.header.logout": "⎋ ログアウト",
-        "autorun.config.title": "⚙️ 設定",
+        "autorun.config.title": "設定",
         "autorun.config.session_label": "Session ID <span style=\"color:var(--gray)\">(形式 PIN-NUMBER)</span>",
         "autorun.config.session_placeholder": "例: TEST-123456",
         "autorun.config.mode": "モード",

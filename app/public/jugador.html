@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="xiro-i18n-sections" content="common,player">
-    <title>XIRO! - Jugador</title>
+    <title>XiRo! - Jugador</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="/css/common.css?v=20260922172926">
     <link rel="stylesheet" href="/css/output-player.css?v=20260922172926">
@@ -117,19 +117,19 @@
             style="width: 100%; max-width: 384px; margin: 0 auto 2rem auto; filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04));">
         <div id="login-box" class="bg-white p-8 rounded-3xl shadow-2xl text-slate-800 border-b-8 border-gray-200">
             <div id="step-1">
-                <h2 class="text-slate-500 font-bold mb-2 uppercase text-sm" data-i18n="player.session.label">...</h2>
-                <p class="text-xs text-slate-400 mb-3" data-i18n="player.session.hint">...</p>
+                <h2 class="text-slate-700 font-bold mb-2 text-base" data-i18n="player.session.label">...</h2>
+                <p class="text-sm text-slate-500 mb-3" data-i18n="player.session.hint">...</p>
                 <input type="text" id="session-input" placeholder="XXXXXX-XXXX" autofocus
                     data-i18n-placeholder="player.session.placeholder"
                     class="w-full p-4 mb-6 border-4 border-gray-100 rounded-2xl font-black text-xl text-center focus:border-plum-500 outline-none uppercase">
                 <button data-player-action="validar-session" data-i18n="player.session.submit"
-                    class="w-full bg-slate-900 text-white p-4 rounded-2xl font-black text-xl">...</button>
+                    class="btn-glass-3d w-full bg-plum-600 hover:bg-plum-700 text-white p-4 rounded-2xl font-black text-xl">...</button>
             </div>
             <div id="step-loading" class="hidden">
                 <div class="flex flex-col items-center gap-4 py-4">
                     <div class="w-10 h-10 border-4 border-plum-200 border-t-plum-600 rounded-full animate-spin">
                     </div>
-                    <p class="text-slate-500 font-bold uppercase text-sm" data-i18n="player.loading">...</p>
+                    <p class="text-slate-600 font-bold text-sm" data-i18n="player.loading">...</p>
                 </div>
             </div>
             <div id="step-2" class="hidden">

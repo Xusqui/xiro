@@ -91,7 +91,7 @@ function rowsHtml(details) {
             return `<div class="fb-result__row">
             <span><i class="fas ${ok ? 'fa-check text-green-200' : 'fa-times text-red-200'} mr-2"></i>${escapeHtml(word)}
                 ${!ok && given ? `<span class="fb-result__given ml-2">${escapeHtml(given)}</span>` : ''}
-                ${hints ? `<span class="ml-2 text-yellow-200">💡×${hints}</span>` : ''}
+                ${hints ? `<span class="ml-2 text-yellow-200"><i class="fas fa-lightbulb" aria-hidden="true"></i>×${hints}</span>` : ''}
             </span>
             <span>+${points}</span>
         </div>`;

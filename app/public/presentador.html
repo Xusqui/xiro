@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="xiro-i18n-sections" content="common,presenter">
-    <title>XIRO! - Lobby</title>
+    <title>XiRo! - Lobby</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <script defer src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.9.2/lib/qr-code-styling.js"
         integrity="sha384-P7sw4KeI1SDhOs6wYFsBysIIHFqMTgG4y9vunEfL8ZuV0WhnHsh9MRu9Rso17MtY"
@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="/css/common.css?v=20260922172926">
     <link rel="stylesheet" href="/css/output-presenter.css?v=20260922172926">
     <link rel="stylesheet" href="/css/presenter.css?v=20261026120000">
+    <link rel="stylesheet" href="/css/presenter-stage-veil.css?v=20261101120000">
+    <link rel="stylesheet" href="/css/presenter-players-fit.css?v=20261101120000">
     <link rel="stylesheet" href="/css/presenter-slide-nav.css?v=20261026120000">
     <link rel="stylesheet" href="/css/presenter-matching.css?v=20260922172926">
     <link rel="stylesheet" href="/css/word-search.css?v=20261018120000">
@@ -87,7 +89,7 @@
 <body class="bg-gradient-to-br text-white h-screen w-full overflow-hidden">
     <div id="presenter-loading"
         class="hidden fixed inset-0 z-[9999] text-white flex flex-col items-center justify-center">
-        <img src="/images/logo.svg" alt="XIRO!"
+        <img src="/images/logo.svg" alt="XiRo!"
             style="width:200px; margin-bottom:2rem; filter:drop-shadow(0 10px 20px rgba(0,0,0,0.3));">
         <div class="w-16 h-16 border-8 border-t-transparent rounded-full animate-spin mb-6"
             style="border-color: rgba(255,255,255,0.4); border-top-color: transparent;"></div>
@@ -109,7 +111,7 @@
             <h3 class="font-black uppercase text-sm flex items-center justify-between" style="color: #8ab817;">
                 <span><i class="fas fa-users mr-2"></i><span data-i18n="presenter.sidebar.connected">...</span></span>
                 <span id="players-sidebar-count" class="px-2 py-1 rounded-full text-xs font-bold text-white"
-                    style="background: #8ab817;">0</span>
+                    style="background: #557400;">0</span>
             </h3>
         </div>
         <div id="players-sidebar-list" class="flex-1 p-3 overflow-y-auto space-y-2">
@@ -157,10 +159,10 @@
             </div>
         </div>
         <div id="players-zone"
-            class="bg-slate-800/50 rounded-[40px] pt-8 px-8 pb-14 border-4 border-dashed overflow-y-auto"
-            style="height: 50%; border-color: rgba(138, 184, 23, 0.4);">
+            class="rounded-[40px] pt-8 px-8 pb-14 overflow-y-auto"
+            style="height: 50%; background: rgb(15 23 42 / 0.6);">
             <h2 class="text-2xl font-black uppercase italic mb-6"><span data-i18n="presenter.lobby.players">...</span>
-                <span id="p-count" class="px-4 py-1 rounded-full ml-2 text-white" style="background: #8ab817;">0</span>
+                <span id="p-count" class="px-4 py-1 rounded-full ml-2 text-white" style="background: #557400;">0</span>
             </h2>
             <div id="p-list" class="flex flex-wrap gap-4"></div>
             <p id="p-list-empty" class="lobby-empty" data-i18n="presenter.lobby.waiting">...</p>
@@ -200,20 +202,20 @@
     <div id="game-action-btns" class="flex flex-col gap-2"
         style="display: none;">
         <button id="terminate-btn" data-presenter-action="terminate-game" style="display: none;"
-            class="bg-amber-700/80 hover:bg-amber-600 text-amber-100 px-5 py-1.5 rounded-lg transition-all duration-200 shadow-lg backdrop-blur-sm border border-amber-500/50"
+            class="bg-amber-700/80 hover:bg-amber-600 text-amber-100 px-5 py-1.5 rounded-lg transition duration-200 shadow-lg backdrop-blur-sm border border-amber-500/50"
             title="Finalizar la partida y mostrar el podio con la clasificación actual"
             data-i18n-title="presenter.game.terminate.title">
             <i class="fas fa-flag-checkered mr-2"></i><span data-i18n="presenter.game.terminate">...</span>
         </button>
         <button id="abandon-btn" data-presenter-action="abandon-game"
-            class="bg-red-900/60 hover:bg-red-800 text-red-100 px-6 py-1.5 rounded-lg transition-all duration-200 shadow-lg backdrop-blur-sm border border-red-700/50"
+            class="bg-red-900/60 hover:bg-red-800 text-red-100 px-6 py-1.5 rounded-lg transition duration-200 shadow-lg backdrop-blur-sm border border-red-700/50"
             title="Abandonar sesión" data-i18n-title="presenter.game.abandon.title">
             <i class="fas fa-door-open mr-2"></i><span data-i18n="presenter.game.abandon">...</span>
         </button>
     </div>
         <!-- Créditos: dentro del menú, fuera de la vista del público -->
         <footer class="stage-menu-footer">
-            <a href="/about.html" class="hover:text-plum-400 transition-colors" title="Acerca de XIRO!"
+            <a href="/about.html" class="hover:text-plum-400 transition-colors" title="Acerca de XiRo!"
                 data-i18n="common.footer.author">...</a>
         </footer>
     </div>

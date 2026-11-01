@@ -34,7 +34,7 @@
     "admin.account.email_updated": "メールが正しく更新されました。",
     "admin.account.email_error": "メールアドレスの変更を確認できませんでした",
     "admin.account.email_token_error": "電子メール変更リンクを検証できませんでした",
-    "admin.logout.title": "⚠️ログアウト",
+    "admin.logout.title": "ログアウト",
     "admin.logout.message": "ログアウトしてもよろしいですか?",
     "admin.logout.confirm": "サインアウト",
     "admin.auth.expired_title": "セッションが期限切れになりました",

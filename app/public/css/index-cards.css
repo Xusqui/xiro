@@ -205,6 +205,12 @@
     text-decoration-thickness: 2px;
 }
 
+/* Con las cinco tarjetas a la vista, 3 + 2 en vez de 4 + 1 (Administración
+   quedaba sola debajo). index-init.js oculta TV o Solitario con display:none */
+#cards-grid:not(:has(> .role-card[style*="none"])) {
+    max-width: calc(3 * 17.5rem + 2 * 1.5rem);
+}
+
 @media (max-width: 1200px) {
     #cards-grid {
         max-width: 900px;

@@ -293,3 +293,11 @@ html.xiro-bg-static body.bg-gradient-to-br::after {
     background: #fff !important;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
 }
+/* Velo para texto blanco sobre la selva (como .index-footer): el degradado
+   pasa por ámbar #f9b518, donde el blanco solo da 1,8:1; con el velo, 7:1 */
+.jungle-veil {
+    background: rgb(15 23 42 / 0.6);
+    border-radius: 0.75rem;
+    color: #fff;
+    text-shadow: none;
+}

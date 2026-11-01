@@ -1,13 +1,13 @@
 {
     "keys": {
-        "autorun.page.title": "Xiro! - Llançador de bots",
+        "autorun.page.title": "XiRo! - Llançador de bots",
         "autorun.auth.verifying": "Verificant l'acces d'administrador...",
-        "autorun.header.title": "🤖 Xiro! Llançador de bots",
+        "autorun.header.title": "XiRo! Llançador de bots",
         "autorun.header.badge": "Eina dev",
         "autorun.header.subtitle": "El presentador ha de tenir el lobby obert abans de llançar bots.",
         "autorun.header.back": "← Tornar al panell",
         "autorun.header.logout": "⎋ Tancar sessio",
-        "autorun.config.title": "⚙️ Configuracio",
+        "autorun.config.title": "Configuracio",
         "autorun.config.session_label": "Session ID <span style=\"color:var(--gray)\">(format PIN-NUMERO)</span>",
         "autorun.config.session_placeholder": "ex: TEST-123456",
         "autorun.config.mode": "Mode",

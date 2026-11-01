@@ -108,7 +108,7 @@ function _renderPersonalizationGrid(images) {
 
 function _personalizationThumbClass(selected) {
     return (
-        'relative bg-slate-50 border-2 rounded-xl p-2 transition-all ' +
+        'relative bg-slate-50 border-2 rounded-xl p-2 transition ' +
         (selected ? 'border-green-500 ring-2 ring-green-300' : 'border-slate-200 hover:border-green-300')
     );
 }

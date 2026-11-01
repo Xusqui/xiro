@@ -1,12 +1,12 @@
 {
   "keys": {
-    "health.page.title": "Panel Santé — Xiro",
-    "health.connection.error": "⚠ Impossible de se connecter au serveur. Nouvelle tentative...",
+    "health.page.title": "Panel santé — XiRo!",
+    "health.connection.error": "Impossible de se connecter au serveur. Nouvelle tentative...",
     "health.header.title": "Tableau de bord de santé",
     "health.header.overall.connecting": "Conectando...",
     "health.header.refresh_info": "Actualizacion: --",
     "health.header.refresh_button": "↻ Mise à jour",
-    "health.header.pause_button": "⏸ Pause",
+    "health.header.pause_button": "Pause",
     "health.probe.liveness": "Vivacité",
     "health.probe.readiness": "Préparation",
     "health.probe.uptime": "Temps actif",
@@ -29,7 +29,7 @@
     "health.metric.http_per_min": "Peticiones HTTP /min",
     "health.card.recent_errors": "Bogues récents",
     "health.errors.count_default": "0 erreur",
-    "health.errors.empty": "Aucune erreur récente ✅",
+    "health.errors.empty": "Aucune erreur récente",
     "health.card.live_logs": "Journaux en direct",
     "health.logs.level.all": "Tous niveaux",
     "health.logs.level.error": "Erreur",
@@ -38,9 +38,9 @@
     "health.logs.level.http": "HTTP",
     "health.logs.level.debug": "Déboguer",
     "health.logs.search_placeholder": "Rechercher des journaux...",
-    "health.logs.clear_button": "🗑️ Propre",
+    "health.logs.clear_button": "Propre",
     "health.logs.loading": "Chargement des journaux...",
     "health.empty.loading": "Cargando...",
-    "health.footer.title": "Xiro — Tableau de bord de santé du système"
+    "health.footer.title": "XiRo! — Tableau de bord de santé du système"
   }
 }

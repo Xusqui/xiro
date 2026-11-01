@@ -53,7 +53,7 @@ function _syncBadge() {
     }
 
     const isDouble = info.isInDoubleStreak;
-    const emoji = isDouble ? '🔥🔥' : '🔥';
+    const emoji = isDouble ? '<i class="fas fa-fire" aria-hidden="true"></i><i class="fas fa-fire" aria-hidden="true"></i>' : '<i class="fas fa-fire" aria-hidden="true"></i>';
     const label = isDouble ? _t('player.streak.double_label', 'DOBLE') : _t('player.streak.label', 'RACHA');
     const bg = isDouble
         ? 'background:linear-gradient(135deg,#94438e,#db2777);box-shadow:0 0 12px rgba(148,67,142,.6),0 2px 8px rgba(0,0,0,.4);outline:2px solid #cd81c6'
@@ -224,14 +224,15 @@ function _showAnimation(type, streakInfo) {
             : isDouble
                 ? 'background:linear-gradient(135deg,#94438e,#db2777)'
                 : 'background:linear-gradient(135deg,#ea580c,#f97316)';
-        const emoji = isLost ? '💔' : isDouble ? '🔥🔥' : '🔥';
+        const fire = '<i class="fas fa-fire" aria-hidden="true"></i>';
+        const emoji = isLost ? '<i class="fas fa-heart-crack" aria-hidden="true"></i>' : isDouble ? fire + fire : fire;
         const title = isLost
             ? _t('player.streak.lost', '¡RACHA PERDIDA!')
             : isDouble
                 ? `${_t('player.streak.double_prefix', '¡DOBLE RACHA x')}${streakInfo.current}!`
                 : `${_t('player.streak.active_prefix', '¡RACHA x')}${streakInfo.current}!`;
         const subtitle = isLost
-            ? `${_t('player.streak.ended_prefix', 'Se acabó tu racha de')} ${streakInfo.previous} 🎯`
+            ? `${_t('player.streak.ended_prefix', 'Se acabó tu racha de')} ${streakInfo.previous}`
             : isDouble
                 ? `¡${streakInfo.current} ${_t('player.streak.double_bonus_suffix', 'seguidas con bonus doble!')}`
                 : `${streakInfo.current} ${_t('player.streak.consecutive_correct', 'respuestas correctas seguidas')}`;

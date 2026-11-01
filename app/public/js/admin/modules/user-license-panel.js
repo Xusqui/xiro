@@ -92,11 +92,11 @@ function _renderUserLicenseCardContent(data) {
             </div>
             <div class="flex flex-wrap items-center gap-3">
                 <button data-user-license-action="save"
-                    class="flex items-center gap-2 bg-red-600 hover:bg-red-700 active:scale-95 text-white font-bold px-5 py-2.5 rounded-xl transition-all text-sm">
+                    class="flex items-center gap-2 bg-red-600 hover:bg-red-700 active:scale-95 text-white font-bold px-5 py-2.5 rounded-xl transition text-sm">
                     <i class="fas fa-save text-xs"></i> ${_t('admin.userlicense.btn_save', null, 'Guardar y validar')}
                 </button>
                 <button data-user-license-action="plans"
-                    class="flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-600 font-bold px-5 py-2.5 rounded-xl border-2 border-slate-200 transition-all text-sm">
+                    class="flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-600 font-bold px-5 py-2.5 rounded-xl border-2 border-slate-200 transition text-sm">
                     <i class="fas fa-shopping-cart text-xs"></i> ${_t('admin.userlicense.btn_buy', null, 'Comprar licencia')}
                 </button>
             </div>

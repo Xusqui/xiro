@@ -1,7 +1,8 @@
 {
   "keys": {
-    "standalone.title": "XIRO! - Modu Autonomoa",
+    "standalone.title": "XiRo! - Modu Autonomoa",
     "standalone.lobby.title": "Aukeratu zure jokoa",
+    "standalone.lobby.mode_title": "Modu autonomoa",
     "standalone.lobby.subtitle": "Hautatu galdera bankua edo pertsonalizatutako jokoa",
     "standalone.lobby.search.label": "Bilatu PIN edo izenburuaren arabera",
     "standalone.lobby.search.placeholder": "Bilatu PIN edo izenburuaren arabera (gutx. 3 karaktere)",

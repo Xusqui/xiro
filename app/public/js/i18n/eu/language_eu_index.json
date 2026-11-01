@@ -2,7 +2,7 @@
   "keys": {
     "index.heading": "Aukeratu zure rola",
     "index.player.title": "Jokalari",
-    "index.player.desc": "Sartu joko batera zure PIN kodearekin",
+    "index.player.desc": "Sartu partida batera saioaren IDarekin",
     "index.player.cta": "Jokatu orain",
     "index.player.manual": "Jokalariaren eskuliburua",
     "index.presenter.title": "Aurkezlea",
@@ -19,6 +19,6 @@
     "index.admin.desc": "Kudeatu galderak eta ezarpenak",
     "index.admin.cta": "Sartu panelera",
     "index.admin.manual": "Administratzailearen eskuliburua",
-    "index.title": "XIRO! - Hasi"
+    "index.title": "XiRo! - Hasi"
   }
 }

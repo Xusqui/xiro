@@ -1,6 +1,6 @@
 {
   "keys": {
-    "player.session.label": "Saioaren ID",
+    "player.session.label": "Saioaren IDa",
     "player.session.hint": "IDa aurkezlearen pantailan agertzen da",
     "player.session.placeholder": "XXXXXX-XXXX",
     "player.session.submit": "SARTU",

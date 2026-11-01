@@ -36,7 +36,7 @@ export function renderizarPreguntaNumerica(pregunta) {
             
             <!-- Pregunta -->
             <div class="bg-white p-4 border-b-8 border-plum-600 text-slate-800 text-center min-h-[12vh] max-h-[20vh] flex items-center justify-center shrink-0 overflow-y-auto">
-                <h2 class="${preguntaFontClass} font-black uppercase italic hyphens-auto" lang="es">${escapeHtml(pregunta.question_text)}</h2>
+                <h2 class="${preguntaFontClass} font-black italic hyphens-auto" lang="es">${escapeHtml(pregunta.question_text)}</h2>
             </div>
             
             <!-- Input numérico -->

@@ -14,11 +14,13 @@
     let NS = 'http://www.w3.org/2000/svg';
     let COLORS = { green: 'rgb(138,184,23)', yellow: 'rgb(249,181,24)', red: 'rgb(230,84,83)' };
 
-    // Trazo central de cada dígito (caja 200x300) y su brillo blanco
+    // Trazo central de cada dígito (caja 200x300) y su brillo blanco.
+    // El 3 va en dos tramos que se tocan en (84,146): como un solo trazo, la
+    // vuelta de casi 180° deja una costura por la que asoma el contorno negro.
     let DIGITS = {
         3: {
             color: COLORS.green,
-            d: 'M 44 74 C 60 48 84 40 104 40 C 140 40 160 62 160 92 C 160 124 132 144 84 146 C 140 146 166 170 166 204 C 166 240 138 262 100 262 C 74 262 50 252 38 228',
+            d: 'M 44 74 C 60 48 84 40 104 40 C 140 40 160 62 160 92 C 160 124 132 144 84 146 M 84 146 C 140 146 166 170 166 204 C 166 240 138 262 100 262 C 74 262 50 252 38 228',
             hl: 'M 60 62 C 72 52 86 48 100 48'
         },
         2: {

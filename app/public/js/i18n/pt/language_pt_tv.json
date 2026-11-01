@@ -20,7 +20,7 @@
     "tv.lobby.filter.all": "Todos",
     "tv.lobby.empty.all": "Nenhum PIN disponível. Crie primeiro um jogo ou banco.",
     "tv.lobby.empty.by_type": "Nenhum {type} disponível.",
-    "tv.lobby.pin_label": "PIN DE ACESSO",
+    "tv.lobby.pin_label": "ID da sessão",
     "tv.lobby.btn_start": "COMEÇAR!",
     "tv.lobby.players_label": "Jogadores: ",
     "tv.lobby.type.custom": "Jogos personalizados",

@@ -50,7 +50,7 @@ export function renderizarPreguntaOrdena(pregunta) {
                 <p class="text-white font-black text-base uppercase">${getNickname()}</p>
             </div>
             <div class="bg-white p-4 border-b-8 border-plum-600 text-slate-800 text-center min-h-[12vh] max-h-[20vh] flex items-center justify-center shrink-0 overflow-y-auto">
-                <h2 class="${preguntaFontClass} font-black uppercase italic hyphens-auto" lang="es">${escapeHtml(pregunta.question_text)}</h2>
+                <h2 class="${preguntaFontClass} font-black italic hyphens-auto" lang="es">${escapeHtml(pregunta.question_text)}</h2>
             </div>
             <div class="px-4 pt-3 pb-2 text-center text-slate-100 text-sm italic">
                 ${_t('player.order.instruction', null, 'Arrastra para ordenar de arriba a abajo y luego pulsa Enviar')}

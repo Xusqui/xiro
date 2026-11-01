@@ -8,7 +8,7 @@
     "presenter.session.abandon_title": "Jokoa utzi?",
     "presenter.session.abandon_msg_html": "Idatzi <span class=\"font-black text-red-300\">{confirmWord}</span> baieztatzeko. Honek jokalari guztiak kanporatuko ditu.",
     "presenter.session.no_session_title": "Saio aktiborik ez",
-    "presenter.session.no_session_msg": "Ez dago Xiro!-rako saio aktiborik.",
+    "presenter.session.no_session_msg": "Ez dago XiRo!-rako saio aktiborik.",
     "presenter.session.abandoned_title": "Saioa utzi da",
     "presenter.session.abandoned_msg": "Saioa utzi egin da.",
     "presenter.session.btn_back_home": "Hasierara itzuli",

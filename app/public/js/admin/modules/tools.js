@@ -168,7 +168,7 @@ function limpiarCache() {
 
 // ===== CARGAR PREGUNTAS DESDE JSON =====
 
-const AI_PROMPT_GENERAR_BANCO_FALLBACK = `Actúa como un generador experto de bancos de preguntas para la plataforma Xiro!.
+const AI_PROMPT_GENERAR_BANCO_FALLBACK = `Actúa como un generador experto de bancos de preguntas para la plataforma XiRo!.
 
 Te he subido un archivo llamado schema.json que define la estructura exacta (campos, tipos de datos y formato) que debe tener un banco de preguntas válido.
 
@@ -270,7 +270,7 @@ function mostrarCargarPreguntasInner() {
                                 </label>
                                 
                                 <!-- Área de Drag & Drop -->
-                                <div id="dropZone" class="border-3 border-dashed border-plum-300 rounded-xl p-8 text-center bg-plum-50 hover:bg-plum-100 transition-all cursor-pointer mb-4">
+                                <div id="dropZone" class="border-3 border-dashed border-plum-300 rounded-xl p-8 text-center bg-plum-50 hover:bg-plum-100 transition cursor-pointer mb-4">
                                     <div class="flex flex-col items-center gap-3">
                                         <i class="fas fa-cloud-upload-alt text-5xl text-plum-600"></i>
                                         <p class="text-lg font-bold text-plum-900">${_t('admin.tools.upload_drag', null, 'Arrastra tu archivo JSON aquí')}</p>
@@ -314,7 +314,7 @@ function mostrarCargarPreguntasInner() {
 
                             <div class="flex justify-center">
                                 <button data-admin-action="load-bank-from-json"
-                                    class="bg-camaleon-600 text-white px-12 py-5 rounded-2xl font-black text-xl hover:bg-camaleon-700 hover:shadow-2xl transition-all transform hover:scale-105 flex items-center gap-3 shadow-lg">
+                                    class="bg-camaleon-600 text-white px-12 py-5 rounded-2xl font-black text-xl hover:bg-camaleon-700 hover:shadow-2xl transition transform flex items-center gap-3 shadow-lg">
                                     <i class="fas fa-plus-circle text-2xl"></i>
                                     ${_t('admin.tools.upload_create_btn', null, 'Crear Banco de Preguntas')}
                                 </button>

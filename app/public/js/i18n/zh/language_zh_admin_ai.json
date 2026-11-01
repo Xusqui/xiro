@@ -33,7 +33,7 @@
     "admin.ai.btn_download": "下载 JSON",
     "admin.ai.error_gen_title": "错误生成",
     "admin.ai.importing": "Importando banco...",
-    "admin.ai.import_ok": "银行导入成功！ ID：",
+    "admin.ai.import_ok": "银行导入成功。 ID：",
     "admin.ai.view_banks": "查看银行",
     "admin.ai.timeout": "超时 (504)...",
     "admin.ai.type_survey_multiple": "多选调查",

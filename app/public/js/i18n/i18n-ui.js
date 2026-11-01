@@ -20,6 +20,9 @@
     const WRAPPER_CHROME_STYLE =
         'z-index:10001;background:rgba(255,255,255,.74);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#0f172a;padding:8px 10px;border-radius:10px;border:1px solid rgba(148,163,184,.5);font:600 12px/1.2 system-ui,-apple-system,Segoe UI,sans-serif;display:flex;gap:8px;align-items:center;box-shadow:0 8px 20px rgba(15,23,42,.15);';
 
+    const SLOT_STYLE =
+        'position:static;display:flex;gap:8px;align-items:center;justify-content:center;color:inherit;font:600 12px/1.2 system-ui,-apple-system,Segoe UI,sans-serif;';
+
     function i18n() {
         return global.XiroI18n || null;
     }
@@ -381,6 +384,18 @@
 
     function mountSwitcherByPage(wrapper) {
         const page = detectPageKey(global.location.pathname);
+
+        // Hueco propio en la página (data-lang-slot, p. ej. tarjeta de acceso y
+        // pie del sidebar del admin): en el flujo, sin flotar sobre el contenido.
+        // Si hay varios, el primero que está en pantalla.
+        const slot = Array.from(document.querySelectorAll('[data-lang-slot]')).find(
+            el => el.getClientRects().length > 0
+        );
+        if (slot) {
+            wrapper.style.cssText = SLOT_STYLE;
+            slot.appendChild(wrapper);
+            return;
+        }
 
         if (page === 'index') {
             const contactLink = document.querySelector('a[href="./contact.html"], a[href="/contact.html"]');

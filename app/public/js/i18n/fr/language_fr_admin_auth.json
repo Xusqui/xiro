@@ -34,7 +34,7 @@
     "admin.account.email_updated": "E-mail mis à jour correctement.",
     "admin.account.email_error": "Impossible de confirmer le changement d'adresse e-mail",
     "admin.account.email_token_error": "Impossible de valider le lien de modification de l'e-mail",
-    "admin.logout.title": "⚠️ Déconnexion",
+    "admin.logout.title": "Déconnexion",
     "admin.logout.message": "Êtes-vous sûr de vouloir vous déconnecter ?",
     "admin.logout.confirm": "se déconnecter",
     "admin.auth.expired_title": "Session expirée",

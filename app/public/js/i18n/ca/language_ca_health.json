@@ -1,12 +1,12 @@
 {
   "keys": {
-    "health.page.title": "Panell de Salut — Xiro",
-    "health.connection.error": "⚠ No es pot connectar amb el servidor. Reintentant...",
-    "health.header.title": "Panell de Salut",
+    "health.page.title": "Panell de salut — XiRo!",
+    "health.connection.error": "No es pot connectar amb el servidor. Reintentant...",
+    "health.header.title": "Panell de salut",
     "health.header.overall.connecting": "Conectando...",
     "health.header.refresh_info": "Actualizacion: --",
     "health.header.refresh_button": "↻ Actualitzar",
-    "health.header.pause_button": "⏸ Pausar",
+    "health.header.pause_button": "Pausar",
     "health.probe.liveness": "Liveness",
     "health.probe.readiness": "Readiness",
     "health.probe.uptime": "Temps actiu",
@@ -16,7 +16,7 @@
     "health.card.memory": "Memòria",
     "health.card.database": "Base de dades",
     "health.card.performance": "Rendiment",
-    "health.card.players_games": "Jugadors i Partides",
+    "health.card.players_games": "Jugadors i partides",
     "health.card.cache": "Cache",
     "health.card.sockets": "Sockets",
     "health.card.timers_workers": "Timers i Workers",
@@ -29,8 +29,8 @@
     "health.metric.http_per_min": "Peticiones HTTP /min",
     "health.card.recent_errors": "Errors recents",
     "health.errors.count_default": "0 errors",
-    "health.errors.empty": "Sense errors recents ✅",
-    "health.card.live_logs": "Logs en Viu",
+    "health.errors.empty": "Sense errors recents",
+    "health.card.live_logs": "Logs en viu",
     "health.logs.level.all": "Tots els nivells",
     "health.logs.level.error": "Error",
     "health.logs.level.warn": "Warning",
@@ -38,9 +38,9 @@
     "health.logs.level.http": "HTTP",
     "health.logs.level.debug": "Debug",
     "health.logs.search_placeholder": "Cercar a logs...",
-    "health.logs.clear_button": "🗑️ Netejar",
+    "health.logs.clear_button": "Netejar",
     "health.logs.loading": "Carregant logs...",
     "health.empty.loading": "Cargando...",
-    "health.footer.title": "Xiro — Panell de Salut del Sistema"
+    "health.footer.title": "XiRo! — Panell de salut del sistema"
   }
 }

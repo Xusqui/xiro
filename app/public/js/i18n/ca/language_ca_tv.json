@@ -20,7 +20,7 @@
     "tv.lobby.filter.all": "Tots",
     "tv.lobby.empty.all": "No hi ha PINs disponibles. Crea primer un joc o banc.",
     "tv.lobby.empty.by_type": "No hi ha {type} disponibles.",
-    "tv.lobby.pin_label": "PIN D'ACCÉS",
+    "tv.lobby.pin_label": "ID de sessió",
     "tv.lobby.btn_start": "COMENÇAR!",
     "tv.lobby.players_label": "Jugadors: ",
     "tv.lobby.type.custom": "Jocs personalitzats",

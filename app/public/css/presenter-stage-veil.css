@@ -1,0 +1,78 @@
+/* Velos del escenario: el texto blanco sobre la selva pasa a un fondo
+   slate-900 translúcido (como .jungle-veil en index-style.css), porque el
+   degradado pasa por ámbar #f9b518, donde el blanco solo da 1,8:1. */
+
+/* Enunciado de la pregunta: pastilla oscura ajustada al texto */
+.stage-question-title {
+    align-self: center;
+    max-width: 100%;
+    padding: 0.3em 0.8em;
+    border-radius: 16px;
+    background: rgb(15 23 42 / 0.6);
+    color: #fff;
+}
+
+/* Cabecera de la pregunta: reloj, «Revelar respuesta» y contador */
+.stage-timer {
+    background-color: rgb(15 23 42 / 0.6);
+    color: #fff;
+    transition: background-color 0.2s ease;
+}
+
+.stage-timer:hover {
+    background-color: rgb(15 23 42 / 0.8);
+}
+
+/* Pausado (presenter-question-timer.js añade border-yellow-500) */
+.stage-timer.border-yellow-500 {
+    background-color: rgb(113 63 18 / 0.8);
+}
+
+.stage-reveal-btn {
+    background: rgb(15 23 42 / 0.7);
+    border: 1px solid rgb(255 255 255 / 0.35);
+    transition: background-color 0.2s ease;
+}
+
+.stage-reveal-btn:hover {
+    background: rgb(15 23 42 / 0.88);
+}
+
+.stage-reveal-btn:focus-visible,
+.stage-timer:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+}
+
+.stage-answer-count {
+    padding: 0.25em 0.75em;
+}
+
+/* Lobby: el aviso para entrar sin QR va sobre un velo */
+.join-hint {
+    padding: 1rem 1.5rem;
+    border-radius: 16px;
+    background: rgb(15 23 42 / 0.6);
+    text-shadow: none;
+}
+
+.join-hint:has(.join-hint-host:empty) {
+    background: none;
+}
+
+/* El código de la partida se muestra una vez: en el aviso, que se lee desde
+   el fondo de la sala. La tarjeta del QR lo vuelve a mostrar cuando el aviso
+   no está (móvil, ≤768 px) o aún no tiene el código. */
+@media (min-width: 769px) {
+    #lobby-main:has(#join-session:not(:empty)) #display-pin,
+    #lobby-main:has(#join-session:not(:empty)) #qr-card > p:first-child {
+        display: none;
+    }
+}
+
+/* Pregunta numérica: panel sólido con el borde de ficha en verde */
+.numeric-stage-card {
+    background: rgb(15 23 42 / 0.7);
+    border-bottom: 8px solid #22c55e;
+    color: #fff;
+}

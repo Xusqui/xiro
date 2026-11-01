@@ -8,7 +8,7 @@
     "presenter.session.abandon_title": "Spiel verlassen?",
     "presenter.session.abandon_msg_html": "Tippe <span class=\"font-black text-red-300\">{confirmWord}</span> zum Bestätigen. Dies wirft alle Spieler raus.",
     "presenter.session.no_session_title": "Keine aktive Sitzung",
-    "presenter.session.no_session_msg": "Es gibt keine aktive Sitzung für Xiro!.",
+    "presenter.session.no_session_msg": "Es gibt keine aktive Sitzung für XiRo!.",
     "presenter.session.abandoned_title": "Sitzung abgebrochen",
     "presenter.session.abandoned_msg": "Die Sitzung wurde abgebrochen.",
     "presenter.session.btn_back_home": "Zur Startseite",

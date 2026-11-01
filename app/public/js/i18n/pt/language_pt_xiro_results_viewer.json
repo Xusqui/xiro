@@ -1,14 +1,14 @@
 {
   "keys": {
-    "xiro_results_viewer.page.title": "XIRO! — Visualizador de resultados",
+    "xiro_results_viewer.page.title": "XiRo! — Visualizador de resultados",
     "xiro_results_viewer.drop.title_html": "Visualizador de <span>resultados</span>",
-    "xiro_results_viewer.drop.zone.title": "Arraste o seu CSV do XIRO! aqui",
+    "xiro_results_viewer.drop.zone.title": "Arraste o seu CSV do XiRo! aqui",
     "xiro_results_viewer.drop.zone.subtitle": "Ou clique para selecionar o arquivo",
-    "xiro_results_viewer.drop.zone.button": "🎯 Selecione CSV",
+    "xiro_results_viewer.drop.zone.button": "Selecione CSV",
     "xiro_results_viewer.drop.note_html": "Descarregue o CSV a partir do <strong>Painel de Administração → Config → Histórico de sessões</strong><br>O ficheiro nunca sai do seu navegador — tudo é processado localmente.",
     "xiro_results_viewer.results.header.title_prefix": "Resultados – PIN",
     "xiro_results_viewer.results.button.load_another": "← Carregar outro",
-    "xiro_results_viewer.results.button.print": "🖨️ Imprimir",
+    "xiro_results_viewer.results.button.print": "Imprimir",
     "xiro_results_viewer.game_type.custom": "Personalizado",
     "xiro_results_viewer.game_type.bank": "Banco de perguntas",
     "xiro_results_viewer.game_type.game": "Jogo",

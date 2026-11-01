@@ -73,7 +73,7 @@ export function renderizarPregunta(pregunta) {
                     </div>
                     ${multimediaHTML}
                     <div class="bg-white p-4 border-b-8 border-plum-600 text-slate-800 text-center ${tieneImagen ? 'min-h-[8vh]' : 'min-h-[12vh]'} ${tieneImagen ? 'max-h-[12vh]' : 'max-h-[20vh]'} flex flex-col items-center justify-center shrink-0 overflow-y-auto">
-                        <h2 class="${preguntaFontClass} font-black uppercase italic hyphens-auto" lang="es">${safeQuestionText}</h2>
+                        <h2 class="${preguntaFontClass} font-black italic hyphens-auto" lang="es">${safeQuestionText}</h2>
                         ${tieneImagenEnunciado ? `<img src="${safeQuestionImageUrl}" alt="" class="mt-2 max-h-[150px] max-w-full object-contain rounded-lg shadow mx-auto">` : ''}
                     </div>
                     <div class="grid grid-cols-2 gap-1.5 flex-1 p-1.5 bg-slate-200 overflow-hidden" style="grid-template-rows: repeat(${pregunta.options.length > 4 ? 3 : 2}, minmax(0, 1fr));">
@@ -85,7 +85,7 @@ export function renderizarPregunta(pregunta) {
                 ? sanitizeResourceUrl(opt.option_image_url)
                 : null;
             return `
-                            <button data-player-action="send-answer" data-answer-index="${i}" class="btn-glass-3d ${colores[i]} rounded-xl flex flex-col items-center justify-center p-1.5 relative overflow-hidden transition-all active:scale-95">
+                            <button data-player-action="send-answer" data-answer-index="${i}" class="btn-glass-3d ${colores[i]} rounded-xl flex flex-col items-center justify-center p-1.5 relative overflow-hidden transition active:scale-95">
                                 <span class="absolute top-2 left-2 font-black text-white/50 text-xl italic">${i + 1}</span>
                                 ${safeOptImg ? `<img src="${safeOptImg}" alt="" class="max-h-[80px] max-w-[80px] object-contain rounded-lg mb-1 shrink-0">` : ''}
                                 <span class="btn-text text-white font-bold ${fontClass} ${caseClass} px-1 break-words hyphens-auto leading-tight text-center" lang="es">${safeOptionText}</span>

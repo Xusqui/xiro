@@ -307,7 +307,7 @@ window.TVApp.Lobby = (function () {
 
         getEl('main-container').innerHTML =
             '<div class="header"><table style="width:100%"><tr><td class="header-cell"><img src="/images/logo.svg" class="logo" alt="Logo"></td><td class="header-cell header-center"><div class="pin-box"><div class="pin-label">' +
-            _t('tv.lobby.pin_label', null, 'PIN DE ACCESO') +
+            _t('tv.lobby.pin_label', null, 'ID de sesión') +
             '</div><div class="pin-number" id="display-pin">' +
             state.sessionId +
             '</div><img src="' +

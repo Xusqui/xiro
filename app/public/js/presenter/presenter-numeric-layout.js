@@ -61,7 +61,7 @@ export function renderCenteredNumericHint(hintText) {
     overlay.innerHTML = _tHtml(`
         <div style="width:100%;display:flex;align-items:center;justify-content:center;padding:0 12px;">
             <div style="width:100%;max-width:1120px;background:linear-gradient(135deg, rgba(148,67,142,.88), rgba(127,84,141,.88));border:1px solid rgba(255,255,255,.22);border-radius:14px;box-shadow:0 10px 24px rgba(72,32,69,.45);padding:10px 16px;">
-                <p style="margin:0;font-size:${fontSize};font-weight:900;line-height:1.05;color:#f8fafc;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">💡 ${safeHint}</p>
+                <p style="margin:0;font-size:${fontSize};font-weight:900;line-height:1.05;color:#f8fafc;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><i class="fas fa-lightbulb" aria-hidden="true"></i> ${safeHint}</p>
             </div>
         </div>
     `);

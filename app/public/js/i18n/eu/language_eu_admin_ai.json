@@ -1,6 +1,6 @@
 {
   "keys": {
-    "admin.ai.title": "AI Galdera Sortzailea",
+    "admin.ai.title": "AI galdera sortzailea",
     "admin.ai.subtitle": "% 100 tokikoa AIarekin · Interneteko konexiorik gabe",
     "admin.ai.checking": "AI egiaztatzen...",
     "admin.ai.step1": "1 · Iturria",
@@ -33,7 +33,7 @@
     "admin.ai.btn_download": "Deskargatu JSON",
     "admin.ai.error_gen_title": "Errore bat sortzean",
     "admin.ai.importing": "Importando banco...",
-    "admin.ai.import_ok": "Bankua ondo inportatu da! ID:",
+    "admin.ai.import_ok": "Bankua ondo inportatu da. ID:",
     "admin.ai.view_banks": "Ikusi bankuak",
     "admin.ai.timeout": "Denbora gainditu (504)...",
     "admin.ai.type_survey_multiple": "Aukera anitzeko inkesta",

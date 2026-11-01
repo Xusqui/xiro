@@ -96,7 +96,7 @@ function _renderLicensePanel(data) {
                     </div>
                 </div>
                 <a href="https://auth.xiro.pro" target="_blank" rel="noopener noreferrer"
-                   class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-xl transition-all">
+                   class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-xl transition">
                     <i class="fas fa-shopping-cart text-sm"></i> ${_t('admin.license.btn_buy')}
                 </a>
             </div>

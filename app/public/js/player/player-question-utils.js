@@ -34,18 +34,15 @@ export function getResponsiveFontClass(text, narrow = false) {
  * de matching) y no se puede fijar un tamaño de fuente de antemano.
  */
 /**
- * Mayúsculas solo si todas las opciones son cortas: a partir de ~40
- * caracteres, las frases en mayúsculas con guiones («ESPECIA-LIZADOS»)
- * cuestan de leer. La clase es común a todas las opciones de la pregunta
- * para no mezclar opciones en mayúsculas y en minúsculas.
+ * Las opciones conservan las mayúsculas que escribió el editor: forzarlas
+ * cambia el sentido de unidades y símbolos («mg/dL» → «MG/DL», «pH» → «PH»).
  * Devuelve solo un nombre de clase, y así el texto del editor no aparece
  * en la interpolación HTML.
  *
- * @param {Array<string>} [texts] - Textos de todas las opciones de la pregunta
+ * @param {Array<string>} [_texts] - Textos de todas las opciones de la pregunta
  */
-export function optionCaseClass(texts = []) {
-    const tooLong = texts.some(text => String(text || '').length > 40);
-    return tooLong ? 'normal-case' : 'uppercase';
+export function optionCaseClass(_texts = []) {
+    return 'normal-case';
 }
 
 /**

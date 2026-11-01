@@ -1,6 +1,6 @@
 {
   "keys": {
-    "player.trivial.launch_dice": "! Role🎯",
+    "player.trivial.launch_dice": "Role!",
     "player.trivial.correct_prefix": "Você acertou,",
     "player.trivial.turn_change": "Mudança de vez!",
     "player.trivial.team_scores": "acerta!",

@@ -20,7 +20,7 @@
     "tv.lobby.filter.all": "すべて",
     "tv.lobby.empty.all": "利用可能なPINがありません。まずゲームまたはバンクを作成してください。",
     "tv.lobby.empty.by_type": "{type}はありません。",
-    "tv.lobby.pin_label": "アクセスPIN",
+    "tv.lobby.pin_label": "セッションID",
     "tv.lobby.btn_start": "スタート！",
     "tv.lobby.players_label": "プレイヤー：",
     "tv.lobby.type.custom": "カスタムゲーム",

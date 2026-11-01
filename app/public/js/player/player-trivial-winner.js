@@ -48,7 +48,7 @@ const SUB_STYLE = ['color:#94a3b8', 'font-size:0.95rem'].join(';');
 export function showTrivialWinnerScreen() {
     getRoot().innerHTML = _tHtml(`
         <div style="${SCREEN_STYLE}">
-            <div style="font-size:4rem">🏆</div>
+            <div style="font-size:4rem;color:#fbbf24"><i class="fas fa-trophy" aria-hidden="true"></i></div>
             <div style="${TITLE_STYLE}">${_t('player.results.game_over', null, '¡Juego Terminado!')}</div>
             <div style="${SUB_STYLE}">${_t('player.results.calculating', null, 'Calculando resultados...')}</div>
         </div>`);

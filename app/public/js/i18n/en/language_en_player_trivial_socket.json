@@ -1,6 +1,6 @@
 {
   "keys": {
-    "player.trivial.launch_dice": "! Roll🎯",
+    "player.trivial.launch_dice": "Roll!",
     "player.trivial.correct_prefix": "You got it,",
     "player.trivial.turn_change": "Turn change!",
     "player.trivial.team_scores": "scores!",

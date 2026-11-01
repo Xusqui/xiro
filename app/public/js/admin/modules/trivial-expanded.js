@@ -83,7 +83,7 @@ function _trivialCard(g) {
         )
         .join('');
     return `
-        <div class="bg-white rounded-2xl shadow-sm border-2 border-slate-200 hover:border-orange-500 transition-all hover:shadow-xl group overflow-hidden">
+        <div class="bg-white rounded-2xl shadow-sm border-2 border-slate-200 hover:border-orange-500 transition hover:shadow-xl group overflow-hidden">
             <div class="p-6">
                 <div class="flex justify-between items-start mb-3">
                     <div class="flex-1">

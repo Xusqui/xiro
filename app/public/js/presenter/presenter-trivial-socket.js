@@ -101,7 +101,7 @@ function buildCategoryLegend(state) {
 function setStatus(turn, phase) {
     const t = document.getElementById('trv-turn');
     const p = document.getElementById('trv-phase');
-    if (t) t.textContent = turn ? _t('presenter.trivial.turn_label', { turn }, `🎲 Turno: ${turn}`) : '';
+    if (t) t.textContent = turn ? _t('presenter.trivial.turn_label', { turn }, `Turno: ${turn}`) : '';
     if (p) p.textContent = _t(phase || '');
 }
 
@@ -266,7 +266,7 @@ export function registerTrivialSocketHandlers() {
             _t(
                 'presenter.trivial.choosing_category',
                 { actorNick },
-                `🎯 Casilla central — ${actorNick} está eligiendo categoría...`
+                `Casilla central — ${actorNick} está eligiendo categoría...`
             )
         );
     });
@@ -335,7 +335,7 @@ export function registerTrivialSocketHandlers() {
         // Antes de que arranque la partida, el tablero (#trv-turn) aún no existe
         // -> mostrar modal en vez de escribir en un status invisible.
         if (document.getElementById('trv-turn')) {
-            setStatus('', `⚠ ${message}`);
+            setStatus('', message);
         } else {
             mostrarModalMensaje(
                 _t('presenter.trivial.start_error_title', null, 'Error al iniciar el juego'),

@@ -1,0 +1,270 @@
+/* Login del panel (y tarjeta de account-deleted.html). El acceso es la
+   puerta entre la portada y la consola: lleva la selva de la portada detrás
+   (degradado verde → ámbar → coral y hojas, quietos) y delante la tarjeta
+   del rol Admin, como en la portada: blanca, flotando con sombra y con el
+   borde inferior grueso en coral. El detective asoma por detrás de ella. */
+
+#login-overlay {
+    overflow: hidden;
+    background: linear-gradient(135deg, #8ab817 0%, #f9b518 50%, #e65453 100%);
+}
+
+/* Hojas de la portada (images/hojas3.svg), con la misma opacidad y viñeta */
+.xiro-login-leaves {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+#login-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 100px rgb(0 0 0 / 0.3);
+    pointer-events: none;
+}
+
+.xiro-login-wrap {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 380px;
+    margin-top: 72px;
+}
+
+/* Tarjeta blanca sobre color: sombra de tarjeta flotante (DESIGN.md) */
+.xiro-login-card {
+    position: relative;
+    z-index: 1;
+    background: var(--surface-white, #ffffff);
+    border-radius: 24px;
+    border-bottom: 8px solid var(--admin-coral, #e65453);
+    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.35);
+    animation: xiroLoginIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes xiroLoginIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+}
+
+/* La franja superior ya no hace falta: el borde inferior marca el rol */
+.xiro-login-accent-bar {
+    display: none;
+}
+
+.xiro-login-inner {
+    padding: 2.5rem 2.25rem 2rem;
+}
+
+.xiro-login-eyebrow {
+    font-family: var(--font-body, 'DM Sans', system-ui, sans-serif);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--admin-coral-ink, #b42d2c);
+    text-align: center;
+    margin-bottom: 0.25rem;
+}
+
+.xiro-login-title {
+    font-family: var(--font-display-console, 'Syne', system-ui, sans-serif);
+    font-size: 1.75rem;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.1;
+    color: var(--console-ink, #0f172a);
+    margin-bottom: 1.25rem;
+}
+
+.xiro-input-wrap {
+    position: relative;
+}
+
+.xiro-input-wrap i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+    font-size: 0.85rem;
+    pointer-events: none;
+}
+
+.xiro-login-input {
+    font-family: var(--font-body, 'DM Sans', system-ui, sans-serif);
+    width: 100%;
+    background: #ffffff;
+    border: 1.5px solid #cbd5e1;
+    color: var(--console-ink, #0f172a);
+    border-radius: 12px;
+    padding: 12px 42px 12px 16px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.xiro-login-input::placeholder {
+    color: #64748b;
+}
+
+.xiro-login-input:focus {
+    border-color: var(--admin-coral-ink, #b42d2c);
+    box-shadow: 0 0 0 3px rgb(230 84 83 / 0.25);
+}
+
+/* Iris camaleónica: alterna la visibilidad de la contraseña; la pupila se
+   dilata y pasa a coral al revelar */
+.xiro-input-wrap:has(.xiro-reveal-toggle) .xiro-login-input {
+    padding-right: 46px;
+}
+
+.xiro-reveal-toggle {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+    padding: 0;
+    cursor: pointer;
+    color: #64748b;
+    transition: background-color 0.2s ease, color 0.3s ease;
+}
+
+.xiro-reveal-toggle:hover {
+    background: #f1f5f9;
+    color: #334155;
+}
+
+.xiro-reveal-toggle:focus-visible {
+    outline: 2px solid var(--admin-coral-ink, #b42d2c);
+    outline-offset: 2px;
+}
+
+.xiro-reveal-icon {
+    display: block;
+    overflow: visible;
+}
+
+.xiro-reveal-pupil {
+    transform-origin: 12px 12px;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.xiro-reveal-toggle.is-revealed {
+    color: var(--admin-coral-ink, #b42d2c);
+}
+
+.xiro-reveal-toggle.is-revealed .xiro-reveal-pupil {
+    transform: scaleX(2.15);
+}
+
+@keyframes xiroRevealPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgb(230 84 83 / 0.35);
+    }
+
+    100% {
+        box-shadow: 0 0 0 12px rgb(230 84 83 / 0);
+    }
+}
+
+.xiro-input-wrap.xiro-reveal-pulse .xiro-login-input {
+    animation: xiroRevealPulse 0.55s ease-out;
+}
+
+/* Acción principal: coral «ink» sólido, blanco a 6,3:1 */
+.xiro-login-btn {
+    font-family: var(--font-body, 'DM Sans', system-ui, sans-serif);
+    font-weight: 600;
+    font-size: 1rem;
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    background: var(--admin-coral-ink, #b42d2c);
+    color: #ffffff;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.xiro-login-btn:hover {
+    background: #962423;
+}
+
+.xiro-login-btn:active {
+    transform: scale(0.98);
+}
+
+.xiro-login-btn-secondary {
+    font-family: var(--font-body, 'DM Sans', system-ui, sans-serif);
+    font-weight: 600;
+    font-size: 0.9rem;
+    width: 100%;
+    padding: 10px;
+    border-radius: 12px;
+    border: 1.5px solid #cbd5e1;
+    background: #ffffff;
+    color: var(--admin-coral-ink, #b42d2c);
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.xiro-login-btn-secondary:hover {
+    background: #fff5f5;
+    border-color: var(--admin-coral, #e65453);
+}
+
+.xiro-login-btn:focus-visible,
+.xiro-login-btn-secondary:focus-visible,
+.xiro-login-link:focus-visible {
+    outline: 3px solid var(--admin-coral-ink, #b42d2c);
+    outline-offset: 2px;
+}
+
+/* Enlaces y ayudas bajo el formulario (antes gris claro sobre oscuro) */
+.xiro-login-link,
+.xiro-login-helper {
+    color: #475569;
+}
+
+.xiro-login-error {
+    color: #b91c1c;
+}
+
+/* Mascota: el detective asoma por encima del borde de la tarjeta, por
+   detrás de ella, mirando hacia el formulario */
+.xiro-detective {
+    position: absolute;
+    z-index: 0;
+    top: -96px;
+    right: 20px;
+    width: 128px;
+    height: auto;
+    pointer-events: none;
+    transform: scaleX(-1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .xiro-login-card,
+    .xiro-input-wrap.xiro-reveal-pulse .xiro-login-input {
+        animation: none;
+    }
+
+    .xiro-reveal-toggle,
+    .xiro-reveal-pupil {
+        transition-duration: 0.01ms;
+    }
+}

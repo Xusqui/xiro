@@ -70,7 +70,7 @@ function renderTeamNamesSection(uiSettings) {
             <div class="flex flex-wrap gap-3 items-center">
                 <button type="button" data-config-action="reset-team-names"
                     class="flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-600 font-bold
-                           px-4 py-2.5 rounded-xl border-2 border-slate-200 transition-all text-sm">
+                           px-4 py-2.5 rounded-xl border-2 border-slate-200 transition text-sm">
                     <i class="fas fa-undo text-xs"></i>
                     ${_t('admin.config.team.btn_reset', null, 'Restaurar por defecto')}
                 </button>

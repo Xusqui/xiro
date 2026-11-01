@@ -133,12 +133,12 @@ export function registerTrivialPlayerSocketHandlers() {
             root.innerHTML =
                 _tHtml(`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;
                 height:100%;gap:12px;padding:20px;background:#0f172a">
-                <p style="color:#fbbf24;font-size:1.2rem;font-weight:900;text-align:center;margin-bottom:8px">🎯 ¡Casilla central!</p>
+                <p style="color:#fbbf24;font-size:1.2rem;font-weight:900;text-align:center;margin-bottom:8px"><i class="fas fa-bullseye" aria-hidden="true"></i> ¡Casilla central!</p>
                 <p style="color:#fff;font-size:1rem;text-align:center;margin-bottom:4px">Elige una categoría:</p>
                 <div style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:300px">${btns}</div>
             </div>`);
         } else {
-            showTrivialWaiting(`🎯 Casilla central — ${actorNick} está eligiendo categoría...`);
+            showTrivialWaiting(`Casilla central — ${actorNick} está eligiendo categoría...`);
         }
     });
 
@@ -187,16 +187,16 @@ export function registerTrivialPlayerSocketHandlers() {
         const isMe = isMeTurnTeamAware(currentTurn, myNickname());
         if (rollAgain && isMe) {
             // Correct answer — show dice screen immediately with a congratulation title
-            showDiceScreen(currentTurn, true, `¡Acertaste, ${currentTurn}! Lanza\uD83C\uDFAF`);
+            showDiceScreen(currentTurn, true, `¡Acertaste, ${currentTurn}! Lanza`);
         } else if (rollAgain) {
             showTrivialWaiting(`¡${currentTurn} acierta!`, {
-                icon: '🎯',
+                icon: '<i class="fas fa-bullseye" aria-hidden="true"></i>',
                 subtitle: 'Vuelve a tirar…',
                 color: '#fbbf24'
             });
         } else if (!isMe) {
             showTrivialWaiting('¡Cambio de turno!', {
-                icon: '🔄',
+                icon: '<i class="fas fa-arrows-rotate" aria-hidden="true"></i>',
                 subtitle: `Turno de ${currentTurn}`,
                 color: '#34d399',
                 noDots: true
@@ -218,6 +218,6 @@ export function registerTrivialPlayerSocketHandlers() {
     });
 
     socket.on('trivial-error', ({ message }) => {
-        showTrivialWaiting(`⚠ ${message}`);
+        showTrivialWaiting(message);
     });
 }

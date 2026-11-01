@@ -8,7 +8,7 @@
     "presenter.session.abandon_title": "放弃游戏？",
     "presenter.session.abandon_msg_html": "输入 <span class=\"font-black text-red-300\">{confirmWord}</span> 以确认。这将踢出所有玩家。",
     "presenter.session.no_session_title": "无活跃会话",
-    "presenter.session.no_session_msg": "Xiro! 没有活跃的游戏会话。",
+    "presenter.session.no_session_msg": "XiRo! 没有活跃的游戏会话。",
     "presenter.session.abandoned_title": "会话已放弃",
     "presenter.session.abandoned_msg": "会话已被放弃。",
     "presenter.session.btn_back_home": "返回首页",

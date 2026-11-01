@@ -48,7 +48,7 @@ function layoutHtml(pregunta, grid, words) {
                 <p class="text-white font-black text-base uppercase">${escapeHtml(getNickname())}</p>
             </div>
             <div class="ws-question bg-white px-3 py-2 border-b-4 border-plum-600 text-slate-800 text-center flex items-center justify-center shrink-0 overflow-y-auto">
-                <h2 class="${fontClass} font-black uppercase italic hyphens-auto" lang="es">${escapeHtml(pregunta.question_text)}</h2>
+                <h2 class="${fontClass} font-black italic hyphens-auto" lang="es">${escapeHtml(pregunta.question_text)}</h2>
             </div>
             <div class="ws-play">
                 <div id="ws-board" class="ws-play__board">${ws().gridHtml(grid, 'wsg--player', _t('common.wordsearch.grid_label', null, 'Sopa de letras'))}</div>

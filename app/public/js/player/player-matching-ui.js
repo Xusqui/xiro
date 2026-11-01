@@ -54,7 +54,7 @@ export function renderizarPreguntaMatching(pregunta) {
                 <p class="text-white font-black text-base uppercase">${getNickname()}</p>
             </div>
             <div class="bg-white p-4 border-b-8 border-amber-600 text-slate-800 text-center min-h-[12vh] max-h-[20vh] flex items-center justify-center shrink-0 overflow-y-auto">
-                <h2 class="${preguntaFontClass} font-black uppercase italic hyphens-auto" lang="es">${escapeHtml(pregunta.question_text)}</h2>
+                <h2 class="${preguntaFontClass} font-black italic hyphens-auto" lang="es">${escapeHtml(pregunta.question_text)}</h2>
             </div>
             <div class="px-4 pt-2 pb-1 text-center text-slate-100 text-sm italic shrink-0">
                 ${_t('player.matching.instruction', null, 'Arrastra la columna derecha para emparejar con la izquierda')}

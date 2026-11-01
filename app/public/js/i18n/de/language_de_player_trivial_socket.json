@@ -1,6 +1,6 @@
 {
   "keys": {
-    "player.trivial.launch_dice": "! Würfle🎯",
+    "player.trivial.launch_dice": "Würfle!",
     "player.trivial.correct_prefix": "Du hast es,",
     "player.trivial.turn_change": "Zugwechsel!",
     "player.trivial.team_scores": "trifft!",

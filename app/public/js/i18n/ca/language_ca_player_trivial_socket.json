@@ -1,6 +1,6 @@
 {
   "keys": {
-    "player.trivial.launch_dice": "! Llança🎯",
+    "player.trivial.launch_dice": "Llança!",
     "player.trivial.correct_prefix": "Ho has encertat,",
     "player.trivial.turn_change": "Canvi de torn!",
     "player.trivial.team_scores": "encerta!",

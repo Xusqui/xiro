@@ -4,7 +4,7 @@
     "presenter.loading.desc": "Vorbereitung des Moderatorenpanels",
     "presenter.sidebar.connected": "Verbunden",
     "presenter.lobby.waiting": "Warten auf Spieler...",
-    "presenter.lobby.pin": "ZUGRIFFS-PIN",
+    "presenter.lobby.pin": "Sitzungs-ID",
     "presenter.lobby.start": "BEGINNEN!",
     "presenter.lobby.join_at": "QR-Code lässt sich nicht scannen? Öffne",
     "presenter.lobby.join_pin": "und gib die Sitzungs-ID ein:",

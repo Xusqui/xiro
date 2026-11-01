@@ -1,13 +1,13 @@
 {
     "keys": {
-        "autorun.page.title": "Xiro! - Bot Runner",
+        "autorun.page.title": "XiRo! - Bot Runner",
         "autorun.auth.verifying": "Verifying administrator access...",
-        "autorun.header.title": "🤖 Xiro! Bot Runner",
+        "autorun.header.title": "XiRo! Bot Runner",
         "autorun.header.badge": "Dev tool",
         "autorun.header.subtitle": "The presenter must keep the lobby open before launching bots.",
         "autorun.header.back": "← Back to admin panel",
         "autorun.header.logout": "⎋ Log out",
-        "autorun.config.title": "⚙️ Configuration",
+        "autorun.config.title": "Configuration",
         "autorun.config.session_label": "Session ID <span style=\"color:var(--gray)\">(format PIN-NUMBER)</span>",
         "autorun.config.session_placeholder": "e.g.: TEST-123456",
         "autorun.config.mode": "Mode",

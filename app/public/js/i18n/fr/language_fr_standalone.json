@@ -1,7 +1,8 @@
 {
   "keys": {
-    "standalone.title": "XIRO! - Mode Autonome",
+    "standalone.title": "XiRo! - Mode Autonome",
     "standalone.lobby.title": "Choisissez votre jeu",
+    "standalone.lobby.mode_title": "Mode solitaire",
     "standalone.lobby.subtitle": "Sélectionnez une banque de questions ou un jeu personnalisé",
     "standalone.lobby.search.label": "Rechercher par PIN ou titre",
     "standalone.lobby.search.placeholder": "Rechercher par PIN ou titre (min. 3 caractères)",

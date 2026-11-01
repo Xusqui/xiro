@@ -334,7 +334,7 @@ function showLobbyReconnected(nickname) {
             <p class="text-2xl font-bold text-white mb-2">${escapeHtml(display)}</p>
             <p class="text-lg text-white/80 mb-6">${_t('player.team.waiting_start', null, 'Esperando a que el presentador inicie el juego...')}</p>
             <button data-player-action="salir-lobby" class="bg-red-500 hover:bg-red-600 px-6 py-3 rounded-2xl text-white font-bold transition">
-                🚪 SALIR DEL JUEGO
+                <i class="fas fa-right-from-bracket mr-2" aria-hidden="true"></i>SALIR DEL JUEGO
             </button>
         </div>
     `);

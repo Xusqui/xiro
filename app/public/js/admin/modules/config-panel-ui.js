@@ -40,7 +40,7 @@ function changedSettings(now, initial) {
 
 function _tvCardModeClass(active) {
     return (
-        'px-3 py-1.5 rounded-lg text-xs font-bold transition-all border-0 ' +
+        'px-3 py-1.5 rounded-lg text-xs font-bold transition border-0 ' +
         (active ? 'bg-cyan-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200')
     );
 }

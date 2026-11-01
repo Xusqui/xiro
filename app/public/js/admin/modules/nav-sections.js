@@ -127,7 +127,7 @@ const ADMIN_HOME_SHORTCUTS = [
         view: 'personalizados',
         key: 'admin.nav.custom',
         fallback: 'Juegos Personalizados',
-        icon: 'fa-star',
+        icon: 'fa-list-check',
         color: '#2563eb',
         tint: '#dbeafe'
     },

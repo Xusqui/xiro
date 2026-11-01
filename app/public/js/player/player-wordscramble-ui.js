@@ -50,7 +50,7 @@ export function renderizarPreguntaWordScramble(pregunta) {
     const emptyBoxes = Array.from(
         { length: wordLength },
         (_, i) =>
-            `<div id="ws-box-${i}" class="ws-box border-2 border-plum-400 rounded-lg flex items-center justify-center font-black text-plum-200 bg-slate-800/70 transition-all duration-200"
+            `<div id="ws-box-${i}" class="ws-box border-2 border-plum-400 rounded-lg flex items-center justify-center font-black text-plum-200 bg-slate-800/70 transition duration-200"
             style="width:100%; aspect-ratio:1/1; font-size: clamp(0.85rem, 3.5vw, 1.5rem);"
         ></div>`
     ).join('');
@@ -62,7 +62,7 @@ export function renderizarPreguntaWordScramble(pregunta) {
         .map(
             (letter, i) =>
                 `<button id="ws-letter-${i}" data-idx="${i}" data-letter="${letter}"
-            class="ws-letter bg-plum-600 hover:bg-plum-500 active:scale-95 text-white font-black rounded-xl shadow-md transition-all duration-150 border-b-4 border-plum-800"
+            class="ws-letter bg-plum-600 hover:bg-plum-500 active:scale-95 text-white font-black rounded-xl shadow-md transition duration-150 border-b-4 border-plum-800"
             style="width:100%; aspect-ratio:1/1; font-size: clamp(1.25rem, 6vw, 2rem);"
         >${letter}</button>`
         )
@@ -79,7 +79,7 @@ export function renderizarPreguntaWordScramble(pregunta) {
 
             <!-- Definición (texto de pregunta) -->
             <div class="bg-white p-4 border-b-8 border-plum-600 text-slate-800 text-center ${tieneImagen ? 'min-h-[8vh] max-h-[12vh]' : 'min-h-[12vh] max-h-[22vh]'} flex items-center justify-center shrink-0 overflow-y-auto">
-                <h2 class="${preguntaFontClass} font-black uppercase italic hyphens-auto" lang="es">${escapeHtml(pregunta.question_text)}</h2>
+                <h2 class="${preguntaFontClass} font-black italic hyphens-auto" lang="es">${escapeHtml(pregunta.question_text)}</h2>
             </div>
 
             <!-- Área principal -->

@@ -1,8 +1,8 @@
 {
   "keys": {
-    "manual_admin.page.title": "XIRO! - Manual del Administrador",
+    "manual_admin.page.title": "XiRo! - Manual del Administrador",
     "manual_admin.hero.title": "Manual del Administrador",
-    "manual_admin.hero.subtitle": "Todo lo que necesitas para gestionar XIRO! desde el panel de administración",
+    "manual_admin.hero.subtitle": "Todo lo que necesitas para gestionar XiRo! desde el panel de administración",
     "manual_admin.tabs.access_roles": "Acceso y Roles",
     "manual_admin.tabs.question_banks": "Bancos de Preguntas",
     "manual_admin.tabs.game_types": "Tipos de Juego",

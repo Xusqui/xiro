@@ -1,6 +1,6 @@
 {
   "keys": {
-    "player.trivial.launch_dice": "! Lanza🎯",
+    "player.trivial.launch_dice": "¡Lanza!",
     "player.trivial.correct_prefix": "¡Acertaste,",
     "player.trivial.turn_change": "¡Cambio de turno!",
     "player.trivial.team_scores": "acierta!",

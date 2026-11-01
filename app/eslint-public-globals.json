@@ -1320,6 +1320,7 @@
     "public/js/presenter/presenter-numeric-layout.js",
     "public/js/presenter/presenter-percentage-calculator.js",
     "public/js/presenter/presenter-player-rejoined-handler.js",
+    "public/js/presenter/presenter-players-fit.js",
     "public/js/presenter/presenter-players-panel.js",
     "public/js/presenter/presenter-podio-fireworks.js",
     "public/js/presenter/presenter-podio-reveal.js",

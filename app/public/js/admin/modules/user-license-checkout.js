@@ -32,7 +32,7 @@ function _renderPlanButtons(plans) {
         .map(
             plan => `
         <button type="button" data-user-license-plan="${escapeHtml(plan.code)}"
-            class="text-left border-2 border-slate-200 hover:border-red-500 rounded-xl p-4 transition-all bg-white">
+            class="text-left border-2 border-slate-200 hover:border-red-500 rounded-xl p-4 transition bg-white">
             <p class="font-black text-slate-900">${escapeHtml(plan.name || plan.code)}</p>
             <p class="text-2xl font-black text-red-600 my-1">${_formatPlanPrice(plan.amountCents, plan.currency)}</p>
             <p class="text-xs text-slate-500">${_formatPlanDuration(plan.durationHours)}</p>

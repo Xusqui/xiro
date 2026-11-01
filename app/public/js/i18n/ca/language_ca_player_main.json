@@ -1,6 +1,6 @@
 {
   "keys": {
-    "player.session.label": "ID de Sessió",
+    "player.session.label": "ID de sessió",
     "player.session.hint": "L'identificador apareix a la pantalla del presentador",
     "player.session.placeholder": "XXXXXX-XXXX",
     "player.session.submit": "INGRESSAR",

@@ -11,6 +11,7 @@ import {
 } from './presenter-state.js?v=20260922172926';
 import { getTeamColorStyle } from './presenter-team-config.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
+import { schedulePlayersPanelFit } from './presenter-players-fit.js?v=20261101120000';
 
 /** nick → <div> element kept across renders */
 const playerCards = new Map();
@@ -158,7 +159,7 @@ export function updatePlayersPanel() {
             // desde el fondo de la sala cuando el escenario se proyecta
             const pointsLabel = _t('presenter.players_panel.points_label', null, 'Puntos:');
             return `
-                <div class="stage-player bg-slate-700/50 ${statusClass} rounded-lg transition-all" ${cardStyle}>
+                <div class="stage-player bg-slate-700/50 ${statusClass} rounded-lg transition" ${cardStyle}>
                     <div class="stage-player-name">
                         ${statusIcon}
                         <span class="uppercase truncate" data-avatar-of="${escapeHtml(nick)}" title="${escapeHtml(nick)}" ${nameStyle}>${escapeHtml(nick)}</span>
@@ -205,6 +206,8 @@ export function updatePlayersPanel() {
             panel.appendChild(el);
         });
     }
+    // Filas mientras caben; si no, fichas con la letra ajustada (presenter-players-fit.js)
+    schedulePlayersPanelFit();
 }
 
 /**
