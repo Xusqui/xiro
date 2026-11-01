@@ -67,6 +67,12 @@
     --admin-coral: #e65453;
     --admin-coral-tint: #ffd8d8;
     --admin-coral-rgb: 230, 84, 83; /* for rgba(var(--admin-coral-rgb), alpha) */
+    /* Role ink: role accent darkened until it passes AA as text on white
+       (landing CTAs). Player ink is --camaleon-600. */
+    --signal-amber-ink: #b45309;
+    --reef-cyan-ink: #0e7490;
+    --solo-emerald-ink: #047857;
+    --admin-coral-ink: #b42d2c;
 
     /* ---- Neutrals ---- */
     --surface-white: #ffffff;

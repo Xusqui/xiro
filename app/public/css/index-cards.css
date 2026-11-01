@@ -1,0 +1,236 @@
+/* Portada (index.html): rejilla de tarjetas de rol, titular y pie.
+   Cada rol pinta su color en el borde inferior y el icono (--role, --role-tint)
+   y un tono oscuro que pasa AA sobre blanco en el texto de la acción (--role-ink).
+   El fondo blanco y la sombra de la tarjeta vienen de `.card>div` en index-style.css. */
+
+.role-card--player {
+    --role: var(--chamaleon-green);
+    --role-tint: var(--chamaleon-green-tint);
+    --role-ink: var(--camaleon-600);
+}
+
+.role-card--standalone {
+    --role: var(--solo-emerald);
+    --role-tint: var(--solo-emerald-tint);
+    --role-ink: var(--solo-emerald-ink);
+}
+
+.role-card--presenter {
+    --role: var(--signal-amber);
+    --role-tint: var(--signal-amber-tint);
+    --role-ink: var(--signal-amber-ink);
+}
+
+.role-card--tv {
+    --role: var(--reef-cyan);
+    --role-tint: var(--reef-cyan-tint);
+    --role-ink: var(--reef-cyan-ink);
+}
+
+.role-card--admin {
+    --role: var(--admin-coral);
+    --role-tint: var(--admin-coral-tint);
+    --role-ink: var(--admin-coral-ink);
+}
+
+#cards-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 1.5rem;
+    max-width: 90rem;
+}
+
+/* rem y no px: en escritorio la raíz escala con la pantalla (index-style.css) */
+#cards-grid > .role-card {
+    display: flex;
+    flex: 1 1 15rem;
+    max-width: 17.5rem;
+    min-width: 12rem;
+    animation: roleCardIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+#cards-grid > .role-card:nth-child(2) { animation-delay: 0.05s; }
+#cards-grid > .role-card:nth-child(3) { animation-delay: 0.1s; }
+#cards-grid > .role-card:nth-child(4) { animation-delay: 0.15s; }
+#cards-grid > .role-card:nth-child(5) { animation-delay: 0.2s; }
+
+@keyframes roleCardIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.role-card__panel {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 22rem;
+    padding: 2rem 1.5rem 1.5rem;
+    border-radius: 1.5rem;
+    border-bottom: 8px solid var(--role);
+    color: var(--console-slate);
+    transition: border-color 0.2s ease-out;
+}
+
+.role-card:hover .role-card__panel {
+    border-bottom-color: var(--role-ink);
+}
+
+.role-card__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 5rem;
+    height: 5rem;
+    margin-bottom: 1.25rem;
+    border-radius: 50%;
+    background: var(--role-tint);
+    color: var(--role);
+    font-size: 2.5rem;
+}
+
+.role-card__title {
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 900;
+    text-wrap: balance;
+}
+
+.role-card__desc {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: #475569;
+    text-wrap: balance;
+}
+
+/* Alto reservado para acción en dos líneas + manual: las acciones empiezan a la
+   misma altura aunque una parta en dos líneas o la tarjeta no tenga manual */
+.role-card__foot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 5rem;
+    margin-top: auto;
+}
+
+/* En línea y no flex: si la acción parte en dos líneas, la flecha sigue a la última palabra */
+.role-card__cta {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 700;
+    color: var(--role-ink);
+    text-decoration: none;
+    text-wrap: balance;
+}
+
+.role-card__cta i {
+    display: inline-block;
+    margin-left: 0.5rem;
+    transition: transform 0.2s ease-out;
+}
+
+.role-card:hover .role-card__cta i {
+    transform: translateX(4px);
+}
+
+/* El enlace se estira sobre toda la tarjeta (::after); el foco rodea la tarjeta */
+.role-card__cta:focus-visible {
+    outline: none;
+}
+
+.role-card__cta:focus-visible::after {
+    border-radius: 1.5rem;
+    outline: 3px solid var(--role-ink);
+    outline-offset: 4px;
+}
+
+.role-card__manual {
+    position: relative;
+    z-index: 2;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    color: #64748b;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.2s ease-out;
+}
+
+.role-card__manual:hover {
+    color: #334155;
+}
+
+.role-card__manual:focus-visible {
+    border-radius: 4px;
+    outline: 2px solid var(--role-ink);
+    outline-offset: 2px;
+}
+
+/* Regencie Light es fina: la sombra neutra la separa de las hojas */
+.index-heading {
+    text-shadow:
+        0 1px 2px rgb(0 0 0 / 0.5),
+        0 2px 16px rgb(0 0 0 / 0.35);
+}
+
+/* Velo oscuro: el texto blanco pasa AA sobre cualquier punto del degradado */
+.index-footer {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.75rem;
+    background: rgb(15 23 42 / 0.55);
+    color: #fff;
+}
+
+.index-footer a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.index-footer a:hover {
+    text-decoration-thickness: 2px;
+}
+
+@media (max-width: 1200px) {
+    #cards-grid {
+        max-width: 900px;
+    }
+}
+
+@media (max-width: 700px) {
+    #cards-grid {
+        max-width: 360px;
+        gap: 1rem;
+    }
+
+    #cards-grid > .role-card {
+        flex-basis: 100%;
+        max-width: 360px;
+        min-width: 0;
+    }
+
+    .role-card__panel {
+        min-height: 0;
+        padding: 1.5rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #cards-grid > .role-card {
+        animation: none;
+    }
+}

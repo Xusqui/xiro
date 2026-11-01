@@ -1,7 +1,6 @@
 {
   "keys": {
-    "index.heading": "欢迎来到西罗！",
-    "index.subtitle": "选择您的访问模式",
+    "index.heading": "选择您的角色",
     "index.player.title": "玩家",
     "index.player.desc": "使用您的 PIN 码加入游戏",
     "index.player.cta": "立即播放",

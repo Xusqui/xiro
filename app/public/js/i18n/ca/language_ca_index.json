@@ -1,7 +1,6 @@
 {
   "keys": {
-    "index.heading": "Benvingut a XIR!",
-    "index.subtitle": "Seleccioneu el vostre mode d'accés",
+    "index.heading": "Tria el teu rol",
     "index.player.title": "Jugador",
     "index.player.desc": "Uneix-te a una partida amb el teu codi PIN",
     "index.player.cta": "Jugar ara",

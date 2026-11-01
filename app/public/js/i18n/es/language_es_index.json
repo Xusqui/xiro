@@ -1,7 +1,6 @@
 {
   "keys": {
-    "index.heading": "Bienvenido a XIRO!",
-    "index.subtitle": "Selecciona tu modo de acceso",
+    "index.heading": "Elige tu rol",
     "index.player.title": "Jugador",
     "index.player.desc": "Únete a una partida con tu código PIN",
     "index.player.cta": "Jugar ahora",

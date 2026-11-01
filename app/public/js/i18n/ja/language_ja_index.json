@@ -1,7 +1,6 @@
 {
   "keys": {
-    "index.heading": "XIROへようこそ！",
-    "index.subtitle": "アクセスモードを選択してください",
+    "index.heading": "役割を選んでください",
     "index.player.title": "プレーヤー",
     "index.player.desc": "PIN コードを使用してゲームに参加する",
     "index.player.cta": "今すぐプレイ",

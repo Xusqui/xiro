@@ -30,61 +30,9 @@
         width: auto;
         max-width: 100%;
     }
-
-    html.page-index #cards-grid>.card {
-        flex: 1 1 15em;
-        max-width: 17.5em;
-        min-width: 12em;
-    }
-
-    html.page-index #cards-grid>.card>div {
-        height: 25em !important;
-    }
-}
-
-#cards-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: stretch;
-    gap: 1.5rem;
-    max-width: 90rem;
-}
-
-#cards-grid>.card {
-    flex: 1 1 240px;
-    max-width: 280px;
-    min-width: 190px;
-}
-
-#cards-grid>.card>div {
-    width: 100%;
-}
-
-@media (max-width: 1200px) {
-    #cards-grid {
-        max-width: 900px;
-    }
 }
 
 @media (max-width: 700px) {
-    #cards-grid {
-        max-width: 360px;
-        gap: 1rem;
-    }
-
-    #cards-grid>.card {
-        flex-basis: 100%;
-        max-width: 360px;
-        min-width: 0;
-    }
-
-    #cards-grid>.card>div {
-        height: auto !important;
-        min-height: 320px;
-        padding: 1.5rem !important;
-    }
-
     /* !important: manuales e instrucciones fijan su propio tamaño (en su <style> o en línea) */
     .player-chameleon {
         width: var(--chameleon-size) !important;
@@ -336,49 +284,6 @@ html.xiro-bg-static body.bg-gradient-to-br::after {
 .card {
     position: relative;
     z-index: 2;
-}
-
-/* Entrada escalonada de las role-cards, mismo lenguaje que about.css .float-N */
-@keyframes cardFloatUp {
-    0% {
-        opacity: 0;
-        transform: translateY(40px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-#cards-grid>.card {
-    animation: cardFloatUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-#cards-grid>.card:nth-child(1) {
-    animation-delay: 0.10s;
-}
-
-#cards-grid>.card:nth-child(2) {
-    animation-delay: 0.20s;
-}
-
-#cards-grid>.card:nth-child(3) {
-    animation-delay: 0.30s;
-}
-
-#cards-grid>.card:nth-child(4) {
-    animation-delay: 0.40s;
-}
-
-#cards-grid>.card:nth-child(5) {
-    animation-delay: 0.50s;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    #cards-grid>.card {
-        animation: none;
-    }
 }
 
 /* Tarjeta flotante de DESIGN.md: blanca y opaca con sombra profunda (antes
