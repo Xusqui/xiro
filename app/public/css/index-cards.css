@@ -39,7 +39,8 @@
     justify-content: center;
     align-items: stretch;
     gap: 1.5rem;
-    max-width: 90rem;
+    /* Cinco tarjetas al ancho máximo; el flex envuelve solo si la ventana no da más */
+    max-width: calc(5 * 17.5rem + 4 * 1.5rem);
 }
 
 /* rem y no px: en escritorio la raíz escala con la pantalla (index-style.css) */
@@ -274,18 +275,6 @@
 
 .index-footer a:hover {
     text-decoration-thickness: 2px;
-}
-
-/* Con las cinco tarjetas a la vista, 3 + 2 en vez de 4 + 1 (Administración
-   quedaba sola debajo). index-init.js oculta TV o Solitario con display:none */
-#cards-grid:not(:has(> .role-card[style*="none"])) {
-    max-width: calc(3 * 17.5rem + 2 * 1.5rem);
-}
-
-@media (max-width: 1200px) {
-    #cards-grid {
-        max-width: 900px;
-    }
 }
 
 @media (max-width: 700px) {
