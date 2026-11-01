@@ -8,6 +8,7 @@ import { renderMatchingPresenter } from './presenter-matching-layout.js?v=202609
 import { renderWordSearchPresenter } from './presenter-wordsearch-layout.js?v=20260922172926';
 import { renderFillBlanksPresenter } from './presenter-fillblanks-layout.js?v=20260922172926';
 import { nextButtonLabel } from './presenter-reveal.js?v=20260922172926';
+import { numericHintOf } from './presenter-numeric-layout.js?v=20260922172926';
 import { escapeHtml, sanitizeResourceUrl } from '../core/sanitize.js?v=20260922172926';
 
 const OPTION_COLORS = ['bg-red-500', 'bg-blue-500', 'bg-yellow-500', 'bg-green-500', 'bg-plum-500', 'bg-pink-500'];
@@ -127,13 +128,38 @@ function optionsGridHtml(q, view) {
             </div>`;
 }
 
-function numericAreaHtml() {
+/** Pista de la numérica, junto a la instrucción: los jugadores la ven en su móvil. */
+function numericHintHtml(q) {
+    const hint = numericHintOf(q);
+    const text = hint || _t('player.numeric.hint_fallback', null, 'El presentador no quiere dar pistas');
+    return `
+                        <div class="mt-6 pt-6 border-t border-white/20">
+                            <p class="text-lg text-white/70 mb-2"><i class="fas fa-lightbulb text-green-300 mr-2" aria-hidden="true"></i>${_t('player.numeric.hint_label', null, 'Pista')}</p>
+                            <p class="text-3xl font-semibold leading-snug ${hint ? 'text-white' : 'text-white/60'}">${escapeHtml(text)}</p>
+                        </div>`;
+}
+
+/** Numérica con imagen: la imagen ocupa el centro y la pista va debajo, sin tapar nada. */
+function numericImageHintHtml(q) {
+    const hint = numericHintOf(q);
+    const text = hint || _t('player.numeric.hint_fallback', null, 'El presentador no quiere dar pistas');
+    return `
+                <div class="pb-8 flex justify-center">
+                    <div class="numeric-stage-card rounded-2xl px-8 py-4 max-w-4xl text-center">
+                        <p class="text-base text-white/70 mb-1"><i class="fas fa-lightbulb text-green-300 mr-2" aria-hidden="true"></i>${_t('player.numeric.hint_label', null, 'Pista')}</p>
+                        <p class="text-2xl font-semibold leading-snug ${hint ? 'text-white' : 'text-white/60'}">${escapeHtml(text)}</p>
+                    </div>
+                </div>`;
+}
+
+function numericAreaHtml(q) {
     return `
                 <div class="flex-1 pb-6 flex items-center justify-center">
                     <div class="numeric-stage-card rounded-3xl p-12 shadow-2xl text-center">
                         <i class="fas fa-hashtag text-6xl mb-4 text-green-300" aria-hidden="true"></i>
                         <p class="text-2xl font-black italic text-green-300 mb-2">${_t('presenter.game.numeric_question', null, 'PREGUNTA NUMÉRICA')}</p>
                         <p class="text-xl text-white mb-4">${_t('presenter.game.players_write_number', null, 'Los jugadores escriben un número entero')}</p>
+                        ${numericHintHtml(q)}
                         <div class="mt-6 pt-6 border-t border-white/20">
                             <p id="numeric-answer-note" class="text-base text-white/90 mb-2">${_t('presenter.game.answer_on_reveal', null, 'La respuesta correcta se mostrará al revelar')}</p>
                             <p class="text-sm text-white/80 mt-2">${_t('presenter.game.points_by_proximity', null, 'Los puntos se calculan según proximidad')}</p>
@@ -144,7 +170,7 @@ function numericAreaHtml() {
 
 /** Zona bajo la rejilla: numérica, anagrama, tablero de matching o aviso de que las opciones están en los móviles. */
 function answerAreaHtml(q, view) {
-    if (view.esNumerica && !view.tieneImagen) return numericAreaHtml();
+    if (view.esNumerica) return view.tieneImagen ? numericImageHintHtml(q) : numericAreaHtml(q);
     if (view.esWordScramble) return renderWordScramblePresenter(q);
     if (view.esWordSearch) return renderWordSearchPresenter(q);
     if (view.esFillBlanks) return renderFillBlanksPresenter(q);

@@ -3,7 +3,6 @@
  */
 
 import { getPlayersData } from './presenter-state.js?v=20260922172926';
-import { renderCenteredNumericHint, removeCenteredNumericHint } from './presenter-numeric-layout.js?v=20260922172926';
 import { getNumericProgressMetrics } from './presenter-progress-metrics.js?v=20260922172926';
 
 let resizeHandler = null;
@@ -64,7 +63,6 @@ function alignPanelToLobbyMain(panel) {
 function removePanel() {
     const panel = document.getElementById('presenter-waiting-panel');
     if (panel) panel.remove();
-    removeCenteredNumericHint();
 }
 
 function removeProgressPanelOnly() {
@@ -78,13 +76,7 @@ function renderWaitingPanel() {
         return;
     }
 
-    const currentQuestion = window.currentQuestion || {};
-    const hint =
-        (currentQuestion.hint_text || currentQuestion.hint || currentQuestion.hintText || '').trim() ||
-        'El presentador no quiere dar pistas';
-
-    renderCenteredNumericHint(hint);
-
+    // Con imagen, la pista va en la franja inferior de la pregunta (answerAreaHtml): sin panel de progreso
     if (isNumericQuestionWithImage()) {
         removeProgressPanelOnly();
         return;

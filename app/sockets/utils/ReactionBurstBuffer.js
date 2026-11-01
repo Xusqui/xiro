@@ -2,7 +2,9 @@
  * @fileoverview Agrupa las reacciones con emoji por sala y emite un único mensaje con los
  * recuentos por intervalo ({ clap: 7, fire: 2 }), en vez de un mensaje por toque. Con
  * cientos de jugadores, el presentador recibe unos pocos mensajes por segundo.
- * El temporizador solo corre mientras hay algo pendiente.
+ * Un toque aislado sale al momento: la ventana se abre después y agrupa lo que llegue
+ * dentro de ella. Cada sala tiene su ventana; el temporizador solo corre mientras la sala
+ * está activa (hubo un envío en el último intervalo).
  */
 
 'use strict';
@@ -19,34 +21,49 @@ class ReactionBurstBuffer {
         this._emit = emit;
         this._intervalMs = intervalMs;
         this._pending = new Map();
-        this._timer = null;
+        this._windows = new Map();
     }
 
     add(roomId, reaction) {
+        if (!this._windows.has(roomId)) {
+            this._send(roomId, { [reaction]: 1 });
+            this._openWindow(roomId);
+            return;
+        }
         const counts = this._pending.get(roomId) || {};
         counts[reaction] = (counts[reaction] || 0) + 1;
         this._pending.set(roomId, counts);
-        if (!this._timer) {
-            this._timer = setTimeout(() => this._flush(), this._intervalMs);
-        }
     }
 
     stop() {
-        if (this._timer) clearTimeout(this._timer);
-        this._timer = null;
+        for (const timer of this._windows.values()) clearTimeout(timer);
+        this._windows.clear();
         this._pending.clear();
     }
 
-    _flush() {
-        this._timer = null;
-        const batch = this._pending;
-        this._pending = new Map();
-        for (const [roomId, counts] of batch) {
-            try {
-                this._emit(roomId, counts);
-            } catch (error) {
-                logger.warn('No se pudieron emitir las reacciones', { roomId, error: error.message });
-            }
+    _openWindow(roomId) {
+        this._windows.set(
+            roomId,
+            setTimeout(() => this._closeWindow(roomId), this._intervalMs)
+        );
+    }
+
+    _closeWindow(roomId) {
+        const counts = this._pending.get(roomId);
+        this._pending.delete(roomId);
+        if (!counts) {
+            this._windows.delete(roomId);
+            return;
+        }
+        this._send(roomId, counts);
+        this._openWindow(roomId);
+    }
+
+    _send(roomId, counts) {
+        try {
+            this._emit(roomId, counts);
+        } catch (error) {
+            logger.warn('No se pudieron emitir las reacciones', { roomId, error: error.message });
         }
     }
 }

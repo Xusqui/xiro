@@ -13,7 +13,6 @@ import { revealFillBlanksOnStage } from './presenter-fillblanks-layout.js?v=2026
 import { rankingCardHtml, justificationCardHtml } from './presenter-reveal-cards.js?v=20260922172926';
 import { numericRevealCardHtml, markNumericAnswerRevealed } from './presenter-reveal-numeric.js?v=20260922172926';
 import { revealOptionCards } from './presenter-reveal-options.js?v=20260922172926';
-import { removeCenteredNumericHint } from './presenter-numeric-layout.js?v=20260922172926';
 
 /**
  * Limpiar elementos de reveal (ranking y justificación)
@@ -140,8 +139,6 @@ function insertTopAnswersCard(data) {
 }
 
 function revealNumeric(data, showTopAnswers) {
-    // La pista (capa fija bajo el título) ya no aporta nada y taparía la respuesta
-    removeCenteredNumericHint();
     insertBelowTitle(numericRevealCardHtml(window.currentQuestion, data));
     markNumericAnswerRevealed(window.currentQuestion, data);
     if (showTopAnswers) insertTopAnswersCard(data);
