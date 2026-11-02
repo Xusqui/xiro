@@ -93,6 +93,36 @@ textarea.xsce-input { height: auto; min-height: 92px; padding: 8px 10px; line-he
 .xsce-color-hex { font: 600 12px var(--font-mono, monospace); color: #475569; text-transform: uppercase; }
 .xsce-color.is-none .xsce-color-hex { color: #94a3b8; text-transform: none; font-family: var(--font-body, sans-serif); }
 
+/* Grupo de iconos (alineación horizontal y vertical): mismo borde y alto que un campo */
+.xsce-seg {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    padding: 3px;
+    border: 2px solid #e2e8f0;
+    border-radius: var(--radius-xl, 12px);
+    background: #ffffff;
+}
+
+.xsce-seg-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 28px;
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+    color: #64748b;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.xsce-seg-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
+.xsce-seg-btn:hover { background: var(--plum-50, #fdf4fb); color: var(--plum-700, #793475); }
+.xsce-seg-btn.is-on { background: var(--plum-100, #f9e6f7); color: var(--plum-800, #5f285b); }
+.xsce-seg-btn:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(176, 91, 170, 0.25); }
+
 .xsce-check {
     display: flex;
     align-items: center;

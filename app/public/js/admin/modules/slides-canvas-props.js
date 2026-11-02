@@ -103,6 +103,16 @@
             );
     }
 
+    /** Botón de icono pulsado: marca el activo del grupo y aplica su valor (un paso de deshacer). */
+    function pickSegment(seg) {
+        seg.parentNode.querySelectorAll('.xsce-seg-btn').forEach(b => {
+            const on = b === seg;
+            b.classList.toggle('is-on', on);
+            b.setAttribute('aria-pressed', on);
+        });
+        apply(seg, false);
+    }
+
     /** Aplica el cambio de un control al fondo o al elemento seleccionado. */
     function apply(input, silent) {
         const F = XiroCanvasEditor.propsFields;
@@ -152,6 +162,8 @@
             });
             panel.addEventListener('change', e => apply(e.target, false));
             panel.addEventListener('click', e => {
+                const seg = e.target.closest('[data-kind="segment"]');
+                if (seg) return pickSegment(seg);
                 const button = e.target.closest('[data-canvas-panel-action]');
                 if (button) onPanelAction(button.getAttribute('data-canvas-panel-action'));
             });

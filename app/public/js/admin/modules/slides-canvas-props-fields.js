@@ -6,8 +6,9 @@
  *
  * Etiquetas, opciones y noneLabel son claves admin.canvas.* que se traducen aquí al pintar.
  *
- * Descriptor: { key, label, kind: number|color|select|check|textarea|action, min, max,
- *               options: [[valor, etiqueta]], noneLabel (color que admite «sin color»),
+ * Descriptor: { key, label, kind: number|color|select|segment|check|textarea|action, min, max,
+ *               options: [[valor, etiqueta]] (segment: [valor, etiqueta, icono HTML]),
+ *               noneLabel (color que admite «sin color»),
  *               action (botón), icon, quiet (acción discreta), when(el) }
  */
 (function () {
@@ -115,6 +116,37 @@
                     )
                     .join('') +
                 '</select>'
+            );
+        }
+        if (field.kind === 'segment') {
+            // Botones de icono: cada uno lleva su valor; el clic lo aplica (props.js) como un cambio
+            return (
+                '<div class="xsce-seg" role="group" aria-label="' +
+                tx(field.label) +
+                '">' +
+                field.options
+                    .map(o => {
+                        const on = o[0] === value;
+                        return (
+                            '<button type="button" class="xsce-seg-btn' +
+                            (on ? ' is-on' : '') +
+                            '" data-canvas-prop="' +
+                            field.key +
+                            '" data-kind="segment" value="' +
+                            esc(o[0]) +
+                            '" aria-pressed="' +
+                            on +
+                            '" title="' +
+                            tx(o[1]) +
+                            '" aria-label="' +
+                            tx(o[1]) +
+                            '">' +
+                            o[2] +
+                            '</button>'
+                        );
+                    })
+                    .join('') +
+                '</div>'
             );
         }
         if (field.kind === 'check') {

@@ -15,6 +15,22 @@
         font => [font, 'font.' + font]
     );
 
+    // Iconos de los botones de alineación (el panel los pinta en lugar de un desplegable)
+    function FA(name) {
+        return '<i class="fas ' + name + '" aria-hidden="true"></i>';
+    }
+
+    /** Línea de referencia en y y una caja de 7 px en boxY: alineación vertical, trazo sin relleno. */
+    function VALIGN_ICON(lineY, boxY) {
+        return (
+            '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 ' +
+            lineY +
+            'h12"/><rect x="4.5" y="' +
+            boxY +
+            '" width="7" height="7" rx="1.2"/></svg>'
+        );
+    }
+
     XiroCanvasEditor.propsByType.text = {
         title: 'type.text',
         fields: [
@@ -27,21 +43,21 @@
             {
                 key: 'align',
                 label: 'field.align',
-                kind: 'select',
+                kind: 'segment',
                 options: [
-                    ['left', 'align.left'],
-                    ['center', 'align.center'],
-                    ['right', 'align.right']
+                    ['left', 'align.left', FA('fa-align-left')],
+                    ['center', 'align.center', FA('fa-align-center')],
+                    ['right', 'align.right', FA('fa-align-right')]
                 ]
             },
             {
                 key: 'valign',
                 label: 'field.valign',
-                kind: 'select',
+                kind: 'segment',
                 options: [
-                    ['top', 'valign.top'],
-                    ['middle', 'valign.middle'],
-                    ['bottom', 'valign.bottom']
+                    ['top', 'valign.top', VALIGN_ICON(2, 4)],
+                    ['middle', 'valign.middle', VALIGN_ICON(8, 4.5)],
+                    ['bottom', 'valign.bottom', VALIGN_ICON(14, 5)]
                 ]
             },
             { key: 'fill', label: 'field.box_fill', kind: 'color', noneLabel: 'none.box_fill' },
