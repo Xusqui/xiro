@@ -108,7 +108,7 @@ globalThis.StandaloneQuestionSlides = (() => {
         if (question.slide_type === 'image') {
             _renderImage(container, question, onContinue);
             window.XiroSlideImageFit?.fitImages(container);
-        } else if (question.slide_type === 'video') {
+        } else if (question.slide_type === 'video' || question.slide_type === 'howto') {
             _renderVideoNotice(container);
         } else if (question.slide_type === 'canvas') {
             StandaloneCanvasSlide.render(container, question);

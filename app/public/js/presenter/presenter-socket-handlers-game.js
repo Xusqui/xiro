@@ -24,6 +24,8 @@ import {
     renderTextImageSlide,
     renderVideoSlide,
     renderCanvasSlide,
+    renderHowToSlide,
+    stopHowTo,
     updatePlayersPanel,
     removeFloatingCards,
     renderPodio
@@ -44,7 +46,8 @@ const SLIDE_RENDERERS = {
     image: renderImageSlide,
     'text-image': renderTextImageSlide,
     video: renderVideoSlide,
-    canvas: renderCanvasSlide
+    canvas: renderCanvasSlide,
+    howto: renderHowToSlide
 };
 
 /**
@@ -54,6 +57,7 @@ const SLIDE_RENDERERS = {
 function renderSlideOrQuestion(question, { review = false } = {}) {
     // El vídeo de la diapositiva anterior deja de sonar y libera su memoria
     stopActiveVideo();
+    stopHowTo();
 
     const renderSlide = Object.hasOwn(SLIDE_RENDERERS, question.slide_type)
         ? SLIDE_RENDERERS[question.slide_type]
@@ -266,6 +270,7 @@ export function registerGameSocketHandlers() {
     socket.on('game-ended', (ranking, ack) => {
         console.log('🎯 game-ended recibido. Ranking:', ranking);
 
+        stopHowTo();
         removeFloatingCards();
 
         // CRÍTICO: Limpiar elementos de reveal antes de mostrar podio

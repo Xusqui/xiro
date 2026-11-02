@@ -1,0 +1,158 @@
+/* Portada (index.html): entrada directa a una partida por ID de sesión.
+   GET a jugador.html?session=… (sin JS). Es el primer hijo de #cards-grid:
+   en el móvil, donde casi siempre llega un jugador, va antes de las tarjetas;
+   en escritorio ocupa su propia fila debajo de ellas. Color del rol Jugador. */
+
+.join-panel {
+    --join-max: 46rem;
+    order: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.25rem;
+    /* Base 100 %: nunca comparte fila con una tarjeta; los márgenes lo centran a --join-max */
+    flex: 0 1 100%;
+    margin: 0.5rem max(0px, calc((100% - var(--join-max)) / 2)) 0;
+    padding: 1rem 1rem 1rem 1.25rem;
+    border-radius: 1.5rem;
+    border-bottom: 8px solid var(--chamaleon-green);
+    background: #fff;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+    color: var(--console-slate);
+    text-align: left;
+    animation: roleCardIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
+}
+
+.join-panel__icon {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: var(--chamaleon-green-tint);
+    color: var(--chamaleon-green);
+    font-size: 1.25rem;
+}
+
+.join-panel__title {
+    flex: 0 1 auto;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 900;
+    text-wrap: balance;
+}
+
+.join-panel__row {
+    display: flex;
+    flex: 1 1 18rem;
+    gap: 0.5rem;
+    min-width: 0;
+}
+
+/* width 100 % + base 0: el campo no impone su ancho intrínseco al panel */
+.join-panel__input {
+    flex: 1 1 0;
+    width: 100%;
+    min-width: 0;
+    height: 3rem;
+    padding: 0 1rem;
+    border: 2px solid #cbd5e1;
+    border-radius: 0.75rem;
+    background: #fff;
+    color: var(--console-ink);
+    font: inherit;
+    font-size: 1.125rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    caret-color: var(--camaleon-600);
+    transition: border-color 0.2s ease-out;
+}
+
+.join-panel__input::placeholder {
+    color: #64748b;
+    font-weight: 600;
+    opacity: 1;
+}
+
+.join-panel__input:hover {
+    border-color: #94a3b8;
+}
+
+.join-panel__input:focus {
+    outline: 3px solid var(--camaleon-600);
+    outline-offset: 2px;
+    border-color: var(--camaleon-600);
+}
+
+.join-panel__btn {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: 0.5rem;
+    height: 3rem;
+    padding: 0 1.25rem;
+    border: 0;
+    border-radius: 0.75rem;
+    background: var(--camaleon-600);
+    color: #fff;
+    font-size: 1.0625rem;
+    font-weight: 800;
+    white-space: nowrap;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.15);
+    transition: background-color 0.2s ease-out, transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+.join-panel__btn i {
+    transition: transform 0.2s ease-out;
+}
+
+.join-panel__btn:hover {
+    background: var(--camaleon-700);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.2);
+}
+
+.join-panel__btn:hover i {
+    transform: translateX(4px);
+}
+
+.join-panel__btn:active {
+    transform: none;
+    box-shadow: 0 2px 4px -1px rgb(0 0 0 / 0.15);
+}
+
+.join-panel__btn:focus-visible {
+    outline: 3px solid var(--camaleon-600);
+    outline-offset: 2px;
+}
+
+@media (max-width: 700px) {
+    .join-panel {
+        order: 0;
+        margin: 0;
+        padding: 1.25rem;
+        animation-delay: 0s;
+    }
+
+    .join-panel__title {
+        flex: 1 1 0;
+    }
+
+    .join-panel__row {
+        flex-basis: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .join-panel,
+    .join-panel__btn,
+    .join-panel__btn i {
+        animation: none;
+        transition: none;
+    }
+}

@@ -41,6 +41,10 @@ const SLIDE_INSERTS = {
         sql: 'INSERT INTO custom_game_questions (custom_game_id, question_id, position, slide_type, slide_canvas, slide_footer) VALUES ($1, $2, $3, $4, $5::jsonb, $6)',
         fields: ['slide_canvas'],
         serialize: { slide_canvas: JSON.stringify }
+    },
+    howto: {
+        sql: 'INSERT INTO custom_game_questions (custom_game_id, question_id, position, slide_type, slide_howto, slide_footer) VALUES ($1, $2, $3, $4, $5, $6)',
+        fields: ['slide_howto']
     }
 };
 

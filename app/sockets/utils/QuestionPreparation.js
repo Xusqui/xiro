@@ -120,6 +120,11 @@ function prepareQuestions(questions, gameType) {
             return { ...q, slide_canvas: withVideoSources(q.slide_canvas) };
         }
 
+        // Diapositiva de instrucciones: contenido fijo del cliente, nada que preparar
+        if (q.slide_type === 'howto') {
+            return q;
+        }
+
         // No barajar opciones para slides especiales (comment/info/text) o encuestas
         if (keepsOptionOrder(q)) {
             return q;

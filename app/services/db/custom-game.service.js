@@ -163,7 +163,7 @@ async function getCustomGameWithQuestions(customGameId) {
 
         const questions = await pool.query(
             `
-            SELECT cgq.position, cgq.slide_type, cgq.comment_text, cgq.slide_title, cgq.slide_body, cgq.slide_image, cgq.slide_image_position, cgq.slide_footer, cgq.slide_video, cgq.slide_canvas,
+            SELECT cgq.position, cgq.slide_type, cgq.comment_text, cgq.slide_title, cgq.slide_body, cgq.slide_image, cgq.slide_image_position, cgq.slide_footer, cgq.slide_video, cgq.slide_canvas, cgq.slide_howto,
                 q.id as question_id, q.question_text, q.bank_id,
                 q.question_type,
                 q.tipo_contenido, q.url_recurso, q.question_image_url,
@@ -362,6 +362,7 @@ async function getCustomGameQuestionsForPlay(customGameId) {
                 cgq.slide_footer,
                 cgq.slide_video,
                 cgq.slide_canvas,
+                cgq.slide_howto,
                 q.id,
                 q.question_text, 
                 q.question_type, 
@@ -377,7 +378,7 @@ async function getCustomGameQuestionsForPlay(customGameId) {
                 q.tolerance_cap,
                 q.correct_word,
                 CASE
-                    WHEN cgq.slide_type IN ('comment', 'info', 'text', 'image', 'text-image', 'video', 'canvas') THEN NULL
+                    WHEN cgq.slide_type IN ('comment', 'info', 'text', 'image', 'text-image', 'video', 'canvas', 'howto') THEN NULL
                     ELSE (
                         SELECT json_agg(
                             json_build_object(

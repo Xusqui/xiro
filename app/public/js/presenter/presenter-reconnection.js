@@ -29,6 +29,7 @@ import {
     renderTextImageSlide,
     renderVideoSlide,
     renderCanvasSlide,
+    renderHowToSlide,
     updatePlayersPanel,
     renderTeamLobby,
     mostrarQR
@@ -252,6 +253,8 @@ function restoreGameScreen(snapshot) {
         renderVideoSlide(question);
     } else if (question.slide_type === 'canvas') {
         renderCanvasSlide(question);
+    } else if (question.slide_type === 'howto') {
+        renderHowToSlide(question);
     } else {
         window.canShowRanking = true;
         // En revisión (juegos personalizados) la pregunta ya se jugó: sin cuenta atrás;

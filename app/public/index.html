@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="./css/output-index.css?v=20260922172926">
     <link rel="stylesheet" href="./css/index-style.css?v=20260922172926">
     <link rel="stylesheet" href="./css/index-cards.css?v=20260922172926">
+    <link rel="stylesheet" href="./css/index-join.css?v=20260922172926">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
         integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
         crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -35,21 +36,24 @@
         </h1>
 
         <div id="cards-grid" class="max-w-6xl mx-auto">
+            <form class="join-panel" action="./jugador.html" method="get" aria-labelledby="join-title">
+                <span class="join-panel__icon"><i class="fas fa-right-to-bracket" aria-hidden="true"></i></span>
+                <h2 id="join-title" class="join-panel__title" data-i18n="index.player.join.title">¿Tienes el ID de sesión?</h2>
+                <label class="sr-only" for="join-session-input" data-i18n="index.player.join.label">ID de sesión</label>
+                <div class="join-panel__row">
+                    <input id="join-session-input" class="join-panel__input" type="text" name="session"
+                        placeholder="XXXXXX-XXXX"
+                        autocomplete="off" autocapitalize="characters" spellcheck="false"
+                        pattern="[A-Za-z0-9\-]{3,64}" maxlength="64" required>
+                    <button type="submit" class="join-panel__btn"><span data-i18n="index.player.join.submit">Entrar</span><i
+                            class="fas fa-arrow-right" aria-hidden="true"></i></button>
+                </div>
+            </form>
             <div class="card role-card role-card--player">
                 <div class="role-card__panel">
                     <span class="role-card__icon icon-wrapper"><i class="fas fa-gamepad" aria-hidden="true"></i></span>
                     <h2 class="role-card__title" data-i18n="index.player.title">Jugador</h2>
-                    <p class="role-card__desc" data-i18n="index.player.desc">Únete a una partida con tu código PIN</p>
-                    <form class="role-card__join" action="./jugador.html" method="get">
-                        <label class="role-card__join-label" for="join-session-input" data-i18n="index.player.join.label">ID de sesión</label>
-                        <div class="role-card__join-row">
-                            <input id="join-session-input" class="role-card__join-input" type="text" name="session"
-                                placeholder="XXXXXX-XXXX"
-                                autocomplete="off" autocapitalize="characters" spellcheck="false"
-                                pattern="[A-Za-z0-9\-]{3,64}" maxlength="64" required>
-                            <button type="submit" class="role-card__join-btn" data-i18n="index.player.join.submit">Entrar</button>
-                        </div>
-                    </form>
+                    <p class="role-card__desc" data-i18n="index.player.desc">Únete a una partida con el ID de sesión</p>
                     <div class="role-card__foot">
                         <a href="./jugador.html" class="role-card__cta stretched-link"><span data-i18n="index.player.cta">Jugar ahora</span><i
                                 class="fas fa-arrow-right" aria-hidden="true"></i></a>

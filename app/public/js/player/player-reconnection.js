@@ -32,6 +32,7 @@ import {
     renderizarSlideImagen,
     renderizarSlideTextoImagen,
     renderizarSlideVideo,
+    renderizarSlideHowTo,
     renderizarPreguntaWordScramble,
     renderizarPreguntaWordSearch,
     renderizarPreguntaFillBlanks,
@@ -265,6 +266,8 @@ function renderQuestion(question) {
         renderizarSlideVideo(question);
     } else if (question.slide_type === 'canvas') {
         renderizarSlideLienzo(question);
+    } else if (question.slide_type === 'howto') {
+        renderizarSlideHowTo(question);
     } else if (question.question_type === 'order') {
         renderizarPreguntaOrdena(question);
     } else if (question.question_type === 'matching') {

@@ -1,0 +1,192 @@
+/*
+ * Diapositiva de instrucciones (slide_type 'howto'): presentador y TV. Lienzo lógico de
+ * 1280x720 centrado y escalado con transform desde core/howto-wordsearch.js. Contenido fijo
+ * del código (core/howto-wordsearch-ui.js), no editable por el usuario. La TV carga los
+ * navegadores viejos de la tele: sin gap, variables ni container queries.
+ */
+.howto-host {
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    overflow: hidden;
+    /* Fondo «jungla» de la marca: verde camaleón que vira a ámbar */
+    background: linear-gradient(160deg, #557400 0%, #8ab817 55%, #f9b518 130%);
+    color: #fff;
+    font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+.howto-stage {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 1280px; height: 720px;
+    display: -webkit-flex; display: flex;
+    -webkit-align-items: center; align-items: center;
+    -webkit-justify-content: center; justify-content: center;
+    transform-origin: center center;
+}
+.howto-stage *, .howto-stage *::before, .howto-stage *::after { box-sizing: border-box; }
+
+/* ---------- Móvil ---------- */
+.howto-phone {
+    position: relative; width: 340px; height: 640px; padding: 10px; margin-right: 64px;
+    border-radius: 38px; background: #0f172a; box-shadow: 0 24px 48px rgba(15,23,42,.35);
+}
+.howto-screen {
+    position: relative; width: 100%; height: 100%; border-radius: 28px; overflow: hidden;
+    background: linear-gradient(180deg, #94438e, #684374); display: flex; flex-direction: column;
+}
+.howto-nick { background: #793475; color: #fff; text-align: center; font-weight: 900; font-size: 15px; padding: 9px 12px; }
+.howto-question { background: #fff; color: #1e293b; text-align: center; font-weight: 900; font-style: italic; font-size: 17px; line-height: 1.2; padding: 9px 12px; border-bottom: 4px solid #94438e; }
+.howto-play { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 8px 8px 6px; min-height: 0; }
+.howto-grid { background: #fff; border-radius: 12px; padding: 4px; margin-bottom: 6px; }
+.howto-row { display: flex; }
+.howto-cell {
+    width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+    font: 800 17px/1 ui-sans-serif, system-ui, sans-serif; color: #1e293b; border-radius: 5px;
+    transition: background-color .15s ease-out, color .15s ease-out;
+}
+.howto-cell.howto-sel { background: #fde047; color: #1e293b; }
+.howto-cell.howto-anchor { background: #fde047; box-shadow: inset 0 0 0 3px #f9b518; animation: howto-pulse .8s ease-in-out infinite; }
+.howto-cell.howto-found { color: #fff; animation: howto-pop .35s ease-out both; }
+.howto-cell.howto-hint { background: #fff0c2; box-shadow: inset 0 0 0 3px #f9b518; animation: howto-pulse .8s ease-in-out infinite; }
+@keyframes howto-pulse { 50% { transform: scale(1.12); } }
+@keyframes howto-pop { 0% { transform: scale(.7); } 60% { transform: scale(1.18); } 100% { transform: scale(1); } }
+.howto-help { margin: 0 0 6px; font-size: 12px; font-weight: 700; color: rgba(255,255,255,.7); text-align: center; }
+.howto-words { display: grid; grid-template-columns: 1fr 1fr; grid-gap: 4px; width: 100%; }
+.howto-word {
+    height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 999px;
+    border: 2px solid rgba(255,255,255,.5); color: #fff; font-weight: 800; font-size: 14px; letter-spacing: .04em;
+    transition: background-color .3s, transform .2s;
+}
+.howto-word.howto-is-found { border-color: transparent; text-decoration: line-through; text-decoration-thickness: 2px; }
+.howto-word.howto-tap { transform: scale(.94); background: rgba(255,255,255,.18); }
+.howto-word.howto-pulse { animation: howto-pulse .7s ease-in-out 3; border-color: #fde047; }
+.howto-half { display: none; margin-left: 4px; font-size: 12px; font-weight: 900; color: #f9b518; }
+.howto-word.howto-hinted .howto-half { display: inline; }
+.howto-footer { display: flex; align-items: center; padding: 8px 12px; background: rgba(15,23,42,.6); border-top: 1px solid rgba(255,255,255,.1); }
+.howto-progress { margin: 0 12px 0 0; color: #fff; font-weight: 900; font-size: 18px; }
+.howto-finish { flex: 1; text-align: center; background: #557400; color: #fff; border-radius: 12px; padding: 12px; font-weight: 900; font-size: 16px; transition: transform .15s; }
+.howto-finish.howto-tap { transform: scale(.94); }
+.howto-finish.howto-glow { animation: howto-pulse .8s ease-in-out infinite; }
+.howto-sent {
+    position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: rgba(104,67,116,.96);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    padding: 24px; opacity: 0; transition: opacity .4s;
+}
+.howto-sent.howto-on { opacity: 1; }
+.howto-sent-icon { width: 96px; height: 96px; margin-bottom: 12px; }
+.howto-sent h3 { margin: 0 0 10px; font-size: 24px; font-weight: 900; }
+.howto-sent p { margin: 0; color: rgba(255,255,255,.8); font-size: 14px; line-height: 1.4; }
+
+.howto-finger {
+    position: absolute; top: 0; left: 0; z-index: 5; width: 38px; height: 38px; border-radius: 50%;
+    background: rgba(255,255,255,.55); border: 3px solid #fff; box-shadow: 0 4px 12px rgba(15,23,42,.35);
+    transform: translate(-50%, -50%) scale(1); pointer-events: none; opacity: 0;
+    transition: left .55s cubic-bezier(.4,0,.2,1), top .55s cubic-bezier(.4,0,.2,1), opacity .25s, transform .15s;
+}
+.howto-finger.howto-on { opacity: 1; }
+.howto-finger.howto-down { transform: translate(-50%, -50%) scale(.78); background: rgba(253,224,71,.7); }
+.howto-finger.howto-slow { transition-duration: 1.1s, 1.1s, .25s, .15s; }
+
+/* ---------- Panel de pasos ---------- */
+.howto-side { width: 560px; }
+.howto-side h1 { margin: 0 0 18px; font-size: 38px; font-weight: 900; line-height: 1.1; text-shadow: 0 2px 6px rgba(15,23,42,.4); }
+.howto-side h1 small { display: block; margin-bottom: 8px; color: #fff0c2; font-size: 16px; font-weight: 700; text-shadow: none; }
+.howto-steps { list-style: none; margin: 0 0 18px; padding: 0; }
+.howto-step {
+    display: flex; align-items: flex-start; margin-bottom: 8px; padding: 10px 14px; border-radius: 14px;
+    background: #fff; color: #1e293b; border: 2px solid transparent; border-bottom: 4px solid #e2e8f0; opacity: .6; transition: opacity .3s, border-color .3s;
+}
+.howto-step.howto-active { opacity: 1; border-color: #94438e; }
+.howto-step.howto-done { opacity: .85; }
+.howto-n { flex: none; width: 30px; height: 30px; margin-right: 12px; border-radius: 50%; background: #94438e; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 15px; font-style: normal; }
+.howto-step.howto-done .howto-n { background: #557400; color: #fff; }
+.howto-step b { display: block; font-size: 18px; }
+.howto-step span { color: #475569; font-size: 14px; line-height: 1.35; }
+.howto-caption { min-height: 96px; background: #fff; color: #1e293b; border-radius: 16px; border-bottom: 5px solid #94438e; padding: 14px 18px; box-shadow: 0 8px 20px rgba(15,23,42,.18); font-weight: 700; font-size: 18px; line-height: 1.35; }
+
+/* ---------- Intro: nombre del tipo de pregunta + «Instrucciones» ---------- */
+.howto-intro {
+    position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    opacity: 0; pointer-events: none; transition: opacity .5s ease-out;
+}
+.howto-intro-logo { width: 220px; margin-bottom: 36px; filter: drop-shadow(0 4px 8px rgba(15,23,42,.3)); }
+.howto-intro h2 { margin: 0; font-size: 92px; font-weight: 900; line-height: 1.05; text-shadow: 0 3px 10px rgba(15,23,42,.35); }
+.howto-intro p {
+    margin: 22px 0 0; padding: 10px 34px 12px; border-radius: 999px; background: #fff; color: #684374;
+    border-bottom: 5px solid #94438e; font-size: 34px; font-weight: 900;
+}
+.howto-intro-on .howto-intro { opacity: 1; }
+.howto-intro-on .howto-phone, .howto-intro-on .howto-side { opacity: 0; }
+.howto-phone, .howto-side { transition: opacity .5s ease-out; }
+
+/* ---------- Quiz: respuestas de colores y pantallas de puntos ---------- */
+.howto-tiles {
+    flex: 1; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; grid-gap: 6px;
+    padding: 6px; background: #e2e8f0; min-height: 0;
+}
+.howto-tile {
+    position: relative; display: flex; align-items: center; justify-content: center; padding: 6px; border-radius: 12px;
+    color: #fff; font-weight: 800; font-size: 20px; text-transform: uppercase; text-align: center;
+    transition: transform .15s ease-out, opacity .3s, box-shadow .3s;
+}
+.howto-tile i { position: absolute; top: 6px; left: 10px; font-size: 18px; font-weight: 900; font-style: italic; opacity: .55; }
+.howto-tile.howto-pulse { animation: howto-pulse .7s ease-in-out 3; }
+.howto-tile.howto-tap { transform: scale(.94); }
+.howto-tile.howto-picked { transform: scale(1.03); box-shadow: 0 0 0 4px #fff; }
+.howto-tile.howto-dim { opacity: .4; }
+
+/* Pantalla «Jugáis por N puntos»: número sobre ficha blanca y los dos modos que puede elegir el creador */
+.howto-points, .howto-meter, .howto-result {
+    position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 3;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    opacity: 0; pointer-events: none; transition: opacity .4s;
+}
+.howto-points { background: #684374; padding: 24px 14px; }
+.howto-points.howto-on, .howto-meter.howto-on, .howto-result.howto-on { opacity: 1; }
+.howto-points-head, .howto-points-tail { margin: 0; font-size: 22px; font-weight: 800; color: rgba(255,255,255,.85); }
+.howto-points-num {
+    min-width: 210px; margin: 14px 0; padding: 6px 28px 12px; border-radius: 20px; background: #fff; color: #684374;
+    border-bottom: 8px solid #94438e; font-size: 132px; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums;
+}
+.howto-points-modes { display: flex; margin-top: 32px; }
+.howto-mode {
+    margin: 0 4px; padding: 8px 14px 9px; border-radius: 999px; border: 2px solid rgba(255,255,255,.45);
+    color: rgba(255,255,255,.8); font-size: 14px; font-weight: 800; white-space: nowrap; transition: background-color .3s, color .3s;
+}
+.howto-mode.howto-on { background: #f9b518; border-color: #f9b518; color: #1e293b; }
+
+/* Ejemplo del bonus de tiempo: base + bonus según lo rápido que se responda */
+.howto-meter { background: #684374; padding: 28px 22px; align-items: stretch; text-align: left; }
+.howto-mtag {
+    align-self: flex-start; margin: 0 0 24px; padding: 4px 12px 5px; border-radius: 999px;
+    background: rgba(255,255,255,.18); font-size: 13px; font-weight: 800;
+}
+.howto-mrow { margin-bottom: 22px; opacity: 0; transform: translateY(8px); transition: opacity .4s, transform .4s; }
+.howto-mrow.howto-show { opacity: 1; transform: none; }
+.howto-mrow b { display: block; margin-bottom: 6px; font-size: 16px; font-weight: 800; }
+.howto-mbar { display: flex; align-items: center; }
+.howto-mtrack { flex: 1; display: flex; height: 30px; border-radius: 8px; overflow: hidden; background: rgba(255,255,255,.16); }
+.howto-mtrack i { display: block; height: 100%; width: 0; transition: width .7s ease-out; }
+.howto-mbase { background: #fff; }
+.howto-mbonus { background: #f9b518; }
+.howto-mbar em { width: 54px; margin-left: 10px; text-align: right; font-size: 28px; font-weight: 900; font-style: normal; font-variant-numeric: tabular-nums; }
+.howto-mkey { display: flex; align-items: center; margin: 4px 0 0; font-size: 13px; font-weight: 700; color: rgba(255,255,255,.85); }
+.howto-mkey span { display: block; width: 12px; height: 12px; margin-right: 6px; border-radius: 3px; }
+.howto-mkey .howto-mbonus { margin-left: 16px; }
+
+/* Resultado: verde de la marca si se acierta, coral oscuro si se falla; la racha suma encima */
+.howto-result { padding: 24px; transition: opacity .4s, background-color .4s; }
+.howto-result.howto-ok { background: #557400; }
+.howto-result.howto-bad { background: #b42d2c; }
+.howto-result h3 { margin: 0; font-size: 36px; font-weight: 900; }
+.howto-result-pts { margin-top: 6px; font-size: 44px; font-weight: 900; font-variant-numeric: tabular-nums; }
+.howto-streak {
+    margin: 20px 0 0; padding: 6px 18px 8px; border-radius: 999px; background: #f9b518; color: #1e293b;
+    font-size: 19px; font-weight: 900; opacity: 0; transform: scale(.8); transition: opacity .3s, transform .3s;
+}
+.howto-streaking .howto-streak { opacity: 1; transform: scale(1); }
+
+@media (prefers-reduced-motion: reduce) {
+    .howto-cell.howto-anchor, .howto-cell.howto-hint, .howto-word.howto-pulse, .howto-finish.howto-glow, .howto-tile.howto-pulse { animation: none; }
+}

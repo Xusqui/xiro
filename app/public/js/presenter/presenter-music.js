@@ -15,7 +15,7 @@ import { normalizeMusicSettings } from '../audio/music-apply-settings.js?v=20260
 import { bindMusicControls } from './presenter-music-controls.js?v=20260922172926';
 import { hasCanvasVideo } from './presenter-slide-canvas.js?v=20261019120000';
 
-const SLIDE_TYPES = new Set(['comment', 'info', 'text', 'image', 'text-image', 'video', 'canvas']);
+const SLIDE_TYPES = new Set(['comment', 'info', 'text', 'image', 'text-image', 'video', 'canvas', 'howto']);
 const DEFAULT_TIME_LIMIT_S = 20;
 
 /** Ajustes de interfaz: «Música de la partida» y los de la pestaña «Música» del admin. */
@@ -41,7 +41,7 @@ function bindSocket(socket, music) {
         if (!q) return;
         if (SLIDE_TYPES.has(q.slide_type)) {
             // El vídeo (también dentro de una diapositiva libre) trae su propio sonido: la música calla
-            music.slide({ hasAudio: q.slide_type === 'video' || (q.slide_type === 'canvas' && hasCanvasVideo(q)) });
+            music.slide({ hasAudio: q.slide_type === 'video' || q.slide_type === 'howto' || (q.slide_type === 'canvas' && hasCanvasVideo(q)) });
             return;
         }
         // Pregunta ya jugada que se revisa (juegos personalizados): fondo del marcador

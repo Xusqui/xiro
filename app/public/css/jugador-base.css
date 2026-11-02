@@ -1,40 +1,68 @@
-/* Ficha táctil (DESIGN.md «Tactile Tile»): color plano, el mismo que en el
-   escenario, y borde inferior oscuro de tecla pulsable. Sin brillos ni relieve. */
+/* Botón 3D «cristal» (DESIGN.md «Pressable Key»): brillo superior, sombra inferior,
+   borde de tecla pulsable y sombra de caída. Los colores vienen de .btn-gradient-*. */
 .btn-glass-3d {
     position: relative;
-    border-bottom: 8px solid rgba(0, 0, 0, 0.2);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    box-shadow:
+        inset 0 3px 12px rgba(255, 255, 255, 0.4),
+        inset 0 -6px 16px rgba(0, 0, 0, 0.4),
+        0 12px 30px rgba(0, 0, 0, 0.5);
+    border-top: 3px solid rgba(255, 255, 255, 0.4);
+    border-bottom: 6px solid rgba(0, 0, 0, 0.3);
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
+    border-right: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.btn-glass-3d::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0.2) 0%,
+            transparent 50%,
+            rgba(0, 0, 0, 0.2) 100%);
+    border-radius: inherit;
+    pointer-events: none;
 }
 
 .btn-glass-3d .btn-number {
-    background: rgba(0, 0, 0, 0.2);
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow:
+        inset 0 2px 6px rgba(255, 255, 255, 0.5),
+        inset 0 -3px 6px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+.btn-glass-3d .btn-text {
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.6);
 }
 
 /* Colores de las opciones: los de presenter-question-view.js (red/blue/
    yellow/green-500, plum-500, pink-500). El nombre btn-gradient-* es histórico. */
 .btn-gradient-red {
-    background-color: #ef4444;
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
 }
 
 .btn-gradient-blue {
-    background-color: #3b82f6;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
 }
 
 .btn-gradient-yellow {
-    background-color: #eab308;
+    background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
 }
 
 .btn-gradient-green {
-    background-color: #22c55e;
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
 }
 
 .btn-gradient-purple {
-    background-color: #b05baa;
+    background: linear-gradient(135deg, #b05baa 0%, #94438e 100%);
 }
 
 .btn-gradient-pink {
-    background-color: #ec4899;
+    background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
 }
 
 /* ===== ORDENAR (DRAG & DROP) ===== */

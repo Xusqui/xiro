@@ -13,6 +13,7 @@ window.TVApp.SocketGame = (function () {
     const renderTextImageSlide = window.TVApp.RenderSlides.renderTextImageSlide;
     const renderVideoSlide = window.TVApp.RenderSlides.renderVideoSlide;
     const renderCanvasSlide = window.TVApp.RenderCanvas.renderCanvasSlide;
+    const renderHowToSlide = window.TVApp.RenderHowTo.renderHowToSlide;
     const renderPregunta = window.TVApp.RenderQuestion.renderPregunta;
     const updateAnswerCounter = window.TVApp.RenderPlayers.updateAnswerCounter;
 
@@ -59,6 +60,8 @@ window.TVApp.SocketGame = (function () {
                 renderVideoSlide(data.firstQuestion);
             } else if (data.firstQuestion.slide_type === 'canvas') {
                 renderCanvasSlide(data.firstQuestion);
+            } else if (data.firstQuestion.slide_type === 'howto') {
+                renderHowToSlide(data.firstQuestion);
             } else {
                 renderPregunta(data.firstQuestion);
             }
@@ -94,6 +97,7 @@ window.TVApp.SocketGame = (function () {
             state.totalQuestions = data.totalQuestions;
             state.currentQuestionIndex = data.currentIndex;
 
+            if (window.XiroHowTo) window.XiroHowTo.stop();
             if (data.question.slide_type === 'comment') {
                 renderCommentSlide(data.question);
             } else if (data.question.slide_type === 'info') {
@@ -108,6 +112,8 @@ window.TVApp.SocketGame = (function () {
                 renderVideoSlide(data.question);
             } else if (data.question.slide_type === 'canvas') {
                 renderCanvasSlide(data.question);
+            } else if (data.question.slide_type === 'howto') {
+                renderHowToSlide(data.question);
             } else {
                 renderPregunta(data.question);
             }
@@ -145,6 +151,7 @@ window.TVApp.SocketGame = (function () {
         });
 
         socket.on('game-ended', function (ranking, ack) {
+            if (window.XiroHowTo) window.XiroHowTo.stop();
             const ctrlPartida = document.getElementById('ctrl-partida');
             if (ctrlPartida) ctrlPartida.style.display = 'none';
             window.TVApp.RenderSlides.resetTimers(); // Detiene timer

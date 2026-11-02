@@ -135,7 +135,8 @@ function generateFullPDFHTML(game, questions) {
             q.slide_type !== 'image' &&
             q.slide_type !== 'text-image' &&
             q.slide_type !== 'video' &&
-            q.slide_type !== 'canvas'
+            q.slide_type !== 'canvas' &&
+            q.slide_type !== 'howto'
         ) {
             pages.push(generateAnswerHTML(q, i + 1));
         }
@@ -222,7 +223,8 @@ function generateQuestionHTML(question, index, total) {
         text: generateTextSlideHTML,
         image: generateImageSlideHTML,
         video: generateVideoSlideHTML,
-        canvas: (q, i, t) => generateCanvasSlideHTML(q, i, t, resolvePublicPath)
+        canvas: (q, i, t) => generateCanvasSlideHTML(q, i, t, resolvePublicPath),
+        howto: (q, i, t) => generateInfoSlideHTML({ ...q, comment_text: 'Instrucciones: cómo responder una Sopa de letras (animación en pantalla)' }, i, t)
     }[question.slide_type];
 
     if (slideRenderer) {

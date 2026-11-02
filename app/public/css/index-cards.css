@@ -43,19 +43,67 @@
     max-width: calc(5 * 17.5rem + 4 * 1.5rem);
 }
 
-/* rem y no px: en escritorio la raíz escala con la pantalla (index-style.css) */
+/* main lleva max-w-6xl (72rem), que no da para cinco tarjetas: se ensancha hasta la rejilla */
+html.page-index #main-content {
+    max-width: calc(5 * 17.5rem + 4 * 1.5rem);
+    container: main-cards / inline-size;
+}
+
+/* rem y no px: en escritorio la raíz escala con la pantalla (index-style.css).
+   Base 14.5rem: cinco caben en una fila desde 1280x800 */
 #cards-grid > .role-card {
     display: flex;
-    flex: 1 1 15rem;
+    flex: 1 1 14.5rem;
     max-width: 17.5rem;
     min-width: 12rem;
     animation: roleCardIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-#cards-grid > .role-card:nth-child(2) { animation-delay: 0.05s; }
-#cards-grid > .role-card:nth-child(3) { animation-delay: 0.1s; }
-#cards-grid > .role-card:nth-child(4) { animation-delay: 0.15s; }
-#cards-grid > .role-card:nth-child(5) { animation-delay: 0.2s; }
+/* El primer hijo es el panel de entrada (index-join.css) */
+#cards-grid > .role-card:nth-child(3) { animation-delay: 0.05s; }
+#cards-grid > .role-card:nth-child(4) { animation-delay: 0.1s; }
+#cards-grid > .role-card:nth-child(5) { animation-delay: 0.15s; }
+#cards-grid > .role-card:nth-child(6) { animation-delay: 0.2s; }
+
+/* Dos filas al estrechar, la de abajo centrada (flex centra la última línea).
+   Cuenta solo las visibles: la TV y el modo solitario se ocultan por ajustes (index-init.js).
+   Cada bloque tapa la rejilla al ancho de sus columnas y se activa solo por debajo
+   del ancho en que la fila única dejaría de caber. */
+
+/* Cinco tarjetas: 3 + 2 (una fila cabe desde 78.5rem; tres columnas necesitan 39rem) */
+@container main-cards (min-width: 39rem) and (max-width: 78.5rem) {
+    #cards-grid:not(:has(#card-tv[style*="none"])):not(:has(#card-standalone[style*="none"])) {
+        max-width: calc(3 * 17.5rem + 2 * 1.5rem + 1px);
+    }
+
+    #cards-grid:not(:has(#card-tv[style*="none"])):not(:has(#card-standalone[style*="none"])) > .role-card {
+        flex-basis: calc((100% - 3rem) / 3);
+    }
+}
+
+/* Cuatro tarjetas: 2 + 2 (una fila cabe desde 62.5rem) */
+@container main-cards (min-width: 27rem) and (max-width: 62.5rem) {
+    #cards-grid:has(#card-tv[style*="none"]):not(:has(#card-standalone[style*="none"])),
+    #cards-grid:has(#card-standalone[style*="none"]):not(:has(#card-tv[style*="none"])) {
+        max-width: calc(2 * 17.5rem + 1.5rem + 1px);
+    }
+
+    #cards-grid:has(#card-tv[style*="none"]):not(:has(#card-standalone[style*="none"])) > .role-card,
+    #cards-grid:has(#card-standalone[style*="none"]):not(:has(#card-tv[style*="none"])) > .role-card {
+        flex-basis: calc((100% - 1.5rem) / 2);
+    }
+}
+
+/* Tres tarjetas: 2 + 1 (una fila cabe desde 46.5rem) */
+@container main-cards (min-width: 27rem) and (max-width: 46.5rem) {
+    #cards-grid:has(#card-tv[style*="none"]):has(#card-standalone[style*="none"]) {
+        max-width: calc(2 * 17.5rem + 1.5rem + 1px);
+    }
+
+    #cards-grid:has(#card-tv[style*="none"]):has(#card-standalone[style*="none"]) > .role-card {
+        flex-basis: calc((100% - 1.5rem) / 2);
+    }
+}
 
 @keyframes roleCardIn {
     from {
@@ -156,77 +204,6 @@
     border-radius: 1.5rem;
     outline: 3px solid var(--role-ink);
     outline-offset: 4px;
-}
-
-/* Entrada directa por ID de sesión: GET a jugador.html?session=… (sin JS). Va por encima
-   del enlace estirado para que el campo y el botón reciban el clic */
-.role-card__join {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    min-width: 0;
-    margin-bottom: 0.75rem;
-}
-
-.role-card__join-label {
-    display: block;
-    margin-bottom: 0.25rem;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    font-weight: 700;
-    color: #475569;
-    text-align: center;
-}
-
-.role-card__join-row {
-    display: flex;
-    gap: 0.5rem;
-    min-width: 0;
-}
-
-/* width 100% + basis 0: el campo no aporta su ancho intrínseco al mínimo de la tarjeta */
-.role-card__join-input {
-    flex: 1 1 0;
-    width: 100%;
-    min-width: 0;
-    padding: 0.5rem 0.75rem;
-    border: 2px solid #cbd5e1;
-    border-radius: 0.75rem;
-    background: #ffffff;
-    color: #0f172a;
-    font: inherit;
-    font-size: 0.9375rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-}
-
-.role-card__join-input:focus {
-    outline: none;
-    border-color: var(--role-ink);
-}
-
-.role-card__join-input:focus-visible {
-    outline: 3px solid var(--role-ink);
-    outline-offset: 2px;
-}
-
-.role-card__join-btn {
-    flex: 0 0 auto;
-    white-space: nowrap;
-    padding: 0.5rem 0.75rem;
-    border: 0;
-    border-radius: 0.75rem;
-    background: var(--role-ink);
-    color: #ffffff;
-    font-size: 0.9375rem;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.role-card__join-btn:focus-visible {
-    outline: 3px solid var(--role-ink);
-    outline-offset: 2px;
 }
 
 .role-card__manual {

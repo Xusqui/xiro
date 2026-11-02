@@ -231,6 +231,14 @@ const _CUSTOM_SLIDE_CARDS = {
         'editarSlideLienzo',
         'text-plum-700 hover:text-plum-900'
     ],
+    // customHowToCardBody está en slides-howto.js, que se carga después: se resuelve al pintar
+    howto: [
+        'bg-plum-50 border-plum-300',
+        'plum',
+        q => customHowToCardBody(q),
+        'editarSlideHowTo',
+        'text-plum-700 hover:text-plum-900'
+    ],
     // customVideoCardBody está en slides-video.js, que se carga después: se resuelve al pintar
     video: [
         'bg-red-50 border-red-300',

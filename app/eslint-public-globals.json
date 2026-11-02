@@ -1208,7 +1208,18 @@
     "whiteOrGold": "writable",
     "willowShell": "writable",
     "wordScrambleEditorHtml": "writable",
-    "wordSearchEditorSectionHtml": "writable"
+    "wordSearchEditorSectionHtml": "writable",
+    "anadirSlideHowTo": "writable",
+    "editarSlideHowTo": "writable",
+    "cerrarModalEditHowTo": "writable",
+    "guardarEditHowTo": "writable",
+    "customHowToCardBody": "writable",
+    "initSlideHowToDelegation": "writable",
+    "XiroHowTo": "writable",
+    "XiroHowToUi": "writable",
+    "elegirSlideHowTo": "writable",
+    "cerrarModalPickHowTo": "writable",
+    "XiroHowToTexts": "writable"
   },
   "modules": [
     "public/js/audio/music-accents.js",
@@ -1363,6 +1374,8 @@
     "public/js/presenter/presenter-wordsearch-layout.js",
     "public/js/shared/modal-input.js",
     "public/js/shared/modal.js",
-    "public/js/standalone/standalone-modal-bridge.js"
+    "public/js/standalone/standalone-modal-bridge.js",
+    "public/js/presenter/presenter-slide-howto.js",
+    "public/js/player/player-slide-howto-ui.js"
   ]
 }

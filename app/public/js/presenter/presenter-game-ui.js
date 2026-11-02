@@ -139,6 +139,8 @@ export {
     renderImageSlide,
     renderTextImageSlide,
     renderVideoSlide,
-    renderCanvasSlide
+    renderCanvasSlide,
+    renderHowToSlide,
+    stopHowTo
 } from './presenter-slides.js?v=20260922172926';
 export { renderPodio } from './presenter-podio.js?v=20260922172926';

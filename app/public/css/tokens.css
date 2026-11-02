@@ -3,8 +3,9 @@
  * Source of truth: DESIGN.md. Load this BEFORE any page-specific stylesheet that consumes
  * these custom properties (plain CSS cascade, no build step required).
  *
- * Game-facing surfaces (index, jugador, presentador stage, tv) do NOT use this file —
- * they stay on the system-sans/font-black voice per DESIGN.md's Two-Voice Rule.
+ * The landing (index) also loads it for the role colors of its cards and join panel; its
+ * text stays on the system-sans/font-black voice (DESIGN.md's Two-Voice Rule). jugador,
+ * the presentador stage and tv do not load it.
  */
 
 :root {

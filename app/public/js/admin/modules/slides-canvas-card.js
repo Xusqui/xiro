@@ -56,7 +56,7 @@ function customCanvasCardTools(idx) {
 /** Pie extra de una diapositiva del juego: acciones si es libre; «Convertir» si es antigua (no Actividad). */
 function customCanvasCardExtra(q, idx) {
     if (q.slide_type === 'canvas') return customCanvasCardTools(idx);
-    return q.slide_type !== 'comment' ? customCanvasConvertButton(idx) : '';
+    return q.slide_type !== 'comment' && q.slide_type !== 'howto' ? customCanvasConvertButton(idx) : '';
 }
 
 /** Botón «Exportar diapositivas libres» bajo el de PDF en el editor del juego personalizado. */

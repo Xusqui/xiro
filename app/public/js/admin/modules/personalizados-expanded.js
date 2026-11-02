@@ -167,6 +167,7 @@ async function cargarEditorJuegoPersonalizado(id) {
             slide_canvas: q.slide_canvas || null,
             slide_footer: q.slide_footer,
             slide_video: q.slide_video,
+            slide_howto: q.slide_howto || null,
             position: q.position,
             tipo_contenido: q.tipo_contenido,
             url_recurso: q.url_recurso
@@ -324,6 +325,11 @@ function _customToolbarHtml() {
                     class="bg-gradient-to-r from-aubergine-600 to-plum-600 hover:from-aubergine-700 hover:to-plum-700 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
                     aria-label="${_t('admin.custom.btn_canvas_slide', null, 'AÑADIR DIAPOSITIVA LIBRE')}">
                     <i class="fas fa-object-group" aria-hidden="true"></i> ${_t('admin.custom.btn_short_canvas', null, 'Diapositiva libre')}
+                </button>
+                <button type="button" data-admin-click="anadirSlideHowTo()"
+                    class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
+                    aria-label="${_t('admin.custom.btn_howto', null, 'AÑADIR DIAPOSITIVA DE INSTRUCCIONES')}">
+                    <i class="fas fa-circle-question" aria-hidden="true"></i> ${_t('admin.custom.btn_short_howto', null, 'Instrucciones')}
                 </button>
             </div>`;
 }
@@ -649,7 +655,8 @@ function _customSlideForSave(q) {
         slide_image_position: q.slide_image_position || null,
         slide_canvas: q.slide_canvas || null,
         slide_footer: q.slide_footer || null,
-        slide_video: q.slide_video || null
+        slide_video: q.slide_video || null,
+        slide_howto: q.slide_howto || null
     };
 }
 

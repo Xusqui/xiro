@@ -63,7 +63,8 @@ const MIGRATION_QUERIES = [
     'ALTER TABLE custom_game_questions ADD COLUMN IF NOT EXISTS slide_body TEXT',
     'ALTER TABLE custom_game_questions ADD COLUMN IF NOT EXISTS slide_footer TEXT',
     'ALTER TABLE custom_game_questions ADD COLUMN IF NOT EXISTS slide_video TEXT',
-    'ALTER TABLE custom_game_questions ADD COLUMN IF NOT EXISTS slide_canvas JSONB'
+    'ALTER TABLE custom_game_questions ADD COLUMN IF NOT EXISTS slide_canvas JSONB',
+    'ALTER TABLE custom_game_questions ADD COLUMN IF NOT EXISTS slide_howto VARCHAR(32)'
 ];
 
 const INDEX_QUERIES = [

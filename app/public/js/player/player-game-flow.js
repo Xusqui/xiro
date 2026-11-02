@@ -34,7 +34,8 @@ import {
     renderizarSlideTexto,
     renderizarSlideImagen,
     renderizarSlideTextoImagen,
-    renderizarSlideVideo
+    renderizarSlideVideo,
+    renderizarSlideHowTo
 } from './player-question-ui.js?v=20260922172926';
 import { renderizarSlideLienzo } from './player-slide-canvas-ui.js?v=20261019120000';
 import { removeDisconnectOverlay } from './player-connection.js?v=20260922172926';
@@ -130,6 +131,8 @@ function onGameStarted(data, ack) {
         renderizarSlideVideo(data.firstQuestion);
     } else if (data.firstQuestion.slide_type === 'canvas') {
         renderizarSlideLienzo(data.firstQuestion);
+    } else if (data.firstQuestion.slide_type === 'howto') {
+        renderizarSlideHowTo(data.firstQuestion);
     } else if (data.firstQuestion.question_type === 'order') {
         renderizarPreguntaOrdena(data.firstQuestion);
     } else if (data.firstQuestion.question_type === 'matching') {
@@ -194,6 +197,8 @@ function onNewQuestion(data, ack) {
         renderizarSlideVideo(data.question);
     } else if (data.question.slide_type === 'canvas') {
         renderizarSlideLienzo(data.question);
+    } else if (data.question.slide_type === 'howto') {
+        renderizarSlideHowTo(data.question);
     } else if (data.question.question_type === 'order') {
         renderizarPreguntaOrdena(data.question);
     } else if (data.question.question_type === 'matching') {

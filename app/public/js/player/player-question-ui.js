@@ -8,7 +8,8 @@ export {
     renderizarSlideTexto,
     renderizarSlideImagen,
     renderizarSlideTextoImagen,
-    renderizarSlideVideo
+    renderizarSlideVideo,
+    renderizarSlideHowTo
 } from './player-slides-ui.js?v=20260922172926';
 export { renderizarPregunta } from './player-quiz-ui.js?v=20260922172926';
 export { renderizarPreguntaOrdena } from './player-order-ui.js?v=20260922172926';

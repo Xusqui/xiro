@@ -19,6 +19,7 @@ import { appendSlideFooter } from '../core/slide-footer-dom.js?v=20261017120000'
 export { renderTextImageSlide } from './presenter-slide-text-image.js?v=20260922172926';
 export { renderVideoSlide } from './presenter-slide-video.js?v=20261019120000';
 export { renderCanvasSlide } from './presenter-slide-canvas.js?v=20261019120000';
+export { renderHowToSlide, stopHowTo } from './presenter-slide-howto.js?v=20261101120000';
 
 /**
  * Renderizar slide de comentario (con asignación manual de puntos)

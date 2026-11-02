@@ -239,6 +239,7 @@ export function abandonarJuego() {
         onConfirm: () => {
             const socket = getSocket();
             console.log('🚪 XiRo! juego solicitado:', { roomIdOrPin });
+            window.XiroHowTo?.stop(); // corta la locución de una diapositiva de instrucciones
             socket.emit('abandon-game', { roomIdOrPin, reason: 'abandoned' });
 
             cleanupPodio();
@@ -254,6 +255,7 @@ export function abandonarJuego() {
 }
 
 export async function concluirJuegoYVolver() {
+    window.XiroHowTo?.stop(); // corta la locución de una diapositiva de instrucciones
     const sessionId = getSessionId();
     const pin = getPin();
     const roomIdOrPin = sessionId || pin;
@@ -287,7 +289,8 @@ export function terminarJuego() {
             'Se finalizará el juego y se mostrará el podio con la clasificación actual.'
         ),
         () => {
-            // Detener cuenta atrás inmediatamente al confirmar, sin esperar al servidor
+            // Detener cuenta atrás y locución inmediatamente al confirmar, sin esperar al servidor
+            window.XiroHowTo?.stop(); // corta la locución de una diapositiva de instrucciones
             clearInterval(window.timerInterval);
             window.timerInterval = null;
             const overlay = document.getElementById('countdown-overlay');
@@ -308,6 +311,7 @@ export function terminarJuego() {
 }
 
 export async function handleGameAbandoned(eventData) {
+    window.XiroHowTo?.stop(); // corta la locución de una diapositiva de instrucciones
     const isObjectPayload = eventData && typeof eventData === 'object';
     const reason = isObjectPayload ? eventData.reason : undefined;
     const message = isObjectPayload ? eventData.message : eventData;

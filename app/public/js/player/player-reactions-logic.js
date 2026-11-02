@@ -23,7 +23,7 @@
     'use strict';
 
     // Mismo criterio que domain/services/QuestionScoringPolicy (NO_TIMER_SLIDE_TYPES)
-    const SLIDE_TYPES = ['comment', 'info', 'text', 'image', 'text-image', 'video', 'canvas'];
+    const SLIDE_TYPES = ['comment', 'info', 'text', 'image', 'text-image', 'video', 'canvas', 'howto'];
     const BURST = 3;
     const REFILL_MS = 400;
 
