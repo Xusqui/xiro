@@ -13,7 +13,13 @@ const _PARAM_SECTIONS = [
         titleKey: 'admin.config.tab.partidas',
         icon: 'fa-gamepad',
         color: 'bg-aubergine-500',
-        keys: ['MAX_PLAYERS_PER_GAME', 'MAX_LOBBIES', 'QUESTION_TIME_LIMIT', 'GAME_CLEANUP_INTERVAL']
+        keys: [
+            'MAX_PLAYERS_PER_GAME',
+            'MAX_LOBBIES',
+            'QUESTION_TIME_LIMIT',
+            'TOP_PLAYERS_DURING_GAME',
+            'GAME_CLEANUP_INTERVAL'
+        ]
     },
     {
         id: 'puntuacion',
@@ -39,7 +45,6 @@ const _PARAM_SECTIONS = [
             'PRESENTER_RECONNECTION_TIMEOUT',
             'INACTIVE_GAME_THRESHOLD',
             'EMPTY_LOBBY_TIMEOUT',
-            'TOP_PLAYERS_DURING_GAME',
             'CORS_ORIGIN',
             'ALLOWED_ORIGINS',
             'UMAMI_SERVER_URL',
