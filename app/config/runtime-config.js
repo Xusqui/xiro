@@ -27,7 +27,7 @@ const PARAM_SCHEMA = {
     STREAK_THRESHOLD: { type: 'int', min: 1, max: 20, envKey: 'STREAK_THRESHOLD' },
     STREAK_BONUS_PERCENTAGE: { type: 'float', min: 0, max: 5, envKey: 'STREAK_BONUS_PERCENTAGE' },
     TEAM_SCORE_LAMBDA: { type: 'float', min: 0, max: 10, envKey: 'TEAM_SCORE_LAMBDA' },
-    RECONNECTION_TIMEOUT: { type: 'int', min: 10000, max: 600000, envKey: 'RECONNECTION_TIMEOUT' },
+    RECONNECTION_TIMEOUT: { type: 'int', min: 10000, max: 3600000, envKey: 'RECONNECTION_TIMEOUT' },
     PRESENTER_RECONNECTION_TIMEOUT: { type: 'int', min: 60000, max: 3600000, envKey: 'PRESENTER_RECONNECTION_TIMEOUT' },
     INACTIVE_GAME_THRESHOLD: { type: 'int', min: 900000, max: 86400000, envKey: 'INACTIVE_GAME_THRESHOLD' },
     EMPTY_LOBBY_TIMEOUT: { type: 'int', min: 30000, max: 1800000, envKey: 'EMPTY_LOBBY_TIMEOUT' },
