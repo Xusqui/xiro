@@ -183,21 +183,16 @@ const StandaloneSocket = (() => {
         }
     }
 
-    function abandonAndDisconnect() {
-        const state = StandaloneState.get();
-        const sessionId = state.sessionId;
-        try {
-            // Si el juego ya terminó de forma natural (game-ended), EndGameUseCase
-            // ya limpió la sesión en el servidor — no hace falta abandonar.
-            if (presenterSocket && sessionId && !state.ended) {
-                // registerPresenterSocketEvents.abandon-game busca roomId en
-                // ['roomId','roomIdOrPin','pin'] (ver socket.handlers.js) — no 'sessionId'.
-                presenterSocket.emit('abandon-game', { roomId: sessionId });
-            }
-        } catch (_) {
-            /* best-effort */
-        }
+    const CLOSE_TIMEOUT_MS = 2000;
 
+    // El esquema Joi de abandon-game (validation.js → abandonGameSchema) exige
+    // `roomIdOrPin`; socket.handlers.js también lo acepta para comprobar el rol.
+    // Con `{ roomId }` la validación fallaba y la sesión seguía activa.
+    function _emitAbandon(sessionId) {
+        presenterSocket.emit('abandon-game', { roomIdOrPin: sessionId, reason: 'abandoned' });
+    }
+
+    function _disconnectAll() {
         if (presenterSocket) {
             presenterSocket.disconnect();
             presenterSocket = null;
@@ -209,12 +204,56 @@ const StandaloneSocket = (() => {
         handlers = {};
     }
 
+    // Si el juego ya terminó de forma natural (game-ended), EndGameUseCase
+    // ya limpió la sesión en el servidor: no hace falta abandonar.
+    function _canAbandon() {
+        const state = StandaloneState.get();
+        return Boolean(presenterSocket && state.sessionId && !state.ended);
+    }
+
+    /** Best-effort y síncrono: para beforeunload y «Jugar de nuevo». */
+    function abandonAndDisconnect() {
+        try {
+            if (_canAbandon()) _emitAbandon(StandaloneState.get().sessionId);
+        } catch (_) {
+            /* best-effort */
+        }
+        _disconnectAll();
+    }
+
+    /**
+     * «Cerrar partida»: pide el abandono y espera a que el servidor lo confirme
+     * (game-abandoned) o lo rechace antes de desconectar, para que la sesión
+     * deje de figurar como activa. Nunca tarda más de CLOSE_TIMEOUT_MS.
+     * @returns {Promise<void>}
+     */
+    function closeSession() {
+        if (!_canAbandon() || !presenterSocket.connected) {
+            abandonAndDisconnect();
+            return Promise.resolve();
+        }
+        const socket = presenterSocket;
+        return new Promise(resolve => {
+            const events = ['game-abandoned', 'abandon-game-error', 'error'];
+            const timer = setTimeout(finish, CLOSE_TIMEOUT_MS);
+            function finish() {
+                clearTimeout(timer);
+                events.forEach(evt => socket.off(evt, finish));
+                _disconnectAll();
+                resolve();
+            }
+            events.forEach(evt => socket.once(evt, finish));
+            _emitAbandon(StandaloneState.get().sessionId);
+        });
+    }
+
     return {
         startSession,
         submitAnswer,
         requestWordSearchHint,
         requestFillBlanksHint,
         nextQuestion,
-        abandonAndDisconnect
+        abandonAndDisconnect,
+        closeSession
     };
 })();

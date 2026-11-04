@@ -110,9 +110,40 @@ const StandaloneGame = (() => {
         console.warn(`Standalone: socket ${role} desconectado (${reason})`);
     }
 
+    async function _closeGame() {
+        const button = document.getElementById('standalone-close-game');
+        if (button) {
+            button.disabled = true;
+            button.setAttribute('aria-busy', 'true');
+            const icon = button.querySelector('i');
+            if (icon) icon.className = 'fas fa-spinner fa-spin';
+        }
+        StandaloneQuestionCommon.clearQuestionTimer();
+        await StandaloneSocket.closeSession();
+        window.location.href = '/standalone.html';
+    }
+
+    // Solo visible en partida (CSS: .standalone-shell.is-fullscreen); pide confirmación.
+    function _confirmCloseGame() {
+        const t = (key, fallback) => window.XiroI18n?.t(key) || fallback;
+        if (typeof window.mostrarModalConfirmacion !== 'function') {
+            return _closeGame();
+        }
+        window.mostrarModalConfirmacion(
+            t('standalone.game.close_confirm_title', '¿Cerrar la partida?'),
+            t(
+                'standalone.game.close_confirm_message',
+                'Perderás el progreso de esta partida y volverás a la lista de juegos.'
+            ),
+            _closeGame,
+            null,
+            t('standalone.game.close', 'Cerrar partida')
+        );
+    }
+
     return {
         init: function () {
-            /* sin acción: la lógica arranca desde startGame() */
+            document.getElementById('standalone-close-game')?.addEventListener('click', _confirmCloseGame);
         },
 
         startGame: async function (pin) {

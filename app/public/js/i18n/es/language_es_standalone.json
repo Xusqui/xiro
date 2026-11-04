@@ -79,6 +79,9 @@
     "standalone.game.fillblanks_blank_aria": "Hueco {n}",
     "standalone.game.fillblanks_correct": "{n} de {total} palabras",
     "standalone.game.video_title": "Vídeo",
-    "standalone.game.video_presenter_only": "Este vídeo solo se ve en la pantalla del presentador"
+    "standalone.game.video_presenter_only": "Este vídeo solo se ve en la pantalla del presentador",
+    "standalone.game.close": "Cerrar partida",
+    "standalone.game.close_confirm_title": "¿Cerrar la partida?",
+    "standalone.game.close_confirm_message": "Perderás el progreso de esta partida y volverás a la lista de juegos."
   }
 }

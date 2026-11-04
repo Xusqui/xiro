@@ -293,6 +293,90 @@
     display: none;
 }
 
+/* Botón «Cerrar partida»: solo en partida. Arriba a la izquierda, dentro de
+   la franja del apodo, porque la esquina derecha es del logo personalizado
+   (personalization.js). Si sale la insignia sin licencia (site-badge.js,
+   arriba a la izquierda) se aparta a su derecha. */
+.standalone-close-btn {
+    display: none;
+}
+
+.standalone-shell.is-fullscreen>.standalone-close-btn {
+    --close-size: 32px;
+    position: fixed;
+    top: max(4px, env(safe-area-inset-top));
+    left: max(8px, env(safe-area-inset-left));
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--close-size);
+    height: var(--close-size);
+    padding: 0;
+    border: 1px solid rgb(255 255 255 / 0.3);
+    border-radius: 9999px;
+    background: rgb(15 23 42 / 0.5);
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.25);
+    color: #ffffff;
+    font-size: 15px;
+    line-height: 1;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 160ms cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 160ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 120ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Zona táctil de 44 px sin agrandar el círculo visible */
+.standalone-shell.is-fullscreen>.standalone-close-btn::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 9999px;
+}
+
+body:has(#xiro-unlicensed-badge) .standalone-shell.is-fullscreen>.standalone-close-btn {
+    left: calc(10px + min(92px, 24vw) + 8px);
+}
+
+.standalone-shell.is-fullscreen>.standalone-close-btn:hover {
+    background: #b42d2c;
+    border-color: rgb(255 255 255 / 0.55);
+}
+
+.standalone-shell.is-fullscreen>.standalone-close-btn:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+    background: #b42d2c;
+}
+
+.standalone-shell.is-fullscreen>.standalone-close-btn:active {
+    transform: scale(0.92);
+}
+
+.standalone-shell.is-fullscreen>.standalone-close-btn:disabled {
+    cursor: progress;
+    background: rgb(15 23 42 / 0.5);
+    transform: none;
+}
+
+/* Hueco a ambos lados del apodo para el botón y el logo, centrado intacto */
+.standalone-shell.is-fullscreen .pl-nickname-bar {
+    padding-inline: 52px;
+}
+
+.standalone-shell.is-fullscreen .pl-nickname-bar p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .standalone-shell.is-fullscreen>.standalone-close-btn {
+        transition: none;
+    }
+}
+
 .pl-viewport {
     position: relative;
     height: 100dvh;

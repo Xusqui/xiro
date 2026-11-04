@@ -79,6 +79,9 @@
     "standalone.game.fillblanks_blank_aria": "{n}. hutsunea",
     "standalone.game.fillblanks_correct": "{total} hitzetatik {n}",
     "standalone.game.video_title": "Bideoa",
-    "standalone.game.video_presenter_only": "Bideo hau aurkezlearen pantailan bakarrik ikus daiteke"
+    "standalone.game.video_presenter_only": "Bideo hau aurkezlearen pantailan bakarrik ikus daiteke",
+    "standalone.game.close": "Itxi partida",
+    "standalone.game.close_confirm_title": "Partida itxi nahi duzu?",
+    "standalone.game.close_confirm_message": "Partida honetako aurrerapena galduko duzu eta jokoen zerrendara itzuliko zara."
   }
 }

@@ -9,7 +9,7 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="/css/common.css?v=20260922172926">
     <link rel="stylesheet" href="/css/index-style.css?v=20260922172926">
-    <link rel="stylesheet" href="/css/output-standalone.css?v=20260922172926">
+    <link rel="stylesheet" href="/css/output-standalone.css?v=20261104130000">
     <link rel="stylesheet" href="/css/word-search.css?v=20261018120000">
     <link rel="stylesheet" href="/css/word-search-player.css?v=20260922172926">
     <link rel="stylesheet" href="/css/fill-blanks.css?v=20261012120000">
@@ -37,6 +37,12 @@
                     style="filter: drop-shadow(3px 3px 1px rgb(0 0 0 / 0.5));">
             </a>
         </header>
+
+        <button type="button" id="standalone-close-game" class="standalone-close-btn"
+            data-i18n-title="standalone.game.close" data-i18n-aria-label="standalone.game.close"
+            title="Cerrar partida" aria-label="Cerrar partida">
+            <i class="fas fa-xmark" aria-hidden="true"></i>
+        </button>
 
         <main id="main-container">
             <!-- Pantalla de selección de juegos -->
@@ -92,11 +98,11 @@
         </footer>
     </div>
 
-    <script type="module" src="/js/standalone/standalone-modal-bridge.js?v=20260922172926"></script>
+    <script type="module" src="/js/standalone/standalone-modal-bridge.js?v=20261104120000"></script>
     <!-- Reutilizada tal cual del jugador real: lógica pura de color/aprox. sin efectos secundarios -->
     <script src="/js/player/player-answer-visual-logic.js?v=20260922172926"></script>
     <script src="/js/standalone/standalone-state.js?v=20260922172926"></script>
-    <script src="/js/standalone/standalone-socket.js?v=20260922172926"></script>
+    <script src="/js/standalone/standalone-socket.js?v=20261104130000"></script>
     <script src="/js/standalone/standalone-question-common.js?v=20260922172926"></script>
     <script src="/js/standalone/standalone-question-choice.js?v=20260922172926"></script>
     <script src="/js/standalone/standalone-question-slides.js?v=20260922172926"></script>
@@ -119,7 +125,7 @@
     <script src="/js/standalone/standalone-reveal.js?v=20260922172926"></script>
     <script src="/js/standalone/standalone-results.js?v=20260922172926"></script>
     <script src="/js/standalone/standalone-lobby.js?v=20260922172926"></script>
-    <script src="/js/standalone/standalone-game.js?v=20260922172926"></script>
+    <script src="/js/standalone/standalone-game.js?v=20261104130000"></script>
     <script src="/js/standalone/standalone-main.js?v=20260922172926"></script>
     <script src="/js/core/random-points-overlay.js?v=20260922172926"></script>
     <script src="/js/core/site-badge.js?v=20260922172926"></script>

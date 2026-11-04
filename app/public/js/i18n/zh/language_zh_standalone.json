@@ -79,6 +79,9 @@
     "standalone.game.fillblanks_blank_aria": "空格 {n}",
     "standalone.game.fillblanks_correct": "{total} 个词中的 {n} 个",
     "standalone.game.video_title": "视频",
-    "standalone.game.video_presenter_only": "此视频仅在主持人屏幕上可见"
+    "standalone.game.video_presenter_only": "此视频仅在主持人屏幕上可见",
+    "standalone.game.close": "关闭游戏",
+    "standalone.game.close_confirm_title": "要关闭游戏吗？",
+    "standalone.game.close_confirm_message": "你将失去本局游戏的进度，并返回游戏列表。"
   }
 }
