@@ -1,0 +1,29 @@
+/* Portada: escena de XiRo cazando moscas (js/core/xiro-hunt.js), que sustituye a la
+   <img class="player-chameleon">. La caja del camaleón (1024 unidades) queda donde
+   estaba la imagen; la escena se extiende hacia la izquierda y hacia arriba para la
+   mosca y la lengua. viewBox: -1100 -350 2124 1374. Reutiliza los keyframes
+   chameleonEnter y chameleonIdle de index-style.css. */
+.xiro-hunt {
+    --chameleon-size: min(16.67vh, 36vw);
+    position: fixed;
+    right: calc(var(--chameleon-size) * -0.128);
+    bottom: calc(var(--chameleon-size) * -0.128);
+    width: calc(var(--chameleon-size) * 2124 / 1024);
+    height: auto;
+    aspect-ratio: 2124 / 1374;
+    overflow: visible;
+    transform-origin: bottom right;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
+    animation:
+        chameleonEnter 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both,
+        chameleonIdle 6s ease-in-out 1s infinite;
+}
+
+@media (max-width: 700px) {
+    .xiro-hunt {
+        opacity: 0.45 !important;
+    }
+}
