@@ -2,6 +2,15 @@
 
 ## 3.11.x
 
+### 3.11.3 — 2026-11-09 · `v3.11.3`
+- **Admin:** las fechas siguen el idioma seleccionado
+  - «Última comprobación», la caducidad de la licencia y el alta de usuarios ya no salen siempre en formato español.
+  - Se sustituye el `es-ES` fijo por el idioma activo del panel.
+- **Login:** se puede usar en pantallas bajas y con lector de pantalla
+  - La tarjeta se desplaza cuando no cabe: en móvil apaisado o con el teclado abierto no se llegaba al botón.
+  - Los errores y avisos se anuncian, los campos tienen nombre y el foco no se pierde al cambiar de formulario.
+  - El selector de idioma queda siempre debajo y los envíos repetidos se ignoran.
+
 ### 3.11.2 — 2026-11-09 · `v3.11.2`
 - **Changelog:** la fecha de cada versión ya no depende del idioma del sistema
 
