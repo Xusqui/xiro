@@ -1,5 +1,18 @@
 # Historial de versiones de XiRo!
 
+## 3.12.x
+
+### 3.12.0 — 2026-11-09 · `v3.12.0`
+- **Admin:** el panel se puede usar desde el móvil
+  - Por debajo de 1024 px la barra lateral pasa a menú deslizante y una barra superior muestra la pantalla actual.
+  - La portada muestra primero las partidas en curso, con botón «Controlar», y un atajo lleva a Juegos en curso desde cualquier pantalla (solo administradores).
+  - Listas, Configuración, Usuario y editor de preguntas a una columna; el historial pasa a tarjetas en teléfono.
+  - Objetivos táctiles de 44 px y campos a 16 px para que iOS no amplíe la página.
+  - Repetir la pestaña Preguntas con un editor abierto ya no pierde los cambios sin guardar.
+- Dejar de versionar eslint-public-globals.json: es generado y ya estaba en .gitignore
+
+---
+
 ## 3.11.x
 
 ### 3.11.4 — 2026-11-09 · `v3.11.4`
