@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="/css/tokens.css?v=20260922172926">
     <link rel="stylesheet" href="/css/admin.css?v=20260922172926">
     <link rel="stylesheet" href="/css/admin-login.css?v=20261101120000">
+    <link rel="stylesheet" href="/css/admin-login-reveal.css?v=20261109120000">
     <link rel="stylesheet" href="/css/admin-sidebar.css?v=20261101120000">
     <link rel="stylesheet" href="/css/checkbox.css?v=20261010130000">
     <link rel="stylesheet" href="/css/admin-savebar.css?v=20261010180000">
@@ -69,19 +70,19 @@
                 <!-- Heading -->
                 <div style="width:100%">
                     <p class="xiro-login-eyebrow" data-i18n="admin.login.eyebrow">...</p>
-                    <h2 id="login-card-title" class="xiro-login-title" data-i18n="admin.login.title">...</h2>
+                    <h1 id="login-card-title" class="xiro-login-title" tabindex="-1" data-i18n="admin.login.title">...</h1>
                 </div>
 
                 <!-- Login Form -->
                 <form id="admin-login-form" class="w-full flex flex-col gap-3">
                     <div class="xiro-input-wrap">
-                        <input type="text" id="admin-username" class="xiro-login-input" placeholder="Usuario"
+                        <input type="text" id="admin-username" class="xiro-login-input" aria-label="Usuario" data-i18n-aria-label="admin.login.username" placeholder="Usuario"
                             data-i18n-placeholder="admin.login.username" autocomplete="username" spellcheck="false"
                             autocapitalize="off" required>
                         <i class="fas fa-user"></i>
                     </div>
                     <div class="xiro-input-wrap">
-                        <input type="password" id="admin-password" class="xiro-login-input" placeholder="Contraseña"
+                        <input type="password" id="admin-password" class="xiro-login-input" aria-label="Contraseña" data-i18n-aria-label="admin.login.password" placeholder="Contraseña"
                             data-i18n-placeholder="admin.login.password" autocomplete="current-password" required>
                         <button type="button" class="xiro-reveal-toggle" data-reveal-target="admin-password"
                             aria-pressed="false" data-i18n-aria-label="admin.login.password_show"
@@ -102,17 +103,14 @@
                     <button type="button" id="admin-forgot-password-btn" class="xiro-login-link text-center text-sm underline" data-i18n="admin.login.forgot_password">...</button>
                     <button type="button" id="admin-register-btn" class="xiro-login-btn-secondary"
                         data-i18n="admin.login.register">...</button>
-                    <div id="login-helper" class="xiro-login-helper text-center text-sm"></div>
-                    <div id="login-error" class="xiro-login-error hidden text-center text-sm font-semibold"></div>
+                    <div id="login-helper" role="status" class="xiro-login-helper text-center text-sm"></div>
+                    <div id="login-error" role="alert" class="xiro-login-error hidden text-center text-sm font-semibold"></div>
                 </form>
-
-                <!-- Selector de idioma (i18n-ui.js lo monta aquí; tras entrar pasa al sidebar) -->
-                <div data-lang-slot="login" class="xiro-login-helper"></div>
 
                 <!-- Forgot Password Form -->
                 <form id="admin-forgot-password-form" class="w-full flex flex-col gap-3 hidden">
                     <div class="xiro-input-wrap">
-                        <input type="email" id="forgot-email" class="xiro-login-input" placeholder="Correo electrónico"
+                        <input type="email" id="forgot-email" class="xiro-login-input" aria-label="Correo electrónico" data-i18n-aria-label="admin.register.email" placeholder="Correo electrónico"
                             data-i18n-placeholder="admin.register.email" autocomplete="email" spellcheck="false"
                             autocapitalize="off" required>
                         <i class="fas fa-envelope"></i>
@@ -121,15 +119,15 @@
                         data-i18n="admin.forgot.submit">...</button>
                     <button type="button" id="forgot-back-btn" class="xiro-login-btn-secondary"
                         data-i18n="admin.forgot.back">...</button>
-                    <div id="forgot-helper" class="xiro-login-helper text-center text-sm"></div>
-                    <div id="forgot-error" class="xiro-login-error hidden text-center text-sm font-semibold">
+                    <div id="forgot-helper" role="status" class="xiro-login-helper text-center text-sm"></div>
+                    <div id="forgot-error" role="alert" class="xiro-login-error hidden text-center text-sm font-semibold">
                     </div>
                 </form>
 
                 <!-- Reset Password Form -->
                 <form id="admin-reset-password-form" class="w-full flex flex-col gap-3 hidden">
                     <div class="xiro-input-wrap">
-                        <input type="password" id="reset-new-password" class="xiro-login-input"
+                        <input type="password" id="reset-new-password" class="xiro-login-input" aria-label="Nueva contraseña" data-i18n-aria-label="admin.reset.new_password"
                             placeholder="Nueva contraseña" data-i18n-placeholder="admin.reset.new_password"
                             autocomplete="new-password" required>
                         <button type="button" class="xiro-reveal-toggle" data-reveal-target="reset-new-password"
@@ -145,7 +143,7 @@
                         </button>
                     </div>
                     <div class="xiro-input-wrap">
-                        <input type="password" id="reset-confirm-password" class="xiro-login-input"
+                        <input type="password" id="reset-confirm-password" class="xiro-login-input" aria-label="Confirmar nueva contraseña" data-i18n-aria-label="admin.reset.confirm_password"
                             placeholder="Confirmar nueva contraseña"
                             data-i18n-placeholder="admin.reset.confirm_password" autocomplete="new-password" required>
                         <button type="button" class="xiro-reveal-toggle" data-reveal-target="reset-confirm-password"
@@ -162,27 +160,27 @@
                     </div>
                     <button type="submit" id="reset-submit-btn" class="xiro-login-btn"
                         data-i18n="admin.reset.submit">...</button>
-                    <div id="reset-helper" class="xiro-login-helper text-center text-sm"></div>
-                    <div id="reset-error" class="xiro-login-error hidden text-center text-sm font-semibold">
+                    <div id="reset-helper" role="status" class="xiro-login-helper text-center text-sm"></div>
+                    <div id="reset-error" role="alert" class="xiro-login-error hidden text-center text-sm font-semibold">
                     </div>
                 </form>
 
                 <!-- Register Form -->
                 <form id="admin-register-form" class="w-full flex flex-col gap-3 hidden">
                     <div class="xiro-input-wrap">
-                        <input type="text" id="register-username" class="xiro-login-input" placeholder="Usuario"
+                        <input type="text" id="register-username" class="xiro-login-input" aria-label="Usuario" data-i18n-aria-label="admin.login.username" placeholder="Usuario"
                             data-i18n-placeholder="admin.login.username" autocomplete="username" spellcheck="false"
                             autocapitalize="off" required>
                         <i class="fas fa-user"></i>
                     </div>
                     <div class="xiro-input-wrap">
-                        <input type="email" id="register-email" class="xiro-login-input"
+                        <input type="email" id="register-email" class="xiro-login-input" aria-label="Correo electrónico" data-i18n-aria-label="admin.register.email"
                             placeholder="Correo electrónico" data-i18n-placeholder="admin.register.email"
                             autocomplete="email" spellcheck="false" autocapitalize="off" required>
                         <i class="fas fa-envelope"></i>
                     </div>
                     <div class="xiro-input-wrap">
-                        <input type="password" id="register-password" class="xiro-login-input" placeholder="Contraseña"
+                        <input type="password" id="register-password" class="xiro-login-input" aria-label="Contraseña" data-i18n-aria-label="admin.login.password" placeholder="Contraseña"
                             data-i18n-placeholder="admin.login.password" autocomplete="new-password" required>
                         <button type="button" class="xiro-reveal-toggle" data-reveal-target="register-password"
                             aria-pressed="false" data-i18n-aria-label="admin.login.password_show"
@@ -197,7 +195,7 @@
                         </button>
                     </div>
                     <div class="xiro-input-wrap">
-                        <input type="password" id="register-confirm-password" class="xiro-login-input"
+                        <input type="password" id="register-confirm-password" class="xiro-login-input" aria-label="Confirmar contraseña" data-i18n-aria-label="admin.register.confirm"
                             placeholder="Confirmar contraseña" data-i18n-placeholder="admin.register.confirm"
                             autocomplete="new-password" required>
                         <button type="button" class="xiro-reveal-toggle" data-reveal-target="register-confirm-password"
@@ -216,10 +214,13 @@
                         data-i18n="admin.login.register">...</button>
                     <button type="button" id="register-back-btn" class="xiro-login-btn-secondary"
                         data-i18n="admin.register.back">...</button>
-                    <div id="register-helper" class="xiro-login-helper text-center text-sm"></div>
-                    <div id="register-error" class="xiro-login-error hidden text-center text-sm font-semibold">
+                    <div id="register-helper" role="status" class="xiro-login-helper text-center text-sm"></div>
+                    <div id="register-error" role="alert" class="xiro-login-error hidden text-center text-sm font-semibold">
                     </div>
                 </form>
+
+                <!-- Selector de idioma (i18n-ui.js lo monta aquí; tras entrar pasa al sidebar) -->
+                <div data-lang-slot="login" class="xiro-login-helper"></div>
 
             </div>
         </div>
@@ -561,6 +562,7 @@
 
     <!-- SECTION NAVIGATION + CONFIG PANEL -->
     <script defer src="/js/admin/modules/user-account.js?v=20260922172926"></script>
+    <script defer src="/js/admin/modules/login-form-ux.js?v=20261109120000"></script>
     <script defer src="/js/admin/modules/password-reset.js?v=20260922172926"></script>
     <script defer src="/js/admin/modules/password-reveal.js?v=20260922172926"></script>
     <script defer src="/js/admin/modules/nav-sections.js?v=20260922172926"></script>

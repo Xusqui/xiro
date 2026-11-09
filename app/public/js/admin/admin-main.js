@@ -443,12 +443,12 @@ async function loadAuthStatus() {
 
 loginForm.onsubmit = async function (e) {
     e.preventDefault();
-    await submitLogin();
+    await _withBusySubmit(loginForm, submitLogin);
 };
 
 registerForm.onsubmit = async function (e) {
     e.preventDefault();
-    await submitRegistration();
+    await _withBusySubmit(registerForm, submitRegistration);
 };
 
 if (registerButton) {

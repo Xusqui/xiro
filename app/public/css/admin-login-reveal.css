@@ -1,0 +1,79 @@
+/* Botón para mostrar la contraseña en el login del panel. */
+
+/* Iris camaleónica: alterna la visibilidad de la contraseña; la pupila se
+   dilata y pasa a coral al revelar */
+.xiro-input-wrap:has(.xiro-reveal-toggle) .xiro-login-input {
+    padding-right: 50px;
+}
+
+.xiro-reveal-toggle {
+    position: absolute;
+    right: 3px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+    padding: 0;
+    cursor: pointer;
+    color: #64748b;
+    transition: background-color 0.2s ease, color 0.3s ease;
+}
+
+.xiro-reveal-toggle:hover {
+    background: #f1f5f9;
+    color: #334155;
+}
+
+.xiro-reveal-toggle:focus-visible {
+    outline: 2px solid var(--admin-coral-ink, #b42d2c);
+    outline-offset: 2px;
+}
+
+.xiro-reveal-icon {
+    display: block;
+    overflow: visible;
+}
+
+.xiro-reveal-pupil {
+    transform-origin: 12px 12px;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.xiro-reveal-toggle.is-revealed {
+    color: var(--admin-coral-ink, #b42d2c);
+}
+
+.xiro-reveal-toggle.is-revealed .xiro-reveal-pupil {
+    transform: scaleX(2.15);
+}
+
+@keyframes xiroRevealPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgb(230 84 83 / 0.35);
+    }
+
+    100% {
+        box-shadow: 0 0 0 12px rgb(230 84 83 / 0);
+    }
+}
+
+.xiro-input-wrap.xiro-reveal-pulse .xiro-login-input {
+    animation: xiroRevealPulse 0.55s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .xiro-input-wrap.xiro-reveal-pulse .xiro-login-input {
+        animation: none;
+    }
+
+    .xiro-reveal-toggle,
+    .xiro-reveal-pupil {
+        transition-duration: 0.01ms;
+    }
+}

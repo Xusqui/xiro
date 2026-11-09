@@ -4,14 +4,16 @@
    del rol Admin, como en la portada: blanca, flotando con sombra y con el
    borde inferior grueso en coral. El detective asoma por detrás de ella. */
 
+/* Con poca altura (móvil apaisado, teclado abierto) la tarjeta no cabe y hay que poder desplazarla */
 #login-overlay {
-    overflow: hidden;
+    overflow: hidden auto;
     background: linear-gradient(135deg, #8ab817 0%, #f9b518 50%, #e65453 100%);
 }
 
-/* Hojas de la portada (images/hojas3.svg), con la misma opacidad y viñeta */
+/* Hojas de la portada (images/hojas3.svg), con la misma opacidad y viñeta.
+   Fijas para que sigan cubriendo la pantalla al desplazar la tarjeta. */
 .xiro-login-leaves {
-    position: absolute;
+    position: fixed;
     inset: 0;
     width: 100%;
     height: 100%;
@@ -22,7 +24,7 @@
 
 #login-overlay::after {
     content: '';
-    position: absolute;
+    position: fixed;
     inset: 0;
     box-shadow: inset 0 0 100px rgb(0 0 0 / 0.3);
     pointer-events: none;
@@ -33,7 +35,9 @@
     z-index: 1;
     width: 100%;
     max-width: 380px;
-    margin-top: 72px;
+    /* Centra si cabe y, si no, deja llegar al principio: align-items: center lo dejaría cortado */
+    margin: auto;
+    padding-top: 88px;
 }
 
 /* Tarjeta blanca sobre color: sombra de tarjeta flotante (DESIGN.md) */
@@ -82,6 +86,11 @@
     margin-bottom: 1.25rem;
 }
 
+/* Solo recibe el foco por código, al cambiar de formulario */
+.xiro-login-title:focus {
+    outline: none;
+}
+
 .xiro-input-wrap {
     position: relative;
 }
@@ -92,7 +101,7 @@
     top: 50%;
     transform: translateY(-50%);
     color: #64748b;
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     pointer-events: none;
 }
 
@@ -100,12 +109,15 @@
     font-family: var(--font-body, 'DM Sans', system-ui, sans-serif);
     width: 100%;
     background: #ffffff;
-    border: 1.5px solid #cbd5e1;
+    /* Borde a 4,7:1 sobre blanco: el contorno del campo tiene que distinguirse (mínimo 3:1) */
+    border: 1.5px solid #64748b;
     color: var(--console-ink, #0f172a);
     border-radius: 12px;
     padding: 12px 42px 12px 16px;
-    font-size: 0.95rem;
-    outline: none;
+    /* 16 px: con menos, iOS amplía la página al enfocar el campo */
+    font-size: 1rem;
+    /* Transparente y no «none»: el modo de alto contraste la dibuja y oculta la sombra del foco */
+    outline: 2px solid transparent;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -116,73 +128,6 @@
 .xiro-login-input:focus {
     border-color: var(--admin-coral-ink, #b42d2c);
     box-shadow: 0 0 0 3px rgb(230 84 83 / 0.25);
-}
-
-/* Iris camaleónica: alterna la visibilidad de la contraseña; la pupila se
-   dilata y pasa a coral al revelar */
-.xiro-input-wrap:has(.xiro-reveal-toggle) .xiro-login-input {
-    padding-right: 46px;
-}
-
-.xiro-reveal-toggle {
-    position: absolute;
-    right: 4px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: none;
-    border-radius: 10px;
-    padding: 0;
-    cursor: pointer;
-    color: #64748b;
-    transition: background-color 0.2s ease, color 0.3s ease;
-}
-
-.xiro-reveal-toggle:hover {
-    background: #f1f5f9;
-    color: #334155;
-}
-
-.xiro-reveal-toggle:focus-visible {
-    outline: 2px solid var(--admin-coral-ink, #b42d2c);
-    outline-offset: 2px;
-}
-
-.xiro-reveal-icon {
-    display: block;
-    overflow: visible;
-}
-
-.xiro-reveal-pupil {
-    transform-origin: 12px 12px;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.xiro-reveal-toggle.is-revealed {
-    color: var(--admin-coral-ink, #b42d2c);
-}
-
-.xiro-reveal-toggle.is-revealed .xiro-reveal-pupil {
-    transform: scaleX(2.15);
-}
-
-@keyframes xiroRevealPulse {
-    0% {
-        box-shadow: 0 0 0 0 rgb(230 84 83 / 0.35);
-    }
-
-    100% {
-        box-shadow: 0 0 0 12px rgb(230 84 83 / 0);
-    }
-}
-
-.xiro-input-wrap.xiro-reveal-pulse .xiro-login-input {
-    animation: xiroRevealPulse 0.55s ease-out;
 }
 
 /* Acción principal: coral «ink» sólido, blanco a 6,3:1 */
@@ -208,10 +153,15 @@
     transform: scale(0.98);
 }
 
+form[aria-busy='true'] .xiro-login-btn {
+    opacity: 0.65;
+    cursor: progress;
+}
+
 .xiro-login-btn-secondary {
     font-family: var(--font-body, 'DM Sans', system-ui, sans-serif);
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 1rem;
     width: 100%;
     padding: 10px;
     border-radius: 12px;
@@ -240,6 +190,18 @@
     color: #475569;
 }
 
+/* Área táctil de 44 px; el margen negativo mantiene el ritmo visual entre los botones */
+.xiro-login-link {
+    min-height: 44px;
+    margin-block: -6px;
+    underline-offset: 3px;
+    transition: color 0.2s ease;
+}
+
+.xiro-login-link:hover {
+    color: var(--admin-coral-ink, #b42d2c);
+}
+
 .xiro-login-error {
     color: #b91c1c;
 }
@@ -249,7 +211,7 @@
 .xiro-detective {
     position: absolute;
     z-index: 0;
-    top: -96px;
+    top: -8px;
     right: 20px;
     width: 128px;
     height: auto;
@@ -258,13 +220,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .xiro-login-card,
-    .xiro-input-wrap.xiro-reveal-pulse .xiro-login-input {
+    .xiro-login-card {
         animation: none;
-    }
-
-    .xiro-reveal-toggle,
-    .xiro-reveal-pupil {
-        transition-duration: 0.01ms;
     }
 }

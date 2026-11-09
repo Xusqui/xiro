@@ -623,6 +623,7 @@
     "_validateMusicSeed": "writable",
     "_videoModalHtml": "writable",
     "_videoPreviewTimer": "writable",
+    "_withBusySubmit": "writable",
     "_wordRowsHtml": "writable",
     "_wsAnswer": "writable",
     "_xehListenersReady": "writable",

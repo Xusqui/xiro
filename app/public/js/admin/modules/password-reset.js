@@ -218,10 +218,10 @@ if (forgotBackBtn) {
 
 forgotForm.onsubmit = async function (e) {
     e.preventDefault();
-    await submitForgotPasswordRequest();
+    await _withBusySubmit(forgotForm, submitForgotPasswordRequest);
 };
 
 resetForm.onsubmit = async function (e) {
     e.preventDefault();
-    await submitPasswordReset();
+    await _withBusySubmit(resetForm, submitPasswordReset);
 };
