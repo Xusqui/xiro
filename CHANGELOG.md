@@ -1,5 +1,21 @@
 # Historial de versiones de XiRo!
 
+## 3.13.x
+
+### 3.13.0 — 2026-11-09 · `v3.13.0`
+- **Legal y accesibilidad:** textos legales, consentimientos y sin recursos de terceros
+  - Aviso legal, privacidad, cookies, términos, reembolsos y accesibilidad en español e inglés (/legal/). Los datos del titular se editan en Configuración → Datos legales.
+  - Consentimiento en contacto, registro e inicio de sesión, con versión y fecha guardadas (migración 20261109000001).
+  - Se retira Umami. Fuentes, iconos y QR se sirven desde el propio servidor. La telemetría pasa a ser opcional.
+  - Los vídeos de YouTube, Vimeo y Dailymotion solo cargan tras un toque del presentador.
+  - La compra de licencias del panel queda desactivada salvo LICENSE_CHECKOUT_ENABLED=true.
+  - La exportación completa de resultados pasa a ser solo para administradores, con un podio público mínimo para el complemento de PowerPoint.
+  - Purga diaria de tokens caducados y caducidad de las rachas en Redis.
+  - Accesibilidad: texto alternativo, saltos al contenido, etiquetas, contraste y movimiento reducido.
+  - Página de créditos, afirmaciones corregidas, modo tablero como Trivial XiRo! y titular de la portada en Poiret One.
+
+---
+
 ## 3.12.x
 
 ### 3.12.0 — 2026-11-09 · `v3.12.0`
