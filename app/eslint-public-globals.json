@@ -308,6 +308,7 @@
     "_fmtDate": "writable",
     "_fmtDuration": "writable",
     "_fmtType": "writable",
+    "_formatAdminDate": "writable",
     "_formatDb": "writable",
     "_formatLicenseExpiry": "writable",
     "_formatPlanDuration": "writable",

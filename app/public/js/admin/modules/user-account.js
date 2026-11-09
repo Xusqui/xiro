@@ -158,13 +158,7 @@ function _formatUserRole(role) {
 }
 
 function _formatUserDate(dateLike) {
-    const date = new Date(dateLike);
-    if (Number.isNaN(date.getTime())) return '-';
-    return date.toLocaleDateString('es-ES', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-    });
+    return _formatAdminDate(dateLike) || '-';
 }
 
 async function _loadUserAccountData() {

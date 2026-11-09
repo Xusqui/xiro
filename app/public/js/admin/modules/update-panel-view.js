@@ -3,17 +3,9 @@
  * No realiza fetch ni accede al DOM directamente.
  */
 
-/** Formatea una fecha ISO en español o devuelve cadena vacía. */
+/** Formatea una fecha ISO con hora en el idioma del panel o devuelve cadena vacía. */
 function _updFormatDate(iso) {
-    if (!iso) return '';
-    const date = new Date(iso);
-    return date.toLocaleString('es-ES', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
+    return _formatAdminDate(iso, { withTime: true });
 }
 
 /** Genera la tarjeta de versión con estado actual y disponible. */

@@ -13,15 +13,5 @@ function _licenseField(data, fieldIndex, fallback = null) {
 }
 
 function _formatLicenseExpiry(expiryValue) {
-    if (!expiryValue) return '';
-    const date = new Date(expiryValue);
-    if (Number.isNaN(date.getTime())) return '';
-
-    return date.toLocaleString('es-ES', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
+    return _formatAdminDate(expiryValue, { withTime: true });
 }
