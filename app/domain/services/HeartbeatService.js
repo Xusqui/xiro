@@ -13,6 +13,9 @@ const EventEmitter = require('events');
 const logger = require('../../config/logger');
 const { getWorkerContext } = require('../../config/log-context');
 
+/**
+ * Vigila el ping/pong de los sockets y emite un evento cuando una conexión deja de responder (ver @fileoverview).
+ */
 class HeartbeatService extends EventEmitter {
     constructor(options = {}) {
         super();

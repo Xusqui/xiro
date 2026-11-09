@@ -77,6 +77,79 @@ function prepareFillBlanksLogged(question, context = {}) {
     return prepared;
 }
 
+// Diapositivas y encuestas conservan el orden de sus opciones (no se barajan)
+const KEEP_ORDER_SLIDES = new Set(['comment', 'info', 'text', 'image']);
+const KEEP_ORDER_TYPES = new Set(['survey', 'survey_multiple']);
+
+function keepsOptionOrder(q) {
+    return KEEP_ORDER_SLIDES.has(q.slide_type) || KEEP_ORDER_TYPES.has(q.question_type);
+}
+
+// Baraja las opciones según el tipo de slide y genera lo que cada tipo necesita para jugarse
+function prepareQuestion(q, gameType) {
+    // Diapositiva de vídeo: el origen ya analizado (tipo y URL del reproductor) viaja al
+    // presentador y a la TV, que es ES5 y no carga core/video-source.js. El saneado de los
+    // jugadores no copia este campo: los jugadores nunca reciben el vídeo.
+    if (q.slide_type === 'video') {
+        return { ...q, video_source: parseVideoSource(q.slide_video) };
+    }
+
+    // Diapositiva de lienzo: procesar elementos de vídeo
+    if (q.slide_type === 'canvas') {
+        return { ...q, slide_canvas: withVideoSources(q.slide_canvas) };
+    }
+
+    // Diapositiva de instrucciones: contenido fijo del cliente, nada que preparar
+    if (q.slide_type === 'howto') {
+        return q;
+    }
+
+    // No barajar opciones para slides especiales (comment/info/text) o encuestas
+    if (keepsOptionOrder(q)) {
+        return q;
+    }
+
+    if (q.question_type === 'order') {
+        const normalizedOptions = (q.options || []).map((opt, index) => ({
+            ...opt,
+            order_index: Number.isInteger(opt.order_index) ? opt.order_index : index
+        }));
+
+        return {
+            ...q,
+            options: shuffle(normalizedOptions)
+        };
+    }
+
+    // Preparar preguntas de anagrama: generar letras barajadas
+    if (q.question_type === 'word_scramble') {
+        const word = q.correct_word || '';
+        const normalized = normalizeWord(word);
+        return {
+            ...q,
+            word_length: normalized.length,
+            scrambled_letters: generateScrambledLetters(word),
+            options: []
+        };
+    }
+
+    // Sopa de letras: generar la rejilla una sola vez (viaja a Redis con el gameState)
+    if (q.question_type === 'word_search') {
+        return prepareWordSearchLogged(q, { gameType });
+    }
+
+    // Completa la frase: solución normalizada (fb_words) y longitud de cada hueco (fb_lengths)
+    if (q.question_type === 'fill_blanks') {
+        return prepareFillBlanksLogged(q, { gameType });
+    }
+
+    // Barajar opciones para preguntas normales
+    return {
+        ...q,
+        options: shuffle(q.options || [])
+    };
+}
+
 /**
  * Prepara las preguntas según el tipo de juego
  * - custom_game: NO barajar preguntas (orden definido por admin), sí barajar opciones
@@ -87,14 +160,6 @@ function prepareFillBlanksLogged(question, context = {}) {
  * @param {String} gameType - Tipo de juego: 'custom_game', 'bank', 'quiz'
  * @returns {Array} Preguntas preparadas
  */
-// Diapositivas y encuestas conservan el orden de sus opciones (no se barajan)
-const KEEP_ORDER_SLIDES = new Set(['comment', 'info', 'text', 'image']);
-const KEEP_ORDER_TYPES = new Set(['survey', 'survey_multiple']);
-
-function keepsOptionOrder(q) {
-    return KEEP_ORDER_SLIDES.has(q.slide_type) || KEEP_ORDER_TYPES.has(q.question_type);
-}
-
 function prepareQuestions(questions, gameType) {
     if (!questions || questions.length === 0) {
         return [];
@@ -106,70 +171,7 @@ function prepareQuestions(questions, gameType) {
     // Barajar preguntas si corresponde
     const orderedQuestions = shouldShuffleQuestions ? shuffle(questions) : questions;
 
-    // Procesar cada pregunta (barajar opciones según tipo de slide)
-    return orderedQuestions.map(q => {
-        // Diapositiva de vídeo: el origen ya analizado (tipo y URL del reproductor) viaja al
-        // presentador y a la TV, que es ES5 y no carga core/video-source.js. El saneado de los
-        // jugadores no copia este campo: los jugadores nunca reciben el vídeo.
-        if (q.slide_type === 'video') {
-            return { ...q, video_source: parseVideoSource(q.slide_video) };
-        }
-
-        // Diapositiva de lienzo: procesar elementos de vídeo
-        if (q.slide_type === 'canvas') {
-            return { ...q, slide_canvas: withVideoSources(q.slide_canvas) };
-        }
-
-        // Diapositiva de instrucciones: contenido fijo del cliente, nada que preparar
-        if (q.slide_type === 'howto') {
-            return q;
-        }
-
-        // No barajar opciones para slides especiales (comment/info/text) o encuestas
-        if (keepsOptionOrder(q)) {
-            return q;
-        }
-
-        if (q.question_type === 'order') {
-            const normalizedOptions = (q.options || []).map((opt, index) => ({
-                ...opt,
-                order_index: Number.isInteger(opt.order_index) ? opt.order_index : index
-            }));
-
-            return {
-                ...q,
-                options: shuffle(normalizedOptions)
-            };
-        }
-
-        // Preparar preguntas de anagrama: generar letras barajadas
-        if (q.question_type === 'word_scramble') {
-            const word = q.correct_word || '';
-            const normalized = normalizeWord(word);
-            return {
-                ...q,
-                word_length: normalized.length,
-                scrambled_letters: generateScrambledLetters(word),
-                options: []
-            };
-        }
-
-        // Sopa de letras: generar la rejilla una sola vez (viaja a Redis con el gameState)
-        if (q.question_type === 'word_search') {
-            return prepareWordSearchLogged(q, { gameType });
-        }
-
-        // Completa la frase: solución normalizada (fb_words) y longitud de cada hueco (fb_lengths)
-        if (q.question_type === 'fill_blanks') {
-            return prepareFillBlanksLogged(q, { gameType });
-        }
-
-        // Barajar opciones para preguntas normales
-        return {
-            ...q,
-            options: shuffle(q.options || [])
-        };
-    });
+    return orderedQuestions.map(q => prepareQuestion(q, gameType));
 }
 
 module.exports = {

@@ -10,6 +10,7 @@ const path = require('path');
 const SlideFooter = require('../public/js/core/slide-footer.js');
 const { collectMediaRefs } = require('../public/js/core/slide-canvas-model');
 const { stageHtml } = require('../public/js/core/slide-canvas-render');
+const { readImageAsDataUri } = require('./pdf-html');
 
 const CANVAS_CSS = fs.readFileSync(path.join(__dirname, '..', 'public', 'css', 'slide-canvas.css'), 'utf8');
 
@@ -36,17 +37,7 @@ function inlineLocalImages(html, canvas, resolvePath) {
             continue;
         }
 
-        // Leer el archivo y construir data URI
-        const buffer = fs.readFileSync(abs);
-        const ext = path.extname(abs).toLowerCase();
-        let mime = 'image/jpeg';
-
-        if (ext === '.svg') mime = 'image/svg+xml';
-        else if (ext === '.png') mime = 'image/png';
-        else if (ext === '.gif') mime = 'image/gif';
-        else if (ext === '.webp') mime = 'image/webp';
-
-        const dataUri = 'data:' + mime + ';base64,' + buffer.toString('base64');
+        const dataUri = readImageAsDataUri(abs);
 
         // Reemplazar todas las ocurrencias del ref en el HTML (escapado)
         const escapedRef = SlideFooter.escapeText(ref);

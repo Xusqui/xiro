@@ -10,15 +10,10 @@
 'use strict';
 
 globalThis.StandaloneQuestionWordSearch = (() => {
-    const { escapeHtml, submitAnswer } = StandaloneQuestionCommon;
+    const { escapeHtml, t, submitAnswer } = StandaloneQuestionCommon;
     // Margen para que el envío automático llegue antes de que el servidor cierre la pregunta
     const AUTO_SUBMIT_MARGIN_MS = 400;
     let autoSubmitTimer = null;
-
-    function _t(key, fallback) {
-        const value = window.XiroI18n?.t(key);
-        return value && value !== key ? value : fallback;
-    }
 
     function render(container, question, { onSubmitted }) {
         const WS = window.XiroWordSearch;
@@ -33,13 +28,13 @@ globalThis.StandaloneQuestionWordSearch = (() => {
                 <div class="pl-nickname-bar"><p>${escapeHtml(StandaloneState.get().nickname)}</p></div>
                 <div class="pl-question-panel ws-question"><h2>${escapeHtml(question.question_text)}</h2></div>
                 <div class="ws-play">
-                    <div id="sa-ws-board" class="ws-play__board">${WS.gridHtml(grid, 'wsg--player', _t('common.wordsearch.grid_label', 'Sopa de letras'))}</div>
-                    <p class="ws-play__help">${_t('standalone.game.wordsearch_hint_help', 'Pista: toca una palabra (vale la mitad)')}</p>
-                    <div id="sa-ws-words" class="ws-words">${WS.chipsHtml(words, _t('standalone.game.wordsearch_hint_aria', 'Pista:'))}</div>
+                    <div id="sa-ws-board" class="ws-play__board">${WS.gridHtml(grid, 'wsg--player', t('common.wordsearch.grid_label', 'Sopa de letras'))}</div>
+                    <p class="ws-play__help">${t('standalone.game.wordsearch_hint_help', 'Pista: toca una palabra (vale la mitad)')}</p>
+                    <div id="sa-ws-words" class="ws-words">${WS.chipsHtml(words, t('standalone.game.wordsearch_hint_aria', 'Pista:'))}</div>
                 </div>
                 <div class="pl-submit-bar ws-submit">
                     <button type="button" class="pl-submit-btn" data-standalone-action="submit-wordsearch">
-                        ${_t('standalone.game.wordsearch_finish', 'Terminar')} (<span id="sa-ws-progress">0</span>/${words.length})
+                        ${t('standalone.game.wordsearch_finish', 'Terminar')} (<span id="sa-ws-progress">0</span>/${words.length})
                     </button>
                 </div>
             </div>
@@ -122,7 +117,7 @@ globalThis.StandaloneQuestionWordSearch = (() => {
                 return `<span class="ws-word ${flags[i] ? 'is-found' : 'is-missed'}${hinted ? ' is-hinted' : ''}" role="listitem" aria-label="${label}"${style}>${escapeHtml(word)}</span>`;
             })
             .join('');
-        const summary = _t('standalone.game.wordsearch_found', '{n} de {total} palabras')
+        const summary = t('standalone.game.wordsearch_found', '{n} de {total} palabras')
             .replace('{n}', String(details.foundCount || 0))
             .replace('{total}', String(details.totalWords || words.length));
 

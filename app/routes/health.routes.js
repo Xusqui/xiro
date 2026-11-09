@@ -108,6 +108,77 @@ async function runDirectDbHealthCheck(dbHealth) {
     }
 }
 
+function memoryHealth(processMemory) {
+    return {
+        heap: {
+            usedMB: Math.round(processMemory.heapUsed / 1024 / 1024),
+            totalMB: Math.round(processMemory.heapTotal / 1024 / 1024),
+            percentUsed: ((processMemory.heapUsed / processMemory.heapTotal) * 100).toFixed(2)
+        },
+        rss: {
+            usedMB: Math.round(processMemory.rss / 1024 / 1024)
+        },
+        external: {
+            usedMB: Math.round(processMemory.external / 1024 / 1024)
+        }
+    };
+}
+
+function databaseHealth(dbHealth) {
+    return {
+        status: dbHealth.dbStatus,
+        latencyMs: dbHealth.dbLatency,
+        pool: {
+            total: pool.totalCount || 0,
+            idle: pool.idleCount || 0,
+            waiting: pool.waitingCount || 0
+        },
+        ...(dbHealth.dbError && { error: dbHealth.dbError })
+    };
+}
+
+function gamesHealth(memStats, appMetrics) {
+    return {
+        active: memStats.activeGames,
+        lobbies: memStats.activeLobbies,
+        maxLobbies: memStats.maxLobbies,
+        teamGames: memStats.teamConfigs,
+        totalGamesCreated: appMetrics.gamesCreated,
+        totalGamesCompleted: appMetrics.gamesCompleted
+    };
+}
+
+function playersHealth(memStats, appMetrics) {
+    return {
+        connected: memStats.players,
+        maxPlayers: memStats.maxPlayers,
+        maxPlayersPerGame: memStats.maxPlayersPerGame,
+        maxTotalPlayers: memStats.maxPlayers,
+        utilizationPercent: ((memStats.players / memStats.maxPlayers) * 100).toFixed(2),
+        socketMappings: memStats.socketToPlayer,
+        totalConnections: appMetrics.players?.total_connections_ever || 0
+    };
+}
+
+function timersHealth(timerStats) {
+    return {
+        active: timerStats.activeTimers,
+        byType: timerStats.byType,
+        byRoom: timerStats.byRoom,
+        intervals: timerStats.intervals,
+        timeouts: timerStats.timeouts
+    };
+}
+
+function performanceHealth(appMetrics) {
+    return {
+        avgDbQueryMs: appMetrics.database?.avg_query_time_ms || 0,
+        maxDbQueryMs: appMetrics.database?.max_query_time_ms || 0,
+        dbErrors: appMetrics.database?.errors || 0,
+        totalDbQueries: appMetrics.database?.total_queries || 0
+    };
+}
+
 function buildApiHealthPayload({
     depHealth,
     processMemory,
@@ -127,29 +198,8 @@ function buildApiHealthPayload({
         uptimeFormatted: formatUptime(process.uptime()),
         timestamp: new Date().toISOString(),
         dependencies: depHealth.dependencies,
-        memory: {
-            heap: {
-                usedMB: Math.round(processMemory.heapUsed / 1024 / 1024),
-                totalMB: Math.round(processMemory.heapTotal / 1024 / 1024),
-                percentUsed: ((processMemory.heapUsed / processMemory.heapTotal) * 100).toFixed(2)
-            },
-            rss: {
-                usedMB: Math.round(processMemory.rss / 1024 / 1024)
-            },
-            external: {
-                usedMB: Math.round(processMemory.external / 1024 / 1024)
-            }
-        },
-        database: {
-            status: dbHealth.dbStatus,
-            latencyMs: dbHealth.dbLatency,
-            pool: {
-                total: pool.totalCount || 0,
-                idle: pool.idleCount || 0,
-                waiting: pool.waitingCount || 0
-            },
-            ...(dbHealth.dbError && { error: dbHealth.dbError })
-        },
+        memory: memoryHealth(processMemory),
+        database: databaseHealth(dbHealth),
         cache: {
             questionBanks: {
                 entries: cacheStats.size,
@@ -160,46 +210,20 @@ function buildApiHealthPayload({
                 evictions: cacheStats.evictions
             }
         },
-        games: {
-            active: memStats.activeGames,
-            lobbies: memStats.activeLobbies,
-            maxLobbies: memStats.maxLobbies,
-            teamGames: memStats.teamConfigs,
-            totalGamesCreated: appMetrics.gamesCreated,
-            totalGamesCompleted: appMetrics.gamesCompleted
-        },
-        players: {
-            connected: memStats.players,
-            maxPlayers: memStats.maxPlayers,
-            maxPlayersPerGame: memStats.maxPlayersPerGame,
-            maxTotalPlayers: memStats.maxPlayers,
-            utilizationPercent: ((memStats.players / memStats.maxPlayers) * 100).toFixed(2),
-            socketMappings: memStats.socketToPlayer,
-            totalConnections: appMetrics.players?.total_connections_ever || 0
-        },
+        games: gamesHealth(memStats, appMetrics),
+        players: playersHealth(memStats, appMetrics),
         rateLimiting: {
             trackedSockets: rateLimitStats.trackedSockets,
             limits: rateLimitStats.limits
         },
-        timers: {
-            active: timerStats.activeTimers,
-            byType: timerStats.byType,
-            byRoom: timerStats.byRoom,
-            intervals: timerStats.intervals,
-            timeouts: timerStats.timeouts
-        },
+        timers: timersHealth(timerStats),
         workers: {
             active: activeWorkers,
             list: workerList,
             instance: process.env.NODE_APP_INSTANCE || null,
             pid: process.pid
         },
-        performance: {
-            avgDbQueryMs: appMetrics.database?.avg_query_time_ms || 0,
-            maxDbQueryMs: appMetrics.database?.max_query_time_ms || 0,
-            dbErrors: appMetrics.database?.errors || 0,
-            totalDbQueries: appMetrics.database?.total_queries || 0
-        }
+        performance: performanceHealth(appMetrics)
     };
 }
 
@@ -298,18 +322,7 @@ function formatUptime(seconds) {
     return parts.join(' ');
 }
 
-/**
- * Performance endpoint - Métricas de optimizaciones Fase 1 y Fase 2
- * Incluye: cache, timers, memoria, sockets por room
- */
-router.get('/api/health/performance', authenticateAdmin, authorizeAdmin, (req, res) => {
-    const io = req.app.get('io'); // Socket.io instance desde app
-    const memStats = getMemoryStats();
-    const processMemory = process.memoryUsage();
-    const cacheStats = fileCacheService.getStats();
-    const timerStats = timerManager.getStats();
-    const orphanTimers = timerManager.detectOrphans();
-
+function collectRoomStats(io) {
     // Sockets por room con análisis de segregación
     const roomStats = {};
     const roomAnalysis = {
@@ -350,6 +363,55 @@ router.get('/api/health/performance', authenticateAdmin, authorizeAdmin, (req, r
         }
     }
 
+    return { roomStats, roomAnalysis };
+}
+
+function performanceMemory(processMemory, memStats) {
+    return {
+        heapUsedMB: Math.round(processMemory.heapUsed / 1024 / 1024),
+        heapTotalMB: Math.round(processMemory.heapTotal / 1024 / 1024),
+        externalMB: Math.round(processMemory.external / 1024 / 1024),
+        rssMB: Math.round(processMemory.rss / 1024 / 1024),
+        players: `${memStats.players}/${memStats.maxPlayers}`,
+        activeLobbies: `${memStats.activeLobbies}/${memStats.maxLobbies}`,
+        activeGames: memStats.activeGames
+    };
+}
+
+function systemLoad() {
+    return {
+        cpuPercent: getCpuPercent(),
+        cpuCount: os.cpus().length,
+        loadavg: os.loadavg().map(v => parseFloat(v.toFixed(2))),
+        freememMB: Math.round(os.freemem() / 1024 / 1024),
+        totalMemMB: Math.round(os.totalmem() / 1024 / 1024)
+    };
+}
+
+function eventLoopLatency() {
+    return {
+        p50Ms: parseFloat((_elHistogram.percentile(50) / 1e6).toFixed(2)),
+        p95Ms: parseFloat((_elHistogram.percentile(95) / 1e6).toFixed(2)),
+        p99Ms: parseFloat((_elHistogram.percentile(99) / 1e6).toFixed(2)),
+        meanMs: parseFloat((_elHistogram.mean / 1e6).toFixed(2)),
+        maxMs: parseFloat((_elHistogram.max / 1e6).toFixed(2))
+    };
+}
+
+/**
+ * Performance endpoint - Métricas de optimizaciones Fase 1 y Fase 2
+ * Incluye: cache, timers, memoria, sockets por room
+ */
+router.get('/api/health/performance', authenticateAdmin, authorizeAdmin, (req, res) => {
+    const io = req.app.get('io'); // Socket.io instance desde app
+    const memStats = getMemoryStats();
+    const processMemory = process.memoryUsage();
+    const cacheStats = fileCacheService.getStats();
+    const timerStats = timerManager.getStats();
+    const orphanTimers = timerManager.detectOrphans();
+
+    const { roomStats, roomAnalysis } = collectRoomStats(io);
+
     res.status(200).json({
         status: 'ok',
         timestamp: new Date().toISOString(),
@@ -384,29 +446,9 @@ router.get('/api/health/performance', authenticateAdmin, authorizeAdmin, (req, r
                 presentersReceiveFullData: true
             }
         },
-        memory: {
-            heapUsedMB: Math.round(processMemory.heapUsed / 1024 / 1024),
-            heapTotalMB: Math.round(processMemory.heapTotal / 1024 / 1024),
-            externalMB: Math.round(processMemory.external / 1024 / 1024),
-            rssMB: Math.round(processMemory.rss / 1024 / 1024),
-            players: `${memStats.players}/${memStats.maxPlayers}`,
-            activeLobbies: `${memStats.activeLobbies}/${memStats.maxLobbies}`,
-            activeGames: memStats.activeGames
-        },
-        system: {
-            cpuPercent: getCpuPercent(),
-            cpuCount: os.cpus().length,
-            loadavg: os.loadavg().map(v => parseFloat(v.toFixed(2))),
-            freememMB: Math.round(os.freemem() / 1024 / 1024),
-            totalMemMB: Math.round(os.totalmem() / 1024 / 1024)
-        },
-        eventLoop: {
-            p50Ms: parseFloat((_elHistogram.percentile(50) / 1e6).toFixed(2)),
-            p95Ms: parseFloat((_elHistogram.percentile(95) / 1e6).toFixed(2)),
-            p99Ms: parseFloat((_elHistogram.percentile(99) / 1e6).toFixed(2)),
-            meanMs: parseFloat((_elHistogram.mean / 1e6).toFixed(2)),
-            maxMs: parseFloat((_elHistogram.max / 1e6).toFixed(2))
-        }
+        memory: performanceMemory(processMemory, memStats),
+        system: systemLoad(),
+        eventLoop: eventLoopLatency()
     });
 });
 

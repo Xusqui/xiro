@@ -17,6 +17,11 @@ function isSurveyType(type) {
     return SURVEY_TYPES.has(type);
 }
 
+/**
+ * Indica si el tipo de pregunta es encuesta de selección múltiple.
+ * @param {string} type - Tipo de pregunta
+ * @returns {boolean}
+ */
 function isSurveyMultiple(type) {
     return type === SURVEY_MULTIPLE;
 }

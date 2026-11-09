@@ -9,14 +9,11 @@
  */
 
 import { getSocket } from './presenter-socket-config.js?v=20260922172926';
+import { t } from '../core/translate.js?v=20261105120000';
 
 const TOGGLE_ID = 'reactions-toggle-btn';
 const TOAST_MS = 1800;
 const EDITABLE_SELECTOR = 'input, textarea, select, [contenteditable]:not([contenteditable="false"])';
-
-function t(key, fallback) {
-    return typeof _t === 'function' ? _t(key, null, fallback) : fallback;
-}
 
 /** Tecla R sin modificadores y fuera de un campo de texto. */
 export function isReactionsShortcut(event) {

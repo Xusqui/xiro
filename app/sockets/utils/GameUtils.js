@@ -12,6 +12,7 @@ const {
     timerPausedState
 } = require('../../state/globalState');
 const runtimeConfig = require('../../config/runtime-config');
+const { bestEffort } = require('../../services/best-effort');
 const logger = require('../../config/logger');
 
 /**
@@ -66,16 +67,10 @@ async function terminateExpiredPresenterSession(roomId, io) {
 
     // Tombstone en Redis para que GetActiveSessionsQuery lo filtre en todos los workers
     const SessionStore = require('../../services/SessionStore');
-    try {
-        await SessionStore.save(roomId, { ended: true, savedAt: Date.now() }, 60);
-    } catch (_) {
-        /* best-effort tombstone */
-    }
-    try {
-        await SessionStore.invalidate(roomId);
-    } catch (_) {
-        /* best-effort invalidate */
-    }
+    await bestEffort('lápida de sesión en Redis', { roomId }, () =>
+        SessionStore.save(roomId, { ended: true, savedAt: Date.now() }, 60)
+    );
+    await bestEffort('invalidación de sesión en Redis', { roomId }, () => SessionStore.invalidate(roomId));
 
     // Limpiar estado local
     activeGames.delete(roomId);

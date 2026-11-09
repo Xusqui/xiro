@@ -6,6 +6,10 @@
 const ScoringService = require('./ScoringService');
 const AnswerStateService = require('./AnswerStateService');
 
+/**
+ * Orquesta el procesamiento de respuestas individuales y por equipos, incluidas las duplicadas (solo métodos
+ * estáticos).
+ */
 class AnswerProcessingService {
     /**
      * Procesar respuesta duplicada (idempotencia)

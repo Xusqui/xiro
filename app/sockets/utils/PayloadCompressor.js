@@ -14,8 +14,22 @@ const { promisify } = require('util');
 const gzip = promisify(zlib.gzip);
 const gunzip = promisify(zlib.gunzip);
 
+/**
+ * Compresión gzip de payloads de Socket.IO (solo métodos estáticos; ver @fileoverview).
+ */
 class PayloadCompressor {
-    /**
+        static _uncompressed(payload, originalSize, reason) {
+        return {
+            compressed: false,
+            data: payload,
+            originalSize,
+            compressedSize: originalSize,
+            reduction: 0,
+            ...(reason ? { reason } : {})
+        };
+    }
+
+/**
      * Comprimir payload si cumple criterios
      *
      * @param {Object} payload - Payload a comprimir
@@ -28,13 +42,7 @@ class PayloadCompressor {
 
             // No comprimir si es pequeño
             if (originalSize < this.MIN_SIZE) {
-                return {
-                    compressed: false,
-                    data: payload,
-                    originalSize,
-                    compressedSize: originalSize,
-                    reduction: 0
-                };
+                return this._uncompressed(payload, originalSize);
             }
 
             // No comprimir si supera el tope — emitir directamente para no bloquear el event loop
@@ -44,14 +52,7 @@ class PayloadCompressor {
                     originalSize,
                     maxBytes: this.MAX_UNCOMPRESSED_BYTES
                 });
-                return {
-                    compressed: false,
-                    data: payload,
-                    originalSize,
-                    compressedSize: originalSize,
-                    reduction: 0,
-                    reason: 'payload-too-large'
-                };
+                return this._uncompressed(payload, originalSize, 'payload-too-large');
             }
 
             // Comprimir con gzip, con timeout de seguridad
@@ -67,14 +68,7 @@ class PayloadCompressor {
                     originalSize,
                     timeoutMs: this.GZIP_TIMEOUT_MS
                 });
-                return {
-                    compressed: false,
-                    data: payload,
-                    originalSize,
-                    compressedSize: originalSize,
-                    reduction: 0,
-                    reason: 'gzip-timeout'
-                };
+                return this._uncompressed(payload, originalSize, 'gzip-timeout');
             }
 
             const compressedSize = compressed.length;
@@ -82,14 +76,11 @@ class PayloadCompressor {
 
             // Solo usar compresión si reducción >20%
             if (reduction < this.MIN_REDUCTION) {
-                return {
-                    compressed: false,
-                    data: payload,
+                return this._uncompressed(
+                    payload,
                     originalSize,
-                    compressedSize: originalSize,
-                    reduction: 0,
-                    reason: `Reducción insuficiente (${(reduction * 100).toFixed(1)}% < 20%)`
-                };
+                    `Reducción insuficiente (${(reduction * 100).toFixed(1)}% < 20%)`
+                );
             }
 
             return {

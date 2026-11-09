@@ -94,20 +94,30 @@ async function handleBatchError(context) {
     return 'continue';
 }
 
-async function generateBatchWithRetries(input) {
-    const {
+async function runBatchAttempt({ type, text, batchCount, dificultad, questions, mode, language, provider }) {
+    const normalized = await buildBatchPromptPayload({
         type,
         text,
         batchCount,
         dificultad,
         questions,
-        signal,
         mode,
         language,
-        batchStart,
-        provider,
-        canFallback = false
-    } = input;
+        provider
+    });
+
+    if (normalized.length > 0) {
+        questions.push(...normalized);
+        logger.info(
+            `[ai-generator] Tipo '${type}' (${provider}): lote generado (${questions.length}/${questions.targetCount})`
+        );
+    }
+
+    await sleep(1000);
+}
+
+async function generateBatchWithRetries(input) {
+    const { type, batchCount, signal, batchStart, provider, canFallback = false } = input;
 
     for (let attempt = 1; attempt <= MAX_RETRIES + 1; attempt++) {
         if (signal?.aborted) {
@@ -115,25 +125,7 @@ async function generateBatchWithRetries(input) {
         }
 
         try {
-            const normalized = await buildBatchPromptPayload({
-                type,
-                text,
-                batchCount,
-                dificultad,
-                questions,
-                mode,
-                language,
-                provider
-            });
-
-            if (normalized.length > 0) {
-                questions.push(...normalized);
-                logger.info(
-                    `[ai-generator] Tipo '${type}' (${provider}): lote generado (${questions.length}/${questions.targetCount})`
-                );
-            }
-
-            await sleep(1000);
+            await runBatchAttempt(input);
             return;
         } catch (err) {
             const nextAction = await handleBatchError({

@@ -11,6 +11,9 @@
 
 const EventHandler = require('./EventHandler');
 
+/**
+ * Reacciona a 'game.started': envía 'game-started' a jugadores y presentador y arranca la cuenta atrás.
+ */
 class GameStartedHandler extends EventHandler {
     constructor(eventBus, io, dependencies = {}) {
         super(eventBus, io, dependencies);

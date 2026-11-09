@@ -12,7 +12,7 @@
 'use strict';
 
 const StandaloneQuestionMultipleChoice = (() => {
-    const { escapeHtml, optionText, submitAnswer, buildQuestionMedia, wireQuestionAudio } = StandaloneQuestionCommon;
+    const { escapeHtml, t, optionText, submitAnswer, buildQuestionMedia, wireQuestionAudio } = StandaloneQuestionCommon;
 
     const OPTION_GRADIENTS = [
         'pl-gradient-red',
@@ -23,25 +23,21 @@ const StandaloneQuestionMultipleChoice = (() => {
         'pl-gradient-pink'
     ];
 
-    function _t(key, fallback) {
-        return window.XiroI18n?.t(key) || fallback;
-    }
-
     const MULTIPLE_VARIANT = {
         answerType: 'multiple_choice',
         allowEmpty: false,
-        banner: () => `✓ ${_t('standalone.game.multiple_hint', 'Selección múltiple (puedes marcar varias)')}`,
-        sendLabel: () => _t('standalone.game.submit', 'Enviar respuesta'),
-        emptyLabel: () => _t('standalone.game.submit', 'Enviar respuesta')
+        banner: () => `✓ ${t('standalone.game.multiple_hint', 'Selección múltiple (puedes marcar varias)')}`,
+        sendLabel: () => t('standalone.game.submit', 'Enviar respuesta'),
+        emptyLabel: () => t('standalone.game.submit', 'Enviar respuesta')
     };
 
     const SURVEY_VARIANT = {
         answerType: 'survey_multiple',
         allowEmpty: true,
         banner: () =>
-            `<i class="fas fa-square-poll-horizontal" aria-hidden="true"></i> ${_t('standalone.game.survey_multiple_hint', 'Encuesta · marca las que quieras, o ninguna')}`,
-        sendLabel: () => _t('standalone.game.submit', 'Enviar respuesta'),
-        emptyLabel: () => _t('standalone.game.survey_multiple_none', 'Ninguna')
+            `<i class="fas fa-square-poll-horizontal" aria-hidden="true"></i> ${t('standalone.game.survey_multiple_hint', 'Encuesta · marca las que quieras, o ninguna')}`,
+        sendLabel: () => t('standalone.game.submit', 'Enviar respuesta'),
+        emptyLabel: () => t('standalone.game.survey_multiple_none', 'Ninguna')
     };
 
     function _updateSubmit(submitBtn, variant, count) {
@@ -158,11 +154,11 @@ const StandaloneQuestionMultipleChoice = (() => {
             )
             .join('');
         const none = chosen.size === 0
-            ? `<p class="sm-results__status">${_t('standalone.game.survey_multiple_none_chosen', 'No marcaste ninguna opción')}</p>`
+            ? `<p class="sm-results__status">${t('standalone.game.survey_multiple_none_chosen', 'No marcaste ninguna opción')}</p>`
             : '';
         return `
             <i class="fas fa-square-poll-horizontal pl-reveal-icon" aria-hidden="true"></i>
-            <h2>${_t('standalone.game.answer_registered', 'Respuesta registrada')}</h2>
+            <h2>${t('standalone.game.answer_registered', 'Respuesta registrada')}</h2>
             <section class="sm-results">${none}<ol class="sm-results__list">${rows}</ol></section>
         `;
     }

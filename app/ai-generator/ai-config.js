@@ -31,6 +31,11 @@ const DEFAULT_MODELS = {
     ollama: () => null // depende de los modelos instalados en el servidor Ollama
 };
 
+/**
+ * Indica si el proveedor de IA es uno de los admitidos.
+ * @param {'groq'|'gemini'|'ollama'|string} provider - Proveedor
+ * @returns {boolean}
+ */
 function isValidProvider(provider) {
     return PROVIDERS.includes(provider);
 }
@@ -64,11 +69,22 @@ function _save(data) {
     fs.writeFileSync(KEY_FILE, JSON.stringify(data, null, 2), { mode: 0o600, encoding: 'utf8' });
 }
 
+/**
+ * Proveedor activo y si se usa otro como respaldo.
+ * @returns {{provider: string, fallback: boolean}}
+ */
 function getSettings() {
     const { provider, fallback } = _load();
     return { provider, fallback };
 }
 
+/**
+ * Guarda el proveedor activo y el respaldo. Los valores no válidos se ignoran.
+ * @param {Object} settings
+ * @param {string} settings.provider - Proveedor
+ * @param {boolean} settings.fallback - Usar respaldo
+ * @returns {void}
+ */
 function setSettings({ provider, fallback }) {
     const data = _load();
     if (isValidProvider(provider)) data.provider = provider;
@@ -76,26 +92,53 @@ function setSettings({ provider, fallback }) {
     _save(data);
 }
 
+/**
+ * Clave de API guardada del proveedor.
+ * @param {'groq'|'gemini'|'ollama'|string} provider - Proveedor
+ * @returns {string|null}
+ */
 function getApiKey(provider) {
     if (!isValidProvider(provider)) return null;
     return _load()[provider].apiKey || null;
 }
 
+/**
+ * URL base de Ollama; null en cualquier otro proveedor.
+ * @param {'groq'|'gemini'|'ollama'|string} provider - Proveedor
+ * @returns {string|null}
+ */
 function getBaseUrl(provider) {
     if (provider !== 'ollama') return null;
     return _load().ollama.baseUrl || null;
 }
 
+/**
+ * Indica si el proveedor se puede usar: clave de API o, en Ollama, URL y modelo.
+ * @param {'groq'|'gemini'|'ollama'|string} provider - Proveedor
+ * @returns {boolean}
+ */
 function isConfigured(provider) {
     if (provider === 'ollama') return Boolean(getBaseUrl(provider) && getModel(provider));
     return Boolean(getApiKey(provider));
 }
 
+/**
+ * Modelo configurado del proveedor o su modelo por defecto.
+ * @param {'groq'|'gemini'|'ollama'|string} provider - Proveedor
+ * @returns {string|null} null si el proveedor no es válido
+ */
 function getModel(provider) {
     if (!isValidProvider(provider)) return null;
     return _load()[provider].model || DEFAULT_MODELS[provider]();
 }
 
+/**
+ * Guarda la clave de API del proveedor y, si se indica, su modelo.
+ * @param {'groq'|'gemini'|'ollama'|string} provider - Proveedor
+ * @param {string} key - Clave de API
+ * @param {string|null} [model=null] - Modelo
+ * @returns {void}
+ */
 function setApiKey(provider, key, model = null) {
     const data = _load();
     data[provider].apiKey = key;

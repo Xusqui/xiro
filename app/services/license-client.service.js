@@ -70,6 +70,15 @@ function _result(isValid, expiryValue, reason) {
     return { isValid, expiryValue: expiryValue ?? null, reason: reason || null };
 }
 
+/**
+ * Valida (primera vez) o renueva (heartbeat) la activación de la licencia en el servidor de licencias con una petición
+ * firmada con HMAC.
+ * @param {string} licenseKey - Clave de licencia
+ * @param {Function} [fetchImpl=globalThis.fetch] - fetch inyectable
+ * @param {Object} [deps={}] - Dependencias inyectables (secreto, instanceId, reloj)
+ * @returns {Promise<{isValid: boolean, expiryValue: string|null, reason: string|null}>} reason 'license_in_use' si otra
+ *   instalación la usa (409). No rechaza
+ */
 async function probeActivationStatus(licenseKey, fetchImpl = globalThis.fetch, deps = {}) {
     const secret = _hmacSecret(deps);
     const { instanceId } = (deps.getInstanceId || getInstanceId)();

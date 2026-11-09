@@ -12,6 +12,11 @@ function stripInlineComment(value) {
     return value.slice(0, commentIndex).trim();
 }
 
+/**
+ * Carga un fichero .env en process.env sin sobrescribir las claves ya definidas.
+ * @param {string} filePath - Ruta del fichero
+ * @returns {boolean} false si el fichero no existe
+ */
 function loadEnvFile(filePath) {
     if (!fs.existsSync(filePath)) return false;
 

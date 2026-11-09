@@ -75,6 +75,22 @@ globalThis.StandaloneQuestionCommon = (() => {
         return String(text ?? '').replace(/[&<>"']/g, m => map[m]);
     }
 
+    /**
+     * Traduce una clave; único helper de i18n de los scripts de standalone.
+     * @param {string} key - Clave i18n
+     * @param {string} [fallback] - Texto si la clave no existe o i18n no ha cargado
+     * @param {Object<string, *>} [vars] - Valores para los {marcadores}
+     * @returns {string}
+     */
+    function t(key, fallback, vars) {
+        const i18n = window.XiroI18n;
+        // XiroI18n.t ya devuelve el texto de reserva (interpolado) si falta la clave
+        if (i18n && typeof i18n.t === 'function') return i18n.t(key, vars, fallback);
+        return String(fallback ?? key ?? '').replace(/\{(\w+)\}/g, (match, name) =>
+            vars && Object.hasOwn(vars, name) ? String(vars[name]) : match
+        );
+    }
+
     function generateRequestId() {
         return `standalone_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
     }
@@ -178,6 +194,7 @@ globalThis.StandaloneQuestionCommon = (() => {
 
     return {
         escapeHtml,
+        t,
         generateRequestId,
         lockAnswering,
         optionText,

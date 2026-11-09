@@ -11,6 +11,9 @@
 
 const EventHandler = require('./EventHandler');
 
+/**
+ * Reacciona a 'game.ended': envía 'game-ended' con el ranking a jugadores y presentador.
+ */
 class GameEndedHandler extends EventHandler {
     constructor(eventBus, io, dependencies = {}) {
         super(eventBus, io, dependencies);

@@ -10,6 +10,9 @@
 
 const logger = require('../../config/logger');
 
+/**
+ * Agrupa los answer-result de varios jugadores en un solo envío (ver @fileoverview).
+ */
 class AnswerBatchService {
     constructor(io) {
         this.io = io;

@@ -23,6 +23,9 @@ async function timedExecute(commandName, execute) {
     }
 }
 
+/**
+ * Eslabón que construye el comando con el payload mapeado, lo ejecuta y deja el resultado en `context.commandResult`.
+ */
 class CommandExecutionHandler extends Handler {
     /**
      * @param {Class} CommandClass - Clase del comando a ejecutar

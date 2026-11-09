@@ -23,6 +23,9 @@ const DEBOUNCE_CONFIG = {
     default: 75 // Default: 75ms
 };
 
+/**
+ * Emisión a salas con debounce por tipo de evento y compresión de payloads grandes (ver @fileoverview).
+ */
 class BroadcastOptimizer {
     constructor(io) {
         this.io = io;
@@ -37,7 +40,55 @@ class BroadcastOptimizer {
         };
     }
 
-    /**
+        _flushPending(eventKey, eventType, targetRoom, pending) {
+        this._executeBroadcast(eventType, targetRoom, pending.data);
+        this.pendingBroadcasts.delete(eventKey);
+        this.stats.optimizedBroadcasts++;
+    }
+
+    // Comprime el payload si se pide, es grande y compensa
+    async _preparePayload(payload, options) {
+        if (!options.compress || PayloadCompressor.estimateSize(payload) <= PayloadCompressor.MIN_SIZE) {
+            return payload;
+        }
+
+        const compressed = await PayloadCompressor.prepareForEmit(payload);
+        if (!PayloadCompressor.isCompressed(compressed)) return payload;
+
+        this.stats.bytesSaved += compressed._originalSize - compressed._compressedSize;
+        return compressed;
+    }
+
+    // Cancela el envío pendiente del evento o abre una entrada nueva
+    _trackPending(eventKey, eventType, targetRoom) {
+        if (this.pendingBroadcasts.has(eventKey)) {
+            const pending = this.pendingBroadcasts.get(eventKey);
+            clearTimeout(pending.timeout);
+            pending.count++;
+            return;
+        }
+
+        // Protección contra fuga de memoria: si el mapa supera el límite,
+        // hacer flush de la entrada más antigua antes de añadir una nueva.
+        if (this.pendingBroadcasts.size >= this.MAX_PENDING_ENTRIES) {
+            const oldestKey = this.pendingBroadcasts.keys().next().value;
+            const oldest = this.pendingBroadcasts.get(oldestKey);
+            clearTimeout(oldest.timeout);
+            this._executeBroadcast(oldest.eventType, oldest.targetRoom, oldest.data);
+            this.pendingBroadcasts.delete(oldestKey);
+            this.stats.optimizedBroadcasts++;
+        }
+        this.pendingBroadcasts.set(eventKey, {
+            data: null,
+            timeout: null,
+            count: 1,
+            eventType,
+            targetRoom,
+            firstEventTime: Date.now()
+        });
+    }
+
+/**
      * Emit con debouncing configurable
      *
      * @param {string} eventType - Tipo de evento ('ranking-update', 'player-answered', etc)
@@ -55,50 +106,15 @@ class BroadcastOptimizer {
         // Obtener debounce configurado
         const debounceMs = options.debounceMs || DEBOUNCE_CONFIG[eventType] || DEBOUNCE_CONFIG.default;
 
-        // Preparar payload (comprimir si es necesario)
-        let finalPayload = payload;
-        if (options.compress && PayloadCompressor.estimateSize(payload) > PayloadCompressor.MIN_SIZE) {
-            const compressed = await PayloadCompressor.prepareForEmit(payload);
-            if (PayloadCompressor.isCompressed(compressed)) {
-                finalPayload = compressed;
-                this.stats.bytesSaved += compressed._originalSize - compressed._compressedSize;
-            }
-        }
-
-        // Cancelar broadcast pendiente si existe
-        if (this.pendingBroadcasts.has(eventKey)) {
-            const pending = this.pendingBroadcasts.get(eventKey);
-            clearTimeout(pending.timeout);
-            pending.count++;
-        } else {
-            // Protección contra fuga de memoria: si el mapa supera el límite,
-            // hacer flush de la entrada más antigua antes de añadir una nueva.
-            if (this.pendingBroadcasts.size >= this.MAX_PENDING_ENTRIES) {
-                const oldestKey = this.pendingBroadcasts.keys().next().value;
-                const oldest = this.pendingBroadcasts.get(oldestKey);
-                clearTimeout(oldest.timeout);
-                this._executeBroadcast(oldest.eventType, oldest.targetRoom, oldest.data);
-                this.pendingBroadcasts.delete(oldestKey);
-                this.stats.optimizedBroadcasts++;
-            }
-            this.pendingBroadcasts.set(eventKey, {
-                data: null,
-                timeout: null,
-                count: 1,
-                eventType,
-                targetRoom,
-                firstEventTime: Date.now()
-            });
-        }
+        const finalPayload = await this._preparePayload(payload, options);
+        this._trackPending(eventKey, eventType, targetRoom);
 
         const pending = this.pendingBroadcasts.get(eventKey);
         pending.data = finalPayload;
 
         // Smart flush: si hay >10 broadcasts pendientes del mismo tipo, flush inmediato
         if (pending.count >= this.SMART_FLUSH_THRESHOLD) {
-            this._executeBroadcast(eventType, targetRoom, pending.data);
-            this.pendingBroadcasts.delete(eventKey);
-            this.stats.optimizedBroadcasts++;
+            this._flushPending(eventKey, eventType, targetRoom, pending);
             this.stats.smartFlushes++;
             return;
         }
@@ -108,9 +124,7 @@ class BroadcastOptimizer {
         const maxRemaining = 250 - elapsed;
 
         if (maxRemaining <= 0) {
-            this._executeBroadcast(eventType, targetRoom, pending.data);
-            this.pendingBroadcasts.delete(eventKey);
-            this.stats.optimizedBroadcasts++;
+            this._flushPending(eventKey, eventType, targetRoom, pending);
             return;
         }
 
@@ -118,9 +132,7 @@ class BroadcastOptimizer {
 
         // Programar broadcast con debouncing
         pending.timeout = setTimeout(() => {
-            this._executeBroadcast(eventType, targetRoom, pending.data);
-            this.pendingBroadcasts.delete(eventKey);
-            this.stats.optimizedBroadcasts++;
+            this._flushPending(eventKey, eventType, targetRoom, pending);
         }, actualDelay);
     }
 

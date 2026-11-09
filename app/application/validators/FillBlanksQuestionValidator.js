@@ -136,6 +136,11 @@ function isValidWordsPayload(words) {
     return words.every(word => typeof word === 'string' && word.length <= RAW_WORD_MAX && RAW_WORD.test(word));
 }
 
+/**
+ * Indica si el índice de hueco es un entero dentro del máximo de huecos.
+ * @param {*} blankIndex - Índice
+ * @returns {boolean}
+ */
 function isValidBlankIndex(blankIndex) {
     return Number.isInteger(blankIndex) && blankIndex >= 0 && blankIndex < LIMITS.MAX_BLANKS;
 }

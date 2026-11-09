@@ -23,6 +23,12 @@ function allDistinct(values) {
     return new Set(values.map(v => v.toLocaleLowerCase())).size === values.length;
 }
 
+/**
+ * Indica si la pregunta de emparejar (número de parejas, textos válidos y sin repetidos en cada lado) de la IA es
+ * válida.
+ * @param {Object} q - Pregunta devuelta por la IA
+ * @returns {boolean}
+ */
 function validate(q) {
     if (!q || typeof q.question_text !== 'string' || q.question_text.trim().length === 0) return false;
     if (!Array.isArray(q.options)) return false;
@@ -33,6 +39,11 @@ function validate(q) {
     return allDistinct(lefts) && allDistinct(rights);
 }
 
+/**
+ * Convierte una pregunta de emparejar de la IA al formato de subida de bancos.
+ * @param {Object} q - Pregunta devuelta por la IA
+ * @returns {Object} Pregunta normalizada
+ */
 function normalize(q) {
     return {
         questionText: q.question_text.trim(),

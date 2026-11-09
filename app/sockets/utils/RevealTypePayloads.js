@@ -63,6 +63,24 @@ function buildSurveySingleReveal(question, percentages) {
     return { respondents: options.reduce((sum, option) => sum + option.count, 0), options };
 }
 
+function applyNumericReveal(presenterPayload, question) {
+    presenterPayload.correctAnswer = question.correct_answer;
+    presenterPayload.maxPoints = question.max_points;
+    presenterPayload.toleranceMode = question.tolerance_mode;
+    presenterPayload.toleranceValue = question.tolerance_value;
+    presenterPayload.toleranceCap = question.tolerance_cap;
+    clearOptionFields(presenterPayload);
+}
+
+function applyMultipleChoiceReveal(presenterPayload, question, correctIndicesMultiple) {
+    presenterPayload.correctIndices = correctIndicesMultiple;
+    presenterPayload.correctOptionTexts = (correctIndicesMultiple || [])
+        .map(idx => optionText(question.options?.[idx]))
+        .filter(Boolean);
+    clearOptionFields(presenterPayload);
+    presenterPayload.correctAnswer = null;
+}
+
 /**
  * Ajusta el payload del presentador según el tipo de pregunta.
  * Async por la sopa de letras y Completa la frase (leen de Redis cuántos acertaron cada palabra/hueco).
@@ -78,14 +96,7 @@ async function applyQuestionTypeOverrides({
 }) {
     // Clave de las estadísticas por pregunta: en Trivial, por época (QuestionSlot)
     const slot = game ? questionSlot(game) : revealIndex;
-    if (flags.isNumericQuestion) {
-        presenterPayload.correctAnswer = question.correct_answer;
-        presenterPayload.maxPoints = question.max_points;
-        presenterPayload.toleranceMode = question.tolerance_mode;
-        presenterPayload.toleranceValue = question.tolerance_value;
-        presenterPayload.toleranceCap = question.tolerance_cap;
-        clearOptionFields(presenterPayload);
-    }
+    if (flags.isNumericQuestion) applyNumericReveal(presenterPayload, question);
 
     if (flags.isWordScrambleQuestion) {
         presenterPayload.correctWord = question.correct_word || null;
@@ -119,14 +130,7 @@ async function applyQuestionTypeOverrides({
         presenterPayload.correctAnswer = null;
     }
 
-    if (flags.isMultipleChoiceQuestion) {
-        presenterPayload.correctIndices = correctIndicesMultiple;
-        presenterPayload.correctOptionTexts = (correctIndicesMultiple || [])
-            .map(idx => optionText(question.options?.[idx]))
-            .filter(Boolean);
-        clearOptionFields(presenterPayload);
-        presenterPayload.correctAnswer = null;
-    }
+    if (flags.isMultipleChoiceQuestion) applyMultipleChoiceReveal(presenterPayload, question, correctIndicesMultiple);
 }
 
 module.exports = {

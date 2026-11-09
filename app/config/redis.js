@@ -58,6 +58,60 @@ async function disconnectClientBestEffortAsync(client) {
     }
 }
 
+function buildRedisClientOptions(redisUrl) {
+    const redisSocketPath = process.env.REDIS_SOCKET_PATH;
+    const redisPassword = process.env.REDIS_PASSWORD || undefined;
+    const isTestEnv = process.env.NODE_ENV === 'test';
+
+    const clientOptions = {
+        url: redisUrl,
+        password: redisPassword,
+        socket: {
+            reconnectStrategy: retries => {
+                if (isTestEnv) {
+                    return false;
+                }
+
+                if (retries > 10) {
+                    getLogger().error('Redis client exceeded max retries');
+                    return false;
+                }
+                return Math.min(retries * 100, 3000);
+            }
+        }
+    };
+
+    if (redisSocketPath) {
+        clientOptions.url = 'redis://localhost';
+        clientOptions.socket.path = redisSocketPath;
+    }
+
+    return clientOptions;
+}
+
+// Nota: Usar console directamente para evitar dependencia circular con logger
+// Los event listeners de Redis se ejecutan durante la carga del módulo
+function attachRedisListeners(client) {
+    client.on('error', err => {
+        getLogger().error('Redis client error:', { error: err.message });
+    });
+
+    client.on('end', () => {
+        // El cliente se cerró permanentemente (reconexión agotada o quit)
+        // Reseteamos para que getRedisClient() pueda crear uno nuevo
+        getLogger().warn('Redis client closed, resetting for future reconnection');
+        redisClient = null;
+    });
+
+    client.on('reconnecting', () => {
+        getLogger().warn('Redis client reconnecting');
+    });
+
+    client.on('ready', () => {
+        getLogger().info('✅ Redis client ready');
+    });
+}
+
 /**
  * Obtener o crear cliente Redis compartido
  * @returns {Promise<RedisClient>}
@@ -75,55 +129,8 @@ function getRedisClient() {
     connectingPromise = (async () => {
         try {
             const redisUrl = process.env.REDIS_URL || 'redis://localhost:6379';
-            const redisSocketPath = process.env.REDIS_SOCKET_PATH;
-            const redisPassword = process.env.REDIS_PASSWORD || undefined;
-            const isTestEnv = process.env.NODE_ENV === 'test';
-
-            const clientOptions = {
-                url: redisUrl,
-                password: redisPassword,
-                socket: {
-                    reconnectStrategy: retries => {
-                        if (isTestEnv) {
-                            return false;
-                        }
-
-                        if (retries > 10) {
-                            getLogger().error('Redis client exceeded max retries');
-                            return false;
-                        }
-                        return Math.min(retries * 100, 3000);
-                    }
-                }
-            };
-
-            if (redisSocketPath) {
-                clientOptions.url = 'redis://localhost';
-                clientOptions.socket.path = redisSocketPath;
-            }
-
-            redisClient = createClient(clientOptions);
-
-            // Nota: Usar console directamente para evitar dependencia circular con logger
-            // Los event listeners de Redis se ejecutan durante la carga del módulo
-            redisClient.on('error', err => {
-                getLogger().error('Redis client error:', { error: err.message });
-            });
-
-            redisClient.on('end', () => {
-                // El cliente se cerró permanentemente (reconexión agotada o quit)
-                // Reseteamos para que getRedisClient() pueda crear uno nuevo
-                getLogger().warn('Redis client closed, resetting for future reconnection');
-                redisClient = null;
-            });
-
-            redisClient.on('reconnecting', () => {
-                getLogger().warn('Redis client reconnecting');
-            });
-
-            redisClient.on('ready', () => {
-                getLogger().info('✅ Redis client ready');
-            });
+            redisClient = createClient(buildRedisClientOptions(redisUrl));
+            attachRedisListeners(redisClient);
 
             await redisClient.connect();
             getLogger().info('Redis client connected', { url: redisUrl });

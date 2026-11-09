@@ -20,6 +20,13 @@ function isStandalonePath(requestPath) {
     return requestPath === '/standalone.html' || requestPath === '/standalone.html/';
 }
 
+/**
+ * Responde 403 a las rutas del modo standalone cuando está desactivado.
+ * @param {import("express").Request} req - Petición
+ * @param {import("express").Response} res - Respuesta
+ * @param {import("express").NextFunction} next - Siguiente middleware
+ * @returns {void}
+ */
 function standaloneAccessGuard(req, res, next) {
     if (!isStandalonePath(req.path)) return next();
     if (!isStandaloneAccessDisabled()) return next();

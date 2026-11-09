@@ -8,6 +8,7 @@ const { saveGameSession } = require('../../services/db/game-session.service');
 const { pushSessionLog } = require('../../services/game-logs.service');
 const { getRedisClient } = require('../../config/redis');
 const SessionStore = require('../../services/SessionStore');
+const { bestEffort } = require('../../services/best-effort');
 const logger = require('../../config/logger');
 
 function resolveRoomId(roomIdOrPin, activeGames, lobbyPlayers) {
@@ -110,20 +111,20 @@ function buildAbandonPayload(roomId, reason) {
 }
 
 async function resolveAbandonStartTime(roomId, game) {
-    let abandonStart = game.gameStartTime || null;
+    const fallbackStart = game.gameStartTime || null;
 
-    try {
+    const lookup = await bestEffort('lectura del inicio de partida en Redis', { roomId }, async () => {
         const redisClient = await getRedisClient();
         const redisStart = await redisClient.get(`game:started:${roomId}`);
         if (redisStart) {
-            abandonStart = Number(redisStart);
-            redisClient.del(`game:started:${roomId}`).catch(() => {});
+            bestEffort('borrado del inicio de partida en Redis', { roomId }, () =>
+                redisClient.del(`game:started:${roomId}`)
+            );
         }
-    } catch (_error) {
-        // Ignore best-effort Redis lookup
-    }
+        return redisStart;
+    });
 
-    return abandonStart;
+    return lookup.ok && lookup.value ? Number(lookup.value) : fallbackStart;
 }
 
 async function resolveDbSessionId(roomId, game) {
@@ -175,25 +176,15 @@ async function saveAbortedSession(roomId, reason, activeGames) {
 }
 
 async function markSessionEnded(roomId) {
-    try {
+    await bestEffort('flush y cierre del guardado de sesión', { roomId }, async () => {
         const SessionSaveDebouncer = require('../../services/SessionSaveDebouncer');
         await SessionSaveDebouncer.flush(roomId);
         SessionSaveDebouncer.markClosed(roomId);
-    } catch (_) {
-        // Best-effort flush and mark closed
-    }
-
-    try {
-        await SessionStore.save(roomId, { ended: true, savedAt: Date.now() }, 60);
-    } catch (_error) {
-        // Best-effort tombstone
-    }
-
-    try {
-        await SessionStore.invalidate(roomId);
-    } catch (_error) {
-        // Best-effort invalidate
-    }
+    });
+    await bestEffort('lápida de sesión en Redis', { roomId }, () =>
+        SessionStore.save(roomId, { ended: true, savedAt: Date.now() }, 60)
+    );
+    await bestEffort('invalidación de sesión en Redis', { roomId }, () => SessionStore.invalidate(roomId));
 }
 
 async function publishAbandonSync(syncBus, roomId, reason) {
@@ -203,6 +194,11 @@ async function publishAbandonSync(syncBus, roomId, reason) {
     await syncBus.publishSessionAbandoned(roomId, reason);
 }
 
+/**
+ * Crea el handler del evento 'abandon-game'. Cierra la sesión sin terminar la partida y lo propaga al resto de workers.
+ * @param {Object} dependencies - Maps de globalState, io y servicios (ver socket.handlers.js)
+ * @returns {function(socket, data): Promise<void>} Handler
+ */
 function createAbandonGameHandler(dependencies) {
     const { activeGames, lobbyPlayers, io, syncBus } = dependencies;
 

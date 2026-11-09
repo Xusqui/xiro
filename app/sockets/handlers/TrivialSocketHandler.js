@@ -494,6 +494,14 @@ function createCategoryChosenBoundHandler({ handleCategoryChosen }) {
     };
 }
 
+/**
+ * Reúne los handlers del modo Trivial: inicio, tirada, movimiento, casilla central, turno, revelado y fin.
+ * @param {Object} deps
+ * @param {Object} deps.io - Instancia de Socket.IO
+ * @param {Map} deps.lobbyPlayers - Lobby por sala
+ * @returns {{handleStart: Function, handleRollDice: Function, handleMove: Function, handleNextTurn: Function,
+ *   handlePostReveal: Function, handleEndGame: Function, handleCategoryChosen: Function}}
+ */
 module.exports = function createTrivialHandler({ io, lobbyPlayers }) {
     const { handleCenterLanding, handleCategoryChosen } = createCenterHandler({ io });
     const handleMove = createMoveHandler({ io, handleCenterLanding });

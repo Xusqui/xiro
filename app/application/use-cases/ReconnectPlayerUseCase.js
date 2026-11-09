@@ -51,8 +51,65 @@ function buildPlayerRejoinPayload({ nickname, player, game }) {
     };
 }
 
+/**
+ * Caso de uso: recupera la sesión de un jugador que perdió la conexión.
+ */
 class ReconnectPlayerUseCase {
-    /**
+        _failure(reason, message, code) {
+        return { success: false, reason, message, code };
+    }
+
+    async _sendSnapshot({ socket, player, roomId, game, teamConfigs }) {
+        // 3.5: Comprobar si hay fase de tablero Trivial activa en Redis.
+        // Se intenta SIEMPRE (no solo cuando game.isTrivial es true en este worker)
+        // porque activeGames solo existe en el worker que procesó handleStart.
+        // getTrivialBoardInfo hace un GET de Redis y devuelve null rápidamente si
+        // no hay estado trivial, por lo que el coste en games no-trivial es mínimo.
+        const trivialBoardInfo = await TrivialReconnectService.getTrivialBoardInfo(roomId);
+
+        // 4. Obtener estado actual (snapshot) - ASYNC para cargar racha desde Redis
+        const snapshot = await ReconnectionService.buildPlayerSnapshot(
+            player,
+            roomId,
+            game,
+            teamConfigs,
+            trivialBoardInfo
+        );
+
+        // 5. Enviar snapshot al jugador
+        socket.emit('reconnected-success', snapshot);
+
+        // 5.5: Si estamos en fase de tablero Trivial, re-emitir el evento exacto
+        // que el cliente recibió originalmente para que los handlers existentes
+        // restauren la pantalla (dado / casillas / categoría) sin nuevo código frontend.
+        if (trivialBoardInfo?.isBoardPhase) {
+            TrivialReconnectService.emitBoardEventToSocket(socket, trivialBoardInfo);
+        }
+
+        return snapshot;
+    }
+
+    _announceRejoin({ io, roomId, nickname, player, game }) {
+        // 6. Notificar a todos en la sala con información completa del jugador
+        // Incluir racha para que el presentador actualice el badge correctamente
+        const playerReconnectData = buildPlayerRejoinPayload({ nickname, player, game });
+        io.to(roomId).emit('player-rejoined', playerReconnectData);
+
+        // 7. Emitir evento de dominio
+        EventBus.emit(
+            'player.joined',
+            new PlayerJoinedEvent({
+                gameId: roomId,
+                playerId: player.id,
+                nickname: player.nickname,
+                roomId,
+                isReconnection: true,
+                timestamp: Date.now()
+            })
+        );
+    }
+
+/**
      * Ejecutar el use case
      * @param {Object} context - Contexto de la reconexión
      * @param {Object} context.socket - Socket del jugador
@@ -62,18 +119,13 @@ class ReconnectPlayerUseCase {
      */
     async execute(context) {
         const { socket, data, dependencies } = context;
-        const { activeGames, players, socketToPlayer, lobbyPlayers, io } = dependencies;
+        const { activeGames, players, socketToPlayer, lobbyPlayers, teamConfigs, io } = dependencies;
         const { pin, nickname } = data;
 
         try {
             // 1. Validar datos
             if (!pin || !nickname) {
-                return {
-                    success: false,
-                    reason: 'missing-data',
-                    message: 'PIN y nickname son requeridos',
-                    code: 'PIN_NICKNAME_REQUIRED'
-                };
+                return this._failure('missing-data', 'PIN y nickname son requeridos', 'PIN_NICKNAME_REQUIRED');
             }
 
             // 2. Buscar juego usando helper consolidado (puede no existir en lobby)
@@ -81,28 +133,14 @@ class ReconnectPlayerUseCase {
             const game = lookupResult?.game || null;
             const roomId = lookupResult?.roomId || pin;
 
-            const lobbyValidationError = validateLobbyPresence({
-                game,
-                lobbyPlayers,
-                roomId,
-                nickname,
-                players
-            });
+            const lobbyValidationError = validateLobbyPresence({ game, lobbyPlayers, roomId, nickname, players });
             if (lobbyValidationError) {
                 return lobbyValidationError;
             }
 
             // 3. Restaurar sesión usando ReconnectionService
-            const reconnectResult = await ReconnectionService.reconnectPlayer({
-                socket,
-                nickname,
-                roomId,
-                game,
-                players,
-                socketToPlayer,
-                lobbyPlayers,
-                io
-            });
+            const session = { socket, nickname, roomId, game, players, socketToPlayer, lobbyPlayers, io };
+            const reconnectResult = await ReconnectionService.reconnectPlayer(session);
 
             if (!reconnectResult.success) {
                 return reconnectResult;
@@ -119,49 +157,8 @@ class ReconnectPlayerUseCase {
                 await ReconnectionService.restorePlayerStreaksFromRedis(game, nickname, roomId);
             }
 
-            // 3.5: Comprobar si hay fase de tablero Trivial activa en Redis.
-            // Se intenta SIEMPRE (no solo cuando game.isTrivial es true en este worker)
-            // porque activeGames solo existe en el worker que procesó handleStart.
-            // getTrivialBoardInfo hace un GET de Redis y devuelve null rápidamente si
-            // no hay estado trivial, por lo que el coste en games no-trivial es mínimo.
-            const trivialBoardInfo = await TrivialReconnectService.getTrivialBoardInfo(roomId);
-
-            // 4. Obtener estado actual (snapshot) - ASYNC para cargar racha desde Redis
-            const snapshot = await ReconnectionService.buildPlayerSnapshot(
-                player,
-                roomId,
-                game,
-                dependencies.teamConfigs,
-                trivialBoardInfo
-            );
-
-            // 5. Enviar snapshot al jugador
-            socket.emit('reconnected-success', snapshot);
-
-            // 5.5: Si estamos en fase de tablero Trivial, re-emitir el evento exacto
-            // que el cliente recibió originalmente para que los handlers existentes
-            // restauren la pantalla (dado / casillas / categoría) sin nuevo código frontend.
-            if (trivialBoardInfo?.isBoardPhase) {
-                TrivialReconnectService.emitBoardEventToSocket(socket, trivialBoardInfo);
-            }
-
-            // 6. Notificar a todos en la sala con información completa del jugador
-            // Incluir racha para que el presentador actualice el badge correctamente
-            const playerReconnectData = buildPlayerRejoinPayload({ nickname, player, game });
-            io.to(roomId).emit('player-rejoined', playerReconnectData);
-
-            // 7. Emitir evento de dominio
-            EventBus.emit(
-                'player.joined',
-                new PlayerJoinedEvent({
-                    gameId: roomId,
-                    playerId: player.id,
-                    nickname: player.nickname,
-                    roomId,
-                    isReconnection: true,
-                    timestamp: Date.now()
-                })
-            );
+            const snapshot = await this._sendSnapshot({ socket, player, roomId, game, teamConfigs });
+            this._announceRejoin({ io, roomId, nickname, player, game });
 
             return {
                 success: true,
@@ -176,12 +173,7 @@ class ReconnectPlayerUseCase {
                 nickname
             });
 
-            return {
-                success: false,
-                reason: 'server-error',
-                message: 'Error al reconectar jugador',
-                code: 'RECONNECT_PLAYER_FAILED'
-            };
+            return this._failure('server-error', 'Error al reconectar jugador', 'RECONNECT_PLAYER_FAILED');
         }
     }
 }

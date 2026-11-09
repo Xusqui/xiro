@@ -22,6 +22,30 @@ const {
     buildSuccessResponse
 } = require('./submitAnswerFlow');
 
+async function respondAndAutoReveal({ flowResult, game, nickname, sPin, io, players, clearGameTimer }) {
+    const successResponse = buildSuccessResponse({
+        answerResult: flowResult.answerResult,
+        scoreContext: flowResult.scoreContext,
+        game,
+        nickname,
+        modeResult: flowResult.modeResult
+    });
+
+    const revealResult = await handleAutoRevealAfterAnswer({
+        sPin,
+        game,
+        io,
+        players,
+        clearGameTimer,
+        isTeamMode: flowResult.isTeamMode,
+        modeResult: flowResult.modeResult,
+        atomicProgress: flowResult.atomicProgress,
+        lockMissResponse: successResponse
+    });
+
+    return revealResult.shouldReturn ? revealResult.result : successResponse;
+}
+
 /**
  * Execute the full submit-answer command flow.
  *
@@ -59,15 +83,8 @@ async function executeSubmitAnswer(payload, dependencies) {
         return buildAnswerValidationFailure(answerValidation, sPin, game);
     }
 
-    const earlyResult = await runEarlyChecks({
-        game,
-        player,
-        playerId,
-        socket,
-        currentQuestion: flags.currentQuestion,
-        nickname,
-        sPin
-    });
+    const currentQuestion = flags.currentQuestion;
+    const earlyResult = await runEarlyChecks({ game, player, playerId, socket, currentQuestion, nickname, sPin });
     if (earlyResult.shouldStop) {
         return earlyResult.result;
     }
@@ -90,27 +107,7 @@ async function executeSubmitAnswer(payload, dependencies) {
         players
     });
 
-    const successResponse = buildSuccessResponse({
-        answerResult: flowResult.answerResult,
-        scoreContext: flowResult.scoreContext,
-        game,
-        nickname,
-        modeResult: flowResult.modeResult
-    });
-
-    const revealResult = await handleAutoRevealAfterAnswer({
-        sPin,
-        game,
-        io,
-        players,
-        clearGameTimer,
-        isTeamMode: flowResult.isTeamMode,
-        modeResult: flowResult.modeResult,
-        atomicProgress: flowResult.atomicProgress,
-        lockMissResponse: successResponse
-    });
-
-    return revealResult.shouldReturn ? revealResult.result : successResponse;
+    return respondAndAutoReveal({ flowResult, game, nickname, sPin, io, players, clearGameTimer });
 }
 
 module.exports = {

@@ -51,6 +51,11 @@ function groupLines(items) {
     return lines.map(finishLine).filter(l => l.text);
 }
 
+/**
+ * Mediana de una lista de números (el elemento central por arriba en listas pares).
+ * @param {number[]} values - Valores
+ * @returns {number} 0 si la lista está vacía
+ */
 function median(values) {
     const s = [...values].sort((a, b) => a - b);
     return s.length ? s[Math.floor(s.length / 2)] : 0;

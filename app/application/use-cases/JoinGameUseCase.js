@@ -26,6 +26,43 @@ const { getIdempotencyService } = require('../services/idempotency');
 const { createRedisRateLimiter } = require('../helpers/SocketRateLimiterFactory');
 const { getRedisClient } = require('../../config/redis');
 
+function mapJoinResponse(result) {
+    if (!result.success) {
+        return {
+            success: false,
+            error: result.error,
+            reason: result.reason,
+            code: result.code,
+            params: result.params
+        };
+    }
+
+    // Jugador desconectado que reclamó su nickname con la partida ya
+    // en marcha (ver JoinGameCommand._reconnectExistingPlayer): el
+    // handler necesita player/game, no los campos de alta de lobby.
+    if (result.isReconnect) {
+        return {
+            success: true,
+            isReconnect: true,
+            roomId: result.roomId,
+            playerId: result.playerId,
+            player: result.player,
+            game: result.game
+        };
+    }
+
+    // Devolver todos los datos del comando
+    return {
+        success: true,
+        roomId: result.roomId,
+        playerId: result.playerId,
+        nickname: result.nickname,
+        playersInLobby: result.playersInLobby,
+        teamMode: result.teamMode,
+        sessionSecret: result.sessionSecret
+    };
+}
+
 /**
  * Use Case para unirse a una partida
  */
@@ -74,62 +111,19 @@ class JoinGameUseCase {
         }));
 
         // 5. Respuesta al cliente
-        const responseHandler = new ResponseHandler((result, _context) => {
-            if (!result.success) {
-                return {
-                    success: false,
-                    error: result.error,
-                    reason: result.reason,
-                    code: result.code,
-                    params: result.params
-                };
-            }
+        const responseHandler = new ResponseHandler(mapJoinResponse);
 
-            // Jugador desconectado que reclamó su nickname con la partida ya
-            // en marcha (ver JoinGameCommand._reconnectExistingPlayer): el
-            // handler necesita player/game, no los campos de alta de lobby.
-            if (result.isReconnect) {
-                return {
-                    success: true,
-                    isReconnect: true,
-                    roomId: result.roomId,
-                    playerId: result.playerId,
-                    player: result.player,
-                    game: result.game
-                };
-            }
+        // Idempotency (si está disponible) -> Validation -> RateLimit -> Command -> Response
+        const handlers = [
+            idempotencyHandler,
+            validationHandler,
+            rateLimitHandler,
+            commandHandler,
+            responseHandler
+        ].filter(Boolean);
+        handlers.slice(0, -1).forEach((handler, index) => handler.setNext(handlers[index + 1]));
 
-            // Devolver todos los datos del comando
-            return {
-                success: true,
-                roomId: result.roomId,
-                playerId: result.playerId,
-                nickname: result.nickname,
-                playersInLobby: result.playersInLobby,
-                teamMode: result.teamMode,
-                sessionSecret: result.sessionSecret
-            };
-        });
-
-        // Encadenar handlers
-        let firstHandler;
-
-        if (idempotencyHandler) {
-            // Con idempotencia: Idempotency -> Validation -> RateLimit -> Command -> Response
-            idempotencyHandler.setNext(validationHandler);
-            validationHandler.setNext(rateLimitHandler);
-            rateLimitHandler.setNext(commandHandler);
-            commandHandler.setNext(responseHandler);
-            firstHandler = idempotencyHandler;
-        } else {
-            // Sin idempotencia: Validation -> RateLimit -> Command -> Response
-            validationHandler.setNext(rateLimitHandler);
-            rateLimitHandler.setNext(commandHandler);
-            commandHandler.setNext(responseHandler);
-            firstHandler = validationHandler;
-        }
-
-        this.chain = firstHandler;
+        this.chain = handlers[0];
     }
 
     /**

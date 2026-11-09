@@ -23,8 +23,48 @@ const MIN_RESPONSE_MS = 300;
  * @param {Object} ctx - Required execution context.
  * @returns {Promise<{shouldStop: boolean, result?: Object}>}
  */
+// Anti-cheat: reject impossible human reaction times.
+function isImpossiblyFast({ game, currentQuestion, nickname, sPin }) {
+    const questionStart = game.questionStartTime;
+    if (!questionStart || isSurveyType(currentQuestion?.question_type)) return false;
+
+    const responseMs = Date.now() - questionStart;
+    if (responseMs >= MIN_RESPONSE_MS) return false;
+
+    logger.warn('Anti-cheat: respuesta rechazada por latencia minima', {
+        roomId: sPin,
+        nickname,
+        responseMs,
+        threshold: MIN_RESPONSE_MS,
+        questionIndex: game.currentIndex
+    });
+    return true;
+}
+
+// Cross-worker idempotency lock: prevent scoring race conditions.
+async function isBlockedByAnswerLock({ game, playerId, currentQuestion, nickname, sPin }) {
+    const lock = await tryAcquireAnswerLock({
+        roomId: sPin,
+        game,
+        playerId,
+        questionIndex: game.currentIndex,
+        questionTimeLimit: currentQuestion?.time_limit
+    });
+    if (lock.acquired) return false;
+
+    logger.warn('Submit-answer duplicate blocked by distributed lock', {
+        roomId: sPin,
+        nickname,
+        playerId,
+        questionIndex: game.currentIndex,
+        lockKey: lock.lockKey,
+        questionEpoch: lock.questionEpoch
+    });
+    return true;
+}
+
 async function runEarlyChecks(ctx) {
-    const { game, player, playerId, socket, currentQuestion, nickname, sPin } = ctx;
+    const { game, player, socket, currentQuestion } = ctx;
 
     // If game ended, answer is accepted but ignored for scoring.
     if (game?.ended) {
@@ -51,41 +91,11 @@ async function runEarlyChecks(ctx) {
         return { shouldStop: true, result: { success: true, duplicate: true } };
     }
 
-    // Anti-cheat: reject impossible human reaction times.
-    const questionStart = game.questionStartTime;
-    if (questionStart && !isSurveyType(currentQuestion?.question_type)) {
-        const responseMs = Date.now() - questionStart;
-        if (responseMs < MIN_RESPONSE_MS) {
-            logger.warn('Anti-cheat: respuesta rechazada por latencia minima', {
-                roomId: sPin,
-                nickname,
-                responseMs,
-                threshold: MIN_RESPONSE_MS,
-                questionIndex: game.currentIndex
-            });
-            return { shouldStop: true, result: { success: false, reason: 'too-fast' } };
-        }
+    if (isImpossiblyFast(ctx)) {
+        return { shouldStop: true, result: { success: false, reason: 'too-fast' } };
     }
 
-    // Cross-worker idempotency lock: prevent scoring race conditions.
-    const lock = await tryAcquireAnswerLock({
-        roomId: sPin,
-        game,
-        playerId,
-        questionIndex: game.currentIndex,
-        questionTimeLimit: currentQuestion?.time_limit
-    });
-
-    if (!lock.acquired) {
-        logger.warn('Submit-answer duplicate blocked by distributed lock', {
-            roomId: sPin,
-            nickname,
-            playerId,
-            questionIndex: game.currentIndex,
-            lockKey: lock.lockKey,
-            questionEpoch: lock.questionEpoch
-        });
-
+    if (await isBlockedByAnswerLock(ctx)) {
         return { shouldStop: true, result: { success: true, duplicate: true } };
     }
 

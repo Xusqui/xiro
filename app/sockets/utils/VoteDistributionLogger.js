@@ -14,6 +14,14 @@ function sanitizeOptionText(option) {
     return option.text || option.optionText || option.option_text || '';
 }
 
+/**
+ * Calcula votos, porcentaje (un decimal) y corrección de cada opción.
+ * @param {Object} input
+ * @param {Object} input.question - Pregunta con `options`
+ * @param {Object<string, number>} input.stats - Votos por índice de opción
+ * @returns {{totalVotes: number, options: {index: number, id: *, text: string, votes: number, percentage: number,
+ *   isCorrect: boolean}[]}}
+ */
 function buildVoteDistribution({ question, stats }) {
     const optionCount = question?.options?.length || 0;
     const normalizedStats = stats && typeof stats === 'object' ? stats : {};
@@ -40,6 +48,16 @@ function buildVoteDistribution({ question, stats }) {
     };
 }
 
+/**
+ * Registra el reparto de votos de la pregunta revelada. No aplica a preguntas sin opciones ni de ordenar.
+ * @param {Object} input
+ * @param {string} input.roomId - ID de sesión
+ * @param {number} input.questionIndex - Pregunta (base 0)
+ * @param {Object} input.question - Pregunta
+ * @param {Object<string, number>} input.stats - Votos por opción
+ * @param {string} input.trigger - Motivo del revelado
+ * @returns {Object|null} Resultado de buildVoteDistribution, o null si no aplica
+ */
 function logVoteDistribution({ roomId, questionIndex, question, stats, trigger }) {
     if (!question || !Array.isArray(question.options) || question.options.length === 0) {
         logger.info('Question vote distribution skipped (no options)', {

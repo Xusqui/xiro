@@ -9,6 +9,7 @@ const { pinValidationLimiter } = require('../middlewares/security');
 const { handleRouteError, handleNotFound } = require('./helpers/RouteErrorHandler');
 const dbService = require('../services/db');
 const { SUPPORTED_LANGUAGES } = require('../config/languages');
+const { schemas } = require('../validation');
 const {
     validateRandomPointsConfig,
     MIN_VALUE: RANDOM_POINTS_MIN,
@@ -47,6 +48,32 @@ function validateLanguage(req, res) {
         });
         return false;
     }
+    return true;
+}
+
+/**
+ * Normaliza el PIN opcional del Trivial (recorta y pasa a mayúsculas) y rechaza el formato que los
+ * sockets no aceptarían al jugarlo. Sin PIN, el servicio genera uno.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @returns {boolean} true si se puede continuar; si no, ya se respondió 400 INVALID_PIN
+ */
+function normalizePin(req, res) {
+    const { pin } = req.body;
+    if (!pin) return true;
+
+    const { value, error } = schemas.pin.validate(pin);
+    if (error) {
+        // El editor del admin solo muestra `error`: lleva también el motivo
+        res.status(400).json({
+            error: `PIN inválido. ${error.details[0].message}`,
+            message: error.details[0].message,
+            code: 'INVALID_PIN',
+            params: { pin }
+        });
+        return false;
+    }
+    req.body.pin = value;
     return true;
 }
 
@@ -91,6 +118,7 @@ router.post('/api/trivial-games', authenticateAdmin, async (req, res) => {
     try {
         if (!validateLanguage(req, res)) return;
         if (!validateRandomPoints(req, res)) return;
+        if (!normalizePin(req, res)) return;
         const { pin } = req.body;
         if (pin) {
             const conflict = await dbService.pinExistsGlobally(pin, { excludeType: 'trivial' });
@@ -121,6 +149,7 @@ router.put('/api/trivial-games/:id', authenticateAdmin, async (req, res) => {
     try {
         if (!validateLanguage(req, res)) return;
         if (!validateRandomPoints(req, res)) return;
+        if (!normalizePin(req, res)) return;
         const { pin } = req.body;
         if (pin) {
             const conflict = await dbService.pinExistsGlobally(pin, {

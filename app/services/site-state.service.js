@@ -202,6 +202,12 @@ async function _checkSource(nowMs, force) {
     }
 }
 
+/**
+ * Estado público de la licencia del sitio, con caché. Las peticiones simultáneas comparten una sola comprobación.
+ * @param {Object} [options={}]
+ * @param {boolean} [options.force=false] - Ignorar la caché
+ * @returns {Promise<{licensed: boolean, checkedAt: number, expiresAt: string|null, reason: string|null}>}
+ */
 async function getPublicLicenseStatus(options = {}) {
     const nowMs = Date.now();
     const force = options.force === true;
@@ -223,6 +229,10 @@ async function getPublicLicenseStatus(options = {}) {
     return await _inflight;
 }
 
+/**
+ * Vacía la caché del estado de licencia y descarta la comprobación en curso.
+ * @returns {void}
+ */
 function clearLicenseStatusCache() {
     _cache = _emptyCache();
     _inflight = null;

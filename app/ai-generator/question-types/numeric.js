@@ -4,6 +4,11 @@
  */
 
 // maxPoints es opcional: el prompt no lo pide y normalize pone 100 por defecto
+/**
+ * Indica si la pregunta numérica de la IA es válida.
+ * @param {Object} q - Pregunta devuelta por la IA
+ * @returns {boolean}
+ */
 function validate(q) {
     return (
         Number.isFinite(q.correctAnswer) &&
@@ -18,6 +23,11 @@ function positiveOr(value, fallback) {
     return Number.isFinite(value) && value > 0 ? value : fallback;
 }
 
+/**
+ * Convierte una pregunta numérica de la IA al formato de subida de bancos, con la respuesta redondeada a entero.
+ * @param {Object} q - Pregunta devuelta por la IA
+ * @returns {Object} Pregunta normalizada
+ */
 function normalize(q) {
     return {
         questionText: q.question_text,

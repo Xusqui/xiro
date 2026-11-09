@@ -17,6 +17,9 @@
 const logger = require('../../config/logger');
 const { getWorkerContext } = require('../../config/log-context');
 
+/**
+ * Detecta peticiones repetidas por requestId y guarda en Redis el resultado de las ya procesadas (ver @fileoverview).
+ */
 class IdempotencyService {
     /**
      * @param {Object} redisClient - Cliente Redis

@@ -207,6 +207,18 @@ async function resolveRemoteGameType(pinStr) {
     }
 }
 
+async function joinAsRemotePresenter(socket, sessionId, pinStr) {
+    await socket.join(sessionId);
+    await socket.join(sessionId + ':presenter');
+
+    socket.data.role = 'remote-presenter';
+    socket.data.roomId = sessionId;
+    socket.data.pin = pinStr;
+    socket.data.isRemote = true;
+
+    addRemotePresenter(sessionId, socket.id);
+}
+
 /**
  * Crea el handler para el evento `join-remote-presenter`.
  * @param {Object} deps - { activeGames, lobbyPlayers }
@@ -250,15 +262,7 @@ function createJoinRemotePresenterHandler({ activeGames, lobbyPlayers, teamConfi
         const { sessionId, game } = found;
         const pinStr = String(pin || game?.pin || sessionId.split('-')[0]).toUpperCase();
 
-        await socket.join(sessionId);
-        await socket.join(sessionId + ':presenter');
-
-        socket.data.role = 'remote-presenter';
-        socket.data.roomId = sessionId;
-        socket.data.pin = pinStr;
-        socket.data.isRemote = true;
-
-        addRemotePresenter(sessionId, socket.id);
+        await joinAsRemotePresenter(socket, sessionId, pinStr);
 
         const gameType = await resolveRemoteGameType(pinStr);
         const snapshot = buildRemoteSnapshot(sessionId, game, lobbyPlayers, gameType, teamConfigs);

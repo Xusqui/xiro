@@ -69,28 +69,9 @@ async function resolveCanonicalQuestionStartTime(ctx) {
     return resolvedStartTime;
 }
 
-/**
- * Evaluate an answer with the appropriate domain service.
- *
- * @param {Object} ctx - Evaluation context.
- * @returns {Object} Service result with correctness and points.
- */
-function evaluateAnswer(ctx) {
-    const { flags, payload, currentQuestion, resolvedStartTime, questionTimeLimit, game, basePoints } = ctx;
-
-    if (flags.isOrderQuestion) {
-        return OrderAnswerService.processOrderAnswer({
-            question: currentQuestion,
-            order: payload.order
-        });
-    }
-
-    if (flags.isMatchingQuestion) {
-        return MatchingAnswerService.processMatchingAnswer({
-            question: currentQuestion,
-            matches: payload.matches
-        });
-    }
+// Anagrama, sopa de letras y completar la frase: null si la pregunta es de otro tipo
+function evaluateWordAnswer(ctx) {
+    const { flags, payload, currentQuestion, resolvedStartTime, questionTimeLimit, basePoints } = ctx;
 
     if (flags.isWordScrambleQuestion) {
         return processWordScrambleAnswer({
@@ -127,6 +108,35 @@ function evaluateAnswer(ctx) {
             basePoints
         });
     }
+
+    return null;
+}
+
+/**
+ * Evaluate an answer with the appropriate domain service.
+ *
+ * @param {Object} ctx - Evaluation context.
+ * @returns {Object} Service result with correctness and points.
+ */
+function evaluateAnswer(ctx) {
+    const { flags, payload, currentQuestion, resolvedStartTime, game, basePoints } = ctx;
+
+    if (flags.isOrderQuestion) {
+        return OrderAnswerService.processOrderAnswer({
+            question: currentQuestion,
+            order: payload.order
+        });
+    }
+
+    if (flags.isMatchingQuestion) {
+        return MatchingAnswerService.processMatchingAnswer({
+            question: currentQuestion,
+            matches: payload.matches
+        });
+    }
+
+    const wordResult = evaluateWordAnswer(ctx);
+    if (wordResult) return wordResult;
 
     if (flags.isSurveyMultipleQuestion) {
         return processSurveyMultipleAnswer({ selectedIndices: payload.selectedIndices });

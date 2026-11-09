@@ -27,22 +27,33 @@ function fallbackTypedDetails(question, answer) {
     };
 }
 
+/**
+ * Estrategia del modo equipos: revelación coordinada, ranking por equipos y espera a que respondan todos (ver
+ * @fileoverview).
+ */
 class TeamGameMode extends GameModeStrategy {
     /**
      * Procesa respuesta en modo equipos (revelación coordinada)
      */
+    // Notifica al presentador (batching automático); también si el jugador no tiene equipo
+    _notifyPresenterOfAnswer({ presenterNotification, player, answer, game }, roomId, playerTeam) {
+        if (!presenterNotification) return;
+
+        presenterNotification.notifyPlayerAnswered({
+            roomId,
+            nickname: player.nickname,
+            isCorrect: answer.isCorrect,
+            pointsEarned: answer.pointsEarned,
+            totalScore: game.scores[player.nickname] || 0,
+            questionIndex: game.currentIndex,
+            answerIndex: answer.answerIndex || 0,
+            teamName: playerTeam?.name,
+            streakInfo: answer.streakInfo || null
+        });
+    }
+
     async processAnswer(params) {
-        const {
-            player,
-            answer,
-            game,
-            io,
-            teamConfigs,
-            presenterNotification,
-            checkTeamCompletedFn,
-            checkAllTeamsCompletedFn,
-            players
-        } = params;
+        const { player, answer, game, io, teamConfigs, checkTeamCompletedFn, checkAllTeamsCompletedFn, players } = params;
         const { nickname } = player;
         const roomId = game.roomId || game.sessionId;
         const teamConfig = teamConfigs.get(roomId);
@@ -53,31 +64,15 @@ class TeamGameMode extends GameModeStrategy {
             return this._processAsIndividual(params);
         }
 
+        const playerTeam = this._findPlayerTeam(nickname, teamConfig);
         logger.debug('Processing answer in Team mode', {
             nickname,
             isCorrect: answer.isCorrect,
             points: answer.pointsEarned,
-            team: this._findPlayerTeam(nickname, teamConfig)
+            team: playerTeam
         });
 
-        // Notificar al presentador (batching automático)
-        if (presenterNotification) {
-            const playerTeam = this._findPlayerTeam(nickname, teamConfig);
-            presenterNotification.notifyPlayerAnswered({
-                roomId,
-                nickname,
-                isCorrect: answer.isCorrect,
-                pointsEarned: answer.pointsEarned,
-                totalScore: game.scores[nickname] || 0,
-                questionIndex: game.currentIndex,
-                answerIndex: answer.answerIndex || 0,
-                teamName: playerTeam?.name,
-                streakInfo: answer.streakInfo || null
-            });
-        }
-
-        // Encontrar el equipo del jugador
-        const playerTeam = this._findPlayerTeam(nickname, teamConfig);
+        this._notifyPresenterOfAnswer(params, roomId, playerTeam);
 
         if (!playerTeam) {
             logger.warn('Player team not found', { nickname, roomId });

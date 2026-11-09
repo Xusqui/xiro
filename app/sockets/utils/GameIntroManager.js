@@ -24,6 +24,11 @@ function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+/**
+ * Indica si la animación de inicio de partida está activa (ajuste de UI 'animacionInicio'; activa salvo que se
+ * desactive).
+ * @returns {boolean}
+ */
 function isIntroEnabled() {
     return uiSettings.get('animacionInicio') !== false;
 }

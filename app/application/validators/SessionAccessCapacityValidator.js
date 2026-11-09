@@ -50,6 +50,16 @@ function countSessionParticipants(players, roomId) {
     return total;
 }
 
+/**
+ * Comprueba si la sesión admite otro participante según el límite sin licencia y las licencias del sitio y del
+ * propietario. Un jugador desconectado que vuelve con su apodo siempre entra.
+ * @param {Object} input
+ * @param {string} [input.pin] - PIN
+ * @param {string} [input.sessionId] - ID de sesión
+ * @param {string} input.nickname - Apodo
+ * @param {Object} input.dependencies - { players, lobbyPlayers }
+ * @returns {Promise<{valid: boolean, reason?: string, message?: string, code?: string, params?: Object}>}
+ */
 async function validateSessionAccessCapacity({ pin, sessionId, nickname, dependencies }) {
     const players = dependencies?.players;
     const lobbyPlayers = dependencies?.lobbyPlayers;

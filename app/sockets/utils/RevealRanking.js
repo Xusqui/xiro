@@ -33,6 +33,12 @@ async function loadCanonicalScores(roomId) {
     }
 }
 
+/**
+ * Ranking de la pregunta: une los jugadores de la partida con los que tienen puntuación (pueden haber entrado a mitad),
+ * sin HOST y de mayor a menor.
+ * @param {Object} game - Partida activa
+ * @returns {{nickname: string, score: number, team: null}[]}
+ */
 function buildRankings(game) {
     const rankingNicknames = [
         ...new Set([
@@ -50,6 +56,11 @@ function buildRankings(game) {
         .sort((a, b) => b.score - a.score);
 }
 
+/**
+ * Pasa el ranking al formato que espera el cliente.
+ * @param {{nickname: string, score: number, team: *}[]} rankings - Resultado de buildRankings
+ * @returns {{name: string, pts: number, team: *}[]}
+ */
 function buildRankingFormatted(rankings) {
     return rankings.map(ranking => ({
         name: ranking.nickname,

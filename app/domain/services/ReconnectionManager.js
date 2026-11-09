@@ -14,6 +14,9 @@ const logger = require('../../config/logger');
 const { getWorkerContext } = require('../../config/log-context');
 const runtimeConfig = require('../../config/runtime-config');
 
+/**
+ * Limita los intentos de reconexión por jugador con espera exponencial (ver @fileoverview).
+ */
 class ReconnectionManager {
     constructor(options = {}) {
         // Configuración

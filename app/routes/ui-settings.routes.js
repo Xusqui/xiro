@@ -135,22 +135,54 @@ router.delete(
     }
 );
 
+/**
+ * Responde 500 cuando no se pudo escribir el fichero de ajustes.
+ * El mensaje del error de disco lleva rutas absolutas del servidor: se registra, no se expone.
+ * @param {import('express').Response} res
+ * @param {string} key - Ajuste que se intentaba guardar
+ * @param {Error & {code?: string}} err - Error de fs
+ * @returns {import('express').Response}
+ */
+function respondSaveFailed(res, key, err) {
+    logger.error('Error guardando ajustes de UI', { key, message: err.message, code: err.code });
+    return res.status(500).json({
+        success: false,
+        error: 'Error al guardar los ajustes en el servidor',
+        code: 'UI_SETTINGS_SAVE_FAILED'
+    });
+}
+
+// Las claves de ajuste son nombres cortos fijos; un tope evita eco de cadenas enormes en errores y logs.
+const UI_SETTING_KEY_MAX_LENGTH = 64;
+
 /** Admin — actualiza un ajuste de UI */
 router.post('/api/admin/ui-settings', authenticateAdmin, authorizeAdmin, (req, res) => {
-    try {
-        const { key, value } = req.body;
-        if (typeof key !== 'string' || !key) {
-            return res
-                .status(400)
-                .json({ success: false, error: 'Se requiere { key, value }', code: 'UI_SETTING_KEY_VALUE_REQUIRED' });
-        }
-        uiSettings.set(key, value);
-        uiSettings.persistAll();
-        logger.info('UI setting updated', { key, value });
-        res.json({ success: true });
-    } catch (err) {
-        res.status(400).json({ success: false, error: err.message });
+    const { key, value } = req.body || {};
+    if (typeof key !== 'string' || !key) {
+        return res
+            .status(400)
+            .json({ success: false, error: 'Se requiere { key, value }', code: 'UI_SETTING_KEY_VALUE_REQUIRED' });
     }
+    if (key.length > UI_SETTING_KEY_MAX_LENGTH) {
+        return res.status(400).json({
+            success: false,
+            error: `La clave no puede superar ${UI_SETTING_KEY_MAX_LENGTH} caracteres`,
+            code: 'UI_SETTING_KEY_TOO_LONG'
+        });
+    }
+    try {
+        uiSettings.set(key, value);
+    } catch (err) {
+        // set() solo lanza errores de validación propios, seguros de mostrar al admin
+        return res.status(400).json({ success: false, error: err.message });
+    }
+    try {
+        uiSettings.persistAll();
+    } catch (err) {
+        return respondSaveFailed(res, key, err);
+    }
+    logger.info('UI setting updated', { key, value });
+    res.json({ success: true });
 });
 
 module.exports = router;

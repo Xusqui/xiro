@@ -98,6 +98,73 @@ function executeReconnectPlayerUseCase(socket, player, dependencies) {
     });
 }
 
+// true si no hay sesión o el secreto no coincide (ya se ha avisado al cliente)
+function rejectUnknownSession({ player, playerId, socket, emitReconnectFailed }, sessionSecret) {
+    if (!player) {
+        emitReconnectFailed({
+            reason: 'not-found',
+            message: 'Sesión no encontrada o expirada. Únete de nuevo.',
+            code: 'RECONNECT_SESSION_NOT_FOUND'
+        });
+        logger.warn('Reconnection failed - player not found', { playerId, socketId: socket.id });
+        return true;
+    }
+
+    if (isValidSessionSecret(player, sessionSecret)) return false;
+
+    emitReconnectFailed({
+        reason: 'invalid-secret',
+        message: 'Sesión no válida. Únete de nuevo.',
+        code: 'RECONNECT_INVALID_SESSION'
+    });
+    logger.warn('Reconnection failed - invalid sessionSecret', {
+        playerId,
+        nickname: player.nickname,
+        hasExpectedSecret: !!player.sessionSecret,
+        socketId: socket.id
+    });
+    return true;
+}
+
+// true si el límite de intentos o el estado del jugador impiden reconectar (ya se ha avisado al cliente)
+function rejectBlockedReconnect({ player, playerId, socket, reconnectionManager, emitReconnectFailed }) {
+    const canReconnect = reconnectionManager.canReconnect(playerId);
+    if (!canReconnect.allowed) {
+        emitReconnectFailed({
+            reason: canReconnect.reason,
+            message: canReconnect.message,
+            code: canReconnect.code,
+            params: canReconnect.params,
+            extra: {
+                waitTime: canReconnect.waitTime
+            }
+        });
+        logger.warn('Reconnection blocked by ReconnectionManager', {
+            playerId,
+            nickname: player.nickname,
+            reason: canReconnect.reason,
+            waitTime: canReconnect.waitTime
+        });
+        return true;
+    }
+
+    if (isReconnectStateAllowed(player, socket.id)) return false;
+
+    reconnectionManager.recordAttempt(playerId, false);
+    emitReconnectFailed({
+        reason: 'invalid-state',
+        message: 'No es posible reconectar en este momento',
+        code: 'RECONNECT_INVALID_STATE'
+    });
+    logger.warn('Reconnection failed - invalid state', {
+        nickname: player.nickname,
+        status: player.status,
+        playerId,
+        sameSocket: player.socketId === socket.id
+    });
+    return true;
+}
+
 function createHandler(dependencies) {
     const { reconnectionManager, players } = dependencies;
 
@@ -114,64 +181,8 @@ function createHandler(dependencies) {
         const player = players.get(playerId);
         logPlayerState(playerId, player);
 
-        if (!player) {
-            emitReconnectFailed({
-                reason: 'not-found',
-                message: 'Sesión no encontrada o expirada. Únete de nuevo.',
-                code: 'RECONNECT_SESSION_NOT_FOUND'
-            });
-            logger.warn('Reconnection failed - player not found', { playerId, socketId: socket.id });
-            return;
-        }
-
-        if (!isValidSessionSecret(player, sessionSecret)) {
-            emitReconnectFailed({
-                reason: 'invalid-secret',
-                message: 'Sesión no válida. Únete de nuevo.',
-                code: 'RECONNECT_INVALID_SESSION'
-            });
-            logger.warn('Reconnection failed - invalid sessionSecret', {
-                playerId,
-                nickname: player.nickname,
-                hasExpectedSecret: !!player.sessionSecret,
-                socketId: socket.id
-            });
-            return;
-        }
-
-        const canReconnect = reconnectionManager.canReconnect(playerId);
-        if (!canReconnect.allowed) {
-            emitReconnectFailed({
-                reason: canReconnect.reason,
-                message: canReconnect.message,
-                code: canReconnect.code,
-                params: canReconnect.params,
-                extra: {
-                    waitTime: canReconnect.waitTime
-                }
-            });
-            logger.warn('Reconnection blocked by ReconnectionManager', {
-                playerId,
-                nickname: player.nickname,
-                reason: canReconnect.reason,
-                waitTime: canReconnect.waitTime
-            });
-            return;
-        }
-
-        if (!isReconnectStateAllowed(player, socket.id)) {
-            reconnectionManager.recordAttempt(playerId, false);
-            emitReconnectFailed({
-                reason: 'invalid-state',
-                message: 'No es posible reconectar en este momento',
-                code: 'RECONNECT_INVALID_STATE'
-            });
-            logger.warn('Reconnection failed - invalid state', {
-                nickname: player.nickname,
-                status: player.status,
-                playerId,
-                sameSocket: player.socketId === socket.id
-            });
+        const guard = { player, playerId, socket, reconnectionManager, emitReconnectFailed };
+        if (rejectUnknownSession(guard, sessionSecret) || rejectBlockedReconnect(guard)) {
             return;
         }
 
@@ -190,6 +201,11 @@ function createHandler(dependencies) {
     };
 }
 
+/**
+ * Crea el handler del evento 'reconnect-player'. Recupera la sesión de un jugador tras perder la conexión.
+ * @param {Object} dependencies - Maps de globalState, io y servicios (ver socket.handlers.js)
+ * @returns {function(socket, data): Promise<void>} Handler
+ */
 function createReconnectPlayerHandler(dependencies) {
     return createHandler(dependencies);
 }

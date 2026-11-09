@@ -193,6 +193,40 @@ async function maybeRestoreRevealState(socket, roomId, game, teamConfigs) {
     }
 }
 
+function markPresenterConnected(player, socket, game) {
+    player.socketId = socket.id;
+    player.status = game ? 'presenter_connected' : 'presenter_lobby';
+    player.lastSeen = Date.now();
+    player.disconnectedAt = null;
+    player.expiresAt = null;
+}
+
+async function publishPresenterReset(playerId, player, roomId) {
+    // Sync reset state to other workers so checkExpiredPlayers doesn't fire
+    // on stale expiresAt still held in their local players Maps.
+    const { RedisSyncBus } = require('../sync/RedisSyncBus');
+    const syncBus = RedisSyncBus.getInstance();
+    if (syncBus?.publishPlayerData) {
+        try {
+            await syncBus.publishPlayerData(playerId, {
+                ...player,
+                answeredQuestions:
+                    player.answeredQuestions instanceof Set
+                        ? [...player.answeredQuestions]
+                        : player.answeredQuestions || []
+            });
+        } catch (error) {
+            // El sync cross-worker es best-effort: la reconexión local ya está
+            // completa y no debe fallar por un error de pub/sub.
+            logger.warn('publishPlayerData failed during presenter reconnect', {
+                playerId,
+                roomId,
+                error: error.message
+            });
+        }
+    }
+}
+
 async function runPresenterReconnectFlow({ socket, playerId, sessionId, dependencies }) {
     const { players, socketToPlayer, activeGames, teamConfigs, lobbyPlayers, reconnectionManager, io } = dependencies;
     const player = players.get(playerId);
@@ -222,36 +256,10 @@ async function runPresenterReconnectFlow({ socket, playerId, sessionId, dependen
 
     ReconnectionService.disconnectOldSocket(player, socket, io, socketToPlayer);
 
-    player.socketId = socket.id;
-    player.status = game ? 'presenter_connected' : 'presenter_lobby';
-    player.lastSeen = Date.now();
-    player.disconnectedAt = null;
-    player.expiresAt = null;
+    markPresenterConnected(player, socket, game);
     socketToPlayer.set(socket.id, playerId);
 
-    // Sync reset state to other workers so checkExpiredPlayers doesn't fire
-    // on stale expiresAt still held in their local players Maps.
-    const { RedisSyncBus } = require('../sync/RedisSyncBus');
-    const syncBus = RedisSyncBus.getInstance();
-    if (syncBus?.publishPlayerData) {
-        try {
-            await syncBus.publishPlayerData(playerId, {
-                ...player,
-                answeredQuestions:
-                    player.answeredQuestions instanceof Set
-                        ? [...player.answeredQuestions]
-                        : player.answeredQuestions || []
-            });
-        } catch (error) {
-            // El sync cross-worker es best-effort: la reconexión local ya está
-            // completa y no debe fallar por un error de pub/sub.
-            logger.warn('publishPlayerData failed during presenter reconnect', {
-                playerId,
-                roomId,
-                error: error.message
-            });
-        }
-    }
+    await publishPresenterReset(playerId, player, roomId);
 
     await joinPresenterRooms(socket, roomId);
     configurePresenterSocketData(socket, roomId, nickname, playerId);
@@ -278,6 +286,11 @@ async function runPresenterReconnectFlow({ socket, playerId, sessionId, dependen
     });
 }
 
+/**
+ * Crea el handler del evento 'reconnect-presenter'. Recupera la sesión del presentador tras perder la conexión.
+ * @param {Object} dependencies - Maps de globalState, io y servicios (ver socket.handlers.js)
+ * @returns {function(socket, data): Promise<void>} Handler
+ */
 function createReconnectPresenterHandler(dependencies) {
     const { players } = dependencies;
 

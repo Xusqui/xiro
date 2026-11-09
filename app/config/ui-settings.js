@@ -132,6 +132,10 @@ const RANGE_SETTINGS = {
     }
 };
 
+/**
+ * Lista las imágenes de personalización subidas, ordenadas. Si no se puede leer la carpeta devuelve una lista vacía.
+ * @returns {string[]} Nombres de fichero
+ */
 function listPersonalizationImages() {
     try {
         return fs
@@ -144,6 +148,12 @@ function listPersonalizationImages() {
 }
 
 // path.basename evita path traversal (p.ej. "../../otra-carpeta/fichero").
+/**
+ * Borra una imagen de personalización; si era la elegida, la deselecciona y guarda los ajustes.
+ * @param {string} filename - Nombre de fichero
+ * @returns {void}
+ * @throws {Error} Si el nombre no es válido o la imagen no existe
+ */
 function deletePersonalizationImage(filename) {
     const name = path.basename(String(filename || ''));
     if (!PERSONALIZATION_IMAGE_PATTERN.test(name)) {
@@ -207,11 +217,20 @@ function _load() {
     }
 }
 
+/**
+ * Lee un ajuste de UI, recargando antes desde disco (cada worker tiene su copia).
+ * @param {string} key - Nombre del ajuste
+ * @returns {*} Valor
+ */
 function get(key) {
     _load();
     return _store[key];
 }
 
+/**
+ * Lee todos los ajustes de UI, recargando antes desde disco.
+ * @returns {Object} Copia de los ajustes
+ */
 function getAll() {
     _load();
     return { ..._store };
@@ -235,6 +254,13 @@ function _validateTeamNames(names) {
     return validated;
 }
 
+/**
+ * Valida y cambia un ajuste de UI en memoria. Para guardarlo en disco hay que llamar después a persistAll.
+ * @param {string} key - Nombre del ajuste
+ * @param {*} value - Valor nuevo
+ * @returns {void}
+ * @throws {Error} Si el ajuste no existe o el valor no es válido
+ */
 function set(key, value) {
     // Cluster PM2 sin sticky sessions: cada worker tiene su propio _store en memoria.
     // Sin este _load(), dos peticiones consecutivas (p.ej. activar personalización y
@@ -292,6 +318,11 @@ function set(key, value) {
     _store[key] = parseRangedNumber(key, value);
 }
 
+/**
+ * Escribe en disco los ajustes de UI de este worker.
+ * @returns {void}
+ * @throws {Error} Si no se puede escribir el fichero
+ */
 function persistAll() {
     fs.writeFileSync(SETTINGS_FILE, JSON.stringify(_store, null, 2), 'utf8');
 }

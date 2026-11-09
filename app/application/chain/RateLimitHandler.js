@@ -6,6 +6,9 @@
 const Handler = require('./Handler');
 const logger = require('../../config/logger');
 
+/**
+ * Eslabón que corta la cadena si el socket supera el límite de peticiones de la operación.
+ */
 class RateLimitHandler extends Handler {
     /**
      * @param {Object} rateLimiter - Instancia del rate limiter

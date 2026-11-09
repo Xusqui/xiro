@@ -8,52 +8,7 @@ const { pool } = require('../config/database');
 const { questionBankCache } = require('./cache.service');
 const logger = require('../config/logger');
 
-/**
- * Servicio singleton para precarga de caché de juegos
- */
-class CacheWarmingService {
-    constructor() {
-        this.warmingInProgress = false;
-        this.lastWarmingTime = null;
-        this.warmedGamesCount = 0;
-    }
-
-    /**
-     * Obtiene los juegos más populares (por created_at reciente y visible_to_presenter)
-     * @param {number} limit - Cantidad de juegos a obtener (default: 10)
-     * @returns {Promise<Array>} - Array de juegos populares
-     */
-    async getPopularGames(limit = 10) {
-        try {
-            const result = await pool.query(
-                `
-                SELECT id, pin, name, 'game' as type
-                FROM games 
-                WHERE pin IS NOT NULL 
-                  AND visible_to_presenter = true
-                ORDER BY created_at DESC
-                LIMIT $1
-            `,
-                [limit]
-            );
-
-            logger.debug('Popular games retrieved', { count: result.rows.length, limit });
-            return result.rows;
-        } catch (error) {
-            logger.error('Error getting popular games', { error: error.message, stack: error.stack });
-            return [];
-        }
-    }
-
-    /**
-     * Carga las preguntas de un juego específico
-     * @param {number} gameId - ID del juego
-     * @returns {Promise<Array>} - Array de preguntas del juego
-     */
-    async loadGameQuestions(gameId) {
-        try {
-            const result = await pool.query(
-                `
+const GAME_QUESTIONS_FOR_WARMING_SQL = `
                 WITH pool_config AS (
                     SELECT COALESCE(pool_question_count, 0) AS pool_question_count
                     FROM games WHERE id = $1
@@ -111,9 +66,53 @@ class CacheWarmingService {
                 GROUP BY sq.id, sq.question_text, sq.question_type,
                          sq.tipo_contenido, sq.url_recurso, sq.time_limit
                 ORDER BY RANDOM()
+            `;
+
+/**
+ * Servicio singleton para precarga de caché de juegos
+ */
+class CacheWarmingService {
+    constructor() {
+        this.warmingInProgress = false;
+        this.lastWarmingTime = null;
+        this.warmedGamesCount = 0;
+    }
+
+    /**
+     * Obtiene los juegos más populares (por created_at reciente y visible_to_presenter)
+     * @param {number} limit - Cantidad de juegos a obtener (default: 10)
+     * @returns {Promise<Array>} - Array de juegos populares
+     */
+    async getPopularGames(limit = 10) {
+        try {
+            const result = await pool.query(
+                `
+                SELECT id, pin, name, 'game' as type
+                FROM games 
+                WHERE pin IS NOT NULL 
+                  AND visible_to_presenter = true
+                ORDER BY created_at DESC
+                LIMIT $1
             `,
-                [gameId]
+                [limit]
             );
+
+            logger.debug('Popular games retrieved', { count: result.rows.length, limit });
+            return result.rows;
+        } catch (error) {
+            logger.error('Error getting popular games', { error: error.message, stack: error.stack });
+            return [];
+        }
+    }
+
+    /**
+     * Carga las preguntas de un juego específico
+     * @param {number} gameId - ID del juego
+     * @returns {Promise<Array>} - Array de preguntas del juego
+     */
+    async loadGameQuestions(gameId) {
+        try {
+            const result = await pool.query(GAME_QUESTIONS_FOR_WARMING_SQL, [gameId]);
 
             return result.rows;
         } catch (error) {
@@ -183,6 +182,21 @@ class CacheWarmingService {
      * @param {number} limit - Cantidad de juegos a precargar (default: 10)
      * @returns {Promise<Object>} - Estadísticas de la precarga
      */
+    async warmGames(games) {
+        let successCount = 0;
+        let failureCount = 0;
+
+        for (const game of games) {
+            const success = await this.warmGameById(game.id, game.pin, game.name, game.type);
+            if (success) {
+                successCount++;
+            } else {
+                failureCount++;
+            }
+        }
+        return { successCount, failureCount };
+    }
+
     async warmPopularGames(limit = 10) {
         if (this.warmingInProgress) {
             logger.warn('Cache warming already in progress, skipping');
@@ -203,18 +217,7 @@ class CacheWarmingService {
                 return { success: true, warmedCount: 0, duration: 0 };
             }
 
-            let successCount = 0;
-            let failureCount = 0;
-
-            // Precargar cada juego
-            for (const game of popularGames) {
-                const success = await this.warmGameById(game.id, game.pin, game.name, game.type);
-                if (success) {
-                    successCount++;
-                } else {
-                    failureCount++;
-                }
-            }
+            const { successCount, failureCount } = await this.warmGames(popularGames);
 
             const duration = Date.now() - startTime;
             this.lastWarmingTime = new Date();

@@ -218,33 +218,37 @@ async function handleDisconnectWithoutPlayerId(context) {
     metrics.decrementPlayers();
 }
 
+async function removePlayerAndNotifyRoom({ lobbyPlayers, activeGames, teamConfigs, io, logger }, roomId, nickname) {
+    const { removePlayerFromLobby } = require('../utils/LobbyManager');
+    const { getPlayersInRoom } = require('../utils/GameUtils');
+
+    await removePlayerFromLobby(lobbyPlayers, roomId, nickname);
+    await removeDisconnectedPlayerFromTeamsIfLobby({
+        roomId,
+        nickname,
+        activeGames,
+        teamConfigs,
+        io,
+        logger
+    });
+
+    if (roomId) {
+        const playersInRoom = await getPlayersInRoom(roomId, io);
+        io.to(roomId).emit('player-left', {
+            nickname,
+            players: playersInRoom
+        });
+    }
+}
+
 async function handleKnownPlayerDisconnect(context) {
-    const { socket, playerId, player, lobbyPlayers, activeGames, teamConfigs, metrics, io, logger } = context;
+    const { socket, playerId, player, metrics, io, logger } = context;
 
     const { nickname, roomId } = player;
     const isPresenter = player.role === 'presenter' || nickname === 'HOST';
 
     if (!isPresenter) {
-        const { removePlayerFromLobby } = require('../utils/LobbyManager');
-        const { getPlayersInRoom } = require('../utils/GameUtils');
-
-        await removePlayerFromLobby(lobbyPlayers, roomId, nickname);
-        await removeDisconnectedPlayerFromTeamsIfLobby({
-            roomId,
-            nickname,
-            activeGames,
-            teamConfigs,
-            io,
-            logger
-        });
-
-        if (roomId) {
-            const playersInRoom = await getPlayersInRoom(roomId, io);
-            io.to(roomId).emit('player-left', {
-                nickname,
-                players: playersInRoom
-            });
-        }
+        await removePlayerAndNotifyRoom(context, roomId, nickname);
     } else if (roomId) {
         emitPresenterDisconnected(io, roomId);
         logger.info('[DIAG] Presenter disconnected — keeping lobby/game intact', {
@@ -293,6 +297,25 @@ async function handleKnownPlayerDisconnect(context) {
     metrics.decrementPlayers();
 }
 
+// [DIAG] Always log every disconnect with reason + socket role so we can correlate
+function logSocketDisconnect(logger, socket, reason, playerId) {
+    logger.info('[DIAG] socket disconnect', {
+        socketId: socket.id,
+        reason,
+        hasPlayerId: !!playerId,
+        playerIdPreview: playerId ? String(playerId).slice(0, 8) + '…' : null,
+        socketDataRole: socket.data?.role || null,
+        socketDataNickname: socket.data?.nickname || null,
+        socketDataRoomId: socket.data?.roomId || null
+    });
+}
+
+/**
+ * Crea el handler del evento 'disconnect'. Marca al jugador o al presentador como desconectado y limpia lo que
+ * corresponda.
+ * @param {Object} dependencies - Maps de globalState, io y servicios (ver socket.handlers.js)
+ * @returns {function(socket, reason): Promise<void>} Handler
+ */
 module.exports = function createDisconnectHandler(dependencies) {
     const { players, socketToPlayer, lobbyPlayers, activeGames, teamConfigs, roomPresenterMap, metrics, io } =
         dependencies;
@@ -301,16 +324,7 @@ module.exports = function createDisconnectHandler(dependencies) {
         const logger = require('../../config/logger');
         const playerId = socketToPlayer.get(socket.id);
 
-        // [DIAG] Always log every disconnect with reason + socket role so we can correlate
-        logger.info('[DIAG] socket disconnect', {
-            socketId: socket.id,
-            reason,
-            hasPlayerId: !!playerId,
-            playerIdPreview: playerId ? String(playerId).slice(0, 8) + '…' : null,
-            socketDataRole: socket.data?.role || null,
-            socketDataNickname: socket.data?.nickname || null,
-            socketDataRoomId: socket.data?.roomId || null
-        });
+        logSocketDisconnect(logger, socket, reason, playerId);
 
         if (!playerId) {
             await handleDisconnectWithoutPlayerId({

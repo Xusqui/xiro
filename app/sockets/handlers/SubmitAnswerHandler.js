@@ -7,18 +7,49 @@ const SubmitAnswerUseCase = require('../../application/use-cases/SubmitAnswerUse
 const { pushSessionLog } = require('../../services/game-logs.service');
 const { notifyTeamAnswerDetail } = require('../utils/TeamAnswerDetailNotifier');
 
+function logSubmitReceived(logger, socket, playerId, data) {
+    logger.debug('Submit answer handler called', {
+        socketId: socket.id,
+        playerId,
+        answerType: data?.answerType,
+        hasSelectedIndices: Array.isArray(data?.selectedIndices),
+        selectedIndicesLength: data?.selectedIndices?.length,
+        nickname: data?.nickname,
+        pin: data?.pin,
+        sessionId: data?.sessionId
+    });
+}
+
+function pushAnswerSubmittedLog(playerId, data) {
+    const sessionId = data?.sessionId || data?.pin;
+    if (!sessionId) return;
+
+    pushSessionLog(sessionId, {
+        level: 'info',
+        event: 'answer-submitted',
+        actor: data?.nickname || playerId || null,
+        message: 'Answer payload received',
+        data: {
+            answerType: data?.answerType || null,
+            hasMultiSelection: Array.isArray(data?.selectedIndices),
+            selectedCount: Array.isArray(data?.selectedIndices) ? data.selectedIndices.length : 0
+        }
+    });
+}
+
+function pickUseCaseDependencies(dependencies) {
+    const { activeGames, players, teamConfigs, io, syncBus, clearGameTimer, ackManager, presenterNotification } =
+        dependencies;
+    return { activeGames, players, teamConfigs, io, syncBus, clearGameTimer, ackManager, presenterNotification };
+}
+
+/**
+ * Crea el handler del evento 'submit-answer'. Valida la respuesta, la puntúa y responde por el ACK.
+ * @param {Object} dependencies - Maps de globalState, io y servicios (ver socket.handlers.js)
+ * @returns {function(socket, data, callback): Promise<void>} Handler
+ */
 module.exports = function createSubmitAnswerHandler(dependencies) {
-    const {
-        players,
-        socketToPlayer,
-        activeGames,
-        teamConfigs,
-        io,
-        syncBus,
-        clearGameTimer,
-        ackManager,
-        presenterNotification
-    } = dependencies;
+    const { players, socketToPlayer, activeGames, teamConfigs, io } = dependencies;
 
     // Instanciar Use Case una sola vez
     const submitAnswerUseCase = new SubmitAnswerUseCase();
@@ -28,48 +59,17 @@ module.exports = function createSubmitAnswerHandler(dependencies) {
         const ack = typeof callback === 'function' ? callback : null;
         const playerId = socketToPlayer.get(socket.id);
 
-        logger.debug('Submit answer handler called', {
-            socketId: socket.id,
-            playerId,
-            answerType: data?.answerType,
-            hasSelectedIndices: Array.isArray(data?.selectedIndices),
-            selectedIndicesLength: data?.selectedIndices?.length,
-            nickname: data?.nickname,
-            pin: data?.pin,
-            sessionId: data?.sessionId
-        });
+        logSubmitReceived(logger, socket, playerId, data);
 
         try {
-            const sessionId = data?.sessionId || data?.pin;
-            if (sessionId) {
-                pushSessionLog(sessionId, {
-                    level: 'info',
-                    event: 'answer-submitted',
-                    actor: data?.nickname || playerId || null,
-                    message: 'Answer payload received',
-                    data: {
-                        answerType: data?.answerType || null,
-                        hasMultiSelection: Array.isArray(data?.selectedIndices),
-                        selectedCount: Array.isArray(data?.selectedIndices) ? data.selectedIndices.length : 0
-                    }
-                });
-            }
+            pushAnswerSubmittedLog(playerId, data);
 
             // Ejecutar Use Case (incluye validación, rate limiting, comando, respuesta)
             const result = await submitAnswerUseCase.execute({
                 socket,
                 data,
                 callback: ack,
-                dependencies: {
-                    activeGames,
-                    players,
-                    teamConfigs,
-                    io,
-                    syncBus,
-                    clearGameTimer,
-                    ackManager,
-                    presenterNotification
-                },
+                dependencies: pickUseCaseDependencies(dependencies),
                 playerId
             });
 

@@ -27,6 +27,10 @@ function parse(raw) {
     }
 }
 
+/**
+ * Estado de las reacciones de cada sala ({ enabled, set }) en Redis, con caché corta por worker y
+ * copia local si Redis no está disponible (ver @fileoverview).
+ */
 class ReactionsState {
     /**
      * @param {Object} options
@@ -44,6 +48,11 @@ class ReactionsState {
         this._local = new Map();
     }
 
+    /**
+     * Lee el estado de reacciones de la sala (con caché de `cacheMs`).
+     * @param {string} roomId - ID de sesión
+     * @returns {Promise<{enabled: boolean, set: string[]}>} Copia del estado
+     */
     async get(roomId) {
         const cached = this._cache.get(roomId);
         if (cached && this._now() - cached.at < this._cacheMs) return { ...cached.value };
@@ -52,6 +61,12 @@ class ReactionsState {
         return { ...value };
     }
 
+    /**
+     * Activa o desactiva las reacciones de la sala y guarda el estado.
+     * @param {string} roomId - ID de sesión
+     * @param {boolean} enabled - Nuevo valor
+     * @returns {Promise<{enabled: boolean, set: string[]}>} Estado resultante
+     */
     async setEnabled(roomId, enabled) {
         const value = { ...(await this._read(roomId)), enabled: Boolean(enabled) };
         await this._write(roomId, value, false);

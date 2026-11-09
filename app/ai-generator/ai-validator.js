@@ -54,6 +54,12 @@ const KEY_VALIDATORS = {
     gemini: _validateGeminiKey
 };
 
+/**
+ * Valida el formato de una clave de API según su proveedor.
+ * @param {string} provider - Proveedor
+ * @param {string} key - Clave de API
+ * @returns {{valid: boolean, error?: string, code?: string}}
+ */
 function validateApiKey(provider, key) {
     const validator = KEY_VALIDATORS[provider];
     if (!validator) {
@@ -65,6 +71,11 @@ function validateApiKey(provider, key) {
     return validator(key.trim());
 }
 
+/**
+ * Valida el formato del nombre de un modelo.
+ * @param {*} model - Nombre del modelo
+ * @returns {{valid: boolean, error?: string, code?: string}}
+ */
 function validateModel(model) {
     if (typeof model !== 'string' || !MODEL_PATTERN.test(model.trim())) {
         return { valid: false, error: 'El modelo indicado no es válido', code: 'AI_MODEL_INVALID' };

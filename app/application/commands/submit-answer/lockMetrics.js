@@ -38,6 +38,10 @@ function buildCounterPatch({ acquired, degraded }) {
     };
 }
 
+/**
+ * Métricas del cerrojo de respuestas vacías.
+ * @returns {{attempts: number, acquired: number, lock_miss: number, degraded_fallback: number, miss_rate: number}}
+ */
 function zeroMetrics() {
     return {
         attempts: 0,
@@ -83,6 +87,16 @@ async function applyPatchToKey(redisClient, key, patch) {
     await tx.exec();
 }
 
+/**
+ * Cuenta un intento de cerrojo en las métricas del worker y en Redis (global y por sala). Si Redis falla solo lo
+ * registra.
+ * @param {Object} input
+ * @param {string} input.roomId - ID de sesión
+ * @param {boolean} input.acquired - Si se tomó
+ * @param {boolean} input.degraded - Si se dejó pasar por fallo de Redis
+ * @param {Object} [input.redisClient=null] - Cliente Redis a reutilizar
+ * @returns {Promise<void>}
+ */
 async function recordAnswerLockMetric({ roomId, acquired, degraded, redisClient = null }) {
     const patch = buildCounterPatch({ acquired, degraded });
 
@@ -107,6 +121,12 @@ async function recordAnswerLockMetric({ roomId, acquired, degraded, redisClient 
     }
 }
 
+/**
+ * Lee las métricas compartidas del cerrojo de respuestas. Si Redis falla devuelve métricas a cero.
+ * @param {Object} [options]
+ * @param {string} [options.roomId] - Sala de la que leer también su desglose
+ * @returns {Promise<{global: Object, room: Object|null}>}
+ */
 async function getDistributedAnswerLockMetrics({ roomId } = {}) {
     try {
         const redis = await getRedisClient();

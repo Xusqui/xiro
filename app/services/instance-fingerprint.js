@@ -24,6 +24,11 @@ const BOGUS_UUIDS = new Set([
     '03000200-0400-0500-0006-000700080009'
 ]);
 
+/**
+ * Normaliza un identificador de plataforma (recorta y pasa a minúsculas). Los UUID genéricos de fábrica se descartan.
+ * @param {*} value - Identificador
+ * @returns {string} Cadena vacía si no es válido
+ */
 function normalizeIdentifier(value) {
     if (typeof value !== 'string') return '';
     const normalized = value.trim().toLowerCase();

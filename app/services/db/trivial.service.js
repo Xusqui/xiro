@@ -10,6 +10,12 @@ const pinCache = require('../pin-cache.service');
 const { assertEditorCanModifyResource, normalizeCreatorRole } = require('./resource-ownership.service');
 const { DEFAULTS: RANDOM_POINTS_DEFAULTS } = require('./random-points-config.service');
 
+/**
+ * Lista todos los juegos Trivial con su creador y sus categorías (en orden de tablero), del más reciente al más
+ * antiguo.
+ * @returns {Promise<Object[]>} Filas de trivial_games con `created_by_username` y `categories`
+ * @throws {Error} Si falla la consulta
+ */
 async function getAllTrivialGames() {
     const result = await pool.query(`
         SELECT tg.*, au.username AS created_by_username,
@@ -31,6 +37,12 @@ async function getAllTrivialGames() {
     return result.rows;
 }
 
+/**
+ * Lee un juego Trivial y sus categorías.
+ * @param {number} id - ID del juego
+ * @returns {Promise<{game: Object, categories: Object[]}|null>} null si no existe
+ * @throws {Error} Si falla la consulta
+ */
 async function getTrivialGameById(id) {
     const game = await pool.query('SELECT * FROM trivial_games WHERE id = $1', [id]);
     if (game.rows.length === 0) return null;
@@ -49,6 +61,13 @@ async function getTrivialGameById(id) {
     return { game: game.rows[0], categories: cats.rows };
 }
 
+/**
+ * Lee lo necesario para jugar un Trivial por su PIN (sin distinguir mayúsculas): tablero, rachas, puntos aleatorios y
+ * categorías.
+ * @param {string} pin - PIN del juego
+ * @returns {Promise<Object|null>} Juego con `categories`, o null
+ * @throws {Error} Si falla la consulta
+ */
 async function getTrivialGameByPin(pin) {
     const result = await pool.query(
         `
@@ -75,15 +94,9 @@ async function getTrivialGameByPin(pin) {
     return result.rows[0] || null;
 }
 
-async function createTrivialGame(data) {
+// Mismo orden en el INSERT y en el UPDATE: rachas, imagen y puntuación aleatoria
+function trivialSettingsParams(data) {
     const {
-        name,
-        language,
-        categories,
-        outer_casillas = 24,
-        visible_to_presenter = true,
-        created_by_role = 'admin',
-        created_by_user_id = null,
         use_streaks = false,
         streak_threshold = 3,
         streak_bonus_percentage = 0.5,
@@ -94,6 +107,61 @@ async function createTrivialGame(data) {
         use_random_points = false,
         random_points_min = RANDOM_POINTS_DEFAULTS.random_points_min,
         random_points_max = RANDOM_POINTS_DEFAULTS.random_points_max
+    } = data;
+    return [
+        use_streaks,
+        streak_threshold,
+        streak_bonus_percentage,
+        use_double_streaks,
+        double_streak_threshold,
+        double_streak_bonus_percentage,
+        image_url,
+        use_random_points,
+        random_points_min,
+        random_points_max
+    ];
+}
+
+async function insertTrivialCategories(client, gameId, categories) {
+    for (let i = 0; i < (categories || []).length; i++) {
+        const cat = categories[i];
+        const srcType = cat.source_type || 'bank';
+        const srcId = cat.source_id || cat.bank_id || null;
+        await client.query(
+            'INSERT INTO trivial_categories (trivial_id, category_name, color, bank_id, source_type, source_id, position) VALUES ($1,$2,$3,$4,$5,$6,$7)',
+            [gameId, cat.category_name, cat.color, srcType === 'bank' ? srcId : null, srcType, srcId, i]
+        );
+    }
+}
+
+function invalidateTrivialCaches(id, pin) {
+    questionBankCache.invalidate(id, 'trivial');
+    questionBankCache.invalidate(pin, 'trivial');
+    if (typeof questionBankCache.invalidateGame === 'function') {
+        questionBankCache.invalidateGame(id, 'trivial');
+        questionBankCache.invalidateGame(pin, 'trivial');
+    }
+
+    pinCache.invalidate(pin);
+    pinCache.invalidate(`presenter:${pin}`);
+}
+
+/**
+ * Crea un juego Trivial con sus categorías en una transacción. Sin PIN se genera uno de 6 cifras.
+ * @param {Object} data - Campos de trivial_games más `categories` ({category_name, color, source_type,
+ *   source_id|bank_id}[], en orden de tablero); los que faltan toman su valor por defecto
+ * @returns {Promise<Object>} Fila creada de trivial_games
+ * @throws {Error} Si falla la consulta (p. ej. PIN duplicado, 23505); se hace ROLLBACK
+ */
+async function createTrivialGame(data) {
+    const {
+        name,
+        language,
+        categories,
+        outer_casillas = 24,
+        visible_to_presenter = true,
+        created_by_role = 'admin',
+        created_by_user_id = null
     } = data;
     const pin = (data.pin || Math.floor(100000 + Math.random() * 900000).toString()).toUpperCase();
     const ownerRole = normalizeCreatorRole(created_by_role);
@@ -120,28 +188,11 @@ async function createTrivialGame(data) {
                 visible_to_presenter,
                 ownerRole,
                 ownerUserId,
-                use_streaks,
-                streak_threshold,
-                streak_bonus_percentage,
-                use_double_streaks,
-                double_streak_threshold,
-                double_streak_bonus_percentage,
-                image_url,
-                use_random_points,
-                random_points_min,
-                random_points_max
+                ...trivialSettingsParams(data)
             ]
         );
         const gameId = res.rows[0].id;
-        for (let i = 0; i < (categories || []).length; i++) {
-            const cat = categories[i];
-            const srcType = cat.source_type || 'bank';
-            const srcId = cat.source_id || cat.bank_id || null;
-            await client.query(
-                'INSERT INTO trivial_categories (trivial_id, category_name, color, bank_id, source_type, source_id, position) VALUES ($1,$2,$3,$4,$5,$6,$7)',
-                [gameId, cat.category_name, cat.color, srcType === 'bank' ? srcId : null, srcType, srcId, i]
-            );
-        }
+        await insertTrivialCategories(client, gameId, categories);
         await client.query('COMMIT');
         return res.rows[0];
     } catch (err) {
@@ -152,25 +203,18 @@ async function createTrivialGame(data) {
     }
 }
 
+/**
+ * Actualiza un juego Trivial, sustituye sus categorías e invalida sus cachés. Los fallos de guardado no se relanzan:
+ * se registran y se devuelven.
+ * @param {number} id - ID del juego
+ * @param {Object} data - Campos de trivial_games más `categories` ({category_name, color, source_type,
+ *   source_id|bank_id}[], en orden de tablero); los que faltan toman su valor por defecto
+ * @param {number|null} [actorUserId=null] - Editor que actúa; null para un admin (sin comprobar propiedad)
+ * @returns {Promise<{success: boolean, error?: string}>} success false con el mensaje si falla el guardado
+ * @throws {Error} code 'NOT_FOUND' (404) u 'OWNER_FORBIDDEN' (403) si un editor no es el creador
+ */
 async function updateTrivialGame(id, data, actorUserId = null) {
-    const {
-        name,
-        pin,
-        language,
-        categories,
-        outer_casillas,
-        visible_to_presenter = true,
-        use_streaks = false,
-        streak_threshold = 3,
-        streak_bonus_percentage = 0.5,
-        use_double_streaks = false,
-        double_streak_threshold = 5,
-        double_streak_bonus_percentage = 1.0,
-        image_url = null,
-        use_random_points = false,
-        random_points_min = RANDOM_POINTS_DEFAULTS.random_points_min,
-        random_points_max = RANDOM_POINTS_DEFAULTS.random_points_max
-    } = data;
+    const { name, pin, language, categories, outer_casillas, visible_to_presenter = true } = data;
     const upperPin = String(pin).toUpperCase();
     const client = await pool.connect();
     try {
@@ -190,45 +234,21 @@ async function updateTrivialGame(id, data, actorUserId = null) {
                 language,
                 outer_casillas,
                 visible_to_presenter,
-                use_streaks,
-                streak_threshold,
-                streak_bonus_percentage,
-                use_double_streaks,
-                double_streak_threshold,
-                double_streak_bonus_percentage,
-                image_url,
-                use_random_points,
-                random_points_min,
-                random_points_max,
+                ...trivialSettingsParams(data),
                 id
             ]
         );
         await client.query('DELETE FROM trivial_categories WHERE trivial_id=$1', [id]);
-        for (let i = 0; i < (categories || []).length; i++) {
-            const cat = categories[i];
-            const srcType = cat.source_type || 'bank';
-            const srcId = cat.source_id || cat.bank_id || null;
-            await client.query(
-                'INSERT INTO trivial_categories (trivial_id, category_name, color, bank_id, source_type, source_id, position) VALUES ($1,$2,$3,$4,$5,$6,$7)',
-                [id, cat.category_name, cat.color, srcType === 'bank' ? srcId : null, srcType, srcId, i]
-            );
-        }
+        await insertTrivialCategories(client, id, categories);
         await client.query('COMMIT');
 
-        // Invalidar caché del trivial actualizado
-        questionBankCache.invalidate(id, 'trivial');
-        questionBankCache.invalidate(upperPin, 'trivial');
-        if (typeof questionBankCache.invalidateGame === 'function') {
-            questionBankCache.invalidateGame(id, 'trivial');
-            questionBankCache.invalidateGame(upperPin, 'trivial');
-        }
-
-        pinCache.invalidate(upperPin);
-        pinCache.invalidate(`presenter:${upperPin}`);
+        invalidateTrivialCaches(id, upperPin);
 
         return { success: true };
     } catch (err) {
         await client.query('ROLLBACK');
+        // Los rechazos de propiedad llevan su status (403/404) y la ruta los responde tal cual
+        if (err.status) throw err;
         logger.error('Error updating trivial game', { error: err.message });
         return { success: false, error: err.message };
     } finally {
@@ -236,6 +256,14 @@ async function updateTrivialGame(id, data, actorUserId = null) {
     }
 }
 
+/**
+ * Borra un juego Trivial e invalida sus cachés.
+ * @param {number} id - ID del juego
+ * @param {number|null} [actorUserId=null] - Editor que actúa; null para un admin (sin comprobar propiedad)
+ * @returns {Promise<{success: true}>}
+ * @throws {Error} code 'NOT_FOUND' (404) u 'OWNER_FORBIDDEN' (403) si un editor no es el creador
+ * @throws {Error} Si falla la consulta
+ */
 async function deleteTrivialGame(id, actorUserId = null) {
     await assertEditorCanModifyResource('trivial', id, actorUserId, pool);
 
@@ -247,15 +275,7 @@ async function deleteTrivialGame(id, actorUserId = null) {
 
     // Invalidar caché
     if (trivialPin) {
-        questionBankCache.invalidate(id, 'trivial');
-        questionBankCache.invalidate(trivialPin, 'trivial');
-        if (typeof questionBankCache.invalidateGame === 'function') {
-            questionBankCache.invalidateGame(id, 'trivial');
-            questionBankCache.invalidateGame(trivialPin, 'trivial');
-        }
-
-        pinCache.invalidate(trivialPin);
-        pinCache.invalidate(`presenter:${trivialPin}`);
+        invalidateTrivialCaches(id, trivialPin);
     }
 
     return { success: true };
@@ -264,6 +284,13 @@ async function deleteTrivialGame(id, actorUserId = null) {
 // Las consultas de getRandomQuestionFromBank y getTrivialCategoryQuestion llevan
 // AND q.question_type <> 'survey_multiple': la encuesta de selección múltiple no tiene
 // respuesta correcta que dé quesito, así que el tablero no la escoge.
+/**
+ * Escoge al azar una pregunta de un banco, con sus opciones, sin repetir las ya hechas.
+ * @param {number} bankId - ID del banco
+ * @param {number[]} [excludeIds=[]] - IDs de preguntas ya hechas en la partida
+ * @returns {Promise<Object|null>} Pregunta con `options`, o null si no quedan
+ * @throws {Error} Si falla la consulta
+ */
 async function getRandomQuestionFromBank(bankId, excludeIds = []) {
     const params = [bankId];
     let exclusion = '';
@@ -284,6 +311,15 @@ async function getRandomQuestionFromBank(bankId, excludeIds = []) {
     return result.rows[0] || null;
 }
 
+/**
+ * Escoge al azar una pregunta para una categoría del tablero según su origen (banco, juego o juego personalizado), sin
+ * repetir las ya hechas.
+ * @param {'bank'|'game'|'custom_game'} sourceType - Origen de la categoría (cualquier otro valor se trata como banco)
+ * @param {number} sourceId - ID del origen
+ * @param {number[]} [excludeIds=[]] - IDs de preguntas ya hechas en la partida
+ * @returns {Promise<Object|null>} Pregunta con `options`, o null si no quedan
+ * @throws {Error} Si falla la consulta
+ */
 async function getTrivialCategoryQuestion(sourceType, sourceId, excludeIds = []) {
     const excl = excludeIds.length > 0 ? `AND q.id NOT IN (${excludeIds.map((_, i) => `$${i + 2}`).join(',')})` : '';
     const params = [sourceId, ...excludeIds];
@@ -302,6 +338,13 @@ async function getTrivialCategoryQuestion(sourceType, sourceId, excludeIds = [])
     return result.rows[0] || null;
 }
 
+/**
+ * Busca juegos Trivial que usan un origen como categoría, para impedir borrarlo.
+ * @param {'bank'|'game'|'custom_game'} sourceType - Tipo de origen
+ * @param {number} sourceId - ID del origen
+ * @returns {Promise<{name: string}[]>} Hasta 5 nombres; vacío si se puede borrar
+ * @throws {Error} Si falla la consulta
+ */
 async function checkTrivialUsage(sourceType, sourceId) {
     let whereClause;
     let params;

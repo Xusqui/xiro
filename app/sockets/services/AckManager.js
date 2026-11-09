@@ -19,6 +19,9 @@ const EventEmitter = require('events');
 const logger = require('../../config/logger');
 const { getWorkerContext } = require('../../config/log-context');
 
+/**
+ * Entrega con confirmación (ACK) de mensajes Socket.IO críticos, con reintentos y caducidad (ver @fileoverview).
+ */
 class AckManager extends EventEmitter {
     /**
      * @param {Object} options - Opciones de configuración

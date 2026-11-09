@@ -5,23 +5,47 @@
 
 const { pool } = require('../../config/database');
 
+/**
+ * Normaliza un nombre de usuario para comparar y guardar: recorta espacios y pasa a minúsculas.
+ * @param {*} username - Valor recibido (null/undefined dan cadena vacía)
+ * @returns {string}
+ */
 function normalizeUsername(username) {
     return String(username || '')
         .trim()
         .toLowerCase();
 }
 
+/**
+ * Normaliza un email para comparar y guardar: recorta espacios y pasa a minúsculas.
+ * @param {*} email - Valor recibido (null/undefined dan cadena vacía)
+ * @returns {string}
+ */
 function normalizeEmail(email) {
     return String(email || '')
         .trim()
         .toLowerCase();
 }
 
+/**
+ * Indica si existe al menos un usuario del panel.
+ * @param {Object} [queryable=pool] - Pool o cliente de una transacción en curso
+ * @returns {Promise<boolean>}
+ * @throws {Error} Si falla la consulta
+ */
 async function hasAnyUsers(queryable = pool) {
     const result = await queryable.query('SELECT EXISTS(SELECT 1 FROM admin_users) AS has_users');
     return result.rows[0]?.has_users === true;
 }
 
+/**
+ * Busca un usuario activo y verificado por nombre, sin distinguir mayúsculas.
+ * @param {string} username - Nombre de usuario
+ * @param {Object} [queryable=pool] - Pool o cliente de una transacción en curso
+ * @returns {Promise<Object|null>} {id, username, email, password_hash, role, is_active, is_verified} o null si no
+ *   existe, está inactivo o sin verificar
+ * @throws {Error} Si falla la consulta
+ */
 async function getActiveUserByUsername(username, queryable = pool) {
     const normalizedUsername = normalizeUsername(username);
     if (!normalizedUsername) return null;
@@ -40,6 +64,14 @@ async function getActiveUserByUsername(username, queryable = pool) {
     return user;
 }
 
+/**
+ * Busca un usuario activo y verificado por email, sin distinguir mayúsculas.
+ * @param {string} email - Email
+ * @param {Object} [queryable=pool] - Pool o cliente de una transacción en curso
+ * @returns {Promise<Object|null>} {id, username, email, password_hash, role, is_active, is_verified} o null si no
+ *   existe, está inactivo o sin verificar
+ * @throws {Error} Si falla la consulta
+ */
 async function getActiveUserByEmail(email, queryable = pool) {
     const normalizedEmail = normalizeEmail(email);
     if (!normalizedEmail) return null;
@@ -58,6 +90,13 @@ async function getActiveUserByEmail(email, queryable = pool) {
     return user;
 }
 
+/**
+ * Busca un usuario activo y verificado por id.
+ * @param {number} userId - ID del usuario
+ * @param {Object} [queryable=pool] - Pool o cliente de una transacción en curso
+ * @returns {Promise<Object|null>} {id, username, email, password_hash, role, is_active, is_verified} o null
+ * @throws {Error} Si falla la consulta
+ */
 async function getActiveUserById(userId, queryable = pool) {
     const result = await queryable.query(
         `SELECT id, username, email, password_hash, role, is_active, is_verified
@@ -72,6 +111,14 @@ async function getActiveUserById(userId, queryable = pool) {
     return result.rows[0] || null;
 }
 
+/**
+ * Busca cualquier usuario (activo o no) que ya use ese nombre o ese email.
+ * @param {string} username - Nombre de usuario
+ * @param {string} email - Email
+ * @param {Object} [queryable=pool] - Pool o cliente de una transacción en curso
+ * @returns {Promise<Object|null>} {id, username, email} o null
+ * @throws {Error} Si falla la consulta
+ */
 async function findExistingUserByUsernameOrEmail(username, email, queryable = pool) {
     const normalizedUsername = normalizeUsername(username);
     const normalizedEmail = normalizeEmail(email);
@@ -88,6 +135,13 @@ async function findExistingUserByUsernameOrEmail(username, email, queryable = po
     return result.rows[0] || null;
 }
 
+/**
+ * Busca cualquier usuario (activo o no) por email.
+ * @param {string} email - Email
+ * @param {Object} [queryable=pool] - Pool o cliente de una transacción en curso
+ * @returns {Promise<Object|null>} {id, username, email} o null
+ * @throws {Error} Si falla la consulta
+ */
 async function findUserByEmail(email, queryable = pool) {
     const normalizedEmail = normalizeEmail(email);
     if (!normalizedEmail) return null;
@@ -103,6 +157,17 @@ async function findUserByEmail(email, queryable = pool) {
     return result.rows[0] || null;
 }
 
+/**
+ * Crea el primer usuario como admin verificado. La tabla se bloquea durante la transacción para que dos altas
+ * simultáneas no creen dos admins.
+ * @param {string} username - Nombre de usuario
+ * @param {string} email - Email
+ * @param {string} passwordHash - Hash scrypt de la contraseña
+ * @returns {Promise<Object|null>} Usuario creado con `isFirstUser: true`, o null si ya había usuarios
+ * @throws {Error} code 'INVALID_USERNAME' si el usuario o el email quedan vacíos tras normalizar
+ * @throws {Error} code 'USERNAME_TAKEN' si el usuario o el email ya existen
+ * @throws {Error} Si falla la consulta
+ */
 async function createFirstAdminUser(username, email, passwordHash) {
     const normalizedUsername = normalizeUsername(username);
     const normalizedEmail = normalizeEmail(email);
@@ -154,6 +219,18 @@ async function createFirstAdminUser(username, email, passwordHash) {
     }
 }
 
+/**
+ * Crea un usuario verificado: admin si es el primero, editor en otro caso (con la tabla bloqueada durante la
+ * transacción).
+ * @param {string} username - Nombre de usuario
+ * @param {string} email - Email
+ * @param {string} passwordHash - Hash scrypt de la contraseña
+ * @returns {Promise<Object>} Usuario creado {id, username, email, role, is_active, is_verified, created_at,
+ *   isFirstUser}
+ * @throws {Error} code 'INVALID_USERNAME' si el usuario o el email quedan vacíos tras normalizar
+ * @throws {Error} code 'USERNAME_TAKEN' si el usuario o el email ya existen
+ * @throws {Error} Si falla la consulta
+ */
 async function createUserWithAutoRole(username, email, passwordHash) {
     const normalizedUsername = normalizeUsername(username);
     const normalizedEmail = normalizeEmail(email);
@@ -203,6 +280,14 @@ async function createUserWithAutoRole(username, email, passwordHash) {
     }
 }
 
+/**
+ * Cambia el hash de la contraseña de un usuario.
+ * @param {number} userId - ID del usuario
+ * @param {string} passwordHash - Nuevo hash scrypt
+ * @param {Object} [queryable=pool] - Pool o cliente de una transacción en curso
+ * @returns {Promise<boolean>} true si el usuario existía
+ * @throws {Error} Si falla la consulta
+ */
 async function updateUserPassword(userId, passwordHash, queryable = pool) {
     const result = await queryable.query(
         `UPDATE admin_users
@@ -216,6 +301,14 @@ async function updateUserPassword(userId, passwordHash, queryable = pool) {
     return result.rowCount > 0;
 }
 
+/**
+ * Cambia el email de un usuario (normalizado).
+ * @param {number} userId - ID del usuario
+ * @param {string} newEmail - Nuevo email
+ * @param {Object} [queryable=pool] - Pool o cliente de una transacción en curso
+ * @returns {Promise<Object|null>} {id, username, email, role} o null si no existe
+ * @throws {Error} Si falla la consulta (p. ej. email duplicado, 23505)
+ */
 async function updateUserEmail(userId, newEmail, queryable = pool) {
     const normalizedEmail = normalizeEmail(newEmail);
 
@@ -231,6 +324,12 @@ async function updateUserEmail(userId, newEmail, queryable = pool) {
     return result.rows[0] || null;
 }
 
+/**
+ * Lista todos los usuarios: primero los admins y después por nombre.
+ * @param {Object} [queryable=pool] - Pool o cliente de una transacción en curso
+ * @returns {Promise<Object[]>} Filas sin hash de contraseña
+ * @throws {Error} Si falla la consulta
+ */
 async function listUsers(queryable = pool) {
     const result = await queryable.query(
         `SELECT id, username, email, role, is_active, is_verified, created_at, updated_at
@@ -243,6 +342,13 @@ async function listUsers(queryable = pool) {
     return result.rows;
 }
 
+/**
+ * Borra un usuario.
+ * @param {number} userId - ID del usuario
+ * @param {Object} [queryable=pool] - Pool o cliente de una transacción en curso
+ * @returns {Promise<Object|null>} {id, username, email, role} del borrado o null si no existía
+ * @throws {Error} Si falla la consulta
+ */
 async function deleteUserById(userId, queryable = pool) {
     const result = await queryable.query(
         `DELETE FROM admin_users
@@ -254,6 +360,15 @@ async function deleteUserById(userId, queryable = pool) {
     return result.rows[0] || null;
 }
 
+/**
+ * Cambia el rol de un usuario.
+ * @param {number} userId - ID del usuario
+ * @param {'admin'|'editor'} newRole - Nuevo rol
+ * @param {Object} [queryable=pool] - Pool o cliente de una transacción en curso
+ * @returns {Promise<Object|null>} {id, username, email, role} o null si no existe
+ * @throws {Error} 'Rol inválido' si el rol no es admin ni editor
+ * @throws {Error} Si falla la consulta
+ */
 async function updateUserRole(userId, newRole, queryable = pool) {
     if (!['admin', 'editor'].includes(newRole)) {
         throw new Error('Rol inválido');

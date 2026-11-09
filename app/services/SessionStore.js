@@ -12,6 +12,9 @@
 const { getRedisClient } = require('../config/redis');
 const logger = require('../config/logger');
 
+/**
+ * Persistencia de sesiones de partida en Redis (`session:<id>`, TTL 6 h) para reconectar desde cualquier worker.
+ */
 class SessionStore {
     constructor() {
         this.keyPrefix = 'session:';

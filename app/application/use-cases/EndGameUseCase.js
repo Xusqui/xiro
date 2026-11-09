@@ -22,6 +22,7 @@ const { clearGameTimer } = require('../../state/globalState');
 const SessionStore = require('../../services/SessionStore');
 const { saveGameSession } = require('../../services/db/game-session.service');
 const { getRedisClient } = require('../../config/redis');
+const { bestEffort } = require('../../services/best-effort');
 const logger = require('../../config/logger');
 
 /**
@@ -84,8 +85,11 @@ class EndGameUseCase {
             if (!mergedPlayerAnswers[qIdx][nick]) {
                 try {
                     mergedPlayerAnswers[qIdx][nick] = JSON.parse(val);
-                } catch (_) {
-                    // ignore malformed Redis payload
+                } catch (parseError) {
+                    logger.debug('EndGameUseCase: respuesta malformada en Redis, se descarta', {
+                        field,
+                        error: parseError.message
+                    });
                 }
             }
         }
@@ -102,13 +106,15 @@ class EndGameUseCase {
 
             if (allEntries && Object.keys(allEntries).length > 0) {
                 this._mergePlayerAnswersFromRedisEntries(mergedPlayerAnswers, allEntries);
-                rc.del(`game:playeranswers:${roomId}`).catch(() => {});
+                bestEffort('borrado de respuestas en Redis', { roomId }, () => rc.del(`game:playeranswers:${roomId}`));
             }
 
             const startTs = await rc.get(`game:started:${roomId}`);
             if (startTs) {
                 redisStartTime = Number(startTs);
-                rc.del(`game:started:${roomId}`).catch(() => {});
+                bestEffort('borrado del inicio de partida en Redis', { roomId }, () =>
+                    rc.del(`game:started:${roomId}`)
+                );
             }
 
             const SessionStore = require('../../services/SessionStore');
@@ -116,8 +122,11 @@ class EndGameUseCase {
             if (redisSession && redisSession.dbSessionId) {
                 redisDbSessionId = redisSession.dbSessionId;
             }
-        } catch (_) {
-            // ignore Redis merge failure and continue with in-memory snapshot
+        } catch (error) {
+            logger.warn('EndGameUseCase: no se pudo leer el estado de Redis; se usa el de memoria', {
+                roomId,
+                error: error.message
+            });
         }
 
         return { mergedPlayerAnswers, redisStartTime, redisDbSessionId };
@@ -233,18 +242,14 @@ class EndGameUseCase {
     }
 
     async _invalidateSessionState(roomId) {
-        try {
+        await bestEffort('flush y cierre del guardado de sesión', { roomId }, async () => {
             const SessionSaveDebouncer = require('../../services/SessionSaveDebouncer');
             await SessionSaveDebouncer.flush(roomId);
             SessionSaveDebouncer.markClosed(roomId);
-        } catch (_) {
-            // best-effort flush and mark closed
-        }
-        try {
-            await SessionStore.save(roomId, { ended: true, savedAt: Date.now() }, 60);
-        } catch (_) {
-            // best-effort tombstone
-        }
+        });
+        await bestEffort('lápida de sesión en Redis', { roomId }, () =>
+            SessionStore.save(roomId, { ended: true, savedAt: Date.now() }, 60)
+        );
         await SessionStore.invalidate(roomId);
     }
 
@@ -261,12 +266,92 @@ class EndGameUseCase {
         }
     }
 
-    async _getRedisClientForCleanup() {
+    /**
+     * Obtiene el cliente de Redis para la limpieza. Si no está disponible, devuelve null y lo registra.
+     * @param {string} roomId - ID de la sala (para el log)
+     * @returns {Promise<Object|null>} Cliente de Redis o null
+     */
+    async _getRedisClientForCleanup(roomId) {
         try {
             return await getRedisClient();
-        } catch (_) {
+        } catch (error) {
+            logger.warn('EndGameUseCase: no se pudo obtener Redis para la limpieza', { roomId, error: error.message });
             return null;
         }
+    }
+
+    /**
+     * Devuelve el resultado de rechazo si la partida no existe o ya terminó; null si se puede finalizar.
+     * @param {string} roomId - ID de la sala
+     * @param {Object|undefined} game - Partida activa
+     * @returns {Object|null} Resultado de fallo o null
+     */
+    _rejectUnendableGame(roomId, game) {
+        if (!game) {
+            return { success: false, error: 'Game not found', code: 'GAME_NOT_FOUND', roomId };
+        }
+        if (game.ended) {
+            return { success: false, error: 'Game already ended', code: 'GAME_ALREADY_ENDED', roomId };
+        }
+        return null;
+    }
+
+    _computeFinalRanking(game, teamConfig) {
+        const ranking = calculateFinalRanking(game, teamConfig);
+        const maxPossibleScore = calculateMaxPossibleScore(game);
+        logger.info(
+            `EndGameUseCase: Ranking calculado (${ranking.length} entradas):`,
+            JSON.stringify(ranking.slice(0, 5), null, 2)
+        );
+        return { ranking, maxPossibleScore };
+    }
+
+    async _persistEndedSession({ roomId, game, ranking, reason, io }) {
+        const questionsSnapshot = this._buildQuestionsSnapshot(game);
+        const { mergedPlayerAnswers, redisStartTime, redisDbSessionId } = await this._loadRedisEndGameSnapshot(
+            roomId,
+            game
+        );
+        this._persistSessionNonBlocking({
+            roomId,
+            game,
+            ranking,
+            reason,
+            questionsSnapshot,
+            mergedPlayerAnswers,
+            redisStartTime,
+            redisDbSessionId,
+            io
+        });
+    }
+
+    async _releaseRoom(roomId, { activeGames, players, socketToPlayer, lobbyPlayers, io }) {
+        const redisForCleanup = await this._getRedisClientForCleanup(roomId);
+        cleanupGame({
+            roomId,
+            activeGames,
+            players,
+            socketToPlayer,
+            lobbyPlayers,
+            clearGameTimer,
+            redis: redisForCleanup
+        });
+
+        try {
+            if (io && typeof io.in === 'function') {
+                io.in(roomId).socketsLeave([roomId, roomId + ':players', roomId + ':presenter']);
+            }
+        } catch (err) {
+            logger.warn('Failed to make sockets leave rooms at game end', { roomId, error: err.message });
+        }
+    }
+
+    _logGameEnded(roomId, reason, ranking) {
+        logger.info(`EndGameUseCase: Partida ${roomId} finalizada (${reason})`);
+        logger.info(
+            `Ranking final top 3:`,
+            ranking.slice(0, 3).map(p => `${p.name}: ${p.pts}`)
+        );
     }
 
     /**
@@ -283,57 +368,18 @@ class EndGameUseCase {
             const SessionSaveDebouncer = require('../../services/SessionSaveDebouncer');
             await SessionSaveDebouncer.flush(roomId);
 
-            const { activeGames, players, socketToPlayer, lobbyPlayers, teamConfigs, io } =
-                this._getRuntimeDependencies();
-
-            const game = activeGames?.get(roomId);
-            if (!game) {
-                return {
-                    success: false,
-                    error: 'Game not found',
-                    code: 'GAME_NOT_FOUND',
-                    roomId
-                };
-            }
-
-            if (game.ended) {
-                return {
-                    success: false,
-                    error: 'Game already ended',
-                    code: 'GAME_ALREADY_ENDED',
-                    roomId
-                };
-            }
+            const runtime = this._getRuntimeDependencies();
+            const { io } = runtime;
+            const game = runtime.activeGames?.get(roomId);
+            const rejection = this._rejectUnendableGame(roomId, game);
+            if (rejection) return rejection;
 
             game.ended = true;
-
             await this._refreshCanonicalScores(roomId, game);
 
-            const teamConfig = teamConfigs?.get(roomId);
-            const ranking = calculateFinalRanking(game, teamConfig);
-            const maxPossibleScore = calculateMaxPossibleScore(game);
-
-            logger.info(
-                `EndGameUseCase: Ranking calculado (${ranking.length} entradas):`,
-                JSON.stringify(ranking.slice(0, 5), null, 2)
-            );
-
-            const questionsSnapshot = this._buildQuestionsSnapshot(game);
-            const { mergedPlayerAnswers, redisStartTime, redisDbSessionId } = await this._loadRedisEndGameSnapshot(
-                roomId,
-                game
-            );
-            this._persistSessionNonBlocking({
-                roomId,
-                game,
-                ranking,
-                reason,
-                questionsSnapshot,
-                mergedPlayerAnswers,
-                redisStartTime,
-                redisDbSessionId,
-                io
-            });
+            const teamConfig = runtime.teamConfigs?.get(roomId);
+            const { ranking, maxPossibleScore } = this._computeFinalRanking(game, teamConfig);
+            await this._persistEndedSession({ roomId, game, ranking, reason, io });
 
             logger.info(`EndGameUseCase: Limpiando timer de partida: ${roomId}`);
             clearGameTimer(roomId);
@@ -344,52 +390,13 @@ class EndGameUseCase {
             this._schedulePlayerAutoRedirect(io, roomId);
             await this._invalidateSessionState(roomId);
             await this._publishSessionAbandoned(roomId);
+            await this._releaseRoom(roomId, runtime);
 
-            const redisForCleanup = await this._getRedisClientForCleanup();
-            cleanupGame({
-                roomId,
-                activeGames,
-                players,
-                socketToPlayer,
-                lobbyPlayers,
-                clearGameTimer,
-                redis: redisForCleanup
-            });
-
-            // Make all sockets leave the rooms
-            try {
-                if (io && typeof io.in === 'function') {
-                    io.in(roomId).socketsLeave([roomId, roomId + ':players', roomId + ':presenter']);
-                }
-            } catch (err) {
-                logger.warn('Failed to make sockets leave rooms at game end', { roomId, error: err.message });
-            }
-
-            logger.info(`EndGameUseCase: Partida ${roomId} finalizada (${reason})`);
-            logger.info(
-                `Ranking final top 3:`,
-                ranking.slice(0, 3).map(p => `${p.name}: ${p.pts}`)
-            );
-
-            return {
-                success: true,
-                ranking,
-                roomId,
-                timestamp: Date.now()
-            };
+            this._logGameEnded(roomId, reason, ranking);
+            return { success: true, ranking, roomId, timestamp: Date.now() };
         } catch (error) {
-            logger.error('EndGameUseCase: Error crítico', {
-                roomId,
-                error: error.message,
-                stack: error.stack
-            });
-
-            return {
-                success: false,
-                error: error.message,
-                roomId,
-                timestamp: Date.now()
-            };
+            logger.error('EndGameUseCase: Error crítico', { roomId, error: error.message, stack: error.stack });
+            return { success: false, error: error.message, roomId, timestamp: Date.now() };
         }
     }
 }

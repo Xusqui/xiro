@@ -24,6 +24,10 @@ const sessionStore = require('../../services/SessionStore');
 const { getRedisClient } = require('../../config/redis');
 const logger = require('../../config/logger');
 
+/**
+ * Comando CQRS que arranca una partida: carga y prepara las preguntas, guarda la sesión y avisa a los clientes y a los
+ * demás workers.
+ */
 class ImprovedStartGameCommand extends Command {
     /**
      * @param {Object} payload
@@ -165,13 +169,58 @@ class ImprovedStartGameCommand extends Command {
         return teamConfig.teams.find(team => !Array.isArray(team.players) || team.players.length === 0) || null;
     }
 
+    _emptyTeamFailure(emptyTeam) {
+        return {
+            success: false,
+            error: `El equipo "${emptyTeam.name}" no tiene jugadores`,
+            code: 'TEAM_WITHOUT_PLAYERS',
+            // Dato aparte para que el presentador traduzca el mensaje
+            params: { teamName: emptyTeam.name }
+        };
+    }
+
+    async _prepareGameState({ pin, roomId, customGame, questions, playersInLobby }) {
+        const preparedQuestions = prepareQuestions(questions, customGame.type);
+        const streakConfig = await getStreakConfig(customGame.type, customGame.id);
+        const randomPointsConfig = await getRandomPointsConfig(customGame.type, customGame.id);
+        const gameState = this._buildGameState({
+            pin,
+            roomId,
+            customGame,
+            preparedQuestions,
+            playersInLobby,
+            streakConfig,
+            randomPointsConfig
+        });
+        return { preparedQuestions, gameState };
+    }
+
+    async _activateGame(
+        { pin, roomId, io, gameState, preparedQuestions, playersInLobby },
+        { activeGames, lobbyPlayers, metrics, syncBus }
+    ) {
+        activeGames.set(roomId, gameState);
+
+        this._persistStartTimestamps(roomId, gameState.questionStartTime);
+        lobbyPlayers.delete(roomId);
+        metrics.incrementGames();
+        await sessionStore.save(roomId, gameState);
+
+        await this._initializeExpectedCounters(roomId, io, playersInLobby);
+        transitionPlayersToConnected(roomId);
+
+        this._startStateMachine(roomId, preparedQuestions);
+        this._emitGameStarted(roomId, pin, preparedQuestions, playersInLobby);
+
+        if (syncBus) {
+            await syncBus.publishGameStarted(roomId, gameState);
+        }
+    }
+
     async execute({ activeGames, lobbyPlayers, teamConfigs, metrics, syncBus }) {
         const validation = this.validate();
         if (!validation.valid) {
-            return {
-                success: false,
-                error: validation.errors.join(', ')
-            };
+            return { success: false, error: validation.errors.join(', ') };
         }
 
         const { roomId, io } = this.payload;
@@ -196,63 +245,28 @@ class ImprovedStartGameCommand extends Command {
             }
 
             const emptyTeam = this._findEmptyTeam(roomId, teamConfigs);
-            if (emptyTeam) {
-                return {
-                    success: false,
-                    error: `El equipo "${emptyTeam.name}" no tiene jugadores`,
-                    code: 'TEAM_WITHOUT_PLAYERS',
-                    // Dato aparte para que el presentador traduzca el mensaje
-                    params: { teamName: emptyTeam.name }
-                };
-            }
+            if (emptyTeam) return this._emptyTeamFailure(emptyTeam);
 
             const questions = await this._loadQuestions(customGame);
             if (!questions || questions.length === 0) {
                 return { success: false, error: 'No hay preguntas disponibles', code: 'NO_QUESTIONS_AVAILABLE' };
             }
 
-            const preparedQuestions = prepareQuestions(questions, customGame.type);
-            const streakConfig = await getStreakConfig(customGame.type, customGame.id);
-            const randomPointsConfig = await getRandomPointsConfig(customGame.type, customGame.id);
-            const gameState = this._buildGameState({
+            const { preparedQuestions, gameState } = await this._prepareGameState({
                 pin,
                 roomId,
                 customGame,
-                preparedQuestions,
-                playersInLobby,
-                streakConfig,
-                randomPointsConfig
+                questions,
+                playersInLobby
             });
 
-            activeGames.set(roomId, gameState);
+            const runtime = { activeGames, lobbyPlayers, metrics, syncBus };
+            await this._activateGame({ pin, roomId, io, gameState, preparedQuestions, playersInLobby }, runtime);
 
-            this._persistStartTimestamps(roomId, gameState.questionStartTime);
-            lobbyPlayers.delete(roomId);
-            metrics.incrementGames();
-            await sessionStore.save(roomId, gameState);
-
-            await this._initializeExpectedCounters(roomId, io, playersInLobby);
-            transitionPlayersToConnected(roomId);
-
-            this._startStateMachine(roomId, preparedQuestions);
-            this._emitGameStarted(roomId, pin, preparedQuestions, playersInLobby);
-
-            if (syncBus) {
-                await syncBus.publishGameStarted(roomId, gameState);
-            }
-
-            return {
-                success: true,
-                gameState,
-                preparedQuestions,
-                playersInLobby
-            };
+            return { success: true, gameState, preparedQuestions, playersInLobby };
         } catch (error) {
             logger.error('Error en ImprovedStartGameCommand', { error: error.message, stack: error.stack });
-            return {
-                success: false,
-                error: error.message || 'Error al iniciar el juego'
-            };
+            return { success: false, error: error.message || 'Error al iniciar el juego' };
         }
     }
 

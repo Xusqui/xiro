@@ -12,6 +12,8 @@ import { startFireworks, stopFireworks } from './presenter-podio-fireworks.js?v=
 import { mountPodium3d, podiumEntries, wantsPodium3d } from './podium3d/podium3d.js?v=20261031120000';
 import { createChamaleonImage } from './presenter-chamaleon.js?v=20260922172926';
 import { getAvatarUrl } from './presenter-avatars.js?v=20261031120000';
+import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
+import { t } from '../core/translate.js?v=20261105120000';
 
 const PODIUM_3D_STAGE =
     '<div class="podium3d-stage" aria-hidden="true"><canvas class="podium3d-canvas"></canvas><div class="podium3d-labels"></div></div>';
@@ -31,23 +33,6 @@ const TEAM_COLOR_CLASSES = {
 let podiumLanguageListenerBound = false;
 let podium3d = null;
 let cancelPodiumReveal = null;
-
-function tr(key, fallback) {
-    return _t(key, null, fallback || key);
-}
-
-function escapeHtml(text) {
-    return String(text || '').replace(/[&<>'"]/g, char => {
-        const map = {
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            '"': '&quot;',
-            "'": '&#39;'
-        };
-        return map[char] || char;
-    });
-}
 
 function buildFlickerWordHtml(word) {
     const chars = String(word || '').split('');
@@ -80,7 +65,7 @@ function refreshActivePodiumTitle() {
     const isTeamMode = titleEl.dataset.podiumTeamMode === 'true';
     const titleKey = isTeamMode ? 'presenter.podio.teams_title' : 'presenter.podio.final_title';
     const titleFallback = isTeamMode ? 'Podio Equipos' : 'Podio Final';
-    titleEl.innerHTML = _tHtml(buildPodiumTitleHtml(tr(titleKey, titleFallback)));
+    titleEl.innerHTML = _tHtml(buildPodiumTitleHtml(t(titleKey, titleFallback)));
 }
 
 function bindPodiumLanguageRefresh() {
@@ -121,8 +106,8 @@ export function renderPodio(ranking) {
     const isTeamMode = ranking.length > 0 && ranking[0].isTeam;
 
     const podiumTitleHtml = isTeamMode
-        ? buildPodiumTitleHtml(tr('presenter.podio.teams_title', 'Podio Equipos'))
-        : buildPodiumTitleHtml(tr('presenter.podio.final_title', 'Podio Final'));
+        ? buildPodiumTitleHtml(t('presenter.podio.teams_title', 'Podio Equipos'))
+        : buildPodiumTitleHtml(t('presenter.podio.final_title', 'Podio Final'));
 
     bindPodiumLanguageRefresh();
 
@@ -171,9 +156,9 @@ export function renderPodio(ranking) {
                         .join('');
                 })()}
             </div>
-            ${isTeamMode ? `<p class="podium-team-note">${_t('presenter.podio.team_score_note', null, 'Puntuación de equipo: media de sus jugadores, ajustada cuando los equipos tienen distinto tamaño')}</p>` : ''}
+            ${isTeamMode ? `<p class="podium-team-note">${t('presenter.podio.team_score_note', 'Puntuación de equipo: media de sus jugadores, ajustada cuando los equipos tienen distinto tamaño')}</p>` : ''}
             <button data-presenter-action="conclude-and-home" class="podium-home-btn bg-plum-600 hover:bg-plum-500 px-8 py-3 rounded-full text-white font-bold uppercase transition shadow-lg">
-                <i class="fas fa-list mr-2"></i>${_t('presenter.podio.show_games', null, 'Mostrar juegos')}
+                <i class="fas fa-list mr-2"></i>${t('presenter.podio.show_games', 'Mostrar juegos')}
             </button>
 
         </div>`);

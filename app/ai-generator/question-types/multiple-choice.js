@@ -11,6 +11,11 @@ function validate(q) {
     return corrects.length >= 2 && corrects.length <= 6;
 }
 
+/**
+ * Convierte una pregunta de selección múltiple de la IA al formato de subida de bancos.
+ * @param {Object} q - Pregunta devuelta por la IA
+ * @returns {Object} Pregunta normalizada
+ */
 function normalize(q) {
     return {
         questionText: q.question_text,

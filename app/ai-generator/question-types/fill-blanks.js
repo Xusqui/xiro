@@ -18,6 +18,12 @@ function validate(q) {
     return parsed.text.replace(MARKER, '').trim().length > 0;
 }
 
+/**
+ * Convierte una pregunta de completar la frase de la IA al formato de subida de bancos, con una opción por palabra
+ * entre corchetes.
+ * @param {Object} q - Pregunta devuelta por la IA
+ * @returns {Object} Pregunta normalizada
+ */
 function normalize(q) {
     const parsed = FB.parseEditorText(q.question_text);
     return {

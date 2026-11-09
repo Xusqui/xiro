@@ -45,6 +45,12 @@ function hasSupportedAnswerShape(payload) {
     return hasLegacyAnswerShape(payload) || hasTypedAnswerShape(payload);
 }
 
+/**
+ * Valida la forma del payload de submit-answer: sala (pin o sessionId), apodo, playerId y una respuesta con forma
+ * conocida para algún tipo de pregunta.
+ * @param {Object} [payload={}] - Payload recibido
+ * @returns {{valid: boolean, errors: string[]}}
+ */
 function validateSubmitAnswerPayload(payload = {}) {
     const errors = [];
     const { pin, sessionId, nickname, playerId } = payload;

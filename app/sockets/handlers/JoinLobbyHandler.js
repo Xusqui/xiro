@@ -4,7 +4,7 @@
  */
 
 const { validateSocket, schemas } = require('../../validation');
-const JoinGameUseCase = require('../../application/use-cases/JoinGameUseCase');
+const { buildJoinGameUseCase } = require('../utils/JoinGameUseCaseFactory');
 const { pushSessionLog } = require('../../services/game-logs.service');
 const ReconnectionService = require('../services/ReconnectionService');
 const logger = require('../../config/logger');
@@ -91,30 +91,14 @@ async function emitJoinSuccess({ socket, nickname, result, avatar }) {
     });
 }
 
+/**
+ * Crea el handler del evento 'join-lobby'. Un jugador entra al lobby de una sala.
+ * @param {Object} dependencies - Maps de globalState, io y servicios (ver socket.handlers.js)
+ * @returns {function(socket, data): Promise<void>} Handler
+ */
 module.exports = function createJoinLobbyHandler(dependencies) {
-    const {
-        players,
-        socketToPlayer,
-        lobbyPlayers,
-        teamConfigs,
-        activeGames,
-        socketRateLimits,
-        roomPresenterMap,
-        io,
-        avatars
-    } = dependencies;
-
-    // Instanciar Use Case con dependencias
-    const joinGameUseCase = new JoinGameUseCase({
-        players,
-        socketToPlayer,
-        lobbyPlayers,
-        teamConfigs,
-        activeGames,
-        socketRateLimits,
-        roomPresenterMap,
-        io
-    });
+    const { teamConfigs, io, avatars } = dependencies;
+    const joinGameUseCase = buildJoinGameUseCase(dependencies);
 
     return async function handleJoinLobby(socket, data) {
         // Validación básica de schema

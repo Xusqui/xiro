@@ -10,23 +10,16 @@
 'use strict';
 
 globalThis.StandaloneQuestionFillBlanks = (() => {
-    const { escapeHtml, submitAnswer } = StandaloneQuestionCommon;
+    const { escapeHtml, t, submitAnswer } = StandaloneQuestionCommon;
     const HINT_COSTS = [30, 60, 75];
     const MAX_HINTS = 3;
     let lastText = '';
 
-    function _t(key, fallback, vars) {
-        const value = window.XiroI18n?.t(key, vars, fallback);
-        return value && value !== key
-            ? value
-            : fallback.replace(/\{(\w+)\}/g, (m, k) => (vars && k in vars ? vars[k] : m));
-    }
-
     function hintButtonHtml(i, used) {
         const exhausted = used >= MAX_HINTS;
         const label = exhausted
-            ? _t('standalone.game.fillblanks_hint_none', 'Sin pistas')
-            : _t('standalone.game.fillblanks_hint_cost', 'Pista −{pct} %', { pct: HINT_COSTS[used] });
+            ? t('standalone.game.fillblanks_hint_none', 'Sin pistas')
+            : t('standalone.game.fillblanks_hint_cost', 'Pista −{pct} %', { pct: HINT_COSTS[used] });
         return `<button type="button" class="fb-hint-btn" data-hint="${i}" ${exhausted ? 'disabled' : ''}>
             <span class="fb-hint-btn__num">${i + 1}</span><span>${escapeHtml(label)}</span></button>`;
     }
@@ -41,15 +34,15 @@ globalThis.StandaloneQuestionFillBlanks = (() => {
         container.innerHTML = `
             <div class="pl-viewport">
                 <div class="pl-nickname-bar"><p>${escapeHtml(StandaloneState.get().nickname)}</p></div>
-                <div class="pl-question-panel fb-question"><h2>${_t('standalone.game.fillblanks_title', 'Completa la frase')}</h2></div>
+                <div class="pl-question-panel fb-question"><h2>${t('standalone.game.fillblanks_title', 'Completa la frase')}</h2></div>
                 <div class="fb-play">
                     <div class="fb-play__card">${FB.sanitizeSentenceHtml(lastText, lengths, { sizeClass: 'fb-sentence--player' })}</div>
-                    <p class="fb-play__help">${_t('standalone.game.fillblanks_help', 'Toca un hueco y escribe la palabra. Envía cuando tengas todas las que sepas.')}</p>
+                    <p class="fb-play__help">${t('standalone.game.fillblanks_help', 'Toca un hueco y escribe la palabra. Envía cuando tengas todas las que sepas.')}</p>
                     <div class="fb-hints">${lengths.map((_, i) => hintButtonHtml(i, 0)).join('')}</div>
                 </div>
                 <div class="pl-submit-bar">
                     <button type="button" class="pl-submit-btn" data-standalone-action="submit-fillblanks">
-                        <i class="fas fa-paper-plane"></i> ${_t('standalone.game.submit', 'Enviar respuesta')}
+                        <i class="fas fa-paper-plane"></i> ${t('standalone.game.submit', 'Enviar respuesta')}
                     </button>
                 </div>
             </div>
@@ -100,7 +93,7 @@ globalThis.StandaloneQuestionFillBlanks = (() => {
             input.autocomplete = 'off';
             input.autocapitalize = 'characters';
             input.spellcheck = false;
-            input.setAttribute('aria-label', _t('standalone.game.fillblanks_blank_aria', 'Hueco {n}', { n: i + 1 }));
+            input.setAttribute('aria-label', t('standalone.game.fillblanks_blank_aria', 'Hueco {n}', { n: i + 1 }));
             blank.appendChild(input);
             input.addEventListener('input', () => {
                 model.typed[i] = input.value
@@ -173,7 +166,7 @@ globalThis.StandaloneQuestionFillBlanks = (() => {
     function resultMessage(data, pointsPill) {
         const details = data.fillBlanksDetails || {};
         const total = details.totalBlanks || (details.words || []).length;
-        const summary = _t('standalone.game.fillblanks_correct', '{n} de {total} palabras', {
+        const summary = t('standalone.game.fillblanks_correct', '{n} de {total} palabras', {
             n: details.correctCount || 0,
             total
         });

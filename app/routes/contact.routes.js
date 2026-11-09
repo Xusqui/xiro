@@ -99,71 +99,82 @@ router.get('/api/contact/token', (req, res) => {
 });
 
 // ── POST /api/contact ────────────────────────────────────────────────────────
-router.post('/api/contact', contactLimiter, async (req, res) => {
-    const { name, email, message, token, captcha, website } = req.body || {};
-
+/**
+ * Valida el formulario de contacto: honeypot, token HMAC con su tiempo, desafío matemático y campos.
+ * @param {Object} body - Cuerpo de la petición
+ * @returns {{error: string, code: string}|{fields: {nameStr: string, emailStr: string, messageStr: string}}}
+ */
+function validateContactForm({ name, email, message, token, captcha, website }) {
     // 1. Honeypot
     if (website && String(website).trim() !== '') {
-        return res.status(400).json({ error: 'Solicitud inv\u00e1lida.', code: 'CONTACT_INVALID_REQUEST' });
+        return { error: 'Solicitud inv\u00e1lida.', code: 'CONTACT_INVALID_REQUEST' };
     }
 
     // 2. Token HMAC + timing
     const tokenData = validateToken(token);
     if (!tokenData) {
-        return res.status(400).json({
+        return {
             error: 'El formulario ha expirado o es inv\u00e1lido. Recarga la p\u00e1gina.',
             code: 'CONTACT_FORM_EXPIRED'
-        });
+        };
     }
 
     // 3. Desafío matemático
     if (parseInt(captcha, 10) !== tokenData.answer) {
-        return res.status(400).json({
-            error: 'Respuesta incorrecta al desaf\u00edo matem\u00e1tico.',
-            code: 'CONTACT_CHALLENGE_INCORRECT'
-        });
+        return { error: 'Respuesta incorrecta al desaf\u00edo matem\u00e1tico.', code: 'CONTACT_CHALLENGE_INCORRECT' };
     }
 
     // 4. Campos requeridos
     if (!name || !email || !message) {
-        return res.status(400).json({ error: 'Todos los campos son obligatorios.', code: 'CONTACT_FIELDS_REQUIRED' });
+        return { error: 'Todos los campos son obligatorios.', code: 'CONTACT_FIELDS_REQUIRED' };
     }
     const nameStr = String(name).trim();
     const emailStr = String(email).trim();
     const messageStr = String(message).trim();
 
     if (nameStr.length > 100 || emailStr.length > 200 || messageStr.length > 5000) {
-        return res
-            .status(400)
-            .json({ error: 'Los datos superan la longitud m\u00e1xima permitida.', code: 'CONTACT_DATA_TOO_LONG' });
+        return { error: 'Los datos superan la longitud m\u00e1xima permitida.', code: 'CONTACT_DATA_TOO_LONG' };
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailStr)) {
-        return res.status(400).json({ error: 'Email no v\u00e1lido.', code: 'CONTACT_EMAIL_INVALID' });
+        return { error: 'Email no v\u00e1lido.', code: 'CONTACT_EMAIL_INVALID' };
+    }
+
+    return { fields: { nameStr, emailStr, messageStr } };
+}
+
+function sendContactEmail({ nameStr, emailStr, messageStr }) {
+    const transporter = nodemailer.createTransport({
+        host: runtimeConfig.get('SMTP_HOST'),
+        port: runtimeConfig.get('SMTP_PORT'),
+        secure: runtimeConfig.get('SMTP_SECURE') === 'true',
+        auth: {
+            user: runtimeConfig.get('SMTP_USER'),
+            pass: runtimeConfig.get('SMTP_PASS')
+        }
+    });
+
+    return transporter.sendMail({
+        from: runtimeConfig.get('SMTP_FROM') || `"XIRO! Contacto" <${runtimeConfig.get('SMTP_USER')}>`,
+        to: DEST_EMAIL,
+        replyTo: emailStr,
+        subject: `Contacto XIRO! de ${nameStr}`,
+        text: `Nombre: ${nameStr}\nEmail: ${emailStr}\n\n${messageStr}`,
+        html:
+            `<p><strong>Nombre:</strong> ${escapeHtml(nameStr)}</p>` +
+            `<p><strong>Email:</strong> <a href="mailto:${escapeHtml(emailStr)}">${escapeHtml(emailStr)}</a></p>` +
+            `<hr><p>${escapeHtml(messageStr).replace(/\n/g, '<br>')}</p>`
+    });
+}
+
+router.post('/api/contact', contactLimiter, async (req, res) => {
+    const form = validateContactForm(req.body || {});
+    if (form.error) {
+        return res.status(400).json({ error: form.error, code: form.code });
     }
 
     // 5. Envío de email
     try {
-        const transporter = nodemailer.createTransport({
-            host: runtimeConfig.get('SMTP_HOST'),
-            port: runtimeConfig.get('SMTP_PORT'),
-            secure: runtimeConfig.get('SMTP_SECURE') === 'true',
-            auth: {
-                user: runtimeConfig.get('SMTP_USER'),
-                pass: runtimeConfig.get('SMTP_PASS')
-            }
-        });
-
-        const info = await transporter.sendMail({
-            from: runtimeConfig.get('SMTP_FROM') || `"XIRO! Contacto" <${runtimeConfig.get('SMTP_USER')}>`,
-            to: DEST_EMAIL,
-            replyTo: emailStr,
-            subject: `Contacto XIRO! de ${nameStr}`,
-            text: `Nombre: ${nameStr}\nEmail: ${emailStr}\n\n${messageStr}`,
-            html:
-                `<p><strong>Nombre:</strong> ${escapeHtml(nameStr)}</p>` +
-                `<p><strong>Email:</strong> <a href="mailto:${escapeHtml(emailStr)}">${escapeHtml(emailStr)}</a></p>` +
-                `<hr><p>${escapeHtml(messageStr).replace(/\n/g, '<br>')}</p>`
-        });
+        const info = await sendContactEmail(form.fields);
 
         // Traza del envío para cruzarla con el registro del proveedor SMTP si el
         // correo no llega: identificador y lo que respondió el servidor. Sin datos

@@ -480,69 +480,73 @@ function bankSettings({
     };
 }
 
+// Devuelve { inUse } si hay preguntas borradas que usan juegos personalizados y el editor aún no ha decidido
+async function applyBankEdit(client, { bankId, pin, questions, settings, removedInUse, actorUserId }) {
+    await assertEditorCanModifyResource('bank', bankId, actorUserId, client);
+
+    const upperPin = await ensureEditPin(client, bankId, normalizePin(pin));
+    const dependentResources = await loadDependentEntities(client, bankId);
+
+    // Borrar una pregunta la quita de los juegos personalizados: el editor decide antes
+    const inUse = await findRemovedQuestionsInUse(client, bankId, questions);
+    if (inUse.length > 0 && !removedInUse) return { inUse };
+    const keepIds = removedInUse === REMOVED_IN_USE.KEEP ? inUse.map(q => q.id) : [];
+
+    await updateBankMetadata(client, { ...settings, upperPin, bankId });
+    await syncExistingBankQuestions(client, bankId, questions, keepIds);
+    invalidatePinCaches(upperPin);
+
+    return { dependentResources, keepIds };
+}
+
+async function createNewBank(client, { pin, questions, settings, owner }) {
+    const upperPin = normalizePin(pin) || generateFallbackPin();
+    const bankId = await createBankRecord(client, { ...settings, upperPin, ...owner });
+
+    invalidatePinCaches(upperPin);
+    await insertQuestionsForNewBank(client, bankId, questions);
+    return bankId;
+}
+
 /**
  * Guarda un banco completo con sus preguntas
  * @param {Object} data - {id, name, pin, questions}
  * @returns {Promise<{success: boolean, id: number}>}
  */
 async function saveBankComplete(data, actorUserId = null) {
-    const {
-        id,
-        pin,
-        questions,
-        created_by_role = 'admin',
-        created_by_user_id = null,
-        removed_in_use = null
-    } = data;
+    const { id, pin, questions, created_by_role = 'admin', created_by_user_id = null, removed_in_use = null } = data;
     const settings = bankSettings(data);
     const { questionBankCache } = require('../cache.service');
-    const ownerRole = normalizeCreatorRole(created_by_role);
-    const ownerUserId = normalizeOwnerUserId(created_by_user_id);
 
     const client = await pool.connect();
     const isEditingExistingBank = Boolean(id);
-    let upperPin = normalizePin(pin);
-    let dependentResources = {
-        dependentGames: [],
-        dependentCustomGames: [],
-        dependentTrivials: []
-    };
-
+    let dependentResources = { dependentGames: [], dependentCustomGames: [], dependentTrivials: [] };
     let keepIds = [];
 
     try {
         await client.query('BEGIN');
         let bankId = id;
 
-        if (bankId) {
-            await assertEditorCanModifyResource('bank', bankId, actorUserId, client);
-        }
-
-        if (bankId) {
-            upperPin = await ensureEditPin(client, bankId, upperPin);
-            dependentResources = await loadDependentEntities(client, bankId);
-
-            // Borrar una pregunta la quita de los juegos personalizados: el editor decide antes
-            const inUse = await findRemovedQuestionsInUse(client, bankId, questions);
-            if (inUse.length > 0 && !removed_in_use) {
+        if (isEditingExistingBank) {
+            const edit = await applyBankEdit(client, {
+                bankId,
+                pin,
+                questions,
+                settings,
+                removedInUse: removed_in_use,
+                actorUserId
+            });
+            if (edit.inUse) {
                 await client.query('ROLLBACK');
-                return { success: false, code: 'BANK_QUESTIONS_IN_USE', inUse };
+                return { success: false, code: 'BANK_QUESTIONS_IN_USE', inUse: edit.inUse };
             }
-            if (removed_in_use === REMOVED_IN_USE.KEEP) keepIds = inUse.map(q => q.id);
-
-            await updateBankMetadata(client, { ...settings, upperPin, bankId });
-
-            await syncExistingBankQuestions(client, bankId, questions, keepIds);
-            invalidatePinCaches(upperPin);
+            ({ dependentResources, keepIds } = edit);
         } else {
-            if (!upperPin) {
-                upperPin = generateFallbackPin();
-            }
-
-            bankId = await createBankRecord(client, { ...settings, upperPin, ownerRole, ownerUserId });
-
-            invalidatePinCaches(upperPin);
-            await insertQuestionsForNewBank(client, bankId, questions);
+            const owner = {
+                ownerRole: normalizeCreatorRole(created_by_role),
+                ownerUserId: normalizeOwnerUserId(created_by_user_id)
+            };
+            bankId = await createNewBank(client, { pin, questions, settings, owner });
         }
 
         await client.query('COMMIT');
@@ -562,27 +566,7 @@ async function saveBankComplete(data, actorUserId = null) {
     }
 }
 
-/**
- * Obtiene todas las preguntas de un banco (para juego directo)
- * @param {number} bankId - ID del banco
- * @returns {Promise<Array>}
- */
-async function getBankQuestions(bankId) {
-    const { questionBankCache } = require('../cache.service');
-    const logger = require('../../config/logger');
-    const metrics = require('../../state/metrics');
-
-    const cached = questionBankCache.get(bankId, 'bank');
-    if (cached) {
-        logger.info('Bank questions from CACHE', { bankId, questionCount: cached.length });
-        return cached;
-    }
-
-    const startTime = Date.now();
-
-    try {
-        const questionsRes = await pool.query(
-            `
+const BANK_QUESTIONS_SQL = `
             SELECT 
                 q.id, 
                 q.question_text, 
@@ -616,9 +600,28 @@ async function getBankQuestions(bankId) {
                      q.correct_answer, q.max_points, q.hint_text,
                      q.tolerance_mode, q.tolerance_value, q.tolerance_cap, q.correct_word
             ORDER BY q.id -- el resultado se cachea; prepareQuestions baraja en cada partida
-        `,
-            [bankId]
-        );
+        `;
+
+/**
+ * Obtiene todas las preguntas de un banco (para juego directo)
+ * @param {number} bankId - ID del banco
+ * @returns {Promise<Array>}
+ */
+async function getBankQuestions(bankId) {
+    const { questionBankCache } = require('../cache.service');
+    const logger = require('../../config/logger');
+    const metrics = require('../../state/metrics');
+
+    const cached = questionBankCache.get(bankId, 'bank');
+    if (cached) {
+        logger.info('Bank questions from CACHE', { bankId, questionCount: cached.length });
+        return cached;
+    }
+
+    const startTime = Date.now();
+
+    try {
+        const questionsRes = await pool.query(BANK_QUESTIONS_SQL, [bankId]);
 
         const duration = Date.now() - startTime;
         metrics.recordDbQuery(duration);

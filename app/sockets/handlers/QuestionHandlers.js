@@ -130,6 +130,44 @@ function createRevealAnswerHandler(dependencies) {
     };
 }
 
+async function applyManualPoints(game, sPin, nick, points) {
+    game.scores[nick] = roundScore((game.scores[nick] || 0) + points);
+
+    // El hash game:scores en Redis es la fuente canónica: submit-answer
+    // sobrescribe el score local con su total, así que los puntos
+    // manuales deben incrementarse también ahí o se pierden.
+    try {
+        const redisClient = await getRedisClient();
+        const scoreKey = `game:scores:${sPin}`;
+        const redisTotal = await redisClient.hIncrByFloat(scoreKey, nick, points);
+        redisClient.expire(scoreKey, 7200).catch(() => {});
+
+        if (redisTotal !== null && !isNaN(Number(redisTotal))) {
+            game.scores[nick] = roundScore(Number(redisTotal));
+        }
+    } catch (err) {
+        logger.warn('Manual points Redis increment failed, using local score', {
+            roomId: sPin,
+            nickname: nick,
+            error: err.message
+        });
+    }
+}
+
+function publishManualScore(game, sPin, nick, syncBus) {
+    GameStateUpdateService.publishScoreUpdate({
+        roomId: sPin,
+        nickname: nick,
+        score: game.scores[nick],
+        currentIndex: game.currentIndex,
+        allScores: game.scores,
+        syncBus,
+        logger
+    }).catch(err => {
+        logger.warn('Manual points sync failed', { roomId: sPin, nickname: nick, error: err.message });
+    });
+}
+
 /**
  * Manual Points Handler
  */
@@ -155,47 +193,13 @@ function createManualPointsHandler(dependencies) {
         // Soportar tanto nickname único como array de nicknames (para equipos)
         const playersToUpdate = (nicknames || [nickname]).filter(Boolean);
 
-        // Actualizar puntos para cada jugador
         for (const nick of playersToUpdate) {
-            game.scores[nick] = roundScore((game.scores[nick] || 0) + points);
-
-            // El hash game:scores en Redis es la fuente canónica: submit-answer
-            // sobrescribe el score local con su total, así que los puntos
-            // manuales deben incrementarse también ahí o se pierden.
-            try {
-                const redisClient = await getRedisClient();
-                const scoreKey = `game:scores:${sPin}`;
-                const redisTotal = await redisClient.hIncrByFloat(scoreKey, nick, points);
-                redisClient.expire(scoreKey, 7200).catch(() => {});
-
-                if (redisTotal !== null && !isNaN(Number(redisTotal))) {
-                    game.scores[nick] = roundScore(Number(redisTotal));
-                }
-            } catch (err) {
-                logger.warn('Manual points Redis increment failed, using local score', {
-                    roomId: sPin,
-                    nickname: nick,
-                    error: err.message
-                });
-            }
+            await applyManualPoints(game, sPin, nick, points);
         }
 
         // Sincronizar scores cross-worker
         if (syncBus) {
-            playersToUpdate.forEach(nick => {
-                if (!nick) return;
-                GameStateUpdateService.publishScoreUpdate({
-                    roomId: sPin,
-                    nickname: nick,
-                    score: game.scores[nick],
-                    currentIndex: game.currentIndex,
-                    allScores: game.scores,
-                    syncBus,
-                    logger
-                }).catch(err => {
-                    logger.warn('Manual points sync failed', { roomId: sPin, nickname: nick, error: err.message });
-                });
-            });
+            playersToUpdate.forEach(nick => publishManualScore(game, sPin, nick, syncBus));
         }
 
         const ranking = Object.entries(game.scores)

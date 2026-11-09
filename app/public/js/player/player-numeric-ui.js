@@ -5,13 +5,7 @@
 import { getNickname, setHaRespondido, setCanAnswer, setCurrentSlideType } from './player-state.js?v=20260922172926';
 import { getResponsiveFontClass } from './player-question-utils.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
-
-function t(key, fallback, vars) {
-    if (typeof window._t === 'function') {
-        return window._t(key, vars || null, fallback);
-    }
-    return String(fallback || key || '');
-}
+import { t } from '../core/translate.js?v=20261105120000';
 
 /**
  * Renderizar pregunta tipo "numeric_approximation"

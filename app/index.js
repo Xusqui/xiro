@@ -189,6 +189,11 @@ app.use(errorHandler);
 // ===== INICIALIZAR SOCKET.IO Y MANEJADORES =====
 let io = null;
 
+/**
+ * Arranca el servidor: idempotencia, Socket.IO, base de datos, migraciones y escucha HTTP. Si algo falla lo registra y
+ * termina el proceso con código 1.
+ * @returns {Promise<void>}
+ */
 async function startServer() {
     try {
         // Inicializar IdempotencyService (NUEVO - Week 16.1)

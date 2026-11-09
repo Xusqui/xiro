@@ -11,6 +11,9 @@
 
 const logger = require('../../config/logger');
 
+/**
+ * Agrupa las reacciones por sala y emite recuentos por intervalo (ver @fileoverview).
+ */
 class ReactionBurstBuffer {
     /**
      * @param {Object} options
@@ -24,6 +27,12 @@ class ReactionBurstBuffer {
         this._windows = new Map();
     }
 
+    /**
+     * Suma una reacción. Si la sala no tenía ventana abierta sale al momento y abre una; si no, se acumula.
+     * @param {string} roomId - ID de sesión
+     * @param {string} reaction - ID de la reacción en el catálogo
+     * @returns {void}
+     */
     add(roomId, reaction) {
         if (!this._windows.has(roomId)) {
             this._send(roomId, { [reaction]: 1 });
@@ -35,6 +44,10 @@ class ReactionBurstBuffer {
         this._pending.set(roomId, counts);
     }
 
+    /**
+     * Cancela todas las ventanas abiertas y descarta los recuentos pendientes.
+     * @returns {void}
+     */
     stop() {
         for (const timer of this._windows.values()) clearTimeout(timer);
         this._windows.clear();

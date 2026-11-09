@@ -11,15 +11,7 @@ const { isSurveyType } = require('../../domain/services/SurveyMultipleAnswerServ
 const { getRedisClient } = require('../../config/redis');
 const logger = require('../../config/logger');
 
-/**
- * Revelar resultados a equipos que no han sido revelados (timeout)
- */
-async function revealToUnrevealedTeams(game, teamConfig, currentQuestion, io, sPin) {
-    const teamsRevealed =
-        game.teamRevealed && game.teamRevealed[game.currentIndex] ? game.teamRevealed[game.currentIndex] : [];
-
-    logger.debug(`Timer expirado en modo equipos. Equipos ya revelados: ${teamsRevealed.join(', ')}`);
-
+async function refreshStreakInfosFromRedis(game, sPin) {
     // Cargar streakinfos desde Redis para garantizar datos frescos en modo multi-worker.
     // En team mode, diferentes equipos pueden completar en diferentes workers, por lo que
     // la información de racha en memoria puede estar desactualizada.
@@ -32,8 +24,12 @@ async function revealToUnrevealedTeams(game, teamConfig, currentQuestion, io, sP
             for (const [nick, jsonStr] of Object.entries(redisInfos)) {
                 try {
                     game.playerStreakInfos[nick] = JSON.parse(jsonStr);
-                } catch (_) {
-                    /* ignore */
+                } catch (parseError) {
+                    logger.debug('revealToUnrevealedTeams: racha malformada en Redis, se descarta', {
+                        roomId: sPin,
+                        nick,
+                        error: parseError.message
+                    });
                 }
             }
         }
@@ -43,6 +39,18 @@ async function revealToUnrevealedTeams(game, teamConfig, currentQuestion, io, sP
             error: err.message
         });
     }
+}
+
+/**
+ * Revelar resultados a equipos que no han sido revelados (timeout)
+ */
+async function revealToUnrevealedTeams(game, teamConfig, currentQuestion, io, sPin) {
+    const teamsRevealed =
+        game.teamRevealed && game.teamRevealed[game.currentIndex] ? game.teamRevealed[game.currentIndex] : [];
+
+    logger.debug(`Timer expirado en modo equipos. Equipos ya revelados: ${teamsRevealed.join(', ')}`);
+
+    await refreshStreakInfosFromRedis(game, sPin);
 
     const playersRoom = `${sPin}:players`;
     const allSockets = await io.in(playersRoom).fetchSockets();

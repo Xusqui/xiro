@@ -16,6 +16,12 @@ const { buildPlayerReviewState } = require('../utils/ReviewPlayerState');
 const { pushSessionLog } = require('../../services/game-logs.service');
 const logger = require('../../config/logger');
 
+/**
+ * Crea el handler del evento 'previous-slide'. Vuelve a la diapositiva anterior en modo revisión (juegos
+ * personalizados).
+ * @param {Object} dependencies - Maps de globalState, io y servicios (ver socket.handlers.js)
+ * @returns {function(socket, roomIdOrPin): Promise<void>} Handler
+ */
 function createPreviousSlideHandler(dependencies) {
     return async function handlePreviousSlide(socket, roomIdOrPin) {
         const result = await new NavigateSlideUseCase().execute({
@@ -42,6 +48,11 @@ function createPreviousSlideHandler(dependencies) {
     };
 }
 
+/**
+ * Crea el handler del evento 'get-review-state'. Devuelve por el ACK el estado de revisión de la sala del socket.
+ * @param {Object} dependencies - Maps de globalState, io y servicios (ver socket.handlers.js)
+ * @returns {function(socket, _data, callback): Promise<void>} Handler
+ */
 function createReviewStateHandler(dependencies) {
     const { activeGames, teamConfigs } = dependencies;
 

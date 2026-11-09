@@ -26,6 +26,10 @@ const rankingCache = require('./RankingCache');
 const sessionStore = require('./SessionStore');
 const logger = require('../config/logger');
 
+/**
+ * Handler de eventos de dominio que invalida las cachés afectadas (fin de partida, entrada de jugadores, cascadas) y
+ * cuenta las invalidaciones.
+ */
 class CacheInvalidationService extends EventHandler {
     /**
      * @constructor
@@ -171,7 +175,8 @@ class CacheInvalidationService extends EventHandler {
 
     /**
      * Retorna estadísticas de invalidaciones realizadas.
-     * @returns {{gameEndedInvalidations: number, playerJoinedInvalidations: number, cascadeInvalidations: number, errors: number, lastInvalidation: Date|null, totalInvalidations: number}}
+     * @returns {{gameEndedInvalidations: number, playerJoinedInvalidations: number, cascadeInvalidations: number,
+     *   errors: number, lastInvalidation: Date|null, totalInvalidations: number}}
      */
     getStats() {
         return {

@@ -6,10 +6,21 @@
 // Una sola palabra de 7 a 10 letras, como exige la subida de bancos
 const WORD_PATTERN = /^\p{L}{7,10}$/u;
 
+/**
+ * Indica si la pregunta de anagrama de la IA es válida.
+ * @param {Object} q - Pregunta devuelta por la IA
+ * @returns {boolean}
+ */
 function validate(q) {
     return typeof q.correctWord === 'string' && WORD_PATTERN.test(q.correctWord.trim());
 }
 
+/**
+ * Convierte una pregunta de anagrama de la IA al formato de subida de bancos, con la palabra en mayúsculas y sin
+ * espacios.
+ * @param {Object} q - Pregunta devuelta por la IA
+ * @returns {Object} Pregunta normalizada
+ */
 function normalize(q) {
     return {
         questionText: q.question_text,

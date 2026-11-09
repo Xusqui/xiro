@@ -4,24 +4,60 @@
  */
 
 const { validateSocket, schemas } = require('../../validation');
-const JoinGameUseCase = require('../../application/use-cases/JoinGameUseCase');
+const { buildJoinGameUseCase } = require('../utils/JoinGameUseCaseFactory');
 const { validatePanelToken } = require('../utils/RemoteControlHelper');
 const logger = require('../../config/logger');
 
-module.exports = function createJoinPresenterLobbyHandler(dependencies) {
-    const { players, socketToPlayer, lobbyPlayers, teamConfigs, activeGames, socketRateLimits, roomPresenterMap, io } =
-        dependencies;
+// El token del panel llega en el payload o en la cookie del handshake
+function resolvePanelToken(socket, payloadToken) {
+    if (payloadToken) return payloadToken;
 
-    const joinGameUseCase = new JoinGameUseCase({
-        players,
-        socketToPlayer,
-        lobbyPlayers,
-        teamConfigs,
-        activeGames,
-        socketRateLimits,
-        roomPresenterMap,
-        io
+    const cookieHeader = socket.handshake?.headers?.cookie;
+    const match = cookieHeader ? cookieHeader.match(/(?:^|;\s*)adminToken=([^;]*)/) : null;
+    return match ? decodeURIComponent(match[1]) : undefined;
+}
+
+function resolvePanelUser(socket, payloadToken, playerId) {
+    const token = resolvePanelToken(socket, payloadToken);
+    if (!token) return null;
+
+    const panelUser = validatePanelToken(token, ['admin', 'editor']);
+    if (!panelUser) {
+        logger.warn('join-presenter-lobby token inválido: continuando sin autenticación de panel', {
+            socketId: socket.id,
+            playerId
+        });
+    }
+    return panelUser || null;
+}
+
+function completePresenterJoin(socket, result, panelUser, playerId) {
+    socket.data.presenterUserId = panelUser ? panelUser.userId || null : null;
+    socket.data.presenterRole = panelUser ? panelUser.role || null : null;
+    socket.data.playerId = playerId;
+
+    const { roomId, playersInLobby, teamMode } = result;
+    socket.emit('join-success', {
+        roomId,
+        teamMode,
+        playerId: result.playerId,
+        players: playersInLobby,
+        sessionSecret: result.sessionSecret
     });
+
+    socket.to(roomId).emit('player-joined', {
+        nickname: 'HOST',
+        players: playersInLobby
+    });
+}
+
+/**
+ * Crea el handler del evento 'join-presenter-lobby'. El presentador abre o recupera el lobby de una sala.
+ * @param {Object} dependencies - Maps de globalState, io y servicios (ver socket.handlers.js)
+ * @returns {function(socket, data): Promise<void>} Handler
+ */
+module.exports = function createJoinPresenterLobbyHandler(dependencies) {
+    const joinGameUseCase = buildJoinGameUseCase(dependencies);
 
     return async function handleJoinPresenterLobby(socket, data) {
         // Joi da por válido un payload undefined; sin datos tiene que fallar la validación
@@ -32,28 +68,7 @@ module.exports = function createJoinPresenterLobbyHandler(dependencies) {
         }
 
         const { pin, sessionId, playerId, sessionSecret, isTeamMode, teamConfig } = validation.value;
-        let token = validation.value.token;
-
-        if (!token) {
-            const cookieHeader = socket.handshake?.headers?.cookie;
-            if (cookieHeader) {
-                const match = cookieHeader.match(/(?:^|;\s*)adminToken=([^;]*)/);
-                if (match) {
-                    token = decodeURIComponent(match[1]);
-                }
-            }
-        }
-
-        let panelUser = null;
-        if (token) {
-            panelUser = validatePanelToken(token, ['admin', 'editor']);
-            if (!panelUser) {
-                logger.warn('join-presenter-lobby token inválido: continuando sin autenticación de panel', {
-                    socketId: socket.id,
-                    playerId
-                });
-            }
-        }
+        const panelUser = resolvePanelUser(socket, validation.value.token, playerId);
 
         try {
             const result = await joinGameUseCase.execute({
@@ -74,23 +89,7 @@ module.exports = function createJoinPresenterLobbyHandler(dependencies) {
                 return;
             }
 
-            socket.data.presenterUserId = panelUser ? panelUser.userId || null : null;
-            socket.data.presenterRole = panelUser ? panelUser.role || null : null;
-            socket.data.playerId = playerId;
-
-            const { roomId, playersInLobby, teamMode } = result;
-            socket.emit('join-success', {
-                roomId,
-                teamMode,
-                playerId: result.playerId,
-                players: playersInLobby,
-                sessionSecret: result.sessionSecret
-            });
-
-            socket.to(roomId).emit('player-joined', {
-                nickname: 'HOST',
-                players: playersInLobby
-            });
+            completePresenterJoin(socket, result, panelUser, playerId);
         } catch (error) {
             logger.error('Error in join-presenter-lobby handler', {
                 error: error.message,

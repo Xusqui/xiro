@@ -6,6 +6,9 @@
 
 'use strict';
 
+/**
+ * Cubo de fichas por socket para limitar las reacciones con emoji (ver @fileoverview).
+ */
 class ReactionThrottle {
     /**
      * @param {Object} [options]
@@ -35,6 +38,11 @@ class ReactionThrottle {
         return true;
     }
 
+    /**
+     * Olvida el cubo del socket (al desconectarse).
+     * @param {string} socketId - ID del socket
+     * @returns {void}
+     */
     forget(socketId) {
         this._buckets.delete(socketId);
     }

@@ -25,6 +25,46 @@ async function revealTrivialIfAllAnswered({ roomId, game, io }) {
     await revealAnswer({ roomId, game, io, timeExpired: false });
 }
 
+async function updateProgressAfterRemoval({ roomId, nickname, game, players, io }) {
+    try {
+        const progress = await removeExpectedPlayer({ roomId, nickname });
+        logger.debug('Expected counter updated after player removal', {
+            roomId,
+            nickname,
+            expectedCount: progress.expectedCount,
+            answeredCount: progress.answeredCount,
+            allAnswered: progress.allAnswered
+        });
+        return progress.allAnswered;
+    } catch (err) {
+        logger.warn('Failed to update expected counter after player removal', {
+            roomId,
+            nickname,
+            error: err.message
+        });
+        return checkAllPlayersAnswered(game, players, io, game.currentIndex);
+    }
+}
+
+async function revealAfterRemoval({ roomId, game, io }) {
+    logger.info('Todos los jugadores restantes respondieron - revelando resultados', {
+        roomId,
+        questionIndex: game.currentIndex
+    });
+
+    // Cancelar timer actual si existe
+    clearTimer(roomId);
+
+    const revealLockAcquired = await acquireRevealLock({ roomId, questionIndex: game.currentIndex });
+    if (!revealLockAcquired) {
+        logger.debug('Reveal lock not acquired after player removal', { roomId, questionIndex: game.currentIndex });
+        return;
+    }
+
+    await revealAnswer({ roomId, game, io, timeExpired: false });
+    await endGameIfLastQuestion({ game, roomId, io });
+}
+
 /**
  * Remueve un jugador del juego activo y verifica si corresponde revelar
  * @param {Object} params
@@ -59,47 +99,9 @@ async function removePlayerFromActiveGame({ roomId, nickname, activeGames, playe
     }
 
     if (game.canAnswer && game.currentIndex !== undefined && !game.isTrivial) {
-        let allAnswered = false;
-
-        try {
-            const progress = await removeExpectedPlayer({ roomId, nickname });
-            allAnswered = progress.allAnswered;
-            logger.debug('Expected counter updated after player removal', {
-                roomId,
-                nickname,
-                expectedCount: progress.expectedCount,
-                answeredCount: progress.answeredCount,
-                allAnswered
-            });
-        } catch (err) {
-            logger.warn('Failed to update expected counter after player removal', {
-                roomId,
-                nickname,
-                error: err.message
-            });
-            allAnswered = await checkAllPlayersAnswered(game, players, io, game.currentIndex);
-        }
-
+        const allAnswered = await updateProgressAfterRemoval({ roomId, nickname, game, players, io });
         if (allAnswered) {
-            logger.info('Todos los jugadores restantes respondieron - revelando resultados', {
-                roomId,
-                questionIndex: game.currentIndex
-            });
-
-            // Cancelar timer actual si existe
-            clearTimer(roomId);
-
-            const revealLockAcquired = await acquireRevealLock({ roomId, questionIndex: game.currentIndex });
-            if (!revealLockAcquired) {
-                logger.debug('Reveal lock not acquired after player removal', {
-                    roomId,
-                    questionIndex: game.currentIndex
-                });
-                return true;
-            }
-
-            await revealAnswer({ roomId, game, io, timeExpired: false });
-            await endGameIfLastQuestion({ game, roomId, io });
+            await revealAfterRemoval({ roomId, game, io });
         }
     }
 

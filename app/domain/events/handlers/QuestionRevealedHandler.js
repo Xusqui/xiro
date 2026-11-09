@@ -12,6 +12,9 @@
 const EventHandler = require('./EventHandler');
 const { canGoBack } = require('../../services/SlideNavigationPolicy');
 
+/**
+ * Reacciona a 'question.revealed': envía 'new-question' a jugadores (sin datos de solución) y presentador.
+ */
 class QuestionRevealedHandler extends EventHandler {
     constructor(eventBus, io, dependencies = {}) {
         super(eventBus, io, dependencies);
@@ -20,6 +23,19 @@ class QuestionRevealedHandler extends EventHandler {
     register() {
         this.subscribe('question.revealed', this.handleQuestionRevealed.bind(this), 8);
         this.log('info', 'QuestionRevealedHandler registered');
+    }
+
+    emitTimerStarted({ roomId, question, questionIndex, timeLimit }) {
+        const duration = timeLimit || question.time_limit;
+        if (!duration) return;
+
+        this.eventBus.emit('timer.started', {
+            roomId,
+            duration,
+            questionIndex,
+            questionType: question?.question_type || question?.slide_type,
+            startedAt: Date.now()
+        });
     }
 
     async handleQuestionRevealed(event) {
@@ -63,16 +79,7 @@ class QuestionRevealedHandler extends EventHandler {
             await this.notifyPresenter(actualRoomId, question, questionIndex, total, randomPoints);
 
             // 3. Emitir evento de timer iniciado
-            const actualTimeLimit = timeLimit || question.time_limit;
-            if (actualTimeLimit) {
-                this.eventBus.emit('timer.started', {
-                    roomId: actualRoomId,
-                    duration: actualTimeLimit,
-                    questionIndex,
-                    questionType: question?.question_type || question?.slide_type,
-                    startedAt: Date.now()
-                });
-            }
+            this.emitTimerStarted({ roomId: actualRoomId, question, questionIndex, timeLimit });
 
             this.log('info', 'Question revealed event processed', {
                 roomId: actualRoomId,

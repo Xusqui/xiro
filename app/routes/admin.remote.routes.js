@@ -8,9 +8,27 @@ const { authenticateAdmin, authorizeAdmin } = require('../middlewares/auth');
 const { activeGames, lobbyPlayers } = require('../state/globalState');
 const GetActiveSessionsQuery = require('../application/queries/GetActiveSessionsQuery');
 const { terminateExpiredPresenterSession } = require('../sockets/utils/GameUtils');
+const { schemas } = require('../validation');
 const logger = require('../config/logger');
 
 const router = express.Router();
+
+/**
+ * Lee y valida el sessionId del cuerpo de la petición.
+ * @param {Object} body - req.body
+ * @returns {{sessionId: string}|{error: string, code: string}} El sessionId normalizado, o el error para un 400
+ */
+function readSessionId(body) {
+    const raw = body?.sessionId;
+    if (!raw || typeof raw !== 'string') {
+        return { error: 'sessionId requerido', code: 'SESSION_ID_REQUIRED' };
+    }
+    const { value, error } = schemas.adminSessionId.validate(raw);
+    if (error) {
+        return { error: 'Formato de sessionId inválido', code: 'INVALID_SESSION_ID' };
+    }
+    return { sessionId: value };
+}
 
 /**
  * GET /api/admin/active-sessions
@@ -37,9 +55,9 @@ router.get('/api/admin/active-sessions', authenticateAdmin, authorizeAdmin, asyn
  */
 router.post('/api/admin/terminate-session', authenticateAdmin, authorizeAdmin, async (req, res, next) => {
     try {
-        const { sessionId } = req.body;
-        if (!sessionId || typeof sessionId !== 'string') {
-            return res.status(400).json({ success: false, error: 'sessionId requerido', code: 'SESSION_ID_REQUIRED' });
+        const { sessionId, error, code } = readSessionId(req.body);
+        if (error) {
+            return res.status(400).json({ success: false, error, code });
         }
 
         const io = req.app.get('io');

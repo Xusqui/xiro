@@ -31,6 +31,12 @@ const TRANSIENT_REASONS = new Set([
     'status_unavailable'
 ]);
 
+/**
+ * Indica si el motivo de fallo de la comprobación de licencia es transitorio (fallo de red o del servidor, respuesta inválida, límite de peticiones) y no debe
+ * quitar la licencia.
+ * @param {string} reason - Motivo
+ * @returns {boolean}
+ */
 function isTransientReason(reason) {
     return TRANSIENT_REASONS.has(reason);
 }

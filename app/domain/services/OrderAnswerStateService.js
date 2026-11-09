@@ -8,6 +8,16 @@ function calculateTimeLeft(gameStartTime, currentTime, questionTimeLimit) {
     return Math.max(0, questionTimeLimit - timeElapsed);
 }
 
+/**
+ * Valida una respuesta de ordenar: que se admita responder y que `order` sea una permutación de las opciones.
+ * @param {Object} input
+ * @param {Object} input.question - Pregunta
+ * @param {number[]} input.order - Índices enviados
+ * @param {boolean} input.gameCanAnswer - Si la partida admite respuestas
+ * @param {boolean} [input.allowWhenClosed=false] - Admitir respuesta tardía
+ * @returns {{valid: boolean, reason: 'game-closed'|'question-missing'|'invalid-options'|'invalid-order'|'invalid-order-
+ *   length'|'duplicate-order'|null}}
+ */
 function validateOrderAnswer({ question, order, gameCanAnswer, allowWhenClosed = false }) {
     if (!gameCanAnswer && !allowWhenClosed) {
         return { valid: false, reason: 'game-closed' };
@@ -45,6 +55,15 @@ function validateOrderAnswer({ question, order, gameCanAnswer, allowWhenClosed =
     return { valid: true, reason: null };
 }
 
+/**
+ * Construye el estado inicial (sin puntuar) de una respuesta de ordenar, para el jugador y para socket.data.
+ * @param {Object} input
+ * @param {number[]} input.order - Índices enviados
+ * @param {number} input.gameStartTime - Inicio de la pregunta (ms)
+ * @param {number} input.currentTime - Ahora (ms)
+ * @param {number} input.questionTimeLimit - Límite de la pregunta
+ * @returns {{playerAnswer: Object, socketDataAnswer: Object, timeLeft: number, timestamp: number}}
+ */
 function buildOrderAnswerState({ order, gameStartTime, currentTime, questionTimeLimit }) {
     const timestamp = currentTime;
     const timeLeft = calculateTimeLeft(gameStartTime, currentTime, questionTimeLimit);
@@ -72,6 +91,15 @@ function buildOrderAnswerState({ order, gameStartTime, currentTime, questionTime
     };
 }
 
+/**
+ * Anota la respuesta en el jugador y en socket.data. Sin jugador no hace nada.
+ * @param {Object} input
+ * @param {Object} [input.player] - Jugador (se modifica)
+ * @param {Object} input.socket - Socket (se modifica socket.data)
+ * @param {Object} input.game - Partida
+ * @param {Object} input.answerState - Resultado de buildOrderAnswerState
+ * @returns {void}
+ */
 function updatePlayerState({ player, socket, game, answerState }) {
     if (!player) return;
 

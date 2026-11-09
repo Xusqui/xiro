@@ -5,6 +5,7 @@
 
 const express = require('express');
 const { authenticateAdmin } = require('../middlewares/auth');
+const { validateParams, schemas } = require('../validation');
 const dbService = require('../services/db.service');
 const { handleRouteError } = require('./helpers/RouteErrorHandler');
 const router = express.Router();
@@ -43,62 +44,45 @@ router.get('/api/all-games', authenticateAdmin, async (req, res) => {
  * Devuelve nombre, tipo y número de preguntas de un juego visible al presentador.
  */
 const { pool } = require('../config/database');
-router.get('/api/presenter-game-info/:pin', async (req, res) => {
-    const pin = req.params.pin.toUpperCase();
-    try {
-        // Juego personalizado
-        const cg = await pool.query(
-            `SELECT cg.id, cg.name, 'custom' AS type,
+// Por orden de prioridad si un PIN coincidiera en varios tipos
+const PRESENTER_GAME_QUERIES = [
+    {
+        type: 'custom',
+        sql: `SELECT cg.id, cg.name, 'custom' AS type,
                     COUNT(cgq.id) AS question_count
              FROM custom_games cg
              LEFT JOIN custom_game_questions cgq ON cgq.custom_game_id = cg.id
              WHERE cg.pin = $1 AND cg.visible_to_presenter = true
-             GROUP BY cg.id`,
-            [pin]
-        );
-        if (cg.rows.length) {
-            return res.json({
-                pin,
-                name: cg.rows[0].name,
-                type: 'custom',
-                questionCount: parseInt(cg.rows[0].question_count, 10)
-            });
-        }
-        // Banco de preguntas
-        const bk = await pool.query(
-            `SELECT qb.id, qb.name, 'bank' AS type,
+             GROUP BY cg.id`
+    },
+    {
+        type: 'bank',
+        sql: `SELECT qb.id, qb.name, 'bank' AS type,
                     COUNT(q.id) AS question_count
              FROM question_banks qb
              LEFT JOIN questions q ON q.bank_id = qb.id
              WHERE qb.pin = $1 AND qb.visible_to_presenter = true
-             GROUP BY qb.id`,
-            [pin]
-        );
-        if (bk.rows.length) {
-            return res.json({
-                pin,
-                name: bk.rows[0].name,
-                type: 'bank',
-                questionCount: parseInt(bk.rows[0].question_count, 10)
-            });
-        }
-        // Trivial
-        const tr = await pool.query(
-            `SELECT tg.id, tg.name, 'trivial' AS type,
+             GROUP BY qb.id`
+    },
+    {
+        type: 'trivial',
+        sql: `SELECT tg.id, tg.name, 'trivial' AS type,
                     COUNT(tq.id) AS question_count
              FROM trivial_games tg
              LEFT JOIN trivial_questions tq ON tq.trivial_game_id = tg.id
              WHERE tg.pin = $1 AND tg.visible_to_presenter = true
-             GROUP BY tg.id`,
-            [pin]
-        );
-        if (tr.rows.length) {
-            return res.json({
-                pin,
-                name: tr.rows[0].name,
-                type: 'trivial',
-                questionCount: parseInt(tr.rows[0].question_count, 10)
-            });
+             GROUP BY tg.id`
+    }
+];
+
+router.get('/api/presenter-game-info/:pin', validateParams(schemas.presenterPinParams), async (req, res) => {
+    const pin = req.params.pin.toUpperCase();
+    try {
+        for (const { type, sql } of PRESENTER_GAME_QUERIES) {
+            const { rows } = await pool.query(sql, [pin]);
+            if (rows.length) {
+                return res.json({ pin, name: rows[0].name, type, questionCount: parseInt(rows[0].question_count, 10) });
+            }
         }
         return res
             .status(404)
@@ -114,7 +98,7 @@ router.get('/api/presenter-game-info/:pin', async (req, res) => {
  * Devuelve las preguntas (sin respuestas correctas) para pre-popular las diapositivas
  * en modo edición antes de iniciar la presentación.
  */
-router.get('/api/presenter-game-questions/:pin', async (req, res) => {
+router.get('/api/presenter-game-questions/:pin', validateParams(schemas.presenterPinParams), async (req, res) => {
     const pin = req.params.pin.toUpperCase();
     try {
         // Juego personalizado — preguntas ordenadas por posición

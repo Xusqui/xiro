@@ -50,6 +50,14 @@ function hintLetters(question, blankIndex, count) {
     return letters;
 }
 
+/**
+ * Evento 'fill-blanks-hint': destapa una letra del hueco y la anota en Redis para puntuar. En equipos la pista es del
+ * equipo y se reenvía.
+ * @param {Object} socket - Socket del jugador (la identidad sale de socket.data)
+ * @param {{blankIndex: number}} data - Hueco
+ * @param {Function} [callback] - ACK de Socket.IO con la respuesta
+ * @returns {Promise<void>}
+ */
 async function handleFillBlanksHint(socket, data, callback) {
     const reply = replier(callback);
     const blankIndex = Number(data?.blankIndex);
@@ -92,6 +100,14 @@ async function handleFillBlanksHint(socket, data, callback) {
     }
 }
 
+/**
+ * Evento 'fill-blanks-check' (solo equipos): comprueba la palabra de un hueco y, si es correcta, la bloquea para el
+ * equipo. Con límite de intentos por socket.
+ * @param {Object} socket - Socket del jugador (la identidad sale de socket.data)
+ * @param {{blankIndex: number, word: string}} data - Hueco y palabra
+ * @param {Function} [callback] - ACK de Socket.IO con la respuesta
+ * @returns {Promise<void>}
+ */
 async function handleFillBlanksCheck(socket, data, callback) {
     const reply = replier(callback);
     const blankIndex = Number(data?.blankIndex);
@@ -130,6 +146,13 @@ async function handleFillBlanksCheck(socket, data, callback) {
     }
 }
 
+/**
+ * Evento 'fill-blanks-sync': devuelve pistas, huecos resueltos y envío del equipo del jugador.
+ * @param {Object} socket - Socket del jugador (la identidad sale de socket.data)
+ * @param {*} _data - Sin uso
+ * @param {Function} [callback] - ACK de Socket.IO con la respuesta
+ * @returns {Promise<void>}
+ */
 async function handleFillBlanksSync(socket, _data, callback) {
     const reply = replier(callback);
     try {

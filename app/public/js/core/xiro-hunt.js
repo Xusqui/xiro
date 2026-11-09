@@ -95,6 +95,56 @@
         };
     }
 
+    function steer(fly, dt, goal, maxSpeed, arrive) {
+        const dx = goal.x - fly.x,
+            dy = goal.y - fly.y,
+            d = Math.hypot(dx, dy) || 1;
+        const speed = arrive ? Math.min(maxSpeed, d * 2.2) : maxSpeed;
+        const k = Math.min(1, dt * 3.2),
+            jitter = 1125 * (arrive ? Math.min(1, d / 100) : 1) * dt;
+        fly.vx += ((dx / d) * speed - fly.vx) * k + rand(-1, 1) * jitter;
+        fly.vy += ((dy / d) * speed - fly.vy) * k + rand(-1, 1) * jitter;
+        fly.x += fly.vx * dt;
+        fly.y += fly.vy * dt;
+        return d;
+    }
+
+    function renderTongue(v, phase, tip, target) {
+        const out = ['strike', 'stick', 'retract'].includes(phase);
+        v.tongue.style.display = out ? '' : 'none';
+        if (!out) return;
+        const dx = tip.x - MOUTH.x,
+            dy = tip.y - MOUTH.y,
+            len = Math.hypot(dx, dy) || 1;
+        const full = Math.hypot(target.x - MOUTH.x, target.y - MOUTH.y) || 1;
+        const sag = Math.sin(Math.PI * clamp(len / full, 0, 1)) * (phase === 'retract' ? 32 : 18);
+        const mx = (MOUTH.x + tip.x) / 2 - (dy / len) * sag,
+            my = (MOUTH.y + tip.y) / 2 + (dx / len) * sag;
+        const d = `M${MOUTH.x} ${MOUTH.y} Q${mx.toFixed(1)} ${my.toFixed(1)} ${tip.x.toFixed(1)} ${tip.y.toFixed(1)}`;
+        v.tLines.forEach(l => l.setAttribute('d', d));
+        v.tips.forEach(c => {
+            c.setAttribute('cx', tip.x);
+            c.setAttribute('cy', tip.y);
+        });
+        v.shine.setAttribute('cx', tip.x - 9);
+        v.shine.setAttribute('cy', tip.y - 9);
+    }
+
+    function renderFly(v, fly, phase, now) {
+        v.fly.style.display = fly.visible ? '' : 'none';
+        if (!fly.visible) return;
+        const caught = phase === 'stick' || phase === 'retract';
+        const flip = fly.vx > 25 && !caught && phase !== 'hover' ? -2 : 2;
+        const rot = caught ? 25 : clamp(fly.vy * 0.04, -20, 20) * Math.sign(flip);
+        v.fly.setAttribute(
+            'transform',
+            `translate(${fly.x.toFixed(1)} ${fly.y.toFixed(1)}) scale(${flip} 2) rotate(${rot.toFixed(1)})`
+        );
+        const w = fly.flap ? 0.25 + 0.75 * Math.abs(Math.sin(now * 55)) : 0.9;
+        v.wings.setAttribute('transform', `translate(0 -8) scale(1 ${w.toFixed(2)}) translate(0 8)`);
+        v.flyBody.setAttribute('transform', caught ? `rotate(${(Math.sin(now * 40) * 8).toFixed(1)})` : '');
+    }
+
     function animate(v) {
         const fly = { x: 0, y: 0, vx: 0, vy: 0, visible: false, flap: true, wp: null };
         let phase = 'rest',
@@ -135,33 +185,19 @@
             setPhase('wander');
         }
 
-        function steer(dt, goal, maxSpeed, arrive) {
-            const dx = goal.x - fly.x,
-                dy = goal.y - fly.y,
-                d = Math.hypot(dx, dy) || 1;
-            const speed = arrive ? Math.min(maxSpeed, d * 2.2) : maxSpeed;
-            const k = Math.min(1, dt * 3.2),
-                jitter = 1125 * (arrive ? Math.min(1, d / 100) : 1) * dt;
-            fly.vx += ((dx / d) * speed - fly.vx) * k + rand(-1, 1) * jitter;
-            fly.vy += ((dy / d) * speed - fly.vy) * k + rand(-1, 1) * jitter;
-            fly.x += fly.vx * dt;
-            fly.y += fly.vy * dt;
-            return d;
-        }
-
         function update(dt) {
             const el = now - t0;
             let leanGoal = 0;
             if (phase === 'rest') {
                 if (el > restFor) spawnFly();
             } else if (phase === 'wander') {
-                if (steer(dt, fly.wp, 375, false) < 60) fly.wp = randPoint();
+                if (steer(fly, dt, fly.wp, 375, false) < 60) fly.wp = randPoint();
                 if (now > wanderUntil) {
                     hover = huntPoint();
                     setPhase('approach');
                 }
             } else if (phase === 'approach') {
-                if (steer(dt, hover, 400, true) < 18 && Math.hypot(fly.vx, fly.vy) < 100) setPhase('hover');
+                if (steer(fly, dt, hover, 400, true) < 18 && Math.hypot(fly.vx, fly.vy) < 100) setPhase('hover');
             } else if (phase === 'hover') {
                 fly.x = lerp(fly.x, hover.x + Math.sin(now * 7) * 10, Math.min(1, dt * 8));
                 fly.y = lerp(fly.y, hover.y + Math.cos(now * 9) * 8, Math.min(1, dt * 8));
@@ -241,42 +277,6 @@
             }
         }
 
-        function renderTongue() {
-            const out = ['strike', 'stick', 'retract'].includes(phase);
-            v.tongue.style.display = out ? '' : 'none';
-            if (!out) return;
-            const dx = tip.x - MOUTH.x,
-                dy = tip.y - MOUTH.y,
-                len = Math.hypot(dx, dy) || 1;
-            const full = Math.hypot(target.x - MOUTH.x, target.y - MOUTH.y) || 1;
-            const sag = Math.sin(Math.PI * clamp(len / full, 0, 1)) * (phase === 'retract' ? 32 : 18);
-            const mx = (MOUTH.x + tip.x) / 2 - (dy / len) * sag,
-                my = (MOUTH.y + tip.y) / 2 + (dx / len) * sag;
-            const d = `M${MOUTH.x} ${MOUTH.y} Q${mx.toFixed(1)} ${my.toFixed(1)} ${tip.x.toFixed(1)} ${tip.y.toFixed(1)}`;
-            v.tLines.forEach(l => l.setAttribute('d', d));
-            v.tips.forEach(c => {
-                c.setAttribute('cx', tip.x);
-                c.setAttribute('cy', tip.y);
-            });
-            v.shine.setAttribute('cx', tip.x - 9);
-            v.shine.setAttribute('cy', tip.y - 9);
-        }
-
-        function renderFly() {
-            v.fly.style.display = fly.visible ? '' : 'none';
-            if (!fly.visible) return;
-            const caught = phase === 'stick' || phase === 'retract';
-            const flip = fly.vx > 25 && !caught && phase !== 'hover' ? -2 : 2;
-            const rot = caught ? 25 : clamp(fly.vy * 0.04, -20, 20) * Math.sign(flip);
-            v.fly.setAttribute(
-                'transform',
-                `translate(${fly.x.toFixed(1)} ${fly.y.toFixed(1)}) scale(${flip} 2) rotate(${rot.toFixed(1)})`
-            );
-            const w = fly.flap ? 0.25 + 0.75 * Math.abs(Math.sin(now * 55)) : 0.9;
-            v.wings.setAttribute('transform', `translate(0 -8) scale(1 ${w.toFixed(2)}) translate(0 8)`);
-            v.flyBody.setAttribute('transform', caught ? `rotate(${(Math.sin(now * 40) * 8).toFixed(1)})` : '');
-        }
-
         let last = performance.now();
         function frame(ts) {
             const dt = Math.min(0.05, (ts - last) / 1000); // pestaña oculta: no da saltos
@@ -288,8 +288,8 @@
                 `translate(${FEET.x} ${FEET.y}) rotate(${lean.toFixed(2)}) scale(${(1 + squash).toFixed(3)} ${(1 - squash).toFixed(3)}) translate(${-FEET.x} ${-FEET.y})`
             );
             renderEyes();
-            renderTongue();
-            renderFly();
+            renderTongue(v, phase, tip, target);
+            renderFly(v, fly, phase, now);
             requestAnimationFrame(frame);
         }
         requestAnimationFrame(frame);

@@ -10,6 +10,9 @@
 const Command = require('./Command');
 const { executeSubmitAnswer, validateSubmitAnswerPayload } = require('./submit-answer/executeSubmitAnswer');
 
+/**
+ * Comando CQRS que registra y puntúa la respuesta de un jugador (la lógica vive en submit-answer/).
+ */
 class ImprovedSubmitAnswerCommand extends Command {
     /**
      * @param {Object} payload - Submit answer payload.

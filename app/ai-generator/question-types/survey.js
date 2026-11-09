@@ -9,6 +9,11 @@ function validate(q) {
     return q.options.every(o => o.is_correct === false);
 }
 
+/**
+ * Convierte una pregunta de encuesta de la IA al formato de subida de bancos.
+ * @param {Object} q - Pregunta devuelta por la IA
+ * @returns {Object} Pregunta normalizada
+ */
 function normalize(q) {
     return {
         questionText: q.question_text,

@@ -96,6 +96,23 @@ async function persistGameSessionRow(insertParams, pin, dbId = null) {
     }
 }
 
+function buildSessionInsertParams(session) {
+    return [
+        String(session.pin).toUpperCase(),
+        session.gameType || null,
+        session.durationMs || null,
+        session.startedAt ? new Date(session.startedAt).toISOString() : null,
+        session.playerCount || 0,
+        session.questionCount || 0,
+        session.reason,
+        JSON.stringify(session.finalRanking || []),
+        JSON.stringify(session.questionsSnapshot || []),
+        JSON.stringify(session.playerAnswers || {}),
+        JSON.stringify(session.persistedSessionLogs || []),
+        session.isTest
+    ];
+}
+
 /**
  * Guarda o actualiza el resultado de una partida.
  * Llamado desde EndGameUseCase o procesos de autoguardado.
@@ -115,42 +132,15 @@ async function persistGameSessionRow(insertParams, pin, dbId = null) {
  * @param {Array}   params.questionsSnapshot - [{question_text, correct_answer, question_type}]
  * @returns {Promise<number|null>} ID insertado/actualizado, o null si falló
  */
-async function saveGameSession({
-    pin,
-    sessionId,
-    dbId,
-    gameType,
-    durationMs,
-    startedAt,
-    playerCount,
-    questionCount,
-    reason = 'completed',
-    finalRanking,
-    questionsSnapshot,
-    playerAnswers = {},
-    sessionLogs
-}) {
+async function saveGameSession(params) {
+    const { pin, sessionId, dbId, playerCount, sessionLogs, reason = 'completed' } = params;
     const isTest = await detectIsTestSession(pin);
     try {
         const persistedSessionLogs = await resolveSessionLogsForSave({
             sessionId: sessionId || String(pin).toUpperCase(),
             sessionLogs
         });
-        const startedAtTs = startedAt ? new Date(startedAt).toISOString() : null;
-        const insertParams = [
-            String(pin).toUpperCase(),
-            gameType || null,
-            durationMs || null,
-            startedAtTs,
-            playerCount || 0,
-            questionCount || 0,
-            reason,
-            JSON.stringify(finalRanking || []),
-            JSON.stringify(questionsSnapshot || []),
-            JSON.stringify(playerAnswers || {}),
-            JSON.stringify(persistedSessionLogs || []),
-            isTest
-        ];
+        const insertParams = buildSessionInsertParams({ ...params, reason, persistedSessionLogs, isTest });
 
         const result = await persistGameSessionRow(insertParams, pin, dbId);
 
@@ -236,12 +226,23 @@ async function listRecentGameSessions(limit = 50, includeTests = false) {
     }
 }
 
+/**
+ * Borra todas las sesiones jugadas.
+ * @returns {Promise<number>} Filas borradas
+ * @throws {Error} Si falla la consulta
+ */
 async function deleteAllGameSessions() {
     const result = await pool.query('DELETE FROM game_sessions');
     logger.info('All game sessions deleted', { count: result.rowCount });
     return result.rowCount;
 }
 
+/**
+ * Borra una sesión jugada.
+ * @param {number} id - ID de la sesión
+ * @returns {Promise<boolean>} true si existía
+ * @throws {Error} Si falla la consulta
+ */
 async function deleteGameSessionById(id) {
     const result = await pool.query('DELETE FROM game_sessions WHERE id = $1', [id]);
     logger.info('Game session deleted', { id, found: result.rowCount > 0 });

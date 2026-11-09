@@ -38,10 +38,6 @@ function blankCount(question) {
 }
 
 /**
- * Puntos base de una respuesta perfecta, replicando la lógica de cada
- * servicio de dominio usado en app/application/commands/submit-answer/answerEvaluation.js
- */
-/**
  * Con puntuación aleatoria, la cota superior de una pregunta elegible es el máximo
  * del rango (nunca puede salir un valor mayor en el sorteo). En Completa la frase el
  * valor sorteado es por palabra; el bonus de tiempo, único.
@@ -52,6 +48,13 @@ function randomPointsPerfectBase(question, game) {
     return maxBase * words + timeBonusFor(question.time_limit);
 }
 
+/**
+ * Puntos base de una respuesta perfecta, replicando la lógica de cada servicio de dominio usado en
+ * application/commands/submit-answer/answerEvaluation.js.
+ * @param {Object} question - Pregunta
+ * @param {Object} game - Partida (configuración de puntos aleatorios)
+ * @returns {number}
+ */
 function calculatePerfectBasePoints(question, game) {
     if (usesRandomPoints(question, game)) {
         return randomPointsPerfectBase(question, game);

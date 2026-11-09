@@ -102,31 +102,87 @@ async function getGameWithBanks(gameId) {
 }
 
 /**
+ * Ajustes de juego con sus valores por defecto (los que faltan, o vienen undefined, toman el defecto).
+ * @param {Object} data - Cuerpo validado de crear o actualizar juego
+ * @returns {Object} Ajustes listos para INSERT/UPDATE
+ */
+function readGameSettings({
+    visible_to_presenter = true,
+    use_streaks = false,
+    streak_threshold = 3,
+    streak_bonus_percentage = 0.5,
+    use_double_streaks = false,
+    double_streak_threshold = 5,
+    double_streak_bonus_percentage = 1.0,
+    pool_question_count = null,
+    image_url = null,
+    use_random_points = false,
+    random_points_min = RANDOM_POINTS_DEFAULTS.random_points_min,
+    random_points_max = RANDOM_POINTS_DEFAULTS.random_points_max
+}) {
+    return {
+        visible_to_presenter,
+        use_streaks,
+        streak_threshold,
+        streak_bonus_percentage,
+        use_double_streaks,
+        double_streak_threshold,
+        double_streak_bonus_percentage,
+        pool_question_count,
+        image_url,
+        use_random_points,
+        random_points_min,
+        random_points_max
+    };
+}
+
+/**
+ * Parámetros SQL de rachas, pool, imagen y puntuación aleatoria, en el orden en que los usan el INSERT
+ * y el UPDATE de games (justo después de visible_to_presenter y, en el INSERT, del creador).
+ * @param {Object} settings - Resultado de readGameSettings
+ * @returns {Array} Los 11 valores en orden
+ */
+function settingsParams(settings) {
+    return [
+        settings.use_streaks,
+        settings.streak_threshold,
+        settings.streak_bonus_percentage,
+        settings.use_double_streaks,
+        settings.double_streak_threshold,
+        settings.double_streak_bonus_percentage,
+        settings.pool_question_count,
+        settings.image_url,
+        settings.use_random_points,
+        settings.random_points_min,
+        settings.random_points_max
+    ];
+}
+
+/**
+ * Inserta los bancos de un juego dentro de la transacción abierta en `client`.
+ * @param {import('pg').PoolClient} client - Cliente con la transacción en curso
+ * @param {number} gameId - ID del juego
+ * @param {Array<{bank_id: number, question_count: number|null}>} banks - Bancos y su cantidad (null = pool)
+ * @returns {Promise<void>}
+ */
+async function insertGameBanks(client, gameId, banks) {
+    for (const bank of banks) {
+        await client.query('INSERT INTO game_banks (game_id, bank_id, question_count) VALUES ($1, $2, $3)', [
+            gameId,
+            bank.bank_id,
+            bank.question_count
+        ]);
+    }
+}
+
+/**
  * Crea un nuevo juego
  * @param {Object} data - {name, pin, banks}
  * @returns {Promise<Object>}
  */
 async function createGame(data) {
-    const {
-        name,
-        pin,
-        language,
-        banks,
-        created_by_role = 'admin',
-        created_by_user_id = null,
-        visible_to_presenter = true,
-        use_streaks = false,
-        streak_threshold = 3,
-        streak_bonus_percentage = 0.5,
-        use_double_streaks = false,
-        double_streak_threshold = 5,
-        double_streak_bonus_percentage = 1.0,
-        pool_question_count = null,
-        image_url = null,
-        use_random_points = false,
-        random_points_min = RANDOM_POINTS_DEFAULTS.random_points_min,
-        random_points_max = RANDOM_POINTS_DEFAULTS.random_points_max
-    } = data;
+    const { name, pin, language, banks, created_by_role = 'admin', created_by_user_id = null } = data;
+    const settings = readGameSettings(data);
     const finalPin = (pin || Math.floor(100000 + Math.random() * 900000).toString()).toUpperCase();
     const ownerRole = normalizeCreatorRole(created_by_role);
     const ownerUserId =
@@ -149,31 +205,13 @@ async function createGame(data) {
                 name,
                 finalPin,
                 language,
-                visible_to_presenter,
+                settings.visible_to_presenter,
                 ownerRole,
                 ownerUserId,
-                use_streaks,
-                streak_threshold,
-                streak_bonus_percentage,
-                use_double_streaks,
-                double_streak_threshold,
-                double_streak_bonus_percentage,
-                pool_question_count,
-                image_url,
-                use_random_points,
-                random_points_min,
-                random_points_max
+                ...settingsParams(settings)
             ]
         );
-        const gameId = gameRes.rows[0].id;
-
-        for (const bank of banks) {
-            await client.query('INSERT INTO game_banks (game_id, bank_id, question_count) VALUES ($1, $2, $3)', [
-                gameId,
-                bank.bank_id,
-                bank.question_count
-            ]);
-        }
+        await insertGameBanks(client, gameRes.rows[0].id, banks);
 
         await client.query('COMMIT');
         return gameRes.rows[0];
@@ -186,30 +224,61 @@ async function createGame(data) {
 }
 
 /**
+ * Invalida las cachés de un juego tras actualizarlo: por id y PIN nuevo, y por el PIN anterior si cambió.
+ * @param {number} gameId - ID del juego
+ * @param {string} pin - PIN actual (en mayúsculas)
+ * @param {string|null} previousPin - PIN antes de la actualización
+ */
+function invalidateGameCaches(gameId, pin, previousPin) {
+    questionBankCache.invalidate(gameId, 'game');
+    questionBankCache.invalidate(pin, 'game');
+    if (typeof questionBankCache.invalidateGame === 'function') {
+        questionBankCache.invalidateGame(gameId, 'game');
+        questionBankCache.invalidateGame(pin, 'game');
+    }
+
+    if (previousPin) {
+        questionBankCache.invalidate(previousPin, 'game');
+        if (typeof questionBankCache.invalidateGame === 'function') {
+            questionBankCache.invalidateGame(previousPin, 'game');
+        }
+
+        pinCache.invalidate(previousPin);
+        pinCache.invalidate(`presenter:${previousPin}`);
+    }
+
+    pinCache.invalidate(pin);
+    pinCache.invalidate(`presenter:${pin}`);
+}
+
+/**
+ * Comprueba si el PIN nuevo lo usa otro juego y, si no, lee el PIN actual (para invalidar sus cachés).
+ * @param {import('pg').PoolClient} client - Cliente con la transacción en curso
+ * @param {number} gameId - ID del juego
+ * @param {string} upperPin - PIN nuevo en mayúsculas
+ * @returns {Promise<{taken: boolean, previousPin: string|null}>}
+ */
+async function readPinChange(client, gameId, upperPin) {
+    const pinCheck = await client.query('SELECT id FROM games WHERE pin = $1 AND id != $2', [upperPin, gameId]);
+    const pinCheckRows = Array.isArray(pinCheck?.rows) ? pinCheck.rows : [];
+    if (pinCheckRows.length > 0) {
+        return { taken: true, previousPin: null };
+    }
+
+    const currentGameRes = await client.query('SELECT pin FROM games WHERE id = $1', [gameId]);
+    const currentRows = Array.isArray(currentGameRes?.rows) ? currentGameRes.rows : [];
+    return { taken: false, previousPin: currentRows[0]?.pin || null };
+}
+
+/**
  * Actualiza un juego existente
  * @param {number} gameId - ID del juego
  * @param {Object} data - {name, pin, banks}
  * @returns {Promise<{success: boolean, error?: string}>}
  */
 async function updateGame(gameId, data, actorUserId = null) {
-    const {
-        name,
-        pin,
-        language,
-        banks,
-        visible_to_presenter = true,
-        use_streaks = false,
-        streak_threshold = 3,
-        streak_bonus_percentage = 0.5,
-        use_double_streaks = false,
-        double_streak_threshold = 5,
-        double_streak_bonus_percentage = 1.0,
-        pool_question_count = null,
-        image_url = null,
-        use_random_points = false,
-        random_points_min = RANDOM_POINTS_DEFAULTS.random_points_min,
-        random_points_max = RANDOM_POINTS_DEFAULTS.random_points_max
-    } = data;
+    const { name, pin, language, banks } = data;
+    const settings = readGameSettings(data);
     const upperPin = pin.toUpperCase();
     const client = await pool.connect();
 
@@ -217,16 +286,11 @@ async function updateGame(gameId, data, actorUserId = null) {
         await client.query('BEGIN');
         await assertEditorCanModifyResource('game', gameId, actorUserId, client);
 
-        const pinCheck = await client.query('SELECT id FROM games WHERE pin = $1 AND id != $2', [upperPin, gameId]);
-        const pinCheckRows = Array.isArray(pinCheck?.rows) ? pinCheck.rows : [];
-        if (pinCheckRows.length > 0) {
+        const { taken, previousPin } = await readPinChange(client, gameId, upperPin);
+        if (taken) {
             await client.query('ROLLBACK');
             return { success: false, error: 'El PIN ya está en uso por otro juego', code: 'PIN_DUPLICATE' };
         }
-
-        const currentGameRes = await client.query('SELECT pin FROM games WHERE id = $1', [gameId]);
-        const currentRows = Array.isArray(currentGameRes?.rows) ? currentGameRes.rows : [];
-        const previousPin = currentRows[0]?.pin || null;
 
         await client.query(
             `UPDATE games SET
@@ -236,57 +300,14 @@ async function updateGame(gameId, data, actorUserId = null) {
                 pool_question_count = $11, image_url = $12,
                 use_random_points = $13, random_points_min = $14, random_points_max = $15
              WHERE id = $16`,
-            [
-                name,
-                upperPin,
-                language,
-                visible_to_presenter,
-                use_streaks,
-                streak_threshold,
-                streak_bonus_percentage,
-                use_double_streaks,
-                double_streak_threshold,
-                double_streak_bonus_percentage,
-                pool_question_count,
-                image_url,
-                use_random_points,
-                random_points_min,
-                random_points_max,
-                gameId
-            ]
+            [name, upperPin, language, settings.visible_to_presenter, ...settingsParams(settings), gameId]
         );
         await client.query('DELETE FROM game_banks WHERE game_id = $1', [gameId]);
-
-        for (const bank of banks) {
-            await client.query('INSERT INTO game_banks (game_id, bank_id, question_count) VALUES ($1, $2, $3)', [
-                gameId,
-                bank.bank_id,
-                bank.question_count
-            ]);
-        }
+        await insertGameBanks(client, gameId, banks);
 
         await client.query('COMMIT');
 
-        questionBankCache.invalidate(gameId, 'game');
-        questionBankCache.invalidate(upperPin, 'game');
-        if (typeof questionBankCache.invalidateGame === 'function') {
-            questionBankCache.invalidateGame(gameId, 'game');
-            questionBankCache.invalidateGame(upperPin, 'game');
-        }
-
-        if (previousPin) {
-            questionBankCache.invalidate(previousPin, 'game');
-            if (typeof questionBankCache.invalidateGame === 'function') {
-                questionBankCache.invalidateGame(previousPin, 'game');
-            }
-
-            pinCache.invalidate(previousPin);
-            pinCache.invalidate(`presenter:${previousPin}`);
-        }
-
-        pinCache.invalidate(upperPin);
-        pinCache.invalidate(`presenter:${upperPin}`);
-
+        invalidateGameCaches(gameId, upperPin, previousPin);
         return { success: true };
     } catch (err) {
         await client.query('ROLLBACK');
@@ -325,22 +346,8 @@ async function deleteGame(gameId, actorUserId = null) {
     }
 }
 
-/**
- * Obtiene preguntas para iniciar un juego (desde games con múltiples bancos)
- * Usa window functions para un solo query en lugar de loop.
- * Bancos con question_count fijo se reparten por partición; los bancos
- * marcados como pool (question_count IS NULL) se combinan en un único
- * conjunto del que se extraen games.pool_question_count preguntas al azar,
- * sin importar de qué banco del pool proceden.
- * @param {number} gameId - ID del juego
- * @returns {Promise<Array>}
- */
-async function getGameQuestions(gameId) {
-    const startTime = Date.now();
-
-    try {
-        const result = await pool.query(
-            `
+// Consulta de getGameQuestions (ver su JSDoc). Único parámetro: $1 = id del juego.
+const GAME_QUESTIONS_SQL = `
             WITH pool_config AS (
                 SELECT COALESCE(pool_question_count, 0) AS pool_question_count
                 FROM games WHERE id = $1
@@ -418,9 +425,23 @@ async function getGameQuestions(gameId) {
                      sq.tipo_contenido, sq.url_recurso, sq.question_image_url, sq.time_limit, sq.correct_answer, sq.max_points, sq.hint_text,
                      sq.tolerance_mode, sq.tolerance_value, sq.tolerance_cap, sq.correct_word
             ORDER BY RANDOM()
-        `,
-            [gameId]
-        );
+        `;
+
+/**
+ * Obtiene preguntas para iniciar un juego (desde games con múltiples bancos)
+ * Usa window functions para un solo query en lugar de loop.
+ * Bancos con question_count fijo se reparten por partición; los bancos
+ * marcados como pool (question_count IS NULL) se combinan en un único
+ * conjunto del que se extraen games.pool_question_count preguntas al azar,
+ * sin importar de qué banco del pool proceden.
+ * @param {number} gameId - ID del juego
+ * @returns {Promise<Array>}
+ */
+async function getGameQuestions(gameId) {
+    const startTime = Date.now();
+
+    try {
+        const result = await pool.query(GAME_QUESTIONS_SQL, [gameId]);
 
         const duration = Date.now() - startTime;
         metrics.recordDbQuery(duration);

@@ -366,12 +366,7 @@ async function revealToSingleTeam({ team, game, question, io, roomId, players = 
     return revealTeamFallbackPath({ team, game, question, io, roomId });
 }
 
-/**
- * Ruta rápida: lee respuestas crudas de Redis y emite usando el Map de players
- * en proceso (evita fetchSockets bajo carga alta).
- * @private
- */
-async function revealTeamFastPath({ team, game, question, io, roomId, players }) {
+async function loadRawSocketAnswers(game, roomId) {
     const slot = game.isTrivial ? game.trivialQuestionEpoch || 0 : game.currentIndex;
     const rawSocketAnswers = {};
 
@@ -390,6 +385,33 @@ async function revealTeamFastPath({ team, game, question, io, roomId, players })
         logger.warn('revealToSingleTeam: failed to load raw socket answers from Redis', { roomId, error: err.message });
     }
 
+    return rawSocketAnswers;
+}
+
+function indexPlayersByNickname(players, roomId) {
+    const byNickname = new Map();
+    for (const player of players.values()) {
+        if (player.roomId === roomId) {
+            byNickname.set(player.nickname, player);
+        }
+    }
+    return byNickname;
+}
+
+function isPlayerReachable(player) {
+    return Boolean(
+        player && player.socketId && player.status !== 'disconnected' && player.status !== 'presenter_disconnected'
+    );
+}
+
+/**
+ * Ruta rápida: lee respuestas crudas de Redis y emite usando el Map de players
+ * en proceso (evita fetchSockets bajo carga alta).
+ * @private
+ */
+async function revealTeamFastPath({ team, game, question, io, roomId, players }) {
+    const rawSocketAnswers = await loadRawSocketAnswers(game, roomId);
+
     const revealContext = buildRevealContext(game, question);
     await syncStreakInfosFromRedis(game, roomId);
 
@@ -398,24 +420,14 @@ async function revealTeamFastPath({ team, game, question, io, roomId, players })
         questionIndex: game.currentIndex
     });
 
-    const playerObjectsByNick = new Map();
-    for (const player of players.values()) {
-        if (player.roomId === roomId) {
-            playerObjectsByNick.set(player.nickname, player);
-        }
-    }
+    const playerObjectsByNick = indexPlayersByNickname(players, roomId);
 
     let revealedCount = 0;
 
     for (const playerNick of team.players) {
         const playerObj = playerObjectsByNick.get(playerNick);
 
-        if (
-            !playerObj ||
-            !playerObj.socketId ||
-            playerObj.status === 'disconnected' ||
-            playerObj.status === 'presenter_disconnected'
-        ) {
+        if (!isPlayerReachable(playerObj)) {
             logger.debug(`Player not connected, skipping reveal: ${playerNick}`);
             continue;
         }

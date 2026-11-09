@@ -256,7 +256,7 @@ function registerGeneralSocketEvents(socket, handlers) {
     socket.on('join-remote-presenter', data => handlers.handleJoinRemotePresenter(socket, data));
 }
 
-function registerPresenterSocketEvents(socket, handlers) {
+function registerPresenterTimerEvents(socket, handlers) {
     socket.on('start-game', roomIdOrPin => {
         if (assertIsPresenter(socket, roomIdOrPin, 'start-game-error')) {
             handlers.handleStartGame(socket, roomIdOrPin);
@@ -274,7 +274,9 @@ function registerPresenterSocketEvents(socket, handlers) {
             handlers.handleResumeTimer(socket, roomIdOrPin);
         }
     });
+}
 
+function registerPresenterQuestionFlowEvents(socket, handlers) {
     socket.on('next-question', async roomIdOrPin => {
         if (!assertIsPresenter(socket, roomIdOrPin, 'next-question-error')) {
             return;
@@ -300,7 +302,9 @@ function registerPresenterSocketEvents(socket, handlers) {
         const game = activeGames.get(roomId);
         await handlers.trivialHandler.handlePostReveal(roomId, game);
     });
+}
 
+function registerPresenterScoreAndCloseEvents(socket, handlers) {
     socket.on('manual-points', data => {
         const roomId = resolveRoomId(data, ['roomId', 'sessionId', 'pin']);
         if (assertIsPresenter(socket, roomId, 'manual-points-error')) {
@@ -325,6 +329,12 @@ function registerPresenterSocketEvents(socket, handlers) {
             handlers.handleAbandonGame(socket, data);
         }
     });
+}
+
+function registerPresenterSocketEvents(socket, handlers) {
+    registerPresenterTimerEvents(socket, handlers);
+    registerPresenterQuestionFlowEvents(socket, handlers);
+    registerPresenterScoreAndCloseEvents(socket, handlers);
 }
 
 function registerTrivialSocketEvents(socket, handlers) {

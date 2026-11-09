@@ -29,6 +29,18 @@ function isPlayerSocket(socket) {
     return !isPresenterSocket(socket, roomId);
 }
 
+async function replyReactionsState(state, socket, callback) {
+    const reply = typeof callback === 'function' ? callback : () => {};
+    const roomId = socket.data?.roomId;
+    if (!roomId) return reply({ ok: false, reason: 'no-room' });
+    try {
+        return reply({ ok: true, ...(await state.get(roomId)) });
+    } catch (error) {
+        logger.warn('No se pudo leer el estado de las reacciones', { roomId, error: error.message });
+        return reply({ ok: false, reason: 'error' });
+    }
+}
+
 /**
  * @param {Object} deps
  * @param {Object} deps.io
@@ -59,17 +71,7 @@ function createReactionHandlers({ io, state, throttle, buffer, activeGames, play
         }
     }
 
-    async function handleGetReactions(socket, _data, callback) {
-        const reply = typeof callback === 'function' ? callback : () => {};
-        const roomId = socket.data?.roomId;
-        if (!roomId) return reply({ ok: false, reason: 'no-room' });
-        try {
-            return reply({ ok: true, ...(await state.get(roomId)) });
-        } catch (error) {
-            logger.warn('No se pudo leer el estado de las reacciones', { roomId, error: error.message });
-            return reply({ ok: false, reason: 'error' });
-        }
-    }
+    const handleGetReactions = (socket, _data, callback) => replyReactionsState(state, socket, callback);
 
     async function handleSetReactions(socket, data, callback) {
         const reply = typeof callback === 'function' ? callback : () => {};

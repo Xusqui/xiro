@@ -6,6 +6,10 @@
 const { getRedisClient } = require('../config/redis');
 const logger = require('../config/logger');
 
+/**
+ * Recuento de respuestas por opción de cada pregunta en Redis (`answerstats:<sesión>:<pregunta>`, TTL 6 h), compartido
+ * entre workers.
+ */
 class AnswerStatsStore {
     constructor() {
         this.keyPrefix = 'answerstats:';

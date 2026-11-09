@@ -35,6 +35,10 @@ function getActorMetricsKey(actor) {
     return `${METRICS_PREFIX}:actor:${normalizeActor(actor)}`;
 }
 
+/**
+ * Métricas de reconexiones fallidas vacías.
+ * @returns {{total: number, invalid_secret: number, reasons: Object<string, number>}}
+ */
 function zeroReconnectMetrics() {
     return {
         total: 0,
@@ -67,6 +71,15 @@ async function incrementReconnectKey(redisClient, key, reason) {
     await tx.exec();
 }
 
+/**
+ * Cuenta una reconexión fallida en las métricas del worker y en los contadores compartidos de Redis (global y por
+ * actor). Si Redis falla solo lo registra.
+ * @param {Object} input
+ * @param {string} input.reason - Motivo (se normaliza a minúsculas)
+ * @param {string} [input.actor='player'] - player o presenter
+ * @param {Object} [input.redisClient=null] - Cliente Redis a reutilizar
+ * @returns {Promise<void>}
+ */
 async function recordReconnectFailedMetric({ reason, actor = 'player', redisClient = null }) {
     const normalizedReason = normalizeReason(reason);
     const normalizedActor = normalizeActor(actor);
@@ -89,6 +102,12 @@ async function recordReconnectFailedMetric({ reason, actor = 'player', redisClie
     }
 }
 
+/**
+ * Lee los contadores compartidos de reconexiones fallidas. Si Redis falla devuelve métricas a cero.
+ * @param {Object} [options]
+ * @param {string} [options.actor] - Actor del que leer también su desglose
+ * @returns {Promise<{global: Object, actor: Object|null}>}
+ */
 async function getDistributedReconnectFailedMetrics({ actor } = {}) {
     try {
         const redis = await getRedisClient();

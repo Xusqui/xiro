@@ -149,6 +149,11 @@ const ANSWER_EXTRACTORS = {
     fill_blanks: extractFillBlanksAnswer
 };
 
+/**
+ * Respuesta correcta de una pregunta en un formato común según su tipo, para informes y registros.
+ * @param {Object|null} question - Pregunta
+ * @returns {Object|null} null si no hay pregunta o es una encuesta
+ */
 function extractCorrectAnswer(question) {
     if (!question) {
         return null;

@@ -22,6 +22,13 @@ function isTvPath(requestPath) {
     return requestPath === '/tv.html' || requestPath === '/tv.html/';
 }
 
+/**
+ * Responde 403 a las rutas de la vista TV cuando está desactivada.
+ * @param {import("express").Request} req - Petición
+ * @param {import("express").Response} res - Respuesta
+ * @param {import("express").NextFunction} next - Siguiente middleware
+ * @returns {void}
+ */
 function tvAccessGuard(req, res, next) {
     if (!isTvPath(req.path)) return next();
     if (!isTvAccessDisabled()) return next();

@@ -41,6 +41,10 @@ async function publishReview(syncBus, roomId, game) {
     }
 }
 
+/**
+ * Caso de uso: navegación atrás y adelante por diapositivas ya mostradas en juegos personalizados (modo revisión, sin
+ * volver a puntuar).
+ */
 class NavigateSlideUseCase {
     /**
      * @param {Object} context

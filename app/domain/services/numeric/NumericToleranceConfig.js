@@ -20,6 +20,12 @@ function toPositiveNumber(value) {
     return Number.isFinite(parsed) && parsed > 0 ? parsed : null;
 }
 
+/**
+ * Normaliza la tolerancia de una pregunta numérica; los valores que falten o no sean válidos toman el valor por
+ * defecto. El tope por defecto solo se aplica al modo híbrido.
+ * @param {Object} [question={}] - Pregunta con tolerance_mode, tolerance_value y tolerance_cap
+ * @returns {{mode: string, value: number, cap: number|null, exactBonus: number}}
+ */
 function normalizeToleranceConfig(question = {}) {
     const rawMode = String(question.tolerance_mode || '').toLowerCase();
     const mode = Object.values(NUMERIC_TOLERANCE_MODES).includes(rawMode) ? rawMode : NUMERIC_TOLERANCE_DEFAULTS.mode;

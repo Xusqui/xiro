@@ -209,6 +209,10 @@ function invalidateOwnerCacheForPin(pinValue) {
     if (pin) _ownerByPin.delete(pin);
 }
 
+/**
+ * Vacía las cachés locales de estado de licencia por usuario y de propietario por PIN.
+ * @returns {void}
+ */
 function clearUserLicenseCaches() {
     _statusByUser.clear();
     _ownerByPin.clear();

@@ -5,19 +5,13 @@
  */
 
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
+import { t } from '../core/translate.js?v=20261105120000';
 
 const STYLES = {
     correct: { bg: 'bg-green-600/30', border: 'border-green-400', icon: 'fa-check' },
     incorrect: { bg: 'bg-red-600/30', border: 'border-red-400', icon: 'fa-times' },
     missed: { bg: 'bg-gray-600/30', border: 'border-gray-300', icon: 'fa-eye-slash' }
 };
-
-function translate(key, fallback) {
-    if (typeof window !== 'undefined' && typeof window._t === 'function') {
-        return window._t(key, null, fallback);
-    }
-    return fallback;
-}
 
 function buildRow({ text, style, pointsLabel, tag }) {
     return `
@@ -53,7 +47,7 @@ function buildSelectedRows(mcDetails, correctSet) {
 
 function buildMissedRows(mcDetails, correctSet) {
     const selectedSet = new Set(mcDetails.selectedIndices || []);
-    const missedTag = translate('player.answer.mc_missed', 'NO MARCADA');
+    const missedTag = t('player.answer.mc_missed', 'NO MARCADA');
 
     return [...correctSet]
         .filter(idx => !selectedSet.has(idx))
@@ -77,7 +71,7 @@ function buildPerfectRow(mcDetails) {
         <div class="bg-yellow-500/30 border-2 border-yellow-400 rounded-lg p-3 flex items-center justify-between">
             <div class="flex items-center gap-2 flex-1">
                 <i class="fas fa-trophy text-lg text-yellow-400"></i>
-                <span class="font-bold text-sm uppercase">${escapeHtml(translate('player.answer.mc_perfect', 'PERFECTO'))}</span>
+                <span class="font-bold text-sm uppercase">${escapeHtml(t('player.answer.mc_perfect', 'PERFECTO'))}</span>
             </div>
             <span class="font-black text-xl">+${mcDetails.perfectBonus}</span>
         </div>

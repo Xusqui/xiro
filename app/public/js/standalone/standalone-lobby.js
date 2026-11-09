@@ -6,6 +6,8 @@
 'use strict';
 
 globalThis.StandaloneLobby = (() => {
+    // standalone.html carga standalone-question-common.js antes que este script
+    const { escapeHtml } = StandaloneQuestionCommon;
     const state = {
         games: [],
         filteredGames: [],
@@ -68,10 +70,10 @@ globalThis.StandaloneLobby = (() => {
             game.type === 'custom'
                 ? window.XiroI18n?.t('standalone.lobby.filter.custom') || 'Personalizados'
                 : window.XiroI18n?.t('standalone.lobby.filter.banks') || 'Bancos de preguntas';
-        const safePin = _escapeHtml(String(game.pin || ''));
+        const safePin = escapeHtml(String(game.pin || ''));
 
-        const flagCode = game.language ? _escapeHtml(game.language) : '';
-        const safeImageUrl = game.imageUrl ? _escapeHtml(game.imageUrl) : '';
+        const flagCode = game.language ? escapeHtml(game.language) : '';
+        const safeImageUrl = game.imageUrl ? escapeHtml(game.imageUrl) : '';
         const cardBackground = safeImageUrl
             ? `linear-gradient(135deg, ${_hexToRgba(c.from, 0.8)}, ${_hexToRgba(c.to, 0.8)}), url('${safeImageUrl}') center/cover no-repeat`
             : c.bg;
@@ -82,9 +84,9 @@ globalThis.StandaloneLobby = (() => {
                  style="background: ${cardBackground}; border-bottom: 4px solid ${c.border}; position: relative;">
                 <div class="mb-4">
                     <div class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full inline-block mb-3">
-                        <span class="text-white font-bold text-xs uppercase">${_escapeHtml(typeLabel)}</span>
+                        <span class="text-white font-bold text-xs uppercase">${escapeHtml(typeLabel)}</span>
                     </div>
-                    <h3 class="text-2xl font-black italic text-white mb-2 line-clamp-2">${_escapeHtml(game.name)}</h3>
+                    <h3 class="text-2xl font-black italic text-white mb-2 line-clamp-2">${escapeHtml(game.name)}</h3>
                     <p class="text-sm" style="color: ${c.text};">${game.questionCount || 0} ${window.XiroI18n?.t('standalone.lobby.questions') || 'preguntas'}</p>
                 </div>
                 <div class="flex items-center text-xs" style="color: ${c.text};">
@@ -93,17 +95,6 @@ globalThis.StandaloneLobby = (() => {
                 ${flagCode ? `<img src="/images/flags/${flagCode}.svg" alt="" style="position:absolute;bottom:12px;right:12px;width:34px;height:24px;object-fit:cover;border-radius:4px;border:2px solid rgba(255,255,255,.85);box-shadow:0 3px 8px rgba(0,0,0,.35);transform:rotate(-9deg);pointer-events:none;">` : ''}
             </div>
         `;
-    }
-
-    function _escapeHtml(text) {
-        const map = {
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            '"': '&quot;',
-            '\'': '&#039;'
-        };
-        return String(text || '').replace(/[&<>"']/g, m => map[m]);
     }
 
     function _applyFilter(filter) {
@@ -119,7 +110,7 @@ globalThis.StandaloneLobby = (() => {
 
     function _renderMessage(container, text, withSpinner) {
         const spinner = withSpinner ? '<i class="fas fa-spinner fa-spin"></i>' : '';
-        container.innerHTML = `<div class="${withSpinner ? 'loading-state' : 'empty-state'}">${spinner}<p>${_escapeHtml(text)}</p></div>`;
+        container.innerHTML = `<div class="${withSpinner ? 'loading-state' : 'empty-state'}">${spinner}<p>${escapeHtml(text)}</p></div>`;
     }
 
     function _renderGames() {

@@ -16,6 +16,7 @@ import {
     setTotalPlayers
 } from './presenter-state.js?v=20260922172926';
 import { iniciarLobby } from './presenter-lobby-init.js?v=20260922172926';
+import { t } from '../core/translate.js?v=20261105120000';
 
 if (window.XiroI18n && typeof window.XiroI18n.addSections === 'function') {
     void window.XiroI18n.addSections(['presenter_lobby'], { reload: false });
@@ -41,13 +42,6 @@ function _hexToRgba(hex, alpha) {
     const g = parseInt(clean.substring(2, 4), 16);
     const b = parseInt(clean.substring(4, 6), 16);
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-}
-
-function t(key, fallback, vars) {
-    if (typeof window._t === 'function') {
-        return window._t(key, vars || null, fallback);
-    }
-    return String(fallback || key || '');
 }
 
 function renderVistaPinNoValido(selectedPin) {

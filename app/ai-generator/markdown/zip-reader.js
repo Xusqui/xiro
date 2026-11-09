@@ -22,6 +22,11 @@ const LIMITS = {
     maxRatio: 200
 };
 
+/**
+ * Indica si el buffer empieza con la firma de un ZIP.
+ * @param {Buffer} buffer - Contenido
+ * @returns {boolean}
+ */
 function isZip(buffer) {
     return buffer.length >= 4 && buffer.readUInt32LE(0) === SIG_LOCAL;
 }

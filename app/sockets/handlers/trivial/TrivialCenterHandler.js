@@ -298,62 +298,14 @@ async function skipTurnAfterMissingQuestion(io, roomId, state) {
     emitTurnChanged(io, roomId, state);
 }
 
-async function handleCategoryChosen(io, socket, { roomId, categoryIndex }) {
-    logger.debug('trivial handleCategoryChosen: invoked', { roomId, categoryIndex });
-
-    const state = await trivialState.getTrivialState(roomId);
-    if (!state) {
-        logger.error('trivial handleCategoryChosen: no state in Redis', { roomId });
-        socket.emit('trivial-error', { message: 'Estado no encontrado', code: 'TRIVIAL_STATE_NOT_FOUND' });
-        return;
-    }
-
-    if (state.phase !== 'choosing_category') {
-        logger.warn('trivial handleCategoryChosen: wrong phase', { roomId, phase: state.phase, categoryIndex });
-        socket.emit('trivial-error', {
-            message: `Fase incorrecta: ${state.phase}`,
-            code: 'TRIVIAL_INVALID_PHASE',
-            params: { phase: state.phase }
-        });
-        return;
-    }
-
-    // Solo números o texto numérico: Number(null), Number('') y Number(true) darían 0 o 1
+// Solo números o texto numérico: Number(null), Number('') y Number(true) darían 0 o 1
+function parseCategoryIndex(categoryIndex) {
     const isNumericInput =
         typeof categoryIndex === 'number' || (typeof categoryIndex === 'string' && categoryIndex.trim() !== '');
-    const catIdx = isNumericInput ? Number(categoryIndex) : NaN;
-    const invalidCategory = !Number.isInteger(catIdx) || catIdx < 0 || catIdx >= state.categories.length;
-    if (invalidCategory) {
-        logger.warn('trivial handleCategoryChosen: invalid category index', {
-            roomId,
-            categoryIndex,
-            totalCategories: state.categories.length
-        });
-        socket.emit('trivial-error', { message: 'Categoría inválida', code: 'TRIVIAL_CATEGORY_INVALID' });
-        return;
-    }
+    return isNumericInput ? Number(categoryIndex) : NaN;
+}
 
-    const question = await fetchCategoryQuestion(state, catIdx, roomId, socket);
-    if (!question) {
-        logger.warn('trivial handleCategoryChosen: no question available, skipping turn', { roomId, catIdx });
-        await skipTurnAfterMissingQuestion(io, roomId, state);
-        return;
-    }
-
-    state.askedQuestionIds.push(question.id);
-    state.phase = 'waiting_answer';
-    const actorNick = trivialState.getCurrentTurnActor(state);
-    state.currentTrivialMeta = { catIdx, position: 'center', actorNick };
-    await trivialState.setTrivialState(roomId, state);
-
-    logger.info('trivial handleCategoryChosen: question loaded for center', {
-        roomId,
-        actorNick,
-        catIdx,
-        questionId: question.id,
-        questionType: question.question_type
-    });
-
+async function startCenterQuestion({ io, roomId, state, question, actorNick, catIdx }) {
     const normalizedQuestion = buildNormalizedQuestion(question, roomId);
     const game = ensureTrivialGameEntry(roomId, state);
     updateGameForCenterQuestion({
@@ -384,6 +336,68 @@ async function handleCategoryChosen(io, socket, { roomId, categoryIndex }) {
     });
 }
 
+async function handleCategoryChosen(io, socket, { roomId, categoryIndex }) {
+    logger.debug('trivial handleCategoryChosen: invoked', { roomId, categoryIndex });
+
+    const state = await trivialState.getTrivialState(roomId);
+    if (!state) {
+        logger.error('trivial handleCategoryChosen: no state in Redis', { roomId });
+        socket.emit('trivial-error', { message: 'Estado no encontrado', code: 'TRIVIAL_STATE_NOT_FOUND' });
+        return;
+    }
+
+    if (state.phase !== 'choosing_category') {
+        logger.warn('trivial handleCategoryChosen: wrong phase', { roomId, phase: state.phase, categoryIndex });
+        socket.emit('trivial-error', {
+            message: `Fase incorrecta: ${state.phase}`,
+            code: 'TRIVIAL_INVALID_PHASE',
+            params: { phase: state.phase }
+        });
+        return;
+    }
+
+    const catIdx = parseCategoryIndex(categoryIndex);
+    if (!Number.isInteger(catIdx) || catIdx < 0 || catIdx >= state.categories.length) {
+        logger.warn('trivial handleCategoryChosen: invalid category index', {
+            roomId,
+            categoryIndex,
+            totalCategories: state.categories.length
+        });
+        socket.emit('trivial-error', { message: 'Categoría inválida', code: 'TRIVIAL_CATEGORY_INVALID' });
+        return;
+    }
+
+    const question = await fetchCategoryQuestion(state, catIdx, roomId, socket);
+    if (!question) {
+        logger.warn('trivial handleCategoryChosen: no question available, skipping turn', { roomId, catIdx });
+        await skipTurnAfterMissingQuestion(io, roomId, state);
+        return;
+    }
+
+    state.askedQuestionIds.push(question.id);
+    state.phase = 'waiting_answer';
+    const actorNick = trivialState.getCurrentTurnActor(state);
+    state.currentTrivialMeta = { catIdx, position: 'center', actorNick };
+    await trivialState.setTrivialState(roomId, state);
+
+    logger.info('trivial handleCategoryChosen: question loaded for center', {
+        roomId,
+        actorNick,
+        catIdx,
+        questionId: question.id,
+        questionType: question.question_type
+    });
+
+    await startCenterQuestion({ io, roomId, state, question, actorNick, catIdx });
+}
+
+/**
+ * Crea los handlers de la casilla central de Trivial: caer en ella y elegir categoría.
+ * @param {Object} deps
+ * @param {Object} deps.io - Instancia de Socket.IO
+ * @returns {{handleCenterLanding: function(string, Object): Promise<void>, handleCategoryChosen: function(Object,
+ *   Object): Promise<void>}}
+ */
 module.exports = function createCenterHandler({ io }) {
     return {
         handleCenterLanding: (roomId, state) => handleCenterLanding(io, roomId, state),

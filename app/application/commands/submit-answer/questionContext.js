@@ -160,37 +160,46 @@ function validateFreeInputAnswer(payload, flags) {
     return { valid: true, reason: null };
 }
 
-function validateAnswerByType({ payload, question, flags }) {
-    const { index, order, matches, selectedIndices } = payload;
+// Ordenar y emparejar admiten además respuesta tras el cierre con su propio indicador
+function validateArrangedAnswer({ payload, question, flags }) {
+    const { canAnswerOrEnded, lastQuestion, allowOrderAfterClose, allowMatchingAfterClose } = flags;
 
-    const {
-        canAnswerOrEnded,
-        lastQuestion,
-        isOrderQuestion,
-        isMatchingQuestion,
-        isMultipleChoiceQuestion,
-        isSurveyMultipleQuestion,
-        allowOrderAfterClose,
-        allowMatchingAfterClose
-    } = flags;
-
-    if (isOrderQuestion) {
+    if (flags.isOrderQuestion) {
         return OrderAnswerStateService.validateOrderAnswer({
             question,
-            order,
+            order: payload.order,
             gameCanAnswer: canAnswerOrEnded,
             allowWhenClosed: lastQuestion || allowOrderAfterClose
         });
     }
 
-    if (isMatchingQuestion) {
+    if (flags.isMatchingQuestion) {
         return MatchingAnswerStateService.validateMatchingAnswer({
             question,
-            matches,
+            matches: payload.matches,
             gameCanAnswer: canAnswerOrEnded,
             allowWhenClosed: lastQuestion || allowMatchingAfterClose
         });
     }
+
+    return null;
+}
+
+/**
+ * Valida la respuesta con el servicio de su tipo de pregunta, teniendo en cuenta si se admiten respuestas con la
+ * pregunta cerrada.
+ * @param {Object} input
+ * @param {Object} input.payload - Payload de la respuesta
+ * @param {Object} input.question - Pregunta actual
+ * @param {Object} input.flags - Tipo de pregunta y estado de la partida
+ * @returns {Object} Resultado del validador: { valid, reason? } y datos normalizados de la respuesta
+ */
+function validateAnswerByType({ payload, question, flags }) {
+    const { index, selectedIndices } = payload;
+    const { canAnswerOrEnded, lastQuestion, isMultipleChoiceQuestion, isSurveyMultipleQuestion } = flags;
+
+    const arrangedResult = validateArrangedAnswer({ payload, question, flags });
+    if (arrangedResult) return arrangedResult;
 
     const freeInputResult = validateFreeInputAnswer(payload, flags);
     if (freeInputResult) return freeInputResult;

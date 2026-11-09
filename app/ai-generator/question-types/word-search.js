@@ -27,6 +27,11 @@ function isValidWord(word) {
     );
 }
 
+/**
+ * Indica si la pregunta de sopa de letras (número de palabras, formato y sin repetidas) de la IA es válida.
+ * @param {Object} q - Pregunta devuelta por la IA
+ * @returns {boolean}
+ */
 function validate(q) {
     if (!q || typeof q.question_text !== 'string' || q.question_text.trim().length === 0) return false;
     if (!Array.isArray(q.options)) return false;
@@ -36,6 +41,11 @@ function validate(q) {
     return new Set(words.map(normalizeSearchWord)).size === words.length;
 }
 
+/**
+ * Convierte una pregunta de sopa de letras de la IA al formato de subida de bancos.
+ * @param {Object} q - Pregunta devuelta por la IA
+ * @returns {Object} Pregunta normalizada
+ */
 function normalize(q) {
     return {
         questionText: q.question_text.trim(),

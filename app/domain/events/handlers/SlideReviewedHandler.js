@@ -18,6 +18,9 @@ const { buildPlayerRevealPayload } = require('../../../sockets/utils/RevealTypeP
 const { sanitizeQuestionForPlayers } = require('../../../services/payload.sanitizer');
 const { teamConfigs } = require('../../../state/globalState');
 
+/**
+ * Reacciona a 'slide.reviewed': vuelve a mostrar la diapositiva al presentador y avisa a los jugadores, sin puntuar.
+ */
 class SlideReviewedHandler extends EventHandler {
     register() {
         this.subscribe('slide.reviewed', this.handleSlideReviewed.bind(this), 8);

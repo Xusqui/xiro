@@ -32,10 +32,22 @@ function _buildValidationResult(isValid, expiryValue, reason) {
     };
 }
 
+/**
+ * Normaliza la clave de licencia del sitio (recorta espacios).
+ * @param {*} tokenValue - Clave
+ * @returns {string}
+ */
 function normalizeSiteToken(tokenValue) {
     return String(tokenValue || '').trim();
 }
 
+/**
+ * Comprueba la licencia contra el servidor de licencias (activación por instalación o comprobación antigua según el
+ * formato de la clave).
+ * @param {string} tokenValue - Clave de licencia
+ * @param {Function} [fetchImpl=globalThis.fetch] - fetch inyectable para tests
+ * @returns {Promise<Object>} Resultado de la comprobación: validez, caducidad y motivo si falla. No rechaza
+ */
 async function probeRemoteStatus(tokenValue, fetchImpl = globalThis.fetch) {
     const normalizedToken = normalizeSiteToken(tokenValue);
 

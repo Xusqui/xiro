@@ -55,6 +55,39 @@ function calculatePointsEarned({ timeElapsed, questionTimeLimit }) {
     return roundScore(totalPoints);
 }
 
+function scoreWithStrategy(
+    { question, optionSelected, game, basePoints, gameStartTime, currentTime },
+    { playerState, teamState, betState }
+) {
+    // Obtener estrategia de puntuación
+    const strategy = strategyFactory.createFromQuestion(question, game, { basePoints });
+
+    // Calcular tiempo transcurrido
+    const questionTimeLimit = question.time_limit || TIMING.DEFAULT_QUESTION_TIME;
+    const timeElapsed = (currentTime - gameStartTime) / 1000; // Convertir a segundos
+
+    // Delegar cálculo a estrategia
+    const result = strategy.calculatePoints({
+        isCorrect: optionSelected.isCorrect,
+        timeElapsed,
+        questionTimeLimit,
+        playerState,
+        teamState,
+        betState
+    });
+
+    // Retornar en formato compatible con código legacy
+    return {
+        isCorrect: optionSelected.isCorrect,
+        pointsEarned: result.pointsEarned,
+        timeBonus: result.details.timeBonus || 0,
+        timeElapsed,
+        optionSelected,
+        isSurvey: false,
+        details: result.details // Detalles completos de la estrategia
+    };
+}
+
 /**
  * Procesa una respuesta de jugador y calcula puntuación
  *
@@ -142,33 +175,8 @@ function processAnswer({
         };
     }
 
-    // Obtener estrategia de puntuación
-    const strategy = strategyFactory.createFromQuestion(question, game, { basePoints });
-
-    // Calcular tiempo transcurrido
-    const questionTimeLimit = question.time_limit || TIMING.DEFAULT_QUESTION_TIME;
-    const timeElapsed = (currentTime - gameStartTime) / 1000; // Convertir a segundos
-
-    // Delegar cálculo a estrategia
-    const result = strategy.calculatePoints({
-        isCorrect: optionSelected.isCorrect,
-        timeElapsed,
-        questionTimeLimit,
-        playerState,
-        teamState,
-        betState
-    });
-
-    // Retornar en formato compatible con código legacy
-    return {
-        isCorrect: optionSelected.isCorrect,
-        pointsEarned: result.pointsEarned,
-        timeBonus: result.details.timeBonus || 0,
-        timeElapsed,
-        optionSelected,
-        isSurvey: false,
-        details: result.details // Detalles completos de la estrategia
-    };
+    const answer = { question, optionSelected, game, basePoints, gameStartTime, currentTime };
+    return scoreWithStrategy(answer, { playerState, teamState, betState });
 }
 
 /**

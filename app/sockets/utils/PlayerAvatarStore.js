@@ -14,6 +14,9 @@ const logger = require('../../config/logger');
 const KEY_PREFIX = 'game:avatars:';
 const SESSION_TTL_SECONDS = 6 * 60 * 60;
 
+/**
+ * Avatar elegido por cada jugador de una sala, en un hash de Redis con mapa local de respaldo (ver @fileoverview).
+ */
 class PlayerAvatarStore {
     /**
      * @param {Object} options

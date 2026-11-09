@@ -16,6 +16,9 @@
 const logger = require('../../config/logger');
 const { roundScore } = require('../../services/game.logic');
 
+/**
+ * Punto único de notificaciones al presentador, con batching y compresión (ver @fileoverview).
+ */
 class PresenterNotificationService {
     constructor(io, answerBatchService) {
         if (!io) throw new Error('io is required');

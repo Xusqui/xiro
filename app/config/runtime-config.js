@@ -195,6 +195,10 @@ function getAll() {
     return result;
 }
 
+/**
+ * Esquema de los parámetros ajustables en caliente (tipo y límites de cada uno).
+ * @returns {Object<string, Object>}
+ */
 function getSchema() {
     return PARAM_SCHEMA;
 }

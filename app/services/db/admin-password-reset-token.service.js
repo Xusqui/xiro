@@ -2,23 +2,30 @@
  * @fileoverview Pending password reset tokens for admin panel users
  */
 
-const crypto = require('crypto');
 const { pool } = require('../../config/database');
+const { issueToken, codedError, consumeToken } = require('./admin-token-flow');
 
-const TOKEN_TTL_MINUTES = 60;
+const TOKEN_TTL_MS = 60 * 60 * 1000;
 
-function hashToken(rawToken) {
-    return crypto.createHash('sha256').update(String(rawToken)).digest('hex');
-}
+const SELECT_TOKEN_SQL = `SELECT id, user_id, expires_at, used_at
+     FROM admin_user_password_reset_tokens
+     WHERE token_hash = $1
+     LIMIT 1
+     FOR UPDATE`;
 
-function buildToken() {
-    return crypto.randomBytes(32).toString('hex');
-}
+const MARK_TOKEN_USED_SQL = `UPDATE admin_user_password_reset_tokens
+     SET used_at = NOW()
+     WHERE id = $1`;
 
+/**
+ * Crea un token de restablecimiento de contraseña (60 min) y descarta los pendientes previos del usuario.
+ * @param {Object} reset
+ * @param {number} reset.userId - ID del usuario
+ * @returns {Promise<{token: string, expiresAt: Date}>} Token en claro (solo se guarda su SHA-256) y caducidad
+ * @throws {Error} Si falla la consulta
+ */
 async function createPendingPasswordReset({ userId }) {
-    const token = buildToken();
-    const tokenHash = hashToken(token);
-    const expiresAt = new Date(Date.now() + TOKEN_TTL_MINUTES * 60 * 1000);
+    const { token, tokenHash, expiresAt } = issueToken(TOKEN_TTL_MS);
 
     await pool.query(
         `DELETE FROM admin_user_password_reset_tokens
@@ -40,79 +47,39 @@ async function createPendingPasswordReset({ userId }) {
     };
 }
 
-async function consumePasswordResetToken(rawToken, newPasswordHash) {
-    if (!rawToken) {
-        const err = new Error('Token inválido');
-        err.code = 'TOKEN_INVALID';
-        throw err;
-    }
+async function applyNewPassword(client, tokenRow, newPasswordHash) {
+    const updateResult = await client.query(
+        `UPDATE admin_users
+         SET password_hash = $2,
+             updated_at = NOW()
+         WHERE id = $1
+         RETURNING id, username, email, role`,
+        [tokenRow.user_id, newPasswordHash]
+    );
 
-    const tokenHash = hashToken(rawToken);
-    const client = await pool.connect();
+    if (updateResult.rowCount === 0) throw codedError('Usuario no encontrado', 'USER_NOT_FOUND');
 
-    try {
-        await client.query('BEGIN');
+    return updateResult.rows[0];
+}
 
-        const tokenResult = await client.query(
-            `SELECT id, user_id, expires_at, used_at
-             FROM admin_user_password_reset_tokens
-             WHERE token_hash = $1
-             LIMIT 1
-             FOR UPDATE`,
-            [tokenHash]
-        );
-
-        const tokenRow = tokenResult.rows[0];
-
-        if (!tokenRow) {
-            const err = new Error('Token inválido');
-            err.code = 'TOKEN_INVALID';
-            throw err;
-        }
-
-        if (tokenRow.used_at) {
-            const err = new Error('Token ya utilizado');
-            err.code = 'TOKEN_ALREADY_USED';
-            throw err;
-        }
-
-        if (new Date(tokenRow.expires_at).getTime() < Date.now()) {
-            const err = new Error('Token expirado');
-            err.code = 'TOKEN_EXPIRED';
-            throw err;
-        }
-
-        const updateResult = await client.query(
-            `UPDATE admin_users
-             SET password_hash = $2,
-                 updated_at = NOW()
-             WHERE id = $1
-             RETURNING id, username, email, role`,
-            [tokenRow.user_id, newPasswordHash]
-        );
-
-        if (updateResult.rowCount === 0) {
-            const err = new Error('Usuario no encontrado');
-            err.code = 'USER_NOT_FOUND';
-            throw err;
-        }
-
-        await client.query(
-            `UPDATE admin_user_password_reset_tokens
-             SET used_at = NOW()
-             WHERE id = $1`,
-            [tokenRow.id]
-        );
-
-        await client.query('COMMIT');
-
-        return updateResult.rows[0];
-    } catch (error) {
-        await client.query('ROLLBACK');
-        throw error;
-    } finally {
-        client.release();
-    }
+/**
+ * Canjea un token de restablecimiento: guarda la contraseña nueva y marca el token como usado, en una transacción.
+ * @param {string} rawToken - Token en claro recibido por email
+ * @param {string} newPasswordHash - Hash scrypt de la contraseña nueva
+ * @returns {Promise<Object>} Usuario actualizado {id, username, email, role}
+ * @throws {Error} code 'TOKEN_INVALID' si falta el token o no existe
+ * @throws {Error} code 'TOKEN_ALREADY_USED' si ya se usó
+ * @throws {Error} code 'TOKEN_EXPIRED' si caducó
+ * @throws {Error} code 'USER_NOT_FOUND' si el usuario ya no existe
+ * @throws {Error} Si falla la consulta
+ */
+function consumePasswordResetToken(rawToken, newPasswordHash) {
+    return consumeToken({
+        rawToken,
+        selectSql: SELECT_TOKEN_SQL,
+        markUsedSql: MARK_TOKEN_USED_SQL,
+        apply: (client, tokenRow) => applyNewPassword(client, tokenRow, newPasswordHash)
+    });
 }
 
 module.exports = {

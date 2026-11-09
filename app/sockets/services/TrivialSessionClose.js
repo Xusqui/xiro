@@ -16,6 +16,7 @@
 
 const trivialGameState = require('./TrivialGameState');
 const SessionStore = require('../../services/SessionStore');
+const { bestEffort } = require('../../services/best-effort');
 const { removeAdapter } = require('../../domain/state/GameStateAdapter');
 const {
     activeGames,
@@ -88,25 +89,15 @@ function leaveRooms(io, roomId) {
 
 /** Lápida + invalidación, como EndGameUseCase: GetActiveSessionsQuery deja de listarla. */
 async function markSessionEnded(roomId) {
-    try {
+    await bestEffort('flush y cierre del guardado de sesión', { roomId }, async () => {
         const SessionSaveDebouncer = require('../../services/SessionSaveDebouncer');
         await SessionSaveDebouncer.flush(roomId);
         SessionSaveDebouncer.markClosed(roomId);
-    } catch (_) {
-        // Best-effort flush and mark closed
-    }
-
-    try {
-        await SessionStore.save(roomId, { ended: true, savedAt: Date.now() }, 60);
-    } catch (_) {
-        // Best-effort tombstone
-    }
-
-    try {
-        await SessionStore.invalidate(roomId);
-    } catch (_) {
-        // Best-effort invalidate
-    }
+    });
+    await bestEffort('lápida de sesión en Redis', { roomId }, () =>
+        SessionStore.save(roomId, { ended: true, savedAt: Date.now() }, 60)
+    );
+    await bestEffort('invalidación de sesión en Redis', { roomId }, () => SessionStore.invalidate(roomId));
 }
 
 /** Los demás workers borran lobby, partida y jugadores de la sala. */

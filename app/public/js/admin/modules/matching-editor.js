@@ -135,20 +135,3 @@ function actualizarPar(qIdx, oIdx, side, value) {
         q.options[oIdx].match_value = value;
     }
 }
-
-/**
- * Escapa caracteres HTML para evitar XSS en textos y atributos.
- * Se carga después de core/state.js y sobrescribe su escapeHtml global,
- * así que debe comportarse igual (incluida la comilla simple).
- * @param {*} str
- * @returns {string}
- */
-function escapeHtml(str) {
-    if (str === null || str === undefined) return '';
-    return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
-}

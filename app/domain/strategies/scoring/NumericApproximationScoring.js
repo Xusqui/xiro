@@ -28,7 +28,48 @@ const { resolveToleranceWindow, calculateLinearPoints } = require('../../service
  * - 8000 → 0 puntos (fuera de rango, -76.8%)
  */
 class NumericApproximationScoring extends ScoringStrategy {
-    /**
+        _invalidAnswerResult({ playerAnswer, correctAnswer, maxPoints, timeElapsed, questionTimeLimit }) {
+        return {
+            pointsEarned: 0,
+            details: {
+                strategy: this.getName(),
+                isCorrect: false,
+                playerAnswer,
+                validationError: 'Respuesta no numérica válida',
+                correctAnswer,
+                maxPoints,
+                timeElapsed,
+                questionTimeLimit
+            }
+        };
+    }
+
+    _resolveTolerance(correctAnswer, { toleranceMode, toleranceValue, toleranceCap }) {
+        const toleranceConfig = normalizeToleranceConfig({
+            tolerance_mode: toleranceMode,
+            tolerance_value: toleranceValue,
+            tolerance_cap: toleranceCap
+        });
+        const tolerance = resolveToleranceWindow({
+            correctAnswer,
+            mode: toleranceConfig.mode,
+            value: toleranceConfig.value,
+            cap: toleranceConfig.cap
+        });
+        return { toleranceConfig, tolerance };
+    }
+
+    _distancePercentage(distance, correctAnswer) {
+        return correctAnswer !== 0 ? (distance / Math.abs(correctAnswer)) * 100 : 0;
+    }
+
+    _formula({ pointsEarned, maxPoints, isCorrect, distance, tolerance, toleranceConfig }) {
+        if (isCorrect) return `${pointsEarned} = ${maxPoints} + ${toleranceConfig.exactBonus}`;
+        if (tolerance > 0) return `${pointsEarned} = ${maxPoints} × (1 - (${distance} / ${tolerance}))`;
+        return `${pointsEarned} = 0 (tolerancia no positiva)`;
+    }
+
+/**
      * Calcula puntos para respuesta numérica
      *
      * @param {Object} params - Parámetros
@@ -52,35 +93,17 @@ class NumericApproximationScoring extends ScoringStrategy {
         // Validar entrada
         const validatedAnswer = this._validateAndParseAnswer(playerAnswer);
         if (validatedAnswer === null) {
-            return {
-                pointsEarned: 0,
-                details: {
-                    strategy: this.getName(),
-                    isCorrect: false,
-                    playerAnswer,
-                    validationError: 'Respuesta no numérica válida',
-                    correctAnswer,
-                    maxPoints,
-                    timeElapsed,
-                    questionTimeLimit
-                }
-            };
+            return this._invalidAnswerResult({ playerAnswer, correctAnswer, maxPoints, timeElapsed, questionTimeLimit });
         }
 
         const validatedCorrectAnswer = Math.round(Number(correctAnswer));
-        const toleranceConfig = normalizeToleranceConfig({
-            tolerance_mode: toleranceMode,
-            tolerance_value: toleranceValue,
-            tolerance_cap: toleranceCap
+        const { toleranceConfig, tolerance } = this._resolveTolerance(validatedCorrectAnswer, {
+            toleranceMode,
+            toleranceValue,
+            toleranceCap
         });
 
         const distance = Math.abs(validatedAnswer - validatedCorrectAnswer);
-        const tolerance = resolveToleranceWindow({
-            correctAnswer: validatedCorrectAnswer,
-            mode: toleranceConfig.mode,
-            value: toleranceConfig.value,
-            cap: toleranceConfig.cap
-        });
 
         const isCorrect = distance === 0;
         const withinRange = distance <= tolerance;
@@ -92,15 +115,6 @@ class NumericApproximationScoring extends ScoringStrategy {
             isExact: isCorrect,
             exactBonus: toleranceConfig.exactBonus
         });
-
-        const distancePercentage =
-            validatedCorrectAnswer !== 0 ? (distance / Math.abs(validatedCorrectAnswer)) * 100 : 0;
-
-        const formula = isCorrect
-            ? `${pointsEarned} = ${maxPoints} + ${toleranceConfig.exactBonus}`
-            : tolerance > 0
-                ? `${pointsEarned} = ${maxPoints} × (1 - (${distance} / ${tolerance}))`
-                : `${pointsEarned} = 0 (tolerancia no positiva)`;
 
         return {
             pointsEarned: Math.max(0, pointsEarned),
@@ -117,8 +131,8 @@ class NumericApproximationScoring extends ScoringStrategy {
                 toleranceValue: toleranceConfig.value,
                 toleranceCap: toleranceConfig.cap,
                 exactBonus: toleranceConfig.exactBonus,
-                distancePercentage: this._round(distancePercentage),
-                formula
+                distancePercentage: this._round(this._distancePercentage(distance, validatedCorrectAnswer)),
+                formula: this._formula({ pointsEarned, maxPoints, isCorrect, distance, tolerance, toleranceConfig })
             }
         };
     }

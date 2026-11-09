@@ -11,6 +11,55 @@ const { teamScoreParams } = require('../../domain/services/TeamScoreParams');
 const runtimeConfig = require('../../config/runtime-config');
 const logger = require('../../config/logger');
 
+function rankTeams(game, teamConfig, debugEnabled) {
+    // Team ranking with adaptive formula (same parameters as the live scoreboard)
+    const scoreLambda = runtimeConfig.get('TEAM_SCORE_LAMBDA');
+    const { globalMean, lambda: effectiveLambda } = teamScoreParams(teamConfig.teams, game.scores, scoreLambda);
+
+    if (debugEnabled) {
+        logger.debug('[DEBUG] Team scoring parameters:', {
+            teamSizes: teamConfig.teams.map(t => t.players?.length || 0),
+            TEAM_SCORE_LAMBDA: scoreLambda,
+            globalMean,
+            effectiveLambda
+        });
+    }
+
+    return teamConfig.teams
+        .map(team => {
+            const teamScore = calculateTeamScore(team, game.scores, globalMean, effectiveLambda);
+            if (debugEnabled) {
+                logger.debug('[DEBUG] Team score calculated:', {
+                    teamName: team.name,
+                    players: team.players,
+                    teamScore,
+                    individualScores: team.players.map(p => ({ nickname: p, score: game.scores[p] }))
+                });
+            }
+            // Miembros con sus puntos individuales: el visor de resultados los
+            // necesita para el desglose del equipo (las respuestas se guardan por nick).
+            const members = (team.players || [])
+                .map(nick => ({ name: nick, pts: roundScore(game.scores[nick] || 0) }))
+                .sort((a, b) => b.pts - a.pts);
+            return {
+                name: team.name,
+                pts: teamScore,
+                color: team.color,
+                isTeam: true,
+                members
+            };
+        })
+        .sort((a, b) => b.pts - a.pts)
+        .map((team, index) => ({ ...team, position: index + 1 }));
+}
+
+function rankIndividuals(game) {
+    return Object.entries(game.scores)
+        .map(([name, pts]) => ({ name, pts: roundScore(pts), isTeam: false }))
+        .sort((a, b) => b.pts - a.pts)
+        .map((player, index) => ({ ...player, position: index + 1 }));
+}
+
 /**
  * Calculate final ranking for game end
  * @param {Object} game - Game object with scores
@@ -19,8 +68,6 @@ const logger = require('../../config/logger');
  */
 function calculateFinalRanking(game, teamConfig) {
     const isTeamMode = teamConfig && teamConfig.isTeamMode;
-    let ranking;
-
     const debugEnabled = typeof logger.isDebugEnabled !== 'function' || logger.isDebugEnabled();
 
     if (debugEnabled) {
@@ -33,55 +80,7 @@ function calculateFinalRanking(game, teamConfig) {
         });
     }
 
-    if (isTeamMode) {
-        // Team ranking with adaptive formula (same parameters as the live scoreboard)
-        const scoreLambda = runtimeConfig.get('TEAM_SCORE_LAMBDA');
-        const { globalMean, lambda: effectiveLambda } = teamScoreParams(teamConfig.teams, game.scores, scoreLambda);
-
-        if (debugEnabled) {
-            logger.debug('[DEBUG] Team scoring parameters:', {
-                teamSizes: teamConfig.teams.map(t => t.players?.length || 0),
-                TEAM_SCORE_LAMBDA: scoreLambda,
-                globalMean,
-                effectiveLambda
-            });
-        }
-
-        ranking = teamConfig.teams
-            .map(team => {
-                const teamScore = calculateTeamScore(team, game.scores, globalMean, effectiveLambda);
-                if (debugEnabled) {
-                    logger.debug('[DEBUG] Team score calculated:', {
-                        teamName: team.name,
-                        players: team.players,
-                        teamScore,
-                        individualScores: team.players.map(p => ({ nickname: p, score: game.scores[p] }))
-                    });
-                }
-                // Miembros con sus puntos individuales: el visor de resultados los
-                // necesita para el desglose del equipo (las respuestas se guardan por nick).
-                const members = (team.players || [])
-                    .map(nick => ({ name: nick, pts: roundScore(game.scores[nick] || 0) }))
-                    .sort((a, b) => b.pts - a.pts);
-                return {
-                    name: team.name,
-                    pts: teamScore,
-                    color: team.color,
-                    isTeam: true,
-                    members
-                };
-            })
-            .sort((a, b) => b.pts - a.pts)
-            .map((team, index) => ({ ...team, position: index + 1 }));
-    } else {
-        // Individual ranking
-        ranking = Object.entries(game.scores)
-            .map(([name, pts]) => ({ name, pts: roundScore(pts), isTeam: false }))
-            .sort((a, b) => b.pts - a.pts)
-            .map((player, index) => ({ ...player, position: index + 1 }));
-    }
-
-    return ranking;
+    return isTeamMode ? rankTeams(game, teamConfig, debugEnabled) : rankIndividuals(game);
 }
 
 module.exports = {

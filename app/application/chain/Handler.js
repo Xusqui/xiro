@@ -8,6 +8,10 @@
 
 const logger = require('../../config/logger');
 
+/**
+ * Eslabón base de la cadena de responsabilidad (validación → límite → idempotencia → comando → respuesta). Cada
+ * subclase sobreescribe `handle(context)` y pasa al siguiente con `super.handle(context)`.
+ */
 class Handler {
     constructor() {
         this.nextHandler = null;

@@ -30,65 +30,27 @@ function hasNoAnswerIndex(flags) {
     );
 }
 
-/**
- * Process answer using the active game strategy and apply side effects.
- *
- * @param {Object} ctx - Mode execution context.
- * @returns {Promise<{modeResult: Object, isTeamMode: boolean}>}
- */
-async function processAnswerByGameMode(ctx) {
-    const {
-        game,
-        teamConfigs,
-        sPin,
-        io,
-        ackManager,
-        presenterNotification,
-        nickname,
-        playerId,
-        payload,
-        currentQuestion,
-        flags,
+function buildModeAnswer(ctx) {
+    const { payload, flags, isCorrect, finalPointsEarned, answerResult } = ctx;
+    const { fullMultipleChoiceDetails, enrichedStreakInfo } = ctx;
+    return {
         isCorrect,
-        finalPointsEarned,
-        answerResult,
-        fullMultipleChoiceDetails,
-        enrichedStreakInfo,
-        players
-    } = ctx;
+        pointsEarned: finalPointsEarned,
+        isSurvey: answerResult.isSurvey,
+        answerIndex: hasNoAnswerIndex(flags) ? null : payload.index,
+        order: payload.order,
+        matches: payload.matches,
+        orderDetails: flags.isOrderQuestion ? answerResult.details : null,
+        matchingDetails: flags.isMatchingQuestion ? answerResult.details : null,
+        wordSearchDetails: flags.isWordSearchQuestion ? answerResult.details : null,
+        fillBlanksDetails: flags.isFillBlanksQuestion ? answerResult.details : null,
+        multipleChoiceDetails: fullMultipleChoiceDetails,
+        surveyMultipleDetails: flags.isSurveyMultipleQuestion ? answerResult.details : null,
+        streakInfo: enrichedStreakInfo
+    };
+}
 
-    const teamConfig = teamConfigs.get(sPin);
-    const isTeamMode = GameModeFactory.determineTeamMode({ teamConfig, game });
-    const gameStrategy = GameModeFactory.createStrategy(isTeamMode);
-
-    const modeResult = await gameStrategy.processAnswer({
-        player: { nickname, socketId: payload.socket.id, playerId },
-        answer: {
-            isCorrect,
-            pointsEarned: finalPointsEarned,
-            isSurvey: answerResult.isSurvey,
-            answerIndex: hasNoAnswerIndex(flags) ? null : payload.index,
-            order: payload.order,
-            matches: payload.matches,
-            orderDetails: flags.isOrderQuestion ? answerResult.details : null,
-            matchingDetails: flags.isMatchingQuestion ? answerResult.details : null,
-            wordSearchDetails: flags.isWordSearchQuestion ? answerResult.details : null,
-            fillBlanksDetails: flags.isFillBlanksQuestion ? answerResult.details : null,
-            multipleChoiceDetails: fullMultipleChoiceDetails,
-            surveyMultipleDetails: flags.isSurveyMultipleQuestion ? answerResult.details : null,
-            streakInfo: enrichedStreakInfo
-        },
-        game,
-        question: currentQuestion,
-        io,
-        teamConfigs,
-        ackManager,
-        presenterNotification,
-        checkTeamCompletedFn: checkTeamCompleted,
-        checkAllTeamsCompletedFn: checkAllTeamsCompleted,
-        players
-    });
-
+async function deliverTeamOutcome({ modeResult, game, currentQuestion, io, sPin, nickname, payload, players }) {
     // Equipo ya revelado (p. ej. por tiempo agotado): la respuesta llega tarde, como el
     // envío automático de ordenar/emparejar, y su resultado va directo al jugador.
     const playerTeam = modeResult.teamToReveal || modeResult.teamToNotifyWaiting;
@@ -114,6 +76,37 @@ async function processAnswerByGameMode(ctx) {
     } else if (modeResult.teamToNotifyWaiting) {
         await notifyTeamWaiting(modeResult.teamToNotifyWaiting, game, io, sPin, players);
     }
+}
+
+/**
+ * Process answer using the active game strategy and apply side effects.
+ *
+ * @param {Object} ctx - Mode execution context.
+ * @returns {Promise<{modeResult: Object, isTeamMode: boolean}>}
+ */
+async function processAnswerByGameMode(ctx) {
+    const { game, teamConfigs, sPin, io, ackManager, presenterNotification, nickname, playerId, payload } = ctx;
+    const { currentQuestion, players } = ctx;
+
+    const teamConfig = teamConfigs.get(sPin);
+    const isTeamMode = GameModeFactory.determineTeamMode({ teamConfig, game });
+    const gameStrategy = GameModeFactory.createStrategy(isTeamMode);
+
+    const modeResult = await gameStrategy.processAnswer({
+        player: { nickname, socketId: payload.socket.id, playerId },
+        answer: buildModeAnswer(ctx),
+        game,
+        question: currentQuestion,
+        io,
+        teamConfigs,
+        ackManager,
+        presenterNotification,
+        checkTeamCompletedFn: checkTeamCompleted,
+        checkAllTeamsCompletedFn: checkAllTeamsCompleted,
+        players
+    });
+
+    await deliverTeamOutcome({ ...ctx, modeResult });
 
     return { modeResult, isTeamMode };
 }

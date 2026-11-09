@@ -8,6 +8,13 @@ function _normalizeUpdatedAtMs(updatedAtValue) {
     return Number.isFinite(updatedAtMs) ? updatedAtMs : 0;
 }
 
+/**
+ * Lee la licencia del sitio y su fecha de cambio. Crea la fila única (id 1) vacía si aún no existe.
+ * @param {Object} [queryable=pool] - Pool o cliente de una transacción en curso
+ * @returns {Promise<{license: string, updatedAtMs: number}>} Licencia recortada (vacía si no hay) y última modificación
+ *   en ms (0 si no consta)
+ * @throws {Error} Si falla la consulta
+ */
 async function getSiteLicenseWithMeta(queryable = pool) {
     await queryable.query('INSERT INTO site_settings (id, license) VALUES (1, \'\') ON CONFLICT (id) DO NOTHING', []);
 
@@ -20,11 +27,24 @@ async function getSiteLicenseWithMeta(queryable = pool) {
     };
 }
 
+/**
+ * Lee la licencia del sitio (ver getSiteLicenseWithMeta).
+ * @param {Object} [queryable=pool] - Pool o cliente de una transacción en curso
+ * @returns {Promise<string>} Licencia, o cadena vacía
+ * @throws {Error} Si falla la consulta
+ */
 async function getSiteLicense(queryable = pool) {
     const licenseState = await getSiteLicenseWithMeta(queryable);
     return licenseState.license;
 }
 
+/**
+ * Guarda la licencia del sitio (recortada) y actualiza su fecha de cambio.
+ * @param {string} license - Licencia; vacía para quitarla
+ * @param {Object} [queryable=pool] - Pool o cliente de una transacción en curso
+ * @returns {Promise<string>} Licencia guardada
+ * @throws {Error} Si falla la consulta
+ */
 async function setSiteLicense(license, queryable = pool) {
     const normalizedLicense = String(license || '').trim();
     const result = await queryable.query(

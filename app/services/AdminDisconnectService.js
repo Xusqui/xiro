@@ -12,6 +12,9 @@
 
 const logger = require('../config/logger');
 
+/**
+ * Desconexión de jugadores desde el panel de admin: uno, todos los de una sala, y lista de conectados.
+ */
 class AdminDisconnectService {
     constructor(io) {
         this.io = io;
@@ -31,13 +34,7 @@ class AdminDisconnectService {
             const sockets = await this.io.in(playersRoom).fetchSockets();
 
             if (sockets.length === 0) {
-                return {
-                    success: false,
-                    error: 'No players found in room',
-                    code: 'NO_PLAYERS_IN_ROOM',
-                    pin,
-                    nickname
-                };
+                return { success: false, error: 'No players found in room', code: 'NO_PLAYERS_IN_ROOM', pin, nickname };
             }
 
             // Buscar jugador por nickname
@@ -57,11 +54,7 @@ class AdminDisconnectService {
             }
 
             // Desconectar socket
-            logger.warn('Admin force disconnect player', {
-                pin,
-                nickname,
-                socketId: targetSocket.id
-            });
+            logger.warn('Admin force disconnect player', { pin, nickname, socketId: targetSocket.id });
 
             targetSocket.disconnect(true);
 
@@ -74,18 +67,9 @@ class AdminDisconnectService {
                 socketId: targetSocket.id
             };
         } catch (error) {
-            logger.error('Error disconnecting player', {
-                pin,
-                nickname,
-                error: error.message
-            });
+            logger.error('Error disconnecting player', { pin, nickname, error: error.message });
 
-            return {
-                success: false,
-                error: error.message,
-                pin,
-                nickname
-            };
+            return { success: false, error: error.message, pin, nickname };
         }
     }
 

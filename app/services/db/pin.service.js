@@ -239,13 +239,8 @@ async function getAllPins() {
     return pins;
 }
 
-/**
- * Obtiene solo los PINs visibles para el presentador
- * @returns {Promise<Array>}
- */
-async function getPinsForPresenter() {
-    const [games, customGames, banks, quizzes, trivials] = await Promise.all([
-        pool.query(`
+const PRESENTER_PIN_QUERIES = {
+    games: `
             SELECT g.pin, g.name, g.language, g.image_url,
                 COALESCE(SUM(gb.question_count), 0)
                     + CASE WHEN BOOL_OR(gb.question_count IS NULL) THEN COALESCE(g.pool_question_count, 0) ELSE 0 END
@@ -255,8 +250,8 @@ async function getPinsForPresenter() {
             WHERE g.pin IS NOT NULL AND g.visible_to_presenter = true
             GROUP BY g.id, g.pin, g.name, g.language, g.image_url, g.pool_question_count, g.created_at
             ORDER BY g.created_at DESC
-        `),
-        pool.query(`
+        `,
+    custom_games: `
             SELECT cg.pin, cg.name, cg.language, cg.image_url, COALESCE(q.question_count, 0) AS question_count
             FROM custom_games cg
             LEFT JOIN (
@@ -266,8 +261,8 @@ async function getPinsForPresenter() {
             ) q ON q.custom_game_id = cg.id
             WHERE cg.pin IS NOT NULL AND cg.visible_to_presenter = true
             ORDER BY cg.created_at DESC
-        `),
-        pool.query(`
+        `,
+    banks: `
             SELECT qb.pin, qb.name, qb.language, qb.image_url, COALESCE(q.question_count, 0) AS question_count
             FROM question_banks qb
             LEFT JOIN (
@@ -277,8 +272,8 @@ async function getPinsForPresenter() {
             ) q ON q.bank_id = qb.id
             WHERE qb.pin IS NOT NULL AND qb.visible_to_presenter = true
             ORDER BY qb.created_at DESC
-        `),
-        pool.query(`
+        `,
+    quizzes: `
             SELECT qz.pin, COALESCE(q.question_count, 0) AS question_count
             FROM quizzes qz
             LEFT JOIN (
@@ -288,49 +283,47 @@ async function getPinsForPresenter() {
             ) q ON q.quiz_id = qz.id
             WHERE qz.pin IS NOT NULL
             ORDER BY qz.created_at DESC
-        `),
-        pool.query(
-            'SELECT pin, name, language, image_url FROM trivial_games WHERE pin IS NOT NULL AND visible_to_presenter = true ORDER BY created_at DESC'
-        )
-    ]);
+        `,
+    trivials: 'SELECT pin, name, language, image_url FROM trivial_games WHERE pin IS NOT NULL AND visible_to_presenter = true ORDER BY created_at DESC'
+};
+
+function presenterPinEntry(row, type) {
+    return {
+        pin: row.pin,
+        name: row.name,
+        type,
+        language: row.language,
+        image_url: row.image_url,
+        question_count: Number(row.question_count) || 0
+    };
+}
+
+/**
+ * Obtiene solo los PINs visibles para el presentador
+ * @returns {Promise<Array>}
+ */
+async function getPinsForPresenter() {
+    const q = PRESENTER_PIN_QUERIES;
+    const [games, customGames, banks, quizzes, trivials] = await Promise.all(
+        [q.games, q.custom_games, q.banks, q.quizzes, q.trivials].map(sql => pool.query(sql))
+    );
 
     return [
-        ...games.rows.map(g => ({
-            pin: g.pin,
-            name: g.name,
-            type: 'Juego',
-            language: g.language,
-            image_url: g.image_url,
-            question_count: Number(g.question_count) || 0
-        })),
-        ...customGames.rows.map(cg => ({
-            pin: cg.pin,
-            name: cg.name,
-            type: 'Juego Personalizado',
-            language: cg.language,
-            image_url: cg.image_url,
-            question_count: Number(cg.question_count) || 0
-        })),
-        ...banks.rows.map(b => ({
-            pin: b.pin,
-            name: b.name,
-            type: 'Banco',
-            language: b.language,
-            image_url: b.image_url,
-            question_count: Number(b.question_count) || 0
-        })),
-        ...quizzes.rows.map(q => ({
-            pin: q.pin,
-            name: `Quiz ${q.pin}`,
+        ...games.rows.map(row => presenterPinEntry(row, 'Juego')),
+        ...customGames.rows.map(row => presenterPinEntry(row, 'Juego Personalizado')),
+        ...banks.rows.map(row => presenterPinEntry(row, 'Banco')),
+        ...quizzes.rows.map(row => ({
+            pin: row.pin,
+            name: `Quiz ${row.pin}`,
             type: 'Quiz',
-            question_count: Number(q.question_count) || 0
+            question_count: Number(row.question_count) || 0
         })),
-        ...trivials.rows.map(t => ({
-            pin: t.pin,
-            name: t.name,
+        ...trivials.rows.map(row => ({
+            pin: row.pin,
+            name: row.name,
             type: 'Trivial',
-            language: t.language,
-            image_url: t.image_url
+            language: row.language,
+            image_url: row.image_url
         }))
     ];
 }

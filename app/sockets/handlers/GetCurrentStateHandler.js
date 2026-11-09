@@ -10,6 +10,77 @@ const { buildReconnectRandomPointsState } = require('../utils/RandomPointsReveal
 const { buildReconnectIntroState } = require('../utils/GameIntroManager');
 const { closedWhileReviewing } = require('../../domain/services/SlideNavigationPolicy');
 
+function emitSessionNotFound(socket, { playerId, roomId, players, activeGames }) {
+    const logger = require('../../config/logger');
+    logger.warn('Reconnection failed - player not found', {
+        playerId,
+        roomId,
+        totalPlayers: players.size,
+        totalGames: activeGames.size,
+        reason: 'likely_server_restart'
+    });
+
+    socket.emit('state-error', {
+        message: 'Session not found',
+        reason: 'server_restart',
+        detail: 'Your session was lost. The server may have restarted.',
+        code: 'SESSION_STATE_NOT_FOUND'
+    });
+}
+
+function resolveCurrentIndex(adapter, game, queriedIndex) {
+    if (adapter && typeof adapter.syncWithLegacy === 'function') {
+        adapter.syncWithLegacy(game);
+        const adapterIndex = adapter.getCurrentQuestionIndex();
+        if (adapterIndex === game.currentIndex) return adapterIndex;
+    }
+    return queriedIndex;
+}
+
+function appendActiveGameState(currentState, roomId, activeGames) {
+    const query = new GetGameStateQuery({
+        gameId: roomId,
+        includeQuestions: true,
+        includeScores: true
+    });
+
+    const gameState = query.execute({ activeGames });
+    if (!gameState.success) return;
+
+    const adapter = getAdapter(roomId);
+    const game = activeGames.get(roomId);
+    const currentIndex = resolveCurrentIndex(adapter, game, gameState.currentIndex);
+
+    currentState.gameState = {
+        currentIndex,
+        totalQuestions: gameState.questionCount,
+        // En revisión (juegos personalizados) la diapositiva ya se jugó
+        canAnswer: closedWhileReviewing(game, adapter ? adapter.canAcceptAnswers() : gameState.canAnswer),
+        reviewMode: Boolean(game.reviewMode),
+        scores: gameState.scores,
+        ...buildReconnectIntroState(game),
+        ...buildReconnectRandomPointsState(game)
+    };
+
+    // Si hay pregunta actual, sanitizarla para jugadores
+    if (game.questions && game.questions[currentIndex]) {
+        currentState.currentQuestion = sanitizeQuestionForPlayers(game.questions[currentIndex]);
+    }
+}
+
+function buildLobbyState(lobby) {
+    return {
+        players: lobby || [],
+        count: lobby ? lobby.length : 0
+    };
+}
+
+/**
+ * Crea el handler del evento 'get-current-state': devuelve al cliente el estado actual de su sala (lobby, pregunta o
+ * revisión). Es síncrono.
+ * @param {Object} dependencies - Maps de globalState, io y servicios (ver socket.handlers.js)
+ * @returns {function(socket, data): void} Handler
+ */
 function createGetCurrentStateHandler(dependencies) {
     const { players, activeGames, lobbyPlayers } = dependencies;
     const logger = require('../../config/logger');
@@ -28,20 +99,7 @@ function createGetCurrentStateHandler(dependencies) {
 
         // Si el jugador no existe, probablemente el servidor se reinició
         if (!player) {
-            logger.warn('Reconnection failed - player not found', {
-                playerId,
-                roomId,
-                totalPlayers: players.size,
-                totalGames: activeGames.size,
-                reason: 'likely_server_restart'
-            });
-
-            socket.emit('state-error', {
-                message: 'Session not found',
-                reason: 'server_restart',
-                detail: 'Your session was lost. The server may have restarted.',
-                code: 'SESSION_STATE_NOT_FOUND'
-            });
+            emitSessionNotFound(socket, { playerId, roomId, players, activeGames });
             return;
         }
 
@@ -53,52 +111,10 @@ function createGetCurrentStateHandler(dependencies) {
             status: player.status
         };
 
-        // Si está en un juego activo, usar Query
         if (activeGames.has(roomId)) {
-            const query = new GetGameStateQuery({
-                gameId: roomId,
-                includeQuestions: true,
-                includeScores: true
-            });
-
-            const gameState = query.execute({ activeGames });
-
-            if (gameState.success) {
-                const adapter = getAdapter(roomId);
-                const game = activeGames.get(roomId);
-                let currentIndex = gameState.currentIndex;
-
-                if (adapter && typeof adapter.syncWithLegacy === 'function') {
-                    adapter.syncWithLegacy(game);
-                    const adapterIndex = adapter.getCurrentQuestionIndex();
-                    if (adapterIndex === game.currentIndex) {
-                        currentIndex = adapterIndex;
-                    }
-                }
-
-                currentState.gameState = {
-                    currentIndex,
-                    totalQuestions: gameState.questionCount,
-                    // En revisión (juegos personalizados) la diapositiva ya se jugó
-                    canAnswer: closedWhileReviewing(game, adapter ? adapter.canAcceptAnswers() : gameState.canAnswer),
-                    reviewMode: Boolean(game.reviewMode),
-                    scores: gameState.scores,
-                    ...buildReconnectIntroState(game),
-                    ...buildReconnectRandomPointsState(game)
-                };
-
-                // Si hay pregunta actual, sanitizarla para jugadores
-                if (game.questions && game.questions[currentIndex]) {
-                    currentState.currentQuestion = sanitizeQuestionForPlayers(game.questions[currentIndex]);
-                }
-            }
+            appendActiveGameState(currentState, roomId, activeGames);
         } else {
-            // Está en lobby
-            const lobby = lobbyPlayers.get(roomId);
-            currentState.lobby = {
-                players: lobby || [],
-                count: lobby ? lobby.length : 0
-            };
+            currentState.lobby = buildLobbyState(lobbyPlayers.get(roomId));
         }
 
         socket.emit('current-state', currentState);

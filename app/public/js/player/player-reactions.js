@@ -5,6 +5,7 @@
 import '../core/reactions-catalog.js?v=20261030120000';
 import './player-reactions-logic.js?v=20261030180000';
 import { getSocket } from './player-socket-config.js?v=20260922172926';
+import { t } from '../core/translate.js?v=20261105120000';
 
 const ECHO_MS = 600;
 const COOL_MS = 300;
@@ -16,13 +17,9 @@ let tray = null;
 let renderedSet = '';
 let hideTimer = null;
 
-function t(key, params, fallback) {
-    return typeof window._t === 'function' ? window._t(key, params, fallback) : fallback;
-}
-
 function labelFor(id) {
-    const name = t(catalog.labelKey(id), null, id);
-    return t('reactions.player.send', { name }, name);
+    const name = t(catalog.labelKey(id), id);
+    return t('reactions.player.send', name, { name });
 }
 
 // Las pantallas del jugador (diapositivas, reveal, resultado…) reescriben
@@ -51,7 +48,7 @@ function ensureTray() {
 
 function renderKeys(set) {
     renderedSet = set.join(',');
-    tray.setAttribute('aria-label', t('reactions.player.tray_label', null, 'Reacciones'));
+    tray.setAttribute('aria-label', t('reactions.player.tray_label', 'Reacciones'));
     tray.replaceChildren(
         ...set.map(id => {
             const key = document.createElement('button');

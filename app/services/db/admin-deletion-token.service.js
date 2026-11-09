@@ -2,24 +2,31 @@
  * @fileoverview Pending deletion tokens for admin users
  */
 
-const crypto = require('crypto');
 const { pool } = require('../../config/database');
+const { issueToken, codedError, consumeToken } = require('./admin-token-flow');
 const adminUserService = require('./admin-user.service');
 
-const TOKEN_TTL_HOURS = 24;
+const TOKEN_TTL_MS = 24 * 60 * 60 * 1000;
 
-function hashToken(rawToken) {
-    return crypto.createHash('sha256').update(String(rawToken)).digest('hex');
-}
+const SELECT_TOKEN_SQL = `SELECT id, user_id, expires_at, used_at
+     FROM admin_user_deletion_tokens
+     WHERE token_hash = $1
+     LIMIT 1
+     FOR UPDATE`;
 
-function buildToken() {
-    return crypto.randomBytes(32).toString('hex');
-}
+const MARK_TOKEN_USED_SQL = `UPDATE admin_user_deletion_tokens
+     SET used_at = NOW()
+     WHERE id = $1`;
 
+/**
+ * Crea un token de borrado de cuenta y descarta los pendientes previos del usuario.
+ * @param {Object} deletion
+ * @param {number} deletion.userId - ID del usuario
+ * @returns {Promise<{token: string, expiresAt: Date}>} Token en claro (solo se guarda su SHA-256) y caducidad
+ * @throws {Error} Si falla la consulta
+ */
 async function createPendingDeletion({ userId }) {
-    const token = buildToken();
-    const tokenHash = hashToken(token);
-    const expiresAt = new Date(Date.now() + TOKEN_TTL_HOURS * 60 * 60 * 1000);
+    const { token, tokenHash, expiresAt } = issueToken(TOKEN_TTL_MS);
 
     await pool.query(
         `DELETE FROM admin_user_deletion_tokens
@@ -41,95 +48,40 @@ async function createPendingDeletion({ userId }) {
     };
 }
 
+async function findTokenOwner(client, tokenRow) {
+    const userResult = await client.query(`SELECT id, username, email, role FROM admin_users WHERE id = $1`, [
+        tokenRow.user_id
+    ]);
+    const user = userResult.rows[0];
+    if (!user) throw codedError('Usuario no encontrado', 'USER_NOT_FOUND');
+    return user;
+}
+
+/**
+ * Canjea un token de borrado: marca el token como usado (con commit) y después borra el usuario. Si el borrado falla,
+ * el token ya queda usado y hay que pedir otro.
+ * @param {string} rawToken - Token en claro recibido por email
+ * @returns {Promise<{user: Object}>} Usuario borrado {id, username, email, role}
+ * @throws {Error} code 'TOKEN_INVALID' si falta el token o no existe
+ * @throws {Error} code 'TOKEN_ALREADY_USED' si ya se usó
+ * @throws {Error} code 'TOKEN_EXPIRED' si caducó
+ * @throws {Error} code 'USER_NOT_FOUND' si el usuario ya no existe
+ * @throws {Error} Si falla la consulta
+ */
 async function consumeDeletionToken(rawToken) {
-    if (!rawToken) {
-        const err = new Error('Token inválido');
-        err.code = 'TOKEN_INVALID';
-        throw err;
-    }
+    const user = await consumeToken({
+        rawToken,
+        selectSql: SELECT_TOKEN_SQL,
+        markUsedSql: MARK_TOKEN_USED_SQL,
+        apply: findTokenOwner,
+        markUsedFirst: true
+    });
 
-    const tokenHash = hashToken(rawToken);
-    const client = await pool.connect();
+    // Después de confirmar: deleteUserById usa el pool, no esta transacción. Si falla, el token queda usado
+    // y el usuario tiene que pedir otro.
+    await adminUserService.deleteUserById(user.id);
 
-    try {
-        await client.query('BEGIN');
-
-        const tokenResult = await client.query(
-            `SELECT id, user_id, expires_at, used_at
-             FROM admin_user_deletion_tokens
-             WHERE token_hash = $1
-             LIMIT 1
-             FOR UPDATE`,
-            [tokenHash]
-        );
-
-        const tokenRow = tokenResult.rows[0];
-
-        if (!tokenRow) {
-            const err = new Error('Token inválido');
-            err.code = 'TOKEN_INVALID';
-            throw err;
-        }
-
-        if (tokenRow.used_at) {
-            const err = new Error('Token ya utilizado');
-            err.code = 'TOKEN_ALREADY_USED';
-            throw err;
-        }
-
-        if (new Date(tokenRow.expires_at).getTime() < Date.now()) {
-            const err = new Error('Token expirado');
-            err.code = 'TOKEN_EXPIRED';
-            throw err;
-        }
-
-        // Marcar token como usado antes de borrar el usuario para evitar race conditions
-        // Aunque el borrado en cascada puede borrar este token si así estuviera configurado
-        await client.query(
-            `UPDATE admin_user_deletion_tokens
-             SET used_at = NOW()
-             WHERE id = $1`,
-            [tokenRow.id]
-        );
-
-        // Obtener el usuario para poder devolver info
-        const userResult = await client.query(`SELECT id, username, email, role FROM admin_users WHERE id = $1`, [
-            tokenRow.user_id
-        ]);
-
-        const user = userResult.rows[0];
-        if (!user) {
-            const err = new Error('Usuario no encontrado');
-            err.code = 'USER_NOT_FOUND';
-            throw err;
-        }
-
-        // Usamos el servicio principal para asegurar que aplican las reglas (no borrar último admin)
-        // Pero OJO: deleteUserById ya tiene transacciones? No lo expone pool connect directo en su firma.
-        // Si usamos el servicio principal `adminUserService.deleteUserById` internamente hace consultas sueltas con `pool.query`.
-        // Para mantener atomicidad real y asegurarnos, llamamos a la funcion del servicio despues del commit del token, o lo hacemos aquí.
-        // Vamos a hacer commit del token y luego delegar al adminUserService. Si falla el borrado, el token queda usado, pero el usuario debe repetir.
-        await client.query('COMMIT');
-
-        await adminUserService.deleteUserById(user.id);
-
-        return {
-            user
-        };
-    } catch (error) {
-        if (client) {
-            try {
-                await client.query('ROLLBACK');
-            } catch (rbErr) {
-                // Ignorar error de rollback
-            }
-        }
-        throw error;
-    } finally {
-        if (client) {
-            client.release();
-        }
-    }
+    return { user };
 }
 
 module.exports = {

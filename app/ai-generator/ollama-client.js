@@ -8,7 +8,8 @@
  *   listOllamaModels(baseUrl, apiKey?, timeout?) → Promise<Array<{ name, size, parameterSize, family }>>
  *
  * Ollama no tiene autenticación propia. La API key es opcional: se envía como
- * "Authorization: Bearer" para un proxy delante de Ollama (nginx, Caddy) o para Ollama Cloud. Los modelos locales son más lentos que los de Groq o
+ * "Authorization: Bearer" para un proxy delante de Ollama (nginx, Caddy) o para Ollama Cloud. Los modelos locales son
+ * más lentos que los de Groq o
  * Gemini, por eso el timeout nunca baja de MIN_TIMEOUT.
  *
  * No se usa format: 'json': esa gramática obliga a devolver un objeto y los
@@ -29,6 +30,11 @@ const NUM_CTX = 8192;
 const MIN_NUM_PREDICT = 4096;
 const THINK_BLOCK = /<think>[\s\S]*?<\/think>/gi;
 
+/**
+ * Normaliza la URL base de Ollama: solo http(s), sin query ni fragmento y sin barras finales.
+ * @param {*} url - URL
+ * @returns {string|null} null si no es válida
+ */
 function normalizeBaseUrl(url) {
     if (typeof url !== 'string' || !url.trim()) return null;
     try {

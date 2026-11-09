@@ -9,6 +9,71 @@ const { removeAdapter } = require('../../domain/state/GameStateAdapter');
 const { roomPresenterMap } = require('../../state/globalState');
 const logger = require('../../config/logger');
 
+async function sendTeamFinalPositions({ io, roomId, ranking, teamConfig }) {
+    // Team mode - send team position to all members
+    const sockets = await io.in(`${roomId}:players`).fetchSockets();
+    logger.debug(`Sockets en room '${roomId}:players': ${sockets.length}`);
+    const socketByNickname = new Map(sockets.map(s => [s.data?.nickname, s]));
+
+    ranking.forEach(team => {
+        const teamData = teamConfig.teams.find(t => t.name === team.name);
+        if (teamData) {
+            logger.debug(`Procesando equipo: ${team.name}, miembros:`, teamData.players);
+            teamData.players.forEach(playerNick => {
+                const playerSocket = socketByNickname.get(playerNick);
+                if (playerSocket) {
+                    logger.debug(`Enviando posición a ${playerNick} (${playerSocket.id}) - Pos: ${team.position}`);
+                    io.to(playerSocket.id).emit('player-final-position', {
+                        position: team.position,
+                        totalPlayers: ranking.length,
+                        score: team.pts,
+                        nickname: team.name,
+                        isTeam: true,
+                        teamName: team.name
+                    });
+                } else {
+                    logger.warn(`No se encontró socket para jugador: ${playerNick}`);
+                }
+            });
+        } else {
+            logger.warn(`No se encontró configuración para equipo: ${team.name}`);
+        }
+    });
+}
+
+async function sendIndividualFinalPositions({ io, roomId, ranking }) {
+    // Individual mode
+    const sockets = await io.in(`${roomId}:players`).fetchSockets();
+    logger.debug(`Sockets en room '${roomId}:players': ${sockets.length}`);
+    logger.debug(
+        `Nicknames en sockets:`,
+        sockets.map(s => s.data?.nickname || 'NO_NICKNAME')
+    );
+    const socketByNickname = new Map(sockets.map(s => [s.data?.nickname, s]));
+
+    ranking.forEach(player => {
+        const playerSocket = socketByNickname.get(player.name);
+        if (playerSocket) {
+            logger.debug(
+                `Enviando posición a ${player.name} (${playerSocket.id}) - Pos: ${player.position}, Score: ${player.pts}`
+            );
+            io.to(playerSocket.id).emit('player-final-position', {
+                position: player.position,
+                totalPlayers: ranking.length,
+                score: player.pts,
+                nickname: player.name,
+                isTeam: false
+            });
+        } else {
+            logger.warn(`No se encontró socket para jugador: ${player.name}`);
+            logger.debug(
+                `Sockets disponibles:`,
+                sockets.map(s => `${s.id}:${s.data?.nickname}`)
+            );
+        }
+    });
+}
+
 /**
  * Send final positions to players
  * @param {Object} params - Parameters
@@ -21,66 +86,9 @@ async function sendFinalPositions({ io, roomId, ranking, teamConfig }) {
     });
 
     if (isTeamMode) {
-        // Team mode - send team position to all members
-        const sockets = await io.in(`${roomId}:players`).fetchSockets();
-        logger.debug(`Sockets en room '${roomId}:players': ${sockets.length}`);
-        const socketByNickname = new Map(sockets.map(s => [s.data?.nickname, s]));
-
-        ranking.forEach(team => {
-            const teamData = teamConfig.teams.find(t => t.name === team.name);
-            if (teamData) {
-                logger.debug(`Procesando equipo: ${team.name}, miembros:`, teamData.players);
-                teamData.players.forEach(playerNick => {
-                    const playerSocket = socketByNickname.get(playerNick);
-                    if (playerSocket) {
-                        logger.debug(`Enviando posición a ${playerNick} (${playerSocket.id}) - Pos: ${team.position}`);
-                        io.to(playerSocket.id).emit('player-final-position', {
-                            position: team.position,
-                            totalPlayers: ranking.length,
-                            score: team.pts,
-                            nickname: team.name,
-                            isTeam: true,
-                            teamName: team.name
-                        });
-                    } else {
-                        logger.warn(`No se encontró socket para jugador: ${playerNick}`);
-                    }
-                });
-            } else {
-                logger.warn(`No se encontró configuración para equipo: ${team.name}`);
-            }
-        });
+        await sendTeamFinalPositions({ io, roomId, ranking, teamConfig });
     } else {
-        // Individual mode
-        const sockets = await io.in(`${roomId}:players`).fetchSockets();
-        logger.debug(`Sockets en room '${roomId}:players': ${sockets.length}`);
-        logger.debug(
-            `Nicknames en sockets:`,
-            sockets.map(s => s.data?.nickname || 'NO_NICKNAME')
-        );
-        const socketByNickname = new Map(sockets.map(s => [s.data?.nickname, s]));
-
-        ranking.forEach(player => {
-            const playerSocket = socketByNickname.get(player.name);
-            if (playerSocket) {
-                logger.debug(
-                    `Enviando posición a ${player.name} (${playerSocket.id}) - Pos: ${player.position}, Score: ${player.pts}`
-                );
-                io.to(playerSocket.id).emit('player-final-position', {
-                    position: player.position,
-                    totalPlayers: ranking.length,
-                    score: player.pts,
-                    nickname: player.name,
-                    isTeam: false
-                });
-            } else {
-                logger.warn(`No se encontró socket para jugador: ${player.name}`);
-                logger.debug(
-                    `Sockets disponibles:`,
-                    sockets.map(s => `${s.id}:${s.data?.nickname}`)
-                );
-            }
-        });
+        await sendIndividualFinalPositions({ io, roomId, ranking });
     }
 
     logger.info(`Envío de posiciones finales completado para ${roomId}`);

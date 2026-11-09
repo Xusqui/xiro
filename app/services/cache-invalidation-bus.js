@@ -37,6 +37,12 @@ function broadcast(name, op, args = []) {
         );
 }
 
+/**
+ * Aplica una invalidación recibida de otro worker por el canal `cache-invalidate` llamando a la variante `<op>Local` de
+ * la caché. Ignora los mensajes propios, inválidos o de cachés desconocidas.
+ * @param {string} message - Mensaje JSON { origin, name, op, args }
+ * @returns {void}
+ */
 function handleMessage(message) {
     let data;
     try {
@@ -71,6 +77,10 @@ async function attach(pub, sub) {
     publisher = pub;
 }
 
+/**
+ * Deja de publicar invalidaciones a los demás workers: broadcast no hace nada hasta otro attach.
+ * @returns {void}
+ */
 function detach() {
     publisher = null;
 }

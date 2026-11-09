@@ -83,6 +83,15 @@ function buildHtmlTemplate(innerHtml) {
 </html>`;
 }
 
+/**
+ * Envía el correo para confirmar el alta de una cuenta del panel (el enlace caduca en 24 h).
+ * @param {Object} mail
+ * @param {string} mail.to - Destinatario
+ * @param {string} mail.username - Usuario (va en el saludo)
+ * @param {string} mail.confirmationUrl - Enlace de confirmación
+ * @returns {Promise<void>}
+ * @throws {Error} Si falta la configuración SMTP o el envío falla
+ */
 async function sendAdminRegistrationConfirmationEmail({ to, username, confirmationUrl }) {
     const smtp = getSmtpConfig();
     const transporter = nodemailer.createTransport(smtp);
@@ -118,6 +127,15 @@ async function sendAdminRegistrationConfirmationEmail({ to, username, confirmati
     });
 }
 
+/**
+ * Envía al email nuevo el enlace para confirmar el cambio de correo (24 h).
+ * @param {Object} mail
+ * @param {string} mail.to - Destinatario
+ * @param {string} mail.username - Usuario (va en el saludo)
+ * @param {string} mail.confirmationUrl - Enlace de confirmación
+ * @returns {Promise<void>}
+ * @throws {Error} Si falta la configuración SMTP o el envío falla
+ */
 async function sendAdminEmailChangeConfirmationEmail({ to, username, confirmationUrl }) {
     const smtp = getSmtpConfig();
     const transporter = nodemailer.createTransport(smtp);
@@ -153,6 +171,15 @@ async function sendAdminEmailChangeConfirmationEmail({ to, username, confirmatio
     });
 }
 
+/**
+ * Avisa al email actual de que se pidió cambiarlo, sin aplicar aún el cambio.
+ * @param {Object} mail
+ * @param {string} mail.to - Destinatario
+ * @param {string} mail.username - Usuario (va en el saludo)
+ * @param {string} mail.newEmail - Email solicitado
+ * @returns {Promise<void>}
+ * @throws {Error} Si falta la configuración SMTP o el envío falla
+ */
 async function sendAdminEmailChangeAlertEmail({ to, username, newEmail }) {
     const smtp = getSmtpConfig();
     const transporter = nodemailer.createTransport(smtp);
@@ -182,6 +209,15 @@ async function sendAdminEmailChangeAlertEmail({ to, username, newEmail }) {
     });
 }
 
+/**
+ * Envía el enlace para confirmar el borrado definitivo de la cuenta.
+ * @param {Object} mail
+ * @param {string} mail.to - Destinatario
+ * @param {string} mail.username - Usuario (va en el saludo)
+ * @param {string} mail.confirmationUrl - Enlace de confirmación
+ * @returns {Promise<void>}
+ * @throws {Error} Si falta la configuración SMTP o el envío falla
+ */
 async function sendAdminDeletionConfirmationEmail({ to, username, confirmationUrl }) {
     const smtp = getSmtpConfig();
     const transporter = nodemailer.createTransport(smtp);
@@ -219,6 +255,15 @@ async function sendAdminDeletionConfirmationEmail({ to, username, confirmationUr
     });
 }
 
+/**
+ * Envía el enlace para elegir una contraseña nueva (caduca en 1 h).
+ * @param {Object} mail
+ * @param {string} mail.to - Destinatario
+ * @param {string} mail.username - Usuario (va en el saludo)
+ * @param {string} mail.resetUrl - Enlace de restablecimiento
+ * @returns {Promise<void>}
+ * @throws {Error} Si falta la configuración SMTP o el envío falla
+ */
 async function sendAdminPasswordResetEmail({ to, username, resetUrl }) {
     const smtp = getSmtpConfig();
     const transporter = nodemailer.createTransport(smtp);

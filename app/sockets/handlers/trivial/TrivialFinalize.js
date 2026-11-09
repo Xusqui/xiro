@@ -32,13 +32,14 @@ const { clearGameTimer, activeGames } = require('../../../state/globalState');
 const { saveGameSession } = require('../../../services/db/game-session.service');
 const { countSessionPlayers } = require('../../utils/SessionPlayerCount');
 const { getRedisClient } = require('../../../config/redis');
+const { bestEffort } = require('../../../services/best-effort');
 const logger = require('../../../config/logger');
 
 function clearRoomTimer(roomId) {
     try {
         clearGameTimer(roomId);
-    } catch (_e) {
-        // No active timer for this room.
+    } catch (error) {
+        logger.debug('TrivialFinalize: no se pudo cancelar el temporizador', { roomId, error: error.message });
     }
 }
 
@@ -92,8 +93,11 @@ function mergeAnswersFromRedisEntries(mergedAnswers, allEntries) {
 
         try {
             mergedAnswers[qIdx][nick] = JSON.parse(value);
-        } catch (_e) {
-            // Ignore malformed Redis payload.
+        } catch (parseError) {
+            logger.debug('TrivialFinalize: respuesta malformada en Redis, se descarta', {
+                field,
+                error: parseError.message
+            });
         }
     }
 }
@@ -110,16 +114,19 @@ async function mergeAnswersAndStartTime(roomId, game) {
 
         if (allEntries && Object.keys(allEntries).length > 0) {
             mergeAnswersFromRedisEntries(mergedAnswers, allEntries);
-            redis.del(answersKey).catch(() => {});
+            bestEffort('borrado de respuestas en Redis', { roomId }, () => redis.del(answersKey));
         }
 
         const startTs = await redis.get(startKey);
         if (startTs) {
             redisStartTime = Number(startTs);
-            redis.del(startKey).catch(() => {});
+            bestEffort('borrado del inicio de partida en Redis', { roomId }, () => redis.del(startKey));
         }
-    } catch (_e) {
-        // Ignore Redis merge/start-time failures.
+    } catch (error) {
+        logger.warn('TrivialFinalize: no se pudo leer respuestas o inicio de partida de Redis', {
+            roomId,
+            error: error.message
+        });
     }
 
     return { mergedAnswers, redisStartTime };

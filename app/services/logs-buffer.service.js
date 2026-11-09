@@ -5,6 +5,10 @@
 
 const { getRedisClient } = require('../config/redis');
 
+/**
+ * Búfer circular de los últimos logs en Redis (`xiro:logs:buffer`) para la página de estado (health.routes), con espera tras un fallo de
+ * Redis.
+ */
 class LogsBufferService {
     constructor(maxSize = 100) {
         this.maxSize = maxSize;

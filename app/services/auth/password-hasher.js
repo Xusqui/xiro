@@ -10,12 +10,23 @@ const scryptAsync = promisify(crypto.scrypt);
 const HASH_PREFIX = 'scrypt';
 const HASH_LENGTH = 64;
 
+/**
+ * Calcula el hash scrypt de una contraseña con sal aleatoria.
+ * @param {string} password - Contraseña en claro
+ * @returns {Promise<string>} `<prefijo>$<sal>$<hash hex>`
+ */
 async function hashPassword(password) {
     const salt = crypto.randomBytes(16).toString('hex');
     const derived = await scryptAsync(String(password), salt, HASH_LENGTH);
     return `${HASH_PREFIX}$${salt}$${Buffer.from(derived).toString('hex')}`;
 }
 
+/**
+ * Comprueba una contraseña contra su hash scrypt en tiempo constante. Un hash con otro formato o truncado no valida.
+ * @param {string} password - Contraseña en claro
+ * @param {string} storedHash - Hash guardado
+ * @returns {Promise<boolean>}
+ */
 async function verifyPassword(password, storedHash) {
     const [prefix, salt, hashHex] = String(storedHash || '').split('$');
 

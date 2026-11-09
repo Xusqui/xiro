@@ -6,6 +6,93 @@ const logger = require('../../config/logger');
 const { hasAnswered } = require('../../domain/services/AnswerStateService');
 
 /**
+ * Lee los sockets de jugadores de la sala en todos los workers y los indexa por apodo.
+ * @returns {Promise<{socketByNickname: Map<string, Object>, activePlayers: string[]}>}
+ */
+async function fetchActivePlayers(io, roomId) {
+    const allSockets = await io.in(`${roomId}:players`).fetchSockets();
+    logger.debug('Sockets found in room:', {
+        room: `${roomId}:players`,
+        socketsCount: allSockets.length,
+        sockets: allSockets.map(s => ({ id: s.id, nickname: s.data?.nickname }))
+    });
+
+    // Crear índice de sockets por nickname para O(1) lookup (evita O(n²) con allSockets.find)
+    const socketByNickname = new Map();
+    for (const s of allSockets) {
+        if (s.data?.nickname) socketByNickname.set(s.data.nickname, s);
+    }
+
+    // Derivar activePlayers desde los sockets — consistente en TODOS los workers
+    // porque fetchSockets() consulta Redis y devuelve el mismo resultado en cualquier worker.
+    // Antes: game.players.filter(...) divergía por worker cuando un jugador reconectaba
+    // y solo se añadía al worker que procesó la reconexión.
+    const activePlayers = [...socketByNickname.keys()].filter(nickname => nickname !== 'HOST');
+    return { socketByNickname, activePlayers };
+}
+
+// Crear índice de players por nickname+roomId para O(1) lookup
+function indexRoomPlayers(players, roomId) {
+    const playerIndex = new Map();
+    for (const player of players.values()) {
+        if (player.roomId === roomId || player.roomId === `${roomId}`) {
+            playerIndex.set(player.nickname, player);
+        }
+    }
+    logger.debug('Player index size:', playerIndex.size, 'entries:', Array.from(playerIndex.keys()));
+    return playerIndex;
+}
+
+/**
+ * Indica si un jugador respondió a la pregunta, mirando su copia local y la del socket.
+ * @returns {boolean|null} null si no hay datos de él (desconectado)
+ */
+function playerAnswered(nickname, localPlayer, playerSocket, currentIndex) {
+    if (localPlayer) {
+        logger.debug('Player found in playerIndex:', { nickname, answers: localPlayer.answers });
+    }
+    if (playerSocket?.data) {
+        logger.debug('Player found in socket.data:', { nickname, answers: playerSocket.data.answers });
+    }
+
+    if (!localPlayer && !playerSocket?.data) {
+        // Player has no socket and no local data — they are disconnected.
+        // Disconnected players cannot answer, so exclude them from both lists
+        // to avoid permanently blocking the "all answered" threshold.
+        logger.warn('Player not found in playerIndex nor sockets (disconnected) - skipping:', nickname);
+        return null;
+    }
+
+    const answeredInLocal = hasAnswered(localPlayer?.answers, currentIndex);
+    const answeredInSocket = hasAnswered(playerSocket?.data?.answers, currentIndex);
+    const answered = answeredInLocal || answeredInSocket;
+
+    logger.info('Player answer status:', {
+        nickname,
+        currentIndex,
+        answered,
+        answeredInLocal,
+        answeredInSocket,
+        playerAnswers: localPlayer?.answers,
+        socketAnswers: playerSocket?.data?.answers
+    });
+    return answered;
+}
+
+function splitByAnswered({ activePlayers, playerIndex, socketByNickname, currentIndex }) {
+    const answeredPlayers = [];
+    const notAnsweredPlayers = [];
+
+    activePlayers.forEach(nickname => {
+        const localPlayer = playerIndex.get(nickname);
+        const answered = playerAnswered(nickname, localPlayer, socketByNickname.get(nickname), currentIndex);
+        if (answered === null) return;
+        (answered ? answeredPlayers : notAnsweredPlayers).push(nickname);
+    });
+    return { answeredPlayers, notAnsweredPlayers };
+}
+
+/**
  * Verifica si todos los jugadores respondieron en modo individual
  * @param {Object} game - Estado del juego
  * @param {Map} players - Map global de players (de este worker)
@@ -29,25 +116,7 @@ async function checkAllPlayersAnswered(game, players, io, currentIndex) {
     // evitando que game.players diverja entre workers cuando jugadores se reconectan.
     const roomId = game.sessionId || game.roomId || game.pin;
     logger.debug('Using roomId for socket search:', roomId);
-
-    const allSockets = await io.in(`${roomId}:players`).fetchSockets();
-    logger.debug('Sockets found in room:', {
-        room: `${roomId}:players`,
-        socketsCount: allSockets.length,
-        sockets: allSockets.map(s => ({ id: s.id, nickname: s.data?.nickname }))
-    });
-
-    // Crear índice de sockets por nickname para O(1) lookup (evita O(n²) con allSockets.find)
-    const socketByNickname = new Map();
-    for (const s of allSockets) {
-        if (s.data?.nickname) socketByNickname.set(s.data.nickname, s);
-    }
-
-    // Derivar activePlayers desde los sockets — consistente en TODOS los workers
-    // porque fetchSockets() consulta Redis y devuelve el mismo resultado en cualquier worker.
-    // Antes: game.players.filter(...) divergía por worker cuando un jugador reconectaba
-    // y solo se añadía al worker que procesó la reconexión.
-    const activePlayers = [...socketByNickname.keys()].filter(nickname => nickname !== 'HOST');
+    const { socketByNickname, activePlayers } = await fetchActivePlayers(io, roomId);
 
     logger.debug('checkAllPlayersAnswered INICIO', {
         gamePlayers: game.players,
@@ -64,66 +133,12 @@ async function checkAllPlayersAnswered(game, players, io, currentIndex) {
         return false;
     }
 
-    // Crear índice de players por nickname+roomId para O(1) lookup
-    const playerIndex = new Map();
-    for (const player of players.values()) {
-        if (player.roomId === roomId || player.roomId === `${roomId}`) {
-            playerIndex.set(player.nickname, player);
-        }
-    }
-
-    logger.debug('Player index size:', playerIndex.size, 'entries:', Array.from(playerIndex.keys()));
-
-    // Verificar que cada jugador activo haya respondido usando player.answers
-
-    const answeredPlayers = [];
-    const notAnsweredPlayers = [];
-
-    activePlayers.forEach(nickname => {
-        const localPlayer = playerIndex.get(nickname);
-        const playerSocket = socketByNickname.get(nickname);
-
-        if (localPlayer) {
-            logger.debug('Player found in playerIndex:', {
-                nickname,
-                answers: localPlayer.answers
-            });
-        }
-
-        if (playerSocket?.data) {
-            logger.debug('Player found in socket.data:', {
-                nickname,
-                answers: playerSocket.data.answers
-            });
-        }
-
-        if (!localPlayer && !playerSocket?.data) {
-            // Player has no socket and no local data — they are disconnected.
-            // Disconnected players cannot answer, so exclude them from both lists
-            // to avoid permanently blocking the "all answered" threshold.
-            logger.warn('Player not found in playerIndex nor sockets (disconnected) - skipping:', nickname);
-            return;
-        }
-
-        const answeredInLocal = hasAnswered(localPlayer?.answers, currentIndex);
-        const answeredInSocket = hasAnswered(playerSocket?.data?.answers, currentIndex);
-        const answered = answeredInLocal || answeredInSocket;
-
-        logger.info('Player answer status:', {
-            nickname,
-            currentIndex,
-            answered,
-            answeredInLocal,
-            answeredInSocket,
-            playerAnswers: localPlayer?.answers,
-            socketAnswers: playerSocket?.data?.answers
-        });
-
-        if (answered) {
-            answeredPlayers.push(nickname);
-        } else {
-            notAnsweredPlayers.push(nickname);
-        }
+    const playerIndex = indexRoomPlayers(players, roomId);
+    const { answeredPlayers, notAnsweredPlayers } = splitByAnswered({
+        activePlayers,
+        playerIndex,
+        socketByNickname,
+        currentIndex
     });
 
     const answeredCount = answeredPlayers.length;

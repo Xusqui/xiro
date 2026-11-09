@@ -6,6 +6,9 @@
 const Handler = require('./Handler');
 const logger = require('../../config/logger');
 
+/**
+ * Último eslabón: formatea el resultado del comando y lo devuelve por el ACK del socket.
+ */
 class ResponseHandler extends Handler {
     /**
      * @param {Function} responseMapper - Función para formatear la respuesta

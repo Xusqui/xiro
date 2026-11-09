@@ -25,6 +25,12 @@ function uniqueOrigins(origins) {
     return Array.from(new Set(origins));
 }
 
+/**
+ * Convierte la lista de orígenes en un array sin duplicados; si queda vacía devuelve una copia del valor por defecto.
+ * @param {string} rawValue - Lista separada por comas
+ * @param {string[]} [fallback=DEFAULT_ORIGINS] - Orígenes por defecto
+ * @returns {string[]}
+ */
 function parseOriginList(rawValue, fallback = DEFAULT_ORIGINS) {
     const parsed = uniqueOrigins(normalizeRawOrigins(rawValue));
     return parsed.length > 0 ? parsed : [...fallback];
@@ -35,6 +41,12 @@ function isValidOriginFormat(origin) {
     return /^https?:\/\/[^/\s,]+$/i.test(origin);
 }
 
+/**
+ * Comprueba que la lista tenga al menos un origen y que todos tengan formato esquema + host[:puerto], sin ruta.
+ * @param {string} rawValue - Lista separada por comas
+ * @param {string} [keyName='origenes permitidos'] - Nombre del ajuste para el mensaje
+ * @returns {string|null} Mensaje de error, o null si es válida
+ */
 function validateOriginList(rawValue, keyName = 'origenes permitidos') {
     const parsed = parseOriginList(rawValue, []);
 
@@ -50,6 +62,12 @@ function validateOriginList(rawValue, keyName = 'origenes permitidos') {
     return null;
 }
 
+/**
+ * Normaliza la lista de orígenes y la devuelve separada por comas.
+ * @param {string} rawValue - Lista separada por comas
+ * @param {string[]} [fallback=DEFAULT_ORIGINS] - Orígenes por defecto
+ * @returns {string}
+ */
 function formatOriginList(rawValue, fallback = DEFAULT_ORIGINS) {
     return parseOriginList(rawValue, fallback).join(',');
 }

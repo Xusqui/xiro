@@ -6,6 +6,9 @@
 
 const DomainEvent = require('./DomainEvent');
 
+/**
+ * Evento de dominio 'slide.reviewed': el presentador vuelve a una diapositiva ya mostrada.
+ */
 class SlideReviewedEvent extends DomainEvent {
     constructor({ roomId, questionIndex, totalQuestions }) {
         super('slide.reviewed', { roomId, questionIndex, totalQuestions });

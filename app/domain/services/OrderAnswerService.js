@@ -7,6 +7,12 @@ const { SCORING } = require('../../config/game-constants');
 
 const POINTS_PER_POSITION = SCORING.BASE_POINTS;
 
+/**
+ * Índices de las opciones en su orden correcto, según `order_index`. Sin ningún `order_index` vale el orden en que
+ * llegan.
+ * @param {Object[]} options - Opciones de la pregunta
+ * @returns {number[]} Vacío si options no es un array
+ */
 function buildCorrectOrderIndices(options) {
     if (!Array.isArray(options)) return [];
 
@@ -24,11 +30,23 @@ function buildCorrectOrderIndices(options) {
         .map(item => item.index);
 }
 
+/**
+ * IDs de las opciones en su orden correcto.
+ * @param {Object[]} options - Opciones de la pregunta
+ * @returns {Array<*>} ID de cada opción, o null si no tiene
+ */
 function buildCorrectOrderOptionIds(options) {
     const indices = buildCorrectOrderIndices(options);
     return indices.map(index => options[index]?.id || null);
 }
 
+/**
+ * Puntúa una respuesta de ordenar: puntos por cada posición acertada.
+ * @param {number[]} order - Índices enviados por el jugador
+ * @param {Object[]} options - Opciones de la pregunta
+ * @returns {{pointsEarned: number, details: {correctCount: number, totalOptions: number, positionsCorrect: boolean[],
+ *   correctOrderIndices: number[], correctOrderOptionIds: Array}}}
+ */
 function calculateOrderScore(order, options) {
     const correctOrder = buildCorrectOrderIndices(options);
     const positionsCorrect = correctOrder.map((correctIndex, position) => order[position] === correctIndex);
@@ -46,6 +64,13 @@ function calculateOrderScore(order, options) {
     };
 }
 
+/**
+ * Evalúa una respuesta de ordenar: es correcta si acierta todas las posiciones.
+ * @param {Object} input
+ * @param {Object} input.question - Pregunta con options
+ * @param {number[]} input.order - Índices enviados por el jugador
+ * @returns {{isCorrect: boolean, pointsEarned: number, details: Object}}
+ */
 function processOrderAnswer({ question, order }) {
     const options = question?.options || [];
     const result = calculateOrderScore(order, options);

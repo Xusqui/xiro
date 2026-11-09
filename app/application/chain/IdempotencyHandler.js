@@ -10,6 +10,10 @@
 const Handler = require('./Handler');
 const logger = require('../../config/logger');
 
+/**
+ * Eslabón que corta peticiones repetidas con la misma clave de idempotencia (Redis, 5 min) y devuelve el resultado
+ * guardado.
+ */
 class IdempotencyHandler extends Handler {
     /**
      * @param {IdempotencyService} idempotencyService - Servicio de idempotencia

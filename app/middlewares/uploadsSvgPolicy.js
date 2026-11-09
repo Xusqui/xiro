@@ -17,6 +17,13 @@ function decodedPath(rawPath) {
     }
 }
 
+/**
+ * Añade a los SVG subidos una CSP restrictiva, para que no ejecuten scripts al abrirlos directamente.
+ * @param {import("express").Request} req - Petición
+ * @param {import("express").Response} res - Respuesta
+ * @param {import("express").NextFunction} next - Siguiente middleware
+ * @returns {void}
+ */
 function uploadsSvgPolicy(req, res, next) {
     const path = decodedPath(req.path || '');
     if (path && path.startsWith('/uploads/') && path.toLowerCase().endsWith('.svg')) {

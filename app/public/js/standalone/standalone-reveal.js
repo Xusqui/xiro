@@ -11,15 +11,11 @@
 'use strict';
 
 const StandaloneReveal = (() => {
-    const { escapeHtml, optionText } = StandaloneQuestionCommon;
-
-    function _t(key, fallback) {
-        return window.XiroI18n?.t(key) || fallback;
-    }
+    const { escapeHtml, t, optionText } = StandaloneQuestionCommon;
 
     function _pointsPill(points) {
         return typeof points === 'number'
-            ? `<p class="pl-reveal-points">${points >= 0 ? '+' : ''}${points} ${_t('standalone.game.score', 'Puntos')}</p>`
+            ? `<p class="pl-reveal-points">${points >= 0 ? '+' : ''}${points} ${t('standalone.game.score', 'Puntos')}</p>`
             : '';
     }
 
@@ -34,7 +30,7 @@ const StandaloneReveal = (() => {
             .map(
                 (isCorrect, position) => `
             <div class="pl-reveal-breakdown-item ${isCorrect ? 'is-correct' : 'is-incorrect'}">
-                <span class="pl-reveal-breakdown-label"><i class="fas ${isCorrect ? 'fa-check' : 'fa-times'}"></i> ${_t('standalone.game.order_position', 'Posición')} ${position + 1}</span>
+                <span class="pl-reveal-breakdown-label"><i class="fas ${isCorrect ? 'fa-check' : 'fa-times'}"></i> ${t('standalone.game.order_position', 'Posición')} ${position + 1}</span>
             </div>
         `
             )
@@ -42,7 +38,7 @@ const StandaloneReveal = (() => {
 
         return `
             <i class="fas fa-list-ol pl-reveal-icon"></i>
-            <h2>${_t('standalone.game.order_result', '¡Resultado del orden!')}</h2>
+            <h2>${t('standalone.game.order_result', '¡Resultado del orden!')}</h2>
             <div class="pl-reveal-breakdown">${rows}</div>
             ${_pointsPill(data.points)}
         `;
@@ -66,7 +62,7 @@ const StandaloneReveal = (() => {
             `;
         });
 
-        const missedLabel = _t('standalone.game.mc_missed', 'No marcada');
+        const missedLabel = t('standalone.game.mc_missed', 'No marcada');
         const missedRows = [...correctSet]
             .filter(idx => !selectedSet.has(idx))
             .sort((a, b) => a - b)
@@ -84,8 +80,8 @@ const StandaloneReveal = (() => {
         const totalIcon = data.points > 0 ? 'fa-circle-check' : 'fa-circle-xmark';
         const totalText =
             data.points > 0
-                ? _t('standalone.game.correct', '¡Correcto!')
-                : _t('standalone.game.incorrect', 'Incorrecto');
+                ? t('standalone.game.correct', '¡Correcto!')
+                : t('standalone.game.incorrect', 'Incorrecto');
 
         return `
             <i class="fas ${totalIcon} pl-reveal-icon"></i>
@@ -99,14 +95,14 @@ const StandaloneReveal = (() => {
         if (data.correct === null) {
             return `
                 <i class="fas fa-vote-yea pl-reveal-icon"></i>
-                <h2>${_t('standalone.game.answer_registered', 'Respuesta registrada')}</h2>
+                <h2>${t('standalone.game.answer_registered', 'Respuesta registrada')}</h2>
             `;
         }
 
         if (data.correct) {
             return `
                 <i class="fas fa-circle-check pl-reveal-icon"></i>
-                <h2>${_t('standalone.game.correct', '¡Correcto!')}</h2>
+                <h2>${t('standalone.game.correct', '¡Correcto!')}</h2>
                 ${_pointsPill(data.points)}
                 ${_justificationBox(escapeHtml(data.justification))}
             `;
@@ -115,16 +111,16 @@ const StandaloneReveal = (() => {
         if (isApproximate) {
             return `
                 <i class="fas fa-bullseye pl-reveal-icon"></i>
-                <h2>${_t('standalone.game.approximate', '¡Aproximada!')}</h2>
+                <h2>${t('standalone.game.approximate', '¡Aproximada!')}</h2>
                 ${_pointsPill(data.points)}
             `;
         }
 
         return `
             <i class="fas fa-circle-xmark pl-reveal-icon"></i>
-            <h2>${_t('standalone.game.incorrect', 'Incorrecto')}</h2>
+            <h2>${t('standalone.game.incorrect', 'Incorrecto')}</h2>
             ${_pointsPill(data.points)}
-            ${data.correctAnswer ? `<div class="pl-reveal-box"><p>${_t('standalone.game.correct_answer', 'Respuesta correcta')}</p><p>${escapeHtml(data.correctAnswer)}</p></div>` : ''}
+            ${data.correctAnswer ? `<div class="pl-reveal-box"><p>${t('standalone.game.correct_answer', 'Respuesta correcta')}</p><p>${escapeHtml(data.correctAnswer)}</p></div>` : ''}
             ${_justificationBox(escapeHtml(data.justification))}
         `;
     }
@@ -132,7 +128,7 @@ const StandaloneReveal = (() => {
     /** @param {string} safeWord palabra correcta ya escapada con escapeHtml */
     function _correctWordBox(safeWord) {
         return safeWord
-            ? `<div class="pl-reveal-box"><p>${_t('standalone.game.correct_answer', 'Respuesta correcta')}</p><p>${safeWord}</p></div>`
+            ? `<div class="pl-reveal-box"><p>${t('standalone.game.correct_answer', 'Respuesta correcta')}</p><p>${safeWord}</p></div>`
             : '';
     }
 
@@ -176,7 +172,7 @@ const StandaloneReveal = (() => {
     }
 
     function _nextButton() {
-        return `<div class="pl-reveal-continue"><button type="button" class="pl-submit-btn" data-standalone-action="reveal-next">${_t('standalone.game.next', 'Siguiente')}</button></div>`;
+        return `<div class="pl-reveal-continue"><button type="button" class="pl-submit-btn" data-standalone-action="reveal-next">${t('standalone.game.next', 'Siguiente')}</button></div>`;
     }
 
     function _wireNext(container, onNext) {
@@ -236,8 +232,8 @@ const StandaloneReveal = (() => {
         container.innerHTML = `
             <div class="pl-reveal" style="background:linear-gradient(135deg,#0f172a 0%,#1e293b 50%,#0f172a 100%);">
                 <i class="fas fa-clock pl-reveal-icon" style="color:#fbbf24;"></i>
-                <h2>${_t('standalone.game.time_up', '¡Tiempo agotado!')}</h2>
-                ${_showsPlainAnswer(data) ? `<div class="pl-reveal-box"><p>${_t('standalone.game.correct_answer', 'Respuesta correcta')}</p><p>${escapeHtml(data.correctAnswer)}</p></div>` : ''}
+                <h2>${t('standalone.game.time_up', '¡Tiempo agotado!')}</h2>
+                ${_showsPlainAnswer(data) ? `<div class="pl-reveal-box"><p>${t('standalone.game.correct_answer', 'Respuesta correcta')}</p><p>${escapeHtml(data.correctAnswer)}</p></div>` : ''}
                 ${_correctWordBox(escapeHtml(data.correctWord))}
                 ${StandaloneQuestionFillBlanks.revealSentence(data.fillBlanks)}
                 ${orderList}

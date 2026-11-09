@@ -30,6 +30,18 @@ function resolveLockTtlSeconds(questionTimeLimit) {
     return Math.max(30, Math.min(300, Math.ceil(parsed + 20)));
 }
 
+/**
+ * Toma el cerrojo de Redis que impide procesar dos veces la respuesta de un jugador a la misma pregunta (de cualquier
+ * worker). Si Redis falla deja pasar (modo degradado) y lo registra.
+ * @param {Object} input
+ * @param {string} input.roomId - ID de sesión
+ * @param {Object} input.game - Partida (para la época de la pregunta)
+ * @param {string} input.playerId - ID del jugador
+ * @param {number} input.questionIndex - Pregunta
+ * @param {number} [input.questionTimeLimit] - Segundos de la pregunta (fijan la caducidad)
+ * @returns {Promise<{acquired: boolean, lockKey: string, questionEpoch: number, ttlSeconds: number, degraded:
+ *   boolean}>}
+ */
 async function tryAcquireAnswerLock({ roomId, game, playerId, questionIndex, questionTimeLimit }) {
     const questionEpoch = resolveQuestionEpoch(game);
     const lockKey = buildAnswerLockKey({ roomId, playerId, questionIndex, questionEpoch });

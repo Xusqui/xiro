@@ -15,6 +15,9 @@ const { registry, clusterWorkers } = require('./metrics-registry');
 
 const KEY_PREFIX = 'metrics:worker:';
 
+/**
+ * Publica en Redis las métricas de cada worker y las agrega en el worker que atiende el scrape (ver @fileoverview).
+ */
 class ClusterMetrics {
     constructor({
         getClient = getRedisClient,

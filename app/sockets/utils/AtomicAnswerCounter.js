@@ -6,6 +6,12 @@ const { getRedisClient } = require('../../config/redis');
 
 const DEFAULT_TTL_SECONDS = 2 * 60 * 60; // 2h
 
+/**
+ * Claves Redis de los contadores de una sala. El cerrojo de revelado va por pregunta si se indica.
+ * @param {string} roomId - ID de sesión
+ * @param {number|null} [questionIndex=null] - Pregunta del cerrojo
+ * @returns {{expectedKey: string, answeredKey: string, revealLockKey: string}}
+ */
 function buildKeys(roomId, questionIndex = null) {
     const safeRoomId = String(roomId);
     // El lock de reveal se llava por pregunta para evitar que el TTL del lock
@@ -19,6 +25,17 @@ function buildKeys(roomId, questionIndex = null) {
     };
 }
 
+/**
+ * Reinicia los contadores de la pregunta: guarda quién debe responder y vacía quién respondió. Usa la lista de apodos
+ * si se pasa; si no, los sockets de la sala (sin HOST).
+ * @param {Object} options
+ * @param {string} options.roomId - ID de sesión
+ * @param {Object} [options.io] - Socket.IO, para leer los sockets si no hay lista
+ * @param {number} [options.ttlSeconds=7200] - Caducidad de las claves
+ * @param {string[]|null} [options.nicknames=null] - Jugadores esperados (fuente preferida)
+ * @returns {Promise<{expectedCount: number, answeredCount: 0, allAnswered: false, nicknames: string[]}>}
+ * @throws {Error} Si falla Redis
+ */
 async function initializeExpectedPlayers({
     roomId,
     io,
@@ -85,6 +102,17 @@ async function ensureExpectedPlayers({ roomId, io, ttlSeconds = DEFAULT_TTL_SECO
 
 const { executeAnswerCounterScript } = require('./answerCounterScript');
 
+/**
+ * Registra de forma atómica la respuesta de un jugador y devuelve el progreso. Si faltaba la lista de esperados la
+ * reconstruye a partir de los sockets.
+ * @param {Object} options
+ * @param {string} options.roomId - ID de sesión
+ * @param {string} options.nickname - Apodo
+ * @param {Object} [options.io] - Socket.IO
+ * @param {number} [options.ttlSeconds=7200] - Caducidad de las claves
+ * @returns {Promise<{expectedCount: number, answeredCount: number, allAnswered: boolean}>}
+ * @throws {Error} Si falla Redis
+ */
 async function registerAnswerAndGetProgress({ roomId, nickname, io, ttlSeconds = DEFAULT_TTL_SECONDS }) {
     const redis = await getRedisClient();
     const { expectedKey, answeredKey } = buildKeys(roomId);
@@ -119,6 +147,15 @@ async function registerAnswerAndGetProgress({ roomId, nickname, io, ttlSeconds =
     };
 }
 
+/**
+ * Quita a un jugador (p. ej. al salir) de esperados y respondidos y devuelve el progreso recalculado.
+ * @param {Object} options
+ * @param {string} options.roomId - ID de sesión
+ * @param {string} options.nickname - Apodo
+ * @param {number} [options.ttlSeconds=7200] - Caducidad de las claves
+ * @returns {Promise<{expectedCount: number, answeredCount: number, allAnswered: boolean}>}
+ * @throws {Error} Si falla Redis
+ */
 async function removeExpectedPlayer({ roomId, nickname, ttlSeconds = DEFAULT_TTL_SECONDS }) {
     const redis = await getRedisClient();
     const { expectedKey, answeredKey } = buildKeys(roomId);
@@ -145,6 +182,15 @@ async function removeExpectedPlayer({ roomId, nickname, ttlSeconds = DEFAULT_TTL
     };
 }
 
+/**
+ * Intenta tomar el cerrojo de revelado para que solo un worker revele la pregunta.
+ * @param {Object} options
+ * @param {string} options.roomId - ID de sesión
+ * @param {number|null} [options.questionIndex=null] - Pregunta
+ * @param {number} [options.ttlSeconds=8] - Caducidad del cerrojo
+ * @returns {Promise<boolean>} true si lo tomó este worker
+ * @throws {Error} Si falla Redis
+ */
 async function acquireRevealLock({ roomId, questionIndex = null, ttlSeconds = 8 }) {
     const redis = await getRedisClient();
     const { revealLockKey } = buildKeys(roomId, questionIndex);
@@ -157,6 +203,13 @@ async function acquireRevealLock({ roomId, questionIndex = null, ttlSeconds = 8 
     return result === 'OK';
 }
 
+/**
+ * Suelta el cerrojo de revelado. Si Redis falla no hace nada: el cerrojo caduca solo.
+ * @param {Object} options
+ * @param {string} options.roomId - ID de sesión
+ * @param {number|null} [options.questionIndex=null] - Pregunta
+ * @returns {Promise<void>}
+ */
 async function releaseRevealLock({ roomId, questionIndex = null }) {
     try {
         const redis = await getRedisClient();

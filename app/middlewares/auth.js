@@ -26,6 +26,19 @@ function parseCookieToken(cookieHeader) {
     return match ? decodeURIComponent(match[1]) : null;
 }
 
+function authError(message, code, status = 401) {
+    const err = new Error(message);
+    err.status = status;
+    err.code = code;
+    return err;
+}
+
+function jwtFailure(jwtErr) {
+    return jwtErr.name === 'TokenExpiredError'
+        ? authError('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.', 'TOKEN_EXPIRED')
+        : authError('Token de autenticación inválido', 'TOKEN_INVALID');
+}
+
 /**
  * Middleware de autenticación JWT para rutas admin.
  * Acepta el token desde la cookie HttpOnly (prioridad) o el header Authorization.
@@ -40,10 +53,7 @@ async function authenticateAdmin(req, res, next) {
     const token = cookieToken || bearerToken;
 
     if (!token) {
-        const err = new Error('Token de autenticación requerido');
-        err.status = 401;
-        err.code = 'NO_TOKEN';
-        return next(err);
+        return next(authError('Token de autenticación requerido', 'NO_TOKEN'));
     }
 
     let decoded;
@@ -51,14 +61,7 @@ async function authenticateAdmin(req, res, next) {
     try {
         decoded = jwt.verify(token, JWT_SECRET);
     } catch (jwtErr) {
-        const err = new Error(
-            jwtErr.name === 'TokenExpiredError'
-                ? 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.'
-                : 'Token de autenticación inválido'
-        );
-        err.status = 401;
-        err.code = jwtErr.name === 'TokenExpiredError' ? 'TOKEN_EXPIRED' : 'TOKEN_INVALID';
-        return next(err);
+        return next(jwtFailure(jwtErr));
     }
 
     if (!shouldEnforceDbSessionValidation()) {
@@ -68,20 +71,19 @@ async function authenticateAdmin(req, res, next) {
 
     const userId = Number(decoded?.userId);
     if (!Number.isInteger(userId) || userId <= 0) {
-        const err = new Error('Token de autenticación inválido');
-        err.status = 401;
-        err.code = 'TOKEN_INVALID';
-        return next(err);
+        return next(authError('Token de autenticación inválido', 'TOKEN_INVALID'));
     }
 
     try {
         const activeUser = await adminUserService.getActiveUserById(userId);
 
         if (!activeUser) {
-            const err = new Error('Tu sesión ya no es válida. Por favor, inicia sesión nuevamente.');
-            err.status = 401;
-            err.code = 'USER_INACTIVE_OR_NOT_FOUND';
-            return next(err);
+            return next(
+                authError(
+                    'Tu sesión ya no es válida. Por favor, inicia sesión nuevamente.',
+                    'USER_INACTIVE_OR_NOT_FOUND'
+                )
+            );
         }
 
         req.user = {
@@ -93,10 +95,7 @@ async function authenticateAdmin(req, res, next) {
 
         return next();
     } catch (_dbError) {
-        const err = new Error('No se pudo validar la sesión en este momento');
-        err.status = 503;
-        err.code = 'AUTH_BACKEND_UNAVAILABLE';
-        return next(err);
+        return next(authError('No se pudo validar la sesión en este momento', 'AUTH_BACKEND_UNAVAILABLE', 503));
     }
 }
 

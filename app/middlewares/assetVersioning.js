@@ -195,6 +195,13 @@ function versionJsImports(content, baseDir) {
     });
 }
 
+/**
+ * Sirve HTML y JS con las referencias a assets versionadas por contenido (ver @fileoverview). Solo actúa en GET y HEAD.
+ * @param {import("express").Request} req - Petición
+ * @param {import("express").Response} res - Respuesta
+ * @param {import("express").NextFunction} next - Siguiente middleware
+ * @returns {void}
+ */
 function assetVersioningMiddleware(req, res, next) {
     if (req.method !== 'GET' && req.method !== 'HEAD') {
         return next();

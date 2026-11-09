@@ -66,52 +66,6 @@ async function deleteQuiz(quizId, actorUserId = null) {
 }
 
 /**
- * Guarda un quiz completo con sus preguntas
- * @param {Object} data - {id, title, pin, questions}
- * @returns {Promise<{success: boolean, id: number}>}
- */
-async function saveQuizComplete(data, actorUserId = null) {
-    const { id, title, pin, questions, created_by_role = 'admin', created_by_user_id = null } = data;
-    const upperPin = pin ? pin.toUpperCase() : null;
-    const ownerRole = normalizeCreatorRole(created_by_role);
-    const ownerUserId =
-        Number.isInteger(Number(created_by_user_id)) && Number(created_by_user_id) > 0
-            ? Number(created_by_user_id)
-            : null;
-    const client = await pool.connect();
-
-    try {
-        await client.query('BEGIN');
-        let quizId = id;
-
-        if (quizId) {
-            await assertEditorCanModifyResource('quiz', quizId, actorUserId, client);
-        }
-
-        if (quizId) {
-            await client.query('UPDATE quizzes SET title = $1, pin = $2 WHERE id = $3', [title, upperPin, quizId]);
-            await client.query('DELETE FROM questions WHERE quiz_id = $1', [quizId]);
-        } else {
-            const resQuiz = await client.query(
-                'INSERT INTO quizzes (title, pin, created_by_role, created_by_user_id) VALUES ($1, $2, $3, $4) RETURNING id',
-                [title, upperPin, ownerRole, ownerUserId]
-            );
-            quizId = resQuiz.rows[0].id;
-        }
-
-        await insertQuizQuestions(client, quizId, questions);
-
-        await client.query('COMMIT');
-        return { success: true, id: quizId };
-    } catch (err) {
-        await client.query('ROLLBACK');
-        throw err;
-    } finally {
-        client.release();
-    }
-}
-
-/**
  * Obtiene preguntas de un quiz (para iniciar partida)
  * @param {number} quizId - ID del quiz
  * @returns {Promise<Array>}
@@ -130,41 +84,10 @@ async function getQuizQuestions(quizId) {
     return questionsRes.rows;
 }
 
-async function insertQuizQuestions(client, quizId, questions) {
-    if (!questions || !questions.length) return;
-
-    for (const q of questions) {
-        const resQ = await client.query(
-            'INSERT INTO questions (quiz_id, question_text, tipo_contenido, url_recurso, time_limit, question_image_url) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
-            [
-                quizId,
-                q.questionText,
-                q.tipo_contenido || 'texto',
-                q.url_recurso || null,
-                q.time_limit || 20,
-                q.question_image_url || null
-            ]
-        );
-        for (const opt of q.options || []) {
-            await client.query(
-                'INSERT INTO options (question_id, option_text, is_correct, justification, option_image_url) VALUES ($1, $2, $3, $4, $5)',
-                [
-                    resQ.rows[0].id,
-                    opt.optionText || '',
-                    opt.isCorrect,
-                    opt.justification || null,
-                    opt.option_image_url || null
-                ]
-            );
-        }
-    }
-}
-
 module.exports = {
     getAllQuizzes,
     createQuiz,
     getQuizWithQuestions,
     deleteQuiz,
-    saveQuizComplete,
     getQuizQuestions
 };

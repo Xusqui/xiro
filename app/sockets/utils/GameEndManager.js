@@ -4,578 +4,55 @@
  * Refactorizado para usar EndGameUseCase (migrado desde EndGameCommand)
  */
 
-const { roundScore } = require('../../services/game.logic');
 const { calculateFinalRanking } = require('./RankingCalculator');
 const EndGameUseCase = require('../../application/use-cases/EndGameUseCase');
 const { teamConfigs } = require('../../state/globalState');
-const { revealToUnrevealedTeams, addTeamScoresToPayload } = require('./TeamManager');
 const { RedisSyncBus } = require('../sync/RedisSyncBus');
-const EventBus = require('../../domain/events/EventBus');
-const { TimeExpiredEvent, AnswerRevealedEvent } = require('../../domain/events/GameEvents');
-const sessionStore = require('../../services/SessionStore');
-const answerStatsStore = require('../../services/AnswerStatsStore');
-const { getRedisClient } = require('../../config/redis');
-const { logVoteDistribution } = require('./VoteDistributionLogger');
-const { buildPlayerRevealPayload, applyQuestionTypeOverrides } = require('./RevealTypePayloads');
-const FB = require('../../public/js/core/fill-blanks-text.js');
+const { applyQuestionTypeOverrides } = require('./RevealTypePayloads');
 const logger = require('../../config/logger');
-const { saveGameSession } = require('../../services/db/game-session.service');
-const { loadCanonicalScores, buildRankings, buildRankingFormatted } = require('./RevealRanking');
-const { saveRevealPayload } = require('./RevealPayloadStore');
-const { canGoBack } = require('../../domain/services/SlideNavigationPolicy');
+const { buildRankings, buildRankingFormatted } = require('./RevealRanking');
+const {
+    revealToUnrevealedTeamsIfNeeded,
+    addTeamScoresIfNeeded,
+    emitRevealPayloads,
+    emitRankingUpdates,
+    transitionRevealStateMachine,
+    announceRevealedStats
+} = require('./RevealEmitters');
+const { triggerAutoSaveSession } = require('./RevealAutoSave');
+const {
+    markQuestionAsRevealed,
+    loadRevealPrerequisites,
+    resolveRevealBase,
+    resolveQuestionToReveal,
+    emitTimerExpiredIfNeeded,
+    emitBlockedAnswer,
+    applySnapshotResult,
+    applyCanonicalScoresResult,
+    resolveStatsForReveal,
+    countAnsweredFromStats,
+    countActivePlayers,
+    setAnswerBlockingState
+} = require('./RevealStateHelpers');
+const {
+    getQuestionFlags,
+    resolveCorrectAnswerData,
+    buildSurveyPercentages,
+    buildJustificationData,
+    buildPresenterPayload
+} = require('./RevealPresenterPayload');
 
 const syncBus = RedisSyncBus.getInstance();
 
-function hasQuestionBeenRevealed(game, questionIndex) {
-    return Boolean(game?.revealedQuestions?.[questionIndex]);
-}
-
-function markQuestionAsRevealed(game, questionIndex, trigger) {
-    if (!game.revealedQuestions || typeof game.revealedQuestions !== 'object') {
-        game.revealedQuestions = {};
-    }
-
-    game.revealedQuestions[questionIndex] = {
-        trigger,
-        revealedAt: Date.now()
-    };
-}
-
-function loadRevealPrerequisites(roomId, revealIndex) {
-    return Promise.allSettled([
-        sessionStore.load(roomId),
-        answerStatsStore.getStats(roomId, revealIndex),
-        loadCanonicalScores(roomId)
-    ]);
-}
-
-function resolveRevealBase(game, roomId, timeExpired) {
-    if (!game) {
-        logger.warn(`revealAnswer: No game found for ${roomId}`);
-        return null;
-    }
-
-    const revealIndex = Number.isInteger(game.currentIndex) ? game.currentIndex : 0;
-    const revealTrigger = timeExpired ? 'timeout' : 'all-answered';
-
-    if (hasQuestionBeenRevealed(game, revealIndex)) {
-        logger.debug(
-            `revealAnswer: Pregunta ${revealIndex + 1} ya revelada en ${roomId} - ignorando (${revealTrigger})`
-        );
-        return null;
-    }
-
-    return { revealIndex, revealTrigger };
-}
-
-function resolveQuestionToReveal(game, roomId, revealIndex, revealTrigger) {
-    if (game.ended) {
-        logger.debug(`revealAnswer: Juego ${roomId} ya terminó - cancelando reveal`);
-        return null;
-    }
-
-    const currentQuestion = game.questions[revealIndex];
-    if (!currentQuestion) {
-        logger.warn(`revealAnswer: No current question for ${roomId}`);
-        return null;
-    }
-
-    if (hasQuestionBeenRevealed(game, revealIndex)) {
-        logger.debug(
-            `revealAnswer: Pregunta ${revealIndex + 1} ya revelada tras refresco en ${roomId} - ignorando (${revealTrigger})`
-        );
-        return null;
-    }
-
-    return currentQuestion;
-}
-
-function emitTimerExpiredIfNeeded(timeExpired, roomId, revealIndex, answeredCount, totalPlayers) {
-    if (!timeExpired) {
-        return;
-    }
-
-    EventBus.emit(
-        'timer.expired',
-        new TimeExpiredEvent({
-            gameId: roomId,
-            questionIndex: revealIndex,
-            answeredCount,
-            totalPlayers
-        })
-    );
-}
-
-function emitBlockedAnswer(io, roomId, revealIndex, timeExpired) {
-    io.to(roomId).emit('blocked-answer', {
-        questionIndex: revealIndex,
-        message: timeExpired ? 'Tiempo agotado' : 'Todos han respondido'
-    });
-}
-
-function applySnapshotResult(game, snapshotResult) {
-    if (snapshotResult.status !== 'fulfilled') {
-        logger.warn('revealAnswer: No se pudo refrescar session snapshot', snapshotResult.reason?.message);
-        return;
-    }
-
-    const sessionSnapshot = snapshotResult.value;
-    if (sessionSnapshot?.scores) {
-        game.scores = { ...(game.scores || {}), ...sessionSnapshot.scores };
-    }
-    if (sessionSnapshot?.answerStats) {
-        game.answerStats = sessionSnapshot.answerStats;
-    }
-}
-
-function applyCanonicalScoresResult(game, canonicalScoresResult) {
-    if (canonicalScoresResult.status === 'fulfilled' && canonicalScoresResult.value) {
-        game.scores = { ...(game.scores || {}), ...canonicalScoresResult.value };
-        return;
-    }
-
-    if (canonicalScoresResult.status === 'rejected') {
-        logger.warn('revealAnswer: No se pudo leer scores canónicos', canonicalScoresResult.reason?.message);
-    }
-}
-
-function normalizeStats(rawStats) {
-    if (!rawStats || typeof rawStats !== 'object') {
-        return {};
-    }
-
-    const values = Object.values(rawStats);
-    const isCountShape = values.every(value => typeof value === 'number');
-    if (isCountShape) {
-        return rawStats;
-    }
-
-    const counts = {};
-    values.forEach(value => {
-        if (!value || typeof value !== 'object') {
-            return;
-        }
-        const answerIndex = Number.isInteger(value.answerIndex)
-            ? value.answerIndex
-            : Number.isInteger(value.index)
-              ? value.index
-              : null;
-        if (answerIndex === null) {
-            return;
-        }
-        counts[answerIndex] = (counts[answerIndex] || 0) + 1;
-    });
-
-    return counts;
-}
-
-function resolveStatsForReveal(game, revealIndex, statsResult) {
-    let statsForQuestion = game.answerStats?.[revealIndex] || {};
-    if (statsResult.status === 'fulfilled') {
-        const redisStats = statsResult.value;
-        if (redisStats && Object.keys(redisStats).length > 0) {
-            statsForQuestion = redisStats;
-        }
-    } else {
-        logger.warn('revealAnswer: No se pudo leer stats desde Redis', statsResult.reason?.message);
-    }
-
-    return normalizeStats(statsForQuestion);
-}
-
-function countAnsweredFromStats(stats) {
-    return Object.values(stats).reduce((sum, count) => sum + (Number(count) || 0), 0);
-}
-
-function countActivePlayers(game) {
-    return (game.players || []).filter(player => player !== 'HOST').length;
-}
-
-function setAnswerBlockingState(game, revealIndex, timeExpired) {
-    const isLast = revealIndex >= game.questions.length - 1;
-    const allowLateAnswers = isLast && timeExpired && !game.isTrivial;
-
-    if (!isLast || game.isTrivial) {
-        game.canAnswer = false;
-    } else if (timeExpired) {
-        logger.debug('Última pregunta - manteniendo canAnswer=true para respuestas tardías');
-    }
-
-    return allowLateAnswers;
-}
-
-function getQuestionFlags(question) {
-    return {
-        isOrderQuestion: question.question_type === 'order',
-        isMatchingQuestion: question.question_type === 'matching',
-        isSurveyQuestion: question.question_type === 'survey',
-        isWordScrambleQuestion: question.question_type === 'word_scramble',
-        isMultipleChoiceQuestion: question.question_type === 'multiple_choice',
-        isNumericQuestion: question.question_type === 'numeric_approximation',
-        isWordSearchQuestion: question.question_type === 'word_search',
-        isFillBlanksQuestion: question.question_type === 'fill_blanks',
-        isSurveyMultipleQuestion: question.question_type === 'survey_multiple'
-    };
-}
-
-// Tipos sin una única opción correcta que marcar (no tienen correctIndex)
-const NO_SINGLE_CORRECT_TYPES = new Set([
-    'order',
-    'matching',
-    'survey',
-    'word_scramble',
-    'word_search',
-    'multiple_choice',
-    'fill_blanks',
-    'survey_multiple'
-]);
-
-function resolveCorrectAnswerData(question, flags) {
-    const hasSingleCorrectIndex = !NO_SINGLE_CORRECT_TYPES.has(question.question_type);
-
-    const correctIndex = hasSingleCorrectIndex ? (question.options?.findIndex(option => option.isCorrect) ?? -1) : null;
-
-    let correctAnswer = null;
-    if (flags.isNumericQuestion) {
-        correctAnswer = question.correct_answer ?? null;
-    } else if (hasSingleCorrectIndex) {
-        correctAnswer = question.options?.[correctIndex]?.id || null;
-    }
-
-    const correctIndicesMultiple = flags.isMultipleChoiceQuestion
-        ? question.options
-              ?.map((option, idx) => (option.isCorrect || option.is_correct ? idx : null))
-              .filter(idx => idx !== null)
-        : null;
-
-    if (!flags.isOrderQuestion && !flags.isMatchingQuestion) {
-        logger.debug('Respuesta correcta:', {
-            correctIndex: flags.isNumericQuestion ? null : correctIndex,
-            correctAnswer,
-            questionId: question.id
-        });
-    }
-
-    return { correctIndex, correctAnswer, correctIndicesMultiple };
-}
-
-function buildSurveyPercentages(question, stats, isSurveyQuestion) {
-    if (!isSurveyQuestion) {
-        return null;
-    }
-
-    const optionCount = question.options?.length || 0;
-    const totalVotes = Object.values(stats).reduce((sum, count) => sum + (Number(count) || 0), 0);
-
-    return Array.from({ length: optionCount }).map((_, index) => {
-        const count = Number(stats[index]) || 0;
-        const rawPercentage = totalVotes > 0 ? (count / totalVotes) * 100 : 0;
-        const percentage = Math.round(rawPercentage * 10) / 10;
-        return { count, percentage };
-    });
-}
-
-function buildCorrectOrderPayload(currentQuestion) {
-    const OrderAnswerService = require('../../domain/services/OrderAnswerService');
-    const indices = OrderAnswerService.buildCorrectOrderIndices(currentQuestion.options || []);
-    return indices.map(index => {
-        const option = currentQuestion.options?.[index];
-        return {
-            id: option?.id || null,
-            text: option?.text || option?.optionText || option?.option_text || '',
-            justification: option?.justification || null
-        };
-    });
-}
-
-function buildCorrectMatchesPayload(currentQuestion) {
-    return (currentQuestion.options || []).map(option => ({
-        leftText: option.optionText || option.option_text || option.text || '',
-        rightText: option.match_value || ''
-    }));
-}
-
-function buildJustificationData(currentQuestion, flags, correctIndex) {
-    const correctOption =
-        flags.isOrderQuestion || flags.isMatchingQuestion ? null : currentQuestion.options?.[correctIndex];
-
-    const orderJustification = flags.isOrderQuestion
-        ? currentQuestion.justification ||
-          currentQuestion.options?.find(option => option?.justification)?.justification ||
-          null
-        : null;
-
-    const justificationText = flags.isOrderQuestion ? orderJustification : correctOption?.justification || null;
-
-    const correctOrder = flags.isOrderQuestion ? buildCorrectOrderPayload(currentQuestion) : null;
-    const correctMatches = flags.isMatchingQuestion ? buildCorrectMatchesPayload(currentQuestion) : null;
-
-    return {
-        correctOption,
-        justificationText,
-        correctOrder,
-        correctMatches
-    };
-}
-
-function buildPresenterPayload(input) {
-    const {
-        correctIndex,
-        correctOption,
-        justificationText,
-        stats,
-        percentages,
-        rankingFormatted,
-        timeExpired,
-        correctOrder,
-        correctMatches,
-        isSurveyQuestion
-    } = input;
-
-    return {
-        correctIndex,
-        correctAnswer: correctOption?.text || correctOption?.optionText || correctOption?.option_text || null,
-        justification: justificationText,
-        stats,
-        percentages,
-        ranking: rankingFormatted,
-        timeExpired,
-        correctOrder,
-        correctMatches,
-        isSurvey: isSurveyQuestion
-    };
-}
-
-async function revealToUnrevealedTeamsIfNeeded(input) {
-    const { isTeamMode, game, teamConfigData, currentQuestion, io, roomId } = input;
-
-    if (!isTeamMode) {
-        return;
-    }
-
-    try {
-        await revealToUnrevealedTeams(game, teamConfigData, currentQuestion, io, roomId);
-    } catch (err) {
-        logger.error('Error en revealToUnrevealedTeams:', err.message);
-    }
-}
-
-function addTeamScoresIfNeeded(isTeamMode, presenterPayload, teamConfigData, scores) {
-    if (!isTeamMode) {
-        return;
-    }
-
-    try {
-        addTeamScoresToPayload(presenterPayload, teamConfigData, scores || {});
-    } catch (err) {
-        logger.error('Error en addTeamScoresToPayload:', err.message);
-    }
-}
-
-function emitRevealPayloads(io, roomId, game, revealIndex, presenterPayload) {
-    // Authoritative trivial flag: the presenter relies on this to label the
-    // "next" button ("Siguiente Ronda" vs "Ver Ránking"). window.isTrivialGame
-    // can be stale after a presenter reload/reconnection, so stamp it here.
-    presenterPayload.isTrivial = !!game.isTrivial;
-    // Juegos personalizados: el presentador ofrece "Anterior" ya revelada la pregunta
-    presenterPayload.canGoBack = canGoBack(game);
-
-    game.revealPayloads = game.revealPayloads || {};
-    game.revealPayloads[revealIndex] = presenterPayload;
-    // Para revisar la pregunta desde un worker que no la tenga en memoria
-    saveRevealPayload(roomId, revealIndex, presenterPayload);
-
-    io.to(roomId + ':presenter').emit('reveal-answer', presenterPayload);
-    io.to(roomId + ':players').emit('reveal-answer', buildPlayerRevealPayload(presenterPayload));
-}
-
-function emitRankingUpdates(io, roomId, scores) {
-    const rankingUpdate = Object.entries(scores || {})
-        .map(([nickname, score]) => ({ nickname, score: roundScore(score) }))
-        .sort((a, b) => b.score - a.score);
-
-    io.to(roomId + ':presenter').emit('ranking-update', { ranking: rankingUpdate });
-    io.to(roomId + ':players').emit('ranking-update', { ranking: rankingUpdate });
-}
-
-function transitionRevealStateMachine(roomId, game) {
-    try {
-        const { getOrCreateAdapter } = require('../../domain/state/GameStateAdapter');
-        if (!game.questions || game.questions.length === 0) {
-            logger.warn('No questions available for state machine, skipping transition');
-            return;
-        }
-
-        const adapter = getOrCreateAdapter(roomId, game.questions, game.teamMode);
-        if (adapter && adapter.getCurrentState() === 'questionActive') {
-            adapter.timeUp();
-            adapter.scoringComplete();
-            logger.debug(`SM after reveal: ${adapter.getCurrentState()}`);
-        }
-    } catch (err) {
-        logger.error('State machine error in revealAnswer (non-critical):', err.message);
-    }
-}
-
-function mergeRedisPlayerAnswers(mergedAnswers, allEntries) {
-    for (const [field, val] of Object.entries(allEntries)) {
-        const colonIdx = field.indexOf(':');
-        const qIdx = Number(field.substring(0, colonIdx));
-        const nick = field.substring(colonIdx + 1);
-
-        if (!mergedAnswers[qIdx]) {
-            mergedAnswers[qIdx] = {};
-        }
-
-        if (!mergedAnswers[qIdx][nick]) {
-            try {
-                mergedAnswers[qIdx][nick] = JSON.parse(val);
-            } catch (err) {
-                // Ignore parsing errors for individual answers
-            }
-        }
-    }
-}
-
-async function loadRedisAutoSaveData(roomId, mergedAnswers) {
-    let redisStartTime = null;
-    let redisDbSessionId = null;
-    try {
-        const rc = await getRedisClient();
-        const allEntries = await rc.hGetAll(`game:playeranswers:${roomId}`);
-
-        if (allEntries && Object.keys(allEntries).length > 0) {
-            mergeRedisPlayerAnswers(mergedAnswers, allEntries);
-        }
-
-        const startTs = await rc.get(`game:started:${roomId}`);
-        if (startTs) {
-            redisStartTime = Number(startTs);
-        }
-
-        const SessionStore = require('../../services/SessionStore');
-        const redisSession = await SessionStore.load(roomId);
-        if (redisSession && redisSession.dbSessionId) {
-            redisDbSessionId = redisSession.dbSessionId;
-        }
-    } catch (err) {
-        // Ignore best-effort Redis lookup errors
-        logger.debug('No se pudieron leer datos de Redis para autoguardado', { roomId, error: err.message });
-    }
-    return { redisStartTime, redisDbSessionId };
-}
-
-function buildAutoSaveParams({
-    roomId,
-    game,
-    ranking,
-    gameStartTime,
-    mergedPlayerAnswers,
-    questionsSnapshot,
-    dbSessionId
-}) {
-    const playerCount =
-        ranking.length || (Array.isArray(game.players) ? game.players.length : Object.keys(game.scores || {}).length);
-    const durationMs = gameStartTime ? Date.now() - gameStartTime : null;
-
-    return {
-        pin: game.roomId || game.pin,
-        sessionId: roomId,
-        dbId: dbSessionId || null,
-        gameType: game.gameType || null,
-        startedAt: gameStartTime,
-        durationMs,
-        playerCount,
-        questionCount: game.questions?.length || 0,
-        reason: 'auto-saved',
-        finalRanking: ranking,
-        questionsSnapshot,
-        playerAnswers: mergedPlayerAnswers
-    };
-}
-
-async function triggerAutoSaveSession(roomId, game, ranking) {
-    try {
-        const questionsSnapshot = (game.questions || []).map(q => ({
-            // Completa la frase: el informe muestra la frase con las palabras entre corchetes, no los marcadores
-            question_text:
-                q.question_type === 'fill_blanks'
-                    ? FB.toEditorText(q.question_text || '', q.fb_words || FB.wordsFromOptions(q.options))
-                    : q.question_text || q.text || '',
-            correct_answer: q.correct_answer || q.correct_word || (q.ws_words || q.fb_words || []).join(', '),
-            question_type: q.question_type || q.type || 'quiz'
-        }));
-
-        // Construir snapshot ligero de las respuestas
-        const mergedPlayerAnswers = { ...(game.playerAnswers || {}) };
-        const { redisStartTime, redisDbSessionId } = await loadRedisAutoSaveData(roomId, mergedPlayerAnswers);
-        const gameStartTime = redisStartTime || game.gameStartTime || null;
-        const currentDbSessionId = redisDbSessionId || game.dbSessionId || null;
-
-        const saveParams = buildAutoSaveParams({
-            roomId,
-            game,
-            ranking,
-            gameStartTime,
-            mergedPlayerAnswers,
-            questionsSnapshot,
-            dbSessionId: currentDbSessionId
-        });
-
-        const id = await saveGameSession(saveParams);
-
-        if (id && !game.dbSessionId) {
-            game.dbSessionId = id;
-            // Forzar un guardado en Redis para no perder el dbSessionId si el servidor reinicia
-            const SessionSaveDebouncer = require('../../services/SessionSaveDebouncer');
-            SessionSaveDebouncer.save(roomId, game);
-            logger.info('Partida auto-guardada por primera vez', { roomId, dbId: id });
-        } else if (id) {
-            game.dbSessionId = id;
-            logger.debug('Partida auto-guardada actualizada', { roomId, dbId: id });
-        }
-    } catch (err) {
-        logger.error('Error en triggerAutoSaveSession', { roomId, error: err.message });
-    }
-}
-
-/** Registra el reparto de votos y emite el evento de dominio 'answer.revealed'. */
-function announceRevealedStats({ roomId, revealIndex, question, stats, correctIndex, timeExpired }) {
-    logVoteDistribution({
-        roomId,
-        questionIndex: revealIndex,
-        question,
-        stats,
-        trigger: timeExpired ? 'timeout' : 'all-answered'
-    });
-
-    EventBus.emit(
-        'answer.revealed',
-        new AnswerRevealedEvent({
-            gameId: roomId,
-            questionIndex: revealIndex,
-            correctIndex,
-            stats
-        })
-    );
-}
-
 /**
- * Reveal answer for current question
- * Can be called when timer expires OR when all players have answered
- *
- * @param {Object} params - Reveal parameters
- * @param {string} params.roomId - Room ID
- * @param {Object} params.game - Game state
- * @param {Object} params.io - Socket.IO instance
- * @param {boolean} params.timeExpired - True if called due to timer expiration, false if all players answered
- * @returns {Promise<boolean|undefined>} true solo si esta llamada ha revelado la pregunta
- *   (no si ya estaba revelada, el juego terminó o no hay pregunta)
+ * Carga lo necesario para revelar y marca la pregunta como revelada.
+ * @returns {Promise<{revealIndex: number, revealTrigger: string, question: Object, statsResult: *}|null>}
+ *   null si ya estaba revelada, el juego terminó o no hay pregunta
  */
-async function revealAnswer({ roomId, game, io, timeExpired = false }) {
+async function prepareReveal(game, roomId, timeExpired) {
     const base = resolveRevealBase(game, roomId, timeExpired);
     if (!base) {
-        return;
+        return null;
     }
 
     const { revealIndex, revealTrigger } = base;
@@ -587,19 +64,22 @@ async function revealAnswer({ roomId, game, io, timeExpired = false }) {
     applySnapshotResult(game, snapshotResult);
     applyCanonicalScoresResult(game, canonicalScoresResult);
 
-    const currentQuestion = resolveQuestionToReveal(game, roomId, revealIndex, revealTrigger);
-    if (!currentQuestion) {
-        return;
+    const question = resolveQuestionToReveal(game, roomId, revealIndex, revealTrigger);
+    if (!question) {
+        return null;
     }
 
     markQuestionAsRevealed(game, revealIndex, revealTrigger);
+    return { revealIndex, revealTrigger, question, statsResult };
+}
 
-    logger.info(
-        `Revelando respuesta para pregunta ${revealIndex + 1} en partida ${roomId}${timeExpired ? ' (tiempo agotado)' : ' (todos respondieron)'}`
-    );
-
-    const normalizedStats = resolveStatsForReveal(game, revealIndex, statsResult);
-    const answeredCount = countAnsweredFromStats(normalizedStats);
+/**
+ * Cierra las respuestas de la pregunta y avisa a los clientes.
+ * @returns {{stats: Object, allowLateAnswers: boolean}}
+ */
+function closeAnswers({ io, roomId, game, revealIndex, timeExpired, statsResult }) {
+    const stats = resolveStatsForReveal(game, revealIndex, statsResult);
+    const answeredCount = countAnsweredFromStats(stats);
     const totalPlayers = countActivePlayers(game);
 
     emitTimerExpiredIfNeeded(timeExpired, roomId, revealIndex, answeredCount, totalPlayers);
@@ -611,58 +91,48 @@ async function revealAnswer({ roomId, game, io, timeExpired = false }) {
     const allowLateAnswers = setAnswerBlockingState(game, revealIndex, timeExpired);
 
     emitBlockedAnswer(io, roomId, revealIndex, timeExpired);
+    return { stats, allowLateAnswers };
+}
 
-    // Preparar rankings.
+/**
+ * Monta el payload del presentador (ranking, solución, estadísticas y extras por tipo de pregunta).
+ * En modo equipos revela antes la pregunta a los equipos que aún no la veían.
+ * @returns {Promise<{presenterPayload: Object, rankingFormatted: Array, correctIndex: *}>}
+ */
+async function buildRevealPayload({ io, roomId, game, revealIndex, question, stats, timeExpired }) {
     // Unimos game.players (nicknames iniciales al start-game) con los nicknames
     // que aparecen en game.scores (pueden incluir jugadores que llegaron justo
     // antes del start-game pero no fueron detectados por fetchSockets, o
     // jugadores que se unieron mid-game). Así ninguno queda fuera del ranking.
     const rankings = buildRankings(game);
-    const flags = getQuestionFlags(currentQuestion);
-    const { correctIndex, correctIndicesMultiple } = resolveCorrectAnswerData(currentQuestion, flags);
+    const flags = getQuestionFlags(question);
+    const { correctIndex, correctIndicesMultiple } = resolveCorrectAnswerData(question, flags);
 
-    // Modo equipos: revelar a equipos no revelados
     const teamConfigData = teamConfigs.get(roomId);
     const isTeamMode = teamConfigData && teamConfigData.isTeamMode;
-    await revealToUnrevealedTeamsIfNeeded({
-        isTeamMode,
-        game,
-        teamConfigData,
-        currentQuestion,
-        io,
-        roomId
-    });
+    await revealToUnrevealedTeamsIfNeeded({ isTeamMode, game, teamConfigData, currentQuestion: question, io, roomId });
 
-    // Convertir answerStats a formato de stats esperado por el cliente
-    const stats = normalizedStats;
-    const percentages = buildSurveyPercentages(currentQuestion, stats, flags.isSurveyQuestion);
+    const percentages = buildSurveyPercentages(question, stats, flags.isSurveyQuestion);
+    announceRevealedStats({ roomId, revealIndex, question, stats, correctIndex, timeExpired });
 
-    announceRevealedStats({ roomId, revealIndex, question: currentQuestion, stats, correctIndex, timeExpired });
-
-    // Convertir rankings al formato esperado por el cliente
     const rankingFormatted = buildRankingFormatted(rankings);
-    const { correctOption, justificationText, correctOrder, correctMatches } = buildJustificationData(
-        currentQuestion,
-        flags,
-        correctIndex
-    );
-
+    const justification = buildJustificationData(question, flags, correctIndex);
     const presenterPayload = buildPresenterPayload({
         correctIndex,
-        correctOption,
-        justificationText,
+        correctOption: justification.correctOption,
+        justificationText: justification.justificationText,
         stats,
         percentages,
         rankingFormatted,
         timeExpired,
-        correctOrder,
-        correctMatches,
+        correctOrder: justification.correctOrder,
+        correctMatches: justification.correctMatches,
         isSurveyQuestion: flags.isSurveyQuestion
     });
 
     await applyQuestionTypeOverrides({
         presenterPayload,
-        question: currentQuestion,
+        question,
         flags,
         correctIndicesMultiple,
         roomId,
@@ -670,7 +140,14 @@ async function revealAnswer({ roomId, game, io, timeExpired = false }) {
         game
     });
     addTeamScoresIfNeeded(isTeamMode, presenterPayload, teamConfigData, game.scores || {});
+    return { presenterPayload, rankingFormatted, correctIndex };
+}
 
+/**
+ * Emite el reveal a todos, sincroniza con los demás workers y lanza el autoguardado.
+ */
+async function broadcastReveal({ io, roomId, game, revealIndex, revealTrigger, allowLateAnswers, timeExpired, built }) {
+    const { presenterPayload, rankingFormatted, correctIndex } = built;
     logger.debug('Emitiendo reveal-answer a presentador:', {
         presenterRoom: roomId + ':presenter',
         correctIndex,
@@ -691,11 +168,37 @@ async function revealAnswer({ roomId, game, io, timeExpired = false }) {
 
     logger.info(`Respuesta revelada para ${roomId} (${timeExpired ? 'timeout' : 'all answered'})`);
 
-    // Disparar autoguardado asíncrono
     triggerAutoSaveSession(roomId, game, rankingFormatted).catch(err => {
         logger.error('Error no capturado en auto-save asíncrono:', err.message);
     });
+}
 
+/**
+ * Reveal answer for current question
+ * Can be called when timer expires OR when all players have answered
+ *
+ * @param {Object} params - Reveal parameters
+ * @param {string} params.roomId - Room ID
+ * @param {Object} params.game - Game state
+ * @param {Object} params.io - Socket.IO instance
+ * @param {boolean} params.timeExpired - True if called due to timer expiration, false if all players answered
+ * @returns {Promise<boolean|undefined>} true solo si esta llamada ha revelado la pregunta
+ *   (no si ya estaba revelada, el juego terminó o no hay pregunta)
+ */
+async function revealAnswer({ roomId, game, io, timeExpired = false }) {
+    const prepared = await prepareReveal(game, roomId, timeExpired);
+    if (!prepared) {
+        return;
+    }
+
+    const { revealIndex, revealTrigger, question, statsResult } = prepared;
+    logger.info(
+        `Revelando respuesta para pregunta ${revealIndex + 1} en partida ${roomId}${timeExpired ? ' (tiempo agotado)' : ' (todos respondieron)'}`
+    );
+
+    const { stats, allowLateAnswers } = closeAnswers({ io, roomId, game, revealIndex, timeExpired, statsResult });
+    const built = await buildRevealPayload({ io, roomId, game, revealIndex, question, stats, timeExpired });
+    await broadcastReveal({ io, roomId, game, revealIndex, revealTrigger, allowLateAnswers, timeExpired, built });
     return true;
 }
 

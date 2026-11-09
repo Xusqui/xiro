@@ -5,6 +5,7 @@
 const express = require('express');
 const { authenticateAdmin } = require('../middlewares/auth');
 const { pinValidationLimiter } = require('../middlewares/security');
+const { validateBody, validateParams, schemas } = require('../validation');
 const dbService = require('../services/db.service');
 const { handleRouteError, handleNotFound } = require('./helpers/RouteErrorHandler');
 const logger = require('../config/logger');
@@ -20,7 +21,7 @@ router.get('/api/quizzes', authenticateAdmin, async (req, res) => {
     }
 });
 
-router.post('/api/quizzes', authenticateAdmin, async (req, res) => {
+router.post('/api/quizzes', authenticateAdmin, validateBody(schemas.createQuiz), async (req, res) => {
     try {
         const payload = {
             ...req.body,
@@ -34,7 +35,7 @@ router.post('/api/quizzes', authenticateAdmin, async (req, res) => {
     }
 });
 
-router.get('/api/quizzes/:id', authenticateAdmin, async (req, res) => {
+router.get('/api/quizzes/:id', authenticateAdmin, validateParams(schemas.dbIdParams), async (req, res) => {
     try {
         const result = await dbService.getQuizWithQuestions(req.params.id);
         if (!result) return handleNotFound(res);
@@ -44,7 +45,7 @@ router.get('/api/quizzes/:id', authenticateAdmin, async (req, res) => {
     }
 });
 
-router.delete('/api/quizzes/:id', authenticateAdmin, async (req, res) => {
+router.delete('/api/quizzes/:id', authenticateAdmin, validateParams(schemas.dbIdParams), async (req, res) => {
     try {
         const actorUserId = req.user?.role === 'editor' ? req.user?.userId : null;
         await dbService.deleteQuiz(req.params.id, actorUserId);
@@ -54,26 +55,14 @@ router.delete('/api/quizzes/:id', authenticateAdmin, async (req, res) => {
     }
 });
 
-router.post('/api/quizzes/save-all', authenticateAdmin, async (req, res) => {
-    try {
-        const payload = req.body.id
-            ? req.body
-            : {
-                ...req.body,
-                created_by_role: req.user?.role,
-                created_by_user_id: req.user?.userId
-            };
-        const actorUserId = req.user?.role === 'editor' ? req.user?.userId : null;
-        const result = await dbService.saveQuizComplete(payload, actorUserId);
-        res.json(result);
-    } catch (err) {
-        handleRouteError(err, res);
-    }
-});
-
 router.get('/api/quizzes/validate/:pin', pinValidationLimiter, async (req, res) => {
+    const { value: params, error } = schemas.presenterPinParams.validate(req.params);
+    if (error) {
+        // Un PIN con formato inválido no puede existir: se responde sin consultar la base de datos.
+        return res.json({ exists: false, gameType: null });
+    }
     try {
-        const pinToValidate = req.params.pin;
+        const pinToValidate = params.pin;
         logger.debug(`Validando PIN: "${pinToValidate}"`);
 
         const pinValidation = await dbService.validatePinInDatabase(pinToValidate);

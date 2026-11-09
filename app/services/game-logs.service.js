@@ -52,6 +52,13 @@ async function getRedisClientSafe() {
     }
 }
 
+/**
+ * Añade una entrada al registro de eventos de la sesión en Redis (TTL 6 h). Si Redis falla lo registra y devuelve
+ * false.
+ * @param {string} sessionId - ID de sesión
+ * @param {Object} entry - { level, event, actor, message, metadata }; los campos que faltan toman su valor por defecto
+ * @returns {Promise<boolean>} true si se guardó
+ */
 async function pushSessionLog(sessionId, entry) {
     const key = buildSessionLogKey(sessionId);
     if (!key) return false;
@@ -81,6 +88,12 @@ function parseRawLog(raw) {
     }
 }
 
+/**
+ * Lee el registro de eventos de la sesión, en orden de llegada.
+ * @param {string} sessionId - ID de sesión
+ * @param {number} [limit=5000] - Máximo de entradas
+ * @returns {Promise<Object[]>} Entradas; vacío si no hay o falla Redis
+ */
 async function readSessionLogs(sessionId, limit = DEFAULT_LOG_LIMIT) {
     const key = buildSessionLogKey(sessionId);
     if (!key) return [];
@@ -101,6 +114,12 @@ async function readSessionLogs(sessionId, limit = DEFAULT_LOG_LIMIT) {
     }
 }
 
+/**
+ * Lee el registro de eventos de la sesión y borra la clave de Redis (al guardar la sesión en la base de datos).
+ * @param {string} sessionId - ID de sesión
+ * @param {number} [limit=5000] - Máximo de entradas
+ * @returns {Promise<Object[]>} Entradas leídas
+ */
 async function drainSessionLogs(sessionId, limit = DEFAULT_LOG_LIMIT) {
     const key = buildSessionLogKey(sessionId);
     if (!key) return [];
@@ -125,6 +144,13 @@ function normalizeSessionLogs(logs) {
     return logs.map(entry => normalizeLogEntry(entry || {})).slice(0, DEFAULT_LOG_LIMIT);
 }
 
+/**
+ * Registro que se guarda con la sesión: el que llega ya normalizado o, si no, el que había en Redis (que se vacía).
+ * @param {Object} input
+ * @param {string} [input.sessionId] - ID de sesión
+ * @param {Object[]} [input.sessionLogs] - Entradas ya recogidas
+ * @returns {Object[]|Promise<Object[]>} Entradas (promesa si hay que leer Redis)
+ */
 function resolveSessionLogsForSave({ sessionId, sessionLogs }) {
     if (Array.isArray(sessionLogs) && sessionLogs.length > 0) {
         return normalizeSessionLogs(sessionLogs);
@@ -135,6 +161,12 @@ function resolveSessionLogsForSave({ sessionId, sessionLogs }) {
     return drainSessionLogs(sessionId, DEFAULT_LOG_LIMIT);
 }
 
+/**
+ * Formatea el registro de una sesión como texto plano para descargarlo.
+ * @param {Object} session - Fila de game_sessions (id, pin, game_type, played_at)
+ * @param {Object[]} logs - Entradas
+ * @returns {string}
+ */
 function formatSessionLogsAsText(session, logs) {
     const lines = [];
     const safeLogs = Array.isArray(logs) ? logs : [];

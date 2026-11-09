@@ -65,12 +65,25 @@ function buildFilename(pin, playedAt) {
     return `xiro-${safeFilenamePart(pin)}-${dateStr}.csv`;
 }
 
+/**
+ * Nombre de fichero para descargar el registro de una sesión: `xiro-logs-<pin>-<AAAA-MM-DD>.<ext>`.
+ * @param {string} pin - PIN
+ * @param {string|Date} playedAt - Fecha de la sesión
+ * @param {string} [ext='txt'] - Extensión
+ * @returns {string}
+ * @throws {RangeError} Si playedAt no es una fecha válida
+ */
 function buildLogsFilename(pin, playedAt, ext = 'txt') {
     const d = new Date(playedAt);
     const dateStr = d.toISOString().slice(0, 10);
     return `xiro-logs-${safeFilenamePart(pin)}-${dateStr}.${safeFilenamePart(ext)}`;
 }
 
+/**
+ * Registro de eventos guardado con la sesión.
+ * @param {Object} session - Fila de game_sessions
+ * @returns {Object[]} Vacío si no hay
+ */
 function getSessionLogs(session) {
     return Array.isArray(session?.session_logs) ? session.session_logs : [];
 }

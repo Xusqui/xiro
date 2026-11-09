@@ -13,6 +13,9 @@ const EventHandler = require('./EventHandler');
 const BroadcastOptimizer = require('../../../sockets/services/BroadcastOptimizer');
 const { roundScore } = require('../../services/GameUtils');
 
+/**
+ * Reacciona a 'player.scored': difunde 'ranking-update' con BroadcastOptimizer.
+ */
 class PlayerScoredHandler extends EventHandler {
     constructor(eventBus, io, dependencies = {}) {
         super(eventBus, io, dependencies);

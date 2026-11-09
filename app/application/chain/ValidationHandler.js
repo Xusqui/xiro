@@ -6,11 +6,15 @@
 const Handler = require('./Handler');
 const logger = require('../../config/logger');
 
+/**
+ * Eslabón que valida el payload (y, según opciones, socket, datos y playerId) antes de seguir.
+ */
 class ValidationHandler extends Handler {
     /**
      * @param {Function} validateFn - Función de validación que recibe data/context y retorna {valid, value, error}
      * @param {Object} options - Opciones adicionales
-     * @param {boolean} options.passFullContext - Si true, pasa context completo a validateFn, si false solo context.data
+     * @param {boolean} options.passFullContext - Si true, pasa context completo a validateFn, si false solo
+     *   context.data
      * @param {boolean} options.requireSocket - Si true, valida que context.socket exista
      * @param {boolean} options.requireData - Si true, valida que context.data exista
      * @param {boolean} options.requirePlayerId - Si true, valida que context.playerId exista

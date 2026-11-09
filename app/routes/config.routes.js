@@ -87,6 +87,44 @@ router.get('/api/admin/config', authenticateAdmin, authorizeAdmin, (req, res) =>
     }
 });
 
+// Aplica los cambios en memoria y devuelve los valores anteriores, por si no se pueden persistir
+function applyUpdatesInMemory(updates) {
+    const previous = {};
+    for (const [key, value] of Object.entries(updates)) {
+        previous[key] = runtimeConfig.get(key);
+        runtimeConfig.set(key, value);
+    }
+    return previous;
+}
+
+function rollbackFailedPersist(err, previous, updates) {
+    for (const [key, value] of Object.entries(previous)) {
+        if (value !== undefined) runtimeConfig.set(key, value);
+    }
+    logger.error('Runtime config not persisted', {
+        error: err.message,
+        code: err.code,
+        keys: Object.keys(updates)
+    });
+    return {
+        success: false,
+        code: 'CONFIG_PERSIST_FAILED',
+        error:
+            `No se pudo guardar la configuración (${err.code || err.message}). ` +
+            'Revisa en el servidor que config/runtime-overrides.json es un fichero y pertenece al uid 1001 (usuario del contenedor).'
+    };
+}
+
+// Notifica a todos los workers via Redis para que recarguen su store
+function notifyConfigUpdated(updates) {
+    try {
+        const syncBus = RedisSyncBus.getInstance();
+        syncBus.publish('config-updated', { originWorkerId: process.pid, keys: Object.keys(updates) }).catch(() => {});
+    } catch (_) {
+        /* Redis no disponible, solo afecta a otros workers */
+    }
+}
+
 /**
  * POST /api/admin/config
  * Body: { updates: { KEY: value, ... } }
@@ -108,12 +146,7 @@ router.post('/api/admin/config', authenticateAdmin, authorizeAdmin, async (req, 
             return res.status(400).json({ success: false, errors });
         }
 
-        // Aplicar cambios en memoria (guardando los anteriores por si no se pueden persistir)
-        const previous = {};
-        for (const [key, value] of Object.entries(updates)) {
-            previous[key] = runtimeConfig.get(key);
-            runtimeConfig.set(key, value);
-        }
+        const previous = applyUpdatesInMemory(updates);
 
         // Persistir en runtime-overrides.json (montado en el contenedor). Si falla,
         // no se da por guardado: este worker vuelve a los valores anteriores, no se
@@ -122,34 +155,12 @@ router.post('/api/admin/config', authenticateAdmin, authorizeAdmin, async (req, 
         try {
             runtimeConfig.persistAll();
         } catch (err) {
-            for (const [key, value] of Object.entries(previous)) {
-                if (value !== undefined) runtimeConfig.set(key, value);
-            }
-            logger.error('Runtime config not persisted', {
-                error: err.message,
-                code: err.code,
-                keys: Object.keys(updates)
-            });
-            return res.status(500).json({
-                success: false,
-                code: 'CONFIG_PERSIST_FAILED',
-                error:
-                    `No se pudo guardar la configuración (${err.code || err.message}). ` +
-                    'Revisa en el servidor que config/runtime-overrides.json es un fichero y pertenece al uid 1001 (usuario del contenedor).'
-            });
+            return res.status(500).json(rollbackFailedPersist(err, previous, updates));
         }
 
         await applyLogLevelUpdateIfNeeded(updates, req.user.role);
 
-        // Notificar a todos los workers via Redis para que recarguen su store
-        try {
-            const syncBus = RedisSyncBus.getInstance();
-            syncBus
-                .publish('config-updated', { originWorkerId: process.pid, keys: Object.keys(updates) })
-                .catch(() => {});
-        } catch (_) {
-            /* Redis no disponible, solo afecta a otros workers */
-        }
+        notifyConfigUpdated(updates);
 
         logger.info('Runtime config updated', {
             keys: Object.keys(updates),

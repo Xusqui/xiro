@@ -27,6 +27,14 @@ function pickSelection(data) {
     return { r1: data?.r1, c1: data?.c1, r2: data?.r2, c2: data?.c2 };
 }
 
+/**
+ * Evento 'word-search-found' (equipos): valida la selección en la rejilla, anota la palabra al equipo y la reenvía a
+ * los compañeros. Responde { ok: true, wordIndex, isNew } o { ok: false, reason }.
+ * @param {Object} socket - Socket del jugador (la identidad sale de socket.data)
+ * @param {{r1: number, c1: number, r2: number, c2: number}} data - Extremos de la selección
+ * @param {Function} [callback] - ACK de Socket.IO con la respuesta
+ * @returns {Promise<void>}
+ */
 async function handleWordSearchFound(socket, data, callback) {
     const reply = replier(callback);
     try {
@@ -57,6 +65,14 @@ async function handleWordSearchFound(socket, data, callback) {
     }
 }
 
+/**
+ * Evento 'word-search-sync': devuelve las palabras y pistas que ya tiene el jugador o su equipo ({ ok, team, found,
+ * hints }).
+ * @param {Object} socket - Socket del jugador (la identidad sale de socket.data)
+ * @param {*} _data - Sin uso
+ * @param {Function} [callback] - ACK de Socket.IO con la respuesta
+ * @returns {Promise<void>}
+ */
 async function handleWordSearchSync(socket, _data, callback) {
     const reply = replier(callback);
     try {

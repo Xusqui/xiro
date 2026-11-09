@@ -29,6 +29,11 @@ function notifyTeamFirstSubmit({ io, sPin, nickname, shared, words }) {
     });
 }
 
+/**
+ * Respuesta de fallo por payload inválido.
+ * @param {{errors: string[]}} validation - Resultado de la validación
+ * @returns {{success: false, reason: 'validation-failed', errors: string[]}}
+ */
 function buildValidationFailure(validation) {
     return {
         success: false,
@@ -37,6 +42,18 @@ function buildValidationFailure(validation) {
     };
 }
 
+/**
+ * Comprueba que el playerId existe, está en la sala y coincide con el apodo del payload y del socket. Registra cada
+ * rechazo.
+ * @param {Object} input
+ * @param {Map} input.players - Jugadores del worker
+ * @param {string} input.playerId - ID del jugador
+ * @param {string} [input.claimedNickname] - Apodo del payload
+ * @param {Object} [input.socket] - Socket que envía
+ * @param {string} input.sPin - ID de sesión
+ * @returns {{valid: boolean, reason?: 'player-not-found'|'player-not-in-room'|'identity-mismatch', player?: Object,
+ *   nickname?: string}}
+ */
 function validatePlayerIdentity({ players, playerId, claimedNickname, socket, sPin }) {
     const player = players.get(playerId);
     if (!player) {
@@ -83,6 +100,13 @@ function validatePlayerIdentity({ players, playerId, claimedNickname, socket, sP
     return { valid: true, player, nickname };
 }
 
+/**
+ * Respuesta de fallo por respuesta inválida; registra como error los fallos de datos de la pregunta.
+ * @param {{reason: string}} answerValidation - Resultado del validador
+ * @param {string} sPin - ID de sesión
+ * @param {Object} game - Partida
+ * @returns {{success: false, reason: string}}
+ */
 function buildAnswerValidationFailure(answerValidation, sPin, game) {
     if (answerValidation.reason === 'question-missing' || answerValidation.reason === 'invalid-options') {
         logger.error(`Validation failed: ${answerValidation.reason}`, {
@@ -94,32 +118,8 @@ function buildAnswerValidationFailure(answerValidation, sPin, game) {
     return { success: false, reason: answerValidation.reason };
 }
 
-async function evaluateAnswerAndStreak(ctx) {
-    const { payload, game, io, roomId, sPin, player, socket, nickname, flags } = ctx;
-
+async function loadWordScoringContexts({ flags, game, sPin, nickname, payload, resolvedStartTime }) {
     const currentQuestion = flags.currentQuestion;
-    const questionTimeLimit = flags.questionTimeLimit;
-
-    await persistPlayerAnswerState({
-        payload,
-        flags,
-        player,
-        socket,
-        game,
-        currentQuestion,
-        questionTimeLimit
-    });
-
-    await updateOptionAnswerStats({ flags, game, sPin, index: payload.index });
-
-    const resolvedStartTime = await resolveCanonicalQuestionStartTime({
-        game,
-        sPin,
-        nickname,
-        questionTimeLimit
-    });
-
-    const basePoints = await resolveCanonicalRandomPoints({ game, currentQuestion, sPin });
 
     // Sopa de letras: pistas (valen la mitad) y, en equipos, palabras del equipo
     const wordSearchShared = flags.isWordSearchQuestion
@@ -139,18 +139,10 @@ async function evaluateAnswerAndStreak(ctx) {
         })
         : {};
 
-    const answerResult = evaluateAnswer({
-        flags,
-        ...wordSearchShared,
-        ...fillBlanksShared,
-        payload,
-        currentQuestion,
-        resolvedStartTime,
-        questionTimeLimit,
-        game,
-        basePoints
-    });
+    return { wordSearchShared, fillBlanksShared };
+}
 
+async function recordQuestionTypeStats({ flags, game, sPin, io, nickname, payload, answerResult, fillBlanksShared }) {
     // Sopa de letras: cuántos encontraron cada palabra (se muestra al revelar)
     if (flags.isWordSearchQuestion) {
         await recordWordSearchStats(sPin, questionSlot(game), answerResult.details);
@@ -166,6 +158,37 @@ async function evaluateAnswerAndStreak(ctx) {
     if (flags.isSurveyMultipleQuestion) {
         await recordSurveyMultipleStats(sPin, questionSlot(game), answerResult.selectedIndices);
     }
+}
+
+async function evaluateAnswerAndStreak(ctx) {
+    const { payload, game, io, roomId, sPin, player, socket, nickname, flags } = ctx;
+
+    const currentQuestion = flags.currentQuestion;
+    const questionTimeLimit = flags.questionTimeLimit;
+
+    await persistPlayerAnswerState({ payload, flags, player, socket, game, currentQuestion, questionTimeLimit });
+
+    await updateOptionAnswerStats({ flags, game, sPin, index: payload.index });
+
+    const resolvedStartTime = await resolveCanonicalQuestionStartTime({ game, sPin, nickname, questionTimeLimit });
+
+    const basePoints = await resolveCanonicalRandomPoints({ game, currentQuestion, sPin });
+
+    const { wordSearchShared, fillBlanksShared } = await loadWordScoringContexts({ ...ctx, resolvedStartTime });
+
+    const answerResult = evaluateAnswer({
+        flags,
+        ...wordSearchShared,
+        ...fillBlanksShared,
+        payload,
+        currentQuestion,
+        resolvedStartTime,
+        questionTimeLimit,
+        game,
+        basePoints
+    });
+
+    await recordQuestionTypeStats({ ...ctx, answerResult, fillBlanksShared });
 
     const scoreContext = computeStreakAndPoints({ game, nickname, flags, answerResult, sPin });
     const fullMultipleChoiceDetails = buildMultipleChoiceDetails({ flags, answerResult, currentQuestion });
@@ -238,30 +261,9 @@ function trackAndEmitAnswerEffects({
     });
 }
 
-async function persistAndResolveMode(ctx) {
-    const {
-        payload,
-        game,
-        teamConfigs,
-        io,
-        ackManager,
-        presenterNotification,
-        syncBus,
-        sPin,
-        player,
-        playerId,
-        socket,
-        nickname,
-        flags,
-        currentQuestion,
-        answerResult,
-        scoreContext,
-        fullMultipleChoiceDetails,
-        randomPoints,
-        players
-    } = ctx;
-
-    await updateScoreAndEmitPlayerScored({
+function updateScoreFromContext(ctx) {
+    const { game, sPin, playerId, nickname, player, socket, answerResult, scoreContext } = ctx;
+    return updateScoreAndEmitPlayerScored({
         game,
         sPin,
         playerId,
@@ -273,46 +275,64 @@ async function persistAndResolveMode(ctx) {
         finalPointsEarned: scoreContext.finalPointsEarned,
         streakBonus: scoreContext.streakBonus
     });
+}
 
+function persistSnapshotFromContext(ctx) {
+    const { scoreContext } = ctx;
     persistPlayerAnswerSnapshot({
-        game,
-        sPin,
-        nickname,
-        currentQuestion,
-        payload,
-        flags,
-        answerResult,
+        game: ctx.game,
+        sPin: ctx.sPin,
+        nickname: ctx.nickname,
+        currentQuestion: ctx.currentQuestion,
+        payload: ctx.payload,
+        flags: ctx.flags,
+        answerResult: ctx.answerResult,
         finalPointsEarned: scoreContext.finalPointsEarned,
         isCorrect: scoreContext.isCorrect,
-        randomPoints,
-        socket
+        randomPoints: ctx.randomPoints,
+        socket: ctx.socket
     });
+}
 
-    const { modeResult, isTeamMode } = await processAnswerByGameMode({
-        game,
-        teamConfigs,
-        sPin,
-        io,
-        ackManager,
-        presenterNotification,
-        nickname,
-        playerId,
-        payload,
-        currentQuestion,
-        flags,
+function processGameModeFromContext(ctx) {
+    const { scoreContext } = ctx;
+    return processAnswerByGameMode({
+        game: ctx.game,
+        teamConfigs: ctx.teamConfigs,
+        sPin: ctx.sPin,
+        io: ctx.io,
+        ackManager: ctx.ackManager,
+        presenterNotification: ctx.presenterNotification,
+        nickname: ctx.nickname,
+        playerId: ctx.playerId,
+        payload: ctx.payload,
+        currentQuestion: ctx.currentQuestion,
+        flags: ctx.flags,
         isCorrect: scoreContext.isCorrect,
         finalPointsEarned: scoreContext.finalPointsEarned,
-        answerResult,
-        fullMultipleChoiceDetails,
+        answerResult: ctx.answerResult,
+        fullMultipleChoiceDetails: ctx.fullMultipleChoiceDetails,
         enrichedStreakInfo: scoreContext.enrichedStreakInfo,
-        players
+        players: ctx.players
     });
+}
 
+async function persistAndResolveMode(ctx) {
+    const { sPin, nickname, game, syncBus } = ctx;
+
+    await updateScoreFromContext(ctx);
+    persistSnapshotFromContext(ctx);
+    const { modeResult, isTeamMode } = await processGameModeFromContext(ctx);
     await syncPostAnswerState({ sPin, nickname, game, syncBus, logger });
 
     return { modeResult, isTeamMode };
 }
 
+/**
+ * Evalúa la respuesta (con racha), emite sus efectos y la guarda según el modo de juego.
+ * @param {Object} ctx - Contexto de la respuesta ya validada
+ * @returns {Promise<Object>} Resultado de la evaluación y del guardado
+ */
 async function runAnswerPipeline(ctx) {
     const evaluationResult = await evaluateAnswerAndStreak(ctx);
 
@@ -332,6 +352,12 @@ async function runAnswerPipeline(ctx) {
     };
 }
 
+/**
+ * Respuesta de éxito para el jugador. En encuestas no hay acierto ni puntos.
+ * @param {Object} input - answerResult, scoreContext, game, nickname, modeResult
+ * @returns {{success: true, isCorrect: boolean|null, pointsEarned: number, totalScore: number, waitingForTeams:
+ *   boolean}}
+ */
 function buildSuccessResponse({ answerResult, scoreContext, game, nickname, modeResult }) {
     return {
         success: true,

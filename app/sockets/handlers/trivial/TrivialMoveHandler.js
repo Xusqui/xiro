@@ -13,49 +13,15 @@
 'use strict';
 
 const logger = require('../../../config/logger');
-const dbService = require('../../../services/db');
 const trivialState = require('../../services/TrivialGameState');
 const { getCategoryForPosition } = require('../../services/TrivialBoardGraph');
-const EventBus = require('../../../domain/events/EventBus');
-const { QuestionRevealedEvent } = require('../../../domain/events/GameEvents');
-const { startTimer } = require('../../utils/TimerManager');
-const { activeGames } = require('../../../state/globalState');
-const { RedisSyncBus } = require('../../sync/RedisSyncBus');
-const { getRedisClient } = require('../../../config/redis');
-const answerStatsStore = require('../../../services/AnswerStatsStore');
-const { shuffle } = require('../../../services/game.logic');
-const { generateScrambledLetters, normalizeWord } = require('../../../domain/services/WordScrambleService');
-const { prepareWordSearchLogged, prepareFillBlanksLogged } = require('../../utils/QuestionPreparation');
-const { assignRandomPointsForCurrentQuestion } = require('../../utils/QuestionTransitionManager');
-const { runRandomPointsReveal } = require('../../utils/RandomPointsRevealManager');
+const { fetchTrivialQuestion, startTrivialQuestion } = require('./TrivialQuestionStart');
 
 /**
- * Construye la entrada de activeGames para un juego trivial.
- * Se invoca tanto si no existe aún (worker distinto al inicial) como para
- * refrescar datos críticos en cada pregunta.
+ * Posición, ficha y equipo de cada jugador, tal como los reciben los clientes.
+ * @param {Object} state - Estado Trivial
+ * @returns {Object<string, {position: string, token: boolean[], teamName: string|undefined}>}
  */
-function _buildGameEntry(state, roomId) {
-    return {
-        pin: roomId,
-        roomId, // ← full session ID para checkAllPlayersAnswered
-        isTrivial: true,
-        teamMode: !!state?.teamMode,
-        questions: [],
-        currentIndex: 0,
-        scores: Object.fromEntries(Object.keys(state.players).map(n => [n, 0])),
-        players: Object.keys(state.players), // ← TODOS los jugadores
-        canAnswer: false,
-        state: 'in-progress',
-        startTime: Date.now(),
-        answerStats: {},
-        revealedQuestions: new Set(),
-        answeredCurrent: new Set(),
-        trivialMeta: null,
-        trivialLastCorrect: null,
-        trivialQuestionEpoch: 0
-    };
-}
-
 function _buildPlayers(state) {
     const out = {};
     for (const [nick, player] of Object.entries(state.players || {})) {
@@ -106,172 +72,66 @@ async function advanceTurnAndNotify(io, roomId, state) {
     _emitTurnChanged(io, roomId, state);
 }
 
-function fetchTrivialQuestion(state, catIdx, roomId) {
-    const category = state.categories[catIdx];
-    logger.debug('trivial handleMove: fetching question', {
-        roomId,
-        catIdx,
-        category: category.category_name
-    });
 
-    return dbService.getTrivialCategoryQuestion(
-        category.source_type || 'bank',
-        category.source_id || category.bank_id,
-        state.askedQuestionIds.slice(-50)
-    );
-}
-
-function normalizeQuestion(question, roomId) {
-    const mappedOptions = (question.options || []).map(option => ({
-        ...option,
-        optionText: option.option_text ?? option.optionText ?? '',
-        isCorrect: option.is_correct ?? option.isCorrect ?? false,
-        orderIndex: option.order_index ?? option.orderIndex ?? 0
-    }));
-
-    const options = question.question_type === 'order' ? mappedOptions : shuffle(mappedOptions);
-    if (question.question_type === 'order') {
-        logger.debug('trivial handleMove: order question — options NOT shuffled', {
+function isValidMove(state, roomId, nickname, position) {
+    if (state.phase !== 'waiting_move') {
+        logger.warn('trivial handleMove: wrong phase, ignoring move', {
             roomId,
-            questionId: question.id
+            phase: state.phase,
+            nickname
         });
+        return false;
     }
 
-    const normalizedQuestion = { ...question, options };
-    if (normalizedQuestion.question_type === 'word_scramble') {
-        const word = normalizedQuestion.correct_word || '';
-        normalizedQuestion.scrambled_letters = generateScrambledLetters(word);
-        normalizedQuestion.word_length = normalizeWord(word).length;
-        normalizedQuestion.options = [];
-    }
-    if (normalizedQuestion.question_type === 'word_search') {
-        return prepareWordSearchLogged(normalizedQuestion, { roomId, mode: 'trivial' });
-    }
-    if (normalizedQuestion.question_type === 'fill_blanks') {
-        return prepareFillBlanksLogged(normalizedQuestion, { roomId, mode: 'trivial' });
-    }
-
-    return normalizedQuestion;
-}
-
-function ensureGameEntry(roomId, state) {
-    let game = activeGames.get(roomId);
-    if (!game) {
-        game = _buildGameEntry(state, roomId);
-        activeGames.set(roomId, game);
-        logger.info('trivial handleMove: created activeGames entry', { roomId });
-    }
-
-    if (game.use_random_points === undefined && state.randomPointsConfig) {
-        Object.assign(game, state.randomPointsConfig);
-    }
-    if (game.use_streaks === undefined && state.streakConfig) {
-        Object.assign(game, state.streakConfig);
-        logger.debug('trivial handleMove: streak config applied from state', {
+    if (!state.availablePositions.includes(position)) {
+        logger.warn('trivial handleMove: position not in availablePositions', {
             roomId,
-            use_streaks: game.use_streaks
+            nickname,
+            position,
+            available: state.availablePositions
         });
+        return false;
     }
-
-    return game;
+    return true;
 }
 
-function updateGameForQuestion(input) {
-    const { game, roomId, state, normalizedQuestion, actorNick, catIdx, position } = input;
-
-    const sessionPin = String(roomId).split('-')[0];
-
-    game.roomId = roomId;
-    game.players = Object.keys(state.players);
-    game.questions = [normalizedQuestion];
-    game.currentIndex = 0;
-    game.canAnswer = true;
-    game.answerStats = {};
-    game.revealedQuestions = new Set();
-    game.answeredCurrent = new Set();
-
-    answerStatsStore.clearQuestion(roomId, 0).catch(() => {});
-    answerStatsStore.clearQuestion(sessionPin, 0).catch(() => {});
-
-    game.trivialMeta = { catIdx, position, actorNick };
-    game.trivialCategoryName = state.categories[catIdx]?.category_name || null;
-    game.trivialLastCorrect = null;
-    game.trivialQuestionEpoch = (game.trivialQuestionEpoch || 0) + 1;
-    game.questionStartTime = Date.now();
-    assignRandomPointsForCurrentQuestion(game, roomId);
-}
-
-async function initRedisRoundAndPublish(roomId, game) {
+// Sin pregunta disponible se pasa el turno; si falla la BD no se toca el turno.
+async function loadQuestionOrSkip(io, roomId, state, catIdx) {
+    let question;
     try {
-        const redis = await getRedisClient();
-        await Promise.all([
-            redis.set(`trivial:lastcorrect:${roomId}`, '0', { EX: 3600 }),
-            redis.del(`trivial:roundresults:${roomId}`),
-            redis.del(`game:answered:${roomId}:${game.trivialQuestionEpoch - 1}`)
-        ]);
-
-        const allStreaks = await redis.hGetAll(`trivial:streaks:${roomId}`);
-        if (allStreaks && Object.keys(allStreaks).length > 0) {
-            if (!game.playerStreaks) {
-                game.playerStreaks = {};
-            }
-            for (const [nick, value] of Object.entries(allStreaks)) {
-                game.playerStreaks[nick] = Number(value);
-            }
-            logger.debug('trivial handleMove: merged player streaks from Redis', {
-                roomId,
-                playerStreaks: game.playerStreaks
-            });
-        }
-
-        await RedisSyncBus.getInstance().publishGameStarted(roomId, game);
+        question = await fetchTrivialQuestion(state, catIdx, roomId);
     } catch (err) {
-        logger.warn('trivial: Redis init or publishGameStarted failed', {
+        logger.error('trivial handleMove: error fetching question from DB', {
             roomId,
             error: err.message
         });
+        return null;
     }
+
+    if (!question) {
+        logger.warn('trivial handleMove: no question available, skipping turn', { roomId, catIdx });
+        await advanceTurnAndNotify(io, roomId, state);
+        return null;
+    }
+    return question;
 }
 
-function dispatchQuestionPipeline(io, roomId, normalizedQuestion, question, actorNick) {
-    setTimeout(async () => {
-        // Pantalla "JUGÁIS POR XXX PUNTOS" antes de revelar la pregunta del tablero
-        const game = activeGames.get(roomId);
-        const shouldReveal = await runRandomPointsReveal({
-            game,
-            question: normalizedQuestion,
-            roomId,
-            io,
-            syncBus: RedisSyncBus.getInstance()
-        });
+async function recordQuestionInState(roomId, state, { question, catIdx, position }) {
+    state.askedQuestionIds.push(question.id);
+    state.phase = 'waiting_answer';
+    const actorNick = trivialState.getCurrentTurnActor(state);
+    state.currentTrivialMeta = { catIdx, position, actorNick };
+    await trivialState.setTrivialState(roomId, state);
 
-        if (!shouldReveal) return;
-
-        EventBus.emit(
-            'question.revealed',
-            new QuestionRevealedEvent({
-                roomId,
-                question: normalizedQuestion,
-                questionIndex: 0,
-                totalQuestions: 1,
-                timestamp: Date.now()
-            })
-        );
-
-        const timeLimit = typeof question.time_limit === 'number' ? question.time_limit : 30;
-        if (timeLimit > 0) {
-            startTimer(roomId, timeLimit, io);
-            logger.debug('trivial handleMove: timer started', { roomId, timeLimit });
-        } else {
-            logger.debug('trivial handleMove: no timer (timeLimit=0)', { roomId });
-        }
-
-        logger.info('trivial handleMove: pipeline dispatched', {
-            roomId,
-            actorNick,
-            questionId: question.id
-        });
-    }, 700);
+    logger.info('trivial handleMove: question loaded', {
+        roomId,
+        actorNick,
+        position,
+        catIdx,
+        questionId: question.id,
+        questionType: question.question_type
+    });
+    return actorNick;
 }
 
 async function handleMove(io, handleCenterLanding, socket, { roomId, nickname, position }) {
@@ -282,25 +142,7 @@ async function handleMove(io, handleCenterLanding, socket, { roomId, nickname, p
         logger.warn('trivial handleMove: no state in Redis', { roomId });
         return;
     }
-
-    if (state.phase !== 'waiting_move') {
-        logger.warn('trivial handleMove: wrong phase, ignoring move', {
-            roomId,
-            phase: state.phase,
-            nickname
-        });
-        return;
-    }
-
-    if (!state.availablePositions.includes(position)) {
-        logger.warn('trivial handleMove: position not in availablePositions', {
-            roomId,
-            nickname,
-            position,
-            available: state.availablePositions
-        });
-        return;
-    }
+    if (!isValidMove(state, roomId, nickname, position)) return;
 
     const movePayload = {
         nickname,
@@ -322,61 +164,20 @@ async function handleMove(io, handleCenterLanding, socket, { roomId, nickname, p
         return;
     }
 
-    let question;
-    try {
-        question = await fetchTrivialQuestion(state, catIdx, roomId);
-    } catch (err) {
-        logger.error('trivial handleMove: error fetching question from DB', {
-            roomId,
-            error: err.message
-        });
-        return;
-    }
+    const question = await loadQuestionOrSkip(io, roomId, state, catIdx);
+    if (!question) return;
 
-    if (!question) {
-        logger.warn('trivial handleMove: no question available, skipping turn', { roomId, catIdx });
-        await advanceTurnAndNotify(io, roomId, state);
-        return;
-    }
-
-    state.askedQuestionIds.push(question.id);
-    state.phase = 'waiting_answer';
-    const actorNick = trivialState.getCurrentTurnActor(state);
-    state.currentTrivialMeta = { catIdx, position, actorNick };
-    await trivialState.setTrivialState(roomId, state);
-
-    logger.info('trivial handleMove: question loaded', {
-        roomId,
-        actorNick,
-        position,
-        catIdx,
-        questionId: question.id,
-        questionType: question.question_type
-    });
-
-    const normalizedQuestion = normalizeQuestion(question, roomId);
-    const game = ensureGameEntry(roomId, state);
-    updateGameForQuestion({
-        game,
-        roomId,
-        state,
-        normalizedQuestion,
-        actorNick,
-        catIdx,
-        position
-    });
-
-    logger.debug('trivial handleMove: game entry updated', {
-        roomId,
-        actorNick,
-        epoch: game.trivialQuestionEpoch,
-        players: game.players
-    });
-
-    await initRedisRoundAndPublish(roomId, game);
-    dispatchQuestionPipeline(io, roomId, normalizedQuestion, question, actorNick);
+    const actorNick = await recordQuestionInState(roomId, state, { question, catIdx, position });
+    await startTrivialQuestion(io, roomId, state, { question, catIdx, position, actorNick });
 }
 
+/**
+ * Crea el handler de movimiento de Trivial (el jugador elige casilla).
+ * @param {Object} deps
+ * @param {Object} deps.io - Instancia de Socket.IO
+ * @param {Function} [deps.handleCenterLanding] - Qué hacer al caer en el centro; sin él se pasa el turno
+ * @returns {function(Object, {roomId: string, nickname: string, position: string}): Promise<void>}
+ */
 module.exports = function createMoveHandler({ io, handleCenterLanding }) {
     return (socket, payload) => handleMove(io, handleCenterLanding, socket, payload);
 };

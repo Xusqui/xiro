@@ -6,6 +6,7 @@ const { validateSocket, schemas } = require('../../validation');
 const timerManager = require('../../services/timer.manager');
 const logger = require('../../config/logger');
 const { applyTeamMembership, emitLocalTeamUpdate } = require('../utils/TeamMembershipSync');
+const { loadTimerState, saveTimerState, publishTimerChange } = require('../utils/TimerStateStore');
 
 /**
  * Validación común para handlers de timer
@@ -41,33 +42,7 @@ function createPauseTimerHandler(dependencies) {
 
         logger.info('🔴 Backend: sPin validated', { sPin });
 
-        // Refrescar SIEMPRE desde Redis para evitar estado local obsoleto entre workers/preguntas
-        let timerState = null;
-        try {
-            const { getRedisClient } = require('../../config/redis');
-            const redis = await getRedisClient();
-            const redisState = await redis.hGetAll(`timer:state:${sPin}`);
-
-            logger.info('🔴 Redis state loaded', { sPin, redisState });
-
-            if (redisState && redisState.startTime) {
-                timerState = {
-                    isPaused: redisState.isPaused === '1',
-                    startTime: Number(redisState.startTime),
-                    remainingTime: Number(redisState.remainingTime)
-                };
-                // Cache local alineado con Redis
-                timerPausedState.set(sPin, timerState);
-                logger.info('Timer state loaded from Redis', { sPin, isPaused: timerState.isPaused });
-            } else {
-                // Evitar reutilizar valores viejos si Redis no tiene estado para esta sala
-                timerPausedState.delete(sPin);
-            }
-        } catch (err) {
-            logger.warn('Failed to load timer state from Redis', { error: err.message });
-            // Fallback a local solo si Redis falla
-            timerState = timerPausedState.get(sPin) || null;
-        }
+        const timerState = await loadTimerState(sPin, timerPausedState, 'pause');
 
         logger.debug('Backend: pause-timer recibido', {
             pin: sPin,
@@ -91,34 +66,13 @@ function createPauseTimerHandler(dependencies) {
         timerState.remainingTime = Math.max(0, timerState.remainingTime - elapsed);
         timerState.isPaused = true;
 
-        // Guardar estado pausado en Redis
-        try {
-            const { getRedisClient } = require('../../config/redis');
-            const redis = await getRedisClient();
-            await redis.hSet(`timer:state:${sPin}`, {
-                isPaused: '1',
-                startTime: String(timerState.startTime),
-                remainingTime: String(timerState.remainingTime)
-            });
-            logger.debug('Paused state saved to Redis', {
-                sPin,
-                isPaused: true,
-                remainingTime: timerState.remainingTime
-            });
-        } catch (err) {
-            logger.warn('Failed to save paused state to Redis', { error: err.message });
-        }
+        await saveTimerState(sPin, timerState, 'pause');
 
         // Cancelar timer actual
         clearGameTimer(sPin);
 
         // Notificar a todos los workers para que cancelen sus timers
-        try {
-            const { RedisSyncBus } = require('../sync/RedisSyncBus');
-            await RedisSyncBus.getInstance().publishTimerPaused(sPin);
-        } catch (err) {
-            logger.warn('Failed to publish timer paused event', { error: err.message });
-        }
+        await publishTimerChange(sPin, 'pause');
 
         logger.debug('Backend: Timer pausado, emitiendo timer-paused', {
             pin: sPin,
@@ -144,32 +98,7 @@ function createResumeTimerHandler(dependencies) {
         const sPin = validateTimerRequest(socket, schemas.resumeTimer, roomIdOrPin);
         if (!sPin) return;
 
-        // Refrescar SIEMPRE desde Redis para evitar estado local obsoleto entre workers/preguntas
-        let timerState = null;
-        try {
-            const { getRedisClient } = require('../../config/redis');
-            const redis = await getRedisClient();
-            const redisState = await redis.hGetAll(`timer:state:${sPin}`);
-
-            if (redisState && redisState.startTime) {
-                timerState = {
-                    isPaused: redisState.isPaused === '1',
-                    startTime: Number(redisState.startTime),
-                    remainingTime: Number(redisState.remainingTime)
-                };
-                timerPausedState.set(sPin, timerState);
-                logger.info('Timer state loaded from Redis for resume', {
-                    sPin,
-                    isPaused: timerState.isPaused
-                });
-            } else {
-                timerPausedState.delete(sPin);
-            }
-        } catch (err) {
-            logger.warn('Failed to load timer state from Redis', { error: err.message });
-            // Fallback a local solo si Redis falla
-            timerState = timerPausedState.get(sPin) || null;
-        }
+        const timerState = await loadTimerState(sPin, timerPausedState, 'resume');
 
         logger.debug('Backend: resume-timer recibido', {
             pin: sPin,
@@ -190,23 +119,7 @@ function createResumeTimerHandler(dependencies) {
         timerState.isPaused = false;
         timerState.startTime = Date.now();
 
-        // Guardar estado reanudado en Redis
-        try {
-            const { getRedisClient } = require('../../config/redis');
-            const redis = await getRedisClient();
-            await redis.hSet(`timer:state:${sPin}`, {
-                isPaused: '0',
-                startTime: String(timerState.startTime),
-                remainingTime: String(timerState.remainingTime)
-            });
-            logger.debug('Resumed state saved to Redis', {
-                sPin,
-                isPaused: false,
-                remainingTime: timerState.remainingTime
-            });
-        } catch (err) {
-            logger.warn('Failed to save resumed state to Redis', { error: err.message });
-        }
+        await saveTimerState(sPin, timerState, 'resume');
 
         // Reiniciar timer con el tiempo restante
         const { revelarResultadosAutomatico } = require('../utils/TimerManager');
@@ -219,12 +132,7 @@ function createResumeTimerHandler(dependencies) {
         gameTimers.set(sPin, resumeTimerId);
 
         // Notificar a todos los workers que el timer se reanudó
-        try {
-            const { RedisSyncBus } = require('../sync/RedisSyncBus');
-            await RedisSyncBus.getInstance().publishTimerResumed(sPin);
-        } catch (err) {
-            logger.warn('Failed to publish timer resumed event', { error: err.message });
-        }
+        await publishTimerChange(sPin, 'resume');
 
         logger.debug('Backend: Timer reanudado, emitiendo timer-resumed', {
             pin: sPin,
@@ -367,102 +275,105 @@ function createLeaveLobbyHandler(dependencies) {
  * Validate Session Handler
  * Valida si un sessionId o PIN existe antes de que el usuario introduzca su nombre
  */
+/** Responde que la sesión no es válida (formato, inexistente o error al validarla). */
+function emitSessionInvalid(socket, reason, message, code) {
+    socket.emit('session-validation-result', { valid: false, reason, message, code });
+}
+
+/**
+ * Dónde está viva la sala: en el lobby o en la partida de este worker o, si no, en SessionStore
+ * (otro worker). Mira la sala activa, no solo que el PIN exista en la base de datos.
+ * @param {string} roomId - Sala (el sessionId completo)
+ * @param {Map} lobbyPlayers - Lobbys de este worker
+ * @param {Map} activeGames - Partidas de este worker
+ * @returns {Promise<{lobbyExists: boolean, gameExists: boolean, redisSessionExists: boolean, redisSessionEnded:
+ *   boolean}>}
+ */
+async function findSessionPresence(roomId, lobbyPlayers, activeGames) {
+    const lobbyExists = lobbyPlayers.has(roomId);
+    const gameExists = activeGames.has(roomId);
+    let redisSessionExists = false;
+    let redisSessionEnded = false;
+
+    // Fallback cross-worker: si este worker no tiene la sala en memoria,
+    // consultar SessionStore en Redis para evitar falsos negativos.
+    if (!lobbyExists && !gameExists) {
+        try {
+            const SessionStore = require('../../services/SessionStore');
+            const sessionState = await SessionStore.load(roomId);
+            redisSessionExists = !!sessionState;
+            redisSessionEnded = Boolean(sessionState?.ended);
+        } catch (redisErr) {
+            logger.warn('Session validation Redis fallback failed', {
+                sessionId: roomId,
+                roomId,
+                error: redisErr.message
+            });
+        }
+    }
+
+    return { lobbyExists, gameExists, redisSessionExists, redisSessionEnded };
+}
+
+/**
+ * Crea el handler del evento 'validate-session'. Comprueba si la sesión sigue viva (lobby, partida o sesión en Redis) y
+ * responde al socket.
+ * @param {Object} dependencies - Maps de globalState, io y servicios (ver socket.handlers.js)
+ * @returns {function(socket, data): Promise<void>} Handler
+ */
 function createValidateSessionHandler(dependencies) {
     const { lobbyPlayers, activeGames } = dependencies;
 
     return async function handleValidateSession(socket, data) {
-        const logger = require('../../config/logger');
-        const SessionStore = require('../../services/SessionStore');
-
         const { sessionId } = data || {};
 
         if (!sessionId || typeof sessionId !== 'string') {
-            socket.emit('session-validation-result', {
-                valid: false,
-                reason: 'invalid-format',
-                message: 'Formato de sesión inválido',
-                code: 'SESSION_FORMAT_INVALID'
-            });
+            emitSessionInvalid(socket, 'invalid-format', 'Formato de sesión inválido', 'SESSION_FORMAT_INVALID');
             return;
         }
 
         try {
-            // Extraer PIN del sessionId (formato: PIN-UUID)
+            // Extraer PIN del sessionId (formato: PIN-XXXX)
             const pin = sessionId.split('-')[0];
             const roomId = sessionId; // El roomId completo es el sessionId
-
-            // 🔍 VERIFICAR SI LA ROOM ESTÁ ACTIVA (no solo si el PIN existe en BD)
-            // Buscar en lobbyPlayers (juegos que están en lobby esperando jugadores)
-            const lobbyExists = lobbyPlayers.has(roomId);
-
-            // Buscar en activeGames (juegos que ya empezaron)
-            const gameExists = activeGames.has(roomId);
-
-            // Fallback cross-worker: si este worker no tiene la sala en memoria,
-            // consultar SessionStore en Redis para evitar falsos negativos.
-            let redisSessionExists = false;
-            let redisSessionEnded = false;
-            if (!lobbyExists && !gameExists) {
-                try {
-                    const sessionState = await SessionStore.load(roomId);
-                    redisSessionExists = !!sessionState;
-                    redisSessionEnded = Boolean(sessionState?.ended);
-                } catch (redisErr) {
-                    logger.warn('Session validation Redis fallback failed', {
-                        sessionId,
-                        roomId,
-                        error: redisErr.message
-                    });
-                }
-            }
+            const presence = await findSessionPresence(roomId, lobbyPlayers, activeGames);
 
             logger.info('Session validation check', {
                 sessionId,
                 pin,
                 roomId,
-                lobbyExists,
-                gameExists,
-                redisSessionExists,
-                redisSessionEnded,
+                ...presence,
                 totalLobbies: lobbyPlayers.size,
                 totalGames: activeGames.size
             });
 
-            const sessionIsLive = lobbyExists || gameExists || (redisSessionExists && !redisSessionEnded);
+            const sessionIsLive =
+                presence.lobbyExists ||
+                presence.gameExists ||
+                (presence.redisSessionExists && !presence.redisSessionEnded);
 
             if (!sessionIsLive) {
                 logger.warn('Session validation failed - room not found', { sessionId, roomId });
-                socket.emit('session-validation-result', {
-                    valid: false,
-                    reason: 'session-not-exist',
-                    message: 'La sesión no existe o no es válida',
-                    code: 'SESSION_NOT_FOUND'
-                });
+                emitSessionInvalid(
+                    socket,
+                    'session-not-exist',
+                    'La sesión no existe o no es válida',
+                    'SESSION_NOT_FOUND'
+                );
                 return;
             }
 
             logger.info('Session validation successful', {
                 sessionId,
                 roomId,
-                inLobby: lobbyExists,
-                inGame: gameExists,
-                viaRedis: redisSessionExists
+                inLobby: presence.lobbyExists,
+                inGame: presence.gameExists,
+                viaRedis: presence.redisSessionExists
             });
-            socket.emit('session-validation-result', {
-                valid: true,
-                sessionId
-            });
+            socket.emit('session-validation-result', { valid: true, sessionId });
         } catch (error) {
-            logger.error('Error validating session', {
-                error: error.message,
-                sessionId
-            });
-            socket.emit('session-validation-result', {
-                valid: false,
-                reason: 'validation-error',
-                message: 'Error al validar la sesión',
-                code: 'SESSION_VALIDATION_ERROR'
-            });
+            logger.error('Error validating session', { error: error.message, sessionId });
+            emitSessionInvalid(socket, 'validation-error', 'Error al validar la sesión', 'SESSION_VALIDATION_ERROR');
         }
     };
 }

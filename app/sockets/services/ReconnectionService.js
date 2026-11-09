@@ -157,6 +157,29 @@ function hasPlayerAnsweredCurrentQuestion(player, currentQuestionIndex) {
     return false;
 }
 
+// In Trivial every round reuses currentIndex=0. Use the epoch-based check to
+// avoid a false positive where player.answers[0] from a previous round makes
+// the system think the player already answered the current round's question.
+function hasAnsweredCurrentRound(game, player, currentQuestionIndex) {
+    if (game.isTrivial && game.trivialQuestionEpoch !== undefined) {
+        return player.trivialAnswerEpoch === game.trivialQuestionEpoch;
+    }
+    return hasPlayerAnsweredCurrentQuestion(player, currentQuestionIndex);
+}
+
+function resolveAnswerAvailability(game, adapter, hasAnswered) {
+    if (adapter) {
+        // CRITICAL: If player hasn't answered this question, they should be able to
+        // answer regardless of adapter state (adapter may say false because other
+        // players finished while this player was disconnected)
+        return { canAcceptAnswers: adapter.canAcceptAnswers(), canAnswer: !hasAnswered };
+    }
+
+    // No adapter yet (game just started, before first next-question): fallback to game state
+    const canAcceptAnswers = game.canAnswer !== undefined ? game.canAnswer : true;
+    return { canAcceptAnswers, canAnswer: canAcceptAnswers && !hasAnswered };
+}
+
 /**
  * Construye snapshot de gameState para reconexión de jugador
  */
@@ -173,42 +196,13 @@ function buildGameStateSnapshot(game, player, roomId) {
     }
     const currentQuestion = game.questions[currentQuestionIndex];
 
-    // In Trivial every round reuses currentIndex=0. Use the epoch-based check to
-    // avoid a false positive where player.answers[0] from a previous round makes
-    // the system think the player already answered the current round's question.
-    let hasAnswered;
-    if (game.isTrivial && game.trivialQuestionEpoch !== undefined) {
-        hasAnswered = player.trivialAnswerEpoch === game.trivialQuestionEpoch;
-    } else {
-        hasAnswered = hasPlayerAnsweredCurrentQuestion(player, currentQuestionIndex);
-    }
-
-    // Determine if player can answer
-    let canAnswer;
-    let canAcceptAnswers;
-
-    if (adapter) {
-        // Adapter exists - use its state BUT override if player hasn't answered
-        canAcceptAnswers = adapter.canAcceptAnswers();
-
-        // CRITICAL: If player hasn't answered this question, they should be able to
-        // answer regardless of adapter state (adapter may say false because other
-        // players finished while this player was disconnected)
-        if (!hasAnswered) {
-            canAnswer = true; // Always allow if player hasn't answered yet
-        } else {
-            canAnswer = false; // Player already answered
-        }
-    } else {
-        // No adapter yet (game just started, before first next-question)
-        // Fallback to game state
-        canAcceptAnswers = game.canAnswer !== undefined ? game.canAnswer : true;
-        canAnswer = canAcceptAnswers && !hasAnswered;
-    }
+    const hasAnswered = hasAnsweredCurrentRound(game, player, currentQuestionIndex);
+    const availability = resolveAnswerAvailability(game, adapter, hasAnswered);
+    const { canAcceptAnswers } = availability;
 
     // Juegos personalizados: la diapositiva revisada ya se jugó (el jugador pide su
     // revisión con 'get-review-state')
-    canAnswer = closedWhileReviewing(game, canAnswer);
+    const canAnswer = closedWhileReviewing(game, availability.canAnswer);
 
     logger.debug('[RECONNECT DEBUG BACKEND] buildGameStateSnapshot:', {
         roomId,
@@ -316,6 +310,47 @@ async function restorePlayerStreaksFromRedis(game, nickname, roomId) {
     }
 }
 
+// Primero desde memoria, luego desde Redis como fallback
+async function loadPlayerStreakInfo(game, player, roomId) {
+    const inMemory = game.playerStreakInfos?.[player.nickname];
+    if (inMemory) return inMemory;
+
+    try {
+        const redis = await getRedisClient();
+        const streakInfoKey = game.isTrivial ? `trivial:streakinfos:${roomId}` : `game:streakinfos:${roomId}`;
+        const streakInfoStr = await redis.hGet(streakInfoKey, player.nickname);
+        if (!streakInfoStr) return undefined;
+
+        const streakInfo = JSON.parse(streakInfoStr);
+        logger.debug('[RECONNECT] Streak info loaded from Redis', {
+            roomId,
+            nickname: player.nickname,
+            streakInfo
+        });
+        return streakInfo;
+    } catch (err) {
+        logger.warn('[RECONNECT] Failed to load streak info from Redis', {
+            roomId,
+            nickname: player.nickname,
+            error: err.message
+        });
+        return undefined;
+    }
+}
+
+// En modo equipos, enviar configuración
+function appendLobbyTeamInfo(snapshot, player, teamConfig) {
+    if (!teamConfig || !teamConfig.isTeamMode) return;
+
+    snapshot.teamMode = teamConfig;
+    if (player.teamIndex !== undefined && player.teamIndex !== null) {
+        snapshot.playerTeam = {
+            teamIndex: player.teamIndex,
+            teamName: player.teamName
+        };
+    }
+}
+
 /**
  * Construye snapshot completo para reconexión de jugador
  */
@@ -347,31 +382,7 @@ async function buildPlayerSnapshot(player, roomId, game, teamConfigs, trivialBoa
         });
         snapshot.ranking = buildRankingSnapshot(game);
 
-        // Intentar incluir información de racha del jugador
-        // Primero desde memoria, luego desde Redis como fallback
-        let streakInfo = game.playerStreakInfos?.[player.nickname];
-
-        if (!streakInfo) {
-            try {
-                const redis = await getRedisClient();
-                const streakInfoKey = game.isTrivial ? `trivial:streakinfos:${roomId}` : `game:streakinfos:${roomId}`;
-                const streakInfoStr = await redis.hGet(streakInfoKey, player.nickname);
-                if (streakInfoStr) {
-                    streakInfo = JSON.parse(streakInfoStr);
-                    logger.debug('[RECONNECT] Streak info loaded from Redis', {
-                        roomId,
-                        nickname: player.nickname,
-                        streakInfo
-                    });
-                }
-            } catch (err) {
-                logger.warn('[RECONNECT] Failed to load streak info from Redis', {
-                    roomId,
-                    nickname: player.nickname,
-                    error: err.message
-                });
-            }
-        }
+        const streakInfo = await loadPlayerStreakInfo(game, player, roomId);
 
         if (streakInfo) {
             snapshot.streakInfo = streakInfo;
@@ -384,18 +395,7 @@ async function buildPlayerSnapshot(player, roomId, game, teamConfigs, trivialBoa
     } else {
         snapshot.gameState = null;
 
-        // En modo equipos, enviar configuración
-        const teamConfig = teamConfigs.get(roomId);
-        if (teamConfig && teamConfig.isTeamMode) {
-            snapshot.teamMode = teamConfig;
-
-            if (player.teamIndex !== undefined && player.teamIndex !== null) {
-                snapshot.playerTeam = {
-                    teamIndex: player.teamIndex,
-                    teamName: player.teamName
-                };
-            }
-        }
+        appendLobbyTeamInfo(snapshot, player, teamConfigs.get(roomId));
     }
 
     return snapshot;
@@ -506,6 +506,14 @@ function appendPresenterTeamAndLobby(snapshot, roomId, teamConfigs, lobbyPlayers
     }
 }
 
+/**
+ * Construye la instantánea que recibe el presentador al reconectar: sus datos, todos los jugadores de la sala
+ * (conectados o no), el estado de la partida, los equipos y el lobby.
+ * @param {Object} input - { player, roomId, game, teamConfigs, lobbyPlayers, players }; también admite la firma antigua
+ *   (player, roomId, game, teamConfigs, lobbyPlayers, players)
+ * @param {...*} legacyArgs - Resto de argumentos de la firma antigua
+ * @returns {Object} Instantánea serializable
+ */
 function buildPresenterSnapshot(input, ...legacyArgs) {
     const { player, roomId, game, teamConfigs, lobbyPlayers, players } = normalizePresenterSnapshotInput(
         input,
@@ -531,6 +539,39 @@ function buildPresenterSnapshot(input, ...legacyArgs) {
     return snapshot;
 }
 
+// Buscar jugador por nickname en el mapa de players
+function findPlayerEntry(players, nickname, roomId) {
+    for (const [id, p] of players.entries()) {
+        if (p.nickname === nickname && p.roomId === roomId) {
+            return [id, p];
+        }
+    }
+    return [null, null];
+}
+
+function publishReconnectedPlayer(playerId, player) {
+    // Sync updated player data to all workers so the new socketId is visible
+    // cross-worker (prevents stale socketId collisions on future reconnects).
+    try {
+        const { RedisSyncBus } = require('../sync/RedisSyncBus');
+        const syncBus = RedisSyncBus.getInstance();
+        const serializablePlayer = {
+            ...player,
+            answeredQuestions:
+                player.answeredQuestions instanceof Set
+                    ? Array.from(player.answeredQuestions)
+                    : Array.isArray(player.answeredQuestions)
+                      ? player.answeredQuestions
+                      : []
+        };
+        syncBus.publishPlayerData(playerId, serializablePlayer).catch(err => {
+            logger.warn('[RECONNECT] Failed to publish player-data-sync', { playerId, error: err.message });
+        });
+    } catch (syncErr) {
+        logger.warn('[RECONNECT] Failed to sync player data after reconnect', { playerId, error: syncErr.message });
+    }
+}
+
 /**
  * Orquesta la reconexión completa de un jugador.
  * Busca al jugador, desconecta el socket anterior, actualiza estado,
@@ -539,17 +580,7 @@ function buildPresenterSnapshot(input, ...legacyArgs) {
  * @returns {Promise<{success: boolean, player?: Object, reason?: string, message?: string}>}
  */
 async function reconnectPlayer({ socket, nickname, roomId, game, players, socketToPlayer, lobbyPlayers, io }) {
-    // Buscar jugador por nickname en el mapa de players
-    let playerId = null;
-    let player = null;
-
-    for (const [id, p] of players.entries()) {
-        if (p.nickname === nickname && p.roomId === roomId) {
-            playerId = id;
-            player = p;
-            break;
-        }
-    }
+    const [playerId, player] = findPlayerEntry(players, nickname, roomId);
 
     if (!player) {
         return {
@@ -568,26 +599,7 @@ async function reconnectPlayer({ socket, nickname, roomId, game, players, socket
         // 2. Actualizar estado del jugador
         updatePlayerState(player, socket, playerId, game, socketToPlayer);
 
-        // Sync updated player data to all workers so the new socketId is visible
-        // cross-worker (prevents stale socketId collisions on future reconnects).
-        try {
-            const { RedisSyncBus } = require('../sync/RedisSyncBus');
-            const syncBus = RedisSyncBus.getInstance();
-            const serializablePlayer = {
-                ...player,
-                answeredQuestions:
-                    player.answeredQuestions instanceof Set
-                        ? Array.from(player.answeredQuestions)
-                        : Array.isArray(player.answeredQuestions)
-                          ? player.answeredQuestions
-                          : []
-            };
-            syncBus.publishPlayerData(playerId, serializablePlayer).catch(err => {
-                logger.warn('[RECONNECT] Failed to publish player-data-sync', { playerId, error: err.message });
-            });
-        } catch (syncErr) {
-            logger.warn('[RECONNECT] Failed to sync player data after reconnect', { playerId, error: syncErr.message });
-        }
+        publishReconnectedPlayer(playerId, player);
 
         // 3. Configurar rooms y socket.data
         await setupPlayerSocket(socket, roomId, nickname, playerId, false);

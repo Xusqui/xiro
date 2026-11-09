@@ -24,6 +24,33 @@ function resolveFreeInputAnswer(flags, payload) {
     return String(payload.playerAnswer);
 }
 
+function persistFreeInputAnswer({ player, socket, game, questionTimeLimit }, normalizedAnswer) {
+    if (player) {
+        player.answeredQuestions.add(game.currentIndex);
+        player.lastSeen = Date.now();
+        if (!player.answers) player.answers = {};
+        player.answers[game.currentIndex] = {
+            playerAnswer: normalizedAnswer,
+            timestamp: Date.now(),
+            timeLeft: Math.max(0, questionTimeLimit - (Date.now() - game.questionStartTime) / 1000),
+            pointsEarned: 0,
+            isCorrect: false
+        };
+    }
+
+    if (!socket.data.answeredQuestions) socket.data.answeredQuestions = [];
+    if (!socket.data.answeredQuestions.includes(game.currentIndex)) {
+        socket.data.answeredQuestions.push(game.currentIndex);
+    }
+    if (!socket.data.answers) socket.data.answers = {};
+    socket.data.answers[game.currentIndex] = {
+        playerAnswer: normalizedAnswer,
+        timestamp: Date.now(),
+        pointsEarned: 0,
+        isCorrect: false
+    };
+}
+
 /**
  * Persist the submitted answer in player and socket state.
  *
@@ -34,26 +61,17 @@ function persistPlayerAnswerState(ctx) {
     const { payload, flags, player, socket, game, currentQuestion, questionTimeLimit } = ctx;
 
     const { index, order, matches, selectedIndices } = payload;
+    const timing = { gameStartTime: game.questionStartTime, currentTime: Date.now(), questionTimeLimit };
 
     if (flags.isOrderQuestion) {
-        const answerState = OrderAnswerStateService.buildOrderAnswerState({
-            order,
-            gameStartTime: game.questionStartTime,
-            currentTime: Date.now(),
-            questionTimeLimit
-        });
+        const answerState = OrderAnswerStateService.buildOrderAnswerState({ order, ...timing });
 
         OrderAnswerStateService.updatePlayerState({ player, socket, game, answerState });
         return;
     }
 
     if (flags.isMatchingQuestion) {
-        const answerState = MatchingAnswerStateService.buildMatchingAnswerState({
-            matches,
-            gameStartTime: game.questionStartTime,
-            currentTime: Date.now(),
-            questionTimeLimit
-        });
+        const answerState = MatchingAnswerStateService.buildMatchingAnswerState({ matches, ...timing });
 
         MatchingAnswerStateService.updatePlayerState({ player, socket, game, answerState });
         return;
@@ -65,32 +83,7 @@ function persistPlayerAnswerState(ctx) {
         flags.isWordSearchQuestion ||
         flags.isFillBlanksQuestion
     ) {
-        const normalizedAnswer = resolveFreeInputAnswer(flags, payload);
-
-        if (player) {
-            player.answeredQuestions.add(game.currentIndex);
-            player.lastSeen = Date.now();
-            if (!player.answers) player.answers = {};
-            player.answers[game.currentIndex] = {
-                playerAnswer: normalizedAnswer,
-                timestamp: Date.now(),
-                timeLeft: Math.max(0, questionTimeLimit - (Date.now() - game.questionStartTime) / 1000),
-                pointsEarned: 0,
-                isCorrect: false
-            };
-        }
-
-        if (!socket.data.answeredQuestions) socket.data.answeredQuestions = [];
-        if (!socket.data.answeredQuestions.includes(game.currentIndex)) {
-            socket.data.answeredQuestions.push(game.currentIndex);
-        }
-        if (!socket.data.answers) socket.data.answers = {};
-        socket.data.answers[game.currentIndex] = {
-            playerAnswer: normalizedAnswer,
-            timestamp: Date.now(),
-            pointsEarned: 0,
-            isCorrect: false
-        };
+        persistFreeInputAnswer(ctx, resolveFreeInputAnswer(flags, payload));
         return;
     }
 
@@ -98,9 +91,7 @@ function persistPlayerAnswerState(ctx) {
     if (flags.isMultipleChoiceQuestion || flags.isSurveyMultipleQuestion) {
         const answerState = MultipleChoiceAnswerStateService.buildMultipleChoiceAnswerState({
             selectedIndices: flags.isSurveyMultipleQuestion ? normalizeSelection(selectedIndices) : selectedIndices,
-            gameStartTime: game.questionStartTime,
-            currentTime: Date.now(),
-            questionTimeLimit
+            ...timing
         });
 
         MultipleChoiceAnswerStateService.updatePlayerState({ player, socket, game, answerState });

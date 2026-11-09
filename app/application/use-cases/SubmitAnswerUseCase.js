@@ -171,6 +171,10 @@ function chainHandlers({ idempotencyHandler, rateLimitHandler, validationHandler
     return idempotencyHandler;
 }
 
+/**
+ * Caso de uso: procesa una respuesta a través de la cadena de responsabilidad (idempotencia, validación, límite,
+ * comando y respuesta).
+ */
 class SubmitAnswerUseCase {
     constructor() {
         this.pipeline = this.buildPipeline();

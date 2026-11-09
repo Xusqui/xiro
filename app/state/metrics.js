@@ -148,6 +148,33 @@ function recordReconnectFailedAttempt({ reason, actor }) {
     metrics.reconnectFailed.byActor[safeActor] = (metrics.reconnectFailed.byActor[safeActor] || 0) + 1;
 }
 
+function buildDatabaseMetrics() {
+    const avgQueryTime =
+        metrics.dbQueryTimes.length > 0
+            ? Math.round(metrics.dbQueryTimes.reduce((a, b) => a + b, 0) / metrics.dbQueryTimes.length)
+            : 0;
+    const maxQueryTime = metrics.dbQueryTimes.length > 0 ? Math.max(...metrics.dbQueryTimes) : 0;
+
+    return {
+        total_queries: metrics.totalDbQueries,
+        avg_query_time_ms: avgQueryTime,
+        max_query_time_ms: maxQueryTime,
+        errors: metrics.dbErrors,
+        recent_query_times: metrics.dbQueryTimes.slice(-10) // Últimas 10
+    };
+}
+
+function buildAnswerLockMetrics() {
+    const attempts = metrics.answerLock.attempts;
+    return {
+        attempts,
+        acquired: metrics.answerLock.acquired,
+        lock_miss: metrics.answerLock.lockMiss,
+        degraded_fallback: metrics.answerLock.degradedFallback,
+        miss_rate: attempts > 0 ? Number(((metrics.answerLock.lockMiss / attempts) * 100).toFixed(2)) : 0
+    };
+}
+
 /**
  * Obtener snapshot de métricas actuales
  * @returns {Object} Métricas formateadas
@@ -156,18 +183,6 @@ function getMetrics() {
     const uptimeSeconds = Math.floor((Date.now() - metrics.startTime) / 1000);
     const uptimeMinutes = Math.floor(uptimeSeconds / 60);
     const uptimeHours = Math.floor(uptimeMinutes / 60);
-
-    // Calcular promedios de queries
-    const avgQueryTime =
-        metrics.dbQueryTimes.length > 0
-            ? Math.round(metrics.dbQueryTimes.reduce((a, b) => a + b, 0) / metrics.dbQueryTimes.length)
-            : 0;
-
-    const maxQueryTime = metrics.dbQueryTimes.length > 0 ? Math.max(...metrics.dbQueryTimes) : 0;
-
-    const answerLockAttempts = metrics.answerLock.attempts;
-    const answerLockMissRate =
-        answerLockAttempts > 0 ? Number(((metrics.answerLock.lockMiss / answerLockAttempts) * 100).toFixed(2)) : 0;
 
     return {
         system: {
@@ -191,24 +206,12 @@ function getMetrics() {
             total_created: metrics.totalGamesCreated,
             total_completed: metrics.totalGamesCompleted
         },
-        database: {
-            total_queries: metrics.totalDbQueries,
-            avg_query_time_ms: avgQueryTime,
-            max_query_time_ms: maxQueryTime,
-            errors: metrics.dbErrors,
-            recent_query_times: metrics.dbQueryTimes.slice(-10) // Últimas 10
-        },
+        database: buildDatabaseMetrics(),
         errors: {
             total: metrics.totalErrors,
             recent: metrics.lastErrors
         },
-        answer_lock: {
-            attempts: answerLockAttempts,
-            acquired: metrics.answerLock.acquired,
-            lock_miss: metrics.answerLock.lockMiss,
-            degraded_fallback: metrics.answerLock.degradedFallback,
-            miss_rate: answerLockMissRate
-        },
+        answer_lock: buildAnswerLockMetrics(),
         reconnect_failed: {
             total: metrics.reconnectFailed.total,
             invalid_secret: metrics.reconnectFailed.byReason['invalid-secret'] || 0,
