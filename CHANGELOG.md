@@ -2,7 +2,7 @@
 
 ## 3.11.x
 
-### 3.11.1 — 11/9/2026 · `v3.11.1`
+### 3.11.1 — 2026-11-09 · `v3.11.1`
 - **Actualizaciones:** el panel muestra las novedades antes de actualizar
   - Nuevo modal con las versiones entre la instalada y la nueva, y el historial anterior plegado.
   - Avisa de las partidas en curso y permite actualizar aunque GitHub no responda.

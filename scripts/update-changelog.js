@@ -115,6 +115,18 @@ function insertEntry(changelog, version, entry) {
 }
 
 /**
+ * Formatea una fecha como AAAA-MM-DD en hora local. El modal de novedades solo reconoce este formato.
+ * No usa toISOString(), que cambiaría de día de madrugada, ni toLocaleDateString('sv-SE'),
+ * que en un Node sin ese locale devuelve formato americano.
+ * @param {Date} [date] Fecha a formatear; por defecto, ahora.
+ * @returns {string} Fecha AAAA-MM-DD.
+ */
+function localIsoDate(date = new Date()) {
+  const twoDigits = (value) => String(value).padStart(2, '0');
+  return `${date.getFullYear()}-${twoDigits(date.getMonth() + 1)}-${twoDigits(date.getDate())}`;
+}
+
+/**
  * Actualiza CHANGELOG.md para una versión; no hace nada si ya está registrada
  * o si no hay commits nuevos.
  * @param {string} version Versión nueva.
@@ -133,15 +145,25 @@ function updateChangelog(version) {
     console.log('⚠️  No hay commits nuevos desde la última versión: CHANGELOG.md no se modifica.');
     return;
   }
-  // sv-SE da AAAA-MM-DD en hora local; toISOString() cambiaría de día de madrugada.
-  const entry = buildEntry(version, messages, new Date().toLocaleDateString('sv-SE'));
+  const entry = buildEntry(version, messages, localIsoDate());
   fs.writeFileSync(CHANGELOG_PATH, insertEntry(changelog, version, entry));
   console.log(entry);
 }
 
-try {
-  updateChangelog(process.argv[2]);
-} catch (error) {
-  console.error(`❌ No se pudo actualizar CHANGELOG.md: ${error.message}`);
-  process.exit(1);
+/**
+ * Punto de entrada por línea de comandos: termina con código 1 si falla.
+ * @returns {void}
+ */
+function main() {
+  try {
+    updateChangelog(process.argv[2]);
+  } catch (error) {
+    console.error(`❌ No se pudo actualizar CHANGELOG.md: ${error.message}`);
+    process.exit(1);
+  }
 }
+
+// Solo se ejecuta al lanzarlo con node: los tests importan las funciones sin tocar el historial.
+if (require.main === module) main();
+
+module.exports = { parseBodyItems, formatCommit, buildEntry, insertEntry, updateChangelog, localIsoDate };
