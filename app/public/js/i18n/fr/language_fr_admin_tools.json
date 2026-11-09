@@ -46,6 +46,7 @@
     "admin.tools.upload_no_file": "Vous devez d'abord sélectionner un fichier JSON",
     "admin.tools.upload_error_type": "Veuillez sélectionner un fichier JSON valide",
     "admin.remote.title": "Jeux en cours",
+    "admin.remote.control": "Contrôler",
     "admin.remote.subtitle": "Ouvrez « Contrôle » sur votre mobile pour utiliser la télécommande",
     "admin.remote.loading": "Chargement des sessions actives...",
     "admin.user.requesting": "Solicitando...",

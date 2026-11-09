@@ -295,6 +295,15 @@ function _renderHistorialTable(sessions) {
         return;
     }
 
+    // Rótulos de cada dato cuando la tabla pasa a tarjetas en móvil (admin-mobile-content.css)
+    const cardLabel = (key, fallback) => escapeHtml(_t(key, null, fallback));
+    const labelDate = cardLabel('admin.history.col_date', 'Fecha');
+    const labelType = cardLabel('admin.history.col_type', 'Tipo');
+    const labelPlayers = cardLabel('admin.history.col_players', 'Jugadores');
+    const labelQuestions = cardLabel('admin.history.col_questions', 'Preguntas');
+    const labelDuration = cardLabel('admin.history.col_duration', 'Duración');
+    const labelStatus = cardLabel('admin.history.col_status', 'Estado');
+
     const rows = sessions
         .map(s => {
             const csvUrl = s.share_token
@@ -326,14 +335,14 @@ function _renderHistorialTable(sessions) {
                         data-id="${s.id}" data-historial-action="row-select">
                 </td>
                 <td class="py-3 px-4 font-mono font-bold text-slate-700">${s.pin}</td>
-                <td class="py-3 px-4 text-slate-600">${_fmtDate(s.played_at)}</td>
-                <td class="py-3 px-4 whitespace-nowrap">
+                <td data-label="${labelDate}" class="py-3 px-4 text-slate-600">${_fmtDate(s.played_at)}</td>
+                <td data-label="${labelType}" class="py-3 px-4 whitespace-nowrap">
                     <span class="bg-slate-200 text-slate-700 text-xs font-bold px-2 py-0.5 rounded-full">${_fmtType(s.game_type)}</span>
                 </td>
-                <td class="py-3 px-2 text-center text-slate-600">${s.player_count ?? '—'}</td>
-                <td class="py-3 px-2 text-center text-slate-600">${s.question_count || '—'}</td>
-                <td class="py-3 px-4 text-slate-500 text-sm">${_fmtDuration(s.duration_ms)}</td>
-                <td class="py-3 px-4">${reasonBadge}</td>
+                <td data-label="${labelPlayers}" class="py-3 px-2 text-center text-slate-600">${s.player_count ?? '—'}</td>
+                <td data-label="${labelQuestions}" class="py-3 px-2 text-center text-slate-600">${s.question_count || '—'}</td>
+                <td data-label="${labelDuration}" class="py-3 px-4 text-slate-500 text-sm">${_fmtDuration(s.duration_ms)}</td>
+                <td data-label="${labelStatus}" class="py-3 px-4">${reasonBadge}</td>
                 <td class="py-3 px-4">
                     <!-- Acción principal (ver) y descarga con texto; logs como icono
                          secundario; borrar apartado tras un separador, para no
@@ -382,7 +391,7 @@ function _renderHistorialTable(sessions) {
 
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
             <div class="overflow-x-auto">
-            <table class="w-full text-sm">
+            <table class="admin-history-table w-full text-sm">
                 <thead>
                     <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 text-xs uppercase tracking-wide">
                         <th class="py-3 px-3">
@@ -404,12 +413,12 @@ function _renderHistorialTable(sessions) {
             </div>
             <div class="p-4 text-xs text-slate-400 border-t border-slate-100 flex items-center justify-between gap-4">
                 <span>${_t(
-        'admin.history.footer',
-        { n: sessions.length, s: sessions.length !== 1 ? 's' : '' },
-        '{n} partida{s} registrada{s}'
-    )
-        .replace(/\{n\}/g, sessions.length)
-        .replace(/\{s\}/g, sessions.length !== 1 ? 's' : '')}</span>
+                    'admin.history.footer',
+                    { n: sessions.length, s: sessions.length !== 1 ? 's' : '' },
+                    '{n} partida{s} registrada{s}'
+                )
+                    .replace(/\{n\}/g, sessions.length)
+                    .replace(/\{s\}/g, sessions.length !== 1 ? 's' : '')}</span>
                 <!-- Zona de peligro: al pie, lejos de «Actualizar», con confirmación escrita -->
                 <button data-historial-action="delete-all"
                     class="inline-flex items-center gap-2 border border-red-200 text-red-600 hover:bg-red-50 font-bold px-3 py-1.5 rounded-lg transition">

@@ -1,0 +1,185 @@
+/* Contenido del panel en móvil: las vistas se generan en JS con clases utilitarias
+   pensadas para escritorio y aquí se recolocan a una columna. El armazón (barra superior
+   y menú) está en admin-mobile.css. Por encima de estos anchos no se aplica nada. */
+
+@media (max-width: 1023.98px) {
+    #editorArea .p-10 {
+        padding: 1.5rem;
+    }
+
+    .xiro-editor-sticky-header,
+    .xiro-editor-body,
+    .xiro-editor-wide-row {
+        width: calc(100% - 1.5rem);
+    }
+
+    #editorArea .justify-between {
+        flex-wrap: wrap;
+        row-gap: 0.75rem;
+    }
+
+    /* Portada: si hay partidas en marcha son lo primero que se busca desde el móvil */
+    [data-admin-home] {
+        display: flex;
+        flex-direction: column;
+    }
+
+    [data-admin-home] > :first-child {
+        order: -2;
+    }
+
+    #admin-home-live[data-has-live] {
+        order: -1;
+    }
+
+    .admin-home-control {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 2.75rem;
+    }
+}
+
+@media (max-width: 640px) {
+    #editorArea > .p-6,
+    #editorArea > .p-10 {
+        padding: 1rem;
+    }
+
+    /* El nombre de la lista ya está en la barra superior; sigue ahí para el lector de pantalla */
+    #editorArea .max-w-7xl > .justify-between > div:first-child h1 {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+
+    /* Cabecera de las listas (bancos, mezclas, personalizados, trivial): acciones debajo */
+    #editorArea .max-w-7xl > .justify-between > .flex.gap-3 {
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    #editorArea .max-w-7xl > .justify-between > .flex.gap-3 > button {
+        flex: 1 1 40%;
+        justify-content: center;
+        padding: 0.625rem 0.75rem;
+        font-size: 1rem;
+    }
+
+    #editorArea .max-w-7xl > .justify-between > .flex.gap-3 > .w-14 {
+        height: 3rem;
+    }
+
+    /* «Inicio» ya está en la barra superior; queda el estado de la licencia */
+    [data-admin-home] > :first-child > :first-child {
+        display: none;
+    }
+
+    .admin-home-shortcuts {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.75rem;
+    }
+
+    .admin-home-shortcuts > button {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        padding: 0.875rem;
+        overflow-wrap: anywhere;
+    }
+
+    .admin-home-live-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        column-gap: 0.75rem;
+        row-gap: 0.125rem;
+        align-items: center;
+    }
+
+    .admin-home-control {
+        grid-area: 1 / 2 / 4 / 3;
+        padding: 0.75rem 1rem;
+    }
+
+    #admin-home-recent li {
+        flex-wrap: wrap;
+        row-gap: 0.125rem;
+    }
+
+    #admin-home-recent li > span:nth-child(2) {
+        order: 3;
+        flex: 1 1 100%;
+    }
+
+    #admin-home-recent li > span:nth-child(3) {
+        margin-left: auto;
+    }
+
+    /* Juegos en curso: el PIN ya se lee en el texto, el botón ocupa todo el ancho */
+    .admin-remote-card__pin {
+        display: none;
+    }
+
+    .admin-remote-card__actions {
+        gap: 0.75rem;
+        width: 100%;
+    }
+
+    .admin-remote-card__actions > a {
+        flex: 1;
+        justify-content: center;
+    }
+
+    /* Barra de guardado: textos largos en dos líneas antes que salirse */
+    .savebar__actions .savebar__btn {
+        flex: 1 1 0;
+        min-width: 0;
+        padding: 0.5rem 0.75rem;
+        white-space: normal;
+    }
+
+    .savebar__actions .savebar__btn i {
+        display: none;
+    }
+
+    /* Sin cambios que guardar basta con los botones: el espacio es para editar */
+    .savebar:is([data-state="idle"], [data-state="clean"]) .savebar__status {
+        display: none;
+    }
+
+    /* La cabecera de los editores ocupa tres filas: fija dejaría poca pantalla para editar.
+       !important porque _syncPersonalizadosToolbarOffset() fija el top en línea */
+    #editorArea .xiro-editor-sticky-header {
+        position: static;
+    }
+
+    .xiro-toolbar-bar--below-header {
+        top: 0 !important;
+    }
+
+    /* Editor de preguntas: opciones a una columna, el texto cede sitio a sus botones */
+    #editorArea .grid.grid-cols-2:has(input.flex-1) {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    #editorArea .flex > input.flex-1 {
+        min-width: 0;
+    }
+
+    #editorArea .flex.items-center.gap-3:has(> input.flex-1) {
+        gap: 0.25rem;
+    }
+
+    #editorArea .flex.items-center.gap-3:has(> input.flex-1) > :is(label, button) {
+        display: inline-flex;
+        flex: none;
+        align-items: center;
+        justify-content: center;
+        min-width: 2.75rem;
+        min-height: 2.75rem;
+    }
+}

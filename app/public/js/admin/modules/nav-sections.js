@@ -22,11 +22,34 @@ function initSectionTabs() {
     if (configTab) {
         configTab.style.display = isAdmin() ? '' : 'none';
     }
+    // Juegos en curso solo existe para administradores
+    const liveShortcut = document.getElementById('admin-live-shortcut');
+    if (liveShortcut) liveShortcut.style.display = isAdmin() ? '' : 'none';
 
     switchSectionTab('questions', false);
 }
 
 /* ===== CAMBIO DE SECCIÓN ===== */
+
+/**
+ * Muestra en la barra lateral la lista de una sección, sin tocar el área de contenido.
+ * @param {'questions'|'user'|'config'} tab
+ */
+function showSidebarSection(tab) {
+    activeSectionTab = tab;
+    _updateTabStyles();
+    const sections = {
+        questions: 'sidebar-nav-section',
+        user: 'user-sidebar-section',
+        config: 'config-sidebar-section'
+    };
+    for (const [key, id] of Object.entries(sections)) {
+        const section = document.getElementById(id);
+        if (!section) continue;
+        if (key !== tab) section.style.display = 'none';
+        else section.style.display = key === 'questions' ? '' : 'flex';
+    }
+}
 
 /**
  * Cambia la sección activa del panel.
@@ -35,29 +58,18 @@ function initSectionTabs() {
  */
 function switchSectionTab(tab, guard = true) {
     function doSwitch() {
-        activeSectionTab = tab;
-        _updateTabStyles();
-
-        const navSection = document.getElementById('sidebar-nav-section');
-        const utilsSection = document.getElementById('sidebar-utils-section');
-        const userSidebar = document.getElementById('user-sidebar-section');
-        const configSidebar = document.getElementById('config-sidebar-section');
+        showSidebarSection(tab);
 
         if (tab === 'questions') {
-            if (navSection) navSection.style.display = '';
-            if (utilsSection) utilsSection.style.display = '';
-            if (userSidebar) userSidebar.style.display = 'none';
-            if (configSidebar) configSidebar.style.display = 'none';
+            // La portada no es ninguna vista: sin esto seguía marcada la última entrada abierta
+            activeView = null;
+            if (typeof highlightSidebarNav === 'function') highlightSidebarNav('home');
             const editorArea = document.getElementById('editorArea');
             if (editorArea) {
                 editorArea.dataset.fromConfig = '';
                 renderAdminHome(editorArea);
             }
         } else if (tab === 'user') {
-            if (navSection) navSection.style.display = 'none';
-            if (utilsSection) utilsSection.style.display = '';
-            if (userSidebar) userSidebar.style.display = 'flex';
-            if (configSidebar) configSidebar.style.display = 'none';
             if (typeof initUserSidebarNavigation === 'function') {
                 initUserSidebarNavigation();
             }
@@ -67,16 +79,13 @@ function switchSectionTab(tab, guard = true) {
                 renderUserPanel();
             }
         } else if (tab === 'config') {
-            if (navSection) navSection.style.display = 'none';
-            if (userSidebar) userSidebar.style.display = 'none';
-            if (utilsSection) utilsSection.style.display = '';
-            if (configSidebar) configSidebar.style.display = 'flex';
             renderConfigPanel();
             if (typeof highlightSidebarNav === 'function') highlightSidebarNav('servidor');
         }
     }
 
-    if (guard && tab !== activeSectionTab) {
+    // También al repetir la sección actual: repintar la portada cerraría un editor abierto
+    if (guard) {
         navigateWithUnsavedChangesGuard(doSwitch);
     } else {
         doSwitch();
@@ -206,6 +215,26 @@ async function _renderAdminHomeLicense() {
         </span>`);
 }
 
+function _adminHomeLiveRow(session, playersLabel) {
+    const question = (session.currentIndex || 0) + 1;
+    const total = session.totalQuestions || 0;
+    const where =
+        session.state === 'lobby'
+            ? _t('admin.home.lobby', null, 'En sala')
+            : _t('admin.home.question_of', { n: question, total }, 'Pregunta {n} de {total}')
+                  .replace('{n}', question)
+                  .replace('{total}', total);
+    return `<li class="admin-home-live-row px-5 py-3 flex items-center justify-between gap-4 text-sm">
+                <span class="font-mono font-bold text-slate-700">${escapeHtml(session.sessionId || session.pin || '')}</span>
+                <span class="text-slate-500">${where}</span>
+                <span class="text-slate-500 whitespace-nowrap">${session.playerCount || 0} ${playersLabel.toLowerCase()}</span>
+                <a href="${remoteControlUrl(session.sessionId)}"
+                    class="admin-home-control bg-camaleon-600 hover:bg-camaleon-700 text-white font-bold px-3 py-1.5 rounded-lg transition whitespace-nowrap">
+                    <i class="fas fa-mobile-alt mr-1" aria-hidden="true"></i>${_t('admin.remote.control', null, 'Controlar')}
+                </a>
+            </li>`;
+}
+
 async function _renderAdminHomeLive() {
     const box = document.getElementById('admin-home-live');
     // Solo administradores: para un editor responde 403 y el bloque no aparece
@@ -215,25 +244,9 @@ async function _renderAdminHomeLive() {
     const body =
         data.sessions.length === 0
             ? `<p class="px-5 py-6 text-sm text-slate-400">${_t('admin.home.live_empty', null, 'No hay ninguna partida en curso')}</p>`
-            : `<ul class="admin-home-list">${data.sessions
-                .map(s => {
-                    const where =
-                          s.state === 'lobby'
-                              ? _t('admin.home.lobby', null, 'En sala')
-                              : _t(
-                                  'admin.home.question_of',
-                                  { n: (s.currentIndex || 0) + 1, total: s.totalQuestions || 0 },
-                                  'Pregunta {n} de {total}'
-                              )
-                                  .replace('{n}', (s.currentIndex || 0) + 1)
-                                  .replace('{total}', s.totalQuestions || 0);
-                    return `<li class="px-5 py-3 flex items-center justify-between gap-4 text-sm">
-                <span class="font-mono font-bold text-slate-700">${escapeHtml(s.sessionId || s.pin || '')}</span>
-                <span class="text-slate-500">${where}</span>
-                <span class="text-slate-500 whitespace-nowrap">${s.playerCount || 0} ${playersLabel.toLowerCase()}</span>
-            </li>`;
-                })
-                .join('')}</ul>`;
+            : `<ul class="admin-home-list">${data.sessions.map(s => _adminHomeLiveRow(s, playersLabel)).join('')}</ul>`;
+    // En móvil, con partidas en marcha, este bloque sube al principio (admin-mobile.css)
+    box.toggleAttribute('data-has-live', data.sessions.length > 0);
     box.innerHTML = _tHtml(_adminHomePanel(_t('admin.home.live_title', null, 'Partidas en curso'), body));
 }
 
@@ -247,16 +260,16 @@ async function _renderAdminHomeRecent() {
         sessions.length === 0
             ? `<p class="px-5 py-6 text-sm text-slate-400">${_t('admin.history.empty_title', null, 'No hay partidas registradas todavía')}</p>`
             : `<ul class="admin-home-list">${sessions
-                .map(
-                    s => `
+                  .map(
+                      s => `
             <li class="px-5 py-3 flex items-center gap-4 text-sm">
                 <span class="font-mono font-bold text-slate-700 w-24 shrink-0">${escapeHtml(s.pin || '')}</span>
                 <span class="text-slate-500 flex-1">${fmtDate(s.played_at)}</span>
                 <span class="bg-slate-100 text-slate-700 text-xs font-bold px-2 py-0.5 rounded-full whitespace-nowrap">${escapeHtml(fmtType(s.game_type))}</span>
                 <span class="text-slate-500 whitespace-nowrap w-12 text-right">${s.player_count ?? '—'} <i class="fas fa-user text-xs"></i></span>
             </li>`
-                )
-                .join('')}</ul>`;
+                  )
+                  .join('')}</ul>`;
     const seeAll = `<button data-admin-action="show-view" data-view="historial"
         class="text-sm font-bold text-aubergine-600 whitespace-nowrap">${_t('admin.home.see_all', null, 'Ver historial completo')} <i class="fas fa-arrow-right text-xs"></i></button>`;
     box.innerHTML = _tHtml(_adminHomePanel(_t('admin.home.recent_title', null, 'Últimas partidas'), body, seeAll));

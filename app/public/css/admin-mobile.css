@@ -1,0 +1,197 @@
+/* Panel de administración en pantallas estrechas. Por debajo de 1024 px la barra lateral
+   pasa a menú deslizante (js/admin/modules/admin-mobile-nav.js) y una barra superior
+   muestra dónde estás. Desde 1024 px escritorio sigue igual: aquí solo se ocultan las
+   piezas móviles. Va el último para ganar a las clases utilitarias sin !important. */
+
+.admin-mobile-bar,
+.admin-nav-veil,
+.admin-mobile-only,
+#admin-menu-close {
+    display: none;
+}
+
+/* «Inicio» está oculto en escritorio, pero sigue siendo el hermano anterior de la primera
+   entrada: sin esto, Bancos tomaría la separación entre filas y la lista subiría 8 px */
+@media (min-width: 1024px) {
+    #sidebar-nav-section #nav-home + .nav-button {
+        margin-top: 0.75rem;
+    }
+}
+
+@media (max-width: 1023.98px) {
+    #admin-shell {
+        flex-direction: column;
+        height: 100vh;
+        height: 100dvh;
+    }
+
+    #editorArea {
+        flex: 1 1 0;
+        min-height: 0;
+    }
+
+    /* ---- Barra superior ---- */
+    .admin-mobile-bar {
+        flex: none;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        padding: env(safe-area-inset-top) max(0.25rem, env(safe-area-inset-right)) 0 max(0.25rem, env(safe-area-inset-left));
+        min-height: calc(3.5rem + env(safe-area-inset-top));
+        background: var(--console-ink);
+        color: #fff;
+    }
+
+    /* La insignia de «sin licencia» se pinta arriba a la izquierda y no atiende toques:
+       el menú se aparta para seguir viéndose sin tapar el aviso */
+    body:has(#xiro-unlicensed-badge) .admin-mobile-bar {
+        padding-left: calc(min(92px, 24vw) + 0.5rem);
+    }
+
+    .admin-mobile-bar__btn,
+    #admin-menu-close {
+        flex: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 3rem;
+        height: 3rem;
+        border: 0;
+        border-radius: var(--radius-xl, 12px);
+        background: transparent;
+        color: #e2e8f0;
+        font-size: 1.125rem;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+    }
+
+    .admin-mobile-bar__btn:active,
+    #admin-menu-close:active {
+        background: var(--console-slate);
+    }
+
+    .admin-mobile-bar__btn:focus-visible,
+    #admin-menu-close:focus-visible {
+        outline: 2px solid var(--admin-coral);
+        outline-offset: -2px;
+    }
+
+    .admin-mobile-bar__title {
+        flex: 1;
+        min-width: 0;
+        margin: 0;
+        overflow: hidden;
+        font-family: var(--font-display-console);
+        font-size: 1.0625rem;
+        font-weight: 700;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* ---- Menú ---- */
+    #admin-sidebar {
+        position: fixed;
+        inset: 0 auto 0 0;
+        z-index: 60;
+        width: min(20rem, 85vw);
+        padding-bottom: env(safe-area-inset-bottom);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        visibility: hidden;
+        transform: translateX(-100%);
+        transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 260ms;
+    }
+
+    #admin-content[data-menu="open"] #admin-sidebar {
+        visibility: visible;
+        transform: none;
+        transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s;
+    }
+
+    .admin-nav-veil {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 59;
+        background: rgb(15 23 42 / 0.6);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 200ms ease-out, visibility 0s linear 200ms;
+    }
+
+    #admin-content[data-menu="open"] .admin-nav-veil {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 200ms ease-out, visibility 0s;
+    }
+
+    #admin-menu-close {
+        position: absolute;
+        top: calc(0.25rem + env(safe-area-inset-top));
+        right: 0.25rem;
+    }
+
+    #admin-sidebar .admin-sidebar-brand {
+        justify-content: flex-start;
+        align-items: center;
+        gap: 0.75rem;
+        padding: calc(0.625rem + env(safe-area-inset-top)) 3.5rem 0.625rem 1rem;
+    }
+
+    #admin-sidebar .admin-sidebar-brand img {
+        max-width: 7rem;
+    }
+
+    #role-badge {
+        margin-top: 0;
+    }
+
+    #role-badge .text-2xl {
+        display: none;
+    }
+
+    /* El menú entero hace scroll: en apaisado no caben logo, lista y pie */
+    #admin-sidebar :is(#sidebar-nav-section, #user-sidebar-section, #config-sidebar-section) {
+        flex: 1 0 auto;
+        overflow: visible;
+    }
+
+    #admin-content .admin-mobile-only {
+        display: flex;
+    }
+
+    /* El aviso de autoría fijo taparía la barra de guardado; tras entrar va al pie del menú */
+    body:not(:has(#login-overlay)) > footer {
+        display: none;
+    }
+
+    #admin-sidebar .admin-sidebar-credit {
+        justify-content: center;
+        color: #94a3b8;
+        font-size: 0.75rem;
+    }
+}
+
+/* Dedo en vez de ratón: objetivos de 44 px y campos a 16 px (iOS amplía si son menores) */
+@media (max-width: 1023.98px) and (pointer: coarse) {
+    #admin-content .nav-button {
+        min-height: 3rem;
+    }
+
+    #section-tabs button {
+        min-height: 2.75rem;
+    }
+
+    #admin-content :is(input:not([type="checkbox"], [type="radio"]), select, textarea) {
+        font-size: 16px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #admin-sidebar,
+    #admin-content[data-menu="open"] #admin-sidebar,
+    .admin-nav-veil,
+    #admin-content[data-menu="open"] .admin-nav-veil {
+        transition: none;
+    }
+}

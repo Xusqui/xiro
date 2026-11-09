@@ -46,6 +46,7 @@
     "admin.tools.upload_no_file": "Lehenik JSON fitxategi bat hautatu behar duzu",
     "admin.tools.upload_error_type": "Hautatu baliozko JSON fitxategi bat",
     "admin.remote.title": "Jokoak eraikitzen",
+    "admin.remote.control": "Kontrolatu",
     "admin.remote.subtitle": "Ireki \"Kontrol\" mugikorrean urrutiko agintea erabiltzeko",
     "admin.remote.loading": "Saio aktiboak kargatzen...",
     "admin.user.requesting": "Solicitando...",

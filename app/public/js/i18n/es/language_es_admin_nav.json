@@ -14,6 +14,8 @@
     "admin.home.empty.title": "Selecciona una categoría para comenzar",
     "admin.home.empty.sub": "Usa el menú lateral para navegar",
     "admin.home.title": "Inicio",
+    "admin.mobile.menu_open": "Abrir menú",
+    "admin.mobile.menu_close": "Cerrar menú",
     "admin.home.subtitle": "Resumen del servidor y accesos rápidos",
     "admin.home.live_title": "Partidas en curso",
     "admin.home.live_empty": "No hay ninguna partida en curso",

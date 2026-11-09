@@ -61,6 +61,7 @@ function highlightSidebarNav(vista) {
         btnActivo.classList.add('is-active');
         btnActivo.setAttribute('aria-current', 'page');
     }
+    if (typeof syncAdminMobileTitle === 'function') syncAdminMobileTitle();
 }
 
 function mostrarVista(vista) {

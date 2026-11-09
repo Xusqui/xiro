@@ -46,6 +46,7 @@
     "admin.tools.upload_no_file": "You must select a JSON file first",
     "admin.tools.upload_error_type": "Please select a valid JSON file",
     "admin.remote.title": "Active games",
+    "admin.remote.control": "Control",
     "admin.remote.subtitle": "Open \"Control\" on your mobile to use the remote control",
     "admin.remote.loading": "Loading active sessions...",
     "admin.user.requesting": "Solicitando...",

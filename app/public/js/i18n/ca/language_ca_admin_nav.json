@@ -14,6 +14,8 @@
     "admin.home.empty.title": "Seleccioneu una categoria per començar",
     "admin.home.empty.sub": "Fes servir el menú lateral per navegar",
     "admin.home.title": "Inici",
+    "admin.mobile.menu_open": "Obre el menú",
+    "admin.mobile.menu_close": "Tanca el menú",
     "admin.home.subtitle": "Resum del servidor i accessos ràpids",
     "admin.home.live_title": "Partides en curs",
     "admin.home.live_empty": "No hi ha cap partida en curs",

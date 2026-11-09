@@ -46,6 +46,7 @@
     "admin.tools.upload_no_file": "Sie müssen zuerst eine JSON-Datei auswählen",
     "admin.tools.upload_error_type": "Bitte wählen Sie eine gültige JSON-Datei aus",
     "admin.remote.title": "Spiele in Bearbeitung",
+    "admin.remote.control": "Steuern",
     "admin.remote.subtitle": "Öffnen Sie „Steuerung“ auf Ihrem Mobiltelefon, um die Fernbedienung zu verwenden",
     "admin.remote.loading": "Aktive Sitzungen werden geladen...",
     "admin.user.requesting": "Solicitando...",

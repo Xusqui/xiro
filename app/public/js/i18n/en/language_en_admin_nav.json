@@ -14,6 +14,8 @@
     "admin.home.empty.title": "Select a category to begin",
     "admin.home.empty.sub": "Use the side menu to navigate",
     "admin.home.title": "Home",
+    "admin.mobile.menu_open": "Open menu",
+    "admin.mobile.menu_close": "Close menu",
     "admin.home.subtitle": "Server overview and shortcuts",
     "admin.home.live_title": "Games in progress",
     "admin.home.live_empty": "No games in progress",

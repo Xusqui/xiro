@@ -46,6 +46,7 @@
     "admin.tools.upload_no_file": "您必须先选择一个 JSON 文件",
     "admin.tools.upload_error_type": "请选择有效的 JSON 文件",
     "admin.remote.title": "游戏进行中",
+    "admin.remote.control": "控制",
     "admin.remote.subtitle": "打开手机上的“控制”即可使用遥控器",
     "admin.remote.loading": "正在加载活动会话...",
     "admin.user.requesting": "Solicitando...",

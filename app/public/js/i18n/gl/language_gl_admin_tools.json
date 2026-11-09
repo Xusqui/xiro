@@ -46,6 +46,7 @@
     "admin.tools.upload_no_file": "Primeiro debes seleccionar un ficheiro JSON",
     "admin.tools.upload_error_type": "Selecciona un ficheiro JSON válido",
     "admin.remote.title": "Xogos en curso",
+    "admin.remote.control": "Controlar",
     "admin.remote.subtitle": "Abre \"Control\" no teu móbil para usar o control remoto",
     "admin.remote.loading": "Cargando sesións activas...",
     "admin.user.requesting": "Solicitando...",

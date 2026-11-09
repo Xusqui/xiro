@@ -46,6 +46,7 @@
     "admin.tools.upload_no_file": "最初に JSON ファイルを選択する必要があります",
     "admin.tools.upload_error_type": "有効な JSON ファイルを選択してください",
     "admin.remote.title": "進行中のゲーム",
+    "admin.remote.control": "操作",
     "admin.remote.subtitle": "リモコンを使用するには、携帯電話で「コントロール」を開きます",
     "admin.remote.loading": "アクティブなセッションを読み込んでいます...",
     "admin.user.requesting": "Solicitando...",

@@ -46,6 +46,7 @@
     "admin.tools.upload_no_file": "Heu de seleccionar un fitxer JSON primer",
     "admin.tools.upload_error_type": "Seleccioneu un fitxer JSON vàlid",
     "admin.remote.title": "Jocs en curs",
+    "admin.remote.control": "Controla",
     "admin.remote.subtitle": "Obre \"Controlar\" al teu mòbil per utilitzar el comandament a distància",
     "admin.remote.loading": "Carregant sessions actives...",
     "admin.user.requesting": "Solicitando...",

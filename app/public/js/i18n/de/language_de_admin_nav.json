@@ -14,6 +14,8 @@
     "admin.home.empty.title": "Wählen Sie eine Kategorie aus, um zu beginnen",
     "admin.home.empty.sub": "Verwenden Sie zum Navigieren das Seitenmenü",
     "admin.home.title": "Start",
+    "admin.mobile.menu_open": "Menü öffnen",
+    "admin.mobile.menu_close": "Menü schließen",
     "admin.home.subtitle": "Serverübersicht und Schnellzugriffe",
     "admin.home.live_title": "Laufende Spiele",
     "admin.home.live_empty": "Keine laufenden Spiele",

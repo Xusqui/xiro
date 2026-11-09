@@ -46,6 +46,7 @@
     "admin.tools.upload_no_file": "Você deve selecionar um arquivo JSON primeiro",
     "admin.tools.upload_error_type": "Selecione um arquivo JSON válido",
     "admin.remote.title": "Jogos em andamento",
+    "admin.remote.control": "Controlar",
     "admin.remote.subtitle": "Abra \"Control\" no seu celular para usar o controle remoto",
     "admin.remote.loading": "Carregando sessões ativas...",
     "admin.user.requesting": "Solicitando...",

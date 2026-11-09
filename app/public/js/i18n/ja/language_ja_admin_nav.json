@@ -14,6 +14,8 @@
     "admin.home.empty.title": "開始するにはカテゴリを選択してください",
     "admin.home.empty.sub": "サイドメニューを使用して移動します",
     "admin.home.title": "ホーム",
+    "admin.mobile.menu_open": "メニューを開く",
+    "admin.mobile.menu_close": "メニューを閉じる",
     "admin.home.subtitle": "サーバーの概要とショートカット",
     "admin.home.live_title": "進行中のゲーム",
     "admin.home.live_empty": "進行中のゲームはありません",

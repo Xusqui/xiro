@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="xiro-i18n-sections" content="common,admin">
     <title>XiRo! - Administrador</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -40,6 +40,9 @@
     <link rel="stylesheet" href="/css/admin-editor-header.css?v=20261020200000">
     <link rel="stylesheet" href="/css/admin-editor-header-panel.css?v=20261020200000">
     <link rel="stylesheet" href="/css/admin-update-changelog.css?v=20261109120000">
+    <link rel="stylesheet" href="/css/admin-mobile.css?v=20261109180000">
+    <link rel="stylesheet" href="/css/admin-mobile-content.css?v=20261109180000">
+    <link rel="stylesheet" href="/css/admin-mobile-history.css?v=20261109180000">
     <script defer src="/js/i18n/i18n-core.js?v=20260922172926"></script>
     <script defer src="/js/i18n/i18n-dom.js?v=20260922172926"></script>
     <script defer src="/js/i18n/i18n-ui.js?v=20260922172926"></script>
@@ -228,11 +231,30 @@
     </div>
 
     <div id="admin-content" style="display:none">
-        <div class="flex h-screen">
+        <div id="admin-shell" class="flex h-screen">
+            <!-- Barra superior: solo por debajo de 1024 px (admin-mobile.css) -->
+            <header id="admin-mobile-bar" class="admin-mobile-bar">
+                <button type="button" id="admin-menu-toggle" class="admin-mobile-bar__btn" aria-controls="admin-sidebar"
+                    aria-expanded="false" aria-label="Abrir menú" data-i18n-aria-label="admin.mobile.menu_open">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+                <p id="admin-mobile-title" class="admin-mobile-bar__title"></p>
+                <button type="button" id="admin-live-shortcut" class="admin-mobile-bar__btn" style="display:none"
+                    data-admin-action="show-live-games" aria-label="Juegos en curso"
+                    data-i18n-aria-label="admin.remote.title">
+                    <i class="fas fa-satellite-dish" aria-hidden="true"></i>
+                </button>
+            </header>
+            <div id="admin-nav-veil" class="admin-nav-veil"></div>
+
             <!-- Sidebar rediseñado -->
-            <div class="w-80 bg-slate-900 shadow-xl flex flex-col text-white">
+            <div id="admin-sidebar" class="w-80 bg-slate-900 shadow-xl flex flex-col text-white">
+                <button type="button" id="admin-menu-close" aria-label="Cerrar menú"
+                    data-i18n-aria-label="admin.mobile.menu_close">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
                 <!-- Header con Logo -->
-                <div class="p-6 border-b border-slate-700 flex justify-center">
+                <div class="admin-sidebar-brand p-6 border-b border-slate-700 flex justify-center">
                     <a href="#" data-admin-action="go-home" class="cursor-pointer">
                         <img src="/images/logo.svg" alt="Logo" style="width: 180px;">
                     </a>
@@ -259,6 +281,15 @@
                 <div id="sidebar-nav-section" class="flex-1 p-4 space-y-3">
                     <h3 class="text-xs font-bold uppercase text-slate-500 tracking-widest px-2 mb-4"
                         data-i18n="admin.nav.section">...</h3>
+
+                    <!-- Solo en el menú móvil: en escritorio la portada se alcanza con la pestaña Preguntas -->
+                    <button data-admin-action="show-admin-home" id="nav-home"
+                        class="nav-button admin-mobile-only w-full text-left p-4 rounded-xl transition items-center gap-3 font-bold">
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-house text-lg" aria-hidden="true"></i>
+                        </div>
+                        <span class="text-sm" data-i18n="admin.home.title">...</span>
+                    </button>
 
                     <button data-admin-action="show-view" data-view="bancos" id="nav-bancos"
                         class="nav-button w-full text-left p-4 rounded-xl transition flex items-center gap-3 font-bold border-2 border-[#e65453]/30 hover:border-[#e65453] hover:bg-slate-800">
@@ -451,6 +482,8 @@
                         <i class="fas fa-sign-out-alt"></i>
                         <span data-i18n="admin.sidebar.logout">...</span>
                     </button>
+                    <a href="/about.html" class="admin-mobile-only admin-sidebar-credit"
+                        data-i18n="common.footer.author">...</a>
                 </div>
             </div>
 
@@ -567,6 +600,7 @@
     <script defer src="/js/admin/modules/password-reset.js?v=20260922172926"></script>
     <script defer src="/js/admin/modules/password-reveal.js?v=20260922172926"></script>
     <script defer src="/js/admin/modules/nav-sections.js?v=20260922172926"></script>
+    <script defer src="/js/admin/modules/admin-mobile-nav.js?v=20261109180000"></script>
     <script defer src="/js/admin/modules/config-panel-meta.js?v=20260922172926"></script>
     <script defer src="/js/admin/modules/config-panel-fields.js?v=20260922172926"></script>
     <script defer src="/js/admin/modules/admin-savebar.js?v=20261010180000"></script>

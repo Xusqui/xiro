@@ -39,6 +39,12 @@ const ADMIN_ACTIONS = {
     'show-view': ({ view }) => {
         if (view && typeof mostrarVista === 'function') mostrarVista(view);
     },
+    'show-admin-home': () => {
+        if (typeof showAdminHome === 'function') showAdminHome();
+    },
+    'show-live-games': () => {
+        if (typeof showLiveGames === 'function') showLiveGames();
+    },
     'show-config-panel': () => {
         if (typeof renderConfigPanel === 'function') renderConfigPanel();
         if (typeof highlightSidebarNav === 'function') highlightSidebarNav('servidor');

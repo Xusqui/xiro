@@ -12,6 +12,15 @@ let _remoteRefreshTimer = null;
 
 /* ── Punto de entrada ────────────────────────────────────────────────────── */
 
+/**
+ * URL del mando a distancia de una partida.
+ * @param {string} sessionId
+ * @returns {string}
+ */
+function remoteControlUrl(sessionId) {
+    return `/presentador.html?session_id=${encodeURIComponent(sessionId)}&remote=true`;
+}
+
 async function renderVistaRemote() {
     const area = document.getElementById('editorArea');
     if (!area) return;
@@ -20,7 +29,7 @@ async function renderVistaRemote() {
 
     area.innerHTML = _tHtml(`
     <div class="p-6 max-w-3xl mx-auto">
-        <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center justify-between gap-3 mb-6">
             <div>
                 <h2 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
                     <i class="fas fa-satellite-dish text-green-600"></i>
@@ -116,15 +125,15 @@ function renderSessionsList(sessions) {
         .map(s => {
             const stateLabel = s.state === 'lobby' ? 'En lobby' : `P ${s.currentIndex + 1}/${s.totalQuestions}`;
             const stateCss = s.state === 'lobby' ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700';
-            const url = `/presentador.html?session_id=${encodeURIComponent(s.sessionId)}&remote=true`;
+            const url = remoteControlUrl(s.sessionId);
             const players = `${s.playerCount} jugador${s.playerCount !== 1 ? 'es' : ''}`;
             const sessionIdEsc = _escHtml(s.sessionId);
 
             return `
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5
+        <div class="admin-remote-card bg-white rounded-2xl shadow-sm border border-slate-200 p-5
                     flex items-center justify-between gap-4 mb-3">
             <div class="flex items-center gap-4">
-                <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center
+                <div class="admin-remote-card__pin w-14 h-14 bg-green-100 rounded-xl flex items-center
                             justify-center flex-shrink-0">
                     <span class="text-green-700 font-black text-xl">
                         ${_escHtml(s.pin)}
@@ -139,11 +148,11 @@ function renderSessionsList(sessions) {
                     </span>
                 </div>
             </div>
-            <div class="flex gap-2 flex-shrink-0">
+            <div class="admin-remote-card__actions flex gap-2 flex-shrink-0">
                 <a href="${url}"
                    class="bg-camaleon-600 hover:bg-camaleon-700 text-white font-bold px-5 py-3
                           rounded-xl flex items-center gap-2 transition whitespace-nowrap">
-                    <i class="fas fa-mobile-alt"></i> Controlar
+                    <i class="fas fa-mobile-alt"></i> ${_t('admin.remote.control', null, 'Controlar')}
                 </a>
                 <button data-admin-action="terminate-remote-session" data-session-id="${sessionIdEsc}"
                    class="bg-red-100 hover:bg-red-200 text-red-700 font-bold px-4 py-3
@@ -201,6 +210,6 @@ function terminarSesionAdmin(sessionId) {
 function _escHtml(str) {
     return String(str).replace(
         /[&<>"']/g,
-        c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', '\'': '&#39;' })[c]
+        c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]
     );
 }
