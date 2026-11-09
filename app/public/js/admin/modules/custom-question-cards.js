@@ -127,7 +127,7 @@ function _customTextBody(q) {
 function _customImageBody(q) {
     const imageUrl = _customSlideImageUrl(q);
     return `<div class="flex-1 flex gap-4">
-                                ${imageUrl ? `<div class="w-32 h-24 bg-black rounded flex-shrink-0 flex items-center justify-center overflow-hidden"><img src="${escapeHtml(imageUrl)}" class="max-w-full max-h-full object-contain" /></div>` : '<div class="w-32 h-24 bg-gray-300 rounded flex-shrink-0 flex items-center justify-center"><i class="fas fa-image text-gray-500 text-2xl"></i></div>'}
+                                ${imageUrl ? `<div class="w-32 h-24 bg-black rounded flex-shrink-0 flex items-center justify-center overflow-hidden"><img alt="" src="${escapeHtml(imageUrl)}" class="max-w-full max-h-full object-contain" /></div>` : '<div class="w-32 h-24 bg-gray-300 rounded flex-shrink-0 flex items-center justify-center"><i class="fas fa-image text-gray-500 text-2xl"></i></div>'}
                                 <div>
                                     <div class="flex items-center gap-2 mb-2">
                                         <span class="bg-pink-600 text-white px-2 py-1 rounded text-xs font-bold"><i class="fas fa-image mr-1"></i>${_t('admin.custom.slide_image_badge', null, 'DIAPOSITIVA IMAGEN')}</span>
@@ -143,7 +143,7 @@ function _customTextImageBody(q) {
     const titlePreview = (q.slide_title || '').substring(0, 60);
     const bodyPreview = (q.slide_body || '').split('\n')[0].substring(0, 80);
     return `<div class="flex-1 flex gap-4">
-                                ${imageUrl ? `<div class="w-28 h-20 bg-black rounded flex-shrink-0 flex items-center justify-center overflow-hidden"><img src="${escapeHtml(imageUrl)}" class="max-w-full max-h-full object-contain" /></div>` : '<div class="w-28 h-20 bg-gray-200 rounded flex-shrink-0 flex items-center justify-center"><i class="fas fa-columns text-gray-400 text-2xl"></i></div>'}
+                                ${imageUrl ? `<div class="w-28 h-20 bg-black rounded flex-shrink-0 flex items-center justify-center overflow-hidden"><img alt="" src="${escapeHtml(imageUrl)}" class="max-w-full max-h-full object-contain" /></div>` : '<div class="w-28 h-20 bg-gray-200 rounded flex-shrink-0 flex items-center justify-center"><i class="fas fa-columns text-gray-400 text-2xl"></i></div>'}
                                 <div class="flex-1">
                                     <div class="flex items-center gap-2 mb-2 flex-wrap">
                                         <span class="bg-plum-600 text-white px-2 py-1 rounded text-xs font-bold"><i class="fas fa-columns mr-1"></i>${_t('admin.custom.slide_text_image', null, 'TEXTO + IMAGEN')}</span>

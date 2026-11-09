@@ -1,5 +1,6 @@
 {
   "keys": {
+    "admin.q.delete_aria": "Excluir pergunta",
     "admin.search.title": "Pesquisar todos os bancos",
     "admin.search.ph": "Digite pelo menos 2 caracteres e pressione Enter ou Pesquisar...",
     "admin.search.empty": "Escreva algo para pesquisar perguntas",

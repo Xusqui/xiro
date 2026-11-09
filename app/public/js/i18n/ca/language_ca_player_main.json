@@ -1,5 +1,6 @@
 {
   "keys": {
+    "player.nickname.notice": "Fes servir un àlies. No cal el teu nom ni cap dada que t'identifiqui.",
     "player.session.label": "ID de sessió",
     "player.session.hint": "L'identificador apareix a la pantalla del presentador",
     "player.session.placeholder": "XXXXXX-XXXX",

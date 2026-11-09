@@ -58,7 +58,8 @@ services:
       -c log_timezone='UTC'
       -c logging_collector=on
       -c log_directory=log
-      -c log_filename=postgresql-%Y-%m-%d.log
+      -c log_filename=postgresql-%a.log
+      -c log_truncate_on_rotation=on
       -c log_rotation_age=1d
       -c log_rotation_size=0
 

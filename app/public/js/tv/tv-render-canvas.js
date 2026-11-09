@@ -35,15 +35,7 @@ window.TVApp.RenderCanvas = (function () {
             );
         }
         if (source && source.embedUrl) {
-            return (
-                '<iframe src="' +
-                escapeHtml(source.embedUrl + (autoplay ? '&autoplay=1' : '')) +
-                '"' +
-                ' allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen' +
-                ' referrerpolicy="strict-origin-when-cross-origin" title="Vídeo" style="' +
-                MEDIA_STYLE +
-                '"></iframe>'
-            );
+            return window.TVApp.VideoGate.html(source);
         }
         return unsupportedHtml();
     }

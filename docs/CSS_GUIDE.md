@@ -92,6 +92,14 @@ poder buscarlos con `grep`.
 - **Colores por rol** (jugador, presentador, TV, solitario, admin): ver
   `DESIGN.md` y `tokens.css`.
 
+## Fuentes e iconos
+
+Ningún recurso se carga de CDN. Las fuentes están en `public/fonts/` (licencias en
+`public/fonts/licenses/`) y se declaran en `css/fonts.css`, una regla por línea;
+el navegador solo descarga las que usa. Font Awesome está en
+`public/vendor/fontawesome/`. Una fuente nueva necesita su fichero, su regla y su
+entrada en `credits.html`.
+
 ## Caché
 
 No hace falta tocar la versión de los ficheros. El middleware

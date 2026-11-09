@@ -189,3 +189,21 @@
 .admin-home-list > li + li {
     border-top: 1px solid #f1f5f9;
 }
+
+/* Contraste AA del texto secundario sobre el fondo claro del panel. :where no suma
+   especificidad, para que las variantes hover: de cada elemento sigan mandando. */
+:where(.admin-console) .text-slate-400 {
+    color: #64748b;
+}
+
+:where(.admin-console) .text-red-500 {
+    color: #dc2626;
+}
+
+:where(.admin-console) .text-plum-500 {
+    color: #94438e;
+}
+
+:where(.admin-console) .text-green-500 {
+    color: #15803d;
+}

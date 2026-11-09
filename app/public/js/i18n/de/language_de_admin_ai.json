@@ -1,7 +1,10 @@
 {
   "keys": {
+    "admin.ai.clear_file": "Datei entfernen",
+    "admin.ai.privacy_notice": "Füge keine personenbezogenen Daten in Dokumente oder Themen ein: Der Text wird an den konfigurierten KI-Anbieter gesendet.",
+    "admin.ai.review_notice": "Mit KI erstellte Fragen: Prüfe sie vor der Verwendung.",
     "admin.ai.title": "KI-Fragengenerator",
-    "admin.ai.subtitle": "100 % lokal mit KI · Ohne Internetverbindung",
+    "admin.ai.subtitle": "Erstelle Fragen mit KI aus einem Dokument oder zu einem Thema",
     "admin.ai.checking": "KI wird überprüft...",
     "admin.ai.step1": "1 · Quelle",
     "admin.ai.step2": "2 · Konfigurieren",

@@ -10,12 +10,8 @@
     <link rel="stylesheet" href="./css/output-index.css?v=20260922172926">
     <link rel="stylesheet" href="./css/index-style.css?v=20260922172926">
     <link rel="stylesheet" href="./css/about.css?v=20260922172926">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer">
-    <script defer src="/js/core/umami-loader.js?v=20260922172926"></script>
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/vendor/fontawesome/css/all.min.css">
     <script src="/js/i18n/i18n-core.js?v=20260922172926"></script>
     <script src="/js/i18n/i18n-dom.js?v=20260922172926"></script>
     <script src="/js/i18n/i18n-ui.js?v=20260922172926"></script>
@@ -32,7 +28,7 @@
     <script>
         (function () {
             var list = ['gamer','albanil','nerd','mago','pirata','jetpack','astronauta',
-                        'bailarina','musico','cooking','surfero','yoda','disguise',
+                        'bailarina','musico','cooking','surfero','maestro','disguise',
                         'detective','party','running','thinking','love'];
             var spots = [
                 { top:'12%', right:'3%' }, { top:'30%', right:'2%' },
@@ -52,13 +48,13 @@
         <!-- ===== HERO ===== -->
         <div class="text-center mb-16 float-1">
             <a href="./index.html" class="relative inline-block mb-8">
-                <img src="./images/logo.svg" alt="XiRo! Logo"
+                <img src="./images/logo.svg" alt="XiRo!"
                     class="w-56 mx-auto logo transition-transform cursor-pointer">
             </a>
-            <h1 class="text-4xl md:text-6xl font-black mb-4 drop-shadow-lg">
+            <h1 class="about-veil w-fit mx-auto px-4 py-2 text-4xl md:text-6xl font-black mb-4 drop-shadow-lg">
                 <span data-i18n="about.heading">...</span> <span class="text-yellow-300">XiRo!</span> 🎮
             </h1>
-            <p class="text-xl md:text-2xl text-plum-100 font-medium max-w-2xl mx-auto leading-relaxed"
+            <p class="about-veil px-4 py-2 text-xl md:text-2xl text-plum-100 font-medium max-w-2xl mx-auto leading-relaxed"
                 data-i18n="about.hero.subtitle">...</p>
         </div>
 
@@ -137,7 +133,7 @@
 
         <!-- ===== EL EQUIPO ===== -->
         <div class="float-4 mb-16">
-            <div class="text-center mb-10">
+            <div class="about-veil px-4 py-2 text-center mb-10">
                 <h2 class="text-3xl md:text-4xl font-black text-white drop-shadow-lg"
                     data-i18n="about.team.title">...</h2>
                 <p class="text-plum-200 text-lg mt-2"
@@ -199,7 +195,7 @@
             </div>
 
             <!-- Beta testers / familia -->
-            <p class="text-center text-plum-300 text-xs font-semibold uppercase tracking-widest mb-4 mt-6"
+            <p class="about-veil px-4 py-2 text-center text-plum-300 text-xs font-semibold uppercase tracking-widest mb-4 mt-6"
                 data-i18n="about.team.also">...</p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
@@ -242,7 +238,7 @@
 
         <!-- ===== FILOSOFIA ===== -->
         <div class="float-5 mb-16">
-            <div class="bg-white/15 backdrop-blur-sm rounded-3xl border border-white/25 p-8 md:p-10 text-center">
+            <div class="about-veil backdrop-blur-sm rounded-3xl border border-white/25 p-8 md:p-10 text-center">
                 <div class="text-5xl mb-4">🎯</div>
                 <h2 class="text-2xl md:text-3xl font-black text-white mb-4"
                     data-i18n="about.philosophy.title">...</h2>
@@ -276,8 +272,10 @@
                     <span data-i18n="common.footer.contact">...</span>
                 </a>
             </div>
-            <div class="mt-8 text-plum-200 text-sm space-y-1">
+            <div class="about-veil p-4 mt-8 text-plum-200 text-sm space-y-1">
                 <p data-i18n="about.footer.copyright">...</p>
+                <p class="text-xs mt-2" data-legal-links></p>
+                <p><a href="./credits.html" class="underline underline-offset-2 hover:text-white" data-i18n="common.footer.credits">...</a></p>
                 <p class="text-plum-300 text-xs" data-i18n="about.footer.made_with">...</p>
             </div>
         </div>
@@ -286,6 +284,7 @@
 
     <script src="/js/core/site-badge.js?v=20260922172926"></script>
     <script src="/js/core/hojas-bg.js?v=20260922172926"></script>
+    <script src="/js/core/legal-links.js?v=20261109120000"></script>
 </body>
 
 </html>

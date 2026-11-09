@@ -1,5 +1,6 @@
 {
   "keys": {
+    "admin.q.delete_aria": "Elimina la pregunta",
     "admin.search.title": "Cercar a tots els bancs",
     "admin.search.ph": "Escriviu almenys 2 caràcters i premeu Enter o Cerca...",
     "admin.search.empty": "Escriu alguna cosa per cercar preguntes",

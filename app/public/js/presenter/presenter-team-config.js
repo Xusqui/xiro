@@ -136,7 +136,7 @@ export function mostrarConfiguracionEquipos(selectedPin) {
     mostrarLobbyMain(`
         <div class="h-full w-full flex flex-col items-center pt-10 px-10 pb-16 overflow-y-auto">
             <div class="flex items-center gap-6 mb-6">
-                <img src="/images/logo.svg" style="width: clamp(180px, 35vw, 400px);">
+                <img src="/images/logo.svg" alt="XiRo!" style="width: clamp(180px, 35vw, 400px);">
             </div>
             <h1 class="text-5xl font-black italic text-white mb-3 uppercase">Configurar Equipos</h1>
             <p class="text-slate-400 text-xl mb-8">PIN: <span class="font-mono bg-plum-600 text-white px-4 py-2 rounded-lg">${selectedPin}</span></p>
@@ -174,7 +174,7 @@ export async function seleccionarNumEquipos(numTeams, selectedPin) {
     mostrarLobbyMain(`
         <div class="h-full w-full flex flex-col items-center pt-10 px-10 pb-16 overflow-y-auto">
             <div class="flex items-center gap-6 mb-6">
-                <img src="/images/logo.svg" style="width: clamp(180px, 35vw, 400px);">
+                <img src="/images/logo.svg" alt="XiRo!" style="width: clamp(180px, 35vw, 400px);">
             </div>
             <h1 class="text-5xl font-black italic text-white mb-3 uppercase">Nombra los ${numTeams} Equipos</h1>
             <p class="text-slate-400 text-xl mb-8">Asigna un nombre y color a cada equipo</p>

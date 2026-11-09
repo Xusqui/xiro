@@ -71,7 +71,7 @@
     "manual_presenter.game.comment_slide.text": "Pausa el joc per a la interacció. Pots plantejar una pregunta oberta o debat i després <strong>assignar punts manualment</strong> usant els botons +1, +5, +10. Prem «Següent» quan acabis.",
 
     "manual_presenter.trivial.intro.title": "Què és el Mode Trivial?",
-    "manual_presenter.trivial.intro.text": "XiRo! es converteix en un joc de tauler estil <strong>Trivial Pursuit</strong>. Els jugadors mouen fitxes sobre un tauler circular responent preguntes per categories. Qui aconsegueixi el <strong>token</strong> de cada categoria guanya la partida.",
+    "manual_presenter.trivial.intro.text": "XiRo! es converteix en <strong>Trivial XiRo!</strong>, un joc de tauler. Els jugadors mouen fitxes sobre un tauler circular responent preguntes per categories. Qui aconsegueixi el <strong>token</strong> de cada categoria guanya la partida.",
     "manual_presenter.trivial.board.title": "El tauler",
     "manual_presenter.trivial.board.text": "<strong>Anell exterior:</strong> caselles de colors per categoria. Les caselles HQ <strong>✦</strong> són les úniques on s'obté el token.<br><strong>Radis:</strong> 5 caselles que connecten l'anell amb el centre.<br><strong>Centre:</strong> punt d'inici.",
     "manual_presenter.trivial.turn.title": "Torn del jugador",

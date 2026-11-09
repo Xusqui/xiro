@@ -1,5 +1,8 @@
 {
   "keys": {
+    "admin.register.accept_terms": "Ich bin mindestens 14 Jahre alt und akzeptiere die <a href=\"/legal/en/terms.html\" target=\"_blank\" rel=\"noopener\">Nutzungsbedingungen</a> und die <a href=\"/legal/en/privacy.html\" target=\"_blank\" rel=\"noopener\">Datenschutzerklärung</a>.",
+    "admin.register.error_terms": "Du musst die Nutzungsbedingungen und die Datenschutzerklärung akzeptieren",
+    "admin.login.terms_required": "Um fortzufahren, akzeptiere die Nutzungsbedingungen und die Datenschutzerklärung.",
     "admin.login.eyebrow": "Bedienfeld",
     "admin.login.title": "Administrator",
     "admin.login.username": "Benutzer",

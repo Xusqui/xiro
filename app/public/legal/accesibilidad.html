@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XiRo! - Declaración de accesibilidad</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/output-index.css">
+    <link rel="stylesheet" href="/css/index-style.css">
+</head>
+
+<body class="bg-gradient-to-br from-plum-700 via-plum-600 to-aubergine-700 min-h-screen bg-fixed font-sans overflow-x-hidden">
+    <a href="#main-content" class="skip-link">Saltar al contenido</a>
+    <canvas id="webgl-canvas" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1;"></canvas>
+
+    <main id="main-content" class="w-full max-w-4xl mx-auto px-4 py-12">
+        <div class="text-center mb-10">
+            <a href="/index.html" class="inline-flex"><img src="/images/logo.svg" alt="XiRo!" class="h-16"></a>
+        </div>
+        <article class="bg-white rounded-3xl shadow-2xl p-6 md:p-10 text-slate-700 border-b-8 border-plum-500">
+            <nav class="text-sm mb-6" aria-label="Documentos legales"><a class="text-plum-700 underline underline-offset-2" href="/legal/aviso-legal.html">Aviso legal</a> · <a class="text-plum-700 underline underline-offset-2" href="/legal/privacidad.html">Privacidad</a> · <a class="text-plum-700 underline underline-offset-2" href="/legal/cookies.html">Cookies</a> · <a class="text-plum-700 underline underline-offset-2" href="/legal/terminos.html">Términos</a> · <a class="text-plum-700 underline underline-offset-2" href="/legal/reembolsos.html">Reembolsos</a> · <a class="text-plum-700 underline underline-offset-2" href="/legal/accesibilidad.html" aria-current="page">Accesibilidad</a> · <a class="text-plum-700 underline underline-offset-2" href="/legal/en/accessibility.html" lang="en">English version</a></nav>
+            <h1 class="text-4xl font-black text-slate-800 mb-2">Declaración de accesibilidad</h1>
+            <p class="text-sm mb-8">Última actualización: 9 de noviembre de 2026</p>
+            <section class="mb-8">
+                <h2 class="text-2xl font-black text-slate-800 mb-3">Situación</h2>
+                <p>XiRo! procura cumplir las pautas WCAG 2.2 de nivel AA. El cumplimiento es parcial y no ha sido evaluado por un auditor independiente.</p>
+            </section>
+            <section class="mb-8">
+                <h2 class="text-2xl font-black text-slate-800 mb-3">Qué se ha hecho</h2>
+                <ul class="list-disc space-y-2" style="padding-left:1.25rem"><li>Saltos al contenido y navegación con teclado en las páginas principales.</li><li>Etiquetas en los campos de los formularios y descripción en las imágenes propias.</li><li>Revisión del contraste de color en el panel y en las páginas públicas.</li><li>Los fuegos artificiales no se muestran si tu dispositivo pide reducir el movimiento.</li></ul>
+            </section>
+            <section class="mb-8">
+                <h2 class="text-2xl font-black text-slate-800 mb-3">Limitaciones conocidas</h2>
+                <ul class="list-disc space-y-2" style="padding-left:1.25rem"><li>Las partidas se juegan en tiempo real con temporizador, aunque el presentador puede pausarlo.</li><li>El tablero y algunas animaciones son visuales y no tienen alternativa textual completa.</li><li>Las imágenes que suben los autores de las preguntas no llevan descripción propia.</li><li>La versión para TV está solo en español.</li></ul>
+            </section>
+            <section class="mb-8">
+                <h2 class="text-2xl font-black text-slate-800 mb-3">Contacto</h2>
+                <p>Si encuentras una barrera de accesibilidad, escribe a <span data-legal-field="email">(sin configurar)</span>.</p>
+            </section>
+        </article>
+    </main>
+
+    <script src="/js/core/legal-page.js"></script>
+    <script src="/js/core/hojas-bg.js"></script>
+</body>
+
+</html>

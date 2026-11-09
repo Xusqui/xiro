@@ -1,7 +1,10 @@
 {
   "keys": {
+    "admin.ai.clear_file": "Treu el fitxer",
+    "admin.ai.privacy_notice": "No incloguis dades personals en documents ni temes: el text s'envia al proveïdor d'IA configurat.",
+    "admin.ai.review_notice": "Preguntes generades amb IA: revisa-les abans de fer-les servir.",
     "admin.ai.title": "Generador IA de preguntes",
-    "admin.ai.subtitle": "100% local amb IA · Sense connexió a internet",
+    "admin.ai.subtitle": "Genera preguntes amb IA a partir d'un document o un tema",
     "admin.ai.checking": "Comprovant IA...",
     "admin.ai.step1": "1 · Font",
     "admin.ai.step2": "2 · Configurar",

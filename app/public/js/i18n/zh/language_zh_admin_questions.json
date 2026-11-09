@@ -1,5 +1,6 @@
 {
   "keys": {
+    "admin.q.delete_aria": "删除问题",
     "admin.search.title": "搜索所有银行",
     "admin.search.ph": "输入至少 2 个字符，然后按 Enter 或搜索...",
     "admin.search.empty": "写一些东西来搜索问题",

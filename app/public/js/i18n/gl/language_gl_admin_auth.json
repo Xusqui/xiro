@@ -1,5 +1,8 @@
 {
   "keys": {
+    "admin.register.accept_terms": "Teño polo menos 14 anos e acepto os <a href=\"/legal/terminos.html\" target=\"_blank\" rel=\"noopener\">termos</a> e a <a href=\"/legal/privacidad.html\" target=\"_blank\" rel=\"noopener\">política de privacidade</a>.",
+    "admin.register.error_terms": "Debes aceptar os termos e a política de privacidade",
+    "admin.login.terms_required": "Para continuar, acepta os termos e a política de privacidade.",
     "admin.login.eyebrow": "panel de control",
     "admin.login.title": "Administrador",
     "admin.login.username": "Usuario",

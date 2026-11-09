@@ -71,7 +71,7 @@
     "manual_presenter.game.comment_slide.text": "インタラクションのためにゲームを一時停止します。オープンな質問やディスカッションを提示し、+1、+5、+10 ボタンで<strong>手動でポイントを割り当て</strong>られます。終わったら「次へ」を押します。",
 
     "manual_presenter.trivial.intro.title": "トリビアモードとは？",
-    "manual_presenter.trivial.intro.text": "XiRo! が <strong>Trivial Pursuit</strong> スタイルのボードゲームになります。プレイヤーはカテゴリ別の質問に答えながら円形ボードで駒を動かします。各カテゴリの<strong>トークン</strong>を最初に集めた人が勝ちます。",
+    "manual_presenter.trivial.intro.text": "XiRo! が <strong>Trivial XiRo!</strong> というボードゲームになります。プレイヤーはカテゴリ別の質問に答えながら円形ボードで駒を動かします。各カテゴリの<strong>トークン</strong>を最初に集めた人が勝ちます。",
     "manual_presenter.trivial.board.title": "ボード",
     "manual_presenter.trivial.board.text": "<strong>外リング：</strong>カテゴリ別の色付きマス。HQ マス <strong>✦</strong> がトークンを獲得できる唯一の場所です。<br><strong>スポーク：</strong>リングと中央を結ぶ 5 つのマス。<br><strong>中央：</strong>スタート地点。",
     "manual_presenter.trivial.turn.title": "プレイヤーのターン",

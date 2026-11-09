@@ -1,0 +1,18 @@
+{
+  "keys": {
+    "credits.page_title": "XiRo! - Créditos",
+    "credits.heading": "Créditos",
+    "credits.subtitle": "XiRo! emprega o traballo destas persoas e proxectos baixo as súas licenzas. Grazas.",
+    "credits.section.sound": "Música e son",
+    "credits.section.icons": "Iconas",
+    "credits.section.fonts": "Tipografías",
+    "credits.section.software": "Software no teu navegador",
+    "credits.sound_note": "As mostras adaptáronse: recortes, normalización ou mestura a mono.",
+    "credits.license.no_restrictions": "uso sen restricións segundo o seu autor",
+    "credits.section.own": "Creado para XiRo!",
+    "credits.mascot": "Mascota XiRo!",
+    "credits.ai_note": "O pitido da conta atrás e as bandeiras de idioma xeráronse con IA.",
+    "credits.fireworks": "Fogos artificiais (código e sons)",
+    "credits.license.code_mit": "código baixo licenza MIT"
+  }
+}

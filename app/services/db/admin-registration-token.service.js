@@ -7,7 +7,7 @@ const { issueToken, consumeToken } = require('./admin-token-flow');
 
 const TOKEN_TTL_MS = 24 * 60 * 60 * 1000;
 
-const SELECT_TOKEN_SQL = `SELECT id, username, email, password_hash, expires_at, used_at
+const SELECT_TOKEN_SQL = `SELECT id, username, email, password_hash, expires_at, used_at, terms_version, terms_accepted_at
      FROM admin_user_registration_tokens
      WHERE token_hash = $1
      LIMIT 1
@@ -23,10 +23,11 @@ const MARK_TOKEN_USED_SQL = `UPDATE admin_user_registration_tokens
  * @param {string} registration.username - Nombre de usuario
  * @param {string} registration.email - Email
  * @param {string} registration.passwordHash - Hash scrypt de la contraseña
+ * @param {string} registration.termsVersion - Versión de los términos aceptada al registrarse
  * @returns {Promise<{token: string, expiresAt: Date}>} Token en claro (solo se guarda su SHA-256) y caducidad
  * @throws {Error} Si falla la consulta
  */
-async function createPendingRegistration({ username, email, passwordHash }) {
+async function createPendingRegistration({ username, email, passwordHash, termsVersion }) {
     const { token, tokenHash, expiresAt } = issueToken(TOKEN_TTL_MS);
 
     await pool.query(
@@ -38,9 +39,9 @@ async function createPendingRegistration({ username, email, passwordHash }) {
 
     await pool.query(
         `INSERT INTO admin_user_registration_tokens
-         (token_hash, username, email, password_hash, expires_at)
-         VALUES ($1, LOWER($2), LOWER($3), $4, $5)`,
-        [tokenHash, username, email, passwordHash, expiresAt]
+         (token_hash, username, email, password_hash, expires_at, terms_version, terms_accepted_at)
+         VALUES ($1, LOWER($2), LOWER($3), $4, $5, $6, NOW())`,
+        [tokenHash, username, email, passwordHash, expiresAt, termsVersion]
     );
 
     return {
@@ -51,10 +52,10 @@ async function createPendingRegistration({ username, email, passwordHash }) {
 
 async function createUserFromToken(client, tokenRow) {
     const userResult = await client.query(
-        `INSERT INTO admin_users (username, email, password_hash, role, is_active, is_verified)
-         VALUES (LOWER($1), LOWER($2), $3, 'editor', true, true)
+        `INSERT INTO admin_users (username, email, password_hash, role, is_active, is_verified, terms_version, terms_accepted_at)
+         VALUES (LOWER($1), LOWER($2), $3, 'editor', true, true, $4, $5)
          RETURNING id, username, email, role, is_active, is_verified, created_at`,
-        [tokenRow.username, tokenRow.email, tokenRow.password_hash]
+        [tokenRow.username, tokenRow.email, tokenRow.password_hash, tokenRow.terms_version, tokenRow.terms_accepted_at]
     );
     return userResult.rows[0];
 }

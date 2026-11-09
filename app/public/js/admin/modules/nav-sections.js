@@ -143,7 +143,7 @@ const ADMIN_HOME_SHORTCUTS = [
     {
         view: 'trivial',
         key: 'admin.nav.trivial',
-        fallback: 'Trivial Pursuit',
+        fallback: 'Trivial XiRo!',
         icon: 'fa-dice',
         color: '#ea580c',
         tint: '#ffedd5'

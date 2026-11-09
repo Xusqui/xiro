@@ -1,5 +1,6 @@
 {
   "keys": {
+    "player.nickname.notice": "请使用昵称。无需填写您的姓名或任何可识别您身份的信息。",
     "player.session.label": "会话ID",
     "player.session.hint": "ID 显示在演示者的屏幕上",
     "player.session.placeholder": "XXXXXX-XXXX",

@@ -1,7 +1,10 @@
 {
   "keys": {
+    "admin.ai.clear_file": "Remover arquivo",
+    "admin.ai.privacy_notice": "Não inclua dados pessoais em documentos nem temas: o texto é enviado ao provedor de IA configurado.",
+    "admin.ai.review_notice": "Perguntas geradas com IA: revise-as antes de usar.",
     "admin.ai.title": "Gerador de perguntas de IA",
-    "admin.ai.subtitle": "100% local com IA · Sem conexão com a internet",
+    "admin.ai.subtitle": "Gere perguntas com IA a partir de um documento ou tema",
     "admin.ai.checking": "Verificando IA...",
     "admin.ai.step1": "1 · Fonte",
     "admin.ai.step2": "2 · Configurar",

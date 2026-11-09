@@ -213,7 +213,7 @@ window.TVApp.RenderQuestion = (function () {
         const answerAreaHTML = answerAreaHtml(q, tieneImagen);
         const nxtText = nextButtonText(state);
         const mainHtml =
-            '<div class="question-container"><div class="question-header"><table><tr><td style="width:150px"><img src="/images/logo.svg" style="max-width:100px"></td><td style="text-align:center"><div class="timer" id="timer" data-tv-action="toggle-pause-timer" style="cursor:pointer" title="Clic para pausar/reanudar">' +
+            '<div class="question-container"><div class="question-header"><table><tr><td style="width:150px"><img src="/images/logo.svg" alt="XiRo!" style="max-width:100px"></td><td style="text-align:center"><div class="timer" id="timer" data-tv-action="toggle-pause-timer" style="cursor:pointer" title="Clic para pausar/reanudar">' +
             questionTimeLimit +
             '</div></td><td style="text-align:right;font-size:18px;font-weight:bold">RESPUESTAS: <span id="ans-count">0</span> / <span id="ans-total">' +
             state.totalPlayers +

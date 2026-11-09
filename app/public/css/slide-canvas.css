@@ -5,7 +5,7 @@
  * El escenario mide siempre 1920x1080 px lógicos; el JS lo escala con transform.
  * Fuentes del lienzo (FONTS de core/slide-canvas-model.js): se descargan solo las que se usan.
  */
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@400;700&family=DM+Sans:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Merriweather:ital,wght@0,400;0,700;1,400;1,700&family=Nunito:ital,wght@0,400;0,700;1,400;1,700&family=Oswald:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('/css/fonts.css');
 .xsc-frame {
     position: relative;
     width: 100%;

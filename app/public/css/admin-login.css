@@ -224,3 +224,30 @@ form[aria-busy='true'] .xiro-login-btn {
         animation: none;
     }
 }
+
+/* Aceptación de términos en registro e inicio de sesión */
+.xiro-login-consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    min-height: 44px;
+    font-size: 0.875rem;
+    color: #475569;
+    text-align: left;
+}
+
+.xiro-login-consent.hidden {
+    display: none;
+}
+
+.xiro-login-consent input {
+    width: 20px;
+    height: 20px;
+    margin-top: 1px;
+    flex-shrink: 0;
+}
+
+.xiro-login-consent a {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}

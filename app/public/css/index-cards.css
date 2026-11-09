@@ -227,11 +227,12 @@ html.page-index #main-content {
     outline-offset: 2px;
 }
 
-/* Regencie Light es fina: la sombra neutra la separa de las hojas */
+/* Trazo fino y tono oscuro de marca: se lee sobre las hojas sin velo */
 .index-heading {
-    text-shadow:
-        0 1px 2px rgb(0 0 0 / 0.5),
-        0 2px 16px rgb(0 0 0 / 0.35);
+    font-family: 'Poiret One', 'Century Gothic', sans-serif;
+    font-weight: 400;
+    color: var(--aubergine-950);
+    text-shadow: 0 1px 2px rgb(255 255 255 / 0.35);
 }
 
 /* Velo oscuro: el texto blanco pasa AA sobre cualquier punto del degradado */

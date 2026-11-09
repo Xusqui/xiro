@@ -1,0 +1,18 @@
+{
+  "keys": {
+    "credits.page_title": "XiRo! - Kredituak",
+    "credits.heading": "Kredituak",
+    "credits.subtitle": "XiRo-k pertsona eta proiektu hauen lana erabiltzen du, beren lizentzien arabera. Eskerrik asko.",
+    "credits.section.sound": "Musika eta soinua",
+    "credits.section.icons": "Ikonoak",
+    "credits.section.fonts": "Letra-tipoak",
+    "credits.section.software": "Zure nabigatzaileko softwarea",
+    "credits.sound_note": "Laginak egokitu dira: mozketak, normalizazioa edo mono nahasketa.",
+    "credits.license.no_restrictions": "murrizketarik gabeko erabilera, egilearen arabera",
+    "credits.section.own": "XiRo-rentzat sortua",
+    "credits.mascot": "XiRo-ren maskota",
+    "credits.ai_note": "Atzerako kontaketaren txistua eta hizkuntzen banderak AArekin sortu dira.",
+    "credits.fireworks": "Su artifizialak (kodea eta soinuak)",
+    "credits.license.code_mit": "kodea MIT lizentziapean"
+  }
+}

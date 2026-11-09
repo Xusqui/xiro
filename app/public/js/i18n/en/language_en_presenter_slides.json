@@ -3,6 +3,8 @@
     "presenter.slides.to_teams": "to teams",
     "presenter.slides.per_team": "per Team",
     "presenter.slides.next": "Next",
+    "presenter.video_gate.load": "Load {provider} video",
+    "presenter.video_gate.notice": "Loading it connects this device to {provider}.",
     "presenter.slides.next_round": "Next Round",
     "presenter.slides.view_ranking": "View Ranking",
     "presenter.slides.assign_manually": "The presenter can manually assign points",

@@ -45,7 +45,7 @@ function headerHtml(q, totalPlayers) {
     return `
             <div class="grid items-center mb-6" style="grid-template-columns: 1fr auto 1fr;">
                 <div class="flex items-center gap-3 justify-self-start">
-                    <img src="/images/minilogo.svg" class="w-16">
+                    <img src="/images/minilogo.svg" alt="XiRo!" class="w-16">
                 </div>
                 <div class="flex items-center gap-3 justify-self-center">
                     <div id="timer" data-presenter-action="toggle-timer" class="stage-timer w-16 h-16 rounded-full border-4 border-red-800 flex items-center justify-center text-3xl font-black italic cursor-pointer" title="Clic para pausar/reanudar">${Number(q.time_limit) || 20}</div>

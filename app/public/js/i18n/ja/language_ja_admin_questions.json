@@ -1,5 +1,6 @@
 {
   "keys": {
+    "admin.q.delete_aria": "問題を削除",
     "admin.search.title": "すべての銀行を検索",
     "admin.search.ph": "少なくとも 2 文字を入力して Enter キーを押すか、検索...",
     "admin.search.empty": "質問を検索するために何かを書いてください",

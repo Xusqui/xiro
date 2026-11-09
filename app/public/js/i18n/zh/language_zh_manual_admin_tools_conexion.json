@@ -10,8 +10,6 @@
     "manual_admin.tools.conexion.cors_desc": "允许的 HTTP 来源。",
     "manual_admin.tools.conexion.ws": "WebSocket 来源",
     "manual_admin.tools.conexion.ws_desc": "允许实时连接的来源。",
-    "manual_admin.tools.conexion.umami": "Umami 分析",
-    "manual_admin.tools.conexion.umami_desc": "Umami URL 和网站 ID 配置。",
     "manual_admin.tools.conexion.top_players": "排行榜上的玩家",
     "manual_admin.tools.conexion.top_players_desc": "游戏期间排行榜显示的玩家数量。"
   }

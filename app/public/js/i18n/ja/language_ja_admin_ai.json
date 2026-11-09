@@ -1,7 +1,10 @@
 {
   "keys": {
+    "admin.ai.clear_file": "ファイルを削除",
+    "admin.ai.privacy_notice": "文書やトピックに個人データを含めないでください。テキストは設定済みの AI プロバイダーに送信されます。",
+    "admin.ai.review_notice": "AI で生成した問題です。使用する前に確認してください。",
     "admin.ai.title": "AI質問ジェネレーター",
-    "admin.ai.subtitle": "AI による 100% ローカル · インターネット接続なし",
+    "admin.ai.subtitle": "ドキュメントやトピックから AI で問題を生成します",
     "admin.ai.checking": "AIをチェック中...",
     "admin.ai.step1": "1 · ソース",
     "admin.ai.step2": "2 · 設定する",

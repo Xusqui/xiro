@@ -1,5 +1,6 @@
 {
   "keys": {
+    "contact.form.privacy_html": "I have read and accept the <a class=\"underline font-bold\" href=\"/legal/en/privacy.html\" target=\"_blank\" rel=\"noopener\">privacy policy</a>. We will use your details only to reply to you.",
     "contact.title": "Contact",
     "contact.subtitle": "Do you have any questions or suggestions? Write to us.",
     "contact.success.title": "Message sent!",

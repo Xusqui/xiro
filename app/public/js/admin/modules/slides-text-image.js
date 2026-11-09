@@ -37,7 +37,7 @@ function editarSlideTextoImagen(index) {
             </div>
             <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">Imagen actual</label>
             <div id="editTIPreviewWrap" class="w-full h-24 bg-slate-100 rounded-xl flex items-center justify-center overflow-hidden border mb-3">
-                <img id="editTIPreviewImg" src="${_escapeAttrImagen(currentSrc)}" class="max-w-full max-h-full object-contain" />
+                <img id="editTIPreviewImg" src="${_escapeAttrImagen(currentSrc)}" alt="" class="max-w-full max-h-full object-contain" />
             </div>
             <div id="dropZoneEditTI" class="w-full h-28 border-2 border-dashed border-plum-300 rounded-xl flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-plum-500 hover:bg-plum-50 transition select-none mb-3">
                 <i class="fas fa-cloud-upload-alt text-3xl text-plum-400"></i>

@@ -7,6 +7,9 @@
  */
 
 module.exports = {
+    // Rachas en Redis: el mismo plazo que la sesión de reconexión (6 h)
+    STREAK_TTL_SECONDS: 6 * 60 * 60,
+
     // ===== PUNTUACIÓN =====
     SCORING: {
         // Puntos base por respuesta correcta

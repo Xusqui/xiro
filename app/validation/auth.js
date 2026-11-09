@@ -8,7 +8,8 @@ const { LIMITS, usernameSchema, passwordSchema, emailSchema } = require('./primi
 
 const loginSchema = Joi.object({
     username: usernameSchema,
-    password: passwordSchema
+    password: passwordSchema,
+    acceptTerms: Joi.boolean().valid(true)
 });
 
 // Registro
@@ -20,6 +21,10 @@ const registerSchema = Joi.object({
         'any.only': 'Las contraseñas no coinciden',
         'string.empty': 'La confirmación de contraseña es requerida',
         'any.required': 'La confirmación de contraseña es requerida'
+    }),
+    acceptTerms: Joi.boolean().valid(true).required().messages({
+        'any.only': 'Debes aceptar los términos y la política de privacidad',
+        'any.required': 'Debes aceptar los términos y la política de privacidad'
     })
 });
 

@@ -1,7 +1,10 @@
 {
   "keys": {
+    "admin.ai.clear_file": "Kendu fitxategia",
+    "admin.ai.privacy_notice": "Ez sartu datu pertsonalik dokumentu edo gaietan: testua konfiguratutako AA hornitzaileari bidaltzen zaio.",
+    "admin.ai.review_notice": "AArekin sortutako galderak: berrikusi erabili aurretik.",
     "admin.ai.title": "AI galdera sortzailea",
-    "admin.ai.subtitle": "% 100 tokikoa AIarekin · Interneteko konexiorik gabe",
+    "admin.ai.subtitle": "Sortu galderak AArekin dokumentu edo gai batetik abiatuta",
     "admin.ai.checking": "AI egiaztatzen...",
     "admin.ai.step1": "1 · Iturria",
     "admin.ai.step2": "2 · Konfiguratu",

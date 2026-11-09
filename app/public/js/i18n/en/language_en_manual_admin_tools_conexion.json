@@ -10,8 +10,6 @@
     "manual_admin.tools.conexion.cors_desc": "Allowed HTTP origins.",
     "manual_admin.tools.conexion.ws": "WebSocket Origins",
     "manual_admin.tools.conexion.ws_desc": "Allowed origins for real-time connection.",
-    "manual_admin.tools.conexion.umami": "Umami Analytics",
-    "manual_admin.tools.conexion.umami_desc": "Umami URL and Website ID configuration.",
     "manual_admin.tools.conexion.top_players": "Players on leaderboard",
     "manual_admin.tools.conexion.top_players_desc": "How many players the leaderboard shows during the game."
   }

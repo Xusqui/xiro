@@ -9,6 +9,7 @@
  */
 
 const logger = require('../../../config/logger');
+const { STREAK_TTL_SECONDS } = require('../../../config/game-constants');
 const { getRedisClient } = require('../../../config/redis');
 const ScoringService = require('../../../domain/services/ScoringService');
 const StreakTrackingService = require('../../../domain/services/StreakTrackingService');
@@ -147,7 +148,9 @@ async function registerProgressAndPersistStreak(ctx) {
         client =>
             Promise.all([
                 client.hSet(streakKey, nickname, String(game.playerStreaks[nickname] || 0)),
-                client.hSet(streakInfoKey, nickname, JSON.stringify(enrichedStreakInfo))
+                client.hSet(streakInfoKey, nickname, JSON.stringify(enrichedStreakInfo)),
+                client.expire(streakKey, STREAK_TTL_SECONDS),
+                client.expire(streakInfoKey, STREAK_TTL_SECONDS)
             ]),
         error => {
             logger.warn('Failed to persist streak to Redis', { roomId, nickname, error: error.message });

@@ -1,5 +1,8 @@
 {
   "keys": {
+    "admin.register.accept_terms": "Tinc almenys 14 anys i accepto els <a href=\"/legal/terminos.html\" target=\"_blank\" rel=\"noopener\">termes</a> i la <a href=\"/legal/privacidad.html\" target=\"_blank\" rel=\"noopener\">política de privadesa</a>.",
+    "admin.register.error_terms": "Has d'acceptar els termes i la política de privadesa",
+    "admin.login.terms_required": "Per continuar, accepta els termes i la política de privadesa.",
     "admin.login.eyebrow": "Panell de control",
     "admin.login.title": "Administrador",
     "admin.login.username": "Usuari",

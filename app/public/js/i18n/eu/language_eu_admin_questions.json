@@ -1,5 +1,6 @@
 {
   "keys": {
+    "admin.q.delete_aria": "Ezabatu galdera",
     "admin.search.title": "Bilatu banku guztietan",
     "admin.search.ph": "Idatzi gutxienez 2 karaktere eta sakatu Sartu edo Bilatu...",
     "admin.search.empty": "Idatzi zerbait galderak bilatzeko",

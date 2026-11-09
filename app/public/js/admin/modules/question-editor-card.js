@@ -63,7 +63,7 @@ function questionCardHtml(q, qIdx) {
     const isHybridToleranceMode = (q.toleranceMode || 'hybrid') === 'hybrid';
     return `
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 relative animate-fade-in">
-                    <button data-admin-click="eliminarPregunta(${qIdx})" class="absolute top-4 right-4 text-slate-300 hover:text-red-500 transition"><i class="fas fa-trash-alt"></i></button>
+                    <button data-admin-click="eliminarPregunta(${qIdx})" class="absolute top-4 right-4 text-slate-300 hover:text-red-500 transition" aria-label="${_t('admin.q.delete_aria', null, 'Eliminar pregunta')}"><i class="fas fa-trash-alt" aria-hidden="true"></i></button>
                     <span class="absolute top-4 right-14 text-[10px] font-bold uppercase px-2 py-1 rounded-full ${typeChip}">${_t(`admin.q.type_${q.type}_short`, null, q.type.replace(/_/g, ' '))}</span>
 
                     ${questionTypePickerHtml(q, qIdx)}

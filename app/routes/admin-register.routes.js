@@ -6,6 +6,7 @@
 
 const express = require('express');
 const { JWT_EXPIRES_IN } = require('../config/constants');
+const { LEGAL_TERMS_VERSION } = require('../config/legal');
 const { loginLimiter } = require('../middlewares/security');
 const { schemas, validateBody } = require('../validation');
 const logger = require('../config/logger');
@@ -44,7 +45,12 @@ function respondFirstAdminCreated(req, res, firstAdminUser) {
 }
 
 async function sendRegistrationConfirmation({ username, email, passwordHash }) {
-    const pending = await registrationTokenService.createPendingRegistration({ username, email, passwordHash });
+    const pending = await registrationTokenService.createPendingRegistration({
+        username,
+        email,
+        passwordHash,
+        termsVersion: LEGAL_TERMS_VERSION
+    });
     const confirmationUrl = `${resolvePublicBaseUrl()}/admin.html?verify_token=${encodeURIComponent(pending.token)}`;
 
     await sendAdminRegistrationConfirmationEmail({ to: email, username, confirmationUrl });
@@ -67,7 +73,12 @@ router.post('/api/admin-register', loginLimiter, validateBody(schemas.register),
         const passwordHash = await hashPassword(password);
 
         // Atomic path for the very first account: no email confirmation required.
-        const firstAdminUser = await adminUserService.createFirstAdminUser(username, email, passwordHash);
+        const firstAdminUser = await adminUserService.createFirstAdminUser(
+            username,
+            email,
+            passwordHash,
+            LEGAL_TERMS_VERSION
+        );
 
         if (firstAdminUser) {
             return respondFirstAdminCreated(req, res, firstAdminUser);

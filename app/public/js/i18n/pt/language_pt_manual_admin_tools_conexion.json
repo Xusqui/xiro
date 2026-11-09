@@ -10,8 +10,6 @@
     "manual_admin.tools.conexion.cors_desc": "Origens HTTP permitidas.",
     "manual_admin.tools.conexion.ws": "Origens WebSocket",
     "manual_admin.tools.conexion.ws_desc": "Origens permitidas para a conexão em tempo real.",
-    "manual_admin.tools.conexion.umami": "Analíticas Umami",
-    "manual_admin.tools.conexion.umami_desc": "Configuração do URL e Website ID do Umami.",
     "manual_admin.tools.conexion.top_players": "Jogadores no ranking",
     "manual_admin.tools.conexion.top_players_desc": "Quantos jogadores mostra o ranking durante a partida."
   }

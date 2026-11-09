@@ -29,7 +29,7 @@ kick/, snare/, hatc/, hato/, crash/, cues/xstick_*
   el aro de la caja.
 
 cues/bip.flac
-  El bip de cuenta atrás del propio juego (public/audio/bip.wav).
+  El bip de cuenta atrás del propio juego (public/audio/bip.wav), generado con IA.
 
 --- Juegos de sonidos alternativos (se eligen en el admin, pestaña «Música») ---
 

@@ -28,7 +28,11 @@ const router = express.Router();
 const DEST_EMAIL = 'info@xiro.pro';
 
 function getTokenSecret() {
-    return runtimeConfig.get('CONTACT_TOKEN_SECRET') || 'xiro-contact-default-secret-2026';
+    // Sin secreto propio se deriva de JWT_SECRET: es común a todos los workers
+    return (
+        runtimeConfig.get('CONTACT_TOKEN_SECRET') ||
+        crypto.createHmac('sha256', process.env.JWT_SECRET).update('contact-token').digest('hex')
+    );
 }
 
 // ── Rate limiter ─────────────────────────────────────────────────────────────
@@ -104,7 +108,7 @@ router.get('/api/contact/token', (req, res) => {
  * @param {Object} body - Cuerpo de la petición
  * @returns {{error: string, code: string}|{fields: {nameStr: string, emailStr: string, messageStr: string}}}
  */
-function validateContactForm({ name, email, message, token, captcha, website }) {
+function validateContactForm({ name, email, message, token, captcha, website, privacyAccepted }) {
     // 1. Honeypot
     if (website && String(website).trim() !== '') {
         return { error: 'Solicitud inv\u00e1lida.', code: 'CONTACT_INVALID_REQUEST' };
@@ -137,6 +141,11 @@ function validateContactForm({ name, email, message, token, captcha, website }) 
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailStr)) {
         return { error: 'Email no v\u00e1lido.', code: 'CONTACT_EMAIL_INVALID' };
+    }
+
+    // 5. Aceptación de la política de privacidad
+    if (privacyAccepted !== true) {
+        return { error: 'Debes aceptar la pol\u00edtica de privacidad.', code: 'CONTACT_PRIVACY_REQUIRED' };
     }
 
     return { fields: { nameStr, emailStr, messageStr } };
@@ -172,7 +181,7 @@ router.post('/api/contact', contactLimiter, async (req, res) => {
         return res.status(400).json({ error: form.error, code: form.code });
     }
 
-    // 5. Envío de email
+    // 6. Envío de email
     try {
         const info = await sendContactEmail(form.fields);
 

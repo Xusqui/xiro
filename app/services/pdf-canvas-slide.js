@@ -7,12 +7,16 @@
 
 const fs = require('fs');
 const path = require('path');
+const { canvasFontFaces } = require('./pdf-canvas-fonts');
 const SlideFooter = require('../public/js/core/slide-footer.js');
 const { collectMediaRefs } = require('../public/js/core/slide-canvas-model');
 const { stageHtml } = require('../public/js/core/slide-canvas-render');
 const { readImageAsDataUri } = require('./pdf-html');
 
-const CANVAS_CSS = fs.readFileSync(path.join(__dirname, '..', 'public', 'css', 'slide-canvas.css'), 'utf8');
+// Sin el @import de fuentes: en el PDF no se resolvería y van incrustadas por página
+const CANVAS_CSS = fs
+    .readFileSync(path.join(__dirname, '..', 'public', 'css', 'slide-canvas.css'), 'utf8')
+    .replace(/@import[^;]+;/, '');
 
 /**
  * Reemplaza las referencias de imágenes locales (/uploads/...) por data URIs en el HTML
@@ -75,6 +79,7 @@ function generateCanvasSlideHTML(slide, index, total, resolvePath) {
         '\n' +
         '    </div>\n' +
         '    <style>' +
+        canvasFontFaces(stage) +
         CANVAS_CSS +
         ' .pdf-canvas-frame .xsc-stage{-webkit-transform:scale(0.5);transform:scale(0.5);}</style>\n' +
         '    <div class="pdf-canvas-frame" style="position:relative;width:960px;height:540px;overflow:hidden;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.4);">\n' +

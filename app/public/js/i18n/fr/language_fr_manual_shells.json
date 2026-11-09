@@ -71,7 +71,7 @@
     "manual_presenter.game.comment_slide.text": "Suspend le jeu pour l'interaction. Vous pouvez poser une question ouverte ou débat puis <strong>attribuer des points manuellement</strong> avec les boutons +1, +5, +10. Appuyez sur «Suivant» quand vous avez terminé.",
 
     "manual_presenter.trivial.intro.title": "Qu'est-ce que le Mode Trivia ?",
-    "manual_presenter.trivial.intro.text": "XiRo! se transforme en jeu de plateau style <strong>Trivial Pursuit</strong>. Les joueurs déplacent des pions sur un plateau circulaire en répondant à des questions par catégories. Le premier à obtenir le <strong>jeton</strong> de chaque catégorie gagne.",
+    "manual_presenter.trivial.intro.text": "XiRo! se transforme en <strong>Trivial XiRo!</strong>, un jeu de plateau. Les joueurs déplacent des pions sur un plateau circulaire en répondant à des questions par catégories. Le premier à obtenir le <strong>jeton</strong> de chaque catégorie gagne.",
     "manual_presenter.trivial.board.title": "Le plateau",
     "manual_presenter.trivial.board.text": "<strong>Anneau extérieur :</strong> cases de couleurs par catégorie. Les cases QG <strong>✦</strong> sont les seules où l'on obtient le jeton.<br><strong>Rayons :</strong> 5 cases reliant l'anneau au centre.<br><strong>Centre :</strong> point de départ.",
     "manual_presenter.trivial.turn.title": "Tour du joueur",

@@ -1,5 +1,6 @@
 {
   "keys": {
+    "player.nickname.notice": "Erabili ezizen bat. Ez dago zure izenik edo zu identifikatzen zaituen daturik jarri beharrik.",
     "player.session.label": "Saioaren IDa",
     "player.session.hint": "IDa aurkezlearen pantailan agertzen da",
     "player.session.placeholder": "XXXXXX-XXXX",

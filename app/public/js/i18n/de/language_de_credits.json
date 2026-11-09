@@ -1,0 +1,18 @@
+{
+  "keys": {
+    "credits.page_title": "XiRo! - Quellenangaben",
+    "credits.heading": "Quellenangaben",
+    "credits.subtitle": "XiRo! nutzt die Arbeit dieser Personen und Projekte gemäß ihren Lizenzen. Danke.",
+    "credits.section.sound": "Musik und Ton",
+    "credits.section.icons": "Symbole",
+    "credits.section.fonts": "Schriftarten",
+    "credits.section.software": "Software in deinem Browser",
+    "credits.sound_note": "Die Samples wurden bearbeitet: gekürzt, normalisiert oder zu Mono gemischt.",
+    "credits.license.no_restrictions": "laut Urheber ohne Einschränkungen nutzbar",
+    "credits.section.own": "Für XiRo! erstellt",
+    "credits.mascot": "XiRo-Maskottchen",
+    "credits.ai_note": "Der Countdown-Piepton und die Sprachflaggen wurden mit KI erzeugt.",
+    "credits.fireworks": "Feuerwerk (Code und Sounds)",
+    "credits.license.code_mit": "Code unter MIT-Lizenz"
+  }
+}

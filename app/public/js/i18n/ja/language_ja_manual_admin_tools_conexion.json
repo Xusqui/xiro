@@ -10,8 +10,6 @@
     "manual_admin.tools.conexion.cors_desc": "許可される HTTP オリジン。",
     "manual_admin.tools.conexion.ws": "WebSocket オリジン",
     "manual_admin.tools.conexion.ws_desc": "リアルタイム接続に許可されるオリジン。",
-    "manual_admin.tools.conexion.umami": "Umami 分析",
-    "manual_admin.tools.conexion.umami_desc": "Umami URLとWebサイトIDの設定。",
     "manual_admin.tools.conexion.top_players": "リーダーボードのプレイヤー",
     "manual_admin.tools.conexion.top_players_desc": "ゲーム中にリーダーボードに表示されるプレイヤー数。"
   }

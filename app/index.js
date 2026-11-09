@@ -58,6 +58,8 @@ const trivialRoutes = require('./routes/trivial.routes');
 const uiSettingsRoutes = require('./routes/ui-settings.routes');
 const resultsRoutes = require('./routes/results.routes');
 const contactRoutes = require('./routes/contact.routes');
+const legalInfoRoutes = require('./routes/legal-info.routes');
+const { startAdminTokenCleanup } = require('./services/db/admin-token-cleanup.service');
 const addinLogRoutes = require('./routes/addin-log.routes');
 
 // ===== SOCKETS =====
@@ -175,6 +177,7 @@ app.use(trivialRoutes);
 app.use(uiSettingsRoutes);
 app.use(resultsRoutes);
 app.use(contactRoutes);
+app.use(legalInfoRoutes);
 app.use(addinLogRoutes);
 
 app.use(aiGeneratorRoutes);
@@ -261,6 +264,7 @@ async function main() {
     try {
         await startServer();
         await workerRegistry.start();
+        if (isMasterWorker) startAdminTokenCleanup();
 
         server.listen(PORT, () => {
             // Iniciar health checks periódicos (cada 30s)

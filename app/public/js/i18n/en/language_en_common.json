@@ -1,8 +1,16 @@
 {
   "keys": {
+    "common.slide_image_alt": "Slide image",
+    "common.legal.accessibility": "Accessibility",
     "common.footer.copyright": "© 2026 XiRo! Interactive quiz system",
     "common.footer.author": "Copyright: Fernández Villatoro Family",
     "common.footer.contact": "Contact",
+    "common.footer.credits": "Credits",
+    "common.legal.notice": "Legal notice",
+    "common.legal.privacy": "Privacy",
+    "common.legal.cookies": "Cookies",
+    "common.legal.terms": "Terms",
+    "common.legal.refunds": "Refunds",
     "common.back_home": "Back to home",
     "common.error_title": "Error",
     "common.btn_retry": "Retry",

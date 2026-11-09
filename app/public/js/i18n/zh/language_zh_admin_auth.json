@@ -1,5 +1,8 @@
 {
   "keys": {
+    "admin.register.accept_terms": "我已年满 14 岁，并接受<a href=\"/legal/en/terms.html\" target=\"_blank\" rel=\"noopener\">条款</a>和<a href=\"/legal/en/privacy.html\" target=\"_blank\" rel=\"noopener\">隐私政策</a>。",
+    "admin.register.error_terms": "您必须接受条款和隐私政策",
+    "admin.login.terms_required": "请接受条款和隐私政策后继续。",
     "admin.login.eyebrow": "控制面板",
     "admin.login.title": "行政人员",
     "admin.login.username": "用户",

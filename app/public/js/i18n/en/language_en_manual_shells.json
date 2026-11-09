@@ -71,7 +71,7 @@
     "manual_presenter.game.comment_slide.text": "Pauses the game for interaction. You can pose an open question or debate and then <strong>assign points manually</strong> using the +1, +5, +10 buttons. Press «Next» when done.",
 
     "manual_presenter.trivial.intro.title": "What is Trivia Mode?",
-    "manual_presenter.trivial.intro.text": "XiRo! becomes a <strong>Trivial Pursuit</strong>-style board game. Players move pieces on a circular board answering category questions. The first to collect the <strong>token</strong> of each category wins.",
+    "manual_presenter.trivial.intro.text": "XiRo! becomes <strong>Trivial XiRo!</strong>, a board game. Players move pieces on a circular board answering category questions. The first to collect the <strong>token</strong> of each category wins.",
     "manual_presenter.trivial.board.title": "The board",
     "manual_presenter.trivial.board.text": "<strong>Outer ring:</strong> colour-coded squares by category. The HQ squares <strong>✦</strong> are the only ones where you can win a token.<br><strong>Spokes:</strong> 5 squares connecting the ring to the centre.<br><strong>Centre:</strong> starting point.",
     "manual_presenter.trivial.turn.title": "Player's turn",

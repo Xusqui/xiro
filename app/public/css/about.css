@@ -38,7 +38,7 @@
 
 /* ===== STAT BADGES — glass on dark bg, white text is correct here ===== */
 .stat-badge {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgb(15 23 42 / 0.6);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.25);
@@ -46,7 +46,7 @@
 }
 
 .stat-badge:hover {
-    background: rgba(255, 255, 255, 0.22);
+    background: rgb(15 23 42 / 0.7);
     transform: translateY(-2px);
 }
 
@@ -125,4 +125,17 @@
 .particle img {
     width: 6rem;
     height: 6rem;
+}
+
+/* Velo oscuro: el texto claro pasa AA sobre cualquier punto de las hojas */
+.about-veil {
+    background: rgb(15 23 42 / 0.6);
+    border-radius: 1rem;
+}
+
+/* Tras la regla base de .stat-number: antes de ella, su animación la pisaba */
+@media (prefers-reduced-motion: reduce) {
+    .stat-number {
+        animation: none;
+    }
 }

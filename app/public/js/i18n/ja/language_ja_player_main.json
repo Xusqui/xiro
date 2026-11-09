@@ -1,5 +1,6 @@
 {
   "keys": {
+    "player.nickname.notice": "ニックネームを使ってください。名前や個人を特定できる情報は必要ありません。",
     "player.session.label": "セッションID",
     "player.session.hint": "発表者の画面にIDが表示される",
     "player.session.placeholder": "XXXXXX-XXXX",

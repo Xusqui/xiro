@@ -1,7 +1,10 @@
 {
   "keys": {
+    "admin.ai.clear_file": "Remove file",
+    "admin.ai.privacy_notice": "Do not include personal data in documents or topics: the text is sent to the configured AI provider.",
+    "admin.ai.review_notice": "AI-generated questions: review them before use.",
     "admin.ai.title": "AI Question Generator",
-    "admin.ai.subtitle": "100% local with AI · Without internet connection",
+    "admin.ai.subtitle": "Generate questions with AI from a document or a topic",
     "admin.ai.checking": "Checking AI...",
     "admin.ai.step1": "1 · Source",
     "admin.ai.step2": "2 · Configure",

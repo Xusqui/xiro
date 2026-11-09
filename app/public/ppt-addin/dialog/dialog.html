@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self' https://xiro.pro https://appsforoffice.microsoft.com https://cdnjs.cloudflare.com; script-src 'self' https://appsforoffice.microsoft.com https://cdnjs.cloudflare.com; connect-src 'self' wss://xiro.pro https://xiro.pro; style-src 'self' 'unsafe-inline';">
+        content="default-src 'self' https://xiro.pro https://appsforoffice.microsoft.com; script-src 'self' https://appsforoffice.microsoft.com; connect-src 'self' wss://xiro.pro https://xiro.pro; style-src 'self' 'unsafe-inline';">
     <title>Xiro!</title>
     <link rel="stylesheet" href="dialog.css?v=20260922172926">
     <script src="/js/i18n/i18n-core.js?v=20260922172926"></script>
@@ -18,10 +18,8 @@
 
     <!-- Office.js -->
     <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
-    <!-- Socket.IO (CDN) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"
-        integrity="sha512-11t8Q+vY9JlCrr+PveZKTYJq8n7O09Y5X/pk/aMd3vJugSvu4xOunGEUzaADqL3I8cZKE/pBwwCfXzDkRJh2sQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Socket.IO (servido por este servidor) -->
+    <script src="/socket.io/socket.io.js"></script>
 
     <!-- Shared modules (globales) -->
     <script src="../shared/state.js?v=20260922172926"></script>

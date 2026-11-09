@@ -225,6 +225,15 @@ function showRegisterForm(isAdminSetup) {
     }
 }
 
+function requireLoginTerms() {
+    document.getElementById('login-terms-row').classList.remove('hidden');
+    document.getElementById('login-accept-terms').required = true;
+    showLoginError(
+        _t('admin.login.terms_required', null, 'Para continuar, acepta los términos y la política de privacidad.'),
+        'admin.login.terms_required'
+    );
+}
+
 async function submitLogin() {
     const username = document.getElementById('admin-username').value.trim().toLowerCase();
     const password = document.getElementById('admin-password').value;
@@ -243,13 +252,22 @@ async function submitLogin() {
         const res = await fetch('/api/admin-login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password })
+            body: JSON.stringify({
+                username,
+                password,
+                ...(document.getElementById('login-accept-terms').checked ? { acceptTerms: true } : {})
+            })
         });
         const data = await res.json();
 
         if (res.ok && data.token) {
             startAdminSession(data.token, data.role || 'admin', data.username);
             showAdmin();
+            return;
+        }
+
+        if (data.code === 'TERMS_ACCEPTANCE_REQUIRED') {
+            requireLoginTerms();
             return;
         }
 
@@ -298,11 +316,19 @@ async function submitRegistration() {
         return;
     }
 
+    if (!document.getElementById('register-accept-terms').checked) {
+        showRegisterError(
+            _t('admin.register.error_terms', null, 'Debes aceptar los términos y la política de privacidad'),
+            'admin.register.error_terms'
+        );
+        return;
+    }
+
     try {
         const res = await fetch('/api/admin-register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, email, password, confirmPassword })
+            body: JSON.stringify({ username, email, password, confirmPassword, acceptTerms: true })
         });
         const data = await res.json();
 

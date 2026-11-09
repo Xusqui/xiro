@@ -111,7 +111,7 @@ function editarSlideImagen(index) {
             <div class="mb-4">
                 <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1 tracking-widest">Imagen actual</label>
                 <div id="previewWrapEditImagen" class="w-full h-28 bg-slate-100 rounded-xl flex items-center justify-center overflow-hidden border">
-                    <img id="previewEditImagen" src="${_escapeAttrImagen(currentSrc)}" class="max-w-full max-h-full object-contain" />
+                    <img id="previewEditImagen" src="${_escapeAttrImagen(currentSrc)}" alt="" class="max-w-full max-h-full object-contain" />
                 </div>
             </div>
 

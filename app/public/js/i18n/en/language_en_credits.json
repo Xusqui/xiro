@@ -1,0 +1,18 @@
+{
+  "keys": {
+    "credits.page_title": "XiRo! - Credits",
+    "credits.heading": "Credits",
+    "credits.subtitle": "XiRo! uses the work of these people and projects under their licenses. Thank you.",
+    "credits.section.sound": "Music and sound",
+    "credits.section.icons": "Icons",
+    "credits.section.fonts": "Typefaces",
+    "credits.section.software": "Software in your browser",
+    "credits.sound_note": "Samples have been adapted: trimmed, normalized or mixed to mono.",
+    "credits.license.no_restrictions": "free to use without restrictions, per its author",
+    "credits.section.own": "Created for XiRo!",
+    "credits.mascot": "XiRo! mascot",
+    "credits.ai_note": "The countdown beep and the language flags were generated with AI.",
+    "credits.fireworks": "Fireworks (code and sounds)",
+    "credits.license.code_mit": "code under the MIT license"
+  }
+}

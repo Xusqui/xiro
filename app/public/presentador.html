@@ -7,9 +7,7 @@
     <meta name="xiro-i18n-sections" content="common,presenter">
     <title>XiRo! - Lobby</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <script defer src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.9.2/lib/qr-code-styling.js"
-        integrity="sha384-P7sw4KeI1SDhOs6wYFsBysIIHFqMTgG4y9vunEfL8ZuV0WhnHsh9MRu9Rso17MtY"
-        crossorigin="anonymous"></script>
+    <script defer src="/vendor/qr-code-styling/qr-code-styling-1.9.2.min.js"></script>
     <link rel="stylesheet" href="/css/common.css?v=20260922172926">
     <link rel="stylesheet" href="/css/output-presenter.css?v=20260922172926">
     <link rel="stylesheet" href="/css/presenter.css?v=20261026120000">
@@ -30,17 +28,11 @@
     <link rel="stylesheet" href="/css/reactions-stream.css?v=20261030160000">
     <link rel="stylesheet" href="/css/avatars.css?v=20261031120000">
     <link rel="stylesheet" href="/css/game-intro.css?v=20260922172926">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Monoton&display=swap">
+    <link rel="stylesheet" href="/css/fonts.css">
     <link rel="stylesheet" href="/css/neon.css?v=20260922172926">
     <link rel="stylesheet" href="/css/index-style.css?v=20260922172926">
     <script src="/socket.io/socket.io.js?v=20260922172926"></script>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer">
-    <script defer src="/js/core/umami-loader.js?v=20260922172926"></script>
+    <link rel="stylesheet" href="/vendor/fontawesome/css/all.min.css">
     <style>
         @keyframes xiroPresenterGradient {
             0% {
@@ -88,6 +80,7 @@
 </head>
 
 <body class="bg-gradient-to-br text-white h-screen w-full overflow-hidden">
+    <a href="#lobby-main" class="skip-link" data-i18n="common.skip_link">Saltar al contenido</a>
     <div id="presenter-loading"
         class="hidden fixed inset-0 z-[9999] text-white flex flex-col items-center justify-center">
         <img src="/images/logo.svg" alt="XiRo!"
@@ -127,11 +120,11 @@
             class="text-[300px] font-black italic text-white drop-shadow-[0_0_50px_rgba(176,91,170,0.8)]"></span>
     </div>
 
-    <div id="lobby-main" class="h-full flex flex-col p-6 gap-2"
+    <div id="lobby-main" role="main" tabindex="-1" class="h-full flex flex-col p-6 gap-2"
         style="width: calc(100% - 200px); display: none; position: relative;">
         <div id="header-lobby"
             style="display: grid; grid-template-columns: 1fr max-content 1fr; align-items: center; height: 50%;">
-            <img src="/images/logo.svg"
+            <img src="/images/logo.svg" alt="XiRo!"
                 style="width: clamp(180px, 45vw, 600px); max-width: 90%; height: auto; display: block; justify-self: center; align-self: center; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.5));">
             <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; height: 100%;">
                 <div id="qr-card"
@@ -218,6 +211,7 @@
         <footer class="stage-menu-footer">
             <a href="/about.html" class="hover:text-plum-400 transition-colors" title="Acerca de XiRo!"
                 data-i18n="common.footer.author">...</a>
+            <span class="text-xs" data-legal-links></span>
         </footer>
     </div>
 
@@ -297,6 +291,7 @@
     <script src="/js/core/site-badge.js?v=20260922172926"></script>
     <script src="/js/core/personalization.js?v=20260922172926"></script>
     <script src="/js/core/hojas-bg.js?v=20260922172926"></script>
+    <script src="/js/core/legal-links.js?v=20261109120000"></script>
 </body>
 
 </html>

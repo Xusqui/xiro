@@ -121,7 +121,7 @@ window.TVApp.RenderSlides = (function () {
         const imgHtml = imageUrl
             ? '<img src="' +
               escapeHtml(imageUrl) +
-              '" style="max-width:100%;max-height:90vh;object-fit:contain;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.5);" />'
+              '" alt="Imagen de la diapositiva" style="max-width:100%;max-height:90vh;object-fit:contain;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.5);" />'
             : '<div style="color:#fff;font-size:3rem;opacity:.4"><i class="fas fa-image"></i></div>';
 
         getEl('main-container').innerHTML = _tHtml(
@@ -157,7 +157,7 @@ window.TVApp.RenderSlides = (function () {
         const imgHtml = imageUrl
             ? '<img src="' +
               escapeHtml(imageUrl) +
-              '" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:1.5rem;box-shadow:0 20px 60px rgba(0,0,0,.5);" />'
+              '" alt="Imagen de la diapositiva" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:1.5rem;box-shadow:0 20px 60px rgba(0,0,0,.5);" />'
             : '<div style="color:rgba(255,255,255,.3);text-align:center;font-size:4rem;"><i class="fas fa-image"></i></div>';
         const imgCol =
             '<div style="flex:1;display:flex;align-items:center;justify-content:center;">' + imgHtml + '</div>';
@@ -197,12 +197,7 @@ window.TVApp.RenderSlides = (function () {
                 mediaStyle +
                 '"></video>';
         } else if (source && source.embedUrl) {
-            mediaHtml =
-                '<iframe src="' +
-                escapeHtml(source.embedUrl + '&autoplay=1') +
-                '" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" title="Vídeo" style="' +
-                mediaStyle +
-                '"></iframe>';
+            mediaHtml = window.TVApp.VideoGate.html(source);
         }
 
         // Hueco inferior para que «Siguiente» no tape los controles del vídeo

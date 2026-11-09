@@ -22,6 +22,20 @@ const router = express.Router();
 
 const RESULT_PAGE = '/admin.html';
 
+// La venta queda apagada hasta que el titular active los pagos (LICENSE_CHECKOUT_ENABLED=true)
+function isCheckoutEnabled() {
+    return process.env.LICENSE_CHECKOUT_ENABLED === 'true';
+}
+
+function requireCheckoutEnabled(_req, res, next) {
+    if (isCheckoutEnabled()) return next();
+    return res.status(404).json({
+        success: false,
+        error: 'La compra de licencias no está disponible',
+        code: 'LICENSE_CHECKOUT_DISABLED'
+    });
+}
+
 function publicBaseUrl(req) {
     // Si llega una lista separada por comas (estilo CORS_ORIGIN), usar la primera
     const configured = String(process.env.PUBLIC_BASE_URL || '')
@@ -42,6 +56,8 @@ function normalizePaypalOrderId(value) {
 }
 
 router.get('/api/user/license/plans', authenticateAdmin, async (_req, res) => {
+    if (!isCheckoutEnabled()) return res.json({ success: true, plans: [] });
+
     try {
         const plans = await checkoutService.listPlans();
         res.json({ success: true, plans });
@@ -58,6 +74,7 @@ router.get('/api/user/license/plans', authenticateAdmin, async (_req, res) => {
 router.post(
     '/api/user/license/checkout',
     authenticateAdmin,
+    requireCheckoutEnabled,
     accountMutationLimiter,
     validateBody(schemas.userLicenseCheckout),
     async (req, res) => {

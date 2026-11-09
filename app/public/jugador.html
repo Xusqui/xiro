@@ -22,12 +22,8 @@
     <link rel="stylesheet" href="/css/game-intro.css?v=20260922172926">
     <link rel="stylesheet" href="/css/reactions-tray.css?v=20261030170000">
     <link rel="stylesheet" href="/css/avatars.css?v=20261031120000">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="/vendor/fontawesome/css/all.min.css">
     <script src="/socket.io/socket.io.js?v=20260922172926"></script>
-    <script defer src="/js/core/umami-loader.js?v=20260922172926"></script>
     <style>
         /* Clases personalizadas para text-fitting dinámico */
         .text-adaptive {
@@ -112,14 +108,16 @@
 
 <body class="bg-plum-700 h-dvh flex flex-col items-center justify-center font-sans text-white overflow-hidden p-4">
 
-    <div id="main-container" class="w-full max-w-sm text-center">
-        <img src="/images/logo.svg" alt="Logo"
+    <a href="#main-container" class="skip-link" data-i18n="common.skip_link">Saltar al contenido</a>
+    <div id="main-container" role="main" class="w-full max-w-sm text-center">
+        <img src="/images/logo.svg" alt="XiRo!"
             style="width: 100%; max-width: 384px; margin: 0 auto 2rem auto; filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04));">
         <div id="login-box" class="bg-white p-8 rounded-3xl shadow-2xl text-slate-800 border-b-8 border-gray-200">
             <div id="step-1">
                 <h2 class="text-slate-700 font-bold mb-2 text-base" data-i18n="player.session.label">...</h2>
                 <p class="text-sm text-slate-500 mb-3" data-i18n="player.session.hint">...</p>
                 <input type="text" id="session-input" placeholder="XXXXXX-XXXX" autofocus
+                    aria-label="ID de sesión" data-i18n-aria-label="player.session.label"
                     data-i18n-placeholder="player.session.placeholder"
                     class="w-full p-4 mb-6 border-4 border-gray-100 rounded-2xl font-black text-xl text-center focus:border-plum-500 outline-none uppercase">
                 <button data-player-action="validar-session" data-i18n="player.session.submit"
@@ -135,12 +133,15 @@
             <div id="step-2" class="hidden">
                 <h2 class="text-slate-500 font-bold mb-2 uppercase text-sm" data-i18n="player.nickname.label">...</h2>
                 <input type="text" id="nickname-input" placeholder="APODO" maxlength="15"
+                    aria-label="¿Tu apodo?" data-i18n-aria-label="player.nickname.label"
                     data-i18n-placeholder="player.nickname.placeholder"
                     class="w-full p-4 mb-6 border-4 border-gray-100 rounded-2xl font-black text-2xl text-center focus:border-plum-500 outline-none uppercase">
+                <p class="text-xs text-slate-500 mb-4" data-i18n="player.nickname.notice">Usa un apodo. No hace falta tu nombre ni ningún dato que te identifique.</p>
                 <div id="avatar-picker" class="avp" hidden></div>
                 <button data-player-action="join-lobby" data-i18n="player.nickname.submit"
                     class="w-full bg-green-600 text-white p-4 rounded-2xl font-black text-xl">...</button>
             </div>
+            <p class="text-xs text-slate-500 mt-4" data-legal-links></p>
         </div>
     </div>
 
@@ -159,6 +160,7 @@
     <script src="/js/core/game-intro-overlay.js?v=20260922172926"></script>
     <script src="/js/core/site-badge.js?v=20260922172926"></script>
     <script src="/js/core/personalization.js?v=20260922172926"></script>
+    <script src="/js/core/legal-links.js?v=20261109120000"></script>
 </body>
 
 </html>

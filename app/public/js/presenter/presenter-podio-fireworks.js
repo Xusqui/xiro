@@ -54,6 +54,9 @@ export async function startFireworks({ behindPodium = false } = {}) {
         fireworksController.destroy();
     }
 
+    // Son destellos a pantalla completa: se respeta la preferencia de reducir movimiento
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+
     // Verificar que FireworksController esté disponible
     if (typeof FireworksController === 'undefined') {
         console.warn('⚠️ FireworksController no disponible, fuegos artificiales deshabilitados');

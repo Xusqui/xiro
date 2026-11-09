@@ -1,5 +1,6 @@
 {
   "keys": {
+    "contact.form.privacy_html": "我已阅读并接受<a class=\"underline font-bold\" href=\"/legal/en/privacy.html\" target=\"_blank\" rel=\"noopener\">隐私政策</a>。我们仅会使用您的信息回复您。",
     "contact.title": "联系方式",
     "contact.subtitle": "您有任何问题或建议吗？写信给我们。",
     "contact.success.title": "消息已发送！",

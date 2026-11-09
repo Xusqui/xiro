@@ -71,7 +71,7 @@
     "manual_presenter.game.comment_slide.text": "Pausiert das Spiel für die Interaktion. Du kannst eine offene Frage stellen und dann mit den Schaltflächen +1, +5, +10 <strong>manuell Punkte vergeben</strong>. Drücke «Weiter», wenn du fertig bist.",
 
     "manual_presenter.trivial.intro.title": "Was ist der Trivia-Modus?",
-    "manual_presenter.trivial.intro.text": "XiRo! wird zu einem Brettspiel im Stil von <strong>Trivial Pursuit</strong>. Spieler bewegen Spielfiguren auf einem kreisförmigen Brett und beantworten Fragen nach Kategorien. Wer den <strong>Token</strong> jeder Kategorie sammelt, gewinnt.",
+    "manual_presenter.trivial.intro.text": "XiRo! wird zu <strong>Trivial XiRo!</strong>, einem Brettspiel. Spieler bewegen Spielfiguren auf einem kreisförmigen Brett und beantworten Fragen nach Kategorien. Wer den <strong>Token</strong> jeder Kategorie sammelt, gewinnt.",
     "manual_presenter.trivial.board.title": "Das Spielbrett",
     "manual_presenter.trivial.board.text": "<strong>Außenring:</strong> farbige Felder nach Kategorie. Die HQ-Felder <strong>✦</strong> sind die einzigen, auf denen ein Token gewonnen werden kann.<br><strong>Speichen:</strong> 5 Felder, die den Ring mit der Mitte verbinden.<br><strong>Mitte:</strong> Startpunkt.",
     "manual_presenter.trivial.turn.title": "Spielerzug",

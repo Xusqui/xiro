@@ -71,7 +71,7 @@
     "manual_presenter.game.comment_slide.text": "Jokoa interakziorako gelditzen da. Galdera irekia edo eztabaida plantea dezakezu eta gero +1, +5, +10 botoiekin <strong>puntuak eskuz esleitu</strong>. Sakatu «Hurrengoa» amaitzean.",
 
     "manual_presenter.trivial.intro.title": "Zer da Trivial Modua?",
-    "manual_presenter.trivial.intro.text": "XiRo! <strong>Trivial Pursuit</strong> estiloko mahai-jokoaldia bihurtzen da. Jokalariek fitxak mugitzen dituzte taula zirkular batean kategorien arabera galderak erantzunez. Kategoria bakoitzeko <strong>tokena</strong> lortzen duenak irabazten du.",
+    "manual_presenter.trivial.intro.text": "XiRo! <strong>Trivial XiRo!</strong> izeneko mahai-jokoaldia bihurtzen da. Jokalariek fitxak mugitzen dituzte taula zirkular batean kategorien arabera galderak erantzunez. Kategoria bakoitzeko <strong>tokena</strong> lortzen duenak irabazten du.",
     "manual_presenter.trivial.board.title": "Taula",
     "manual_presenter.trivial.board.text": "<strong>Kanpo eraztuna:</strong> kolore-laukiak kategorien arabera. HQ laukiak <strong>✦</strong> dira tokenak lor daitezkeen bakarrak.<br><strong>Erradioak:</strong> eraztuna zentroarekin lotzen dituzten 5 lauki.<br><strong>Zentroa:</strong> abiapuntua.",
     "manual_presenter.trivial.turn.title": "Jokalariaren txanda",

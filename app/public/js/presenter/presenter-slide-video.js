@@ -9,10 +9,8 @@ import { cleanupPodio } from './presenter-podio.js?v=20260922172926';
 import { showChamaleonOverlay } from './presenter-chamaleon.js?v=20260922172926';
 import { appendSlideFooter } from '../core/slide-footer-dom.js?v=20261017120000';
 import { takePreloadedVideo, createVideoElement, releaseVideo } from './presenter-video-preloader.js?v=20261019120000';
+import { createVideoGate, MEDIA_STYLE } from './presenter-video-gate.js?v=20261109120000';
 
-// El vídeo ocupa todo el hueco y conserva su proporción (bandas negras si hace falta)
-const MEDIA_STYLE = 'width:100%;height:100%;object-fit:contain;border:0;background:#000;display:block;';
-const IFRAME_ALLOW = 'autoplay; fullscreen; encrypted-media; picture-in-picture';
 const activeVideos = [];
 
 /**
@@ -91,7 +89,8 @@ export function renderVideoSlide(slide) {
 }
 
 /**
- * Monta el reproductor de una fuente de vídeo (archivo o embebido) dentro de una caja.
+ * Monta el vídeo de una fuente dentro de una caja: el archivo directamente y los
+ * servicios externos tras un toque del presentador.
  * Lo usan la diapositiva de vídeo (siempre con autoplay) y la diapositiva libre.
  * @param {Element} box - Caja donde se monta el vídeo
  * @param {Object} source - Resultado de parseVideoSource
@@ -100,14 +99,7 @@ export function renderVideoSlide(slide) {
 export function mountVideoMedia(box, source, options = {}) {
     const autoplay = options.autoplay !== false;
     if (source.kind !== 'file') {
-        const iframe = document.createElement('iframe');
-        iframe.src = source.embedUrl + (autoplay ? '&autoplay=1' : '');
-        iframe.allow = IFRAME_ALLOW;
-        iframe.allowFullscreen = true;
-        iframe.referrerPolicy = 'strict-origin-when-cross-origin';
-        iframe.title = 'Vídeo';
-        iframe.style.cssText = MEDIA_STYLE;
-        box.appendChild(iframe);
+        box.appendChild(createVideoGate(source));
         return;
     }
 

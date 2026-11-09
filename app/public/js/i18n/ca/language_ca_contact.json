@@ -1,5 +1,6 @@
 {
   "keys": {
+    "contact.form.privacy_html": "He llegit i accepto la <a class=\"underline font-bold\" href=\"/legal/privacidad.html\" target=\"_blank\" rel=\"noopener\">política de privadesa</a>. Farem servir les teves dades només per respondre't.",
     "contact.title": "Contacte",
     "contact.subtitle": "Tens alguna pregunta o suggeriment? Escriu-nos.",
     "contact.success.title": "Missatge enviat!",

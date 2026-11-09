@@ -1,5 +1,8 @@
 {
   "keys": {
+    "admin.register.accept_terms": "Gutxienez 14 urte ditut eta <a href=\"/legal/terminos.html\" target=\"_blank\" rel=\"noopener\">baldintzak</a> eta <a href=\"/legal/privacidad.html\" target=\"_blank\" rel=\"noopener\">pribatutasun-politika</a> onartzen ditut.",
+    "admin.register.error_terms": "Baldintzak eta pribatutasun-politika onartu behar dituzu",
+    "admin.login.terms_required": "Jarraitzeko, onartu baldintzak eta pribatutasun-politika.",
     "admin.login.eyebrow": "kontrol panela",
     "admin.login.title": "Administratzailea",
     "admin.login.username": "Erabiltzailea",

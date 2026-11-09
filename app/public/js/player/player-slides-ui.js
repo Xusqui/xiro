@@ -118,7 +118,7 @@ export function renderizarSlideImagen(slide) {
         <div class="h-screen w-screen flex items-center justify-center overflow-hidden" style="background: #111827;">
             ${
     imageUrl
-        ? `<img src="${imageUrl}" style="max-width: 100vw; max-height: 100vh; width: auto; height: auto; object-fit: contain; display: block;" />`
+        ? `<img src="${imageUrl}" alt="${_t('common.slide_image_alt', null, 'Imagen de la diapositiva')}" style="max-width: 100vw; max-height: 100vh; width: auto; height: auto; object-fit: contain; display: block;" />`
         : '<div style="color: rgba(255,255,255,0.3); text-align: center;"><i class="fas fa-image fa-6x"></i></div>'
 }
         </div>

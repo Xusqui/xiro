@@ -66,8 +66,6 @@ function getAllowedCorsOrigins() {
 
 const BASE_SCRIPT_SRC = [
     '\'self\'',
-    'https://cdnjs.cloudflare.com',
-    'https://cdn.jsdelivr.net',
     'https://appsforoffice.microsoft.com',
     // Inline <script> blocks (hashes calculados sin whitespace strip)
     '\'sha256-kFqSCZo0ilAnq5DWM22z6cLoTm9NnVlsj22FttxlMeY=\'', // presentador.html L55: playerId
@@ -75,25 +73,12 @@ const BASE_SCRIPT_SRC = [
     '\'sha256-OfhqrFMR6qqwC7YY1k29dFBtDCJRjDn4uO4X58+3kzw=\'', // presentador.html L182: fireworks sound + ui-settings
     // index.html: inline script moved to /js/core/index-init.js (served from 'self')
     '\'sha256-crohukbLplnIHj8edMMOcYjlkk4PvtIugzYuH+gMzSQ=\'', // tv.html: playerId
-    '\'sha256-vTn/awFFDzR64Qc8YcBgdBdumGtduNXODPeaqT7FIFc=\'', // contact.html: form handler
     '\'sha256-cxxpClMEX/wv6RWwz6Y1F0amAkNF0A1RcbfTz0sbqg0=\'', // juego-concluido.html / juego-finalizado-presentador.html
     '\'sha256-GN5mcXaPICRaVYTyha8rvCUnuZOH8P7yITutSD0PRK4=\'', // ppt-redirect.html
     '\'sha256-ul/v0CisU7Zqw8SY+9SvXyoYEdITat4Z8gaRKnu25ak=\'', // fireworks-preview.html
     '\'sha256-kLPXYcEGPWpndeLvpPR1HRMZJ9PVTnVqa/1dUNJ1GFk=\'', // xiro-results-viewer.html
-    '\'sha256-5FKiUvj99wyDNTbzh2Ic/7hMwqYXv2DaakTc9D36gWc=\'' // about.html: mascota decorativa aleatoria
+    '\'sha256-Sp6H3NflEMG13noI9ThzPzfS0KqnK2elUR9SvDWFDJU=\'' // about.html: mascota decorativa aleatoria
 ];
-
-// Origen del servidor de Umami, o cadena vacía si no hay o la URL no es válida
-function getUmamiOrigin() {
-    const umamiUrl = runtimeConfig.get('UMAMI_SERVER_URL');
-    if (!umamiUrl) return '';
-    try {
-        return new URL(umamiUrl).origin;
-    } catch (e) {
-        // Ignore invalid URL
-        return '';
-    }
-}
 
 // Orígenes WS permitidos a partir de CORS
 function getAllowedWsOrigins() {
@@ -110,21 +95,15 @@ function getAllowedWsOrigins() {
 }
 
 function buildCspDirectives() {
-    const umamiHost = getUmamiOrigin();
-    const scriptSrc = umamiHost ? [...BASE_SCRIPT_SRC, umamiHost] : [...BASE_SCRIPT_SRC];
-
     const connectSrc = [
         '\'self\'',
         'ws://localhost:*',
-        ...getAllowedWsOrigins(),
-        'https://api-gateway.umami.dev', // Umami analytics endpoint
-        'https://cdn.jsdelivr.net' // qr-code-styling sourcemaps
+        ...getAllowedWsOrigins()
     ];
-    if (umamiHost) connectSrc.push(umamiHost);
 
     return {
         defaultSrc: ['\'self\''],
-        scriptSrc: [...scriptSrc, '\'unsafe-inline\'', '\'unsafe-eval\''],
+        scriptSrc: [...BASE_SCRIPT_SRC, '\'unsafe-inline\'', '\'unsafe-eval\''],
         scriptSrcAttr: ['\'none\''],
         // El reloj de Tone.js (música del presentador) corre en un Worker creado
         // desde un Blob; sin esto cae en script-src, se bloquea sin error y el
@@ -132,11 +111,9 @@ function buildCspDirectives() {
         workerSrc: ['\'self\'', 'blob:'],
         styleSrc: [
             '\'self\'',
-            'https://cdnjs.cloudflare.com',
-            'https://fonts.googleapis.com',
             '\'unsafe-inline\'' // Requerido por bloques <style> y atributos style=""
         ],
-        fontSrc: ['\'self\'', 'https://cdnjs.cloudflare.com', 'https://fonts.gstatic.com'],
+        fontSrc: ['\'self\''],
         connectSrc: connectSrc,
         imgSrc: ['\'self\'', 'data:', 'blob:'],
         // Diapositiva de vídeo: archivos de vídeo de cualquier origen https y reproductores incrustados

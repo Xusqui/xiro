@@ -58,8 +58,6 @@ const uploadPersonalizationImage = multer({
 /** Público — index.html lo consume para aplicar visibilidad */
 router.get('/api/ui-settings', (req, res) => {
     const settings = uiSettings.getAll();
-    settings.umamiServerUrl = runtimeConfig.get('UMAMI_SERVER_URL');
-    settings.umamiWebsiteId = runtimeConfig.get('UMAMI_WEBSITE_ID');
     // Tiempo por defecto de las preguntas nuevas en el editor de bancos (Config → Partidas)
     settings.questionTimeLimit = runtimeConfig.get('QUESTION_TIME_LIMIT');
     res.json(settings);

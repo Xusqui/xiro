@@ -8,6 +8,7 @@ const { JWT_EXPIRES_IN } = require('../config/constants');
 const { loginLimiter, resetLoginLimiter } = require('../middlewares/security');
 const { schemas, validateBody } = require('../validation');
 const logger = require('../config/logger');
+const { LEGAL_TERMS_VERSION } = require('../config/legal');
 const adminUserService = require('../services/db/admin-user.service');
 const { verifyPassword } = require('../services/auth/password-hasher');
 
@@ -60,6 +61,24 @@ router.use(adminUsersRoutes);
 router.use(adminRegisterRoutes);
 
 /**
+ * Comprueba que la cuenta ha aceptado los términos vigentes; si los acepta ahora, lo registra.
+ * @returns {Promise<boolean>} false si ya se ha respondido con el error
+ */
+async function ensureTermsAccepted(req, res, user) {
+    if (user.terms_version === LEGAL_TERMS_VERSION) return true;
+    if (req.body.acceptTerms !== true) {
+        res.status(403).json({
+            success: false,
+            error: 'Debes aceptar los términos y la política de privacidad',
+            code: 'TERMS_ACCEPTANCE_REQUIRED'
+        });
+        return false;
+    }
+    await adminUserService.recordTermsAcceptance(user.id, LEGAL_TERMS_VERSION);
+    return true;
+}
+
+/**
  * Endpoint de login con JWT y rate limiting
  */
 router.post('/api/admin-login', loginLimiter, validateBody(schemas.login), async (req, res) => {
@@ -86,6 +105,8 @@ router.post('/api/admin-login', loginLimiter, validateBody(schemas.login), async
                 code: 'ADMIN_LOGIN_INVALID_CREDENTIALS'
             });
         }
+
+        if (!(await ensureTermsAccepted(req, res, user))) return undefined;
 
         const token = buildAuthToken(user);
 

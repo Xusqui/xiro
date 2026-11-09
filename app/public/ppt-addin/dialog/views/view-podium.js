@@ -74,7 +74,7 @@ const ViewPodium = (() => {
                 if (dbSessionId) {
                     data = await apiGet('/api/results/session/' + encodeURIComponent(dbSessionId) + '/export.json'); // eslint-disable-line no-undef
                 } else if (pin) {
-                    data = await apiGet('/api/results/' + encodeURIComponent(pin) + '/export.json'); // eslint-disable-line no-undef
+                    data = await apiGet('/api/results/' + encodeURIComponent(pin) + '/ranking.json'); // eslint-disable-line no-undef
                 } else {
                     throw new Error('Sin identificador de sesión disponible');
                 }

@@ -12,7 +12,7 @@ const logger = require('../../config/logger');
 const StreakTrackingService = require('../../domain/services/StreakTrackingService');
 const { getRedisClient } = require('../../config/redis');
 const { RedisSyncBus } = require('../sync/RedisSyncBus');
-const { SCORING } = require('../../config/game-constants');
+const { SCORING, STREAK_TTL_SECONDS } = require('../../config/game-constants');
 
 /**
  * Limpiar timer de una sala
@@ -199,6 +199,10 @@ async function persistStreakReset(roomId, game, nonAnswering, previousStreaks) {
                 JSON.stringify(buildLostStreakInfo(game, previousStreaks[nickname]))
             );
         }
+        await Promise.all([
+            redis.expire(streakKey, STREAK_TTL_SECONDS),
+            redis.expire(streakInfoKey, STREAK_TTL_SECONDS)
+        ]);
     } catch (err) {
         logger.warn('TimerManager: no se pudo persistir streak reset en Redis', { error: err.message });
     }

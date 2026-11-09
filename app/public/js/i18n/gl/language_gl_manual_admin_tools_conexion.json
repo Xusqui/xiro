@@ -10,8 +10,6 @@
     "manual_admin.tools.conexion.cors_desc": "Orixes HTTP permitidas.",
     "manual_admin.tools.conexion.ws": "Orixes WebSocket",
     "manual_admin.tools.conexion.ws_desc": "Orixes permitidas para a conexión en tempo real.",
-    "manual_admin.tools.conexion.umami": "Analíticas Umami",
-    "manual_admin.tools.conexion.umami_desc": "Configuración da URL e Website ID de Umami.",
     "manual_admin.tools.conexion.top_players": "Xogadores no ranking",
     "manual_admin.tools.conexion.top_players_desc": "Cantos xogadores mostra o ranking durante a partida."
   }

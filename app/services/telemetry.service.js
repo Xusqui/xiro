@@ -1,10 +1,10 @@
 /**
- * @fileoverview Ping anónimo de instalación vía ntfy.sh
+ * @fileoverview Ping opcional de instalación vía ntfy.sh
  *
- * Al arrancar el servidor se envía un único ping HTTP (sin datos personales,
- * solo la versión) al topic público de ntfy.sh del proyecto para saber cuántas
- * instalaciones activas hay. Está documentado en el README y se desactiva con
- * XIRO_TELEMETRY=false. Nunca bloquea ni interrumpe el arranque.
+ * Al arrancar el servidor se envía un único ping HTTP (solo la versión;
+ * ntfy.sh ve la IP del servidor) al topic público de ntfy.sh del proyecto para saber cuántas
+ * instalaciones activas hay. Está documentado en el README y solo se activa con
+ * XIRO_TELEMETRY=true. Nunca bloquea ni interrumpe el arranque.
  */
 
 const fs = require('fs');
@@ -18,7 +18,7 @@ const MARKER_FILE = path.join(os.tmpdir(), '.xiro-telemetry-sent');
 const TIMEOUT_MS = 3000;
 
 function isEnabled() {
-    return process.env.XIRO_TELEMETRY !== 'false';
+    return process.env.XIRO_TELEMETRY === 'true';
 }
 
 // Solo el worker maestro del cluster PM2 envía el ping

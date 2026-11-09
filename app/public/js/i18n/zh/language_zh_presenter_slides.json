@@ -3,6 +3,8 @@
     "presenter.slides.to_teams": "至队伍",
     "presenter.slides.per_team": "每队",
     "presenter.slides.next": "下一个",
+    "presenter.video_gate.load": "加载 {provider} 视频",
+    "presenter.video_gate.notice": "加载后，此设备将连接到 {provider}。",
     "presenter.slides.next_round": "下一轮",
     "presenter.slides.view_ranking": "查看排名",
     "presenter.slides.assign_manually": "主持人可以手动分配分数",

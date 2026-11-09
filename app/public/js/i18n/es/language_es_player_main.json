@@ -1,5 +1,6 @@
 {
   "keys": {
+    "player.nickname.notice": "Usa un apodo. No hace falta tu nombre ni ningún dato que te identifique.",
     "player.session.label": "ID de sesión",
     "player.session.hint": "El ID aparece en la pantalla del presentador",
     "player.session.placeholder": "XXXXXX-XXXX",

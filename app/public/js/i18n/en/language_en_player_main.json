@@ -1,5 +1,6 @@
 {
   "keys": {
+    "player.nickname.notice": "Use a nickname. You don't need your name or anything that identifies you.",
     "player.session.label": "Session ID",
     "player.session.hint": "The ID appears on the host screen",
     "player.session.placeholder": "XXXXXX-XXXX",

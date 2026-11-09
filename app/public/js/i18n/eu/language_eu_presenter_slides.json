@@ -3,6 +3,8 @@
     "presenter.slides.to_teams": "taldeei",
     "presenter.slides.per_team": "taldeko",
     "presenter.slides.next": "Hurrengoa",
+    "presenter.video_gate.load": "Kargatu {provider} bideoa",
+    "presenter.video_gate.notice": "Kargatzean, gailu hau {provider} zerbitzuarekin konektatuko da.",
     "presenter.slides.next_round": "Hurrengo txanda",
     "presenter.slides.view_ranking": "Rankinga ikusi",
     "presenter.slides.assign_manually": "Aurkezleak eskuz eman ditzake puntuak",

@@ -9,10 +9,7 @@
     <link rel="stylesheet" href="./css/common.css?v=20260922172926">
     <link rel="stylesheet" href="./css/output-index.css?v=20260922172926">
     <link rel="stylesheet" href="./css/index-style.css?v=20260922172926">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer">
-    <script defer src="/js/core/umami-loader.js?v=20260922172926"></script>
+    <link rel="stylesheet" href="/vendor/fontawesome/css/all.min.css">
     <script src="/js/i18n/i18n-core.js?v=20260922172926"></script>
     <script src="/js/i18n/i18n-dom.js?v=20260922172926"></script>
     <script src="/js/i18n/i18n-ui.js?v=20260922172926"></script>
@@ -28,17 +25,17 @@
         <!-- Logo -->
         <div class="flex items-center justify-center gap-8 mb-10">
             <a href="./index.html">
-                <img src="./images/logo.svg" alt="XiRo! Logo" class="h-16"
+                <img src="./images/logo.svg" alt="XiRo!" class="h-16"
                     style="filter: drop-shadow(3px 3px 1px rgb(0 0 0 / 0.5));">
             </a>
         </div>
 
-        <h1 class="text-3xl md:text-4xl font-black mb-2 text-white drop-shadow-lg" data-i18n="contact.title">...</h1>
-        <p class="text-lg mb-10 text-plum-100 font-medium" data-i18n="contact.subtitle">...</p>
+        <h1 class="jungle-veil inline-block px-4 py-2 text-3xl md:text-4xl font-black mb-2 drop-shadow-lg" data-i18n="contact.title">...</h1>
+        <p class="jungle-veil w-fit mx-auto px-4 py-2 text-lg mb-10 font-medium" data-i18n="contact.subtitle">...</p>
 
         <!-- Formulario -->
         <div class="max-w-2xl mx-auto">
-            <div style="background: rgba(255,255,255,0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);"
+            <div style="background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);"
                 class="rounded-3xl shadow-2xl p-8 md:p-10 text-slate-800 border-b-8 border-plum-500 text-left">
 
                 <!-- Estado: error -->
@@ -97,6 +94,11 @@
                             data-i18n-placeholder="contact.form.message.placeholder"></textarea>
                     </div>
 
+                    <label class="flex items-start gap-2 text-sm text-slate-700" for="cnt-privacy">
+                        <input type="checkbox" id="cnt-privacy" name="privacyAccepted" class="w-5 h-5 mt-1 flex-shrink-0" required>
+                        <span data-i18n-html="contact.form.privacy_html">He leído y acepto la <a class="underline font-bold" href="/legal/privacidad.html" target="_blank" rel="noopener">política de privacidad</a>. Usaremos tus datos solo para responderte.</span>
+                    </label>
+
                     <!-- Desafío matemático (antibot) -->
                     <div class="bg-plum-50 rounded-2xl p-4 border-2 border-plum-100">
                         <label class="block text-slate-700 font-bold mb-2 text-sm" for="cnt-captcha">
@@ -119,91 +121,25 @@
             </div>
 
             <!-- Volver -->
-            <div class="mt-8 text-plum-200 text-sm space-y-2">
+            <div class="jungle-veil p-4 mt-8 text-sm space-y-2">
                 <p>
                     <a href="./index.html" class="hover:text-white transition-colors underline underline-offset-2">
                         <i class="fas fa-arrow-left mr-1"></i><span data-i18n="common.back_home">...</span>
                     </a>
                 </p>
                 <p><span data-i18n="common.footer.copyright">...</span><span class="xiro-app-version"></span></p>
+                <p class="text-xs mt-2" data-legal-links></p>
             </div>
         </div>
     </main>
 
-    <img src="./images/chamaleon/hello.svg" alt="Camaleón" class="player-chameleon">
+    <img src="./images/chamaleon/hello.svg" alt="" class="player-chameleon">
 
-    <script>
-        (function () {
-            var form = document.getElementById('contact-form');
-            var tokenInput = document.getElementById('contact-token');
-            var questionEl = document.getElementById('captcha-question');
-            var submitBtn = document.getElementById('submit-btn');
-            var errorMsg = document.getElementById('error-msg');
-            var successMsg = document.getElementById('success-msg');
-
-            function loadToken() {
-                fetch('/api/contact/token')
-                    .then(function (r) { return r.json(); })
-                    .then(function (data) {
-                        tokenInput.value = data.token;
-                        questionEl.textContent = data.question;
-                    })
-                    .catch(function () {
-                        questionEl.textContent = 'Error al cargar. Recarga la página.';
-                    });
-            }
-
-            loadToken();
-
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
-                errorMsg.classList.add('hidden');
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Enviando...';
-
-                var payload = {
-                    name: document.getElementById('cnt-name').value,
-                    email: document.getElementById('cnt-email').value,
-                    message: document.getElementById('cnt-message').value,
-                    captcha: document.getElementById('cnt-captcha').value,
-                    token: tokenInput.value,
-                    website: document.getElementById('website').value
-                };
-
-                fetch('/api/contact', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                })
-                    .then(function (r) {
-                        return r.json().then(function (d) { return { ok: r.ok, data: d }; });
-                    })
-                    .then(function (res) {
-                        if (res.ok) {
-                            form.classList.add('hidden');
-                            document.getElementById('reply-email').textContent = payload.email;
-                            successMsg.classList.remove('hidden');
-                        } else {
-                            errorMsg.textContent = res.data.error || 'Error al enviar. Inténtalo de nuevo.';
-                            errorMsg.classList.remove('hidden');
-                            submitBtn.disabled = false;
-                            submitBtn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Enviar mensaje';
-                            loadToken();
-                            document.getElementById('cnt-captcha').value = '';
-                        }
-                    })
-                    .catch(function () {
-                        errorMsg.textContent = 'Error de conexión. Comprueba tu red e inténtalo de nuevo.';
-                        errorMsg.classList.remove('hidden');
-                        submitBtn.disabled = false;
-                        submitBtn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Enviar mensaje';
-                    });
-            });
-        })();
-    </script>
+    <script src="/js/core/contact-form.js?v=20261109120000"></script>
     <script src="/js/core/site-badge.js?v=20260922172926"></script>
     <script src="/js/core/app-version.js?v=20260922172926"></script>
     <script src="/js/core/hojas-bg.js?v=20260922172926"></script>
+    <script src="/js/core/legal-links.js?v=20261109120000"></script>
 </body>
 
 </html>

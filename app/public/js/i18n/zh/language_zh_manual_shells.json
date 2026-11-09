@@ -71,7 +71,7 @@
     "manual_presenter.game.comment_slide.text": "暂停游戏进行互动。可以提出开放性问题或讨论，然后用 +1、+5、+10 按钮<strong>手动分配积分</strong>。完成后按「下一步」。",
 
     "manual_presenter.trivial.intro.title": "什么是知识竞赛模式？",
-    "manual_presenter.trivial.intro.text": "XiRo! 变成了 <strong>Trivial Pursuit</strong> 风格的棋盘游戏。玩家在圆形棋盘上移动棋子，按类别回答问题。第一个获得每个类别的<strong>代币</strong>的人获胜。",
+    "manual_presenter.trivial.intro.text": "XiRo! 变成了 <strong>Trivial XiRo!</strong> 棋盘游戏。玩家在圆形棋盘上移动棋子，按类别回答问题。第一个获得每个类别的<strong>代币</strong>的人获胜。",
     "manual_presenter.trivial.board.title": "棋盘",
     "manual_presenter.trivial.board.text": "<strong>外圈：</strong>按类别的彩色格子。HQ 格子 <strong>✦</strong> 是唯一可以赢得代币的格子。<br><strong>辐条：</strong>连接外圈和中心的 5 个格子。<br><strong>中心：</strong>起点。",
     "manual_presenter.trivial.turn.title": "玩家回合",

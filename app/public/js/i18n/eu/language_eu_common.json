@@ -1,8 +1,16 @@
 {
   "keys": {
+    "common.slide_image_alt": "Diapositibaren irudia",
+    "common.legal.accessibility": "Irisgarritasuna",
     "common.footer.copyright": "© 2026 XiRo! Galdetegi interaktiboen sistema",
     "common.footer.author": "Copyright: Fernández Villatoro Familia",
     "common.footer.contact": "Harremanetan jarri",
+    "common.footer.credits": "Kredituak",
+    "common.legal.notice": "Lege-oharra",
+    "common.legal.privacy": "Pribatutasuna",
+    "common.legal.cookies": "Cookieak",
+    "common.legal.terms": "Baldintzak",
+    "common.legal.refunds": "Itzulketak",
     "common.back_home": "Itzuli gora",
     "common.error_title": "Errorea",
     "common.btn_retry": "Berriro saiatu",

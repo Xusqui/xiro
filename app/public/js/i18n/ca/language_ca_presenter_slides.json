@@ -3,6 +3,8 @@
     "presenter.slides.to_teams": "als equips",
     "presenter.slides.per_team": "per equip",
     "presenter.slides.next": "Següent",
+    "presenter.video_gate.load": "Carrega el vídeo de {provider}",
+    "presenter.video_gate.notice": "En carregar-lo, aquest dispositiu es connectarà amb {provider}.",
     "presenter.slides.next_round": "Ronda següent",
     "presenter.slides.view_ranking": "Veure el rànquing",
     "presenter.slides.assign_manually": "El presentador pot assignar punts manualment",

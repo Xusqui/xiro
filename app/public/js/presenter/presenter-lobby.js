@@ -203,7 +203,7 @@ function renderizarPINs() {
     mostrarLobbyMain(`
         <div data-presenter-view="pin-selector" class="h-full w-full flex flex-col items-center pt-10 px-10 pb-16 overflow-y-auto">
             <div class="flex items-center gap-6 mb-6">
-                <img src="/images/logo.svg" style="width: clamp(180px, 35vw, 400px);" class="mb-6">
+                <img src="/images/logo.svg" alt="XiRo!" style="width: clamp(180px, 35vw, 400px);" class="mb-6">
             </div>
             <h1 class="text-5xl font-black italic text-white mb-3 uppercase">${t('presenter.selector.title', 'Selecciona un PIN')}</h1>
             <div class="w-full max-w-xl mb-6 relative">
@@ -406,7 +406,7 @@ export function mostrarSeleccionModo(selectedPin) {
     mostrarLobbyMain(`
         <div data-presenter-view="mode-selection" data-pin="${selectedPin}" class="h-full w-full flex flex-col items-center justify-center pt-10 px-10 pb-16">
             <div class="flex items-center gap-6 mb-6">
-                <img src="/images/logo.svg" style="width: clamp(180px, 35vw, 400px);">
+                <img src="/images/logo.svg" alt="XiRo!" style="width: clamp(180px, 35vw, 400px);">
             </div>
             <h1 class="text-5xl font-black italic text-white mb-3 uppercase">${t('presenter.selector.mode.title', 'Como quieres jugar?')}</h1>
             <p class="text-slate-200 text-xl mb-8">${t('presenter.selector.mode.pin_label', 'PIN')}: <span class="font-mono px-4 py-2 rounded-lg font-black" style="background:#f9b518;color:#1a1a1a;">${selectedPin}</span></p>

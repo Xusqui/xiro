@@ -1,0 +1,18 @@
+{
+  "keys": {
+    "credits.page_title": "XiRo! - クレジット",
+    "credits.heading": "クレジット",
+    "credits.subtitle": "XiRo! は、以下の方々とプロジェクトの成果を各ライセンスに基づいて利用しています。感謝いたします。",
+    "credits.section.sound": "音楽とサウンド",
+    "credits.section.icons": "アイコン",
+    "credits.section.fonts": "フォント",
+    "credits.section.software": "ブラウザで動作するソフトウェア",
+    "credits.sound_note": "サンプルはトリミング、正規化、またはモノラルへのミックスで調整しています。",
+    "credits.license.no_restrictions": "作者によると制限なく使用可能",
+    "credits.section.own": "XiRo! のために制作",
+    "credits.mascot": "XiRo! マスコット",
+    "credits.ai_note": "カウントダウンのビープ音と言語の旗は AI で生成しました。",
+    "credits.fireworks": "花火（コードとサウンド）",
+    "credits.license.code_mit": "コードは MIT ライセンス"
+  }
+}

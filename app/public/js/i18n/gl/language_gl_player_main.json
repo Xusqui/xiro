@@ -1,5 +1,6 @@
 {
   "keys": {
+    "player.nickname.notice": "Usa un alcume. Non fai falta o teu nome nin ningún dato que te identifique.",
     "player.session.label": "ID de sesión",
     "player.session.hint": "O ID aparece na pantalla do presentador",
     "player.session.placeholder": "XXXXXX-XXXX",

@@ -49,6 +49,7 @@ function _renderAIStep3Result(data) {
         </div>`
         )
         .join('')}
+        <p class="text-sm bg-amber-50 text-amber-800 border border-amber-200 rounded-xl p-3 mt-4"><i class="fas fa-robot mr-1" aria-hidden="true"></i>${_t('admin.ai.review_notice', null, 'Preguntas generadas con IA: revísalas antes de usarlas.')}</p>
         <div class="flex gap-4 mt-8">
             <button data-ai-results-action="import-bank"
                 class="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl transition flex items-center justify-center gap-2 text-lg">

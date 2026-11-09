@@ -2,15 +2,13 @@
  * @fileoverview Results Routes - Exportación de resultados de partidas
  * @module routes/results.routes
  *
- * GET /api/results/:pin/export.csv  → CSV con ranking + preguntas de la última partida
- * GET /api/results/:pin/export.json → JSON equivalente (útil para depuración)
- *
- * Seguridad: el PIN actúa como token de acceso. XIRO! es una aplicación
- * auto-hospedada en red local (Synology NAS), por lo que el nivel de
- * protección es apropiado para el contexto de uso.
+ * GET /api/results/:pin/export.csv   → CSV de la última partida (solo administradores)
+ * GET /api/results/:pin/export.json  → JSON equivalente (solo administradores)
+ * GET /api/results/:pin/ranking.json → podio público: solo apodo y puntos, como lo ven los jugadores
  */
 
 const express = require('express');
+const rateLimit = require('express-rate-limit');
 const router = express.Router();
 const {
     getLastGameSessionByPin,
@@ -261,10 +259,34 @@ router.get('/api/results/session/:id/export-logs', authenticateAdmin, authorizeA
     }
 });
 
-// El PIN actúa como token de acceso (ver cabecera del fichero)
-registerExportRoutes('/api/results/:pin', [], loadSessionByPin, (req, session) =>
+registerExportRoutes('/api/results/:pin', [authenticateAdmin, authorizeAdmin], loadSessionByPin, (req, session) =>
     logger.info('Game session exported', { pin: session.pin, sessionId: session.id })
 );
+
+// El ID de sesión tiene pocas combinaciones: se limita para que no se puedan recorrer
+const publicRankingLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    max: 30,
+    message: { error: 'Demasiadas peticiones. Inténtalo de nuevo en un minuto.', code: 'RANKING_RATE_LIMITED' },
+    standardHeaders: true,
+    legacyHeaders: false
+});
+
+// Lista blanca de campos: lo que se añada al ranking no se publica por omisión
+function toPublicRanking(session) {
+    const ranking = Array.isArray(session.final_ranking) ? session.final_ranking : [];
+    return ranking.map(({ name, nickname, pts, score }) => ({ name, nickname, pts, score }));
+}
+
+/** Podio del complemento de PowerPoint, que puede usarse sin iniciar sesión en el panel. */
+router.get('/api/results/:pin/ranking.json', publicRankingLimiter, async (req, res, next) => {
+    try {
+        const session = await loadSessionByPin(req, res);
+        if (session) res.json({ final_ranking: toPublicRanking(session) });
+    } catch (err) {
+        next(err);
+    }
+});
 
 // Rutas públicas compartidas (sin auth — acceso mediante share_token UUID no adivinable)
 registerExportRoutes('/api/results/shared/:shareToken', [], loadSessionByShareToken);

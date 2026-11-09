@@ -1,5 +1,6 @@
 {
   "keys": {
+    "contact.form.privacy_html": "<a class=\"underline font-bold\" href=\"/legal/privacidad.html\" target=\"_blank\" rel=\"noopener\">Pribatutasun-politika</a> irakurri eta onartzen dut. Zure datuak erantzuteko soilik erabiliko ditugu.",
     "contact.title": "Harremanetan jarri",
     "contact.subtitle": "Galdera edo iradokizunik baduzu? Idatz iezaguzu.",
     "contact.success.title": "Mezua bidali da!",

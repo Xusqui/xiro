@@ -10,8 +10,6 @@
     "manual_admin.tools.conexion.cors_desc": "Zulässige HTTP-Ursprünge.",
     "manual_admin.tools.conexion.ws": "WebSocket-Ursprünge",
     "manual_admin.tools.conexion.ws_desc": "Zulässige Ursprünge für Echtzeitverbindungen.",
-    "manual_admin.tools.conexion.umami": "Umami Analytics",
-    "manual_admin.tools.conexion.umami_desc": "Konfiguration von Umami URL und Website-ID.",
     "manual_admin.tools.conexion.top_players": "Spieler auf der Bestenliste",
     "manual_admin.tools.conexion.top_players_desc": "Wie viele Spieler die Rangliste während des Spiels anzeigt."
   }

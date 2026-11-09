@@ -1,0 +1,18 @@
+{
+  "keys": {
+    "credits.page_title": "XiRo! - 致谢",
+    "credits.heading": "致谢",
+    "credits.subtitle": "XiRo! 依据各自的许可使用了以下个人和项目的成果，谨此致谢。",
+    "credits.section.sound": "音乐与音效",
+    "credits.section.icons": "图标",
+    "credits.section.fonts": "字体",
+    "credits.section.software": "浏览器中运行的软件",
+    "credits.sound_note": "采样经过调整：裁剪、标准化或混合为单声道。",
+    "credits.license.no_restrictions": "据作者声明可无限制使用",
+    "credits.section.own": "为 XiRo! 创作",
+    "credits.mascot": "XiRo! 吉祥物",
+    "credits.ai_note": "倒计时提示音和语言旗帜由人工智能生成。",
+    "credits.fireworks": "烟花（代码和音效）",
+    "credits.license.code_mit": "代码采用 MIT 许可"
+  }
+}

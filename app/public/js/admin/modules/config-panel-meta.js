@@ -152,21 +152,53 @@ const CONFIG_META = {
         icon: 'fa-plug',
         iconColor: 'bg-sky-600'
     },
-    UMAMI_SERVER_URL: {
-        label: 'admin.config.meta.UMAMI_SERVER_URL.label',
-        description: 'admin.config.meta.UMAMI_SERVER_URL.desc',
+    LEGAL_OWNER_NAME: {
+        label: 'admin.config.meta.LEGAL_OWNER_NAME.label',
+        description: 'admin.config.meta.LEGAL_OWNER_NAME.desc',
         badge: 'inmediato',
         unit: '',
-        icon: 'fa-chart-bar',
-        iconColor: 'bg-aubergine-500'
+        icon: 'fa-user-tie',
+        iconColor: 'bg-slate-600'
     },
-    UMAMI_WEBSITE_ID: {
-        label: 'admin.config.meta.UMAMI_WEBSITE_ID.label',
-        description: 'admin.config.meta.UMAMI_WEBSITE_ID.desc',
+    LEGAL_LOCATION: {
+        label: 'admin.config.meta.LEGAL_LOCATION.label',
+        description: 'admin.config.meta.LEGAL_LOCATION.desc',
         badge: 'inmediato',
         unit: '',
-        icon: 'fa-id-badge',
-        iconColor: 'bg-aubergine-400'
+        icon: 'fa-location-dot',
+        iconColor: 'bg-slate-600'
+    },
+    LEGAL_EMAIL: {
+        label: 'admin.config.meta.LEGAL_EMAIL.label',
+        description: 'admin.config.meta.LEGAL_EMAIL.desc',
+        badge: 'inmediato',
+        unit: '',
+        icon: 'fa-at',
+        iconColor: 'bg-slate-600'
+    },
+    LEGAL_TAX_ID: {
+        label: 'admin.config.meta.LEGAL_TAX_ID.label',
+        description: 'admin.config.meta.LEGAL_TAX_ID.desc',
+        badge: 'inmediato',
+        unit: '',
+        icon: 'fa-id-card',
+        iconColor: 'bg-slate-600'
+    },
+    LEGAL_ADDRESS: {
+        label: 'admin.config.meta.LEGAL_ADDRESS.label',
+        description: 'admin.config.meta.LEGAL_ADDRESS.desc',
+        badge: 'inmediato',
+        unit: '',
+        icon: 'fa-map',
+        iconColor: 'bg-slate-600'
+    },
+    LEGAL_PHONE: {
+        label: 'admin.config.meta.LEGAL_PHONE.label',
+        description: 'admin.config.meta.LEGAL_PHONE.desc',
+        badge: 'inmediato',
+        unit: '',
+        icon: 'fa-phone',
+        iconColor: 'bg-slate-600'
     },
     BACKUP_SCHEDULE: {
         label: 'admin.config.meta.BACKUP_SCHEDULE.label',

@@ -1,5 +1,8 @@
 {
   "keys": {
+    "admin.register.accept_terms": "私は 14 歳以上であり、<a href=\"/legal/en/terms.html\" target=\"_blank\" rel=\"noopener\">利用規約</a>と<a href=\"/legal/en/privacy.html\" target=\"_blank\" rel=\"noopener\">プライバシーポリシー</a>に同意します。",
+    "admin.register.error_terms": "利用規約とプライバシーポリシーに同意する必要があります",
+    "admin.login.terms_required": "続行するには、利用規約とプライバシーポリシーに同意してください。",
     "admin.login.eyebrow": "コントロールパネル",
     "admin.login.title": "管理者",
     "admin.login.username": "ユーザー",

@@ -44,7 +44,7 @@ export function renderTextImageSlide(slide) {
         <div class="slide-img-box" style="flex:1; align-self:stretch;">
             ${
     imageUrl
-        ? `<img class="slide-img-fit" src="${sanitizeResourceUrl(imageUrl)}" style="border-radius:1.5rem;box-shadow:0 20px 60px rgba(0,0,0,0.5);" />`
+        ? `<img class="slide-img-fit" src="${sanitizeResourceUrl(imageUrl)}" alt="${_t('common.slide_image_alt', null, 'Imagen de la diapositiva')}" style="border-radius:1.5rem;box-shadow:0 20px 60px rgba(0,0,0,0.5);" />`
         : '<div style="color:rgba(255,255,255,.3);text-align:center;font-size:4rem;"><i class="fas fa-image"></i></div>'
 }
         </div>`;

@@ -1,0 +1,18 @@
+{
+  "keys": {
+    "credits.page_title": "XiRo! - Crèdits",
+    "credits.heading": "Crèdits",
+    "credits.subtitle": "XiRo! utilitza la feina d'aquestes persones i projectes sota les seves llicències. Gràcies.",
+    "credits.section.sound": "Música i so",
+    "credits.section.icons": "Icones",
+    "credits.section.fonts": "Tipografies",
+    "credits.section.software": "Programari al teu navegador",
+    "credits.sound_note": "Les mostres s'han adaptat: retallades, normalització o mescla a mono.",
+    "credits.license.no_restrictions": "ús sense restriccions segons el seu autor",
+    "credits.section.own": "Creat per a XiRo!",
+    "credits.mascot": "Mascota XiRo!",
+    "credits.ai_note": "El xiulet del compte enrere i les banderes d'idioma s'han generat amb IA.",
+    "credits.fireworks": "Focs artificials (codi i sons)",
+    "credits.license.code_mit": "codi amb llicència MIT"
+  }
+}

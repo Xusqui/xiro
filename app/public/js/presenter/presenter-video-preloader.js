@@ -4,8 +4,8 @@
  * Los archivos de vídeo se descargan en <video preload="auto"> ocultos, uno detrás de
  * otro y solo los LOOKAHEAD siguientes, para no competir con la red de la partida.
  * Al llegar su diapositiva, el elemento ya cargado se mueve a la pantalla
- * (takePreloadedVideo) y arranca al instante. YouTube, Vimeo y Dailymotion no se
- * pueden guardar: solo se abre antes la conexión con su servidor (preconnect).
+ * (takePreloadedVideo) y arranca al instante. YouTube, Vimeo y Dailymotion no
+ * se tocan: su reproductor solo se conecta tras el toque del presentador.
  */
 
 const LOOKAHEAD = 2;
@@ -19,7 +19,6 @@ let videoSlides = [];
 const pool = new Map();
 let queue = [];
 let loadingUrl = null;
-const preconnected = new Set();
 
 function getHolder() {
     let holder = document.getElementById(HOLDER_ID);
@@ -82,21 +81,6 @@ function loadNext() {
     getHolder().appendChild(video);
 }
 
-function preconnect(embedUrl) {
-    let origin;
-    try {
-        origin = new URL(embedUrl).origin;
-    } catch {
-        return;
-    }
-    if (preconnected.has(origin)) return;
-    preconnected.add(origin);
-    const link = document.createElement('link');
-    link.rel = 'preconnect';
-    link.href = origin;
-    document.head.appendChild(link);
-}
-
 /**
  * Olvida la partida (nueva partida o fin)
  */
@@ -146,8 +130,6 @@ export function planVideoPreloads(questions, currentIndex) {
             if (!source) return;
             if (source.kind === 'file') {
                 videoSlides.push({ index, url: source.url });
-            } else {
-                preconnect(source.embedUrl);
             }
         }
 
@@ -158,8 +140,6 @@ export function planVideoPreloads(questions, currentIndex) {
                     const source = element.video_source;
                     if (source.kind === 'file') {
                         videoSlides.push({ index, url: source.url });
-                    } else {
-                        preconnect(source.embedUrl);
                     }
                 }
             });

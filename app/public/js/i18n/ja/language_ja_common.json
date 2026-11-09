@@ -1,8 +1,16 @@
 {
   "keys": {
+    "common.slide_image_alt": "スライドの画像",
+    "common.legal.accessibility": "アクセシビリティ",
     "common.footer.copyright": "© 2026 XiRo! インタラクティブクイズシステム",
     "common.footer.author": "著作権: フェルナンデス ビジャトロ ファミリー",
     "common.footer.contact": "接触",
+    "common.footer.credits": "クレジット",
+    "common.legal.notice": "法的通知",
+    "common.legal.privacy": "プライバシー",
+    "common.legal.cookies": "Cookie",
+    "common.legal.terms": "利用規約",
+    "common.legal.refunds": "返金",
     "common.back_home": "トップに戻る",
     "common.error_title": "エラー",
     "common.btn_retry": "再試行",

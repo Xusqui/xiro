@@ -1,7 +1,10 @@
 {
   "keys": {
+    "admin.ai.clear_file": "Quitar ficheiro",
+    "admin.ai.privacy_notice": "Non inclúas datos persoais en documentos nin temas: o texto envíase ao provedor de IA configurado.",
+    "admin.ai.review_notice": "Preguntas xeradas con IA: revísaas antes de usalas.",
     "admin.ai.title": "Xerador de preguntas AI",
-    "admin.ai.subtitle": "100% local con IA · Sen conexión a internet",
+    "admin.ai.subtitle": "Xera preguntas con IA a partir dun documento ou un tema",
     "admin.ai.checking": "Comprobando a IA...",
     "admin.ai.step1": "1 · Fonte",
     "admin.ai.step2": "2 · Configurar",

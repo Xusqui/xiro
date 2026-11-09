@@ -46,9 +46,7 @@ const _PARAM_SECTIONS = [
             'INACTIVE_GAME_THRESHOLD',
             'EMPTY_LOBBY_TIMEOUT',
             'CORS_ORIGIN',
-            'ALLOWED_ORIGINS',
-            'UMAMI_SERVER_URL',
-            'UMAMI_WEBSITE_ID'
+            'ALLOWED_ORIGINS'
         ]
     },
     {
@@ -91,6 +89,20 @@ const _PARAM_SECTIONS = [
     },
     { id: 'ui', titleKey: 'admin.config.tab.ui', icon: 'fa-eye', color: 'bg-emerald-500', isUi: true, keys: [] },
     {
+        id: 'legal',
+        titleKey: 'admin.config.tab.legal',
+        icon: 'fa-scale-balanced',
+        color: 'bg-slate-600',
+        keys: [
+            'LEGAL_OWNER_NAME',
+            'LEGAL_LOCATION',
+            'LEGAL_EMAIL',
+            'LEGAL_TAX_ID',
+            'LEGAL_ADDRESS',
+            'LEGAL_PHONE'
+        ]
+    },
+    {
         id: 'music',
         titleKey: 'admin.config.tab.music',
         icon: 'fa-music',
@@ -109,7 +121,7 @@ const _CONFIG_NAV_GROUPS = [
     { id: 'juego', titleKey: 'admin.config.nav.group.juego', ids: ['partidas', 'puntuacion', 'lambda'] },
     { id: 'pantalla', titleKey: 'admin.config.nav.group.pantalla', ids: ['ui', 'music', 'fireworks'] },
     { id: 'conexiones', titleKey: 'admin.config.nav.group.conexiones', ids: ['conexion', 'smtp', 'groq'] },
-    { id: 'sistema', titleKey: 'admin.config.nav.group.sistema', ids: ['licencia', 'updates', 'backup', 'logging'] }
+    { id: 'sistema', titleKey: 'admin.config.nav.group.sistema', ids: ['licencia', 'legal', 'updates', 'backup', 'logging'] }
 ];
 
 /**

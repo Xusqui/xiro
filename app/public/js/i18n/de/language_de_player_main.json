@@ -1,5 +1,6 @@
 {
   "keys": {
+    "player.nickname.notice": "Verwende einen Spitznamen. Dein Name oder Angaben, die dich identifizieren, sind nicht nötig.",
     "player.session.label": "Sitzungs-ID",
     "player.session.hint": "Die ID erscheint auf dem Bildschirm des Moderators",
     "player.session.placeholder": "XXXXXX-XXXX",

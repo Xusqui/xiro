@@ -31,6 +31,7 @@ const CHAMALEON_IMAGES = [
     'juegos-personalizados.svg',
     'leyendo.svg',
     'love.svg',
+    'maestro.svg',
     'mago.svg',
     'mezcla-de-preguntas.svg',
     'musico.svg',
@@ -52,9 +53,8 @@ const CHAMALEON_IMAGES = [
     'thinking.svg',
     'thumbs_down.svg',
     'thumbs_up.svg',
-    'trivial-pursuit.svg',
-    'worker.svg',
-    'yoda.svg'
+    'trivial-xiro.svg',
+    'worker.svg'
 ];
 
 const OVERLAY_ID = 'chamaleon-overlay';

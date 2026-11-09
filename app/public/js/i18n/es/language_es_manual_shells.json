@@ -71,7 +71,7 @@
     "manual_presenter.game.comment_slide.text": "Pausa el juego para la interacción. Puedes plantear una pregunta abierta o debate y luego <strong>asignar puntos manualmente</strong> usando los botones +1, +5, +10. Pulsa «Siguiente» cuando termines.",
 
     "manual_presenter.trivial.intro.title": "¿Qué es el Modo Trivial?",
-    "manual_presenter.trivial.intro.text": "XiRo! se convierte en un juego de tablero estilo <strong>Trivial Pursuit</strong>. Los jugadores mueven fichas sobre un tablero circular respondiendo preguntas por categorías. Quien consiga el <strong>token</strong> de cada categoría gana la partida.",
+    "manual_presenter.trivial.intro.text": "XiRo! se convierte en <strong>Trivial XiRo!</strong>, un juego de tablero. Los jugadores mueven fichas sobre un tablero circular respondiendo preguntas por categorías. Quien consiga el <strong>token</strong> de cada categoría gana la partida.",
     "manual_presenter.trivial.board.title": "El tablero",
     "manual_presenter.trivial.board.text": "<strong>Anillo exterior:</strong> casillas de colores por categoría. Las casillas HQ <strong>✦</strong> son las únicas donde se obtiene el token.<br><strong>Radios:</strong> 5 casillas que conectan el anillo con el centro.<br><strong>Centro:</strong> punto de inicio.",
     "manual_presenter.trivial.turn.title": "Turno del jugador",

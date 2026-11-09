@@ -55,7 +55,7 @@ function _renderAIStep1() {
         <div class="flex items-center gap-4 mb-6">
             <img src="/images/chamaleon/inteligencia-artificial.svg" alt="" class="w-16 h-16 flex-shrink-0">
             <div><h1 class="text-3xl font-black text-slate-900">Generador IA de Preguntas</h1>
-                <p class="text-slate-500 text-sm">100% local con IA · Sin conexión a internet</p></div>
+                <p class="text-slate-500 text-sm">Genera preguntas con IA a partir de un documento o un tema</p></div>
             <div id="ai-status-badge" class="ml-auto text-xs px-3 py-1 rounded-full font-bold bg-slate-200 text-slate-600">
                 <i class="fas fa-circle-notch fa-spin mr-1"></i>Comprobando IA...</div>
         </div>
@@ -64,6 +64,7 @@ function _renderAIStep1() {
             <span class="px-4 py-1.5 rounded-full bg-slate-200 text-slate-500">2 · Configurar</span>
             <span class="px-4 py-1.5 rounded-full bg-slate-200 text-slate-500">3 · Resultado</span>
         </div>
+        <p class="text-sm bg-amber-50 text-amber-800 border border-amber-200 rounded-xl p-3 mb-4"><i class="fas fa-triangle-exclamation mr-1" aria-hidden="true"></i>${_t('admin.ai.privacy_notice', null, 'No incluyas datos personales en documentos ni temas: el texto se envía al proveedor de IA configurado.')}</p>
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 space-y-6">
             <div>
                 <label class="block text-sm font-bold text-slate-700 mb-2">Nombre del banco *</label>
@@ -111,7 +112,7 @@ function _renderAIStep1() {
                         <i class="fas fa-check-circle text-green-600 text-xl"></i>
                         <div><p id="ai-file-name" class="font-bold text-green-800"></p>
                             <p id="ai-word-count" class="text-green-600"></p></div>
-                        <button data-ai-gen-action="clear-file" class="ml-auto text-slate-400 hover:text-red-500 transition"><i class="fas fa-times"></i></button>
+                        <button data-ai-gen-action="clear-file" class="ml-auto text-slate-400 hover:text-red-500 transition" aria-label="${_t('admin.ai.clear_file', null, 'Quitar archivo')}"><i class="fas fa-times" aria-hidden="true"></i></button>
                     </div>
                     <div id="ai-upload-error" class="hidden mt-2 text-red-600 text-sm font-bold"></div>
                 </div>

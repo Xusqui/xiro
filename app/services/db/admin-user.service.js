@@ -51,7 +51,7 @@ async function getActiveUserByUsername(username, queryable = pool) {
     if (!normalizedUsername) return null;
 
     const result = await queryable.query(
-        `SELECT id, username, email, password_hash, role, is_active, is_verified
+        `SELECT id, username, email, password_hash, role, is_active, is_verified, terms_version
          FROM admin_users
          WHERE LOWER(username) = LOWER($1)
          LIMIT 1`,
@@ -168,7 +168,7 @@ async function findUserByEmail(email, queryable = pool) {
  * @throws {Error} code 'USERNAME_TAKEN' si el usuario o el email ya existen
  * @throws {Error} Si falla la consulta
  */
-async function createFirstAdminUser(username, email, passwordHash) {
+async function createFirstAdminUser(username, email, passwordHash, termsVersion) {
     const normalizedUsername = normalizeUsername(username);
     const normalizedEmail = normalizeEmail(email);
 
@@ -192,10 +192,10 @@ async function createFirstAdminUser(username, email, passwordHash) {
         }
 
         const insertResult = await client.query(
-            `INSERT INTO admin_users (username, email, password_hash, role, is_verified)
-             VALUES ($1, $2, $3, 'admin', true)
+            `INSERT INTO admin_users (username, email, password_hash, role, is_verified, terms_version, terms_accepted_at)
+             VALUES ($1, $2, $3, 'admin', true, $4, NOW())
              RETURNING id, username, email, role, is_active, is_verified, created_at`,
-            [normalizedUsername, normalizedEmail, passwordHash]
+            [normalizedUsername, normalizedEmail, passwordHash, termsVersion]
         );
 
         await client.query('COMMIT');
@@ -386,11 +386,26 @@ async function updateUserRole(userId, newRole, queryable = pool) {
     return result.rows[0] || null;
 }
 
+/**
+ * Guarda que la cuenta ha aceptado una versión de los términos.
+ * @param {number} userId - Id de la cuenta
+ * @param {string} termsVersion - Versión aceptada
+ * @returns {Promise<void>}
+ * @throws {Error} Si falla la consulta
+ */
+async function recordTermsAcceptance(userId, termsVersion) {
+    await pool.query('UPDATE admin_users SET terms_version = $1, terms_accepted_at = NOW() WHERE id = $2', [
+        termsVersion,
+        userId
+    ]);
+}
+
 module.exports = {
     normalizeUsername,
     normalizeEmail,
     hasAnyUsers,
     getActiveUserByUsername,
+    recordTermsAcceptance,
     getActiveUserByEmail,
     getActiveUserById,
     findExistingUserByUsernameOrEmail,

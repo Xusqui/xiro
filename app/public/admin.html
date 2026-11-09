@@ -10,14 +10,8 @@
     <link rel="stylesheet" href="/css/common.css?v=20260922172926">
     <link rel="stylesheet" href="/css/output-admin.css?v=20260922172926">
     <link rel="stylesheet" href="/css/drag-drop.css?v=20260922172926">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer">
-    <script defer src="/js/core/umami-loader.js?v=20260922172926"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Syne:wght@600;700&display=swap"
-        rel="stylesheet">
+    <link rel="stylesheet" href="/vendor/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/css/fonts.css">
     <link rel="stylesheet" href="/css/tokens.css?v=20260922172926">
     <link rel="stylesheet" href="/css/admin.css?v=20260922172926">
     <link rel="stylesheet" href="/css/admin-login.css?v=20261101120000">
@@ -99,6 +93,10 @@
                             </svg>
                         </button>
                     </div>
+                    <label class="xiro-login-consent hidden" id="login-terms-row">
+                        <input type="checkbox" id="login-accept-terms">
+                        <span data-i18n-html="admin.register.accept_terms">Tengo al menos 14 años y acepto los <a href="/legal/terminos.html" target="_blank" rel="noopener">términos</a> y la <a href="/legal/privacidad.html" target="_blank" rel="noopener">política de privacidad</a>.</span>
+                    </label>
                     <button type="submit" class="xiro-login-btn">
                         <i class="fas fa-arrow-right" style="margin-right:8px;"></i><span
                             data-i18n="admin.login.submit">...</span>
@@ -213,6 +211,10 @@
                             </svg>
                         </button>
                     </div>
+                    <label class="xiro-login-consent">
+                        <input type="checkbox" id="register-accept-terms" required>
+                        <span data-i18n-html="admin.register.accept_terms">Tengo al menos 14 años y acepto los <a href="/legal/terminos.html" target="_blank" rel="noopener">términos</a> y la <a href="/legal/privacidad.html" target="_blank" rel="noopener">política de privacidad</a>.</span>
+                    </label>
                     <button type="submit" id="register-submit-btn" class="xiro-login-btn"
                         data-i18n="admin.login.register">...</button>
                     <button type="button" id="register-back-btn" class="xiro-login-btn-secondary"
@@ -224,6 +226,7 @@
 
                 <!-- Selector de idioma (i18n-ui.js lo monta aquí; tras entrar pasa al sidebar) -->
                 <div data-lang-slot="login" class="xiro-login-helper"></div>
+                <p class="xiro-login-helper text-xs text-center" data-legal-links></p>
 
             </div>
         </div>
@@ -231,6 +234,7 @@
     </div>
 
     <div id="admin-content" style="display:none">
+        <a href="#editorArea" class="skip-link" data-i18n="common.skip_link">Saltar al contenido</a>
         <div id="admin-shell" class="flex h-screen">
             <!-- Barra superior: solo por debajo de 1024 px (admin-mobile.css) -->
             <header id="admin-mobile-bar" class="admin-mobile-bar">
@@ -256,7 +260,7 @@
                 <!-- Header con Logo -->
                 <div class="admin-sidebar-brand p-6 border-b border-slate-700 flex justify-center">
                     <a href="#" data-admin-action="go-home" class="cursor-pointer">
-                        <img src="/images/logo.svg" alt="Logo" style="width: 180px;">
+                        <img src="/images/logo.svg" alt="XiRo!" style="width: 180px;">
                     </a>
                 </div>
 
@@ -488,7 +492,7 @@
             </div>
 
             <!-- Área central de contenido -->
-            <div class="flex-1 overflow-y-auto bg-slate-50" id="editorArea">
+            <div class="flex-1 overflow-y-auto bg-slate-50" id="editorArea" role="main" tabindex="-1">
                 <div class="h-full flex flex-col items-center justify-center">
                     <div class="flex flex-col items-center text-center px-6">
                         <img src="/images/chamaleon/pointing.svg" alt="" aria-hidden="true" width="112" height="112"
@@ -645,6 +649,7 @@
     <script defer src="/js/admin/admin-main.js?v=20260922172926"></script>
 
     <script defer src="/js/core/site-badge.js?v=20260922172926"></script>
+    <script src="/js/core/legal-links.js?v=20261109120000"></script>
 </body>
 
 </html>
