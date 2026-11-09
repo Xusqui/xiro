@@ -2,6 +2,9 @@
 
 ## 3.11.x
 
+### 3.11.4 — 2026-11-09 · `v3.11.4`
+- **Admin:** buscador por nombre o PIN en bancos, mezclas, personalizados y Trivial
+
 ### 3.11.3 — 2026-11-09 · `v3.11.3`
 - **Admin:** las fechas siguen el idioma seleccionado
   - «Última comprobación», la caducidad de la licencia y el alta de usuarios ya no salen siempre en formato español.
