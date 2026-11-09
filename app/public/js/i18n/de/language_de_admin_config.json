@@ -391,6 +391,18 @@
     "admin.updates.start_error": "Aktualisierung konnte nicht gestartet werden: {error}",
     "admin.updates.notice": "Neue Version {version}",
     "admin.updates.notice_title": "Es ist eine neue Version von XiRo! verfügbar. Zum Anzeigen klicken.",
+    "admin.updates.changelog.title": "Neuigkeiten in XiRo!",
+    "admin.updates.changelog.loading": "Neuigkeiten werden geladen…",
+    "admin.updates.changelog.you_are_here": "Sie sind hier",
+    "admin.updates.changelog.show_older": "Frühere Versionen anzeigen",
+    "admin.updates.changelog.hide_older": "Frühere Versionen ausblenden",
+    "admin.updates.changelog.target_missing": "Die Hinweise zu Version {version} sind noch nicht veröffentlicht.",
+    "admin.updates.changelog.unavailable_title": "Die Neuigkeiten konnten nicht geladen werden",
+    "admin.updates.changelog.unavailable_body": "Sie können trotzdem aktualisieren oder sie auf GitHub lesen.",
+    "admin.updates.changelog.view_on_github": "Neuigkeiten auf GitHub ansehen",
+    "admin.updates.changelog.confirm": "Auf {version} aktualisieren",
+    "admin.updates.changelog.later": "Nicht jetzt",
+    "admin.updates.changelog.close": "Schließen",
     "admin.updates.reason.source_install": "Diese Installation wurde aus dem Quellcode durchgeführt: Aktualisieren Sie sie auf dem Server in dem Repository-Ordner mit:"
   }
 }

@@ -391,6 +391,18 @@
     "admin.updates.start_error": "No s'ha pogut iniciar l'actualització: {error}",
     "admin.updates.notice": "Nova versió {version}",
     "admin.updates.notice_title": "Hi ha una versió nova de XiRo!. Prem per veure-la.",
+    "admin.updates.changelog.title": "Novetats de XiRo!",
+    "admin.updates.changelog.loading": "Carregant les novetats…",
+    "admin.updates.changelog.you_are_here": "Ets aquí",
+    "admin.updates.changelog.show_older": "Mostra les versions anteriors",
+    "admin.updates.changelog.hide_older": "Amaga les versions anteriors",
+    "admin.updates.changelog.target_missing": "Les notes de la versió {version} encara no estan publicades.",
+    "admin.updates.changelog.unavailable_title": "No s'han pogut carregar les novetats",
+    "admin.updates.changelog.unavailable_body": "Pots actualitzar igualment o llegir-les a GitHub.",
+    "admin.updates.changelog.view_on_github": "Mostra les novetats a GitHub",
+    "admin.updates.changelog.confirm": "Actualitza a {version}",
+    "admin.updates.changelog.later": "Ara no",
+    "admin.updates.changelog.close": "Tanca",
     "admin.updates.reason.source_install": "Aquesta instal·lació es va fer des del codi font: actualitza-la al servidor, a la carpeta del repositori, amb:"
   }
 }

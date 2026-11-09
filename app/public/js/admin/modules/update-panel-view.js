@@ -81,7 +81,7 @@ function _updActionCard(data) {
                 </div>
                 ${sessionsWarning}
                 <p class="text-sm text-slate-600 mb-3">${_t('admin.updates.what_happens')}</p>
-                <button data-update-action="start" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold transition">
+                <button data-update-action="start" data-current="${escapeHtml(data.current)}" data-latest="${escapeHtml(data.latest)}" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold transition">
                     ${_t('admin.updates.btn_update')}
                 </button>
                 <div id="update-confirm" class="hidden bg-amber-50 border-2 border-amber-200 rounded-xl p-4 mt-4">

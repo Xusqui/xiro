@@ -53,14 +53,15 @@ async function fetchLatestVersion(options = {}) {
 }
 
 /**
- * Lee la información de actualización desde Redis
+ * Lee un valor JSON de la caché de actualizaciones en Redis
  * @param {Function} redisGetter - Función para obtener el cliente Redis
- * @returns {Promise<Object|null>} Información de caché o null si no disponible
+ * @param {string} key - Clave de Redis
+ * @returns {Promise<*|null>} Valor guardado o null si no disponible
  */
-async function readCache(redisGetter) {
+async function readCache(redisGetter, key) {
     try {
         const client = await redisGetter();
-        const data = await client.get(CACHE_KEY);
+        const data = await client.get(key);
         return data ? JSON.parse(data) : null;
     } catch (err) {
         logger.warn('Caché de actualizaciones no disponible', { error: err.message });
@@ -69,15 +70,16 @@ async function readCache(redisGetter) {
 }
 
 /**
- * Escribe la información de actualización en Redis
+ * Escribe un valor JSON en la caché de actualizaciones en Redis
  * @param {Function} redisGetter - Función para obtener el cliente Redis
- * @param {Object} data - Datos a guardar
+ * @param {string} key - Clave de Redis
+ * @param {*} data - Datos a guardar
  * @param {number} ttl - Tiempo de vida en segundos
  */
-async function writeCache(redisGetter, data, ttl) {
+async function writeCache(redisGetter, key, data, ttl) {
     try {
         const client = await redisGetter();
-        await client.set(CACHE_KEY, JSON.stringify(data), { EX: ttl });
+        await client.set(key, JSON.stringify(data), { EX: ttl });
     } catch (err) {
         logger.warn('Caché de actualizaciones no disponible', { error: err.message });
     }
@@ -100,7 +102,7 @@ async function getUpdateInfo(options = {}) {
     const now = options.now || Date.now;
     const current = options.current || APP_VERSION;
 
-    let entry = force ? null : await readCache(redisGetter);
+    let entry = force ? null : await readCache(redisGetter, CACHE_KEY);
     if (!entry) {
         try {
             entry = {
@@ -108,7 +110,7 @@ async function getUpdateInfo(options = {}) {
                 error: null,
                 checkedAt: new Date(now()).toISOString()
             };
-            await writeCache(redisGetter, entry, CHECK_TTL_S);
+            await writeCache(redisGetter, CACHE_KEY, entry, CHECK_TTL_S);
         } catch (err) {
             logger.warn('No se pudo comprobar si hay una versión nueva', { error: err.message });
             const ISO = new Date(now()).toISOString();
@@ -117,7 +119,7 @@ async function getUpdateInfo(options = {}) {
                 error: err.message,
                 checkedAt: ISO
             };
-            await writeCache(redisGetter, entry, ERROR_TTL_S);
+            await writeCache(redisGetter, CACHE_KEY, entry, ERROR_TTL_S);
         }
     }
 
@@ -134,5 +136,7 @@ module.exports = {
     getUpdateInfo,
     fetchLatestVersion,
     compareVersions,
-    pickLatest
+    pickLatest,
+    readCache,
+    writeCache
 };

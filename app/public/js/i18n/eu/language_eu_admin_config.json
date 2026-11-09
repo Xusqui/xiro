@@ -391,6 +391,18 @@
     "admin.updates.start_error": "Ezin izan da eguneraketa hasi: {error}",
     "admin.updates.notice": "{version} bertsio berria",
     "admin.updates.notice_title": "XiRo!-ren bertsio berri bat dago. Klikatu ikusteko.",
+    "admin.updates.changelog.title": "XiRo!-ren berritasunak",
+    "admin.updates.changelog.loading": "Berritasunak kargatzen…",
+    "admin.updates.changelog.you_are_here": "Hemen zaude",
+    "admin.updates.changelog.show_older": "Ikusi aurreko bertsioak",
+    "admin.updates.changelog.hide_older": "Ezkutatu aurreko bertsioak",
+    "admin.updates.changelog.target_missing": "{version} bertsioaren oharrak oraindik ez dira argitaratu.",
+    "admin.updates.changelog.unavailable_title": "Ezin izan dira berritasunak kargatu",
+    "admin.updates.changelog.unavailable_body": "Hala ere egunera dezakezu, edo GitHub-en irakurri.",
+    "admin.updates.changelog.view_on_github": "Ikusi berritasunak GitHub-en",
+    "admin.updates.changelog.confirm": "Eguneratu {version} bertsiora",
+    "admin.updates.changelog.later": "Orain ez",
+    "admin.updates.changelog.close": "Itxi",
     "admin.updates.reason.source_install": "Instalazio hau iturburuko kodeatik egin da: eguneratu zerbitzarian, biltegiaren karpetan, honekin:"
   }
 }

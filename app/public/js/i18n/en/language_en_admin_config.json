@@ -391,6 +391,18 @@
     "admin.updates.start_error": "Could not start update: {error}",
     "admin.updates.notice": "New version {version}",
     "admin.updates.notice_title": "There is a new version of XiRo!. Click to view it.",
+    "admin.updates.changelog.title": "What's new in XiRo!",
+    "admin.updates.changelog.loading": "Loading release notes…",
+    "admin.updates.changelog.you_are_here": "You are here",
+    "admin.updates.changelog.show_older": "Show earlier versions",
+    "admin.updates.changelog.hide_older": "Hide earlier versions",
+    "admin.updates.changelog.target_missing": "The notes for version {version} have not been published yet.",
+    "admin.updates.changelog.unavailable_title": "The release notes could not be loaded",
+    "admin.updates.changelog.unavailable_body": "You can update anyway or read them on GitHub.",
+    "admin.updates.changelog.view_on_github": "See release notes on GitHub",
+    "admin.updates.changelog.confirm": "Update to {version}",
+    "admin.updates.changelog.later": "Not now",
+    "admin.updates.changelog.close": "Close",
     "admin.updates.reason.source_install": "This installation was done from the source code: update it on the server, in the repository folder, with:"
   }
 }

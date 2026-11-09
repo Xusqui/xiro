@@ -391,6 +391,18 @@
     "admin.updates.start_error": "Non se puido iniciar a actualización: {error}",
     "admin.updates.notice": "Nova versión {version}",
     "admin.updates.notice_title": "Hai unha nova versión de XiRo!. Prema para velo.",
+    "admin.updates.changelog.title": "Novidades de XiRo!",
+    "admin.updates.changelog.loading": "Cargando as novidades…",
+    "admin.updates.changelog.you_are_here": "Estás aquí",
+    "admin.updates.changelog.show_older": "Ver versións anteriores",
+    "admin.updates.changelog.hide_older": "Ocultar versións anteriores",
+    "admin.updates.changelog.target_missing": "As notas da versión {version} aínda non están publicadas.",
+    "admin.updates.changelog.unavailable_title": "Non se puideron cargar as novidades",
+    "admin.updates.changelog.unavailable_body": "Podes actualizar igualmente ou lelas en GitHub.",
+    "admin.updates.changelog.view_on_github": "Ver as novidades en GitHub",
+    "admin.updates.changelog.confirm": "Actualizar a {version}",
+    "admin.updates.changelog.later": "Agora non",
+    "admin.updates.changelog.close": "Pechar",
     "admin.updates.reason.source_install": "Esta instalación fixo desde o código fonte: actualízao no servidor, na carpeta do repositorio, con:"
   }
 }

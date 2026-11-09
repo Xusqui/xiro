@@ -186,8 +186,11 @@ async function _updCheckVersion(version) {
 
 const _UPD_ACTIONS = {
     check: () => renderUpdatesTab(true),
-    start: btn => _updStart(false, btn),
+    start: btn => _uclOpen(btn),
     'start-force': btn => _updStart(true, btn),
+    'changelog-close': () => _uclClose(),
+    'changelog-confirm': () => _uclConfirm(),
+    'changelog-older': btn => _uclToggleOlder(btn),
     cancel: () => {
         const confirmArea = document.getElementById('update-confirm');
         if (confirmArea) confirmArea.classList.add('hidden');

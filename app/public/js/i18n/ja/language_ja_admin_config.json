@@ -391,6 +391,18 @@
     "admin.updates.start_error": "更新を開始できませんでした: {error}",
     "admin.updates.notice": "新しいバージョン {version}",
     "admin.updates.notice_title": "XiRo! の新しいバージョンがあります。クリックして確認してください。",
+    "admin.updates.changelog.title": "XiRo! の新機能",
+    "admin.updates.changelog.loading": "新機能を読み込み中…",
+    "admin.updates.changelog.you_are_here": "現在のバージョン",
+    "admin.updates.changelog.show_older": "以前のバージョンを表示",
+    "admin.updates.changelog.hide_older": "以前のバージョンを非表示",
+    "admin.updates.changelog.target_missing": "バージョン {version} のリリースノートはまだ公開されていません。",
+    "admin.updates.changelog.unavailable_title": "リリースノートを読み込めませんでした",
+    "admin.updates.changelog.unavailable_body": "このまま更新するか、GitHub でご確認ください。",
+    "admin.updates.changelog.view_on_github": "GitHub でリリースノートを見る",
+    "admin.updates.changelog.confirm": "{version} に更新",
+    "admin.updates.changelog.later": "後で",
+    "admin.updates.changelog.close": "閉じる",
     "admin.updates.reason.source_install": "このインストールはソースコードから実行されました。サーバー上でリポジトリフォルダを更新してください。コマンド："
   }
 }

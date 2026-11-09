@@ -391,6 +391,18 @@
     "admin.updates.start_error": "Impossible de démarrer la mise à jour : {error}",
     "admin.updates.notice": "Nouvelle version {version}",
     "admin.updates.notice_title": "Il y a une nouvelle version de XiRo!. Cliquez pour la voir.",
+    "admin.updates.changelog.title": "Nouveautés de XiRo!",
+    "admin.updates.changelog.loading": "Chargement des nouveautés…",
+    "admin.updates.changelog.you_are_here": "Vous êtes ici",
+    "admin.updates.changelog.show_older": "Afficher les versions précédentes",
+    "admin.updates.changelog.hide_older": "Masquer les versions précédentes",
+    "admin.updates.changelog.target_missing": "Les notes de la version {version} ne sont pas encore publiées.",
+    "admin.updates.changelog.unavailable_title": "Impossible de charger les nouveautés",
+    "admin.updates.changelog.unavailable_body": "Vous pouvez quand même mettre à jour ou les lire sur GitHub.",
+    "admin.updates.changelog.view_on_github": "Voir les nouveautés sur GitHub",
+    "admin.updates.changelog.confirm": "Mettre à jour vers {version}",
+    "admin.updates.changelog.later": "Pas maintenant",
+    "admin.updates.changelog.close": "Fermer",
     "admin.updates.reason.source_install": "Cette installation a été effectuée à partir du code source : mettez-le à jour sur le serveur, dans le dossier du dépôt, avec :"
   }
 }

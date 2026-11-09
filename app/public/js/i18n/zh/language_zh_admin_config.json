@@ -391,6 +391,18 @@
     "admin.updates.start_error": "无法启动更新：{error}",
     "admin.updates.notice": "新版本 {version}",
     "admin.updates.notice_title": "XiRo! 有新版本可用。点击查看详情。",
+    "admin.updates.changelog.title": "XiRo! 更新内容",
+    "admin.updates.changelog.loading": "正在加载更新内容…",
+    "admin.updates.changelog.you_are_here": "当前位置",
+    "admin.updates.changelog.show_older": "显示早期版本",
+    "admin.updates.changelog.hide_older": "隐藏早期版本",
+    "admin.updates.changelog.target_missing": "版本 {version} 的更新说明尚未发布。",
+    "admin.updates.changelog.unavailable_title": "无法加载更新内容",
+    "admin.updates.changelog.unavailable_body": "您仍可更新，或在 GitHub 上查看。",
+    "admin.updates.changelog.view_on_github": "在 GitHub 上查看更新内容",
+    "admin.updates.changelog.confirm": "更新到 {version}",
+    "admin.updates.changelog.later": "暂不更新",
+    "admin.updates.changelog.close": "关闭",
     "admin.updates.reason.source_install": "此安装是从源代码完成的：在服务器上更新它，进入存储库文件夹，使用："
   }
 }

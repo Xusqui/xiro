@@ -6,6 +6,7 @@ const { authenticateAdmin, authorizeAdmin } = require('../middlewares/auth');
 const { activeGames, lobbyPlayers } = require('../state/globalState');
 const GetActiveSessionsQuery = require('../application/queries/GetActiveSessionsQuery');
 const { getUpdateInfo } = require('../services/update-check.service');
+const { getChangelog } = require('../services/update-changelog.service');
 const { getUpdaterHealth, getUpdaterStatus, startUpdate } = require('../services/updater-client.service');
 const logger = require('../config/logger');
 
@@ -112,6 +113,30 @@ router.get('/api/admin/update/progress', authenticateAdmin, authorizeAdmin, asyn
             success: false,
             code: 'UPDATE_PROGRESS_FAILED',
             error: 'No se pudo obtener el progreso de actualización'
+        });
+    }
+});
+
+/**
+ * GET /api/admin/update/changelog
+ * Devuelve las novedades de la versión disponible y las partidas en curso, para confirmar la actualización
+ */
+router.get('/api/admin/update/changelog', authenticateAdmin, authorizeAdmin, async (req, res) => {
+    try {
+        const { current, latest } = await getUpdateInfo();
+        const [changelog, activeSessions] = await Promise.all([
+            getChangelog({ current, latest }),
+            countActiveSessions()
+        ]);
+
+        res.set('Cache-Control', 'no-store');
+        res.json({ success: true, current, latest, activeSessions, ...changelog });
+    } catch (err) {
+        logger.error('Error en GET /api/admin/update/changelog', { error: err.message });
+        res.status(500).json({
+            success: false,
+            code: 'UPDATE_CHANGELOG_FAILED',
+            error: 'No se pudieron obtener las novedades'
         });
     }
 });
