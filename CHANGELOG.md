@@ -1,31 +1,18 @@
 # Historial de versiones de XiRo!
 
-Este documento recoge **todas las versiones commiteadas** de XiRo! y las novedades de cada una, de la más reciente a la más antigua.
+## 3.11.x
 
-**Cómo se ha elaborado**
-
-- El número de versión es el campo `version` de `app/package.json` en cada commit.
-- Cada versión incluye los commits hechos **después del cambio de versión anterior y hasta el commit que fija la nueva versión, incluido**. Es decir, lo que contenía la imagen o el código publicado con ese número.
-- Hay etiquetas git (`vX.Y.Z`) desde la **2.1.7**. Las versiones anteriores solo se pueden identificar por `package.json`.
-- Algunos números nunca se llegaron a usar (por ejemplo 1.0.9, 1.0.19, 1.1.3, 2.0.0, 2.0.1 o 2.1.0, que se publicó como 2.1.1). Solo aparecen las versiones que existen en el historial.
-- En las versiones cuyo commit no tiene descripción (las «Xiro! 2.x»), las novedades se han deducido del propio diff.
-
----
-
-## Resumen
-
-| Rama | Periodo | Hitos principales |
-|---|---|---|
-| **3.10.x** | 1–4 nov 2026 | Rediseño visual, entrada por ID de sesión en la portada, diapositivas animadas de instrucciones |
-| **3.9.x** | 30–31 oct 2026 | Avatares de jugador, gráfica de la encuesta de respuesta única en el móvil |
-| **3.8.0** | 30 oct 2026 | Reacciones con emoji en directo |
-| **3.7.x** | 25–29 oct 2026 | Imágenes en diapositivas libres, despliegue en NAS / proxy propio, mejoras del presentador |
-| **3.0 – 3.6** | 20–24 oct 2026 | Diapositiva libre (lienzo 16:9), encuesta múltiple, `.xiroslide`, diapositivas con IA, podio 3D, navegar atrás entre diapositivas |
-| **2.3 – 2.8** | 9–18 oct 2026 | Sopa de letras, intro animada, música reactiva, Completa la frase, conversión a Markdown para la IA, actualizador automático, diapositiva de vídeo |
-| **2.1 – 2.2** | 27 sep – 9 oct 2026 | Gran refactor y auditoría de seguridad, Gemini y Ollama como proveedores de IA, barra de guardado común |
-| **2.0.x** | 20–23 sep 2026 | Partidas con puntuación aleatoria, desglose por jugador en el visor de resultados |
-| **1.1 – 1.4** | 19 jul – 18 sep 2026 | Licencia por máquina, fondo animado, idioma e imagen en los juegos, personalización con logo propio |
-| **1.0.x** | 25 jun – 13 jul 2026 | Primera versión, Docker, pago por uso, recuperación de contraseñas, modo standalone |
+### 3.11.0 — 2026-11-09 · `v3.11.0`
+- **Portada:** XiRo parpadea cada 3-5 s y caza con la lengua una mosca que entra por abajo cada 15-20 s.
+- **Calidad de código:**
+  - Se dividen en módulos `admin.routes`, `validation`, `RedisSyncBus`, `pdf.service` y `GameEndManager`.
+  - Todas las funciones del servidor tienen 50 líneas o menos, ESLint queda sin avisos y los exports públicos del servidor llevan JSDoc.
+  - Se validan con Joi las rutas que faltaban y se normaliza el PIN de Trivial.
+  - Se registran los fallos de Redis en el cierre de sesión, `TrivialGameState` y el autoguardado.
+  - Los tokens de un solo uso del panel se unifican en `admin-token-flow`.
+- **API:** `updateTrivialGame` responde 403/404 en los rechazos de propiedad (antes, 400). Se eliminan las rutas sin uso `GET /api/banks/list-files` y `POST /api/quizzes/save-all`.
+- **PDF:** los WebP se incrustan con su MIME correcto y una sola conversión a base64.
+- **Documentación:** nuevo `CHANGELOG.md` con el historial de versiones y sus novedades.
 
 ---
 
