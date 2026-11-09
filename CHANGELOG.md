@@ -2,6 +2,9 @@
 
 ## 3.11.x
 
+### 3.11.2 — 2026-11-09 · `v3.11.2`
+- **Changelog:** la fecha de cada versión ya no depende del idioma del sistema
+
 ### 3.11.1 — 2026-11-09 · `v3.11.1`
 - **Actualizaciones:** el panel muestra las novedades antes de actualizar
   - Nuevo modal con las versiones entre la instalada y la nueva, y el historial anterior plegado.
