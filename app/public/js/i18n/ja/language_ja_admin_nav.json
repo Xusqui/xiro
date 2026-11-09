@@ -50,6 +50,8 @@
     "admin.common.created_by": "作成者",
     "admin.common.btn_hide_all_presenter": "これらのゲームをすべて司会者から非表示にする",
     "admin.common.btn_show_all_presenter": "これらのゲームをすべて司会者に表示する",
+    "admin.list_search.label": "名前またはPINで検索",
+    "admin.list_search.no_results": "「{term}」の結果はありません。",
     "admin.common.confirm_hide_all_msg": "これらのゲームをすべて司会者から非表示にしますか？",
     "admin.common.confirm_show_all_msg": "これらのゲームをすべて司会者に表示しますか？",
     "admin.common.visibility_hidden_success": "ゲームを司会者から非表示にしました",

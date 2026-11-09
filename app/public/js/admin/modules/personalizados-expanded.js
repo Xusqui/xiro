@@ -60,6 +60,7 @@ async function renderVistaPersonalizados() {
                 </div>
             `
                     : `
+                ${htmlBuscadorLista('personalizados')}
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     ${personalizados
                         .map(juego => {
@@ -74,7 +75,7 @@ async function renderVistaPersonalizados() {
                                 : `flex-1 px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 ${getLockedButtonClasses()}`;
 
                             return `
-                        <div class="bg-white rounded-2xl shadow-sm border-2 border-slate-200 hover:border-blue-500 transition hover:shadow-xl group overflow-hidden">
+                        <div ${atributoBusquedaLista(juego)} class="bg-white rounded-2xl shadow-sm border-2 border-slate-200 hover:border-blue-500 transition hover:shadow-xl group overflow-hidden">
                             <div class="p-6">
                                 <div class="flex justify-between items-start mb-4">
                                     <div class="flex-1">
@@ -117,6 +118,7 @@ async function renderVistaPersonalizados() {
             }
         </div>
     `);
+    filtrarTarjetasLista('personalizados');
 }
 
 // ===== PREPARAR NUEVO JUEGO PERSONALIZADO =====

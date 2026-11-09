@@ -50,6 +50,8 @@
     "admin.common.created_by": "Created by",
     "admin.common.btn_hide_all_presenter": "Hide all these games from the presenter",
     "admin.common.btn_show_all_presenter": "Show all these games to the presenter",
+    "admin.list_search.label": "Search by name or PIN",
+    "admin.list_search.no_results": "No results for \"{term}\".",
     "admin.common.confirm_hide_all_msg": "Do you want to hide all these games from the presenter?",
     "admin.common.confirm_show_all_msg": "Do you want to show all these games to the presenter?",
     "admin.common.visibility_hidden_success": "Games hidden from the presenter",

@@ -50,6 +50,8 @@
     "admin.common.created_by": "Créé par",
     "admin.common.btn_hide_all_presenter": "Masquer tous ces jeux au présentateur",
     "admin.common.btn_show_all_presenter": "Afficher tous ces jeux au présentateur",
+    "admin.list_search.label": "Rechercher par nom ou PIN",
+    "admin.list_search.no_results": "Aucun résultat pour « {term} ».",
     "admin.common.confirm_hide_all_msg": "Voulez-vous masquer tous ces jeux au présentateur ?",
     "admin.common.confirm_show_all_msg": "Voulez-vous afficher tous ces jeux au présentateur ?",
     "admin.common.visibility_hidden_success": "Jeux masqués pour le présentateur",

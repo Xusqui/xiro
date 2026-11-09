@@ -58,11 +58,13 @@ async function renderVistaTrivial() {
                     <p class="text-slate-400 text-xl">${_t('admin.trivial.empty', null, 'No hay juegos Trivial todavía')}</p>
                 </div>`
         : `
+                ${htmlBuscadorLista('trivial')}
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     ${games.map(g => _trivialCard(g)).join('')}
                 </div>`
 }
         </div>`);
+    filtrarTarjetasLista('trivial');
 }
 
 function _trivialCard(g) {
@@ -83,7 +85,7 @@ function _trivialCard(g) {
         )
         .join('');
     return `
-        <div class="bg-white rounded-2xl shadow-sm border-2 border-slate-200 hover:border-orange-500 transition hover:shadow-xl group overflow-hidden">
+        <div ${atributoBusquedaLista(g)} class="bg-white rounded-2xl shadow-sm border-2 border-slate-200 hover:border-orange-500 transition hover:shadow-xl group overflow-hidden">
             <div class="p-6">
                 <div class="flex justify-between items-start mb-3">
                     <div class="flex-1">

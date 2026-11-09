@@ -50,6 +50,8 @@
     "admin.common.created_by": "Creado por",
     "admin.common.btn_hide_all_presenter": "Ocultar todos estos juegos al presentador",
     "admin.common.btn_show_all_presenter": "Mostrar todos estos juegos al presentador",
+    "admin.list_search.label": "Buscar por nombre o PIN",
+    "admin.list_search.no_results": "No hay resultados para «{term}».",
     "admin.common.confirm_hide_all_msg": "¿Deseas ocultar todos estos juegos al presentador?",
     "admin.common.confirm_show_all_msg": "¿Deseas mostrar todos estos juegos al presentador?",
     "admin.common.visibility_hidden_success": "Juegos ocultados para el presentador",

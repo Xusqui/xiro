@@ -50,6 +50,8 @@
     "admin.common.created_by": "Creat per",
     "admin.common.btn_hide_all_presenter": "Amaga tots aquests jocs al presentador",
     "admin.common.btn_show_all_presenter": "Mostra tots aquests jocs al presentador",
+    "admin.list_search.label": "Cerca per nom o PIN",
+    "admin.list_search.no_results": "No hi ha resultats per a «{term}».",
     "admin.common.confirm_hide_all_msg": "Vols amagar tots aquests jocs al presentador?",
     "admin.common.confirm_show_all_msg": "Vols mostrar tots aquests jocs al presentador?",
     "admin.common.visibility_hidden_success": "Jocs amagats per al presentador",

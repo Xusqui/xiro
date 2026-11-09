@@ -50,6 +50,8 @@
     "admin.common.created_by": "Sortutako:",
     "admin.common.btn_hide_all_presenter": "Ezkutatu joko hauek guztiak aurkezleari",
     "admin.common.btn_show_all_presenter": "Erakutsi joko hauek guztiak aurkezleari",
+    "admin.list_search.label": "Bilatu izenaren edo PINaren arabera",
+    "admin.list_search.no_results": "Ez dago emaitzarik honetarako: «{term}».",
     "admin.common.confirm_hide_all_msg": "Joko hauek guztiak aurkezleari ezkutatu nahi dizkiozu?",
     "admin.common.confirm_show_all_msg": "Joko hauek guztiak aurkezleari erakutsi nahi dizkiozu?",
     "admin.common.visibility_hidden_success": "Jokoak aurkezleari ezkutatu zaizkio",

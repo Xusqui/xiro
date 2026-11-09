@@ -65,6 +65,7 @@ async function renderVistaBancos() {
                 </div>
             `
         : `
+                ${htmlBuscadorLista('bancos')}
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     ${bancos
         .map(banco => {
@@ -79,7 +80,7 @@ async function renderVistaBancos() {
                 : `flex-1 px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 ${getLockedButtonClasses()}`;
 
             return `
-                        <div class="bg-white rounded-2xl shadow-sm border-2 border-slate-200 hover:border-plum-500 transition hover:shadow-xl group overflow-hidden">
+                        <div ${atributoBusquedaLista(banco)} class="bg-white rounded-2xl shadow-sm border-2 border-slate-200 hover:border-plum-500 transition hover:shadow-xl group overflow-hidden">
                             <div class="p-6">
                                 <div class="flex justify-between items-start mb-4">
                                     <div class="flex-1">
@@ -117,6 +118,7 @@ async function renderVistaBancos() {
 }
         </div>
     `);
+    filtrarTarjetasLista('bancos');
 }
 
 // ===== PREPARAR NUEVO BANCO =====

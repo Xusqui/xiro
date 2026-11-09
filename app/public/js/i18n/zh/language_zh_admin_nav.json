@@ -50,6 +50,8 @@
     "admin.common.created_by": "创建者",
     "admin.common.btn_hide_all_presenter": "对主持人隐藏所有这些游戏",
     "admin.common.btn_show_all_presenter": "向主持人显示所有这些游戏",
+    "admin.list_search.label": "按名称或 PIN 搜索",
+    "admin.list_search.no_results": "未找到“{term}”的结果。",
     "admin.common.confirm_hide_all_msg": "确定要对主持人隐藏所有这些游戏吗？",
     "admin.common.confirm_show_all_msg": "确定要向主持人显示所有这些游戏吗？",
     "admin.common.visibility_hidden_success": "游戏已对主持人隐藏",
