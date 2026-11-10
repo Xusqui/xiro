@@ -116,11 +116,11 @@ function buildQuizPrompt(text, count, dificultad, { previousQuestions = [], mode
         const safeText = text.trim().slice(0, MAX_PROMPT_CHARS);
         return `Eres un generador experto de preguntas de quiz educativas. El usuario te indica un tema o te da una instrucción.
 Genera ${count} preguntas de quiz en ${lang} sobre ese tema. Dificultad: ${DIFICULTAD_INSTRUCCION[dificultad] || 'media'}.${getExclusionInstruction(previousQuestions)}
-IMPORTANTE: Usa tu conocimiento enciclopédico para crear preguntas reales y variadas sobre el tema. NO generes preguntas sobre la propia instrucción ni sobre cómo está redactada.
+IMPORTANTE: Usa tu conocimiento enciclopédico para crear preguntas reales, variadas y ÚNICAS sobre el tema. NO REPITAS preguntas ni las formules muy similares. NO generes preguntas sobre la propia instrucción ni sobre cómo está redactada.
 Responde SOLO con un array JSON con esta estructura (sin texto adicional):
 ${schema}
 
-REGLAS: exactamente 4 opciones, exactamente 1 con is_correct=true, todas en ${lang}.
+REGLAS: exactamente 6 opciones, exactamente 1 con is_correct=true, todas en ${lang}.
 NO copies estos ejemplos. Genera preguntas REALES y VARIADAS sobre el siguiente tema:
 
 ${safeText}`;
@@ -132,8 +132,8 @@ Las preguntas deben ser EXCLUSIVAMENTE sobre el texto anterior, entre las etique
 Responde SOLO con un array JSON con esta estructura (sin texto adicional):
 ${schema}
 
-REGLAS: exactamente 4 opciones, exactamente 1 con is_correct=true, todas en ${lang}.
-NO copies estos ejemplos. Genera preguntas NUEVAS basadas en ese texto.`;
+REGLAS: exactamente 6 opciones, exactamente 1 con is_correct=true, todas en ${lang}.
+NO copies estos ejemplos. Genera preguntas NUEVAS y ÚNICAS basadas en ese texto.`;
 }
 
 /**
@@ -158,7 +158,7 @@ function buildSurveyPrompt(
     "type": "survey",
     "tipo_contenido": "texto",
     "url_recurso": null,
-    "time_limit": 20,
+    "time_limit": 30,
     "options": [
       {"option_text": "<opción 1>", "is_correct": false, "justification": null, "order_index": null},
       {"option_text": "<opción 2>", "is_correct": false, "justification": null, "order_index": null},
@@ -170,7 +170,7 @@ function buildSurveyPrompt(
         const safeText = text.trim().slice(0, MAX_PROMPT_CHARS);
         return `Eres un generador experto de encuestas educativas. El usuario te indica un tema.
 Genera ${count} preguntas de encuesta (opinión, sin respuesta correcta) en ${lang} sobre ese tema.${getExclusionInstruction(previousQuestions)}
-IMPORTANTE: Usa tu conocimiento para crear preguntas de opinión reales sobre el tema. NO generes preguntas sobre la instrucción.
+IMPORTANTE: Usa tu conocimiento para crear preguntas de opinión reales sobre el tema. NO REPITAS preguntas ni las formules muy similares. NO generes preguntas sobre la instrucción.
 Responde SOLO con un array JSON:
 ${schema}
 
@@ -231,7 +231,7 @@ ${schema}
 REGLAS: correctAnswer debe ser un número histórico/científico/real relacionado con el tema, options=[], en ${lang}.
 toleranceMode 'hybrid' acepta respuestas a menos de toleranceValue % de correctAnswer, sin pasar de toleranceCap unidades: ajusta ambos a la magnitud y precisión de cada respuesta (un año admite pocos años de margen; una población de millones, miles o más). toleranceValue y toleranceCap siempre MAYORES QUE 0, nunca 0.
 correctAnswer siempre ENTERO: si la cifra real tiene decimales, pregunta en otra unidad (p. ej. metros en vez de kilómetros) o redondea e indícalo en el enunciado.
-NO copies estos ejemplos. Genera preguntas REALES sobre el siguiente tema:
+NO copies estos ejemplos. No REPITAS preguntas ni las formules muy similares. Genera preguntas REALES sobre el siguiente tema:
 
 ${safeText}`;
     }
@@ -244,7 +244,7 @@ ${schema}
 REGLAS: correctAnswer debe ser un número real mencionado en el texto, options=[], en ${lang}.
 toleranceMode 'hybrid' acepta respuestas a menos de toleranceValue % de correctAnswer, sin pasar de toleranceCap unidades: ajusta ambos a la magnitud y precisión de cada respuesta (un año admite pocos años de margen; una población de millones, miles o más). toleranceValue y toleranceCap siempre MAYORES QUE 0, nunca 0.
 correctAnswer siempre ENTERO: si la cifra real tiene decimales, pregunta en otra unidad (p. ej. metros en vez de kilómetros) o redondea e indícalo en el enunciado.
-NO copies estos ejemplos. Genera preguntas NUEVAS basadas en ese texto.`;
+NO copies estos ejemplos. No REPITAS preguntas ni las formules muy similares. Genera preguntas NUEVAS y ÚNICAS basadas en ese texto.`;
 }
 
 /**
@@ -282,7 +282,7 @@ function buildOrderPrompt(
         const safeText = text.trim().slice(0, MAX_PROMPT_CHARS);
         return `Eres un generador experto de preguntas de ordenar secuencia. El usuario te indica un tema.
 Genera ${count} preguntas de ordenar secuencia en ${lang} sobre ese tema. Dificultad: ${DIFICULTAD_INSTRUCCION[dificultad] || 'media'}.${getExclusionInstruction(previousQuestions)}
-IMPORTANTE: Usa tu conocimiento para crear secuencias cronológicas, de procesos o rangos reales del tema. NO generes preguntas sobre la instrucción.
+IMPORTANTE: Usa tu conocimiento para crear secuencias cronológicas, de procesos o rangos reales del tema. NO REPITAS preguntas ni las formules muy similares. NO generes preguntas sobre la instrucción.
 Responde SOLO con un array JSON:
 ${schema}
 
@@ -298,7 +298,7 @@ Responde SOLO con un array JSON:
 ${schema}
 
 REGLAS: 4-6 elementos, order_index empieza en 0, is_correct=false en todas, en ${lang}.
-NO copies estos ejemplos. Genera preguntas NUEVAS basadas en ese texto.`;
+NO copies estos ejemplos. No REPITAS preguntas ni las formules muy similares. Genera preguntas NUEVAS y ÚNICAS basadas en ese texto.`;
 }
 
 // Candidatas de más: los modelos no cuentan bien las letras y el parser
@@ -354,7 +354,7 @@ Responde SOLO con un array JSON:
 ${schema}
 
 REGLAS: correctWord es UNA sola palabra en MAYÚSCULAS con EXACTAMENTE entre 7 y 10 letras (ni más ni menos), sin espacios, guiones, números ni signos; si el término no cumple esa longitud, elige otro. Cuenta las letras una a una antes de responder: VOLCANES (8) y MURCIÉLAGO (10) valen; FOTOSÍNTESIS (12) y ÁTOMO (5) NO valen. Debe ser un término clave del texto, options=[], en ${lang}.
-NO copies estos ejemplos. Genera preguntas NUEVAS basadas en ese texto.`;
+NO copies estos ejemplos. No REPITAS preguntas ni las formules muy similares. Genera preguntas NUEVAS y ÚNICAS basadas en ese texto.`;
 }
 
 /**
@@ -408,7 +408,7 @@ Responde SOLO con un array JSON:
 ${schema}
 
 REGLAS: 4-8 opciones, 2-6 con is_correct=true, en ${lang}.
-NO copies estos ejemplos. Genera preguntas NUEVAS basadas en ese texto.`;
+NO copies estos ejemplos. No REPITAS preguntas ni las formules muy similares. Genera preguntas NUEVAS y ÚNICAS basadas en ese texto.`;
 }
 
 module.exports = {
