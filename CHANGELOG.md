@@ -2,6 +2,14 @@
 
 ## 3.13.x
 
+### 3.13.1 — 2026-11-10 · `v3.13.1`
+- **Páginas legales:** lectura, accesibilidad y enlaces según el idioma
+  - Los enlaces legales del pie llevan al texto en el idioma de la interfaz: español para es, ca, eu y gl, inglés para el resto, con una nota cuando no coincide (claves common.legal.text_in_english y text_in_spanish en los 10 idiomas).
+  - Nuevo css/legal.css: medida de lectura de unos 70 caracteres, índice de documentos en fichas con la actual marcada y objetivos táctiles de 44 px en móvil.
+  - Títulos que no se salen de la tarjeta con el texto ampliado al 200 % y anillo de foco del logo visible sobre la jungla.
+  - El correo del titular es un enlace mailto (solo si es una dirección válida).
+  - El salto al contenido lleva al título. Se retiran el canvas sin uso y los estilos en línea.
+
 ### 3.13.0 — 2026-11-09 · `v3.13.0`
 - **Legal y accesibilidad:** textos legales, consentimientos y sin recursos de terceros
   - Aviso legal, privacidad, cookies, términos, reembolsos y accesibilidad en español e inglés (/legal/). Los datos del titular se editan en Configuración → Datos legales.
