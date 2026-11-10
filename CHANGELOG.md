@@ -1,5 +1,22 @@
 # Historial de versiones de XiRo!
 
+## 3.14.x
+
+### 3.14.0 — 2026-11-10 · `v3.14.0`
+- Editor de preguntas de los bancos: tarjetas plegables, validación por pregunta y paleta de tipos
+  - Ninguna pregunta se descarta en silencio al guardar: la validación dice qué pregunta y qué campo fallan, marca la tarjeta, la despliega y lleva el foco al campo, con «Ir a la pregunta N» en la barra de guardado.
+  - validateBody añade fields (ruta y mensaje de cada fallo) a la respuesta 400; el editor lo usa para señalar también las preguntas que rechaza el servidor.
+  - Tarjeta reordenada: tipo, enunciado, respuestas y «Más opciones» plegable (tiempo, imagen y multimedia). El tipo elegido ocupa una línea con «Cambiar tipo»; «Cómo funciona» va cerrado.
+  - Respuesta correcta con un control «Correcta» visible y con texto. «Ordena» en una columna; en selección múltiple, la puntuación va tras las opciones y se ve la justificación.
+  - Bancos grandes: tarjetas plegables con resumen, plegar o desplegar todas, subir, bajar y duplicar; «Añadir al principio» inserta arriba; más de 5 preguntas se abren plegadas. Estado vacío con el camaleón.
+  - Borrar una pregunta con contenido pide confirmación. El diálogo de confirmación es accesible (alertdialog) y empieza en «Cancelar».
+  - Accesibilidad: nombres accesibles en todos los controles, etiquetas asociadas, foco al añadir opciones, imagen de opción alcanzable por teclado, campos de 16 px en móvil.
+  - Paleta de tipos única para el selector, el chip, la sección, las etiquetas de los juegos personalizados y el generador IA. La numérica (verde azulado) y Completa la frase (pizarra) dejan los colores de los roles TV y Standalone.
+  - Textos del editor traducidos en los 10 idiomas (121 claves nuevas). La lista de bancos muestra cuántas preguntas tiene cada uno.
+  - Los cambios dentro de una pregunta repintan solo su tarjeta. Nuevos módulos question-editor-* y bank-question-list / bank-editor-save; nuevas hojas admin-question-editor.css y admin-question-answers.css.
+
+---
+
 ## 3.13.x
 
 ### 3.13.1 — 2026-11-10 · `v3.13.1`
