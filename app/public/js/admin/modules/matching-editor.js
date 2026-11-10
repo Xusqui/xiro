@@ -1,8 +1,26 @@
 /**
  * @fileoverview Editor de pares para preguntas tipo "matching" (Emparejar)
  * Genera el HTML del editor de pares y gestiona añadir/eliminar pares.
- * Exporta: renderMatchingEditor, añadirPar, eliminarPar
+ * Exporta: renderMatchingEditor, matchingEditorSectionHtml, añadirPar, eliminarPar, actualizarPar
  */
+
+/** Una fila de par: número, lado izquierdo, ↔, lado derecho y quitar. */
+function _matchingPairHtml(qIdx, opt, oIdx, canDelete) {
+    const n = oIdx + 1;
+    const left = _t('admin.matching.pair_left', { n }, 'Par {n}, columna izquierda');
+    const right = _t('admin.matching.pair_right', { n }, 'Par {n}, columna derecha');
+    const remove = _t('admin.matching.pair_remove', { n }, 'Quitar el par {n}');
+    return `
+                            <div class="xq-pair">
+                                <span class="xq-num" aria-hidden="true">${n}</span>
+                                <input type="text" id="pair-left-${qIdx}-${oIdx}" class="xq-field" value="${escapeHtml(opt.optionText || '')}" aria-label="${left}"
+                                    placeholder="${_t('admin.matching.ph_left', null, 'Elemento izquierdo')}" data-admin-change="actualizarPar(${qIdx}, ${oIdx}, 'left', this.value)">
+                                <span class="xq-pair__arrow" aria-hidden="true">↔</span>
+                                <input type="text" id="pair-right-${qIdx}-${oIdx}" class="xq-field" value="${escapeHtml(opt.match_value || '')}" aria-label="${right}"
+                                    placeholder="${_t('admin.matching.ph_right', null, 'Par correcto')}" data-admin-change="actualizarPar(${qIdx}, ${oIdx}, 'right', this.value)">
+                                ${canDelete ? optionIconButtonHtml(`pair-del-${qIdx}-${oIdx}`, `eliminarPar(${qIdx}, ${oIdx})`, 'fa-xmark', remove) : '<span class="xq-pair__spacer"></span>'}
+                            </div>`;
+}
 
 /**
  * Renderiza el editor de pares para una pregunta tipo matching.
@@ -15,74 +33,34 @@
 function renderMatchingEditor(qIdx, options) {
     const pairs = options || [];
     const canDelete = pairs.length > 2;
-    const canAdd = pairs.length < 6;
-
-    const pairRows = pairs
-        .map(
-            (opt, oIdx) => `
-        <div class="flex items-center gap-3 mb-2" data-pair="${oIdx}">
-            <span class="text-xs font-bold text-slate-400 w-4">${oIdx + 1}</span>
-            <input
-                type="text"
-                value="${escapeHtml(opt.optionText || '')}"
-                data-admin-change="actualizarPar(${qIdx}, ${oIdx}, 'left', this.value)"
-                placeholder="Elemento izquierdo"
-                class="flex-1 p-2 border-2 border-slate-100 rounded-xl focus:border-plum-500 outline-none text-sm font-medium"
-            >
-            <span class="text-slate-300 font-bold">↔</span>
-            <input
-                type="text"
-                value="${escapeHtml(opt.match_value || '')}"
-                data-admin-change="actualizarPar(${qIdx}, ${oIdx}, 'right', this.value)"
-                placeholder="Par correcto"
-                class="flex-1 p-2 border-2 border-slate-100 rounded-xl focus:border-plum-500 outline-none text-sm font-medium"
-            >
-            ${
-    canDelete
-        ? `
-                <button data-admin-click="eliminarPar(${qIdx}, ${oIdx})"
-                    class="w-8 h-8 flex items-center justify-center text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition">
-                    <i class="fas fa-times text-xs"></i>
-                </button>
-            `
-        : '<span class="w-8"></span>'
-}
-        </div>
-    `
-        )
-        .join('');
-
+    const add = pairs.length < 6
+        ? `<button type="button" id="pair-add-${qIdx}" data-admin-click="añadirPar(${qIdx})" class="xq-btn xq-btn--dashed">
+                                <i class="fas fa-plus-circle" aria-hidden="true"></i> ${_t('admin.matching.btn_add', null, 'Añadir par')}</button>`
+        : `<p class="xq-hint"><i class="fas fa-lock" aria-hidden="true"></i> ${_t('admin.matching.max_pairs', null, 'Máximo 6 pares alcanzado')}</p>`;
     return `
-        <div class="mt-4">
-            <div class="flex items-center justify-between mb-3">
-                <div class="flex gap-8 flex-1">
-                    <span class="text-[10px] font-bold uppercase text-slate-400 tracking-widest flex-1 pl-7">
-                        Columna Izquierda (fija)
-                    </span>
-                    <span class="text-[10px] font-bold uppercase text-slate-400 tracking-widest flex-1">
-                        Columna Derecha (par correcto)
-                    </span>
-                </div>
-            </div>
-            <div id="matchingPairs-${qIdx}">
-                ${pairRows}
-            </div>
-            ${
-    canAdd
-        ? `
-                <button data-admin-click="añadirPar(${qIdx})"
-                    class="mt-2 text-plum-600 hover:text-plum-800 text-xs font-bold flex items-center gap-1 transition">
-                    <i class="fas fa-plus-circle"></i> Añadir par
-                </button>
-            `
-        : `
-                <p class="mt-2 text-xs text-slate-400 italic">
-                    <i class="fas fa-lock mr-1"></i>Máximo 6 pares alcanzado
-                </p>
-            `
+                        <div class="xq-pairs">
+                            <div class="xq-pair xq-pair--head" aria-hidden="true">
+                                <span></span><span class="xq-label">${_t('admin.matching.label_left', null, 'Columna izquierda (fija)')}</span>
+                                <span></span><span class="xq-label">${_t('admin.matching.label_right', null, 'Columna derecha (par correcto)')}</span><span></span>
+                            </div>
+                            ${pairs.map((opt, oIdx) => _matchingPairHtml(qIdx, opt, oIdx, canDelete)).join('')}
+                        </div>
+                        ${add}`;
 }
-        </div>
-    `;
+
+/** Emparejar: sección de la tarjeta (questionTypeSectionHtml). */
+function matchingEditorSectionHtml(q, qIdx) {
+    const help = questionHelpHtml(q, [
+        _t('admin.matching.help_left', null, 'Columna izquierda: fija, no se puede arrastrar'),
+        _t('admin.matching.help_right', null, 'Columna derecha: el jugador la reordena arrastrando'),
+        _t('admin.matching.help_points', null, 'Puntuación: 20 pts por cada par correcto'),
+        _t('admin.matching.help_streak', null, 'Racha: con todos los pares suma, con la mitad o más se mantiene y con menos se reinicia')
+    ]);
+    return questionSectionHtml(
+        _t('admin.matching.section_title', null, 'Pares'),
+        _t('admin.matching.hint', null, 'Escribe cada elemento junto a su pareja correcta; el jugador verá la columna derecha desordenada.'),
+        renderMatchingEditor(qIdx, q.options) + help
+    );
 }
 
 /**
@@ -99,7 +77,8 @@ function añadirPar(qIdx) {
         isCorrect: false,
         order_index: q.options.length
     });
-    dibujarPreguntas();
+    setQuestionFocus(`pair-left-${qIdx}-${q.options.length - 1}`);
+    dibujarPregunta(qIdx);
 }
 
 /**
@@ -116,7 +95,8 @@ function eliminarPar(qIdx, oIdx) {
     q.options.forEach((opt, i) => {
         opt.order_index = i;
     });
-    dibujarPreguntas();
+    setQuestionFocus(q.options.length > 2 ? `pair-del-${qIdx}-${Math.min(oIdx, q.options.length - 1)}` : `pair-add-${qIdx}`);
+    dibujarPregunta(qIdx);
 }
 
 /**

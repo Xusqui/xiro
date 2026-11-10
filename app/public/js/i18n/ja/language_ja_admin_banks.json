@@ -126,6 +126,9 @@
     "admin.editor.chip_streaks": "ストリーク",
     "admin.editor.chip_double": "ダブルストリーク",
     "admin.editor.chip_random": "ランダム",
-    "admin.editor.ph_pin_auto": "自動"
+    "admin.editor.ph_pin_auto": "自動",
+    "admin.banks.export_skipped": "問題文のない {n} 問は除外されました。",
+    "admin.banks.question_count": "問題数: {n}",
+    "admin.banks.delete_aria": "バンク「{name}」を削除"
   }
 }

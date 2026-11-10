@@ -1,0 +1,35 @@
+/*
+ * Editor de preguntas de los bancos: barra de la lista (título con el número de preguntas,
+ * plegar o desplegar todas, añadir al principio), pie con "Añadir al final" y estado vacío
+ * con el camaleón (bank-question-list.js). Los botones .xq-btn están en admin-question-editor.css.
+ */
+
+.xq-listbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0 0 16px;
+}
+
+.xq-listbar__title { font-family: var(--font-display-console, 'Syne', system-ui, sans-serif); font-size: 24px; font-weight: 700; color: #0f172a; }
+.xq-listbar__count { color: #64748b; font-weight: 600; }
+.xq-listbar__actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.xq-listfoot { display: flex; justify-content: center; margin-top: 16px; }
+:is(.xq-listbar__actions, .xq-listfoot)[hidden] { display: none; }
+
+.xq-empty {
+    display: grid;
+    justify-items: center;
+    gap: 10px;
+    padding: 40px 24px;
+    border: 2px dashed #e2e8f0;
+    border-radius: 24px;
+    background: #ffffff;
+    text-align: center;
+}
+
+.xq-empty__img { width: 144px; height: 144px; }
+.xq-empty__title { font-family: var(--font-display-console, 'Syne', system-ui, sans-serif); font-size: 20px; font-weight: 700; color: #0f172a; }
+.xq-empty__text { max-width: 36rem; color: #475569; }

@@ -30,7 +30,11 @@
     <link rel="stylesheet" href="/css/admin-slide-canvas-panel.css?v=20261020180000">
     <link rel="stylesheet" href="/css/admin-slide-canvas-library.css?v=20261023200000">
     <link rel="stylesheet" href="/css/fill-blanks.css?v=20261012120000">
-    <link rel="stylesheet" href="/css/admin-question-type-picker.css?v=20261020200000">
+    <link rel="stylesheet" href="/css/admin-question-type-picker.css?v=20261110180000">
+    <link rel="stylesheet" href="/css/admin-question-editor.css?v=20261110200000">
+    <link rel="stylesheet" href="/css/admin-question-answers.css?v=20261110202000">
+    <link rel="stylesheet" href="/css/admin-question-more.css?v=20261110200000">
+    <link rel="stylesheet" href="/css/admin-question-list.css?v=20261110200000">
     <link rel="stylesheet" href="/css/admin-editor-header.css?v=20261020200000">
     <link rel="stylesheet" href="/css/admin-editor-header-panel.css?v=20261020200000">
     <link rel="stylesheet" href="/css/admin-update-changelog.css?v=20261109120000">
@@ -522,11 +526,17 @@
     <!-- HELPERS & UTILITIES -->
     <script defer src="/js/core/fill-blanks-text.js?v=20261012120000"></script>
     <script defer src="/js/core/video-source.js?v=20261018120000"></script>
-    <script defer src="/js/admin/modules/question-editor-card.js?v=20260922172926"></script>
-    <script defer src="/js/admin/modules/question-type-picker.js?v=20261020200000"></script>
-    <script defer src="/js/admin/modules/question-editor-numeric.js?v=20260922172926"></script>
-    <script defer src="/js/admin/modules/question-editor-options.js?v=20260922172926"></script>
-    <script defer src="/js/admin/modules/helpers.js?v=20260922172926"></script>
+    <script defer src="/js/admin/modules/question-editor-ui-state.js?v=20261110200000"></script>
+    <script defer src="/js/admin/modules/question-editor-autogrow.js?v=20261110200000"></script>
+    <script defer src="/js/admin/modules/question-editor-section.js?v=20261110200000"></script>
+    <script defer src="/js/admin/modules/question-editor-card.js?v=20261110200000"></script>
+    <script defer src="/js/admin/modules/question-editor-media.js?v=20261110200000"></script>
+    <script defer src="/js/admin/modules/question-editor-multiple.js?v=20261110150000"></script>
+    <script defer src="/js/admin/modules/question-editor-validation.js?v=20261110180000"></script>
+    <script defer src="/js/admin/modules/question-type-picker.js?v=20261110150000"></script>
+    <script defer src="/js/admin/modules/question-editor-numeric.js?v=20261110150000"></script>
+    <script defer src="/js/admin/modules/question-editor-options.js?v=20261110150000"></script>
+    <script defer src="/js/admin/modules/helpers.js?v=20261110150000"></script>
     <script defer src="/js/admin/modules/date-format.js?v=20261109120000"></script>
     <script defer src="/js/admin/modules/list-search.js?v=20261109130000"></script>
     <script defer src="/js/admin/modules/checkbox.js?v=20261010130000"></script>
@@ -534,31 +544,33 @@
     <script defer src="/js/admin/helpers/correct-answer-frontend.js?v=20260922172926"></script>
     <script defer src="/js/admin/helpers/banks-cache.js?v=20260922172926"></script>
     <script defer src="/js/admin/modules/question-format.js?v=20260922172926"></script>
-    <script defer src="/js/admin/modules/matching-editor.js?v=20260922172926"></script>
-    <script defer src="/js/admin/modules/wordsearch-editor.js?v=20260922172926"></script>
-    <script defer src="/js/admin/modules/fillblanks-editor.js?v=20261012120000"></script>
-    <script defer src="/js/admin/modules/multimedia.js?v=20260922172926"></script>
+    <script defer src="/js/admin/modules/matching-editor.js?v=20261110150000"></script>
+    <script defer src="/js/admin/modules/wordsearch-editor.js?v=20261110150000"></script>
+    <script defer src="/js/admin/modules/fillblanks-editor.js?v=20261110150000"></script>
+    <script defer src="/js/admin/modules/multimedia.js?v=20261110150000"></script>
     <script defer src="/js/admin/modules/tools.js?v=20260922172926"></script>
     <script defer src="/js/admin/modules/unsaved-changes.js?v=20260922172926"></script>
     <script defer src="/js/admin/modules/random-points-config.js?v=20260922172926"></script>
     <script defer src="/js/admin/modules/editor-header-settings.js?v=20261020200000"></script>
-    <script defer src="/js/admin/modules/editor-header.js?v=20261020200000"></script>
+    <script defer src="/js/admin/modules/editor-header.js?v=20261110150000"></script>
     <script defer src="/js/admin/modules/editor-header-ui.js?v=20261020200000"></script>
 
     <!-- FEATURE MODULES -->
     <script defer src="/js/admin/modules/bank-question-mapping.js?v=20260922172926"></script>
     <script defer src="/js/admin/modules/bank-questions-in-use.js?v=20261025150000"></script>
-    <script defer src="/js/admin/modules/bancos-expanded.js?v=20261025150000"></script>
+    <script defer src="/js/admin/modules/bank-question-list.js?v=20261110150000"></script>
+    <script defer src="/js/admin/modules/bank-editor-save.js?v=20261110180000"></script>
+    <script defer src="/js/admin/modules/bancos-expanded.js?v=20261110200000"></script>
     <script defer src="/js/admin/modules/bancos-merge.js?v=20260922172926"></script>
     <script defer src="/js/admin/modules/juegos-pool.js?v=20260922172926"></script>
     <script defer src="/js/admin/modules/juegos-expanded.js?v=20261010180000"></script>
-    <script defer src="/js/admin/modules/custom-question-cards.js?v=20260922172926"></script>
+    <script defer src="/js/admin/modules/custom-question-cards.js?v=20261110190000"></script>
     <script defer src="/js/admin/modules/personalizados-expanded.js?v=20261025150000"></script>
     <script defer src="/js/admin/modules/trivial-expanded.js?v=20261010180000"></script>
     <script defer src="/js/admin/modules/trivial-editor.js?v=20261010180000"></script>
     <script defer src="/js/admin/modules/buscar-preguntas.js?v=20260922172926"></script>
-    <script defer src="/js/admin/modules/ai-generator.js?v=20261027120000"></script>
-    <script defer src="/js/admin/modules/ai-generator-wait.js?v=20261027120000"></script>
+    <script defer src="/js/admin/modules/ai-generator.js?v=20261110190000"></script>
+    <script defer src="/js/admin/modules/ai-generator-wait.js?v=20261110190000"></script>
     <script defer src="/js/admin/modules/ai-generator-results.js?v=20261027120000"></script>
     <script defer src="/js/admin/modules/historial.js?v=20260922172926"></script>
     <script defer src="/js/admin/modules/remote-tab.js?v=20260922172926"></script>

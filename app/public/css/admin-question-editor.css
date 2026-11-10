@@ -1,0 +1,314 @@
+/*
+ * Editor de preguntas de los bancos (admin/modules/question-editor-*.js y bank-question-list.js).
+ * Tarjeta plegable por pregunta: cabecera (número, chip del tipo, resumen y acciones) y cuerpo
+ * de lo esencial a lo opcional (tipo, enunciado, respuestas, "Más opciones").
+ * El color de cada tipo llega por --xq-accent / --xq-tint / --xq-edge / --xq-ink, definidos
+ * en admin-question-type-picker.css para .xq-card[data-type]; el chip y la sección lo usan.
+ * Jerarquía de consola (DESIGN.md): tamaño y color, no peso; etiquetas en sentence case.
+ */
+
+.xq-card {
+    --xq-accent: #64748b;
+    --xq-tint: #f8fafc;
+    --xq-edge: #e2e8f0;
+    --xq-ink: #334155;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 4px 12px -8px rgba(15, 23, 42, 0.12);
+    transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out;
+    /* Al llevar la vista a una tarjeta, que no quede bajo la cabecera fija del editor */
+    scroll-margin-top: 88px;
+}
+
+/* minmax(0, 1fr): sin él la columna crece hasta el ancho del texto más largo y la
+   tarjeta se sale por la derecha (scroll horizontal con enunciados largos) */
+.xq-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+.xq-list > .xq-card { min-width: 0; }
+
+/* El editor de bancos no pasa de ~1150 px: enunciados y opciones con una medida legible.
+   La cabecera fija se estrecha igual para que los bordes coincidan. */
+.xiro-editor-sticky-header:has(~ .xq-editor),
+.xiro-editor-body.xq-editor { max-width: 72rem; }
+
+/* Desplegada, la pregunta es una sección propia: marco y sombra, y la cabecera
+   teñida del color de su tipo, separada del cuerpo. */
+.xq-card--open {
+    margin-block: 8px;
+    border-color: var(--xq-edge);
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.05), 0 18px 40px -22px rgba(15, 23, 42, 0.4);
+}
+
+.xq-card--open > .xq-card__head {
+    border-bottom: 1px solid var(--xq-edge);
+    border-radius: 15px 15px 0 0;
+    background: var(--xq-tint);
+}
+
+.xq-card--open .xq-card__toggle:hover { background: rgba(255, 255, 255, 0.6); }
+.xq-card--open .xq-chip { background: #ffffff; }
+.xq-card--open > .xq-card__body { padding-top: 20px; border-top: 0; }
+
+.xq-card--invalid {
+    border-color: #dc2626;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}
+
+/* ---- Cabecera ---- */
+.xq-card__head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px 8px 8px;
+}
+
+.xq-card__toggle {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    min-height: 44px;
+    padding: 6px 8px;
+    border-radius: 12px;
+    text-align: left;
+    color: #0f172a;
+    background: transparent;
+    cursor: pointer;
+}
+
+.xq-card__toggle:hover { background: #f8fafc; }
+
+.xq-card__chevron {
+    flex-shrink: 0;
+    width: 16px;
+    color: #64748b;
+    transition: transform 0.2s ease-out;
+}
+
+.xq-card__toggle[aria-expanded="false"] .xq-card__chevron { transform: rotate(-90deg); }
+
+.xq-card__num {
+    flex-shrink: 0;
+    font-family: var(--font-display-console, 'Syne', system-ui, sans-serif);
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.xq-chip {
+    flex-shrink: 0;
+    padding: 2px 10px;
+    border: 1px solid var(--xq-edge);
+    border-radius: 9999px;
+    background: var(--xq-tint);
+    color: var(--xq-ink);
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Plegada, el enunciado se lee en hasta dos líneas y lo demás se corta con puntos suspensivos */
+.xq-card__summary {
+    display: -webkit-box;
+    flex: 1;
+    overflow: hidden;
+    min-width: 0;
+    color: #475569;
+    font-size: 14px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+}
+
+/* Desplegada, el enunciado ya se lee en su campo */
+.xq-card__toggle[aria-expanded="true"] .xq-card__summary { display: none; }
+.xq-card__missing { color: #b45309; }
+
+.xq-card__actions { display: flex; flex-shrink: 0; gap: 2px; }
+
+.xq-iconbtn {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    color: #64748b;
+    background: transparent;
+    cursor: pointer;
+    transition: background-color 0.15s ease-out, color 0.15s ease-out;
+}
+
+.xq-iconbtn:hover:not(:disabled) { background: #f1f5f9; color: #0f172a; }
+.xq-iconbtn--danger:hover:not(:disabled) { background: #fef2f2; color: #b91c1c; }
+.xq-iconbtn:disabled { opacity: 0.35; cursor: not-allowed; }
+.xq-iconbtn--sm { width: 32px; height: 32px; border-radius: 8px; }
+
+:is(.xq-iconbtn, .xq-card__toggle, .xq-link, .xq-btn, .xq-more__summary, .xq-help summary):focus-visible,
+.xq-option__file:focus-within {
+    outline: 2px solid var(--plum-600, #94438e);
+    outline-offset: 2px;
+}
+
+/* ---- Cuerpo ---- */
+.xq-card__body {
+    display: grid;
+    gap: 20px;
+    padding: 8px 24px 24px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.xq-card__body[hidden] { display: none; }
+.xq-card__body { container-type: inline-size; }
+
+.xq-label {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 6px;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.xq-label__aside { color: #64748b; font-weight: 400; }
+.xq-hint { margin-top: 4px; color: #64748b; font-size: 13px; line-height: 1.45; }
+
+.xq-field {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #0f172a;
+    font-size: 15px;
+    transition: border-color 0.15s ease-out, box-shadow 0.15s ease-out;
+}
+
+.xq-field::placeholder { color: #64748b; }
+
+.xq-field:focus {
+    border-color: var(--xq-accent);
+    outline: none;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--xq-accent) 18%, transparent);
+}
+
+.xq-field[aria-invalid="true"],
+.xq-option__input[aria-invalid="true"] { border-color: #dc2626; }
+
+.xq-field--statement { font-size: 18px; font-weight: 600; line-height: 1.4; }
+
+/* Campos que crecen con su texto (question-editor-autogrow.js hace lo mismo sin soporte nativo) */
+textarea[data-autogrow] {
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    resize: none;
+    field-sizing: content;
+}
+
+/* Los de varias líneas (justificación) no encogen a una sola línea vacía */
+.xq-field[data-autogrow]:not([data-single-line]) { min-height: 4.5em; }
+.xq-field--short { max-width: 10rem; }
+.xq-field--word { font-family: var(--font-mono, monospace); letter-spacing: 0.15em; text-transform: uppercase; }
+.xq-field--sentence { line-height: 1.6; }
+
+.xq-error {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 10px 12px;
+    border: 1px solid #fecaca;
+    border-radius: 12px;
+    background: #fef2f2;
+    color: #991b1b;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.xq-error i { margin-top: 3px; }
+
+/* ---- Tipo plegado ---- */
+.xq-typebar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 12px;
+    padding-top: 12px;
+}
+
+.xq-typebar__label { margin: 0; }
+.xq-typebar__name { display: inline-flex; align-items: center; gap: 6px; color: var(--xq-ink); font-weight: 600; }
+.xq-typebar__name i { color: var(--xq-accent); }
+.xq-typebar__hint { color: #64748b; font-size: 13px; }
+
+.xq-link {
+    min-height: 32px;
+    padding: 4px 6px;
+    border-radius: 8px;
+    color: var(--plum-700, #793475);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    background: transparent;
+    cursor: pointer;
+}
+
+.xq-typebar .xq-link { margin-left: auto; }
+
+/* ---- Botones ---- */
+.xq-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease-out, border-color 0.15s ease-out, color 0.15s ease-out;
+}
+
+.xq-btn--add { border: 2px solid var(--plum-200, #f2ceed); background: var(--plum-50, #fdf4fb); color: var(--plum-700, #793475); }
+.xq-btn--add:hover { border-color: var(--plum-300, #e4abde); background: var(--plum-100, #f9e6f7); }
+.xq-btn--ghost { border: 1px solid #e2e8f0; background: #ffffff; color: #334155; }
+.xq-btn--ghost:hover { background: #f8fafc; }
+.xq-btn--primary { background: var(--camaleon-600, #557400); color: #ffffff; }
+.xq-btn--primary:hover { background: var(--camaleon-700, #445e02); }
+.xq-btn--dashed { justify-self: start; border: 2px dashed var(--xq-edge, #e2e8f0); background: #ffffff; color: var(--xq-ink, #334155); }
+.xq-btn--dashed:hover { border-color: var(--xq-accent, #94a3b8); }
+.xq-btn--danger-link { min-height: 32px; padding: 4px 8px; color: #b91c1c; }
+
+/* Enlace "Ir a la pregunta N" dentro de la barra de guardado */
+.savebar__link { margin-left: 6px; color: inherit; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+
+/* ---- Pantallas estrechas y táctiles: 44 px de objetivo y 16 px en campos (iOS no hace zoom) ---- */
+@media (max-width: 1023px) {
+    .xq-card { scroll-margin-top: 180px; }
+}
+
+@media (max-width: 1023px), (pointer: coarse) {
+    .xq-iconbtn { width: 44px; height: 44px; }
+    .xq-iconbtn--sm { width: 40px; height: 40px; }
+    .xq-card :is(.xq-field, .xq-option__input, .xq-option__detail) { font-size: 16px; }
+}
+
+@media (max-width: 640px) {
+    .xq-card__head { flex-wrap: wrap; padding: 6px; }
+    .xq-card__actions { width: 100%; justify-content: flex-end; }
+    /* El resumen, en su propia línea bajo el número y el tipo (al lado quedaba en dos palabras) */
+    .xq-card__toggle { flex-wrap: wrap; row-gap: 4px; }
+    .xq-card__summary { flex-basis: 100%; padding-left: 26px; }
+    .xq-card__body { padding: 8px 14px 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .xq-card, .xq-card__chevron, .xq-iconbtn, .xq-field, .xq-btn { transition: none; }
+}

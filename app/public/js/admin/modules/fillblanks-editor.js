@@ -49,45 +49,36 @@ function sanitizeFillBlanksPreview(text) {
         .map(word => `<span class="font-mono font-bold tracking-widest">${escapeHtml(word)}</span>`)
         .join(' · ');
     return `<div class="fb-editor-preview">${core.sanitizeSentenceHtml(parsed.text, lengths, { sizeClass: 'fb-sentence--editor' })}</div>
-            <p class="text-xs text-emerald-700 mt-2"><i class="fas fa-key mr-1"></i>${words}</p>`;
+            <p class="xq-preview__words"><i class="fas fa-key" aria-hidden="true"></i> ${words}</p>`;
 }
 
 /** Sección del editor para «Completa la frase» (questionTypeSectionHtml). */
 function fillBlanksEditorSectionHtml(q, qIdx) {
-    return `
-                    <!-- COMPLETA LA FRASE -->
-                    <div class="bg-emerald-100 border border-emerald-300 p-3 mb-4 rounded-lg">
-                        <p class="text-sm font-bold text-emerald-800 flex items-center gap-2">
-                            <i class="fas fa-i-cursor"></i>
-                            ${_t('admin.q.fillblanks_intro', null, 'El jugador ve la frase con huecos (una casilla por letra) y escribe la palabra de cada uno. Las palabras a adivinar van entre corchetes.')}
-                        </p>
-                    </div>
-                    <div class="bg-emerald-50 p-4 rounded-xl border-2 border-emerald-200">
-                        <label for="fb-text-${qIdx}" class="text-[10px] font-bold text-emerald-600 uppercase flex items-center gap-2 mb-2">
-                            <i class="fas fa-align-left"></i> ${_t('admin.q.fillblanks_text_label', null, 'Frase con las palabras a adivinar entre corchetes (1-3 palabras, de 4 a 14 letras)')}
-                        </label>
-                        <textarea id="fb-text-${qIdx}" rows="3"
-                            data-admin-input="actualizarFraseHuecos(${qIdx}, this.value)"
-                            placeholder="${escapeHtml(_t('admin.q.fillblanks_placeholder', null, 'La infección por [Helicobacter] [pylori] causa más del 90% de las úlceras [duodenales]'))}"
-                            class="w-full p-3 border-2 border-emerald-200 rounded-xl focus:border-emerald-500 outline-none transition text-base font-medium leading-relaxed"
-                        >${escapeHtml(q.questionText || '')}</textarea>
-                        <p class="text-xs text-emerald-600 mt-1"><i class="fas fa-info-circle mr-1"></i>${_t('admin.q.fillblanks_normalize_note', null, 'Las tildes y minúsculas se normalizan solas ([Época] → EPOCA). La Ñ y la Ç se conservan.')}</p>
-                        <div class="mt-3">
-                            <p class="text-[10px] font-bold text-emerald-600 uppercase mb-1">${_t('admin.q.fillblanks_preview', null, 'Así lo verán los jugadores')}</p>
-                            <div id="fb-preview-${qIdx}" class="bg-white p-3 rounded-lg border border-emerald-300 min-h-12">${sanitizeFillBlanksPreview(q.questionText)}</div>
+    const help = questionHelpHtml(q, [
+        _t('admin.q.fillblanks_help_play', null, 'El jugador escribe cada palabra con el teclado del móvil; la longitud de cada hueco se ve en las casillas'),
+        _t('admin.q.fillblanks_help_points', null, 'Puntuación: 20 pts por palabra acertada (o la puntuación aleatoria) + un bonus de tiempo por pregunta'),
+        _t('admin.q.fillblanks_help_hints', null, 'Pistas: hasta 3 letras por hueco; la palabra pasa a valer el 70 %, el 40 % y el 25 %'),
+        _t('admin.q.fillblanks_help_streak', null, 'Cuenta como acierto (y para la racha) con la mitad de los huecos o más'),
+        _t('admin.q.fillblanks_help_team', null, 'En equipos cada hueco se comprueba al completarlo y lo acertado aparece a todo el equipo')
+    ]);
+    const body = `
+                        <div>
+                            <label for="fb-text-${qIdx}" class="xq-label">${_t('admin.q.fillblanks_text_label', null, 'Frase con las palabras a adivinar entre corchetes (1-3 palabras, de 4 a 14 letras)')}</label>
+                            <textarea id="fb-text-${qIdx}" rows="3" class="xq-field xq-field--sentence" aria-describedby="fb-note-${qIdx}"
+                                data-admin-input="actualizarFraseHuecos(${qIdx}, this.value)"
+                                placeholder="${escapeHtml(_t('admin.q.fillblanks_placeholder', null, 'La infección por [Helicobacter] [pylori] causa más del 90% de las úlceras [duodenales]'))}"
+                            >${escapeHtml(q.questionText || '')}</textarea>
+                            <p class="xq-hint" id="fb-note-${qIdx}">${_t('admin.q.fillblanks_normalize_note', null, 'Las tildes y minúsculas se normalizan solas ([Época] → EPOCA). La Ñ y la Ç se conservan.')}</p>
                         </div>
-                        <div class="mt-3 bg-white p-3 rounded-lg border border-emerald-300">
-                            <p class="text-xs font-bold text-emerald-700 mb-1"><i class="fas fa-lightbulb mr-1"></i>${_t('admin.q.how_it_works', null, 'Cómo funciona:')}</p>
-                            <ul class="text-xs text-emerald-600 space-y-1 ml-4 list-disc">
-                                <li>${_t('admin.q.fillblanks_help_play', null, 'El jugador escribe cada palabra con el teclado del móvil; la longitud de cada hueco se ve en las casillas')}</li>
-                                <li>${_t('admin.q.fillblanks_help_points', null, 'Puntuación: 20 pts por palabra acertada (o la puntuación aleatoria) + un bonus de tiempo por pregunta')}</li>
-                                <li>${_t('admin.q.fillblanks_help_hints', null, 'Pistas: hasta 3 letras por hueco; la palabra pasa a valer el 70 %, el 40 % y el 25 %')}</li>
-                                <li>${_t('admin.q.fillblanks_help_streak', null, 'Cuenta como acierto (y para la racha) con la mitad de los huecos o más')}</li>
-                                <li>${_t('admin.q.fillblanks_help_team', null, 'En equipos cada hueco se comprueba al completarlo y lo acertado aparece a todo el equipo')}</li>
-                            </ul>
-                        </div>
-                    </div>
-                    `;
+                        <div>
+                            <p class="xq-label">${_t('admin.q.fillblanks_preview', null, 'Así lo verán los jugadores')}</p>
+                            <div id="fb-preview-${qIdx}" class="xq-preview" aria-live="polite">${sanitizeFillBlanksPreview(q.questionText)}</div>
+                        </div>${help}`;
+    return questionSectionHtml(
+        _t('admin.q.fillblanks_title', null, 'Frase con huecos'),
+        _t('admin.q.fillblanks_intro', null, 'El jugador ve la frase con huecos (una casilla por letra) y escribe la palabra de cada uno. Las palabras a adivinar van entre corchetes.'),
+        body
+    );
 }
 
 /** Guarda la frase y refresca solo la vista previa (sin redibujar: el cursor se queda donde está). */

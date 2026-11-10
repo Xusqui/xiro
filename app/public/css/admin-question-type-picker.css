@@ -2,14 +2,14 @@
  * Selector del tipo de pregunta del editor de bancos (admin/modules/question-type-picker.js).
  * Rejilla de baldosas-radio: un pozo hundido (sombra interior) cuyo punto se llena con el
  * color del tipo al elegirlo. Cada tipo usa la familia de color de su chip en la lista
- * (QUESTION_TYPE_CHIPS en question-editor-card.js).
+ * (las variables --xq-* de abajo).
  */
 
 .xq-type {
     /* La rejilla se adapta al ancho de la tarjeta, no al de la ventana */
     container-type: inline-size;
     min-width: 0;
-    margin: 0 0 1rem;
+    margin: 0;
     padding: 0;
     border: 0;
 }
@@ -17,10 +17,15 @@
 .xq-type__legend {
     padding: 0;
     margin-bottom: 8px;
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #94a3b8;
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+}
+
+.xq-type__foot {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
 }
 
 .xq-type__grid {
@@ -29,18 +34,21 @@
     gap: 8px;
 }
 
-/* ---- Color de cada tipo: acento, tinte de fondo, borde y tinta ---- */
-.xq-type__tile[data-type="quiz"] { --xq-accent: var(--plum-600, #94438e); --xq-tint: var(--plum-50, #fdf4fc); --xq-edge: var(--plum-200, #f2ceed); --xq-ink: var(--plum-800, #642d61); }
-.xq-type__tile[data-type="multiple_choice"] { --xq-accent: var(--aubergine-600, #7f548d); --xq-tint: var(--aubergine-50, #faf5fc); --xq-edge: var(--aubergine-200, #e7d0ef); --xq-ink: var(--aubergine-800, #52335b); }
-.xq-type__tile[data-type="survey"] { --xq-accent: #2563eb; --xq-tint: #eff6ff; --xq-edge: #bfdbfe; --xq-ink: #1e40af; }
+/* ---- Color de cada tipo: acento, tinte de fondo, borde y tinta ----
+   Los define también la tarjeta de la pregunta (.xq-card[data-type]): su chip y su sección
+   de respuestas usan el color de su tipo (css/admin-question-editor.css). */
+:is(.xq-type__tile, .xq-card)[data-type="quiz"] { --xq-accent: var(--plum-600, #94438e); --xq-tint: var(--plum-50, #fdf4fc); --xq-edge: var(--plum-200, #f2ceed); --xq-ink: var(--plum-800, #642d61); }
+:is(.xq-type__tile, .xq-card)[data-type="multiple_choice"] { --xq-accent: var(--aubergine-600, #7f548d); --xq-tint: var(--aubergine-50, #faf5fc); --xq-edge: var(--aubergine-200, #e7d0ef); --xq-ink: var(--aubergine-800, #52335b); }
+:is(.xq-type__tile, .xq-card)[data-type="survey"] { --xq-accent: #2563eb; --xq-tint: #eff6ff; --xq-edge: #bfdbfe; --xq-ink: #1e40af; }
 /* Hermana de la encuesta, un paso hacia el cielo (como quiz → selección múltiple) */
-.xq-type__tile[data-type="survey_multiple"] { --xq-accent: #0369a1; --xq-tint: #f0f9ff; --xq-edge: #bae6fd; --xq-ink: #075985; }
-.xq-type__tile[data-type="order"] { --xq-accent: #16a34a; --xq-tint: #f0fdf4; --xq-edge: #bbf7d0; --xq-ink: #166534; }
-.xq-type__tile[data-type="matching"] { --xq-accent: #ea580c; --xq-tint: #fff7ed; --xq-edge: #fed7aa; --xq-ink: #9a3412; }
-.xq-type__tile[data-type="numeric_approximation"] { --xq-accent: #0891b2; --xq-tint: #ecfeff; --xq-edge: #a5f3fc; --xq-ink: #155e75; }
-.xq-type__tile[data-type="word_scramble"] { --xq-accent: #db2777; --xq-tint: #fdf2f8; --xq-edge: #fbcfe8; --xq-ink: #9d174d; }
-.xq-type__tile[data-type="word_search"] { --xq-accent: #ca8a04; --xq-tint: #fefce8; --xq-edge: #fde68a; --xq-ink: #854d0e; }
-.xq-type__tile[data-type="fill_blanks"] { --xq-accent: #059669; --xq-tint: #ecfdf5; --xq-edge: #a7f3d0; --xq-ink: #065f46; }
+:is(.xq-type__tile, .xq-card)[data-type="survey_multiple"] { --xq-accent: #0369a1; --xq-tint: #f0f9ff; --xq-edge: #bae6fd; --xq-ink: #075985; }
+:is(.xq-type__tile, .xq-card)[data-type="order"] { --xq-accent: #16a34a; --xq-tint: #f0fdf4; --xq-edge: #bbf7d0; --xq-ink: #166534; }
+:is(.xq-type__tile, .xq-card)[data-type="matching"] { --xq-accent: #ea580c; --xq-tint: #fff7ed; --xq-edge: #fed7aa; --xq-ink: #9a3412; }
+/* Numérica y Completa la frase no usan cian ni esmeralda: son los colores de los roles TV y Standalone */
+:is(.xq-type__tile, .xq-card)[data-type="numeric_approximation"] { --xq-accent: #0f766e; --xq-tint: #f0fdfa; --xq-edge: #99f6e4; --xq-ink: #134e4a; }
+:is(.xq-type__tile, .xq-card)[data-type="word_scramble"] { --xq-accent: #db2777; --xq-tint: #fdf2f8; --xq-edge: #fbcfe8; --xq-ink: #9d174d; }
+:is(.xq-type__tile, .xq-card)[data-type="word_search"] { --xq-accent: #ca8a04; --xq-tint: #fefce8; --xq-edge: #fde68a; --xq-ink: #854d0e; }
+:is(.xq-type__tile, .xq-card)[data-type="fill_blanks"] { --xq-accent: #475569; --xq-tint: #f1f5f9; --xq-edge: #cbd5e1; --xq-ink: #1e293b; }
 
 /* ---- Baldosa ---- */
 .xq-type__tile {

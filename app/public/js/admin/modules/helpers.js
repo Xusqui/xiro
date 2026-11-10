@@ -6,67 +6,34 @@
 
 window._t = window._t || ((k, v, f) => window.XiroI18n?.t(k, v, f) ?? f ?? k);
 
+/**
+ * Pinta la lista de preguntas del editor de bancos, o su estado vacío. Conserva el scroll;
+ * el foco va al campo pedido con setQuestionFocus o, si no, al que lo tenía.
+ */
 function dibujarPreguntas() {
     const contenedor = document.getElementById('listaPreguntasDOM');
     if (!contenedor) return;
 
-    // SOLUCIÓN AL BUG: Guardar el elemento activo y la posición de scroll antes de re-renderizar
-    const activeElement = document.activeElement;
-    const activeElementId = activeElement ? activeElement.id : null;
+    const activeId = document.activeElement?.id || null;
     const parent = contenedor.parentElement;
     const scrollPosition = parent ? parent.scrollTop : 0;
     const windowScrollY = window.scrollY;
 
-    contenedor.innerHTML = preguntasData
-        .map((q, qIdx) => {
-            normalizeQuestionDefaults(q);
-            return questionCardHtml(q, qIdx);
-        })
-        .join('');
+    contenedor.innerHTML = preguntasData.length
+        ? preguntasData
+            .map((q, qIdx) => {
+                normalizeQuestionDefaults(q);
+                return questionCardHtml(q, qIdx);
+            })
+            .join('')
+        : bankQuestionsEmptyHtml();
+    if (typeof actualizarCabeceraPreguntas === 'function') actualizarCabeceraPreguntas();
 
-    // SOLUCIÓN AL BUG: Restaurar el scroll y el foco después de re-renderizar
     requestAnimationFrame(() => {
-        // Restaurar scroll del contenedor padre
-        if (parent) {
-            parent.scrollTop = scrollPosition;
-        }
-
-        // Restaurar scroll de la ventana
+        if (parent) parent.scrollTop = scrollPosition;
         window.scrollTo(0, windowScrollY);
-
-        // Intentar restaurar el foco al elemento que estaba activo
-        if (activeElementId) {
-            const elementToFocus = document.getElementById(activeElementId);
-            if (elementToFocus && elementToFocus !== document.body) {
-                try {
-                    elementToFocus.focus({ preventScroll: true });
-                } catch (e) {
-                    elementToFocus.focus();
-                }
-            }
-        }
-
-        // Cargar elementos de audio DESPUÉS de restaurar scroll y foco
-        setTimeout(() => {
-            const audioPlaceholders = contenedor.querySelectorAll('.audio-placeholder');
-            audioPlaceholders.forEach(placeholder => {
-                const audioSrc = placeholder.dataset.audioSrc;
-                if (audioSrc) {
-                    const audio = document.createElement('audio');
-                    audio.controls = true;
-                    audio.preload = 'none';
-                    audio.src = audioSrc;
-                    audio.className = 'w-full';
-                    audio.style.outline = 'none';
-                    placeholder.appendChild(audio);
-                    placeholder.classList.remove('audio-placeholder');
-                }
-            });
-
-            // Inicializar drag-and-drop en todas las cajas de upload
-            inicializarDragAndDrop();
-        }, 100);
     });
+    afterQuestionsRender(contenedor, activeId);
 }
 
 function ensureOrderIndexes(question) {
@@ -87,7 +54,11 @@ function moverOpcion(qIdx, oIdx, delta) {
     const [moved] = options.splice(oIdx, 1);
     options.splice(targetIndex, 0, moved);
     ensureOrderIndexes(question);
-    dibujarPreguntas();
+    // El foco sigue a la opción movida (en el borde, a la flecha que queda activa)
+    const atEdge = targetIndex === 0 || targetIndex === options.length - 1;
+    const arrow = (delta < 0) !== atEdge ? 'up' : 'down';
+    setQuestionFocus(`opt-${arrow}-${qIdx}-${targetIndex}`);
+    dibujarPregunta(qIdx);
 }
 
 /**
@@ -130,7 +101,7 @@ function cambiarTipoPregunta(qIdx, newType) {
 
     // Anagrama, sopa de letras y Completa la frase
     if (applyWordTypeDefaults(question, newType)) {
-        dibujarPreguntas();
+        dibujarPregunta(qIdx);
         return;
     }
 
@@ -169,7 +140,7 @@ function cambiarTipoPregunta(qIdx, newType) {
         ];
     }
 
-    dibujarPreguntas();
+    dibujarPregunta(qIdx);
 }
 
 /**
@@ -273,9 +244,19 @@ function mostrarModalError(titulo, mensaje, tipo = 'error') {
  * @param {string} textoConfirm - Texto del botón confirmar (defecto: "Confirmar")
  * @param {string} textoCancelar - Texto del botón cancelar (defecto: "Cancelar")
  */
+/**
+ * Diálogo de confirmación. El foco empieza en "Cancelar": Intro no confirma por accidente.
+ * @param {string} titulo
+ * @param {string} mensaje - HTML ya escapado
+ * @param {Function} [onConfirm]
+ * @param {Function} [onCancel]
+ * @param {string} [textoConfirm]
+ * @param {string} [textoCancelar]
+ * @param {{ danger?: boolean }} [opciones] - danger: el botón de confirmar avisa de que se pierde algo
+ */
 // Firma posicional usada por 20+ llamadas del admin: se mantiene a propósito
 // eslint-disable-next-line max-params
-function mostrarModalConfirmacion(titulo, mensaje, onConfirm, onCancel, textoConfirm, textoCancelar) {
+function mostrarModalConfirmacion(titulo, mensaje, onConfirm, onCancel, textoConfirm, textoCancelar, opciones = {}) {
     textoConfirm = textoConfirm ?? _t('admin.common.confirm', null, 'Confirmar');
     textoCancelar = textoCancelar ?? _t('admin.common.cancel', null, 'Cancelar');
     // Remover modal anterior si existe
@@ -287,10 +268,11 @@ function mostrarModalConfirmacion(titulo, mensaje, onConfirm, onCancel, textoCon
     modal.id = 'modalConfirmacionGlobal';
     modal.className = 'fixed inset-0 bg-slate-900/60 z-[9999] flex items-center justify-center p-4 xiro-admin-overlay';
     modal.innerHTML = _tHtml(`
-        <div class="bg-white rounded-2xl shadow-2xl border-2 border-yellow-300 max-w-md w-full p-8 xiro-admin-dialog">
+        <div class="bg-white rounded-2xl shadow-2xl border-2 border-yellow-300 max-w-md w-full p-8 xiro-admin-dialog"
+            role="alertdialog" aria-modal="true" aria-labelledby="modalConfirmacionTitulo" aria-describedby="modalConfirmacionMensaje">
             <div class="flex flex-col items-center text-center">
-                <h2 class="text-2xl font-black text-yellow-900 mb-4">${titulo}</h2>
-                <p class="text-yellow-800 text-sm leading-relaxed mb-8">${mensaje}</p>
+                <h2 id="modalConfirmacionTitulo" class="text-2xl font-black text-yellow-900 mb-4">${titulo}</h2>
+                <p id="modalConfirmacionMensaje" class="text-yellow-800 text-sm leading-relaxed mb-8">${mensaje}</p>
                 
                 <div class="flex gap-3 w-full">
                     <button data-admin-click="document.getElementById('modalConfirmacionGlobal').remove()" 
@@ -298,7 +280,7 @@ function mostrarModalConfirmacion(titulo, mensaje, onConfirm, onCancel, textoCon
                         ${textoCancelar}
                     </button>
                     <button id="btnConfirmarModal"
-                        class="flex-1 bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-xl font-bold transition transform active:scale-95">
+                        class="flex-1 ${opciones.danger ? 'bg-red-600 hover:bg-red-700' : 'bg-yellow-600 hover:bg-yellow-700'} text-white px-6 py-3 rounded-xl font-bold transition transform active:scale-95">
                         ${textoConfirm}
                     </button>
                 </div>
@@ -340,8 +322,7 @@ function mostrarModalConfirmacion(titulo, mensaje, onConfirm, onCancel, textoCon
     };
     document.addEventListener('keydown', closeOnEscape);
 
-    // Focus en botón confirmar
-    btnConfirmar.focus();
+    btnCancelar.focus();
 }
 
 /**

@@ -1,11 +1,13 @@
 // Editor de preguntas del admin (dibujarPreguntas, en helpers.js): valores por defecto
-// de cada pregunta y tarjeta común (tipo, enunciado, imagen, tiempo y multimedia).
-// El selector de tipo está en question-type-picker.js.
-// La sección propia de cada tipo está en question-editor-numeric.js y question-editor-options.js.
+// de cada pregunta y tarjeta común. Orden de la tarjeta: cabecera (número, tipo, resumen
+// y acciones), tipo, enunciado, respuestas (sección propia del tipo) y "Más opciones"
+// (imagen, tiempo y multimedia, en question-editor-media.js), de lo esencial a lo opcional.
+// El selector de tipo está en question-type-picker.js; las secciones de cada tipo, en
+// question-editor-options.js, question-editor-numeric.js y los editores de cada tipo.
+// Estilos en css/admin-question-editor.css.
 
 /** Completa en la propia pregunta los campos que el editor necesita. */
 function normalizeQuestionDefaults(q) {
-    // Inicializar campos multimedia si no existen
     if (!q.tipo_contenido) q.tipo_contenido = 'texto';
     if (!q.url_recurso) q.url_recurso = null;
     if (q.question_image_url === undefined) q.question_image_url = null;
@@ -15,165 +17,104 @@ function normalizeQuestionDefaults(q) {
         q.toleranceMode = q.toleranceMode || 'hybrid';
         q.toleranceValue = Number(q.toleranceValue) || 25;
         if (q.toleranceCap === undefined) q.toleranceCap = 1000;
+        // El servidor exige puntos máximos; sin valor no se podría guardar nunca
+        if (q.maxPoints == null) q.maxPoints = 100;
     }
-
-    if (q.type === 'order') {
-        ensureOrderIndexes(q);
-    }
-
-    if (q.type === 'matching' || q.type === 'word_search') {
+    if (q.type === 'order' || q.type === 'matching' || q.type === 'word_search') {
         ensureOrderIndexes(q);
     }
 }
 
-// Cada tipo de pregunta lleva su propia chip de color, para que se distinga
-// de un vistazo en la lista sin tener que abrir el desplegable. Clases
-// completas y literales (no interpoladas), definidas en css/common.css.
-const QUESTION_TYPE_CHIPS = {
-    quiz: 'bg-plum-100 text-plum-700',
-    survey: 'bg-blue-100 text-blue-700',
-    survey_multiple: 'bg-sky-100 text-sky-700',
-    order: 'bg-green-100 text-green-700',
-    matching: 'bg-orange-100 text-orange-700',
-    numeric_approximation: 'bg-cyan-100 text-cyan-700',
-    word_scramble: 'bg-pink-100 text-pink-700',
-    word_search: 'bg-yellow-100 text-yellow-700',
-    multiple_choice: 'bg-aubergine-100 text-aubergine-700',
-    fill_blanks: 'bg-emerald-100 text-emerald-700'
-};
+/** Nombre corto del tipo, traducido (el de la rejilla de tipos). */
+function questionTypeName(type) {
+    const fallback = QUESTION_TYPE_PICKER.find(t => t.type === type)?.name || String(type || '').replace(/_/g, ' ');
+    return _t(`admin.q.type_${type}_short`, null, fallback);
+}
 
-function questionTypeChip(type) {
-    return Object.hasOwn(QUESTION_TYPE_CHIPS, type) ? QUESTION_TYPE_CHIPS[type] : 'bg-slate-100 text-slate-600';
+/** Resumen de la cabecera plegada: enunciado y cuántas respuestas tiene. */
+function _questionSummaryHtml(q) {
+    const text = String(q.questionText || '').trim();
+    const statement = text
+        ? escapeHtml(text)
+        : `<em class="xq-card__missing">${_t('admin.q.summary_no_statement', null, 'Sin enunciado')}</em>`;
+    const count = Array.isArray(q.options) ? q.options.length : 0;
+    const extra = count ? ` · ${_t('admin.q.summary_answers', { n: count }, 'Respuestas: {n}')}` : '';
+    return `<span class="xq-card__summary">${statement}${extra}</span>`;
+}
+
+/** Botón de acción de la cabecera: { id, action, icon, label, danger?, disabled? } */
+function _questionActionHtml({ id, action, icon, label, danger = false, disabled = false }) {
+    return `<button type="button" id="${id}" class="xq-iconbtn${danger ? ' xq-iconbtn--danger' : ''}" data-admin-click="${action}"
+                            aria-label="${label}" title="${label}"${disabled ? ' disabled' : ''}><i class="fas ${icon}" aria-hidden="true"></i></button>`;
+}
+
+/** Cabecera de la tarjeta: botón de plegar (número, tipo, resumen) y acciones. */
+function questionCardHeadHtml(q, qIdx) {
+    const n = qIdx + 1;
+    const total = Array.isArray(globalThis.preguntasData) ? globalThis.preguntasData.length : n;
+    const collapsed = isQuestionCollapsed(q);
+    const label = _t('admin.q.card_title', { n }, 'Pregunta {n}');
+    return `
+                    <header class="xq-card__head">
+                        <button type="button" id="q-toggle-${qIdx}" class="xq-card__toggle" aria-expanded="${!collapsed}" aria-controls="q-body-${qIdx}"
+                            data-admin-click="alternarPreguntaPlegada(${qIdx})">
+                            <i class="fas fa-chevron-down xq-card__chevron" aria-hidden="true"></i>
+                            <span class="xq-card__num" id="q-title-${qIdx}">${label}</span>
+                            <span class="xq-chip">${questionTypeName(q.type)}</span>
+                            ${_questionSummaryHtml(q)}
+                        </button>
+                        <div class="xq-card__actions">
+                            ${_questionActionHtml({ id: `q-up-${qIdx}`, action: `moverPregunta(${qIdx}, -1)`, icon: 'fa-arrow-up', label: _t('admin.q.move_up', { n }, 'Subir la pregunta {n}'), disabled: qIdx === 0 })}
+                            ${_questionActionHtml({ id: `q-down-${qIdx}`, action: `moverPregunta(${qIdx}, 1)`, icon: 'fa-arrow-down', label: _t('admin.q.move_down', { n }, 'Bajar la pregunta {n}'), disabled: qIdx >= total - 1 })}
+                            ${_questionActionHtml({ id: `q-dup-${qIdx}`, action: `duplicarPregunta(${qIdx})`, icon: 'fa-copy', label: _t('admin.q.duplicate', { n }, 'Duplicar la pregunta {n}') })}
+                            ${_questionActionHtml({ id: `q-del-${qIdx}`, action: `eliminarPregunta(${qIdx})`, icon: 'fa-trash-alt', label: _t('admin.q.delete_n', { n }, 'Eliminar la pregunta {n}'), danger: true })}
+                        </div>
+                    </header>`;
 }
 
 /** Enunciado: en «Completa la frase» se escribe en su propia sección, con los corchetes. */
 function questionStatementHtml(q, qIdx) {
-    const label = `<label class="text-[10px] font-bold text-slate-400 uppercase">${_t('admin.q.label', null, 'Enunciado de la pregunta')} ${qIdx + 1}</label>`;
+    const label = _t('admin.q.label', null, 'Enunciado de la pregunta');
     if (q.type === 'fill_blanks') {
-        return `${label}
-                    <p class="text-sm text-slate-500 mb-4 italic">${_t('admin.q.fillblanks_statement_note', null, 'La frase se escribe más abajo, con las palabras a adivinar entre corchetes.')}</p>`;
+        return `
+                    <div>
+                        <p class="xq-label">${label}</p>
+                        <p class="xq-hint">${_t('admin.q.fillblanks_statement_note', null, 'La frase se escribe más abajo, con las palabras a adivinar entre corchetes.')}</p>
+                    </div>`;
     }
-    return `${label}
-                    <input type="text" data-admin-input="preguntasData[${qIdx}].questionText = this.value" value="${escapeHtml(q.questionText || '')}" placeholder="¿Cómo se llama el proceso...?" class="w-full text-lg font-bold border-b-2 border-slate-50 mb-4 focus:border-plum-400 outline-none py-2 transition bg-transparent">`;
+    const placeholder = escapeHtml(_t('admin.q.statement_placeholder', null, 'Escribe aquí la pregunta'));
+    return `
+                    <div>
+                        <label class="xq-label" for="q-text-${qIdx}">${label}</label>
+                        <textarea id="q-text-${qIdx}" rows="1" class="xq-field xq-field--statement" data-autogrow data-single-line
+                            data-admin-input="preguntasData[${qIdx}].questionText = this.value" placeholder="${placeholder}">${escapeHtml(q.questionText || '')}</textarea>
+                    </div>`;
+}
+
+/** Aviso de validación de esta pregunta (lo pone la barra de guardado al fallar). */
+function questionErrorHtml(q, qIdx) {
+    const problem = getQuestionError(q);
+    if (!problem) return '';
+    return `
+                    <p class="xq-error" id="q-error-${qIdx}" role="alert">
+                        <i class="fas fa-circle-exclamation" aria-hidden="true"></i><span>${escapeHtml(problem.message)}</span>
+                    </p>`;
 }
 
 /** HTML de la tarjeta de una pregunta en el editor. */
 function questionCardHtml(q, qIdx) {
-    const typeChip = questionTypeChip(q.type);
+    const collapsed = isQuestionCollapsed(q);
+    const state = (collapsed ? '' : ' xq-card--open') + (getQuestionError(q) ? ' xq-card--invalid' : '');
     const isHybridToleranceMode = (q.toleranceMode || 'hybrid') === 'hybrid';
     return `
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 relative animate-fade-in">
-                    <button data-admin-click="eliminarPregunta(${qIdx})" class="absolute top-4 right-4 text-slate-300 hover:text-red-500 transition" aria-label="${_t('admin.q.delete_aria', null, 'Eliminar pregunta')}"><i class="fas fa-trash-alt" aria-hidden="true"></i></button>
-                    <span class="absolute top-4 right-14 text-[10px] font-bold uppercase px-2 py-1 rounded-full ${typeChip}">${_t(`admin.q.type_${q.type}_short`, null, q.type.replace(/_/g, ' '))}</span>
-
-                    ${questionTypePickerHtml(q, qIdx)}
-
-                    ${questionStatementHtml(q, qIdx)}
-
-                    <!-- IMAGEN PEQUEÑA DE ENUNCIADO -->
-                    <div class="mb-5 p-3 bg-slate-50 rounded-xl border border-slate-200">
-                        <label class="text-[10px] font-bold text-slate-400 uppercase flex items-center gap-2 mb-2">
-                            <i class="fas fa-image text-slate-400"></i>
-                            ${_t('admin.q.q_image_label', null, 'Imagen del enunciado')}
-                            <span class="font-normal normal-case text-slate-300">— máx. 200×200 px / 200 KB</span>
-                        </label>
-                        ${
-    q.question_image_url
-        ? `
-                            <div class="flex items-center gap-3">
-                                <img src="${escapeHtml(q.question_image_url)}" alt="Imagen enunciado"
-                                    class="w-16 h-16 object-contain rounded-lg border border-slate-200 bg-white shadow-sm flex-shrink-0"
-                                    style="max-width:100px;max-height:100px;">
-                                <div class="flex-1 min-w-0">
-                                    <p class="text-xs text-slate-500 font-mono truncate">${escapeHtml(q.question_image_url)}</p>
-                                    <button type="button" id="q-img-btn-${qIdx}"
-                                        data-admin-click="eliminarImagenPregunta(${qIdx})"
-                                        class="mt-1 text-xs text-red-500 hover:text-red-700 font-bold flex items-center gap-1 transition">
-                                        <i class="fas fa-trash-alt"></i> ${_t('admin.q.q_image_remove', null, 'Quitar imagen')}
-                                    </button>
-                                </div>
-                            </div>
-                        `
-        : `
-                            <button type="button" id="q-img-btn-${qIdx}"
-                                data-admin-click="abrirSelectorImagenPregunta(${qIdx})"
-                                class="flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-plum-600 border border-dashed border-slate-300 hover:border-plum-400 rounded-lg px-3 py-2 transition bg-white">
-                                <i class="fas fa-plus-circle"></i>
-                                ${_t('admin.q.q_image_add', null, 'Añadir imagen pequeña (opcional)')}
-                            </button>
-                        `
-}
+                <article class="xq-card${state}" id="q-card-${qIdx}" data-q-idx="${qIdx}" data-type="${escapeHtml(q.type)}" aria-labelledby="q-title-${qIdx}">
+                    ${questionCardHeadHtml(q, qIdx)}
+                    <div class="xq-card__body" id="q-body-${qIdx}"${collapsed ? ' hidden' : ''}>
+                        ${questionErrorHtml(q, qIdx)}
+                        ${questionTypePickerHtml(q, qIdx)}
+                        ${questionStatementHtml(q, qIdx)}
+                        ${questionTypeSectionHtml(q, qIdx, isHybridToleranceMode)}
+                        ${questionMoreOptionsHtml(q, qIdx)}
                     </div>
-
-                    <div class="mb-4">
-                        <label class="text-[10px] font-bold text-slate-400 uppercase flex items-center gap-2">
-                            <i class="fas fa-clock"></i> ${_t('admin.q.time_label', null, 'Tiempo para responder (segundos)')}
-                        </label>
-                        <input
-                            type="number"
-                            min="5"
-                            max="120"
-                            value="${q.time_limit || getDefaultQuestionTimeLimit()}"
-                            data-admin-input="preguntasData[${qIdx}].time_limit = Math.max(5, Math.min(120, parseInt(this.value) || getDefaultQuestionTimeLimit()))"
-                            class="w-full p-2 border-2 border-slate-100 rounded-xl focus:border-plum-500 outline-none transition"
-                            placeholder="${getDefaultQuestionTimeLimit()}"
-                        >
-                        <p class="text-xs text-slate-400 mt-1"><i class="fas fa-info-circle mr-1"></i>${_t('admin.q.time_help', { seconds: getDefaultQuestionTimeLimit() }, 'Por defecto: {seconds} segundos (min: 5, max: 120)')}</p>
-                    </div>
-
-                    <!-- MULTIMEDIA -->
-                    <div class="mb-4 p-4 bg-plum-50 rounded-xl border border-plum-200">
-                        <label class="text-[10px] font-bold text-plum-600 uppercase flex items-center gap-2 mb-3">
-                            <i class="fas fa-photo-video"></i> ${_t('admin.q.media_label', null, 'Contenido Multimedia')}
-                        </label>
-
-                        ${
-    q.tipo_contenido === 'texto'
-        ? `
-                            <div id="drop-zone-${qIdx}" class="drop-zone text-center">
-                                <p class="text-xs text-slate-500 mb-3">${_t('admin.q.media_drop', null, 'Arrastra un archivo aquí o haz clic para seleccionar')}</p>
-                                <button type="button" id="upload-btn-${qIdx}" data-admin-click="abrirSelectorArchivo(${qIdx})" class="bg-plum-600 hover:bg-plum-700 text-white px-4 py-2 rounded-lg text-sm font-bold transition">
-                                    <i class="fas fa-upload mr-2"></i>${_t('admin.q.media_upload', null, 'Subir Imagen o Audio')}
-                                </button>
-                                <p class="text-xs text-slate-400 mt-2">${_t('admin.q.media_limit', null, 'Max: 5MB (imagen) / 10MB (audio)')}</p>
-                            </div>
-                        `
-        : `
-                            <div class="space-y-3">
-                                <div class="flex items-center justify-between bg-white p-3 rounded-lg border border-plum-300">
-                                    <div class="flex items-center gap-3">
-                                        ${
-    q.tipo_contenido === 'imagen'
-        ? '<i class="fas fa-image text-plum-600 text-xl"></i>'
-        : '<i class="fas fa-volume-up text-blue-600 text-xl"></i>'
-}
-                                        <div>
-                                            <p class="font-bold text-sm text-slate-800">${q.tipo_contenido === 'imagen' ? 'Imagen' : 'Audio'}</p>
-                                            <p class="text-xs text-slate-500 font-mono break-all">${escapeHtml(q.url_recurso)}</p>
-                                        </div>
-                                    </div>
-                                    <button type="button" data-admin-click="eliminarRecurso(${qIdx})" class="text-red-500 hover:text-red-700 px-3 py-1 rounded-lg hover:bg-red-50 transition">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                                ${
-    q.tipo_contenido === 'imagen'
-        ? `<div class="text-center"><img src="${escapeHtml(q.url_recurso)}" alt="Preview" class="max-w-full max-h-48 mx-auto rounded-lg shadow-md"></div>`
-        : `<div id="audio-container-${qIdx}" class="audio-placeholder" data-audio-src="${escapeHtml(q.url_recurso)}"></div>`
-}
-                                <p class="text-xs text-slate-500 italic">
-                                    <i class="fas fa-info-circle mr-1"></i>
-                                    ${
-    q.tipo_contenido === 'imagen'
-        ? 'En presentador.html las opciones se ocultarán. En jugador.html se mostrarán normalmente.'
-        : 'El audio se reproducirá automáticamente en presentador.html y estará muto en jugador.html.'
-}
-                                </p>
-                            </div>
-                        `
-}
-                    </div>
-                    
-                    ${questionTypeSectionHtml(q, qIdx, isHybridToleranceMode)}
-                </div>`;
+                </article>`;
 }

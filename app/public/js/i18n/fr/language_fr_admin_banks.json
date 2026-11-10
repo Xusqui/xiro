@@ -126,6 +126,9 @@
     "admin.editor.chip_streaks": "Séquence",
     "admin.editor.chip_double": "Double",
     "admin.editor.chip_random": "Aléatoire",
-    "admin.editor.ph_pin_auto": "Automatique"
+    "admin.editor.ph_pin_auto": "Automatique",
+    "admin.banks.export_skipped": "{n} question(s) sans énoncé ont été exclue(s).",
+    "admin.banks.question_count": "Questions : {n}",
+    "admin.banks.delete_aria": "Supprimer la banque « {name} »"
   }
 }

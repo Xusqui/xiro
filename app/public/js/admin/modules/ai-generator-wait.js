@@ -33,7 +33,7 @@ function _aiWaitClock(ms) {
 function _aiWaitTypes(counts) {
     return QUESTION_TYPE_LABELS.filter(t => counts && counts[t.type] > 0)
         .map(
-            t => `<li class="aiw-type"><i class="fas ${t.icon} text-${t.color}-600" aria-hidden="true"></i>
+            t => `<li class="aiw-type"><i class="fas ${t.icon} ${t.ink}" aria-hidden="true"></i>
                 <span>${escapeHtml(aiTypeLabel(t))}</span><span class="aiw-type__n">${counts[t.type]}</span></li>`
         )
         .join('');

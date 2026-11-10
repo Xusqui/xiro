@@ -12,22 +12,25 @@ let aiGenResult = null;
 let aiGenMode = 'document'; // 'document' | 'prompt'
 let _aiGeneratorDelegationReady = false;
 
+// tile / ink: fondo del icono y color del icono, en clases literales (docs/CSS_GUIDE.md).
+// Son los colores de la paleta de tipos (DESIGN.md, css/admin-question-type-picker.css).
 const QUESTION_TYPE_LABELS = [
-    { type: 'quiz', label: 'Test (quiz)', icon: 'fa-check-circle', color: 'plum' },
-    { type: 'multiple_choice', label: 'Selección múltiple', icon: 'fa-tasks', color: 'aubergine' },
-    { type: 'order', label: 'Ordenar secuencia', icon: 'fa-sort', color: 'green' },
-    { type: 'matching', label: 'Emparejar', icon: 'fa-link', color: 'orange' },
-    { type: 'word_scramble', label: 'Adivinar palabra', icon: 'fa-font', color: 'pink' },
-    { type: 'fill_blanks', label: 'Completa la frase', icon: 'fa-i-cursor', color: 'emerald' },
-    { type: 'numeric_approximation', label: 'Aproximación numérica', icon: 'fa-hashtag', color: 'amber' },
-    { type: 'word_search', label: 'Sopa de letras', icon: 'fa-th', color: 'teal' },
-    { type: 'survey', label: 'Encuesta (survey)', icon: 'fa-poll', color: 'blue' },
+    { type: 'quiz', label: 'Test (quiz)', icon: 'fa-check-circle', tile: 'bg-plum-100', ink: 'text-plum-600' },
+    { type: 'multiple_choice', label: 'Selección múltiple', icon: 'fa-tasks', tile: 'bg-aubergine-100', ink: 'text-aubergine-600' },
+    { type: 'order', label: 'Ordenar secuencia', icon: 'fa-sort', tile: 'bg-green-100', ink: 'text-green-600' },
+    { type: 'matching', label: 'Emparejar', icon: 'fa-link', tile: 'bg-orange-100', ink: 'text-orange-600' },
+    { type: 'word_scramble', label: 'Adivinar palabra', icon: 'fa-font', tile: 'bg-pink-100', ink: 'text-pink-600' },
+    { type: 'fill_blanks', label: 'Completa la frase', icon: 'fa-i-cursor', tile: 'bg-slate-100', ink: 'text-slate-600' },
+    { type: 'numeric_approximation', label: 'Aproximación numérica', icon: 'fa-hashtag', tile: 'bg-teal-100', ink: 'text-teal-700' },
+    { type: 'word_search', label: 'Sopa de letras', icon: 'fa-th', tile: 'bg-yellow-100', ink: 'text-yellow-600' },
+    { type: 'survey', label: 'Encuesta (survey)', icon: 'fa-poll', tile: 'bg-blue-100', ink: 'text-blue-600' },
     {
         type: 'survey_multiple',
         label: 'Encuesta de selección múltiple',
         key: 'admin.ai.type_survey_multiple',
         icon: 'fa-square-poll-horizontal',
-        color: 'sky'
+        tile: 'bg-sky-100',
+        ink: 'text-sky-700'
     }
 ];
 
@@ -305,8 +308,8 @@ function _renderAIStep2() {
             ${QUESTION_TYPE_LABELS.map(
         t => `
             <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100">
-                <div class="w-10 h-10 bg-${t.color}-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <i class="fas ${t.icon} text-${t.color}-600"></i></div>
+                <div class="w-10 h-10 ${t.tile} rounded-lg flex items-center justify-center flex-shrink-0">
+                    <i class="fas ${t.icon} ${t.ink}"></i></div>
                 <span class="flex-1 font-semibold text-slate-700">${aiTypeLabel(t)}</span>
                 <input type="number" min="0" max="20" value="0" id="ai-count-${t.type}"
                     data-ai-gen-action="update-total"

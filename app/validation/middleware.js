@@ -9,7 +9,9 @@
  * Valida datos contra un esquema Joi
  * @param {Object} schema - Esquema Joi
  * @param {Object} data - Datos a validar
- * @returns {{ value: Object, error: string|null }}
+ * @returns {{ value: Object, error: string|null, fields?: Array<{ path: Array<string|number>, message: string }> }}
+ *   fields (solo con error): ruta y mensaje de cada fallo, p. ej. ['questions', 3, 'maxPoints'],
+ *   para que el cliente señale el campo exacto
  */
 function validate(schema, data) {
     const { value, error } = schema.validate(data, {
@@ -19,7 +21,8 @@ function validate(schema, data) {
 
     if (error) {
         const messages = error.details.map(d => d.message).join('. ');
-        return { value: null, error: messages };
+        const fields = error.details.map(d => ({ path: d.path, message: d.message }));
+        return { value: null, error: messages, fields };
     }
 
     return { value, error: null };
@@ -63,7 +66,7 @@ function sanitizeForLogs(value, key = '') {
  */
 function validateBody(schema) {
     return (req, res, next) => {
-        const { value, error } = validate(schema, req.body);
+        const { value, error, fields } = validate(schema, req.body);
         if (error) {
             const logger = require('../config/logger');
             logger.warn('Validation error in request body', {
@@ -75,7 +78,8 @@ function validateBody(schema) {
             return res.status(400).json({
                 error: 'Datos inválidos',
                 message: error,
-                details: error.split('. ') // Desglosar los errores for debugging
+                details: error.split('. '), // Desglosar los errores for debugging
+                fields
             });
         }
         req.body = value; // Usar datos sanitizados

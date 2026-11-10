@@ -24,11 +24,12 @@
  * @param {Object} cfg.streaks - { keys, toggle, panel, threshold, bonus, onToggle }
  * @param {Object} cfg.doubleStreaks - { keys, toggle, panel, threshold, bonus, onToggle }
  * @param {string} [cfg.extraGeneralHtml] - Campos extra de la sección General
+ * @param {boolean} [cfg.settingsOpen] - Panel "Ajustes" abierto al pintar (por defecto, solo si es nuevo)
  * @returns {string}
  */
 function renderEditorHeader(cfg) {
     const entity = cfg.entity || {};
-    const open = !entity.id;
+    const open = cfg.settingsOpen ?? !entity.id;
     const panelId = `xeh-panel-${cfg.coverKind}`;
     const ids = _ehSummaryIds(cfg);
     const settingsLabel = _t('admin.editor.settings', null, 'Ajustes');

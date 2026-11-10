@@ -1,0 +1,206 @@
+/*
+ * Editor de preguntas de los bancos: sección de respuestas de cada tipo (opciones, control
+ * "Correcta", pares, campos numéricos, vista previa) y el bloque plegable "Cómo funciona".
+ * "Más opciones" está en admin-question-more.css. La tarjeta, los botones y la lista están en admin-question-editor.css;
+ * el color de cada tipo llega por las variables --xq-* de la tarjeta.
+ */
+
+/* ---- Sección de respuestas (color del tipo) ---- */
+.xq-section {
+    display: grid;
+    gap: 12px;
+    padding: 16px;
+    border: 1px solid var(--xq-edge);
+    border-radius: 16px;
+    background: var(--xq-tint);
+}
+
+.xq-section__title {
+    color: var(--xq-ink);
+    font-family: var(--font-display-console, 'Syne', system-ui, sans-serif);
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.xq-section__hint { margin-top: 2px; color: var(--xq-ink); font-size: 14px; opacity: 0.85; }
+
+.xq-subsection { display: grid; gap: 12px; padding-top: 12px; border-top: 1px solid var(--xq-edge); }
+.xq-subsection__title { color: var(--xq-ink); font-size: 14px; font-weight: 600; }
+
+.xq-options { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+
+@container (min-width: 640px) {
+    .xq-options:not(.xq-options--list) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.xq-option {
+    display: flex;
+    /* Arriba, no centrado: con un texto de varias líneas los controles se quedan en la primera */
+    align-items: flex-start;
+    gap: 8px;
+    min-height: 52px;
+    padding: 6px 6px 6px 8px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    background: #ffffff;
+    transition: border-color 0.15s ease-out, background-color 0.15s ease-out;
+}
+
+.xq-option:focus-within { border-color: var(--xq-accent); }
+.xq-option:has([aria-invalid="true"]) { border-color: #dc2626; }
+.xq-option.is-correct { border-color: #16a34a; background: #f0fdf4; }
+
+.xq-option--order { display: grid; gap: 6px; }
+.xq-option__line { display: flex; align-items: flex-start; gap: 8px; }
+.xq-option > :not(.xq-option__input), .xq-option__line > :not(.xq-option__input) { margin-top: 2px; }
+.xq-option .xq-num { margin-top: 4px; }
+
+.xq-option__input {
+    flex: 1;
+    min-width: 0;
+    min-height: 36px;
+    padding: 7px 0;
+    border: 0;
+    background: transparent;
+    color: #0f172a;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 22px;
+    overflow-wrap: anywhere;
+    outline: none;
+}
+
+.xq-option__input::placeholder { color: #64748b; }
+.xq-option__input--word { font-family: var(--font-mono, monospace); letter-spacing: 0.12em; text-transform: uppercase; }
+
+.xq-option__detail {
+    width: 100%;
+    padding: 6px 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.xq-option__detail:focus { border-color: var(--xq-accent); outline: none; }
+
+.xq-option__thumb { display: inline-flex; align-items: center; gap: 2px; }
+.xq-option__thumb img { width: 40px; height: 40px; border: 1px solid #e2e8f0; border-radius: 8px; object-fit: cover; }
+
+.xq-num {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 9999px;
+    background: var(--xq-tint);
+    color: var(--xq-ink);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* Control "Correcta": píldora con texto; rellena en verde cuando lo es */
+.xq-correct {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 6px;
+    min-height: 32px;
+    padding: 4px 10px;
+    border: 1.5px dashed #94a3b8;
+    border-radius: 9999px;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 600;
+    background: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.15s ease-out, border-color 0.15s ease-out, color 0.15s ease-out;
+}
+
+.xq-correct:hover { border-color: #16a34a; color: #15803d; }
+.xq-correct:has(.xq-correct__input:checked) { border: 1.5px solid #15803d; background: #15803d; color: #ffffff; }
+.xq-correct:has(.xq-correct__input:focus-visible) { outline: 2px solid #15803d; outline-offset: 2px; }
+.xq-correct__input { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0; pointer-events: none; }
+
+.xq-pairs { display: grid; gap: 8px; }
+
+.xq-pair {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr) auto minmax(0, 1fr) 32px;
+    align-items: center;
+    gap: 8px;
+}
+
+.xq-pair--head .xq-label { margin: 0; }
+.xq-pair__arrow { color: var(--xq-accent); font-weight: 700; }
+
+.xq-fields-2, .xq-fields-3 { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px 16px; }
+
+@container (min-width: 560px) {
+    .xq-fields-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .xq-fields-2 > .xq-fields-span { grid-column: 1 / -1; }
+}
+
+@container (min-width: 720px) {
+    .xq-fields-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    /* Etiqueta, campo y ayuda alineados entre columnas aunque una etiqueta ocupe dos líneas */
+    .xq-fields-3 > div { display: grid; grid-row: span 3; grid-template-rows: subgrid; row-gap: 0; }
+    .xq-fields-3 .xq-label { align-self: end; }
+}
+
+.xq-preview { min-height: 48px; padding: 12px; border: 1px solid var(--xq-edge); border-radius: 12px; background: #ffffff; }
+.xq-preview__words { margin-top: 8px; color: var(--xq-ink); font-size: 13px; }
+
+/* ---- Bloques plegables ---- */
+.xq-help summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 10px;
+    min-height: 36px;
+    border-radius: 8px;
+    cursor: pointer;
+    list-style: none;
+}
+
+.xq-help summary::-webkit-details-marker { display: none; }
+
+.xq-help summary { color: var(--xq-ink); font-size: 14px; font-weight: 600; }
+.xq-help summary::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    margin-right: 2px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(-45deg);
+    transition: transform 0.2s ease-out;
+}
+
+.xq-help[open] summary::before { transform: rotate(45deg); }
+
+.xq-help ul { margin: 4px 0 0 20px; color: var(--xq-ink); font-size: 13px; line-height: 1.5; list-style: disc; }
+
+
+/* Tarjeta estrecha: el texto de la opción ocupa su propia línea y los controles van debajo
+   (al lado dejaban una columna de dos o tres palabras) */
+@container (max-width: 480px) {
+    .xq-option:has(.xq-correct), .xq-option__line { flex-wrap: wrap; align-items: center; row-gap: 6px; }
+    :is(.xq-option:has(.xq-correct), .xq-option__line) > :not(.xq-option__input) { margin-top: 0; }
+    :is(.xq-option:has(.xq-correct), .xq-option__line) > .xq-option__input { flex-basis: 100%; order: -1; }
+    .xq-option:has(.xq-correct) > :is(.xq-option__file, .xq-option__thumb) { margin-left: auto; }
+    .xq-option__line > .xq-num { margin-right: auto; }
+}
+
+@media (max-width: 640px) {
+    .xq-section { padding: 12px; }
+    .xq-pair { grid-template-columns: 28px minmax(0, 1fr) 40px; }
+    .xq-pair__arrow { display: none; }
+    .xq-pair > .xq-field:nth-of-type(2) { grid-column: 2; }
+    .xq-pair--head { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .xq-option, .xq-correct, .xq-help summary::before { transition: none; }
+}

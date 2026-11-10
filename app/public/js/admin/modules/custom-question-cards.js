@@ -156,15 +156,16 @@ function _customTextImageBody(q) {
                             </div>`;
 }
 
-// Etiquetas de tipo de pregunta: [tipo, clases, clave i18n, texto por defecto]
+// Etiquetas de tipo de pregunta: [tipo, clases, clave i18n, texto por defecto]. El color de
+// cada tipo es el de la paleta de tipos (DESIGN.md, css/admin-question-type-picker.css).
 const _CUSTOM_TYPE_BADGES = [
-    ['numeric_approximation', 'bg-emerald-100 text-emerald-700', 'admin.custom.badge_numeric', 'NUMÉRICA'],
-    ['order', 'bg-orange-100 text-orange-700', 'admin.custom.badge_order', 'ORDENA'],
-    ['word_scramble', 'bg-yellow-100 text-yellow-700', 'admin.custom.badge_scramble', 'ANAGRAMA'],
-    ['multiple_choice', 'bg-cyan-100 text-cyan-700', 'admin.custom.badge_multiple', 'MÚLTIPLE'],
+    ['numeric_approximation', 'bg-teal-100 text-teal-700', 'admin.custom.badge_numeric', 'NUMÉRICA'],
+    ['order', 'bg-green-100 text-green-700', 'admin.custom.badge_order', 'ORDENA'],
+    ['word_scramble', 'bg-pink-100 text-pink-700', 'admin.custom.badge_scramble', 'ANAGRAMA'],
+    ['multiple_choice', 'bg-aubergine-100 text-aubergine-700', 'admin.custom.badge_multiple', 'MÚLTIPLE'],
     ['survey_multiple', 'bg-sky-100 text-sky-700', 'admin.custom.badge_survey_multiple', 'ENCUESTA DE SELECCIÓN MÚLTIPLE'],
-    ['word_search', 'bg-plum-100 text-plum-700', 'admin.custom.badge_wordsearch', 'SOPA DE LETRAS'],
-    ['fill_blanks', 'bg-emerald-100 text-emerald-700', 'admin.custom.badge_fillblanks', 'COMPLETA LA FRASE']
+    ['word_search', 'bg-yellow-100 text-yellow-800', 'admin.custom.badge_wordsearch', 'SOPA DE LETRAS'],
+    ['fill_blanks', 'bg-slate-100 text-slate-700', 'admin.custom.badge_fillblanks', 'COMPLETA LA FRASE']
 ];
 
 function _customQuestionBody(q) {

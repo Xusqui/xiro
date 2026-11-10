@@ -126,6 +126,9 @@
     "admin.editor.chip_streaks": "Racha",
     "admin.editor.chip_double": "Doble",
     "admin.editor.chip_random": "Aleatoria",
-    "admin.editor.ph_pin_auto": "Automático"
+    "admin.editor.ph_pin_auto": "Automático",
+    "admin.banks.export_skipped": "Se han dejado fuera {n} pregunta(s) sin enunciado.",
+    "admin.banks.question_count": "Preguntas: {n}",
+    "admin.banks.delete_aria": "Eliminar el banco «{name}»"
   }
 }

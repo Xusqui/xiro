@@ -126,6 +126,9 @@
     "admin.editor.chip_streaks": "Bolada",
     "admin.editor.chip_double": "Bikoitza",
     "admin.editor.chip_random": "Ausazkoa",
-    "admin.editor.ph_pin_auto": "Automatikoa"
+    "admin.editor.ph_pin_auto": "Automatikoa",
+    "admin.banks.export_skipped": "Enuntziaturik gabeko {n} galdera kanpoan utzi dira.",
+    "admin.banks.question_count": "Galderak: {n}",
+    "admin.banks.delete_aria": "Ezabatu «{name}» bankua"
   }
 }

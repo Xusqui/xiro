@@ -1,5 +1,5 @@
 // Conversión de preguntas de banco entre la API y el editor del admin
-// (cargarEditorBanco y guardarBanco, en bancos-expanded.js).
+// (cargarEditorBanco, en bancos-expanded.js, y guardarBanco, en bank-editor-save.js).
 
 // ===== API → EDITOR =====
 

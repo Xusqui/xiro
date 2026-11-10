@@ -126,6 +126,9 @@
     "admin.editor.chip_streaks": "Ratxa",
     "admin.editor.chip_double": "Doble",
     "admin.editor.chip_random": "Aleatòria",
-    "admin.editor.ph_pin_auto": "Automàtic"
+    "admin.editor.ph_pin_auto": "Automàtic",
+    "admin.banks.export_skipped": "S'han deixat fora {n} pregunta(es) sense enunciat.",
+    "admin.banks.question_count": "Preguntes: {n}",
+    "admin.banks.delete_aria": "Elimina el banc «{name}»"
   }
 }

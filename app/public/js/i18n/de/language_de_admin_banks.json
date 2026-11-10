@@ -126,6 +126,9 @@
     "admin.editor.chip_streaks": "Serie",
     "admin.editor.chip_double": "Doppel",
     "admin.editor.chip_random": "Zufällig",
-    "admin.editor.ph_pin_auto": "Automatisch"
+    "admin.editor.ph_pin_auto": "Automatisch",
+    "admin.banks.export_skipped": "{n} Frage(n) ohne Fragetext wurde(n) ausgelassen.",
+    "admin.banks.question_count": "Fragen: {n}",
+    "admin.banks.delete_aria": "Fragenbank „{name}“ löschen"
   }
 }

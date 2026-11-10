@@ -62,7 +62,7 @@ async function subirArchivo(qIdx, file) {
                 `Archivo subido correctamente: ${data.filename}`,
                 'success'
             );
-            dibujarPreguntas();
+            dibujarPregunta(qIdx);
         } else {
             const error = await response.json();
             mostrarModalError(
@@ -92,7 +92,7 @@ function eliminarRecurso(qIdx) {
         () => {
             preguntasData[qIdx].tipo_contenido = 'texto';
             preguntasData[qIdx].url_recurso = null;
-            dibujarPreguntas();
+            dibujarPregunta(qIdx);
         },
         null,
         _t('admin.common.delete', null, 'Eliminar'),
@@ -114,11 +114,13 @@ function abrirSelectorArchivo(qIdx) {
 }
 
 /**
- * Inicializar drag-and-drop en todas las cajas de upload
+ * Inicializar drag-and-drop en las cajas de upload que hay dentro de root
+ * (al repintar una sola tarjeta, solo la suya: las demás ya tienen sus escuchas)
+ * @param {ParentNode} [root=document]
  */
-function inicializarDragAndDrop() {
+function inicializarDragAndDrop(root = document) {
     // Buscar todas las drop-zones
-    const dropZones = document.querySelectorAll('[id^="drop-zone-"]');
+    const dropZones = root.querySelectorAll('[id^="drop-zone-"]');
 
     dropZones.forEach(dropZone => {
         // Extraer índice de pregunta del ID (drop-zone-0, drop-zone-1, etc)
@@ -204,7 +206,7 @@ async function subirImagenPregunta(qIdx, file) {
         if (response.ok) {
             const data = await response.json();
             preguntasData[qIdx].question_image_url = data.url;
-            dibujarPreguntas();
+            dibujarPregunta(qIdx);
         } else {
             const error = await response.json();
             mostrarModalError(
@@ -237,7 +239,7 @@ async function subirImagenPregunta(qIdx, file) {
  */
 function eliminarImagenPregunta(qIdx) {
     preguntasData[qIdx].question_image_url = null;
-    dibujarPreguntas();
+    dibujarPregunta(qIdx);
 }
 
 /**
@@ -318,7 +320,7 @@ async function subirImagenOpcion(qIdx, oIdx, file) {
         if (response.ok) {
             const data = await response.json();
             preguntasData[qIdx].options[oIdx].option_image_url = data.url;
-            dibujarPreguntas();
+            dibujarPregunta(qIdx);
         } else {
             const error = await response.json();
             mostrarModalError(
@@ -352,7 +354,7 @@ async function subirImagenOpcion(qIdx, oIdx, file) {
  */
 function eliminarImagenOpcion(qIdx, oIdx) {
     preguntasData[qIdx].options[oIdx].option_image_url = null;
-    dibujarPreguntas();
+    dibujarPregunta(qIdx);
 }
 
 // ===== IMAGEN DE PORTADA DE JUEGO/BANCO (bancos, personalizados, mezclas, trivial) =====

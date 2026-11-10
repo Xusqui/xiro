@@ -38,8 +38,35 @@ const TYPES_THAT_RESET_OPTIONS = new Set([
     'fill_blanks'
 ]);
 
-/** HTML de la rejilla de tipos de una pregunta. */
+/** Botón que abre o cierra la rejilla (el mismo id en los dos estados: el foco no se pierde). */
+function _typePickerToggleHtml(qIdx, open) {
+    const label = open
+        ? _t('admin.q.type_picker_close', null, 'Ocultar tipos')
+        : _t('admin.q.type_picker_open', null, 'Cambiar tipo');
+    return `<button type="button" id="qtype-toggle-${qIdx}" class="xq-link" aria-expanded="${open}" aria-controls="qtype-grid-${qIdx}"
+                            data-admin-click="alternarSelectorTipo(${qIdx})">${label}</button>`;
+}
+
+/**
+ * Tipo de una pregunta. Ya elegido, es una línea con el tipo y "Cambiar tipo": la
+ * rejilla de 10 baldosas solo se abre en preguntas nuevas o al pedirla.
+ */
 function questionTypePickerHtml(q, qIdx) {
+    if (!isTypePickerOpen(q)) {
+        const entry = QUESTION_TYPE_PICKER.find(t => t.type === q.type);
+        const hint = entry ? _t(`admin.q.type_${q.type}_hint`, null, entry.hint) : '';
+        return `
+                    <div class="xq-typebar">
+                        <span class="xq-label xq-typebar__label">${_t('admin.q.type_label', null, 'Tipo de pregunta')}</span>
+                        <span class="xq-typebar__name"><i class="fas ${entry?.icon || 'fa-question'}" aria-hidden="true"></i>${questionTypeName(q.type)}</span>
+                        ${hint ? `<span class="xq-typebar__hint">${hint}</span>` : ''}
+                        ${_typePickerToggleHtml(qIdx, false)}
+                    </div>`;
+    }
+    return _typePickerGridHtml(q, qIdx);
+}
+
+function _typePickerGridHtml(q, qIdx) {
     const tiles = QUESTION_TYPE_PICKER.map(({ type, icon, name, hint }) => {
         const id = `qtype-${qIdx}-${type}`;
         return `
@@ -55,11 +82,23 @@ function questionTypePickerHtml(q, qIdx) {
                             </label>`;
     }).join('');
     return `
-                    <fieldset class="xq-type mb-4">
+                    <fieldset class="xq-type">
                         <legend class="xq-type__legend">${_t('admin.q.type_label', null, 'Tipo de pregunta')}</legend>
-                        <div class="xq-type__grid">${tiles}
+                        <div class="xq-type__grid" id="qtype-grid-${qIdx}">${tiles}
                         </div>
+                        <div class="xq-type__foot">${_typePickerToggleHtml(qIdx, true)}</div>
                     </fieldset>`;
+}
+
+/** Abre o cierra la rejilla de tipos de una pregunta. */
+function alternarSelectorTipo(qIdx) {
+    const q = preguntasData[qIdx];
+    if (!q) return;
+    const open = !isTypePickerOpen(q);
+    setTypePickerOpen(q, open);
+    // Al abrir, el foco va al tipo elegido (las flechas recorren la rejilla)
+    if (open) setQuestionFocus(`qtype-${qIdx}-${q.type}`);
+    dibujarPregunta(qIdx);
 }
 
 /** true si pasar la pregunta a newType tiraría opciones con texto ya escrito. */
@@ -85,7 +124,7 @@ function solicitarCambioTipo(qIdx, newType) {
     const fallbackName = QUESTION_TYPE_PICKER.find(t => t.type === newType)?.name || newType;
     const typeName = _t(`admin.q.type_${newType}_short`, null, fallbackName);
     const restore = () => {
-        dibujarPreguntas();
+        dibujarPregunta(qIdx);
         document.getElementById(`qtype-${qIdx}-${previousType}`)?.focus();
     };
     mostrarModalConfirmacion(
@@ -97,6 +136,8 @@ function solicitarCambioTipo(qIdx, newType) {
         ),
         () => cambiarTipoPregunta(qIdx, newType),
         restore,
-        _t('admin.q.type_change_confirm', null, 'Cambiar tipo')
+        _t('admin.q.type_change_confirm', null, 'Cambiar tipo'),
+        null,
+        { danger: true }
     );
 }

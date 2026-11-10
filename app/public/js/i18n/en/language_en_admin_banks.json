@@ -126,6 +126,9 @@
     "admin.editor.chip_streaks": "Streak",
     "admin.editor.chip_double": "Double",
     "admin.editor.chip_random": "Random",
-    "admin.editor.ph_pin_auto": "Automatic"
+    "admin.editor.ph_pin_auto": "Automatic",
+    "admin.banks.export_skipped": "{n} question(s) without text were left out.",
+    "admin.banks.question_count": "Questions: {n}",
+    "admin.banks.delete_aria": "Delete the bank “{name}”"
   }
 }

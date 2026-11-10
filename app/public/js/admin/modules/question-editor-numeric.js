@@ -1,157 +1,107 @@
 // Editor de preguntas del admin: secciones de las preguntas numéricas y de anagrama.
 
-/** Numérica (aproximación): respuesta, puntos, tolerancia y pista. */
-function numericEditorHtml(q, qIdx, isHybridToleranceMode) {
+function _numberFieldHtml({ id, label, aside, value, attrs, input, help }) {
     return `
-                    <!-- PREGUNTAS NUMÉRICAS -->
+                            <div>
+                                <label class="xq-label" for="${id}">${label}${aside ? ` <span class="xq-label__aside">${aside}</span>` : ''}</label>
+                                <input type="number" id="${id}" value="${value}" ${attrs} class="xq-field"${help ? ` aria-describedby="${id}-help"` : ''}
+                                    data-admin-input="${input}">
+                                ${help ? `<p class="xq-hint" id="${id}-help">${help}</p>` : ''}
+                            </div>`;
+}
 
-                    <div class="bg-emerald-100 border border-emerald-300 p-3 mb-4 rounded-lg">
-                        <p class="text-sm font-bold text-emerald-800 flex items-center gap-2">
-                            <i class="fas fa-info-circle"></i>
-                            Esta pregunta solo tiene UNA respuesta numérica. No hay opciones múltiples.
-                        </p>
-                    </div>
-                    
-                    <div class="space-y-4 bg-emerald-50 p-4 rounded-xl border-2 border-emerald-200">
-                        <div>
-                            <label class="text-[10px] font-bold text-emerald-600 uppercase flex items-center gap-2">
-                                <i class="fas fa-check-circle"></i> Respuesta Correcta (Número Entero)
-                            </label>
-                            <input 
-                                type="number" 
-                                step="1"
-                                value="${q.correctAnswer ?? ''}" 
-                                data-admin-input="preguntasData[${qIdx}].correctAnswer = parseInt(this.value) || null" 
-                                class="w-full mt-2 p-3 border-2 border-emerald-200 rounded-xl focus:border-emerald-500 outline-none transition"
-                                placeholder="Ej: 123456"
-                            >
-                            <p class="text-xs text-emerald-600 mt-1"><i class="fas fa-info-circle mr-1"></i>El valor numérico exacto que se considera correcto</p>
-                        </div>
-                        
-                        <div>
-                            <label class="text-[10px] font-bold text-emerald-600 uppercase flex items-center gap-2">
-                                <i class="fas fa-star"></i> Puntos Máximos
-                            </label>
-                            <input 
-                                type="number" 
-                                min="1"
-                                step="1"
-                                value="${q.maxPoints ?? ''}" 
-                                data-admin-input="preguntasData[${qIdx}].maxPoints = Math.max(1, parseInt(this.value) || 0)" 
-                                class="w-full mt-2 p-3 border-2 border-emerald-200 rounded-xl focus:border-emerald-500 outline-none transition"
-                                placeholder="Ej: 100"
-                            >
-                            <p class="text-xs text-emerald-600 mt-1"><i class="fas fa-info-circle mr-1"></i>Puntos que obtiene si responde correctamente</p>
-                        </div>
+function _toleranceModeHtml(q, qIdx) {
+    const mode = q.toleranceMode || 'hybrid';
+    const option = (value, key, fallback) =>
+        `<option value="${value}"${mode === value ? ' selected' : ''}>${_t(key, null, fallback)}</option>`;
+    return `
+                            <div>
+                                <label class="xq-label" for="num-mode-${qIdx}">${_t('admin.q.num_mode_label', null, 'Cómo se mide el margen')}</label>
+                                <select id="num-mode-${qIdx}" class="xq-field" data-admin-change="preguntasData[${qIdx}].toleranceMode = this.value; dibujarPregunta(${qIdx})">
+                                    ${option('hybrid', 'admin.q.num_mode_hybrid', 'Porcentaje con tope (el menor de los dos)')}
+                                    ${option('percentage', 'admin.q.num_mode_percentage', 'Porcentaje de la respuesta')}
+                                    ${option('absolute', 'admin.q.num_mode_absolute', 'Unidades de más o de menos')}
+                                </select>
+                            </div>`;
+}
 
-                        <div>
-                            <label class="text-[10px] font-bold text-emerald-600 uppercase flex items-center gap-2">
-                                <i class="fas fa-sliders-h"></i> Modo de Tolerancia
-                            </label>
-                            <select
-                                class="w-full mt-2 p-3 border-2 border-emerald-200 rounded-xl focus:border-emerald-500 outline-none transition"
-                                data-admin-change="preguntasData[${qIdx}].toleranceMode = this.value; dibujarPreguntas();"
-                            >
-                                <option value="hybrid" ${(q.toleranceMode || 'hybrid') === 'hybrid' ? 'selected' : ''}>Híbrido (min(% , tope abs))</option>
-                                <option value="percentage" ${q.toleranceMode === 'percentage' ? 'selected' : ''}>Porcentaje</option>
-                                <option value="absolute" ${q.toleranceMode === 'absolute' ? 'selected' : ''}>Absoluto</option>
-                            </select>
-                        </div>
+function _toleranceFieldsHtml(q, qIdx, isHybridToleranceMode) {
+    const absolute = q.toleranceMode === 'absolute';
+    const value = _numberFieldHtml({
+        id: `num-value-${qIdx}`,
+        label: absolute ? _t('admin.q.num_value_units', null, 'Margen (unidades)') : _t('admin.q.num_value_pct', null, 'Margen (%)'),
+        value: q.toleranceValue ?? 25,
+        attrs: 'min="0.01" step="0.01" placeholder="25"',
+        input: `preguntasData[${qIdx}].toleranceValue = Number(this.value) || 25`,
+        help: absolute
+            ? _t('admin.q.num_value_units_help', null, 'Puntúa quien quede a esta distancia o menos de la respuesta')
+            : _t('admin.q.num_value_pct_help', null, 'Puntúa quien quede a este porcentaje o menos de la respuesta')
+    });
+    if (!isHybridToleranceMode) return value;
+    return value + _numberFieldHtml({
+        id: `num-cap-${qIdx}`,
+        label: _t('admin.q.num_cap_label', null, 'Tope del margen (unidades)'),
+        aside: _t('admin.q.optional', null, 'opcional'),
+        value: q.toleranceCap ?? '',
+        attrs: 'min="0.01" step="0.01" placeholder="1000"',
+        input: `preguntasData[${qIdx}].toleranceCap = this.value === '' ? null : (Number(this.value) || null)`,
+        help: _t('admin.q.num_cap_help', null, 'El margen nunca pasa de este número. Vacío: solo el porcentaje.')
+    });
+}
 
-                        <div>
-                            <label class="text-[10px] font-bold text-emerald-600 uppercase flex items-center gap-2">
-                                <i class="fas fa-hashtag"></i> Valor Principal
-                            </label>
-                            <input
-                                type="number"
-                                min="0.01"
-                                step="0.01"
-                                value="${q.toleranceValue ?? 25}"
-                                data-admin-input="preguntasData[${qIdx}].toleranceValue = Number(this.value) || 25"
-                                class="w-full mt-2 p-3 border-2 border-emerald-200 rounded-xl focus:border-emerald-500 outline-none transition"
-                                placeholder="Ej: 25"
-                            >
-                            <p class="text-xs text-emerald-600 mt-1"><i class="fas fa-info-circle mr-1"></i>% para modo porcentaje/híbrido, o unidades para absoluto</p>
-                        </div>
-
-                        <div>
-                            <label class="text-[10px] font-bold text-emerald-600 uppercase flex items-center gap-2">
-                                <i class="fas fa-ruler-horizontal"></i> Tope de Tolerancia (Opcional para el modo Híbrido)
-                            </label>
-                            <input
-                                type="number"
-                                min="0.01"
-                                step="0.01"
-                                value="${q.toleranceCap ?? ''}"
-                                data-admin-input="preguntasData[${qIdx}].toleranceCap = this.value === '' ? null : (Number(this.value) || null)"
-                                class="w-full mt-2 p-3 border-2 rounded-xl outline-none transition ${isHybridToleranceMode ? 'border-emerald-200 focus:border-emerald-500 bg-white' : 'border-slate-200 bg-slate-100 text-slate-400 cursor-not-allowed'}"
-                                placeholder="Ej: 1000"
-                                ${isHybridToleranceMode ? '' : 'disabled'}
-                            >
-                            <p class="text-xs mt-1 ${isHybridToleranceMode ? 'text-emerald-600' : 'text-slate-500'}"><i class="fas fa-info-circle mr-1"></i>Si queda vacío, se usa solo el porcentaje</p>
-                        </div>
-
-                        <div>
-                            <label class="text-[10px] font-bold text-emerald-600 uppercase flex items-center gap-2">
-                                <i class="fas fa-lightbulb"></i> Pista (Opcional)
-                            </label>
-                            <textarea
-                                rows="2"
-                                data-admin-input="preguntasData[${qIdx}].hint = this.value"
-                                class="w-full mt-2 p-3 border-2 border-emerald-200 rounded-xl focus:border-emerald-500 outline-none transition text-sm"
-                                placeholder="Ej: Recuerda la fórmula de la circunferencia es π × diámetro"
-                            >${escapeHtml(q.hint || '')}</textarea>
-                            <p class="text-xs text-emerald-600 mt-1"><i class="fas fa-info-circle mr-1"></i>Se mostrará al presentador mientras espera respuestas</p>
-                        </div>
-                        
-                        <div class="bg-white p-3 rounded-lg border border-emerald-300">
-                            <p class="text-xs font-bold text-emerald-700 mb-2"><i class="fas fa-lightbulb mr-1"></i>Cómo funciona:</p>
-                            <ul class="text-xs text-emerald-600 space-y-1 ml-4 list-disc">
-                                <li>Los jugadores escriben un número</li>
-                                <li>La tolerancia depende del modo seleccionado</li>
-                                <li>Puntos = máximos × (1 - distancia/tolerancia)</li>
-                                <li>Si es exacta: +20 puntos extra</li>
-                                <li>Fuera del margen = 0 puntos</li>
-                            </ul>
-                        </div>
-                    </div>
-                    `;
+/** Numérica (aproximación): respuesta, puntos, margen y pista. */
+function numericEditorHtml(q, qIdx, isHybridToleranceMode) {
+    const answer = _numberFieldHtml({
+        id: `num-answer-${qIdx}`,
+        label: _t('admin.q.num_answer_label', null, 'Respuesta correcta (número entero)'),
+        value: q.correctAnswer ?? '',
+        attrs: 'step="1" placeholder="123456"',
+        input: `preguntasData[${qIdx}].correctAnswer = parseInt(this.value) || null`
+    });
+    const points = _numberFieldHtml({
+        id: `num-points-${qIdx}`,
+        label: _t('admin.q.num_points_label', null, 'Puntos máximos'),
+        value: q.maxPoints ?? '',
+        attrs: 'min="1" step="1" placeholder="100"',
+        input: `preguntasData[${qIdx}].maxPoints = Math.max(1, parseInt(this.value) || 0)`,
+        help: _t('admin.q.num_points_help', null, 'Los consigue quien acierta exacto; cuanto más lejos, menos')
+    });
+    const hint = `
+                            <div class="xq-fields-span">
+                                <label class="xq-label" for="num-hint-${qIdx}">${_t('admin.q.num_hint_label', null, 'Pista para el presentador')} <span class="xq-label__aside">${_t('admin.q.optional', null, 'opcional')}</span></label>
+                                <textarea id="num-hint-${qIdx}" rows="2" class="xq-field" data-admin-input="preguntasData[${qIdx}].hint = this.value"
+                                    placeholder="${escapeHtml(_t('admin.q.num_hint_placeholder', null, 'Se muestra al presentador mientras espera las respuestas'))}">${escapeHtml(q.hint || '')}</textarea>
+                            </div>`;
+    const help = questionHelpHtml(q, [
+        _t('admin.q.num_help_play', null, 'Los jugadores escriben un número'),
+        _t('admin.q.num_help_points', null, 'Los puntos bajan cuanto más se alejan, hasta 0 fuera del margen'),
+        _t('admin.q.num_help_exact', null, 'Acertar exacto suma 20 puntos extra')
+    ]);
+    return questionSectionHtml(
+        _t('admin.q.answer_single', null, 'Respuesta'),
+        _t('admin.q.num_hint', null, 'Una sola respuesta numérica, sin opciones.'),
+        `<div class="xq-fields-2">${answer}${points}${_toleranceModeHtml(q, qIdx)}${_toleranceFieldsHtml(q, qIdx, isHybridToleranceMode)}${hint}</div>${help}`
+    );
 }
 
 /** Anagrama: palabra correcta. */
 function wordScrambleEditorHtml(q, qIdx) {
-    return `
-                    <!-- ANAGRAMA: DESCIFRA LA PALABRA -->
-                    <div class="bg-plum-100 border border-plum-300 p-3 mb-4 rounded-lg">
-                        <p class="text-sm font-bold text-plum-800 flex items-center gap-2">
-                            <i class="fas fa-puzzle-piece"></i>
-                            El jugador ve 10 letras barajadas y debe descubrir la palabra oculta.
-                        </p>
-                    </div>
-                    <div class="space-y-4 bg-plum-50 p-4 rounded-xl border-2 border-plum-200">
+    const field = `
                         <div>
-                            <label class="text-[10px] font-bold text-plum-600 uppercase flex items-center gap-2">
-                                <i class="fas fa-key"></i> Palabra Correcta (7-10 letras, sin tildes)
-                            </label>
-                            <input
-                                type="text"
-                                maxlength="10"
-                                value="${escapeHtml(q.correctWord || '')}"
-                                data-admin-input="preguntasData[${qIdx}].correctWord = this.value.replace(/[^A-Za-z\u00c1\u00e1\u00c9\u00e9\u00cd\u00ed\u00d3\u00f3\u00da\u00fa\u00dc\u00fc\u00d1\u00f1]/g,'').toUpperCase()"
-                                class="w-full mt-2 p-3 border-2 border-plum-200 rounded-xl focus:border-plum-500 outline-none transition font-mono text-lg tracking-widest uppercase"
-                                placeholder="Ej: LIBERTAD"
-                            >
-                            <p class="text-xs text-plum-600 mt-1"><i class="fas fa-info-circle mr-1"></i>Entre 7 y 10 letras. Se generarán 10 letras barajadas automáticamente.</p>
-                        </div>
-                        <div class="bg-white p-3 rounded-lg border border-plum-300">
-                            <p class="text-xs font-bold text-plum-700 mb-2"><i class="fas fa-lightbulb mr-1"></i>Cómo funciona:</p>
-                            <ul class="text-xs text-plum-600 space-y-1 ml-4 list-disc">
-                                <li>El enunciado es la definición de la palabra</li>
-                                <li>Los jugadores ven 10 letras barajadas (incluye las de la palabra)</li>
-                                <li>Pulsan las letras en orden para formar la palabra</li>
-                                <li>Puntuación: 20 pts base + hasta 20 pts de bonus por tiempo</li>
-                            </ul>
-                        </div>
-                    </div>
-                    `;
+                            <label class="xq-label" for="word-${qIdx}">${_t('admin.q.word_label', null, 'Palabra correcta')} <span class="xq-label__aside">${_t('admin.q.word_aside', null, '7-10 letras, sin tildes')}</span></label>
+                            <input type="text" id="word-${qIdx}" maxlength="10" value="${escapeHtml(q.correctWord || '')}" placeholder="LIBERTAD"
+                                data-admin-input="preguntasData[${qIdx}].correctWord = this.value.replace(/[^A-Za-zÁáÉéÍíÓóÚúÜüÑñ]/g,'').toUpperCase()"
+                                class="xq-field xq-field--word">
+                        </div>`;
+    const help = questionHelpHtml(q, [
+        _t('admin.q.word_help_statement', null, 'El enunciado es la definición de la palabra'),
+        _t('admin.q.word_help_letters', null, 'Los jugadores ven 10 letras barajadas, que incluyen las de la palabra'),
+        _t('admin.q.word_help_play', null, 'Pulsan las letras en orden para formarla'),
+        _t('admin.q.word_help_points', null, 'Puntuación: 20 pts base + hasta 20 pts de bonus por tiempo')
+    ]);
+    return questionSectionHtml(
+        _t('admin.q.answer_single', null, 'Respuesta'),
+        _t('admin.q.word_hint', null, 'El jugador ve 10 letras barajadas y descubre la palabra oculta.'),
+        field + help
+    );
 }

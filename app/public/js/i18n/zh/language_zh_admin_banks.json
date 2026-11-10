@@ -126,6 +126,9 @@
     "admin.editor.chip_streaks": "连胜",
     "admin.editor.chip_double": "双连胜",
     "admin.editor.chip_random": "随机",
-    "admin.editor.ph_pin_auto": "自动"
+    "admin.editor.ph_pin_auto": "自动",
+    "admin.banks.export_skipped": "已排除 {n} 个没有题干的问题。",
+    "admin.banks.question_count": "问题数：{n}",
+    "admin.banks.delete_aria": "删除题库“{name}”"
   }
 }

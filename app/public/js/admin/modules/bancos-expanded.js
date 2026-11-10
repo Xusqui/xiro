@@ -17,7 +17,7 @@ async function renderVistaBancos() {
     clearUnsavedChangesGuard();
     activeView = 'bancos'; // También al volver del editor sin pasar por mostrarVista
 
-    const res = await fetchWithAuth('/api/banks');
+    const res = await fetchWithAuth('/api/banks?includeCount=true');
     const bancos = await res.json();
 
     const area = document.getElementById('editorArea');
@@ -85,6 +85,7 @@ async function renderVistaBancos() {
                                 <div class="flex justify-between items-start mb-4">
                                     <div class="flex-1">
                                         <h3 class="text-lg font-bold text-slate-900 mb-2 line-clamp-2">${escapeHtml(banco.name)}</h3>
+                                        <p class="text-sm text-slate-600 mb-2">${_t('admin.banks.question_count', { n: banco.question_count ?? 0 }, 'Preguntas: {n}')}</p>
                                         ${getOwnerBadgeHtml(ownerInfo)}
                                         ${
     banco.pin
@@ -103,9 +104,10 @@ async function renderVistaBancos() {
                                         <i class="fas fa-edit"></i>
                                         ${_t('admin.banks.btn_edit', null, 'Editar')}
                                     </button>
-                                    <button data-admin-action="${canModify ? 'delete-bank' : 'ownership-denied'}" data-bank-id="${banco.id}" data-owner-user-id="${banco.created_by_user_id ?? ''}" data-resource-label="este banco" 
+                                    <button data-admin-action="${canModify ? 'delete-bank' : 'ownership-denied'}" data-bank-id="${banco.id}" data-owner-user-id="${banco.created_by_user_id ?? ''}" data-resource-label="este banco"
+                                        aria-label="${escapeHtml(_t('admin.banks.delete_aria', { name: banco.name }, 'Eliminar el banco «{name}»'))}"
                                         class="${canModify ? 'bg-red-50 hover:bg-red-100 text-red-600 w-12 h-12 rounded-xl font-bold transition flex items-center justify-center' : `w-12 h-12 rounded-xl font-bold transition flex items-center justify-center ${getLockedButtonClasses()}`}" ${canModify ? '' : 'title="Bloqueado: creado por otro usuario"'}>
-                                        <i class="fas fa-trash"></i>
+                                        <i class="fas fa-trash" aria-hidden="true"></i>
                                     </button>
                                 </div>
                             </div>
@@ -127,6 +129,7 @@ function prepararNuevoBanco() {
     preguntasData = [];
     activeView = null; // Salir de la vista de grid
     renderEditorBanco({ name: '', id: null });
+    dibujarPreguntas();
     _bindBankSaveBar(null);
 }
 
@@ -144,6 +147,7 @@ async function cargarEditorBanco(id) {
     }
 
     preguntasData = data.questions.map(mapBankQuestionFromApi);
+    collapseQuestionsOnLoad();
     renderEditorBanco(data.bank);
     dibujarPreguntas();
     _bindBankSaveBar(data.bank.id);
@@ -156,31 +160,19 @@ function renderEditorBanco(bank) {
     area.innerHTML = _tHtml(`
         ${renderEditorHeader(_bankHeaderConfig(bank))}
 
-        <div class="xiro-editor-body">
+        <div class="xiro-editor-body xq-editor">
 
-            <div id="contenedorPreguntas" class="space-y-6 pb-10">
-                <div class="flex justify-between items-center px-2">
-                    <h3 class="text-xl font-black text-slate-700 uppercase tracking-tighter text-2xl">${_t('admin.banks.title', null, 'Bancos de Preguntas')}</h3>
-                    <button data-admin-click="añadirPregunta()" class="bg-plum-50 text-plum-700 border-2 border-plum-200 px-5 py-2 rounded-xl text-sm font-bold hover:bg-plum-100 hover:border-plum-300 transition transform active:scale-95">
-                        <i class="fas fa-plus mr-2"></i> ${_t('admin.q.btn_add', null, 'Añadir Pregunta')}
-                    </button>
-                </div>
-
-                <div id="listaPreguntasDOM" class="space-y-4"></div>
-
-                <div class="flex justify-between items-center px-2">
-                    <h3 class="text-xl font-black text-slate-700 uppercase tracking-tighter text-2xl">${_t('admin.q.label_end', null, 'Fin Preguntas')}</h3>
-                    <button data-admin-click="añadirPregunta()" class="bg-plum-50 text-plum-700 border-2 border-plum-200 px-5 py-2 rounded-xl text-sm font-bold hover:bg-plum-100 hover:border-plum-300 transition transform active:scale-95">
-                        <i class="fas fa-plus mr-2"></i> ${_t('admin.q.btn_add', null, 'Añadir Pregunta')}
-                    </button>
-                </div>
+            <div id="contenedorPreguntas" class="pb-10">
+                ${bankQuestionsToolbarHtml()}
+                <div id="listaPreguntasDOM" class="xq-list"></div>
+                ${bankQuestionsFooterHtml()}
 
                 ${
     bank.id
         ? `
                 <div class="mt-4">
                     <button data-admin-click="exportarBanco()" class="bg-plum-50 text-plum-700 border-2 border-plum-200 px-6 py-3 rounded-lg font-bold hover:bg-plum-100 hover:border-plum-300 transition w-full flex items-center justify-center gap-3">
-                        <i class="fas fa-file-export text-lg"></i> Exportar Banco
+                        <i class="fas fa-file-export text-lg" aria-hidden="true"></i> ${_t('admin.banks.btn_export', null, 'Exportar banco')}
                     </button>
                 </div>
                 `
@@ -196,6 +188,8 @@ function _bankHeaderConfig(bank) {
     return {
         entity: bank,
         accent: 'plum',
+        // Los ajustes del banco no hacen falta para empezar: primero, las preguntas
+        settingsOpen: false,
         icon: 'fa-database',
         kind: _t('admin.banks.form_title', null, 'Banco de Preguntas'),
         hiddenHtml: `<input type="hidden" id="editId" value="${bank.id || ''}">
@@ -282,166 +276,6 @@ function toggleBankDoubleStreakConfig() {
     if (panel) panel.classList.toggle('hidden', !checked);
 }
 
-// ===== EXPORTAR BANCO =====
-
-// Exportar el banco actualmente en edición al formato de la base de datos
-function exportarBanco() {
-    const id = document.getElementById('editId').value;
-    const name = document.getElementById('editName').value || 'banco';
-
-    if (!id)
-        return mostrarModalError(
-            _t('admin.common.warning_title', null, '⚠️ Advertencia'),
-            _t('admin.banks.error_export_saved', null, 'Sólo se puede exportar un banco guardado previamente'),
-            'warning'
-        );
-    if (!preguntasData || preguntasData.length === 0)
-        return mostrarModalError(
-            _t('admin.common.warning_title', null, '⚠️ Advertencia'),
-            _t('admin.banks.error_export_empty', null, 'El banco no tiene preguntas para exportar'),
-            'warning'
-        );
-
-    const preguntasValidas = preguntasData.filter(q => (q.questionText || q.question_text || '').trim() !== '');
-
-    const language = document.getElementById('editBankLanguage')?.value || 'es';
-
-    const payload = {
-        name: name,
-        type: 'quiz',
-        language: language,
-        questions: preguntasValidas.map(q => mapQuestionForExport(q))
-    };
-
-    const jsonStr = JSON.stringify(payload, null, 2);
-    const blob = new Blob([jsonStr], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    const safeName = name.replace(/[^a-z0-9_.-]/gi, '_').toLowerCase();
-    a.href = url;
-    a.download = `${safeName}.json`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-}
-
-// ===== GUARDAR BANCO =====
-
-function _readBankForm() {
-    return {
-        id: document.getElementById('editId').value,
-        ownerUserId: document.getElementById('editOwnerUserId')?.value || null,
-        name: document.getElementById('editName').value,
-        pin: document.getElementById('editBankPin').value.trim(),
-        language: document.getElementById('editBankLanguage')?.value || 'es',
-        visibleToPresenter: document.getElementById('editBankVisibleToPresenter').checked,
-        imageUrl: document.getElementById('editBankImageUrl')?.value || null
-    };
-}
-
-function _readBankStreaks() {
-    return {
-        use_streaks: document.getElementById('editBankUseStreaks')?.checked ?? false,
-        streak_threshold: parseInt(document.getElementById('editBankStreakThreshold')?.value || '3', 10),
-        streak_bonus_percentage: parseFloat(document.getElementById('editBankStreakBonusPercentage')?.value || '0.50'),
-        use_double_streaks: document.getElementById('editBankUseDoubleStreaks')?.checked ?? false,
-        double_streak_threshold: parseInt(document.getElementById('editBankDoubleStreakThreshold')?.value || '5', 10),
-        double_streak_bonus_percentage: parseFloat(
-            document.getElementById('editBankDoubleStreakBonusPercentage')?.value || '1.00'
-        )
-    };
-}
-
-/** Mensaje de validación del banco, o null si se puede guardar. */
-function _bankValidationError(form, randomPoints) {
-    const randomPointsCheck = validateRandomPointsConfig(randomPoints);
-    if (!randomPointsCheck.valid) return randomPointsCheck.message;
-    if (!form.name) return _t('admin.banks.error_name', null, 'Por favor, ponle un nombre al banco');
-    if (preguntasData.length === 0) return _t('admin.banks.error_questions', null, 'Añade al menos una pregunta');
-    return null;
-}
-
-/**
- * Resultado para la barra de guardado. Se recarga un banco nuevo (para tener los
- * IDs de las preguntas) y uno que conservó preguntas en uso (para que reaparezcan).
- */
-async function _afterBankSaved(id, data) {
-    const kept = Number(data.keptQuestions) || 0;
-    const message = kept
-        ? _t('admin.banks.success_saved_kept', { n: kept })
-        : _t('admin.banks.success_saved', null, '¡Banco guardado correctamente!');
-    if ((!id || kept) && data.id) {
-        document.getElementById('editId').value = data.id;
-        await cargarEditorBanco(data.id);
-        announceSaveBarSaved(message);
-    }
-    return { ok: true, message };
-}
-
-function _sendBank(payload) {
-    return fetchWithAuth('/api/banks/save-all', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-    });
-}
-
-/** Envía el banco; si quita preguntas que usa algún juego personalizado, pregunta y reenvía. */
-async function _postBank(payload) {
-    const res = await _sendBank(payload);
-    if (res.status !== 409) return res;
-    const conflict = await res
-        .clone()
-        .json()
-        .catch(() => ({}));
-    if (conflict.code !== 'BANK_QUESTIONS_IN_USE') return res;
-    const decision = await preguntarBorradoPreguntasEnUso(conflict.inUse || []);
-    return _sendBank({ ...payload, removed_in_use: decision });
-}
-
-/**
- * Guarda el banco (lo llama la barra de guardado común).
- * @returns {Promise<{ ok: boolean, message?: string }>}
- */
-async function guardarBanco() {
-    const form = _readBankForm();
-    const randomPoints = readRandomPointsConfig('bank');
-
-    const validationError = _bankValidationError(form, randomPoints);
-    if (validationError) return { ok: false, message: escapeHtml(validationError) };
-    if (form.id && !canModifyOwnedResource(form.ownerUserId)) {
-        showOwnershipDeniedModal('este banco');
-        return { ok: false, message: _t('admin.savebar.error_ownership') };
-    }
-
-    const preguntasValidas = preguntasData.filter(q => {
-        const texto = q.questionText || q.question_text || q.text || '';
-        return texto.trim() !== '';
-    });
-
-    const payload = {
-        id: form.id ? parseInt(form.id, 10) : null,
-        name: form.name,
-        pin: form.pin || null,
-        language: form.language,
-        visible_to_presenter: form.visibleToPresenter,
-        ..._readBankStreaks(),
-        image_url: form.imageUrl,
-        ...randomPoints,
-        questions: preguntasValidas.map(mapBankQuestionForSave)
-    };
-
-    try {
-        const res = await _postBank(payload);
-        if (res.ok) return _afterBankSaved(form.id, await res.json());
-        const err = await res.json().catch(() => ({}));
-        return { ok: false, message: escapeHtml(err.message || err.error || _t('admin.tools.error_unknown')) };
-    } catch {
-        return { ok: false, message: _t('admin.common.error_server', null, 'Error de conexión con el servidor') };
-    }
-}
-
 // ===== ELIMINAR BANCO =====
 
 function borrarBanco(id, e, ownerUserId = null) {
@@ -481,54 +315,4 @@ function borrarBanco(id, e, ownerUserId = null) {
         _t('admin.common.delete', null, 'Eliminar'),
         _t('admin.common.cancel', null, 'Cancelar')
     );
-}
-
-// ===== FUNCIONES COMPARTIDAS PARA PREGUNTAS =====
-function añadirPregunta() {
-    preguntasData.push({
-        questionText: '',
-        justification: '',
-        type: 'quiz',
-        tipo_contenido: 'texto',
-        url_recurso: null,
-        question_image_url: null,
-        time_limit: getDefaultQuestionTimeLimit(),
-        options: [
-            { optionText: '', isCorrect: true, order_index: 0, option_image_url: null },
-            { optionText: '', isCorrect: false, order_index: 1, option_image_url: null }
-        ],
-        correctAnswer: null,
-        correctWord: null,
-        maxPoints: null,
-        toleranceMode: 'hybrid',
-        toleranceValue: 25,
-        toleranceCap: 1000,
-        hint: ''
-    });
-    dibujarPreguntas();
-}
-
-function marcarCorrecta(qIdx, oIdx) {
-    preguntasData[qIdx].options.forEach((opt, i) => (opt.isCorrect = i === oIdx));
-    dibujarPreguntas();
-}
-
-function marcarCorrectaMultiple(qIdx, oIdx) {
-    preguntasData[qIdx].options[oIdx].isCorrect = !preguntasData[qIdx].options[oIdx].isCorrect;
-    dibujarPreguntas();
-}
-
-function añadirOpcion(qIdx) {
-    const question = preguntasData[qIdx];
-    const orderIndex = Array.isArray(question?.options) ? question.options.length : 0;
-    question.options.push({ optionText: '', isCorrect: false, order_index: orderIndex, option_image_url: null });
-    dibujarPreguntas();
-}
-function eliminarOpcion(qIdx, oIdx) {
-    preguntasData[qIdx].options.splice(oIdx, 1);
-    dibujarPreguntas();
-}
-function eliminarPregunta(idx) {
-    preguntasData.splice(idx, 1);
-    dibujarPreguntas();
 }

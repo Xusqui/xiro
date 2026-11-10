@@ -1,0 +1,69 @@
+/*
+ * Editor de preguntas de los bancos: bloque "Más opciones" de cada tarjeta (tiempo, imagen del
+ * enunciado y multimedia; question-editor-media.js). Es una barra visible con icono, lo que ya
+ * lleva la pregunta y una flecha; al abrirse, el contenido queda en la misma caja.
+ */
+
+.xq-more { border: 1px solid #cbd5e1; border-radius: 12px; background: #ffffff; }
+
+.xq-more__summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 12px;
+    min-height: 52px;
+    padding: 10px 16px;
+    border-radius: 11px;
+    background: #f8fafc;
+    color: #0f172a;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+    transition: background-color 0.15s ease-out;
+}
+
+.xq-more__summary::-webkit-details-marker { display: none; }
+.xq-more__summary:hover { background: #f1f5f9; }
+.xq-more[open] > .xq-more__summary { border-bottom: 1px solid #e2e8f0; border-radius: 11px 11px 0 0; }
+
+.xq-more__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 9999px;
+    background: var(--plum-50, #fdf4fb);
+    color: var(--plum-700, #793475);
+    font-size: 14px;
+}
+
+.xq-more__state { color: #475569; font-size: 13px; font-weight: 400; }
+
+/* Flecha a la derecha: el bloque se lee como algo que se abre */
+.xq-more__summary::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    margin: 0 4px 0 auto;
+    border-right: 2px solid #475569;
+    border-bottom: 2px solid #475569;
+    transform: rotate(45deg);
+    transition: transform 0.2s ease-out;
+}
+
+.xq-more[open] > .xq-more__summary::after { transform: rotate(-135deg); }
+
+.xq-more__body { display: grid; gap: 20px; padding: 16px; }
+
+.xq-media-row { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.xq-media-row__thumb { width: 64px; height: 64px; border: 1px solid #e2e8f0; border-radius: 8px; background: #ffffff; object-fit: contain; }
+.xq-media-row__icon { color: var(--plum-600, #94438e); font-size: 20px; }
+.xq-media-row__url { flex: 1; min-width: 0; color: #475569; font-family: var(--font-mono, monospace); font-size: 12px; overflow-wrap: anywhere; }
+.xq-media-preview { max-width: 100%; max-height: 12rem; margin: 8px auto 0; border-radius: 8px; }
+.xq-dropzone { display: grid; justify-items: center; gap: 8px; padding: 16px; border: 2px dashed #cbd5e1; border-radius: 12px; text-align: center; }
+
+@media (prefers-reduced-motion: reduce) {
+    .xq-more__summary, .xq-more__summary::after { transition: none; }
+}
