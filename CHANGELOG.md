@@ -2,6 +2,9 @@
 
 ## 3.14.x
 
+### 3.14.1 — 2026-11-10 · `v3.14.1`
+- Pedir al prompt que genera las preguntas mediante IA, que no repita preguntas
+
 ### 3.14.0 — 2026-11-10 · `v3.14.0`
 - Editor de preguntas de los bancos: tarjetas plegables, validación por pregunta y paleta de tipos
   - Ninguna pregunta se descarta en silencio al guardar: la validación dice qué pregunta y qué campo fallan, marca la tarjeta, la despliega y lleva el foco al campo, con «Ir a la pregunta N» en la barra de guardado.
