@@ -9,19 +9,20 @@
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/output-index.css">
     <link rel="stylesheet" href="/css/index-style.css">
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/legal.css">
 </head>
 
 <body class="bg-gradient-to-br from-plum-700 via-plum-600 to-aubergine-700 min-h-screen bg-fixed font-sans overflow-x-hidden">
-    <a href="#main-content" class="skip-link">Skip to content</a>
-    <canvas id="webgl-canvas" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1;"></canvas>
+    <a href="#legal-title" class="skip-link">Skip to content</a>
 
     <main id="main-content" class="w-full max-w-4xl mx-auto px-4 py-12">
         <div class="text-center mb-10">
-            <a href="/index.html" class="inline-flex"><img src="/images/logo.svg" alt="XiRo!" class="h-16"></a>
+            <a href="/index.html" class="legal-logo inline-flex"><img src="/images/logo.svg" alt="XiRo!" class="h-16"></a>
         </div>
-        <article class="bg-white rounded-3xl shadow-2xl p-6 md:p-10 text-slate-700 border-b-8 border-plum-500">
-            <nav class="text-sm mb-6" aria-label="Legal documents"><a class="text-plum-700 underline underline-offset-2" href="/legal/en/legal-notice.html">Legal notice</a> · <a class="text-plum-700 underline underline-offset-2" href="/legal/en/privacy.html">Privacy</a> · <a class="text-plum-700 underline underline-offset-2" href="/legal/en/cookies.html">Cookies</a> · <a class="text-plum-700 underline underline-offset-2" href="/legal/en/terms.html">Terms</a> · <a class="text-plum-700 underline underline-offset-2" href="/legal/en/refunds.html">Refunds</a> · <a class="text-plum-700 underline underline-offset-2" href="/legal/en/accessibility.html" aria-current="page">Accessibility</a> · <a class="text-plum-700 underline underline-offset-2" href="/legal/accesibilidad.html" lang="es">Versión en español</a></nav>
-            <h1 class="text-4xl font-black text-slate-800 mb-2">Accessibility statement</h1>
+        <article class="legal-doc bg-white rounded-3xl shadow-2xl p-6 md:p-10 text-slate-700 border-b-8 border-plum-500">
+            <nav aria-label="Legal documents"><ul class="legal-nav"><li><a href="/legal/en/legal-notice.html">Legal notice</a></li><li><a href="/legal/en/privacy.html">Privacy</a></li><li><a href="/legal/en/cookies.html">Cookies</a></li><li><a href="/legal/en/terms.html">Terms</a></li><li><a href="/legal/en/refunds.html">Refunds</a></li><li><a href="/legal/en/accessibility.html" aria-current="page">Accessibility</a></li><li class="legal-nav__lang"><a href="/legal/accesibilidad.html" lang="es" hreflang="es">Versión en español</a></li></ul></nav>
+            <h1 id="legal-title" tabindex="-1" class="text-4xl font-black text-slate-800 mb-2">Accessibility statement</h1>
             <p class="text-sm mb-8">Last updated: 9 November 2026</p>
             <section class="mb-8">
                 <h2 class="text-2xl font-black text-slate-800 mb-3">Status</h2>
@@ -29,11 +30,11 @@
             </section>
             <section class="mb-8">
                 <h2 class="text-2xl font-black text-slate-800 mb-3">What has been done</h2>
-                <ul class="list-disc space-y-2" style="padding-left:1.25rem"><li>Skip links and keyboard navigation on the main pages.</li><li>Labels on form fields and descriptions on our own images.</li><li>Color contrast review in the panel and on public pages.</li><li>Fireworks are not shown if your device asks to reduce motion.</li></ul>
+                <ul class="list-disc space-y-2"><li>Skip links and keyboard navigation on the main pages.</li><li>Labels on form fields and descriptions on our own images.</li><li>Color contrast review in the panel and on public pages.</li><li>Fireworks are not shown if your device asks to reduce motion.</li></ul>
             </section>
             <section class="mb-8">
                 <h2 class="text-2xl font-black text-slate-800 mb-3">Known limitations</h2>
-                <ul class="list-disc space-y-2" style="padding-left:1.25rem"><li>Games are played in real time with a timer, although the presenter can pause it.</li><li>The board and some animations are visual and have no full text alternative.</li><li>Images uploaded by question authors have no description of their own.</li><li>The TV version is available in Spanish only.</li></ul>
+                <ul class="list-disc space-y-2"><li>Games are played in real time with a timer, although the presenter can pause it.</li><li>The board and some animations are visual and have no full text alternative.</li><li>Images uploaded by question authors have no description of their own.</li><li>The TV version is available in Spanish only.</li></ul>
             </section>
             <section class="mb-8">
                 <h2 class="text-2xl font-black text-slate-800 mb-3">Contact</h2>

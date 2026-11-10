@@ -17,6 +17,7 @@ Todo el CSS de Xiro! se escribe a mano. No hay paso de compilación, ni
 | `health.html` | `tokens.css`, `health.css` |
 | `xiro-results-viewer.html` | `tokens.css`, `xiro-result-viewer.css` |
 | `error/*.html` | `common.css` |
+| `legal/*.html`, `legal/en/*.html` | `common.css`, `output-index.css`, `index-style.css`, `tokens.css`, `legal.css` (medida de lectura de la tarjeta, índice de documentos en fichas con la actual marcada, títulos que no se salen con el texto ampliado y anillo de foco del logo sobre la jungla) |
 
 ## Los ficheros
 

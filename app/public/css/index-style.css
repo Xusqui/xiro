@@ -266,6 +266,10 @@ html.xiro-bg-static body.bg-gradient-to-br::after {
         animation: none;
         background-position: 50% 50%;
     }
+
+    body.bg-gradient-to-br .hojas-bg-layer.is-animated [id^="hoja-"] {
+        animation: none;
+    }
 }
 
 /* Tarjetas tipo cristal: translúcidas sin tocar el HTML */
