@@ -1,13 +1,13 @@
 /**
  * @fileoverview Prompt de «Sopa de letras» (word_search) para el generador de IA.
- * Va aparte de prompt-builder.js (ya al límite de tamaño) y reutiliza sus helpers.
+ * prompt-markdown.js compone el Markdown; aquí solo van rol, tarea, reglas y esquema.
  * La IA devuelve la consigna y las palabras en options, el formato del JSON de
  * bancos; question-types/word-search.js las valida y normaliza.
  * Se piden candidatas de más: los modelos cuentan mal las letras y el parser
  * descarta las que no cumplen (el controlador se queda con las pedidas).
  */
 
-const builder = require('./prompt-builder');
+const { composePrompt } = require('./prompt-markdown');
 const { WORD_SEARCH } = require('../config/game-constants');
 
 const WORD_SEARCH_EXTRA = 2;
@@ -29,16 +29,13 @@ const SCHEMA = `[
   }
 ]`;
 
-const RULES =
-    `REGLAS: cada sopa de letras tiene una consigna clara y entre ${MIN_WORDS} y ${MAX_WORDS} palabras ` +
-    '(mejor 4 o 5) que son términos REALES y relevantes del tema; cada palabra es UNA sola palabra en MAYÚSCULAS ' +
-    `de entre ${MIN_WORD_LENGTH} y ${MAX_WORD_LENGTH} letras y SOLO letras (sin espacios, números, guiones, apóstrofos ` +
-    'ni signos), sin repetir dentro de la misma sopa; la consigna NO contiene las palabras ocultas; ' +
-    'todas las opciones llevan is_correct=true y order_index correlativo desde 0';
-
-const COUNT_HINT =
-    'Cuenta las letras de cada palabra antes de responder: EBRO (4) y GUADIANA (8) valen; ' +
-    'GUADALQUIVIR (12), RIO TAJO (dos palabras) y COVID-19 (números y guion) NO valen.';
+const RULES = [
+    `Cada sopa de letras tiene una consigna clara y entre ${MIN_WORDS} y ${MAX_WORDS} palabras (mejor 4 o 5) que son términos REALES y relevantes del tema.`,
+    `Cada palabra es UNA sola palabra en MAYÚSCULAS de entre ${MIN_WORD_LENGTH} y ${MAX_WORD_LENGTH} letras y SOLO letras (sin espacios, números, guiones, apóstrofos ni signos), sin repetir dentro de la misma sopa.`,
+    'La consigna NO contiene las palabras ocultas.',
+    'Todas las opciones llevan is_correct=true y order_index correlativo desde 0.',
+    'Cuenta las letras de cada palabra antes de responder: EBRO (4) y GUADIANA (8) valen; GUADALQUIVIR (12), RIO TAJO (dos palabras) y COVID-19 (números y guion) NO valen.'
+];
 
 /**
  * @param {string} text - Documento o tema
@@ -47,39 +44,19 @@ const COUNT_HINT =
  * @param {{ previousQuestions?: string[], mode?: 'document'|'prompt', language?: string }} [options]
  * @returns {string}
  */
-function buildWordSearchPrompt(
-    text,
-    count,
-    dificultad,
-    { previousQuestions = [], mode = 'document', language = 'es' } = {}
-) {
-    const lang = builder.getLanguageName(language);
-    const candidates = count + WORD_SEARCH_EXTRA;
-    const difficulty = builder.DIFICULTAD_INSTRUCCION[dificultad] || 'media';
-    const exclusion = builder.getExclusionInstruction(previousQuestions);
-
-    if (mode === 'prompt') {
-        const safeText = text.trim().slice(0, builder.MAX_PROMPT_CHARS);
-        return `Eres un generador experto de sopas de letras educativas. El usuario te indica un tema.
-Genera ${candidates} sopas de letras en ${lang} sobre ese tema, cada una con una consigna y palabras distintas. Dificultad: ${difficulty}.${exclusion}
-IMPORTANTE: Usa términos clave reales del tema (nombres, lugares, conceptos). NO generes sopas sobre la instrucción.
-Responde SOLO con un array JSON:
-${SCHEMA}
-
-${RULES}, en ${lang}. ${COUNT_HINT}
-NO copies estos ejemplos. Genera sopas de letras REALES sobre el siguiente tema:
-
-${safeText}`;
-    }
-
-    return `${builder.wrapDocumentInput(builder.getText(text))}
-
-${builder.INJECTION_GUARD}Genera ${candidates} sopas de letras en ${lang}, cada una con una consigna y palabras distintas, sobre el texto anterior, entre las etiquetas user_input. Dificultad: ${difficulty}. ${exclusion}
-Responde SOLO con un array JSON:
-${SCHEMA}
-
-${RULES}, en ${lang}. ${COUNT_HINT}
-NO copies estos ejemplos. Genera sopas de letras NUEVAS basadas en ese texto.`;
+function buildWordSearchPrompt(text, count, dificultad, options = {}) {
+    return composePrompt(text, {
+        role: 'Eres un generador experto de sopas de letras educativas. El usuario te indica un tema.',
+        task: 'sopas de letras',
+        item: 'sopas de letras',
+        count: count + WORD_SEARCH_EXTRA,
+        dificultad,
+        guidance: ['Cada sopa con una consigna y palabras distintas.'],
+        topicGuidance: ['Usa términos clave reales del tema (nombres, lugares, conceptos).'],
+        rules: RULES,
+        schema: SCHEMA,
+        options
+    });
 }
 
 module.exports = { buildWordSearchPrompt, WORD_SEARCH_EXTRA };

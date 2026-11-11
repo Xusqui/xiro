@@ -14,6 +14,7 @@ const { buildWordSearchPrompt } = require('./prompt-word-search');
 const { buildMatchingPrompt } = require('./prompt-matching');
 const { buildSurveyMultiplePrompt } = require('./prompt-survey-multiple');
 const { buildChunkPlan } = require('./batch-chunks');
+const { filterNewQuestions } = require('./question-dedup');
 const logger = require('../config/logger');
 
 const PROMPT_BUILDERS = {
@@ -63,8 +64,7 @@ async function buildBatchPromptPayload(input) {
     const maxTokens = batchCount * 450 + 200;
     const raw = await callLLM(provider, prompt, undefined, 120000, maxTokens);
     const parsed = parseLLMResponse(raw, type);
-    // Algunos prompts piden candidatas de más (word_scramble); nunca se pasa de lo pedido
-    return buildQuestionsForType(type, parsed).slice(0, batchCount);
+    return buildQuestionsForType(type, parsed);
 }
 
 async function handleBatchError(context) {
@@ -106,8 +106,15 @@ async function runBatchAttempt({ type, text, batchCount, dificultad, questions, 
         provider
     });
 
-    if (normalized.length > 0) {
-        questions.push(...normalized);
+    // Se descartan las repetidas antes de recortar: las candidatas de más (word_scramble) reponen huecos
+    const { fresh, discarded } = filterNewQuestions(normalized, questions);
+    if (discarded > 0) {
+        questions.discarded += discarded;
+        logger.info(`[ai-generator] Tipo '${type}' (${provider}): ${discarded} pregunta(s) repetida(s) descartada(s)`);
+    }
+    const accepted = fresh.slice(0, batchCount);
+    if (accepted.length > 0) {
+        questions.push(...accepted);
         logger.info(
             `[ai-generator] Tipo '${type}' (${provider}): lote generado (${questions.length}/${questions.targetCount})`
         );
@@ -150,6 +157,11 @@ async function generateBatchWithRetries(input) {
     }
 }
 
+/** Tope de lotes de un tipo: los previstos, o el doble si la IA ya ha repetido preguntas. */
+function maxBatches(plannedBatches, questions) {
+    return questions.discarded > 0 ? plannedBatches * 2 : plannedBatches;
+}
+
 /**
  * Genera con reintentos preguntas de un tipo concreto.
  * @param {Object} input
@@ -168,13 +180,17 @@ async function generateForType(input) {
     const { type, text, count, dificultad, signal, mode = 'document', language, plan, chunkPlan } = input;
     const questions = [];
     questions.targetCount = count;
+    questions.discarded = 0;
+    const plannedBatches = Math.ceil(count / BATCH_SIZE);
 
-    for (let i = 0; i < count; i += BATCH_SIZE) {
+    // Lotes extra (hasta el doble) solo para reponer preguntas descartadas por repetidas
+    for (let batch = 0; questions.length < count && batch < maxBatches(plannedBatches, questions); batch++) {
         if (signal?.aborted) {
             logger.warn(`[ai-generator] Generación tipo '${type}' abortada por desconexión del cliente`);
             break;
         }
 
+        const i = questions.length;
         const batchCount = Math.min(BATCH_SIZE, count - i);
         const batchInput = {
             type,
@@ -202,6 +218,7 @@ async function generateForType(input) {
     }
 
     delete questions.targetCount;
+    delete questions.discarded;
 
     if (questions.length === 0) {
         return {

@@ -1,13 +1,13 @@
 /**
  * @fileoverview Prompt de «Completa la frase» (fill_blanks) para el generador de IA.
- * Va aparte de prompt-builder.js (ya al límite de tamaño) y reutiliza sus helpers.
+ * prompt-markdown.js compone el Markdown; aquí solo van rol, tarea, reglas y esquema.
  * La IA devuelve la frase con las palabras entre corchetes, el formato del JSON de
  * bancos; question-types/fill-blanks.js la valida y la convierte a marcadores.
  * Se piden candidatas de más: los modelos cuentan mal las letras y el parser
  * descarta las que no cumplen (el controlador se queda con las pedidas).
  */
 
-const builder = require('./prompt-builder');
+const { composePrompt } = require('./prompt-markdown');
 
 const FILL_BLANKS_EXTRA = 3;
 
@@ -22,15 +22,13 @@ const SCHEMA = `[
   }
 ]`;
 
-const RULES =
-    'REGLAS: cada frase es un dato REAL, completo y con sentido, con entre 1 y 3 palabras entre corchetes [así] ' +
-    'que el jugador tiene que adivinar; cada palabra entre corchetes es UNA sola palabra de entre 4 y 14 letras y SOLO letras ' +
-    '(sin espacios, números, guiones, apóstrofos ni signos); el resto de la frase da contexto suficiente para deducirlas y no ' +
-    'repite la palabra oculta; options=[]';
-
-const COUNT_HINT =
-    'Cuenta las letras de cada palabra entre corchetes antes de responder: [Paris] (5) y [Roma] (4) valen; ' +
-    '[Uso] (3), [Nueva York] (dos palabras) y [COVID-19] (números y guion) NO valen.';
+const RULES = [
+    'Cada frase es un dato REAL, completo y con sentido, con entre 1 y 3 palabras entre corchetes [así] que el jugador tiene que adivinar.',
+    'Cada palabra entre corchetes es UNA sola palabra de entre 4 y 14 letras y SOLO letras (sin espacios, números, guiones, apóstrofos ni signos).',
+    'El resto de la frase da contexto suficiente para deducirlas y no repite la palabra oculta.',
+    'Cuenta las letras de cada palabra entre corchetes antes de responder: [Paris] (5) y [Roma] (4) valen; [Uso] (3), [Nueva York] (dos palabras) y [COVID-19] (números y guion) NO valen.',
+    'options=[].'
+];
 
 /**
  * @param {string} text - Documento o tema
@@ -39,39 +37,19 @@ const COUNT_HINT =
  * @param {{ previousQuestions?: string[], mode?: 'document'|'prompt', language?: string }} [options]
  * @returns {string}
  */
-function buildFillBlanksPrompt(
-    text,
-    count,
-    dificultad,
-    { previousQuestions = [], mode = 'document', language = 'es' } = {}
-) {
-    const lang = builder.getLanguageName(language);
-    const candidates = count + FILL_BLANKS_EXTRA;
-    const difficulty = builder.DIFICULTAD_INSTRUCCION[dificultad] || 'media';
-    const exclusion = builder.getExclusionInstruction(previousQuestions);
-
-    if (mode === 'prompt') {
-        const safeText = text.trim().slice(0, builder.MAX_PROMPT_CHARS);
-        return `Eres un generador experto de frases para completar (rellenar huecos). El usuario te indica un tema.
-Genera ${candidates} frases para completar en ${lang} sobre ese tema, cada una con palabras ocultas distintas. Dificultad: ${difficulty}.${exclusion}
-IMPORTANTE: Usa términos clave reales del tema (nombres, lugares, conceptos). NO generes frases sobre la instrucción.
-Responde SOLO con un array JSON:
-${SCHEMA}
-
-${RULES}, en ${lang}. ${COUNT_HINT}
-NO copies estos ejemplos. Genera frases REALES sobre el siguiente tema:
-
-${safeText}`;
-    }
-
-    return `${builder.wrapDocumentInput(builder.getText(text))}
-
-${builder.INJECTION_GUARD}Genera ${candidates} frases para completar en ${lang}, cada una con palabras ocultas distintas, sobre el texto anterior, entre las etiquetas user_input. Dificultad: ${difficulty}. ${exclusion}
-Responde SOLO con un array JSON:
-${SCHEMA}
-
-${RULES}, en ${lang}. ${COUNT_HINT}
-NO copies estos ejemplos. Genera frases NUEVAS basadas en ese texto.`;
+function buildFillBlanksPrompt(text, count, dificultad, options = {}) {
+    return composePrompt(text, {
+        role: 'Eres un generador experto de frases para completar (rellenar huecos). El usuario te indica un tema.',
+        task: 'frases para completar',
+        item: 'frases',
+        count: count + FILL_BLANKS_EXTRA,
+        dificultad,
+        guidance: ['Cada frase con palabras ocultas distintas.'],
+        topicGuidance: ['Usa términos clave reales del tema (nombres, lugares, conceptos).'],
+        rules: RULES,
+        schema: SCHEMA,
+        options
+    });
 }
 
 module.exports = { buildFillBlanksPrompt, FILL_BLANKS_EXTRA };

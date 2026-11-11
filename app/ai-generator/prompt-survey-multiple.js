@@ -1,11 +1,11 @@
 /**
  * @fileoverview Prompt de «Encuesta de selección múltiple» (survey_multiple) para el
- * generador de IA. Va aparte de prompt-builder.js (ya al límite de tamaño) y reutiliza
- * sus helpers. Sin respuesta correcta: cada jugador marca todas las opciones que le
- * apliquen, así que las opciones no se excluyen entre sí.
+ * generador de IA. prompt-markdown.js compone el Markdown; aquí solo van rol, tarea,
+ * reglas y esquema. Sin respuesta correcta: cada jugador marca todas las opciones que
+ * le apliquen, así que las opciones no se excluyen entre sí.
  */
 
-const builder = require('./prompt-builder');
+const { composePrompt } = require('./prompt-markdown');
 const { MIN_OPTIONS, MAX_OPTIONS } = require('./question-types/survey-multiple');
 
 const SCHEMA = `[
@@ -24,49 +24,31 @@ const SCHEMA = `[
   }
 ]`;
 
-const RULES =
-    `REGLAS: cada pregunta admite VARIAS respuestas a la vez (¿cuáles conoces?, ¿cuáles has usado?, ¿qué te interesa?), ` +
-    `sin respuesta correcta; entre ${MIN_OPTIONS} y ${MAX_OPTIONS} opciones distintas que NO se excluyan entre sí; ` +
-    'textos cortos (máximo 60 caracteres); todas con is_correct=false y justification=null';
+const RULES = [
+    'Cada pregunta admite VARIAS respuestas a la vez (¿cuáles conoces?, ¿cuáles has usado?, ¿qué te interesa?), sin respuesta correcta.',
+    `Entre ${MIN_OPTIONS} y ${MAX_OPTIONS} opciones distintas que NO se excluyan entre sí.`,
+    'Textos cortos (máximo 60 caracteres).',
+    'Todas con is_correct=false y justification=null.'
+];
 
 /**
  * @param {string} text - Documento o tema
  * @param {number} count - Preguntas pedidas
- * @param {string} dificultad - BAJA | MEDIA | ALTA (no aplica a encuestas, se ignora)
+ * @param {string} _dificultad - BAJA | MEDIA | ALTA (no aplica a encuestas, se ignora)
  * @param {{ previousQuestions?: string[], mode?: 'document'|'prompt', language?: string }} [options]
  * @returns {string}
  */
-function buildSurveyMultiplePrompt(
-    text,
-    count,
-    dificultad,
-    { previousQuestions = [], mode = 'document', language = 'es' } = {}
-) {
-    const lang = builder.getLanguageName(language);
-    const exclusion = builder.getExclusionInstruction(previousQuestions);
-
-    if (mode === 'prompt') {
-        const safeText = text.trim().slice(0, builder.MAX_PROMPT_CHARS);
-        return `Eres un generador experto de encuestas. El usuario te indica un tema.
-Genera ${count} preguntas de encuesta de selección múltiple (opinión o experiencia, sin respuesta correcta, el jugador marca todas las que quiera) en ${lang} sobre ese tema.${exclusion}
-IMPORTANTE: Usa tu conocimiento para crear preguntas reales sobre el tema. NO generes preguntas sobre la instrucción.
-Responde SOLO con un array JSON:
-${SCHEMA}
-
-${RULES}, en ${lang}.
-NO copies estos ejemplos. Genera preguntas REALES sobre el siguiente tema:
-
-${safeText}`;
-    }
-
-    return `${builder.wrapDocumentInput(builder.getText(text))}
-
-${builder.INJECTION_GUARD}Genera ${count} preguntas de encuesta de selección múltiple (opinión o experiencia, sin respuesta correcta, el jugador marca todas las que quiera) en ${lang} sobre el texto anterior, entre las etiquetas user_input. ${exclusion}
-Responde SOLO con un array JSON:
-${SCHEMA}
-
-${RULES}, en ${lang}.
-NO copies estos ejemplos. Genera preguntas NUEVAS basadas en ese texto.`;
+function buildSurveyMultiplePrompt(text, count, _dificultad, options = {}) {
+    return composePrompt(text, {
+        role: 'Eres un generador experto de encuestas. El usuario te indica un tema.',
+        task: 'preguntas de encuesta de selección múltiple (opinión o experiencia, sin respuesta correcta, el jugador marca todas las que quiera)',
+        item: 'preguntas',
+        count,
+        topicGuidance: ['Usa tu conocimiento para crear preguntas reales sobre el tema.'],
+        rules: RULES,
+        schema: SCHEMA,
+        options
+    });
 }
 
 module.exports = { buildSurveyMultiplePrompt };

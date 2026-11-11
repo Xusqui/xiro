@@ -1,13 +1,13 @@
 /**
  * @fileoverview Prompt de «Emparejar» (matching) para el generador de IA.
- * Va aparte de prompt-builder.js (ya al límite de tamaño) y reutiliza sus helpers.
+ * prompt-markdown.js compone el Markdown; aquí solo van rol, tarea, reglas y esquema.
  * La IA devuelve los pares en options (option_text / match_value), el formato del
  * JSON de bancos; question-types/matching.js los valida y normaliza.
  * Se pide una candidata de más: los modelos repiten parejas a veces y el parser
  * descarta las que no cumplen (el controlador se queda con las pedidas).
  */
 
-const builder = require('./prompt-builder');
+const { composePrompt } = require('./prompt-markdown');
 const { MIN_PAIRS, MAX_PAIRS } = require('./question-types/matching');
 
 const MATCHING_EXTRA = 1;
@@ -28,12 +28,13 @@ const SCHEMA = `[
   }
 ]`;
 
-const RULES =
-    `REGLAS: cada pregunta tiene una consigna clara y entre ${MIN_PAIRS} y ${MAX_PAIRS} pares (mejor 4) ` +
-    'de datos REALES del tema; option_text es el elemento de la izquierda y match_value su ÚNICA pareja correcta; ' +
-    'todos los option_text son distintos entre sí y todos los match_value son distintos entre sí, para que ningún ' +
-    'elemento pueda emparejarse con dos parejas; textos cortos (máximo 60 caracteres); is_correct=false en todas ' +
-    'y order_index correlativo desde 0';
+const RULES = [
+    `Cada pregunta tiene una consigna clara y entre ${MIN_PAIRS} y ${MAX_PAIRS} pares (mejor 4) de datos REALES del tema.`,
+    'option_text es el elemento de la izquierda y match_value su ÚNICA pareja correcta.',
+    'Todos los option_text son distintos entre sí y todos los match_value son distintos entre sí, para que ningún elemento pueda emparejarse con dos parejas.',
+    'Textos cortos (máximo 60 caracteres).',
+    'is_correct=false en todas y order_index correlativo desde 0.'
+];
 
 /**
  * @param {string} text - Documento o tema
@@ -42,39 +43,21 @@ const RULES =
  * @param {{ previousQuestions?: string[], mode?: 'document'|'prompt', language?: string }} [options]
  * @returns {string}
  */
-function buildMatchingPrompt(
-    text,
-    count,
-    dificultad,
-    { previousQuestions = [], mode = 'document', language = 'es' } = {}
-) {
-    const lang = builder.getLanguageName(language);
-    const candidates = count + MATCHING_EXTRA;
-    const difficulty = builder.DIFICULTAD_INSTRUCCION[dificultad] || 'media';
-    const exclusion = builder.getExclusionInstruction(previousQuestions);
-
-    if (mode === 'prompt') {
-        const safeText = text.trim().slice(0, builder.MAX_PROMPT_CHARS);
-        return `Eres un generador experto de preguntas de emparejar. El usuario te indica un tema.
-Genera ${candidates} preguntas de emparejar en ${lang} sobre ese tema, cada una con pares distintos. Dificultad: ${difficulty}.${exclusion}
-IMPORTANTE: Usa tu conocimiento para crear parejas reales del tema (concepto-definición, autor-obra, país-capital, causa-efecto…). NO generes preguntas sobre la instrucción.
-Responde SOLO con un array JSON:
-${SCHEMA}
-
-${RULES}, en ${lang}.
-NO copies estos ejemplos. Genera preguntas REALES sobre el siguiente tema:
-
-${safeText}`;
-    }
-
-    return `${builder.wrapDocumentInput(builder.getText(text))}
-
-${builder.INJECTION_GUARD}Genera ${candidates} preguntas de emparejar en ${lang}, cada una con pares distintos, sobre el texto anterior, entre las etiquetas user_input. Dificultad: ${difficulty}. ${exclusion}
-Responde SOLO con un array JSON:
-${SCHEMA}
-
-${RULES}, en ${lang}.
-NO copies estos ejemplos. Genera preguntas NUEVAS basadas en ese texto.`;
+function buildMatchingPrompt(text, count, dificultad, options = {}) {
+    return composePrompt(text, {
+        role: 'Eres un generador experto de preguntas de emparejar. El usuario te indica un tema.',
+        task: 'preguntas de emparejar',
+        item: 'preguntas',
+        count: count + MATCHING_EXTRA,
+        dificultad,
+        guidance: ['Cada pregunta con pares distintos.'],
+        topicGuidance: [
+            'Usa tu conocimiento para crear parejas reales del tema (concepto-definición, autor-obra, país-capital, causa-efecto…).'
+        ],
+        rules: RULES,
+        schema: SCHEMA,
+        options
+    });
 }
 
 module.exports = { buildMatchingPrompt, MATCHING_EXTRA };

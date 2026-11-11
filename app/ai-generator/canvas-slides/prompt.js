@@ -8,7 +8,7 @@
  * Las imágenes solo se nombran ("img1" adjunta, una URL o una búsqueda): las consigue media.js.
  */
 
-const { getLanguageName, getText, wrapDocumentInput } = require('../prompt-builder');
+const { getLanguageName, getText, wrapDocumentInput } = require('../prompt-markdown');
 const { ICON_NAMES } = require('./icons');
 
 const SYSTEM_PROMPT =
