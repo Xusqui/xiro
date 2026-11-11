@@ -75,12 +75,31 @@ function wrapDocumentInput(text) {
     return `<user_input>\n${text}\n</user_input>`;
 }
 
+// Los modelos pequeños piden el mismo dato con otras palabras: la respuesta, no el enunciado, debe ser única
+const UNIQUE_ANSWER_RULE =
+    'Cada pregunta con una respuesta correcta DISTINTA de las demás: no preguntes por el mismo dato ' +
+    '(persona, lugar, fecha, obra, cifra…) con otras palabras.';
+
 const section = (title, body) => `## ${title}\n${body}`;
 const bullets = items => items.map(item => `- ${item}`).join('\n');
 
+/** Textos en una línea, sin vacíos ni repetidos. */
+const cleanList = items => [...new Set((items || []).map(item => String(item ?? '').replace(/\s+/g, ' ').trim()).filter(Boolean))];
+
+/** Sección con las respuestas correctas que no se deben volver a usar ('' si no hay ninguna). */
+function usedAnswersSection(previousAnswers) {
+    const list = cleanList(previousAnswers);
+    if (list.length === 0) return '';
+    return section(
+        'Respuestas ya usadas',
+        'Está PROHIBIDO que la respuesta correcta de una pregunta nueva sea cualquiera de estas, ' +
+            `aunque formules la pregunta de otra manera. Pregunta por datos distintos:\n${bullets(list)}`
+    );
+}
+
 /** Sección con las preguntas que no se deben repetir ('' si no hay ninguna). */
 function exclusionSection(previousQuestions, fromDocument) {
-    const list = (previousQuestions || []).map(q => String(q ?? '').replace(/\s+/g, ' ').trim()).filter(Boolean);
+    const list = cleanList(previousQuestions);
     if (list.length === 0) return '';
     const source = fromDocument ? 'del documento' : 'del tema';
     return section(
@@ -128,18 +147,25 @@ function formatSection(spec, fromDocument) {
  * @param {string[]} [spec.topicGuidance] - Pautas solo en modo 'prompt'
  * @param {string[]} spec.rules - Reglas de formato y contenido del tipo
  * @param {string} spec.schema - Ejemplo JSON con marcadores <…>
- * @param {{previousQuestions?: string[], mode?: string, language?: string}} [spec.options]
+ * @param {boolean} [spec.uniqueAnswers] - El tipo tiene respuesta correcta y no debe repetirse
+ * @param {{previousQuestions?: string[], previousAnswers?: string[], mode?: string, language?: string}} [spec.options]
  * @returns {string}
  */
 function composePrompt(text, spec) {
-    const { previousQuestions = [], mode = 'document', language = 'es' } = spec.options || {};
+    const { previousQuestions = [], previousAnswers = [], mode = 'document', language = 'es' } = spec.options || {};
     const lang = getLanguageName(language);
     const fromDocument = mode !== 'prompt';
-    const rules = [...spec.rules, `Todo el texto en ${lang}.`, `No repitas ${spec.item} ni las formules de forma muy parecida.`];
+    const rules = [
+        ...spec.rules,
+        `Todo el texto en ${lang}.`,
+        `No repitas ${spec.item} ni las formules de forma muy parecida.`,
+        ...(spec.uniqueAnswers ? [UNIQUE_ANSWER_RULE] : [])
+    ];
     const parts = [
         section('Rol', spec.role),
         taskSection(spec, lang, fromDocument),
         exclusionSection(previousQuestions, fromDocument),
+        spec.uniqueAnswers ? usedAnswersSection(previousAnswers) : '',
         section('Reglas', bullets(rules)),
         formatSection(spec, fromDocument)
     ];

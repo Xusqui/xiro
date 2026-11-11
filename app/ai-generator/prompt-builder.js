@@ -2,7 +2,8 @@
  * @fileoverview Prompts por tipo de pregunta (quiz, encuesta, numérica, ordenar, anagrama, selección múltiple).
  * Cada tipo solo declara su rol, tarea, pautas, reglas y esquema; prompt-markdown.js compone el Markdown.
  * Los esquemas usan marcadores abstractos <…>, sin contenido real que el modelo copie.
- * Firma común: (text, count, dificultad, { previousQuestions, mode, language }) → string
+ * Firma común: (text, count, dificultad, { previousQuestions, previousAnswers, mode, language }) → string
+ * Los tipos con respuesta correcta declaran uniqueAnswers: la respuesta no puede repetirse entre preguntas.
  */
 
 const { composePrompt } = require('./prompt-markdown');
@@ -51,6 +52,7 @@ function buildQuizPrompt(text, count, dificultad, options = {}) {
         topicGuidance: ['Usa tu conocimiento enciclopédico para crear preguntas reales, variadas y ÚNICAS sobre el tema.'],
         rules: ['Exactamente 6 opciones por pregunta.', 'Exactamente 1 opción con is_correct=true.'],
         schema: QUIZ_SCHEMA,
+        uniqueAnswers: true,
         options
     });
 }
@@ -120,6 +122,7 @@ function buildNumericPrompt(text, count, dificultad, options = {}) {
             'correctAnswer siempre ENTERO: si la cifra real tiene decimales, pregunta en otra unidad (p. ej. metros en vez de kilómetros) o redondea e indícalo en el enunciado.'
         ],
         schema: NUMERIC_SCHEMA,
+        uniqueAnswers: true,
         options
     });
 }
@@ -185,6 +188,7 @@ function buildWordScramblePrompt(text, count, dificultad, options = {}) {
             'options=[].'
         ],
         schema: WORD_SCRAMBLE_SCHEMA,
+        uniqueAnswers: true,
         options
     });
 }
@@ -217,6 +221,7 @@ function buildMultipleChoicePrompt(text, count, dificultad, options = {}) {
         topicGuidance: ['Usa tu conocimiento para crear preguntas reales con varias respuestas correctas del tema.'],
         rules: ['Entre 4 y 8 opciones por pregunta.', 'Entre 2 y 6 opciones con is_correct=true.'],
         schema: MULTIPLE_CHOICE_SCHEMA,
+        uniqueAnswers: true,
         options
     });
 }

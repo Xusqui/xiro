@@ -14,7 +14,7 @@ const { buildWordSearchPrompt } = require('./prompt-word-search');
 const { buildMatchingPrompt } = require('./prompt-matching');
 const { buildSurveyMultiplePrompt } = require('./prompt-survey-multiple');
 const { buildChunkPlan } = require('./batch-chunks');
-const { filterNewQuestions } = require('./question-dedup');
+const { filterNewQuestions, correctAnswerText } = require('./question-dedup');
 const logger = require('../config/logger');
 
 const PROMPT_BUILDERS = {
@@ -33,6 +33,11 @@ const PROMPT_BUILDERS = {
 const QUESTION_TYPES = Object.keys(PROMPT_BUILDERS);
 const MAX_RETRIES = 2;
 const BATCH_SIZE = 3;
+const DEDUP_EXTRA_CANDIDATES = 2;
+// Lotes extra para reponer repetidas: hasta el doble de los previstos (el triple en total)…
+const EXTRA_BATCHES_FACTOR = 2;
+// …salvo que la IA se haya agotado: tantos lotes extra seguidos sin ninguna pregunta nueva
+const MAX_STALLED_BATCHES = 3;
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -59,9 +64,15 @@ function getRateLimitWaitTime(message) {
 async function buildBatchPromptPayload(input) {
     const { type, text, batchCount, dificultad, questions, mode, language, provider } = input;
     const buildPrompt = PROMPT_BUILDERS[type];
-    const previousTexts = questions.map(q => q.question_text);
-    const prompt = buildPrompt(text, batchCount, dificultad, { previousQuestions: previousTexts, mode, language });
-    const maxTokens = batchCount * 450 + 200;
+    // Si la IA ya ha repetido, se piden candidatas de más que reponen las que se descarten
+    const promptCount = batchCount + (questions.discarded > 0 ? DEDUP_EXTRA_CANDIDATES : 0);
+    const prompt = buildPrompt(text, promptCount, dificultad, {
+        previousQuestions: questions.map(q => q.questionText),
+        previousAnswers: questions.map(correctAnswerText),
+        mode,
+        language
+    });
+    const maxTokens = promptCount * 450 + 200;
     const raw = await callLLM(provider, prompt, undefined, 120000, maxTokens);
     const parsed = parseLLMResponse(raw, type);
     return buildQuestionsForType(type, parsed);
@@ -157,9 +168,16 @@ async function generateBatchWithRetries(input) {
     }
 }
 
-/** Tope de lotes de un tipo: los previstos, o el doble si la IA ya ha repetido preguntas. */
-function maxBatches(plannedBatches, questions) {
-    return questions.discarded > 0 ? plannedBatches * 2 : plannedBatches;
+/**
+ * Indica si se pide otro lote: faltan preguntas, no se ha llegado al tope (los previstos, más
+ * los extra si la IA ya ha repetido) y la IA no lleva MAX_STALLED_BATCHES lotes extra sin aportar nada.
+ * @param {{batch: number, plannedBatches: number, stalled: number, questions: Array}} state
+ * @returns {boolean}
+ */
+function canRequestBatch({ batch, plannedBatches, stalled, questions }) {
+    if (questions.length >= questions.targetCount || stalled >= MAX_STALLED_BATCHES) return false;
+    const limit = questions.discarded > 0 ? plannedBatches * (1 + EXTRA_BATCHES_FACTOR) : plannedBatches;
+    return batch < limit;
 }
 
 /**
@@ -182,9 +200,9 @@ async function generateForType(input) {
     questions.targetCount = count;
     questions.discarded = 0;
     const plannedBatches = Math.ceil(count / BATCH_SIZE);
+    let stalled = 0;
 
-    // Lotes extra (hasta el doble) solo para reponer preguntas descartadas por repetidas
-    for (let batch = 0; questions.length < count && batch < maxBatches(plannedBatches, questions); batch++) {
+    for (let batch = 0; canRequestBatch({ batch, plannedBatches, stalled, questions }); batch++) {
         if (signal?.aborted) {
             logger.warn(`[ai-generator] Generación tipo '${type}' abortada por desconexión del cliente`);
             break;
@@ -215,6 +233,8 @@ async function generateForType(input) {
             );
             await generateBatchWithRetries({ ...batchInput, provider: plan.fallback });
         }
+        // Solo cuentan los lotes extra: los previstos se piden siempre, como antes
+        stalled = questions.length > before || batch < plannedBatches ? 0 : stalled + 1;
     }
 
     delete questions.targetCount;
