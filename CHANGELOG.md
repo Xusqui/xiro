@@ -2,6 +2,13 @@
 
 ## 3.14.x
 
+### 3.14.3 — 2026-11-11 · `v3.14.3`
+- **AI:** Mayor endurecimiento de las reglas de IA para Evitar repetir respuestas además de las preguntas:
+  - Los lotes reciben las preguntas y respuestas ya aceptadas (antes se leía question_text en vez de questionText y la lista nunca llegaba al prompt).
+  - Nueva sección «Respuestas ya usadas» y regla de respuesta distinta en quiz, multiple_choice, word_scramble y numeric_approximation.
+  - El filtro descarta preguntas cuya respuesta correcta equivale a otra ya aceptada (iguales o con todas sus palabras contenidas), aunque el enunciado cambie.
+  - Tras una repetida se piden 2 candidatas de más por lote; hasta el triple de lotes previstos, deteniéndose tras 3 lotes extra sin preguntas nuevas.
+
 ### 3.14.2 — 2026-11-11 · `v3.14.2`
 - **AI:** Prompt para la IA reforzado para cometer menos errores y emitirlo en formado markdown
 
