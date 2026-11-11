@@ -2,6 +2,9 @@
 
 ## 3.14.x
 
+### 3.14.2 — 2026-11-11 · `v3.14.2`
+- **AI:** Prompt para la IA reforzado para cometer menos errores y emitirlo en formado markdown
+
 ### 3.14.1 — 2026-11-10 · `v3.14.1`
 - Pedir al prompt que genera las preguntas mediante IA, que no repita preguntas
 
