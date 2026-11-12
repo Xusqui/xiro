@@ -2,6 +2,9 @@
 
 ## 3.14.x
 
+### 3.14.4 — 2026-11-12 · `v3.14.4`
+- **Visual:** Poner la animación de XiRo en todas las páginas dentro de public/legal/
+
 ### 3.14.3 — 2026-11-11 · `v3.14.3`
 - **AI:** Mayor endurecimiento de las reglas de IA para Evitar repetir respuestas además de las preguntas:
   - Los lotes reciben las preguntas y respuestas ya aceptadas (antes se leía question_text en vez de questionText y la lista nunca llegaba al prompt).
