@@ -24,29 +24,68 @@ function panicRestart() {
                 'Esto reiniciará el contenedor Docker completo inmediatamente. Todas las partidas activas se perderán. ¿Continuar?'
             ),
             async () => {
-                try {
-                    await fetchWithAuth('/api/panic-restart', { method: 'POST' });
-                    mostrarModalError(
-                        _t('admin.tools.panic_success_title', null, '✅ Contenedor reiniciando'),
-                        _t(
-                            'admin.tools.panic_success_msg',
-                            null,
-                            'El contenedor Docker está reiniciando. La página se recargará en ~10 segundos...'
-                        ),
-                        'success'
-                    );
-                } catch (err) {
-                    console.log('Contenedor reiniciando...');
-                }
-                setTimeout(() => {
-                    location.reload();
-                }, 10000);
+                if (await _requestPanicRestart()) await _waitAndReloadAfterPanic();
             },
             null,
             _t('admin.tools.reload_btn', null, 'Reiniciar'),
             _t('admin.common.cancel', null, 'Cancelar')
         );
     });
+}
+
+const PANIC_RESTART_TIMEOUT_MS = 120000;
+
+/**
+ * Pide el reinicio. Un fallo de red cuenta como pedido: el servidor puede morir antes de contestar.
+ * @returns {Promise<boolean>} false si el servidor lo rechazó (permisos, límite de peticiones…).
+ */
+async function _requestPanicRestart() {
+    let response;
+    try {
+        response = await fetchWithAuth('/api/panic-restart', { method: 'POST' });
+    } catch (err) {
+        if (err.message === 'Unauthorized') return false;
+        console.warn('PANIC: sin respuesta del servidor, se espera igualmente al reinicio', err);
+        return true;
+    }
+    if (response.ok) return true;
+    mostrarModalError(
+        _t('admin.common.error_title', null, '❌ Error'),
+        _t(
+            'admin.tools.panic_failed_msg',
+            { status: response.status },
+            'No se pudo reiniciar el servidor (HTTP {status}).'
+        ),
+        'error'
+    );
+    return false;
+}
+
+/** Muestra el tiempo transcurrido y recarga en cuanto el proceso nuevo está listo, no tras un plazo fijo. */
+async function _waitAndReloadAfterPanic() {
+    mostrarModalError(
+        _t('admin.tools.panic_success_title', null, '✅ Contenedor reiniciando'),
+        `${_t('admin.tools.panic_success_msg', null, 'El contenedor Docker se está reiniciando. La página se recargará en cuanto el servidor vuelva.')}
+        <span class="block mt-3 text-3xl font-black"><span id="panicRestartElapsed">0</span> s</span>`,
+        'success'
+    );
+    const onTick = seconds => {
+        const counter = document.getElementById('panicRestartElapsed');
+        if (counter) counter.textContent = String(seconds);
+    };
+    if (await waitForServerRestart({ onTick, timeoutMs: PANIC_RESTART_TIMEOUT_MS })) {
+        location.reload();
+        return;
+    }
+    mostrarModalError(
+        _t('admin.common.error_title', null, '❌ Error'),
+        _t(
+            'admin.tools.panic_timeout_msg',
+            { seconds: PANIC_RESTART_TIMEOUT_MS / 1000 },
+            'El servidor no ha vuelto en {seconds} s. Revisa el contenedor y recarga la página a mano.'
+        ),
+        'error'
+    );
 }
 
 // ===== LIMPIAR ARCHIVOS HUÉRFANOS =====
