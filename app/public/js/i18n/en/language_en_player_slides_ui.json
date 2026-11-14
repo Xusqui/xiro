@@ -1,6 +1,8 @@
 {
   "keys": {
     "player.slides.video_title": "Video",
-    "player.slides.video_watch_screen": "Watch the presenter's screen"
+    "player.slides.video_watch_screen": "Watch the presenter's screen",
+    "player.slides.zoom_hint": "Tap to enlarge",
+    "player.slides.zoom_close": "Close"
   }
 }

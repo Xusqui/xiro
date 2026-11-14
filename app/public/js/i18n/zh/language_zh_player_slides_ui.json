@@ -1,6 +1,8 @@
 {
   "keys": {
     "player.slides.video_title": "视频",
-    "player.slides.video_watch_screen": "观看主持人屏幕"
+    "player.slides.video_watch_screen": "观看主持人屏幕",
+    "player.slides.zoom_hint": "点按放大",
+    "player.slides.zoom_close": "关闭"
   }
 }

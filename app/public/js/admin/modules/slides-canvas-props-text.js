@@ -1,7 +1,9 @@
 /**
  * @fileoverview Campos del panel de propiedades para los cuadros de texto de la
- * diapositiva libre (slides-canvas-props-fields.js los pinta y los lee). Etiquetas, títulos y
- * opciones son claves admin.canvas.* (slides-canvas-i18n.js); se traducen al pintar.
+ * diapositiva libre (slides-canvas-props-fields.js los pinta y los lee). Solo lo del cuadro
+ * (texto plano, alineación vertical, relleno y ajuste): la letra y el párrafo están en la barra
+ * de formato (slides-canvas-textbar.js). Etiquetas, títulos y opciones son claves admin.canvas.*
+ * (slides-canvas-i18n.js); se traducen al pintar.
  */
 (function () {
     'use strict';
@@ -14,11 +16,6 @@
     XiroCanvasEditor.FONT_OPTIONS = ['sans', 'rounded', 'condensed', 'display', 'serif', 'elegant', 'hand', 'mono'].map(
         font => [font, 'font.' + font]
     );
-
-    // Iconos de los botones de alineación (el panel los pinta en lugar de un desplegable)
-    function FA(name) {
-        return '<i class="fas ' + name + '" aria-hidden="true"></i>';
-    }
 
     /** Línea de referencia en y y una caja de 7 px en boxY: alineación vertical, trazo sin relleno. */
     function VALIGN_ICON(lineY, boxY) {
@@ -34,22 +31,8 @@
     XiroCanvasEditor.propsByType.text = {
         title: 'type.text',
         fields: [
-            { key: 'text', label: 'field.text', kind: 'textarea' },
-            { key: 'font', label: 'field.font', kind: 'select', options: XiroCanvasEditor.FONT_OPTIONS },
-            { key: 'size', label: 'field.size', kind: 'number', min: 8, max: 400 },
-            { key: 'bold', label: 'field.bold', kind: 'check' },
-            { key: 'italic', label: 'field.italic', kind: 'check' },
-            { key: 'color', label: 'field.color', kind: 'color' },
-            {
-                key: 'align',
-                label: 'field.align',
-                kind: 'segment',
-                options: [
-                    ['left', 'align.left', FA('fa-align-left')],
-                    ['center', 'align.center', FA('fa-align-center')],
-                    ['right', 'align.right', FA('fa-align-right')]
-                ]
-            },
+            // Con formato por tramos o por párrafos el texto se edita en el lienzo: aquí se perdería el formato
+            { key: 'text', label: 'field.text', kind: 'textarea', when: el => !el.props.runs && !el.props.paras },
             {
                 key: 'valign',
                 label: 'field.valign',

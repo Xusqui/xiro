@@ -83,7 +83,8 @@
                 ' ' +
                 attr +
                 ' value="' +
-                esc(value) +
+                // Campo opcional sin valor (borde de imagen): muestra el mínimo
+                esc(value === undefined ? field.min : value) +
                 '" min="' +
                 field.min +
                 '" max="' +
@@ -92,7 +93,7 @@
             );
         }
         if (field.kind === 'textarea') {
-            return '<textarea class="' + INPUT + '"' + id + ' rows="4" ' + attr + '>' + esc(value) + '</textarea>';
+            return '<textarea class="' + INPUT + '"' + id + ' rows="' + (field.rows || 4) + '" ' + attr + '>' + esc(value) + '</textarea>';
         }
         if (field.kind === 'select') {
             return (
@@ -121,7 +122,9 @@
         if (field.kind === 'segment') {
             // Botones de icono: cada uno lleva su valor; el clic lo aplica (props.js) como un cambio
             return (
-                '<div class="xsce-seg" role="group" aria-label="' +
+                '<div class="xsce-seg xsce-seg--n' +
+                field.options.length +
+                '" role="group" aria-label="' +
                 tx(field.label) +
                 '">' +
                 field.options

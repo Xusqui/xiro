@@ -94,6 +94,7 @@ function _lienzoUnmount() {
     E.props.detach();
     E.textbar.detach();
     E.offRender(E.toolbar.refresh);
+    E.shapeMenu.close();
 }
 
 /**
@@ -221,8 +222,8 @@ function initSlideLienzoDelegation() {
         if (event.key === 'Escape') document.getElementById('modalLienzoPlantillas')?.remove();
         if (event.key !== 'Escape' || event.defaultPrevented || !document.getElementById('modalLienzo')) return;
         const E = window.XiroCanvasEditor;
-        // Con un elemento seleccionado, Escape solo deselecciona (slides-canvas-pointer.js)
-        if (document.getElementById('modalLienzoMedia') || E.stage.isEditingText() || E.state.selectedId) return;
+        // Con algo seleccionado (uno o varios), Escape solo deselecciona (slides-canvas-keys.js)
+        if (document.getElementById('modalLienzoMedia') || E.stage.isEditingText() || E.getSelectedIds().length) return;
         _lienzoCancel();
     });
 }

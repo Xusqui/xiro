@@ -1,6 +1,8 @@
 {
   "keys": {
     "player.slides.video_title": "動画",
-    "player.slides.video_watch_screen": "プレゼンターの画面を見てください"
+    "player.slides.video_watch_screen": "プレゼンターの画面を見てください",
+    "player.slides.zoom_hint": "タップして拡大",
+    "player.slides.zoom_close": "閉じる"
   }
 }

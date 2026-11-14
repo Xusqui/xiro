@@ -51,6 +51,54 @@
     overflow-wrap: break-word;
 }
 
+/* Listas (fase C): una línea por elemento, marca colgada a la izquierda. La marca es texto
+   (core/slide-canvas-richtext.js), sin contadores ni ::marker, para webOS 3.5 */
+.xsc-li {
+    position: relative;
+    padding-left: 1.5em;
+}
+
+.xsc-li-mark {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+/* Párrafos tipo Word (core/slide-canvas-richtext-html.js): el formato de cada párrafo va en
+   línea; la marca de lista, en data-mark, colgada a la izquierda del texto. Sin contadores CSS
+   ni ::marker (webOS 3.5); attr() en content es CSS2 */
+.xsc-text-inner {
+    -moz-tab-size: 4;
+    tab-size: 4;
+}
+
+.xsc-p--li {
+    position: relative;
+}
+
+.xsc-p--li::before {
+    content: attr(data-mark);
+    position: absolute;
+    margin-left: -1.5em;
+}
+
+.xsc-p--title {
+    font-size: 1.75em;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.xsc-p--subtitle {
+    font-size: 1.3em;
+    font-weight: 600;
+}
+
+.xsc-p--quote {
+    font-style: italic;
+    border-left: 0.15em solid currentColor;
+    padding-left: 0.6em;
+}
+
 .xsc-valign--top {
     -webkit-box-pack: start;
     -webkit-justify-content: flex-start;
@@ -90,4 +138,95 @@
 .xsc-shape {
     display: block;
     overflow: visible;
+}
+
+/* Tabla (fase D): ocupa la caja del elemento y reparte el alto entre las filas */
+.xsc-table {
+    width: 100%;
+    height: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    line-height: 1.2;
+}
+
+.xsc-table th,
+.xsc-table td {
+    padding: 0.25em 0.5em;
+    overflow: hidden;
+    vertical-align: middle;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.xsc-table th {
+    font-weight: 700;
+}
+
+/* Visor a pantalla completa del jugador (fase D, player-canvas-zoom.js) */
+.xsc-zoom-hint {
+    position: absolute;
+    left: 50%;
+    bottom: 8px;
+    margin: 0;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #ffffff;
+    font-size: 13px;
+    white-space: nowrap;
+    pointer-events: none;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+.xsc-zoom {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10000;
+    overflow: hidden;
+    background-color: #000000;
+}
+/* Con el móvil en vertical, player-canvas-zoom.js le da el tamaño apaisado (ancho = alto de la
+   pantalla) y aquí se gira 90° a la derecha alrededor de su esquina, colocada en el borde derecho */
+.xsc-zoom-rotor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.xsc-zoom--rotated .xsc-zoom-rotor {
+    left: 100%;
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+}
+.xsc-zoom-pan {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    /* Los gestos los gestiona player-canvas-zoom.js, no el zoom del navegador */
+    touch-action: none;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+}
+.xsc-zoom-host { position: relative; width: 100%; height: 100%; }
+.xsc-zoom-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 1;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #ffffff;
+    font-size: 20px;
 }

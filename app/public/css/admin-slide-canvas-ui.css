@@ -123,30 +123,11 @@
 .xsce-tool--label { padding: 0 12px 0 10px; }
 .xsce-tool:hover:not(:disabled) { background: var(--plum-50, #fdf4fb); color: var(--plum-700, #793475); }
 .xsce-tool:active:not(:disabled) { transform: scale(0.92); }
-.xsce-tool.is-on { background: var(--plum-100, #f9e6f7); color: var(--plum-800, #5f285b); }
+.xsce-tool.is-on, .xsce-tool[aria-pressed="true"] { background: var(--plum-100, #f9e6f7); color: var(--plum-800, #5f285b); }
 .xsce-tool:disabled { opacity: 0.32; cursor: default; }
 .xsce-tool--danger:hover:not(:disabled) { background: #fef2f2; color: #b91c1c; }
 
 .xsce-sep { width: 1px; height: 22px; margin: 0 5px; background: #e2e8f0; flex-shrink: 0; }
-
-.xsce-textbar:disabled > * { opacity: 0.4; }
-
-.xsce-tb-font,
-.xsce-tb-size {
-    height: 34px;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    background: #f8fafc;
-    color: #1e293b;
-    font: 500 13px var(--font-body, 'DM Sans', sans-serif);
-}
-
-.xsce-tb-font { max-width: 200px; padding: 0 8px; margin-right: 2px; }
-.xsce-tb-size { width: 52px; padding: 0 4px; text-align: center; font-variant-numeric: tabular-nums; -moz-appearance: textfield; }
-.xsce-tb-size::-webkit-inner-spin-button,
-.xsce-tb-size::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-.xsce-tb-font:focus,
-.xsce-tb-size:focus { border-color: var(--plum-400, #cd81c6); background: #ffffff; outline: none; box-shadow: 0 0 0 3px rgba(176, 91, 170, 0.18); }
 
 /* Muestra de color redonda en vez del rectángulo nativo */
 .xsce-swatch {

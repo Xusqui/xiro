@@ -18,29 +18,32 @@
     const MAX_TEXT = 2000;
     const COLOR_RE = /^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$/;
     const ID_RE = /^el_[a-z0-9]{4,16}$/;
+    const GROUP_ID_RE = /^g_[a-z0-9]{4,16}$/;
     // Familias de Google Fonts que carga css/slide-canvas.css en todas las pantallas
     const FONTS = {
-        sans: '\'DM Sans\', system-ui, -apple-system, \'Segoe UI\', Roboto, Arial, sans-serif',
-        serif: '\'Merriweather\', Georgia, \'Times New Roman\', serif',
-        display: '\'Bebas Neue\', Impact, \'Arial Narrow\', sans-serif',
-        mono: '\'JetBrains Mono\', ui-monospace, Menlo, Consolas, \'Courier New\', monospace',
-        rounded: '\'Nunito\', \'Arial Rounded MT Bold\', Arial, sans-serif',
-        condensed: '\'Oswald\', \'Arial Narrow\', Arial, sans-serif',
-        elegant: '\'Playfair Display\', Georgia, serif',
-        hand: '\'Caveat\', \'Comic Sans MS\', cursive'
+        sans: "'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif",
+        serif: "'Merriweather', Georgia, 'Times New Roman', serif",
+        display: "'Bebas Neue', Impact, 'Arial Narrow', sans-serif",
+        mono: "'JetBrains Mono', ui-monospace, Menlo, Consolas, 'Courier New', monospace",
+        rounded: "'Nunito', 'Arial Rounded MT Bold', Arial, sans-serif",
+        condensed: "'Oswald', 'Arial Narrow', Arial, sans-serif",
+        elegant: "'Playfair Display', Georgia, serif",
+        hand: "'Caveat', 'Comic Sans MS', cursive"
     };
-    const ELEMENT_TYPES = ['text', 'shape', 'image', 'video'];
-    const SHAPES = ['rect', 'ellipse', 'line', 'arrow'];
+    const ELEMENT_TYPES = ['text', 'shape', 'image', 'video', 'table'];
+    const SHAPES = ['rect', 'ellipse', 'line', 'arrow', 'path'];
     const DEFAULT_BACKGROUND = '#1e1b2e';
     // Tamaño por defecto de cada clase de elemento (las figuras según su forma)
     const DEFAULT_SIZE = {
         text: [1200, 200],
         rect: [480, 300],
         ellipse: [400, 400],
+        path: [400, 400],
         line: [600, 40],
         arrow: [600, 40],
         image: [800, 450],
-        video: [1280, 720]
+        video: [1280, 720],
+        table: [1200, 480]
     };
 
     function isColor(v) {
@@ -74,18 +77,71 @@
         return isColor(v) ? v : fallback;
     }
 
-    function newId(existingIds) {
+    function randomId(prefix, existingIds) {
         const taken = existingIds || [];
         let id;
         do {
-            id = 'el_';
+            id = prefix;
             for (let i = 0; i < 8; i++) id += Math.floor(Math.random() * 36).toString(36);
         } while (taken.indexOf(id) >= 0);
         return id;
     }
 
+    function newId(existingIds) {
+        return randomId('el_', existingIds);
+    }
+
+    /** Id de grupo (fase A): los elementos con el mismo groupId se seleccionan juntos. */
+    function newGroupId(existingIds) {
+        return randomId('g_', existingIds);
+    }
+
+    /**
+     * Módulo hermano de core/: require en Node/Jest, global en el navegador (cada página carga
+     * su <script>; se busca al usarlo, no al cargar, así que el orden de los scripts no importa).
+     */
+    function dep(file, globalName) {
+        return typeof module !== 'undefined' && module.exports
+            ? // eslint-disable-next-line no-undef -- require solo en Node/Jest (CommonJS)
+              require(file)
+            : root[globalName];
+    }
+
+    // Sin el módulo (página con scripts desfasados) el lienzo se pinta sin estilo, no se rompe
+    function style() {
+        return dep('./slide-canvas-style', 'XiroSlideCanvasStyle');
+    }
+
+    /**
+     * Fase C: subrayado y lista del cuadro y tramos con formato propio. Solo se escriben si hay
+     * formato; con tramos, el texto plano se rehace desde ellos para que nunca discrepen.
+     */
+    function richTextProps(p, out) {
+        const rich = dep('./slide-canvas-richtext', 'XiroSlideCanvasRichText');
+        if (p.underline === true) out.underline = true;
+        if (!rich) return out;
+        if (rich.LISTS.indexOf(p.list) >= 0) out.list = p.list;
+        const plain = rich.runsText(p.runs);
+        if (plain === null) return parasProps(rich, p, out);
+        out.text = plain;
+        const runs = rich.normalizeRuns(p.runs, out);
+        // Con tramos, el texto sale de ellos: el tope de tramos puede haber recortado el final
+        if (runs) {
+            out.runs = runs;
+            out.text = rich.textOf(runs);
+        }
+        return parasProps(rich, p, out);
+    }
+
+    /** Formato por párrafo, ajustado a las líneas del texto ya definitivo. */
+    function parasProps(rich, p, out) {
+        const paras = rich.normalizeParas ? rich.normalizeParas(p.paras, out.text, out) : null;
+        if (paras) out.paras = paras;
+        return out;
+    }
+
     function textProps(p) {
-        return {
+        return richTextProps(p, {
             text: String(p.text === undefined || p.text === null ? '' : p.text)
                 .replace(/\r\n?/g, '\n')
                 .slice(0, MAX_TEXT),
@@ -94,23 +150,34 @@
             bold: bool(p.bold, false),
             italic: bool(p.italic, false),
             color: color(p.color, '#ffffff', false),
-            align: pick(p.align, ['left', 'center', 'right'], 'left'),
+            align: pick(p.align, ['left', 'center', 'right', 'justify'], 'left'),
             valign: pick(p.valign, ['top', 'middle', 'bottom'], 'top'),
             fill: color(p.fill === undefined ? null : p.fill, null, true),
             fit: pick(p.fit, ['wrap', 'shrink'], 'shrink')
-        };
+        });
+    }
+
+    /** Forma libre: trazado canónico y su viewBox, o null si el trazado no es válido. */
+    function pathProps(p, out) {
+        const paths = dep('./slide-canvas-path', 'XiroSlideCanvasPath');
+        const d = paths ? paths.normalizePath(p.d) : null;
+        if (!d) return null;
+        out.d = d;
+        out.viewBox = paths.normalizeViewBox(p.viewBox) || [100, 100];
+        return out;
     }
 
     function shapeProps(p) {
         const shape = pick(p.shape, SHAPES, 'rect');
-        const closed = shape === 'rect' || shape === 'ellipse';
-        return {
+        const closed = shape === 'rect' || shape === 'ellipse' || shape === 'path';
+        const out = {
             shape: shape,
             fill: color(p.fill === undefined ? (closed ? '#7c3aed' : null) : p.fill, closed ? '#7c3aed' : null, true),
             stroke: color(p.stroke === undefined ? '#ffffff' : p.stroke, '#ffffff', true),
             strokeWidth: num(p.strokeWidth, 0, 60, closed ? 6 : 8),
             radius: num(p.radius, 0, 540, 0)
         };
+        return shape === 'path' ? pathProps(p, out) : out;
     }
 
     function ratioOf(v) {
@@ -121,15 +188,22 @@
     function propsFor(type, p) {
         if (type === 'text') return textProps(p);
         if (type === 'shape') return shapeProps(p);
+        if (type === 'table') {
+            // Sin el módulo (scripts desfasados) la tabla se omite en vez de pintarse mal
+            const table = dep('./slide-canvas-table', 'XiroSlideCanvasTable');
+            return table ? table.normalizeTableProps(p) : null;
+        }
         if (type === 'image') {
             if (!isSafeMediaUrl(p.src)) return null;
-            return {
+            const image = {
                 src: p.src,
                 ratio: ratioOf(p.ratio),
                 lockRatio: bool(p.lockRatio, true),
                 fit: pick(p.fit, ['contain', 'cover'], 'contain'),
                 radius: num(p.radius, 0, 540, 0)
             };
+            if (style()) style().normalizeImageExtras(p, image);
+            return image;
         }
         if (typeof p.url !== 'string' || !p.url.trim() || p.url.length > MAX_URL) return null;
         return { url: p.url.trim(), autoplay: bool(p.autoplay, false) };
@@ -140,7 +214,7 @@
         if (!raw || typeof raw !== 'object' || ELEMENT_TYPES.indexOf(raw.type) < 0) return null;
         const props = propsFor(raw.type, raw.props && typeof raw.props === 'object' ? raw.props : {});
         if (!props) return null;
-        return {
+        const el = {
             id: typeof raw.id === 'string' && ID_RE.test(raw.id) ? raw.id : newId(),
             type: raw.type,
             x: num(raw.x, -WIDTH, WIDTH * 2, 0),
@@ -150,6 +224,11 @@
             rotation: num(raw.rotation, -180, 180, 0),
             props: props
         };
+        // Solo se escriben si están activos, para no tocar los lienzos v1 guardados
+        if (raw.locked === true) el.locked = true;
+        if (typeof raw.groupId === 'string' && GROUP_ID_RE.test(raw.groupId)) el.groupId = raw.groupId;
+        if (style()) style().normalizeElementStyle(raw, el);
+        return el;
     }
 
     /** Elemento nuevo centrado con el tamaño por defecto de su clase. */
@@ -188,6 +267,8 @@
         const canvas = createCanvas();
         canvas.background.color = color(bg.color, DEFAULT_BACKGROUND, false);
         canvas.background.image = isSafeMediaUrl(bg.image) ? bg.image : null;
+        const gradient = style() ? style().normalizeGradient(bg.gradient) : null;
+        if (gradient) canvas.background.gradient = gradient;
         const list = Array.isArray(raw.elements) ? raw.elements : [];
         const ids = [];
         for (let i = 0; i < list.length && canvas.elements.length < api.MAX_ELEMENTS; i++) {
@@ -222,11 +303,7 @@
 
     /** Conversión sin pérdida de las diapositivas antiguas (slide-canvas-legacy.js). */
     function fromLegacySlide(slide) {
-        const legacy =
-            typeof module !== 'undefined' && module.exports
-                ? // eslint-disable-next-line no-undef -- require solo en Node/Jest (CommonJS)
-                require('./slide-canvas-legacy')
-                : root.XiroSlideCanvasLegacy;
+        const legacy = dep('./slide-canvas-legacy', 'XiroSlideCanvasLegacy');
         return legacy ? legacy.fromLegacySlide(slide) : null;
     }
 
@@ -250,6 +327,8 @@
         isColor: isColor,
         isSafeMediaUrl: isSafeMediaUrl,
         newId: newId,
+        newGroupId: newGroupId,
+        GROUP_ID_RE: GROUP_ID_RE,
         createCanvas: createCanvas,
         createElement: createElement,
         normalizeElement: normalizeElement,

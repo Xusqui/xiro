@@ -24,10 +24,11 @@
     <link rel="stylesheet" href="/css/admin-ai-config.css?v=20261010120000">
     <link rel="stylesheet" href="/css/admin-ai-wait.css?v=20261027120000">
     <link rel="stylesheet" href="/css/admin-music.css?v=20261011200000">
-    <link rel="stylesheet" href="/css/slide-canvas.css?v=20261020120000">
-    <link rel="stylesheet" href="/css/admin-slide-canvas.css?v=20261020180000">
-    <link rel="stylesheet" href="/css/admin-slide-canvas-ui.css?v=20261020180000">
-    <link rel="stylesheet" href="/css/admin-slide-canvas-panel.css?v=20261020180000">
+    <link rel="stylesheet" href="/css/slide-canvas.css?v=20261113200000">
+    <link rel="stylesheet" href="/css/admin-slide-canvas.css?v=20261113200000">
+    <link rel="stylesheet" href="/css/admin-slide-canvas-ui.css?v=20261113120000">
+    <link rel="stylesheet" href="/css/admin-slide-canvas-textbar.css?v=20261114140000">
+    <link rel="stylesheet" href="/css/admin-slide-canvas-panel.css?v=20261113180000">
     <link rel="stylesheet" href="/css/admin-slide-canvas-library.css?v=20261023200000">
     <link rel="stylesheet" href="/css/fill-blanks.css?v=20261012120000">
     <link rel="stylesheet" href="/css/admin-question-type-picker.css?v=20261110180000">
@@ -581,26 +582,46 @@
     <script defer src="/js/admin/modules/slides-text-image.js?v=20260922172926"></script>
     <script defer src="/js/admin/modules/slides-video.js?v=20261018120000"></script>
     <script defer src="/js/admin/modules/slides-howto.js?v=20261101120000"></script>
-    <script defer src="/js/core/slide-canvas-model.js?v=20261020120000"></script>
+    <script defer src="/js/core/slide-canvas-model.js?v=20261113200000"></script>
     <script defer src="/js/core/slide-canvas-legacy.js?v=20261020120000"></script>
-    <script defer src="/js/core/slide-canvas-shapes.js?v=20261020120000"></script>
-    <script defer src="/js/core/slide-canvas-render.js?v=20261020200000"></script>
+    <script defer src="/js/core/slide-canvas-path.js?v=20261113180000"></script>
+    <script defer src="/js/core/slide-canvas-path-presets.js?v=20261113180000"></script>
+    <script defer src="/js/core/slide-canvas-style.js?v=20261113180000"></script>
+    <script defer src="/js/core/slide-canvas-richtext.js?v=20261113200000"></script>
+    <script defer src="/js/core/slide-canvas-richtext-html.js?v=20261114130000"></script>
+    <script defer src="/js/core/slide-canvas-shapes.js?v=20261113180000"></script>
+    <script defer src="/js/core/slide-canvas-table.js?v=20261113220000"></script>
+    <script defer src="/js/core/slide-canvas-render.js?v=20261113200000"></script>
     <script defer src="/js/admin/modules/slides-canvas-i18n.js?v=20261020200000"></script>
     <script defer src="/js/admin/modules/slides-canvas-geometry.js?v=20261020120000"></script>
     <script defer src="/js/admin/modules/slides-canvas-history.js?v=20261020120000"></script>
-    <script defer src="/js/admin/modules/slides-canvas-state.js?v=20261020120000"></script>
-    <script defer src="/js/admin/modules/slides-canvas-stage.js?v=20261020200000"></script>
-    <script defer src="/js/admin/modules/slides-canvas-pointer.js?v=20261020120000"></script>
+    <script defer src="/js/core/slide-canvas-align.js?v=20261113120000"></script>
+    <script defer src="/js/admin/modules/slides-canvas-state.js?v=20261113120000"></script>
+    <script defer src="/js/admin/modules/slides-canvas-selection.js?v=20261113120000"></script>
+    <script defer src="/js/admin/modules/slides-canvas-richtext-dom.js?v=20261113200000"></script>
+    <script defer src="/js/admin/modules/slides-canvas-textedit.js?v=20261113200000"></script>
+    <script defer src="/js/admin/modules/slides-canvas-textedit-format.js?v=20261114140000"></script>
+    <script defer src="/js/admin/modules/slides-canvas-stage.js?v=20261113200000"></script>
+    <script defer src="/js/admin/modules/slides-canvas-keys.js?v=20261113120000"></script>
+    <script defer src="/js/admin/modules/slides-canvas-pointer.js?v=20261113120000"></script>
     <script defer src="/js/admin/modules/slides-canvas-media.js?v=20261020200000"></script>
-    <script defer src="/js/admin/modules/slides-canvas-props-fields.js?v=20261020200000"></script>
-    <script defer src="/js/admin/modules/slides-canvas-props.js?v=20261020200000"></script>
-    <script defer src="/js/admin/modules/slides-canvas-props-text.js?v=20261020200000"></script>
-    <script defer src="/js/admin/modules/slides-canvas-props-media.js?v=20261020200000"></script>
-    <script defer src="/js/admin/modules/slides-canvas-toolbar.js?v=20261020200000"></script>
-    <script defer src="/js/admin/modules/slides-canvas-textbar.js?v=20261020200000"></script>
+    <script defer src="/js/admin/modules/slides-canvas-props-fields.js?v=20261113180000"></script>
+    <script defer src="/js/admin/modules/slides-canvas-props.js?v=20261113180000"></script>
+    <script defer src="/js/admin/modules/slides-canvas-props-text.js?v=20261113200000"></script>
+    <script defer src="/js/admin/modules/slides-canvas-props-media.js?v=20261113180000"></script>
+    <script defer src="/js/admin/modules/slides-canvas-props-multi.js?v=20261113120000"></script>
+    <script defer src="/js/admin/modules/slides-canvas-props-style.js?v=20261113180000"></script>
+    <script defer src="/js/admin/modules/slides-canvas-table-edit.js?v=20261113220000"></script>
+    <script defer src="/js/admin/modules/slides-canvas-table-celledit.js?v=20261114120000"></script>
+    <script defer src="/js/admin/modules/slides-canvas-props-table.js?v=20261113220000"></script>
+    <script defer src="/js/admin/modules/slides-canvas-shape-menu.js?v=20261113180000"></script>
+    <script defer src="/js/admin/modules/slides-canvas-toolbar.js?v=20261113180000"></script>
+    <script defer src="/js/admin/modules/slides-canvas-textbar-html.js?v=20261114140000"></script>
+    <script defer src="/js/admin/modules/slides-canvas-textbar-apply.js?v=20261114140000"></script>
+    <script defer src="/js/admin/modules/slides-canvas-textbar.js?v=20261113200000"></script>
     <script defer src="/js/admin/modules/slides-canvas-card.js?v=20261023120000"></script>
     <script defer src="/js/admin/modules/slides-canvas-picker.js?v=20261023200000"></script>
-    <script defer src="/js/admin/modules/slides-canvas.js?v=20261020200000"></script>
+    <script defer src="/js/admin/modules/slides-canvas.js?v=20261113180000"></script>
     <script defer src="/js/core/slide-package.js?v=20261023120000"></script>
     <script defer src="/js/admin/modules/slides-canvas-package.js?v=20261023200000"></script>
     <script defer src="/js/admin/modules/slides-canvas-io-dialogs.js?v=20261023120000"></script>

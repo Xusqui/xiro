@@ -49,7 +49,11 @@ function orientation(ratio) {
 /** Imágenes que adjuntó el usuario, para que la IA las coloque: - "img1": nombre (horizontal). */
 function attachedBlock(images) {
     if (!images.length) return '';
-    const name = img => String(img.name || '').replace(/["<>\s]+/g, ' ').trim().slice(0, 60) || 'imagen';
+    const name = img =>
+        String(img.name || '')
+            .replace(/["<>\s]+/g, ' ')
+            .trim()
+            .slice(0, 60) || 'imagen';
     const lines = images.map(img => `- "${img.ref}": ${name(img)} (${orientation(img.ratio)})`);
     return `\nIMÁGENES ADJUNTAS (úsalas todas, cada una en una diapositiva, en el campo "image"):\n${lines.join('\n')}`;
 }

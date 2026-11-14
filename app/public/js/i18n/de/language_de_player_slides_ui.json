@@ -1,6 +1,8 @@
 {
   "keys": {
     "player.slides.video_title": "Video",
-    "player.slides.video_watch_screen": "Schau auf den Bildschirm des Moderators"
+    "player.slides.video_watch_screen": "Schau auf den Bildschirm des Moderators",
+    "player.slides.zoom_hint": "Zum Vergrößern tippen",
+    "player.slides.zoom_close": "Schließen"
   }
 }

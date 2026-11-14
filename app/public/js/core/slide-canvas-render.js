@@ -10,7 +10,7 @@
 (function (root) {
     'use strict';
 
-    const HTML_ESCAPES = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', '\'': '&#39;', '`': '&#96;' };
+    const HTML_ESCAPES = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '`': '&#96;' };
     const VIDEO_BOX =
         'background-color:#000;color:rgba(255,255,255,0.7);display:-webkit-box;display:-webkit-flex;display:flex;' +
         '-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;height:100%;';
@@ -29,6 +29,18 @@
         return isNode() ? require('./slide-canvas-shapes') : root.XiroSlideCanvasShapes;
     }
 
+    // Sin el módulo de estilo (scripts desfasados) se pinta sin opacidad, sombra, borde ni degradado
+    function styles() {
+        // eslint-disable-next-line no-undef -- require solo en Node/Jest (CommonJS)
+        return isNode() ? require('./slide-canvas-style') : root.XiroSlideCanvasStyle;
+    }
+
+    // normalizeCanvas ya omite las tablas si falta este módulo, así que aquí siempre existe
+    function tables() {
+        // eslint-disable-next-line no-undef -- require solo en Node/Jest (CommonJS)
+        return isNode() ? require('./slide-canvas-table') : root.XiroSlideCanvasTable;
+    }
+
     function escapeText(s) {
         return String(s === undefined || s === null ? '' : s).replace(/[&<>"'`]/g, function (ch) {
             return HTML_ESCAPES[ch];
@@ -41,6 +53,13 @@
 
     function safeUrl(v) {
         return model().isSafeMediaUrl(v) ? escapeText(v) : '';
+    }
+
+    /** Contenido del cuadro: tramos y listas (fase C); sin el módulo, el texto plano. */
+    function textInner(p) {
+        // eslint-disable-next-line no-undef -- require solo en Node/Jest (CommonJS)
+        const rich = isNode() ? require('./slide-canvas-richtext') : root.XiroSlideCanvasRichText;
+        return rich ? rich.innerHtml(p, escapeText) : escapeText(p.text);
     }
 
     function textHtml(p) {
@@ -62,16 +81,18 @@
             p.align +
             ';';
         if (p.fill) style += 'background-color:' + safeColor(p.fill, 'transparent') + ';';
+        if (p.underline) style += 'text-decoration:underline;';
         return (
             '<div class="xsc-text xsc-valign--' +
             p.valign +
+            (p.list ? ' xsc-text--list' : '') +
             '" data-size="' +
             p.size +
             '" style="' +
             style +
             '">' +
             '<div class="xsc-text-inner">' +
-            escapeText(p.text) +
+            textInner(p) +
             '</div></div>'
         );
     }
@@ -82,7 +103,11 @@
         return (
             '<img class="xsc-img" src="' +
             src +
-            '" alt="" draggable="false" style="object-fit:' +
+            '" alt="' +
+            escapeText(p.alt || '') +
+            '" draggable="false" style="' +
+            (styles() ? styles().imageBorderCss(p) : '') +
+            'object-fit:' +
             p.fit +
             ';border-radius:' +
             p.radius +
@@ -136,10 +161,12 @@
             ';';
         if (el.rotation)
             style += '-webkit-transform:rotate(' + el.rotation + 'deg);transform:rotate(' + el.rotation + 'deg);';
+        if (styles()) style += styles().elementCss(el);
         let inner = '';
         if (el.type === 'text') inner = textHtml(el.props);
         else if (el.type === 'shape') inner = shapes().shapeSvg(el);
         else if (el.type === 'image') inner = imageHtml(el.props);
+        else if (el.type === 'table') inner = tables().tableHtml(el.props, escapeText);
         else inner = videoHtml(el, index, options);
         return (
             '<div class="xsc-el xsc-el--' +
@@ -178,7 +205,8 @@
             safeColor(c.background.color, m.DEFAULT_BACKGROUND) +
             ';';
         const bgImage = safeUrl(c.background.image);
-        if (bgImage) style += 'background-image:url(&quot;' + bgImage + '&quot;);';
+        if (styles()) style += styles().backgroundCss(c.background, bgImage);
+        else if (bgImage) style += 'background-image:url(&quot;' + bgImage + '&quot;);';
         // data-i18n-skip: la traducción automática del DOM no debe tocar los textos del autor
         let html =
             '<div class="xsc-frame" data-xsc-frame="1" data-i18n-skip="true"><div class="xsc-stage" style="' +
@@ -254,7 +282,7 @@
         stageHtml: stageHtml,
         fitStage: fitStage,
         mount: mount,
-        escapeText: escapeText,
+        escapeText: escapeText
     };
 
     root.XiroSlideCanvasRender = api;

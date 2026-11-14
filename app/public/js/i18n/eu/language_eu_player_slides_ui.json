@@ -1,6 +1,8 @@
 {
   "keys": {
     "player.slides.video_title": "Bideoa",
-    "player.slides.video_watch_screen": "Ikusi aurkezlearen pantaila"
+    "player.slides.video_watch_screen": "Ikusi aurkezlearen pantaila",
+    "player.slides.zoom_hint": "Ukitu handitzeko",
+    "player.slides.zoom_close": "Itxi"
   }
 }

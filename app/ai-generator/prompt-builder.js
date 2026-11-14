@@ -49,7 +49,9 @@ function buildQuizPrompt(text, count, dificultad, options = {}) {
         item: 'preguntas',
         count,
         dificultad,
-        topicGuidance: ['Usa tu conocimiento enciclopédico para crear preguntas reales, variadas y ÚNICAS sobre el tema.'],
+        topicGuidance: [
+            'Usa tu conocimiento enciclopédico para crear preguntas reales, variadas y ÚNICAS sobre el tema.'
+        ],
         rules: ['Exactamente 6 opciones por pregunta.', 'Exactamente 1 opción con is_correct=true.'],
         schema: QUIZ_SCHEMA,
         uniqueAnswers: true,
@@ -148,8 +150,14 @@ function buildOrderPrompt(text, count, dificultad, options = {}) {
         item: 'preguntas',
         count,
         dificultad,
-        topicGuidance: ['Usa tu conocimiento para crear secuencias cronológicas, de procesos o rangos reales del tema.'],
-        rules: ['Entre 4 y 6 elementos por pregunta.', 'order_index empieza en 0.', 'is_correct=false en todas las opciones.'],
+        topicGuidance: [
+            'Usa tu conocimiento para crear secuencias cronológicas, de procesos o rangos reales del tema.'
+        ],
+        rules: [
+            'Entre 4 y 6 elementos por pregunta.',
+            'order_index empieza en 0.',
+            'is_correct=false en todas las opciones.'
+        ],
         schema: ORDER_SCHEMA,
         options
     });

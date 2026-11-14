@@ -33,7 +33,7 @@
         }
     ];
     // Cabecera del panel: icono de cada tipo (el título lo da propsByType)
-    const TYPE_ICONS = { text: 'fa-font', shape: 'fa-shapes', image: 'fa-image', video: 'fa-film' };
+    const TYPE_ICONS = { text: 'fa-font', shape: 'fa-shapes', image: 'fa-image', video: 'fa-film', table: 'fa-table' };
     const SHAPES = ['rect', 'ellipse', 'line', 'arrow'];
     const GEOMETRY_KEYS = ['x', 'y', 'w', 'h', 'rotation'];
 
@@ -59,8 +59,8 @@
 
     function subtitle(el) {
         const th = XiroCanvasEditor.th;
-        if (el.type === 'shape')
-            return th(SHAPES.indexOf(el.props.shape) >= 0 ? 'tool.' + el.props.shape : 'type.shape');
+        // Las formas básicas dicen cuál son; la forma libre, como el resto, su capa
+        if (el.type === 'shape' && SHAPES.indexOf(el.props.shape) >= 0) return th('tool.' + el.props.shape);
         const elements = XiroCanvasEditor.state.canvas.elements;
         return th('panel.layer', { n: elements.indexOf(el) + 1, total: elements.length });
     }
@@ -73,6 +73,13 @@
     function render(state) {
         if (!panel) return;
         const F = XiroCanvasEditor.propsFields;
+        const S = XiroCanvasEditor.propsStyle;
+        const ids = XiroCanvasEditor.getSelectedIds();
+        if (ids.length > 1) {
+            shownId = ids.join(',');
+            panel.innerHTML = XiroCanvasEditor.propsMulti.html({ head, section });
+            return;
+        }
         const el = XiroCanvasEditor.getSelected();
         const id = el ? el.id : null;
         // No se repinta el campo en el que se está escribiendo (perdería el cursor)
@@ -88,7 +95,7 @@
                     th('panel.slide'),
                     count === 1 ? th('panel.count_one') : th('panel.count_many', { n: count })
                 ) +
-                section(th('panel.background'), F.fieldsHtml(BACKGROUND_FIELDS, bg, bg)) +
+                section(th('panel.background'), F.fieldsHtml(backgroundFields(), S.backgroundValues(bg), bg)) +
                 emptyTip();
             return;
         }
@@ -96,7 +103,10 @@
         // Primero lo propio del elemento (texto, fuente, colores…); la geometría también se cambia arrastrando
         panel.innerHTML =
             head(TYPE_ICONS[el.type] || 'fa-shapes', th(type ? type.title : 'type.shape'), subtitle(el)) +
-            (type ? section('', F.fieldsHtml(type.fields, el.props, el)) : '') +
+            (type
+                ? section('', (type.extraHtml ? type.extraHtml(el) : '') + F.fieldsHtml(type.fields, el.props, el))
+                : '') +
+            section(th('panel.style'), F.fieldsHtml(S.ELEMENT_FIELDS, S.elementValues(el), el)) +
             section(
                 th('panel.geometry'),
                 '<div class="xsce-grid2">' + F.fieldsHtml(GEOMETRY_FIELDS, el, el) + '</div>'
@@ -117,36 +127,62 @@
     function apply(input, silent) {
         const F = XiroCanvasEditor.propsFields;
         const el = XiroCanvasEditor.getSelected();
+        const type = el && XiroCanvasEditor.propsByType[el.type];
+        // Controles propios del tipo (p. ej. las casillas de una tabla)
+        if (type && type.applyInput && type.applyInput(input, silent, el)) return;
         const noneKey = input.getAttribute('data-canvas-none');
         const key = noneKey || input.getAttribute('data-canvas-prop');
         if (!key) return;
-        if (!el) {
-            if (key === 'color' && !silent) XiroCanvasEditor.setBackground({ color: input.value });
-            return;
-        }
         let value = noneKey ? null : F.readValue(input);
         if (noneKey && !input.checked) {
             const picker = panel.querySelector('[data-canvas-prop="' + key + '"]');
             value = picker ? picker.value : '#000000';
         }
         if (value === null && !noneKey) return;
-        const patch = GEOMETRY_KEYS.indexOf(key) >= 0 ? { [key]: value } : { props: { [key]: value } };
+        if (!el) return applyBackground(key, value, silent, noneKey);
+        const patch = XiroCanvasEditor.propsStyle.elementPatch(key, value, el) || propPatch(key, value);
         patch.silent = silent;
         XiroCanvasEditor.updateElement(el.id, patch);
         if (noneKey) shownId = undefined;
     }
 
+    function propPatch(key, value) {
+        return GEOMETRY_KEYS.indexOf(key) >= 0 ? { [key]: value } : { props: { [key]: value } };
+    }
+
+    /** El fondo solo se guarda al confirmar (change), no mientras se arrastra el selector de color. */
+    function applyBackground(key, value, silent, noneKey) {
+        if (silent) return;
+        const patch = XiroCanvasEditor.propsStyle.backgroundPatch(key, value, XiroCanvasEditor.state.canvas.background);
+        // Repinta el panel: activar el degradado muestra su ángulo
+        if (noneKey) shownId = undefined;
+        if (patch) XiroCanvasEditor.setBackground(patch);
+    }
+
+    /** Campos del fondo: color, degradado e imagen. */
+    function backgroundFields() {
+        return [BACKGROUND_FIELDS[0]].concat(XiroCanvasEditor.propsStyle.BACKGROUND_FIELDS, BACKGROUND_FIELDS.slice(1));
+    }
+
     function onPanelAction(action) {
         const media = XiroCanvasEditor.media;
         const el = XiroCanvasEditor.getSelected();
-        if (action === 'bg-image') media.openImage(r => XiroCanvasEditor.setBackground({ image: r.src }));
+        if (XiroCanvasEditor.propsMulti.handle(action)) return;
+        const type = el && XiroCanvasEditor.propsByType[el.type];
+        // Antes de la acción: el botón pulsado tiene el foco y render() no repintaría el panel
+        if (type && type.onAction) shownId = undefined;
+        if (type && type.onAction && type.onAction(action, el, panel)) return;
+        // Al cambiar una imagen o un vídeo, el diálogo muestra la dirección que tiene ahora
+        const bgImage = XiroCanvasEditor.state.canvas.background.image;
+        if (action === 'bg-image') media.openImage(r => XiroCanvasEditor.setBackground({ image: r.src }), bgImage);
         if (action === 'bg-clear') XiroCanvasEditor.setBackground({ image: null });
         if (action === 'change-image' && el)
-            media.openImage(r =>
-                XiroCanvasEditor.updateElement(el.id, { props: { src: r.src, ratio: r.ratio || null } })
+            media.openImage(
+                r => XiroCanvasEditor.updateElement(el.id, { props: { src: r.src, ratio: r.ratio || null } }),
+                el.props.src
             );
         if (action === 'change-video' && el)
-            media.openVideo(r => XiroCanvasEditor.updateElement(el.id, { props: { url: r.url } }));
+            media.openVideo(r => XiroCanvasEditor.updateElement(el.id, { props: { url: r.url } }), el.props.url);
     }
 
     XiroCanvasEditor.props = {

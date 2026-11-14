@@ -1,12 +1,12 @@
 /**
  * @fileoverview Barra de formato del editor de diapositivas libres: con un cuadro de texto
- * seleccionado muestra, junto a la barra de herramientas, fuente, tamaño (con − y +),
- * negrita, cursiva, color y alineación. Son los mismos campos que el panel de la derecha
- * (slides-canvas-props-text.js), pero siempre a la vista. La barra es un <fieldset>: sin
- * texto seleccionado se desactiva entera (sigue visible y el lienzo no salta).
+ * seleccionado muestra, junto a la barra de herramientas, el formato tipo Word del texto (letra,
+ * carácter, párrafo y espaciado). El marcado está en slides-canvas-textbar-html.js y lo que hace
+ * cada control en slides-canvas-textbar-apply.js; aquí, el estado de los controles y los eventos.
+ * La barra es un <fieldset>: sin texto seleccionado se desactiva entera (sigue visible y el
+ * lienzo no salta).
  *
- * Igual que el panel: 'input' se ve al momento sin entrar en el historial y 'change'
- * guarda un paso para deshacer.
+ * 'input' se ve al momento sin entrar en el historial y 'change' guarda un paso para deshacer.
  */
 (function () {
     'use strict';
@@ -14,76 +14,53 @@
     const root = typeof window !== 'undefined' ? window : globalThis;
     const XiroCanvasEditor = (root.XiroCanvasEditor = root.XiroCanvasEditor || {});
 
-    const SIZE_STEP = 4;
-    // Textos: claves admin.canvas.tb.* (slides-canvas-i18n.js)
-    const ALIGNS = [
-        ['left', 'fa-align-left'],
-        ['center', 'fa-align-center'],
-        ['right', 'fa-align-right']
-    ];
+    const DEFAULT_HIGHLIGHT = '#ffff00';
+    const PARA_FIELDS = ['lineHeight', 'spaceBefore', 'spaceAfter', 'style'];
 
     let bar = null;
     let shownId = null;
 
-    function button(attrs, icon, key) {
-        const title = XiroCanvasEditor.th(key);
-        return (
-            '<button type="button" class="xsce-tool xiro-toolbar-btn" ' +
-            attrs +
-            ' data-tooltip="' +
-            title +
-            '" aria-label="' +
-            title +
-            '"><i class="fas ' +
-            icon +
-            '" aria-hidden="true"></i></button>'
-        );
-    }
-
-    function html() {
-        const th = XiroCanvasEditor.th;
-        const families = root.XiroSlideCanvas.FONTS;
-        const fonts = XiroCanvasEditor.FONT_OPTIONS.map(
-            f =>
-                '<option value="' +
-                f[0] +
-                '" style="font-family:' +
-                families[f[0]].replace(/"/g, '') +
-                '">' +
-                th(f[1]) +
-                '</option>'
-        ).join('');
-        return (
-            '<select class="xsce-tb-font" data-tb="font" title="' +
-            th('tb.font') +
-            '" aria-label="' +
-            th('tb.font') +
-            '">' +
-            fonts +
-            '</select>' +
-            button('data-tb-step="-' + SIZE_STEP + '"', 'fa-minus', 'tb.smaller') +
-            '<input type="number" class="xsce-tb-size" data-tb="size" min="8" max="400" title="' +
-            th('tb.size') +
-            '" aria-label="' +
-            th('tb.size') +
-            '">' +
-            button('data-tb-step="' + SIZE_STEP + '"', 'fa-plus', 'tb.bigger') +
-            '<span class="xsce-sep" aria-hidden="true"></span>' +
-            button('data-tb-toggle="bold"', 'fa-bold', 'tb.bold') +
-            button('data-tb-toggle="italic"', 'fa-italic', 'tb.italic') +
-            '<input type="color" class="xsce-swatch" data-tb="color" title="' +
-            th('tb.color') +
-            '" aria-label="' +
-            th('tb.color') +
-            '">' +
-            '<span class="xsce-sep" aria-hidden="true"></span>' +
-            ALIGNS.map(a => button('data-tb-align="' + a[0] + '"', a[1], 'tb.align_' + a[0])).join('')
-        );
-    }
-
     function selectedText() {
         const el = XiroCanvasEditor.getSelected();
         return el && el.type === 'text' ? el : null;
+    }
+
+    function press(button, on) {
+        button.classList.toggle('is-on', on);
+        button.setAttribute('aria-pressed', on ? 'true' : 'false');
+    }
+
+    /** El valor si todos coinciden; si no, undefined (el control queda en blanco). */
+    function common(values) {
+        return values.every(v => v === values[0]) ? values[0] : undefined;
+    }
+
+    /** No se pisa el campo en el que se está escribiendo para ese mismo texto. */
+    function setField(key, value, sameText) {
+        const field = bar.querySelector('[data-tb="' + key + '"]');
+        if (!(sameText && field === document.activeElement)) field.value = value === undefined ? '' : value;
+    }
+
+    function renderCharacter(p) {
+        const runs = p.runs || [{ text: p.text }];
+        bar.querySelectorAll('[data-tb-toggle]').forEach(b => {
+            const key = b.getAttribute('data-tb-toggle');
+            press(b, !!p[key] || runs.every(run => run[key]));
+        });
+        bar.querySelectorAll('[data-tb-script]').forEach(b =>
+            press(b, runs.every(run => run.script === b.getAttribute('data-tb-script')))
+        );
+    }
+
+    function renderParagraph(el, sameText) {
+        const p = el.props;
+        bar.querySelectorAll('[data-tb-align]').forEach(b => press(b, p.align === b.getAttribute('data-tb-align')));
+        bar.querySelectorAll('[data-tb-list]').forEach(b => press(b, p.list === b.getAttribute('data-tb-list')));
+        const paras = XiroCanvasEditor.textFormat.paras(el);
+        PARA_FIELDS.forEach(key => {
+            const value = common(paras.map(para => para[key]));
+            setField(key, value === undefined ? '' : String(value), sameText);
+        });
     }
 
     /** Activa la barra con los valores del texto seleccionado (o la desactiva). */
@@ -94,62 +71,45 @@
         bar.title = el ? '' : XiroCanvasEditor.t('tb.idle');
         if (!el) {
             shownId = null;
-            bar.querySelectorAll('.is-on').forEach(b => b.classList.remove('is-on'));
+            bar.querySelectorAll('[aria-pressed]').forEach(b => press(b, false));
             return;
         }
-        // No se pisa el número que se está escribiendo
-        const typing = el.id === shownId && document.activeElement === bar.querySelector('[data-tb="size"]');
+        const sameText = el.id === shownId;
         shownId = el.id;
         const p = el.props;
-        bar.querySelector('[data-tb="font"]').value = p.font;
-        if (!typing) bar.querySelector('[data-tb="size"]').value = p.size;
-        bar.querySelector('[data-tb="color"]').value = p.color.slice(0, 7);
-        bar.querySelectorAll('[data-tb-toggle]').forEach(b =>
-            b.classList.toggle('is-on', !!p[b.getAttribute('data-tb-toggle')])
-        );
-        bar.querySelectorAll('[data-tb-align]').forEach(b =>
-            b.classList.toggle('is-on', p.align === b.getAttribute('data-tb-align'))
-        );
-    }
-
-    function setProp(key, value, silent) {
-        const el = selectedText();
-        if (el) XiroCanvasEditor.updateElement(el.id, { props: { [key]: value }, silent });
+        const runs = p.runs || [{ text: p.text }];
+        setField('font', p.font, sameText);
+        setField('size', p.size, sameText);
+        setField('color', p.color.slice(0, 7), sameText);
+        setField('highlight', (common(runs.map(run => run.highlight)) || DEFAULT_HIGHLIGHT).slice(0, 7), sameText);
+        renderCharacter(p);
+        renderParagraph(el, sameText);
     }
 
     function onField(event, silent) {
+        const el = selectedText();
         const key = event.target.getAttribute('data-tb');
-        if (!key) return;
-        if (key === 'size') {
-            const size = parseFloat(event.target.value);
-            if (Number.isFinite(size)) setProp('size', size, silent);
-            return;
-        }
-        // El desplegable solo avisa con 'change'; el color también con 'input' (vista previa)
-        if (!silent || key === 'color') setProp(key, event.target.value, silent);
+        if (el && key) XiroCanvasEditor.textFormat.field(el, key, event.target.value, silent);
     }
 
     function onClick(event) {
         const el = selectedText();
-        const target = event.target.closest('button');
-        if (!el || !target) return;
-        const step = target.getAttribute('data-tb-step');
-        const toggle = target.getAttribute('data-tb-toggle');
-        const align = target.getAttribute('data-tb-align');
-        if (step) setProp('size', el.props.size + Number(step));
-        if (toggle) setProp(toggle, !el.props[toggle]);
-        if (align) setProp('align', align);
+        const button = event.target.closest('button');
+        if (el && button) XiroCanvasEditor.textFormat.click(el, button);
     }
 
     XiroCanvasEditor.textbar = {
-        html,
         attach(barEl) {
             bar = barEl;
             shownId = null;
-            bar.innerHTML = html();
+            bar.innerHTML = XiroCanvasEditor.textbarHtml.html();
             bar.addEventListener('input', e => onField(e, true));
             bar.addEventListener('change', e => onField(e, false));
             bar.addEventListener('click', onClick);
+            // Los botones no se llevan el foco: así no se pierde la selección del texto que se escribe
+            bar.addEventListener('mousedown', e => {
+                if (e.target.closest('button')) e.preventDefault();
+            });
             XiroCanvasEditor.onRender(render);
             render();
         },

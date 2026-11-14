@@ -242,3 +242,45 @@ textarea.xsce-input { height: auto; min-height: 92px; padding: 8px 10px; line-he
 }
 
 .xsce-dialog .xsce-heading p { margin-top: 4px; font-size: 14px; line-height: 1.45; white-space: normal; color: #475569; }
+
+/* ---- Panel con varios elementos (slides-canvas-props-multi.js) ---- */
+.xsce-stack { display: grid; gap: 8px; }
+.xsce-seg--two { grid-template-columns: repeat(2, 1fr); }
+.xsce-seg-btn:disabled { opacity: 0.32; cursor: default; }
+.xsce-seg-btn:disabled:hover { background: transparent; color: #64748b; }
+.xsce-seg--n4 { grid-template-columns: repeat(4, 1fr); }
+
+/* ---- Menú «Más formas» de la barra (slides-canvas-shape-menu.js) ---- */
+.xsce-shape-menu {
+    position: fixed;
+    z-index: 10050;
+    display: grid;
+    grid-template-columns: repeat(4, 44px);
+    gap: 6px;
+    padding: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius-xl, 12px);
+    background: #ffffff;
+    box-shadow: 0 18px 40px -12px rgba(15, 23, 42, 0.35);
+}
+
+.xsce-shape-option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 8px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: #475569;
+    cursor: pointer;
+}
+
+.xsce-shape-option svg { width: 100%; height: 100%; fill: currentColor; }
+.xsce-shape-option:hover,
+.xsce-shape-option:focus-visible { background: var(--plum-50, #fdf4fb); color: var(--plum-700, #793475); outline: none; }
+
+/* Panel de tabla (fase D): filas y columnas en dos columnas (las celdas se escriben en el lienzo) */
+.xsce-table-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0 8px; }

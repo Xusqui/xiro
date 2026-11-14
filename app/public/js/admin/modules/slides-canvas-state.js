@@ -1,406 +1,201 @@
+/**
+ * @fileoverview Estado del editor de diapositivas libres: lienzo abierto, selección de un
+ * elemento, historial y operaciones de un solo elemento (añadir, cambiar, borrar, duplicar,
+ * capas). La selección múltiple y el portapapeles están en slides-canvas-selection.js.
+ */
 (function () {
     'use strict';
 
     // Espacio de nombres compartido por los módulos del editor (scripts clásicos del admin)
     const root = typeof window !== 'undefined' ? window : globalThis;
     const XiroCanvasEditor = (root.XiroCanvasEditor = root.XiroCanvasEditor || {});
+    const E = XiroCanvasEditor;
 
-    // Requerir el modelo del canvas
-    if (typeof window.XiroSlideCanvas === 'undefined') {
-        // En entorno Node, requerir el modelo
-        if (typeof require !== 'undefined') {
-            // eslint-disable-next-line no-undef -- solo en Jest (CommonJS)
-            window.XiroSlideCanvas = require('../../../core/slide-canvas-model');
-        }
+    if (typeof window.XiroSlideCanvas === 'undefined' && typeof require !== 'undefined') {
+        // eslint-disable-next-line no-undef -- solo en Jest (CommonJS)
+        window.XiroSlideCanvas = require('../../../core/slide-canvas-model');
+    }
+
+    E.state = E.state || {};
+
+    const elements = () => E.state.canvas.elements;
+
+    /** Índice del elemento seleccionado en el array del lienzo, o -1. */
+    function selectedIndex() {
+        const id = E.state.selectedId;
+        return id ? elements().findIndex(el => el.id === id) : -1;
     }
 
     /**
-     * Estado del editor de canvas
+     * Abre un lienzo para editarlo (null crea uno en blanco).
+     * @param {Object|null} canvas - Lienzo guardado.
+     * @param {number|null} index - Posición de la diapositiva en el juego.
      */
-    XiroCanvasEditor.state = XiroCanvasEditor.state || {};
-
-    /**
-     * Abre un canvas para edición
-     * @param {Object} canvas - Canvas a abrir
-     * @param {number} index - Índice del canvas
-     */
-    XiroCanvasEditor.open = function (canvas, index) {
-        // Inicializar el estado
-        XiroCanvasEditor.state.canvas =
-            window.XiroSlideCanvas.normalizeCanvas(canvas) || window.XiroSlideCanvas.createCanvas();
-        XiroCanvasEditor.state.selectedId = null;
-        XiroCanvasEditor.state.mode = 'idle';
-        XiroCanvasEditor.state.index = index;
-
-        // Inicializar historial
-        XiroCanvasEditor.state.history = XiroCanvasEditor.history.createHistory();
-        XiroCanvasEditor.state.history.reset(JSON.stringify(XiroCanvasEditor.state.canvas));
-        XiroCanvasEditor.state.dirty = false;
-
-        // Renderizar
-        XiroCanvasEditor.render();
+    E.open = function (canvas, index) {
+        E.state.canvas = window.XiroSlideCanvas.normalizeCanvas(canvas) || window.XiroSlideCanvas.createCanvas();
+        E.state.selectedId = null;
+        E.state.selectedIds = [];
+        E.state.multiMode = false;
+        E.state.mode = 'idle';
+        E.state.index = index;
+        E.state.history = E.history.createHistory();
+        E.state.history.reset(JSON.stringify(E.state.canvas));
+        E.state.dirty = false;
+        E.render();
     };
 
-    /**
-     * Registra un listener para renderizar
-     * @param {Function} fn - Función de callback para renderizar
-     */
-    XiroCanvasEditor.onRender = function (fn) {
-        if (!XiroCanvasEditor.state.renderListeners) {
-            XiroCanvasEditor.state.renderListeners = [];
-        }
+    /** @param {Function} fn - Se llama con el estado tras cada cambio. */
+    E.onRender = function (fn) {
+        if (!E.state.renderListeners) E.state.renderListeners = [];
         // Sin duplicados: el editor se abre y se cierra muchas veces en la misma página
-        if (XiroCanvasEditor.state.renderListeners.indexOf(fn) < 0) XiroCanvasEditor.state.renderListeners.push(fn);
+        if (E.state.renderListeners.indexOf(fn) < 0) E.state.renderListeners.push(fn);
     };
 
-    /**
-     * Quita un listener de renderizado (al cerrar el editor)
-     * @param {Function} fn - Función registrada con onRender
-     */
-    XiroCanvasEditor.offRender = function (fn) {
-        const list = XiroCanvasEditor.state.renderListeners || [];
+    /** @param {Function} fn - Listener registrado con onRender (al cerrar el editor). */
+    E.offRender = function (fn) {
+        const list = E.state.renderListeners || [];
         const index = list.indexOf(fn);
         if (index >= 0) list.splice(index, 1);
     };
 
-    /**
-     * Renderiza el estado actual
-     */
-    XiroCanvasEditor.render = function () {
-        if (XiroCanvasEditor.state.renderListeners) {
-            for (let i = 0; i < XiroCanvasEditor.state.renderListeners.length; i++) {
-                XiroCanvasEditor.state.renderListeners[i](XiroCanvasEditor.state);
-            }
-        }
+    E.render = function () {
+        (E.state.renderListeners || []).forEach(fn => fn(E.state));
+    };
+
+    /** Guarda el lienzo en el historial y repinta. */
+    E.commit = function () {
+        E.state.history.push(JSON.stringify(E.state.canvas));
+        E.state.dirty = true;
+        E.render();
     };
 
     /**
-     * Confirma los cambios al historial
+     * @param {string} id - Id del elemento.
+     * @returns {Object|null} El elemento (referencia viva) o null.
      */
-    XiroCanvasEditor.commit = function () {
-        XiroCanvasEditor.state.history.push(JSON.stringify(XiroCanvasEditor.state.canvas));
-        XiroCanvasEditor.state.dirty = true;
-        XiroCanvasEditor.render();
+    E.getElement = function (id) {
+        const canvas = E.state.canvas;
+        if (!canvas || !canvas.elements) return null;
+        return canvas.elements.find(el => el.id === id) || null;
+    };
+
+    /** @returns {Object|null} El elemento seleccionado si hay exactamente uno. */
+    E.getSelected = function () {
+        return E.state.selectedId ? E.getElement(E.state.selectedId) : null;
+    };
+
+    /** @param {string|null} id - Elemento a seleccionar (solo él), o null para deseleccionar. */
+    E.select = function (id) {
+        E.state.selectedId = id;
+        E.state.selectedIds = id ? [id] : [];
+        E.state.mode = id ? 'selected' : 'idle';
+        E.render();
+    };
+
+    /** @param {string} mode - 'idle' | 'selected' | 'editing' */
+    E.setMode = function (mode) {
+        E.state.mode = mode;
+        E.render();
     };
 
     /**
-     * Obtiene un elemento por ID
-     * @param {string} id - ID del elemento
-     * @returns {Object|null} Elemento o null si no se encuentra
+     * Añade un elemento delante de todo y lo selecciona.
+     * @param {string} type - text | shape | image | video
+     * @param {Object} overrides - Valores iniciales.
+     * @returns {Object|null} El elemento creado, o null si el tipo no es válido.
      */
-    XiroCanvasEditor.getElement = function (id) {
-        if (!XiroCanvasEditor.state.canvas || !XiroCanvasEditor.state.canvas.elements) {
-            return null;
-        }
-
-        for (let i = 0; i < XiroCanvasEditor.state.canvas.elements.length; i++) {
-            if (XiroCanvasEditor.state.canvas.elements[i].id === id) {
-                return XiroCanvasEditor.state.canvas.elements[i];
-            }
-        }
-
-        return null;
+    E.addElement = function (type, overrides) {
+        const ids = elements().map(el => el.id);
+        const el = window.XiroSlideCanvas.createElement(type, Object.assign({ existingIds: ids }, overrides));
+        if (!el) return null;
+        elements().push(el);
+        E.select(el.id);
+        E.commit();
+        return el;
     };
 
     /**
-     * Obtiene el elemento seleccionado
-     * @returns {Object|null} Elemento seleccionado o null
+     * Aplica un parche normalizado a un elemento; con `silent` repinta sin guardar historial.
+     * @param {string} id - Id del elemento.
+     * @param {Object} patch - Campos (props se fusiona) y `silent` opcional.
      */
-    XiroCanvasEditor.getSelected = function () {
-        if (!XiroCanvasEditor.state.selectedId) {
-            return null;
-        }
-
-        return XiroCanvasEditor.getElement(XiroCanvasEditor.state.selectedId);
-    };
-
-    /**
-     * Selecciona un elemento
-     * @param {string|null} id - ID del elemento a seleccionar o null para deseleccionar
-     */
-    XiroCanvasEditor.select = function (id) {
-        XiroCanvasEditor.state.selectedId = id;
-        XiroCanvasEditor.state.mode = id ? 'selected' : 'idle';
-        XiroCanvasEditor.render();
-    };
-
-    /**
-     * Establece el modo
-     * @param {string} mode - Modo ('idle', 'selected', 'editing')
-     */
-    XiroCanvasEditor.setMode = function (mode) {
-        XiroCanvasEditor.state.mode = mode;
-        XiroCanvasEditor.render();
-    };
-
-    /**
-     * Agrega un elemento al canvas
-     * @param {string} type - Tipo de elemento
-     * @param {Object} overrides - Valores a sobrescribir
-     * @returns {Object|null} Elemento creado o null si falla
-     */
-    XiroCanvasEditor.addElement = function (type, overrides) {
-        let ids = XiroCanvasEditor.state.canvas.elements.map(function (el) {
-            return el.id;
-        });
-        let el = window.XiroSlideCanvas.createElement(type, Object.assign({ existingIds: ids }, overrides));
-
-        if (el) {
-            // Agregar al final (al frente)
-            XiroCanvasEditor.state.canvas.elements.push(el);
-            XiroCanvasEditor.select(el.id);
-            XiroCanvasEditor.commit();
-            return el;
-        }
-
-        return null;
-    };
-
-    /**
-     * Actualiza un elemento
-     * @param {string} id - ID del elemento
-     * @param {Object} patch - Cambios a aplicar
-     */
-    XiroCanvasEditor.updateElement = function (id, patch) {
-        let element = XiroCanvasEditor.getElement(id);
+    E.updateElement = function (id, patch) {
+        const element = E.getElement(id);
         if (!element) return;
-
-        // Fusionar el parche con el elemento actual
-        let newElement = Object.assign({}, element);
-
-        // Actualizar propiedades principales
-        for (let key in patch) {
-            if (key === 'props') {
-                // Manejar props como un objeto separado
-                if (!newElement.props) newElement.props = {};
-                for (let propKey in patch.props) {
-                    newElement.props[propKey] = patch.props[propKey];
-                }
-            } else {
-                newElement[key] = patch[key];
-            }
-        }
-
-        // Normalizar el elemento
-        let normalized = window.XiroSlideCanvas.normalizeElement(newElement);
-
-        if (normalized) {
-            // Reemplazar en el canvas
-            for (let i = 0; i < XiroCanvasEditor.state.canvas.elements.length; i++) {
-                if (XiroCanvasEditor.state.canvas.elements[i].id === id) {
-                    XiroCanvasEditor.state.canvas.elements[i] = normalized;
-                    break;
-                }
-            }
-
-            // No hacer commit si es silencioso
-            if (!patch.silent) {
-                XiroCanvasEditor.commit();
-            } else {
-                XiroCanvasEditor.render();
-            }
-        }
+        const merged = Object.assign({}, element);
+        Object.keys(patch).forEach(key => {
+            if (key === 'props') merged.props = Object.assign({}, element.props, patch.props);
+            else if (key !== 'silent') merged[key] = patch[key];
+        });
+        const normalized = window.XiroSlideCanvas.normalizeElement(merged);
+        if (!normalized) return;
+        elements()[elements().indexOf(element)] = normalized;
+        if (patch.silent) E.render();
+        else E.commit();
     };
 
-    /**
-     * Actualiza el fondo del canvas
-     * @param {Object} patch - Cambios a aplicar al fondo
-     */
-    XiroCanvasEditor.setBackground = function (patch) {
-        // Fusionar con el fondo actual
-        let newBackground = Object.assign({}, XiroCanvasEditor.state.canvas.background);
-
-        for (let key in patch) {
-            newBackground[key] = patch[key];
-        }
-
-        // Normalizar el canvas completo
-        XiroCanvasEditor.state.canvas.background = window.XiroSlideCanvas.normalizeCanvas({
-            background: newBackground,
-            elements: XiroCanvasEditor.state.canvas.elements
+    /** @param {Object} patch - Cambios del fondo (se normaliza con el lienzo). */
+    E.setBackground = function (patch) {
+        const background = Object.assign({}, E.state.canvas.background, patch);
+        E.state.canvas.background = window.XiroSlideCanvas.normalizeCanvas({
+            background,
+            elements: elements()
         }).background;
-
-        XiroCanvasEditor.commit();
+        E.commit();
     };
 
-    /**
-     * Elimina el elemento seleccionado
-     */
-    XiroCanvasEditor.removeSelected = function () {
-        if (!XiroCanvasEditor.state.selectedId) return;
-
-        let index = -1;
-        for (let i = 0; i < XiroCanvasEditor.state.canvas.elements.length; i++) {
-            if (XiroCanvasEditor.state.canvas.elements[i].id === XiroCanvasEditor.state.selectedId) {
-                index = i;
-                break;
-            }
-        }
-
-        if (index !== -1) {
-            XiroCanvasEditor.state.canvas.elements.splice(index, 1);
-            XiroCanvasEditor.select(null);
-            XiroCanvasEditor.commit();
-        }
+    /** Elimina el elemento seleccionado. */
+    E.removeSelected = function () {
+        const index = selectedIndex();
+        if (index < 0) return;
+        elements().splice(index, 1);
+        E.select(null);
+        E.commit();
     };
 
-    /**
-     * Duplica el elemento seleccionado
-     */
-    XiroCanvasEditor.duplicateSelected = function () {
-        let selected = XiroCanvasEditor.getSelected();
-        if (!selected) return;
-
-        // Crear una copia del elemento
-        let newElement = JSON.parse(JSON.stringify(selected));
-        newElement.id = window.XiroSlideCanvas.newId(XiroCanvasEditor.state.canvas.elements.map(el => el.id));
-        newElement.x += 40;
-        newElement.y += 40;
-
-        // Insertar justo encima del original
-        let index = -1;
-        for (let i = 0; i < XiroCanvasEditor.state.canvas.elements.length; i++) {
-            if (XiroCanvasEditor.state.canvas.elements[i].id === selected.id) {
-                index = i;
-                break;
-            }
-        }
-
-        if (index !== -1) {
-            XiroCanvasEditor.state.canvas.elements.splice(index + 1, 0, newElement);
-            XiroCanvasEditor.select(newElement.id);
-            XiroCanvasEditor.commit();
-        }
+    /** Duplica el elemento seleccionado justo encima del original, desplazado 40 px. */
+    E.duplicateSelected = function () {
+        const index = selectedIndex();
+        if (index < 0) return;
+        const copy = JSON.parse(JSON.stringify(elements()[index]));
+        copy.id = window.XiroSlideCanvas.newId(elements().map(el => el.id));
+        copy.x += 40;
+        copy.y += 40;
+        elements().splice(index + 1, 0, copy);
+        E.select(copy.id);
+        E.commit();
     };
 
-    /**
-     * Mueve el elemento seleccionado al frente
-     */
-    XiroCanvasEditor.bringToFront = function () {
-        if (!XiroCanvasEditor.state.selectedId) return;
+    /** Lleva el seleccionado a la capa que devuelve target(índice, total). */
+    function moveLayer(target) {
+        const index = selectedIndex();
+        if (index < 0) return;
+        const to = Math.max(0, Math.min(elements().length - 1, target(index, elements().length)));
+        if (to === index) return;
+        elements().splice(to, 0, elements().splice(index, 1)[0]);
+        E.commit();
+    }
 
-        let index = -1;
-        for (let i = 0; i < XiroCanvasEditor.state.canvas.elements.length; i++) {
-            if (XiroCanvasEditor.state.canvas.elements[i].id === XiroCanvasEditor.state.selectedId) {
-                index = i;
-                break;
-            }
-        }
+    E.bringToFront = () => moveLayer((i, total) => total - 1);
+    E.sendToBack = () => moveLayer(() => 0);
+    E.bringForward = () => moveLayer(i => i + 1);
+    E.sendBackward = () => moveLayer(i => i - 1);
 
-        if (index !== -1 && index < XiroCanvasEditor.state.canvas.elements.length - 1) {
-            let element = XiroCanvasEditor.state.canvas.elements.splice(index, 1)[0];
-            XiroCanvasEditor.state.canvas.elements.push(element);
-            XiroCanvasEditor.commit();
-        }
-    };
+    /** Restaura una instantánea del historial; la selección olvida lo que ya no existe. */
+    function restore(snapshot) {
+        if (!snapshot) return;
+        E.state.canvas = JSON.parse(snapshot);
+        if (E.state.selectedId && !E.getElement(E.state.selectedId)) E.state.selectedId = null;
+        E.render();
+        E.state.dirty = true;
+    }
 
-    /**
-     * Mueve el elemento seleccionado al fondo
-     */
-    XiroCanvasEditor.sendToBack = function () {
-        if (!XiroCanvasEditor.state.selectedId) return;
+    E.undo = () => restore(E.state.history.undo());
+    E.redo = () => restore(E.state.history.redo());
 
-        let index = -1;
-        for (let i = 0; i < XiroCanvasEditor.state.canvas.elements.length; i++) {
-            if (XiroCanvasEditor.state.canvas.elements[i].id === XiroCanvasEditor.state.selectedId) {
-                index = i;
-                break;
-            }
-        }
-
-        if (index !== -1 && index > 0) {
-            let element = XiroCanvasEditor.state.canvas.elements.splice(index, 1)[0];
-            XiroCanvasEditor.state.canvas.elements.unshift(element);
-            XiroCanvasEditor.commit();
-        }
-    };
-
-    /**
-     * Mueve el elemento seleccionado hacia adelante
-     */
-    XiroCanvasEditor.bringForward = function () {
-        if (!XiroCanvasEditor.state.selectedId) return;
-
-        let index = -1;
-        for (let i = 0; i < XiroCanvasEditor.state.canvas.elements.length; i++) {
-            if (XiroCanvasEditor.state.canvas.elements[i].id === XiroCanvasEditor.state.selectedId) {
-                index = i;
-                break;
-            }
-        }
-
-        if (index !== -1 && index < XiroCanvasEditor.state.canvas.elements.length - 1) {
-            let element = XiroCanvasEditor.state.canvas.elements.splice(index, 1)[0];
-            XiroCanvasEditor.state.canvas.elements.splice(index + 1, 0, element);
-            XiroCanvasEditor.commit();
-        }
-    };
-
-    /**
-     * Mueve el elemento seleccionado hacia atrás
-     */
-    XiroCanvasEditor.sendBackward = function () {
-        if (!XiroCanvasEditor.state.selectedId) return;
-
-        let index = -1;
-        for (let i = 0; i < XiroCanvasEditor.state.canvas.elements.length; i++) {
-            if (XiroCanvasEditor.state.canvas.elements[i].id === XiroCanvasEditor.state.selectedId) {
-                index = i;
-                break;
-            }
-        }
-
-        if (index !== -1 && index > 0) {
-            let element = XiroCanvasEditor.state.canvas.elements.splice(index, 1)[0];
-            XiroCanvasEditor.state.canvas.elements.splice(index - 1, 0, element);
-            XiroCanvasEditor.commit();
-        }
-    };
-
-    /**
-     * Deshace la última acción
-     */
-    XiroCanvasEditor.undo = function () {
-        let snapshot = XiroCanvasEditor.state.history.undo();
-        if (snapshot) {
-            let canvas = JSON.parse(snapshot);
-            XiroCanvasEditor.state.canvas = canvas;
-
-            // Mantener selección si el elemento aún existe
-            if (XiroCanvasEditor.state.selectedId && !XiroCanvasEditor.getElement(XiroCanvasEditor.state.selectedId)) {
-                XiroCanvasEditor.state.selectedId = null;
-            }
-
-            XiroCanvasEditor.render();
-            XiroCanvasEditor.state.dirty = true;
-        }
-    };
-
-    /**
-     * Rehace la última acción deshecha
-     */
-    XiroCanvasEditor.redo = function () {
-        let snapshot = XiroCanvasEditor.state.history.redo();
-        if (snapshot) {
-            let canvas = JSON.parse(snapshot);
-            XiroCanvasEditor.state.canvas = canvas;
-
-            // Mantener selección si el elemento aún existe
-            if (XiroCanvasEditor.state.selectedId && !XiroCanvasEditor.getElement(XiroCanvasEditor.state.selectedId)) {
-                XiroCanvasEditor.state.selectedId = null;
-            }
-
-            XiroCanvasEditor.render();
-            XiroCanvasEditor.state.dirty = true;
-        }
-    };
-
-    /**
-     * Obtiene una copia profunda del canvas
-     * @returns {Object} Copia del canvas
-     */
-    XiroCanvasEditor.getCanvas = function () {
-        return JSON.parse(JSON.stringify(XiroCanvasEditor.state.canvas));
+    /** @returns {Object} Copia profunda del lienzo. */
+    E.getCanvas = function () {
+        return JSON.parse(JSON.stringify(E.state.canvas));
     };
 
     if (typeof module !== 'undefined' && module.exports) module.exports = XiroCanvasEditor;

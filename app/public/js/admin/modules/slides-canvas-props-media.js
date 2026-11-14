@@ -10,7 +10,7 @@
     const XiroCanvasEditor = (root.XiroCanvasEditor = root.XiroCanvasEditor || {});
     XiroCanvasEditor.propsByType = XiroCanvasEditor.propsByType || {};
 
-    const isClosed = el => el.props.shape === 'rect' || el.props.shape === 'ellipse';
+    const isClosed = el => ['rect', 'ellipse', 'path'].indexOf(el.props.shape) >= 0;
 
     XiroCanvasEditor.propsByType.shape = {
         title: 'type.shape',
@@ -43,7 +43,15 @@
                     ['cover', 'image_fit.cover']
                 ]
             },
-            { key: 'radius', label: 'field.radius', kind: 'number', min: 0, max: 540 }
+            { key: 'radius', label: 'field.radius', kind: 'number', min: 0, max: 540 },
+            { key: 'borderWidth', label: 'field.border_width', kind: 'number', min: 0, max: 40 },
+            {
+                key: 'borderColor',
+                label: 'field.border_color',
+                kind: 'color',
+                when: el => !!el.props.borderWidth
+            },
+            { key: 'alt', label: 'field.alt', kind: 'textarea', rows: 2 }
         ]
     };
 

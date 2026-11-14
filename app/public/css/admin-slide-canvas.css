@@ -92,12 +92,43 @@
     background: transparent;
     line-height: 1.2;
     white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
     overflow: hidden;
     resize: none;
     pointer-events: auto;
     user-select: text;
     -webkit-user-select: text;
     caret-color: currentColor;
+}
+
+/* Celda de tabla en edición (slides-canvas-table-celledit.js): el marco copia la caja y el giro
+   de la tabla; el cuadro tapa la celda con su fondo, su relleno y el contorno del texto, por
+   dentro para no tapar las celdas vecinas */
+.xsce-celledit-frame {
+    position: absolute;
+    pointer-events: none;
+}
+
+.xsce-celledit {
+    position: absolute;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0.25em 0.5em;
+    border: 0;
+    outline: 3px dashed var(--plum-500, #b05baa);
+    outline-offset: -3px;
+    line-height: 1.2;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    resize: none;
+    pointer-events: auto;
+    caret-color: currentColor;
+}
+
+.xsce-celledit--head {
+    font-weight: 700;
 }
 
 /* Miniatura de la tarjeta en la lista del juego (240x135 = lienzo al 12,5 %) */
@@ -110,4 +141,36 @@
 .xsce-thumb--sm .xsc-stage {
     -webkit-transform: scale(0.1);
     transform: scale(0.1);
+}
+
+/* ---- Fase A: varios seleccionados, bloqueados y marco de selección ---- */
+/* Varios seleccionados: un recuadro por elemento, sin tiradores (el grosor lo pone stage.js) */
+.xsce-selection--multi {
+    outline-style: dashed;
+}
+
+/* Bloqueado: recuadro gris con candado; se selecciona pero no se mueve ni se redimensiona */
+.xsce-selection--locked {
+    outline-color: #64748b;
+    outline-style: dashed;
+}
+
+.xsce-selection--locked::after {
+    content: '\f023';
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 6px 8px;
+    border-radius: 0 0 0 10px;
+    background: #64748b;
+    color: #ffffff;
+    font: 900 32px / 1 'Font Awesome 6 Free';
+}
+
+.xsce-marquee {
+    position: absolute;
+    box-sizing: border-box;
+    border: 1px solid var(--plum-500, #b05baa);
+    background: rgba(176, 91, 170, 0.12);
+    pointer-events: none;
 }

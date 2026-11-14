@@ -1,7 +1,8 @@
 /**
  * @fileoverview Escenario editable del editor de diapositivas libres: pinta el lienzo con
  * core/slide-canvas-render.js (modo 'editor') y, dentro del propio escenario de 1920x1080,
- * una capa con la selección, los tiradores, las guías y el cuadro de edición de texto.
+ * una capa con la selección, los tiradores, las guías y el cuadro de edición de texto
+ * (slides-canvas-textedit.js).
  * Todo se coloca en unidades lógicas, así que la escala del lienzo no altera la geometría;
  * solo el tamaño en pantalla de tiradores y guías.
  */
@@ -21,20 +22,9 @@
         sw: [0, 1],
         w: [0, 0.5]
     };
-    const TEXT_STYLE_KEYS = [
-        'fontFamily',
-        'fontSize',
-        'fontWeight',
-        'fontStyle',
-        'color',
-        'textAlign',
-        'backgroundColor'
-    ];
-
     let host = null;
     let mounted = null;
     let overlay = null;
-    let editingId = null;
 
     function px(v) {
         return v + 'px';
@@ -77,9 +67,22 @@
         handle.style.top = px(y - size / 2);
     }
 
-    /** Selección: caja girada con 8 tiradores, o 2 extremos en líneas y flechas. */
-    function drawSelection(el) {
+    /** Selección: tiradores solo con un elemento sin bloquear; si no, un recuadro por elemento. */
+    function drawSelection(list) {
         overlay.querySelectorAll('.xsce-selection, .xsce-handle--p1, .xsce-handle--p2').forEach(n => n.remove());
+        if (list.length === 1 && !list[0].locked) return drawSingle(list[0]);
+        list.forEach(el => {
+            const kind = el.locked ? 'xsce-selection--locked' : 'xsce-selection--multi';
+            addDiv(overlay, 'xsce-selection ' + kind, el).style.outlineWidth = px(2 / scale());
+        });
+    }
+
+    function selectedList() {
+        return XiroCanvasEditor.getSelectedIds().map(XiroCanvasEditor.getElement);
+    }
+
+    /** Un elemento libre: caja girada con 8 tiradores, o 2 extremos en líneas y flechas. */
+    function drawSingle(el) {
         if (isLine(el)) {
             const p = XiroCanvasEditor.geometry.lineEndpoints(el);
             addHandle(overlay, 'p1', p.x1, p.y1);
@@ -97,46 +100,29 @@
         return mounted ? mounted.stage.querySelector('[data-el-id="' + id + '"]') : null;
     }
 
-    function finishTextEdit() {
-        if (!editingId) return;
-        editingId = null;
-        XiroCanvasEditor.setMode('selected');
-        XiroCanvasEditor.commit();
+    // Celdas de tabla (slides-canvas-table-celledit.js); opcional para las suites que no lo cargan
+    const cellEdit = () => XiroCanvasEditor.tableCellEdit || null;
+
+    function isWriting() {
+        const cells = cellEdit();
+        return XiroCanvasEditor.textEdit.isOpenIn(overlay) || !!(cells && cells.isOpenIn(overlay));
     }
 
-    /** Cuadro de texto editable encima del elemento (el original se oculta mientras tanto). */
-    function startTextEdit(el) {
-        editingId = el.id;
-        const node = elementNode(el.id);
-        const text = node ? node.querySelector('.xsc-text') : null;
-        if (node) node.style.visibility = 'hidden';
-        const area = document.createElement('textarea');
-        area.className = 'xsce-textedit';
-        placeBox(area, el);
-        if (text)
-            TEXT_STYLE_KEYS.forEach(key => {
-                area.style[key] = text.style[key];
-            });
-        area.value = el.props.text;
-        overlay.appendChild(area);
-        area.addEventListener('input', () =>
-            XiroCanvasEditor.updateElement(el.id, { props: { text: area.value }, silent: true })
-        );
-        area.addEventListener('keydown', event => {
-            event.stopPropagation();
-            if (event.key === 'Escape') {
-                event.preventDefault();
-                area.blur();
-            }
-        });
-        area.addEventListener('blur', finishTextEdit);
-        area.focus();
-        area.setSelectionRange(area.value.length, area.value.length);
+    /** En modo edición abre el cuadro del texto o la celda de la tabla seleccionada. */
+    function startEditing(el) {
+        if (!el || XiroCanvasEditor.state.mode !== 'editing') return;
+        if (el.type === 'text') XiroCanvasEditor.textEdit.start(el, overlay, elementNode(el.id));
+        else if (el.type === 'table' && cellEdit()) cellEdit().start(el, overlay, elementNode(el.id));
+    }
+
+    function resetEditors() {
+        XiroCanvasEditor.textEdit.reset();
+        if (cellEdit()) cellEdit().reset();
     }
 
     /** Repinta lienzo y capa; no lo hace mientras se escribe (perdería el foco). */
     function refresh() {
-        if (!host || (editingId && overlay && overlay.querySelector('.xsce-textedit'))) return;
+        if (!host || isWriting()) return;
         if (mounted) mounted.destroy();
         const state = XiroCanvasEditor.state;
         mounted = root.XiroSlideCanvasRender.mount(host, state.canvas, {
@@ -144,19 +130,31 @@
             labels: XiroCanvasEditor.videoLabels()
         });
         overlay = addDiv(mounted.stage, 'xsce-overlay');
-        const el = XiroCanvasEditor.getSelected();
-        if (!el) return;
-        drawSelection(el);
-        if (state.mode === 'editing' && el.type === 'text') startTextEdit(el);
+        drawSelection(selectedList());
+        startEditing(XiroCanvasEditor.getSelected());
     }
 
-    /** Durante un arrastre: mueve el nodo y la selección sin repintar todo el lienzo. */
-    function previewBox(id, b) {
-        const node = elementNode(id);
-        const el = XiroCanvasEditor.getElement(id);
-        if (!node || !el) return;
-        placeBox(node, b);
-        drawSelection(Object.assign({}, el, b));
+    /**
+     * Durante un arrastre: mueve los nodos y la selección sin repintar todo el lienzo.
+     * @param {Object<string, Object>} boxes - Caja lógica nueva por id.
+     */
+    function previewBoxes(boxes) {
+        Object.keys(boxes).forEach(id => {
+            const node = elementNode(id);
+            if (node) placeBox(node, boxes[id]);
+        });
+        drawSelection(selectedList().map(el => Object.assign({}, el, boxes[el.id])));
+    }
+
+    /** Marco de selección en unidades lógicas; null lo quita. */
+    function showMarquee(rect) {
+        const old = overlay ? overlay.querySelector('.xsce-marquee') : null;
+        if (old) old.remove();
+        if (!overlay || !rect) return;
+        const x = Math.min(rect.x, rect.x + rect.w);
+        const y = Math.min(rect.y, rect.y + rect.h);
+        const box = { x, y, w: Math.abs(rect.w), h: Math.abs(rect.h) };
+        addDiv(overlay, 'xsce-marquee', box).style.borderWidth = px(1 / scale());
     }
 
     function showGuides(guides) {
@@ -178,7 +176,7 @@
     XiroCanvasEditor.stage = {
         attach(hostEl) {
             host = hostEl;
-            editingId = null;
+            resetEditors();
             XiroCanvasEditor.onRender(refresh);
             window.addEventListener('resize', onResize);
             refresh();
@@ -190,14 +188,17 @@
             host = null;
             mounted = null;
             overlay = null;
-            editingId = null;
+            resetEditors();
         },
         refresh,
-        previewBox,
+        previewBox: (id, box) => previewBoxes({ [id]: box }),
+        previewBoxes,
+        showMarquee,
+        stageNode: () => (mounted ? mounted.stage : null),
         showGuides,
         hideGuides,
         getScale: scale,
-        isEditingText: () => editingId !== null
+        isEditingText: () => XiroCanvasEditor.textEdit.isEditing() || !!(cellEdit() && cellEdit().isEditing())
     };
 
     if (typeof module !== 'undefined' && module.exports) module.exports = XiroCanvasEditor.stage;

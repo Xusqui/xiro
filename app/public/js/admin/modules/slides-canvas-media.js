@@ -90,7 +90,12 @@
         });
     }
 
-    function open(kind, onDone) {
+    /**
+     * @param {string} kind - image | video
+     * @param {Function} onDone - Recibe { src, ratio } (imagen) o { url } (vídeo).
+     * @param {string} [current] - Dirección actual al cambiar una imagen o vídeo (sale en la casilla).
+     */
+    function open(kind, onDone, current) {
         close();
         const modal = document.createElement('div');
         modal.id = MODAL_ID;
@@ -115,12 +120,15 @@
                 if (url) document.getElementById('lienzoMediaUrl').value = url;
             });
         }
-        document.getElementById('lienzoMediaUrl').focus();
+        const address = document.getElementById('lienzoMediaUrl');
+        // Por .value, no en el HTML: la dirección no pasa por el parser
+        if (typeof current === 'string') address.value = current;
+        address.focus();
     }
 
     XiroCanvasEditor.media = {
-        openImage: onDone => open('image', onDone),
-        openVideo: onDone => open('video', onDone),
+        openImage: (onDone, current) => open('image', onDone, current),
+        openVideo: (onDone, current) => open('video', onDone, current),
         close
     };
 
