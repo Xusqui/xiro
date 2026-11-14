@@ -19,7 +19,16 @@
     const E = (root.XiroCanvasEditor = root.XiroCanvasEditor || {});
 
     // Estilo del cuadro que se copia del texto pintado, para que editar no cambie su aspecto
-    const STYLE_KEYS = ['fontFamily', 'fontSize', 'fontWeight', 'fontStyle', 'color', 'textAlign', 'backgroundColor', 'textDecoration'];
+    const STYLE_KEYS = [
+        'fontFamily',
+        'fontSize',
+        'fontWeight',
+        'fontStyle',
+        'color',
+        'textAlign',
+        'backgroundColor',
+        'textDecoration'
+    ];
     const BOX_KEYS = ['left', 'top', 'width', 'height', 'transform', 'webkitTransform'];
 
     let editingId = null;
@@ -163,6 +172,18 @@
         box: () => box,
         /** @returns {Array<HTMLElement>} Las líneas (párrafos) del cuadro abierto. */
         lines: lineNodes,
+        /**
+         * La selección del cuadro sin tocar el foco (la guardada si la edición está aparcada), para
+         * leerla al pintar la barra sin quitarle el foco al campo de color.
+         * @returns {Range|null}
+         */
+        range() {
+            if (!box) return null;
+            if (savedRange) return savedRange;
+            const selection = root.getSelection ? root.getSelection() : null;
+            const range = selection && selection.rangeCount ? selection.getRangeAt(0) : null;
+            return range && box.contains(range.commonAncestorContainer) ? range : null;
+        },
         renumber,
         save,
         /**

@@ -134,7 +134,39 @@
         return range && el ? E.richTextDom.formatAt(range.startContainer, T.box(), el.props) : null;
     }
 
-    Object.assign(T, { style, paragraph, selectionFormat, tab });
+    /** Si la selección cubre algún carácter del nodo de texto (no solo su borde). */
+    function coversText(range, text) {
+        if (!range.intersectsNode(text) || !text.nodeValue) return false;
+        if (text === range.endContainer && range.endOffset === 0) return false;
+        return !(text === range.startContainer && range.startOffset >= text.nodeValue.length);
+    }
+
+    function textNodesIn(range, box) {
+        if (range.collapsed) return [range.startContainer];
+        const walker = document.createTreeWalker(box, root.NodeFilter.SHOW_TEXT);
+        const nodes = [];
+        while (walker.nextNode()) if (coversText(range, walker.currentNode)) nodes.push(walker.currentNode);
+        return nodes.length ? nodes : [range.startContainer];
+    }
+
+    /**
+     * Formato de lo seleccionado, para pintar la barra (no toca el foco ni la selección).
+     * @returns {{formats: Array<Object>, paras: Array<Object>}|null} Formato de cada trozo de texto
+     *   seleccionado (o del punto del cursor) y de cada párrafo que toca; null sin selección.
+     */
+    function selectionSummary() {
+        const range = T.range();
+        const el = E.getSelected();
+        if (!range || !el) return null;
+        const box = T.box();
+        const lines = T.lines().filter(line => range.intersectsNode(line));
+        return {
+            formats: textNodesIn(range, box).map(n => E.richTextDom.formatAt(n, box, el.props)),
+            paras: lines.length ? lines.map(E.richTextDom.paraOf) : [{}]
+        };
+    }
+
+    Object.assign(T, { style, paragraph, selectionFormat, selectionSummary, tab });
 
     if (typeof module !== 'undefined' && module.exports) module.exports = T;
 })();

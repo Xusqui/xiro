@@ -64,7 +64,7 @@ function _lienzoModalHtml(modal) {
         </header>
         <div class="xsce-bars">
             ${E.toolbar.html()}
-            <fieldset id="lienzoTextbar" class="xsce-textbar xsce-bar" aria-label="${th('text_format')}" disabled></fieldset>
+            <fieldset id="lienzoTextbar" class="xsce-textbar xsce-bar" disabled></fieldset>
         </div>
         <div class="xsce-workspace">
             <div class="xsce-desk"><div id="lienzoStageHost" class="xsce-host"></div></div>
@@ -74,6 +74,8 @@ function _lienzoModalHtml(modal) {
             ${_LIENZO_HINTS.map(id => `<span><kbd>${th('hint_' + id + '_key')}</kbd>${th('hint_' + id)}</span>`).join('')}
         </p>`;
 }
+
+let _lienzoToolbarKeys = null;
 
 /** Pinta la interfaz del editor y le engancha escenario, puntero, panel y barras (sin tocar el estado). */
 function _lienzoMount(modal) {
@@ -85,6 +87,8 @@ function _lienzoMount(modal) {
     E.textbar.attach(document.getElementById('lienzoTextbar'));
     E.onRender(E.toolbar.refresh);
     E.toolbar.refresh(E.state);
+    // Una parada de Tab y flechas en la barra de objetos (slides-canvas-roving.js)
+    _lienzoToolbarKeys = E.roving ? E.roving.attach(modal.querySelector('.xsce-toolbar')) : null;
 }
 
 function _lienzoUnmount() {
@@ -95,6 +99,8 @@ function _lienzoUnmount() {
     E.textbar.detach();
     E.offRender(E.toolbar.refresh);
     E.shapeMenu.close();
+    if (_lienzoToolbarKeys) _lienzoToolbarKeys.detach();
+    _lienzoToolbarKeys = null;
 }
 
 /**

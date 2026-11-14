@@ -1,16 +1,55 @@
 /*
  * Barra de formato tipo Word del editor de diapositivas libres (slides-canvas-textbar-html.js):
- * letra, carácter, párrafo y espaciado. Cada grupo baja de línea entero cuando no cabe; en el
- * móvil la barra se desplaza en horizontal como las demás (admin-slide-canvas-ui.css).
+ * letra, carácter, alineación, listas y párrafo, en una fila desde 1280 px. Los grupos se separan
+ * con espacio (sin rayas: al partirse la barra quedarían colgando) y cada uno baja de línea entero
+ * si no cabe; en el móvil la barra se desplaza en horizontal como las demás. El espaciado y los
+ * tipos de numeración van en paneles fijos bajo su botón (slides-canvas-textbar-pop.js). Los
+ * controles van en una fila con role="toolbar" dentro del <fieldset> (que no admite ese rol).
  */
-.xsce-textbar {
+.xsce-textbar { max-width: 100%; }
+
+.xsce-tb-row {
+    display: flex;
+    flex: 1 1 auto;
     flex-wrap: wrap;
     justify-content: center;
-    row-gap: 4px;
-    max-width: 100%;
+    align-items: center;
+    gap: 4px 14px;
+    min-width: 0;
 }
 
-.xsce-textbar:disabled > * { opacity: 0.4; }
+/* Botones algo más estrechos que los de la barra de herramientas: caben más sin bajar de 24 px */
+.xsce-textbar .xsce-tool { min-width: 34px; padding: 0 7px; }
+/* Flecha del menú de numeración: estrecha, pero sin bajar del objetivo mínimo de 24 px */
+.xsce-textbar .xsce-tool[data-tb-pop="numbering"] { min-width: 24px; padding: 0 4px; font-size: 11px; }
+
+/*
+ * Sin texto seleccionado: los controles con la misma opacidad que un botón desactivado (una
+ * sola vez, no la de la barra por la del botón) y encima, a la vista, qué hacer.
+ */
+.xsce-textbar { position: relative; }
+.xsce-textbar:disabled :is(.xsce-tb-select, .xsce-tb-field, .xsce-tb-color > i) { opacity: var(--xsce-off, 0.4); }
+
+.xsce-tb-idle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    max-width: calc(100% - 16px);
+    padding: 7px 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #334155;
+    font: 600 13px var(--font-body, 'DM Sans', sans-serif);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-shadow: 0 4px 12px -6px rgba(15, 23, 42, 0.25);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.xsce-tb-idle[hidden] { display: none; }
 
 .xsce-tb-group {
     display: inline-flex;
@@ -19,7 +58,7 @@
 }
 
 .xsce-tb-select,
-.xsce-tb-size,
+.xsce-tb-field,
 .xsce-tb-num {
     height: 34px;
     border: 1px solid #e2e8f0;
@@ -30,7 +69,7 @@
 }
 
 .xsce-tb-select { max-width: 150px; padding: 0 6px; cursor: pointer; }
-.xsce-tb-font { max-width: 200px; padding: 0 8px; margin-right: 2px; }
+.xsce-tb-font { max-width: 168px; padding: 0 8px; margin-right: 2px; }
 
 .xsce-tb-size,
 .xsce-tb-num {
@@ -40,7 +79,9 @@
     -moz-appearance: textfield;
 }
 
-.xsce-tb-size { width: 52px; }
+/* Tamaño con su unidad dentro de la misma caja */
+.xsce-tb-field { display: inline-flex; align-items: center; gap: 2px; padding: 0 8px 0 0; }
+.xsce-tb-field .xsce-tb-size { width: 40px; height: 32px; padding: 0 0 0 6px; border: 0; background: transparent; color: inherit; font: inherit; text-align: right; }
 .xsce-tb-num { width: 46px; }
 .xsce-tb-num::placeholder { color: #64748b; }
 
@@ -49,18 +90,18 @@
 .xsce-tb-num::-webkit-inner-spin-button,
 .xsce-tb-num::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 
+/*
+ * Foco: borde plum-500 (4,3:1 sobre blanco) y, con el teclado, el anillo común del editor
+ * (:focus-visible en admin-slide-canvas-ui.css). En el tamaño el anillo rodea la caja entera.
+ */
 .xsce-tb-select:focus,
-.xsce-tb-size:focus,
-.xsce-tb-num:focus {
-    border-color: var(--plum-400, #cd81c6);
-    background: #ffffff;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(176, 91, 170, 0.18);
-}
+.xsce-tb-num:focus,
+.xsce-tb-field:focus-within { border-color: var(--plum-500, #b05baa); background: #ffffff; }
+.xsce-tb-field .xsce-tb-size:focus-visible { outline: none; }
+.xsce-tb-field:focus-within { outline: 2px solid var(--plum-500, #b05baa); outline-offset: 2px; }
 
-/* Icono que nombra el campo (color, resaltado, interlineado, espacios) pegado a su control */
-.xsce-tb-color,
-.xsce-tb-field {
+/* Icono que nombra el campo (color, resaltado) pegado a su control */
+.xsce-tb-color {
     display: inline-flex;
     align-items: center;
     gap: 3px;
@@ -69,9 +110,29 @@
     font-size: 12px;
 }
 
-.xsce-tb-color .xsce-swatch { width: 26px; height: 26px; margin: 0 2px 0 0; }
+.xsce-tb-color .xsce-swatch { width: 32px; height: 32px; margin: 0 2px 0 0; }
 
-.xsce-tb-field svg {
+/* Sin resaltado: rayas encima del color del campo (que guarda el del rotulador, no el del texto) */
+.xsce-swatch.is-empty::-webkit-color-swatch { background-image: repeating-linear-gradient(135deg, #ffffff 0 3px, #cbd5e1 3px 5px); }
+.xsce-swatch.is-empty::-moz-color-swatch { background-image: repeating-linear-gradient(135deg, #ffffff 0 3px, #cbd5e1 3px 5px); }
+/* Resaltado solo en parte: el mismo contorno discontinuo que los botones «mixtos» */
+.xsce-swatch.is-mixed:not(:focus-visible) { outline: 1px dashed var(--plum-500, #b05baa); outline-offset: 1px; }
+
+/* Rotulador: la raya de debajo enseña el color que aplicará */
+.xsce-textbar .xsce-tool[data-tb-mark] { position: relative; }
+.xsce-tb-mark {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 6px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--xsce-mark, #ffff00);
+    box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.18);
+}
+.xsce-textbar .xsce-tool[data-tb-mark] .fa-highlighter { transform: translateY(-2px); }
+
+.xsce-tb-svg {
     width: 16px;
     height: 16px;
     flex-shrink: 0;
@@ -88,7 +149,59 @@
     text-align: center;
 }
 
+/* ---- Paneles de la barra: espaciado del párrafo y tipos de numeración ---- */
+.xsce-tb-pop {
+    position: fixed;
+    z-index: 10050;
+    padding: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius-xl, 12px);
+    background: #ffffff;
+    box-shadow: 0 18px 40px -12px rgba(15, 23, 42, 0.35);
+}
+
+.xsce-tb-pop[hidden] { display: none; }
+
+.xsce-tb-pop--spacing {
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    gap: 8px 14px;
+}
+
+.xsce-tb-label { color: #334155; font: 600 13px var(--font-body, 'DM Sans', sans-serif); }
+.xsce-tb-num-wrap { display: inline-flex; align-items: center; gap: 6px; }
+.xsce-tb-unit { color: #64748b; font: 500 12px var(--font-body, 'DM Sans', sans-serif); }
+
+.xsce-tb-pop--numbering { display: flex; flex-direction: column; gap: 2px; min-width: 210px; padding: 6px; }
+
+.xsce-tb-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 36px;
+    padding: 0 10px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #334155;
+    font: 600 13px var(--font-body, 'DM Sans', sans-serif);
+    text-align: left;
+    cursor: pointer;
+}
+
+.xsce-tb-item .xsce-tb-glyph { min-width: 18px; color: #64748b; }
+.xsce-tb-item:hover,
+.xsce-tb-item:focus-visible { background: var(--plum-50, #fdf4fb); color: var(--plum-700, #793475); }
+/* La opción elegida, como un botón pulsado de la barra: relleno y borde interior plum-500 */
+.xsce-tb-item[aria-checked="true"] {
+    background: var(--plum-100, #f9e6f7);
+    color: var(--plum-800, #5f285b);
+    box-shadow: inset 0 0 0 1px var(--plum-500, #b05baa);
+}
+.xsce-tb-item[aria-checked="true"] .xsce-tb-glyph { color: inherit; }
+
 @media (max-width: 640px) {
-    .xsce-textbar { flex-wrap: nowrap; justify-content: flex-start; }
+    .xsce-tb-row { flex: none; flex-wrap: nowrap; justify-content: flex-start; }
     .xsce-tb-group { flex-shrink: 0; }
 }

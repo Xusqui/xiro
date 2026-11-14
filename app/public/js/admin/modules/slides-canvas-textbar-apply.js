@@ -149,6 +149,7 @@
         if (attr('step')) step(el, Number(attr('step')));
         if (attr('toggle')) toggle(el, attr('toggle'));
         if (attr('script')) script(el, attr('script'));
+        if (attr('mark')) highlight(el, attr('mark'));
         if (attr('clear')) highlight(el, null);
         if (attr('align')) align(el, attr('align'));
         if (attr('list')) list(el, attr('list'));

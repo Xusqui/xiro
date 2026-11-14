@@ -162,7 +162,8 @@
     /** Numeración multinivel (1.2.1.): se corta en un nivel que falta o que es de otro tipo. */
     function numberPath(counters, level) {
         let path = '';
-        for (let i = level; i >= 0 && counters[i] && counters[i].kind === 'number'; i--) path = counters[i].n + '.' + path;
+        for (let i = level; i >= 0 && counters[i] && counters[i].kind === 'number'; i--)
+            path = counters[i].n + '.' + path;
         return path;
     }
 
