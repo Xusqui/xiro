@@ -758,6 +758,37 @@
             background: linear-gradient(90deg, #dc2626, #f87171);
         }
 
+        /* Encuestas: sin respuesta correcta, ni verde ni rojo */
+        .fill-neutral {
+            background: var(--xiro-purple);
+        }
+
+        /* ─── Votos por respuesta ────────────────────────────────────────────── */
+        .vote-distribution {
+            max-width: 520px;
+            margin-top: 14px;
+        }
+
+        .vote-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .vote-row .answer-bar-label {
+            gap: 12px;
+        }
+
+        .vote-label {
+            color: var(--text);
+            overflow-wrap: anywhere;
+        }
+
+        .vote-count {
+            white-space: nowrap;
+            font-variant-numeric: tabular-nums;
+        }
+
         /* ─── Confetti ─────────────────────────────────────────────────────────── */
         #confetti-canvas {
             position: fixed;

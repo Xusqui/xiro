@@ -76,7 +76,7 @@ const BASE_SCRIPT_SRC = [
     '\'sha256-cxxpClMEX/wv6RWwz6Y1F0amAkNF0A1RcbfTz0sbqg0=\'', // juego-concluido.html / juego-finalizado-presentador.html
     '\'sha256-GN5mcXaPICRaVYTyha8rvCUnuZOH8P7yITutSD0PRK4=\'', // ppt-redirect.html
     '\'sha256-ul/v0CisU7Zqw8SY+9SvXyoYEdITat4Z8gaRKnu25ak=\'', // fireworks-preview.html
-    '\'sha256-kLPXYcEGPWpndeLvpPR1HRMZJ9PVTnVqa/1dUNJ1GFk=\'', // xiro-results-viewer.html
+    '\'sha256-4WhsZpYte1MBs2sP4x8mrqeWEyP8b8Pa/6WOXLICERk=\'', // xiro-results-viewer.html
     '\'sha256-Sp6H3NflEMG13noI9ThzPzfS0KqnK2elUR9SvDWFDJU=\'' // about.html: mascota decorativa aleatoria
 ];
 

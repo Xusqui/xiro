@@ -10,6 +10,7 @@
     <script src="/js/i18n/i18n-core.js?v=20260922172926"></script>
     <script src="/js/i18n/i18n-dom.js?v=20260922172926"></script>
     <script src="/js/i18n/i18n-ui.js?v=20260922172926"></script>
+    <script src="/js/results-viewer/vote-distribution.js"></script>
 </head>
 
 <body>
@@ -354,7 +355,8 @@
             const wrap = document.createElement('section');
 
             // Compute stats from detail
-            const totalAnswers = data.playerAnswers.length;
+            // Las encuestas no tienen respuesta correcta: no cuentan ni como acierto ni como fallo
+            const totalAnswers = data.playerAnswers.filter(isScoredAnswer).length;
             const correctAnswers = data.playerAnswers.filter(r => r.correct === 'Sí').length;
             const pct = totalAnswers ? Math.round(100 * correctAnswers / totalAnswers) : '—';
             const times = data.playerAnswers.map(r => parseFloat(r.time)).filter(n => !isNaN(n));
@@ -653,10 +655,16 @@
                 const first = answers[0];
                 const qText = first.question || `${_t('xiro_results_viewer.detail.question_prefix', null, 'Pregunta')} ${round}`;
                 const cat = first.cat || '';
-                const total = answers.length;
+                const total = answers.filter(isScoredAnswer).length;
                 const correct = answers.filter(a => a.correct === 'Sí').length;
                 const rate = total ? Math.round(100 * correct / total) : 0;
                 const rateClass = rate >= 66 ? 'high' : rate >= 33 ? 'mid' : 'low';
+                const qType = isTrivial ? '' : ((data.questions.find(q => q.n === String(round)) || {}).type || '');
+                const votesHtml = XiroVoteDistribution.renderVoteDistribution(answers, qType,
+                    _t('xiro_results_viewer.detail.votes_title', null, 'Votos por respuesta'));
+                const rateHtml = total
+                    ? `<span class="q-rate ${rateClass}">${rate}%</span>`
+                    : `<span class="badge badge-enc">~ ${_t('xiro_results_viewer.badge.survey', null, 'Encuesta')}</span>`;
 
                 const rows = answers.map(a => {
                     const cBadgeText = a.correct === 'Sí'
@@ -709,12 +717,13 @@
           <div class="q-text">${esc(qText)}</div>
           ${cat ? `<span class="q-cat">${esc(cat)}</span>` : ''}
           <div class="q-stats">
-            <span class="q-rate ${rateClass}">${rate}%</span>
+            ${rateHtml}
           </div>
           <span class="q-chevron">▼</span>
         </div>
         <div class="q-body">
           ${barHtml}
+          ${votesHtml}
           <div style="margin-top:14px">
             <div class="card">
               <table>
@@ -751,6 +760,10 @@
             return String(s)
                 .replace(/&/g, '&amp;').replace(/</g, '&lt;')
                 .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        function isScoredAnswer(a) {
+            return a.correct === 'Sí' || a.correct === 'No';
         }
 
         function initials(name) {

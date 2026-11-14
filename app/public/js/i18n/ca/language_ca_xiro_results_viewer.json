@@ -46,6 +46,7 @@
     "xiro_results_viewer.badge.no": "No",
     "xiro_results_viewer.badge.survey": "Enquesta",
     "xiro_results_viewer.detail.correct_answers": "Acierts {correct}/{total}",
+    "xiro_results_viewer.detail.votes_title": "Vots per resposta",
     "xiro_results_viewer.table.answer": "Resposta",
     "xiro_results_viewer.table.result": "Resultat",
     "xiro_results_viewer.table.pts": "Pts",

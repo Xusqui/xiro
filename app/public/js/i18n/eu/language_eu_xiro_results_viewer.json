@@ -46,6 +46,7 @@
     "xiro_results_viewer.badge.no": "Ez",
     "xiro_results_viewer.badge.survey": "Inkesta",
     "xiro_results_viewer.detail.correct_answers": "Asmatzeak {correct}/{total}",
+    "xiro_results_viewer.detail.votes_title": "Erantzun bakoitzaren botoak",
     "xiro_results_viewer.table.answer": "Erantzuna",
     "xiro_results_viewer.table.result": "Emaitza",
     "xiro_results_viewer.table.pts": "Pt",

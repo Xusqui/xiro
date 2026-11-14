@@ -46,6 +46,7 @@
     "xiro_results_viewer.badge.no": "错",
     "xiro_results_viewer.badge.survey": "问卷调查",
     "xiro_results_viewer.detail.correct_answers": "答对 {correct}/{total}",
+    "xiro_results_viewer.detail.votes_title": "各答案得票",
     "xiro_results_viewer.table.answer": "回答",
     "xiro_results_viewer.table.result": "结果",
     "xiro_results_viewer.table.pts": "得分",
