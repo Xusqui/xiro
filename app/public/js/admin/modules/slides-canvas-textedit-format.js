@@ -2,7 +2,8 @@
  * @fileoverview Texto tipo Word, edición en el lienzo: formato de la selección que execCommand no
  * da bien. La fuente y el tamaño de una palabra van en un <span> con estilo propio (fontSize de
  * execCommand solo admite siete tamaños); el formato de párrafo cambia los <div> de las líneas
- * tocadas por la selección (atributos data-* y su estilo pintado, core/slide-canvas-richtext-html.js).
+ * tocadas por la selección (atributos data-* y su estilo pintado, core/slide-canvas-richtext-html.js)
+ * y las marcas de lista se renumeran. Tab y Mayús+Tab tabulan o cambian el nivel de la lista.
  * Amplía XiroCanvasEditor.textEdit; se carga después de slides-canvas-textedit.js.
  */
 (function () {
@@ -11,8 +12,6 @@
     const root = typeof window !== 'undefined' ? window : globalThis;
     const E = (root.XiroCanvasEditor = root.XiroCanvasEditor || {});
     const T = E.textEdit;
-
-    const lineNodes = box => Array.prototype.filter.call(box.children, n => n.tagName === 'DIV' || n.tagName === 'P');
 
     /** La selección dentro del cuadro abierto (vuelve a ella si la edición estaba aparcada), o null. */
     function currentRange() {
@@ -62,7 +61,7 @@
     function style(css) {
         const range = currentRange();
         if (!range || range.collapsed) return false;
-        const lines = lineNodes(T.box()).filter(line => range.intersectsNode(line));
+        const lines = T.lines().filter(line => range.intersectsNode(line));
         const parts = lines.length ? lines.map(line => clip(range, line)) : [range.cloneRange()];
         const spans = parts.filter(part => !part.collapsed).map(part => wrap(part, css));
         if (!spans.length) return false;
@@ -83,8 +82,6 @@
         const css = H.paraCss(para, kind);
         if (css) line.setAttribute('style', css);
         else line.removeAttribute('style');
-        if (kind) line.setAttribute('data-mark', H.markOf(kind, para.indent || 0, 1));
-        else line.removeAttribute('data-mark');
     }
 
     /**
@@ -97,13 +94,36 @@
         const el = E.getSelected();
         if (!range || !el) return false;
         const RT = root.XiroSlideCanvasRichText;
-        lineNodes(T.box())
+        T.lines()
             .filter(line => range.intersectsNode(line))
             .forEach(line => {
                 const clean = RT.normalizeParas([change(E.richTextDom.paraOf(line))], '', el.props);
                 paint(line, clean ? clean[0] : {}, el.props.list);
             });
         T.save();
+        return true;
+    }
+
+    const shiftIndent = step => para => Object.assign({}, para, { indent: Math.max(0, (para.indent || 0) + step) });
+
+    /**
+     * Tab y Mayús+Tab, como en Word: en una lista (o con sangría, hacia atrás) cambian el nivel de los
+     * párrafos seleccionados; en un párrafo normal, Tab escribe un tabulador.
+     * @param {boolean} back - Mayús+Tab.
+     * @returns {boolean} false si no cambia nada.
+     */
+    function tab(back) {
+        const range = currentRange();
+        const el = E.getSelected();
+        if (!range || !el) return false;
+        const H = root.XiroSlideCanvasRichTextHtml;
+        const paras = T.lines()
+            .filter(line => range.intersectsNode(line))
+            .map(E.richTextDom.paraOf);
+        const inList = paras.some(para => H.kindOf(para, el.props.list));
+        if (inList || (back && paras.some(para => para.indent > 0))) return paragraph(shiftIndent(back ? -1 : 1));
+        if (back) return false;
+        document.execCommand('insertText', false, '\t');
         return true;
     }
 
@@ -114,7 +134,7 @@
         return range && el ? E.richTextDom.formatAt(range.startContainer, T.box(), el.props) : null;
     }
 
-    Object.assign(T, { style, paragraph, selectionFormat });
+    Object.assign(T, { style, paragraph, selectionFormat, tab });
 
     if (typeof module !== 'undefined' && module.exports) module.exports = T;
 })();

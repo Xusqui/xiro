@@ -14,7 +14,8 @@
     const root = typeof window !== 'undefined' ? window : globalThis;
     const E = (root.XiroCanvasEditor = root.XiroCanvasEditor || {});
 
-    const BLOCKS = ['DIV', 'P', 'LI'];
+    // Elementos que abren línea: los del editor (DIV, P) y los que llegan al pegar HTML de otro sitio
+    const BLOCKS = ['DIV', 'P', 'LI', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'BLOCKQUOTE', 'PRE', 'UL', 'OL', 'TABLE', 'TR'];
     const ZERO_WIDTH_RE = /\u200b/g;
     const NUMERIC_PARA = ['indent', 'lineHeight', 'spaceBefore', 'spaceAfter'];
     const TAG_FORMAT = {
@@ -219,7 +220,10 @@
         return chain.reduce((format, el) => formatOf(el, format), startFormat(base));
     }
 
-    E.richTextDom = { read, toHex, formatAt, paraOf };
+    /** @returns {boolean} Si el elemento abre una línea propia al leerlo. */
+    const isBlock = el => BLOCKS.indexOf(el.tagName) >= 0;
+
+    E.richTextDom = { read, toHex, formatAt, paraOf, isBlock };
 
     if (typeof module !== 'undefined' && module.exports) module.exports = E.richTextDom;
 })();

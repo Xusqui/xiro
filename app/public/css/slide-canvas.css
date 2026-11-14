@@ -76,10 +76,13 @@
     position: relative;
 }
 
+/* Marca alineada a la derecha y pegada al texto: «1.2.1.» cabe en la sangría sin pisarlo */
 .xsc-p--li::before {
     content: attr(data-mark);
     position: absolute;
-    margin-left: -1.5em;
+    margin-left: -0.5em;
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
 }
 
 .xsc-p--title {

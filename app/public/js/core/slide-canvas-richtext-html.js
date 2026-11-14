@@ -17,21 +17,9 @@
         italic: ['font-style:italic', 'font-style:normal']
     };
     const BULLETS = ['•', '◦', '▪'];
-    const ROMAN = [
-        [1000, 'm'],
-        [900, 'cm'],
-        [500, 'd'],
-        [400, 'cd'],
-        [100, 'c'],
-        [90, 'xc'],
-        [50, 'l'],
-        [40, 'xl'],
-        [10, 'x'],
-        [9, 'ix'],
-        [5, 'v'],
-        [4, 'iv'],
-        [1, 'i']
-    ];
+    // Valores y cifras romanas en minúscula, de mayor a menor
+    const ROMAN_VALUES = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
+    const ROMAN_DIGITS = ['m', 'cm', 'd', 'cd', 'c', 'xc', 'l', 'xl', 'x', 'ix', 'v', 'iv', 'i'];
     const INDENT_EM = 1.5;
     // Formato de cada párrafo en atributos data-* (solo en el editor), para leerlo de vuelta al escribir
     const PARA_DATA = {
@@ -121,10 +109,10 @@
 
     function roman(n) {
         let s = '';
-        for (let i = 0; i < ROMAN.length; i++) {
-            while (n >= ROMAN[i][0]) {
-                s += ROMAN[i][1];
-                n -= ROMAN[i][0];
+        for (let i = 0; i < ROMAN_VALUES.length; i++) {
+            while (n >= ROMAN_VALUES[i]) {
+                s += ROMAN_DIGITS[i];
+                n -= ROMAN_VALUES[i];
             }
         }
         return s;
@@ -168,7 +156,14 @@
         const last = counters[level];
         const n = last && last.kind === kind ? last.n + 1 : 1;
         counters[level] = { kind: kind, n: n };
-        return markOf(kind, level, n);
+        return kind === 'number' ? numberPath(counters, level) : markOf(kind, level, n);
+    }
+
+    /** Numeración multinivel (1.2.1.): se corta en un nivel que falta o que es de otro tipo. */
+    function numberPath(counters, level) {
+        let path = '';
+        for (let i = level; i >= 0 && counters[i] && counters[i].kind === 'number'; i--) path = counters[i].n + '.' + path;
+        return path;
     }
 
     function paraCss(para, kind) {
@@ -200,30 +195,40 @@
 
     function paraHtml(para, kind, mark, body, editable) {
         const css = paraCss(para, kind);
-        return (
-            '<div class="' +
-            paraClass(para, kind) +
-            '"' +
-            (css ? ' style="' + css + '"' : '') +
-            (kind ? ' data-mark="' + mark + '"' : '') +
-            (editable ? paraData(para) : '') +
-            '>' +
-            body +
-            '</div>'
-        );
+        const attrs = [
+            ' class="' + paraClass(para, kind) + '"',
+            css ? ' style="' + css + '"' : '',
+            kind ? ' data-mark="' + mark + '"' : '',
+            editable ? paraData(para) : ''
+        ];
+        return '<div' + attrs.join('') + '>' + body + '</div>';
+    }
+
+    /**
+     * Marca de lista de cada párrafo; el editor la usa para renumerar mientras se escribe.
+     * @param {Array<Object>} paras - Un párrafo por línea.
+     * @param {string|null} boxList - Lista del cuadro.
+     * @returns {Array<string|null>} null en los párrafos sin lista (cortan la numeración).
+     */
+    function marksOf(paras, boxList) {
+        const counters = [];
+        return paras.map(function (para) {
+            const kind = kindOf(para, boxList);
+            if (kind) return nextMark(counters, kind, para.indent || 0);
+            counters.length = 0;
+            return null;
+        });
     }
 
     function paragraphsHtml(p, escape, editable) {
-        const counters = [];
-        const paras = p.paras || [];
-        return splitLines(p.runs || [{ text: p.text }])
+        const lines = splitLines(p.runs || [{ text: p.text }]);
+        const paras = lines.map(function (line, i) {
+            return (p.paras && p.paras[i]) || {};
+        });
+        const marks = marksOf(paras, p.list);
+        return lines
             .map(function (line, i) {
-                const para = paras[i] || {};
-                const kind = kindOf(para, p.list);
-                let mark = null;
-                if (kind) mark = nextMark(counters, kind, para.indent || 0);
-                else counters.length = 0;
-                return paraHtml(para, kind, mark, lineHtml(line, escape), editable);
+                return paraHtml(paras[i], kindOf(paras[i], p.list), marks[i], lineHtml(line, escape), editable);
             })
             .join('');
     }
@@ -248,6 +253,7 @@
     const api = {
         PARA_DATA: PARA_DATA,
         markOf: markOf,
+        marksOf: marksOf,
         kindOf: kindOf,
         paraClass: paraClass,
         paraCss: paraCss,

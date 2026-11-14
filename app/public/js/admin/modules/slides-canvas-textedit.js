@@ -2,11 +2,12 @@
  * @fileoverview Edición del texto en el lienzo (fase C): un cuadro contenteditable encima del
  * elemento, con su formato por tramos y párrafos (core/slide-canvas-richtext.js). Cada línea es un
  * <div> con el formato de su párrafo en atributos data-*; las marcas de lista las pinta CSS y no
- * son texto. Cada cambio se lee con slides-canvas-richtext-dom.js y se guarda sin historial; al
- * terminar, un paso de deshacer. El formato de fuente, tamaño y párrafo de la selección está en
- * slides-canvas-textedit-format.js.
+ * son texto y se renumeran en cada cambio. Cada cambio se lee con slides-canvas-richtext-dom.js y
+ * se guarda sin historial; al terminar, un paso de deshacer. El formato de fuente, tamaño y párrafo
+ * de la selección, y Tab/Mayús+Tab, están en slides-canvas-textedit-format.js.
  *
- * Pegar solo admite texto plano: el HTML del portapapeles nunca entra en el lienzo.
+ * Pegar con formato lee el HTML del portapapeles y pega el que genera el render común con lo leído
+ * (slides-canvas-paste.js): el HTML de origen nunca entra en el lienzo.
  *
  * El selector de color de la barra se queda el foco: al ir a un control con data-keep-edit la
  * edición queda aparcada (se guarda la selección) hasta aplicar el color o pulsar fuera.
@@ -60,9 +61,25 @@
         E.commit();
     }
 
+    const lineNodes = () =>
+        box ? Array.prototype.filter.call(box.children, n => n.tagName === 'DIV' || n.tagName === 'P') : [];
+
+    /** Al pulsar Intro el navegador copia la marca de la línea anterior: se recalculan todas. */
+    function renumber() {
+        const el = E.getElement(editingId);
+        if (!el) return;
+        const lines = lineNodes();
+        const marks = root.XiroSlideCanvasRichTextHtml.marksOf(lines.map(E.richTextDom.paraOf), el.props.list);
+        lines.forEach((line, i) => {
+            if (marks[i]) line.setAttribute('data-mark', marks[i]);
+            else line.removeAttribute('data-mark');
+        });
+    }
+
     function save() {
         const el = E.getElement(editingId);
         if (!el || !box) return;
+        renumber();
         const read = E.richTextDom.read(box, el.props);
         E.updateElement(el.id, {
             props: { text: read.text, runs: read.runs || undefined, paras: read.paras },
@@ -73,15 +90,24 @@
     function onKeyDown(event) {
         // Las teclas son del texto, no de los atajos del editor
         event.stopPropagation();
-        if (event.key !== 'Escape') return;
+        if (event.key !== 'Escape' && event.key !== 'Tab') return;
+        // Tab no saca el foco del texto: tabula o cambia el nivel (slides-canvas-textedit-format.js)
         event.preventDefault();
-        box.blur();
+        if (event.key === 'Tab') E.textEdit.tab(event.shiftKey);
+        else box.blur();
     }
 
+    /** Con HTML, el formato leído y vuelto a generar (slides-canvas-paste.js); si no, el texto plano. */
     function onPaste(event) {
         event.preventDefault();
-        const plain = event.clipboardData ? event.clipboardData.getData('text/plain') : '';
-        if (plain) document.execCommand('insertText', false, plain);
+        const data = event.clipboardData;
+        const el = E.getElement(editingId);
+        if (!data || !el) return;
+        const html = data.getData('text/html');
+        const rich = html ? E.paste.toEditable(html, el.props) : null;
+        const plain = rich ? '' : data.getData('text/plain');
+        if (rich) document.execCommand('insertHTML', false, rich);
+        else if (plain) document.execCommand('insertText', false, plain);
     }
 
     /** Cursor al final del texto. */
@@ -135,6 +161,9 @@
         finish,
         /** El cuadro abierto (para aplicar formato a la selección), o null. */
         box: () => box,
+        /** @returns {Array<HTMLElement>} Las líneas (párrafos) del cuadro abierto. */
+        lines: lineNodes,
+        renumber,
         save,
         /**
          * Vuelve al texto (y a su selección si la edición estaba aparcada).

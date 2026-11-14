@@ -92,6 +92,9 @@
     background: transparent;
     line-height: 1.2;
     white-space: pre-wrap;
+    /* Mismo tabulador que el texto pintado (slide-canvas.css) */
+    -moz-tab-size: 4;
+    tab-size: 4;
     word-wrap: break-word;
     overflow-wrap: break-word;
     overflow: hidden;
