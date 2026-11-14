@@ -2,6 +2,22 @@
 
 ## 3.14.x
 
+### 3.14.5-a — 2026-11-14 · `v3.14.5a`
+- Borrar complemento desfasado de Chrome
+- **Logs:** Registrar los 4xx como warn de una línea en vez de error con traza
+  - Los rechazos esperados (401 sin token, 403, 404, validación) salían como
+  - «Error no capturado» con la traza completa y sin la ruta pedida, y parecían
+  - averías. Ahora son un warn con método, ruta (sin query string) y code.
+  - Los 5xx y los errores de PostgreSQL siguen como error con traza.
+- **Resultados:** Mostrar en el visor el porcentaje de votos de cada respuesta
+  - Cada pregunta del visor muestra un bloque «Votos por respuesta» con el porcentaje y los votos de cada respuesta elegida. En selección múltiple cuenta cada opción marcada. No sale en ordenar, parejas, sopa de letras ni completa la frase.
+  - Las encuestas ya no salen como falladas: en vez de «0%» en rojo y «Aciertos 0/N» llevan la etiqueta «Encuesta», y no cuentan en el % de aciertos.
+  - Actualiza el hash CSP del script inline de xiro-results-viewer.html.
+- **Diapositivas libres:** editor ampliado y texto tipo Word
+  - Fases A-D del plan del editor: estilo y sombra configurables, formas libres, alineación y selección múltiple, tablas que se escriben en el lienzo, visor del móvil en horizontal y diálogo de imagen o vídeo con la dirección actual.
+  - Texto tipo Word (C1-C2): fuente y tamaño por palabra, tachado, superíndice y subíndice, resaltado, alineación por párrafo (también justificada), cuatro tipos de lista con sangría, interlineado, espacio antes y después y estilos de párrafo. Formato .xiroslide 5 con párrafos, validado con Joi (CanvasTextSchema). Barra de formato dividida en marcado, acciones y estado; el panel derecho solo conserva lo del cuadro.
+  - Formato del generador IA (prompt.js, prompt-builder.js) según el formateador.
+
 ### 3.14.4 — 2026-11-12 · `v3.14.4`
 - **Visual:** Poner la animación de XiRo en todas las páginas dentro de public/legal/
 
