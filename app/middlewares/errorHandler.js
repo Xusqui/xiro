@@ -52,6 +52,37 @@ function buildErrorPayload(status, err, errorMessage) {
 }
 
 /**
+ * Indica si el error viene de PostgreSQL (código SQLSTATE de 5 caracteres, ej. '23505').
+ * @param {Error} err - Error object
+ * @returns {boolean}
+ */
+function isPostgresError(err) {
+    return Boolean(err.code && /^[0-9A-Z]{5}$/.test(err.code));
+}
+
+/**
+ * Registra el error con el nivel adecuado. Los 4xx son rechazos esperados
+ * (sesión caducada, validación…): un warn de una línea sin traza basta y evita
+ * que parezcan averías. 5xx y errores de base de datos conservan la traza.
+ * @param {Error} err - Error object
+ * @param {Object} req - Request object
+ */
+function logError(err, req) {
+    const status = err.status || err.statusCode || 500;
+    if (status >= 500 || isPostgresError(err)) {
+        logger.error('Error no capturado:', err);
+        return;
+    }
+    // Sin query string: puede llevar datos que no deben acabar en el log.
+    const url = (req.originalUrl || req.path || '').split('?')[0];
+    logger.warn(`Solicitud rechazada (${status}): ${req.method} ${url}`, {
+        status,
+        code: err.code,
+        message: err.message
+    });
+}
+
+/**
  * Middleware de manejo de errores global
  * Debe colocarse al final de todas las rutas
  * @param {Error} err - Error object
@@ -60,10 +91,9 @@ function buildErrorPayload(status, err, errorMessage) {
  * @param {Function} next - Next middleware
  */
 function errorHandler(err, req, res, _next) {
-    logger.error('Error no capturado:', err);
+    logError(err, req);
 
-    // Errores de PostgreSQL (códigos de 5 caracteres alfanuméricos, ej. '23505')
-    if (err.code && /^[0-9A-Z]{5}$/.test(err.code)) {
+    if (isPostgresError(err)) {
         switch (err.code) {
             case '23505': // Unique violation
                 return res.status(400).json({
