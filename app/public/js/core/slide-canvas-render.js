@@ -41,6 +41,18 @@
         return isNode() ? require('./slide-canvas-table') : root.XiroSlideCanvasTable;
     }
 
+    function charts() {
+        // eslint-disable-next-line no-undef -- require solo en Node/Jest (CommonJS)
+        return isNode() ? require('./slide-canvas-chart') : root.XiroSlideCanvasChart;
+    }
+
+    /** Gráfico con los datos de su tabla (fase E); sin el módulo, el hueco vacío. */
+    function chartHtml(el, tablesById, options) {
+        if (!charts()) return '';
+        const table = tablesById[el.props.source.tableId] || null;
+        return charts().chartSvg(el, table, escapeText, options.labels);
+    }
+
     function escapeText(s) {
         return String(s === undefined || s === null ? '' : s).replace(/[&<>"'`]/g, function (ch) {
             return HTML_ESCAPES[ch];
@@ -146,7 +158,7 @@
         return '<div class="xsc-video" data-xsc-video="' + index + '">' + inner + '</div>';
     }
 
-    function elementHtml(el, index, options) {
+    function elementHtml(el, index, options, tablesById) {
         let style =
             'left:' +
             el.x +
@@ -167,10 +179,12 @@
         else if (el.type === 'shape') inner = shapes().shapeSvg(el);
         else if (el.type === 'image') inner = imageHtml(el.props);
         else if (el.type === 'table') inner = tables().tableHtml(el.props, escapeText);
+        else if (el.type === 'chart') inner = chartHtml(el, tablesById || {}, options);
         else inner = videoHtml(el, index, options);
         return (
             '<div class="xsc-el xsc-el--' +
             el.type +
+            (el.hidden ? ' xsc-el--hidden' : '') +
             '" data-el-id="' +
             escapeText(el.id) +
             '" data-el-index="' +
@@ -212,7 +226,15 @@
             '<div class="xsc-frame" data-xsc-frame="1" data-i18n-skip="true"><div class="xsc-stage" style="' +
             style +
             '">';
-        for (let i = 0; i < c.elements.length; i++) html += elementHtml(c.elements[i], i, opts);
+        // Fase E: las tablas, por id, para los gráficos; lo oculto solo se ve (atenuado) en el editor
+        const tablesById = {};
+        for (let t = 0; t < c.elements.length; t++) {
+            if (c.elements[t].type === 'table') tablesById[c.elements[t].id] = c.elements[t].props;
+        }
+        for (let i = 0; i < c.elements.length; i++) {
+            if (c.elements[i].hidden && opts.mode !== 'editor') continue;
+            html += elementHtml(c.elements[i], i, opts, tablesById);
+        }
         return html + '</div></div>';
     }
 

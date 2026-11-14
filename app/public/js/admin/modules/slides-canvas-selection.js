@@ -20,8 +20,12 @@
     const MAX_PASTE_STEPS = 25;
     let clipboard = null;
 
+    // Ids de las tablas que viajan en el portapapeles solo porque un gráfico copiado las usa
+    let carried = [];
+
     const model = () => root.XiroSlideCanvas;
     const align = () => root.XiroSlideCanvasAlign;
+    const links = () => root.XiroSlideCanvasChartLinks;
     const elements = () => E.state.canvas.elements;
     const idsOf = list => list.map(el => el.id);
     const groupIdsInUse = () => elements().map(el => el.groupId).filter(Boolean);
@@ -135,13 +139,32 @@
         );
     };
 
-    /** Elimina todos los elementos seleccionados. */
+    /** Quita los ids del lienzo y deja sin vínculo a los gráficos cuya tabla desaparece. */
+    function removeIds(ids) {
+        E.state.canvas.elements = elements().filter(el => ids.indexOf(el.id) < 0);
+        links().unlinkRemoved(elements(), ids);
+        E.select(null);
+        E.commit();
+    }
+
+    /** Elimina todos los elementos seleccionados; si una tabla alimenta gráficos que se quedan, pregunta antes. */
     E.removeSelection = function () {
         const ids = E.getSelectedIds();
         if (!ids.length) return;
-        E.state.canvas.elements = elements().filter(el => ids.indexOf(el.id) < 0);
-        E.select(null);
-        E.commit();
+        const fed = links().dependentCharts(elements(), ids);
+        if (!fed.length || typeof root.mostrarModalConfirmacion !== 'function' || !E.th) {
+            removeIds(ids);
+            return;
+        }
+        root.mostrarModalConfirmacion(
+            E.th('chart_delete.title'),
+            E.th('chart_delete.msg', { n: fed.length }),
+            () => removeIds(ids),
+            null,
+            E.th('chart_delete.confirm'),
+            E.th('cancel'),
+            { danger: true }
+        );
     };
 
     /** Primer desplazamiento (0, 40, 80…) en el que la copia no tapa a un elemento igual de sitio. */
@@ -183,6 +206,8 @@
             return;
         }
         const copies = cloneWithNewIds(source, freeOffset(source));
+        // Cada copia de gráfico apunta a la copia de su tabla, o a la original si sigue en esta diapositiva
+        links().relink(source, copies, idsOf(elements()));
         copies.forEach(copy => elements().push(copy));
         E.selectMany(idsOf(copies));
         E.commit();
@@ -192,14 +217,16 @@
     E.copySelection = function () {
         const list = selectedElements();
         if (!list.length) return;
-        clipboard = JSON.parse(JSON.stringify(list));
+        const pack = links().withLinkedTables(list, elements());
+        clipboard = JSON.parse(JSON.stringify(pack.elements));
+        carried = pack.carried;
         // Repinta para que la barra habilite «Pegar»
         E.render();
     };
 
     /** Pega el portapapeles, desplazado si taparía a los originales. */
     E.pasteClipboard = function () {
-        if (clipboard) insertCopies(clipboard);
+        if (clipboard) insertCopies(links().pasteSource(clipboard, carried, idsOf(elements())));
     };
 
     /** Duplica la selección sin tocar el portapapeles; un solo elemento queda encima del original. */
@@ -211,6 +238,7 @@
 
     E.clearClipboard = function () {
         clipboard = null;
+        carried = [];
         E.render();
     };
 

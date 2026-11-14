@@ -22,6 +22,7 @@ const { normalizePath, MAX_CHARS: MAX_PATH_CHARS } = require('../../public/js/co
 const { MAX_ALT } = require('../../public/js/core/slide-canvas-style');
 const { tablePropsSchema } = require('./CanvasTableSchema');
 const { textPropsSchema } = require('./CanvasTextSchema');
+const { chartPropsSchema, hasBadChartSource } = require('./CanvasChartSchema');
 
 /**
  * @param {string} value - URL de imagen o video a validar
@@ -62,7 +63,8 @@ const MESSAGES = {
     'canvasSlide.unsupportedVideo':
         'Vídeo no compatible: usa YouTube, Vimeo, Dailymotion o un archivo .mp4, .webm, .ogg o .mov',
     'canvasSlide.tooLarge': 'La diapositiva libre es demasiado grande',
-    'canvasSlide.badPath': 'La forma libre tiene un trazado no válido'
+    'canvasSlide.badPath': 'La forma libre tiene un trazado no válido',
+    'canvasSlide.badChartSource': 'Un gráfico apunta a una tabla que no está en la diapositiva'
 };
 
 // Sombra (fase B): desplazamiento, desenfoque y color, como la normaliza slide-canvas-style.js
@@ -86,6 +88,7 @@ const canvasElementSchema = Joi.object({
     h: Joi.number().integer().min(MIN_SIZE).max(2160).required(),
     rotation: Joi.number().integer().min(-180).max(180),
     locked: Joi.boolean().strict(),
+    hidden: Joi.boolean().strict(),
     groupId: Joi.string().pattern(GROUP_ID_RE),
     opacity: Joi.number().min(0.05).max(0.99),
     shadow: shadowSchema,
@@ -127,10 +130,14 @@ const canvasElementSchema = Joi.object({
                     otherwise: Joi.alternatives().conditional('type', {
                         is: 'table',
                         then: tablePropsSchema,
-                        otherwise: Joi.object({
-                            url: Joi.string().max(MAX_URL).required().custom(checkVideoUrl),
-                            autoplay: Joi.boolean()
-                        }).unknown(false)
+                        otherwise: Joi.alternatives().conditional('type', {
+                            is: 'chart',
+                            then: chartPropsSchema,
+                            otherwise: Joi.object({
+                                url: Joi.string().max(MAX_URL).required().custom(checkVideoUrl),
+                                autoplay: Joi.boolean()
+                            }).unknown(false)
+                        })
                     })
                 })
             })
@@ -156,6 +163,7 @@ const canvasSchema = Joi.object({
         if (JSON.stringify(value).length > MAX_JSON_BYTES) {
             return helpers.error('canvasSlide.tooLarge');
         }
+        if (hasBadChartSource(value.elements)) return helpers.error('canvasSlide.badChartSource');
         return value;
     })
     .messages(MESSAGES);

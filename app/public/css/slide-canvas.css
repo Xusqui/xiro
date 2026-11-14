@@ -165,6 +165,12 @@
     font-weight: 700;
 }
 
+/* Gráfico (fase E): el SVG ocupa la caja del elemento; la leyenda y los ejes van dentro */
+.xsc-chart {
+    display: block;
+    overflow: visible;
+}
+
 /* Visor a pantalla completa del jugador (fase D, player-canvas-zoom.js) */
 .xsc-zoom-hint {
     position: absolute;

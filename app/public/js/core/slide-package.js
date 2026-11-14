@@ -9,9 +9,10 @@
 
     const FORMAT = 'xiro-slide';
     // 2: estilo y forma libre (fase B); 3: texto enriquecido (fase C); 4: tablas (fase D);
-    // 5: texto tipo Word (fuente y tamaño por tramo, párrafos).
+    // 5: texto tipo Word (fuente y tamaño por tramo, párrafos); 6: gráficos vinculados a tablas y
+    // elementos ocultos (fase E).
     // Una instalación anterior responde SLIDE_PACKAGE_TOO_NEW en vez de perder el formato
-    const FORMAT_VERSION = 5;
+    const FORMAT_VERSION = 6;
     const FILE_EXTENSION = '.xiroslide';
     const ASSET_PREFIX = 'asset:';
     const ASSET_ID_RE = /^a\d{1,3}$/;

@@ -4,6 +4,7 @@
  */
 
 const { collectMediaRefs } = require('../public/js/core/slide-canvas-model');
+const { stripHidden } = require('../public/js/core/slide-canvas-chart-links');
 
 /**
  * Sanitiza una pregunta para jugadores (elimina respuestas correctas)
@@ -74,15 +75,15 @@ function sanitizeQuestionForPlayers(question) {
 }
 
 /**
- * Sanitiza un canvas para jugadores (elimina urls y video_sources sensibles)
+ * Sanitiza un canvas para jugadores: quita los elementos ocultos y las urls y video_sources sensibles
  * @param {Object} canvas - Canvas a sanitizar
  * @returns {Object} Canvas sanitizado
  */
 function sanitizeCanvasForPlayers(canvas) {
     if (!canvas) return undefined;
 
-    // Crear copia profunda del canvas
-    const result = JSON.parse(JSON.stringify(canvas));
+    // Copia profunda sin los elementos ocultos (salvo la tabla oculta que alimenta un gráfico)
+    const result = stripHidden(JSON.parse(JSON.stringify(canvas)));
 
     // Procesar elementos
     if (result.elements && Array.isArray(result.elements)) {

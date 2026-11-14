@@ -30,7 +30,7 @@
         elegant: "'Playfair Display', Georgia, serif",
         hand: "'Caveat', 'Comic Sans MS', cursive"
     };
-    const ELEMENT_TYPES = ['text', 'shape', 'image', 'video', 'table'];
+    const ELEMENT_TYPES = ['text', 'shape', 'image', 'video', 'table', 'chart'];
     const SHAPES = ['rect', 'ellipse', 'line', 'arrow', 'path'];
     const DEFAULT_BACKGROUND = '#1e1b2e';
     // Tamaño por defecto de cada clase de elemento (las figuras según su forma)
@@ -43,7 +43,8 @@
         arrow: [600, 40],
         image: [800, 450],
         video: [1280, 720],
-        table: [1200, 480]
+        table: [1200, 480],
+        chart: [1280, 720]
     };
 
     function isColor(v) {
@@ -193,6 +194,10 @@
             const table = dep('./slide-canvas-table', 'XiroSlideCanvasTable');
             return table ? table.normalizeTableProps(p) : null;
         }
+        if (type === 'chart') {
+            const chart = dep('./slide-canvas-chart', 'XiroSlideCanvasChart');
+            return chart ? chart.normalizeChartProps(p) : null;
+        }
         if (type === 'image') {
             if (!isSafeMediaUrl(p.src)) return null;
             const image = {
@@ -226,6 +231,8 @@
         };
         // Solo se escriben si están activos, para no tocar los lienzos v1 guardados
         if (raw.locked === true) el.locked = true;
+        // Fase E: oculto (por ejemplo, la tabla de datos de un gráfico); solo el editor lo pinta
+        if (raw.hidden === true) el.hidden = true;
         if (typeof raw.groupId === 'string' && GROUP_ID_RE.test(raw.groupId)) el.groupId = raw.groupId;
         if (style()) style().normalizeElementStyle(raw, el);
         return el;
@@ -278,7 +285,9 @@
             ids.push(el.id);
             canvas.elements.push(el);
         }
-        return canvas;
+        // Fase E: un gráfico solo puede apuntar a una tabla de este mismo lienzo
+        const charts = dep('./slide-canvas-chart', 'XiroSlideCanvasChart');
+        return charts ? charts.linkCharts(canvas) : canvas;
     }
 
     function pushUnique(list, value) {

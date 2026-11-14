@@ -39,6 +39,13 @@
     cursor: move;
 }
 
+/* Oculto en la presentación (fase E: la tabla de datos de un gráfico): atenuado y punteado */
+.xsce-host .xsc-el--hidden {
+    opacity: 0.35;
+    outline: 2px dashed #64748b;
+    outline-offset: -2px;
+}
+
 .xsce-overlay {
     position: absolute;
     inset: 0;
