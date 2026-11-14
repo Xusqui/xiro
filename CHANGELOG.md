@@ -2,6 +2,12 @@
 
 ## 3.14.x
 
+### 3.14.5-b — 2026-11-14 · `v3.14.5b`
+- **Diapositivas libres:** Tab y niveles en listas, numeración multinivel y pegar con formato
+- **Administración:** PANIC espera a que el servidor vuelva y muestra el tiempo transcurrido
+- **Diapositivas libres:** Revisar la barra de formato del texto
+  - Al escribir, la barra muestra el formato de la selección, con estado mixto si solo una parte lo tiene. Queda en una fila desde 1280 px, con el espaciado en un panel y los tipos de numeración en un menú. Resaltado sin amarillo falso, rotulador con el último color y botón «Sin resaltado». Pulsado y desactivado más claros, aviso visible sin texto seleccionado. Las barras se recorren con flechas como barra de herramientas, con foco visible, «px» en el tamaño y muestras de 32 px.
+
 ### 3.14.5-a — 2026-11-14 · `v3.14.5a`
 - Borrar complemento desfasado de Chrome
 - **Logs:** Registrar los 4xx como warn de una línea en vez de error con traza
