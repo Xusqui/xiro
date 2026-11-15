@@ -1,0 +1,116 @@
+{
+  "name": "Noche de quiz - portada",
+  "_estilo": "Portada: fondo SVG con degradado ciruela, título display enorme, etiqueta y píldora de fecha; círculo ámbar con interrogación a la derecha",
+  "background": {
+    "color": "#2d132b",
+    "svg": "<svg viewBox='0 0 1920 1080'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#5f285b'/><stop offset='1' stop-color='#1e1b2e'/></linearGradient><radialGradient id='r' cx='0.82' cy='0.45' r='0.55'><stop offset='0' stop-color='#b05baa' stop-opacity='0.55'/><stop offset='1' stop-color='#b05baa' stop-opacity='0'/></radialGradient></defs><rect width='1920' height='1080' fill='url(#g)'/><rect width='1920' height='1080' fill='url(#r)'/></svg>"
+  },
+  "elements": [
+    {
+      "type": "ellipse",
+      "x": 1236,
+      "y": 240,
+      "w": 600,
+      "h": 600,
+      "props": {
+        "fill": null,
+        "stroke": "#ffffff26",
+        "strokeWidth": 4
+      }
+    },
+    {
+      "type": "ellipse",
+      "x": 1286,
+      "y": 290,
+      "w": 500,
+      "h": 500,
+      "props": {
+        "fill": "#f9b518",
+        "stroke": null
+      }
+    },
+    {
+      "type": "text",
+      "x": 1286,
+      "y": 290,
+      "w": 500,
+      "h": 500,
+      "rotation": 8,
+      "props": {
+        "text": "?",
+        "font": "display",
+        "size": 380,
+        "color": "#482045",
+        "align": "center",
+        "valign": "middle"
+      }
+    },
+    {
+      "type": "text",
+      "x": 80,
+      "y": 140,
+      "w": 900,
+      "h": 80,
+      "props": {
+        "text": "XIRO PRESENTA",
+        "font": "condensed",
+        "size": 40,
+        "bold": true,
+        "color": "#f9b518"
+      }
+    },
+    {
+      "type": "text",
+      "x": 80,
+      "y": 206,
+      "w": 1100,
+      "h": 476,
+      "props": {
+        "text": "NOCHE\nDE QUIZ",
+        "font": "display",
+        "size": 184,
+        "color": "#ffffff"
+      }
+    },
+    {
+      "type": "text",
+      "x": 80,
+      "y": 640,
+      "w": 1000,
+      "h": 148,
+      "props": {
+        "text": "Cuatro rondas, comodines y premios\npara el mejor equipo",
+        "size": 48,
+        "color": "#e4abde"
+      }
+    },
+    {
+      "type": "rect",
+      "x": 96,
+      "y": 820,
+      "w": 360,
+      "h": 80,
+      "props": {
+        "fill": "#8ab817",
+        "stroke": null,
+        "radius": 40
+      }
+    },
+    {
+      "type": "text",
+      "x": 96,
+      "y": 820,
+      "w": 360,
+      "h": 80,
+      "props": {
+        "text": "VIERNES · 21:00",
+        "font": "condensed",
+        "size": 40,
+        "bold": true,
+        "color": "#172300",
+        "align": "center",
+        "valign": "middle"
+      }
+    }
+  ]
+}

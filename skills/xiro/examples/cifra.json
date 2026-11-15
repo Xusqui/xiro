@@ -1,0 +1,70 @@
+{
+  "name": "87 % repite",
+  "_estilo": "Cifra grande dentro de un gráfico de anillo SVG (stroke-dasharray) y texto explicativo a la derecha",
+  "background": "#1e1b2e",
+  "elements": [
+    {
+      "type": "image",
+      "x": 120,
+      "y": 180,
+      "w": 720,
+      "props": {
+        "svg": "<svg viewBox='0 0 200 200'><circle cx='100' cy='100' r='80' fill='none' stroke='#ffffff' stroke-opacity='0.12' stroke-width='26'/><circle cx='100' cy='100' r='80' fill='none' stroke='#8ab817' stroke-width='26' stroke-linecap='round' stroke-dasharray='437.3 502.7' transform='rotate(-90 100 100)'/></svg>"
+      }
+    },
+    {
+      "type": "text",
+      "x": 120,
+      "y": 360,
+      "w": 720,
+      "h": 360,
+      "props": {
+        "text": "87 %",
+        "font": "display",
+        "size": 220,
+        "color": "#ffffff",
+        "align": "center",
+        "valign": "middle"
+      }
+    },
+    {
+      "type": "text",
+      "x": 940,
+      "y": 300,
+      "w": 880,
+      "h": 120,
+      "props": {
+        "text": "DE LOS JUGADORES",
+        "font": "condensed",
+        "size": 64,
+        "bold": true,
+        "color": "#8ab817"
+      }
+    },
+    {
+      "type": "text",
+      "x": 940,
+      "y": 396,
+      "w": 880,
+      "h": 240,
+      "props": {
+        "text": "vuelve a jugar\nla semana siguiente",
+        "size": 80,
+        "bold": true,
+        "color": "#ffffff"
+      }
+    },
+    {
+      "type": "text",
+      "x": 940,
+      "y": 672,
+      "w": 840,
+      "h": 140,
+      "props": {
+        "text": "Encuesta a 1.240 jugadores de noches de quiz en bares y asociaciones",
+        "size": 40,
+        "color": "#b9b3d1"
+      }
+    }
+  ]
+}

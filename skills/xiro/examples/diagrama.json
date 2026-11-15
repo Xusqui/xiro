@@ -1,0 +1,315 @@
+{
+  "name": "Así funciona una partida",
+  "_estilo": "Diagrama de flujo horizontal: 4 tarjetas con icono SVG de trazo en círculo de color, título y descripción; flechas from/to entre tarjetas",
+  "background": "#1e1b2e",
+  "elements": [
+    {
+      "type": "text",
+      "x": 80,
+      "y": 88,
+      "w": 1760,
+      "h": 140,
+      "props": {
+        "text": "Así funciona una partida",
+        "size": 88,
+        "bold": true,
+        "color": "#ffffff",
+        "align": "center"
+      }
+    },
+    {
+      "type": "text",
+      "x": 80,
+      "y": 216,
+      "w": 1760,
+      "h": 90,
+      "props": {
+        "text": "De la pantalla al móvil y vuelta, en segundos",
+        "size": 44,
+        "color": "#b9b3d1",
+        "align": "center"
+      }
+    },
+    {
+      "type": "rect",
+      "x": 96,
+      "y": 416,
+      "w": 360,
+      "h": 480,
+      "props": {
+        "fill": "#2b2640",
+        "stroke": null,
+        "radius": 32
+      }
+    },
+    {
+      "type": "ellipse",
+      "x": 196,
+      "y": 464,
+      "w": 160,
+      "h": 160,
+      "props": {
+        "fill": "#8ab817",
+        "stroke": null
+      }
+    },
+    {
+      "type": "image",
+      "x": 228,
+      "y": 496,
+      "w": 96,
+      "props": {
+        "svg": "<svg viewBox='0 0 24 24' fill='none' stroke='#1e1b2e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='2' y='4' width='20' height='13' rx='2'/><path d='M8 21h8M12 17v4'/></svg>"
+      }
+    },
+    {
+      "type": "text",
+      "x": 112,
+      "y": 656,
+      "w": 328,
+      "h": 90,
+      "props": {
+        "text": "Pregunta",
+        "size": 48,
+        "bold": true,
+        "color": "#ffffff",
+        "align": "center"
+      }
+    },
+    {
+      "type": "text",
+      "x": 112,
+      "y": 740,
+      "w": 328,
+      "h": 132,
+      "props": {
+        "text": "Sale en la pantalla grande",
+        "size": 36,
+        "color": "#b9b3d1",
+        "align": "center"
+      }
+    },
+    {
+      "type": "rect",
+      "x": 552,
+      "y": 416,
+      "w": 360,
+      "h": 480,
+      "props": {
+        "fill": "#2b2640",
+        "stroke": null,
+        "radius": 32
+      }
+    },
+    {
+      "type": "ellipse",
+      "x": 652,
+      "y": 464,
+      "w": 160,
+      "h": 160,
+      "props": {
+        "fill": "#f9b518",
+        "stroke": null
+      }
+    },
+    {
+      "type": "image",
+      "x": 684,
+      "y": 496,
+      "w": 96,
+      "props": {
+        "svg": "<svg viewBox='0 0 24 24' fill='none' stroke='#1e1b2e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='6' y='2' width='12' height='20' rx='2.5'/><path d='M11 18h2'/></svg>"
+      }
+    },
+    {
+      "type": "text",
+      "x": 568,
+      "y": 656,
+      "w": 328,
+      "h": 90,
+      "props": {
+        "text": "Respuesta",
+        "size": 48,
+        "bold": true,
+        "color": "#ffffff",
+        "align": "center"
+      }
+    },
+    {
+      "type": "text",
+      "x": 568,
+      "y": 740,
+      "w": 328,
+      "h": 132,
+      "props": {
+        "text": "Cada jugador elige en su móvil",
+        "size": 36,
+        "color": "#b9b3d1",
+        "align": "center"
+      }
+    },
+    {
+      "type": "rect",
+      "x": 1008,
+      "y": 416,
+      "w": 360,
+      "h": 480,
+      "props": {
+        "fill": "#2b2640",
+        "stroke": null,
+        "radius": 32
+      }
+    },
+    {
+      "type": "ellipse",
+      "x": 1108,
+      "y": 464,
+      "w": 160,
+      "h": 160,
+      "props": {
+        "fill": "#22d3ee",
+        "stroke": null
+      }
+    },
+    {
+      "type": "image",
+      "x": 1140,
+      "y": 496,
+      "w": 96,
+      "props": {
+        "svg": "<svg viewBox='0 0 24 24' fill='none' stroke='#1e1b2e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6-4.5-4.2 6.1-.7z'/></svg>"
+      }
+    },
+    {
+      "type": "text",
+      "x": 1024,
+      "y": 656,
+      "w": 328,
+      "h": 90,
+      "props": {
+        "text": "Puntos",
+        "size": 48,
+        "bold": true,
+        "color": "#ffffff",
+        "align": "center"
+      }
+    },
+    {
+      "type": "text",
+      "x": 1024,
+      "y": 740,
+      "w": 328,
+      "h": 132,
+      "props": {
+        "text": "Acertar rápido suma más",
+        "size": 36,
+        "color": "#b9b3d1",
+        "align": "center"
+      }
+    },
+    {
+      "type": "rect",
+      "x": 1464,
+      "y": 416,
+      "w": 360,
+      "h": 480,
+      "props": {
+        "fill": "#2b2640",
+        "stroke": null,
+        "radius": 32
+      }
+    },
+    {
+      "type": "ellipse",
+      "x": 1564,
+      "y": 464,
+      "w": 160,
+      "h": 160,
+      "props": {
+        "fill": "#e65453",
+        "stroke": null
+      }
+    },
+    {
+      "type": "image",
+      "x": 1596,
+      "y": 496,
+      "w": 96,
+      "props": {
+        "svg": "<svg viewBox='0 0 24 24' fill='none' stroke='#1e1b2e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z'/><path d='M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3'/></svg>"
+      }
+    },
+    {
+      "type": "text",
+      "x": 1480,
+      "y": 656,
+      "w": 328,
+      "h": 90,
+      "props": {
+        "text": "Ranking",
+        "size": 48,
+        "bold": true,
+        "color": "#ffffff",
+        "align": "center"
+      }
+    },
+    {
+      "type": "text",
+      "x": 1480,
+      "y": 740,
+      "w": 328,
+      "h": 132,
+      "props": {
+        "text": "La clasificación, en directo",
+        "size": 36,
+        "color": "#b9b3d1",
+        "align": "center"
+      }
+    },
+    {
+      "type": "arrow",
+      "from": [
+        470,
+        656
+      ],
+      "to": [
+        538,
+        656
+      ],
+      "props": {
+        "stroke": "#ffffff",
+        "strokeWidth": 6
+      }
+    },
+    {
+      "type": "arrow",
+      "from": [
+        926,
+        656
+      ],
+      "to": [
+        994,
+        656
+      ],
+      "props": {
+        "stroke": "#ffffff",
+        "strokeWidth": 6
+      }
+    },
+    {
+      "type": "arrow",
+      "from": [
+        1382,
+        656
+      ],
+      "to": [
+        1450,
+        656
+      ],
+      "props": {
+        "stroke": "#ffffff",
+        "strokeWidth": 6
+      }
+    }
+  ]
+}

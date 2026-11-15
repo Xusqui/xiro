@@ -1,0 +1,23 @@
+{
+  "name": "Clasificación compacta",
+  "_estilo": "Tabla con «columns» + «rows» (como el generador de IA) y SIN h: la altura sale de las filas y del tamaño de letra.",
+  "background": { "color": "#1e1b2e" },
+  "elements": [
+    { "type": "text", "x": 96, "y": 48, "w": 1728, "h": 130, "props": { "text": "Clasificación", "size": 80, "bold": true, "color": "#ffffff" } },
+    {
+      "type": "table",
+      "x": 96,
+      "y": 220,
+      "w": 1728,
+      "props": {
+        "columns": ["Equipo", "Puntos", "Aciertos"],
+        "rows": [["Los Búhos", 8450, 9], ["Cerebritos", 7920, 8], ["La Mesa 4", 7310, 8]],
+        "size": 44,
+        "color": "#ffffff",
+        "headerFill": "#2b2640",
+        "borderColor": "#b9b3d1",
+        "borderWidth": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,314 @@
+{
+  "name": "Pregunta con cuatro opciones",
+  "_estilo": "Pregunta tipo test con los colores de las opciones de XiRo (rojo, azul, amarillo, verde) y sombra inferior como los botones del jugador; icono SVG de reloj",
+  "background": "#1e1b2e",
+  "elements": [
+    {
+      "type": "text",
+      "x": 80,
+      "y": 64,
+      "w": 1000,
+      "h": 76,
+      "props": {
+        "text": "RONDA 2 · CINE",
+        "font": "condensed",
+        "size": 36,
+        "bold": true,
+        "color": "#f9b518"
+      }
+    },
+    {
+      "type": "text",
+      "x": 80,
+      "y": 124,
+      "w": 1500,
+      "h": 208,
+      "props": {
+        "text": "¿Qué película ganó el Óscar a la mejor película en 2020?",
+        "size": 72,
+        "bold": true,
+        "color": "#ffffff"
+      }
+    },
+    {
+      "type": "image",
+      "x": 1640,
+      "y": 148,
+      "w": 80,
+      "props": {
+        "svg": "<svg viewBox='0 0 24 24' fill='none' stroke='#b9b3d1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='13' r='8'/><path d='M12 9v4l2.5 2.5M9 2h6M12 2v3'/></svg>"
+      }
+    },
+    {
+      "type": "text",
+      "x": 1600,
+      "y": 228,
+      "w": 160,
+      "h": 80,
+      "props": {
+        "text": "20 s",
+        "font": "condensed",
+        "size": 40,
+        "bold": true,
+        "color": "#b9b3d1",
+        "align": "center"
+      }
+    },
+    {
+      "type": "rect",
+      "x": 96,
+      "y": 416,
+      "w": 852,
+      "h": 244,
+      "props": {
+        "fill": "#7f1d1d",
+        "stroke": null,
+        "radius": 28
+      }
+    },
+    {
+      "type": "rect",
+      "x": 96,
+      "y": 404,
+      "w": 852,
+      "h": 244,
+      "props": {
+        "fill": "#dc2626",
+        "stroke": null,
+        "radius": 28
+      }
+    },
+    {
+      "type": "ellipse",
+      "x": 136,
+      "y": 474,
+      "w": 104,
+      "h": 104,
+      "props": {
+        "fill": "#00000033",
+        "stroke": null
+      }
+    },
+    {
+      "type": "text",
+      "x": 108,
+      "y": 446,
+      "w": 160,
+      "h": 160,
+      "props": {
+        "text": "A",
+        "font": "display",
+        "size": 72,
+        "color": "#ffffff",
+        "align": "center",
+        "valign": "middle"
+      }
+    },
+    {
+      "type": "text",
+      "x": 264,
+      "y": 420,
+      "w": 660,
+      "h": 212,
+      "props": {
+        "text": "Parásitos",
+        "size": 52,
+        "bold": true,
+        "color": "#ffffff",
+        "valign": "middle"
+      }
+    },
+    {
+      "type": "rect",
+      "x": 972,
+      "y": 416,
+      "w": 852,
+      "h": 244,
+      "props": {
+        "fill": "#1e40af",
+        "stroke": null,
+        "radius": 28
+      }
+    },
+    {
+      "type": "rect",
+      "x": 972,
+      "y": 404,
+      "w": 852,
+      "h": 244,
+      "props": {
+        "fill": "#2563eb",
+        "stroke": null,
+        "radius": 28
+      }
+    },
+    {
+      "type": "ellipse",
+      "x": 1012,
+      "y": 474,
+      "w": 104,
+      "h": 104,
+      "props": {
+        "fill": "#00000033",
+        "stroke": null
+      }
+    },
+    {
+      "type": "text",
+      "x": 984,
+      "y": 446,
+      "w": 160,
+      "h": 160,
+      "props": {
+        "text": "B",
+        "font": "display",
+        "size": 72,
+        "color": "#ffffff",
+        "align": "center",
+        "valign": "middle"
+      }
+    },
+    {
+      "type": "text",
+      "x": 1140,
+      "y": 420,
+      "w": 660,
+      "h": 212,
+      "props": {
+        "text": "1917",
+        "size": 52,
+        "bold": true,
+        "color": "#ffffff",
+        "valign": "middle"
+      }
+    },
+    {
+      "type": "rect",
+      "x": 96,
+      "y": 716,
+      "w": 852,
+      "h": 244,
+      "props": {
+        "fill": "#854d0e",
+        "stroke": null,
+        "radius": 28
+      }
+    },
+    {
+      "type": "rect",
+      "x": 96,
+      "y": 704,
+      "w": 852,
+      "h": 244,
+      "props": {
+        "fill": "#eab308",
+        "stroke": null,
+        "radius": 28
+      }
+    },
+    {
+      "type": "ellipse",
+      "x": 136,
+      "y": 774,
+      "w": 104,
+      "h": 104,
+      "props": {
+        "fill": "#00000033",
+        "stroke": null
+      }
+    },
+    {
+      "type": "text",
+      "x": 108,
+      "y": 746,
+      "w": 160,
+      "h": 160,
+      "props": {
+        "text": "C",
+        "font": "display",
+        "size": 72,
+        "color": "#1e1b2e",
+        "align": "center",
+        "valign": "middle"
+      }
+    },
+    {
+      "type": "text",
+      "x": 264,
+      "y": 720,
+      "w": 660,
+      "h": 212,
+      "props": {
+        "text": "Joker",
+        "size": 52,
+        "bold": true,
+        "color": "#1e1b2e",
+        "valign": "middle"
+      }
+    },
+    {
+      "type": "rect",
+      "x": 972,
+      "y": 716,
+      "w": 852,
+      "h": 244,
+      "props": {
+        "fill": "#14532d",
+        "stroke": null,
+        "radius": 28
+      }
+    },
+    {
+      "type": "rect",
+      "x": 972,
+      "y": 704,
+      "w": 852,
+      "h": 244,
+      "props": {
+        "fill": "#16a34a",
+        "stroke": null,
+        "radius": 28
+      }
+    },
+    {
+      "type": "ellipse",
+      "x": 1012,
+      "y": 774,
+      "w": 104,
+      "h": 104,
+      "props": {
+        "fill": "#00000033",
+        "stroke": null
+      }
+    },
+    {
+      "type": "text",
+      "x": 984,
+      "y": 746,
+      "w": 160,
+      "h": 160,
+      "props": {
+        "text": "D",
+        "font": "display",
+        "size": 72,
+        "color": "#ffffff",
+        "align": "center",
+        "valign": "middle"
+      }
+    },
+    {
+      "type": "text",
+      "x": 1140,
+      "y": 720,
+      "w": 660,
+      "h": 212,
+      "props": {
+        "text": "Érase una vez\nen… Hollywood",
+        "size": 52,
+        "bold": true,
+        "color": "#ffffff",
+        "valign": "middle"
+      }
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "Tres patrones",
+  "_estilo": "Portada, dos columnas e imagen y texto, todo colocado por patrón. La imagen (un SVG dibujado aquí) se ajusta sola a su hueco respetando su proporción.",
+  "slides": [
+    {
+      "layout": "cover",
+      "background": { "color": "#1e1b2e" },
+      "elements": [
+        { "type": "text", "role": "title", "props": { "text": "Noche de cine", "font": "display", "color": "#ffffff" } },
+        { "type": "text", "role": "subtitle", "props": { "text": "Quince preguntas, tres rondas", "color": "#b9b3d1" } }
+      ]
+    },
+    {
+      "layout": "two-columns",
+      "background": { "color": "#ffffff" },
+      "elements": [
+        { "type": "text", "role": "title", "props": { "text": "Cómo se puntúa", "font": "serif", "bold": true, "color": "#1f3a5f" } },
+        { "type": "text", "role": "body", "props": { "text": "Acertar\nCuanto antes, más puntos", "color": "#1f3a5f" } },
+        { "type": "text", "role": "body", "props": { "text": "Comodín\nDuplica una respuesta", "color": "#1f3a5f" } }
+      ]
+    },
+    {
+      "layout": "image-text",
+      "background": { "color": "#fdf6e3" },
+      "elements": [
+        { "type": "text", "role": "title", "props": { "text": "La sala", "font": "elegant", "bold": true, "color": "#3b2f2f" } },
+        { "type": "image", "role": "image", "props": { "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><rect width='400' height='300' fill='#b45309'/><circle cx='200' cy='150' r='90' fill='#fdf6e3'/></svg>" } },
+        { "type": "text", "role": "body", "props": { "text": "Doce mesas de seis\nPantalla al fondo", "color": "#3b2f2f" } }
+      ]
+    }
+  ]
+}

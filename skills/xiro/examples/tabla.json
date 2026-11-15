@@ -1,0 +1,54 @@
+{
+  "name": "Clasificación tras la ronda 2",
+  "_estilo": "Fondo con degradado, título con una palabra destacada (runs), tabla con cabecera y bandas, estrella del catálogo con sombra",
+  "background": { "color": "#1e1b2e", "gradient": { "to": "#2b1f45", "angle": 160 } },
+  "elements": [
+    {
+      "type": "text",
+      "x": 80,
+      "y": 64,
+      "w": 1400,
+      "h": 150,
+      "props": {
+        "runs": [{ "text": "Clasificación " }, { "text": "ronda 2", "color": "#f9b518" }],
+        "size": 96,
+        "bold": true,
+        "color": "#ffffff"
+      }
+    },
+    {
+      "type": "path",
+      "x": 1656,
+      "y": 72,
+      "w": 168,
+      "h": 160,
+      "shadow": "soft",
+      "props": { "preset": "star", "fill": "#f9b518", "stroke": null }
+    },
+    {
+      "type": "table",
+      "x": 96,
+      "y": 272,
+      "w": 1728,
+      "h": 640,
+      "shadow": { "x": 0, "y": 16, "blur": 40, "color": "#00000066" },
+      "props": {
+        "rows": [
+          ["Puesto", "Equipo", "Aciertos", "Puntos"],
+          [1, "Los Búhos", 9, 8450],
+          [2, "Cerebritos", 8, 7920],
+          [3, "La Mesa 4", 8, 7310],
+          [4, "Sin Nombre", 6, 5480]
+        ],
+        "size": 48,
+        "color": "#ffffff",
+        "align": "center",
+        "headerFill": "#8ab817",
+        "fill": "#2b2640",
+        "bandFill": "#352f4d",
+        "borderColor": "#1e1b2e",
+        "borderWidth": 4
+      }
+    }
+  ]
+}

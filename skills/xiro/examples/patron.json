@@ -1,0 +1,10 @@
+{
+  "name": "Normas de la sala",
+  "_estilo": "Patrón «title-content»: título y cuerpo con role y SIN caja; XiRo los coloca en los huecos del patrón (tamaño, alineación y posición). El color sí lo pones tú.",
+  "layout": "title-content",
+  "background": { "color": "#082f49" },
+  "elements": [
+    { "type": "text", "role": "title", "props": { "text": "Normas de la sala", "font": "condensed", "bold": true, "color": "#ffffff" } },
+    { "type": "text", "role": "body", "props": { "text": "Un móvil por equipo\nNada de buscar las respuestas\nTres comodines por equipo", "color": "#ffffff", "list": "bullet" } }
+  ]
+}

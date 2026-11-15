@@ -1,0 +1,100 @@
+{
+  "name": "Normas del concurso",
+  "_estilo": "Lista numerada multinivel (paras con sangría y letras), palabras en negrita y color con runs, icono SVG con borde y texto alternativo",
+  "background": "#1e1b2e",
+  "elements": [
+    {
+      "type": "text",
+      "x": 80,
+      "y": 64,
+      "w": 1200,
+      "h": 150,
+      "props": {
+        "text": "Normas del concurso",
+        "size": 96,
+        "bold": true,
+        "color": "#ffffff"
+      }
+    },
+    {
+      "type": "line",
+      "from": [
+        96,
+        214
+      ],
+      "to": [
+        256,
+        214
+      ],
+      "props": {
+        "stroke": "#22d3ee",
+        "strokeWidth": 10
+      }
+    },
+    {
+      "type": "text",
+      "x": 80,
+      "y": 272,
+      "w": 1240,
+      "h": 640,
+      "props": {
+        "runs": [
+          {
+            "text": "Juega por equipos de "
+          },
+          {
+            "text": "2 a 5 personas",
+            "bold": true,
+            "color": "#22d3ee"
+          },
+          {
+            "text": "\nUn móvil por equipo\nResponde antes del pitido final\nCuanto antes, más puntos\nEl "
+          },
+          {
+            "text": "comodín",
+            "bold": true,
+            "color": "#f9b518"
+          },
+          {
+            "text": " dobla una respuesta"
+          }
+        ],
+        "list": "number",
+        "paras": [
+          {},
+          {
+            "indent": 1,
+            "list": "alpha"
+          },
+          {
+            "spaceBefore": 24
+          },
+          {
+            "indent": 1,
+            "list": "alpha"
+          },
+          {
+            "spaceBefore": 24
+          }
+        ],
+        "size": 60,
+        "color": "#ffffff",
+        "valign": "middle"
+      }
+    },
+    {
+      "type": "image",
+      "x": 1424,
+      "y": 392,
+      "w": 400,
+      "props": {
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='#2b2640'/><path d='M30 22h40v14a20 20 0 0 1-40 0z' fill='#f9b518'/><path d='M30 26h-10a10 10 0 0 0 10 14M70 26h10a10 10 0 0 1-10 14' fill='none' stroke='#f9b518' stroke-width='5'/><rect x='45' y='55' width='10' height='14' fill='#f9b518'/><rect x='34' y='69' width='32' height='9' rx='3' fill='#f9b518'/></svg>",
+        "alt": "Trofeo",
+        "fit": "cover",
+        "radius": 40,
+        "borderWidth": 6,
+        "borderColor": "#22d3ee"
+      }
+    }
+  ]
+}

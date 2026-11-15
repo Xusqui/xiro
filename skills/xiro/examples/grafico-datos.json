@@ -1,0 +1,44 @@
+{
+  "name": "Gráficos con datos",
+  "_estilo": "Gráfico con «data» (categorías y series): la skill crea la tabla de datos oculta y el vínculo. Columnas con dos series y sectores con una.",
+  "slides": [
+    {
+      "background": { "color": "#1e1b2e" },
+      "elements": [
+        { "type": "text", "x": 80, "y": 48, "w": 1760, "h": 130, "props": { "text": "Jugadores por temporada", "size": 80, "bold": true, "color": "#ffffff" } },
+        {
+          "type": "chart",
+          "x": 80,
+          "y": 200,
+          "w": 1760,
+          "h": 780,
+          "props": {
+            "data": { "categories": ["2024", "2025", "2026"], "series": [{ "name": "Móvil", "values": [120, 340, 560] }, { "name": "Pantalla", "values": [30, 80, 140] }] },
+            "kind": "column",
+            "values": true,
+            "color": "#ffffff"
+          }
+        }
+      ]
+    },
+    {
+      "background": { "color": "#ffffff" },
+      "elements": [
+        { "type": "text", "x": 80, "y": 48, "w": 1760, "h": 130, "props": { "text": "De dónde vienen", "size": 80, "bold": true, "color": "#1f3a5f" } },
+        {
+          "type": "chart",
+          "x": 360,
+          "y": 200,
+          "w": 1200,
+          "h": 780,
+          "props": {
+            "data": { "categories": ["Colegios", "Empresas", "Familias"], "series": [{ "name": "Partidas", "values": [55, 30, 15] }] },
+            "kind": "doughnut",
+            "values": true,
+            "color": "#1f3a5f"
+          }
+        }
+      ]
+    }
+  ]
+}

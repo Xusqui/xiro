@@ -1,0 +1,12 @@
+{
+  "name": "Reglas del concurso",
+  "_estilo": "Con role y layout: título, subtítulo, cuerpo y pie con su rol en el tema, y el patrón «título y contenido». Al cambiar el tema del juego en XiRo, estos elementos toman sus fuentes y colores; lo que no lleva role solo se ajusta si deja de leerse.",
+  "layout": "title-content",
+  "background": { "color": "#1e1b2e" },
+  "elements": [
+    { "type": "text", "role": "title", "x": 80, "y": 48, "w": 1760, "h": 140, "props": { "text": "Reglas del concurso", "size": 72, "bold": true, "color": "#ffffff", "valign": "middle" } },
+    { "type": "text", "role": "subtitle", "x": 80, "y": 190, "w": 1760, "h": 90, "props": { "text": "Ronda 1 · Cine", "size": 40, "color": "#b9b3d1" } },
+    { "type": "text", "role": "body", "x": 80, "y": 310, "w": 1760, "h": 560, "props": { "text": "Un móvil por equipo\nNada de buscar las respuestas\nTres comodines por equipo", "size": 56, "color": "#ffffff", "list": "bullet" } },
+    { "type": "text", "role": "caption", "x": 80, "y": 920, "w": 1760, "h": 90, "props": { "text": "Gana el equipo con más puntos al final", "size": 28, "color": "#b9b3d1" } }
+  ]
+}

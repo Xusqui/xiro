@@ -1,0 +1,239 @@
+{
+  "name": "Cómo se juega",
+  "_estilo": "Título + 4 pasos numerados en tarjetas 2x2 (paleta XiRo noche); círculos con número y texto alineado",
+  "background": "#1e1b2e",
+  "elements": [
+    {
+      "type": "text",
+      "x": 80,
+      "y": 64,
+      "w": 1400,
+      "h": 150,
+      "props": {
+        "text": "Cómo se juega",
+        "size": 96,
+        "bold": true,
+        "color": "#ffffff"
+      }
+    },
+    {
+      "type": "line",
+      "from": [
+        96,
+        214
+      ],
+      "to": [
+        256,
+        214
+      ],
+      "props": {
+        "stroke": "#8ab817",
+        "strokeWidth": 10
+      }
+    },
+    {
+      "type": "rect",
+      "x": 96,
+      "y": 272,
+      "w": 852,
+      "h": 308,
+      "props": {
+        "fill": "#2b2640",
+        "stroke": null,
+        "radius": 32
+      }
+    },
+    {
+      "type": "ellipse",
+      "x": 144,
+      "y": 370,
+      "w": 112,
+      "h": 112,
+      "props": {
+        "fill": "#8ab817",
+        "stroke": null
+      }
+    },
+    {
+      "type": "text",
+      "x": 120,
+      "y": 346,
+      "w": 160,
+      "h": 160,
+      "props": {
+        "text": "1",
+        "font": "display",
+        "size": 80,
+        "color": "#1e1b2e",
+        "align": "center",
+        "valign": "middle"
+      }
+    },
+    {
+      "type": "text",
+      "x": 288,
+      "y": 296,
+      "w": 620,
+      "h": 260,
+      "props": {
+        "text": "Entra en xiro.app desde\nel móvil y escribe el\ncódigo de la sala",
+        "size": 44,
+        "color": "#ffffff",
+        "valign": "middle"
+      }
+    },
+    {
+      "type": "rect",
+      "x": 972,
+      "y": 272,
+      "w": 852,
+      "h": 308,
+      "props": {
+        "fill": "#2b2640",
+        "stroke": null,
+        "radius": 32
+      }
+    },
+    {
+      "type": "ellipse",
+      "x": 1020,
+      "y": 370,
+      "w": 112,
+      "h": 112,
+      "props": {
+        "fill": "#f9b518",
+        "stroke": null
+      }
+    },
+    {
+      "type": "text",
+      "x": 996,
+      "y": 346,
+      "w": 160,
+      "h": 160,
+      "props": {
+        "text": "2",
+        "font": "display",
+        "size": 80,
+        "color": "#1e1b2e",
+        "align": "center",
+        "valign": "middle"
+      }
+    },
+    {
+      "type": "text",
+      "x": 1164,
+      "y": 296,
+      "w": 620,
+      "h": 260,
+      "props": {
+        "text": "Elige un nombre de\nequipo y espera a que\nempiece la ronda",
+        "size": 44,
+        "color": "#ffffff",
+        "valign": "middle"
+      }
+    },
+    {
+      "type": "rect",
+      "x": 96,
+      "y": 616,
+      "w": 852,
+      "h": 308,
+      "props": {
+        "fill": "#2b2640",
+        "stroke": null,
+        "radius": 32
+      }
+    },
+    {
+      "type": "ellipse",
+      "x": 144,
+      "y": 714,
+      "w": 112,
+      "h": 112,
+      "props": {
+        "fill": "#22d3ee",
+        "stroke": null
+      }
+    },
+    {
+      "type": "text",
+      "x": 120,
+      "y": 690,
+      "w": 160,
+      "h": 160,
+      "props": {
+        "text": "3",
+        "font": "display",
+        "size": 80,
+        "color": "#1e1b2e",
+        "align": "center",
+        "valign": "middle"
+      }
+    },
+    {
+      "type": "text",
+      "x": 288,
+      "y": 640,
+      "w": 620,
+      "h": 260,
+      "props": {
+        "text": "Responde rápido: cuanto\nantes aciertes, más\npuntos sumas",
+        "size": 44,
+        "color": "#ffffff",
+        "valign": "middle"
+      }
+    },
+    {
+      "type": "rect",
+      "x": 972,
+      "y": 616,
+      "w": 852,
+      "h": 308,
+      "props": {
+        "fill": "#2b2640",
+        "stroke": null,
+        "radius": 32
+      }
+    },
+    {
+      "type": "ellipse",
+      "x": 1020,
+      "y": 714,
+      "w": 112,
+      "h": 112,
+      "props": {
+        "fill": "#e65453",
+        "stroke": null
+      }
+    },
+    {
+      "type": "text",
+      "x": 996,
+      "y": 690,
+      "w": 160,
+      "h": 160,
+      "props": {
+        "text": "4",
+        "font": "display",
+        "size": 80,
+        "color": "#1e1b2e",
+        "align": "center",
+        "valign": "middle"
+      }
+    },
+    {
+      "type": "text",
+      "x": 1164,
+      "y": 640,
+      "w": 620,
+      "h": 260,
+      "props": {
+        "text": "Usa tu comodín una vez\npor partida para doblar\nlos puntos",
+        "size": 44,
+        "color": "#ffffff",
+        "valign": "middle"
+      }
+    }
+  ]
+}
