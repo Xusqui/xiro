@@ -24,7 +24,8 @@ globalThis.StandaloneCanvasSlide = (() => {
                 labels: {
                     videoOnScreen:
                         window.XiroI18n?.t('standalone.game.video_presenter_only') ||
-                        'Este vídeo solo se ve en la pantalla del presentador'
+                        'Este vídeo solo se ve en la pantalla del presentador',
+                    chartNoData: window.XiroI18n?.t('standalone.game.chart_no_data') || 'Sin datos'
                 }
             });
         }

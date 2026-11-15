@@ -116,7 +116,11 @@
         return (0.2126 * (c >> 16) + 0.7152 * ((c >> 8) & 255) + 0.0722 * (c & 255)) / 255 > 0.5;
     }
 
-    /** Colores de las 8 posiciones: los elegidos y, donde no hay, los de la paleta. */
+    /**
+     * Colores de las 8 posiciones: los elegidos y, donde no hay, los de la paleta.
+     * @param {Object} p - Props normalizadas.
+     * @returns {Array<string>} Los 8 colores con los que se pintan las series.
+     */
     function colorsFor(p) {
         const palette = PALETTE[lightText(p.color) ? 'dark' : 'light'];
         return palette.map(function (c, i) {
@@ -177,7 +181,8 @@
         chartData: readData,
         describe: describe,
         linkCharts: linkCharts,
-        chartSvg: chartSvg
+        chartSvg: chartSvg,
+        seriesColors: colorsFor
     };
 
     root.XiroSlideCanvasChart = api;

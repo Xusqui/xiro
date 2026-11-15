@@ -26,7 +26,8 @@
     "tv.lobby.type.custom": "Joko pertsonalizatuak",
     "tv.lobby.type.games": "Jokoak",
     "tv.lobby.type.banks": "Galdera-bankuak",
-    "tv.lobby.type.trivial": "Trivial jokoak"
+    "tv.lobby.type.trivial": "Trivial jokoak",
+    "tv.slides.chart_no_data": "Daturik ez"
   },
   "literals": {
     "Error al cargar PINs": "Errorea PINak kargatzean",

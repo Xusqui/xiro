@@ -120,7 +120,7 @@ function attachGestures(pan, frame) {
  * pantallas del jugador sustituyen body.innerHTML, y el visor se cierra solo cuando con ese
  * cambio desaparece la diapositiva libre (activeHost).
  * @param {Object} canvas - slide_canvas de la diapositiva.
- * @param {{close: string, hint: string, videoOnScreen: string}} labels - Textos ya traducidos.
+ * @param {{close: string, hint: string, videoOnScreen: string, chartNoData: string}} labels - Textos ya traducidos.
  * @returns {{close: Function, show: Function}} Cierre idempotente y cambio de diapositiva.
  */
 export function openCanvasZoom(canvas, labels) {
@@ -183,7 +183,7 @@ export function closeCanvasZoom() {
  * de otra diapositiva libre), pasa a mostrar esta. Añade la pista «Toca para ampliar».
  * @param {HTMLElement} host - Contenedor de la diapositiva del jugador.
  * @param {Object} canvas - slide_canvas.
- * @param {Object} labels - Textos ya traducidos (close, hint, videoOnScreen).
+ * @param {Object} labels - Textos ya traducidos (close, hint, videoOnScreen, chartNoData).
  * @returns {{disable: Function}} Quita el gesto y la pista (el visor sigue abierto).
  */
 export function enableCanvasZoom(host, canvas, labels) {

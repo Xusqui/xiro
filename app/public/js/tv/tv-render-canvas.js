@@ -62,7 +62,10 @@ window.TVApp.RenderCanvas = (function () {
         const host = document.getElementById('tv-canvas-host');
         const canvas = slide && slide.slide_canvas;
         if (host && canvas) {
-            mounted = window.XiroSlideCanvasRender.mount(host, canvas, { mode: 'tv' });
+            mounted = window.XiroSlideCanvasRender.mount(host, canvas, {
+                mode: 'tv',
+                labels: { chartNoData: _t('tv.slides.chart_no_data', null, 'Sin datos') }
+            });
             const elements = canvas.elements || [];
             Array.prototype.forEach.call(host.querySelectorAll('[data-xsc-video]'), function (box) {
                 box.innerHTML = mediaHtml(elements[Number(box.getAttribute('data-xsc-video'))]);

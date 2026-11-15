@@ -35,7 +35,9 @@ const CATALOG = `- "cover" (portada): {"layout":"cover","kicker":"<antetítulo>"
 - "timeline" (de 2 a 6 hitos): {"layout":"timeline","title":"<título>","events":[{"date":"<fecha>","text":"<hito>"}]}
 - "question" (pregunta con 2 a 4 opciones, sin marcar la correcta): {"layout":"question","kicker":"<ronda o tema>","question":"<pregunta>","options":["<opción>","<opción>"]}
 - "image" (una imagen o foto grande, con título y pie de foto): {"layout":"image","title":"<título>","image":"<imagen>","caption":"<pie de foto>"}
-- "split" (un párrafo o de 2 a 5 puntos, no los dos, junto a una imagen): {"layout":"split","title":"<título>","text":"<párrafo>","items":["<punto>","<punto>"],"image":"<imagen>"}`;
+- "split" (un párrafo o de 2 a 5 puntos, no los dos, junto a una imagen): {"layout":"split","title":"<título>","text":"<párrafo>","items":["<punto>","<punto>"],"image":"<imagen>"}
+- "table" (tabla de datos: de 2 a 6 columnas y hasta 8 filas, la primera lista son las cabeceras): {"layout":"table","title":"<título>","subtitle":"<subtítulo>","columns":["<columna>","<columna>"],"rows":[["<celda>","<celda>"]],"note":"<fuente>"}
+- "chart" (gráfico de cifras reales; "kind": "column", "bar", "line", "area", "pie" o "doughnut"): {"layout":"chart","title":"<título>","subtitle":"<subtítulo>","kind":"column","categories":["<categoría>","<categoría>"],"series":[{"name":"<serie>","values":[<número>,<número>]}],"note":"<fuente>"}`;
 
 const IMAGE_RULES = `- Imágenes ("image"): solo si el usuario pide imágenes o fotos, o si adjunta alguna. Valores: "img1", "img2"… para las adjuntas; la URL https de una imagen que venga en la petición, tal cual; o "search: <2 a 4 palabras en inglés>" para una foto libre de Wikimedia Commons de algo concreto que se pueda fotografiar (un animal, un lugar, un monumento, un objeto, una obra de arte, una persona famosa). Nunca inventes URLs.
 - Una imagen sola y grande va en "image"; con texto o puntos, en "split"; en la portada, en el campo "image" de "cover". Sin imagen, no uses "image" ni "split".`;
@@ -71,11 +73,11 @@ function rules(count, lang, theme) {
 - Responde SOLO con un objeto JSON {"theme":"<estilo>","slides":[...]} con exactamente ${count} diapositiva(s), sin texto antes ni después.
 - Cada diapositiva lleva "layout" y SOLO los campos de su diseño; omite los opcionales que no aporten nada.
 - Textos cortos, para leerse de lejos: títulos de hasta 60 caracteres; puntos, textos de tarjeta y resultados de hasta 90; sin markdown, viñetas ni numeración (el diseño ya la pone).
-- Elige el diseño que mejor cuente cada contenido: una idea que lleva a varios resultados → "flow"; secuencias → "steps" o "process"; fechas → "timeline"; una cifra → "stat"; dos posturas → "comparison"; varias ideas paralelas → "cards".
+- Elige el diseño que mejor cuente cada contenido: una idea que lleva a varios resultados → "flow"; secuencias → "steps" o "process"; fechas → "timeline"; una cifra → "stat"; varias cifras comparables → "chart" ("pie" o "doughnut" para partes de un total, con una sola serie; "line" o "area" para una evolución); datos de texto en columnas → "table"; dos posturas → "comparison"; varias ideas paralelas → "cards".
 - Si hay varias diapositivas, varía los diseños; con 3 o más, empieza con "cover".
 - Tonos ("tone"): "positive" (a favor, correcto, éxito), "negative" (en contra, riesgo, error), "neutral" (sin postura), "accent" y "accent2" (destacar).
 - Iconos ("icon"), solo de esta lista: ${ICON_NAMES.join(', ')}.
-- "note" solo para fuentes o aclaraciones reales; no inventes datos, cifras ni fuentes.
+- "note" solo para fuentes o aclaraciones reales; no inventes datos, cifras ni fuentes. En "chart", los valores son números sin unidades ni separador de miles, y solo cifras que estén en la petición o el documento; si no las hay, no uses "chart".
 ${IMAGE_RULES}
 - Puedes partir un texto en dos líneas con \\n por un sitio natural.
 - Todo el texto en ${lang}, bien escrito.

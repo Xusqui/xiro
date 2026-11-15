@@ -100,7 +100,8 @@ export function renderCanvasSlide(slide) {
     const host = document.getElementById('slide-canvas-host');
     const canvas = slide && slide.slide_canvas;
     if (host && canvas) {
-        mounted = window.XiroSlideCanvasRender.mount(host, canvas, { mode: 'presenter' });
+        const labels = { chartNoData: _t('presenter.slides.chart_no_data', null, 'Sin datos') };
+        mounted = window.XiroSlideCanvasRender.mount(host, canvas, { mode: 'presenter', labels });
         mountCanvasVideos(host, canvas);
     }
 

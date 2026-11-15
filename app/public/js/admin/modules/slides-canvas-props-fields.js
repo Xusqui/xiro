@@ -8,7 +8,7 @@
  *
  * Descriptor: { key, label, kind: number|color|select|segment|check|textarea|action, min, max,
  *               options: [[valor, etiqueta]] (segment: [valor, etiqueta, icono HTML]),
- *               noneLabel (color que admite «sin color»),
+ *               noneLabel (color que admite «sin color»), bare (sin etiqueta visible),
  *               action (botón), icon, quiet (acción discreta), when(el) }
  */
 (function () {
@@ -184,7 +184,7 @@
             .filter(f => !f.when || f.when(el))
             .map(f => {
                 const label =
-                    f.kind === 'check' || f.kind === 'action'
+                    f.kind === 'check' || f.kind === 'action' || f.bare
                         ? ''
                         : '<label class="' + LABEL + '" for="' + fieldId(f) + '">' + tx(f.label) + '</label>';
                 return '<div class="xsce-field">' + label + control(f, values[f.key]) + '</div>';

@@ -3,6 +3,7 @@
     "player.slides.video_title": "Vídeo",
     "player.slides.video_watch_screen": "Mira a pantalla do presentador",
     "player.slides.zoom_hint": "Toca para ampliar",
-    "player.slides.zoom_close": "Pechar"
+    "player.slides.zoom_close": "Pechar",
+    "player.slides.chart_no_data": "Sen datos"
   }
 }

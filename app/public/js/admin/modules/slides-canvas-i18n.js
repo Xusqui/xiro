@@ -24,9 +24,9 @@
         return t(key, vars).replace(/[&<>"']/g, c => HTML_ESCAPES[c]);
     }
 
-    /** Rótulos del hueco de vídeo para core/slide-canvas-render.js (opción labels). */
+    /** Rótulos para core/slide-canvas-render.js (opción labels): hueco de vídeo y gráfico sin datos. */
     function videoLabels() {
-        return { localVideo: t('video_label.local'), video: t('video_label.generic') };
+        return { localVideo: t('video_label.local'), video: t('video_label.generic'), chartNoData: t('chart_no_data') };
     }
 
     XiroCanvasEditor.t = t;

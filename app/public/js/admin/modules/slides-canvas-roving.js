@@ -22,7 +22,10 @@
 
     /** Controles de la barra en orden, sin los de las zonas excluidas. */
     function items(bar) {
-        return Array.prototype.filter.call(bar.container.querySelectorAll(CONTROLS), c => !(bar.skip && c.closest(bar.skip)));
+        return Array.prototype.filter.call(
+            bar.container.querySelectorAll(CONTROLS),
+            c => !(bar.skip && c.closest(bar.skip))
+        );
     }
 
     function makeStop(bar, stop) {

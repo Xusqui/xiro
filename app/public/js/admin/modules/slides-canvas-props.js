@@ -33,7 +33,7 @@
         }
     ];
     // Cabecera del panel: icono de cada tipo (el título lo da propsByType)
-    const TYPE_ICONS = { text: 'fa-font', shape: 'fa-shapes', image: 'fa-image', video: 'fa-film', table: 'fa-table' };
+    const TYPE_ICONS = { text: 'fa-font', shape: 'fa-shapes', image: 'fa-image', video: 'fa-film', table: 'fa-table', chart: 'fa-chart-column' };
     const SHAPES = ['rect', 'ellipse', 'line', 'arrow'];
     const GEOMETRY_KEYS = ['x', 'y', 'w', 'h', 'rotation'];
 
@@ -70,8 +70,24 @@
         return '<p class="xsce-tip">' + XiroCanvasEditor.th('panel.tip').replace('{dblclick}', key) + '</p>';
     }
 
-    function render(state) {
-        if (!panel) return;
+    /** ¿Tiene el foco un campo de texto, número o color del panel? */
+    function isWriting() {
+        const active = document.activeElement;
+        return !!active && active !== panel && panel.contains(active) && active.matches('textarea, input:not([type="checkbox"])');
+    }
+
+    /** Selector del control con el foco, para devolvérselo después de repintar el panel. */
+    function focusKey() {
+        const active = document.activeElement;
+        if (!active || active === panel || !panel.contains(active)) return null;
+        if (active.id) return '#' + active.id;
+        const prop = active.getAttribute('data-canvas-prop');
+        if (prop) return '[data-canvas-prop="' + prop + '"]' + (active.hasAttribute('value') ? '[value="' + active.getAttribute('value') + '"]' : '');
+        const own = ['data-canvas-panel-action', 'data-chart-hide', 'data-table-hide'].find(a => active.hasAttribute(a));
+        return own ? '[' + own + (active.getAttribute(own) ? '="' + active.getAttribute(own) + '"' : '') + ']' : null;
+    }
+
+    function paint(state) {
         const F = XiroCanvasEditor.propsFields;
         const S = XiroCanvasEditor.propsStyle;
         const ids = XiroCanvasEditor.getSelectedIds();
@@ -82,8 +98,8 @@
         }
         const el = XiroCanvasEditor.getSelected();
         const id = el ? el.id : null;
-        // No se repinta el campo en el que se está escribiendo (perdería el cursor)
-        if (id === shownId && panel.contains(document.activeElement) && document.activeElement !== panel) return;
+        // No se repinta el campo en el que se escribe o se elige un color (perdería el cursor o el selector); casillas, listas y botones sí
+        if (id === shownId && isWriting()) return;
         shownId = id;
         const th = XiroCanvasEditor.th;
         if (!el) {
@@ -111,6 +127,14 @@
                 th('panel.geometry'),
                 '<div class="xsce-grid2">' + F.fieldsHtml(GEOMETRY_FIELDS, el, el) + '</div>'
             );
+    }
+
+    function render(state) {
+        if (!panel) return;
+        const focus = focusKey();
+        paint(state);
+        const node = focus ? panel.querySelector(focus) : null;
+        if (node && node !== document.activeElement) node.focus();
     }
 
     /** Botón de icono pulsado: marca el activo del grupo y aplica su valor (un paso de deshacer). */

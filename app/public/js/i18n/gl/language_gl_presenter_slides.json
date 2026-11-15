@@ -13,6 +13,7 @@
     "presenter.slides.points_per_player": "Os puntos súmanse a cada xogador",
     "presenter.slides.player_singular": "xogador",
     "presenter.slides.player_plural": "xogadores",
-    "presenter.slides.video_unsupported": "Non se pode reproducir este vídeo"
+    "presenter.slides.video_unsupported": "Non se pode reproducir este vídeo",
+    "presenter.slides.chart_no_data": "Sen datos"
   }
 }

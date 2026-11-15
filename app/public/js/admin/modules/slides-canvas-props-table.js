@@ -3,6 +3,7 @@
  * quitar filas y columnas, pegar desde una hoja de cálculo y el estilo (cabecera, fuente,
  * colores y borde). Las celdas se escriben en el lienzo (slides-canvas-table-celledit.js). Las operaciones sobre filas están en
  * slides-canvas-table-edit.js; slides-canvas-props.js llama a extraHtml, applyInput y onAction.
+ * También crea un gráfico desde la tabla y la oculta si alimenta alguno (fase E3).
  */
 (function () {
     'use strict';
@@ -39,6 +40,7 @@
         }
     ];
     const PASTE_ACTION = [{ label: 'table.paste', kind: 'action', action: 'table-paste', icon: 'fa-paste' }];
+    const CHART_ACTION = [{ label: 'chart.create', kind: 'action', action: 'table-chart', icon: 'fa-chart-column' }];
 
     const FA = name => '<i class="fas ' + name + '" aria-hidden="true"></i>';
     // Fuente, color y alineación de toda la tabla (el texto los tiene en la barra de formato)
@@ -62,6 +64,16 @@
             '</label><textarea class="xsce-input" id="xsce-table-paste" rows="3" data-table-paste></textarea></div>' +
             E.propsFields.fieldsHtml(PASTE_ACTION, {}, el)
         );
+    }
+
+    /** «Crear gráfico desde esta tabla» y, si ya alimenta algún gráfico, la casilla para ocultarla en las pantallas. */
+    function chartHtml(el) {
+        const feeds = typeof E.feedsCharts === 'function' && E.feedsCharts(el.id) > 0;
+        const hide = feeds
+            ? '<div class="xsce-field"><label class="xsce-check"><input type="checkbox" data-table-hide' +
+              (el.hidden ? ' checked' : '') + '> ' + E.th('chart.hide_table') + '</label></div>'
+            : '';
+        return '<h5>' + E.th('type.chart') + '</h5>' + E.propsFields.fieldsHtml(CHART_ACTION, {}, el) + hide;
     }
 
     function update(el, rows) {
@@ -98,17 +110,22 @@
                 '<div class="xsce-table-actions">' +
                 E.propsFields.fieldsHtml(GRID_ACTIONS, {}, el) +
                 '</div>' +
-                pasteHtml(el)
+                pasteHtml(el) + chartHtml(el)
             );
         },
 
-        /** La casilla de pegar solo se lee al pulsar su botón; @returns {boolean} si era ella. */
-        applyInput(input) {
+        /** La casilla de pegar solo se lee al pulsar su botón; @returns {boolean} si el control era de la tabla. */
+        applyInput(input, silent, el) {
+            if (input.hasAttribute('data-table-hide')) {
+                if (!silent) E.setTableHidden(el.id, input.checked);
+                return true;
+            }
             return input.hasAttribute('data-table-paste');
         },
 
         /** Botones del panel; @returns {boolean} si la acción era de la tabla. */
         onAction(action, el, panel) {
+            if (action === 'table-chart') { E.createChartFromTable(el.id); return true; }
             if (GRID_OPS[action]) {
                 update(el, E.tableEdit[GRID_OPS[action]](el.props.rows));
                 return true;

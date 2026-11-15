@@ -26,7 +26,8 @@
     "tv.lobby.type.custom": "Xogos personalizados",
     "tv.lobby.type.games": "Xogos",
     "tv.lobby.type.banks": "Bancos de preguntas",
-    "tv.lobby.type.trivial": "Xogos Trivial"
+    "tv.lobby.type.trivial": "Xogos Trivial",
+    "tv.slides.chart_no_data": "Sen datos"
   },
   "literals": {
     "Error al cargar PINs": "Erro ao cargar os PINs",

@@ -46,6 +46,9 @@
     outline-offset: -2px;
 }
 
+/* Oculto seleccionado (slides-canvas-stage.js lo sube encima): opaco y con el fondo de la diapositiva para poder editarlo */
+.xsce-host .xsc-el--hidden.xsce-lifted { opacity: 1; background: inherit; }
+
 .xsce-overlay {
     position: absolute;
     inset: 0;

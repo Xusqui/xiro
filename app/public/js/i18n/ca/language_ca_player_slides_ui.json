@@ -3,6 +3,7 @@
     "player.slides.video_title": "Vídeo",
     "player.slides.video_watch_screen": "Mira la pantalla del presentador",
     "player.slides.zoom_hint": "Toca per ampliar",
-    "player.slides.zoom_close": "Tanca"
+    "player.slides.zoom_close": "Tanca",
+    "player.slides.chart_no_data": "Sense dades"
   }
 }

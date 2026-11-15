@@ -1,6 +1,6 @@
 /**
  * @fileoverview Barra de herramientas del editor de diapositivas libres: añadir texto, figuras,
- * imagen y vídeo, más formas del catálogo (slides-canvas-shape-menu.js); selección múltiple (para pantallas táctiles, donde no hay Mayúsculas),
+ * imagen, vídeo, tabla y gráfico, más formas del catálogo (slides-canvas-shape-menu.js); selección múltiple (para pantallas táctiles, donde no hay Mayúsculas),
  * copiar, pegar, agrupar y bloquear; duplicar, eliminar, orden de apilamiento y deshacer/rehacer.
  */
 (function () {
@@ -21,7 +21,8 @@
             ['add-path', 'fa-shapes', 'shapes'],
             ['add-image', 'fa-image', 'image', true],
             ['add-video', 'fa-film', 'video', true],
-            ['add-table', 'fa-table', 'table', true]
+            ['add-table', 'fa-table', 'table', true],
+            ['add-chart', 'fa-chart-column', 'chart', true]
         ],
         [
             ['select-multi', 'fa-hand-pointer', 'select_multi'],
@@ -119,6 +120,7 @@
         'add-image': addImage,
         'add-video': addVideo,
         'add-table': () => E.addElement('table'),
+        'add-chart': () => E.insertSampleChart(),
         'select-multi': () => {
             E.state.multiMode = !E.state.multiMode;
             E.render();

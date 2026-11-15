@@ -82,6 +82,7 @@
     "standalone.game.video_presenter_only": "此视频仅在主持人屏幕上可见",
     "standalone.game.close": "关闭游戏",
     "standalone.game.close_confirm_title": "要关闭游戏吗？",
-    "standalone.game.close_confirm_message": "你将失去本局游戏的进度，并返回游戏列表。"
+    "standalone.game.close_confirm_message": "你将失去本局游戏的进度，并返回游戏列表。",
+    "standalone.game.chart_no_data": "无数据"
   }
 }

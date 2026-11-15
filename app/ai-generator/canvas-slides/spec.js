@@ -9,6 +9,7 @@
 
 const { ICON_NAMES } = require('./icons');
 const { TONES, THEME_NAMES } = require('./themes');
+const { dataSanitizers } = require('./spec-data');
 
 // Nombres que usan a veces los modelos para el mismo diseño
 const LAYOUT_ALIASES = {
@@ -34,7 +35,13 @@ const LAYOUT_ALIASES = {
     photo: 'image',
     picture: 'image',
     'text-image': 'split',
-    'texto-imagen': 'split'
+    'texto-imagen': 'split',
+    tabla: 'table',
+    grafico: 'chart',
+    gráfico: 'chart',
+    grafica: 'chart',
+    gráfica: 'chart',
+    graph: 'chart'
 };
 const ELLIPSIS = '…';
 const ATTACHED_IMAGE = /^img([1-9])$/i;
@@ -162,12 +169,13 @@ const SANITIZERS = {
         const items = list(s.items, { min: 2, max: 5, map: v => item(v, 110) });
         if (!image || (!items && !str(s.text, 400))) return null;
         return items ? { image, items } : { image, text: str(s.text, 400) };
-    }
+    },
+    ...dataSanitizers({ str, obj })
 };
 
 const LAYOUTS = Object.keys(SANITIZERS);
 // Diseños con título y subtítulo arriba y nota al pie (elements.js: header y footer)
-const WITH_HEADER = ['text', 'bullets', 'cards', 'steps', 'process', 'flow', 'comparison', 'timeline'];
+const WITH_HEADER = ['text', 'bullets', 'cards', 'steps', 'process', 'flow', 'comparison', 'timeline', 'table', 'chart'];
 // Con título y subtítulo pero sin nota: el pie es para el crédito de la foto
 const WITH_TITLE = [...WITH_HEADER, 'image', 'split'];
 
@@ -184,6 +192,8 @@ function layoutOf(raw) {
     if (LAYOUT_ALIASES[name]) return LAYOUT_ALIASES[name];
     if (Array.isArray(raw.items)) return 'bullets';
     if (Array.isArray(raw.cards)) return 'cards';
+    if (Array.isArray(raw.rows) && Array.isArray(raw.columns)) return 'table';
+    if (Array.isArray(raw.categories)) return 'chart';
     return 'text';
 }
 

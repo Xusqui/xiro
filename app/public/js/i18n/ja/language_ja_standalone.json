@@ -82,6 +82,7 @@
     "standalone.game.video_presenter_only": "この動画はプレゼンターの画面でのみ表示されます",
     "standalone.game.close": "ゲームを終了",
     "standalone.game.close_confirm_title": "ゲームを終了しますか？",
-    "standalone.game.close_confirm_message": "このゲームの進行状況は失われ、ゲーム一覧に戻ります。"
+    "standalone.game.close_confirm_message": "このゲームの進行状況は失われ、ゲーム一覧に戻ります。",
+    "standalone.game.chart_no_data": "データなし"
   }
 }

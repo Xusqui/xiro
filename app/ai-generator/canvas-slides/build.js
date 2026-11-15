@@ -15,9 +15,10 @@ const { cards, steps, comparison } = require('./layouts-grid');
 const { question } = require('./layouts-question');
 const { flow, process, timeline } = require('./layouts-diagram');
 const { image, split } = require('./layouts-media');
+const { table, chart } = require('./layouts-data');
 
 // Un maquetador por diseño de spec.js (LAYOUTS)
-const BUILDERS = { cover, statement, text, bullets, quote, stat, cards, steps, comparison, question, flow, process, timeline, image, split };
+const BUILDERS = { cover, statement, text, bullets, quote, stat, cards, steps, comparison, question, flow, process, timeline, image, split, table, chart };
 
 /** Imágenes del paquete sin repetir: cada contenido distinto es un asset. */
 function assetRegistry() {

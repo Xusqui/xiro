@@ -26,7 +26,8 @@
     "tv.lobby.type.custom": "自定义游戏",
     "tv.lobby.type.games": "游戏",
     "tv.lobby.type.banks": "问题库",
-    "tv.lobby.type.trivial": "智力竞赛游戏"
+    "tv.lobby.type.trivial": "智力竞赛游戏",
+    "tv.slides.chart_no_data": "无数据"
   },
   "literals": {
     "Error al cargar PINs": "加载PIN时出错",

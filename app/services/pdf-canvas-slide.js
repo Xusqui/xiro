@@ -64,7 +64,7 @@ function generateCanvasSlideHTML(slide, index, total, resolvePath) {
 
     // Generar el HTML del escenario usando el modo 'pdf'
     // El PDF se genera en español, como el resto de páginas de pdf.service.js
-    let stage = stageHtml(canvas, { mode: 'pdf', labels: { localVideo: 'vídeo local', video: 'vídeo' } });
+    let stage = stageHtml(canvas, { mode: 'pdf', labels: { localVideo: 'vídeo local', video: 'vídeo', chartNoData: 'Sin datos' } });
 
     // Reemplazar imágenes locales por data URIs
     stage = inlineLocalImages(stage, canvas, resolvePath);

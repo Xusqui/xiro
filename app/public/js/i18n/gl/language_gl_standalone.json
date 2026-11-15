@@ -82,6 +82,7 @@
     "standalone.game.video_presenter_only": "Este vídeo só se ve na pantalla do presentador",
     "standalone.game.close": "Pechar a partida",
     "standalone.game.close_confirm_title": "Queres pechar a partida?",
-    "standalone.game.close_confirm_message": "Perderás o progreso desta partida e volverás á lista de xogos."
+    "standalone.game.close_confirm_message": "Perderás o progreso desta partida e volverás á lista de xogos.",
+    "standalone.game.chart_no_data": "Sen datos"
   }
 }

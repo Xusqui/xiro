@@ -131,6 +131,7 @@
         });
         overlay = addDiv(mounted.stage, 'xsce-overlay');
         drawSelection(selectedList());
+        liftHidden(selectedList());
         startEditing(XiroCanvasEditor.getSelected());
     }
 
@@ -167,6 +168,17 @@
 
     function hideGuides() {
         if (overlay) overlay.querySelectorAll('.xsce-guide').forEach(n => n.remove());
+    }
+
+    /** Lo oculto seleccionado se pinta encima y opaco: si no, una tabla oculta bajo su gráfico no se podría editar. */
+    function liftHidden(list) {
+        const top = String(XiroCanvasEditor.state.canvas.elements.length + 1);
+        list.filter(el => el.hidden).forEach(el => {
+            const node = elementNode(el.id);
+            if (!node) return;
+            node.classList.add('xsce-lifted');
+            node.style.zIndex = top;
+        });
     }
 
     function onResize() {

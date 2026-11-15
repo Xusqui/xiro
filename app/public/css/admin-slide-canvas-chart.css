@@ -1,0 +1,12 @@
+/* Editor de diapositivas libres: panel del gráfico (slides-canvas-props-chart.js). */
+.xsce-seg--n6 { grid-template-columns: repeat(3, 1fr); }
+.xsce-seg--n6 .xsce-seg-btn { flex-direction: column; gap: 4px; height: 54px; padding: 0 4px; font: 600 11px var(--font-body, 'DM Sans', sans-serif); }
+.xsce-seg--n6 .xsce-seg-btn svg { width: 26px; height: 17px; }
+.xsce-seg--n6 .xsce-seg-btn span, .xsce-seg--n2 .xsce-seg-btn span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.xsce-seg--n2 { grid-template-columns: repeat(2, 1fr); }
+.xsce-seg--n2 .xsce-seg-btn { padding: 0 6px; font: 600 12px var(--font-body, 'DM Sans', sans-serif); }
+.xsce-chart-note { margin: 0 0 12px; padding: 10px 12px; border-radius: var(--radius-xl, 12px); background: #f8fafc; font-size: 12px; line-height: 1.45; color: #475569; }
+.xsce-chart-colors { display: grid; gap: 6px; margin-bottom: 10px; }
+.xsce-chart-color { display: flex; align-items: center; gap: 10px; min-width: 0; font-size: 13px; color: #334155; cursor: pointer; }
+.xsce-chart-color .xsce-swatch { order: -1; flex-shrink: 0; width: 28px; height: 28px; margin: 0; }
+.xsce-chart-color-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

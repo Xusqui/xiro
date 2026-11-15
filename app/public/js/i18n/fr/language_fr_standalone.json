@@ -82,6 +82,7 @@
     "standalone.game.video_presenter_only": "Cette vidéo n'est visible que sur l'écran du présentateur",
     "standalone.game.close": "Fermer la partie",
     "standalone.game.close_confirm_title": "Fermer la partie ?",
-    "standalone.game.close_confirm_message": "Tu perdras ta progression dans cette partie et reviendras à la liste des jeux."
+    "standalone.game.close_confirm_message": "Tu perdras ta progression dans cette partie et reviendras à la liste des jeux.",
+    "standalone.game.chart_no_data": "Aucune donnée"
   }
 }

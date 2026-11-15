@@ -26,7 +26,8 @@
     "tv.lobby.type.custom": "カスタムゲーム",
     "tv.lobby.type.games": "ゲーム",
     "tv.lobby.type.banks": "問題バンク",
-    "tv.lobby.type.trivial": "トリビアゲーム"
+    "tv.lobby.type.trivial": "トリビアゲーム",
+    "tv.slides.chart_no_data": "データなし"
   },
   "literals": {
     "Error al cargar PINs": "PINの読み込みエラー",

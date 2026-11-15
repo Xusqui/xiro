@@ -13,6 +13,7 @@
     "presenter.slides.points_per_player": "Les points s'ajoutent à chaque joueur",
     "presenter.slides.player_singular": "joueur",
     "presenter.slides.player_plural": "joueurs",
-    "presenter.slides.video_unsupported": "Impossible de lire cette vidéo"
+    "presenter.slides.video_unsupported": "Impossible de lire cette vidéo",
+    "presenter.slides.chart_no_data": "Aucune donnée"
   }
 }

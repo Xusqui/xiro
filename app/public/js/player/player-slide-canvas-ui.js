@@ -35,7 +35,8 @@ export function renderizarSlideLienzo(slide) {
     const labels = {
         videoOnScreen: _t('player.slides.video_watch_screen', null, 'Mira la pantalla del presentador'),
         hint: _t('player.slides.zoom_hint', null, 'Toca para ampliar'),
-        close: _t('player.slides.zoom_close', null, 'Cerrar')
+        close: _t('player.slides.zoom_close', null, 'Cerrar'),
+        chartNoData: _t('player.slides.chart_no_data', null, 'Sin datos')
     };
     mounted = window.XiroSlideCanvasRender.mount(host, slide.slide_canvas, { mode: 'player', labels });
     // Tablas y textos densos no se leen en un teléfono: tocar abre la diapositiva a pantalla completa

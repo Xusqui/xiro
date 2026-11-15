@@ -82,6 +82,7 @@
     "standalone.game.video_presenter_only": "Este vídeo só é visível no ecrã do apresentador",
     "standalone.game.close": "Fechar partida",
     "standalone.game.close_confirm_title": "Fechar a partida?",
-    "standalone.game.close_confirm_message": "Vais perder o progresso desta partida e voltar à lista de jogos."
+    "standalone.game.close_confirm_message": "Vais perder o progresso desta partida e voltar à lista de jogos.",
+    "standalone.game.chart_no_data": "Sem dados"
   }
 }

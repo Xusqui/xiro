@@ -26,7 +26,8 @@
     "tv.lobby.type.custom": "Jogos personalizados",
     "tv.lobby.type.games": "Jogos",
     "tv.lobby.type.banks": "Bancos de perguntas",
-    "tv.lobby.type.trivial": "Jogos Trivial"
+    "tv.lobby.type.trivial": "Jogos Trivial",
+    "tv.slides.chart_no_data": "Sem dados"
   },
   "literals": {
     "Error al cargar PINs": "Erro ao carregar os PINs",

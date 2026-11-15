@@ -3,6 +3,7 @@
     "player.slides.video_title": "Video",
     "player.slides.video_watch_screen": "Watch the presenter's screen",
     "player.slides.zoom_hint": "Tap to enlarge",
-    "player.slides.zoom_close": "Close"
+    "player.slides.zoom_close": "Close",
+    "player.slides.chart_no_data": "No data"
   }
 }
