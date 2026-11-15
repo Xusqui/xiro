@@ -2,6 +2,36 @@
 
 ## 3.14.x
 
+### 3.14.6 — 2026-11-15 · `v3.14.6`
+- **Diapositivas libres:** Gráficos vinculados a tablas
+  - Nuevo elemento gráfico (columnas, barras, líneas, área, sectores, anillo y apilados) que lee sus datos de una tabla de la misma diapositiva, que puede estar oculta. Se pinta en SVG con el mismo código en editor, presentador, TV, móviles y PDF. El formato .xiroslide pasa a la versión 6 y el servidor rechaza gráficos que apunten a una tabla que no existe.
+  - Al copiar un gráfico viaja su tabla; al pegar o duplicar, las copias se reenlazan con la tabla copiada o se quedan sin vínculo. Borrar una tabla que alimenta gráficos pide confirmación (en los 10 idiomas) y se deshace en un paso. A los móviles no llegan los elementos ocultos, salvo las tablas que alimentan un gráfico visible.
+- **Diapositivas libres:** Gráficos en el editor, «Sin datos» traducido y diseños de IA tabla y gráfico
+  - Editor: panel del gráfico, botón «Gráfico», crear desde tabla, editar datos y ocultar tabla
+  - Pulido de diseño: tipo sin etiqueta duplicada, borde interior en segmentos pulsados, miniatura de sectores
+  - «Sin datos» traducido en móvil (y su zoom), presentador, TV, standalone y PDF, con claves en 10 idiomas
+  - IA: diseños «tabla» y «gráfico» (el gráfico sale con su tabla de datos oculta vinculada)
+- **Diapositivas libres:** temas y patrones (fase F)
+  - Modelo: role en los elementos y layout en el lienzo; .xiroslide formatVersion 7
+  - 10 temas de serie con contraste y daltonismo validados; applyTheme y 6 patrones maestros
+  - Servidor: temas propios (canvas_slide_themes) y slide_theme en los juegos personalizados
+  - Editor: tarjeta y diálogo «Tema» con vista previa real, Aplicar a todo el juego y Deshacer
+  - Botones .xsce-btn desactivados con la opacidad común del editor
+  - Textos en 10 idiomas
+- **Diapositivas libres:** temas por diapositiva, legibilidad, IA con roles y tema (fase F)
+  - Cambio de tema legible: lo que no tiene rol se ajusta si deja de leerse (4.5:1; líneas 3:1)
+  - Tema dentro de la diapositiva (panel, un paso de deshacer) y del juego en la barra «Añadir contenido»
+  - Diálogo con título propio por alcance, rótulo de qué tema se muestra y botón desactivado coherente
+  - IA: roles y patrón en lo que genera, y el tema del juego sobre lo generado
+  - Textos del tema en 10 idiomas
+- Mezclar bancos pasa a llamarse Fusionar bancos
+- Skill /xiro de Claude Code en el repo, con instalador y documentación
+  - skills/xiro: copia canónica de la skill que genera .xiroslide
+  - skills/install.sh: instala en ~/.claude/skills/xiro (copia, --link, --check)
+  - docs/XIRO_SKILL.md: instalar, usar y mantener al día
+  - . gitignore: excepción para el joi vendorizado de la skill
+  - Esta Skill sirve para crear diapositivas en formato .xiroslide para importar a un juego personalizado de Xiro.
+
 ### 3.14.5-b — 2026-11-14 · `v3.14.5b`
 - **Diapositivas libres:** Tab y niveles en listas, numeración multinivel y pegar con formato
 - **Administración:** PANIC espera a que el servidor vuelva y muestra el tiempo transcurrido
