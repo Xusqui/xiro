@@ -74,7 +74,7 @@ function table(slide, ctx) {
     const foot = footer(slide, ctx.theme);
     const rows = [slide.columns, ...slide.rows];
     const fit = fitTable(rows, foot.limit - head.bottom);
-    const data = tableElement(rows, { y: head.bottom, h: fit.height, size: fit.size, theme: ctx.theme });
+    const data = tableElement(rows, { y: head.bottom, h: fit.height, size: fit.size, theme: ctx.theme }, { role: 'table' });
     return [...head.elements, data, ...foot.elements];
 }
 
@@ -100,6 +100,7 @@ function chartElement(slide, { y, h, theme }) {
     return {
         id: CHART_ID,
         type: 'chart',
+        role: 'chart',
         x: LEFT,
         y: Math.round(y),
         w: WIDTH,

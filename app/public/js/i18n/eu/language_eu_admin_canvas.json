@@ -415,8 +415,6 @@
     "admin.canvas.theme.own": "Nire temak",
     "admin.canvas.theme.card_title": "Diapositiba librearen gaia",
     "admin.canvas.theme.card_none": "Gaerik ez",
-    "admin.canvas.theme.card_change": "Aldatu gaia",
-    "admin.canvas.theme.undo": "Desegin",
     "admin.canvas.theme.applied_one": "Gaia diapositiba libre 1-era aplikatuta",
     "admin.canvas.theme.applied_many": "Gaia {n} diapositiba libre-era aplikatuta",
     "admin.canvas.theme.applied_theme_only": "Hautatutako gaia. Diapositiba libreek erabiliko du",
@@ -430,6 +428,19 @@
     "admin.canvas.theme.name_grafito": "Grafitoa",
     "admin.canvas.theme.name_menta": "Menta",
     "admin.canvas.theme.name_escuela": "Eskola",
-    "admin.canvas.theme.name_solar": "Solarra"
+    "admin.canvas.theme.name_solar": "Solarra",
+    "admin.canvas.theme.section": "Gaia",
+    "admin.canvas.theme.change_here": "Aldatu gaia…",
+    "admin.canvas.theme.scope_slide": "Aplikatu diapositiba honi",
+    "admin.canvas.theme.slide_changes": "Diapositiba hau aldatuko da",
+    "admin.canvas.theme.slide_same": "Diapositiba honek dagoeneko gai hau darabil",
+    "admin.canvas.theme.applied_slide": "Gaia diapositiba honi aplikatuta",
+    "admin.canvas.theme.game_current": "Jokoaren gaia",
+    "admin.canvas.theme.pick_slide": "Aukeratu gaia diapositiba honentzat",
+    "admin.canvas.theme.title_slide": "Diapositibaren gaia",
+    "admin.canvas.theme.intro_slide": "Diapositiba honen koloreak eta letra-tipoa",
+    "admin.canvas.theme.slide_label": "Diapositiba honen gaia",
+    "admin.canvas.theme.bar_aria": "Jokoaren gaia: {name}. Aldatu gaia",
+    "admin.canvas.theme.undo_game": "Desegin gaia"
   }
 }

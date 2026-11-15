@@ -415,8 +415,6 @@
     "admin.canvas.theme.own": "My themes",
     "admin.canvas.theme.card_title": "Free-form slide theme",
     "admin.canvas.theme.card_none": "No theme",
-    "admin.canvas.theme.card_change": "Change theme",
-    "admin.canvas.theme.undo": "Undo",
     "admin.canvas.theme.applied_one": "Theme applied to 1 free-form slide",
     "admin.canvas.theme.applied_many": "Theme applied to {n} free-form slides",
     "admin.canvas.theme.applied_theme_only": "Theme selected. Will be used for free-form slides you add",
@@ -430,6 +428,19 @@
     "admin.canvas.theme.name_grafito": "Graphite",
     "admin.canvas.theme.name_menta": "Mint",
     "admin.canvas.theme.name_escuela": "School",
-    "admin.canvas.theme.name_solar": "Solar"
+    "admin.canvas.theme.name_solar": "Solar",
+    "admin.canvas.theme.section": "Theme",
+    "admin.canvas.theme.change_here": "Change theme…",
+    "admin.canvas.theme.scope_slide": "Apply to this slide",
+    "admin.canvas.theme.slide_changes": "This slide will change",
+    "admin.canvas.theme.slide_same": "This slide already uses this theme",
+    "admin.canvas.theme.applied_slide": "Theme applied to this slide",
+    "admin.canvas.theme.game_current": "Game theme",
+    "admin.canvas.theme.pick_slide": "Choose a theme for this slide",
+    "admin.canvas.theme.title_slide": "Slide Theme",
+    "admin.canvas.theme.intro_slide": "Colors and fonts of this slide",
+    "admin.canvas.theme.slide_label": "Theme of this slide",
+    "admin.canvas.theme.bar_aria": "Game theme: {name}. Change theme",
+    "admin.canvas.theme.undo_game": "Undo theme"
   }
 }

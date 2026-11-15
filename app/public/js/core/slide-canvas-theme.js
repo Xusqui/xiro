@@ -103,21 +103,17 @@
         return THEMES[0];
     }
 
-    function channel(hex, from) {
-        const c = parseInt(hex.slice(from, from + 2), 16) / 255;
-        return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+    /** Módulo hermano de legibilidad: require en Node/Jest, global en el navegador (se carga antes que este). */
+    function legibility() {
+        return typeof module !== 'undefined' && module.exports
+            ? // eslint-disable-next-line no-undef -- require solo en Node/Jest (CommonJS)
+              require('./slide-canvas-theme-legibility')
+            : root.XiroSlideCanvasThemeLegibility;
     }
 
-    function luminance(hex) {
-        return 0.2126 * channel(hex, 1) + 0.7152 * channel(hex, 3) + 0.0722 * channel(hex, 5);
-    }
-
-    /** Relación de contraste WCAG entre dos colores #rrggbb, con 2 decimales. */
+    /** Relación de contraste WCAG entre dos colores, con 2 decimales. */
     function contrast(a, b) {
-        const la = luminance(a);
-        const lb = luminance(b);
-        const ratio = (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
-        return Math.round(ratio * 100) / 100;
+        return legibility().contrast(a, b);
     }
 
     /**
@@ -195,7 +191,8 @@
         out.elements = out.elements.map(function (el) {
             return el.role && !el.locked ? restyle(el, t, prev) : el;
         });
-        return out;
+        // Lo que no tiene rol conserva su aspecto, pero no puede quedar ilegible sobre el fondo nuevo
+        return legibility().fixLegibility(out, t);
     }
 
     const api = {
@@ -207,6 +204,7 @@
         normalizeTheme: normalizeTheme,
         normalizeRole: normalizeRole,
         normalizeLayout: normalizeLayout,
+        contrast: contrast,
         contrastWarnings: contrastWarnings,
         applyTheme: applyTheme
     };

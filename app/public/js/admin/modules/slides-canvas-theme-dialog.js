@@ -53,15 +53,16 @@
             .join('');
     }
 
-    function cardHtml(theme, isCurrent, tab) {
+    /** Tarjeta de un tema. flags: { checked (elegido), badge (clave del texto «Actual»/«Tema del juego» o null), tab }. */
+    function cardHtml(theme, flags) {
         const label = font => E.t('font.' + font);
         const fonts = E.t('theme.fonts', { title: label(theme.fonts.title), body: label(theme.fonts.body) });
         return (
-            '<button type="button" class="xsce-theme" role="radio" aria-checked="' + isCurrent + '" tabindex="' + (tab ? 0 : -1) +
+            '<button type="button" class="xsce-theme" role="radio" aria-checked="' + flags.checked + '" tabindex="' + (flags.tab ? 0 : -1) +
             '" data-theme-id="' + esc(theme.id) + '">' +
             thumbHtml(theme) +
             '<span class="xsce-theme-name">' + esc(nameOf(theme)) +
-            (isCurrent ? '<span class="xsce-theme-current">' + esc(E.t('theme.current')) + '</span>' : '') +
+            (flags.badge ? '<span class="xsce-theme-current">' + esc(E.t(flags.badge)) + '</span>' : '') +
             '</span>' +
             swatchesHtml(theme) +
             '<span class="xsce-theme-fonts">' + esc(fonts) + '</span>' +
@@ -70,19 +71,26 @@
         );
     }
 
-    function modalHtml(list, currentId, tabIndex) {
+    /** view: { currentId (tema del juego), selectedId, tabIndex, slide (modo diapositiva) }. */
+    function modalHtml(list, view) {
         const th = E.th;
+        const badge = view.slide ? 'theme.game_current' : 'theme.current';
         return (
             '<div class="xsce-dialog" role="dialog" aria-modal="true" aria-labelledby="lienzoTemaTitulo" style="max-width:960px">' +
             '<div class="xsce-dialog-head"><span class="xsce-tile"><i class="fas fa-palette" aria-hidden="true"></i></span>' +
-            '<div class="xsce-heading"><h3 id="lienzoTemaTitulo">' + th('theme.title') + '</h3><p>' + th('theme.intro') + '</p></div></div>' +
+            '<div class="xsce-heading"><h3 id="lienzoTemaTitulo">' + th(view.slide ? 'theme.title_slide' : 'theme.title') + '</h3><p>' +
+            th(view.slide ? 'theme.intro_slide' : 'theme.intro') + '</p></div></div>' +
             '<div class="xsce-theme-grid" role="radiogroup" aria-label="' + th('theme.group_label') + '">' +
-            list.map((theme, i) => cardHtml(theme, theme.id === currentId, i === tabIndex)).join('') +
+            list
+                .map((theme, i) =>
+                    cardHtml(theme, { checked: theme.id === view.selectedId, badge: theme.id === view.currentId ? badge : null, tab: i === view.tabIndex })
+                )
+                .join('') +
             '</div>' +
             '<div class="xsce-dialog-foot">' +
             '<p id="lienzoTemaResumen" class="xsce-theme-summary" aria-live="polite"></p>' +
             '<button type="button" data-lienzo-tema="cancel" class="xsce-btn xsce-btn--ghost">' + th('cancel') + '</button>' +
-            '<button type="button" data-lienzo-tema="apply" class="xsce-btn xsce-btn--primary" disabled>' + th('theme.apply') + '</button>' +
+            '<button type="button" data-lienzo-tema="apply" class="xsce-btn xsce-btn--primary" disabled>' + th(view.slide ? 'theme.scope_slide' : 'theme.apply') + '</button>' +
             '</div></div>'
         );
     }
@@ -97,16 +105,25 @@
         const apply = document.querySelector('#' + MODAL_ID + ' [data-lienzo-tema="apply"]');
         const theme = state.selected ? themeById(state.selected) : null;
         if (!theme) {
-            summary.textContent = E.t('theme.pick');
+            summary.textContent = E.t(state.slide ? 'theme.pick_slide' : 'theme.pick');
             apply.disabled = true;
             return;
         }
         const current = E.gameTheme.current();
+        if (state.slide) return refreshSlideSummary(summary, apply, theme, current);
         const changed = root.XiroSlideCanvasThemeGame.applyThemeToGame(state.options.slides, theme, current).changed;
         const hasCanvas = state.options.slides.some(slide => slide && slide.slide_type === 'canvas' && slide.slide_canvas);
         if (!hasCanvas) summary.textContent = E.t('theme.affects_none');
         else summary.textContent = changed === 1 ? E.t('theme.affects_one') : E.t('theme.affects_many', { n: changed });
         apply.disabled = !(changed > 0 || !current || current.id !== theme.id);
+    }
+
+    /** Modo diapositiva: ¿cambiaría el lienzo abierto con este tema? */
+    function refreshSlideSummary(summary, apply, theme, current) {
+        const canvas = state.options.canvas;
+        const changes = JSON.stringify(themeApi().applyTheme(canvas, theme, current)) !== JSON.stringify(canvas);
+        summary.textContent = E.t(changes ? 'theme.slide_changes' : 'theme.slide_same');
+        apply.disabled = !changes;
     }
 
     function select(id, focus) {
@@ -158,7 +175,9 @@
      * Abre el diálogo.
      * @param {Object} options
      * @param {Array} options.slides - Diapositivas del juego, para contar cuántas cambiarían
-     * @param {Function} options.onApply - (tema) => void; se llama al pulsar «Aplicar a todo el juego»
+     * @param {Function} options.onApply - (tema) => void; se llama al pulsar «Aplicar»
+     * @param {string} [options.scope] - 'slide': un solo «Aplicar a esta diapositiva» sobre options.canvas (nada elegido
+     *   al abrir, y el tema del juego marcado como «Tema del juego»); por defecto, todo el juego
      * @param {Array} [options.themes] - Temas propios, tras los de serie
      */
     function open(options) {
@@ -167,11 +186,14 @@
         const current = E.gameTheme.current();
         const list = themeApi().THEMES.concat(own);
         const found = current ? list.findIndex(theme => theme.id === current.id) : -1;
-        state = { options: options, list: list, selected: found >= 0 ? current.id : null, opener: document.activeElement };
+        const slide = options.scope === 'slide';
+        const selected = !slide && found >= 0 ? current.id : null;
+        state = { options: options, list: list, selected: selected, slide: slide, opener: document.activeElement };
         const overlay = document.createElement('div');
         overlay.id = MODAL_ID;
         overlay.className = 'xsce-overlay-dim';
-        overlay.innerHTML = modalHtml(list, state.selected, Math.max(found, 0));
+        const view = { currentId: current ? current.id : null, selectedId: selected, tabIndex: Math.max(found, 0), slide: slide };
+        overlay.innerHTML = modalHtml(list, view);
         overlay.addEventListener('click', onClick);
         overlay.addEventListener('keydown', onKey);
         document.body.appendChild(overlay);

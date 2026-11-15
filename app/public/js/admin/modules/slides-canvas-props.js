@@ -111,6 +111,7 @@
                     th('panel.slide'),
                     count === 1 ? th('panel.count_one') : th('panel.count_many', { n: count })
                 ) +
+                (XiroCanvasEditor.themeSlide ? XiroCanvasEditor.themeSlide.sectionHtml() : '') +
                 section(th('panel.background'), F.fieldsHtml(backgroundFields(), S.backgroundValues(bg), bg)) +
                 emptyTip();
             return;
@@ -192,6 +193,7 @@
         const media = XiroCanvasEditor.media;
         const el = XiroCanvasEditor.getSelected();
         if (XiroCanvasEditor.propsMulti.handle(action)) return;
+        if (action === 'theme-open') return XiroCanvasEditor.themeSlide.open();
         const type = el && XiroCanvasEditor.propsByType[el.type];
         // Antes de la acción: el botón pulsado tiene el foco y render() no repintaría el panel
         if (type && type.onAction) shownId = undefined;

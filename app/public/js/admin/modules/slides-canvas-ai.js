@@ -19,6 +19,14 @@ const _LIENZO_IA_ADD_TEXTS = { manyTitle: 'ai.add_many_title', many: 'ai.add_man
 let _lienzoIaDocument = '';
 let _lienzoIaRequest = null;
 
+/** Lo que genera la IA pasa por el tema del juego (si lo tiene): fondo, fuentes y colores legibles. Sin tema, tal cual. */
+function _lienzoIaWithGameTheme(data) {
+    const E = window.XiroCanvasEditor;
+    const theme = E.gameTheme && E.gameTheme.current();
+    if (!theme) return data;
+    return Object.assign({}, data, { slides: window.XiroSlideCanvasThemeGame.applyThemeToGame(data.slides, theme).slides });
+}
+
 /** Botón «Generar con IA» del selector: comprueba que hay IA configurada y abre el diálogo. */
 async function generarSlidesLienzoIA() {
     const E = window.XiroCanvasEditor;
@@ -191,7 +199,7 @@ async function _lienzoIaGenerate() {
         _lienzoIaRequest = null;
         _lienzoIaClose();
         document.getElementById('modalLienzoPlantillas')?.remove();
-        _lienzoAddToGame(data, _LIENZO_IA_ADD_TEXTS);
+        _lienzoAddToGame(_lienzoIaWithGameTheme(data), _LIENZO_IA_ADD_TEXTS);
     } catch (_err) {
         if (!request.signal.aborted) _lienzoIaStatus(E.t('ai.error.generic'), false);
     } finally {

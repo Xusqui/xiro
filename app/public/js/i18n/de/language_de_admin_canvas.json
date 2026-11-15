@@ -415,8 +415,6 @@
     "admin.canvas.theme.own": "Meine Themen",
     "admin.canvas.theme.card_title": "Thema freier Folien",
     "admin.canvas.theme.card_none": "Kein Thema",
-    "admin.canvas.theme.card_change": "Thema ändern",
-    "admin.canvas.theme.undo": "Rückgängig",
     "admin.canvas.theme.applied_one": "Thema auf 1 freie Folie angewendet",
     "admin.canvas.theme.applied_many": "Thema auf {n} freie Folien angewendet",
     "admin.canvas.theme.applied_theme_only": "Thema ausgewählt. Wird bei hinzugefügten freien Folien verwendet",
@@ -430,6 +428,19 @@
     "admin.canvas.theme.name_grafito": "Graphit",
     "admin.canvas.theme.name_menta": "Minze",
     "admin.canvas.theme.name_escuela": "Schule",
-    "admin.canvas.theme.name_solar": "Solar"
+    "admin.canvas.theme.name_solar": "Solar",
+    "admin.canvas.theme.section": "Thema",
+    "admin.canvas.theme.change_here": "Thema ändern…",
+    "admin.canvas.theme.scope_slide": "Auf diese Diapositiv anwenden",
+    "admin.canvas.theme.slide_changes": "Diese Diapositiv wird geändert",
+    "admin.canvas.theme.slide_same": "Diese Diapositiv verwendet bereits dieses Thema",
+    "admin.canvas.theme.applied_slide": "Thema auf diese Diapositiv angewendet",
+    "admin.canvas.theme.game_current": "Spielthema",
+    "admin.canvas.theme.pick_slide": "Wählen Sie ein Thema für diese Diapositiv",
+    "admin.canvas.theme.title_slide": "Vorlagen der Diapositiv",
+    "admin.canvas.theme.intro_slide": "Farben und Schriftart dieser Diapositiv",
+    "admin.canvas.theme.slide_label": "Vorlage dieser Diapositiv",
+    "admin.canvas.theme.bar_aria": "Spielthema: {name}. Thema ändern",
+    "admin.canvas.theme.undo_game": "Thema rückgängig machen"
   }
 }

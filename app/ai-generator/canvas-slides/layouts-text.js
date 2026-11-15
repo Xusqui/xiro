@@ -41,8 +41,8 @@ function cover(slide, ctx) {
     blocks.forEach((b, i) => {
         const box = { x: LEFT, y: ys[i], w, h: b.h };
         if (b.key === 'kicker') els.push(text(box, slide.kicker.toUpperCase(), { font: 'condensed', size: 40, bold: true, color: t.accent2[0] }));
-        if (b.key === 'title') els.push(text(box, title.text, { font: title.font, size: title.size, bold: title.bold, color: t.title }));
-        if (b.key === 'subtitle') els.push(text(box, sub.text, { size: sub.size, color: t.muted }));
+        if (b.key === 'title') els.push(text(box, title.text, { font: title.font, size: title.size, bold: title.bold, color: t.title, role: 'title' }));
+        if (b.key === 'subtitle') els.push(text(box, sub.text, { size: sub.size, color: t.muted, role: 'subtitle' }));
         if (b.key === 'tag') els.push(...pillLeft(slide.tag, ys[i], t));
     });
     return els;
@@ -71,9 +71,9 @@ function statement(slide, ctx) {
         const y = ys[i];
         if (b.key === 'icon') els.push(...iconCircle(ctx, { cx: 960, cy: y + 140, d: 280, icon: slide.icon, colors: t.accent }));
         if (b.key === 'title') {
-            els.push(text({ x: 160, y, w: 1600, h: b.h }, title.text, { font: title.font, size: title.size, bold: title.bold, color: t.title, align: 'center' }));
+            els.push(text({ x: 160, y, w: 1600, h: b.h }, title.text, { font: title.font, size: title.size, bold: title.bold, color: t.title, align: 'center', role: 'title' }));
         }
-        if (b.key === 'text') els.push(text({ x: 210, y, w: 1500, h: b.h }, body.text, { size: body.size, color: t.muted, align: 'center' }));
+        if (b.key === 'text') els.push(text({ x: 210, y, w: 1500, h: b.h }, body.text, { size: body.size, color: t.muted, align: 'center', role: 'body' }));
         if (b.key === 'tag') els.push(...pill(slide.tag, { cx: 960, y, colors: t.accent2 }));
     });
     return els;
@@ -87,7 +87,7 @@ function textLayout(slide, ctx) {
     const room = foot.limit - head.bottom;
     const fit = fitBalanced(slide.text, { w: WIDTH, h: room, max: 56, min: 32, eager: false });
     const h = Math.min(room, boxHeight(fit.text, { size: fit.size, w: WIDTH }));
-    const body = text({ x: LEFT, y: head.bottom + (room - h) / 4, w: WIDTH, h }, fit.text, { size: fit.size, color: t.text });
+    const body = text({ x: LEFT, y: head.bottom + (room - h) / 4, w: WIDTH, h }, fit.text, { size: fit.size, color: t.text, role: 'body' });
     return [...head.elements, body, ...foot.elements];
 }
 
@@ -114,7 +114,7 @@ function bullets(slide, ctx) {
     let y = head.bottom + Math.max(0, (room - height(rows, size)) / 4);
     rows.forEach(row => {
         els.push(shape('ellipse', { x: 100, y: y + 16 + size * 0.6 - 11, w: 22, h: 22 }, { fill: t.accent[0] }));
-        els.push(text({ x: 136, y, w, h: row.h }, row.value, { size, color: t.text }));
+        els.push(text({ x: 136, y, w, h: row.h }, row.value, { size, color: t.text, role: 'body' }));
         y += row.h + gap;
     });
     return [...els, ...foot.elements];

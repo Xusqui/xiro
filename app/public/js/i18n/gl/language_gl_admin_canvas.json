@@ -415,8 +415,6 @@
     "admin.canvas.theme.own": "Os meus temas",
     "admin.canvas.theme.card_title": "Tema das diapositivas libres",
     "admin.canvas.theme.card_none": "Sen tema",
-    "admin.canvas.theme.card_change": "Cambiar tema",
-    "admin.canvas.theme.undo": "Desfacer",
     "admin.canvas.theme.applied_one": "Tema aplicado a 1 diapositiva libre",
     "admin.canvas.theme.applied_many": "Tema aplicado a {n} diapositivas libres",
     "admin.canvas.theme.applied_theme_only": "Tema escollido. Usarase nas diapositivas libres que engadas",
@@ -430,6 +428,19 @@
     "admin.canvas.theme.name_grafito": "Grafito",
     "admin.canvas.theme.name_menta": "Menta",
     "admin.canvas.theme.name_escuela": "Escola",
-    "admin.canvas.theme.name_solar": "Solar"
+    "admin.canvas.theme.name_solar": "Solar",
+    "admin.canvas.theme.section": "Tema",
+    "admin.canvas.theme.change_here": "Cambiar tema…",
+    "admin.canvas.theme.scope_slide": "Aplicar a esta diapositiva",
+    "admin.canvas.theme.slide_changes": "Esta diapositiva cambiará",
+    "admin.canvas.theme.slide_same": "Esta diapositiva xa usa este tema",
+    "admin.canvas.theme.applied_slide": "Tema aplicado a esta diapositiva",
+    "admin.canvas.theme.game_current": "Tema do xogo",
+    "admin.canvas.theme.pick_slide": "Escolle un tema para esta diapositiva",
+    "admin.canvas.theme.title_slide": "Tema da diapositiva",
+    "admin.canvas.theme.intro_slide": "Cores e letra desta diapositiva",
+    "admin.canvas.theme.slide_label": "Tema desta diapositiva",
+    "admin.canvas.theme.bar_aria": "Tema da presentación: {name}. Cambiar tema",
+    "admin.canvas.theme.undo_game": "Desfacer tema"
   }
 }

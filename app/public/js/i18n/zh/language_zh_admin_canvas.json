@@ -415,8 +415,6 @@
     "admin.canvas.theme.own": "我的主题",
     "admin.canvas.theme.card_title": "自由格式幻灯片主题",
     "admin.canvas.theme.card_none": "无主题",
-    "admin.canvas.theme.card_change": "更换主题",
-    "admin.canvas.theme.undo": "撤销",
     "admin.canvas.theme.applied_one": "主题已应用到 1 张自由格式幻灯片",
     "admin.canvas.theme.applied_many": "主题已应用到 {n} 张自由格式幻灯片",
     "admin.canvas.theme.applied_theme_only": "已选择主题。将在你添加的自由格式幻灯片中使用",
@@ -430,6 +428,19 @@
     "admin.canvas.theme.name_grafito": "石墨",
     "admin.canvas.theme.name_menta": "薄荷",
     "admin.canvas.theme.name_escuela": "学校",
-    "admin.canvas.theme.name_solar": "日光"
+    "admin.canvas.theme.name_solar": "日光",
+    "admin.canvas.theme.section": "主题",
+    "admin.canvas.theme.change_here": "更换主题…",
+    "admin.canvas.theme.scope_slide": "应用于本幻灯片",
+    "admin.canvas.theme.slide_changes": "此幻灯片将被更改",
+    "admin.canvas.theme.slide_same": "此幻灯片已使用此主题",
+    "admin.canvas.theme.applied_slide": "主题已应用于本幻灯片",
+    "admin.canvas.theme.game_current": "游戏主题",
+    "admin.canvas.theme.pick_slide": "为本幻灯片选择主题",
+    "admin.canvas.theme.title_slide": "幻灯片主题",
+    "admin.canvas.theme.intro_slide": "本幻灯片的颜色和字体",
+    "admin.canvas.theme.slide_label": "本幻灯片主题",
+    "admin.canvas.theme.bar_aria": "游戏主题：{name}。更改主题",
+    "admin.canvas.theme.undo_game": "撤销主题"
   }
 }

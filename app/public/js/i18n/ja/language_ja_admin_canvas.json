@@ -415,8 +415,6 @@
     "admin.canvas.theme.own": "自分のテーマ",
     "admin.canvas.theme.card_title": "自由形式スライドのテーマ",
     "admin.canvas.theme.card_none": "テーマなし",
-    "admin.canvas.theme.card_change": "テーマを変更",
-    "admin.canvas.theme.undo": "元に戻す",
     "admin.canvas.theme.applied_one": "1つの自由形式スライドにテーマが適用されました",
     "admin.canvas.theme.applied_many": "{n}個の自由形式スライドにテーマが適用されました",
     "admin.canvas.theme.applied_theme_only": "選択されたテーマ。追加する自由形式スライドで使用されます",
@@ -430,6 +428,19 @@
     "admin.canvas.theme.name_grafito": "グラファイト",
     "admin.canvas.theme.name_menta": "ミント",
     "admin.canvas.theme.name_escuela": "スクール",
-    "admin.canvas.theme.name_solar": "ソーラー"
+    "admin.canvas.theme.name_solar": "ソーラー",
+    "admin.canvas.theme.section": "テーマ",
+    "admin.canvas.theme.change_here": "テーマを変更…",
+    "admin.canvas.theme.scope_slide": "このスライドに適用",
+    "admin.canvas.theme.slide_changes": "このスライドが変更されます",
+    "admin.canvas.theme.slide_same": "このスライドは既にこのテーマを使用しています",
+    "admin.canvas.theme.applied_slide": "このスライドにテーマが適用されました",
+    "admin.canvas.theme.game_current": "ゲームのテーマ",
+    "admin.canvas.theme.pick_slide": "このスライドのテーマを選択",
+    "admin.canvas.theme.title_slide": "スライドテーマ",
+    "admin.canvas.theme.intro_slide": "このスライドの色とフォント",
+    "admin.canvas.theme.slide_label": "このスライドのテーマ",
+    "admin.canvas.theme.bar_aria": "ゲームテーマ: {name}。テーマを変更する",
+    "admin.canvas.theme.undo_game": "テーマの取り消し"
   }
 }

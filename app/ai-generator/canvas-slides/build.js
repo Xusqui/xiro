@@ -20,6 +20,9 @@ const { table, chart } = require('./layouts-data');
 // Un maquetador por diseño de spec.js (LAYOUTS)
 const BUILDERS = { cover, statement, text, bullets, quote, stat, cards, steps, comparison, question, flow, process, timeline, image, split, table, chart };
 
+// Patrón maestro del lienzo (core/slide-canvas-theme.js: LAYOUTS) de los diseños que se corresponden con uno
+const LAYOUT_OF = { cover: 'cover', statement: 'section', text: 'title-content', bullets: 'title-content', table: 'title-content', chart: 'title-content', comparison: 'two-columns', image: 'image-text', split: 'image-text' };
+
 /** Imágenes del paquete sin repetir: cada contenido distinto es un asset. */
 function assetRegistry() {
     const assets = [];
@@ -58,6 +61,7 @@ function buildPackage(slides, themeName) {
     const canvases = slides.map(slide => ({
         version: 1,
         background: { color: theme.bg, image: null },
+        ...(LAYOUT_OF[slide.layout] ? { layout: LAYOUT_OF[slide.layout] } : {}),
         elements: BUILDERS[slide.layout](slide, ctx)
     }));
     return SlidePackage.createPackage({ slides: canvases, assets: registry.assets, appVersion: null });

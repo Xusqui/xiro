@@ -299,7 +299,6 @@ async function renderEditorJuegoPersonalizado(game) {
                 </div>
             </div>
 
-            ${customCanvasThemeCardHtml()}
             ${_customExportPdfHtml(game)}
             ${customCanvasExportAllHtml()}
             ${renderSaveBar(_t('admin.savebar.btn_save_changes'))}
@@ -320,7 +319,7 @@ async function renderEditorJuegoPersonalizado(game) {
 /** Barra "Añadir contenido": actividad, info, texto, imagen, texto+imagen, vídeo. */
 function _customToolbarHtml() {
     return `
-            <div class="xiro-toolbar-bar xiro-toolbar-bar--below-header bg-white/90 backdrop-blur-sm border border-slate-200 rounded-2xl shadow-sm px-4 py-2 mb-6 flex items-center justify-center gap-2" role="toolbar" aria-label="${_t('admin.custom.toolbar_label', null, 'Añadir contenido')}">
+            <div class="xiro-toolbar-bar xiro-toolbar-bar--below-header bg-white/90 backdrop-blur-sm border border-slate-200 rounded-2xl shadow-sm px-4 py-2 mb-6 flex flex-wrap items-center justify-center gap-2" role="toolbar" aria-label="${_t('admin.custom.toolbar_label', null, 'Añadir contenido')}">
                 <button type="button" data-admin-click="mostrarModalComentario()"
                     class="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white px-4 py-2 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg"
                     aria-label="${_t('admin.custom.btn_activity', null, 'AÑADIR ACTIVIDAD LIBRE (PUNTOS MANUALES)')}">
@@ -336,6 +335,7 @@ function _customToolbarHtml() {
                     aria-label="${_t('admin.custom.btn_howto', null, 'AÑADIR DIAPOSITIVA DE INSTRUCCIONES')}">
                     <i class="fas fa-circle-question" aria-hidden="true"></i> ${_t('admin.custom.btn_short_howto', null, 'Instrucciones')}
                 </button>
+                ${customCanvasThemeBarHtml()}
             </div>`;
 }
 

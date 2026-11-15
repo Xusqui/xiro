@@ -25,7 +25,7 @@ function bottomOf(img) {
 /** Elemento de la imagen en box: las fotos con las esquinas redondeadas; los dibujos y logos, tal cual. */
 function photo(ctx, img, box) {
     const rounded = img.mime === 'image/jpeg' || img.mime === 'image/webp';
-    return image(box, ctx.photo(img), { fit: img.ratio ? 'cover' : 'contain', ratio: img.ratio || null, radius: rounded ? PHOTO_RADIUS : 0 });
+    return image(box, ctx.photo(img), { fit: img.ratio ? 'cover' : 'contain', ratio: img.ratio || null, radius: rounded ? PHOTO_RADIUS : 0, role: 'image' });
 }
 
 /** Imagen grande centrada, con título y subtítulo arriba y pie de foto debajo; una vertical con textos, como split. */
@@ -41,7 +41,7 @@ function imageLayout(slide, ctx) {
     const size = contain(img.ratio || DEFAULT_RATIO, WIDTH, bottom - top - capH);
     const y = top + (bottom - top - size.h - capH) / 2;
     const els = [...head.elements, photo(ctx, img, { x: 960 - size.w / 2, y, w: size.w, h: size.h })];
-    if (cap) els.push(text({ x: 160, y: y + size.h, w: 1600, h: capH }, cap.text, { size: cap.size, color: t.muted, align: 'center' }));
+    if (cap) els.push(text({ x: 160, y: y + size.h, w: 1600, h: capH }, cap.text, { size: cap.size, color: t.muted, align: 'center', role: 'caption' }));
     return [...els, ...credit(img, t)];
 }
 
@@ -49,7 +49,7 @@ function imageLayout(slide, ctx) {
 function splitText(value, t, w, budget) {
     const fit = fitBalanced(value, { w, h: budget, max: 48, min: 30, eager: false });
     const h = Math.min(budget, boxHeight(fit.text, { size: fit.size, w }));
-    return { h, make: (y, x) => [text({ x, y, w, h }, fit.text, { size: fit.size, color: t.text })] };
+    return { h, make: (y, x) => [text({ x, y, w, h }, fit.text, { size: fit.size, color: t.text, role: 'body' })] };
 }
 
 /** Puntos con marcador de color de la columna de split, con la letra que quepa en el alto que queda. */
@@ -72,7 +72,7 @@ function splitItems(items, t, w, budget) {
         let at = y;
         rows.forEach(row => {
             els.push(shape('ellipse', { x: x + 20, y: at + 16 + size * 0.6 - 10, w: 20, h: 20 }, { fill: t.accent[0] }));
-            els.push(text({ x: x + 56, y: at, w: textW, h: row.h }, row.value, { size, color: t.text }));
+            els.push(text({ x: x + 56, y: at, w: textW, h: row.h }, row.value, { size, color: t.text, role: 'body' }));
             at += row.h + Math.round(size * 0.4);
         });
         return els;
@@ -86,12 +86,12 @@ function splitColumn(slide, t, w, room) {
     if (slide.title) {
         const fit = fitBalanced(slide.title, { bold: true, w, max: 72, min: 48, maxLines: 3 });
         const h = boxHeight(fit.text, { bold: true, size: fit.size, w });
-        blocks.push({ h, make: (y, x) => [text({ x, y, w, h }, fit.text, { size: fit.size, bold: true, color: t.title })] });
+        blocks.push({ h, make: (y, x) => [text({ x, y, w, h }, fit.text, { size: fit.size, bold: true, color: t.title, role: 'title' })] });
     }
     if (slide.subtitle) {
         const fit = fitBalanced(slide.subtitle, { w, max: 40, min: 30, maxLines: 2 });
         const h = boxHeight(fit.text, { size: fit.size, w });
-        blocks.push({ h, gap: -16, make: (y, x) => [text({ x, y, w, h }, fit.text, { size: fit.size, color: t.muted })] });
+        blocks.push({ h, gap: -16, make: (y, x) => [text({ x, y, w, h }, fit.text, { size: fit.size, color: t.muted, role: 'subtitle' })] });
     }
     const gap = blocks.length ? 32 : 0;
     if (!slide.items && !slide.text) return blocks;

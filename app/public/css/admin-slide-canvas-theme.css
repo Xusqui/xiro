@@ -47,27 +47,39 @@
     border-top: 1px solid #f1f5f9;
 }
 
-/* ---- Tarjeta del editor del juego ---- */
-.xsce-theme-card {
-    display: flex;
-    flex-wrap: wrap;
+/* ---- Sección «Tema» del panel de la diapositiva ---- */
+.xsce-theme-slide .xsce-theme-kicker { margin: 0 0 2px; font-size: 12px; font-weight: 600; color: #64748b; }
+.xsce-theme-slide .xsce-theme-name { margin: 0 0 8px; padding: 0; font-size: 14px; }
+.xsce-theme-slide .xsce-theme-swatches { margin-bottom: 12px; padding: 0; }
+.xsce-theme-slide .xsce-theme-status { margin: 0 0 12px; }
+
+/* ---- Grupo «Tema» de la barra «Añadir contenido» ---- */
+.xsce-theme-bar { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+/* Aviso de lo aplicado: 12px, gris, y oculto si está vacío (panel de la diapositiva y barra del juego) */
+.xsce-theme-status { margin: 0; font-size: 12px; color: #475569; }
+.xsce-theme-status:empty { display: none; }
+
+.xsce-theme-bar-btn {
+    display: inline-flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px 16px;
-    margin-bottom: 32px;
-    padding: 20px 24px;
-    border: 1px solid #e2e8f0;
-    border-radius: var(--radius-2xl, 16px);
+    gap: 8px;
+    padding: 8px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: var(--radius-xl, 12px);
     background: #ffffff;
+    color: #334155;
+    font: 700 14px/1.2 var(--font-body, 'DM Sans', sans-serif);
+    cursor: pointer;
+    transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
 }
 
-.xsce-theme-card-main { display: grid; gap: 2px; min-width: 0; }
-.xsce-theme-card-main h4 { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #64748b; }
-.xsce-theme-card .xsce-theme-name { padding: 0; font-size: 16px; }
-.xsce-theme-card .xsce-theme-swatches { padding: 0; margin-top: 6px; }
-.xsce-theme-card-actions { display: flex; flex-wrap: wrap; gap: 8px; }
-.xsce-theme-status { flex-basis: 100%; margin: 0; font-size: 12px; color: #475569; }
-.xsce-theme-status:empty { display: none; }
+.xsce-theme-bar-btn:hover { border-color: var(--plum-300, #e4abde); background: var(--plum-50, #fdf4fb); color: var(--plum-700, #793475); }
+.xsce-theme-bar-btn:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(176, 91, 170, 0.25); }
+.xsce-theme-bar .xsce-theme-name { padding: 0; font-size: 12px; font-weight: 600; color: #64748b; }
+.xsce-theme-bar .xsce-theme-swatches { gap: 3px; padding: 0; }
+.xsce-theme-bar .xsce-theme-swatch { width: 12px; height: 12px; border-radius: 4px; }
+/* En la barra el aviso es solo para lectores de pantalla: el cambio ya se ve en el botón y en las miniaturas */
+.xsce-theme-bar .xsce-theme-status { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
 @media (max-width: 1000px) {
     .xsce-theme-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
@@ -79,5 +91,5 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .xsce-theme { transition: none; }
+    .xsce-theme, .xsce-theme-bar-btn { transition: none; }
 }

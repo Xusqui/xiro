@@ -415,8 +415,6 @@
     "admin.canvas.theme.own": "Els meus temes",
     "admin.canvas.theme.card_title": "Tema de les diapositives lliures",
     "admin.canvas.theme.card_none": "Sense tema",
-    "admin.canvas.theme.card_change": "Canviar tema",
-    "admin.canvas.theme.undo": "Desfer",
     "admin.canvas.theme.applied_one": "Tema aplicat a 1 diapositiva lliure",
     "admin.canvas.theme.applied_many": "Tema aplicat a {n} diapositives lliures",
     "admin.canvas.theme.applied_theme_only": "Tema triat. S'utilitzarà en les diapositives lliures que afegis",
@@ -430,6 +428,19 @@
     "admin.canvas.theme.name_grafito": "Grafit",
     "admin.canvas.theme.name_menta": "Menta",
     "admin.canvas.theme.name_escuela": "Escola",
-    "admin.canvas.theme.name_solar": "Solar"
+    "admin.canvas.theme.name_solar": "Solar",
+    "admin.canvas.theme.section": "Tema",
+    "admin.canvas.theme.change_here": "Canviar de tema…",
+    "admin.canvas.theme.scope_slide": "Aplicar a aquesta diapositiva",
+    "admin.canvas.theme.slide_changes": "Aquesta diapositiva canviarà",
+    "admin.canvas.theme.slide_same": "Aquesta diapositiva ja utilitza aquest tema",
+    "admin.canvas.theme.applied_slide": "Tema aplicat a aquesta diapositiva",
+    "admin.canvas.theme.game_current": "Tema del joc",
+    "admin.canvas.theme.pick_slide": "Tria un tema per a aquesta diapositiva",
+    "admin.canvas.theme.title_slide": "Tema de la diapositiva",
+    "admin.canvas.theme.intro_slide": "Colors i lletra d'aquesta diapositiva",
+    "admin.canvas.theme.slide_label": "Tema d'aquesta diapositiva",
+    "admin.canvas.theme.bar_aria": "Tema de la presentació: {name}. Canviar de tema",
+    "admin.canvas.theme.undo_game": "Desfer el tema"
   }
 }

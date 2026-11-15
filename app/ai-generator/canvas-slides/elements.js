@@ -21,6 +21,7 @@ const NOTE_Y = 1006;
 function text(box, value, style) {
     return {
         type: 'text',
+        ...(style.role ? { role: style.role } : {}),
         ...roundBox(box),
         props: {
             text: value,
@@ -68,8 +69,8 @@ function segment(kind, from, to, { color, width = 6 }) {
 }
 
 /** Imagen (ref asset:aN del paquete o URL de /uploads/) que llena la caja. */
-function image(box, ref, { fit = 'contain', ratio = 1, radius = 0 } = {}) {
-    return { type: 'image', ...roundBox(box), props: { src: ref, ratio, lockRatio: true, fit, radius } };
+function image(box, ref, { fit = 'contain', ratio = 1, radius = 0, role = null } = {}) {
+    return { type: 'image', ...(role ? { role } : {}), ...roundBox(box), props: { src: ref, ratio, lockRatio: true, fit, radius } };
 }
 
 /** Ancho y alto con la proporción ratio (ancho/alto) lo más grandes posible dentro de w × h. */
@@ -81,7 +82,7 @@ function contain(ratio, w, h) {
 function credit(img, theme) {
     if (!img || !img.credit) return [];
     const size = fitSize(img.credit, { w: WIDTH, max: 24, min: 18, maxLines: 1 });
-    return [text({ x: LEFT, y: NOTE_Y, w: WIDTH, h: 68 }, img.credit, { size, color: theme.muted, align: 'right' })];
+    return [text({ x: LEFT, y: NOTE_Y, w: WIDTH, h: 68 }, img.credit, { size, color: theme.muted, align: 'right', role: 'caption' })];
 }
 
 /** Icono centrado en un círculo de color; sin icono, solo el círculo. */
@@ -102,13 +103,13 @@ function header(slide, theme) {
     if (slide.title) {
         const size = fitSize(slide.title, { bold: true, w: WIDTH, max: 72, min: 52, maxLines: 2 });
         const h = boxHeight(slide.title, { bold: true, size, w: WIDTH });
-        elements.push(text({ x: LEFT, y, w: WIDTH, h }, slide.title, { size, bold: true, color: theme.title }));
+        elements.push(text({ x: LEFT, y, w: WIDTH, h }, slide.title, { size, bold: true, color: theme.title, role: 'title' }));
         y += h - 24;
     }
     if (slide.subtitle) {
         const size = fitSize(slide.subtitle, { w: WIDTH, max: 40, min: 32, maxLines: 2 });
         const h = boxHeight(slide.subtitle, { size, w: WIDTH });
-        elements.push(text({ x: LEFT, y, w: WIDTH, h }, slide.subtitle, { size, color: theme.muted }));
+        elements.push(text({ x: LEFT, y, w: WIDTH, h }, slide.subtitle, { size, color: theme.muted, role: 'subtitle' }));
         y += h;
     }
     return { elements, bottom: y + (slide.title || slide.subtitle ? 40 : 0) };
@@ -148,7 +149,8 @@ function footer(slide, theme) {
         elements: [
             text({ x: LEFT, y: NOTE_Y, w: WIDTH, h: 68 }, slide.note, {
                 size: fitSize(slide.note, { w: WIDTH, max: 28, min: 22, maxLines: 1 }),
-                color: theme.muted
+                color: theme.muted,
+                role: 'caption'
             })
         ],
         limit: 976
