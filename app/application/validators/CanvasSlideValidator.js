@@ -23,6 +23,7 @@ const { MAX_ALT } = require('../../public/js/core/slide-canvas-style');
 const { tablePropsSchema } = require('./CanvasTableSchema');
 const { textPropsSchema } = require('./CanvasTextSchema');
 const { chartPropsSchema, hasBadChartSource } = require('./CanvasChartSchema');
+const { ROLES, ROLE_TYPES, LAYOUTS } = require('../../public/js/core/slide-canvas-theme');
 
 /**
  * @param {string} value - URL de imagen o video a validar
@@ -64,7 +65,8 @@ const MESSAGES = {
         'Vídeo no compatible: usa YouTube, Vimeo, Dailymotion o un archivo .mp4, .webm, .ogg o .mov',
     'canvasSlide.tooLarge': 'La diapositiva libre es demasiado grande',
     'canvasSlide.badPath': 'La forma libre tiene un trazado no válido',
-    'canvasSlide.badChartSource': 'Un gráfico apunta a una tabla que no está en la diapositiva'
+    'canvasSlide.badChartSource': 'Un gráfico apunta a una tabla que no está en la diapositiva',
+    'canvasSlide.badRole': 'El rol del elemento no corresponde a su tipo'
 };
 
 // Sombra (fase B): desplazamiento, desenfoque y color, como la normaliza slide-canvas-style.js
@@ -89,6 +91,7 @@ const canvasElementSchema = Joi.object({
     rotation: Joi.number().integer().min(-180).max(180),
     locked: Joi.boolean().strict(),
     hidden: Joi.boolean().strict(),
+    role: Joi.string().valid(...ROLES),
     groupId: Joi.string().pattern(GROUP_ID_RE),
     opacity: Joi.number().min(0.05).max(0.99),
     shadow: shadowSchema,
@@ -145,10 +148,12 @@ const canvasElementSchema = Joi.object({
         .required()
 })
     .unknown(false)
+    .custom((value, helpers) => (value.role && ROLE_TYPES[value.role].indexOf(value.type) < 0 ? helpers.error('canvasSlide.badRole') : value))
     .messages(MESSAGES);
 
 const canvasSchema = Joi.object({
     version: Joi.number().integer().valid(1).required(),
+    layout: Joi.string().valid(...LAYOUTS),
     background: Joi.object({
         color: Joi.string().pattern(COLOR_RE).required(),
         image: Joi.string().max(MAX_URL).allow(null).custom(checkMediaUrl),

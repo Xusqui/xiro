@@ -108,6 +108,21 @@ async function insertKeptQuestions(client, customGameId, questions) {
 }
 
 /**
+ * Guarda el tema de las diapositivas libres del juego (slide_theme). undefined no toca el tema (un editor
+ * desactualizado no debe borrarlo), null lo quita y un objeto lo reemplaza.
+ * @param {Object} client - Cliente de la transacción
+ * @param {number} customGameId - ID del juego
+ * @param {Object|null|undefined} theme - Tema completo ya validado
+ */
+async function writeSlideTheme(client, customGameId, theme) {
+    if (theme === undefined) return;
+    await client.query('UPDATE custom_games SET slide_theme = $1::jsonb WHERE id = $2', [
+        theme === null ? null : JSON.stringify(theme),
+        customGameId
+    ]);
+}
+
+/**
  * Crea un juego personalizado
  * @param {Object} data - {name, pin, questions}
  * @returns {Promise<Object>}
@@ -154,6 +169,7 @@ async function createCustomGame(data) {
         const customGameId = result.rows[0].id;
 
         const kept = await insertKeptQuestions(client, customGameId, questions);
+        await writeSlideTheme(client, customGameId, data.slide_theme);
 
         await client.query('COMMIT');
         return { ...result.rows[0], removedQuestions: kept.removed };
@@ -288,6 +304,7 @@ async function updateCustomGame(customGameId, data, actorUserId = null) {
         await client.query('DELETE FROM custom_game_questions WHERE custom_game_id = $1', [customGameId]);
 
         const kept = await insertKeptQuestions(client, customGameId, questions);
+        await writeSlideTheme(client, customGameId, data.slide_theme);
 
         await client.query('COMMIT');
 

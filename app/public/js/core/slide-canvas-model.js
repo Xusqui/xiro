@@ -113,6 +113,11 @@
         return dep('./slide-canvas-style', 'XiroSlideCanvasStyle');
     }
 
+    /** Fase F: roles de los elementos y patrón del lienzo; sin el módulo, no se conservan. */
+    function theme() {
+        return dep('./slide-canvas-theme', 'XiroSlideCanvasTheme');
+    }
+
     /**
      * Fase C: subrayado y lista del cuadro y tramos con formato propio. Solo se escriben si hay
      * formato; con tramos, el texto plano se rehace desde ellos para que nunca discrepen.
@@ -235,6 +240,9 @@
         if (raw.hidden === true) el.hidden = true;
         if (typeof raw.groupId === 'string' && GROUP_ID_RE.test(raw.groupId)) el.groupId = raw.groupId;
         if (style()) style().normalizeElementStyle(raw, el);
+        // Fase F: rol del elemento en el tema, solo si es válido para su tipo
+        const role = theme() ? theme().normalizeRole(raw.role, el.type) : null;
+        if (role) el.role = role;
         return el;
     }
 
@@ -276,6 +284,8 @@
         canvas.background.image = isSafeMediaUrl(bg.image) ? bg.image : null;
         const gradient = style() ? style().normalizeGradient(bg.gradient) : null;
         if (gradient) canvas.background.gradient = gradient;
+        const layout = theme() ? theme().normalizeLayout(raw.layout) : null;
+        if (layout) canvas.layout = layout;
         const list = Array.isArray(raw.elements) ? raw.elements : [];
         const ids = [];
         for (let i = 0; i < list.length && canvas.elements.length < api.MAX_ELEMENTS; i++) {

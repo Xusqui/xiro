@@ -125,6 +125,7 @@ async function renderVistaPersonalizados() {
 
 function prepararNuevoJuegoPersonalizado() {
     currentCustomGameQuestions = [];
+    window.XiroCanvasEditor.gameTheme.load(null);
     activeView = null; // Salir de la vista de grid
     renderEditorJuegoPersonalizado({ name: '', pin: '', id: null }, []);
 }
@@ -174,6 +175,7 @@ async function cargarEditorJuegoPersonalizado(id) {
             tipo_contenido: q.tipo_contenido,
             url_recurso: q.url_recurso
         }));
+        window.XiroCanvasEditor.gameTheme.load(data.game.slide_theme);
         await renderEditorJuegoPersonalizado(data.game, data.questions);
     } catch (err) {
         console.error('Error cargando juego personalizado:', err);
@@ -297,6 +299,7 @@ async function renderEditorJuegoPersonalizado(game) {
                 </div>
             </div>
 
+            ${customCanvasThemeCardHtml()}
             ${_customExportPdfHtml(game)}
             ${customCanvasExportAllHtml()}
             ${renderSaveBar(_t('admin.savebar.btn_save_changes'))}
@@ -367,6 +370,7 @@ function _customGameEditorSnapshot() {
             document.getElementById('customGameDoubleStreakBonusPercentage')?.value ?? 1.0
         ),
         image_url: document.getElementById('customGameImageUrl')?.value || '',
+        slide_theme: window.XiroCanvasEditor.gameTheme.current(),
         ...snapshotRandomPoints('customGame'),
         questions: currentCustomGameQuestions
     };
@@ -700,6 +704,7 @@ async function guardarJuegoPersonalizado() {
         visible_to_presenter: form.visibleToPresenter,
         ..._readCustomGameStreaks(),
         image_url: form.imageUrl,
+        slide_theme: window.XiroCanvasEditor.gameTheme.forSave(),
         ...randomPoints,
         questions: currentCustomGameQuestions.map(_customSlideForSave)
     };

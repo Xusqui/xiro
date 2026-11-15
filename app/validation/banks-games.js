@@ -16,6 +16,7 @@ const {
 const { questionSchema } = require('./questions');
 const { slideVideoSchema } = require('../application/validators/VideoSlideValidator');
 const { slideCanvasSchema } = require('../application/validators/CanvasSlideValidator');
+const { themeSchema } = require('../application/validators/CanvasThemeValidator');
 const { slideHowToSchema } = require('../application/validators/HowToSlideValidator');
 
 // Banco de preguntas (guardar)
@@ -163,6 +164,7 @@ const createCustomGameSchema = Joi.object({
     double_streak_threshold: Joi.number().integer().min(1).max(20).default(5).optional(),
     double_streak_bonus_percentage: Joi.number().min(0).max(2).default(1.0).optional(),
     ...randomPointsFields,
+    slide_theme: themeSchema.allow(null).optional(),
     questions: Joi.array().items(customGameQuestionSchema).min(0).optional().messages({
         'array.min': 'Debe haber al menos una pregunta o comentario'
     })
@@ -182,6 +184,7 @@ const updateCustomGameSchema = Joi.object({
     double_streak_threshold: Joi.number().integer().min(1).max(20).default(5).optional(),
     double_streak_bonus_percentage: Joi.number().min(0).max(2).default(1.0).optional(),
     ...randomPointsFields,
+    slide_theme: themeSchema.allow(null).optional(),
     questions: Joi.array().items(customGameQuestionSchema).min(1).required().messages({
         'array.min': 'Debe haber al menos una pregunta o comentario'
     })

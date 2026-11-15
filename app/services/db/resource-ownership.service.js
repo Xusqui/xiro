@@ -11,7 +11,8 @@ const RESOURCE_TABLES = Object.freeze({
     custom_game: 'custom_games',
     trivial: 'trivial_games',
     quiz: 'quizzes',
-    canvas_slide: 'canvas_slide_library'
+    canvas_slide: 'canvas_slide_library',
+    canvas_theme: 'canvas_slide_themes'
 });
 
 /**
@@ -56,7 +57,7 @@ function normalizeActorUserId(actorUserId) {
 
 /**
  * Lee quién creó un recurso.
- * @param {'bank'|'game'|'custom_game'|'trivial'|'quiz'|'canvas_slide'} resourceType - Tipo de recurso
+ * @param {'bank'|'game'|'custom_game'|'trivial'|'quiz'|'canvas_slide'|'canvas_theme'} resourceType - Tipo de recurso
  * @param {number} resourceId - ID del recurso
  * @param {Object} [queryable=pool] - Pool o cliente de una transacción en curso
  * @returns {Promise<{role: string, userId: number|null}|null>} Creador, o null si no hay id o no existe
@@ -81,7 +82,7 @@ async function getResourceOwner(resourceType, resourceId, queryable = pool) {
 
 /**
  * Lee el creador de un recurso y si está exento de licencia.
- * @param {'bank'|'game'|'custom_game'|'trivial'|'quiz'|'canvas_slide'} resourceType - Tipo de recurso
+ * @param {'bank'|'game'|'custom_game'|'trivial'|'quiz'|'canvas_slide'|'canvas_theme'} resourceType - Tipo de recurso
  * @param {number} resourceId - ID del recurso
  * @param {Object} [queryable=pool] - Pool o cliente de una transacción en curso
  * @returns {Promise<{role: string, userId: number|null, licenseExempt: boolean}|null>} Datos, o null si no hay id o no
@@ -110,7 +111,7 @@ async function getResourceLicenseInfo(resourceType, resourceId, queryable = pool
 /**
  * Comprueba que el editor puede modificar el recurso: solo si lo creó él. Sin usuario válido no comprueba nada
  * (las rutas pasan null cuando actúa un admin).
- * @param {'bank'|'game'|'custom_game'|'trivial'|'quiz'|'canvas_slide'} resourceType - Tipo de recurso
+ * @param {'bank'|'game'|'custom_game'|'trivial'|'quiz'|'canvas_slide'|'canvas_theme'} resourceType - Tipo de recurso
  * @param {number} resourceId - ID del recurso
  * @param {number|string|null} actorUserId - ID del usuario que actúa
  * @param {Object} [queryable=pool] - Pool o cliente de una transacción en curso

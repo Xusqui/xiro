@@ -1,0 +1,83 @@
+/*
+ * Diálogo «Tema» y tarjeta del tema del editor del juego personalizado (slides-canvas-theme-dialog.js y
+ * slides-canvas-theme-card.js, fase F4c). Quiet Chrome: el cromo es blanco y pizarra; lo único colorido son las
+ * vistas previas de los temas. El estado marcado lleva el borde interior Plum Ring (el relleno solo no llega a 3:1).
+ */
+
+/* ---- Diálogo ---- */
+.xsce-theme-grid { display: grid; grid-template-columns: repeat(4, 212px); gap: 16px; justify-content: center; }
+
+.xsce-theme {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px 8px 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: var(--radius-2xl, 16px);
+    background: #ffffff;
+    color: #1e293b;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.xsce-theme:hover { border-color: var(--plum-300, #e4abde); }
+.xsce-theme[aria-checked="true"] { border-color: var(--plum-500, #b05baa); background: var(--plum-100, #f9e6f7); box-shadow: inset 0 0 0 1px var(--plum-500, #b05baa); }
+.xsce-theme:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(176, 91, 170, 0.25); }
+.xsce-theme[aria-checked="true"]:focus-visible { box-shadow: inset 0 0 0 1px var(--plum-500, #b05baa), 0 0 0 3px rgba(176, 91, 170, 0.25); }
+
+.xsce-theme-name { padding: 0 4px; font-size: 14px; font-weight: 800; color: #1e293b; }
+.xsce-theme-current { margin-left: 8px; padding: 1px 8px; border-radius: 999px; background: #ffffff; color: var(--plum-800, #5f285b); font-size: 11px; font-weight: 700; box-shadow: inset 0 0 0 1px var(--plum-500, #b05baa); }
+.xsce-theme-swatches { display: flex; gap: 4px; padding: 0 4px; }
+.xsce-theme-swatch { width: 18px; height: 18px; border-radius: 6px; box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.18); }
+.xsce-theme-fonts { padding: 0 4px; font-size: 12px; color: #64748b; }
+.xsce-theme-warning { display: flex; align-items: flex-start; gap: 6px; padding: 0 4px; font-size: 12px; font-weight: 600; line-height: 1.35; color: #b91c1c; }
+.xsce-theme .xsce-tpl-thumb { align-self: center; }
+.xsce-theme-summary { flex: 1; min-height: 20px; margin: 0; font-size: 13px; line-height: 1.35; color: #475569; text-align: left; }
+
+/* El pie queda pegado abajo: «Aplicar a todo el juego» nunca queda fuera de pantalla aunque haya 10 temas */
+#modalLienzoTema .xsce-dialog-foot {
+    position: sticky;
+    bottom: -24px;
+    align-items: center;
+    margin: 16px -32px -24px;
+    padding: 16px 32px 24px;
+    background: #ffffff;
+    border-top: 1px solid #f1f5f9;
+}
+
+/* ---- Tarjeta del editor del juego ---- */
+.xsce-theme-card {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 16px;
+    margin-bottom: 32px;
+    padding: 20px 24px;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius-2xl, 16px);
+    background: #ffffff;
+}
+
+.xsce-theme-card-main { display: grid; gap: 2px; min-width: 0; }
+.xsce-theme-card-main h4 { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #64748b; }
+.xsce-theme-card .xsce-theme-name { padding: 0; font-size: 16px; }
+.xsce-theme-card .xsce-theme-swatches { padding: 0; margin-top: 6px; }
+.xsce-theme-card-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.xsce-theme-status { flex-basis: 100%; margin: 0; font-size: 12px; color: #475569; }
+.xsce-theme-status:empty { display: none; }
+
+@media (max-width: 1000px) {
+    .xsce-theme-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+}
+
+@media (max-width: 520px) {
+    #modalLienzoTema .xsce-dialog-foot { flex-wrap: wrap; margin-inline: -18px; padding-inline: 18px; }
+    .xsce-theme-summary { flex-basis: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .xsce-theme { transition: none; }
+}

@@ -73,6 +73,8 @@
 .xsce-btn--primary { background: var(--camaleon-600, #557400); color: #ffffff; box-shadow: 0 8px 18px -8px rgba(85, 116, 0, 0.75); }
 .xsce-btn--primary:hover { background: var(--camaleon-700, #445e02); transform: translateY(-1px); }
 .xsce-btn:active { transform: scale(0.97); }
+/* Desactivado: la misma opacidad que las herramientas, sin sombra y sin reaccionando al ratón */
+.xsce-btn:disabled { opacity: var(--xsce-off, 0.4); box-shadow: none; cursor: default; pointer-events: none; }
 
 .xsce-shell :focus-visible,
 .xsce-dialog :focus-visible {
