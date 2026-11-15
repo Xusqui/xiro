@@ -45,7 +45,7 @@ async function renderVistaBancos() {
                     <button data-admin-click="mostrarMezclarBancos()"
                         class="bg-aubergine-600 hover:bg-aubergine-700 text-white px-5 py-4 rounded-xl font-bold text-lg shadow-lg transition transform hover:-translate-y-1 flex items-center gap-3">
                         <i class="fas fa-layer-group text-xl"></i>
-                        ${_t('admin.banks.btn_merge', null, 'Mezclar Bancos')}
+                        ${_t('admin.banks.btn_merge', null, 'Fusionar bancos')}
                     </button>
                     <button data-admin-click="prepararNuevoBanco()"
                         class="bg-camaleon-600 hover:bg-camaleon-700 text-white px-6 py-4 rounded-xl font-bold text-lg shadow-lg transition transform hover:-translate-y-1 flex items-center gap-3">
@@ -55,31 +55,30 @@ async function renderVistaBancos() {
                 </div>
             </div>
 
-            ${
-    bancos.length === 0
-        ? `
+            ${bancos.length === 0
+            ? `
                 <div class="text-center py-20">
                     <i class="fas fa-inbox text-slate-300 text-6xl mb-4"></i>
                     <p class="text-slate-400 text-xl">${_t('admin.banks.empty_title', null, 'No hay bancos de preguntas todavía')}</p>
                     <p class="text-slate-400 mt-2">${_t('admin.banks.empty_msg', null, 'Crea tu primer banco para comenzar')}</p>
                 </div>
             `
-        : `
+            : `
                 ${htmlBuscadorLista('bancos')}
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     ${bancos
-        .map(banco => {
-            const ownerInfo = {
-                created_by_role: banco.created_by_role,
-                created_by_user_id: banco.created_by_user_id,
-                created_by_username: banco.created_by_username
-            };
-            const canModify = canModifyOwnedResource(ownerInfo);
-            const editClasses = canModify
-                ? 'flex-1 btn-edit px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2'
-                : `flex-1 px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 ${getLockedButtonClasses()}`;
+                .map(banco => {
+                    const ownerInfo = {
+                        created_by_role: banco.created_by_role,
+                        created_by_user_id: banco.created_by_user_id,
+                        created_by_username: banco.created_by_username
+                    };
+                    const canModify = canModifyOwnedResource(ownerInfo);
+                    const editClasses = canModify
+                        ? 'flex-1 btn-edit px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2'
+                        : `flex-1 px-4 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 ${getLockedButtonClasses()}`;
 
-            return `
+                    return `
                         <div ${atributoBusquedaLista(banco)} class="bg-white rounded-2xl shadow-sm border-2 border-slate-200 hover:border-plum-500 transition hover:shadow-xl group overflow-hidden">
                             <div class="p-6">
                                 <div class="flex justify-between items-start mb-4">
@@ -87,14 +86,13 @@ async function renderVistaBancos() {
                                         <h3 class="text-lg font-bold text-slate-900 mb-2 line-clamp-2">${escapeHtml(banco.name)}</h3>
                                         <p class="text-sm text-slate-600 mb-2">${_t('admin.banks.question_count', { n: banco.question_count ?? 0 }, 'Preguntas: {n}')}</p>
                                         ${getOwnerBadgeHtml(ownerInfo)}
-                                        ${
-    banco.pin
-        ? `<div class="inline-flex items-center gap-2 bg-plum-100 text-plum-700 px-3 py-1 rounded-lg text-xs font-mono font-bold">
+                                        ${banco.pin
+                            ? `<div class="inline-flex items-center gap-2 bg-plum-100 text-plum-700 px-3 py-1 rounded-lg text-xs font-mono font-bold">
                                             <i class="fas fa-key"></i>
                                             PIN: ${banco.pin}
                                         </div>`
-        : ''
-}
+                            : ''
+                        }
                                     </div>
                                 </div>
                                 
@@ -113,11 +111,11 @@ async function renderVistaBancos() {
                             </div>
                         </div>
                     `;
-        })
-        .join('')}
+                })
+                .join('')}
                 </div>
             `
-}
+        }
         </div>
     `);
     filtrarTarjetasLista('bancos');
@@ -167,17 +165,16 @@ function renderEditorBanco(bank) {
                 <div id="listaPreguntasDOM" class="xq-list"></div>
                 ${bankQuestionsFooterHtml()}
 
-                ${
-    bank.id
-        ? `
+                ${bank.id
+            ? `
                 <div class="mt-4">
                     <button data-admin-click="exportarBanco()" class="bg-plum-50 text-plum-700 border-2 border-plum-200 px-6 py-3 rounded-lg font-bold hover:bg-plum-100 hover:border-plum-300 transition w-full flex items-center justify-center gap-3">
                         <i class="fas fa-file-export text-lg" aria-hidden="true"></i> ${_t('admin.banks.btn_export', null, 'Exportar banco')}
                     </button>
                 </div>
                 `
-        : ''
-}
+            : ''
+        }
                 ${renderSaveBar(_t('admin.savebar.btn_save_changes'))}
             </div>
         </div>`);
@@ -298,8 +295,8 @@ function borrarBanco(id, e, ownerUserId = null) {
                     mostrarModalError(
                         _t('admin.common.error_title', null, '❌ Error'),
                         err.message ||
-                            err.error ||
-                            _t('admin.banks.error_delete', null, 'No se pudo eliminar el banco'),
+                        err.error ||
+                        _t('admin.banks.error_delete', null, 'No se pudo eliminar el banco'),
                         'error'
                     );
                 }

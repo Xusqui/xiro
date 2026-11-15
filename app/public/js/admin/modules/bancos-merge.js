@@ -1,12 +1,12 @@
 /**
- * @fileoverview Funcionalidad para mezclar bancos de preguntas
+ * @fileoverview Funcionalidad para Fusionar bancos de preguntas
  * Módulo independiente que se integra con bancos-expanded.js
  */
 
-// ===== VISTA PARA MEZCLAR BANCOS =====
+// ===== VISTA PARA Fusionar bancos =====
 
 /**
- * Muestra la interfaz para seleccionar y mezclar bancos
+ * Muestra la interfaz para seleccionar y Fusionar bancos
  */
 let _mergeBancosDelegationReady = false;
 
@@ -33,14 +33,13 @@ async function mostrarMezclarBancos() {
                         <i class="fas fa-layer-group text-3xl"></i>
                     </div>
                     <div>
-                        <h1 class="text-3xl font-black text-plum-600">Mezclar Bancos de Preguntas</h1>
+                        <h1 class="text-3xl font-black text-plum-600">Fusionar bancos de Preguntas</h1>
                         <p class="text-slate-500">Combina preguntas de varios bancos en uno nuevo</p>
                     </div>
                 </div>
 
-                ${
-    bancos.length < 2
-        ? `
+                ${bancos.length < 2
+            ? `
                     <div class="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-6 text-center">
                         <i class="fas fa-exclamation-triangle text-yellow-600 text-4xl mb-3"></i>
                         <p class="text-yellow-800 font-bold text-lg mb-2">${_t('admin.merge.error_min_title', null, 'No hay suficientes bancos')}</p>
@@ -51,7 +50,7 @@ async function mostrarMezclarBancos() {
                         </button>
                     </div>
                 `
-        : `
+            : `
                     <!-- Sección de selección de bancos -->
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
                         <div class="flex justify-between items-center mb-4">
@@ -73,8 +72,8 @@ async function mostrarMezclarBancos() {
 
                         <div id="listaBancosSeleccion" class="space-y-2 max-h-96 overflow-y-auto">
                             ${bancos
-        .map(
-            banco => `
+                .map(
+                    banco => `
                                 <label class="flex items-center gap-4 p-4 bg-slate-50 hover:bg-plum-50 rounded-xl border-2 border-slate-200 hover:border-plum-300 transition cursor-pointer group">
                                     <input type="checkbox" 
                                         class="banco-checkbox w-5 h-5 text-plum-600 rounded focus:ring-plum-500" 
@@ -94,8 +93,8 @@ async function mostrarMezclarBancos() {
                                     </div>
                                 </label>
                             `
-        )
-        .join('')}
+                )
+                .join('')}
                         </div>
 
                         <!-- Resumen de selección -->
@@ -126,7 +125,7 @@ async function mostrarMezclarBancos() {
                         </button>
                     </div>
                 `
-}
+        }
             </div>
         </div>
     `);
@@ -396,12 +395,12 @@ function ejecutarMezclaBancos() {
                     const error = await response.json();
                     mostrarModalError(
                         _t('admin.common.error_title', null, '❌ Error'),
-                        error.message || error.error || _t('admin.merge.error_failed', null, 'Error al mezclar bancos'),
+                        error.message || error.error || _t('admin.merge.error_failed', null, 'Error al Fusionar bancos'),
                         'error'
                     );
                 }
             } catch (error) {
-                console.error('Error al mezclar bancos:', error);
+                console.error('Error al Fusionar bancos:', error);
                 mostrarModalError(
                     _t('admin.common.error_title', null, '❌ Error'),
                     _t('admin.common.error_server', null, 'Error de conexión con el servidor'),

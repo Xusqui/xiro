@@ -196,7 +196,7 @@ const validatePinQuerySchema = Joi.object({
     excludeId: dbIdSchema.optional()
 });
 
-// Mezclar bancos de preguntas
+// Fusionar bancos de preguntas
 const mergeBanksSchema = Joi.object({
     bankIds: Joi.array().items(dbIdSchema).min(2).required().messages({
         'array.min': 'Debes seleccionar al menos 2 bancos para mezclar',

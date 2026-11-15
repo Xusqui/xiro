@@ -1,5 +1,5 @@
 /**
- * @fileoverview Servicio para mezclar bancos de preguntas
+ * @fileoverview Servicio para Fusionar bancos de preguntas
  * @module services/db/bank-merge.service
  *
  * Funcionalidad modular para combinar preguntas de múltiples bancos

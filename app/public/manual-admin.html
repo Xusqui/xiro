@@ -114,7 +114,9 @@
             font-family: var(--font-body, 'DM Sans', system-ui, sans-serif);
         }
 
-        h1, h2, h3 {
+        h1,
+        h2,
+        h3 {
             font-family: var(--font-display-console, 'Syne', system-ui, sans-serif);
             font-weight: 700 !important;
         }
@@ -155,34 +157,36 @@
             ...</h1>
         <p data-i18n="manual_admin.hero.subtitle" class="text-lg md:text-xl mb-8 text-plum-100 font-medium">...</p>
 
-        <div class="flex flex-wrap justify-center mb-8 border-b-2 border-white/20 pb-2 gap-2" role="tablist" aria-label="Secciones del manual">
+        <div class="flex flex-wrap justify-center mb-8 border-b-2 border-white/20 pb-2 gap-2" role="tablist"
+            aria-label="Secciones del manual">
             <button class="tab-btn active text-base md:text-lg px-4 py-2 rounded-t-lg" data-target="tab-acceso"
                 role="tab" id="tabbtn-acceso" aria-controls="tab-acceso" aria-selected="true" tabindex="0">
                 <i class="fas fa-key mr-2"></i>
                 <span data-i18n="manual_admin.tabs.access_roles">...</span>
             </button>
-            <button class="tab-btn text-base md:text-lg px-4 py-2 rounded-t-lg" data-target="tab-bancos"
-                role="tab" id="tabbtn-bancos" aria-controls="tab-bancos" aria-selected="false" tabindex="-1">
+            <button class="tab-btn text-base md:text-lg px-4 py-2 rounded-t-lg" data-target="tab-bancos" role="tab"
+                id="tabbtn-bancos" aria-controls="tab-bancos" aria-selected="false" tabindex="-1">
                 <i class="fas fa-database mr-2"></i>
                 <span data-i18n="manual_admin.tabs.question_banks">...</span>
             </button>
-            <button class="tab-btn text-base md:text-lg px-4 py-2 rounded-t-lg" data-target="tab-juegos"
-                role="tab" id="tabbtn-juegos" aria-controls="tab-juegos" aria-selected="false" tabindex="-1">
+            <button class="tab-btn text-base md:text-lg px-4 py-2 rounded-t-lg" data-target="tab-juegos" role="tab"
+                id="tabbtn-juegos" aria-controls="tab-juegos" aria-selected="false" tabindex="-1">
                 <i class="fas fa-gamepad mr-2"></i>
                 <span data-i18n="manual_admin.tabs.game_types">...</span>
             </button>
-            <button class="tab-btn text-base md:text-lg px-4 py-2 rounded-t-lg" data-target="tab-exportar"
-                role="tab" id="tabbtn-exportar" aria-controls="tab-exportar" aria-selected="false" tabindex="-1">
+            <button class="tab-btn text-base md:text-lg px-4 py-2 rounded-t-lg" data-target="tab-exportar" role="tab"
+                id="tabbtn-exportar" aria-controls="tab-exportar" aria-selected="false" tabindex="-1">
                 <i class="fas fa-file-export mr-2"></i>
                 <span data-i18n="manual_admin.tabs.export_import">...</span>
             </button>
             <button class="tab-btn text-base md:text-lg px-4 py-2 rounded-t-lg" data-target="tab-herramientas"
-                role="tab" id="tabbtn-herramientas" aria-controls="tab-herramientas" aria-selected="false" tabindex="-1">
+                role="tab" id="tabbtn-herramientas" aria-controls="tab-herramientas" aria-selected="false"
+                tabindex="-1">
                 <i class="fas fa-tools mr-2"></i>
                 <span data-i18n="manual_admin.tabs.tools">...</span>
             </button>
-            <button class="tab-btn text-base md:text-lg px-4 py-2 rounded-t-lg" data-target="tab-remoto"
-                role="tab" id="tabbtn-remoto" aria-controls="tab-remoto" aria-selected="false" tabindex="-1">
+            <button class="tab-btn text-base md:text-lg px-4 py-2 rounded-t-lg" data-target="tab-remoto" role="tab"
+                id="tabbtn-remoto" aria-controls="tab-remoto" aria-selected="false" tabindex="-1">
                 <i class="fas fa-mobile-alt mr-2"></i>
                 <span data-i18n="manual_admin.tabs.remote_control">...</span>
             </button>
@@ -193,7 +197,8 @@
             <!-- ======================================================= -->
             <!-- TAB 1: ACCESO Y ROLES -->
             <!-- ======================================================= -->
-            <div id="tab-acceso" class="tab-content active text-left" role="tabpanel" aria-labelledby="tabbtn-acceso" aria-hidden="false">
+            <div id="tab-acceso" class="tab-content active text-left" role="tabpanel" aria-labelledby="tabbtn-acceso"
+                aria-hidden="false">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                     <!-- Cómo acceder -->
@@ -210,8 +215,7 @@
                                     ...</p>
                                 <p class="text-slate-500 text-sm" data-i18n="manual_admin.access.login.p2">...</p>
                             </div>
-                            <img src="./images/chamaleon/detective.svg" alt=""
-                                class="w-16 sm:w-24 shrink-0 ml-4">
+                            <img src="./images/chamaleon/detective.svg" alt="" class="w-16 sm:w-24 shrink-0 ml-4">
                         </div>
                     </div>
 
@@ -241,8 +245,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <img src="./images/chamaleon/thinking.svg" alt=""
-                                class="w-16 sm:w-24 shrink-0 ml-4">
+                            <img src="./images/chamaleon/thinking.svg" alt="" class="w-16 sm:w-24 shrink-0 ml-4">
                         </div>
                     </div>
 
@@ -289,8 +292,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <img src="./images/chamaleon/pointing.svg" alt=""
-                                class="w-16 sm:w-24 shrink-0 ml-4">
+                            <img src="./images/chamaleon/pointing.svg" alt="" class="w-16 sm:w-24 shrink-0 ml-4">
                         </div>
                     </div>
 
@@ -308,8 +310,7 @@
                                     ...</p>
                                 <p class="text-slate-500 text-sm" data-i18n="manual_admin.access.search.p2">...</p>
                             </div>
-                            <img src="./images/chamaleon/searching.svg" alt=""
-                                class="w-16 sm:w-24 shrink-0 ml-4">
+                            <img src="./images/chamaleon/searching.svg" alt="" class="w-16 sm:w-24 shrink-0 ml-4">
                         </div>
                     </div>
 
@@ -352,11 +353,11 @@
                                     <span class="role-badge bg-red-100 text-red-700 ml-2 text-xs"
                                         data-i18n="manual_admin.only_admin">...</span>
                                 </h2>
-                                <p class="text-slate-600 text-base mb-3"
-                                    data-i18n-html="manual_admin.access.users.p1">...</p>
+                                <p class="text-slate-600 text-base mb-3" data-i18n-html="manual_admin.access.users.p1">
+                                    ...</p>
                                 <div class="p-3 bg-red-50 rounded-xl border border-red-200">
-                                    <p class="text-slate-600 text-sm"
-                                        data-i18n-html="manual_admin.access.users.p2">...</p>
+                                    <p class="text-slate-600 text-sm" data-i18n-html="manual_admin.access.users.p2">...
+                                    </p>
                                 </div>
                             </div>
                             <img src="./images/chamaleon/worker.svg" alt="" class="w-16 sm:w-24 shrink-0 ml-4">
@@ -369,7 +370,8 @@
             <!-- ======================================================= -->
             <!-- TAB 2: BANCOS DE PREGUNTAS -->
             <!-- ======================================================= -->
-            <div id="tab-bancos" class="tab-content text-left" role="tabpanel" aria-labelledby="tabbtn-bancos" aria-hidden="true">
+            <div id="tab-bancos" class="tab-content text-left" role="tabpanel" aria-labelledby="tabbtn-bancos"
+                aria-hidden="true">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                     <!-- Crear banco -->
@@ -404,7 +406,8 @@
                                     </li>
                                 </ol>
                             </div>
-                            <img loading="lazy" src="./images/chamaleon/planting.svg" alt="" class="w-16 sm:w-24 shrink-0 ml-4">
+                            <img loading="lazy" src="./images/chamaleon/planting.svg" alt=""
+                                class="w-16 sm:w-24 shrink-0 ml-4">
                         </div>
                     </div>
 
@@ -452,7 +455,8 @@
                                     </li>
                                 </ul>
                             </div>
-                            <img loading="lazy" src="./images/chamaleon/gaming.svg" alt="" class="w-16 sm:w-24 shrink-0 ml-4">
+                            <img loading="lazy" src="./images/chamaleon/gaming.svg" alt=""
+                                class="w-16 sm:w-24 shrink-0 ml-4">
                         </div>
                     </div>
 
@@ -486,7 +490,8 @@
                                 </div>
                             </div>
                         </div>
-                        <img loading="lazy" src="./images/chamaleon/painting.svg" alt="" class="w-16 sm:w-24 shrink-0 ml-4">
+                        <img loading="lazy" src="./images/chamaleon/painting.svg" alt=""
+                            class="w-16 sm:w-24 shrink-0 ml-4">
                     </div>
 
                     <!-- Diapositivas especiales -->
@@ -562,7 +567,7 @@
                         </div>
                     </div>
 
-                    <!-- Mezclar bancos -->
+                    <!-- Fusionar bancos -->
                     <div class="card h-full">
                         <div class="bg-white h-full rounded-3xl shadow-xl p-8 text-slate-800 border-b-8 flex flex-row items-start justify-between"
                             style="border-bottom-color: #e65453;">
@@ -623,7 +628,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <img loading="lazy" src="./images/chamaleon/running.svg" alt="" class="w-16 sm:w-24 shrink-0 ml-4">
+                            <img loading="lazy" src="./images/chamaleon/running.svg" alt=""
+                                class="w-16 sm:w-24 shrink-0 ml-4">
                         </div>
                     </div>
 
@@ -636,26 +642,31 @@
                                     <i class="fas fa-eye text-[#e65453] mr-3"></i> <span
                                         data-i18n="manual_admin.banks.visibility.title">...</span>
                                 </h2>
-                                <p class="text-slate-600 text-sm mb-3" data-i18n-html="manual_admin.banks.visibility.intro">...</p>
+                                <p class="text-slate-600 text-sm mb-3"
+                                    data-i18n-html="manual_admin.banks.visibility.intro">...</p>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     <div class="p-3 bg-amber-50 rounded-xl border border-amber-200">
                                         <p class="text-slate-700 text-sm font-bold mb-1">
                                             <i class="fas fa-eye-slash text-amber-600 mr-1"></i> <span
                                                 data-i18n="manual_admin.banks.visibility.hide_title">...</span>
                                         </p>
-                                        <p class="text-slate-600 text-sm" data-i18n="manual_admin.banks.visibility.hide_text">...</p>
+                                        <p class="text-slate-600 text-sm"
+                                            data-i18n="manual_admin.banks.visibility.hide_text">...</p>
                                     </div>
                                     <div class="p-3 bg-teal-50 rounded-xl border border-teal-200">
                                         <p class="text-slate-700 text-sm font-bold mb-1">
                                             <i class="fas fa-eye text-teal-600 mr-1"></i> <span
                                                 data-i18n="manual_admin.banks.visibility.show_title">...</span>
                                         </p>
-                                        <p class="text-slate-600 text-sm" data-i18n="manual_admin.banks.visibility.show_text">...</p>
+                                        <p class="text-slate-600 text-sm"
+                                            data-i18n="manual_admin.banks.visibility.show_text">...</p>
                                     </div>
                                 </div>
-                                <p class="text-slate-500 text-xs mt-3" data-i18n="manual_admin.banks.visibility.scope_note">...</p>
+                                <p class="text-slate-500 text-xs mt-3"
+                                    data-i18n="manual_admin.banks.visibility.scope_note">...</p>
                             </div>
-                            <img loading="lazy" src="./images/chamaleon/disguise.svg" alt="" class="w-16 sm:w-24 shrink-0 ml-4">
+                            <img loading="lazy" src="./images/chamaleon/disguise.svg" alt=""
+                                class="w-16 sm:w-24 shrink-0 ml-4">
                         </div>
                     </div>
 
@@ -665,7 +676,8 @@
             <!-- ======================================================= -->
             <!-- TAB 3: TIPOS DE JUEGO -->
             <!-- ======================================================= -->
-            <div id="tab-juegos" class="tab-content text-left" role="tabpanel" aria-labelledby="tabbtn-juegos" aria-hidden="true">
+            <div id="tab-juegos" class="tab-content text-left" role="tabpanel" aria-labelledby="tabbtn-juegos"
+                aria-hidden="true">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                     <!-- Mezcla -->
@@ -696,7 +708,8 @@
                                     </li>
                                 </ol>
                             </div>
-                            <img loading="lazy" src="./images/chamaleon/gaming.svg" alt="" class="w-16 sm:w-24 shrink-0 ml-4">
+                            <img loading="lazy" src="./images/chamaleon/gaming.svg" alt=""
+                                class="w-16 sm:w-24 shrink-0 ml-4">
                         </div>
                     </div>
 
@@ -771,7 +784,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <img loading="lazy" src="./images/chamaleon/party.svg" alt="" class="w-16 sm:w-24 shrink-0 ml-4">
+                            <img loading="lazy" src="./images/chamaleon/party.svg" alt=""
+                                class="w-16 sm:w-24 shrink-0 ml-4">
                         </div>
                     </div>
 
@@ -781,7 +795,8 @@
             <!-- ======================================================= -->
             <!-- TAB 4: EXPORTAR / IMPORTAR -->
             <!-- ======================================================= -->
-            <div id="tab-exportar" class="tab-content text-left" role="tabpanel" aria-labelledby="tabbtn-exportar" aria-hidden="true">
+            <div id="tab-exportar" class="tab-content text-left" role="tabpanel" aria-labelledby="tabbtn-exportar"
+                aria-hidden="true">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                     <!-- Exportar banco JSON -->
@@ -841,7 +856,8 @@
                                     </li>
                                 </ol>
                             </div>
-                            <img loading="lazy" src="./images/chamaleon/cooking.svg" alt="" class="w-16 sm:w-24 shrink-0 ml-4">
+                            <img loading="lazy" src="./images/chamaleon/cooking.svg" alt=""
+                                class="w-16 sm:w-24 shrink-0 ml-4">
                         </div>
                     </div>
 
@@ -874,7 +890,8 @@
                                     </p>
                                 </div>
                             </div>
-                            <img loading="lazy" src="./images/chamaleon/detective.svg" alt="" class="w-16 sm:w-24 shrink-0 ml-4">
+                            <img loading="lazy" src="./images/chamaleon/detective.svg" alt=""
+                                class="w-16 sm:w-24 shrink-0 ml-4">
                         </div>
                     </div>
 
@@ -896,8 +913,8 @@
                                 &nbsp;&nbsp;<span class="key">"questions"</span>: [<br>
                                 &nbsp;&nbsp;&nbsp;&nbsp;{<br>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"question_text"</span>: "<span
-                                    class="str"
-                                    data-i18n="manual_admin.export.format.example.question">¿Cuál es la capital de Francia?</span>",<br>
+                                    class="str" data-i18n="manual_admin.export.format.example.question">¿Cuál es la
+                                    capital de Francia?</span>",<br>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"type"</span>: <span
                                     class="str">"quiz"</span>,<br>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"tipo_contenido"</span>: <span
@@ -932,74 +949,134 @@
             <!-- ======================================================= -->
             <!-- TAB 5: HERRAMIENTAS -->
             <!-- ======================================================= -->
-            <div id="tab-herramientas" class="tab-content text-left" role="tabpanel" aria-labelledby="tabbtn-herramientas" aria-hidden="true">
+            <div id="tab-herramientas" class="tab-content text-left" role="tabpanel"
+                aria-labelledby="tabbtn-herramientas" aria-hidden="true">
                 <div class="flex flex-col gap-6">
                     <!-- Botones de sub-tabs -->
-                    <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 bg-slate-800/50 p-3 rounded-2xl" role="tablist" aria-label="Herramientas">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 bg-slate-800/50 p-3 rounded-2xl"
+                        role="tablist" aria-label="Herramientas">
 
-                        <button class="sub-tab-btn active font-bold text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap" data-target="sub-partidas" style="background-color: rgba(255, 255, 255, 0.2);" role="tab" id="subtabbtn-partidas" aria-controls="sub-partidas" aria-selected="true" tabindex="0">
-                            <i class="fas fa-gamepad mr-2 w-4 text-center"></i><span data-i18n="manual_admin.tools.partidas.title">...</span>
+                        <button
+                            class="sub-tab-btn active font-bold text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap"
+                            data-target="sub-partidas" style="background-color: rgba(255, 255, 255, 0.2);" role="tab"
+                            id="subtabbtn-partidas" aria-controls="sub-partidas" aria-selected="true" tabindex="0">
+                            <i class="fas fa-gamepad mr-2 w-4 text-center"></i><span
+                                data-i18n="manual_admin.tools.partidas.title">...</span>
                         </button>
 
-                        <button class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap" data-target="sub-puntuacion" style="" role="tab" id="subtabbtn-puntuacion" aria-controls="sub-puntuacion" aria-selected="false" tabindex="-1">
-                            <i class="fas fa-star mr-2 w-4 text-center"></i><span data-i18n="manual_admin.tools.puntuacion.title">...</span>
+                        <button
+                            class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap"
+                            data-target="sub-puntuacion" style="" role="tab" id="subtabbtn-puntuacion"
+                            aria-controls="sub-puntuacion" aria-selected="false" tabindex="-1">
+                            <i class="fas fa-star mr-2 w-4 text-center"></i><span
+                                data-i18n="manual_admin.tools.puntuacion.title">...</span>
                         </button>
 
-                        <button class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap" data-target="sub-logging" style="" role="tab" id="subtabbtn-logging" aria-controls="sub-logging" aria-selected="false" tabindex="-1">
-                            <i class="fas fa-file-alt mr-2 w-4 text-center"></i><span data-i18n="manual_admin.tools.logging.title">...</span>
+                        <button
+                            class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap"
+                            data-target="sub-logging" style="" role="tab" id="subtabbtn-logging"
+                            aria-controls="sub-logging" aria-selected="false" tabindex="-1">
+                            <i class="fas fa-file-alt mr-2 w-4 text-center"></i><span
+                                data-i18n="manual_admin.tools.logging.title">...</span>
                         </button>
 
-                        <button class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap" data-target="sub-conexion" style="" role="tab" id="subtabbtn-conexion" aria-controls="sub-conexion" aria-selected="false" tabindex="-1">
-                            <i class="fas fa-network-wired mr-2 w-4 text-center"></i><span data-i18n="manual_admin.tools.conexion.title">...</span>
+                        <button
+                            class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap"
+                            data-target="sub-conexion" style="" role="tab" id="subtabbtn-conexion"
+                            aria-controls="sub-conexion" aria-selected="false" tabindex="-1">
+                            <i class="fas fa-network-wired mr-2 w-4 text-center"></i><span
+                                data-i18n="manual_admin.tools.conexion.title">...</span>
                         </button>
 
-                        <button class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap" data-target="sub-backup" style="" role="tab" id="subtabbtn-backup" aria-controls="sub-backup" aria-selected="false" tabindex="-1">
-                            <i class="fas fa-database mr-2 w-4 text-center"></i><span data-i18n="manual_admin.tools.backup.title">...</span>
+                        <button
+                            class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap"
+                            data-target="sub-backup" style="" role="tab" id="subtabbtn-backup"
+                            aria-controls="sub-backup" aria-selected="false" tabindex="-1">
+                            <i class="fas fa-database mr-2 w-4 text-center"></i><span
+                                data-i18n="manual_admin.tools.backup.title">...</span>
                         </button>
 
-                        <button class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap" data-target="sub-licencia" style="" role="tab" id="subtabbtn-licencia" aria-controls="sub-licencia" aria-selected="false" tabindex="-1">
-                            <i class="fas fa-key mr-2 w-4 text-center"></i><span data-i18n="manual_admin.tools.licencia.title">...</span>
+                        <button
+                            class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap"
+                            data-target="sub-licencia" style="" role="tab" id="subtabbtn-licencia"
+                            aria-controls="sub-licencia" aria-selected="false" tabindex="-1">
+                            <i class="fas fa-key mr-2 w-4 text-center"></i><span
+                                data-i18n="manual_admin.tools.licencia.title">...</span>
                         </button>
 
-                        <button class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap" data-target="sub-correo" style="" role="tab" id="subtabbtn-correo" aria-controls="sub-correo" aria-selected="false" tabindex="-1">
-                            <i class="fas fa-envelope mr-2 w-4 text-center"></i><span data-i18n="manual_admin.tools.correo.title">...</span>
+                        <button
+                            class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap"
+                            data-target="sub-correo" style="" role="tab" id="subtabbtn-correo"
+                            aria-controls="sub-correo" aria-selected="false" tabindex="-1">
+                            <i class="fas fa-envelope mr-2 w-4 text-center"></i><span
+                                data-i18n="manual_admin.tools.correo.title">...</span>
                         </button>
 
-                        <button class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap" data-target="sub-equipos" style="" role="tab" id="subtabbtn-equipos" aria-controls="sub-equipos" aria-selected="false" tabindex="-1">
-                            <i class="fas fa-users mr-2 w-4 text-center"></i><span data-i18n="manual_admin.tools.equipos.title">...</span>
+                        <button
+                            class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap"
+                            data-target="sub-equipos" style="" role="tab" id="subtabbtn-equipos"
+                            aria-controls="sub-equipos" aria-selected="false" tabindex="-1">
+                            <i class="fas fa-users mr-2 w-4 text-center"></i><span
+                                data-i18n="manual_admin.tools.equipos.title">...</span>
                         </button>
 
-                        <button class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap" data-target="sub-fuegos" style="" role="tab" id="subtabbtn-fuegos" aria-controls="sub-fuegos" aria-selected="false" tabindex="-1">
-                            <i class="fas fa-fire mr-2 w-4 text-center"></i><span data-i18n="manual_admin.tools.fuegos.title">...</span>
+                        <button
+                            class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap"
+                            data-target="sub-fuegos" style="" role="tab" id="subtabbtn-fuegos"
+                            aria-controls="sub-fuegos" aria-selected="false" tabindex="-1">
+                            <i class="fas fa-fire mr-2 w-4 text-center"></i><span
+                                data-i18n="manual_admin.tools.fuegos.title">...</span>
                         </button>
 
-                        <button class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap" data-target="sub-interfaz" style="" role="tab" id="subtabbtn-interfaz" aria-controls="sub-interfaz" aria-selected="false" tabindex="-1">
-                            <i class="fas fa-desktop mr-2 w-4 text-center"></i><span data-i18n="manual_admin.tools.interfaz.title">...</span>
+                        <button
+                            class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap"
+                            data-target="sub-interfaz" style="" role="tab" id="subtabbtn-interfaz"
+                            aria-controls="sub-interfaz" aria-selected="false" tabindex="-1">
+                            <i class="fas fa-desktop mr-2 w-4 text-center"></i><span
+                                data-i18n="manual_admin.tools.interfaz.title">...</span>
                         </button>
 
-                        <button class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap" data-target="sub-ia" style="" role="tab" id="subtabbtn-ia" aria-controls="sub-ia" aria-selected="false" tabindex="-1">
-                            <i class="fas fa-robot mr-2 w-4 text-center"></i><span data-i18n="manual_admin.tools.ia.title">...</span>
+                        <button
+                            class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap"
+                            data-target="sub-ia" style="" role="tab" id="subtabbtn-ia" aria-controls="sub-ia"
+                            aria-selected="false" tabindex="-1">
+                            <i class="fas fa-robot mr-2 w-4 text-center"></i><span
+                                data-i18n="manual_admin.tools.ia.title">...</span>
                         </button>
 
-                        <button class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap" data-target="sub-historial" style="" role="tab" id="subtabbtn-historial" aria-controls="sub-historial" aria-selected="false" tabindex="-1">
-                            <i class="fas fa-clock-rotate-left mr-2 w-4 text-center"></i><span data-i18n="manual_admin.tools.historial.title">...</span>
+                        <button
+                            class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap"
+                            data-target="sub-historial" style="" role="tab" id="subtabbtn-historial"
+                            aria-controls="sub-historial" aria-selected="false" tabindex="-1">
+                            <i class="fas fa-clock-rotate-left mr-2 w-4 text-center"></i><span
+                                data-i18n="manual_admin.tools.historial.title">...</span>
                         </button>
 
-                        <button class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap" data-target="sub-botrunner" style="" role="tab" id="subtabbtn-botrunner" aria-controls="sub-botrunner" aria-selected="false" tabindex="-1">
-                            <i class="fas fa-microchip mr-2 w-4 text-center"></i><span data-i18n="manual_admin.tools.botrunner.title">...</span>
+                        <button
+                            class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap"
+                            data-target="sub-botrunner" style="" role="tab" id="subtabbtn-botrunner"
+                            aria-controls="sub-botrunner" aria-selected="false" tabindex="-1">
+                            <i class="fas fa-microchip mr-2 w-4 text-center"></i><span
+                                data-i18n="manual_admin.tools.botrunner.title">...</span>
                         </button>
 
-                        <button class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap" data-target="sub-mantenimiento" style="" role="tab" id="subtabbtn-mantenimiento" aria-controls="sub-mantenimiento" aria-selected="false" tabindex="-1">
-                            <i class="fas fa-broom mr-2 w-4 text-center"></i><span data-i18n="manual_admin.tools.mantenimiento.title">...</span>
+                        <button
+                            class="sub-tab-btn  text-white px-4 py-3 text-sm rounded-xl text-left hover:bg-white/10 transition whitespace-nowrap"
+                            data-target="sub-mantenimiento" style="" role="tab" id="subtabbtn-mantenimiento"
+                            aria-controls="sub-mantenimiento" aria-selected="false" tabindex="-1">
+                            <i class="fas fa-broom mr-2 w-4 text-center"></i><span
+                                data-i18n="manual_admin.tools.mantenimiento.title">...</span>
                         </button>
 
                     </div>
 
                     <!-- Contenido de sub-tabs -->
-                    <div class="w-full bg-white rounded-3xl shadow-xl p-6 md:p-8 text-slate-800 border-b-8" style="border-bottom-color: #e65453; min-height: 400px;">
+                    <div class="w-full bg-white rounded-3xl shadow-xl p-6 md:p-8 text-slate-800 border-b-8"
+                        style="border-bottom-color: #e65453; min-height: 400px;">
 
                         <!-- SUB-PARTIDAS -->
-                        <div id="sub-partidas" class="sub-tab-content block" role="tabpanel" aria-labelledby="subtabbtn-partidas" aria-hidden="false">
+                        <div id="sub-partidas" class="sub-tab-content block" role="tabpanel"
+                            aria-labelledby="subtabbtn-partidas" aria-hidden="false">
                             <div class="flex flex-col md:flex-row items-start justify-between">
                                 <div class="flex-1 w-full">
                                     <h3 class="text-2xl font-black mb-2 text-slate-800 flex items-center">
@@ -1011,90 +1088,118 @@
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.partidas.max_players">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.partidas.max_players_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.partidas.max_players">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.partidas.max_players_desc">...
+                                                </p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.partidas.max_lobbies">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.partidas.max_lobbies_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.partidas.max_lobbies">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.partidas.max_lobbies_desc">...
+                                                </p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.partidas.inactive_game">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.partidas.inactive_game_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.partidas.inactive_game">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.partidas.inactive_game_desc">...
+                                                </p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.partidas.empty_lobby">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.partidas.empty_lobby_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.partidas.empty_lobby">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.partidas.empty_lobby_desc">...
+                                                </p>
                                             </div>
                                         </li>
 
                                     </ul>
                                 </div>
-                                <img loading="lazy" src="./images/chamaleon/cooking.svg" class="w-16 sm:w-24 shrink-0 ml-4" alt="">
+                                <img loading="lazy" src="./images/chamaleon/cooking.svg"
+                                    class="w-16 sm:w-24 shrink-0 ml-4" alt="">
                             </div>
                         </div>
 
                         <!-- SUB-PUNTUACION -->
-                        <div id="sub-puntuacion" class="sub-tab-content hidden" role="tabpanel" aria-labelledby="subtabbtn-puntuacion" aria-hidden="true">
+                        <div id="sub-puntuacion" class="sub-tab-content hidden" role="tabpanel"
+                            aria-labelledby="subtabbtn-puntuacion" aria-hidden="true">
                             <div class="flex flex-col md:flex-row items-start justify-between">
                                 <div class="flex-1 w-full">
                                     <h3 class="text-2xl font-black mb-2 text-slate-800 flex items-center">
                                         <span data-i18n="manual_admin.tools.puntuacion.title">...</span>
                                     </h3>
-                                    <p class="text-slate-600 mb-6" data-i18n="manual_admin.tools.puntuacion.desc">...</p>
+                                    <p class="text-slate-600 mb-6" data-i18n="manual_admin.tools.puntuacion.desc">...
+                                    </p>
                                     <ul class="text-slate-600 text-sm space-y-4">
 
-                                        
+
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.puntuacion.base_points">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.puntuacion.base_points_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.puntuacion.base_points">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.puntuacion.base_points_desc">...
+                                                </p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.puntuacion.max_bonus">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.puntuacion.max_bonus_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.puntuacion.max_bonus">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.puntuacion.max_bonus_desc">...
+                                                </p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.puntuacion.random_points">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.puntuacion.random_points_desc">...</p>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.puntuacion.random_points_types">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.puntuacion.random_points">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.puntuacion.random_points_desc">
+                                                    ...</p>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.puntuacion.random_points_types">
+                                                    ...</p>
                                             </div>
                                         </li>
 
-                                        
 
-                                        
+
+
 
                                     </ul>
                                 </div>
-                                <img loading="lazy" src="./images/chamaleon/party.svg" class="w-16 sm:w-24 shrink-0 ml-4" alt="">
+                                <img loading="lazy" src="./images/chamaleon/party.svg"
+                                    class="w-16 sm:w-24 shrink-0 ml-4" alt="">
                             </div>
                         </div>
 
                         <!-- SUB-LOGGING -->
-                        <div id="sub-logging" class="sub-tab-content hidden" role="tabpanel" aria-labelledby="subtabbtn-logging" aria-hidden="true">
+                        <div id="sub-logging" class="sub-tab-content hidden" role="tabpanel"
+                            aria-labelledby="subtabbtn-logging" aria-hidden="true">
                             <div class="flex flex-col md:flex-row items-start justify-between">
                                 <div class="flex-1 w-full">
                                     <h3 class="text-2xl font-black mb-2 text-slate-800 flex items-center">
@@ -1106,35 +1211,43 @@
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.logging.level">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.logging.level_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.logging.level">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.logging.level_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.logging.max_size">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.logging.max_size_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.logging.max_size">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.logging.max_size_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.logging.max_files">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.logging.max_files_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.logging.max_files">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.logging.max_files_desc">...</p>
                                             </div>
                                         </li>
 
                                     </ul>
                                 </div>
-                                <img loading="lazy" src="./images/chamaleon/detective.svg" class="w-16 sm:w-24 shrink-0 ml-4" alt="">
+                                <img loading="lazy" src="./images/chamaleon/detective.svg"
+                                    class="w-16 sm:w-24 shrink-0 ml-4" alt="">
                             </div>
                         </div>
 
                         <!-- SUB-CONEXION -->
-                        <div id="sub-conexion" class="sub-tab-content hidden" role="tabpanel" aria-labelledby="subtabbtn-conexion" aria-hidden="true">
+                        <div id="sub-conexion" class="sub-tab-content hidden" role="tabpanel"
+                            aria-labelledby="subtabbtn-conexion" aria-hidden="true">
                             <div class="flex flex-col md:flex-row items-start justify-between">
                                 <div class="flex-1 w-full">
                                     <h3 class="text-2xl font-black mb-2 text-slate-800 flex items-center">
@@ -1146,51 +1259,65 @@
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.conexion.reconnection">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.conexion.reconnection_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.conexion.reconnection">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.conexion.reconnection_desc">...
+                                                </p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.conexion.cleanup">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.conexion.cleanup_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.conexion.cleanup">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.conexion.cleanup_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.conexion.cors">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.conexion.cors_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.conexion.cors">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.conexion.cors_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.conexion.ws">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.conexion.ws_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.conexion.ws">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.conexion.ws_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.conexion.top_players">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.conexion.top_players_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.conexion.top_players">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.conexion.top_players_desc">...
+                                                </p>
                                             </div>
                                         </li>
 
                                     </ul>
                                 </div>
-                                <img loading="lazy" src="./images/chamaleon/worker.svg" class="w-16 sm:w-24 shrink-0 ml-4" alt="">
+                                <img loading="lazy" src="./images/chamaleon/worker.svg"
+                                    class="w-16 sm:w-24 shrink-0 ml-4" alt="">
                             </div>
                         </div>
 
                         <!-- SUB-BACKUP -->
-                        <div id="sub-backup" class="sub-tab-content hidden" role="tabpanel" aria-labelledby="subtabbtn-backup" aria-hidden="true">
+                        <div id="sub-backup" class="sub-tab-content hidden" role="tabpanel"
+                            aria-labelledby="subtabbtn-backup" aria-hidden="true">
                             <div class="flex flex-col md:flex-row items-start justify-between">
                                 <div class="flex-1 w-full">
                                     <h3 class="text-2xl font-black mb-2 text-slate-800 flex items-center">
@@ -1202,27 +1329,33 @@
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.backup.schedule">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.backup.schedule_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.backup.schedule">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.backup.schedule_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.backup.retention">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.backup.retention_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.backup.retention">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.backup.retention_desc">...</p>
                                             </div>
                                         </li>
 
                                     </ul>
                                 </div>
-                                <img loading="lazy" src="./images/chamaleon/dizzy.svg" class="w-16 sm:w-24 shrink-0 ml-4" alt="">
+                                <img loading="lazy" src="./images/chamaleon/dizzy.svg"
+                                    class="w-16 sm:w-24 shrink-0 ml-4" alt="">
                             </div>
                         </div>
 
                         <!-- SUB-LICENCIA -->
-                        <div id="sub-licencia" class="sub-tab-content hidden" role="tabpanel" aria-labelledby="subtabbtn-licencia" aria-hidden="true">
+                        <div id="sub-licencia" class="sub-tab-content hidden" role="tabpanel"
+                            aria-labelledby="subtabbtn-licencia" aria-hidden="true">
                             <div class="flex flex-col md:flex-row items-start justify-between">
                                 <div class="flex-1 w-full">
                                     <h3 class="text-2xl font-black mb-2 text-slate-800 flex items-center">
@@ -1234,59 +1367,73 @@
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.licencia.info">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.licencia.info_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.licencia.info">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.licencia.info_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.licencia.states">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.licencia.states_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.licencia.states">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.licencia.states_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.licencia.single">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.licencia.single_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.licencia.single">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.licencia.single_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.licencia.buy">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.licencia.buy_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.licencia.buy">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.licencia.buy_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.licencia.exempt">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.licencia.exempt_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.licencia.exempt">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.licencia.exempt_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.licencia.publicurl">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.licencia.publicurl_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.licencia.publicurl">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.licencia.publicurl_desc">...</p>
                                             </div>
                                         </li>
 
                                     </ul>
                                 </div>
-                                <img loading="lazy" src="./images/chamaleon/cool.svg" class="w-16 sm:w-24 shrink-0 ml-4" alt="">
+                                <img loading="lazy" src="./images/chamaleon/cool.svg" class="w-16 sm:w-24 shrink-0 ml-4"
+                                    alt="">
                             </div>
                         </div>
 
                         <!-- SUB-CORREO -->
-                        <div id="sub-correo" class="sub-tab-content hidden" role="tabpanel" aria-labelledby="subtabbtn-correo" aria-hidden="true">
+                        <div id="sub-correo" class="sub-tab-content hidden" role="tabpanel"
+                            aria-labelledby="subtabbtn-correo" aria-hidden="true">
                             <div class="flex flex-col md:flex-row items-start justify-between">
                                 <div class="flex-1 w-full">
                                     <h3 class="text-2xl font-black mb-2 text-slate-800 flex items-center">
@@ -1298,43 +1445,53 @@
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.correo.smtp">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.correo.smtp_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.correo.smtp">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.correo.smtp_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.correo.secret">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.correo.secret_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.correo.secret">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.correo.secret_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.correo.from">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.correo.from_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.correo.from">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.correo.from_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.correo.uses">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.correo.uses_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.correo.uses">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.correo.uses_desc">...</p>
                                             </div>
                                         </li>
 
                                     </ul>
                                 </div>
-                                <img loading="lazy" src="./images/chamaleon/sleep.svg" class="w-16 sm:w-24 shrink-0 ml-4" alt="">
+                                <img loading="lazy" src="./images/chamaleon/sleep.svg"
+                                    class="w-16 sm:w-24 shrink-0 ml-4" alt="">
                             </div>
                         </div>
 
                         <!-- SUB-EQUIPOS -->
-                        <div id="sub-equipos" class="sub-tab-content hidden" role="tabpanel" aria-labelledby="subtabbtn-equipos" aria-hidden="true">
+                        <div id="sub-equipos" class="sub-tab-content hidden" role="tabpanel"
+                            aria-labelledby="subtabbtn-equipos" aria-hidden="true">
                             <div class="flex flex-col md:flex-row items-start justify-between">
                                 <div class="flex-1 w-full">
                                     <h3 class="text-2xl font-black mb-2 text-slate-800 flex items-center">
@@ -1346,26 +1503,32 @@
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.equipos.lambda">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.equipos.lambda_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.equipos.lambda">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.equipos.lambda_desc">...</p>
                                             </div>
                                         </li>
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.equipos.team_names">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.equipos.team_names_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.equipos.team_names">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.equipos.team_names_desc">...</p>
                                             </div>
                                         </li>
 
                                     </ul>
                                 </div>
-                                <img loading="lazy" src="./images/chamaleon/party.svg" class="w-16 sm:w-24 shrink-0 ml-4" alt="">
+                                <img loading="lazy" src="./images/chamaleon/party.svg"
+                                    class="w-16 sm:w-24 shrink-0 ml-4" alt="">
                             </div>
                         </div>
 
                         <!-- SUB-FUEGOS -->
-                        <div id="sub-fuegos" class="sub-tab-content hidden" role="tabpanel" aria-labelledby="subtabbtn-fuegos" aria-hidden="true">
+                        <div id="sub-fuegos" class="sub-tab-content hidden" role="tabpanel"
+                            aria-labelledby="subtabbtn-fuegos" aria-hidden="true">
                             <div class="flex flex-col md:flex-row items-start justify-between">
                                 <div class="flex-1 w-full">
                                     <h3 class="text-2xl font-black mb-2 text-slate-800 flex items-center">
@@ -1377,27 +1540,33 @@
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.fuegos.config">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.fuegos.config_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.fuegos.config">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.fuegos.config_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.fuegos.sound">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.fuegos.sound_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.fuegos.sound">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.fuegos.sound_desc">...</p>
                                             </div>
                                         </li>
 
                                     </ul>
                                 </div>
-                                <img loading="lazy" src="./images/chamaleon/mago.svg" class="w-16 sm:w-24 shrink-0 ml-4" alt="">
+                                <img loading="lazy" src="./images/chamaleon/mago.svg" class="w-16 sm:w-24 shrink-0 ml-4"
+                                    alt="">
                             </div>
                         </div>
 
                         <!-- SUB-INTERFAZ -->
-                        <div id="sub-interfaz" class="sub-tab-content hidden" role="tabpanel" aria-labelledby="subtabbtn-interfaz" aria-hidden="true">
+                        <div id="sub-interfaz" class="sub-tab-content hidden" role="tabpanel"
+                            aria-labelledby="subtabbtn-interfaz" aria-hidden="true">
                             <div class="flex flex-col md:flex-row items-start justify-between">
                                 <div class="flex-1 w-full">
                                     <h3 class="text-2xl font-black mb-2 text-slate-800 flex items-center">
@@ -1409,75 +1578,96 @@
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.interfaz.tv">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.interfaz.tv_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.interfaz.tv">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.interfaz.tv_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.interfaz.standalone">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.interfaz.standalone_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.interfaz.standalone">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.interfaz.standalone_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.interfaz.animar_fondo">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.interfaz.animar_fondo_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.interfaz.animar_fondo">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.interfaz.animar_fondo_desc">...
+                                                </p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.interfaz.animacion_inicio">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.interfaz.animacion_inicio_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.interfaz.animacion_inicio">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.interfaz.animacion_inicio_desc">
+                                                    ...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.interfaz.podio_3d">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.interfaz.podio_3d_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.interfaz.podio_3d">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.interfaz.podio_3d_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.interfaz.reactions">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.interfaz.reactions_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.interfaz.reactions">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.interfaz.reactions_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.interfaz.avatars">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.interfaz.avatars_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.interfaz.avatars">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.interfaz.avatars_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.interfaz.personalization">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.interfaz.personalization_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.interfaz.personalization">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.interfaz.personalization_desc">
+                                                    ...</p>
                                             </div>
                                         </li>
 
                                     </ul>
                                 </div>
-                                <img loading="lazy" src="./images/chamaleon/gaming.svg" class="w-16 sm:w-24 shrink-0 ml-4" alt="">
+                                <img loading="lazy" src="./images/chamaleon/gaming.svg"
+                                    class="w-16 sm:w-24 shrink-0 ml-4" alt="">
                             </div>
                         </div>
 
                         <!-- SUB-IA -->
-                        <div id="sub-ia" class="sub-tab-content hidden" role="tabpanel" aria-labelledby="subtabbtn-ia" aria-hidden="true">
+                        <div id="sub-ia" class="sub-tab-content hidden" role="tabpanel" aria-labelledby="subtabbtn-ia"
+                            aria-hidden="true">
                             <div class="flex flex-col md:flex-row items-start justify-between">
                                 <div class="flex-1 w-full">
                                     <h3 class="text-2xl font-black mb-2 text-slate-800 flex items-center">
@@ -1489,43 +1679,53 @@
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.ia.provider">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.ia.provider_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.ia.provider">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.ia.provider_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.ia.fallback">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.ia.fallback_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.ia.fallback">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.ia.fallback_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.ia.key">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.ia.key_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.ia.key">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.ia.key_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.ia.model">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.ia.model_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.ia.model">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.ia.model_desc">...</p>
                                             </div>
                                         </li>
 
                                     </ul>
                                 </div>
-                                <img loading="lazy" src="./images/chamaleon/inteligencia-artificial.svg" class="w-16 sm:w-24 shrink-0 ml-4" alt="">
+                                <img loading="lazy" src="./images/chamaleon/inteligencia-artificial.svg"
+                                    class="w-16 sm:w-24 shrink-0 ml-4" alt="">
                             </div>
                         </div>
 
                         <!-- SUB-HISTORIAL -->
-                        <div id="sub-historial" class="sub-tab-content hidden" role="tabpanel" aria-labelledby="subtabbtn-historial" aria-hidden="true">
+                        <div id="sub-historial" class="sub-tab-content hidden" role="tabpanel"
+                            aria-labelledby="subtabbtn-historial" aria-hidden="true">
                             <div class="flex flex-col md:flex-row items-start justify-between">
                                 <div class="flex-1 w-full">
                                     <h3 class="text-2xl font-black mb-2 text-slate-800 flex items-center">
@@ -1537,35 +1737,43 @@
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.historial.list">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.historial.list_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.historial.list">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.historial.list_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.historial.download">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.historial.download_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.historial.download">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.historial.download_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.historial.delete">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.historial.delete_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.historial.delete">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.historial.delete_desc">...</p>
                                             </div>
                                         </li>
 
                                     </ul>
                                 </div>
-                                <img loading="lazy" src="./images/chamaleon/leyendo.svg" class="w-16 sm:w-24 shrink-0 ml-4" alt="">
+                                <img loading="lazy" src="./images/chamaleon/leyendo.svg"
+                                    class="w-16 sm:w-24 shrink-0 ml-4" alt="">
                             </div>
                         </div>
 
                         <!-- SUB-BOTRUNNER -->
-                        <div id="sub-botrunner" class="sub-tab-content hidden" role="tabpanel" aria-labelledby="subtabbtn-botrunner" aria-hidden="true">
+                        <div id="sub-botrunner" class="sub-tab-content hidden" role="tabpanel"
+                            aria-labelledby="subtabbtn-botrunner" aria-hidden="true">
                             <div class="flex flex-col md:flex-row items-start justify-between">
                                 <div class="flex-1 w-full">
                                     <h3 class="text-2xl font-black mb-2 text-slate-800 flex items-center">
@@ -1579,27 +1787,33 @@
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.botrunner.usage">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.botrunner.usage_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.botrunner.usage">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.botrunner.usage_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.botrunner.stats">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.botrunner.stats_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.botrunner.stats">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.botrunner.stats_desc">...</p>
                                             </div>
                                         </li>
 
                                     </ul>
                                 </div>
-                                <img loading="lazy" src="./images/chamaleon/gamer.svg" class="w-16 sm:w-24 shrink-0 ml-4" alt="">
+                                <img loading="lazy" src="./images/chamaleon/gamer.svg"
+                                    class="w-16 sm:w-24 shrink-0 ml-4" alt="">
                             </div>
                         </div>
 
                         <!-- SUB-MANTENIMIENTO -->
-                        <div id="sub-mantenimiento" class="sub-tab-content hidden" role="tabpanel" aria-labelledby="subtabbtn-mantenimiento" aria-hidden="true">
+                        <div id="sub-mantenimiento" class="sub-tab-content hidden" role="tabpanel"
+                            aria-labelledby="subtabbtn-mantenimiento" aria-hidden="true">
                             <div class="flex flex-col md:flex-row items-start justify-between">
                                 <div class="flex-1 w-full">
                                     <h3 class="text-2xl font-black mb-2 text-slate-800 flex items-center">
@@ -1607,256 +1821,282 @@
                                         <span class="role-badge bg-red-100 text-red-700 ml-2 text-xs"
                                             data-i18n="manual_admin.only_admin">...</span>
                                     </h3>
-                                    <p class="text-slate-600 mb-6" data-i18n="manual_admin.tools.mantenimiento.desc">...</p>
+                                    <p class="text-slate-600 mb-6" data-i18n="manual_admin.tools.mantenimiento.desc">...
+                                    </p>
                                     <ul class="text-slate-600 text-sm space-y-4">
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.mantenimiento.uploads">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.mantenimiento.uploads_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.mantenimiento.uploads">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.mantenimiento.uploads_desc">...
+                                                </p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.mantenimiento.cache">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.mantenimiento.cache_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.mantenimiento.cache">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.mantenimiento.cache_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.mantenimiento.logs">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.mantenimiento.logs_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.mantenimiento.logs">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.mantenimiento.logs_desc">...</p>
                                             </div>
                                         </li>
 
                                         <li class="flex items-start gap-3">
                                             <i class="fas fa-caret-right text-[#8ab817] mt-1"></i>
                                             <div>
-                                                <strong class="text-slate-700" data-i18n="manual_admin.tools.mantenimiento.panic">...</strong>
-                                                <p class="text-slate-500 text-xs mt-1" data-i18n-html="manual_admin.tools.mantenimiento.panic_desc">...</p>
+                                                <strong class="text-slate-700"
+                                                    data-i18n="manual_admin.tools.mantenimiento.panic">...</strong>
+                                                <p class="text-slate-500 text-xs mt-1"
+                                                    data-i18n-html="manual_admin.tools.mantenimiento.panic_desc">...</p>
                                             </div>
                                         </li>
 
                                     </ul>
                                 </div>
-                                <img loading="lazy" src="./images/chamaleon/worker.svg" class="w-16 sm:w-24 shrink-0 ml-4" alt="">
+                                <img loading="lazy" src="./images/chamaleon/worker.svg"
+                                    class="w-16 sm:w-24 shrink-0 ml-4" alt="">
                             </div>
                         </div>
 
                     </div>
                 </div>
-</div>
+            </div>
 
-        <!-- TAB 6: CONTROL REMOTO -->
-        <!-- ======================================================= -->
-        <div id="tab-remoto" class="tab-content text-left" role="tabpanel" aria-labelledby="tabbtn-remoto" aria-hidden="true">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- TAB 6: CONTROL REMOTO -->
+            <!-- ======================================================= -->
+            <div id="tab-remoto" class="tab-content text-left" role="tabpanel" aria-labelledby="tabbtn-remoto"
+                aria-hidden="true">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                <!-- Cómo acceder -->
-                <div class="card h-full">
-                    <div class="bg-white h-full rounded-3xl shadow-xl p-8 text-slate-800 border-b-8 flex flex-row items-start justify-between"
-                        style="border-bottom-color: #e65453;">
-                        <div class="flex-1">
-                            <div class="step-badge" style="background-color:#e65453;">1</div>
-                            <h2 class="text-xl font-black mb-3 text-slate-800 flex items-center">
-                                <i class="fas fa-mobile-alt mr-3" style="color:#684374;"></i> <span
-                                    data-i18n="manual_admin.remote.access.title">...</span>
-                            </h2>
-                            <p class="text-slate-600 text-sm mb-3" data-i18n-html="manual_admin.remote.access.intro">...
-                            </p>
-                            <ol class="text-slate-600 text-sm space-y-2 list-none">
-                                <li class="flex items-start gap-2">
-                                    <span
-                                        class="w-5 h-5 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5"
-                                        style="background-color:#e65453;">1</span>
-                                    <span data-i18n-html="manual_admin.remote.access.s1">...</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <span
-                                        class="w-5 h-5 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5"
-                                        style="background-color:#e65453;">2</span>
-                                    <span data-i18n-html="manual_admin.remote.access.s2">...</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <span
-                                        class="w-5 h-5 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5"
-                                        style="background-color:#e65453;">3</span>
-                                    <span data-i18n-html="manual_admin.remote.access.s3">...</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <span
-                                        class="w-5 h-5 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5"
-                                        style="background-color:#e65453;">4</span>
-                                    <span data-i18n-html="manual_admin.remote.access.s4">...</span>
-                                </li>
-                            </ol>
-                            <div class="mt-3 p-3 bg-aubergine-50 rounded-xl border border-aubergine-200">
-                                <p class="text-slate-500 text-xs">
-                                    <i class="fas fa-info-circle text-aubergine-400 mr-1"></i>
-                                    <span data-i18n="manual_admin.remote.access.info">...</span>
+                    <!-- Cómo acceder -->
+                    <div class="card h-full">
+                        <div class="bg-white h-full rounded-3xl shadow-xl p-8 text-slate-800 border-b-8 flex flex-row items-start justify-between"
+                            style="border-bottom-color: #e65453;">
+                            <div class="flex-1">
+                                <div class="step-badge" style="background-color:#e65453;">1</div>
+                                <h2 class="text-xl font-black mb-3 text-slate-800 flex items-center">
+                                    <i class="fas fa-mobile-alt mr-3" style="color:#684374;"></i> <span
+                                        data-i18n="manual_admin.remote.access.title">...</span>
+                                </h2>
+                                <p class="text-slate-600 text-sm mb-3"
+                                    data-i18n-html="manual_admin.remote.access.intro">...
                                 </p>
+                                <ol class="text-slate-600 text-sm space-y-2 list-none">
+                                    <li class="flex items-start gap-2">
+                                        <span
+                                            class="w-5 h-5 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5"
+                                            style="background-color:#e65453;">1</span>
+                                        <span data-i18n-html="manual_admin.remote.access.s1">...</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span
+                                            class="w-5 h-5 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5"
+                                            style="background-color:#e65453;">2</span>
+                                        <span data-i18n-html="manual_admin.remote.access.s2">...</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span
+                                            class="w-5 h-5 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5"
+                                            style="background-color:#e65453;">3</span>
+                                        <span data-i18n-html="manual_admin.remote.access.s3">...</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span
+                                            class="w-5 h-5 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5"
+                                            style="background-color:#e65453;">4</span>
+                                        <span data-i18n-html="manual_admin.remote.access.s4">...</span>
+                                    </li>
+                                </ol>
+                                <div class="mt-3 p-3 bg-aubergine-50 rounded-xl border border-aubergine-200">
+                                    <p class="text-slate-500 text-xs">
+                                        <i class="fas fa-info-circle text-aubergine-400 mr-1"></i>
+                                        <span data-i18n="manual_admin.remote.access.info">...</span>
+                                    </p>
+                                </div>
                             </div>
+                            <img loading="lazy" src="./images/chamaleon/musico.svg" alt=""
+                                class="w-16 sm:w-24 shrink-0 ml-4">
                         </div>
-                        <img loading="lazy" src="./images/chamaleon/musico.svg" alt=""
-                            class="w-16 sm:w-24 shrink-0 ml-4">
                     </div>
-                </div>
 
-                <!-- Botones de control -->
-                <div class="card h-full">
-                    <div class="bg-white h-full rounded-3xl shadow-xl p-8 text-slate-800 border-b-8 flex flex-row items-start justify-between"
-                        style="border-bottom-color: #e65453;">
-                        <div class="flex-1">
-                            <div class="step-badge" style="background-color:#e65453;">2</div>
-                            <h2 class="text-xl font-black mb-3 text-slate-800 flex items-center">
-                                <i class="fas fa-gamepad text-[#e65453] mr-3"></i> <span
-                                    data-i18n="manual_admin.remote.buttons.title">...</span>
-                            </h2>
-                            <p class="text-slate-600 text-sm mb-3" data-i18n="manual_admin.remote.buttons.intro">...</p>
-                            <div class="space-y-2">
-                                <div class="flex items-center gap-3 p-2 bg-green-50 rounded-xl border border-green-200">
-                                    <i class="fas fa-chevron-right text-green-600 w-5 text-center flex-shrink-0"></i>
-                                    <div>
-                                        <p class="text-slate-700 text-sm font-bold"
-                                            data-i18n="manual_admin.remote.buttons.next_title">...</p>
-                                        <p class="text-slate-500 text-xs"
-                                            data-i18n-html="manual_admin.remote.buttons.next_text">...</p>
+                    <!-- Botones de control -->
+                    <div class="card h-full">
+                        <div class="bg-white h-full rounded-3xl shadow-xl p-8 text-slate-800 border-b-8 flex flex-row items-start justify-between"
+                            style="border-bottom-color: #e65453;">
+                            <div class="flex-1">
+                                <div class="step-badge" style="background-color:#e65453;">2</div>
+                                <h2 class="text-xl font-black mb-3 text-slate-800 flex items-center">
+                                    <i class="fas fa-gamepad text-[#e65453] mr-3"></i> <span
+                                        data-i18n="manual_admin.remote.buttons.title">...</span>
+                                </h2>
+                                <p class="text-slate-600 text-sm mb-3" data-i18n="manual_admin.remote.buttons.intro">...
+                                </p>
+                                <div class="space-y-2">
+                                    <div
+                                        class="flex items-center gap-3 p-2 bg-green-50 rounded-xl border border-green-200">
+                                        <i
+                                            class="fas fa-chevron-right text-green-600 w-5 text-center flex-shrink-0"></i>
+                                        <div>
+                                            <p class="text-slate-700 text-sm font-bold"
+                                                data-i18n="manual_admin.remote.buttons.next_title">...</p>
+                                            <p class="text-slate-500 text-xs"
+                                                data-i18n-html="manual_admin.remote.buttons.next_text">...</p>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="flex items-center gap-3 p-2 bg-blue-50 rounded-xl border border-blue-200">
+                                        <i class="fas fa-eye text-blue-600 w-5 text-center flex-shrink-0"></i>
+                                        <div>
+                                            <p class="text-slate-700 text-sm font-bold"
+                                                data-i18n="manual_admin.remote.buttons.reveal_title">...</p>
+                                            <p class="text-slate-500 text-xs"
+                                                data-i18n="manual_admin.remote.buttons.reveal_text">...</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3 p-2 bg-red-50 rounded-xl border border-red-200">
+                                        <i class="fas fa-flag-checkered text-red-600 w-5 text-center flex-shrink-0"></i>
+                                        <div>
+                                            <p class="text-slate-700 text-sm font-bold"
+                                                data-i18n="manual_admin.remote.buttons.end_title">...</p>
+                                            <p class="text-slate-500 text-xs"
+                                                data-i18n="manual_admin.remote.buttons.end_text">
+                                                ...</p>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="flex items-center gap-3 p-2 bg-slate-50 rounded-xl border border-slate-200">
+                                        <i class="fas fa-list text-slate-500 w-5 text-center flex-shrink-0"></i>
+                                        <div>
+                                            <p class="text-slate-700 text-sm font-bold"><span
+                                                    data-i18n="manual_admin.remote.buttons.finish_title">...</span>
+                                                <span class="text-xs font-normal text-slate-500"
+                                                    data-i18n="manual_admin.remote.buttons.finish_note">...</span></p>
+                                            <p class="text-slate-500 text-xs"
+                                                data-i18n="manual_admin.remote.buttons.finish_text">...</p>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="flex items-center gap-3 p-2 bg-blue-50 rounded-xl border border-blue-200">
-                                    <i class="fas fa-eye text-blue-600 w-5 text-center flex-shrink-0"></i>
-                                    <div>
-                                        <p class="text-slate-700 text-sm font-bold"
-                                            data-i18n="manual_admin.remote.buttons.reveal_title">...</p>
-                                        <p class="text-slate-500 text-xs"
-                                            data-i18n="manual_admin.remote.buttons.reveal_text">...</p>
+                            </div>
+                            <img loading="lazy" src="./images/chamaleon/pointing.svg" alt=""
+                                class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <!-- El temporizador -->
+                    <div class="card h-full">
+                        <div class="bg-white h-full rounded-3xl shadow-xl p-8 text-slate-800 border-b-8 flex flex-row items-start justify-between"
+                            style="border-bottom-color: #e65453;">
+                            <div class="flex-1">
+                                <div class="step-badge" style="background-color:#e65453;">3</div>
+                                <h2 class="text-xl font-black mb-3 text-slate-800 flex items-center">
+                                    <i class="fas fa-stopwatch text-[#e65453] mr-3"></i> <span
+                                        data-i18n="manual_admin.remote.timer.title">...</span>
+                                </h2>
+                                <p class="text-slate-600 text-sm mb-3" data-i18n-html="manual_admin.remote.timer.p1">...
+                                </p>
+                                <p class="text-slate-600 text-sm mb-3" data-i18n-html="manual_admin.remote.timer.p2">
+                                    ...</p>
+                                <div class="space-y-2">
+                                    <div class="flex items-center gap-3 p-2 rounded-xl border"
+                                        style="background:#eff6ff; border-color:#bfdbfe;">
+                                        <span class="w-8 h-8 rounded-full border-4 flex-shrink-0"
+                                            style="border-color:#684374;"></span>
+                                        <p class="text-slate-600 text-sm"
+                                            data-i18n-html="manual_admin.remote.timer.purple">
+                                            ...</p>
                                     </div>
-                                </div>
-                                <div class="flex items-center gap-3 p-2 bg-red-50 rounded-xl border border-red-200">
-                                    <i class="fas fa-flag-checkered text-red-600 w-5 text-center flex-shrink-0"></i>
-                                    <div>
-                                        <p class="text-slate-700 text-sm font-bold"
-                                            data-i18n="manual_admin.remote.buttons.end_title">...</p>
-                                        <p class="text-slate-500 text-xs"
-                                            data-i18n="manual_admin.remote.buttons.end_text">
+                                    <div class="flex items-center gap-3 p-2 rounded-xl border"
+                                        style="background:#fefce8; border-color:#fde68a;">
+                                        <span class="w-8 h-8 rounded-full border-4 flex-shrink-0"
+                                            style="border-color:#eab308;"></span>
+                                        <p class="text-slate-600 text-sm"
+                                            data-i18n-html="manual_admin.remote.timer.yellow">
+                                            ...</p>
+                                    </div>
+                                    <div class="flex items-center gap-3 p-2 rounded-xl border"
+                                        style="background:#fef2f2; border-color:#fecaca;">
+                                        <span class="w-8 h-8 rounded-full border-4 flex-shrink-0"
+                                            style="border-color:#ef4444;"></span>
+                                        <p class="text-slate-600 text-sm"
+                                            data-i18n-html="manual_admin.remote.timer.red">
                                             ...</p>
                                     </div>
                                 </div>
-                                <div class="flex items-center gap-3 p-2 bg-slate-50 rounded-xl border border-slate-200">
-                                    <i class="fas fa-list text-slate-500 w-5 text-center flex-shrink-0"></i>
-                                    <div>
-                                        <p class="text-slate-700 text-sm font-bold"><span
-                                                data-i18n="manual_admin.remote.buttons.finish_title">...</span> <span
-                                                class="text-xs font-normal text-slate-500"
-                                                data-i18n="manual_admin.remote.buttons.finish_note">...</span></p>
-                                        <p class="text-slate-500 text-xs"
-                                            data-i18n="manual_admin.remote.buttons.finish_text">...</p>
+                                <p class="text-slate-500 text-xs mt-3">
+                                    <i class="fas fa-eye-slash text-slate-400 mr-1"></i>
+                                    <span data-i18n="manual_admin.remote.timer.note">...</span>
+                                </p>
+                            </div>
+                            <img loading="lazy" src="./images/chamaleon/nerd.svg" alt=""
+                                class="w-16 sm:w-24 shrink-0 ml-4">
+                        </div>
+                    </div>
+
+                    <!-- Seguridad y consejos -->
+                    <div class="card h-full">
+                        <div class="bg-white h-full rounded-3xl shadow-xl p-8 text-slate-800 border-b-8 flex flex-row items-start justify-between"
+                            style="border-bottom-color: #e65453;">
+                            <div class="flex-1">
+                                <div class="step-badge" style="background-color:#e65453;">4</div>
+                                <h2 class="text-xl font-black mb-3 text-slate-800 flex items-center">
+                                    <i class="fas fa-shield-alt text-[#e65453] mr-3"></i> <span
+                                        data-i18n="manual_admin.remote.security.title">...</span>
+                                    <span class="role-badge bg-red-100 text-red-700 ml-2 text-xs"
+                                        data-i18n="manual_admin.only_admin">...</span>
+                                </h2>
+                                <div class="space-y-3 mb-3">
+                                    <div class="p-3 bg-green-50 rounded-xl border border-green-200">
+                                        <p class="text-slate-700 text-sm font-bold mb-1">
+                                            <i class="fas fa-lock text-green-600 mr-1"></i> <span
+                                                data-i18n="manual_admin.remote.security.protected_title">...</span>
+                                        </p>
+                                        <p class="text-slate-600 text-sm"
+                                            data-i18n-html="manual_admin.remote.security.protected_text">...</p>
+                                    </div>
+                                    <div class="p-3 bg-blue-50 rounded-xl border border-blue-200">
+                                        <p class="text-slate-700 text-sm font-bold mb-1">
+                                            <i class="fas fa-users text-blue-600 mr-1"></i> <span
+                                                data-i18n="manual_admin.remote.security.compatible_title">...</span>
+                                        </p>
+                                        <p class="text-slate-600 text-sm"
+                                            data-i18n="manual_admin.remote.security.compatible_text">...</p>
+                                    </div>
+                                    <div class="p-3 bg-yellow-50 rounded-xl border border-yellow-200">
+                                        <p class="text-slate-700 text-sm font-bold mb-1">
+                                            <i class="fas fa-lightbulb text-yellow-600 mr-1"></i> <span
+                                                data-i18n="manual_admin.remote.security.tip_title">...</span>
+                                        </p>
+                                        <p class="text-slate-600 text-sm"
+                                            data-i18n="manual_admin.remote.security.tip_text">
+                                            ...
+                                        </p>
                                     </div>
                                 </div>
                             </div>
+                            <img loading="lazy" src="./images/chamaleon/cool.svg" alt=""
+                                class="w-16 sm:w-24 shrink-0 ml-4">
                         </div>
-                        <img loading="lazy" src="./images/chamaleon/pointing.svg" alt="" class="w-16 sm:w-24 shrink-0 ml-4">
                     </div>
-                </div>
 
-                <!-- El temporizador -->
-                <div class="card h-full">
-                    <div class="bg-white h-full rounded-3xl shadow-xl p-8 text-slate-800 border-b-8 flex flex-row items-start justify-between"
-                        style="border-bottom-color: #e65453;">
-                        <div class="flex-1">
-                            <div class="step-badge" style="background-color:#e65453;">3</div>
-                            <h2 class="text-xl font-black mb-3 text-slate-800 flex items-center">
-                                <i class="fas fa-stopwatch text-[#e65453] mr-3"></i> <span
-                                    data-i18n="manual_admin.remote.timer.title">...</span>
-                            </h2>
-                            <p class="text-slate-600 text-sm mb-3" data-i18n-html="manual_admin.remote.timer.p1">...</p>
-                            <p class="text-slate-600 text-sm mb-3" data-i18n-html="manual_admin.remote.timer.p2">
-                                ...</p>
-                            <div class="space-y-2">
-                                <div class="flex items-center gap-3 p-2 rounded-xl border"
-                                    style="background:#eff6ff; border-color:#bfdbfe;">
-                                    <span class="w-8 h-8 rounded-full border-4 flex-shrink-0"
-                                        style="border-color:#684374;"></span>
-                                    <p class="text-slate-600 text-sm" data-i18n-html="manual_admin.remote.timer.purple">
-                                        ...</p>
-                                </div>
-                                <div class="flex items-center gap-3 p-2 rounded-xl border"
-                                    style="background:#fefce8; border-color:#fde68a;">
-                                    <span class="w-8 h-8 rounded-full border-4 flex-shrink-0"
-                                        style="border-color:#eab308;"></span>
-                                    <p class="text-slate-600 text-sm" data-i18n-html="manual_admin.remote.timer.yellow">
-                                        ...</p>
-                                </div>
-                                <div class="flex items-center gap-3 p-2 rounded-xl border"
-                                    style="background:#fef2f2; border-color:#fecaca;">
-                                    <span class="w-8 h-8 rounded-full border-4 flex-shrink-0"
-                                        style="border-color:#ef4444;"></span>
-                                    <p class="text-slate-600 text-sm" data-i18n-html="manual_admin.remote.timer.red">
-                                        ...</p>
-                                </div>
-                            </div>
-                            <p class="text-slate-500 text-xs mt-3">
-                                <i class="fas fa-eye-slash text-slate-400 mr-1"></i>
-                                <span data-i18n="manual_admin.remote.timer.note">...</span>
-                            </p>
-                        </div>
-                        <img loading="lazy" src="./images/chamaleon/nerd.svg" alt="" class="w-16 sm:w-24 shrink-0 ml-4">
-                    </div>
                 </div>
-
-                <!-- Seguridad y consejos -->
-                <div class="card h-full">
-                    <div class="bg-white h-full rounded-3xl shadow-xl p-8 text-slate-800 border-b-8 flex flex-row items-start justify-between"
-                        style="border-bottom-color: #e65453;">
-                        <div class="flex-1">
-                            <div class="step-badge" style="background-color:#e65453;">4</div>
-                            <h2 class="text-xl font-black mb-3 text-slate-800 flex items-center">
-                                <i class="fas fa-shield-alt text-[#e65453] mr-3"></i> <span
-                                    data-i18n="manual_admin.remote.security.title">...</span>
-                                <span class="role-badge bg-red-100 text-red-700 ml-2 text-xs"
-                                    data-i18n="manual_admin.only_admin">...</span>
-                            </h2>
-                            <div class="space-y-3 mb-3">
-                                <div class="p-3 bg-green-50 rounded-xl border border-green-200">
-                                    <p class="text-slate-700 text-sm font-bold mb-1">
-                                        <i class="fas fa-lock text-green-600 mr-1"></i> <span
-                                            data-i18n="manual_admin.remote.security.protected_title">...</span>
-                                    </p>
-                                    <p class="text-slate-600 text-sm"
-                                        data-i18n-html="manual_admin.remote.security.protected_text">...</p>
-                                </div>
-                                <div class="p-3 bg-blue-50 rounded-xl border border-blue-200">
-                                    <p class="text-slate-700 text-sm font-bold mb-1">
-                                        <i class="fas fa-users text-blue-600 mr-1"></i> <span
-                                            data-i18n="manual_admin.remote.security.compatible_title">...</span>
-                                    </p>
-                                    <p class="text-slate-600 text-sm"
-                                        data-i18n="manual_admin.remote.security.compatible_text">...</p>
-                                </div>
-                                <div class="p-3 bg-yellow-50 rounded-xl border border-yellow-200">
-                                    <p class="text-slate-700 text-sm font-bold mb-1">
-                                        <i class="fas fa-lightbulb text-yellow-600 mr-1"></i> <span
-                                            data-i18n="manual_admin.remote.security.tip_title">...</span>
-                                    </p>
-                                    <p class="text-slate-600 text-sm" data-i18n="manual_admin.remote.security.tip_text">
-                                        ...
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <img loading="lazy" src="./images/chamaleon/cool.svg" alt="" class="w-16 sm:w-24 shrink-0 ml-4">
-                    </div>
-                </div>
-
             </div>
-        </div>
 
-    </div>
+        </div>
     </div>
 
     <img loading="lazy" src="./images/chamaleon/chamaleon.svg" alt="" class="player-chameleon">
