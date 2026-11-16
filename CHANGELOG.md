@@ -2,6 +2,12 @@
 
 ## 3.14.x
 
+### 3.14.6-a — 2026-11-16 · `v3.14.6a`
+- **Portada:** tarjetas Standalone y TV ocultas hasta que los ajustes las muestran
+  - Nacen con [hidden] e index-init.js las muestra según /api/ui-settings,
+  - en vez de pintarse y ocultarse después (evita el parpadeo al cargar).
+  - La rejilla cuenta las visibles con [hidden] en lugar de [style*=none].
+
 ### 3.14.6 — 2026-11-15 · `v3.14.6`
 - **Diapositivas libres:** Gráficos vinculados a tablas
   - Nuevo elemento gráfico (columnas, barras, líneas, área, sectores, anillo y apilados) que lee sus datos de una tabla de la misma diapositiva, que puede estar oculta. Se pinta en SVG con el mismo código en editor, presentador, TV, móviles y PDF. El formato .xiroslide pasa a la versión 6 y el servidor rechaza gráficos que apunten a una tabla que no existe.
