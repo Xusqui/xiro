@@ -18,10 +18,10 @@
 
     function _applyUiSettings(s) {
         const cardTv = document.getElementById('card-tv');
-        if (cardTv) cardTv.style.display = _shouldShowTvCard(s.tvCardMode) ? '' : 'none';
+        if (cardTv) cardTv.hidden = !_shouldShowTvCard(s.tvCardMode);
 
         const cardStandalone = document.getElementById('card-standalone');
-        if (cardStandalone) cardStandalone.style.display = s.showStandaloneCard === false ? 'none' : '';
+        if (cardStandalone) cardStandalone.hidden = s.showStandaloneCard === false;
     }
 
     function _pollUiSettings() {

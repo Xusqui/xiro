@@ -59,6 +59,11 @@ html.page-index #main-content {
     animation: roleCardIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+/* display:flex de arriba gana al [hidden] del navegador */
+#cards-grid > .role-card[hidden] {
+    display: none;
+}
+
 /* El primer hijo es el panel de entrada (index-join.css) */
 #cards-grid > .role-card:nth-child(3) { animation-delay: 0.05s; }
 #cards-grid > .role-card:nth-child(4) { animation-delay: 0.1s; }
@@ -66,41 +71,41 @@ html.page-index #main-content {
 #cards-grid > .role-card:nth-child(6) { animation-delay: 0.2s; }
 
 /* Dos filas al estrechar, la de abajo centrada (flex centra la última línea).
-   Cuenta solo las visibles: la TV y el modo solitario se ocultan por ajustes (index-init.js).
+   Cuenta solo las visibles: la TV y el modo solitario nacen ocultas ([hidden]) y index-init.js las muestra según los ajustes.
    Cada bloque tapa la rejilla al ancho de sus columnas y se activa solo por debajo
    del ancho en que la fila única dejaría de caber. */
 
 /* Cinco tarjetas: 3 + 2 (una fila cabe desde 78.5rem; tres columnas necesitan 39rem) */
 @container main-cards (min-width: 39rem) and (max-width: 78.5rem) {
-    #cards-grid:not(:has(#card-tv[style*="none"])):not(:has(#card-standalone[style*="none"])) {
+    #cards-grid:not(:has(#card-tv[hidden])):not(:has(#card-standalone[hidden])) {
         max-width: calc(3 * 17.5rem + 2 * 1.5rem + 1px);
     }
 
-    #cards-grid:not(:has(#card-tv[style*="none"])):not(:has(#card-standalone[style*="none"])) > .role-card {
+    #cards-grid:not(:has(#card-tv[hidden])):not(:has(#card-standalone[hidden])) > .role-card {
         flex-basis: calc((100% - 3rem) / 3);
     }
 }
 
 /* Cuatro tarjetas: 2 + 2 (una fila cabe desde 62.5rem) */
 @container main-cards (min-width: 27rem) and (max-width: 62.5rem) {
-    #cards-grid:has(#card-tv[style*="none"]):not(:has(#card-standalone[style*="none"])),
-    #cards-grid:has(#card-standalone[style*="none"]):not(:has(#card-tv[style*="none"])) {
+    #cards-grid:has(#card-tv[hidden]):not(:has(#card-standalone[hidden])),
+    #cards-grid:has(#card-standalone[hidden]):not(:has(#card-tv[hidden])) {
         max-width: calc(2 * 17.5rem + 1.5rem + 1px);
     }
 
-    #cards-grid:has(#card-tv[style*="none"]):not(:has(#card-standalone[style*="none"])) > .role-card,
-    #cards-grid:has(#card-standalone[style*="none"]):not(:has(#card-tv[style*="none"])) > .role-card {
+    #cards-grid:has(#card-tv[hidden]):not(:has(#card-standalone[hidden])) > .role-card,
+    #cards-grid:has(#card-standalone[hidden]):not(:has(#card-tv[hidden])) > .role-card {
         flex-basis: calc((100% - 1.5rem) / 2);
     }
 }
 
 /* Tres tarjetas: 2 + 1 (una fila cabe desde 46.5rem) */
 @container main-cards (min-width: 27rem) and (max-width: 46.5rem) {
-    #cards-grid:has(#card-tv[style*="none"]):has(#card-standalone[style*="none"]) {
+    #cards-grid:has(#card-tv[hidden]):has(#card-standalone[hidden]) {
         max-width: calc(2 * 17.5rem + 1.5rem + 1px);
     }
 
-    #cards-grid:has(#card-tv[style*="none"]):has(#card-standalone[style*="none"]) > .role-card {
+    #cards-grid:has(#card-tv[hidden]):has(#card-standalone[hidden]) > .role-card {
         flex-basis: calc((100% - 1.5rem) / 2);
     }
 }
