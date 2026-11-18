@@ -2,6 +2,9 @@
 
 ## 3.14.x
 
+### 3.14.8 — 2026-11-18 · `v3.14.8`
+- **Bug:** Al iniciar una partida en el modo TV, se quedaba colgado porque requestFullscreen() devuelve undefined en navegadores de TV antiguos. Ahora Pantalla completa y audio van en try/catch.
+
 ### 3.14.7 — 2026-11-18 · `v3.14.7`
 - Instrucciones howto animadas y con voz para los 10 tipos de pregunta
   - Añade las instrucciones animadas (howto) de quiz, word_search, multiple_choice, order, matching, numeric_approximation, word_scramble, fill_blanks, survey y survey_multiple, con locución en 10 idiomas (8 clips por tema e idioma) y efectos de sonido, incluida una fanfarria al inicio. Los clips se regeneran con una frase de relleno que se recorta para que no se pierda la última sílaba, y se validan por transcripción. Reescribe los textos de Sopa de letras. En order, la locución termina en la primera frase del cierre. El audio espera a que el AudioContext esté activo antes de arrancar la animación.
