@@ -41,16 +41,29 @@ window.TVApp.Main = (function () {
     }
 
     // Funciones de partida; las acciones delegadas (tv-actions.js) las llaman vía TVApp.Main
-    function empezar() {
-        if (document.documentElement.requestFullscreen) {
-            document.documentElement.requestFullscreen().catch(function () {});
-        } else if (document.documentElement.webkitRequestFullscreen) {
-            document.documentElement.webkitRequestFullscreen();
+    // En TV/navegadores antiguos requestFullscreen devuelve undefined (no promesa) o lanza;
+    // nada de esto puede impedir que la partida empiece.
+    function entrarPantallaCompleta() {
+        try {
+            const root = document.documentElement;
+            const request = root.requestFullscreen || root.webkitRequestFullscreen;
+            const result = request ? request.call(root) : null;
+            if (result && typeof result.catch === 'function') result.catch(function () {});
+        } catch (e) {
+            /* sin pantalla completa */
         }
+    }
 
-        initAudio();
-        playTick();
-        unlockAudioContext();
+    function empezar() {
+        entrarPantallaCompleta();
+
+        try {
+            initAudio();
+            playTick();
+            unlockAudioContext();
+        } catch (e) {
+            /* audio no disponible: la partida sigue */
+        }
 
         if (window.TVApp.socket && state.sessionId) {
             if (state.gameType === 'trivial') {
