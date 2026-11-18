@@ -12,15 +12,15 @@ let _slideHowToDelegationReady = false;
 // (las listas de HOWTO_TOPICS en application/validators/HowToSlideValidator.js deben coincidir).
 const _HOWTO_TOPICS = [
     { key: 'quiz', icon: 'fa-list-ul', label: 'Quiz (una respuesta)', ready: true },
-    { key: 'multiple_choice', icon: 'fa-check-double', label: 'Respuesta múltiple', ready: false },
-    { key: 'survey', icon: 'fa-chart-bar', label: 'Encuesta', ready: false },
-    { key: 'survey_multiple', icon: 'fa-poll', label: 'Encuesta múltiple', ready: false },
-    { key: 'order', icon: 'fa-sort-numeric-down', label: 'Ordenar', ready: false },
-    { key: 'matching', icon: 'fa-link', label: 'Emparejar', ready: false },
-    { key: 'numeric_approximation', icon: 'fa-calculator', label: 'Aproximación numérica', ready: false },
-    { key: 'word_scramble', icon: 'fa-random', label: 'Adivinar palabra', ready: false },
+    { key: 'multiple_choice', icon: 'fa-check-double', label: 'Respuesta múltiple', ready: true },
+    { key: 'survey', icon: 'fa-chart-bar', label: 'Encuesta', ready: true },
+    { key: 'survey_multiple', icon: 'fa-poll', label: 'Encuesta múltiple', ready: true },
+    { key: 'order', icon: 'fa-sort-numeric-down', label: 'Ordenar', ready: true },
+    { key: 'matching', icon: 'fa-link', label: 'Emparejar', ready: true },
+    { key: 'numeric_approximation', icon: 'fa-calculator', label: 'Aproximación numérica', ready: true },
+    { key: 'word_scramble', icon: 'fa-random', label: 'Adivinar palabra', ready: true },
     { key: 'word_search', icon: 'fa-search', label: 'Sopa de letras', ready: true },
-    { key: 'fill_blanks', icon: 'fa-pen', label: 'Completa la frase', ready: false }
+    { key: 'fill_blanks', icon: 'fa-pen', label: 'Completa la frase', ready: true }
 ];
 
 function _howToTopic(key) {
@@ -34,15 +34,17 @@ function _howToTopicLabel(key) {
 
 /** Botón «Instrucciones»: pregunta de qué tipo de pregunta se quieren las instrucciones. */
 function anadirSlideHowTo() {
-    const buttons = _HOWTO_TOPICS.map(topic => {
-        const state = topic.ready
-            ? ''
-            : `<span class="ml-auto text-[10px] font-bold uppercase text-slate-400">${_t('admin.custom.howto_soon', null, 'Próximamente')}</span>`;
-        return `<button type="button" data-slide-howto-action="pick" data-topic="${escapeHtml(topic.key)}" ${topic.ready ? '' : 'disabled'}
+    const buttons = _HOWTO_TOPICS
+        .map(topic => {
+            const state = topic.ready
+                ? ''
+                : `<span class="ml-auto text-[10px] font-bold uppercase text-slate-400">${_t('admin.custom.howto_soon', null, 'Próximamente')}</span>`;
+            return `<button type="button" data-slide-howto-action="pick" data-topic="${escapeHtml(topic.key)}" ${topic.ready ? '' : 'disabled'}
             class="w-full flex items-center gap-3 p-3 rounded-xl border-2 text-left font-bold transition ${topic.ready ? 'border-plum-300 bg-plum-50 hover:bg-plum-100 text-plum-900' : 'border-slate-200 bg-slate-50 text-slate-400 cursor-not-allowed'}">
             <i class="fas ${topic.icon} w-5 text-center" aria-hidden="true"></i><span>${escapeHtml(_howToTopicLabel(topic.key))}</span>${state}
         </button>`;
-    }).join('');
+        })
+        .join('');
 
     const modal = document.createElement('div');
     modal.id = 'modalPickHowTo';
@@ -76,7 +78,8 @@ function editarSlideHowTo(index) {
     const slide = currentCustomGameQuestions[index];
     if (!slide || slide.slide_type !== 'howto') return;
 
-    const options = _HOWTO_TOPICS.filter(topic => topic.ready || topic.key === slide.slide_howto)
+    const options = _HOWTO_TOPICS
+        .filter(topic => topic.ready || topic.key === slide.slide_howto)
         .map(
             topic =>
                 `<option value="${escapeHtml(topic.key)}"${topic.key === slide.slide_howto ? ' selected' : ''}>${escapeHtml(_howToTopicLabel(topic.key))}</option>`

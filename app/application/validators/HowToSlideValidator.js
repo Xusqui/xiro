@@ -10,13 +10,26 @@
 const Joi = require('joi');
 
 // Un tema por tipo de pregunta con animación y voz ya hechas (clave = question_type)
-const HOWTO_TOPICS = ['word_search', 'quiz'];
+const HOWTO_TOPICS = [
+    'word_search',
+    'quiz',
+    'multiple_choice',
+    'order',
+    'matching',
+    'numeric_approximation',
+    'word_scramble',
+    'fill_blanks',
+    'survey',
+    'survey_multiple'
+];
 
 // Obligatorio en las diapositivas 'howto'; en las demás se admite null, vacío o ausente
 const slideHowToSchema = Joi.string()
     .when('slide_type', {
         is: 'howto',
-        then: Joi.string().valid(...HOWTO_TOPICS).required(),
+        then: Joi.string()
+            .valid(...HOWTO_TOPICS)
+            .required(),
         otherwise: Joi.allow(null, '').optional()
     })
     .messages({ 'any.only': 'El tema de las instrucciones no existe' });

@@ -24,6 +24,9 @@
             at: function (t, fn) {
                 base.at(t + INTRO_MS, fn);
             },
+            sfx: function (t, name) {
+                base.sfx(t + INTRO_MS, name);
+            },
             scene: function (t, u, step, clip) {
                 base.scene(t + INTRO_MS, u, step, clip);
             }
@@ -41,16 +44,19 @@
 
         // 0 · puntos en juego: se sortean y, si no, valen siempre lo mismo
         h.scene(0, ui, 0, 0);
+        h.sfx(200, 'pop');
         const roll = frac(0, 0.14);
         ROLL.forEach(function (value, i) {
             h.at(roll + i * ROLL_STEP_MS, function () {
                 ui.pointsValue(value);
             });
+            h.sfx(roll + i * ROLL_STEP_MS, 'tap');
         });
         h.at(frac(0, 0.74), function () {
             ui.pointsMode(true);
             ui.pointsValue(FIXED);
         });
+        h.sfx(frac(0, 0.74), 'ding');
         let s = h.dur(0) + PAD_MS;
 
         // 1 · la pregunta y sus cuatro respuestas de colores
@@ -58,9 +64,11 @@
         h.at(s, function () {
             ui.pointsOn(false);
         });
+        h.sfx(s, 'pop');
         h.at(s + frac(1, 0.5), function () {
             ui.pulseTiles(true);
         });
+        h.sfx(s + frac(1, 0.5), 'pop');
         h.at(s + frac(1, 0.8), function () {
             ui.pulseTiles(false);
         });
@@ -77,11 +85,13 @@
             ui.fingerDown(true);
             ui.tapTile(1, true);
         });
+        h.sfx(tap + 700, 'tap');
         h.at(tap + 900, function () {
             ui.fingerDown(false);
             ui.tapTile(1, false);
             ui.choose(1);
         });
+        h.sfx(tap + 900, 'pop');
         h.at(tap + TAP_MS, function () {
             ui.fingerOn(false);
         });
@@ -92,6 +102,7 @@
         h.at(s + 400, function () {
             ui.sent(true);
         });
+        h.sfx(s + 400, 'send');
         s += h.dur(3) + PAD_MS;
 
         // 4 · puntos de la pregunta + bonus de tiempo (cuanto antes, más); un fallo no suma
@@ -103,12 +114,15 @@
         h.at(s + frac(4, 0.14), function () {
             ui.meterRow(0);
         });
+        h.sfx(s + frac(4, 0.14), 'ding');
         h.at(s + frac(4, 0.46), function () {
             ui.meterRow(1);
         });
+        h.sfx(s + frac(4, 0.46), 'pop');
         h.at(s + frac(4, 0.76), function () {
             ui.meterRow(2);
         });
+        h.sfx(s + frac(4, 0.76), 'fall');
         s += h.dur(4) + PAD_MS;
 
         // 5 · resultado: verde con los puntos ganados, rojo si se falla
@@ -117,9 +131,11 @@
             ui.meterOn(false);
             ui.result('ok', GAINED);
         });
+        h.sfx(s, 'flourish');
         h.at(s + frac(5, 0.62), function () {
             ui.result('bad', 0);
         });
+        h.sfx(s + frac(5, 0.62), 'fall');
         s += h.dur(5) + PAD_MS;
 
         // 6 · racha: los aciertos seguidos suman extra
@@ -131,6 +147,7 @@
             ui.streak(true);
             ui.resultPts(WITH_STREAK);
         });
+        h.sfx(s + frac(6, 0.45), 'flourish');
         s += h.dur(6) + PAD_MS;
 
         h.scene(s, ui, 5, 7);

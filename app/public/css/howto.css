@@ -187,6 +187,154 @@
 }
 .howto-streaking .howto-streak { opacity: 1; transform: scale(1); }
 
+/* ---------- Respuesta múltiple: seis casillas con visto, botón de enviar y ejemplo de puntos ---------- */
+.howto-mc-hint { margin: 0; padding: 6px 10px 2px; background: #e2e8f0; color: #475569; font-size: 11px; font-weight: 800; text-align: center; }
+.howto-mc-tiles { grid-template-rows: 1fr 1fr 1fr; padding-top: 4px; }
+.howto-mc-tile { font-size: 17px; }
+.howto-mc-check {
+    position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: flex; align-items: center; justify-content: center;
+    border-radius: 12px; background: rgba(34,197,94,.42); color: #fff; font-size: 64px; font-weight: 900; line-height: 1;
+    text-shadow: 0 2px 10px rgba(21,128,61,.8); opacity: 0; transform: scale(.6); transition: opacity .2s, transform .2s;
+}
+.howto-mc-tile.howto-mc-on { box-shadow: 0 0 0 4px #4ade80; }
+.howto-mc-tile.howto-mc-on .howto-mc-check { opacity: 1; transform: none; }
+.howto-mc-send { text-transform: uppercase; font-size: 14px; }
+
+.howto-score {
+    position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 3; padding: 28px 18px; background: #684374;
+    display: flex; flex-direction: column; opacity: 0; pointer-events: none; transition: opacity .4s;
+}
+.howto-score.howto-on { opacity: 1; }
+.howto-score .howto-mtag { align-self: flex-start; margin: 0 0 20px; padding: 4px 12px 5px; border-radius: 999px; background: rgba(255,255,255,.18); font-size: 13px; font-weight: 800; }
+.howto-score-rows { flex: 1; }
+.howto-score-row {
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding: 12px 14px; border-radius: 12px;
+    background: #fff; color: #1e293b; border-bottom: 4px solid #e2e8f0; font-size: 15px; font-weight: 800;
+    opacity: 0; transform: translateY(8px); transition: opacity .35s, transform .35s;
+}
+.howto-score-row.howto-show { opacity: 1; transform: none; }
+.howto-score-row em { margin-left: 10px; font-size: 24px; font-style: normal; font-weight: 900; font-variant-numeric: tabular-nums; }
+.howto-score-ok em { color: #557400; }
+.howto-score-bad { border-bottom-color: #b42d2c; }
+.howto-score-bad em { color: #b42d2c; }
+.howto-score-miss.howto-show { opacity: .75; }
+.howto-score-miss em { color: #64748b; }
+.howto-score-perfect { background: #f9b518; border-bottom-color: #c98a00; }
+.howto-score-total { display: flex; align-items: baseline; justify-content: space-between; padding: 10px 6px 0; border-top: 2px solid rgba(255,255,255,.35); }
+.howto-score-total b { font-size: 16px; font-weight: 800; }
+.howto-score-total em { font-size: 34px; font-style: normal; font-weight: 900; font-variant-numeric: tabular-nums; }
+
+/* ---------- Ordenar: lista de fichas que se arrastran de arriba abajo ---------- */
+.howto-or-hint { margin: 0; padding: 6px 10px 4px; background: #e2e8f0; color: #475569; font-size: 11px; font-weight: 800; text-align: center; }
+.howto-or-list { position: relative; flex: 1; min-height: 0; margin: 0; padding: 0 6px; background: #e2e8f0; }
+.howto-or-item {
+    position: absolute; left: 6px; right: 6px; height: 66px; display: flex; align-items: center; padding: 0 14px; border-radius: 14px;
+    color: #fff; font-size: 20px; font-weight: 800; text-transform: uppercase;
+    transition: top .45s cubic-bezier(.4,0,.2,1), transform .2s ease-out, box-shadow .2s ease-out;
+}
+.howto-or-item i { flex: none; width: 30px; height: 30px; margin-right: 12px; border-radius: 50%; background: rgba(255,255,255,.3); display: flex; align-items: center; justify-content: center; font-size: 15px; font-style: normal; font-weight: 900; }
+.howto-or-item span { flex: 1; }
+.howto-or-item b { margin-left: 10px; font-size: 22px; opacity: .7; }
+.howto-or-item.howto-or-grab { z-index: 2; transform: scale(1.05); box-shadow: 0 12px 24px rgba(15,23,42,.4); }
+.howto-or-item.howto-pulse { animation: howto-pulse .7s ease-in-out 3; }
+.howto-score-info em { color: #684374; }
+.howto-score-long em { font-size: 15px; white-space: nowrap; }
+
+/* ---------- Aproximación numérica: pista, caja para teclear un entero y botón de enviar ---------- */
+.howto-nm-hint { margin: 10px 10px 0; padding: 8px 12px; border-radius: 14px; border: 1px solid rgba(255,255,255,.3); background: rgba(15,23,42,.35); color: #fff; transition: transform .2s; }
+.howto-nm-hint small { display: block; margin-bottom: 2px; color: #67e8f9; font-size: 10px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+.howto-nm-hint span { font-size: 13px; font-weight: 700; line-height: 1.3; }
+.howto-nm-hint.howto-pulse { animation: howto-pulse .7s ease-in-out 3; }
+.howto-nm-card { margin: 12px 10px 0; padding: 12px; border: 2px solid #34d399; border-radius: 16px; background: #f8fafc; color: #475569; text-align: center; }
+.howto-nm-card label { display: block; font-size: 11px; font-weight: 800; text-transform: uppercase; }
+.howto-nm-card p { margin: 0; font-size: 11px; font-style: italic; }
+.howto-nm-input {
+    display: flex; align-items: center; justify-content: center; height: 64px; margin: 8px 0; border: 2px solid #6ee7b7; border-radius: 12px;
+    background: #fff; color: #684374; font-size: 34px; font-weight: 900; font-variant-numeric: tabular-nums; transition: transform .15s, border-color .2s, box-shadow .2s;
+}
+.howto-nm-input.howto-tap { transform: scale(.97); }
+.howto-nm-input.howto-nm-focus { border-color: #10b981; box-shadow: 0 0 0 3px rgba(16,185,129,.25); }
+.howto-nm-caret { display: none; width: 3px; height: 36px; margin-left: 2px; background: #684374; }
+.howto-nm-focus .howto-nm-caret { display: inline-block; animation: howto-blink 1s steps(1) infinite; }
+@keyframes howto-blink { 50% { opacity: 0; } }
+.howto-nm-card + .howto-footer { margin-top: auto; }
+
+/* ---------- Adivinar palabra: casillas, fichas de letras barajadas y botones Borrar / Enviar ---------- */
+.howto-ws-len { margin: 0; padding: 12px 10px 0; color: #67e8f9; font-size: 14px; font-weight: 900; letter-spacing: .06em; text-align: center; }
+.howto-ws-boxes { display: flex; justify-content: center; margin: 14px 6px 4px; }
+.howto-ws-box {
+    display: flex; align-items: center; justify-content: center; width: 42px; height: 50px; margin: 0 3px; border: 2px solid #c084fc; border-radius: 10px;
+    background: rgba(15,23,42,.55); color: #fff; font-size: 28px; font-weight: 900; transition: background-color .2s, color .2s;
+}
+.howto-ws-box.howto-ws-on { border-color: #fff; background: #fff; color: #684374; }
+.howto-ws-box.howto-pulse { animation: howto-pulse .7s ease-in-out 3; }
+.howto-ws-tiles { display: flex; flex-wrap: wrap; flex: 1; align-content: flex-start; justify-content: center; margin: 14px 10px 0; }
+.howto-ws-tile {
+    display: flex; align-items: center; justify-content: center; width: 52px; height: 52px; margin: 5px; border-radius: 12px; border-bottom: 4px solid #684374;
+    background: #94438e; color: #fff; font-size: 26px; font-weight: 900; transition: transform .15s, opacity .2s;
+}
+.howto-ws-tile.howto-ws-used { opacity: .25; }
+.howto-ws-tile.howto-tap { transform: scale(.9); }
+.howto-ws-footer { margin-top: auto; }
+.howto-ws-reset { flex: 1; margin-right: 8px; padding: 12px; border-radius: 12px; background: #b42d2c; color: #fff; font-size: 15px; font-weight: 900; text-align: center; text-transform: uppercase; transition: transform .15s; }
+.howto-ws-reset.howto-tap { transform: scale(.94); }
+.howto-ws-send { font-size: 15px; text-transform: uppercase; }
+
+/* ---------- Completa la frase: huecos con una casilla por letra y un botón de pista por hueco ---------- */
+.howto-fb-card { margin: 12px 10px 0; padding: 16px 12px; border-radius: 16px; border-bottom: 5px solid #94438e; background: #fff; color: #1e293b; font-size: 15px; font-weight: 700; line-height: 2.6; text-align: center; }
+.howto-fb-blank { display: inline-block; margin: 0 2px; padding: 2px 3px; border: 2px dashed transparent; border-radius: 8px; vertical-align: middle; white-space: nowrap; transition: border-color .2s, transform .2s; }
+.howto-fb-blank.howto-fb-focus { border-color: #10b981; }
+.howto-fb-blank.howto-pulse { animation: howto-pulse .7s ease-in-out 3; }
+.howto-fb-cell {
+    display: inline-block; width: 22px; height: 30px; margin: 0 1px; border-bottom: 3px solid #684374; border-radius: 4px 4px 0 0; background: #f1f5f9;
+    color: #684374; font-size: 17px; font-style: normal; font-weight: 900; line-height: 30px; text-align: center; vertical-align: middle;
+}
+.howto-fb-cell.howto-fb-hintcell { background: #fde047; color: #1e293b; }
+.howto-fb-hints { display: flex; margin: 12px 10px 0; }
+.howto-fb-hint { display: flex; flex: 1; align-items: center; margin: 0 4px; padding: 8px; border-radius: 12px; background: rgba(15,23,42,.45); color: #fff; font-size: 12px; font-weight: 800; transition: transform .15s, opacity .2s; }
+.howto-fb-hint b { display: flex; align-items: center; justify-content: center; width: 22px; height: 22px; margin-right: 6px; border-radius: 50%; background: #f9b518; color: #1e293b; font-size: 12px; }
+.howto-fb-hint.howto-fb-used { opacity: .45; }
+.howto-fb-hint.howto-tap { transform: scale(.94); }
+.howto-fb-hints + .howto-footer { margin-top: auto; }
+.howto-fb-send { text-transform: uppercase; font-size: 15px; }
+
+/* ---------- Encuestas: opciones de colores, botón «Ninguna» y lista de resultados con barras ---------- */
+.howto-sv-results {
+    position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 3; display: flex; flex-direction: column; padding: 28px 18px; background: #684374;
+    opacity: 0; pointer-events: none; transition: opacity .4s;
+}
+.howto-sv-results.howto-on { opacity: 1; }
+.howto-sv-results .howto-mtag { align-self: flex-start; margin: 0 0 20px; padding: 4px 12px 5px; border-radius: 999px; background: rgba(255,255,255,.18); font-size: 13px; font-weight: 800; }
+.howto-sv-row { display: flex; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
+.howto-sv-row span { width: 100%; margin-bottom: 5px; font-size: 15px; font-weight: 800; }
+.howto-sv-track { flex: 1 1 120px; min-width: 0; height: 22px; border-radius: 8px; overflow: hidden; background: rgba(255,255,255,.16); }
+.howto-sv-track i { display: block; width: 0; height: 100%; background: #fff; transition: width .8s ease-out; }
+.howto-sv-row em { width: 58px; margin-left: 10px; font-size: 20px; font-style: normal; font-weight: 900; text-align: right; font-variant-numeric: tabular-nums; }
+.howto-sv-row.howto-sv-mine .howto-sv-track i { background: #f9b518; }
+.howto-sv-row.howto-sv-mine span::after { content: " \2713"; color: #f9b518; }
+.howto-sv-send { font-size: 15px; text-transform: uppercase; }
+
+/* ---------- Emparejar: columna izquierda fija, columna derecha que se arrastra ---------- */
+.howto-mt-board { position: relative; flex: 1; min-height: 0; background: #e2e8f0; }
+.howto-mt-left, .howto-mt-right {
+    position: absolute; height: 62px; width: calc(50% - 22px); display: flex; align-items: center; justify-content: center;
+    padding: 0 8px; border-radius: 12px; font-size: 16px; font-weight: 800; text-align: center; text-transform: uppercase;
+}
+.howto-mt-left { left: 6px; color: #fff; }
+.howto-mt-right {
+    right: 6px; background: #fff; color: #684374; border-bottom: 4px solid #94438e;
+    transition: top .45s cubic-bezier(.4,0,.2,1), transform .2s ease-out, box-shadow .2s ease-out, background-color .3s, color .3s;
+}
+.howto-mt-right b { margin-left: 6px; font-size: 18px; opacity: .6; }
+.howto-mt-right.howto-mt-grab { z-index: 2; transform: scale(1.05); box-shadow: 0 12px 24px rgba(15,23,42,.4); }
+.howto-mt-right.howto-mt-ok { border-bottom-color: rgba(15,23,42,.35); }
+.howto-mt-right.howto-pulse { animation: howto-pulse .7s ease-in-out 3; }
+.howto-mt-arrow {
+    position: absolute; left: 50%; width: 32px; height: 62px; margin-left: -16px; display: flex; align-items: center;
+    justify-content: center; color: #94a3b8; font-size: 22px; font-weight: 900; transition: color .3s;
+}
+.howto-mt-arrow.howto-mt-ok { color: #557400; }
+
 @media (prefers-reduced-motion: reduce) {
     .howto-cell.howto-anchor, .howto-cell.howto-hint, .howto-word.howto-pulse, .howto-finish.howto-glow, .howto-tile.howto-pulse { animation: none; }
 }
