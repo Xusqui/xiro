@@ -3,6 +3,7 @@
  */
 
 const Joi = require('joi');
+const QuestionTypes = require('../public/js/core/question-types');
 const { LIMITS, dbIdSchema, optionTextSchema, questionTextSchema } = require('./primitives');
 const { wordSearchOptionsSchema } = require('../application/validators/WordSearchQuestionValidator');
 const {
@@ -46,18 +47,7 @@ const questionSchema = Joi.object({
     id: dbIdSchema.allow(null).optional(),
     questionText: questionTextSchema.required(),
     type: Joi.string()
-        .valid(
-            'quiz',
-            'survey',
-            'order',
-            'numeric_approximation',
-            'word_scramble',
-            'multiple_choice',
-            'matching',
-            'word_search',
-            'fill_blanks',
-            'survey_multiple'
-        )
+        .valid(...QuestionTypes.ids())
         .default('quiz'),
     tipo_contenido: Joi.string().valid('texto', 'imagen', 'audio').default('texto').optional(),
     url_recurso: Joi.alternatives()

@@ -98,29 +98,25 @@ function buildSingleIndexAnswer({ payload, options }) {
     return { answerGiven: optionText(option, payload.index) };
 }
 
+const buildTypedAnswer = ({ payload }) => ({ answerGiven: String(payload.playerAnswer) });
+
+// Cómo se describe la respuesta en el informe. Quiz y encuesta (sin entrada): la opción elegida
+const ANSWER_FORMATTERS = Object.freeze({
+    order: buildOrderAnswer,
+    matching: buildMatchingAnswer,
+    numeric_approximation: buildTypedAnswer,
+    word_scramble: buildTypedAnswer,
+    multiple_choice: buildMultipleChoiceAnswer,
+    survey_multiple: ({ answerResult, options }) => buildSurveyMultipleAnswer(answerResult, options),
+    word_search: ({ answerResult }) => buildWordSearchAnswer(answerResult),
+    fill_blanks: ({ answerResult }) => buildFillBlanksAnswer(answerResult)
+});
+
 function buildAnswerDetails({ flags, payload, options, answerResult }) {
-    if (flags.isOrderQuestion) {
-        return buildOrderAnswer({ payload, options });
-    }
-    if (flags.isMatchingQuestion) {
-        return buildMatchingAnswer({ payload, options });
-    }
-    if (flags.isNumericQuestion || flags.isWordScrambleQuestion) {
-        return { answerGiven: String(payload.playerAnswer) };
-    }
-    if (flags.isMultipleChoiceQuestion) {
-        return buildMultipleChoiceAnswer({ payload, options });
-    }
-    if (flags.isSurveyMultipleQuestion) {
-        return buildSurveyMultipleAnswer(answerResult, options);
-    }
-    if (flags.isWordSearchQuestion) {
-        return buildWordSearchAnswer(answerResult);
-    }
-    if (flags.isFillBlanksQuestion) {
-        return buildFillBlanksAnswer(answerResult);
-    }
-    return buildSingleIndexAnswer({ payload, options });
+    const format = Object.prototype.hasOwnProperty.call(ANSWER_FORMATTERS, flags.questionType)
+        ? ANSWER_FORMATTERS[flags.questionType]
+        : buildSingleIndexAnswer;
+    return format({ payload, options, answerResult });
 }
 
 /** Completa la frase: lo escrito en cada hueco con ✓/✗ y el recuento ("PYLORI ✓ | — ✗ (1/2)") */

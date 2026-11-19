@@ -15,11 +15,9 @@ const { activeGames } = require('../../../state/globalState');
 const { RedisSyncBus } = require('../../sync/RedisSyncBus');
 const { getRedisClient } = require('../../../config/redis');
 const answerStatsStore = require('../../../services/AnswerStatsStore');
-const { shuffle } = require('../../../services/game.logic');
-const { generateScrambledLetters, normalizeWord } = require('../../../domain/services/WordScrambleService');
-const { prepareWordSearchLogged, prepareFillBlanksLogged } = require('../../utils/QuestionPreparation');
 const { assignRandomPointsForCurrentQuestion } = require('../../utils/QuestionTransitionManager');
 const { runRandomPointsReveal } = require('../../utils/RandomPointsRevealManager');
+const { normalizeTrivialQuestion } = require('./TrivialQuestionNormalizer');
 
 /**
  * Construye la entrada de activeGames para un juego trivial.
@@ -68,39 +66,6 @@ function fetchTrivialQuestion(state, catIdx, roomId) {
         category.source_id || category.bank_id,
         state.askedQuestionIds.slice(-50)
     );
-}
-
-function normalizeQuestion(question, roomId) {
-    const mappedOptions = (question.options || []).map(option => ({
-        ...option,
-        optionText: option.option_text ?? option.optionText ?? '',
-        isCorrect: option.is_correct ?? option.isCorrect ?? false,
-        orderIndex: option.order_index ?? option.orderIndex ?? 0
-    }));
-
-    const options = question.question_type === 'order' ? mappedOptions : shuffle(mappedOptions);
-    if (question.question_type === 'order') {
-        logger.debug('trivial handleMove: order question — options NOT shuffled', {
-            roomId,
-            questionId: question.id
-        });
-    }
-
-    const normalizedQuestion = { ...question, options };
-    if (normalizedQuestion.question_type === 'word_scramble') {
-        const word = normalizedQuestion.correct_word || '';
-        normalizedQuestion.scrambled_letters = generateScrambledLetters(word);
-        normalizedQuestion.word_length = normalizeWord(word).length;
-        normalizedQuestion.options = [];
-    }
-    if (normalizedQuestion.question_type === 'word_search') {
-        return prepareWordSearchLogged(normalizedQuestion, { roomId, mode: 'trivial' });
-    }
-    if (normalizedQuestion.question_type === 'fill_blanks') {
-        return prepareFillBlanksLogged(normalizedQuestion, { roomId, mode: 'trivial' });
-    }
-
-    return normalizedQuestion;
 }
 
 function ensureGameEntry(roomId, state) {
@@ -233,7 +198,7 @@ function dispatchQuestionPipeline(io, roomId, normalizedQuestion, question, acto
  * @returns {Promise<void>}
  */
 async function startTrivialQuestion(io, roomId, state, { question, catIdx, position, actorNick }) {
-    const normalizedQuestion = normalizeQuestion(question, roomId);
+    const normalizedQuestion = normalizeTrivialQuestion(question, roomId, 'handleMove');
     const game = ensureGameEntry(roomId, state);
     updateGameForQuestion({ game, roomId, state, normalizedQuestion, actorNick, catIdx, position });
 

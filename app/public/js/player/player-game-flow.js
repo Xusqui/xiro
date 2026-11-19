@@ -17,27 +17,7 @@ import {
     resetSessionState,
     clearAnswerInputState
 } from './player-state.js?v=20260922172926';
-import {
-    renderizarPregunta,
-    renderizarPreguntaOrdena,
-    renderizarPreguntaMatching,
-    renderizarPreguntaNumerica,
-    renderizarPreguntaWordScramble,
-    renderizarPreguntaWordSearch,
-    renderizarPreguntaFillBlanks,
-    renderizarPreguntaMultipleChoice,
-    renderizarPreguntaSurveyMultiple
-} from './player-question-ui.js?v=20260922172926';
-import {
-    renderizarSlideComentario,
-    renderizarSlideInfo,
-    renderizarSlideTexto,
-    renderizarSlideImagen,
-    renderizarSlideTextoImagen,
-    renderizarSlideVideo,
-    renderizarSlideHowTo
-} from './player-question-ui.js?v=20260922172926';
-import { renderizarSlideLienzo } from './player-slide-canvas-ui.js?v=20261019120000';
+import { renderQuestionScreen } from './player-question-renderers.js?v=20261119120000';
 import { removeDisconnectOverlay } from './player-connection.js?v=20260922172926';
 import { mostrarModalConfirmacion, mostrarModalMensaje } from '../shared/modal.js?v=20260922172926';
 import { markGameConcluded } from './player-game-concluded.js?v=20260922172926';
@@ -117,41 +97,7 @@ function onGameStarted(data, ack) {
     preloadGameImages(data.imagePreloads);
 
     clearAnswerInputState();
-    if (data.firstQuestion.slide_type === 'comment') {
-        renderizarSlideComentario(data.firstQuestion);
-    } else if (data.firstQuestion.slide_type === 'info') {
-        renderizarSlideInfo(data.firstQuestion);
-    } else if (data.firstQuestion.slide_type === 'text') {
-        renderizarSlideTexto(data.firstQuestion);
-    } else if (data.firstQuestion.slide_type === 'image') {
-        renderizarSlideImagen(data.firstQuestion);
-    } else if (data.firstQuestion.slide_type === 'text-image') {
-        renderizarSlideTextoImagen(data.firstQuestion);
-    } else if (data.firstQuestion.slide_type === 'video') {
-        renderizarSlideVideo(data.firstQuestion);
-    } else if (data.firstQuestion.slide_type === 'canvas') {
-        renderizarSlideLienzo(data.firstQuestion);
-    } else if (data.firstQuestion.slide_type === 'howto') {
-        renderizarSlideHowTo(data.firstQuestion);
-    } else if (data.firstQuestion.question_type === 'order') {
-        renderizarPreguntaOrdena(data.firstQuestion);
-    } else if (data.firstQuestion.question_type === 'matching') {
-        renderizarPreguntaMatching(data.firstQuestion);
-    } else if (data.firstQuestion.question_type === 'numeric_approximation') {
-        renderizarPreguntaNumerica(data.firstQuestion);
-    } else if (data.firstQuestion.question_type === 'word_scramble') {
-        renderizarPreguntaWordScramble(data.firstQuestion);
-    } else if (data.firstQuestion.question_type === 'word_search') {
-        renderizarPreguntaWordSearch(data.firstQuestion);
-    } else if (data.firstQuestion.question_type === 'fill_blanks') {
-        renderizarPreguntaFillBlanks(data.firstQuestion);
-    } else if (data.firstQuestion.question_type === 'multiple_choice') {
-        renderizarPreguntaMultipleChoice(data.firstQuestion);
-    } else if (data.firstQuestion.question_type === 'survey_multiple') {
-        renderizarPreguntaSurveyMultiple(data.firstQuestion);
-    } else {
-        renderizarPregunta(data.firstQuestion);
-    }
+    renderQuestionScreen(data.firstQuestion);
 
     injectStreakBadge();
 
@@ -183,41 +129,7 @@ function onNewQuestion(data, ack) {
     removeDisconnectOverlay();
 
     clearAnswerInputState();
-    if (data.question.slide_type === 'comment') {
-        renderizarSlideComentario(data.question);
-    } else if (data.question.slide_type === 'info') {
-        renderizarSlideInfo(data.question);
-    } else if (data.question.slide_type === 'text') {
-        renderizarSlideTexto(data.question);
-    } else if (data.question.slide_type === 'image') {
-        renderizarSlideImagen(data.question);
-    } else if (data.question.slide_type === 'text-image') {
-        renderizarSlideTextoImagen(data.question);
-    } else if (data.question.slide_type === 'video') {
-        renderizarSlideVideo(data.question);
-    } else if (data.question.slide_type === 'canvas') {
-        renderizarSlideLienzo(data.question);
-    } else if (data.question.slide_type === 'howto') {
-        renderizarSlideHowTo(data.question);
-    } else if (data.question.question_type === 'order') {
-        renderizarPreguntaOrdena(data.question);
-    } else if (data.question.question_type === 'matching') {
-        renderizarPreguntaMatching(data.question);
-    } else if (data.question.question_type === 'numeric_approximation') {
-        renderizarPreguntaNumerica(data.question);
-    } else if (data.question.question_type === 'word_scramble') {
-        renderizarPreguntaWordScramble(data.question);
-    } else if (data.question.question_type === 'word_search') {
-        renderizarPreguntaWordSearch(data.question);
-    } else if (data.question.question_type === 'fill_blanks') {
-        renderizarPreguntaFillBlanks(data.question);
-    } else if (data.question.question_type === 'multiple_choice') {
-        renderizarPreguntaMultipleChoice(data.question);
-    } else if (data.question.question_type === 'survey_multiple') {
-        renderizarPreguntaSurveyMultiple(data.question);
-    } else {
-        renderizarPregunta(data.question);
-    }
+    renderQuestionScreen(data.question);
 
     injectStreakBadge();
 

@@ -9,6 +9,7 @@ const logger = require('../../config/logger');
 const { getRedisClient } = require('../../config/redis');
 const { resolveTeamRevealCorrectness, resolveTeamRevealCorrectAnswer } = require('./NumericTeamRevealHelper');
 const { isSurveyType } = require('../../domain/services/SurveyMultipleAnswerService');
+const { playerResultDetails } = require('../../domain/services/PlayerResultDetails');
 
 /**
  * Construir ranking formateado (inline para evitar dependencia circular)
@@ -272,22 +273,6 @@ function shouldSkipPlayerReveal(playerSocket, game, playerNick) {
     return true;
 }
 
-/** Detalle propio del tipo de pregunta en el resultado del jugador (null si no aplica). */
-function typedDetailFields(question, playerAnswer, isOrderQuestion) {
-    const type = question.question_type;
-    return {
-        orderDetails: isOrderQuestion ? playerAnswer?.orderDetails || null : null,
-        multipleChoiceDetails: type === 'multiple_choice' ? playerAnswer?.multipleChoiceDetails || null : null,
-        matchingDetails: type === 'matching' ? playerAnswer?.matchingDetails || null : null,
-        // Solo en sopa de letras: el resto de tipos conserva su payload tal cual
-        ...(type === 'word_search' ? { wordSearchDetails: playerAnswer?.wordSearchDetails || null } : {}),
-        ...(type === 'fill_blanks' ? { fillBlanksDetails: playerAnswer?.fillBlanksDetails || null } : {}),
-        ...(type === 'survey_multiple'
-            ? { surveyMultipleDetails: playerAnswer?.surveyMultipleDetails || { selectedIndices: [] } }
-            : {})
-    };
-}
-
 function buildPlayerRevealPayload({ playerNick, game, question, playerAnswer, team, revealContext }) {
     const playerPoints = playerAnswer?.pointsEarned || 0;
     const isCorrect = resolveTeamRevealCorrectness(question, playerAnswer);
@@ -311,7 +296,7 @@ function buildPlayerRevealPayload({ playerNick, game, question, playerAnswer, te
             ranking: revealContext.ranking,
             justification: justificationText,
             teamName: team.name,
-            ...typedDetailFields(question, playerAnswer, revealContext.isOrderQuestion),
+            ...playerResultDetails(question, playerAnswer),
             streak: game.playerStreakInfos?.[playerNick] || null
         }
     };

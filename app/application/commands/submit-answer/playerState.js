@@ -15,14 +15,15 @@ const MultipleChoiceAnswerStateService = require('../../../domain/services/Multi
 const AnswerProcessingService = require('../../../domain/services/AnswerProcessingService');
 const answerStatsStore = require('../../../services/AnswerStatsStore');
 const { normalizeSelection } = require('../../../domain/services/SurveyMultipleAnswerService');
+const { getAnswerHandler } = require('../../question-types/AnswerHandlerRegistry');
 
-/** Respuesta libre tal cual se guarda: número, palabra, selecciones de la sopa o palabras de los huecos */
-function resolveFreeInputAnswer(flags, payload) {
-    if (flags.isNumericQuestion) return Number(payload.playerAnswer);
-    if (flags.isWordSearchQuestion) return [...(payload.found || [])];
-    if (flags.isFillBlanksQuestion) return [...(payload.words || [])];
-    return String(payload.playerAnswer);
-}
+// Respuesta libre tal cual se guarda, según lo que envía el jugador (answerShape)
+const FREE_INPUT_VALUES = Object.freeze({
+    number: payload => Number(payload.playerAnswer),
+    text: payload => String(payload.playerAnswer),
+    found: payload => [...(payload.found || [])],
+    words: payload => [...(payload.words || [])]
+});
 
 function persistFreeInputAnswer({ player, socket, game, questionTimeLimit }, normalizedAnswer) {
     if (player) {
@@ -62,35 +63,31 @@ function persistPlayerAnswerState(ctx) {
 
     const { index, order, matches, selectedIndices } = payload;
     const timing = { gameStartTime: game.questionStartTime, currentTime: Date.now(), questionTimeLimit };
+    const { answerShape } = getAnswerHandler(flags.questionType);
 
-    if (flags.isOrderQuestion) {
+    if (answerShape === 'order') {
         const answerState = OrderAnswerStateService.buildOrderAnswerState({ order, ...timing });
 
         OrderAnswerStateService.updatePlayerState({ player, socket, game, answerState });
         return;
     }
 
-    if (flags.isMatchingQuestion) {
+    if (answerShape === 'matching') {
         const answerState = MatchingAnswerStateService.buildMatchingAnswerState({ matches, ...timing });
 
         MatchingAnswerStateService.updatePlayerState({ player, socket, game, answerState });
         return;
     }
 
-    if (
-        flags.isNumericQuestion ||
-        flags.isWordScrambleQuestion ||
-        flags.isWordSearchQuestion ||
-        flags.isFillBlanksQuestion
-    ) {
-        persistFreeInputAnswer(ctx, resolveFreeInputAnswer(flags, payload));
+    if (Object.prototype.hasOwnProperty.call(FREE_INPUT_VALUES, answerShape)) {
+        persistFreeInputAnswer(ctx, FREE_INPUT_VALUES[answerShape](payload));
         return;
     }
 
-    // Encuesta de selección múltiple: mismo estado que la selección múltiple (puede ir vacío)
-    if (flags.isMultipleChoiceQuestion || flags.isSurveyMultipleQuestion) {
+    // Selección múltiple y su encuesta: mismo estado (la encuesta puede ir vacía y se normaliza)
+    if (answerShape === 'selection') {
         const answerState = MultipleChoiceAnswerStateService.buildMultipleChoiceAnswerState({
-            selectedIndices: flags.isSurveyMultipleQuestion ? normalizeSelection(selectedIndices) : selectedIndices,
+            selectedIndices: flags.questionType === 'survey_multiple' ? normalizeSelection(selectedIndices) : selectedIndices,
             ...timing
         });
 
@@ -118,18 +115,8 @@ function persistPlayerAnswerState(ctx) {
 async function updateOptionAnswerStats(ctx) {
     const { flags, game, sPin, index } = ctx;
 
-    if (
-        flags.isOrderQuestion ||
-        flags.isMatchingQuestion ||
-        flags.isNumericQuestion ||
-        flags.isWordScrambleQuestion ||
-        flags.isWordSearchQuestion ||
-        flags.isFillBlanksQuestion ||
-        flags.isMultipleChoiceQuestion ||
-        flags.isSurveyMultipleQuestion
-    ) {
-        return;
-    }
+    // Solo quiz y encuesta responden con una opción
+    if (getAnswerHandler(flags.questionType).answerShape !== 'option') return;
 
     if (!game.answerStats) game.answerStats = {};
     if (!game.answerStats[game.currentIndex]) game.answerStats[game.currentIndex] = {};

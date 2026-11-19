@@ -23,25 +23,7 @@ import {
     clearAnswerInputState
 } from './player-state.js?v=20260922172926';
 import { removeDisconnectOverlay, activarWakeLock } from './player-connection.js?v=20260922172926';
-import {
-    renderizarPregunta,
-    renderizarPreguntaOrdena,
-    renderizarSlideComentario,
-    renderizarSlideInfo,
-    renderizarSlideTexto,
-    renderizarSlideImagen,
-    renderizarSlideTextoImagen,
-    renderizarSlideVideo,
-    renderizarSlideHowTo,
-    renderizarPreguntaWordScramble,
-    renderizarPreguntaWordSearch,
-    renderizarPreguntaFillBlanks,
-    renderizarPreguntaMultipleChoice,
-    renderizarPreguntaSurveyMultiple,
-    renderizarPreguntaMatching
-} from './player-question-ui.js?v=20260922172926';
-import { renderizarSlideLienzo } from './player-slide-canvas-ui.js?v=20261019120000';
-import { renderizarPreguntaNumerica } from './player-numeric-ui.js?v=20260922172926';
+import { renderQuestionScreen } from './player-question-renderers.js?v=20261119120000';
 import { injectStreakBadge } from './player-streak-ui.js?v=20260922172926';
 import { syncTrivialBadgesFromSnapshot } from './player-trivial-badges-ui.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
@@ -252,41 +234,7 @@ function restoreReviewScreen(question, gs) {
 
 function renderQuestion(question) {
     clearAnswerInputState();
-    if (question.slide_type === 'comment') {
-        renderizarSlideComentario(question);
-    } else if (question.slide_type === 'info') {
-        renderizarSlideInfo(question);
-    } else if (question.slide_type === 'text') {
-        renderizarSlideTexto(question);
-    } else if (question.slide_type === 'image') {
-        renderizarSlideImagen(question);
-    } else if (question.slide_type === 'text-image') {
-        renderizarSlideTextoImagen(question);
-    } else if (question.slide_type === 'video') {
-        renderizarSlideVideo(question);
-    } else if (question.slide_type === 'canvas') {
-        renderizarSlideLienzo(question);
-    } else if (question.slide_type === 'howto') {
-        renderizarSlideHowTo(question);
-    } else if (question.question_type === 'order') {
-        renderizarPreguntaOrdena(question);
-    } else if (question.question_type === 'matching') {
-        renderizarPreguntaMatching(question);
-    } else if (question.question_type === 'numeric_approximation') {
-        renderizarPreguntaNumerica(question);
-    } else if (question.question_type === 'word_scramble') {
-        renderizarPreguntaWordScramble(question);
-    } else if (question.question_type === 'word_search') {
-        renderizarPreguntaWordSearch(question);
-    } else if (question.question_type === 'fill_blanks') {
-        renderizarPreguntaFillBlanks(question);
-    } else if (question.question_type === 'multiple_choice') {
-        renderizarPreguntaMultipleChoice(question);
-    } else if (question.question_type === 'survey_multiple') {
-        renderizarPreguntaSurveyMultiple(question);
-    } else {
-        renderizarPregunta(question);
-    }
+    renderQuestionScreen(question);
 
     // Asegurar que el badge de racha se muestre si el jugador tiene racha activa
     injectStreakBadge();

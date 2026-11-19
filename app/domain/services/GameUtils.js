@@ -10,6 +10,7 @@
  */
 
 const logger = require('../../config/logger');
+const QuestionTypes = require('../../public/js/core/question-types');
 
 /**
  * Baraja un array usando el algoritmo Fisher-Yates
@@ -41,8 +42,7 @@ function shuffleOptions(questions) {
             q.slide_type === 'video' ||
             q.slide_type === 'canvas' ||
             q.slide_type === 'howto' ||
-            q.question_type === 'survey' ||
-            q.question_type === 'survey_multiple'
+            QuestionTypes.isSurvey(q.question_type)
         ) {
             return q;
         }

@@ -7,6 +7,7 @@ const GameModeStrategy = require('./GameModeStrategy');
 const { roundScore } = require('../services/GameUtils');
 const { getJustification, getCorrectAnswerText } = require('../services/ScoringService');
 const logger = require('../../config/logger');
+const { playerResultDetails } = require('../services/PlayerResultDetails');
 
 /**
  * Estrategia para modo de juego individual
@@ -131,20 +132,13 @@ class IndividualGameMode extends GameModeStrategy {
     _buildQuestionContext(question, answer) {
         const options = Array.isArray(question.options) ? question.options : [];
         const isOrderQuestion = question.question_type === 'order';
-        const isMultipleChoiceQuestion = question.question_type === 'multiple_choice';
-        const isMatchingQuestion = question.question_type === 'matching';
         const correctOption = isOrderQuestion ? null : options.find(opt => opt.isCorrect);
         const selectedOption = isOrderQuestion ? null : options[answer.answerIndex];
         const justificationText = isOrderQuestion ? null : getJustification(selectedOption, correctOption);
 
         return {
-            isOrderQuestion,
-            isMultipleChoiceQuestion,
-            isMatchingQuestion,
-            isWordSearchQuestion: question.question_type === 'word_search',
-            isFillBlanksQuestion: question.question_type === 'fill_blanks',
-            isSurveyMultipleQuestion: question.question_type === 'survey_multiple',
             correctOption,
+            typedDetails: playerResultDetails(question, answer),
             correctAnswerText: isOrderQuestion ? null : getCorrectAnswerText(question, correctOption),
             justificationText
         };
@@ -158,14 +152,7 @@ class IndividualGameMode extends GameModeStrategy {
             totalScore: roundScore(game.scores[nickname] || 0),
             ranking,
             justification: context.justificationText,
-            orderDetails: context.isOrderQuestion ? answer.orderDetails : null,
-            multipleChoiceDetails: context.isMultipleChoiceQuestion ? answer.multipleChoiceDetails : null,
-            matchingDetails: context.isMatchingQuestion ? answer.matchingDetails || null : null,
-            ...(context.isWordSearchQuestion ? { wordSearchDetails: answer.wordSearchDetails || null } : {}),
-            ...(context.isFillBlanksQuestion ? { fillBlanksDetails: answer.fillBlanksDetails || null } : {}),
-            ...(context.isSurveyMultipleQuestion
-                ? { surveyMultipleDetails: answer.surveyMultipleDetails || { selectedIndices: [] } }
-                : {}),
+            ...context.typedDetails,
             streak: answer.streakInfo || null
         };
     }

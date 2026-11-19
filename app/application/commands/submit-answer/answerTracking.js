@@ -9,6 +9,7 @@
  */
 
 const { getRedisClient } = require('../../../config/redis');
+const { getAnswerHandler } = require('../../question-types/AnswerHandlerRegistry');
 const { markAnsweredCurrentEpoch } = require('../../../sockets/handlers/trivial/TrivialAnswerGuard');
 
 function runWithRedisClient(action) {
@@ -68,40 +69,12 @@ function markCurrentEpochAnswer(socket, game) {
     markAnsweredCurrentEpoch(socket, game);
 }
 
+// Detalle del tipo (campo del manejador). Selección múltiple guarda el detalle completo
+// (buildMultipleChoiceDetails), que solo existe para ese tipo.
 function getTypedDetailConfig(flags, answerResult, fullMultipleChoiceDetails) {
-    if (flags.isOrderQuestion) {
-        return { field: 'orderDetails', value: answerResult.details };
-    }
-
-    if (flags.isMatchingQuestion) {
-        return { field: 'matchingDetails', value: answerResult.details };
-    }
-
-    if (flags.isNumericQuestion) {
-        return { field: 'numericDetails', value: answerResult.details };
-    }
-
-    if (flags.isWordScrambleQuestion) {
-        return { field: 'wordScrambleDetails', value: answerResult.details };
-    }
-
-    if (flags.isWordSearchQuestion) {
-        return { field: 'wordSearchDetails', value: answerResult.details };
-    }
-
-    if (flags.isFillBlanksQuestion) {
-        return { field: 'fillBlanksDetails', value: answerResult.details };
-    }
-
-    if (flags.isMultipleChoiceQuestion) {
-        return { field: 'multipleChoiceDetails', value: fullMultipleChoiceDetails };
-    }
-
-    if (flags.isSurveyMultipleQuestion) {
-        return { field: 'surveyMultipleDetails', value: answerResult.details };
-    }
-
-    return null;
+    const { detailsField } = getAnswerHandler(flags.questionType);
+    if (!detailsField) return null;
+    return { field: detailsField, value: fullMultipleChoiceDetails ?? answerResult.details };
 }
 
 function applyTypedAnswerDetails(answerState, detailConfig, applyAnswerOutcome) {

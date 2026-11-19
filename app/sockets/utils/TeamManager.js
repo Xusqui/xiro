@@ -10,6 +10,7 @@ const { hasAnsweredCurrentRound, claimTeamReveal } = require('./TeamRevealHelper
 const { isSurveyType } = require('../../domain/services/SurveyMultipleAnswerService');
 const { getRedisClient } = require('../../config/redis');
 const logger = require('../../config/logger');
+const { playerResultDetails } = require('../../domain/services/PlayerResultDetails');
 
 async function refreshStreakInfosFromRedis(game, sPin) {
     // Cargar streakinfos desde Redis para garantizar datos frescos en modo multi-worker.
@@ -155,21 +156,6 @@ function normalizePlayerPayloadInput(input, legacyArgs) {
     };
 }
 
-/** Detalle propio del tipo de pregunta en el resultado del jugador */
-function typedDetails(currentQuestion, playerAnswer, ctx) {
-    const type = currentQuestion.question_type;
-    return {
-        orderDetails: ctx.isOrderQuestion ? playerAnswer?.orderDetails || null : null,
-        multipleChoiceDetails: ctx.isMultipleChoiceQuestion ? playerAnswer?.multipleChoiceDetails || null : null,
-        matchingDetails: type === 'matching' ? playerAnswer?.matchingDetails || null : null,
-        ...(type === 'word_search' ? { wordSearchDetails: playerAnswer?.wordSearchDetails || null } : {}),
-        ...(type === 'fill_blanks' ? { fillBlanksDetails: playerAnswer?.fillBlanksDetails || null } : {}),
-        ...(type === 'survey_multiple'
-            ? { surveyMultipleDetails: playerAnswer?.surveyMultipleDetails || { selectedIndices: [] } }
-            : {})
-    };
-}
-
 function buildAnsweredPayload({ currentQuestion, playerAnswer, scores, game, playerNick, teamName }) {
     const ctx = resolveAnswerContext(currentQuestion, playerAnswer);
     const isCorrect = resolveTeamRevealCorrectness(currentQuestion, playerAnswer);
@@ -186,7 +172,7 @@ function buildAnsweredPayload({ currentQuestion, playerAnswer, scores, game, pla
             ctx.isSurveyQuestion
         ),
         ranking: buildRanking(scores),
-        ...typedDetails(currentQuestion, playerAnswer, ctx),
+        ...playerResultDetails(currentQuestion, playerAnswer),
         streak: game && playerNick ? game.playerStreakInfos?.[playerNick] || null : null
     };
 

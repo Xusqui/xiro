@@ -35,7 +35,6 @@ const {
     setAnswerBlockingState
 } = require('./RevealStateHelpers');
 const {
-    getQuestionFlags,
     resolveCorrectAnswerData,
     buildSurveyPercentages,
     buildJustificationData,
@@ -105,18 +104,19 @@ async function buildRevealPayload({ io, roomId, game, revealIndex, question, sta
     // antes del start-game pero no fueron detectados por fetchSockets, o
     // jugadores que se unieron mid-game). Así ninguno queda fuera del ranking.
     const rankings = buildRankings(game);
-    const flags = getQuestionFlags(question);
-    const { correctIndex, correctIndicesMultiple } = resolveCorrectAnswerData(question, flags);
+    // Solo la encuesta simple lleva porcentajes por opción aquí (la múltiple, en RevealTypePayloads)
+    const isSurveyQuestion = question.question_type === 'survey';
+    const { correctIndex, correctIndicesMultiple } = resolveCorrectAnswerData(question);
 
     const teamConfigData = teamConfigs.get(roomId);
     const isTeamMode = teamConfigData && teamConfigData.isTeamMode;
     await revealToUnrevealedTeamsIfNeeded({ isTeamMode, game, teamConfigData, currentQuestion: question, io, roomId });
 
-    const percentages = buildSurveyPercentages(question, stats, flags.isSurveyQuestion);
+    const percentages = buildSurveyPercentages(question, stats, isSurveyQuestion);
     announceRevealedStats({ roomId, revealIndex, question, stats, correctIndex, timeExpired });
 
     const rankingFormatted = buildRankingFormatted(rankings);
-    const justification = buildJustificationData(question, flags, correctIndex);
+    const justification = buildJustificationData(question, correctIndex);
     const presenterPayload = buildPresenterPayload({
         correctIndex,
         correctOption: justification.correctOption,
@@ -127,13 +127,12 @@ async function buildRevealPayload({ io, roomId, game, revealIndex, question, sta
         timeExpired,
         correctOrder: justification.correctOrder,
         correctMatches: justification.correctMatches,
-        isSurveyQuestion: flags.isSurveyQuestion
+        isSurveyQuestion
     });
 
     await applyQuestionTypeOverrides({
         presenterPayload,
         question,
-        flags,
         correctIndicesMultiple,
         roomId,
         revealIndex,

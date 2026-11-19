@@ -5,45 +5,31 @@
  * Purpose:
  * - Resolve game/session context from payload.
  * - Derive current question flags used throughout execution.
- * - Validate answer payload with the same services and rules as before.
+ * - Validate the answer payload with the handler of the question type
+ *   (application/question-types/AnswerHandlerRegistry).
  */
 
 const { isLastQuestion } = require('../../../sockets/utils/GameEndManager');
-const AnswerStateService = require('../../../domain/services/AnswerStateService');
-const OrderAnswerStateService = require('../../../domain/services/OrderAnswerStateService');
-const MatchingAnswerStateService = require('../../../domain/services/MatchingAnswerStateService');
-const MultipleChoiceAnswerStateService = require('../../../domain/services/MultipleChoiceAnswerStateService');
-const { validateSurveyMultipleAnswer } = require('../../../domain/services/SurveyMultipleAnswerService');
 const { getRedisClient } = require('../../../config/redis');
-const { isValidFoundPayload } = require('../../validators/WordSearchQuestionValidator');
-const { isValidWordsPayload } = require('../../validators/FillBlanksQuestionValidator');
+const { getAnswerHandler } = require('../../question-types/AnswerHandlerRegistry');
 
 const LATE_ANSWER_GRACE_MS = 800;
 
 /**
- * El plazo extra de ordenar/emparejar (buildQuestionContext) se mide desde el inicio
- * de la pregunta y no descuenta las pausas: tras pausar, el envío automático al
+ * El plazo extra de los tipos con lateAnswer (buildQuestionContext) se mide desde el
+ * inicio de la pregunta y no descuenta las pausas: tras pausar, el envío automático al
  * agotarse el tiempo se rechazaba como game-closed. El estado compartido del
  * temporizador (timer:state en Redis, que pausa y reanudación actualizan desde
  * cualquier worker) marca el fin real: startTime + remainingTime.
  *
  * @param {Object} flags - Resultado de buildQuestionContext.
  * @param {string} sPin - Sala.
- * @returns {Promise<Object>} flags con el plazo ampliado si la pregunta sigue en tiempo.
+ * @param {number} [now] - Instante actual en ms.
+ * @returns {Promise<Object>} flags con allowLateAnswer si la pregunta sigue en tiempo.
  */
 async function applyTimerStateToLateWindow(flags, sPin, now = Date.now()) {
-    const lateAnswerType =
-        flags.isOrderQuestion || flags.isMatchingQuestion || flags.isWordSearchQuestion || flags.isFillBlanksQuestion;
-    if (
-        !lateAnswerType ||
-        flags.canAnswerOrEnded ||
-        flags.allowOrderAfterClose ||
-        flags.allowMatchingAfterClose ||
-        flags.allowWordSearchAfterClose ||
-        flags.allowFillBlanksAfterClose
-    ) {
-        return flags;
-    }
+    const { lateAnswer } = getAnswerHandler(flags.currentQuestion?.question_type);
+    if (!lateAnswer || flags.canAnswerOrEnded || flags.allowLateAnswer) return flags;
 
     let state;
     try {
@@ -56,15 +42,7 @@ async function applyTimerStateToLateWindow(flags, sPin, now = Date.now()) {
 
     const deadline = Number(state.startTime) + Number(state.remainingTime) * 1000;
     const withinTime = state.isPaused === '1' || now <= deadline + LATE_ANSWER_GRACE_MS;
-    if (!withinTime) return flags;
-
-    return {
-        ...flags,
-        allowOrderAfterClose: flags.isOrderQuestion,
-        allowMatchingAfterClose: flags.isMatchingQuestion,
-        allowWordSearchAfterClose: flags.isWordSearchQuestion,
-        allowFillBlanksAfterClose: flags.isFillBlanksQuestion
-    };
+    return withinTime ? { ...flags, allowLateAnswer: true } : flags;
 }
 
 /**
@@ -90,144 +68,35 @@ function resolveGameContext(payload, activeGames) {
  */
 function buildQuestionContext(game) {
     const currentQuestion = game.questions?.[game.currentIndex];
+    const questionType = currentQuestion?.question_type;
     const lastQuestion = !!(game && isLastQuestion(game));
-
-    const isOrderQuestion = currentQuestion?.question_type === 'order';
-    const isMatchingQuestion = currentQuestion?.question_type === 'matching';
-    const isNumericQuestion = currentQuestion?.question_type === 'numeric_approximation';
-    const isWordScrambleQuestion = currentQuestion?.question_type === 'word_scramble';
-    const isMultipleChoiceQuestion = currentQuestion?.question_type === 'multiple_choice';
-    const isWordSearchQuestion = currentQuestion?.question_type === 'word_search';
-    const isFillBlanksQuestion = currentQuestion?.question_type === 'fill_blanks';
-    const isSurveyMultipleQuestion = currentQuestion?.question_type === 'survey_multiple';
-
     const questionTimeLimit = currentQuestion?.time_limit || 30;
     const elapsedMs = Date.now() - (game.questionStartTime || Date.now());
-    const graceMs = LATE_ANSWER_GRACE_MS;
 
     return {
         currentQuestion,
         lastQuestion,
-        isOrderQuestion,
-        isMatchingQuestion,
-        isNumericQuestion,
-        isWordScrambleQuestion,
-        isMultipleChoiceQuestion,
-        isWordSearchQuestion,
-        isFillBlanksQuestion,
-        isSurveyMultipleQuestion,
+        // Cada paso del flujo pregunta al manejador del tipo (AnswerHandlerRegistry)
+        questionType,
         questionTimeLimit,
         canAnswerOrEnded: game?.canAnswer || game?.ended || lastQuestion,
-        allowOrderAfterClose: isOrderQuestion && elapsedMs <= questionTimeLimit * 1000 + graceMs,
-        allowMatchingAfterClose: isMatchingQuestion && elapsedMs <= questionTimeLimit * 1000 + graceMs,
-        allowWordSearchAfterClose: isWordSearchQuestion && elapsedMs <= questionTimeLimit * 1000 + graceMs,
-        // Completa la frase en equipos: el envío automático al agotarse el tiempo llega justo después del cierre
-        allowFillBlanksAfterClose: isFillBlanksQuestion && elapsedMs <= questionTimeLimit * 1000 + graceMs
+        // Envío automático al agotarse el tiempo: llega justo después del cierre
+        allowLateAnswer:
+            getAnswerHandler(questionType).lateAnswer && elapsedMs <= questionTimeLimit * 1000 + LATE_ANSWER_GRACE_MS
     };
 }
 
 /**
- * Validate the current answer according to question type.
- *
- * @param {Object} ctx - Validation context.
- * @param {Object} ctx.payload - Command payload.
- * @param {Object} ctx.question - Current question.
- * @param {Object} ctx.flags - Question metadata flags.
- * @returns {{valid: boolean, reason: string|null}}
- */
-// Tipos de respuesta libre (sin servicio de estado propio): cuándo es válido el payload
-// y, si lo hay, el flag del plazo extra tras el cierre (envío automático).
-const FREE_INPUT_CHECKS = [
-    { flag: 'isNumericQuestion', isValid: p => Number.isFinite(Number(p.playerAnswer)) },
-    {
-        flag: 'isWordScrambleQuestion',
-        isValid: p => typeof p.playerAnswer === 'string' && p.playerAnswer.trim().length > 0
-    },
-    { flag: 'isWordSearchQuestion', lateFlag: 'allowWordSearchAfterClose', isValid: p => isValidFoundPayload(p.found) },
-    { flag: 'isFillBlanksQuestion', lateFlag: 'allowFillBlanksAfterClose', isValid: p => isValidWordsPayload(p.words) }
-];
-
-/**
- * Numérica, anagrama y sopa de letras. Devuelve null si la pregunta es de otro tipo.
- * @returns {{valid: boolean, reason: string|null}|null}
- */
-function validateFreeInputAnswer(payload, flags) {
-    const check = FREE_INPUT_CHECKS.find(c => flags[c.flag]);
-    if (!check) return null;
-    const isOpen = flags.canAnswerOrEnded || flags.lastQuestion || Boolean(check.lateFlag && flags[check.lateFlag]);
-    if (!isOpen) return { valid: false, reason: 'game-closed' };
-    if (!check.isValid(payload)) return { valid: false, reason: 'invalid-payload' };
-    return { valid: true, reason: null };
-}
-
-// Ordenar y emparejar admiten además respuesta tras el cierre con su propio indicador
-function validateArrangedAnswer({ payload, question, flags }) {
-    const { canAnswerOrEnded, lastQuestion, allowOrderAfterClose, allowMatchingAfterClose } = flags;
-
-    if (flags.isOrderQuestion) {
-        return OrderAnswerStateService.validateOrderAnswer({
-            question,
-            order: payload.order,
-            gameCanAnswer: canAnswerOrEnded,
-            allowWhenClosed: lastQuestion || allowOrderAfterClose
-        });
-    }
-
-    if (flags.isMatchingQuestion) {
-        return MatchingAnswerStateService.validateMatchingAnswer({
-            question,
-            matches: payload.matches,
-            gameCanAnswer: canAnswerOrEnded,
-            allowWhenClosed: lastQuestion || allowMatchingAfterClose
-        });
-    }
-
-    return null;
-}
-
-/**
- * Valida la respuesta con el servicio de su tipo de pregunta, teniendo en cuenta si se admiten respuestas con la
- * pregunta cerrada.
+ * Valida la respuesta con el manejador de su tipo de pregunta, teniendo en cuenta si se
+ * admiten respuestas con la pregunta cerrada (última pregunta o plazo extra).
  * @param {Object} input
  * @param {Object} input.payload - Payload de la respuesta
  * @param {Object} input.question - Pregunta actual
- * @param {Object} input.flags - Tipo de pregunta y estado de la partida
+ * @param {Object} input.flags - Estado de la partida (canAnswerOrEnded, lastQuestion, allowLateAnswer)
  * @returns {Object} Resultado del validador: { valid, reason? } y datos normalizados de la respuesta
  */
 function validateAnswerByType({ payload, question, flags }) {
-    const { index, selectedIndices } = payload;
-    const { canAnswerOrEnded, lastQuestion, isMultipleChoiceQuestion, isSurveyMultipleQuestion } = flags;
-
-    const arrangedResult = validateArrangedAnswer({ payload, question, flags });
-    if (arrangedResult) return arrangedResult;
-
-    const freeInputResult = validateFreeInputAnswer(payload, flags);
-    if (freeInputResult) return freeInputResult;
-
-    if (isSurveyMultipleQuestion) {
-        return validateSurveyMultipleAnswer({
-            question,
-            selectedIndices,
-            gameCanAnswer: canAnswerOrEnded,
-            allowWhenClosed: lastQuestion
-        });
-    }
-
-    if (isMultipleChoiceQuestion) {
-        return MultipleChoiceAnswerStateService.validateMultipleChoiceAnswer({
-            question,
-            selectedIndices,
-            gameCanAnswer: canAnswerOrEnded,
-            allowWhenClosed: lastQuestion
-        });
-    }
-
-    return AnswerStateService.validateAnswer({
-        question,
-        answerIndex: index,
-        gameCanAnswer: canAnswerOrEnded,
-        allowWhenClosed: lastQuestion
-    });
+    return getAnswerHandler(question?.question_type).validate({ payload, question, flags });
 }
 
 module.exports = {

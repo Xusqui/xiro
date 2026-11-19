@@ -9,12 +9,13 @@
 
 'use strict';
 
+const QuestionTypes = require('../../public/js/core/question-types');
+
 const SURVEY_MULTIPLE = 'survey_multiple';
-const SURVEY_TYPES = new Set(['survey', SURVEY_MULTIPLE]);
 
 /** ¿Es una encuesta (simple o de selección múltiple)? No tiene correcta ni puntúa. */
 function isSurveyType(type) {
-    return SURVEY_TYPES.has(type);
+    return QuestionTypes.isSurvey(type);
 }
 
 /**

@@ -4,67 +4,43 @@
  */
 
 const logger = require('../../config/logger');
+const QuestionTypes = require('../../public/js/core/question-types');
 
-/**
- * Calcula los indicadores de tipo de pregunta que usan el revelado y sus payloads.
- * @param {Object} question - Pregunta
- * @returns {Object<string, boolean>} isOrderQuestion, isMatchingQuestion, isSurveyQuestion, …
- */
-function getQuestionFlags(question) {
-    return {
-        isOrderQuestion: question.question_type === 'order',
-        isMatchingQuestion: question.question_type === 'matching',
-        isSurveyQuestion: question.question_type === 'survey',
-        isWordScrambleQuestion: question.question_type === 'word_scramble',
-        isMultipleChoiceQuestion: question.question_type === 'multiple_choice',
-        isNumericQuestion: question.question_type === 'numeric_approximation',
-        isWordSearchQuestion: question.question_type === 'word_search',
-        isFillBlanksQuestion: question.question_type === 'fill_blanks',
-        isSurveyMultipleQuestion: question.question_type === 'survey_multiple'
-    };
-}
-
-// Tipos sin una única opción correcta que marcar (no tienen correctIndex)
-const NO_SINGLE_CORRECT_TYPES = new Set([
-    'order',
-    'matching',
-    'survey',
-    'word_scramble',
-    'word_search',
-    'multiple_choice',
-    'fill_blanks',
-    'survey_multiple'
-]);
+// Soluciones con una opción que marcar. La numérica también calcula correctIndex
+// (queda en -1) y aporta su valor aparte.
+const SINGLE_INDEX_SOLUTIONS = new Set(['option', 'value']);
+// Ordenar y emparejar: la solución es una secuencia o unas parejas, no una opción
+const ARRANGED_SOLUTIONS = new Set(['order', 'pairs']);
 
 /**
  * Obtiene la respuesta correcta según el tipo: índice de opción (tipos de una sola correcta), valor (numérico) o
  * índices (selección múltiple).
  * @param {Object} question - Pregunta
- * @param {Object} flags - Resultado de getQuestionFlags
  * @returns {{correctIndex: number|null, correctAnswer: *, correctIndicesMultiple: number[]|null}} correctIndex es -1 si
  *   no hay opción marcada y null en tipos sin una única correcta
  */
-function resolveCorrectAnswerData(question, flags) {
-    const hasSingleCorrectIndex = !NO_SINGLE_CORRECT_TYPES.has(question.question_type);
+function resolveCorrectAnswerData(question) {
+    const solution = QuestionTypes.solutionOf(question.question_type);
+    const hasSingleCorrectIndex = SINGLE_INDEX_SOLUTIONS.has(solution);
 
     const correctIndex = hasSingleCorrectIndex ? (question.options?.findIndex(option => option.isCorrect) ?? -1) : null;
 
     let correctAnswer = null;
-    if (flags.isNumericQuestion) {
+    if (solution === 'value') {
         correctAnswer = question.correct_answer ?? null;
     } else if (hasSingleCorrectIndex) {
         correctAnswer = question.options?.[correctIndex]?.id || null;
     }
 
-    const correctIndicesMultiple = flags.isMultipleChoiceQuestion
+    const correctIndicesMultiple = solution === 'options'
         ? question.options
               ?.map((option, idx) => (option.isCorrect || option.is_correct ? idx : null))
               .filter(idx => idx !== null)
         : null;
 
-    if (!flags.isOrderQuestion && !flags.isMatchingQuestion) {
+    if (!ARRANGED_SOLUTIONS.has(solution)) {
         logger.debug('Respuesta correcta:', {
-            correctIndex: flags.isNumericQuestion ? null : correctIndex,
+            correctIndex: solution === 'value' ? null : correctIndex,
             correctAnswer,
             questionId: question.id
         });
@@ -119,25 +95,25 @@ function buildCorrectMatchesPayload(currentQuestion) {
 /**
  * Reúne la opción correcta, la justificación y, según el tipo, el orden correcto o las parejas correctas.
  * @param {Object} currentQuestion - Pregunta
- * @param {Object} flags - Resultado de getQuestionFlags
  * @param {number|null} correctIndex - Índice de la opción correcta
  * @returns {{correctOption: Object|undefined, justificationText: string|null, correctOrder: Object[]|null,
  *   correctMatches: Object[]|null}}
  */
-function buildJustificationData(currentQuestion, flags, correctIndex) {
-    const correctOption =
-        flags.isOrderQuestion || flags.isMatchingQuestion ? null : currentQuestion.options?.[correctIndex];
+function buildJustificationData(currentQuestion, correctIndex) {
+    const solution = QuestionTypes.solutionOf(currentQuestion.question_type);
+    const isOrder = solution === 'order';
+    const correctOption = ARRANGED_SOLUTIONS.has(solution) ? null : currentQuestion.options?.[correctIndex];
 
-    const orderJustification = flags.isOrderQuestion
+    const orderJustification = isOrder
         ? currentQuestion.justification ||
           currentQuestion.options?.find(option => option?.justification)?.justification ||
           null
         : null;
 
-    const justificationText = flags.isOrderQuestion ? orderJustification : correctOption?.justification || null;
+    const justificationText = isOrder ? orderJustification : correctOption?.justification || null;
 
-    const correctOrder = flags.isOrderQuestion ? buildCorrectOrderPayload(currentQuestion) : null;
-    const correctMatches = flags.isMatchingQuestion ? buildCorrectMatchesPayload(currentQuestion) : null;
+    const correctOrder = isOrder ? buildCorrectOrderPayload(currentQuestion) : null;
+    const correctMatches = solution === 'pairs' ? buildCorrectMatchesPayload(currentQuestion) : null;
 
     return {
         correctOption,
@@ -182,7 +158,6 @@ function buildPresenterPayload(input) {
 }
 
 module.exports = {
-    getQuestionFlags,
     resolveCorrectAnswerData,
     buildSurveyPercentages,
     buildJustificationData,

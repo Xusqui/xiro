@@ -15,10 +15,7 @@ const ScoringService = require('../../../domain/services/ScoringService');
 const StreakTrackingService = require('../../../domain/services/StreakTrackingService');
 const GameStreakApplicator = require('../../../domain/services/GameStreakApplicator');
 const { registerAnswerAndGetProgress } = require('../../../sockets/utils/AtomicAnswerCounter');
-const { getOrderStreakAction } = require('../../../domain/services/OrderAnswerService');
-const { getMatchingStreakAction } = require('../../../domain/services/MatchingAnswerService');
-const { getWordSearchStreakAction } = require('../../../domain/services/WordSearchService');
-const { getNumericStreakAction } = require('../../../domain/services/NumericAnswerService');
+const { getAnswerHandler } = require('../../question-types/AnswerHandlerRegistry');
 
 function runWithRedisClient(action, onError = () => {}) {
     Promise.resolve()
@@ -26,27 +23,6 @@ function runWithRedisClient(action, onError = () => {}) {
         .then(action)
         .catch(onError);
 }
-
-/**
- * Tipos con acierto parcial: la racha sube (true), se mantiene (null) o se rompe (false)
- * según la proporción acertada; en aproximación numérica, exacta sube, aproximada con
- * puntos mantiene y sin puntos rompe.
- */
-const PARTIAL_CREDIT_STREAK_RULES = [
-    {
-        flag: 'isOrderQuestion',
-        action: ({ details }) => getOrderStreakAction(details.correctCount, details.totalOptions)
-    },
-    {
-        flag: 'isMatchingQuestion',
-        action: ({ details }) => getMatchingStreakAction(details.correctCount, details.totalPairs)
-    },
-    {
-        flag: 'isWordSearchQuestion',
-        action: ({ details }) => getWordSearchStreakAction(details.foundCount, details.totalWords)
-    },
-    { flag: 'isNumericQuestion', action: getNumericStreakAction }
-];
 
 /**
  * Compute streak effects and final points from base points.
@@ -60,24 +36,25 @@ function computeStreakAndPoints(ctx) {
     const { isCorrect, pointsEarned } = answerResult;
     const prevStreak = game.playerStreaks?.[nickname] || 0;
 
-    const partialStreakRule = PARTIAL_CREDIT_STREAK_RULES.find(({ flag }) => flags[flag]);
-    const isPartialCreditType = Boolean(partialStreakRule);
-    const orderStreakIsCorrect = partialStreakRule ? partialStreakRule.action(answerResult) : undefined;
+    // Tipos con acierto parcial: la racha sube (true), se mantiene (null) o se rompe (false)
+    const { streakAction } = getAnswerHandler(flags.questionType);
+    const partialStreak = streakAction ? streakAction(answerResult) : undefined;
 
-    const isTrackedForStreak = !flags.isMultipleChoiceQuestion && !answerResult.isSurvey;
-    const streakIsCorrect = isPartialCreditType ? orderStreakIsCorrect : isCorrect;
+    // Las encuestas no tocan la racha
+    const isTrackedForStreak = !answerResult.isSurvey;
+    const streakIsCorrect = streakAction ? partialStreak : isCorrect;
 
     const streakInfo = StreakTrackingService.processPlayerStreak({
         game,
         nickname,
         isCorrect: streakIsCorrect,
-        isTracked: isTrackedForStreak || flags.isMultipleChoiceQuestion
+        isTracked: isTrackedForStreak
     });
 
-    const effectiveCorrectForBonus = isPartialCreditType ? orderStreakIsCorrect === true : isCorrect;
+    const effectiveCorrectForBonus = streakAction ? partialStreak === true : isCorrect;
 
     const streakBonus =
-        (isTrackedForStreak || flags.isMultipleChoiceQuestion) && effectiveCorrectForBonus
+        isTrackedForStreak && effectiveCorrectForBonus
             ? GameStreakApplicator.applyStreakBonus(pointsEarned, prevStreak, game, nickname)
             : { bonusPoints: 0, bonusType: null, bonusPercentage: 0 };
 

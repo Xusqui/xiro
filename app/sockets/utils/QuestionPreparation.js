@@ -77,6 +77,41 @@ function prepareFillBlanksLogged(question, context = {}) {
     return prepared;
 }
 
+// Anagrama: letras barajadas y longitud de la palabra normalizada, sin opciones
+function prepareWordScramble(question) {
+    const word = question.correct_word || '';
+    return {
+        ...question,
+        word_length: normalizeWord(word).length,
+        scrambled_letters: generateScrambledLetters(word),
+        options: []
+    };
+}
+
+// Contenido propio del tipo que se genera antes de enviar la pregunta
+const TYPE_CONTENT = Object.freeze({
+    word_scramble: (question) => prepareWordScramble(question),
+    // Sopa de letras: la rejilla se genera una sola vez (viaja a Redis con el gameState)
+    word_search: (question, logContext) => prepareWordSearchLogged(question, logContext),
+    // Completa la frase: solución normalizada (fb_words) y longitud de cada hueco (fb_lengths)
+    fill_blanks: (question, logContext) => prepareFillBlanksLogged(question, logContext)
+});
+
+function hasTypeContent(question) {
+    return Object.prototype.hasOwnProperty.call(TYPE_CONTENT, question?.question_type);
+}
+
+/**
+ * Genera el contenido propio del tipo (anagrama, sopa de letras, completa la frase).
+ * Lo comparten la partida normal y Trivial. Los demás tipos se devuelven tal cual.
+ * @param {Object} question - Pregunta
+ * @param {Object} logContext - Contexto para los logs (gameType, o roomId y mode en Trivial)
+ * @returns {Object} Pregunta nueva con el contenido, o la misma si el tipo no tiene
+ */
+function prepareTypeContent(question, logContext) {
+    return hasTypeContent(question) ? TYPE_CONTENT[question.question_type](question, logContext) : question;
+}
+
 // Diapositivas y encuestas conservan el orden de sus opciones (no se barajan)
 const KEEP_ORDER_SLIDES = new Set(['comment', 'info', 'text', 'image']);
 const KEEP_ORDER_TYPES = new Set(['survey', 'survey_multiple']);
@@ -121,26 +156,9 @@ function prepareQuestion(q, gameType) {
         };
     }
 
-    // Preparar preguntas de anagrama: generar letras barajadas
-    if (q.question_type === 'word_scramble') {
-        const word = q.correct_word || '';
-        const normalized = normalizeWord(word);
-        return {
-            ...q,
-            word_length: normalized.length,
-            scrambled_letters: generateScrambledLetters(word),
-            options: []
-        };
-    }
-
-    // Sopa de letras: generar la rejilla una sola vez (viaja a Redis con el gameState)
-    if (q.question_type === 'word_search') {
-        return prepareWordSearchLogged(q, { gameType });
-    }
-
-    // Completa la frase: solución normalizada (fb_words) y longitud de cada hueco (fb_lengths)
-    if (q.question_type === 'fill_blanks') {
-        return prepareFillBlanksLogged(q, { gameType });
+    // Anagrama, sopa de letras y completa la frase: su contenido sustituye a las opciones
+    if (hasTypeContent(q)) {
+        return prepareTypeContent(q, { gameType });
     }
 
     // Barajar opciones para preguntas normales
@@ -175,6 +193,7 @@ function prepareQuestions(questions, gameType) {
 }
 
 module.exports = {
+    prepareTypeContent,
     prepareQuestions,
     prepareWordSearchLogged,
     prepareFillBlanksLogged

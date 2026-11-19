@@ -20,13 +20,12 @@
 'use strict';
 
 const { RANDOM_POINTS_ELIGIBLE_TYPES } = require('../../config/game-constants');
+const QuestionTypes = require('../../public/js/core/question-types');
 
 // Diapositivas sin temporizador ni puntuación. Los valores coinciden con el
 // CHECK de slide_type en BD (migrations/20260321000001_add_text_image_slide_type.sql)
 // y con las listas equivalentes del frontend.
 const NO_TIMER_SLIDE_TYPES = new Set(['comment', 'info', 'text', 'image', 'text-image', 'video', 'canvas', 'howto']);
-
-const ELIGIBLE_TYPES = new Set(RANDOM_POINTS_ELIGIBLE_TYPES);
 
 /**
  * ¿La pregunta asigna puntos?
@@ -37,8 +36,7 @@ const ELIGIBLE_TYPES = new Set(RANDOM_POINTS_ELIGIBLE_TYPES);
 function isScorable(question) {
     if (!question) return false;
     if (NO_TIMER_SLIDE_TYPES.has(question.slide_type)) return false;
-    if (question.question_type === 'survey' || question.question_type === 'survey_multiple') return false;
-    return true;
+    return QuestionTypes.isScored(question.question_type);
 }
 
 /**
@@ -66,7 +64,7 @@ function hasTimer(question) {
 function usesRandomPoints(question, game) {
     if (!game || !game.use_random_points) return false;
     if (!isScorable(question)) return false;
-    return ELIGIBLE_TYPES.has(question.question_type);
+    return QuestionTypes.allowsRandomPoints(question.question_type);
 }
 
 /**

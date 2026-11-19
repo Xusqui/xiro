@@ -13,22 +13,9 @@ const { emitAnswerSubmitted, updateScoreAndEmitPlayerScored } = require('./event
 const { persistPlayerAnswerSnapshot } = require('./playerAnswerArchive');
 const { processAnswerByGameMode } = require('./strategyExecution');
 const { syncPostAnswerState } = require('./postAnswerSync');
-const { recordWordSearchStats } = require('../../../sockets/utils/WordSearchRevealStats');
-const { getWordSearchScoringContext } = require('../../../sockets/utils/WordSearchTeam');
-const { recordFillBlanksStats } = require('../../../sockets/utils/FillBlanksRevealStats');
-const { getFillBlanksScoringContext, emitToTeammates } = require('../../../sockets/utils/FillBlanksTeam');
-const { recordSurveyMultipleStats } = require('../../../sockets/utils/SurveyMultipleRevealStats');
-const { questionSlot } = require('../../../sockets/utils/QuestionSlot');
+const { notifyTeamFirstSubmit, loadWordScoringContexts, recordQuestionTypeStats } = require('./questionTypeEffects');
 
 /** Completa la frase en equipos: el primer ENVIAR vale para todos; los compañeros envían lo mismo. */
-function notifyTeamFirstSubmit({ io, sPin, nickname, shared, words }) {
-    if (!shared?.teamToNotify || !io) return;
-    emitToTeammates({ io, roomId: sPin, team: shared.teamToNotify, nickname }, 'fill-blanks-team-submitted', {
-        by: nickname,
-        words: Array.isArray(words) ? words : []
-    });
-}
-
 /**
  * Respuesta de fallo por payload inválido.
  * @param {{errors: string[]}} validation - Resultado de la validación
@@ -116,48 +103,6 @@ function buildAnswerValidationFailure(answerValidation, sPin, game) {
     }
 
     return { success: false, reason: answerValidation.reason };
-}
-
-async function loadWordScoringContexts({ flags, game, sPin, nickname, payload, resolvedStartTime }) {
-    const currentQuestion = flags.currentQuestion;
-
-    // Sopa de letras: pistas (valen la mitad) y, en equipos, palabras del equipo
-    const wordSearchShared = flags.isWordSearchQuestion
-        ? await getWordSearchScoringContext(sPin, questionSlot(game), nickname, game)
-        : {};
-
-    // Completa la frase: pistas, huecos del equipo y el tiempo del primer envío del equipo
-    const fillBlanksShared = flags.isFillBlanksQuestion
-        ? await getFillBlanksScoringContext({
-            sPin,
-            questionIndex: questionSlot(game),
-            nickname,
-            game,
-            totalBlanks: (currentQuestion.fb_words || currentQuestion.options || []).length,
-            elapsed: resolvedStartTime ? (Date.now() - Number(resolvedStartTime)) / 1000 : undefined,
-            words: payload.words
-        })
-        : {};
-
-    return { wordSearchShared, fillBlanksShared };
-}
-
-async function recordQuestionTypeStats({ flags, game, sPin, io, nickname, payload, answerResult, fillBlanksShared }) {
-    // Sopa de letras: cuántos encontraron cada palabra (se muestra al revelar)
-    if (flags.isWordSearchQuestion) {
-        await recordWordSearchStats(sPin, questionSlot(game), answerResult.details);
-    }
-
-    // Completa la frase: cuántos acertaron cada hueco (se muestra al revelar) y aviso al equipo
-    if (flags.isFillBlanksQuestion) {
-        await recordFillBlanksStats(sPin, questionSlot(game), answerResult.details);
-        notifyTeamFirstSubmit({ io, sPin, nickname, shared: fillBlanksShared, words: payload.words });
-    }
-
-    // Encuesta de selección múltiple: encuestados y votos por opción (porcentajes al revelar)
-    if (flags.isSurveyMultipleQuestion) {
-        await recordSurveyMultipleStats(sPin, questionSlot(game), answerResult.selectedIndices);
-    }
 }
 
 async function evaluateAnswerAndStreak(ctx) {

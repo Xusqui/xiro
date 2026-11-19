@@ -4,20 +4,13 @@
  *
  * Purpose:
  * - Resolve canonical question start time from Redis when local epoch is stale.
- * - Dispatch answer scoring to the service matching the question type.
+ * - Dispatch answer scoring to the handler of the question type (AnswerHandlerRegistry).
  * - Build rich multiple-choice details for downstream consumers.
  */
 
 const { getRedisClient } = require('../../../config/redis');
 const logger = require('../../../config/logger');
-const OrderAnswerService = require('../../../domain/services/OrderAnswerService');
-const MatchingAnswerService = require('../../../domain/services/MatchingAnswerService');
-const MultipleChoiceAnswerService = require('../../../domain/services/MultipleChoiceAnswerService');
-const ScoringService = require('../../../domain/services/ScoringService');
-const { processWordScrambleAnswer } = require('../../../domain/services/WordScrambleService');
-const { processWordSearchAnswer } = require('../../../domain/services/WordSearchService');
-const { processFillBlanksAnswer } = require('../../../domain/services/FillBlanksService');
-const { processSurveyMultipleAnswer } = require('../../../domain/services/SurveyMultipleAnswerService');
+const { getAnswerHandler } = require('../../question-types/AnswerHandlerRegistry');
 
 /**
  * Resolve canonical question start time across cluster workers.
@@ -69,97 +62,14 @@ async function resolveCanonicalQuestionStartTime(ctx) {
     return resolvedStartTime;
 }
 
-// Anagrama, sopa de letras y completar la frase: null si la pregunta es de otro tipo
-function evaluateWordAnswer(ctx) {
-    const { flags, payload, currentQuestion, resolvedStartTime, questionTimeLimit, basePoints } = ctx;
-
-    if (flags.isWordScrambleQuestion) {
-        return processWordScrambleAnswer({
-            correctWord: currentQuestion.correct_word || '',
-            playerAnswer: String(payload.playerAnswer),
-            gameStartTime: resolvedStartTime,
-            currentTime: Date.now(),
-            questionTimeLimit,
-            basePoints
-        });
-    }
-
-    if (flags.isWordSearchQuestion) {
-        return processWordSearchAnswer({
-            question: currentQuestion,
-            found: payload.found,
-            hintedWords: ctx.hintedWords,
-            sharedFound: ctx.sharedFound,
-            timeElapsed: resolvedStartTime ? (Date.now() - Number(resolvedStartTime)) / 1000 : undefined,
-            questionTimeLimit
-        });
-    }
-
-    if (flags.isFillBlanksQuestion) {
-        // En equipos manda el tiempo del primer envío del equipo (mismo bonus para todos)
-        const elapsed = resolvedStartTime ? (Date.now() - Number(resolvedStartTime)) / 1000 : undefined;
-        return processFillBlanksAnswer({
-            question: currentQuestion,
-            words: payload.words,
-            hintCounts: ctx.hintCounts,
-            sharedSolved: ctx.sharedSolved,
-            timeElapsed: ctx.timeElapsedOverride ?? elapsed,
-            questionTimeLimit,
-            basePoints
-        });
-    }
-
-    return null;
-}
-
 /**
- * Evaluate an answer with the appropriate domain service.
+ * Evaluate an answer with the handler of the question type.
  *
- * @param {Object} ctx - Evaluation context.
+ * @param {Object} ctx - Evaluation context (payload, currentQuestion, timing, shared team state).
  * @returns {Object} Service result with correctness and points.
  */
 function evaluateAnswer(ctx) {
-    const { flags, payload, currentQuestion, resolvedStartTime, game, basePoints } = ctx;
-
-    if (flags.isOrderQuestion) {
-        return OrderAnswerService.processOrderAnswer({
-            question: currentQuestion,
-            order: payload.order
-        });
-    }
-
-    if (flags.isMatchingQuestion) {
-        return MatchingAnswerService.processMatchingAnswer({
-            question: currentQuestion,
-            matches: payload.matches
-        });
-    }
-
-    const wordResult = evaluateWordAnswer(ctx);
-    if (wordResult) return wordResult;
-
-    if (flags.isSurveyMultipleQuestion) {
-        return processSurveyMultipleAnswer({ selectedIndices: payload.selectedIndices });
-    }
-
-    if (flags.isMultipleChoiceQuestion) {
-        return MultipleChoiceAnswerService.processMultipleChoiceAnswer({
-            question: currentQuestion,
-            selectedIndices: payload.selectedIndices,
-            gameStartTime: resolvedStartTime,
-            currentTime: Date.now()
-        });
-    }
-
-    return ScoringService.processAnswer({
-        question: currentQuestion,
-        answerIndex: payload.index,
-        playerAnswer: flags.isNumericQuestion ? Number(payload.playerAnswer) : undefined,
-        gameStartTime: resolvedStartTime,
-        currentTime: Date.now(),
-        game: game || {},
-        basePoints
-    });
+    return getAnswerHandler(ctx.currentQuestion?.question_type).evaluate(ctx);
 }
 
 /**
@@ -171,7 +81,7 @@ function evaluateAnswer(ctx) {
 function buildMultipleChoiceDetails(ctx) {
     const { flags, answerResult, currentQuestion } = ctx;
 
-    if (!flags.isMultipleChoiceQuestion) {
+    if (flags.questionType !== 'multiple_choice') {
         return null;
     }
 

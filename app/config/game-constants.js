@@ -6,6 +6,8 @@
  * Fecha: 31 de enero de 2026
  */
 
+const QuestionTypes = require('../public/js/core/question-types');
+
 module.exports = {
     // Rachas en Redis: el mismo plazo que la sesión de reconexión (6 h)
     STREAK_TTL_SECONDS: 6 * 60 * 60,
@@ -174,19 +176,7 @@ module.exports = {
         RANKING_UPDATE_THROTTLE: 500
     },
 
-    // ===== TIPOS DE PREGUNTA =====
-    QUESTION_TYPES: {
-        MULTIPLE: 'multiple',
-        QUIZ: 'quiz',
-        SURVEY: 'survey',
-        TRUE_FALSE: 'true_false',
-        ORDER: 'order',
-        SCRAMBLE: 'word_scramble',
-        MATCHING: 'matching',
-        WORD_SEARCH: 'word_search',
-        FILL_BLANKS: 'fill_blanks',
-        SURVEY_MULTIPLE: 'survey_multiple'
-    },
+    // Los tipos de pregunta y sus reglas viven en public/js/core/question-types.js
 
     // ===== SOPA DE LETRAS (word_search) =====
     WORD_SEARCH: {
@@ -198,10 +188,10 @@ module.exports = {
     },
 
     // ===== TIPOS DE PREGUNTA ELEGIBLES PARA PUNTUACIÓN ALEATORIA =====
-    // Solo los tipos cuya puntuación es "acierto/fallo + bonus de tiempo". En
-    // fill_blanks el valor sorteado es por palabra acertada (FillBlanksService).
-    // Quedan fuera: survey y survey_multiple (no puntúan), order y matching (puntos por posición/par),
-    // numeric_approximation (puntos por cercanía), multiple_choice (puntos por
-    // opción con penalización, configurados en la propia pregunta) y word_search.
-    RANDOM_POINTS_ELIGIBLE_TYPES: ['quiz', 'word_scramble', 'fill_blanks']
+    // Solo los tipos cuya puntuación es "acierto/fallo + bonus de tiempo" (campo
+    // randomPoints del catálogo). En fill_blanks el valor sorteado es por palabra
+    // acertada (FillBlanksService). Quedan fuera: las encuestas (no puntúan), order y
+    // matching (puntos por posición/par), numeric_approximation (por cercanía),
+    // multiple_choice (por opción con penalización) y word_search.
+    RANDOM_POINTS_ELIGIBLE_TYPES: QuestionTypes.ids().filter(QuestionTypes.allowsRandomPoints)
 };

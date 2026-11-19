@@ -14,6 +14,7 @@ const AnswerProcessingService = require('../../../domain/services/AnswerProcessi
 const ScoringService = require('../../../domain/services/ScoringService');
 const { getRedisClient } = require('../../../config/redis');
 const logger = require('../../../config/logger');
+const { getAnswerHandler } = require('../../question-types/AnswerHandlerRegistry');
 
 /**
  * Emit answer-submitted domain event.
@@ -31,14 +32,8 @@ function emitAnswerSubmitted(ctx) {
             playerId,
             nickname,
             questionIndex: game.currentIndex,
-            answerIndex:
-                flags.isOrderQuestion ||
-                flags.isNumericQuestion ||
-                flags.isWordScrambleQuestion ||
-                flags.isMultipleChoiceQuestion ||
-                flags.isSurveyMultipleQuestion
-                    ? null
-                    : payload.index,
+            // Solo quiz y encuesta responden con una opción
+            answerIndex: getAnswerHandler(flags.questionType).answerShape === 'option' ? payload.index : null,
             isCorrect: answerResult.isSurvey ? null : isCorrect,
             timeElapsed: Date.now() - game.questionStartTime
         })

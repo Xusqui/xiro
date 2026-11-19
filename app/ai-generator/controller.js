@@ -8,29 +8,12 @@
 const { callLLM, getProviderPlan } = require('./ai-client');
 const { parseLLMResponse } = require('./response-parser');
 const { buildQuestionsForType, buildBankPayload } = require('./schema-builder');
-const prompts = require('./prompt-builder');
-const { buildFillBlanksPrompt } = require('./prompt-fill-blanks');
-const { buildWordSearchPrompt } = require('./prompt-word-search');
-const { buildMatchingPrompt } = require('./prompt-matching');
-const { buildSurveyMultiplePrompt } = require('./prompt-survey-multiple');
+const { promptTypes, getPromptBuilder } = require('./prompt-builders');
 const { buildChunkPlan } = require('./batch-chunks');
 const { filterNewQuestions, correctAnswerText } = require('./question-dedup');
 const logger = require('../config/logger');
 
-const PROMPT_BUILDERS = {
-    quiz: prompts.buildQuizPrompt,
-    survey: prompts.buildSurveyPrompt,
-    numeric_approximation: prompts.buildNumericPrompt,
-    order: prompts.buildOrderPrompt,
-    word_scramble: prompts.buildWordScramblePrompt,
-    multiple_choice: prompts.buildMultipleChoicePrompt,
-    fill_blanks: buildFillBlanksPrompt,
-    word_search: buildWordSearchPrompt,
-    matching: buildMatchingPrompt,
-    survey_multiple: buildSurveyMultiplePrompt
-};
-
-const QUESTION_TYPES = Object.keys(PROMPT_BUILDERS);
+const QUESTION_TYPES = promptTypes();
 const MAX_RETRIES = 2;
 const BATCH_SIZE = 3;
 const DEDUP_EXTRA_CANDIDATES = 2;
@@ -63,7 +46,7 @@ function getRateLimitWaitTime(message) {
 
 async function buildBatchPromptPayload(input) {
     const { type, text, batchCount, dificultad, questions, mode, language, provider } = input;
-    const buildPrompt = PROMPT_BUILDERS[type];
+    const buildPrompt = getPromptBuilder(type);
     // Si la IA ya ha repetido, se piden candidatas de más que reponen las que se descarten
     const promptCount = batchCount + (questions.discarded > 0 ? DEDUP_EXTRA_CANDIDATES : 0);
     const prompt = buildPrompt(text, promptCount, dificultad, {

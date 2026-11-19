@@ -9,6 +9,7 @@ const { teamScoreParams } = require('../services/TeamScoreParams');
 const runtimeConfig = require('../../config/runtime-config');
 const { getJustification, getCorrectAnswerText } = require('../services/ScoringService');
 const logger = require('../../config/logger');
+const { playerResultDetails } = require('../services/PlayerResultDetails');
 
 /**
  * Estrategia para modo de juego por equipos
@@ -16,17 +17,6 @@ const logger = require('../../config/logger');
  * - Ranking por equipos (suma de puntos)
  * - Notificaciones de espera a equipos
  */
-/** Detalle propio del tipo de pregunta en el resultado de respaldo (solo los tipos que lo tienen). */
-function fallbackTypedDetails(question, answer) {
-    const type = question.question_type;
-    return {
-        matchingDetails: type === 'matching' ? answer.matchingDetails || null : null,
-        ...(type === 'word_search' ? { wordSearchDetails: answer.wordSearchDetails || null } : {}),
-        ...(type === 'fill_blanks' ? { fillBlanksDetails: answer.fillBlanksDetails || null } : {}),
-        ...(type === 'survey_multiple' ? { surveyMultipleDetails: answer.surveyMultipleDetails || null } : {})
-    };
-}
-
 /**
  * Estrategia del modo equipos: revelación coordinada, ranking por equipos y espera a que respondan todos (ver
  * @fileoverview).
@@ -242,8 +232,7 @@ class TeamGameMode extends GameModeStrategy {
             totalScore: roundScore(game.scores[nickname] || 0),
             ranking,
             justification: justificationText,
-            orderDetails: isOrderQuestion ? answer.orderDetails : null,
-            ...fallbackTypedDetails(question, answer)
+            ...playerResultDetails(question, answer)
         };
     }
 

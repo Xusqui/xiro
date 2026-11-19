@@ -13,6 +13,30 @@ globalThis.StandaloneQuestionRouter = (() => {
         return SLIDE_TYPES.has(question?.slide_type);
     }
 
+    // Pantalla de cada tipo de pregunta (core/question-types.js; el contrato
+    // __tests__/question-types.contract.test.js exige una para cada tipo). Los renderizadores
+    // se leen al llamar: son globales de otros <script> que pueden cargarse después.
+    const QUESTION_RENDERERS = Object.freeze({
+        quiz: (c, q, a) => StandaloneQuestionChoice.render(c, q, a),
+        survey: (c, q, a) => StandaloneQuestionChoice.render(c, q, a),
+        order: (c, q, a) => StandaloneQuestionOrder.render(c, q, a),
+        matching: (c, q, a) => StandaloneQuestionMatching.render(c, q, a),
+        numeric_approximation: (c, q, a) => StandaloneQuestionInput.renderNumeric(c, q, a),
+        word_scramble: (c, q, a) => StandaloneQuestionInput.renderWordScramble(c, q, a),
+        multiple_choice: (c, q, a) => StandaloneQuestionMultipleChoice.render(c, q, a),
+        survey_multiple: (c, q, a) => StandaloneQuestionMultipleChoice.renderSurvey(c, q, a),
+        word_search: (c, q, a) => StandaloneQuestionWordSearch.render(c, q, a),
+        fill_blanks: (c, q, a) => StandaloneQuestionFillBlanks.render(c, q, a)
+    });
+
+    /**
+     * @param {string} questionType
+     * @returns {boolean} Si el tipo tiene pantalla propia
+     */
+    function hasQuestionRenderer(questionType) {
+        return typeof questionType === 'string' && Object.prototype.hasOwnProperty.call(QUESTION_RENDERERS, questionType);
+    }
+
     /**
      * @param {HTMLElement} container
      * @param {Object} question - pregunta saneada recibida del servidor
@@ -23,37 +47,12 @@ globalThis.StandaloneQuestionRouter = (() => {
             StandaloneQuestionSlides.render(container, question, actions);
             return;
         }
-
-        switch (question.question_type) {
-            case 'order':
-                StandaloneQuestionOrder.render(container, question, actions);
-                break;
-            case 'matching':
-                StandaloneQuestionMatching.render(container, question, actions);
-                break;
-            case 'numeric_approximation':
-                StandaloneQuestionInput.renderNumeric(container, question, actions);
-                break;
-            case 'word_scramble':
-                StandaloneQuestionInput.renderWordScramble(container, question, actions);
-                break;
-            case 'multiple_choice':
-                StandaloneQuestionMultipleChoice.render(container, question, actions);
-                break;
-            case 'survey_multiple':
-                StandaloneQuestionMultipleChoice.renderSurvey(container, question, actions);
-                break;
-            case 'word_search':
-                StandaloneQuestionWordSearch.render(container, question, actions);
-                break;
-            case 'fill_blanks':
-                StandaloneQuestionFillBlanks.render(container, question, actions);
-                break;
-            default:
-                // multiple / quiz / survey / true_false comparten UI de opción única
-                StandaloneQuestionChoice.render(container, question, actions);
-        }
+        // Sin tipo o con uno desconocido: la pantalla de opción única, como el quiz
+        const renderQuestion = hasQuestionRenderer(question.question_type)
+            ? QUESTION_RENDERERS[question.question_type]
+            : QUESTION_RENDERERS.quiz;
+        renderQuestion(container, question, actions);
     }
 
-    return { render, isSlide };
+    return { render, isSlide, hasQuestionRenderer };
 })();

@@ -25,6 +25,7 @@
  */
 const { getQuestionWords } = require('../../domain/services/WordSearchService');
 const FB = require('../../public/js/core/fill-blanks-text.js');
+const QuestionTypes = require('../../public/js/core/question-types');
 
 function toOptionsArray(options) {
     return Array.isArray(options) ? options : [];
@@ -160,7 +161,7 @@ function extractCorrectAnswer(question) {
     }
 
     const questionType = getQuestionType(question);
-    if (!questionType || questionType === 'survey' || questionType === 'survey_multiple') {
+    if (!questionType || QuestionTypes.isSurvey(questionType)) {
         return null;
     }
 

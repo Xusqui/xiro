@@ -81,56 +81,66 @@ function applyMultipleChoiceReveal(presenterPayload, question, correctIndicesMul
     presenterPayload.correctAnswer = null;
 }
 
+function applyWordScrambleReveal({ presenterPayload, question }) {
+    presenterPayload.correctWord = question.correct_word || null;
+    clearOptionFields(presenterPayload);
+}
+
+async function applyWordSearchReveal({ presenterPayload, question, roomId, slot }) {
+    presenterPayload.wordSearch = await buildWordSearchReveal(roomId, slot, question);
+    presenterPayload.correctAnswer = (question.ws_words || []).join(', ');
+    clearOptionFields(presenterPayload);
+}
+
+async function applyFillBlanksReveal({ presenterPayload, question, roomId, slot }) {
+    presenterPayload.fillBlanks = await buildFillBlanksReveal(roomId, slot, question);
+    presenterPayload.correctAnswer = presenterPayload.fillBlanks.words.join(', ');
+    clearOptionFields(presenterPayload);
+}
+
+// Sin correcta: porcentaje de encuestados por opción (la suma puede pasar del 100 %)
+async function applySurveyMultipleReveal({ presenterPayload, question, roomId, slot }) {
+    const surveyMultiple = await buildSurveyMultipleReveal(roomId, slot, question);
+    presenterPayload.surveyMultiple = surveyMultiple;
+    presenterPayload.percentages = surveyMultiple.options.map(({ count, percentage }) => ({ count, percentage }));
+    presenterPayload.isSurvey = true;
+    presenterPayload.justification = null;
+    clearOptionFields(presenterPayload);
+    presenterPayload.correctAnswer = null;
+}
+
+// Ajustes del payload del presentador por tipo; quiz, ordenar y emparejar no tienen
+const TYPE_OVERRIDES = Object.freeze({
+    numeric_approximation: ({ presenterPayload, question }) => applyNumericReveal(presenterPayload, question),
+    word_scramble: applyWordScrambleReveal,
+    word_search: applyWordSearchReveal,
+    fill_blanks: applyFillBlanksReveal,
+    survey: ({ presenterPayload, question }) => {
+        presenterPayload.surveySingle = buildSurveySingleReveal(question, presenterPayload.percentages);
+    },
+    survey_multiple: applySurveyMultipleReveal,
+    multiple_choice: ({ presenterPayload, question, correctIndicesMultiple }) =>
+        applyMultipleChoiceReveal(presenterPayload, question, correctIndicesMultiple)
+});
+
 /**
  * Ajusta el payload del presentador según el tipo de pregunta.
- * Async por la sopa de letras y Completa la frase (leen de Redis cuántos acertaron cada palabra/hueco).
+ * Async por la sopa de letras, Completa la frase y la encuesta múltiple (leen recuentos de Redis).
+ * @param {Object} input
+ * @param {Object} input.presenterPayload - Payload que se modifica
+ * @param {Object} input.question - Pregunta revelada
+ * @param {number[]|null} [input.correctIndicesMultiple] - Correctas de la selección múltiple
+ * @param {string} input.roomId - Sala
+ * @param {number} input.revealIndex - Índice revelado (sin partida)
+ * @param {Object} [input.game] - Partida (en Trivial, la clave es la época)
+ * @returns {Promise<void>}
  */
-async function applyQuestionTypeOverrides({
-    presenterPayload,
-    question,
-    flags,
-    correctIndicesMultiple,
-    roomId,
-    revealIndex,
-    game
-}) {
+async function applyQuestionTypeOverrides({ presenterPayload, question, correctIndicesMultiple, roomId, revealIndex, game }) {
+    const type = question?.question_type;
+    if (!Object.prototype.hasOwnProperty.call(TYPE_OVERRIDES, type)) return;
     // Clave de las estadísticas por pregunta: en Trivial, por época (QuestionSlot)
     const slot = game ? questionSlot(game) : revealIndex;
-    if (flags.isNumericQuestion) applyNumericReveal(presenterPayload, question);
-
-    if (flags.isWordScrambleQuestion) {
-        presenterPayload.correctWord = question.correct_word || null;
-        clearOptionFields(presenterPayload);
-    }
-
-    if (flags.isWordSearchQuestion) {
-        presenterPayload.wordSearch = await buildWordSearchReveal(roomId, slot, question);
-        presenterPayload.correctAnswer = (question.ws_words || []).join(', ');
-        clearOptionFields(presenterPayload);
-    }
-
-    if (flags.isFillBlanksQuestion) {
-        presenterPayload.fillBlanks = await buildFillBlanksReveal(roomId, slot, question);
-        presenterPayload.correctAnswer = presenterPayload.fillBlanks.words.join(', ');
-        clearOptionFields(presenterPayload);
-    }
-
-    if (flags.isSurveyQuestion) {
-        presenterPayload.surveySingle = buildSurveySingleReveal(question, presenterPayload.percentages);
-    }
-
-    if (flags.isSurveyMultipleQuestion) {
-        // Sin correcta: porcentaje de encuestados por opción (la suma puede pasar del 100 %)
-        const surveyMultiple = await buildSurveyMultipleReveal(roomId, slot, question);
-        presenterPayload.surveyMultiple = surveyMultiple;
-        presenterPayload.percentages = surveyMultiple.options.map(({ count, percentage }) => ({ count, percentage }));
-        presenterPayload.isSurvey = true;
-        presenterPayload.justification = null;
-        clearOptionFields(presenterPayload);
-        presenterPayload.correctAnswer = null;
-    }
-
-    if (flags.isMultipleChoiceQuestion) applyMultipleChoiceReveal(presenterPayload, question, correctIndicesMultiple);
+    await TYPE_OVERRIDES[type]({ presenterPayload, question, correctIndicesMultiple, roomId, slot });
 }
 
 module.exports = {

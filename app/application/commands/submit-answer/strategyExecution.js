@@ -16,36 +16,34 @@ const {
     revealToLatePlayer
 } = require('../../../sockets/utils/TeamRevealHelper');
 const { checkAllTeamsCompleted, notifyTeamWaiting } = require('../../../sockets/utils/TeamManager');
+const { getAnswerHandler } = require('../../question-types/AnswerHandlerRegistry');
 
-/** Tipos que no responden con un índice de opción (el índice va a null en la estrategia) */
-function hasNoAnswerIndex(flags) {
-    return Boolean(
-        flags.isOrderQuestion ||
-            flags.isMatchingQuestion ||
-            flags.isNumericQuestion ||
-            flags.isMultipleChoiceQuestion ||
-            flags.isSurveyMultipleQuestion ||
-            flags.isWordSearchQuestion ||
-            flags.isFillBlanksQuestion
-    );
+// Detalles que la estrategia recibe siempre (null si el tipo no los produce). La selección
+// múltiple va aparte, como multipleChoiceDetails completo (buildMultipleChoiceDetails).
+const MODE_DETAIL_FIELDS = ['orderDetails', 'matchingDetails', 'wordSearchDetails', 'fillBlanksDetails', 'surveyMultipleDetails'];
+
+function buildModeDetails(detailsField, details) {
+    const modeDetails = {};
+    MODE_DETAIL_FIELDS.forEach(field => {
+        modeDetails[field] = field === detailsField ? details : null;
+    });
+    return modeDetails;
 }
 
 function buildModeAnswer(ctx) {
     const { payload, flags, isCorrect, finalPointsEarned, answerResult } = ctx;
     const { fullMultipleChoiceDetails, enrichedStreakInfo } = ctx;
+    const { answerShape, detailsField } = getAnswerHandler(flags.questionType);
     return {
         isCorrect,
         pointsEarned: finalPointsEarned,
         isSurvey: answerResult.isSurvey,
-        answerIndex: hasNoAnswerIndex(flags) ? null : payload.index,
+        // Solo quiz y encuesta responden con una opción
+        answerIndex: answerShape === 'option' ? payload.index : null,
         order: payload.order,
         matches: payload.matches,
-        orderDetails: flags.isOrderQuestion ? answerResult.details : null,
-        matchingDetails: flags.isMatchingQuestion ? answerResult.details : null,
-        wordSearchDetails: flags.isWordSearchQuestion ? answerResult.details : null,
-        fillBlanksDetails: flags.isFillBlanksQuestion ? answerResult.details : null,
+        ...buildModeDetails(detailsField, answerResult.details),
         multipleChoiceDetails: fullMultipleChoiceDetails,
-        surveyMultipleDetails: flags.isSurveyMultipleQuestion ? answerResult.details : null,
         streakInfo: enrichedStreakInfo
     };
 }
