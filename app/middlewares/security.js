@@ -65,19 +65,19 @@ function getAllowedCorsOrigins() {
 }
 
 const BASE_SCRIPT_SRC = [
-    '\'self\'',
+    "'self'",
     'https://appsforoffice.microsoft.com',
     // Inline <script> blocks (hashes calculados sin whitespace strip)
-    '\'sha256-kFqSCZo0ilAnq5DWM22z6cLoTm9NnVlsj22FttxlMeY=\'', // presentador.html L55: playerId
-    '\'sha256-5BX3O2TUKJjWd+tx8lwWOsz5mcSyRjQHbccKr0d1rc8=\'', // presentador.html L79: loader timer
-    '\'sha256-OfhqrFMR6qqwC7YY1k29dFBtDCJRjDn4uO4X58+3kzw=\'', // presentador.html L182: fireworks sound + ui-settings
+    "'sha256-kFqSCZo0ilAnq5DWM22z6cLoTm9NnVlsj22FttxlMeY='", // presentador.html L55: playerId
+    "'sha256-5BX3O2TUKJjWd+tx8lwWOsz5mcSyRjQHbccKr0d1rc8='", // presentador.html L79: loader timer
+    "'sha256-OfhqrFMR6qqwC7YY1k29dFBtDCJRjDn4uO4X58+3kzw='", // presentador.html L182: fireworks sound + ui-settings
     // index.html: inline script moved to /js/core/index-init.js (served from 'self')
-    '\'sha256-crohukbLplnIHj8edMMOcYjlkk4PvtIugzYuH+gMzSQ=\'', // tv.html: playerId
-    '\'sha256-cxxpClMEX/wv6RWwz6Y1F0amAkNF0A1RcbfTz0sbqg0=\'', // juego-concluido.html / juego-finalizado-presentador.html
-    '\'sha256-GN5mcXaPICRaVYTyha8rvCUnuZOH8P7yITutSD0PRK4=\'', // ppt-redirect.html
-    '\'sha256-ul/v0CisU7Zqw8SY+9SvXyoYEdITat4Z8gaRKnu25ak=\'', // fireworks-preview.html
-    '\'sha256-4WhsZpYte1MBs2sP4x8mrqeWEyP8b8Pa/6WOXLICERk=\'', // xiro-results-viewer.html
-    '\'sha256-Sp6H3NflEMG13noI9ThzPzfS0KqnK2elUR9SvDWFDJU=\'' // about.html: mascota decorativa aleatoria
+    "'sha256-crohukbLplnIHj8edMMOcYjlkk4PvtIugzYuH+gMzSQ='", // tv.html: playerId
+    "'sha256-cxxpClMEX/wv6RWwz6Y1F0amAkNF0A1RcbfTz0sbqg0='", // juego-concluido.html / juego-finalizado-presentador.html
+    "'sha256-GN5mcXaPICRaVYTyha8rvCUnuZOH8P7yITutSD0PRK4='", // ppt-redirect.html
+    "'sha256-ul/v0CisU7Zqw8SY+9SvXyoYEdITat4Z8gaRKnu25ak='", // fireworks-preview.html
+    "'sha256-4WhsZpYte1MBs2sP4x8mrqeWEyP8b8Pa/6WOXLICERk='", // xiro-results-viewer.html
+    "'sha256-Sp6H3NflEMG13noI9ThzPzfS0KqnK2elUR9SvDWFDJU='" // about.html: mascota decorativa aleatoria
 ];
 
 // Orígenes WS permitidos a partir de CORS
@@ -95,32 +95,30 @@ function getAllowedWsOrigins() {
 }
 
 function buildCspDirectives() {
-    const connectSrc = [
-        '\'self\'',
-        'ws://localhost:*',
-        ...getAllowedWsOrigins()
-    ];
+    const connectSrc = ["'self'", 'ws://localhost:*', ...getAllowedWsOrigins()];
 
     return {
-        defaultSrc: ['\'self\''],
-        scriptSrc: [...BASE_SCRIPT_SRC, '\'unsafe-inline\'', '\'unsafe-eval\''],
-        scriptSrcAttr: ['\'none\''],
+        defaultSrc: ["'self'"],
+        // Sin 'unsafe-inline': los <script> inline van por hash (BASE_SCRIPT_SRC) y los
+        // navegadores ignorarían los hashes si estuviera. Lo vigila security.csp-no-unsafe-inline.test.js
+        scriptSrc: [...BASE_SCRIPT_SRC, "'unsafe-eval'"],
+        scriptSrcAttr: ["'none'"],
         // El reloj de Tone.js (música del presentador) corre en un Worker creado
         // desde un Blob; sin esto cae en script-src, se bloquea sin error y el
         // Transport no avanza (silencio total)
-        workerSrc: ['\'self\'', 'blob:'],
+        workerSrc: ["'self'", 'blob:'],
         styleSrc: [
-            '\'self\'',
-            '\'unsafe-inline\'' // Requerido por bloques <style> y atributos style=""
+            "'self'",
+            "'unsafe-inline'" // Requerido por bloques <style> y atributos style=""
         ],
-        fontSrc: ['\'self\''],
+        fontSrc: ["'self'"],
         connectSrc: connectSrc,
-        imgSrc: ['\'self\'', 'data:', 'blob:'],
+        imgSrc: ["'self'", 'data:', 'blob:'],
         // Diapositiva de vídeo: archivos de vídeo de cualquier origen https y reproductores incrustados
-        mediaSrc: ['\'self\'', 'https:', 'blob:'],
-        frameSrc: ['\'self\'', ...VIDEO_EMBED_ORIGINS],
-        objectSrc: ['\'none\''],
-        baseUri: ['\'self\'']
+        mediaSrc: ["'self'", 'https:', 'blob:'],
+        frameSrc: ["'self'", ...VIDEO_EMBED_ORIGINS],
+        objectSrc: ["'none'"],
+        baseUri: ["'self'"]
     };
 }
 

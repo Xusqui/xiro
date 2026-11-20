@@ -93,7 +93,19 @@
             );
         }
         if (field.kind === 'textarea') {
-            return '<textarea class="' + INPUT + '"' + id + ' rows="' + (field.rows || 4) + '" ' + attr + '>' + esc(value) + '</textarea>';
+            return (
+                '<textarea class="' +
+                INPUT +
+                '"' +
+                id +
+                ' rows="' +
+                (field.rows || 4) +
+                '" ' +
+                attr +
+                '>' +
+                esc(value) +
+                '</textarea>'
+            );
         }
         if (field.kind === 'select') {
             return (

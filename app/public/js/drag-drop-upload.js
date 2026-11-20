@@ -256,6 +256,6 @@ if (typeof module !== 'undefined' && module.exports) {
         acceptsFile,
         attachFileDrop,
         setInputFiles,
-        forwardDropToInput,
+        forwardDropToInput
     };
 }

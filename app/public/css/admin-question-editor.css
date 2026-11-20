@@ -24,6 +24,41 @@
 /* minmax(0, 1fr): sin él la columna crece hasta el ancho del texto más largo y la
    tarjeta se sale por la derecha (scroll horizontal con enunciados largos) */
 .xq-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+/* La banda del fondo sobresale del contenedor con scroll (#editorArea): sin esto aparecería
+   una barra de desplazamiento horizontal. */
+#editorArea:has(.xq-editor) { overflow-x: hidden; }
+
+.xq-editor .xq-list {
+    position: relative;
+    isolation: isolate;
+    padding-block: 20px;
+}
+
+/* Banda de borde a borde de la ventana: la selva de la portada al anochecer. Verde profundo a
+   teal con un destello ámbar (el sol de la portada) y, encima, las palmeras reales de la portada
+   colgando muy tenues del borde superior. Oscura para que las tarjetas blancas se despeguen. */
+.xq-editor .xq-list::before,
+.xq-editor .xq-list::after {
+    content: '';
+    position: absolute;
+    inset: 0 -100vmax;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.xq-editor .xq-list::before {
+    background:
+        radial-gradient(60rem 28rem at 85% 100%, rgba(249, 181, 24, 0.16), transparent 70%),
+        linear-gradient(180deg, #17402c 0%, #11352b 50%, #0d2a2e 100%);
+}
+
+/* Se desvanecen hacia abajo: sin corte de la imagen al final de la lista, sea cual sea su altura */
+.xq-editor .xq-list::after {
+    background: url('../images/hojas3.svg') center top / max(1500px, 120vw) auto no-repeat;
+    opacity: 0.32;
+    -webkit-mask-image: linear-gradient(180deg, #000 0, #000 380px, transparent 1100px);
+    mask-image: linear-gradient(180deg, #000 0, #000 380px, transparent 1100px);
+}
 .xq-list > .xq-card { min-width: 0; }
 
 /* El editor de bancos no pasa de ~1150 px: enunciados y opciones con una medida legible.
@@ -34,9 +69,23 @@
 /* Desplegada, la pregunta es una sección propia: marco y sombra, y la cabecera
    teñida del color de su tipo, separada del cuerpo. */
 .xq-card--open {
-    margin-block: 8px;
-    border-color: var(--xq-edge);
-    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.05), 0 18px 40px -22px rgba(15, 23, 42, 0.4);
+    position: relative;
+    margin-block: 8px 40px;
+    border-color: var(--xq-accent);
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08), 0 18px 40px -18px rgba(15, 23, 42, 0.55);
+}
+
+/* Palmera estrecha bajo la pregunta desplegada: marca dónde acaba (hojas de la portada) */
+.xq-card--open::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -46px;
+    width: 340px;
+    height: 39px;
+    transform: translateX(-50%);
+    background: url('../images/xq-palma.svg') center / contain no-repeat;
+    pointer-events: none;
 }
 
 .xq-card--open > .xq-card__head {

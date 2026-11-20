@@ -70,7 +70,12 @@ function clearQuestionErrors() {
     (globalThis.preguntasData || []).forEach(q => _questionErrors.delete(q));
 }
 
-/** Repinta solo la tarjeta qIdx (cambios dentro de una pregunta: opciones, tipo, plegado). */
+/**
+ * Repinta solo la tarjeta qIdx (cambios dentro de una pregunta: opciones, tipo, plegado).
+ * La tarjeta nueva conserva la altura de la anterior hasta que los campos se reajustan: sin
+ * field-sizing (Safari) autoGrowField los encoge antes de crecerlos, el documento se acorta
+ * un instante y el navegador recorta el scroll sin devolverlo.
+ */
 function dibujarPregunta(qIdx) {
     const card = document.getElementById(`q-card-${qIdx}`);
     const q = globalThis.preguntasData?.[qIdx];
@@ -79,12 +84,18 @@ function dibujarPregunta(qIdx) {
         return;
     }
     const activeId = document.activeElement?.id || null;
+    const previousHeight = card.offsetHeight;
     normalizeQuestionDefaults(q);
     const template = document.createElement('template');
     template.innerHTML = questionCardHtml(q, qIdx).trim();
     const fresh = template.content.firstElementChild;
     card.replaceWith(fresh);
+    if (previousHeight) fresh.style.minHeight = `${previousHeight}px`;
     afterQuestionsRender(fresh, activeId);
+    // Después de afterQuestionsRender: su fotograma reajusta los campos y este los suelta
+    requestAnimationFrame(() => {
+        fresh.style.minHeight = '';
+    });
 }
 
 function _restoreQuestionFocus(activeId) {
