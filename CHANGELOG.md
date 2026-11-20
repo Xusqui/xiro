@@ -2,6 +2,11 @@
 
 ## 3.14.x
 
+### 3.14.10 — 2026-11-20 · `v3.14.10`
+- **Bug «Toca la imagen»:** área desplazada y salto de scroll en el editor
+  - El área se guardaba desplazada a la izquierda: la sección del editor es una rejilla y estiraba el recuadro de la imagen más allá de la imagen (en pantallas anchas), y los clics se medían sobre el recuadro. Ahora se miden sobre la imagen y el recuadro no se estira (justify-self: start), así que lo dibujado coincide con lo que se ve en la partida.
+  - Cada vértice repintaba la tarjeta entera; la imagen se recargaba y la página subía arriba del todo. Ahora solo se actualizan el dibujo, el contador y los botones.
+
 ### 3.14.9 — 2026-11-20 · `v3.14.9`
 - Registro central de tipos de pregunta y tests de contrato
   - Catálogo único de tipos (public/js/core/question-types.js): encuesta, puntos aleatorios, Trivial, forma de la respuesta, campo de detalle y solución.
