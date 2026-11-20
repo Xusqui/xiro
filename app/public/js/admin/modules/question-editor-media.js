@@ -24,17 +24,18 @@ function _questionImageHtml(q, qIdx) {
                                 <button type="button" id="q-img-btn-${qIdx}" data-admin-click="abrirSelectorImagenPregunta(${qIdx})" class="xq-btn xq-btn--dashed">
                                     <i class="fas fa-plus-circle" aria-hidden="true"></i> ${_t('admin.q.q_image_add', null, 'Añadir imagen pequeña (opcional)')}
                                 </button>
+                                ${mediaRefFieldHtml(`q-img-ref-${qIdx}`, `usarRutaMedia('q-img-ref-${qIdx}', 'question_image', ${qIdx})`)}
                             </div>`;
     }
     return `
                             <div>${label}
                                 <div class="xq-media-row">
                                     <img src="${escapeHtml(q.question_image_url)}" alt="${_t('admin.q.q_image_alt', null, 'Imagen del enunciado')}" width="64" height="64" class="xq-media-row__thumb">
-                                    <p class="xq-media-row__url">${escapeHtml(q.question_image_url)}</p>
                                     <button type="button" id="q-img-btn-${qIdx}" data-admin-click="eliminarImagenPregunta(${qIdx})" class="xq-btn xq-btn--danger-link">
                                         <i class="fas fa-trash-alt" aria-hidden="true"></i> ${_t('admin.q.q_image_remove', null, 'Quitar imagen')}
                                     </button>
                                 </div>
+                                ${mediaPathHtml(`q-img-path-${qIdx}`, q.question_image_url)}
                             </div>`;
 }
 
@@ -46,7 +47,8 @@ function _questionMediaUploadHtml(qIdx) {
                                         <i class="fas fa-upload" aria-hidden="true"></i> ${_t('admin.q.media_upload', null, 'Subir imagen o audio')}
                                     </button>
                                     <p class="xq-hint">${_t('admin.q.media_limit', null, 'Máx.: 5 MB (imagen) / 10 MB (audio)')}</p>
-                                </div>`;
+                                </div>
+                                ${mediaRefFieldHtml(`media-ref-${qIdx}`, `usarRutaMedia('media-ref-${qIdx}', 'media', ${qIdx})`)}`;
 }
 
 function _questionMediaAttachedHtml(q, qIdx) {
@@ -61,13 +63,14 @@ function _questionMediaAttachedHtml(q, qIdx) {
     return `
                                 <div class="xq-media-row">
                                     <i class="fas ${isImage ? 'fa-image' : 'fa-volume-up'} xq-media-row__icon" aria-hidden="true"></i>
-                                    <div class="xq-media-row__url"><strong>${name}</strong><br>${escapeHtml(q.url_recurso)}</div>
+                                    <div class="xq-media-row__url"><strong>${name}</strong></div>
                                     <button type="button" data-admin-click="eliminarRecurso(${qIdx})" class="xq-iconbtn xq-iconbtn--danger"
                                         aria-label="${_t('admin.q.media_remove', null, 'Quitar el contenido multimedia')}" title="${_t('admin.q.media_remove', null, 'Quitar el contenido multimedia')}">
                                         <i class="fas fa-trash" aria-hidden="true"></i>
                                     </button>
                                 </div>
                                 ${preview}
+                                ${mediaPathHtml(`media-path-${qIdx}`, q.url_recurso)}
                                 <p class="xq-hint">${note}</p>`;
 }
 

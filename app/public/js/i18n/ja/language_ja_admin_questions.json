@@ -242,6 +242,24 @@
     "admin.q.hotspot_help_3": "画像を変更するとエリアは消去されます。",
     "admin.q.err_hotspot_image": "画像がありません",
     "admin.q.err_hotspot_area": "正解エリアを指定してください（頂点 3 個以上）",
-    "admin.q.hotspot_complete_notice": "「画像をタップ」の問題の正解エリアを指定し（画像がなければアップロード）、問題集を保存してください。"
+    "admin.q.hotspot_complete_notice": "「画像をタップ」の問題の正解エリアを指定し（画像がなければアップロード）、問題集を保存してください。",
+    "admin.media_ref.label": "またはパスやURLを使う",
+    "admin.media_ref.placeholder": "/uploads/map.jpg または https://…",
+    "admin.media_ref.use": "使う",
+    "admin.media_ref.option_label": "選択肢{n}の画像のパスまたはURL（最大200 KB）",
+    "admin.media_ref.option_title": "アップロード済みまたは他のサイトの画像",
+    "admin.media_ref.option_button": "パスまたはURLから選択肢{n}の画像を設定",
+    "admin.media_ref.err_invalid": "/uploads/ のパスか http(s) のアドレスを入力してください",
+    "admin.media_ref.err_not_found": "/uploads/ にその名前のファイルはありません",
+    "admin.media_ref.err_type": "ここで使える画像または音声ではありません",
+    "admin.media_ref.err_too_large": "ファイルが{kb} KBを超えています（ここでの上限）",
+    "admin.media_ref.err_blocked": "そのアドレスは公開されていません",
+    "admin.media_ref.err_http": "サイトがファイルを返しませんでした",
+    "admin.media_ref.err_timeout": "サイトの応答が遅すぎます",
+    "admin.media_ref.err_unreachable": "そのサイトに接続できませんでした",
+    "admin.media_ref.path_label": "ほかの問題で再利用するためのパス",
+    "admin.media_ref.copy": "コピー",
+    "admin.media_ref.copied": "コピーしました",
+    "admin.media_ref.copy_failed": "手動でコピーしてください"
   }
 }

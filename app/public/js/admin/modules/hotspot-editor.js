@@ -122,7 +122,8 @@ function _hotspotStageHtml(q, qIdx) {
                                 <i class="fas fa-rotate-left" aria-hidden="true"></i> ${_t('admin.q.hotspot_undo', null, 'Deshacer punto')}</button>
                             <button type="button" id="hs-clear-${qIdx}" class="xq-btn xq-btn--danger-link" data-admin-click="borrarAreaHotspot(${qIdx})"${count ? '' : ' disabled'}>
                                 <i class="fas fa-trash-alt" aria-hidden="true"></i> ${_t('admin.q.hotspot_clear', null, 'Borrar área')}</button>
-                        </div>`;
+                        </div>
+                        ${mediaPathHtml(`hs-path-${qIdx}`, q.url_recurso)}`;
 }
 
 function _hotspotNoImageHtml(qIdx) {
@@ -131,6 +132,7 @@ function _hotspotNoImageHtml(qIdx) {
                             <p class="xq-hint">${_t('admin.q.hotspot_no_image', null, 'Sube la imagen (mapa, esquema, foto…) sobre la que los jugadores tocarán.')}</p>
                             <button type="button" id="upload-btn-${qIdx}" data-admin-click="abrirSelectorArchivo(${qIdx})" class="xq-btn xq-btn--add">
                                 <i class="fas fa-upload" aria-hidden="true"></i> ${_t('admin.q.hotspot_upload', null, 'Subir imagen')}</button>
+                            ${mediaRefFieldHtml(`hs-ref-${qIdx}`, `usarRutaMedia('hs-ref-${qIdx}', 'hotspot', ${qIdx})`)}
                         </div>`;
 }
 

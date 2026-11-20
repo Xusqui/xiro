@@ -242,6 +242,24 @@
     "admin.q.hotspot_help_3": "En canviar la imatge s’esborra l’àrea.",
     "admin.q.err_hotspot_image": "Falta la imatge",
     "admin.q.err_hotspot_area": "Marca l’àrea correcta (almenys 3 vèrtexs)",
-    "admin.q.hotspot_complete_notice": "Marca l’àrea correcta de les preguntes «Toca la imatge» (i puja’n la imatge si falta) i desa el banc."
+    "admin.q.hotspot_complete_notice": "Marca l’àrea correcta de les preguntes «Toca la imatge» (i puja’n la imatge si falta) i desa el banc.",
+    "admin.media_ref.label": "O fes servir una ruta o URL",
+    "admin.media_ref.placeholder": "/uploads/mapa.jpg o https://…",
+    "admin.media_ref.use": "Fes servir",
+    "admin.media_ref.option_label": "Ruta o URL de la imatge de l'opció {n} (màx. 200 KB)",
+    "admin.media_ref.option_title": "Imatge ja pujada o d'un altre web",
+    "admin.media_ref.option_button": "Imatge de l'opció {n} des d'una ruta o URL",
+    "admin.media_ref.err_invalid": "Escriu una ruta de /uploads/ o una adreça http(s)",
+    "admin.media_ref.err_not_found": "No hi ha cap fitxer amb aquest nom a /uploads/",
+    "admin.media_ref.err_type": "El fitxer no és una imatge o un àudio admès aquí",
+    "admin.media_ref.err_too_large": "El fitxer pesa més de {kb} KB, el màxim d'aquest lloc",
+    "admin.media_ref.err_blocked": "Aquesta adreça no és pública",
+    "admin.media_ref.err_http": "El web no ha retornat el fitxer",
+    "admin.media_ref.err_timeout": "El web triga massa a respondre",
+    "admin.media_ref.err_unreachable": "No s'ha pogut connectar amb aquest web",
+    "admin.media_ref.path_label": "Ruta per reutilitzar-lo en altres preguntes",
+    "admin.media_ref.copy": "Copia",
+    "admin.media_ref.copied": "Copiada",
+    "admin.media_ref.copy_failed": "Copia-la a mà"
   }
 }

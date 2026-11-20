@@ -242,6 +242,24 @@
     "admin.q.hotspot_help_3": "Changing the image clears the area.",
     "admin.q.err_hotspot_image": "The image is missing",
     "admin.q.err_hotspot_area": "Mark the correct area (at least 3 vertices)",
-    "admin.q.hotspot_complete_notice": "Mark the correct area of the \"Tap the image\" questions (and upload their image if missing), then save the bank."
+    "admin.q.hotspot_complete_notice": "Mark the correct area of the \"Tap the image\" questions (and upload their image if missing), then save the bank.",
+    "admin.media_ref.label": "Or use a path or URL",
+    "admin.media_ref.placeholder": "/uploads/map.jpg or https://…",
+    "admin.media_ref.use": "Use",
+    "admin.media_ref.option_label": "Path or URL of the image for option {n} (max. 200 KB)",
+    "admin.media_ref.option_title": "Image already uploaded or from another website",
+    "admin.media_ref.option_button": "Image for option {n} from a path or URL",
+    "admin.media_ref.err_invalid": "Enter a /uploads/ path or an http(s) address",
+    "admin.media_ref.err_not_found": "There is no file with that name in /uploads/",
+    "admin.media_ref.err_type": "The file is not an image or audio allowed here",
+    "admin.media_ref.err_too_large": "The file is larger than {kb} KB, the maximum here",
+    "admin.media_ref.err_blocked": "That address is not public",
+    "admin.media_ref.err_http": "The website did not return the file",
+    "admin.media_ref.err_timeout": "The website is taking too long to respond",
+    "admin.media_ref.err_unreachable": "Could not connect to that website",
+    "admin.media_ref.path_label": "Path to reuse it in other questions",
+    "admin.media_ref.copy": "Copy",
+    "admin.media_ref.copied": "Copied",
+    "admin.media_ref.copy_failed": "Copy it manually"
   }
 }

@@ -242,6 +242,24 @@
     "admin.q.hotspot_help_3": "Irudia aldatzean eremua ezabatzen da.",
     "admin.q.err_hotspot_image": "Irudia falta da",
     "admin.q.err_hotspot_area": "Markatu eremu zuzena (gutxienez 3 erpin)",
-    "admin.q.hotspot_complete_notice": "Markatu «Ukitu irudia» galderen eremu zuzena (eta igo irudia falta bada) eta gorde bankua."
+    "admin.q.hotspot_complete_notice": "Markatu «Ukitu irudia» galderen eremu zuzena (eta igo irudia falta bada) eta gorde bankua.",
+    "admin.media_ref.label": "Edo erabili bide-izen edo URL bat",
+    "admin.media_ref.placeholder": "/uploads/mapa.jpg edo https://…",
+    "admin.media_ref.use": "Erabili",
+    "admin.media_ref.option_label": "{n}. aukeraren irudiaren bide-izena edo URLa (gehienez 200 KB)",
+    "admin.media_ref.option_title": "Dagoeneko igotako edo beste webgune bateko irudia",
+    "admin.media_ref.option_button": "{n}. aukeraren irudia bide-izen edo URL batetik",
+    "admin.media_ref.err_invalid": "Idatzi /uploads/ bide-izen bat edo http(s) helbide bat",
+    "admin.media_ref.err_not_found": "Ez dago izen hori duen fitxategirik /uploads/ karpetan",
+    "admin.media_ref.err_type": "Fitxategia ez da hemen onartutako irudi edo audio bat",
+    "admin.media_ref.err_too_large": "Fitxategiak {kb} KB baino gehiago ditu, hemengo gehienekoa",
+    "admin.media_ref.err_blocked": "Helbide hori ez da publikoa",
+    "admin.media_ref.err_http": "Webguneak ez du fitxategia itzuli",
+    "admin.media_ref.err_timeout": "Webguneak gehiegi behar du erantzuteko",
+    "admin.media_ref.err_unreachable": "Ezin izan da webgune horrekin konektatu",
+    "admin.media_ref.path_label": "Beste galdera batzuetan berrerabiltzeko bide-izena",
+    "admin.media_ref.copy": "Kopiatu",
+    "admin.media_ref.copied": "Kopiatuta",
+    "admin.media_ref.copy_failed": "Kopiatu eskuz"
   }
 }

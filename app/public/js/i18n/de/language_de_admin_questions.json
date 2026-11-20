@@ -242,6 +242,24 @@
     "admin.q.hotspot_help_3": "Wird das Bild geändert, wird der Bereich gelöscht.",
     "admin.q.err_hotspot_image": "Das Bild fehlt",
     "admin.q.err_hotspot_area": "Markiere den richtigen Bereich (mindestens 3 Eckpunkte)",
-    "admin.q.hotspot_complete_notice": "Markiere den richtigen Bereich der „Tippe auf das Bild“-Fragen (und lade fehlende Bilder hoch) und speichere die Fragensammlung."
+    "admin.q.hotspot_complete_notice": "Markiere den richtigen Bereich der „Tippe auf das Bild“-Fragen (und lade fehlende Bilder hoch) und speichere die Fragensammlung.",
+    "admin.media_ref.label": "Oder einen Pfad bzw. eine URL verwenden",
+    "admin.media_ref.placeholder": "/uploads/karte.jpg oder https://…",
+    "admin.media_ref.use": "Verwenden",
+    "admin.media_ref.option_label": "Pfad oder URL des Bildes für Option {n} (max. 200 KB)",
+    "admin.media_ref.option_title": "Bereits hochgeladenes Bild oder Bild einer anderen Website",
+    "admin.media_ref.option_button": "Bild für Option {n} über Pfad oder URL",
+    "admin.media_ref.err_invalid": "Gib einen /uploads/-Pfad oder eine http(s)-Adresse ein",
+    "admin.media_ref.err_not_found": "In /uploads/ gibt es keine Datei mit diesem Namen",
+    "admin.media_ref.err_type": "Die Datei ist kein hier erlaubtes Bild oder Audio",
+    "admin.media_ref.err_too_large": "Die Datei ist größer als {kb} KB, das Maximum hier",
+    "admin.media_ref.err_blocked": "Diese Adresse ist nicht öffentlich",
+    "admin.media_ref.err_http": "Die Website hat die Datei nicht geliefert",
+    "admin.media_ref.err_timeout": "Die Website antwortet zu langsam",
+    "admin.media_ref.err_unreachable": "Keine Verbindung zu dieser Website möglich",
+    "admin.media_ref.path_label": "Pfad zur Wiederverwendung in anderen Fragen",
+    "admin.media_ref.copy": "Kopieren",
+    "admin.media_ref.copied": "Kopiert",
+    "admin.media_ref.copy_failed": "Bitte manuell kopieren"
   }
 }

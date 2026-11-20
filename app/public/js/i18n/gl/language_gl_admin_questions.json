@@ -242,6 +242,24 @@
     "admin.q.hotspot_help_3": "Ao cambiar a imaxe bórrase a área.",
     "admin.q.err_hotspot_image": "Falta a imaxe",
     "admin.q.err_hotspot_area": "Marca a área correcta (polo menos 3 vértices)",
-    "admin.q.hotspot_complete_notice": "Marca a área correcta das preguntas «Toca a imaxe» (e sube a súa imaxe se falta) e garda o banco."
+    "admin.q.hotspot_complete_notice": "Marca a área correcta das preguntas «Toca a imaxe» (e sube a súa imaxe se falta) e garda o banco.",
+    "admin.media_ref.label": "Ou usa unha ruta ou URL",
+    "admin.media_ref.placeholder": "/uploads/mapa.jpg ou https://…",
+    "admin.media_ref.use": "Usar",
+    "admin.media_ref.option_label": "Ruta ou URL da imaxe da opción {n} (máx. 200 KB)",
+    "admin.media_ref.option_title": "Imaxe xa subida ou doutra web",
+    "admin.media_ref.option_button": "Imaxe da opción {n} desde unha ruta ou URL",
+    "admin.media_ref.err_invalid": "Escribe unha ruta de /uploads/ ou un enderezo http(s)",
+    "admin.media_ref.err_not_found": "Non hai ningún ficheiro con ese nome en /uploads/",
+    "admin.media_ref.err_type": "O ficheiro non é unha imaxe ou un audio admitido aquí",
+    "admin.media_ref.err_too_large": "O ficheiro pesa máis de {kb} KB, o máximo deste sitio",
+    "admin.media_ref.err_blocked": "Ese enderezo non é público",
+    "admin.media_ref.err_http": "A web non devolveu o ficheiro",
+    "admin.media_ref.err_timeout": "A web tarda demasiado en responder",
+    "admin.media_ref.err_unreachable": "Non se puido conectar con esa web",
+    "admin.media_ref.path_label": "Ruta para reutilizalo noutras preguntas",
+    "admin.media_ref.copy": "Copiar",
+    "admin.media_ref.copied": "Copiada",
+    "admin.media_ref.copy_failed": "Cópiaa a man"
   }
 }

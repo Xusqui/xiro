@@ -34,6 +34,23 @@ async function storeImageBuffer(buffer, { prefix, uploadDir = DEFAULT_UPLOAD_DIR
     if (!Buffer.isBuffer(buffer) || buffer.length === 0 || buffer.length > MAX_IMAGE_BYTES) return null;
     const extension = EXTENSIONS[detectImageType(buffer)];
     if (!extension) return null;
+    return await storeHashedBuffer(buffer, { prefix, extension, uploadDir, writeFile });
+}
+
+/**
+ * Escribe en /uploads unos bytes ya comprobados, con el hash del contenido como nombre (si ya
+ * existe el mismo fichero, lo reutiliza). No mira el tipo ni el tamaño: eso lo decide quien llama.
+ * @param {Buffer} buffer
+ * @param {Object} options
+ * @param {string} options.prefix - Prefijo del nombre (palabra simple)
+ * @param {string} options.extension - Extensión sin punto (png, mp3…)
+ * @param {string} [options.uploadDir]
+ * @param {Function} [options.writeFile]
+ * @returns {Promise<string>} URL relativa (/uploads/…)
+ * @throws {Error} Si el prefijo no es válido o falla el disco (salvo «ya existe»)
+ */
+async function storeHashedBuffer(buffer, { prefix, extension, uploadDir = DEFAULT_UPLOAD_DIR, writeFile = fs.promises.writeFile }) {
+    if (!PREFIX_RE.test(prefix)) throw new Error(`Prefijo de imagen no válido: ${prefix}`);
     const hash = crypto.createHash('sha256').update(buffer).digest('hex').slice(0, 32);
     const filename = `${prefix}-${hash}.${extension}`;
     try {
@@ -44,4 +61,4 @@ async function storeImageBuffer(buffer, { prefix, uploadDir = DEFAULT_UPLOAD_DIR
     return `/uploads/${filename}`;
 }
 
-module.exports = { storeImageBuffer, MAX_IMAGE_BYTES };
+module.exports = { storeImageBuffer, storeHashedBuffer, MAX_IMAGE_BYTES, IMAGE_EXTENSIONS: EXTENSIONS };

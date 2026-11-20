@@ -411,7 +411,8 @@ function _renderGameCoverPreviewHtml(kind, imageUrl) {
     return `
         <button type="button" data-admin-click="abrirSelectorImagenPortada('${kind}')" class="${style.bg} ${style.text} border-2 border-dashed ${style.border} px-5 py-3 rounded-xl text-sm font-bold transition">
             <i class="fas fa-image mr-2"></i> ${_t('admin.cover.btn_upload', null, 'Subir imagen de portada')}
-        </button>`;
+        </button>
+        ${mediaRefFieldHtml(`cover-ref-${kind}`, `usarRutaMedia('cover-ref-${kind}', 'cover', '${kind}')`)}`;
 }
 
 /**

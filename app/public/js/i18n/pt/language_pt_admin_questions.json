@@ -242,6 +242,24 @@
     "admin.q.hotspot_help_3": "Ao mudar a imagem a área é apagada.",
     "admin.q.err_hotspot_image": "Falta a imagem",
     "admin.q.err_hotspot_area": "Marca a área correta (pelo menos 3 vértices)",
-    "admin.q.hotspot_complete_notice": "Marca a área correta das perguntas «Toca na imagem» (e carrega a imagem se faltar) e guarda o banco."
+    "admin.q.hotspot_complete_notice": "Marca a área correta das perguntas «Toca na imagem» (e carrega a imagem se faltar) e guarda o banco.",
+    "admin.media_ref.label": "Ou usa um caminho ou URL",
+    "admin.media_ref.placeholder": "/uploads/mapa.jpg ou https://…",
+    "admin.media_ref.use": "Usar",
+    "admin.media_ref.option_label": "Caminho ou URL da imagem da opção {n} (máx. 200 KB)",
+    "admin.media_ref.option_title": "Imagem já carregada ou de outro site",
+    "admin.media_ref.option_button": "Imagem da opção {n} a partir de um caminho ou URL",
+    "admin.media_ref.err_invalid": "Escreve um caminho de /uploads/ ou um endereço http(s)",
+    "admin.media_ref.err_not_found": "Não há nenhum ficheiro com esse nome em /uploads/",
+    "admin.media_ref.err_type": "O ficheiro não é uma imagem ou um áudio aceite aqui",
+    "admin.media_ref.err_too_large": "O ficheiro tem mais de {kb} KB, o máximo aqui",
+    "admin.media_ref.err_blocked": "Esse endereço não é público",
+    "admin.media_ref.err_http": "O site não devolveu o ficheiro",
+    "admin.media_ref.err_timeout": "O site está a demorar demasiado a responder",
+    "admin.media_ref.err_unreachable": "Não foi possível ligar a esse site",
+    "admin.media_ref.path_label": "Caminho para o reutilizar noutras perguntas",
+    "admin.media_ref.copy": "Copiar",
+    "admin.media_ref.copied": "Copiado",
+    "admin.media_ref.copy_failed": "Copia-o manualmente"
   }
 }

@@ -175,6 +175,7 @@ module.exports = {
     uploadGameCoverImage,
     validateFileSize,
     deleteFile,
+    isSafeUploadFilename,
     uploadDir,
     MAX_QUESTION_IMAGE_BYTES,
     MAX_GAME_COVER_IMAGE_BYTES

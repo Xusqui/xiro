@@ -44,8 +44,10 @@ function optionImageHtml(opt, qIdx, oIdx) {
                                             ${optionIconButtonHtml(`opt-img-btn-${qIdx}-${oIdx}`, `eliminarImagenOpcion(${qIdx}, ${oIdx})`, 'fa-xmark', label)}</span>`;
     }
     const label = _t('admin.q.option_image_add', { n }, 'Añadir imagen a la opción {n} (máx. 200 KB)');
+    const refLabel = _t('admin.media_ref.option_button', { n }, 'Imagen de la opción {n} desde una ruta o URL');
     return `<label class="xq-iconbtn xq-iconbtn--sm xq-option__file" title="${label}"><i class="fas fa-image" aria-hidden="true"></i><input type="file" class="sr-only" aria-label="${label}"
-                                            accept="image/jpeg,image/png,image/gif,image/webp" data-admin-change="onImagenOpcionChange(this, ${qIdx}, ${oIdx})"></label>`;
+                                            accept="image/jpeg,image/png,image/gif,image/webp" data-admin-change="onImagenOpcionChange(this, ${qIdx}, ${oIdx})"></label>
+                                            ${optionIconButtonHtml(`opt-ref-btn-${qIdx}-${oIdx}`, `abrirRutaImagenOpcion(${qIdx}, ${oIdx})`, 'fa-link', refLabel)}`;
 }
 
 /**

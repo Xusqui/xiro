@@ -242,6 +242,24 @@
     "admin.q.hotspot_help_3": "Changer l'image efface la zone.",
     "admin.q.err_hotspot_image": "L'image manque",
     "admin.q.err_hotspot_area": "Marquez la zone correcte (au moins 3 sommets)",
-    "admin.q.hotspot_complete_notice": "Marquez la zone correcte des questions « Touche l'image » (et importez leur image si elle manque), puis enregistrez la banque."
+    "admin.q.hotspot_complete_notice": "Marquez la zone correcte des questions « Touche l'image » (et importez leur image si elle manque), puis enregistrez la banque.",
+    "admin.media_ref.label": "Ou utilise un chemin ou une URL",
+    "admin.media_ref.placeholder": "/uploads/carte.jpg ou https://…",
+    "admin.media_ref.use": "Utiliser",
+    "admin.media_ref.option_label": "Chemin ou URL de l'image de l'option {n} (max. 200 Ko)",
+    "admin.media_ref.option_title": "Image déjà importée ou d'un autre site",
+    "admin.media_ref.option_button": "Image de l'option {n} depuis un chemin ou une URL",
+    "admin.media_ref.err_invalid": "Saisis un chemin /uploads/ ou une adresse http(s)",
+    "admin.media_ref.err_not_found": "Aucun fichier de ce nom dans /uploads/",
+    "admin.media_ref.err_type": "Le fichier n'est pas une image ou un son accepté ici",
+    "admin.media_ref.err_too_large": "Le fichier dépasse {kb} Ko, le maximum ici",
+    "admin.media_ref.err_blocked": "Cette adresse n'est pas publique",
+    "admin.media_ref.err_http": "Le site n'a pas renvoyé le fichier",
+    "admin.media_ref.err_timeout": "Le site met trop de temps à répondre",
+    "admin.media_ref.err_unreachable": "Impossible de se connecter à ce site",
+    "admin.media_ref.path_label": "Chemin pour le réutiliser dans d'autres questions",
+    "admin.media_ref.copy": "Copier",
+    "admin.media_ref.copied": "Copié",
+    "admin.media_ref.copy_failed": "Copie-le à la main"
   }
 }

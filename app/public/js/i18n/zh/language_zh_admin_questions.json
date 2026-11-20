@@ -242,6 +242,24 @@
     "admin.q.hotspot_help_3": "更换图片会清除区域。",
     "admin.q.err_hotspot_image": "缺少图片",
     "admin.q.err_hotspot_area": "请标出正确区域（至少 3 个顶点）",
-    "admin.q.hotspot_complete_notice": "请为“点击图片”题标出正确区域（缺图时先上传），然后保存题库。"
+    "admin.q.hotspot_complete_notice": "请为“点击图片”题标出正确区域（缺图时先上传），然后保存题库。",
+    "admin.media_ref.label": "或使用路径或 URL",
+    "admin.media_ref.placeholder": "/uploads/map.jpg 或 https://…",
+    "admin.media_ref.use": "使用",
+    "admin.media_ref.option_label": "选项 {n} 图片的路径或 URL（最大 200 KB）",
+    "admin.media_ref.option_title": "已上传的图片或其他网站的图片",
+    "admin.media_ref.option_button": "通过路径或 URL 设置选项 {n} 的图片",
+    "admin.media_ref.err_invalid": "请输入 /uploads/ 路径或 http(s) 地址",
+    "admin.media_ref.err_not_found": "/uploads/ 中没有该名称的文件",
+    "admin.media_ref.err_type": "该文件不是此处允许的图片或音频",
+    "admin.media_ref.err_too_large": "文件超过 {kb} KB，此处的上限",
+    "admin.media_ref.err_blocked": "该地址不是公开地址",
+    "admin.media_ref.err_http": "网站没有返回该文件",
+    "admin.media_ref.err_timeout": "网站响应太慢",
+    "admin.media_ref.err_unreachable": "无法连接到该网站",
+    "admin.media_ref.path_label": "用于在其他题目中重复使用的路径",
+    "admin.media_ref.copy": "复制",
+    "admin.media_ref.copied": "已复制",
+    "admin.media_ref.copy_failed": "请手动复制"
   }
 }
