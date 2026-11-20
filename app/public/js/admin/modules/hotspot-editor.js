@@ -4,8 +4,8 @@
 // del área en core/hotspot-area.js (window.XiroHotspot). Estilos en css/admin-hotspot-editor.css.
 
 /**
- * Punto relativo 0-1 de un clic sobre el escenario, recortado a la imagen.
- * @param {{left: number, top: number, width: number, height: number}} rect - Caja del escenario
+ * Punto relativo 0-1 de un clic sobre la imagen, recortado a sus bordes.
+ * @param {{left: number, top: number, width: number, height: number}} rect - Caja de la imagen
  * @param {number} clientX
  * @param {number} clientY
  * @returns {{x: number, y: number}}
@@ -26,9 +26,10 @@ function añadirVerticeHotspot(qIdx, event, stage) {
     if (!img || !img.naturalWidth || !img.naturalHeight) return;
     const area = q.hotspotArea || { points: [], aspect: img.naturalWidth / img.naturalHeight };
     if (area.points.length >= window.XiroHotspot.LIMITS.MAX_POINTS) return;
-    const point = hotspotPointFromClick(stage.getBoundingClientRect(), event.clientX, event.clientY);
+    // Sobre la imagen, no sobre el escenario: si algo lo estira, el área quedaría desplazada en partida
+    const point = hotspotPointFromClick(img.getBoundingClientRect(), event.clientX, event.clientY);
     q.hotspotArea = { points: [...area.points, point], aspect: Math.round(area.aspect * 10000) / 10000 };
-    dibujarPregunta(qIdx);
+    _refreshHotspotStage(qIdx);
 }
 
 /** Quita el último vértice; sin vértices, la pregunta queda sin área. */
@@ -37,7 +38,7 @@ function deshacerVerticeHotspot(qIdx) {
     if (!q.hotspotArea) return;
     const points = q.hotspotArea.points.slice(0, -1);
     q.hotspotArea = points.length ? { ...q.hotspotArea, points } : null;
-    dibujarPregunta(qIdx);
+    _refreshHotspotStage(qIdx);
 }
 
 // Los campos numéricos llaman a estas funciones: data-admin-input solo admite una lista cerrada de
@@ -63,7 +64,7 @@ function alCambiarImagenHotspot(question) {
 /** Borra el área entera. */
 function borrarAreaHotspot(qIdx) {
     preguntasData[qIdx].hotspotArea = null;
-    dibujarPregunta(qIdx);
+    _refreshHotspotStage(qIdx);
 }
 
 function _hotspotShapeSvg(area) {
@@ -78,11 +79,37 @@ function _hotspotShapeSvg(area) {
     return `<svg class="xq-hotspot__svg" viewBox="0 0 1 1" preserveAspectRatio="none" aria-hidden="true">${shape}</svg>${dots}`;
 }
 
-function _hotspotStageHtml(q, qIdx) {
-    const count = q.hotspotArea ? q.hotspotArea.points.length : 0;
-    const status = count >= window.XiroHotspot.LIMITS.MIN_POINTS
+function _hotspotStatusText(count) {
+    return count >= window.XiroHotspot.LIMITS.MIN_POINTS
         ? _t('admin.q.hotspot_vertices', { n: count }, '{n} vértices')
         : _t('admin.q.hotspot_need_vertices', { n: count }, '{n} vértices: hacen falta al menos 3');
+}
+
+/**
+ * Tras cambiar los vértices: rehace solo el dibujo, el contador y los botones. Repintar la tarjeta
+ * crearía de nuevo la imagen, que mide 0 hasta cargar, y el navegador subiría el scroll.
+ */
+function _refreshHotspotStage(qIdx) {
+    const stage = document.getElementById(`hs-stage-${qIdx}`);
+    if (!stage) {
+        dibujarPregunta(qIdx);
+        return;
+    }
+    const area = preguntasData[qIdx].hotspotArea;
+    const count = area ? area.points.length : 0;
+    stage.querySelectorAll('.xq-hotspot__svg, .xq-hotspot__vertex').forEach((shape) => shape.remove());
+    stage.insertAdjacentHTML('beforeend', _hotspotShapeSvg(area));
+    const status = document.getElementById(`hs-status-${qIdx}`);
+    if (status) status.textContent = _hotspotStatusText(count);
+    ['undo', 'clear'].forEach((name) => {
+        const button = document.getElementById(`hs-${name}-${qIdx}`);
+        if (button) button.disabled = count === 0;
+    });
+}
+
+function _hotspotStageHtml(q, qIdx) {
+    const count = q.hotspotArea ? q.hotspotArea.points.length : 0;
+    const status = _hotspotStatusText(count);
     return `
                         <div class="xq-hotspot__stage" id="hs-stage-${qIdx}" data-admin-click="añadirVerticeHotspot(${qIdx}, event, this)"
                             role="img" aria-label="${escapeHtml(_t('admin.q.hotspot_stage_label', null, 'Imagen de la pregunta: haz clic para marcar los vértices del área correcta'))}">

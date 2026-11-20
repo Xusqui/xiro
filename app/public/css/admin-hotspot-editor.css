@@ -5,6 +5,8 @@
 .xq-hotspot__stage {
     position: relative;
     display: inline-block;
+    /* La sección es una rejilla: sin esto el escenario se estira y el área no cae sobre la imagen */
+    justify-self: start;
     max-width: 100%;
     line-height: 0;
     border: 2px solid var(--xq-edge, #e2e8f0);
