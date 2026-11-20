@@ -2,6 +2,26 @@
 
 ## 3.14.x
 
+### 3.14.9 — 2026-11-20 · `v3.14.9`
+- Registro central de tipos de pregunta y tests de contrato
+  - Catálogo único de tipos (public/js/core/question-types.js): encuesta, puntos aleatorios, Trivial, forma de la respuesta, campo de detalle y solución.
+  - Servidor: manejadores por tipo (application/question-types/) para validar, evaluar, plazo tras el cierre y rachas; el flujo submit-answer deja de usar banderas is*Question y pregunta al manejador.
+  - Dominio: QuestionSolution (texto de la solución) y PlayerResultDetails (detalle en answer-result), antes duplicados en varios sitios.
+  - Revelado: RevealPresenterPayload y RevealTypePayloads por tipo de solución y mapa por tipo.
+  - Trivial: preparación de la pregunta compartida (TrivialQuestionNormalizer).
+  - Clientes: despachador de pantallas del jugador y mapa del modo standalone.
+  - IA: prompts por tipo en ai-generator/prompt-builders.js.
+  - Eliminada la constante QUESTION_TYPES de game-constants (errónea y sin uso).
+  - answerIndex es null en todos los tipos que no responden con una opción; la reserva de equipos envía también multipleChoiceDetails.
+- Nuevo tipo de pregunta «Toca la imagen» (hotspot)
+  - El jugador toca la imagen principal de la pregunta y puntúa por cercanía a un
+  - área poligonal marcada por el creador: dentro, puntos máximos + 20 de bonus;
+  - fuera, caída lineal hasta 0 en el margen (5 % del ancho por defecto).
+  - Catálogo, migración (hotspot_area, hotspot_tolerance, image_credit), Joi y servicios de BD; puntuación, rachas, archivo, revelado con toques en Redis.
+  - Editor del admin: dibujo del polígono, puntos, margen y crédito; JSON de bancos con la imagen incrustada (POST /api/upload/embedded-image, bytes comprobados); banco sin área se abre en el editor.
+  - IA: enunciado + búsqueda; imagen de Wikimedia Commons (mapas y diagramas).
+  - Móvil, modo individual, presentador y TV (núcleo compartido hotspot-view); PDF, visor de resultados, manual del jugador, bots y textos en 10 idiomas.
+
 ### 3.14.8 — 2026-11-18 · `v3.14.8`
 - **Bug:** Al iniciar una partida en el modo TV, se quedaba colgado porque requestFullscreen() devuelve undefined en navegadores de TV antiguos. Ahora Pantalla completa y audio van en try/catch.
 
