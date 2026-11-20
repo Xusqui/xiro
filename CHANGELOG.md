@@ -2,6 +2,28 @@
 
 ## 3.14.x
 
+### 3.14.11 — 2026-11-20 · `v3.14.11`
+- **Editor:** usar una imagen o un audio por ruta o URL, sin subirlo otra vez
+  - Junto a cada botón de subir (Toca la imagen, contenido multimedia, imagen del
+  - enunciado, opciones y portadas) hay un campo «ruta o URL».
+  - Una ruta de /uploads se usa tal cual si el fichero existe y su contenido es del tipo y tamaño que admite ese sitio. Así el mismo mapa sirve para muchas preguntas.
+  - Una URL de otra web se descarga una vez (solo IP públicas, plazo y tamaño máximo) y se guarda con el hash del contenido como nombre, porque la CSP solo enseña imágenes del propio servidor.
+  - Nunca SVG. El audio se reconoce por sus bytes (MP3, WAV, OGG, WebM).
+  - Textos en los 10 idiomas.
+- Arrastrar y soltar en todas las subidas del admin
+  - Nuevo helper attachFileDrop (con modo delegado por selector para bloques
+  - repintados con innerHTML), forwardDropToInput y setInputFiles en
+  - drag-drop-upload.js. Ahora también se puede soltar el archivo en: portada
+  - del juego, imagen del enunciado, imagen de opción, documento e imágenes del
+  - diálogo de IA de diapositivas, imagen de diapositiva libre e importar
+  - .xiroslide (selector y biblioteca). Respeta el accept de cada selector.
+  - La imagen del enunciado y la portada enseñan una zona visible de arrastrar
+  - (la misma .drop-zone.xq-dropzone del contenido multimedia) y bajo las
+  - opciones hay una línea de ayuda nueva (admin.q.option_image_drop, en los
+  - 10 idiomas).
+- **Bug admin:** Sin salto de scroll en Safari, fondo de selva y CSP sin unsafe-inline en scripts
+  - Al repintar una tarjeta se conserva su altura hasta que los campos se reajustan: Safari (sin field-sizing) acortaba el documento y recortaba el scroll. La lista de preguntas lleva una banda de selva con las palmeras de la portada y la pregunta abierte, borde de su tipo y una palmera lima como separador. scriptSrc ya no adminte unsafe-inline: los scripts inline van por hash.
+
 ### 3.14.10 — 2026-11-20 · `v3.14.10`
 - **Bug «Toca la imagen»:** área desplazada y salto de scroll en el editor
   - El área se guardaba desplazada a la izquierda: la sección del editor es una rejilla y estiraba el recuadro de la imagen más allá de la imagen (en pantallas anchas), y los clics se medían sobre el recuadro. Ahora se miden sobre la imagen y el recuadro no se estira (justify-self: start), así que lo dibujado coincide con lo que se ve en la partida.
