@@ -199,10 +199,25 @@ async function _lienzoSaveImported(result, fileName) {
     else if (saved) mostrarModalError(E.th('library.saved_title'), E.th('library.imported', { n: saved }), 'success');
 }
 
+/** Envía el archivo al servidor y guarda sus diapositivas en la biblioteca (elegido o soltado). */
+async function _lienzoImportFileToLibrary(file) {
+    const result = await _lienzoSendPackage(file);
+    if (result) await _lienzoSaveImported(result, file.name);
+}
+
 /** Botón «Importar a la biblioteca» de la sección. */
 function importarABibliotecaLienzo() {
-    _lienzoChooseFile(async file => {
-        const result = await _lienzoSendPackage(file);
-        if (result) await _lienzoSaveImported(result, file.name);
+    _lienzoChooseFile(_lienzoImportFileToLibrary);
+}
+
+/** Soltar un .xiroslide sobre «Importar a la biblioteca» equivale a elegirlo. Delegado: la sección se repinta. */
+function _lienzoBindLibraryDrop() {
+    if (typeof attachFileDrop !== 'function') return;
+    attachFileDrop(document, {
+        selector: '[data-admin-click="importarABibliotecaLienzo()"]',
+        accept: _LIENZO_IMPORT_ACCEPT,
+        onFiles: ([file]) => _lienzoImportFileToLibrary(file)
     });
 }
+
+document.addEventListener('DOMContentLoaded', _lienzoBindLibraryDrop);

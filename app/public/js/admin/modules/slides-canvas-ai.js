@@ -106,6 +106,9 @@ function _lienzoIaOpen() {
         if (event.target.id === 'lienzoIADoc') _lienzoIaReadDocument(event.target);
         if (event.target.id === 'lienzoIAImages') _lienzoIaReadImages(event.target);
     });
+    const docInput = modal.querySelector('#lienzoIADoc');
+    if (docInput && typeof forwardDropToInput === 'function') forwardDropToInput(docInput.closest('.xsce-field'), docInput);
+    _lienzoIaImagesBindDrop(modal);
     // Las teclas no llegan al editor; Ctrl/⌘+Intro genera
     modal.addEventListener('keydown', event => {
         event.stopPropagation();

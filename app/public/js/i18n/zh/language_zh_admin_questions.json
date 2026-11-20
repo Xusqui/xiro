@@ -107,6 +107,7 @@
     "admin.q.option_image_remove": "移除选项 {n} 的图片",
     "admin.q.option_image_alt": "选项 {n} 的图片",
     "admin.q.option_image_add": "为选项 {n} 添加图片（最大 200 KB）",
+    "admin.q.option_image_drop": "要为某个选项添加图片，请将图片拖到该选项所在行。",
     "admin.q.option_n": "选项 {n}",
     "admin.q.optional": "可选",
     "admin.q.justification_placeholder": "揭晓答案时显示",

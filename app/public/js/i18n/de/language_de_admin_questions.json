@@ -107,6 +107,7 @@
     "admin.q.option_image_remove": "Bild von Option {n} entfernen",
     "admin.q.option_image_alt": "Bild von Option {n}",
     "admin.q.option_image_add": "Bild zu Option {n} hinzufügen (max. 200 KB)",
+    "admin.q.option_image_drop": "Um einer Option ein Bild hinzuzufügen, zieh es auf die Zeile der Option.",
     "admin.q.option_n": "Option {n}",
     "admin.q.optional": "optional",
     "admin.q.justification_placeholder": "Wird beim Aufdecken der Antwort angezeigt",

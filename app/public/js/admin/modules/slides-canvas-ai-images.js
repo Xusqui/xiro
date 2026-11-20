@@ -62,3 +62,9 @@ async function _lienzoIaReadImages(input) {
 function _lienzoIaImagesPayload() {
     return _lienzoIaImages.slice();
 }
+
+/** Soltar imágenes sobre su campo del diálogo equivale a elegirlas en el input. */
+function _lienzoIaImagesBindDrop(modal) {
+    const input = modal.querySelector('#lienzoIAImages');
+    if (input && typeof forwardDropToInput === 'function') forwardDropToInput(input.closest('.xsce-field'), input);
+}

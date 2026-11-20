@@ -47,6 +47,7 @@ function _optionsGridHtml(q, qIdx, leadFor) {
                         <div class="xq-options">
                             ${q.options.map((opt, oIdx) => _optionRowHtml(q, qIdx, opt, oIdx, leadFor(opt, oIdx))).join('')}
                         </div>
+                        <p class="xq-hint">${_t('admin.q.option_image_drop', null, 'Para poner una imagen en una opción, arrástrala sobre su fila.')}</p>
                         ${addOptionButtonHtml(q, qIdx)}`;
 }
 

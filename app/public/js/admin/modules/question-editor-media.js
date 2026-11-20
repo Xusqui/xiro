@@ -21,9 +21,12 @@ function _questionImageHtml(q, qIdx) {
     if (!q.question_image_url) {
         return `
                             <div>${label}
-                                <button type="button" id="q-img-btn-${qIdx}" data-admin-click="abrirSelectorImagenPregunta(${qIdx})" class="xq-btn xq-btn--dashed">
-                                    <i class="fas fa-plus-circle" aria-hidden="true"></i> ${_t('admin.q.q_image_add', null, 'Añadir imagen pequeña (opcional)')}
-                                </button>
+                                <div class="drop-zone xq-dropzone" data-image-drop="question">
+                                    <p class="xq-hint">${_t('admin.q.media_drop', null, 'Arrastra un archivo aquí o haz clic para seleccionar')}</p>
+                                    <button type="button" id="q-img-btn-${qIdx}" data-admin-click="abrirSelectorImagenPregunta(${qIdx})" class="xq-btn xq-btn--dashed">
+                                        <i class="fas fa-plus-circle" aria-hidden="true"></i> ${_t('admin.q.q_image_add', null, 'Añadir imagen pequeña (opcional)')}
+                                    </button>
+                                </div>
                                 ${mediaRefFieldHtml(`q-img-ref-${qIdx}`, `usarRutaMedia('q-img-ref-${qIdx}', 'question_image', ${qIdx})`)}
                             </div>`;
     }

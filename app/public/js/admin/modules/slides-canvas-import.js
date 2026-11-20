@@ -8,6 +8,7 @@
  */
 
 const _LIENZO_IMPORT_INPUT = 'lienzoImportarArchivo';
+const _LIENZO_IMPORT_ACCEPT = '.xiroslide,.json,application/json';
 
 /** Abre el selector de archivos y pasa el elegido a onFile. */
 function _lienzoChooseFile(onFile) {
@@ -15,7 +16,7 @@ function _lienzoChooseFile(onFile) {
     const input = document.createElement('input');
     input.type = 'file';
     input.id = _LIENZO_IMPORT_INPUT;
-    input.accept = '.xiroslide,.json,application/json';
+    input.accept = _LIENZO_IMPORT_ACCEPT;
     input.style.display = 'none';
     input.addEventListener('change', () => {
         const file = input.files && input.files[0];
@@ -120,13 +121,28 @@ function _lienzoAddToGame(result, texts) {
     );
 }
 
+/** Envía el archivo al servidor y añade sus diapositivas al juego (elegido o soltado). */
+async function _lienzoImportFileToGame(file) {
+    const result = await _lienzoSendPackage(file);
+    if (result) _lienzoAddToGame(result);
+}
+
 /** Botón «Importar archivo» del selector de diapositivas libres. */
 function importarSlidesLienzo() {
-    _lienzoChooseFile(async file => {
-        const result = await _lienzoSendPackage(file);
-        if (result) _lienzoAddToGame(result);
+    _lienzoChooseFile(_lienzoImportFileToGame);
+}
+
+/** Soltar un .xiroslide sobre «Importar archivo» equivale a elegirlo. Delegado: el selector se repinta. */
+function _lienzoBindImportDrop() {
+    if (typeof attachFileDrop !== 'function') return;
+    attachFileDrop(document, {
+        selector: '[data-admin-click="importarSlidesLienzo()"]',
+        accept: _LIENZO_IMPORT_ACCEPT,
+        onFiles: ([file]) => _lienzoImportFileToGame(file)
     });
 }
+
+document.addEventListener('DOMContentLoaded', _lienzoBindImportDrop);
 
 /** Botón «Pegar» del selector de diapositivas libres. */
 function pegarSlidesLienzo() {

@@ -107,6 +107,7 @@
     "admin.q.option_image_remove": "Kendu {n}. aukeraren irudia",
     "admin.q.option_image_alt": "{n}. aukeraren irudia",
     "admin.q.option_image_add": "Gehitu irudia {n}. aukerari (gehienez 200 KB)",
+    "admin.q.option_image_drop": "Aukera bati irudi bat jartzeko, arrastatu ezazu haren errenkadara.",
     "admin.q.option_n": "{n}. aukera",
     "admin.q.optional": "aukerakoa",
     "admin.q.justification_placeholder": "Erantzuna agertzean erakusten da",

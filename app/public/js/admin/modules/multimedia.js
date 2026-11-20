@@ -409,9 +409,12 @@ function _renderGameCoverPreviewHtml(kind, imageUrl) {
             </div>`;
     }
     return `
-        <button type="button" data-admin-click="abrirSelectorImagenPortada('${kind}')" class="${style.bg} ${style.text} border-2 border-dashed ${style.border} px-5 py-3 rounded-xl text-sm font-bold transition">
-            <i class="fas fa-image mr-2"></i> ${_t('admin.cover.btn_upload', null, 'Subir imagen de portada')}
-        </button>
+        <div class="drop-zone xq-dropzone" data-image-drop="cover">
+            <p class="xq-hint">${_t('admin.q.media_drop', null, 'Arrastra un archivo aquí o haz clic para seleccionar')}</p>
+            <button type="button" data-admin-click="abrirSelectorImagenPortada('${kind}')" class="${style.bg} ${style.text} border-2 ${style.border} px-5 py-3 rounded-xl text-sm font-bold transition">
+                <i class="fas fa-image mr-2"></i> ${_t('admin.cover.btn_upload', null, 'Subir imagen de portada')}
+            </button>
+        </div>
         ${mediaRefFieldHtml(`cover-ref-${kind}`, `usarRutaMedia('cover-ref-${kind}', 'cover', '${kind}')`)}`;
 }
 
@@ -448,6 +451,44 @@ function abrirSelectorImagenPortada(kind) {
     };
     input.click();
 }
+
+// ===== SOLTAR IMÁGENES SOBRE LOS SELECTORES QUE SE REPINTAN =====
+
+/** Argumento del onclick de un botón: abrirSelectorImagenPregunta(3) → '3', abrirSelectorImagenPortada('x') → 'x'. */
+function _argumentoDeSelector(boton) {
+    const coincidencia = /\(\s*'?([^')]*)'?\s*\)/.exec(boton.getAttribute('data-admin-click') || '');
+    return coincidencia ? coincidencia[1] : null;
+}
+
+/**
+ * Ata una vez las zonas de drop de la portada, la imagen del enunciado y la imagen de opción.
+ * Van delegadas en document porque estos bloques se repintan con innerHTML.
+ */
+function inicializarDropsImagenes() {
+    if (typeof attachFileDrop !== 'function') return;
+    const imagenes = 'image/jpeg,image/png,image/gif,image/webp';
+    attachFileDrop(document, {
+        selector: '[data-image-drop="cover"]',
+        accept: imagenes,
+        onFiles: ([file], zona) => subirImagenPortada(_argumentoDeSelector(zona.querySelector('[data-admin-click]')), file)
+    });
+    attachFileDrop(document, {
+        selector: '[data-image-drop="question"]',
+        accept: imagenes,
+        onFiles: ([file], zona) =>
+            subirImagenPregunta(Number(_argumentoDeSelector(zona.querySelector('[data-admin-click]'))), file)
+    });
+    attachFileDrop(document, {
+        selector: '.xq-option',
+        accept: imagenes,
+        onFiles: (files, fila) => {
+            const input = fila.querySelector('.xq-option__file input[type="file"]');
+            if (input) setInputFiles(input, files);
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', inicializarDropsImagenes);
 
 function eliminarImagenPortada(kind) {
     const style = GAME_COVER_KIND_STYLES[kind];

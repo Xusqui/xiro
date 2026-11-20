@@ -107,6 +107,7 @@
     "admin.q.option_image_remove": "選択肢 {n} の画像を削除",
     "admin.q.option_image_alt": "選択肢 {n} の画像",
     "admin.q.option_image_add": "選択肢 {n} に画像を追加 (最大 200 KB)",
+    "admin.q.option_image_drop": "選択肢に画像を追加するには、その行へ画像をドラッグしてください。",
     "admin.q.option_n": "選択肢 {n}",
     "admin.q.optional": "任意",
     "admin.q.justification_placeholder": "答えを公開したときに表示されます",

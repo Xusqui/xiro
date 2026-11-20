@@ -114,6 +114,7 @@
         });
         const file = document.getElementById('lienzoMediaFile');
         if (file) {
+            if (typeof forwardDropToInput === 'function') forwardDropToInput(file.closest('.xsce-dialog'), file);
             file.addEventListener('change', async () => {
                 if (!file.files.length || typeof root._subirArchivoImagen !== 'function') return;
                 const url = await root._subirArchivoImagen(file.files[0], 'lienzoMediaStatus');

@@ -119,6 +119,112 @@ function isFileTypeAccepted(file, acceptedTypes) {
 }
 
 /**
+ * Indica si un fichero encaja con el atributo accept de un <input type="file">
+ * @param {File} file - Fichero a comprobar
+ * @param {string} acceptAttr - Ej.: ".json,application/json,image/*"; vacío acepta todo
+ * @returns {boolean}
+ */
+function acceptsFile(file, acceptAttr) {
+    const rules = String(acceptAttr || '')
+        .split(',')
+        .map(rule => rule.trim().toLowerCase())
+        .filter(Boolean);
+    if (rules.length === 0) return true;
+    const name = (file.name || '').toLowerCase();
+    const type = (file.type || '').toLowerCase();
+    return rules.some(rule => {
+        if (rule.startsWith('.')) return name.endsWith(rule);
+        if (rule.endsWith('/*')) return type.startsWith(rule.slice(0, -1));
+        return type === rule;
+    });
+}
+
+/**
+ * Convierte un elemento (o, con selector, los descendientes que lo cumplan) en zona de drop.
+ * Con selector el escucha va en la zona y no en cada elemento: sirve para bloques que se repintan con innerHTML.
+ * Atarla dos veces con el mismo selector no duplica el escucha.
+ * @param {EventTarget} zone - Elemento estable que recibe los eventos (puede ser document)
+ * @param {Object} options
+ * @param {string} [options.accept] - Atributo accept; vacío acepta todo
+ * @param {boolean} [options.multiple] - true entrega todos los válidos; false solo el primero
+ * @param {Function} options.onFiles - Recibe (files, target) con los ficheros válidos y el elemento que los recibió
+ * @param {Function} [options.onReject] - Recibe (files, target) si ninguno es válido; por defecto, un aviso
+ * @param {string} [options.activeClass] - Clase mientras se arrastra encima
+ * @param {string} [options.selector] - Selector CSS de los elementos que aceptan el drop dentro de zone
+ */
+function attachFileDrop(zone, options) {
+    if (!zone) return;
+    const { accept = '', multiple = false, onFiles, onReject, activeClass = 'drag-active', selector } = options;
+    const bound = zone._fileDropBound || (zone._fileDropBound = new Set());
+    const key = selector || '';
+    if (bound.has(key)) return;
+    bound.add(key);
+
+    const targetOf = event => {
+        if (!selector) return zone;
+        const origin = event.target;
+        return origin && origin.closest ? origin.closest(selector) : null;
+    };
+    const markActive = event => {
+        const target = targetOf(event);
+        if (!target) return;
+        event.preventDefault();
+        target.classList.add(activeClass);
+    };
+    const clearActive = event => {
+        const target = targetOf(event);
+        if (target) target.classList.remove(activeClass);
+    };
+    const handleDrop = event => {
+        const target = targetOf(event);
+        if (!target) return;
+        event.preventDefault();
+        target.classList.remove(activeClass);
+        const files = Array.from((event.dataTransfer && event.dataTransfer.files) || []);
+        if (files.length === 0) return;
+        const valid = files.filter(file => acceptsFile(file, accept));
+        if (valid.length === 0) {
+            if (typeof onReject === 'function') onReject(files, target);
+            else showError('Tipo de archivo no permitido');
+            return;
+        }
+        onFiles(multiple ? valid : valid.slice(0, 1), target);
+    };
+
+    zone.addEventListener('dragenter', markActive);
+    zone.addEventListener('dragover', markActive);
+    zone.addEventListener('dragleave', clearActive);
+    zone.addEventListener('drop', handleDrop);
+}
+
+/**
+ * Pone ficheros en un <input type="file"> y dispara change, igual que si los hubiera elegido el usuario
+ * @param {HTMLInputElement} input
+ * @param {File[]} files
+ */
+function setInputFiles(input, files) {
+    const transfer = new DataTransfer();
+    files.forEach(file => transfer.items.add(file));
+    input.files = transfer.files;
+    input.dispatchEvent(new Event('change', { bubbles: true }));
+}
+
+/**
+ * Hace que soltar un fichero sobre zone equivalga a elegirlo en el input (respeta su accept y su multiple)
+ * @param {HTMLElement} zone - Zona donde se suelta
+ * @param {HTMLInputElement} input - Input de archivo cuyo change ya gestiona la subida
+ * @param {Object} [options] - Resto de opciones de attachFileDrop (activeClass, onReject)
+ */
+function forwardDropToInput(zone, input, options = {}) {
+    attachFileDrop(zone, {
+        ...options,
+        accept: input.accept,
+        multiple: input.multiple,
+        onFiles: files => setInputFiles(input, files)
+    });
+}
+
+/**
  * Mostrar mensaje de error temporalmente
  * @param {string} message - Mensaje de error
  */
@@ -147,5 +253,9 @@ function showError(message) {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         setupDragAndDrop,
+        acceptsFile,
+        attachFileDrop,
+        setInputFiles,
+        forwardDropToInput,
     };
 }
