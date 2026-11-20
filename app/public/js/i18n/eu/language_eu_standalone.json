@@ -83,6 +83,9 @@
     "standalone.game.close": "Itxi partida",
     "standalone.game.close_confirm_title": "Partida itxi nahi duzu?",
     "standalone.game.close_confirm_message": "Partida honetako aurrerapena galduko duzu eta jokoen zerrendara itzuliko zara.",
-    "standalone.game.chart_no_data": "Daturik ez"
+    "standalone.game.chart_no_data": "Daturik ez",
+    "standalone.game.hotspot_instructions": "Ukitu irudia erantzuna dagoen tokian",
+    "standalone.game.hotspot_inside": "Barruan!",
+    "standalone.game.hotspot_distance": "Eremurako distantzia"
   }
 }

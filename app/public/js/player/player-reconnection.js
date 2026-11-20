@@ -23,7 +23,7 @@ import {
     clearAnswerInputState
 } from './player-state.js?v=20260922172926';
 import { removeDisconnectOverlay, activarWakeLock } from './player-connection.js?v=20260922172926';
-import { renderQuestionScreen } from './player-question-renderers.js?v=20261119120000';
+import { renderQuestionScreen } from './player-question-renderers.js?v=20261119180000';
 import { injectStreakBadge } from './player-streak-ui.js?v=20260922172926';
 import { syncTrivialBadgesFromSnapshot } from './player-trivial-badges-ui.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';

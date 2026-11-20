@@ -1,3 +1,9 @@
 {
-  "keys": {}
+  "keys": {
+    "player.hotspot.instructions": "Ukitu irudia erantzuna dagoen tokian",
+    "player.hotspot.submit": "Bidali",
+    "player.hotspot.inside": "Barruan!",
+    "player.hotspot.no_tap": "Ukitu gabe",
+    "player.hotspot.distance": "Eremutik % {n}-ra"
+  }
 }

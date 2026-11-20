@@ -12,6 +12,7 @@ const { getWordSearchScoringContext } = require('../../../sockets/utils/WordSear
 const { recordFillBlanksStats } = require('../../../sockets/utils/FillBlanksRevealStats');
 const { getFillBlanksScoringContext, emitToTeammates } = require('../../../sockets/utils/FillBlanksTeam');
 const { recordSurveyMultipleStats } = require('../../../sockets/utils/SurveyMultipleRevealStats');
+const { recordHotspotTap } = require('../../../sockets/utils/HotspotRevealStats');
 const { questionSlot } = require('../../../sockets/utils/QuestionSlot');
 
 /**
@@ -58,7 +59,10 @@ const QUESTION_TYPE_STATS = Object.freeze({
     },
     // Encuesta de selección múltiple: encuestados y votos por opción
     survey_multiple: ({ game, sPin, answerResult }) =>
-        recordSurveyMultipleStats(sPin, questionSlot(game), answerResult.selectedIndices)
+        recordSurveyMultipleStats(sPin, questionSlot(game), answerResult.selectedIndices),
+    // Toca la imagen: cada toque, para pintarlos todos al revelar
+    hotspot: ({ game, sPin, answerResult }) =>
+        recordHotspotTap(sPin, questionSlot(game), answerResult.details, answerResult.pointsEarned)
 });
 
 const ownEntry = (table, key) => (Object.prototype.hasOwnProperty.call(table, key) ? table[key] : null);

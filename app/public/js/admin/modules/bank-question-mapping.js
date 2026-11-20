@@ -68,7 +68,7 @@ function _bankQuestionTextFromApi(q, questionType) {
 /** Pregunta de la API (/api/banks/:id) → objeto del editor (preguntasData). */
 function mapBankQuestionFromApi(q) {
     const questionType = q.question_type || 'quiz';
-    const options = questionType === 'fill_blanks' ? [] : _bankOptionsFromApi(q, questionType);
+    const options = questionType === 'fill_blanks' || questionType === 'hotspot' ? [] : _bankOptionsFromApi(q, questionType);
     return {
         id: q.id,
         questionText: _bankQuestionTextFromApi(q, questionType),
@@ -82,7 +82,8 @@ function mapBankQuestionFromApi(q) {
         ..._numericFieldsFromApi(q, questionType),
         correctWord: questionType === 'word_scramble' ? q.correct_word || '' : null,
         hint: q.hint_text || '',
-        ..._multipleChoiceFieldsFromApi(q, questionType)
+        ..._multipleChoiceFieldsFromApi(q, questionType),
+        ...hotspotFieldsFromApi(q, questionType)
     };
 }
 
@@ -140,7 +141,7 @@ function _bankOptionForSave(q, opt, index) {
 }
 
 function _bankOptionsForSave(q) {
-    if (q.type === 'numeric_approximation' || q.type === 'word_scramble') return [];
+    if (q.type === 'numeric_approximation' || q.type === 'word_scramble' || q.type === 'hotspot') return [];
     return q.options.map((opt, index) => _bankOptionForSave(q, opt, index));
 }
 
@@ -181,6 +182,7 @@ function mapBankQuestionForSave(q) {
         ..._numericFieldsForSave(q),
         correctWord: q.type === 'word_scramble' ? q.correctWord || null : null,
         ..._multipleChoiceFieldsForSave(q),
+        ...hotspotFieldsForSave(q),
         options: fillBlanks ? fillBlanks.options : _bankOptionsForSave(q)
     };
 }

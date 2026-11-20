@@ -54,6 +54,7 @@ async function subirArchivo(qIdx, file) {
             const data = await response.json();
 
             // Actualizar pregunta con URL del recurso
+            alCambiarImagenHotspot(preguntasData[qIdx]);
             preguntasData[qIdx].tipo_contenido = data.tipo_contenido;
             preguntasData[qIdx].url_recurso = data.url;
 
@@ -90,6 +91,7 @@ function eliminarRecurso(qIdx) {
         _t('admin.media.confirm_delete_title', null, '⚠️ Eliminar recurso'),
         _t('admin.media.confirm_delete_msg', null, '¿Deseas eliminar este recurso multimedia?'),
         () => {
+            alCambiarImagenHotspot(preguntasData[qIdx]);
             preguntasData[qIdx].tipo_contenido = 'texto';
             preguntasData[qIdx].url_recurso = null;
             dibujarPregunta(qIdx);

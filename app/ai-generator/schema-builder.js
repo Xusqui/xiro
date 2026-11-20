@@ -14,7 +14,8 @@ const NORMALIZERS = {
     fill_blanks: require('./question-types/fill-blanks').normalize,
     word_search: require('./question-types/word-search').normalize,
     matching: require('./question-types/matching').normalize,
-    survey_multiple: require('./question-types/survey-multiple').normalize
+    survey_multiple: require('./question-types/survey-multiple').normalize,
+    hotspot: require('./question-types/hotspot').normalize
 };
 
 /**

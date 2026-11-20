@@ -22,6 +22,7 @@ globalThis.StandaloneQuestionRouter = (() => {
         order: (c, q, a) => StandaloneQuestionOrder.render(c, q, a),
         matching: (c, q, a) => StandaloneQuestionMatching.render(c, q, a),
         numeric_approximation: (c, q, a) => StandaloneQuestionInput.renderNumeric(c, q, a),
+        hotspot: (c, q, a) => StandaloneQuestionHotspot.render(c, q, a),
         word_scramble: (c, q, a) => StandaloneQuestionInput.renderWordScramble(c, q, a),
         multiple_choice: (c, q, a) => StandaloneQuestionMultipleChoice.render(c, q, a),
         survey_multiple: (c, q, a) => StandaloneQuestionMultipleChoice.renderSurvey(c, q, a),

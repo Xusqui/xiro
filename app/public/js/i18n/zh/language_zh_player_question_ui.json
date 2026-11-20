@@ -1,3 +1,9 @@
 {
-  "keys": {}
+  "keys": {
+    "player.hotspot.instructions": "点击图片中答案所在的位置",
+    "player.hotspot.submit": "提交",
+    "player.hotspot.inside": "命中！",
+    "player.hotspot.no_tap": "未点击",
+    "player.hotspot.distance": "距离区域 {n}%"
+  }
 }

@@ -12,6 +12,8 @@
     "presenter.reveal.correct_pairs": "Bikote zuzenak",
     "presenter.reveal.tolerance": "Tolerantzia:",
     "presenter.reveal.survey_multiple_caption_one": "Erantzun 1 · jokalari bakoitzak hainbat aukera zitzakeen",
-    "presenter.reveal.survey_multiple_caption_other": "{count} erantzun · jokalari bakoitzak hainbat aukera zitzakeen"
+    "presenter.reveal.survey_multiple_caption_other": "{count} erantzun · jokalari bakoitzak hainbat aukera zitzakeen",
+    "presenter.reveal.hotspot_inside": "{total}(e)tik {n} eremuaren barruan",
+    "presenter.reveal.hotspot_nobody": "Inork ez du erantzun"
   }
 }

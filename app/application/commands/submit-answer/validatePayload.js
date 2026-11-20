@@ -17,6 +17,7 @@
  */
 const { isValidFoundPayload } = require('../../validators/WordSearchQuestionValidator');
 const { isValidWordsPayload } = require('../../validators/FillBlanksQuestionValidator');
+const { isValidTapPayload } = require('../../validators/HotspotQuestionValidator');
 
 function hasLegacyAnswerShape(payload) {
     return typeof payload.index === 'number' || Array.isArray(payload.order);
@@ -30,7 +31,8 @@ const typedAnswerValidators = {
     // Encuesta de selección múltiple: se puede enviar sin marcar ninguna
     survey_multiple: payload => Array.isArray(payload.selectedIndices),
     word_search: payload => isValidFoundPayload(payload.found),
-    fill_blanks: payload => isValidWordsPayload(payload.words)
+    fill_blanks: payload => isValidWordsPayload(payload.words),
+    hotspot: payload => isValidTapPayload(payload.tap)
 };
 
 function hasTypedAnswerShape(payload) {
@@ -60,7 +62,7 @@ function validateSubmitAnswerPayload(payload = {}) {
 
     if (!hasSupportedAnswerShape(payload)) {
         errors.push(
-            'index, order, matches, numeric playerAnswer, word_scramble, word_search found, fill_blanks words or multiple_choice/survey_multiple selectedIndices is required'
+            'index, order, matches, numeric playerAnswer, word_scramble, word_search found, fill_blanks words, hotspot tap or multiple_choice/survey_multiple selectedIndices is required'
         );
     }
 

@@ -5,12 +5,14 @@
 const { extractCorrectAnswer, generateCorrectAnswerHTML } = require('../application/helpers/CorrectAnswerExtractor');
 const { generateWordSearchSolutionHTML } = require('./pdf-word-search');
 const { generateFillBlanksSolutionHTML } = require('./pdf-fill-blanks');
+const { generateHotspotSolutionHTML } = require('./pdf-hotspot');
 const { escapeHtml } = require('./pdf-html');
 
-/** Respuesta según el tipo: sopa y Completa la frase tienen su propia página */
+/** Respuesta según el tipo: sopa, Completa la frase y Toca la imagen tienen su propia página */
 function answerContentHTML(question) {
     if (question.question_type === 'word_search') return generateWordSearchSolutionHTML(question, escapeHtml);
     if (question.question_type === 'fill_blanks') return generateFillBlanksSolutionHTML(question, escapeHtml);
+    if (question.question_type === 'hotspot') return generateHotspotSolutionHTML(question);
     return generateCorrectAnswerHTML(extractCorrectAnswer(question));
 }
 

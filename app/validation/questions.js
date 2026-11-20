@@ -11,6 +11,11 @@ const {
     fillBlanksQuestionRule,
     fillBlanksRuleMessages
 } = require('../application/validators/FillBlanksQuestionValidator');
+const {
+    hotspotFields,
+    hotspotQuestionRule,
+    hotspotRuleMessages
+} = require('../application/validators/HotspotQuestionValidator');
 
 // Opción de pregunta
 const optionSchema = Joi.object({
@@ -122,6 +127,7 @@ const questionSchema = Joi.object({
         'number.base': 'El límite de tolerancia debe ser numérico',
         'number.positive': 'El límite de tolerancia debe ser mayor a 0'
     }),
+    ...hotspotFields,
     hint: Joi.string().max(300).allow(null, '').optional(),
     justification: Joi.string().max(LIMITS.JUSTIFICATION_MAX).allow(null, '').optional(),
     mc_points_per_correct: Joi.number()
@@ -171,7 +177,7 @@ const questionSchema = Joi.object({
         }),
     options: Joi.when('type', {
         switch: [
-            { is: Joi.valid('numeric_approximation', 'word_scramble'), then: Joi.optional() },
+            { is: Joi.valid('numeric_approximation', 'word_scramble', 'hotspot'), then: Joi.optional() },
             { is: 'word_search', then: wordSearchOptionsSchema },
             // Opcionales a nivel de clave: con la frase entre corchetes (JSON importado) las
             // palabras las genera fillBlanksQuestionRule, que exige después que cuadren
@@ -195,6 +201,8 @@ const questionSchema = Joi.object({
 })
     // Completa la frase: corchetes → marcadores + palabras, y tantos huecos como palabras
     .custom(fillBlanksQuestionRule, 'fill_blanks question')
-    .messages(fillBlanksRuleMessages);
+    // Toca la imagen: imagen principal y área válida (normalizada)
+    .custom(hotspotQuestionRule, 'hotspot question')
+    .messages({ ...fillBlanksRuleMessages, ...hotspotRuleMessages });
 
 module.exports = { optionSchema, orderOptionSchema, questionSchema };

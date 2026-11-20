@@ -23,6 +23,7 @@ const QUESTION_TYPE_LABELS = [
     { type: 'fill_blanks', label: 'Completa la frase', icon: 'fa-i-cursor', tile: 'bg-slate-100', ink: 'text-slate-600' },
     { type: 'numeric_approximation', label: 'Aproximación numérica', icon: 'fa-hashtag', tile: 'bg-teal-100', ink: 'text-teal-700' },
     { type: 'word_search', label: 'Sopa de letras', icon: 'fa-th', tile: 'bg-yellow-100', ink: 'text-yellow-600' },
+    { type: 'hotspot', label: 'Toca la imagen', key: 'admin.ai.type_hotspot', icon: 'fa-location-dot', tile: 'bg-red-100', ink: 'text-red-600' },
     { type: 'survey', label: 'Encuesta (survey)', icon: 'fa-poll', tile: 'bg-blue-100', ink: 'text-blue-600' },
     {
         type: 'survey_multiple',

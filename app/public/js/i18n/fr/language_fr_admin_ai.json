@@ -50,6 +50,7 @@
     "admin.ai.wait.elapsed": "Temps écoulé",
     "admin.ai.wait.types": "Types demandés",
     "admin.ai.wait.patience": "Toujours en cours. Avec un long document ou beaucoup de questions, cela peut prendre plusieurs minutes ; ne fermez pas cet onglet.",
-    "admin.ai.regenerating": "Régénération…"
+    "admin.ai.regenerating": "Régénération…",
+    "admin.ai.type_hotspot": "Touche l'image"
   }
 }

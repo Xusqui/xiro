@@ -18,6 +18,7 @@
     "presenter.game.players_see_devices": "Les joueurs voient les options sur leurs appareils",
     "presenter.game.multiple_choice_label": "✓ Choix multiple",
     "presenter.game.survey_multiple_label": "Sondage à choix multiples",
-    "presenter.game.previous_slide": "Précédent"
+    "presenter.game.previous_slide": "Précédent",
+    "presenter.game.hotspot_devices": "Touchez l'image sur vos téléphones"
   }
 }

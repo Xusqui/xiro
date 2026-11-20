@@ -83,6 +83,9 @@
     "standalone.game.close": "ゲームを終了",
     "standalone.game.close_confirm_title": "ゲームを終了しますか？",
     "standalone.game.close_confirm_message": "このゲームの進行状況は失われ、ゲーム一覧に戻ります。",
-    "standalone.game.chart_no_data": "データなし"
+    "standalone.game.chart_no_data": "データなし",
+    "standalone.game.hotspot_instructions": "答えの場所で画像をタップ",
+    "standalone.game.hotspot_inside": "エリア内！",
+    "standalone.game.hotspot_distance": "エリアまでの距離"
   }
 }

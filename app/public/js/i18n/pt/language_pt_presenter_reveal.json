@@ -12,6 +12,8 @@
     "presenter.reveal.correct_pairs": "Pares corretos",
     "presenter.reveal.tolerance": "Tolerância:",
     "presenter.reveal.survey_multiple_caption_one": "1 resposta · cada jogador podia escolher várias",
-    "presenter.reveal.survey_multiple_caption_other": "{count} respostas · cada jogador podia escolher várias"
+    "presenter.reveal.survey_multiple_caption_other": "{count} respostas · cada jogador podia escolher várias",
+    "presenter.reveal.hotspot_inside": "{n} de {total} dentro da área",
+    "presenter.reveal.hotspot_nobody": "Ninguém respondeu"
   }
 }

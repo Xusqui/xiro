@@ -195,6 +195,7 @@ const StandaloneReveal = (() => {
         const isApproximate = visualLogic.shouldShowApproximateResult({ isOrder, currentSlideType, data });
         const color =
             StandaloneQuestionFillBlanks.resultColor(data) ||
+            StandaloneQuestionHotspot.resultColor(data) ||
             visualLogic.resolveResultColor({ isOrder, isFullyCorrect, isApproximate, isCorrect: data.correct });
 
         let message;
@@ -206,6 +207,8 @@ const StandaloneReveal = (() => {
             message = StandaloneQuestionWordSearch.resultMessage(data, _pointsPill);
         } else if (data.fillBlanksDetails) {
             message = StandaloneQuestionFillBlanks.resultMessage(data, _pointsPill);
+        } else if (data.hotspotDetails) {
+            message = StandaloneQuestionHotspot.resultMessage(data, _pointsPill);
         } else if (data.surveyMultipleDetails) {
             message = StandaloneQuestionMultipleChoice.surveyResultMessage(data);
         } else {
@@ -236,6 +239,7 @@ const StandaloneReveal = (() => {
                 ${_showsPlainAnswer(data) ? `<div class="pl-reveal-box"><p>${t('standalone.game.correct_answer', 'Respuesta correcta')}</p><p>${escapeHtml(data.correctAnswer)}</p></div>` : ''}
                 ${_correctWordBox(escapeHtml(data.correctWord))}
                 ${StandaloneQuestionFillBlanks.revealSentence(data.fillBlanks)}
+                ${StandaloneQuestionHotspot.revealStage(data.hotspot)}
                 ${orderList}
                 ${_correctIndicesList(data.correctIndices)}
                 ${_correctMatchesList(data.correctMatches)}

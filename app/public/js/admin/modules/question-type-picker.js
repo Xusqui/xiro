@@ -3,8 +3,8 @@
 // Estilos en css/admin-question-type-picker.css; el color de cada tipo sale de
 // su data-type, el mismo color que su chip en la lista.
 
-// Orden de lectura en 5x2: elegir respuesta (quiz, múltiple y las dos encuestas),
-// ordenar o estimar, y palabras. En contenedores estrechos pasa a 2 columnas.
+// Orden de lectura en 4 columnas: elegir respuesta (quiz, múltiple y las dos encuestas),
+// colocar, estimar o señalar, y palabras. En contenedores estrechos pasa a 2 columnas.
 const QUESTION_TYPE_PICKER = [
     { type: 'quiz', icon: 'fa-check', name: 'Quiz', hint: 'Una respuesta correcta' },
     {
@@ -23,6 +23,7 @@ const QUESTION_TYPE_PICKER = [
     { type: 'order', icon: 'fa-list-ol', name: 'Ordena', hint: 'Arrastrar al orden correcto' },
     { type: 'matching', icon: 'fa-right-left', name: 'Emparejar', hint: 'Unir dos columnas' },
     { type: 'numeric_approximation', icon: 'fa-bullseye', name: 'Numérica', hint: 'Acercarse a un número' },
+    { type: 'hotspot', icon: 'fa-location-dot', name: 'Toca la imagen', hint: 'Señalar una zona de la imagen' },
     { type: 'word_scramble', icon: 'fa-shuffle', name: 'Anagrama', hint: 'Descifrar la palabra' },
     { type: 'word_search', icon: 'fa-table-cells', name: 'Sopa de letras', hint: 'Encontrar las palabras' },
     { type: 'fill_blanks', icon: 'fa-i-cursor', name: 'Completa la frase', hint: 'Rellenar los huecos' }
@@ -32,6 +33,7 @@ const QUESTION_TYPE_PICKER = [
 // applyWordTypeDefaults en helpers.js). Los demás conservan las opciones que haya.
 const TYPES_THAT_RESET_OPTIONS = new Set([
     'numeric_approximation',
+    'hotspot',
     'matching',
     'word_scramble',
     'word_search',
@@ -49,7 +51,7 @@ function _typePickerToggleHtml(qIdx, open) {
 
 /**
  * Tipo de una pregunta. Ya elegido, es una línea con el tipo y "Cambiar tipo": la
- * rejilla de 10 baldosas solo se abre en preguntas nuevas o al pedirla.
+ * rejilla de baldosas solo se abre en preguntas nuevas o al pedirla.
  */
 function questionTypePickerHtml(q, qIdx) {
     if (!isTypePickerOpen(q)) {

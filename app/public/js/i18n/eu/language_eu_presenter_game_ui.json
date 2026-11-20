@@ -18,6 +18,7 @@
     "presenter.game.players_see_devices": "Jokalariek aukerak ikusten dituzte beren gailuetan",
     "presenter.game.multiple_choice_label": "✓ Aukera anizkoitza",
     "presenter.game.survey_multiple_label": "Aukera anitzeko inkesta",
-    "presenter.game.previous_slide": "Aurrekoa"
+    "presenter.game.previous_slide": "Aurrekoa",
+    "presenter.game.hotspot_devices": "Ukitu irudia zuen mugikorretan"
   }
 }

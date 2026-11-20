@@ -14,6 +14,7 @@ import {
     renderizarPreguntaFillBlanks,
     renderizarPreguntaMultipleChoice,
     renderizarPreguntaSurveyMultiple,
+    renderizarPreguntaHotspot,
     renderizarSlideComentario,
     renderizarSlideInfo,
     renderizarSlideTexto,
@@ -21,7 +22,7 @@ import {
     renderizarSlideTextoImagen,
     renderizarSlideVideo,
     renderizarSlideHowTo
-} from './player-question-ui.js?v=20260922172926';
+} from './player-question-ui.js?v=20261119180000';
 import { renderizarSlideLienzo } from './player-slide-canvas-ui.js?v=20261019120000';
 
 // Una diapositiva manda sobre question_type: la fila puede arrastrar el de la pregunta
@@ -45,6 +46,7 @@ const QUESTION_RENDERERS = Object.freeze({
     order: renderizarPreguntaOrdena,
     matching: renderizarPreguntaMatching,
     numeric_approximation: renderizarPreguntaNumerica,
+    hotspot: renderizarPreguntaHotspot,
     word_scramble: renderizarPreguntaWordScramble,
     word_search: renderizarPreguntaWordSearch,
     fill_blanks: renderizarPreguntaFillBlanks

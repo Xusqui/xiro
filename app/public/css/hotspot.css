@@ -1,0 +1,110 @@
+/* «Toca la imagen» (hotspot): imagen con el área correcta y los toques encima
+   (js/core/hotspot-view.js). La comparten jugador, presentador, modo individual y TV:
+   sin grid, gap, variables, inset ni color-mix, para los navegadores de TV antiguos. */
+
+/* El escenario mide siempre lo mismo que su imagen: sin límite de altura, que recortaría la
+   imagen y desplazaría el área y las marcas (van en % del escenario). Quien se limita es la imagen. */
+.hs-stage {
+    position: relative;
+    display: inline-block;
+    /* En una columna flex (presentador), overflow: hidden pone su altura mínima a 0 y se encogería */
+    -webkit-flex: none;
+    flex: none;
+    max-width: 100%;
+    line-height: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.hs-stage__img {
+    display: block;
+    max-width: 100%;
+    max-height: 60vh;
+    width: auto;
+    height: auto;
+    pointer-events: none;
+}
+
+/* Presentador: la imagen cabe en la zona central, como .stage-question-image */
+.hs-presenter .hs-stage__img {
+    max-height: calc(100vh - 300px - 5rem);
+}
+
+/* Presentador en el móvil: deja sitio a la tarjeta del revelado y al aviso */
+@media (max-width: 768px) {
+    .hs-presenter .hs-stage__img {
+        max-height: 45vh;
+    }
+}
+
+/* Pregunta en el móvil: la imagen es lo que se toca */
+#hs-question {
+    cursor: crosshair;
+    touch-action: manipulation;
+}
+
+#hs-question .hs-stage__img {
+    max-height: 55vh;
+}
+
+/* El SVG se estira con la imagen: el área va en coordenadas 0-1 en los dos ejes */
+.hs-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.hs-area {
+    fill: rgba(220, 38, 38, 0.3);
+    stroke: #dc2626;
+    stroke-width: 3px;
+    vector-effect: non-scaling-stroke;
+}
+
+/* Marcas: el centro de la marca es el punto tocado */
+.hs-pin {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    margin: -8px 0 0 -8px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    line-height: 12px;
+    font-size: 10px;
+    font-weight: 900;
+    color: #ffffff;
+    text-align: center;
+}
+
+.hs-pin--in { background: #16a34a; }
+.hs-pin--near { background: #f59e0b; }
+.hs-pin--out { background: #64748b; }
+
+/* Toque propio: chincheta grande con anillo blanco */
+.hs-pin--own {
+    width: 24px;
+    height: 24px;
+    margin: -12px 0 0 -12px;
+    border-width: 4px;
+    background: #2563eb;
+}
+
+.hs-pin__count {
+    display: block;
+    line-height: 12px;
+}
+
+.hs-credit {
+    margin-top: 4px;
+    font-size: 11px;
+    line-height: 1.3;
+    opacity: 0.75;
+}

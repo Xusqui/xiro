@@ -111,6 +111,15 @@ export function getTabResponderHTML() {
             placeholderId: 'img-fill-blanks',
             imgSrc: './images/manual/img-fill-blanks.jpg',
             mascotImg: 'detective.svg'
+        },
+        {
+            color: '#dc2626',
+            icon: 'fas fa-location-dot',
+            title: _t('manual_player.answer.hotspot.title'),
+            text: _t('manual_player.answer.hotspot.text'),
+            // Sin captura todavía: el componente pinta el hueco con este id
+            placeholderId: 'img-hotspot',
+            mascotImg: 'pointing.svg'
         }
     ];
 

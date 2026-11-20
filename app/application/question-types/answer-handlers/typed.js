@@ -1,6 +1,6 @@
 /**
  * @fileoverview Manejadores de los tipos de respuesta escrita o marcada: numérica,
- * anagrama, sopa de letras y completa la frase. Sopa y frase admiten el envío
+ * anagrama, sopa de letras, completa la frase y toca la imagen. Sopa y frase admiten el envío
  * automático justo después del cierre (lateAnswer); en equipos llega entonces.
  * @module application/question-types/answer-handlers/typed
  */
@@ -11,8 +11,10 @@ const { processWordScrambleAnswer } = require('../../../domain/services/WordScra
 const { processWordSearchAnswer, getWordSearchStreakAction } = require('../../../domain/services/WordSearchService');
 const { getNumericStreakAction } = require('../../../domain/services/NumericAnswerService');
 const { processFillBlanksAnswer } = require('../../../domain/services/FillBlanksService');
+const { processHotspotAnswer } = require('../../../domain/services/HotspotAnswerService');
 const { isValidFoundPayload } = require('../../validators/WordSearchQuestionValidator');
 const { isValidWordsPayload } = require('../../validators/FillBlanksQuestionValidator');
+const { isValidTapPayload } = require('../../validators/HotspotQuestionValidator');
 const { freeInputValidator, elapsedSeconds, scoreWithScoringService } = require('./shared');
 
 const numeric = Object.freeze({
@@ -70,9 +72,18 @@ const fillBlanks = Object.freeze({
         })
 });
 
+const hotspot = Object.freeze({
+    lateAnswer: false,
+    // Puntúa por cercanía como la numérica: dentro sube la racha, con puntos la mantiene
+    streakAction: getNumericStreakAction,
+    validate: freeInputValidator((payload) => isValidTapPayload(payload.tap)),
+    evaluate: (ctx) => processHotspotAnswer({ question: ctx.currentQuestion, playerAnswer: ctx.payload.tap })
+});
+
 module.exports = {
     numeric_approximation: numeric,
     word_scramble: wordScramble,
     word_search: wordSearch,
-    fill_blanks: fillBlanks
+    fill_blanks: fillBlanks,
+    hotspot
 };

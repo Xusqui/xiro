@@ -535,8 +535,14 @@ async function cargarBancoDesdeJSON() {
             name: cuestionarioCargado.name,
             pin: pin || null,
             language: cuestionarioCargado.language || 'es',
-            questions: cuestionarioCargado.questions.map(q => mapQuestionForImport(q))
+            questions: await restoreHotspotImages(cuestionarioCargado.questions.map(q => mapQuestionForImport(q)))
         };
+        // Toca la imagen sin imagen o sin área: se completa en el editor antes de guardar
+        if (needsHotspotEditing(bankData.questions)) {
+            resultado.classList.add('hidden');
+            abrirBancoParaCompletarHotspot(bankData);
+            return;
+        }
 
         const res = await fetchWithAuth('/api/banks/save-all', {
             method: 'POST',

@@ -74,6 +74,8 @@
     "admin.custom.btn_video_slide": "VIDEOSLIDE HINZUFÜGEN",
     "admin.custom.btn_short_video": "Video",
     "admin.custom.btn_canvas_slide": "FREIE FOLIE HINZUFÜGEN",
-    "admin.custom.btn_short_canvas": "Freie Folie"
+    "admin.custom.btn_short_canvas": "Freie Folie",
+    "admin.custom.badge_hotspot": "TIPPE AUFS BILD",
+    "admin.custom.hotspot_answer": "Im Bild markierter Bereich"
   }
 }

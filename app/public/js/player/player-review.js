@@ -7,7 +7,7 @@
 
 import { socket } from './player-socket-config.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
-import { correctAnswerBlockHtml, forgetReveal } from './player-reveal-correct.js?v=20260922172926';
+import { correctAnswerBlockHtml, forgetReveal } from './player-reveal-correct.js?v=20261119180000';
 import { cancelStreakAnimation } from './player-streak-ui.js?v=20260922172926';
 import {
     setCanAnswer,

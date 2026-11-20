@@ -9,6 +9,7 @@
 const { buildWordSearchReveal } = require('./WordSearchRevealStats');
 const { buildFillBlanksReveal } = require('./FillBlanksRevealStats');
 const { buildSurveyMultipleReveal } = require('./SurveyMultipleRevealStats');
+const { buildHotspotReveal } = require('./HotspotRevealStats');
 const { questionSlot } = require('./QuestionSlot');
 
 function optionText(option) {
@@ -31,6 +32,7 @@ function buildPlayerRevealPayload(presenterPayload) {
     const fillBlanks = presenterPayload.fillBlanks;
     const surveyMultiple = presenterPayload.surveyMultiple;
     const surveySingle = presenterPayload.surveySingle;
+    const hotspot = presenterPayload.hotspot;
     return {
         correctAnswer: presenterPayload.correctAnswer ?? null,
         justification: presenterPayload.justification ?? null,
@@ -46,7 +48,9 @@ function buildPlayerRevealPayload(presenterPayload) {
             : {}),
         // Encuestas: el jugador ve el porcentaje de cada opción
         ...(surveyMultiple ? { surveyMultiple } : {}),
-        ...(surveySingle ? { surveySingle } : {})
+        ...(surveySingle ? { surveySingle } : {}),
+        // Toca la imagen: el área correcta; su propio toque ya lo tiene cada jugador
+        ...(hotspot ? { hotspot: { area: hotspot.area } } : {})
     };
 }
 
@@ -109,6 +113,14 @@ async function applySurveyMultipleReveal({ presenterPayload, question, roomId, s
     presenterPayload.correctAnswer = null;
 }
 
+// Toca la imagen: área, crédito y toques de todos (anónimos) para el presentador y la TV
+async function applyHotspotReveal({ presenterPayload, question, roomId, slot }) {
+    presenterPayload.hotspot = await buildHotspotReveal(roomId, slot, question);
+    presenterPayload.maxPoints = question.max_points;
+    presenterPayload.correctAnswer = null;
+    clearOptionFields(presenterPayload);
+}
+
 // Ajustes del payload del presentador por tipo; quiz, ordenar y emparejar no tienen
 const TYPE_OVERRIDES = Object.freeze({
     numeric_approximation: ({ presenterPayload, question }) => applyNumericReveal(presenterPayload, question),
@@ -119,13 +131,14 @@ const TYPE_OVERRIDES = Object.freeze({
         presenterPayload.surveySingle = buildSurveySingleReveal(question, presenterPayload.percentages);
     },
     survey_multiple: applySurveyMultipleReveal,
+    hotspot: applyHotspotReveal,
     multiple_choice: ({ presenterPayload, question, correctIndicesMultiple }) =>
         applyMultipleChoiceReveal(presenterPayload, question, correctIndicesMultiple)
 });
 
 /**
  * Ajusta el payload del presentador según el tipo de pregunta.
- * Async por la sopa de letras, Completa la frase y la encuesta múltiple (leen recuentos de Redis).
+ * Async por la sopa de letras, Completa la frase, la encuesta múltiple y Toca la imagen (leen recuentos de Redis).
  * @param {Object} input
  * @param {Object} input.presenterPayload - Payload que se modifica
  * @param {Object} input.question - Pregunta revelada

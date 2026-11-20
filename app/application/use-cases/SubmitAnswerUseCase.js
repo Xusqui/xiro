@@ -22,6 +22,7 @@ const ImprovedSubmitAnswerCommand = require('../commands/ImprovedSubmitAnswerCom
 const { validateSocket, schemas } = require('../../validation');
 const { isValidFoundPayload } = require('../validators/WordSearchQuestionValidator');
 const { isValidWordsPayload } = require('../validators/FillBlanksQuestionValidator');
+const { isValidTapPayload } = require('../validators/HotspotQuestionValidator');
 const { createRedisRateLimiter } = require('../helpers/SocketRateLimiterFactory');
 const { getRedisClient } = require('../../config/redis');
 const { getIdempotencyService } = require('../services/idempotency');
@@ -102,6 +103,13 @@ function validateFillBlanksPayload(data) {
     return { valid: true, value: { ...data } };
 }
 
+function validateHotspotPayload(data) {
+    if (!hasRoom(data) || !hasNickname(data) || !isValidTapPayload(data.tap)) {
+        return { valid: false, errors: ['invalid hotspot payload'] };
+    }
+    return { valid: true, value: { ...data } };
+}
+
 const ANSWER_VALIDATORS = {
     numeric: validateNumericPayload,
     word_scramble: validateWordScramblePayload,
@@ -109,7 +117,8 @@ const ANSWER_VALIDATORS = {
     survey_multiple: validateSurveyMultiplePayload,
     matching: validateMatchingPayload,
     word_search: validateWordSearchPayload,
-    fill_blanks: validateFillBlanksPayload
+    fill_blanks: validateFillBlanksPayload,
+    hotspot: validateHotspotPayload
 };
 
 function validateSubmitAnswerPayload(data) {
@@ -133,6 +142,7 @@ function mapSubmitAnswerCommandContext(context) {
         selectedIndices: context.validatedData.selectedIndices,
         found: context.validatedData.found,
         words: context.validatedData.words,
+        tap: context.validatedData.tap,
         playerId: context.playerId,
         socket: context.socket,
         requestId: context.data.requestId

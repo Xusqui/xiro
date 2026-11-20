@@ -56,6 +56,9 @@
     "xiro_results_viewer.error.session_not_found": "Saioa ez da aurkitu",
     "xiro_results_viewer.error.load_title": "Ezin izan da partida kargatu",
     "xiro_results_viewer.error.back_button": "← Itzuli ikusgailura",
-    "xiro_results_viewer.error.parse_csv": "Errorea CSV prozesatzean: "
+    "xiro_results_viewer.error.parse_csv": "Errorea CSV prozesatzean: ",
+    "xiro_results_viewer.vote.hotspot_in": "Barruan",
+    "xiro_results_viewer.vote.hotspot_near": "Gertu",
+    "xiro_results_viewer.vote.hotspot_out": "Kanpoan"
   }
 }

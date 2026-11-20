@@ -13,6 +13,7 @@ import { revealFillBlanksOnStage } from './presenter-fillblanks-layout.js?v=2026
 import { rankingCardHtml, justificationCardHtml } from './presenter-reveal-cards.js?v=20260922172926';
 import { numericRevealCardHtml, markNumericAnswerRevealed } from './presenter-reveal-numeric.js?v=20260922172926';
 import { revealOptionCards } from './presenter-reveal-options.js?v=20260922172926';
+import { revealHotspotOnStage, hotspotRevealCardHtml } from './presenter-hotspot.js?v=20261119180000';
 
 /**
  * Limpiar elementos de reveal (ranking y justificación)
@@ -161,6 +162,14 @@ function revealFillBlanks(data, showTopAnswers) {
     if (showTopAnswers) insertTopAnswersCard(data);
 }
 
+function revealHotspot(data, showTopAnswers) {
+    if (data.hotspot) {
+        revealHotspotOnStage(data.hotspot);
+        insertBelowTitle(hotspotRevealCardHtml(data.hotspot));
+    }
+    if (showTopAnswers) insertTopAnswersCard(data);
+}
+
 function revealMultipleChoice(data, showTopAnswers) {
     const correctIndices = data.correctIndices || [];
     // Marca correctas e incorrectas en la rejilla (estilo quiz)
@@ -265,6 +274,7 @@ export function handleRevealAnswer(data) {
     else if (questionType === 'word_search') revealWordSearch(data, showTopAnswers);
     else if (questionType === 'fill_blanks') revealFillBlanks(data, showTopAnswers);
     else if (questionType === 'multiple_choice') revealMultipleChoice(data, showTopAnswers);
+    else if (questionType === 'hotspot') revealHotspot(data, showTopAnswers);
     else revealOptions(data, isInfoSlide);
 
     showNextButton();

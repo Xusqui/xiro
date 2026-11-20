@@ -64,6 +64,8 @@
     "manual_player.trivial.s3.title": "Répondez à la question",
     "manual_player.trivial.s3.text": "<p>Tous les joueurs voient une question aléatoire basée sur la catégorie de la case sur laquelle on est tombé. À vous de répondre !</p>",
     "manual_player.answer.fill_blanks.title": "Complète la Phrase",
-    "manual_player.answer.fill_blanks.text": "Touche un trou et écris le mot au clavier : chaque case est une lettre. Si tu bloques, demande un indice (il révèle la première lettre, puis la dernière, puis celle du milieu), mais ce mot vaudra moins (70 %, 40 %, 25 %). C’est une réussite avec la moitié des trous ou plus. En équipes, chaque mot est vérifié une fois complet et les mots justes sont partagés avec le groupe ; le premier qui envoie clôt la question pour tous."
+    "manual_player.answer.fill_blanks.text": "Touche un trou et écris le mot au clavier : chaque case est une lettre. Si tu bloques, demande un indice (il révèle la première lettre, puis la dernière, puis celle du milieu), mais ce mot vaudra moins (70 %, 40 %, 25 %). C’est une réussite avec la moitié des trous ou plus. En équipes, chaque mot est vérifié une fois complet et les mots justes sont partagés avec le groupe ; le premier qui envoie clôt la question pour tous.",
+    "manual_player.answer.hotspot.title": "Touche l'Image",
+    "manual_player.answer.hotspot.text": "Touche sur l'image l'endroit demandé : une épingle apparaît, que tu peux déplacer en touchant à nouveau, puis appuie sur « Envoyer ». Dans la bonne zone tu gagnes les points maximum plus un bonus ; à proximité, tu en gagnes moins à mesure que tu t'éloignes. À la révélation tu vois la bonne zone et ton toucher."
   }
 }

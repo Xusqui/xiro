@@ -51,7 +51,11 @@ const StandaloneGame = (() => {
     }
 
     function _showReveal(kind, data) {
-        if (revealedForCurrentQuestion) return;
+        if (revealedForCurrentQuestion) {
+            // Toca la imagen: la revelación tras el resultado dibuja el área sobre su imagen
+            if (kind === 'reveal-answer' && data && data.hotspot) StandaloneQuestionHotspot.applyReveal(_mainContainer(), data.hotspot);
+            return;
+        }
         revealedForCurrentQuestion = true;
         StandaloneQuestionCommon.clearQuestionTimer();
         _setFullscreen(true);

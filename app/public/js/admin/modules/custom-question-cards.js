@@ -160,6 +160,7 @@ function _customTextImageBody(q) {
 // cada tipo es el de la paleta de tipos (DESIGN.md, css/admin-question-type-picker.css).
 const _CUSTOM_TYPE_BADGES = [
     ['numeric_approximation', 'bg-teal-100 text-teal-700', 'admin.custom.badge_numeric', 'NUMÉRICA'],
+    ['hotspot', 'bg-red-100 text-red-800', 'admin.custom.badge_hotspot', 'TOCA LA IMAGEN'],
     ['order', 'bg-green-100 text-green-700', 'admin.custom.badge_order', 'ORDENA'],
     ['word_scramble', 'bg-pink-100 text-pink-700', 'admin.custom.badge_scramble', 'ANAGRAMA'],
     ['multiple_choice', 'bg-aubergine-100 text-aubergine-700', 'admin.custom.badge_multiple', 'MÚLTIPLE'],

@@ -50,6 +50,7 @@
     "admin.ai.wait.elapsed": "Tempo decorrido",
     "admin.ai.wait.types": "Tipos pedidos",
     "admin.ai.wait.patience": "Continua a trabalhar. Com documentos longos ou muitas perguntas pode demorar vários minutos; não feches este separador.",
-    "admin.ai.regenerating": "A regenerar…"
+    "admin.ai.regenerating": "A regenerar…",
+    "admin.ai.type_hotspot": "Toca na imagem"
   }
 }

@@ -11,6 +11,7 @@ const { buildQuestionsForType, buildBankPayload } = require('./schema-builder');
 const { promptTypes, getPromptBuilder } = require('./prompt-builders');
 const { buildChunkPlan } = require('./batch-chunks');
 const { filterNewQuestions, correctAnswerText } = require('./question-dedup');
+const { attachHotspotImages } = require('./hotspot-images');
 const logger = require('../config/logger');
 
 const QUESTION_TYPES = promptTypes();
@@ -293,7 +294,8 @@ async function generateBank(documentText, config, signal, mode = 'document') {
             })
         );
     }
-    const allQuestions = results.flatMap(r => r.questions);
+    // Toca la imagen: la imagen de Wikimedia Commons que buscó la IA (el área la dibuja el editor)
+    const allQuestions = await attachHotspotImages(results.flatMap(r => r.questions), { signal });
     const bankPayload = buildBankPayload(name, allQuestions, language);
 
     return {

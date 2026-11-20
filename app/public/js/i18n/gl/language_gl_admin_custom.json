@@ -74,6 +74,8 @@
     "admin.custom.btn_video_slide": "ENGADIR DIAPÓSITIVA DE VÍDEO",
     "admin.custom.btn_short_video": "Vídeo",
     "admin.custom.btn_canvas_slide": "ENGADIR DIAPOSITIVA LIBRE",
-    "admin.custom.btn_short_canvas": "Diapositiva libre"
+    "admin.custom.btn_short_canvas": "Diapositiva libre",
+    "admin.custom.badge_hotspot": "TOCA A IMAXE",
+    "admin.custom.hotspot_answer": "Zona marcada na imaxe"
   }
 }

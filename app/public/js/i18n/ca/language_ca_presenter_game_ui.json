@@ -18,6 +18,7 @@
     "presenter.game.players_see_devices": "Els jugadors veuen les opcions als seus dispositius",
     "presenter.game.multiple_choice_label": "✓ Selecció múltiple",
     "presenter.game.survey_multiple_label": "Enquesta de selecció múltiple",
-    "presenter.game.previous_slide": "Anterior"
+    "presenter.game.previous_slide": "Anterior",
+    "presenter.game.hotspot_devices": "Toqueu la imatge als vostres mòbils"
   }
 }

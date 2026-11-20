@@ -48,6 +48,8 @@
 :is(.xq-type__tile, .xq-card)[data-type="numeric_approximation"] { --xq-accent: #0f766e; --xq-tint: #f0fdfa; --xq-edge: #99f6e4; --xq-ink: #134e4a; }
 :is(.xq-type__tile, .xq-card)[data-type="word_scramble"] { --xq-accent: #db2777; --xq-tint: #fdf2f8; --xq-edge: #fbcfe8; --xq-ink: #9d174d; }
 :is(.xq-type__tile, .xq-card)[data-type="word_search"] { --xq-accent: #ca8a04; --xq-tint: #fefce8; --xq-edge: #fde68a; --xq-ink: #854d0e; }
+/* Rojo de chincheta: ningún otro tipo lo usa */
+:is(.xq-type__tile, .xq-card)[data-type="hotspot"] { --xq-accent: #dc2626; --xq-tint: #fef2f2; --xq-edge: #fecaca; --xq-ink: #991b1b; }
 :is(.xq-type__tile, .xq-card)[data-type="fill_blanks"] { --xq-accent: #475569; --xq-tint: #f1f5f9; --xq-edge: #cbd5e1; --xq-ink: #1e293b; }
 
 /* ---- Baldosa ---- */
@@ -171,9 +173,9 @@
     border-color: var(--plum-400, #d384ca);
 }
 
-/* ---- Tarjeta ancha: 5x2, cada baldosa apilada (pozo e icono arriba, texto debajo) ---- */
+/* ---- Tarjeta ancha: 4 columnas (4+4+3), cada baldosa apilada (pozo e icono arriba, texto debajo) ---- */
 @container (min-width: 720px) {
-    .xq-type__grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .xq-type__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
     .xq-type__tile {
         grid-template-columns: auto minmax(0, 1fr);

@@ -177,6 +177,16 @@ function invalidatePinCaches(pin) {
     pinCache.invalidate(`presenter:${pin}`);
 }
 
+/** Área (JSON), tolerancia y crédito de «Toca la imagen»; NULL en el resto de tipos. */
+function hotspotValues(question) {
+    const isHotspot = question.type === 'hotspot';
+    return [
+        isHotspot && question.hotspotArea ? JSON.stringify(question.hotspotArea) : null,
+        isHotspot ? (question.hotspotTolerance ?? null) : null,
+        question.imageCredit || null
+    ];
+}
+
 function buildQuestionValues(bankId, question) {
     return [
         bankId,
@@ -192,7 +202,8 @@ function buildQuestionValues(bankId, question) {
         question.toleranceValue ?? null,
         question.toleranceCap ?? null,
         question.correctWord ?? null,
-        question.question_image_url ?? null
+        question.question_image_url ?? null,
+        ...hotspotValues(question)
     ];
 }
 
@@ -289,7 +300,8 @@ async function updateExistingQuestion(client, question) {
          SET question_text = $1, question_type = $2, tipo_contenido = $3, url_recurso = $4,
              time_limit = $5, correct_answer = $7, max_points = $8, hint_text = $9,
              tolerance_mode = $10, tolerance_value = $11, tolerance_cap = $12,
-             correct_word = $13, question_image_url = $14
+             correct_word = $13, question_image_url = $14,
+             hotspot_area = $15, hotspot_tolerance = $16, image_credit = $17
          WHERE id = $6`,
         [
             question.questionText,
@@ -305,7 +317,8 @@ async function updateExistingQuestion(client, question) {
             question.toleranceValue ?? null,
             question.toleranceCap ?? null,
             question.correctWord ?? null,
-            question.question_image_url ?? null
+            question.question_image_url ?? null,
+            ...hotspotValues(question)
         ]
     );
 }
@@ -315,8 +328,8 @@ async function insertQuestion(client, bankId, question) {
         `INSERT INTO questions
          (bank_id, question_text, question_type, tipo_contenido, url_recurso, time_limit,
           correct_answer, max_points, hint_text, tolerance_mode, tolerance_value, tolerance_cap,
-          correct_word, question_image_url)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+          correct_word, question_image_url, hotspot_area, hotspot_tolerance, image_credit)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
          RETURNING id`,
         buildQuestionValues(bankId, question)
     );
@@ -582,6 +595,9 @@ const BANK_QUESTIONS_SQL = `
                 q.tolerance_value,
                 q.tolerance_cap,
                 q.correct_word,
+                q.hotspot_area,
+                q.hotspot_tolerance,
+                q.image_credit,
                 json_agg(
                     json_build_object(
                         'optionText', o.option_text,

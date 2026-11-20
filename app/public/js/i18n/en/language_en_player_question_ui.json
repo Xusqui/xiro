@@ -1,3 +1,9 @@
 {
-  "keys": {}
+  "keys": {
+    "player.hotspot.instructions": "Tap the image where the answer is",
+    "player.hotspot.submit": "Send",
+    "player.hotspot.inside": "Inside!",
+    "player.hotspot.no_tap": "No tap",
+    "player.hotspot.distance": "{n} % from the area"
+  }
 }

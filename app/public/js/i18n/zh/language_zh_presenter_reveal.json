@@ -12,6 +12,8 @@
     "presenter.reveal.correct_pairs": "正确配对",
     "presenter.reveal.tolerance": "容差:",
     "presenter.reveal.survey_multiple_caption_one": "1 份回答 · 每位玩家可多选",
-    "presenter.reveal.survey_multiple_caption_other": "{count} 份回答 · 每位玩家可多选"
+    "presenter.reveal.survey_multiple_caption_other": "{count} 份回答 · 每位玩家可多选",
+    "presenter.reveal.hotspot_inside": "{total} 人中 {n} 人在区域内",
+    "presenter.reveal.hotspot_nobody": "无人作答"
   }
 }

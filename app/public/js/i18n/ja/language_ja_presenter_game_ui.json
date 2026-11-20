@@ -18,6 +18,7 @@
     "presenter.game.players_see_devices": "プレイヤーはデバイスで選択肢を確認します",
     "presenter.game.multiple_choice_label": "✓ 複数選択",
     "presenter.game.survey_multiple_label": "複数選択アンケート",
-    "presenter.game.previous_slide": "前へ"
+    "presenter.game.previous_slide": "前へ",
+    "presenter.game.hotspot_devices": "スマホで画像をタップしてください"
   }
 }

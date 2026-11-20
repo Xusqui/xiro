@@ -41,8 +41,20 @@
             .map(label => ({ label, correct: null }));
     }
 
+    function _t(key, fallback) {
+        return root && typeof root._t === 'function' ? root._t(key, null, fallback) : fallback;
+    }
+
+    // Toca la imagen: cada toque es distinto; se agrupan en dentro, cerca (con puntos) y fuera
+    function hotspotVote(answer) {
+        if (answer.correct === 'Sí') return { label: _t('xiro_results_viewer.vote.hotspot_in', 'Dentro'), correct: true };
+        if (Number(answer.pts) > 0) return { label: _t('xiro_results_viewer.vote.hotspot_near', 'Cerca'), correct: null };
+        return { label: _t('xiro_results_viewer.vote.hotspot_out', 'Fuera'), correct: false };
+    }
+
     function votesOf(answer, questionType) {
         if (MULTI_SELECT_TYPES.has(questionType)) return selectedOptions(answer);
+        if (questionType === 'hotspot') return [hotspotVote(answer)];
         const label = String(answer.answer || '').trim() || NO_SELECTION;
         return [{ label, correct: correctnessOf(answer) }];
     }

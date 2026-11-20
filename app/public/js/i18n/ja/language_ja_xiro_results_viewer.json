@@ -56,6 +56,9 @@
     "xiro_results_viewer.error.session_not_found": "セッションが見つかりません",
     "xiro_results_viewer.error.load_title": "セッションをロードできませんでした",
     "xiro_results_viewer.error.back_button": "← ビューアに戻る",
-    "xiro_results_viewer.error.parse_csv": "CSVの解析エラー: "
+    "xiro_results_viewer.error.parse_csv": "CSVの解析エラー: ",
+    "xiro_results_viewer.vote.hotspot_in": "エリア内",
+    "xiro_results_viewer.vote.hotspot_near": "近い",
+    "xiro_results_viewer.vote.hotspot_out": "エリア外"
   }
 }

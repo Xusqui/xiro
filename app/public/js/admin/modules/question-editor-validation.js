@@ -45,10 +45,19 @@ function _numericProblem(q, qIdx) {
     return null;
 }
 
+function _hotspotProblem(q, qIdx) {
+    if (q.tipo_contenido !== 'imagen' || !q.url_recurso) return _problem(`upload-btn-${qIdx}`, 'admin.q.err_hotspot_image', 'Falta la imagen');
+    if (window.XiroHotspot?.areaError(q.hotspotArea)) {
+        return _problem(`hs-stage-${qIdx}`, 'admin.q.err_hotspot_area', 'Marca el área correcta (al menos 3 vértices)');
+    }
+    return null;
+}
+
 function _typeProblem(q, qIdx) {
     if (_OPTION_TYPES.has(q.type)) return _optionsProblem(q, qIdx);
     if (q.type === 'matching') return _matchingProblem(q, qIdx);
     if (q.type === 'numeric_approximation') return _numericProblem(q, qIdx);
+    if (q.type === 'hotspot') return _hotspotProblem(q, qIdx);
     if (q.type === 'word_scramble' && !/^.{7,10}$/u.test(q.correctWord || '')) {
         return _problem(`word-${qIdx}`, 'admin.q.err_word', 'La palabra debe tener entre 7 y 10 letras');
     }

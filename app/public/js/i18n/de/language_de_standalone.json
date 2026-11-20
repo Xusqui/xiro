@@ -83,6 +83,9 @@
     "standalone.game.close": "Spiel beenden",
     "standalone.game.close_confirm_title": "Spiel beenden?",
     "standalone.game.close_confirm_message": "Der Fortschritt dieses Spiels geht verloren und du kehrst zur Spieleliste zurück.",
-    "standalone.game.chart_no_data": "Keine Daten"
+    "standalone.game.chart_no_data": "Keine Daten",
+    "standalone.game.hotspot_instructions": "Tippe dort aufs Bild, wo die Antwort ist",
+    "standalone.game.hotspot_inside": "Getroffen!",
+    "standalone.game.hotspot_distance": "Abstand zum Bereich"
   }
 }

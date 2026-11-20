@@ -64,6 +64,8 @@
     "manual_player.trivial.s3.title": "Contesta la pregunta",
     "manual_player.trivial.s3.text": "<p>A todos los jugadores se les presenta una pregunta aleatoria basada en la categoría de la casilla en la que se ha caído. ¡A responder!</p>",
     "manual_player.answer.fill_blanks.title": "Completa la Frase",
-    "manual_player.answer.fill_blanks.text": "Toca un hueco y escribe la palabra con el teclado: cada casilla es una letra. Si te atascas, pide una pista (destapa la primera letra, luego la última y la central), pero esa palabra valdrá menos (70 %, 40 %, 25 %). Cuenta como acierto con la mitad de los huecos o más. En equipos, cada palabra se comprueba al completarla y lo acertado lo ve todo el grupo; el primero que envía cierra la pregunta para todos."
+    "manual_player.answer.fill_blanks.text": "Toca un hueco y escribe la palabra con el teclado: cada casilla es una letra. Si te atascas, pide una pista (destapa la primera letra, luego la última y la central), pero esa palabra valdrá menos (70 %, 40 %, 25 %). Cuenta como acierto con la mitad de los huecos o más. En equipos, cada palabra se comprueba al completarla y lo acertado lo ve todo el grupo; el primero que envía cierra la pregunta para todos.",
+    "manual_player.answer.hotspot.title": "Toca la Imagen",
+    "manual_player.answer.hotspot.text": "Toca en la imagen el lugar que pide la pregunta: aparece una chincheta, que puedes mover tocando otra vez, y pulsa «Enviar». Si cae dentro de la zona correcta ganas los puntos máximos más un bonus; si cae cerca, ganas menos cuanto más lejos esté. Al revelar ves la zona correcta y tu toque."
   }
 }

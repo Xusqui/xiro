@@ -1,0 +1,78 @@
+/* Editor de «Toca la imagen» (hotspot) en el admin: imagen principal con el área correcta
+   dibujada encima (js/admin/modules/hotspot-editor.js). Los colores salen del tipo
+   (--xq-accent…, css/admin-question-type-picker.css). */
+
+.xq-hotspot__stage {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+    line-height: 0;
+    border: 2px solid var(--xq-edge, #e2e8f0);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: crosshair;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.xq-hotspot__stage img {
+    display: block;
+    max-width: 100%;
+    max-height: 420px;
+    width: auto;
+    height: auto;
+    pointer-events: none;
+}
+
+/* El SVG se estira con la imagen: las coordenadas del área son 0-1 en los dos ejes */
+.xq-hotspot__svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.xq-hotspot__area {
+    fill: color-mix(in srgb, var(--xq-accent, #dc2626) 28%, transparent);
+    stroke: var(--xq-accent, #dc2626);
+    stroke-width: 2px;
+    vector-effect: non-scaling-stroke;
+}
+
+.xq-hotspot__line {
+    fill: none;
+    stroke: var(--xq-accent, #dc2626);
+    stroke-width: 2px;
+    stroke-dasharray: 6 4;
+    vector-effect: non-scaling-stroke;
+}
+
+.xq-hotspot__vertex {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    margin: -5px 0 0 -5px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 2px solid var(--xq-accent, #dc2626);
+    pointer-events: none;
+}
+
+.xq-hotspot__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 16px;
+    margin-top: 8px;
+}
+
+.xq-hotspot__empty {
+    display: grid;
+    justify-items: start;
+    gap: 8px;
+    padding: 16px;
+    border: 2px dashed var(--xq-edge, #e2e8f0);
+    border-radius: 12px;
+}

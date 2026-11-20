@@ -83,6 +83,9 @@
     "standalone.game.close": "Fechar partida",
     "standalone.game.close_confirm_title": "Fechar a partida?",
     "standalone.game.close_confirm_message": "Vais perder o progresso desta partida e voltar à lista de jogos.",
-    "standalone.game.chart_no_data": "Sem dados"
+    "standalone.game.chart_no_data": "Sem dados",
+    "standalone.game.hotspot_instructions": "Toca na imagem onde está a resposta",
+    "standalone.game.hotspot_inside": "Dentro!",
+    "standalone.game.hotspot_distance": "Distância à área"
   }
 }

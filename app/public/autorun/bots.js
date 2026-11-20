@@ -80,6 +80,12 @@ function updateStats() {
     document.getElementById('statTotal').textContent = stats.total;
 }
 
+/** Toque al azar en coordenadas 0-1, redondeado como los del móvil. */
+function randomTap() {
+    const coord = () => Math.round(Math.random() * 10000) / 10000;
+    return { x: coord(), y: coord() };
+}
+
 // ─── BaseBot ──────────────────────────────────────────────────────────────────
 class BaseBot {
     constructor(nickname, botIndex) {
@@ -266,6 +272,10 @@ class QuizBotIndividual extends BaseBot {
             case 'word_search':
                 payload = { ...base, answerType: 'word_search', found: [] };
                 break;
+            case 'hotspot':
+                // Toca la imagen: un punto al azar de la imagen (a veces cae dentro del área)
+                payload = { ...base, answerType: 'hotspot', tap: randomTap() };
+                break;
             case 'fill_blanks':
                 // Palabras al azar de la longitud de cada hueco (casi siempre falla, como un jugador despistado)
                 payload = {
@@ -382,6 +392,10 @@ class TrivialBotIndividual extends BaseBot {
                 break;
             case 'word_search':
                 payload = { ...base, answerType: 'word_search', found: [] };
+                break;
+            case 'hotspot':
+                // Toca la imagen: un punto al azar de la imagen (a veces cae dentro del área)
+                payload = { ...base, answerType: 'hotspot', tap: randomTap() };
                 break;
             case 'fill_blanks':
                 payload = {

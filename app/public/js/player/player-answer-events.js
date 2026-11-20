@@ -17,12 +17,12 @@ import { hasActiveWordSearch } from './player-wordsearch-state.js?v=202609221729
 import { enviarRespuestaFillBlanks } from './player-answer-fillblanks.js?v=20260922172926';
 import { hasActiveFillBlanks } from './player-fillblanks-state.js?v=20260922172926';
 import { isTeamFillBlanks } from './player-fillblanks-team.js?v=20260922172926';
-import { buildAnswerResultHTML } from './player-answer-result.js?v=20260922172926';
+import { buildAnswerResultHTML } from './player-answer-result.js?v=20261119180000';
 import {
     appendCorrectAnswerToResult,
     rememberReveal,
     timeUpScreenHtml
-} from './player-reveal-correct.js?v=20260922172926';
+} from './player-reveal-correct.js?v=20261119180000';
 import {
     setCanAnswer,
     getHaRespondido,

@@ -10,7 +10,9 @@ import { matchingResultHtml } from './player-answer-matching-breakdown.js?v=2026
 import { wordSearchResultHtml } from './player-answer-wordsearch.js?v=20260922172926';
 import { fillBlanksResultHtml } from './player-answer-fillblanks.js?v=20260922172926';
 import { surveyMultipleResultHtml, surveySingleResultHtml } from './player-survey-results.js?v=20261021120000';
-import { getRememberedReveal } from './player-reveal-correct.js?v=20260922172926';
+import { getRememberedReveal } from './player-reveal-correct.js?v=20261119180000';
+import { hotspotResultHtml, hotspotResultColor } from './player-hotspot-result.js?v=20261119180000';
+import { getHotspotImage } from './player-hotspot-state.js?v=20261119180000';
 import { getCurrentOrder, getCurrentOrderOptions, getCurrentSlideType } from './player-state.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 
@@ -191,6 +193,8 @@ function showsCorrectAnswer(data, isApproximate) {
     if (data.correct === true || data.correct === null) return true;
     if (data.matchingDetails || data.wordSearchDetails || data.fillBlanksDetails || data.multipleChoiceDetails?.options)
         return true;
+    // Toca la imagen: el área se dibuja sobre la propia imagen del resultado al revelar
+    if (data.hotspotDetails) return true;
     if (data.orderDetails || isApproximate) return false;
     return hasCorrectAnswer(data);
 }
@@ -202,6 +206,10 @@ function resultMessageHtml(data, isApproximate) {
     if (data.matchingDetails) return matchingResultHtml(data, rankingHTML);
     if (data.wordSearchDetails) return wordSearchResultHtml(data, rankingHTML);
     if (data.fillBlanksDetails) return fillBlanksResultHtml(data, rankingHTML);
+    if (data.hotspotDetails) {
+        const area = getRememberedReveal()?.data?.hotspot?.area || null;
+        return hotspotResultHtml(data, rankingHTML, { imageUrl: getHotspotImage(), area });
+    }
     if (data.multipleChoiceDetails && data.multipleChoiceDetails.options)
         return multipleChoiceResultHtml(data, rankingHTML);
     // Encuesta de selección múltiple: en equipos la revelación puede haber llegado antes
@@ -240,6 +248,7 @@ export function buildAnswerResultHTML(data) {
     });
     const color =
         fillBlanksColor(data) ||
+        hotspotResultColor(data) ||
         visualLogic.resolveResultColor({
             isOrder,
             isFullyCorrect,

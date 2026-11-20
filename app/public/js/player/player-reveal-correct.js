@@ -5,6 +5,8 @@
 
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
 import { surveyResultsHtml, applySurveyReveal } from './player-survey-results.js?v=20261021120000';
+import { applyHotspotReveal } from './player-hotspot-result.js?v=20261119180000';
+import { getHotspotImage } from './player-hotspot-state.js?v=20261119180000';
 
 function hasValue(value) {
     return value !== null && value !== undefined && String(value).trim() !== '';
@@ -25,6 +27,10 @@ function fillBlanksSentenceHtml(fillBlanks) {
 
 /** Contenido de la respuesta correcta, o '' si el reveal no trae ninguna. */
 function correctContentHtml(data) {
+    // Toca la imagen: la imagen de la pregunta con el área correcta
+    if (data.hotspot && getHotspotImage()) {
+        return window.XiroHotspotView.stageHtml({ imageUrl: getHotspotImage(), area: data.hotspot.area });
+    }
     const fillBlanks = fillBlanksSentenceHtml(data.fillBlanks);
     if (fillBlanks) return fillBlanks;
     if (Array.isArray(data.correctMatches) && data.correctMatches.length > 0) {
@@ -120,6 +126,7 @@ export function timeUpScreenHtml(data = null) {
 export function appendCorrectAnswerToResult(data) {
     const survey = data && (data.surveyMultiple || data.surveySingle);
     if (survey && applySurveyReveal(survey, !data.surveyMultiple)) return;
+    if (data && data.hotspot && applyHotspotReveal(data.hotspot.area)) return;
     const result = document.querySelector('[data-result-screen]');
     if (!result || result.hasAttribute('data-correct-shown')) return;
     const block = correctAnswerBlockHtml(data);

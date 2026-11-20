@@ -18,9 +18,18 @@
 'use strict';
 
 const { SCORING, TIMING } = require('../../config/game-constants');
+const { LIMITS: HOTSPOT_LIMITS } = require('../../public/js/core/hotspot-area');
 const { roundScore } = require('./ScoringService');
 const { applyStreakBonus } = require('./GameStreakApplicator');
 const { isScorable, usesRandomPoints } = require('./QuestionScoringPolicy');
+
+// Tipos con puntos máximos propios de la pregunta (max_points) más un bonus fijo
+const PER_QUESTION_MAX = Object.freeze({
+    // NumericApproximationScoring: acierto exacto = maxPoints + exactBonus (fijo, 20)
+    numeric_approximation: question => (question.max_points || 0) + 20,
+    // HotspotAnswerService: dentro del área = máximo (100 si falta) + bonus
+    hotspot: question => Number(question.max_points ?? HOTSPOT_LIMITS.DEFAULT_MAX_POINTS) + HOTSPOT_LIMITS.INSIDE_BONUS
+});
 
 // Respuesta instantánea simulada: 0 segundos (cota superior estricta, ver nota arriba)
 const PERFECT_ANSWER_TIME_SECONDS = 0;
@@ -59,6 +68,9 @@ function calculatePerfectBasePoints(question, game) {
     if (usesRandomPoints(question, game)) {
         return randomPointsPerfectBase(question, game);
     }
+    if (Object.prototype.hasOwnProperty.call(PER_QUESTION_MAX, question.question_type)) {
+        return PER_QUESTION_MAX[question.question_type](question);
+    }
 
     switch (question.question_type) {
         case 'order':
@@ -73,10 +85,6 @@ function calculatePerfectBasePoints(question, game) {
 
         case 'word_scramble':
             return SCORING.BASE_POINTS + timeBonusFor(question.time_limit);
-
-        case 'numeric_approximation':
-            // NumericApproximationScoring: acierto exacto = maxPoints + exactBonus (fijo, 20)
-            return (question.max_points || 0) + 20;
 
         case 'multiple_choice': {
             const correctCount = (question.options || []).filter(opt => opt.is_correct || opt.isCorrect).length;

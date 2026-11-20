@@ -105,8 +105,12 @@ function cambiarTipoPregunta(qIdx, newType) {
         return;
     }
 
+    // Toca la imagen: sin opciones (la imagen y el área van en su sección)
+    if (newType === 'hotspot') {
+        question.options = [];
+    }
     // Para preguntas de aproximación numérica, limpiar opciones
-    if (newType === 'numeric_approximation') {
+    else if (newType === 'numeric_approximation') {
         question.options = [];
         question.toleranceMode = question.toleranceMode || 'hybrid';
         question.toleranceValue = Number(question.toleranceValue) || 25;

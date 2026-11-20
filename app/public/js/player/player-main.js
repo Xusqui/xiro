@@ -23,6 +23,7 @@ import {
 } from './player-answer.js?v=20260922172926';
 import { enviarRespuestaWordSearch } from './player-answer-wordsearch.js?v=20260922172926';
 import { enviarRespuestaFillBlanks } from './player-answer-fillblanks.js?v=20260922172926';
+import { enviarRespuestaHotspot } from './player-answer-hotspot.js?v=20261119180000';
 import { registerResultsEvents } from './player-results.js?v=20260922172926';
 import { registerReviewEvents } from './player-review.js?v=20261024180000';
 import { registerGameFlowEvents, salirDelLobby } from './player-game-flow.js?v=20260922172926';
@@ -52,6 +53,7 @@ window.enviarRespuestaNumerica = enviarRespuestaNumerica;
 window.enviarRespuestaWordScramble = enviarRespuestaWordScramble;
 window.enviarRespuestaWordSearch = enviarRespuestaWordSearch;
 window.enviarRespuestaFillBlanks = enviarRespuestaFillBlanks;
+window.enviarRespuestaHotspot = enviarRespuestaHotspot;
 window.enviarPendiente = enviarPendiente;
 
 // Game flow functions

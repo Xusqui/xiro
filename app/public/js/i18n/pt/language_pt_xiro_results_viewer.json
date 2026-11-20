@@ -56,6 +56,9 @@
     "xiro_results_viewer.error.session_not_found": "Sessão não encontrada",
     "xiro_results_viewer.error.load_title": "Não foi possível carregar a partida",
     "xiro_results_viewer.error.back_button": "← Voltar ao visualizador",
-    "xiro_results_viewer.error.parse_csv": "Erro ao processar o CSV: "
+    "xiro_results_viewer.error.parse_csv": "Erro ao processar o CSV: ",
+    "xiro_results_viewer.vote.hotspot_in": "Dentro",
+    "xiro_results_viewer.vote.hotspot_near": "Perto",
+    "xiro_results_viewer.vote.hotspot_out": "Fora"
   }
 }

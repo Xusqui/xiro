@@ -64,6 +64,8 @@
     "manual_player.trivial.s3.title": "Frage beantworten",
     "manual_player.trivial.s3.text": "<p>Alle Spieler erhalten eine zufällige Frage basierend auf der Kategorie des gelandeten Feldes. Jetzt antworten!</p>",
     "manual_player.answer.fill_blanks.title": "Lückentext",
-    "manual_player.answer.fill_blanks.text": "Tippe auf eine Lücke und schreibe das Wort mit der Tastatur: jedes Kästchen ist ein Buchstabe. Wenn du nicht weiterkommst, fordere einen Tipp an (zeigt den ersten Buchstaben, dann den letzten, dann den mittleren), aber das Wort ist weniger wert (70 %, 40 %, 25 %). Ab der Hälfte der Lücken zählt es als richtig. In Teams wird jedes Wort beim Ausfüllen geprüft und richtige Wörter sieht die ganze Gruppe; wer zuerst sendet, schließt die Frage für alle."
+    "manual_player.answer.fill_blanks.text": "Tippe auf eine Lücke und schreibe das Wort mit der Tastatur: jedes Kästchen ist ein Buchstabe. Wenn du nicht weiterkommst, fordere einen Tipp an (zeigt den ersten Buchstaben, dann den letzten, dann den mittleren), aber das Wort ist weniger wert (70 %, 40 %, 25 %). Ab der Hälfte der Lücken zählt es als richtig. In Teams wird jedes Wort beim Ausfüllen geprüft und richtige Wörter sieht die ganze Gruppe; wer zuerst sendet, schließt die Frage für alle.",
+    "manual_player.answer.hotspot.title": "Tippe auf das Bild",
+    "manual_player.answer.hotspot.text": "Tippe im Bild auf die Stelle, nach der gefragt wird: Es erscheint eine Stecknadel, die du durch erneutes Tippen verschieben kannst, dann drücke „Senden“. Im richtigen Bereich gibt es die Höchstpunktzahl plus Bonus; in der Nähe weniger, je weiter du weg bist. Bei der Auflösung siehst du den richtigen Bereich und deinen Tipp."
   }
 }

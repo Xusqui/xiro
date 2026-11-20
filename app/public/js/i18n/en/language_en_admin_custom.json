@@ -74,6 +74,8 @@
     "admin.custom.btn_video_slide": "ADD VIDEO SLIDE",
     "admin.custom.btn_short_video": "Video",
     "admin.custom.btn_canvas_slide": "ADD FREE SLIDE",
-    "admin.custom.btn_short_canvas": "Free slide"
+    "admin.custom.btn_short_canvas": "Free slide",
+    "admin.custom.badge_hotspot": "TAP THE IMAGE",
+    "admin.custom.hotspot_answer": "Area marked on the image"
   }
 }

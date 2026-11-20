@@ -17,10 +17,16 @@ const {
 } = require('../../../sockets/utils/TeamRevealHelper');
 const { checkAllTeamsCompleted, notifyTeamWaiting } = require('../../../sockets/utils/TeamManager');
 const { getAnswerHandler } = require('../../question-types/AnswerHandlerRegistry');
+const QuestionTypes = require('../../../public/js/core/question-types');
 
-// Detalles que la estrategia recibe siempre (null si el tipo no los produce). La selección
-// múltiple va aparte, como multipleChoiceDetails completo (buildMultipleChoiceDetails).
-const MODE_DETAIL_FIELDS = ['orderDetails', 'matchingDetails', 'wordSearchDetails', 'fillBlanksDetails', 'surveyMultipleDetails'];
+// Detalles que la estrategia recibe siempre (null si el tipo no los produce): los del catálogo, así
+// un tipo nuevo no se queda sin detalle en 'answer-result'. La selección múltiple va aparte, como
+// multipleChoiceDetails completo (buildMultipleChoiceDetails).
+const MODE_DETAIL_FIELDS = Object.freeze(
+    [...new Set(QuestionTypes.ids().map(type => QuestionTypes.get(type).detailsField))].filter(
+        field => field && field !== 'multipleChoiceDetails'
+    )
+);
 
 function buildModeDetails(detailsField, details) {
     const modeDetails = {};

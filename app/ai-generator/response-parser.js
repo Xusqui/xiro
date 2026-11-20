@@ -17,7 +17,8 @@ const TYPE_VALIDATORS = {
     fill_blanks: require('./question-types/fill-blanks').validate,
     word_search: require('./question-types/word-search').validate,
     matching: require('./question-types/matching').validate,
-    survey_multiple: require('./question-types/survey-multiple').validate
+    survey_multiple: require('./question-types/survey-multiple').validate,
+    hotspot: require('./question-types/hotspot').validate
 };
 
 /**

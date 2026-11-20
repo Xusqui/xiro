@@ -56,6 +56,9 @@
     "xiro_results_viewer.error.session_not_found": "Sitzung nicht gefunden",
     "xiro_results_viewer.error.load_title": "Spiel konnte nicht geladen werden",
     "xiro_results_viewer.error.back_button": "← Zurück zum Betrachter",
-    "xiro_results_viewer.error.parse_csv": "Fehler beim Verarbeiten der CSV: "
+    "xiro_results_viewer.error.parse_csv": "Fehler beim Verarbeiten der CSV: ",
+    "xiro_results_viewer.vote.hotspot_in": "Im Bereich",
+    "xiro_results_viewer.vote.hotspot_near": "Nah dran",
+    "xiro_results_viewer.vote.hotspot_out": "Daneben"
   }
 }

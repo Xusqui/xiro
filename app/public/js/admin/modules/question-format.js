@@ -130,11 +130,17 @@
         };
     }
 
+    /** Toca la imagen: campos del tipo (hotspot-fields.js); la imagen se incrusta después. */
+    function mapHotspotForExport(question) {
+        return { question_text: questionText(question), type: 'hotspot', ...mediaFields(question), ...hotspotFieldsForExport(question) };
+    }
+
     const EXPORT_BY_TYPE = {
         numeric_approximation: mapNumericQuestionForExport,
         word_scramble: mapWordScrambleForExport,
         multiple_choice: mapMultipleChoiceForExport,
-        fill_blanks: mapFillBlanksForExport
+        fill_blanks: mapFillBlanksForExport,
+        hotspot: mapHotspotForExport
     };
 
     function mapQuestionForExport(question) {
@@ -223,7 +229,8 @@
         numeric_approximation: mapNumericQuestionForImport,
         word_scramble: mapWordScrambleForImport,
         multiple_choice: mapMultipleChoiceForImport,
-        fill_blanks: mapFillBlanksForImport
+        fill_blanks: mapFillBlanksForImport,
+        hotspot: question => ({ ...importBase(question, 'hotspot'), ...EMPTY_NUMERIC_FIELDS, ...hotspotFieldsForImport(question) })
     };
 
     function mapQuestionForImport(question) {

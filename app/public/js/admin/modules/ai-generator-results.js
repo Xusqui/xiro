@@ -128,6 +128,11 @@ async function _aiRegenerateType(type, button) {
 
 async function _aiImportBank() {
     if (!aiGenResult || !aiGenResult.bankPayload) return;
+    // Toca la imagen: la IA no marca el área; el banco se completa en el editor antes de guardar
+    if (needsHotspotEditing(aiGenResult.bankPayload.questions)) {
+        abrirBancoParaCompletarHotspot(aiGenResult.bankPayload);
+        return;
+    }
     const statusEl = document.getElementById('ai-import-status');
     statusEl.className = 'mt-4 p-4 bg-blue-50 rounded-xl text-blue-700 font-bold text-sm';
     statusEl.innerHTML = _tHtml('<i class="fas fa-circle-notch fa-spin mr-2"></i>Importando banco...');
@@ -151,9 +156,11 @@ async function _aiImportBank() {
     }
 }
 
-function _aiDownloadJSON() {
+async function _aiDownloadJSON() {
     if (!aiGenResult || !aiGenResult.bankPayload) return;
-    const blob = new Blob([JSON.stringify(aiGenResult.bankPayload, null, 2)], { type: 'application/json' });
+    // Toca la imagen: la imagen de Commons va incrustada, como en la exportación de bancos
+    const payload = { ...aiGenResult.bankPayload, questions: await embedHotspotImages(aiGenResult.bankPayload.questions) };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;

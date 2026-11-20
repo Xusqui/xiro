@@ -11,7 +11,7 @@ import {
     replacePendingStreakResult,
     buildLostStreakInfo
 } from './player-streak-ui.js?v=20260922172926';
-import { getRememberedReveal, timeUpScreenHtml } from './player-reveal-correct.js?v=20260922172926';
+import { getRememberedReveal, timeUpScreenHtml } from './player-reveal-correct.js?v=20261119180000';
 import { renderLastRankingSince } from './player-results.js?v=20260922172926';
 import { noteSurveyVote } from './player-survey-results.js?v=20261021120000';
 import {

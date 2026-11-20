@@ -84,7 +84,9 @@ const _CORRECT_ANSWER_EXTRACTORS = {
     word_scramble: _extractWordScrambleAnswer,
     multiple_choice: _extractMultipleChoiceAnswer,
     word_search: _extractWordSearchAnswer,
-    fill_blanks: _extractFillBlanksAnswer
+    fill_blanks: _extractFillBlanksAnswer,
+    // Toca la imagen: la respuesta es una zona de la imagen, no un texto
+    hotspot: () => ({ type: 'hotspot' })
 };
 
 /**
@@ -155,6 +157,10 @@ function formatCorrectAnswerDisplayFrontend(answer) {
 
     if (answer.type === 'multiple_choice' || answer.type === 'word_search' || answer.type === 'fill_blanks') {
         return answer.items.join(', ');
+    }
+
+    if (answer.type === 'hotspot') {
+        return _t('admin.custom.hotspot_answer', null, 'Zona marcada en la imagen');
     }
 
     return 'Sin respuesta correcta';

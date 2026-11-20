@@ -12,6 +12,8 @@
     "presenter.reveal.correct_pairs": "正しいペア",
     "presenter.reveal.tolerance": "許容範囲:",
     "presenter.reveal.survey_multiple_caption_one": "回答1件・1人で複数選択可",
-    "presenter.reveal.survey_multiple_caption_other": "回答{count}件・1人で複数選択可"
+    "presenter.reveal.survey_multiple_caption_other": "回答{count}件・1人で複数選択可",
+    "presenter.reveal.hotspot_inside": "{total} 人中 {n} 人がエリア内",
+    "presenter.reveal.hotspot_nobody": "誰も回答していません"
   }
 }

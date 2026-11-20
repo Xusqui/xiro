@@ -56,6 +56,9 @@
     "xiro_results_viewer.error.session_not_found": "Session not found",
     "xiro_results_viewer.error.load_title": "Could not load session",
     "xiro_results_viewer.error.back_button": "← Back to viewer",
-    "xiro_results_viewer.error.parse_csv": "Error parsing CSV: "
+    "xiro_results_viewer.error.parse_csv": "Error parsing CSV: ",
+    "xiro_results_viewer.vote.hotspot_in": "Inside",
+    "xiro_results_viewer.vote.hotspot_near": "Close",
+    "xiro_results_viewer.vote.hotspot_out": "Outside"
   }
 }

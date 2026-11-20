@@ -1,3 +1,9 @@
 {
-  "keys": {}
+  "keys": {
+    "player.hotspot.instructions": "Toca la imagen donde está la respuesta",
+    "player.hotspot.submit": "Enviar",
+    "player.hotspot.inside": "¡Dentro!",
+    "player.hotspot.no_tap": "Sin toque",
+    "player.hotspot.distance": "A {n} % del área"
+  }
 }

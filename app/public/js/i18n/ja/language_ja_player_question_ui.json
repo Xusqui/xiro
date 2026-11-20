@@ -1,3 +1,9 @@
 {
-  "keys": {}
+  "keys": {
+    "player.hotspot.instructions": "答えの場所で画像をタップ",
+    "player.hotspot.submit": "送信",
+    "player.hotspot.inside": "エリア内！",
+    "player.hotspot.no_tap": "タップなし",
+    "player.hotspot.distance": "エリアから {n} %"
+  }
 }

@@ -7,7 +7,7 @@
 // ===== EXPORTAR BANCO =====
 
 // Exportar el banco actualmente en edición al formato de la base de datos
-function exportarBanco() {
+async function exportarBanco() {
     const id = document.getElementById('editId').value;
     const name = document.getElementById('editName').value || 'banco';
 
@@ -32,7 +32,8 @@ function exportarBanco() {
         name: name,
         type: 'quiz',
         language: language,
-        questions: preguntasValidas.map(q => mapQuestionForExport(q))
+        // Toca la imagen: la imagen va incrustada para que el JSON sirva en otra instalación
+        questions: await embedHotspotImages(preguntasValidas.map(q => mapQuestionForExport(q)))
     };
 
     const jsonStr = JSON.stringify(payload, null, 2);

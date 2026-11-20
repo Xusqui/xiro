@@ -64,6 +64,8 @@
     "manual_player.trivial.s3.title": "Respon la pregunta",
     "manual_player.trivial.s3.text": "<p>A tots els jugadors se'ls presenta una pregunta aleatòria basada en la categoria de la casella en la qual s'ha caigut. A respondre!</p>",
     "manual_player.answer.fill_blanks.title": "Completa la Frase",
-    "manual_player.answer.fill_blanks.text": "Toca un buit i escriu la paraula amb el teclat: cada casella és una lletra. Si t’encalles, demana una pista (destapa la primera lletra, després l’última i la central), però aquella paraula valdrà menys (70 %, 40 %, 25 %). Compta com a encert amb la meitat dels buits o més. En equips, cada paraula es comprova al completar-la i l’encertat el veu tot el grup; el primer que envia tanca la pregunta per a tots."
+    "manual_player.answer.fill_blanks.text": "Toca un buit i escriu la paraula amb el teclat: cada casella és una lletra. Si t’encalles, demana una pista (destapa la primera lletra, després l’última i la central), però aquella paraula valdrà menys (70 %, 40 %, 25 %). Compta com a encert amb la meitat dels buits o més. En equips, cada paraula es comprova al completar-la i l’encertat el veu tot el grup; el primer que envia tanca la pregunta per a tots.",
+    "manual_player.answer.hotspot.title": "Toca la Imatge",
+    "manual_player.answer.hotspot.text": "Toca a la imatge el lloc que demana la pregunta: apareix una xinxeta, que pots moure tocant un altre cop, i prem «Envia». Si cau dins de la zona correcta guanyes els punts màxims més una bonificació; si cau a prop, en guanyes menys com més lluny estigui. En revelar veus la zona correcta i el teu toc."
   }
 }

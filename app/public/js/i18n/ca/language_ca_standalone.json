@@ -83,6 +83,9 @@
     "standalone.game.close": "Tancar la partida",
     "standalone.game.close_confirm_title": "Vols tancar la partida?",
     "standalone.game.close_confirm_message": "Perdràs el progrés d’aquesta partida i tornaràs a la llista de jocs.",
-    "standalone.game.chart_no_data": "Sense dades"
+    "standalone.game.chart_no_data": "Sense dades",
+    "standalone.game.hotspot_instructions": "Toca la imatge on és la resposta",
+    "standalone.game.hotspot_inside": "Dins!",
+    "standalone.game.hotspot_distance": "Distància a l’àrea"
   }
 }

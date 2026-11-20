@@ -56,6 +56,9 @@
     "xiro_results_viewer.error.session_not_found": "Session introuvable",
     "xiro_results_viewer.error.load_title": "Impossible de charger la partie",
     "xiro_results_viewer.error.back_button": "← Retourner à la visionneuse",
-    "xiro_results_viewer.error.parse_csv": "Erreur lors du traitement du CSV : "
+    "xiro_results_viewer.error.parse_csv": "Erreur lors du traitement du CSV : ",
+    "xiro_results_viewer.vote.hotspot_in": "Dedans",
+    "xiro_results_viewer.vote.hotspot_near": "Proche",
+    "xiro_results_viewer.vote.hotspot_out": "Dehors"
   }
 }

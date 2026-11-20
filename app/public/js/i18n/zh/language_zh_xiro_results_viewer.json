@@ -56,6 +56,9 @@
     "xiro_results_viewer.error.session_not_found": "未找到游戏会话",
     "xiro_results_viewer.error.load_title": "无法加载游戏会话",
     "xiro_results_viewer.error.back_button": "← 返回查看器",
-    "xiro_results_viewer.error.parse_csv": "解析 CSV 时出错: "
+    "xiro_results_viewer.error.parse_csv": "解析 CSV 时出错: ",
+    "xiro_results_viewer.vote.hotspot_in": "区域内",
+    "xiro_results_viewer.vote.hotspot_near": "接近",
+    "xiro_results_viewer.vote.hotspot_out": "区域外"
   }
 }

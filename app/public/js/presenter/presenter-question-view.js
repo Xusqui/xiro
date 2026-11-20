@@ -9,6 +9,7 @@ import { renderWordSearchPresenter } from './presenter-wordsearch-layout.js?v=20
 import { renderFillBlanksPresenter } from './presenter-fillblanks-layout.js?v=20260922172926';
 import { nextButtonLabel } from './presenter-reveal.js?v=20260922172926';
 import { numericHintOf } from './presenter-numeric-layout.js?v=20260922172926';
+import { hotspotMediaHtml, hotspotDevicesNoteHtml } from './presenter-hotspot.js?v=20261119180000';
 import { escapeHtml, sanitizeResourceUrl } from '../core/sanitize.js?v=20260922172926';
 
 const OPTION_COLORS = ['bg-red-500', 'bg-blue-500', 'bg-yellow-500', 'bg-green-500', 'bg-plum-500', 'bg-pink-500'];
@@ -36,6 +37,7 @@ export function describeQuestion(q) {
         esFillBlanks,
         esMultipleChoice: q.question_type === 'multiple_choice',
         esSurveyMultiple: q.question_type === 'survey_multiple',
+        esHotspot: q.question_type === 'hotspot',
         esMatching,
         mostrarOpciones: !tieneImagen && !esNumerica && !esWordScramble && !esWordSearch && !esFillBlanks && !esMatching
     };
@@ -77,7 +79,9 @@ function surveyMultipleBadgeHtml() {
 }
 
 /** Imagen principal o reproductor de audio de la pregunta. */
-function mediaHtml(view) {
+function mediaHtml(view, q) {
+    // Toca la imagen: la imagen en su escenario, donde se dibujan el área y los toques al revelar
+    if (view.esHotspot && view.tieneImagen) return hotspotMediaHtml(q);
     if (view.tieneImagen && !view.esWordScramble) {
         return `
                 <div class="stage-question-media flex-1 flex items-center justify-center mb-6 px-6">
@@ -175,6 +179,7 @@ function answerAreaHtml(q, view) {
     if (view.esWordSearch) return renderWordSearchPresenter(q);
     if (view.esFillBlanks) return renderFillBlanksPresenter(q);
     if (view.esMatching) return renderMatchingPresenter(q);
+    if (view.esHotspot) return hotspotDevicesNoteHtml();
     if (view.mostrarOpciones) return '';
     return `
                 <div class="stage-devices-note pb-14 text-center">
@@ -209,7 +214,7 @@ export function questionHtml(q, view, totalPlayers) {
             ${titleHtml(q, view)}
             ${view.esMultipleChoice ? multipleChoiceBadgeHtml() : ''}
             ${view.esSurveyMultiple ? surveyMultipleBadgeHtml() : ''}
-            ${mediaHtml(view)}
+            ${mediaHtml(view, q)}
             ${statementImageHtml(view)}
             ${optionsGridHtml(q, view)}
             ${answerAreaHtml(q, view)}

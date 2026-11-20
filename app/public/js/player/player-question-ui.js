@@ -20,3 +20,4 @@ export { renderizarPreguntaWordSearch } from './player-wordsearch-ui.js?v=202609
 export { renderizarPreguntaFillBlanks } from './player-fillblanks-ui.js?v=20260922172926';
 export { renderizarPreguntaMultipleChoice } from './player-multiplechoice-ui.js?v=20260922172926';
 export { renderizarPreguntaSurveyMultiple } from './player-survey-multiple.js?v=20261021120000';
+export { renderizarPreguntaHotspot } from './player-hotspot-ui.js?v=20261119180000';

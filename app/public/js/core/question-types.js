@@ -13,11 +13,12 @@
  *                  literal SQL en services/db/trivial.service.js, sin interpolar.
  *  - answerShape:  qué envía el jugador: option (un índice), selection (varios),
  *                  order, matching, number, text, found (selecciones de la sopa) o
- *                  words (una palabra por hueco).
+ *                  words (una palabra por hueco) o tap (un punto { x, y } de la imagen).
  *  - detailsField: campo de la respuesta guardada con el detalle del tipo (null si no hay).
  *  - solution:     qué es la solución que se revela: option (una opción), options (varias),
  *                  none (encuestas), order, pairs, value (número), word (palabra),
- *                  words (las de la sopa) o blanks (las de los huecos).
+ *                  words (las de la sopa), blanks (las de los huecos) o area (el polígono
+ *                  de la imagen).
  *
  * El orden es el del selector del editor (question-type-picker.js).
  * Para webOS 3.5 (tv.html): nada de =>, plantillas, ?., ?? ni spread (lo vigila ESLint).
@@ -44,6 +45,7 @@
         entry('order', { answerShape: 'order', detailsField: 'orderDetails', solution: 'order' }),
         entry('matching', { answerShape: 'matching', detailsField: 'matchingDetails', solution: 'pairs' }),
         entry('numeric_approximation', { answerShape: 'number', detailsField: 'numericDetails', solution: 'value' }),
+        entry('hotspot', { answerShape: 'tap', detailsField: 'hotspotDetails', solution: 'area' }),
         entry('word_scramble', {
             randomPoints: true,
             answerShape: 'text',

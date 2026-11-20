@@ -17,14 +17,14 @@ import {
     resetSessionState,
     clearAnswerInputState
 } from './player-state.js?v=20260922172926';
-import { renderQuestionScreen } from './player-question-renderers.js?v=20261119120000';
+import { renderQuestionScreen } from './player-question-renderers.js?v=20261119180000';
 import { removeDisconnectOverlay } from './player-connection.js?v=20260922172926';
 import { mostrarModalConfirmacion, mostrarModalMensaje } from '../shared/modal.js?v=20260922172926';
 import { markGameConcluded } from './player-game-concluded.js?v=20260922172926';
 import { injectStreakBadge, cancelStreakAnimation } from './player-streak-ui.js?v=20260922172926';
 import { getStreakInfo } from './player-state.js?v=20260922172926';
 import { preloadGameImages } from './player-image-preloader.js?v=20260922172926';
-import { forgetReveal } from './player-reveal-correct.js?v=20260922172926';
+import { forgetReveal } from './player-reveal-correct.js?v=20261119180000';
 
 /**
  * Salir del lobby y liberar credenciales

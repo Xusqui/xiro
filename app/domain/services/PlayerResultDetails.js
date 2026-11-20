@@ -16,7 +16,7 @@
 const QuestionTypes = require('../../public/js/core/question-types');
 
 const ALWAYS_SENT = Object.freeze(['orderDetails', 'multipleChoiceDetails', 'matchingDetails']);
-const SENT_IN_OWN_TYPE = Object.freeze(['wordSearchDetails', 'fillBlanksDetails', 'surveyMultipleDetails']);
+const SENT_IN_OWN_TYPE = Object.freeze(['wordSearchDetails', 'fillBlanksDetails', 'surveyMultipleDetails', 'hotspotDetails']);
 
 // Sin detalle guardado: la encuesta múltiple envía una selección vacía (votó «Ninguna»)
 const EMPTY_DETAILS = Object.freeze({ surveyMultipleDetails: () => ({ selectedIndices: [] }) });

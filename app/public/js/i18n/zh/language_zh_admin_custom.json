@@ -74,6 +74,8 @@
     "admin.custom.btn_video_slide": "添加视频幻灯片",
     "admin.custom.btn_short_video": "视频",
     "admin.custom.btn_canvas_slide": "添加自由幻灯片",
-    "admin.custom.btn_short_canvas": "自由幻灯片"
+    "admin.custom.btn_short_canvas": "自由幻灯片",
+    "admin.custom.badge_hotspot": "点击图片",
+    "admin.custom.hotspot_answer": "图片上标出的区域"
   }
 }

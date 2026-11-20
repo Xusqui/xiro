@@ -64,6 +64,8 @@
     "manual_player.trivial.s3.title": "Contesta a pregunta",
     "manual_player.trivial.s3.text": "<p>A todos os xogadores preséntaselles unha pregunta aleatoria baseada na categoría da casa na que se caeu. A responder!</p>",
     "manual_player.answer.fill_blanks.title": "Completa a Frase",
-    "manual_player.answer.fill_blanks.text": "Toca un oco e escribe a palabra co teclado: cada casa é unha letra. Se te atascas, pide unha pista (destapa a primeira letra, logo a última e a central), pero esa palabra valerá menos (70 %, 40 %, 25 %). Conta como acerto coa metade dos ocos ou máis. En equipos, cada palabra compróbase ao completala e o acertado veo todo o grupo; o primeiro que envía cerra a pregunta para todos."
+    "manual_player.answer.fill_blanks.text": "Toca un oco e escribe a palabra co teclado: cada casa é unha letra. Se te atascas, pide unha pista (destapa a primeira letra, logo a última e a central), pero esa palabra valerá menos (70 %, 40 %, 25 %). Conta como acerto coa metade dos ocos ou máis. En equipos, cada palabra compróbase ao completala e o acertado veo todo o grupo; o primeiro que envía cerra a pregunta para todos.",
+    "manual_player.answer.hotspot.title": "Toca a Imaxe",
+    "manual_player.answer.hotspot.text": "Toca na imaxe o lugar que pide a pregunta: aparece unha chincheta, que podes mover tocando outra vez, e preme «Enviar». Se cae dentro da zona correcta gañas os puntos máximos máis unha bonificación; se cae preto, gañas menos canto máis lonxe estea. Ao revelar ves a zona correcta e o teu toque."
   }
 }

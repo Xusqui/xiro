@@ -16,13 +16,15 @@ const AnswerProcessingService = require('../../../domain/services/AnswerProcessi
 const answerStatsStore = require('../../../services/AnswerStatsStore');
 const { normalizeSelection } = require('../../../domain/services/SurveyMultipleAnswerService');
 const { getAnswerHandler } = require('../../question-types/AnswerHandlerRegistry');
+const { normalizeTap } = require('../../../public/js/core/hotspot-area');
 
 // Respuesta libre tal cual se guarda, según lo que envía el jugador (answerShape)
 const FREE_INPUT_VALUES = Object.freeze({
     number: payload => Number(payload.playerAnswer),
     text: payload => String(payload.playerAnswer),
     found: payload => [...(payload.found || [])],
-    words: payload => [...(payload.words || [])]
+    words: payload => [...(payload.words || [])],
+    tap: payload => normalizeTap(payload.tap)
 });
 
 function persistFreeInputAnswer({ player, socket, game, questionTimeLimit }, normalizedAnswer) {

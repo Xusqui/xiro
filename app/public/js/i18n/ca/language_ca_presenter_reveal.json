@@ -12,6 +12,8 @@
     "presenter.reveal.correct_pairs": "Parells correctes",
     "presenter.reveal.tolerance": "Tolerància:",
     "presenter.reveal.survey_multiple_caption_one": "1 resposta · cada jugador en podia triar diverses",
-    "presenter.reveal.survey_multiple_caption_other": "{count} respostes · cada jugador en podia triar diverses"
+    "presenter.reveal.survey_multiple_caption_other": "{count} respostes · cada jugador en podia triar diverses",
+    "presenter.reveal.hotspot_inside": "{n} de {total} dins de l’àrea",
+    "presenter.reveal.hotspot_nobody": "Ningú no ha respost"
   }
 }

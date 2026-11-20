@@ -20,6 +20,10 @@ function normalizeQuestionDefaults(q) {
         // El servidor exige puntos máximos; sin valor no se podría guardar nunca
         if (q.maxPoints == null) q.maxPoints = 100;
     }
+    if (q.type === 'hotspot') {
+        if (q.maxPoints == null) q.maxPoints = window.XiroHotspot.LIMITS.DEFAULT_MAX_POINTS;
+        if (q.hotspotTolerance == null) q.hotspotTolerance = window.XiroHotspot.LIMITS.DEFAULT_TOLERANCE;
+    }
     if (q.type === 'order' || q.type === 'matching' || q.type === 'word_search') {
         ensureOrderIndexes(q);
     }

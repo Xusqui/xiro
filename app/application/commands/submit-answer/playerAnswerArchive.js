@@ -109,7 +109,8 @@ const ANSWER_FORMATTERS = Object.freeze({
     multiple_choice: buildMultipleChoiceAnswer,
     survey_multiple: ({ answerResult, options }) => buildSurveyMultipleAnswer(answerResult, options),
     word_search: ({ answerResult }) => buildWordSearchAnswer(answerResult),
-    fill_blanks: ({ answerResult }) => buildFillBlanksAnswer(answerResult)
+    fill_blanks: ({ answerResult }) => buildFillBlanksAnswer(answerResult),
+    hotspot: ({ answerResult }) => buildHotspotAnswer(answerResult)
 });
 
 function buildAnswerDetails({ flags, payload, options, answerResult }) {
@@ -131,6 +132,16 @@ function snapshotQuestionText(question) {
     const text = question?.question_text || question?.text || null;
     if (question?.question_type !== 'fill_blanks' || !text) return text;
     return FB.toEditorText(text, question.fb_words || FB.wordsFromOptions(question.options));
+}
+
+/** Toca la imagen: ✓ dentro o ✗ y la distancia en % del ancho; el toque, para dibujarlo en informes */
+function buildHotspotAnswer(answerResult) {
+    const { tap, inside = false, distancePercent = null } = answerResult?.details || {};
+    if (!tap) return { answerGiven: '—' };
+    return {
+        answerGiven: `${inside ? '✓' : '✗'} ${distancePercent} %`,
+        hotspotTap: { x: tap.x, y: tap.y, inside, distancePercent }
+    };
 }
 
 function buildWordSearchAnswer(answerResult) {
@@ -175,6 +186,7 @@ function buildSnapshot(ctx) {
         matchingPairs: answerDetails.matchingPairs || undefined,
         orderItems: answerDetails.orderItems || undefined,
         multipleChoiceItems: answerDetails.multipleChoiceItems || undefined,
+        hotspotTap: answerDetails.hotspotTap || undefined,
         randomPoints: randomPoints ?? undefined
     };
 }
