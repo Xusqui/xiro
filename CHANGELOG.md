@@ -2,6 +2,9 @@
 
 ## 3.15.x
 
+### 3.15.1-a — 2026-11-21 · `v3.15.1a`
+- Instalación desde código fuente: instrucciones reescritas, APP_BIND, node_modules y permisos en macOS
+
 ### 3.15.1 — 2026-11-21 · `v3.15.1`
 - Instalación desde código fuente: crear app/node_modules antes de arrancar
 
