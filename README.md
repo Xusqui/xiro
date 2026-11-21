@@ -94,7 +94,7 @@ On a NAS, use a folder on a data volume, e.g. `/volume1/docker/xiro` (Synology) 
 - passes **WebSocket** (`Upgrade` and `Connection` headers). Without it, players cannot join;
 - sends `X-Forwarded-For` and `X-Forwarded-Proto`.
 
-If the proxy runs on another machine, or in a container that cannot reach the host's `127.0.0.1` (Nginx Proxy Manager in Docker, for instance), add `APP_BIND=0.0.0.0` (or the LAN IP) to `.env`. Never open port 3000 on the router: only the proxy's 80/443.
+If the proxy runs on another machine, or in a container that cannot reach the host's `127.0.0.1` (Nginx Proxy Manager in Docker, for instance), **uncomment** `APP_BIND=0.0.0.0` in `.env` (it comes commented out in `.env.example`, so port 3000 answers only on `127.0.0.1`). Never open port 3000 on the router: only the proxy's 80/443.
 
 <details>
 <summary><strong>Synology DSM 7</strong></summary>
@@ -133,7 +133,7 @@ If players get stuck on "connecting", the QTS proxy is not passing WebSocket: us
 
 <br>
 
-1. In `.env`, add `APP_BIND=0.0.0.0` (NPM runs in its own container, where `127.0.0.1` is NPM itself) and run `docker compose up -d`.
+1. In `.env`, uncomment `APP_BIND=0.0.0.0` (NPM runs in its own container, where `127.0.0.1` is NPM itself) and run `docker compose up -d`.
 2. **Proxy Hosts → Add Proxy Host:**
    - **Details:** domain `quiz.example.com`, scheme `http`, forward hostname/IP the server's LAN IP, port `3000`, and enable **Websockets Support**.
    - **SSL:** *Request a new SSL Certificate*, **Force SSL** and **HTTP/2 Support**.
@@ -236,14 +236,19 @@ git clone https://github.com/Xusqui/xiro.git && cd xiro
 cp .env.example .env
 ```
 
-Edit `.env`:
+Edit `.env`. These are **required** (they are at the very top of the file):
 
 | Variable | Value |
 |----------|-------|
-| `DB_PORT` | `5439` (only for this installation; the published templates use `5432`) |
 | `CORS_ORIGIN`, `ALLOWED_ORIGINS` | The address(es) you will type in the browser, separated by commas. Public server: `https://quiz.example.com`. Local test: `http://localhost:3000` |
 | `SERVER_HOST` | The same host without `http(s)://`, e.g. `quiz.example.com` or `localhost` |
-| `APP_BIND` | Optional. Leave it out to reach Xiro! only from this computer (`127.0.0.1`). Set `0.0.0.0` to open it from other devices on your network, e.g. a phone |
+| `DB_PORT` | `5439` (only for this installation; the published templates use `5432`) |
+
+> **TOUCH ONLY WHAT FOLLOWS AT YOUR OWN RISK, AND ONLY IF YOU KNOW WHAT YOU ARE DOING.**
+
+| Variable | Value |
+|----------|-------|
+| `APP_BIND` | Comes commented out: Xiro! answers **only on this computer** (`127.0.0.1`). To reach it from other devices on your network (a phone, for instance), remove the `#` so it reads `APP_BIND=0.0.0.0`. Never on a public server. |
 
 You **don't** have to invent passwords or keys: they are generated on first start and kept in the Docker volume `xiro_secrets` (see [docs/SECRETS.md](docs/SECRETS.md)). Don't delete that volume with `docker compose down -v`. No path to set either: the compose file uses relative paths.
 
@@ -284,9 +289,9 @@ curl -I http://127.0.0.1:3000/ready    # should answer 200
 
 **5. Open it and create the admin account**
 
-- **Public server:** set up your reverse proxy ([step 2B](#step-2b--configure-your-reverse-proxy)) and open `https://<your-domain>/admin.html`.
+- **Public server:** leave `APP_BIND` commented out in `.env`, set up your reverse proxy ([step 2B](#step-2b--configure-your-reverse-proxy)) and open `https://<your-domain>/admin.html`.
 - **Local test:** open `http://localhost:3000/admin.html`.
-- **From a phone or another computer on your network:** set `APP_BIND=0.0.0.0` in `.env`, put the exact address in `CORS_ORIGIN` and `ALLOWED_ORIGINS` (e.g. `http://192.168.1.50:3000`) and its host in `SERVER_HOST`, run `docker compose up -d` again and open that address. Without HTTPS some features behave differently, so use it only for testing, and never open port 3000 on your router.
+- **From a phone or another computer on your network:** uncomment `APP_BIND=0.0.0.0` in `.env`, put the exact address in `CORS_ORIGIN` and `ALLOWED_ORIGINS` (e.g. `http://192.168.1.50:3000`) and its host in `SERVER_HOST`, run `docker compose up -d` again and open that address. Without HTTPS some features behave differently, so use it only for testing, and never open port 3000 on your router.
 
 **The first account you register becomes admin.**
 
@@ -297,7 +302,7 @@ curl -I http://127.0.0.1:3000/ready    # should answer 200
 | Backend logs say `EACCES … /usr/src/app/logs` | Redo step 3 |
 | `read-only file system … /usr/src/app/node_modules` | `mkdir -p app/node_modules`, then `docker compose up -d` |
 | One of the JSON files turned into a directory | Delete that directory, create the file again with `echo '{}' > <file>` and restart |
-| Opens on `localhost` but not on your IP | `docker ps` must show `0.0.0.0:3000->3000`. If it shows `127.0.0.1`, add `APP_BIND=0.0.0.0` to `.env` and run `docker compose up -d` |
+| Opens on `localhost` but not on your IP | `docker ps` must show `0.0.0.0:3000->3000`. If it shows `127.0.0.1`, the `APP_BIND` line is commented out in `.env`: uncomment it and run `docker compose up -d` |
 | The page loads but the connection fails | The address you typed is not in `CORS_ORIGIN` and `ALLOWED_ORIGINS` |
 
 Manage it with `./manage.sh start | stop | restart | status | logs | backup | restore | update | health`. To update: `git pull && ./manage.sh update`.

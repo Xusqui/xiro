@@ -104,7 +104,8 @@ services:
       - xiro_internal
     # Solo en 127.0.0.1 por defecto: lo alcanza un proxy del mismo host (DSM, QTS, nginx).
     # Si el proxy está en otra máquina o en un contenedor sin acceso al host, pon
-    # APP_BIND=0.0.0.0 (o la IP de la LAN) en el .env. No abras este puerto en el router.
+    # APP_BIND=0.0.0.0 (o la IP de la LAN) en el .env; .env.example lo trae comentado: quita la #.
+    # No abras este puerto en el router.
     ports:
       - "${APP_BIND:-127.0.0.1}:${APP_PORT:-3000}:3000"
     volumes:
