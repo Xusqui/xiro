@@ -50,4 +50,14 @@ function sameVersion(a, b) {
     return isValidVersion(a) && isValidVersion(b) && compareVersions(a, b) === 0;
 }
 
-module.exports = { parseVersion, isValidVersion, compareVersions, sameVersion };
+/**
+ * Indica si una versión es igual o posterior a un mínimo
+ * @param {string} version - Versión que se comprueba
+ * @param {string} minimum - Versión mínima aceptable
+ * @returns {boolean} false si alguna de las dos no es una versión válida
+ */
+function isAtLeast(version, minimum) {
+    return isValidVersion(version) && isValidVersion(minimum) && compareVersions(version, minimum) >= 0;
+}
+
+module.exports = { parseVersion, isValidVersion, compareVersions, sameVersion, isAtLeast };

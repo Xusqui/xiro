@@ -3,7 +3,7 @@
 'use strict';
 const { runDocker } = require('./docker');
 const { composeArgs } = require('./deployment');
-const { isValidVersion, sameVersion } = require('./version');
+const { isValidVersion, isAtLeast } = require('./version');
 
 const SERVICES = ['backend', 'backup'];
 const MAX_LOG_LINES = 100;
@@ -188,13 +188,17 @@ class UpdateJob {
         );
     }
 
-    /** Verifica si el backend está listo para la versión especificada */
+    /**
+     * Verifica si el backend está listo con la versión pedida o una posterior.
+     * «Posterior» también vale: `compose pull` baja `:latest`, que puede haber avanzado desde que
+     * el panel eligió la versión; exigir la exacta dejaba el paso colgado y acababa en rollback.
+     */
     async backendReady(version) {
         try {
             const v = await this.fetchImpl(this.backendUrl + '/api/version', { signal: AbortSignal.timeout(5000) });
             if (!v.ok) return false;
             const body = await v.json();
-            if (!sameVersion(body.version, version)) return false;
+            if (!isAtLeast(body.version, version)) return false;
             const r = await this.fetchImpl(this.backendUrl + '/ready', { signal: AbortSignal.timeout(5000) });
             return r.status === 200;
         } catch {
