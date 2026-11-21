@@ -232,10 +232,10 @@ git clone https://github.com/Xusqui/xiro.git && cd xiro
 cp .env.example .env
 ```
 
-In `.env`, set the same variables as above plus `XIRO_ROOT` (absolute path of the repository, output of `pwd`) and `DB_PORT=5439`.
+In `.env`, set the same variables as above plus `DB_PORT=5439`. No path to set: the compose file uses relative paths, so it works from wherever you cloned the repository (run `docker compose` from that folder).
 
 ```bash
-mkdir -p logs backups
+mkdir -p logs backups app/public/uploads
 for f in app/config/ui-overrides.json app/config/runtime-overrides.json app/ai-generator/groq-key.json; do
   [ -f "$f" ] || echo '{}' > "$f"
 done

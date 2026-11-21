@@ -23,7 +23,7 @@ services:
       JWT_SECRET: ${JWT_SECRET:-}
       UPDATER_TOKEN: ${UPDATER_TOKEN:-}
     volumes:
-      - ${XIRO_ROOT:-/volume2/docker/xiro}/app/scripts/generate-secrets.js:/gen/generate-secrets.js:ro
+      - ./app/scripts/generate-secrets.js:/gen/generate-secrets.js:ro
       - xiro_secrets:/secrets
 
   db:
@@ -45,7 +45,7 @@ services:
         condition: service_completed_successfully
     volumes:
       - xiro_secrets:/secrets:ro
-      - ${XIRO_ROOT:-/volume2/docker/xiro}/postgres_data:/var/lib/postgresql/data
+      - ./postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -p 5439"]
       interval: 10s
@@ -104,10 +104,10 @@ services:
       - exec redis-server /usr/local/etc/redis/redis.conf --requirepass "$$(cat /secrets/redis_password)"
     volumes:
       - xiro_secrets:/secrets:ro
-      - ${XIRO_ROOT:-/volume2/docker/xiro}/redis.conf:/usr/local/etc/redis/redis.conf:ro
+      - ./redis.conf:/usr/local/etc/redis/redis.conf:ro
       - redis_socket:/var/run/redis
       - redis_data:/data
-      - ${XIRO_ROOT:-/volume2/docker/xiro}/app/logs:/app/logs
+      - ./app/logs:/app/logs
     healthcheck:
       test: ["CMD-SHELL", "REDISCLI_AUTH=\"$$(cat /secrets/redis_password)\" redis-cli -s /var/run/redis/redis.sock ping"]
       interval: 10s
@@ -153,16 +153,16 @@ services:
     ports:
       - "127.0.0.1:${APP_PORT:-3000}:3000"
     volumes:
-      - ${XIRO_ROOT:-/volume2/docker/xiro}/app:/usr/src/app:ro
-      - ${XIRO_ROOT:-/volume2/docker/xiro}/app/config/ui-overrides.json:/usr/src/app/config/ui-overrides.json
-      - ${XIRO_ROOT:-/volume2/docker/xiro}/app/config/runtime-overrides.json:/usr/src/app/config/runtime-overrides.json
-      - ${XIRO_ROOT:-/volume2/docker/xiro}/app/config/instance-id.json:/usr/src/app/config/instance-id.json
-      - ${XIRO_ROOT:-/volume2/docker/xiro}/app/ai-generator/groq-key.json:/usr/src/app/ai-generator/groq-key.json
+      - ./app:/usr/src/app:ro
+      - ./app/config/ui-overrides.json:/usr/src/app/config/ui-overrides.json
+      - ./app/config/runtime-overrides.json:/usr/src/app/config/runtime-overrides.json
+      - ./app/config/instance-id.json:/usr/src/app/config/instance-id.json
+      - ./app/ai-generator/groq-key.json:/usr/src/app/ai-generator/groq-key.json
       - /etc/machine-id:/host/machine-id:ro
-      - ${XIRO_ROOT:-/volume2/docker/xiro}/app/public/uploads:/usr/src/app/public/uploads
-      - ${XIRO_ROOT:-/volume2/docker/xiro}/app/public/images/personalizations:/usr/src/app/public/images/personalizations
-      - ${XIRO_ROOT:-/volume2/docker/xiro}/logs:/usr/src/app/logs
-      - ${XIRO_ROOT:-/volume2/docker/xiro}/logs:/app/logs
+      - ./app/public/uploads:/usr/src/app/public/uploads
+      - ./app/public/images/personalizations:/usr/src/app/public/images/personalizations
+      - ./logs:/usr/src/app/logs
+      - ./logs:/app/logs
       - /usr/src/app/node_modules
       - redis_socket:/var/run/redis
       - xiro_secrets:/secrets:ro
@@ -244,9 +244,9 @@ services:
       BACKUP_SCHEDULE: ${BACKUP_SCHEDULE:-0 2 * * *}
       BACKUP_RETENTION_DAYS: ${BACKUP_RETENTION_DAYS:-7}
     volumes:
-      - ${XIRO_ROOT:-/volume2/docker/xiro}/backups:/backups
-      - ${XIRO_ROOT:-/volume2/docker/xiro}/app/config:/app-config:ro
-      - ${XIRO_ROOT:-/volume2/docker/xiro}/logs:/app/logs
+      - ./backups:/backups
+      - ./app/config:/app-config:ro
+      - ./logs:/app/logs
       - xiro_secrets:/secrets:ro
     depends_on:
       secrets:
