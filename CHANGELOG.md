@@ -1,18 +1,14 @@
 # Historial de versiones de XiRo!
 
-## 4.14.x
-
-### 4.14.14 — 2026-11-21 · `v4.14.14`
-- Secretos generados en el primer arranque (volumen xiro_secrets)
-  - Servicio secrets que crea DB_PASSWORD, REDIS_PASSWORD, JWT_SECRET y UPDATER_TOKEN con app/scripts/generate-secrets.js. Adopta los valores del .env existente y nunca rota. Postgres, Redis, backend, backup y updater los leen con *_FILE. ecosystem.config.js carga config/env.js antes de copiar los secretos a PM2. UPDATER_TOKEN_FILE en env.js. README, .env.example y docs/SECRETS.md actualizados.
-
----
-
 ## 3.14.x
 
 ### 3.14.16 — 2026-11-21 · `v3.14.16`
 - **Actualizador:** acepta una versión igual o posterior a la pedida
   - waitForBackend exigía la versión exacta y, si :latest había avanzado mientras tanto, esperaba hasta agotar el tiempo y acababa en rollback con la versión nueva funcionando. isAtLeast en updater/version.js; backendReady la usa.
+
+### 3.14.14 — 2026-11-21 · `v3.14.14`
+- Secretos generados en el primer arranque (volumen xiro_secrets)
+  - Servicio secrets que crea DB_PASSWORD, REDIS_PASSWORD, JWT_SECRET y UPDATER_TOKEN con app/scripts/generate-secrets.js. Adopta los valores del .env existente y nunca rota. Postgres, Redis, backend, backup y updater los leen con *_FILE. ecosystem.config.js carga config/env.js antes de copiar los secretos a PM2. UPDATER_TOKEN_FILE en env.js. README, .env.example y docs/SECRETS.md actualizados.
 
 ### 3.14.13 — 2026-11-21 · `v3.14.13`
 - **Bug:** Faltaba una clave en todos los idiomas salvo en Español: admin.login.error_rate_limit_15m
