@@ -255,7 +255,7 @@ You **don't** have to invent passwords or keys: they are generated on first star
 **2. Create the folders and files it mounts.** Without them Docker creates *directories* in their place and the backend does not start.
 
 ```bash
-mkdir -p logs backups app/public/uploads app/node_modules
+mkdir -p logs backups app/logs app/public/uploads app/node_modules
 for f in app/config/ui-overrides.json app/config/runtime-overrides.json app/ai-generator/groq-key.json; do
   [ -f "$f" ] || echo '{}' > "$f"
 done
@@ -269,12 +269,13 @@ done
   sudo chown -R 1001:1001 logs app/public/uploads app/public/images/personalizations \
     app/config/ui-overrides.json app/config/runtime-overrides.json \
     app/config/instance-id.json app/ai-generator/groq-key.json
+  sudo chown 999:999 app/logs    # Redis writes its log here
   ```
 
 - **macOS or Windows (Docker Desktop):** the container user cannot take ownership of your folders, so open them for writing instead. Fine for a local test, not for a server:
 
   ```bash
-  chmod -R a+rwX logs app/public/uploads app/public/images/personalizations \
+  chmod -R a+rwX logs app/logs app/public/uploads app/public/images/personalizations \
     app/config/ui-overrides.json app/config/runtime-overrides.json \
     app/config/instance-id.json app/ai-generator/groq-key.json
   ```
@@ -300,7 +301,8 @@ curl -I http://127.0.0.1:3000/ready    # should answer 200
 | Symptom | Fix |
 |---------|-----|
 | Backend logs say `EACCES … /usr/src/app/logs` | Redo step 3 |
-| `read-only file system … /usr/src/app/node_modules` | `mkdir -p app/node_modules`, then `docker compose up -d` |
+| `read-only file system … /usr/src/app/node_modules` (or `…/logs`) | `mkdir -p app/node_modules app/logs`, then `docker compose up -d` |
+| The backend stays in `Created` and `docker compose logs backend` is empty | The container never started: run `docker inspect xiro_backend --format '{{.State.Error}}'` to see why (usually a missing folder from step 2) |
 | One of the JSON files turned into a directory | Delete that directory, create the file again with `echo '{}' > <file>` and restart |
 | Opens on `localhost` but not on your IP | `docker ps` must show `0.0.0.0:3000->3000`. If it shows `127.0.0.1`, the `APP_BIND` line is commented out in `.env`: uncomment it and run `docker compose up -d` |
 | The page loads but the connection fails | The address you typed is not in `CORS_ORIGIN` and `ALLOWED_ORIGINS` |

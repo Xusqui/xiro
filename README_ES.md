@@ -255,7 +255,7 @@ Edita `.env`. Esto es **obligatorio** (está al principio del fichero):
 **2. Crea las carpetas y ficheros que se montan.** Sin ellos Docker crea *directorios* con ese nombre y el backend no arranca.
 
 ```bash
-mkdir -p logs backups app/public/uploads app/node_modules
+mkdir -p logs backups app/logs app/public/uploads app/node_modules
 for f in app/config/ui-overrides.json app/config/runtime-overrides.json app/ai-generator/groq-key.json; do
   [ -f "$f" ] || echo '{}' > "$f"
 done
@@ -269,12 +269,13 @@ done
   sudo chown -R 1001:1001 logs app/public/uploads app/public/images/personalizations \
     app/config/ui-overrides.json app/config/runtime-overrides.json \
     app/config/instance-id.json app/ai-generator/groq-key.json
+  sudo chown 999:999 app/logs    # Redis escribe aquí su log
   ```
 
 - **macOS o Windows (Docker Desktop):** el usuario del contenedor no puede hacerse dueño de tus carpetas, así que ábrelas a escritura. Vale para una prueba local, no para un servidor:
 
   ```bash
-  chmod -R a+rwX logs app/public/uploads app/public/images/personalizations \
+  chmod -R a+rwX logs app/logs app/public/uploads app/public/images/personalizations \
     app/config/ui-overrides.json app/config/runtime-overrides.json \
     app/config/instance-id.json app/ai-generator/groq-key.json
   ```
@@ -300,7 +301,8 @@ curl -I http://127.0.0.1:3000/ready    # debe responder 200
 | Síntoma | Solución |
 |---------|----------|
 | El log del backend dice `EACCES … /usr/src/app/logs` | Repite el paso 3 |
-| `read-only file system … /usr/src/app/node_modules` | `mkdir -p app/node_modules` y `docker compose up -d` |
+| `read-only file system … /usr/src/app/node_modules` (o `…/logs`) | `mkdir -p app/node_modules app/logs` y `docker compose up -d` |
+| El backend se queda en `Created` y `docker compose logs backend` sale vacío | El contenedor nunca llegó a arrancar: ejecuta `docker inspect xiro_backend --format '{{.State.Error}}'` para ver por qué (casi siempre falta una carpeta del paso 2) |
 | Uno de los JSON se ha convertido en un directorio | Borra ese directorio, vuelve a crear el fichero con `echo '{}' > <fichero>` y reinicia |
 | Abre en `localhost` pero no con tu IP | `docker ps` debe mostrar `0.0.0.0:3000->3000`. Si muestra `127.0.0.1`, la línea `APP_BIND` está comentada en `.env`: descoméntala y ejecuta `docker compose up -d` |
 | La página carga pero la conexión falla | La dirección que has escrito no está en `CORS_ORIGIN` y `ALLOWED_ORIGINS` |
