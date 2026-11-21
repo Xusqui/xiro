@@ -2,6 +2,12 @@
 
 ## 3.14.x
 
+### 3.14.12 — 2026-11-21 · `v3.14.12`
+- Temporizador del jugador sincronizado con el presentador, chincheta SVG y envío automático en «Toca la imagen»
+  - Temporizador informativo en el móvil: píldora con anillo a la izquierda de la barra del apodo (la derecha es del logo personalizado), solo en pantallas de pregunta y oculta al responder. El presentador es la fuente de verdad: publica «muestro N desde el instante T» en hora del servidor (presenter-timer-sync) al empezar, cada 5 s, al pausar y al reanudar; presentador y móvil miden su desfase con clock-sync. El servidor valida la marca (solo el presentador, Joi, pregunta actual, límite por socket) y la reenvía como timer-sync. No decide el cierre de la pregunta. Docs en docs/PLAYER_TIMER.md; etiqueta accesible en los 10 idiomas.
+  - «Toca la imagen»: el toque propio es una chincheta roja en SVG (images/hotspot-pin.svg) con la punta en el punto tocado. Al agotarse el tiempo se envía la chincheta puesta, en partida (blocked-answer + lateAnswer en el servidor) y en solitario (temporizador local).
+  - Solitario: muestra la intro de partida (logo y cuenta atrás) en lugar de «Preparando tu partida».
+
 ### 3.14.11 — 2026-11-20 · `v3.14.11`
 - **Editor:** usar una imagen o un audio por ruta o URL, sin subirlo otra vez
   - Junto a cada botón de subir (Toca la imagen, contenido multimedia, imagen del
