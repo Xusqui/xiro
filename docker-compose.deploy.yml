@@ -16,6 +16,25 @@ networks:
     driver: bridge
 
 services:
+  # Crea las contraseñas y claves la primera vez (volumen xiro_secrets) y no las toca después.
+  # Si ya tenías DB_PASSWORD, REDIS_PASSWORD, JWT_SECRET o UPDATER_TOKEN en el .env, usa esos valores.
+  secrets:
+    image: xusqui/xiro-backend:latest
+    container_name: xiro_secrets
+    user: "0:0"
+    working_dir: /usr/src/app
+    command: ["node", "scripts/generate-secrets.js"]
+    restart: "no"
+    networks:
+      - xiro_internal
+    environment:
+      DB_PASSWORD: ${DB_PASSWORD:-}
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-}
+      JWT_SECRET: ${JWT_SECRET:-}
+      UPDATER_TOKEN: ${UPDATER_TOKEN:-}
+    volumes:
+      - xiro_secrets:/secrets
+
   db:
     image: postgres:15-alpine
     container_name: xiro_postgres
@@ -25,11 +44,15 @@ services:
       - xiro_internal
     environment:
       POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_PASSWORD_FILE: /secrets/db_password
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_INITDB_ARGS: "-E UTF8 --locale=es_ES.UTF-8"
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
+      - xiro_secrets:/secrets:ro
+    depends_on:
+      secrets:
+        condition: service_completed_successfully
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
       interval: 10s
@@ -44,12 +67,19 @@ services:
       - xiro_internal
     volumes:
       - ./redis_data:/data
-    command: redis-server --requirepass ${REDIS_PASSWORD}
+      - xiro_secrets:/secrets:ro
+    command:
+      - sh
+      - -c
+      - exec redis-server --requirepass "$$(cat /secrets/redis_password)"
     healthcheck:
-      test: ["CMD-SHELL", "redis-cli -a \"$${REDIS_PASSWORD}\" --no-auth-warning ping"]
+      test: ["CMD-SHELL", "REDISCLI_AUTH=\"$$(cat /secrets/redis_password)\" redis-cli ping"]
       interval: 10s
       timeout: 3s
       retries: 5
+    depends_on:
+      secrets:
+        condition: service_completed_successfully
 
   chrome:
     image: browserless/chrome:latest
@@ -79,12 +109,19 @@ services:
       - ./config/runtime-overrides.json:/usr/src/app/config/runtime-overrides.json
       - ./config/groq-key.json:/usr/src/app/ai-generator/groq-key.json:rw
       - /etc/machine-id:/host/machine-id:ro
+      - xiro_secrets:/secrets:ro
     environment:
       MACHINE_ID_PATH: /host/machine-id
       CHROME_WS_ENDPOINT: ws://chrome:3000
       UPDATER_URL: http://updater:8080
+      JWT_SECRET_FILE: /secrets/jwt_secret
+      DB_PASSWORD_FILE: /secrets/db_password
+      REDIS_PASSWORD_FILE: /secrets/redis_password
+      UPDATER_TOKEN_FILE: /secrets/updater_token
     env_file: .env
     depends_on:
+      secrets:
+        condition: service_completed_successfully
       db:
         condition: service_healthy
       redis:
@@ -99,28 +136,39 @@ services:
     networks:
       - xiro_internal
     env_file: .env
+    environment:
+      DB_PASSWORD_FILE: /secrets/db_password
     volumes:
       - ./backups:/backups
       - ./config:/app-config:ro
       - ./logs:/app/logs
+      - xiro_secrets:/secrets:ro
     depends_on:
+      secrets:
+        condition: service_completed_successfully
       db:
         condition: service_healthy
 
   # Actualizador: descarga e instala versiones nuevas desde el panel (Configuración → Actualizaciones).
   # Tiene el socket de Docker, así que no publica puertos: solo lo alcanza el backend por la red interna,
-  # autenticado con UPDATER_TOKEN (.env). Solo actualiza backend y backup.
+  # autenticado con el token del volumen xiro_secrets. Solo actualiza backend y backup.
   updater:
     image: xusqui/xiro-updater:latest
     container_name: xiro_updater
     restart: unless-stopped
     networks:
       - xiro_internal
-    environment:
-      UPDATER_TOKEN: ${UPDATER_TOKEN:-}
+    command:
+      - sh
+      - -c
+      - export UPDATER_TOKEN="$$(cat /secrets/updater_token)"; exec node server.js
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./:/deploy:ro
+      - xiro_secrets:/secrets:ro
+    depends_on:
+      secrets:
+        condition: service_completed_successfully
 
   caddy:
     image: caddy:2-alpine
@@ -138,7 +186,9 @@ services:
     networks:
       - xiro_internal
 
-# Volúmenes de Caddy: certificados y configuración
+# xiro_secrets: contraseñas y claves generadas; haz copia de seguridad y no lo borres con «down -v».
+# caddy_*: certificados y configuración de Caddy
 volumes:
+  xiro_secrets:
   caddy_data:
   caddy_config:

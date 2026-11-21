@@ -11,6 +11,10 @@
  * @see https://pm2.keymetrics.io/docs/usage/application-declaration/
  */
 
+// PM2 lee este fichero antes de lanzar los workers: los secretos que llegan como
+// *_FILE (volumen «secrets») deben estar resueltos en process.env antes de copiarlos abajo.
+require('./config/env');
+
 module.exports = {
     apps: [
         {

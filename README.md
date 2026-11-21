@@ -176,13 +176,10 @@ server {
 
 | Variable | Value |
 |----------|-------|
-| `DB_PASSWORD`, `REDIS_PASSWORD` | Random passwords, no spaces |
-| `JWT_SECRET` | Random string, at least 32 characters |
-| `UPDATER_TOKEN` | Another random string of at least 32 characters (enables the **Update** button of the admin panel) |
 | `CORS_ORIGIN`, `ALLOWED_ORIGINS` | Your public URL, e.g. `https://quiz.example.com` |
 | `SERVER_HOST` | Your domain without `https://`, e.g. `quiz.example.com` |
 
-Leave the rest as it is. Generate random values with `openssl rand -hex 32`.
+Leave the rest as it is. **You don't have to invent any password or key**: the first time you start Xiro!, it generates the database password, the Redis password, the login key (`JWT_SECRET`) and the key of the **Update** button (`UPDATER_TOKEN`) and keeps them in the Docker volume `xiro_secrets`. Include that volume in your backups and never delete it with `docker compose down -v`: without it the database can't be opened. Details in [docs/SECRETS.md](docs/SECRETS.md).
 
 ### Step 4 — Start
 
@@ -217,7 +214,7 @@ Data lives in the folder's subdirectories (`postgres_data/`, `redis_data/`, `pub
 
 **Switching from A to B** (e.g. you put the server behind your own proxy): run `docker compose down`, copy `docker-compose.deploy.nas.yml` over `docker-compose.yml`, set up the proxy (step 2B) and run `docker compose up -d`. The data stays in the subdirectories.
 
-**Installed before the update button existed?** Copy your current template over your `docker-compose.yml` (with A, set your domain again, step 2A), add `UPDATER_TOKEN=<openssl rand -hex 32>` to `.env` and run `docker compose pull && docker compose up -d`. From then on, updates can be installed from the panel.
+**Installed before the update button existed?** Copy your current template over your `docker-compose.yml` (with A, set your domain again, step 2A), and run `docker compose pull && docker compose up -d`. The updater key is generated for you (and your current passwords and keys are kept). From then on, updates can be installed from the panel.
 
 > **PDF export fails with "Error al generar el PDF":** the backend can't reach the `chrome` container. Check that `docker compose exec backend printenv CHROME_WS_ENDPOINT` prints `ws://chrome:3000` and that the `xiro_chrome` container is running. If it is empty, copy your current template again (it sets this variable) or add `CHROME_WS_ENDPOINT=ws://chrome:3000` to `.env`, then run `docker compose up -d`.
 

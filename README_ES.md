@@ -176,13 +176,10 @@ server {
 
 | Variable | Valor |
 |----------|-------|
-| `DB_PASSWORD`, `REDIS_PASSWORD` | Contraseñas aleatorias, sin espacios |
-| `JWT_SECRET` | Cadena aleatoria de al menos 32 caracteres |
-| `UPDATER_TOKEN` | Otra cadena aleatoria de al menos 32 caracteres (activa el botón **Actualizar** del panel) |
 | `CORS_ORIGIN`, `ALLOWED_ORIGINS` | Tu URL pública, p. ej. `https://quiz.example.com` |
 | `SERVER_HOST` | Tu dominio sin `https://`, p. ej. `quiz.example.com` |
 
-Deja el resto como está. Puedes generar valores aleatorios con `openssl rand -hex 32`.
+Deja el resto como está. **No tienes que inventar ninguna contraseña ni clave**: la primera vez que arrancas Xiro! genera la contraseña de la base de datos, la de Redis, la clave de acceso (`JWT_SECRET`) y la del botón **Actualizar** (`UPDATER_TOKEN`) y las guarda en el volumen de Docker `xiro_secrets`. Incluye ese volumen en tus copias de seguridad y no lo borres nunca con `docker compose down -v`: sin él no se puede abrir la base de datos. Detalles en [docs/SECRETS.md](docs/SECRETS.md).
 
 ### Paso 4 — Arrancar
 
@@ -217,7 +214,7 @@ Los datos viven en las subcarpetas (`postgres_data/`, `redis_data/`, `public/`, 
 
 **Pasar de A a B** (p. ej. pones el servidor detrás de tu propio proxy): ejecuta `docker compose down`, copia `docker-compose.deploy.nas.yml` encima de `docker-compose.yml`, configura el proxy (paso 2B) y ejecuta `docker compose up -d`. Los datos siguen en las subcarpetas.
 
-**¿Instalaste Xiro! antes de que existiera el botón?** Copia tu plantilla actual encima de tu `docker-compose.yml` (en A, vuelve a poner tu dominio, paso 2A), añade `UPDATER_TOKEN=<openssl rand -hex 32>` al `.env` y ejecuta `docker compose pull && docker compose up -d`. A partir de ahí, las actualizaciones se instalan desde el panel.
+**¿Instalaste Xiro! antes de que existiera el botón?** Copia tu plantilla actual encima de tu `docker-compose.yml` (en A, vuelve a poner tu dominio, paso 2A), y ejecuta `docker compose pull && docker compose up -d`. La clave del actualizador se genera sola (y tus contraseñas y claves actuales se conservan). A partir de ahí, las actualizaciones se instalan desde el panel.
 
 > **La exportación a PDF falla con "Error al generar el PDF":** el backend no llega al contenedor `chrome`. Comprueba que `docker compose exec backend printenv CHROME_WS_ENDPOINT` devuelve `ws://chrome:3000` y que el contenedor `xiro_chrome` está en marcha. Si sale vacío, vuelve a copiar tu plantilla actual (ya fija esta variable) o añade `CHROME_WS_ENDPOINT=ws://chrome:3000` a `.env`, y ejecuta `docker compose up -d`.
 

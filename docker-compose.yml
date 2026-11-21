@@ -7,6 +7,25 @@ networks:
     driver: bridge
 
 services:
+  # Crea las contraseñas y claves la primera vez (volumen xiro_secrets) y no las toca después.
+  # Si ya tenías DB_PASSWORD, REDIS_PASSWORD, JWT_SECRET o UPDATER_TOKEN en el .env, usa esos valores.
+  secrets:
+    image: node:24-alpine
+    container_name: xiro_secrets
+    user: "0:0"
+    command: ["node", "/gen/generate-secrets.js"]
+    restart: "no"
+    networks:
+      - xiro_internal
+    environment:
+      DB_PASSWORD: ${DB_PASSWORD:-}
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-}
+      JWT_SECRET: ${JWT_SECRET:-}
+      UPDATER_TOKEN: ${UPDATER_TOKEN:-}
+    volumes:
+      - ${XIRO_ROOT:-/volume2/docker/xiro}/app/scripts/generate-secrets.js:/gen/generate-secrets.js:ro
+      - xiro_secrets:/secrets
+
   db:
     image: postgres:15-alpine
     container_name: xiro_postgres
@@ -18,10 +37,14 @@ services:
       - xiro_internal
     environment:
       POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_PASSWORD_FILE: /secrets/db_password
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_INITDB_ARGS: "-E UTF8 --locale=es_ES.UTF-8"
+    depends_on:
+      secrets:
+        condition: service_completed_successfully
     volumes:
+      - xiro_secrets:/secrets:ro
       - ${XIRO_ROOT:-/volume2/docker/xiro}/postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -p 5439"]
@@ -72,20 +95,21 @@ services:
     mem_reservation: 128m
     networks:
       - xiro_internal
-    environment:
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    depends_on:
+      secrets:
+        condition: service_completed_successfully
     command:
-      - redis-server
-      - /usr/local/etc/redis/redis.conf
-      - --requirepass
-      - ${REDIS_PASSWORD}
+      - sh
+      - -c
+      - exec redis-server /usr/local/etc/redis/redis.conf --requirepass "$$(cat /secrets/redis_password)"
     volumes:
+      - xiro_secrets:/secrets:ro
       - ${XIRO_ROOT:-/volume2/docker/xiro}/redis.conf:/usr/local/etc/redis/redis.conf:ro
       - redis_socket:/var/run/redis
       - redis_data:/data
       - ${XIRO_ROOT:-/volume2/docker/xiro}/app/logs:/app/logs
     healthcheck:
-      test: ["CMD-SHELL", "redis-cli -s /var/run/redis/redis.sock -a \"$REDIS_PASSWORD\" --no-auth-warning ping"]
+      test: ["CMD-SHELL", "REDISCLI_AUTH=\"$$(cat /secrets/redis_password)\" redis-cli -s /var/run/redis/redis.sock ping"]
       interval: 10s
       timeout: 3s
       retries: 5
@@ -141,6 +165,7 @@ services:
       - ${XIRO_ROOT:-/volume2/docker/xiro}/logs:/app/logs
       - /usr/src/app/node_modules
       - redis_socket:/var/run/redis
+      - xiro_secrets:/secrets:ro
     env_file:
       - .env
     environment:
@@ -148,7 +173,6 @@ services:
       XIRO_INSTALL: source   # el panel muestra «git pull && ./manage.sh update» en vez del botón de actualizar
       MACHINE_ID_PATH: /host/machine-id
       DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
       DB_HOST: db
       DB_PORT: ${DB_PORT}
       DB_NAME: ${DB_NAME}
@@ -169,15 +193,19 @@ services:
       SHUTDOWN_NOTIFY_WAIT_MS: ${SHUTDOWN_NOTIFY_WAIT_MS}
       SHUTDOWN_CLOSE_TIMEOUT_MS: ${SHUTDOWN_CLOSE_TIMEOUT_MS}
       TEAM_SCORE_LAMBDA: ${TEAM_SCORE_LAMBDA}
-      JWT_SECRET: ${JWT_SECRET}
+      JWT_SECRET_FILE: /secrets/jwt_secret
+      DB_PASSWORD_FILE: /secrets/db_password
+      REDIS_PASSWORD_FILE: /secrets/redis_password
+      UPDATER_TOKEN_FILE: /secrets/updater_token
       REDIS_URL: redis://redis:6379
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
       CORS_ORIGIN: ${CORS_ORIGIN}
       ALLOWED_ORIGINS: ${ALLOWED_ORIGINS}
       SERVER_HOST: ${SERVER_HOST}
       GROQ_MODEL: ${GROQ_MODEL:-llama-3.3-70b-versatile}
       CHROME_WS_ENDPOINT: ws://chrome:3000
     depends_on:
+      secrets:
+        condition: service_completed_successfully
       db:
         condition: service_healthy
       redis:
@@ -208,22 +236,21 @@ services:
     networks:
       - xiro_internal
     environment:
-      DB_PASSWORD_FILE: /run/secrets/db_password
-      DB_PASSWORD: ${DB_PASSWORD}
+      DB_PASSWORD_FILE: /secrets/db_password
       DB_HOST: db
       DB_PORT: ${DB_PORT:-5439}
       DB_USER: ${DB_USER:-postgres}
       DB_NAME: ${DB_NAME:-xiro_db}
       BACKUP_SCHEDULE: ${BACKUP_SCHEDULE:-0 2 * * *}
       BACKUP_RETENTION_DAYS: ${BACKUP_RETENTION_DAYS:-7}
-    secrets:
-      - source: db_password
-        target: db_password
     volumes:
       - ${XIRO_ROOT:-/volume2/docker/xiro}/backups:/backups
       - ${XIRO_ROOT:-/volume2/docker/xiro}/app/config:/app-config:ro
       - ${XIRO_ROOT:-/volume2/docker/xiro}/logs:/app/logs
+      - xiro_secrets:/secrets:ro
     depends_on:
+      secrets:
+        condition: service_completed_successfully
       db:
         condition: service_healthy
     logging:
@@ -233,6 +260,8 @@ services:
         max-file: "3"
 
 volumes:
+  # xiro_secrets: contraseñas y claves generadas; haz copia de seguridad y no lo borres con «down -v».
+  xiro_secrets:
   redis_data:
   redis_socket:
     driver: local
@@ -240,7 +269,3 @@ volumes:
       type: tmpfs
       device: tmpfs
       o: "uid=999,gid=999,mode=0770"
-
-secrets:
-  db_password:
-    file: ${DB_PASSWORD_SECRET_FILE:-./secrets/db_password.txt.template}

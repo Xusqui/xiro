@@ -83,5 +83,6 @@ function resolveSecretFromFile(envVar, fileVar) {
 resolveSecretFromFile('JWT_SECRET', 'JWT_SECRET_FILE');
 resolveSecretFromFile('DB_PASSWORD', 'DB_PASSWORD_FILE');
 resolveSecretFromFile('REDIS_PASSWORD', 'REDIS_PASSWORD_FILE');
+resolveSecretFromFile('UPDATER_TOKEN', 'UPDATER_TOKEN_FILE');
 
 module.exports = { loadEnvFile };
