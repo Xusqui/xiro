@@ -2,6 +2,9 @@
 
 ## 3.15.x
 
+### 3.15.1-b — 2026-11-21 · `v3.15.1b`
+- **.env.example:** obligatorio arriba y aviso; APP_BIND comentado por defecto; README de instalación desde código fuente reescrito
+
 ### 3.15.1-a — 2026-11-21 · `v3.15.1a`
 - Instalación desde código fuente: instrucciones reescritas, APP_BIND, node_modules y permisos en macOS
 
