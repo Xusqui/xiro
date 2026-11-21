@@ -163,6 +163,8 @@ services:
       - ./app/public/images/personalizations:/usr/src/app/public/images/personalizations
       - ./logs:/usr/src/app/logs
       - ./logs:/app/logs
+      # Docker no puede crear este punto de montaje dentro de ./app (solo lectura):
+      # la carpeta app/node_modules debe existir en el host (mkdir -p app/node_modules).
       - /usr/src/app/node_modules
       - redis_socket:/var/run/redis
       - xiro_secrets:/secrets:ro
