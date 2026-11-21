@@ -68,7 +68,7 @@ export function renderizarPregunta(pregunta) {
 
     setBodyHTML(`
                 <div class="h-screen w-screen flex flex-col bg-slate-900 overflow-hidden">
-                    <div class="bg-plum-600 px-3 py-2 text-center shrink-0">
+                    <div class="bg-plum-600 relative px-3 py-2 text-center shrink-0" data-player-timer-slot>
                         <p class="text-white font-black text-base uppercase">${safeNickname}</p>
                     </div>
                     ${multimediaHTML}

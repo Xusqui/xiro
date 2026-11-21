@@ -4,6 +4,7 @@
  */
 
 import { getSocket } from './presenter-socket-config.js?v=20260922172926';
+import { publishCurrentCountdown } from './presenter-question-timer.js?v=20260922172926';
 import {
     setTotalQuestions,
     setCurrentQuestionIndex,
@@ -248,6 +249,7 @@ export function registerGameSocketHandlers() {
             timerEl.innerText = _t(window.currentSeconds);
         }
 
+        publishCurrentCountdown();
         console.log('✅ Frontend: Timer pausado - Tiempo restante:', window.currentSeconds);
     });
 
@@ -263,6 +265,7 @@ export function registerGameSocketHandlers() {
             timerEl.classList.add('border-plum-500');
         }
 
+        publishCurrentCountdown();
         console.log('✅ Frontend: Timer reanudado - Tiempo restante:', window.currentSeconds);
     });
 

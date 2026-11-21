@@ -17,6 +17,7 @@ import { hasActiveWordSearch } from './player-wordsearch-state.js?v=202609221729
 import { enviarRespuestaFillBlanks } from './player-answer-fillblanks.js?v=20260922172926';
 import { hasActiveFillBlanks } from './player-fillblanks-state.js?v=20260922172926';
 import { isTeamFillBlanks } from './player-fillblanks-team.js?v=20260922172926';
+import { enviarRespuestaHotspot } from './player-answer-hotspot.js?v=20261121150000';
 import { buildAnswerResultHTML } from './player-answer-result.js?v=20261119180000';
 import {
     appendCorrectAnswerToResult,
@@ -82,6 +83,11 @@ function onBlockedAnswer(data) {
     // En individual, sin ENVIAR no hay puntos: no se envía nada.
     if (!getHaRespondido() && hasActiveFillBlanks() && isTeamFillBlanks()) {
         enviarRespuestaFillBlanks(true);
+    }
+
+    // Toca la imagen: enviar la chincheta puesta aunque no se pulsara «Enviar» (sin toque no envía)
+    if (!getHaRespondido() && getCurrentSlideType() === 'hotspot') {
+        enviarRespuestaHotspot(true);
     }
 
     setCanAnswer(false);

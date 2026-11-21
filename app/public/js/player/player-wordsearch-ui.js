@@ -44,7 +44,7 @@ function layoutHtml(pregunta, grid, words) {
     const fontClass = getResponsiveFontClass(pregunta.question_text);
     return `
         <div class="h-dvh w-screen flex flex-col bg-slate-900 overflow-hidden">
-            <div class="bg-plum-600 px-3 py-2 text-center shrink-0">
+            <div class="bg-plum-600 relative px-3 py-2 text-center shrink-0" data-player-timer-slot>
                 <p class="text-white font-black text-base uppercase">${escapeHtml(getNickname())}</p>
             </div>
             <div class="ws-question bg-white px-3 py-2 border-b-4 border-plum-600 text-slate-800 text-center flex items-center justify-center shrink-0 overflow-y-auto">

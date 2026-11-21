@@ -4,6 +4,7 @@
     "player.hotspot.submit": "Envia",
     "player.hotspot.inside": "Dins!",
     "player.hotspot.no_tap": "Sense toc",
-    "player.hotspot.distance": "A un {n} % de l’àrea"
+    "player.hotspot.distance": "A un {n} % de l’àrea",
+    "player.timer.label": "Temps restant"
   }
 }

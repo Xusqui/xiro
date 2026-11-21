@@ -55,6 +55,7 @@ const {
     registerSlideNavigationEvents
 } = require('./handlers/SlideNavigationHandler');
 const { registerReactionEvents } = require('./handlers/ReactionHandler');
+const { registerTimerSyncEvents } = require('./handlers/TimerSyncHandler');
 const { createReactionsFeature } = require('./services/ReactionsFeature');
 const { createAvatarsFeature, registerAvatarEvents } = require('./services/AvatarsFeature');
 
@@ -384,6 +385,7 @@ function onSocketConnection(socket, handlers, ackManager) {
     registerTrivialSocketEvents(socket, handlers);
     registerReactionEvents(socket, handlers.reactions);
     registerAvatarEvents(socket, handlers.avatars);
+    registerTimerSyncEvents(socket, { io, activeGames, assertIsPresenter });
     registerDisconnectAndErrorEvents(socket, handlers, ackManager);
     observeSocket(socket);
 }
@@ -398,6 +400,8 @@ function logConfiguredSocketHandlers() {
             'join-presenter-lobby',
             'pause-timer',
             'resume-timer',
+            'clock-sync',
+            'presenter-timer-sync',
             'select-team',
             'reconnect-player',
             'reconnect-presenter',

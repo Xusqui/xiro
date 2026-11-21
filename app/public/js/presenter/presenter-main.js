@@ -32,6 +32,7 @@ import {
     assignManualPoints
 } from './presenter-socket-handlers-game.js?v=20260922172926';
 import { registerPresenterReconnectionEvents } from './presenter-reconnection.js?v=20260922172926';
+import { startPresenterClock } from './presenter-timer-sync.js?v=20261121180000';
 import { toggleFullscreen, saveOriginalLobbyHTML } from './presenter-utils.js?v=20260922172926';
 import { abandonarJuego, concluirJuegoYVolver, terminarJuego } from './presenter-session-control.js?v=20261026120000';
 import { startWaitingPanelSync, stopWaitingPanelSync } from './presenter-waiting-panel.js?v=20260922172926';
@@ -69,6 +70,8 @@ if (!_isRemoteMode) {
     registerPresenterReconnectionEvents();
     registerLobbySocketHandlers();
     registerGameSocketHandlers();
+    // Reloj del servidor para el temporizador del móvil: medido antes de la primera pregunta
+    startPresenterClock();
     registerTrivialSocketHandlers();
     // Después de los manejadores del juego: la música reacciona a lo ya pintado
     registerMusicBridge();

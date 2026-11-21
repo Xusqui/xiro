@@ -1,6 +1,6 @@
 /**
  * @fileoverview Manejadores de los tipos de respuesta escrita o marcada: numérica,
- * anagrama, sopa de letras, completa la frase y toca la imagen. Sopa y frase admiten el envío
+ * anagrama, sopa de letras, completa la frase y toca la imagen. Sopa, frase e imagen admiten el envío
  * automático justo después del cierre (lateAnswer); en equipos llega entonces.
  * @module application/question-types/answer-handlers/typed
  */
@@ -73,7 +73,7 @@ const fillBlanks = Object.freeze({
 });
 
 const hotspot = Object.freeze({
-    lateAnswer: false,
+    lateAnswer: true,
     // Puntúa por cercanía como la numérica: dentro sube la racha, con puntos la mantiene
     streakAction: getNumericStreakAction,
     validate: freeInputValidator((payload) => isValidTapPayload(payload.tap)),

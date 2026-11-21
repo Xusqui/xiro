@@ -1,6 +1,24 @@
 /**
- * @fileoverview Cuenta atrás de la pregunta y arranque del audio en el presentador.
+ * @fileoverview Cuenta atrás de la pregunta y arranque del audio en el presentador. La cuenta atrás
+ * es la fuente de verdad del temporizador informativo del móvil (presenter-timer-sync.js).
  */
+
+import { publishTimerAnchor, RESYNC_EVERY_TICKS } from './presenter-timer-sync.js?v=20261121180000';
+
+// Cuenta en curso: tiempo total y desde cuándo se enseña el número actual (fase del setInterval)
+let countdownTotal = 0;
+let shownSince = 0;
+
+/** Publica para los móviles lo que enseña ahora la cuenta atrás (también al pausar y reanudar). */
+export function publishCurrentCountdown() {
+    if (!countdownTotal) return;
+    publishTimerAnchor({
+        value: window.currentSeconds,
+        total: countdownTotal,
+        shownSince,
+        paused: Boolean(window.timerPaused)
+    });
+}
 
 /**
  * Reproduce el audio de la pregunta; si el autoplay falla por falta de gesto del
@@ -28,13 +46,20 @@ export function ensureQuestionAudioPlays() {
     });
 }
 
-/** Reinicia la cuenta atrás de la pregunta (overlay de los 5 últimos segundos incluido). */
-export function startQuestionCountdown(seconds) {
+/**
+ * Reinicia la cuenta atrás de la pregunta (overlay de los 5 últimos segundos incluido).
+ * @param {number} seconds - Segundos que quedan
+ * @param {number} [total=seconds] - Tiempo de la pregunta (al reconectar quedan menos que el total)
+ */
+export function startQuestionCountdown(seconds, total = seconds) {
     // CRÍTICO: Limpiar intervalo ANTES de resetear variables
     clearInterval(window.timerInterval);
     window.timerInterval = null;
     window.timerPaused = false;
     window.currentSeconds = seconds;
+    countdownTotal = Math.max(seconds, total);
+    shownSince = Date.now();
+    publishCurrentCountdown();
 
     const overlay = document.getElementById('countdown-overlay');
     const bigNumber = document.getElementById('big-number');
@@ -46,10 +71,15 @@ export function startQuestionCountdown(seconds) {
         timerEl.innerText = _t(window.currentSeconds);
     }
 
+    let ticks = 0;
     window.timerInterval = setInterval(() => {
+        // También en pausa: al reanudar, el siguiente segundo cae en este mismo compás
+        shownSince = Date.now();
         if (window.timerPaused) return;
 
         window.currentSeconds--;
+        ticks++;
+        if (ticks % RESYNC_EVERY_TICKS === 0 && window.currentSeconds > 0) publishCurrentCountdown();
         if (document.getElementById('timer')) document.getElementById('timer').innerText = _t(window.currentSeconds);
 
         // Los 5 segundos finales

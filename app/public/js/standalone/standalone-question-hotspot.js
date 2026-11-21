@@ -1,6 +1,7 @@
 /**
  * @fileoverview «Toca la imagen» (hotspot) en el modo individual, como player-hotspot-ui.js: tocar la
- * imagen pone una chincheta (se puede mover) y «Enviar» manda el toque. El resultado enseña la imagen
+ * imagen pone una chincheta (se puede mover) y «Enviar» manda el toque; al agotarse el tiempo se envía
+ * sola la chincheta puesta. El resultado enseña la imagen
  * con el toque y, al revelar, el área correcta. HTML compartido en core/hotspot-view.js.
  */
 
@@ -10,6 +11,9 @@ globalThis.StandaloneQuestionHotspot = (() => {
     const { escapeHtml, t, submitAnswer } = StandaloneQuestionCommon;
     let imageUrl = null;
     let tap = null;
+    // Margen para que el envío automático llegue antes de que el servidor cierre la pregunta
+    const AUTO_SUBMIT_MARGIN_MS = 400;
+    let autoSubmitTimer = null;
 
     function view() {
         return window.XiroHotspotView;
@@ -47,17 +51,39 @@ globalThis.StandaloneQuestionHotspot = (() => {
         `;
         const button = container.querySelector('[data-standalone-action="submit-hotspot"]');
         wireStage(container.querySelector('#hs-question'), button);
-        button.addEventListener('click', async () => {
-            if (!tap) return;
+        const send = createSender(question, button, onSubmitted);
+        button.addEventListener('click', send);
+        scheduleAutoSubmit(question, send);
+    }
+
+    /**
+     * Envío del toque, desde el botón o al agotarse el tiempo. Sin toque, ya enviado o con
+     * otra pregunta en pantalla no hace nada; si el servidor lo rechaza deja volver a enviar.
+     */
+    function createSender(question, button, onSubmitted) {
+        let sent = false;
+        return async () => {
+            if (!tap || sent || StandaloneState.get().currentQuestion !== question) return;
+            sent = true;
+            clearTimeout(autoSubmitTimer);
             button.disabled = true;
             const ack = await submitAnswer({ tap: { x: tap.x, y: tap.y } }, 'hotspot');
             if (ack && ack.ok === false) {
+                sent = false;
                 StandaloneState.get().answered = false;
                 button.disabled = false;
                 return;
             }
             onSubmitted();
-        });
+        };
+    }
+
+    // Como en la sopa de letras: la chincheta puesta se envía sola justo antes de acabar el tiempo
+    function scheduleAutoSubmit(question, send) {
+        clearTimeout(autoSubmitTimer);
+        if (typeof question.time_limit === 'number' && question.time_limit > 0) {
+            autoSubmitTimer = setTimeout(send, Math.max(0, question.time_limit * 1000 - AUTO_SUBMIT_MARGIN_MS));
+        }
     }
 
     function verdict(details) {

@@ -12,7 +12,7 @@ import {
     unirseAlLobby
 } from './player-session.js?v=20260922172926';
 import { registerTeamEvents, seleccionarEquipo, mostrarSeleccionEquipo } from './player-team.js?v=20260922172926';
-import { registerAnswerEvents } from './player-answer-events.js?v=20260922172926';
+import { registerAnswerEvents } from './player-answer-events.js?v=20261121150000';
 import {
     enviarRespuesta,
     enviarOrdenRespuesta,
@@ -23,13 +23,14 @@ import {
 } from './player-answer.js?v=20260922172926';
 import { enviarRespuestaWordSearch } from './player-answer-wordsearch.js?v=20260922172926';
 import { enviarRespuestaFillBlanks } from './player-answer-fillblanks.js?v=20260922172926';
-import { enviarRespuestaHotspot } from './player-answer-hotspot.js?v=20261119180000';
+import { enviarRespuestaHotspot } from './player-answer-hotspot.js?v=20261121150000';
 import { registerResultsEvents } from './player-results.js?v=20260922172926';
 import { registerReviewEvents } from './player-review.js?v=20261024180000';
 import { registerGameFlowEvents, salirDelLobby } from './player-game-flow.js?v=20260922172926';
 import { registerReconnectionEvents } from './player-reconnection.js?v=20260922172926';
 import { registerTrivialPlayerSocketHandlers } from './player-trivial-socket.js?v=20260922172926';
 import { registerReactionEvents } from './player-reactions.js?v=20261030180000';
+import { registerPlayerTimer } from './player-timer.js?v=20261121180000';
 
 if (window.XiroI18n && typeof window.XiroI18n.addSections === 'function') {
     void window.XiroI18n.addSections(['player'], { reload: false });
@@ -150,6 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
     registerReviewEvents();
     registerResultsEvents();
     registerGameFlowEvents();
+    registerPlayerTimer();
     registerTrivialPlayerSocketHandlers();
 
     // Activar detección de visibilidad (wake lock + reconnect on resume)

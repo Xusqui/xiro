@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 64" width="40" height="64">
+  <!-- Chincheta del toque propio en «Toca la imagen» (css/hotspot.css). La punta de la aguja
+       es el centro del borde inferior (20,64): ahí cae el punto tocado. -->
+  <defs>
+    <radialGradient id="head" cx="0.4" cy="0.38" r="0.68" fx="0.32" fy="0.28">
+      <stop offset="0" stop-color="#ff9a8f"/>
+      <stop offset="0.35" stop-color="#f23b2e"/>
+      <stop offset="0.8" stop-color="#c3140c"/>
+      <stop offset="1" stop-color="#8a0a05"/>
+    </radialGradient>
+    <linearGradient id="neck" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#8a0a05"/>
+      <stop offset="0.3" stop-color="#e8352a"/>
+      <stop offset="0.45" stop-color="#ff7b70"/>
+      <stop offset="0.7" stop-color="#d0180e"/>
+      <stop offset="1" stop-color="#7a0804"/>
+    </linearGradient>
+    <linearGradient id="base" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7a0804"/>
+      <stop offset="0.35" stop-color="#d82418"/>
+      <stop offset="0.5" stop-color="#f04a3e"/>
+      <stop offset="1" stop-color="#6e0703"/>
+    </linearGradient>
+    <linearGradient id="needle" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7d8389"/>
+      <stop offset="0.45" stop-color="#f4f6f8"/>
+      <stop offset="1" stop-color="#5f656b"/>
+    </linearGradient>
+  </defs>
+  <polygon points="18.8,40 21.2,40 20.3,64 19.7,64" fill="url(#needle)"/>
+  <ellipse cx="20" cy="40.5" rx="14" ry="4.6" fill="url(#base)" stroke="rgba(0,0,0,0.3)" stroke-width="0.6"/>
+  <ellipse cx="20" cy="39.2" rx="12.6" ry="3.4" fill="#f0493d"/>
+  <path d="M12.5,38.5 C15,33 15.2,29 14,24 L26,24 C24.8,29 25,33 27.5,38.5 C24,40 16,40 12.5,38.5 Z" fill="url(#neck)"/>
+  <circle cx="20" cy="14" r="13" fill="url(#head)" stroke="rgba(0,0,0,0.3)" stroke-width="0.6"/>
+  <ellipse cx="15" cy="8.5" rx="4.6" ry="2.8" fill="#ffffff" opacity="0.75" transform="rotate(-35 15 8.5)"/>
+</svg>

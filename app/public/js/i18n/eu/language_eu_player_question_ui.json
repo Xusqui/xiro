@@ -4,6 +4,7 @@
     "player.hotspot.submit": "Bidali",
     "player.hotspot.inside": "Barruan!",
     "player.hotspot.no_tap": "Ukitu gabe",
-    "player.hotspot.distance": "Eremutik % {n}-ra"
+    "player.hotspot.distance": "Eremutik % {n}-ra",
+    "player.timer.label": "Geratzen den denbora"
   }
 }

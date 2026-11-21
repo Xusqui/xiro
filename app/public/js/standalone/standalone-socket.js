@@ -35,6 +35,8 @@ const StandaloneSocket = (() => {
     }
 
     function _wirePlayerEvents(socket) {
+        // Logo + cuenta atrás: el servidor no arranca la partida hasta que termina
+        socket.on('game-intro', data => handlers.onGameIntro && handlers.onGameIntro(data));
         socket.on('game-started', data => handlers.onGameStarted && handlers.onGameStarted(data));
         socket.on('new-question', data => handlers.onNewQuestion && handlers.onNewQuestion(data));
         socket.on('random-points-reveal', data => handlers.onRandomPointsReveal && handlers.onRandomPointsReveal(data));
@@ -93,7 +95,7 @@ const StandaloneSocket = (() => {
      * Crea la sesión, une presentador (HOST oculto) y jugador real, y arranca el juego.
      * @param {{pin:string, nickname:string}} params
      * @param {Object} eventHandlers - callbacks: onGameStarted, onNewQuestion, onAnswerResult,
-     *   onRevealAnswer, onRankingUpdate, onMaxScore, onGameEnded, onBlockedAnswer, onJoinError, onError, onDisconnected
+     *   onGameIntro, onRevealAnswer, onRankingUpdate, onMaxScore, onGameEnded, onBlockedAnswer, onJoinError, onError, onDisconnected
      * @returns {Promise<{sessionId:string}>}
      */
     async function startSession({ pin, nickname }, eventHandlers) {

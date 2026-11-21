@@ -67,7 +67,7 @@
     vector-effect: non-scaling-stroke;
 }
 
-/* Marcas: el centro de la marca es el punto tocado */
+/* Marcas: el centro de la marca es el punto tocado (en la chincheta propia, la punta) */
 .hs-pin {
     position: absolute;
     width: 16px;
@@ -88,13 +88,37 @@
 .hs-pin--near { background: #f59e0b; }
 .hs-pin--out { background: #64748b; }
 
-/* Toque propio: chincheta grande con anillo blanco */
+/* Toque propio: chincheta como 📌 (SVG propio: el emoji cambia de forma según el móvil y su
+   punta no caería siempre en el mismo sitio). La marca mide 0 y está en el punto tocado: la punta de
+   la aguja acaba justo ahí. Gira sobre ese punto para
+   inclinarse hacia arriba a la derecha. Tamaño fijo en px. */
 .hs-pin--own {
-    width: 24px;
-    height: 24px;
-    margin: -12px 0 0 -12px;
-    border-width: 4px;
-    background: #2563eb;
+    width: 0;
+    height: 0;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: rotate(35deg);
+    transform: rotate(35deg);
+}
+
+/* El dibujo (images/hotspot-pin.svg) tiene la punta en el centro de su borde inferior */
+.hs-pin--own::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 25px;
+    height: 40px;
+    margin-left: -12.5px;
+    background: url('/images/hotspot-pin.svg') no-repeat center bottom;
+    background-size: 100% 100%;
+    -webkit-filter: drop-shadow(1px 2px 2px rgba(0, 0, 0, 0.45));
+    filter: drop-shadow(1px 2px 2px rgba(0, 0, 0, 0.45));
 }
 
 .hs-pin__count {

@@ -4,6 +4,7 @@
     "player.hotspot.submit": "Senden",
     "player.hotspot.inside": "Getroffen!",
     "player.hotspot.no_tap": "Kein Tipp",
-    "player.hotspot.distance": "{n} % vom Bereich entfernt"
+    "player.hotspot.distance": "{n} % vom Bereich entfernt",
+    "player.timer.label": "Verbleibende Zeit"
   }
 }

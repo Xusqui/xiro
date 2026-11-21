@@ -67,6 +67,7 @@ module.exports = {
         reconnectPresenter: websocketGame.reconnectPresenterSchema,
         endGame: websocketGame.endGameSchema,
         abandonGame: websocketGame.abandonGameSchema,
+        presenterTimerSync: websocketGame.presenterTimerSyncSchema,
 
         // Comunes
         dbId: primitives.dbIdSchema,

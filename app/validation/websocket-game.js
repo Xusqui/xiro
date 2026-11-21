@@ -1,6 +1,6 @@
 /**
  * @fileoverview Esquemas de eventos de socket de la partida (iniciar, avanzar, pausar, reanudar,
- * estado, reconexión del presentador, terminar y abandonar). Reexportado desde validation/index.js.
+ * estado, reconexión del presentador, terminar, abandonar y marca del temporizador). Reexportado desde validation/index.js.
  */
 
 const Joi = require('joi');
@@ -69,6 +69,17 @@ const abandonGameSchema = Joi.object({
     })
 });
 
+// Marca del temporizador del presentador: muestra «value» desde el instante «at» (hora del servidor, ms)
+const MAX_TIMER_SECONDS = 3600;
+const presenterTimerSyncSchema = Joi.object({
+    roomIdOrPin: Joi.alternatives().try(pinSchema, sessionIdSchema).required(),
+    questionIndex: Joi.number().integer().min(0).max(10000).required(),
+    total: Joi.number().integer().min(1).max(MAX_TIMER_SECONDS).required(),
+    value: Joi.number().integer().min(0).max(Joi.ref('total')).required(),
+    at: Joi.number().integer().min(0).required(),
+    paused: Joi.boolean().strict().required()
+});
+
 module.exports = {
     startGameSchema,
     nextQuestionSchema,
@@ -77,5 +88,6 @@ module.exports = {
     getCurrentStateSchema,
     reconnectPresenterSchema,
     endGameSchema,
-    abandonGameSchema
+    abandonGameSchema,
+    presenterTimerSyncSchema
 };

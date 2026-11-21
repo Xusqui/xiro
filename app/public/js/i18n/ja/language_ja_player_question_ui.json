@@ -4,6 +4,7 @@
     "player.hotspot.submit": "送信",
     "player.hotspot.inside": "エリア内！",
     "player.hotspot.no_tap": "タップなし",
-    "player.hotspot.distance": "エリアから {n} %"
+    "player.hotspot.distance": "エリアから {n} %",
+    "player.timer.label": "残り時間"
   }
 }

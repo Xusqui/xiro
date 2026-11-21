@@ -4,6 +4,7 @@
     "player.hotspot.submit": "提交",
     "player.hotspot.inside": "命中！",
     "player.hotspot.no_tap": "未点击",
-    "player.hotspot.distance": "距离区域 {n}%"
+    "player.hotspot.distance": "距离区域 {n}%",
+    "player.timer.label": "剩余时间"
   }
 }

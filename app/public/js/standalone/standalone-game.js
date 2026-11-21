@@ -70,7 +70,13 @@ const StandaloneGame = (() => {
         }
     }
 
+    // Intro de partida (logo + cuenta atrás), sin sonido como en el móvil del jugador
+    function _handleGameIntro(payload) {
+        window.XiroGameIntro?.show(payload);
+    }
+
     function _handleGameStarted(data) {
+        window.XiroGameIntro?.release(); // abrir el iris de la intro sobre la primera pregunta
         const state = StandaloneState.get();
         state.totalQuestions = data.totalQuestions || 0;
         state.currentIndex = data.currentIndex || 0;
@@ -79,6 +85,7 @@ const StandaloneGame = (() => {
     }
 
     function _handleRandomPointsReveal(payload) {
+        window.XiroGameIntro?.release();
         window.XiroRandomPointsOverlay &&
             window.XiroRandomPointsOverlay.show(payload, {
                 currentStreak: StandaloneState.get().streakInfo?.current || 0
@@ -171,6 +178,7 @@ const StandaloneGame = (() => {
                 await StandaloneSocket.startSession(
                     { pin, nickname },
                     {
+                        onGameIntro: _handleGameIntro,
                         onGameStarted: _handleGameStarted,
                         onNewQuestion: _handleNewQuestion,
                         onRandomPointsReveal: _handleRandomPointsReveal,

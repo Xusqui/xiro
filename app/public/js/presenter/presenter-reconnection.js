@@ -264,7 +264,8 @@ function restoreGameScreen(snapshot) {
         // que de verdad queda según el servidor
         if (!gs.reviewMode && gs.questionStartedAt && gs.serverNow) {
             const elapsed = (gs.serverNow - gs.questionStartedAt) / 1000;
-            startQuestionCountdown(Math.max(0, Math.ceil((question.time_limit || 20) - elapsed)));
+            const total = question.time_limit || 20;
+            startQuestionCountdown(Math.max(0, Math.ceil(total - elapsed)), total);
         }
     }
 

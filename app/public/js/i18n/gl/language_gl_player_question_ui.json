@@ -4,6 +4,7 @@
     "player.hotspot.submit": "Enviar",
     "player.hotspot.inside": "Dentro!",
     "player.hotspot.no_tap": "Sen toque",
-    "player.hotspot.distance": "A {n} % da área"
+    "player.hotspot.distance": "A {n} % da área",
+    "player.timer.label": "Tempo restante"
   }
 }
