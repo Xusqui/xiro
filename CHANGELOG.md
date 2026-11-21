@@ -2,6 +2,9 @@
 
 ## 3.15.x
 
+### 3.15.1 — 2026-11-21 · `v3.15.1`
+- Instalación desde código fuente: crear app/node_modules antes de arrancar
+
 ### 3.15.0 — 2026-11-21 · `v3.15.0`
 - Instalación desde código fuente: rutas relativas en docker-compose.yml, sin XIRO_ROOT
 
