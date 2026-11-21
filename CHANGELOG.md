@@ -1,5 +1,12 @@
 # Historial de versiones de XiRo!
 
+## 3.15.x
+
+### 3.15.0 — 2026-11-21 · `v3.15.0`
+- Instalación desde código fuente: rutas relativas en docker-compose.yml, sin XIRO_ROOT
+
+---
+
 ## 3.14.x
 
 ### 3.14.16 — 2026-11-21 · `v3.14.16`
