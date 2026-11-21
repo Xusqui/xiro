@@ -16,7 +16,7 @@
 
   <br>
 
-  > Plataforma autoalojable para partidas de preguntas en tiempo real · 10 tipos de pregunta · 4 modos de juego
+  > Plataforma autoalojable para partidas de preguntas en tiempo real · 11 tipos de pregunta · 4 modos de juego
 
   <br>
 
@@ -356,7 +356,7 @@ Gestión con `./manage.sh start | stop | restart | status | logs | backup | rest
 <img src="https://xiro.pro/images/chamaleon/party.svg" alt="" width="110" align="right">
 
 - Juego en **tiempo real**: los jugadores entran desde el móvil con un código QR o PIN
-- **10 tipos de pregunta** y **4 modos de juego**, incluido el tablero Trivial XiRo!
+- **11 tipos de pregunta** y **4 modos de juego**, incluido el tablero Trivial XiRo!
 - **Modo por equipos** con revelado de respuestas sincronizado
 - **Rachas configurables** con bonificaciones progresivas
 - **Reconexión transparente** para jugadores y presentadores
@@ -386,6 +386,7 @@ Gestión con `./manage.sh start | stop | restart | status | logs | backup | rest
 | `word_search` | Encontrar palabras escondidas en una rejilla de 10×10 | Puntos por palabra encontrada |
 | `fill_blanks` | Escribir las palabras que faltan en una frase (hasta 3 huecos) | Puntos por palabra acertada + bonus de tiempo |
 | `survey_multiple` | Encuesta en la que se marcan varias opciones o ninguna | No puntúa |
+| `hotspot` | «Toca la imagen»: señalar la zona correcta de una imagen (el área se dibuja en el editor) | Por cercanía al área: puntos completos dentro, menos cuanto más lejos |
 
 ---
 

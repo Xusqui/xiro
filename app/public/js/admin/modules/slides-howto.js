@@ -20,7 +20,8 @@ const _HOWTO_TOPICS = [
     { key: 'numeric_approximation', icon: 'fa-calculator', label: 'Aproximación numérica', ready: true },
     { key: 'word_scramble', icon: 'fa-random', label: 'Adivinar palabra', ready: true },
     { key: 'word_search', icon: 'fa-search', label: 'Sopa de letras', ready: true },
-    { key: 'fill_blanks', icon: 'fa-pen', label: 'Completa la frase', ready: true }
+    { key: 'fill_blanks', icon: 'fa-pen', label: 'Completa la frase', ready: true },
+    { key: 'hotspot', icon: 'fa-location-dot', label: 'Toca la imagen', ready: true }
 ];
 
 function _howToTopic(key) {

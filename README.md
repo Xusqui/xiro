@@ -16,7 +16,7 @@
 
   <br>
 
-  > Self-hostable platform for real-time quiz sessions · 10 question types · 4 game modes
+  > Self-hostable platform for real-time quiz sessions · 11 question types · 4 game modes
 
   <br>
 
@@ -356,7 +356,7 @@ Manage it with `./manage.sh start | stop | restart | status | logs | backup | re
 <img src="https://xiro.pro/images/chamaleon/party.svg" alt="" width="110" align="right">
 
 - **Real-time** play: players join from their phones with a QR code or PIN
-- **10 question types** and **4 game modes**, including the Trivial XiRo! board
+- **11 question types** and **4 game modes**, including the Trivial XiRo! board
 - **Team mode** with synchronized answer reveal
 - **Configurable streaks** with progressive bonuses
 - **Transparent reconnection** for players and presenters
@@ -386,6 +386,7 @@ Manage it with `./manage.sh start | stop | restart | status | logs | backup | re
 | `word_search` | Find the words hidden in a 10×10 grid | Points per word found |
 | `fill_blanks` | Type the missing words in a sentence (up to 3 blanks) | Points per correct word + time bonus |
 | `survey_multiple` | Survey where players tick several options or none | None |
+| `hotspot` | Tap the right area of an image (you draw the area in the editor) | By proximity to the area: full points inside, fewer the farther away |
 
 ---
 
