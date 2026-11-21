@@ -49,7 +49,7 @@
 
 | | **A. Servidor público con Caddy** | **B. Tu propio proxy inverso** |
 |---|---|---|
-| Para | Un VPS o servidor sin nada delante | Un NAS (Synology, QNAP…), un servidor de casa u oficina, o un servidor que ya tiene nginx o Nginx Proxy Manager |
+| Para | Un VPS o servidor sin nada delante | Un NAS (Synology, QNAP, TerraMaster, UGREEN…), un servidor de casa u oficina, o un servidor que ya tiene nginx o Nginx Proxy Manager |
 | Plantilla | `docker-compose.deploy.yml` | `docker-compose.deploy.nas.yml` |
 | HTTPS | El contenedor `caddy` consigue el certificado él solo | Tu proxy sirve HTTPS y reenvía a `127.0.0.1:3000` |
 | Puertos | **80** y **443** libres y abiertos | Solo los que ya usa tu proxy |
@@ -125,6 +125,42 @@ DSM ya usa los puertos 80 y 443; por eso aquí no hace falta Caddy.
 4. **Router.** Redirige los puertos 80 y 443 al NAS.
 
 Si los jugadores se quedan en «conectando», el proxy de QTS no está dejando pasar WebSocket: usa Nginx Proxy Manager (siguiente ejemplo).
+
+</details>
+
+<details>
+<summary><strong>TerraMaster (TOS 6)</strong></summary>
+
+<br>
+
+*Basado en la documentación del fabricante y en experiencias de usuarios; el autor no lo ha probado en este sistema.*
+
+TOS usa los puertos 80 y 443 para su propia interfaz web, así que un proxy no puede ocuparlos directamente. Lo más sencillo, sin tocar ningún ajuste de TOS, es Nginx Proxy Manager (NPM) en otros puertos, y que tu router los traduzca:
+
+1. **Arrancar Xiro!** Haz el paso 1 en una carpeta de un volumen de datos por SSH con la plantilla **B**, rellena el `.env` (paso 3), descomenta `APP_BIND=0.0.0.0` y arranca con `docker compose up -d` en esa carpeta.
+2. **Instala NPM** desde **Docker Manager** de TOS (o con Docker Compose), publicando sus puertos como `8080:80`, `8443:443` y `81:81` (su panel de administración) en lugar de los habituales 80 y 443.
+3. **Host proxy.** Sigue el ejemplo de *Nginx Proxy Manager* de más abajo: tu dominio, esquema `http`, la IP del NAS en tu red, puerto `3000`, **Websockets Support** y un certificado SSL de Let's Encrypt.
+4. **Router.** Redirige el puerto externo **80 → puerto 8080 del NAS** y el externo **443 → puerto 8443 del NAS**, nunca el 3000. Let's Encrypt necesita que el puerto externo 80 llegue a NPM.
+
+No uses el proxy integrado de TOS (Zoraxy) para Xiro!: hay usuarios que reportan problemas de WebSocket, y sin WebSocket los jugadores no pueden entrar.
+
+</details>
+
+<details>
+<summary><strong>UGREEN (UGOS Pro)</strong></summary>
+
+<br>
+
+*Basado en la documentación del fabricante; el autor no lo ha probado en este sistema.*
+
+UGOS Pro no tiene una aplicación de proxy inverso que hayamos podido confirmar. Su propia interfaz web usa por defecto los puertos 9999 (HTTP) y 9443 (HTTPS), así que el 80 y el 443 suelen estar libres para Nginx Proxy Manager (NPM). El DDNS integrado es opcional: si tu dominio ya apunta a tu router, no lo necesitas.
+
+1. **Arrancar Xiro!** Haz el paso 1 en una carpeta de un volumen de datos por SSH con la plantilla **B**, rellena el `.env` (paso 3), descomenta `APP_BIND=0.0.0.0` y arranca con `docker compose up -d` en esa carpeta.
+2. **Instala NPM** desde la aplicación **Docker** de UGOS (o con Docker Compose), publicando `80:80`, `443:443` y `81:81` (su panel de administración).
+3. **Host proxy.** Sigue el ejemplo de *Nginx Proxy Manager* de más abajo: tu dominio, esquema `http`, la IP del NAS en tu red, puerto `3000`, **Websockets Support** y un certificado SSL de Let's Encrypt.
+4. **Router.** Redirige los puertos 80 y 443 al NAS, nunca el 3000.
+
+Si tu modelo ya usa el 80 o el 443 para otra cosa, publica NPM en otros puertos y tradúcelos en el router, como en el ejemplo de TerraMaster.
 
 </details>
 
