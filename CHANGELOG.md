@@ -2,6 +2,13 @@
 
 ## 3.15.x
 
+### 3.15.2 — 2026-11-21 · `v3.15.2`
+- Instrucciones animadas para la pregunta HotSpot y READMEs
+  - Tema howto `hotspot` («Toca la imagen»): escena con casa en SVG, pin propio, área y panel de ejemplo, en howto-hotspot{,-ui,-text}.js.
+  - 80 clips de voz (8 por idioma, 10 idiomas) en audio/howto/hotspot.
+  - Registrado en HowToSlideValidator, selector del editor, presentador.html y tv.html; estilos .howto-hs-* en howto.css.
+  - README, README_ES, HOWTO_SLIDES y QUESTION_TYPES: 11 tipos de pregunta.
+
 ### 3.15.1-e — 2026-11-21 · `v3.15.1e`
 - **README:** proxy inverso en TerraMaster y UGREEN; app/logs en la instalación desde código fuente
 
