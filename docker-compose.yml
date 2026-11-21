@@ -151,7 +151,7 @@ services:
     networks:
       - xiro_internal
     ports:
-      - "127.0.0.1:${APP_PORT:-3000}:3000"
+      - "${APP_BIND:-127.0.0.1}:${APP_PORT:-3000}:3000"
     volumes:
       - ./app:/usr/src/app:ro
       - ./app/config/ui-overrides.json:/usr/src/app/config/ui-overrides.json

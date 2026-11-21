@@ -227,26 +227,78 @@ Los datos viven en las subcarpetas (`postgres_data/`, `redis_data/`, `public/`, 
 
 <br>
 
+Úsala si quieres construir tú las imágenes, o ejecutar Xiro! en un equipo tuyo (Linux, NAS, Mac). Necesitas Docker con Compose v2 y Git. En un servidor público además necesitas tu propio proxy inverso con HTTPS delante (ver [paso 2B](#paso-2b--configurar-tu-proxy-inverso)). Ejecuta todos los comandos desde la carpeta del repositorio.
+
+**1. Descarga el código y crea el `.env`**
+
 ```bash
 git clone https://github.com/Xusqui/xiro.git && cd xiro
 cp .env.example .env
 ```
 
-En `.env`, pon las mismas variables de arriba y además `DB_PORT=5439`. No hay que indicar ninguna ruta: el compose usa rutas relativas, así que funciona donde hayas clonado el repositorio (ejecuta `docker compose` desde esa carpeta).
+Edita `.env`:
+
+| Variable | Valor |
+|----------|-------|
+| `DB_PORT` | `5439` (solo en esta instalación; las plantillas publicadas usan `5432`) |
+| `CORS_ORIGIN`, `ALLOWED_ORIGINS` | La(s) dirección(es) que escribirás en el navegador, separadas por comas. Servidor público: `https://quiz.example.com`. Prueba local: `http://localhost:3000` |
+| `SERVER_HOST` | El mismo host sin `http(s)://`, p. ej. `quiz.example.com` o `localhost` |
+| `APP_BIND` | Opcional. Si no lo pones, solo se llega a Xiro! desde este equipo (`127.0.0.1`). Pon `0.0.0.0` para abrirlo desde otros dispositivos de tu red, p. ej. un móvil |
+
+**No** tienes que inventar contraseñas ni claves: se generan en el primer arranque y se guardan en el volumen de Docker `xiro_secrets` (ver [docs/SECRETS.md](docs/SECRETS.md)). No borres ese volumen con `docker compose down -v`. Tampoco hay que indicar ninguna ruta: el compose usa rutas relativas.
+
+**2. Crea las carpetas y ficheros que se montan.** Sin ellos Docker crea *directorios* con ese nombre y el backend no arranca.
 
 ```bash
 mkdir -p logs backups app/public/uploads app/node_modules
 for f in app/config/ui-overrides.json app/config/runtime-overrides.json app/ai-generator/groq-key.json; do
   [ -f "$f" ] || echo '{}' > "$f"
 done
-sudo chown -R 1001:1001 logs app/public/uploads app/public/images/personalizations \
-  app/config/ui-overrides.json app/config/runtime-overrides.json \
-  app/config/instance-id.json app/ai-generator/groq-key.json
-
-docker compose up -d --build
 ```
 
-La app solo escucha en `127.0.0.1:3000`. Configura tu proxy inverso como en el [paso 2B](#paso-2b--configurar-tu-proxy-inverso).
+**3. Permisos.** El backend se ejecuta como el usuario `1001` y tiene que poder escribir en estas carpetas. Elige **una** de las dos:
+
+- **Linux o NAS:**
+
+  ```bash
+  sudo chown -R 1001:1001 logs app/public/uploads app/public/images/personalizations \
+    app/config/ui-overrides.json app/config/runtime-overrides.json \
+    app/config/instance-id.json app/ai-generator/groq-key.json
+  ```
+
+- **macOS o Windows (Docker Desktop):** el usuario del contenedor no puede hacerse dueño de tus carpetas, así que ábrelas a escritura. Vale para una prueba local, no para un servidor:
+
+  ```bash
+  chmod -R a+rwX logs app/public/uploads app/public/images/personalizations \
+    app/config/ui-overrides.json app/config/runtime-overrides.json \
+    app/config/instance-id.json app/ai-generator/groq-key.json
+  ```
+
+**4. Arranca y comprueba**
+
+```bash
+docker compose up -d --build
+docker compose ps                      # todos "Up"; db y redis "healthy"
+curl -I http://127.0.0.1:3000/ready    # debe responder 200
+```
+
+**5. Ábrelo y crea la cuenta de administrador**
+
+- **Servidor público:** configura tu proxy inverso ([paso 2B](#paso-2b--configurar-tu-proxy-inverso)) y abre `https://<tu-dominio>/admin.html`.
+- **Prueba local:** abre `http://localhost:3000/admin.html`.
+- **Desde un móvil u otro equipo de tu red:** pon `APP_BIND=0.0.0.0` en `.env`, escribe la dirección exacta en `CORS_ORIGIN` y `ALLOWED_ORIGINS` (p. ej. `http://192.168.1.50:3000`) y su host en `SERVER_HOST`, ejecuta de nuevo `docker compose up -d` y abre esa dirección. Sin HTTPS algunas funciones se comportan distinto, así que úsalo solo para probar y no abras nunca el puerto 3000 en tu router.
+
+**La primera cuenta que registres será la de administrador.**
+
+**Si algo falla**
+
+| Síntoma | Solución |
+|---------|----------|
+| El log del backend dice `EACCES … /usr/src/app/logs` | Repite el paso 3 |
+| `read-only file system … /usr/src/app/node_modules` | `mkdir -p app/node_modules` y `docker compose up -d` |
+| Uno de los JSON se ha convertido en un directorio | Borra ese directorio, vuelve a crear el fichero con `echo '{}' > <fichero>` y reinicia |
+| Abre en `localhost` pero no con tu IP | `docker ps` debe mostrar `0.0.0.0:3000->3000`. Si muestra `127.0.0.1`, añade `APP_BIND=0.0.0.0` al `.env` y ejecuta `docker compose up -d` |
+| La página carga pero la conexión falla | La dirección que has escrito no está en `CORS_ORIGIN` y `ALLOWED_ORIGINS` |
 
 Gestión con `./manage.sh start | stop | restart | status | logs | backup | restore | update | health`. Para actualizar: `git pull && ./manage.sh update`.
 
