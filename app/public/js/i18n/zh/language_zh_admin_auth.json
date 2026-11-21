@@ -17,6 +17,7 @@
     "admin.login.helper": "登录或创建编辑帐户。",
     "admin.login.error_empty": "需要用户名和密码",
     "admin.login.error_rate_limit": "尝试次数太多。请几分钟后重试。",
+    "admin.login.error_rate_limit_15m": "您已超过允许的尝试次数。请在15分钟后重试。",
     "admin.login.error_credentials": "凭证无效",
     "admin.login.error_connection": "连接错误",
     "admin.login.pending": "账户等待确认。检查您的电子邮件。",

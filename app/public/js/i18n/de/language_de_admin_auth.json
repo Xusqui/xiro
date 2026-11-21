@@ -17,6 +17,7 @@
     "admin.login.helper": "Melden Sie sich an oder erstellen Sie ein Editor-Konto.",
     "admin.login.error_empty": "Benutzername und Passwort sind erforderlich",
     "admin.login.error_rate_limit": "Zu viele Versuche. Bitte versuchen Sie es in ein paar Minuten noch einmal.",
+    "admin.login.error_rate_limit_15m": "Sie haben die zulässige Anzahl an Versuchen überschritten. Bitte versuchen Sie es in 15 Minuten erneut.",
     "admin.login.error_credentials": "Ungültige Anmeldeinformationen",
     "admin.login.error_connection": "Verbindungsfehler",
     "admin.login.pending": "Bestätigung des Kontos steht aus. Überprüfen Sie Ihre E-Mails.",

@@ -17,6 +17,7 @@
     "admin.login.helper": "Inicia sesión ou crea unha conta de editor.",
     "admin.login.error_empty": "O nome de usuario e o contrasinal son necesarios",
     "admin.login.error_rate_limit": "Demasiados intentos. Téntao de novo nuns minutos.",
+    "admin.login.error_rate_limit_15m": "Superaches o número de intentos permitidos. Téntao de novo en 15 minutos.",
     "admin.login.error_credentials": "Credenciais non válidas",
     "admin.login.error_connection": "Erro de conexión",
     "admin.login.pending": "Conta pendente de confirmación. Consulta o teu correo electrónico.",

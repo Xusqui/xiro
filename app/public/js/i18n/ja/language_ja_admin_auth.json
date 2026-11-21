@@ -17,6 +17,7 @@
     "admin.login.helper": "サインインするか、編集者アカウントを作成します。",
     "admin.login.error_empty": "ユーザー名とパスワードは必須です",
     "admin.login.error_rate_limit": "試行回数が多すぎます。数分後にもう一度試してください。",
+    "admin.login.error_rate_limit_15m": "許可されている試行回数を超えました。15分後にもう一度お試しください。",
     "admin.login.error_credentials": "無効な認証情報",
     "admin.login.error_connection": "接続エラー",
     "admin.login.pending": "アカウントは確認待ちです。メールを確認してください。",

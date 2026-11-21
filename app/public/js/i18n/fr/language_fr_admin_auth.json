@@ -17,6 +17,7 @@
     "admin.login.helper": "Connectez-vous ou créez un compte éditeur.",
     "admin.login.error_empty": "Le nom d'utilisateur et le mot de passe sont requis",
     "admin.login.error_rate_limit": "Trop de tentatives. Veuillez réessayer dans quelques minutes.",
+    "admin.login.error_rate_limit_15m": "Vous avez dépassé le nombre de tentatives autorisées. Veuillez réessayer dans 15 minutes.",
     "admin.login.error_credentials": "Identifiants invalides",
     "admin.login.error_connection": "Erreur de connexion",
     "admin.login.pending": "Compte en attente de confirmation. Vérifiez votre courrier électronique.",

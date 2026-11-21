@@ -17,6 +17,7 @@
     "admin.login.helper": "Inicieu sessió o creeu un compte d'Editor.",
     "admin.login.error_empty": "Usuari i contrasenya són obligatoris",
     "admin.login.error_rate_limit": "Massa intents. Torneu-ho a intentar en uns minuts.",
+    "admin.login.error_rate_limit_15m": "Has superat el nombre d'intents permesos. Torna-ho a provar d'aquí a 15 minuts.",
     "admin.login.error_credentials": "Credencials invàlides",
     "admin.login.error_connection": "Error de connexió",
     "admin.login.pending": "Compte pendent de confirmació. Revisa el teu correu electrònic.",

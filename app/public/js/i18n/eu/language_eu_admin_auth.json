@@ -17,6 +17,7 @@
     "admin.login.helper": "Hasi saioa edo sortu editore kontu bat.",
     "admin.login.error_empty": "Erabiltzaile izena eta pasahitza beharrezkoak dira",
     "admin.login.error_rate_limit": "Saiakera gehiegi. Mesedez, saiatu berriro minutu batzuk barru.",
+    "admin.login.error_rate_limit_15m": "Baimendutako saiakera kopurua gainditu duzu. Saiatu berriro 15 minutu barru.",
     "admin.login.error_credentials": "Kredentzialak baliogabeak",
     "admin.login.error_connection": "Konexio-errorea",
     "admin.login.pending": "Kontua berresteko zain. Egiaztatu zure posta elektronikoa.",
