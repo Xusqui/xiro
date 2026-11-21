@@ -2,6 +2,9 @@
 
 ## 3.15.x
 
+### 3.15.1-e — 2026-11-21 · `v3.15.1e`
+- **README:** proxy inverso en TerraMaster y UGREEN; app/logs en la instalación desde código fuente
+
 ### 3.15.1-d — 2026-11-21 · `v3.15.1d`
 - Cambiadas las instrucciones de instalación nuevamente
 
