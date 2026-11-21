@@ -2,6 +2,9 @@
 
 ## 3.14.x
 
+### 3.14.13 — 2026-11-21 · `v3.14.13`
+- **Bug:** Faltaba una clave en todos los idiomas salvo en Español: admin.login.error_rate_limit_15m
+
 ### 3.14.12 — 2026-11-21 · `v3.14.12`
 - Temporizador del jugador sincronizado con el presentador, chincheta SVG y envío automático en «Toca la imagen»
   - Temporizador informativo en el móvil: píldora con anillo a la izquierda de la barra del apodo (la derecha es del logo personalizado), solo en pantallas de pregunta y oculta al responder. El presentador es la fuente de verdad: publica «muestro N desde el instante T» en hora del servidor (presenter-timer-sync) al empezar, cada 5 s, al pausar y al reanudar; presentador y móvil miden su desfase con clock-sync. El servidor valida la marca (solo el presentador, Joi, pregunta actual, límite por socket) y la reenvía como timer-sync. No decide el cierre de la pregunta. Docs en docs/PLAYER_TIMER.md; etiqueta accesible en los 10 idiomas.
