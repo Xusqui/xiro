@@ -10,6 +10,10 @@
 
 ## 3.14.x
 
+### 3.14.16 — 2026-11-21 · `v3.14.16`
+- **Actualizador:** acepta una versión igual o posterior a la pedida
+  - waitForBackend exigía la versión exacta y, si :latest había avanzado mientras tanto, esperaba hasta agotar el tiempo y acababa en rollback con la versión nueva funcionando. isAtLeast en updater/version.js; backendReady la usa.
+
 ### 3.14.13 — 2026-11-21 · `v3.14.13`
 - **Bug:** Faltaba una clave en todos los idiomas salvo en Español: admin.login.error_rate_limit_15m
 
