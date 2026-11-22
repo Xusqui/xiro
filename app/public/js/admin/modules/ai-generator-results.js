@@ -21,8 +21,8 @@ function _renderAIStep3Result(data) {
             </div>
         </div>
         ${data.results
-        .map(
-            r => `
+            .map(
+                r => `
         <div class="mb-4 bg-white rounded-xl border ${r.error ? 'border-red-300' : 'border-slate-200'} shadow-sm overflow-hidden">
             <button data-ai-results-action="toggle-section" class="w-full flex items-center justify-between p-4 font-bold text-left hover:bg-slate-50 transition">
                 <span>${aiTypeLabel(QUESTION_TYPE_LABELS.find(t => t.type === r.type) || { label: r.type })}
@@ -33,22 +33,22 @@ function _renderAIStep3Result(data) {
             </button>
             <div class="ai-section-body hidden p-4 border-t border-slate-100 max-h-64 overflow-y-auto">
                 ${
-    r.error
-        ? `<div class="text-red-600 text-sm p-3 bg-red-50 rounded-lg">${r.error}
+                    r.error
+                        ? `<div class="text-red-600 text-sm p-3 bg-red-50 rounded-lg">${r.error}
                         <button data-ai-results-action="regenerate-type" data-type="${r.type}"
                             class="mt-2 block text-sm bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-bold transition">
                             <i class="fas fa-redo mr-1"></i>Regenerar solo este tipo</button></div>`
-        : r.questions
-            .map(
-                (q, i) =>
-                    `<p class="text-sm py-1 border-b border-slate-50 last:border-0">${i + 1}. ${escapeHtml(q.questionText)}</p>`
-            )
-            .join('')
-}
+                        : r.questions
+                              .map(
+                                  (q, i) =>
+                                      `<p class="text-sm py-1 border-b border-slate-50 last:border-0">${i + 1}. ${escapeHtml(q.questionText)}</p>`
+                              )
+                              .join('')
+                }
             </div>
         </div>`
-        )
-        .join('')}
+            )
+            .join('')}
         <p class="text-sm bg-amber-50 text-amber-800 border border-amber-200 rounded-xl p-3 mt-4"><i class="fas fa-robot mr-1" aria-hidden="true"></i>${_t('admin.ai.review_notice', null, 'Preguntas generadas con IA: revísalas antes de usarlas.')}</p>
         <div class="flex gap-4 mt-8">
             <button data-ai-results-action="import-bank"
@@ -92,7 +92,8 @@ function _aiRegenerateBusy(button) {
     button.disabled = true;
     button.classList.add('opacity-75', 'cursor-wait');
     button.innerHTML =
-        '<i class="fas fa-circle-notch fa-spin mr-1"></i>' + escapeHtml(_t('admin.ai.regenerating', null, 'Regenerando…'));
+        '<i class="fas fa-circle-notch fa-spin mr-1"></i>' +
+        escapeHtml(_t('admin.ai.regenerating', null, 'Regenerando…'));
 }
 
 async function _aiRegenerateType(type, button) {
@@ -158,8 +159,8 @@ async function _aiImportBank() {
 
 async function _aiDownloadJSON() {
     if (!aiGenResult || !aiGenResult.bankPayload) return;
-    // Toca la imagen: la imagen de Commons va incrustada, como en la exportación de bancos
-    const payload = { ...aiGenResult.bankPayload, questions: await embedHotspotImages(aiGenResult.bankPayload.questions) };
+    // Las imágenes (p. ej. la de Commons de «Toca la imagen») van dentro del JSON, como en la exportación de bancos
+    const { bank: payload } = await bundleBankMedia(aiGenResult.bankPayload);
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');

@@ -128,6 +128,7 @@
     "admin.editor.chip_random": "Ausazkoa",
     "admin.editor.ph_pin_auto": "Automatikoa",
     "admin.banks.export_skipped": "Enuntziaturik gabeko {n} galdera kanpoan utzi dira.",
+    "admin.banks.export_media_failed": "{n} irudi edo audio ezin izan dira JSONean sartu: bide-izena mantentzen dute eta ez dira beste instalazio batean ikusiko.",
     "admin.banks.question_count": "Galderak: {n}",
     "admin.banks.delete_aria": "Ezabatu «{name}» bankua"
   }

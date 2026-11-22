@@ -223,7 +223,8 @@ Tu tarea:
 9. En las preguntas "fill_blanks": "question_text" es una frase completa con entre 1 y 3 palabras a adivinar escritas entre corchetes, por ejemplo "La infección por [Helicobacter] [pylori] causa úlceras [duodenales]". Cada palabra entre corchetes es UNA sola palabra de entre 4 y 14 letras, solo letras (sin espacios, números, guiones ni signos), y la pregunta NO lleva "options". Si una palabra clave no cumple, elige otra o reformula la frase.
 10. En las preguntas "word_search": "question_text" es la consigna (por ejemplo "Encuentra estos ríos de España") y "options" lleva entre 2 y 6 palabras, cada una en "option_text" con EXACTAMENTE entre 3 y 10 letras, en MAYÚSCULAS, solo letras (sin espacios, números, guiones ni signos), sin repetir, todas con "is_correct": true y "order_index" correlativo desde 0. La consigna no debe contener las palabras ocultas. Si una palabra no cumple, elige otra.
 11. En las preguntas "survey_multiple" (encuesta de selección múltiple): no hay respuesta correcta y cada jugador puede marcar varias opciones; lleva entre 2 y 6 "options", todas con "is_correct": false.
-12. Devuélveme SOLO el JSON final, válido y bien formado, listo para guardarlo como archivo .json.
+12. Conserva "format_version": 2 y "media": {} (vacío) tal como están en el esquema. Las imágenes y los audios ("image_url", "url_recurso", "question_image_url" y "option_image_url") déjalos en null, con "tipo_contenido": "texto": no inventes rutas, URLs ni referencias "media:..." y no rellenes "media". Después se añaden desde XiRo!.
+13. Devuélveme SOLO el JSON final, válido y bien formado, listo para guardarlo como archivo .json.
 
 Lista de preguntas y respuestas:
 `;
@@ -510,6 +511,17 @@ function setupFileUpload() {
 
 // ===== CARGAR BANCO DESDE JSON =====
 
+/** Aviso de las imágenes o audios del JSON que no se han podido subir (esas preguntas quedan sin ellos). */
+function _mediaFailedHtml(failedKeys) {
+    if (failedKeys.length === 0) return '';
+    const text = _t(
+        'admin.tools.upload_media_failed',
+        { n: failedKeys.length },
+        'No se han podido subir {n} imagen(es) o audio(s) del archivo: esas preguntas se han guardado sin ellos.'
+    );
+    return `<p class="text-amber-700 font-bold mt-2">${escapeHtml(text)}</p>`;
+}
+
 async function cargarBancoDesdeJSON() {
     const resultado = document.getElementById('resultadoCarga');
     const pin = document.getElementById('bankPin').value.trim();
@@ -529,13 +541,16 @@ async function cargarBancoDesdeJSON() {
     );
 
     try {
+        // Las imágenes y audios del JSON (tabla media) se suben una vez cada uno y se usan sus URL nuevas
+        const { bank: restored, failed: failedMedia } = await restoreBankMedia(cuestionarioCargado);
         // Transformar el JSON de formato BD a formato API
         const bankData = {
             id: null,
             name: cuestionarioCargado.name,
             pin: pin || null,
             language: cuestionarioCargado.language || 'es',
-            questions: await restoreHotspotImages(cuestionarioCargado.questions.map(q => mapQuestionForImport(q)))
+            image_url: restored.image_url || null,
+            questions: restored.questions.map(q => mapQuestionForImport(q))
         };
         // Toca la imagen sin imagen o sin área: se completa en el editor antes de guardar
         if (needsHotspotEditing(bankData.questions)) {
@@ -559,6 +574,7 @@ async function cargarBancoDesdeJSON() {
                         <p class="text-green-700">${_t('admin.tools.upload_bank_id_prefix', null, 'ID del banco:')} ${data.id}</p>
                         <p class="text-green-700">${_t('admin.tools.upload_bank_name_prefix', null, 'Nombre:')} ${escapeHtml(cuestionarioCargado.name)}</p>
                         <p class="text-green-700">${_t('admin.tools.upload_questions_prefix', null, 'Preguntas:')} ${cuestionarioCargado.questions.length}</p>
+                        ${_mediaFailedHtml(failedMedia)}
                     `);
 
             // Volver a la vista de bancos después de 2 segundos

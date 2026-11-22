@@ -128,6 +128,7 @@
     "admin.editor.chip_random": "Aleatoria",
     "admin.editor.ph_pin_auto": "Automático",
     "admin.banks.export_skipped": "Deixáronse fóra {n} pregunta(s) sen enunciado.",
+    "admin.banks.export_media_failed": "Non se puideron incluír {n} imaxe(s) ou audio(s) no JSON: conservan a ruta e non se verán noutra instalación.",
     "admin.banks.question_count": "Preguntas: {n}",
     "admin.banks.delete_aria": "Eliminar o banco «{name}»"
   }

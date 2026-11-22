@@ -1,6 +1,6 @@
 // Campos de «Toca la imagen» (hotspot) en el admin: API ↔ editor (bank-question-mapping.js) y
 // JSON de exportación/importación (question-format.js). En el JSON van con los nombres de la BD;
-// la imagen incrustada (image_data) la añaden y la recuperan las funciones de hotspot-json.js.
+// la imagen viaja con el resto de recursos del banco (bank-media.js).
 
 /** Área guardada (JSONB o texto) → objeto del editor, o null si no es válida. */
 function _hotspotAreaOf(raw) {
@@ -48,7 +48,6 @@ function hotspotFieldsForImport(q) {
         hotspotArea: _hotspotAreaOf(q.hotspotArea ?? q.hotspot_area),
         hotspotTolerance: q.hotspotTolerance ?? q.hotspot_tolerance ?? null,
         imageCredit: q.imageCredit ?? q.image_credit ?? null,
-        imageData: q.image_data || null,
         options: []
     };
 }

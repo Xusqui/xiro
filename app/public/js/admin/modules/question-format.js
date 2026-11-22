@@ -21,6 +21,7 @@
         return {
             tipo_contenido: question.tipo_contenido || 'texto',
             url_recurso: question.url_recurso || null,
+            question_image_url: question.question_image_url || null,
             time_limit: question.time_limit || getDefaultQuestionTimeLimit()
         };
     }
@@ -84,7 +85,8 @@
                 option_text: option.optionText,
                 is_correct: !!option.isCorrect,
                 order_index: null,
-                justification: option.justification || null
+                justification: option.justification || null,
+                option_image_url: option.option_image_url || null
             }))
         };
     }
@@ -112,7 +114,8 @@
                 is_correct: questionType === 'quiz' ? !!option.isCorrect : false,
                 order_index: ordered ? index : null,
                 match_value: questionType === 'matching' ? (option.match_value ?? null) : null,
-                justification: exportOptionJustification(option, question, questionType)
+                justification: exportOptionJustification(option, question, questionType),
+                option_image_url: option.option_image_url || null
             }))
         };
     }
@@ -132,7 +135,12 @@
 
     /** Toca la imagen: campos del tipo (hotspot-fields.js); la imagen se incrusta después. */
     function mapHotspotForExport(question) {
-        return { question_text: questionText(question), type: 'hotspot', ...mediaFields(question), ...hotspotFieldsForExport(question) };
+        return {
+            question_text: questionText(question),
+            type: 'hotspot',
+            ...mediaFields(question),
+            ...hotspotFieldsForExport(question)
+        };
     }
 
     const EXPORT_BY_TYPE = {
@@ -186,7 +194,8 @@
                 optionText: option.optionText || option.option_text,
                 isCorrect: !!option.isCorrect || !!option.is_correct,
                 order_index: null,
-                justification: option.justification || null
+                justification: option.justification || null,
+                option_image_url: option.option_image_url || null
             }))
         };
     }
@@ -201,7 +210,8 @@
                 isCorrect: questionType === 'quiz' ? !!option.isCorrect || !!option.is_correct : false,
                 order_index: ordered ? (option.order_index ?? option.orderIndex ?? index) : null,
                 match_value: questionType === 'matching' ? (option.match_value ?? null) : null,
-                justification: option.justification || null
+                justification: option.justification || null,
+                option_image_url: option.option_image_url || null
             }))
         };
     }
@@ -230,7 +240,11 @@
         word_scramble: mapWordScrambleForImport,
         multiple_choice: mapMultipleChoiceForImport,
         fill_blanks: mapFillBlanksForImport,
-        hotspot: question => ({ ...importBase(question, 'hotspot'), ...EMPTY_NUMERIC_FIELDS, ...hotspotFieldsForImport(question) })
+        hotspot: question => ({
+            ...importBase(question, 'hotspot'),
+            ...EMPTY_NUMERIC_FIELDS,
+            ...hotspotFieldsForImport(question)
+        })
     };
 
     function mapQuestionForImport(question) {

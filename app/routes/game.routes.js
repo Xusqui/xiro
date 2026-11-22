@@ -12,7 +12,7 @@ const router = express.Router();
 
 // Importar sub-routers por dominio
 router.use(require('./uploads.routes'));
-router.use(require('./embedded-image.routes'));
+router.use(require('./bank-media.routes'));
 router.use(require('./media-ref.routes'));
 router.use(require('./canvas-slides.routes'));
 router.use(require('./canvas-slide-library.routes'));

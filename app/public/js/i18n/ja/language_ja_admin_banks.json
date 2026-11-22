@@ -128,6 +128,7 @@
     "admin.editor.chip_random": "ランダム",
     "admin.editor.ph_pin_auto": "自動",
     "admin.banks.export_skipped": "問題文のない {n} 問は除外されました。",
+    "admin.banks.export_media_failed": "{n} 件の画像または音声を JSON に含められませんでした。パスのままなので、別のインストールでは表示されません。",
     "admin.banks.question_count": "問題数: {n}",
     "admin.banks.delete_aria": "バンク「{name}」を削除"
   }

@@ -128,6 +128,7 @@
     "admin.editor.chip_random": "随机",
     "admin.editor.ph_pin_auto": "自动",
     "admin.banks.export_skipped": "已排除 {n} 个没有题干的问题。",
+    "admin.banks.export_media_failed": "有 {n} 个图片或音频无法包含在 JSON 中：它们保留原路径，在其他安装中将无法显示。",
     "admin.banks.question_count": "问题数：{n}",
     "admin.banks.delete_aria": "删除题库“{name}”"
   }

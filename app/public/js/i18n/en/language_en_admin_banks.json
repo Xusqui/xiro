@@ -128,6 +128,7 @@
     "admin.editor.chip_random": "Random",
     "admin.editor.ph_pin_auto": "Automatic",
     "admin.banks.export_skipped": "{n} question(s) without text were left out.",
+    "admin.banks.export_media_failed": "{n} image(s) or audio file(s) could not be included in the JSON: they keep their path and will not show in another installation.",
     "admin.banks.question_count": "Questions: {n}",
     "admin.banks.delete_aria": "Delete the bank “{name}”"
   }

@@ -28,13 +28,15 @@ async function exportarBanco() {
 
     const language = document.getElementById('editBankLanguage')?.value || 'es';
 
-    const payload = {
+    // Todas las imágenes y audios (portada, recurso, enunciado, opciones) van dentro del JSON, cada
+    // uno una sola vez, para que sirva en otra instalación
+    const { bank: payload, failed } = await bundleBankMedia({
         name: name,
         type: 'quiz',
         language: language,
-        // Toca la imagen: la imagen va incrustada para que el JSON sirva en otra instalación
-        questions: await embedHotspotImages(preguntasValidas.map(q => mapQuestionForExport(q)))
-    };
+        image_url: document.getElementById('editBankImageUrl')?.value || null,
+        questions: preguntasValidas.map(q => mapQuestionForExport(q))
+    });
 
     const jsonStr = JSON.stringify(payload, null, 2);
     const blob = new Blob([jsonStr], { type: 'application/json' });
@@ -48,6 +50,21 @@ async function exportarBanco() {
     a.remove();
     URL.revokeObjectURL(url);
     _warnSkippedOnExport(preguntasData.length - preguntasValidas.length);
+    _warnMediaFailedOnExport(failed.length);
+}
+
+/** Recursos que no se han podido leer: el JSON los deja con su ruta, que no sirve en otra instalación. */
+function _warnMediaFailedOnExport(failedCount) {
+    if (failedCount <= 0) return;
+    mostrarModalError(
+        _t('admin.common.warning_title', null, '⚠️ Advertencia'),
+        _t(
+            'admin.banks.export_media_failed',
+            { n: failedCount },
+            'No se han podido incluir {n} imagen(es) o audio(s) en el JSON: conservan su ruta y no se verán en otra instalación.'
+        ),
+        'warning'
+    );
 }
 
 /** El JSON exportado deja fuera las preguntas sin enunciado: se avisa de cuántas. */

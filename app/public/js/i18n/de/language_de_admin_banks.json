@@ -128,6 +128,7 @@
     "admin.editor.chip_random": "Zufällig",
     "admin.editor.ph_pin_auto": "Automatisch",
     "admin.banks.export_skipped": "{n} Frage(n) ohne Fragetext wurde(n) ausgelassen.",
+    "admin.banks.export_media_failed": "{n} Bild(er) oder Audiodatei(en) konnten nicht in die JSON-Datei aufgenommen werden: Sie behalten ihren Pfad und erscheinen in einer anderen Installation nicht.",
     "admin.banks.question_count": "Fragen: {n}",
     "admin.banks.delete_aria": "Fragenbank „{name}“ löschen"
   }
