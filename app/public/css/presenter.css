@@ -202,7 +202,7 @@
     width: calc(100% - var(--stage-side)) !important;
 }
 
-#players-sidebar h3 {
+#players-sidebar h2 {
     font-size: clamp(0.95rem, 1.15vw, 1.5rem);
 }
 

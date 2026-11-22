@@ -190,11 +190,11 @@ body::before {
     content:'';position:absolute;top:0;left:20%;right:20%;
     height:2px;border-radius:0 0 4px 4px;
 }
-.probes-row .probe-card:nth-child(1)::after{background:#7aaa10;box-shadow:0 0 18px #7aaa10,0 0 40px rgba(122,170,16,.3);}
-.probes-row .probe-card:nth-child(2)::after{background:#f9b518;box-shadow:0 0 18px #f9b518,0 0 40px rgba(249,181,24,.3);}
-.probes-row .probe-card:nth-child(3)::after{background:#06b6d4;box-shadow:0 0 18px #06b6d4,0 0 40px rgba(6,182,212,.3);}
-.probes-row .probe-card:nth-child(4)::after{background:#22c55e;box-shadow:0 0 18px #22c55e,0 0 40px rgba(34,197,94,.3);}
-.probes-row .probe-card:nth-child(5)::after{background:#f97316;box-shadow:0 0 18px #f97316,0 0 40px rgba(249,115,22,.3);}
+.probes-row .probe-card:nth-child(1)::after{background:#7aaa10;}
+.probes-row .probe-card:nth-child(2)::after{background:#f9b518;}
+.probes-row .probe-card:nth-child(3)::after{background:#06b6d4;}
+.probes-row .probe-card:nth-child(4)::after{background:#22c55e;}
+.probes-row .probe-card:nth-child(5)::after{background:#f97316;}
 .probe-card:hover{transform:translateY(-5px);box-shadow:0 24px 60px rgba(0,0,0,.65);}
 
 .probe-card .probe-label{
@@ -206,11 +206,11 @@ body::before {
     font-family:var(--mono);font-size:2rem;font-weight:700;
     line-height:1;letter-spacing:-.02em;
 }
-.probes-row .probe-card:nth-child(1) .probe-value{color:#7aaa10;text-shadow:0 0 24px rgba(122,170,16,.45);}
-.probes-row .probe-card:nth-child(2) .probe-value{color:#f9b518;text-shadow:0 0 24px rgba(249,181,24,.45);}
-.probes-row .probe-card:nth-child(3) .probe-value{color:#06b6d4;text-shadow:0 0 24px rgba(6,182,212,.45);}
-.probes-row .probe-card:nth-child(4) .probe-value{color:#22c55e;text-shadow:0 0 24px rgba(34,197,94,.45);}
-.probes-row .probe-card:nth-child(5) .probe-value{color:#f97316;text-shadow:0 0 24px rgba(249,115,22,.45);}
+.probes-row .probe-card:nth-child(1) .probe-value{color:#7aaa10;}
+.probes-row .probe-card:nth-child(2) .probe-value{color:#f9b518;}
+.probes-row .probe-card:nth-child(3) .probe-value{color:#06b6d4;}
+.probes-row .probe-card:nth-child(4) .probe-value{color:#22c55e;}
+.probes-row .probe-card:nth-child(5) .probe-value{color:#f97316;}
 .probe-card .probe-sub{font-family:var(--mono);font-size:.64rem;color:var(--text-muted);margin-top:.4rem;}
 
 /* ── Dashboard Grid ── */

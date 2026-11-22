@@ -77,11 +77,22 @@
     }
 }
 
-@media (prefers-reduced-motion: reduce) {
+/* Movimiento reducido: la pantalla de resultado entra con un fundido, sin
+   escala; la salida de la racha ya es solo opacidad y se mantiene */
+@keyframes playerResultFade {
+    from {
+        opacity: 0;
+    }
 
-    .player-result-enter,
-    .streak-overlay-exit {
-        animation-duration: 0.01ms !important;
+    to {
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .player-result-enter {
+        animation-name: playerResultFade;
+        animation-duration: 0.2s;
     }
 }
 

@@ -422,6 +422,14 @@
     transform: translateY(-2px);
 }
 
+/* Marcadores de los campos de entrada (ID de sesión, apodo): slate-500 sobre
+   blanco, 4,8:1; el gris por defecto de Tailwind se quedaba en 2,5:1 */
+#session-input::placeholder,
+#nickname-input::placeholder {
+    color: #64748b;
+    opacity: 1;
+}
+
 /* Movimiento reducido: el icono de acierto deja de latir (los spinners de
    carga siguen girando: indican espera) */
 @media (prefers-reduced-motion: reduce) {
