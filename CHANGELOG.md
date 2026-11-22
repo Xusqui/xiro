@@ -2,6 +2,14 @@
 
 ## 3.15.x
 
+### 3.15.3 — 2026-11-22 · `v3.15.3`
+- **JSON de bancos formato 2:** todas las imágenes y audios, cada recurso una sola vez
+  - Tabla media con referencias media:<clave> (portada, recurso, enunciado, opciones)
+  - POST /api/upload/bank-media (multer, binario; tipo y tamaño por bytes)
+  - question_image_url y option_image_url se exportan e importan
+  - schema.json y prompt de la IA externa al formato 2 (10 idiomas)
+  - Se retira embedded-image y el formato antiguo con image_data
+
 ### 3.15.2 — 2026-11-21 · `v3.15.2`
 - Instrucciones animadas para la pregunta HotSpot y READMEs
   - Tema howto `hotspot` («Toca la imagen»): escena con casa en SVG, pin propio, área y panel de ejemplo, en howto-hotspot{,-ui,-text}.js.
