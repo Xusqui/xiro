@@ -308,6 +308,8 @@
     "admin.config.music.opt.oboe": "Oboè",
     "admin.config.music.opt.violins": "Violins",
     "admin.config.music.opt.synth_melody": "Sintetitzador (80s)",
+    "admin.config.music.opt.grand_melody": "Piano de cua",
+    "admin.config.music.opt.epiano_melody": "Piano elèctric (80s)",
     "admin.config.music.opt.epiano": "Elèctric (80s)",
     "admin.config.music.opt.grand": "De cua",
     "admin.config.music.opt.finger": "Elèctric amb dits",

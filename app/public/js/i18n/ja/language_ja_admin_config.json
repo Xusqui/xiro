@@ -308,6 +308,8 @@
     "admin.config.music.opt.oboe": "オーボエ",
     "admin.config.music.opt.violins": "バイオリン",
     "admin.config.music.opt.synth_melody": "シンセ（80年代）",
+    "admin.config.music.opt.grand_melody": "グランドピアノ",
+    "admin.config.music.opt.epiano_melody": "エレピ（80年代）",
     "admin.config.music.opt.epiano": "エレピ（80年代）",
     "admin.config.music.opt.grand": "グランドピアノ",
     "admin.config.music.opt.finger": "エレキ（指弾き）",

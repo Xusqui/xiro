@@ -15,6 +15,7 @@ function _musicT(key, vars) {
 function _musicOptionLabel(group, value) {
     if (value === 'synth') return _musicT('opt.synth_' + group);
     if (group === 'melody' && value === 'brass') return _musicT('opt.brass_melody');
+    if (group === 'melody' && (value === 'grand' || value === 'epiano')) return _musicT('opt.' + value + '_melody');
     return _musicT('opt.' + value);
 }
 

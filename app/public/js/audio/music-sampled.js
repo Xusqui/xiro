@@ -6,11 +6,14 @@
  *
  * El bajo puede ser de muestras o un sintetizado de los 80 (sierra con filtro que se
  * cierra), y la melodía, los metales (lead), otro instrumento con muestras (saxos,
- * flauta, clarinete, oboe, violines) o un lead sintetizado, según el juego de sonidos.
+ * flauta, clarinete, oboe, violines), un piano (de cola o eléctrico FM) o un lead
+ * sintetizado, según el juego de sonidos.
  *
  * Si el banco trae varias dinámicas (metales de Iowa: pp, mf, ff), cada nota suena con
  * la capa que toca a su intensidad: un metal suave cambia de timbre, no solo de volumen.
  */
+
+import { createPianoVoice } from './music-piano-voice.js?v=20260922172926';
 
 /** Bajo sintetizado de los 80: dos sierras algo desafinadas y filtro con envolvente. */
 function synthBass(Tone, own, output) {
@@ -72,9 +75,13 @@ export function createSampledVoices(Tone, outputs, bank) {
         nodes.push(node);
         return node;
     };
-    // Melodía: los metales de siempre, otro instrumento con muestras o el lead sintetizado
+    // Melodía: los metales de siempre, un piano (de cola con muestras o eléctrico FM), otro
+    // instrumento con muestras o el lead sintetizado
     function melodyVoice(kind) {
         if (!kind || kind === 'brass') return sampler('lead', 0.35, -9, leadEq);
+        if (kind === 'grand' || kind === 'epiano') {
+            return createPianoVoice(Tone, own, leadEq, bank.pitchedLayers('melody'));
+        }
         if (!bank.pitchedLayers('melody').length) return synthLead(Tone, own, leadEq);
         return sampler('melody', 0.4, -9, leadEq);
     }

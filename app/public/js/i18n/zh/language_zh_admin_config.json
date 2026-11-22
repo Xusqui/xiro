@@ -308,6 +308,8 @@
     "admin.config.music.opt.oboe": "双簧管",
     "admin.config.music.opt.violins": "小提琴",
     "admin.config.music.opt.synth_melody": "合成器（80 年代）",
+    "admin.config.music.opt.grand_melody": "三角钢琴",
+    "admin.config.music.opt.epiano_melody": "电钢琴（80 年代）",
     "admin.config.music.opt.epiano": "电钢琴（80 年代）",
     "admin.config.music.opt.grand": "三角钢琴",
     "admin.config.music.opt.finger": "电贝斯（指弹）",

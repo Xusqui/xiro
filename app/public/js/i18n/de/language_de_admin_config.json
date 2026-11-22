@@ -308,6 +308,8 @@
     "admin.config.music.opt.oboe": "Oboe",
     "admin.config.music.opt.violins": "Violinen",
     "admin.config.music.opt.synth_melody": "Synthesizer (80er)",
+    "admin.config.music.opt.grand_melody": "Flügel",
+    "admin.config.music.opt.epiano_melody": "E-Piano (80er)",
     "admin.config.music.opt.epiano": "E-Piano (80er)",
     "admin.config.music.opt.grand": "Flügel",
     "admin.config.music.opt.finger": "E-Bass gezupft",

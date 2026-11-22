@@ -308,6 +308,8 @@
     "admin.config.music.opt.oboe": "Óboe",
     "admin.config.music.opt.violins": "Violíns",
     "admin.config.music.opt.synth_melody": "Sintetizador (80s)",
+    "admin.config.music.opt.grand_melody": "Piano de cola",
+    "admin.config.music.opt.epiano_melody": "Piano eléctrico (80s)",
     "admin.config.music.opt.epiano": "Eléctrico (80s)",
     "admin.config.music.opt.grand": "De cola",
     "admin.config.music.opt.finger": "Eléctrico con dedos",

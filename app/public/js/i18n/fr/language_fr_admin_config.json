@@ -308,6 +308,8 @@
     "admin.config.music.opt.oboe": "Hautbois",
     "admin.config.music.opt.violins": "Violons",
     "admin.config.music.opt.synth_melody": "Synthé (années 80)",
+    "admin.config.music.opt.grand_melody": "Piano à queue",
+    "admin.config.music.opt.epiano_melody": "Piano électrique (années 80)",
     "admin.config.music.opt.epiano": "Électrique (années 80)",
     "admin.config.music.opt.grand": "À queue",
     "admin.config.music.opt.finger": "Électrique aux doigts",

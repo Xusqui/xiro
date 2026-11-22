@@ -102,7 +102,7 @@
     };
 
     // Melodía: metales (los del banco de metales, grupo lead), maderas de Iowa (pp, mf, ff),
-    // violines de VSCO (p, f) o sintetizada (sin capas)
+    // violines de VSCO (p, f), sintetizada (sin capas) o piano (de cola o eléctrico FM)
     const SCALE_A = ['A3', 'C4', 'D#4', 'F#4', 'A4', 'C5', 'D#5', 'F#5'];
     const MELODY_BANKS = {
         brass: null,
@@ -112,7 +112,11 @@
         clarinet: layered('melody/clarinet', SCALE_A.concat('A5'), DYNAMICS),
         oboe: layered('melody/oboe', ['A#3', 'C#4', 'E4', 'G4', 'A#4', 'C#5', 'E5', 'G5'], DYNAMICS, { pp: ['C#4'] }),
         violins: layered('melody/violins', ['G3', 'A3', 'B3', 'D4', 'F#4', 'A4', 'C5', 'E5', 'G5', 'B5'], ['p', 'f']),
-        synth: []
+        synth: [],
+        // Piano: las mismas muestras que el piano de acompañamiento (no se descargan dos veces)
+        // o el eléctrico FM (sin ficheros)
+        grand: PIANO_BANKS.grand,
+        epiano: PIANO_BANKS.epiano
     };
 
     // Batería: capas de intensidad (de suave a fuerte), cada una con sus alternancias

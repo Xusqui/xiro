@@ -308,6 +308,8 @@
     "admin.config.music.opt.oboe": "Oboea",
     "admin.config.music.opt.violins": "Biolinak",
     "admin.config.music.opt.synth_melody": "Sintetizadorea (80ko hamarkada)",
+    "admin.config.music.opt.grand_melody": "Isatsdun pianoa",
+    "admin.config.music.opt.epiano_melody": "Elektriko pianoa (80ko hamarkada)",
     "admin.config.music.opt.epiano": "Elektrikoa (80ko hamarkada)",
     "admin.config.music.opt.grand": "Isatsduna",
     "admin.config.music.opt.finger": "Elektrikoa hatzekin",
