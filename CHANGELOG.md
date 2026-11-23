@@ -1,5 +1,20 @@
 # Historial de versiones de XiRo!
 
+## 3.16.x
+
+### 3.16.0 — 2026-11-23 · `v3.16.0`
+- Auditoría visual revisada
+- **Música:** Añadir pianos a la reproducción de la melodía
+- **Music:** Añadir progresión de acordes personalizada para la música de XiRo! en el panel de administración.
+- **Música:** canción con IA (acordes, tempo y motivo) y compartir en ABC
+  - Tarjeta «Crear con IA»: texto libre -> tónica, modo, 8 compases, tempo y motivo melódico, con selector de proveedor y de modelo Ollama (POST /api/ai-generator/music-song, callLLMOptions, format json en Ollama)
+  - song.motif: motivo propio (music-motif.js) que sustituye al generado en el tema A; validado en los ajustes y pasado por planSection
+  - Tarjeta «Compartir (ABC)»: exportar, importar, descargar y arrastrar .abc (parser y exportador propios, sin dependencias)
+  - 41 claves i18n en 10 idiomas, CSS y globales de ESLint
+  - Quita los label sr-only que estiraban el scroll de la pestaña
+
+---
+
 ## 3.15.x
 
 ### 3.15.3 — 2026-11-22 · `v3.15.3`
