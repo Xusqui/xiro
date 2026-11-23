@@ -35,7 +35,7 @@ export const SCENES = {
         lookahead: 1,
         levelsFromPlan: false,
         build: (seed, index, options, tension, question) =>
-            scores.buildSection(seed, arrangement.planQuestionBar(seed, index, tension, question), options)
+            scores.buildSection(seed, arrangement.planQuestionBar(seed, index, tension, question, options.song), options)
     },
     // Marcador tras la revelación: entra despacio (relajar la tensión sin cortes)
     leaderboard: {
@@ -43,7 +43,7 @@ export const SCENES = {
         swing: scores.LOBBY.swing,
         fadeInBeats: 8,
         build: (seed, index, options) =>
-            scores.buildSection(seed, loops.planLoopSection('leaderboard', seed, index), options)
+            scores.buildSection(seed, loops.planLoopSection('leaderboard', seed, index, options.song), options)
     },
     // Podio: espera solemne mientras salen los puestos (el redoble y los puestos los pone triggerPodium)
     podium: {
@@ -51,20 +51,20 @@ export const SCENES = {
         swing: scores.LOBBY.swing,
         fadeInBeats: 4,
         build: (seed, index, options) =>
-            scores.buildSection(seed, loops.planLoopSection('podium', seed, index), options)
+            scores.buildSection(seed, loops.planLoopSection('podium', seed, index, options.song), options)
     },
     // Final del podio tras el ganador: tema A, entra de golpe (el tutti)
     podiumFinale: {
         bpm: scores.LOBBY.bpm,
         swing: scores.LOBBY.swing,
         fadeInBeats: 0.25,
-        build: (seed, index, options) => scores.buildSection(seed, loops.planPodiumFinale(seed, index), options)
+        build: (seed, index, options) => scores.buildSection(seed, loops.planPodiumFinale(seed, index, options.song), options)
     },
     // Tablero del Trivial: espera tranquila entre tiradas
     board: {
         bpm: scores.LOBBY.bpm,
         swing: scores.LOBBY.swing,
         fadeInBeats: 8,
-        build: (seed, index, options) => scores.buildSection(seed, loops.planLoopSection('board', seed, index), options)
+        build: (seed, index, options) => scores.buildSection(seed, loops.planLoopSection('board', seed, index, options.song), options)
     }
 };

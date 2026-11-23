@@ -54,7 +54,7 @@ export class MusicEngine {
         this.mixer = createMixer(Tone);
         this.cues = createCues(Tone, this.mixer.cues, tension);
         this.oneShot = createOneShotPlayer(Tone, this.mixer);
-        this.options = Object.assign({}, DEFAULT_OPTIONS, options.features);
+        this.options = Object.assign({}, DEFAULT_OPTIONS, options.features, { song: options.song || null });
         this.seed = String(options.seed || prng.randomSeed());
         this.tension = 0;
         this.revealing = false;
@@ -79,7 +79,7 @@ export class MusicEngine {
             emit: (t, d) => this.emit(t, d)
         });
         this.accents = createAccents(Tone, this.mixer.layers.arp, {
-            key: () => arrangement.baseKey(this.seed),
+            key: () => arrangement.baseKey(this.seed, this.options.song),
             scene: () => this.sceneName,
             active: () => this.options.reactions && !this.revealing
         });
@@ -165,6 +165,12 @@ export class MusicEngine {
         if (this.sceneName !== 'idle') this.setScene(this.sceneName, { force: true });
     }
 
+    /** Cambia la canción (progresión propia del admin) o la quita con null: regenera la escena. */
+    setSong(song) {
+        this.options.song = song || null;
+        if (this.sceneName !== 'idle') this.setScene(this.sceneName, { force: true });
+    }
+
     /**
      * Tensión 0..1 de la pregunta: capas, filtro y tempo con rampas suaves al momento;
      * el estilo de batería, bajo y armonía cambia en el compás siguiente.
@@ -216,7 +222,7 @@ export class MusicEngine {
         this.cues.cancel();
         const q = this.moments.reveal({
             next,
-            key: arrangement.baseKey(this.seed),
+            key: arrangement.baseKey(this.seed, this.options.song),
             bank: this.bank,
             cadence: this.options.cadence,
             tension: this.tension,
@@ -248,7 +254,7 @@ export class MusicEngine {
     triggerPodium() {
         if (this.sceneName === 'podiumFinale') return;
         if (this.sceneName !== 'podium') this.setScene('podium');
-        this.moments.podium({ key: arrangement.baseKey(this.seed), bank: this.bank });
+        this.moments.podium({ key: arrangement.baseKey(this.seed, this.options.song), bank: this.bank });
     }
 
     /** Pausa del presentador: fundido de 1 s. Al reanudar, fundido corto en el siguiente compás. */

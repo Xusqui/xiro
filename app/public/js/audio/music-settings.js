@@ -7,16 +7,16 @@
  * admin (formulario y escucha) y el presentador (normaliza lo que llega).
  *
  * Export dual (Jest/Node con require; navegador en self.XiroMusic.settings). En el
- * navegador lee self.XiroMusic.sampleMap al usarse, no al cargarse.
+ * navegador lee self.XiroMusic.sampleMap y theory al usarse, no al cargarse.
  */
 (function (root, factory) {
     if (typeof module !== 'undefined' && module.exports) {
-        module.exports = factory(() => module.require('./music-sample-map.js'));
+        module.exports = factory(() => module.require('./music-sample-map.js'), () => module.require('./music-theory.js'));
     } else {
         root.XiroMusic = root.XiroMusic || {};
-        root.XiroMusic.settings = factory(() => root.XiroMusic.sampleMap);
+        root.XiroMusic.settings = factory(() => root.XiroMusic.sampleMap, () => root.XiroMusic.theory);
     }
-})(typeof self !== 'undefined' ? self : this, function (sampleMap) {
+})(typeof self !== 'undefined' ? self : this, function (sampleMap, theory) {
     'use strict';
 
     const LAYERS = ['pad', 'brass', 'piano', 'bass', 'drums', 'arp', 'melody'];
@@ -29,6 +29,8 @@
     const TEMPO = { min: 80, max: 140, base: 112 };
     const DB = { min: -40, max: 6 };
     const VOLUME = { min: 0, max: 1 };
+    const SONG_MODES = ['major', 'minor'];
+    const SONG_MAX_CHORDS = 8;
 
     /** Valores admitidos por grupo de sonidos (claves de los bancos del mapa de muestras). */
     function soundOptions() {
@@ -59,7 +61,8 @@
             seed: '',
             volume: 0.8,
             tick: 'wood',
-            mix: defaultMix()
+            mix: defaultMix(),
+            song: null
         };
     }
 
@@ -96,6 +99,50 @@
         return null;
     }
 
+    function chordError(chord, previousBar) {
+        if (!isObject(chord)) return 'Cada acorde de la canción debe ser un objeto';
+        if (!Number.isInteger(chord.bar) || chord.bar <= previousBar || chord.bar > SONG_MAX_CHORDS) {
+            return 'El compás de cada acorde de la canción debe ser un entero creciente de 1 a 8';
+        }
+        if (!Number.isInteger(chord.root) || chord.root < 0 || chord.root > 11) {
+            return 'La raíz de un acorde de la canción debe estar entre 0 y 11';
+        }
+        if (!Object.hasOwn(theory().QUALITIES, chord.quality)) return 'Calidad de acorde de la canción no válida';
+        return null;
+    }
+
+    /**
+     * Primer problema de la canción (texto) o null si vale. `null` = sin canción. Una canción
+     * es { tonic: 0-11, mode: 'major' | 'minor', chords: [{ bar: 1-8, root: 0-11, quality }] }:
+     * cada acorde entra en su compás (el primero en el 1) y dura hasta que entra el siguiente.
+     */
+    function songError(song) {
+        if (song === null) return null;
+        if (!isObject(song)) return 'La canción debe ser un objeto o null';
+        if (!Number.isInteger(song.tonic) || song.tonic < 0 || song.tonic > 11) {
+            return 'La tónica de la canción debe estar entre 0 y 11';
+        }
+        if (!SONG_MODES.includes(song.mode)) return 'El modo de la canción debe ser major o minor';
+        if (!Array.isArray(song.chords) || song.chords.length < 1 || song.chords.length > SONG_MAX_CHORDS) {
+            return 'La canción necesita de 1 a 8 acordes';
+        }
+        let previousBar = 0;
+        for (const chord of song.chords) {
+            const error = chordError(chord, previousBar);
+            if (error) return error;
+            previousBar = chord.bar;
+        }
+        return song.chords[0].bar === 1 ? null : 'El primer acorde de la canción entra en el compás 1';
+    }
+
+    function copySong(song) {
+        return {
+            tonic: song.tonic,
+            mode: song.mode,
+            chords: song.chords.map(chord => ({ bar: chord.bar, root: chord.root, quality: chord.quality }))
+        };
+    }
+
     /** Primer problema de `raw` (texto) o null si es válido. Las claves ausentes valen. */
     function firstError(raw) {
         if (!isObject(raw)) return 'Los ajustes de música deben ser un objeto';
@@ -108,6 +155,7 @@
         if (raw.volume !== undefined && !inRange(raw.volume, VOLUME)) return 'volume debe estar entre 0 y 1';
         if (raw.tick !== undefined && !TICK_SOUNDS.includes(raw.tick)) return 'Sonido del tic-tac no válido';
         if (raw.mix !== undefined && mixError(raw.mix)) return mixError(raw.mix);
+        if (raw.song !== undefined && songError(raw.song)) return songError(raw.song);
         return seedError(raw);
     }
 
@@ -139,6 +187,7 @@
         if (inRange(raw.volume, VOLUME)) out.volume = raw.volume;
         if (TICK_SOUNDS.includes(raw.tick)) out.tick = raw.tick;
         if (isObject(raw.mix)) normalizeMix(out, raw.mix);
+        if (raw.song && songError(raw.song) === null) out.song = copySong(raw.song);
         return out;
     }
 
@@ -161,11 +210,14 @@
         TEMPO,
         DB,
         VOLUME,
+        SONG_MODES,
+        SONG_MAX_CHORDS,
         soundOptions,
         defaults,
         firstError,
         normalize,
         seedFor,
-        tempoScale
+        tempoScale,
+        songError
     };
 });

@@ -94,8 +94,12 @@
     /**
      * Plan de la sección `index` de una escena en bucle ('leaderboard' | 'board' |
      * 'podium' | 'podiumEnd'), en la tonalidad de la partida.
+     * @param {string} scene - Tipo de escena.
+     * @param {number} seed - Semilla para la generación aleatoria.
+     * @param {number} index - Índice de la sección.
+     * @param {Object} song - Objeto de canción con tonalidad y progresiones.
      */
-    function planLoopSection(scene, seed, index) {
+    function planLoopSection(scene, seed, index, song) {
         const form = LOOP_FORMS[scene];
         const typeName = form[index % form.length];
         const type = LOOP_TYPES[typeName];
@@ -106,7 +110,7 @@
             cycle: round,
             position: index % form.length,
             prevType: scene,
-            key: arrangement.baseKey(seed),
+            key: arrangement.baseKey(seed, song),
             chords: prng.createRng(seed, 'prog:' + typeName + ':' + round).pick(theory.PROGRESSIONS[type.prog]),
             bars: arrangement.SECTION_BARS,
             layers: Object.assign({}, type.layers),
@@ -126,9 +130,12 @@
     /**
      * Final del podio, en la tonalidad de la partida: la sección 0 es el tema A completo (clímax, con
      * trompetas doblando; el golpe de entrada lo pone el propio podio) y después, cierre.
+     * @param {number} seed - Semilla para la generación aleatoria.
+     * @param {number} index - Índice de la sección.
+     * @param {Object} song - Objeto de canción con tonalidad y progresiones.
      */
-    function planPodiumFinale(seed, index) {
-        if (index > 0) return planLoopSection('podiumEnd', seed, index);
+    function planPodiumFinale(seed, index, song) {
+        if (index > 0) return planLoopSection('podiumEnd', seed, index, song);
         const type = arrangement.SECTION_TYPES.A;
         return {
             index: 0,
@@ -136,7 +143,7 @@
             cycle: 0,
             position: 0,
             prevType: 'podium',
-            key: arrangement.baseKey(seed),
+            key: arrangement.baseKey(seed, song),
             chords: theory.PROGRESSIONS.A[0],
             bars: arrangement.SECTION_BARS,
             layers: Object.assign({}, type.layers, { melody: 1, brass: 1 }),

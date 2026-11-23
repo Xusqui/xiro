@@ -101,7 +101,7 @@
     function bellEvents(seed, plan, melodyNotes, options) {
         const key = plan.key;
         const tones = plan.chords.map(function (c) {
-            return theory.fitToRange(theory.chordMidi(key, c.d, c.k), RANGES.bells[0], RANGES.bells[0] + 14);
+            return theory.fitToRange(theory.chordNotes(key, c), RANGES.bells[0], RANGES.bells[0] + 14);
         });
         const arp = parts.bellLine(prng.createRng(seed, 'bells:' + plan.variant), tones, plan.styles.arp);
         const answer = melody.buildResponse(melodyNotes, theory.degreeRange(key, RANGES.bells[0], RANGES.bells[1]));
@@ -168,7 +168,7 @@
             // Última pregunta: timbal en la tónica al entrar (con el platillo de crashEvents)
             timp: drums.timp.concat(plan.finalEntry ? [{ step: 0, vel: 0.95 }] : []).map(function (h) {
                 const chord = plan.chords[Math.floor(h.step / theory.STEPS_PER_BAR)];
-                const midi = theory.fitToRange([theory.degreeToMidi(key, chord.d)], RANGES.timp[0], RANGES.timp[1])[0];
+                const midi = theory.fitToRange([theory.chordRootMidi(key, chord)], RANGES.timp[0], RANGES.timp[1])[0];
                 return { time: tick(h.step * STEP), note: theory.midiToName(midi), midi: midi, vel: h.vel };
             })
         };

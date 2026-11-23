@@ -4,7 +4,7 @@
  * Lo guardado aquí es lo que suena en el presentador (ajustes de UI musicaPartida y
  * musicSettings, validados en el servidor con js/audio/music-settings.js).
  * Se guarda con la barra común (admin-savebar.js) vía postUiSettings (config-panel-ui.js).
- * Depende de: config-panel-ui.js, config-panel-music-controls.js, -mix.js y -preview.js.
+ * Depende de: config-panel-ui.js, config-panel-music-controls.js, -mix.js, -song.js y -preview.js.
  */
 
 const _MUSIC_SCENES = ['lobby', 'question', 'leaderboard'];
@@ -41,6 +41,7 @@ function _renderMusicTab(ui) {
         <p class="xm-off-note"><i class="fas fa-volume-xmark" aria-hidden="true"></i> ${_musicT('off_note')}</p>
         <div class="xm-body"${enabled ? '' : ' inert'}>
             ${_renderMusicPlayer()}
+            ${renderMusicSong(s.song)}
             ${_renderMusicInstruments(s)}
             ${_renderMusicTempoSeed(s)}
             ${_renderMusicVolumeTick(s)}
@@ -69,7 +70,8 @@ function _musicFormSettings(root) {
         seed: root.querySelector('#xm-seed').value.trim(),
         volume: Number(root.querySelector('#xm-volume').value) / 100,
         tick: _musicRadio(root, 'xm-tick'),
-        mix: musicMixSnapshot(root)
+        mix: musicMixSnapshot(root),
+        song: musicSongSnapshot(root)
     };
 }
 
@@ -156,6 +158,7 @@ function _onMusicChange(root, target) {
         return;
     }
     if (target.name === 'xm-seed-mode') _onMusicSeedMode(root);
+    if (target.closest('.xm-song')) syncMusicSong(root);
     musicPreview.update(_musicFormSettings(root));
 }
 

@@ -48,6 +48,24 @@
     // Tónicas posibles (MIDI, octava 4)
     const KEY_ROOTS = [60, 62, 65, 67];
 
+    // Calidades de acorde absolutas (nota raíz + calidad): semitonos desde la raíz.
+    // El índice 2 es siempre la quinta (la usa el bajo).
+    const QUALITIES = {
+        maj: [0, 4, 7],
+        min: [0, 3, 7],
+        maj7: [0, 4, 7, 11],
+        min7: [0, 3, 7, 10],
+        dom7: [0, 4, 7, 10],
+        sus2: [0, 2, 7],
+        sus4: [0, 5, 7],
+        add9: [0, 4, 7, 14],
+        six: [0, 4, 7, 9],
+        dim: [0, 3, 6],
+        aug: [0, 4, 8],
+        m7b5: [0, 3, 6, 10]
+    };
+    const ABSOLUTE_BASE = 60; // MIDI de la raíz Do de los acordes absolutos (octava 4)
+
     const c = (d, k) => ({ d: d, k: k });
 
     /**
@@ -159,10 +177,67 @@
         return best || fitToRange(chordNotes, low, high);
     }
 
+    /** Grado de la escala más cercano por debajo de la nota (clase 0-11) en la tonalidad. */
+    function degreeBelow(key, pitchClass) {
+        const relative = (((pitchClass - key.root) % 12) + 12) % 12;
+        let degree = 0;
+        MODES[key.mode].forEach(function (semitone, index) {
+            if (semitone <= relative) degree = index;
+        });
+        return degree;
+    }
+
+    /**
+     * Acorde absoluto: raíz (0-11 = Do..Si) y calidad (clave de QUALITIES). `d` es el
+     * grado más cercano por debajo de la raíz y `tones` los grados de la escala (0-6)
+     * cuya nota pertenece al acorde: la melodía solo pisa notas de la escala.
+     */
+    function absoluteChord(key, root, quality) {
+        const classes = QUALITIES[quality].map(function (semitones) { return (root + semitones) % 12; });
+        const tones = [];
+        MODES[key.mode].forEach(function (semitone, index) {
+            if (classes.indexOf((key.root + semitone) % 12) !== -1) tones.push(index);
+        });
+        return { d: degreeBelow(key, root), k: quality, root: root, quality: quality, tones: tones };
+    }
+
+    /** Notas MIDI del acorde, de la raíz hacia arriba (absoluto o por grados). */
+    function chordNotes(key, chord) {
+        if (chord.root === undefined) return chordMidi(key, chord.d, chord.k);
+        return QUALITIES[chord.quality].map(function (semitones) { return ABSOLUTE_BASE + chord.root + semitones; });
+    }
+
+    /** Nota MIDI de la raíz del acorde (absoluto o por grados). */
+    function chordRootMidi(key, chord) {
+        return chord.root === undefined ? degreeToMidi(key, chord.d) : ABSOLUTE_BASE + chord.root;
+    }
+
+    /** ¿El grado de la escala es nota del acorde? (absoluto o por grados, sin octava) */
+    function isChordToneOf(degree, chord) {
+        if (chord.root === undefined) return isChordTone(degree, chord.d, chord.k);
+        return chord.tones.indexOf(((degree % 7) + 7) % 7) !== -1;
+    }
+
+    /** ¿Son el mismo acorde? Un acorde absoluto nunca coincide con uno por grados. */
+    function sameChord(a, b) {
+        if (a.root === undefined && b.root === undefined) return a.d === b.d && a.k === b.k;
+        return a.root === b.root && a.quality === b.quality;
+    }
+
+    /**
+     * Tonalidad de la canción: la escala jónica de su relativo mayor (La menor usa las
+     * notas de Do mayor), así todo lo automático sigue en la escala de la canción.
+     */
+    function songKey(tonic, mode) {
+        const major = mode === 'minor' ? (tonic + 3) % 12 : tonic;
+        return { root: ABSOLUTE_BASE + major, mode: 'ionian' };
+    }
+
     return {
         PPQ, STEP_TICKS, STEPS_PER_BAR, BAR_TICKS, TRIPLET_TICKS,
         MODES, CHORD_SHAPES, KEY_ROOTS, PROGRESSIONS,
         midiToName, degreeToMidi, isInScale, degreeRange, chordDegrees, chordMidi,
-        fitToRange, isChordTone, voiceLead
+        fitToRange, isChordTone, voiceLead,
+        QUALITIES, ABSOLUTE_BASE, absoluteChord, chordNotes, chordRootMidi, isChordToneOf, sameChord, songKey
     };
 });

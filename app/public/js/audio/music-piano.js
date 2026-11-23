@@ -43,7 +43,7 @@
     const STYLES = ['stabs', 'arp', 'pulse'];
 
     function leftRoot(key, chord) {
-        return theory.fitToRange([theory.degreeToMidi(key, chord.d)], LEFT[0], LEFT[1])[0];
+        return theory.fitToRange([theory.chordRootMidi(key, chord)], LEFT[0], LEFT[1])[0];
     }
 
     /** Golpes de los metales ({ tick, len, vel }) o, si no hay, los del piano con sus patrones. */

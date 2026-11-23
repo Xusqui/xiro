@@ -60,8 +60,8 @@
         for (let dist = 0; dist <= 3; dist++) {
             const lower = degree - dist;
             const upper = degree + dist;
-            const lowerIsChordTone = theory.isChordTone(lower, chord.d, chord.k);
-            const upperIsChordTone = theory.isChordTone(upper, chord.d, chord.k);
+            const lowerIsChordTone = theory.isChordToneOf(lower, chord);
+            const upperIsChordTone = theory.isChordToneOf(upper, chord);
             if (dist === 0 && lowerIsChordTone) return degree;
             if (lowerIsChordTone && upperIsChordTone) return direction > 0 ? upper : lower;
             if (lowerIsChordTone) return lower;

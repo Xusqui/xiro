@@ -9,7 +9,7 @@
  */
 function needsHotspotEditing(questions) {
     return questions.some(
-        (q) => q.type === 'hotspot' && (!q.url_recurso || window.XiroHotspot.areaError(q.hotspotArea) !== null)
+        q => q.type === 'hotspot' && (!q.url_recurso || window.XiroHotspot.areaError(q.hotspotArea) !== null)
     );
 }
 
@@ -19,14 +19,18 @@ function needsHotspotEditing(questions) {
  * @param {{name: string, language?: string, questions: Array<Object>}} bank - Preguntas en formato de guardado
  */
 function abrirBancoParaCompletarHotspot(bank) {
-    preguntasData = bank.questions.map((question) => ({ ...question, id: null }));
+    preguntasData = bank.questions.map(question => ({ ...question, id: null }));
     activeView = null;
     renderEditorBanco({ name: bank.name || '', id: null, language: bank.language || 'es' });
     dibujarPreguntas();
     _bindBankSaveBar(null);
     mostrarModalError(
         _t('admin.common.warning_title', null, '⚠️ Advertencia'),
-        _t('admin.q.hotspot_complete_notice', null, 'Marca el área correcta de las preguntas «Toca la imagen» (y sube su imagen si falta) y guarda el banco.'),
+        _t(
+            'admin.q.hotspot_complete_notice',
+            null,
+            'Marca el área correcta de las preguntas «Toca la imagen» (y sube su imagen si falta) y guarda el banco.'
+        ),
         'warning'
     );
 }

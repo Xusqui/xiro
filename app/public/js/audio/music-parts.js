@@ -21,6 +21,17 @@
     const BAR_TICKS = theory.BAR_TICKS;
     const APPROACH = 'approach';
 
+    /**
+     * Nota MIDI del bajo sobre un acorde absoluto. `offset` es el grado del patrón
+     * (0 = raíz, 4 = quinta, 7 = octava) o APPROACH: un semitono bajo la raíz del acorde siguiente.
+     */
+    function absoluteBassMidi(chord, offset, nextChord) {
+        if (offset === APPROACH) return theory.ABSOLUTE_BASE + (nextChord.root + 11) % 12;
+        const root = theory.ABSOLUTE_BASE + chord.root;
+        if (offset === 4) return root + theory.QUALITIES[chord.quality][2];
+        return offset === 7 ? root + 12 : root;
+    }
+
     // Bajo: [paso, duración, grado sobre la fundamental | 'approach' = paso hacia el acorde siguiente]
     const BASS_PATTERNS = {
         pop: [
@@ -44,6 +55,10 @@
 
     const ARP_SHAPES = [[0, 1, 2, 3, 2, 1, 0, 1], [0, 2, 1, 3, 0, 2, 1, 3], [0, 1, 2, 3, 0, 1, 2, 3]];
 
+    /**
+     * Bajo con notas de paso. Si `chords` tiene propiedades `root` y `quality`, emite `midi`,
+     * y la nota de paso del último compás vuelve a la raíz del primero.
+     */
     function bassLine(rng, chords, style, nextRoot) {
         const patterns = BASS_PATTERNS[style];
         if (!patterns) return [];
@@ -52,7 +67,12 @@
         chords.forEach(function (chord, bar) {
             if (bar % 2 === 0) pattern = rng.pick(patterns);
             const next = bar + 1 < chords.length ? chords[bar + 1].d : nextRoot;
+            const nextChord = chords[bar + 1] || chords[0];
             pattern.forEach(function (slot) {
+                if (chord.root !== undefined) {
+                    notes.push({ step: bar * BAR + slot[0], len: slot[1], midi: absoluteBassMidi(chord, slot[2], nextChord) });
+                    return;
+                }
                 const degree = slot[2] === APPROACH ? next - 1 : chord.d + slot[2];
                 notes.push({ step: bar * BAR + slot[0], len: slot[1], degree: degree });
             });
@@ -119,7 +139,7 @@
     function voiceChords(key, chords, range) {
         let prev = null;
         return chords.map(function (c) {
-            prev = theory.voiceLead(prev, theory.chordMidi(key, c.d, c.k), range[0], range[1]);
+            prev = theory.voiceLead(prev, theory.chordNotes(key, c), range[0], range[1]);
             return prev;
         });
     }
@@ -129,7 +149,7 @@
         const events = [];
         chords.forEach(function (chord, bar) {
             const prev = events[events.length - 1];
-            if (prev && prev.chord.d === chord.d && prev.chord.k === chord.k) {
+            if (prev && theory.sameChord(prev.chord, chord)) {
                 prev.len += BAR_TICKS;
                 return;
             }

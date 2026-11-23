@@ -57,8 +57,12 @@
     /**
      * Tonalidad de toda la partida (lobby, marcador, tablero, revelación y podio): no
      * modula. La pregunta suena en su relativo menor (questionKey).
+     * @param {number} seed - Semilla para la generación aleatoria.
+     * @param {Object} song - Objeto de canción con tonalidad y progresiones.
+     * @returns {Object} Tonalidad con raíz y modo.
      */
-    function baseKey(seed) {
+    function baseKey(seed, song) {
+        if (song) return theory.songKey(song.tonic, song.mode);
         return { root: prng.createRng(seed, 'key').pick(theory.KEY_ROOTS), mode: 'ionian' };
     }
 
@@ -68,6 +72,19 @@
         const position = (index - 1) % CYCLE_LENGTH;
         const form = prng.createRng(seed, 'form:' + cycle).pick(FORMS);
         return { type: form[position], cycle: cycle, position: position };
+    }
+
+    /**
+     * Acordes de una sección con la progresión de la canción: uno por compás; cada
+     * acorde se mantiene hasta que entra el siguiente (`bar` va de 1 a 8).
+     */
+    function songChords(key, song) {
+        return Array.from({ length: SECTION_BARS }, function (_, bar) {
+            const entry = song.chords.reduce(function (current, chord) {
+                return chord.bar <= bar + 1 ? chord : current;
+            }, song.chords[0]);
+            return theory.absoluteChord(key, entry.root, entry.quality);
+        });
     }
 
     /**
@@ -81,14 +98,16 @@
         const type = SECTION_TYPES[where.type];
         const progressions = theory.PROGRESSIONS[where.type];
         const progRng = prng.createRng(seed, 'prog:' + where.type + ':' + where.cycle);
+        const song = options && options.song;
+        const key = baseKey(seed, song);
         return {
             index: fixed ? 0 : index,
             type: where.type,
             cycle: where.cycle,
             position: where.position,
             prevType: prevType,
-            key: baseKey(seed),
-            chords: progRng.pick(progressions),
+            key: key,
+            chords: song && (where.type === 'A' || where.type === 'B') ? songChords(key, song) : progRng.pick(progressions),
             bars: SECTION_BARS,
             layers: Object.assign({}, type.layers),
             styles: { drums: type.drums, bass: type.bass, arp: type.arp, brass: type.brass, piano: type.piano, melody: type.melody },
@@ -119,15 +138,20 @@
         return chords[index % QUESTION_PHRASE];
     }
 
-    function questionKey(seed) {
-        return { root: baseKey(seed).root - 3, mode: 'aeolian' };
+    function questionKey(seed, song) {
+        return { root: baseKey(seed, song).root - 3, mode: 'aeolian' };
     }
 
     /**
      * Plan del compás `index` de la pregunta con la tensión actual (secciones de 1 compás).
      * question: { final } o null; la última pregunta entra con timbal y platillo.
+     * @param {number} seed - Semilla para la generación aleatoria.
+     * @param {number} index - Índice del compás.
+     * @param {number} t - Nivel de tensión.
+     * @param {Object} question - Información sobre la pregunta.
+     * @param {Object} song - Objeto de canción con tonalidad y progresiones.
      */
-    function planQuestionBar(seed, index, t, question) {
+    function planQuestionBar(seed, index, t, question, song) {
         const params = tension.tensionParams(t);
         return {
             index: index,
@@ -135,7 +159,7 @@
             cycle: 0,
             position: index % QUESTION_PHRASE,
             prevType: 'question',
-            key: questionKey(seed),
+            key: questionKey(seed, song),
             chords: [questionChord(index, params.harmony)],
             nextChord: questionChord(index + 1, params.harmony),
             finalEntry: index === 0 && Boolean(question && question.final),

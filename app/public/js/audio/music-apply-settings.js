@@ -7,6 +7,7 @@
 
 import './music-sample-map.js?v=20260922172926';
 import './music-settings.js?v=20260922172926';
+import './music-theory.js?v=20260922172926';
 
 const S = () => self.XiroMusic.settings;
 
@@ -17,7 +18,7 @@ export function normalizeMusicSettings(raw) {
 
 /** Opciones de loadMusicEngine para una partida: la semilla fija o la de la sesión. */
 export function engineOptions(settings, sessionSeed) {
-    return { seed: S().seedFor(settings, sessionSeed), sounds: settings.sounds, tempo: settings.tempo };
+    return { seed: S().seedFor(settings, sessionSeed), sounds: settings.sounds, tempo: settings.tempo, song: settings.song };
 }
 
 /** Mezcla por capa y tic-tac (al momento). */
@@ -31,7 +32,7 @@ export function applyMix(engine, settings) {
 }
 
 /**
- * Todo lo aplicable con el motor en marcha. El tempo y la semilla regeneran la escena
+ * Todo lo aplicable con el motor en marcha. El tempo, la semilla y la canción regeneran la escena
  * (entra en el siguiente compás), así que solo se tocan si cambian.
  * @returns {Promise<object>} cuando los sonidos nuevos están cargados
  */
@@ -39,5 +40,6 @@ export function applyMusicSettings(engine, settings, seed) {
     applyMix(engine, settings);
     if (S().tempoScale(settings) !== engine.tempoScale) engine.setTempo(settings.tempo);
     if (seed && String(seed) !== engine.seed) engine.setSeed(seed);
+    if (JSON.stringify(settings.song) !== JSON.stringify(engine.options.song)) engine.setSong(settings.song);
     return engine.setSounds(settings.sounds);
 }
