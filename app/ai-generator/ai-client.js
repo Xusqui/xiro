@@ -31,6 +31,52 @@ const PROVIDER_LABELS = {
 
 /**
  * Llama al proveedor indicado y devuelve el texto de la respuesta.
+ * @param {Object} params
+ * @param {string|null} params.provider - 'groq' | 'gemini' | 'ollama'
+ * @param {string} [params.model] - modelo a usar; sin él, el configurado del proveedor
+ * @param {string} params.userPrompt
+ * @param {string} [params.systemPrompt]
+ * @param {number} [params.timeout] ms
+ * @param {number} [params.maxTokens] lo usan Groq y Ollama
+ * @param {boolean} [params.json] la respuesta es un objeto JSON (Ollama lo fuerza con format: 'json')
+ * @returns {Promise<string>}
+ */
+function callLLMOptions({
+    provider,
+    model,
+    userPrompt,
+    systemPrompt = DEFAULT_SYSTEM,
+    timeout = DEFAULT_TIMEOUT,
+    maxTokens = 4096,
+    json = false
+}) {
+    const client = CLIENTS[provider];
+    const chosenModel = model || getModel(provider);
+    if (provider === 'ollama') {
+        const baseUrl = getBaseUrl(provider);
+        if (!baseUrl || !chosenModel) {
+            return Promise.reject(new Error('Ollama no configurado. Indica la URL y el modelo en el Panel > IA.'));
+        }
+        return client({
+            baseUrl,
+            apiKey: getApiKey(provider),
+            model: chosenModel,
+            userPrompt,
+            systemPrompt,
+            timeout,
+            maxTokens,
+            ...(json && { json })
+        });
+    }
+    const apiKey = client ? getApiKey(provider) : null;
+    if (!apiKey) {
+        return Promise.reject(new Error('API key de IA no configurada. Configúrala en el Panel > IA.'));
+    }
+    return client({ apiKey, model: chosenModel, userPrompt, systemPrompt, timeout, maxTokens });
+}
+
+/**
+ * Llama al proveedor indicado con su modelo configurado (ver callLLMOptions).
  * @param {string|null} provider - 'groq' | 'gemini' | 'ollama'
  * @param {string} userPrompt
  * @param {string} [systemPrompt]
@@ -39,27 +85,7 @@ const PROVIDER_LABELS = {
  * @returns {Promise<string>}
  */
 function callLLM(provider, userPrompt, systemPrompt = DEFAULT_SYSTEM, timeout = DEFAULT_TIMEOUT, maxTokens = 4096) {
-    const client = CLIENTS[provider];
-    if (provider === 'ollama') {
-        const baseUrl = getBaseUrl(provider);
-        const model = getModel(provider);
-        if (!baseUrl || !model) {
-            return Promise.reject(new Error('Ollama no configurado. Indica la URL y el modelo en el Panel > IA.'));
-        }
-        return client({ baseUrl, apiKey: getApiKey(provider), model, userPrompt, systemPrompt, timeout, maxTokens });
-    }
-    const apiKey = client ? getApiKey(provider) : null;
-    if (!apiKey) {
-        return Promise.reject(new Error('API key de IA no configurada. Configúrala en el Panel > IA.'));
-    }
-    return client({
-        apiKey,
-        model: getModel(provider),
-        userPrompt,
-        systemPrompt,
-        timeout,
-        maxTokens
-    });
+    return callLLMOptions({ provider, userPrompt, systemPrompt, timeout, maxTokens });
 }
 
 /**
@@ -79,4 +105,4 @@ function checkAIStatus() {
     };
 }
 
-module.exports = { callLLM, getProviderPlan, checkAIStatus, PROVIDER_LABELS };
+module.exports = { callLLM, callLLMOptions, getProviderPlan, checkAIStatus, PROVIDER_LABELS };

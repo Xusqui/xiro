@@ -8,6 +8,7 @@
  * (ligera en un portátil; la música solo suena en el presentador).
  */
 
+import './music-motif.js?v=20260922172926';
 import './music-settings.js?v=20260922172926';
 
 // Capas y mezcla por defecto: viven con los ajustes del admin (music-settings.js)

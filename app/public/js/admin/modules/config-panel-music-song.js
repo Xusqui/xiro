@@ -104,21 +104,43 @@ function syncMusicSong(root) {
     });
 }
 
+/** Motivo melódico guardado en el campo oculto de «Crear con IA» (null si no hay o no se lee). */
+function _songMotifOf(root) {
+    const input = root.querySelector('#xm-song-motif');
+    if (!input || !input.value) return null;
+    try {
+        return JSON.parse(input.value);
+    } catch (_error) {
+        return null;
+    }
+}
+
 /**
- * Canción del formulario (la que se guarda).
+ * Canción tal como está en la rejilla, esté o no activado el interruptor (la usa la exportación a ABC).
  * @param {Element} root Raíz de la pestaña (#xm-root).
- * @returns {?{tonic: number, mode: string, chords: Array}} null si el interruptor está apagado.
+ * @returns {{tonic: number, mode: string, chords: Array, motif?: Object}}
  */
-function musicSongSnapshot(root) {
-    if (!root.querySelector('#xm-song-enabled').checked) return null;
+function musicSongFormValue(root) {
     const mode = root.querySelector('input[name="xm-song-mode"]:checked');
-    return self.XiroMusic.song.songFromCells({
+    const song = self.XiroMusic.song.songFromCells({
         tonic: Number(root.querySelector('#xm-song-tonic').value),
         mode: mode ? mode.value : 'minor',
         cells: _songDomCells(root)
     });
+    const motif = _songMotifOf(root);
+    if (motif) song.motif = motif;
+    return song;
+}
+
+/**
+ * Canción del formulario (la que se guarda).
+ * @param {Element} root Raíz de la pestaña (#xm-root).
+ * @returns {?{tonic: number, mode: string, chords: Array, motif?: Object}} null si el interruptor está apagado.
+ */
+function musicSongSnapshot(root) {
+    return root.querySelector('#xm-song-enabled').checked ? musicSongFormValue(root) : null;
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { renderMusicSong, syncMusicSong, musicSongSnapshot };
+    module.exports = { renderMusicSong, syncMusicSong, musicSongSnapshot, musicSongFormValue };
 }

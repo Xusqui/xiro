@@ -109,6 +109,8 @@
             key: key,
             chords: song && (where.type === 'A' || where.type === 'B') ? songChords(key, song) : progRng.pick(progressions),
             bars: SECTION_BARS,
+            // Motivo propio de la canción (sustituye al generado en el tema A y sus respuestas)
+            motif: song ? song.motif : undefined,
             layers: Object.assign({}, type.layers),
             styles: { drums: type.drums, bass: type.bass, arp: type.arp, brass: type.brass, piano: type.piano, melody: type.melody },
             // Etiqueta para las variaciones propias de esta aparición de la sección

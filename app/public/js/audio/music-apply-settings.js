@@ -6,6 +6,7 @@
  */
 
 import './music-sample-map.js?v=20260922172926';
+import './music-motif.js?v=20260922172926';
 import './music-settings.js?v=20260922172926';
 import './music-theory.js?v=20260922172926';
 

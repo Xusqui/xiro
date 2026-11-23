@@ -96,6 +96,25 @@
 .xm-song-cell__entry { display: flex; align-items: center; gap: 0.375rem; font-size: 0.75rem; font-weight: 700; color: #475569; cursor: pointer; }
 .xm-song-cell__entry input { accent-color: var(--plum-600); cursor: pointer; }
 .xm-song-cell select:disabled { background: transparent; border-color: #e2e8f0; color: #64748b; }
+.xm-song-ai { display: flex; flex-direction: column; gap: 0.5rem; }
+.xm-song-ai > label { font-size: 0.75rem; font-weight: 700; color: #475569; }
+.xm-song-ai textarea { width: 100%; padding: 0.5rem 0.625rem; border: 2px solid #cbd5e1; border-radius: var(--radius-lg); background: #fff; font: inherit; font-size: 0.8125rem; color: var(--console-slate); resize: vertical; }
+.xm-song-ai select { padding: 0.35rem 0.5rem; border: 2px solid #cbd5e1; border-radius: var(--radius-lg); background: #fff; font: inherit; font-size: 0.8125rem; color: var(--console-slate); }
+.xm-song-ai textarea:focus-visible, .xm-song-ai select:focus-visible { outline: 2px solid var(--plum-600); outline-offset: 2px; }
+.xm-song-ai [hidden] { display: none; }
+.xm-song-ai__row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+.xm-song-ai__status { margin: 0; min-height: 1.25rem; font-size: 0.75rem; color: #64748b; }
+.xm-song-ai__status[data-state="ok"] { color: #166534; font-weight: 600; }
+.xm-song-ai__status[data-state="error"] { color: #b91c1c; font-weight: 600; }
+.xm-song-motif { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem; padding-top: 0.5rem; border-top: 1px solid #e2e8f0; }
+.xm-song-motif__text { margin: 0; font-size: 0.75rem; color: #475569; }
+.xm-song-abc { display: flex; flex-direction: column; gap: 0.5rem; }
+.xm-song-abc textarea { width: 100%; padding: 0.5rem 0.625rem; border: 2px solid #cbd5e1; border-radius: var(--radius-lg); background: #fff; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.75rem; color: var(--console-slate); resize: vertical; }
+.xm-song-abc textarea:focus-visible { outline: 2px solid var(--plum-600); outline-offset: 2px; }
+.xm-song-abc__row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.xm-song-abc__status { margin: 0; min-height: 1.25rem; font-size: 0.75rem; color: #64748b; }
+.xm-song-abc__status[data-state="ok"] { color: #166534; font-weight: 600; }
+.xm-song-abc__status[data-state="error"] { color: #b91c1c; font-weight: 600; }
 
 @media (max-width: 640px) {
     .xm-song-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }

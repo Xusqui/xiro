@@ -12,9 +12,10 @@
  * más lentos que los de Groq o
  * Gemini, por eso el timeout nunca baja de MIN_TIMEOUT.
  *
- * No se usa format: 'json': esa gramática obliga a devolver un objeto y los
- * prompts piden un array, así que el modelo envolvía la pregunta y el parser
- * acababa tomando el array de opciones como si fueran preguntas.
+ * Por defecto no se usa format: 'json': esa gramática obliga a devolver un objeto y los
+ * prompts de preguntas piden un array, así que el modelo envolvía la pregunta y el parser
+ * acababa tomando el array de opciones como si fueran preguntas. Quien pide un objeto
+ * (la canción con IA) lo activa con `json: true`.
  */
 
 const http = require('http');
@@ -118,9 +119,10 @@ function _request(baseUrl, apiPath, payload, timeout, apiKey = null) {
  * @param {string} params.systemPrompt
  * @param {number} params.timeout ms
  * @param {number} params.maxTokens tokens máximos de salida (num_predict)
+ * @param {boolean} [params.json] fuerza un objeto JSON (format: 'json'); solo para respuestas que sean un objeto
  * @returns {Promise<string>}
  */
-async function callOllama({ baseUrl, apiKey, model, userPrompt, systemPrompt, timeout, maxTokens }) {
+async function callOllama({ baseUrl, apiKey, model, userPrompt, systemPrompt, timeout, maxTokens, json = false }) {
     const parsed = await _request(
         baseUrl,
         '/api/chat',
@@ -131,6 +133,7 @@ async function callOllama({ baseUrl, apiKey, model, userPrompt, systemPrompt, ti
                 { role: 'user', content: userPrompt }
             ],
             stream: false,
+            ...(json && { format: 'json' }),
             // Los modelos con razonamiento (qwen3, deepseek-r1…) gastaban todo num_predict
             // pensando y devolvían content vacío. Los modelos sin razonamiento lo ignoran.
             think: false,

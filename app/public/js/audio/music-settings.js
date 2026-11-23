@@ -11,12 +11,20 @@
  */
 (function (root, factory) {
     if (typeof module !== 'undefined' && module.exports) {
-        module.exports = factory(() => module.require('./music-sample-map.js'), () => module.require('./music-theory.js'));
+        module.exports = factory(
+            () => module.require('./music-sample-map.js'),
+            () => module.require('./music-theory.js'),
+            () => module.require('./music-motif.js')
+        );
     } else {
         root.XiroMusic = root.XiroMusic || {};
-        root.XiroMusic.settings = factory(() => root.XiroMusic.sampleMap, () => root.XiroMusic.theory);
+        root.XiroMusic.settings = factory(
+            () => root.XiroMusic.sampleMap,
+            () => root.XiroMusic.theory,
+            () => root.XiroMusic.motif
+        );
     }
-})(typeof self !== 'undefined' ? self : this, function (sampleMap, theory) {
+})(typeof self !== 'undefined' ? self : this, function (sampleMap, theory, motifModule) {
     'use strict';
 
     const LAYERS = ['pad', 'brass', 'piano', 'bass', 'drums', 'arp', 'melody'];
@@ -132,15 +140,18 @@
             if (error) return error;
             previousBar = chord.bar;
         }
-        return song.chords[0].bar === 1 ? null : 'El primer acorde de la canción entra en el compás 1';
+        if (song.chords[0].bar !== 1) return 'El primer acorde de la canción entra en el compás 1';
+        return song.motif === undefined ? null : motifModule().motifError(song.motif);
     }
 
     function copySong(song) {
-        return {
+        const copy = {
             tonic: song.tonic,
             mode: song.mode,
             chords: song.chords.map(chord => ({ bar: chord.bar, root: chord.root, quality: chord.quality }))
         };
+        if (song.motif !== undefined) copy.motif = motifModule().copyMotif(song.motif);
+        return copy;
     }
 
     /** Primer problema de `raw` (texto) o null si es válido. Las claves ausentes valen. */

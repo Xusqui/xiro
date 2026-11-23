@@ -92,7 +92,8 @@
         const variantRng = prng.createRng(seed, 'melody:' + plan.variant);
         const base = prng.createRng(seed, 'melody:base').pick([2, 4]) + (style === 'themeB' ? 2 : 0);
         if (options && options.motif === false) return melody.buildRandomPhrase(variantRng, chords, range, base);
-        const motif = melody.generateMotif(prng.createRng(seed, style === 'themeB' ? 'motifB' : 'motifA'));
+        const own = style !== 'themeB' && plan.motif;
+        const motif = own || melody.generateMotif(prng.createRng(seed, style === 'themeB' ? 'motifB' : 'motifA'));
         if (style === 'response') return melody.buildFragmentPhrase(motif, chords, range, base);
         return melody.buildThemePhrase(motif, chords, range, base, variantRng);
     }

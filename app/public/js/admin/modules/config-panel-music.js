@@ -4,7 +4,7 @@
  * Lo guardado aquí es lo que suena en el presentador (ajustes de UI musicaPartida y
  * musicSettings, validados en el servidor con js/audio/music-settings.js).
  * Se guarda con la barra común (admin-savebar.js) vía postUiSettings (config-panel-ui.js).
- * Depende de: config-panel-ui.js, config-panel-music-controls.js, -mix.js, -song.js y -preview.js.
+ * Depende de: config-panel-ui.js, config-panel-music-controls.js, -mix.js, -song.js, -song-ai.js, -song-abc.js y -preview.js.
  */
 
 const _MUSIC_SCENES = ['lobby', 'question', 'leaderboard'];
@@ -41,7 +41,9 @@ function _renderMusicTab(ui) {
         <p class="xm-off-note"><i class="fas fa-volume-xmark" aria-hidden="true"></i> ${_musicT('off_note')}</p>
         <div class="xm-body"${enabled ? '' : ' inert'}>
             ${_renderMusicPlayer()}
+            ${renderMusicSongAi(s.song)}
             ${renderMusicSong(s.song)}
+            ${renderMusicSongAbc()}
             ${_renderMusicInstruments(s)}
             ${_renderMusicTempoSeed(s)}
             ${_renderMusicVolumeTick(s)}
@@ -144,6 +146,13 @@ const _MUSIC_CLICK_ACTIONS = {
         root.querySelector('#xm-seed').value = _randomMusicSeed();
         _validateMusicSeed();
     },
+    'song-generate': root => requestMusicSong(root).then(applied => {
+        if (!applied) return;
+        refreshSaveBar();
+        musicPreview.update(_musicFormSettings(root));
+    }),
+    'song-motif-clear': root => clearMusicSongMotif(root),
+    ..._MUSIC_SONG_ABC_ACTIONS,
     mute: (root, el) => toggleMusicMute(el),
     'reset-mix': root => resetMusicMix(root)
 };
@@ -157,7 +166,12 @@ function _onMusicChange(root, target) {
         musicPreview.setScene(target.value);
         return;
     }
+    if (target.id === 'xm-song-abc-file') {
+        onMusicSongAbcFile(root, target);
+        return;
+    }
     if (target.name === 'xm-seed-mode') _onMusicSeedMode(root);
+    if (target.id === 'xm-song-ai-provider') syncMusicSongAiModel(root);
     if (target.closest('.xm-song')) syncMusicSong(root);
     musicPreview.update(_musicFormSettings(root));
 }
