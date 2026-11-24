@@ -2,6 +2,16 @@
 
 ## 3.16.x
 
+### 3.16.3 — 2026-11-24 · `v3.16.3`
+- **IA:** Registrar en el log los tokens de entrada, salida y totales de cada llamada
+  - Groq, Gemini y Ollama dejan una línea info con el consumo de cada llamada correcta. En Gemini los tokens de razonamiento cuentan como salida y se indican aparte.
+- **Música:** Partir las factories de music-settings y music-theory para cumplir max-lines-per-function
+  - Cada módulo pasa a tener dos factories en el mismo fichero. La API exportada, los cargadores y el global XiroMusic no cambian.
+- **IA:** Descartar justificaciones y pistas que superan el límite de guardado
+  - Si el modelo colaba su razonamiento en la justificación, /api/banks/save-all rechazaba el banco entero. El límite de la pista pasa a LIMITS.HINT_MAX.
+- **IA:** Añadir ChatGPT (OpenAI) como proveedor con API key
+  - Nuevo cliente de Chat Completions (gpt-6-luna por defecto, razonamiento bajo) y helper HTTPS compartido con Groq. OpenAI va en el panel IA, en el respaldo (Groq → Gemini → OpenAI → Ollama) y en la canción con IA, cuya ruta usa ahora la lista de proveedores de ai-config. Traducciones en 10 idiomas y AI_SETUP.md actualizado.
+
 ### 3.16.2 — 2026-11-24 · `v3.16.2`
 - **Hotspot:** Añadir preguntas hotspot a schema.json y al prompt para IA
 
