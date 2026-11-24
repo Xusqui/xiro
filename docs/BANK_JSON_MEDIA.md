@@ -33,4 +33,5 @@ Un banco exportado lleva todas sus imágenes y audios dentro del propio JSON, ca
 - Al importar, un recurso que falla (clave que falta o subida rechazada) deja `null` en todos sus sitios y se avisa; nunca llega una referencia `media:` al servidor.
 - Al exportar, un recurso que no se puede leer conserva su ruta y se avisa.
 - Una IA externa deja los recursos en `null` y `"media": {}`: los añade después el usuario en XiRo!.
+- Una pregunta `hotspot` («Toca la imagen») lleva su imagen en `url_recurso` con `tipo_contenido: "imagen"`, más `hotspot_area` y `hotspot_tolerance` (reglas del área en `docs/QUESTION_TYPES.md`). Sin `options`. Una IA externa las deja las tres en `null` (`schema.json` trae un ejemplo y el prompt lo explica en la regla 12): el banco se abre en el editor para subir la imagen y dibujar el área antes de guardarlo (`hotspot-json.js`).
 - No se admite el formato antiguo con `image_data` por pregunta.

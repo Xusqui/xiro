@@ -441,6 +441,16 @@
             "url_recurso": null,
             "question_image_url": null,
             "time_limit": 30
+        },
+        {
+            "question_text": "Toca Francia en el mapa de Europa",
+            "type": "hotspot",
+            "tipo_contenido": "imagen",
+            "url_recurso": null,
+            "question_image_url": null,
+            "hotspot_area": null,
+            "hotspot_tolerance": null,
+            "time_limit": 30
         }
     ]
 }
