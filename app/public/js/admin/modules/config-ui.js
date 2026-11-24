@@ -1,9 +1,9 @@
 /**
- * @fileoverview Pestaña "IA" del panel de configuración (Groq, Gemini y Ollama).
+ * @fileoverview Pestaña "IA" del panel de configuración (Groq, Gemini, OpenAI y Ollama).
  * Un único formulario: proveedor principal + respaldo arriba y una fila plegable por
  * proveedor con su conexión. Se guarda con la barra común de Configuración (admin-savebar.js).
  * Depende de: config-panel.js, admin-savebar.js y checkbox.js cargados previamente.
- * Filas de proveedor: config-ui-providers.js (Groq/Gemini) y config-ui-ollama.js.
+ * Filas de proveedor: config-ui-providers.js (Groq/Gemini/OpenAI) y config-ui-ollama.js.
  * Guardado y borrado: config-ui-save.js.
  */
 
@@ -53,6 +53,19 @@ const AI_PROVIDER_META = {
             { id: 'gemini-3.1-flash-lite', label: 'Gemini 3.1 Flash-Lite (bajo coste)' },
             { id: 'gemini-3.8-flash', label: 'Gemini 3.8 Flash (el Flash más potente)' },
             { id: 'gemini-3.1-pro-preview', label: 'Gemini 3.1 Pro (preview, máxima calidad)' }
+        ]
+    },
+    openai: {
+        label: 'ChatGPT (OpenAI)',
+        titleKey: 'admin.openai.title',
+        deleteMsgKey: 'admin.openai.delete_msg',
+        placeholder: 'sk-...',
+        icon: 'fa-comment-dots',
+        models: [
+            { id: 'gpt-6-luna', label: 'GPT-6 Luna (el más rápido y económico)' },
+            { id: 'gpt-6.1-terra', label: 'GPT-6.1 Terra (rápido, equilibrado)' },
+            { id: 'gpt-6.2-sol', label: 'GPT-6.2 Sol (uso general, alta calidad)' },
+            { id: 'gpt-6.2-astra', label: 'GPT-6.2 Astra (máxima calidad, el más caro)' }
         ]
     },
     // Sin lista fija de modelos: su fila la pinta _renderOllamaRow (config-ui-ollama.js)

@@ -11,6 +11,7 @@
 const { callGroq } = require('./groq-client');
 const { callGemini } = require('./gemini-client');
 const { callOllama } = require('./ollama-client');
+const { callOpenAI } = require('./openai-client');
 const { getApiKey, getBaseUrl, getModel, getProviderPlan, getSettings } = require('./ai-config');
 
 const DEFAULT_TIMEOUT = 60000;
@@ -20,24 +21,26 @@ const DEFAULT_SYSTEM =
 const CLIENTS = {
     groq: callGroq,
     gemini: callGemini,
+    openai: callOpenAI,
     ollama: callOllama
 };
 
 const PROVIDER_LABELS = {
     groq: 'Groq',
     gemini: 'Gemini',
+    openai: 'OpenAI',
     ollama: 'Ollama'
 };
 
 /**
  * Llama al proveedor indicado y devuelve el texto de la respuesta.
  * @param {Object} params
- * @param {string|null} params.provider - 'groq' | 'gemini' | 'ollama'
+ * @param {string|null} params.provider - 'groq' | 'gemini' | 'openai' | 'ollama'
  * @param {string} [params.model] - modelo a usar; sin él, el configurado del proveedor
  * @param {string} params.userPrompt
  * @param {string} [params.systemPrompt]
  * @param {number} [params.timeout] ms
- * @param {number} [params.maxTokens] lo usan Groq y Ollama
+ * @param {number} [params.maxTokens] lo usan Groq y Ollama (Gemini y OpenAI no fijan límite)
  * @param {boolean} [params.json] la respuesta es un objeto JSON (Ollama lo fuerza con format: 'json')
  * @returns {Promise<string>}
  */
@@ -77,7 +80,7 @@ function callLLMOptions({
 
 /**
  * Llama al proveedor indicado con su modelo configurado (ver callLLMOptions).
- * @param {string|null} provider - 'groq' | 'gemini' | 'ollama'
+ * @param {string|null} provider - 'groq' | 'gemini' | 'openai' | 'ollama'
  * @param {string} userPrompt
  * @param {string} [systemPrompt]
  * @param {number} [timeout] ms

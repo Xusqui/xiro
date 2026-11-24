@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @fileoverview Valida el formato de las API keys y modelos de los proveedores de IA.
+ * @fileoverview Valida el formato de las API keys y modelos de los proveedores de IA (Groq, Gemini, OpenAI).
  * Solo comprueba el formato; no llama a ningún servicio externo.
  * Exporta:
  *   validateApiKey(provider, key) → { valid: boolean, error?: string, code?: string }
@@ -13,6 +13,9 @@ const GROQ_MIN_LENGTH = 50;
 // Desde mayo de 2026 Google AI Studio emite «auth keys» que empiezan por "AQ.";
 // las claves antiguas "AIza" dejaron de funcionar en septiembre de 2026.
 const GEMINI_KEY_PATTERN = /^AQ\.[^.][A-Za-z0-9._-]{29,509}$/;
+
+// OpenAI: sk- seguido de letras, números, _ y - (sk-proj-, sk-svcacct-… caben en el patrón).
+const OPENAI_KEY_PATTERN = /^sk-[A-Za-z0-9_-]{20,300}$/;
 
 // El modelo va en la URL de Gemini: solo caracteres de identificador.
 const MODEL_PATTERN = /^[A-Za-z0-9._/:-]{1,100}$/;
@@ -49,9 +52,28 @@ function _validateGeminiKey(trimmed) {
     return { valid: true };
 }
 
+function _validateOpenAIKey(trimmed) {
+    if (!trimmed.startsWith('sk-')) {
+        return {
+            valid: false,
+            error: 'La API key de OpenAI debe comenzar con "sk-"',
+            code: 'OPENAI_API_KEY_INVALID_PREFIX'
+        };
+    }
+    if (!OPENAI_KEY_PATTERN.test(trimmed)) {
+        return {
+            valid: false,
+            error: 'La API key de OpenAI no tiene un formato válido',
+            code: 'OPENAI_API_KEY_INVALID_FORMAT'
+        };
+    }
+    return { valid: true };
+}
+
 const KEY_VALIDATORS = {
     groq: _validateGroqKey,
-    gemini: _validateGeminiKey
+    gemini: _validateGeminiKey,
+    openai: _validateOpenAIKey
 };
 
 /**

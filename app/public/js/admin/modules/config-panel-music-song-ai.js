@@ -7,7 +7,7 @@
  * _musicCardHead), self.XiroMusic.song, escapeHtml y fetchWithAuth.
  */
 
-const _SONG_AI_PROVIDERS = { groq: 'Groq', gemini: 'Gemini', ollama: 'Ollama' };
+const _SONG_AI_PROVIDERS = { groq: 'Groq', gemini: 'Gemini', openai: 'ChatGPT', ollama: 'Ollama' };
 const _SONG_AI_ERRORS = {
     AI_MUSIC_INVALID: 'song.ai_error_invalid',
     AI_MUSIC_NO_PROVIDER: 'song.ai_error_no_provider'

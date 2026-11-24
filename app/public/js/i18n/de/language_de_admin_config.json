@@ -199,6 +199,8 @@
     "admin.groq.error_delete": "Fehler beim Löschen.",
     "admin.gemini.title": "Gemini KI (Google)",
     "admin.gemini.delete_msg": "Den Gemini-API-Schlüssel löschen? Wenn er zum aktiven Anbieter gehört und kein Ersatz verfügbar ist, funktioniert der KI-Generator nicht mehr.",
+    "admin.openai.title": "ChatGPT KI (OpenAI)",
+    "admin.openai.delete_msg": "Den OpenAI-API-Schlüssel löschen? Wenn er zum aktiven Anbieter gehört und kein Ersatz verfügbar ist, funktioniert der KI-Generator nicht mehr.",
     "admin.ai.settings_subtitle": "Welcher Dienst die Fragen erstellt",
     "admin.ai.label_provider": "Aktiver Anbieter",
     "admin.ai.fallback_label": "Anderen Anbieter verwenden, wenn der aktive ausfällt",

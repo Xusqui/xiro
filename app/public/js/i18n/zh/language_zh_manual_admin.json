@@ -155,7 +155,7 @@
     "manual_admin.banks.types.survey_multiple": "<strong>多选调查</strong> — 与调查相同，但每位玩家可勾选多个选项（或都不选）；显示每个选项被多少比例的作答者选择，总和可能超过 100%。不会出现在 Trivial 模式中。",
     "manual_admin.banks.types.matching": "<strong>配对</strong> — 两列；玩家将每个项目与其正确的配对连接（最多6对）。",
     "manual_admin.banks.ai.title": "AI 题目生成器",
-    "manual_admin.banks.ai.intro": "通过侧边菜单的<strong>AI 生成器</strong>自动创建完整题库。需要配置 Groq 或 Gemini API 密钥（工具 → AI）。",
+    "manual_admin.banks.ai.intro": "通过侧边菜单的<strong>AI 生成器</strong>自动创建完整题库。需要配置一个 AI 服务商：Groq、Gemini、ChatGPT 或 Ollama（工具 → AI）。",
     "manual_admin.banks.ai.s1": "<strong>来源</strong> — 上传文档（.pdf、.docx、.txt）或输入要生成题目的主题。",
     "manual_admin.banks.ai.s2": "<strong>配置</strong> — 为题库命名并选择难度（低、中、高）。",
     "manual_admin.banks.ai.s3": "<strong>结果</strong> — 检查生成的题目，重新生成有错误的类型，然后按<strong>\"导入题库\"</strong>或<strong>\"下载 JSON\"</strong>。",

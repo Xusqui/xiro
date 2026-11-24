@@ -47,7 +47,7 @@ async function askProvider({ prompt, provider, model }) {
 /**
  * @param {Object} params
  * @param {string} params.prompt - Descripción del tema escrita por el admin
- * @param {string} [params.provider] - 'groq' | 'gemini' | 'ollama'; sin él, el configurado (con respaldo)
+ * @param {string} [params.provider] - 'groq' | 'gemini' | 'openai' | 'ollama'; sin él, el configurado (con respaldo)
  * @param {string} [params.model] - Modelo del proveedor elegido
  * @returns {Promise<{title: string, tempo: number, song: Object, provider: string, model: ?string, attempts: number}>}
  * @throws {Error} con `code`: AI_MUSIC_NO_PROVIDER, AI_MUSIC_INVALID u otro error del proveedor

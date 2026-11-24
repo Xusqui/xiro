@@ -199,6 +199,8 @@
     "admin.groq.error_delete": "Erro ao excluir.",
     "admin.gemini.title": "Gemini IA (Google)",
     "admin.gemini.delete_msg": "Excluir a chave da API Gemini? Se for o provedor ativo e não houver alternativa, o gerador de IA deixará de funcionar.",
+    "admin.openai.title": "ChatGPT IA (OpenAI)",
+    "admin.openai.delete_msg": "Excluir a chave da API OpenAI? Se for o provedor ativo e não houver alternativa, o gerador de IA deixará de funcionar.",
     "admin.ai.settings_subtitle": "Qual serviço gera as perguntas",
     "admin.ai.label_provider": "Provedor ativo",
     "admin.ai.fallback_label": "Usar outro provedor se o ativo falhar",

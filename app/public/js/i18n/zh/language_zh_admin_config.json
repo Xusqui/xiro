@@ -199,6 +199,8 @@
     "admin.groq.error_delete": "删除时出错。",
     "admin.gemini.title": "Gemini 人工智能（Google）",
     "admin.gemini.delete_msg": "删除 Gemini API 密钥？如果它是当前使用的服务商且没有备用服务商，AI 生成器将停止工作。",
+    "admin.openai.title": "ChatGPT 人工智能（OpenAI）",
+    "admin.openai.delete_msg": "删除 OpenAI API 密钥？如果它是当前使用的服务商且没有备用服务商，AI 生成器将停止工作。",
     "admin.ai.settings_subtitle": "由哪个服务生成题目",
     "admin.ai.label_provider": "当前服务商",
     "admin.ai.fallback_label": "当前服务商失败时使用其他服务商",

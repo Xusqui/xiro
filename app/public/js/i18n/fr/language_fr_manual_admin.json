@@ -155,7 +155,7 @@
     "manual_admin.banks.types.survey_multiple": "<strong>Sondage à choix multiples</strong> — Comme le sondage, mais chaque joueur coche plusieurs options (ou aucune) ; on affiche la part des répondants ayant choisi chacune, dont le total peut dépasser 100 %. N'apparaît pas dans le Trivial.",
     "manual_admin.banks.types.matching": "<strong>Association</strong> — Deux colonnes ; le joueur relie chaque élément à sa bonne paire (jusqu’à 6 paires).",
     "manual_admin.banks.ai.title": "Générateur IA de questions",
-    "manual_admin.banks.ai.intro": "Créez une banque complète automatiquement depuis <strong>Générateur IA</strong> dans le menu latéral. Nécessite une clé API Groq ou Gemini configurée (Outils → IA).",
+    "manual_admin.banks.ai.intro": "Créez une banque complète automatiquement depuis <strong>Générateur IA</strong> dans le menu latéral. Nécessite un fournisseur d'IA configuré : Groq, Gemini, ChatGPT ou Ollama (Outils → IA).",
     "manual_admin.banks.ai.s1": "<strong>Source</strong> — téléversez un document (.pdf, .docx, .txt) ou écrivez le sujet sur lequel générer des questions.",
     "manual_admin.banks.ai.s2": "<strong>Configurer</strong> — nommez la banque et choisissez la difficulté (basse, moyenne ou haute).",
     "manual_admin.banks.ai.s3": "<strong>Résultat</strong> — vérifiez les questions générées, régénérez les types en erreur et appuyez sur <strong>« Importer la banque »</strong> ou <strong>« Télécharger le JSON »</strong>.",

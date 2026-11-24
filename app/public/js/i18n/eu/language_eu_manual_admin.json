@@ -155,7 +155,7 @@
     "manual_admin.banks.types.survey_multiple": "<strong>Aukera anitzeko inkesta</strong> — Inkesta bezala, baina jokalari bakoitzak hainbat aukera markatzen ditu (edo bat ere ez); erantzun dutenen artean aukera bakoitza zenbatek aukeratu duen erakusten da ehunekotan, eta batura % 100 baino handiagoa izan daiteke. Ez da Trivialean agertzen.",
     "manual_admin.banks.types.matching": "<strong>Parekatu</strong> — Bi zutabe; jokalariak elementu bakoitza bere bikote zuzenarekin lotzen du (6 bikote gehienez).",
     "manual_admin.banks.ai.title": "Galderen IA sortzailea",
-    "manual_admin.banks.ai.intro": "Sortu banku oso bat automatikoki alboko menuko <strong>IA Sortzailea</strong> ataletik. Groq-eko edo Gemini-ko API key bat konfiguratuta behar da (Tresnak → IA).",
+    "manual_admin.banks.ai.intro": "Sortu banku oso bat automatikoki alboko menuko <strong>IA Sortzailea</strong> ataletik. IA hornitzaile bat konfiguratuta behar da: Groq, Gemini, ChatGPT edo Ollama (Tresnak → IA).",
     "manual_admin.banks.ai.s1": "<strong>Iturria</strong> — igo dokumentu bat (.pdf, .docx, .txt) edo idatzi galderak sortzeko gaia.",
     "manual_admin.banks.ai.s2": "<strong>Konfiguratu</strong> — jarri izena bankuari eta aukeratu zailtasuna (baxua, ertaina edo altua).",
     "manual_admin.banks.ai.s3": "<strong>Emaitza</strong> — berrikusi sortutako galderak, birsortu erroreak dituzten motak eta sakatu <strong>«Bankua inportatu»</strong> edo <strong>«JSON deskargatu»</strong>.",

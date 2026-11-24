@@ -6,36 +6,11 @@
  *   callGroq({ apiKey, model, userPrompt, systemPrompt, timeout, maxTokens }) → Promise<string>
  */
 
-const https = require('https');
+const { postJson } = require('./https-json');
 const { usageFromOpenAI, logTokenUsage } = require('./token-usage');
 
 const GROQ_HOST = 'api.groq.com';
 const GROQ_PATH = '/openai/v1/chat/completions';
-
-/**
- * Interpreta el cuerpo de Groq: texto de la respuesta, o error con el motivo.
- * Deja en el log los tokens gastados.
- * @param {number} statusCode
- * @param {string} data - cuerpo sin parsear
- * @param {string} model
- * @returns {string}
- * @throws {Error} JSON inválido, error HTTP o respuesta vacía
- */
-function _readResponse(statusCode, data, model) {
-    let parsed;
-    try {
-        parsed = JSON.parse(data);
-    } catch (e) {
-        throw new Error(`Error parseando respuesta de Groq: ${e.message}`);
-    }
-    if (statusCode !== 200) {
-        throw new Error(`Groq API error: ${parsed?.error?.message || `HTTP ${statusCode}`}`);
-    }
-    const text = parsed.choices?.[0]?.message?.content;
-    if (!text) throw new Error('Groq devolvió una respuesta vacía');
-    logTokenUsage('groq', model, usageFromOpenAI(parsed));
-    return text;
-}
 
 /**
  * Llama a la API de Groq y devuelve el texto de la respuesta.
@@ -47,10 +22,14 @@ function _readResponse(statusCode, data, model) {
  * @param {number} params.timeout ms
  * @param {number} params.maxTokens max_tokens reservados en Groq
  * @returns {Promise<string>}
+ * @throws {Error} error HTTP, red, timeout, JSON inválido o respuesta vacía
  */
-function callGroq({ apiKey, model, userPrompt, systemPrompt, timeout, maxTokens }) {
-    return new Promise((resolve, reject) => {
-        const body = JSON.stringify({
+async function callGroq({ apiKey, model, userPrompt, systemPrompt, timeout, maxTokens }) {
+    const { statusCode, body } = await postJson({
+        hostname: GROQ_HOST,
+        path: GROQ_PATH,
+        apiKey,
+        payload: {
             model,
             messages: [
                 { role: 'system', content: systemPrompt },
@@ -58,42 +37,17 @@ function callGroq({ apiKey, model, userPrompt, systemPrompt, timeout, maxTokens 
             ],
             max_tokens: maxTokens,
             temperature: 0.7 // Aumentado desde 0.3 para evitar que el modelo se obsesione matemáticamente con el mismo párrafo iteración tras iteración
-        });
-
-        const options = {
-            hostname: GROQ_HOST,
-            path: GROQ_PATH,
-            method: 'POST',
-            headers: {
-                Authorization: `Bearer ${apiKey}`,
-                'Content-Type': 'application/json',
-                'Content-Length': Buffer.byteLength(body)
-            }
-        };
-
-        const req = https.request(options, res => {
-            let data = '';
-            res.on('data', chunk => {
-                data += chunk;
-            });
-            res.on('end', () => {
-                try {
-                    resolve(_readResponse(res.statusCode, data, model));
-                } catch (e) {
-                    reject(e);
-                }
-            });
-        });
-
-        req.setTimeout(timeout, () => {
-            req.destroy();
-            reject(new Error(`Timeout: Groq no respondió en ${timeout / 1000}s`));
-        });
-
-        req.on('error', err => reject(new Error(`Error de red: ${err.message}`)));
-        req.write(body);
-        req.end();
+        },
+        timeout,
+        label: 'Groq'
     });
+    if (statusCode !== 200) {
+        throw new Error(`Groq API error: ${body?.error?.message || `HTTP ${statusCode}`}`);
+    }
+    const text = body.choices?.[0]?.message?.content;
+    if (!text) throw new Error('Groq devolvió una respuesta vacía');
+    logTokenUsage('groq', model, usageFromOpenAI(body));
+    return text;
 }
 
 module.exports = { callGroq };

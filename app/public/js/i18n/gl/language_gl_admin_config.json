@@ -199,6 +199,8 @@
     "admin.groq.error_delete": "Produciuse un erro ao eliminar.",
     "admin.gemini.title": "IA de Gemini (Google)",
     "admin.gemini.delete_msg": "Queres eliminar a clave da API de Gemini? Se é o provedor activo e non hai alternativa, o xerador de IA deixará de funcionar.",
+    "admin.openai.title": "IA de ChatGPT (OpenAI)",
+    "admin.openai.delete_msg": "Queres eliminar a clave da API de OpenAI? Se é o provedor activo e non hai alternativa, o xerador de IA deixará de funcionar.",
     "admin.ai.settings_subtitle": "Que servizo xera as preguntas",
     "admin.ai.label_provider": "Provedor activo",
     "admin.ai.fallback_label": "Usar outro provedor se o activo falla",

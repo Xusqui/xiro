@@ -1,8 +1,8 @@
 'use strict';
 
 /**
- * @fileoverview Rutas de configuración de los proveedores de IA (Groq, Gemini y Ollama).
- * GET    /api/ai-generator/config           → { provider, fallback, providers: { groq, gemini, ollama } }
+ * @fileoverview Rutas de configuración de los proveedores de IA (Groq, Gemini, OpenAI y Ollama).
+ * GET    /api/ai-generator/config           → { provider, fallback, providers: { groq, gemini, openai, ollama } }
  *                                               cada uno { configured, model, maskedKey }; ollama además baseUrl
  * La URL y el modelo de Ollama se guardan con ollama-routes.js.
  * POST   /api/ai-generator/config           → guarda clave/modelo  body: { provider, apiKey, model }
@@ -69,7 +69,7 @@ router.get('/api/ai-generator/config', authenticateAdmin, (req, res) => {
 
 /**
  * POST /api/ai-generator/config
- * Body: { provider: 'groq'|'gemini', apiKey?: string, model?: string }
+ * Body: { provider: 'groq'|'gemini'|'openai', apiKey?: string, model?: string }
  * Valida y persiste la clave. Sin apiKey, actualiza solo el modelo de una clave ya guardada.
  */
 router.post('/api/ai-generator/config', authenticateAdmin, (req, res) => {
@@ -107,7 +107,7 @@ router.post('/api/ai-generator/config', authenticateAdmin, (req, res) => {
 });
 
 /**
- * DELETE /api/ai-generator/config?provider=groq|gemini|ollama
+ * DELETE /api/ai-generator/config?provider=groq|gemini|openai|ollama
  * Elimina la API key persistida de ese proveedor (en Ollama, la URL).
  */
 router.delete('/api/ai-generator/config', authenticateAdmin, (req, res) => {
@@ -125,7 +125,7 @@ router.delete('/api/ai-generator/config', authenticateAdmin, (req, res) => {
 
 /**
  * PUT /api/ai-generator/config/settings
- * Body: { provider: 'groq'|'gemini'|'ollama', fallback: boolean }
+ * Body: { provider: 'groq'|'gemini'|'openai'|'ollama', fallback: boolean }
  */
 router.put('/api/ai-generator/config/settings', authenticateAdmin, (req, res) => {
     try {

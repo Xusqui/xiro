@@ -223,6 +223,8 @@
     "admin.groq.error_delete": "Error deleting.",
     "admin.gemini.title": "Gemini AI (Google)",
     "admin.gemini.delete_msg": "Delete the Gemini API key? If it is the active provider and there is no fallback, the AI generator will stop working.",
+    "admin.openai.title": "ChatGPT AI (OpenAI)",
+    "admin.openai.delete_msg": "Delete the OpenAI API key? If it is the active provider and there is no fallback, the AI generator will stop working.",
     "admin.ai.settings_subtitle": "Which service generates the questions",
     "admin.ai.label_provider": "Active provider",
     "admin.ai.fallback_label": "Use another provider if the active one fails",

@@ -2,7 +2,7 @@
 
 /**
  * @fileoverview POST /api/ai-generator/music-song: canción para la pestaña «Música» del admin.
- * Body: { prompt: string (1-500), provider?: 'groq'|'gemini'|'ollama', model?: string }
+ * Body: { prompt: string (1-500), provider?: uno de PROVIDERS de ai-config, model?: string }
  * Respuesta: { title, tempo, song: { tonic, mode, chords, motif? }, provider, model, attempts }. El admin
  * rellena la rejilla con ella; no se guarda nada hasta que pulsa «Guardar».
  * Como en las diapositivas con IA, se envían espacios cada 15 s para que el proxy no corte la espera, por
@@ -12,12 +12,12 @@
 const express = require('express');
 const { authenticateAdmin } = require('../../middlewares/auth');
 const { generateMusicSong } = require('./generator');
+const { PROVIDERS } = require('../ai-config');
 const logger = require('../../config/logger');
 
 const router = express.Router();
 const MAX_PROMPT_CHARS = 500;
 const KEEP_ALIVE_MS = 15000;
-const PROVIDERS = ['groq', 'gemini', 'ollama'];
 const MODEL_RE = /^[A-Za-z0-9][A-Za-z0-9._:/-]{0,99}$/;
 
 /** Error de validación de la petición, o null si vale. */

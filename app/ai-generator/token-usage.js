@@ -24,13 +24,17 @@ function _buildUsage(input, output, total) {
 }
 
 /**
- * Formato OpenAI chat/completions (Groq y compatibles): campo usage.
+ * Formato OpenAI chat/completions (OpenAI, Groq y compatibles): campo usage. Los tokens de
+ * razonamiento ya van dentro de completion_tokens; se indican aparte si los hay.
  * @param {Object|null} response - cuerpo parseado
- * @returns {{ input: number, output: number, total: number }|null}
+ * @returns {{ input: number, output: number, total: number, reasoning?: number }|null}
  */
 function usageFromOpenAI(response) {
     const usage = response?.usage;
-    return usage ? _buildUsage(usage.prompt_tokens, usage.completion_tokens, usage.total_tokens) : null;
+    if (!usage) return null;
+    const result = _buildUsage(usage.prompt_tokens, usage.completion_tokens, usage.total_tokens);
+    const reasoning = usage.completion_tokens_details?.reasoning_tokens;
+    return result && isCount(reasoning) && reasoning > 0 ? { ...result, reasoning } : result;
 }
 
 /**

@@ -223,6 +223,8 @@
     "admin.groq.error_delete": "Error al eliminar.",
     "admin.gemini.title": "IA de Gemini (Google)",
     "admin.gemini.delete_msg": "¿Eliminar la API key de Gemini? Si es el proveedor activo y no hay respaldo, el generador IA dejará de funcionar.",
+    "admin.openai.title": "IA de ChatGPT (OpenAI)",
+    "admin.openai.delete_msg": "¿Eliminar la API key de OpenAI? Si es el proveedor activo y no hay respaldo, el generador IA dejará de funcionar.",
     "admin.ai.settings_subtitle": "Qué servicio genera las preguntas",
     "admin.ai.label_provider": "Proveedor activo",
     "admin.ai.fallback_label": "Usar otro proveedor si el activo falla",

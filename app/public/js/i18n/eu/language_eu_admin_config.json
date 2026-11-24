@@ -199,6 +199,8 @@
     "admin.groq.error_delete": "Errore bat gertatu da ezabatzean.",
     "admin.gemini.title": "Gemini adimen artifiziala (Google)",
     "admin.gemini.delete_msg": "Gemini API gakoa ezabatu nahi duzu? Hornitzaile aktiboa bada eta ordezkorik ez badago, AA sorgailuak funtzionatzeari utziko dio.",
+    "admin.openai.title": "ChatGPT adimen artifiziala (OpenAI)",
+    "admin.openai.delete_msg": "OpenAI API gakoa ezabatu nahi duzu? Hornitzaile aktiboa bada eta ordezkorik ez badago, AA sorgailuak funtzionatzeari utziko dio.",
     "admin.ai.settings_subtitle": "Galderak sortzen dituen zerbitzua",
     "admin.ai.label_provider": "Hornitzaile aktiboa",
     "admin.ai.fallback_label": "Erabili beste hornitzaile bat aktiboak huts egiten badu",

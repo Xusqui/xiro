@@ -1,12 +1,13 @@
-# Configuración de la IA (Groq, Gemini y Ollama)
+# Configuración de la IA (Groq, Gemini, OpenAI y Ollama)
 
-El generador de preguntas IA puede usar tres proveedores:
+El generador de preguntas IA puede usar cuatro proveedores:
 
 - [Groq](https://groq.com): nivel gratuito, sin tarjeta de crédito.
 - [Gemini](https://ai.google.dev) (Google AI Studio).
+- [OpenAI](https://platform.openai.com) (ChatGPT): de pago por uso, con API key. Es independiente de la suscripción a ChatGPT Plus/Pro.
 - [Ollama](https://ollama.com): modelos locales en un servidor propio, sin API key.
 
-Se pueden configurar los tres a la vez. Desde el panel se elige cuál es el proveedor activo y si los demás sirven de respaldo.
+Se pueden configurar todos a la vez. Desde el panel se elige cuál es el proveedor activo y si los demás sirven de respaldo.
 
 ## Obtener las API keys
 
@@ -24,6 +25,13 @@ Se pueden configurar los tres a la vez. Desde el panel se elige cuál es el prov
 3. Ve a **Get API key** → **Create API key**
 4. Copia la clave (empieza por `AQ.`)
 
+### OpenAI
+
+1. Ve a [platform.openai.com/api-keys](https://platform.openai.com/api-keys)
+2. Entra con tu cuenta de OpenAI y añade saldo en **Billing** (la API se paga aparte de ChatGPT)
+3. Pulsa **Create new secret key**
+4. Copia la clave (empieza por `sk-`, por ejemplo `sk-proj-…`)
+
 Desde mayo de 2026 Google AI Studio emite «auth keys» que empiezan por `AQ.`. Las claves antiguas `AIza...` dejaron de funcionar en septiembre de 2026, así que Xiro solo acepta el formato `AQ.`.
 
 ## Configurar en Xiro
@@ -32,12 +40,12 @@ Desde mayo de 2026 Google AI Studio emite «auth keys» que empiezan por `AQ.`. 
 2. Ve a **Configuración del Servidor** (icono engranaje)
 3. Haz clic en la pestaña **IA**
 4. Arriba, en **Proveedor activo**, elige el proveedor que generará las preguntas y activa o desactiva el respaldo
-5. En **Conexiones**, abre la fila de cada proveedor que vayas a usar: en Groq o Gemini pega su API key y elige el modelo; en Ollama escribe la URL, pulsa **Cargar modelos** y elige uno (ver [Ollama](#ollama))
+5. En **Conexiones**, abre la fila de cada proveedor que vayas a usar: en Groq, Gemini u OpenAI pega su API key y elige el modelo; en Ollama escribe la URL, pulsa **Cargar modelos** y elige uno (ver [Ollama](#ollama))
 6. Pulsa **Guardar configuración** en la barra inferior. Es el único botón de guardado: envía solo lo que ha cambiado, primero las conexiones y después el proveedor activo. Si algo falla, se para, abre la fila del proveedor con el error y conserva lo escrito
 
 Con una clave ya guardada, el campo aparece vacío con la clave enmascarada como pista: déjalo vacío para mantenerla o escribe otra para sustituirla. **Borrar clave** (dentro de la fila) elimina la conexión al momento, tras confirmar.
 
-En Groq y Gemini, al guardar solo se comprueba el formato de la clave; no se hace ninguna llamada de prueba. En Ollama sí se consulta el servidor.
+En Groq, Gemini y OpenAI, al guardar solo se comprueba el formato de la clave; no se hace ninguna llamada de prueba. En Ollama sí se consulta el servidor.
 
 Todo se guarda en `app/ai-generator/groq-key.json` dentro del contenedor. El nombre se mantiene por compatibilidad con los bind mounts de `docker-compose.yml` y `docker-compose.deploy.yml`. Formato:
 
@@ -47,6 +55,7 @@ Todo se guarda en `app/ai-generator/groq-key.json` dentro del contenedor. El nom
   "fallback": true,
   "groq":   { "apiKey": "gsk_...", "model": "llama-3.3-70b-versatile" },
   "gemini": { "apiKey": "AQ....",  "model": "gemini-3.5-flash-lite" },
+  "openai": { "apiKey": "sk-...",  "model": "gpt-6-luna" },
   "ollama": { "baseUrl": "http://192.168.1.10:11434", "model": "qwen3:8b", "apiKey": "opcional" }
 }
 ```
@@ -54,7 +63,7 @@ Todo se guarda en `app/ai-generator/groq-key.json` dentro del contenedor. El nom
 El formato antiguo (`{ "apiKey", "model" }` en la raíz, solo Groq) se lee como la configuración de Groq y se reescribe con el formato nuevo en el siguiente guardado.  
 Las claves **nunca** se exponen en logs, respuestas HTTP (solo enmascaradas) ni variables de entorno.
 
-Valores por defecto: proveedor activo `groq`, respaldo activado, modelo de Gemini `gemini-3.5-flash-lite`, modelo de Groq `GROQ_MODEL` o `llama-3.3-70b-versatile`.
+Valores por defecto: proveedor activo `groq`, respaldo activado, modelo de Gemini `gemini-3.5-flash-lite`, modelo de OpenAI `gpt-6-luna`, modelo de Groq `GROQ_MODEL` o `llama-3.3-70b-versatile`.
 
 ### Modelos de Groq
 
@@ -76,7 +85,18 @@ Valores por defecto: proveedor activo `groq`, respaldo activado, modelo de Gemin
 | `gemini-3.8-flash` | El Flash más potente |
 | `gemini-3.1-pro-preview` | Máxima calidad; en preview, puede cambiar o retirarse |
 
-La lista de modelos de Groq y Gemini vive en `AI_PROVIDER_META` (`public/js/admin/modules/config-ui.js`). Si un modelo deja de existir, basta con editarla.
+### Modelos de OpenAI
+
+Precios por millón de tokens (entrada / salida) a noviembre de 2026. Los cuatro razonan; Xiro les pide razonamiento bajo.
+
+| Modelo | Notas | Precio |
+|--------|-------|--------|
+| `gpt-6-luna` | El más rápido y económico (por defecto) | $0,10 / $0,50 |
+| `gpt-6.1-terra` | Rápido, equilibrado | $1 / $5 |
+| `gpt-6.2-sol` | Uso general, alta calidad | $2 / $10 |
+| `gpt-6.2-astra` | Máxima calidad | $8 / $40 |
+
+La lista de modelos de Groq, Gemini y OpenAI vive en `AI_PROVIDER_META` (`public/js/admin/modules/config-ui.js`). Si un modelo deja de existir, basta con editarla.
 
 ## Ollama
 
@@ -143,7 +163,7 @@ Con HTTP plano la clave viaja sin cifrar: por Internet, usa siempre `https://`. 
 
 ## Respaldo automático (fallback)
 
-Si está activado, el respaldo es el primer **otro** proveedor configurado, por este orden: Groq, Gemini, Ollama.
+Si está activado, el respaldo es el primer **otro** proveedor configurado, por este orden: Groq, Gemini, OpenAI, Ollama.
 
 - Si un lote de preguntas no sale con el proveedor activo tras sus reintentos (error, respuesta inválida o timeout), ese lote se repite con el de respaldo.
 - Si el proveedor activo devuelve un límite de uso (`429`), no se espera: el lote pasa directamente al de respaldo.
@@ -159,8 +179,9 @@ Para garantizar estabilidad y evitar que la API corte el texto JSON (`Expected '
 1. **Lotes Pequeños (Batching):** Se piden un máximo de 3 preguntas simultáneas a la IA.
 2. **Límite de Ingesta:** El PDF subido se limpia y trunca a 11.000 caracteres como máximo para no asfixiar el prompt. Si el modelo localiza apartados valiosos (como "Conclusiones" o "Summary" en varios idiomas), los incluye dinámicamente frente al texto central.
 3. **Memoria Anti-Repetición:** El backend guarda un registro de las preguntas de lotes anteriores y obliga a la IA a diversificarse y no repetir contenidos semánticos en las siguientes iteraciones. Con Groq se usa una temperatura de 0.7; con Gemini se deja la de por defecto, como recomienda Google para los modelos Gemini 3.
-4. **Auto-Reversión (Retries Inteligentes):** Si el proveedor devuelve un `429 Rate Limit`, `controller.js` (`getRateLimitWaitTime` + `handleBatchError`) lee los segundos de espera recomendados y "duerme" ese proceso el tiempo justo antes de reintentar el mismo lote, sin contar ese reintento como intento fallido. `gemini-client.js` traduce el `retryDelay` de Gemini al mismo texto que usa Groq.
+4. **Auto-Reversión (Retries Inteligentes):** Si el proveedor devuelve un `429 Rate Limit`, `controller.js` (`getRateLimitWaitTime` + `handleBatchError`) lee los segundos de espera recomendados y "duerme" ese proceso el tiempo justo antes de reintentar el mismo lote, sin contar ese reintento como intento fallido. `gemini-client.js` traduce el `retryDelay` de Gemini y `openai-client.js` la cabecera `Retry-After` de OpenAI al mismo texto que usa Groq. El 429 de OpenAI por saldo agotado (`insufficient_quota`) no se espera: es un error.
 5. **JSON garantizado en Gemini:** se pide `responseMimeType: application/json`. No se fija `maxOutputTokens` porque en los modelos con razonamiento ese límite incluye los tokens de pensamiento y cortaría la respuesta.
+6. **OpenAI:** Chat Completions con `reasoning_effort: "low"`, el único valor que aceptan los cuatro modelos (`none` lo rechazan Sol y Astra) y que contiene el gasto en tokens de razonamiento, que se cobran como salida. Sin `max_completion_tokens` (incluye el razonamiento y cortaría el JSON, como en Gemini), sin `temperature` y sin `response_format: json_object` (obliga a devolver un objeto y las preguntas se piden como array).
 
 ## Arquitectura
 
@@ -173,8 +194,11 @@ ollama-routes.js     → GET /api/ai-generator/ollama/models (modelos instalados
 controller.js        → orquesta los bucles de lotes de 3 (BATCH_SIZE), inyección de memoria histórica (preguntas previas excluidas en el prompt), reintentos ante rate limit / timeout y el paso al proveedor de respaldo.
 ai-client.js         → callLLM(provider, ...): elige el cliente según el proveedor; checkAIStatus().
 ai-config.js         → persiste proveedor activo, respaldo, claves y modelos en groq-key.json; getProviderPlan() decide principal y respaldo.
-ai-validator.js      → valida el formato de las claves (gsk_ / AQ.) y del nombre del modelo.
-groq-client.js       → HTTP a api.groq.com (módulo https nativo con Temperature adaptada a 0.7).
+ai-validator.js      → valida el formato de las claves (gsk_ / AQ. / sk-) y del nombre del modelo.
+https-json.js        → POST JSON por HTTPS compartido por los clientes compatibles con OpenAI (timeout, errores de red y JSON inválido).
+groq-client.js       → HTTP a api.groq.com (temperatura 0.7).
+openai-client.js     → HTTP a api.openai.com (chat/completions, razonamiento bajo).
+token-usage.js       → deja en el log los tokens de entrada, salida y total de cada llamada.
 gemini-client.js     → HTTP a generativelanguage.googleapis.com (generateContent, cabecera x-goog-api-key).
 ollama-client.js     → HTTP(S) al servidor Ollama: /api/chat (callOllama) y /api/tags (listOllamaModels); normalizeBaseUrl valida la URL.
 prompt-builder.js    → diseña la estructura agnóstica para extraer preguntas únicas; aquí vive el límite de 11.000 caracteres (MAX_DOC_CHARS).
@@ -199,7 +223,7 @@ No se admiten el `.doc` binario antiguo (se pide guardarlo como .docx) ni las ho
 
 ```
 public/js/admin/modules/config-ui.js            → pestaña "IA" en el panel de configuración (fuera de app/ai-generator/): proveedor activo, respaldo y barra de guardado.
-public/js/admin/modules/config-ui-providers.js  → filas plegables de proveedor; cuerpo de Groq y Gemini (API key y modelo).
+public/js/admin/modules/config-ui-providers.js  → filas plegables de proveedor; cuerpo de Groq, Gemini y OpenAI (API key y modelo).
 public/js/admin/modules/config-ui-ollama.js     → fila de Ollama: URL, API key opcional y carga de modelos instalados.
 public/js/admin/modules/config-ui-save.js       → guardado único: detecta cambios y llama a los endpoints en orden.
 public/css/admin-ai-config.css                  → estilos de la pestaña.

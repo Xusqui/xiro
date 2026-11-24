@@ -1,7 +1,7 @@
 /**
  * @fileoverview Filas plegables de proveedor en la pestaña "IA" del panel de configuración.
  * _renderAIRow pinta la fila común (cabecera con estado, cuerpo, borrar, error) y
- * _renderAIProviderRow el cuerpo de los proveedores en la nube (Groq, Gemini): API key y modelo.
+ * _renderAIProviderRow el cuerpo de los proveedores en la nube (Groq, Gemini, OpenAI): API key y modelo.
  * La clave guardada nunca se muestra en el campo: se indica enmascarada en el placeholder
  * y, si se deja vacío, el servidor conserva la guardada.
  * Depende de: config-ui.js (AI_PROVIDER_META) cargado previamente.
@@ -52,7 +52,7 @@ function _renderAIRow(provider, info, isActive, parts) {
         </details>`;
 }
 
-/** Fila de Groq o Gemini. */
+/** Fila de un proveedor en la nube (Groq, Gemini u OpenAI). */
 function _renderAIProviderRow(provider, info, isActive) {
     const meta = AI_PROVIDER_META[provider];
     const model = info.model || meta.models[0].id;

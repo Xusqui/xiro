@@ -1,15 +1,16 @@
 'use strict';
 
 /**
- * @fileoverview Persiste la configuración de los proveedores de IA (Groq, Gemini y Ollama)
+ * @fileoverview Persiste la configuración de los proveedores de IA (Groq, Gemini, OpenAI y Ollama)
  * en groq-key.json. El nombre se conserva porque docker-compose lo monta como
  * fichero suelto; cambiarlo obligaría a tocar los despliegues.
  * Las claves NUNCA se almacenan en variables de entorno ni en docker-compose.
  *
  * Formato:
- *   { provider: 'groq'|'gemini'|'ollama', fallback: bool,
+ *   { provider: 'groq'|'gemini'|'openai'|'ollama', fallback: bool,
  *     groq:   { apiKey, model },
  *     gemini: { apiKey, model },
+ *     openai: { apiKey, model },
  *     ollama: { baseUrl, model, apiKey? } }
  * En Ollama la API key es opcional (proxy con autenticación u Ollama Cloud):
  * se considera configurado cuando tiene URL y modelo.
@@ -22,18 +23,19 @@ const path = require('path');
 const KEY_FILE = path.join(__dirname, 'groq-key.json');
 
 // El orden marca la preferencia al elegir el proveedor de respaldo
-const PROVIDERS = ['groq', 'gemini', 'ollama'];
+const PROVIDERS = ['groq', 'gemini', 'openai', 'ollama'];
 const DEFAULT_PROVIDER = 'groq';
 const DEFAULT_FALLBACK = true;
 const DEFAULT_MODELS = {
     groq: () => process.env.GROQ_MODEL || 'llama-3.3-70b-versatile',
     gemini: () => 'gemini-3.5-flash-lite',
+    openai: () => 'gpt-6-luna', // el más económico de los modelos de texto actuales
     ollama: () => null // depende de los modelos instalados en el servidor Ollama
 };
 
 /**
  * Indica si el proveedor de IA es uno de los admitidos.
- * @param {'groq'|'gemini'|'ollama'|string} provider - Proveedor
+ * @param {'groq'|'gemini'|'openai'|'ollama'|string} provider - Proveedor
  * @returns {boolean}
  */
 function isValidProvider(provider) {
@@ -61,6 +63,7 @@ function _load() {
         fallback: typeof raw.fallback === 'boolean' ? raw.fallback : DEFAULT_FALLBACK,
         groq,
         gemini: { ...(raw.gemini || {}) },
+        openai: { ...(raw.openai || {}) },
         ollama: { ...(raw.ollama || {}) }
     };
 }
@@ -94,7 +97,7 @@ function setSettings({ provider, fallback }) {
 
 /**
  * Clave de API guardada del proveedor.
- * @param {'groq'|'gemini'|'ollama'|string} provider - Proveedor
+ * @param {'groq'|'gemini'|'openai'|'ollama'|string} provider - Proveedor
  * @returns {string|null}
  */
 function getApiKey(provider) {
@@ -104,7 +107,7 @@ function getApiKey(provider) {
 
 /**
  * URL base de Ollama; null en cualquier otro proveedor.
- * @param {'groq'|'gemini'|'ollama'|string} provider - Proveedor
+ * @param {'groq'|'gemini'|'openai'|'ollama'|string} provider - Proveedor
  * @returns {string|null}
  */
 function getBaseUrl(provider) {
@@ -114,7 +117,7 @@ function getBaseUrl(provider) {
 
 /**
  * Indica si el proveedor se puede usar: clave de API o, en Ollama, URL y modelo.
- * @param {'groq'|'gemini'|'ollama'|string} provider - Proveedor
+ * @param {'groq'|'gemini'|'openai'|'ollama'|string} provider - Proveedor
  * @returns {boolean}
  */
 function isConfigured(provider) {
@@ -124,7 +127,7 @@ function isConfigured(provider) {
 
 /**
  * Modelo configurado del proveedor o su modelo por defecto.
- * @param {'groq'|'gemini'|'ollama'|string} provider - Proveedor
+ * @param {'groq'|'gemini'|'openai'|'ollama'|string} provider - Proveedor
  * @returns {string|null} null si el proveedor no es válido
  */
 function getModel(provider) {
@@ -134,7 +137,7 @@ function getModel(provider) {
 
 /**
  * Guarda la clave de API del proveedor y, si se indica, su modelo.
- * @param {'groq'|'gemini'|'ollama'|string} provider - Proveedor
+ * @param {'groq'|'gemini'|'openai'|'ollama'|string} provider - Proveedor
  * @param {string} key - Clave de API
  * @param {string|null} [model=null] - Modelo
  * @returns {void}
