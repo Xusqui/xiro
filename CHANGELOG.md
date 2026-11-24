@@ -2,6 +2,9 @@
 
 ## 3.16.x
 
+### 3.16.2 — 2026-11-24 · `v3.16.2`
+- **Hotspot:** Añadir preguntas hotspot a schema.json y al prompt para IA
+
 ### 3.16.1 — 2026-11-24 · `v3.16.1`
 - **Mezcla de bancos:** Añadir un botón nuevo para añadir bancos en la parte de abajo para no tener que estar subiendo y bajando la pantalla cuando hay muchos bancos para mezclar
 
