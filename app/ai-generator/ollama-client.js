@@ -20,6 +20,7 @@
 
 const http = require('http');
 const https = require('https');
+const { usageFromOllama, logTokenUsage } = require('./token-usage');
 
 const MIN_TIMEOUT = 300000;
 const LIST_TIMEOUT = 10000;
@@ -146,6 +147,7 @@ async function callOllama({ baseUrl, apiKey, model, userPrompt, systemPrompt, ti
     // Versiones antiguas de Ollama dejan el razonamiento dentro de content
     const text = (parsed.message?.content || '').replace(THINK_BLOCK, '').trim();
     if (!text) throw new Error(`Ollama devolvió una respuesta vacía${_emptyReason(parsed)}`);
+    logTokenUsage('ollama', model, usageFromOllama(parsed));
     return text;
 }
 

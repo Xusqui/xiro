@@ -7,9 +7,35 @@
  */
 
 const https = require('https');
+const { usageFromOpenAI, logTokenUsage } = require('./token-usage');
 
 const GROQ_HOST = 'api.groq.com';
 const GROQ_PATH = '/openai/v1/chat/completions';
+
+/**
+ * Interpreta el cuerpo de Groq: texto de la respuesta, o error con el motivo.
+ * Deja en el log los tokens gastados.
+ * @param {number} statusCode
+ * @param {string} data - cuerpo sin parsear
+ * @param {string} model
+ * @returns {string}
+ * @throws {Error} JSON inválido, error HTTP o respuesta vacía
+ */
+function _readResponse(statusCode, data, model) {
+    let parsed;
+    try {
+        parsed = JSON.parse(data);
+    } catch (e) {
+        throw new Error(`Error parseando respuesta de Groq: ${e.message}`);
+    }
+    if (statusCode !== 200) {
+        throw new Error(`Groq API error: ${parsed?.error?.message || `HTTP ${statusCode}`}`);
+    }
+    const text = parsed.choices?.[0]?.message?.content;
+    if (!text) throw new Error('Groq devolvió una respuesta vacía');
+    logTokenUsage('groq', model, usageFromOpenAI(parsed));
+    return text;
+}
 
 /**
  * Llama a la API de Groq y devuelve el texto de la respuesta.
@@ -52,16 +78,9 @@ function callGroq({ apiKey, model, userPrompt, systemPrompt, timeout, maxTokens 
             });
             res.on('end', () => {
                 try {
-                    const parsed = JSON.parse(data);
-                    if (res.statusCode !== 200) {
-                        const msg = parsed.error?.message || `HTTP ${res.statusCode}`;
-                        return reject(new Error(`Groq API error: ${msg}`));
-                    }
-                    const text = parsed.choices?.[0]?.message?.content;
-                    if (!text) return reject(new Error('Groq devolvió una respuesta vacía'));
-                    resolve(text);
+                    resolve(_readResponse(res.statusCode, data, model));
                 } catch (e) {
-                    reject(new Error(`Error parseando respuesta de Groq: ${e.message}`));
+                    reject(e);
                 }
             });
         });

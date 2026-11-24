@@ -11,6 +11,7 @@
  */
 
 const https = require('https');
+const { usageFromGemini, logTokenUsage } = require('./token-usage');
 
 const GEMINI_HOST = 'generativelanguage.googleapis.com';
 
@@ -106,7 +107,9 @@ function callGemini({ apiKey, model, userPrompt, systemPrompt, timeout }) {
                     return reject(_buildHttpError(res.statusCode, parsed));
                 }
                 try {
-                    resolve(_extractText(parsed));
+                    const text = _extractText(parsed);
+                    logTokenUsage('gemini', model, usageFromGemini(parsed));
+                    resolve(text);
                 } catch (e) {
                     reject(e);
                 }
