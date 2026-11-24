@@ -2,6 +2,9 @@
 
 ## 3.16.x
 
+### 3.16.1 — 2026-11-24 · `v3.16.1`
+- **Mezcla de bancos:** Añadir un botón nuevo para añadir bancos en la parte de abajo para no tener que estar subiendo y bajando la pantalla cuando hay muchos bancos para mezclar
+
 ### 3.16.0 — 2026-11-23 · `v3.16.0`
 - Auditoría visual revisada
 - **Música:** Añadir pianos a la reproducción de la melodía
