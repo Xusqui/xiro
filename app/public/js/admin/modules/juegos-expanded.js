@@ -187,6 +187,11 @@ async function renderEditorJuego(game) {
     const allBanks = await getAllBanksWithCounts();
     poolQuestionCountInicial = game.pool_question_count ?? null;
 
+    const addBankButton = `
+        <button type="button" data-admin-click="añadirBancoAlJuego()" class="bg-green-600 text-white px-5 py-2 rounded-xl text-sm font-bold hover:bg-green-700 shadow-md transition transform active:scale-95">
+            <i class="fas fa-plus mr-2"></i> ${_t('admin.games.btn_add_bank', null, 'Añadir Banco')}
+        </button>`;
+
     const area = document.getElementById('editorArea');
     area.innerHTML = _tHtml(`
         ${renderEditorHeader(_gameHeaderConfig(game))}
@@ -195,13 +200,12 @@ async function renderEditorJuego(game) {
             <div class="bg-white rounded-2xl shadow-sm p-8 mb-8 border border-slate-200">
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-xl font-black text-slate-700 uppercase">${_t('admin.banks.title', null, 'Bancos de Preguntas')}</h3>
-                    <button data-admin-click="añadirBancoAlJuego()" class="bg-green-600 text-white px-5 py-2 rounded-xl text-sm font-bold hover:bg-green-700 shadow-md transition transform active:scale-95">
-                        <i class="fas fa-plus mr-2"></i> ${_t('admin.games.btn_add_bank', null, 'Añadir Banco')}
-                    </button>
+                    ${addBankButton}
                 </div>
                 <div id="listaBancosJuego" class="space-y-3"></div>
                 ${allBanks.length === 0 ? `<p class="text-slate-400 text-sm italic">${_t('admin.games.no_banks', null, 'No hay bancos disponibles. Crea uno primero.')}</p>` : ''}
                 <div id="poolTotalWrapper"></div>
+                <div class="flex justify-end mt-4">${addBankButton}</div>
             </div>
 
             ${renderSaveBar(_t('admin.savebar.btn_save_changes'))}
