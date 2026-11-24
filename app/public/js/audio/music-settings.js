@@ -9,22 +9,33 @@
  * Export dual (Jest/Node con require; navegador en self.XiroMusic.settings). En el
  * navegador lee self.XiroMusic.sampleMap y theory al usarse, no al cargarse.
  */
-(function (root, factory) {
+(function (root, validationFactory, normalizeFactory) {
+    function build(sampleMap, theory, motif) {
+        const validation = validationFactory(sampleMap, theory, motif);
+        const normalization = normalizeFactory(validation.api, validation.helpers, motif);
+        Object.keys(normalization).forEach(name => {
+            validation.api[name] = normalization[name];
+        });
+        return validation.api;
+    }
     if (typeof module !== 'undefined' && module.exports) {
-        module.exports = factory(
+        module.exports = build(
             () => module.require('./music-sample-map.js'),
             () => module.require('./music-theory.js'),
             () => module.require('./music-motif.js')
         );
     } else {
         root.XiroMusic = root.XiroMusic || {};
-        root.XiroMusic.settings = factory(
+        root.XiroMusic.settings = build(
             () => root.XiroMusic.sampleMap,
             () => root.XiroMusic.theory,
             () => root.XiroMusic.motif
         );
     }
-})(typeof self !== 'undefined' ? self : this, function (sampleMap, theory, motifModule) {
+})(
+    typeof self !== 'undefined' ? self : this,
+    /** Constantes, valores por defecto y validación estricta (firstError, songError). */
+    function (sampleMap, theory, motifModule) {
     'use strict';
 
     const LAYERS = ['pad', 'brass', 'piano', 'bass', 'drums', 'arp', 'melody'];
@@ -144,16 +155,6 @@
         return song.motif === undefined ? null : motifModule().motifError(song.motif);
     }
 
-    function copySong(song) {
-        const copy = {
-            tonic: song.tonic,
-            mode: song.mode,
-            chords: song.chords.map(chord => ({ bar: chord.bar, root: chord.root, quality: chord.quality }))
-        };
-        if (song.motif !== undefined) copy.motif = motifModule().copyMotif(song.motif);
-        return copy;
-    }
-
     /** Primer problema de `raw` (texto) o null si es válido. Las claves ausentes valen. */
     function firstError(raw) {
         if (!isObject(raw)) return 'Los ajustes de música deben ser un objeto';
@@ -168,6 +169,42 @@
         if (raw.mix !== undefined && mixError(raw.mix)) return mixError(raw.mix);
         if (raw.song !== undefined && songError(raw.song)) return songError(raw.song);
         return seedError(raw);
+    }
+
+    const api = {
+        LAYERS,
+        LAYER_DB,
+        TICK_SOUNDS,
+        SOUND_GROUPS,
+        SEED_MODES,
+        TEMPO,
+        DB,
+        VOLUME,
+        SONG_MODES,
+        SONG_MAX_CHORDS,
+        soundOptions,
+        defaults,
+        firstError,
+        songError
+    };
+    // helpers: privados, solo para la normalización (no se exportan)
+    return { api, helpers: { isObject, inRange, SEED_PATTERN } };
+    },
+    /** Normalización tolerante de lo guardado y utilidades de partida (semilla, tempo). */
+    function (validation, helpers, motifModule) {
+    'use strict';
+
+    const { LAYERS, TICK_SOUNDS, SOUND_GROUPS, TEMPO, DB, VOLUME, soundOptions, defaults, songError } = validation;
+    const { isObject, inRange, SEED_PATTERN } = helpers;
+
+    function copySong(song) {
+        const copy = {
+            tonic: song.tonic,
+            mode: song.mode,
+            chords: song.chords.map(chord => ({ bar: chord.bar, root: chord.root, quality: chord.quality }))
+        };
+        if (song.motif !== undefined) copy.motif = motifModule().copyMotif(song.motif);
+        return copy;
     }
 
     function normalizeMix(out, mix) {
@@ -212,23 +249,6 @@
         return (settings && settings.tempo ? settings.tempo : TEMPO.base) / TEMPO.base;
     }
 
-    return {
-        LAYERS,
-        LAYER_DB,
-        TICK_SOUNDS,
-        SOUND_GROUPS,
-        SEED_MODES,
-        TEMPO,
-        DB,
-        VOLUME,
-        SONG_MODES,
-        SONG_MAX_CHORDS,
-        soundOptions,
-        defaults,
-        firstError,
-        normalize,
-        seedFor,
-        tempoScale,
-        songError
-    };
-});
+    return { normalize, seedFor, tempoScale };
+    }
+);

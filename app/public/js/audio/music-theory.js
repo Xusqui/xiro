@@ -9,15 +9,22 @@
  *
  * Export dual (Jest con require; navegador en self.XiroMusic.theory).
  */
-(function (root, factory) {
-    const api = factory();
+(function (root, scaleFactory, absoluteFactory) {
+    const api = scaleFactory();
+    const absolute = absoluteFactory(api);
+    Object.keys(absolute).forEach(function (name) {
+        api[name] = absolute[name];
+    });
     if (typeof module !== 'undefined' && module.exports) {
         module.exports = api;
     } else {
         root.XiroMusic = root.XiroMusic || {};
         root.XiroMusic.theory = api;
     }
-})(typeof self !== 'undefined' ? self : this, function () {
+})(
+    typeof self !== 'undefined' ? self : this,
+    /** Escalas, acordes por grados, progresiones y enlace de voces. */
+    function () {
     'use strict';
 
     const PPQ = 192;
@@ -47,24 +54,6 @@
 
     // Tónicas posibles (MIDI, octava 4)
     const KEY_ROOTS = [60, 62, 65, 67];
-
-    // Calidades de acorde absolutas (nota raíz + calidad): semitonos desde la raíz.
-    // El índice 2 es siempre la quinta (la usa el bajo).
-    const QUALITIES = {
-        maj: [0, 4, 7],
-        min: [0, 3, 7],
-        maj7: [0, 4, 7, 11],
-        min7: [0, 3, 7, 10],
-        dom7: [0, 4, 7, 10],
-        sus2: [0, 2, 7],
-        sus4: [0, 5, 7],
-        add9: [0, 4, 7, 14],
-        six: [0, 4, 7, 9],
-        dim: [0, 3, 6],
-        aug: [0, 4, 8],
-        m7b5: [0, 3, 6, 10]
-    };
-    const ABSOLUTE_BASE = 60; // MIDI de la raíz Do de los acordes absolutos (octava 4)
 
     const c = (d, k) => ({ d: d, k: k });
 
@@ -177,6 +166,43 @@
         return best || fitToRange(chordNotes, low, high);
     }
 
+    return {
+        PPQ, STEP_TICKS, STEPS_PER_BAR, BAR_TICKS, TRIPLET_TICKS,
+        MODES, CHORD_SHAPES, KEY_ROOTS, PROGRESSIONS,
+        midiToName, degreeToMidi, isInScale, degreeRange, chordDegrees, chordMidi,
+        fitToRange, isChordTone, voiceLead
+    };
+    },
+    /**
+     * Acordes absolutos (raíz 0-11 + calidad) de las canciones del admin, sobre la
+     * teoría por grados de la primera factory.
+     */
+    function (scale) {
+    'use strict';
+
+    const MODES = scale.MODES;
+    const degreeToMidi = scale.degreeToMidi;
+    const chordMidi = scale.chordMidi;
+    const isChordTone = scale.isChordTone;
+
+    // Calidades de acorde absolutas (nota raíz + calidad): semitonos desde la raíz.
+    // El índice 2 es siempre la quinta (la usa el bajo).
+    const QUALITIES = {
+        maj: [0, 4, 7],
+        min: [0, 3, 7],
+        maj7: [0, 4, 7, 11],
+        min7: [0, 3, 7, 10],
+        dom7: [0, 4, 7, 10],
+        sus2: [0, 2, 7],
+        sus4: [0, 5, 7],
+        add9: [0, 4, 7, 14],
+        six: [0, 4, 7, 9],
+        dim: [0, 3, 6],
+        aug: [0, 4, 8],
+        m7b5: [0, 3, 6, 10]
+    };
+    const ABSOLUTE_BASE = 60; // MIDI de la raíz Do de los acordes absolutos (octava 4)
+
     /** Grado de la escala más cercano por debajo de la nota (clase 0-11) en la tonalidad. */
     function degreeBelow(key, pitchClass) {
         const relative = (((pitchClass - key.root) % 12) + 12) % 12;
@@ -233,11 +259,6 @@
         return { root: ABSOLUTE_BASE + major, mode: 'ionian' };
     }
 
-    return {
-        PPQ, STEP_TICKS, STEPS_PER_BAR, BAR_TICKS, TRIPLET_TICKS,
-        MODES, CHORD_SHAPES, KEY_ROOTS, PROGRESSIONS,
-        midiToName, degreeToMidi, isInScale, degreeRange, chordDegrees, chordMidi,
-        fitToRange, isChordTone, voiceLead,
-        QUALITIES, ABSOLUTE_BASE, absoluteChord, chordNotes, chordRootMidi, isChordToneOf, sameChord, songKey
-    };
-});
+    return { QUALITIES, ABSOLUTE_BASE, absoluteChord, chordNotes, chordRootMidi, isChordToneOf, sameChord, songKey };
+    }
+);
