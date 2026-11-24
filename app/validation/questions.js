@@ -128,7 +128,7 @@ const questionSchema = Joi.object({
         'number.positive': 'El límite de tolerancia debe ser mayor a 0'
     }),
     ...hotspotFields,
-    hint: Joi.string().max(300).allow(null, '').optional(),
+    hint: Joi.string().max(LIMITS.HINT_MAX).allow(null, '').optional(),
     justification: Joi.string().max(LIMITS.JUSTIFICATION_MAX).allow(null, '').optional(),
     mc_points_per_correct: Joi.number()
         .integer()
