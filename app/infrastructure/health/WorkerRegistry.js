@@ -15,6 +15,31 @@ class WorkerRegistry {
         this._client = null;
         this._intervalId = null;
         this._startedAt = new Date().toISOString();
+        this._statsProvider = null;
+    }
+
+    /**
+     * Registra la función que aporta las estadísticas de carga de este worker.
+     * @param {(() => Object)|null} provider - Ver infrastructure/health/worker-stats.js
+     */
+    setStatsProvider(provider) {
+        this._statsProvider = typeof provider === 'function' ? provider : null;
+    }
+
+    /**
+     * Publica ya la presencia y estadísticas de este worker, sin esperar al intervalo.
+     * Se usa antes de leer el agregado para que el worker que responde no aporte datos de hace 20 s.
+     * @returns {Promise<boolean>} true si se publicó; false si el registro no está iniciado o Redis falló
+     */
+    async refreshNow() {
+        if (!this._client) return false;
+        try {
+            await this._refresh();
+            return true;
+        } catch (error) {
+            logger.warn('Worker registry immediate refresh failed', { error: error.message });
+            return false;
+        }
     }
 
     async start() {
@@ -110,11 +135,25 @@ class WorkerRegistry {
     }
 
     _payload() {
-        return {
+        const payload = {
             pid: process.pid,
             instance: process.env.NODE_APP_INSTANCE || null,
             startedAt: this._startedAt
         };
+        const stats = this._collectStats();
+        if (stats) payload.stats = stats;
+        return payload;
+    }
+
+    _collectStats() {
+        if (!this._statsProvider) return null;
+        try {
+            return this._statsProvider();
+        } catch (error) {
+            // Sin estadísticas el worker sigue contando como vivo; el agregado lo marca como no informado
+            logger.warn('Worker stats provider failed', { error: error.message });
+            return null;
+        }
     }
 }
 

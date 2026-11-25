@@ -14,6 +14,7 @@ const metrics = require('../state/metrics');
 const { rateLimiter } = require('../middlewares/rateLimiter');
 const healthCheckService = require('../infrastructure/health/HealthCheckService');
 const workerRegistry = require('../infrastructure/health/WorkerRegistry');
+const { aggregateWorkerStats } = require('../infrastructure/health/worker-stats');
 const { getLogsBufferService } = require('../services/logs-buffer.service');
 const { authenticateAdmin, authorizeAdmin } = require('../middlewares/auth');
 const { version: APP_VERSION } = require('../package.json');
@@ -223,7 +224,9 @@ function buildApiHealthPayload({
             instance: process.env.NODE_APP_INSTANCE || null,
             pid: process.pid
         },
-        performance: performanceHealth(appMetrics)
+        performance: performanceHealth(appMetrics),
+        // games/players/memory de arriba son del worker que responde; cluster suma todos (ver worker-stats.js)
+        cluster: aggregateWorkerStats(workerList)
     };
 }
 
@@ -268,6 +271,7 @@ router.get('/api/health', authenticateAdmin, authorizeAdmin, async (req, res) =>
         const cacheStats = questionBankCache.getStats();
         const rateLimitStats = rateLimiter.getStats();
         const appMetrics = metrics.getMetrics();
+        await workerRegistry.refreshNow();
         const activeWorkers = await workerRegistry.getActiveCount();
         const workerList = await workerRegistry.listActiveWorkers();
         const timerStats = timerManager.getStats();

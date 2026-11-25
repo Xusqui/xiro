@@ -75,6 +75,7 @@ const AckManager = require('./sockets/services/AckManager');
 const healthCheckService = require('./infrastructure/health/HealthCheckService');
 const { sendInstallPing } = require('./services/telemetry.service');
 const workerRegistry = require('./infrastructure/health/WorkerRegistry');
+const { createLocalStatsProvider } = require('./infrastructure/health/worker-stats');
 const { registerShutdownHandlers } = require('./infrastructure/shutdown/GracefulShutdown');
 
 // ===== INICIALIZACIÓN DE EXPRESS =====
@@ -265,6 +266,7 @@ registerShutdownHandlers({ server, io, pool, ackManager });
 async function main() {
     try {
         await startServer();
+        workerRegistry.setStatsProvider(createLocalStatsProvider(io));
         await workerRegistry.start();
         if (isMasterWorker) startAdminTokenCleanup();
 
