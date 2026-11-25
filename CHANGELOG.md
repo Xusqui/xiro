@@ -2,6 +2,27 @@
 
 ## 3.16.x
 
+### 3.16.4 — 2026-11-25 · `v3.16.4`
+- **Widget de métricas:** Iniciar sesión como admin antes de leer /api/health y /api/metrics
+  - El widget de Scriptable llamaba a las dos rutas sin token y el servidor
+  - registraba un 401 NO_TOKEN en cada refresco. Ahora pide una cuenta admin
+  - la primera vez, la guarda en el Keychain de iOS, inicia sesión con
+  - /api/admin-login y envía el JWT como Bearer. Vuelve a iniciar sesión
+  - antes de que caduque el token y reintenta una vez si recibe un 401.
+- **Health:** Agregar en /api/health las cifras de todos los workers PM2
+  - Jugadores, partidas, salas y memoria eran solo del worker que respondía.
+  - Cada worker publica en su entrada de WorkerRegistry los sockets de jugador
+  - que tiene conectados y los ids de las salas donde está el presentador.
+  - /api/health devuelve el agregado en el campo cluster, que une los ids sin
+  - repetir porque activeGames y players se replican entre workers.
+- **Widget de métricas:** Rediseño con estado global, camaleón y 10 idiomas
+  - Titular con el primer problema concreto y 4 cifras del cluster. El color
+  - solo marca estado. Muestra los últimos datos atenuados cuando no hay
+  - conexión. Diseños para los tamaños pequeño, mediano y grande y para la
+  - pantalla de bloqueo. Al tocarlo abre el detalle en Scriptable. Mascota
+  - según el estado (PNG generados desde los SVG de chamaleon, porque iOS no
+  - dibuja SVG).
+
 ### 3.16.3 — 2026-11-24 · `v3.16.3`
 - **IA:** Registrar en el log los tokens de entrada, salida y totales de cada llamada
   - Groq, Gemini y Ollama dejan una línea info con el consumo de cada llamada correcta. En Gemini los tokens de razonamiento cuentan como salida y se indican aparte.
