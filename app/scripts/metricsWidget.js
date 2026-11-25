@@ -1,17 +1,22 @@
-/* global config, Script, ListWidget, Color, Font, LinearGradient */
+/* global config, Script, ListWidget, Color, Font, LinearGradient, Alert, Keychain, Data */
 
 // Variables used by Scriptable.
 // icon-color: blue; icon-glyph: chart-line
 // Script: XIRO Metrics Widget
 
 // Config
-const METRICS_URL = 'https://xiro.pro/api/health'; // Health endpoint con métricas completas
-const _REFRESH_SECONDS = 60; // Tiempo recomendado para widget
+// /api/health y /api/metrics exigen sesión de admin: el widget inicia sesión con una
+// cuenta admin guardada en el Keychain de iOS y envía el JWT como Bearer.
+// Para cambiar de cuenta: Keychain.remove('xiro_widget_user') y Keychain.remove('xiro_widget_pass').
+const BASE_URL = 'https://xiro.pro';
+const KEY_USER = 'xiro_widget_user';
+const KEY_PASS = 'xiro_widget_pass';
+const KEY_TOKEN = 'xiro_widget_token';
 
 // Entry
 (async () => {
     try {
-        const data = await fetchMetrics(METRICS_URL);
+        const data = await fetchMetrics();
         const widget = createWidget(data);
         if (config.runsInWidget) {
             Script.setWidget(widget);
@@ -32,15 +37,93 @@ const _REFRESH_SECONDS = 60; // Tiempo recomendado para widget
 })();
 
 // Fetch metrics
-async function fetchMetrics(url) {
-    const healthReq = new Request(url);
-    const metricsReq = new Request('https://xiro.pro/api/metrics');
-    healthReq.timeoutInterval = 10;
-    metricsReq.timeoutInterval = 10;
 
-    const [health, metrics] = await Promise.all([healthReq.loadJSON(), metricsReq.loadJSON()]);
+/** Lanza un error con el mensaje del servidor si la respuesta no es 2xx. */
+function assertOk(req, body) {
+    const status = req.response?.statusCode || 0;
+    if (status >= 200 && status < 300) return;
+    const err = new Error(body?.error || `HTTP ${status}`);
+    err.status = status;
+    throw err;
+}
 
-    // Combinar ambos
+/** Pide usuario y contraseña (solo desde la app) y los guarda en el Keychain. */
+async function askCredentials() {
+    const alert = new Alert();
+    alert.title = 'XIRO: cuenta de administrador';
+    alert.addTextField('Usuario');
+    alert.addSecureTextField('Contraseña');
+    alert.addAction('Guardar');
+    alert.addCancelAction('Cancelar');
+    if ((await alert.present()) === -1) throw new Error('Credenciales no configuradas');
+    Keychain.set(KEY_USER, alert.textFieldValue(0).trim());
+    Keychain.set(KEY_PASS, alert.textFieldValue(1));
+}
+
+/** Devuelve las credenciales guardadas; el widget no puede mostrar diálogos. */
+async function getCredentials() {
+    if (!Keychain.contains(KEY_USER) || !Keychain.contains(KEY_PASS)) {
+        if (config.runsInWidget) throw new Error('Abre el script en Scriptable para configurar la cuenta');
+        await askCredentials();
+    }
+    return { username: Keychain.get(KEY_USER), password: Keychain.get(KEY_PASS) };
+}
+
+/** Inicia sesión y guarda el JWT. Si las credenciales son incorrectas, las borra para volver a pedirlas. */
+async function login() {
+    const req = new Request(`${BASE_URL}/api/admin-login`);
+    req.method = 'POST';
+    req.timeoutInterval = 10;
+    req.headers = { 'Content-Type': 'application/json' };
+    req.body = JSON.stringify(await getCredentials());
+    const body = await req.loadJSON();
+    if (req.response?.statusCode === 401) {
+        Keychain.remove(KEY_USER);
+        Keychain.remove(KEY_PASS);
+    }
+    assertOk(req, body);
+    Keychain.set(KEY_TOKEN, body.token);
+    return body.token;
+}
+
+/** Token guardado si le quedan más de 5 min de vida; así no se provoca un 401 (y su warning) al caducar. */
+function cachedToken() {
+    if (!Keychain.contains(KEY_TOKEN)) return null;
+    const token = Keychain.get(KEY_TOKEN);
+    try {
+        const b64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+        const padded = b64 + '='.repeat((4 - (b64.length % 4)) % 4);
+        const { exp } = JSON.parse(Data.fromBase64String(padded).toRawString());
+        return exp * 1000 - Date.now() > 5 * 60 * 1000 ? token : null;
+    } catch (_err) {
+        // Token ilegible en el Keychain: se descarta y se inicia sesión de nuevo
+        return null;
+    }
+}
+
+async function getAuthed(path, token) {
+    const req = new Request(`${BASE_URL}${path}`);
+    req.timeoutInterval = 10;
+    req.headers = { Authorization: `Bearer ${token}` };
+    const body = await req.loadJSON();
+    assertOk(req, body);
+    return body;
+}
+
+function loadBoth(token) {
+    return Promise.all([getAuthed('/api/health', token), getAuthed('/api/metrics', token)]);
+}
+
+/** Lee health y métricas con sesión admin; si el token ya no vale (p. ej. usuario desactivado), reintenta una vez. */
+async function fetchMetrics() {
+    let pair;
+    try {
+        pair = await loadBoth(cachedToken() || (await login()));
+    } catch (err) {
+        if (err.status !== 401) throw err;
+        pair = await loadBoth(await login());
+    }
+    const [health, metrics] = pair;
     return { ...health, metrics };
 }
 
