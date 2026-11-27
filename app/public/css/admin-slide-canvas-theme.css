@@ -64,17 +64,28 @@
     align-items: center;
     gap: 8px;
     padding: 8px 16px;
-    border: 1px solid #cbd5e1;
+    border: 1px solid #5eead4;
     border-radius: var(--radius-xl, 12px);
-    background: #ffffff;
-    color: #334155;
+    background: #f0fdfa;
+    color: #0f766e;
     font: 700 14px/1.2 var(--font-body, 'DM Sans', sans-serif);
     cursor: pointer;
     transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
 }
 
-.xsce-theme-bar-btn:hover { border-color: var(--plum-300, #e4abde); background: var(--plum-50, #fdf4fb); color: var(--plum-700, #793475); }
-.xsce-theme-bar-btn:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(176, 91, 170, 0.25); }
+.xsce-theme-bar-btn:hover { border-color: #2dd4bf; background: #ccfbf1; color: #115e59; }
+.xsce-theme-bar-btn:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.3); }
+/* Botón principal «Tema»: degradado propio, como Actividad / Diapositiva libre / Instrucciones */
+.xsce-theme-bar-btn--primary {
+    border-color: transparent;
+    background: linear-gradient(to right, #0f766e, #115e59);
+    color: #ffffff;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+.xsce-theme-bar-btn--primary:hover { border-color: transparent; background: linear-gradient(to right, #115e59, #134e4a); color: #ffffff; }
+/* Con .xsce-theme-bar delante para ganar a «.xsce-theme-bar .xsce-theme-name» (gris), que va después */
+.xsce-theme-bar .xsce-theme-bar-btn--primary .xsce-theme-name { color: #f0fdfa; }
+.xsce-theme-bar .xsce-theme-bar-btn--primary .xsce-theme-swatch { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6); }
 .xsce-theme-bar .xsce-theme-name { padding: 0; font-size: 12px; font-weight: 600; color: #64748b; }
 .xsce-theme-bar .xsce-theme-swatches { gap: 3px; padding: 0; }
 .xsce-theme-bar .xsce-theme-swatch { width: 12px; height: 12px; border-radius: 4px; }

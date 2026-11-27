@@ -19,7 +19,7 @@ function _temaBarHtml() {
         ? `<button type="button" class="xsce-theme-bar-btn" data-admin-click="deshacerTemaLienzo()"><i class="fas fa-rotate-left" aria-hidden="true"></i> ${E.th('theme.undo_game')}</button>`
         : '';
     return `<span id="lienzoTemaBarra" class="xsce-theme-bar" role="group" aria-label="${E.th('theme.card_title')}">
-                <button type="button" class="xsce-theme-bar-btn" data-admin-click="abrirTemaLienzo()" aria-label="${escape(E.t('theme.bar_aria', { name: name }))}">
+                <button type="button" class="xsce-theme-bar-btn xsce-theme-bar-btn--primary" data-admin-click="abrirTemaLienzo()" aria-label="${escape(E.t('theme.bar_aria', { name: name }))}">
                     <i class="fas fa-palette" aria-hidden="true"></i> ${E.th('theme.section')}
                     <span class="xsce-theme-name">${escape(name)}</span>${swatches}
                 </button>${undo}
