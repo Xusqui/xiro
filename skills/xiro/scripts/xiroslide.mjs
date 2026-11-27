@@ -7,6 +7,7 @@
  *   preview <spec.json|archivo.xiroslide> [--preview-dir DIR]
  *   unpack  <archivo.xiroslide> [--dir DIR]
  *   copy    <archivo.xiroslide>
+ *   bank    <banco.json> [--out DIR|archivo.json] [--no-write]   valida un banco de preguntas y lo deja en Descargas
  *
  * Formato del spec y guía de diseño: ../references/formato.md y ../references/diseno.md
  */
@@ -21,13 +22,15 @@ import { lintCanvases } from './lib/lint.mjs';
 import { previewHtml, renderPreview, reportWarnings } from './lib/preview.mjs';
 import { copyToClipboard } from './lib/clipboard.mjs';
 import { unpackPackage } from './lib/unpack.mjs';
+import { validateBank } from './lib/bank.mjs';
 
 const USAGE = `Uso:
   node xiroslide.mjs build   <spec.json> [--out DIR|archivo.xiroslide] [--preview-dir DIR] [--no-copy] [--no-preview]
   node xiroslide.mjs check   <archivo.xiroslide> [--preview] [--preview-dir DIR]
   node xiroslide.mjs preview <spec.json|archivo.xiroslide> [--preview-dir DIR]
   node xiroslide.mjs unpack  <archivo.xiroslide> [--dir DIR]
-  node xiroslide.mjs copy    <archivo.xiroslide>`;
+  node xiroslide.mjs copy    <archivo.xiroslide>
+  node xiroslide.mjs bank    <banco.json> [--out DIR|archivo.json] [--no-write]   (banco de preguntas, no diapositivas)`;
 
 const kb = bytes => (bytes < 1048576 ? `${Math.max(1, Math.round(bytes / 1024))} KB` : `${(bytes / 1048576).toFixed(1)} MB`);
 const home = p => (p && p.startsWith('~/') ? path.join(os.homedir(), p.slice(2)) : p);
@@ -40,6 +43,7 @@ function parseArgs(argv) {
         if (a === '--no-copy') opts.copy = false;
         else if (a === '--no-preview') opts.preview = false;
         else if (a === '--preview') opts.preview = true;
+        else if (a === '--no-write') opts.write = false;
         else if (['--out', '--dir', '--preview-dir'].includes(a)) opts[a.slice(2).replace('-d', 'D')] = home(argv[++i]);
         else if (a.startsWith('--')) throw new SpecError(`opción desconocida ${a}\n${USAGE}`);
         else opts._.push(home(a));
@@ -167,6 +171,42 @@ async function check(file, opts) {
     return warnings.length === 0;
 }
 
+/** ¿Es un banco con ese nombre (resto de una ejecución anterior de esta herramienta)? Solo esos se sobrescriben. */
+function isBankNamed(file, name) {
+    try {
+        return JSON.parse(readFileSync(file, 'utf8')).name === name;
+    } catch {
+        return false;
+    }
+}
+
+function bankOutputFile(out, name) {
+    if (out && /\.json$/i.test(out)) {
+        mkdirSync(path.dirname(path.resolve(out)), { recursive: true });
+        return path.resolve(out);
+    }
+    const dir = out ? path.resolve(out) : defaultOutDir();
+    mkdirSync(dir, { recursive: true });
+    const base = R.fileNameFor(name).replace(/\.xiroslide$/, '');
+    let file = path.join(dir, `${base}.json`);
+    for (let n = 2; existsSync(file) && !isBankNamed(file, name); n++) file = path.join(dir, `${base}-${n}.json`);
+    return file;
+}
+
+/** Valida un banco de preguntas y, si es correcto, lo deja listo para «Importar» en el panel de bancos de XiRo. */
+function bank(file, opts) {
+    const data = readJson(file);
+    const errors = validateBank(data);
+    if (errors.length) throw new SpecError(`el banco no es válido para XiRo (${errors.length}):\n${errors.map(e => `  - ${e}`).join('\n')}`);
+    const types = {};
+    data.questions.forEach(q => (types[q.type] = (types[q.type] || 0) + 1));
+    say('OK', `«${data.name}»: ${data.questions.length} preguntas (${Object.entries(types).map(([t, n]) => `${n} ${t}`).join(', ')}) — formato válido`);
+    if (opts.write === false) return;
+    const dest = bankOutputFile(opts.out, data.name);
+    writeFileSync(dest, JSON.stringify(data, null, 4) + '\n');
+    say('OK', `Archivo: ${dest} — en XiRo: Banco de preguntas → «Importar»`);
+}
+
 async function main(argv) {
     const [cmd, ...rest] = argv;
     const opts = parseArgs(rest);
@@ -176,7 +216,8 @@ async function main(argv) {
         return cmd && cmd !== '--help' && cmd !== '-h' ? 2 : 0;
     }
     if (!existsSync(target)) throw new SpecError(`no existe ${target}`);
-    if (cmd === 'build') await build(target, opts, true);
+    if (cmd === 'bank') bank(target, opts);
+    else if (cmd === 'build') await build(target, opts, true);
     else if (cmd === 'check') return (await check(target, opts)) ? 0 : 1;
     else if (cmd === 'preview') {
         if (/\.json$/i.test(target)) await build(target, opts, false);

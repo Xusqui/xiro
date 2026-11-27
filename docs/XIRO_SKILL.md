@@ -51,6 +51,18 @@ node ~/.claude/skills/xiro/scripts/xiroslide.mjs preview spec.json|archivo.xiros
 
 Formato del spec: `skills/xiro/references/formato.md`. Reglas de diseño: `skills/xiro/references/diseno.md`. Ejemplos: `skills/xiro/examples/`.
 
+## Bancos de preguntas
+
+Si se lo pides («/xiro 10 preguntas de geografía de España, tipos variados»), la skill genera un banco JSON (formato 2) con la estructura de `skills/xiro/references/banco-schema.json`, copia de `app/public/data/schema.json`. Las reglas de cada tipo están en `references/banco.md` y las comprueba `scripts/lib/bank.mjs` (las del prompt de IA externa más los límites de `app/validation/questions.js`: 2-6 opciones, `time_limit` 5-120, hasta 500 preguntas).
+
+```bash
+node ~/.claude/skills/xiro/scripts/xiroslide.mjs bank banco.json [--out DIR|archivo.json] [--no-write]
+```
+
+Valida y deja `~/Downloads/<nombre>.json`; con errores no escribe nada. Se importa desde el panel de bancos de preguntas con «Importar». Imágenes, audios y el área de `hotspot` quedan en `null`: se añaden después en XiRo!.
+
+Si cambia `schema.json`, el prompt de IA o `validation/questions.js`: `node skills/xiro/scripts/sync-xiro.mjs app` (recopia el esquema), ajustar `bank.mjs` y `banco.md`, y `selftest --xiro app` (falla si el esquema copiado se desfasa o deja de pasar el validador).
+
 ## Mantener la copia al día
 
 La skill lleva copiados los módulos reales de XiRo (`skills/xiro/scripts/lib/xiro/`, lista en `scripts/lib/vendor-files.mjs`) para validar y pintar igual que la app. Si cambian el formato de diapositivas libres, sus límites o sus estilos, la copia queda desfasada:

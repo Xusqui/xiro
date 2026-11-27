@@ -1,12 +1,14 @@
 ---
 name: xiro
-description: Diseña diapositivas libres para XiRo a partir de una descripción y las entrega como archivo .xiroslide (para «Importar archivo») y copiadas al portapapeles (para «Pegar»), con vista previa PNG comprobada. También revisa, previsualiza o modifica archivos .xiroslide exportados de XiRo. Úsala siempre que el usuario diga «dile a /xiro…», «/xiro …», pida una diapositiva, lámina o slide para XiRo o para un juego personalizado de XiRo, o mencione un .xiroslide, aunque no nombre la skill.
-argument-hint: "[descripción de la diapositiva o diapositivas]"
+description: Diseña diapositivas libres para XiRo a partir de una descripción y las entrega como archivo .xiroslide (para «Importar archivo») y copiadas al portapapeles (para «Pegar»), con vista previa PNG comprobada. También revisa, previsualiza o modifica archivos .xiroslide exportados de XiRo. Si el usuario lo pide, crea bancos de preguntas (JSON formato 2, con el esquema de XiRo) listos para importar. Úsala siempre que el usuario diga «dile a /xiro…», «/xiro …», pida una diapositiva, lámina o slide para XiRo o para un juego personalizado de XiRo, mencione un .xiroslide, o pida preguntas, un banco de preguntas o un cuestionario para XiRo, aunque no nombre la skill.
+argument-hint: "[descripción de la diapositiva, diapositivas o preguntas]"
 ---
 
-# /xiro: diapositivas libres para XiRo
+# /xiro: diapositivas libres y bancos de preguntas para XiRo
 
 Petición: $ARGUMENTS
+
+**Qué se pide.** Si pide diapositivas, sigue esta guía. Si pide preguntas, un banco o un cuestionario, ve a «Bancos de preguntas» al final y no hagas diapositivas. Si pide ambas cosas, entrega las dos por separado. Sin petición expresa de preguntas, esta skill solo hace diapositivas.
 
 Hay que entregar una o varias diapositivas libres (`slide_type: canvas`) bien diseñadas, en un `.xiroslide` que XiRo importe **sin avisos**, y además en el portapapeles. Todo pasa por la herramienta de la skill, que normaliza, valida y pinta con los módulos reales de XiRo (copiados en `scripts/lib/xiro/`, formatVersion 7: estilo, formas libres, texto tipo Word, tablas, gráficos, roles y patrones), así que la vista previa es la de XiRo.
 
@@ -73,6 +75,19 @@ Una sola diapositiva se abre en el editor: pulsa «Aplicar» y guarda el juego. 
 - Imágenes: solo las que dé el usuario (archivo o URL suya) o SVG que dibujes tú. No busques ni descargues fotos de internet por tu cuenta. Nunca inventes datos, gráficos, fotos ni pruebas científicas o clínicas.
 - Atajos: `layout` + `role` sin caja coloca el elemento en el hueco del patrón; tabla con `columns` + `rows` y alto automático; gráfico con `props.data` (crea la tabla oculta). Pautas de patrones, tablas, gráficos y temas: `references/diseno.md` sección 5b.
 - Respeta los límites de XiRo: 50 elementos por diapositiva, 20 px mínimo por lado, las 8 fuentes de la lista, tablas de hasta 20 × 10 celdas, gráficos de hasta 24 categorías y 8 series (siempre vinculados por `id` a una tabla de la misma diapositiva). Si el diseño pide más, simplifícalo o reorganízalo.
+
+## Bancos de preguntas
+
+Solo si el usuario lo pide. Se genera un JSON de banco (formato 2) con la estructura de `references/banco-schema.json`, copia de `app/public/data/schema.json` de XiRo.
+
+1. Lee entero `references/banco.md`: reglas de cada uno de los 11 tipos, límites y qué dejar en `null` (imágenes, audios, área de `hotspot`).
+2. Entiende la petición: tema, número de preguntas, tipos, idioma (el del usuario por defecto), dificultad, tiempo. Lo que el usuario escriba va tal cual; lo que falte lo decides tú. Sin tipo indicado, `quiz` de 4 opciones. No preguntes salvo que falte algo imprescindible.
+3. Escribe el banco en la carpeta de trabajo (como en el flujo de diapositivas) y ejecuta:
+   `node ~/.claude/skills/xiro/scripts/xiroslide.mjs bank <carpeta>/banco.json [--out DIR|archivo.json]`
+   Valida con las reglas de XiRo y deja `~/Downloads/<nombre>.json`. Si da `ERROR`, no escribe nada: corrige y repite.
+4. Entrega, en el idioma del usuario y en pocas líneas: la ruta del `.json`, cuántas preguntas de cada tipo, cómo importarlo (panel de bancos de preguntas de XiRo → «Importar»), qué datos o cifras conviene que revise y qué preguntas pueden llevar imagen o audio, que se añaden después en XiRo!.
+
+Reglas propias: no inventes hechos ni cifras, no rellenes `media` ni rutas de recursos, no añadas campos fuera del esquema y no digas que está listo si `bank` falló.
 
 ## Mantenimiento
 

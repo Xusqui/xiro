@@ -20,6 +20,7 @@ import { lintCanvases } from './lib/lint.mjs';
 import { previewHtml, renderPreview, reportWarnings, findChrome } from './lib/preview.mjs';
 import * as R from './lib/rules.mjs';
 import { VENDORED_FILES } from './lib/vendor-files.mjs';
+import { validateBank, QUESTION_TYPES } from './lib/bank.mjs';
 import { VENDOR_DIR, origin, presets } from './lib/xiro.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -214,8 +215,30 @@ function compareVendored(appDir) {
     else console.log(`OK    copia de XiRo al día: ${VENDORED_FILES.length} ficheros iguales que en el repo (copiados de ${origin.xiro}${origin.commit ? `, ${origin.commit}` : ''})`);
 }
 
+/** El esquema de bancos copiado en references/ es válido para el validador y cubre todos los tipos. */
+function checkBankSchema() {
+    const copy = JSON.parse(readFileSync(path.join(here, '..', 'references', 'banco-schema.json'), 'utf8'));
+    const errors = validateBank(copy);
+    const missing = QUESTION_TYPES.filter(type => !copy.questions.some(q => q.type === type));
+    if (errors.length) fail(`banco-schema.json no pasa bank.mjs: ${errors.join('; ')}`);
+    else if (missing.length) fail(`banco-schema.json no trae ejemplo de: ${missing.join(', ')}`);
+    else console.log(`OK    banco-schema.json válido, con los ${QUESTION_TYPES.length} tipos de pregunta`);
+    const bad = validateBank({ ...copy, questions: [{ ...copy.questions[0], options: copy.questions[0].options.map(o => ({ ...o, is_correct: false })) }] });
+    if (!bad.length) fail('bank.mjs aceptó un quiz sin respuesta correcta');
+}
+
+/** El esquema de bancos de la skill es idéntico al del repo. */
+function compareBankSchema(appDir) {
+    const same = readFileSync(path.join(appDir, 'public/data/schema.json'), 'utf8') === readFileSync(path.join(here, '..', 'references', 'banco-schema.json'), 'utf8');
+    if (same) console.log('OK    banco-schema.json igual que public/data/schema.json');
+    else fail(`references/banco-schema.json desfasado: ejecuta node scripts/sync-xiro.mjs ${appDir}`);
+}
+
+checkBankSchema();
+
 if (xiro) {
     compareVendored(path.resolve(xiro));
+    compareBankSchema(path.resolve(xiro));
     const importer = loadRealImporter(path.resolve(xiro));
     try {
         let same = 0;

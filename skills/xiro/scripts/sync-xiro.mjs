@@ -82,6 +82,8 @@ function sync(appDir) {
     writeFileSync(path.join(target, 'public/css/fonts.css'), fonts.css);
     mkdirSync(path.join(target, 'public/fonts'), { recursive: true });
     fonts.files.forEach(f => cpSync(path.join(appDir, 'public/fonts', f), path.join(target, 'public/fonts', f)));
+    // Esquema de bancos de preguntas: lo usa la parte «banco» de la skill (references/banco.md)
+    cpSync(path.join(appDir, 'public/data/schema.json'), path.join(here, '..', 'references', 'banco-schema.json'));
     const joi = copyJoi(appDir);
     const version = JSON.parse(readFileSync(path.join(appDir, 'package.json'), 'utf8')).version;
     writeStubs(version);
