@@ -2,6 +2,16 @@
 
 ## 3.16.x
 
+### 3.16.5 — 2026-11-27 · `v3.16.5`
+- **Skill /xiro:** Crear bancos de preguntas con el esquema de XiRo
+  - Nuevo comando bank (valida con las reglas del prompt de IA y de
+  - validation/questions.js), references/banco.md, copia de schema.json
+  - sincronizada por sync-xiro y comprobada en el selftest.
+- Editor de juegos personalizados: Colores en los botones Tema y Deshacer tema
+  - El botón Tema usa un degradado teal con texto claro (contraste AA, también
+  - el nombre del tema y las muestras). Deshacer tema pasa de blanco a teal muy
+  - claro, como botón secundario.
+
 ### 3.16.4 — 2026-11-25 · `v3.16.4`
 - **Widget de métricas:** Iniciar sesión como admin antes de leer /api/health y /api/metrics
   - El widget de Scriptable llamaba a las dos rutas sin token y el servidor
