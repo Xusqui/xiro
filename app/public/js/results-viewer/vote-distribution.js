@@ -15,7 +15,7 @@
     // Cada jugador puede marcar varias opciones: cada una cuenta como un voto
     const MULTI_SELECT_TYPES = new Set(['multiple_choice', 'survey_multiple']);
     // Respuestas compuestas (orden, parejas, huecos, sopa): casi nunca coinciden entre jugadores
-    const NO_DISTRIBUTION_TYPES = new Set(['order', 'matching', 'word_search', 'fill_blanks']);
+    const NO_DISTRIBUTION_TYPES = new Set(['order', 'matching', 'word_search', 'fill_blanks', 'word_cloud']);
     // Lo que el servidor guarda en una encuesta múltiple enviada sin marcar nada
     const NO_SELECTION = '—';
     // Separador con el que playerAnswerArchive une las opciones marcadas

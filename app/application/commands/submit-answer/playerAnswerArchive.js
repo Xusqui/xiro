@@ -237,6 +237,32 @@ function persistPlayerAnswerSnapshot(ctx) {
     }
 }
 
+/**
+ * Nube de palabras: guarda lo que escribió cada jugador (palabras aceptadas) como una respuesta de
+ * encuesta sin puntos, para que el visor de resultados las muestre en el detalle del jugador.
+ *
+ * @param {Object} options
+ * @param {Object} options.game - Partida activa (la pregunta en curso es la de la nube)
+ * @param {string} options.sPin - Sesión
+ * @param {string} options.nickname - Jugador
+ * @param {Object} options.question - Pregunta de la nube
+ * @param {string[]} options.words - Palabras aceptadas, tal como las escribió
+ * @returns {void}
+ */
+function persistWordCloudAnswer({ game, sPin, nickname, question, words }) {
+    const slot = ensurePlayerAnswerSlot(game);
+    const snapshot = {
+        answer: words.join(', '),
+        isCorrect: null,
+        pointsEarned: 0,
+        responseTimeMs: game.questionStartTime ? Date.now() - game.questionStartTime : null,
+        questionText: snapshotQuestionText(question)
+    };
+    game.playerAnswers[slot][nickname] = snapshot;
+    persistSnapshotToRedis({ sPin, slot, nickname, snapshot });
+}
+
 module.exports = {
-    persistPlayerAnswerSnapshot
+    persistPlayerAnswerSnapshot,
+    persistWordCloudAnswer
 };

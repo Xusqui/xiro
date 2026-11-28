@@ -7,10 +7,14 @@
     <title data-i18n="xiro_results_viewer.page.title">...</title>
     <link rel="stylesheet" href="./css/tokens.css?v=20260922172926">
     <link rel="stylesheet" href="./css/xiro-result-viewer.css?v=20260922172926">
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/word-cloud.css">
     <script src="/js/i18n/i18n-core.js?v=20260922172926"></script>
     <script src="/js/i18n/i18n-dom.js?v=20260922172926"></script>
     <script src="/js/i18n/i18n-ui.js?v=20260922172926"></script>
     <script src="/js/results-viewer/vote-distribution.js"></script>
+    <script src="/js/core/word-cloud-layout.js"></script>
+    <script src="/js/core/word-cloud-render.js"></script>
     <script src="/js/results-viewer/word-cloud-section.js"></script>
 </head>
 
@@ -649,13 +653,18 @@
         }
 
         // ─── Detalle por pregunta ──────────────────────────────────────
-        function renderWordCloudItem(cloud) {
-            const total = (cloud.words || []).reduce((sum, w) => sum + w.count, 0);
-            const section = XiroWordCloudSection.renderWordCloudSection(cloud.words, {
+        function renderWordCloudBlock(cloud) {
+            return XiroWordCloudSection.renderWordCloudBlock(cloud.words, {
                 title: _t('xiro_results_viewer.wordcloud.title', null, 'Palabras de la nube'),
                 times: _t('xiro_results_viewer.wordcloud.times', null, 'veces'),
                 empty: _t('xiro_results_viewer.wordcloud.empty', null, 'Nadie escribió palabras')
             });
+        }
+
+        // Nube de una pregunta de la que no hay respuestas por jugador (partidas guardadas antes de registrarlas)
+        function renderWordCloudItem(cloud) {
+            const total = (cloud.words || []).reduce((sum, w) => sum + w.count, 0);
+            const section = renderWordCloudBlock(cloud);
             return `
     <div class="q-item" data-viewer-action="toggle-question">
         <div class="q-header">
@@ -681,6 +690,10 @@
 
             const isTrivial = data.isTrivial;
 
+            // La nube de una pregunta va dentro de su detalle, con lo que escribió cada jugador
+            const cloudsByRound = {};
+            if (!isTrivial) (data.wordClouds || []).forEach(c => { cloudsByRound[c.n] = c; });
+
             const items = Object.entries(byRound).map(([round, answers]) => {
                 // Ordenar jugadores de mayor a menor puntuación en la pregunta
                 answers.sort((a, b) => (parseFloat(b.pts) || 0) - (parseFloat(a.pts) || 0));
@@ -692,8 +705,11 @@
                 const rate = total ? Math.round(100 * correct / total) : 0;
                 const rateClass = rate >= 66 ? 'high' : rate >= 33 ? 'mid' : 'low';
                 const qType = isTrivial ? '' : ((data.questions.find(q => q.n === String(round)) || {}).type || '');
-                const votesHtml = XiroVoteDistribution.renderVoteDistribution(answers, qType,
-                    _t('xiro_results_viewer.detail.votes_title', null, 'Votos por respuesta'));
+                const cloud = cloudsByRound[round];
+                const votesHtml = cloud
+                    ? renderWordCloudBlock(cloud)
+                    : XiroVoteDistribution.renderVoteDistribution(answers, qType,
+                        _t('xiro_results_viewer.detail.votes_title', null, 'Votos por respuesta'));
                 const rateHtml = total
                     ? `<span class="q-rate ${rateClass}">${rate}%</span>`
                     : `<span class="badge badge-enc">~ ${_t('xiro_results_viewer.badge.survey', null, 'Encuesta')}</span>`;
@@ -772,7 +788,7 @@
           </div>
         </div>
       </div>`;
-            }).join('') + (data.wordClouds || []).map(renderWordCloudItem).join('');
+            }).join('') + (data.wordClouds || []).filter(c => !byRound[c.n] || isTrivial).map(renderWordCloudItem).join('');
 
             wrap.innerHTML = `
     <div class="section-title">
@@ -909,7 +925,11 @@
 
         document.getElementById('results-body').addEventListener('click', function (event) {
             const question = event.target.closest('[data-viewer-action="toggle-question"]');
-            if (question) { question.classList.toggle('open'); return; }
+            if (question) {
+                question.classList.toggle('open');
+                if (question.classList.contains('open')) XiroWordCloudSection.paintWordCloudStages(question);
+                return;
+            }
 
             const playerRow = event.target.closest('[data-viewer-action="toggle-player"]');
             if (playerRow) {

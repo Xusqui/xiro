@@ -19,6 +19,7 @@ const { questionSlot } = require('../../../sockets/utils/QuestionSlot');
 const { isBannedWord } = require('../../../domain/services/WordCloudBannedWords');
 const { scheduleWordCloudUpdate, wordCloudViewersRoom } = require('../../../sockets/utils/WordCloudLiveBroadcast');
 const { closeWhenQuotaExhausted } = require('../../../sockets/utils/WordCloudEarlyClose');
+const { persistWordCloudAnswer } = require('./playerAnswerArchive');
 
 const DEFAULT_MAX_WORDS = 1;
 const REJECTIONS = Object.freeze({ duplicate: 'duplicate-word', 'quota-full': 'quota-full' });
@@ -111,6 +112,7 @@ async function submitWordCloudAnswer({ payload, game, socket, nickname, sPin, fl
     if (accepted.length === 0) return { success: false, reason: results[0].reason };
 
     await markFinished(room);
+    persistWordCloudAnswer({ game, sPin, nickname, question, words: accepted.map(result => result.text) });
     socket?.join(wordCloudViewersRoom(sPin, questionIndex));
     scheduleWordCloudUpdate(io, sPin, questionIndex);
     // Quien termina puede ser el último: si todos terminaron, se cierra sin esperar al tiempo

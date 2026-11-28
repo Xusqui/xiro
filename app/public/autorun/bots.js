@@ -6,14 +6,28 @@ const BOT_BATCH_DELAY_MS = 100;
 const BOT_CONNECT_DELAY_MS = 50;
 const BOT_ANSWER_MIN_MS = 500;
 const BOT_ANSWER_MAX_MS = 3500;
-// Palabras con las que los bots rellenan una «Nube de palabras» (se repiten a propósito: así se agrupan)
-const CLOUD_WORDS = ['sol', 'mar', 'playa', 'helado', 'calor', 'viaje', 'siesta', 'arena', 'fiesta', 'sombra'];
+// Palabras con las que los bots rellenan una «Nube de palabras»: la primera la comparte la mitad de
+// los bots (así siempre es la más grande); el resto se reparte al azar entre las demás
+const CLOUD_SHARED_WORD = 'sol';
+const CLOUD_WORDS = [
+    CLOUD_SHARED_WORD, 'mar', 'playa', 'helado', 'calor', 'viaje', 'siesta', 'arena', 'fiesta', 'sombra',
+    'verano', 'vacaciones', 'piscina', 'sandía', 'chancla', 'toalla', 'brisa', 'ola', 'palmera', 'barco',
+    'pescado', 'terraza', 'sed', 'ventilador', 'bronceado', 'gafas', 'crema', 'concha', 'faro', 'puerto',
+    'atardecer', 'música', 'amigos', 'paseo', 'bicicleta', 'montaña', 'río', 'camping', 'tormenta', 'luna',
+    'estrella', 'mochila', 'tren', 'museo', 'tapas', 'paella', 'café', 'lluvia'
+];
 
-/** Hasta max_words palabras al azar, sin repetir (el servidor rechaza las repetidas del mismo jugador). */
-function randomCloudWords(maxWords) {
-    const pool = CLOUD_WORDS.slice();
+/**
+ * Palabras de un bot: los de índice par llevan la palabra compartida (la mitad o más de los bots) y
+ * el resto, hasta max_words, al azar sin repetir (el servidor rechaza las repetidas del mismo jugador).
+ */
+function randomCloudWords(maxWords, botIndex) {
+    const pool = CLOUD_WORDS.filter(word => word !== CLOUD_SHARED_WORD);
     const count = randInt(1, Math.max(1, Math.min(maxWords || 1, pool.length)));
-    return Array.from({ length: count }, () => pool.splice(randInt(0, pool.length - 1), 1)[0]);
+    const shared = botIndex % 2 === 0;
+    const words = shared ? [CLOUD_SHARED_WORD] : [];
+    while (words.length < count) words.push(pool.splice(randInt(0, pool.length - 1), 1)[0]);
+    return words;
 }
 
 const SLIDE_TYPES = ['comment', 'info', 'text', 'image', 'text-image', 'video', 'canvas', 'howto'];
@@ -296,7 +310,7 @@ class QuizBotIndividual extends BaseBot {
                 break;
             case 'word_cloud':
                 // Nube de palabras: un solo envío con hasta max_words palabras
-                payload = { ...base, answerType: 'word_cloud', words: randomCloudWords(question.max_words) };
+                payload = { ...base, answerType: 'word_cloud', words: randomCloudWords(question.max_words, this.botIndex) };
                 break;
             case 'multiple_choice':
                 payload = { ...base, answerType: 'multiple_choice', selectedIndices: [randInt(0, n - 1)] };

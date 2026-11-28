@@ -879,3 +879,42 @@
                 page-break-inside: avoid;
             }
         }
+/* ─── Nube de palabras: la imagen junto a la lista de palabras ───────────── */
+.wcv-split {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 8px 24px;
+}
+
+.wcv-stage {
+    position: relative;
+    flex: 1 1 340px;
+    max-width: 640px;
+    aspect-ratio: 16 / 9;
+    margin-top: 14px;
+}
+
+/* El pintado añade `wc-cloud` al propio contenedor, que en word-cloud.css es absoluto y a pantalla
+   completa: aquí tiene que ocupar su hueco en el flujo. Fondo opaco: los colores de las palabras
+   están pensados para el escenario oscuro. */
+.wcv-stage.wc-cloud {
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    overflow: hidden;
+    background: #0f172a;
+}
+
+.wcv-split .vote-distribution {
+    flex: 1 1 240px;
+}
+
+@media print {
+    .wcv-stage {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}

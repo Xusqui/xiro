@@ -65,8 +65,9 @@
             });
     }
 
+    // Proporcional al recuento (no a su raíz): la más escrita se ve claramente mayor que la menos
     function fontFor(count, topCount, area) {
-        var size = Math.round(area.maxFont * Math.sqrt(count / topCount));
+        var size = Math.round(area.maxFont * (count / topCount));
         return Math.max(area.minFont, Math.min(area.maxFont, size));
     }
 
