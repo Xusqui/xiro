@@ -1,5 +1,20 @@
 # Historial de versiones de XiRo!
 
+## 3.17.x
+
+### 3.17.0 — 2026-11-28 · `v3.17.0`
+- **Música:** El doblaje del tema en los clímax respeta el instrumento elegido
+  - En los clímax, cada nota de la melodía se doblaba a la octava siempre con
+  - trompetas, y la melodía sonaba a metales fuera cual fuera el instrumento
+  - elegido en el panel de administración. Ahora solo usa trompetas si la
+  - melodía es de metales. Con piano u otro instrumento con muestras dobla
+  - ese mismo instrumento. El lead sintetizado solo da una nota a la vez y
+  - ya no se dobla, para no cortar el tema.
+- **Nube de palabras:** Nuevo tipo de pregunta word_cloud
+  - Cada jugador envía de 1 a 5 palabras en un solo mensaje y forman una nube en directo en presentador y TV. Quien ya ha enviado ve la nube en su móvil; el cierre se adelanta cuando todos han terminado. Incluye migración (max_words y word_cloud_results), filtro de palabras vetadas en 10 idiomas, ocultar a mano, editor, JSON formato 2, IA, PDF, visor de resultados, bots, instrucciones animadas con voz y textos en 10 idiomas. Fuera del Trivial.
+
+---
+
 ## 3.16.x
 
 ### 3.16.5 — 2026-11-27 · `v3.16.5`
