@@ -2,6 +2,13 @@
 
 ## 3.17.x
 
+### 3.17.1 — 2026-11-28 · `v3.17.1`
+- **Nube de palabras:** Imagen de la nube y palabras por jugador en el visor de resultados
+  - El detalle de la pregunta muestra la imagen de la nube junto a la lista de palabras
+  - Cada jugador guarda las palabras que envió, y se ven al desplegarlo
+  - Letra proporcional al recuento: más diferencia entre la más y la menos escrita
+  - Bots: 48 palabras distintas y la mitad comparte una para que siempre sea la mayor.
+
 ### 3.17.0 — 2026-11-28 · `v3.17.0`
 - **Música:** El doblaje del tema en los clímax respeta el instrumento elegido
   - En los clímax, cada nota de la melodía se doblaba a la octava siempre con
