@@ -2,6 +2,11 @@
 
 ## 3.17.x
 
+### 3.17.2 — 2026-11-28 · `v3.17.2`
+- **Nube de palabras:** Slider de palabras por jugador en el editor
+  - Sustituye el desplegable por un slider de 1 a 5 con relleno ámbar
+  - El número de palabras se muestra a la derecha y se actualiza al arrastrar
+
 ### 3.17.1 — 2026-11-28 · `v3.17.1`
 - **Nube de palabras:** Imagen de la nube y palabras por jugador en el visor de resultados
   - El detalle de la pregunta muestra la imagen de la nube junto a la lista de palabras
