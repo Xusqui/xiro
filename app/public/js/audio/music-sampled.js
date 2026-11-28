@@ -85,6 +85,14 @@ export function createSampledVoices(Tone, outputs, bank) {
         if (!bank.pitchedLayers('melody').length) return synthLead(Tone, own, leadEq);
         return sampler('melody', 0.4, -9, leadEq);
     }
+    // Doblaje del tema en los clímax: trompetas solo si la melodía es de metales; si no, la
+    // dobla el mismo instrumento (Sampler y pianos son polifónicos). El lead sintetizado es
+    // monofónico: dos notas a la vez cortarían el tema, así que no se dobla.
+    function doublingVoice(kind, leadVoice) {
+        if (!kind || kind === 'brass') return sampler('trumpet', 0.35, -13, leadEq);
+        if (kind === 'grand' || kind === 'epiano' || bank.pitchedLayers('melody').length) return leadVoice;
+        return null;
+    }
     const sampler = (group, release, volume, output) => {
         const layers = bank.pitchedLayers(group);
         if (layers.length > 1) return layeredSampler(Tone, own, layers, { release, volume, output });
@@ -98,7 +106,7 @@ export function createSampledVoices(Tone, outputs, bank) {
         outputs.melody
     );
     const lead = melodyVoice(bank.sounds.melody);
-    const trumpet = sampler('trumpet', 0.35, -13, leadEq);
+    const trumpet = doublingVoice(bank.sounds.melody, lead);
 
     // Golpes: release largo para que suene la cola de sala de la muestra (si no, quedan secos)
     const brass = sampler('stab', 0.6, -5, outputs.brass);

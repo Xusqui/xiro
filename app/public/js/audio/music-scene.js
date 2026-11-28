@@ -69,10 +69,10 @@ export function createScene(Tone, mixer, source, bank) {
         inst.brass.triggerAttackRelease(e.notes, e.dur, t, e.vel);
         if (e.low) inst.brassLow.triggerAttackRelease(e.low, e.dur, t, e.vel * 0.9);
     };
-    // Tema: lead de metales; en los clímax, trompetas doblando a la octava
+    // Tema: el instrumento elegido; en los clímax, su doblaje a la octava (trompetas si es de metales)
     const playMelody = (t, e) => {
         inst.lead.triggerAttackRelease(e.note, e.dur, t, e.vel);
-        if (e.up) inst.trumpet.triggerAttackRelease(e.up, e.dur, t, e.vel * 0.85);
+        if (e.up && inst.trumpet) inst.trumpet.triggerAttackRelease(e.up, e.dur, t, e.vel * 0.85);
     };
 
     // Pista de la partitura → disparo (creados una vez)
