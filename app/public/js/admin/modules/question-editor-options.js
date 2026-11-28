@@ -18,14 +18,41 @@ function questionTypeSectionHtml(q, qIdx, isHybridToleranceMode) {
     return quizEditorHtml(q, qIdx);
 }
 
+const WORD_CLOUD_MAX_WORDS = 5;
+
+/** Palabras por jugador acotadas a 1..5 (valor ausente o inválido: 1). */
+function _wordCloudWordsLimit(raw) {
+    return Math.min(WORD_CLOUD_MAX_WORDS, Math.max(1, Math.round(Number(raw)) || 1));
+}
+
+/** Relleno del slider: 0 % en 1 palabra, 100 % en 5. */
+function _wordCloudFillPercent(words) {
+    return ((words - 1) / (WORD_CLOUD_MAX_WORDS - 1)) * 100;
+}
+
+/** Slider de palabras: guarda el valor en la pregunta y refresca relleno y número de la derecha. */
+function setWordCloudMaxWords(qIdx, rawValue) {
+    const words = _wordCloudWordsLimit(rawValue);
+    preguntasData[qIdx].maxWords = words;
+    const slider = document.getElementById(`wc-max-${qIdx}`);
+    if (!slider) return;
+    slider.style.setProperty('--v', _wordCloudFillPercent(words));
+    const output = document.getElementById(`wc-max-value-${qIdx}`);
+    if (output) output.textContent = String(words);
+}
+
 /** Nube de palabras: sin opciones ni respuesta correcta; solo cuántas palabras escribe cada jugador (1 a 5). */
 function wordCloudEditorHtml(q, qIdx) {
-    const current = Math.min(5, Math.max(1, Number(q.maxWords) || 1));
-    const choices = [1, 2, 3, 4, 5].map(n => `<option value="${n}"${n === current ? ' selected' : ''}>${n}</option>`).join('');
+    const current = _wordCloudWordsLimit(q.maxWords);
+    const action = `setWordCloudMaxWords(${qIdx}, this.value)`;
     const body = `
                         <div>
                             <label class="xq-label" for="wc-max-${qIdx}">${_t('admin.q.wordcloud_max', null, 'Palabras por jugador')}</label>
-                            <select id="wc-max-${qIdx}" class="xq-field" data-admin-change="preguntasData[${qIdx}].maxWords = parseInt(this.value) || 0">${choices}</select>
+                            <div class="xq-range">
+                                <input type="range" id="wc-max-${qIdx}" class="xq-range__input" min="1" max="${WORD_CLOUD_MAX_WORDS}" step="1" value="${current}"
+                                    style="--v: ${_wordCloudFillPercent(current)}" data-admin-input="${action}" data-admin-change="${action}">
+                                <output class="xq-range__value" id="wc-max-value-${qIdx}" for="wc-max-${qIdx}">${current}</output>
+                            </div>
                         </div>`;
     return questionSectionHtml(
         _t('admin.q.wordcloud_title', null, 'Nube de palabras'),

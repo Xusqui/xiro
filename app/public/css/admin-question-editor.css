@@ -361,3 +361,57 @@ textarea[data-autogrow] {
 @media (prefers-reduced-motion: reduce) {
     .xq-card, .xq-card__chevron, .xq-iconbtn, .xq-field, .xq-btn { transition: none; }
 }
+
+/* Slider de «Palabras por jugador» (nube de palabras): pista con relleno ámbar hasta el valor
+   (--v = 0..100) y número de la derecha. Los pulgares tienen 24 px; el relleno compensa su ancho. */
+.xq-range { display: flex; align-items: center; gap: 14px; max-width: 26rem; }
+.xq-range__input {
+    --thumb: 24px;
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 32px;
+    margin: 0;
+    background: transparent;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+}
+.xq-range__input::-webkit-slider-runnable-track {
+    height: 8px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--signal-amber, #f9b518) calc(var(--thumb) / 2 + var(--v, 0) * (100% - var(--thumb)) / 100), #e2e8f0 0);
+}
+.xq-range__input::-moz-range-track { height: 8px; border-radius: 4px; background: #e2e8f0; }
+.xq-range__input::-moz-range-progress { height: 8px; border-radius: 4px; background: var(--signal-amber, #f9b518); }
+.xq-range__input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: var(--thumb);
+    height: var(--thumb);
+    margin-top: calc((8px - var(--thumb)) / 2);
+    border: 3px solid var(--signal-amber, #f9b518);
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.35);
+}
+.xq-range__input::-moz-range-thumb {
+    box-sizing: border-box;
+    width: var(--thumb);
+    height: var(--thumb);
+    border: 3px solid var(--signal-amber, #f9b518);
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.35);
+}
+.xq-range__input:focus-visible { outline: 2px solid #1e293b; outline-offset: 2px; border-radius: 6px; }
+.xq-range__value {
+    flex: none;
+    min-width: 2.25rem;
+    padding: 4px 0;
+    border-radius: 8px;
+    background: #fef3c7;
+    color: #78350f;
+    font-size: 18px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+}
