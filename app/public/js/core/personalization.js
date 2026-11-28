@@ -20,7 +20,8 @@
     function _resolvePosition() {
         const path = location.pathname;
         if (/\/(jugador|juego-concluido)\.html$/.test(path)) {
-            return { top: '4px', right: '8px', maxHeight: '32px', zIndex: '40' };
+            const maxHeight = _fluid('8vmin', 'clamp(24px, 8vmin, 48px)');
+            return { top: '4px', right: '8px', maxHeight: maxHeight, zIndex: '40' };
         }
         if (/\/(presentador|tv|juego-finalizado-presentador)\.html$/.test(path)) {
             return { bottom: '10px', right: '10px', zIndex: '40' };
@@ -28,25 +29,39 @@
         return { top: '10px', right: '10px' };
     }
 
+    // Tamaño relativo al viewport para que el logo escale con la resolución
+    // (antes eran píxeles fijos: diminuto en pantallas grandes). El navegador
+    // que no entienda clamp() (webOS 3.5 en tv.html) se queda con el valor en
+    // unidades vmin/vw, que sí soporta; por eso se devuelven los dos valores.
+    function _fluid(plain, clamped) {
+        return { plain: plain, clamped: clamped };
+    }
+
+    function _applySize(style, prop, size) {
+        style[prop] = size.plain;
+        style[prop] = size.clamped;
+    }
+
     function buildHost() {
         const host = document.createElement('div');
         host.id = HOST_ID;
         host.style.position = 'fixed';
-        host.style.maxWidth = 'min(140px, 32vw)';
-        host.style.maxHeight = '60px';
+        _applySize(host.style, 'maxWidth', _fluid('16vmin', 'clamp(80px, 16vmin, 480px)'));
         host.style.zIndex = '2147483000';
         host.style.pointerEvents = 'none';
 
         const pos = _resolvePosition();
+        const heightSize = pos.maxHeight || _fluid('7vmin', 'clamp(32px, 7vmin, 200px)');
         Object.keys(pos).forEach(function (prop) {
-            host.style[prop] = pos[prop];
+            if (prop !== 'maxHeight') host.style[prop] = pos[prop];
         });
+        _applySize(host.style, 'maxHeight', heightSize);
 
         const img = document.createElement('img');
         img.src = '/images/personalizations/' + encodeURIComponent(filename);
         img.alt = 'Logo';
         img.style.maxWidth = '100%';
-        img.style.maxHeight = pos.maxHeight || '60px';
+        _applySize(img.style, 'maxHeight', heightSize);
         img.style.width = 'auto';
         img.style.height = 'auto';
         img.style.display = 'block';
