@@ -59,6 +59,9 @@
     "xiro_results_viewer.error.parse_csv": "解析 CSV 时出错: ",
     "xiro_results_viewer.vote.hotspot_in": "区域内",
     "xiro_results_viewer.vote.hotspot_near": "接近",
-    "xiro_results_viewer.vote.hotspot_out": "区域外"
+    "xiro_results_viewer.vote.hotspot_out": "区域外",
+    "xiro_results_viewer.wordcloud.title": "词云中的词语",
+    "xiro_results_viewer.wordcloud.times": "次",
+    "xiro_results_viewer.wordcloud.empty": "没有人写词语"
   }
 }

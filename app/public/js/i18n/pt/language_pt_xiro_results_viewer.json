@@ -59,6 +59,9 @@
     "xiro_results_viewer.error.parse_csv": "Erro ao processar o CSV: ",
     "xiro_results_viewer.vote.hotspot_in": "Dentro",
     "xiro_results_viewer.vote.hotspot_near": "Perto",
-    "xiro_results_viewer.vote.hotspot_out": "Fora"
+    "xiro_results_viewer.vote.hotspot_out": "Fora",
+    "xiro_results_viewer.wordcloud.title": "Palavras da nuvem",
+    "xiro_results_viewer.wordcloud.times": "vezes",
+    "xiro_results_viewer.wordcloud.empty": "Ninguém escreveu palavras"
   }
 }

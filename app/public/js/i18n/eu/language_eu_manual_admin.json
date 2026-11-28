@@ -170,6 +170,7 @@
     "manual_admin.banks.visibility.hide_text": "Berehala ezkutatzen ditu zerrenda horretako elementu guztiak aurkezleari.",
     "manual_admin.banks.visibility.show_title": "Erakutsi guztiak",
     "manual_admin.banks.visibility.show_text": "Guztiak aldi berean berriz ere erakusten dizkio aurkezleari.",
-    "manual_admin.banks.visibility.scope_note": "Editatzaile batek berak sortutako baliabideei bakarrik eragiten die; administratzaile batek zerrendako guztiei eragiten die."
+    "manual_admin.banks.visibility.scope_note": "Editatzaile batek berak sortutako baliabideei bakarrik eragiten die; administratzaile batek zerrendako guztiei eragiten die.",
+    "manual_admin.banks.types.word_cloud": "<strong>Hitz-hodeia</strong> — Erantzun zuzenik gabeko galdera irekia: jokalari bakoitzak 1etik 5era hitz bidaltzen ditu (editorean hautatzen da) eta zuzeneko hodei batean biltzen dira. Debekatutako hitzak baztertzen dira eta besteak eskuz ezkuta ditzakezu. Ez du punturik ematen eta ez da Trivialean ateratzen."
   }
 }

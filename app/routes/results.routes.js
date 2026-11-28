@@ -21,6 +21,7 @@ const {
 } = require('../services/db/game-session.service');
 const { authenticateAdmin, authorizeAdmin } = require('../middlewares/auth');
 const { formatSessionLogsAsText } = require('../services/game-logs.service');
+const { loadWordClouds } = require('../services/db/word-cloud-results.service');
 const logger = require('../config/logger');
 const { buildCsv } = require('../services/results-csv.service');
 const { buildFilename, buildLogsFilename, getSessionLogs } = require('../services/results-format');
@@ -192,7 +193,7 @@ function registerExportRoutes(base, middlewares, loadSession, logExport) {
     router.get(`${base}/export.json`, ...middlewares, async (req, res, next) => {
         try {
             const session = await loadSession(req, res);
-            if (session) res.json(session);
+            if (session) res.json({ ...session, word_clouds: await loadWordClouds(session.id) });
         } catch (err) {
             next(err);
         }

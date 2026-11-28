@@ -51,6 +51,7 @@
     "admin.ai.wait.types": "Requested types",
     "admin.ai.wait.patience": "Still working. Long documents or many questions can take several minutes; do not close this tab.",
     "admin.ai.regenerating": "Regenerating…",
-    "admin.ai.type_hotspot": "Tap the image"
+    "admin.ai.type_hotspot": "Tap the image",
+    "admin.ai.type_word_cloud": "Word cloud"
   }
 }

@@ -51,6 +51,7 @@
     "admin.ai.wait.types": "指定した種類",
     "admin.ai.wait.patience": "まだ作業中です。長い資料や問題数が多い場合は数分かかることがあります。このタブを閉じないでください。",
     "admin.ai.regenerating": "再生成中…",
-    "admin.ai.type_hotspot": "画像をタップ"
+    "admin.ai.type_hotspot": "画像をタップ",
+    "admin.ai.type_word_cloud": "ワードクラウド"
   }
 }

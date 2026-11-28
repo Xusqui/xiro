@@ -8,6 +8,7 @@ const puppeteer = require('puppeteer-core');
 const logger = require('../config/logger');
 const { generateWordSearchQuestionHTML } = require('./pdf-word-search');
 const { generateFillBlanksQuestionHTML } = require('./pdf-fill-blanks');
+const { generateWordCloudQuestionHTML } = require('./pdf-word-cloud');
 const { prepareWordSearchQuestion } = require('../domain/services/WordSearchService');
 const { generateVideoSlideHTML } = require('./pdf-video-slide');
 const { generateCanvasSlideHTML } = require('./pdf-canvas-slide');
@@ -125,7 +126,9 @@ function hasAnswerPage(q) {
         q.slide_type !== 'text-image' &&
         q.slide_type !== 'video' &&
         q.slide_type !== 'canvas' &&
-        q.slide_type !== 'howto'
+        q.slide_type !== 'howto' &&
+        // Nube de palabras: sin respuesta correcta
+        q.question_type !== 'word_cloud'
     );
 }
 
@@ -218,6 +221,10 @@ function generateQuestionHTML(question, index, total) {
         return generateFillBlanksQuestionHTML(question, index, total, escapeHtml);
     }
 
+    if (question.question_type === 'word_cloud') {
+        return generateWordCloudQuestionHTML(question, index, total, escapeHtml);
+    }
+
     return generateStandardQuestionHTML(question, index, total);
 }
 
@@ -231,4 +238,4 @@ function sanitizeFilename(filename) {
         .substring(0, 100);
 }
 
-module.exports = { generateQuizPDF };
+module.exports = { generateQuizPDF, hasAnswerPage };

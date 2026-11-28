@@ -51,6 +51,7 @@
     "admin.ai.wait.types": "Tipos pedidos",
     "admin.ai.wait.patience": "Segue traballando. Con documentos longos ou moitas preguntas pode tardar varios minutos; non peches esta lapela.",
     "admin.ai.regenerating": "Rexenerando…",
-    "admin.ai.type_hotspot": "Toca a imaxe"
+    "admin.ai.type_hotspot": "Toca a imaxe",
+    "admin.ai.type_word_cloud": "Nube de palabras"
   }
 }

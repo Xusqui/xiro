@@ -18,7 +18,8 @@ const NORMALIZERS = {
     word_search: require('./question-types/word-search').normalize,
     matching: require('./question-types/matching').normalize,
     survey_multiple: require('./question-types/survey-multiple').normalize,
-    hotspot: require('./question-types/hotspot').normalize
+    hotspot: require('./question-types/hotspot').normalize,
+    word_cloud: require('./question-types/word-cloud').normalize
 };
 
 /**

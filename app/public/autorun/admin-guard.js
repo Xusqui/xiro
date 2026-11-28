@@ -15,7 +15,7 @@
     // Mismas claves que limpia el panel admin (core/auth.js → clearAdminSession).
     const ADMIN_SESSION_KEYS = [ADMIN_SESSION_KEY, ADMIN_TOKEN_KEY, 'adminRole', 'adminUserId', 'adminUsername'];
     const LOGIN_URL = '/admin.html';
-    const BOTS_SCRIPT = '/autorun/bots.js?v=20260929-140000';
+    const BOTS_SCRIPT = '/autorun/bots.js?v=20261128-110600';
     const LEADER_SCRIPT = '/autorun/team-leader.js?v=20260929-140000';
 
     function redirectToLogin() {

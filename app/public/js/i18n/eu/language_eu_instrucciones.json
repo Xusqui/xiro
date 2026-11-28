@@ -30,6 +30,8 @@
     "instructions.question_types.word_search.title": "Letra-zopa (Word Search)",
     "instructions.question_types.word_search.description": "10x10eko sare batean edozein norabidetan ezkutatutako hitzak aurkitu behar dira. Aurkitutako hitz bakoitzak puntuak ematen ditu. Hitz bat ukituz gero non hasten den ikusiko duzu, baina erdia balioko du.",
     "instructions.question_types.fill_blanks.title": "Osatu Esaldia (Fill Blanks)",
-    "instructions.question_types.fill_blanks.description": "Hiru hutsune arteko esaldi bat: bakoitzaren hitza idatzi behar da (zenbat letra dituen ikusten da). Asmatutako hitz bakoitzak puntuak ematen ditu eta denbora-bonus bat dago. Hutsune bakoitzeko hiru pista-letra arte eska ditzakezu, baina hitzak gutxiago balioko du."
+    "instructions.question_types.fill_blanks.description": "Hiru hutsune arteko esaldi bat: bakoitzaren hitza idatzi behar da (zenbat letra dituen ikusten da). Asmatutako hitz bakoitzak puntuak ematen ditu eta denbora-bonus bat dago. Hutsune bakoitzeko hiru pista-letra arte eska ditzakezu, baina hitzak gutxiago balioko du.",
+    "instructions.question_types.word_cloud.title": "Hitz-hodeia",
+    "instructions.question_types.word_cloud.description": "Galdera irekia: jokalari bakoitzak hitz bat edo gehiago idazten ditu (5era arte) eta denen artean pantailan hazten den hodei bat osatzen dute, gehien errepikatuak handiagoak. Ez dago erantzun zuzenik ez punturik."
   }
 }

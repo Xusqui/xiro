@@ -51,6 +51,7 @@
     "admin.ai.wait.types": "Tipus demanats",
     "admin.ai.wait.patience": "Continua treballant. Amb documents llargs o moltes preguntes pot trigar uns quants minuts; no tanquis aquesta pestanya.",
     "admin.ai.regenerating": "Regenerant…",
-    "admin.ai.type_hotspot": "Toca la imatge"
+    "admin.ai.type_hotspot": "Toca la imatge",
+    "admin.ai.type_word_cloud": "Núvol de paraules"
   }
 }

@@ -32,6 +32,14 @@ const QUESTION_TYPE_LABELS = [
         icon: 'fa-square-poll-horizontal',
         tile: 'bg-sky-100',
         ink: 'text-sky-700'
+    },
+    {
+        type: 'word_cloud',
+        label: 'Nube de palabras',
+        key: 'admin.ai.type_word_cloud',
+        icon: 'fa-cloud',
+        tile: 'bg-indigo-100',
+        ink: 'text-indigo-700'
     }
 ];
 

@@ -6,6 +6,16 @@ const BOT_BATCH_DELAY_MS = 100;
 const BOT_CONNECT_DELAY_MS = 50;
 const BOT_ANSWER_MIN_MS = 500;
 const BOT_ANSWER_MAX_MS = 3500;
+// Palabras con las que los bots rellenan una «Nube de palabras» (se repiten a propósito: así se agrupan)
+const CLOUD_WORDS = ['sol', 'mar', 'playa', 'helado', 'calor', 'viaje', 'siesta', 'arena', 'fiesta', 'sombra'];
+
+/** Hasta max_words palabras al azar, sin repetir (el servidor rechaza las repetidas del mismo jugador). */
+function randomCloudWords(maxWords) {
+    const pool = CLOUD_WORDS.slice();
+    const count = randInt(1, Math.max(1, Math.min(maxWords || 1, pool.length)));
+    return Array.from({ length: count }, () => pool.splice(randInt(0, pool.length - 1), 1)[0]);
+}
+
 const SLIDE_TYPES = ['comment', 'info', 'text', 'image', 'text-image', 'video', 'canvas', 'howto'];
 
 // ─── State ────────────────────────────────────────────────────────────────────
@@ -284,6 +294,10 @@ class QuizBotIndividual extends BaseBot {
                     words: (question.fb_lengths || []).map(len => 'A'.repeat(len))
                 };
                 break;
+            case 'word_cloud':
+                // Nube de palabras: un solo envío con hasta max_words palabras
+                payload = { ...base, answerType: 'word_cloud', words: randomCloudWords(question.max_words) };
+                break;
             case 'multiple_choice':
                 payload = { ...base, answerType: 'multiple_choice', selectedIndices: [randInt(0, n - 1)] };
                 break;
@@ -329,7 +343,9 @@ function followLeader(bot, question, questionIndex) {
 class QuizBotTeam extends QuizBotIndividual {
     _submitAnswer(question, questionIndex) {
         if (question && SLIDE_TYPES.includes(question.slide_type || question.type)) return;
-        if (!followLeader(this, question, questionIndex)) super._submitAnswer(question, questionIndex);
+        // Nube de palabras: cada jugador va por su cuenta, el líder no se replica
+        const own = question?.question_type === 'word_cloud';
+        if (own || !followLeader(this, question, questionIndex)) super._submitAnswer(question, questionIndex);
     }
 }
 

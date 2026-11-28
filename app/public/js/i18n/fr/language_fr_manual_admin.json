@@ -170,6 +170,7 @@
     "manual_admin.banks.visibility.hide_text": "Masque instantanément tous les éléments de cette liste au présentateur.",
     "manual_admin.banks.visibility.show_title": "Afficher tout",
     "manual_admin.banks.visibility.show_text": "Les affiche tous de nouveau au présentateur en une seule fois.",
-    "manual_admin.banks.visibility.scope_note": "Un éditeur n'affecte que les ressources qu'il a créées ; un administrateur affecte tous les éléments de la liste."
+    "manual_admin.banks.visibility.scope_note": "Un éditeur n'affecte que les ressources qu'il a créées ; un administrateur affecte tous les éléments de la liste.",
+    "manual_admin.banks.types.word_cloud": "<strong>Nuage de mots</strong> — Question ouverte sans bonne réponse : chaque joueur envoie de 1 à 5 mots (réglable dans l’éditeur) regroupés en un nuage en direct. Les mots interdits sont refusés et tu peux en masquer d’autres à la main. Elle ne rapporte pas de points et n’apparaît pas dans le Trivial."
   }
 }

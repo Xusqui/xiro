@@ -1,0 +1,17 @@
+{
+  "keys": {
+    "player.wordcloud.placeholder": "输入一个词",
+    "player.wordcloud.send": "发送",
+    "player.wordcloud.done": "已发送",
+    "player.wordcloud.duplicate": "你已发送过这个词",
+    "player.wordcloud.not_allowed": "不允许使用这个词",
+    "player.wordcloud.invalid": "请输入有效的词(最多 20 个字符)",
+    "player.wordcloud.closed": "已停止接收词语",
+    "player.wordcloud.error": "发送失败,请重试",
+    "player.wordcloud.empty": "没有人写下词语",
+    "player.wordcloud.up_to": "最多可以发送 {n} 个词",
+    "player.wordcloud.nothing": "请至少输入一个词",
+    "player.wordcloud.some_rejected": "部分词语未发送(重复或不允许)",
+    "player.wordcloud.already_finished": "你已经发送了你的词语"
+  }
+}

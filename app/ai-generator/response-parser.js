@@ -18,7 +18,8 @@ const TYPE_VALIDATORS = {
     word_search: require('./question-types/word-search').validate,
     matching: require('./question-types/matching').validate,
     survey_multiple: require('./question-types/survey-multiple').validate,
-    hotspot: require('./question-types/hotspot').validate
+    hotspot: require('./question-types/hotspot').validate,
+    word_cloud: require('./question-types/word-cloud').validate
 };
 
 /**

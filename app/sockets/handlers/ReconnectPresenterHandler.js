@@ -6,6 +6,7 @@ const { validateSocket, schemas } = require('../../validation');
 const ReconnectionService = require('../services/ReconnectionService');
 const { validateAdminToken } = require('../utils/RemoteControlHelper');
 const { buildReviewRevealPayload } = require('../utils/ReviewRevealPayload');
+const { flushActiveWordCloud } = require('../utils/WordCloudLiveBroadcast');
 const logger = require('../../config/logger');
 
 function emitReconnectFailed(socket, payload) {
@@ -193,6 +194,15 @@ async function maybeRestoreRevealState(socket, roomId, game, teamConfigs) {
     }
 }
 
+/** Nube de palabras abierta: el presentador que vuelve la recibe ya, sin esperar a otra palabra. */
+async function restoreLiveWordCloud(io, roomId, game) {
+    try {
+        await flushActiveWordCloud(io, roomId, game);
+    } catch (error) {
+        logger.warn('Presenter reconnect: no se pudo repintar la nube de palabras', { roomId, error: error.message });
+    }
+}
+
 function markPresenterConnected(player, socket, game) {
     player.socketId = socket.id;
     player.status = game ? 'presenter_connected' : 'presenter_lobby';
@@ -271,6 +281,7 @@ async function runPresenterReconnectFlow({ socket, playerId, sessionId, dependen
     socket.emit('reconnected-success', snapshot);
 
     await maybeRestoreRevealState(socket, roomId, game, teamConfigs);
+    await restoreLiveWordCloud(io, roomId, game);
 
     io.to(roomId + ':players').emit('presenter-reconnected', {
         message: 'El presentador se ha reconectado',

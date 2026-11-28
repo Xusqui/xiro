@@ -261,6 +261,11 @@
     "admin.media_ref.path_label": "用于在其他题目中重复使用的路径",
     "admin.media_ref.copy": "复制",
     "admin.media_ref.copied": "已复制",
-    "admin.media_ref.copy_failed": "请手动复制"
+    "admin.media_ref.copy_failed": "请手动复制",
+    "admin.q.type_word_cloud_short": "词云",
+    "admin.q.type_word_cloud_hint": "自由词语汇成词云",
+    "admin.q.wordcloud_title": "词云",
+    "admin.q.wordcloud_hint": "没有正确答案：每位玩家输入最多 20 个字母的词语，并汇总成词云。",
+    "admin.q.wordcloud_max": "每位玩家的词数"
   }
 }

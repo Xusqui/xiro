@@ -367,7 +367,7 @@ const GAME_QUESTIONS_SQL = `
                     q.id, q.question_text, q.question_type, q.tipo_contenido, q.url_recurso,
                     q.question_image_url, q.time_limit, q.correct_answer, q.max_points, q.hint_text,
                     q.tolerance_mode, q.tolerance_value, q.tolerance_cap, q.correct_word,
-                    q.hotspot_area, q.hotspot_tolerance, q.image_credit,
+                    q.hotspot_area, q.hotspot_tolerance, q.image_credit, q.max_words,
                     ROW_NUMBER() OVER (PARTITION BY q.bank_id ORDER BY RANDOM()) as rn,
                     fb.question_count as take_count
                 FROM questions q
@@ -378,7 +378,7 @@ const GAME_QUESTIONS_SQL = `
                     q.id, q.question_text, q.question_type, q.tipo_contenido, q.url_recurso,
                     q.question_image_url, q.time_limit, q.correct_answer, q.max_points, q.hint_text,
                     q.tolerance_mode, q.tolerance_value, q.tolerance_cap, q.correct_word,
-                    q.hotspot_area, q.hotspot_tolerance, q.image_credit,
+                    q.hotspot_area, q.hotspot_tolerance, q.image_credit, q.max_words,
                     ROW_NUMBER() OVER (ORDER BY RANDOM()) as rn,
                     (SELECT pool_question_count FROM pool_config) as take_count
                 FROM questions q
@@ -388,13 +388,13 @@ const GAME_QUESTIONS_SQL = `
                 SELECT id, question_text, question_type, tipo_contenido, url_recurso,
                     question_image_url, time_limit, correct_answer, max_points, hint_text,
                     tolerance_mode, tolerance_value, tolerance_cap, correct_word,
-                    hotspot_area, hotspot_tolerance, image_credit
+                    hotspot_area, hotspot_tolerance, image_credit, max_words
                 FROM fixed_questions WHERE rn <= take_count
                 UNION ALL
                 SELECT id, question_text, question_type, tipo_contenido, url_recurso,
                     question_image_url, time_limit, correct_answer, max_points, hint_text,
                     tolerance_mode, tolerance_value, tolerance_cap, correct_word,
-                    hotspot_area, hotspot_tolerance, image_credit
+                    hotspot_area, hotspot_tolerance, image_credit, max_words
                 FROM pool_questions WHERE rn <= take_count
             )
             SELECT
@@ -415,6 +415,7 @@ const GAME_QUESTIONS_SQL = `
                 sq.hotspot_area,
                 sq.hotspot_tolerance,
                 sq.image_credit,
+                sq.max_words,
                 json_agg(
                     json_build_object(
                         'text', o.option_text,
@@ -431,7 +432,7 @@ const GAME_QUESTIONS_SQL = `
             GROUP BY sq.id, sq.question_text, sq.question_type,
                      sq.tipo_contenido, sq.url_recurso, sq.question_image_url, sq.time_limit, sq.correct_answer, sq.max_points, sq.hint_text,
                      sq.tolerance_mode, sq.tolerance_value, sq.tolerance_cap, sq.correct_word,
-                     sq.hotspot_area, sq.hotspot_tolerance, sq.image_credit
+                     sq.hotspot_area, sq.hotspot_tolerance, sq.image_credit, sq.max_words
             ORDER BY RANDOM()
         `;
 

@@ -59,6 +59,9 @@
     "xiro_results_viewer.error.parse_csv": "Error al processar el CSV: ",
     "xiro_results_viewer.vote.hotspot_in": "Dins",
     "xiro_results_viewer.vote.hotspot_near": "A prop",
-    "xiro_results_viewer.vote.hotspot_out": "Fora"
+    "xiro_results_viewer.vote.hotspot_out": "Fora",
+    "xiro_results_viewer.wordcloud.title": "Paraules del núvol",
+    "xiro_results_viewer.wordcloud.times": "vegades",
+    "xiro_results_viewer.wordcloud.empty": "Ningú va escriure paraules"
   }
 }

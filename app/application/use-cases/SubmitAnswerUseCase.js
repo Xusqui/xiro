@@ -110,6 +110,20 @@ function validateHotspotPayload(data) {
     return { valid: true, value: { ...data } };
 }
 
+// Tope de la palabra cruda: el límite real (20) lo aplica el dominio tras limpiarla; esto frena abusos
+const MAX_RAW_WORD_LENGTH = 100;
+
+function validateWordCloudPayload(data) {
+    const hasWords =
+        Array.isArray(data.words) &&
+        data.words.length > 0 &&
+        data.words.every(word => typeof word === 'string' && word.length <= MAX_RAW_WORD_LENGTH);
+    if (!hasRoom(data) || !hasNickname(data) || !hasWords) {
+        return { valid: false, errors: ['invalid word_cloud payload'] };
+    }
+    return { valid: true, value: { ...data } };
+}
+
 const ANSWER_VALIDATORS = {
     numeric: validateNumericPayload,
     word_scramble: validateWordScramblePayload,
@@ -118,7 +132,8 @@ const ANSWER_VALIDATORS = {
     matching: validateMatchingPayload,
     word_search: validateWordSearchPayload,
     fill_blanks: validateFillBlanksPayload,
-    hotspot: validateHotspotPayload
+    hotspot: validateHotspotPayload,
+    word_cloud: validateWordCloudPayload
 };
 
 function validateSubmitAnswerPayload(data) {
@@ -152,6 +167,10 @@ function mapSubmitAnswerCommandContext(context) {
 function mapSubmitAnswerResponse(result, context) {
     if (!result.success) {
         return { ok: false, success: false, reason: result.reason };
+    }
+    // Nube de palabras: el móvil necesita cuántas palabras le quedan
+    if (result.wordCloud) {
+        return { ok: true, success: true, wordCloud: result.wordCloud };
     }
     if (result.duplicate) {
         return { ok: true, success: true, duplicate: true };

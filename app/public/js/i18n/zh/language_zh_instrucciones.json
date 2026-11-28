@@ -30,6 +30,8 @@
     "instructions.question_types.word_search.title": "找字游戏 (Word Search)",
     "instructions.question_types.word_search.description": "在 10×10 的字母格中找出隐藏在任意方向的单词。每找到一个单词都能得分。点击单词可查看起始位置，但该词得分减半。",
     "instructions.question_types.fill_blanks.title": "填空（Fill Blanks）",
-    "instructions.question_types.fill_blanks.description": "一个最多有三个空格的句子：输入每个空格的单词（显示字母数）。每个正确单词得分，另有时间奖励。每个空格最多可请求三个提示字母，但该单词分值会降低。"
+    "instructions.question_types.fill_blanks.description": "一个最多有三个空格的句子：输入每个空格的单词（显示字母数）。每个正确单词得分，另有时间奖励。每个空格最多可请求三个提示字母，但该单词分值会降低。",
+    "instructions.question_types.word_cloud.title": "词云",
+    "instructions.question_types.word_cloud.description": "开放式问题：每位玩家输入一个或多个词语（最多 5 个），大家的词语汇成一朵在屏幕上不断变大的词云，出现次数越多的词越大。没有正确答案，也没有分数。"
   }
 }

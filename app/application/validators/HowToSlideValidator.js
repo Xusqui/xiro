@@ -21,7 +21,8 @@ const HOWTO_TOPICS = [
     'fill_blanks',
     'survey',
     'survey_multiple',
-    'hotspot'
+    'hotspot',
+    'word_cloud'
 ];
 
 // Obligatorio en las diapositivas 'howto'; en las demás se admite null, vacío o ausente

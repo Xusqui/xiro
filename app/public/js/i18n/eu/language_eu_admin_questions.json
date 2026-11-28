@@ -261,6 +261,11 @@
     "admin.media_ref.path_label": "Beste galdera batzuetan berrerabiltzeko bide-izena",
     "admin.media_ref.copy": "Kopiatu",
     "admin.media_ref.copied": "Kopiatuta",
-    "admin.media_ref.copy_failed": "Kopiatu eskuz"
+    "admin.media_ref.copy_failed": "Kopiatu eskuz",
+    "admin.q.type_word_cloud_short": "Hitz-hodeia",
+    "admin.q.type_word_cloud_hint": "Hitz libreek hodei bat osatzen dute",
+    "admin.q.wordcloud_title": "Hitz-hodeia",
+    "admin.q.wordcloud_hint": "Erantzun zuzenik gabe: jokalari bakoitzak 20 letrara arteko hitzak idazten ditu eta hodei batean biltzen dira.",
+    "admin.q.wordcloud_max": "Hitz jokalari bakoitzeko"
   }
 }

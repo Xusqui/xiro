@@ -66,6 +66,8 @@
     "manual_player.answer.fill_blanks.title": "填空",
     "manual_player.answer.fill_blanks.text": "点击空格用键盘输入单词：每个格子是一个字母。卡住时可请求提示（先显示首字母，再显示末字母，再显示中间字母），但该单词分值会降低（70%、40%、25%）。答对一半或以上的空格即算正确。团队模式下每个单词填完即校验，正确的单词全组可见；第一个发送的人会为所有人关闭该题。",
     "manual_player.answer.hotspot.title": "点击图片",
-    "manual_player.answer.hotspot.text": "在图片上点击题目要求的位置：会出现一个图钉，再点一次可以移动，然后按“提交”。点在正确区域内得最高分加奖励；靠近则离得越远得分越少。揭晓时会显示正确区域和你的点击。"
+    "manual_player.answer.hotspot.text": "在图片上点击题目要求的位置：会出现一个图钉，再点一次可以移动，然后按“提交”。点在正确区域内得最高分加奖励；靠近则离得越远得分越少。揭晓时会显示正确区域和你的点击。",
+    "manual_player.answer.word_cloud.title": "词云",
+    "manual_player.answer.word_cloud.text": "输入一个词语，或问题允许的数量，然后点“发送”。没有正确答案，也没有分数。发送后你会在手机上看到词云，并看着它随其他人的词语不断变大。"
   }
 }

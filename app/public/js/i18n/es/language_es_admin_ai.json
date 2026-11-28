@@ -51,6 +51,7 @@
     "admin.ai.wait.types": "Tipos pedidos",
     "admin.ai.wait.patience": "Sigue trabajando. Con documentos largos o muchas preguntas puede tardar varios minutos; no cierres esta pestaña.",
     "admin.ai.regenerating": "Regenerando…",
-    "admin.ai.type_hotspot": "Toca la imagen"
+    "admin.ai.type_hotspot": "Toca la imagen",
+    "admin.ai.type_word_cloud": "Nube de palabras"
   }
 }

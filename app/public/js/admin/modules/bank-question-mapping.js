@@ -59,6 +59,11 @@ function _multipleChoiceFieldsFromApi(q, questionType) {
     };
 }
 
+/** Palabras por jugador de «Nube de palabras»: entero de 1 a 5 (1 si falta o no es válido). */
+function wordCloudMaxWords(raw) {
+    return Math.min(5, Math.max(1, Math.trunc(Number(raw)) || 1));
+}
+
 /** Completa la frase: la frase vuelve al editor con las palabras entre corchetes. */
 function _bankQuestionTextFromApi(q, questionType) {
     if (questionType !== 'fill_blanks' || !window.XiroFillBlanks) return q.question_text;
@@ -68,7 +73,8 @@ function _bankQuestionTextFromApi(q, questionType) {
 /** Pregunta de la API (/api/banks/:id) → objeto del editor (preguntasData). */
 function mapBankQuestionFromApi(q) {
     const questionType = q.question_type || 'quiz';
-    const options = questionType === 'fill_blanks' || questionType === 'hotspot' ? [] : _bankOptionsFromApi(q, questionType);
+    const noOptions = questionType === 'fill_blanks' || questionType === 'hotspot' || questionType === 'word_cloud';
+    const options = noOptions ? [] : _bankOptionsFromApi(q, questionType);
     return {
         id: q.id,
         questionText: _bankQuestionTextFromApi(q, questionType),
@@ -83,7 +89,8 @@ function mapBankQuestionFromApi(q) {
         correctWord: questionType === 'word_scramble' ? q.correct_word || '' : null,
         hint: q.hint_text || '',
         ..._multipleChoiceFieldsFromApi(q, questionType),
-        ...hotspotFieldsFromApi(q, questionType)
+        ...hotspotFieldsFromApi(q, questionType),
+        ...(questionType === 'word_cloud' ? { maxWords: wordCloudMaxWords(q.max_words) } : {})
     };
 }
 
@@ -141,7 +148,7 @@ function _bankOptionForSave(q, opt, index) {
 }
 
 function _bankOptionsForSave(q) {
-    if (q.type === 'numeric_approximation' || q.type === 'word_scramble' || q.type === 'hotspot') return [];
+    if (q.type === 'numeric_approximation' || q.type === 'word_scramble' || q.type === 'hotspot' || q.type === 'word_cloud') return [];
     return q.options.map((opt, index) => _bankOptionForSave(q, opt, index));
 }
 
@@ -183,6 +190,7 @@ function mapBankQuestionForSave(q) {
         correctWord: q.type === 'word_scramble' ? q.correctWord || null : null,
         ..._multipleChoiceFieldsForSave(q),
         ...hotspotFieldsForSave(q),
+        maxWords: q.type === 'word_cloud' ? wordCloudMaxWords(q.maxWords) : null,
         options: fillBlanks ? fillBlanks.options : _bankOptionsForSave(q)
     };
 }

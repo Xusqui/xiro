@@ -32,7 +32,10 @@ const typedAnswerValidators = {
     survey_multiple: payload => Array.isArray(payload.selectedIndices),
     word_search: payload => isValidFoundPayload(payload.found),
     fill_blanks: payload => isValidWordsPayload(payload.words),
-    hotspot: payload => isValidTapPayload(payload.tap)
+    hotspot: payload => isValidTapPayload(payload.tap),
+    // Nube de palabras: todas las palabras del jugador en un envío (de cada una se ocupa el manejador del tipo)
+    word_cloud: payload =>
+        Array.isArray(payload.words) && payload.words.length > 0 && payload.words.every(word => typeof word === 'string')
 };
 
 function hasTypedAnswerShape(payload) {
@@ -62,7 +65,7 @@ function validateSubmitAnswerPayload(payload = {}) {
 
     if (!hasSupportedAnswerShape(payload)) {
         errors.push(
-            'index, order, matches, numeric playerAnswer, word_scramble, word_search found, fill_blanks words, hotspot tap or multiple_choice/survey_multiple selectedIndices is required'
+            'index, order, matches, numeric playerAnswer, word_scramble, word_search found, fill_blanks words, hotspot tap, word_cloud word or multiple_choice/survey_multiple selectedIndices is required'
         );
     }
 

@@ -261,6 +261,11 @@
     "admin.media_ref.path_label": "Caminho para o reutilizar noutras perguntas",
     "admin.media_ref.copy": "Copiar",
     "admin.media_ref.copied": "Copiado",
-    "admin.media_ref.copy_failed": "Copia-o manualmente"
+    "admin.media_ref.copy_failed": "Copia-o manualmente",
+    "admin.q.type_word_cloud_short": "Nuvem de palavras",
+    "admin.q.type_word_cloud_hint": "Palavras livres que formam uma nuvem",
+    "admin.q.wordcloud_title": "Nuvem de palavras",
+    "admin.q.wordcloud_hint": "Sem resposta correta: cada jogador escreve palavras de até 20 letras e elas são agrupadas numa nuvem.",
+    "admin.q.wordcloud_max": "Palavras por jogador"
   }
 }

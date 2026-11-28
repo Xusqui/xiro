@@ -66,6 +66,8 @@
     "manual_player.answer.fill_blanks.title": "Completa la Frase",
     "manual_player.answer.fill_blanks.text": "Toca un hueco y escribe la palabra con el teclado: cada casilla es una letra. Si te atascas, pide una pista (destapa la primera letra, luego la última y la central), pero esa palabra valdrá menos (70 %, 40 %, 25 %). Cuenta como acierto con la mitad de los huecos o más. En equipos, cada palabra se comprueba al completarla y lo acertado lo ve todo el grupo; el primero que envía cierra la pregunta para todos.",
     "manual_player.answer.hotspot.title": "Toca la Imagen",
-    "manual_player.answer.hotspot.text": "Toca en la imagen el lugar que pide la pregunta: aparece una chincheta, que puedes mover tocando otra vez, y pulsa «Enviar». Si cae dentro de la zona correcta ganas los puntos máximos más un bonus; si cae cerca, ganas menos cuanto más lejos esté. Al revelar ves la zona correcta y tu toque."
+    "manual_player.answer.hotspot.text": "Toca en la imagen el lugar que pide la pregunta: aparece una chincheta, que puedes mover tocando otra vez, y pulsa «Enviar». Si cae dentro de la zona correcta ganas los puntos máximos más un bonus; si cae cerca, ganas menos cuanto más lejos esté. Al revelar ves la zona correcta y tu toque.",
+    "manual_player.answer.word_cloud.title": "Nube de palabras",
+    "manual_player.answer.word_cloud.text": "Escribe una palabra, o hasta las que permita la pregunta, y pulsa Enviar. No hay respuestas correctas ni puntos. Al enviar ves la nube en tu móvil y cómo crece con las palabras de los demás."
   }
 }

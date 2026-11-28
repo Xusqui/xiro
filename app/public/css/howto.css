@@ -259,6 +259,22 @@
 @keyframes howto-blink { 50% { opacity: 0; } }
 .howto-nm-card + .howto-footer { margin-top: auto; }
 
+/* ---------- Nube de palabras (word_cloud): casillas, nube que sustituye al formulario y aviso ---------- */
+.howto-wc-form { padding: 14px 14px 0; }
+.howto-wc-box {
+    min-height: 46px; margin-bottom: 10px; padding: 11px 14px; border-radius: 12px; background: #fff;
+    border: 3px solid transparent; color: #1e293b; font-size: 20px; font-weight: 800; line-height: 1.2;
+    transition: border-color .2s;
+}
+.howto-wc-box.howto-wc-filled { border-color: #8ab817; }
+.howto-wc-hint { margin: 2px 0 0; color: #fff; font-size: 12px; font-weight: 800; text-align: center; opacity: .85; }
+.howto-wc-cloud { display: none; position: relative; width: 300px; height: 250px; margin: 14px auto 0; }
+.howto-wc-sent .howto-wc-cloud { display: block; }
+.howto-wc-sent .howto-wc-form, .howto-wc-sent .howto-footer { display: none; }
+.howto-wc-notice { min-height: 18px; margin: 10px 14px 0; color: #fff; font-size: 14px; font-weight: 800; text-align: center; }
+.howto-wc-notice:empty { visibility: hidden; }
+.howto-wc-form + .howto-wc-cloud + .howto-wc-notice + .howto-footer { margin-top: auto; }
+
 /* ---------- Toca la imagen (hotspot): imagen con chincheta y área; el panel de ejemplo deja la imagen a la vista ---------- */
 .howto-hs-frame { padding: 10px 10px 0; }
 .howto-hs-stage { position: relative; width: 300px; height: 225px; border-radius: 12px; overflow: hidden; line-height: 0; }

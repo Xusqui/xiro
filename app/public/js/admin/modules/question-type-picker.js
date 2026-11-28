@@ -3,7 +3,7 @@
 // Estilos en css/admin-question-type-picker.css; el color de cada tipo sale de
 // su data-type, el mismo color que su chip en la lista.
 
-// Orden de lectura en 4 columnas: elegir respuesta (quiz, múltiple y las dos encuestas),
+// Orden de lectura en 4 columnas: elegir respuesta (quiz, múltiple y las encuestas, nube incluida),
 // colocar, estimar o señalar, y palabras. En contenedores estrechos pasa a 2 columnas.
 const QUESTION_TYPE_PICKER = [
     { type: 'quiz', icon: 'fa-check', name: 'Quiz', hint: 'Una respuesta correcta' },
@@ -20,6 +20,7 @@ const QUESTION_TYPE_PICKER = [
         name: 'Encuesta de selección múltiple',
         hint: 'Varias respuestas por jugador'
     },
+    { type: 'word_cloud', icon: 'fa-cloud', name: 'Nube de palabras', hint: 'Palabras libres que forman una nube' },
     { type: 'order', icon: 'fa-list-ol', name: 'Ordena', hint: 'Arrastrar al orden correcto' },
     { type: 'matching', icon: 'fa-right-left', name: 'Emparejar', hint: 'Unir dos columnas' },
     { type: 'numeric_approximation', icon: 'fa-bullseye', name: 'Numérica', hint: 'Acercarse a un número' },

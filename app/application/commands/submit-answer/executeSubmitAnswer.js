@@ -13,6 +13,7 @@ const {
     applyTimerStateToLateWindow
 } = require('./questionContext');
 const { runEarlyChecks } = require('./earlyChecks');
+const { submitWordCloudAnswer } = require('./wordCloudSubmit');
 const { handleAutoRevealAfterAnswer } = require('./autoReveal');
 const {
     buildValidationFailure,
@@ -81,6 +82,11 @@ async function executeSubmitAnswer(payload, dependencies) {
     const answerValidation = validateAnswerByType({ payload, question: flags.currentQuestion, flags });
     if (!answerValidation.valid) {
         return buildAnswerValidationFailure(answerValidation, sPin, game);
+    }
+
+    // Nube de palabras: varias palabras por jugador, así que no pasa por "ya respondió", cerrojo ni puntuación
+    if (flags.questionType === 'word_cloud') {
+        return submitWordCloudAnswer({ payload, game, socket, nickname, sPin, flags, io, clearGameTimer });
     }
 
     const currentQuestion = flags.currentQuestion;

@@ -1,0 +1,17 @@
+{
+  "keys": {
+    "player.wordcloud.placeholder": "Idatzi hitz bat",
+    "player.wordcloud.send": "Bidali",
+    "player.wordcloud.done": "Bidalitako hitzak",
+    "player.wordcloud.duplicate": "Hitz hori jada bidali duzu",
+    "player.wordcloud.not_allowed": "Hitz hori ez dago baimenduta",
+    "player.wordcloud.invalid": "Idatzi baliozko hitz bat (gehienez 20 karaktere)",
+    "player.wordcloud.closed": "Dagoeneko ez dira hitzak onartzen",
+    "player.wordcloud.error": "Ezin izan da hitza bidali. Saiatu berriro",
+    "player.wordcloud.empty": "Inork ez du hitzik idatzi",
+    "player.wordcloud.up_to": "{n} hitz arte bidal ditzakezu",
+    "player.wordcloud.nothing": "Idatzi gutxienez hitz bat",
+    "player.wordcloud.some_rejected": "Hitz batzuk ez dira bidali (errepikatuak edo baimendu gabeak)",
+    "player.wordcloud.already_finished": "Dagoeneko bidali dituzu zure hitzak"
+  }
+}

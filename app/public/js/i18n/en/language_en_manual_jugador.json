@@ -66,6 +66,8 @@
     "manual_player.answer.fill_blanks.title": "Fill in the Blanks",
     "manual_player.answer.fill_blanks.text": "Tap a blank and type the word with the keyboard: each box is one letter. If you get stuck, ask for a hint (it reveals the first letter, then the last, then the middle one), but that word will be worth less (70%, 40%, 25%). It counts as correct with half of the blanks or more. In teams, each word is checked when complete and correct words are shared with the group; the first player to send closes the question for everyone.",
     "manual_player.answer.hotspot.title": "Tap the Image",
-    "manual_player.answer.hotspot.text": "Tap the spot the question asks for on the image: a pin appears, which you can move by tapping again, then press Send. Inside the correct area you get the maximum points plus a bonus; close by, you get fewer the further away you are. On reveal you see the correct area and your tap."
+    "manual_player.answer.hotspot.text": "Tap the spot the question asks for on the image: a pin appears, which you can move by tapping again, then press Send. Inside the correct area you get the maximum points plus a bonus; close by, you get fewer the further away you are. On reveal you see the correct area and your tap.",
+    "manual_player.answer.word_cloud.title": "Word cloud",
+    "manual_player.answer.word_cloud.text": "Type a word, or as many as the question allows, and tap Send. There are no correct answers or points. After sending you see the cloud on your phone and watch it grow with everyone else’s words."
   }
 }

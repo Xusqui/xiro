@@ -261,6 +261,11 @@
     "admin.media_ref.path_label": "Ruta per reutilitzar-lo en altres preguntes",
     "admin.media_ref.copy": "Copia",
     "admin.media_ref.copied": "Copiada",
-    "admin.media_ref.copy_failed": "Copia-la a mà"
+    "admin.media_ref.copy_failed": "Copia-la a mà",
+    "admin.q.type_word_cloud_short": "Núvol de paraules",
+    "admin.q.type_word_cloud_hint": "Paraules lliures que formen un núvol",
+    "admin.q.wordcloud_title": "Núvol de paraules",
+    "admin.q.wordcloud_hint": "Sense resposta correcta: cada jugador escriu paraules de fins a 20 lletres i s’agrupen en un núvol.",
+    "admin.q.wordcloud_max": "Paraules per jugador"
   }
 }

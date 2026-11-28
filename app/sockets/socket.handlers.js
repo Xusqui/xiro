@@ -55,6 +55,9 @@ const {
     registerSlideNavigationEvents
 } = require('./handlers/SlideNavigationHandler');
 const { registerReactionEvents } = require('./handlers/ReactionHandler');
+const { createWordCloudHandlers, registerWordCloudEvents } = require('./handlers/WordCloudHandler');
+const { hideWord } = require('./utils/WordCloudRevealStats');
+const { flushWordCloudUpdate } = require('./utils/WordCloudLiveBroadcast');
 const { registerTimerSyncEvents } = require('./handlers/TimerSyncHandler');
 const { createReactionsFeature } = require('./services/ReactionsFeature');
 const { createAvatarsFeature, registerAvatarEvents } = require('./services/AvatarsFeature');
@@ -191,6 +194,7 @@ function createHandlerSet(dependencies) {
         handleJoinRemotePresenter: createJoinRemotePresenterHandler({ activeGames, lobbyPlayers, teamConfigs }),
         trivialHandler: TrivialSocketHandler({ io, lobbyPlayers }),
         reactions: createReactionsFeature({ io, activeGames, players }),
+        wordCloud: createWordCloudHandlers({ io, activeGames, hideWord, flushWordCloudUpdate }),
         avatars: dependencies.avatars
     };
 }
@@ -384,6 +388,7 @@ function onSocketConnection(socket, handlers, ackManager) {
     registerSlideNavigationEvents(socket, { handlers, assertIsPresenter });
     registerTrivialSocketEvents(socket, handlers);
     registerReactionEvents(socket, handlers.reactions);
+    registerWordCloudEvents(socket, handlers.wordCloud);
     registerAvatarEvents(socket, handlers.avatars);
     registerTimerSyncEvents(socket, { io, activeGames, assertIsPresenter });
     registerDisconnectAndErrorEvents(socket, handlers, ackManager);
@@ -414,6 +419,7 @@ function logConfiguredSocketHandlers() {
             'send-reaction',
             'get-reactions',
             'set-reactions',
+            'word-cloud-hide',
             'end-game',
             'leave-lobby',
             'disconnect',

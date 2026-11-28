@@ -60,6 +60,11 @@ window.TVApp.SocketAnswers = (function () {
             updateAnswerCounter();
         });
 
+        // Nube de palabras en directo: la TV solo mira (ocultar palabras es del presentador)
+        socket.on('word-cloud-update', function (data) {
+            if (data && Array.isArray(data.words)) window.TVApp.WordCloud.update(data);
+        });
+
         socket.on('ranking-update', function (data) {
             if (data.ranking) {
                 for (let i = 0; i < data.ranking.length; i++) {
@@ -85,6 +90,7 @@ window.TVApp.SocketAnswers = (function () {
             else if (type === 'word_scramble') Reveal.renderWordScrambleReveal(data, question);
             else if (type === 'word_search') Reveal.renderWordSearchReveal(data);
             else if (type === 'fill_blanks') Reveal.renderFillBlanksReveal(data);
+            else if (type === 'word_cloud') window.TVApp.WordCloud.reveal(data.wordCloud);
             else if (type === 'hotspot') window.TVApp.Hotspot.renderReveal(data);
             else Reveal.renderOptionsReveal(data);
 

@@ -13,6 +13,7 @@ const { buildWordSearchPrompt } = require('./prompt-word-search');
 const { buildMatchingPrompt } = require('./prompt-matching');
 const { buildSurveyMultiplePrompt } = require('./prompt-survey-multiple');
 const { buildHotspotPrompt } = require('./prompt-hotspot');
+const { buildWordCloudPrompt } = require('./prompt-word-cloud');
 
 const PROMPT_BUILDERS = Object.freeze({
     quiz: prompts.buildQuizPrompt,
@@ -25,6 +26,7 @@ const PROMPT_BUILDERS = Object.freeze({
     word_search: buildWordSearchPrompt,
     matching: buildMatchingPrompt,
     survey_multiple: buildSurveyMultiplePrompt,
+    word_cloud: buildWordCloudPrompt,
     hotspot: buildHotspotPrompt
 });
 

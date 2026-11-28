@@ -66,6 +66,8 @@
     "manual_player.answer.fill_blanks.title": "Osatu Esaldia",
     "manual_player.answer.fill_blanks.text": "Ukitu hutsune bat eta idatzi hitza teklatuarekin: laukitxo bakoitza letra bat da. Trabatzen bazara, eskatu pista bat (lehen letra, gero azkena eta erdikoa agertzen ditu), baina hitz horrek gutxiago balioko du (%70, %40, %25). Hutsuneen erdiarekin edo gehiagorekin asmatutzat jotzen da. Taldeetan, hitz bakoitza osatzean egiaztatzen da eta asmatutakoa talde osoak ikusten du; bidaltzen duen lehenak galdera ixten du guztientzat.",
     "manual_player.answer.hotspot.title": "Ukitu Irudia",
-    "manual_player.answer.hotspot.text": "Ukitu irudian galderak eskatzen duen tokia: txintxeta bat agertuko da, berriro ukituta mugi dezakezuna, eta sakatu «Bidali». Eremu zuzenaren barruan erortzen bada, gehienezko puntuak eta hobaria irabazten dituzu; gertu erortzen bada, gutxiago zenbat eta urrunago egon. Erantzuna erakustean eremu zuzena eta zure ukitua ikusten dituzu."
+    "manual_player.answer.hotspot.text": "Ukitu irudian galderak eskatzen duen tokia: txintxeta bat agertuko da, berriro ukituta mugi dezakezuna, eta sakatu «Bidali». Eremu zuzenaren barruan erortzen bada, gehienezko puntuak eta hobaria irabazten dituzu; gertu erortzen bada, gutxiago zenbat eta urrunago egon. Erantzuna erakustean eremu zuzena eta zure ukitua ikusten dituzu.",
+    "manual_player.answer.word_cloud.title": "Hitz-hodeia",
+    "manual_player.answer.word_cloud.text": "Idatzi hitz bat, edo galderak onartzen dituen guztiak, eta sakatu Bidali. Ez dago erantzun zuzenik ez punturik. Bidali ondoren hodeia ikusiko duzu zure telefonoan, eta besteen hitzekin nola hazten den."
   }
 }

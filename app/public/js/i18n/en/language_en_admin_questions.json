@@ -261,6 +261,11 @@
     "admin.media_ref.path_label": "Path to reuse it in other questions",
     "admin.media_ref.copy": "Copy",
     "admin.media_ref.copied": "Copied",
-    "admin.media_ref.copy_failed": "Copy it manually"
+    "admin.media_ref.copy_failed": "Copy it manually",
+    "admin.q.type_word_cloud_short": "Word cloud",
+    "admin.q.type_word_cloud_hint": "Free words that form a cloud",
+    "admin.q.wordcloud_title": "Word cloud",
+    "admin.q.wordcloud_hint": "No correct answer: each player types words of up to 20 letters and they are grouped into a cloud.",
+    "admin.q.wordcloud_max": "Words per player"
   }
 }

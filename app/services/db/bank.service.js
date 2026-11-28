@@ -178,12 +178,19 @@ function invalidatePinCaches(pin) {
 }
 
 /** Área (JSON), tolerancia y crédito de «Toca la imagen»; NULL en el resto de tipos. */
+/** Palabras por jugador de la nube (1 a 5); la columna es NOT NULL, así que los demás tipos guardan 1. */
+function wordCloudMaxWords(question) {
+    if (question.type !== 'word_cloud') return 1;
+    return Math.min(5, Math.max(1, Math.trunc(Number(question.maxWords)) || 1));
+}
+
 function hotspotValues(question) {
     const isHotspot = question.type === 'hotspot';
     return [
         isHotspot && question.hotspotArea ? JSON.stringify(question.hotspotArea) : null,
         isHotspot ? (question.hotspotTolerance ?? null) : null,
-        question.imageCredit || null
+        question.imageCredit || null,
+        wordCloudMaxWords(question)
     ];
 }
 
@@ -301,7 +308,7 @@ async function updateExistingQuestion(client, question) {
              time_limit = $5, correct_answer = $7, max_points = $8, hint_text = $9,
              tolerance_mode = $10, tolerance_value = $11, tolerance_cap = $12,
              correct_word = $13, question_image_url = $14,
-             hotspot_area = $15, hotspot_tolerance = $16, image_credit = $17
+             hotspot_area = $15, hotspot_tolerance = $16, image_credit = $17, max_words = $18
          WHERE id = $6`,
         [
             question.questionText,
@@ -328,8 +335,8 @@ async function insertQuestion(client, bankId, question) {
         `INSERT INTO questions
          (bank_id, question_text, question_type, tipo_contenido, url_recurso, time_limit,
           correct_answer, max_points, hint_text, tolerance_mode, tolerance_value, tolerance_cap,
-          correct_word, question_image_url, hotspot_area, hotspot_tolerance, image_credit)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
+          correct_word, question_image_url, hotspot_area, hotspot_tolerance, image_credit, max_words)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
          RETURNING id`,
         buildQuestionValues(bankId, question)
     );
@@ -598,6 +605,7 @@ const BANK_QUESTIONS_SQL = `
                 q.hotspot_area,
                 q.hotspot_tolerance,
                 q.image_credit,
+                q.max_words,
                 json_agg(
                     json_build_object(
                         'optionText', o.option_text,

@@ -135,7 +135,8 @@ async function getQuestionsToMerge(client, bankIds) {
             q.question_image_url,
             q.hotspot_area,
             q.hotspot_tolerance,
-            q.image_credit
+            q.image_credit,
+            q.max_words
          FROM questions q
          WHERE q.bank_id = ANY($1::int[])
          ORDER BY q.bank_id, q.id`,
@@ -151,8 +152,8 @@ async function cloneQuestion(client, question, newBankId) {
          (bank_id, question_text, question_type, tipo_contenido,
           url_recurso, time_limit, correct_answer, max_points,
           hint_text, tolerance_mode, tolerance_value, tolerance_cap, correct_word, question_image_url,
-          hotspot_area, hotspot_tolerance, image_credit)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
+          hotspot_area, hotspot_tolerance, image_credit, max_words)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
          RETURNING id`,
         [
             newBankId,
@@ -172,7 +173,8 @@ async function cloneQuestion(client, question, newBankId) {
             // pg devuelve el JSONB como objeto: se vuelve a guardar como texto JSON
             question.hotspot_area === null || question.hotspot_area === undefined ? null : JSON.stringify(question.hotspot_area),
             question.hotspot_tolerance ?? null,
-            question.image_credit ?? null
+            question.image_credit ?? null,
+            question.max_words ?? 1
         ]
     );
 

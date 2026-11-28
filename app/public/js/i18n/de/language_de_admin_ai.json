@@ -51,6 +51,7 @@
     "admin.ai.wait.types": "Gewünschte Typen",
     "admin.ai.wait.patience": "Die KI arbeitet noch. Bei langen Dokumenten oder vielen Fragen kann es einige Minuten dauern; schließe diesen Tab nicht.",
     "admin.ai.regenerating": "Wird neu erstellt…",
-    "admin.ai.type_hotspot": "Tippe auf das Bild"
+    "admin.ai.type_hotspot": "Tippe auf das Bild",
+    "admin.ai.type_word_cloud": "Wortwolke"
   }
 }

@@ -36,6 +36,7 @@ async function searchQuestions(query) {
             q.hotspot_area,
             q.hotspot_tolerance,
             q.image_credit,
+            q.max_words,
             q.tipo_contenido,
             q.url_recurso,
             qb.id   AS bank_id,

@@ -157,5 +157,6 @@ async function checkAllPlayersAnswered(game, players, io, currentIndex) {
 }
 
 module.exports = {
-    checkAllPlayersAnswered
+    checkAllPlayersAnswered,
+    fetchActivePlayers
 };

@@ -128,6 +128,13 @@ const questionSchema = Joi.object({
         'number.positive': 'El límite de tolerancia debe ser mayor a 0'
     }),
     ...hotspotFields,
+    // Nube de palabras: cuántas palabras escribe cada jugador (el editor manda null en los demás tipos)
+    maxWords: Joi.number().integer().min(1).max(5).allow(null).optional().messages({
+        'number.base': 'Las palabras por jugador deben ser un número',
+        'number.integer': 'Las palabras por jugador deben ser un número entero',
+        'number.min': 'Cada jugador debe poder escribir al menos 1 palabra',
+        'number.max': 'Cada jugador puede escribir como máximo 5 palabras'
+    }),
     hint: Joi.string().max(LIMITS.HINT_MAX).allow(null, '').optional(),
     justification: Joi.string().max(LIMITS.JUSTIFICATION_MAX).allow(null, '').optional(),
     mc_points_per_correct: Joi.number()
@@ -177,7 +184,7 @@ const questionSchema = Joi.object({
         }),
     options: Joi.when('type', {
         switch: [
-            { is: Joi.valid('numeric_approximation', 'word_scramble', 'hotspot'), then: Joi.optional() },
+            { is: Joi.valid('numeric_approximation', 'word_scramble', 'hotspot', 'word_cloud'), then: Joi.optional() },
             { is: 'word_search', then: wordSearchOptionsSchema },
             // Opcionales a nivel de clave: con la frase entre corchetes (JSON importado) las
             // palabras las genera fillBlanksQuestionRule, que exige después que cuadren

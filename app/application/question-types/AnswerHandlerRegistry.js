@@ -13,10 +13,11 @@
 const choice = require('./answer-handlers/choice');
 const arranged = require('./answer-handlers/arranged');
 const typed = require('./answer-handlers/typed');
+const cloud = require('./answer-handlers/cloud');
 
 const QuestionTypes = require('../../public/js/core/question-types');
 
-const BEHAVIOURS = { ...choice, ...arranged, ...typed };
+const BEHAVIOURS = { ...choice, ...arranged, ...typed, ...cloud };
 
 // Manejador = hechos declarativos del catálogo (forma de respuesta, campo de detalle)
 // + comportamiento del tipo (validar, evaluar, plazo extra, racha)
@@ -32,7 +33,7 @@ const HANDLERS = Object.freeze(
 /**
  * @typedef {Object} AnswerHandler
  * @property {boolean} lateAnswer - Admite el envío justo después del cierre
- * @property {'option'|'selection'|'order'|'matching'|'number'|'text'|'found'|'words'} answerShape
+ * @property {'option'|'selection'|'order'|'matching'|'number'|'text'|'found'|'words'|'tap'|'cloud'} answerShape
  *   Qué envía el jugador; solo 'option' (quiz y encuesta) responde con un índice de opción
  * @property {string|null} detailsField - Campo de la respuesta guardada con el detalle del tipo
  * @property {(answerResult: Object) => (boolean|null)} [streakAction] - Tipos con acierto

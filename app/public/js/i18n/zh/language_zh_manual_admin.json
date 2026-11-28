@@ -170,6 +170,7 @@
     "manual_admin.banks.visibility.hide_text": "立即对主持人隐藏该列表中的所有项目。",
     "manual_admin.banks.visibility.show_title": "全部显示",
     "manual_admin.banks.visibility.show_text": "一次性重新向主持人显示所有项目。",
-    "manual_admin.banks.visibility.scope_note": "编辑只影响自己创建的资源；管理员影响列表中的所有资源。"
+    "manual_admin.banks.visibility.scope_note": "编辑只影响自己创建的资源；管理员影响列表中的所有资源。",
+    "manual_admin.banks.types.word_cloud": "<strong>词云</strong> — 没有正确答案的开放式问题：每位玩家发送 1 到 5 个词语（在编辑器中设置），汇总成实时词云。禁用词会被拒绝，其他词可以手动隐藏。不计分，也不会出现在 Trivial 中。"
   }
 }

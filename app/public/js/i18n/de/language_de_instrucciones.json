@@ -30,6 +30,8 @@
     "instructions.question_types.word_search.title": "Buchstabensalat (Word Search)",
     "instructions.question_types.word_search.description": "In einem 10x10-Raster müssen die in jeder Richtung versteckten Wörter gefunden werden. Jedes gefundene Wort bringt Punkte. Tippst du auf ein Wort, siehst du, wo es beginnt – dann zählt es nur die Hälfte.",
     "instructions.question_types.fill_blanks.title": "Lückentext (Fill Blanks)",
-    "instructions.question_types.fill_blanks.description": "Ein Satz mit bis zu drei Lücken: Tippe das Wort jeder Lücke (die Buchstabenzahl ist sichtbar). Jedes richtige Wort bringt Punkte, dazu ein Zeitbonus. Du kannst bis zu drei Tipp-Buchstaben pro Lücke anfordern, dann ist das Wort weniger wert."
+    "instructions.question_types.fill_blanks.description": "Ein Satz mit bis zu drei Lücken: Tippe das Wort jeder Lücke (die Buchstabenzahl ist sichtbar). Jedes richtige Wort bringt Punkte, dazu ein Zeitbonus. Du kannst bis zu drei Tipp-Buchstaben pro Lücke anfordern, dann ist das Wort weniger wert.",
+    "instructions.question_types.word_cloud.title": "Wortwolke",
+    "instructions.question_types.word_cloud.description": "Eine offene Frage: Jeder Spieler schreibt ein oder mehrere Wörter (bis zu 5) und gemeinsam bilden sie eine Wolke, die auf dem Bildschirm wächst, die häufigsten Wörter größer. Es gibt keine richtigen Antworten und keine Punkte."
   }
 }

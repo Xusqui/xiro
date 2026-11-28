@@ -59,6 +59,16 @@ export function getTabResponderHTML() {
             mascotImg: 'cool.svg'
         },
         {
+            color: '#6366f1',
+            icon: 'fas fa-cloud',
+            title: _t('manual_player.answer.word_cloud.title'),
+            text: _t('manual_player.answer.word_cloud.text'),
+            placeholderId: 'img-word-cloud',
+            // Sin captura todavía: se ve el hueco «Captura: img-word-cloud»
+            imgSrc: null,
+            mascotImg: 'cool.svg'
+        },
+        {
             color: '#f59e0b',
             icon: 'fas fa-sort-numeric-up-alt',
             title: _t('manual_player.answer.numeric.title'),

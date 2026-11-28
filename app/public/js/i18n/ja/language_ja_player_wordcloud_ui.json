@@ -1,0 +1,17 @@
+{
+  "keys": {
+    "player.wordcloud.placeholder": "単語を入力",
+    "player.wordcloud.send": "送信",
+    "player.wordcloud.done": "送信済み",
+    "player.wordcloud.duplicate": "その単語はすでに送信済みです",
+    "player.wordcloud.not_allowed": "その単語は使用できません",
+    "player.wordcloud.invalid": "有効な単語を入力してください(最大20文字)",
+    "player.wordcloud.closed": "単語の受付は終了しました",
+    "player.wordcloud.error": "単語を送信できませんでした。もう一度お試しください",
+    "player.wordcloud.empty": "言葉を書いた人はいません",
+    "player.wordcloud.up_to": "最大{n}語まで送れます",
+    "player.wordcloud.nothing": "言葉を1つ以上入力してください",
+    "player.wordcloud.some_rejected": "一部の言葉は送信されませんでした(重複または不許可)",
+    "player.wordcloud.already_finished": "すでに言葉を送信しました"
+  }
+}

@@ -59,6 +59,9 @@
     "xiro_results_viewer.error.parse_csv": "Errorea CSV prozesatzean: ",
     "xiro_results_viewer.vote.hotspot_in": "Barruan",
     "xiro_results_viewer.vote.hotspot_near": "Gertu",
-    "xiro_results_viewer.vote.hotspot_out": "Kanpoan"
+    "xiro_results_viewer.vote.hotspot_out": "Kanpoan",
+    "xiro_results_viewer.wordcloud.title": "Hodeiko hitzak",
+    "xiro_results_viewer.wordcloud.times": "aldiz",
+    "xiro_results_viewer.wordcloud.empty": "Inork ez zuen hitzik idatzi"
   }
 }

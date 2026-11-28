@@ -1,0 +1,17 @@
+{
+  "keys": {
+    "player.wordcloud.placeholder": "Escribe unha palabra",
+    "player.wordcloud.send": "Enviar",
+    "player.wordcloud.done": "Palabras enviadas",
+    "player.wordcloud.duplicate": "Xa enviaches esa palabra",
+    "player.wordcloud.not_allowed": "Esa palabra non está permitida",
+    "player.wordcloud.invalid": "Escribe unha palabra válida (máximo 20 caracteres)",
+    "player.wordcloud.closed": "Xa non se admiten palabras",
+    "player.wordcloud.error": "Non se puido enviar a palabra. Téntao de novo",
+    "player.wordcloud.empty": "Ninguén escribiu palabras",
+    "player.wordcloud.up_to": "Podes enviar ata {n} palabras",
+    "player.wordcloud.nothing": "Escribe polo menos unha palabra",
+    "player.wordcloud.some_rejected": "Algunhas palabras non se enviaron (repetidas ou non permitidas)",
+    "player.wordcloud.already_finished": "Xa enviaches as túas palabras"
+  }
+}

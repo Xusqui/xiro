@@ -261,6 +261,11 @@
     "admin.media_ref.path_label": "Chemin pour le réutiliser dans d'autres questions",
     "admin.media_ref.copy": "Copier",
     "admin.media_ref.copied": "Copié",
-    "admin.media_ref.copy_failed": "Copie-le à la main"
+    "admin.media_ref.copy_failed": "Copie-le à la main",
+    "admin.q.type_word_cloud_short": "Nuage de mots",
+    "admin.q.type_word_cloud_hint": "Des mots libres qui forment un nuage",
+    "admin.q.wordcloud_title": "Nuage de mots",
+    "admin.q.wordcloud_hint": "Pas de bonne réponse : chaque joueur écrit des mots de 20 lettres maximum, regroupés en nuage.",
+    "admin.q.wordcloud_max": "Mots par joueur"
   }
 }

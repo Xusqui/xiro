@@ -44,6 +44,11 @@ function sanitizeQuestionForPlayers(question) {
         fb_lengths: question.fb_lengths
     };
 
+    // word_cloud: cuántas palabras puede enviar cada jugador (no es secreto)
+    if (question.question_type === 'word_cloud') {
+        sanitized.max_words = question.max_words;
+    }
+
     // fill_blanks: las opciones SON la solución (una palabra por hueco): no viajan al jugador
     if (question.question_type === 'fill_blanks') {
         sanitized.options = [];

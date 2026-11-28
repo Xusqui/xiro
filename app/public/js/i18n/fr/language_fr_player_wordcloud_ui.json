@@ -1,0 +1,17 @@
+{
+  "keys": {
+    "player.wordcloud.placeholder": "Écris un mot",
+    "player.wordcloud.send": "Envoyer",
+    "player.wordcloud.done": "Mots envoyés",
+    "player.wordcloud.duplicate": "Tu as déjà envoyé ce mot",
+    "player.wordcloud.not_allowed": "Ce mot n'est pas autorisé",
+    "player.wordcloud.invalid": "Écris un mot valide (20 caractères maximum)",
+    "player.wordcloud.closed": "Les mots ne sont plus acceptés",
+    "player.wordcloud.error": "Impossible d'envoyer le mot. Réessaie",
+    "player.wordcloud.empty": "Personne n'a écrit de mot",
+    "player.wordcloud.up_to": "Vous pouvez envoyer jusqu'à {n} mots",
+    "player.wordcloud.nothing": "Écrivez au moins un mot",
+    "player.wordcloud.some_rejected": "Certains mots n'ont pas été envoyés (répétés ou non autorisés)",
+    "player.wordcloud.already_finished": "Vous avez déjà envoyé vos mots"
+  }
+}

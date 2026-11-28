@@ -39,6 +39,22 @@ import {
     getStreakInfo
 } from './player-state.js?v=20260922172926';
 import { escapeHtml } from '../core/sanitize.js?v=20260922172926';
+import { t } from '../core/translate.js?v=20261105120000';
+import { showWordCloudResult, isWordCloudResultShown } from './player-wordcloud-result.js?v=20261128000000';
+
+function wordCloudLabels() {
+    return { empty: t('player.wordcloud.empty', 'Nadie escribió palabras') };
+}
+
+/** Nube de palabras: al revelar, el jugador ve la nube final en lugar de «Tiempo agotado». */
+function revealWordCloud(data) {
+    if (data && data.wordCloud) showWordCloudResult(data.wordCloud, wordCloudLabels());
+}
+
+/** Nube en directo: solo la ve quien ya envió sus palabras (el servidor solo se la manda a ellos). */
+function onWordCloudUpdate(data) {
+    if (isWordCloudResultShown()) showWordCloudResult(data, wordCloudLabels());
+}
 
 function onTimerPaused(data) {
     console.log('⏸️ Timer pausado por presentador', data);
@@ -96,6 +112,10 @@ function onBlockedAnswer(data) {
         return;
     }
 
+    // Nube de palabras: el jugador puede haber enviado palabras o no, pero no hay «tiempo agotado»;
+    // la pantalla se queda hasta que llegue la nube final con el reveal
+    if (getCurrentSlideType() === 'word_cloud') return;
+
     // reveal-answer puede llegar antes (viaja por otro canal de Redis entre
     // workers): no sustituir la pantalla con la respuesta por la de espera
     if (!getHaRespondido() && !document.querySelector('[data-reveal-shown]')) {
@@ -121,6 +141,10 @@ function onRevealAnswer(data) {
     // Aunque ya haya enviado: si era el envío automático y el servidor lo rechaza por
     // tarde, player-answer.js la usa para la pantalla de tiempo agotado
     rememberReveal(data);
+    if (getCurrentSlideType() === 'word_cloud') {
+        revealWordCloud(data);
+        return;
+    }
     if (getHaRespondido()) {
         appendCorrectAnswerToResult(data);
         return;
@@ -201,4 +225,5 @@ export function registerAnswerEvents() {
     socket.on('reveal-answer', onRevealAnswer);
     socket.on('answer-pending', onAnswerPending);
     socket.on('answer-result', onAnswerResult);
+    socket.on('word-cloud-update', onWordCloudUpdate);
 }

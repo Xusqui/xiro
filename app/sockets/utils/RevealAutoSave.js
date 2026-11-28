@@ -6,6 +6,7 @@
 const { getRedisClient } = require('../../config/redis');
 const FB = require('../../public/js/core/fill-blanks-text.js');
 const { saveGameSession } = require('../../services/db/game-session.service');
+const { persistRevealedWordCloud } = require('./WordCloudPersistence');
 const logger = require('../../config/logger');
 
 function mergeRedisPlayerAnswers(mergedAnswers, allEntries, roomId) {
@@ -126,6 +127,7 @@ async function triggerAutoSaveSession(roomId, game, ranking) {
         });
 
         const id = await saveGameSession(saveParams);
+        await persistRevealedWordCloud({ gameSessionId: id, roomId, game });
 
         if (id && !game.dbSessionId) {
             game.dbSessionId = id;

@@ -13,7 +13,8 @@
  *                  literal SQL en services/db/trivial.service.js, sin interpolar.
  *  - answerShape:  qué envía el jugador: option (un índice), selection (varios),
  *                  order, matching, number, text, found (selecciones de la sopa) o
- *                  words (una palabra por hueco) o tap (un punto { x, y } de la imagen).
+ *                  words (una palabra por hueco), tap (un punto { x, y } de la imagen) o
+ *                  cloud (hasta max_words palabras cortas libres de la nube de palabras).
  *  - detailsField: campo de la respuesta guardada con el detalle del tipo (null si no hay).
  *  - solution:     qué es la solución que se revela: option (una opción), options (varias),
  *                  none (encuestas), order, pairs, value (número), word (palabra),
@@ -40,6 +41,13 @@
             trivial: false,
             answerShape: 'selection',
             detailsField: 'surveyMultipleDetails',
+            solution: 'none'
+        }),
+        entry('word_cloud', {
+            survey: true,
+            trivial: false,
+            answerShape: 'cloud',
+            detailsField: 'wordCloudDetails',
             solution: 'none'
         }),
         entry('order', { answerShape: 'order', detailsField: 'orderDetails', solution: 'order' }),

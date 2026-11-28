@@ -207,6 +207,7 @@ async function getCustomGameWithQuestions(customGameId) {
                 q.hotspot_area,
                 q.hotspot_tolerance,
                 q.image_credit,
+                q.max_words,
                 qb.name as bank_name,
                 (SELECT json_agg(json_build_object('text', o.option_text, 'isCorrect', o.is_correct, 'justification', o.justification, 'order_index', o.order_index, 'match_value', o.match_value, 'option_image_url', o.option_image_url) ORDER BY COALESCE(o.order_index, o.id))
                  FROM options o WHERE o.question_id = q.id) as options
@@ -381,6 +382,7 @@ const CUSTOM_GAME_QUESTIONS_SQL = `
                 q.hotspot_area,
                 q.hotspot_tolerance,
                 q.image_credit,
+                q.max_words,
                 CASE
                     WHEN cgq.slide_type IN ('comment', 'info', 'text', 'image', 'text-image', 'video', 'canvas', 'howto') THEN NULL
                     ELSE (

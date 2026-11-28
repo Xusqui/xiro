@@ -170,6 +170,7 @@
     "manual_admin.banks.visibility.hide_text": "その一覧のすべての項目を即座に司会者から非表示にします。",
     "manual_admin.banks.visibility.show_title": "すべて表示",
     "manual_admin.banks.visibility.show_text": "すべての項目を一度に司会者に再表示します。",
-    "manual_admin.banks.visibility.scope_note": "編集者は自分が作成したリソースにのみ影響し、管理者は一覧のすべてに影響します。"
+    "manual_admin.banks.visibility.scope_note": "編集者は自分が作成したリソースにのみ影響し、管理者は一覧のすべてに影響します。",
+    "manual_admin.banks.types.word_cloud": "<strong>ワードクラウド</strong> — 正解のないオープンな質問：各プレイヤーが1〜5個の単語（エディターで設定）を送り、リアルタイムのクラウドにまとめられます。禁止語は拒否され、他の単語は手動で非表示にできます。得点はなく、トリビアには出ません。"
   }
 }

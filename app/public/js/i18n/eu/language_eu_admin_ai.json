@@ -51,6 +51,7 @@
     "admin.ai.wait.types": "Eskatutako motak",
     "admin.ai.wait.patience": "Lanean jarraitzen du. Dokumentu luzeekin edo galdera askorekin hainbat minutu behar izan ditzake; ez itxi fitxa hau.",
     "admin.ai.regenerating": "Berriro sortzen…",
-    "admin.ai.type_hotspot": "Ukitu irudia"
+    "admin.ai.type_hotspot": "Ukitu irudia",
+    "admin.ai.type_word_cloud": "Hitz-hodeia"
   }
 }

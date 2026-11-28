@@ -143,7 +143,18 @@
         };
     }
 
+    /** Nube de palabras: sin opciones; solo cuántas palabras escribe cada jugador. */
+    function mapWordCloudForExport(question) {
+        return {
+            question_text: questionText(question),
+            type: 'word_cloud',
+            ...mediaFields(question),
+            max_words: wordCloudMaxWords(question.maxWords ?? question.max_words)
+        };
+    }
+
     const EXPORT_BY_TYPE = {
+        word_cloud: mapWordCloudForExport,
         numeric_approximation: mapNumericQuestionForExport,
         word_scramble: mapWordScrambleForExport,
         multiple_choice: mapMultipleChoiceForExport,
@@ -240,6 +251,12 @@
         word_scramble: mapWordScrambleForImport,
         multiple_choice: mapMultipleChoiceForImport,
         fill_blanks: mapFillBlanksForImport,
+        word_cloud: question => ({
+            ...importBase(question, 'word_cloud'),
+            ...EMPTY_NUMERIC_FIELDS,
+            maxWords: wordCloudMaxWords(question.maxWords ?? question.max_words),
+            options: []
+        }),
         hotspot: question => ({
             ...importBase(question, 'hotspot'),
             ...EMPTY_NUMERIC_FIELDS,

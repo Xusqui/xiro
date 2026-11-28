@@ -30,6 +30,8 @@
     "instructions.question_types.word_search.title": "Sopa de Letras (Word Search)",
     "instructions.question_types.word_search.description": "Hay que encontrar en una rejilla de 10x10 las palabras escondidas en cualquier dirección. Cada palabra encontrada suma puntos. Si tocas una palabra verás dónde empieza, pero valdrá la mitad.",
     "instructions.question_types.fill_blanks.title": "Completa la Frase (Fill Blanks)",
-    "instructions.question_types.fill_blanks.description": "Una frase con hasta tres huecos: hay que escribir la palabra de cada uno (se ve cuántas letras tiene). Cada palabra acertada suma puntos y hay un bonus de tiempo. Puedes pedir hasta tres letras de pista por hueco, pero la palabra valdrá menos."
+    "instructions.question_types.fill_blanks.description": "Una frase con hasta tres huecos: hay que escribir la palabra de cada uno (se ve cuántas letras tiene). Cada palabra acertada suma puntos y hay un bonus de tiempo. Puedes pedir hasta tres letras de pista por hueco, pero la palabra valdrá menos.",
+    "instructions.question_types.word_cloud.title": "Nube de palabras",
+    "instructions.question_types.word_cloud.description": "Una pregunta abierta: cada jugador escribe una o varias palabras (hasta 5) y entre todos forman una nube que crece en la pantalla, con las más repetidas más grandes. No hay respuestas correctas ni puntos."
   }
 }

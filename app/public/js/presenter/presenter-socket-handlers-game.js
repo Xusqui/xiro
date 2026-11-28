@@ -31,6 +31,7 @@ import {
     removeFloatingCards,
     renderPodio
 } from './presenter-game-ui.js?v=20260922172926';
+import { registerWordCloudSocket } from './presenter-wordcloud-socket.js?v=20260922172926';
 import { handleRevealAnswer, cleanupRevealElements } from './presenter-reveal.js?v=20260922172926';
 import { updateAnswerCounter } from './presenter-answer-counter.js?v=20260922172926';
 import { hideWaitingPanelNow, renderWaitingPanel } from './presenter-waiting-panel.js?v=20260922172926';
@@ -100,6 +101,7 @@ function applyAnswerResult(playersData, answer) {
  */
 export function registerGameSocketHandlers() {
     const socket = getSocket();
+    registerWordCloudSocket(socket);
 
     // Error al iniciar juego
     socket.on('game-start-error', data => {

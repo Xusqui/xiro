@@ -181,6 +181,7 @@ window.TVApp.RenderQuestion = (function () {
         // El anagrama se muestra también con imagen (como en el presentador): no son opciones
         if (q.question_type === 'word_scramble') return wordScrambleAreaHtml(q);
         if (q.question_type === 'word_search') return wordSearchAreaHtml(q);
+        if (q.question_type === 'word_cloud') return window.TVApp.WordCloud.stageHtml();
         if (q.question_type === 'hotspot') return window.TVApp.Hotspot.devicesNoteHtml();
         if (tieneImagen)
             return '<div style="text-align:center;padding:20px;color:rgba(255,255,255,0.6);font-style:italic;font-size:18px">📱 Los jugadores ven las opciones en sus dispositivos</div>';

@@ -7,6 +7,7 @@ import { renderWordScramblePresenter } from './presenter-wordscramble-layout.js?
 import { renderMatchingPresenter } from './presenter-matching-layout.js?v=20260922172926';
 import { renderWordSearchPresenter } from './presenter-wordsearch-layout.js?v=20260922172926';
 import { renderFillBlanksPresenter } from './presenter-fillblanks-layout.js?v=20260922172926';
+import { renderWordCloudPresenter } from './presenter-wordcloud-layout.js?v=20260922172926';
 import { nextButtonLabel } from './presenter-reveal.js?v=20260922172926';
 import { numericHintOf } from './presenter-numeric-layout.js?v=20260922172926';
 import { hotspotMediaHtml, hotspotDevicesNoteHtml } from './presenter-hotspot.js?v=20261119180000';
@@ -23,6 +24,7 @@ export function describeQuestion(q) {
     const esWordScramble = q.question_type === 'word_scramble';
     const esWordSearch = q.question_type === 'word_search';
     const esFillBlanks = q.question_type === 'fill_blanks';
+    const esWordCloud = q.question_type === 'word_cloud';
     // Con imagen principal, matching sigue la regla general: opciones en los móviles
     const esMatching = q.question_type === 'matching' && !tieneImagen;
     return {
@@ -35,11 +37,19 @@ export function describeQuestion(q) {
         esWordScramble,
         esWordSearch,
         esFillBlanks,
+        esWordCloud,
         esMultipleChoice: q.question_type === 'multiple_choice',
         esSurveyMultiple: q.question_type === 'survey_multiple',
         esHotspot: q.question_type === 'hotspot',
         esMatching,
-        mostrarOpciones: !tieneImagen && !esNumerica && !esWordScramble && !esWordSearch && !esFillBlanks && !esMatching
+        mostrarOpciones:
+            !tieneImagen &&
+            !esNumerica &&
+            !esWordScramble &&
+            !esWordSearch &&
+            !esFillBlanks &&
+            !esWordCloud &&
+            !esMatching
     };
 }
 
@@ -116,7 +126,7 @@ function statementImageHtml(view) {
 }
 
 function optionsGridHtml(q, view) {
-    const options = q.options
+    const options = (q.options || [])
         .map(
             (opt, i) => `
                     <div id="opt-${i}" class="${OPTION_COLORS[i]} relative rounded-[30px] p-6 flex items-center shadow-2xl border-b-8 border-black/20 h-full transition duration-500">
@@ -178,6 +188,7 @@ function answerAreaHtml(q, view) {
     if (view.esWordScramble) return renderWordScramblePresenter(q);
     if (view.esWordSearch) return renderWordSearchPresenter(q);
     if (view.esFillBlanks) return renderFillBlanksPresenter(q);
+    if (view.esWordCloud) return renderWordCloudPresenter(q);
     if (view.esMatching) return renderMatchingPresenter(q);
     if (view.esHotspot) return hotspotDevicesNoteHtml();
     if (view.mostrarOpciones) return '';

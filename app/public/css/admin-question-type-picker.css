@@ -42,6 +42,8 @@
 :is(.xq-type__tile, .xq-card)[data-type="survey"] { --xq-accent: #2563eb; --xq-tint: #eff6ff; --xq-edge: #bfdbfe; --xq-ink: #1e40af; }
 /* Hermana de la encuesta, un paso hacia el cielo (como quiz → selección múltiple) */
 :is(.xq-type__tile, .xq-card)[data-type="survey_multiple"] { --xq-accent: #0369a1; --xq-tint: #f0f9ff; --xq-edge: #bae6fd; --xq-ink: #075985; }
+/* Índigo: la nube de palabras es una encuesta de texto libre y no comparte color con las de opciones */
+:is(.xq-type__tile, .xq-card)[data-type="word_cloud"] { --xq-accent: #4338ca; --xq-tint: #eef2ff; --xq-edge: #c7d2fe; --xq-ink: #312e81; }
 :is(.xq-type__tile, .xq-card)[data-type="order"] { --xq-accent: #16a34a; --xq-tint: #f0fdf4; --xq-edge: #bbf7d0; --xq-ink: #166534; }
 :is(.xq-type__tile, .xq-card)[data-type="matching"] { --xq-accent: #ea580c; --xq-tint: #fff7ed; --xq-edge: #fed7aa; --xq-ink: #9a3412; }
 /* Numérica y Completa la frase no usan cian ni esmeralda: son los colores de los roles TV y Standalone */

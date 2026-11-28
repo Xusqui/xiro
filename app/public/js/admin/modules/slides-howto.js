@@ -21,7 +21,8 @@ const _HOWTO_TOPICS = [
     { key: 'word_scramble', icon: 'fa-random', label: 'Adivinar palabra', ready: true },
     { key: 'word_search', icon: 'fa-search', label: 'Sopa de letras', ready: true },
     { key: 'fill_blanks', icon: 'fa-pen', label: 'Completa la frase', ready: true },
-    { key: 'hotspot', icon: 'fa-location-dot', label: 'Toca la imagen', ready: true }
+    { key: 'hotspot', icon: 'fa-location-dot', label: 'Toca la imagen', ready: true },
+    { key: 'word_cloud', icon: 'fa-cloud', label: 'Nube de palabras', ready: true }
 ];
 
 function _howToTopic(key) {

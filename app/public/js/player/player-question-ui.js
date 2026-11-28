@@ -18,6 +18,7 @@ export { renderizarPreguntaNumerica } from './player-numeric-ui.js?v=20260922172
 export { renderizarPreguntaWordScramble } from './player-wordscramble-ui.js?v=20260922172926';
 export { renderizarPreguntaWordSearch } from './player-wordsearch-ui.js?v=20260922172926';
 export { renderizarPreguntaFillBlanks } from './player-fillblanks-ui.js?v=20260922172926';
+export { renderizarPreguntaWordCloud } from './player-wordcloud-ui.js?v=20261128000000';
 export { renderizarPreguntaMultipleChoice } from './player-multiplechoice-ui.js?v=20260922172926';
 export { renderizarPreguntaSurveyMultiple } from './player-survey-multiple.js?v=20261021120000';
 export { renderizarPreguntaHotspot } from './player-hotspot-ui.js?v=20261119180000';

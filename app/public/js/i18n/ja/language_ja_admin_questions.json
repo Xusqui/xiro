@@ -261,6 +261,11 @@
     "admin.media_ref.path_label": "ほかの問題で再利用するためのパス",
     "admin.media_ref.copy": "コピー",
     "admin.media_ref.copied": "コピーしました",
-    "admin.media_ref.copy_failed": "手動でコピーしてください"
+    "admin.media_ref.copy_failed": "手動でコピーしてください",
+    "admin.q.type_word_cloud_short": "ワードクラウド",
+    "admin.q.type_word_cloud_hint": "自由な単語でクラウドを作る",
+    "admin.q.wordcloud_title": "ワードクラウド",
+    "admin.q.wordcloud_hint": "正解なし：各プレイヤーが20文字までの単語を入力し、クラウドにまとめられます。",
+    "admin.q.wordcloud_max": "プレイヤーごとの単語数"
   }
 }

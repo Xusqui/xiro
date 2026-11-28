@@ -26,6 +26,7 @@ globalThis.StandaloneQuestionRouter = (() => {
         word_scramble: (c, q, a) => StandaloneQuestionInput.renderWordScramble(c, q, a),
         multiple_choice: (c, q, a) => StandaloneQuestionMultipleChoice.render(c, q, a),
         survey_multiple: (c, q, a) => StandaloneQuestionMultipleChoice.renderSurvey(c, q, a),
+        word_cloud: (c, q, a) => StandaloneQuestionWordCloud.render(c, q, a),
         word_search: (c, q, a) => StandaloneQuestionWordSearch.render(c, q, a),
         fill_blanks: (c, q, a) => StandaloneQuestionFillBlanks.render(c, q, a)
     });

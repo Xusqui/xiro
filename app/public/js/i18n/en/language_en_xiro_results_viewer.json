@@ -59,6 +59,9 @@
     "xiro_results_viewer.error.parse_csv": "Error parsing CSV: ",
     "xiro_results_viewer.vote.hotspot_in": "Inside",
     "xiro_results_viewer.vote.hotspot_near": "Close",
-    "xiro_results_viewer.vote.hotspot_out": "Outside"
+    "xiro_results_viewer.vote.hotspot_out": "Outside",
+    "xiro_results_viewer.wordcloud.title": "Words in the cloud",
+    "xiro_results_viewer.wordcloud.times": "times",
+    "xiro_results_viewer.wordcloud.empty": "Nobody wrote any words"
   }
 }

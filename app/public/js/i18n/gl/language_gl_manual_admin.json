@@ -170,6 +170,7 @@
     "manual_admin.banks.visibility.hide_text": "Oculta de vez todos os elementos desa listaxe ao presentador.",
     "manual_admin.banks.visibility.show_title": "Amosar todos",
     "manual_admin.banks.visibility.show_text": "Vólveos amosar todos de vez ao presentador.",
-    "manual_admin.banks.visibility.scope_note": "Un editor só afecta os recursos que creou; un administrador afecta a todos os da listaxe."
+    "manual_admin.banks.visibility.scope_note": "Un editor só afecta os recursos que creou; un administrador afecta a todos os da listaxe.",
+    "manual_admin.banks.types.word_cloud": "<strong>Nube de palabras</strong> — Pregunta aberta sen resposta correcta: cada xogador envía de 1 a 5 palabras (a escoller no editor) e agrúpanse nunha nube en directo. As palabras prohibidas rexéitanse e podes ocultar outras a man. Non puntúa e non sae no Trivial."
   }
 }

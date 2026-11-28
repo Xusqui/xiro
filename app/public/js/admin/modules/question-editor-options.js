@@ -14,7 +14,24 @@ function questionTypeSectionHtml(q, qIdx, isHybridToleranceMode) {
     if (q.type === 'multiple_choice') return multipleChoiceEditorHtml(q, qIdx);
     if (q.type === 'order') return orderEditorHtml(q, qIdx);
     if (q.type === 'survey' || q.type === 'survey_multiple') return surveyEditorHtml(q, qIdx);
+    if (q.type === 'word_cloud') return wordCloudEditorHtml(q, qIdx);
     return quizEditorHtml(q, qIdx);
+}
+
+/** Nube de palabras: sin opciones ni respuesta correcta; solo cuántas palabras escribe cada jugador (1 a 5). */
+function wordCloudEditorHtml(q, qIdx) {
+    const current = Math.min(5, Math.max(1, Number(q.maxWords) || 1));
+    const choices = [1, 2, 3, 4, 5].map(n => `<option value="${n}"${n === current ? ' selected' : ''}>${n}</option>`).join('');
+    const body = `
+                        <div>
+                            <label class="xq-label" for="wc-max-${qIdx}">${_t('admin.q.wordcloud_max', null, 'Palabras por jugador')}</label>
+                            <select id="wc-max-${qIdx}" class="xq-field" data-admin-change="preguntasData[${qIdx}].maxWords = parseInt(this.value) || 0">${choices}</select>
+                        </div>`;
+    return questionSectionHtml(
+        _t('admin.q.wordcloud_title', null, 'Nube de palabras'),
+        _t('admin.q.wordcloud_hint', null, 'Sin respuesta correcta: cada jugador escribe palabras de hasta 20 letras y se agrupan en una nube.'),
+        body
+    );
 }
 
 /** Control "Correcta" de una opción: radio (quiz) o casilla (selección múltiple). */

@@ -10,6 +10,7 @@ const { buildWordSearchReveal } = require('./WordSearchRevealStats');
 const { buildFillBlanksReveal } = require('./FillBlanksRevealStats');
 const { buildSurveyMultipleReveal } = require('./SurveyMultipleRevealStats');
 const { buildHotspotReveal } = require('./HotspotRevealStats');
+const { buildWordCloudReveal } = require('./WordCloudRevealStats');
 const { questionSlot } = require('./QuestionSlot');
 
 function optionText(option) {
@@ -33,6 +34,7 @@ function buildPlayerRevealPayload(presenterPayload) {
     const surveyMultiple = presenterPayload.surveyMultiple;
     const surveySingle = presenterPayload.surveySingle;
     const hotspot = presenterPayload.hotspot;
+    const wordCloud = presenterPayload.wordCloud;
     return {
         correctAnswer: presenterPayload.correctAnswer ?? null,
         justification: presenterPayload.justification ?? null,
@@ -50,7 +52,9 @@ function buildPlayerRevealPayload(presenterPayload) {
         ...(surveyMultiple ? { surveyMultiple } : {}),
         ...(surveySingle ? { surveySingle } : {}),
         // Toca la imagen: el área correcta; su propio toque ya lo tiene cada jugador
-        ...(hotspot ? { hotspot: { area: hotspot.area } } : {})
+        ...(hotspot ? { hotspot: { area: hotspot.area } } : {}),
+        // Nube de palabras: tras cerrar, el jugador ve la nube final (palabras visibles y total)
+        ...(wordCloud ? { wordCloud } : {})
     };
 }
 
@@ -121,6 +125,13 @@ async function applyHotspotReveal({ presenterPayload, question, roomId, slot }) 
     clearOptionFields(presenterPayload);
 }
 
+// Nube de palabras: no hay correcta; la nube final (sin las palabras ocultas) va a todos
+async function applyWordCloudReveal({ presenterPayload, roomId, slot }) {
+    presenterPayload.wordCloud = await buildWordCloudReveal(roomId, slot);
+    presenterPayload.correctAnswer = null;
+    clearOptionFields(presenterPayload);
+}
+
 // Ajustes del payload del presentador por tipo; quiz, ordenar y emparejar no tienen
 const TYPE_OVERRIDES = Object.freeze({
     numeric_approximation: ({ presenterPayload, question }) => applyNumericReveal(presenterPayload, question),
@@ -132,6 +143,7 @@ const TYPE_OVERRIDES = Object.freeze({
     },
     survey_multiple: applySurveyMultipleReveal,
     hotspot: applyHotspotReveal,
+    word_cloud: applyWordCloudReveal,
     multiple_choice: ({ presenterPayload, question, correctIndicesMultiple }) =>
         applyMultipleChoiceReveal(presenterPayload, question, correctIndicesMultiple)
 });
@@ -148,7 +160,14 @@ const TYPE_OVERRIDES = Object.freeze({
  * @param {Object} [input.game] - Partida (en Trivial, la clave es la época)
  * @returns {Promise<void>}
  */
-async function applyQuestionTypeOverrides({ presenterPayload, question, correctIndicesMultiple, roomId, revealIndex, game }) {
+async function applyQuestionTypeOverrides({
+    presenterPayload,
+    question,
+    correctIndicesMultiple,
+    roomId,
+    revealIndex,
+    game
+}) {
     const type = question?.question_type;
     if (!Object.prototype.hasOwnProperty.call(TYPE_OVERRIDES, type)) return;
     // Clave de las estadísticas por pregunta: en Trivial, por época (QuestionSlot)

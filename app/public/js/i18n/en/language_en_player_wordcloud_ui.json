@@ -1,0 +1,17 @@
+{
+  "keys": {
+    "player.wordcloud.placeholder": "Type a word",
+    "player.wordcloud.send": "Send",
+    "player.wordcloud.done": "Words sent",
+    "player.wordcloud.duplicate": "You already sent that word",
+    "player.wordcloud.not_allowed": "That word isn't allowed",
+    "player.wordcloud.invalid": "Enter a valid word (20 characters max)",
+    "player.wordcloud.closed": "Words are no longer accepted",
+    "player.wordcloud.error": "Couldn't send the word. Try again",
+    "player.wordcloud.empty": "Nobody wrote any words",
+    "player.wordcloud.up_to": "You can send up to {n} words",
+    "player.wordcloud.nothing": "Write at least one word",
+    "player.wordcloud.some_rejected": "Some words were not sent (repeated or not allowed)",
+    "player.wordcloud.already_finished": "You already sent your words"
+  }
+}

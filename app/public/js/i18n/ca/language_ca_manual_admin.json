@@ -170,6 +170,7 @@
     "manual_admin.banks.visibility.hide_text": "Amaga de cop tots els elements d'aquesta llista al presentador.",
     "manual_admin.banks.visibility.show_title": "Mostra-ho tot",
     "manual_admin.banks.visibility.show_text": "Els torna a mostrar tots alhora al presentador.",
-    "manual_admin.banks.visibility.scope_note": "Un editor només afecta els recursos que ha creat; un administrador afecta tots els de la llista."
+    "manual_admin.banks.visibility.scope_note": "Un editor només afecta els recursos que ha creat; un administrador afecta tots els de la llista.",
+    "manual_admin.banks.types.word_cloud": "<strong>Núvol de paraules</strong> — Pregunta oberta sense resposta correcta: cada jugador envia d’1 a 5 paraules (a triar a l’editor) i s’agrupen en un núvol en directe. Les paraules prohibides es rebutgen i en pots ocultar d’altres a mà. No puntua i no surt al Trivial."
   }
 }

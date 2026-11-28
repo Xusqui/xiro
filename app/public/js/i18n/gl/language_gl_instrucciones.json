@@ -30,6 +30,8 @@
     "instructions.question_types.word_search.title": "Sopa de Letras (Word Search)",
     "instructions.question_types.word_search.description": "Hai que atopar nunha grella de 10x10 as palabras escondidas en calquera dirección. Cada palabra atopada suma puntos. Se tocas unha palabra verás onde comeza, pero valerá a metade.",
     "instructions.question_types.fill_blanks.title": "Completa a Frase (Fill Blanks)",
-    "instructions.question_types.fill_blanks.description": "Unha frase con ata tres ocos: hai que escribir a palabra de cada un (vese cantas letras ten). Cada palabra acertada suma puntos e hai un bonus de tempo. Podes pedir ata tres letras de pista por oco, pero a palabra valerá menos."
+    "instructions.question_types.fill_blanks.description": "Unha frase con ata tres ocos: hai que escribir a palabra de cada un (vese cantas letras ten). Cada palabra acertada suma puntos e hai un bonus de tempo. Podes pedir ata tres letras de pista por oco, pero a palabra valerá menos.",
+    "instructions.question_types.word_cloud.title": "Nube de palabras",
+    "instructions.question_types.word_cloud.description": "Unha pregunta aberta: cada xogador escribe unha ou varias palabras (ata 5) e entre todos forman unha nube que medra na pantalla, coas máis repetidas máis grandes. Non hai respostas correctas nin puntos."
   }
 }

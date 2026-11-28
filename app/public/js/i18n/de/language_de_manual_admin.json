@@ -170,6 +170,7 @@
     "manual_admin.banks.visibility.hide_text": "Blendet sofort alle Elemente dieser Liste vor dem Moderator aus.",
     "manual_admin.banks.visibility.show_title": "Alle anzeigen",
     "manual_admin.banks.visibility.show_text": "Zeigt sie alle auf einmal wieder dem Moderator an.",
-    "manual_admin.banks.visibility.scope_note": "Ein Redakteur wirkt sich nur auf die von ihm erstellten Ressourcen aus; ein Administrator wirkt sich auf alle Elemente der Liste aus."
+    "manual_admin.banks.visibility.scope_note": "Ein Redakteur wirkt sich nur auf die von ihm erstellten Ressourcen aus; ein Administrator wirkt sich auf alle Elemente der Liste aus.",
+    "manual_admin.banks.types.word_cloud": "<strong>Wortwolke</strong> — Offene Frage ohne richtige Antwort: Jeder Spieler sendet 1 bis 5 Wörter (im Editor einstellbar), die zu einer Live-Wolke gruppiert werden. Verbotene Wörter werden abgelehnt, andere kannst du von Hand ausblenden. Sie gibt keine Punkte und kommt im Trivial nicht vor."
   }
 }

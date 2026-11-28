@@ -66,6 +66,8 @@
     "manual_player.answer.fill_blanks.title": "Completa a Frase",
     "manual_player.answer.fill_blanks.text": "Toca num espaço e escreve a palavra com o teclado: cada casa é uma letra. Se ficares preso, pede uma pista (revela a primeira letra, depois a última e a central), mas essa palavra valerá menos (70 %, 40 %, 25 %). Conta como acerto com metade dos espaços ou mais. Em equipas, cada palavra é verificada ao completá-la e o acertado é visto por todo o grupo; o primeiro a enviar fecha a pergunta para todos.",
     "manual_player.answer.hotspot.title": "Toca na Imagem",
-    "manual_player.answer.hotspot.text": "Toca na imagem o sítio que a pergunta pede: aparece um pionés, que podes mover tocando outra vez, e carrega em «Enviar». Se ficar dentro da zona correta ganhas os pontos máximos mais um bónus; se ficar perto, ganhas menos quanto mais longe estiver. Ao revelar vês a zona correta e o teu toque."
+    "manual_player.answer.hotspot.text": "Toca na imagem o sítio que a pergunta pede: aparece um pionés, que podes mover tocando outra vez, e carrega em «Enviar». Se ficar dentro da zona correta ganhas os pontos máximos mais um bónus; se ficar perto, ganhas menos quanto mais longe estiver. Ao revelar vês a zona correta e o teu toque.",
+    "manual_player.answer.word_cloud.title": "Nuvem de palavras",
+    "manual_player.answer.word_cloud.text": "Escreve uma palavra, ou as que a pergunta permitir, e toca em Enviar. Não há respostas corretas nem pontos. Ao enviar vês a nuvem no telemóvel e como cresce com as palavras dos outros."
   }
 }

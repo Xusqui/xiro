@@ -170,6 +170,7 @@
     "manual_admin.banks.visibility.hide_text": "Instantly hides every item in that list from the presenter.",
     "manual_admin.banks.visibility.show_title": "Show all",
     "manual_admin.banks.visibility.show_text": "Shows all of them to the presenter again at once.",
-    "manual_admin.banks.visibility.scope_note": "An editor only affects the resources they created; an admin affects everyone's in the list."
+    "manual_admin.banks.visibility.scope_note": "An editor only affects the resources they created; an admin affects everyone's in the list.",
+    "manual_admin.banks.types.word_cloud": "<strong>Word cloud</strong> — Open question with no correct answer: each player sends 1 to 5 words (set in the editor) and they are grouped into a live cloud. Banned words are rejected and you can hide others by hand. It does not score and never appears in Trivial."
   }
 }

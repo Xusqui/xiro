@@ -261,6 +261,11 @@
     "admin.media_ref.path_label": "Pfad zur Wiederverwendung in anderen Fragen",
     "admin.media_ref.copy": "Kopieren",
     "admin.media_ref.copied": "Kopiert",
-    "admin.media_ref.copy_failed": "Bitte manuell kopieren"
+    "admin.media_ref.copy_failed": "Bitte manuell kopieren",
+    "admin.q.type_word_cloud_short": "Wortwolke",
+    "admin.q.type_word_cloud_hint": "Freie Wörter bilden eine Wolke",
+    "admin.q.wordcloud_title": "Wortwolke",
+    "admin.q.wordcloud_hint": "Keine richtige Antwort: Jeder Spieler schreibt Wörter mit bis zu 20 Buchstaben, die zu einer Wolke zusammengefasst werden.",
+    "admin.q.wordcloud_max": "Wörter pro Spieler"
   }
 }

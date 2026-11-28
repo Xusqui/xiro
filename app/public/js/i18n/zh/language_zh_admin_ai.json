@@ -51,6 +51,7 @@
     "admin.ai.wait.types": "所选题型",
     "admin.ai.wait.patience": "仍在处理中。文档较长或题目较多时可能需要几分钟，请不要关闭此标签页。",
     "admin.ai.regenerating": "正在重新生成…",
-    "admin.ai.type_hotspot": "点击图片"
+    "admin.ai.type_hotspot": "点击图片",
+    "admin.ai.type_word_cloud": "词云"
   }
 }

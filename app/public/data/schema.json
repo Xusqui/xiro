@@ -443,6 +443,15 @@
             "time_limit": 30
         },
         {
+            "question_text": "¿Qué palabra asocias con el verano?",
+            "type": "word_cloud",
+            "tipo_contenido": "texto",
+            "url_recurso": null,
+            "question_image_url": null,
+            "max_words": 3,
+            "time_limit": 60
+        },
+        {
             "question_text": "Toca Francia en el mapa de Europa",
             "type": "hotspot",
             "tipo_contenido": "imagen",
