@@ -2,6 +2,12 @@
 
 ## 3.17.x
 
+### 3.17.3 — 2026-11-28 · `v3.17.3`
+- **Logo de personalización:** tamaño relativo a la pantalla
+  - Los topes en píxeles fijos (140x60, 32 en jugador) hacían el logo
+  - diminuto en pantallas grandes y enorme en pequeñas. Ahora usan vmin
+  - con clamp(); el valor en vmin plano queda de respaldo para webOS 3.5.
+
 ### 3.17.2 — 2026-11-28 · `v3.17.2`
 - **Nube de palabras:** Slider de palabras por jugador en el editor
   - Sustituye el desplegable por un slider de 1 a 5 con relleno ámbar
